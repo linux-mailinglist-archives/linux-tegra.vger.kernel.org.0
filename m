@@ -2,140 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A30517263A
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 19:14:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F10172816
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 19:52:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729385AbgB0SOS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Feb 2020 13:14:18 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55055 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726877AbgB0SOS (ORCPT
+        id S1729495AbgB0Suy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Feb 2020 13:50:54 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6501 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729172AbgB0Suy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Feb 2020 13:14:18 -0500
-Received: by mail-wm1-f66.google.com with SMTP id z12so405542wmi.4
-        for <linux-tegra@vger.kernel.org>; Thu, 27 Feb 2020 10:14:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=V/eXwxbc1yyKrifVUp+YnPA01U8Yl+fqqtvmUUcbPSU=;
-        b=hRebITCgWe8CzAd5RJv7oqAKBjYT95y7CdfyxW2KYnvBChw+uco5U3x9uzO0+b+7aw
-         fe4wwqfkyhMsPyHmiBp7vJ9Tmj00wayttGWQuUFL4y6r8XUOdWw7TR6dUQewFxuPkJrB
-         +ifEGx9s15GsWEIi7wJR6Nhx99XFHmjuXqPQDnU7qbFsnD81qIpnQgdb0vKRC/NvLECU
-         WzCBfxb4XKrb7elhumxRuwGlwCXb1PwVg9dnR+EoGxzdOTQw1LpWoHo3cN3AQtCxgAwu
-         qd1nkAkh8xtuUftMybyEIHfJL6XQzABAUPcLIzIMi2vjylISjns7QT7j3S3MOijkZeo3
-         lsoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=V/eXwxbc1yyKrifVUp+YnPA01U8Yl+fqqtvmUUcbPSU=;
-        b=GY7c6zvdP+v3ZBqCyQTmMlc950pSgkhlK0BBGNWZhLzUDQ0FmGcfFyOu0iFsSk6skf
-         4iCkI8tks8tBPjqOvOHT6/QDHlexPpq4R2a8QHCffbvOgTFQZMUM6Oz+Tpmoix7XJn3U
-         7LqufLK9b+xNfq0bPKaRZvFce7dQ0HajLlNUTfVJFqGmnizU6qDIna6PcX/SJxKQiAvk
-         3FHntLd4V6JCtdlE6JJSuefcBulQD48AmGsOr4Av2DP0i8sbikM0/aSn/+hh/SzbNL57
-         6PjCLBiZkUurGaAL311NHc6NKRPIXO4KqhUllHYDuiUj30E+t6bFlVXPiBR2L7V/dCLP
-         ITpA==
-X-Gm-Message-State: APjAAAUF7ugBWQDKM/2bO6ZoEBpIo4ep4fKNM0Y01urx5ujuJoGTLUpg
-        PK2UJUtzSZ9KSyHoXe9u7BY=
-X-Google-Smtp-Source: APXvYqwlvBNXajG7n/paFXNEoR61iytNaYaMBLABTaWzB/7urQeIY07Ht/Upmp/fL+6SWtFPvS5jrg==
-X-Received: by 2002:a05:600c:230d:: with SMTP id 13mr23178wmo.11.1582827256657;
-        Thu, 27 Feb 2020 10:14:16 -0800 (PST)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id v16sm8726202wml.11.2020.02.27.10.14.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 10:14:15 -0800 (PST)
-Date:   Thu, 27 Feb 2020 19:14:13 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Julia Lawall <julia.lawall@inria.fr>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH] dmaengine: tegra-apb: fix platform_get_irq.cocci warnings
-Message-ID: <20200227181413.GB1114616@ulmo>
-References: <alpine.DEB.2.21.2002271133450.2973@hadrien>
- <b3e3a337-08f3-81b4-6b01-65fbdce72b36@gmail.com>
+        Thu, 27 Feb 2020 13:50:54 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e580f800000>; Thu, 27 Feb 2020 10:50:40 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 27 Feb 2020 10:50:53 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 27 Feb 2020 10:50:53 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 27 Feb
+ 2020 18:50:46 +0000
+Subject: Re: [PATCH 4.4 000/113] 4.4.215-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200227132211.791484803@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <0dda68e6-8bfe-2848-7db8-51691eda147e@nvidia.com>
+Date:   Thu, 27 Feb 2020 18:50:44 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mxv5cy4qt+RJ9ypb"
-Content-Disposition: inline
-In-Reply-To: <b3e3a337-08f3-81b4-6b01-65fbdce72b36@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200227132211.791484803@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1582829440; bh=7WeUF2Hi49Ibo6G2pkSbWE+GO8+KpLajDv9vGQsnAM4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=OYotaRKwFEMM7IXbhMZ4CwgSN9pH8Js5Me+0Owa7UDQQHHF0Ex3ClheWJQh7HDcC1
+         4K/cAYd9NGT+MSDC0GAkpY9ucAXe68XgfJznYHfO93uBQu9kS68OlQVnAKnE1GfcLH
+         K3OBhNNDk7GzSiIWOi9dVVY36uM3HKXfvJQa2rvW6pD6y7BE528HtR0GGYBLkBbq60
+         lfXgOu0N52rIF/Mo8ExI2lyUHq7MjIQGMPYWTWR+kykOfEpwuC1eMKAxzjdR8dFbPE
+         iSGimA3iJSRZn1NXIY5vwCvlrzpj+DPUes23oIWr8n54e368LhUNnl9Wh8Y++/5sme
+         fPvwV8zswQffw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---mxv5cy4qt+RJ9ypb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 27/02/2020 13:35, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.215 release.
+> There are 113 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sat, 29 Feb 2020 13:21:24 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.215-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-On Thu, Feb 27, 2020 at 05:50:19PM +0300, Dmitry Osipenko wrote:
-> 27.02.2020 13:35, Julia Lawall =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > From: kbuild test robot <lkp@intel.com>
-> >=20
-> > Remove dev_err() messages after platform_get_irq*() failures.
-> > platform_get_irq() already prints an error.
-> >=20
-> > Generated by: scripts/coccinelle/api/platform_get_irq.cocci
-> >=20
-> > Fixes: 6c41ac96ad92 ("dmaengine: tegra-apb: Support COMPILE_TEST")
-> > CC: Dmitry Osipenko <digetx@gmail.com>
-> > Signed-off-by: kbuild test robot <lkp@intel.com>
-> > Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
-> > ---
-> >=20
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-=2Egit master
-> > head:   f3fef7e990dae5fcd7cd8ccbd9b2a98bdb481da8
-> > commit: 6c41ac96ad9217fe2a6f31c9dcc31b97365b21f6 [4196/4617] dmaengine:=
- tegra-apb: Support COMPILE_TEST
-> > :::::: branch date: 17 hours ago
-> > :::::: commit date: 2 days ago
-> >=20
-> > Please take the patch only if it's a positive warning. Thanks!
-> >=20
-> >  tegra20-apb-dma.c |    1 -
-> >  1 file changed, 1 deletion(-)
-> >=20
-> > --- a/drivers/dma/tegra20-apb-dma.c
-> > +++ b/drivers/dma/tegra20-apb-dma.c
-> > @@ -1477,7 +1477,6 @@ static int tegra_dma_probe(struct platfo
-> >  		irq =3D platform_get_irq(pdev, i);
-> >  		if (irq < 0) {
-> >  			ret =3D irq;
-> > -			dev_err(&pdev->dev, "No irq resource for chan %d\n", i);
-> >  			goto err_pm_disable;
-> >  		}
-> >=20
->=20
-> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+All tests are passing for Tegra ...
 
---mxv5cy4qt+RJ9ypb
-Content-Type: application/pgp-signature; name="signature.asc"
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
 
------BEGIN PGP SIGNATURE-----
+Linux version:	4.4.215-rc1-g68572b1fc85a
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5YBvIACgkQ3SOs138+
-s6Fcvw/9HVltfggbT9wrk+m7pkvTajave6B5wHAJfsxT6SogdNQcPuZfoKVfGGYV
-JdtPtISVsw1vy3wJA0FGjd5TUFxLuG+z3VYVZvfdGcoQbccoNaM1wW1EDbGDp+0S
-DyzY5hUqYKXSK/Q8tHhNfmXtaP5MjbvU0dWiZLBjCIPeMBlWqp5MmJd5tVDiN+dW
-/GFWMLowRTKSgfRapfoMYRTN+UEdli3SWm0PaT+Cxg+zC3A0RAm9Z4PZlFyaHLfh
-xtWwvzGvsJEYkyA1q35c+Sb7hjnpy4hf6X6kC8glUAXHXbSn3ZOgkg4meL3mLtGV
-4CqbraDiCRX3mbHHniSGlWX8PEkoYBUsyqPtfim8snmjuVUF4CodEeZ4fHbPBV7n
-JkfKWLtQkx/hVXOTVWB+5nhnNU0U7aaBbbZ5TmXZTPeO6vELo5msO6gXww7gHXMW
-+0IXUZai7/jnq5nZXYwDk8teaD85eadpL0j+avBp72e1yBdUkb42Pa9ihMC9KOpK
-XakS+UyWlFrkuxw/7rUPCO2EnikLZETCo3Prg5phDjzbyLBf2XBi69Ldi32GhYGo
-hlmTeS/TqH9AdGqda10UApdssBPAFpmwHRderqzfLud6swzuTJErc1FewZO6T6TF
-EBu8uMKEioKK7dp5JwxLLFepNiyb95Wc4xh7ZLIkGdFxjlCiWXw=
-=JmSm
------END PGP SIGNATURE-----
+Cheers
+Jon
 
---mxv5cy4qt+RJ9ypb--
+-- 
+nvpublic
