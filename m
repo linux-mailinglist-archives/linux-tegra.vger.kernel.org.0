@@ -2,171 +2,140 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C909017262E
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 19:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A30517263A
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 19:14:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbgB0SKF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Feb 2020 13:10:05 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:43408 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729385AbgB0SKE (ORCPT
+        id S1729385AbgB0SOS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Feb 2020 13:14:18 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55055 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbgB0SOS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Feb 2020 13:10:04 -0500
-Received: by mail-lj1-f196.google.com with SMTP id e3so225135lja.10;
-        Thu, 27 Feb 2020 10:10:02 -0800 (PST)
+        Thu, 27 Feb 2020 13:14:18 -0500
+Received: by mail-wm1-f66.google.com with SMTP id z12so405542wmi.4
+        for <linux-tegra@vger.kernel.org>; Thu, 27 Feb 2020 10:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JGTvTC5n1dMFf5hqfM1JJ/BZi1c+ZQ0aixXc9pKVWyk=;
-        b=KrJU7X7EIvMKlUEtbUymzld9J6xlBT5wJtUGvAAIKW08mCZFRtSfx8xOROqfuexZjm
-         JgzdQMJpcoKGAr9Sz0TRp3hECEd10uyGdfVINUEuFhgyEKnBX9Q9acsGmO0XTXw/D6Y0
-         GYZwtvYYoQslELF2RcyKz7DfbPy0XW2QIJ8gF4gokZGJp1fHhMyvKVOyRsERN8IJIVRU
-         IHkV/XDshgvI537t6WLPZnMMYSFkLkpFiBmmM8E+LRQmqRD0fDSL4yKDt20D3tRmK3sP
-         p4jIXT6QFwM5U/myoCIPV5M3bcSJKp8O/zr3UOuVSQQo+sKXF59tPU52HlPpgGkFPRd2
-         4t/w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=V/eXwxbc1yyKrifVUp+YnPA01U8Yl+fqqtvmUUcbPSU=;
+        b=hRebITCgWe8CzAd5RJv7oqAKBjYT95y7CdfyxW2KYnvBChw+uco5U3x9uzO0+b+7aw
+         fe4wwqfkyhMsPyHmiBp7vJ9Tmj00wayttGWQuUFL4y6r8XUOdWw7TR6dUQewFxuPkJrB
+         +ifEGx9s15GsWEIi7wJR6Nhx99XFHmjuXqPQDnU7qbFsnD81qIpnQgdb0vKRC/NvLECU
+         WzCBfxb4XKrb7elhumxRuwGlwCXb1PwVg9dnR+EoGxzdOTQw1LpWoHo3cN3AQtCxgAwu
+         qd1nkAkh8xtuUftMybyEIHfJL6XQzABAUPcLIzIMi2vjylISjns7QT7j3S3MOijkZeo3
+         lsoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JGTvTC5n1dMFf5hqfM1JJ/BZi1c+ZQ0aixXc9pKVWyk=;
-        b=PPluVwlod+vuM5zQoqDcZ6Ac4P4qvVDiz8liXdm3d9ap91e7ZVjQvX0y+7jPrauUoH
-         sL6sAmeBWHt6xItcHjlevS383rLjqeVFNcN9ybmdUmLPnrIJX2OaWpeJ0EXmA67qOsji
-         r6YqFwBv9InOaykGmNUYbO/BxGOgbCD9edJYXdwS9s1bsiFJvQEMbDNJOCnyO9bUCKM+
-         hZLHadFfVyBRkexwQwaJRMH90Q8JWnKj+q/tw0zC71Innv/FU214Pj7qu58LWO9djh1n
-         hOJQRc0xpLKdxGvu5v8iKrlu8alFmCUg6ykGTnayZWza20xvJKjc831YutEDbbnypC5n
-         ZmCw==
-X-Gm-Message-State: ANhLgQ0lTz6/58iUOUkT07q2q/zwjr2wBjESAVAf09Me4KQDmYpods0I
-        2id7R0OqboTjG0gGdgU89EA=
-X-Google-Smtp-Source: ADFU+vt7VurT8NSU0ruym6CjuKGiA65tRemHtqoeZ3SAziIhDR/LByjtv7S5fyvspcm5O9WPA2qWbQ==
-X-Received: by 2002:a2e:9748:: with SMTP id f8mr208065ljj.178.1582827002155;
-        Thu, 27 Feb 2020 10:10:02 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id t6sm3222170lfe.47.2020.02.27.10.10.00
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=V/eXwxbc1yyKrifVUp+YnPA01U8Yl+fqqtvmUUcbPSU=;
+        b=GY7c6zvdP+v3ZBqCyQTmMlc950pSgkhlK0BBGNWZhLzUDQ0FmGcfFyOu0iFsSk6skf
+         4iCkI8tks8tBPjqOvOHT6/QDHlexPpq4R2a8QHCffbvOgTFQZMUM6Oz+Tpmoix7XJn3U
+         7LqufLK9b+xNfq0bPKaRZvFce7dQ0HajLlNUTfVJFqGmnizU6qDIna6PcX/SJxKQiAvk
+         3FHntLd4V6JCtdlE6JJSuefcBulQD48AmGsOr4Av2DP0i8sbikM0/aSn/+hh/SzbNL57
+         6PjCLBiZkUurGaAL311NHc6NKRPIXO4KqhUllHYDuiUj30E+t6bFlVXPiBR2L7V/dCLP
+         ITpA==
+X-Gm-Message-State: APjAAAUF7ugBWQDKM/2bO6ZoEBpIo4ep4fKNM0Y01urx5ujuJoGTLUpg
+        PK2UJUtzSZ9KSyHoXe9u7BY=
+X-Google-Smtp-Source: APXvYqwlvBNXajG7n/paFXNEoR61iytNaYaMBLABTaWzB/7urQeIY07Ht/Upmp/fL+6SWtFPvS5jrg==
+X-Received: by 2002:a05:600c:230d:: with SMTP id 13mr23178wmo.11.1582827256657;
+        Thu, 27 Feb 2020 10:14:16 -0800 (PST)
+Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
+        by smtp.gmail.com with ESMTPSA id v16sm8726202wml.11.2020.02.27.10.14.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 10:10:01 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] media: staging: tegra-vde: Use devm_platform_ioremap_resource_byname()
-Date:   Thu, 27 Feb 2020 21:09:15 +0300
-Message-Id: <20200227180915.9541-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        Thu, 27 Feb 2020 10:14:15 -0800 (PST)
+Date:   Thu, 27 Feb 2020 19:14:13 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Julia Lawall <julia.lawall@inria.fr>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH] dmaengine: tegra-apb: fix platform_get_irq.cocci warnings
+Message-ID: <20200227181413.GB1114616@ulmo>
+References: <alpine.DEB.2.21.2002271133450.2973@hadrien>
+ <b3e3a337-08f3-81b4-6b01-65fbdce72b36@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="mxv5cy4qt+RJ9ypb"
+Content-Disposition: inline
+In-Reply-To: <b3e3a337-08f3-81b4-6b01-65fbdce72b36@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This helps to make code cleaner a tad.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/staging/media/tegra-vde/vde.c | 55 +++++----------------------
- 1 file changed, 9 insertions(+), 46 deletions(-)
+--mxv5cy4qt+RJ9ypb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index e18fd48981da..d3e63512a765 100644
---- a/drivers/staging/media/tegra-vde/vde.c
-+++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -949,7 +949,6 @@ static int tegra_vde_runtime_resume(struct device *dev)
- static int tegra_vde_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct resource *regs;
- 	struct tegra_vde *vde;
- 	int irq, err;
- 
-@@ -959,75 +958,39 @@ static int tegra_vde_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, vde);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sxe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->sxe = devm_ioremap_resource(dev, regs);
-+	vde->sxe = devm_platform_ioremap_resource_byname(pdev, "sxe");
- 	if (IS_ERR(vde->sxe))
- 		return PTR_ERR(vde->sxe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "bsev");
--	if (!regs)
--		return -ENODEV;
--
--	vde->bsev = devm_ioremap_resource(dev, regs);
-+	vde->bsev = devm_platform_ioremap_resource_byname(pdev, "bsev");
- 	if (IS_ERR(vde->bsev))
- 		return PTR_ERR(vde->bsev);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mbe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->mbe = devm_ioremap_resource(dev, regs);
-+	vde->mbe = devm_platform_ioremap_resource_byname(pdev, "mbe");
- 	if (IS_ERR(vde->mbe))
- 		return PTR_ERR(vde->mbe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ppe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->ppe = devm_ioremap_resource(dev, regs);
-+	vde->ppe = devm_platform_ioremap_resource_byname(pdev, "ppe");
- 	if (IS_ERR(vde->ppe))
- 		return PTR_ERR(vde->ppe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mce");
--	if (!regs)
--		return -ENODEV;
--
--	vde->mce = devm_ioremap_resource(dev, regs);
-+	vde->mce = devm_platform_ioremap_resource_byname(pdev, "mce");
- 	if (IS_ERR(vde->mce))
- 		return PTR_ERR(vde->mce);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tfe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->tfe = devm_ioremap_resource(dev, regs);
-+	vde->tfe = devm_platform_ioremap_resource_byname(pdev, "tfe");
- 	if (IS_ERR(vde->tfe))
- 		return PTR_ERR(vde->tfe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ppb");
--	if (!regs)
--		return -ENODEV;
--
--	vde->ppb = devm_ioremap_resource(dev, regs);
-+	vde->ppb = devm_platform_ioremap_resource_byname(pdev, "ppb");
- 	if (IS_ERR(vde->ppb))
- 		return PTR_ERR(vde->ppb);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "vdma");
--	if (!regs)
--		return -ENODEV;
--
--	vde->vdma = devm_ioremap_resource(dev, regs);
-+	vde->vdma = devm_platform_ioremap_resource_byname(pdev, "vdma");
- 	if (IS_ERR(vde->vdma))
- 		return PTR_ERR(vde->vdma);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "frameid");
--	if (!regs)
--		return -ENODEV;
--
--	vde->frameid = devm_ioremap_resource(dev, regs);
-+	vde->frameid = devm_platform_ioremap_resource_byname(pdev, "frameid");
- 	if (IS_ERR(vde->frameid))
- 		return PTR_ERR(vde->frameid);
- 
--- 
-2.24.0
+On Thu, Feb 27, 2020 at 05:50:19PM +0300, Dmitry Osipenko wrote:
+> 27.02.2020 13:35, Julia Lawall =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > From: kbuild test robot <lkp@intel.com>
+> >=20
+> > Remove dev_err() messages after platform_get_irq*() failures.
+> > platform_get_irq() already prints an error.
+> >=20
+> > Generated by: scripts/coccinelle/api/platform_get_irq.cocci
+> >=20
+> > Fixes: 6c41ac96ad92 ("dmaengine: tegra-apb: Support COMPILE_TEST")
+> > CC: Dmitry Osipenko <digetx@gmail.com>
+> > Signed-off-by: kbuild test robot <lkp@intel.com>
+> > Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+> > ---
+> >=20
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+=2Egit master
+> > head:   f3fef7e990dae5fcd7cd8ccbd9b2a98bdb481da8
+> > commit: 6c41ac96ad9217fe2a6f31c9dcc31b97365b21f6 [4196/4617] dmaengine:=
+ tegra-apb: Support COMPILE_TEST
+> > :::::: branch date: 17 hours ago
+> > :::::: commit date: 2 days ago
+> >=20
+> > Please take the patch only if it's a positive warning. Thanks!
+> >=20
+> >  tegra20-apb-dma.c |    1 -
+> >  1 file changed, 1 deletion(-)
+> >=20
+> > --- a/drivers/dma/tegra20-apb-dma.c
+> > +++ b/drivers/dma/tegra20-apb-dma.c
+> > @@ -1477,7 +1477,6 @@ static int tegra_dma_probe(struct platfo
+> >  		irq =3D platform_get_irq(pdev, i);
+> >  		if (irq < 0) {
+> >  			ret =3D irq;
+> > -			dev_err(&pdev->dev, "No irq resource for chan %d\n", i);
+> >  			goto err_pm_disable;
+> >  		}
+> >=20
+>=20
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--mxv5cy4qt+RJ9ypb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5YBvIACgkQ3SOs138+
+s6Fcvw/9HVltfggbT9wrk+m7pkvTajave6B5wHAJfsxT6SogdNQcPuZfoKVfGGYV
+JdtPtISVsw1vy3wJA0FGjd5TUFxLuG+z3VYVZvfdGcoQbccoNaM1wW1EDbGDp+0S
+DyzY5hUqYKXSK/Q8tHhNfmXtaP5MjbvU0dWiZLBjCIPeMBlWqp5MmJd5tVDiN+dW
+/GFWMLowRTKSgfRapfoMYRTN+UEdli3SWm0PaT+Cxg+zC3A0RAm9Z4PZlFyaHLfh
+xtWwvzGvsJEYkyA1q35c+Sb7hjnpy4hf6X6kC8glUAXHXbSn3ZOgkg4meL3mLtGV
+4CqbraDiCRX3mbHHniSGlWX8PEkoYBUsyqPtfim8snmjuVUF4CodEeZ4fHbPBV7n
+JkfKWLtQkx/hVXOTVWB+5nhnNU0U7aaBbbZ5TmXZTPeO6vELo5msO6gXww7gHXMW
++0IXUZai7/jnq5nZXYwDk8teaD85eadpL0j+avBp72e1yBdUkb42Pa9ihMC9KOpK
+XakS+UyWlFrkuxw/7rUPCO2EnikLZETCo3Prg5phDjzbyLBf2XBi69Ldi32GhYGo
+hlmTeS/TqH9AdGqda10UApdssBPAFpmwHRderqzfLud6swzuTJErc1FewZO6T6TF
+EBu8uMKEioKK7dp5JwxLLFepNiyb95Wc4xh7ZLIkGdFxjlCiWXw=
+=JmSm
+-----END PGP SIGNATURE-----
+
+--mxv5cy4qt+RJ9ypb--
