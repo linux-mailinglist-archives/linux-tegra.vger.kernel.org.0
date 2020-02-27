@@ -2,232 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A40FA1716AE
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 13:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34AFE172193
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 15:50:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728932AbgB0MDZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Feb 2020 07:03:25 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37104 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728882AbgB0MDY (ORCPT
+        id S1729600AbgB0OuX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Feb 2020 09:50:23 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41266 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729517AbgB0OuX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Feb 2020 07:03:24 -0500
-Received: by mail-wm1-f67.google.com with SMTP id a141so3107575wme.2;
-        Thu, 27 Feb 2020 04:03:23 -0800 (PST)
+        Thu, 27 Feb 2020 09:50:23 -0500
+Received: by mail-lf1-f65.google.com with SMTP id y17so2282177lfe.8
+        for <linux-tegra@vger.kernel.org>; Thu, 27 Feb 2020 06:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eMyHRnupYOweRXusdsPzOOaYHKBaQWgPr4VgAjx/YvA=;
-        b=J26Ir02KepKBJUbXxXkkWJYVkP5vOgClZy+ask2wsbUGCXhEGHhsdjjBMp4pQeyL4v
-         o+PockS+TMBNAj3bDRcefvZcTiGRv//s7LP6xY6F+VIkrxqhEpnYaMhZkScQ6ysjJ1kp
-         Vp3lVS1t6hzYlLN9T4BABFFkiDQUghrhefzvXox7WxnQSf4ze69i0XCqKtlcRumUAyoS
-         cxm0yHZKo9AnodukiroeL7uqp0p26ZtcPOC45KXNVKrfM5QZYTdTeqhPS3kn/oS4bWRg
-         4AVKdsxNrNwlrkr8WIVIGkAi4/xGyozaKVgg9yaksEXPuNddWbur6TmFwvaUNFEe7IDF
-         7mKA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=kyigCAC3LveOhMS2W/sCuz36oCY49l6gPUPv/Ubz4zI=;
+        b=dXnm5y8jJruyF65hGmRuc/FUzvFO5qM1D44EoSlgVCDIf9XIE8lLiZUJ2ToPyqqSOd
+         HT+x5fv41jRXF5WD4MLE/bfJx2zgZdAWL1VRf2T+wwRN7i+zYaj8ylIIaXcecpT5hbTa
+         ZuGfDgXMe6UcKUA09pjTuz92G6yijRSEHxyAcSOJkDelQ16EeL3Gp5Xz+AphpgwYUCcm
+         gOTpZhJ94tiJ9wBXE5tcqxL9F739xv2tuILCweawnbPcnQXCuijecKVHXKWdRulZvN0f
+         NQelxZVTlZKYqahom8MVwmxuLezbOIb52cTVkf9V9nTmTHJGHcUEPnJmD/V5nIgBWgPa
+         Ddyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eMyHRnupYOweRXusdsPzOOaYHKBaQWgPr4VgAjx/YvA=;
-        b=Ip9gxyF69JSayFpDHBluuErv7lkoK9np1wxfJLqL91vPMHB/yEPOKljma878bwBQAq
-         HIhxHy8W3nKCVi5SIyuZBGnLnxl7/G8Ew/N6g6hXKeKSEkjOscveKlQMqAAbHTembMlV
-         NISWnQpkKBQ2UnhaF+qgwtxFJJ7HBTRv2ctVcK89Yf6bIHaV5LHb4ezOv8IHOYjjyxkN
-         +G0GRZhZqZpYTLSW93HQvkpBLLCHTVShL5kkZv3LEO+TERGMNZQRD/9mGGA51ZJV7Svl
-         grMs7hlBQLIjpSD4bJhnjZICyBznqdziXyKYR3axx8OXC3d8tazAv7R00GtROyq3rCvC
-         wZXQ==
-X-Gm-Message-State: APjAAAWMB/Xp0Q88usKqlo0OP64R3TIRlF67jKhLEoEOFGGHDpDpTNhN
-        QwKySUBhVfgG8Wn/oGfGrAw=
-X-Google-Smtp-Source: APXvYqznZ4u0tPG2uNCyuNN6BfskJAo0b9TRFN1GjptJ8HTDJvFgiy5ZFR47VHg554ltfojRoFkY5w==
-X-Received: by 2002:a1c:108:: with SMTP id 8mr4988938wmb.30.1582805002941;
-        Thu, 27 Feb 2020 04:03:22 -0800 (PST)
-Received: from wambui.zuku.co.ke ([197.237.61.225])
-        by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 04:03:22 -0800 (PST)
-From:   Wambui Karuga <wambui.karugax@gmail.com>
-To:     daniel@ffwll.ch, airlied@linux.ie,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 10/21] drm/tegra: remove checks for debugfs functions return value
-Date:   Thu, 27 Feb 2020 15:02:21 +0300
-Message-Id: <20200227120232.19413-11-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kyigCAC3LveOhMS2W/sCuz36oCY49l6gPUPv/Ubz4zI=;
+        b=ab68nJivAZfdAzt3FCH7W3jEfHVig2mK+HHAxBwUUOqCkbN7NZRSIpWbaTizVN3+Ws
+         hMqzocP4Tfb3JJofWHZ0nMdukWfBbf4kcBNN3uq8u7XtOdveIELiW/pcMe4t72exn4Hd
+         TkDEiRadJoe1GHKpq+xiIzJXwuKMJfjIBI0BIoKQHrtdrjDQjS/edH1k+vwnznxgP/Ej
+         +OAUbbvR0+dzUMqqPcJpAccxLNPU05Jftw/5OFE3uSZ2a83m+4SpJq4MDjl9KLCq5rwS
+         7LZ/QmOfVdpV6y8mvD42Ej8dUnRQsfcNyEEEwTbRy1gRF+jBeqgjM/cP7ih8VbsRifex
+         RCaA==
+X-Gm-Message-State: ANhLgQ3QkH1QG2GION3bAFACZSqy1Hq7R6Yx9HF1N+1s/sKO3QxuRS4+
+        8ii9wh7fShYpxUekBabK0D8=
+X-Google-Smtp-Source: ADFU+vvzU+LutXBZVfQXvLWlgTjWlcGqlp8HHZniS69joPFA0mFPRd/1wGkm2NQ9p3JV8rnfetIPZw==
+X-Received: by 2002:a19:490b:: with SMTP id w11mr2439563lfa.125.1582815021060;
+        Thu, 27 Feb 2020 06:50:21 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id i18sm1244479lfe.15.2020.02.27.06.50.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Feb 2020 06:50:20 -0800 (PST)
+Subject: Re: [PATCH] dmaengine: tegra-apb: fix platform_get_irq.cocci warnings
+To:     Julia Lawall <julia.lawall@inria.fr>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>
+References: <alpine.DEB.2.21.2002271133450.2973@hadrien>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b3e3a337-08f3-81b4-6b01-65fbdce72b36@gmail.com>
+Date:   Thu, 27 Feb 2020 17:50:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2002271133450.2973@hadrien>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Since 987d65d01356 (drm: debugfs: make
-drm_debugfs_create_files() never fail) there is no need to check the
-return value of drm_debugfs_create_files(). Therefore, remove the
-return checks and error handling of the drm_debugfs_create_files()
-function from various debugfs init functions in drm/tegra and have
-them return 0 directly.
+27.02.2020 13:35, Julia Lawall пишет:
+> From: kbuild test robot <lkp@intel.com>
+> 
+> Remove dev_err() messages after platform_get_irq*() failures.
+> platform_get_irq() already prints an error.
+> 
+> Generated by: scripts/coccinelle/api/platform_get_irq.cocci
+> 
+> Fixes: 6c41ac96ad92 ("dmaengine: tegra-apb: Support COMPILE_TEST")
+> CC: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+> ---
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   f3fef7e990dae5fcd7cd8ccbd9b2a98bdb481da8
+> commit: 6c41ac96ad9217fe2a6f31c9dcc31b97365b21f6 [4196/4617] dmaengine: tegra-apb: Support COMPILE_TEST
+> :::::: branch date: 17 hours ago
+> :::::: commit date: 2 days ago
+> 
+> Please take the patch only if it's a positive warning. Thanks!
+> 
+>  tegra20-apb-dma.c |    1 -
+>  1 file changed, 1 deletion(-)
+> 
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -1477,7 +1477,6 @@ static int tegra_dma_probe(struct platfo
+>  		irq = platform_get_irq(pdev, i);
+>  		if (irq < 0) {
+>  			ret = irq;
+> -			dev_err(&pdev->dev, "No irq resource for chan %d\n", i);
+>  			goto err_pm_disable;
+>  		}
+> 
 
-This change also includes removing the use of drm_debugfs_create_files
-as a return value in tegra_debugfs_init() and have the function declared
-as void.
-
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/tegra/dc.c   | 11 +----------
- drivers/gpu/drm/tegra/drm.c  |  8 ++++----
- drivers/gpu/drm/tegra/dsi.c  | 11 +----------
- drivers/gpu/drm/tegra/hdmi.c | 11 +----------
- drivers/gpu/drm/tegra/sor.c  | 11 +----------
- 5 files changed, 8 insertions(+), 44 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 7c70fd31a4c2..e70d58b21964 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1496,7 +1496,6 @@ static int tegra_dc_late_register(struct drm_crtc *crtc)
- 	struct drm_minor *minor = crtc->dev->primary;
- 	struct dentry *root;
- 	struct tegra_dc *dc = to_tegra_dc(crtc);
--	int err;
- 
- #ifdef CONFIG_DEBUG_FS
- 	root = crtc->debugfs_entry;
-@@ -1512,17 +1511,9 @@ static int tegra_dc_late_register(struct drm_crtc *crtc)
- 	for (i = 0; i < count; i++)
- 		dc->debugfs_files[i].data = dc;
- 
--	err = drm_debugfs_create_files(dc->debugfs_files, count, root, minor);
--	if (err < 0)
--		goto free;
-+	drm_debugfs_create_files(dc->debugfs_files, count, root, minor);
- 
- 	return 0;
--
--free:
--	kfree(dc->debugfs_files);
--	dc->debugfs_files = NULL;
--
--	return err;
- }
- 
- static void tegra_dc_early_unregister(struct drm_crtc *crtc)
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index bd268028fb3d..d4f51b5c7ee5 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -839,11 +839,11 @@ static struct drm_info_list tegra_debugfs_list[] = {
- 	{ "iova", tegra_debugfs_iova, 0 },
- };
- 
--static int tegra_debugfs_init(struct drm_minor *minor)
-+static void tegra_debugfs_init(struct drm_minor *minor)
- {
--	return drm_debugfs_create_files(tegra_debugfs_list,
--					ARRAY_SIZE(tegra_debugfs_list),
--					minor->debugfs_root, minor);
-+	drm_debugfs_create_files(tegra_debugfs_list,
-+				 ARRAY_SIZE(tegra_debugfs_list),
-+				 minor->debugfs_root, minor);
- }
- #endif
- 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 88b9d64c77bf..30626fcf61eb 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -234,7 +234,6 @@ static int tegra_dsi_late_register(struct drm_connector *connector)
- 	struct drm_minor *minor = connector->dev->primary;
- 	struct dentry *root = connector->debugfs_entry;
- 	struct tegra_dsi *dsi = to_dsi(output);
--	int err;
- 
- 	dsi->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
- 				     GFP_KERNEL);
-@@ -244,17 +243,9 @@ static int tegra_dsi_late_register(struct drm_connector *connector)
- 	for (i = 0; i < count; i++)
- 		dsi->debugfs_files[i].data = dsi;
- 
--	err = drm_debugfs_create_files(dsi->debugfs_files, count, root, minor);
--	if (err < 0)
--		goto free;
-+	drm_debugfs_create_files(dsi->debugfs_files, count, root, minor);
- 
- 	return 0;
--
--free:
--	kfree(dsi->debugfs_files);
--	dsi->debugfs_files = NULL;
--
--	return err;
- }
- 
- static void tegra_dsi_early_unregister(struct drm_connector *connector)
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 6f117628f257..d7799d13d8ad 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1064,7 +1064,6 @@ static int tegra_hdmi_late_register(struct drm_connector *connector)
- 	struct drm_minor *minor = connector->dev->primary;
- 	struct dentry *root = connector->debugfs_entry;
- 	struct tegra_hdmi *hdmi = to_hdmi(output);
--	int err;
- 
- 	hdmi->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
- 				      GFP_KERNEL);
-@@ -1074,17 +1073,9 @@ static int tegra_hdmi_late_register(struct drm_connector *connector)
- 	for (i = 0; i < count; i++)
- 		hdmi->debugfs_files[i].data = hdmi;
- 
--	err = drm_debugfs_create_files(hdmi->debugfs_files, count, root, minor);
--	if (err < 0)
--		goto free;
-+	drm_debugfs_create_files(hdmi->debugfs_files, count, root, minor);
- 
- 	return 0;
--
--free:
--	kfree(hdmi->debugfs_files);
--	hdmi->debugfs_files = NULL;
--
--	return err;
- }
- 
- static void tegra_hdmi_early_unregister(struct drm_connector *connector)
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 81226a4953c1..47c1d133069a 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -1687,7 +1687,6 @@ static int tegra_sor_late_register(struct drm_connector *connector)
- 	struct drm_minor *minor = connector->dev->primary;
- 	struct dentry *root = connector->debugfs_entry;
- 	struct tegra_sor *sor = to_sor(output);
--	int err;
- 
- 	sor->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
- 				     GFP_KERNEL);
-@@ -1697,17 +1696,9 @@ static int tegra_sor_late_register(struct drm_connector *connector)
- 	for (i = 0; i < count; i++)
- 		sor->debugfs_files[i].data = sor;
- 
--	err = drm_debugfs_create_files(sor->debugfs_files, count, root, minor);
--	if (err < 0)
--		goto free;
-+	drm_debugfs_create_files(sor->debugfs_files, count, root, minor);
- 
- 	return 0;
--
--free:
--	kfree(sor->debugfs_files);
--	sor->debugfs_files = NULL;
--
--	return err;
- }
- 
- static void tegra_sor_early_unregister(struct drm_connector *connector)
--- 
-2.25.0
-
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
