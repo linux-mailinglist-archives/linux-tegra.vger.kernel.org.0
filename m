@@ -2,133 +2,171 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB96172525
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 18:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C909017262E
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Feb 2020 19:12:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730266AbgB0Rce (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Feb 2020 12:32:34 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36704 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730168AbgB0Rcd (ORCPT
+        id S1729722AbgB0SKF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Feb 2020 13:10:05 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43408 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729385AbgB0SKE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Feb 2020 12:32:33 -0500
-Received: by mail-wm1-f66.google.com with SMTP id f19so258417wmh.1;
-        Thu, 27 Feb 2020 09:32:31 -0800 (PST)
+        Thu, 27 Feb 2020 13:10:04 -0500
+Received: by mail-lj1-f196.google.com with SMTP id e3so225135lja.10;
+        Thu, 27 Feb 2020 10:10:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bOM9ZguY+LlfPuZces6tFRfvNJKyFJIl4Ch9+iWS3ek=;
-        b=lN6thxEPJeeGHigyjJNMQ8pPcMnBjMfnUPj0B458IHVV4xSU4V5efLpUhpsDZlbygB
-         qKLRrxN046Fwl3/LPG0XrB3J7XHahTJvgQJYpd/lXh/Xii/kSw7wEujObkB/4eOZ/rti
-         XtZCz9CtI75qNFaobEl5008mYB28Qg83kz88DaFQ2uy7cjQaha+MktXZHXNjPDyxVblx
-         J+dUD6TedBLe4BSrO7BAUvJe+tUJlWjjucJoXTjftHNBiLPFFCXiULL+v1VlQXKcuQBs
-         yJMdPpHpXcGO72LlsO+mFfJSEAM12aBdALguL96+3QVy6oOJtDVe2yV/fv/HRy+AcDTm
-         nx+w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JGTvTC5n1dMFf5hqfM1JJ/BZi1c+ZQ0aixXc9pKVWyk=;
+        b=KrJU7X7EIvMKlUEtbUymzld9J6xlBT5wJtUGvAAIKW08mCZFRtSfx8xOROqfuexZjm
+         JgzdQMJpcoKGAr9Sz0TRp3hECEd10uyGdfVINUEuFhgyEKnBX9Q9acsGmO0XTXw/D6Y0
+         GYZwtvYYoQslELF2RcyKz7DfbPy0XW2QIJ8gF4gokZGJp1fHhMyvKVOyRsERN8IJIVRU
+         IHkV/XDshgvI537t6WLPZnMMYSFkLkpFiBmmM8E+LRQmqRD0fDSL4yKDt20D3tRmK3sP
+         p4jIXT6QFwM5U/myoCIPV5M3bcSJKp8O/zr3UOuVSQQo+sKXF59tPU52HlPpgGkFPRd2
+         4t/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bOM9ZguY+LlfPuZces6tFRfvNJKyFJIl4Ch9+iWS3ek=;
-        b=IpwwFR38qY6wSK2MFDUshoc7tZUrFzEbn9+LWyHYwuTy/Eoe1aOPL/B4DLJ6wA2Aj1
-         ykyHjr9hC5ZLzp4oAxQYvv7kIcGy9PYo+BPzYZzsLjMEHU7MRTez7+EJwEBNgiaLVOXd
-         KVuh5Bv8vAJKUKGmjZV9+ZDRzrnqOQptq90wp91jtDIxfOjcDnG+6gsRz/Zvv6NnAhoo
-         jjhiiV/BGHVZTXomncPhRnwn0ccsUlIccEOXEyLRYNLpQYig6YJBPgGFnCBb4BFhHrtn
-         YV0PMdGyeX5KGLwUWutZ090JxzBTc7bR3mnHhbcibOFIGOwMjHptT2BWCWmW7GqeLDFQ
-         t9ZQ==
-X-Gm-Message-State: APjAAAXQ+xYdrvQUWLjsIcOhNjEOdlQfZm9Z9MdOicoYDnMfASBuBMuT
-        MbUHZhMS0uC6k25ET8YZqdg=
-X-Google-Smtp-Source: APXvYqyYjLyY+cOxVx5++7yoIrsteDDJb3n3HKrVHlrladKrVpKxjf8hjlKjSAXULYfIGtOd0M+EIA==
-X-Received: by 2002:a1c:156:: with SMTP id 83mr576898wmb.151.1582824750974;
-        Thu, 27 Feb 2020 09:32:30 -0800 (PST)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id z10sm8450261wmk.31.2020.02.27.09.32.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JGTvTC5n1dMFf5hqfM1JJ/BZi1c+ZQ0aixXc9pKVWyk=;
+        b=PPluVwlod+vuM5zQoqDcZ6Ac4P4qvVDiz8liXdm3d9ap91e7ZVjQvX0y+7jPrauUoH
+         sL6sAmeBWHt6xItcHjlevS383rLjqeVFNcN9ybmdUmLPnrIJX2OaWpeJ0EXmA67qOsji
+         r6YqFwBv9InOaykGmNUYbO/BxGOgbCD9edJYXdwS9s1bsiFJvQEMbDNJOCnyO9bUCKM+
+         hZLHadFfVyBRkexwQwaJRMH90Q8JWnKj+q/tw0zC71Innv/FU214Pj7qu58LWO9djh1n
+         hOJQRc0xpLKdxGvu5v8iKrlu8alFmCUg6ykGTnayZWza20xvJKjc831YutEDbbnypC5n
+         ZmCw==
+X-Gm-Message-State: ANhLgQ0lTz6/58iUOUkT07q2q/zwjr2wBjESAVAf09Me4KQDmYpods0I
+        2id7R0OqboTjG0gGdgU89EA=
+X-Google-Smtp-Source: ADFU+vt7VurT8NSU0ruym6CjuKGiA65tRemHtqoeZ3SAziIhDR/LByjtv7S5fyvspcm5O9WPA2qWbQ==
+X-Received: by 2002:a2e:9748:: with SMTP id f8mr208065ljj.178.1582827002155;
+        Thu, 27 Feb 2020 10:10:02 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id t6sm3222170lfe.47.2020.02.27.10.10.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 09:32:29 -0800 (PST)
-Date:   Thu, 27 Feb 2020 18:32:26 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Nagarjuna Kristam <nkristam@nvidia.com>, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V5 00/21] Tegra XUSB OTG support
-Message-ID: <20200227173226.GA1114616@ulmo>
-References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
- <20200217085130.GJ1339021@ulmo>
+        Thu, 27 Feb 2020 10:10:01 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1] media: staging: tegra-vde: Use devm_platform_ioremap_resource_byname()
+Date:   Thu, 27 Feb 2020 21:09:15 +0300
+Message-Id: <20200227180915.9541-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wRRV7LY7NUeQGEoC"
-Content-Disposition: inline
-In-Reply-To: <20200217085130.GJ1339021@ulmo>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This helps to make code cleaner a tad.
 
---wRRV7LY7NUeQGEoC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/staging/media/tegra-vde/vde.c | 55 +++++----------------------
+ 1 file changed, 9 insertions(+), 46 deletions(-)
 
-On Mon, Feb 17, 2020 at 09:51:30AM +0100, Thierry Reding wrote:
-> On Mon, Feb 10, 2020 at 01:41:26PM +0530, Nagarjuna Kristam wrote:
-> > This patch series adds OTG support on XUSB hardware used in Tegra210 and
-> > Tegra186 SoCs.
-> >=20
-> > This patchset is composed with :
-> >  - dt bindings of XUSB Pad Controller
-> >  - dt bindings for XUSB device Driver
-> >  - Tegra PHY driver for usb-role-switch and usb-phy
-> >  - Tegra XUSB host mode driver to support OTG mode
-> >  - Tegra XUSB device mode driver to use usb-phy and multi device mode
-> >  - dts for XUSB pad controller
-> >  - dts for xudc for Jetson TX1 and TX2
-> >  - dts for Jetson-TK1
-> >  - dts for Jetson-Nano
-> >=20
-> > Tegra Pad controller driver register for role switch updates for
-> > OTG/peripheral capable USB ports and adds usb-phy for that corresponding
-> > USB ports.
-> >=20
-> > Host and Device mode drivers gets usb-phy from USB2's phy and registers
-> > notifier for role changes to perform corresponding role tasks.
-> >=20
-> > Order of merging Patches:
-> > Please merge DT changes first followed Tegra PHY driver changes and then
-> > USB driver changes.
->=20
-> Felipe, Greg, Kishon,
->=20
-> Given the runtime dependencies between these various parts, I could pick
-> these up into the Tegra tree if you provide an Acked-by.
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index e18fd48981da..d3e63512a765 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -949,7 +949,6 @@ static int tegra_vde_runtime_resume(struct device *dev)
+ static int tegra_vde_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct resource *regs;
+ 	struct tegra_vde *vde;
+ 	int irq, err;
+ 
+@@ -959,75 +958,39 @@ static int tegra_vde_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, vde);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sxe");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->sxe = devm_ioremap_resource(dev, regs);
++	vde->sxe = devm_platform_ioremap_resource_byname(pdev, "sxe");
+ 	if (IS_ERR(vde->sxe))
+ 		return PTR_ERR(vde->sxe);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "bsev");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->bsev = devm_ioremap_resource(dev, regs);
++	vde->bsev = devm_platform_ioremap_resource_byname(pdev, "bsev");
+ 	if (IS_ERR(vde->bsev))
+ 		return PTR_ERR(vde->bsev);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mbe");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->mbe = devm_ioremap_resource(dev, regs);
++	vde->mbe = devm_platform_ioremap_resource_byname(pdev, "mbe");
+ 	if (IS_ERR(vde->mbe))
+ 		return PTR_ERR(vde->mbe);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ppe");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->ppe = devm_ioremap_resource(dev, regs);
++	vde->ppe = devm_platform_ioremap_resource_byname(pdev, "ppe");
+ 	if (IS_ERR(vde->ppe))
+ 		return PTR_ERR(vde->ppe);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mce");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->mce = devm_ioremap_resource(dev, regs);
++	vde->mce = devm_platform_ioremap_resource_byname(pdev, "mce");
+ 	if (IS_ERR(vde->mce))
+ 		return PTR_ERR(vde->mce);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tfe");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->tfe = devm_ioremap_resource(dev, regs);
++	vde->tfe = devm_platform_ioremap_resource_byname(pdev, "tfe");
+ 	if (IS_ERR(vde->tfe))
+ 		return PTR_ERR(vde->tfe);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ppb");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->ppb = devm_ioremap_resource(dev, regs);
++	vde->ppb = devm_platform_ioremap_resource_byname(pdev, "ppb");
+ 	if (IS_ERR(vde->ppb))
+ 		return PTR_ERR(vde->ppb);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "vdma");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->vdma = devm_ioremap_resource(dev, regs);
++	vde->vdma = devm_platform_ioremap_resource_byname(pdev, "vdma");
+ 	if (IS_ERR(vde->vdma))
+ 		return PTR_ERR(vde->vdma);
+ 
+-	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "frameid");
+-	if (!regs)
+-		return -ENODEV;
+-
+-	vde->frameid = devm_ioremap_resource(dev, regs);
++	vde->frameid = devm_platform_ioremap_resource_byname(pdev, "frameid");
+ 	if (IS_ERR(vde->frameid))
+ 		return PTR_ERR(vde->frameid);
+ 
+-- 
+2.24.0
 
-Ping. Are you guys okay if I pick these up into the Tegra tree?
-
-Thierry
-
---wRRV7LY7NUeQGEoC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5X/SQACgkQ3SOs138+
-s6E7uxAAwLgVZKM5o1rrps7EuTuKsMpZ5xxl3xBXrfsXA3ySvIC3W0H6sNDuQsD7
-bKHID3zunA0/6EnDGEyn62wyo58e489dCiPseSTr/t0cSTks5f2dDM46BrTDug3A
-iyAIH71LcFvd9+SoNNiIFwQxs3Qx6E+oU/uFqdgPKqO+uqjlI//V28syeVHCmeW2
-50HLMU91gS/Wc7+nU/TMaSBDh98kayfyVihMSyVC1llle2O8ADhVrCY/ATO8Pno0
-kKV/i7GCYnvhW6I/6260WLWrgOKaru5Yzo9oWGR02LPukuJMGsw/jci0MhhTZp7e
-qj4Pa5oc9+hMkjXVEV6pcNmJBOVs3hfx9dR4Ipvl+KJBBQrCeeclKfPbFVFJI/mC
-uMdJFc5ode+XmVDxc2VbEtwPN7/+UGrhwIN27gjPlVeVyVjwLS4tUt+hj0QOMgrS
-p7q8ilN5VZ0TV4Kwa7aqUntx60yTDFsDSj+eFEUbp46QZzIBncUdpIqxFYqMc4Hz
-Wa6QBAHjT4Pad9DviKRDR/71nZknkBbtAnq822gkk5Ax3gUShgZo37CbAim7su66
-pwdQsoOpoJOmZHf8mcLB2t+99qAzBbZepOnQ1bw7iNo58q4SMXqTki5geomJ+JDs
-wxFOqWQb8B+0Fw8J3VHS3X/j2KIRs9hEnl5qD+Z8g3CPZBlqpmo=
-=u05R
------END PGP SIGNATURE-----
-
---wRRV7LY7NUeQGEoC--
