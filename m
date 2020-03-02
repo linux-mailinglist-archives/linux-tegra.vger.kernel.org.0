@@ -2,90 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 729AF175530
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2020 09:05:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1037175CAA
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2020 15:14:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727170AbgCBIFM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Mar 2020 03:05:12 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:33908 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727096AbgCBIFM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Mar 2020 03:05:12 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0227wOOb149101;
-        Mon, 2 Mar 2020 08:05:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=xo9yVA9MFeivUjBm7ee0vURjQ/8/4ytOphKAYNZ/MC4=;
- b=ngNzwZJIAm8hXx+y2m3F1lQghdAR+vCrzjpXcbHgn9w9DOcXCJUx38zWkeSq/9ubBu2Q
- IqKP2pZ6emZXoxwPWoRAzlSfyuUY2E4XPR7/dv3YHwDK0SSWH2FoOYfXZjUegzCunk2T
- kRLzxVkoTwavOFRzw0+iupBU3oxkyooK76s6yfOZLOVRCIL/g8X1keqL1ZXgka6pY1Se
- uirI9FS2/hRTSGw6dioRrcY5GJJv3NR4MW4U57z5Ccs+GdtLbApfwdGsnnKO9wSvqlcK
- dpGGI0igyH5mbo8pnvsxbwVOcPkvhViiA+hgBj8pjPNpesOD3i9ukOrX6OXcW6WyemeT aQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 2yffwqe1r7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 02 Mar 2020 08:05:06 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0227uvHh112305;
-        Mon, 2 Mar 2020 08:05:06 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 2yg1gugu13-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 02 Mar 2020 08:05:06 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 022855sT009362;
-        Mon, 2 Mar 2020 08:05:05 GMT
-Received: from kadam (/41.210.147.242)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 02 Mar 2020 00:05:04 -0800
-Date:   Mon, 2 Mar 2020 11:04:56 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v1] media: staging: tegra-vde: Use
- devm_platform_ioremap_resource_byname()
-Message-ID: <20200302080456.GD4140@kadam>
-References: <20200227180915.9541-1-digetx@gmail.com>
+        id S1726925AbgCBOOe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Mar 2020 09:14:34 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6298 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726884AbgCBOOe (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Mar 2020 09:14:34 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e5d14bc0000>; Mon, 02 Mar 2020 06:14:20 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 02 Mar 2020 06:14:33 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 02 Mar 2020 06:14:33 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 2 Mar
+ 2020 14:14:33 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 2 Mar 2020 14:14:33 +0000
+Received: from thunderball.nvidia.com (Not Verified[10.21.140.91]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e5d14c70003>; Mon, 02 Mar 2020 06:14:32 -0800
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH V2] regulator: pwm: Don't warn on probe deferral
+Date:   Mon, 2 Mar 2020 14:14:28 +0000
+Message-ID: <20200302141428.14119-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200227180915.9541-1-digetx@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9547 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003020060
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9547 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 spamscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- phishscore=0 clxscore=1011 bulkscore=0 adultscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003020060
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1583158460; bh=0GatP6vVf/seOlgH+tfmFyiVZODDdF0j2nUvSd2GwHU=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=T9+3w88XNgfhfSvSGfpdhaifYMwZ8orawBGaaKlHYKNYnAXqoUS0OJgQY6JlCLbTt
+         Jf/6IcaD1OOChMycsXp0ICSct1vjmhIuMWfWYV3LRyrHkJEkhdsViqY34HiSwf56yg
+         ORZU+x+sZI1VpK0WHgbJRLqGpZkgSvtRKdc56H4mmWjCxJMC7b44QpWO53/8vZG5D4
+         AlkTwe6eJNO1Z7MaK2epDSlDSoJkzL+5RlEfwAKE2HChW28eVSS1p6F7Oo2VR1OTwq
+         xrC3LMst2HZP7OfP68rW8US6VCSvAKyAsI6cfIYWpku1UTZ0gpiOApYz0tXIVRriPH
+         RfyPb8BoaLXiw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 09:09:15PM +0300, Dmitry Osipenko wrote:
-> This helps to make code cleaner a tad.
+Deferred probe is an expected return value for devm_pwm_get(). Given
+that the driver deals with it properly, rather than warn on probe
+deferral, only output a message on probe deferral if debug level
+prints are enabled.
 
-Please don't start the commit message in the middle of a sentence.
-It looks like this for some of us:
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+Changes since V1:
+- Update change to add a debug print for probe deferral
 
-https://marc.info/?l=linux-driver-devel&m=158282701430176&w=2
+ drivers/regulator/pwm-regulator.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-I generally read the subject or the full commit message but seldom
-both.
+diff --git a/drivers/regulator/pwm-regulator.c b/drivers/regulator/pwm-regulator.c
+index e74e11101fc1..638329bd0745 100644
+--- a/drivers/regulator/pwm-regulator.c
++++ b/drivers/regulator/pwm-regulator.c
+@@ -354,7 +354,11 @@ static int pwm_regulator_probe(struct platform_device *pdev)
+ 	drvdata->pwm = devm_pwm_get(&pdev->dev, NULL);
+ 	if (IS_ERR(drvdata->pwm)) {
+ 		ret = PTR_ERR(drvdata->pwm);
+-		dev_err(&pdev->dev, "Failed to get PWM: %d\n", ret);
++		if (ret == -EPROBE_DEFER)
++			dev_dbg(&pdev->dev,
++				"Failed to get PWM, deferring probe\n");
++		else
++			dev_err(&pdev->dev, "Failed to get PWM: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-- 
+2.17.1
 
-Otherwise the patch looks very good.
-
-regards,
-dan carpenter
