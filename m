@@ -2,117 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60C711750E1
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2020 00:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 729AF175530
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2020 09:05:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbgCAXJO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 1 Mar 2020 18:09:14 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42355 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726050AbgCAXJN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 1 Mar 2020 18:09:13 -0500
-Received: by mail-lj1-f195.google.com with SMTP id d10so9650226ljl.9;
-        Sun, 01 Mar 2020 15:09:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Iq/KgsrwSxvpby2goIRSH5cRmhkTMkp2al5Cysx8Mb8=;
-        b=sxTPbIe4c0Af60ar6aopox61tDGdoAuteIgqFp7R5KXi86Vy1mfYhYNHGsK14ibx3a
-         mcMFmdbVr7glbJp7SCAeuMCo6reqCCND/4iXa2mqVx4u3dob92i6T/iQ3BthiNKhcFAt
-         Vjpg/Fqx5zZp4gBvqmr5YZv6N/iIhSxMNQjUGLbZPFNZCFxIcInoMtXoKT9hmdben2lV
-         wRWSl/rgp4Ex+aijp7Wl7zGPIEUfYYKfdiSnOIS2hoZLB9lbmeGHZuf3B83sKOfBdKqZ
-         E5tc0YE9L59eEy6QLd5bGrnexepaa+S91WaccPZwuNj3jpRmtAuvtH4n9Fx9aGuRRHij
-         OkMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Iq/KgsrwSxvpby2goIRSH5cRmhkTMkp2al5Cysx8Mb8=;
-        b=m2f6xhH/rzk3TVkpBOg2dpHUTKcv/6d8WkbJ+JANYlxSeaSiKRMapzX1g8lvrmD3tg
-         NwGjp7PzklEtyJOCZlrnanCOa4WNVRDSDNg0c1uCKM78O0DfhkbB/vS6kO72umrjHMzd
-         IRAQA3MBHFIHKnv5AUx0HarGIwbzVVXQ1VEttbrPov/sxee7RD1VQ13qKL1UO55qJDrM
-         G7a2fnPjEKIm3kyOQDb10qz0Om5v6fiQGAGtfCBsyOdGI48KLh5pH0AiB3n9xY1XkMsZ
-         3r22/FbpKdCXLKrQniv13aUB4RtyEOqXaUsUaZJOIxjfwJWAqowldI3IHcCeETxqeCoq
-         SC/Q==
-X-Gm-Message-State: ANhLgQ3HqFPaiiFHiLPBSxFGu1OO1K2TI6Q2HIUN76IqvJpuIZpQJ/Cv
-        jR9d3nEC2PqXnJ7Upy3McCaUGEz/
-X-Google-Smtp-Source: ADFU+vvVUAThE91+zafUv8AYR5mKTxcSsZQoMmBQquYfQex92iJVJ4aUm5nQ5wDKyofWYP7XnhhrXg==
-X-Received: by 2002:a2e:8490:: with SMTP id b16mr9849000ljh.282.1583104151055;
-        Sun, 01 Mar 2020 15:09:11 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id f14sm9401803lfh.40.2020.03.01.15.09.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Mar 2020 15:09:09 -0800 (PST)
-Subject: Re: [PATCH v1 1/3] mmc: core: Add raw_boot_mult field to mmc_ext_csd
-To:     Avri Altman <Avri.Altman@wdc.com>, Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        id S1727170AbgCBIFM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Mar 2020 03:05:12 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:33908 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727096AbgCBIFM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Mar 2020 03:05:12 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0227wOOb149101;
+        Mon, 2 Mar 2020 08:05:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=xo9yVA9MFeivUjBm7ee0vURjQ/8/4ytOphKAYNZ/MC4=;
+ b=ngNzwZJIAm8hXx+y2m3F1lQghdAR+vCrzjpXcbHgn9w9DOcXCJUx38zWkeSq/9ubBu2Q
+ IqKP2pZ6emZXoxwPWoRAzlSfyuUY2E4XPR7/dv3YHwDK0SSWH2FoOYfXZjUegzCunk2T
+ kRLzxVkoTwavOFRzw0+iupBU3oxkyooK76s6yfOZLOVRCIL/g8X1keqL1ZXgka6pY1Se
+ uirI9FS2/hRTSGw6dioRrcY5GJJv3NR4MW4U57z5Ccs+GdtLbApfwdGsnnKO9wSvqlcK
+ dpGGI0igyH5mbo8pnvsxbwVOcPkvhViiA+hgBj8pjPNpesOD3i9ukOrX6OXcW6WyemeT aQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 2yffwqe1r7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 02 Mar 2020 08:05:06 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0227uvHh112305;
+        Mon, 2 Mar 2020 08:05:06 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2yg1gugu13-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 02 Mar 2020 08:05:06 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 022855sT009362;
+        Mon, 2 Mar 2020 08:05:05 GMT
+Received: from kadam (/41.210.147.242)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 02 Mar 2020 00:05:04 -0800
+Date:   Mon, 2 Mar 2020 11:04:56 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Billy Laws <blaws05@gmail.com>
-Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        Andrey Danin <danindrey@mail.ru>,
-        Gilles Grandou <gilles@grandou.net>,
-        Ryan Grachek <ryan@edited.us>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20200224231841.26550-1-digetx@gmail.com>
- <20200224231841.26550-2-digetx@gmail.com>
- <MN2PR04MB699121991FCB80BE39FC106FFCE60@MN2PR04MB6991.namprd04.prod.outlook.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0fb5f6ec-8aa0-3bc8-e6cc-8e061c401839@gmail.com>
-Date:   Mon, 2 Mar 2020 02:09:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1] media: staging: tegra-vde: Use
+ devm_platform_ioremap_resource_byname()
+Message-ID: <20200302080456.GD4140@kadam>
+References: <20200227180915.9541-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <MN2PR04MB699121991FCB80BE39FC106FFCE60@MN2PR04MB6991.namprd04.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200227180915.9541-1-digetx@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9547 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003020060
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9547 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ phishscore=0 clxscore=1011 bulkscore=0 adultscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003020060
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-01.03.2020 13:50, Avri Altman пишет:
-> Hi,
->>
->>
->> In order to support parsing of NVIDIA Tegra Partition Table format, we
->> need to know the BOOT_SIZE_MULT value of the Extended CSD register
->> because
->> NVIDIA's bootloader linearizes the boot0/boot1/main partitions into a
->> single virtual space, and thus, all partition addresses are shifted by
->> the size of boot0 + boot1 partitions.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/mmc/core/mmc.c   | 2 ++
->>  include/linux/mmc/card.h | 1 +
->>  2 files changed, 3 insertions(+)
->>
->> diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
->> index f6912ded652d..88e5b4224d3c 100644
->> --- a/drivers/mmc/core/mmc.c
->> +++ b/drivers/mmc/core/mmc.c
->> @@ -417,6 +417,8 @@ static int mmc_decode_ext_csd(struct mmc_card
->> *card, u8 *ext_csd)
->>                 ext_csd[EXT_CSD_ERASE_TIMEOUT_MULT];
->>         card->ext_csd.raw_hc_erase_grp_size =
->>                 ext_csd[EXT_CSD_HC_ERASE_GRP_SIZE];
->> +       card->ext_csd.raw_boot_mult =
->> +               ext_csd[EXT_CSD_BOOT_MULT];
-> You might want at this point multiply it by 128K,
-> And get rid of: part_size = ext_csd[EXT_CSD_BOOT_MULT] << 17;
-> Below...
+On Thu, Feb 27, 2020 at 09:09:15PM +0300, Dmitry Osipenko wrote:
+> This helps to make code cleaner a tad.
 
-But it's not a *raw* _boot_mult anymore then. I'm not sure that it will
-be a worthwhile change.
+Please don't start the commit message in the middle of a sentence.
+It looks like this for some of us:
+
+https://marc.info/?l=linux-driver-devel&m=158282701430176&w=2
+
+I generally read the subject or the full commit message but seldom
+both.
+
+Otherwise the patch looks very good.
+
+regards,
+dan carpenter
