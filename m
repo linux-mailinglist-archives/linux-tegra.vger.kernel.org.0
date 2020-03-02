@@ -2,59 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7F05176108
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2020 18:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A8B176122
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Mar 2020 18:35:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727159AbgCBRaO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Mar 2020 12:30:14 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:38397 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726997AbgCBRaO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Mar 2020 12:30:14 -0500
-Received: by mail-lf1-f66.google.com with SMTP id w22so219786lfk.5;
-        Mon, 02 Mar 2020 09:30:12 -0800 (PST)
+        id S1727159AbgCBRfm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Mar 2020 12:35:42 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39351 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726997AbgCBRfm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Mar 2020 12:35:42 -0500
+Received: by mail-lf1-f65.google.com with SMTP id n30so230588lfh.6;
+        Mon, 02 Mar 2020 09:35:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1QsztcmRjjgnJkOwfQvCXGGMgGg2RrrK0NJ3VxHJW/4=;
-        b=fVHwvRCaCsXbRecBGXejJLb9N7iPAYXucEDy9h+xLbtB1kYFM/arTyVHUSdqN49v+k
-         mC1SgQidUbZWF3u4Yv9X18OlFPELK5uKQvBvkJ/jZtTVnk2P1BKiOiDV12m6CkFaqXvE
-         Og1gOVR40k3rjrYfS8ScMZUM5rW8r+SqJMyPNYzGYOk3BDRd5q+P6Sor0RZfqEr+giQj
-         1OIvwm80w+An8IZOC4b7tm0/EeNBOi6RZ6cQL89JOLLKlqGD2da5tZY9ljXJZGAcJs8Y
-         PXqS1/mYD7vPk08JC4M/Cpz1LRLAZlXRBH20n0Ys3ZXdFUf/48jaW9bwXu10pX7gNMc6
-         HIkg==
+        bh=+Ye8JOMYu3KUEXBI9a+PVBJSVB7KxcW9KKrC8f1zJ54=;
+        b=upJzOjhy2lmZxP8hF0aSUpHPT2GOtAEt6zE+bWnSG8tiy++hsjpnb9IQ+Ej3uAkWmz
+         oidV/ihLP2ybcvf7eDhIe1XTpIqfux/6tL/jQo7p6/8bJtUcsNhD++wV3wntbflRjpwt
+         aaIQ4fbY+AExrfOY9kpydmvdEJoLx/gpGXdzbMzoxS/A6rRCL/olqoZtCsbaF+Le6OC0
+         h4fk4tojHsMItBo+5Qny+aC2ScsYamcl6mDFlR8y1XSm36cu092AC3XfjdM3iV98Falq
+         USmRq5GznBBWLmsE3+gqMeXrY1/VQnARfM6BrGbHZBeFYyC6Qu/WLEkqo4IHnhGr8jFV
+         T0Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1QsztcmRjjgnJkOwfQvCXGGMgGg2RrrK0NJ3VxHJW/4=;
-        b=Kxc13uDjxV4DHO6c+M7bGRQYPUN6CYjTAWdeBt0cmqIERmsjYbzgnmuTUMJ9LgK1dr
-         wqTDhISS4la8AnMtLtN+4THXI4JE7QO187jpU/X3ukJUXoYEdcsrwLjO1LzA9jAEZujI
-         U0HZJmEQcCYeqHEZb/VxL28QxZYjZxyAhel3wL3GQEmcAypvgoiTGM/ENaHWplRVw6zZ
-         dNQ0Xp3fe9dXLIcziVtGOpuBC816l9x6k7P3TYgm12IRTwie8+a3u7GUNzT4ZpDhsKex
-         trqGPkYzYsUtVMmENisaQRtPggqdxV5L5hjiqMiiXy37yTZvyJ3oPVuS0scezDoJSBUJ
-         fNNA==
-X-Gm-Message-State: ANhLgQ1quiK65YWsNoBKiGsBrHHyd2pCJumhes9gLBsw0VpTYrS3ASP/
-        AquUXC7zpq7mavqE3HPmxpUtSqy2
-X-Google-Smtp-Source: ADFU+vu0WpY1vxz5eZrr5DPZTQLOQlXDg86e3wFne7IsFgMqj6l6i7kxQRcftfKXZUNBC0C+UGMWVQ==
-X-Received: by 2002:a19:fc18:: with SMTP id a24mr119917lfi.208.1583170212061;
-        Mon, 02 Mar 2020 09:30:12 -0800 (PST)
+        bh=+Ye8JOMYu3KUEXBI9a+PVBJSVB7KxcW9KKrC8f1zJ54=;
+        b=r9OWGW4ZNODuYeR0NwWMkM4oRdQyYlalBMXDx6jX7f8R3o5tVg7caLbCm4pCoZmmuh
+         +hYFCm/2QbQftlAZnyr4YogHJQ7UpHQPPEJYenHIERIZiopuUoiXK4QOVWrfFmm7qVSO
+         5kSq2Y7cDWkZc8/iav97QIHI/sAaZt8GKF3YSB1rZi88Sc/5j5lqF//k+Qhab65mE8yp
+         cBnGVn8IWBkGg33CfbVb10ZtYUN1v2NMpClmizzMH94/dKMf16acpSbzNGakfMlgWaVU
+         l08RGReq/rA/b8+M9MOUJCJwGZy/eg7Hc1rF4XIEByK4nAbbMq+R88WTCzq2iqzj8yvg
+         2TeQ==
+X-Gm-Message-State: ANhLgQ1Pc+MrkJs3SS09o+7ZK3l7NTv7rn5/6xwxLaQoQhsGy+GW7B4K
+        rENic2WRKyzGyzCbAtFnoQZmsCJU
+X-Google-Smtp-Source: ADFU+vvBvSsw+grH09drAKkAsqMI2RyWtkWYoGftLUpOYmEd3fzMzeIjfNxKWlIxUhVItQb3hNwH5A==
+X-Received: by 2002:a19:230d:: with SMTP id j13mr111585lfj.189.1583170539899;
+        Mon, 02 Mar 2020 09:35:39 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id e8sm12734113lfc.18.2020.03.02.09.30.10
+        by smtp.gmail.com with ESMTPSA id u6sm1534403lff.35.2020.03.02.09.35.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 09:30:11 -0800 (PST)
+        Mon, 02 Mar 2020 09:35:39 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: staging: tegra-vde: Use devm_platform_ioremap_resource_byname()
-Date:   Mon,  2 Mar 2020 20:29:04 +0300
-Message-Id: <20200302172904.460-1-digetx@gmail.com>
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] i2c: tegra: Make timeout error more informative
+Date:   Mon,  2 Mar 2020 20:35:12 +0300
+Message-Id: <20200302173512.2743-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,119 +62,29 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-There is a new devm_platform_ioremap_resource_byname() helper in the
-kernel now, which helps to make code cleaner a tad by replacing few
-"boilerplate" lines of code with a single line. Let's utilize that
-new helper in the VDE driver.
+The I2C timeout error message doesn't tell us what exactly failed and some
+I2C client drivers do not clarify the error either. Adding WARN_ON_ONCE()
+results in a stacktrace being dumped into KMSG, which is very useful for
+debugging purposes.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
+ drivers/i2c/busses/i2c-tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changelog:
-
-v2: Updated commit's message to make it more informative, as was requested
-    by Dan Carpenter in the review comment to v1.
-
- drivers/staging/media/tegra-vde/vde.c | 55 +++++----------------------
- 1 file changed, 9 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index e18fd48981da..d3e63512a765 100644
---- a/drivers/staging/media/tegra-vde/vde.c
-+++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -949,7 +949,6 @@ static int tegra_vde_runtime_resume(struct device *dev)
- static int tegra_vde_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct resource *regs;
- 	struct tegra_vde *vde;
- 	int irq, err;
+diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+index cbc2ad49043e..b2bb19e05248 100644
+--- a/drivers/i2c/busses/i2c-tegra.c
++++ b/drivers/i2c/busses/i2c-tegra.c
+@@ -1245,7 +1245,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
  
-@@ -959,75 +958,39 @@ static int tegra_vde_probe(struct platform_device *pdev)
+ 	tegra_i2c_mask_irq(i2c_dev, int_mask);
  
- 	platform_set_drvdata(pdev, vde);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "sxe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->sxe = devm_ioremap_resource(dev, regs);
-+	vde->sxe = devm_platform_ioremap_resource_byname(pdev, "sxe");
- 	if (IS_ERR(vde->sxe))
- 		return PTR_ERR(vde->sxe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "bsev");
--	if (!regs)
--		return -ENODEV;
--
--	vde->bsev = devm_ioremap_resource(dev, regs);
-+	vde->bsev = devm_platform_ioremap_resource_byname(pdev, "bsev");
- 	if (IS_ERR(vde->bsev))
- 		return PTR_ERR(vde->bsev);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mbe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->mbe = devm_ioremap_resource(dev, regs);
-+	vde->mbe = devm_platform_ioremap_resource_byname(pdev, "mbe");
- 	if (IS_ERR(vde->mbe))
- 		return PTR_ERR(vde->mbe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ppe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->ppe = devm_ioremap_resource(dev, regs);
-+	vde->ppe = devm_platform_ioremap_resource_byname(pdev, "ppe");
- 	if (IS_ERR(vde->ppe))
- 		return PTR_ERR(vde->ppe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mce");
--	if (!regs)
--		return -ENODEV;
--
--	vde->mce = devm_ioremap_resource(dev, regs);
-+	vde->mce = devm_platform_ioremap_resource_byname(pdev, "mce");
- 	if (IS_ERR(vde->mce))
- 		return PTR_ERR(vde->mce);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tfe");
--	if (!regs)
--		return -ENODEV;
--
--	vde->tfe = devm_ioremap_resource(dev, regs);
-+	vde->tfe = devm_platform_ioremap_resource_byname(pdev, "tfe");
- 	if (IS_ERR(vde->tfe))
- 		return PTR_ERR(vde->tfe);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ppb");
--	if (!regs)
--		return -ENODEV;
--
--	vde->ppb = devm_ioremap_resource(dev, regs);
-+	vde->ppb = devm_platform_ioremap_resource_byname(pdev, "ppb");
- 	if (IS_ERR(vde->ppb))
- 		return PTR_ERR(vde->ppb);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "vdma");
--	if (!regs)
--		return -ENODEV;
--
--	vde->vdma = devm_ioremap_resource(dev, regs);
-+	vde->vdma = devm_platform_ioremap_resource_byname(pdev, "vdma");
- 	if (IS_ERR(vde->vdma))
- 		return PTR_ERR(vde->vdma);
- 
--	regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "frameid");
--	if (!regs)
--		return -ENODEV;
--
--	vde->frameid = devm_ioremap_resource(dev, regs);
-+	vde->frameid = devm_platform_ioremap_resource_byname(pdev, "frameid");
- 	if (IS_ERR(vde->frameid))
- 		return PTR_ERR(vde->frameid);
- 
+-	if (time_left == 0) {
++	if (WARN_ON_ONCE(time_left == 0)) {
+ 		dev_err(i2c_dev->dev, "i2c transfer timed out\n");
+ 		tegra_i2c_init(i2c_dev, true);
+ 		return -ETIMEDOUT;
 -- 
 2.25.1
 
