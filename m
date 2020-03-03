@@ -2,130 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CE59178232
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2020 20:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C73817853D
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2020 23:10:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731743AbgCCSOH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Mar 2020 13:14:07 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7598 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731646AbgCCSOG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Mar 2020 13:14:06 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e5e9e450000>; Tue, 03 Mar 2020 10:13:25 -0800
+        id S1727198AbgCCWKb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Mar 2020 17:10:31 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1946 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727026AbgCCWKb (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Mar 2020 17:10:31 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e5ed5820002>; Tue, 03 Mar 2020 14:09:06 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 03 Mar 2020 10:14:06 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 03 Mar 2020 14:10:30 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 03 Mar 2020 10:14:06 -0800
-Received: from [10.25.75.175] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 03 Mar 2020 14:10:30 -0800
+Received: from [10.26.11.142] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Mar
- 2020 18:14:01 +0000
-Subject: Re: [PATCH V4 0/5] Add support for PCIe endpoint mode in Tegra194
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <andrew.murray@arm.com>, <kishon@ti.com>,
-        <gustavo.pimentel@synopsys.com>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20200303105418.2840-1-vidyas@nvidia.com>
- <20200303170103.GA9641@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <d1e3a42f-c179-fd03-fac0-7cd449580e5b@nvidia.com>
-Date:   Tue, 3 Mar 2020 23:43:58 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ 2020 22:10:27 +0000
+Subject: Re: [PATCH 4.19 00/87] 4.19.108-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200303174349.075101355@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <89b83a6d-83e1-f022-7e3a-899cc3eb44b8@nvidia.com>
+Date:   Tue, 3 Mar 2020 22:10:25 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200303170103.GA9641@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+In-Reply-To: <20200303174349.075101355@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1583259205; bh=3LnLpivKc9OM9v6zIN6nnfGAUgWdkTbhy7nEOq/+B0s=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+        t=1583273346; bh=k8kfYBKjflXak5hVHGLW4Lo/HMol0YZZLdnsQW/LMmw=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=B/CFMRuv7JlCYSA0Wkq/F0VWN5UFk8YsJJ7+/5gB9YNb3BHV0EEUhjRvSDFlhPE1+
-         Qzlh1b1H8U5n9iTNleElru4F59pcRXY5ojnQzn277lQ0PXavk+os4CSAZHsXssjK2Z
-         XMbEXXdI+HHCdX5El0mcj9kZTqAJDyoP//b7sXv52C2ZxMJjTKQBUrgjm9ShFosZek
-         mLwUKDWXtWL13U5LU5A2S8ipJtX1bd361lpvufMmPwRKFAv8zdIDJ38Rj+lmRBxjQL
-         PUS9x+kLY/Kfr2FbVOONBTxn8QoYolUksOn2WytXKafC/2/3tcH4qGyz9pMFJdpZgo
-         vuBkUZAx1fn4A==
+        b=ePznjHviJOrM7whqTeUber7Rqa5FFcfzWX58zPzezcx7SsK4QeAwFklSqvXMkbD8b
+         ESK6DZrq1jMwX1U6GwVNV7X8UZZaBsRvjR2ppIpgiEWBYPsidQhGjAAe9jVEGzWQWQ
+         QJO3tgTlaNPRZPNxen+S9RBhrYIS3KUTTTyyYy4+tf2iJRgZy1wf2i8XBgBSLkALCv
+         PvnEggF5/o85rCtOwz81Xza9nr1ECzI/uDR5TWE3HL9JBj+YzbYEpJ8J6Z5a48ltJR
+         AmPhgtTwvcRwPmMCICxaOeqlpNvuO5ifASU7B66Pl0cdfmNmr+3zDCuklg8t+8GGMd
+         ya84zZIlkmO8g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+On 03/03/2020 17:42, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.108 release.
+> There are 87 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu, 05 Mar 2020 17:43:27 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.108-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-On 3/3/2020 10:31 PM, Lorenzo Pieralisi wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> On Tue, Mar 03, 2020 at 04:24:13PM +0530, Vidya Sagar wrote:
->> Tegra194 has three (C0, C4 & C5) dual mode PCIe controllers that can operate
->> either in root port mode or in end point mode but only in one mode at a time.
->> Platform P2972-0000 supports enabling endpoint mode for C5 controller. This
->> patch series adds support for PCIe endpoint mode in both the driver as well as
->> in DT.
->> This patch series depends on the changes made for Synopsys DesignWare endpoint
->> mode subsystem that are recently accepted.
->> @ https://patchwork.kernel.org/project/linux-pci/list/?series=202211
->> which in turn depends on the patch made by Kishon
->> @ https://patchwork.kernel.org/patch/10975123/
->> which is also under review.
->>
->> V4:
->> * Started using threaded irqs instead of kthreads
-> 
-> Hi Vidya,
-> 
-> sorry for the bother, may I ask you to rebase the series (after
-> answering Thierry's query) on top of my pci/endpoint branch please ?
-> 
-> Please resend it and I will merge patches {1,2,5} then.
-Sure.
-I just sent V5 series rebasing patches on top of your pci/endpoint branch.
+All tests passing for Tegra ...
 
-Thanks,
-Vidya Sagar
-> 
-> Thanks,
-> Lorenzo
-> 
->> V3:
->> * Re-ordered patches in the series to make the driver change as the last patch
->> * Took care of Thierry's review comments
->>
->> V2:
->> * Addressed Thierry & Bjorn's review comments
->> * Added EP mode specific binding documentation to already existing binding documentation file
->> * Removed patch that enables GPIO controller nodes explicitly as they are enabled already
->>
->> Vidya Sagar (5):
->>    soc/tegra: bpmp: Update ABI header
->>    dt-bindings: PCI: tegra: Add DT support for PCIe EP nodes in Tegra194
->>    arm64: tegra: Add PCIe endpoint controllers nodes for Tegra194
->>    arm64: tegra: Add support for PCIe endpoint mode in P2972-0000
->>      platform
->>    PCI: tegra: Add support for PCIe endpoint mode in Tegra194
->>
->>   .../bindings/pci/nvidia,tegra194-pcie.txt     | 125 +++-
->>   .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  18 +
->>   arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  99 +++
->>   drivers/pci/controller/dwc/Kconfig            |  30 +-
->>   drivers/pci/controller/dwc/pcie-tegra194.c    | 681 +++++++++++++++++-
->>   include/soc/tegra/bpmp-abi.h                  |  10 +-
->>   6 files changed, 918 insertions(+), 45 deletions(-)
->>
->> --
->> 2.17.1
->>
+Test results for stable-v4.19:
+    11 builds:	11 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
+
+Linux version:	4.19.108-rc1-g619f84afab6a
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
