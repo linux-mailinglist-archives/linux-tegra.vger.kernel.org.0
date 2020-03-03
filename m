@@ -2,78 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D9D17799B
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2020 15:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2B481779D7
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Mar 2020 16:02:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729221AbgCCOwN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Mar 2020 09:52:13 -0500
-Received: from mail-lf1-f41.google.com ([209.85.167.41]:35194 "EHLO
-        mail-lf1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729138AbgCCOwN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Mar 2020 09:52:13 -0500
-Received: by mail-lf1-f41.google.com with SMTP id z9so3013277lfa.2;
-        Tue, 03 Mar 2020 06:52:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YSesgEwKuIBfRjb3D6rghMgTaq2QLhVxxb+yvFprsHU=;
-        b=N9/JqnZo39MgJ7UX+Yc1KAct18f+YcXWyJAE3ApycATyPTtF7RgVKrXa83f6+2Bq7d
-         L8Z12akelacBMh0bc7uF8beWJUD19foqto6e+VJIIhKV72D3bnB+20Nna/TWtOKanzBl
-         LCnWP4W6W7msmSTj5rh8pehEEmT4n5oPnPG8XxfxEWp/tpZ7059Ae6LLiCqdaVQJHaNI
-         j+Z4U1uFeYtXqEPPDavjKhrn+otqHkncSq+tdobkNEKhlaeADZOnZthQbato8RLX4yB8
-         FW6EPxoutKio9w3A5StQUgozmvyVjW6NAJit3tpxR3QZayUkKLEB13THJrZjbLPo7444
-         nRog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YSesgEwKuIBfRjb3D6rghMgTaq2QLhVxxb+yvFprsHU=;
-        b=tzaLx5T7s8tPfI+Hqd10PoisiSyGEoU60pKzzhW6XH84241lkqDnT/Ms7hzOqYRulq
-         mvMjgZwwJ3A31xNGMKYxCYalMYcobNCf/IRxy1LwTKXitaPcKUnpsterP5ebkdkbYdVf
-         6aFy3GTq7MBKEFBwK1OY4JPeLzkoh7G8YcW9TfYyKs991y1dfEGudTn61ltiyiyE7Ac+
-         JJdsHzM5joTlJo2HddAf7XLWzgPLpXfqDhjQ1/tRuhr3AZp94ovg7dXCGrq5R40izKME
-         s+Lfb6FUAuOlbzB2vkS4Q9+rxIdyKibdzYzTEdguXPSVFJUfzBetDrXDj57NIrWbSVb7
-         vfbA==
-X-Gm-Message-State: ANhLgQ2/WbR9twXMW3DPzz1mXaNFGWSiVkTiB6r/UHtRUtcgjGkdQJgD
-        ByVSkRxIEOIOeypcuR/4ltP18Vl2
-X-Google-Smtp-Source: ADFU+vt+Hda+OcEsW87pxEsFqBcqlkHXCcQzYKTyKxjdeDZNADrgVxUP8SzNLJpKFRCEfBtF4gBglQ==
-X-Received: by 2002:ac2:4911:: with SMTP id n17mr3069057lfi.79.1583247129730;
-        Tue, 03 Mar 2020 06:52:09 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id i5sm13008574ljj.29.2020.03.03.06.52.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2020 06:52:08 -0800 (PST)
-Subject: Re: [PATCH v2] media: staging: tegra-vde: Use
- devm_platform_ioremap_resource_byname()
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-References: <20200302172904.460-1-digetx@gmail.com>
- <20200303073134.GF4118@kadam>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0e4c875b-e859-2621-9252-dbd6a69d244c@gmail.com>
-Date:   Tue, 3 Mar 2020 17:52:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728306AbgCCPCS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Mar 2020 10:02:18 -0500
+Received: from foss.arm.com ([217.140.110.172]:48366 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728183AbgCCPCS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 3 Mar 2020 10:02:18 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49A8AFEC;
+        Tue,  3 Mar 2020 07:02:17 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DE6E3F6C4;
+        Tue,  3 Mar 2020 07:02:15 -0800 (PST)
+Date:   Tue, 3 Mar 2020 15:02:09 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Vidya Sagar <vidyas@nvidia.com>, bhelgaas@google.com,
+        robh+dt@kernel.org, jonathanh@nvidia.com, andrew.murray@arm.com,
+        kishon@ti.com, gustavo.pimentel@synopsys.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V4 0/5] Add support for PCIe endpoint mode in Tegra194
+Message-ID: <20200303150209.GA6334@e121166-lin.cambridge.arm.com>
+References: <20200303105418.2840-1-vidyas@nvidia.com>
+ <20200303134053.GC2854899@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20200303073134.GF4118@kadam>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200303134053.GC2854899@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.03.2020 10:31, Dan Carpenter пишет:
-> Thanks!
+On Tue, Mar 03, 2020 at 02:40:53PM +0100, Thierry Reding wrote:
+> On Tue, Mar 03, 2020 at 04:24:13PM +0530, Vidya Sagar wrote:
+> > Tegra194 has three (C0, C4 & C5) dual mode PCIe controllers that can operate
+> > either in root port mode or in end point mode but only in one mode at a time.
+> > Platform P2972-0000 supports enabling endpoint mode for C5 controller. This
+> > patch series adds support for PCIe endpoint mode in both the driver as well as
+> > in DT.
+> > This patch series depends on the changes made for Synopsys DesignWare endpoint
+> > mode subsystem that are recently accepted.
+> > @ https://patchwork.kernel.org/project/linux-pci/list/?series=202211
+> > which in turn depends on the patch made by Kishon
+> > @ https://patchwork.kernel.org/patch/10975123/
+> > which is also under review.
+> > 
+> > V4:
+> > * Started using threaded irqs instead of kthreads
+> > 
+> > V3:
+> > * Re-ordered patches in the series to make the driver change as the last patch
+> > * Took care of Thierry's review comments
+> > 
+> > V2:
+> > * Addressed Thierry & Bjorn's review comments
+> > * Added EP mode specific binding documentation to already existing binding documentation file
+> > * Removed patch that enables GPIO controller nodes explicitly as they are enabled already
+> > 
+> > Vidya Sagar (5):
+> >   soc/tegra: bpmp: Update ABI header
+> >   dt-bindings: PCI: tegra: Add DT support for PCIe EP nodes in Tegra194
+> >   arm64: tegra: Add PCIe endpoint controllers nodes for Tegra194
+> >   arm64: tegra: Add support for PCIe endpoint mode in P2972-0000
+> >     platform
+> >   PCI: tegra: Add support for PCIe endpoint mode in Tegra194
 > 
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Hi Lorenzo,
+> 
+> I've acked patches 1, 2 and 5 of the series. I think you're going to
+> need to apply patch 1 in order to satisfy a build-time dependency from
+> patch 5. I can apply patches 3 and 4 to the Tegra tree since they're
+> only adding device tree content that may conflict with some other
+> patches that I have in the Tegra tree.
+> 
+> Does that sound reasonable?
 
-Awesome, thank you :)
+Sure, that's absolutely fine by me, I will do.
+
+Thanks,
+Lorenzo
