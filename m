@@ -2,79 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36060179658
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Mar 2020 18:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1DD11798FC
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Mar 2020 20:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729766AbgCDRJU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Mar 2020 12:09:20 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:38906 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726915AbgCDRJU (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Mar 2020 12:09:20 -0500
-Received: by mail-lf1-f65.google.com with SMTP id x22so2138748lff.5;
-        Wed, 04 Mar 2020 09:09:18 -0800 (PST)
+        id S1728599AbgCDT05 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Mar 2020 14:26:57 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43381 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726440AbgCDT05 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Mar 2020 14:26:57 -0500
+Received: by mail-lj1-f196.google.com with SMTP id e3so3314824lja.10;
+        Wed, 04 Mar 2020 11:26:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yBZl3/9H7qG9t1GNuyPAhwaMbhvgRw8oAIP4mrCDQgs=;
-        b=rIcS+2ejqyuy3Or/TxDzvhbS0RjAO9grbala4uKp9TkZwSL/5Viw5A9kGIV5D2BKbx
-         AxY/ZqCamkTU2MUinGOxrxqa1N+/wZWi5RdlUUdyMIw5Vd8BmAEpf9r81qddGJqWztif
-         T/1GRWfoq1fm5/NQhGQmO/vxc0LgrHSwmD8a+ODGMMrNK+aztcl64OTnt4DxQ+0u8WEP
-         e7Tr7n5Y+IyiWefPikWfQJoOHbGNb3jXhRNu1dn8lX6Aitl1JhY7ED0y9tdil38BYE/N
-         fSConbhm/ZN556D61NU6fh2KQnP32TgPdOomVRvPEqMVlBAWwMuXfUBm/SF/0yxrlP5m
-         1CNg==
+        bh=h9+gXDr2n+K6UTBw+RLqNH196xTwcF81lFAULEwi8EQ=;
+        b=Q8e4s6WJu3XtnXYfQeM77+BGKy+WFz/181sCDmwYsOwoOqes9SXtdpGt8RqV2r6O4+
+         4kI52Fnw3EnW9B5kAAj3RJ8rKxHdW1ufv30xtFzf4EJwuIyD8cWInDlSfc/84cvMLFl6
+         WU7g39Hv5Kqj2xY8daAReOpV1CUJHATElj2VQCkw1b3zs0rbQeeerOQf7QeSYNpI9Sjr
+         Xq2ice4LL1Q7sdh8Yr3Rt+8f1LtRmNWBa4iMlqM1l/tG0MoD7VsUGCAKdP4AEPWKgHih
+         loVDysaIFBFoa7XDIC5OG54wPRzEUbCwxPCyLKzWMHVTqHXZARYBSGhcmY9cuKaKC2av
+         a5pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=yBZl3/9H7qG9t1GNuyPAhwaMbhvgRw8oAIP4mrCDQgs=;
-        b=iWmhNFZ5WxRQEaV1NCy4O0tCp6z3BWSDF8v5Kh14WgfOSmSYXhmRdC2P+/rdZjHMBE
-         yZT1MGqErCtIPHMCa2YIYfvZDvDZpkbZbU9TepYmyDsF+c615eDl6+EZ+wa2cEhz3yVc
-         JzNP/vLEzC0KsNvC7q+Cm6IjKgsphmgSsR330Ayhm9mUjUjazvicrCVUEoiG4AUcp8TJ
-         e/wdyXWDyuZmm5+/E4JypZHLGZN7mba5aKqUCACXs11I19Xm/NCEZWizAWkYqK7xuJFx
-         gudU+1HUis7q7gKYZaBLb2iB4heF0phCQbzHVJqRK45KYR0brPiHJt5Fv6AGwjr/9W0h
-         Ctng==
-X-Gm-Message-State: ANhLgQ3oXGbPQrihcmfXkLdo4DbCfSnf4dHOg33kcuXf5A8ky1q9zv9A
-        thBS9MOD0Oxwm70fUA8Iw2Hst0dG
-X-Google-Smtp-Source: ADFU+vuG3z6ZnGM1bBt/YG1AYECEmQSaA1rt4z0OWiGLEyfUTpo8iXhF1qDr8fpQC9WQIGwBx+ugxQ==
-X-Received: by 2002:ac2:4a84:: with SMTP id l4mr2533938lfp.217.1583341756930;
-        Wed, 04 Mar 2020 09:09:16 -0800 (PST)
+        bh=h9+gXDr2n+K6UTBw+RLqNH196xTwcF81lFAULEwi8EQ=;
+        b=f3tgYN5SNJFmK1FP/ovA9xJ9obv+n8Q/ENzkX6sH+QnuB9CFhgls4ob1ZtuO+R/xvZ
+         C0KhaxFvQKX5L1blZY3GfgARGjVhnDweFzL0jE3SmbSROZ0AHyMcKtws2GgeyGNxXjLn
+         0trDGCAK1DCVrXlrPA8hjjxjumLQ2wi4HNjOxwlPzmC1wHkFhWtJHLyjoQ+O3RZn0zZ8
+         MaXPq2sPzEZPBHyaCmZMqJLMjk/0iWS56pt8CSc8Qzc1bfq8oFYmDzitoyO/7yt8jo8D
+         +ea1ky2X/huizmvpZ+aVbvDvZs9x/NJPKu/8Gvil23WPH9K5ZGziZIzFzL/KQEIzzype
+         Sqsw==
+X-Gm-Message-State: ANhLgQ3YkhgYitse//DNivRNCvIok/tDr7I3FXPm/7HMweimNuGboAjP
+        IG4PbH33x1BbEsOReUfVmuqrofF3
+X-Google-Smtp-Source: ADFU+vtMCiiz/effcIYjUGXEguNi4afmSupjt4869RyrttMpxSVz8amVJRj9+OE3AYZgwUTk81oMzw==
+X-Received: by 2002:a2e:b8d3:: with SMTP id s19mr2882158ljp.222.1583350014666;
+        Wed, 04 Mar 2020 11:26:54 -0800 (PST)
 Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id v15sm13994290lfg.51.2020.03.04.09.09.15
+        by smtp.googlemail.com with ESMTPSA id t7sm14401789ljo.7.2020.03.04.11.26.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2020 09:09:16 -0800 (PST)
-Subject: Re: [PATCH v1 3/3] partitions: Introduce NVIDIA Tegra Partition Table
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Stephen Warren <swarren@wwwdotorg.org>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Billy Laws <blaws05@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Andrey Danin <danindrey@mail.ru>,
-        Gilles Grandou <gilles@grandou.net>,
-        Ryan Grachek <ryan@edited.us>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200224231841.26550-1-digetx@gmail.com>
- <20200224231841.26550-4-digetx@gmail.com>
- <44c22925-a14e-96d0-1f93-1979c0c60525@wwwdotorg.org>
- <CAPDyKFoXnoukjH_2cM=f0DGHBHS6kVUQSYOa_5ffQppC7VOn2A@mail.gmail.com>
+        Wed, 04 Mar 2020 11:26:54 -0800 (PST)
+Subject: Re: [PATCH v8 00/22] Move PMC clocks into Tegra PMC driver
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     jonathanh@nvidia.com, broonie@kernel.org, lgirdwood@gmail.com,
+        perex@perex.cz, tiwai@suse.com, mperttunen@nvidia.com,
+        gregkh@linuxfoundation.org, sboyd@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        spujar@nvidia.com, josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
+ <20200217095940.GE1345979@ulmo>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <824a4d5f-8280-8860-3e80-68188a13aa3d@gmail.com>
-Date:   Wed, 4 Mar 2020 20:09:14 +0300
+Message-ID: <96ed39c9-32d3-98a1-e9d8-ffe63307a556@gmail.com>
+Date:   Wed, 4 Mar 2020 22:26:52 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFoXnoukjH_2cM=f0DGHBHS6kVUQSYOa_5ffQppC7VOn2A@mail.gmail.com>
+In-Reply-To: <20200217095940.GE1345979@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -83,56 +73,39 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-04.03.2020 19:36, Ulf Hansson пишет:
-> On Tue, 25 Feb 2020 at 01:20, Stephen Warren <swarren@wwwdotorg.org> wrote:
->>
->> On 2/24/20 4:18 PM, Dmitry Osipenko wrote:
->>> All NVIDIA Tegra devices use a special partition table format for the
->>> internal storage partitioning. Most of Tegra devices have GPT partition
->>> in addition to TegraPT, but some older Android consumer-grade devices do
->>> not or GPT is placed in a wrong sector, and thus, the TegraPT is needed
->>> in order to support these devices properly in the upstream kernel. This
->>> patch adds support for NVIDIA Tegra Partition Table format that is used
->>> at least by all NVIDIA Tegra20 and Tegra30 devices.
->>
->>> diff --git a/arch/arm/mach-tegra/tegra.c b/arch/arm/mach-tegra/tegra.c
->>
->>> +static void __init tegra_boot_config_table_init(void)
->>> +{
->>> +     void __iomem *bct_base;
->>> +     u16 pt_addr, pt_size;
->>> +
->>> +     bct_base = IO_ADDRESS(TEGRA_IRAM_BASE) + TEGRA_IRAM_BCT_OFFSET;
->>
->> This shouldn't be hard-coded. IIRC, the boot ROM writes a BIT (Boot
->> Information Table) to a fixed location in IRAM, and there's some value
->> in the BIT that points to where the BCT is in IRAM. In practice, it
->> might work out that the BCT is always at the same place in IRAM, but
->> this certainly isn't guaranteed. I think there's code in U-Boot which
->> extracts the BCT location from the BIT? Yes, see
->> arch/arm/mach-tegra/ap.c:get_odmdata().
+17.02.2020 12:59, Thierry Reding пишет:
+...
+> I've applied patches 1-10 and 13-16 to the Tegra tree, but I think it
+> should be fine for Mark to pick up the ASoC patches into his tree,
+> right?
 > 
-> So, have you considered using the command line partition option,
-> rather than adding yet another partition scheme to the kernel?
-> 
-> In principle, you would let the boot loader scan for the partitions,
-> likely from machine specific code in U-boot. Then you append these to
-> the kernel command line and let block/partitions/cmdline.c scan for
-> it.
+> As I mentioned in my reply to patch 20, I think we need to hold off on
+> applying patches 20-22 until all the rest have been merged, otherwise
+> we'll regress.
 
-The bootloader is usually locked-down on a consumer Tegra machines (it's
-signed / encrypted).
+Hello Thierry and Sowjanya,
 
-Technically, it should be possible to chain-load some custom secondary
-bootloader instead of a kernel image, but this is not very practical
-because now:
+I was trying today's next-20200304 and found that WiFi / Bluetooth got
+broken:
 
-1. There is a need to make a custom bootloader and it is quite a lot of
-work.
+[   23.130017] ieee80211 phy0: brcmf_proto_bcdc_query_dcmd:
+brcmf_proto_bcdc_msg failed w/status -110
+[   23.130167] ieee80211 phy0: brcmf_cfg80211_get_channel: chanspec
+failed (-110)
+[   25.690008] ieee80211 phy0: brcmf_proto_bcdc_query_dcmd:
+brcmf_proto_bcdc_msg failed w/status -110
+[   30.811972] ieee80211 phy0: brcmf_dongle_scantime: Scan assoc time
+error (-110)
+[   33.370184] ieee80211 phy0: brcmf_netdev_open: failed to bring up
+cfg80211
+[   35.929994] ieee80211 phy0: brcmf_proto_bcdc_query_dcmd:
+brcmf_proto_bcdc_msg failed w/status -110
+[   35.930181] ieee80211 phy0: brcmf_cfg80211_get_channel: chanspec
+failed (-110)
 
-2. You'll have to tell everybody that a custom booloader may need to be
-used in order to get a working eMMC.
+The fix is to replace TEGRA30_CLK_BLINK with TEGRA_PMC_CLK_BLINK in a
+device-tree.
 
-3. NVIDIA's bootloader already passes a command line parameter to kernel
-for locating GPT entry, but this hack is not acceptable for the upstream
-kernel.
+I'm not sure that the TEGRA30_CLK_BLINK breakage is expected to happen
+because all clk/tegra/ PMC code is still in place. Please take a look,
+thanks in advance.
