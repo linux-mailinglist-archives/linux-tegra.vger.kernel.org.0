@@ -2,107 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6376917948F
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Mar 2020 17:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0F017957D
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Mar 2020 17:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729733AbgCDQKN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Mar 2020 11:10:13 -0500
-Received: from mail-lj1-f170.google.com ([209.85.208.170]:33095 "EHLO
-        mail-lj1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbgCDQKM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Mar 2020 11:10:12 -0500
-Received: by mail-lj1-f170.google.com with SMTP id f13so2661608ljp.0;
-        Wed, 04 Mar 2020 08:10:10 -0800 (PST)
+        id S1729739AbgCDQhY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Mar 2020 11:37:24 -0500
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:34957 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729689AbgCDQhY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Mar 2020 11:37:24 -0500
+Received: by mail-vs1-f68.google.com with SMTP id u26so1572859vsg.2
+        for <linux-tegra@vger.kernel.org>; Wed, 04 Mar 2020 08:37:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:from:subject:cc:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=muR/a1rwNRfnpNPUEP6bKf6C4WkMfc6xHbPZajvJGVk=;
-        b=QfqOc5yS6VcamnHOpXUgAizj6Ssgsyc62WMVgt3y0uM93P2/dMse53MwUZ0VbiG0IE
-         +FcKCaG/Agp+zIHHdVWESQAfCoxK0FRnmBal2iCsZcFLy23Rv3UtEvYoOEMS929J5r1V
-         ZjUKTcvUzGkOCr4mmvA72DCghTvIeMkhCdsLK19ynhJZb54ToGriCnJCg6ZkDoklod0T
-         Qx2IhA7Wpoau8II6v0SqLLApkctxX4kpAEYP5i5J30T6xhXJffMrFNo/caCLuS2AKpUB
-         pk+A1GaNC7CIIRTS4AL4Cuo42u6rpXQRNbBhtWpH8BZIbOq9BZvLn6IRQYVmCotMkwIR
-         j8bA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hABaqSyYZLOUCpK2+i1NqdTSDdnUnv1VCEKCW00h9WI=;
+        b=b/h5yz5wlSBuj4Lbv+kbPLguRwtFdV5HC/ap61En5X/K6/4YD+4zRyFLn78H9qD27V
+         7GAA7Uuczidrny2Vt2luLVc9+Ex0aJ/lGNQ8tEBs+DmWPecQpoBQb9F4JV2uw2bgipSd
+         CAvK4wsRbKO/d+Z9hQUQmcLpGcMtuAroXiK2hFYLHgxsa0Ifiu+7sZ7f5dG1zniuK5l+
+         zPvvbaNW6IJT2P4KEmZdKgwZ2kGkOtvy8B3ZjXOvKK+D2Ptk8sh8yVy91lCEUh+rSHVp
+         1UwsYKyiQMqvc89tkSoFnVWGIhC5EDiBTZ9whQR4DYCLTFMHOLW8XrXJrII2HeibgVs6
+         W4NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=muR/a1rwNRfnpNPUEP6bKf6C4WkMfc6xHbPZajvJGVk=;
-        b=f8lK/sHOzd3Kb+elxnWs0QH4TCfNtVOsGOvJo3V8BgMQ4uqknxB6ZA7TJrgB1JS3Pf
-         Xo2ybRxUlwYt9nyfFh8EAnVaK2C4T/zgCy1uxMUWfeeQbDLYhq5UHz7YskDG997jdpvl
-         xaJMjXhaW9CzaapcxGMeElRwRM05CJnRvCtdKhEYY/IkJ8DLJZ3h6UR3knOwPCIVZNz8
-         wdQeAt5D6UQ0m6VhplBerhe39+rb9N1g9rRBOGKwl33vSZ4lBFeJ96cNE8zjeBUmiehx
-         ExB6E9RIC7Z9/Iz5Kb05IlPmnUesbCPRFSVT+Oxozwc8nzPEDmF7J5Le6pMgTqgIbObo
-         7QXQ==
-X-Gm-Message-State: ANhLgQ3wylzdC+LtYLeCIGG3zPZ3f0VjDLerSJGmU4jPfzB/hOjiayhi
-        4R+vLhBhffmTdEJCOn7wwR7FDZoH
-X-Google-Smtp-Source: ADFU+vtw56gSWqgMCehzJJ+VSKjMpRPUI7NiAy2Ic7jhj3aGlWpmYyVGyvnmMpZN4H7YUq4RUmsFYQ==
-X-Received: by 2002:a2e:9182:: with SMTP id f2mr2409633ljg.110.1583338209685;
-        Wed, 04 Mar 2020 08:10:09 -0800 (PST)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id i5sm14652912ljj.29.2020.03.04.08.10.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2020 08:10:09 -0800 (PST)
-To:     Peter Chen <Peter.Chen@nxp.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Subject: usb: chipidea: udc: BUG: sleeping function called from invalid
- context
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Message-ID: <bfa5b2f7-cf52-0055-ffb2-2cb8278a1181@gmail.com>
-Date:   Wed, 4 Mar 2020 19:10:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hABaqSyYZLOUCpK2+i1NqdTSDdnUnv1VCEKCW00h9WI=;
+        b=WZIPYU1/zhQjnVMKawSQPEL58d9u8vEBdsSphJdrOl9vmgdD62cU9lfBdUMFyqYZFh
+         fxS+5H10NmIAUpsexGRqs5uGxLx4oivxXO7lbdaeAzwTR453RYqv1hf6N1jr28kCQj3c
+         kS1eZKH8gvPIVv8oHIuLi48Xqzp5g2QOS2Tz3Wmyd/fRgZlkxlGHyDRDk/NAFbTZUYPv
+         LvxGFxedmH45A5ol7Y1y4sYS8uj89b4PTJMVb6h5QvAvXAawaRvkcB4E11eNqFvitWWr
+         9/sEqa+ddiOnOd1TvIHmJNaep22RJWLB+PdBPzm1Cu1PmlBLfAM8xzma9TAq27CilW1Q
+         YjDA==
+X-Gm-Message-State: ANhLgQ0KagXGNGNLsJiz7v+kAb47cSCaka1CpyJ77N8c7PdVX+kGq7De
+        5wNh4Ec8anMGgYr1TTBFxQ7lMp/OnHsq2c1rfc7Zxw==
+X-Google-Smtp-Source: ADFU+vsqaKb2RoRKxPcXhxp65L9DlvDybJ++9ZBqVDK57rvpHpGbRYrYO7V96B/Jdy+fc8mQrqBMgQDJ+jef4TTwT+Y=
+X-Received: by 2002:a67:7fd0:: with SMTP id a199mr2328053vsd.200.1583339842981;
+ Wed, 04 Mar 2020 08:37:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200224231841.26550-1-digetx@gmail.com> <20200224231841.26550-4-digetx@gmail.com>
+ <44c22925-a14e-96d0-1f93-1979c0c60525@wwwdotorg.org>
+In-Reply-To: <44c22925-a14e-96d0-1f93-1979c0c60525@wwwdotorg.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 4 Mar 2020 17:36:46 +0100
+Message-ID: <CAPDyKFoXnoukjH_2cM=f0DGHBHS6kVUQSYOa_5ffQppC7VOn2A@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] partitions: Introduce NVIDIA Tegra Partition Table
+To:     Stephen Warren <swarren@wwwdotorg.org>,
+        Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Billy Laws <blaws05@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Andrey Danin <danindrey@mail.ru>,
+        Gilles Grandou <gilles@grandou.net>,
+        Ryan Grachek <ryan@edited.us>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
+On Tue, 25 Feb 2020 at 01:20, Stephen Warren <swarren@wwwdotorg.org> wrote:
+>
+> On 2/24/20 4:18 PM, Dmitry Osipenko wrote:
+> > All NVIDIA Tegra devices use a special partition table format for the
+> > internal storage partitioning. Most of Tegra devices have GPT partition
+> > in addition to TegraPT, but some older Android consumer-grade devices do
+> > not or GPT is placed in a wrong sector, and thus, the TegraPT is needed
+> > in order to support these devices properly in the upstream kernel. This
+> > patch adds support for NVIDIA Tegra Partition Table format that is used
+> > at least by all NVIDIA Tegra20 and Tegra30 devices.
+>
+> > diff --git a/arch/arm/mach-tegra/tegra.c b/arch/arm/mach-tegra/tegra.c
+>
+> > +static void __init tegra_boot_config_table_init(void)
+> > +{
+> > +     void __iomem *bct_base;
+> > +     u16 pt_addr, pt_size;
+> > +
+> > +     bct_base = IO_ADDRESS(TEGRA_IRAM_BASE) + TEGRA_IRAM_BCT_OFFSET;
+>
+> This shouldn't be hard-coded. IIRC, the boot ROM writes a BIT (Boot
+> Information Table) to a fixed location in IRAM, and there's some value
+> in the BIT that points to where the BCT is in IRAM. In practice, it
+> might work out that the BCT is always at the same place in IRAM, but
+> this certainly isn't guaranteed. I think there's code in U-Boot which
+> extracts the BCT location from the BIT? Yes, see
+> arch/arm/mach-tegra/ap.c:get_odmdata().
 
-I was trying out today's linux-next-20200304 and noticed this splat in KMSG:
+So, have you considered using the command line partition option,
+rather than adding yet another partition scheme to the kernel?
 
-[    1.161244] BUG: sleeping function called from invalid context at
-drivers/base/power/runtime.c:1075
-[    1.161393] in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid:
-37, name: kworker/u8:1
-[    1.161481] CPU: 1 PID: 37 Comm: kworker/u8:1 Not tainted
-5.6.0-rc4-next-20200304-00181-gbebfd2a5be98 #1588
-[    1.161616] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
-[    1.161769] Workqueue: ci_otg ci_otg_work
-[    1.161882] [<c010e8bd>] (unwind_backtrace) from [<c010a315>]
-(show_stack+0x11/0x14)
-[    1.162035] [<c010a315>] (show_stack) from [<c0987d29>]
-(dump_stack+0x85/0x94)
-[    1.162132] [<c0987d29>] (dump_stack) from [<c013e77f>]
-(___might_sleep+0xeb/0x118)
-[    1.162281] [<c013e77f>] (___might_sleep) from [<c052fa1d>]
-(__pm_runtime_resume+0x75/0x78)
-[    1.162427] [<c052fa1d>] (__pm_runtime_resume) from [<c0627a33>]
-(ci_udc_pullup+0x23/0x74)
-[    1.162575] [<c0627a33>] (ci_udc_pullup) from [<c062fb93>]
-(usb_gadget_connect+0x2b/0xcc)
-[    1.162665] [<c062fb93>] (usb_gadget_connect) from [<c062769d>]
-(ci_hdrc_gadget_connect+0x59/0x104)
-[    1.162807] [<c062769d>] (ci_hdrc_gadget_connect) from [<c062778b>]
-(ci_udc_vbus_session+0x43/0x48)
-[    1.162949] [<c062778b>] (ci_udc_vbus_session) from [<c062f997>]
-(usb_gadget_vbus_connect+0x17/0x9c)
-[    1.163089] [<c062f997>] (usb_gadget_vbus_connect) from [<c062634d>]
-(ci_otg_work+0xbd/0x128)
-[    1.163245] [<c062634d>] (ci_otg_work) from [<c0134719>]
-(process_one_work+0x149/0x404)
-[    1.163335] [<c0134719>] (process_one_work) from [<c0134acb>]
-(worker_thread+0xf7/0x3bc)
-[    1.163479] [<c0134acb>] (worker_thread) from [<c0139433>]
-(kthread+0xf3/0x118)
-[    1.163621] [<c0139433>] (kthread) from [<c01010bd>]
-(ret_from_fork+0x11/0x34)
+In principle, you would let the boot loader scan for the partitions,
+likely from machine specific code in U-boot. Then you append these to
+the kernel command line and let block/partitions/cmdline.c scan for
+it.
 
-I haven't tried to figure out what change causes this problem, it didn't
-happen using next-20200218. Please take a look, thanks in advance.
+Kind regards
+Uffe
