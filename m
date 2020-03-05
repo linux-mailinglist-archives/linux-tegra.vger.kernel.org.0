@@ -2,19 +2,19 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C7C717A99B
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2020 17:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE2917A9A1
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2020 17:00:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbgCEQAO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 Mar 2020 11:00:14 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57114 "EHLO mx2.suse.de"
+        id S1726009AbgCEQAR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 Mar 2020 11:00:17 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57072 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726009AbgCEQAO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 5 Mar 2020 11:00:14 -0500
+        id S1726036AbgCEQAQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 5 Mar 2020 11:00:16 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 4117AB05C;
-        Thu,  5 Mar 2020 16:00:12 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id B4FFAAC84;
+        Thu,  5 Mar 2020 16:00:13 +0000 (UTC)
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
         abrodkin@synopsys.com, bbrezillon@kernel.org,
@@ -42,9 +42,9 @@ Cc:     dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 13/22] drm/shmobile: Use simple encoder
-Date:   Thu,  5 Mar 2020 16:59:41 +0100
-Message-Id: <20200305155950.2705-14-tzimmermann@suse.de>
+Subject: [PATCH 14/22] drm/sun4i: Use simple encoder
+Date:   Thu,  5 Mar 2020 16:59:42 +0100
+Message-Id: <20200305155950.2705-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200305155950.2705-1-tzimmermann@suse.de>
 References: <20200305155950.2705-1-tzimmermann@suse.de>
@@ -55,52 +55,246 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The shmobile driver uses empty implementations for its encoders. Replace
+The ingenic driver uses empty implementations for its encoders. Replace
 the code with the generic simple encoder.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 12 +++---------
+ drivers/gpu/drm/sun4i/sun4i_lvds.c     | 12 +++---------
+ drivers/gpu/drm/sun4i/sun4i_rgb.c      | 17 +++--------------
+ drivers/gpu/drm/sun4i/sun4i_tv.c       | 17 +++--------------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 12 +++---------
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  8 ++------
+ 6 files changed, 17 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-index 75a752d59ef1..03556dbfcafb 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_plane_helper.h>
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 68d4644ac2dc..e324d7db7b7d 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -22,6 +22,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
 +#include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
  
- #include "shmob_drm_backlight.h"
-@@ -558,15 +559,6 @@ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
- 	.mode_set = shmob_drm_encoder_mode_set,
+ #include "sun4i_backend.h"
+ #include "sun4i_crtc.h"
+@@ -204,10 +205,6 @@ static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
+ 	.mode_valid	= sun4i_hdmi_mode_valid,
  };
  
--static void shmob_drm_encoder_destroy(struct drm_encoder *encoder)
+-static const struct drm_encoder_funcs sun4i_hdmi_funcs = {
+-	.destroy	= drm_encoder_cleanup,
+-};
+-
+ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+ {
+ 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
+@@ -611,11 +608,8 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_encoder_helper_add(&hdmi->encoder,
+ 			       &sun4i_hdmi_helper_funcs);
+-	ret = drm_encoder_init(drm,
+-			       &hdmi->encoder,
+-			       &sun4i_hdmi_funcs,
+-			       DRM_MODE_ENCODER_TMDS,
+-			       NULL);
++	ret = drm_simple_encoder_init(drm, &hdmi->encoder,
++				      DRM_MODE_ENCODER_TMDS);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't initialise the HDMI encoder\n");
+ 		goto err_put_ddc_i2c;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_lvds.c b/drivers/gpu/drm/sun4i/sun4i_lvds.c
+index 26e5c7ceb8ff..ffda3184aa12 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_lvds.c
++++ b/drivers/gpu/drm/sun4i/sun4i_lvds.c
+@@ -12,6 +12,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_tcon.h"
+@@ -96,10 +97,6 @@ static const struct drm_encoder_helper_funcs sun4i_lvds_enc_helper_funcs = {
+ 	.enable		= sun4i_lvds_encoder_enable,
+ };
+ 
+-static const struct drm_encoder_funcs sun4i_lvds_enc_funcs = {
+-	.destroy	= drm_encoder_cleanup,
+-};
+-
+ int sun4i_lvds_init(struct drm_device *drm, struct sun4i_tcon *tcon)
+ {
+ 	struct drm_encoder *encoder;
+@@ -121,11 +118,8 @@ int sun4i_lvds_init(struct drm_device *drm, struct sun4i_tcon *tcon)
+ 
+ 	drm_encoder_helper_add(&lvds->encoder,
+ 			       &sun4i_lvds_enc_helper_funcs);
+-	ret = drm_encoder_init(drm,
+-			       &lvds->encoder,
+-			       &sun4i_lvds_enc_funcs,
+-			       DRM_MODE_ENCODER_LVDS,
+-			       NULL);
++	ret = drm_simple_encoder_init(drm, &lvds->encoder,
++				      DRM_MODE_ENCODER_LVDS);
+ 	if (ret) {
+ 		dev_err(drm->dev, "Couldn't initialise the lvds encoder\n");
+ 		goto err_out;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+index 3b23d5be3cf3..5a7d43939ae6 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
++++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_tcon.h"
+@@ -188,15 +189,6 @@ static struct drm_encoder_helper_funcs sun4i_rgb_enc_helper_funcs = {
+ 	.mode_valid	= sun4i_rgb_mode_valid,
+ };
+ 
+-static void sun4i_rgb_enc_destroy(struct drm_encoder *encoder)
 -{
 -	drm_encoder_cleanup(encoder);
 -}
 -
--static const struct drm_encoder_funcs encoder_funcs = {
--	.destroy = shmob_drm_encoder_destroy,
+-static struct drm_encoder_funcs sun4i_rgb_enc_funcs = {
+-	.destroy	= sun4i_rgb_enc_destroy,
 -};
 -
- int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
+ int sun4i_rgb_init(struct drm_device *drm, struct sun4i_tcon *tcon)
  {
- 	struct drm_encoder *encoder = &sdev->encoder.encoder;
-@@ -576,8 +568,8 @@ int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
+ 	struct drm_encoder *encoder;
+@@ -218,11 +210,8 @@ int sun4i_rgb_init(struct drm_device *drm, struct sun4i_tcon *tcon)
  
- 	encoder->possible_crtcs = 1;
+ 	drm_encoder_helper_add(&rgb->encoder,
+ 			       &sun4i_rgb_enc_helper_funcs);
+-	ret = drm_encoder_init(drm,
+-			       &rgb->encoder,
+-			       &sun4i_rgb_enc_funcs,
+-			       DRM_MODE_ENCODER_NONE,
+-			       NULL);
++	ret = drm_simple_encoder_init(drm, &rgb->encoder,
++				      DRM_MODE_ENCODER_NONE);
+ 	if (ret) {
+ 		dev_err(drm->dev, "Couldn't initialise the rgb encoder\n");
+ 		goto err_out;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
+index 39c15282e448..63f4428ac3bf 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
  
--	ret = drm_encoder_init(sdev->ddev, encoder, &encoder_funcs,
--			       DRM_MODE_ENCODER_LVDS, NULL);
-+	ret = drm_simple_encoder_init(sdev->ddev, encoder,
-+				      DRM_MODE_ENCODER_LVDS);
- 	if (ret < 0)
+ #include "sun4i_crtc.h"
+ #include "sun4i_drv.h"
+@@ -473,15 +474,6 @@ static struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
+ 	.mode_set	= sun4i_tv_mode_set,
+ };
+ 
+-static void sun4i_tv_destroy(struct drm_encoder *encoder)
+-{
+-	drm_encoder_cleanup(encoder);
+-}
+-
+-static struct drm_encoder_funcs sun4i_tv_funcs = {
+-	.destroy	= sun4i_tv_destroy,
+-};
+-
+ static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
+ {
+ 	int i;
+@@ -592,11 +584,8 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
+ 
+ 	drm_encoder_helper_add(&tv->encoder,
+ 			       &sun4i_tv_helper_funcs);
+-	ret = drm_encoder_init(drm,
+-			       &tv->encoder,
+-			       &sun4i_tv_funcs,
+-			       DRM_MODE_ENCODER_TVDAC,
+-			       NULL);
++	ret = drm_simple_encoder_init(drm, &tv->encoder,
++				      DRM_MODE_ENCODER_TVDAC);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't initialise the TV encoder\n");
+ 		goto err_disable_clk;
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index 059939789730..f6c67dd87a05 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun4i_crtc.h"
+ #include "sun4i_tcon.h"
+@@ -846,10 +847,6 @@ static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+ 	.enable		= sun6i_dsi_encoder_enable,
+ };
+ 
+-static const struct drm_encoder_funcs sun6i_dsi_enc_funcs = {
+-	.destroy	= drm_encoder_cleanup,
+-};
+-
+ static u32 sun6i_dsi_dcs_build_pkt_hdr(struct sun6i_dsi *dsi,
+ 				       const struct mipi_dsi_msg *msg)
+ {
+@@ -1062,11 +1059,8 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_encoder_helper_add(&dsi->encoder,
+ 			       &sun6i_dsi_enc_helper_funcs);
+-	ret = drm_encoder_init(drm,
+-			       &dsi->encoder,
+-			       &sun6i_dsi_enc_funcs,
+-			       DRM_MODE_ENCODER_DSI,
+-			       NULL);
++	ret = drm_simple_encoder_init(drm, &dsi->encoder,
++				      DRM_MODE_ENCODER_DSI);
+ 	if (ret) {
+ 		dev_err(dsi->dev, "Couldn't initialise the DSI encoder\n");
  		return ret;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index e8a317d5ba19..972682bb8000 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -10,6 +10,7 @@
+ 
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_of.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+ #include "sun8i_dw_hdmi.h"
+ #include "sun8i_tcon_top.h"
+@@ -29,10 +30,6 @@ sun8i_dw_hdmi_encoder_helper_funcs = {
+ 	.mode_set = sun8i_dw_hdmi_encoder_mode_set,
+ };
+ 
+-static const struct drm_encoder_funcs sun8i_dw_hdmi_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ static enum drm_mode_status
+ sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
+ 			      const struct drm_display_mode *mode)
+@@ -220,8 +217,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 	}
+ 
+ 	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
+-	drm_encoder_init(drm, encoder, &sun8i_dw_hdmi_encoder_funcs,
+-			 DRM_MODE_ENCODER_TMDS, NULL);
++	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+ 	sun8i_hdmi_phy_init(hdmi->phy);
  
 -- 
 2.25.1
