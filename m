@@ -2,103 +2,176 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 438DF17A430
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2020 12:27:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FFA17A978
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2020 16:59:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725880AbgCEL1m (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 Mar 2020 06:27:42 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8584 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgCEL1m (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Mar 2020 06:27:42 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e60e1d70000>; Thu, 05 Mar 2020 03:26:15 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 05 Mar 2020 03:27:41 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 05 Mar 2020 03:27:41 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 5 Mar
- 2020 11:27:40 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 5 Mar 2020 11:27:40 +0000
-Received: from sandipan-pc.nvidia.com (Not Verified[10.24.42.163]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e60e2290000>; Thu, 05 Mar 2020 03:27:39 -0800
-From:   Sandipan Patra <spatra@nvidia.com>
-To:     <treding@nvidia.com>, <robh+dt@kernel.org>,
-        <u.kleine-koenig@pengutronix.de>, <jonathanh@nvidia.com>
-CC:     <bbasu@nvidia.com>, <ldewangan@nvidia.com>,
-        <linux-pwm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Sandipan Patra <spatra@nvidia.com>
-Subject: [PATCH] pwm: tegra: Add support for Tegra194
-Date:   Thu, 5 Mar 2020 16:57:33 +0530
-Message-ID: <1583407653-30059-1-git-send-email-spatra@nvidia.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726009AbgCEP75 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 Mar 2020 10:59:57 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56366 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725974AbgCEP75 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 5 Mar 2020 10:59:57 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 49F64AC91;
+        Thu,  5 Mar 2020 15:59:54 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
+        abrodkin@synopsys.com, bbrezillon@kernel.org,
+        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+        ludovic.desroches@microchip.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, jingoohan1@gmail.com, inki.dae@samsung.com,
+        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+        stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+        xinliang.liu@linaro.org, zourongrong@gmail.com,
+        john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
+        puck.chen@hisilicon.com, linux@armlinux.org.uk,
+        p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
+        matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
+        heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
+        tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
+        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+        sebastian.reichel@collabora.com
+Cc:     dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/22] drm: Convert drivers to drm_simple_encoder_init()
+Date:   Thu,  5 Mar 2020 16:59:28 +0100
+Message-Id: <20200305155950.2705-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1583407575; bh=H8MoH5bhmTck+CA7CcSHDmGDuDzoBuc1QHZfZf1Odv4=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=bnKPxpOwuWtvm3BJp5aQ8FKREQkGasGO98+XGBx4vkkGRdHysMVjx/azO8medGykq
-         CbhoBI8FqFiOAnKPZImAP0hdFQ4LKN9ydgaNgiZNDKYO782PdSTTZDdqXMvKuAqHjm
-         fcELXW6QTuOz0TejsoNQ4v+ZK1kjM92qrjznoXkUKdiXmSpWlDSm6jbIJxkMndgs24
-         J8nutniVE0GEh+RHjiHM7xEG00iSPDVkPqJZ4QgRkF1ed42xEO8eesKE8ntfs+wfaV
-         Lwk8c+xaWYnzdZXsR48dOOejAIOhfIxveMkqdI6sYQm412EoCCdtl6aSYAfR1hwJ+0
-         11cio0r072JfQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra194 has multiple PWM controllers with each having only one output.
+A call to drm_simple_encoder_init() initializes an encoder without
+further functionality. It only provides the destroy callback to
+cleanup the encoder's state. Only few drivers implement more
+sophisticated encoders than that. Most drivers implement such a
+simple encoder and can use drm_simple_encoder_init() instead.
 
-Also the maxmimum frequency is higher than earlier SoCs.
+The patchset converts drivers where the encoder's instance is
+embedded in a larger data structure. The driver releases the
+memory during cleanup. Each patch replaces drm_encoder_init() with
+drm_simple_encoder_init() and removes the (now unused) driver's
+encoder functions.
 
-Add support for Tegra194 and specify the number of PWM outputs and
-maximum supported frequency using device tree match data.
+While the patchset is fairly large, the indiviual patches are self-
+contained and can be merged independently from each other. The
+simple-encoder functionality is currently in drm-misc-next, where
+these patches could go as well.
 
-Signed-off-by: Sandipan Patra <spatra@nvidia.com>
----
- Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt | 1 +
- drivers/pwm/pwm-tegra.c                                      | 6 ++++++
- 2 files changed, 7 insertions(+)
+Future directions: There's another common case where the driver
+calls kzalloc() plus drm_encoder_init(). Such drivers are not
+handled by this patchset. The plan here is to use a simple encoder
+with either managed memory allocation (once it's merged), or embed
+the encoder in a larger data structure and drop kzalloc() entirely.
 
-diff --git a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
-index 0a69ead..74c41e3 100644
---- a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
-+++ b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
-@@ -9,6 +9,7 @@ Required properties:
-   - "nvidia,tegra132-pwm", "nvidia,tegra20-pwm": for Tegra132
-   - "nvidia,tegra210-pwm", "nvidia,tegra20-pwm": for Tegra210
-   - "nvidia,tegra186-pwm": for Tegra186
-+  - "nvidia,tegra194-pwm": for Tegra194
- - reg: physical base address and length of the controller's registers
- - #pwm-cells: should be 2. See pwm.yaml in this directory for a description of
-   the cells format.
-diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
-index aa12fb3..d26ed8f 100644
---- a/drivers/pwm/pwm-tegra.c
-+++ b/drivers/pwm/pwm-tegra.c
-@@ -282,9 +282,15 @@ static const struct tegra_pwm_soc tegra186_pwm_soc = {
- 	.max_frequency = 102000000UL,
- };
- 
-+static const struct tegra_pwm_soc tegra194_pwm_soc = {
-+	.num_channels = 1,
-+	.max_frequency = 408000000UL,
-+};
-+
- static const struct of_device_id tegra_pwm_of_match[] = {
- 	{ .compatible = "nvidia,tegra20-pwm", .data = &tegra20_pwm_soc },
- 	{ .compatible = "nvidia,tegra186-pwm", .data = &tegra186_pwm_soc },
-+	{ .compatible = "nvidia,tegra194-pwm", .data = &tegra194_pwm_soc },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, tegra_pwm_of_match);
--- 
-2.7.4
+The patchset has been compile-tested on x86-64, aarch64 and arm.
+
+Thomas Zimmermann (22):
+  drm/arc: Use simple encoder
+  drm/atmel-hlcdc: Use simple encoder
+  drm/exynos: Use simple encoder
+  drm/fsl-dcu: Use simple encoder
+  drm/gma500: Use simple encoder
+  drm/hisilicon/kirin: Use simple encoder
+  drm/i2c/tda998x: Use simple encoder
+  drm/imx: Use simple encoder
+  drm/ingenic: Use simple encoder
+  drm/mediatek: Use simple encoder
+  drm/rcar-du: Use simple encoder
+  drm/rockchip: Use simple encoder
+  drm/shmobile: Use simple encoder
+  drm/sun4i: Use simple encoder
+  drm/tegra: Use simple encoder
+  drm/tidss: Use simple encoder
+  drm/tilcdc: Use simple encoder
+  drm/vc4: Use simple encoder
+  drm/virtgpu: Use simple encoder
+  drm/vkms: Use simple encoder
+  drm/writeback: Use simple encoder
+  drm/zte: Use simple encoder
+
+ drivers/gpu/drm/arc/arcpgu_hdmi.c              | 10 +++-------
+ drivers/gpu/drm/arc/arcpgu_sim.c               |  8 ++------
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c   | 12 ++++--------
+ drivers/gpu/drm/drm_writeback.c                | 10 +++-------
+ drivers/gpu/drm/exynos/exynos_dp.c             |  8 ++------
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c        |  8 ++------
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c        |  8 ++------
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c       |  8 ++------
+ drivers/gpu/drm/exynos/exynos_hdmi.c           |  8 ++------
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c      | 14 +++-----------
+ drivers/gpu/drm/gma500/cdv_intel_crt.c         | 14 +++-----------
+ drivers/gpu/drm/gma500/cdv_intel_dp.c          | 16 +++-------------
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c        |  4 ++--
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c        | 17 +++--------------
+ drivers/gpu/drm/gma500/mdfld_dsi_dpi.c         |  7 +++----
+ drivers/gpu/drm/gma500/mdfld_output.h          |  1 -
+ drivers/gpu/drm/gma500/mdfld_tmd_vid.c         |  6 ------
+ drivers/gpu/drm/gma500/mdfld_tpo_vid.c         |  6 ------
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c         | 14 ++------------
+ drivers/gpu/drm/gma500/oaktrail_lvds.c         |  5 +++--
+ drivers/gpu/drm/gma500/psb_intel_drv.h         |  1 -
+ drivers/gpu/drm/gma500/psb_intel_lvds.c        | 18 +++---------------
+ drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c     |  5 -----
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c   |  8 ++------
+ drivers/gpu/drm/i2c/tda998x_drv.c              | 14 +++-----------
+ drivers/gpu/drm/imx/dw_hdmi-imx.c              |  8 ++------
+ drivers/gpu/drm/imx/imx-drm-core.c             |  6 ------
+ drivers/gpu/drm/imx/imx-drm.h                  |  1 -
+ drivers/gpu/drm/imx/imx-ldb.c                  |  8 ++------
+ drivers/gpu/drm/imx/imx-tve.c                  |  8 ++------
+ drivers/gpu/drm/imx/parallel-display.c         |  8 ++------
+ drivers/gpu/drm/ingenic/ingenic-drm.c          |  9 +++------
+ drivers/gpu/drm/mediatek/mtk_dpi.c             | 14 +++-----------
+ drivers/gpu/drm/mediatek/mtk_dsi.c             | 14 +++-----------
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c      | 14 +++-----------
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c    |  9 +++------
+ drivers/gpu/drm/rockchip/cdn-dp-core.c         |  9 +++------
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |  8 ++------
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c    |  8 ++------
+ drivers/gpu/drm/rockchip/inno_hdmi.c           |  8 ++------
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c         |  8 ++------
+ drivers/gpu/drm/rockchip/rockchip_lvds.c       | 10 +++-------
+ drivers/gpu/drm/rockchip/rockchip_rgb.c        |  8 ++------
+ drivers/gpu/drm/shmobile/shmob_drm_crtc.c      | 14 +++-----------
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c         | 12 +++---------
+ drivers/gpu/drm/sun4i/sun4i_lvds.c             | 12 +++---------
+ drivers/gpu/drm/sun4i/sun4i_rgb.c              | 17 +++--------------
+ drivers/gpu/drm/sun4i/sun4i_tv.c               | 17 +++--------------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c         | 12 +++---------
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c          |  8 ++------
+ drivers/gpu/drm/tegra/drm.h                    |  2 --
+ drivers/gpu/drm/tegra/dsi.c                    | 10 +++-------
+ drivers/gpu/drm/tegra/hdmi.c                   |  9 +++------
+ drivers/gpu/drm/tegra/output.c                 |  6 +-----
+ drivers/gpu/drm/tegra/rgb.c                    |  8 ++------
+ drivers/gpu/drm/tegra/sor.c                    |  8 ++------
+ drivers/gpu/drm/tidss/tidss_encoder.c          | 10 +++-------
+ drivers/gpu/drm/tilcdc/tilcdc_external.c       | 10 +++-------
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c          |  8 ++------
+ drivers/gpu/drm/vc4/vc4_dpi.c                  |  8 ++------
+ drivers/gpu/drm/vc4/vc4_dsi.c                  | 15 +++------------
+ drivers/gpu/drm/vc4/vc4_hdmi.c                 | 17 ++++-------------
+ drivers/gpu/drm/vc4/vc4_vec.c                  |  8 ++------
+ drivers/gpu/drm/virtio/virtgpu_display.c       |  8 ++------
+ drivers/gpu/drm/vkms/vkms_output.c             |  8 ++------
+ drivers/gpu/drm/zte/zx_hdmi.c                  |  8 ++------
+ drivers/gpu/drm/zte/zx_tvenc.c                 |  8 ++------
+ drivers/gpu/drm/zte/zx_vga.c                   |  8 ++------
+ 68 files changed, 151 insertions(+), 488 deletions(-)
+
+--
+2.25.1
 
