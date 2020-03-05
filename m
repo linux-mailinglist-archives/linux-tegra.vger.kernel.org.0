@@ -2,93 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 477E217B00C
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2020 21:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D52FE17B01B
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Mar 2020 21:56:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgCEUxw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 Mar 2020 15:53:52 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:39730 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgCEUxw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Mar 2020 15:53:52 -0500
-Received: by mail-lf1-f66.google.com with SMTP id j15so69025lfk.6;
-        Thu, 05 Mar 2020 12:53:49 -0800 (PST)
+        id S1726087AbgCEU4e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 Mar 2020 15:56:34 -0500
+Received: from mail-qt1-f169.google.com ([209.85.160.169]:36982 "EHLO
+        mail-qt1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726080AbgCEU4e (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Mar 2020 15:56:34 -0500
+Received: by mail-qt1-f169.google.com with SMTP id j34so153494qtk.4;
+        Thu, 05 Mar 2020 12:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2KasUeTov3Iw2HXiiprNA5ee9+CQCJKivm7obiFhEe0=;
-        b=emYpPA3lwmagjxLQrN7hOshjMl8UIaFQhqWX7XThbP17if6K/RO0X+R8H2jyR0r94r
-         kDWSwWrwjC16Djfg3KgorsGICCXTIQIY9z2ohUQAL/vwHP+wDjgw53/pdLuh09MunUYu
-         KPHCSohREW/JxoSXJjX9n97t4TQ0UITizYa7P/MVRilYIAkNaL7Oix6mQ7cLaWYilh06
-         gOMJjjTaDUx+u0SX64cuW5X5jB6Heh+j4BfTtvtGRkz0fL1hq9qU9RJ569QvT8/ON9FQ
-         fiYifzMErQSw0ucg5XwHrC7KyuEYjG2vd7OZEfR412EKyaUSQ5crApolcxcmnLYgwsSX
-         N0yQ==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=WtPw0stoh3nCyfnoHQJntC/GNRmbWPKHGLa4u3rPj7Q=;
+        b=ZtvBAHkKETrMBnbu22gqYBsmB1fw4t35WFMaQViF8T1VChEiS7fB+Q77tYkJ95BrL9
+         K825QVlXQMLvUrSSieLtyqVRggX1gn4Srnry546Vi7XWvdxQ3wEY3RCgjnIbt2QADBdd
+         I+JjdYyh5oIZRF/DsVejlRbwu4QCp3AE96m76LythBXGVsxtQMCRNLzWM32rbkmiAeyR
+         56j5jdVFSGY34DDYFpRNslkUV4ldmd0dFwUStl/aOS7R0pQcMLmOqOijm13GWd9vAnis
+         Kd0PiyyKsWhnEC91c5xhhCCkO1gx+IUVmoghLY0jrtQilJ3rQhbdGGrkJ4gGYghGSS2R
+         zLlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2KasUeTov3Iw2HXiiprNA5ee9+CQCJKivm7obiFhEe0=;
-        b=EUbYtjodsxVIZUSc7O+b8UboxpDCNU/VNKWlk6zF79vFvEobx+mNiX/YS1RLT7Htba
-         btUP7h394QLU80pimUyD1aJO1fUzJm9Jf0HndK6JMam8Xex0cVK+p4Yh5MB3OMhpzNOE
-         updE9UehPME5utg1rf5ukkqSokT6601GG07PrhlQOcolDh4EWGI35tMaXe/FeQ0h2AzI
-         9OcORrkvrrhZG/mIT8S8DKWYogpMnGE7haY+0WvcdTXnmNTmj2jP3G0X2218H+Tx/ohu
-         LIKedHxSZDiZlwvJWGoa0NgQhmI756HCWF+94vPlg3HtHgkQ8PncF6vA45JFWdZxEHrU
-         4qCQ==
-X-Gm-Message-State: ANhLgQ0shCDPVHuNvzmM+CyxX/lYo8/Wm35qzvQ0fk5npK2YcDuT1QHW
-        zQRaTz00auYF4oBaAdP2xAg5ChVh
-X-Google-Smtp-Source: ADFU+vvRMIiq4W1yOGnXxxBP538xqSv0pRQORtTGNjWwpqNqnxgYKDjHdvXnAf3ZftuR2c50ZGco9A==
-X-Received: by 2002:a05:6512:1085:: with SMTP id j5mr245361lfg.183.1583441628100;
-        Thu, 05 Mar 2020 12:53:48 -0800 (PST)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id b4sm10356716lfb.47.2020.03.05.12.53.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2020 12:53:47 -0800 (PST)
-Subject: Re: usb: chipidea: udc: BUG: sleeping function called from invalid
- context
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <bfa5b2f7-cf52-0055-ffb2-2cb8278a1181@gmail.com>
- <20200305021226.GA12837@b29397-desktop>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7a142dd4-9ae8-2560-e5be-25648f88a864@gmail.com>
-Date:   Thu, 5 Mar 2020 23:53:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=WtPw0stoh3nCyfnoHQJntC/GNRmbWPKHGLa4u3rPj7Q=;
+        b=BRE0AKeBedidanT2rp4AeuTH1gwBLXjhMBU4lRojtj9ReiD7Hj97Xx6hOTy4K2QsAC
+         jvWBI7Whc+SfoJCtD0LCOzyrKq9AeiLtipIs+hP2J6p3L/2XhC9cST7Ktk4tb0sK9Ofn
+         REOT9NRvL077Is/T7BjVHvSWY21CmgUqcoqkVYtSSTCcB6gcu2PdTXrBRmKicBCfELE+
+         5tQBWz5MTDDiG24eY36p0JF1n9x7mp0O6ApNjYybeqeksi/DeqaVSyovXZqEscyacoeH
+         3ltSebJeVvyRWIQIs6apw5DRGty6x4KTLg6Wk801zbxRmIemB5pFR2VX+ZBrBR+A37dI
+         0mrA==
+X-Gm-Message-State: ANhLgQ1yen6+a0JZD1yLtiDaWeCR751zoSyl09Utn0YiAIc4JpxIZApa
+        ywpHFdjvB67QFpwbYYdyngYSwdrf96GLaQr7zHuxuOvs
+X-Google-Smtp-Source: ADFU+vuieypY3p+x0i35TJ747jI6n6AD97ihAmQRC5IbKbB/eCdY7pM/mCkAtO4Acqv8hFMN1IdmSSrSpUoyazy7MdU=
+X-Received: by 2002:ac8:6753:: with SMTP id n19mr49512qtp.193.1583441792920;
+ Thu, 05 Mar 2020 12:56:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200305021226.GA12837@b29397-desktop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Peter Geis <pgwipeout@gmail.com>
+Date:   Thu, 5 Mar 2020 15:56:22 -0500
+Message-ID: <CAMdYzYoxsBAyBhp+S6LKE060qLLq=XioVVPUmOka0auOo8aXcg@mail.gmail.com>
+Subject: [BUG] 5.6-rc1 breaks sdhci on tegra-30 ouya
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-mmc@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-05.03.2020 05:12, Peter Chen пишет:
-> On 20-03-04 19:10:08, Dmitry Osipenko wrote:
->> Hello,
->>
->> I was trying out today's linux-next-20200304 and noticed this splat in KMSG:
->>
-...
->> I haven't tried to figure out what change causes this problem, it didn't
->> happen using next-20200218. Please take a look, thanks in advance.
-> 
-> Dmitry, thanks for reporting. I haven't met that issue, it maybe I
-> enable runtime pm, but you have not? So I don't trigger
-> "dev->power.runtime_status != RPM_ACTIVE" condition below
-> 
-> 	might_sleep_if(!(rpmflags & RPM_ASYNC) && !dev->power.irq_safe &&
-> 			dev->power.runtime_status != RPM_ACTIVE);
+Good Afternoon,
 
-The runtime PM always presents on Tegra, do you have
-CONFIG_DEBUG_ATOMIC_SLEEP=y in the kernel's config?
+I have been fighting a bug with sdhci on the tegra-30 based ouya since 5.6-rc1.
+I've traced it to the following commit:
 
-> I send the fix patch, but git send-email seems doesn't add auto cc
-> according to reported-by tag, so you are not at cc list. Would you
-> please have a test?
+mmc: core: Specify timeouts for BKOPS and CACHE_FLUSH for eMMC
+24ed3bd01d6a844fd5e8a75f48d0a3d10ed71bf9
 
-It fixes the problem, thanks!
+[   51.401369] mmc0: Card stuck being busy! mmc_poll_for_busy
+[   51.407288] mmc0: cache flush error -110
+[   51.412347] blk_update_request: I/O error, dev mmcblk0, sector 0 op
+0x1:(WRITE) flags 0x800 phys_seg 0 prio class 0
+
+It also caused issues with hitching with the bcm4330 sdio wifi chip.
+
+Reverting this commit fixes the issue.
+
+After reverting this commit, with the following commit still intact:
+
+mmc: core: Default to generic_cmd6_time as timeout in __mmc_switch()
+
+I am seeing a lot of the following messages:
+[   22.626377] mmc0: unspecified timeout for CMD6 - use generic
+[   22.687349] mmc0: unspecified timeout for CMD6 - use generic
+[   23.362736] mmc0: unspecified timeout for CMD6 - use generic
+[   23.487824] mmc0: unspecified timeout for CMD6 - use generic
+[   23.547674] mmc0: unspecified timeout for CMD6 - use generic
+[   23.745527] mmc0: unspecified timeout for CMD6 - use generic
+[   23.817678] mmc0: unspecified timeout for CMD6 - use generic
+[   24.045600] mmc0: unspecified timeout for CMD6 - use generic
+[   24.155577] mmc0: unspecified timeout for CMD6 - use generic
+[   24.223448] mmc0: unspecified timeout for CMD6 - use generic
+[   24.286257] mmc0: unspecified timeout for CMD6 - use generic
+
+Very Respectfully,
+Peter Geis
