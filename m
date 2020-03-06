@@ -2,467 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E53A817C7E8
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Mar 2020 22:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2EAE17C807
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Mar 2020 22:56:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726185AbgCFVfa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 6 Mar 2020 16:35:30 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:37022 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726171AbgCFVfa (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Mar 2020 16:35:30 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id C48062001E;
-        Fri,  6 Mar 2020 22:35:20 +0100 (CET)
-Date:   Fri, 6 Mar 2020 22:35:19 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     airlied@linux.ie, daniel@ffwll.ch, abrodkin@synopsys.com,
-        bbrezillon@kernel.org, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        jingoohan1@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
-        xinliang.liu@linaro.org, zourongrong@gmail.com,
-        john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
-        puck.chen@hisilicon.com, linux@armlinux.org.uk,
-        p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
-        matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
-        heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
-        tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
-        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
-        sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 05/22] drm/gma500: Use simple encoder
-Message-ID: <20200306213519.GD17369@ravnborg.org>
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-6-tzimmermann@suse.de>
+        id S1726240AbgCFV4R (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 6 Mar 2020 16:56:17 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:34221 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbgCFV4Q (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Mar 2020 16:56:16 -0500
+Received: by mail-lf1-f66.google.com with SMTP id w27so3120728lfc.1;
+        Fri, 06 Mar 2020 13:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=bHMaQl8LS+kUipNNyOSSMitpE/YaBqFWVsAjUSuCc2c=;
+        b=T6dZB2LI8Slsj0freZ731/RtEkdC6/kteNUVd9ADzIXfHsT2dD3kdH/PM+QX7JSrVR
+         krPy0dsJLFfriBt7G60gPfLzXj96UZ0aq4Yb/8ZtDHLXcmDabgD93eBbMKhzRIBPYGsd
+         juWUwZ6xsfFxPsk82UglwDyUL0ZiYP6gbYowohPr2FK0P4oCtsOoLDOCz2grv/ihc5Pg
+         BlTEcPxcFuUcSS0K2mVn7p0I2a8o1lA6Q6tNwLG6ieulrC7tr2afGDMB6sKYPOe3rViF
+         NZuNK+QWhM4MOQR70hYL0gfVgjQ8sSjmbh+oq3ITKiJi4NlQceBWj2jnplesQ4ZRI8yt
+         EzRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bHMaQl8LS+kUipNNyOSSMitpE/YaBqFWVsAjUSuCc2c=;
+        b=g7V6ncQPYGs2yUHVivvsaJJEvX8j6s97tufKyaATKBoLq3O9LxpOlawILDU1oHN+WX
+         iQH3VTVSts1hR/yOSFZpHC45FMidMJ/qASGUc7Pd9x+n9mdSnITYnhVv38tw9CaVeQ3U
+         514w3cKzeMuhfOUVHA6MatbZ0h9Tk9g4bxvK4uPBIfn47lW7RTRKbepZsDMuUb298ces
+         L+QpQU0EcBVWzM4UKkLMaiA83WrgAMRgxRApEgJpt/ZMHHr+xN3QQOeLsuW98CeU5/Vr
+         AjzgFoDf5OCxyOYUgibr4e3ZhT5GCQJsNr1e+hh2jrhHqOTqnRFteCa0nwIdQK0WtOr7
+         2vlw==
+X-Gm-Message-State: ANhLgQ3NruvJXGhqw09liRdvQZyU/gd39JsDl5L1o5xFw7EGW7bF81Jd
+        szcpKGANUndbWaMly25J/fYH2495
+X-Google-Smtp-Source: ADFU+vv7d4IqEihasRGNv5gsfrXFjPRK9cQYmZJp/Mp9rhNhRA/3PG+yZW+BOYLPlBlj4yNmllgsfQ==
+X-Received: by 2002:a19:ca15:: with SMTP id a21mr3099252lfg.67.1583531772370;
+        Fri, 06 Mar 2020 13:56:12 -0800 (PST)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id d12sm1409006lfi.86.2020.03.06.13.56.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Mar 2020 13:56:11 -0800 (PST)
+Subject: Re: [PATCH v1 3/3] partitions: Introduce NVIDIA Tegra Partition Table
+To:     Stephen Warren <swarren@wwwdotorg.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Billy Laws <blaws05@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Andrey Danin <danindrey@mail.ru>,
+        Gilles Grandou <gilles@grandou.net>,
+        Ryan Grachek <ryan@edited.us>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200224231841.26550-1-digetx@gmail.com>
+ <20200224231841.26550-4-digetx@gmail.com>
+ <44c22925-a14e-96d0-1f93-1979c0c60525@wwwdotorg.org>
+ <CAPDyKFoXnoukjH_2cM=f0DGHBHS6kVUQSYOa_5ffQppC7VOn2A@mail.gmail.com>
+ <824a4d5f-8280-8860-3e80-68188a13aa3d@gmail.com>
+ <CAPDyKFric6pZbJ5-2qkwAFoeJ0c0kcha99zHJ12AUrWO6FQmgg@mail.gmail.com>
+ <6fe6d262-c6b0-52d8-0150-4c32a4c36cbd@wwwdotorg.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <82974dbe-9e6c-95fd-dd4d-b1cedc33f8ea@gmail.com>
+Date:   Sat, 7 Mar 2020 00:56:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200305155950.2705-6-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=WhbsdxYEUz5OCNYPzC0A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <6fe6d262-c6b0-52d8-0150-4c32a4c36cbd@wwwdotorg.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thomas.
-
-On Thu, Mar 05, 2020 at 04:59:33PM +0100, Thomas Zimmermann wrote:
-> The gma500 driver uses empty implementations for some of its encoders.
-> Replace the code with the generic simple encoder.
-This parts looks good.
-
-
-> As a side effect, the
-> patch also removes an indirection in the encoder setup for Medfield.
-
-I failed to see where this was done. Maybe too late for me to review
-patches, so I will stop now.
-
-
-No matter - patch is:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
+06.03.2020 19:52, Stephen Warren пишет:
+> On 3/6/20 6:37 AM, Ulf Hansson wrote:
+>> On Wed, 4 Mar 2020 at 18:09, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>
+>>> 04.03.2020 19:36, Ulf Hansson пишет:
+>>>> On Tue, 25 Feb 2020 at 01:20, Stephen Warren <swarren@wwwdotorg.org>
+>>>> wrote:
+>>>>>
+>>>>> On 2/24/20 4:18 PM, Dmitry Osipenko wrote:
+>>>>>> All NVIDIA Tegra devices use a special partition table format for the
+>>>>>> internal storage partitioning. Most of Tegra devices have GPT
+>>>>>> partition
+>>>>>> in addition to TegraPT, but some older Android consumer-grade
+>>>>>> devices do
+>>>>>> not or GPT is placed in a wrong sector, and thus, the TegraPT is
+>>>>>> needed
+>>>>>> in order to support these devices properly in the upstream kernel.
+>>>>>> This
+>>>>>> patch adds support for NVIDIA Tegra Partition Table format that is
+>>>>>> used
+>>>>>> at least by all NVIDIA Tegra20 and Tegra30 devices.
+>>>>>
+>>>>>> diff --git a/arch/arm/mach-tegra/tegra.c
+>>>>>> b/arch/arm/mach-tegra/tegra.c
+>>>>>
+>>>>>> +static void __init tegra_boot_config_table_init(void)
+>>>>>> +{
+>>>>>> +     void __iomem *bct_base;
+>>>>>> +     u16 pt_addr, pt_size;
+>>>>>> +
+>>>>>> +     bct_base = IO_ADDRESS(TEGRA_IRAM_BASE) + TEGRA_IRAM_BCT_OFFSET;
+>>>>>
+>>>>> This shouldn't be hard-coded. IIRC, the boot ROM writes a BIT (Boot
+>>>>> Information Table) to a fixed location in IRAM, and there's some value
+>>>>> in the BIT that points to where the BCT is in IRAM. In practice, it
+>>>>> might work out that the BCT is always at the same place in IRAM, but
+>>>>> this certainly isn't guaranteed. I think there's code in U-Boot which
+>>>>> extracts the BCT location from the BIT? Yes, see
+>>>>> arch/arm/mach-tegra/ap.c:get_odmdata().
+>>>>
+>>>> So, have you considered using the command line partition option,
+>>>> rather than adding yet another partition scheme to the kernel?
+>>>>
+>>>> In principle, you would let the boot loader scan for the partitions,
+>>>> likely from machine specific code in U-boot. Then you append these to
+>>>> the kernel command line and let block/partitions/cmdline.c scan for
+>>>> it.
+>>>
+>>> The bootloader is usually locked-down on a consumer Tegra machines (it's
+>>> signed / encrypted).
+>>
+>> Right, you are you talking about this from a developer point of view,
+>> not from an end product user?
+>>
+>> I mean, for sure you can upgrade the bootloader on Nvidia products?
+>> No, really?
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/gma500/cdv_intel_crt.c     | 14 +++-----------
->  drivers/gpu/drm/gma500/cdv_intel_dp.c      | 16 +++-------------
->  drivers/gpu/drm/gma500/cdv_intel_hdmi.c    |  4 ++--
->  drivers/gpu/drm/gma500/cdv_intel_lvds.c    | 17 +++--------------
->  drivers/gpu/drm/gma500/mdfld_dsi_dpi.c     |  7 +++----
->  drivers/gpu/drm/gma500/mdfld_output.h      |  1 -
->  drivers/gpu/drm/gma500/mdfld_tmd_vid.c     |  6 ------
->  drivers/gpu/drm/gma500/mdfld_tpo_vid.c     |  6 ------
->  drivers/gpu/drm/gma500/oaktrail_hdmi.c     | 14 ++------------
->  drivers/gpu/drm/gma500/oaktrail_lvds.c     |  5 +++--
->  drivers/gpu/drm/gma500/psb_intel_drv.h     |  1 -
->  drivers/gpu/drm/gma500/psb_intel_lvds.c    | 18 +++---------------
->  drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c |  5 -----
->  13 files changed, 22 insertions(+), 92 deletions(-)
+> For developer-oriented products like Jetson developer kits, you can
+> upgrade the bootloader, and luckily they haven't used this partition
+> table format for many versions.
 > 
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-> index 29c36d63b20e..88535f5aacc5 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-> @@ -28,6 +28,8 @@
->  #include <linux/i2c.h>
->  #include <linux/pm_runtime.h>
->  
-> +#include <drm/drm_simple_kms_helper.h>
-> +
->  #include "cdv_device.h"
->  #include "intel_bios.h"
->  #include "power.h"
-> @@ -237,15 +239,6 @@ static const struct drm_connector_helper_funcs
->  	.best_encoder = gma_best_encoder,
->  };
->  
-> -static void cdv_intel_crt_enc_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs cdv_intel_crt_enc_funcs = {
-> -	.destroy = cdv_intel_crt_enc_destroy,
-> -};
-> -
->  void cdv_intel_crt_init(struct drm_device *dev,
->  			struct psb_intel_mode_device *mode_dev)
->  {
-> @@ -271,8 +264,7 @@ void cdv_intel_crt_init(struct drm_device *dev,
->  		&cdv_intel_crt_connector_funcs, DRM_MODE_CONNECTOR_VGA);
->  
->  	encoder = &gma_encoder->base;
-> -	drm_encoder_init(dev, encoder,
-> -		&cdv_intel_crt_enc_funcs, DRM_MODE_ENCODER_DAC, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> index 5772b2dce0d6..13947ec06dbb 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> @@ -32,6 +32,7 @@
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_dp_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "gma_display.h"
->  #include "psb_drv.h"
-> @@ -1908,11 +1909,6 @@ cdv_intel_dp_destroy(struct drm_connector *connector)
->  	kfree(connector);
->  }
->  
-> -static void cdv_intel_dp_encoder_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
->  static const struct drm_encoder_helper_funcs cdv_intel_dp_helper_funcs = {
->  	.dpms = cdv_intel_dp_dpms,
->  	.mode_fixup = cdv_intel_dp_mode_fixup,
-> @@ -1935,11 +1931,6 @@ static const struct drm_connector_helper_funcs cdv_intel_dp_connector_helper_fun
->  	.best_encoder = gma_best_encoder,
->  };
->  
-> -static const struct drm_encoder_funcs cdv_intel_dp_enc_funcs = {
-> -	.destroy = cdv_intel_dp_encoder_destroy,
-> -};
-> -
-> -
->  static void cdv_intel_dp_add_properties(struct drm_connector *connector)
->  {
->  	cdv_intel_attach_force_audio_property(connector);
-> @@ -2016,8 +2007,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->  	encoder = &gma_encoder->base;
->  
->  	drm_connector_init(dev, connector, &cdv_intel_dp_connector_funcs, type);
-> -	drm_encoder_init(dev, encoder, &cdv_intel_dp_enc_funcs,
-> -			 DRM_MODE_ENCODER_TMDS, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  
-> @@ -2120,7 +2110,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->  		if (ret == 0) {
->  			/* if this fails, presume the device is a ghost */
->  			DRM_INFO("failed to retrieve link info, disabling eDP\n");
-> -			cdv_intel_dp_encoder_destroy(encoder);
-> +			drm_encoder_cleanup(encoder);
->  			cdv_intel_dp_destroy(connector);
->  			goto err_priv;
->  		} else {
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-> index 1711a41acc16..0d12c6ffbc40 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-> @@ -32,6 +32,7 @@
->  #include <drm/drm.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_edid.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "cdv_device.h"
->  #include "psb_drv.h"
-> @@ -311,8 +312,7 @@ void cdv_hdmi_init(struct drm_device *dev,
->  			   &cdv_hdmi_connector_funcs,
->  			   DRM_MODE_CONNECTOR_DVID);
->  
-> -	drm_encoder_init(dev, encoder, &psb_intel_lvds_enc_funcs,
-> -			 DRM_MODE_ENCODER_TMDS, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  	gma_encoder->type = INTEL_OUTPUT_HDMI;
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-> index ea0a5d9a0acc..18de10e9ff9a 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-> @@ -12,6 +12,8 @@
->  #include <linux/i2c.h>
->  #include <linux/pm_runtime.h>
->  
-> +#include <drm/drm_simple_kms_helper.h>
-> +
->  #include "cdv_device.h"
->  #include "intel_bios.h"
->  #include "power.h"
-> @@ -499,16 +501,6 @@ static const struct drm_connector_funcs cdv_intel_lvds_connector_funcs = {
->  	.destroy = cdv_intel_lvds_destroy,
->  };
->  
-> -
-> -static void cdv_intel_lvds_enc_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs cdv_intel_lvds_enc_funcs = {
-> -	.destroy = cdv_intel_lvds_enc_destroy,
-> -};
-> -
->  /*
->   * Enumerate the child dev array parsed from VBT to check whether
->   * the LVDS is present.
-> @@ -616,10 +608,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
->  			   &cdv_intel_lvds_connector_funcs,
->  			   DRM_MODE_CONNECTOR_LVDS);
->  
-> -	drm_encoder_init(dev, encoder,
-> -			 &cdv_intel_lvds_enc_funcs,
-> -			 DRM_MODE_ENCODER_LVDS, NULL);
-> -
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  	gma_encoder->type = INTEL_OUTPUT_LVDS;
-> diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c b/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
-> index d4c65f268922..aa5aa293ddb6 100644
-> --- a/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
-> +++ b/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
-> @@ -27,6 +27,8 @@
->  
->  #include <linux/delay.h>
->  
-> +#include <drm/drm_simple_kms_helper.h>
-> +
->  #include "mdfld_dsi_dpi.h"
->  #include "mdfld_dsi_pkg_sender.h"
->  #include "mdfld_output.h"
-> @@ -993,10 +995,7 @@ struct mdfld_dsi_encoder *mdfld_dsi_dpi_init(struct drm_device *dev,
->  	/*create drm encoder object*/
->  	connector = &dsi_connector->base.base;
->  	encoder = &dpi_output->base.base.base;
-> -	drm_encoder_init(dev,
-> -			encoder,
-> -			p_funcs->encoder_funcs,
-> -			DRM_MODE_ENCODER_LVDS, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
->  	drm_encoder_helper_add(encoder,
->  				p_funcs->encoder_helper_funcs);
->  
-> diff --git a/drivers/gpu/drm/gma500/mdfld_output.h b/drivers/gpu/drm/gma500/mdfld_output.h
-> index ab2b27c0f037..17a944d70add 100644
-> --- a/drivers/gpu/drm/gma500/mdfld_output.h
-> +++ b/drivers/gpu/drm/gma500/mdfld_output.h
-> @@ -51,7 +51,6 @@ struct panel_info {
->  };
->  
->  struct panel_funcs {
-> -	const struct drm_encoder_funcs *encoder_funcs;
->  	const struct drm_encoder_helper_funcs *encoder_helper_funcs;
->  	struct drm_display_mode * (*get_config_mode)(struct drm_device *);
->  	int (*get_panel_info)(struct drm_device *, int, struct panel_info *);
-> diff --git a/drivers/gpu/drm/gma500/mdfld_tmd_vid.c b/drivers/gpu/drm/gma500/mdfld_tmd_vid.c
-> index 49c92debb7b2..25e897b98f86 100644
-> --- a/drivers/gpu/drm/gma500/mdfld_tmd_vid.c
-> +++ b/drivers/gpu/drm/gma500/mdfld_tmd_vid.c
-> @@ -188,13 +188,7 @@ static const struct drm_encoder_helper_funcs
->  	.commit = mdfld_dsi_dpi_commit,
->  };
->  
-> -/*TPO DPI encoder funcs*/
-> -static const struct drm_encoder_funcs mdfld_tpo_dpi_encoder_funcs = {
-> -	.destroy = drm_encoder_cleanup,
-> -};
-> -
->  const struct panel_funcs mdfld_tmd_vid_funcs = {
-> -	.encoder_funcs = &mdfld_tpo_dpi_encoder_funcs,
->  	.encoder_helper_funcs = &mdfld_tpo_dpi_encoder_helper_funcs,
->  	.get_config_mode = &tmd_vid_get_config_mode,
->  	.get_panel_info = tmd_vid_get_panel_info,
-> diff --git a/drivers/gpu/drm/gma500/mdfld_tpo_vid.c b/drivers/gpu/drm/gma500/mdfld_tpo_vid.c
-> index a9420bf9a419..11845978fb0a 100644
-> --- a/drivers/gpu/drm/gma500/mdfld_tpo_vid.c
-> +++ b/drivers/gpu/drm/gma500/mdfld_tpo_vid.c
-> @@ -76,13 +76,7 @@ static const struct drm_encoder_helper_funcs
->  	.commit = mdfld_dsi_dpi_commit,
->  };
->  
-> -/*TPO DPI encoder funcs*/
-> -static const struct drm_encoder_funcs mdfld_tpo_dpi_encoder_funcs = {
-> -	.destroy = drm_encoder_cleanup,
-> -};
-> -
->  const struct panel_funcs mdfld_tpo_vid_funcs = {
-> -	.encoder_funcs = &mdfld_tpo_dpi_encoder_funcs,
->  	.encoder_helper_funcs = &mdfld_tpo_dpi_encoder_helper_funcs,
->  	.get_config_mode = &tpo_vid_get_config_mode,
->  	.get_panel_info = tpo_vid_get_panel_info,
-> diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-> index f4370232767d..b25086f252ae 100644
-> --- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-> +++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-> @@ -27,6 +27,7 @@
->  #include <linux/delay.h>
->  
->  #include <drm/drm.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "psb_drv.h"
->  #include "psb_intel_drv.h"
-> @@ -620,15 +621,6 @@ static const struct drm_connector_funcs oaktrail_hdmi_connector_funcs = {
->  	.destroy = oaktrail_hdmi_destroy,
->  };
->  
-> -static void oaktrail_hdmi_enc_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs oaktrail_hdmi_enc_funcs = {
-> -	.destroy = oaktrail_hdmi_enc_destroy,
-> -};
-> -
->  void oaktrail_hdmi_init(struct drm_device *dev,
->  					struct psb_intel_mode_device *mode_dev)
->  {
-> @@ -651,9 +643,7 @@ void oaktrail_hdmi_init(struct drm_device *dev,
->  			   &oaktrail_hdmi_connector_funcs,
->  			   DRM_MODE_CONNECTOR_DVID);
->  
-> -	drm_encoder_init(dev, encoder,
-> -			 &oaktrail_hdmi_enc_funcs,
-> -			 DRM_MODE_ENCODER_TMDS, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  
-> diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> index 582e09597500..2828360153d1 100644
-> --- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> +++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-> @@ -13,6 +13,8 @@
->  
->  #include <asm/intel-mid.h>
->  
-> +#include <drm/drm_simple_kms_helper.h>
-> +
->  #include "intel_bios.h"
->  #include "power.h"
->  #include "psb_drv.h"
-> @@ -311,8 +313,7 @@ void oaktrail_lvds_init(struct drm_device *dev,
->  			   &psb_intel_lvds_connector_funcs,
->  			   DRM_MODE_CONNECTOR_LVDS);
->  
-> -	drm_encoder_init(dev, encoder, &psb_intel_lvds_enc_funcs,
-> -			 DRM_MODE_ENCODER_LVDS, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  	gma_encoder->type = INTEL_OUTPUT_LVDS;
-> diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
-> index 16c6136f778b..fb601983cef0 100644
-> --- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-> +++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-> @@ -252,7 +252,6 @@ extern int psb_intel_lvds_set_property(struct drm_connector *connector,
->  					struct drm_property *property,
->  					uint64_t value);
->  extern void psb_intel_lvds_destroy(struct drm_connector *connector);
-> -extern const struct drm_encoder_funcs psb_intel_lvds_enc_funcs;
->  
->  /* intel_gmbus.c */
->  extern void gma_intel_i2c_reset(struct drm_device *dev);
-> diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-> index afaebab7bc17..063c66bb946d 100644
-> --- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
-> +++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-> @@ -11,6 +11,8 @@
->  #include <linux/i2c.h>
->  #include <linux/pm_runtime.h>
->  
-> +#include <drm/drm_simple_kms_helper.h>
-> +
->  #include "intel_bios.h"
->  #include "power.h"
->  #include "psb_drv.h"
-> @@ -621,18 +623,6 @@ const struct drm_connector_funcs psb_intel_lvds_connector_funcs = {
->  	.destroy = psb_intel_lvds_destroy,
->  };
->  
-> -
-> -static void psb_intel_lvds_enc_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -const struct drm_encoder_funcs psb_intel_lvds_enc_funcs = {
-> -	.destroy = psb_intel_lvds_enc_destroy,
-> -};
-> -
-> -
-> -
->  /**
->   * psb_intel_lvds_init - setup LVDS connectors on this device
->   * @dev: drm device
-> @@ -683,9 +673,7 @@ void psb_intel_lvds_init(struct drm_device *dev,
->  			   &psb_intel_lvds_connector_funcs,
->  			   DRM_MODE_CONNECTOR_LVDS);
->  
-> -	drm_encoder_init(dev, encoder,
-> -			 &psb_intel_lvds_enc_funcs,
-> -			 DRM_MODE_ENCODER_LVDS, NULL);
-> +	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
->  
->  	gma_connector_attach_encoder(gma_connector, gma_encoder);
->  	gma_encoder->type = INTEL_OUTPUT_LVDS;
-> diff --git a/drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c b/drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c
-> index 9e8224456ea2..f7e121f4c609 100644
-> --- a/drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c
-> +++ b/drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c
-> @@ -765,12 +765,7 @@ static const struct drm_encoder_helper_funcs tc35876x_encoder_helper_funcs = {
->  	.commit = mdfld_dsi_dpi_commit,
->  };
->  
-> -static const struct drm_encoder_funcs tc35876x_encoder_funcs = {
-> -	.destroy = drm_encoder_cleanup,
-> -};
-> -
->  const struct panel_funcs mdfld_tc35876x_funcs = {
-> -	.encoder_funcs = &tc35876x_encoder_funcs,
->  	.encoder_helper_funcs = &tc35876x_encoder_helper_funcs,
->  	.get_config_mode = tc35876x_get_config_mode,
->  	.get_panel_info = tc35876x_get_panel_info,
-> -- 
-> 2.25.1
+> However, commercial Android products typically have secure boot enabled,
+> so you can't replace the bootloader unless you know the secure boot
+> keys, which only the manufacturer knows. Dmitry is working on
+> re-purposing such products.
+
+Thank you very much for the good clarification :)
