@@ -2,115 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3C8317C349
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Mar 2020 17:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 345B517C7BE
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Mar 2020 22:18:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbgCFQxB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 6 Mar 2020 11:53:01 -0500
-Received: from avon.wwwdotorg.org ([104.237.132.123]:42428 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbgCFQxB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Mar 2020 11:53:01 -0500
-Received: from [10.20.204.51] (unknown [216.228.112.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726194AbgCFVSV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 6 Mar 2020 16:18:21 -0500
+Received: from asavdk3.altibox.net ([109.247.116.14]:36050 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbgCFVSV (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Mar 2020 16:18:21 -0500
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id DD1AD1C01BF;
-        Fri,  6 Mar 2020 09:52:58 -0700 (MST)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.1 at avon.wwwdotorg.org
-Subject: Re: [PATCH v1 3/3] partitions: Introduce NVIDIA Tegra Partition Table
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Billy Laws <blaws05@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Andrey Danin <danindrey@mail.ru>,
-        Gilles Grandou <gilles@grandou.net>,
-        Ryan Grachek <ryan@edited.us>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200224231841.26550-1-digetx@gmail.com>
- <20200224231841.26550-4-digetx@gmail.com>
- <44c22925-a14e-96d0-1f93-1979c0c60525@wwwdotorg.org>
- <CAPDyKFoXnoukjH_2cM=f0DGHBHS6kVUQSYOa_5ffQppC7VOn2A@mail.gmail.com>
- <824a4d5f-8280-8860-3e80-68188a13aa3d@gmail.com>
- <CAPDyKFric6pZbJ5-2qkwAFoeJ0c0kcha99zHJ12AUrWO6FQmgg@mail.gmail.com>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Message-ID: <6fe6d262-c6b0-52d8-0150-4c32a4c36cbd@wwwdotorg.org>
-Date:   Fri, 6 Mar 2020 09:52:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 92F132001E;
+        Fri,  6 Mar 2020 22:18:04 +0100 (CET)
+Date:   Fri, 6 Mar 2020 22:18:03 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     airlied@linux.ie, daniel@ffwll.ch, abrodkin@synopsys.com,
+        bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+        alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        jingoohan1@gmail.com, inki.dae@samsung.com,
+        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+        stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+        xinliang.liu@linaro.org, zourongrong@gmail.com,
+        john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
+        puck.chen@hisilicon.com, linux@armlinux.org.uk,
+        p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
+        matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
+        heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
+        tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
+        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+        sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 01/22] drm/arc: Use simple encoder
+Message-ID: <20200306211802.GA17369@ravnborg.org>
+References: <20200305155950.2705-1-tzimmermann@suse.de>
+ <20200305155950.2705-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFric6pZbJ5-2qkwAFoeJ0c0kcha99zHJ12AUrWO6FQmgg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200305155950.2705-2-tzimmermann@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=rqCPFu_3IIfdMowE660A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 3/6/20 6:37 AM, Ulf Hansson wrote:
-> On Wed, 4 Mar 2020 at 18:09, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 04.03.2020 19:36, Ulf Hansson пишет:
->>> On Tue, 25 Feb 2020 at 01:20, Stephen Warren <swarren@wwwdotorg.org> wrote:
->>>>
->>>> On 2/24/20 4:18 PM, Dmitry Osipenko wrote:
->>>>> All NVIDIA Tegra devices use a special partition table format for the
->>>>> internal storage partitioning. Most of Tegra devices have GPT partition
->>>>> in addition to TegraPT, but some older Android consumer-grade devices do
->>>>> not or GPT is placed in a wrong sector, and thus, the TegraPT is needed
->>>>> in order to support these devices properly in the upstream kernel. This
->>>>> patch adds support for NVIDIA Tegra Partition Table format that is used
->>>>> at least by all NVIDIA Tegra20 and Tegra30 devices.
->>>>
->>>>> diff --git a/arch/arm/mach-tegra/tegra.c b/arch/arm/mach-tegra/tegra.c
->>>>
->>>>> +static void __init tegra_boot_config_table_init(void)
->>>>> +{
->>>>> +     void __iomem *bct_base;
->>>>> +     u16 pt_addr, pt_size;
->>>>> +
->>>>> +     bct_base = IO_ADDRESS(TEGRA_IRAM_BASE) + TEGRA_IRAM_BCT_OFFSET;
->>>>
->>>> This shouldn't be hard-coded. IIRC, the boot ROM writes a BIT (Boot
->>>> Information Table) to a fixed location in IRAM, and there's some value
->>>> in the BIT that points to where the BCT is in IRAM. In practice, it
->>>> might work out that the BCT is always at the same place in IRAM, but
->>>> this certainly isn't guaranteed. I think there's code in U-Boot which
->>>> extracts the BCT location from the BIT? Yes, see
->>>> arch/arm/mach-tegra/ap.c:get_odmdata().
->>>
->>> So, have you considered using the command line partition option,
->>> rather than adding yet another partition scheme to the kernel?
->>>
->>> In principle, you would let the boot loader scan for the partitions,
->>> likely from machine specific code in U-boot. Then you append these to
->>> the kernel command line and let block/partitions/cmdline.c scan for
->>> it.
->>
->> The bootloader is usually locked-down on a consumer Tegra machines (it's
->> signed / encrypted).
-> 
-> Right, you are you talking about this from a developer point of view,
-> not from an end product user?
-> 
-> I mean, for sure you can upgrade the bootloader on Nvidia products? No, really?
+On Thu, Mar 05, 2020 at 04:59:29PM +0100, Thomas Zimmermann wrote:
+> The arc driver uses empty implementations for its encoders. Replace
+> the code with the generic simple encoder.
 
-For developer-oriented products like Jetson developer kits, you can 
-upgrade the bootloader, and luckily they haven't used this partition 
-table format for many versions.
+We should , as a follow-up patch, embed the encoder in
+arcgpu_drm_private.
+Then we drop the kzalloc() and avoid that life-time challenge.
 
-However, commercial Android products typically have secure boot enabled, 
-so you can't replace the bootloader unless you know the secure boot 
-keys, which only the manufacturer knows. Dmitry is working on 
-re-purposing such products.
+This patch looks good for what it does.
+
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/arc/arcpgu_hdmi.c | 10 +++-------
+>  drivers/gpu/drm/arc/arcpgu_sim.c  |  8 ++------
+>  2 files changed, 5 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arc/arcpgu_hdmi.c b/drivers/gpu/drm/arc/arcpgu_hdmi.c
+> index 52839934f2fb..780911765e2e 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_hdmi.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_hdmi.c
+> @@ -7,15 +7,12 @@
+>  
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_encoder.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "arcpgu.h"
+>  
+> -static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> -
+>  int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
+>  {
+>  	struct drm_encoder *encoder;
+> @@ -34,8 +31,7 @@ int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
+>  
+>  	encoder->possible_crtcs = 1;
+>  	encoder->possible_clones = 0;
+> -	ret = drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
+> -			       DRM_MODE_ENCODER_TMDS, NULL);
+> +	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/arcpgu_sim.c
+> index 37d961668dfe..66ca2c26e339 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_sim.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_sim.c
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "arcpgu.h"
+>  
+> @@ -50,10 +51,6 @@ static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>  };
+>  
+> -static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> -
+>  int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
+>  {
+>  	struct arcpgu_drm_connector *arcpgu_connector;
+> @@ -68,8 +65,7 @@ int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
+>  	encoder->possible_crtcs = 1;
+>  	encoder->possible_clones = 0;
+>  
+> -	ret = drm_encoder_init(drm, encoder, &arcpgu_drm_encoder_funcs,
+> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_VIRTUAL);
+>  	if (ret)
+>  		return ret;
+>  
+> -- 
+> 2.25.1
