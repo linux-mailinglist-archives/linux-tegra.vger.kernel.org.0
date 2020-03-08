@@ -2,102 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B13617D5D7
-	for <lists+linux-tegra@lfdr.de>; Sun,  8 Mar 2020 20:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABE1B17D6D0
+	for <lists+linux-tegra@lfdr.de>; Sun,  8 Mar 2020 23:38:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbgCHTZe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 8 Mar 2020 15:25:34 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:41577 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726322AbgCHTZe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 8 Mar 2020 15:25:34 -0400
-Received: by mail-lf1-f66.google.com with SMTP id q10so5123290lfo.8;
-        Sun, 08 Mar 2020 12:25:33 -0700 (PDT)
+        id S1726346AbgCHWic (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 8 Mar 2020 18:38:32 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40045 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726332AbgCHWic (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 8 Mar 2020 18:38:32 -0400
+Received: by mail-lj1-f195.google.com with SMTP id 19so5138909ljj.7
+        for <linux-tegra@vger.kernel.org>; Sun, 08 Mar 2020 15:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JxZYFn4zeJMpwkX6vuh6I8IQU6SvLZUc8s3XS8zSKTE=;
-        b=U72MCeQCix41eb3o4rWSARF6wTqWl1S639veM4bjWY7kuPO7vldX0Qdhu35y4PWhju
-         5X0vkP0tbgXTpHkFgYsfkumKAQLNAEJ/mdLJHsD0/FIInxSWYrZFYHHA1bFsOHjfKe8J
-         ze8lWJILtx9zmcpLxtKzPVJPWyx52Gc2jXlIOYzZyqlSk/f1JfTP4/9cHMLQ06xP0Cw/
-         qWmzN/ebKthDbQxQIPAj5A8tCj0MAPe+W6oLWgkMx0bzFaTA0IUzebJmHtISiXIlcOWd
-         Pm1m1ePAEf/fbO8qljMlx/sfX9OV5DX4IBv+m/QbksoFPzG0Rd0kz/WSsJM/G9mY0n0W
-         Kn2Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r1mtbKzEDo/meMb75uMw1BZ7jNTEHtwbZ1HaLq50rio=;
+        b=iRtF062MxEz8DoVakOftgorukRssYJq/gobsPeyUU3Q/FNvCZ63CfjjVOG44Uvit/N
+         J6bYfEOump5YU8FSHDNxEe32ALGrc3tARKQU3hHEFuFA35ib0cXITfCM+9IUe8UZ6Rrk
+         MfZKTHhPXn4/P/+/1RhvhNiFSJrjDJVDfix3QRVYckUQczGM+tamEezFPDBS8lUIIw9V
+         GQKI63qXHtnmESy1OaBFDk0NYSSlhsJL8ebJZqbdAKXSD6TINGoOs3Um60vOH//jvPxA
+         UzSttK4sWbw58eX//v4QdC1w/tzGEO9hLoMD20eFZQVa6c2/YDo0dGs+rC0b7dhJTgZ3
+         1psw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JxZYFn4zeJMpwkX6vuh6I8IQU6SvLZUc8s3XS8zSKTE=;
-        b=K9bIeyI7ptk+JXMeAWFAnADETPE4/fPKhq9fwt+iEp5WTjP/mcla5hTTQQRQi3twCn
-         0AJ61fjAEIszuB3QYCeGEBJw7SdzbwgO8856p87ORQBL1Bk28YDdZxhhQDZEpCcBC0rH
-         Z/F3pHg+efdRghgJaNLo2cDRdHVnviLPc+RLqBnEWxVzxN6i+gFsZyFxOsWHTAUHX77M
-         DhUCbxXZPeyXAhSTKyVoJNAu9zaD8UbOnbbX2aFFWV9PUof71JGXYigKl9NaJUEdSxzx
-         gK8gorbGL/e4NLIsI/8n2AIuR/WdapOmLhtWN+5ndknQqLwRvRoY+pna9TWr+XJXwnWj
-         YLDQ==
-X-Gm-Message-State: ANhLgQ1Wz01XhUonQgmDe9Pi0bU6XnZR9qaGNtdkNgU5ouNl1X/r4mxY
-        MzyGIa/n5RrGhuRHUgu9lwYfidMR
-X-Google-Smtp-Source: ADFU+vv6EXBzesa1UohyZfW57/Zw7JVhLpGkJ6whXSKyCZiygwRlWd8TmnbSR4Kzrlv/OWKXDs+a1Q==
-X-Received: by 2002:ac2:52b1:: with SMTP id r17mr7528524lfm.205.1583695532480;
-        Sun, 08 Mar 2020 12:25:32 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id j12sm2543932lfp.23.2020.03.08.12.25.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Mar 2020 12:25:31 -0700 (PDT)
-Subject: Re: [PATCH v10 0/2] Panel rotation patches
-To:     Derek Basehore <dbasehore@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <20200306002112.255361-1-dbasehore@chromium.org>
+        bh=r1mtbKzEDo/meMb75uMw1BZ7jNTEHtwbZ1HaLq50rio=;
+        b=TmMmmkv95ww1YyC1ki52lhM5TSKIvf4C1Qkkxe/32iPz/owiW9idreviHKoULW9UU4
+         YvIQxCnZwhZfm8rHKky5RE6HMuck6dgWrYsDOHE7/rhGb4dS48NHRSHG7Op9iE5y1WIB
+         xRrLcVwIbBimYEEhDKIjzKKVv51+vAhbGxkABArDOi5v4kaFdOihoKVjLXDgp/pgZbYD
+         Am8YWX2XLJO2CA/P/o++Lu4X1BqTniv506wypk5mSNrC6WO7iFWaX4qWquiDmHDc7mG1
+         iFZP02WwFKaSeh9IbZwoOYtKy1QZI4j5gJE5nk9Uh4dS0cX6MqOVPfyiN7+KOj1DEAB2
+         gMdA==
+X-Gm-Message-State: ANhLgQ1p1kNUOpQUsRMqfda91mi6PFhcPznISgCOGnWZ9KUecZM2EpxF
+        KGDscVkP89nW9ljVbVo6/m8=
+X-Google-Smtp-Source: ADFU+vsXzHXv5VdhlnXXX8hLbc6jlFJWsroBn0LOAY7V4Cd+5e9xwnsK+JDax5AlLnXD9QiifV6dhQ==
+X-Received: by 2002:a2e:5747:: with SMTP id r7mr6076448ljd.177.1583707110744;
+        Sun, 08 Mar 2020 15:38:30 -0700 (PDT)
+Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.gmail.com with ESMTPSA id y20sm18757695lfh.20.2020.03.08.15.38.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2020 15:38:30 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ecbfb5f8-615a-4a88-5dac-de17158125bf@gmail.com>
-Date:   Sun, 8 Mar 2020 22:25:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1 1/3] drm/tegra: dc: Use devm_platform_ioremap_resource
+Date:   Mon,  9 Mar 2020 01:38:07 +0300
+Message-Id: <20200308223809.23549-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200306002112.255361-1-dbasehore@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.03.2020 03:21, Derek Basehore пишет:
-> This adds the plumbing for reading panel rotation from the devicetree
-> and sets up adding a panel property for the panel orientation on
-> Mediatek SoCs when a rotation is present.
+The devm_platform_ioremap_resource() helper replaces few lines of a
+boilerplate code with a single line, making code to look cleaner a tad.
 
-Hello Derek and everyone,
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-I'm looking at adding display rotation support to NVIDIA Tegra DRM
-driver because some devices have display panel physically mounted
-upside-down, and thus, display controller's scan-out needs to be rotated
-by 180° in this case.
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 7c70fd31a4c2..257163dda301 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -2503,7 +2503,6 @@ static int tegra_dc_couple(struct tegra_dc *dc)
+ 
+ static int tegra_dc_probe(struct platform_device *pdev)
+ {
+-	struct resource *regs;
+ 	struct tegra_dc *dc;
+ 	int err;
+ 
+@@ -2560,8 +2559,7 @@ static int tegra_dc_probe(struct platform_device *pdev)
+ 		tegra_powergate_power_off(dc->powergate);
+ 	}
+ 
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	dc->regs = devm_ioremap_resource(&pdev->dev, regs);
++	dc->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dc->regs))
+ 		return PTR_ERR(dc->regs);
+ 
+-- 
+2.25.1
 
-Derek, yours panel-rotation patches add support for assigning panel's
-orientation to the connector, but then only primary display plane
-receives rotation value in [1], while rotation needs to be applied to
-all available overlay/cursor planes and this should happen in other
-places than [1] as well.
-
-[1] drm_client_modeset_commit_atomic()
-
-Please also note that in a case of the scan-out rotation, plane's
-coordinates need to be changed in accordance to the display's rotation.
-
-I looked briefly through the DRM code and my understanding that the DRM
-core currently doesn't support use-case where scan-out needs to rotated
-based on a panel's orientation, correct? Is it the use-case you're
-working on for the Mediatek driver?
