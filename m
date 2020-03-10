@@ -2,90 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A9901805AA
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 18:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61179180602
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 19:15:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbgCJR6l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Mar 2020 13:58:41 -0400
-Received: from foss.arm.com ([217.140.110.172]:40532 "EHLO foss.arm.com"
+        id S1726290AbgCJSPk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Mar 2020 14:15:40 -0400
+Received: from sauhun.de ([88.99.104.3]:51018 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726271AbgCJR6k (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:58:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D482A30E;
-        Tue, 10 Mar 2020 10:58:39 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D70C93F534;
-        Tue, 10 Mar 2020 10:58:37 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 17:58:28 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     bhelgaas@google.com, robh+dt@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, andrew.murray@arm.com, kishon@ti.com,
-        gustavo.pimentel@synopsys.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V4 0/5] Add support for PCIe endpoint mode in Tegra194
-Message-ID: <20200310175820.GA13909@e121166-lin.cambridge.arm.com>
-References: <20200303105418.2840-1-vidyas@nvidia.com>
- <20200303170103.GA9641@e121166-lin.cambridge.arm.com>
- <d1e3a42f-c179-fd03-fac0-7cd449580e5b@nvidia.com>
- <b47de9cd-be18-1672-d72c-de4169fb90e5@nvidia.com>
+        id S1726271AbgCJSPk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Mar 2020 14:15:40 -0400
+Received: from localhost (p54B33196.dip0.t-ipconnect.de [84.179.49.150])
+        by pokefinder.org (Postfix) with ESMTPSA id 730C12C1EB6;
+        Tue, 10 Mar 2020 19:15:38 +0100 (CET)
+Date:   Tue, 10 Mar 2020 19:15:38 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] i2c: tegra: Make timeout error more informative
+Message-ID: <20200310181537.GA15874@ninjato>
+References: <20200302173512.2743-1-digetx@gmail.com>
+ <20200310113706.GW1987@ninjato>
+ <017aad72-9872-a4aa-dc99-bd7d08c0db14@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
 Content-Disposition: inline
-In-Reply-To: <b47de9cd-be18-1672-d72c-de4169fb90e5@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <017aad72-9872-a4aa-dc99-bd7d08c0db14@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 11:12:35PM +0530, Vidya Sagar wrote:
-> 
-> 
-> On 3/3/2020 11:43 PM, Vidya Sagar wrote:
-> > 
-> > 
-> > On 3/3/2020 10:31 PM, Lorenzo Pieralisi wrote:
-> > > External email: Use caution opening links or attachments
-> > > 
-> > > 
-> > > On Tue, Mar 03, 2020 at 04:24:13PM +0530, Vidya Sagar wrote:
-> > > > Tegra194 has three (C0, C4 & C5) dual mode PCIe controllers that
-> > > > can operate
-> > > > either in root port mode or in end point mode but only in one
-> > > > mode at a time.
-> > > > Platform P2972-0000 supports enabling endpoint mode for C5
-> > > > controller. This
-> > > > patch series adds support for PCIe endpoint mode in both the
-> > > > driver as well as
-> > > > in DT.
-> > > > This patch series depends on the changes made for Synopsys
-> > > > DesignWare endpoint
-> > > > mode subsystem that are recently accepted.
-> > > > @ https://patchwork.kernel.org/project/linux-pci/list/?series=202211
-> > > > which in turn depends on the patch made by Kishon
-> > > > @ https://patchwork.kernel.org/patch/10975123/
-> > > > which is also under review.
-> > > > 
-> > > > V4:
-> > > > * Started using threaded irqs instead of kthreads
-> > > 
-> > > Hi Vidya,
-> > > 
-> > > sorry for the bother, may I ask you to rebase the series (after
-> > > answering Thierry's query) on top of my pci/endpoint branch please ?
-> > > 
-> > > Please resend it and I will merge patches {1,2,5} then.
-> > Sure.
-> > I just sent V5 series rebasing patches on top of your pci/endpoint branch.
-> Hi,
-> Sorry to bother you again.
-> Could you please take a look at V5 series?
 
-I will merge it tomorrow, apologies.
+--gKMricLos+KVdGMg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-Lorenzo
+
+> Oh, well. I'll keep this debugging applied locally then, it's quite
+> unfortunate when something fails silently :)
+
+I understand. Still, it depends on the I2C client driver to flag it. For
+some devices, this is an error. For some, just one possible state.
+
+
+--gKMricLos+KVdGMg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5n2UAACgkQFA3kzBSg
+KbZJsA/9ErRQgh321oAvGAVlwLVHFTP4xePY7f0V2hGdPmmSFzgPjn9+Bl96RnUA
+KsLYDCl4GUwQ8rsbv6O1ZNITNsWI0E5pJrye/wzjf9UXZ/UjMCMDpfkS8eBSwfKR
++XJb4OsOYz7pR0gWAUaUdEt8CLwzn/vtDH/RFJiCBXY5y7EsjkwLn/UgPrD1GI/0
++4/Q8/uKNqneFCE+L1/HsE77Q/wGwC8ufNLzkv5ngd9nw+FQi+8a6lKibxq4T03S
+aKiLCx87kgh0JUronYfjAAiINs6n+9OSrIiIv9JgXSGIvFwIYqQrUrM5IxsD79AL
+7qhC5VZ4kVJyBn0C6w3SabnDrmlIuHWJOsGWAU3KU/C44jSG5+uEkPspRXmecrf1
+leZ95mWhZlifARo/4rK+EkT8+ReQ4z/bAzcx2o56DJHNvsGs3s/YTQDyZ+pzvNI8
+UFkkle6S18B/Um7cuirg3yax7bPpXPQi7Oao1qgDDceNZW9cy5IiI3QwIV7/QB0u
+Lyfs020A5cFDgYLSFYIzZ0I9qyeSAtDBWDDzd1PQWYBFNA3TryJu8RFMVS+hbCUH
+UlCZd3QijSbTPzDRckoH6d17/hJdGZN84JFW4aY+UPkaxovt/POT5t7mflA2rcjf
+1Gfi0u5lgcE7kQnY5Cb9PdaeI4Blv2pM1WtA6kAzC/qBlDHue9E=
+=5lp1
+-----END PGP SIGNATURE-----
+
+--gKMricLos+KVdGMg--
