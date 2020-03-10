@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FC41180192
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 16:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 027B71802E5
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 17:13:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbgCJPUc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Mar 2020 11:20:32 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34030 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726605AbgCJPUc (ORCPT
+        id S1726636AbgCJQNa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Mar 2020 12:13:30 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:43427 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726283AbgCJQN3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Mar 2020 11:20:32 -0400
-Received: by mail-wr1-f68.google.com with SMTP id z15so16424549wrl.1;
-        Tue, 10 Mar 2020 08:20:28 -0700 (PDT)
+        Tue, 10 Mar 2020 12:13:29 -0400
+Received: by mail-lf1-f65.google.com with SMTP id q9so4721754lfc.10;
+        Tue, 10 Mar 2020 09:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ii2BrewVS3q4fYdTKcoF5y7GinLZa/uKgQ7LuFVDOiE=;
-        b=mg2P+mWIwefea2Gb4MbVfGYZyYQ/wESleXFBAU4JH6aLt3sl8z0AHjHfh+G3NtU31g
-         KomkkTDwg8i1XsIUw0klCGuKm+WEyRL+zw7v5GoA6yg7LiDR4xcTCd/f2T9wJ+DnwD39
-         6mHkCwo1Rut9S89gI+b3bwe4jUB5NI+f52D6HXft8JDw3Y8W68NYnLYf+m46yDFHIGX8
-         K4PXT7vjnudt0xVlGOfXB7jONl7ObhhavdF3Q+unKhWVDnWCqk4A7lKM1pgkLg6z2viA
-         cUKnlyeiVmBN+0ixLZmksTGwJcGJ+NwLHSbt58y2qgzYFn6nZ/UdID6fOeyfL5j8M5L4
-         Ys1Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=W+60mEKOc6FZpec77KfiUx6G8m6jCqzHZbWxKsI68hg=;
+        b=Ec9Xy47+PEgWoZAna5oFPlDRIuAjLD0n5J1sYYhhvbZCyOwpVFQMQ9XujlWExJs3gU
+         7IwvIHCypTprj5W4tTESsxFSFbeqz9RBaIeJwEfQbxWzwX/oiySVJuiNe+tc8b4AIcDS
+         s+CIz9PNBIesDikyaqiiLYix5W0mypifUSly7oN/hs4eUs/WIJr14ghZJeIktIi0SjPf
+         24LH4DcyqCAxbnqVBGc29gB8XISHLBBgplOexNl1aDjLREoxHdyby2EQW3Qt6UR2SY9u
+         lv41viFMWNFfAm/YvDown//2YQqJzY5zIMJP+fQ1K1uH2r9jChayZRg0WrkxzuMD+dFO
+         L1tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ii2BrewVS3q4fYdTKcoF5y7GinLZa/uKgQ7LuFVDOiE=;
-        b=g2Dkpci+WwxfQ1igumejYEC/NmgSzopSjoFVLuVeJxPE5Ux1PH5japDgvcDqOd1YtB
-         mJp0tDB7Ah/PZ4rjSo7hmuHSe4//Z9vdaHL18uoai/pd2ujR3o4gx6fH+jzEOiEh9jPX
-         7+vIAVhhaRfvmL5Wr11nhvY5KhaELe3QD+VP60ZG9iHbfGrKrmsNyxgt2r/BdmWi02Sx
-         M6vDr+OgkgmfzpOo+kJIgbW+t2veg5uT6latOG2+3sCFUQbif9i2dU5Vjf8LiwIUuhga
-         wd4wjR+LyJOxZGIMVTURUelIfVz8dmml39CTlOEwyyymRTr68FEJmZNfkOBdy6SKpDFT
-         yvFw==
-X-Gm-Message-State: ANhLgQ0d87z2niezE0gKh2cNyLMzYTwSVG2BtsYN31WVltmrWAXkXRd/
-        6qfLHuxUu89CD8jCRlikFwA=
-X-Google-Smtp-Source: ADFU+vtqTs4uQrDAjryzWDvDnNDQaQ9//VXaPAg8U0G9Hcxghhfz7KMqFy3Tr5AdeGHNKXA3DcuEfw==
-X-Received: by 2002:a5d:6aca:: with SMTP id u10mr26376254wrw.99.1583853628261;
-        Tue, 10 Mar 2020 08:20:28 -0700 (PDT)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id t18sm4676558wml.17.2020.03.10.08.20.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 08:20:27 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=W+60mEKOc6FZpec77KfiUx6G8m6jCqzHZbWxKsI68hg=;
+        b=q4e6wM0t/Fjb6BHJbJEOmzlJduOSrUU9BPmoBxV6aIgIEWBESXpgR33Hxpgf8+sc+o
+         uYyY6VVf7ETNtc14gRaK1JecTggYwbVBPJYv44sM9s2HSR27jnMYBfbBm1jpKL/p/oSC
+         6coRypvYHlrioJMmg1aH6emdrjGb54vV4NtbV+kOiStg+s2NXApPJuYXuhnfp2IJR2r4
+         YpoimZRKIEhntXh4YbpggX6T9eUffWemVzLf5fqJz2d6rW1vQelcPd4n0VjbrVGOyP/b
+         nFlBU2EYYVgtDUvQGjaqct8h82hbK8h8U3Azw9GnwjHnpUDPNCfSPmx4pqBLgyhTMNZc
+         5nBA==
+X-Gm-Message-State: ANhLgQ1U5wFHZSvdwMlhIWnF5WWdSETk3w8HBwEXzzOD+8X6/PnJWPsa
+        2Q3o7WDLfETTRvbCgPUe0kQ=
+X-Google-Smtp-Source: ADFU+vtaKKamjRMw8i2j8oskqRtAMyNXrKMEbwftPQGJTJ3Tr/icqA8fhaQeQsImoRUm3raAqgliwg==
+X-Received: by 2002:a19:4c08:: with SMTP id z8mr7699955lfa.95.1583856806690;
+        Tue, 10 Mar 2020 09:13:26 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id t27sm11160833ljk.78.2020.03.10.09.13.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2020 09:13:26 -0700 (PDT)
+Subject: Re: [PATCH v5 2/8] clk: tegra: Export functions for EMC clock scaling
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -56,124 +56,41 @@ Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v5 8/8] clk: tegra: Remove the old emc_mux clock for Tegra210
-Date:   Tue, 10 Mar 2020 16:20:03 +0100
-Message-Id: <20200310152003.2945170-9-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200310152003.2945170-1-thierry.reding@gmail.com>
 References: <20200310152003.2945170-1-thierry.reding@gmail.com>
+ <20200310152003.2945170-3-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8e1f11e9-a95a-500f-ff44-6f44ad990863@gmail.com>
+Date:   Tue, 10 Mar 2020 19:13:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200310152003.2945170-3-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Joseph Lo <josephl@nvidia.com>
+10.03.2020 18:19, Thierry Reding пишет:
+> From: Joseph Lo <josephl@nvidia.com>
+> 
+> Export functions to allow accessing the CAR register required by EMC
+> clock scaling. These functions will be used to access the CAR register
+> as part of the scaling sequence.
+> 
+> Signed-off-by: Joseph Lo <josephl@nvidia.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v5:
+> - remove tegra210_clk_emc_update_setting() which is no longer needed
+> 
+...
+> +EXPORT_SYMBOL_GPL(tegra210_clk_emc_update_setting);
+...
+> +extern void tegra210_clk_emc_dll_enable(bool flag);
+> +extern void tegra210_clk_emc_dll_update_setting(u32 emc_dll_src_value);
+> +extern void tegra210_clk_emc_update_setting(u32 emc_src_value);
 
-Remove the old emc_mux clock and don't use the common EMC clock
-definition. This will be replaced by a new clock defined in the
-EMC driver.
-
-Signed-off-by: Joseph Lo <josephl@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/clk/tegra/clk-tegra210.c | 46 ++++++++++++++++++++------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-index 0a5be781da60..53a570b1fc29 100644
---- a/drivers/clk/tegra/clk-tegra210.c
-+++ b/drivers/clk/tegra/clk-tegra210.c
-@@ -319,12 +319,6 @@ static unsigned long tegra210_input_freq[] = {
- 	[8] = 12000000,
- };
- 
--static const char *mux_pllmcp_clkm[] = {
--	"pll_m", "pll_c", "pll_p", "clk_m", "pll_m_ud", "pll_mb", "pll_mb",
--	"pll_p",
--};
--#define mux_pllmcp_clkm_idx NULL
--
- #define PLL_ENABLE			(1 << 30)
- 
- #define PLLCX_MISC1_IDDQ		(1 << 27)
-@@ -2336,7 +2330,6 @@ static struct tegra_clk tegra210_clks[tegra_clk_max] __initdata = {
- 	[tegra_clk_i2c2] = { .dt_id = TEGRA210_CLK_I2C2, .present = true },
- 	[tegra_clk_uartc_8] = { .dt_id = TEGRA210_CLK_UARTC, .present = true },
- 	[tegra_clk_mipi_cal] = { .dt_id = TEGRA210_CLK_MIPI_CAL, .present = true },
--	[tegra_clk_emc] = { .dt_id = TEGRA210_CLK_EMC, .present = true },
- 	[tegra_clk_usb2] = { .dt_id = TEGRA210_CLK_USB2, .present = true },
- 	[tegra_clk_bsev] = { .dt_id = TEGRA210_CLK_BSEV, .present = true },
- 	[tegra_clk_uartd_8] = { .dt_id = TEGRA210_CLK_UARTD, .present = true },
-@@ -2987,6 +2980,27 @@ static const char * const sor1_parents[] = {
- 
- static u32 sor1_parents_idx[] = { 0, 2, 5, 6 };
- 
-+static const struct clk_div_table mc_div_table_tegra210[] = {
-+	{ .val = 0, .div = 2 },
-+	{ .val = 1, .div = 4 },
-+	{ .val = 2, .div = 1 },
-+	{ .val = 3, .div = 2 },
-+	{ .val = 0, .div = 0 },
-+};
-+
-+static void tegra210_clk_register_mc(const char *name,
-+				     const char *parent_name)
-+{
-+	struct clk *clk;
-+
-+	clk = clk_register_divider_table(NULL, name, parent_name,
-+					 CLK_IS_CRITICAL,
-+					 clk_base + CLK_SOURCE_EMC,
-+					 15, 2, CLK_DIVIDER_READ_ONLY,
-+					 mc_div_table_tegra210, &emc_lock);
-+	clks[TEGRA210_CLK_MC] = clk;
-+}
-+
- static const char * const sor1_out_parents[] = {
- 	/*
- 	 * Bit 0 of the mux selects sor1_pad_clkout, irrespective of bit 1, so
-@@ -3029,7 +3043,8 @@ static const char * const la_parents[] = {
- static struct tegra_clk_periph tegra210_la =
- 	TEGRA_CLK_PERIPH(29, 7, 9, 0, 8, 1, TEGRA_DIVIDER_ROUND_UP, 76, 0, NULL, 0);
- 
--static __init void tegra210_periph_clk_init(void __iomem *clk_base,
-+static __init void tegra210_periph_clk_init(struct device_node *np,
-+					    void __iomem *clk_base,
- 					    void __iomem *pmc_base)
- {
- 	struct clk *clk;
-@@ -3075,15 +3090,12 @@ static __init void tegra210_periph_clk_init(void __iomem *clk_base,
- 			CLK_SOURCE_LA, 0);
- 	clks[TEGRA210_CLK_LA] = clk;
- 
--	/* emc mux */
--	clk = clk_register_mux(NULL, "emc_mux", mux_pllmcp_clkm,
--			       ARRAY_SIZE(mux_pllmcp_clkm), 0,
--			       clk_base + CLK_SOURCE_EMC,
--			       29, 3, 0, &emc_lock);
-+	/* emc */
-+	clk = tegra210_clk_register_emc(np, clk_base);
-+	clks[TEGRA210_CLK_EMC] = clk;
- 
--	clk = tegra_clk_register_mc("mc", "emc_mux", clk_base + CLK_SOURCE_EMC,
--				    &emc_lock);
--	clks[TEGRA210_CLK_MC] = clk;
-+	/* mc */
-+	tegra210_clk_register_mc("mc", "emc");
- 
- 	/* cml0 */
- 	clk = clk_register_gate(NULL, "cml0", "pll_e", 0, clk_base + PLLE_AUX,
-@@ -3728,7 +3740,7 @@ static void __init tegra210_clock_init(struct device_node *np)
- 
- 	tegra_fixed_clk_init(tegra210_clks);
- 	tegra210_pll_init(clk_base, pmc_base);
--	tegra210_periph_clk_init(clk_base, pmc_base);
-+	tegra210_periph_clk_init(np, clk_base, pmc_base);
- 	tegra_audio_clk_init(clk_base, pmc_base, tegra210_clks,
- 			     tegra210_audio_plls,
- 			     ARRAY_SIZE(tegra210_audio_plls), 24576000);
--- 
-2.24.1
-
+Why these exports are needed given that the EMC driver is built-in?
