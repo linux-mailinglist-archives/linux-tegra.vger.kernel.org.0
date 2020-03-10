@@ -2,119 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C01180573
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 18:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A9901805AA
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 18:58:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgCJRuM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Mar 2020 13:50:12 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:37599 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgCJRuM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:50:12 -0400
-Received: by mail-lf1-f66.google.com with SMTP id j11so11693876lfg.4;
-        Tue, 10 Mar 2020 10:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=goAJpXnujj5+7IIzD+wIBEHPOokKFfYUjpyJQHVTm40=;
-        b=QVJKIqehKcu24dwMaIGjeKR3UcVe2tBBwUWG9c7Q39xSfZwynDqZCcNrt0YCQL5nDF
-         2w5fBlb7VU4jM2EChm9DqJCxrThJiyV5UVpTqBDE7FbrrDNBVzkyUickKywYgYfM5rYK
-         EkEqPaz3HzhQo9hNond4t6WQ77eirGLRfVoEuNUIp05k1gYpwPcOweGxUNwR0Mz0Y/vr
-         TUUf5cdypFPO5CRchV54kityiuo13nzdJ5v5KBoRJrgdTo1m9DxriKpfmPYLf9zxi+07
-         PO9vynNMhGomYSsEYrEnwVlSDLuFrXYQzbtWVK505JXmQXXXQR3M0D47nvImMzwNETv5
-         sg2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=goAJpXnujj5+7IIzD+wIBEHPOokKFfYUjpyJQHVTm40=;
-        b=kILK9kX9BsdLQ0KzoZVn/nXE6ikNvAL0Vx7AbecCjZwXaOkl5gIvorC5TPVbOJAVfn
-         KmjAW7F/zrDJAqlfCEL7uLHCOdwknAAXpNJRnwpgFI9wXj3h+ucbb+MMyCvI9uVKzS54
-         QejH5wRGPBe30YpcDTKtkj1vPq/k0faA+Ur4cQRBjd9sFDZn1cLrSAlMXPZoTaNHYqGD
-         NkFtPIqisXdrXll0NQFzEdAykASyxwZ9zfFBEhr2IRkcXNny9j2QWahX3nH3/rmxcmqo
-         jaSEJRzp1qrGIwqYLo4i/ODzOdj6vuY1YvrPQWajpJYyaBKU3YxDNfUGPAlkDNcSWtXB
-         x3WA==
-X-Gm-Message-State: ANhLgQ2dFL+n+CZXmO+4aDPzsiVmHd65BF6Z5Ims6xvqoIiB6i7tHY6+
-        dvKpxNPb3YDzZfYf0K1obCg=
-X-Google-Smtp-Source: ADFU+vsz/i/6+z2fGDLGQ6vPCi+tDh/3r1l13kXnFFBiFEwDokoqykXzX3KvIfu9fJ0gV/juMevAlQ==
-X-Received: by 2002:ac2:50c7:: with SMTP id h7mr13554346lfm.101.1583862609134;
-        Tue, 10 Mar 2020 10:50:09 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id r23sm7375579lfe.53.2020.03.10.10.50.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2020 10:50:08 -0700 (PDT)
-Subject: Re: [PATCH v5 1/8] clk: tegra: Add PLLP_UD and PLLMB_UD for Tegra210
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20200310152003.2945170-1-thierry.reding@gmail.com>
- <20200310152003.2945170-2-thierry.reding@gmail.com>
- <9b343fd1-15df-409a-390f-e30fa6bbbfe7@gmail.com>
- <20200310170508.GA3079591@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f613a047-bf3f-3fb5-4034-ce435bb6cd6d@gmail.com>
-Date:   Tue, 10 Mar 2020 20:50:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726891AbgCJR6l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Mar 2020 13:58:41 -0400
+Received: from foss.arm.com ([217.140.110.172]:40532 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726271AbgCJR6k (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Mar 2020 13:58:40 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D482A30E;
+        Tue, 10 Mar 2020 10:58:39 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D70C93F534;
+        Tue, 10 Mar 2020 10:58:37 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 17:58:28 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     bhelgaas@google.com, robh+dt@kernel.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, andrew.murray@arm.com, kishon@ti.com,
+        gustavo.pimentel@synopsys.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V4 0/5] Add support for PCIe endpoint mode in Tegra194
+Message-ID: <20200310175820.GA13909@e121166-lin.cambridge.arm.com>
+References: <20200303105418.2840-1-vidyas@nvidia.com>
+ <20200303170103.GA9641@e121166-lin.cambridge.arm.com>
+ <d1e3a42f-c179-fd03-fac0-7cd449580e5b@nvidia.com>
+ <b47de9cd-be18-1672-d72c-de4169fb90e5@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200310170508.GA3079591@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b47de9cd-be18-1672-d72c-de4169fb90e5@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.03.2020 20:05, Thierry Reding пишет:
-> On Tue, Mar 10, 2020 at 07:19:59PM +0300, Dmitry Osipenko wrote:
->> 10.03.2020 18:19, Thierry Reding пишет:
->>> From: Joseph Lo <josephl@nvidia.com>
->>>
->>> Introduce the low jitter path of PLLP and PLLMB which can be used as EMC
->>> clock source.
->>>
->>> Signed-off-by: Joseph Lo <josephl@nvidia.com>
->>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>> ---
->>>  drivers/clk/tegra/clk-tegra210.c         | 11 +++++++++++
->>>  include/dt-bindings/clock/tegra210-car.h |  4 ++--
->>>  2 files changed, 13 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
->>> index 45d54ead30bc..f99647b4a71f 100644
->>> --- a/drivers/clk/tegra/clk-tegra210.c
->>> +++ b/drivers/clk/tegra/clk-tegra210.c
->>> @@ -3161,6 +3161,17 @@ static void __init tegra210_pll_init(void __iomem *clk_base,
->>>  	clk_register_clkdev(clk, "pll_m_ud", NULL);
->>>  	clks[TEGRA210_CLK_PLL_M_UD] = clk;
->>>  
->>> +	/* PLLMB_UD */
->>> +	clk = clk_register_fixed_factor(NULL, "pll_mb_ud", "pll_mb",
->>> +					CLK_SET_RATE_PARENT, 1, 1);
->>> +	clk_register_clkdev(clk, "pll_mb_ud", NULL);
->>> +	clks[TEGRA210_CLK_PLL_MB_UD] = clk;
->>> +
->>> +	/* PLLP_UD */
->>> +	clk = clk_register_fixed_factor(NULL, "pll_p_ud", "pll_p",
->>> +					0, 1, 1);
->>> +	clks[TEGRA210_CLK_PLL_P_UD] = clk;
->>
->> Isn't it possible to auto-enable the low-jitter bit when necessary
->> during of the rate-change based on a given clock-rate?
+On Tue, Mar 10, 2020 at 11:12:35PM +0530, Vidya Sagar wrote:
 > 
-> I don't think so. These new clocks (pll_mb_ud and pll_p_ud) are parents
-> for the emc clock, so they are needed to properly reflect the position
-> of the emc clock in the clock tree.
+> 
+> On 3/3/2020 11:43 PM, Vidya Sagar wrote:
+> > 
+> > 
+> > On 3/3/2020 10:31 PM, Lorenzo Pieralisi wrote:
+> > > External email: Use caution opening links or attachments
+> > > 
+> > > 
+> > > On Tue, Mar 03, 2020 at 04:24:13PM +0530, Vidya Sagar wrote:
+> > > > Tegra194 has three (C0, C4 & C5) dual mode PCIe controllers that
+> > > > can operate
+> > > > either in root port mode or in end point mode but only in one
+> > > > mode at a time.
+> > > > Platform P2972-0000 supports enabling endpoint mode for C5
+> > > > controller. This
+> > > > patch series adds support for PCIe endpoint mode in both the
+> > > > driver as well as
+> > > > in DT.
+> > > > This patch series depends on the changes made for Synopsys
+> > > > DesignWare endpoint
+> > > > mode subsystem that are recently accepted.
+> > > > @ https://patchwork.kernel.org/project/linux-pci/list/?series=202211
+> > > > which in turn depends on the patch made by Kishon
+> > > > @ https://patchwork.kernel.org/patch/10975123/
+> > > > which is also under review.
+> > > > 
+> > > > V4:
+> > > > * Started using threaded irqs instead of kthreads
+> > > 
+> > > Hi Vidya,
+> > > 
+> > > sorry for the bother, may I ask you to rebase the series (after
+> > > answering Thierry's query) on top of my pci/endpoint branch please ?
+> > > 
+> > > Please resend it and I will merge patches {1,2,5} then.
+> > Sure.
+> > I just sent V5 series rebasing patches on top of your pci/endpoint branch.
+> Hi,
+> Sorry to bother you again.
+> Could you please take a look at V5 series?
 
-Okay, even if it's possible to do, I guess that won't be very compatible
-with the firmware.
+I will merge it tomorrow, apologies.
+
+Thanks,
+Lorenzo
