@@ -2,86 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EB2917FD3B
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 14:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF05A18017E
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 16:20:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730132AbgCJN0q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Mar 2020 09:26:46 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33624 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728043AbgCJN0p (ORCPT
+        id S1727388AbgCJPUN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Mar 2020 11:20:13 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43801 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726283AbgCJPUN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Mar 2020 09:26:45 -0400
-Received: by mail-lj1-f194.google.com with SMTP id f13so14135714ljp.0;
-        Tue, 10 Mar 2020 06:26:44 -0700 (PDT)
+        Tue, 10 Mar 2020 11:20:13 -0400
+Received: by mail-wr1-f67.google.com with SMTP id v9so16368298wrf.10;
+        Tue, 10 Mar 2020 08:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OFEfv78mqxElApVv1PrLdhetmsXCx++xAuLsijmT7RU=;
-        b=MPjkwmXIAf3FWyEgLP72VjHIRYpfGhG20UY8BhN66PsNpd4eGCduEIgthZsYBz4n9C
-         5H9OfqJmEgjp2Du2id90Wx5m8OyU9+TmYOjINHJkzc1MiJV6yIfrsGPCiafRVAOWGSuI
-         1Gs+jLcTEOpUsyfNPXJF25iNTJOrR8OVSF9/i3xeJiy8Y6D57slJhMk+tWGFtq3QujnP
-         mciLBxJjYSs+Px/jakxMHhE/edRBjYPhwpCEOW7gEDNifraZRlkCfEkeqfeNmacRF/kx
-         qhxV+c2mGxh8SBUwtPRh02MYUUi5QbY75MS43mhKGPjlYRn3XXCTvXwUoHI55oLqsOkD
-         bbfA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4n2mLbjo7aNwrYZdMSacX3rbOo2B1BidTBnQhKnQzMY=;
+        b=hGnPcZLOVtBzDoE+WzzkasurCg1KMifhIB0cT0mfVWjDCpDX37pU6cHYixT/kBuRTW
+         fj6ky1PozzwITKbkfZ6PikNwIt4+o7or4KXFv12jpwRMCYEU+Rk7tumvdMru+48LdhMp
+         Zv8gx9tWF1Iu+GXHXivdfwRfabg6g256vFiqg+eSdbXYyZzcFqx5oGuZ2c4zUVeAsgsu
+         lmhqJreT86cmN+Z/7BHBX0qyblFrDsGz6fgT3gmdaGzcTGpsa2Oaz5MJpROeEVuNH9sb
+         T4JlORBEr3VUhy/P+aDDL9LZAgiFyS3I2UFfsVXXTMseOv98jGqcpdViLVopkUGKSGF3
+         KfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=OFEfv78mqxElApVv1PrLdhetmsXCx++xAuLsijmT7RU=;
-        b=WfPklX4tjngMs3psv/VlVntfAMWekYLHNpA3vkNHc9XyL575gYOpHI2v09EcxJfUbA
-         0K4UekBNGdr7Cp6HAP1u6I8aE9QiqlRk9Oquks2B8ID7IFaajf/nb8KaW8Ksv74bX7zC
-         qfMHFY6Es5WNoiVBqACJmngb35k6H3AXVWNTNbXM2UMoP/QW85Mj1fCHy3bBsGKJPWrV
-         WUKDrfTmFAEPj/u12YYMLHULHkfW2ViBIG9q1AxPIDzfsxgeHYlRc/Z1v/si7X/rDfdY
-         KlXaT13q9Hk58BMTcDXQe3lpsn5wEH/1poaQsmZDzUaqA5VMomALjM3o265RcRa6VNM5
-         d8lQ==
-X-Gm-Message-State: ANhLgQ2h63mwAj4hKZlTXL9dQRn43KDEr+hZdPvhAKHVKoGzjCob1HuW
-        owJPnt4KjiMw15rkYLT48K0MiP8n
-X-Google-Smtp-Source: ADFU+vs0D5hsfb7X1yf/tpe6lP/YNwM1B9Ae7W/yTvjMuZrOxV1xdmC8WTPJFzqs51fKWHW5jAXXMQ==
-X-Received: by 2002:a05:651c:114:: with SMTP id a20mr12995219ljb.122.1583846803027;
-        Tue, 10 Mar 2020 06:26:43 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id j24sm8742473lji.76.2020.03.10.06.26.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2020 06:26:42 -0700 (PDT)
-Subject: Re: [PATCH v1] i2c: tegra: Make timeout error more informative
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200302173512.2743-1-digetx@gmail.com>
- <20200310113706.GW1987@ninjato>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <017aad72-9872-a4aa-dc99-bd7d08c0db14@gmail.com>
-Date:   Tue, 10 Mar 2020 16:26:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        bh=4n2mLbjo7aNwrYZdMSacX3rbOo2B1BidTBnQhKnQzMY=;
+        b=OrlIIg/KtudWM1iPRf5xOgiz0yTCb1bJPYzlddyZwSXOnVe0X90I6oVaGCNYwOsTPF
+         UvTTVoiXbPe2HCoVaszM36a0aE+l1G7kwx+Gx1UbYEPf1A6k5AMR+7A5zaEHjMEndNbd
+         DcZ4w9Mae+BTSzue/2dnCW5U1cB9v13AiovcqNOI6pTixyG/LF0OWlxREB/RVgUODQys
+         fF6amqbq2VJDEVhhwAIhoyitVgjwkVsafjIr99YqIureF7s17VlUO4wjjkEgubOxZEsc
+         GYUwmix1UBHABSl/Wph1xf+a9EwheBUoP4G3bIRzFfxIyg4STe+ZdwSN/OpRDEfQPjG3
+         cl+Q==
+X-Gm-Message-State: ANhLgQ0a1mCLZUiRGoRLauqGcaUXtRThMlUEeB3APYMutWSN+AblAkkr
+        8fVwoVH/lmORssNkzNj0I4g=
+X-Google-Smtp-Source: ADFU+vtdcepOM3l2BB9d90s/i+qW7uZK5sCMgjr8svNQswMlI4uZgM5Yxn7HJr/DclKr1TyOG7ycGA==
+X-Received: by 2002:adf:e98c:: with SMTP id h12mr11964222wrm.345.1583853611077;
+        Tue, 10 Mar 2020 08:20:11 -0700 (PDT)
+Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
+        by smtp.gmail.com with ESMTPSA id d63sm4416772wmd.44.2020.03.10.08.20.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 08:20:09 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v5 0/8] Add EMC scaling support for Tegra210
+Date:   Tue, 10 Mar 2020 16:19:55 +0100
+Message-Id: <20200310152003.2945170-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200310113706.GW1987@ninjato>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.03.2020 14:37, Wolfram Sang пишет:
-> On Mon, Mar 02, 2020 at 08:35:12PM +0300, Dmitry Osipenko wrote:
->> The I2C timeout error message doesn't tell us what exactly failed and some
->> I2C client drivers do not clarify the error either. Adding WARN_ON_ONCE()
->> results in a stacktrace being dumped into KMSG, which is very useful for
->> debugging purposes.
-> 
-> This is good for debugging, in deed, yet not good in the generic case.
-> Timeouts are not an exception on the I2C bus (think of an EEPROM which
-> is busy during an erase cycle), so it shouldn't be printed at all.
-> 
-> This prinout should rather be dropped or at least be dev_dbg.
+From: Thierry Reding <treding@nvidia.com>
 
-Oh, well. I'll keep this debugging applied locally then, it's quite
-unfortunate when something fails silently :)
+This series introduces the EMC clock scaling support for Tegra210. The
+EMC table of supported frequencies is passed to the kernel via a device
+tree reserved memory region.
+
+Joseph posted the v4 of this series[0] about a year ago. I've dusted it
+off a bit and tried to address all of the comments that Dmitry had made
+in response to v4.
+
+Changes in v4:
+- major rework to split this into a clk driver and an EMC driver
+- refactored some code to remove duplication and improve readability
+- removed some unused code and variables
+
+Thierry
+
+[0]: https://lore.kernel.org/linux-arm-kernel/20190529082139.5581-1-josephl@nvidia.com/
+
+Joseph Lo (8):
+  clk: tegra: Add PLLP_UD and PLLMB_UD for Tegra210
+  clk: tegra: Export functions for EMC clock scaling
+  clk: tegra: Implement Tegra210 EMC clock
+  dt-bindings: memory: tegra: Add external memory controller binding for
+    Tegra210
+  memory: tegra: Add EMC scaling support code for Tegra210
+  memory: tegra: Add EMC scaling sequence code for Tegra210
+  arm64: tegra: Add external memory controller node for Tegra210
+  clk: tegra: Remove the old emc_mux clock for Tegra210
+
+ .../nvidia,tegra210-emc.yaml                  |   83 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi      |   11 +
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-tegra210-emc.c          |  352 ++++
+ drivers/clk/tegra/clk-tegra210.c              |   83 +-
+ drivers/clk/tegra/clk.h                       |    3 +
+ drivers/memory/tegra/Kconfig                  |   10 +
+ drivers/memory/tegra/Makefile                 |    1 +
+ drivers/memory/tegra/tegra210-emc-cc-r21021.c | 1782 ++++++++++++++++
+ drivers/memory/tegra/tegra210-emc.c           | 1800 +++++++++++++++++
+ drivers/memory/tegra/tegra210-emc.h           | 1065 ++++++++++
+ include/dt-bindings/clock/tegra210-car.h      |    4 +-
+ include/linux/clk/tegra.h                     |   26 +
+ 13 files changed, 5202 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.yaml
+ create mode 100644 drivers/clk/tegra/clk-tegra210-emc.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc-cc-r21021.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc.h
+
+-- 
+2.24.1
+
