@@ -2,45 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 757C017DA4F
-	for <lists+linux-tegra@lfdr.de>; Mon,  9 Mar 2020 09:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 114FA17EE28
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 02:48:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgCIIJX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Mar 2020 04:09:23 -0400
-Received: from paleo.ru ([195.178.204.132]:39817 "EHLO mail.paleo.ru"
+        id S1726156AbgCJBst (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 9 Mar 2020 21:48:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725796AbgCIIJX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 9 Mar 2020 04:09:23 -0400
-X-Greylist: delayed 1122 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Mar 2020 04:09:21 EDT
-Received: from mail.paleo.ru (paleo.ru [195.178.204.132])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1726134AbgCJBst (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 9 Mar 2020 21:48:49 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.paleo.ru (Postfix) with ESMTPSA id 885271D524C;
-        Mon,  9 Mar 2020 07:34:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 350B720637;
+        Tue, 10 Mar 2020 01:48:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583804928;
+        bh=drHpy1pqYfi4hPr9uXRRYm/+jUunsqoLZnhNmY4i2rg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=zeC8hffNgJu5SZJpCiGaeFBN3FH07+3wxNsCbO1atR3zflU2WLj+6bmfuG35TiyIZ
+         gQoXl+6H/jPkr8CMc0Kky9utnq6xZi2TLW0NZoWk9xZe9m2kdq9wxj1PurSmw95mSC
+         7SLXgtsq9NcvCxa5S4a3Djzjo+izQ/k32ubrDipU=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 09 Mar 2020 09:34:56 +0200
-From:   "Michael J. Weirsky" <mikhailov@paleo.ru>
-To:     undisclosed-recipients:;
-Reply-To: micjsky@aol.com
-Mail-Reply-To: micjsky@aol.com
-Message-ID: <c9fe6ad1f251265fbddc64f90d5d8ad7@paleo.ru>
-X-Sender: mikhailov@paleo.ru
-User-Agent: Roundcube Webmail/1.3.9
-X-Spam: Yes
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200305175138.92075-1-thierry.reding@gmail.com>
+References: <20200305175138.92075-1-thierry.reding@gmail.com>
+Subject: Re: [PATCH] clk: Do not recalc rate for reparented clocks
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Date:   Mon, 09 Mar 2020 18:48:47 -0700
+Message-ID: <158380492739.149997.15800995149056434664@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Quoting Thierry Reding (2020-03-05 09:51:38)
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> As part of the clock frequency change sequence, a driver may need to
+> reparent a clock. In that case, the rate will already have been updated
+> and the cached parent rate will no longer be valid, so just skip the
+> recalculation.
 
+Can you describe more about what's going on and why this needs to
+change? For example, we have 'set_rate_and_parent' for cases where a
+driver reparents a clk during a rate change. Is that not sufficient
+here?
 
--- 
-My name is Michael J. Weirsky, I'm an unemployed Handy man , winner of 
-$273million Jackpot in March 8, 2019. I donate $1.000.000,00 to you. 
-Contact me via email: micjsky@aol.com for info / claim.
-Continue reading: 
-https://abcnews.go.com/WNT/video/jersey-handyman-forward-273m-lottery-winner-61544244
+>=20
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/clk/clk.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index ebfc1e2103cb..49d92f4785a2 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -2079,7 +2079,14 @@ static void clk_change_rate(struct clk_core *core)
+> =20
+>         trace_clk_set_rate_complete(core, core->new_rate);
+> =20
+> -       core->rate =3D clk_recalc(core, best_parent_rate);
+> +       /*
+> +        * Some drivers need to change the parent of a clock as part of t=
+he
+> +        * rate change sequence. In that case, best_parent_rate is no lon=
+ger
+> +        * valid. However, reparenting already recalculates the rate for =
+the
+> +        * entire clock subtree, so we can safely skip this here.
+> +        */
+> +       if (core->parent =3D=3D parent)
+> +               core->rate =3D clk_recalc(core, best_parent_rate);
+> =20
+
+I wonder if we can undo the recursion and figure out a way to make this
+only happen once, when we want it to happen.
