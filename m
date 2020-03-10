@@ -2,109 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E152917F59D
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 12:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DB6617F66A
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Mar 2020 12:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbgCJLEq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Mar 2020 07:04:46 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:60931 "EHLO mail.kapsi.fi"
+        id S1726415AbgCJLhI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Mar 2020 07:37:08 -0400
+Received: from sauhun.de ([88.99.104.3]:47772 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726186AbgCJLEq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Mar 2020 07:04:46 -0400
-X-Greylist: delayed 2382 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Mar 2020 07:04:44 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=on/1XDRbw6x43hmVH8OZnVWKvKhaSL5RS5ovw2YMc8c=; b=Y28vOHU2jUV8tyB8DksmJSwq1L
-        KZJOlg2bCXAbxAaN4gPv/5FgmYDU/JyALC4z0PC15JABJ8Uq8+yuRRI65UokTh8G1MIcXBrLlO64X
-        paGfflOsWwp9GckDYb7RJlN33nN4iSjCuIEm9tjAA8wF6UAzMcQ7c3SN1dqy7KD1JSklA+tFbY6SA
-        Ofi8T8796ayaJK1aAe9m5dyocpk3Iy0mL8zYUAInnah/zt/EdEwj4BL0eqXOtHlP5NO1Nip0z6R/d
-        gFuvQxrhbENPWhOVsss5bE3Gg7VozHhdPmlVzhJosIAdl3nOStW1m6htGNaD1bU8f6eMo7FV9/JxG
-        2ZS+L0Ng==;
-Received: from dsl-hkibng22-54faa0-215.dhcp.inet.fi ([84.250.160.215] helo=[192.168.1.10])
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1jBc4L-00070l-JT; Tue, 10 Mar 2020 12:25:01 +0200
-Subject: Re: [PATCH] clk: Do not recalc rate for reparented clocks
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20200305175138.92075-1-thierry.reding@gmail.com>
- <158380492739.149997.15800995149056434664@swboyd.mtv.corp.google.com>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <21f65d74-eb09-6735-4338-8c5e865533ad@kapsi.fi>
-Date:   Tue, 10 Mar 2020 12:25:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1725937AbgCJLhI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Mar 2020 07:37:08 -0400
+Received: from localhost (p54B33196.dip0.t-ipconnect.de [84.179.49.150])
+        by pokefinder.org (Postfix) with ESMTPSA id 8CA752C1EB6;
+        Tue, 10 Mar 2020 12:37:06 +0100 (CET)
+Date:   Tue, 10 Mar 2020 12:37:06 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] i2c: tegra: Make timeout error more informative
+Message-ID: <20200310113706.GW1987@ninjato>
+References: <20200302173512.2743-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <158380492739.149997.15800995149056434664@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 84.250.160.215
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="AFjAQ8ujNJnIGHaX"
+Content-Disposition: inline
+In-Reply-To: <20200302173512.2743-1-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 3/10/20 3:48 AM, Stephen Boyd wrote:
-> Quoting Thierry Reding (2020-03-05 09:51:38)
->> From: Thierry Reding <treding@nvidia.com>
->>
->> As part of the clock frequency change sequence, a driver may need to
->> reparent a clock. In that case, the rate will already have been updated
->> and the cached parent rate will no longer be valid, so just skip the
->> recalculation.
-> 
-> Can you describe more about what's going on and why this needs to
-> change? For example, we have 'set_rate_and_parent' for cases where a
-> driver reparents a clk during a rate change. Is that not sufficient
-> here?
-> 
 
-I believe this is related to the memory clock change sequence on Tegra, 
-where the EMC clock may have to be reparented multiple times during the 
-rate change sequence.
+--AFjAQ8ujNJnIGHaX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If EMC is running off parent A, and the requested new OPP also uses 
-parent A, we have to temporarily switch to a different OPP with parent B 
-so that the rate change sequence can be executed on parent A without 
-affecting the system's memory accesses.
+On Mon, Mar 02, 2020 at 08:35:12PM +0300, Dmitry Osipenko wrote:
+> The I2C timeout error message doesn't tell us what exactly failed and some
+> I2C client drivers do not clarify the error either. Adding WARN_ON_ONCE()
+> results in a stacktrace being dumped into KMSG, which is very useful for
+> debugging purposes.
 
-Mikko
+This is good for debugging, in deed, yet not good in the generic case.
+Timeouts are not an exception on the I2C bus (think of an EEPROM which
+is busy during an erase cycle), so it shouldn't be printed at all.
 
->>
->> Signed-off-by: Thierry Reding <treding@nvidia.com>
->> ---
->>   drivers/clk/clk.c | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
->> index ebfc1e2103cb..49d92f4785a2 100644
->> --- a/drivers/clk/clk.c
->> +++ b/drivers/clk/clk.c
->> @@ -2079,7 +2079,14 @@ static void clk_change_rate(struct clk_core *core)
->>   
->>          trace_clk_set_rate_complete(core, core->new_rate);
->>   
->> -       core->rate = clk_recalc(core, best_parent_rate);
->> +       /*
->> +        * Some drivers need to change the parent of a clock as part of the
->> +        * rate change sequence. In that case, best_parent_rate is no longer
->> +        * valid. However, reparenting already recalculates the rate for the
->> +        * entire clock subtree, so we can safely skip this here.
->> +        */
->> +       if (core->parent == parent)
->> +               core->rate = clk_recalc(core, best_parent_rate);
->>   
-> 
-> I wonder if we can undo the recursion and figure out a way to make this
-> only happen once, when we want it to happen.
-> 
+This prinout should rather be dropped or at least be dev_dbg.
+
+
+--AFjAQ8ujNJnIGHaX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5ne+EACgkQFA3kzBSg
+KbZV0Q//T4qO5EWJYaUa32aqo+HXKBPF6IH+vqrC9SoFXkMtY1nFqCLRkNHJzG3Z
+oweohZqW2IQf4rZNyxVoGWAiO+5yy+iGupJ1ozQPJR1tH/o/Cm4Rer2Ns9e696Gy
+0mL0G47UpwVrWtfSPBwye3L99CbVeEXECc1gLLna0Bl+rsL6cPjuP0U7kj1FbeDK
+hRVlBTnn1WtWIYpfACCXAqiaytWG16Yph86GyohwFUEmevq3w4/1+1c3gRsofiwo
+NDBa15hEQIAEnSR5oTdtY2meBxNAAirNPg6Nu/W3G/SEZ0qMxORwXHrwY5z9h8QV
+OvlhaVcSZ+ncQu/wGxJcq1ZOt+w4dU+LCswo8jO8t9IwJ5jfqyqSGiFd8OMnMHPP
+UKUna18m5usqF8pUWBo9ltutcTr4iRbdzw/Ot1vd6l+Bnp+ATA824k6r8gnwAP61
+xHKgYoie2c75bTDKCmyTtmMgNfc5M9Sr2mVl9JN1FRINlzw/Lu+IBwRdoS4X/xOB
+cGMKssftAS1O8L6ZRGtfPP7giCjDOvUcnE+gLUp5H8+aP4+rPABvrnn5JRMByeAM
+tKEW/R+fm9RXVlFDyF7oPTpWeSfEhZjz6NPK0ceT37lZYj0Nw9UvwKe2NueziVf/
+6XIUjaUl+HIGJNCqZcs+uh32fr6b+mIamsJeuivlE8262uhlSIs=
+=sNpK
+-----END PGP SIGNATURE-----
+
+--AFjAQ8ujNJnIGHaX--
