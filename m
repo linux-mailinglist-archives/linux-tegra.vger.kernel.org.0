@@ -2,121 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E039181B74
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Mar 2020 15:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0749181BC8
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Mar 2020 15:55:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729718AbgCKOiA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Mar 2020 10:38:00 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51694 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729479AbgCKOiA (ORCPT
+        id S1729584AbgCKOzG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Mar 2020 10:55:06 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45367 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729460AbgCKOzF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Mar 2020 10:38:00 -0400
-Received: by mail-wm1-f68.google.com with SMTP id a132so2376428wme.1;
-        Wed, 11 Mar 2020 07:37:59 -0700 (PDT)
+        Wed, 11 Mar 2020 10:55:05 -0400
+Received: by mail-wr1-f67.google.com with SMTP id m9so2986944wro.12;
+        Wed, 11 Mar 2020 07:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=IlF8vjliItStxT/wjkL77PBDGb3h75JlHH9lrCWsv7g=;
-        b=a/xX+dGk8qG9dJT0zL2ydBvoiWjouFszn+yYzln3gWsVfTFuTOzoA/iKMUxUUQ65p1
-         MkkBGNNdb40Nqbn1Ds2k2tJHD+9fgUZtfNtfVl5KDitE1UdnkybGMZs3VEjI4hyvEoD3
-         aieTv9AycjqQKOai/utCiHvR4BFoBWzmZXHgq04w+UT6jbx/Omk2KdMuLxDtUMMGL7Kz
-         t3jIIfycEX37PLVzKnoe3BSUGZSkVP+BmRX5385zZxGNZ0mkZZsgCPaxLAImo4Sf0hRt
-         ky61nji8UhJ4rH6iysQ7Yba4zqPUYViJwljVVN4u3yJ0XfCo534DoBScWunJVYIzswoK
-         6QEg==
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=T6dhYyYvJS/8Bl4FjnByulc+SHG/kFSfXU5KSrYTgvo=;
+        b=YpR821mEYGSQYCAJdxDmyyX1QVwPDu7Rb+v0SpjUUf77rpGL4EX+ni4S+CA2f5Ddd4
+         Tn6GVumWKMkc+KSE4/YRS9Bh9EXH07aq1OGbWacOITIjyrgjPKWp5s8QtRFCtElId6ap
+         loh9EfaNtUHKS0cARkPlOA5W3ZvPDVQe4YKYApAG4RFW2sO+D4lojIESO+ye4U8YfB0U
+         OA7UmdyO96F/KOBzabiUxreqyVAmzi4lLfGFxNyETOZu5z/8kdcwLFq4eTsGGz3FN+Qt
+         Zq9+pswIm00N4KRxKmDlZZouEd/pvKvXEVr3JS3V9AZ8rQJlOaDRPFtcDijkVtvYv9mf
+         QLUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IlF8vjliItStxT/wjkL77PBDGb3h75JlHH9lrCWsv7g=;
-        b=gK+0ud4X77DLf7U0WNcUB0xFbWAMj1mM3aG0lFkvoDV8X4oKpnQjF1v9WHu19RDdeg
-         yfW0XC9MABIXpJoJYbutwHWKHFxbBvv8CiGVPHyk95npo85KqQHsFd1js8WfKM/7SfXw
-         eauCHbwRlk+2uW/EqkVZQDJcL/K+T88OYbFtMxlFivtXxnFnlGshdrytdN/wMuJW6jgd
-         4lSmI5m2e69QKO9bsSe8Q6fTqcpG6z71gFLFOoZ3HoQttCl0Itjs5XY1qACtsQjip8Mg
-         cSzzzo8jIA3OZWT8uKPSo5HBQpYLPpvnP68JQ38FLdgoOR3dqx2jmmsmu0BEWFT4B/92
-         UnJg==
-X-Gm-Message-State: ANhLgQ0aHC0Q1a1Fs/pu/4+4zq/T3gh1rFx+sRswLVN+FwIb4OI/O0at
-        h1n4LIG0PxpvYI//kfRWL2n7Zb/Z
-X-Google-Smtp-Source: ADFU+vuCH5zFJfC/erOCWEF28PPs9YZ/845sNE9/1798jBMHK7sfbsYetQ8tFwb8XA/8esL2KHJ42Q==
-X-Received: by 2002:a1c:9802:: with SMTP id a2mr4213927wme.117.1583937475882;
-        Wed, 11 Mar 2020 07:37:55 -0700 (PDT)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id o16sm56960179wrj.5.2020.03.11.07.37.53
+        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=T6dhYyYvJS/8Bl4FjnByulc+SHG/kFSfXU5KSrYTgvo=;
+        b=NRgBx/07bnOHz1vHwnZ+kpO/r8pxWqonrmp0/7Zeto4BTzspdNp8ak/Qi8Bp7TcY2g
+         MIg18Kvpn5TiwrTahqCXFVta0L6LqRW3nIBkJA0zu5X7Du1a5YWxdBl0Wb29wCXbOhik
+         lz0/W4erX0UXGZI5YIU1d9JbBCjCaEX/kWAK3XoTYBQzxxq1n2kBzivvFdRt2eaX+tO5
+         Sc3kJNOgRlYtBIx8gML8EqzVuts5jFcM/qWJeFR1wuVFcEAFy+piNLa1Lvi26m1gO/gf
+         3hkMdG2SQxKDBaJvoAzyMxTskxbK15yODxoX/HReFyHQ+2u30VOYgaY+5ykwaH1laeiX
+         AVfA==
+X-Gm-Message-State: ANhLgQ0otppPNH6iaySJc1mwqZLFwurqxlKIRKgMvpxflAMqzwBMPQ8F
+        kDqZ6FauZ3+L9iyGDCCiqF4=
+X-Google-Smtp-Source: ADFU+vs4BWU2lMGWUFQMXyBURcsQiYdsefcfXhTiCwDFmuMlBP9RvmVVDzc5UzvPBDK9q9P6PpDWBQ==
+X-Received: by 2002:adf:a506:: with SMTP id i6mr4636282wrb.146.1583938503671;
+        Wed, 11 Mar 2020 07:55:03 -0700 (PDT)
+Received: from wambui.local ([197.237.61.225])
+        by smtp.googlemail.com with ESMTPSA id i7sm56001662wro.87.2020.03.11.07.54.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 07:37:53 -0700 (PDT)
-Date:   Wed, 11 Mar 2020 15:37:53 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Wambui Karuga <wambui.karugax@gmail.com>
-Cc:     daniel@ffwll.ch, airlied@linux.ie,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Wed, 11 Mar 2020 07:55:02 -0700 (PDT)
+From:   Wambui Karuga <wambui.karugax@gmail.com>
+X-Google-Original-From: Wambui Karuga <wambui@wambui>
+Date:   Wed, 11 Mar 2020 17:54:46 +0300 (EAT)
+To:     Thierry Reding <thierry.reding@gmail.com>
+cc:     Wambui Karuga <wambui.karugax@gmail.com>, daniel@ffwll.ch,
+        airlied@linux.ie, Jonathan Hunter <jonathanh@nvidia.com>,
         linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
 Subject: Re: [PATCH 10/21] drm/tegra: remove checks for debugfs functions
  return value
-Message-ID: <20200311143753.GC494173@ulmo>
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
- <20200227120232.19413-11-wambui.karugax@gmail.com>
+In-Reply-To: <20200311143753.GC494173@ulmo>
+Message-ID: <alpine.LNX.2.21.99999.375.2003111750360.14786@wambui>
+References: <20200227120232.19413-1-wambui.karugax@gmail.com> <20200227120232.19413-11-wambui.karugax@gmail.com> <20200311143753.GC494173@ulmo>
+User-Agent: Alpine 2.21.99999 (LNX 375 2019-10-29)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
-Content-Disposition: inline
-In-Reply-To: <20200227120232.19413-11-wambui.karugax@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hey Thierry,
 
---69pVuxX8awAiJ7fD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 11 Mar 2020, Thierry Reding wrote:
 
-On Thu, Feb 27, 2020 at 03:02:21PM +0300, Wambui Karuga wrote:
-> Since 987d65d01356 (drm: debugfs: make
-> drm_debugfs_create_files() never fail) there is no need to check the
-> return value of drm_debugfs_create_files(). Therefore, remove the
-> return checks and error handling of the drm_debugfs_create_files()
-> function from various debugfs init functions in drm/tegra and have
-> them return 0 directly.
->=20
-> This change also includes removing the use of drm_debugfs_create_files
-> as a return value in tegra_debugfs_init() and have the function declared
-> as void.
->=20
-> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/dc.c   | 11 +----------
->  drivers/gpu/drm/tegra/drm.c  |  8 ++++----
->  drivers/gpu/drm/tegra/dsi.c  | 11 +----------
->  drivers/gpu/drm/tegra/hdmi.c | 11 +----------
->  drivers/gpu/drm/tegra/sor.c  | 11 +----------
->  5 files changed, 8 insertions(+), 44 deletions(-)
+> On Thu, Feb 27, 2020 at 03:02:21PM +0300, Wambui Karuga wrote:
+>> Since 987d65d01356 (drm: debugfs: make
+>> drm_debugfs_create_files() never fail) there is no need to check the
+>> return value of drm_debugfs_create_files(). Therefore, remove the
+>> return checks and error handling of the drm_debugfs_create_files()
+>> function from various debugfs init functions in drm/tegra and have
+>> them return 0 directly.
+>>
+>> This change also includes removing the use of drm_debugfs_create_files
+>> as a return value in tegra_debugfs_init() and have the function declared
+>> as void.
+>>
+>> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+>> ---
+>>  drivers/gpu/drm/tegra/dc.c   | 11 +----------
+>>  drivers/gpu/drm/tegra/drm.c  |  8 ++++----
+>>  drivers/gpu/drm/tegra/dsi.c  | 11 +----------
+>>  drivers/gpu/drm/tegra/hdmi.c | 11 +----------
+>>  drivers/gpu/drm/tegra/sor.c  | 11 +----------
+>>  5 files changed, 8 insertions(+), 44 deletions(-)
+>
+> Applied, thanks.
+>
+There's a newer version[1] of this patch series as this specific patch 
+depends on other work in drm.
 
-Applied, thanks.
+Thanks,
+wambui karuga.
 
-Thierry
-
---69pVuxX8awAiJ7fD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5o98AACgkQ3SOs138+
-s6HZYhAAkiP6QpzzL7CdD6Z9Ope+DJuC3IiLOgXlUk62gu0rPNgHNHn8qo6QoLN9
-lj+yH2lxtBKcNjdbWhbwl7Y0kPcF/NnaIwlNa0DXqeOibQ/25kwTxEUVGLjui5tr
-tfuv80lAwAiTBMdkt3j/NYVFAPn593+XIuLTxpmWp1lndf6JJ4q6f7x7oWLKyH2P
-4GUNrcGqLjrEvTlL0kSrcnSFt4Lj1+/E/L8S5TduQtnFMJdDX1cRVol9bsFtaYdz
-NWKixSEf7MyNXVhSDqAQq6lKd6+MQtjjfA/nBrY2g0dxmlwhKklYcgdsO9RVHnK8
-ChFqVsMcu4ekbblHTgZ9aUfsFlR2SsFBGdrXgjXscf95BhK1LeZtkLFHZwSho5jW
-25mvVeY0BBCHDzvSdhLBt6c2ib2a3KGTwm0geLuWlEczczQEkyNLYRpESCARrNHx
-FGtEQR30sVzRvnkBl+35xthXJ1/d/vzYOkbxjgAgYfBeK/H2NkJQuBxNaolkvTuv
-fcQ7mqY71PLwYX/fNtVx9nGxcswa5m1FYxz4NEOykTr9bJIsjyP9gph6nb6zaGNh
-mmN74mDvLdyvMZpdOUYgqLkf3bh9I43fECfrpnxkjVRrZhMDDfIVA/I1pw2ChqNQ
-CaF+O8yIQIEWeNi/kyamiROf9Pzsyo7ov3RNnk+5t7W34h/+k1k=
-=Kgul
------END PGP SIGNATURE-----
-
---69pVuxX8awAiJ7fD--
+[1] https://lists.freedesktop.org/archives/dri-devel/2020-March/258793.html
+> Thierry
+>
