@@ -2,82 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C685181937
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Mar 2020 14:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0527181B37
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Mar 2020 15:31:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729331AbgCKNJE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Mar 2020 09:09:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44738 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729103AbgCKNJE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Mar 2020 09:09:04 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DAC6E22464;
-        Wed, 11 Mar 2020 13:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583932142;
-        bh=6ca9lA8jh4w8D6Pag4DBz2MdpAPLBlItf7WOD0hTDI0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tC3pKbkHDAzIpNGPXe9tCgxbGPWh3fcrZLcYFPcjqwC32CM5WPSbo7LK7vsqN8rM6
-         DK7lUEK3riFoZkssrOlCLrp5jpucuqJ3YVLzGyuOZOhaeTaCaFDxeqv5Dto3UT6Mnx
-         BWeYdMQgnynX2fRWPiUyKmFeZviBslGmMlDNtiRo=
-Date:   Wed, 11 Mar 2020 14:09:00 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.5 000/189] 5.5.9-stable review
-Message-ID: <20200311130900.GC3833342@kroah.com>
-References: <20200310123639.608886314@linuxfoundation.org>
- <d5975b9f-e97b-2cf4-9c1a-c52b4fed7191@nvidia.com>
+        id S1729652AbgCKObB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Mar 2020 10:31:01 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39693 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729309AbgCKObB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 11 Mar 2020 10:31:01 -0400
+Received: by mail-wr1-f67.google.com with SMTP id r15so2906223wrx.6;
+        Wed, 11 Mar 2020 07:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VjzeEKChSA5U1RVRAuBtpoNW2CBTxFFw13vMlkz5Qxk=;
+        b=EHqlZFnV23fFnJW6akKlxvTs10LaICmJ/QCOlISSxIB0cw/p6s1ifiyS3OZVNq7Cra
+         /3936DKt8/JFJz9DaopJG5InbBeZvZQeuOQZ6Aed3ghopyfvrWaRZCF1LE/x6R5kBpJn
+         0/A1PFt0H4dOR0eMsY0VrYnR0krQmusq1cJRptn09df4Qfb6qmziQ+zua6UH2O+eMec2
+         Bw8N02JXEbs4uNpXpKNEvAUIqsava8YurAY6JtdU3NoMUaC9nfqn1m24q5apukcQLlnC
+         b1m2mUIIDODwT1Dp8udTeIrQeUioqm9GfvpINHA4RYsiD3ooKoLqmsKQjaZJENIv0tX0
+         dBGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VjzeEKChSA5U1RVRAuBtpoNW2CBTxFFw13vMlkz5Qxk=;
+        b=DzRst48KUcc5LxTJIMV84RcHd5Zq9i5tTZEs5gVRaQs+VNV+VEFCOeaNDmaVmg90uf
+         uaDyXF6E7KnF5SOSQjLZAq9GH2wJ2JRFDv3iF/XBG3ya8qXO819JHRDtDTVW+eaMIhxh
+         2yqb6Ld9lBAjxCAWH4ShfM5LTXwOvbb/02fgccV1/bN5RdzB1EBs1duAexRQeZVECQhF
+         T1OSBqaXSb4ZxX248UN56K82DJ5qwwu5M5g6+S9hTMk0pVVKNn9/iXwAOOSYketdqNXF
+         pIMhNthn+oMUFMfZMi25rfMPPFr+sepu3JP4Lm5p4E8pf7+e1ETjTGdgueRc44EGW2LL
+         lZlw==
+X-Gm-Message-State: ANhLgQ3/7b/RwVt7OfnVXNpbROxeoa+blDIczej8jd+bTiRrLFXidvRS
+        lSN+sJ1iGevVqig3tTHcvCc=
+X-Google-Smtp-Source: ADFU+vuCLwEwQ5JWv5ljZuN0njk0gngoUTdcQ0yYvpJ5vzAu66rQL6Q1YmXNCUN1Wmmj/p+P6gqpCA==
+X-Received: by 2002:a5d:5090:: with SMTP id a16mr4872952wrt.191.1583937058668;
+        Wed, 11 Mar 2020 07:30:58 -0700 (PDT)
+Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
+        by smtp.gmail.com with ESMTPSA id 138sm3297085wmb.21.2020.03.11.07.30.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2020 07:30:57 -0700 (PDT)
+Date:   Wed, 11 Mar 2020 15:30:53 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Vidya Sagar <vidyas@nvidia.com>, bhelgaas@google.com,
+        robh+dt@kernel.org, jonathanh@nvidia.com, andrew.murray@arm.com,
+        kishon@ti.com, gustavo.pimentel@synopsys.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V5 0/5] Add support for PCIe endpoint mode in Tegra194
+Message-ID: <20200311143053.GB494173@ulmo>
+References: <20200303181052.16134-1-vidyas@nvidia.com>
+ <20200311105141.GA30083@e121166-lin.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="i9LlY+UWpKt15+FH"
 Content-Disposition: inline
-In-Reply-To: <d5975b9f-e97b-2cf4-9c1a-c52b4fed7191@nvidia.com>
+In-Reply-To: <20200311105141.GA30083@e121166-lin.cambridge.arm.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 08:08:58PM +0000, Jon Hunter wrote:
-> 
-> On 10/03/2020 12:37, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.5.9 release.
-> > There are 189 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Thu, 12 Mar 2020 12:34:10 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.5.9-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.5.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.5:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     40 tests:	40 pass, 0 fail
-> 
-> Linux version:	5.5.9-rc1-g11e07aec0780
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
 
-Thanks for testing all of these and letting me know.
+--i9LlY+UWpKt15+FH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-greg k-h
+On Wed, Mar 11, 2020 at 10:52:00AM +0000, Lorenzo Pieralisi wrote:
+> On Tue, Mar 03, 2020 at 11:40:47PM +0530, Vidya Sagar wrote:
+> > Tegra194 has three (C0, C4 & C5) dual mode PCIe controllers that can op=
+erate
+> > either in root port mode or in end point mode but only in one mode at a=
+ time.
+> > Platform P2972-0000 supports enabling endpoint mode for C5 controller. =
+This
+> > patch series adds support for PCIe endpoint mode in both the driver as =
+well as
+> > in DT.
+> > This patch series depends on the changes made for Synopsys DesignWare e=
+ndpoint
+> > mode subsystem that are recently accepted.
+> > @ https://patchwork.kernel.org/project/linux-pci/list/?series=3D202211
+> > which in turn depends on the patch made by Kishon
+> > @ https://patchwork.kernel.org/patch/10975123/
+> > which is also under review.
+> >=20
+> > V5:
+> > * Rebased patch-2 on top of Lorenzo's pci/endpoint branch
+> > * Removed unwanted header files inclusion in patch-5
+>=20
+> Applied patches 1,2,5 to pci/endpoint for v5.7, please let me know
+> if something is missing.
+
+Great, thanks! I've picked up patches 3 and 4 into the Tegra tree for
+v5.7.
+
+Thierry
+
+--i9LlY+UWpKt15+FH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5o9hkACgkQ3SOs138+
+s6EhXg//cjYE1EBraQovAb9Meb89XpZgwlbTBz4wVpX5gGBnmOdMVLAJdqSbXdVQ
+AxZT3EVQOzy24ZqGwb118iN3a28CNYU9FLUdZM/UoPnA4NHC0Dk62cIeWUly7FU7
+geukEaBFNJSl/6EPuAo0Qobgow0Yn5anvPjKgpZ+0BKK/e/+aUYZNzFs0vpde9xq
+9PPsB1rGj0KrrDSnAFS1hxrL85yL8B5Hz2X//Zm/WFgC3C7X2lSSCL9z4RWyeT1F
+pNc41o45blCOmcA2wZi7WbaMCYkyBvQyjEmBPBTnF/6P3R+J3XWtyWcTJOSwgjby
+MHLshrbG0T4HNxFtbZ38G14Q//mCu5kYuGWLW/P3187nejD2XF1wNGYSqmwE9Eny
+zcOH7tqEofowLvCjLa3BZtHiSiAxRdwuLY4Q6nh1tEydpQqo5bKp3A52B6vjdqoo
+7GBhLvJ6tIal+dZUxI7nMz7wPdb53TrMws6rhQ4/bcb1oprZwXQzL8DGoNij6aBl
+kYU0OvWb1Wh9t+EbLa3BKdupY/OuBVK1zu6/mH1+MYTD/FZviyj+EXH8rPLbzki5
+THwdnIDEs0dvf3nEfIjXnyVfr+QrVOsrsKOpyfjHq3N0yGeOXavt1Su/XHZ8mBDX
+r2nBg9NWA2vPlngiW49ndo080lFoiG3mGmRwgk21+1HJIDdPcys=
+=QA1n
+-----END PGP SIGNATURE-----
+
+--i9LlY+UWpKt15+FH--
