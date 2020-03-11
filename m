@@ -2,68 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0527181B37
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Mar 2020 15:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E039181B74
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Mar 2020 15:38:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729652AbgCKObB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Mar 2020 10:31:01 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39693 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729309AbgCKObB (ORCPT
+        id S1729718AbgCKOiA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Mar 2020 10:38:00 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51694 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729479AbgCKOiA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Mar 2020 10:31:01 -0400
-Received: by mail-wr1-f67.google.com with SMTP id r15so2906223wrx.6;
-        Wed, 11 Mar 2020 07:30:59 -0700 (PDT)
+        Wed, 11 Mar 2020 10:38:00 -0400
+Received: by mail-wm1-f68.google.com with SMTP id a132so2376428wme.1;
+        Wed, 11 Mar 2020 07:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=VjzeEKChSA5U1RVRAuBtpoNW2CBTxFFw13vMlkz5Qxk=;
-        b=EHqlZFnV23fFnJW6akKlxvTs10LaICmJ/QCOlISSxIB0cw/p6s1ifiyS3OZVNq7Cra
-         /3936DKt8/JFJz9DaopJG5InbBeZvZQeuOQZ6Aed3ghopyfvrWaRZCF1LE/x6R5kBpJn
-         0/A1PFt0H4dOR0eMsY0VrYnR0krQmusq1cJRptn09df4Qfb6qmziQ+zua6UH2O+eMec2
-         Bw8N02JXEbs4uNpXpKNEvAUIqsava8YurAY6JtdU3NoMUaC9nfqn1m24q5apukcQLlnC
-         b1m2mUIIDODwT1Dp8udTeIrQeUioqm9GfvpINHA4RYsiD3ooKoLqmsKQjaZJENIv0tX0
-         dBGw==
+        bh=IlF8vjliItStxT/wjkL77PBDGb3h75JlHH9lrCWsv7g=;
+        b=a/xX+dGk8qG9dJT0zL2ydBvoiWjouFszn+yYzln3gWsVfTFuTOzoA/iKMUxUUQ65p1
+         MkkBGNNdb40Nqbn1Ds2k2tJHD+9fgUZtfNtfVl5KDitE1UdnkybGMZs3VEjI4hyvEoD3
+         aieTv9AycjqQKOai/utCiHvR4BFoBWzmZXHgq04w+UT6jbx/Omk2KdMuLxDtUMMGL7Kz
+         t3jIIfycEX37PLVzKnoe3BSUGZSkVP+BmRX5385zZxGNZ0mkZZsgCPaxLAImo4Sf0hRt
+         ky61nji8UhJ4rH6iysQ7Yba4zqPUYViJwljVVN4u3yJ0XfCo534DoBScWunJVYIzswoK
+         6QEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VjzeEKChSA5U1RVRAuBtpoNW2CBTxFFw13vMlkz5Qxk=;
-        b=DzRst48KUcc5LxTJIMV84RcHd5Zq9i5tTZEs5gVRaQs+VNV+VEFCOeaNDmaVmg90uf
-         uaDyXF6E7KnF5SOSQjLZAq9GH2wJ2JRFDv3iF/XBG3ya8qXO819JHRDtDTVW+eaMIhxh
-         2yqb6Ld9lBAjxCAWH4ShfM5LTXwOvbb/02fgccV1/bN5RdzB1EBs1duAexRQeZVECQhF
-         T1OSBqaXSb4ZxX248UN56K82DJ5qwwu5M5g6+S9hTMk0pVVKNn9/iXwAOOSYketdqNXF
-         pIMhNthn+oMUFMfZMi25rfMPPFr+sepu3JP4Lm5p4E8pf7+e1ETjTGdgueRc44EGW2LL
-         lZlw==
-X-Gm-Message-State: ANhLgQ3/7b/RwVt7OfnVXNpbROxeoa+blDIczej8jd+bTiRrLFXidvRS
-        lSN+sJ1iGevVqig3tTHcvCc=
-X-Google-Smtp-Source: ADFU+vuCLwEwQ5JWv5ljZuN0njk0gngoUTdcQ0yYvpJ5vzAu66rQL6Q1YmXNCUN1Wmmj/p+P6gqpCA==
-X-Received: by 2002:a5d:5090:: with SMTP id a16mr4872952wrt.191.1583937058668;
-        Wed, 11 Mar 2020 07:30:58 -0700 (PDT)
+        bh=IlF8vjliItStxT/wjkL77PBDGb3h75JlHH9lrCWsv7g=;
+        b=gK+0ud4X77DLf7U0WNcUB0xFbWAMj1mM3aG0lFkvoDV8X4oKpnQjF1v9WHu19RDdeg
+         yfW0XC9MABIXpJoJYbutwHWKHFxbBvv8CiGVPHyk95npo85KqQHsFd1js8WfKM/7SfXw
+         eauCHbwRlk+2uW/EqkVZQDJcL/K+T88OYbFtMxlFivtXxnFnlGshdrytdN/wMuJW6jgd
+         4lSmI5m2e69QKO9bsSe8Q6fTqcpG6z71gFLFOoZ3HoQttCl0Itjs5XY1qACtsQjip8Mg
+         cSzzzo8jIA3OZWT8uKPSo5HBQpYLPpvnP68JQ38FLdgoOR3dqx2jmmsmu0BEWFT4B/92
+         UnJg==
+X-Gm-Message-State: ANhLgQ0aHC0Q1a1Fs/pu/4+4zq/T3gh1rFx+sRswLVN+FwIb4OI/O0at
+        h1n4LIG0PxpvYI//kfRWL2n7Zb/Z
+X-Google-Smtp-Source: ADFU+vuCH5zFJfC/erOCWEF28PPs9YZ/845sNE9/1798jBMHK7sfbsYetQ8tFwb8XA/8esL2KHJ42Q==
+X-Received: by 2002:a1c:9802:: with SMTP id a2mr4213927wme.117.1583937475882;
+        Wed, 11 Mar 2020 07:37:55 -0700 (PDT)
 Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id 138sm3297085wmb.21.2020.03.11.07.30.56
+        by smtp.gmail.com with ESMTPSA id o16sm56960179wrj.5.2020.03.11.07.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 07:30:57 -0700 (PDT)
-Date:   Wed, 11 Mar 2020 15:30:53 +0100
+        Wed, 11 Mar 2020 07:37:53 -0700 (PDT)
+Date:   Wed, 11 Mar 2020 15:37:53 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Vidya Sagar <vidyas@nvidia.com>, bhelgaas@google.com,
-        robh+dt@kernel.org, jonathanh@nvidia.com, andrew.murray@arm.com,
-        kishon@ti.com, gustavo.pimentel@synopsys.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V5 0/5] Add support for PCIe endpoint mode in Tegra194
-Message-ID: <20200311143053.GB494173@ulmo>
-References: <20200303181052.16134-1-vidyas@nvidia.com>
- <20200311105141.GA30083@e121166-lin.cambridge.arm.com>
+To:     Wambui Karuga <wambui.karugax@gmail.com>
+Cc:     daniel@ffwll.ch, airlied@linux.ie,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 10/21] drm/tegra: remove checks for debugfs functions
+ return value
+Message-ID: <20200311143753.GC494173@ulmo>
+References: <20200227120232.19413-1-wambui.karugax@gmail.com>
+ <20200227120232.19413-11-wambui.karugax@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="i9LlY+UWpKt15+FH"
+        protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
 Content-Disposition: inline
-In-Reply-To: <20200311105141.GA30083@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20200227120232.19413-11-wambui.karugax@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -71,60 +69,54 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---i9LlY+UWpKt15+FH
+--69pVuxX8awAiJ7fD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 11, 2020 at 10:52:00AM +0000, Lorenzo Pieralisi wrote:
-> On Tue, Mar 03, 2020 at 11:40:47PM +0530, Vidya Sagar wrote:
-> > Tegra194 has three (C0, C4 & C5) dual mode PCIe controllers that can op=
-erate
-> > either in root port mode or in end point mode but only in one mode at a=
- time.
-> > Platform P2972-0000 supports enabling endpoint mode for C5 controller. =
-This
-> > patch series adds support for PCIe endpoint mode in both the driver as =
-well as
-> > in DT.
-> > This patch series depends on the changes made for Synopsys DesignWare e=
-ndpoint
-> > mode subsystem that are recently accepted.
-> > @ https://patchwork.kernel.org/project/linux-pci/list/?series=3D202211
-> > which in turn depends on the patch made by Kishon
-> > @ https://patchwork.kernel.org/patch/10975123/
-> > which is also under review.
-> >=20
-> > V5:
-> > * Rebased patch-2 on top of Lorenzo's pci/endpoint branch
-> > * Removed unwanted header files inclusion in patch-5
+On Thu, Feb 27, 2020 at 03:02:21PM +0300, Wambui Karuga wrote:
+> Since 987d65d01356 (drm: debugfs: make
+> drm_debugfs_create_files() never fail) there is no need to check the
+> return value of drm_debugfs_create_files(). Therefore, remove the
+> return checks and error handling of the drm_debugfs_create_files()
+> function from various debugfs init functions in drm/tegra and have
+> them return 0 directly.
 >=20
-> Applied patches 1,2,5 to pci/endpoint for v5.7, please let me know
-> if something is missing.
+> This change also includes removing the use of drm_debugfs_create_files
+> as a return value in tegra_debugfs_init() and have the function declared
+> as void.
+>=20
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+> ---
+>  drivers/gpu/drm/tegra/dc.c   | 11 +----------
+>  drivers/gpu/drm/tegra/drm.c  |  8 ++++----
+>  drivers/gpu/drm/tegra/dsi.c  | 11 +----------
+>  drivers/gpu/drm/tegra/hdmi.c | 11 +----------
+>  drivers/gpu/drm/tegra/sor.c  | 11 +----------
+>  5 files changed, 8 insertions(+), 44 deletions(-)
 
-Great, thanks! I've picked up patches 3 and 4 into the Tegra tree for
-v5.7.
+Applied, thanks.
 
 Thierry
 
---i9LlY+UWpKt15+FH
+--69pVuxX8awAiJ7fD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5o9hkACgkQ3SOs138+
-s6EhXg//cjYE1EBraQovAb9Meb89XpZgwlbTBz4wVpX5gGBnmOdMVLAJdqSbXdVQ
-AxZT3EVQOzy24ZqGwb118iN3a28CNYU9FLUdZM/UoPnA4NHC0Dk62cIeWUly7FU7
-geukEaBFNJSl/6EPuAo0Qobgow0Yn5anvPjKgpZ+0BKK/e/+aUYZNzFs0vpde9xq
-9PPsB1rGj0KrrDSnAFS1hxrL85yL8B5Hz2X//Zm/WFgC3C7X2lSSCL9z4RWyeT1F
-pNc41o45blCOmcA2wZi7WbaMCYkyBvQyjEmBPBTnF/6P3R+J3XWtyWcTJOSwgjby
-MHLshrbG0T4HNxFtbZ38G14Q//mCu5kYuGWLW/P3187nejD2XF1wNGYSqmwE9Eny
-zcOH7tqEofowLvCjLa3BZtHiSiAxRdwuLY4Q6nh1tEydpQqo5bKp3A52B6vjdqoo
-7GBhLvJ6tIal+dZUxI7nMz7wPdb53TrMws6rhQ4/bcb1oprZwXQzL8DGoNij6aBl
-kYU0OvWb1Wh9t+EbLa3BKdupY/OuBVK1zu6/mH1+MYTD/FZviyj+EXH8rPLbzki5
-THwdnIDEs0dvf3nEfIjXnyVfr+QrVOsrsKOpyfjHq3N0yGeOXavt1Su/XHZ8mBDX
-r2nBg9NWA2vPlngiW49ndo080lFoiG3mGmRwgk21+1HJIDdPcys=
-=QA1n
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5o98AACgkQ3SOs138+
+s6HZYhAAkiP6QpzzL7CdD6Z9Ope+DJuC3IiLOgXlUk62gu0rPNgHNHn8qo6QoLN9
+lj+yH2lxtBKcNjdbWhbwl7Y0kPcF/NnaIwlNa0DXqeOibQ/25kwTxEUVGLjui5tr
+tfuv80lAwAiTBMdkt3j/NYVFAPn593+XIuLTxpmWp1lndf6JJ4q6f7x7oWLKyH2P
+4GUNrcGqLjrEvTlL0kSrcnSFt4Lj1+/E/L8S5TduQtnFMJdDX1cRVol9bsFtaYdz
+NWKixSEf7MyNXVhSDqAQq6lKd6+MQtjjfA/nBrY2g0dxmlwhKklYcgdsO9RVHnK8
+ChFqVsMcu4ekbblHTgZ9aUfsFlR2SsFBGdrXgjXscf95BhK1LeZtkLFHZwSho5jW
+25mvVeY0BBCHDzvSdhLBt6c2ib2a3KGTwm0geLuWlEczczQEkyNLYRpESCARrNHx
+FGtEQR30sVzRvnkBl+35xthXJ1/d/vzYOkbxjgAgYfBeK/H2NkJQuBxNaolkvTuv
+fcQ7mqY71PLwYX/fNtVx9nGxcswa5m1FYxz4NEOykTr9bJIsjyP9gph6nb6zaGNh
+mmN74mDvLdyvMZpdOUYgqLkf3bh9I43fECfrpnxkjVRrZhMDDfIVA/I1pw2ChqNQ
+CaF+O8yIQIEWeNi/kyamiROf9Pzsyo7ov3RNnk+5t7W34h/+k1k=
+=Kgul
 -----END PGP SIGNATURE-----
 
---i9LlY+UWpKt15+FH--
+--69pVuxX8awAiJ7fD--
