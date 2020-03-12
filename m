@@ -2,142 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7233F1825C6
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 00:24:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26006182C2C
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 10:17:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387537AbgCKXYx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Mar 2020 19:24:53 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34609 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387533AbgCKXYx (ORCPT
+        id S1726395AbgCLJRI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Mar 2020 05:17:08 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19183 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725978AbgCLJRI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Mar 2020 19:24:53 -0400
-Received: by mail-wr1-f65.google.com with SMTP id z15so5011278wrl.1;
-        Wed, 11 Mar 2020 16:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jyc0DmthNhbkCDc5Lj6koSBgtM563eXtr/p2glAoIaI=;
-        b=BGZix1b7KHoar2w0KDkHKidsyWc1e2dOusEd1oRs45/s1nggef2xVx77KJhjpnHSZk
-         clVpjWcxMXAz2Sp6VMP7X1PUzW83cu0C+GqZmtsev1i8DJ1LiL5oCHS7yXFgwD4pLhhK
-         26XSPDcZJp3Xz1X4RKfN+bU1eAByqCGB+tvGEL++pVnTSttlfApzWL8sfRhRpaIfwvyo
-         6YxlScvRT1IvIhRTxn5zAUrrntcB2R9XwHwGAPueZHGGmINqQS2CIxJp/0f2feMAs7mF
-         YArekIqu36WA8HNcwXZZr5xjZuxJjNtW96TET/2jsDNwqHnCNRyGXEfoh42XwOxbegRA
-         DPxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jyc0DmthNhbkCDc5Lj6koSBgtM563eXtr/p2glAoIaI=;
-        b=TD3UkVYfxAq1lI1RdICkexLcE4NwExXnnFEU0XxOV16xeg4OC9IJPU2Yl1DHMsrFOe
-         kN1D4UU7hu8rvKEmJGkLNbCX0RT73VsQA3sbbutPb9nMTLGpDK9uoU9bTvgy2n3mpHex
-         BR/afj8/PYFsdDtDyqY4Pa+CPojER/rMGp4B3BcsHLVAPEAERiPYO+BmHglek6duNFOs
-         4vOVJjMi479ZyCr5JW7m10alxZv7B+V4BHE9V7JHN1b0zPYMyKvXPcCgp927Q27AlTSN
-         wPsqYsuHL0CsVnfyWftd/LAZNnJ2NMamxRQP1uV2VGxLeZtFWxFRE1APl3pU4aeLEKW8
-         WAxQ==
-X-Gm-Message-State: ANhLgQ16dUnXolJtnQxkEXPJomwECPsqrb2CSBOns+rYh6c4XI1u+FuL
-        NGApcEDLLerFR7voyVOV978=
-X-Google-Smtp-Source: ADFU+vvQooBGL6xviIsa9Gml2WDmUUkSluU/bVnFryBT//SefAXth7hGYISugMiyVH+g1RlgJResZA==
-X-Received: by 2002:a5d:480c:: with SMTP id l12mr6839433wrq.19.1583969091424;
-        Wed, 11 Mar 2020 16:24:51 -0700 (PDT)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id p10sm8421253wru.4.2020.03.11.16.24.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 16:24:50 -0700 (PDT)
-Date:   Thu, 12 Mar 2020 00:24:46 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Wambui Karuga <wambui.karugax@gmail.com>
-Cc:     daniel@ffwll.ch, airlied@linux.ie,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 10/21] drm/tegra: remove checks for debugfs functions
- return value
-Message-ID: <20200311232446.GA998881@ulmo>
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
- <20200227120232.19413-11-wambui.karugax@gmail.com>
- <20200311143753.GC494173@ulmo>
- <alpine.LNX.2.21.99999.375.2003111750360.14786@wambui>
+        Thu, 12 Mar 2020 05:17:08 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e69fdb70000>; Thu, 12 Mar 2020 02:15:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 12 Mar 2020 02:17:07 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 12 Mar 2020 02:17:07 -0700
+Received: from [10.26.11.156] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Mar
+ 2020 09:17:05 +0000
+Subject: Re: [PATCH 4.14 000/126] 4.14.173-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200311130904.819648693@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <bf159c38-fc24-39d7-00a4-e85aa4f3e040@nvidia.com>
+Date:   Thu, 12 Mar 2020 09:17:02 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
-Content-Disposition: inline
-In-Reply-To: <alpine.LNX.2.21.99999.375.2003111750360.14786@wambui>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200311130904.819648693@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584004536; bh=zB1WxBYgCEvZgU4P+Qhh8M9dCmHsE0BOzp7hDM1iSXc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BYr1Bp9Ch7t938AkpmGlavrPF3DHB+MrNwxniFP3vWeF6BZJ1C+xc1hNl1U6icTM6
+         7psPruaPWXQdQjduzH65YsKed/2XjTCZU6vBPRUVCK7g+sEqKtDaIVppqwlIpljet+
+         pJ3OQj4vONAjEpaqrt4C7QoPcnt92NcAKlpeK5S/rCqgAdpYU7VMS5qKB0uIot9riX
+         LEFeu/hlkMpNOlF7khdW9o9uV0UlvDq7DZo05Tf4GeGpyLcqnhEuZRQPPGwFYyXVaP
+         GSR7Z9DCDSgq8eLFL2+A/iKUhXQEOerWXhOKMLhy1/B4SdB6JNBcxn917bd9awEwXf
+         QzIPPKpf1KWIQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---r5Pyd7+fXNt84Ff3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/03/2020 13:11, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.14.173 release.
+> There are 126 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Fri, 13 Mar 2020 13:08:24 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.173-rc2.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-On Wed, Mar 11, 2020 at 05:54:46PM +0300, Wambui Karuga wrote:
-> Hey Thierry,
->=20
-> On Wed, 11 Mar 2020, Thierry Reding wrote:
->=20
-> > On Thu, Feb 27, 2020 at 03:02:21PM +0300, Wambui Karuga wrote:
-> > > Since 987d65d01356 (drm: debugfs: make
-> > > drm_debugfs_create_files() never fail) there is no need to check the
-> > > return value of drm_debugfs_create_files(). Therefore, remove the
-> > > return checks and error handling of the drm_debugfs_create_files()
-> > > function from various debugfs init functions in drm/tegra and have
-> > > them return 0 directly.
-> > >=20
-> > > This change also includes removing the use of drm_debugfs_create_files
-> > > as a return value in tegra_debugfs_init() and have the function decla=
-red
-> > > as void.
-> > >=20
-> > > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/tegra/dc.c   | 11 +----------
-> > >  drivers/gpu/drm/tegra/drm.c  |  8 ++++----
-> > >  drivers/gpu/drm/tegra/dsi.c  | 11 +----------
-> > >  drivers/gpu/drm/tegra/hdmi.c | 11 +----------
-> > >  drivers/gpu/drm/tegra/sor.c  | 11 +----------
-> > >  5 files changed, 8 insertions(+), 44 deletions(-)
-> >=20
-> > Applied, thanks.
-> >=20
-> There's a newer version[1] of this patch series as this specific patch
-> depends on other work in drm.
 
-Oh yeah, I just noticed that this patch causes a build failure, so I
-backed it out again.
+All tests are passing for Tegra ...
 
-If there's dependencies on other work, it's probably best to take this
-through drm-misc, in which case:
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Linux version:	4.14.173-rc2-gc23e0b0dc693
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-Let me know if you'd prefer me to apply this to drm/tegra instead.
+Cheers
+Jon
 
-Thierry
-
---r5Pyd7+fXNt84Ff3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5pczsACgkQ3SOs138+
-s6HS4Q/+P562RsBDU9ZpqlH/UKz4Fl0liGtZcZPtT8vsdxVvw6pnXlF1Flc0b99d
-EPk6sJ/3s+cWhfClB1ZlOnn/insCTRmtOLpqFaN5qmtbQNCG0jI84s+4uJJU5lgx
-drcSDnXfLGTaSVQBPzwVS2gYnuM0rduA3M5MfCq7L/V+K2Cbs4k3r9BUyDKPZ92N
-P8XzCqdfB4nj9tX3fAP5PCncio8wOvWtvUVkH3ZGDTypbNWkbF2wbQ2ESU7uis3q
-aeTA74Eqv2z/lq2uq2Jk9QqOko31i+6SUIv3x/MOxmOXXpN442ib7DoAXCGvroIK
-IvPDD18Che8PeUi2zLe+2pT/9AHR4ZN9SqBZ72rEhOsGNczJEo57uy2J+ZL8yZnH
-4u7trV6ozHtOlFPrn5LNQONpbNG+esnsghrWwm7tz8Mscq2CiFCvHioyN4lzhOKd
-gHJ3ZkZPFXqgmALsnAhP9vpLuQ68aGsrkW4tslBZNp/T2xzU27lG7r8JKyBkADSN
-hkYfhsPlhJXJozmgVBJK6cJnstGJ2jaQjIKy/pZYb+g8T1upzykbTkJaT9CF9hSN
-NE+lWaQ+OITnBwN76VMnuotVwoM2dB8lChqHLYFhqMk52JGEFZskpI/RO5MKejpH
-BZddEqbYrBfBmUQ4V2BdkxjKrRlXZvLl5x0RC/wjdNStNQqKPx8=
-=pQXY
------END PGP SIGNATURE-----
-
---r5Pyd7+fXNt84Ff3--
+-- 
+nvpublic
