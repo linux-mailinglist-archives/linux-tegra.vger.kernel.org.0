@@ -2,98 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26006182C2C
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 10:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F767182C49
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 10:22:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726395AbgCLJRI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Mar 2020 05:17:08 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19183 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725978AbgCLJRI (ORCPT
+        id S1726492AbgCLJWj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Mar 2020 05:22:39 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46378 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726099AbgCLJWj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Mar 2020 05:17:08 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e69fdb70000>; Thu, 12 Mar 2020 02:15:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 12 Mar 2020 02:17:07 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 12 Mar 2020 02:17:07 -0700
-Received: from [10.26.11.156] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Mar
- 2020 09:17:05 +0000
-Subject: Re: [PATCH 4.14 000/126] 4.14.173-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200311130904.819648693@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <bf159c38-fc24-39d7-00a4-e85aa4f3e040@nvidia.com>
-Date:   Thu, 12 Mar 2020 09:17:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Thu, 12 Mar 2020 05:22:39 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n15so6388984wrw.13;
+        Thu, 12 Mar 2020 02:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HHo+aNY+ItMgLZP3gvXST00KCY8R68wpUmYZqeWvHHU=;
+        b=lxRW7T4LBzXo1kWzFk6u+QGMGo2x4fwOpjqAolDnEMB+z+jSrygE3gjIvrSspfJHBD
+         yoL4KvabJ6thodLNwwrYxCbr88vK2ahpVQ7sp0dqerLUEBMPFRn1eoK4yZUHKiKj/k9r
+         LmLzAs+zUi6hrgJSTr3HUjJEF7ra46B4vRBn1d2x3xfxLqeHRpnh7eAgNd+c+NBnzd+N
+         2C1UwqqjI6MZzYWBve5ZH1jEOU43TnQX1tuBb9c/i9rCa9BTzkhZDNhU/0Ppfr79jm+x
+         UyrZIjUT1oIhVhRuYzIra6K80yT11l4tKDJCViyotTucHimfPqdvOvN3nHN7ab7cxOgf
+         3CHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HHo+aNY+ItMgLZP3gvXST00KCY8R68wpUmYZqeWvHHU=;
+        b=l8J+lYTvjBil8EDO76B8o4rxfbjqg2e+k5U1vmo9RUbNGQuD0XEgBRFlRD387JN2eN
+         D140ifXtT79ZRBHCUkVWNJEKaCFmoy2VxA+OazC1brV/3sN13g7JWpae5W7rnnnGG2IF
+         ndz16ga7id/BXHWJGgKT1qS3bQ4NzdJd6iBY+K8SyTo4MHoVG4DyqQbApNqDvNOMWQgz
+         ws2y4TVLsqizANxopY6sidzoql6bWbRrpKwLoN4dww5829+GF7J7LwDf/eo9xe/lvZ1B
+         oFCwxIkR3yVhiJv2F/16a7xaIiULXH5NpfbOgm1kW/fxh/e7m0AgKvEiWtJN4lOmIexa
+         hcLA==
+X-Gm-Message-State: ANhLgQ2vol6O0hnUoE/QRmDGgTdxXjE73RA2EWVMdXeTdRpa8NjlZJaU
+        S+M00MDHlL3Xrrp21QywPWA=
+X-Google-Smtp-Source: ADFU+vu+H+W/kbDo5m03E1ZndkH8CbtAimq06IQy/GCG4aI1sj02lg6E/ZZsbkef8gkBlgqAfDOr2g==
+X-Received: by 2002:adf:f652:: with SMTP id x18mr9857970wrp.299.1584004956982;
+        Thu, 12 Mar 2020 02:22:36 -0700 (PDT)
+Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
+        by smtp.gmail.com with ESMTPSA id v10sm1700802wmh.17.2020.03.12.02.22.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 02:22:35 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 10:22:32 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch V5 00/21] Tegra XUSB OTG support
+Message-ID: <20200312092232.GA1199023@ulmo>
+References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
+ <20200217085130.GJ1339021@ulmo>
+ <20200227173226.GA1114616@ulmo>
+ <20200304070100.GA1271591@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20200311130904.819648693@linuxfoundation.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584004536; bh=zB1WxBYgCEvZgU4P+Qhh8M9dCmHsE0BOzp7hDM1iSXc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=BYr1Bp9Ch7t938AkpmGlavrPF3DHB+MrNwxniFP3vWeF6BZJ1C+xc1hNl1U6icTM6
-         7psPruaPWXQdQjduzH65YsKed/2XjTCZU6vBPRUVCK7g+sEqKtDaIVppqwlIpljet+
-         pJ3OQj4vONAjEpaqrt4C7QoPcnt92NcAKlpeK5S/rCqgAdpYU7VMS5qKB0uIot9riX
-         LEFeu/hlkMpNOlF7khdW9o9uV0UlvDq7DZo05Tf4GeGpyLcqnhEuZRQPPGwFYyXVaP
-         GSR7Z9DCDSgq8eLFL2+A/iKUhXQEOerWXhOKMLhy1/B4SdB6JNBcxn917bd9awEwXf
-         QzIPPKpf1KWIQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+Content-Disposition: inline
+In-Reply-To: <20200304070100.GA1271591@kroah.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 11/03/2020 13:11, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.14.173 release.
-> There are 126 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Fri, 13 Mar 2020 13:08:24 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.173-rc2.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 04, 2020 at 08:01:00AM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Feb 27, 2020 at 06:32:26PM +0100, Thierry Reding wrote:
+> > On Mon, Feb 17, 2020 at 09:51:30AM +0100, Thierry Reding wrote:
+> > > On Mon, Feb 10, 2020 at 01:41:26PM +0530, Nagarjuna Kristam wrote:
+> > > > This patch series adds OTG support on XUSB hardware used in Tegra21=
+0 and
+> > > > Tegra186 SoCs.
+> > > >=20
+> > > > This patchset is composed with :
+> > > >  - dt bindings of XUSB Pad Controller
+> > > >  - dt bindings for XUSB device Driver
+> > > >  - Tegra PHY driver for usb-role-switch and usb-phy
+> > > >  - Tegra XUSB host mode driver to support OTG mode
+> > > >  - Tegra XUSB device mode driver to use usb-phy and multi device mo=
+de
+> > > >  - dts for XUSB pad controller
+> > > >  - dts for xudc for Jetson TX1 and TX2
+> > > >  - dts for Jetson-TK1
+> > > >  - dts for Jetson-Nano
+> > > >=20
+> > > > Tegra Pad controller driver register for role switch updates for
+> > > > OTG/peripheral capable USB ports and adds usb-phy for that correspo=
+nding
+> > > > USB ports.
+> > > >=20
+> > > > Host and Device mode drivers gets usb-phy from USB2's phy and regis=
+ters
+> > > > notifier for role changes to perform corresponding role tasks.
+> > > >=20
+> > > > Order of merging Patches:
+> > > > Please merge DT changes first followed Tegra PHY driver changes and=
+ then
+> > > > USB driver changes.
+> > >=20
+> > > Felipe, Greg, Kishon,
+> > >=20
+> > > Given the runtime dependencies between these various parts, I could p=
+ick
+> > > these up into the Tegra tree if you provide an Acked-by.
+> >=20
+> > Ping. Are you guys okay if I pick these up into the Tegra tree?
+>=20
+> That's up to Felipe, I have no opinion :)
 
-All tests are passing for Tegra ...
+Felipe, Kishon,
 
-Test results for stable-v4.14:
-    8 builds:	8 pass, 0 fail
-    16 boots:	16 pass, 0 fail
-    24 tests:	24 pass, 0 fail
+I've picked up the device tree changes into the Tegra tree. Let me know
+if you also want me to pick up the USB and PHY driver changes.
 
-Linux version:	4.14.173-rc2-gc23e0b0dc693
-Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+Thierry
 
-Cheers
-Jon
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-nvpublic
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5p/04ACgkQ3SOs138+
+s6EaeRAAlYPSUblcoth+8aD57Q5QnSCc7cNHu/mUZZSec1OvLuHKqKs74gAcDa38
+fbTqyMY/OlKiZ4RIixrST8bZ+VT+IDp/4GHFS3G0nC6wlK340+NpE2RxtPAeS+Oh
+WuAg+p5PnLd7JwixjUuJPAVe+J/jt3l4BD5KN2cibwMdeV+jwlEZJ1OJrx+s0GW0
+eAnAAQmb/yZlYneiR2y1NRSW2qbWfv6D81ZR5f7xAkuZHjF3+d/L0EZdsZHgH3gR
+3KRfEY0On0s+oWrDR3d4y3h3cfJJIYegpqA6PaFcTjMdNEFcR+R/BGter/OQDbVE
+HeaFN8FBIUl2r+hgf33t4sT2EvYx5DJtxoDv/u7kwpDxXA53BLHDnEfXyyOU8JeN
+nuuipt+DOGyFfgmQNgx0aqaabl04wXEpUvBWxECp8IYB2gmiXL0PPzNC/qDIE8id
+z5p0H6GxXHWTiwsU5JwfHG9zNwppRl9I+XqgHIaSS4jWcmyQC0QwJysPBudXwy2c
+mqWjrd+/q3cqBByBVMslEssxvURdOmnDQ0NYXTPMnWWUWOpizZWxFHBEHh/DGQ3z
+W6pxj8LePB/B7bu7c9BeoR3mhs65sJsalbge2xk1nrYL1q1hat+3udkCcu71JGG1
+W+Sl2jl5CtuW9XE8PYYm0vEhV7FRJqbo6a5/Dea9L/aEISKpL4A=
+=l/y7
+-----END PGP SIGNATURE-----
+
+--sm4nu43k4a2Rpi4c--
