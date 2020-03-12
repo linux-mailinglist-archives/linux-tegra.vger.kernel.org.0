@@ -2,130 +2,173 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2A718340E
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 16:05:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B46AE1834F2
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 16:28:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727743AbgCLPF3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Mar 2020 11:05:29 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43619 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727731AbgCLPF3 (ORCPT
+        id S1727848AbgCLP2g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Mar 2020 11:28:36 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:7878 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727455AbgCLP2g (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:05:29 -0400
-Received: by mail-lj1-f193.google.com with SMTP id r7so6813287ljp.10
-        for <linux-tegra@vger.kernel.org>; Thu, 12 Mar 2020 08:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y9t7hcDPw5hcSVIoyJhq2EKW/iy01JerI1gf2khe8HM=;
-        b=M4vg7cXkAY37IPDxcGPrfjw0qoKxVGmLTS9ch9eZW4IYuSeZCR4s9JqsvNM0yuoh36
-         2GNl5bJq7lwQATdBbtol1XmWMoJbGHywRDEnluw4rFhjuwHp9c/1/Ncl8g76KNb5hpPF
-         mgvqY0bb+wAnctOHEgKcQQONNVbmVVuRctRhxvfxJn5TbXpfu2A+37IF2UtcUDQ/NIBU
-         gWXDnm/GoBeuzrZQf163HnWccjgaz0oiw7YADJk4342rmtOeMrL17JBsA86VsHZ+8X3o
-         xlGXuccsnKmRC7kiPm4nCuAEfk6lFSrpOyGdBqW3dWlJzXHVYFfciVfrS3XLGjs0PBlx
-         yKow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y9t7hcDPw5hcSVIoyJhq2EKW/iy01JerI1gf2khe8HM=;
-        b=Z4WU+REfD8iJuU//he33Khhvul/gOqEl1EmKYsv9dKJ+l963QK8rt6R/xSf/RKwQii
-         wy+jp8v0MBX6T6bwW4sEUmbbproOtEPx9WzKAiBoazPZLicB4Q5/IObTpL6tQPBatztv
-         Bi6QRhmdTUXpN4bGm4yjLVPPwi35gLym5pX4ZaZ8cyM3zKrC7GTI0a77dfYs0REfcq/t
-         xvNXAaNXHQVNmHh98Z02Yv2ABkXRVFj0EY09zk6n/UZ6x54NxJogoDE+p+U9q+lGB9ph
-         69Uuqw8opr0cybiWjjhE8vZwJehetuvzl3ZgOjhvNuCsj3+lZ50ZESRlKwYSJGn+q+Nm
-         PPSw==
-X-Gm-Message-State: ANhLgQ06Ebr/JYGj9Kh348VLlnRtNKt4Kt315iQpuK+t4AV7pty/ErFl
-        GS0L15T37nLSIG6ZV4JMDlw=
-X-Google-Smtp-Source: ADFU+vskKUWYeST7SOaPbykK9vVxlbZAXBzB74j1CaREbC5+3kkfuakH8JsysgexSrGwbLMUm99ipg==
-X-Received: by 2002:a05:651c:2006:: with SMTP id s6mr5405124ljo.251.1584025527545;
-        Thu, 12 Mar 2020 08:05:27 -0700 (PDT)
-Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.gmail.com with ESMTPSA id r12sm9538041ljd.6.2020.03.12.08.05.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 08:05:26 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1] drm/tegra: hdmi: Silence deferred-probe error
-Date:   Thu, 12 Mar 2020 18:04:32 +0300
-Message-Id: <20200312150432.2745-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 12 Mar 2020 11:28:36 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e6a54c70002>; Thu, 12 Mar 2020 08:27:03 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 12 Mar 2020 08:28:35 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 12 Mar 2020 08:28:35 -0700
+Received: from [10.2.172.79] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Mar
+ 2020 15:28:35 +0000
+Subject: Re: [PATCH v2 1/2] sdhci: tegra: Implement Tegra specific set_timeout
+ callback
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+CC:     Adrian Hunter <adrian.hunter@intel.com>,
+        Bradley Bolen <bradleybolen@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "Jon Hunter" <jonathanh@nvidia.com>,
+        Aniruddha Tvs Rao <anrao@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
+References: <1583886030-11339-1-git-send-email-skomatineni@nvidia.com>
+ <CAPDyKFpAgk0uboGXdmA_m1-2=GK2oRXVv+97ZFFFAtT-ZZo4fw@mail.gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <7bf5bfb5-b07c-96d3-2c33-124085a36a65@nvidia.com>
+Date:   Thu, 12 Mar 2020 08:28:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPDyKFpAgk0uboGXdmA_m1-2=GK2oRXVv+97ZFFFAtT-ZZo4fw@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584026823; bh=20CmxRXQV14NK/AWzN5cjVv0G+jcfKKJHsLGW1THEX0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=ADovG4BRKRpq/sgIlNDARFZ4ko1wfbqEB9VeDNZfevPxfK2VbKtn29YaHthii6+Un
+         XjYDb9qBqjmsO2Fa9DrOQYUn8NmKv1QqYZ/xREDcSA8Y1vUem9PwNTJosMSX7082CL
+         KryHBytg59ESxmiBhIY9XVI8V7MwiAu8eLFFD2Sov3efJEdp+Ji93cyS63BFnwm4P/
+         7BPumYrK6nha3M/Gk6HmAj4hckZzXRuSywOFvVRIeFWhva0UZLXPQ+1nSUSQvrV53p
+         ehmkoyigZ99w7cgnS8f1/Y9/ZD8TKa0du2G1QhJ8ZdmAQ95bz85JTxIT2xH+BoaZqg
+         rWTMAc57K3zXQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Driver fails to probe with -EPROBE_DEFER, which produces a bit noisy error
-message in KMSG during kernel's boot up. This happens because voltage
-regulators tend to be probed later than the DRM driver.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/hdmi.c | 34 +++++++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 9 deletions(-)
+On 3/12/20 6:08 AM, Ulf Hansson wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> -trimmed cc list
+>
+> On Thu, 12 Mar 2020 at 00:51, Sowjanya Komatineni
+> <skomatineni@nvidia.com> wrote:
+>> Tegra host supports HW busy detection and timeouts based on the
+>> count programmed in SDHCI_TIMEOUT_CONTROL register and max busy
+>> timeout it supports is 11s in finite busy wait mode.
+>>
+>> Some operations like SLEEP_AWAKE, ERASE and flush cache through
+>> SWITCH commands take longer than 11s and Tegra host supports
+>> infinite HW busy wait mode where HW waits forever till the card
+>> is busy without HW timeout.
+>>
+>> This patch implements Tegra specific set_timeout sdhci_ops to allow
+>> switching between finite and infinite HW busy detection wait modes
+>> based on the device command expected operation time.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> Applied for next, thanks!
+>
+> We should probably tag this for stable as well, don't you think?
+>
+> Kind regards
+> Uffe
 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 6f117628f257..e8ee8058c587 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1648,6 +1648,7 @@ static irqreturn_t tegra_hdmi_irq(int irq, void *data)
- 
- static int tegra_hdmi_probe(struct platform_device *pdev)
- {
-+	const char *err_level = KERN_ERR;
- 	struct tegra_hdmi *hdmi;
- 	struct resource *regs;
- 	int err;
-@@ -1686,21 +1687,36 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
- 	}
- 
- 	hdmi->hdmi = devm_regulator_get(&pdev->dev, "hdmi");
--	if (IS_ERR(hdmi->hdmi)) {
--		dev_err(&pdev->dev, "failed to get HDMI regulator\n");
--		return PTR_ERR(hdmi->hdmi);
-+	err = PTR_ERR_OR_ZERO(hdmi->hdmi);
-+	if (err) {
-+		if (err == -EPROBE_DEFER)
-+			err_level = KERN_DEBUG;
-+
-+		dev_printk(err_level, &pdev->dev,
-+			   "failed to get HDMI regulator: %d\n", err);
-+		return err;
- 	}
- 
- 	hdmi->pll = devm_regulator_get(&pdev->dev, "pll");
--	if (IS_ERR(hdmi->pll)) {
--		dev_err(&pdev->dev, "failed to get PLL regulator\n");
--		return PTR_ERR(hdmi->pll);
-+	err = PTR_ERR_OR_ZERO(hdmi->pll);
-+	if (err) {
-+		if (err == -EPROBE_DEFER)
-+			err_level = KERN_DEBUG;
-+
-+		dev_printk(err_level, &pdev->dev,
-+			   "failed to get PLL regulator: %d\n", err);
-+		return err;
- 	}
- 
- 	hdmi->vdd = devm_regulator_get(&pdev->dev, "vdd");
--	if (IS_ERR(hdmi->vdd)) {
--		dev_err(&pdev->dev, "failed to get VDD regulator\n");
--		return PTR_ERR(hdmi->vdd);
-+	err = PTR_ERR_OR_ZERO(hdmi->vdd);
-+	if (err) {
-+		if (err == -EPROBE_DEFER)
-+			err_level = KERN_DEBUG;
-+
-+		dev_printk(err_level, &pdev->dev,
-+			   "failed to get VDD regulator: %d\n", err);
-+		return err;
- 	}
- 
- 	hdmi->output.dev = &pdev->dev;
--- 
-2.25.1
+Yes, we need this for stable as well. As this is applied for next, looks 
+like can't re-send patch with tag.
 
+Can you please help to add tag if you don't mind?
+
+>
+>
+>> ---
+>>   drivers/mmc/host/sdhci-tegra.c | 31 +++++++++++++++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
+>>
+>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>> index a25c3a4..fa8f6a4 100644
+>> --- a/drivers/mmc/host/sdhci-tegra.c
+>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>> @@ -45,6 +45,7 @@
+>>   #define SDHCI_TEGRA_CAP_OVERRIDES_DQS_TRIM_SHIFT       8
+>>
+>>   #define SDHCI_TEGRA_VENDOR_MISC_CTRL                   0x120
+>> +#define SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT            BIT(0)
+>>   #define SDHCI_MISC_CTRL_ENABLE_SDR104                  0x8
+>>   #define SDHCI_MISC_CTRL_ENABLE_SDR50                   0x10
+>>   #define SDHCI_MISC_CTRL_ENABLE_SDHCI_SPEC_300          0x20
+>> @@ -1227,6 +1228,34 @@ static u32 sdhci_tegra_cqhci_irq(struct sdhci_host *host, u32 intmask)
+>>          return 0;
+>>   }
+>>
+>> +static void tegra_sdhci_set_timeout(struct sdhci_host *host,
+>> +                                   struct mmc_command *cmd)
+>> +{
+>> +       u32 val;
+>> +
+>> +       /*
+>> +        * HW busy detection timeout is based on programmed data timeout
+>> +        * counter and maximum supported timeout is 11s which may not be
+>> +        * enough for long operations like cache flush, sleep awake, erase.
+>> +        *
+>> +        * ERASE_TIMEOUT_LIMIT bit of VENDOR_MISC_CTRL register allows
+>> +        * host controller to wait for busy state until the card is busy
+>> +        * without HW timeout.
+>> +        *
+>> +        * So, use infinite busy wait mode for operations that may take
+>> +        * more than maximum HW busy timeout of 11s otherwise use finite
+>> +        * busy wait mode.
+>> +        */
+>> +       val = sdhci_readl(host, SDHCI_TEGRA_VENDOR_MISC_CTRL);
+>> +       if (cmd && cmd->busy_timeout >= 11 * HZ)
+>> +               val |= SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT;
+>> +       else
+>> +               val &= ~SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT;
+>> +       sdhci_writel(host, val, SDHCI_TEGRA_VENDOR_MISC_CTRL);
+>> +
+>> +       __sdhci_set_timeout(host, cmd);
+>> +}
+>> +
+>>   static const struct cqhci_host_ops sdhci_tegra_cqhci_ops = {
+>>          .write_l    = tegra_cqhci_writel,
+>>          .enable = sdhci_tegra_cqe_enable,
+>> @@ -1366,6 +1395,7 @@ static const struct sdhci_ops tegra210_sdhci_ops = {
+>>          .set_uhs_signaling = tegra_sdhci_set_uhs_signaling,
+>>          .voltage_switch = tegra_sdhci_voltage_switch,
+>>          .get_max_clock = tegra_sdhci_get_max_clock,
+>> +       .set_timeout = tegra_sdhci_set_timeout,
+>>   };
+>>
+>>   static const struct sdhci_pltfm_data sdhci_tegra210_pdata = {
+>> @@ -1403,6 +1433,7 @@ static const struct sdhci_ops tegra186_sdhci_ops = {
+>>          .voltage_switch = tegra_sdhci_voltage_switch,
+>>          .get_max_clock = tegra_sdhci_get_max_clock,
+>>          .irq = sdhci_tegra_cqhci_irq,
+>> +       .set_timeout = tegra_sdhci_set_timeout,
+>>   };
+>>
+>>   static const struct sdhci_pltfm_data sdhci_tegra186_pdata = {
+>> --
+>> 2.7.4
+>>
