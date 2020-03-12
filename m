@@ -2,63 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD734182C84
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 10:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B8CF182D5C
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 11:23:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbgCLJd7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Mar 2020 05:33:59 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33642 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726390AbgCLJd7 (ORCPT
+        id S1726567AbgCLKXC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Mar 2020 06:23:02 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35282 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725268AbgCLKXC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Mar 2020 05:33:59 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r7so5078311wmg.0
-        for <linux-tegra@vger.kernel.org>; Thu, 12 Mar 2020 02:33:57 -0700 (PDT)
+        Thu, 12 Mar 2020 06:23:02 -0400
+Received: by mail-wr1-f66.google.com with SMTP id d5so6327572wrc.2;
+        Thu, 12 Mar 2020 03:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=gcUSGwWcahiMg4TCjkBZRNzVm/BoVmZE25MELfHaX/Q=;
-        b=OLKx0puZQbng2hoGJNvGbLv4nYwbK6YtgBzfO/+Qzjn2v5uJ7Am+GkLSZc+abhwJQg
-         UqN5RnghzyaTDZDq2V3RdqQZO0O/0JxsRGo/p2T7a52AAHxCFYbXWGu6MS1776CqdqsR
-         0/mhYyBp9njBBDRKeR+xPfb4B3T8kDuTytjG054p6ZswdGP3I4zl4TqI9XNjZrOUb/VK
-         goJCzkMycWm2PG1BTLVcWI2vJFvr6FIYJU9YHP6tsseWz3p1lFWytMkCoqb3RX+CyOFu
-         NsI0BjNhPUMxt1XN9E+EeYtkWHdg8+A6bpwOp3LdUu8hDotH0HfehRcqtB27Nz3MjRCJ
-         DGjA==
+        bh=R39Tv+SJk1mlAAPLn4Outf5Cn4fszK3o5vE5appptCQ=;
+        b=m/GTFAZpm1PoK9CRxkedOWz96yiMDrmJ4OJvKUBr+fD9DtdQvxc/2FFDnQEt0YStqY
+         x9SfI6ajDaK+qNuJbOFFNFVKgFEj++WBuJnMDyLLE74P628Mvp/VhGWeuX7NsqW1lexS
+         IB/gOlQ+QDU93dhY624kh22HQ7u4NKtKUweQAhTkzFPsfUbB5gaF/5IS7oGAsBPNEVF7
+         krYB/h8Capx3EfkVzEKZrKCjppeElKO4u/h4aNGiQBl90nCAp2gqRZeh8y1BDnjkqB5C
+         EFcNfeCEv9KhtVv8bhS56hRrmoHrr3M81QhL1gfOdYG2cnNmPihuI2XJu/bRry6j8WN3
+         f4bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gcUSGwWcahiMg4TCjkBZRNzVm/BoVmZE25MELfHaX/Q=;
-        b=tS7ZYmFb+6GrHh0/g1JobY1ZjOapTB00STR1eQl/lppm+jF4XtuHIG1JBoyGQDv0OB
-         DU/Uz/bvV8k55WMcdii6K/2szd8YILj3QkQOk4LbftZSSw3NNmbYUstxiyu0XKpIQ6ya
-         Ybxfl9J1HGKwoDpDLheZuXvlPzJYK0HYhirGK0uJyG+nwvAi7ZiSd4nik/PpUQKxd40u
-         /13z8iUSYIiJ+1EpqdLnJm8cxgYJqSoM8Jp0IM6yqbikn42pnP/uSSU64R2fkto77lqz
-         h3HshxJ5cXbbvIw/aPCPuOpv1aXaQGpOXh+irjKiNwn7ONk3NNDCZNiEM5H5bvYaVq7w
-         OzxQ==
-X-Gm-Message-State: ANhLgQ0hvcULSYmVN/3yTn+i907VuEa476ns/B0p/SgPsvJWQCKgxIYe
-        QPQmzkcw7m8vBReom6HVFKNacqH8
-X-Google-Smtp-Source: ADFU+vuzaA9ysORGD0kQb/tfxKduSsjHe6qfz4cjYXNs5L/yF4WtVxV9kXqVxr4X8rEhGfdIx6Qjzw==
-X-Received: by 2002:a1c:b657:: with SMTP id g84mr3912841wmf.107.1584005636670;
-        Thu, 12 Mar 2020 02:33:56 -0700 (PDT)
+        bh=R39Tv+SJk1mlAAPLn4Outf5Cn4fszK3o5vE5appptCQ=;
+        b=e2NXQAvOeaFjiJxHdjpxqFtM6HQZvnLXNvUJeFbpa2zo+7UDGJwZj4kVKJZVQiu+Mq
+         PyvMd8+0tStFO4dYDdbfMjCn0le81x5Kbr8Zt7antyAMul13qQGUL5vEn8D1wv1G76WE
+         zZwh81z4Nb5KQ98J7G3uGdVfqvIlQQDesu2eujGZ3qFmgUBBvJqA7YhLAxxesxcIQumO
+         aXoelmhXf+mK/BQSPGQLn8Hho6QvDugpeUrr2TFa8MAsoACCvsYXeO5Z874I3atetb1+
+         8KTa0iBGR0xK2N2enZnDhb651MBwSo6AjyIpATViKJaGHJ6z5zCHULkcl+OX9JWNSpbA
+         i9gA==
+X-Gm-Message-State: ANhLgQ3WoqaEWrC0UYlXvVwBTV9z37pQTwqlMKd2zl/h3q299MdtFy68
+        6dhVtz0i+IoSciUddLgjdBo=
+X-Google-Smtp-Source: ADFU+vvIPiE9oEe1sZdLC6ETn26Bj3DUmMFh6IUf3SyWaySqtKrgHzYOT/xCRJ9z9STnzL9EAcaYgA==
+X-Received: by 2002:a05:6000:118c:: with SMTP id g12mr10378257wrx.341.1584008579775;
+        Thu, 12 Mar 2020 03:22:59 -0700 (PDT)
 Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id o16sm60475248wrj.5.2020.03.12.02.33.54
+        by smtp.gmail.com with ESMTPSA id 98sm13500854wrm.64.2020.03.12.03.22.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 02:33:55 -0700 (PDT)
-Date:   Thu, 12 Mar 2020 10:33:53 +0100
+        Thu, 12 Mar 2020 03:22:56 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 11:22:44 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] drm/tegra: dc: Silence RGB output deferred-probe
- error
-Message-ID: <20200312093353.GB1199023@ulmo>
-References: <20200308223809.23549-1-digetx@gmail.com>
- <20200308223809.23549-3-digetx@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     JC Kuo <jckuo@nvidia.com>, robh@kernel.org, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        felipe.balbi@linux.intel.com
+Subject: Re: [PATCH v1] dt-binding: usb: add "super-speed-plus"
+Message-ID: <20200312102244.GC1199023@ulmo>
+References: <20200113060046.14448-1-jckuo@nvidia.com>
+ <20200210185821.GA1057764@kroah.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+        protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
 Content-Disposition: inline
-In-Reply-To: <20200308223809.23549-3-digetx@gmail.com>
+In-Reply-To: <20200210185821.GA1057764@kroah.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -66,76 +68,49 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---Bn2rw/3z4jIqBvZU
+--5G06lTa6Jq83wMTw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 09, 2020 at 01:38:09AM +0300, Dmitry Osipenko wrote:
-> Driver fails to probe with -EPROBE_DEFER if display output isn't ready
-> yet. This produces a bit noisy error message in KMSG during kernel's boot
-> up on Tegra20 and Tegra30 because RGB output tends to be probed earlier
-> than a corresponding voltage regulator driver.
+On Mon, Feb 10, 2020 at 10:58:21AM -0800, Greg KH wrote:
+> On Mon, Jan 13, 2020 at 02:00:46PM +0800, JC Kuo wrote:
+> > This commit adds "super-speed-plus" to valid argument list of
+> > "maximum-speed" property.
+> >=20
+> > Signed-off-by: JC Kuo <jckuo@nvidia.com>
+> > ---
+> >  Documentation/devicetree/bindings/usb/generic.txt | 9 +++++----
+> >  1 file changed, 5 insertions(+), 4 deletions(-)
 >=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/dc.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> What ever happened to this?  Did the DT developers see it?
 >=20
-> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> index 56d933e81797..d7f2c4654b6b 100644
-> --- a/drivers/gpu/drm/tegra/dc.c
-> +++ b/drivers/gpu/drm/tegra/dc.c
-> @@ -2571,7 +2571,11 @@ static int tegra_dc_probe(struct platform_device *=
-pdev)
-> =20
->  	err =3D tegra_dc_rgb_probe(dc);
->  	if (err < 0 && err !=3D -ENODEV) {
-> -		dev_err(&pdev->dev, "failed to probe RGB output: %d\n", err);
-> +		if (err =3D=3D -EPROBE_DEFER)
-> +			dev_dbg(&pdev->dev, "RGB output probe deferred\n");
-> +		else
-> +			dev_err(&pdev->dev, "failed to probe RGB output: %d\n",
-> +				err);
->  		return err;
->  	}
+> I suggest resending please so it gets into their queue to review.
 
-I'd prefer if we had just a single message and only differentiate on the
-kernel message level, something more along these lines:
-
-	if (err < 0 && err !=3D -ENODEV) {
-		const char *level =3D KERN_ERR;
-
-		if (err =3D=3D -EPROBE_DEFER)
-			level =3D KERN_DEBUG;
-
-		dev_printk(level, dc->dev, "failed to probe RGB output: %d\n",
-			   err);
-		return err;
-	}
-
-Do you mind if I squash that into your patch?
+It's been a while and you probably noticed by now, but in case you
+haven't: Rob picked this up into the devicetree tree a few weeks ago, so
+no need to worry about this any longer.
 
 Thierry
 
---Bn2rw/3z4jIqBvZU
+--5G06lTa6Jq83wMTw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5qAf0ACgkQ3SOs138+
-s6F7cw/+O35lxc5r6vj9s5CaQ62P06ket9HhkxwvO5/+Ja+IWAlbcn5oEGvk+hMh
-AhAKUG06jyhsQdTVB1AMzAkX9iNZ/08dThYj+/Ub2u4rU+zWkoDxGT8fKeXoPcDQ
-tbl4wq6s+7JL1Xwp2X4Owj3dxq89uZxRFryYjK0gcuaSkXF4IB14QZvca27kri8i
-MFA6Scoua9FlPbwGtYy1xqw00HxIPnk0f3iNp8M2VnpNpbMyrX6PFu8xF6SEBDaI
-JQkgQa8JfO97fFNdI+G9GnnoWlcrq5SFgtRGF134Cx36e9zxrErTNQzkOsEbY35Z
-3M/fmNxAXV8d0erYR7UabwVPZR8FLUHEmjBQ+GoY43D/I+uQIZE5lZWwqLI8Lolx
-OnL4f0yBeUGgV7C4xwn2J4zBjGkPCRwmfZAc3OFRANHVf7NDWBF+N9awiKuwrMvV
-mq8+XR+mvPBrrrYxlHSDV0m24T/4xDHC88NoZ+fwSgwnV/XKxwbOeddMmL9JHVkb
-Mzj193AFrVuPGAEBguXBdVKndajsphdDIjqvUVqnPOJvOHG+5gOgqpzQwiPttaX4
-Wh2q6nWMh7I9z5uOv+HgC3UOs44rjQY3XZtJWR3VWrKddevSUAqj1L3C0qnEbtP8
-N/HKRWNj8I5bv2RmTBSujVivFFhxJD1mp03nF4PSiPefW3Zkgyg=
-=GCDB
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5qDWgACgkQ3SOs138+
+s6FY5xAAwR85ce936jWef2QohmCJ3TQFWmFhJT5xrR4lenXt/X/5CRqHrY/UhFp6
+JDh8UTQytoqUiFBx6qEP6zb7uj1VsrA/dD8vw03/a8mJwSWw7P2sXZc0eSRrSC35
+G2AAq6JLGMDMcXvIGB8mwGrcrbp717KTYD8umwiBUc7qK5U1STNbMS75FzO6bRtN
+7xVk57ED6K9qA76oNVZ2EidzVPTC7l0w/5jBkNwBc3bFwPlxNL/ULtgBYjJAz041
+0s069xWv+OGZyxkG10CaRPCi2erXwYiX2WHivnQJQReY1YHVVqmOOJPTeR11YhTc
+K01Yc+bbKIpyjAPywPDV0oQrOpMb4QPPCjRFzYVJKK66UfNc/ihmlCdXFlN/51/V
+lrV/1/onTP0VKho5LJWfL7S0gJLusbhCBe0TnSnBKpF/R1PW65e6oHqvLUX+Rh/V
+dZMF90Z2JzKzMBSeh4y66GXYzyikFqqAGDt7nEPLTarIyBQD4bbggg0nF7ADVzj7
+HhfSGyCjLVlz8V4G3FN2JHguA1Htjl4We/D5BjghRWQJFBxAvVphJTFi9PDrc/yw
+CH7P4dL1INI4BqJQhxQwpXjJDs4KwS5P4axnBXx9iqXQFTYEWVxOHaX9pKOsI+ix
+cEjOltNEzaPJNS13Zm9Z+aWSdG/3BGLbFOwX7Jfuv1ISOcmBNYc=
+=k0XA
 -----END PGP SIGNATURE-----
 
---Bn2rw/3z4jIqBvZU--
+--5G06lTa6Jq83wMTw--
