@@ -2,120 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7753F18400D
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 05:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40355184305
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 09:58:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726254AbgCMEoA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Mar 2020 00:44:00 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:59434 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726194AbgCMEoA (ORCPT
+        id S1726462AbgCMI6L (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 04:58:11 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39716 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbgCMI6L (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Mar 2020 00:44:00 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02D4hmM2019617;
-        Thu, 12 Mar 2020 23:43:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1584074628;
-        bh=XpUwsYDH/tbEiw9bK9EeXQskLAoqJ6LteWN9NgyZdl4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=rc+0rrd5mK+hpp1qXDueWMnJ+xVaNuRe4JNuHPRBgh+l2k9lxqWLzA+M4TzdAqh1l
-         4gcaA3aKJdqF5/bDmdHL/dt0N5s59RD+uSAHCOmll67WkRC0y22b+tb1M77vB0ovrP
-         crI699YeDGzoMFwL6tL9zop3mm8/WGFSMAd7UIM8=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02D4hluL001597
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 12 Mar 2020 23:43:47 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 12
- Mar 2020 23:43:47 -0500
-Received: from localhost.localdomain (10.64.41.19) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 12 Mar 2020 23:43:47 -0500
-Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by localhost.localdomain (8.15.2/8.15.2) with ESMTP id 02D4hhuU126810;
-        Thu, 12 Mar 2020 23:43:44 -0500
-Subject: Re: [Patch V5 00/21] Tegra XUSB OTG support
+        Fri, 13 Mar 2020 04:58:11 -0400
+Received: by mail-lj1-f196.google.com with SMTP id f10so9618208ljn.6
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Mar 2020 01:58:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5Qd0FS+13R/cg1lkRBLN5R3iXvdjLcnj7kmiW6NoyUg=;
+        b=q2YgbLpCb7aDN9+cn7eIb2ItnKJ0pwOYV1o3ZHcVZhp1U5h/E4nefoYE2HZVN9nRxT
+         X4rVeX0ASpWaxv6zEAGB3SXhgZubWWJ1enaNjFHzvLHHj2RvJCO9JQSqctPG0Glne4N0
+         zFhCfyPBrGrQWmlv/hhltB2S9rhR8Zcgc6mmhj/ItFXgPHXKKuZYNRwfpTEHw/9XK5XU
+         XeJLXVe10/GM+X1P4IXVNVuFJEeiJuU+hV1+2MdIfb6ULGY5FUB8RP7g3v+C+Wl8ohkt
+         H+G+KJf/1adCarP64ky/ktZEj89AkN7XBUHK2D2ncS5vFYSPT0h8QsQIJ/cbSjP+drB0
+         Rekg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5Qd0FS+13R/cg1lkRBLN5R3iXvdjLcnj7kmiW6NoyUg=;
+        b=XDalZwMewS8GeV7TB+y+0kRrmyaVFUHUL5UgiaKPqTGeqTVKR8vMye95/FyIILKwP6
+         XceKSXzZbgc4w/OAQrdze7DdCDCfXN46zdii6lTMem5NYw/kTg6SxILp5p0ii5NaxzxS
+         qy90MQktS6mgFHZ1GplAowmPB8MgpBjm1T7ceqJSuLAhurl5IEW4D9UdSakRRrv5JFC2
+         mR8z+N5TkTKeiJMirMkI6jEchGolAtsjVG8seo74CuCw+fFk6vkFGWYFc1pEjwZZpsaR
+         nr31skGoL85VvmHgZn4JMsfyKIjThSsynQQC4xpyVz+TwXRxfEq1fxA1+cCZZV99f9Du
+         41lg==
+X-Gm-Message-State: ANhLgQ1lj8TcPdZ+LDgaC0BMCwr2MmYEvcERqwxfqGqBhj4bwfGcFd3M
+        ti4/mcGNYOhU0fmCK5u9d4TFVl6S
+X-Google-Smtp-Source: ADFU+vvQcqy7NnToZEPGfI48g4d0GRyBKLkeyXpgHKH5BJTZt3HCCTjNoNrbtOgAgeqCwPn39k+yNQ==
+X-Received: by 2002:a2e:9b87:: with SMTP id z7mr7505401lji.197.1584089889456;
+        Fri, 13 Mar 2020 01:58:09 -0700 (PDT)
+Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.gmail.com with ESMTPSA id m18sm6032181ljj.52.2020.03.13.01.58.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2020 01:58:08 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
- <20200217085130.GJ1339021@ulmo> <20200227173226.GA1114616@ulmo>
- <20200304070100.GA1271591@kroah.com> <20200312092232.GA1199023@ulmo>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <3e76c44e-f2b0-3c8a-c7b3-0461ff1176d3@ti.com>
-Date:   Fri, 13 Mar 2020 10:18:23 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v1] memory: tegra: Make debugfs permissions human-readable
+Date:   Fri, 13 Mar 2020 11:57:39 +0300
+Message-Id: <20200313085739.20172-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200312092232.GA1199023@ulmo>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+Replace the symbolic permissions with octals in order to make them
+readable.
 
-On 12/03/20 2:52 pm, Thierry Reding wrote:
-> On Wed, Mar 04, 2020 at 08:01:00AM +0100, Greg Kroah-Hartman wrote:
->> On Thu, Feb 27, 2020 at 06:32:26PM +0100, Thierry Reding wrote:
->>> On Mon, Feb 17, 2020 at 09:51:30AM +0100, Thierry Reding wrote:
->>>> On Mon, Feb 10, 2020 at 01:41:26PM +0530, Nagarjuna Kristam wrote:
->>>>> This patch series adds OTG support on XUSB hardware used in Tegra210 and
->>>>> Tegra186 SoCs.
->>>>>
->>>>> This patchset is composed with :
->>>>>  - dt bindings of XUSB Pad Controller
->>>>>  - dt bindings for XUSB device Driver
->>>>>  - Tegra PHY driver for usb-role-switch and usb-phy
->>>>>  - Tegra XUSB host mode driver to support OTG mode
->>>>>  - Tegra XUSB device mode driver to use usb-phy and multi device mode
->>>>>  - dts for XUSB pad controller
->>>>>  - dts for xudc for Jetson TX1 and TX2
->>>>>  - dts for Jetson-TK1
->>>>>  - dts for Jetson-Nano
->>>>>
->>>>> Tegra Pad controller driver register for role switch updates for
->>>>> OTG/peripheral capable USB ports and adds usb-phy for that corresponding
->>>>> USB ports.
->>>>>
->>>>> Host and Device mode drivers gets usb-phy from USB2's phy and registers
->>>>> notifier for role changes to perform corresponding role tasks.
->>>>>
->>>>> Order of merging Patches:
->>>>> Please merge DT changes first followed Tegra PHY driver changes and then
->>>>> USB driver changes.
->>>>
->>>> Felipe, Greg, Kishon,
->>>>
->>>> Given the runtime dependencies between these various parts, I could pick
->>>> these up into the Tegra tree if you provide an Acked-by.
->>>
->>> Ping. Are you guys okay if I pick these up into the Tegra tree?
->>
->> That's up to Felipe, I have no opinion :)
-> 
-> Felipe, Kishon,
-> 
-> I've picked up the device tree changes into the Tegra tree. Let me know
-> if you also want me to pick up the USB and PHY driver changes.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/memory/tegra/tegra124-emc.c | 6 +++---
+ drivers/memory/tegra/tegra20-emc.c  | 6 +++---
+ drivers/memory/tegra/tegra30-emc.c  | 6 +++---
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-The PHY and USB changes can only go together since xhci-tegra.c seems to
-use an export symbol of xusb PHY. So I'm fine if someone takes the PHY
-changes along with USB changes.
+diff --git a/drivers/memory/tegra/tegra124-emc.c b/drivers/memory/tegra/tegra124-emc.c
+index 33b8216bac30..d19fb7ae230d 100644
+--- a/drivers/memory/tegra/tegra124-emc.c
++++ b/drivers/memory/tegra/tegra124-emc.c
+@@ -1178,11 +1178,11 @@ static void emc_debugfs_init(struct device *dev, struct tegra_emc *emc)
+ 		return;
+ 	}
+ 
+-	debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root, emc,
++	debugfs_create_file("available_rates", 0444, emc->debugfs.root, emc,
+ 			    &tegra_emc_debug_available_rates_fops);
+-	debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++	debugfs_create_file("min_rate", 0644, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_min_rate_fops);
+-	debugfs_create_file("max_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++	debugfs_create_file("max_rate", 0644, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_max_rate_fops);
+ }
+ 
+diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
+index b16715e9515d..f74dd417c874 100644
+--- a/drivers/memory/tegra/tegra20-emc.c
++++ b/drivers/memory/tegra/tegra20-emc.c
+@@ -647,11 +647,11 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
+ 		return;
+ 	}
+ 
+-	debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root,
++	debugfs_create_file("available_rates", 0444, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_available_rates_fops);
+-	debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++	debugfs_create_file("min_rate", 0644, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_min_rate_fops);
+-	debugfs_create_file("max_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++	debugfs_create_file("max_rate", 0644, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_max_rate_fops);
+ }
+ 
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index b42bdb667e85..727dc7153390 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -1275,11 +1275,11 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
+ 		return;
+ 	}
+ 
+-	debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root,
++	debugfs_create_file("available_rates", 0444, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_available_rates_fops);
+-	debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++	debugfs_create_file("min_rate", 0644, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_min_rate_fops);
+-	debugfs_create_file("max_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++	debugfs_create_file("max_rate", 0644, emc->debugfs.root,
+ 			    emc, &tegra_emc_debug_max_rate_fops);
+ }
+ 
+-- 
+2.25.1
 
-Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
-
-Thanks
-Kishon
