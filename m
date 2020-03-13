@@ -2,87 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1911A18444E
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 11:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 552251848FE
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 15:16:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726543AbgCMKF1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Mar 2020 06:05:27 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37644 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbgCMKF1 (ORCPT
+        id S1726526AbgCMOQV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 10:16:21 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4654 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726874AbgCMOQV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Mar 2020 06:05:27 -0400
-Received: by mail-wm1-f67.google.com with SMTP id a141so9590889wme.2
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Mar 2020 03:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7A08Rj8P2xGcyK9AB5G4W7ODgf9lGGlI82SYTmkYv3s=;
-        b=D/DpgEg7QQzJfqKNUl5khuQLcYUbGC22joQsDqsWmXaZ8s2qUjOKDJikJzae8B1z2L
-         K+ARroJwkcNl1XwIYeePVG0Hy/f0ro8Zh1qyLoIudtv3k22kPtv0edlXLXIRgsnao4Vo
-         F2wPorPZxp5iQEHNFFeemtS6QxDWkHyzQB1vgur+6a9lgN8/hixZvM9g+QVBUzjY/fVm
-         sw+tfKPeDpoof9TtodfR4XapiwS6kZDSTvzxbdGAjnFSeAU2Z0jhFWUyf1/SJX/feta5
-         hoei5nJCk0K4h42a9KchmMflcxOQ5vdIvDyff1Xdaf0Xan0euJAoqfyMVuOGx9eMeia/
-         /mBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7A08Rj8P2xGcyK9AB5G4W7ODgf9lGGlI82SYTmkYv3s=;
-        b=RiS70BUvdIaKJYfdFsNGQMjvfUr91NOY/CZMBmBPwVFLMXPwe1S1Zz7HSPdkcbYhN2
-         K54zpczjy5ghkZRRpb5sRjWfq3D6Hnq4I8JADCHGCz6MJBOmERLKQd2u7Lagv2XtZ0HC
-         Ado6WjMldNlbUzNtKSrf4uoSdq87OX20ifRXb0f/PCrtahlJBQuY5jloNtE38e7QUEjt
-         c9LOo2UFphIYB8J+mOK/Klbdju2kcYfisxkY7PTLjbSRDAm1bo1Wn9zknPzADPTBaMEg
-         hSOXVxAAI3CO6F49ulxSFRVkReI5s/y0r6vte0Yp/XxWml2PVDu2tyK2Ux37RCJZAuqT
-         B93A==
-X-Gm-Message-State: ANhLgQ12PlkRTKdHkK65gXNgVtue6WgaSVNzGMdPbeHJlpYd+8tZzPOE
-        1H5hZZIlTFZEZnDJTcRy6d9MjXZt1Ts8UWnl7gY=
-X-Google-Smtp-Source: ADFU+vu0PpaCkNgoXeULQRHRdjU6VS+GANZ8PsV6W1M39IY8FgdOGV7zlfz6j1KcE0519wldZVdh6IhYJ76cnzKqPV0=
-X-Received: by 2002:a05:600c:2244:: with SMTP id a4mr9578436wmm.147.1584093925714;
- Fri, 13 Mar 2020 03:05:25 -0700 (PDT)
+        Fri, 13 Mar 2020 10:16:21 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e6b95570000>; Fri, 13 Mar 2020 07:14:47 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 13 Mar 2020 07:16:20 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 13 Mar 2020 07:16:20 -0700
+Received: from [10.26.11.156] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 13 Mar
+ 2020 14:16:18 +0000
+Subject: Re: [PATCH] backlight: lp855x: Ensure regulators are disabled on
+ probe failure
+To:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>
+CC:     Milo Kim <milo.kim@ti.com>, Jingoo Han <jingoohan1@gmail.com>,
+        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <20200224140748.2182-1-jonathanh@nvidia.com>
+ <20200224143732.rreev3ypou26hvx3@holly.lan>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <6ec74817-968b-ab5e-6566-56bbb9b67599@nvidia.com>
+Date:   Fri, 13 Mar 2020 14:16:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200313090104.20750-1-digetx@gmail.com>
-In-Reply-To: <20200313090104.20750-1-digetx@gmail.com>
-From:   Nicolas Chauvet <kwizart@gmail.com>
-Date:   Fri, 13 Mar 2020 11:05:14 +0100
-Message-ID: <CABr+WTka7KirNLT=ZptxxZ+L-ZoNKfKwL7RrjZR=ksZh0MAPwg@mail.gmail.com>
-Subject: Re: [PATCH v1] ARM: tegra: Correct PL310 Auxiliary Control Register initialization
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200224143732.rreev3ypou26hvx3@holly.lan>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584108887; bh=EKNVkhNRFooWTuQAuVXUIF52AnlF8L6H6GznFVFM9h4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=lS83ri4NbaFqPyhoKbLqmkCEe3AgsW3k/m5m62gN9bq7V314Au+APvqTQNgPlqlsB
+         pDPu/VR9NZfdx1/3MN+eaSHjMdXQnoBtT77/kW3yrvG01srNHhmFnbLazEQyI0QWlX
+         ccsAna1axRLfJIiXKOVn7aGwyjoYvmli3KdF4KqhSjv8ZsNULtgrTZ9zfxrnvRZGS4
+         Xzj331mbOmXuukiIGnRI1Y/kqFJz+X0Aj4qieHxseYx3348O1L0LlcnpPcXaoOc+yC
+         JHdUEzsiWpdJwpxvP3yGufQLBBG3uxBiq7usviHsstbQ42aFMn8VozH2tPArI4cyc/
+         b9zCDGar1+SPg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Le ven. 13 mars 2020 =C3=A0 10:02, Dmitry Osipenko <digetx@gmail.com> a =C3=
-=A9crit :
->
-> The PL310 Auxiliary Control Register shouldn't have the "Full line of
-> zero" optimization bit being set before L2 cache is enabled. The L2X0
-> driver takes care of enabling the optimization by itself.
->
-> This patch fixes a noisy error message on Tegra20 and Tegra30 telling
-> that cache optimization is erroneously enabled without enabling it for
-> the CPU:
->
->         L2C-310: enabling full line of zeros but not enabled in Cortex-A9
->
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+Hi Lee, Daniel,
 
-This was tested on paz00 (tegra20).
-Also tested that suspend still works.
+On 24/02/2020 14:37, Daniel Thompson wrote:
+> On Mon, Feb 24, 2020 at 02:07:48PM +0000, Jon Hunter wrote:
+>> If probing the LP885x backlight fails after the regulators have been
+>> enabled, then the following warning is seen when releasing the
+>> regulators ...
+>>
+>>  WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
+>>  Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
+>>  CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
+>>  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+>>
+>>  ...
+>>
+>>  Call trace:
+>>   _regulator_put.part.28+0x158/0x160
+>>   regulator_put+0x34/0x50
+>>   devm_regulator_release+0x10/0x18
+>>   release_nodes+0x12c/0x230
+>>   devres_release_all+0x34/0x50
+>>   really_probe+0x1c0/0x370
+>>   driver_probe_device+0x58/0x100
+>>   device_driver_attach+0x6c/0x78
+>>   __driver_attach+0xb0/0xf0
+>>   bus_for_each_dev+0x68/0xc8
+>>   driver_attach+0x20/0x28
+>>   bus_add_driver+0x160/0x1f0
+>>   driver_register+0x60/0x110
+>>   i2c_register_driver+0x40/0x80
+>>   lp855x_driver_init+0x20/0x1000 [lp855x_bl]
+>>   do_one_initcall+0x58/0x1a0
+>>   do_init_module+0x54/0x1d0
+>>   load_module+0x1d80/0x21c8
+>>   __do_sys_finit_module+0xe8/0x100
+>>   __arm64_sys_finit_module+0x18/0x20
+>>   el0_svc_common.constprop.3+0xb0/0x168
+>>   do_el0_svc+0x20/0x98
+>>   el0_sync_handler+0xf4/0x1b0
+>>   el0_sync+0x140/0x180
+>>
+>> Fix this by ensuring that the regulators are disabled, if enabled, on
+>> probe failure.
+>>
+>> Finally, ensure that the vddio regulator is disabled in the driver
+>> remove handler.
+>>
+>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> 
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+I received a bounce from Milo's email and so I am not sure that his
+email address is still valid.
 
-Thanks for fixing this long standing issue!
+Can either of you pick this up?
 
---=20
--
+Not sure if we should update the MAINTAINERS as well?
 
-Nicolas (kwizart)
+Jon
+
+-- 
+nvpublic
