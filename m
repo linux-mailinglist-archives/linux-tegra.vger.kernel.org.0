@@ -2,58 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04393184D14
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 17:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35E36184D15
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 17:59:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbgCMQ65 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Mar 2020 12:58:57 -0400
-Received: from mail-wr1-f41.google.com ([209.85.221.41]:38239 "EHLO
-        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726533AbgCMQ65 (ORCPT
+        id S1726571AbgCMQ67 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 12:58:59 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39834 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726533AbgCMQ67 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Mar 2020 12:58:57 -0400
-Received: by mail-wr1-f41.google.com with SMTP id x11so8267976wrv.5
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Mar 2020 09:58:55 -0700 (PDT)
+        Fri, 13 Mar 2020 12:58:59 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r15so13027514wrx.6
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Mar 2020 09:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SasAQUXkfroYsOYpPXJJCL2Y1hUNoc4M6M8VYYK0keI=;
-        b=gWa1uZa2BFVfX9rodYZOIjCoKFUb9fp5qZkMsAaV4QGa08HvkgVLCO6cBXU1UsJKgN
-         sV/Bdg7GpHYHtaMnNnODPUFgJmZ7Uy8N6PfaMMIRteWIn4HWlwM1oxyw9SCk3ZmlLSP3
-         am9eD7ZDyTiber1Jf0OSh7XlciTCxnQ8LXNTWVnSC8sJCiB4T0Z7Xm85zygVIgrTM0hw
-         Mfd4KkK0E79rQIFFKNGcNljHjHyTKgjFdJdAEF9kHXSnji1B6T4JY6epYQn0B8nioCs3
-         gLMSV0bsFlv9ZU+SXcRPbx0ylFCA3dvS8QPz5yeHnu0lfuBk7a8l7YxaF4M2okqLv6HM
-         JKDg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4ZtpoizzVl8pdp804KeThlDclE0eGVD9drg6pWo+El0=;
+        b=i2UGQ1SGbp+mel+QVnxrd0VCpoXiF55ypqwakm/eQQbgmGxhx07CJfHqLNHyNIvtoV
+         IV9bqbnyszCY2aR9wMUjjaqxjy9w0gpvOk7k0Qjh3PL6D0jJ2UyX6xHIoQnidbmtL8IO
+         lDa6RNLzenkQeRXCm0XSfRHx5YvUzTTVuHuIkNm+sfijHu9zxlP/DIS8lr8qICoEKwBZ
+         3e43N1OEC+7MXCQNjXNN0xdKNxzjrh3KVUC9eHdrnB6/fIfyN8k1XxWkm7829IA06t9T
+         rQm7VzFUrwBv6KlJz5kZMXm+iDR9Yiq9YEpVPOVLKisQknGymGbMfwHfgZ38FGeZr3L0
+         lPhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SasAQUXkfroYsOYpPXJJCL2Y1hUNoc4M6M8VYYK0keI=;
-        b=CeSEEsSj+yfO2YbEbwsH+lFNIcMzEb1aFLv+KHo3877odwggTIsi87ghdvs+WycQIE
-         9PMt3+PdrQ17Ojz15VbgtIxlNJ3JDyxtMtHCwDVV3JCCqKqr7zyYaRLA3Ros28oG4kfv
-         CCWzb9gMyBRHB5l7fKaRIuYBJazKY4TaLrLuMjGlgV3lCbBmpiMB/j+3SouPmUTbM4y2
-         y+3sHumhZ5jUj2Kue/E6eLeb4cyy2dtnZAZSxQiPISppiQlO96r3pkriCOOGwygiI5BK
-         sWCaKrWdXSsDVV2nGev/I6nJ3d+5henNxO6W4WpJWuDww+N98HlhTGYIy+p+OrE3AM6q
-         JLZA==
-X-Gm-Message-State: ANhLgQ1eTrZH44XOMVJrYPIaOadqtlCPYm7Nkisko3R14va20F7E3HW4
-        D1iqkk1lWcF2B1HsjLLkCLQ=
-X-Google-Smtp-Source: ADFU+vucg0CqsQ16ZoemjPuQ4xlKbLeo4LxUNxUVpcATUZFISeJiloFJIyIvK7pkhBWDbxKUy6WPqQ==
-X-Received: by 2002:a5d:4683:: with SMTP id u3mr19615631wrq.251.1584118735140;
-        Fri, 13 Mar 2020 09:58:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4ZtpoizzVl8pdp804KeThlDclE0eGVD9drg6pWo+El0=;
+        b=eq832rcC5jsdtmHiEnHoNPjyTvybN7ekMYOphNUqnQCcMss6LXv3TItZmlTHLhSHbs
+         NU4ll4Gxe5JHcgFMV1Dy2+KURcuW7ZydLjP0u1vliASYG5DvStpxOdGfeW9K6hOsRZx9
+         WH9Ht+bxBOWi8itDEwaw+UuD6m4S8tb+hrpYJc/5vw3kw8e/JkVYeKXH3QkDZUrRuOeP
+         LdYEfGpUy4an6R47OJavLlU405gh8JBg/TNCkrwzWclF82WyyaJFMRpr4jc43HDIRxDe
+         mrGuv8BkGWDCy/vM3vr0v80LuH1Ayc3p0769/eqKxu9YTDAoX43+zVi+zYOuksFySyXr
+         nHfQ==
+X-Gm-Message-State: ANhLgQ09zC5Kc7UfexEaPbeXfkkch9jTmAzkQcTsJi/uOPnMeMtiK6Xt
+        zQxWluJLZFjPDW+0hwNvMB0=
+X-Google-Smtp-Source: ADFU+vtsHX4RwxjvrPuT7ImBThVXBi88Xy6BlRSWICD+LYdJ3D0XlIlkc1TQjIoSeYskz83SR9L3Yg==
+X-Received: by 2002:adf:dec8:: with SMTP id i8mr19317886wrn.326.1584118737923;
+        Fri, 13 Mar 2020 09:58:57 -0700 (PDT)
 Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id v8sm77801355wrw.2.2020.03.13.09.58.53
+        by smtp.gmail.com with ESMTPSA id t187sm18276952wmt.25.2020.03.13.09.58.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2020 09:58:54 -0700 (PDT)
+        Fri, 13 Mar 2020 09:58:57 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 01/10] dt-bindings: Changes for v5.7-rc1
-Date:   Fri, 13 Mar 2020 17:58:39 +0100
-Message-Id: <20200313165848.2915133-1-thierry.reding@gmail.com>
+Subject: [GIT PULL 02/10] firmware: tegra: Changes for v5.7-rc1
+Date:   Fri, 13 Mar 2020 17:58:40 +0100
+Message-Id: <20200313165848.2915133-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200313165848.2915133-1-thierry.reding@gmail.com>
+References: <20200313165848.2915133-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,50 +72,23 @@ The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.7-dt-bindings
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.7-firmware
 
-for you to fetch changes up to eba512375e6bc297c674353841523feba03cf712:
+for you to fetch changes up to 6c2d3a14b7aff13f74fb2331d9a54202c66bea4d:
 
-  dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding (2020-03-13 09:15:11 +0100)
+  firmware: tegra: Fix a typo in Kconfig (2020-02-17 08:54:09 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-dt-bindings: Changes for v5.7-rc1
+firmware: tegra: Changes for v5.7-rc1
 
-New IDs are added for clocks that are controlled by the PMC. This
-replaces older IDs that were erroneously provided by the clock and reset
-controller.
-
-This also adds device tree bindings for XUSB pad controller support on
-Tegra194 as well as USB role switching on NVIDIA Tegra SoCs.
+A trivial typofix for the Kconfig entry of the Tegra IVC library.
 
 ----------------------------------------------------------------
-JC Kuo (1):
-      dt-bindings: phy: tegra: Add Tegra194 support
+Christophe JAILLET (1):
+      firmware: tegra: Fix a typo in Kconfig
 
-Nagarjuna Kristam (2):
-      dt-bindings: phy: tegra-xusb: Add usb-role-switch
-      dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding
-
-Sowjanya Komatineni (4):
-      dt-bindings: clock: tegra: Add IDs for OSC clocks
-      dt-bindings: tegra: Convert Tegra PMC bindings to YAML
-      dt-bindings: soc: tegra-pmc: Add Tegra PMC clock bindings
-      dt-bindings: soc: tegra-pmc: Add ID for Tegra PMC 32 kHz blink clock
-
- .../bindings/arm/tegra/nvidia,tegra20-pmc.txt      | 300 -----------------
- .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml     | 354 +++++++++++++++++++++
- .../bindings/phy/nvidia,tegra124-xusb-padctl.txt   |  24 ++
- .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 190 +++++++++++
- include/dt-bindings/clock/tegra114-car.h           |   4 +-
- include/dt-bindings/clock/tegra124-car-common.h    |   4 +-
- include/dt-bindings/clock/tegra210-car.h           |   4 +-
- include/dt-bindings/clock/tegra30-car.h            |   4 +-
- include/dt-bindings/soc/tegra-pmc.h                |  16 +
- 9 files changed, 596 insertions(+), 304 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.txt
- create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
- create mode 100644 include/dt-bindings/soc/tegra-pmc.h
+ drivers/firmware/tegra/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
