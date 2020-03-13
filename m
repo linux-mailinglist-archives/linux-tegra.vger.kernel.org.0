@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B49C8184D1C
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 17:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7BF4184D1D
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 17:59:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgCMQ7N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Mar 2020 12:59:13 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38651 "EHLO
+        id S1726613AbgCMQ7O (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 12:59:14 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41257 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbgCMQ7N (ORCPT
+        with ESMTP id S1726533AbgCMQ7O (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Mar 2020 12:59:13 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x11so8269034wrv.5
-        for <linux-tegra@vger.kernel.org>; Fri, 13 Mar 2020 09:59:11 -0700 (PDT)
+        Fri, 13 Mar 2020 12:59:14 -0400
+Received: by mail-wr1-f67.google.com with SMTP id s14so13021938wrt.8
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Mar 2020 09:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jvqohnMij0I2CBTDF5YLXeAgLpbv445ozkjXuVEGaTQ=;
-        b=fw4nUGDdM7Jea/euj+WFkdeMcd478PgA6JePiH8KX8hdXt1AtKCGlBAy2D+dcjlt1D
-         kl1/ZbnB8xDoLggyDGOzeqEZ/M2Xl7LZuqL8GyW6YDz/GhM1UnbkspSPvv09h5ZC5Boe
-         nMt9kVz9H/ioWrcB2rPou+7T5z4BncrxktYpx+YJq2kLYJ7G1d28g2/+/EOxGk/MDMe/
-         FsfJVgCwjP8ljRQiwTRLp5iuOFyqC/UmraUKrOvQDEL/R20BG8CFQ9sCekSv4ex5k/9Y
-         ExGCHJmrhQjYI/1URjJFvv3TveQ3Yhq3SVV8Skpn4tdassaBFmcdSOnw5ygm9i6LJaQt
-         X1Ag==
+        bh=GkSp53UqxGMezb98No71xXKz4FloCnxhdFK1fZRjBd8=;
+        b=bq7JoO/XL/9E3wNqSP/iDNW7nPnI/h2Snjc+Q5S6MUMrKp2PKhjoQlXdYBtkFw8hJI
+         BIe7F1U3egDJQxnSisgIVqxh5SK/awvgeeS9/Byk6bm2+dhaMml1bQbs+gCXWOfh7vbi
+         LGik2/w2JmqwwpDCmjFlbuJHCpv4/p+XImoQYhaH09/WCxlpDqgk3YZog8jferWAazFt
+         pzu+LDaFbjZn2yC9KRJj/q0NmNprEPVJWExR0YdPolcm20++kv1+67Kc6W9KnnLbiPvf
+         XSf7aPE0LSSQ7dUbkgFHsNeqjVaTDE5JqdbfTA3GfI753mKzha2qfOwPOcDZqHptCZIt
+         aFuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jvqohnMij0I2CBTDF5YLXeAgLpbv445ozkjXuVEGaTQ=;
-        b=fV57ydqnAZC7bswLFlJeeyOrEsxZCAmo0BxSzKWxEfWSi+qZtS2QZ3EUraJKpey/6W
-         F/D0wfGaNZuFe9M26QT3mJMeIIsPQGhzPIKk9u7Bm+RZYShQXdgryrxlzhxfhGMKAXvW
-         z/rXrtXGCk4G8Q3guDvfUeMDWAk05yftYwp1P7x2fyLCCLmEXel+vDTaiSfUsti4yUnh
-         Nx47xltnbWB8vV2N5jJgTWj5Ht56E3hUoeKvkr3RShNKTl+9LHYS1HPm2FfRiRkpufYZ
-         4BBGmaw2+CNMWZ2C6bCkgFSgfbIjXhsCfQC0k4BIMA6s2BYDBnFmIQhfXL4R1nBOQgrL
-         ivGg==
-X-Gm-Message-State: ANhLgQ3YxKtwjjl0SVKTkyfbspPLkDwltEIOlESRPObkofgt4SViwaKw
-        CeLWN9cXDY/znYb22VF5EE0=
-X-Google-Smtp-Source: ADFU+vtLcomxxRNE6ZfG88AZ1ylBxIg3ZrOocA9bP65sr7EsMPJksN7bDWkcyZzoKlyFARffhYOE0Q==
-X-Received: by 2002:adf:ef44:: with SMTP id c4mr18318790wrp.404.1584118750894;
-        Fri, 13 Mar 2020 09:59:10 -0700 (PDT)
+        bh=GkSp53UqxGMezb98No71xXKz4FloCnxhdFK1fZRjBd8=;
+        b=rgT2VMxmk8nlYyjugFSekzhO3vPh9/5VpOqj7N8b/9WEpOsCkAoTUmVh1tXjulIzy8
+         9gKthyS7EM5Y1ZBf/qLqu1eN7hXGq5Zj8Pti94wEudwRs7Wh8oaEdoHo6qQRH3+ZxRo7
+         vqdxQuRKUhLfZKlQXiTfmSdmnktRfihnIR8tBvNyVLrl4xCE4c+ZhvlOtBVX7KKux1x8
+         hcmSlQlBjNTd5JHwFOwbPV1TaNhrU8CmRF2ExOFUHShBKvDbRHlzv1MDOI5PSHBgwsgi
+         yXuzGLGWODey8Nsj7/M7FTrmho5IExVdcHWa1UCv+rnyMf+tktmHmoGbH1YcHya1S412
+         DJew==
+X-Gm-Message-State: ANhLgQ2xD1pMAeYfFv9kX2vlwaEdAWVnZW/uP1Dt5HWch0RdDQOUZY8k
+        Z2lXALGhKR7obKb73G3/2nA=
+X-Google-Smtp-Source: ADFU+vvD3V+yfjmMIN67TowA6OWpsOR4dkiJKy19dn7YAj+wM7wURdDPFxgQlMh3kK9rVMHUP1VpJg==
+X-Received: by 2002:adf:fa0e:: with SMTP id m14mr3210545wrr.80.1584118752608;
+        Fri, 13 Mar 2020 09:59:12 -0700 (PDT)
 Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id t124sm18104873wmg.13.2020.03.13.09.59.09
+        by smtp.gmail.com with ESMTPSA id e1sm69648524wrx.90.2020.03.13.09.59.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2020 09:59:10 -0700 (PDT)
+        Fri, 13 Mar 2020 09:59:11 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 09/10] cpuidle: tegra: Changes for v5.7-rc1
-Date:   Fri, 13 Mar 2020 17:58:47 +0100
-Message-Id: <20200313165848.2915133-9-thierry.reding@gmail.com>
+Subject: [GIT PULL 10/10] phy: tegra: Changes for v5.7-rc1
+Date:   Fri, 13 Mar 2020 17:58:48 +0100
+Message-Id: <20200313165848.2915133-10-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200313165848.2915133-1-thierry.reding@gmail.com>
 References: <20200313165848.2915133-1-thierry.reding@gmail.com>
@@ -72,72 +72,46 @@ The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.7-cpuidle
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.7-phy
 
-for you to fetch changes up to 382ac8e22b90e6334d373da03c17b319458b258e:
+for you to fetch changes up to 04c929223d1db6ad4ba8e4c23122e1052f670c2e:
 
-  cpuidle: tegra: Disable CC6 state if LP2 unavailable (2020-03-13 11:32:01 +0100)
+  phy: tegra: xusb: Don't warn on probe defer (2020-03-13 09:17:50 +0100)
 
-This set of changes was acked by Daniel Lezcano and the preference is to
-take this through the ARM SoC tree because it has a dependency on one of
-the other branches (tegra-for-5.7-arm-core) that also goes through the
-ARM SoC tree.
+This is a dependency for the USB changes that are also part of this
+series of pull requests, so it was deemed easier to take this all
+through the ARM SoC tree. The patches have all been acked by Kishon.
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-cpuidle: tegra: Changes for v5.7-rc1
+phy: tegra: Changes for v5.7-rc1
 
-These changes unify CPU idle support for Tegra20, Tegra30 and Tegra114.
+This set of patches adds role switching support for the XUSB pad
+controller, which will be used by USB host and device drivers to
+switch between peripheral and host modes.
 
 ----------------------------------------------------------------
-Dmitry Osipenko (15):
-      ARM: tegra: Compile sleep-tegra20/30.S unconditionally
-      ARM: tegra: Add tegra_pm_park_secondary_cpu()
-      ARM: tegra: Remove pen-locking from cpuidle-tegra20
-      ARM: tegra: Change tegra_set_cpu_in_lp2() type to void
-      ARM: tegra: Propagate error from tegra_idle_lp2_last()
-      ARM: tegra: Expose PM functions required for new cpuidle driver
-      ARM: tegra: Rename some of the newly exposed PM functions
-      ARM: tegra: Make outer_disable() open-coded
-      ARM: tegra: cpuidle: Handle case where secondary CPU hangs on entering LP2
-      ARM: tegra: cpuidle: Make abort_flag atomic
-      ARM: tegra: cpuidle: Remove unnecessary memory barrier
-      cpuidle: Refactor and move out NVIDIA Tegra20 driver into drivers/cpuidle
-      cpuidle: tegra: Squash Tegra30 driver into the common driver
-      cpuidle: tegra: Squash Tegra114 driver into the common driver
-      cpuidle: tegra: Disable CC6 state if LP2 unavailable
+JC Kuo (2):
+      phy: tegra: xusb: Protect Tegra186 soc with config
+      phy: tegra: xusb: Add Tegra194 support
 
-Thierry Reding (1):
-      Merge branch 'for-5.7/arm/core' into for-5.7/cpuidle
+Jon Hunter (1):
+      phy: tegra: xusb: Don't warn on probe defer
 
- arch/arm/mach-tegra/Makefile                     |  19 +-
- arch/arm/mach-tegra/cpuidle-tegra114.c           |  89 -----
- arch/arm/mach-tegra/cpuidle-tegra20.c            | 212 ------------
- arch/arm/mach-tegra/cpuidle-tegra30.c            | 132 --------
- arch/arm/mach-tegra/cpuidle.c                    |  50 ---
- arch/arm/mach-tegra/cpuidle.h                    |  21 --
- arch/arm/mach-tegra/irq.c                        |   3 +-
- arch/arm/mach-tegra/pm.c                         |  54 ++--
- arch/arm/mach-tegra/pm.h                         |   4 -
- arch/arm/mach-tegra/reset-handler.S              |  11 -
- arch/arm/mach-tegra/reset.h                      |   9 +-
- arch/arm/mach-tegra/sleep-tegra20.S              | 170 ----------
- arch/arm/mach-tegra/sleep-tegra30.S              |   6 +-
- arch/arm/mach-tegra/sleep.h                      |  15 -
- arch/arm/mach-tegra/tegra.c                      |   7 +-
- drivers/cpuidle/Kconfig.arm                      |   8 +
- drivers/cpuidle/Makefile                         |   1 +
- drivers/cpuidle/cpuidle-tegra.c                  | 392 +++++++++++++++++++++++
- include/soc/tegra/cpuidle.h                      |   2 +-
- {arch/arm/mach-tegra => include/soc/tegra}/irq.h |   8 +-
- include/soc/tegra/pm.h                           |  31 ++
- 21 files changed, 483 insertions(+), 761 deletions(-)
- delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra114.c
- delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra20.c
- delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra30.c
- delete mode 100644 arch/arm/mach-tegra/cpuidle.c
- delete mode 100644 arch/arm/mach-tegra/cpuidle.h
- create mode 100644 drivers/cpuidle/cpuidle-tegra.c
- rename {arch/arm/mach-tegra => include/soc/tegra}/irq.h (59%)
+Nagarjuna Kristam (5):
+      phy: tegra: xusb: Add usb-role-switch support
+      phy: tegra: xusb: Add usb-phy support
+      phy: tegra: xusb: Add support to get companion USB 3 port
+      phy: tegra: xusb: Add set_mode support for USB 2 phy on Tegra210
+      phy: tegra: xusb: Add set_mode support for UTMI phy on Tegra186
+
+ drivers/phy/tegra/Kconfig         |   1 +
+ drivers/phy/tegra/Makefile        |   1 +
+ drivers/phy/tegra/xusb-tegra186.c | 261 +++++++++++++++++++++++++++++---------
+ drivers/phy/tegra/xusb-tegra210.c | 131 +++++++++++++++----
+ drivers/phy/tegra/xusb.c          | 189 +++++++++++++++++++++++++++
+ drivers/phy/tegra/xusb.h          |  10 ++
+ include/linux/phy/tegra/xusb.h    |   2 +
+ 7 files changed, 511 insertions(+), 84 deletions(-)
