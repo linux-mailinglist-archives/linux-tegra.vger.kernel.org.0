@@ -2,123 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 552251848FE
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 15:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB5681849E2
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 15:48:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgCMOQV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Mar 2020 10:16:21 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4654 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726874AbgCMOQV (ORCPT
+        id S1726861AbgCMOsQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 10:48:16 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37485 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbgCMOsQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Mar 2020 10:16:21 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e6b95570000>; Fri, 13 Mar 2020 07:14:47 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 13 Mar 2020 07:16:20 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 13 Mar 2020 07:16:20 -0700
-Received: from [10.26.11.156] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 13 Mar
- 2020 14:16:18 +0000
-Subject: Re: [PATCH] backlight: lp855x: Ensure regulators are disabled on
- probe failure
-To:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>
-CC:     Milo Kim <milo.kim@ti.com>, Jingoo Han <jingoohan1@gmail.com>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-References: <20200224140748.2182-1-jonathanh@nvidia.com>
- <20200224143732.rreev3ypou26hvx3@holly.lan>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <6ec74817-968b-ab5e-6566-56bbb9b67599@nvidia.com>
-Date:   Fri, 13 Mar 2020 14:16:16 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Fri, 13 Mar 2020 10:48:16 -0400
+Received: by mail-lj1-f193.google.com with SMTP id r24so10838970ljd.4;
+        Fri, 13 Mar 2020 07:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=OXNW+qbkifm22DDftJr72ZNJUFSaznw2nYVEJ5BnOxE=;
+        b=PfkIXQ3pBeYomndl5GR8VhLHQLpXDfE3PxhidQPKtZSFhuDSPagci8oHW4bZTPB2Cr
+         bSnmxTitHyyoHq4mc1YGFjZvwgrvZvWnZAK5Fa6vG0ymoJK3EmAQN4R64wLCDeEzvxVa
+         r6INAlU2pMfrB0kaT81Frbmif/tieFnHZq9UMxf1CPBv4ccRxjQNNdMIdkM7ujLAGmiz
+         Fsze6+1b1fwYZq/rdtLKTSgfBUkNR8MaYR3X4VbLOVyrzA6y2X5PqgXR9aX/D08ifBEw
+         sOYNA5SOjE2/n/x2/m98HBzvI0sR59T4iyTCGBaf/6TjR61dHom6JSZRr/gYUdiek0FU
+         DvKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=OXNW+qbkifm22DDftJr72ZNJUFSaznw2nYVEJ5BnOxE=;
+        b=ZyZHdo/A+SsaJ38INuv6JU/mUXBkYONuiDNyPeY04mgks4PR6YXwJBazKw7u4H1QM4
+         dtAGdw+IetbAliIpyRZXBEniNO6Eq0IfSj0SmSWmMNOGOYydgI+GIsiGhpd4QIOcYwQ6
+         gAJN12hsnBPZQWhIMBmg7KavpZ1NochRhII6+anDBub5sFao7QtzWlRPeT5A1vCwHUgm
+         QuJLWtsRVYvfuHj5nEK7ehkLbreigoHibk3ry7PweS2Mbxm7kshtcj5OH/mzMA660Ojs
+         4ajmEuacHMUZs6j4cW2shApA0J4OQpOYCtXUqM1OE1Mcx8VAMAco9aNphNEWkO7s3Av+
+         0vfw==
+X-Gm-Message-State: ANhLgQ1QQxrU/uCXVugzYasRFXlkH6RRBrK9M/JTrylAHnrzk6w1Mv79
+        wzqJ++/gz5IxlRn1LkHX7u2QRTvOyg8=
+X-Google-Smtp-Source: ADFU+vuJuYPtQvhZNicE9knXkDuF5e6nkLWn3JOtaxSks+6bSsih9Fg+Op+kMyc5+TogPdovtFYiKg==
+X-Received: by 2002:a2e:9f0e:: with SMTP id u14mr8187467ljk.142.1584110891962;
+        Fri, 13 Mar 2020 07:48:11 -0700 (PDT)
+Received: from saruman (88-113-215-213.elisa-laajakaista.fi. [88.113.215.213])
+        by smtp.gmail.com with ESMTPSA id w28sm1722544lfn.29.2020.03.13.07.48.10
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 13 Mar 2020 07:48:10 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch V5 00/21] Tegra XUSB OTG support
+In-Reply-To: <20200312092232.GA1199023@ulmo>
+References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com> <20200217085130.GJ1339021@ulmo> <20200227173226.GA1114616@ulmo> <20200304070100.GA1271591@kroah.com> <20200312092232.GA1199023@ulmo>
+Date:   Fri, 13 Mar 2020 16:48:06 +0200
+Message-ID: <87r1xwfh09.fsf@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200224143732.rreev3ypou26hvx3@holly.lan>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584108887; bh=EKNVkhNRFooWTuQAuVXUIF52AnlF8L6H6GznFVFM9h4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=lS83ri4NbaFqPyhoKbLqmkCEe3AgsW3k/m5m62gN9bq7V314Au+APvqTQNgPlqlsB
-         pDPu/VR9NZfdx1/3MN+eaSHjMdXQnoBtT77/kW3yrvG01srNHhmFnbLazEQyI0QWlX
-         ccsAna1axRLfJIiXKOVn7aGwyjoYvmli3KdF4KqhSjv8ZsNULtgrTZ9zfxrnvRZGS4
-         Xzj331mbOmXuukiIGnRI1Y/kqFJz+X0Aj4qieHxseYx3348O1L0LlcnpPcXaoOc+yC
-         JHdUEzsiWpdJwpxvP3yGufQLBBG3uxBiq7usviHsstbQ42aFMn8VozH2tPArI4cyc/
-         b9zCDGar1+SPg==
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Lee, Daniel,
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On 24/02/2020 14:37, Daniel Thompson wrote:
-> On Mon, Feb 24, 2020 at 02:07:48PM +0000, Jon Hunter wrote:
->> If probing the LP885x backlight fails after the regulators have been
->> enabled, then the following warning is seen when releasing the
->> regulators ...
->>
->>  WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
->>  Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
->>  CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
->>  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
->>
->>  ...
->>
->>  Call trace:
->>   _regulator_put.part.28+0x158/0x160
->>   regulator_put+0x34/0x50
->>   devm_regulator_release+0x10/0x18
->>   release_nodes+0x12c/0x230
->>   devres_release_all+0x34/0x50
->>   really_probe+0x1c0/0x370
->>   driver_probe_device+0x58/0x100
->>   device_driver_attach+0x6c/0x78
->>   __driver_attach+0xb0/0xf0
->>   bus_for_each_dev+0x68/0xc8
->>   driver_attach+0x20/0x28
->>   bus_add_driver+0x160/0x1f0
->>   driver_register+0x60/0x110
->>   i2c_register_driver+0x40/0x80
->>   lp855x_driver_init+0x20/0x1000 [lp855x_bl]
->>   do_one_initcall+0x58/0x1a0
->>   do_init_module+0x54/0x1d0
->>   load_module+0x1d80/0x21c8
->>   __do_sys_finit_module+0xe8/0x100
->>   __arm64_sys_finit_module+0x18/0x20
->>   el0_svc_common.constprop.3+0xb0/0x168
->>   do_el0_svc+0x20/0x98
->>   el0_sync_handler+0xf4/0x1b0
->>   el0_sync+0x140/0x180
->>
->> Fix this by ensuring that the regulators are disabled, if enabled, on
->> probe failure.
->>
->> Finally, ensure that the vddio regulator is disabled in the driver
->> remove handler.
->>
->> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> 
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-I received a bounce from Milo's email and so I am not sure that his
-email address is still valid.
 
-Can either of you pick this up?
+Hi,
 
-Not sure if we should update the MAINTAINERS as well?
+Thierry Reding <thierry.reding@gmail.com> writes:
+> On Wed, Mar 04, 2020 at 08:01:00AM +0100, Greg Kroah-Hartman wrote:
+>> On Thu, Feb 27, 2020 at 06:32:26PM +0100, Thierry Reding wrote:
+>> > On Mon, Feb 17, 2020 at 09:51:30AM +0100, Thierry Reding wrote:
+>> > > On Mon, Feb 10, 2020 at 01:41:26PM +0530, Nagarjuna Kristam wrote:
+>> > > > This patch series adds OTG support on XUSB hardware used in Tegra2=
+10 and
+>> > > > Tegra186 SoCs.
+>> > > >=20
+>> > > > This patchset is composed with :
+>> > > >  - dt bindings of XUSB Pad Controller
+>> > > >  - dt bindings for XUSB device Driver
+>> > > >  - Tegra PHY driver for usb-role-switch and usb-phy
+>> > > >  - Tegra XUSB host mode driver to support OTG mode
+>> > > >  - Tegra XUSB device mode driver to use usb-phy and multi device m=
+ode
+>> > > >  - dts for XUSB pad controller
+>> > > >  - dts for xudc for Jetson TX1 and TX2
+>> > > >  - dts for Jetson-TK1
+>> > > >  - dts for Jetson-Nano
+>> > > >=20
+>> > > > Tegra Pad controller driver register for role switch updates for
+>> > > > OTG/peripheral capable USB ports and adds usb-phy for that corresp=
+onding
+>> > > > USB ports.
+>> > > >=20
+>> > > > Host and Device mode drivers gets usb-phy from USB2's phy and regi=
+sters
+>> > > > notifier for role changes to perform corresponding role tasks.
+>> > > >=20
+>> > > > Order of merging Patches:
+>> > > > Please merge DT changes first followed Tegra PHY driver changes an=
+d then
+>> > > > USB driver changes.
+>> > >=20
+>> > > Felipe, Greg, Kishon,
+>> > >=20
+>> > > Given the runtime dependencies between these various parts, I could =
+pick
+>> > > these up into the Tegra tree if you provide an Acked-by.
+>> >=20
+>> > Ping. Are you guys okay if I pick these up into the Tegra tree?
+>>=20
+>> That's up to Felipe, I have no opinion :)
+>
+> Felipe, Kishon,
+>
+> I've picked up the device tree changes into the Tegra tree. Let me know
+> if you also want me to pick up the USB and PHY driver changes.
 
-Jon
+Sorry for the super long delay, no problems if you want to pick it
+through your tree:
 
--- 
-nvpublic
+Acked-by: Felipe Balbi <balbi@kernel.org>
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl5rnSYACgkQzL64meEa
+mQbcOw/+PHC2C6s2hZma+wKIIWRf2etmytep7PH5htS6qBEqiZclRJChw9ks8nh6
+87xBYHbPcR3ajUbf/qLdU53B/P/fv18aBnG+v26qoE6KusJ/SwIuo7IqMtxS4h1e
+SteaHHsqvsQuYpq2Jy10nHTGLszKzjkjKt/ZGgyZ9Naq5IT9A/dyWPjkwOr1Cfen
+ufJ+uqH/aEMcrfL/ejGJLZMVvmi8hIppZnld02J02/Ip4pzp+fSn4/NhXDUlnIa3
+Ru9Zdzs5upEva8KZb7oUiWqZLEUIXHPP4tGDl6AaXmR774EhPXD4vCEo+8SIX2NI
+gQ8zODCKOfEwYCblxhwI5AK+W2i6BEqeKUo+H7PdyU5lFA/SvKnEvrlmL9XECnSL
+2+boUbAC4VdDRQ0ZE4jMep8ehPTBK7SyUVYYGI5TOC4p6O8JvdlSIJS9Bbemo0Lj
+7Z+/zyumOuy4WHe0w6I357LpTv8M6N2jEgOLHqQXqs7ROgQKo8EBgFT9n1lmYZAs
+0zWLZioos7Vy31c3MWWTQdwtvCBz8iSlW+EciKcoYEZt27i2petNrQh0i7hTSyfv
+rakKekvpyBXXSt5BITvCpP0SuvJ6IwXpeWZq7v38juDR2wYh6qWnogSww0pRmjqc
+PMyDMRHSu9WpmR2a+ftAvFmEhIkBV/9bPb10jWwWcXdiwCPhLjM=
+=6Pve
+-----END PGP SIGNATURE-----
+--=-=-=--
