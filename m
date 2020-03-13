@@ -2,103 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCDB183EA4
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 02:23:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7753F18400D
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 05:44:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726647AbgCMBXx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Mar 2020 21:23:53 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19182 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbgCMBXw (ORCPT
+        id S1726254AbgCMEoA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 00:44:00 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:59434 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbgCMEoA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Mar 2020 21:23:52 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e6ae04b0000>; Thu, 12 Mar 2020 18:22:19 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 12 Mar 2020 18:23:52 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 12 Mar 2020 18:23:52 -0700
-Received: from [10.2.175.141] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 13 Mar
- 2020 01:23:51 +0000
-Subject: Re: [PATCH v1] arm64: tegra: Add reset-cells to mc
-To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <robh+dt@kernel.org>, <josephl@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <nkristam@nvidia.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Fri, 13 Mar 2020 00:44:00 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02D4hmM2019617;
+        Thu, 12 Mar 2020 23:43:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1584074628;
+        bh=XpUwsYDH/tbEiw9bK9EeXQskLAoqJ6LteWN9NgyZdl4=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=rc+0rrd5mK+hpp1qXDueWMnJ+xVaNuRe4JNuHPRBgh+l2k9lxqWLzA+M4TzdAqh1l
+         4gcaA3aKJdqF5/bDmdHL/dt0N5s59RD+uSAHCOmll67WkRC0y22b+tb1M77vB0ovrP
+         crI699YeDGzoMFwL6tL9zop3mm8/WGFSMAd7UIM8=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02D4hluL001597
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 12 Mar 2020 23:43:47 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 12
+ Mar 2020 23:43:47 -0500
+Received: from localhost.localdomain (10.64.41.19) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 12 Mar 2020 23:43:47 -0500
+Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by localhost.localdomain (8.15.2/8.15.2) with ESMTP id 02D4hhuU126810;
+        Thu, 12 Mar 2020 23:43:44 -0500
+Subject: Re: [Patch V5 00/21] Tegra XUSB OTG support
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-References: <1583899366-1588-1-git-send-email-skomatineni@nvidia.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <407b5d00-4a79-d063-31a2-74e3154625f6@nvidia.com>
-Date:   Thu, 12 Mar 2020 18:23:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
+ <20200217085130.GJ1339021@ulmo> <20200227173226.GA1114616@ulmo>
+ <20200304070100.GA1271591@kroah.com> <20200312092232.GA1199023@ulmo>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <3e76c44e-f2b0-3c8a-c7b3-0461ff1176d3@ti.com>
+Date:   Fri, 13 Mar 2020 10:18:23 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1583899366-1588-1-git-send-email-skomatineni@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200312092232.GA1199023@ulmo>
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584062539; bh=wFF0EY/KkghrKnMj1Y0t6Hft+dTR9Y4gWUc7Q+aNSFU=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=SQbL/xPi9OslwaGdzRO5hgYJcjCHAllPHjK0/ojl0gUeLYaSkCjwFWZTbSHxvblIP
-         U5ftV8XSwKkGDGIlmEOBRq1Ua797+B2Xi4z2u/j9ZGW83BaKDsoLJ2qJOCiw9OoPoQ
-         yqgOJYVJCVwz4nCI/7pY9RmS0C0UddX7iln3TA7zGIP+sBwC4wcRkG/Fbehd47tYsi
-         gGd3amqEwD3rTAIkxBi/sZQEfHFhxBRdyUgj8OVDJJsqfs/k2EbnZWlhTYJv70aL7g
-         kXWQJAbnM+ucFU/dLm1khEwSEk9g3KiQxxrZ5jmazYBuHhnoBGXNAYsE0F3DysW5bV
-         6wJpr0zvs8jtA==
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi All,
+Hi,
 
-Sorry for inconvenience.
+On 12/03/20 2:52 pm, Thierry Reding wrote:
+> On Wed, Mar 04, 2020 at 08:01:00AM +0100, Greg Kroah-Hartman wrote:
+>> On Thu, Feb 27, 2020 at 06:32:26PM +0100, Thierry Reding wrote:
+>>> On Mon, Feb 17, 2020 at 09:51:30AM +0100, Thierry Reding wrote:
+>>>> On Mon, Feb 10, 2020 at 01:41:26PM +0530, Nagarjuna Kristam wrote:
+>>>>> This patch series adds OTG support on XUSB hardware used in Tegra210 and
+>>>>> Tegra186 SoCs.
+>>>>>
+>>>>> This patchset is composed with :
+>>>>>  - dt bindings of XUSB Pad Controller
+>>>>>  - dt bindings for XUSB device Driver
+>>>>>  - Tegra PHY driver for usb-role-switch and usb-phy
+>>>>>  - Tegra XUSB host mode driver to support OTG mode
+>>>>>  - Tegra XUSB device mode driver to use usb-phy and multi device mode
+>>>>>  - dts for XUSB pad controller
+>>>>>  - dts for xudc for Jetson TX1 and TX2
+>>>>>  - dts for Jetson-TK1
+>>>>>  - dts for Jetson-Nano
+>>>>>
+>>>>> Tegra Pad controller driver register for role switch updates for
+>>>>> OTG/peripheral capable USB ports and adds usb-phy for that corresponding
+>>>>> USB ports.
+>>>>>
+>>>>> Host and Device mode drivers gets usb-phy from USB2's phy and registers
+>>>>> notifier for role changes to perform corresponding role tasks.
+>>>>>
+>>>>> Order of merging Patches:
+>>>>> Please merge DT changes first followed Tegra PHY driver changes and then
+>>>>> USB driver changes.
+>>>>
+>>>> Felipe, Greg, Kishon,
+>>>>
+>>>> Given the runtime dependencies between these various parts, I could pick
+>>>> these up into the Tegra tree if you provide an Acked-by.
+>>>
+>>> Ping. Are you guys okay if I pick these up into the Tegra tree?
+>>
+>> That's up to Felipe, I have no opinion :)
+> 
+> Felipe, Kishon,
+> 
+> I've picked up the device tree changes into the Tegra tree. Let me know
+> if you also want me to pick up the USB and PHY driver changes.
 
-Please ignore this patch. This is needed before next updated patches for 
-tegra video as they use mc reset on Tegra210.
+The PHY and USB changes can only go together since xhci-tegra.c seems to
+use an export symbol of xusb PHY. So I'm fine if someone takes the PHY
+changes along with USB changes.
 
-So will include this patch as part of tegra-video patch series so 
-dependencies are taken care.
+Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 
 Thanks
-
-Sowjanya
-
-On 3/10/20 9:02 PM, Sowjanya Komatineni wrote:
-> External email: Use caution opening links or attachments
->
->
-> Tegra210 device tree is missing reset-cells property for mc node.
->
-> This patch fixes it.
->
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->   arch/arm64/boot/dts/nvidia/tegra210.dtsi | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-> index 66dd1df..9241163 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-> @@ -935,6 +935,7 @@
->                  interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>;
->
->                  #iommu-cells = <1>;
-> +               #reset-cells = <1>;
->          };
->
->          sata@70020000 {
-> --
-> 2.7.4
->
+Kishon
