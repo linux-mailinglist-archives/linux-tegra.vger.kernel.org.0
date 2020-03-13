@@ -2,56 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB335184D2E
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 18:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 869F4184D43
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 18:07:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbgCMREN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Mar 2020 13:04:13 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:32833 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbgCMREN (ORCPT
+        id S1726475AbgCMRHf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Mar 2020 13:07:35 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53501 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgCMRHe (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Mar 2020 13:04:13 -0400
-Received: by mail-wm1-f67.google.com with SMTP id r7so8272465wmg.0;
-        Fri, 13 Mar 2020 10:04:12 -0700 (PDT)
+        Fri, 13 Mar 2020 13:07:34 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 25so10808384wmk.3;
+        Fri, 13 Mar 2020 10:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VnHkv2SySYBGNIaX4wpCz7wmRgaxA5hMK+HRcRPI5Mo=;
-        b=EZt+AvDvnQonno9D8+xAb4mDEqqo7mvDC0c/wSY0Xll4V9jT6o25rlmmzm+iWQ3rlC
-         M2ehFbTvupPmt51KVdyIVFm0cSPAy7UwKb4GSNFbXCQqISNQzskUnvRUw1PmDHjK0ZQY
-         MtGJQfhUicYt4cjkOcvF7GYzhRCZwZQwz5N59HXNJdZRt4/etuLgCNL5GbB5jWWW55SX
-         D7eKXCP4rgm6H4C0ag5MP+h9K0EduC2kDf9PkcjqNretiGV5aAJztcHzGMIvBCtYIlZl
-         B5RetYRs39azTIP/Szd2snJr9I8XAYKYa9FJtcX9o/Yjioj6NEkbLR3r2bkJa2xu+SmF
-         FHRg==
+        bh=SftGljlnlL7hMnN4mOOIGMf/UgKRZHL5wuxB7TMWOqQ=;
+        b=nYqUPZVuYxN6szJQeHIaUPARwytJHySa7CM99anocIVEvJEkSbhiR1VYEZd9Y8ukWZ
+         gfRdfo5L8R4p3/HukQelSvlqnG3iLoV+QqWcsOCXc8ABunhEh9Jz4w7/UqDs+B5x4414
+         v8AoI6BXa2i78Rd3HI6FMDQ40cLjqt+buYb1KG8p/77hPbiJeRYi8XqNPSTCjA7//ZLT
+         y4vTLCKSVMtoZiYC4SpM1v7RaKzc3kvyKYgHxDFBNcPqUMoXHsgnAFoNx+sBtjBDHOB+
+         7Ui9cWGrQyPCvJ78Fp5HYqTQRT4cdeVAyIWFcakkq3nTZ4jtED/T7I94L84ojv/syx9v
+         apAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VnHkv2SySYBGNIaX4wpCz7wmRgaxA5hMK+HRcRPI5Mo=;
-        b=MvhepfiFJw1FcVGQr+77/W+1Kcd+JO7D68W6i9r9fekh8OXNiiONeyjNVgatVVlHOu
-         bFNL9XzLQNPt+AWtSJcE+lias9XNxGvb7TawD2cFPuf5PIODSMuJntgltz7qnJv4r1BW
-         f0/0WSclM6AZeavQp+0TY5KLjSONWKR5g4jz1MfJMBB6GdHvFgXfZD6HJENjUrVFBp8c
-         r+EFoEt8Q3FnN3NvS1CUP3Ikb2MkhPrWZSZf3A3DtU2Vd+p7gFQ3Wktc8lwKa4CVISYv
-         aXeiH3zxiI1Rxcd0gxHSdOiLs4eOc3Z28gFwhHXnjznXbCVcvbuYHBorkvJEeCjPEX6z
-         PhmQ==
-X-Gm-Message-State: ANhLgQ3plELBLe14KKRzUmy1h3cR7fUAjL6u+qJLLvHKSZ118MCx6sdx
-        0cycUTEkpLrEUkC0jODbHwg=
-X-Google-Smtp-Source: ADFU+vuJvZ2CBsvHR8zjvfHMwiDXniYtA0JvHlVc5kjDLLCEupXfek6uRtJM0dXB9tLwomHaJE7KWg==
-X-Received: by 2002:a1c:1b0e:: with SMTP id b14mr11706753wmb.8.1584119051386;
-        Fri, 13 Mar 2020 10:04:11 -0700 (PDT)
+        bh=SftGljlnlL7hMnN4mOOIGMf/UgKRZHL5wuxB7TMWOqQ=;
+        b=M5kfs6Kow8l/7vCfaepLk9F4MlilyzoEg9U9AAVUynRh61x8Jrg4p7mtpR8ubHMyry
+         dpMcRDQpVDs0t0DCZbAOeceQ1G7LcplsIJ9klQVbQS/P7n3S9ypUSltybYzeimH8PFPj
+         TwiTpIK5vaFLz+kb+uhxqJ1Id5NoOkg7GzfgMi8QHnKBoGYVCVYacm9PjWHyOtBUKz3t
+         sS7kvqhLBre0c8dfJafaAtUi90QJy/haV7zxskWzoDJTLKawOdcu6riXJrKtv2TGUw1G
+         hBc68TcK0wYm1Dv2LEGPemtk3ebznJXY+MTR3M7HZaY/azhJWXgEuxhXeQ5NBCJn9vrI
+         l+3A==
+X-Gm-Message-State: ANhLgQ18cpBP5UB66JoTrkbt1y3tCGTwZTONXF6QO5Vn0QxjBplaXmnB
+        ICYDPBdv9r5iGwc7/zgySk4=
+X-Google-Smtp-Source: ADFU+vv5yr0dpy28YsR7Pkj4nv5g/iVBy3bk0E8bgCYHd8ogJ5JRgvmS64hbXxHshk533tHdSWdAHw==
+X-Received: by 2002:a7b:cc8a:: with SMTP id p10mr11763201wma.10.1584119252659;
+        Fri, 13 Mar 2020 10:07:32 -0700 (PDT)
 Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id p10sm80012719wrx.81.2020.03.13.10.04.09
+        by smtp.gmail.com with ESMTPSA id y69sm18262525wmd.46.2020.03.13.10.07.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2020 10:04:10 -0700 (PDT)
+        Fri, 13 Mar 2020 10:07:31 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] clk: tegra: Changes for v5.7-rc1
-Date:   Fri, 13 Mar 2020 18:04:09 +0100
-Message-Id: <20200313170409.2922165-1-thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [GIT PULL] usb: tegra: Changes for v5.7-rc1
+Date:   Fri, 13 Mar 2020 18:07:30 +0100
+Message-Id: <20200313170730.2924259-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mike, Stephen,
+Hi Greg, Felipe,
 
 The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
 
@@ -69,56 +69,59 @@ The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.7-clk
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.7-usb
 
-for you to fetch changes up to efdd205ccbfaa80bd932bc2fba498026c09db502:
+for you to fetch changes up to 9dd4fbef2f88ccf46f5294805bf121d6554791e8:
 
-  clk: tegra: Remove audio clocks configuration from clock driver (2020-03-12 12:10:49 +0100)
+  usb: gadget: tegra-xudc: Support multiple device modes (2020-03-13 17:16:28 +0100)
+
+It occurred to me that I could just as well send this pull request to
+you guys, rather than take it via ARM SoC. Kishon already acked all the
+patches for the PHY tree that this series depends on, so I've included
+them here as a dependency.
+
+Let me know if you'd prefer that I take this through ARM SoC.
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-clk: tegra: Changes for v5.7-rc1
+usb: tegra: Changes for v5.7-rc1
 
-These changes remove PMC clocks from the clock and reset controller
-driver because they are controlled by bits in the PMC controller.
+These changes add USB OTG support for the XUSB host and XUSB device
+controllers found on NVIDIA Tegra SoCs.
 
 ----------------------------------------------------------------
-Sowjanya Komatineni (10):
-      dt-bindings: clock: tegra: Add IDs for OSC clocks
-      dt-bindings: tegra: Convert Tegra PMC bindings to YAML
-      dt-bindings: soc: tegra-pmc: Add Tegra PMC clock bindings
-      dt-bindings: soc: tegra-pmc: Add ID for Tegra PMC 32 kHz blink clock
-      clk: tegra: Add support for OSC_DIV fixed clocks
-      clk: tegra: Add Tegra OSC to clock lookup
-      clk: tegra: Fix Tegra PMC clock out parents
-      clk: tegra: Remove CLK_M_DIV fixed clocks
-      clk: tegra: Remove tegra_pmc_clk_init along with clk ids
-      clk: tegra: Remove audio clocks configuration from clock driver
+JC Kuo (2):
+      phy: tegra: xusb: Protect Tegra186 soc with config
+      phy: tegra: xusb: Add Tegra194 support
+
+Jon Hunter (1):
+      phy: tegra: xusb: Don't warn on probe defer
+
+Nagarjuna Kristam (10):
+      phy: tegra: xusb: Add usb-role-switch support
+      phy: tegra: xusb: Add usb-phy support
+      phy: tegra: xusb: Add support to get companion USB 3 port
+      phy: tegra: xusb: Add set_mode support for USB 2 phy on Tegra210
+      phy: tegra: xusb: Add set_mode support for UTMI phy on Tegra186
+      usb: xhci-tegra: Add OTG support
+      usb: gadget: tegra-xudc: Remove usb-role-switch support
+      usb: gadget: tegra-xudc: Add usb-phy support
+      usb: gadget: tegra-xudc: Use phy_set_mode() to set/unset device mode
+      usb: gadget: tegra-xudc: Support multiple device modes
 
 Thierry Reding (1):
-      Merge branch 'for-5.7/dt-bindings' into for-5.7/clk
+      Merge branch 'for-5.7/phy' into for-5.7/usb
 
- .../bindings/arm/tegra/nvidia,tegra20-pmc.txt      | 300 -----------------
- .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml     | 354 +++++++++++++++++++++
- drivers/clk/tegra/Makefile                         |   1 -
- drivers/clk/tegra/clk-id.h                         |  12 +-
- drivers/clk/tegra/clk-tegra-fixed.c                |  37 ++-
- drivers/clk/tegra/clk-tegra-pmc.c                  | 122 -------
- drivers/clk/tegra/clk-tegra114.c                   |  43 +--
- drivers/clk/tegra/clk-tegra124.c                   |  48 ++-
- drivers/clk/tegra/clk-tegra20.c                    |   9 +-
- drivers/clk/tegra/clk-tegra210.c                   |  32 +-
- drivers/clk/tegra/clk-tegra30.c                    |  33 +-
- drivers/clk/tegra/clk.h                            |   1 -
- include/dt-bindings/clock/tegra114-car.h           |   4 +-
- include/dt-bindings/clock/tegra124-car-common.h    |   4 +-
- include/dt-bindings/clock/tegra210-car.h           |   4 +-
- include/dt-bindings/clock/tegra30-car.h            |   4 +-
- include/dt-bindings/soc/tegra-pmc.h                |  16 +
- 17 files changed, 459 insertions(+), 565 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.txt
- create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
- delete mode 100644 drivers/clk/tegra/clk-tegra-pmc.c
- create mode 100644 include/dt-bindings/soc/tegra-pmc.h
+ drivers/phy/tegra/Kconfig           |   1 +
+ drivers/phy/tegra/Makefile          |   1 +
+ drivers/phy/tegra/xusb-tegra186.c   | 261 ++++++++++++++++++++++++++--------
+ drivers/phy/tegra/xusb-tegra210.c   | 131 +++++++++++++----
+ drivers/phy/tegra/xusb.c            | 189 +++++++++++++++++++++++++
+ drivers/phy/tegra/xusb.h            |  10 ++
+ drivers/usb/gadget/udc/Kconfig      |   1 -
+ drivers/usb/gadget/udc/tegra-xudc.c | 273 +++++++++++++++++++++++++-----------
+ drivers/usb/host/xhci-tegra.c       | 228 +++++++++++++++++++++++++++++-
+ include/linux/phy/tegra/xusb.h      |   2 +
+ 10 files changed, 926 insertions(+), 171 deletions(-)
