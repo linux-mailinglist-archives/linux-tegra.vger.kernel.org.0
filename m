@@ -2,111 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C5C8183511
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Mar 2020 16:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 294E2183EA1
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Mar 2020 02:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgCLPgU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Mar 2020 11:36:20 -0400
-Received: from mail-vk1-f193.google.com ([209.85.221.193]:38892 "EHLO
-        mail-vk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727240AbgCLPgT (ORCPT
+        id S1726834AbgCMBUD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Mar 2020 21:20:03 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19057 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726620AbgCMBUD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:36:19 -0400
-Received: by mail-vk1-f193.google.com with SMTP id w4so1690386vkd.5
-        for <linux-tegra@vger.kernel.org>; Thu, 12 Mar 2020 08:36:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ItaK786plfh9KkQVyoZ6Tvgm7U7BspaorwTITRYkRFc=;
-        b=XBPx9XDFdcQlQtO0sfLYBzfLTIt6Rd5TvDrP9aLHPP7BKpYySz4vyjUciwhdNBl7iO
-         N419sJMtK1ssgutjTDScHGBRnEQb6lGqUb/0h6ICfwDS8hXb3z0MqmyGAXMz+KUyScZ1
-         1KNej7SBKjM5gd9WZVe+funDyMZ6vpSkDin6m041sG4KRhuiPfSPBLCle7Qow5Ot2+Qe
-         L8JGYeBgfnGo4Ggw6yzdws+D7wr1bkQRtXEGrrEPDT+3rHZbg6wAy/A5GHtQMfprQhz8
-         7twkRHcsQIHaLC/ayciTnH1iH3BFwJIn4+ae39J3ujZ/MT4/kyonZU4tnDmpAoUfX1pV
-         VSvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ItaK786plfh9KkQVyoZ6Tvgm7U7BspaorwTITRYkRFc=;
-        b=G2Xa5ubDFT/7g6CrKWLMAlegaTM67cNoB5VvLdNqYd33ZbYTSR81hyXP66sbGehque
-         DT/5jcIYBMDPTgAgyU5lIokySfV1cbzc3fyjg0Q7RR7ZeuxuxQqEd41ft12wLWN26CF3
-         XA7XEOGQkBZmK49QVmIA66SWRKSoj5mCY0bhQ3ydrQe0BPb7A3xyfcl7tarSeHMerlDI
-         HNietSFF/nfsukTdGkLHIvmYyCTLziTybe/s1q3q6euuWp4x0U8n4N9XpfyWtzmHUu+M
-         OShiITkJFT+u1xq9akpkZqhDmVVNlUZnuuWbYP8eAHUbotT9cqF+0trCoXKJ1KT9S/d3
-         iIFA==
-X-Gm-Message-State: ANhLgQ2y273irjQRZOnmIOuBNM4ogmvYDPzEoNdpX99S+/OJ7bxG5qkx
-        vpD8d9Uze03GoN1RG51Q0FmSL+L317sp8E/L228sbw==
-X-Google-Smtp-Source: ADFU+vtp2YzztepF0ByqDCsdpx/wxjPTae7z5wkbFT4j3VYmnzNKQ+GMvxjgwUcAW74SJSoAJAcalE+p8TSApJMHn28=
-X-Received: by 2002:a1f:2947:: with SMTP id p68mr5727151vkp.43.1584027377545;
- Thu, 12 Mar 2020 08:36:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <1583886030-11339-1-git-send-email-skomatineni@nvidia.com>
- <CAPDyKFpAgk0uboGXdmA_m1-2=GK2oRXVv+97ZFFFAtT-ZZo4fw@mail.gmail.com> <7bf5bfb5-b07c-96d3-2c33-124085a36a65@nvidia.com>
-In-Reply-To: <7bf5bfb5-b07c-96d3-2c33-124085a36a65@nvidia.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 12 Mar 2020 16:35:41 +0100
-Message-ID: <CAPDyKFoJvaCj=wkV_ok=sLJK18ukf1UavCvDN-E_oFVkpwPbmw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] sdhci: tegra: Implement Tegra specific set_timeout callback
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Adrian Hunter <adrian.hunter@intel.com>,
+        Thu, 12 Mar 2020 21:20:03 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e6adf650000>; Thu, 12 Mar 2020 18:18:29 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 12 Mar 2020 18:20:01 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 12 Mar 2020 18:20:01 -0700
+Received: from [10.2.175.141] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 13 Mar
+ 2020 01:20:01 +0000
+Subject: Re: [PATCH v2 1/2] sdhci: tegra: Implement Tegra specific set_timeout
+ callback
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+CC:     Adrian Hunter <adrian.hunter@intel.com>,
         Bradley Bolen <bradleybolen@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
+        "Jon Hunter" <jonathanh@nvidia.com>,
         Aniruddha Tvs Rao <anrao@nvidia.com>,
         linux-tegra <linux-tegra@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <1583886030-11339-1-git-send-email-skomatineni@nvidia.com>
+ <CAPDyKFpAgk0uboGXdmA_m1-2=GK2oRXVv+97ZFFFAtT-ZZo4fw@mail.gmail.com>
+ <7bf5bfb5-b07c-96d3-2c33-124085a36a65@nvidia.com>
+ <CAPDyKFoJvaCj=wkV_ok=sLJK18ukf1UavCvDN-E_oFVkpwPbmw@mail.gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <005e7700-3fd4-30c1-064b-df554f96162b@nvidia.com>
+Date:   Thu, 12 Mar 2020 18:19:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAPDyKFoJvaCj=wkV_ok=sLJK18ukf1UavCvDN-E_oFVkpwPbmw@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584062309; bh=R2zXYJhwS1dwVzHFx10EGOVHORgkpNAV1+bLO3zIJfU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=EKPfrLj8hO1BC0al07Ct5FhuU0G6J8Tj12dzE0efy0Qq/nNAbWD176hTkACXG0jOD
+         w9OqOq/RlrYkwlgPQ6cJJhc3aQSNfW/huAHq9YK6lLpghflO2D4yLcNRgmzM0kK8Fd
+         dVqe/sUdGYUobcbH0i8rI0kJgVLJHpPE9O88M8tm1cfm7NmhkBrDrLFngdkjEL/6MZ
+         byaJSWHbb3ZGF1/TINcJWNZhyHzDdeKnbiuuRA1xVMQmKFk4t5cTjBU8VY3MC53WFi
+         cNYCoCj55JNe27Fv6oJK8gItqK/uSJ2+rwt9sqHjQKVLM6u015v0hUSrMD2MGSzzOx
+         B+mHgJsSg0ZDg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 12 Mar 2020 at 16:28, Sowjanya Komatineni
-<skomatineni@nvidia.com> wrote:
+
+On 3/12/20 8:35 AM, Ulf Hansson wrote:
+> External email: Use caution opening links or attachments
 >
 >
-> On 3/12/20 6:08 AM, Ulf Hansson wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > -trimmed cc list
-> >
-> > On Thu, 12 Mar 2020 at 00:51, Sowjanya Komatineni
-> > <skomatineni@nvidia.com> wrote:
-> >> Tegra host supports HW busy detection and timeouts based on the
-> >> count programmed in SDHCI_TIMEOUT_CONTROL register and max busy
-> >> timeout it supports is 11s in finite busy wait mode.
-> >>
-> >> Some operations like SLEEP_AWAKE, ERASE and flush cache through
-> >> SWITCH commands take longer than 11s and Tegra host supports
-> >> infinite HW busy wait mode where HW waits forever till the card
-> >> is busy without HW timeout.
-> >>
-> >> This patch implements Tegra specific set_timeout sdhci_ops to allow
-> >> switching between finite and infinite HW busy detection wait modes
-> >> based on the device command expected operation time.
-> >>
-> >> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> > Applied for next, thanks!
-> >
-> > We should probably tag this for stable as well, don't you think?
-> >
-> > Kind regards
-> > Uffe
+> On Thu, 12 Mar 2020 at 16:28, Sowjanya Komatineni
+> <skomatineni@nvidia.com> wrote:
+>>
+>> On 3/12/20 6:08 AM, Ulf Hansson wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> -trimmed cc list
+>>>
+>>> On Thu, 12 Mar 2020 at 00:51, Sowjanya Komatineni
+>>> <skomatineni@nvidia.com> wrote:
+>>>> Tegra host supports HW busy detection and timeouts based on the
+>>>> count programmed in SDHCI_TIMEOUT_CONTROL register and max busy
+>>>> timeout it supports is 11s in finite busy wait mode.
+>>>>
+>>>> Some operations like SLEEP_AWAKE, ERASE and flush cache through
+>>>> SWITCH commands take longer than 11s and Tegra host supports
+>>>> infinite HW busy wait mode where HW waits forever till the card
+>>>> is busy without HW timeout.
+>>>>
+>>>> This patch implements Tegra specific set_timeout sdhci_ops to allow
+>>>> switching between finite and infinite HW busy detection wait modes
+>>>> based on the device command expected operation time.
+>>>>
+>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>> Applied for next, thanks!
+>>>
+>>> We should probably tag this for stable as well, don't you think?
+>>>
+>>> Kind regards
+>>> Uffe
+>> Yes, we need this for stable as well. As this is applied for next, looks
+>> like can't re-send patch with tag.
+>>
+>> Can you please help to add tag if you don't mind?
+> Yes, I will amend the change to add the stable tag, no worries!
 >
-> Yes, we need this for stable as well. As this is applied for next, looks
-> like can't re-send patch with tag.
+> Thanks for confirming!
 >
-> Can you please help to add tag if you don't mind?
+> [...]
+>
+> Kind regards
+> Uffe
 
-Yes, I will amend the change to add the stable tag, no worries!
+Thanks Uffe. Somehow patches I sent without mail server configured on 
+git 2 days back went out now.
 
-Thanks for confirming!
+So, please kindly ignore v1 patches and also v2 patches that got resent 
+which are actually the patches sent before configuring git mail server 
+by mistake 2 days ago.
 
-[...]
+Sorry about that.
 
-Kind regards
-Uffe
+Thanks
+
+Sowjanya
+
