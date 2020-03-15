@@ -2,70 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DCA7185994
-	for <lists+linux-tegra@lfdr.de>; Sun, 15 Mar 2020 04:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1710E185C77
+	for <lists+linux-tegra@lfdr.de>; Sun, 15 Mar 2020 13:54:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726409AbgCODJQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 14 Mar 2020 23:09:16 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:41629 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbgCODJQ (ORCPT
+        id S1728530AbgCOMyG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 15 Mar 2020 08:54:06 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39512 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728522AbgCOMyG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 14 Mar 2020 23:09:16 -0400
-Received: by mail-ua1-f66.google.com with SMTP id l7so5202678uap.8
-        for <linux-tegra@vger.kernel.org>; Sat, 14 Mar 2020 20:09:15 -0700 (PDT)
+        Sun, 15 Mar 2020 08:54:06 -0400
+Received: by mail-lf1-f66.google.com with SMTP id j15so11681414lfk.6;
+        Sun, 15 Mar 2020 05:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
-        b=opxKbGun3dAlqRlGls046JkvJqBC6M1NqviUdBByANHCjmUcq4Xbtm2NtxleA0jr9z
-         3CZ5lfanpEWwZYlEVkjAj5rPQ/rg1zztC4U9C99gm1Nz67VHpufPibdw4+3jBHj5BwYJ
-         M9cZURr3fUSBsw/L/95vgOXQJS3hO51MjShLDc7gA9mcF9WO4pBvcGWDCNpC0rvosBo7
-         GoejdaH6bgW4Y0kejktYieb8JiBi+ALIOJAGZgLXl4DqsnEd7O2S69z0ct37F/CqOv5a
-         qO7RH4VvbyK3/JRAUqSAWyrJ1/65pNgqU/R1pkleWQrEnKwLstphdBh/W2VyJ5l8XG/3
-         E9IA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1MwTYDSMkQGM4p1A9KGg+VT/DsDNrrQYfUwwT/ZLztU=;
+        b=PVW4lwLpvpoZzOqZEqmL2rZNklnr+mBEBTHrm1U2oQCXugYZUXMn73hg0zr7nZEt6Q
+         sa3RQTuWbDvP0p0KvC1A7Gs5Yxz+w2LZndSmver+ZGSD+6U8QK94OOo3Zo9sQahuheqp
+         xR0j1sNV3Fx/WHx2Hv0HHhtcMnfTLI2ys7PhowwjQseAHffjF8gG499vHraH5AMvGp/N
+         SPsYkIl+fr8LQywgtxdCjfRXRmzWQY21RunzhrW2Jt6y5NlZob96SiCUy8omR/uhKOl+
+         saj+Ox1dwqeHNc83t87f3Wk++i2PZcgAGKDCPGfNcxvjht9KUu+NgnkYS+FVHX7NXSbZ
+         LKzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
-        b=OB0lD9WgXZ5/3e8GAzBLK/PW+fXFC9OT8whJ+VBgJubo1aXM4x8N512NTRvys+rA9f
-         Vs0QU3/zAesIm0oFG2f48LX5Vru+plF7EwfgmE3qmXWkna57QFyHyUQsTSa9Z4dEva4r
-         oBxbHqeSv53/Tna1F1eLCIYArcmjYfh0ITVpnHEBGXAOv7PVIrZ7ojdxn1G2Lusm8DcJ
-         AGHC51YTqg9y/gInjgGIrXOZaEE7j74YCCYlOM6x+zAFOoErBzaTruMFrjXU42imZbo1
-         syRAOzm/qy6AjmPDDy3+sgGF8WtoksGjrugY9GEJ4OO7h55Ml2bfLDdZuDnd/NbJTC+3
-         a4KA==
-X-Gm-Message-State: ANhLgQ1N/dAmdkq2W5hfR9nz3GnSucjvc7Z8Xo+ROY/fAdkZImE2T5oJ
-        YPO3PS8P///K/GThbotDWfXFtZzA8FL7AWG/JExIw2BQ
-X-Google-Smtp-Source: ADFU+vsDKAyMYUSDyx9O+1r6piYOMIn1Bsyi+5rUM0MM6h543ulsJYz3SdWKXOM00EWFctej4prH8j20/uWcGhFReZM=
-X-Received: by 2002:a05:6830:c5:: with SMTP id x5mr15809511oto.302.1584205355849;
- Sat, 14 Mar 2020 10:02:35 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1MwTYDSMkQGM4p1A9KGg+VT/DsDNrrQYfUwwT/ZLztU=;
+        b=VRvmw7AMeQP8woYrKSwTUYQHC6aDTcShej1h0JLCVRGbWgF9TmaC32JECSru5FjGq0
+         stHRPt41mfnWJnfaWgZHhczhHsqngqiLOL1Af+ajLcvV1IS7Ov01mwSfJAShwsAV8s4R
+         tXozW+AZTBwNnDRJPz5tlYypuALPEqZA9St/YXBbe+ssdL++mUNM10l2+7EMOnOy1amG
+         1CqXHPPbTAvB6eNAXusWn4OOxSBe0dHcESeS1Q72jcPjUvKgExo/TiUK/gdVAnAQgVIT
+         oQgIgjwZjOBr64qA1uVX5GesHslNjsovGz78qV4NidsnHKOfMh+/B9g/AsfIsomNi+07
+         O/hg==
+X-Gm-Message-State: ANhLgQ1VKqR7NEoAkkzmRpkqt/71xXPocwKdyD8CL02cpx+l7My+0BUL
+        /ln5SudCxU5akGD/o8pgVgXcrIx2
+X-Google-Smtp-Source: ADFU+vuEFH5q0NH5MzntAYyZmI1FtKlcUtANyZyUjRv2GKKy4RBWpfNo0pevPKgB8YDmuRJlHyHK/A==
+X-Received: by 2002:a19:cbd5:: with SMTP id b204mr608821lfg.203.1584276843012;
+        Sun, 15 Mar 2020 05:54:03 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id v200sm4187853lfa.48.2020.03.15.05.54.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Mar 2020 05:54:02 -0700 (PDT)
+Subject: Re: [RFC PATCH v4 8/8] arm64: tegra: Add Tegra VI CSI support in
+ device tree
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, helen.koike@collabora.com, sboyd@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1584236766-24819-1-git-send-email-skomatineni@nvidia.com>
+ <1584236766-24819-9-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b4bbcc1d-d38c-14c5-7205-2f7657ab8712@gmail.com>
+Date:   Sun, 15 Mar 2020 15:54:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Received: by 2002:ac9:7081:0:0:0:0:0 with HTTP; Sat, 14 Mar 2020 10:02:35
- -0700 (PDT)
-From:   Omar Ousman <omarousman25@gmail.com>
-Date:   Sat, 14 Mar 2020 18:02:35 +0100
-X-Google-Sender-Auth: DBHh3ZsIkyUBRFWYMYaCO0vnvdw
-Message-ID: <CA+RZZe9Vp9+oOm1JZXkyZsVGwnGg=7unkifLtauPOYy8y5ZUug@mail.gmail.com>
-Subject: You received my last mail,,,,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1584236766-24819-9-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I am Mr.Omar Ousman, a regional managing director (CORIS BANK
-INTERNATIONAL) Ouagadougou Burkina Faso, in my department we have
-US$9,500.0000 million united state dollars, to transfer into your
-account as a dormant fund.If you are interested to use this fund to
-help the orphans around the world contact and send me your personal
-information for more details to my email omarousman25@gmail.com
+15.03.2020 04:46, Sowjanya Komatineni пишет:
+> Tegra210 contains VI controller for video input capture from MIPI
+> CSI camera sensors and also supports built-in test pattern generator.
+> 
+> CSI ports can be one-to-one mapped to VI channels for capturing from
+> an external sensor or from built-in test pattern generator.
+> 
+> This patch adds support for VI and CSI and enables them in Tegra210
+> device tree.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
 
-Your full names..........
-Your country of origin..........
-Your occupation..........
-Your Age..........
-Your Mobile Number..........
+Hello Sowjanya,
 
-Best Regards,
+...
+> +
+> +			pd_venc: venc {
+> +				clocks = <&tegra_car TEGRA210_CLK_VI>,
+> +					 <&tegra_car TEGRA210_CLK_CSI>;
+> +				resets = <&tegra_car 20>,
+
+What is the clock #20?
+
+> +					 <&tegra_car TEGRA210_CLK_CSI>,
+> +					 <&mc TEGRA210_MC_RESET_VI>;
+
+Does this order means that memory controller will be reset *after*
+resetting the CSI/VI hardware? This is incorrect reset sequence.
+
+The memory controller reset should be kept asserted during of the time
+of the hardware resetting procedure.
+
+The correct sequence should be as follows:
+
+1. Assert MC
+2. Reset VI
+3. Deassert MC
