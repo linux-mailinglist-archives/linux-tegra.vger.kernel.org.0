@@ -2,122 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12783186692
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2020 09:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93687186767
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Mar 2020 10:05:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729978AbgCPIdR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Mar 2020 04:33:17 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36683 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730088AbgCPIdQ (ORCPT
+        id S1730366AbgCPJFv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Mar 2020 05:05:51 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:35985 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730364AbgCPJFv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Mar 2020 04:33:16 -0400
-Received: by mail-wr1-f68.google.com with SMTP id s5so20049674wrg.3
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Mar 2020 01:33:13 -0700 (PDT)
+        Mon, 16 Mar 2020 05:05:51 -0400
+Received: by mail-wm1-f68.google.com with SMTP id g62so17067546wme.1
+        for <linux-tegra@vger.kernel.org>; Mon, 16 Mar 2020 02:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Np0PyQ3dN/K0XmXOWBC7J7/OCl/vL8McW1IXy4RBUgE=;
-        b=bqhZBq8gCbsRh+Ix9GzmFj7etr9aCj5k2VDWtb9DCZDwiUCQ4xy5s1cpMAc2jIBpCo
-         WwxG0+8bynS7HTBvZ+IMWiWgLzWMCoq2Jcy6TDEG7/yEMjhTa16mzIVokPevbP+2vpVz
-         /IfRIBrdLITDf1yOGV5zCQasJlEzEhPdG8440=
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oPCmoFFrKYp/3bnxyKnj8h+h5zDtfc4YHiEF5mCDEio=;
+        b=LIPE1DcKRpwkYjXJp80rvX4cAGU9/MqM+wTuQYV2XeQccBuMGwVzzfZMZdV/0rX1IZ
+         Qm2RN3iS7Yuckhw6qzXj/iqokqk2MrfBMwZ4WG557zzePMrkvnw1RPdyb39kwxL4pcqS
+         omtTjtr2Rac877d8r0u0J5P8Seq2so58aAmX+2bVVqqgFMGzD8zsdGVsCqreVi5BhH5S
+         HZayX/je+fFEPKPZ9R760tKGgYKGMaqNtEzbs7KAhpkXDi4LKCBsW3em1iDTIgYLdlI+
+         P2Ms3vB8YII8kY+fqGTwq984TRkifByilceEOHZijm5BCrU0LY1UgXzzohk0DxVmyn8A
+         QmKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=Np0PyQ3dN/K0XmXOWBC7J7/OCl/vL8McW1IXy4RBUgE=;
-        b=HCysZ/CRxIMVzjYLY0fMP2m91Te9Ry10VpHjmh1qZb1ZaSgtHJtSwioNeIQFxWY1R+
-         qi3t/8epDbXhwU4ymXcK++FT216juKaI58F0aamLZR6zghiVtHjyK7fnAtMSNjO5L5Et
-         CZSXIbrISXvWV90Fja05Qv/Ll8lCIV9J3qdRPpWe5jCU0fz5S67zR5vsDuXyavcyjhRz
-         s9W58Gvm1vk6RZZACwXES9cmW3f572dS8Pz3lrRV8eP39i1BD0rjmHmTpRzQMGsv/BGp
-         XNa6FmC3LovOoMeSfStT1WA0U4r/xuNKNw80OzsBrL/a0gtkx8ZkhlufaL3xtHXs7hsg
-         897g==
-X-Gm-Message-State: ANhLgQ3XYLW3pNzjyXS78IJ9uVFCNM/Y6DKTQxgRIneoH+Xi/xTb1J0Y
-        m1DgTS80AhBj7tlnQmWsAHtsKw==
-X-Google-Smtp-Source: ADFU+vv5wVdXdcx4EeLmKazJGTmA1SjA1iRGsWULv81fmZZvk3NWZudyD95lysFKRly5AByJQvUxng==
-X-Received: by 2002:a5d:6907:: with SMTP id t7mr19250023wru.159.1584347592539;
-        Mon, 16 Mar 2020 01:33:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id g7sm93502349wrq.21.2020.03.16.01.33.11
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oPCmoFFrKYp/3bnxyKnj8h+h5zDtfc4YHiEF5mCDEio=;
+        b=dEcwe4TLOzLqkBZ4msBVz25PeBv34+m5zEHPQZX+k9E2yC1cBNXR3vP35CURHQi6G4
+         k5xeq4sENTwka95bIIcBU5ubAjFnlCly5spBPIzEAxZOSXQZHOV4f/usH73IJiJxLjUA
+         mkqVYJ+mooKJiD209keh/eIgb4scquzsk0q79vDxi+b9jtobOoclEp5hdeObdUFZD4BY
+         bSAl0fZkmXs3dgwO3V6oM/Ztw42rst/4dF/1mMa0u7HNMFcFTmUpxipfKhpgvcRu9NZI
+         zqfLMeWSugbkOZmsjYSKVsqT4EEbmvas3igeCvm9Ji37r5BxwQSqwCr9m1THOOBdYU/p
+         N+JQ==
+X-Gm-Message-State: ANhLgQ1rQD+JUYRQKtr/vKN2o+Opy60jqZRp642qN+KNYuaE9R7+Qkxr
+        SNIuzWmSrJ/s3AVulpoCH6ZzIQ==
+X-Google-Smtp-Source: ADFU+vtTbJN2j0t0MmV90WL70+p4V0kNL8o0e+BtASxYEDGFH4cHMmfu00aobz2Hxf/DkXDDo8qxYA==
+X-Received: by 2002:a1c:1f0c:: with SMTP id f12mr26641787wmf.179.1584349549730;
+        Mon, 16 Mar 2020 02:05:49 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id f9sm13603031wro.47.2020.03.16.02.05.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2020 01:33:11 -0700 (PDT)
-Date:   Mon, 16 Mar 2020 09:33:09 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Wambui Karuga <wambui.karugax@gmail.com>, daniel@ffwll.ch,
-        airlied@linux.ie, Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 10/21] drm/tegra: remove checks for debugfs functions
- return value
-Message-ID: <20200316083309.GD2363188@phenom.ffwll.local>
-Mail-Followup-To: Thierry Reding <thierry.reding@gmail.com>,
-        Wambui Karuga <wambui.karugax@gmail.com>, airlied@linux.ie,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
- <20200227120232.19413-11-wambui.karugax@gmail.com>
- <20200311143753.GC494173@ulmo>
- <alpine.LNX.2.21.99999.375.2003111750360.14786@wambui>
- <20200311232446.GA998881@ulmo>
+        Mon, 16 Mar 2020 02:05:48 -0700 (PDT)
+Date:   Mon, 16 Mar 2020 09:05:46 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Milo Kim <milo.kim@ti.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] backlight: lp855x: Ensure regulators are disabled on
+ probe failure
+Message-ID: <20200316090546.5eufi423ahstz6v3@holly.lan>
+References: <20200224140748.2182-1-jonathanh@nvidia.com>
+ <20200224143732.rreev3ypou26hvx3@holly.lan>
+ <6ec74817-968b-ab5e-6566-56bbb9b67599@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200311232446.GA998881@ulmo>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <6ec74817-968b-ab5e-6566-56bbb9b67599@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 12:24:46AM +0100, Thierry Reding wrote:
-> On Wed, Mar 11, 2020 at 05:54:46PM +0300, Wambui Karuga wrote:
-> > Hey Thierry,
+On Fri, Mar 13, 2020 at 02:16:16PM +0000, Jon Hunter wrote:
+> Hi Lee, Daniel,
+> 
+> On 24/02/2020 14:37, Daniel Thompson wrote:
+> > On Mon, Feb 24, 2020 at 02:07:48PM +0000, Jon Hunter wrote:
+> >> If probing the LP885x backlight fails after the regulators have been
+> >> enabled, then the following warning is seen when releasing the
+> >> regulators ...
+> >>
+> >>  WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
+> >>  Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
+> >>  CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
+> >>  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+> >>
+> >>  ...
+> >>
+> >> Fix this by ensuring that the regulators are disabled, if enabled, on
+> >> probe failure.
+> >>
+> >> Finally, ensure that the vddio regulator is disabled in the driver
+> >> remove handler.
+> >>
+> >> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 > > 
-> > On Wed, 11 Mar 2020, Thierry Reding wrote:
-> > 
-> > > On Thu, Feb 27, 2020 at 03:02:21PM +0300, Wambui Karuga wrote:
-> > > > Since 987d65d01356 (drm: debugfs: make
-> > > > drm_debugfs_create_files() never fail) there is no need to check the
-> > > > return value of drm_debugfs_create_files(). Therefore, remove the
-> > > > return checks and error handling of the drm_debugfs_create_files()
-> > > > function from various debugfs init functions in drm/tegra and have
-> > > > them return 0 directly.
-> > > > 
-> > > > This change also includes removing the use of drm_debugfs_create_files
-> > > > as a return value in tegra_debugfs_init() and have the function declared
-> > > > as void.
-> > > > 
-> > > > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> > > > ---
-> > > >  drivers/gpu/drm/tegra/dc.c   | 11 +----------
-> > > >  drivers/gpu/drm/tegra/drm.c  |  8 ++++----
-> > > >  drivers/gpu/drm/tegra/dsi.c  | 11 +----------
-> > > >  drivers/gpu/drm/tegra/hdmi.c | 11 +----------
-> > > >  drivers/gpu/drm/tegra/sor.c  | 11 +----------
-> > > >  5 files changed, 8 insertions(+), 44 deletions(-)
-> > > 
-> > > Applied, thanks.
-> > > 
-> > There's a newer version[1] of this patch series as this specific patch
-> > depends on other work in drm.
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> I received a bounce from Milo's email and so I am not sure that his
+> email address is still valid.
 > 
-> Oh yeah, I just noticed that this patch causes a build failure, so I
-> backed it out again.
-> 
-> If there's dependencies on other work, it's probably best to take this
-> through drm-misc, in which case:
-> 
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> 
-> Let me know if you'd prefer me to apply this to drm/tegra instead.
+> Can either of you pick this up?
 
-Yeah I'm going to pull in the entire series through -misc rsn.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Lee generally starts to hoover up patches about this stage in the dev
+cycle so I'd expect this to move fairly soon.
+
+
+> Not sure if we should update the MAINTAINERS as well?
+
+Sounds like a good plan, yes.
+
+
+Daniel.
