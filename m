@@ -2,434 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E90C6188758
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Mar 2020 15:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABCC188D4A
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Mar 2020 19:37:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbgCQOV0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 Mar 2020 10:21:26 -0400
-Received: from mail-db8eur05on2069.outbound.protection.outlook.com ([40.107.20.69]:26241
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        id S1726386AbgCQShL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Mar 2020 14:37:11 -0400
+Received: from mail-eopbgr70049.outbound.protection.outlook.com ([40.107.7.49]:47521
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726716AbgCQOV0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 Mar 2020 10:21:26 -0400
+        id S1726506AbgCQShL (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 17 Mar 2020 14:37:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y/2/ytwnyFlcZJg4rdBS57pYiOAJKrjnZk6uMyCeppUTc7to8Wb6zXIIUpkl/O+4jUsnIugnBF40sIbpIGJhl51yd5uS09/PxV/l5wpLMDqMfN8HvhGLIgCpWYmdEd8y0fTFMpj47e4dSMh0eg2kiR1Lw3SY7dXSVMzv9zpWJtBva3vqX3VVvuiKCrufHw2z+RxWrl4Jxsc/LzXGJCor7F8jNdE4wjXSQ/qLSDmZ5AQQOLyUEMrq83gcN3T8FRNCxrMf+Reyl1ue7W+VMhv0QADn8k+z9XUhqmxxvgH/2Ab4jAMleqUJU8SmKAJ7TNCyVPkL69y6IuU4aAd+uilQ0g==
+ b=Fc/FoSMQLxaXfx5ZASer9KmTeu5IdZIZIXl0IEmiYnmskeTl692m0O4gVgBD91QuitWW82ug3ail9N6trwOoKPzlwCu206vhFIrhC4T/C55U8lsaBw/219BGkA7H26ZUc8VvoQAhglxVUFLTP19Q+0XLMG6Sz2502JE3OvLwfJsX3m+mYBr4vPAuvuZrVh/hC3y5XzGV+xHZVKWY7fTDXJvQ0P3gkPYewL4rE2lF/xTOBPleJF9bJf3PNJf5+78M/76iDB9Q2RfT1GUFGO2zThrpmY2HbKdmyJj0KCxwui2qoM+TXQY4JAM6+EcfoxJv6hT2fygHmvNscorOvL8+YQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Djcm5V8bjNo83thQa/s2NrOFIaFUP/l4uLu/hBwKPu8=;
- b=K4CFNwyya7oW9P06biwxBBzWV2eU9nXxi/RaE2WYZUg0PhxHA0htdMzqU3nHZkafqlh9RrikXT2AUL8oFvlSvs60UTEsHSbPzh49/UmJVUA3TZoQq0xw++OXjrFZzzOIFdygtrHiydL0sBrudbgXRZMw8f6Fci746go1d2+bz6iDkDH6K6W+25jG+6wg/65Xt3I/HUmhbYKFeunbB/PGndhFW721hJR4LK3jaJoQj3cjdrjZGdJiCLrM4hXEadh4oQzwFW5Nx1Ak8NUmodCmuLf8+HWm9pwu81jlGY+ViQtuUUQmSgxxfD/ZLPWhVaFpUG2UXNX4C5+rlATCmXxgQg==
+ bh=btcDLCg8h51+Yj0fjqlj82d/5ky6whjLGUpz7T4eyF8=;
+ b=a/AAIa+caJoOazlkn6QNPdsjwgiMqKS72UkgtZx19z5IsvtWfwb7hVMSAZJLS17RO1Uu1ETbvWNalxCOWuSfxgL4NDqnX40HB5vCH7/dR8a/5brj6PF+C8CpqVU0x/CqpUcsjFfVJIaCRKg5XTm8OE+DqecJrKhZNRBlGmZPOAZJmZaMAllXZHvTEZHO7eJkyE148DR/r4nc3FcYbf/zWnCWnfEtS700GfYgRNbPKIWjhS/1wOMgx9zAFDVWsgV7MmC+Vwikmz6Wk6C+CwKeGRRKo7z3ZLQSavNsw/pxgn89lwiqfOgX3sw4ADFnYxQOi2MhKNoMLdeX1Y5ncmqrCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Djcm5V8bjNo83thQa/s2NrOFIaFUP/l4uLu/hBwKPu8=;
- b=fT3LGjSz8GVsn5R6T/KwU0umks9B6Lgyzb2QuHCmJt02BNgigchLUq9ykNiludiLYzKn3+SVphCUA1ahZYrNQnHd9hJ6Ejqn1vMlggsp74UFaDsdrer+6ziD6Pd1k/l+uknU6BTyjEXw9hdQnp0ndWvVwnPCUz53jd5LQmb4RwU=
+ bh=btcDLCg8h51+Yj0fjqlj82d/5ky6whjLGUpz7T4eyF8=;
+ b=k7iWj4IM0UjdGFMPawftXO+vGw9YtcUJnrEsFp4+z3ChFvXxjzUMbpSdjj/SMYVprlcucve73UAhn6df1wBffbHHX4gtPH0i91YGb+hgFvvEuRcqjcvg0tyV5T6gk4ZpqhoY+r3fmquJcyXfAysltcU09rdYQ98Hq9X/Y5Az8xs=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=laurentiu.tudor@nxp.com; 
 Received: from AM6PR04MB5925.eurprd04.prod.outlook.com (20.179.2.147) by
- AM6PR04MB5416.eurprd04.prod.outlook.com (20.178.94.25) with Microsoft SMTP
+ AM6PR04MB4935.eurprd04.prod.outlook.com (20.177.33.202) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.18; Tue, 17 Mar 2020 14:21:20 +0000
+ 15.20.2814.13; Tue, 17 Mar 2020 18:37:06 +0000
 Received: from AM6PR04MB5925.eurprd04.prod.outlook.com
  ([fe80::fdd6:55d:c03e:5818]) by AM6PR04MB5925.eurprd04.prod.outlook.com
  ([fe80::fdd6:55d:c03e:5818%4]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
- 14:21:20 +0000
-From:   laurentiu.tudor@nxp.com
+ 18:37:06 +0000
+Subject: Re: [RFC PATCH v2 0/2] iommu: arm-smmu: Add support for early direct
+ mappings
+From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
 To:     thierry.reding@gmail.com, robin.murphy@arm.com, will@kernel.org,
         iommu@lists.linux-foundation.org
-Cc:     pdaly@codeaurora.org, kernel-team@android.com,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        saravanak@google.com, pratikp@codeaurora.org,
-        diana.craciun@nxp.com, Thierry Reding <treding@nvidia.com>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [RFC PATCH v2 2/2] iommu: arm-smmu: Add support for early direct mappings
-Date:   Tue, 17 Mar 2020 16:21:07 +0200
-Message-Id: <20200317142107.28776-3-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200317142107.28776-1-laurentiu.tudor@nxp.com>
+Cc:     saravanak@google.com, pdaly@codeaurora.org,
+        kernel-team@android.com, diana.craciun@nxp.com,
+        linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
+        pratikp@codeaurora.org, linux-arm-kernel@lists.infradead.org,
+        linux@armlinux.org.uk
 References: <20200317142107.28776-1-laurentiu.tudor@nxp.com>
-Content-Type: text/plain; charset="us-ascii"
-X-ClientProxiedBy: AM3PR05CA0105.eurprd05.prod.outlook.com
- (2603:10a6:207:1::31) To AM6PR04MB5925.eurprd04.prod.outlook.com
+Message-ID: <a7abd8fd-52a1-6bb8-43d7-c8711af8ef74@nxp.com>
+Date:   Tue, 17 Mar 2020 20:35:58 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+In-Reply-To: <20200317142107.28776-1-laurentiu.tudor@nxp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+X-ClientProxiedBy: BY5PR20CA0027.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::40) To AM6PR04MB5925.eurprd04.prod.outlook.com
  (2603:10a6:20b:ab::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fsr-ub1864-101.ea.freescale.net (89.37.124.34) by AM3PR05CA0105.eurprd05.prod.outlook.com (2603:10a6:207:1::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15 via Frontend Transport; Tue, 17 Mar 2020 14:21:19 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [89.37.124.34]
+Received: from [10.213.174.235] (192.88.158.246) by BY5PR20CA0027.namprd20.prod.outlook.com (2603:10b6:a03:1f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.21 via Frontend Transport; Tue, 17 Mar 2020 18:36:57 +0000
+X-Originating-IP: [192.88.158.246]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: efb6c648-82c1-45d1-195d-08d7ca7e7664
-X-MS-TrafficTypeDiagnostic: AM6PR04MB5416:|AM6PR04MB5416:
+X-MS-Office365-Filtering-Correlation-Id: 80e3eee5-0b3f-42eb-8e2b-08d7caa2318c
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4935:|AM6PR04MB4935:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB541672ED60A0EF39C744AD34ECF60@AM6PR04MB5416.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <AM6PR04MB493555038022359837144056ECF60@AM6PR04MB4935.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-Forefront-PRVS: 0345CFD558
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(136003)(366004)(39860400002)(376002)(396003)(199004)(52116002)(1076003)(8676002)(81156014)(66556008)(8936002)(9686003)(81166006)(66946007)(66476007)(6512007)(7416002)(5660300002)(6506007)(6486002)(4326008)(16526019)(186003)(26005)(316002)(86362001)(956004)(2616005)(36756003)(6666004)(2906002)(478600001)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR04MB5416;H:AM6PR04MB5925.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(199004)(5660300002)(31686004)(66946007)(66556008)(66476007)(2906002)(4326008)(6486002)(478600001)(45080400002)(966005)(52116002)(36756003)(53546011)(316002)(16576012)(956004)(31696002)(86362001)(2616005)(16526019)(81166006)(8676002)(26005)(8936002)(186003)(44832011)(7416002)(81156014);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR04MB4935;H:AM6PR04MB5925.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
 Received-SPF: None (protection.outlook.com: nxp.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /ISswulygMsp4v1BlVY+ROyaUS3NtoWBDwW5F1x/3zDSGWujCwSYIVRx/Zz723NLaSDcRbLnXG4dkmOK3lImdeOW65v41jNsfPwTHuTBKcjhJ0jqtb0plpV2MBEzNHNuBvPBJe8x94av5CxVL4BS0KOGel2uk/j8nF07Ln9uVwb4XerqHGny82FEL5Gs1eH/NK7FX5NyaSXHABuBZnknwk8Wy6lTFET/FApzeFT5UIenYVvEilm5yFoR8F3bNPV1swGM8M6PqrVKv3L3zVJ9vMXeolTZtsi4ITmNifjpsu6m1biU4KcRhRulRRmJJrPhnJuCPqcLPfj8MmOzEO6zClLJrtyjbEbGztdBzIGRnEEm6c4VkU1bhc4EnHFWUKcciXxg6dnEXPp/Ri8SWNiO4s5HM3WS56LwETYrrIV+RmGrpOgqPJPQ/+qjT9Sfj0nF
-X-MS-Exchange-AntiSpam-MessageData: yoKbnRszYbsoDWP9s10dMZXZFtjYyyMmhzbr8FIIpTZjT4gKmPYBu0jB3uddAX7jUHVeSneKCcWX/OHrsu11hldH0Gt/v0b8cKTuz+BOi4r5blEglIGMFU5sD0pf08HTvb24eRgLo4304avkU9zIfA==
+X-Microsoft-Antispam-Message-Info: PoaUBJ7cbH/yAPAZYgYn1YPpUe6nqEWDFDFFjAt99BJ95lINzZrUt0DiawrSytshoQ2h8qDE3d8JRvGtY46WuxNb9M1YHB0203nrYRErH0YiqH+nuuZ4aIroMx6nyeYggEMxekXFrvMcK11zip4dE8zr5MMqdCcDIK8TmfW+ik2i6+HGav6Z51TGWf2uN0A8K0QlwRGyJqcBni+b1OtowK+JQcxdgdsHIVYUyMkacu5Vy5lbnMQ2Id2RKC52/Z0bwzyj23n0rskQ9QInJ4KJmn0PiCcKZEANXEtSNtcDh8hgrKqsMjZMKgVWjDvUMRJ1Yc4rdu7SXZcrl12WTy//ekSBLN0pTYL9onLnh5o9eiPBEKmN6mIbLeDww/o4EzLxSnuW1FOx75UZHzA5tvBQX2ICtkINZTesE9B2FjoSzF2pmjuPPytu6KsUzWgQoqVUTfprd5yVylGWu6m8eQNUBdAqMMSFOmy4wUhFTuYVSCu7fYa3EQfJ4uWFE5GaQ7aBQrrlBkIN9dZrUVij7Bm4Kw==
+X-MS-Exchange-AntiSpam-MessageData: rAZNhaUvx+JW+a3vugH9sOEqF5f0zb/Ft09cXhjJTkNB6sGYj/FyHH6SfN1Tl7SxZl8gGlSMM9NDFALUOsIm85G/EjRIzm7FRhi+IjhfziC1esHzQt49naMI6s5nsieCy26VXB9JYu9pgn9cV12Xdw==
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efb6c648-82c1-45d1-195d-08d7ca7e7664
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 14:21:19.9224
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80e3eee5-0b3f-42eb-8e2b-08d7caa2318c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 18:37:06.4000
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZUb2o3nS7S/vkHrYn3kDpXFCEe44j+88EtwuzAMskY1R+lvJtReaCi6nsZJQMfOALr1OFF3/cYMXpLANM0t8rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5416
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7dzF2ShNCoHIL/2Vi2S+TZymHBXfULRmIDoxdsib/36wHX/SZ1P2Vnh+l3Lt9LWf7n3XSaj/32BipeAILHSKKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4935
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+[ +Russell ]
 
-On platforms, the firmware will setup hardware to read from a given
-region of memory. One such example is a display controller that is
-scanning out a splash screen from physical memory.
+Forgot to Cc: you Russell, sorry about that. This patch series could be 
+an important step towards fixing the MC firmware over smmu issue on nxp 
+layerscape chips.
 
-During Linux's boot process, the ARM SMMU will configure all contexts to
-fault by default. This means that memory accesses that happen by an SMMU
-master before its driver has had a chance to properly set up the IOMMU
-will cause a fault. This is especially annoying for something like the
-display controller scanning out a splash screen because the faults will
-result in the display controller getting bogus data (all-ones on Tegra)
-and since it repeatedly scans that framebuffer, it will keep triggering
-such faults and spam the boot log with them.
-
-In order to work around such problems, scan the device tree for IOMMU
-masters and set up a special identity domain that will map 1:1 all of
-the reserved regions associated with them. This happens before the SMMU
-is enabled, so that the mappings are already set up before translations
-begin.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 ---
- drivers/iommu/arm-smmu.c | 257 ++++++++++++++++++++++++++++++++++++++-
- drivers/iommu/arm-smmu.h |   3 +
- 2 files changed, 259 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 8a238d5a4b51..083566a27eef 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -1158,6 +1158,135 @@ static int arm_smmu_domain_add_master(struct arm_smmu_domain *smmu_domain,
- 	return 0;
- }
- 
-+static int arm_smmu_identity_map_regions(struct iommu_domain *dom,
-+					 struct arm_smmu_device *smmu,
-+					 struct device_node *np)
-+{
-+	struct device *dev = smmu->dev;
-+	struct of_phandle_iterator it;
-+	unsigned long page_size;
-+	unsigned int count = 0;
-+	int ret;
-+
-+	page_size = 1UL << __ffs(dom->pgsize_bitmap);
-+
-+	/* parse memory regions and add them to the identity mapping */
-+	of_for_each_phandle(&it, ret, np, "memory-region", NULL, 0) {
-+		int prot = IOMMU_READ | IOMMU_WRITE;
-+		dma_addr_t start, limit, iova;
-+		struct resource res;
-+
-+		ret = of_address_to_resource(it.node, 0, &res);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to parse memory region %pOF: %d\n",
-+				it.node, ret);
-+			continue;
-+		}
-+
-+		/* check that region is not empty */
-+		if (resource_size(&res) == 0) {
-+			dev_dbg(dev, "skipping empty memory region %pOF\n",
-+				it.node);
-+			continue;
-+		}
-+
-+		start = ALIGN(res.start, page_size);
-+		limit = ALIGN(res.start + resource_size(&res), page_size);
-+
-+		for (iova = start; iova < limit; iova += page_size) {
-+			phys_addr_t phys;
-+
-+			/* check that this IOVA isn't already mapped */
-+			phys = iommu_iova_to_phys(dom, iova);
-+			if (phys)
-+				continue;
-+
-+			ret = iommu_map(dom, iova, iova, page_size,
-+					prot);
-+			if (ret < 0) {
-+				dev_err(dev, "failed to map %pad for %pOF: %d\n",
-+					&iova, it.node, ret);
-+				continue;
-+			}
-+		}
-+
-+		dev_dbg(dev, "identity mapped memory region %pR\n", &res);
-+		count++;
-+	}
-+
-+	return count;
-+}
-+
-+static bool arm_smmu_identity_unmap_regions(struct arm_smmu_device *smmu,
-+					    struct device_node *np)
-+{
-+	struct device *dev = smmu->dev;
-+	struct of_phandle_iterator it;
-+	unsigned long page_size;
-+	int ret;
-+	bool unmapped = false;
-+
-+	page_size = 1UL << __ffs(smmu->identity->pgsize_bitmap);
-+
-+	/* parse memory regions and add them to the identity mapping */
-+	of_for_each_phandle(&it, ret, np, "memory-region", NULL, 0) {
-+		dma_addr_t start, limit, iova;
-+		struct resource res;
-+
-+		ret = of_address_to_resource(it.node, 0, &res);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to parse memory region %pOF: %d\n",
-+				it.node, ret);
-+			continue;
-+		}
-+
-+		/* check that region is not empty */
-+		if (resource_size(&res) == 0) {
-+			dev_dbg(dev, "skipping empty memory region %pOF\n",
-+				it.node);
-+			continue;
-+		}
-+
-+		start = ALIGN(res.start, page_size);
-+		limit = ALIGN(res.start + resource_size(&res), page_size);
-+
-+		for (iova = start; iova < limit; iova += page_size) {
-+			if (!iommu_unmap(smmu->identity, iova, page_size)) {
-+				dev_err(dev,
-+					"failed to unmap %pad for %pOF\n",
-+					&iova, it.node);
-+				continue;
-+			}
-+		}
-+
-+		dev_dbg(dev, "identity unmapped memory region %pR\n", &res);
-+		unmapped = true;
-+	}
-+
-+	return unmapped;
-+}
-+
-+static void arm_smmu_identity_free_master(struct arm_smmu_device *smmu,
-+					  u32 fwid)
-+{
-+	u16 sid, mask;
-+	int ret;
-+
-+	sid = FIELD_GET(ARM_SMMU_SMR_ID, fwid);
-+	mask = FIELD_GET(ARM_SMMU_SMR_MASK, fwid);
-+
-+	ret = arm_smmu_find_sme(smmu, sid, mask);
-+	if (ret >= 0) {
-+		arm_smmu_free_sme(smmu, ret);
-+		if (--smmu->num_identity_masters)
-+			arm_smmu_domain_free(smmu->identity);
-+		return;
-+	}
-+
-+	pr_err("failed to free identity mapped master: no SME for fwid 0x%x: %d\n",
-+	       fwid, ret);
-+}
-+
- static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- {
- 	int ret;
-@@ -1203,9 +1332,20 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- 		goto rpm_put;
- 	}
- 
-+	/* Recreate indentity mappings in the device's freshly created group */
-+	ret = arm_smmu_identity_map_regions(domain, smmu, dev->of_node);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to map identity regions (err=%d)\n", ret);
-+		goto rpm_put;
-+	}
-+
- 	/* Looks ok, so add the device to the domain */
- 	ret = arm_smmu_domain_add_master(smmu_domain, fwspec);
- 
-+	/* Remove identity mappings from the original identity domain */
-+	if (arm_smmu_identity_unmap_regions(smmu, dev->of_node))
-+		arm_smmu_identity_free_master(smmu, fwspec->ids[0]);
-+
- 	/*
- 	 * Setup an autosuspend delay to avoid bouncing runpm state.
- 	 * Otherwise, if a driver for a suspended consumer device
-@@ -1928,6 +2068,117 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
- 	return 0;
- }
- 
-+static int arm_smmu_identity_add_master(struct arm_smmu_device *smmu,
-+					struct of_phandle_args *args)
-+{
-+	struct arm_smmu_domain *identity = to_smmu_domain(smmu->identity);
-+	struct arm_smmu_smr *smrs = smmu->smrs;
-+	struct device *dev = smmu->dev;
-+	unsigned int index;
-+	u16 sid, mask;
-+	u32 fwid;
-+	int ret;
-+
-+	/* skip masters that aren't ours */
-+	if (args->np != dev->of_node)
-+		return 0;
-+
-+	fwid = arm_smmu_of_parse(args->np, args->args, args->args_count);
-+	sid = FIELD_GET(ARM_SMMU_SMR_ID, fwid);
-+	mask = FIELD_GET(ARM_SMMU_SMR_MASK, fwid);
-+
-+	ret = arm_smmu_find_sme(smmu, sid, mask);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to find SME: %d\n", ret);
-+		return ret;
-+	}
-+
-+	index = ret;
-+
-+	if (smrs && smmu->s2crs[index].count == 0) {
-+		smrs[index].id = sid;
-+		smrs[index].mask = mask;
-+		smrs[index].valid = true;
-+	}
-+
-+	smmu->s2crs[index].type = S2CR_TYPE_TRANS;
-+	smmu->s2crs[index].privcfg = S2CR_PRIVCFG_DEFAULT;
-+	smmu->s2crs[index].cbndx = identity->cfg.cbndx;
-+	smmu->s2crs[index].count++;
-+
-+	smmu->num_identity_masters++;
-+
-+	return 0;
-+}
-+
-+static int arm_smmu_identity_add_device(struct arm_smmu_device *smmu,
-+					struct device_node *np)
-+{
-+	struct of_phandle_args args;
-+	unsigned int index = 0;
-+	int ret;
-+
-+	/* add stream IDs to the identity mapping */
-+	while (!of_parse_phandle_with_args(np, "iommus", "#iommu-cells",
-+					   index, &args)) {
-+		ret = arm_smmu_identity_add_master(smmu, &args);
-+		if (ret < 0)
-+			return ret;
-+
-+		index++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int arm_smmu_setup_identity(struct arm_smmu_device *smmu)
-+{
-+	struct arm_smmu_domain *identity;
-+	struct device *dev = smmu->dev;
-+	struct device_node *np;
-+	int ret;
-+
-+	/* create early identity mapping */
-+	smmu->identity = arm_smmu_domain_alloc(IOMMU_DOMAIN_UNMANAGED);
-+	if (!smmu->identity) {
-+		dev_err(dev, "failed to create identity domain\n");
-+		return -ENOMEM;
-+	}
-+
-+	smmu->identity->pgsize_bitmap = smmu->pgsize_bitmap;
-+	smmu->identity->type = IOMMU_DOMAIN_UNMANAGED;
-+	smmu->identity->ops = &arm_smmu_ops;
-+
-+	ret = arm_smmu_init_domain_context(smmu->identity, smmu);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to initialize identity domain: %d\n", ret);
-+		return ret;
-+	}
-+
-+	smmu->num_identity_masters = 0;
-+
-+	identity = to_smmu_domain(smmu->identity);
-+
-+	for_each_node_with_property(np, "iommus") {
-+		ret = arm_smmu_identity_map_regions(smmu->identity, smmu, np);
-+		if (ret < 0)
-+			continue;
-+
-+		/*
-+		 * Do not add devices to the early identity mapping if they
-+		 * do not define any memory-regions.
-+		 */
-+		if (ret == 0)
-+			continue;
-+
-+		ret = arm_smmu_identity_add_device(smmu, np);
-+		if (ret < 0)
-+			continue;
-+	}
-+
-+	return 0;
-+}
-+
- struct arm_smmu_match_data {
- 	enum arm_smmu_arch_version version;
- 	enum arm_smmu_implementation model;
-@@ -2185,6 +2436,10 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
- 
-+	err = arm_smmu_setup_identity(smmu);
-+	if (err)
-+		return err;
-+
- 	if (smmu->version == ARM_SMMU_V2) {
- 		if (smmu->num_context_banks > smmu->num_context_irqs) {
- 			dev_err(dev,
-@@ -2227,8 +2482,8 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	}
- 
- 	platform_set_drvdata(pdev, smmu);
--	arm_smmu_device_reset(smmu);
- 	arm_smmu_test_smr_masks(smmu);
-+	arm_smmu_device_reset(smmu);
- 
- 	/*
- 	 * We want to avoid touching dev->power.lock in fastpaths unless
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index 8d1cd54d82a6..607a637cf948 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -305,6 +305,9 @@ struct arm_smmu_device {
- 
- 	/* IOMMU core code handle */
- 	struct iommu_device		iommu;
-+
-+	struct iommu_domain		*identity;
-+	int				num_identity_masters;
- };
- 
- enum arm_smmu_context_fmt {
--- 
-2.17.1
+Best Regards, Laurentiu
 
+On 3/17/2020 4:21 PM, laurentiu.tudor@nxp.com wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>
+> On some platforms, the firmware will setup hardware to read from a given
+> region of memory. One such example is a display controller that is
+> scanning out a splash screen from physical memory.
+>
+> During Linux' boot process, the ARM SMMU will configure all contexts to
+> fault by default. This means that memory accesses that happen by an SMMU
+> master before its driver has had a chance to properly set up the IOMMU
+> will cause a fault. This is especially annoying for something like the
+> display controller scanning out a splash screen because the faults will
+> result in the display controller getting bogus data (all-ones on Tegra)
+> and since it repeatedly scans that framebuffer, it will keep triggering
+> such faults and spam the boot log with them.
+>
+> In order to work around such problems, scan the device tree for IOMMU
+> masters and set up a special identity domain that will map 1:1 all of
+> the reserved regions associated with them. This happens before the SMMU
+> is enabled, so that the mappings are already set up before translations
+> begin.
+>
+> One thing that was pointed out earlier, and which I don't have a good
+> idea on how to solve it, is that the early identity domain is not
+> discarded. The assumption is that the standard direct mappings code of
+> the IOMMU framework will replace the early identity domain once devices
+> are properly attached to domains, but we don't have a good point in time
+> when it would be safe to remove the early identity domain.
+>
+> One option that I can think of would be to create an early identity
+> domain for each master and inherit it when that master is attached to
+> the domain later on, but that seems rather complicated from an book-
+> keeping point of view and tricky because we need to be careful not to
+> map regions twice, etc.
+>
+> Any good ideas on how to solve this? It'd also be interesting to see if
+> there's a more generic way of doing this. I know that something like
+> this isn't necessary on earlier Tegra SoCs with the custom Tegra SMMU
+> because translations are only enabled when the devices are attached to a
+> domain. I'm not sure about other IOMMUs, but in the absence of a struct
+> device, I suspect that we can't really do anything really generic that
+> would work across drivers.
+>
+> Previous version: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fcover%2F11279577%2F&amp;data=02%7C01%7Claurentiu.tudor%40nxp.com%7Cb40c3ee306224a2fc8fe08d7ca7e8007%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637200517038451677&amp;sdata=rq8Ojkh1fovakZ2jTGHjSUaYROtvjY8ZDItEiqCTuI4%3D&amp;reserved=0
+>
+> Changes in v2:
+>   - recreate identity mappings when the device is placed in its rightful domain
+>   - delete its original identity mappings from the identity domain
+>   - added a counter to keep track of number of devices with identity mappings
+>   - free identity domain when the counter reaches 0
+>   - this should help fix our firmware issue, mentioned here [1]
+>
+> [1] https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fcomment%2F23200041%2F&amp;data=02%7C01%7Claurentiu.tudor%40nxp.com%7Cb40c3ee306224a2fc8fe08d7ca7e8007%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637200517038451677&amp;sdata=Q0T326D1QMz5EtWY%2BzVUxdd01AbKySe8Ota66H2rkiI%3D&amp;reserved=0
+>
+> Thierry Reding (2):
+>    iommu: arm-smmu: Extract arm_smmu_of_parse()
+>    iommu: arm-smmu: Add support for early direct mappings
+>
+>   drivers/iommu/arm-smmu.c | 280 +++++++++++++++++++++++++++++++++++++--
+>   drivers/iommu/arm-smmu.h |   3 +
+>   2 files changed, 275 insertions(+), 8 deletions(-)
+>
