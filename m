@@ -2,72 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0552188D86
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Mar 2020 19:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3EAD189249
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Mar 2020 00:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgCQS6k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 Mar 2020 14:58:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59940 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726545AbgCQS6k (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 Mar 2020 14:58:40 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 083CB20724;
-        Tue, 17 Mar 2020 18:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584471518;
-        bh=OY84ZxDccQFhgYDlAvwhsfk2SegbVqCssMbIJ8LHZwI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lEbfyZoVjZ3QH6Ubdqit9/rhjwYb9P8NvvchyecqX491YLdrQbE/GlMKC3zMNNUne
-         qEgelwQ3uFe4fQa+kZ+0OM1p3bfQfJwHR6Jf0Uc6l4q9sHNorvydkzavwDtsi7RRDp
-         xJVMVVS2bci5AoO+xyZzpeIA4hiGy8wuEQ8MKd2E=
-Date:   Tue, 17 Mar 2020 19:58:35 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [GIT PULL] usb: tegra: Changes for v5.7-rc1
-Message-ID: <20200317185835.GC1480055@kroah.com>
-References: <20200313170730.2924259-1-thierry.reding@gmail.com>
+        id S1726965AbgCQXpI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Mar 2020 19:45:08 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:46579 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbgCQXpI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 17 Mar 2020 19:45:08 -0400
+Received: by mail-pl1-f196.google.com with SMTP id r3so2282298pls.13
+        for <linux-tegra@vger.kernel.org>; Tue, 17 Mar 2020 16:45:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wxH7yekJnveWC6LbF0RVEe9v1RgcLsJWdr4W7PaQbME=;
+        b=OERPLSYvbwV8NXU/l55VNZPDr/gruE9KhjIEvVnQC8vNhIQkHthiKWcJBNU1OVn98a
+         sB38GTtcgPIIbXVrSumBpGIYha2Y3d7IYaRrfwowrOmXKIMHVqpl6xK/cM4TDpCcGnLN
+         N0fxZUKLuK1CuNbA7dc2RoUmREOcArIIpmemNjj2pQhbtvRPN+V9gbh/4dzPiAsizrpP
+         OWTe+Qge8nmuMW4vrzrWej6ijkaGA8wIwzbwCblHi4mNzvmz3c0QduJEdYGoMp/Jv15O
+         TQClYPlWS1EdcdpMPwjbhmmt8FM3Gy2OH+47mf/QEIYO3rRj7cjdUMnbdhV7wQRCOEfO
+         BBgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wxH7yekJnveWC6LbF0RVEe9v1RgcLsJWdr4W7PaQbME=;
+        b=Bd0BXtCFVtrXTqlTDaOx/iXVJprXVhshVLZdegnm637WZK5dclvV5d+Js0eTivy9Sj
+         txUQeqM8yfvBI4cQpkBuxf09ZR3Zh6ABi+ni7PjrWkXY6v34zqpCKA6MWuIKeb1GryXT
+         fBSoY3nYpX8WYQ5x9QD4jpl8kLgMC1/7+KyFrUDc/PGVs/cECeY/WeIJIbJQni5uSd1f
+         wI3f4vjvhE3d6KuhO1dMGGqDWeWwgfk+tKaUDp9mBJmsxXmSRDhkS0pQAA8eLB/QniXI
+         gkMTbRc/2LKjH78FnIEqxc8GsL0V5Y+84kjNrm0XgvypTB8AKrWJL4ClZzPpl0zbwwvS
+         oIYQ==
+X-Gm-Message-State: ANhLgQ24G/1dGUk7PUmQitl3JuYBNDTNRoJ51h0GsEiVkvfsfYinugi8
+        BArLgCzThublX+fdMn5zRjKuRxVPWKqsT8jeMiU=
+X-Google-Smtp-Source: ADFU+vtH/S33d22jQGrFLY5ckyY297SoYQvs7rapoC5C1Bh0cn7WOChI2gECG2Oknwh+cuCIF1ORhvOWC8YQewbw4yE=
+X-Received: by 2002:a17:90a:d156:: with SMTP id t22mr1692573pjw.138.1584488707349;
+ Tue, 17 Mar 2020 16:45:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200313170730.2924259-1-thierry.reding@gmail.com>
+References: <CAG8jQE=TtOVFm=0UdSpqf506G-4zWriZKnm2g2jV7kyTSf-TnA@mail.gmail.com>
+In-Reply-To: <CAG8jQE=TtOVFm=0UdSpqf506G-4zWriZKnm2g2jV7kyTSf-TnA@mail.gmail.com>
+From:   Kirill Timofeev <kt97679@gmail.com>
+Date:   Tue, 17 Mar 2020 16:44:56 -0700
+Message-ID: <CAG8jQEmNCcusJX2QK4OBNjiPJEc8U0amUtZcWCgsWtbx8H8eyA@mail.gmail.com>
+Subject: Re: kernel panic on the nvidia tegra tk1 board running nginx
+To:     linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Cc:     Ralf Ramsauer <ralf@ramses-pyramidenbau.de>, treding@nvidia.com,
+        jonathanh@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 06:07:30PM +0100, Thierry Reding wrote:
-> Hi Greg, Felipe,
-> 
-> The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
-> 
->   Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.7-usb
-> 
-> for you to fetch changes up to 9dd4fbef2f88ccf46f5294805bf121d6554791e8:
-> 
->   usb: gadget: tegra-xudc: Support multiple device modes (2020-03-13 17:16:28 +0100)
-> 
-> It occurred to me that I could just as well send this pull request to
-> you guys, rather than take it via ARM SoC. Kishon already acked all the
-> patches for the PHY tree that this series depends on, so I've included
-> them here as a dependency.
-> 
-> Let me know if you'd prefer that I take this through ARM SoC.
+Hi folks,
 
-I tried to merge this into my usb-next branch, but get merge issues in
-drivers/usb/gadget/udc/tegra-xudc.c that I really don't know how to
-resolve.
+after some trial and error and with the help from Ralf Ramsauer
+(thanks a bunch Ralf!) we figured out that removing CONFIG_ARM_LPAE
+eliminates kernel panic. Here is the kernel config diff:
 
-Can you give me a clue as to what to do here?
+kvt@rage ~ $ diff kernel.config.old /usr/src/linux/.config
+236d235
+< CONFIG_ZONE_DMA=y
+240c239
+< CONFIG_PGTABLE_LEVELS=3
+---
+> CONFIG_PGTABLE_LEVELS=2
+279d277
+< # CONFIG_ARCH_AXXIA is not set
+347c345
+< CONFIG_ARM_LPAE=y
+---
+> # CONFIG_ARM_LPAE is not set
+411a410
+> # CONFIG_VMSPLIT_3G_OPT is not set
+434a434
+> CONFIG_CPU_SW_DOMAIN_PAN=y
+436,437d435
+< CONFIG_SYS_SUPPORTS_HUGETLBFS=y
+< CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
+567d564
+< CONFIG_HAVE_RCU_TABLE_FREE=y
+702d698
+< CONFIG_HAVE_FAST_GUP=y
+709d704
+< CONFIG_PHYS_ADDR_T_64BIT=y
+713d707
+< # CONFIG_TRANSPARENT_HUGEPAGE is not set
+728d721
+< CONFIG_ARCH_HAS_PTE_SPECIAL=y
+3369a3363
+> # CONFIG_USB_FUSB300 is not set
+4436d4429
+< # CONFIG_LIBNVDIMM is not set
+4537d4529
+< # CONFIG_HUGETLBFS is not set
+4801a4794
+> # CONFIG_CRYPTO_DEV_HIFN_795X is not set
+4883d4875
+< CONFIG_ARCH_DMA_ADDR_T_64BIT=y
+4887,4889d4878
+< CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE=y
+< CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU=y
+< CONFIG_SWIOTLB=y
+kvt@rage ~ $
 
-thanks,
+Thanks,
+Kirill.
 
-greg k-h
+
+
+On Wed, Feb 26, 2020 at 8:34 AM Kirill Timofeev <kt97679@gmail.com> wrote:
+>
+> I'm sorry if you will see this as a duplicate, resending as a plain
+> text message.
+>
+> Hi folks,
+>
+> I run home server on the nvidia tegra tk1 using gentoo:
+>
+> Linux rage 5.5.6-gentoo #1 SMP PREEMPT Tue Feb 25 12:40:17 PST 2020
+> armv7l ARMv7 Processor rev 3 (v7l) NVIDIA Tegra SoC (Flattened Device
+> Tree) GNU/Linux
+>
+> This server runs nginx on both 80 and 443. I recently was updating my
+> let's encrypt certificate and it failed because plain http was not
+> working (while https was working ok):
+>
+> kvt@joy:~$ curl -s http://a0.twilightparadox.com|hd
+> 00000000  89 1f 00 00 02 2e 00 00  00 00 00 00 9d 1f 00 00  |................|
+> 00000010  02 2e 00 00 00 00 00 00  aa 1f 00 00 02 2e 00 00  |................|
+> 00000020  00 00 00 00 b8 1f 00 00  02 2e 00 00 00           |.............|
+> 0000002d
+> kvt@joy:~$ curl -s https://a0.twilightparadox.com|hd
+> 00000000  3c 68 74 6d 6c 3e 3c 62  6f 64 79 3e 55 6e 64 65  |<html><body>Unde|
+> 00000010  72 20 63 6f 6e 73 74 72  75 63 74 69 6f 6e 3c 2f  |r construction</|
+> 00000020  62 6f 64 79 3e 3c 2f 68  74 6d 6c 3e 0a           |body></html>.|
+> 0000002d
+> kvt@joy:~$
+>
+> I reverted kernel to 4.19.98 and everything worked fine with same
+> settings. Locally everything works fine (with latest kernel):
+>
+> kvt@rage:~$ curl -s 127.0.0.1
+> <html><body>Under construction</body></html>
+> kvt@rage:~$
+>
+> The worst thing is that if I do local http call and then do external
+> http call I'm getting kernel panic (please see file attached). This
+> kernel panic was captured on 5.4.10 but I see same behavior with
+> latest 5.5.6.
+>
+> If I shutdown nginx and run some other http server (e.g. python3 -m
+> http.server) everything works fine.
+>
+> Just in case please find my kernel config attached.
+>
+> Please let me know if something is wrong with my kernel config or if I
+> need to provide any additional information.
+>
+> Thanks,
+> Kirill.
