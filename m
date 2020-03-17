@@ -2,87 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C1C187D74
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Mar 2020 10:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF0C18834A
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Mar 2020 13:11:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgCQJwb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 Mar 2020 05:52:31 -0400
-Received: from mga03.intel.com ([134.134.136.65]:11234 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725872AbgCQJwb (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 Mar 2020 05:52:31 -0400
-IronPort-SDR: 3gFeyB/sMtAXH5KgvDK4vJqCTYN2ML2o1fV2Hbt2t69CrfzhYhAfwC9f/98fVEMCgeaOFpXYV1
- SvgJzUEcUjtA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2020 02:52:30 -0700
-IronPort-SDR: +azI8A9fKBjRQ58L4+ha8WqErnfAG+LfoivYULQdO/g/GXyyXzucTRi5GuxYPJzGwecRN6XO9x
- S0F1069bxh+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,564,1574150400"; 
-   d="scan'208";a="443697708"
-Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.87]) ([10.237.72.87])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Mar 2020 02:52:27 -0700
-Subject: Re: [PATCH v1 3/3] mmc: tegra: Enable host capability
- MMC_CAP2_LONG_WAIT_HW_BUSY
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        ulf.hansson@linaro.org, baolin.wang@linaro.org,
-        kstewart@linuxfoundation.org, tglx@linutronix.de,
-        bradleybolen@gmail.com, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     anrao@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org
-References: <1583799205-8442-1-git-send-email-skomatineni@nvidia.com>
- <1583799205-8442-3-git-send-email-skomatineni@nvidia.com>
-From:   Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Message-ID: <c46fef86-ac9c-a921-1464-dbca58bc3169@intel.com>
-Date:   Tue, 17 Mar 2020 11:51:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726593AbgCQMLh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Mar 2020 08:11:37 -0400
+Received: from sonic307-2.consmr.mail.ne1.yahoo.com ([66.163.190.121]:39588
+        "EHLO sonic307-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726825AbgCQMLh (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 17 Mar 2020 08:11:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584447096; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=GNqfjO2RF+Awy5YSepXh/s9YmsCdcubt4wpHexTEPR8CJG9d9Dd9fQqcoJkVT0ILu/Ku4bnvjoxkaCJaICKnJZQQYAxHWZ7sotW8i+gxuirPBN2ptC1mcN1LrgOwzgVoBT1LbBuY7v7uxoaWOPgBLlkONoCUyVJGE5TILKUam+G393XKkY/3Ypz295vJBwmv2d7GeGFFMl3YzzM1mYDeltTW6CZElVXbD6prQlxFhgPsWENclSoz3k5ZQ5gkvF2Kwa3X89e+X5XrPEXyrmnAeMeCahD7uL073TB4lQiga+VkQWlgoI0Z3Ueds0xvJrKjk6bM6wjzpfPP2ZCvaVaodQ==
+X-YMail-OSG: MJW.iqcVM1kWbldJ6GaHhjTYpBQP4yD81p3D3IidKw2SRO_3qLxYTqc.7pX6QNZ
+ KZsUkf3Xq5Wn8QiqH3Y5l2cER_tJNRjJCYyhWs5iq52D4N30ylC12N4FBcGDWCHUrUjoT_4WC1D3
+ R1epjUUYntdj8Nk_he1A7q87btLbY_JiQyyXPczXpmon3.QXM8KYuXe9CzCl5eg7eE54pvWLb0ol
+ rmPAfXrK3PcJQZKWEIF524qicNmU1luZkIS4DX6zog7EhmOOoBddGAbFl_q9Cd7qGg2mtzPlAN8O
+ krUbQBmXcYPRd8XXD.PAhv.SEU5dHXIUtxin2OqxQl8YBNevAuGKZ.OmG5_VqFYp7xHrEK9RrZgn
+ dh7oTrRZz5oRm0vAHPAW4FcPyRUVjERXY3i1egaBAGfxiwHwXI2xgQl9WvAW1apJZO4bwpRCQtsf
+ gekm_am7zZMpMcUvARVjR0tRaMiv0OSQnUqztDykMX0nJpC98tjcmmYgCgXuLzrJWeS2XyvBgpEV
+ tM4bDuRtQW2YoudCaPCiUpExOK328xpsikUY8_BXjtXPuIE.KY9KDd6VLZwC.A7h4zg3m6l0wzjx
+ _TPJlAMNbWWg4PKKfQGss1lvY4cR0mfppMvAgqkl8NJfYQTW8ach82KNm39Jj6AZ2.mD48lUIr7q
+ 9mfCTGYLTQ1Gs5uoEGhyDM2KGa5t3Pb0bZzcikC8lebn.HkY4YOqIPZcy3iaNF0CZAHjT2.7djrl
+ KlIcZtfDL012EoP9PIIx4g8Omfg9SXIM4WF5zgakilU_XwTKXJSUTQnRGVkekYgt4JlMbGDqKSF2
+ ACtivPpvvLbGvbq6nGZM_mYduEMiUfErn373knAACltVmuEQ11gOTJYXVRb7xVdRMTMLZUct0RNR
+ O5DNiJ4MOAOJoXGZj.mRXLIwIxZa9B5E0AYNA9iLk0zM12dJvcHqy5OKNfacDf0_iijcDsHzx3bF
+ YOiCyiFLkfzxvXN3ca0OPkuyZBUc3d0PvF1zCE_ZGAmo7umXOKsvdiEeqCD.kYNQsClQxV0sEwG6
+ 59cX4KWhi.xXOHQ1BKZxe8ykEJ.JQXSFkdeH_sY7HFi8gfnjm5.EM0yDOSnZztywHj1gGaTtbhpM
+ 16QDWrYtCCes9cmPOkEbqNTaEQDdKImJhK_Lb4YsNsp0_qAi3Pvrd_0aYphPHpkxV8YrqtRmG9Cs
+ J..NzyIxX5pN165pNiZm.qu9raTa0i2sUIWnrnN8K2QDNIWO1rFT4WlKwJFc_owm8NG2cGJrgaza
+ NjiRhXaDepl1rKPFh5VjBgg9llZSttaL_jCtz7zaLeRajW1R2pSin.A6mUIm7flXsYULyJovhPVd
+ ULJ0ULhINy_scPTyYMOs2Ibh4m8TRnzLP
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:11:36 +0000
+Date:   Tue, 17 Mar 2020 12:09:35 +0000 (UTC)
+From:   Stephen Li <stenn6@gabg.net>
+Reply-To: stephli947701@gmail.com
+Message-ID: <518482929.1810933.1584446975070@mail.yahoo.com>
+Subject: REF
 MIME-Version: 1.0
-In-Reply-To: <1583799205-8442-3-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+References: <518482929.1810933.1584446975070.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/03/20 2:13 am, Sowjanya Komatineni wrote:
-> Some mmc operations take longer than maximum HW busy detection and
-> mmc core driver converts R1B type to R1 type response for these
-> operations based on host max busy timeout and command operation time
-> and uses SW poll for busy.
-> 
-> Tegra host support long HW busy detection where host waits forever
-> till the card is busy.
-> 
-> This patch enables MMC_CAP2_LONG_WAIT_HW_BUSY capability for Tegra
-> host.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 
-Acked-by: Adrian Hunter <adrian.hunter@intel.com>
 
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index 40a221d..9d0f371 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -1583,6 +1583,7 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
->  	if (tegra_host->soc_data->nvquirks & NVQUIRK_ENABLE_DDR50)
->  		host->mmc->caps |= MMC_CAP_1_8V_DDR;
->  
-> +	host->mmc->caps2 |= MMC_CAP2_LONG_WAIT_HW_BUSY;
->  	tegra_sdhci_parse_dt(host);
->  
->  	tegra_host->power_gpio = devm_gpiod_get_optional(&pdev->dev, "power",
-> 
-
+Greetings,
+I was searching through a local business directory when I found your
+profile. I am Soliciting On-Behalf of my private client who is
+interested in having a serious business investment in your country. If
+you have a valid business, investment or project he can invest
+back to me for more details. Your swift response is highly needed.
+Sincerely
+Stephen Li
+Please response back to me with is my private email below for more details
+stephli947701@gmail.com
