@@ -2,196 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DB9818BDA0
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 18:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E016018BF00
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 19:05:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727816AbgCSRJD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 13:09:03 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13800 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbgCSRJD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 13:09:03 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e73a7210001>; Thu, 19 Mar 2020 10:08:49 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 19 Mar 2020 10:09:02 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 19 Mar 2020 10:09:02 -0700
-Received: from [10.25.77.145] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
- 2020 17:09:00 +0000
-Subject: Re: [PATCH 9/9] pinctrl: tegra: Add SFIO/GPIO programming on Tegra194
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-CC:     Jon Hunter <jonathanh@nvidia.com>, <linux-gpio@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-References: <20200319122737.3063291-1-thierry.reding@gmail.com>
- <20200319122737.3063291-10-thierry.reding@gmail.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <66c5ab1d-e5c0-b4b1-08c6-da5db3d4d939@nvidia.com>
-Date:   Thu, 19 Mar 2020 22:38:57 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727565AbgCSSFe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 14:05:34 -0400
+Received: from foss.arm.com ([217.140.110.172]:39812 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727108AbgCSSFd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 19 Mar 2020 14:05:33 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49B5730E;
+        Thu, 19 Mar 2020 11:05:33 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48A013F305;
+        Thu, 19 Mar 2020 11:05:32 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 18:05:30 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>, linux-pci@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] PCI: tegra: Print -EPROBE_DEFER error message at debug
+ level
+Message-ID: <20200319180529.GB7433@e121166-lin.cambridge.arm.com>
+References: <20200319131230.3216305-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200319122737.3063291-10-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584637729; bh=gbh7MAWlGNWijtoH9aMdq50WPINyKOBntJiRDCJhQG4=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=B1RkmpuyVMwaTvFmEzljZLwAq8fYxhW6prUxIu1DslJtgDqt/cbGyQaDkXNQJtbVq
-         QEPNad5d1rHt1zVOVBnWk32LU8amhYWpO3MnfQruqpbPbSePS78J6kkC+h6NHXDJ+h
-         ir09xg7xt3i2x4VMOqzLToCq/vO+XxwUit9yWzEP5OE5T1oww6KiGzD2GEbbCoX05P
-         KCQIKvm6x3b4Z5vQ3J0rY9Dy0kyTcE21EeGfAGTu0iPyJ2MNlLQCQnKPhBhJy1D5ty
-         DRhwcTbIWvo5a8vppgBpEdV+/3NENXGldo6Z1N91sGfHU3RhFvmSg2+fESah2exYIQ
-         Qw5sLvh6BB9+Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200319131230.3216305-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-
-On 3/19/2020 5:57 PM, Thierry Reding wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
+On Thu, Mar 19, 2020 at 02:12:30PM +0100, Thierry Reding wrote:
 > From: Thierry Reding <treding@nvidia.com>
 > 
-> Prior to Tegra186, the selection of SFIO vs. GPIO modes was done as part
-> of the GPIO controller's register programming. Starting with Tegra186, a
-> pin is configured as GPIO or SFIO with a bit in a configuration register
-> of the pin controller.
+> Probe deferral is an expected error condition that will usually be
+> recovered from. Print such error messages at debug level to make them
+> available for diagnostic purposes when building with debugging enabled
+> and hide them otherwise to not spam the kernel log with them.
 > 
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->   drivers/pinctrl/tegra/pinctrl-tegra.c    | 46 ++++++++++++++++++++++++
->   drivers/pinctrl/tegra/pinctrl-tegra.h    |  3 ++
->   drivers/pinctrl/tegra/pinctrl-tegra194.c |  2 ++
->   3 files changed, 51 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> index 65511bf27d34..21661f6490d6 100644
-> --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> @@ -275,11 +275,57 @@ static int tegra_pinctrl_set_mux(struct pinctrl_dev *pctldev,
->          return 0;
->   }
-> 
-> +static int tegra_pinctrl_gpio_request_enable(struct pinctrl_dev *pctldev,
-> +                                            struct pinctrl_gpio_range *range,
-> +                                            unsigned int offset)
-> +{
-> +       struct tegra_pmx *pmx = pinctrl_dev_get_drvdata(pctldev);
-> +       const struct tegra_pingroup *group;
-> +       u32 value;
+>  drivers/pci/controller/dwc/pcie-tegra194.c | 42 ++++++++++++++++++----
+>  1 file changed, 35 insertions(+), 7 deletions(-)
+
+Hi Thierry,
+
+what tree/branch is it based on ? I assume it may depend on some
+patches queued in one of my branches so please let me know and
+I will apply accordingly.
+
+Thanks,
+Lorenzo
+
+> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> index 97d3f3db1020..e4870fa6ce9c 100644
+> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> @@ -1159,17 +1159,31 @@ static int tegra_pcie_dw_parse_dt(struct tegra_pcie_dw *pcie)
+>  	/* Endpoint mode specific DT entries */
+>  	pcie->pex_rst_gpiod = devm_gpiod_get(pcie->dev, "reset", GPIOD_IN);
+>  	if (IS_ERR(pcie->pex_rst_gpiod)) {
+> -		dev_err(pcie->dev, "Failed to get PERST GPIO: %ld\n",
+> -			PTR_ERR(pcie->pex_rst_gpiod));
+> -		return PTR_ERR(pcie->pex_rst_gpiod);
+> +		int err = PTR_ERR(pcie->pex_rst_gpiod);
+> +		const char *level = KERN_ERR;
 > +
-> +       if (!pmx->soc->sfsel_in_mux)
-> +               return 0;
+> +		if (err == -EPROBE_DEFER)
+> +			level = KERN_DEBUG;
 > +
-> +       group = &pmx->soc->groups[offset];
+> +		dev_printk(level, pcie->dev,
+> +			   dev_fmt("Failed to get PERST GPIO: %d\n"),
+> +			   err);
+> +		return err;
+>  	}
+>  
+>  	pcie->pex_refclk_sel_gpiod = devm_gpiod_get(pcie->dev,
+>  						    "nvidia,refclk-select",
+>  						    GPIOD_OUT_HIGH);
+>  	if (IS_ERR(pcie->pex_refclk_sel_gpiod)) {
+> -		dev_info(pcie->dev, "Failed to get REFCLK select GPIOs: %ld\n",
+> -			 PTR_ERR(pcie->pex_refclk_sel_gpiod));
+> +		int err = PTR_ERR(pcie->pex_refclk_sel_gpiod);
+> +		const char *level = KERN_ERR;
 > +
-> +       if (group->mux_reg < 0 || group->sfsel_bit < 0)
-> +               return -EINVAL;
+> +		if (err == -EPROBE_DEFER)
+> +			level = KERN_DEBUG;
 > +
-> +       value = pmx_readl(pmx, group->mux_bank, group->mux_reg);
-> +       value &= ~BIT(group->sfsel_bit);
-> +       pmx_writel(pmx, value, group->mux_bank, group->mux_reg);
+> +		dev_printk(level, pcie->dev,
+> +			   dev_fmt("Failed to get REFCLK select GPIOs: %d\n"),
+> +			   err);
+>  		pcie->pex_refclk_sel_gpiod = NULL;
+>  	}
+>  
+> @@ -2058,13 +2072,27 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>  
+>  	ret = tegra_pcie_dw_parse_dt(pcie);
+>  	if (ret < 0) {
+> -		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+> +		const char *level = KERN_ERR;
 > +
-> +       return 0;
-> +}
+> +		if (ret == -EPROBE_DEFER)
+> +			level = KERN_DEBUG;
 > +
-> +static void tegra_pinctrl_gpio_disable_free(struct pinctrl_dev *pctldev,
-> +                                           struct pinctrl_gpio_range *range,
-> +                                           unsigned int offset)
-> +{
-> +       struct tegra_pmx *pmx = pinctrl_dev_get_drvdata(pctldev);
-> +       const struct tegra_pingroup *group;
-> +       u32 value;
+> +		dev_printk(level, dev,
+> +			   dev_fmt("Failed to parse device tree: %d\n"),
+> +			   ret);
+>  		return ret;
+>  	}
+>  
+>  	ret = tegra_pcie_get_slot_regulators(pcie);
+>  	if (ret < 0) {
+> -		dev_err(dev, "Failed to get slot regulators: %d\n", ret);
+> +		const char *level = KERN_ERR;
 > +
-> +       if (!pmx->soc->sfsel_in_mux)
-> +               return;
+> +		if (ret == -EPROBE_DEFER)
+> +			level = KERN_DEBUG;
 > +
-> +       group = &pmx->soc->groups[offset];
-> +
-> +       if (group->mux_reg < 0 || group->sfsel_bit < 0)
-> +               return;
-> +
-> +       value = pmx_readl(pmx, group->mux_bank, group->mux_reg);
-> +       value |= BIT(group->sfsel_bit);
-> +       pmx_writel(pmx, value, group->mux_bank, group->mux_reg);
-> +}
-> +
->   static const struct pinmux_ops tegra_pinmux_ops = {
->          .get_functions_count = tegra_pinctrl_get_funcs_count,
->          .get_function_name = tegra_pinctrl_get_func_name,
->          .get_function_groups = tegra_pinctrl_get_func_groups,
->          .set_mux = tegra_pinctrl_set_mux,
-> +       .gpio_request_enable = tegra_pinctrl_gpio_request_enable,
-> +       .gpio_disable_free = tegra_pinctrl_gpio_disable_free,
->   };
-> 
->   static int tegra_pinconf_reg(struct tegra_pmx *pmx,
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.h b/drivers/pinctrl/tegra/pinctrl-tegra.h
-> index 520865979d4a..fcad7f74c5a2 100644
-> --- a/drivers/pinctrl/tegra/pinctrl-tegra.h
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.h
-> @@ -107,6 +107,7 @@ struct tegra_function {
->    *                     drvup, slwr, slwf, and drvtype parameters.
->    * @drv_bank:          Drive fields register bank.
->    * @hsm_bit:           High Speed Mode register bit.
-> + * @sfsel_bit:         GPIO/SFIO selection register bit.
->    * @schmitt_bit:       Schmitt register bit.
->    * @lpmd_bit:          Low Power Mode register bit.
->    * @drvdn_bit:         Drive Down register bit.
-> @@ -153,6 +154,7 @@ struct tegra_pingroup {
->          s32 ioreset_bit:6;
->          s32 rcv_sel_bit:6;
->          s32 hsm_bit:6;
-> +       s32 sfsel_bit:6;
->          s32 schmitt_bit:6;
->          s32 lpmd_bit:6;
->          s32 drvdn_bit:6;
-> @@ -192,6 +194,7 @@ struct tegra_pinctrl_soc_data {
->          bool hsm_in_mux;
->          bool schmitt_in_mux;
->          bool drvtype_in_mux;
-> +       bool sfsel_in_mux;
->   };
-> 
->   extern const struct dev_pm_ops tegra_pinctrl_pm;
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra194.c b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-> index 61afe5fe9dec..2e0b5f7bb095 100644
-> --- a/drivers/pinctrl/tegra/pinctrl-tegra194.c
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-> @@ -95,6 +95,7 @@ static struct tegra_function tegra194_functions[] = {
->                  .tri_bit = 4,                                   \
->                  .einput_bit = e_input,                          \
->                  .odrain_bit = e_od,                             \
-> +               .sfsel_bit = 10,                                \
->                  .schmitt_bit = schmitt_b,                       \
->                  .drvtype_bit = 13,                              \
->                  .drv_reg = -1,                                  \
-> @@ -140,6 +141,7 @@ static const struct tegra_pinctrl_soc_data tegra194_pinctrl = {
->          .hsm_in_mux = true,
->          .schmitt_in_mux = true,
->          .drvtype_in_mux = true,
-> +       .sfsel_in_mux = true,
->   };
-> 
->   static int tegra194_pinctrl_probe(struct platform_device *pdev)
-> --
+> +		dev_printk(level, dev,
+> +			   dev_fmt("Failed to get slot regulators: %d\n"),
+> +			   ret);
+>  		return ret;
+>  	}
+>  
+> -- 
 > 2.24.1
 > 
-Tested-by: Vidya Sagar <vidyas@nvidia.com>
