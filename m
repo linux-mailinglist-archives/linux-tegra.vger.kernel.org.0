@@ -2,105 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 382D418ADBB
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 08:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 036EE18AE3B
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 09:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbgCSHzw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 03:55:52 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35023 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgCSHzv (ORCPT
+        id S1725895AbgCSITG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Thu, 19 Mar 2020 04:19:06 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:39542 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725768AbgCSITG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 03:55:51 -0400
-Received: by mail-wr1-f66.google.com with SMTP id h4so1474630wru.2;
-        Thu, 19 Mar 2020 00:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=50B8ToFEb091pQk7aicdBP2O68dTylRearm13Qtcc7I=;
-        b=dk3dx/igcFkHzexE7Skq1Qg+2mVcnbQqB5kCptTWA8zKXDaN20uoC6cD82l6FnmPoO
-         au5AFn1yUrKoR3noEs11OSXPRmdyqK5DhUs7auVnpFCC4a6jARKA0JlgdceBYobNmaoA
-         9O2jJ0RT88X5Tfxq8og5ycIxjtDE/MjDzQ6lsiZ4wJFnPKQhu5OW6ykRfG+Ng1wlMuNw
-         nS+8lffiGD5KqmYQ1tDz4RQNaR8b+KEX2JxGhbFLK6wo38YcBDOQ8vm2nh3FBFvgyYIe
-         T9tLyLBzlg7b8VmVXDqzm/hZkTwy7oviDQpjXhryaPRBvZ0znYszqcykS15xx/dfxrqK
-         Am9A==
+        Thu, 19 Mar 2020 04:19:06 -0400
+Received: by mail-oi1-f196.google.com with SMTP id d63so1783856oig.6;
+        Thu, 19 Mar 2020 01:19:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=50B8ToFEb091pQk7aicdBP2O68dTylRearm13Qtcc7I=;
-        b=KRWG3PgBBMszbhBOrZLZtYERsdI8MsKl0k2ha57npaBsSyYpyXViM1JAZD08cxsHCY
-         qdBb6fOE/kthzob3keckDwNAfRlBzmpy1k3uL0qhO3L6vZ//Sb898gvl2wiocNwA4YcQ
-         mYGuCJSTgba0y/4+WtJf5pv2AzsYlcbverPiErXboosDBgeUIwoQh0Kq7Ej14+elkIkB
-         AA0ekN7ERlhgGhuf94U/jwplyQHYYwKblcg3ym5z11wkUfGr+UAE1nlHCsri56/QkO2G
-         XfaJOmYRaZlXlYsWrMsyRj/aQhEb9r5NFimCAc/B0M5xuZGYph36Dd7Hr5R8Sv0+SHTG
-         QiYA==
-X-Gm-Message-State: ANhLgQ17JTCqdvr8wl0Be+ZLyIWrdaw3L63oTLu2U0G1oYN6BaJ9aQfo
-        RUCRWDWVejPOw1GS+HW+wsSv4dxR6PGAYY7u6RO2vriUcmE=
-X-Google-Smtp-Source: ADFU+vuLyEsrWGTuy6ELaT8rwy9OFIF6XmQMgrXp3S+8NbYSUaamPbqymurVpBUvax5x20WWdFC3t0NGRP/sHuByPNM=
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr2615303wrm.124.1584604549252;
- Thu, 19 Mar 2020 00:55:49 -0700 (PDT)
+        bh=PHHOTMHAVr2S4KOOH2EanfmchrOEz8G+tJOrFqdCMMU=;
+        b=E6HFKMoxUSOjy2TqjjPMsIfHMT66MzVqUSc04C26KZEU0hgADIUz0oJIb/Ctcluz7K
+         j5BouVk2UgTT/o+ZUvtBWwUwCtYyrAqPjzpDtnFX3rtkf0iEIZ/K9gDo+htBrvDVQkla
+         BDtplAUFbraJL36v4XQhX9QzI2PKMdp/eKMNR2V59yv9xH4tg6o922cFmFLqCWWHdFC2
+         KwY6T5zyTfMakbvnOXGZU+ngesyKnFc45w4GBnMKYrrngghVdLgkD0CxTF+pIdaTqXT8
+         W16qnF/PGYJe4/w69U+xh6DGvnHRSuJtYH4uw0Rh/YcbG/4+NO83IMqbzUlOCXc2ti7g
+         E1aQ==
+X-Gm-Message-State: ANhLgQ1gS66II8Vsj5mJGCvRx8zRKU5fhSJsZ3indgyTioLCIVUw3PHb
+        hHt5P46KTXNNDjdoM6qBrrpaliU91Sdc8Sh0LGw=
+X-Google-Smtp-Source: ADFU+vtVCuX/dlfREDf0wEJ5KirUT/mS2m1kp334SMVECxLAz8K7WxnAxWoq4sfqUY/ZxPO8apzvfDLyc+E4G9+G0LM=
+X-Received: by 2002:aca:5ed4:: with SMTP id s203mr1531329oib.102.1584605944151;
+ Thu, 19 Mar 2020 01:19:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200319074401.GA4116@Red>
-In-Reply-To: <20200319074401.GA4116@Red>
-From:   Nicolas Chauvet <kwizart@gmail.com>
-Date:   Thu, 19 Mar 2020 08:55:38 +0100
-Message-ID: <CABr+WTnBmJsDZPjUxYkG98dTneDD1p8G=uRftVduTGYbY0ruqQ@mail.gmail.com>
-Subject: Re: tegra124-jetson-tk1: sata doesnt work since 5.2
-To:     LABBE Corentin <clabbe@baylibre.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        pdeschrijver@nvidia.com,
-        Michael Turquette <mturquette@baylibre.com>, sboyd@kernel.org,
-        axboe@kernel.dk, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-ide@vger.kernel.org
+References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
+ <20200127140716.15673-1-geert+renesas@glider.be> <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
+ <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com> <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
+In-Reply-To: <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 19 Mar 2020 09:18:52 +0100
+Message-ID: <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Le jeu. 19 mars 2020 =C3=A0 08:44, LABBE Corentin <clabbe@baylibre.com> a =
-=C3=A9crit :
+Hi Dmitry,
+
+On Thu, Mar 19, 2020 at 2:11 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+> 25.02.2020 14:40, Geert Uytterhoeven пишет:
+> > On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
+> >>> Currently, the start address of physical memory is obtained by masking
+> >>> the program counter with a fixed mask of 0xf8000000.  This mask value
+> >>> was chosen as a balance between the requirements of different platforms.
+> >>> However, this does require that the start address of physical memory is
+> >>> a multiple of 128 MiB, precluding booting Linux on platforms where this
+> >>> requirement is not fulfilled.
+> >>>
+> >>> Fix this limitation by obtaining the start address from the DTB instead,
+> >>> if available (either explicitly passed, or appended to the kernel).
+> >>> Fall back to the traditional method when needed.
+> >>>
+> >>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+> >>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+> >>> i.e. not at a multiple of 128 MiB.
+> >>>
+> >>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> >>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+> >>> ---
+> >>> Against arm/for-next.
+> >>
+> >> This patch landed recently in linux-next. It breaks legacy booting from
+> >> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
+> >> will debug it further once I find some spare time. What I noticed so
+> >> far, the cmdline/memory info is not read from the ATAGs, only the values
+> >> provided via appended DT are used.
+> >
+> > Oops, something happening like this was one of my biggest worries when
+> > posting this patch... Sorry for the breakage.
+> >
+> > IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
+> >
+> > I'll have a closer look later today.
+> > In the mean time, I've sent some debug code I used when developing
+> > this patch, which may be useful, hopefully.
 >
-> Hello
->
-> sata doesnt work on tegra124-jetson-tk1 on next and master and at least s=
-ince 5.2 (but 5.1 works).
-> [    0.492810] +5V_SATA: supplied by +5V_SYS
-> [    0.493230] +12V_SATA: supplied by +VDD_MUX
-> [    2.088675] tegra-ahci 70027000.sata: 70027000.sata supply ahci not fo=
-und, using dummy regulator
-> [    2.097643] tegra-ahci 70027000.sata: 70027000.sata supply phy not fou=
-nd, using dummy regulator
-> [    3.314776] tegra-ahci 70027000.sata: 70027000.sata supply ahci not fo=
-und, using dummy regulator
-> [    3.323658] tegra-ahci 70027000.sata: 70027000.sata supply phy not fou=
-nd, using dummy regulator
-> [    5.236964] tegra-ahci 70027000.sata: 70027000.sata supply ahci not fo=
-und, using dummy regulator
-> [    5.245867] tegra-ahci 70027000.sata: 70027000.sata supply phy not fou=
-nd, using dummy regulator
-> [    5.254706] tegra-ahci 70027000.sata: 70027000.sata supply target not =
-found, using dummy regulator
-> [    5.310270] phy phy-sata.6: phy poweron failed --> -110
-> [    5.315604] tegra-ahci 70027000.sata: failed to power on AHCI controll=
-er: -110
-> [    5.323022] tegra-ahci: probe of 70027000.sata failed with error -110
-> [   35.694269] +5V_SATA: disabling
-> [   35.697438] +12V_SATA: disabling
+> NVIDIA Tegra is also affected by this patch. A week ago an updated
+> version of the patch was pushed into linux-next and now machine doesn't
+> boot at all.
 
-It looks strange, because (on same device) , I have sata working as
-appropriate, but ethernet fails with me.
-https://bugzilla.kernel.org/show_bug.cgi?id=3D206217
+I'm sorry to hear that.
 
-It might worth to have another report.
+Did v2 work for you?
+Are you sure this updated version is the culprit? There are several other
+recent changes to head.S in arm/for-next.
 
---=20
--
+Do you boot a separate DTB or an appended DTB?
+Do you use ATAGS?
 
-Nicolas (kwizart)
+> I couldn't find v3 on the ML, so replying to the v2. Please take a look
+> and fix the problem, or revert/drop the offending patch, thanks in advance.
+
+V3 is v2 combined with "[PATCH] ARM: boot: Fix ATAGs with appended DTB"
+(https://lore.kernel.org/linux-renesas-soc/20200225144749.19815-1-geert+renesas@glider.be/).
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
