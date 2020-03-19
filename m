@@ -2,129 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B71F18AA36
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 02:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A31018AD6F
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 08:44:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726747AbgCSBLG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Mar 2020 21:11:06 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40832 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCSBLG (ORCPT
+        id S1725767AbgCSHoH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 03:44:07 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37293 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726050AbgCSHoH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Mar 2020 21:11:06 -0400
-Received: by mail-lj1-f194.google.com with SMTP id 19so537883ljj.7;
-        Wed, 18 Mar 2020 18:11:04 -0700 (PDT)
+        Thu, 19 Mar 2020 03:44:07 -0400
+Received: by mail-wr1-f68.google.com with SMTP id w10so1423948wrm.4
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2020 00:44:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EGLmZef2vUA7iNMUpqEjZKG2eTNPGHi8uOxfXVF1Rjw=;
-        b=KGTt2yvZX6PtwUcegfBuj+F6P+E32i1Ew5+D4XNqj79iu0S5xqyHH72bNWFqyD4RRE
-         VACJ4at/mDoZRJWAkYUN5YSWdAy9q2XU94xHuKPq6Kc43S3PAbVN5/mpK2tLJ9O2jOoy
-         oZ47D9I7UPJMGWcOejse9qdUxA6sRH9J+R+RhsI9YDMiVUULZvlWm898oFn9STryornS
-         RKOn5kDdHQqGA7MqGWGmWW3uQgIpCbFsL/KFwTbDa62fgxG5/rwJcLkjp1FbiG54G7ha
-         Imo4+i3ICcJKLarv2BSBdU0U09KQxWIDPvmaNzrE157fV7PGrF4OvNv0ssrXumokQ74c
-         DooA==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=8G6ZnhC76S+a0nX3uIB0o/UbMU7oc2ekBRk4ZBzMhfk=;
+        b=ZyXeHZ6E9GgI7PQ3/JNJnGVywJvMuyEuNUPHAE0C3Hrsl2fCjTBQSYRPxZzgj0Q12y
+         jUhvnPZ9Y7L1OxpqqPQ5YUEUNzqU6oZFiflxogGT1qYVKz5l4dxn19NQZmF+op4PWyzU
+         3GEZw0OETcFOj7b7dcwEpbqRPQKJPxSo1LoJktwcRrCvHgZPvSr4QqJDRI38ZeedOKe8
+         z1GxWMcugiheSTKebig9iTziBCUOMI/nc8MsUpQBhUMbP5gWe2Ey6L7tllGwfW27pDbJ
+         PPIUhDbHXT1oxzUkqIWFdwVrVnUz9Do/0Qbikeu6Aiyi/2DyZU6BDCfjgN+h2p6qr/KZ
+         PHqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EGLmZef2vUA7iNMUpqEjZKG2eTNPGHi8uOxfXVF1Rjw=;
-        b=fzo7RNgoDSjidx4F9MxURBThCh4doNd1CUfC/fjB3OJLJoBoVOCzQefRrZ3RYydMQL
-         7uwI+76F7Z583e7j5RW9m+ijbLLd3KJeE3ychCgQAfCknbUXr5Z6P6/JQlt9OF9hGcyV
-         12LSMIh2CzffSD6VtJJfglvpExTHblPVfpmrRNi3RN1EZdOP5uMlw/oofwc54YrKhe1Q
-         svl1VrjiN96lz9Z9vG3L7VMKOpSxAy4jNKyYHnSp5Ur1YWxnB58Hzg+KPZV8bfgJfq27
-         QZpknwTb1K89/EdAm9fziuZ5TC96slKU1zQ15FF6nU4ANs3/Cwt35aRbsRkt3YjhR9Da
-         Vqhg==
-X-Gm-Message-State: ANhLgQ0itK+ZEkwypYQ+xCP8VNypCAoSueb9n/eLD2sxJOICpo+aNWX7
-        EFHxLqEyfiqUYaD8nrHCfh2UHKvv
-X-Google-Smtp-Source: ADFU+vvIjlCChhIMUE6nFnW/q6nRyE3HYLgiA/phWU7QXfP+DpRbQB4guS7riNIzDsvbcuroJUH2RA==
-X-Received: by 2002:a2e:b008:: with SMTP id y8mr414626ljk.107.1584580262759;
-        Wed, 18 Mar 2020 18:11:02 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id o4sm210739lfl.62.2020.03.18.18.11.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2020 18:11:01 -0700 (PDT)
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be>
- <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
- <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
-Date:   Thu, 19 Mar 2020 04:11:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=8G6ZnhC76S+a0nX3uIB0o/UbMU7oc2ekBRk4ZBzMhfk=;
+        b=Tx2GcKl1YUCb31xLoC170pWjUeLn6+L314t0JtetBx3KN7d9tu+V3oyAmZl/gMs5eH
+         b1A+a8C49LKRNO9E30DO3OSISssMwcWubApxJPrOdOeiFIfXhhU2o66NYxjKI/ainm33
+         C6puHKdyRP2Z1imG/KvfGbTDZb0gUIgkFgQJf+bAF0q3h7lUAOuHxRWF8qAxr2H1Clcy
+         KhP19gJxulOSV9o0Mt41niSTe+7PBW3NbWDEiOgPrVrqBIiHYh7TzdOJEl+A+683PLDZ
+         n/vd0USqvud13NNeelkxkoIDhot2dy86mvCJ7L5yAEc0ifAuIAWBG45mSYJTfmZ16Vxu
+         IabQ==
+X-Gm-Message-State: ANhLgQ30gLSBv55gtiulqWmIg+HIXP2Gt3A/fHR5M0VA1Hdi+vpp/V7J
+        /QBTHnj2FvtqS1B37RbBc7I5FQ==
+X-Google-Smtp-Source: ADFU+vuKr+qEFy31VI/80gx52dPSn4WmMzXMLVRosndQlVFjNAd1HfXNRlss+zm7FNEZsfvLhA0lqg==
+X-Received: by 2002:adf:ec88:: with SMTP id z8mr2431975wrn.61.1584603844041;
+        Thu, 19 Mar 2020 00:44:04 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:2e56:dcff:fed2:c6d6])
+        by smtp.googlemail.com with ESMTPSA id g8sm1925537wmk.26.2020.03.19.00.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2020 00:44:03 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 08:44:01 +0100
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        pgaikwad@nvidia.com, pdeschrijver@nvidia.com,
+        mturquette@baylibre.com, sboyd@kernel.org, axboe@kernel.dk
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-ide@vger.kernel.org
+Subject: tegra124-jetson-tk1: sata doesnt work since 5.2
+Message-ID: <20200319074401.GA4116@Red>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.02.2020 14:40, Geert Uytterhoeven пишет:
-> Hi Marek,
-> 
-> On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
->> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
->>> Currently, the start address of physical memory is obtained by masking
->>> the program counter with a fixed mask of 0xf8000000.  This mask value
->>> was chosen as a balance between the requirements of different platforms.
->>> However, this does require that the start address of physical memory is
->>> a multiple of 128 MiB, precluding booting Linux on platforms where this
->>> requirement is not fulfilled.
->>>
->>> Fix this limitation by obtaining the start address from the DTB instead,
->>> if available (either explicitly passed, or appended to the kernel).
->>> Fall back to the traditional method when needed.
->>>
->>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
->>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
->>> i.e. not at a multiple of 128 MiB.
->>>
->>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
->>> ---
->>> Against arm/for-next.
->>
->> This patch landed recently in linux-next. It breaks legacy booting from
->> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
->> will debug it further once I find some spare time. What I noticed so
->> far, the cmdline/memory info is not read from the ATAGs, only the values
->> provided via appended DT are used.
-> 
-> Oops, something happening like this was one of my biggest worries when
-> posting this patch... Sorry for the breakage.
-> 
-> IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
-> 
-> I'll have a closer look later today.
-> In the mean time, I've sent some debug code I used when developing
-> this patch, which may be useful, hopefully.
+Hello
 
-Hello,
+sata doesnt work on tegra124-jetson-tk1 on next and master and at least since 5.2 (but 5.1 works).
+[    0.492810] +5V_SATA: supplied by +5V_SYS
+[    0.493230] +12V_SATA: supplied by +VDD_MUX
+[    2.088675] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
+[    2.097643] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
+[    3.314776] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
+[    3.323658] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
+[    5.236964] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
+[    5.245867] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
+[    5.254706] tegra-ahci 70027000.sata: 70027000.sata supply target not found, using dummy regulator
+[    5.310270] phy phy-sata.6: phy poweron failed --> -110
+[    5.315604] tegra-ahci 70027000.sata: failed to power on AHCI controller: -110
+[    5.323022] tegra-ahci: probe of 70027000.sata failed with error -110
+[   35.694269] +5V_SATA: disabling
+[   35.697438] +12V_SATA: disabling
 
-NVIDIA Tegra is also affected by this patch. A week ago an updated
-version of the patch was pushed into linux-next and now machine doesn't
-boot at all.
+I have bisected this problem:
+git bisect start
+# bad: [22c58fd70ca48a29505922b1563826593b08cc00] Merge tag 'armsoc-soc' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect bad 22c58fd70ca48a29505922b1563826593b08cc00
+# good: [67e38f578aaebf34fc1278bbe45a78ee8c73dd33] ARM: ep93xx: move pinctrl interfaces into include/linux/soc
+git bisect good 67e38f578aaebf34fc1278bbe45a78ee8c73dd33
+# good: [80f232121b69cc69a31ccb2b38c1665d770b0710] Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next
+git bisect good 80f232121b69cc69a31ccb2b38c1665d770b0710
+# good: [e57ccca1ba33e1d92cc3bbf8b6304a46948844b0] Merge tag 'sound-5.2-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+git bisect good e57ccca1ba33e1d92cc3bbf8b6304a46948844b0
+# bad: [983dfa4b6ee556563f7963348e4e2f97fc8a15b8] Merge tag 'for-linus-5.2-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/rw/uml
+git bisect bad 983dfa4b6ee556563f7963348e4e2f97fc8a15b8
+# good: [8e4ff713ce313dcabbb60e6ede1ffc193e67631f] Merge tag 'rtc-5.2' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux
+git bisect good 8e4ff713ce313dcabbb60e6ede1ffc193e67631f
+# bad: [b970afcfcabd63cd3832e95db096439c177c3592] Merge tag 'powerpc-5.2-1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
+git bisect bad b970afcfcabd63cd3832e95db096439c177c3592
+# bad: [601e6bcc4ef02bda2831d5ac8133947b5edf597b] Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net
+git bisect bad 601e6bcc4ef02bda2831d5ac8133947b5edf597b
+# good: [7e9c62bdb41af76974d594da89854a6aba645e58] Merge branches 'clk-sa', 'clk-aspeed', 'clk-samsung', 'clk-ingenic' and 'clk-zynq' into clk-next
+git bisect good 7e9c62bdb41af76974d594da89854a6aba645e58
+# bad: [0caf000817353cfc5db22363ecdac63b83d3a3f9] Merge branch 'clk-ti' into clk-next
+git bisect bad 0caf000817353cfc5db22363ecdac63b83d3a3f9
+# good: [5816b74581b45cf086a84ab14e13354a65e8e22c] Merge branches 'clk-hisi', 'clk-lochnagar', 'clk-allwinner', 'clk-rockchip' and 'clk-qoriq' into clk-next
+git bisect good 5816b74581b45cf086a84ab14e13354a65e8e22c
+# good: [7b4c162e03d47e037f8ee773c3e300eefb599a83] clk: at91: Mark struct clk_range as const
+git bisect good 7b4c162e03d47e037f8ee773c3e300eefb599a83
+# bad: [e71f4d385878671991e200083c7d30eb4ca8e99a] clk: tegra: divider: Mark Memory Controller clock as read-only
+git bisect bad e71f4d385878671991e200083c7d30eb4ca8e99a
+# bad: [924ee3d551c9deb16090230b824988bd37e72aa8] clk: tegra: emc: Don't enable EMC clock manually
+git bisect bad 924ee3d551c9deb16090230b824988bd37e72aa8
+# bad: [40db569d6769ffa3864fd1b89616b1a7323568a8] clk: tegra: Fix PLLM programming on Tegra124+ when PMC overrides divider
+git bisect bad 40db569d6769ffa3864fd1b89616b1a7323568a8
+# bad: [bff1cef5f23afbe49f5ebd766980dc612f5e9d0a] clk: tegra: Don't enable already enabled PLLs
+git bisect bad bff1cef5f23afbe49f5ebd766980dc612f5e9d0a
+# first bad commit: [bff1cef5f23afbe49f5ebd766980dc612f5e9d0a] clk: tegra: Don't enable already enabled PLLs
 
-I couldn't find v3 on the ML, so replying to the v2. Please take a look
-and fix the problem, or revert/drop the offending patch, thanks in advance.
+Basic reverting of this patch is impossible.
+
+Regards
