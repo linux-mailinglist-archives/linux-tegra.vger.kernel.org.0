@@ -2,262 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CEA518C085
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 20:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E5718C140
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 21:24:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbgCSTiN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 15:38:13 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45149 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbgCSTiN (ORCPT
+        id S1725817AbgCSUYd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 16:24:33 -0400
+Received: from gateway21.websitewelcome.com ([192.185.46.113]:19274 "EHLO
+        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725747AbgCSUYc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 15:38:13 -0400
-Received: by mail-lj1-f194.google.com with SMTP id y17so3853073ljk.12
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2020 12:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4mEBBzCTwKALAZE6w4Ux2tf5f8B6W3umTUvr+C3qcV4=;
-        b=YNE8DSmru9I7lE0a2BvFQdo640BVkEItUHb1iWHroOkUYUOcYWpKnA7L4AVSHlz2sv
-         BO3i5VonvuU0PgUcaW7dqkRiE1mflY/xrFfAG7ZiOFSTkjkRXAUfBl+bIeelQIzCZhaf
-         s7ofGGC5nEXNKf39n+7pT4hug7bDcdR4VKZxW4N9WKui2jwP3JxzSqYD1d+NRef0XUhe
-         tMBtzD20tNKjJX2aYbCBPi+9vm8A5nMqFTevzchZ5wKQa1KGdQa3BC0xCwJfxAW+lOA4
-         7Gx8BeI4/agrFP5ttp/1ONc23MVfRVpWGvpHHaRyHtXXY1ruX4q7975KqlUbBq2b6Z2J
-         y38Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4mEBBzCTwKALAZE6w4Ux2tf5f8B6W3umTUvr+C3qcV4=;
-        b=qIvVxv2lrTLr0AvmhYumfyv/1cyUOf6bkFnI6wVMi+k+zL1AHjH/DhuhmvK7Hq7ec/
-         Ydx+OQNH+/pqaYyDEwrf4lDjmfWBiKiVUrHY+8gpfPLSLV3n2dLz4sMpChl5cQS1/efm
-         lxOQUINyfUgM/oKxcYI4LlzhzHhCvh6/FiV8KaX/DNJKms3z9mu3WtXF8j0U+ko7rrpg
-         ruBWI7vU/o4n2DYXJp07zqd4MOncHrmNrQm9hcTua/KihEIQvdxiOEIgZ59Z/5gmVC84
-         pdGU1EndsV+mLQiC6sOk0BeU77VJldCKAJN1FpvO2lq3DGZX1/wWaB29qkwFbYj/bQFm
-         KmQA==
-X-Gm-Message-State: ANhLgQ0of/SS0V3x0dWp+36y8CQGuCz9ea6Ow/JYXfTaIOyAwTdPKA/e
-        V9w4U5AY5sxmtiATqEadTgk=
-X-Google-Smtp-Source: ADFU+vtx4n2eCwvby79XxR51GW4DuufRdtwZ7Umj8whpbSw328wxLxiYxfcZVkz348iBkV4vJZHplQ==
-X-Received: by 2002:a2e:a318:: with SMTP id l24mr3050176lje.41.1584646691381;
-        Thu, 19 Mar 2020 12:38:11 -0700 (PDT)
-Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.gmail.com with ESMTPSA id u19sm2003396ljk.12.2020.03.19.12.38.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 12:38:10 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 19 Mar 2020 16:24:32 -0400
+X-Greylist: delayed 1235 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 16:24:32 EDT
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway21.websitewelcome.com (Postfix) with ESMTP id 02F14400D1C6D
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2020 15:03:57 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id F1OWjDd4uSl8qF1OWjmIMH; Thu, 19 Mar 2020 15:03:56 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=S+fjO6KAXvDYYJ+ZGaQei67Te60H0aEUykPHI4lDWeM=; b=F+rH05gkf9Mrlq7Q7ajhJdonRM
+        4e5IdqtH1bMpZF03bbraIYnrQJ1L0Zt2UMSPst/2jWkcx/GPyuRFDaduYF6+dA3TULAdcVYjoGFN7
+        sbu9H6YNgqC+lhdOSXwexuwK012zastB1R3KH2NeOLbsyl0G1NXftH7GyW0RaBEmIozPLKryn6f+Z
+        UvKY9D36eTOd4ljtMDbyYvspwEbEDBQJUYmom6QT7nQMlSyLkWEJ3c2tSMcNRycvB7f9PEwplGgsS
+        JjW/Fjo83kJRCAYin2YceGspVtHUr9dV3LV+Y4tY9agF3d9Rd3s7bZJa8+VogehFm9BbnB4xuHqwY
+        sHaV2+LQ==;
+Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:40494 helo=[192.168.0.22])
+        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1jF1OW-000uBa-3n; Thu, 19 Mar 2020 15:03:56 -0500
+Subject: Re: [PATCH] amba: tegra-ahb: Replace zero-length array with
+ flexible-array member
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Russell King <linux@armlinux.org.uk>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH v1 2/2] memory: tegra30-emc: Poll EMC-CaR handshake instead of waiting for interrupt
-Date:   Thu, 19 Mar 2020 22:36:48 +0300
-Message-Id: <20200319193648.8810-2-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200319193648.8810-1-digetx@gmail.com>
-References: <20200319193648.8810-1-digetx@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200211210213.GA28043@embeddedor>
+ <292f9b65-c2b5-c719-ba79-c0db4a11f482@embeddedor.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=gustavo@embeddedor.com; keydata=
+ mQINBFssHAwBEADIy3ZoPq3z5UpsUknd2v+IQud4TMJnJLTeXgTf4biSDSrXn73JQgsISBwG
+ 2Pm4wnOyEgYUyJd5tRWcIbsURAgei918mck3tugT7AQiTUN3/5aAzqe/4ApDUC+uWNkpNnSV
+ tjOx1hBpla0ifywy4bvFobwSh5/I3qohxDx+c1obd8Bp/B/iaOtnq0inli/8rlvKO9hp6Z4e
+ DXL3PlD0QsLSc27AkwzLEc/D3ZaqBq7ItvT9Pyg0z3Q+2dtLF00f9+663HVC2EUgP25J3xDd
+ 496SIeYDTkEgbJ7WYR0HYm9uirSET3lDqOVh1xPqoy+U9zTtuA9NQHVGk+hPcoazSqEtLGBk
+ YE2mm2wzX5q2uoyptseSNceJ+HE9L+z1KlWW63HhddgtRGhbP8pj42bKaUSrrfDUsicfeJf6
+ m1iJRu0SXYVlMruGUB1PvZQ3O7TsVfAGCv85pFipdgk8KQnlRFkYhUjLft0u7CL1rDGZWDDr
+ NaNj54q2CX9zuSxBn9XDXvGKyzKEZ4NY1Jfw+TAMPCp4buawuOsjONi2X0DfivFY+ZsjAIcx
+ qQMglPtKk/wBs7q2lvJ+pHpgvLhLZyGqzAvKM1sVtRJ5j+ARKA0w4pYs5a5ufqcfT7dN6TBk
+ LXZeD9xlVic93Ju08JSUx2ozlcfxq+BVNyA+dtv7elXUZ2DrYwARAQABtCxHdXN0YXZvIEEu
+ IFIuIFNpbHZhIDxndXN0YXZvQGVtYmVkZGVkb3IuY29tPokCPQQTAQgAJwUCWywcDAIbIwUJ
+ CWYBgAULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRBHBbTLRwbbMZ6tEACk0hmmZ2FWL1Xi
+ l/bPqDGFhzzexrdkXSfTTZjBV3a+4hIOe+jl6Rci/CvRicNW4H9yJHKBrqwwWm9fvKqOBAg9
+ obq753jydVmLwlXO7xjcfyfcMWyx9QdYLERTeQfDAfRqxir3xMeOiZwgQ6dzX3JjOXs6jHBP
+ cgry90aWbaMpQRRhaAKeAS14EEe9TSIly5JepaHoVdASuxklvOC0VB0OwNblVSR2S5i5hSsh
+ ewbOJtwSlonsYEj4EW1noQNSxnN/vKuvUNegMe+LTtnbbocFQ7dGMsT3kbYNIyIsp42B5eCu
+ JXnyKLih7rSGBtPgJ540CjoPBkw2mCfhj2p5fElRJn1tcX2McsjzLFY5jK9RYFDavez5w3lx
+ JFgFkla6sQHcrxH62gTkb9sUtNfXKucAfjjCMJ0iuQIHRbMYCa9v2YEymc0k0RvYr43GkA3N
+ PJYd/vf9vU7VtZXaY4a/dz1d9dwIpyQARFQpSyvt++R74S78eY/+lX8wEznQdmRQ27kq7BJS
+ R20KI/8knhUNUJR3epJu2YFT/JwHbRYC4BoIqWl+uNvDf+lUlI/D1wP+lCBSGr2LTkQRoU8U
+ 64iK28BmjJh2K3WHmInC1hbUucWT7Swz/+6+FCuHzap/cjuzRN04Z3Fdj084oeUNpP6+b9yW
+ e5YnLxF8ctRAp7K4yVlvA7kCDQRbLBwMARAAsHCE31Ffrm6uig1BQplxMV8WnRBiZqbbsVJB
+ H1AAh8tq2ULl7udfQo1bsPLGGQboJSVN9rckQQNahvHAIK8ZGfU4Qj8+CER+fYPp/MDZj+t0
+ DbnWSOrG7z9HIZo6PR9z4JZza3Hn/35jFggaqBtuydHwwBANZ7A6DVY+W0COEU4of7CAahQo
+ 5NwYiwS0lGisLTqks5R0Vh+QpvDVfuaF6I8LUgQR/cSgLkR//V1uCEQYzhsoiJ3zc1HSRyOP
+ otJTApqGBq80X0aCVj1LOiOF4rrdvQnj6iIlXQssdb+WhSYHeuJj1wD0ZlC7ds5zovXh+FfF
+ l5qH5RFY/qVn3mNIVxeO987WSF0jh+T5ZlvUNdhedGndRmwFTxq2Li6GNMaolgnpO/CPcFpD
+ jKxY/HBUSmaE9rNdAa1fCd4RsKLlhXda+IWpJZMHlmIKY8dlUybP+2qDzP2lY7kdFgPZRU+e
+ zS/pzC/YTzAvCWM3tDgwoSl17vnZCr8wn2/1rKkcLvTDgiJLPCevqpTb6KFtZosQ02EGMuHQ
+ I6Zk91jbx96nrdsSdBLGH3hbvLvjZm3C+fNlVb9uvWbdznObqcJxSH3SGOZ7kCHuVmXUcqoz
+ ol6ioMHMb+InrHPP16aVDTBTPEGwgxXI38f7SUEn+NpbizWdLNz2hc907DvoPm6HEGCanpcA
+ EQEAAYkCJQQYAQgADwUCWywcDAIbDAUJCWYBgAAKCRBHBbTLRwbbMdsZEACUjmsJx2CAY+QS
+ UMebQRFjKavwXB/xE7fTt2ahuhHT8qQ/lWuRQedg4baInw9nhoPE+VenOzhGeGlsJ0Ys52sd
+ XvUjUocKgUQq6ekOHbcw919nO5L9J2ejMf/VC/quN3r3xijgRtmuuwZjmmi8ct24TpGeoBK4
+ WrZGh/1hAYw4ieARvKvgjXRstcEqM5thUNkOOIheud/VpY+48QcccPKbngy//zNJWKbRbeVn
+ imua0OpqRXhCrEVm/xomeOvl1WK1BVO7z8DjSdEBGzbV76sPDJb/fw+y+VWrkEiddD/9CSfg
+ fBNOb1p1jVnT2mFgGneIWbU0zdDGhleI9UoQTr0e0b/7TU+Jo6TqwosP9nbk5hXw6uR5k5PF
+ 8ieyHVq3qatJ9K1jPkBr8YWtI5uNwJJjTKIA1jHlj8McROroxMdI6qZ/wZ1ImuylpJuJwCDC
+ ORYf5kW61fcrHEDlIvGc371OOvw6ejF8ksX5+L2zwh43l/pKkSVGFpxtMV6d6J3eqwTafL86
+ YJWH93PN+ZUh6i6Rd2U/i8jH5WvzR57UeWxE4P8bQc0hNGrUsHQH6bpHV2lbuhDdqo+cM9eh
+ GZEO3+gCDFmKrjspZjkJbB5Gadzvts5fcWGOXEvuT8uQSvl+vEL0g6vczsyPBtqoBLa9SNrS
+ VtSixD1uOgytAP7RWS474w==
+Message-ID: <a5a852d9-9f42-ce8a-58e6-d14e3da001af@embeddedor.com>
+Date:   Thu, 19 Mar 2020 15:03:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <292f9b65-c2b5-c719-ba79-c0db4a11f482@embeddedor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 189.218.116.241
+X-Source-L: No
+X-Exim-ID: 1jF1OW-000uBa-3n
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net ([192.168.0.22]) [189.218.116.241]:40494
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 4
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The memory clock-rate change could be running on a non-boot CPU, while the
-boot CPU handles the EMC interrupt. This introduces an unnecessary latency
-since boot CPU should handle the interrupt and then notify the sibling CPU
-about clock-rate change completion. In some rare cases boot CPU could be
-in uninterruptible state for a significant time (like in a case of KASAN +
-NFS root), it could get to the point that completion timeouts before boot
-CPU gets a chance to handle interrupt. The solution is to get rid of the
-completion and replace it with interrupt-status polling.
+Hi all,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/memory/tegra/tegra30-emc.c | 116 +++++++++++------------------
- 1 file changed, 44 insertions(+), 72 deletions(-)
+Friendly ping (second time): Who can take this?
 
-diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-index 727dc7153390..900a291803ca 100644
---- a/drivers/memory/tegra/tegra30-emc.c
-+++ b/drivers/memory/tegra/tegra30-emc.c
-@@ -11,7 +11,6 @@
- 
- #include <linux/clk.h>
- #include <linux/clk/tegra.h>
--#include <linux/completion.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/err.h>
-@@ -327,7 +326,6 @@ struct emc_timing {
- struct tegra_emc {
- 	struct device *dev;
- 	struct tegra_mc *mc;
--	struct completion clk_handshake_complete;
- 	struct notifier_block clk_nb;
- 	struct clk *clk;
- 	void __iomem *regs;
-@@ -374,52 +372,10 @@ static int emc_seq_update_timing(struct tegra_emc *emc)
- 	return 0;
- }
- 
--static void emc_complete_clk_change(struct tegra_emc *emc)
--{
--	struct emc_timing *timing = emc->new_timing;
--	unsigned int dram_num;
--	bool failed = false;
--	int err;
--
--	/* re-enable auto-refresh */
--	dram_num = tegra_mc_get_emem_device_count(emc->mc);
--	writel_relaxed(EMC_REFCTRL_ENABLE_ALL(dram_num),
--		       emc->regs + EMC_REFCTRL);
--
--	/* restore auto-calibration */
--	if (emc->vref_cal_toggle)
--		writel_relaxed(timing->emc_auto_cal_interval,
--			       emc->regs + EMC_AUTO_CAL_INTERVAL);
--
--	/* restore dynamic self-refresh */
--	if (timing->emc_cfg_dyn_self_ref) {
--		emc->emc_cfg |= EMC_CFG_DYN_SREF_ENABLE;
--		writel_relaxed(emc->emc_cfg, emc->regs + EMC_CFG);
--	}
--
--	/* set number of clocks to wait after each ZQ command */
--	if (emc->zcal_long)
--		writel_relaxed(timing->emc_zcal_cnt_long,
--			       emc->regs + EMC_ZCAL_WAIT_CNT);
--
--	/* wait for writes to settle */
--	udelay(2);
--
--	/* update restored timing */
--	err = emc_seq_update_timing(emc);
--	if (err)
--		failed = true;
--
--	/* restore early ACK */
--	mc_writel(emc->mc, emc->mc_override, MC_EMEM_ARB_OVERRIDE);
--
--	WRITE_ONCE(emc->bad_state, failed);
--}
--
- static irqreturn_t tegra_emc_isr(int irq, void *data)
- {
- 	struct tegra_emc *emc = data;
--	u32 intmask = EMC_REFRESH_OVERFLOW_INT | EMC_CLKCHANGE_COMPLETE_INT;
-+	u32 intmask = EMC_REFRESH_OVERFLOW_INT;
- 	u32 status;
- 
- 	status = readl_relaxed(emc->regs + EMC_INTSTATUS) & intmask;
-@@ -434,18 +390,6 @@ static irqreturn_t tegra_emc_isr(int irq, void *data)
- 	/* clear interrupts */
- 	writel_relaxed(status, emc->regs + EMC_INTSTATUS);
- 
--	/* notify about EMC-CAR handshake completion */
--	if (status & EMC_CLKCHANGE_COMPLETE_INT) {
--		if (completion_done(&emc->clk_handshake_complete)) {
--			dev_err_ratelimited(emc->dev,
--					    "bogus handshake interrupt\n");
--			return IRQ_NONE;
--		}
--
--		emc_complete_clk_change(emc);
--		complete(&emc->clk_handshake_complete);
--	}
--
- 	return IRQ_HANDLED;
- }
- 
-@@ -801,29 +745,58 @@ static int emc_prepare_timing_change(struct tegra_emc *emc, unsigned long rate)
- 	 */
- 	mc_readl(emc->mc, MC_EMEM_ARB_OVERRIDE);
- 
--	reinit_completion(&emc->clk_handshake_complete);
--
--	emc->new_timing = timing;
--
- 	return 0;
- }
- 
- static int emc_complete_timing_change(struct tegra_emc *emc,
- 				      unsigned long rate)
- {
--	unsigned long timeout;
-+	struct emc_timing *timing = emc_find_timing(emc, rate);
-+	unsigned int dram_num;
-+	u32 val;
-+	int err;
- 
--	timeout = wait_for_completion_timeout(&emc->clk_handshake_complete,
--					      msecs_to_jiffies(100));
--	if (timeout == 0) {
--		dev_err(emc->dev, "emc-car handshake failed\n");
--		return -EIO;
-+	err = readl_relaxed_poll_timeout_atomic(emc->regs + EMC_INTSTATUS, val,
-+						val & EMC_CLKCHANGE_COMPLETE_INT,
-+						1, 100);
-+	if (err) {
-+		dev_err(emc->dev, "emc-car handshake timeout: %d\n", err);
-+		return err;
- 	}
- 
--	if (READ_ONCE(emc->bad_state))
--		return -EIO;
-+	/* re-enable auto-refresh */
-+	dram_num = tegra_mc_get_emem_device_count(emc->mc);
-+	writel_relaxed(EMC_REFCTRL_ENABLE_ALL(dram_num),
-+		       emc->regs + EMC_REFCTRL);
-+
-+	/* restore auto-calibration */
-+	if (emc->vref_cal_toggle)
-+		writel_relaxed(timing->emc_auto_cal_interval,
-+			       emc->regs + EMC_AUTO_CAL_INTERVAL);
- 
--	return 0;
-+	/* restore dynamic self-refresh */
-+	if (timing->emc_cfg_dyn_self_ref) {
-+		emc->emc_cfg |= EMC_CFG_DYN_SREF_ENABLE;
-+		writel_relaxed(emc->emc_cfg, emc->regs + EMC_CFG);
-+	}
-+
-+	/* set number of clocks to wait after each ZQ command */
-+	if (emc->zcal_long)
-+		writel_relaxed(timing->emc_zcal_cnt_long,
-+			       emc->regs + EMC_ZCAL_WAIT_CNT);
-+
-+	/* wait for writes to settle */
-+	udelay(2);
-+
-+	/* update restored timing */
-+	err = emc_seq_update_timing(emc);
-+	if (!err)
-+		emc->bad_state = false;
-+
-+	/* restore early ACK */
-+	mc_writel(emc->mc, emc->mc_override, MC_EMEM_ARB_OVERRIDE);
-+
-+	return err;
- }
- 
- static int emc_unprepare_timing_change(struct tegra_emc *emc,
-@@ -1033,7 +1006,7 @@ static struct device_node *emc_find_node_by_ram_code(struct device *dev)
- 
- static int emc_setup_hw(struct tegra_emc *emc)
- {
--	u32 intmask = EMC_REFRESH_OVERFLOW_INT | EMC_CLKCHANGE_COMPLETE_INT;
-+	u32 intmask = EMC_REFRESH_OVERFLOW_INT;
- 	u32 fbio_cfg5, emc_cfg, emc_dbg;
- 	enum emc_dram_type dram_type;
- 
-@@ -1321,7 +1294,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	if (!emc->mc)
- 		return -EPROBE_DEFER;
- 
--	init_completion(&emc->clk_handshake_complete);
- 	emc->clk_nb.notifier_call = emc_clk_change_notify;
- 	emc->dev = &pdev->dev;
- 
--- 
-2.25.1
+Thanks
+--
+Gustavo
 
+On 2/27/20 1:33 PM, Gustavo A. R. Silva wrote:
+> Hi all,
+> 
+> Friendly ping: Who can take this?
+> 
+> Thanks
+> --
+> Gustavo
+> 
+> On 2/11/20 15:02, Gustavo A. R. Silva wrote:
+>> The current codebase makes use of the zero-length array language
+>> extension to the C90 standard, but the preferred mechanism to declare
+>> variable-length types such as these ones is a flexible array member[1][2],
+>> introduced in C99:
+>>
+>> struct foo {
+>>         int stuff;
+>>         struct boo array[];
+>> };
+>>
+>> By making use of the mechanism above, we will get a compiler warning
+>> in case the flexible array does not occur last in the structure, which
+>> will help us prevent some kind of undefined behavior bugs from being
+>> inadvertenly introduced[3] to the codebase from now on.
+>>
+>> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+>> [2] https://github.com/KSPP/linux/issues/21
+>> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+>>
+>> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+>> ---
+>>  drivers/amba/tegra-ahb.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/amba/tegra-ahb.c b/drivers/amba/tegra-ahb.c
+>> index b0b688c481e8..e9e5c7bb580c 100644
+>> --- a/drivers/amba/tegra-ahb.c
+>> +++ b/drivers/amba/tegra-ahb.c
+>> @@ -129,7 +129,7 @@ static const u32 tegra_ahb_gizmo[] = {
+>>  struct tegra_ahb {
+>>  	void __iomem	*regs;
+>>  	struct device	*dev;
+>> -	u32		ctx[0];
+>> +	u32		ctx[];
+>>  };
+>>  
+>>  static inline u32 gizmo_readl(struct tegra_ahb *ahb, u32 offset)
+>>
