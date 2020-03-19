@@ -2,100 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BA0818BD71
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 18:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E2B18BD75
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 18:05:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbgCSRFW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 13:05:22 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12307 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727252AbgCSRFW (ORCPT
+        id S1727706AbgCSRFd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 13:05:33 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:41048 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727252AbgCSRFd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 13:05:22 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e73a61f0000>; Thu, 19 Mar 2020 10:04:31 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 19 Mar 2020 10:05:21 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 10:05:21 -0700
-Received: from [10.25.77.145] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
- 2020 17:05:19 +0000
-Subject: Re: [PATCH 1/9] gpio: Support GPIO controllers without pin-ranges
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-CC:     Jon Hunter <jonathanh@nvidia.com>, <linux-gpio@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-References: <20200319122737.3063291-1-thierry.reding@gmail.com>
- <20200319122737.3063291-2-thierry.reding@gmail.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <dc7a3f0a-2206-1e5a-9255-d0c6a18d1c4c@nvidia.com>
-Date:   Thu, 19 Mar 2020 22:35:16 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thu, 19 Mar 2020 13:05:33 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 1AAD32002D;
+        Thu, 19 Mar 2020 18:05:24 +0100 (CET)
+Date:   Thu, 19 Mar 2020 18:05:22 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jose Roberto de Souza <jose.souza@intel.com>,
+        virtualization@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-mediatek@lists.infradead.org,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org,
+        Dave Airlie <airlied@redhat.com>,
+        amd-gfx@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Emil Velikov <emil.velikov@collabora.com>
+Subject: Re: [PATCH v1 0/3] drm: drm_encoder_init() =>
+ drm_encoder_init_funcs()
+Message-ID: <20200319170522.GA29213@ravnborg.org>
+References: <20200313201744.19773-1-sam@ravnborg.org>
+ <20200319141954.GA25036@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200319122737.3063291-2-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584637471; bh=CBu9N1P1lLtJ2JKv+o3dSXWp8nGWMA/B8s/U54oVJ3M=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=iaLVU01BcqmL3Dg4HiA+8A6f4EzR4LEkBCY8fZUnSE9Z4Qn5mojuLtSZJ41ag1tiX
-         xt+iOD4tid1RDRFMR6beRXrh91LklRNph5BAOsmi4jRPqodLux9/mHhgw9lpfIpieh
-         4l6hYIbrFN8D0bFn884EW9bDAR2qk71ZSB/EmtJwHAChNmOKNmz7qXI8x8CZf7js4M
-         bXUMulBenhzuB6QUo50O3JqoBZ5AAgHXA7bbu10PknwtK77HXMszR+mlx7TE9MOjpm
-         KxssFX5fJjm08iwpY725EHc4D3X8SBA2bxmhffkx2KpXq9vI51Pq2aHbKO0tFxCZQj
-         GK0ufpmIaZYQg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200319141954.GA25036@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
+        a=9MVmhzcSsuuJt3ktV8oA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Mar 19, 2020 at 03:19:54PM +0100, Sam Ravnborg wrote:
+> On Fri, Mar 13, 2020 at 09:17:41PM +0100, Sam Ravnborg wrote:
+> > Thomas Zimmermann had made a nice patch-set that introduced
+> > drm_simple_encoder_init() which is already present in drm-misc-next.
+> > 
+> > While looking at this it was suddenly obvious to me that
+> > this was functionalty that really should be included in drm_encoder.c
+> > The case where the core could handle the callback is pretty
+> > common and not part of the simple pipe line.
+> > 
+> > So after some dialog on dri-devel the conclusion was to go for
+> > a change like this:
+> > 
+> >     drm_encoder_init_funcs() for all users that specified a
+> >     drm_encoder_funcs to extend the functionality.
+> > 
+> >     drm_encoder_init() for all users that did not
+> >     need to extend the basic functionality with
+> >     drm_encoder_funcs.
+> > 
+> > A similar approach with a _funcs() prefix is used elsewhere in drm/
+> > 
+> > This required a rename of the existing users, and
+> > a follow-up patch that moves drm_simple_encoder_init()
+> > to drm_encoder.c
+> > 
+> > Patches 3 in this set demonstrate the use of drm_encoder_init().
+> > There are many more drivers that can be converted as Thomas
+> > has already demonstrated.
+> > 
+> > This is all based on work done by Thomas Zimmermann,
+> > I just wanted to implement my suggestion so
+> > we could select the best way forward.
+> > 
+> > Note: Daniel Vetter has hinted the approach implemented
+> > here smelled like middle-layer.
+> > IMO this is not so, it is just a way to handle cleanup
+> > for the simple cases.
+> 
+> We discussed this patch-set briefly on irc.
+Just to clarify, we in this context was Daniel Vetter & me.
 
+	Sam
 
-On 3/19/2020 5:57 PM, Thierry Reding wrote:
-> External email: Use caution opening links or attachments
+> With the upcoming drmm_ changes and such this is bad timing..
+> And in the end this may be pointless code-chrunch.
 > 
+> Patch-set shelfed for now - may re-visit it later.
 > 
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Wake gpiochip_generic_request() call into the pinctrl helpers only if a
-> GPIO controller had any pin-ranges assigned to it. This allows a driver
-> to unconditionally use this helper if it supports multiple devices of
-> which only a subset have pin-ranges assigned to them.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->   drivers/gpio/gpiolib.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index f31b1d46599e..12f3c339da78 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -2792,7 +2792,10 @@ static inline void gpiochip_irqchip_free_valid_mask(struct gpio_chip *gpiochip)
->    */
->   int gpiochip_generic_request(struct gpio_chip *chip, unsigned offset)
->   {
-> -       return pinctrl_gpio_request(chip->gpiodev->base + offset);
-> +       if (!list_empty(&chip->gpiodev->pin_ranges))
-> +               return pinctrl_gpio_request(chip->gpiodev->base + offset);
-> +
-> +       return 0;
->   }
->   EXPORT_SYMBOL_GPL(gpiochip_generic_request);
-> 
-> --
-> 2.24.1
-> 
-Tested-by: Vidya Sagar <vidyas@nvidia.com>
+> 	Sam
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
