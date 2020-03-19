@@ -2,178 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0E5718C140
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 21:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7C118C112
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 21:12:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725817AbgCSUYd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 16:24:33 -0400
-Received: from gateway21.websitewelcome.com ([192.185.46.113]:19274 "EHLO
-        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725747AbgCSUYc (ORCPT
+        id S1727192AbgCSUMh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 16:12:37 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34416 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725747AbgCSUMh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 16:24:32 -0400
-X-Greylist: delayed 1235 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 16:24:32 EDT
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway21.websitewelcome.com (Postfix) with ESMTP id 02F14400D1C6D
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2020 15:03:57 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id F1OWjDd4uSl8qF1OWjmIMH; Thu, 19 Mar 2020 15:03:56 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=S+fjO6KAXvDYYJ+ZGaQei67Te60H0aEUykPHI4lDWeM=; b=F+rH05gkf9Mrlq7Q7ajhJdonRM
-        4e5IdqtH1bMpZF03bbraIYnrQJ1L0Zt2UMSPst/2jWkcx/GPyuRFDaduYF6+dA3TULAdcVYjoGFN7
-        sbu9H6YNgqC+lhdOSXwexuwK012zastB1R3KH2NeOLbsyl0G1NXftH7GyW0RaBEmIozPLKryn6f+Z
-        UvKY9D36eTOd4ljtMDbyYvspwEbEDBQJUYmom6QT7nQMlSyLkWEJ3c2tSMcNRycvB7f9PEwplGgsS
-        JjW/Fjo83kJRCAYin2YceGspVtHUr9dV3LV+Y4tY9agF3d9Rd3s7bZJa8+VogehFm9BbnB4xuHqwY
-        sHaV2+LQ==;
-Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:40494 helo=[192.168.0.22])
-        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1jF1OW-000uBa-3n; Thu, 19 Mar 2020 15:03:56 -0500
-Subject: Re: [PATCH] amba: tegra-ahb: Replace zero-length array with
- flexible-array member
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Russell King <linux@armlinux.org.uk>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200211210213.GA28043@embeddedor>
- <292f9b65-c2b5-c719-ba79-c0db4a11f482@embeddedor.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Message-ID: <a5a852d9-9f42-ce8a-58e6-d14e3da001af@embeddedor.com>
-Date:   Thu, 19 Mar 2020 15:03:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 19 Mar 2020 16:12:37 -0400
+Received: by mail-lf1-f68.google.com with SMTP id i1so2020437lfo.1;
+        Thu, 19 Mar 2020 13:12:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7auRkkaZYMMzWg0GGIYKar0A2d3mOqgB5Mc6nhNM3xs=;
+        b=M6RZIvWbXnQCK5Mh2BTTcfuSWh8RxYfhE4K2ty34ZDykLwZhGSAKiSBJ0Kl5Rein3u
+         yQsGwibDYOvWWn68YXv1NAXmELcohDFeLmwdNFVS+FT4sDPKokSB5Q8mw+tpcJFC0Xcu
+         etZP1xJexXellcTA2Ha8oHxgNt9pSGPuMJxBqUjgtSQ4d6dKuIzpxNWajSocel6JT4lm
+         NP2Ac2OvSqGxvyEtbSGJDqN3OG6WfroYc17LsqKduFGO5UjsmH/HwX9DopNYPgpdB3j1
+         pC9dlG5qQjnn+EftdtzbEHONebRDVRzCWRXathBXCu0TT8Bznsrw68L3JnP3yOyIkBG0
+         wMYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7auRkkaZYMMzWg0GGIYKar0A2d3mOqgB5Mc6nhNM3xs=;
+        b=cxEJOKiYUTPvVKV/sqitGKgtXZVm5ioL8aooMgZOoPDFHAogJtFmFOcCkeheYzJgEl
+         tnQSvtOCmofumfb+T7qOUog8x0ZUv0wf/JaMtAM7pzo/oys88lZkVITJb+MHUAiGsBwQ
+         OSGje4TqOpywRot00bU1FLf87tN33LcwQI59s87oAA6Bdpn0u+0tmdziG/r5g0Rjl4SP
+         5niH8pj/vlf+TL9an1AkxNX4C18wQo5mpM5FG1pz9vxE1AeBF/+HopAKfmUp9GVL4hyj
+         EGSarOqNKOAuBv0K8WIIeROvMYsGbfbwhAHDnEmYd6EgPAnPjt6I1WijRgSf2llRBja8
+         VKqA==
+X-Gm-Message-State: ANhLgQ2ApcWj4md6GKcDQRTH4VTKjrNO/tSZ1G6ujaGk3zEAZkTBqEPs
+        EZ8swKMeig3XbvEwMS+flko=
+X-Google-Smtp-Source: ADFU+vtUpVX9hHMM3jbWlFUsrqbFN08htYRQES7lbg0LO4tEzEKU4X6IO1NELO/4IaREk+Tne5Ix/w==
+X-Received: by 2002:a05:6512:31d3:: with SMTP id j19mr3157200lfe.178.1584648755385;
+        Thu, 19 Mar 2020 13:12:35 -0700 (PDT)
+Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.gmail.com with ESMTPSA id z21sm2059317ljz.49.2020.03.19.13.12.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2020 13:12:34 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] NVIDIA Tegra I2C synchronization correction
+Date:   Thu, 19 Mar 2020 23:11:38 +0300
+Message-Id: <20200319201140.17451-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <292f9b65-c2b5-c719-ba79-c0db4a11f482@embeddedor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.218.116.241
-X-Source-L: No
-X-Exim-ID: 1jF1OW-000uBa-3n
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net ([192.168.0.22]) [189.218.116.241]:40494
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi all,
+Hello,
 
-Friendly ping (second time): Who can take this?
+Recently I found a way to reliably reproduce I2C timeouts that happen due
+to improper synchronizations made by the I2C driver. It's quite easy to
+reproduce the problem when memory is running on a lower freq + there is
+some memory activity + CPU could get busy for a significant time. This
+is the case when KASAN is enabled and CPU is busy while accessing FS via
+NFS. This small series addresses the found problems.
 
-Thanks
---
-Gustavo
+Please note that the "Synchronize DMA before termination" patch implicitly
+depends on the "dmaengine: tegra-apb: Improve DMA synchronization" patch,
+which is sent separately, otherwise DMA synchronization won't happen.
 
-On 2/27/20 1:33 PM, Gustavo A. R. Silva wrote:
-> Hi all,
-> 
-> Friendly ping: Who can take this?
-> 
-> Thanks
-> --
-> Gustavo
-> 
-> On 2/11/20 15:02, Gustavo A. R. Silva wrote:
->> The current codebase makes use of the zero-length array language
->> extension to the C90 standard, but the preferred mechanism to declare
->> variable-length types such as these ones is a flexible array member[1][2],
->> introduced in C99:
->>
->> struct foo {
->>         int stuff;
->>         struct boo array[];
->> };
->>
->> By making use of the mechanism above, we will get a compiler warning
->> in case the flexible array does not occur last in the structure, which
->> will help us prevent some kind of undefined behavior bugs from being
->> inadvertenly introduced[3] to the codebase from now on.
->>
->> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
->> [2] https://github.com/KSPP/linux/issues/21
->> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->>
->> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
->> ---
->>  drivers/amba/tegra-ahb.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/amba/tegra-ahb.c b/drivers/amba/tegra-ahb.c
->> index b0b688c481e8..e9e5c7bb580c 100644
->> --- a/drivers/amba/tegra-ahb.c
->> +++ b/drivers/amba/tegra-ahb.c
->> @@ -129,7 +129,7 @@ static const u32 tegra_ahb_gizmo[] = {
->>  struct tegra_ahb {
->>  	void __iomem	*regs;
->>  	struct device	*dev;
->> -	u32		ctx[0];
->> +	u32		ctx[];
->>  };
->>  
->>  static inline u32 gizmo_readl(struct tegra_ahb *ahb, u32 offset)
->>
+Dmitry Osipenko (2):
+  i2c: tegra: Better handle case where CPU0 is busy for a long time
+  i2c: tegra: Synchronize DMA before termination
+
+ drivers/i2c/busses/i2c-tegra.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
+
+-- 
+2.25.1
+
