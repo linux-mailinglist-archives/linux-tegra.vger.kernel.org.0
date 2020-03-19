@@ -2,139 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF9618B97C
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 15:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6EC018B99A
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 15:41:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727476AbgCSOfx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 10:35:53 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45633 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbgCSOfx (ORCPT
+        id S1727628AbgCSOlk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 10:41:40 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50955 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726943AbgCSOlj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 10:35:53 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y17so2706400ljk.12;
-        Thu, 19 Mar 2020 07:35:52 -0700 (PDT)
+        Thu, 19 Mar 2020 10:41:39 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z13so2724955wml.0
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2020 07:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bmjG9gaaQ2TjqqhPacVxow1nIQ7XMOuiMUqsv40Ng6o=;
-        b=XmpgI+Y+l0jFiu9RRFFVsx/fMRXN5RVp8hXzK6areAV3SA9pKJhzAzFVKD+ZIz7Lac
-         EDmMON+ML0dOFfhjj/aTkKoHI+PottLANy4nY7oyXJUZqzhRMJ3OU29lPITiEsvZMN2B
-         TbA1StSWy8tSPAbdO4ZqQ9CYLUh0y5P6mLMg4DsiZRcLkrwQJmzpZbZmybOKXBOUEKGz
-         A2Os30veyozq2yz57qv9ssa8gGlDrMJ5mfaQ3E4hboHejlF7WkZ+42yB8koqSN4Z8QMB
-         DPvr3al6Il0yL46//2Cctu3+X6OpgxnEzxwA0Wkq/l8aZYmMsblNhAXzmrcj+kbfKOhs
-         jJuQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UnzFvog/ZZHuYATA7oC6JDKAefk/FCpxOezZvEwjAdU=;
+        b=tu4TuftGlwZKz+Qtl4lhdHpEuOO6VhSRIq2xiOD8bw6cQqbxgiv13q1PY//tDgnjcA
+         F1LhfGl4MwLkfc5wrwa4LL1BFpDjHA7PLco//1x28cpRWV+l2kip8mgiMYaxSoC0nLFU
+         +NAfU97ch+GQCldaY1+wcFSciIz/rJhBkhkOBYLyNypmET3/a5paT2jFOTT8jzWqmX7w
+         7wIVi7QZFAGmz5zj+/mtYW7ajs9k6MsPk/RIhC3r3AN9EMLv2Itcw503vJ2JFJCrPX/e
+         OVUCMVCDl8dAL/Oqz7hxrRCOTy/7eq5xxnUPr78IjBTlwaDNy2UTVhtYAPt71tkvkQnY
+         ELbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=bmjG9gaaQ2TjqqhPacVxow1nIQ7XMOuiMUqsv40Ng6o=;
-        b=GIHaVyOtMfpX9NF4B4kl4jfRZij1u1OVL/zdn2jhbZOYBUYX8/g/W0RzCJAFih6vJQ
-         YfD/0ODwFsrqrCzvqCkQOo6Lq+GbmOxsUGjhrXF5UmNwcfJW+uF3r8t/QBCaNfxMdW/s
-         D4L+yjx2q73JoKNZUh3V/StdbZNCh6KKT0e0fw9XIA1qimDqWCitVJTLjtw5KqYybYw5
-         Coy1/MxZwrZp/gcqA8lVFyshEIn3h0i5ww143HgutJNnqlCXvwPYCKU/h3Vk2m3GejI1
-         tJ+VZfrNQtGt5R5x6gJu+wTNVJAPcZ7za9W9tMQtOy3extX0GGloPn/cbkav8iOz2nP5
-         pQMQ==
-X-Gm-Message-State: ANhLgQ1xww0/+LXysR8ISBLWLZFExX7BqRUL3DZmgN1SqJeyLmSqG4KV
-        lcVDeoKpQnliOx7hl1/en4HxyO28
-X-Google-Smtp-Source: ADFU+vvNHbniIt/Exu9Z3WwVvwUgASZbwJ83WhaQpJ0IQvhX+ql2mCobw2XN+J+nC1eqItfvQIw9hg==
-X-Received: by 2002:a2e:984d:: with SMTP id e13mr2255298ljj.275.1584628551316;
-        Thu, 19 Mar 2020 07:35:51 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id i13sm1619509lja.73.2020.03.19.07.35.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2020 07:35:50 -0700 (PDT)
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be>
- <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
- <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
- <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
- <20200319092535.GB25745@shell.armlinux.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <86239143-b7de-3385-5288-82ac94e7e5db@gmail.com>
-Date:   Thu, 19 Mar 2020 17:35:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UnzFvog/ZZHuYATA7oC6JDKAefk/FCpxOezZvEwjAdU=;
+        b=cZgmddoOahrKGBAH919yo4PpWYKX0DQQ98jBi7+RpX+lMY2lMX0kPC8HtpoQfdT+OQ
+         wPCfB7vqjdsrYT4E76OEY4k8jds5NL7iDMkKh2ysU+rtXCHRxZSzbp3i57tc2Jm89SHs
+         1YIhCZMUV30RaSWxUsUCz5+d8kObQcIkCUASGw7L9kygHXrvsZgmjuTtITemM4Iw0uD5
+         OwBD0s/tPSSp5ijgbIUXIg6kRxAQ6sMrGf1ApZ3uzhDhkJ+f3r55W/tsrhls8rresjSI
+         nCUM2/zYq08jjP87S8ZkhGjxY2FeeL3uYA6pph93QPZDAuXPFRQZv4FYnKaW0GP78J6Y
+         vgjw==
+X-Gm-Message-State: ANhLgQ1JQfs/Ds8/oPP4CcOdFWTrgNg3ZfPzTvT5ttG9noUI4pq0vhI6
+        1j5uM2aU8hwmG9r7KPFcpT9Dhy9u
+X-Google-Smtp-Source: ADFU+vvygh4kwm3N8tRWNNbFM700F+qp0H9Eyg7Gm0xuYPyb6QNswXk1TsnIOXUj53YSuNIwwVVdXQ==
+X-Received: by 2002:a7b:c082:: with SMTP id r2mr4375609wmh.177.1584628897613;
+        Thu, 19 Mar 2020 07:41:37 -0700 (PDT)
+Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
+        by smtp.gmail.com with ESMTPSA id s1sm3787541wrp.41.2020.03.19.07.41.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2020 07:41:36 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 15:41:35 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     arm@kernel.org, soc@kernel.org
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [GIT PULL 10/10] phy: tegra: Changes for v5.7-rc1
+Message-ID: <20200319144135.GA3266151@ulmo>
+References: <20200313165848.2915133-1-thierry.reding@gmail.com>
+ <20200313165848.2915133-10-thierry.reding@gmail.com>
+ <20200316134850.GB3825456@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20200319092535.GB25745@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
+In-Reply-To: <20200316134850.GB3825456@ulmo>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-19.03.2020 12:25, Russell King - ARM Linux admin пишет:
-> On Thu, Mar 19, 2020 at 04:11:00AM +0300, Dmitry Osipenko wrote:
->> 25.02.2020 14:40, Geert Uytterhoeven пишет:
->>> Hi Marek,
->>>
->>> On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
->>> <m.szyprowski@samsung.com> wrote:
->>>> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
->>>>> Currently, the start address of physical memory is obtained by masking
->>>>> the program counter with a fixed mask of 0xf8000000.  This mask value
->>>>> was chosen as a balance between the requirements of different platforms.
->>>>> However, this does require that the start address of physical memory is
->>>>> a multiple of 128 MiB, precluding booting Linux on platforms where this
->>>>> requirement is not fulfilled.
->>>>>
->>>>> Fix this limitation by obtaining the start address from the DTB instead,
->>>>> if available (either explicitly passed, or appended to the kernel).
->>>>> Fall back to the traditional method when needed.
->>>>>
->>>>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
->>>>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
->>>>> i.e. not at a multiple of 128 MiB.
->>>>>
->>>>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
->>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>>>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
->>>>> ---
->>>>> Against arm/for-next.
->>>>
->>>> This patch landed recently in linux-next. It breaks legacy booting from
->>>> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
->>>> will debug it further once I find some spare time. What I noticed so
->>>> far, the cmdline/memory info is not read from the ATAGs, only the values
->>>> provided via appended DT are used.
->>>
->>> Oops, something happening like this was one of my biggest worries when
->>> posting this patch... Sorry for the breakage.
->>>
->>> IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
->>>
->>> I'll have a closer look later today.
->>> In the mean time, I've sent some debug code I used when developing
->>> this patch, which may be useful, hopefully.
->>
->> Hello,
->>
->> NVIDIA Tegra is also affected by this patch. A week ago an updated
->> version of the patch was pushed into linux-next and now machine doesn't
->> boot at all.
->>
->> I couldn't find v3 on the ML, so replying to the v2. Please take a look
->> and fix the problem, or revert/drop the offending patch, thanks in advance.
-> 
-> I'll drop the patch. It's clear that this is going to be difficult,
-> so I would ask you to test the next version, rather than waiting for
-> it to appear in linux-next.
 
-Thank you very much! I'll be happy to try v4, please feel free to CC me.
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Mar 16, 2020 at 02:48:50PM +0100, Thierry Reding wrote:
+> On Fri, Mar 13, 2020 at 05:58:48PM +0100, Thierry Reding wrote:
+> > Hi ARM SoC maintainers,
+> >=20
+> > The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea098=
+62b9:
+> >=20
+> >   Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+> >=20
+> > are available in the Git repository at:
+> >=20
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/te=
+gra-for-5.7-phy
+> >=20
+> > for you to fetch changes up to 04c929223d1db6ad4ba8e4c23122e1052f670c2e:
+> >=20
+> >   phy: tegra: xusb: Don't warn on probe defer (2020-03-13 09:17:50 +010=
+0)
+> >=20
+> > This is a dependency for the USB changes that are also part of this
+> > series of pull requests, so it was deemed easier to take this all
+> > through the ARM SoC tree. The patches have all been acked by Kishon.
+>=20
+> Please don't merge this just yet. Stephen reported today that this was
+> breaking the build in linux-next because of a conflict with the USB
+> tree. I'll rebase this on top of Greg's usb-next branch and resend the
+> pull request.
+>=20
+> Sorry for the inconvenience.
+
+I've pushed an updated version of this as tegra-for-5.7-phy-v2. However,
+it's also included as a dependency in a USB branch for which I've sent a
+PR to Greg, so I don't think you'll need to merge this after all.
+
+Thierry
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5zhJ8ACgkQ3SOs138+
+s6GhORAAjNlN+ZLW5SU5O91T0zeQguAXCuV2DegEYBPX2Bi4ASL1voQ77Yx1LQ7j
+xIlWW9JPRfeKw8jwS9gF3VihEoTEnFe4S5XzM/Ozsn5h3v2gO+TPu/dvswa0X3AV
+H/Wq5YWGMLnKDJVGi1T7rnfRHgIfw5iMwhE+0cEdCwVhPFqcfJbToF9Fi9ff33qp
+y6sE2mbv/RuME62u+vNoNo9oJMva0sXo5FyJOzRD3yd2YkvCOmeVJsqlhPeJt5qH
+cslbI+ExBZhTZGnGbePA8AqzRZxXEq/c4ddwN4cnW5BEpzCD8o9hfngQW2A20EpH
+kzOpgZheF3SnHqOpmvMiola/5cAd6mXgVdgFkWnwDnBgPqYk9mttnL+IOLwSJCsA
+W8hu2bZkw8bnstp5X7UaBZY3G8QaWToyhl+JDMD4LZcxyybQflhYIoFoFtoyWPeE
+74CLBAU+VfKl/HNQqvbWsNAMss76ldwP1HKXtau552hpYY51mQrZlahUaKRMTrM1
+YXNKSgbjBr7YleiMa621DKgxda7Kq/qTBYLevK6V4QBXTvLrZAH7giCOrg0P/qpW
+5Cx2SOuKCaLLYz6mCOXJK1voyeIraOlvuDRClE4VpZAbOY5cqDemCBob/+L3Y6NU
+xuh+YKkPNi3fel3tAMyjvsJLzYaGFev5z5Sr4jA50+HejLHZtiY=
+=GYTf
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
