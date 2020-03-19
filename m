@@ -2,72 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F37618C002
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 20:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE4018C086
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 20:38:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727811AbgCSTE2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 15:04:28 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:35735 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727605AbgCSTE2 (ORCPT
+        id S1726063AbgCSTiP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 15:38:15 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34064 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726895AbgCSTiO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 15:04:28 -0400
-Received: by mail-lf1-f65.google.com with SMTP id m15so2585204lfp.2;
-        Thu, 19 Mar 2020 12:04:25 -0700 (PDT)
+        Thu, 19 Mar 2020 15:38:14 -0400
+Received: by mail-lj1-f196.google.com with SMTP id s13so3917974ljm.1
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Mar 2020 12:38:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FzD7KM1adJ8Gdad+SjbdNnB2giwK8d8O4lhpA1iChjI=;
-        b=La/uSPx8FTVei4FU1VbWMVxuNbaBvJfMTXeORDKylSu+QXDz+dxViJJlI31XLVT5fl
-         KADAGdkDgWWfN63q0601+IsmlJVBm4EHCl4LWxvjMiOf255nzjLer+RTZqMkhVzSe0rM
-         Q0sMbTnR6J+HgVFsZOYnjh+4FApTXfv0TxEqfTLQRg72QMPTrWcSpoZxdp2g8SkxFxs+
-         dLKBK4l0yEs7mnnMHD07skmYV9KkeYkvJjmLun/S1cWMHO+dPSK+yDD01dVeQQOrn/84
-         tnrh/Kws8GJU+XW2RSWWpqwa/Itc5fa0fkbV10PDe21uUPITgwmZqCJ3jnQrf3XAySqP
-         m0Qw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hkqo/JVfVpGRItPnoz16xNcySsuXd5mHzQp27gotWtg=;
+        b=BzOni5FFk7qP1G1rlEPxQ/tKEbbqKyfBaaBPESSrJqN5MjVEGHtNF+nZKej6aP/TsL
+         V5HWOiwNYohBog9ysrg1ZySuKB5Cr2AGalDM9nYWblZaaFG8RJ2fjY7Bcsic30OO/oIe
+         MDFpqnogxnBo7mQYKMdPbbI4RTRiCrXnG62kWbcKG5mKPaCah1FstQfX//mTVkEX4Rw5
+         Yia1oulzUQPDPvcZxC7sj0uWu0nhfPx6wABOayDyNZA+XzvF91m8SVBCca3AJrJh6ZDF
+         7QMTtOgCkzDWQPUtBnRrYzc8shCKtl58n43UmmaeIQUgmXThMsD0vS63eCyBTsZLnXGJ
+         /eYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FzD7KM1adJ8Gdad+SjbdNnB2giwK8d8O4lhpA1iChjI=;
-        b=X9MMtvrhf7ElfqQipc/TAcQaw9SHQUUcHvJNKt5cVhmAYir6jRQ57j20LWXQiLz/Tu
-         4xh8xSG1nGIkrRoFbAxi//UgBEO5X1tpDyMPS97oMdGPoKnYZc0Dc/Hyrh4cxmhaBVBQ
-         xODKCKgDV1xwjKbvV8MFw73OcS8UbVXSLxBWBOzbxjLJDp0cgVbkbJ0cH1EEOr8hXy+n
-         XdP8inDcZLICnkMp3d1bzzWJPPpJgv605MmmajS/wgG7INJMMVefA/O24dv44oHj4FhO
-         2bTYPXS3OHvGpVo9TLjGtBF7qWbJDSXqXaTzEfpc5sPOidoKkXp7qAnL3S7UsNHIYh4t
-         kjuA==
-X-Gm-Message-State: ANhLgQ0LDqDBMI5dYhZJyF/x0FjVO454urARoIHxQ8sk3v4XqV35Al5W
-        JbreBYcRcml/Px5zyLTxXpI=
-X-Google-Smtp-Source: ADFU+vvXgwoXHt8F4Hhxl+v/+A9sCmOkV1/dC6+JllXYIW1tUhx3W7HUxzuvar+MVCBV61kah2kmcA==
-X-Received: by 2002:a05:6512:68b:: with SMTP id t11mr3063580lfe.214.1584644664509;
-        Thu, 19 Mar 2020 12:04:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hkqo/JVfVpGRItPnoz16xNcySsuXd5mHzQp27gotWtg=;
+        b=qvNCFsCFfAqkw66fb9sub+Nj57DjKNORHvzXQqN3BQnqqq+3c28uhkfuWCAzAY7Eck
+         ise3A/DYpj9ERQk5C/E0LmkLimn7Yrnt8Guu58mynA2/smqBsAZHkXBFOKtmNiMXsDYP
+         mtyH4+DhnXZAQiy2Fypiae03PMwFu2ZS44M/FMkXJBZxilcXEm2XaVIcA59su5Wl4LRO
+         lg4vqeQQMM9M7bD/D4ECGkTbgZgJ5QCWJfBK+2vt91fevi6aBY2JmOEvORrv5MvE6QfU
+         uwdTiNIlCw+R6rjct0yo2RQXkOHKwQS71qdsMArvRJKGgM2EK6pgk8Rl3x7Shlm54yjM
+         qqnQ==
+X-Gm-Message-State: ANhLgQ37HoyIaJXfHlnFbMxBuUle/FxHe+pZWaswBHetaYacz++J1Ja2
+        RpYi+SRJtK3GoZxX3lwAW/c=
+X-Google-Smtp-Source: ADFU+vu6dSERRcYA/mWZvCsk0Y8REa72LIM50O934gP4vt80jv+cCKyaqPOposYsgUJVrnvAgcdn9w==
+X-Received: by 2002:a2e:8192:: with SMTP id e18mr3209714ljg.57.1584646690451;
+        Thu, 19 Mar 2020 12:38:10 -0700 (PDT)
 Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.gmail.com with ESMTPSA id k14sm2025380lfg.96.2020.03.19.12.04.23
+        by smtp.gmail.com with ESMTPSA id u19sm2003396ljk.12.2020.03.19.12.38.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 12:04:23 -0700 (PDT)
+        Thu, 19 Mar 2020 12:38:09 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Jasper Korten <jja2000@gmail.com>,
-        David Heidelberg <david@ixit.cz>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8 12/12] ARM: dts: tegra30: beaver: Add CPU Operating Performance Points
-Date:   Thu, 19 Mar 2020 22:02:29 +0300
-Message-Id: <20200319190229.32200-13-digetx@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v1 1/2] memory: tegra20-emc: Poll EMC-CaR handshake instead of waiting for interrupt
+Date:   Thu, 19 Mar 2020 22:36:47 +0300
+Message-Id: <20200319193648.8810-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200319190229.32200-1-digetx@gmail.com>
-References: <20200319190229.32200-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -75,53 +60,116 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Utilize common Tegra30 CPU OPP table. CPU DVFS is available now on beaver.
+The memory clock-rate change could be running on a non-boot CPU, while the
+boot CPU handles the EMC interrupt. This introduces an unnecessary latency
+since boot CPU should handle the interrupt and then notify the sibling CPU
+about clock-rate change completion. In some rare cases boot CPU could be
+in uninterruptible state for a significant time (like in a case of KASAN +
+NFS root), it could get to the point that completion timeouts before boot
+CPU gets a chance to handle interrupt. The solution is to get rid of the
+completion and replace it with interrupt-status polling.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30-beaver.dts | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/memory/tegra/tegra20-emc.c | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-beaver.dts b/arch/arm/boot/dts/tegra30-beaver.dts
-index a143cac22340..6b6fd8a8058f 100644
---- a/arch/arm/boot/dts/tegra30-beaver.dts
-+++ b/arch/arm/boot/dts/tegra30-beaver.dts
-@@ -2,6 +2,8 @@
- /dts-v1/;
+diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
+index f74dd417c874..60b048ae9982 100644
+--- a/drivers/memory/tegra/tegra20-emc.c
++++ b/drivers/memory/tegra/tegra20-emc.c
+@@ -7,11 +7,11 @@
  
- #include "tegra30.dtsi"
-+#include "tegra30-cpu-opp.dtsi"
-+#include "tegra30-cpu-opp-microvolt.dtsi"
+ #include <linux/clk.h>
+ #include <linux/clk/tegra.h>
+-#include <linux/completion.h>
+ #include <linux/debugfs.h>
+ #include <linux/err.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
++#include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+@@ -144,7 +144,6 @@ struct emc_timing {
  
- / {
- 	model = "NVIDIA Tegra30 Beaver evaluation board";
-@@ -2130,4 +2132,26 @@ sound {
- 		assigned-clock-parents = <&tegra_car TEGRA30_CLK_PLL_A_OUT0>,
- 					 <&tegra_car TEGRA30_CLK_EXTERN1>;
- 	};
-+
-+	cpus {
-+		cpu0: cpu@0 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@1 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@2 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@3 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+	};
- };
+ struct tegra_emc {
+ 	struct device *dev;
+-	struct completion clk_handshake_complete;
+ 	struct notifier_block clk_nb;
+ 	struct clk *clk;
+ 	void __iomem *regs;
+@@ -162,17 +161,13 @@ struct tegra_emc {
+ static irqreturn_t tegra_emc_isr(int irq, void *data)
+ {
+ 	struct tegra_emc *emc = data;
+-	u32 intmask = EMC_REFRESH_OVERFLOW_INT | EMC_CLKCHANGE_COMPLETE_INT;
++	u32 intmask = EMC_REFRESH_OVERFLOW_INT;
+ 	u32 status;
+ 
+ 	status = readl_relaxed(emc->regs + EMC_INTSTATUS) & intmask;
+ 	if (!status)
+ 		return IRQ_NONE;
+ 
+-	/* notify about EMC-CAR handshake completion */
+-	if (status & EMC_CLKCHANGE_COMPLETE_INT)
+-		complete(&emc->clk_handshake_complete);
+-
+ 	/* notify about HW problem */
+ 	if (status & EMC_REFRESH_OVERFLOW_INT)
+ 		dev_err_ratelimited(emc->dev,
+@@ -224,14 +219,13 @@ static int emc_prepare_timing_change(struct tegra_emc *emc, unsigned long rate)
+ 	/* wait until programming has settled */
+ 	readl_relaxed(emc->regs + emc_timing_registers[i - 1]);
+ 
+-	reinit_completion(&emc->clk_handshake_complete);
+-
+ 	return 0;
+ }
+ 
+ static int emc_complete_timing_change(struct tegra_emc *emc, bool flush)
+ {
+-	unsigned long timeout;
++	u32 val;
++	int err;
+ 
+ 	dev_dbg(emc->dev, "%s: flush %d\n", __func__, flush);
+ 
+@@ -242,11 +236,12 @@ static int emc_complete_timing_change(struct tegra_emc *emc, bool flush)
+ 		return 0;
+ 	}
+ 
+-	timeout = wait_for_completion_timeout(&emc->clk_handshake_complete,
+-					      msecs_to_jiffies(100));
+-	if (timeout == 0) {
+-		dev_err(emc->dev, "EMC-CAR handshake failed\n");
+-		return -EIO;
++	err = readl_relaxed_poll_timeout_atomic(emc->regs + EMC_INTSTATUS, val,
++						val & EMC_CLKCHANGE_COMPLETE_INT,
++						1, 100);
++	if (err) {
++		dev_err(emc->dev, "emc-car handshake timeout: %d\n", err);
++		return err;
+ 	}
+ 
+ 	return 0;
+@@ -412,7 +407,7 @@ tegra_emc_find_node_by_ram_code(struct device *dev)
+ 
+ static int emc_setup_hw(struct tegra_emc *emc)
+ {
+-	u32 intmask = EMC_REFRESH_OVERFLOW_INT | EMC_CLKCHANGE_COMPLETE_INT;
++	u32 intmask = EMC_REFRESH_OVERFLOW_INT;
+ 	u32 emc_cfg, emc_dbg;
+ 
+ 	emc_cfg = readl_relaxed(emc->regs + EMC_CFG_2);
+@@ -686,7 +681,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	}
+ 
+-	init_completion(&emc->clk_handshake_complete);
+ 	emc->clk_nb.notifier_call = tegra_emc_clk_change_notify;
+ 	emc->dev = &pdev->dev;
+ 
 -- 
 2.25.1
 
