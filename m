@@ -2,149 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44FED18B7A0
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 14:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F8E218B936
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 15:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728975AbgCSNMl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 09:12:41 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38285 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728956AbgCSNMj (ORCPT
+        id S1727244AbgCSOUD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 10:20:03 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:57220 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726817AbgCSOUD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 09:12:39 -0400
-Received: by mail-wr1-f65.google.com with SMTP id s1so2925693wrv.5;
-        Thu, 19 Mar 2020 06:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qge0IJmCZuOR+vC+5Nwap5o8+OSunHMNr9ySqL9oA2g=;
-        b=msxtTDGE4I6QUzvrhuxdwJpsib+p+en0PvEsNalGqxbSOY0H66MVlEAHucfdoX78DW
-         EYT9R/nA3SICZ2SP7oncTtTi9s9eO2RqYsC+HIS1xVHbw04+mWrlFRc4o08xF/aOGauF
-         TBhey34ywpLtYOuFNK179if7Rweq2OfhXPEnExv1YBA+knbT5kZzXkw7LSQNoRUwTM98
-         GTQxhmagQnJYj0wRxIu25fsh5l+eDWD9ykpWsPl96um6lJn2FVtMyeXXrVcFDtVRRhgQ
-         DxytxBU9eQqSeUHKNleshj8+zvkMGq42zK9x879TydhsaHb7nm2P5MifExyjpwJjDT7b
-         iN0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qge0IJmCZuOR+vC+5Nwap5o8+OSunHMNr9ySqL9oA2g=;
-        b=mHuzKO4fv5bU/U8nm/lKLtj1YKP6eBNH/17igRvCbm8DD0nJFqp2dkTb8SdcuNN9Y6
-         Xfr0TKJhXqT0h9NAwdXgnpSfhaj/g8dd9fyuBegFYG9TjWjLaSttQ3/ifwOPHId0wwmv
-         uB9RwLpp0g5wlw9o8DFusFquYSFfLO1IpW5Tpg1WZHhWTsKQNBdPIPCA/a4lSEsp53LN
-         V2RlimgSCyCdabaOsNyggC8cwHnn5VesoJ+GOlrwvT9FHpkSpVXIGTDp6Gdlu/vgmU4D
-         ahIFdcsm3racyl7hYArgqXfU+o+jpiHUn1m79ID90WwI+uPlm1B2PgsmVWJxkBdqRnCH
-         R1FQ==
-X-Gm-Message-State: ANhLgQ1fHzuUA7EzOcQuxbAlXXv+Il37x25uaTXZaHAV1UajjfcfuQq4
-        TEhrblhA9fGs4qR0f9jxiK842raU
-X-Google-Smtp-Source: ADFU+vv+XcYW8fX3e6mDdU4JDt+hMQnyy2Myx3Iv8I4OyT90umvocqWrIMIO/RWN8VMCNPuHjv/OzQ==
-X-Received: by 2002:a5d:51c4:: with SMTP id n4mr4355983wrv.203.1584623558293;
-        Thu, 19 Mar 2020 06:12:38 -0700 (PDT)
-Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
-        by smtp.gmail.com with ESMTPSA id e1sm3541561wrx.90.2020.03.19.06.12.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 06:12:36 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, Vidya Sagar <vidyas@nvidia.com>,
-        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] PCI: tegra: Print -EPROBE_DEFER error message at debug level
-Date:   Thu, 19 Mar 2020 14:12:30 +0100
-Message-Id: <20200319131230.3216305-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        Thu, 19 Mar 2020 10:20:03 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id E0EAA8052B;
+        Thu, 19 Mar 2020 15:19:55 +0100 (CET)
+Date:   Thu, 19 Mar 2020 15:19:54 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        David Airlie <airlied@linux.ie>,
+        Jose Roberto de Souza <jose.souza@intel.com>,
+        virtualization@lists.linux-foundation.org,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Emil Velikov <emil.velikov@collabora.com>,
+        linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dave Airlie <airlied@redhat.com>,
+        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v1 0/3] drm: drm_encoder_init() =>
+ drm_encoder_init_funcs()
+Message-ID: <20200319141954.GA25036@ravnborg.org>
+References: <20200313201744.19773-1-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200313201744.19773-1-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+        a=MgBhUfZuEF2DRmvJ2N4A:9 a=CjuIK1q_8ugA:10
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Fri, Mar 13, 2020 at 09:17:41PM +0100, Sam Ravnborg wrote:
+> Thomas Zimmermann had made a nice patch-set that introduced
+> drm_simple_encoder_init() which is already present in drm-misc-next.
+> 
+> While looking at this it was suddenly obvious to me that
+> this was functionalty that really should be included in drm_encoder.c
+> The case where the core could handle the callback is pretty
+> common and not part of the simple pipe line.
+> 
+> So after some dialog on dri-devel the conclusion was to go for
+> a change like this:
+> 
+>     drm_encoder_init_funcs() for all users that specified a
+>     drm_encoder_funcs to extend the functionality.
+> 
+>     drm_encoder_init() for all users that did not
+>     need to extend the basic functionality with
+>     drm_encoder_funcs.
+> 
+> A similar approach with a _funcs() prefix is used elsewhere in drm/
+> 
+> This required a rename of the existing users, and
+> a follow-up patch that moves drm_simple_encoder_init()
+> to drm_encoder.c
+> 
+> Patches 3 in this set demonstrate the use of drm_encoder_init().
+> There are many more drivers that can be converted as Thomas
+> has already demonstrated.
+> 
+> This is all based on work done by Thomas Zimmermann,
+> I just wanted to implement my suggestion so
+> we could select the best way forward.
+> 
+> Note: Daniel Vetter has hinted the approach implemented
+> here smelled like middle-layer.
+> IMO this is not so, it is just a way to handle cleanup
+> for the simple cases.
 
-Probe deferral is an expected error condition that will usually be
-recovered from. Print such error messages at debug level to make them
-available for diagnostic purposes when building with debugging enabled
-and hide them otherwise to not spam the kernel log with them.
+We discussed this patch-set briefly on irc.
+With the upcoming drmm_ changes and such this is bad timing..
+And in the end this may be pointless code-chrunch.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/pci/controller/dwc/pcie-tegra194.c | 42 ++++++++++++++++++----
- 1 file changed, 35 insertions(+), 7 deletions(-)
+Patch-set shelfed for now - may re-visit it later.
 
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 97d3f3db1020..e4870fa6ce9c 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -1159,17 +1159,31 @@ static int tegra_pcie_dw_parse_dt(struct tegra_pcie_dw *pcie)
- 	/* Endpoint mode specific DT entries */
- 	pcie->pex_rst_gpiod = devm_gpiod_get(pcie->dev, "reset", GPIOD_IN);
- 	if (IS_ERR(pcie->pex_rst_gpiod)) {
--		dev_err(pcie->dev, "Failed to get PERST GPIO: %ld\n",
--			PTR_ERR(pcie->pex_rst_gpiod));
--		return PTR_ERR(pcie->pex_rst_gpiod);
-+		int err = PTR_ERR(pcie->pex_rst_gpiod);
-+		const char *level = KERN_ERR;
-+
-+		if (err == -EPROBE_DEFER)
-+			level = KERN_DEBUG;
-+
-+		dev_printk(level, pcie->dev,
-+			   dev_fmt("Failed to get PERST GPIO: %d\n"),
-+			   err);
-+		return err;
- 	}
- 
- 	pcie->pex_refclk_sel_gpiod = devm_gpiod_get(pcie->dev,
- 						    "nvidia,refclk-select",
- 						    GPIOD_OUT_HIGH);
- 	if (IS_ERR(pcie->pex_refclk_sel_gpiod)) {
--		dev_info(pcie->dev, "Failed to get REFCLK select GPIOs: %ld\n",
--			 PTR_ERR(pcie->pex_refclk_sel_gpiod));
-+		int err = PTR_ERR(pcie->pex_refclk_sel_gpiod);
-+		const char *level = KERN_ERR;
-+
-+		if (err == -EPROBE_DEFER)
-+			level = KERN_DEBUG;
-+
-+		dev_printk(level, pcie->dev,
-+			   dev_fmt("Failed to get REFCLK select GPIOs: %d\n"),
-+			   err);
- 		pcie->pex_refclk_sel_gpiod = NULL;
- 	}
- 
-@@ -2058,13 +2072,27 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
- 
- 	ret = tegra_pcie_dw_parse_dt(pcie);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-+		const char *level = KERN_ERR;
-+
-+		if (ret == -EPROBE_DEFER)
-+			level = KERN_DEBUG;
-+
-+		dev_printk(level, dev,
-+			   dev_fmt("Failed to parse device tree: %d\n"),
-+			   ret);
- 		return ret;
- 	}
- 
- 	ret = tegra_pcie_get_slot_regulators(pcie);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to get slot regulators: %d\n", ret);
-+		const char *level = KERN_ERR;
-+
-+		if (ret == -EPROBE_DEFER)
-+			level = KERN_DEBUG;
-+
-+		dev_printk(level, dev,
-+			   dev_fmt("Failed to get slot regulators: %d\n"),
-+			   ret);
- 		return ret;
- 	}
- 
--- 
-2.24.1
-
+	Sam
