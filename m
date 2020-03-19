@@ -2,133 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66AE518B973
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 15:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1112718B97A
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 15:35:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727222AbgCSOeQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 10:34:16 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43516 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbgCSOeQ (ORCPT
+        id S1727286AbgCSOfu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 10:35:50 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42206 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726795AbgCSOfu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 10:34:16 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b2so3261274wrj.10;
-        Thu, 19 Mar 2020 07:34:14 -0700 (PDT)
+        Thu, 19 Mar 2020 10:35:50 -0400
+Received: by mail-lj1-f196.google.com with SMTP id q19so2721392ljp.9;
+        Thu, 19 Mar 2020 07:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nfQ6F2PE338m3GErOu5+Kdz+or/DSCE2c+Aqh0n3mQo=;
-        b=c1iaYYi5ynzFZcQB07mx8mY6EY3n7OACdAlYOfRwvgtye7XpvgD8bLsYpzsNp0s5JO
-         pjVEzB0aGKwtyDVwm+V3Xsvw6PeR++F4meHBS4PrFjgl3Mdf9D6XqbymrlBqB2pSH3H1
-         abg+AZkBgUYuI6/8MCWsVEC70uATBNZrXWpx8SIhSVAJzg8G/3xYrhhzhqX90Oe65ltu
-         hXEkE/41+TTkA4Zm6ZC7Hl6lRXlVJ962KEb3F3MB3trbMutHdNK2y6Syc4SKrwcKdWio
-         llVe92kLWS0bzTyzR8wRbSdXLB32nsZiphrsYTCgLEGvr2b+dA+sFNxtIIYIfXK+MDeC
-         Bo7Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GnY66tiLgnT7uMr9518ZV493aERIdx8VHWwveyXTDnk=;
+        b=YYp40Z4MW214HarFNMtj5EpZt9aUZRpAORwA8owUWeLF0UsNemk7FjcHkPFuQiF08X
+         ivBCgbgNnQ0YC7l6wjb+ZFkZNtOobgpQzTm1wL6D/F1v5n/b5P4qWBkQpx6JIa3edoOz
+         opPN04Owd9irRArSPfanBTsmxKfYek7pOVgc1Zz4e04aNvBhxj0KlwED8IFgdhx+GouC
+         oWUJ/CgDY8TefgdMdGj6hAt1SbSZaihMXN1zkPH0df8jR/Mc817Wi+6Ehv+MXU15IYex
+         XvF9hax7N2kjQSjR1Yg88RRl27MlSdn6Esk4HYtn7+mOpP7gXpCZFmWlVsmRqBlpxep9
+         HKrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nfQ6F2PE338m3GErOu5+Kdz+or/DSCE2c+Aqh0n3mQo=;
-        b=dEI0QZN5FcuiNogNMp+mlBSTSdnWNTmWVGEX91dEPcYzM42AoUycOhYT+1UBNFRnEX
-         OiVeLOtXG+BpWi9D7IJr2YoIXuuTqayOYyC3HYHzTPw9q7bqGlPGtrTFqi+polt4/V6I
-         zIMbFiULpP2Tezwi6VwenMYg3HKllpi4MT1/EW1FsM7iOZayyW8bomAAOFITcFzAAGYd
-         MohDLP8QMNMgeJb3aJ0VSTs+5vNSGf0Tiy6HLBEZfdoDCdGwMqH/Z4Ub31EHdOJI3Y9F
-         T8jwbULMX2b3agr5Gb1i//EzvZEc/inG+GB5lXiOkRGOKALF0+JNEi9cM1YsiNqpEGHz
-         hXRA==
-X-Gm-Message-State: ANhLgQ3axA17J0jtSnbnVBxul6XEghuOSM3d6D1cOlKqsdWY1KXZa8m7
-        ywsbOtVhe0EF+QmVODgMnuE=
-X-Google-Smtp-Source: ADFU+vtp1QtBKRUdVMKTXLskPJNrpnN3gIf9lf4RFJVel7GM0EiE9OR/YeJ5oBMLTZ6m+z3XqUApSw==
-X-Received: by 2002:a5d:4842:: with SMTP id n2mr4598564wrs.112.1584628453603;
-        Thu, 19 Mar 2020 07:34:13 -0700 (PDT)
-Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
-        by smtp.gmail.com with ESMTPSA id p15sm3636936wro.68.2020.03.19.07.34.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 07:34:12 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL v2] usb: tegra: Changes for v5.7-rc1
-Date:   Thu, 19 Mar 2020 15:34:11 +0100
-Message-Id: <20200319143411.3266037-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200313170730.2924259-1-thierry.reding@gmail.com>
-References: <20200313170730.2924259-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GnY66tiLgnT7uMr9518ZV493aERIdx8VHWwveyXTDnk=;
+        b=BnK0UIyr6H+2QTRwKFnqTudgeuqohusgSh2jHtT8YDCJ5ikPLkmzWhCrNUGFU2NrMe
+         oENWfx32IqT4XjhJfSikj+5zbI379hZ3Aq8R+pRm0qYXDr7Kb7Q4wOMdpR2hSbcBuLzX
+         VsiT9RkdK/SYax70HRrv7MLxd4Jgn7NaFPZSDQ5CIfNlcT9dsfdbQPypYxFWhQV49MRs
+         Vg3W82y9ZBCNsbQ1UEvJtrEFIHv+/vlJhpGEvKKu10IMpszExoMiSs03cV2moqoKk9+O
+         CEfsUO/OHrG2TFUwHxdYKGhls67y2ocseKju12AE6mOMcmDccBHHvm9sPzcnon2jGiBI
+         b+HQ==
+X-Gm-Message-State: ANhLgQ0PFAQPJKoqpAQUYTSkgKXhMLa1/6iqB4uJxxlego+bOzxwRUlF
+        I8H629tOKmRpElgGLnxrgSrX3ZBr
+X-Google-Smtp-Source: ADFU+vsUQgj771kWpKIfgPuGmuo6zRMZpbLT62dCa0mQsjR5QPKNN7fglR+T4EukdOBYFNyWQCJ38w==
+X-Received: by 2002:a2e:8ec7:: with SMTP id e7mr2304748ljl.36.1584628545819;
+        Thu, 19 Mar 2020 07:35:45 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id g20sm1654655lfj.88.2020.03.19.07.35.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2020 07:35:45 -0700 (PDT)
+Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
+ <20200127140716.15673-1-geert+renesas@glider.be>
+ <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
+ <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
+ <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
+ <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <75358399-c292-4e60-abdc-bd0729cf5c08@gmail.com>
+Date:   Thu, 19 Mar 2020 17:35:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Greg, Felipe,
+19.03.2020 11:18, Geert Uytterhoeven пишет:
+> Hi Dmitry,
+> 
+> On Thu, Mar 19, 2020 at 2:11 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>> 25.02.2020 14:40, Geert Uytterhoeven пишет:
+>>> On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
+>>> <m.szyprowski@samsung.com> wrote:
+>>>> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
+>>>>> Currently, the start address of physical memory is obtained by masking
+>>>>> the program counter with a fixed mask of 0xf8000000.  This mask value
+>>>>> was chosen as a balance between the requirements of different platforms.
+>>>>> However, this does require that the start address of physical memory is
+>>>>> a multiple of 128 MiB, precluding booting Linux on platforms where this
+>>>>> requirement is not fulfilled.
+>>>>>
+>>>>> Fix this limitation by obtaining the start address from the DTB instead,
+>>>>> if available (either explicitly passed, or appended to the kernel).
+>>>>> Fall back to the traditional method when needed.
+>>>>>
+>>>>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+>>>>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+>>>>> i.e. not at a multiple of 128 MiB.
+>>>>>
+>>>>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+>>>>> ---
+>>>>> Against arm/for-next.
+>>>>
+>>>> This patch landed recently in linux-next. It breaks legacy booting from
+>>>> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
+>>>> will debug it further once I find some spare time. What I noticed so
+>>>> far, the cmdline/memory info is not read from the ATAGs, only the values
+>>>> provided via appended DT are used.
+>>>
+>>> Oops, something happening like this was one of my biggest worries when
+>>> posting this patch... Sorry for the breakage.
+>>>
+>>> IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
+>>>
+>>> I'll have a closer look later today.
+>>> In the mean time, I've sent some debug code I used when developing
+>>> this patch, which may be useful, hopefully.
+>>
+>> NVIDIA Tegra is also affected by this patch. A week ago an updated
+>> version of the patch was pushed into linux-next and now machine doesn't
+>> boot at all.
+> 
+> I'm sorry to hear that.
+> 
+> Did v2 work for you?
 
-The following changes since commit ca9e742b5c27c230b0bf003aecba2433a60ba837:
+Same as it was for Marek.
 
-  USB: c67x00: Use the correct style for SPDX License Identifier (2020-03-17 20:03:28 +0100)
+> Are you sure this updated version is the culprit? There are several other
+> recent changes to head.S in arm/for-next.
 
-are available in the Git repository at:
+Yes
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.7-usb-v2
+> Do you boot a separate DTB or an appended DTB?
 
-for you to fetch changes up to b4e19931c98a088fbd80b5c3f892261c9a0e6c23:
+Appended
 
-  usb: gadget: tegra-xudc: Support multiple device modes (2020-03-19 14:18:57 +0100)
+> Do you use ATAGS?
 
-This is a version of the earlier pull request[0], rebased on top of
-Greg's usb-next branch and the resulting conflicts resolved. I've also
-added a couple of patches in here that fix minor issues that were
-reported since last week.
+Yes
 
-Thanks,
-Thierry
+>> I couldn't find v3 on the ML, so replying to the v2. Please take a look
+>> and fix the problem, or revert/drop the offending patch, thanks in advance.
+> 
+> V3 is v2 combined with "[PATCH] ARM: boot: Fix ATAGs with appended DTB"
+> (https://lore.kernel.org/linux-renesas-soc/20200225144749.19815-1-geert+renesas@glider.be/).
 
-----------------------------------------------------------------
-usb: tegra: Changes for v5.7-rc1
+Thank you for the clarification.
 
-These changes add USB OTG support for the XUSB host and XUSB device
-controllers found on NVIDIA Tegra SoCs.
-
-----------------------------------------------------------------
-Corentin Labbe (1):
-      phy: tegra: Select USB_PHY
-
-JC Kuo (2):
-      phy: tegra: xusb: Protect Tegra186 soc with config
-      phy: tegra: xusb: Add Tegra194 support
-
-Jon Hunter (1):
-      phy: tegra: xusb: Don't warn on probe defer
-
-Nagarjuna Kristam (10):
-      phy: tegra: xusb: Add usb-role-switch support
-      phy: tegra: xusb: Add usb-phy support
-      phy: tegra: xusb: Add support to get companion USB 3 port
-      phy: tegra: xusb: Add set_mode support for USB 2 phy on Tegra210
-      phy: tegra: xusb: Add set_mode support for UTMI phy on Tegra186
-      usb: xhci-tegra: Add OTG support
-      usb: gadget: tegra-xudc: Remove usb-role-switch support
-      usb: gadget: tegra-xudc: Add usb-phy support
-      usb: gadget: tegra-xudc: Use phy_set_mode() to set/unset device mode
-      usb: gadget: tegra-xudc: Support multiple device modes
-
-Thierry Reding (4):
-      phy: tegra: Print -EPROBE_DEFER error message at debug level
-      phy: tegra: Fix regulator leak
-      phy: tegra: Don't use device-managed API to allocate ports
-      Merge branch 'for-5.7/phy' into for-5.7/usb
-
- drivers/phy/tegra/Kconfig           |   2 +
- drivers/phy/tegra/Makefile          |   1 +
- drivers/phy/tegra/xusb-tegra124.c   |   6 +
- drivers/phy/tegra/xusb-tegra186.c   | 265 ++++++++++++++++++++++++++--------
- drivers/phy/tegra/xusb-tegra210.c   | 136 ++++++++++++++----
- drivers/phy/tegra/xusb.c            | 263 +++++++++++++++++++++++++++++++++-
- drivers/phy/tegra/xusb.h            |  25 ++++
- drivers/usb/gadget/udc/Kconfig      |   1 -
- drivers/usb/gadget/udc/tegra-xudc.c | 275 ++++++++++++++++++++++++------------
- drivers/usb/host/xhci-tegra.c       | 228 +++++++++++++++++++++++++++++-
- include/linux/phy/tegra/xusb.h      |   2 +
- 11 files changed, 1024 insertions(+), 180 deletions(-)
+I recalled that CONFIG_THUMB2_KERNEL=y is set in my kernel's config and
+disabling thumb2 build fixes the problem. Please correct it in the next
+version of the patch, thanks in advance.
