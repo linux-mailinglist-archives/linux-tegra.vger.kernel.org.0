@@ -2,43 +2,41 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3735A18BD67
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 18:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6365D18BD69
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Mar 2020 18:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727821AbgCSREX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Mar 2020 13:04:23 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12239 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbgCSREX (ORCPT
+        id S1727941AbgCSREz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Mar 2020 13:04:55 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8860 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726912AbgCSREz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Mar 2020 13:04:23 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e73a5e40000>; Thu, 19 Mar 2020 10:03:32 -0700
+        Thu, 19 Mar 2020 13:04:55 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e73a5d40000>; Thu, 19 Mar 2020 10:03:16 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 19 Mar 2020 10:04:22 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 19 Mar 2020 10:04:54 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 19 Mar 2020 10:04:22 -0700
+        by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 10:04:54 -0700
 Received: from [10.25.77.145] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
- 2020 17:04:20 +0000
-Subject: Re: [PATCH] PCI: tegra: Print -EPROBE_DEFER error message at debug
- level
+ 2020 17:04:52 +0000
+Subject: Re: [PATCH 0/9] pinctrl: tegra: Support SFIO/GPIO programming
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>
-CC:     Jon Hunter <jonathanh@nvidia.com>, <linux-pci@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+CC:     Jon Hunter <jonathanh@nvidia.com>, <linux-gpio@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>
-References: <20200319131230.3216305-1-thierry.reding@gmail.com>
+References: <20200319122737.3063291-1-thierry.reding@gmail.com>
 X-Nvconfidentiality: public
 From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <2e763237-fe19-68b3-d584-a3ad28689b87@nvidia.com>
-Date:   Thu, 19 Mar 2020 22:34:01 +0530
+Message-ID: <99368d3c-0a98-eb80-06a9-4deef402ce87@nvidia.com>
+Date:   Thu, 19 Mar 2020 22:34:49 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200319131230.3216305-1-thierry.reding@gmail.com>
+In-Reply-To: <20200319122737.3063291-1-thierry.reding@gmail.com>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -46,17 +44,17 @@ Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584637412; bh=zdrELNFlowK5Bnf69vjtR/5Mu0YDFJ2bVpzEmz0lv94=;
+        t=1584637396; bh=1+/Vk2wvwX9wNXOyKCwTgEMU0/Rgmu/1lDP4sLw+c64=;
         h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
          Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
          X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=qZ7MJRNZPlxa8nRRIfchayZxwMnmPRXvvz552jgYZju8RheSZmT3WfBa5RDGrwD1o
-         egnIvjK9eZCUeFm5696SVSXe9xfE4ZxPnSKlJ8wRg+Fu2GAE1C4lLWxIOW8moVlSea
-         ZDQb8E6aYPXFPKUh6ioR4x3T5xk6r3S8vezgSvgHdAkxOYBUuks5HROkffGy2oAfSi
-         BBvUf8gZ/aZ1uKp5Ap3IJdG4uREM7MvMpQIavBEpCxHoWbtk3atka9lPsf7gDRC4Us
-         bK27GFSeNJFviB0AOzFoWwbKeTTVxleyt5ABlaWxrwvZ1EFIjOjwKciKwNT1fy5HqE
-         7xbg0WeEwSizA==
+        b=iDjP5VXGK19W+4ZLqUxF3SYDC/0zyH6UaY96FY3b94KlW68AbtRkByPmjs3BwNZx6
+         DOQ/UDeDVC9VpLOMoDiSMfoh+i5mA/w0dPmi5Kbta9SzQLiyfJQ+sHpwIRXIFO0WFr
+         C9llfhtqowgzdqRQ10KjAW7rbpdFrO5zlJw8BrF5a18ZeAhA8wD5TyG4BAq8o1pcq4
+         xvX9spkEwg8wL4mY5nuQs3QDuqrs8eSGDN95h6qfH23PzGzaABdKVXgJPN5LNB0Ln1
+         AbY3ML21RYVQQ4TFCNQo3EN2pkZO93kvEp8oKWkIOMcdSCkDMsL/rzw5SJ8hAv1/81
+         R9CZ5xAEKfVKw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -64,96 +62,52 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 
 
-On 3/19/2020 6:42 PM, Thierry Reding wrote:
+On 3/19/2020 5:57 PM, Thierry Reding wrote:
 > External email: Use caution opening links or attachments
 > 
 > 
 > From: Thierry Reding <treding@nvidia.com>
 > 
-> Probe deferral is an expected error condition that will usually be
-> recovered from. Print such error messages at debug level to make them
-> available for diagnostic purposes when building with debugging enabled
-> and hide them otherwise to not spam the kernel log with them.
+> Hi,
 > 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->   drivers/pci/controller/dwc/pcie-tegra194.c | 42 ++++++++++++++++++----
->   1 file changed, 35 insertions(+), 7 deletions(-)
+> NVIDIA Tegra186 and later have a bit in the pin controller that defines
+> whether a pin is used in special function (SFIO) mode or in general
+> purpose (GPIO) mode. On early Tegra SoC generations, this bit was part
+> of the GPIO controller.
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index 97d3f3db1020..e4870fa6ce9c 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -1159,17 +1159,31 @@ static int tegra_pcie_dw_parse_dt(struct tegra_pcie_dw *pcie)
->          /* Endpoint mode specific DT entries */
->          pcie->pex_rst_gpiod = devm_gpiod_get(pcie->dev, "reset", GPIOD_IN);
->          if (IS_ERR(pcie->pex_rst_gpiod)) {
-> -               dev_err(pcie->dev, "Failed to get PERST GPIO: %ld\n",
-> -                       PTR_ERR(pcie->pex_rst_gpiod));
-> -               return PTR_ERR(pcie->pex_rst_gpiod);
-> +               int err = PTR_ERR(pcie->pex_rst_gpiod);
-> +               const char *level = KERN_ERR;
-> +
-> +               if (err == -EPROBE_DEFER)
-> +                       level = KERN_DEBUG;
-> +
-> +               dev_printk(level, pcie->dev,
-> +                          dev_fmt("Failed to get PERST GPIO: %d\n"),
-> +                          err);
-> +               return err;
->          }
+> The pin configuration on Tegra186 and later (and partially on Tegra210)
+> is typically static, so there is little need to reconfigure these pins.
+> However, there's a special case on Tegra194 where the PCIe CLKREQ and
+> RST pins for controller 5 may need to be reprogrammed in the kernel,
+> depending on whether the controller runs in endpoint mode or in root
+> port mode.
 > 
->          pcie->pex_refclk_sel_gpiod = devm_gpiod_get(pcie->dev,
->                                                      "nvidia,refclk-select",
->                                                      GPIOD_OUT_HIGH);
->          if (IS_ERR(pcie->pex_refclk_sel_gpiod)) {
-> -               dev_info(pcie->dev, "Failed to get REFCLK select GPIOs: %ld\n",
-> -                        PTR_ERR(pcie->pex_refclk_sel_gpiod));
-> +               int err = PTR_ERR(pcie->pex_refclk_sel_gpiod);
-> +               const char *level = KERN_ERR;
-> +
-> +               if (err == -EPROBE_DEFER)
-> +                       level = KERN_DEBUG;
-> +
-> +               dev_printk(level, pcie->dev,
-> +                          dev_fmt("Failed to get REFCLK select GPIOs: %d\n"),
-> +                          err);
->                  pcie->pex_refclk_sel_gpiod = NULL;
->          }
+> This series of patches establishes the mapping of these two pins to
+> their GPIO equivalents and implements the code necessary to switch
+> between SFIO and GPIO modes when the kernel requests or releases the
+> GPIOs, respectively.
 > 
-> @@ -2058,13 +2072,27 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+> Thierry
 > 
->          ret = tegra_pcie_dw_parse_dt(pcie);
->          if (ret < 0) {
-> -               dev_err(dev, "Failed to parse device tree: %d\n", ret);
-> +               const char *level = KERN_ERR;
-> +
-> +               if (ret == -EPROBE_DEFER)
-> +                       level = KERN_DEBUG;
-> +
-> +               dev_printk(level, dev,
-> +                          dev_fmt("Failed to parse device tree: %d\n"),
-> +                          ret);
->                  return ret;
->          }
+> Thierry Reding (9):
+>    gpio: Support GPIO controllers without pin-ranges
+>    gpio: tegra186: Add support for pin ranges
+>    gpio: tegra186: Add Tegra194 pin ranges for GG.0 and GG.1
+>    pinctrl: tegra: Fix whitespace issues for improved readability
+>    pinctrl: tegra: Fix "Scmitt" -> "Schmitt" typo
+>    pinctrl: tegra: Pass struct tegra_pmx for pin range check
+>    pinctrl: tegra: Do not add default pin range on Tegra194
+>    pinctrl: tegra: Renumber the GG.0 and GG.1 pins
+>    pinctrl: tegra: Add SFIO/GPIO programming on Tegra194
 > 
->          ret = tegra_pcie_get_slot_regulators(pcie);
->          if (ret < 0) {
-> -               dev_err(dev, "Failed to get slot regulators: %d\n", ret);
-> +               const char *level = KERN_ERR;
-> +
-> +               if (ret == -EPROBE_DEFER)
-> +                       level = KERN_DEBUG;
-> +
-> +               dev_printk(level, dev,
-> +                          dev_fmt("Failed to get slot regulators: %d\n"),
-> +                          ret);
->                  return ret;
->          }
+>   drivers/gpio/gpio-tegra186.c             | 64 ++++++++++++++++++++++++
+>   drivers/gpio/gpiolib.c                   |  5 +-
+>   drivers/pinctrl/tegra/pinctrl-tegra.c    | 52 +++++++++++++++++--
+>   drivers/pinctrl/tegra/pinctrl-tegra.h    |  5 +-
+>   drivers/pinctrl/tegra/pinctrl-tegra194.c | 47 +++++++++--------
+>   5 files changed, 144 insertions(+), 29 deletions(-)
 > 
 > --
 > 2.24.1
 > 
-
-Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
 Tested-by: Vidya Sagar <vidyas@nvidia.com>
