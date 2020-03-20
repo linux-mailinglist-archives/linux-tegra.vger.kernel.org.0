@@ -2,79 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3760C18CF55
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 14:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E35718CFD8
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 15:18:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbgCTNrn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Mar 2020 09:47:43 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:42934 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727041AbgCTNrn (ORCPT
+        id S1726855AbgCTOS2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Mar 2020 10:18:28 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:45348 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726666AbgCTOS2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Mar 2020 09:47:43 -0400
-Received: by mail-lj1-f194.google.com with SMTP id q19so6422811ljp.9;
-        Fri, 20 Mar 2020 06:47:41 -0700 (PDT)
+        Fri, 20 Mar 2020 10:18:28 -0400
+Received: by mail-lf1-f65.google.com with SMTP id v4so985508lfo.12
+        for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2020 07:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VKSPPi2x0mbXha6B3vaNMiVE/+NX99D1XOzAsrquB48=;
-        b=dpZ433uZCMyLV9BuifSS65mWNDp4jlV3JgsDhNikzqruARh3biods61O+sCMUKwaBX
-         s21viKClAkIg946KchD2LshlQs2j2vKFuUXFyr8FZ+T3CItVomXlpmPYx8SYq7bfHOrP
-         nvKHXHoca99fe90E/tTvWPNZjYdEuJuvC9YG1s1bNi1amXUHlRMNyxCNCQGtxZqm8KAS
-         wk/USprwtCpWdkXsKhaPy9s2sjif4TZwF5Vi2jMWyyjLRJf7c/PaG0x2FqzOfrahFmc1
-         nLx4jhYTLYkV/oqiLE+u7rBfyo4dx2doypx6E5GV2eJjl/PzXGzoRCwHE/lQx7PrTV7B
-         O+Mw==
+        bh=chBLQap+SYKGNzmXvbmb0fKi1zu9d0mpFF2vjia6tcw=;
+        b=rYopsrW6ZFC37xZcQOcJGUhPe4rKJbBymWCv2GsSPgbw6Ied2jFWyDidXBfoxhQnj/
+         UKU1jHx/MFO+8W+xnDgYChSkdE75tKHwc9u80yFKiNibb4lRXSdUKIVTjGXLayxE4xxf
+         CjvYGNqBI8O+Sqw4gDelB5iEw9S11oWZ/K7xtGGWnmaHnrwiwCMD/2hAzTIKpZAA4XoM
+         XZ4PVoEWfilijfs+LFvpkRm0yBAyBV9KMUjnoil9+vWLXqYmDvDlTtf9VDSAeVv2XNGK
+         2hztDnyBo3PFMNFng1YZGc7alJ3NeYJ2O4+l/x/QeyYjT0FCBiG6ebuTtBHxW1gpHr7V
+         z9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VKSPPi2x0mbXha6B3vaNMiVE/+NX99D1XOzAsrquB48=;
-        b=UEJn5RWa+F45+d4VvasINQ0Jy8vYT/BGpya6/AtQtaG7kHOWC2jPMMEud1w56dnycS
-         xRPsSlnpSsIr4cZQZoV1m0RU5m7v75gqpTTT/lfiLc+/ef3Tp4GUGURUUy2d5bpnk5/N
-         ong4YzKeoqCKF3DW8HoVQWY1xHFsfUJpHyWocGVphRl2hXYYEFCWwXTa5x+Eim8hrB4w
-         7QT7YHYQP403ie4W9yhPnFr4kALxv09Ey/Na1XilbGxQSeZo6EVaA15n7F65yL2GoZlA
-         i3B84bldfm0/MDkFlnI/m8pJ66Fa5ZXclpcCoyfgzd2r5bWA4O7229ZCO08rttqiAWxc
-         9Zbw==
-X-Gm-Message-State: ANhLgQ0GrOhhlGFGQYCjfHPjKxdGw93rKNYLUjYU+mx2MskjzjZGs/cA
-        5eyzKr6/U5MCRMm6z8G533Y=
-X-Google-Smtp-Source: ADFU+vt99INuHz08C5tlxgS3OJpzPHJB8BSC8ImphUWjct0ql7XHffXwNeJN/9Vs2eF9A5fy0VNlCA==
-X-Received: by 2002:a2e:9f0e:: with SMTP id u14mr5165941ljk.142.1584712060587;
-        Fri, 20 Mar 2020 06:47:40 -0700 (PDT)
+        bh=chBLQap+SYKGNzmXvbmb0fKi1zu9d0mpFF2vjia6tcw=;
+        b=EP4CJHJMfdhncMpB1/iG+yk3EvF4NZr7YqVvhNgsmoOoz3HbicnPcBIl+sJNouV3xV
+         4Q5DEpOXGmTXJTxb1B01G8jM9hA7I5If+kX3Us48xQfIbf+1PL0oNlGcB9lEfQxGY9Kl
+         pxlhI8uv8UfR6whKzYcyLjjcPYOMFqDBsRkIX58MINSDRuWf+JEXlSgA7SuXuPOjjfHZ
+         tu1qtqv7TvPTxjdqbR2jwZ9I/0oB4mYFtEIe4VhV+Go7u55umLaJk/sfeOMe7OFLa552
+         l9+avWhycKEEsOOC+LuGxktm0mpfRIunk3I0//ecvRj7uq6YLjoLYm48vb851QBJj6Cw
+         8v8w==
+X-Gm-Message-State: ANhLgQ0jBbJH8cea5jBlZCgyLfuoILt05DSOIdXJ0/AEgh3h11H0SVfJ
+        tggsyNr7k+75z7eNUPuWKuWRhHcz
+X-Google-Smtp-Source: ADFU+vsHb0FtO1zHy7j0zMSFIunLOXaJMhsTtAXAzU+h1Lch1pchWCJKq24Yu8lGWtxmhLFpren//w==
+X-Received: by 2002:a19:c1d2:: with SMTP id r201mr5453386lff.13.1584713906485;
+        Fri, 20 Mar 2020 07:18:26 -0700 (PDT)
 Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id d18sm3432544ljg.106.2020.03.20.06.47.39
+        by smtp.googlemail.com with ESMTPSA id u7sm3252010lfl.81.2020.03.20.07.18.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2020 06:47:39 -0700 (PDT)
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be>
- <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
- <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
- <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
- <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
- <75358399-c292-4e60-abdc-bd0729cf5c08@gmail.com>
- <CAMuHMdX9PH+WUvONz2C8D1fRrZXn5rEND-p_my2mYvoyxF_gWA@mail.gmail.com>
- <CAMuHMdVwxi57jMrVoH8P2ms0j9YrZvc1Zi+BVR3VDo8QJHaU-w@mail.gmail.com>
+        Fri, 20 Mar 2020 07:18:25 -0700 (PDT)
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
+To:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        linux-tegra@vger.kernel.org
+References: <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+ <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
+ <20200128121315.GD4689@sirena.org.uk>
+ <4b90efd2-5d0c-84df-961d-80cee288e0d4@nvidia.com>
+ <586ea2b9-c204-2bd1-f8e2-875e0974e42d@nvidia.com>
+ <fe002ec7-ae6e-f770-b82a-49237e0b29c6@codethink.co.uk>
+ <20200130131039.GC6682@sirena.org.uk>
+ <1df9cc13ea636502ac09191523ff0669@codethink.co.uk>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4e362c26-84b1-2f94-3659-ab9120927a12@gmail.com>
-Date:   Fri, 20 Mar 2020 16:47:38 +0300
+Message-ID: <e28e72e7-c4c0-952a-29b7-fb49462708f1@gmail.com>
+Date:   Fri, 20 Mar 2020 17:18:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdVwxi57jMrVoH8P2ms0j9YrZvc1Zi+BVR3VDo8QJHaU-w@mail.gmail.com>
+In-Reply-To: <1df9cc13ea636502ac09191523ff0669@codethink.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -83,8 +84,12 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.03.2020 16:43, Geert Uytterhoeven пишет:
+19.03.2020 18:32, Ben Dooks пишет:
 ...
-> Will send v4 shortly.
+> Hmm, I may have accidentally deleted those.
+> 
+> I will look to see if I can re-form the series and re-send in the next
+> couple of weeks. I've got no access currently to the machine and having
+> to deal with working from home for the next month or so.
 
-Awesome, I'll test the v4.
+Great, looking forward to the new version :)
