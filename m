@@ -2,80 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E35718CFD8
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 15:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6757F18D052
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 15:24:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbgCTOS2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Mar 2020 10:18:28 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45348 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726666AbgCTOS2 (ORCPT
+        id S1727546AbgCTOXc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Mar 2020 10:23:32 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33581 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727096AbgCTOX2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Mar 2020 10:18:28 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v4so985508lfo.12
-        for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2020 07:18:27 -0700 (PDT)
+        Fri, 20 Mar 2020 10:23:28 -0400
+Received: by mail-lf1-f66.google.com with SMTP id c20so4711486lfb.0;
+        Fri, 20 Mar 2020 07:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=chBLQap+SYKGNzmXvbmb0fKi1zu9d0mpFF2vjia6tcw=;
-        b=rYopsrW6ZFC37xZcQOcJGUhPe4rKJbBymWCv2GsSPgbw6Ied2jFWyDidXBfoxhQnj/
-         UKU1jHx/MFO+8W+xnDgYChSkdE75tKHwc9u80yFKiNibb4lRXSdUKIVTjGXLayxE4xxf
-         CjvYGNqBI8O+Sqw4gDelB5iEw9S11oWZ/K7xtGGWnmaHnrwiwCMD/2hAzTIKpZAA4XoM
-         XZ4PVoEWfilijfs+LFvpkRm0yBAyBV9KMUjnoil9+vWLXqYmDvDlTtf9VDSAeVv2XNGK
-         2hztDnyBo3PFMNFng1YZGc7alJ3NeYJ2O4+l/x/QeyYjT0FCBiG6ebuTtBHxW1gpHr7V
-         z9yA==
+        bh=Mm4E0gIkkkgsirbE3p4vjRzb5lUFQedGY2BkFL7msqc=;
+        b=Vz5xvrBESxBPJCtBr1x/44QGyJgzBlAiVsHQeoWX26C3Knhd3msjacb0MV1KqmWQIA
+         zc39BuSmosHKlatEoJRB1U7z+C30GuF7QD5xiAqJcjY+8NwANIQb6yjlj4aSbuCIUa8T
+         qJKtjXaclkvgfBjzUq7q/ZT+HWOEpaqwaf8S5CkCA92SQYygBfyvi9r8Rj6M00VtysQQ
+         35YfnGTEybXdLbE2wWZO5tqP3Rz25MqFo9k+po7UkLIDiY/r1uOWuknDWajrlGMxDp6j
+         AmoET7kIs+fR5zcjcwzwshT4eQxgfRIzOp8PjN4KsYLS+0zA4A6DZi/JjNKZ306Eh/Ph
+         HDKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=chBLQap+SYKGNzmXvbmb0fKi1zu9d0mpFF2vjia6tcw=;
-        b=EP4CJHJMfdhncMpB1/iG+yk3EvF4NZr7YqVvhNgsmoOoz3HbicnPcBIl+sJNouV3xV
-         4Q5DEpOXGmTXJTxb1B01G8jM9hA7I5If+kX3Us48xQfIbf+1PL0oNlGcB9lEfQxGY9Kl
-         pxlhI8uv8UfR6whKzYcyLjjcPYOMFqDBsRkIX58MINSDRuWf+JEXlSgA7SuXuPOjjfHZ
-         tu1qtqv7TvPTxjdqbR2jwZ9I/0oB4mYFtEIe4VhV+Go7u55umLaJk/sfeOMe7OFLa552
-         l9+avWhycKEEsOOC+LuGxktm0mpfRIunk3I0//ecvRj7uq6YLjoLYm48vb851QBJj6Cw
-         8v8w==
-X-Gm-Message-State: ANhLgQ0jBbJH8cea5jBlZCgyLfuoILt05DSOIdXJ0/AEgh3h11H0SVfJ
-        tggsyNr7k+75z7eNUPuWKuWRhHcz
-X-Google-Smtp-Source: ADFU+vsHb0FtO1zHy7j0zMSFIunLOXaJMhsTtAXAzU+h1Lch1pchWCJKq24Yu8lGWtxmhLFpren//w==
-X-Received: by 2002:a19:c1d2:: with SMTP id r201mr5453386lff.13.1584713906485;
-        Fri, 20 Mar 2020 07:18:26 -0700 (PDT)
+        bh=Mm4E0gIkkkgsirbE3p4vjRzb5lUFQedGY2BkFL7msqc=;
+        b=O6H0I4yUqgcpujj7cVgcB7J2vpsaJbPJ4Y+PmHg5NGNGd8qkTPHyz8ejbQxK++B8cf
+         GQ5ChC+UrXg/awfW/IzaUSkLTzFKBRHkjd2Lp6qjQJqeAb5pCjXcwFXT1jF9Ls5x2YiV
+         S3vPbr3n6aspkSfjzK07pTTd7u2NbJpUqOoNWlmHQ1G6uudaknscZDE0DFjnEN0khhSw
+         3RcxfS64Gd2SWu3YIuohlF9gDUbFiYSa1sAZA8nfgcfjlp2aPI1bBXbi/TEa96JdXtGl
+         nKo4VkPD82rY/LgmiLHw1Hj1kCH6AuEq2Jyonu+IUPInmhtelCeNcSUySfHcLKa4OYEV
+         OMMw==
+X-Gm-Message-State: ANhLgQ0mMueNqVeKaKwqL18rt16Ihefw8wg0uAA0wrccyXyLsv6z5vxS
+        e77Ky2aIDKGawWTwRy6uLXw=
+X-Google-Smtp-Source: ADFU+vu+znbL8IHqM0nrxUSRNjzwNcCHm0LTvrBjpTasGqsfS5eSFWCgbOvJUr/m1gDosozoephQaQ==
+X-Received: by 2002:a19:6406:: with SMTP id y6mr5602360lfb.125.1584714206885;
+        Fri, 20 Mar 2020 07:23:26 -0700 (PDT)
 Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id u7sm3252010lfl.81.2020.03.20.07.18.25
+        by smtp.googlemail.com with ESMTPSA id u1sm3392760lju.95.2020.03.20.07.23.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2020 07:18:25 -0700 (PDT)
-Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
- 24bit and 32bit samples
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
+        Fri, 20 Mar 2020 07:23:26 -0700 (PDT)
+Subject: Re: [PATCH v3 6/6] i2c: drivers: Use generic definitions for bus
+ frequencies
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        linux-tegra@vger.kernel.org
-References: <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
- <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
- <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
- <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
- <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
- <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
- <20200128121315.GD4689@sirena.org.uk>
- <4b90efd2-5d0c-84df-961d-80cee288e0d4@nvidia.com>
- <586ea2b9-c204-2bd1-f8e2-875e0974e42d@nvidia.com>
- <fe002ec7-ae6e-f770-b82a-49237e0b29c6@codethink.co.uk>
- <20200130131039.GC6682@sirena.org.uk>
- <1df9cc13ea636502ac09191523ff0669@codethink.co.uk>
+        Jon Hunter <jonathanh@nvidia.com>
+References: <20200316154929.20886-1-andriy.shevchenko@linux.intel.com>
+ <20200316154929.20886-6-andriy.shevchenko@linux.intel.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e28e72e7-c4c0-952a-29b7-fb49462708f1@gmail.com>
-Date:   Fri, 20 Mar 2020 17:18:24 +0300
+Message-ID: <44e50f6f-9674-60e6-9217-aeba96ef011d@gmail.com>
+Date:   Fri, 20 Mar 2020 17:23:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1df9cc13ea636502ac09191523ff0669@codethink.co.uk>
+In-Reply-To: <20200316154929.20886-6-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -84,12 +71,23 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-19.03.2020 18:32, Ben Dooks пишет:
-...
-> Hmm, I may have accidentally deleted those.
-> 
-> I will look to see if I can re-form the series and re-send in the next
-> couple of weeks. I've got no access currently to the machine and having
-> to deal with working from home for the next month or so.
+16.03.2020 18:49, Andy Shevchenko пишет:
+> Since we have generic definitions for bus frequencies, let's use them.
 
-Great, looking forward to the new version :)
+...
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index cbc2ad49043e..4c4d17ddc96b 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -123,10 +123,6 @@
+>  #define I2C_THIGH_SHIFT				8
+>  #define I2C_INTERFACE_TIMING_1			0x98
+>  
+> -#define I2C_STANDARD_MODE			100000
+> -#define I2C_FAST_MODE				400000
+> -#define I2C_FAST_PLUS_MODE			1000000
+...
+
+For NVIDIA Tegra I2C:
+
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
