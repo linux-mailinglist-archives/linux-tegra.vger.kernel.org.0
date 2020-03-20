@@ -2,116 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E738318D9D6
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 21:56:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2192818DB27
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 23:30:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbgCTU4X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Mar 2020 16:56:23 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:40597 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727413AbgCTU4S (ORCPT
+        id S1727015AbgCTWac (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Mar 2020 18:30:32 -0400
+Received: from avon.wwwdotorg.org ([104.237.132.123]:34006 "EHLO
+        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726666AbgCTWac (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Mar 2020 16:56:18 -0400
-Received: by mail-lf1-f66.google.com with SMTP id j17so5649793lfe.7;
-        Fri, 20 Mar 2020 13:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=q9oV0Jet7GMraR3xqtV0h+iLCecJI0XRcctkMuUHagA=;
-        b=uJ662SXhR9zxkO088xiUitQhQMrirDeOS3TUScosTIg4zji4P6drAcNKY1fliPnOLy
-         TC7gD8qUZrOf1kuPbaPvTabKzsGP3+LRRZmLE0lz5JSMe2wWs6GT1/UeTu/8K8YKM5m4
-         QNZb+C04XDHdbjfO/nfKsjrFOVGlNAOS/9jFz5LPgWs5XULwEAd1K7SS0CJu4qR0hIUv
-         JCHHsgdq+nftXyM2M0XI0YNoWXCN8k5JOVmv1ksoWcXG3XVNO5y3cZQmcnOXhKmfoqvb
-         XeFq5/4B0ZHYZNQgch62LqTbYyHVxUMhRXFH9qnpo1VFSWMHdosYyFV0p96nS/DjKEUd
-         vFuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=q9oV0Jet7GMraR3xqtV0h+iLCecJI0XRcctkMuUHagA=;
-        b=rmELD3X51vWb0PmNKDiNkdQjbAL2ergNv3krE+TRE0+lpP0e5YzSsKbd72Hzk+IVnq
-         HJH93m8SGaJ2bxin128MBzdvnGcKd1Wk7gtMhqpUL1P3KFZ885WPSYnS0IQTL6U+VKD3
-         WDfCLmwe9JHUvXMb5vTTZJ86IH+b57JzRVQCHGlt+RQnowfAFhQHFgspMCLZeg+Q5E07
-         WePCwUSQ3K76d6UZUEXBnL6iuWpWgxt9M7MqRFPmUXD6VAfZWP9C0qfcR2suK0bXcbgV
-         fTNaGhynFJdDhIEXFOlh18AmQP/WIm8PAKcfe0jxb3NTuuGd4DBdAnuzl1jhz1hNJXI4
-         dmvQ==
-X-Gm-Message-State: ANhLgQ1g63RP5p5g786iraOELTLQMZ089FsX/FIohyCHEYbltJcPKGrw
-        mzgUUnsTnwNQQQFPOhr+Huk=
-X-Google-Smtp-Source: ADFU+vsLajssmyb9pDEbtINGlaD8mIM0RtJt8T7pAoYMTjD1DsK8CE1iAEpQ1DTyU2ucTWgIXn+98g==
-X-Received: by 2002:a05:6512:108a:: with SMTP id j10mr6566513lfg.35.1584737776522;
-        Fri, 20 Mar 2020 13:56:16 -0700 (PDT)
-Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.gmail.com with ESMTPSA id 1sm3873356lft.47.2020.03.20.13.56.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 13:56:15 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Fri, 20 Mar 2020 18:30:32 -0400
+Received: from [10.2.163.76] (searspoint.nvidia.com [216.228.112.21])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 693141C0474;
+        Fri, 20 Mar 2020 16:30:30 -0600 (MDT)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.1 at avon.wwwdotorg.org
+Subject: Re: [PATCH v1 0/2] Support built-in Mic on Tegra boards that use
+ WM8903
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
         alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] ASoC: tegra: tegra_wm8903: Support DAPM events for built-in microphone
-Date:   Fri, 20 Mar 2020 23:55:04 +0300
-Message-Id: <20200320205504.30466-3-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200320205504.30466-1-digetx@gmail.com>
 References: <20200320205504.30466-1-digetx@gmail.com>
+From:   Stephen Warren <swarren@wwwdotorg.org>
+Autocrypt: addr=swarren@wwwdotorg.org; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <c27c2087-14cf-614d-a8c0-05072a54f24b@wwwdotorg.org>
+Date:   Fri, 20 Mar 2020 16:30:28 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200320205504.30466-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The enable-GPIO needs to be toggled on a DAPM event in order to turn
-microphone ON/OFF, otherwise microphone won't work.
+On 3/20/20 2:55 PM, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This small series adds audio route for built-in microphone on NVIDIA Tegra
+> boards that use WM8903 CODEC. In particular this is needed in order to unmute
+> internal microphone on Acer A500 tablet device. I'm planning to send out the
+> device tree for the A500 for 5.8, so will be nice to get the microphone
+> sorted out. Please review and apply, thanks in advance.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- sound/soc/tegra/tegra_wm8903.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+It's been a long time since I looked at this code, but the series looks
+plausible,
+Acked-by: Stephen Warren <swarren@nvidia.com>
 
-diff --git a/sound/soc/tegra/tegra_wm8903.c b/sound/soc/tegra/tegra_wm8903.c
-index f08d3489c3cf..071c7d2de77c 100644
---- a/sound/soc/tegra/tegra_wm8903.c
-+++ b/sound/soc/tegra/tegra_wm8903.c
-@@ -143,14 +143,32 @@ static int tegra_wm8903_event_hp(struct snd_soc_dapm_widget *w,
- 	return 0;
- }
- 
-+static int tegra_wm8903_event_int_mic(struct snd_soc_dapm_widget *w,
-+				      struct snd_kcontrol *k, int event)
-+{
-+	struct snd_soc_dapm_context *dapm = w->dapm;
-+	struct snd_soc_card *card = dapm->card;
-+	struct tegra_wm8903 *machine = snd_soc_card_get_drvdata(card);
-+
-+	if (!gpio_is_valid(machine->gpio_int_mic_en))
-+		return 0;
-+
-+	gpio_set_value_cansleep(machine->gpio_int_mic_en,
-+				SND_SOC_DAPM_EVENT_ON(event));
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_dapm_widget tegra_wm8903_dapm_widgets[] = {
- 	SND_SOC_DAPM_SPK("Int Spk", tegra_wm8903_event_int_spk),
- 	SND_SOC_DAPM_HP("Headphone Jack", tegra_wm8903_event_hp),
- 	SND_SOC_DAPM_MIC("Mic Jack", NULL),
-+	SND_SOC_DAPM_MIC("Int Mic", tegra_wm8903_event_int_mic),
- };
- 
- static const struct snd_kcontrol_new tegra_wm8903_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Int Spk"),
-+	SOC_DAPM_PIN_SWITCH("Int Mic"),
- };
- 
- static int tegra_wm8903_init(struct snd_soc_pcm_runtime *rtd)
--- 
-2.25.1
-
+(I wonder why machine->gpio_int_mic_en was already parse but never used!)
