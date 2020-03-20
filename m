@@ -2,94 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 681C418D30F
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 16:38:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5BDB18D87B
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 20:38:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbgCTPih (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Mar 2020 11:38:37 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:34404 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727317AbgCTPig (ORCPT
+        id S1726666AbgCTTiB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Mar 2020 15:38:01 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34490 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726956AbgCTTiB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Mar 2020 11:38:36 -0400
-Received: by mail-lj1-f196.google.com with SMTP id s13so6910375ljm.1;
-        Fri, 20 Mar 2020 08:38:35 -0700 (PDT)
+        Fri, 20 Mar 2020 15:38:01 -0400
+Received: by mail-lj1-f194.google.com with SMTP id s13so7754785ljm.1
+        for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2020 12:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=j6DQ/Qd3A1JCf0tsOt9+KVUKpk09g/ARGbV4TBwRWDI=;
-        b=u7B8iwInH5wI88YYfjPWNLJ1g5C+IWECHRnBDrhq8A6QsZXrolcDT56feRjFFO5aiz
-         HtN3pg3whE61P+VG654VWxyj6cprHfm6mXGCSesaZnlF0ecehfDeKgwHMaSHPe7T+S2Z
-         opeLDSXl+Ee3sqxLEdf7k4c1xoJkB00i2SxsXCMTVW/SU4X7ATYQI7u3o4Fz7HwNHwCk
-         e+Z1BprV46wiglmc4ukghNsgnlpiKQpvjP30PjWvNrN3sYzPkbHWQXmIKwBB1nPgwyXC
-         Mz669FbmL0ulZRifIpM/v8ZeHC+HRF0m97SFCNY36c2K+OFKExJaoKdGlvtmUMJzs/Sa
-         ylJQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ojBDNVVg2fruS6vU66MRKq2HphKitUxDIf4Wi5OElFk=;
+        b=H29ke979CtIKPWckEzUsuYpeXcJn0yGKplWCTRwGM38fgiEfzXjeBDHupe4dl10PrI
+         CN0AFHW/1Z5WOi+UnkdWwHAYQzubLXn73uFsjOo36z6T4W1EMTPZf/hi9xOaVdG8H82J
+         qX8uoyevm/RinEbzHtxs0LF1rPpi44bxfB3bi2dC5uzMnYkDKnyZ4zYV9f3lJWNA3SJV
+         N97KMy84ehMTl3BFk9mt9XnN6L4sIiOAHJ42Ym0gTFtLtDcxWsbRK9F72+TnHlCnh543
+         CKbJ8KOBio9nCiPiewrxFtweoctesYfXHk4KxA0CHTWZVYUKfcOE7zhnA0WSTgE56alC
+         KkTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=j6DQ/Qd3A1JCf0tsOt9+KVUKpk09g/ARGbV4TBwRWDI=;
-        b=MophzOSVNT/wjbUiNDnse0SBjKk0S4eV+u/7+ysI/nKZw5AghL18jeqCkR3EBMrqLi
-         IY/5tRpowSsC+CPW72Fl3ETHCTop+SnWGkoKl2q9ErFNQOLtKAjDkUaWotsxsx4fTvuK
-         W8l9nGgQ9sM+7B1N1o1YFvqIx7Cd71bdhUJVqMGm5ogRE253cSKbQMzwFIomWDeIxlNh
-         Cr56faY0kTgqhk1LPnh+viINZ5K4BNsDqYKZP991tH/x5S54AOQMDNdCMeIirhTcxmjb
-         NXAQ2z/3FHJRPmF6d7bR7QgHqTRP4w94m7TAfl/pz0RK0v2guWtxYCZThvebN3iqNdJ9
-         cwnw==
-X-Gm-Message-State: ANhLgQ3poa8rHzn3uLZGjIc6S1hplFxtr6esgBieDJQ6NrJj+iPMdKGk
-        GSm86HfrZmBcC0Q0Hhyko527G5BS
-X-Google-Smtp-Source: ADFU+vtWSZ0bdDsUVLFMXqcEvrLFZtX4T8XrPkQfe8antWDczqJJP2zJ0bwQOaPNXP47K9FduB+Ozg==
-X-Received: by 2002:a2e:a0cd:: with SMTP id f13mr5667476ljm.198.1584718714216;
-        Fri, 20 Mar 2020 08:38:34 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id x14sm3472501ljh.33.2020.03.20.08.38.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2020 08:38:33 -0700 (PDT)
-Subject: Re: [PATCH 2/7] clocksource: Add Tegra186 timers support
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200320133452.3705040-1-thierry.reding@gmail.com>
- <20200320133452.3705040-3-thierry.reding@gmail.com>
- <48b2099c-dd83-d4dc-aab4-8c6f68a215cf@gmail.com>
-Message-ID: <da2a0501-664a-c5d0-7b13-174e5347eaf7@gmail.com>
-Date:   Fri, 20 Mar 2020 18:38:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ojBDNVVg2fruS6vU66MRKq2HphKitUxDIf4Wi5OElFk=;
+        b=s/ippU76c4hWorFqHfdw2djc9tkg7mEmPEciCUY8l4hkAVHlgQEuuuCr3sbw+WzPNZ
+         SLocsk0rp7S9mdhyplr3zxcVdzbUV1R4QsVeTc9UuwVF1bsj0qjFB9JnjLUzTs618f+l
+         nPZXrHPiY2/0gdxPznJUbHKwp4iYwSjqoHZT7tciJwmU6QCxngXw2Z2J4e1qxgUBWmby
+         A2TKjoK2VsAogj4lOBAGf6Q+MEDfC9AcN8/ra8W60+z2gytSA0srdicOGjCZ68rW7nbt
+         qGOZzQImJc/OHxvVyodJZdTeCDMsg/RzJssN8q7pWiEI2QtGnJczDaO7CNj55+wjS1Gb
+         4byA==
+X-Gm-Message-State: ANhLgQ1E9FKvTQAYe0YCzntqIn8Z9FgKeRNGE08HM6cBO69StUi06Kh+
+        3j4V7oUOreRx0GjLFxeUo/NWT+M43v/+SZc9CxTWeA==
+X-Google-Smtp-Source: ADFU+vuS/9xB6+q0ZbkIaydrAFCWP+otW9O2k853/zfcdsFkYFBJ+y+LfbWH+y3RZhI4HpxkzNuRYB/RfAI/RH68lyk=
+X-Received: by 2002:a2e:9a90:: with SMTP id p16mr6558605lji.277.1584733079409;
+ Fri, 20 Mar 2020 12:37:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <48b2099c-dd83-d4dc-aab4-8c6f68a215cf@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200319122737.3063291-1-thierry.reding@gmail.com>
+In-Reply-To: <20200319122737.3063291-1-thierry.reding@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 20 Mar 2020 20:37:48 +0100
+Message-ID: <CACRpkdY7LnyHdX4xKrr1V8Cquched0PMNL1sFTrWT6J3fdRx=w@mail.gmail.com>
+Subject: Re: [PATCH 0/9] pinctrl: tegra: Support SFIO/GPIO programming
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.03.2020 18:11, Dmitry Osipenko пишет:
-> 20.03.2020 16:34, Thierry Reding пишет:
->> From: Thierry Reding <treding@nvidia.com>
->>
->> Currently this only supports a single watchdog, which uses a timer in
->> the background for countdown. Eventually the timers could be used for
->> various time-keeping tasks, but by default the architected timer will
->> already provide that functionality.
->>
->> Signed-off-by: Thierry Reding <treding@nvidia.com>
->> ---
-> 
-> ...
->> +config TEGRA186_TIMER
->> +	bool "NVIDIA Tegra186 timer driver"
-> 
-> tristate?
-> 
->> +	depends on ARCH_TEGRA || COMPILE_TEST
-> 
-> depends on WATCHDOG && WATCHDOG_CORE?
+On Thu, Mar 19, 2020 at 1:27 PM Thierry Reding <thierry.reding@gmail.com> wrote:
 
-Actually `select WATCHDOG_CORE` for the WATCHDOG_CORE.
+> This series of patches establishes the mapping of these two pins to
+> their GPIO equivalents and implements the code necessary to switch
+> between SFIO and GPIO modes when the kernel requests or releases the
+> GPIOs, respectively.
+
+Is it possible to apply the gpio and pinctrl patches to
+each tree separately?
+
+Yours,
+Linus Walleij
