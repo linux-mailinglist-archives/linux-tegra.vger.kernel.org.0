@@ -2,79 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0F8F18CCA4
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 12:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E94F318CD20
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 12:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbgCTLUf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Mar 2020 07:20:35 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35587 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbgCTLUe (ORCPT
+        id S1726971AbgCTLhk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Mar 2020 07:37:40 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4615 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbgCTLhj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:20:34 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k8so6118836oik.2
-        for <linux-tegra@vger.kernel.org>; Fri, 20 Mar 2020 04:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=b8+G2njQqFgR3u/XDAahViXG5L4HmPoG2PmkzL7YKwFpy/V6B4NnAxwBi4j1wD6toy
-         RYUqv0ZFsK+MeWJg7fZsozqwofYYbgcIW7fXQFboB3lhkgBNfSLWG09xlafT0HR1GJ1n
-         +Zn1Vp7CyTUWDoX87E9pqhmS5rohRxFPsywnmnJ5z3M2fQfK5WA8RWnLeA+s+mG+IV53
-         xOGvQAzWluZ0J0/5Aj/QNSzCrsouQwdnYfkYVk6RcqJ4erlIxpDl9iAzMsUrp1xN+d7x
-         CLhZWaTW9qfYBk+Jg8449OEleJ7ebnb+pprHwKU7FysRzJq0x0TscPAB3adufsCMf0fI
-         dHnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=E3Yapk+MQm8jqrgchITnHySta4FG6yeLj6JXy3Jr68JM1o/0y3fd3Lr6HVPe6afsS7
-         rH3I1Aj8BccYb1hqCnDD077ZqGxSh5sfLaMJUZppR0OmzS72fpUYXblUMOUwi7HAm1Sz
-         SVBz7qw+T4fSv3eClsxIGYYSnBjRtMSI754h8V0c5yKoKTdAPZC/v0flZNz8kP5kT7vh
-         W+Jw+aqeY4hldGw3QTpMNv7XCuM1tMzX95L6EbxbV1i/KA+Mfzha8gXZN2M2sGgxUXAZ
-         u8ACR4jVOkh9gjBMWzg2y9QMFgg+WAYINCDPlV62yUlIGGM++Kh5BzwdpfCL6fEVBxM4
-         CCSg==
-X-Gm-Message-State: ANhLgQ259xxh+hQdC66PacXMRHToF0A0hvr4/Melbdz7/3rc2MT3Sw0G
-        08eNtKQh3WC+UqpYWhxg/dYf08CVwl2lvAw27/U=
-X-Google-Smtp-Source: ADFU+vsCtos93dCK8qGfhdkwOdud3ZjpanDjCbS9pa1TE55XirRXOvMyx1WKFGFiuClJ66yyICApJJD0HMfc1CYsXP8=
-X-Received: by 2002:aca:210c:: with SMTP id 12mr5677632oiz.0.1584703234460;
- Fri, 20 Mar 2020 04:20:34 -0700 (PDT)
+        Fri, 20 Mar 2020 07:37:39 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e74aaf50000>; Fri, 20 Mar 2020 04:37:25 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 20 Mar 2020 04:37:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 20 Mar 2020 04:37:38 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Mar
+ 2020 11:37:38 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 20 Mar 2020 11:37:38 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.72.141]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e74ab010001>; Fri, 20 Mar 2020 04:37:38 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] soc/tegra: fuse: Add custom SoC attributes
+Date:   Fri, 20 Mar 2020 11:37:16 +0000
+Message-ID: <20200320113716.6105-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Received: by 2002:a05:6838:40c6:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:20:34
- -0700 (PDT)
-From:   ECOWAS COMMITEE <ecowasmonitoringcommitteeabj@gmail.com>
-Date:   Fri, 20 Mar 2020 11:20:34 +0000
-Message-ID: <CAHHubrbE-eXijJvb-yMhHf_zMtqHatZECXC7fpgS=r7y6kGzGQ@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584704245; bh=y8mJUEHfQPdhcg3b+lgsOBy/trP1EtR0UprZ5H9daTY=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=sNfyym7CcbOwFOeJmoXAC5gHRdpSDO7ZnejrymcRWzQlVoJf3mhpqlDFSYu0+BJw2
+         7FWAE7QfzQCr/tRvRUcwwwg7/7/NEK39wNbKmK9cRDX9y1c27nTs+3v95ehd6b0BF5
+         Lny6jgOzIwtFlpuUgdvg0+Z/PE5Ou/aEPXwvYUspMHauAnm7209L91odT8EhD2xEVf
+         nLtyOBiN+9w4te728uOJl9iCMjwZfbB0c0W5BV1Ajat5wCjt8ZxTD1q/CRWBQkWVZi
+         6ym68LcBeonD4rRb7SCZuCmwFcFv0sR8k+o48aGNcHsbqJuVfhY4oLpedq2Cvzqfd9
+         22ToR4zHSTRLA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dear Sir/Madam
+Add a custom SoC attribute for Tegra to expose the HIDREV register
+contents to userspace via the sysfs. This register provides additional
+details about the fabrication and versioning of the device. Exposing
+this information is useful for identifying the exact device revision and
+device type.
 
-HAPPY SURVIVAL OF CORONAVIRUS
+Please note that the fields in this register vary depending on the Tegra
+generation and so instead of exposing the individual fields, just expose
+the entire contents of the register. Details of the register fields can
+be found in the Technical Reference Manual for each Tegra device.
 
-We the West African Monitoring Committee of the West African Economic
-Community(ECOWAS)are contacting you for a business transaction which
-we feel will be of great interest to you.
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/soc/tegra/fuse/fuse-tegra.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Our duty is to see to the coming in and out of funds into this sub
-region.There is a fund which we confiscated worth of $12.5 million
-dollars.We will like you to receive this fund on your name in your
-account and as well helping us in the investment.
+diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
+index 802717b9f6a3..217e326da232 100644
+--- a/drivers/soc/tegra/fuse/fuse-tegra.c
++++ b/drivers/soc/tegra/fuse/fuse-tegra.c
+@@ -300,6 +300,24 @@ static void tegra_enable_fuse_clk(void __iomem *base)
+ 	writel(reg, base + 0x14);
+ }
+ 
++static ssize_t tegra_soc_hidrev_show(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
++{
++	return sprintf(buf, "%d\n", tegra_read_chipid());
++}
++
++static DEVICE_ATTR(hidrev, S_IRUGO, tegra_soc_hidrev_show,  NULL);
++
++static struct attribute *tegra_soc_attr[] = {
++	&dev_attr_hidrev.attr,
++	NULL,
++};
++
++static const struct attribute_group tegra_soc_attr_group = {
++	.attrs = tegra_soc_attr,
++};
++
+ struct device * __init tegra_soc_device_register(void)
+ {
+ 	struct soc_device_attribute *attr;
+@@ -312,6 +330,7 @@ struct device * __init tegra_soc_device_register(void)
+ 	attr->family = kasprintf(GFP_KERNEL, "Tegra");
+ 	attr->revision = kasprintf(GFP_KERNEL, "%d", tegra_sku_info.revision);
+ 	attr->soc_id = kasprintf(GFP_KERNEL, "%u", tegra_get_chip_id());
++	attr->custom_attr_group = &tegra_soc_attr_group;
+ 
+ 	dev = soc_device_register(attr);
+ 	if (IS_ERR(dev)) {
+-- 
+2.17.1
 
-You are advised to contact us as soon as you get this message for
-details of the transaction if you find it interesting.
-
-Best Regards,
-
-Mr John Aka
-
-Chairman
-ECOWAS
-West African Monitoring Committee
-Tel 00225 6716 6756
-Abidjan Cote D'Ivoire
