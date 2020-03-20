@@ -2,65 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34B5818D0A2
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 15:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B427C18D12E
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Mar 2020 15:39:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727816AbgCTOZK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Mar 2020 10:25:10 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41639 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726896AbgCTOZJ (ORCPT
+        id S1727295AbgCTOjG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Mar 2020 10:39:06 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46716 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726970AbgCTOjG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Mar 2020 10:25:09 -0400
-Received: by mail-lj1-f195.google.com with SMTP id o10so6585467ljc.8;
-        Fri, 20 Mar 2020 07:25:07 -0700 (PDT)
+        Fri, 20 Mar 2020 10:39:06 -0400
+Received: by mail-lj1-f196.google.com with SMTP id d23so6600303ljg.13;
+        Fri, 20 Mar 2020 07:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=T5wfsqz6NA4nBgSyE/y834Ip5hf7e671S0Q1nH1Qsz4=;
-        b=JmJ7iATzKnqammFAuQ9z796W5nzypoWTbGhkE/TubpvYzYTS4aVWgssszGYtYq0jv6
-         ljRG56Ujk4JgnOYdUrbxf3tmTGTUA4hiIONYi/SLmnRb8dnt7Pjtffz3H+CBw59XSJaL
-         JAACc2yqJ21Gwhf9NYjWbNVS6BvKadFjwMneOwk0YlqC05GkOfSuCt9DbLX0kTDB8Moz
-         oh8tKrgmN9OTzk3P9oF2wbXJDTYWZ20Ao8nfuS4Sf74tsPzj5gGi8KJUgpysyYuJSXk6
-         XT1lwOI81as1r78dEBNYq0p3ZcLky42f4FYn9ic1n91Rjbd1XXH6tRpPFO0Gy/SifOQX
-         xFGw==
+        bh=0dEl+SmShjn8JFGibaEdqUe08SQ/fop8w6Anh4mWd4o=;
+        b=bYCVe4KYulbtR1U9kqgxr9bUo+bUJf4Sk+tqIkstrlvbcvthXvNS4T3b3Vtp/OLHNM
+         M0vcmMkhfBtUyiMouLbxxtiYdFpfXN62SRwSOI7isdHEnZmEojDK9K02i1oCmIQo1le0
+         1yyZr0uW9JQbTmaZAqdTAoKbDfXngue53pMyYhaxXLYBSZMCommcA47UO5yChDYW0nCc
+         MKXBpo03tztUkbe/S3nqNAArkZkS8pott/txqNy2tlnokwVH4+mua0LB8EZZMMPJq7B6
+         GF2010y+6FCShcA8Yx/a3+RJVufGEsoFZ7k1GUr2MdH+bZ0hDrB/pPZOTf8yEPrrwaNX
+         a9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=T5wfsqz6NA4nBgSyE/y834Ip5hf7e671S0Q1nH1Qsz4=;
-        b=IyFreTd82NYz7zwsY61xXQCBSTUepyn9QZPyRH5neqBXtMEX4MYAlShx6GSziKqv5Q
-         0AZd/7EQ/5GPJdeO44f+sxKzLgODTDmdp4O/5DEqyBtEpy1qt5m6A6oxFUMlNvHpkp9r
-         B7+RCaa7S0Z+SXsNGb5NapZTnI19T5tbxMSFpxK9disGJKXspeGBZTgpZiJMDvhlvSL9
-         k59QwOe2yfSQgE+IJvDoOcVk6Y6jpeYUURWThM5MNsO7ySBPKkUuxKhN3GXyOaMJRJG2
-         qIozkUmx5eulRanpwHJW2qoCz4Y5dGfoSG+o47yymS6HvWR17RxNDxNwCwHAhnYtodsY
-         3d1g==
-X-Gm-Message-State: ANhLgQ0KES9hoLQWDpnAHylJJs82MkqAn2yXkDfJg0igtPJZ34pm2k0l
-        C68kNF1MCcYNtKLlMU/rUh8b9/lK
-X-Google-Smtp-Source: ADFU+vugH/QD6QmdOmcFHW6Fzz2Le5mDW7RVs1mxnFOgC0mXoPuKWf4SNE2O75XiwQ0sx6lmjSZftg==
-X-Received: by 2002:a2e:99ca:: with SMTP id l10mr5410105ljj.13.1584714306182;
-        Fri, 20 Mar 2020 07:25:06 -0700 (PDT)
+        bh=0dEl+SmShjn8JFGibaEdqUe08SQ/fop8w6Anh4mWd4o=;
+        b=ARXSAjWL1xfMtARTlhX0gwApMVidhYnGUiZWj9da4PAscSfJISdyxtjQipvk3VyFjc
+         +X2spl3aBcUGOar5ZIGHAC32yuG7F15DMUszjnpWwjP+N5tkBCVgg8p0MnzN/ZZoU+zR
+         52QfWZbidXt3bJapnl9WDIetC70jNSBUUGRu9dz9dFDH3zyXDq3CoJZ4khaVs7nsEu62
+         1GLogd/cf1fa8suNHg6hDwfOKMbJieXwqebg0eGRjW/mR+LlE3uECM/Cgfm8JlXbMCTm
+         4LALXdGOs2P6OMWdxP6iLP8/roiaN2byffJQx92cIj9iGfOll/C4jpG25oJbl7Fkpxon
+         xJfg==
+X-Gm-Message-State: ANhLgQ0/VAO62UNUFRF18IkKS1s/b4SvaNmRVfsZPemMLznIeJW2y+w7
+        BYr31l5606gmC72FG8dGGhRNTDXr
+X-Google-Smtp-Source: ADFU+vuppL2bu/7VNKqrTF0sxxbNBdd3Ln/+ORUh/2BGMHpKxMUg6rGLanCO+zBsFcM+lV96bMfGrw==
+X-Received: by 2002:a2e:8ecf:: with SMTP id e15mr5797347ljl.223.1584715143094;
+        Fri, 20 Mar 2020 07:39:03 -0700 (PDT)
 Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id t23sm3102570lfq.90.2020.03.20.07.25.05
+        by smtp.googlemail.com with ESMTPSA id l22sm3462776ljc.32.2020.03.20.07.39.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2020 07:25:05 -0700 (PDT)
-Subject: Re: [PATCH -next] dmaengine: tegra-apb: mark PM functions as
- __maybe_unused
-To:     YueHaibing <yuehaibing@huawei.com>, ldewangan@nvidia.com,
-        jonathanh@nvidia.com, dan.j.williams@intel.com, vkoul@kernel.org,
-        thierry.reding@gmail.com, swarren@wwwdotorg.org
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200320071337.59756-1-yuehaibing@huawei.com>
+        Fri, 20 Mar 2020 07:39:02 -0700 (PDT)
+Subject: Re: [PATCH 2/7] clocksource: Add Tegra186 timers support
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200320133452.3705040-1-thierry.reding@gmail.com>
+ <20200320133452.3705040-3-thierry.reding@gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8d60faa5-2749-0581-7ee5-252f15b0e9cf@gmail.com>
-Date:   Fri, 20 Mar 2020 17:25:04 +0300
+Message-ID: <df532fef-1533-9da7-d676-f4671746fde3@gmail.com>
+Date:   Fri, 20 Mar 2020 17:39:01 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200320071337.59756-1-yuehaibing@huawei.com>
+In-Reply-To: <20200320133452.3705040-3-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -69,20 +69,39 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.03.2020 10:13, YueHaibing пишет:
-> When CONFIG_PM is disabled, gcc warning this:
+20.03.2020 16:34, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> drivers/dma/tegra20-apb-dma.c:1587:12: warning: 'tegra_dma_runtime_resume' defined but not used [-Wunused-function]
-> drivers/dma/tegra20-apb-dma.c:1578:12: warning: 'tegra_dma_runtime_suspend' defined but not used [-Wunused-function]
+> Currently this only supports a single watchdog, which uses a timer in
+> the background for countdown. Eventually the timers could be used for
+> various time-keeping tasks, but by default the architected timer will
+> already provide that functionality.
 > 
-> Make it as __maybe_unused to fix the warnings,
-> also remove unneeded function declarations.
-> 
-> Fixes: ec8a1586780c ("dma: tegra: add dmaengine based dma driver")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
+>  drivers/clocksource/Kconfig          |   8 +
+>  drivers/clocksource/Makefile         |   1 +
+>  drivers/clocksource/timer-tegra186.c | 377 +++++++++++++++++++++++++++
+>  3 files changed, 386 insertions(+)
+>  create mode 100644 drivers/clocksource/timer-tegra186.c
+Hello Thierry,
+
+Shouldn't this driver reside in drivers/watchdog/? Like it's done in a
+case of the T30+ driver.
+
 ...
 
-Looks good, thank you:
+> +static int __maybe_unused tegra186_timer_suspend(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused tegra186_timer_resume(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static SIMPLE_DEV_PM_OPS(tegra186_timer_pm_ops, tegra186_timer_suspend,
+> +			 tegra186_timer_resume);
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Perhaps will be better to remove these OPS for now?
