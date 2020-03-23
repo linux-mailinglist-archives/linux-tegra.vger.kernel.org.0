@@ -2,67 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C3818F5CD
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 14:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EB1018F5DF
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 14:38:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728441AbgCWNfD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Mar 2020 09:35:03 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37549 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728407AbgCWNfD (ORCPT
+        id S1728359AbgCWNik (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Mar 2020 09:38:40 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46265 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727447AbgCWNik (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Mar 2020 09:35:03 -0400
-Received: by mail-wr1-f66.google.com with SMTP id w10so17115960wrm.4;
-        Mon, 23 Mar 2020 06:34:59 -0700 (PDT)
+        Mon, 23 Mar 2020 09:38:40 -0400
+Received: by mail-wr1-f68.google.com with SMTP id j17so13705347wru.13;
+        Mon, 23 Mar 2020 06:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=hhms+vqTD06TLe2mBcQbVAZEZO2QF+Dl8VMSSSzj6LQ=;
-        b=PG3sDILymsEdg26+l7j8zxUHIy1Idk+Nw133dBNIPQQ/u6sqSLfR4V7COteiilQV3W
-         l5VwjgJL+2piTzO2eYrgXj4dQSm97qRq5y1eUakzqAHOciIglTLn5mwyBVjg2EYhiqri
-         XQlByVC8fb3uZtJ3B/V5yrBRbHqVOHw/rKt2qPt3utinKTofuOZgtUnEf7WN6utoXp2q
-         E5Oy/+vFyg4pUyuidG7m36YVKqDNiSgidxfPnscFmh5CxJ6R6hstPQxhzbLcHeaOaXL0
-         qUmHhu1i5J3673BwB/Twola2HK4YMJFmj1aq0zeVWr+ZOpXoannhhMUaQOR0P5zpF6dx
-         Hk3g==
+        bh=mB1YokxVBqP8LBRJbFIhaNMH04KnhGNaz7RjxY84kjs=;
+        b=GNUzSNGM3NfvFnA2phx1nZ3F7XeM06VgJ09maRproeAYkhJRs0KgNMi5LuWhIqQO6V
+         l9y+kNDAAUSWfjR3J6plbj3kwKP7FbAljSADb+papgmSDYWQ6RFjhY19og/C1NudsI1s
+         zR33tEF11ot4yinqFHCWjvDiXGVyQgc8GuEblrMUA19/hN8Ss5ZgVvDUUeMIh9aNYjYz
+         U/ztPvnlPtjmJyuhI5DYZXFQiHHy02Aq9vGN4C3TONqJQU8yy3T+Nu/uVZsbCw88G2iK
+         MZ2e5d4w5HKcGogDWmy9FGh96AUy90NNyTw1TDfvT1cptPM9hn5aaelC6mkME9U/Sm98
+         yBuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hhms+vqTD06TLe2mBcQbVAZEZO2QF+Dl8VMSSSzj6LQ=;
-        b=pP25I7hytmWUL60A7dsKEeKCaOB4ae1AAKgwgx0wvI7gZh+UYJs63XISBsx+zGrU/g
-         sIJOm/3rpSMJBUMOf+3BfoBaC+9ml8KNJt3pOGX/B2cvxDhF58FwsdLWi2d81w4d7do3
-         XBprb1yox3cNFB25DFTvbnNoYMWcXeo4jX7GU676SzgsqvjmYxWhrZ/7YKjTmGOeXUja
-         UpCQKB/9RJC5dig7FoDvDgDbn+G70CnOJ1B7mRzyimsGoJ8doDrOqnofgwcKVMURH8ry
-         XZzZ/thDIBFwWj7F9tqMjsHp0CjaZEKNRnDSoaLehZswRt6SHVotREPzqfPdM3O8dmf5
-         uRog==
-X-Gm-Message-State: ANhLgQ29jvMeuxTcIrTWuOTbL2qeWD+J2N7qF8HyJIcByfGnjKH1uv9a
-        fTLV1bbZDr0T2hWzXdzpv28=
-X-Google-Smtp-Source: ADFU+vvAvzAUiUzNXfNA+8RW8Ac2Mux7dMBZ5HMFcL8ILUmtFVRsCPlsVBGFWFgZf4zHocYLLtRi6Q==
-X-Received: by 2002:a5d:6104:: with SMTP id v4mr21264064wrt.213.1584970498925;
-        Mon, 23 Mar 2020 06:34:58 -0700 (PDT)
+        bh=mB1YokxVBqP8LBRJbFIhaNMH04KnhGNaz7RjxY84kjs=;
+        b=SFhH8K1aVUurlKCWmF4q5e/k7t5cnaQWREtYDE3o0bHxXeeT/MIKalBciAzvg5BmgT
+         Q1mBHKJhIINjFHrbLl2+nHGHdBmJLtQbb25rWYcqpW1ebVMB+y0C4lawa4huTwlMMV0g
+         Yzs7emWEi5iW3+/cnZUTc/kjrJWPNkTIHkJQxqhKHKGX34leNwqO88Px00jkIu903vKM
+         aI9yq0yx2ddCj3k1fKfvx2bBncz0JvGGP4xrhc9Rcss5DDcfJE2xirCoozlMVAdt5CE2
+         aGd8VGr3irxZKpDXnJg91FYBBahvAMw2zOwIuugqciaX9FINVZuz9dSxxzOd7pMreD0o
+         DrLA==
+X-Gm-Message-State: ANhLgQ0FJL5sQBd++Eb4BR8fpuuho8ANwVcH61LH3guwFhqdq+duwtXo
+        ldkMtCgKIfY8BXadvnuDTcY=
+X-Google-Smtp-Source: ADFU+vvKINuj0Pk6ZBI/AFTWwaMtddjaDwM5Zwj58tpuGQNPXYq6gYWorGio39rOMeRt4RAeSNoh1A==
+X-Received: by 2002:adf:e70d:: with SMTP id c13mr30855152wrm.306.1584970717995;
+        Mon, 23 Mar 2020 06:38:37 -0700 (PDT)
 Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
-        by smtp.gmail.com with ESMTPSA id l64sm22396597wmf.30.2020.03.23.06.34.57
+        by smtp.gmail.com with ESMTPSA id a73sm20893289wme.47.2020.03.23.06.38.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2020 06:34:57 -0700 (PDT)
-Date:   Mon, 23 Mar 2020 14:34:56 +0100
+        Mon, 23 Mar 2020 06:38:36 -0700 (PDT)
+Date:   Mon, 23 Mar 2020 14:38:35 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Print -EPROBE_DEFER error message at debug
- level
-Message-ID: <20200323133456.GG3883508@ulmo>
-References: <20200319131230.3216305-1-thierry.reding@gmail.com>
- <20200319180529.GB7433@e121166-lin.cambridge.arm.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] clocksource: Add Tegra186 timers support
+Message-ID: <20200323133835.GH3883508@ulmo>
+References: <20200320133452.3705040-1-thierry.reding@gmail.com>
+ <20200320133452.3705040-3-thierry.reding@gmail.com>
+ <df532fef-1533-9da7-d676-f4671746fde3@gmail.com>
+ <20200320150406.GA3706404@ulmo>
+ <5a559950-0497-b24f-6484-c2513375fe62@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="VACxsDaSTfeluoxK"
+        protocol="application/pgp-signature"; boundary="3ecMC0kzqsE2ddMN"
 Content-Disposition: inline
-In-Reply-To: <20200319180529.GB7433@e121166-lin.cambridge.arm.com>
+In-Reply-To: <5a559950-0497-b24f-6484-c2513375fe62@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -70,148 +71,78 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---VACxsDaSTfeluoxK
-Content-Type: text/plain; charset=us-ascii
+--3ecMC0kzqsE2ddMN
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 19, 2020 at 06:05:30PM +0000, Lorenzo Pieralisi wrote:
-> On Thu, Mar 19, 2020 at 02:12:30PM +0100, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
+On Fri, Mar 20, 2020 at 06:23:35PM +0300, Dmitry Osipenko wrote:
+> 20.03.2020 18:04, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Fri, Mar 20, 2020 at 05:39:01PM +0300, Dmitry Osipenko wrote:
+> >> 20.03.2020 16:34, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> From: Thierry Reding <treding@nvidia.com>
+> >>>
+> >>> Currently this only supports a single watchdog, which uses a timer in
+> >>> the background for countdown. Eventually the timers could be used for
+> >>> various time-keeping tasks, but by default the architected timer will
+> >>> already provide that functionality.
+> >>>
+> >>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >>> ---
+> >>>  drivers/clocksource/Kconfig          |   8 +
+> >>>  drivers/clocksource/Makefile         |   1 +
+> >>>  drivers/clocksource/timer-tegra186.c | 377 +++++++++++++++++++++++++=
+++
+> >>>  3 files changed, 386 insertions(+)
+> >>>  create mode 100644 drivers/clocksource/timer-tegra186.c
+> >> Hello Thierry,
+> >>
+> >> Shouldn't this driver reside in drivers/watchdog/? Like it's done in a
+> >> case of the T30+ driver.
 > >=20
-> > Probe deferral is an expected error condition that will usually be
-> > recovered from. Print such error messages at debug level to make them
-> > available for diagnostic purposes when building with debugging enabled
-> > and hide them otherwise to not spam the kernel log with them.
+> > The hardware block that this binds to is primarily a time-keeping block
+> > that just so happens to also implement a watchdog. Moving this to
+> > drivers/watchdog would put us into an odd situation if we ever added
+> > code to also implement the time-keeping bits for this hardware.
 > >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  drivers/pci/controller/dwc/pcie-tegra194.c | 42 ++++++++++++++++++----
-> >  1 file changed, 35 insertions(+), 7 deletions(-)
+> > I also think that the way this is done on Tegra30 was a bad choice. The
+> > problem is that we now have two drivers (tegra_wdt.c and tegra-timer.c)
+> > that both access the same region of memory. This seems to be relatively
+> > safe to do on those chips because there's no overlap between the timer
+> > and the watchdog interfaces, but on Tegra186 and later the watchdog is
+> > actually using one of the timers, so we'd have to be extra careful how
+> > to coordinate between the two. It seems much easier to do that by having
+> > everything in the same driver and have that register multiple devices in
+> > the system.
 >=20
-> Hi Thierry,
+> Sounds like a watchdog on Tegra20, where one of the timer is shared with
+> a watchdog function and there are no other free timers. Well, yes, it's
+> not nice.
 >=20
-> what tree/branch is it based on ? I assume it may depend on some
-> patches queued in one of my branches so please let me know and
-> I will apply accordingly.
+> But, will you really ever need an additional clocksource on T186?
 
-Hi Lorenzo,
-
-This should apply on top of commit 5b645b7fade9 ("PCI: tegra: Add
-support for PCIe endpoint mode in Tegra194") which is currently in
-linux-next.
-
-Looking at your "pci" tree, that commit seems to be in a branch
-called pci/endpoint, though the equivalent commit there has a slightly
-different SHA:
-
-    f4746b0ccef9 ("PCI: tegra: Add support for PCIe endpoint mode in Tegra1=
-94")
-
-git range-diff shows that the only difference is that in the patch in
-linux-next there are a couple of additional exported symbols that are
-not in your pci/endpoint branch. That shouldn't be relevant, though,
-since this patch touches another area of the code, so applying this to
-your pci/endpoint branch should work.
+I don't know. It's possible that they will become useful at some point.
 
 Thierry
 
-> > diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/c=
-ontroller/dwc/pcie-tegra194.c
-> > index 97d3f3db1020..e4870fa6ce9c 100644
-> > --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> > +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> > @@ -1159,17 +1159,31 @@ static int tegra_pcie_dw_parse_dt(struct tegra_=
-pcie_dw *pcie)
-> >  	/* Endpoint mode specific DT entries */
-> >  	pcie->pex_rst_gpiod =3D devm_gpiod_get(pcie->dev, "reset", GPIOD_IN);
-> >  	if (IS_ERR(pcie->pex_rst_gpiod)) {
-> > -		dev_err(pcie->dev, "Failed to get PERST GPIO: %ld\n",
-> > -			PTR_ERR(pcie->pex_rst_gpiod));
-> > -		return PTR_ERR(pcie->pex_rst_gpiod);
-> > +		int err =3D PTR_ERR(pcie->pex_rst_gpiod);
-> > +		const char *level =3D KERN_ERR;
-> > +
-> > +		if (err =3D=3D -EPROBE_DEFER)
-> > +			level =3D KERN_DEBUG;
-> > +
-> > +		dev_printk(level, pcie->dev,
-> > +			   dev_fmt("Failed to get PERST GPIO: %d\n"),
-> > +			   err);
-> > +		return err;
-> >  	}
-> > =20
-> >  	pcie->pex_refclk_sel_gpiod =3D devm_gpiod_get(pcie->dev,
-> >  						    "nvidia,refclk-select",
-> >  						    GPIOD_OUT_HIGH);
-> >  	if (IS_ERR(pcie->pex_refclk_sel_gpiod)) {
-> > -		dev_info(pcie->dev, "Failed to get REFCLK select GPIOs: %ld\n",
-> > -			 PTR_ERR(pcie->pex_refclk_sel_gpiod));
-> > +		int err =3D PTR_ERR(pcie->pex_refclk_sel_gpiod);
-> > +		const char *level =3D KERN_ERR;
-> > +
-> > +		if (err =3D=3D -EPROBE_DEFER)
-> > +			level =3D KERN_DEBUG;
-> > +
-> > +		dev_printk(level, pcie->dev,
-> > +			   dev_fmt("Failed to get REFCLK select GPIOs: %d\n"),
-> > +			   err);
-> >  		pcie->pex_refclk_sel_gpiod =3D NULL;
-> >  	}
-> > =20
-> > @@ -2058,13 +2072,27 @@ static int tegra_pcie_dw_probe(struct platform_=
-device *pdev)
-> > =20
-> >  	ret =3D tegra_pcie_dw_parse_dt(pcie);
-> >  	if (ret < 0) {
-> > -		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-> > +		const char *level =3D KERN_ERR;
-> > +
-> > +		if (ret =3D=3D -EPROBE_DEFER)
-> > +			level =3D KERN_DEBUG;
-> > +
-> > +		dev_printk(level, dev,
-> > +			   dev_fmt("Failed to parse device tree: %d\n"),
-> > +			   ret);
-> >  		return ret;
-> >  	}
-> > =20
-> >  	ret =3D tegra_pcie_get_slot_regulators(pcie);
-> >  	if (ret < 0) {
-> > -		dev_err(dev, "Failed to get slot regulators: %d\n", ret);
-> > +		const char *level =3D KERN_ERR;
-> > +
-> > +		if (ret =3D=3D -EPROBE_DEFER)
-> > +			level =3D KERN_DEBUG;
-> > +
-> > +		dev_printk(level, dev,
-> > +			   dev_fmt("Failed to get slot regulators: %d\n"),
-> > +			   ret);
-> >  		return ret;
-> >  	}
-> > =20
-> > --=20
-> > 2.24.1
-> >=20
-
---VACxsDaSTfeluoxK
+--3ecMC0kzqsE2ddMN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl54uvwACgkQ3SOs138+
-s6FfuBAAlW4UiwzsUPmv3tieVAqkE491ZYfPFMfSyCGf9YiLGnPegKAJE+cCmCqF
-uKxCzLE7DfvWMCrelvaGJu4h5nxwg8IpKWNLvTQd23QHrn1iNmBgbEsbkg70IhiA
-B+loO7Msrcyx11BUhfPQQq6g1Ggxa3y61WHM81tYkTBdV2eZn3qtaHJer21fRv95
-C/v04JJg3MWIy+8mooPIbDC3P3OQLmmmy8CT/TD5q0/bRJ5Nw+SxqV35vZODjB5v
-TUTjlywZqeNzjVxwQz1CURU7Fi56G/N/hNry9SeynH0gTkBjxfuBHSUESORabavu
-7wwMpnfccpdR6fcUlF3eEg6NVBHmrathxGVRXH1XROjhY9SO4S2WQVR5b47ydCIY
-0pRY51UDIHs0necw+8SCPPxBcWlscxRM4BnIltQ5OkBSyngO+c0Bua4QTbp+aB6o
-JGYK0lkiJwtzGef+7hdF6dLDUTZ8CUinJNfaexxeshDdS9AQDpmAvNoEBWYeR1l0
-NHR5IBa5ucCKT05iA5w1ZecjzdqlD4NfzrFjeu5O7LnjrRBIEogeDAAbaVFPoS6A
-N6VKg5+UJ/warGxZ9SOFp/2zz9dVPpzPXsRDzNBlMcXuvujXkfWAIiHFJB5MpGmS
-PV/TbqaZAcPdU0N8E4RlwL+EIKOVxARtDGjmsxdv4UMNlA0/AOY=
-=ite/
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl54u9sACgkQ3SOs138+
+s6HhmxAAlcQJPxMadaHu5SXzYWXICljQrwPSVzxl0B1ALvIUVRQNswXyEcmtWBQ2
+jZ4hHyPoUuQoiFr5D5gfvYPigp39RNCxijn9kDL/QwzbLld270PZvpQIuosuhTrN
+737BcaHkhzy+sdlqf7HQC/OWPd5qwMegVL1If2UwvoyB8ENeHngTuH9PQClVXwsf
+IPeC1ewK5l0kJGnpwUNPURjCXT2vhbyG7fGWDFfkF7muqOWG8eVQLzZLfVTE47p8
+Jq81lMF/u+Bwk/GVtMDQfS4SIH97wBbuSJYb/qRiD/mO3ojdaBq6N33GfeBlhs0v
+zgFdQqFgh+hBQPf9S1kX7ViciQZAJDYxQ2pQw4Cq0MYxWur4g0Ke5UWWRWmWqmrp
+ab0DbqmsaMopG2tlKkcuFUucET4szrP0wTS3X2wqNqYp96LBECD9bvnPvjJo1Dro
+Yi9kB4GCGy+YQJSeMPnHPz7siZ+OIsMluEardSz65G37CHA/DbiZLi2v8NS4h37K
++qeOyILxXclDn54NpV13hIdvTBfDn/iysaVSBbWfNiy02UX+4a8jDe7tdkoHp4cg
+ZinamyX87pzkAOJYO1UgpbdjjGK93pClLZn5JLacJW9/QUIiag2LoeImZIM9a/hX
+YFThiI6Guo9EGewLfjuKu7sYdK5GL+LUtzHrZ6W0SfLLWSu60yA=
+=wIxO
 -----END PGP SIGNATURE-----
 
---VACxsDaSTfeluoxK--
+--3ecMC0kzqsE2ddMN--
