@@ -2,140 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CA7A18F362
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 12:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B45518F3C4
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 12:36:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728023AbgCWLGR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Mar 2020 07:06:17 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45784 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727987AbgCWLGR (ORCPT
+        id S1728176AbgCWLgN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Mar 2020 07:36:13 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4416 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728115AbgCWLgN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Mar 2020 07:06:17 -0400
-Received: by mail-wr1-f67.google.com with SMTP id t7so11788473wrw.12;
-        Mon, 23 Mar 2020 04:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PvaA9WErHPfhLzkoxic3oiXs7q2b8jdtV9hoK7AM6S0=;
-        b=KL43WrYTI7twEj/ElGDXpP3z4rMkVQmiavtuO8E43tb0A1jiSZFqTFGw+Z9rt88KA0
-         HLUcj0+mGIY741Fx7Qu16MrayKfc8YZsEbRjLfhJ9c+RGuIESIuOSlVhCAxEa+rO0xoe
-         umC4lTvey0CxqQ/hse7eJEfAbX4NoGpq4rw4IRlAMkb6yqE6oD7r9OkthDgzmQDEHIyo
-         ytE/bxH4kGUJRdQcOva84Pex07qX2lMFU3W3fs7Jx+niVvCzGkh0WC6Nvq4f64jCojPf
-         rKIMQBJjiozsPim0+P7xtUx8YJmFyt1WZcOsHeyuUOgmOtEf0TnFAfCpq/ls81VokukE
-         oKDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PvaA9WErHPfhLzkoxic3oiXs7q2b8jdtV9hoK7AM6S0=;
-        b=kLq4ZL/om8dhgKKToVsyKdwE1/y6lL1NFQ6YxEwnQq+0Un9UIXbTQ64WaSVjcvCLdI
-         tpDqj8GGhccuzMAetTAmQHnXF9KTui+Fvyg0n+HvDGKGfNYie1ZL0MuOvSnZUMKxZe4z
-         QBjh/gI8oWZaejjyDoJpr2jPuENta4j4DYZGDRNolObZYf+bBz0ThMQTX3Wf4mSDHKuM
-         coCafUvke+BBwOYcgyDlFSJHZSFJMPEkG0o/sheySZStOycXh6xMQ2qhJSXTsA/rwIc8
-         4rLu3agm0765P75FMRpW4jUtGN7HljGd9vuI2PQRDTc6pPaa+opVJXV3Tak2UOD5l1RK
-         U5ZQ==
-X-Gm-Message-State: ANhLgQ3Ijh8yAxfMa1Fum9I/Vhm9kfBJVTGBUFoln5ShpT8xb7rJL4C9
-        /zo7Jjh5WP9L10lDopr6ih0=
-X-Google-Smtp-Source: ADFU+vuP8WC1Z1+VeP4J2xlTB/CcaELAr/Oz4UztThDWUzq3KVBGIo7q2+7br3Tvbrtr8IlcXKy9Rg==
-X-Received: by 2002:adf:e44a:: with SMTP id t10mr19226457wrm.322.1584961574704;
-        Mon, 23 Mar 2020 04:06:14 -0700 (PDT)
-Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
-        by smtp.gmail.com with ESMTPSA id r9sm21658997wma.47.2020.03.23.04.06.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2020 04:06:13 -0700 (PDT)
-Date:   Mon, 23 Mar 2020 12:06:12 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 3/8] clk: tegra: Implement Tegra210 EMC clock
-Message-ID: <20200323110612.GE3883508@ulmo>
-References: <20200310152003.2945170-1-thierry.reding@gmail.com>
- <20200310152003.2945170-4-thierry.reding@gmail.com>
- <3b583202-50d0-145c-d60f-91bd646008ad@gmail.com>
+        Mon, 23 Mar 2020 07:36:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e789eff0000>; Mon, 23 Mar 2020 04:35:27 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 23 Mar 2020 04:36:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 23 Mar 2020 04:36:12 -0700
+Received: from [10.26.73.76] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Mar
+ 2020 11:36:09 +0000
+Subject: Re: [PATCH] pwm: tegra: Add support for Tegra194
+To:     Sandipan Patra <spatra@nvidia.com>, <treding@nvidia.com>,
+        <robh+dt@kernel.org>, <u.kleine-koenig@pengutronix.de>
+CC:     <bbasu@nvidia.com>, <ldewangan@nvidia.com>,
+        <linux-pwm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1583407653-30059-1-git-send-email-spatra@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <1e40daf7-e5f8-7b79-cabe-8aceef6dda58@nvidia.com>
+Date:   Mon, 23 Mar 2020 11:36:07 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Rgf3q3z9SdmXC6oT"
-Content-Disposition: inline
-In-Reply-To: <3b583202-50d0-145c-d60f-91bd646008ad@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <1583407653-30059-1-git-send-email-spatra@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584963327; bh=Ax5Luu1Wgx/GtkJPbCn5+KhconBwWEM43/aV+eFmyS0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=jUJqLG6NJAY/qZCEoFKvpMnAMPHll61DC5NFj9AqYPyzgsFTD0xv2wus1i/vAmlm+
+         ibI2WfTWY/vZfBNtYniGGZ6vYn8OIyquhxhdV1bccnlZun2XqiZqk0HoA26SweeU+B
+         mIW+sFhuPn8In/WlNxU5j/Dpy2KozDnwd9Z1vD/IhGIUh8snwlMdCYGGbV2A6rPGBp
+         N4Ohqed20b243fzW8a4ohKYsg3Jqx6Q1YtENlXDq3q0aAXGyvopthBHr7sTQWnX+Z1
+         LZA40P6nTXLa38vFLR1ZPsRenjrWSpZ+Yp+g8XcLhMz8bd7lwi+TJPBAGwKlILUa3w
+         D+TOnrzR1R6OQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---Rgf3q3z9SdmXC6oT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 05/03/2020 11:27, Sandipan Patra wrote:
+> Tegra194 has multiple PWM controllers with each having only one output.
+> 
+> Also the maxmimum frequency is higher than earlier SoCs.
+> 
+> Add support for Tegra194 and specify the number of PWM outputs and
+> maximum supported frequency using device tree match data.
+> 
+> Signed-off-by: Sandipan Patra <spatra@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt | 1 +
+>  drivers/pwm/pwm-tegra.c                                      | 6 ++++++
+>  2 files changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
+> index 0a69ead..74c41e3 100644
+> --- a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
+> +++ b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
+> @@ -9,6 +9,7 @@ Required properties:
+>    - "nvidia,tegra132-pwm", "nvidia,tegra20-pwm": for Tegra132
+>    - "nvidia,tegra210-pwm", "nvidia,tegra20-pwm": for Tegra210
+>    - "nvidia,tegra186-pwm": for Tegra186
+> +  - "nvidia,tegra194-pwm": for Tegra194
+>  - reg: physical base address and length of the controller's registers
+>  - #pwm-cells: should be 2. See pwm.yaml in this directory for a description of
+>    the cells format.
+> diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
+> index aa12fb3..d26ed8f 100644
+> --- a/drivers/pwm/pwm-tegra.c
+> +++ b/drivers/pwm/pwm-tegra.c
+> @@ -282,9 +282,15 @@ static const struct tegra_pwm_soc tegra186_pwm_soc = {
+>  	.max_frequency = 102000000UL,
+>  };
+>  
+> +static const struct tegra_pwm_soc tegra194_pwm_soc = {
+> +	.num_channels = 1,
+> +	.max_frequency = 408000000UL,
+> +};
+> +
+>  static const struct of_device_id tegra_pwm_of_match[] = {
+>  	{ .compatible = "nvidia,tegra20-pwm", .data = &tegra20_pwm_soc },
+>  	{ .compatible = "nvidia,tegra186-pwm", .data = &tegra186_pwm_soc },
+> +	{ .compatible = "nvidia,tegra194-pwm", .data = &tegra194_pwm_soc },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, tegra_pwm_of_match);
+> 
 
-On Tue, Mar 10, 2020 at 07:29:42PM +0300, Dmitry Osipenko wrote:
-> 10.03.2020 18:19, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > From: Joseph Lo <josephl@nvidia.com>
-> >=20
-> > The EMC clock needs to carefully coordinate with the EMC controller
-> > programming to make sure external memory can be properly clocked. Do so
-> > by hooking up the EMC clock with an EMC provider that will specify which
-> > rates are supported by the EMC and provide a callback to use for setting
-> > the clock rate at the EMC.
-> >=20
-> > Based on work by Peter De Schrijver <pdeschrijver@nvidia.com>.
-> >=20
-> > Signed-off-by: Joseph Lo <josephl@nvidia.com>
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> > Changes in v5:
-> > - major rework and cleanup
->=20
-> ...
-> > +EXPORT_SYMBOL_GPL(tegra210_clk_emc_attach);
-> > +
-> > +void tegra210_clk_emc_detach(struct clk *clk)
-> > +{
-> > +	struct tegra210_clk_emc *emc =3D to_tegra210_clk_emc(__clk_get_hw(clk=
-));
-> > +
-> > +	emc->provider =3D NULL;
-> > +}
-> > +EXPORT_SYMBOL_GPL(tegra210_clk_emc_detach);...
-> > +config TEGRA210_EMC
-> > +	bool "NVIDIA Tegra210 External Memory Controller driver"
->=20
->=20
-> I'd remove all the exports for now, given that the driver is built-in.
 
-I was able to make the driver work as a loadable module, so I've kept
-the exports where needed and made TEGRA210_EMC tristate.
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-Thierry
+Cheers
+Jon
 
---Rgf3q3z9SdmXC6oT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl54mCQACgkQ3SOs138+
-s6Fghw/9HFmA8d3ekqw+fFlSbracVyC8Jbzm7ovz/EMMhgzkKApEKD2G2L7GNFdZ
-XQiWXYuI4SANsOCnbgunpoZqi5M/zh35NvbBqQoT6pJlS1WxabPWekofZGxX9WkJ
-/oA5oD1gQhR3CpM+6QfgUH76surZ8LIgqlWDurqblrUeEWUftJuKa4xuhIj+7vwy
-B4cZYF04OqrUl5dJXKiX9qUAb2T0i6GZb9UbWIdPtzFGpxN7WfBBjuta/nbKJCqi
-Y4CkNqMDW3wqvj5zZrZN0/J+5SHQ2eJ26irWAn5Xrrd0N3xyIUy7/SetQ3hFsfAb
-Gxd9WyQA8OWDdlhdkoEHoMLXX7xBmKG7PA2LakCQxguSw2+meQUfgM7JJqS1sMLY
-xhqKLxu8GnMoTdwlh0LhoUAYgwYxfKrd+x+3h8qeGZAHju8nC+BrB5Pg/8gO4e3S
-e64USYE4iF8tLbAhD3WYLO7xFLEHWdI+bW8lqvuTWXqXqkXA1bRFrCBidwODDkb1
-rj8UuNJzhOzgB7A8us/of+PlabsIsJm4Pr7zqoBUm7LEv9x9BcDCcRRf7jl+4yE5
-6lq+SF+f18powYYqdHkaIQCK3ldSfUYJp+iql2mmJSreDcVl10P8m3AW/HO5mRoH
-do2qAyLmNX/4iNdEq5BnMtwMvgMqcfs6nWBayGmkpyjZhL+99YI=
-=5knT
------END PGP SIGNATURE-----
-
---Rgf3q3z9SdmXC6oT--
+-- 
+nvpublic
