@@ -2,107 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFDDA18F613
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 14:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7862918F91C
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 16:59:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728539AbgCWNqB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Mar 2020 09:46:01 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:35505 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728275AbgCWNqA (ORCPT
+        id S1727256AbgCWP7o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Mar 2020 11:59:44 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8206 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbgCWP7o (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Mar 2020 09:46:00 -0400
-Received: by mail-lj1-f196.google.com with SMTP id u12so14634843ljo.2;
-        Mon, 23 Mar 2020 06:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1+t6LbeYmWe6FOR6WNmkiSgnr61aopdEFTKbqZNI0KU=;
-        b=X7CQfX6lthXqqPf71rg06/+uDy5kRW5FnUG0OYxdhhaVsybhm1R4aq1Pci4Ze7emQK
-         FW8Ywl2ZhxVeSwLYxlL8tNuZmd0+Up6exYyiBVXkMtwKtqXjjHzX+sc19v/OtjsqTFnS
-         nHBoXut0ZX7bWL2FKgR3pf+uC9YriOKhcTt6RtM+YeLDIpjU/DFYuw7RB2Us1TciozAC
-         1bWbXELgBNiZbUu0dnmwFSxYkRaVYqv5Vw6l6abxCbcGO7P4FCe7kCTsiXCCo5PlDHB4
-         TX0sC8oMiGcYQCzVpwTot4V8KwR81ihDPK9bD1OJGS59GiWI5vArKvb3k1cNfDRstMkg
-         NvKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1+t6LbeYmWe6FOR6WNmkiSgnr61aopdEFTKbqZNI0KU=;
-        b=o2NMT7lCWBuP3v5Ee0lNDuTMEUV5iKGWVuj9SQtC2+0FbC8Rp3vDUU8KXIOLlozG9u
-         y4wBH1A9heEqO+gc0nWqGpAeXrWnu6p56/EX5x3AO1ya0439CCBbvX8/5RaMLUej/oQm
-         PopBvAG9YADz1csyXcajVPRKHR+7MCPKsw7yhYmNtBITSjhzzmyON/giAS4TTgjE2G9Z
-         iCjgl5I0m1p/M9wzOPWa/m7MKsgJ4MymMhpwPSrcAn6f3lXbh3SZw16DtszvepFkFQko
-         CFJPftobdmNlnUtA3xNR2SP9iy8gn75WoBdRpBRk36W8ts+t5SsgFjhIrgYuVyE61Mt6
-         utIA==
-X-Gm-Message-State: ANhLgQ1RB6qxZEnFAq7VIkFvv5wUeObdIcR2UZR/DgfSJ0ZUXwzKFlPk
-        EpZOWCtlQGHtTyOqs9tOtSy6cTnw
-X-Google-Smtp-Source: ADFU+vsX+Y/lZA2JE2slu72//LVcgZYy97TgLh48GZuQn1/NL0ViTBboN5LCMje/F0D1W1g/Nl+yzQ==
-X-Received: by 2002:a2e:9017:: with SMTP id h23mr14207072ljg.144.1584971158468;
-        Mon, 23 Mar 2020 06:45:58 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id 64sm8363379ljj.41.2020.03.23.06.45.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2020 06:45:57 -0700 (PDT)
-Subject: Re: [PATCH 2/7] clocksource: Add Tegra186 timers support
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Mon, 23 Mar 2020 11:59:44 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e78dcc30000>; Mon, 23 Mar 2020 08:58:59 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 23 Mar 2020 08:59:43 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 23 Mar 2020 08:59:43 -0700
+Received: from [10.26.73.76] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Mar
+ 2020 15:59:41 +0000
+Subject: Re: [PATCH v1 0/2] Support built-in Mic on Tegra boards that use
+ WM8903
+To:     Stephen Warren <swarren@wwwdotorg.org>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200320133452.3705040-1-thierry.reding@gmail.com>
- <20200320133452.3705040-3-thierry.reding@gmail.com>
- <48b2099c-dd83-d4dc-aab4-8c6f68a215cf@gmail.com>
- <da2a0501-664a-c5d0-7b13-174e5347eaf7@gmail.com>
- <20200323134221.GI3883508@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b3859b98-02a3-d197-735c-2c9a9fbe597c@gmail.com>
-Date:   Mon, 23 Mar 2020 16:45:57 +0300
+        Mark Brown <broonie@kernel.org>, <linux-tegra@vger.kernel.org>
+References: <20200320205504.30466-1-digetx@gmail.com>
+ <c27c2087-14cf-614d-a8c0-05072a54f24b@wwwdotorg.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <da88ddff-e665-8cee-6f03-1a396602b076@nvidia.com>
+Date:   Mon, 23 Mar 2020 15:59:39 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200323134221.GI3883508@ulmo>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c27c2087-14cf-614d-a8c0-05072a54f24b@wwwdotorg.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584979139; bh=b6ALMa2hKrIs0XbyLi35X2cWmMd8kYGLuEPCzNi1WWw=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qeJM2oCYmyTdv+5PKAJvYMTxoKTABCkjwRlWYo1L/hJ+ZjVMCUCoNkpWljEu+UXEi
+         X9jtz/nigahYl9DIIc0Dmwv/DrUu9QaIyMPH7YB7lVEwftRVsOE7OYA3DYBenxfwO2
+         BhXhVR4/uaBV53jjEdrafrkxGTtBO1C4uEwSZnqdBDuECOp3Y7Iu/IH+qqIluXu4zC
+         fMIvd8R3zW5YT86pKzp2fH+prd9E3y2gcKZjdzRHSdjhnqT+NVTLAnO4x8SOZ4BqWw
+         TxjzK8CFwYrhwvGtEcLNHmDVbtbdKBIvgTwfDGABeddiF/i+7wmoJ2PNJDnZJ6V1QH
+         TjGm39gokcADQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.03.2020 16:42, Thierry Reding пишет:
-> On Fri, Mar 20, 2020 at 06:38:32PM +0300, Dmitry Osipenko wrote:
->> 20.03.2020 18:11, Dmitry Osipenko пишет:
->>> 20.03.2020 16:34, Thierry Reding пишет:
->>>> From: Thierry Reding <treding@nvidia.com>
->>>>
->>>> Currently this only supports a single watchdog, which uses a timer in
->>>> the background for countdown. Eventually the timers could be used for
->>>> various time-keeping tasks, but by default the architected timer will
->>>> already provide that functionality.
->>>>
->>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>>> ---
->>>
->>> ...
->>>> +config TEGRA186_TIMER
->>>> +	bool "NVIDIA Tegra186 timer driver"
->>>
->>> tristate?
->>>
->>>> +	depends on ARCH_TEGRA || COMPILE_TEST
->>>
->>> depends on WATCHDOG && WATCHDOG_CORE?
->>
->> Actually `select WATCHDOG_CORE` for the WATCHDOG_CORE.
-> 
-> WATCHDOG_CORE is user-visible, so it's not safe to select it. Any reason
-> depends on WATCHDOG && WATCHDOG_CORE wouldn't work? I guess a dependency
-> on WATCHDOG_CORE would be enough because that itself already depends on
-> WATCHDOG.
 
-It looks to that should be much better if you could factor out all the
-watchdog functionality into the drivers/watchdog, like it's done in a
-case of MC / SMMU drivers for example.
+
+On 20/03/2020 22:30, Stephen Warren wrote:
+> On 3/20/20 2:55 PM, Dmitry Osipenko wrote:
+>> Hello,
+>>
+>> This small series adds audio route for built-in microphone on NVIDIA Tegra
+>> boards that use WM8903 CODEC. In particular this is needed in order to unmute
+>> internal microphone on Acer A500 tablet device. I'm planning to send out the
+>> device tree for the A500 for 5.8, so will be nice to get the microphone
+>> sorted out. Please review and apply, thanks in advance.
+> 
+> It's been a long time since I looked at this code, but the series looks
+> plausible,
+> Acked-by: Stephen Warren <swarren@nvidia.com>
+> 
+> (I wonder why machine->gpio_int_mic_en was already parse but never used!)
+
+Looking at the ventana schematics, it appears that the internal-mic
+signals was connected to a header and not an actual mic, so maybe we
+never had a proper internal-mic on any board but allowed one to be
+connected.
+
+Anyway, looks good to me as well.
+
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
+-- 
+nvpublic
