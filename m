@@ -2,113 +2,163 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 040C618FA55
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 17:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B5318FB5A
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 18:22:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727479AbgCWQtm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Mar 2020 12:49:42 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41376 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727067AbgCWQtm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Mar 2020 12:49:42 -0400
-Received: by mail-lj1-f195.google.com with SMTP id n17so5029452lji.8;
-        Mon, 23 Mar 2020 09:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qhFCWeL+rFInk3bPHjEA9ZVNIShgAywBeYzVQNJyjnc=;
-        b=d5Mx9bupBBr8PrzmgTgsFR7/M+Ctng0M8cH49sMpfEoTyJ9lcR59HvKbWFdGlb6qoj
-         0cWox1slQ/osr/jLC0UjEHib0nVQZFIruWsiGOW3RxjxJhD+Xc2IkxpAOHS6htYXm/Wq
-         CNMRpGebCJhE5l4CPkpra8WbC/bme7CjFH/3Dg3zINHS+0JCW6xfTyph4hRpqG/IFzPw
-         8iMJ/8xkzVOBG1tFywGL12tolFxrxkw6+rnEBxGj2VLL3WTeypD0aaytJQLEX7FaiC+M
-         LH7G/EA1rA+Wssk/fYW4zSjIx6kwB2JMyoB83P2oJaDuQu/ymGogvurNmhRP9gL4/KUl
-         YeEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qhFCWeL+rFInk3bPHjEA9ZVNIShgAywBeYzVQNJyjnc=;
-        b=shAeDRzPPrLrvDAMi+vRtgXi0prn1LhbBBeiuOFaJCj0i0fSu7NymVMM5QxVs/tdD3
-         krdAqy2XYKlQbR6Sg8gtL2TahGLMvBawuzugdl8zdX2NHYtHitOg0SdRslRmwVtnpXed
-         iIJkxvvfHcq5Enpvpd104cxkKLwIhSLmVSFtWWpl7eXIN5Z3FXE5+v7RC/Cj6jHatp/c
-         OQgXDQBF6NjRBzvDosH9DhkZMVxMfob6mz9YgT1nnS/rQb+naqB5rd1oVG0RrJ2ZWUY3
-         r4W15/l3y9KWAbLCMqnbqHaeIc4umj7UJFKNFsHx1AbdzihS/52h2dInW1F9cV1EYJLh
-         /UMQ==
-X-Gm-Message-State: ANhLgQ3tnCwidfHshH0uGS0SUdfofn3+OHUGhN7EYJSWY5+hXWm8KXod
-        j2npXqlDBqZ/OJ0dMiKss0xjH82I
-X-Google-Smtp-Source: ADFU+vuDnRyR4TA0KiU8EGeB+376glc1HzjE04SBb5yigFJd8YWFX717LqkEyyYiDH/S57kVviYPdQ==
-X-Received: by 2002:a2e:94c8:: with SMTP id r8mr14569628ljh.28.1584982178682;
-        Mon, 23 Mar 2020 09:49:38 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id k23sm8661150ljk.40.2020.03.23.09.49.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2020 09:49:38 -0700 (PDT)
-Subject: Re: [PATCH v3 00/10] Introduce NVIDIA Tegra Partition Table
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Billy Laws <blaws05@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
-        Andrey Danin <danindrey@mail.ru>,
-        Gilles Grandou <gilles@grandou.net>,
-        Ryan Grachek <ryan@edited.us>, linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200323163431.7678-1-digetx@gmail.com>
-Message-ID: <021a340f-e289-b1ee-db4f-ef61ee2b4004@gmail.com>
-Date:   Mon, 23 Mar 2020 19:49:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727715AbgCWRWC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Mar 2020 13:22:02 -0400
+Received: from foss.arm.com ([217.140.110.172]:52460 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727691AbgCWRWB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 23 Mar 2020 13:22:01 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED1911FB;
+        Mon, 23 Mar 2020 10:22:00 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EBBEC3F7C3;
+        Mon, 23 Mar 2020 10:21:59 -0700 (PDT)
+Date:   Mon, 23 Mar 2020 17:21:49 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>, linux-pci@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] PCI: tegra: Print -EPROBE_DEFER error message at debug
+ level
+Message-ID: <20200323172137.GA17018@e121166-lin.cambridge.arm.com>
+References: <20200319131230.3216305-1-thierry.reding@gmail.com>
+ <20200319180529.GB7433@e121166-lin.cambridge.arm.com>
+ <20200323133456.GG3883508@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20200323163431.7678-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200323133456.GG3883508@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.03.2020 19:34, Dmitry Osipenko пишет:
-> Some NVIDIA Tegra devices have GPT entry at a wrong location and others may
-> even not have it at all. So either a custom workaround for GPT parsing or
-> TegraPT support is needed for those devices if we want to support them in
-> upstream kernel. The former solution was already rejected [1], let's try
-> the latter.
+On Mon, Mar 23, 2020 at 02:34:56PM +0100, Thierry Reding wrote:
+> On Thu, Mar 19, 2020 at 06:05:30PM +0000, Lorenzo Pieralisi wrote:
+> > On Thu, Mar 19, 2020 at 02:12:30PM +0100, Thierry Reding wrote:
+> > > From: Thierry Reding <treding@nvidia.com>
+> > > 
+> > > Probe deferral is an expected error condition that will usually be
+> > > recovered from. Print such error messages at debug level to make them
+> > > available for diagnostic purposes when building with debugging enabled
+> > > and hide them otherwise to not spam the kernel log with them.
+> > > 
+> > > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > > ---
+> > >  drivers/pci/controller/dwc/pcie-tegra194.c | 42 ++++++++++++++++++----
+> > >  1 file changed, 35 insertions(+), 7 deletions(-)
+> > 
+> > Hi Thierry,
+> > 
+> > what tree/branch is it based on ? I assume it may depend on some
+> > patches queued in one of my branches so please let me know and
+> > I will apply accordingly.
 > 
-> [1] https://patchwork.ozlabs.org/patch/1240809/
+> Hi Lorenzo,
 > 
-> Big thanks to everyone who helped with figuring out the TegraPT format!
+> This should apply on top of commit 5b645b7fade9 ("PCI: tegra: Add
+> support for PCIe endpoint mode in Tegra194") which is currently in
+> linux-next.
 > 
-> Changelog:
+> Looking at your "pci" tree, that commit seems to be in a branch
+> called pci/endpoint, though the equivalent commit there has a slightly
+> different SHA:
 > 
-> v3: - Fixed "BUG: KASAN: slab-out-of-bounds in tegra_partition". Thanks to
->       Peter Geis for noticing the problem.
+>     f4746b0ccef9 ("PCI: tegra: Add support for PCIe endpoint mode in Tegra194")
 > 
->     - The MMC boot partitions scanning is now opt-in. See this patch:
-> 
->         mmc: block: Support partition-table scanning on boot partitions
-> 
->     - The found MMC boot partitions won't be assigned to the MMC boot
->       block device ever due to the new GENHD_FL_PART_SCAN_ONCE flag.
-> 
->       This makes us to ensure that the old behavior of the MMC core is
->       preserved for a non-Tegra MMC-block users.
-> 
->     New patches in v3:
-> 
->         block: Introduce GENHD_FL_PART_SCAN_ONCE
->         mmc: sdhci-tegra: Enable boot partitions scanning on Tegra20 and Tegra30
+> git range-diff shows that the only difference is that in the patch in
+> linux-next there are a couple of additional exported symbols that are
+> not in your pci/endpoint branch. That shouldn't be relevant, though,
+> since this patch touches another area of the code, so applying this to
+> your pci/endpoint branch should work.
 
-I forgot to mention that the TegraPT Kconfig entry now depends on MMC,
-which was suggested by Randy Dunlap in the review comment to the v2.
+Applied to pci/endpoint, thanks !
+
+Lorenzo
+
+> Thierry
+> 
+> > > diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> > > index 97d3f3db1020..e4870fa6ce9c 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> > > @@ -1159,17 +1159,31 @@ static int tegra_pcie_dw_parse_dt(struct tegra_pcie_dw *pcie)
+> > >  	/* Endpoint mode specific DT entries */
+> > >  	pcie->pex_rst_gpiod = devm_gpiod_get(pcie->dev, "reset", GPIOD_IN);
+> > >  	if (IS_ERR(pcie->pex_rst_gpiod)) {
+> > > -		dev_err(pcie->dev, "Failed to get PERST GPIO: %ld\n",
+> > > -			PTR_ERR(pcie->pex_rst_gpiod));
+> > > -		return PTR_ERR(pcie->pex_rst_gpiod);
+> > > +		int err = PTR_ERR(pcie->pex_rst_gpiod);
+> > > +		const char *level = KERN_ERR;
+> > > +
+> > > +		if (err == -EPROBE_DEFER)
+> > > +			level = KERN_DEBUG;
+> > > +
+> > > +		dev_printk(level, pcie->dev,
+> > > +			   dev_fmt("Failed to get PERST GPIO: %d\n"),
+> > > +			   err);
+> > > +		return err;
+> > >  	}
+> > >  
+> > >  	pcie->pex_refclk_sel_gpiod = devm_gpiod_get(pcie->dev,
+> > >  						    "nvidia,refclk-select",
+> > >  						    GPIOD_OUT_HIGH);
+> > >  	if (IS_ERR(pcie->pex_refclk_sel_gpiod)) {
+> > > -		dev_info(pcie->dev, "Failed to get REFCLK select GPIOs: %ld\n",
+> > > -			 PTR_ERR(pcie->pex_refclk_sel_gpiod));
+> > > +		int err = PTR_ERR(pcie->pex_refclk_sel_gpiod);
+> > > +		const char *level = KERN_ERR;
+> > > +
+> > > +		if (err == -EPROBE_DEFER)
+> > > +			level = KERN_DEBUG;
+> > > +
+> > > +		dev_printk(level, pcie->dev,
+> > > +			   dev_fmt("Failed to get REFCLK select GPIOs: %d\n"),
+> > > +			   err);
+> > >  		pcie->pex_refclk_sel_gpiod = NULL;
+> > >  	}
+> > >  
+> > > @@ -2058,13 +2072,27 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+> > >  
+> > >  	ret = tegra_pcie_dw_parse_dt(pcie);
+> > >  	if (ret < 0) {
+> > > -		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+> > > +		const char *level = KERN_ERR;
+> > > +
+> > > +		if (ret == -EPROBE_DEFER)
+> > > +			level = KERN_DEBUG;
+> > > +
+> > > +		dev_printk(level, dev,
+> > > +			   dev_fmt("Failed to parse device tree: %d\n"),
+> > > +			   ret);
+> > >  		return ret;
+> > >  	}
+> > >  
+> > >  	ret = tegra_pcie_get_slot_regulators(pcie);
+> > >  	if (ret < 0) {
+> > > -		dev_err(dev, "Failed to get slot regulators: %d\n", ret);
+> > > +		const char *level = KERN_ERR;
+> > > +
+> > > +		if (ret == -EPROBE_DEFER)
+> > > +			level = KERN_DEBUG;
+> > > +
+> > > +		dev_printk(level, dev,
+> > > +			   dev_fmt("Failed to get slot regulators: %d\n"),
+> > > +			   ret);
+> > >  		return ret;
+> > >  	}
+> > >  
+> > > -- 
+> > > 2.24.1
+> > > 
+
+
