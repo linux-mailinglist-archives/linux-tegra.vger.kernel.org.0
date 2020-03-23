@@ -2,48 +2,40 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A9418EAAE
-	for <lists+linux-tegra@lfdr.de>; Sun, 22 Mar 2020 18:16:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BB6A18EE8F
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 04:37:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbgCVRQA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 22 Mar 2020 13:16:00 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4620 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725881AbgCVRP7 (ORCPT
+        id S1727068AbgCWDhh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Mar 2020 23:37:37 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16263 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727050AbgCWDhg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 22 Mar 2020 13:15:59 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e779d410000>; Sun, 22 Mar 2020 10:15:45 -0700
+        Sun, 22 Mar 2020 23:37:36 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e782ea60000>; Sun, 22 Mar 2020 20:36:06 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 22 Mar 2020 10:15:59 -0700
+  Sun, 22 Mar 2020 20:37:36 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 22 Mar 2020 10:15:59 -0700
-Received: from [10.25.74.3] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 22 Mar
- 2020 17:15:53 +0000
-Subject: Re: [PATCH V5 5/5] PCI: tegra: Add support for PCIe endpoint mode in
- Tegra194
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <andrew.murray@arm.com>, <kishon@ti.com>,
-        <gustavo.pimentel@synopsys.com>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20200303181052.16134-1-vidyas@nvidia.com>
- <20200303181052.16134-6-vidyas@nvidia.com>
- <20200322145020.GA2040@roeck-us.net>
+        by hqpgpgate101.nvidia.com on Sun, 22 Mar 2020 20:37:36 -0700
+Received: from [10.19.66.205] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Mar
+ 2020 03:37:33 +0000
+Subject: Re: [PATCH] phy: tegra: should select USB_PHY
+To:     Corentin Labbe <clabbe@baylibre.com>, <jonathanh@nvidia.com>,
+        <kishon@ti.com>, <thierry.reding@gmail.com>, <treding@nvidia.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+References: <1584545013-19859-1-git-send-email-clabbe@baylibre.com>
 X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <7e6a9643-fcdb-fd80-8e84-2983975889a9@nvidia.com>
-Date:   Sun, 22 Mar 2020 22:45:50 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+Message-ID: <f720dc73-e6c3-ead7-6a45-6f2b54e0f4ff@nvidia.com>
+Date:   Mon, 23 Mar 2020 09:09:41 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200322145020.GA2040@roeck-us.net>
+In-Reply-To: <1584545013-19859-1-git-send-email-clabbe@baylibre.com>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -51,47 +43,55 @@ Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1584897345; bh=81yKHmaHyYQhIkyTLm3XouWH6+1+9Fc4JlQx9GW85L4=;
+        t=1584934567; bh=0hfRlRzIddqZPpiMXJgOvPWCKjWj2e6XvJATvVythHo=;
         h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
          Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
          X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=gFETB48tFJt3O4znt+n+8BergJZyU/hJhpkPWPbWEwB7677kL5v+g4hCX6S+pKQgV
-         XmHKtxcoChOqmxXenlsxoShjUOrRnchD2riZJT3MlWURxtx+cUEet9WRbL2ocDweXQ
-         8LrAplGao1MB3D8NDqDMkS5c+/hegqiJ6w/qIVczuJ484lwQq0tDK1cnGLDdPMGOa3
-         X6zmpemmwLFb3trGY/Y6sGkuINsuHjIu9PJD1X5E7izg0i63z3hAjrRZlG3xXmGxjj
-         xOZurhnggZUOXDlYNUwa/tlOCjAKUC1qk1jVEj4rziEWtQx5UrrhEPXBA+eVL2Z71Q
-         8GlTBqlqVo46A==
+        b=Asjl1iARSY27+VP5NLW7ipRgnnUhqQcODPj3NQ1VIqaR/HvKlS8L6D7JxTKD226P1
+         ejfxlKg3/bUtfKYWgByF2LSuDAc6uxYqYUQa7y8yKRYeLQLjnSdf0BT/cN3wg3Lt8y
+         jAoY+CbIParTjXM8TnlDLITOto9dQZ+HsaO1hoprfWw3GsUVMBlPEPL5ABxLlHbzNF
+         PiOEGjXlquz6Jti4rHsej1O4SEPnTdO0ZIhl9Utf0d4Oum2B5m9ET/A1h9g1mZNZnf
+         L3Roc4hHaNV07Nk6pomFOEnh8jNlIZCeBJ741PBIizMJtt2E/cuDU58yrF2em6wBWc
+         k0I40MaXPMO+w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Reviewed-by: Nagarjuna Kristam <nkristam@nvidia.com>
 
-
-On 3/22/2020 8:20 PM, Guenter Roeck wrote:
+On 18-03-2020 20:53, Corentin Labbe wrote:
 > External email: Use caution opening links or attachments
 > 
 > 
-> On Tue, Mar 03, 2020 at 11:40:52PM +0530, Vidya Sagar wrote:
->> Add support for the endpoint mode of Synopsys DesignWare core based
->> dual mode PCIe controllers present in Tegra194 SoC.
->>
->> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
->> Acked-by: Thierry Reding <treding@nvidia.com>
+> I have hit the following build error:
+> armv7a-hardfloat-linux-gnueabi-ld: drivers/phy/tegra/xusb.o: in function `tegra_xusb_port_unregister':
+> xusb.c:(.text+0x2ac): undefined reference to `usb_remove_phy'
+> armv7a-hardfloat-linux-gnueabi-ld: drivers/phy/tegra/xusb.o: in function `tegra_xusb_setup_ports':
+> xusb.c:(.text+0xf30): undefined reference to `usb_add_phy_dev'
 > 
-> ERROR: modpost: "dw_pcie_ep_init" [drivers/pci/controller/dwc/pcie-tegra194.ko] undefined!
-> ERROR: modpost: "dw_pcie_ep_linkup" [drivers/pci/controller/dwc/pcie-tegra194.ko] undefined!
-> ERROR: modpost: "dw_pcie_ep_init_notify" [drivers/pci/controller/dwc/pcie-tegra194.ko] undefined!
-> ERROR: modpost: "dw_pcie_ep_init_complete" [drivers/pci/controller/dwc/pcie-tegra194.ko] undefined!
+> PHY_TEGRA_XUSB should select USB_PHY
 > 
-> Either the symbols must be exported, or the driver's Kconfig entry must be
-> bool, not tristate.
-Qiujun has already posted a patch to fix it @ 
-http://patchwork.ozlabs.org/patch/1258659/
-
-Thanks,
-Vidya Sagar
+> Fixes: 23babe30fb45d ("phy: tegra: xusb: Add usb-phy support")
+> Cc: stable <stable@vger.kernel.org>
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> ---
+>   drivers/phy/tegra/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> Guenter
+> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
+> index df07c4dea059..a208aca4ba7b 100644
+> --- a/drivers/phy/tegra/Kconfig
+> +++ b/drivers/phy/tegra/Kconfig
+> @@ -3,6 +3,7 @@ config PHY_TEGRA_XUSB
+>          tristate "NVIDIA Tegra XUSB pad controller driver"
+>          depends on ARCH_TEGRA
+>          select USB_CONN_GPIO
+> +       select USB_PHY
+>          help
+>            Choose this option if you have an NVIDIA Tegra SoC.
+> 
+> --
+> 2.24.1
 > 
