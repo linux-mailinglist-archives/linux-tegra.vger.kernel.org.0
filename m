@@ -2,117 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F30AC18F57A
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 14:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D9018F59E
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Mar 2020 14:21:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728366AbgCWNQw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Mar 2020 09:16:52 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37226 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728357AbgCWNQw (ORCPT
+        id S1728457AbgCWNVQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Mar 2020 09:21:16 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40841 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728421AbgCWNVQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Mar 2020 09:16:52 -0400
-Received: by mail-wm1-f65.google.com with SMTP id d1so14760044wmb.2;
-        Mon, 23 Mar 2020 06:16:49 -0700 (PDT)
+        Mon, 23 Mar 2020 09:21:16 -0400
+Received: by mail-lf1-f66.google.com with SMTP id j17so10194577lfe.7;
+        Mon, 23 Mar 2020 06:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ORf2w/9FF0BxtCkOLiJMVWgEDX2LkwMSef0JQI9tROI=;
-        b=QxYOkltnVTvfSCIvJ3A0W6Achxq5xAW15A2ViUtESmbvS+HzPTLGqg1YCn1jTN1aVu
-         nLVEL3sfYQ69UEOhLejH0BStu1fzlJIHW2ukj7pRyirqBd5jcw3/h3RPE5YWuUMvbeEt
-         dqZ4W/qr1NL3CVCTCWX6fcGKAdU8UjJB2LXfNK0Pb/7NZTjlhsh4xhJd4zE4fdunU3PP
-         GiwOin+FVbGEjfzUYJ0Mvebwwkw5N/3W+fvHfiL3+tRDxsChQIBXW4xCs0+4IpWse5tV
-         LCgndpYjcu8vn4eVjlMN1Vyzqi1zjjDThf7Rqpk+J0vblXl3813wUVGWBIvzGQKY94dh
-         wLEw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Xxi6l1fclcJsr5+CKBYbupw6npgtZlkO+8fmQyf+EsY=;
+        b=Ou9NqB+7RrddepQ984O33P/tq2gZ5gJo2BJ57OHVBgXamswQgPXBiUlSQ+vaQtgnxi
+         ytWbCwFtIoFWOcwj6qFoDy1T1YaIkmFYQurWVeuN/6avRstYoBMgeExBA/uSvgkC5Hq8
+         AlhshJ0U4TDklxFMuVpM2/25MCTX52hjVKQtTvl5AVSGdUIJ2bqc66YFJ2pLPsp/5wJF
+         rpMJ3MeOJd0uKOUSpY1ickWtL2rE/FrkxqdjeQc/PTWBhu4Dx+HsSOt4I33BvYLN69P1
+         v9JLk6EiAeIJ6SyZW80o54wj/k3C92jaovUQ8apeyjMvjPgyLaxo0IeDXP+YpL103Dfa
+         6/Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ORf2w/9FF0BxtCkOLiJMVWgEDX2LkwMSef0JQI9tROI=;
-        b=HKfgofas5jAm6zIerew5WwJH2PCp4RX/JmemJTsxpyZ+M9N+v5u18B360MBnqfN02X
-         nVSh/l3s0ZXX1CepQ3PzQXtkp33mi7I/lcwx9Yqorr6g+EuwlSO8AacrB0r8TrgEbuSU
-         tlQSU0nOPcnV5xIWfeUAW4npr8+0CIbPmeyytqdQS/y+wA05Q8L6EfuhC55wGEdKsA+k
-         cJQNLHpcq00hfoQBBOK7vsT4uixX38WQVOOxRJiuv9e+agmpxq9Pd2luhu28gACAd7+6
-         KQz3Xd5SwNaO57au0cFB7fR/HPmEg7cR2iJlTAbrkI00bkK2qHQryNNc2A2vXXFQW6Wv
-         iEpA==
-X-Gm-Message-State: ANhLgQ3em63cLHjb5oqP0l0NHMCVx7h7Pn3lPJWoilZZqAnC3+Zqk/ZX
-        jXeXK5YvgUEOn2gsIUmX30M=
-X-Google-Smtp-Source: ADFU+vuB2mMvGnpsepoopjQdP40suAURAfi95DKJ78DBWdCJtxh/IpQHPwakC2Fr0xo3a9lidHjqDg==
-X-Received: by 2002:a1c:408b:: with SMTP id n133mr26021099wma.182.1584969408394;
-        Mon, 23 Mar 2020 06:16:48 -0700 (PDT)
-Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
-        by smtp.gmail.com with ESMTPSA id r15sm18136711wra.19.2020.03.23.06.16.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2020 06:16:47 -0700 (PDT)
-Date:   Mon, 23 Mar 2020 14:16:46 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/9] pinctrl: tegra: Support SFIO/GPIO programming
-Message-ID: <20200323131646.GF3883508@ulmo>
-References: <20200319122737.3063291-1-thierry.reding@gmail.com>
- <CACRpkdY7LnyHdX4xKrr1V8Cquched0PMNL1sFTrWT6J3fdRx=w@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Xxi6l1fclcJsr5+CKBYbupw6npgtZlkO+8fmQyf+EsY=;
+        b=N7AKlcHaFwA+Jbx7Y2Rye/AFUvAfncETm5/TwSGwBf/gF9X7lgVKpb8r8nBFEJdql9
+         2n29nDEFKIHqDMDCJvjsISM9+DoZtap9wY/ADcKh2GNO4J65JjoGBXkdBg174ZdtQaf4
+         kFbgnWRxQTVciy6hDYnZblb/ZpCH9EarMgmJ648n8mK21bYB5kmy5XiWfzQlZaCd0q1h
+         yD4qeeR09FbHGula/FI66URZqFwD8KKBqNwf3mGczVKYepyoUCMHq+VGykOKy5xVJs9v
+         qhpL3m/TxQhUHXr2PJ658efvLgSDa+glyt7QGmjw6SoqadqQK8Bmiw1ORJpQCl/+pA40
+         lrqw==
+X-Gm-Message-State: ANhLgQ3RKmSBlrIpWChgMF97tSsKZb5FalspFtJzXLLoPonaCR+FGWRN
+        OcX2qei1GYbMF02OIbzSDTg=
+X-Google-Smtp-Source: ADFU+vv/DDlXXllROgGPOZCQ2p80fEzGQ1G7DOdeC4Itk4FFwdCQQA0zXRgV7tLnBj0v44Otl+k+Uw==
+X-Received: by 2002:a19:3803:: with SMTP id f3mr13350164lfa.160.1584969673354;
+        Mon, 23 Mar 2020 06:21:13 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id h14sm8214874lfc.24.2020.03.23.06.21.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2020 06:21:12 -0700 (PDT)
+Subject: Re: [PATCH v5 3/8] clk: tegra: Implement Tegra210 EMC clock
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20200310152003.2945170-1-thierry.reding@gmail.com>
+ <20200310152003.2945170-4-thierry.reding@gmail.com>
+ <a5c9e3d6-2b65-ec93-d8f1-7c7680092e53@gmail.com>
+ <20200323110023.GB3883508@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <baf98213-39fd-468f-58ec-fadd33c8ba5e@gmail.com>
+Date:   Mon, 23 Mar 2020 16:21:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1Y7d0dPL928TPQbc"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdY7LnyHdX4xKrr1V8Cquched0PMNL1sFTrWT6J3fdRx=w@mail.gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200323110023.GB3883508@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+23.03.2020 14:00, Thierry Reding пишет:
+...
+>>> +	if (!provider || !provider->configs || provider->num_configs == 0)
+>>> +		return -EINVAL;
+>>
+>> Why all these checks are needed? I don't think it ever could fail,
+>> couldn't it?
+> 
+> This could fail if no EMC provider is attached, which happens, for
+> example, when the EMC driver is not loaded.
 
---1Y7d0dPL928TPQbc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Mar 20, 2020 at 08:37:48PM +0100, Linus Walleij wrote:
-> On Thu, Mar 19, 2020 at 1:27 PM Thierry Reding <thierry.reding@gmail.com>=
- wrote:
->=20
-> > This series of patches establishes the mapping of these two pins to
-> > their GPIO equivalents and implements the code necessary to switch
-> > between SFIO and GPIO modes when the kernel requests or releases the
-> > GPIOs, respectively.
->=20
-> Is it possible to apply the gpio and pinctrl patches to
-> each tree separately?
-
-Yes, that should be possible. There's a dependency from patches 2 & 3 on
-patch 1, but since they are all for the same tree that should be fine.
-The dependency also is only a runtime dependency where the GPIO driver
-would defer probe indefinitely because no pin range would ever be added.
-So as long as patches 1-3 are applied in the order given in this series,
-everything should be okay.
-
-Thierry
-
---1Y7d0dPL928TPQbc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl54trsACgkQ3SOs138+
-s6Hraw//WDcWXOjZtfCWb+CApaca6PA3gsr6NZLrK4iudTDwEG8zoyxLJxcA9zm/
-0OBbHHh13Wrs6JfYtNu5EIywxYBTbXBBHeHqlSMX+cJUQpetdG/QOk8AbhRNTZ6y
-a/wGxPl8Sueu0bSKedPnPkJbjF8qhb9rCz5MxhCNiEm77TszYyUJLle+LxVuZCuA
-GKPqq7wfua2SUm94tdaP9NM15NBGYvQHPei9ZuLWFv28ZAQYsKFUNY5SkOBfrjkd
-XEQGWpgmuDh/MP1+fB7XgLyl7t0GyOMbo1J1DNenfkwfqPSvdZk22wSRAzAs5Z1P
-9G5zbn6lBv0o3ndG67VbgDi8+DtSJ9i3okYpugPcRFiUJRLfsx0U3SwmeUaUJZas
-V3GMxlR9wnor8haY+ZUmcUo7i7+Omak/i3W4t5YYuOmm8+nYJjD3Vn40VQVTsJFQ
-hW7r+LiGxp0MVbg4F1h9bamoNpqiswM/nhS0zUO5DvZepHyzLxpxMABLilTE8Ssn
-09X3sgFYBZ1z0ia5qqj/5eE4vXYZR/Giln6jEuCos26vthCNCb4PYDYXuLyipciQ
-/0W+BQAI+emKc6vp09f852tOzthJwNXGpUmNZdyGeWQac6PR1GwiXiZywThVS2wc
-sbYPh3MkM40vMkMUpxUaB2snjPxbbBvtNQozaaZq3c/V/8azjxQ=
-=2kno
------END PGP SIGNATURE-----
-
---1Y7d0dPL928TPQbc--
+Requesting EMC clock should return EPROBE_DEFER until provider is
+available. Please see tegra20_clk_src_onecell_get for the example.
+Tegra124 should do the same, BTW.
