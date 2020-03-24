@@ -2,110 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 669F51919CB
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2020 20:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8967C191B81
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2020 21:53:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725900AbgCXTUF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Mar 2020 15:20:05 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39454 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725835AbgCXTUF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Mar 2020 15:20:05 -0400
-Received: by mail-lj1-f194.google.com with SMTP id i20so7794941ljn.6;
-        Tue, 24 Mar 2020 12:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=skcCG2QHTd+EzEBtFrASrhFP0Iy2GqsEnBeidQvJs00=;
-        b=lNnPCzPVQ23JfLuXiGDK1zzejW9N7ZjGsOBuBBj5/Mo8tHopaI9xdhmNJkp7cjDfr2
-         +GfMKXI13LF8LrC8iwuP+4I2CjAc6N/I1ZYahcNLNsqVg58Xz5eKiyjLoPMIylJ4DXRc
-         rit6/Zloqe4yM6aZUJKR7B90BrvhFmekimUb5kFLMLkJ/Ov+8ZXLWFQoyZlklhLH2TMT
-         6l1pr67QAC0+9EkPawhKyscWrJ+Wu2VqkipUEM38gZCL/q4lZoFEA3LCsKZsiMc+TcRN
-         E0LD6QDyR3iFLzUgfKuiP4oJVp9h29AkwqFLkDETqnG9Zx8HoJX6eu7gjlZ5znQijthS
-         hwwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=skcCG2QHTd+EzEBtFrASrhFP0Iy2GqsEnBeidQvJs00=;
-        b=S+rks27hVwdID1oKdeNBhH7J/1sS/08fr/86rWZEysSeweZXycGFjpW6WCBEBAHny4
-         Upy99TwxTAc7mezB3NoReb1p2rNgSHA6j3Zsnc1vWcYx0/bL9vaZPVCcf1cxitPrgRcR
-         ld7dZtBoKNxrRIWeA7tRDzV901+4bVWrQTzYyD5F7liUiLVNhVcu97paL50pJGvQHAMc
-         kK8FgCW2YNj01sc43FZ/06A1jnT4dSTK3bxwhTZ3pYf8UNDu1CNbzs5Fi1YcY21fzSBP
-         87K+FDPgRzmY3jg1rEDU/z303LyWS/EGbYwJNZ794VqC3rKq5PNPgQQNkT7AZeqErk7/
-         092Q==
-X-Gm-Message-State: ANhLgQ1jxuvoyfejSgB4QOHOoG8xfcCw3689Oww4XsMFQuEPgdU+jhdX
-        enHgveLBinYa5Y5wtCWmL/9Lacyy
-X-Google-Smtp-Source: ADFU+vt3z3fmr5IIMuRF8uor2xaYwQG2ck/m7Ac6qsciHHZxdL/2i5Re16nQGaFl6kTdI3iURuH+yw==
-X-Received: by 2002:a2e:81c9:: with SMTP id s9mr2169449ljg.69.1585077602671;
-        Tue, 24 Mar 2020 12:20:02 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id a22sm3245335ljm.28.2020.03.24.12.20.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2020 12:20:02 -0700 (PDT)
-Subject: Re: [RFC PATCH v5 5/9] dt-binding: tegra: Add VI and CSI bindings
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
- <1584985955-19101-6-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2256dc66-f3f9-3400-85e9-0641729b1316@gmail.com>
-Date:   Tue, 24 Mar 2020 22:20:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1725941AbgCXUw2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Mar 2020 16:52:28 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:42151 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728060AbgCXUw2 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 24 Mar 2020 16:52:28 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 48n3N83mvQz9v;
+        Tue, 24 Mar 2020 21:52:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1585083145; bh=OCoxojzJM6Pabr/wFUBTBOMM8dOe6TGTqrew7ilAA98=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HlMK8G4ka8B/sZc9aZaXPNLBXCApFZYP5phSWJWo4Gc+H8KVYd/tiLVvmZMKxer4x
+         ZHJYv7jXToB219Y5sve5yURsqGSOWobp+AH8ABz7NRQkeByhypQrkFK4bKC9WwM3q3
+         K1rh3ZyQM7fb1EtLertGje8Ecv1LhVfrAeoGQ6Lar8lW0as7yn2oDrgCxrafZIszVh
+         c06ZQeWIR5E1q668Z/Mz9quu2kNY+F2eZaUnPGS16A0Z+V4nAuEr5/i/AfQ0jbVjK+
+         XeHHE9kYQcP50hd2H8dQahMfgEprsOIvSUJfiQPhBQHbwKOwng//ADWeQ2kahsmhVy
+         GKJO98WSDpqFQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Tue, 24 Mar 2020 21:52:21 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Billy Laws <blaws05@gmail.com>, linux-tegra@vger.kernel.org,
+        linux-block@vger.kernel.org, Andrey Danin <danindrey@mail.ru>,
+        Gilles Grandou <gilles@grandou.net>,
+        Ryan Grachek <ryan@edited.us>, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/10] partitions: Introduce NVIDIA Tegra Partition
+ Table
+Message-ID: <20200324205221.GA22063@qmqm.qmqm.pl>
+References: <20200323163431.7678-1-digetx@gmail.com>
+ <20200323163431.7678-4-digetx@gmail.com>
+ <20200323191748.GB30585@qmqm.qmqm.pl>
+ <67140755-c829-5c58-3fbf-efd496e225df@gmail.com>
+ <20200323213520.GA16587@qmqm.qmqm.pl>
+ <c31a0335-a174-0f45-af03-3267710a8205@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1584985955-19101-6-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c31a0335-a174-0f45-af03-3267710a8205@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.03.2020 20:52, Sowjanya Komatineni пишет:
-> Tegra contains VI controller which can support up to 6 MIPI CSI
-> camera sensors.
+On Tue, Mar 24, 2020 at 02:22:34AM +0300, Dmitry Osipenko wrote:
+> 24.03.2020 00:35, Michał Mirosław пишет:
+> > On Mon, Mar 23, 2020 at 10:59:52PM +0300, Dmitry Osipenko wrote:
+> >> 23.03.2020 22:17, Michał Mirosław пишет:
+> >>> On Mon, Mar 23, 2020 at 07:34:24PM +0300, Dmitry Osipenko wrote:
+> >>>> All NVIDIA Tegra devices use a special partition table format for the
+> >>>> internal storage partitioning. Most of Tegra devices have GPT partition
+> >>>> in addition to TegraPT, but some older Android consumer-grade devices do
+> >>>> not or GPT is placed in a wrong sector, and thus, the TegraPT is needed
+> >>>> in order to support these devices properly in the upstream kernel. This
+> >>>> patch adds support for NVIDIA Tegra Partition Table format that is used
+> >>>> at least by all NVIDIA Tegra20 and Tegra30 devices.
+> >>>>
+> >>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >>>> ---
+> >>>>  arch/arm/mach-tegra/tegra.c   |  54 ++++
+> >>> [...]
+> >>>
+> >>> Please split off this part and make the information available to
+> >>> userspace (pt_addr + pt_size) if found. This would make it easier
+> >>> to support use the partition table later in initrd instead.
+> >>
+> >> Please clarify what do you mean by "use the partition table later in
+> >> initrd instead".
+> > 
+> > Configure device-mapper to span eMMC boot+data partitions and then ask
+> > (modified) kpartx to partition the resulting device. All before rootfs
+> > is mounted and switched to in initrd.
 > 
-> Each Tegra CSI port from CSI unit can be one-to-one mapper to
-> VI channel and can capture from an external camera sensor or
-> from built-in test pattern generator.
-> 
-> This patch adds dt-bindings for Tegra VI and CSI.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  .../display/tegra/nvidia,tegra20-host1x.txt        | 67 +++++++++++++++++-----
->  1 file changed, 54 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> index 9999255..9421569 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> @@ -40,14 +40,25 @@ of the following host1x client modules:
->  
->    Required properties:
->    - compatible: "nvidia,tegra<chip>-vi"
-> -  - reg: Physical base address and length of the controller's registers.
-> +  - reg: Physical base address and length of the controller registers.
->    - interrupts: The interrupt outputs from the controller.
-> -  - clocks: Must contain one entry, for the module clock.
-> +  - clocks: Must contain an entry for the module clock "vi"
->      See ../clocks/clock-bindings.txt for details.
+> The whole point of this series is to make partition handling generic in
+> the kernel, avoiding the need to customize anything.
 
-> -  - resets: Must contain an entry for each entry in reset-names.
-> -    See ../reset/reset.txt for details.
-> -  - reset-names: Must include the following entries:
-> -    - vi
+Yes, but at least for diagnostic purposes, it would be nice to have the
+values from BCT exposed somewhere in /sys.
 
-This should be a wrong change because ARM32 Tegra SoCs do not use power
-domain.
-
-> +  - power-domains: Must include venc powergate node as vi is in VE partition.
+Best Regards,
+Michał Mirosław
