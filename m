@@ -2,100 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A86D7191D05
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2020 23:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1421191D15
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2020 23:48:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728527AbgCXWpp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Mar 2020 18:45:45 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46382 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728496AbgCXWpo (ORCPT
+        id S1727444AbgCXWsz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Mar 2020 18:48:55 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:41954 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727132AbgCXWsy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Mar 2020 18:45:44 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v16so400033ljk.13;
-        Tue, 24 Mar 2020 15:45:42 -0700 (PDT)
+        Tue, 24 Mar 2020 18:48:54 -0400
+Received: by mail-lf1-f67.google.com with SMTP id z23so193453lfh.8;
+        Tue, 24 Mar 2020 15:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+Hy+gQXXd2yXLzvlo+vKQ0DCaXHroqYu+Fy+jYraxjM=;
-        b=IGbRH++VoABOyGXkuQVc93OU/loUgy9XQLhh0juQ/zuocAHQcRI5jaBnikUVcEFxyi
-         IcYfdYX18WPtyyLqg+cnNVHG/XhI38r/7fBrK4J6pGh4fZQ3LxE3hKuRXxeYRJvJmuw3
-         mTYaQgXYE/0pqWM7BkRWCMoRblZD2IgrPMvkbWtFk42uvq3DXOE3lZ4ek+24ea37xzYS
-         0prL0TKHL+48w79UFWvui7h4krG4fUery12qRMLlYcdbn82MvowHrgwe1tTnrY/LdzUe
-         ksNX33NJOuywRiQ9ChlJ6Jheg98NyMNhn1FFpEnedcO0RUxMa/LDr5zTO8eUkHlMPBug
-         EkdQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=06QnBWO8zn+cTFjJT/eh0pa58Q14fQa5v5+3FeRp3t4=;
+        b=MO77Ne74Cfhjpls79rr17wj1ZBVWWXKzEDydAiRzRzdR8rt2wzq9QkOUNRDqH8Nw4a
+         0XOzzDIMqB5y3xp9Pm7C0DNddLYqeBHlfCQJnWP+rw2fK7pTY65Ghozj7XudxNxjqiDV
+         ZZHEt6WFDci88yVuLsuu3IP2hpcqfolekbDfS+eb9EqUTkzdRtcWYn2EDBWBsZ/U03sj
+         OJYvghWrFCghsaY1KskSnUK3ugnFN+anw7uTkNxBPIIDoBIdXqjAgX6KwA+fRPIktoQV
+         BUsENaVv+hTUl0foeDie69LuqXHgClu2egHLGet+bFBpNjfg8h+djRV5J8y9Os1cApLz
+         eB1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+Hy+gQXXd2yXLzvlo+vKQ0DCaXHroqYu+Fy+jYraxjM=;
-        b=qlScfDfn2/iVqmbstCFgUvJo8t7qazF5ztfdtfgRAshI38OfPErwTjCOqIHaYpEoj1
-         YmIKCTQgRIQCDXSTgUq8Y5dBvTl2qS+91cD08cYl+xILcPfMm3QykBQweAGlIfK+kciQ
-         KMfeEcQAYIIPngixtJoOoa0oVoIRYLprpSWVN+Dk2mDX/siR8qiwF02tA+cbXRQv/xcx
-         qNP8cZcsQGRbp7Pj4tUjb832sou4Sae4kMDuHFAgt/uKFhkAKXyfywDvvj5PJJwoEU6y
-         p2JRfyjoSuTYE/1nmqan4Dg4S5fukYrR03FM2x4uLssgzvVkE3UT+bWmrekyWAkcwU/6
-         bsdQ==
-X-Gm-Message-State: AGi0PubJmYdXs9PVdW8hQDSDXgyf3rVX7BMm7IrPyoKTDiBaf2motUNz
-        4ylYnuM29pF3ogtg9j72A68xDiqG
-X-Google-Smtp-Source: APiQypJTc7454E7D3MdGDJTaCybxAhN7+8nt5udksXN5OeHNHwUkZ2VMvrRG/S2bIdDirFVEf3HnWg==
-X-Received: by 2002:a2e:989a:: with SMTP id b26mr23227ljj.274.1585089942074;
-        Tue, 24 Mar 2020 15:45:42 -0700 (PDT)
-Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.gmail.com with ESMTPSA id d4sm10534279lfa.75.2020.03.24.15.45.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 15:45:41 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=06QnBWO8zn+cTFjJT/eh0pa58Q14fQa5v5+3FeRp3t4=;
+        b=MCUeJWJNYq+xATQjT4VSvXmXy9hSocwLWsCtsdsI5JSiLaDO6TauHinsBlwghJ33df
+         7LdSepLi17M9Jxx+I7dgdX+hKLz5+FSTkmhwpjVJ2+B71jVcFDjZieEl1uuWmiEu49tz
+         aXEbGIHt5lhep00oiyQPZ1Vjf26U979bsv5Y5xWAkHvWSKC5SgXSlqMSqnozbV/R6B4w
+         tlL/DiSJoZ/ie7eY+/GaYs/UcuVCI1WMKwPn6ld2Hp2bvLTkfIJjBNJlMWnXIBir/87y
+         ieApfCRT1oA3P/8AQHV6zXmkk4ORjKDHpTdFmoEh1G0egxNybR41OsC329bh4FiYclPN
+         s4IQ==
+X-Gm-Message-State: ANhLgQ3nxSo69woSwN49wT7pxLe+kJV79Nk+OLApn/CWnOK1xggyK40M
+        qt67z7maK06xK7G8tTRmwRHLfnyi
+X-Google-Smtp-Source: ADFU+vuQcigS93PoEpzYdWodOt90VmZiOtPvZwRPlsbXFsu/ZgEPfg+RcDxU2teo88l133Vf2SbZVQ==
+X-Received: by 2002:a05:6512:108a:: with SMTP id j10mr224570lfg.35.1585090132092;
+        Tue, 24 Mar 2020 15:48:52 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id n23sm3143719lji.59.2020.03.24.15.48.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2020 15:48:51 -0700 (PDT)
+Subject: Re: [RFC PATCH v5 9/9] arm64: tegra: Add Tegra VI CSI support in
+ device tree
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-10-git-send-email-skomatineni@nvidia.com>
+ <672819ea-01d3-2eca-8bb7-84ffd64256d4@gmail.com>
+ <a218142f-295e-6bd5-b1d7-47d9ab8eba3e@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Jasper Korten <jja2000@gmail.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] cpuidle: tegra: Support CPU cluster power-down state on Tegra30
-Date:   Wed, 25 Mar 2020 01:43:35 +0300
-Message-Id: <20200324224335.5825-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200324224335.5825-1-digetx@gmail.com>
-References: <20200324224335.5825-1-digetx@gmail.com>
+Message-ID: <fee09e1e-48a3-e0a0-12dc-9aeeb3438ded@gmail.com>
+Date:   Wed, 25 Mar 2020 01:48:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a218142f-295e-6bd5-b1d7-47d9ab8eba3e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The new Tegra CPU Idle driver now has a unified code path for the coupled
-CC6 (LP2) state, this allows to enable the deepest idling state on Tegra30
-SoC where the whole CPU cluster is power-gated.
+25.03.2020 00:04, Sowjanya Komatineni пишет:
+> 
+> On 3/24/20 12:19 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 23.03.2020 20:52, Sowjanya Komatineni пишет:
+>> ...
+>>> +                     pd_venc: venc {
+>>> +                             clocks = <&tegra_car TEGRA210_CLK_VI>,
+>>> +                                      <&tegra_car TEGRA210_CLK_CSI>;
+>>> +                             resets = <&mc TEGRA210_MC_RESET_VI>,
+>> The MC resetting should be needed only for a hardware hot-resetting. It
+>> should be wrong to add it to the power domain.
+> TRM recommends to do MC client hot-reset during VE power gate and ungate.
 
-Tested-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Tested-by: Jasper Korten <jja2000@gmail.com>
-Tested-by: David Heidelberg <david@ixit.cz>
-Tested-by: Peter Geis <pgwipeout@gmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/cpuidle/cpuidle-tegra.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
-index 313b0290e97b..150045849d78 100644
---- a/drivers/cpuidle/cpuidle-tegra.c
-+++ b/drivers/cpuidle/cpuidle-tegra.c
-@@ -365,7 +365,6 @@ static int tegra_cpuidle_probe(struct platform_device *pdev)
- 		break;
- 
- 	case TEGRA30:
--		tegra_cpuidle_disable_state(TEGRA_CC6);
- 		break;
- 
- 	case TEGRA114:
--- 
-2.25.1
-
+Could you please tell what TRM it is and what's the page#?
