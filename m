@@ -2,100 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5B661919B9
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2020 20:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 366BF1919C4
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Mar 2020 20:19:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbgCXTNf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Mar 2020 15:13:35 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42161 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727999AbgCXTNb (ORCPT
+        id S1726643AbgCXTTJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Mar 2020 15:19:09 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43422 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725835AbgCXTTJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Mar 2020 15:13:31 -0400
-Received: by mail-lj1-f193.google.com with SMTP id q19so19791746ljp.9;
-        Tue, 24 Mar 2020 12:13:29 -0700 (PDT)
+        Tue, 24 Mar 2020 15:19:09 -0400
+Received: by mail-lj1-f196.google.com with SMTP id g27so11038956ljn.10;
+        Tue, 24 Mar 2020 12:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jzcdODLP0bHV5KexQQTzdWyhTj19LdLpMLvVPCui0eA=;
-        b=l+gUJAYdrgzLt3eLoI04QicNrazbv0v+FgYsKc5KoGBu5YFAIrTVAiCOBKdoV1ngoh
-         0deLxHa1n/6oUByrwhYO9rKBsC8iDCQJoyjr8SHwOGNl7YpwJxvJB+GEEOACJqZgC9qU
-         TRnv9gtrZOIDcpih7GDiNyv8wu0HUswtMoJXj3JlyR2PxjN/vCf4BVcrdpPuLT2a6Vnd
-         8YWYQPvcAxt2m1bneX4xjIfz6krJozZvFnYpyNShqmdk6hMh9hzRHJ+RTvTHZa+mdTKv
-         U0Zw9I5U4hqX4/JuOmytNJPNTZNkIJQWnfIoO/SSRsjY0h94mVLQCLDvMr6uYeV75g/L
-         92Bg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7fQRQ3RTaos7/s0RQFo8A2f8cwQKwdrnRsxFFOCClLE=;
+        b=SRZLcd1dIEBKj/kS2qUqsbMwlhI5ud2ZbTHlDk7yGUlOsOVBHJxPhBawWOCURFlOdk
+         u8PvEMlsQXqro1nxtTYtlrtrto7FnV5GLDN83V80ufxIOKklXz3awO+ZXr3kH/PUiMVi
+         FLXMe3uoji3p6IHxOajLBdgBpGQe9BnBdN7TUfZF5ynv8S6J3ZuVSS83OqjvGyCtAzBU
+         a9K2pOVHad/FvUI95Wpd9VMxukphyUaxtyDcP19m93NxMkiGi9wW91ECz0a3mIH+1TQL
+         hLL8U/f/cHkCTbz9ZMY7gj4y9VbGmlqMpez5yMcNJX3AfjUazsisgpSGtfcATWSDHN1t
+         zvDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jzcdODLP0bHV5KexQQTzdWyhTj19LdLpMLvVPCui0eA=;
-        b=jKWqyyMp1IQ3j5wpWMDl3k73MNw1v7lIcTPKt2dnbk3ef+i77KO4tCxSSF44bu+NhQ
-         FT1z0AmMH+gAC4fK/XnQHc8Q0F2WIzc2560sjVgTUro2X6qwo4oCeDoZ3HYsVZLuWdHB
-         O51LPgT28Opw2LYqjs0ZM2dPKcsEyqxRbBcWkEdO5ywO9HZUAbgsXnbHk+4rYG1DM7yb
-         hzW8r07uOgbxzPdhInbTPQpeLelvyS+QbHtppMvrB7O4CQu8yoPZM9tvpVlm1coWoQ7z
-         MMgJGuFAkraM+ZG0Z04uq9nIYR5+Afo9Huka3Zkx+FYOY+jl2Vpn6mstrS6561WG6rb1
-         pXdw==
-X-Gm-Message-State: ANhLgQ2LFW3hJ5Wputerv4X64GKiYbSsj6VtBfzsmvfVlAIahkIu47d4
-        ohF6oI44sV6UWYzfr3/tSSc=
-X-Google-Smtp-Source: ADFU+vvXcCNXExgmOgRhQdzvVwwjdgeb/M53b6DLd/ZJF0pjeI+wUwRDDFat9JdSB/+780j3l9i3YQ==
-X-Received: by 2002:a2e:93c5:: with SMTP id p5mr17839557ljh.192.1585077208915;
-        Tue, 24 Mar 2020 12:13:28 -0700 (PDT)
-Received: from localhost.localdomain (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.gmail.com with ESMTPSA id z23sm6347723ljz.52.2020.03.24.12.13.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 12:13:28 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7fQRQ3RTaos7/s0RQFo8A2f8cwQKwdrnRsxFFOCClLE=;
+        b=JRUix2muZiiC0lIvayLHUD2r9etdFBZO5bERprbllDVQ/YjymrGB+C3WGUbREQ6Br1
+         twf/NnUizmkF8ooNtRZLoSJxOvAkelqt66Msra/APXHvt4bbq9vO3styy4uFmguDdvNw
+         e3hvQGLfStXKlURKgEM+NGpMen7H75UcO5ynLxVQPajb9FI3Ay2G3foQcgbyqY9HE+sM
+         8j8cNcsfwwnJiCrpZIKJA7qcDZX/YDIAKFhgxKZnT+TbIPQpHRkBcjRMkXOSPVFxa0bg
+         QN9NTfMUfgpb39wFfoqYD+Iivek8oUGTNG6w+F5YhoxeoAqUeum1mR7KoFQI6vrn5CzU
+         nrLw==
+X-Gm-Message-State: AGi0PubQ/yMonjWNa5xUZOoP1OntrE5qVwQPUW0hi41k1JNOrQGeY2Cw
+        Xow+zJ5f0EXXoUVX9KI+v+FXso1T
+X-Google-Smtp-Source: ADFU+vvbl9s0AQapsahwCNsJ69SeiSCjVA0b7vlkq3l4smsy1tslBIfS0q8sR8mJpvsPurY60HmuUQ==
+X-Received: by 2002:a2e:800a:: with SMTP id j10mr507176ljg.65.1585077544943;
+        Tue, 24 Mar 2020 12:19:04 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id 9sm12167157ljf.0.2020.03.24.12.19.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2020 12:19:03 -0700 (PDT)
+Subject: Re: [RFC PATCH v5 9/9] arm64: tegra: Add Tegra VI CSI support in
+ device tree
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-10-git-send-email-skomatineni@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] i2c: tegra: Synchronize DMA before termination
-Date:   Tue, 24 Mar 2020 22:12:17 +0300
-Message-Id: <20200324191217.1829-3-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200324191217.1829-1-digetx@gmail.com>
-References: <20200324191217.1829-1-digetx@gmail.com>
+Message-ID: <672819ea-01d3-2eca-8bb7-84ffd64256d4@gmail.com>
+Date:   Tue, 24 Mar 2020 22:19:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <1584985955-19101-10-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-DMA transfer could be completed, but CPU (which handles DMA interrupt)
-may get too busy and can't handle the interrupt in a timely manner,
-despite of DMA IRQ being raised. In this case the DMA state needs to
-synchronized before terminating DMA transfer in order not to miss the
-DMA transfer completion.
+23.03.2020 20:52, Sowjanya Komatineni пишет:
+...
+> +			pd_venc: venc {
+> +				clocks = <&tegra_car TEGRA210_CLK_VI>,
+> +					 <&tegra_car TEGRA210_CLK_CSI>;
+> +				resets = <&mc TEGRA210_MC_RESET_VI>,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/i2c/busses/i2c-tegra.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+The MC resetting should be needed only for a hardware hot-resetting. It
+should be wrong to add it to the power domain.
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index 0daa863fb26f..0c6dac770fc3 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -1223,6 +1223,15 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 		time_left = tegra_i2c_wait_completion_timeout(
- 				i2c_dev, &i2c_dev->dma_complete, xfer_time);
- 
-+		/*
-+		 * Synchronize DMA first, since dmaengine_terminate_sync()
-+		 * performs synchronization after the transfer's termination
-+		 * and we want to get a completion if transfer succeeded.
-+		 */
-+		dmaengine_synchronize(i2c_dev->msg_read ?
-+				      i2c_dev->rx_dma_chan :
-+				      i2c_dev->tx_dma_chan);
-+
- 		dmaengine_terminate_sync(i2c_dev->msg_read ?
- 					 i2c_dev->rx_dma_chan :
- 					 i2c_dev->tx_dma_chan);
--- 
-2.25.1
-
+> +					 <&tegra_car TEGRA210_RST_VI>,
+> +					 <&tegra_car TEGRA210_CLK_CSI>;
+> +				#power-domain-cells = <0>;
+> +			};
+>  		};
