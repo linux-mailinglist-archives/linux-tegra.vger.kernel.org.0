@@ -2,132 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B911B1932AA
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Mar 2020 22:30:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E4D81934CC
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Mar 2020 01:00:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbgCYVaC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Mar 2020 17:30:02 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9019 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727384AbgCYVaC (ORCPT
+        id S1727460AbgCZAAL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Mar 2020 20:00:11 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9680 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727402AbgCZAAL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Mar 2020 17:30:02 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e7bcd4c0001>; Wed, 25 Mar 2020 14:29:48 -0700
+        Wed, 25 Mar 2020 20:00:11 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e7bf02e0003>; Wed, 25 Mar 2020 16:58:38 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 25 Mar 2020 14:30:01 -0700
+  Wed, 25 Mar 2020 17:00:10 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 25 Mar 2020 14:30:01 -0700
-Received: from [10.26.72.231] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 25 Mar
- 2020 21:29:59 +0000
-Subject: Re: [tip: timers/core] clocksource/drivers/timer-probe: Avoid
- creating dead devices
-To:     Ionela Voinescu <ionela.voinescu@arm.com>,
-        <linux-kernel@vger.kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-CC:     <linux-tip-commits@vger.kernel.org>, x86 <x86@kernel.org>,
-        <liviu.dudau@arm.com>, <sudeep.holla@arm.com>,
-        <lorenzo.pieralisi@arm.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200111052125.238212-1-saravanak@google.com>
- <158460766637.28353.11325960928759668587.tip-bot2@tip-bot2>
- <20200324175955.GA16972@arm.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <e75ae529-264c-9aa6-f711-2afe28ceec36@nvidia.com>
-Date:   Wed, 25 Mar 2020 21:29:57 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        by hqpgpgate101.nvidia.com on Wed, 25 Mar 2020 17:00:10 -0700
+Received: from [10.24.37.103] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 26 Mar
+ 2020 00:00:06 +0000
+Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+CC:     <rjw@rjwysocki.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <bbasu@nvidia.com>,
+        <mperttunen@nvidia.com>, <sumitg@nvidia.com>
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+ <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
+ <20191204054043.o4ff7pnqec3fwdgu@vireshk-i7>
+ <7347caa6-43a3-f761-de83-481b45f7b22a@nvidia.com>
+ <20191204112749.jkwlyteal4hfvnhb@vireshk-i7>
+From:   sumitg <sumitg@nvidia.com>
+Message-ID: <aa9fb180-6a23-e27b-51f6-f6b5685d65be@nvidia.com>
+Date:   Thu, 26 Mar 2020 05:29:58 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200324175955.GA16972@arm.com>
+In-Reply-To: <20191204112749.jkwlyteal4hfvnhb@vireshk-i7>
 X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1585171788; bh=zwkSmPWYbRZk6Ce7Av1OcrGsQ4eYCwVvf0CQ6wsWw2k=;
+        t=1585180719; bh=9uZbtNMpcvzB0onUSiYkGRUIchw1nTvWyc50DiXbVTI=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=JSA1Om7wkt2BSVOehQRgF4VAja1l6ZPtUcoB5fNOP5axn37rdw8iHeqRDUeY9L/iQ
-         nk/M+2oIsXJLRXVgPxVFR5QlE6XIq/kA7lIUAlODiGazqSKNuiz9ciNW2EtMQlIiGP
-         //f2D9hZFi2VB0LS3bQbDe0Cly6aIamiwer9Jw2SinXh+zKjbkq/SUjGczSs/IQPtR
-         SCH0IGkbPh3ZA+STrjUmakR1w8aePJis960Bll5yPBt4b/VzAxArvgvjeXmzEjqzLA
-         ZkAC+GIbN284VCaEVXisMQJ4e1n3z7dkyNyIkeSfPp1V2qIOuEenydPRbYIlYxEXOk
-         X81Uxb7KVKFYw==
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=O5H4mezIfnNNMGskLSIFsJQ7ogdzqyjRRek8D12N94VW9O89rhhNpnmu5iFtPEFdX
+         fvwvks1+8PPrKV9P8jtPk8C+pZtCNHl6QyftlW0Up2g3EBdgIuP/IfRsGSdUpoMFqn
+         qN2GDqjEE4EZprdo209/9VP7l25ton6dMRUkUvtMA/fzEwtJcPyja7GoiuqU2Okest
+         w4Iftt2ENlhBgoKBJll+Y7j4pnyRYj18PA2EmOfa3Nw6SwLsI6G/5PiVAsZ1NROp/U
+         FHPayksZCAK6uQdS5xFUchiPeDMeGn6UmfhIvvIJdMaQwqA/Gy8ue7Uaa4ABzVL5Ok
+         lY9GtCYK9Bibw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Viresh,
 
-On 24/03/2020 17:59, Ionela Voinescu wrote:
-> Hi guys,
-> 
-> On Thursday 19 Mar 2020 at 08:47:46 (-0000), tip-bot2 for Saravana Kannan wrote:
->> The following commit has been merged into the timers/core branch of tip:
->>
->> Conommit-ID:     4f41fe386a94639cd9a1831298d4f85db5662f1e
->> Gitweb:        https://git.kernel.org/tip/4f41fe386a94639cd9a1831298d4f85db5662f1e
->> Author:        Saravana Kannan <saravanak@google.com>
->> AuthorDate:    Fri, 10 Jan 2020 21:21:25 -08:00
->> Committer:     Daniel Lezcano <daniel.lezcano@linaro.org>
->> CommitterDate: Tue, 17 Mar 2020 13:10:07 +01:00
->>
->> clocksource/drivers/timer-probe: Avoid creating dead devices
->>
->> Timer initialization is done during early boot way before the driver
->> core starts processing devices and drivers. Timers initialized during
->> this early boot period don't really need or use a struct device.
->>
->> However, for timers represented as device tree nodes, the struct devices
->> are still created and sit around unused and wasting memory. This change
->> avoid this by marking the device tree nodes as "populated" if the
->> corresponding timer is successfully initialized.
->>
->> Signed-off-by: Saravana Kannan <saravanak@google.com>
->> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
->> Link: https://lore.kernel.org/r/20200111052125.238212-1-saravanak@google.com
->> ---
->>  drivers/clocksource/timer-probe.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/clocksource/timer-probe.c b/drivers/clocksource/timer-probe.c
->> index ee9574d..a10f28d 100644
->> --- a/drivers/clocksource/timer-probe.c
->> +++ b/drivers/clocksource/timer-probe.c
->> @@ -27,8 +27,10 @@ void __init timer_probe(void)
->>  
->>  		init_func_ret = match->data;
->>  
->> +		of_node_set_flag(np, OF_POPULATED);
->>  		ret = init_func_ret(np);
->>  		if (ret) {
->> +			of_node_clear_flag(np, OF_POPULATED);
->>  			if (ret != -EPROBE_DEFER)
->>  				pr_err("Failed to initialize '%pOF': %d\n", np,
->>  				       ret);
->>
-> 
-> This patch is creating problems on some vexpress platforms - ones that
-> are using CLKSRC_VERSATILE (drivers/clocksource/timer-versatile.c).
-> I noticed issues on TC2 and FVPs (fixed virtual platforms) starting with
-> next-20200318 and still reproducible with next-20200323.
+Sorry for the late reply.
 
-I am also seeing a regression on tegra30-cardhu-a04 when testing system
-suspend on -next. Bisect is pointing to this commit and reverting on top
-of -next fixes the problem. Unfortunately, there is no crash dump
-observed, but the device hangs somewhere when testing suspend.
+On 04/12/19 4:57 PM, Viresh Kumar wrote:
+> On 04-12-19, 16:25, sumitg wrote:
+>> In T194, CCPLEX doesn't have access to set clocks and the
+>>
+>> clk_{get|set}_rate() functions set clocks by hook to BPMP R5.
+>>
+>> CPU freq can be directly set by CCPLEX using MSR(NVFREQ_REQ_EL1).
+>>
+>> As DVFS run's on BPMP, another MSR (NVFREQ_FEEDBACK_EL1) is
+>>
+>> used to read the counters and calculate "actual" cpu freq at CCPLEX.
+>>
+>> So, "cpuinfo_cur_freq" node gives the actual cpu frequency and not
+>>
+>> given by node "scaling_cur_freq".
+> Right, but why can't this be hidden in the CPU's clk driver instead,
+> so cpufreq driver can just do clk_get_rate() and clk_set_rate() ?
+>
+>>> - populating cpufreq table, you can probably add OPPs instead using
+>>>     the same mechanism
+>> We are reading available frequencies from BPMP to populate
+>>
+>> cpufreq table and not using static opp table.
+> Right and lot of other platforms read it from firmware (I believe BBMP
+> is a firmware here), and create OPPs at runtime. Look at this for
+> example:
+>
+> drivers/cpufreq/qcom-cpufreq-hw.c
+>
+> and search for dev_pm_opp_add().
+>
+- I think we don't need separate CPU clock driver & to reuse
 
-I have not looked into this any further but wanted to report the problem.
+ =C2=A0 cpufreq-dt driver as we will still have to replicate same logic
 
-Cheers
-Jon
+ =C2=A0 from cpufreq driver to that dummy clock driver for calculating
 
--- 
-nvpublic
+ =C2=A0 actual cpufreq from MSR value. So, it won't add much value.
+
+ =C2=A0=C2=A0=C2=A0 - "qcom-cpufreq-hw.c" is using clk_get_rate() during in=
+it, but
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the frequency ops "get/target_index" write =
+to register directly
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 and not using clk api's. Also, the clock dr=
+iver from gcc-msm*.c
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 seem to handle all clocks in CCPLEX.
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Tegra SOC's which didn't have BPMP had the =
+clock handling
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 done by CCPLEX. They were using clk_{get|se=
+t}_rate() api's
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as you mentioned. But in Tegra194, all cloc=
+k handling is done
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 within BPMP R5 core except CPU clock(which =
+is through MSR).
+
+- Adding OPP's with dev_pm_opp_add() is also not required as:
+
+ =C2=A0=C2=A0 1) We don't have any consumer like energy model or EAS in
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Tegra194 which it seems was valid wit=
+h "qcom-cpufreq-hw.c".
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 So, i think it won't be useful for T1=
+94.
+
+ =C2=A0=C2=A0 2) Also, there is no way to map ndiv to voltage in kernel. Ke=
+rnel
+
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 driver passes ndiv value to BPMP(R5) =
+which converts to vhint.
+
+Please share your inputs.
+
