@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EE43195588
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2020 11:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E69FF19558B
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2020 11:45:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726165AbgC0Koj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Mar 2020 06:44:39 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36500 "EHLO
+        id S1726450AbgC0Kpt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Mar 2020 06:45:49 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:45476 "EHLO
         mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726215AbgC0Koi (ORCPT
+        with ESMTP id S1726439AbgC0Kps (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Mar 2020 06:44:38 -0400
-Received: by mail-lf1-f65.google.com with SMTP id s1so7423401lfd.3
-        for <linux-tegra@vger.kernel.org>; Fri, 27 Mar 2020 03:44:37 -0700 (PDT)
+        Fri, 27 Mar 2020 06:45:48 -0400
+Received: by mail-lf1-f65.google.com with SMTP id v4so7408548lfo.12
+        for <linux-tegra@vger.kernel.org>; Fri, 27 Mar 2020 03:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=FtlB69zsXQ3jZC3Ou4ODecutdMyciF2dIlXSJMt4Mfg=;
-        b=g6zO4fwl4il+1ngGF+DwBd1vdVdf7kaSs5lwCr+GzM1DLm2kDPzSp0moLsXpg7coL0
-         d8SpMq8pvZZGpYmcWO4qlED2aKQO2pYleVNFzi8/je6zi6l2968WMcYlGHR8k3SzsnMc
-         emO1/ar+R2eVf0+co9Ady4ysnQn2nreGIXOPH/Q6bsVJ2z2+UeLauhB52ob/x/Z6JHtO
-         Wb6+4/rxfLNFQUaGqD7ZUv+cKm6pE0J1rQ2Xmpc1q356r+nW6oXEqaBvg05CK8Wu+MJS
-         kZTLa46dy6Co5v207HMmgVStBaNiMmhemnZ0R8Xib3M+WaWMWXW+klGjJGrEbK1unoEV
-         H6Ag==
+        bh=T2TsegT46o+YsTZ4EzI2YXjEmwluDOByprFHR+cDCkI=;
+        b=ZTWz5dpQylffMWFm/wgYKPI0MxKw5KRzJDYSBNPCF169MHIRvtVW5Q1JQ0uCSEonIX
+         BV4Fnj5Sf8qidBuY0nxkHHWqoBqOg4XX3CPPOu59mQZM8rBoVSvXuSennLWrpo6cz24d
+         fsu71qlx89c+Cph05DiaFkTVAh5lKoLx6cxUTPzOZX4bLMrkJUijQF5RoNbVP4Qd0TRa
+         Usys5eOZzKZt7C2IREa9yhbO4R6kK+T/YB3k7GE990Xi167Jvpn4olGvX++azwxWpurH
+         ks9LZxzvj6RUvi4PoOXeR89R/JHSdBP4SuZQM8EbLdy2pXyDBuHOlvipvpRPv7Q/MRdi
+         D/ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FtlB69zsXQ3jZC3Ou4ODecutdMyciF2dIlXSJMt4Mfg=;
-        b=AoDmtNAIuWpUeHWKEtnT2GFNBqN08iex+CUK1pi3XhSiHS2BsoCsBRxGxKRwABiDnD
-         n4R47mC6S8LqcuPC98lJmdG/uSxkhtrlJVH/i226V0d1aYpwgCb3xgljUeTIEREJkzcN
-         eTzbNdslb9nA1lfVWKv/HFEyjWYTA9QuWND9vgtdmLL93/oGX9LAuit7HHd7Ob3Rox49
-         F+vcu2KtnipJxZ5G3qL4YsFa6uokD96kdkIPJxhWMJDxaGSDsTC747buu4Pyc2ucqnKR
-         nvLrquuHRg4Cup/IOpe0kuvXjjJhb6s08EFWm+6dfa51BcsHLwiFd0MKApeu22zM1tBz
-         nPAg==
-X-Gm-Message-State: AGi0PubgDE6KuHSG66w4lcbf6Eme+pP2voWAXVw+x7vtng3wAq1i1jmr
-        n/wSAZBPuRk3E2EVk8hoNd0RPvAesDKMxqHbwyIN3z8OXn0=
-X-Google-Smtp-Source: APiQypLg4J2wxtQtpU6V+oVRQ2MpdJ8cSTbdUaBYm7lcPMJnY84ukdy6OsUxN/Xk1eIyvSI4nSkEv3qVaOSGuyWOS80=
-X-Received: by 2002:a05:6512:6c4:: with SMTP id u4mr2047706lff.89.1585305876327;
- Fri, 27 Mar 2020 03:44:36 -0700 (PDT)
+        bh=T2TsegT46o+YsTZ4EzI2YXjEmwluDOByprFHR+cDCkI=;
+        b=nG/a0OyZpgqq9uKtgMZIj1m433BjR10aAQvlporklfB/puTh5V331WDNMosiJde4iv
+         jedO2WJFQpJSo8PUYYHAVF7WtcqE6pdFSfMj3sdDEdJo8dZ7zWdVIuUr98m6YTntdzPP
+         JgMjLAH35Bgr0HL25hhYP3m5zDcx7CNNJ+aLz+X9rGpWDxq3DSVog8VBjiXVGupkR/Zz
+         ADW3G5A8XCsi5KLlmgV5yxmAKLyoIdnIpccBSAuCd5Cea1D466W+5Yc1hn80nMnGKI32
+         b5aPdBkzdI5w/pLjXdWFXTu7u2ypgRxuwkpnlJG1CNEIh6KIrkXPoWKadYI3VnGtU+wD
+         n3FA==
+X-Gm-Message-State: ANhLgQ0KSRyij6kQfcsUNnDjQnXtipl7UnQX/nk9ihD40fQBWYvrSVeL
+        KXDXLmqMMrY4BoxkHuEnHA9nqh5l3/CRxsjexUJzcQ==
+X-Google-Smtp-Source: ADFU+vvb3BrNyYHEljyVoinbD8L6G/WPpOVtggCK+KKn/SiyAyuPGHe6jVivB+G9ewWj4unIjv9+MO9Q0VOocNuKnoI=
+X-Received: by 2002:a19:6502:: with SMTP id z2mr8587527lfb.47.1585305946583;
+ Fri, 27 Mar 2020 03:45:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200319122737.3063291-1-thierry.reding@gmail.com> <20200319122737.3063291-8-thierry.reding@gmail.com>
-In-Reply-To: <20200319122737.3063291-8-thierry.reding@gmail.com>
+References: <20200319122737.3063291-1-thierry.reding@gmail.com> <20200319122737.3063291-9-thierry.reding@gmail.com>
+In-Reply-To: <20200319122737.3063291-9-thierry.reding@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 Mar 2020 11:44:25 +0100
-Message-ID: <CACRpkdZFn+mMMdJ7VNDNJotgKuiyF-Nw4oiJtxqSU1Pvm5t9Bw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] pinctrl: tegra: Do not add default pin range on Tegra194
+Date:   Fri, 27 Mar 2020 11:45:35 +0100
+Message-ID: <CACRpkdbZuEHbMO6Pow0anKWLXbo-EBSRPpXmebDxgdSe2pL23Q@mail.gmail.com>
+Subject: Re: [PATCH 8/9] pinctrl: tegra: Renumber the GG.0 and GG.1 pins
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jon Hunter <jonathanh@nvidia.com>,
@@ -64,9 +64,8 @@ On Thu, Mar 19, 2020 at 1:28 PM Thierry Reding <thierry.reding@gmail.com> wrote:
 
 > From: Thierry Reding <treding@nvidia.com>
 >
-> On Tegra194, almost all of the pin control programming happens in early
-> boot firmware, so there is no use in having a pin range defined for all
-> the pins.
+> There is no need to define these at a specific offset since they are the
+> only pins defined for this SoC generation. Begin numbering them at 0.
 >
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 
