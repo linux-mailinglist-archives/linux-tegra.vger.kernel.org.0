@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E69FF19558B
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2020 11:45:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F6B7195597
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Mar 2020 11:47:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbgC0Kpt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Mar 2020 06:45:49 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45476 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbgC0Kps (ORCPT
+        id S1727443AbgC0KrD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Mar 2020 06:47:03 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41366 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbgC0KrC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Mar 2020 06:45:48 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v4so7408548lfo.12
-        for <linux-tegra@vger.kernel.org>; Fri, 27 Mar 2020 03:45:47 -0700 (PDT)
+        Fri, 27 Mar 2020 06:47:02 -0400
+Received: by mail-lf1-f68.google.com with SMTP id z23so7454559lfh.8
+        for <linux-tegra@vger.kernel.org>; Fri, 27 Mar 2020 03:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=T2TsegT46o+YsTZ4EzI2YXjEmwluDOByprFHR+cDCkI=;
-        b=ZTWz5dpQylffMWFm/wgYKPI0MxKw5KRzJDYSBNPCF169MHIRvtVW5Q1JQ0uCSEonIX
-         BV4Fnj5Sf8qidBuY0nxkHHWqoBqOg4XX3CPPOu59mQZM8rBoVSvXuSennLWrpo6cz24d
-         fsu71qlx89c+Cph05DiaFkTVAh5lKoLx6cxUTPzOZX4bLMrkJUijQF5RoNbVP4Qd0TRa
-         Usys5eOZzKZt7C2IREa9yhbO4R6kK+T/YB3k7GE990Xi167Jvpn4olGvX++azwxWpurH
-         ks9LZxzvj6RUvi4PoOXeR89R/JHSdBP4SuZQM8EbLdy2pXyDBuHOlvipvpRPv7Q/MRdi
-         D/ZQ==
+        bh=wU8Dfibnw+YTY5Ju+RmFsCxvCrwd0qkmqQMufVeyPLw=;
+        b=QBPLIaNMoOcpMZQsVATdmdxE/wwRGqza8magxFu1Qw7kbiCc5hCzxKl5G9VRQd/tA2
+         5prTY1VLKPgD02ssUEmf1usvCva3Fexhl5o2axAhR2wiH/jd5KZil4cFW+P5gnw7bL3U
+         zDF8oZGVU5DhlSxaBsk4eKF81q5L4BWrNd6xGwglejhSbyfFX0o5NrXDaamns7y2kght
+         ikkFxwWQSgTdDIqXDtU6rPYvvlPZQhesR7Y1sLHsusNQlYz3YuH7a/kIcdBmuZtEIcZt
+         6TX94tvZgrDPgTqPT6C/ZMQyCjw4Edftej0rDPP6QBZEd29RxMX/JmEkDWI+o7Urs56m
+         +UXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T2TsegT46o+YsTZ4EzI2YXjEmwluDOByprFHR+cDCkI=;
-        b=nG/a0OyZpgqq9uKtgMZIj1m433BjR10aAQvlporklfB/puTh5V331WDNMosiJde4iv
-         jedO2WJFQpJSo8PUYYHAVF7WtcqE6pdFSfMj3sdDEdJo8dZ7zWdVIuUr98m6YTntdzPP
-         JgMjLAH35Bgr0HL25hhYP3m5zDcx7CNNJ+aLz+X9rGpWDxq3DSVog8VBjiXVGupkR/Zz
-         ADW3G5A8XCsi5KLlmgV5yxmAKLyoIdnIpccBSAuCd5Cea1D466W+5Yc1hn80nMnGKI32
-         b5aPdBkzdI5w/pLjXdWFXTu7u2ypgRxuwkpnlJG1CNEIh6KIrkXPoWKadYI3VnGtU+wD
-         n3FA==
-X-Gm-Message-State: ANhLgQ0KSRyij6kQfcsUNnDjQnXtipl7UnQX/nk9ihD40fQBWYvrSVeL
-        KXDXLmqMMrY4BoxkHuEnHA9nqh5l3/CRxsjexUJzcQ==
-X-Google-Smtp-Source: ADFU+vvb3BrNyYHEljyVoinbD8L6G/WPpOVtggCK+KKn/SiyAyuPGHe6jVivB+G9ewWj4unIjv9+MO9Q0VOocNuKnoI=
-X-Received: by 2002:a19:6502:: with SMTP id z2mr8587527lfb.47.1585305946583;
- Fri, 27 Mar 2020 03:45:46 -0700 (PDT)
+        bh=wU8Dfibnw+YTY5Ju+RmFsCxvCrwd0qkmqQMufVeyPLw=;
+        b=D3Z3mdoapMGLLGEye40cVNpTevS7c3J41QA24k3fP9QYZVcmJe2/5ukhwcpxQXG5AP
+         2Yga9KjnjZXi0b+VPsqIGtsuYputFXeH4F7ncLaILdvm+N7J+HbIG63bb4oAS+e14AGp
+         zt5dFI02wQ5fBs4sKerQumBZXSwOX6tNysaiwiWDCsAjAGlvwOJjxxOAWTr6nfur3S9L
+         79FONB9kanENUwzv3rIGmOyUTi1niKb/QOJ/WXqQZBdy0cp1Ko4a47KUH1NpmCvIr8MY
+         nbNHgihma9Rl5tusP/Vd1AvAmRmyirUuATydQty73E+03OWSFvNcpDmf9eT/cdJnyOKN
+         N3Pw==
+X-Gm-Message-State: ANhLgQ3iXUTNpQYnzRbI0BnEtccn+tbos8g4+irO32CckS/on3Xy1Hs6
+        5oItsO9hJz0HN2PMV7shZGBwOFBGOlHuBSgtwx9ZJZxdrWw=
+X-Google-Smtp-Source: ADFU+vv/p4JFrSNfSyE52YsXAXHGzg5C93Bdnn3K8+n5BSLIN+mgMXn2f50qZWsBMuasncx+q1mbB5Pix71eH/fZ8Vo=
+X-Received: by 2002:ac2:5f75:: with SMTP id c21mr8572327lfc.194.1585306019131;
+ Fri, 27 Mar 2020 03:46:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200319122737.3063291-1-thierry.reding@gmail.com> <20200319122737.3063291-9-thierry.reding@gmail.com>
-In-Reply-To: <20200319122737.3063291-9-thierry.reding@gmail.com>
+References: <20200319122737.3063291-1-thierry.reding@gmail.com> <20200319122737.3063291-10-thierry.reding@gmail.com>
+In-Reply-To: <20200319122737.3063291-10-thierry.reding@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 Mar 2020 11:45:35 +0100
-Message-ID: <CACRpkdbZuEHbMO6Pow0anKWLXbo-EBSRPpXmebDxgdSe2pL23Q@mail.gmail.com>
-Subject: Re: [PATCH 8/9] pinctrl: tegra: Renumber the GG.0 and GG.1 pins
+Date:   Fri, 27 Mar 2020 11:46:48 +0100
+Message-ID: <CACRpkdZZgHm3ZqRdCoC4e8ef_Don0dSWans3=7K4cLDTGa5mUA@mail.gmail.com>
+Subject: Re: [PATCH 9/9] pinctrl: tegra: Add SFIO/GPIO programming on Tegra194
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jon Hunter <jonathanh@nvidia.com>,
@@ -64,8 +64,10 @@ On Thu, Mar 19, 2020 at 1:28 PM Thierry Reding <thierry.reding@gmail.com> wrote:
 
 > From: Thierry Reding <treding@nvidia.com>
 >
-> There is no need to define these at a specific offset since they are the
-> only pins defined for this SoC generation. Begin numbering them at 0.
+> Prior to Tegra186, the selection of SFIO vs. GPIO modes was done as part
+> of the GPIO controller's register programming. Starting with Tegra186, a
+> pin is configured as GPIO or SFIO with a bit in a configuration register
+> of the pin controller.
 >
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 
