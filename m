@@ -2,208 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AAAA1980C7
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2020 18:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88A9A198231
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Mar 2020 19:23:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728093AbgC3QRU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Mar 2020 12:17:20 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4053 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728165AbgC3QRU (ORCPT
+        id S1727368AbgC3RXT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Mar 2020 13:23:19 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52635 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727981AbgC3RXT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Mar 2020 12:17:20 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e821b5a0000>; Mon, 30 Mar 2020 09:16:26 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 30 Mar 2020 09:16:39 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 30 Mar 2020 09:16:39 -0700
-Received: from [10.2.160.81] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Mar
- 2020 16:16:38 +0000
-Subject: Re: [RFC PATCH v5 0/9] Add Tegra driver for video capture
-To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>,
-        <helen.koike@collabora.com>
-CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
- <4bb6a3b8-3332-014b-e763-bce9076179dd@xs4all.nl>
- <5ca1583a-889e-abd0-f823-eab93f09a365@xs4all.nl>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <28ab0071-2e04-d14b-9215-db421e71b6af@nvidia.com>
-Date:   Mon, 30 Mar 2020 09:16:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 30 Mar 2020 13:23:19 -0400
+Received: by mail-wm1-f65.google.com with SMTP id z18so20837430wmk.2
+        for <linux-tegra@vger.kernel.org>; Mon, 30 Mar 2020 10:23:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Q24kAT4cbBzb52ml0mrJ9XPb0BLvQ4SNvzCusOKhh+s=;
+        b=OV7E0xLAZMv4x3idXCl7dHmUawT5p3kdnnJ6EDUl9dJOjdECqRwRoVb+DhWgjTlW4s
+         CMMVyz+IynkHHRY6s/ztv9FXSqM16EUIJ4DvWAmASNhDQahnmY3p55zbYo+5Zq0T4at/
+         QUdNRA1XJq+xJwXw46RBwYT6Jq6uAur4I8BXDu523AJ+lz2yR7aDAXUqtmLqOBT+mpoi
+         LXUG0spsxiYegyssLSTCz63LWA+b3Kfj6+yZS07b7G4CEEYr9pMBKp3JjlpkN7HhTUua
+         qYW0DO0C8qRwszI+bHzTOwQDbLXa05DzpJOg99EDF9e5aBjPTwjpiOf1beQERPL1jeNS
+         NURA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Q24kAT4cbBzb52ml0mrJ9XPb0BLvQ4SNvzCusOKhh+s=;
+        b=f1n471oK34MIyW/2M1y/f4o4XugHbgHxGooXLnCHOG1AsZrtEW4n4vQN+CM6Y7aqqD
+         xBcoBwBx7vevfxYMkF38vxEhRS879JkRJkcnucryxfySMYHS0X5bivcmWj6c5M8fE53Q
+         lTGv4mQSMRWaZPg9qVvpf0kYnBAMhpkkyWfn14jHakOZBSv9tR16G05PVdIstnhW60er
+         3BBa9ULdvA+EPdTnBcF68UU3OT9y/O9olgqSoThcx/sHWLbybNHGeI8C43tqaoDW3IbX
+         y3thyT9LoE2V8VVj73f3645/yvrtNWJU5YK5JHNRigXBOUd2ht4zhIohNlZoD+Zqm152
+         OXow==
+X-Gm-Message-State: ANhLgQ1l5bMJ1zg4+XyJ398piT5g2fxczPq8ULIjlhw/8EQPWUfeqE7U
+        YU4XoRv0zztlJRVKOdZEltstAA==
+X-Google-Smtp-Source: ADFU+vtjxzsMF25IoF68+qDYw1jMScPewztW7xCYz9TmB+LbGcyyLpp1VmBNGkr2Zdl8T5vKiXiFyw==
+X-Received: by 2002:a05:600c:2306:: with SMTP id 6mr342437wmo.86.1585588996346;
+        Mon, 30 Mar 2020 10:23:16 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:b9f1:f2a9:a3f0:308? ([2a01:e34:ed2f:f020:b9f1:f2a9:a3f0:308])
+        by smtp.googlemail.com with ESMTPSA id j6sm24349348wrb.4.2020.03.30.10.23.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2020 10:23:15 -0700 (PDT)
+Subject: Re: [PATCH v7 3/3] thermal: tegra: add get_trend ops
+To:     Wei Ni <wni@nvidia.com>, edubezval@gmail.com
+Cc:     thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+        rui.zhang@intel.com, srikars@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+References: <1546510369-28491-1-git-send-email-wni@nvidia.com>
+ <1546510369-28491-4-git-send-email-wni@nvidia.com>
+ <bae5b0c3-3d7f-0b60-da96-730c7e8c4e5c@linaro.org>
+ <ecabe3d8-274f-7c0e-f875-6968c65a4425@nvidia.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <156ef39f-4bb2-c7fb-7bf0-abc9e0067c62@linaro.org>
+Date:   Mon, 30 Mar 2020 19:23:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <5ca1583a-889e-abd0-f823-eab93f09a365@xs4all.nl>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <ecabe3d8-274f-7c0e-f875-6968c65a4425@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1585584986; bh=BDyZjLsZvX08sNWD83Q2/gdH9KJJfTOHcfzKdDEXKXk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=rDPyTh0GtJW05IFO5iIH7jX+2ODsOj93OyBhcaFZx+w3/KiE7aTA0YABNVRxE/Xt0
-         FAhI5GAKg1hvZtculLzdFordQWyKCOqsvF4nTUpk7v0v2tsuIfwQYldWDQHw+5Gof4
-         grL50aKwTXXxNYs2fmFxx446P7OwLQjGi78iepmTFm5DzBCdDajQNrqIFGtYArra8w
-         s5c5rr6GrSsJApWMZ8mPKif8/ZHBsHfJLGa97ciz02PD2Ux0UOPzeIE150dnZbW6hY
-         GSMlq/GAUG7Ydv3MB0LsrlGoL3dNdSvVBCVJCi3fuETnQY4yvHosyDBC4bzKMKWfYs
-         c5lIAoLV+6uCw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Wei,
 
-On 3/30/20 4:02 AM, Hans Verkuil wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 3/30/20 12:04 PM, Hans Verkuil wrote:
->> Hi Sowjanya,
->>
->> On 3/23/20 6:52 PM, Sowjanya Komatineni wrote:
->>> This series adds Tegra210 VI and CSI driver for built-in test pattern
->>> generator (TPG) capture.
->>>
->>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
->>> CSI port is one-to-one mapped to VI channel for video capture.
->>>
->>> This series has TPG support only where it creates hard media links
->>> between CSI subdevice and VI video device without device graphs.
->>>
->>> v4l2-compliance results are available below the patch diff.
->>>
->>> [v5]:        Includes,
->>>       - v4 feedback
->>>       - fix for venc powergate mc reset order.
->>>       - fix to have unbind and bind work during v4l2-ctl sleep and streaming.
->> Unfortunately, I still crash on this.
->>
->> I do the following:
->>
->> Run: v4l2-ctl --stream-mmap
->>
->> Then, from another shell as root:
->>
->> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
->> echo -n tegra-video > unbind
->>
->> I get this crash:
->>
->> [  315.691971] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000b0
->> [  315.700749] Mem abort info:
->> [  315.703536]   ESR = 0x96000004
->> [  315.706587]   EC = 0x25: DABT (current EL), IL = 32 bits
->> [  315.711886]   SET = 0, FnV = 0
->> [  315.714933]   EA = 0, S1PTW = 0
->> [  315.718064] Data abort info:
->> [  315.720936]   ISV = 0, ISS = 0x00000004
->> [  315.724763]   CM = 0, WnR = 0
->> [  315.727726] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000178ee8000
->> [  315.734152] [00000000000000b0] pgd=0000000000000000
->> [  315.739024] Internal error: Oops: 96000004 [#1] PREEMPT SMP
->> [  315.744584] Modules linked in: r8152 nouveau lp855x_bl tegra_drm ttm
->> [  315.750942] CPU: 3 PID: 2206 Comm: bash Tainted: G        W         5.6.0-rc1-arm64 #118
->> [  315.759017] Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
->> [  315.764927] pstate: 20000085 (nzCv daIf -PAN -UAO)
->> [  315.769718] pc : _raw_write_lock_irqsave+0xb0/0x2b8
->> [  315.774590] lr : ida_free+0x48/0x158
->> [  315.778155] sp : ffff800011d8bba0
->> [  315.781462] x29: ffff800011d8bba0 x28: ffff0000f4095400
->> [  315.786766] x27: 0000000000000000 x26: 0000000000000000
->> [  315.792070] x25: 0000000000000000 x24: 0000000000000000
->> [  315.797372] x23: ffff0000f21ad400 x22: ffff0000f5c93000
->> [  315.802674] x21: ffff0000f4095400 x20: ffff0000f86b5540
->> [  315.807975] x19: 0000000000000000 x18: 0000000000000000
->> [  315.813276] x17: 0000000000000001 x16: 0000000000000019
->> [  315.818578] x15: 000000148ccdabe2 x14: 0000000000000136
->> [  315.823879] x13: 0000000000000001 x12: 00000000000003f8
->> [  315.829180] x11: 0000000000000000 x10: 0000000000000000
->> [  315.834482] x9 : ffff0000ff899990 x8 : ffff0000ff899000
->> [  315.839784] x7 : 0000000040000000 x6 : 0000000000210d00
->> [  315.845085] x5 : 0000000000000001 x4 : 0000000000000000
->> [  315.850386] x3 : 00000000000000b0 x2 : 0000000000000001
->> [  315.855687] x1 : 0000000000000000 x0 : 0000000000000001
->> [  315.860988] Call trace:
->> [  315.863432]  _raw_write_lock_irqsave+0xb0/0x2b8
->> [  315.867956]  ida_free+0x48/0x158
->> [  315.871184]  __media_device_unregister_entity+0x28/0xf0
->> [  315.876402]  media_device_unregister+0x6c/0x148
->> [  315.880927]  host1x_video_remove+0x20/0x48
->> [  315.885021]  host1x_device_remove+0x1c/0x30
->> [  315.889198]  device_release_driver_internal+0xf4/0x1c0
->> [  315.894325]  device_driver_detach+0x14/0x20
->> [  315.898503]  unbind_store+0xd4/0xf8
->> [  315.901986]  drv_attr_store+0x20/0x30
->> [  315.905645]  sysfs_kf_write+0x40/0x50
->> [  315.909301]  kernfs_fop_write+0xf8/0x210
->> [  315.913219]  __vfs_write+0x18/0x40
->> [  315.916616]  vfs_write+0xdc/0x1c8
->> [  315.919926]  ksys_write+0x68/0xf0
->> [  315.923235]  __arm64_sys_write+0x18/0x20
->> [  315.927154]  el0_svc_common.constprop.0+0x68/0x160
->> [  315.931936]  do_el0_svc+0x20/0x80
->> [  315.935246]  el0_sync_handler+0x10c/0x180
->> [  315.939246]  el0_sync+0x140/0x180
->> [  315.942560] Code: 8803fc02 35ffffa3 17fffda6 f9800071 (885ffc60)
->> [  315.948644] ---[ end trace e42b943f3c1af06c ]---
->>
->> The following diff fixes this:
->>
->> ------------------ cut here ------------------
->> diff --git a/drivers/staging/media/tegra/tegra-vi.c b/drivers/staging/media/tegra/tegra-vi.c
->> index 9714152aa6a7..53cf37af9602 100644
->> --- a/drivers/staging/media/tegra/tegra-vi.c
->> +++ b/drivers/staging/media/tegra/tegra-vi.c
->> @@ -583,7 +583,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
->>        /* initialize the video_device */
->>        chan->video->fops = &tegra_channel_fops;
->>        chan->video->v4l2_dev = &vid->v4l2_dev;
->> -     chan->video->release = video_device_release_empty;
->> +     chan->video->release = video_device_release;
->>        chan->video->queue = &chan->queue;
->>        snprintf(chan->video->name, sizeof(chan->video->name), "%s-%s-%u",
->>                 dev_name(vi->dev), "output", chan->portno);
->> @@ -647,6 +647,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
->>        media_entity_cleanup(&chan->video->entity);
->>   release_vdev:
->>        video_device_release(chan->video);
->> +     chan->video = NULL;
->>        return ret;
->>   }
->>
->> @@ -707,7 +708,6 @@ static void tegra_vi_channels_cleanup(struct tegra_vi *vi)
->>                        mutex_lock(&chan->video_lock);
->>                        vb2_queue_release(&chan->queue);
->>                        mutex_unlock(&chan->video_lock);
->> -                     video_device_release(chan->video);
->>                }
->>
->>                if (chan->frame_start_sp)
->> ------------------ cut here ------------------
-> Note: Sakari suggested to embed struct video_device into struct tegra_vi_channel.
-> In that case chan->video->release should remain video_device_release_empty and
-> all video_device_alloc()/release() calls would have to be dropped.
+On 19/02/2019 03:15, Wei Ni wrote:
 
-Thanks Hans. Tried several unbind/unbind not sure why it did not repro 
-during my testing.
+>>> +static int tegra_thermctl_get_trend(void *data, int trip, +
+>>> enum thermal_trend *trend)
 
-video device is also part of tegra_vi_channel. So, v6 will remove 
-video_device_alloc and use video_device_release_empty like I had in v3.
+[ ... ]
 
-This should help fix crash during unbind.
+>>> +	temp = tz->temperature; +	last_temp = tz->last_temperature; +
+>>> mutex_unlock(&tz->lock); + +	if (temp > trip_temp) { +		if
+>>> (temp >= last_temp) +			*trend = THERMAL_TREND_RAISING; +
+>>> else +			*trend = THERMAL_TREND_STABLE; +	} else if (temp <
+>>> trip_temp) { +		*trend = THERMAL_TREND_DROPPING; +	} else { +
+>>> *trend = THERMAL_TREND_STABLE; +	} + +	return 0; +} + static
+>>> const struct thermal_zone_of_device_ops tegra_of_thermal_ops =
+>>> { .get_temp = tegra_thermctl_get_temp, .set_trip_temp =
+>>> tegra_thermctl_set_trip_temp, +	.get_trend =
+>>> tegra_thermctl_get_trend, };
 
->
-> Regards,
->
->          Hans
+It has been awhile since this patch was submitted and merged by
+Eduardo. I replace him to co-maintain the thermal framework with Rui.
+
+While figuring out the internals for code cleanup, I ended up in this
+function above.
+
+Why do you have to use this routine instead of the generic one in
+get_tz_trend()?
+
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
