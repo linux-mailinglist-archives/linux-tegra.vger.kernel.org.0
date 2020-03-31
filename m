@@ -2,234 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 142661991AB
-	for <lists+linux-tegra@lfdr.de>; Tue, 31 Mar 2020 11:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8E58199373
+	for <lists+linux-tegra@lfdr.de>; Tue, 31 Mar 2020 12:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731815AbgCaJUp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 31 Mar 2020 05:20:45 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40342 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730568AbgCaJUk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 31 Mar 2020 05:20:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 72CB5AEF7;
-        Tue, 31 Mar 2020 09:20:37 +0000 (UTC)
-Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
-To:     Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc:     airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
-        abrodkin@synopsys.com, bbrezillon@kernel.org,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        ludovic.desroches@microchip.com, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, jingoohan1@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
-        xinliang.liu@linaro.org, zourongrong@gmail.com,
-        john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
-        puck.chen@hisilicon.com, linux@armlinux.org.uk,
-        p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
-        matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
-        heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
-        tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
-        hamohammed.sa@gmail.com, sebastian.reichel@collabora.com,
-        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-21-tzimmermann@suse.de>
- <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <eef912e5-7ab4-f8bb-6ea9-47db1c05312b@suse.de>
-Date:   Tue, 31 Mar 2020 11:20:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1730261AbgCaKcz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 31 Mar 2020 06:32:55 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:48102 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729925AbgCaKcz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 31 Mar 2020 06:32:55 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 47818634C87;
+        Tue, 31 Mar 2020 13:32:16 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jJEBr-0001Gy-Bd; Tue, 31 Mar 2020 13:32:15 +0300
+Date:   Tue, 31 Mar 2020 13:32:15 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        helen.koike@collabora.com, digetx@gmail.com, sboyd@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v5 6/9] media: tegra: Add Tegra210 Video input driver
+Message-ID: <20200331103215.GI2394@valkosipuli.retiisi.org.uk>
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-7-git-send-email-skomatineni@nvidia.com>
+ <20200325110358.GB853@valkosipuli.retiisi.org.uk>
+ <8bc44545-7d1e-0e37-db27-d37784679574@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7lVXjZmTpLLkTKch5Y4I1GCt7Pec0fulW"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8bc44545-7d1e-0e37-db27-d37784679574@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7lVXjZmTpLLkTKch5Y4I1GCt7Pec0fulW
-Content-Type: multipart/mixed; boundary="q11qeQog61ztY5ZBs8aYmUz8BfkF0OSCB";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
- abrodkin@synopsys.com, bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, jingoohan1@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
- xinliang.liu@linaro.org, zourongrong@gmail.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- linux@armlinux.org.uk, p.zabel@pengutronix.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, paul@crapouillou.net, ck.hu@mediatek.com,
- matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
- heiko@sntech.de, wens@csie.org, jernej.skrabec@siol.net,
- thierry.reding@gmail.com, jonathanh@nvidia.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, eric@anholt.net, kraxel@redhat.com,
- hamohammed.sa@gmail.com, sebastian.reichel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org
-Message-ID: <eef912e5-7ab4-f8bb-6ea9-47db1c05312b@suse.de>
-Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-21-tzimmermann@suse.de>
- <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
-In-Reply-To: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
+Hi Hans,
 
---q11qeQog61ztY5ZBs8aYmUz8BfkF0OSCB
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Mon, Mar 30, 2020 at 12:59:15PM +0200, Hans Verkuil wrote:
+> On 3/25/20 12:03 PM, Sakari Ailus wrote:
+> > Hi Sowjanya,
+> > 
+> > Thanks for the patchset.
+> > 
+> > On Mon, Mar 23, 2020 at 10:52:32AM -0700, Sowjanya Komatineni wrote:
+> >> Tegra210 contains a powerful Video Input (VI) hardware controller
+> >> which can support up to 6 MIPI CSI camera sensors.
+> >>
+> >> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+> >> capture from an external camera sensor connected to CSI or from
+> >> built-in test pattern generator.
+> >>
+> >> Tegra210 supports built-in test pattern generator from CSI to VI.
+> >>
+> >> This patch adds a V4L2 media controller and capture driver support
+> >> for Tegra210 built-in CSI to VI test pattern generator.
+> >>
+> >> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> >> ---
+> >>  drivers/staging/media/Kconfig              |    2 +
+> >>  drivers/staging/media/Makefile             |    1 +
+> >>  drivers/staging/media/tegra/Kconfig        |   10 +
+> >>  drivers/staging/media/tegra/Makefile       |    8 +
+> >>  drivers/staging/media/tegra/TODO           |   10 +
+> >>  drivers/staging/media/tegra/tegra-common.h |  263 +++++++
+> >>  drivers/staging/media/tegra/tegra-csi.c    |  522 ++++++++++++++
+> >>  drivers/staging/media/tegra/tegra-csi.h    |  118 ++++
+> >>  drivers/staging/media/tegra/tegra-vi.c     | 1058 ++++++++++++++++++++++++++++
+> >>  drivers/staging/media/tegra/tegra-vi.h     |   83 +++
+> >>  drivers/staging/media/tegra/tegra-video.c  |  129 ++++
+> >>  drivers/staging/media/tegra/tegra-video.h  |   32 +
+> >>  drivers/staging/media/tegra/tegra210.c     |  754 ++++++++++++++++++++
+> >>  drivers/staging/media/tegra/tegra210.h     |  192 +++++
+> > 
+> > Why staging? Are there reasons not to aim this to the kernel proper right
+> > away? If you only support TPG, the driver may not have too many (if any)
+> > real users anyway.
+> > 
+> >>  14 files changed, 3182 insertions(+)
+> >>  create mode 100644 drivers/staging/media/tegra/Kconfig
+> >>  create mode 100644 drivers/staging/media/tegra/Makefile
+> >>  create mode 100644 drivers/staging/media/tegra/TODO
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-common.h
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-csi.c
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-csi.h
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-vi.c
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-vi.h
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-video.c
+> >>  create mode 100644 drivers/staging/media/tegra/tegra-video.h
+> >>  create mode 100644 drivers/staging/media/tegra/tegra210.c
+> >>  create mode 100644 drivers/staging/media/tegra/tegra210.h
+> >>
+> 
+> <snip>
+> 
+> >> +static int tegra_channel_g_input(struct file *file, void *priv,
+> >> +				 unsigned int *i)
+> >> +{
+> >> +	*i = 0;
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int tegra_channel_s_input(struct file *file, void *priv,
+> >> +				 unsigned int input)
+> >> +{
+> >> +	if (input > 0)
+> >> +		return -EINVAL;
+> >> +
+> >> +	return 0;
+> >> +}
+> > 
+> > Please see patchset on topic "v4l2-dev/ioctl: Add V4L2_CAP_IO_MC" on
+> > linux-media; it's relevant here, too.
+> 
+> No, it isn't. The pipeline is controlled by the driver, not by userspace.
+> This is a regular video capture driver, not an ISP driver.
 
-Hi
+I don't think that really makes a difference, whether a device is an ISP or
+not, but instead what does is whether there is something to control in its
+pipeline that cannot be generally done through the regular V4L2 interface.
+Even plain CSI-2 receiver drivers should be media device centric these days
+as doing otherwise excludes using a range of sensor drivers with them,
+including any possible future support for e.g. sensor embedded data.
 
-Am 24.03.20 um 12:59 schrieb Rodrigo Siqueira:
-> Hi Thomas,
->=20
-> First of all, thanks for your patch!
->=20
-> I applied all your series, compiled it, and when I tried
-> `make INSTALL_MOD_PATH=3D/PATH/ modules_instal` I got the following
-> message:
->=20
->  depmod: ERROR: Cycle detected: drm_kms_helper -> drm -> drm_kms_helper=
+-- 
+Kind regards,
 
->  depmod: ERROR: Found 2 modules in dependency cycles!
->  make: *** [Makefile:1317: _modinst_post] Error 1
->=20
-> I cleaned up my local files and tried again, but I got the same error;
-> If I just use `drm-misc-next` everything is fine.  Did I miss something=
-?
-
-I didn't change any module dependencies. Does it happen without this
-patches?
-
-Best regards
-Thomas
-
->=20
-> Thanks
->=20
-> On 03/05, Thomas Zimmermann wrote:
->> The vkms driver uses an empty implementation for its encoder. Replace
->> the code with the generic simple encoder.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/vkms/vkms_output.c | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms=
-/vkms_output.c
->> index fb1941a6522c..85afb77e97f0 100644
->> --- a/drivers/gpu/drm/vkms/vkms_output.c
->> +++ b/drivers/gpu/drm/vkms/vkms_output.c
->> @@ -3,6 +3,7 @@
->>  #include "vkms_drv.h"
->>  #include <drm/drm_atomic_helper.h>
->>  #include <drm/drm_probe_helper.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> =20
->>  static void vkms_connector_destroy(struct drm_connector *connector)
->>  {
->> @@ -17,10 +18,6 @@ static const struct drm_connector_funcs vkms_connec=
-tor_funcs =3D {
->>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,=
-
->>  };
->> =20
->> -static const struct drm_encoder_funcs vkms_encoder_funcs =3D {
->> -	.destroy =3D drm_encoder_cleanup,
->> -};
->> -
->>  static int vkms_conn_get_modes(struct drm_connector *connector)
->>  {
->>  	int count;
->> @@ -70,8 +67,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, in=
-t index)
->> =20
->>  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
->> =20
->> -	ret =3D drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
->> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
->> +	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTU=
-AL);
->>  	if (ret) {
->>  		DRM_ERROR("Failed to init encoder\n");
->>  		goto err_encoder;
->> --=20
->> 2.25.1
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
-
---q11qeQog61ztY5ZBs8aYmUz8BfkF0OSCB--
-
---7lVXjZmTpLLkTKch5Y4I1GCt7Pec0fulW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6DC2IACgkQaA3BHVML
-eiPLVgf/ZsAHhwHhc6AopeQ3Jo5QFB+n+OZPi4AH9wfFrisYkvbEt6RhbDd4VCb0
-mvTi97EzYLGovrH11SYIE+INA07OTuQbKOKVxoB9UfXzFRuD8OeK3l0yHmVCKZzv
-/vU4cB7QBbS4dt//B9KlgxfQvq1T/bTPfZZbmf6ozduo9I3bR8xOj2V433wGdkQi
-0fjSzQ4WuFrfLv2Zn/D70oxZbm81vsBMWkq1jy/b/5iUDU6W7uHxQemiYMvtMBO2
-XwtBSX2PWyAaG43mW0QcdvhLOEgnNc62t5v78P9MRFsC7Fd/F7PkahlwCkPSFEgx
-71iw2TEYpRvkMO33t6TI5x6xofZO9g==
-=Yoq6
------END PGP SIGNATURE-----
-
---7lVXjZmTpLLkTKch5Y4I1GCt7Pec0fulW--
+Sakari Ailus
