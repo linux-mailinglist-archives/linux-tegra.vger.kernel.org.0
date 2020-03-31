@@ -2,145 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14B27198844
-	for <lists+linux-tegra@lfdr.de>; Tue, 31 Mar 2020 01:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D09D198A33
+	for <lists+linux-tegra@lfdr.de>; Tue, 31 Mar 2020 04:55:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729293AbgC3X2q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Mar 2020 19:28:46 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:33060 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729024AbgC3X2q (ORCPT
+        id S1727708AbgCaCzR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Mar 2020 22:55:17 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16129 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727464AbgCaCzR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Mar 2020 19:28:46 -0400
-Received: by mail-io1-f65.google.com with SMTP id o127so19777481iof.0;
-        Mon, 30 Mar 2020 16:28:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=T3SelQy49aACUXmKXVT4NOVYKNHT6s8n6dCJkbIM0m4=;
-        b=c8sFf7NIYPDsrKY+b85hj9rMyKzZTS9wzK36tDmxVgfVVOyl5gOaclLI8jWkY+C6nl
-         HJi1saglGRRwSzIvHZDRU0g3CAhzObyiMG3brssrWEyq3miP6Jmzya2oR4Wv/+ZvOPgA
-         x/b9J9XMA6qAr4ynRyl7MvzVmj635n/qk6dxGu5IpxFpmr/4WHsPFmFRScyyX6xRWQYo
-         VUCjz96mCyPG2wZ0EWGOpf4Lm8iFTD9xcAhBVv6A0OixILDMLpNrhPrYOdzb/LDvlJWM
-         XcGZ9uk1qGgBraRe0IgWKzbb3xaih/txaQ8VVHRUM3tVYrdeeooukvasD37lzTYlPkDq
-         PKLA==
-X-Gm-Message-State: ANhLgQ2FobBBvi8BmNdI/NOzG6b0XJM9pIMA81hQdtxBopdVf2x49LWz
-        xfDKwNjnTHNcC7arPxrcntiACvA=
-X-Google-Smtp-Source: ADFU+vspZXZ8V4GDKPfcghhhUe9/kcgSRNVcKdRoepeYAVHsPP4lMq1koJNZYBxxqEnNiHv91dAEaw==
-X-Received: by 2002:a05:6602:14c6:: with SMTP id b6mr12742265iow.133.1585610924975;
-        Mon, 30 Mar 2020 16:28:44 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id m14sm5432374ilr.16.2020.03.30.16.28.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 16:28:44 -0700 (PDT)
-Received: (nullmailer pid 28523 invoked by uid 1000);
-        Mon, 30 Mar 2020 23:28:42 -0000
-Date:   Mon, 30 Mar 2020 17:28:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: timer: Add bindings for NVIDIA Tegra186
- timers
-Message-ID: <20200330232842.GA25358@bogus>
-References: <20200320133452.3705040-1-thierry.reding@gmail.com>
- <20200320133452.3705040-2-thierry.reding@gmail.com>
+        Mon, 30 Mar 2020 22:55:17 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e82b1070000>; Mon, 30 Mar 2020 19:55:03 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 30 Mar 2020 19:55:16 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 30 Mar 2020 19:55:16 -0700
+Received: from [10.25.76.105] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 31 Mar
+ 2020 02:55:11 +0000
+Subject: Re: [PATCH V5 5/5] PCI: tegra: Add support for PCIe endpoint mode in
+ Tegra194
+To:     Bjorn Helgaas <helgaas@kernel.org>, <lorenzo.pieralisi@arm.com>
+CC:     <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <andrew.murray@arm.com>, <kishon@ti.com>,
+        <gustavo.pimentel@synopsys.com>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20200330214721.GA128269@google.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <bba72560-85cc-b59b-b0e8-bfc7c7408736@nvidia.com>
+Date:   Tue, 31 Mar 2020 08:25:08 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200320133452.3705040-2-thierry.reding@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200330214721.GA128269@google.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1585623303; bh=3ahKFXsLD6s6zihW7Lrcb4QHzaeo3c4wt/u7RD8Off8=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=AXkyKXnb8indhkbOroXPMP4WQtUfPJRj34vliLWkwdB295fSHutztOclP4xtwlFIL
+         VUwgXUoRhEpOTHDQsvwIfChY17yF7+xfu8J1u63hVIJm2GbtQITCYFmBe2ZGUWb0pB
+         uOZ7HACkHdbHrenA5JBlytWRzMzlt91oq0+ShC6KAe2xnEHPtuNC/35wA8L07ywvh3
+         uk+cm/n538EUcnSvTJREeblguG7+R12wAaSP/JNEDESPrhRK/YVS3RoKL4bKhDJOCL
+         pKE18gpS5YJF5KgA7axDuGGih/TEkk3yquDARTo0LqkXG66ISy2QNblc91BhLEHEWj
+         cvMTmJrwHnl/g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Mar 20, 2020 at 02:34:46PM +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+
+
+On 3/31/2020 3:17 AM, Bjorn Helgaas wrote:
+> External email: Use caution opening links or attachments
 > 
-> The NVIDIA Tegra186 SoC contains an IP block that provides a register
-> interface for ten timers with a 29-bit counter that can generate one-
-> shot, periodic or watchdog interrupts.
 > 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  .../bindings/timer/nvidia,tegra186-timer.yaml | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/timer/nvidia,tegra186-timer.yaml
+> On Tue, Mar 03, 2020 at 11:40:52PM +0530, Vidya Sagar wrote:
+>> Add support for the endpoint mode of Synopsys DesignWare core based
+>> dual mode PCIe controllers present in Tegra194 SoC.
+>>
+>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> ---
+>> V5:
+>> * Added Acked-by: Thierry Reding <treding@nvidia.com>
+>> * Removed unwanted header file inclusion
+>>
+>> V4:
+>> * Addressed Lorenzo's review comments
+>> * Started using threaded irqs instead of kthreads
+>>
+>> V3:
+>> * Addressed Thierry's review comments
+>>
+>> V2:
+>> * Addressed Bjorn's review comments
+>> * Made changes as part of addressing review comments for other patches
+>>
+>>   drivers/pci/controller/dwc/Kconfig         |  30 +-
+>>   drivers/pci/controller/dwc/pcie-tegra194.c | 679 ++++++++++++++++++++-
+>>   2 files changed, 691 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+>> index 0830dfcfa43a..169cde58dd92 100644
+>> --- a/drivers/pci/controller/dwc/Kconfig
+>> +++ b/drivers/pci/controller/dwc/Kconfig
+>> @@ -248,14 +248,38 @@ config PCI_MESON
+>>          implement the driver.
+>>
+>>   config PCIE_TEGRA194
+>> -     tristate "NVIDIA Tegra194 (and later) PCIe controller"
+>> +     tristate
+>> +
+>> +config PCIE_TEGRA194_HOST
+>> +     tristate "NVIDIA Tegra194 (and later) PCIe controller - Host Mode"
+>>        depends on ARCH_TEGRA_194_SOC || COMPILE_TEST
+>>        depends on PCI_MSI_IRQ_DOMAIN
+>>        select PCIE_DW_HOST
+>>        select PHY_TEGRA194_P2U
+>> +     select PCIE_TEGRA194
+>> +     default y
 > 
-> diff --git a/Documentation/devicetree/bindings/timer/nvidia,tegra186-timer.yaml b/Documentation/devicetree/bindings/timer/nvidia,tegra186-timer.yaml
-> new file mode 100644
-> index 000000000000..f9b55041a5ca
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/timer/nvidia,tegra186-timer.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/timer/nvidia,tegra186-timer.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA Tegra186 timers
-> +
-> +maintainers:
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +  - Jonathan Hunter <jonathanh@nvidia.com>
-> +
-> +description: |
-> +  The Tegra186 timer provides ten 29-bit timer counters and one 32-bit TSC
-> +  (timestamp counter). The timers run at either a fixed 1 MHz clock rate
-> +  derived from the oscillator clock. Each timer can be programmed to raise
-> +  one-shot, periodic, or watchdog interrupts.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description: NVIDIA Tegra186
-> +        items:
-> +          - const: nvidia,tegra186-timer
-> +
-> +      - description: NVIDIA Tegra194
-> +        items:
-> +          - const: nvidia,tegra194-timer
-> +          - const: nvidia,tegra186-timer
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 10
-
-required props?
-
-Also, add:
-
-additionalProperties: false
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    timer@3010000 {
-> +        compatible = "nvidia,tegra186-timer";
-> +        reg = <0x03010000 0x000e0000>;
-> +        interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-> +        status = "disabled";
-
-Don't show status in examples.
-
-> +    };
-> -- 
-> 2.24.1
+> Sorry I missed this before, but why is this "default y"?  From
+> Documentation/kbuild/kconfig-language.rst:
 > 
+>    The default value deliberately defaults to 'n' in order to avoid
+>    bloating the build. With few exceptions, new config options should
+>    not change this. The intent is for "make oldconfig" to add as little
+>    as possible to the config from release to release.
+> 
+> I do see that several other things in other drivers/pci/ Kconfig files
+> are also "default y", and we should probably change some of them.  But
+> I don't want to add even more unless there's a good reason.
+> 
+> I'm not looking for more reactions like these:
+> 
+> https://lore.kernel.org/r/CAHk-=wiZ24JuVehJ5sEC0UG1Gk2nvB363wO02RRsR1oEht6R9Q@mail.gmail.com
+> https://lore.kernel.org/r/CA+55aFzPpuHU1Nqd595SEQS=F+kXMzPs0Rba9FUgTodGxmXsgg@mail.gmail.com
+> 
+> Can you please update this patch to either remove the "default y" or
+> add the rationale for keeping it?
+I'm fine with removing 'default y' line.
+Should I send a patch only with this change?
+
+Thanks,
+Vidya Sagar
+> 
+>> +     help
+>> +       Enables support for the PCIe controller in the NVIDIA Tegra194 SoC to
+>> +       work in host mode. There are two instances of PCIe controllers in
+>> +       Tegra194. This controller can work either as EP or RC. In order to
+>> +       enable host-specific features PCIE_TEGRA194_HOST must be selected and
+>> +       in order to enable device-specific features PCIE_TEGRA194_EP must be
+>> +       selected. This uses the DesignWare core.
