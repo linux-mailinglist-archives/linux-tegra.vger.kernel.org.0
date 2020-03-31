@@ -2,68 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1650D19A110
-	for <lists+linux-tegra@lfdr.de>; Tue, 31 Mar 2020 23:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1EA919A1C1
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Apr 2020 00:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731449AbgCaVpc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 31 Mar 2020 17:45:32 -0400
-Received: from mail-lj1-f170.google.com ([209.85.208.170]:45194 "EHLO
-        mail-lj1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731426AbgCaVp3 (ORCPT
+        id S1729153AbgCaWTZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 31 Mar 2020 18:19:25 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:42734 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727955AbgCaWTY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 31 Mar 2020 17:45:29 -0400
-Received: by mail-lj1-f170.google.com with SMTP id t17so23673831ljc.12;
-        Tue, 31 Mar 2020 14:45:28 -0700 (PDT)
+        Tue, 31 Mar 2020 18:19:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h15so28135173wrx.9;
+        Tue, 31 Mar 2020 15:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/P0AXifXD7tANSoj1fREn68L0S32q1vEpifJGcG77J4=;
-        b=JmyzrmD0tbcHDOzzONwLJPsSNbafqhroH8qzF3eocGRBirGxScMW3RYAVUyGwXR2oi
-         37BIghkQsEwFiI0e6xERiyBTNzEmpdtPyD0afKBA6JLqG925v2824BFHaPHBJNz0EzpT
-         0QWuM0JhcUt0g6LEf4dx8DOXln+zCUrzkquryikQ7kQ4CJPNKF4TFhD6eHuljy0x+pHy
-         xNWdHGY9mQCYXUW4gUzVVhY20ZyPGjq2woKBbI6B4tvj4J2kCBNzc+X9iu1YCpz5IRlP
-         AeoynJl3pYKUlEbQ4/DsMbO2krs2q2ZF02zoAghXzr3C1Yt8aYFdxjV3xdQ1yWqm+xFc
-         6zEg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+hv5w97MVc2OxbT4cCnlK/0UNfmgvgpT5Fhi8G4KpGY=;
+        b=vA2l3Ah+jvHWpWZFORoCZ8hzYl0jI51cpTQrB/z4rSF+t79wy0itoCLNNIaNE0FVW8
+         xAoWkV6tkLOhQXn9m7bZfSPi3nVwzAoVKs6mL/OIWxvpcoNyYiHeBPyH1usc+l4DAWQO
+         fzL8Sj52TceXiMR/y0JynuqQ2J09CdN81aXMpryRKsbjrpxnOhp7h8A2+pcvkul01M/g
+         GvAL7cWQaYRshTBHmKnnq9rJaBgnDnnul1I58W/DS3j9Tt56InJx1mi9UWpOq9l8n8Sr
+         GIldz1r7aI+NZcMSApJdShy8ZJHw5cOEGwMe6QsVXcY77K/6Wc1YV/59K2m1+3yuV9sd
+         tISA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/P0AXifXD7tANSoj1fREn68L0S32q1vEpifJGcG77J4=;
-        b=TxUs9W+aNj4XJW86FQjUEdvDE/ClUW/iVJflZ9GpgrbYx0IKIPKlBHgTRsVejk2d9L
-         0oZi39lj3jKkpae4pAlOv3OtbdFcmRWqCG5gIHkA0Ir/I8fG1BlvPlppAyAlfCTL/m02
-         ZU0haYQJNN4q/FP/a5DhMLdnauXzPEbe93aS8uhCewKhZGOa26CB+HRr0T7xniA6DthM
-         0Jvjpsbr5NzLfOTt2VuE44Y1eEOpFirWzE717MUZzsxv8/HvvUMWFKrbQoP/OidcskJ8
-         7f14OtNMnHwcP1RJ74Nv0n10WPTAS+H+72CQsRTDJq8LyTzc0OS8H4n0m9lpJduzZe6X
-         H4wA==
-X-Gm-Message-State: AGi0PubfBGQ5QKO6eWgCOMiLK81PFD6VYctzOSukBCr+UJY9j9stVHSn
-        OvtH0Z40NXP/PWUAzDwYec0=
-X-Google-Smtp-Source: APiQypL8boeJCK1m9dpLS+8IR6pbkvx2LOY6uiv2Gmu8H3lXIZUXff+UTFkwuCCxKyH5JjhhUlhB9w==
-X-Received: by 2002:a05:651c:1203:: with SMTP id i3mr11392931lja.175.1585691126205;
-        Tue, 31 Mar 2020 14:45:26 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.gmail.com with ESMTPSA id a4sm3757826ljb.27.2020.03.31.14.45.25
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+hv5w97MVc2OxbT4cCnlK/0UNfmgvgpT5Fhi8G4KpGY=;
+        b=q3V4KjKkVX0abNxVhIXVEGHMRdv5Ap7aMVpIA20Nn6fYPZLwT9nKo9svzGl2UNjgxY
+         iEDdvuxN7Xb5HHciLU2JitlI0trdjEYp6glN/CFyTmsvyS1vu6Q7wOVoxBTetDKdxx6o
+         dN5huyYwdGtQ3BXU813H17EpSn4rqtkEx+ZmyZTHu8fpU9RvhUeWKFZxDIks8AoAkzL+
+         LJZXzG973wPrsdbbqz9MgU8eiqpeLW0UlyKruIfcw3olTrVdrQl5mxdosPBaBDM3F9YA
+         h+NDDItxq6msJULodjRZENUBX4NOtrNc3vo0rExeXxgywLJBH/7DqgHvu88CH5kt4O5r
+         WX1A==
+X-Gm-Message-State: ANhLgQ3p4GRmaIs4bkh9JbX8acvinHqfTtKUJVFZwg7HktetMPq4V8y7
+        ZHD8eJmtmInztoIU5eKYPVo=
+X-Google-Smtp-Source: ADFU+vsIvkV49QVqdU9afjo6Mrv40hT+u2GGh099fQrGkcB8oJJptB7eCc+5YbOoSn6AbQFQR5b+jg==
+X-Received: by 2002:adf:a18c:: with SMTP id u12mr22221588wru.325.1585693162868;
+        Tue, 31 Mar 2020 15:19:22 -0700 (PDT)
+Received: from localhost (p200300E41F4A9B0076D02BFFFE273F51.dip0.t-ipconnect.de. [2003:e4:1f4a:9b00:76d0:2bff:fe27:3f51])
+        by smtp.gmail.com with ESMTPSA id y15sm171337wrh.50.2020.03.31.15.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 14:45:25 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        =?UTF-8?q?Pedro=20=C3=82ngelo?= <pangelo@void.io>,
-        Matt Merhar <mattmerhar@protonmail.com>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 6/6] ARM: tegra_defconfig: Enable options useful for Nexus 7 and Acer A500
-Date:   Wed,  1 Apr 2020 00:43:27 +0300
-Message-Id: <20200331214327.6496-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200331214327.6496-1-digetx@gmail.com>
-References: <20200331214327.6496-1-digetx@gmail.com>
+        Tue, 31 Mar 2020 15:19:21 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] clocksource: Add NVIDIA Tegra186 timers support
+Date:   Wed,  1 Apr 2020 00:19:07 +0200
+Message-Id: <20200331221914.2966407-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -71,136 +63,47 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable several drivers for hardware that is found on Nexus 7 and Acer A500
-tablet devices. Please note that some drivers may require firmware files
-extracted from original Android image.
+From: Thierry Reding <treding@nvidia.com>
 
-Link: https://github.com/digetx/linux-firmware
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+This set of patches adds the device tree bindings and a simplified
+driver for the timers found on Tegra186 and later SoCs. The driver
+itself currently only exposes a couple of clock sources and a
+watchdog, which in turn relies on the counter provided by one of
+the timers. The timers themselves are not used at the moment because
+the SoC also has an architected timer and there's currently no use
+for the additional timers provided by this hardware block.
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 0029259a6bf5..6b78a9ad4d57 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -63,11 +63,17 @@ CONFIG_BT_RFCOMM=y
- CONFIG_BT_BNEP=y
- CONFIG_BT_HIDP=y
- CONFIG_BT_HCIBTUSB=m
-+CONFIG_BT_HCIUART=y
-+CONFIG_BT_HCIUART_BCM=y
- CONFIG_CFG80211=y
- CONFIG_MAC80211=y
- CONFIG_RFKILL=y
- CONFIG_RFKILL_INPUT=y
- CONFIG_RFKILL_GPIO=y
-+CONFIG_NFC=y
-+CONFIG_NFC_HCI=y
-+CONFIG_NFC_SHDLC=y
-+CONFIG_NFC_PN544_I2C=y
- CONFIG_PCI=y
- CONFIG_PCIEPORTBUS=y
- CONFIG_PCI_MSI=y
-@@ -106,20 +112,24 @@ CONFIG_INPUT_JOYDEV=y
- CONFIG_INPUT_EVDEV=y
- CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_TEGRA=y
-+CONFIG_KEYBOARD_CAP11XX=y
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_MOUSE_PS2_ELANTECH=y
- CONFIG_INPUT_TOUCHSCREEN=y
- CONFIG_TOUCHSCREEN_ATMEL_MXT=y
-+CONFIG_TOUCHSCREEN_ELAN=y
- CONFIG_TOUCHSCREEN_WM97XX=y
- # CONFIG_TOUCHSCREEN_WM9705 is not set
- # CONFIG_TOUCHSCREEN_WM9713 is not set
- CONFIG_TOUCHSCREEN_STMPE=y
- CONFIG_INPUT_MISC=y
-+CONFIG_INPUT_GPIO_VIBRA=y
- # CONFIG_LEGACY_PTYS is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_SERIAL_TEGRA=y
-+CONFIG_SERIAL_DEV_BUS=y
- # CONFIG_HW_RANDOM is not set
- # CONFIG_I2C_COMPAT is not set
- CONFIG_I2C_CHARDEV=y
-@@ -135,6 +145,7 @@ CONFIG_PINCTRL_PALMAS=y
- CONFIG_GPIO_SYSFS=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_GPIO_PCA953X_IRQ=y
-+CONFIG_GPIO_MAX77620=y
- CONFIG_GPIO_PALMAS=y
- CONFIG_GPIO_TPS6586X=y
- CONFIG_GPIO_TPS65910=y
-@@ -142,13 +153,18 @@ CONFIG_POWER_RESET=y
- CONFIG_POWER_RESET_AS3722=y
- CONFIG_POWER_RESET_GPIO=y
- CONFIG_BATTERY_SBS=y
-+CONFIG_BATTERY_BQ27XXX=y
-+CONFIG_CHARGER_GPIO=y
-+CONFIG_CHARGER_SMB347=y
- CONFIG_CHARGER_TPS65090=y
- CONFIG_SENSORS_LM90=y
- CONFIG_SENSORS_LM95245=y
- CONFIG_WATCHDOG=y
-+CONFIG_MAX77620_WATCHDOG=y
- CONFIG_TEGRA_WATCHDOG=y
- CONFIG_MFD_AS3722=y
- CONFIG_MFD_CROS_EC=y
-+CONFIG_MFD_MAX77620=y
- CONFIG_MFD_MAX8907=y
- CONFIG_MFD_STMPE=y
- CONFIG_MFD_PALMAS=y
-@@ -159,6 +175,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_REGULATOR_AS3722=y
- CONFIG_REGULATOR_GPIO=y
-+CONFIG_REGULATOR_MAX77620=y
- CONFIG_REGULATOR_MAX8907=y
- CONFIG_REGULATOR_PALMAS=y
- CONFIG_REGULATOR_TPS51632=y
-@@ -174,7 +191,10 @@ CONFIG_USB_GSPCA=y
- CONFIG_DRM=y
- CONFIG_DRM_NOUVEAU=m
- CONFIG_DRM_TEGRA=y
-+CONFIG_DRM_TEGRA_STAGING=y
-+CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_LVDS_ENCODER=y
- # CONFIG_LCD_CLASS_DEVICE is not set
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- # CONFIG_BACKLIGHT_GENERIC is not set
-@@ -238,6 +258,7 @@ CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_AS3722=y
- CONFIG_RTC_DRV_DS1307=y
- CONFIG_RTC_DRV_MAX8907=y
-+CONFIG_RTC_DRV_MAX77686=y
- CONFIG_RTC_DRV_PALMAS=y
- CONFIG_RTC_DRV_TPS6586X=y
- CONFIG_RTC_DRV_TPS65910=y
-@@ -259,11 +280,18 @@ CONFIG_ARCH_TEGRA_2x_SOC=y
- CONFIG_ARCH_TEGRA_3x_SOC=y
- CONFIG_ARCH_TEGRA_114_SOC=y
- CONFIG_ARCH_TEGRA_124_SOC=y
-+CONFIG_PM_DEVFREQ=y
-+CONFIG_ARM_TEGRA_DEVFREQ=y
-+CONFIG_ARM_TEGRA20_DEVFREQ=y
- CONFIG_MEMORY=y
- CONFIG_IIO=y
-+CONFIG_KXCJK1013=y
- CONFIG_MPU3050_I2C=y
-+CONFIG_INV_MPU6050_I2C=y
-+CONFIG_AL3010=y
- CONFIG_SENSORS_ISL29018=y
- CONFIG_SENSORS_ISL29028=y
-+CONFIG_AK8974=y
- CONFIG_AK8975=y
- CONFIG_PWM=y
- CONFIG_PWM_TEGRA=y
+I suggest that patches 1 & 2 go through the clocksource tree, while
+I can carry the DTS changes in the Tegra tree for v5.8.
+
+Changes in v2:
+- address review comments on the bindings
+- make the driver buildable as a module
+- support various clock sources
+
+Thierry
+
+Thierry Reding (7):
+  dt-bindings: timer: Add bindings for NVIDIA Tegra186 timers
+  clocksource: Add Tegra186 timers support
+  arm64: tegra: Order nodes by unit-address on Tegra194
+  arm64: tegra: Add native timer support on Tegra186
+  arm64: tegra: Enable native timers on Jetson TX2
+  arm64: tegra: Add native timer support on Tegra194
+  arm64: tegra: Enable native timers on Jetson AGX Xavier
+
+ .../bindings/timer/nvidia,tegra186-timer.yaml |  61 +++
+ .../arm64/boot/dts/nvidia/tegra186-p3310.dtsi |   4 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  16 +
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |   4 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  81 +--
+ drivers/clocksource/Kconfig                   |   8 +
+ drivers/clocksource/Makefile                  |   1 +
+ drivers/clocksource/timer-tegra186.c          | 505 ++++++++++++++++++
+ 8 files changed, 648 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/timer/nvidia,tegra186-timer.yaml
+ create mode 100644 drivers/clocksource/timer-tegra186.c
+
 -- 
-2.25.1
+2.24.1
 
