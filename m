@@ -2,234 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B7C719A60B
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 Apr 2020 09:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A1019A7FF
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Apr 2020 10:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731818AbgDAHRa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 Apr 2020 03:17:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36626 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731680AbgDAHRa (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 1 Apr 2020 03:17:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id D0132AB3D;
-        Wed,  1 Apr 2020 07:17:25 +0000 (UTC)
-Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
-To:     Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc:     hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com,
-        airlied@linux.ie, linux@armlinux.org.uk, paul@crapouillou.net,
-        thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
-        sebastian.reichel@collabora.com, linux-samsung-soc@vger.kernel.org,
-        jy0922.shim@samsung.com, hjc@rock-chips.com, abrodkin@synopsys.com,
-        kong.kongxinwei@hisilicon.com, jonathanh@nvidia.com,
-        xinliang.liu@linaro.org, ludovic.desroches@microchip.com,
-        kgene@kernel.org, linux-imx@nxp.com,
-        linux-rockchip@lists.infradead.org,
-        virtualization@lists.linux-foundation.org,
-        linux-tegra@vger.kernel.org, puck.chen@hisilicon.com,
-        s.hauer@pengutronix.de, alison.wang@nxp.com, jsarha@ti.com,
-        matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
-        jernej.skrabec@siol.net, kraxel@redhat.com, tomi.valkeinen@ti.com,
-        bbrezillon@kernel.org, jingoohan1@gmail.com,
-        dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
-        nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
-        kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
-        linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
-        laurent.pinchart@ideasonboard.com
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-21-tzimmermann@suse.de>
- <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <3c8c9567-2eca-55a7-072e-5d5c9517ba7d@suse.de>
-Date:   Wed, 1 Apr 2020 09:17:20 +0200
+        id S1727322AbgDAI4u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 Apr 2020 04:56:50 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1392 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726974AbgDAI4t (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 Apr 2020 04:56:49 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e84571f0000>; Wed, 01 Apr 2020 01:56:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 01 Apr 2020 01:56:49 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 01 Apr 2020 01:56:49 -0700
+Received: from [10.26.73.165] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 Apr
+ 2020 08:56:46 +0000
+Subject: Re: [PATCH 5.4 000/156] 5.4.29-rc2 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200331141448.508518662@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <73e0bbf0-c79e-6fca-b3db-89f5c5c0ba03@nvidia.com>
+Date:   Wed, 1 Apr 2020 09:56:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU"
+In-Reply-To: <20200331141448.508518662@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1585731360; bh=BPJ21G2chBA54ui71ExULJXA9s23qeMBgn08aAOSm00=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=dgEaVn2J+A/5li10YUi3VxV/CQKJTCGduakkAFG2GQHb0meO9hGmZLZrKBPSkulGG
+         MnUNslh+xZblq9HU4cfOcpAFZAph2obi9NpwOE9IARDNQVSDUyfS26du8RCkW5Nc4v
+         LYLh+THCN5dW/+VdwFz11hkqX/qHSiK66fVg7vTbpz60ObJkO59STFvLHyCLFOUtJH
+         xG3cGNX2SrZEHwBCRolHM2ZjiUaRqjF1Q0hW/c8biSIF3JfTUC/gGLRxr9vqRcKUHq
+         fn2dNjmpUJRz9J2eWLPBKaNDAd9UuPmroa2qPFBXtbhx3PM4RsMe9/9RSmvZ6YFEUR
+         koSXMdMn/OLKg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU
-Content-Type: multipart/mixed; boundary="1z7j8ob092evHfaOe3VHZ65Kyw81DNEUf";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
- linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
- krzk@kernel.org, sam@ravnborg.org, sebastian.reichel@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- hjc@rock-chips.com, abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com,
- jonathanh@nvidia.com, xinliang.liu@linaro.org,
- ludovic.desroches@microchip.com, kgene@kernel.org, linux-imx@nxp.com,
- linux-rockchip@lists.infradead.org,
- virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
- jernej.skrabec@siol.net, kraxel@redhat.com, tomi.valkeinen@ti.com,
- bbrezillon@kernel.org, jingoohan1@gmail.com,
- dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
- nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
- kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
- linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
- laurent.pinchart@ideasonboard.com
-Message-ID: <3c8c9567-2eca-55a7-072e-5d5c9517ba7d@suse.de>
-Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
-References: <20200305155950.2705-1-tzimmermann@suse.de>
- <20200305155950.2705-21-tzimmermann@suse.de>
- <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
-In-Reply-To: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
 
---1z7j8ob092evHfaOe3VHZ65Kyw81DNEUf
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 31/03/2020 16:32, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.4.29 release.
+> There are 156 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu, 02 Apr 2020 14:12:16 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.29-rc2.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Hi
+All tests are passing for Tegra ...
 
-Am 24.03.20 um 12:59 schrieb Rodrigo Siqueira:
-> Hi Thomas,
->=20
-> First of all, thanks for your patch!
->=20
-> I applied all your series, compiled it, and when I tried
-> `make INSTALL_MOD_PATH=3D/PATH/ modules_instal` I got the following
-> message:
->=20
->  depmod: ERROR: Cycle detected: drm_kms_helper -> drm -> drm_kms_helper=
+Test results for stable-v5.4:
+    13 builds:	13 pass, 0 fail
+    24 boots:	24 pass, 0 fail
+    40 tests:	40 pass, 0 fail
 
->  depmod: ERROR: Found 2 modules in dependency cycles!
->  make: *** [Makefile:1317: _modinst_post] Error 1
->=20
-> I cleaned up my local files and tried again, but I got the same error;
-> If I just use `drm-misc-next` everything is fine.  Did I miss something=
-?
+Linux version:	5.4.29-rc2-gfae891585ecd
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra210-p3450-0000,
+                tegra30-cardhu-a04
 
-I figured out that this problem is caused by the patch for the writeback
-encoder, which is located in the DRM core. I'll drop the patch. Thanks
-for testing!
+Cheers
+Jon
 
-Best regards
-Thomas
-
->=20
-> Thanks
->=20
-> On 03/05, Thomas Zimmermann wrote:
->> The vkms driver uses an empty implementation for its encoder. Replace
->> the code with the generic simple encoder.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/vkms/vkms_output.c | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms=
-/vkms_output.c
->> index fb1941a6522c..85afb77e97f0 100644
->> --- a/drivers/gpu/drm/vkms/vkms_output.c
->> +++ b/drivers/gpu/drm/vkms/vkms_output.c
->> @@ -3,6 +3,7 @@
->>  #include "vkms_drv.h"
->>  #include <drm/drm_atomic_helper.h>
->>  #include <drm/drm_probe_helper.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> =20
->>  static void vkms_connector_destroy(struct drm_connector *connector)
->>  {
->> @@ -17,10 +18,6 @@ static const struct drm_connector_funcs vkms_connec=
-tor_funcs =3D {
->>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,=
-
->>  };
->> =20
->> -static const struct drm_encoder_funcs vkms_encoder_funcs =3D {
->> -	.destroy =3D drm_encoder_cleanup,
->> -};
->> -
->>  static int vkms_conn_get_modes(struct drm_connector *connector)
->>  {
->>  	int count;
->> @@ -70,8 +67,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, in=
-t index)
->> =20
->>  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
->> =20
->> -	ret =3D drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
->> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
->> +	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTU=
-AL);
->>  	if (ret) {
->>  		DRM_ERROR("Failed to init encoder\n");
->>  		goto err_encoder;
->> --=20
->> 2.25.1
->>
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
-
---1z7j8ob092evHfaOe3VHZ65Kyw81DNEUf--
-
---POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6EQAMACgkQaA3BHVML
-eiMuBAgAj5UES4iSvgdvGXsxU7JelWDRvIin40v50Ya1mepztavcMF/QTOeQUs60
-90Kgxj2ohhObilKOzxm70RxWHHGRrMK0BMLE+Rwm3TpTZJ+s1Fojn484ZLBnu3hr
-gWp05xuYFrQ/1GtsHStjvUB8ADDEVqnvf2ZomnKZWikHIYl5uCHzW6iumQwBzD/b
-Sh76yaJjOWgjnisEpmCbCQPvN6I21dIM2aH11JFvn0S56vUdylZC7EeLjtjrV3nm
-ix90pnKiwhpohP8Kho+t46VgGEUhDvObTrjNocgBpjdCdbUqINtFh362oJRGeoF/
-Af05YTLOMakHmAB5r4RrZQVsdxYn8A==
-=IKy5
------END PGP SIGNATURE-----
-
---POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU--
+-- 
+nvpublic
