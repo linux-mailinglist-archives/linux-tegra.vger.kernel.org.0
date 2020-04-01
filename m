@@ -2,151 +2,234 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C7119A264
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 Apr 2020 01:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B7C719A60B
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Apr 2020 09:17:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731480AbgCaXUf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 31 Mar 2020 19:20:35 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:40975 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729647AbgCaXUe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 31 Mar 2020 19:20:34 -0400
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200331232032epoutp0123b882d8683432604d67c0adc32f21b6~Bht4dwTXB1950919509epoutp01l
-        for <linux-tegra@vger.kernel.org>; Tue, 31 Mar 2020 23:20:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200331232032epoutp0123b882d8683432604d67c0adc32f21b6~Bht4dwTXB1950919509epoutp01l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1585696832;
-        bh=Ykc51i8hr0AncU8IY+n1mU9alBghALWWelj6pYw7wT8=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=GbksPALQYDbyuDVhQCba/AjdCK+F2JEAMKWVpG8p3Tt1tD6Toq1s8QxqbjNI5gSn5
-         0RgsOJ5ya1KDaOcBbb+1WvTrquOZU7yhskk088pyJBR17DpDG0MKbytJLXR8GonkME
-         S0/G/RbAQ20Dnf70Psq5dikp4IbRjHtB/oAYTeq0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200331232031epcas1p198ac5d860533e73152c178ceb5a8b4d6~Bht3uqVc91864018640epcas1p10;
-        Tue, 31 Mar 2020 23:20:31 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.157]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 48sQKn0WwbzMqYm1; Tue, 31 Mar
-        2020 23:20:29 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
-        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        CE.1F.04140.A30D38E5; Wed,  1 Apr 2020 08:20:26 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200331232025epcas1p242a0b7a24c7a68d679ae6b42a40e3985~BhtyRVhZH3036430364epcas1p2I;
-        Tue, 31 Mar 2020 23:20:25 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200331232025epsmtrp1b84b8180cf280a74e93bbd400b0d6324~BhtyQa0M02638126381epsmtrp1I;
-        Tue, 31 Mar 2020 23:20:25 +0000 (GMT)
-X-AuditID: b6c32a36-fbbff7000000102c-57-5e83d03a5b87
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        D6.75.04024.930D38E5; Wed,  1 Apr 2020 08:20:25 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200331232025epsmtip29ebcd9c061df67d3a392e4649743f696~BhtyAla7I2561625616epsmtip24;
-        Tue, 31 Mar 2020 23:20:25 +0000 (GMT)
-Subject: Re: [PATCH v1 5/5] PM / devfreq: tegra30: Make CPUFreq notifier to
- take into account boosting
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <afcc9f80-c102-da42-8f7f-9b66417a9d4d@samsung.com>
-Date:   Wed, 1 Apr 2020 08:29:31 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
-        Thunderbird/59.0
+        id S1731818AbgDAHRa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 Apr 2020 03:17:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36626 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731680AbgDAHRa (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 1 Apr 2020 03:17:30 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id D0132AB3D;
+        Wed,  1 Apr 2020 07:17:25 +0000 (UTC)
+Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
+To:     Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc:     hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com,
+        airlied@linux.ie, linux@armlinux.org.uk, paul@crapouillou.net,
+        thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+        sebastian.reichel@collabora.com, linux-samsung-soc@vger.kernel.org,
+        jy0922.shim@samsung.com, hjc@rock-chips.com, abrodkin@synopsys.com,
+        kong.kongxinwei@hisilicon.com, jonathanh@nvidia.com,
+        xinliang.liu@linaro.org, ludovic.desroches@microchip.com,
+        kgene@kernel.org, linux-imx@nxp.com,
+        linux-rockchip@lists.infradead.org,
+        virtualization@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, puck.chen@hisilicon.com,
+        s.hauer@pengutronix.de, alison.wang@nxp.com, jsarha@ti.com,
+        matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
+        jernej.skrabec@siol.net, kraxel@redhat.com, tomi.valkeinen@ti.com,
+        bbrezillon@kernel.org, jingoohan1@gmail.com,
+        dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
+        nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
+        kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
+        linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
+        laurent.pinchart@ideasonboard.com
+References: <20200305155950.2705-1-tzimmermann@suse.de>
+ <20200305155950.2705-21-tzimmermann@suse.de>
+ <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <3c8c9567-2eca-55a7-072e-5d5c9517ba7d@suse.de>
+Date:   Wed, 1 Apr 2020 09:17:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200330231617.17079-6-digetx@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPJsWRmVeSWpSXmKPExsWy7bCmga7VheY4g5erxCxWf3zMaNEyaxGL
-        xdmmN+wWH3vusVpc3jWHzeJz7xFGi84vs9gsLp5ytbjduILN4t+1jSwWP3fNY3Hg9nh/o5Xd
-        Y+esu+wem1Z1snn0Nr9j8+jbsorR4/MmuQC2qGybjNTElNQihdS85PyUzLx0WyXv4HjneFMz
-        A0NdQ0sLcyWFvMTcVFslF58AXbfMHKDzlBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkF
-        KTkFlgV6xYm5xaV56XrJ+blWhgYGRqZAhQnZGRNaWlgKHnBU9Lxay9TAOI+9i5GTQ0LAROJy
-        wxTWLkYuDiGBHYwSpxc1s0A4nxgl5n1qZIJwvjFKHF64A65l78fbUIm9jBLbJj9nh3DeM0p8
-        +LaXDaRKWCBDYumWE2BVIgKLmSReb57LApJgFiiR2D3xCBOIzSagJbH/xQ2wBn4BRYmrPx4z
-        gti8AnYSBw9dA4uzCKhIfHr6A6xeVCBM4uS2FqgaQYmTM5+AzeQUMJNon/uHGWK+uMStJ/OZ
-        IGx5ie1v5zCDHCEh0M8ucfZOIyPEDy4Ss7e0QP0jLPHq+BYoW0riZX8blF0tsfLkETaI5g5G
-        iS37L7BCJIwl9i+dDLSBA2iDpsT6XfoQYUWJnb/nMkIs5pN497WHFaREQoBXoqNNCKJEWeLy
-        g7tMELakxOL2TrYJjEqzkLwzC8kLs5C8MAth2QJGllWMYqkFxbnpqcWGBUbI8b2JEZx4tcx2
-        MC4653OIUYCDUYmHV8GqOU6INbGsuDL3EKMEB7OSCC+bf0OcEG9KYmVValF+fFFpTmrxIUZT
-        YGhPZJYSTc4HZoW8knhDUyNjY2MLE0MzU0NDJXHeqddz4oQE0hNLUrNTUwtSi2D6mDg4pRoY
-        NRIE+5JZZ/bcNakJ/Se00v1bqMbd4DMfqvJfe3k8UFjRpLJ5Vf1ptY5rt/OWhhyoX63rvufN
-        5IN7dBu9bq1Y+nvl55gwt72bN2ld/+IbxOZao8n3/YvHv/zJ60tffH+cltSi5vp8ycYDl2dM
-        8vRO1fRflZY5O+1yBfO6fI4yN14XzrJv0U9DlViKMxINtZiLihMBn1W5AtIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsWy7bCSvK7lheY4gxeblS1Wf3zMaNEyaxGL
-        xdmmN+wWH3vusVpc3jWHzeJz7xFGi84vs9gsLp5ytbjduILN4t+1jSwWP3fNY3Hg9nh/o5Xd
-        Y+esu+wem1Z1snn0Nr9j8+jbsorR4/MmuQC2KC6blNSczLLUIn27BK6MCS0tLAUPOCp6Xq1l
-        amCcx97FyMkhIWAisffjbaYuRi4OIYHdjBIzzmxlhkhISky7eBTI5gCyhSUOHy6GqHnLKLFt
-        ag8jSI2wQIbE0i0nwJpFBJYySay4+QVsKrNAicSJZ/9YITq2Mkr8bG8D62AT0JLY/+IGG4jN
-        L6AocfXHY7A4r4CdxMFD18DiLAIqEp+e/mACsUUFwiR2LnnMBFEjKHFy5hMWEJtTwEyife4f
-        Zohl6hJ/5l2CssUlbj2ZzwRhy0tsfzuHeQKj8Cwk7bOQtMxC0jILScsCRpZVjJKpBcW56bnF
-        hgWGeanlesWJucWleel6yfm5mxjBEailuYPx8pL4Q4wCHIxKPLwKVs1xQqyJZcWVuYcYJTiY
-        lUR42fwb4oR4UxIrq1KL8uOLSnNSiw8xSnOwKInzPs07FikkkJ5YkpqdmlqQWgSTZeLglGpg
-        9LC/mrlrVVeUq/kT58cLavNYXQ5zntzGY3Nqb/Ce3H260oEMsbtuBbPfq2UynarzMHu7mf+U
-        lx0HX/f+4xKNc9SIb/6yOdVL9pPoDONHQUqXZsdbveUQSzJZIZKsGyanlL4+4U+RutxPxady
-        9zi49F5seHNNRFXGdvWy9dfLFe2yrHqyqy8qsRRnJBpqMRcVJwIAo1QZCLwCAAA=
-X-CMS-MailID: 20200331232025epcas1p242a0b7a24c7a68d679ae6b42a40e3985
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200330232026epcas1p2234ae241b9693555b4df74aab3d8aee9
-References: <20200330231617.17079-1-digetx@gmail.com>
-        <CGME20200330232026epcas1p2234ae241b9693555b4df74aab3d8aee9@epcas1p2.samsung.com>
-        <20200330231617.17079-6-digetx@gmail.com>
+In-Reply-To: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU
+Content-Type: multipart/mixed; boundary="1z7j8ob092evHfaOe3VHZ65Kyw81DNEUf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
+ linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
+ krzk@kernel.org, sam@ravnborg.org, sebastian.reichel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ hjc@rock-chips.com, abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com,
+ jonathanh@nvidia.com, xinliang.liu@linaro.org,
+ ludovic.desroches@microchip.com, kgene@kernel.org, linux-imx@nxp.com,
+ linux-rockchip@lists.infradead.org,
+ virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
+ jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
+ jernej.skrabec@siol.net, kraxel@redhat.com, tomi.valkeinen@ti.com,
+ bbrezillon@kernel.org, jingoohan1@gmail.com,
+ dri-devel@lists.freedesktop.org, sw0312.kim@samsung.com,
+ nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
+ linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
+ laurent.pinchart@ideasonboard.com
+Message-ID: <3c8c9567-2eca-55a7-072e-5d5c9517ba7d@suse.de>
+Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
+References: <20200305155950.2705-1-tzimmermann@suse.de>
+ <20200305155950.2705-21-tzimmermann@suse.de>
+ <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
+In-Reply-To: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
 
-On 3/31/20 8:16 AM, Dmitry Osipenko wrote:
-> MCCPU frequency boosting needs to be taken into account in order to avoid
-> scheduling of unnecessary devfreq updates.
+--1z7j8ob092evHfaOe3VHZ65Kyw81DNEUf
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-"in order to avoid scheduling of unnecessary devfreq updates."
-I don't understand the correct meaning of following description.
-Could you explain it more detailed?
+Hi
 
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 34f6291e880c..3b57aac9894c 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -420,7 +420,7 @@ tegra_actmon_cpufreq_contribution(struct tegra_devfreq *tegra,
->  
->  	static_cpu_emc_freq = actmon_cpu_to_emc_rate(tegra, cpu_freq);
->  
-> -	if (dev_freq >= static_cpu_emc_freq)
-> +	if (dev_freq + actmon_dev->boost_freq >= static_cpu_emc_freq)
->  		return 0;
->  
->  	return static_cpu_emc_freq;
-> 
+Am 24.03.20 um 12:59 schrieb Rodrigo Siqueira:
+> Hi Thomas,
+>=20
+> First of all, thanks for your patch!
+>=20
+> I applied all your series, compiled it, and when I tried
+> `make INSTALL_MOD_PATH=3D/PATH/ modules_instal` I got the following
+> message:
+>=20
+>  depmod: ERROR: Cycle detected: drm_kms_helper -> drm -> drm_kms_helper=
+
+>  depmod: ERROR: Found 2 modules in dependency cycles!
+>  make: *** [Makefile:1317: _modinst_post] Error 1
+>=20
+> I cleaned up my local files and tried again, but I got the same error;
+> If I just use `drm-misc-next` everything is fine.  Did I miss something=
+?
+
+I figured out that this problem is caused by the patch for the writeback
+encoder, which is located in the DRM core. I'll drop the patch. Thanks
+for testing!
+
+Best regards
+Thomas
+
+>=20
+> Thanks
+>=20
+> On 03/05, Thomas Zimmermann wrote:
+>> The vkms driver uses an empty implementation for its encoder. Replace
+>> the code with the generic simple encoder.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/vkms/vkms_output.c | 8 ++------
+>>  1 file changed, 2 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms=
+/vkms_output.c
+>> index fb1941a6522c..85afb77e97f0 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_output.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+>> @@ -3,6 +3,7 @@
+>>  #include "vkms_drv.h"
+>>  #include <drm/drm_atomic_helper.h>
+>>  #include <drm/drm_probe_helper.h>
+>> +#include <drm/drm_simple_kms_helper.h>
+>> =20
+>>  static void vkms_connector_destroy(struct drm_connector *connector)
+>>  {
+>> @@ -17,10 +18,6 @@ static const struct drm_connector_funcs vkms_connec=
+tor_funcs =3D {
+>>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,=
+
+>>  };
+>> =20
+>> -static const struct drm_encoder_funcs vkms_encoder_funcs =3D {
+>> -	.destroy =3D drm_encoder_cleanup,
+>> -};
+>> -
+>>  static int vkms_conn_get_modes(struct drm_connector *connector)
+>>  {
+>>  	int count;
+>> @@ -70,8 +67,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, in=
+t index)
+>> =20
+>>  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+>> =20
+>> -	ret =3D drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
+>> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>> +	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTU=
+AL);
+>>  	if (ret) {
+>>  		DRM_ERROR("Failed to init encoder\n");
+>>  		goto err_encoder;
+>> --=20
+>> 2.25.1
+>>
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 
 
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+--1z7j8ob092evHfaOe3VHZ65Kyw81DNEUf--
+
+--POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6EQAMACgkQaA3BHVML
+eiMuBAgAj5UES4iSvgdvGXsxU7JelWDRvIin40v50Ya1mepztavcMF/QTOeQUs60
+90Kgxj2ohhObilKOzxm70RxWHHGRrMK0BMLE+Rwm3TpTZJ+s1Fojn484ZLBnu3hr
+gWp05xuYFrQ/1GtsHStjvUB8ADDEVqnvf2ZomnKZWikHIYl5uCHzW6iumQwBzD/b
+Sh76yaJjOWgjnisEpmCbCQPvN6I21dIM2aH11JFvn0S56vUdylZC7EeLjtjrV3nm
+ix90pnKiwhpohP8Kho+t46VgGEUhDvObTrjNocgBpjdCdbUqINtFh362oJRGeoF/
+Af05YTLOMakHmAB5r4RrZQVsdxYn8A==
+=IKy5
+-----END PGP SIGNATURE-----
+
+--POql06Hk2VcpYBHcwhf1TtupB5WQ7dTFU--
