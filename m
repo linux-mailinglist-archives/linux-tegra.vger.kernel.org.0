@@ -2,83 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA3119C1BF
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Apr 2020 15:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8EA19C3DC
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Apr 2020 16:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387580AbgDBNJF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Apr 2020 09:09:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51420 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733234AbgDBNJF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 2 Apr 2020 09:09:05 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C1BF420678;
-        Thu,  2 Apr 2020 13:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585832944;
-        bh=HRwxHQBC9kQTrRQvz+Yh0uMWoXqH51d6avWK4AF0BRY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tO5CP1TDTdurRKmXFFZa0qT+4oJmnBN72UgjAdwp6ItX9gqSkfixrA46lUPl6laSm
-         JeyeMroW+P9huBT9Gj3dwkAJs1FVDqFrNs9Xbqmw62Ahdq/eUUCQf/8BIepQANAfF4
-         6znlPPWmpuWa+nuAlwHCvwpAiT/9HgIAN7d4OPR8=
-Date:   Thu, 2 Apr 2020 15:09:02 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.6 00/10] 5.6.2-rc1 review
-Message-ID: <20200402130902.GA2774407@kroah.com>
-References: <20200401161413.974936041@linuxfoundation.org>
- <a78aab3d-2d00-dd1b-24e0-67db41898349@nvidia.com>
+        id S1732293AbgDBOVM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Apr 2020 10:21:12 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39538 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729123AbgDBOVM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Apr 2020 10:21:12 -0400
+Received: by mail-lj1-f195.google.com with SMTP id i20so3409064ljn.6;
+        Thu, 02 Apr 2020 07:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VQXgeD/Fj9psnmcgguEWkC+cBjH2/vLiDiQ1qYPTAGI=;
+        b=hPyIYQfiRsrmPV9rPKIGAV4YsdqOFOEqLcbdSme2TuFWLZS4p6Xoj99RGvWr5BAdlT
+         F0lVRrOMgVuoF7A/uqsqaJ+d5PbUOyYFMErW2HQZd5KD64g1Fl/p00c6D6zo/r8M3XhO
+         KswhqDneN99MakR/axYUiN5kLtr5COx65uHbuzljkRgTz4xgsiUTrYMRDNAK4itu4PDY
+         XAR8qZFaoxO+HJlzzENwN+O//d1dMty9aOtetHs5+cRFhFjhhjslFZPUXGd4k+c7ftlY
+         kb7yYuac5W1k9PddYUmdkXgXcpoy4XwizfPa8JdSXkTle+RnJ32x1ogzaWIZKAD4VMnc
+         8hbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VQXgeD/Fj9psnmcgguEWkC+cBjH2/vLiDiQ1qYPTAGI=;
+        b=ECGUGhg4iiHgLaIePcTdHfzFIMWpphcIKzq45TecSfB5Ao2cMxFPgQbkksV8/YnwHm
+         n4cyPnAMLCGQ9fh/zz5rnMRIJPBvdSwLoNoWY09YVFHZhVqbz6hxQD3Acxer8cmdZ/qX
+         8VEbm9Y79CfH7lPofss47cLMCT/30C80gPTaKSYFK3baVy4NphIknP2tIGF1387OHE2O
+         I9VNUjpL8DGnNu8WeTZsuuNo5Fwxa1ak/6bU5k+f4wYzaFFtRGtKCmSmau5PxhM63Ou+
+         OXyG4lHjO59q6z6jq5MJ6rxL7gTlvELBCjQZVaIopRKu0XyDbMr1QVa1Ta0Fw6SoJEqg
+         5jBQ==
+X-Gm-Message-State: AGi0Pub7PfB1yrjgt2ibaRZIQZbfWcsHV174cR6ZyJBMEVPmNiKg2O1N
+        LvkVZVM92YYKXzuj83RB5UsGVaTy
+X-Google-Smtp-Source: APiQypKXOSU5/jz4Msk6qfRO0FgDCVFZsFIeLtqKlqonQR1ZMcCLEASpFyhnAy+g1hTGl5rue++I2g==
+X-Received: by 2002:a05:651c:28a:: with SMTP id b10mr2188178ljo.223.1585837268046;
+        Thu, 02 Apr 2020 07:21:08 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id n9sm3336826ljo.89.2020.04.02.07.21.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2020 07:21:07 -0700 (PDT)
+Subject: Re: [PATCH v1 2/5] clk: Introduce clk_round_rate_unboundly()
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200330231617.17079-1-digetx@gmail.com>
+ <20200330231617.17079-3-digetx@gmail.com>
+ <20200402003339.GA11124@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <58c3e230-8361-6710-7946-6d2dd98b2482@gmail.com>
+Date:   Thu, 2 Apr 2020 17:21:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a78aab3d-2d00-dd1b-24e0-67db41898349@nvidia.com>
+In-Reply-To: <20200402003339.GA11124@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 08:11:07AM +0100, Jon Hunter wrote:
+02.04.2020 03:33, Michał Mirosław пишет:
+> On Tue, Mar 31, 2020 at 02:16:14AM +0300, Dmitry Osipenko wrote:
+> [...]
+>> +/**
+>> + * clk_round_rate_unboundly - unboundly round the given rate for a clk
 > 
-> On 01/04/2020 17:17, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.6.2 release.
-> > There are 10 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri, 03 Apr 2020 16:09:36 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.2-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Just grammar nits:
 > 
-> All tests are passing for Tegra ...
+> clk_round_rate_unbounded - round the given rate for a clk, ignoring users' min/max constraints
 > 
-> Test results for stable-v5.6:
->     13 builds:	13 pass, 0 fail
->     24 boots:	24 pass, 0 fail
->     40 tests:	40 pass, 0 fail
+>> + * @clk: the clk for which we are rounding a rate
+>> + * @rate: the rate which is to be rounded
+>> + *
+>> + * Takes in a rate as input and rounds it to a rate that the clk can use
+>> + * which is then returned.  The given rate isn't bounded by clk users min-max
 > 
-> Linux version:	5.6.2-rc1-g6c8d51f98078
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+> s/bounded/limited/ ?
 > 
+>> + * rates, unlike in a case of clk_round_rate().  If clk doesn't support
+> 
+> "... unlike in clk_round_rate()."
+> 
+>> + * round_rate operation then the parent rate is returned.
+>> + */
+> [...]
 
-Great, thanks for testing all of these and letting me know.
+Hello Michał,
 
-greg k-h
+Thank you very much for the suggestion, I'll take it into account in the
+next version.
