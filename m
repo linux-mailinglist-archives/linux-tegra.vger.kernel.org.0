@@ -2,88 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 117C019BB35
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Apr 2020 06:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4693B19BC2D
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Apr 2020 09:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbgDBEuO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Apr 2020 00:50:14 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:62587 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725789AbgDBEuO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 2 Apr 2020 00:50:14 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 48t9bk29zHzHd;
-        Thu,  2 Apr 2020 06:50:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1585803012; bh=AZFWmxf+W94PYJO5Khiddclftx0rXCFefv4IppCDpD8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j61IBLy3190KYqax6Vw3iprvNBDxnSH18xh8U+n++/Cm713gnvYj36b8pI7M6BVEb
-         pgT5fOM7TXfztGz5OK1s//NmiN0auXmXuZJfeaipSNq1BnFnIiQvf/wAtyGH3miszo
-         9U4NMXeZXPaxiJYUahnNFU01ocu8Ejd7fM0lRlYqo6Be/xZ4h92YVO/nl6fR6gYeXv
-         93lbtOjD/LZ8pRldU3Kgt8MOWx15e/bYbORF2r363hMnLqEL5VDK6RDSJ59d3MKk5i
-         L5F1vYzRgS2zv4ZqSSindFE7dSwr4A/Q03TtGFujRpzRXHgIjYfBniIbCVeHCyLpxw
-         nzsgTbmnE/ffg==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Thu, 2 Apr 2020 06:50:08 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Pedro =?iso-8859-2?Q?=C2ngelo?= <pangelo@void.io>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 5/6] dt-bindings: ARM: tegra: Add ASUS Google Nexus 7
-Message-ID: <20200402045008.GB11124@qmqm.qmqm.pl>
-References: <20200331214327.6496-1-digetx@gmail.com>
- <20200331214327.6496-6-digetx@gmail.com>
+        id S1728803AbgDBHJP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Apr 2020 03:09:15 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2851 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728612AbgDBHJP (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Apr 2020 03:09:15 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e858f380001>; Thu, 02 Apr 2020 00:07:36 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 02 Apr 2020 00:09:14 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 02 Apr 2020 00:09:14 -0700
+Received: from [10.26.72.253] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 2 Apr
+ 2020 07:09:12 +0000
+Subject: Re: [PATCH 4.4 00/91] 4.4.218-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200401161512.917494101@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <4e761152-6dd1-dfcc-df24-a073323f202d@nvidia.com>
+Date:   Thu, 2 Apr 2020 08:09:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200331214327.6496-6-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200401161512.917494101@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1585811257; bh=aKuO06o/p0WjOAsfkQaSFQpNWt/Xw+05r2eb3unKntI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=LT/wmqhbUV4sOJ2GqdzUcbBQRxdZUZkn053qXVTyrYu1n+vHgTxqjcn5+ZyP3W+bU
+         lq+boBwzU+T+idXsG2pX4L9B18tJ3DPvPy+sTJLx2nauRmnRLqbg4ZekfKUJenX6RS
+         JveWUDw9ohOSxb6C6RwgooDp7ebkfAs8LaYwl6GHkj9lWorG0h+duorOmFIvBJfztF
+         M4ec05SH/I491x+dr38uNxzNXTEXKvAynUIkrixolUodWkugcTmSqJmHNzgUx9qS66
+         pTy1qKKfn2+mHpKO1MdxU308oTvOhVIkST7WP5nHNFUsYpH+cvJP3kM7OrEzHqYHgX
+         wwgozn52iZ5xA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Apr 01, 2020 at 12:43:26AM +0300, Dmitry Osipenko wrote:
-> Add a binding for the Tegra30-based ASUS Google Nexus 7 tablet device.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  Documentation/devicetree/bindings/arm/tegra.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
-> index 7fd0b66c69b2..fb3bbf7a5fb4 100644
-> --- a/Documentation/devicetree/bindings/arm/tegra.yaml
-> +++ b/Documentation/devicetree/bindings/arm/tegra.yaml
-> @@ -62,6 +62,13 @@ properties:
->                - toradex,colibri_t30-eval-v3
->            - const: toradex,colibri_t30
->            - const: nvidia,tegra30
-> +      - items:
-> +          - const: asus,grouper
-> +          - const: nvidia,tegra30
-> +      - items:
-> +          - const: asus,tilapia
-> +          - const: asus,grouper
-> +          - const: nvidia,tegra30
->        - items:
->            - enum:
->                - nvidia,dalmore
 
-Is it really necessary to list every possible device using a SoC chip?
-Wouldn't it be enough to just list SoC value nvidia,tegraXYZ and allow
-any other supplemental "compatibles"?
+On 01/04/2020 17:16, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.218 release.
+> There are 91 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Fri, 03 Apr 2020 16:09:36 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.218-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Best Regards,
-Micha³ Miros³aw
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.218-rc1-g2d26509e19e3
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
