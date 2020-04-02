@@ -2,70 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD8EA19C3DC
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Apr 2020 16:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F90419C4D4
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Apr 2020 16:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732293AbgDBOVM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Apr 2020 10:21:12 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:39538 "EHLO
+        id S2388830AbgDBOw6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Apr 2020 10:52:58 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:47011 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729123AbgDBOVM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Apr 2020 10:21:12 -0400
-Received: by mail-lj1-f195.google.com with SMTP id i20so3409064ljn.6;
-        Thu, 02 Apr 2020 07:21:10 -0700 (PDT)
+        with ESMTP id S2388828AbgDBOw6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Apr 2020 10:52:58 -0400
+Received: by mail-lj1-f195.google.com with SMTP id r7so3487138ljg.13;
+        Thu, 02 Apr 2020 07:52:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VQXgeD/Fj9psnmcgguEWkC+cBjH2/vLiDiQ1qYPTAGI=;
-        b=hPyIYQfiRsrmPV9rPKIGAV4YsdqOFOEqLcbdSme2TuFWLZS4p6Xoj99RGvWr5BAdlT
-         F0lVRrOMgVuoF7A/uqsqaJ+d5PbUOyYFMErW2HQZd5KD64g1Fl/p00c6D6zo/r8M3XhO
-         KswhqDneN99MakR/axYUiN5kLtr5COx65uHbuzljkRgTz4xgsiUTrYMRDNAK4itu4PDY
-         XAR8qZFaoxO+HJlzzENwN+O//d1dMty9aOtetHs5+cRFhFjhhjslFZPUXGd4k+c7ftlY
-         kb7yYuac5W1k9PddYUmdkXgXcpoy4XwizfPa8JdSXkTle+RnJ32x1ogzaWIZKAD4VMnc
-         8hbw==
+        bh=OL/tVc1Ch0fuHCWGLDW0Ztss4EfxD7apFgMsfQsUr7k=;
+        b=XXLJyF7xqJnLsf3hdgwiZ4/6fLutg8R+bEQTaJJqAeYpNor8HeBOvDfKkexPjnzahg
+         +frziBQdgK3hB1ePSeped/hKH0YLg2DoJjK+3kGLOUiymHQfuQELDwVhuCh1wN/AEsj3
+         zIfCwHuQfaSXAhgByi1w+ZRufw9ziTNKPlAT3+62tzm6ll/lgGnwVwyhIT+LjSrt55eG
+         k13OhX+VLhwvD+/C2RBX8+uvBlD8U5j3KjStGieqDeISRqPeeo2HHKtiCTSHgQjcsGYY
+         QYGBhtRdTaLNRCAAB13kjntO7MF6gYxJw9nw+cDxhtSkEN7UckHq+wKdtdzmvNDaHSQs
+         6nPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VQXgeD/Fj9psnmcgguEWkC+cBjH2/vLiDiQ1qYPTAGI=;
-        b=ECGUGhg4iiHgLaIePcTdHfzFIMWpphcIKzq45TecSfB5Ao2cMxFPgQbkksV8/YnwHm
-         n4cyPnAMLCGQ9fh/zz5rnMRIJPBvdSwLoNoWY09YVFHZhVqbz6hxQD3Acxer8cmdZ/qX
-         8VEbm9Y79CfH7lPofss47cLMCT/30C80gPTaKSYFK3baVy4NphIknP2tIGF1387OHE2O
-         I9VNUjpL8DGnNu8WeTZsuuNo5Fwxa1ak/6bU5k+f4wYzaFFtRGtKCmSmau5PxhM63Ou+
-         OXyG4lHjO59q6z6jq5MJ6rxL7gTlvELBCjQZVaIopRKu0XyDbMr1QVa1Ta0Fw6SoJEqg
-         5jBQ==
-X-Gm-Message-State: AGi0Pub7PfB1yrjgt2ibaRZIQZbfWcsHV174cR6ZyJBMEVPmNiKg2O1N
-        LvkVZVM92YYKXzuj83RB5UsGVaTy
-X-Google-Smtp-Source: APiQypKXOSU5/jz4Msk6qfRO0FgDCVFZsFIeLtqKlqonQR1ZMcCLEASpFyhnAy+g1hTGl5rue++I2g==
-X-Received: by 2002:a05:651c:28a:: with SMTP id b10mr2188178ljo.223.1585837268046;
-        Thu, 02 Apr 2020 07:21:08 -0700 (PDT)
+        bh=OL/tVc1Ch0fuHCWGLDW0Ztss4EfxD7apFgMsfQsUr7k=;
+        b=Gx9YYgIWYon/MuuxV0rs4Kt6CmCDzn4v46Xq5DNgsr9zmITu/1RrJBSxi8vWoQ7Aqw
+         jeYPBc9QFWQSLClQtHiO1gLYNJ0VHTynuwKxFKMUi38OjLNrxWGSgiXJJlMreGujEzim
+         0gNoV9h/uv0sKSmzJM3ARGqW0h1I9KaeuwtHEpTwMXVqlnzZnqhI84s7vD4SKYL3r2Pd
+         IDqTT5KzCOpXumzzudTabm0bt4g1Iiv68Zp4Lmgpqx4ovGq85dTpAfZ4JB2vwBydVoZZ
+         VXfqvIv1mr8iwWqvN+UcbiQlx7YuaP5WioCFfTnlxYKm/MwN6qHBPzzIeD4gimceXz3z
+         vaFA==
+X-Gm-Message-State: AGi0PuYsjzWzWwjUdZaOl60OhSvj+n4gYzBTuy3lutBFOXrAAizcRn15
+        tEAcgwr4bRDxRjWtdAIMqF0LIznv
+X-Google-Smtp-Source: APiQypLjaRISzAROt9vUoQ7mTnsDUyvNC/1ydvIVFNPjf8gKXPfxEOQBVVn2YEr/ZcVFzDNztZhQng==
+X-Received: by 2002:a2e:904b:: with SMTP id n11mr2225309ljg.171.1585839173690;
+        Thu, 02 Apr 2020 07:52:53 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id n9sm3336826ljo.89.2020.04.02.07.21.06
+        by smtp.googlemail.com with ESMTPSA id c22sm3976478lfi.41.2020.04.02.07.52.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Apr 2020 07:21:07 -0700 (PDT)
-Subject: Re: [PATCH v1 2/5] clk: Introduce clk_round_rate_unboundly()
+        Thu, 02 Apr 2020 07:52:52 -0700 (PDT)
+Subject: Re: [PATCH v1 5/6] dt-bindings: ARM: tegra: Add ASUS Google Nexus 7
 To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        =?UTF-8?Q?Pedro_=c3=82ngelo?= <pangelo@void.io>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20200330231617.17079-1-digetx@gmail.com>
- <20200330231617.17079-3-digetx@gmail.com>
- <20200402003339.GA11124@qmqm.qmqm.pl>
+References: <20200331214327.6496-1-digetx@gmail.com>
+ <20200331214327.6496-6-digetx@gmail.com>
+ <20200402045008.GB11124@qmqm.qmqm.pl>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <58c3e230-8361-6710-7946-6d2dd98b2482@gmail.com>
-Date:   Thu, 2 Apr 2020 17:21:01 +0300
+Message-ID: <4c059f4a-111a-086b-c165-eb8ae798d606@gmail.com>
+Date:   Thu, 2 Apr 2020 17:52:51 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200402003339.GA11124@qmqm.qmqm.pl>
+In-Reply-To: <20200402045008.GB11124@qmqm.qmqm.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,33 +76,41 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-02.04.2020 03:33, Michał Mirosław пишет:
-> On Tue, Mar 31, 2020 at 02:16:14AM +0300, Dmitry Osipenko wrote:
-> [...]
->> +/**
->> + * clk_round_rate_unboundly - unboundly round the given rate for a clk
+02.04.2020 07:50, Michał Mirosław пишет:
+> On Wed, Apr 01, 2020 at 12:43:26AM +0300, Dmitry Osipenko wrote:
+>> Add a binding for the Tegra30-based ASUS Google Nexus 7 tablet device.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  Documentation/devicetree/bindings/arm/tegra.yaml | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
+>> index 7fd0b66c69b2..fb3bbf7a5fb4 100644
+>> --- a/Documentation/devicetree/bindings/arm/tegra.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/tegra.yaml
+>> @@ -62,6 +62,13 @@ properties:
+>>                - toradex,colibri_t30-eval-v3
+>>            - const: toradex,colibri_t30
+>>            - const: nvidia,tegra30
+>> +      - items:
+>> +          - const: asus,grouper
+>> +          - const: nvidia,tegra30
+>> +      - items:
+>> +          - const: asus,tilapia
+>> +          - const: asus,grouper
+>> +          - const: nvidia,tegra30
+>>        - items:
+>>            - enum:
+>>                - nvidia,dalmore
 > 
-> Just grammar nits:
-> 
-> clk_round_rate_unbounded - round the given rate for a clk, ignoring users' min/max constraints
-> 
->> + * @clk: the clk for which we are rounding a rate
->> + * @rate: the rate which is to be rounded
->> + *
->> + * Takes in a rate as input and rounds it to a rate that the clk can use
->> + * which is then returned.  The given rate isn't bounded by clk users min-max
-> 
-> s/bounded/limited/ ?
-> 
->> + * rates, unlike in a case of clk_round_rate().  If clk doesn't support
-> 
-> "... unlike in clk_round_rate()."
-> 
->> + * round_rate operation then the parent rate is returned.
->> + */
-> [...]
+> Is it really necessary to list every possible device using a SoC chip?
 
-Hello Michał,
+Yes, otherwise make dtbs_check will give you a warning about the unknown
+compatible.
 
-Thank you very much for the suggestion, I'll take it into account in the
-next version.
+> Wouldn't it be enough to just list SoC value nvidia,tegraXYZ and allow
+> any other supplemental "compatibles"?
+
+I don't know what was the initial intention of having boards defined in
+a way it's currently done, maybe Rob;Thierry;Stephen;Jon could clarify?
