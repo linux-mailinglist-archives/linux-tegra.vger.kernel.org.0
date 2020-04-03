@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2D8619DB8E
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 18:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 130DC19DBC1
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 18:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404299AbgDCQZC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Apr 2020 12:25:02 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:42242 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403971AbgDCQZB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 12:25:01 -0400
-Received: by mail-lf1-f68.google.com with SMTP id s13so6271532lfb.9;
-        Fri, 03 Apr 2020 09:24:58 -0700 (PDT)
+        id S2404545AbgDCQd3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Apr 2020 12:33:29 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38321 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403834AbgDCQd3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 12:33:29 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v16so7599103ljg.5;
+        Fri, 03 Apr 2020 09:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=u7P0dsxmLlwmCnuhltg/uqrvRo4yoGJh1knnxv/mnF4=;
-        b=ausdS3HwKnqEo0svXRS60uo2DUISom82uTCbTiCDyjvqP4f7KtzZTvAB2fMnG9Lt5N
-         87B1CIW24mYQL4yK0JHZouy0UxvBBfoWyRTTsVcFonHOyCnGHy4atVPjsYhQDW/TQjJf
-         V4uLaVe1fQ3V/oFsQXfFE0HG8oit5FF8+umM0qKyGHKlwu3CEWhhsV4WBlf/VhXLQCGq
-         VXvrEr1JtkCzurVd5yU2f1xzofTQG/tet8UjPO6R18/+AiWZFKUN1+9GwyYZ2BY+YVCF
-         nhQM3XvF31EV7o5AbVnJ8by9wnXKtUp1e044Z0/wIydXQawPzXx9raleZfGN/SC27+0g
-         uiIQ==
+        bh=4fDqTfkx4s/hoWco9IqQyOBi9hVMRkMxaYHCSQZz32M=;
+        b=vF6AKxYepfMhz5KpdLRqBl8CgNcVtORl6kJUjZJayifDV6bxqGps7ImjAQKwJbOlrS
+         k9ciAI3kr7UIjYuY9SqAtT5xDq1BodDkf7WV3d21RDhw/vUSDU/R/+vfp28LJOUGiVvf
+         9jM0Rkjyv77OPDhsRQnGiiF//0durL6UxULWWmZ01e8nrXST2Ey/59OLk1nLbuBDZzRB
+         h/8JsxtPQlyMjNEOlpHkSSmmC1zOvWMk5wpQgn9FbYxYHosCmve8tpWc094QOW40l03j
+         ks9QMZz8Y2CNsMaaJl7qgKmpmXaCDxzqYOSG4C61U2rX64kF6mfmrw/cx8DxobcthKhA
+         nBfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=u7P0dsxmLlwmCnuhltg/uqrvRo4yoGJh1knnxv/mnF4=;
-        b=Zi6ALK6Ad/mPATUnwVB/HHfXjk6V4rDJyzi3L5X8IH5W06bZbNIBNWEwPr3QO9WTO2
-         FGDib/adFBmXA/g80i9Karw5nTLAYCBCqvPRjkUhsbdCs3r0Ki/U9qCBDEaKZ2Zt2vK3
-         zwHcYWuMEqxPrXmPfl2wM2HeJdpaM0XIh2VP1bJ7v5XNKT4+j/JRXjYIWVSqub2ksVjZ
-         q+ixTE2bZVETuynhR9VzC15STqhgNhdDXMEnNAPRRThgveCAeWRhbbAxhbLhk8f+zsc8
-         0a1VGxlxQ8NSUzXJTQ45c9aJG7OEpcybpf4l4z/MiTUFI5ubZustFdKFR+gN3hRRDnwc
-         wUUQ==
-X-Gm-Message-State: AGi0PuYtGs3Ccrgu2XfhV2cVvQ9hKRI3NpRxRHVUdUh9KonO/TxVxL6h
-        rMLCbowCkuQP1JGxtXUARvlno4Mb
-X-Google-Smtp-Source: APiQypJJSXDhKFLZlI12icRGHHnXFRst1hlTrBfaZ8PVUrhvBcix1+mubcHb53j7ECG31VFXplCIyw==
-X-Received: by 2002:a19:9141:: with SMTP id y1mr5899567lfj.168.1585931097643;
-        Fri, 03 Apr 2020 09:24:57 -0700 (PDT)
+        bh=4fDqTfkx4s/hoWco9IqQyOBi9hVMRkMxaYHCSQZz32M=;
+        b=ZCDvz9iRGIiYhia6IVQjuq9YWFgs/dzpyjK5qSAqype3Xi68tEqHrkumOlvHcanBEK
+         S/QfsYQEsXiqzxp9WZXkEKvnOZLT8Eo0jfeazAfw1pBUxQoIgna14FEJ3FzdifiExUTO
+         m8VRcqHBuYOLxaJnXewupCSyZoBg9zcbrAgJkFVbaumrYgdLvt2p+hzxPhLw2kU/AyDW
+         sw/QiauUFG6vGg3W4S7Cp3JizdmVj3mTWvmjs5X0h04RxbGkbImgGdGFvEqcabTExLu5
+         s4odCrm8htOaM/5bZKBC/SGcruFolafZ0vz67ZR4di45hwyp3XwYtDkvH5Jlatir72Sg
+         7hDA==
+X-Gm-Message-State: AGi0PuYrUhLd0mMxGRSgpe0kfjhXY/lWxKC85uVP3Tc2pP0iryp+zQw6
+        Lj1suLB69Ad7GAkAbCJFDR72hAv5
+X-Google-Smtp-Source: APiQypLnWZ1KmknHBadkRmdgO5AzNTC3XSpWvhGXSGcwm9CpVCHEEsqOzJu59kBa5vQS7OIIbP/ZEA==
+X-Received: by 2002:a2e:8015:: with SMTP id j21mr5128664ljg.165.1585931606195;
+        Fri, 03 Apr 2020 09:33:26 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id q6sm5325848ljp.21.2020.04.03.09.24.56
+        by smtp.googlemail.com with ESMTPSA id d12sm6007971lfi.86.2020.04.03.09.33.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2020 09:24:57 -0700 (PDT)
+        Fri, 03 Apr 2020 09:33:25 -0700 (PDT)
 Subject: Re: [PATCH v2 2/7] clocksource: Add Tegra186 timers support
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -55,8 +55,8 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 References: <20200331221914.2966407-1-thierry.reding@gmail.com>
  <20200331221914.2966407-3-thierry.reding@gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <edf08b18-ad19-7191-020d-a06d57747c45@gmail.com>
-Date:   Fri, 3 Apr 2020 19:24:55 +0300
+Message-ID: <a982d831-fc59-f705-8f8a-9370b897adb8@gmail.com>
+Date:   Fri, 3 Apr 2020 19:33:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
@@ -71,49 +71,35 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 01.04.2020 01:19, Thierry Reding пишет:
 ...
-> +static int tegra186_wdt_set_timeout(struct watchdog_device *wdd,
-> +				    unsigned int timeout)
+> +static int tegra186_timer_probe(struct platform_device *pdev)
 > +{
-> +	struct tegra186_wdt *wdt = to_tegra186_wdt(wdd);
+> +	struct device *dev = &pdev->dev;
+> +	struct tegra186_timer *tegra;
+> +	int err;
 > +
-> +	tegra186_wdt_disable(wdt);
-> +	wdt->base.timeout = timeout;
-> +	tegra186_wdt_enable(wdt);
-
-Why changing timeout enables the watchdog?
-
-> +	return 0;
-> +}
+> +	tegra = devm_kzalloc(dev, sizeof(*tegra), GFP_KERNEL);
+> +	if (!tegra)
+> +		return -ENOMEM;
 > +
-> +static const struct watchdog_ops tegra186_wdt_ops = {
-> +	.owner = THIS_MODULE,
-> +	.start = tegra186_wdt_start,
-> +	.stop = tegra186_wdt_stop,
-> +	.ping = tegra186_wdt_ping,
-> +	.set_timeout = tegra186_wdt_set_timeout,
-> +};
-
-...
-> +static int __maybe_unused tegra186_timer_suspend(struct device *dev)
-> +{
-> +	struct tegra186_timer *tegra = dev_get_drvdata(dev);
+> +	tegra->soc = of_device_get_match_data(dev);
+> +	dev_set_drvdata(dev, tegra);
+> +	tegra->dev = dev;
 > +
-> +	if (tegra->wdt)
-> +		tegra186_wdt_disable(tegra->wdt);
+> +	tegra->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(tegra->regs))
+> +		return PTR_ERR(tegra->regs);
 > +
-> +	return 0;
-> +}
+> +	err = platform_get_irq(pdev, 0);
+> +	if (err < 0) {
+> +		dev_err(dev, "failed to get interrupt #0: %d\n", err);
+> +		return err;
+> +	}
 > +
-> +static int __maybe_unused tegra186_timer_resume(struct device *dev)
-> +{
-> +	struct tegra186_timer *tegra = dev_get_drvdata(dev);
+> +	tegra->irq = err;
 > +
-> +	if (tegra->wdt)
-> +		tegra186_wdt_enable(tegra->wdt);
+> +	err = devm_request_irq(dev, tegra->irq, tegra186_timer_irq,
+> +			       IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
+> +			       "tegra186-timer", tegra);
 
-What if watchdog is in a stopped state? Why it's enabled unconditionally?
-
-> +	return 0;
-> +}
-
-
+Looks like there is no need to store tegra->irq in the struct
+tegra186_timer.
