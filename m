@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42CFC19DB03
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 18:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D8619DB8E
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 18:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728351AbgDCQOo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Apr 2020 12:14:44 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33251 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390975AbgDCQOo (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 12:14:44 -0400
-Received: by mail-lf1-f65.google.com with SMTP id h6so1765111lfc.0;
-        Fri, 03 Apr 2020 09:14:41 -0700 (PDT)
+        id S2404299AbgDCQZC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Apr 2020 12:25:02 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:42242 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403971AbgDCQZB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 12:25:01 -0400
+Received: by mail-lf1-f68.google.com with SMTP id s13so6271532lfb.9;
+        Fri, 03 Apr 2020 09:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LNlGrhFs6WaBVtCi4AoyR7qa2EvwLZbv34oQz9zHV1w=;
-        b=pl2d5IzGSighqHDwmLXHdqnILWHrTY3AkSH0vZOM0f0WTbLtUVI6VzDLZnSHJd8jFe
-         6kSV7Zia88Il7Ua4WTtLvQeKmEtq0Mwr61n0iV552b3FImQWcSvMtuTRYFCw+BGwtwCG
-         +Deguo414wgo9uBP9Akuxg9l5o2s1bqOksgLNSNYkaN0Ed+82BWjVX4qItvY51Bo/eDh
-         9VrUg+QhciKjHIKyPqIWj8peK+kKnWqefSj6KylzvVF1YkbpogP2rcu6XutMUlaS0fK9
-         CeUaiKohXcp43O9/9mEbi1rJzyXVYpuif9PE445/Wm8Em6WU5rp+MEgMFWYirVkEoz1G
-         7UIA==
+        bh=u7P0dsxmLlwmCnuhltg/uqrvRo4yoGJh1knnxv/mnF4=;
+        b=ausdS3HwKnqEo0svXRS60uo2DUISom82uTCbTiCDyjvqP4f7KtzZTvAB2fMnG9Lt5N
+         87B1CIW24mYQL4yK0JHZouy0UxvBBfoWyRTTsVcFonHOyCnGHy4atVPjsYhQDW/TQjJf
+         V4uLaVe1fQ3V/oFsQXfFE0HG8oit5FF8+umM0qKyGHKlwu3CEWhhsV4WBlf/VhXLQCGq
+         VXvrEr1JtkCzurVd5yU2f1xzofTQG/tet8UjPO6R18/+AiWZFKUN1+9GwyYZ2BY+YVCF
+         nhQM3XvF31EV7o5AbVnJ8by9wnXKtUp1e044Z0/wIydXQawPzXx9raleZfGN/SC27+0g
+         uiIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=LNlGrhFs6WaBVtCi4AoyR7qa2EvwLZbv34oQz9zHV1w=;
-        b=oK0IOTtZIN66v6PY5zkrI2Vg4bytTYzMpLLQU7kGQAcvxWyH0EMKjU2/r37YHjFImr
-         5FwmlVlF/Y5Tdxb1maa52/hn8IQ5+3mCqUDw022r1LjUa+NF9FEAn0RLMVPPZ61Basvr
-         djTr+yWhQu7eAxdyNWDTcgpKIxstOyhaobmF66BmE3djupupGDV5R0OZtbzC0toVJbhW
-         yVTDX6zP50olsdr7l61xibp/v0kHGxCBntTbpICqQHSaCxfq3MXiqmN82CS8e6dlHjmo
-         ka8l/zduyoZHceapwy30eTe/ABfbVCHl6gS6eFVIdAGeRI5RhVp4+DTNBjZIBLRNIKJe
-         3hYA==
-X-Gm-Message-State: AGi0Puaxk+mb4FzjauXngD0Ry6ibwAEcZoHXb9v84W+LzjLDfxxYEXOJ
-        kSFTm2gJDlYWz0OC+1Mqi71QtyMu
-X-Google-Smtp-Source: APiQypI5tO4VK9kA5fvK4ArCZlp0YFsaezp5Hns2PIhrdGpX8b/bglY4qvkIDEqUyJLyr/jCpjPt1w==
-X-Received: by 2002:a19:4a03:: with SMTP id x3mr5970057lfa.159.1585930480114;
-        Fri, 03 Apr 2020 09:14:40 -0700 (PDT)
+        bh=u7P0dsxmLlwmCnuhltg/uqrvRo4yoGJh1knnxv/mnF4=;
+        b=Zi6ALK6Ad/mPATUnwVB/HHfXjk6V4rDJyzi3L5X8IH5W06bZbNIBNWEwPr3QO9WTO2
+         FGDib/adFBmXA/g80i9Karw5nTLAYCBCqvPRjkUhsbdCs3r0Ki/U9qCBDEaKZ2Zt2vK3
+         zwHcYWuMEqxPrXmPfl2wM2HeJdpaM0XIh2VP1bJ7v5XNKT4+j/JRXjYIWVSqub2ksVjZ
+         q+ixTE2bZVETuynhR9VzC15STqhgNhdDXMEnNAPRRThgveCAeWRhbbAxhbLhk8f+zsc8
+         0a1VGxlxQ8NSUzXJTQ45c9aJG7OEpcybpf4l4z/MiTUFI5ubZustFdKFR+gN3hRRDnwc
+         wUUQ==
+X-Gm-Message-State: AGi0PuYtGs3Ccrgu2XfhV2cVvQ9hKRI3NpRxRHVUdUh9KonO/TxVxL6h
+        rMLCbowCkuQP1JGxtXUARvlno4Mb
+X-Google-Smtp-Source: APiQypJJSXDhKFLZlI12icRGHHnXFRst1hlTrBfaZ8PVUrhvBcix1+mubcHb53j7ECG31VFXplCIyw==
+X-Received: by 2002:a19:9141:: with SMTP id y1mr5899567lfj.168.1585931097643;
+        Fri, 03 Apr 2020 09:24:57 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id v22sm5222691ljj.67.2020.04.03.09.14.39
+        by smtp.googlemail.com with ESMTPSA id q6sm5325848ljp.21.2020.04.03.09.24.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2020 09:14:39 -0700 (PDT)
+        Fri, 03 Apr 2020 09:24:57 -0700 (PDT)
 Subject: Re: [PATCH v2 2/7] clocksource: Add Tegra186 timers support
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -55,8 +55,8 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 References: <20200331221914.2966407-1-thierry.reding@gmail.com>
  <20200331221914.2966407-3-thierry.reding@gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <de97ce0c-3fa3-9f13-2b0e-f4369f94e113@gmail.com>
-Date:   Fri, 3 Apr 2020 19:14:33 +0300
+Message-ID: <edf08b18-ad19-7191-020d-a06d57747c45@gmail.com>
+Date:   Fri, 3 Apr 2020 19:24:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
@@ -71,142 +71,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 01.04.2020 01:19, Thierry Reding пишет:
 ...
-> +static void tmr_writel(struct tegra186_tmr *tmr, u32 value, unsigned int offset)
+> +static int tegra186_wdt_set_timeout(struct watchdog_device *wdd,
+> +				    unsigned int timeout)
 > +{
-> +	writel(value, tmr->regs + offset);
+> +	struct tegra186_wdt *wdt = to_tegra186_wdt(wdd);
+> +
+> +	tegra186_wdt_disable(wdt);
+> +	wdt->base.timeout = timeout;
+> +	tegra186_wdt_enable(wdt);
 
-relaxed?
+Why changing timeout enables the watchdog?
 
+> +	return 0;
 > +}
 > +
-> +static void wdt_writel(struct tegra186_wdt *wdt, u32 value, unsigned int offset)
-> +{
-> +	writel(value, wdt->regs + offset);
-
-relaxed?
-
-> +}
-> +
-> +static u32 wdt_readl(struct tegra186_wdt *wdt, unsigned int offset)
-> +{
-> +	return readl(wdt->regs + offset);
-
-relaxed?
-
-> +}
+> +static const struct watchdog_ops tegra186_wdt_ops = {
+> +	.owner = THIS_MODULE,
+> +	.start = tegra186_wdt_start,
+> +	.stop = tegra186_wdt_stop,
+> +	.ping = tegra186_wdt_ping,
+> +	.set_timeout = tegra186_wdt_set_timeout,
+> +};
 
 ...
-> +static irqreturn_t tegra186_timer_irq(int irq, void *data)
-> +{
-> +	struct tegra186_timer *tegra = data;
-> +
-> +	if (tegra->wdt) {
-
-Why this check is needed? Please see more below in regards to
-devm_request_irq().
-
-> +		tegra186_wdt_disable(tegra->wdt);
-> +		tegra186_wdt_enable(tegra->wdt);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int tegra186_timer_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct tegra186_timer *tegra;
-> +	int err;
-> +
-> +	tegra = devm_kzalloc(dev, sizeof(*tegra), GFP_KERNEL);
-> +	if (!tegra)
-> +		return -ENOMEM;
-> +
-> +	tegra->soc = of_device_get_match_data(dev);
-> +	dev_set_drvdata(dev, tegra);
-> +	tegra->dev = dev;
-> +
-> +	tegra->regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(tegra->regs))
-> +		return PTR_ERR(tegra->regs);
-> +
-> +	err = platform_get_irq(pdev, 0);
-> +	if (err < 0) {
-> +		dev_err(dev, "failed to get interrupt #0: %d\n", err);
-
-Duplicated error message isn't needed for platform_get_irq().
-
-> +		return err;
-> +	}
-> +
-> +	tegra->irq = err;
-> +
-> +	err = devm_request_irq(dev, tegra->irq, tegra186_timer_irq,
-> +			       IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-
-Why IRQF_ONESHOT?
-
-And IRQF_TRIGGER_HIGH?.. the interrupt-level should come from the
-device-tree.
-
-> +			       "tegra186-timer", tegra);
-> +	if (err < 0) {
-> +		dev_err(dev, "failed to request IRQ#%u: %d\n", tegra->irq, err);
-> +		return err;
-> +	}
-
-Interrupt should be requested at the end of tegra186_timer_probe(),
-otherwise probe order isn't correct, leading to a potential race conditions.
-
-> +	/* create a watchdog using a preconfigured timer */
-> +	tegra->wdt = tegra186_wdt_create(tegra, 0);
-> +	if (IS_ERR(tegra->wdt)) {
-> +		err = PTR_ERR(tegra->wdt);
-> +		dev_err(dev, "failed to create WDT: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = tegra186_timer_tsc_init(tegra);
-> +	if (err < 0) {
-> +		dev_err(dev, "failed to register TSC counter: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = tegra186_timer_osc_init(tegra);
-> +	if (err < 0) {
-> +		dev_err(dev, "failed to register OSC counter: %d\n", err);
-> +		goto unregister_tsc;
-> +	}
-> +
-> +	err = tegra186_timer_usec_init(tegra);
-> +	if (err < 0) {
-> +		dev_err(dev, "failed to register USEC counter: %d\n", err);
-> +		goto unregister_osc;
-> +	}
-> +
-> +	return 0;
-> +
-> +unregister_osc:
-> +	clocksource_unregister(&tegra->osc);
-> +unregister_tsc:
-> +	clocksource_unregister(&tegra->tsc);
-
-Looks like there is an opportunity for devm_clocksource_register_hz().
-
-> +	return err;
-> +}
-> +
-> +static int tegra186_timer_remove(struct platform_device *pdev)
-> +{
-> +	struct tegra186_timer *tegra = platform_get_drvdata(pdev);
-> +
-> +	clocksource_unregister(&tegra->usec);
-> +	clocksource_unregister(&tegra->osc);
-> +	clocksource_unregister(&tegra->tsc);
-> +
-> +	return 0;
-> +}
-> +
 > +static int __maybe_unused tegra186_timer_suspend(struct device *dev)
 > +{
 > +	struct tegra186_timer *tegra = dev_get_drvdata(dev);
@@ -222,10 +109,11 @@ Looks like there is an opportunity for devm_clocksource_register_hz().
 > +	struct tegra186_timer *tegra = dev_get_drvdata(dev);
 > +
 > +	if (tegra->wdt)
-
-Could tegra->wdt ever be NULL?
-
 > +		tegra186_wdt_enable(tegra->wdt);
-> +
+
+What if watchdog is in a stopped state? Why it's enabled unconditionally?
+
 > +	return 0;
 > +}
+
+
