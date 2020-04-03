@@ -2,170 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A97719D152
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 09:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7338C19D6CB
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 14:35:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389281AbgDCHgP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Apr 2020 03:36:15 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5388 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730759AbgDCHgP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 03:36:15 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e86e73c0000>; Fri, 03 Apr 2020 00:35:24 -0700
+        id S1728213AbgDCMfK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Apr 2020 08:35:10 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:12476 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728100AbgDCMfK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 08:35:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e872d1a0000>; Fri, 03 Apr 2020 05:33:30 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 03 Apr 2020 00:36:14 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 03 Apr 2020 05:35:09 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 03 Apr 2020 00:36:14 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Apr
- 2020 07:36:14 +0000
-Received: from [10.2.164.193] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Apr 2020
- 07:36:13 +0000
-Subject: Re: [RFC PATCH v5 6/9] media: tegra: Add Tegra210 Video input driver
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>,
-        <helen.koike@collabora.com>, <digetx@gmail.com>,
-        <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20200325110358.GB853@valkosipuli.retiisi.org.uk>
- <8bc44545-7d1e-0e37-db27-d37784679574@xs4all.nl>
- <20200331103215.GI2394@valkosipuli.retiisi.org.uk>
- <ba37eb84-392c-3767-57f6-d297b0ab79a3@xs4all.nl>
- <20200331111018.GJ2394@valkosipuli.retiisi.org.uk>
- <a1145ee4-2991-a958-1225-090c57fec533@xs4all.nl>
- <20200331115221.GA4767@pendragon.ideasonboard.com>
- <6aa7d86c-3943-d508-ccf6-5ac46546abe9@nvidia.com>
- <3b00a559-992a-2da9-92b1-bee44e137ba2@nvidia.com>
- <1c60491b-1bb2-6291-80a6-c0fa14094077@nvidia.com>
- <20200401165805.GE4876@pendragon.ideasonboard.com>
- <e3b437c6-76e1-d407-e81d-c05912ffcd0b@nvidia.com>
-Message-ID: <f80dfa8f-0188-a733-bde6-e3210977d910@nvidia.com>
-Date:   Fri, 3 Apr 2020 00:36:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        by hqpgpgate101.nvidia.com on Fri, 03 Apr 2020 05:35:09 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Apr
+ 2020 12:35:08 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 3 Apr 2020 12:35:09 +0000
+Received: from sandipan-pc.nvidia.com (Not Verified[10.24.42.163]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e872d7a0000>; Fri, 03 Apr 2020 05:35:08 -0700
+From:   Sandipan Patra <spatra@nvidia.com>
+To:     <treding@nvidia.com>, <robh+dt@kernel.org>,
+        <u.kleine-koenig@pengutronix.de>, <jonathanh@nvidia.com>
+CC:     <bbasu@nvidia.com>, <ldewangan@nvidia.com>,
+        <linux-pwm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sandipan Patra <spatra@nvidia.com>
+Subject: [PATCH] pwm: tegra: dynamic clk freq configuration by PWM driver
+Date:   Fri, 3 Apr 2020 18:05:03 +0530
+Message-ID: <1585917303-10573-1-git-send-email-spatra@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <e3b437c6-76e1-d407-e81d-c05912ffcd0b@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1585899324; bh=lH8VCoTnCQfzYg8lxheGj9jbRYQX28Pk6wDY+1bd1Lc=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=aCJmbHtsc4d/J4y6wxxvtxPdp8AB1QyHvod3IkYmiYOFmNqRKzkoO4l4xehzZLMNN
-         HciKMWr46UM+naKvToV2stzzX9PdWPMx4AIVUrBCxI/BDYPaGEEB9iyN1aT+d0iHP6
-         lWU4h7sEP2wi0FLerEJpqXt1cnt5khCLapxZ/1tXVzyNkfEJCppASvxjcID5mzAauM
-         FNMkg3nG2Jdvl9gTDoveadA1PqSeMIPxzu+owU/zY+fOkicByGSu6uTgeeOskEALIn
-         bmNFWfEDYEYKPWlfkD9L9vnpfAltTR75ArZq8+fZ6XqcBr6p5Ly4MBXQL9GiEU2c6E
-         ewNJyE76dqBUg==
+        t=1585917210; bh=SYS3vdECv0ZXlLBQF+6iQhj+wQ1YRaHGnboJxduGkVU=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=TE2LwhOxmbiB5ep0DTE9I92w7enAAm+wO8gl3WQ6R5P9Nkb5JlEgEwniETwrlX1LM
+         y2HiO9fs21duqc64qD+ctPOXdkMTVhXEamSe765g9z2cyYKzD7K3uKu/kDO7eEeQne
+         dPaoe69ra/g6ViN0aEqmc5bGuU1SFgsNJ7wkDL/eyfwJbdsHBuKXI70HGDL2WL3y3A
+         p+LVoN7mmdqsytVuQFJNgYWP18Sjzw4B3BYCuGwUi1WGHGAtVHuGEVSGT1yLaFFE/B
+         /1AbJRw1m/o7KhkOXwVZrwCtbsfrAZEZa1FA9m1vGSPN51tRWDUX+EJVQwtJhZmcO7
+         iEklmlEZ698qA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-As we don't need have MC based for tegra internal TPG, will continue 
-with video node based for CSI sub-device in this series.
+Added support for dynamic clock freq configuration in pwm kernel driver.
+Earlier the pwm driver used to cache boot time clock rate by pwm clock
+parent during probe. Hence dynamically changing pwm frequency was not
+possible for all the possible ranges. With this change, dynamic calculation
+is enabled and it is able to set the requested period from sysfs knob
+provided the value is supported by clock source.
 
-Next series will include sensor support, will discuss internally by then 
-and will implement accordingly.
+Changes mainly have 2 parts:
+  - T186 and later chips [1]
+  - T210 and prior chips [2]
 
-Thanks
+For [1] - Changes implemented to set pwm period dynamically and
+          also checks added to allow only if requested period(ns) is
+          below or equals to higher range.
 
-Sowjanya
+For [2] - Only checks if the requested period(ns) is below or equals
+          to higher range defined by max clock limit. The limitation
+          in T210 or prior chips are due to the reason of having only
+          one pwm-controller supporting multiple channels. But later
+          chips have multiple pwm controller instances each having
+	  single channel support.
 
+Signed-off-by: Sandipan Patra <spatra@nvidia.com>
+---
+ drivers/pwm/pwm-tegra.c | 45 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 43 insertions(+), 2 deletions(-)
 
-On 4/1/20 11:24 AM, Sowjanya Komatineni wrote:
->
-> On 4/1/20 9:58 AM, Laurent Pinchart wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> Hi Sowjanya,
->>
->> On Wed, Apr 01, 2020 at 09:36:03AM -0700, Sowjanya Komatineni wrote:
->>> Hi Sakari/Laurent,
->>>
->>> Few questions to confirm my understanding on below discussion.
->>>
->>> 1. Some sensors that you are referring as don't work with single 
->>> devnode
->>> controlling pipeline devices are ISP built-in sensors where setup of
->>> pipeline and subdevices happen separately?
->> Sensors that include ISPs could indeed require to be exposed as multiple
->> subdevs, but I was mostly referring to raw Bayer sensors with hardware
->> architectures similar to the SMIA++ and MIPI CCS specifications. Those
->> sensors can perform cropping in up to three different locations (analog
->> crop, digital crop, output crop), and can also scale in up to three
->> different locations (binning, skipping and filter-based scaling).
->>
->> Furthermore, with the V4L2 support for multiplexed streams that we are
->> working on, a sensor that can produce both image data and embedded data
->> would also need to be split in multiple subdevs.
->
-> Thanks Laurent.
->
-> For sensors with meta/embedded data along with image in same frame, 
-> Tegra VI HW extracts based on programmed embedded data size info.
->
-> So in our driver we capture this as separate buffer as embedded data 
-> is part of frame.
->
-> You above comment on multiplexed streams is for sensors using 
-> different virutal channels for diff streams?
->
->
->>> 2. With driver supporting single device node control of entire pipeline
->>> devices compared to MC-based, limitation is with userspace apps for 
->>> only
->>> these complex camera sensors?
->> In those cases, several policy decisions on how to configure the sensor
->> (whether to use binning, skipping and/or filter-based scaling for
->> instance, or how much cropping and scaling to apply to achieve a certain
->> output resolution) will need to be implemented in the kernel, and
->> userspace will not have any control on them.
->>
->>> 3. Does all upstream video capture drivers eventually will be moved to
->>> support MC-based?
->> I think we'll see a decrease of the video-node-centric drivers in the
->> future for embedded systems, especially the ones that include an ISP.
->> When a system has an ISP, even if the ISP is implemented as a
->> memory-to-memory device separate from the CSI-2 capture side, userspace
->> will likely have a need for fine-grained control of the camera sensor.
->>
->>> 4. Based on libcamera doc looks like it will work with both types of
->>> MC-based and single devnode based pipeline setup drivers for normal
->>> sensors and limitation is when we use ISP built-in sensor or ISP HW
->>> block. Is my understanding correct?
->> libcamera supports both, it doesn't put any restriction in that area.
->> The pipeline handler (the device-specific code in libcamera that
->> configures and control the hardware pipeline) is responsible for
->> interfacing with the kernel drivers, and is free to use an MC-centric or
->> video-node-centric API depending on what the kernel drivers offer.
->>
->> The IPA (image processing algorithms) module is also vendor-specific.
->> Although it will not interface directly with kernel drivers, it will
->> have requirements on how fine-grained control of the sensor is required.
->> For systems that have an ISP in the SoC, reaching a high image quality
->> level requires fine-grained control of the sensor, or at the very least
->> being able to retrieve fine-grained sensor configuration information
->> from the kernel. For systems using a camera sensor with an integrated
->> ISP and a CSI-2 receiver without any further processing on the SoC side,
->> there will be no such fine-grained control of the sensor by the IPA (and
->> there could even be no IPA module at all).
->>
->> -- 
->> Regards,
->>
->> Laurent Pinchart
+diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
+index aa12fb3..d3ba33c 100644
+--- a/drivers/pwm/pwm-tegra.c
++++ b/drivers/pwm/pwm-tegra.c
+@@ -4,7 +4,7 @@
+  *
+  * Tegra pulse-width-modulation controller driver
+  *
+- * Copyright (c) 2010, NVIDIA Corporation.
++ * Copyright (c) 2010-2020, NVIDIA Corporation.
+  * Based on arch/arm/plat-mxc/pwm.c by Sascha Hauer <s.hauer@pengutronix.de>
+  */
+ 
+@@ -83,10 +83,51 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	val = (u32)c << PWM_DUTY_SHIFT;
+ 
+ 	/*
++	 * Its okay to ignore the fraction part since we will be trying to set
++	 * slightly lower value to rate than the actual required rate
++	 */
++	rate = NSEC_PER_SEC/period_ns;
++
++	/*
++	 *  Period in nano second has to be <= highest allowed period
++	 *  based on the max clock rate of the pwm controller.
++	 *
++	 *  higher limit = max clock limit >> PWM_DUTY_WIDTH
++	 */
++	if (rate > (pc->soc->max_frequency >> PWM_DUTY_WIDTH))
++		return -EINVAL;
++
++	/*
+ 	 * Compute the prescaler value for which (1 << PWM_DUTY_WIDTH)
+ 	 * cycles at the PWM clock rate will take period_ns nanoseconds.
+ 	 */
+-	rate = pc->clk_rate >> PWM_DUTY_WIDTH;
++	if (pc->soc->num_channels == 1) {
++		/*
++		 * Rate is multiplied with 2^PWM_DUTY_WIDTH so that it matches
++		 * with the hieghest applicable rate that the controller can
++		 * provide. Any further lower value can be derived by setting
++		 * PFM bits[0:12].
++		 * Higher mark is taken since BPMP has round-up mechanism
++		 * implemented.
++		 */
++		rate = rate << PWM_DUTY_WIDTH;
++
++		err = clk_set_rate(pc->clk, rate);
++		if (err < 0)
++			return -EINVAL;
++
++		rate = clk_get_rate(pc->clk) >> PWM_DUTY_WIDTH;
++	} else {
++		/*
++		 * This is the case for SoCs who support multiple channels:
++		 *
++		 * clk_set_rate() can not be called again in config because
++		 * T210 or any prior chip supports one pwm-controller and
++		 * multiple channels. Hence in this case cached clock rate
++		 * will be considered which was stored during probe.
++		 */
++		rate = pc->clk_rate >> PWM_DUTY_WIDTH;
++	}
+ 
+ 	/* Consider precision in PWM_SCALE_WIDTH rate calculation */
+ 	hz = DIV_ROUND_CLOSEST_ULL(100ULL * NSEC_PER_SEC, period_ns);
+-- 
+2.7.4
+
