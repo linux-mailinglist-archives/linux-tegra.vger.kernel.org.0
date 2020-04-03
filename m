@@ -2,138 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B135A19DF14
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 22:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E221519DF37
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 22:22:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727792AbgDCUPp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Apr 2020 16:15:45 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40163 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727627AbgDCUPp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 16:15:45 -0400
-Received: by mail-wr1-f66.google.com with SMTP id s8so7873420wrt.7;
-        Fri, 03 Apr 2020 13:15:44 -0700 (PDT)
+        id S1727867AbgDCUWT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Apr 2020 16:22:19 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39873 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727829AbgDCUWS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 16:22:18 -0400
+Received: by mail-wm1-f66.google.com with SMTP id e9so9112939wme.4;
+        Fri, 03 Apr 2020 13:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NFzoMKhf5fXeo+6k3A7plsOyq2vhoiv1IpjF6ainKL4=;
-        b=KEjqd6X2U2AC+oZJG/BTOb63GtFtJ4CmhUoKQvbKDW5mLP2hE36IegSKUQdB9HnpZ7
-         tolIN67bAsY6LYrWWG/ezEyLs/01d1BtHJ4a1Sm4jdRyQzxHi9tBRdO1n9QbHBt5JNGW
-         HLrMYhq0TqLsbbLDiiZNVyrwt6PcsoS0ziDPAkcP6GsjDblWRIXqq5y3Ui6NOut8xJSc
-         s6gnPxwGLk+9R0DqheabINScZTZLdvQElXaWHaBo4gLikF0ETL6f6PO9UZmUxamhoVOB
-         4700hA7ql3uJ81CRgQiu903HOQheDtq6K9NOwWSRUJ8bQVfw2tIoDBcjj2N9nep3lWlG
-         guAQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yBk8iLmWQH2Q1E3LPZMZsmnW3Pw4Pve//DMaP+9GRcw=;
+        b=Od5TnW0JX69JZejRiSOQThcew53V/qQb6Bmp6Vc+2d9xpKE2425nPNWuX88VYBUfZ+
+         qF2XxHpkbaakJQuCqAsUOlkMvgaBc44RqeuD699hg/i9hgXmwam3uvyQFXk17RHPmdmB
+         GpXFfwbg/7Q7iaGkxBxhlZG/SXan1awKaIqdUcAIbnE/FTScJGstz9CjLNP5LoNA0bKi
+         g6l9Ilx5E5Dz1tE1mhFjItCWZJibjJVkKGYVijQnuUyFO7o5qBZB8QCuzpxXyw7aG3j7
+         IeF5lamSzViZWOz7go6RH9vELnnjuxlI8JswhF1upoupVYxR3F0FNGiT4hsV+dxmXEFc
+         VkOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NFzoMKhf5fXeo+6k3A7plsOyq2vhoiv1IpjF6ainKL4=;
-        b=grV3wcgehM8KUY2UhpyglVp7KUrwSOw9va+VvCa+tqcm+fFhkXP62e2qoNb0GghBit
-         EELCl4AIlHXg6chUV4yeD6JlMF4RWcv6n1kvh3tYnzZ1d4sACJydo0Dz4Fb9jDJL6HJD
-         5NLmVznahK8TDd3l/TGTlB1KVk5q7Xak8AWuNihUwZm3NKYdSHk2Izug6qQbOyunryK+
-         mcNfgI0T9tirVv/GBYf5nyOwxOGJlqBjLhbq2N7kE+X+X5YRZsXZPOibgeMjV+rrVKL0
-         uqO+340HT1WDnQwi9TDT6691I6CMYm1pnNOdjeaatRkN/VzLCxaQ5JKtH7J0qdOcjGkE
-         y1Ug==
-X-Gm-Message-State: AGi0PubFI4F4gDXsSm4pmtmM25Zax0+1UWfjBTNZpA6/NslJY950aCJY
-        m9UlqtFbVxOCdFIzRlfWVJM=
-X-Google-Smtp-Source: APiQypIDpJuV8BSFiZiA+G/mWzbpUaHwnZfM3dJy88tOmyDFsnSdUhShdwGFg/cl/vcyL0PvfoUtKQ==
-X-Received: by 2002:a5d:6204:: with SMTP id y4mr11385362wru.410.1585944943426;
-        Fri, 03 Apr 2020 13:15:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yBk8iLmWQH2Q1E3LPZMZsmnW3Pw4Pve//DMaP+9GRcw=;
+        b=OTCdUobJgKsIBceLJ2DzoynkJKymPO/ON+jRaM28jM0mJoMcBxLydWVfAoJztaHcqK
+         VlNBOSb18Cpv8jjggyTZ0qwfYETFRDosFbGxHLyd6vWdMlJyn9N59vomymioSxgzYnLS
+         zCPrT/0wnRIdRtHJ1g0evzGpP6NVxPyafLMZH+gebPpp0cwGJbQwL9fzymmWzTdjLqMf
+         lmvfDWPo6Qfj3yNTr0oE0t6tBSjYLyYCUtFMdahbYLFD/LrD3ZKfZ/HuLNd6GG3O+vd4
+         mr5UJ/inM6vJpTL7k9dUTRXvcjpZm2nvZ/Aj8DzurHN0TsnKQDtn7ULciZ/zHS0AEvOQ
+         ilMA==
+X-Gm-Message-State: AGi0PuYH++d/OFAYMzU7DkTixLElO+X65ZEkAPYcs0YLnHHd3TntR8lw
+        zAXJc6FRWh1hDNx57LVyPwk=
+X-Google-Smtp-Source: APiQypJFOCUi4tKAeio05/zqLHzv/WlrXWSL+xY0XP5qgkzVVDY4z9ITgTTBC8omEPQy6x01r07Qwg==
+X-Received: by 2002:a1c:2489:: with SMTP id k131mr10731983wmk.86.1585945336217;
+        Fri, 03 Apr 2020 13:22:16 -0700 (PDT)
 Received: from localhost (pD9E51CDC.dip0.t-ipconnect.de. [217.229.28.220])
-        by smtp.gmail.com with ESMTPSA id b127sm10900731wmd.2.2020.04.03.13.15.42
+        by smtp.gmail.com with ESMTPSA id n7sm12843237wmf.4.2020.04.03.13.22.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2020 13:15:42 -0700 (PDT)
-Date:   Fri, 3 Apr 2020 22:15:41 +0200
+        Fri, 03 Apr 2020 13:22:15 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] clocksource: Add Tegra186 timers support
-Message-ID: <20200403201541.GC282587@ulmo>
-References: <20200331221914.2966407-1-thierry.reding@gmail.com>
- <20200331221914.2966407-3-thierry.reding@gmail.com>
- <a982d831-fc59-f705-8f8a-9370b897adb8@gmail.com>
+Subject: [PATCH v3 0/7] clocksource: Add NVIDIA Tegra186 timers support
+Date:   Fri,  3 Apr 2020 22:22:02 +0200
+Message-Id: <20200403202209.299823-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0vzXIDBeUiKkjNJl"
-Content-Disposition: inline
-In-Reply-To: <a982d831-fc59-f705-8f8a-9370b897adb8@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---0vzXIDBeUiKkjNJl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This set of patches adds the device tree bindings and a simplified
+driver for the timers found on Tegra186 and later SoCs. The driver
+itself currently only exposes a couple of clock sources and a
+watchdog, which in turn relies on the counter provided by one of
+the timers. The timers themselves are not used at the moment because
+the SoC also has an architected timer and there's currently no use
+for the additional timers provided by this hardware block.
 
-On Fri, Apr 03, 2020 at 07:33:24PM +0300, Dmitry Osipenko wrote:
-> 01.04.2020 01:19, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
-> > +static int tegra186_timer_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev =3D &pdev->dev;
-> > +	struct tegra186_timer *tegra;
-> > +	int err;
-> > +
-> > +	tegra =3D devm_kzalloc(dev, sizeof(*tegra), GFP_KERNEL);
-> > +	if (!tegra)
-> > +		return -ENOMEM;
-> > +
-> > +	tegra->soc =3D of_device_get_match_data(dev);
-> > +	dev_set_drvdata(dev, tegra);
-> > +	tegra->dev =3D dev;
-> > +
-> > +	tegra->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(tegra->regs))
-> > +		return PTR_ERR(tegra->regs);
-> > +
-> > +	err =3D platform_get_irq(pdev, 0);
-> > +	if (err < 0) {
-> > +		dev_err(dev, "failed to get interrupt #0: %d\n", err);
-> > +		return err;
-> > +	}
-> > +
-> > +	tegra->irq =3D err;
-> > +
-> > +	err =3D devm_request_irq(dev, tegra->irq, tegra186_timer_irq,
-> > +			       IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-> > +			       "tegra186-timer", tegra);
->=20
-> Looks like there is no need to store tegra->irq in the struct
-> tegra186_timer.
+I suggest that patches 1 & 2 go through the clocksource tree, while
+I can carry the DTS changes in the Tegra tree for v5.8.
 
-After moving devm_request_irq() to a later point in ->probe() we now
-have to store it somewhere because err is being reused. But I can store
-it in a local variable instead.
+Changes in v3:
+- request IRQ at the end of ->probe() to avoid potential race condition
+- only enable/disable watchdog when it's active
+- use _relaxed variants of register accessors
+- drop unneeded tegra186_timer.irq field
+
+Changes in v2:
+- address review comments on the bindings
+- make the driver buildable as a module
+- support various clock sources
 
 Thierry
 
---0vzXIDBeUiKkjNJl
-Content-Type: application/pgp-signature; name="signature.asc"
+Thierry Reding (7):
+  dt-bindings: timer: Add bindings for NVIDIA Tegra186 timers
+  clocksource: Add Tegra186 timers support
+  arm64: tegra: Order nodes by unit-address on Tegra194
+  arm64: tegra: Add native timer support on Tegra186
+  arm64: tegra: Enable native timers on Jetson TX2
+  arm64: tegra: Add native timer support on Tegra194
+  arm64: tegra: Enable native timers on Jetson AGX Xavier
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/timer/nvidia,tegra186-timer.yaml |  61 +++
+ .../arm64/boot/dts/nvidia/tegra186-p3310.dtsi |   4 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  16 +
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |   4 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  81 +--
+ drivers/clocksource/Kconfig                   |   8 +
+ drivers/clocksource/Makefile                  |   1 +
+ drivers/clocksource/timer-tegra186.c          | 508 ++++++++++++++++++
+ 8 files changed, 651 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/timer/nvidia,tegra186-timer.yaml
+ create mode 100644 drivers/clocksource/timer-tegra186.c
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6HmW0ACgkQ3SOs138+
-s6Go3Q/+OPtu0XdhKbM8c43FPsGnTxNWpedF00lGCxN2A+W+ngo9DIZtSVwS+jVI
-lIAUzXH/ZNvfziaNfnQZSFeBnKigiY9/PSGliXT502ysfc8zk5wZ93ESYEbwwrd7
-l38dIDqzx3A7Y7eJpAyacC7RvBRHEh9e6bXw+qJ5+MKgZYwdqQQv4dTjqNqaYq+u
-7cyD3MpIqKgurGxhzhOImsEZK/i3YLNn95tNTTdsiaqtckrK+cDSNVk414ecreoW
-JsrXGYmPc3vE5YkuVeeB1wCxLArnv80/u4PYrhzhNom7eENl7zMhVs2US1B1pivF
-iPEp5Z/7DKUUiGCcZppSuK5FyIoL5JEdUIbNOAxZAsEA6yG+9GACwV/5qEv4RRbG
-ydZLh2pdN3rEzrxfOdYYuqq/EfUypcCUg4BhxMpF3WQtqR/B4z5Yc2dpuMkEEaNq
-9iwQ+e/fp3g1oxsQy03fZ9HVDaq89lQzH5szH44n0qgDDg/D17OzL73NeU2JxnrK
-QtORluwWHwbSgY+oxQs5VYotlvsaRoXXotHGg9ZNlQdHPvMwpXNSW5ejhFErAjHM
-2ZDZqOYK2mxAVR6RJ9Mmulaqg2sTJS1J6ae8ujHuQP9MzE4qUDAdT+y3VCNbCcH1
-WUl6WmuFxEGQrVWC5IRocmXhpzLuct9RGh45cqrSSqYhvx163TE=
-=mTDH
------END PGP SIGNATURE-----
+-- 
+2.24.1
 
---0vzXIDBeUiKkjNJl--
