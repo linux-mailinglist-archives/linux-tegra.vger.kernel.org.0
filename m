@@ -2,157 +2,238 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B2819D00A
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 08:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5C5219D10C
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Apr 2020 09:19:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731040AbgDCGMG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Apr 2020 02:12:06 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:51310 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730889AbgDCGMG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Apr 2020 02:12:06 -0400
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200403061203epoutp01ca00d9b4247ff1fb1b75cf83acd153d5~COnwzHWn00755907559epoutp01I
-        for <linux-tegra@vger.kernel.org>; Fri,  3 Apr 2020 06:12:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200403061203epoutp01ca00d9b4247ff1fb1b75cf83acd153d5~COnwzHWn00755907559epoutp01I
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1585894323;
-        bh=fZCfQRHeOXh0nkC8yiqwSIyweIhypVCIQ+CoI9WIkO4=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=BhvjXEz0BSR236XY52+1VEJHo9ScPcGcHCCM2XGLkCTCe2JvthoUkLNsfhL6h3GFs
-         XxetqxDgzL+pk97r55UOnbEJincvE23uua2qGw9lBPIn5dxOA9xOIWduzdMtCkQX3T
-         p1UhanlZ0CfFsVjzYdSms4eQnTmG2Y2Yzg6n7wAU=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200403061203epcas1p28c033be108a180aa8f5efcdc3755cbc1~COnwIHJ2z2668526685epcas1p2d;
-        Fri,  3 Apr 2020 06:12:03 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.158]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 48tqMh4lcfzMqYkf; Fri,  3 Apr
-        2020 06:12:00 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        05.52.04648.8A3D68E5; Fri,  3 Apr 2020 15:11:52 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20200403061152epcas1p30223ef1f198ea55f229afda8fb351ed3~COnmFA30b1198911989epcas1p3S;
-        Fri,  3 Apr 2020 06:11:52 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200403061152epsmtrp23b7eda0cb9f8ceb29bd34619544b8df4~COnmEM1ez2852328523epsmtrp2I;
-        Fri,  3 Apr 2020 06:11:52 +0000 (GMT)
-X-AuditID: b6c32a37-1f3ff70000001228-92-5e86d3a85d7b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        DC.E8.04024.8A3D68E5; Fri,  3 Apr 2020 15:11:52 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200403061152epsmtip2fd88b0f89267b299cdbf311c83b65f1d~COnl1pMdN0914109141epsmtip2M;
-        Fri,  3 Apr 2020 06:11:52 +0000 (GMT)
-Subject: Re: [PATCH v2] PM / devfreq: tegra30: Make CPUFreq notifier to take
- into account boosting
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <705e0c78-30ef-978d-c63d-b6dc90e6e5e4@samsung.com>
-Date:   Fri, 3 Apr 2020 15:20:55 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
-        Thunderbird/59.0
+        id S2388121AbgDCHTq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Apr 2020 03:19:46 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42743 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731040AbgDCHTp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 3 Apr 2020 03:19:45 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id KGc5jMQXlLu1fKGc9jWmS0; Fri, 03 Apr 2020 09:19:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585898382; bh=bfyg7ThmxUlUf6ym5ubXNAb9BySDxLNh8D08xS8LgfQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=o+wVQgbS9fJByy2/KuL3SISIaK9rfHUX7oN2Y6T/l9kgOQpQFSG0Q46vutIqAZnXz
+         5vcc8RCwAAo2DgU76T/Zzu/4yV6/sOF2GH6b+hnVp+WTD2hsAKs3p0xAMqo3kci3Vy
+         KO26IYeBvgZyu6CFa8KiP9cvgSA4gj8BruK2BnNNSPzDFfIZDWE7fV0cEPLxvdx0jx
+         WcUP4FmloycDqynnbly8LTv2cD582pGJRXsyibPrBKdpXxbWjneVvTWpmMdC4lwQ7c
+         iqwYK9l6/61hhKEIOg6wwf245VUhTCJR8H487jzZaPq2awz7wiAFqgXYoTZ8NXcLau
+         ocmep54ht6q7w==
+Subject: Re: [RFC PATCH v5 0/9] Add Tegra driver for video capture
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        helen.koike@collabora.com
+Cc:     digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <4bb6a3b8-3332-014b-e763-bce9076179dd@xs4all.nl>
+ <5ca1583a-889e-abd0-f823-eab93f09a365@xs4all.nl>
+ <28ab0071-2e04-d14b-9215-db421e71b6af@nvidia.com>
+ <a8e6b937-de08-ce50-9eca-3b3a5ad2916c@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2aa2f57c-57a3-ff43-48d9-6e1e5660cdf3@xs4all.nl>
+Date:   Fri, 3 Apr 2020 09:19:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200402222448.8320-1-digetx@gmail.com>
+In-Reply-To: <a8e6b937-de08-ce50-9eca-3b3a5ad2916c@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOJsWRmVeSWpSXmKPExsWy7bCmru6Ky21xBifmW1is/viY0aJl1iIW
-        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZ/Nw1j8WBw2PnrLvsHr3N79g8+rasYvT4vEku
-        gCUq2yYjNTEltUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6Awl
-        hbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFlgV5xYm5xaV66XnJ+rpWhgYGRKVBh
-        QnbG3tfT2AsO8VbsWfiesYHxF1cXIyeHhICJxJ0pb1i6GLk4hAR2MEo8e9DNCOF8YpS4v2QD
-        G4TzjVFi/Z1pjDAtu2YsZIJI7GWUuLLvADuE855R4viSuWBVwgIpEr2rNrOCJEQELjNKLF30
-        mgkkwSwQKXF452owm01AS2L/ixtsIDa/gKLE1R+PwZp5Bewkvs78CVbDIqAi8ejVFhYQW1Qg
-        TOLkthaoGkGJkzOfgMU5BUwlTu3ZyAgxX1zi1pP5ULvkJba/ncMMcoSEwGc2iYn3p7JC/OAi
-        saL9FRuELSzx6vgWdghbSuLzu71Q8WqJlSePsEE0dzBKbNl/AarZWGL/0slAGziANmhKrN+l
-        DxFWlNj5ey7UEXwS7772sIKUSAjwSnS0CUGUKEtcfnCXCcKWlFjc3sk2gVFpFpJ3ZiF5YRaS
-        F2YhLFvAyLKKUSy1oDg3PbXYsMAYOb43MYITqZb5DsYN53wOMQpwMCrx8DIcbI0TYk0sK67M
-        PcQowcGsJMLrOAMoxJuSWFmVWpQfX1Sak1p8iNEUGNoTmaVEk/OBST6vJN7Q1MjY2NjCxNDM
-        1NBQSZx36vWcOCGB9MSS1OzU1ILUIpg+Jg5OqQbGGoMnMpbmPNWb58Wf4VO9olsWZc+7zk8r
-        5oLGPz+Xs4Xss+fGPfb5Mi+q8roU19Kyij3r1H7vkNvEVBOl+yj3g19/yQt3++I5whumN931
-        uPXJ6L6L2m7NN18Wx9/cXHX273Pt9JPbG9uubu85Nsn9r8IvGf1H5SUnD0corLDIS6sN+aTs
-        /PiNEktxRqKhFnNRcSIA2qT2SroDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsWy7bCSvO6Ky21xBstuCFqs/viY0aJl1iIW
-        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZ/Nw1j8WBw2PnrLvsHr3N79g8+rasYvT4vEku
-        gCWKyyYlNSezLLVI3y6BK2Pv62nsBYd4K/YsfM/YwPiLq4uRk0NCwERi14yFTF2MXBxCArsZ
-        JV6u/8UGkZCUmHbxKHMXIweQLSxx+HAxSFhI4C2jxMnb/iC2sECKRO+qzawgvSICVxklFh6+
-        yAiSYBaIlOiZu4UNYmgHo8TOy9/AhrIJaEnsf3EDzOYXUJS4+uMxWAOvgJ3E15k/mUBsFgEV
-        iUevtrCA2KICYRI7lzxmgqgRlDg58wlYnFPAVOLUno1Qy9Ql/sy7xAxhi0vcejKfCcKWl9j+
-        dg7zBEbhWUjaZyFpmYWkZRaSlgWMLKsYJVMLinPTc4sNCwzzUsv1ihNzi0vz0vWS83M3MYLj
-        SUtzB+PlJfGHGAU4GJV4eBkOtsYJsSaWFVfmHmKU4GBWEuF1nAEU4k1JrKxKLcqPLyrNSS0+
-        xCjNwaIkzvs071ikkEB6YklqdmpqQWoRTJaJg1OqgXHakfpv3ktOZL6b3nNy5rPN+SeeGPbO
-        NXJVbDVcIa3U80QuraPER3PjfUezyd/U1y5R062fdiZfoEO4LEPuduCDXYEn+Ko67NLchE8Y
-        J0y9Xr/u0NvCMN2a53rZXmnzdHcoGBiHL2d84L9wz7NDvhwvPn37c09Nb1OCZ4jI0m03zJpz
-        HMIXyymxFGckGmoxFxUnAgAoDPjnowIAAA==
-X-CMS-MailID: 20200403061152epcas1p30223ef1f198ea55f229afda8fb351ed3
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200402222645epcas1p499a7ebecb0dcd60a7b2e5960790de4e9
-References: <CGME20200402222645epcas1p499a7ebecb0dcd60a7b2e5960790de4e9@epcas1p4.samsung.com>
-        <20200402222448.8320-1-digetx@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfCllVTF7HJMNcL+6jxhsPF2WfEL2JReDDs20xoNP9MlpyE+vqQr0MvkW9ALIHXsrnJc0axCEPtOtBWPx5CnbAh/872d0Yx0PjxHrN7FxMfPtX85ymOyN
+ W7LP/+gTIT7NL6l48MGi5Aa7na6plTg+HmBnoDbwK4JqH6wX2+NuD2TO6il1FabhRQZIlbvNQiBA4/GscpCLTNFBCk0fniDhaZKDGTbCzCIIjegdSc+g+Fnp
+ q4Y1x8Rv0j8StUPZJcwdcEuhq0UaZezzMJIl7p32dzxt9k8IPaMdY+LIwvMJiNEn4y0SbcGV+O2pHbjZZ4+c6Q2dB0lhuUjBsPT0tfYfyWStNLeFfICVy+vp
+ WhznO4HYhaQEiPLOQrDI2YLla80XgS4aHhKV4SsrxHOotYWE0fRvHZvrM2fVvvHnsQfteKNSXzmGqSXi2loHvv3EPOukvSFTOHnXzoXxhCeWY41ydE7kIFGM
+ ORdyZtGGzN5sm+G/qHBlMUD8S3Jp0jnjVD/A3HUKZs8S48zGTe0irXk5LY3DyHBZ8sIqPzpq3plOOFFzJEhqwRSTaUxfgSWALhresA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 4/3/20 7:24 AM, Dmitry Osipenko wrote:
-> We're taking into account both HW memory-accesses + CPU activity based on
-> current CPU's frequency. For memory-accesses there is a kind of hysteresis
-> in a form of "boosting" which is managed by the tegra30-devfreq driver.
-> If current HW memory activity is higher than activity judged based of the
-> CPU's frequency, then there is no need to schedule cpufreq_update_work
-> because the result of the work will be a NO-OP. And thus,
-> tegra_actmon_cpufreq_contribution() should return 0, meaning that at the
-> moment CPU frequency doesn't contribute anything to the final decision
-> about required memory clock rate.
+On 4/3/20 7:45 AM, Sowjanya Komatineni wrote:
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
+> On 3/30/20 9:16 AM, Sowjanya Komatineni wrote:
+>>
+>> On 3/30/20 4:02 AM, Hans Verkuil wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> On 3/30/20 12:04 PM, Hans Verkuil wrote:
+>>>> Hi Sowjanya,
+>>>>
+>>>> On 3/23/20 6:52 PM, Sowjanya Komatineni wrote:
+>>>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>>>> generator (TPG) capture.
+>>>>>
+>>>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>>>
+>>>>> This series has TPG support only where it creates hard media links
+>>>>> between CSI subdevice and VI video device without device graphs.
+>>>>>
+>>>>> v4l2-compliance results are available below the patch diff.
+>>>>>
+>>>>> [v5]:        Includes,
+>>>>>       - v4 feedback
+>>>>>       - fix for venc powergate mc reset order.
+>>>>>       - fix to have unbind and bind work during v4l2-ctl sleep and 
+>>>>> streaming.
+>>>> Unfortunately, I still crash on this.
+>>>>
+>>>> I do the following:
+>>>>
+>>>> Run: v4l2-ctl --stream-mmap
+>>>>
+>>>> Then, from another shell as root:
+>>>>
+>>>> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
+>>>> echo -n tegra-video > unbind
+>>>>
+>>>> I get this crash:
+>>>>
+>>>> [  315.691971] Unable to handle kernel NULL pointer dereference at 
+>>>> virtual address 00000000000000b0
+>>>> [  315.700749] Mem abort info:
+>>>> [  315.703536]   ESR = 0x96000004
+>>>> [  315.706587]   EC = 0x25: DABT (current EL), IL = 32 bits
+>>>> [  315.711886]   SET = 0, FnV = 0
+>>>> [  315.714933]   EA = 0, S1PTW = 0
+>>>> [  315.718064] Data abort info:
+>>>> [  315.720936]   ISV = 0, ISS = 0x00000004
+>>>> [  315.724763]   CM = 0, WnR = 0
+>>>> [  315.727726] user pgtable: 4k pages, 48-bit VAs, 
+>>>> pgdp=0000000178ee8000
+>>>> [  315.734152] [00000000000000b0] pgd=0000000000000000
+>>>> [  315.739024] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+>>>> [  315.744584] Modules linked in: r8152 nouveau lp855x_bl tegra_drm ttm
+>>>> [  315.750942] CPU: 3 PID: 2206 Comm: bash Tainted: G W         
+>>>> 5.6.0-rc1-arm64 #118
+>>>> [  315.759017] Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+>>>> [  315.764927] pstate: 20000085 (nzCv daIf -PAN -UAO)
+>>>> [  315.769718] pc : _raw_write_lock_irqsave+0xb0/0x2b8
+>>>> [  315.774590] lr : ida_free+0x48/0x158
+>>>> [  315.778155] sp : ffff800011d8bba0
+>>>> [  315.781462] x29: ffff800011d8bba0 x28: ffff0000f4095400
+>>>> [  315.786766] x27: 0000000000000000 x26: 0000000000000000
+>>>> [  315.792070] x25: 0000000000000000 x24: 0000000000000000
+>>>> [  315.797372] x23: ffff0000f21ad400 x22: ffff0000f5c93000
+>>>> [  315.802674] x21: ffff0000f4095400 x20: ffff0000f86b5540
+>>>> [  315.807975] x19: 0000000000000000 x18: 0000000000000000
+>>>> [  315.813276] x17: 0000000000000001 x16: 0000000000000019
+>>>> [  315.818578] x15: 000000148ccdabe2 x14: 0000000000000136
+>>>> [  315.823879] x13: 0000000000000001 x12: 00000000000003f8
+>>>> [  315.829180] x11: 0000000000000000 x10: 0000000000000000
+>>>> [  315.834482] x9 : ffff0000ff899990 x8 : ffff0000ff899000
+>>>> [  315.839784] x7 : 0000000040000000 x6 : 0000000000210d00
+>>>> [  315.845085] x5 : 0000000000000001 x4 : 0000000000000000
+>>>> [  315.850386] x3 : 00000000000000b0 x2 : 0000000000000001
+>>>> [  315.855687] x1 : 0000000000000000 x0 : 0000000000000001
+>>>> [  315.860988] Call trace:
+>>>> [  315.863432]  _raw_write_lock_irqsave+0xb0/0x2b8
+>>>> [  315.867956]  ida_free+0x48/0x158
+>>>> [  315.871184]  __media_device_unregister_entity+0x28/0xf0
+>>>> [  315.876402]  media_device_unregister+0x6c/0x148
+>>>> [  315.880927]  host1x_video_remove+0x20/0x48
+>>>> [  315.885021]  host1x_device_remove+0x1c/0x30
+>>>> [  315.889198]  device_release_driver_internal+0xf4/0x1c0
+>>>> [  315.894325]  device_driver_detach+0x14/0x20
+>>>> [  315.898503]  unbind_store+0xd4/0xf8
+>>>> [  315.901986]  drv_attr_store+0x20/0x30
+>>>> [  315.905645]  sysfs_kf_write+0x40/0x50
+>>>> [  315.909301]  kernfs_fop_write+0xf8/0x210
+>>>> [  315.913219]  __vfs_write+0x18/0x40
+>>>> [  315.916616]  vfs_write+0xdc/0x1c8
+>>>> [  315.919926]  ksys_write+0x68/0xf0
+>>>> [  315.923235]  __arm64_sys_write+0x18/0x20
+>>>> [  315.927154]  el0_svc_common.constprop.0+0x68/0x160
+>>>> [  315.931936]  do_el0_svc+0x20/0x80
+>>>> [  315.935246]  el0_sync_handler+0x10c/0x180
+>>>> [  315.939246]  el0_sync+0x140/0x180
+>>>> [  315.942560] Code: 8803fc02 35ffffa3 17fffda6 f9800071 (885ffc60)
+>>>> [  315.948644] ---[ end trace e42b943f3c1af06c ]---
+>>>>
+>>>> The following diff fixes this:
+>>>>
+>>>> ------------------ cut here ------------------
+>>>> diff --git a/drivers/staging/media/tegra/tegra-vi.c 
+>>>> b/drivers/staging/media/tegra/tegra-vi.c
+>>>> index 9714152aa6a7..53cf37af9602 100644
+>>>> --- a/drivers/staging/media/tegra/tegra-vi.c
+>>>> +++ b/drivers/staging/media/tegra/tegra-vi.c
+>>>> @@ -583,7 +583,7 @@ static int tegra_channel_init(struct 
+>>>> tegra_vi_channel *chan)
+>>>>        /* initialize the video_device */
+>>>>        chan->video->fops = &tegra_channel_fops;
+>>>>        chan->video->v4l2_dev = &vid->v4l2_dev;
+>>>> -     chan->video->release = video_device_release_empty;
+>>>> +     chan->video->release = video_device_release;
+>>>>        chan->video->queue = &chan->queue;
+>>>>        snprintf(chan->video->name, sizeof(chan->video->name), 
+>>>> "%s-%s-%u",
+>>>>                 dev_name(vi->dev), "output", chan->portno);
+>>>> @@ -647,6 +647,7 @@ static int tegra_channel_init(struct 
+>>>> tegra_vi_channel *chan)
+>>>>        media_entity_cleanup(&chan->video->entity);
+>>>>   release_vdev:
+>>>>        video_device_release(chan->video);
+>>>> +     chan->video = NULL;
+>>>>        return ret;
+>>>>   }
+>>>>
+>>>> @@ -707,7 +708,6 @@ static void tegra_vi_channels_cleanup(struct 
+>>>> tegra_vi *vi)
+>>>>                        mutex_lock(&chan->video_lock);
+>>>>                        vb2_queue_release(&chan->queue);
+>>>>                        mutex_unlock(&chan->video_lock);
+>>>> -                     video_device_release(chan->video);
+>>>>                }
+>>>>
+>>>>                if (chan->frame_start_sp)
+>>>> ------------------ cut here ------------------
+>>> Note: Sakari suggested to embed struct video_device into struct 
+>>> tegra_vi_channel.
+>>> In that case chan->video->release should remain 
+>>> video_device_release_empty and
+>>> all video_device_alloc()/release() calls would have to be dropped.
+>>
+>> Thanks Hans. Tried several unbind/unbind not sure why it did not repro 
+>> during my testing.
+>>
+>> video device is also part of tegra_vi_channel. So, v6 will remove 
+>> video_device_alloc and use video_device_release_empty like I had in v3.
+>>
+>> This should help fix crash during unbind.
+>>
+>>>
+>>> Regards,
+>>>
+>>>          Hans
 > 
-> Changelog:
+> With video device being part of the channel structure, it gets allocated 
+> along with vi channel allocation during host1x vi client init and is 
+> removed during channel free which happens during host1x vi client exit.
 > 
-> v2: - Made commit's message more detailed, which was requested by Chanwoo Choi
->       in the review comment to v1.
+> Wit this during driver unbind with video node kept opened with v4l2-ctl 
+> sleep, it crashes during media_device_unregister_entity.
 > 
->     - This patch is now made to be standalone because there are no dependencies
->       in regards to this change.
+> Using, separate video device allocation and freeing allocation during 
+> video device release callback,  driver unbind works  as by the time of 
+> entity unregister its it still available.
 > 
->  drivers/devfreq/tegra30-devfreq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 28b2c7ca416e..dfc3ac93c584 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -420,7 +420,7 @@ tegra_actmon_cpufreq_contribution(struct tegra_devfreq *tegra,
->  
->  	static_cpu_emc_freq = actmon_cpu_to_emc_rate(tegra, cpu_freq);
->  
-> -	if (dev_freq >= static_cpu_emc_freq)
-> +	if (dev_freq + actmon_dev->boost_freq >= static_cpu_emc_freq)
->  		return 0;
->  
->  	return static_cpu_emc_freq;
+> So, will keep allocating video device separately with video_device_alloc 
+> and will use video_device_release call back in v6.
 > 
 
-Applied it. Thanks.
+Sounds good. Add a comment before video_device_alloc() explaining why it is
+used instead of embedding it in the vi channel data structure.
 
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+Regards,
+
+	Hans
