@@ -2,93 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB27D19F290
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 11:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3370C19F334
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 12:04:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbgDFJ2Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Apr 2020 05:28:25 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:24981 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726793AbgDFJ2Y (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Apr 2020 05:28:24 -0400
-X-UUID: eddd6310653c45b9bf540d8cbced4cb6-20200406
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=AwwsjmBhPYU6ROoZPvj0twrtbVT8+nH58GyVf5fw804=;
-        b=RtNO8Bp9Z5C4gt27zCfo6WPUdK78TZTEKT+c0b0cLeVIvGMCWqYsVIbkiUMQUbMMI51DYsMZuuNFbeT3AZCqqUbBa1yKjVN4YGVipMOjEIaJWnqNfDMnIcmmn/qhXeHuAvfhMCpQI+rOThYiNyga12YfbbJKCRZvT2uAyHw2FsU=;
-X-UUID: eddd6310653c45b9bf540d8cbced4cb6-20200406
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chun-hung.wu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 271137655; Mon, 06 Apr 2020 17:28:06 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 6 Apr 2020 17:28:05 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 6 Apr 2020 17:28:04 +0800
-From:   Chun-Hung Wu <chun-hung.wu@mediatek.com>
-To:     <mirq-linux@rere.qmqm.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>
-CC:     <kernel-team@android.com>, <linux-kernel@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <wsd_upstream@mediatek.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Chun-Hung Wu <chun-hung.wu@mediatek.com>
-Subject: [PATCH 5/5] [5/5] dt-bindings: mmc: mediatek: Add document for mt6779
-Date:   Mon, 6 Apr 2020 17:28:01 +0800
-Message-ID: <1586165281-11888-6-git-send-email-chun-hung.wu@mediatek.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1586165281-11888-1-git-send-email-chun-hung.wu@mediatek.com>
-References: <1586165281-11888-1-git-send-email-chun-hung.wu@mediatek.com>
+        id S1726793AbgDFKEP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Apr 2020 06:04:15 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:33608 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726784AbgDFKEP (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Apr 2020 06:04:15 -0400
+Received: by mail-wm1-f68.google.com with SMTP id g21so1356278wmh.0;
+        Mon, 06 Apr 2020 03:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TDxVDF2XVyHK1LpPBZBlcR0MpokI9aaOMTXvOXm2QFs=;
+        b=slj96URnwsKS5pPlbU8Zvbw/ymTmZPpymkHbhDerbD6rJvw0kYwQOb4QMhZIycJZLb
+         xp3aIPbkdJFXYU8uX5u+yy5u/opWF2hrhj0BEWP9HsLE4h1ZylqCD8Vzg3w1spTCOkZv
+         Id7azN7Qc/vONo33LjyAKXPxbPQWrY+Mld+W6h3ahI0DZGN5RTkQFMqjeDq3NIGsHv+h
+         p1xahfhixL0fGOeH4yCOG+S8S//33UsuRSZ7lXQPJlpPx29QOTYMr4N50PRpuCvN214S
+         nztGKNakCFDieyuV1KtLbs5Mg7HrQs29Czrz12UeiWiJA0erKVAoDE2MEVTEHh61d2fq
+         27Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TDxVDF2XVyHK1LpPBZBlcR0MpokI9aaOMTXvOXm2QFs=;
+        b=IwnnghIDQfM2CXD62g9OiT8J53cNHH1/2DmQ8CiSsccMFPU/Wvsqxbh5CvrPTRzN6G
+         nXnENyCkDxsLZwOb2vryu54zxAtEXRl9up8a4zfAx3o6grmojmXlw/aaKCOce7CC//l0
+         sHY59rhtPYpegq1J0dbv01+J2QbNgAHWQkuYCjT+RU+tck2mAV8xyNR7itd82pVLdW5h
+         28lhzxSuwZR+P0vINTchJQIngoT+dx1TvvqpbszRFPdbAq4bR0xYd+kPHdhAwwuXwzd+
+         LYkkywJAEgEV5ZEV66zr6UFOCX+1aBFNU3Sxw2lUSrYK3sanKUypNe/WFCzDiBlUmyOs
+         c22A==
+X-Gm-Message-State: AGi0Pub1eHhXyfvFq2QL4mLanUvug2sT4hzzUuOGU/3DcOkRc3y3j9HK
+        xW8Zl5lQx/v6cCoEYWn0iB3N50Hq
+X-Google-Smtp-Source: APiQypKnVE9KLirDRtYyYCwaK9z8EPYQ48t44bv9OTxySufX2aEFJDl57z7NIHlciCFzL4i5rBj+mw==
+X-Received: by 2002:a1c:5605:: with SMTP id k5mr12809098wmb.83.1586167453487;
+        Mon, 06 Apr 2020 03:04:13 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+        by smtp.gmail.com with ESMTPSA id r15sm27503137wra.19.2020.04.06.03.04.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 03:04:12 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 12:04:11 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>, devicetree@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/4] of: reserved-memory: Various improvements
+Message-ID: <20200406100411.GB475759@ulmo>
+References: <20200403185640.118569-1-thierry.reding@gmail.com>
+ <CAL_JsqLsCHJOuYBdh33eouu3VhwYzv5XR5wop8QAAi4jXP2xcQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 8B6ED226D887333A20D37789CC4E855045383E3B61A17AF6877632A640788D142000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqLsCHJOuYBdh33eouu3VhwYzv5XR5wop8QAAi4jXP2xcQ@mail.gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-QWRkIGNvbXBhdGlibGUgbm9kZSBmb3IgbXQ2Nzc5IG1tYw0KDQpTaWduZWQtb2ZmLWJ5OiBDaHVu
-LUh1bmcgV3UgPGNodW4taHVuZy53dUBtZWRpYXRlay5jb20+DQotLS0NCiBEb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvbW1jL210ay1zZC50eHQgfCAxICsNCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKykNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9tbWMvbXRrLXNkLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9tbWMvbXRrLXNkLnR4dA0KaW5kZXggOGE1MzJmNC4uMGM5Y2Y2YSAxMDA2NDQNCi0tLSBh
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tbWMvbXRrLXNkLnR4dA0KKysrIGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21tYy9tdGstc2QudHh0DQpAQCAtMTIs
-NiArMTIsNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzOg0KIAkibWVkaWF0ZWssbXQ4MTczLW1tYyI6
-IGZvciBtbWMgaG9zdCBpcCBjb21wYXRpYmxlIHdpdGggbXQ4MTczDQogCSJtZWRpYXRlayxtdDgx
-ODMtbW1jIjogZm9yIG1tYyBob3N0IGlwIGNvbXBhdGlibGUgd2l0aCBtdDgxODMNCiAJIm1lZGlh
-dGVrLG10ODUxNi1tbWMiOiBmb3IgbW1jIGhvc3QgaXAgY29tcGF0aWJsZSB3aXRoIG10ODUxNg0K
-KwkibWVkaWF0ZWssbXQ2Nzc5LW1tYyI6IGZvciBtbWMgaG9zdCBpcCBjb21wYXRpYmxlIHdpdGgg
-bXQ2Nzc5DQogCSJtZWRpYXRlayxtdDI3MDEtbW1jIjogZm9yIG1tYyBob3N0IGlwIGNvbXBhdGli
-bGUgd2l0aCBtdDI3MDENCiAJIm1lZGlhdGVrLG10MjcxMi1tbWMiOiBmb3IgbW1jIGhvc3QgaXAg
-Y29tcGF0aWJsZSB3aXRoIG10MjcxMg0KIAkibWVkaWF0ZWssbXQ3NjIyLW1tYyI6IGZvciBNVDc2
-MjIgU29DDQotLSANCjEuOS4xDQo=
 
+--jho1yZJdad60DJr+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Apr 04, 2020 at 07:24:25PM -0600, Rob Herring wrote:
+> On Fri, Apr 3, 2020 at 12:56 PM Thierry Reding <thierry.reding@gmail.com>=
+ wrote:
+> >
+> > From: Thierry Reding <treding@nvidia.com>
+> >
+> > Hi Rob, all,
+> >
+> > this is a set of patches that I've been working on to allow me to use
+> > reserved memory regions more flexibly. One of the use-cases that I have
+> > is an external memory controller driver that gets passed one or two
+> > tables from firmware containing a set of EMC frequencies and the
+> > corresponding register values to program for these frequencies.
+> >
+> > One of these tables is the "nominal" table and an optional second table
+> > is "derated" and is used when the DRAM chips are overheating. I want to
+> > be able to pass these tables as separate memory-region entries.
+> >
+> > So what this small patchset does is make the reserved-memory code adapt
+> > to this situation better. On one hand, while the DT bindings currently
+> > support multiple regions per device tree node, it's slightly unintuitive
+> > to specify them. The first patch adds a memory-region-names property
+> > that allows the DT to specify a "consumer" name for these regions much
+> > like we do for things like clocks, resets or the reg property. At the
+> > same time, a new alias for memory-region, named memory-regions, is
+> > introduced to make this more consistent with other bindings.
+>=20
+> It's just not worth supporting both flavors (forever). I don't want to
+> repeat gpio vs. gpios. Let's just stick with 'memory-region' and allow
+> that to be more than one entry.
+
+Alright, I'll drop the corresponding changes from the bindings and the
+OF core then.
+
+> I'm not a fan of *-names, but fine.
+
+I suppose I could work without them, but I like the descriptiveness that
+they add to the device tree. There are also cases where they can be very
+essential. For example, what if a device can take two separate memory
+regions. One case that we have on Tegra is the display controller that
+can have a framebuffer and a color-conversion lookup table assigned to
+it on boot. I think in this particular case both are actually always
+there, but what if either of them was optional. Without -names it would
+be impossible to describe the context if only one is provided in device
+tree.
+
+Thierry
+
+--jho1yZJdad60DJr+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6K/pgACgkQ3SOs138+
+s6EcBBAAknv2wjVaLqK8Fv5noZrIB4XtpJNVRyHSCdzsZ32kDSogdVHbSGnmgqdb
+sGP6hAF8i6wZan9ZfAm3ZGcYTngPZPJVMI5EszlVW1WXtiXjpA963KSuVwg930H+
+h8oPvchZ6DKOiHy90RaVt3wIyZA0CQwpCDukYMxjj7o2xzx+Ig7ywmaP+GkV6lUF
+utXr68/po507c5JsgB9xc8THDnM1dOazLPrb3O0nG+WcmGeLuqZx8AVZnGZsM5Bb
+khjmisr6O2YpATkGWO7ZJbRMKSQZOVgmkFxJB2NpuOKSU0z5PdlopYAh8OgCOjy0
+e9HKoAaF0Ip7dlMaCKrEg3tifMCPQZ3o5UroATrDfVQagRCzing/UGqGSaftNkif
++yh8DiwKpttDEdsKK5Oipa6oCwViqCANXIFe443lYdlSH1qUMO2ow7Oi/DEIFeTB
+6NjOKi2HQxrhqQ3BOc7PvAG/eUH+yBH3P9mUEwctFdTLvlQgsmIo97vA+wAnkL6o
+nYP+wQLkehEV2WsHFJFFVZZbbATX0UjXyQH0QGCFGXK1vYw0KwJcwDU5V1k/+HFh
+o0TonpcG28IksxcDuw4CcuH3MZbB0a+AvAPjjfewmCbx+L3hDWULJK2dl3YPRYtP
+o1wNwBsuUDtHNREgj3KcZMBj3YgBEdryxTM6dHDtOa25Ze8SacM=
+=98ej
+-----END PGP SIGNATURE-----
+
+--jho1yZJdad60DJr+--
