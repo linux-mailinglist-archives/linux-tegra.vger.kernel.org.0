@@ -2,97 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A92019FDAD
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 20:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4380D19FE40
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 21:43:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgDFS7D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Apr 2020 14:59:03 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:12884 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbgDFS7D (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Apr 2020 14:59:03 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8b7b910000>; Mon, 06 Apr 2020 11:57:21 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 06 Apr 2020 11:59:02 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 06 Apr 2020 11:59:02 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr
- 2020 18:59:02 +0000
-Received: from [10.2.164.193] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr 2020
- 18:58:58 +0000
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
- <ca9a792f-ff5e-c82b-c2bc-32c4875e558d@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <a972950d-5860-2b77-b5ad-90044b8deb94@nvidia.com>
-Date:   Mon, 6 Apr 2020 11:58:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726420AbgDFTnq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Apr 2020 15:43:46 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36366 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725957AbgDFTnq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Apr 2020 15:43:46 -0400
+Received: by mail-lf1-f65.google.com with SMTP id w145so480302lff.3;
+        Mon, 06 Apr 2020 12:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3Yi76jXrhGzr9w1zwjkk0H648baQNxRmi8nM63MPAiw=;
+        b=Fmvs/lMCDBg/kISsqujiqyFF4pLfBTut5EYbkVl8t/ZuZEhuGdQ/iwNjQlKpgwBMvC
+         sdLf5exnbnirtv57lf03yMw6IBlzZ94RnfCdEORF3TZAqRPjBQUwrqmVL6z2rhfwLW9f
+         gONERjYtFo85nPv8vvOssmVHAeElD50LtvPyzp875CUXmvqOCSTrDYoyZUWuyaSP+Q9A
+         s/kFQdpbkGJ8v/4TD3ocx2M6xFzLQBNaY1l1mHl0sts+9bm27etGiaz6TgkPXelxmbDq
+         zBQKFX1g7Hk+VFTWgoxFXedXsrbQuUTn2igvW1/KNfKiX8Aswc8cIaKBpB13tul7Gf+z
+         KD1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3Yi76jXrhGzr9w1zwjkk0H648baQNxRmi8nM63MPAiw=;
+        b=RNJZb+WwoHLjNeeeFuw2K56I1cDMbXjFBbxYDiCPiTmFc8wxrNcAZWmcYTE0vv72DS
+         i1idKqrpeZQnC+TiuctrM/SC+p2nlG0AEwm8QONddAuNfnRFXvnpFjel/Uqxvi1nVEZp
+         g6jygHY//3ySa65sD22vEK4iETW5KpPWKYDjh3h5o2jDgRrk9TOsNfTi2Sw2+Tu7gzik
+         iZnfjuMgVdOskt1O+5AUQPkDMeYHD8t7WTy0MG03lHMaxfuIbL5c0F3L0NiVr6rEn5yp
+         CL66n8AfZqTzQ4vjy07DfNEPcWASz3JBvUi0WlbImL7vAvAjkd7xoDq/GoF6s/ZG7q9j
+         TMLg==
+X-Gm-Message-State: AGi0PubPGBiOM7Xxx31uHsXWMiXcUDSOAVIt9ysTJf7/9vUnpdBgqfGr
+        st7cl6SqKSEuRsn872BnDns=
+X-Google-Smtp-Source: APiQypKpTnzY15WgbOMsxN0r9NnfJmthP2UD2dk7FNkYNu8IicnUT4RX8v+kH0gjQiG6B1kp3Oi0CA==
+X-Received: by 2002:ac2:4554:: with SMTP id j20mr6220830lfm.91.1586202223959;
+        Mon, 06 Apr 2020 12:43:43 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.gmail.com with ESMTPSA id r206sm4996233lff.65.2020.04.06.12.43.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 12:43:43 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        =?UTF-8?q?Pedro=20=C3=82ngelo?= <pangelo@void.io>,
+        Matt Merhar <mattmerhar@protonmail.com>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] Support NVIDIA Tegra-based Acer A500 and Nexus 7 devices
+Date:   Mon,  6 Apr 2020 22:41:04 +0300
+Message-Id: <20200406194110.21283-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <ca9a792f-ff5e-c82b-c2bc-32c4875e558d@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586199441; bh=o2YOjNGwEALpzr6ldAL/EJ7+Mp70+nUIZNI7t+BCnl0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=lAjFBTu4nKWpTL7Ihnm6Da8jZ0JDs32OAPpY+hl9+SriQG/IP60ClPGUFhp0tAlsn
-         mw9+/7mDCmyF+oMZmKxcPvD48Juz8wnz7dWYi3BmO+eyqvsGmIbk/NNmoGL9+EEwkA
-         hDERDaQC8s93mz86g6HRIwsQrkGixY86AYTodhDl4f1bPU03k8TnUF+orTq+mgt0MA
-         huJtbijFv8134PZXaZZZ9MrPXWfXSTpKoPLcNNhBgahW+mUtTlHoAWPiemQWr9BlBP
-         LKDbRUgrHEUopI8G59NWQeD+nYCWagN2tIW2s9lmJ9pHu1/GZGVxr4kK4f0IbudJ/p
-         OPp9GiRkUvFww==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello,
 
-On 4/5/20 12:37 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 04.04.2020 04:25, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->> +static int tegra_csi_init(struct host1x_client *client)
->> +{
->> +     struct tegra_csi *csi =3D host1x_client_to_csi(client);
->> +     struct tegra_video_device *vid =3D dev_get_drvdata(client->host);
->> +     int ret;
->> +
->> +     vid->csi =3D csi;
->> +
->> +     INIT_LIST_HEAD(&csi->csi_chans);
->> +
->> +     if (pm_runtime_enabled(csi->dev)) {
->> +             ret =3D pm_runtime_get_sync(csi->dev);
->> +             if (ret < 0) {
->> +                     dev_err(csi->dev,
->> +                             "failed to get runtime PM: %d\n", ret);
->> +                     pm_runtime_put_noidle(csi->dev);
->> +                     return ret;
->> +             }
->> +     } else {
-> RPM is supposed to be always available on Tegra nowadays.
+This series introduces upstream kernel support for Acer Iconia Tab A500
+and ASUS Google Nexus 7 tablet devices. Please review and apply, thanks
+in advance.
 
-Sorry I was not sure if its all the time enabled, so added in v6.
+Changelog:
 
-Will remove check and explicit runtime calls...
+v2: - Corrected "volume down" key-label in the grouper's device-tree and
+      improved some other names in device-trees.
+
+    - Added optional (upcoming in 5.8) VDD/AVDD regulators to the touchscreen
+      node in A500 device-tree.
+
+Dmitry Osipenko (6):
+  ARM: tegra: Add device-tree for Acer Iconia Tab A500
+  ARM: tegra: Add device-tree for ASUS Google Nexus 7
+  dt-bindings: Add vendor prefix for Acer Inc.
+  dt-bindings: ARM: tegra: Add Acer Iconia Tab A500
+  dt-bindings: ARM: tegra: Add ASUS Google Nexus 7
+  ARM: tegra_defconfig: Enable options useful for Nexus 7 and Acer A500
+
+ .../devicetree/bindings/arm/tegra.yaml        |   10 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ arch/arm/boot/dts/Makefile                    |    3 +
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 1447 +++++++++
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 2646 +++++++++++++++++
+ .../boot/dts/tegra30-asus-nexus7-grouper.dts  |  463 +++
+ .../boot/dts/tegra30-asus-nexus7-tilapia.dts  |  549 ++++
+ arch/arm/configs/tegra_defconfig              |   28 +
+ 8 files changed, 5148 insertions(+)
+ create mode 100644 arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dts
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dts
+
+-- 
+2.25.1
 
