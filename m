@@ -2,172 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D03F119EF62
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 04:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E0C919F02E
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 07:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726494AbgDFCzy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 Apr 2020 22:55:54 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:52143 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbgDFCzx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Apr 2020 22:55:53 -0400
-Received: by mail-pj1-f66.google.com with SMTP id fr8so717184pjb.1
-        for <linux-tegra@vger.kernel.org>; Sun, 05 Apr 2020 19:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=tRSResKY5MQWGvJUDvh5Jnjxm56SAjdebaRotPHHpCg=;
-        b=lZWRyNYnQi//4szFgMc008z18IP5tNRpMgc3HuT+c7pmDFFNX94iv3ueDXig87aFXA
-         iUALmrl5yIrORMFaCXwnrl29XRBJ2QjoDVCZxckyS1cX4eEg0uoi60ZKoBVFWHjtZgWC
-         MURluOkeZZi7s8BFaY8v7lZbJryDClJzpArMwFIsZUHaiviLfF60sisB952HgQRi6vo/
-         OneRPtwbIbAJZOAwDrKxOG0OeUrqiJjmqBId1wAwWqwwVxwLoLkkUsgleTzNqBVcDESK
-         EEsvOeeP4+AtFzxeKYxmBcAWlenmoFRGuOVFPe3iUGtwxci9v3VRLTbC9VQ68nVcZ37a
-         jjhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tRSResKY5MQWGvJUDvh5Jnjxm56SAjdebaRotPHHpCg=;
-        b=o0mxfCYd3ZzSFtYBjo/uzEfh2Z8rkYXYtM/I/0fm22+snsS6s/IQ6IG0tTsrao0zwW
-         UhTwynneUWd6Dww28CNY6UkZAp3W3c9SdB1oWn3sGiP05heSPEA/pBsWu8U45ShBLrbk
-         iRVIOyuLA9wy5eyDeiImcuB1SjoBFJF4MsBE5sXrmg1nzI9uN8qZlF0JEa7UVam+FPQh
-         Gx2I/dbk5oqGjMgl3kGtwVbqm2z6SgEpqL6aKxxbE7cn4LKAHeK7V7ZBxFoW36Ujr+Cd
-         ErQMSV1M0mXEEvnhdam9p52gKXVYbrIRQx2rkSRV5kZTZZCD/s3Q82roHkcWS9cW5e6y
-         IHLQ==
-X-Gm-Message-State: AGi0PuZ8BYEqITjS2A0NVjJPpnBbHlsOEpCLImR+THMOpM8bPKs1evy6
-        hg6RbJ1IAUZJOgky3x7S1cIHYg==
-X-Google-Smtp-Source: APiQypKMsRmy3TwpbSKrGtn3ztUTrpFALfP24RtI9OcbG/4dhlsbPmzjN1B9TXyH4L743RxjaNTVrA==
-X-Received: by 2002:a17:90a:2663:: with SMTP id l90mr21796440pje.188.1586141752009;
-        Sun, 05 Apr 2020 19:55:52 -0700 (PDT)
-Received: from localhost ([122.171.118.46])
-        by smtp.gmail.com with ESMTPSA id f200sm10503930pfa.177.2020.04.05.19.55.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 05 Apr 2020 19:55:51 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 08:25:49 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     sumitg <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bbasu@nvidia.com, mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-Message-ID: <20200406025549.qfwzlk3745y3r274@vireshk-i7>
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
- <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
- <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
+        id S1726521AbgDFFyd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Apr 2020 01:54:33 -0400
+Received: from cmccmta1.chinamobile.com ([221.176.66.79]:4118 "EHLO
+        cmccmta1.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725884AbgDFFyd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Apr 2020 01:54:33 -0400
+Received: from spf.mail.chinamobile.com (unknown[172.16.121.9]) by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee45e8ac3f6540-9b709; Mon, 06 Apr 2020 13:53:59 +0800 (CST)
+X-RM-TRANSID: 2ee45e8ac3f6540-9b709
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from localhost.localdomain (unknown[117.136.19.171])
+        by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee55e8ac3f388d-bce89;
+        Mon, 06 Apr 2020 13:53:58 +0800 (CST)
+X-RM-TRANSID: 2ee55e8ac3f388d-bce89
+From:   Tang Bin <tangbin@cmss.chinamobile.com>
+To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: [PATCH] usb: host: ehci-tegra: Remove superfluous dev_err() message
+Date:   Mon,  6 Apr 2020 13:55:30 +0800
+Message-Id: <20200406055530.10860-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.20.1.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 05-04-20, 00:08, sumitg wrote:
-> 
-> 
-> On 26/03/20 5:20 PM, Viresh Kumar wrote:
-> > On 03-12-19, 23:02, Sumit Gupta wrote:
-> > > diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
-> > > +enum cluster {
-> > > +     CLUSTER0,
-> > > +     CLUSTER1,
-> > > +     CLUSTER2,
-> > > +     CLUSTER3,
-> > 
-> > All these have same CPUs ? Or big little kind of stuff ? How come they
-> > have different frequency tables ?
-> > 
-> T194 SOC has homogeneous architecture where each cluster has two symmetric
-> Carmel cores and and not big little. LUT's are per cluster and all LUT's
-> have same values currently. Future SOC's may have different LUT values per
-> cluster.
+The platform_get_irq() can print error message,so remove the redundant
+dev_err() here.
 
-LUT ?
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+---
+ drivers/usb/host/ehci-tegra.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> > > +     MAX_CLUSTERS,
-> > > +};
-
-> > > +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
-> > > +{
-> > > +     struct read_counters_work read_counters_work;
-> > > +     struct tegra_cpu_ctr c;
-> > > +     u32 delta_refcnt;
-> > > +     u32 delta_ccnt;
-> > > +     u32 rate_mhz;
-> > > +
-> > > +     read_counters_work.c.cpu = cpu;
-> > > +     read_counters_work.c.delay = delay;
-> > > +     INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
-> > > +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
-> > > +     flush_work(&read_counters_work.work);
-> > 
-> > Why can't this be done in current context ?
-> > 
-> We used work queue instead of smp_call_function_single() to have long delay.
-
-Please explain completely, you have raised more questions than you
-answered :)
-
-Why do you want to have long delays ?
-
-> > > +static int tegra194_cpufreq_init(struct cpufreq_policy *policy)
-> > > +{
-> > > +     struct tegra194_cpufreq_data *data = cpufreq_get_driver_data();
-> > > +     int cluster = get_cpu_cluster(policy->cpu);
-> > > +
-> > > +     if (cluster >= data->num_clusters)
-> > > +             return -EINVAL;
-> > > +
-> > > +     policy->cur = tegra194_fast_get_speed(policy->cpu); /* boot freq */
-> > > +
-> > > +     /* set same policy for all cpus */
-> > > +     cpumask_copy(policy->cpus, cpu_possible_mask);
-> > 
-> > You are copying cpu_possible_mask mask here, and so this routine will
-> > get called only once.
-> > 
-> > I still don't understand the logic behind clusters and frequency
-> > tables.
-> > 
-> Currently, we use same policy for all CPU's to maximize throughput. Will add
-> separate patch later to set policy as per cluster. But we are not using that
-> in T194 due to perf reasons.
-
-You can't misrepresent the hardware this way, sorry.
-
-Again few questions, I understand that you have multiple clusters
-here:
-
-- All clusters will always have the frequency table ?
-- All clusters are capable of having a different frequency at any
-  point of time ? Or they will always run at same freq ?
-
-> > > +     freqs.old = policy->cur;
-> > > +     freqs.new = tbl->frequency;
-> > > +
-> > > +     cpufreq_freq_transition_begin(policy, &freqs);
-> > > +     on_each_cpu_mask(policy->cpus, set_cpu_ndiv, tbl, true);
-> > 
-> > When CPUs share clock line, why is this required for every CPU ?
-> > Per core NVFREQ_REQ system register is written to make frequency
-> requests for the core. Cluster h/w then forwards the max(core0, core1)
-> request to cluster NAFLL.
-
-You mean that each cluster can set frequency independently ?
-
-If all the clusters can run at independent frequencies but you still
-want them to run at same frequency, then that can be done with a
-single set of governor tunables, which is the default anyway. So this
-should just work for you.
-
-I will not be reviewing the v2 version you sent for now as that is
-most likely wrong anyway.
-
+diff --git a/drivers/usb/host/ehci-tegra.c b/drivers/usb/host/ehci-tegra.c
+index d6433f206..75a075daf 100644
+--- a/drivers/usb/host/ehci-tegra.c
++++ b/drivers/usb/host/ehci-tegra.c
+@@ -480,7 +480,6 @@ static int tegra_ehci_probe(struct platform_device *pdev)
+ 
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (!irq) {
+-		dev_err(&pdev->dev, "Failed to get IRQ\n");
+ 		err = -ENODEV;
+ 		goto cleanup_phy;
+ 	}
 -- 
-viresh
+2.20.1.windows.1
+
+
+
