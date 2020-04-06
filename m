@@ -2,83 +2,172 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9219119EF59
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 04:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D03F119EF62
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 04:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726543AbgDFCra (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 Apr 2020 22:47:30 -0400
-Received: from mail-pj1-f46.google.com ([209.85.216.46]:54442 "EHLO
-        mail-pj1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbgDFCra (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Apr 2020 22:47:30 -0400
-Received: by mail-pj1-f46.google.com with SMTP id np9so5870918pjb.4
-        for <linux-tegra@vger.kernel.org>; Sun, 05 Apr 2020 19:47:29 -0700 (PDT)
+        id S1726494AbgDFCzy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 Apr 2020 22:55:54 -0400
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:52143 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726475AbgDFCzx (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Apr 2020 22:55:53 -0400
+Received: by mail-pj1-f66.google.com with SMTP id fr8so717184pjb.1
+        for <linux-tegra@vger.kernel.org>; Sun, 05 Apr 2020 19:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=L6SxNTH0XCWDO08MCGA5S5MO0ksHJfV/AHJr6LODNPc=;
-        b=IU+Y8FC1HgrRO7zZYpgPFhW60uh9eThxh3QDAZ/VQTqk5dBvwQM4tQvblvHBTfbhRF
-         h5AWfiNmRda3SCFQCGzNB2HXzyV1DFAcZjmV4utwJ9i5sYoxLC4pvfqTDsGXWRanOHM5
-         IjNO//0yKYBuV+cERjO3wVLA28MJQ0BNzhiPmsepcPXuetITV+ToQoLYfNAjgACND7Yz
-         /uwVwFCTH4HxhtrAhjKy0sXh885LhUVWkw+c0ljeN9IellHp20qkJ+yJKMphn3+DBuoP
-         aw0UVSx6CLLk5wsUnisR1KTsqJG30mclb76p3JOwW8NgevbPP42EAhRhwsUhPPAROSz3
-         Ej0A==
+        bh=tRSResKY5MQWGvJUDvh5Jnjxm56SAjdebaRotPHHpCg=;
+        b=lZWRyNYnQi//4szFgMc008z18IP5tNRpMgc3HuT+c7pmDFFNX94iv3ueDXig87aFXA
+         iUALmrl5yIrORMFaCXwnrl29XRBJ2QjoDVCZxckyS1cX4eEg0uoi60ZKoBVFWHjtZgWC
+         MURluOkeZZi7s8BFaY8v7lZbJryDClJzpArMwFIsZUHaiviLfF60sisB952HgQRi6vo/
+         OneRPtwbIbAJZOAwDrKxOG0OeUrqiJjmqBId1wAwWqwwVxwLoLkkUsgleTzNqBVcDESK
+         EEsvOeeP4+AtFzxeKYxmBcAWlenmoFRGuOVFPe3iUGtwxci9v3VRLTbC9VQ68nVcZ37a
+         jjhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=L6SxNTH0XCWDO08MCGA5S5MO0ksHJfV/AHJr6LODNPc=;
-        b=lIYjDUvAGTePJts6BB6XJnP+ri79RefGhI2XtnlR/6973fXTuQbcb5gnOt7U9hio/f
-         VNkS3cVu6VibRJASr5Dy+R2SST0ZQZEK87FiWmQfPkHSDxP6TYvbAFrVwJ3gsYnZDw4P
-         i8jVkIgOxmWU3jhTb3moNhF94lxmNGt5HzYyMTzqWcW7WZgU5wsUU1CR83Zn9+/SGgeW
-         Ei2lfE3LDZmNOGYfw78swi0F5Ra3jJtg2rt78Kg1+tGU+Ksp0Jd/DOhmya8sXiol72Gg
-         HxVMo4LhVJrczSGwFWIfWYCv4YHF0nNe+Y+Lev6jQpr43X8PPsnpSJdDHEIGKTfZ/R8Q
-         H7LQ==
-X-Gm-Message-State: AGi0PuYS2ZRvXFaeYoSW6aJyTX88HJISfWbsTaSGt5STCon/WWwAvcxL
-        gZAtA6NXJAfbwUdJbbtLkF6J+w==
-X-Google-Smtp-Source: APiQypLMEEARny7oaHdWXifOwzMJe8n167aqCyuBqUeiCXSRo4rYgte0KaxMXgcl8IifcQeVl/Iqhw==
-X-Received: by 2002:a17:902:7485:: with SMTP id h5mr18244419pll.205.1586141249322;
-        Sun, 05 Apr 2020 19:47:29 -0700 (PDT)
+        bh=tRSResKY5MQWGvJUDvh5Jnjxm56SAjdebaRotPHHpCg=;
+        b=o0mxfCYd3ZzSFtYBjo/uzEfh2Z8rkYXYtM/I/0fm22+snsS6s/IQ6IG0tTsrao0zwW
+         UhTwynneUWd6Dww28CNY6UkZAp3W3c9SdB1oWn3sGiP05heSPEA/pBsWu8U45ShBLrbk
+         iRVIOyuLA9wy5eyDeiImcuB1SjoBFJF4MsBE5sXrmg1nzI9uN8qZlF0JEa7UVam+FPQh
+         Gx2I/dbk5oqGjMgl3kGtwVbqm2z6SgEpqL6aKxxbE7cn4LKAHeK7V7ZBxFoW36Ujr+Cd
+         ErQMSV1M0mXEEvnhdam9p52gKXVYbrIRQx2rkSRV5kZTZZCD/s3Q82roHkcWS9cW5e6y
+         IHLQ==
+X-Gm-Message-State: AGi0PuZ8BYEqITjS2A0NVjJPpnBbHlsOEpCLImR+THMOpM8bPKs1evy6
+        hg6RbJ1IAUZJOgky3x7S1cIHYg==
+X-Google-Smtp-Source: APiQypKMsRmy3TwpbSKrGtn3ztUTrpFALfP24RtI9OcbG/4dhlsbPmzjN1B9TXyH4L743RxjaNTVrA==
+X-Received: by 2002:a17:90a:2663:: with SMTP id l90mr21796440pje.188.1586141752009;
+        Sun, 05 Apr 2020 19:55:52 -0700 (PDT)
 Received: from localhost ([122.171.118.46])
-        by smtp.gmail.com with ESMTPSA id b25sm10385040pfp.201.2020.04.05.19.47.27
+        by smtp.gmail.com with ESMTPSA id f200sm10503930pfa.177.2020.04.05.19.55.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 05 Apr 2020 19:47:28 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 08:17:26 +0530
+        Sun, 05 Apr 2020 19:55:51 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 08:25:49 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
+To:     sumitg <sumitg@nvidia.com>
 Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
         thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
         linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         bbasu@nvidia.com, mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch v2 0/3] Add cpufreq driver for Tegra194
-Message-ID: <20200406024726.sbtutqsv2t2p2gkg@vireshk-i7>
-References: <1586028547-14993-1-git-send-email-sumitg@nvidia.com>
+Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
+Message-ID: <20200406025549.qfwzlk3745y3r274@vireshk-i7>
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+ <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
+ <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
+ <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1586028547-14993-1-git-send-email-sumitg@nvidia.com>
+In-Reply-To: <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 05-04-20, 00:59, Sumit Gupta wrote:
-> The patch series adds cpufreq driver for Tegra194 SOC.
+On 05-04-20, 00:08, sumitg wrote:
 > 
-> v1[1] -> v2:
-> - Remove cpufreq_lock mutex from tegra194_cpufreq_set_target [Viresh].
-> - Remove CPUFREQ_ASYNC_NOTIFICATION flag [Viresh].
-> - Remove redundant _begin|end() call from tegra194_cpufreq_set_target.
-> - Rename opp_table to freq_table [Viresh].
+> 
+> On 26/03/20 5:20 PM, Viresh Kumar wrote:
+> > On 03-12-19, 23:02, Sumit Gupta wrote:
+> > > diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
+> > > +enum cluster {
+> > > +     CLUSTER0,
+> > > +     CLUSTER1,
+> > > +     CLUSTER2,
+> > > +     CLUSTER3,
+> > 
+> > All these have same CPUs ? Or big little kind of stuff ? How come they
+> > have different frequency tables ?
+> > 
+> T194 SOC has homogeneous architecture where each cluster has two symmetric
+> Carmel cores and and not big little. LUT's are per cluster and all LUT's
+> have same values currently. Future SOC's may have different LUT values per
+> cluster.
 
-Have we concluded the earlier discussion already ? I posted some
-questions where I had doubts and you just answered them and posted a
-new version. Please wait for the reviewers to have a chance to reply
-to them. Your new version may be okay, but still we can avoid another
-set of patches which may be wrong.
+LUT ?
+
+> > > +     MAX_CLUSTERS,
+> > > +};
+
+> > > +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
+> > > +{
+> > > +     struct read_counters_work read_counters_work;
+> > > +     struct tegra_cpu_ctr c;
+> > > +     u32 delta_refcnt;
+> > > +     u32 delta_ccnt;
+> > > +     u32 rate_mhz;
+> > > +
+> > > +     read_counters_work.c.cpu = cpu;
+> > > +     read_counters_work.c.delay = delay;
+> > > +     INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
+> > > +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
+> > > +     flush_work(&read_counters_work.work);
+> > 
+> > Why can't this be done in current context ?
+> > 
+> We used work queue instead of smp_call_function_single() to have long delay.
+
+Please explain completely, you have raised more questions than you
+answered :)
+
+Why do you want to have long delays ?
+
+> > > +static int tegra194_cpufreq_init(struct cpufreq_policy *policy)
+> > > +{
+> > > +     struct tegra194_cpufreq_data *data = cpufreq_get_driver_data();
+> > > +     int cluster = get_cpu_cluster(policy->cpu);
+> > > +
+> > > +     if (cluster >= data->num_clusters)
+> > > +             return -EINVAL;
+> > > +
+> > > +     policy->cur = tegra194_fast_get_speed(policy->cpu); /* boot freq */
+> > > +
+> > > +     /* set same policy for all cpus */
+> > > +     cpumask_copy(policy->cpus, cpu_possible_mask);
+> > 
+> > You are copying cpu_possible_mask mask here, and so this routine will
+> > get called only once.
+> > 
+> > I still don't understand the logic behind clusters and frequency
+> > tables.
+> > 
+> Currently, we use same policy for all CPU's to maximize throughput. Will add
+> separate patch later to set policy as per cluster. But we are not using that
+> in T194 due to perf reasons.
+
+You can't misrepresent the hardware this way, sorry.
+
+Again few questions, I understand that you have multiple clusters
+here:
+
+- All clusters will always have the frequency table ?
+- All clusters are capable of having a different frequency at any
+  point of time ? Or they will always run at same freq ?
+
+> > > +     freqs.old = policy->cur;
+> > > +     freqs.new = tbl->frequency;
+> > > +
+> > > +     cpufreq_freq_transition_begin(policy, &freqs);
+> > > +     on_each_cpu_mask(policy->cpus, set_cpu_ndiv, tbl, true);
+> > 
+> > When CPUs share clock line, why is this required for every CPU ?
+> > Per core NVFREQ_REQ system register is written to make frequency
+> requests for the core. Cluster h/w then forwards the max(core0, core1)
+> request to cluster NAFLL.
+
+You mean that each cluster can set frequency independently ?
+
+If all the clusters can run at independent frequencies but you still
+want them to run at same frequency, then that can be done with a
+single set of governor tunables, which is the default anyway. So this
+should just work for you.
+
+I will not be reviewing the v2 version you sent for now as that is
+most likely wrong anyway.
 
 -- 
 viresh
