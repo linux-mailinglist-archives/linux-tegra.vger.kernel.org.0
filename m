@@ -2,91 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AAEA19EE36
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 Apr 2020 23:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92BF119EEB0
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Apr 2020 01:51:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727798AbgDEVLb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 Apr 2020 17:11:31 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41299 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727254AbgDEVLb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Apr 2020 17:11:31 -0400
-Received: by mail-lj1-f194.google.com with SMTP id n17so12521626lji.8;
-        Sun, 05 Apr 2020 14:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NWGPhfMJZZel0rwMWEjzRwrt83gzNGV4eDnl95RcfAU=;
-        b=eSj2WijVRRdiVl8L9gDAZY9jUY/Fsew/0GhzfAmvk2a8oCD9IzUhxAFvEt3nTYYkpT
-         j7SEnDPqU/DnobMg1ThkNVLb+ZhFOiIwZ/XA2Pg6xEWegpN7VA4oh/nbshBOgYVxDJfa
-         i/EKxS+uuBdDWrWonhJzIrQz2taHsuxq9HNW6jE1yQYLaDC3iOuHFTh0X8y4stjkJpWR
-         RbprIAxyBa51w/UXxC8xtyKWhzG2SppkGDKp/jcSoA1vt5wVEyOep3k6DNL/s0JYYhPR
-         B+/gmSfWVMcjJDVbypi3SqUuyLd2e3M54JwZjpQn4TB3MdV1HEuq6Bmwl7CKQapAQNf6
-         lcrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NWGPhfMJZZel0rwMWEjzRwrt83gzNGV4eDnl95RcfAU=;
-        b=n9QgRPLVdUK6X6kujGnrzmEn/g+Nx2AhTLFnrhMo6WLmSFQEI5O93DH2YpWgBjFhcs
-         cBXmgfH6hD2yT+UM+Qr73N9gQx90kyVY906Rn+nW+DJ10wgUI7Cs9ScsmRkEWju+UVax
-         kmmuRmiOQzY0P0qgC4H5dN7+er1Cqz5GvRxak/25KSPyGPhskViQF2MSOYrnk4GHyHF3
-         AhHH10Tb1lFMHGSuM7aqA8MsBp8tYU7ofYwqwGfJ0oaoF0+7ywOP8zvz9Ecisy6SezVS
-         Jek4mQ8cZyFEysmaqVXLMLbkpT6ZP16hNpjPLthPhD5FJ781OFlgP6A2daCDywfoyDWl
-         hE3w==
-X-Gm-Message-State: AGi0PuaybAR9DFlzn4xHsfxer8H95AdnnRKlBRGJ/mkt4tvTpX0AJgSj
-        l1QPMQegK/4ds/fOSFb3T1LINbpl
-X-Google-Smtp-Source: APiQypJJ7DJEjhUF1T29Imc2SI1iQoEKCcN3jsiwMvcGVreI86biQ8P1kEb9QblNCiD2v5BJwY2XFQ==
-X-Received: by 2002:a2e:7004:: with SMTP id l4mr10614949ljc.55.1586121089103;
-        Sun, 05 Apr 2020 14:11:29 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id s6sm8971493ljm.58.2020.04.05.14.11.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Apr 2020 14:11:28 -0700 (PDT)
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <40102767-ecdb-e958-66f4-45d11464069c@gmail.com>
-Date:   Mon, 6 Apr 2020 00:11:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727848AbgDEXv1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 Apr 2020 19:51:27 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:43026 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727707AbgDEXv0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Apr 2020 19:51:26 -0400
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200405235124epoutp0271f066d83d06cbad234148941078ca31~DEXQrMynw0655406554epoutp024
+        for <linux-tegra@vger.kernel.org>; Sun,  5 Apr 2020 23:51:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200405235124epoutp0271f066d83d06cbad234148941078ca31~DEXQrMynw0655406554epoutp024
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1586130684;
+        bh=lSt8LdJPpXoJoLD3otlucHeQK0lf6r+8c36+IMGqGZQ=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=LUxeaH3f7tTFyDgfKW9t7wHpCSoM88qzVutRnG5xjFo1B+05WakEEGMHT+IxVdRtF
+         RGnxp7JeeFCn+84E+LSxtru8lI4+OMex7aEbTsat6IeURJxCSSQECpez6TpLeMsJvn
+         1r7IBfg+8KmL6ExuOURwoFmfJUmblUQWED+nB9eI=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20200405235123epcas1p47fa7ff1050cd380e55ddbd9c0794e0b4~DEXQDdyg01541915419epcas1p4r;
+        Sun,  5 Apr 2020 23:51:23 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.153]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 48wVn46KL9zMqYls; Sun,  5 Apr
+        2020 23:51:20 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        90.87.04402.8FE6A8E5; Mon,  6 Apr 2020 08:51:20 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+        20200405235120epcas1p45e7a155cbceaeb44f40f60c14c1c7cba~DEXMsm99c1826218262epcas1p4c;
+        Sun,  5 Apr 2020 23:51:20 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200405235120epsmtrp1744663a0431b92a131236908e0f9896b~DEXMrzAYn2195221952epsmtrp1B;
+        Sun,  5 Apr 2020 23:51:20 +0000 (GMT)
+X-AuditID: b6c32a35-753ff70000001132-d9-5e8a6ef88e3d
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        1A.58.04024.7FE6A8E5; Mon,  6 Apr 2020 08:51:19 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200405235119epsmtip141572a1a03ca2dd0e1a8e20cdb8c43ea~DEXMT-pOM1472414724epsmtip10;
+        Sun,  5 Apr 2020 23:51:19 +0000 (GMT)
+Subject: Re: [PATCH] PM / devfreq: tegra30: Delete an error message in
+ tegra_devfreq_probe()
+To:     Markus Elfring <Markus.Elfring@web.de>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Tang Bin <tangbin@cmss.chinamobile.com>
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <924a6012-985e-b22d-6f85-e9eb3f03e88b@samsung.com>
+Date:   Mon, 6 Apr 2020 09:00:20 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ba67e238-43a7-6c53-363e-7a2c12f09949@web.de>
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLJsWRmVeSWpSXmKPExsWy7bCmge6PvK44gyeLjSxWf3zMaNEyaxGL
+        xdZb0hZnm96wW1zeNYfN4nPvEUaLzi+z2Cz+z3rOanG7cQWbxcf/zcwWP3fNY3Hg9jg/vZfN
+        Y+esu+wevc3v2Dz6tqxi9Pi8Sc7j9rNtLAFsUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZm
+        Boa6hpYW5koKeYm5qbZKLj4Bum6ZOUDnKSmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVIL
+        UnIKLAv0ihNzi0vz0vWS83OtDA0MjEyBChOyM04syyvYwlnx5cQExgbGE+xdjJwcEgImEmuf
+        bmXtYuTiEBLYwSjRs3QfG4TziVHi3OeNUM43Ronvn84zwrQ8nbecBSKxl1Gi+/0cqKr3jBIf
+        H70Bcjg4hAXiJGY+lgOJiwhsYZLYu38DE0g3s0CxRO/RJawgNpuAlsT+FzfYQGx+AUWJqz8e
+        g23gFbCTePm5EcxmEVCRuDb1DJgtKhAmcXJbC1SNoMTJmU9YQGxOASuJJ6v+skDMF5e49WQ+
+        1C55ieats5lBjpAQ6GeXmLCyiRniBReJza2/WSFsYYlXx7dAQ0NK4mV/G5RdLbHy5BE2iOYO
+        Rokt+y9ANRhL7F86mQnkS2YBTYn1u/QhwooSO3/PZYRYzCfx7msPK0iJhACvREebEESJssTl
+        B3eZIGxJicXtnWwTGJVmIXlnFpIXZiF5YRbCsgWMLKsYxVILinPTU4sNCwyRY3sTIzjpapnu
+        YJxyzucQowAHoxIPL8Ptzjgh1sSy4srcQ4wSHMxKIrxSvUAh3pTEyqrUovz4otKc1OJDjKbA
+        0J7ILCWanA/MCHkl8YamRsbGxhYmhmamhoZK4rxTr+fECQmkJ5akZqemFqQWwfQxcXBKNTBK
+        n3sn+jbOrfLw6gaOdOPbc66sFJe9LTXLb0PPvzLVBRfjJPqaL7itOKQs4ep7N2ix2O3y67e8
+        WYIXHrjYM4vb8gD7+RX3pj9+mLso9MLPpZPdHcwmPeQ57Xp5q06O3p3mggfSjrOeRD5le6Tv
+        sePi1fVanvt7diVxtr4s/LQh/MPt662ZH2MMlFiKMxINtZiLihMBj+AQxtADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsWy7bCSnO73vK44g62TzSxWf3zMaNEyaxGL
+        xdZb0hZnm96wW1zeNYfN4nPvEUaLzi+z2Cz+z3rOanG7cQWbxcf/zcwWP3fNY3Hg9jg/vZfN
+        Y+esu+wevc3v2Dz6tqxi9Pi8Sc7j9rNtLAFsUVw2Kak5mWWpRfp2CVwZJ5blFWzhrPhyYgJj
+        A+MJ9i5GTg4JAROJp/OWs3QxcnEICexmlHh6ei0zREJSYtrFo0A2B5AtLHH4cDFEzVtGiSXz
+        P7CDxIUF4iRmPpYDKRcR2MYkcbg5D8RmFiiW2PZhDTtEfS+jxPvb+8CWsQloSex/cYMNxOYX
+        UJS4+uMxI4jNK2An8fJzI5jNIqAicW3qGTBbVCBMYueSx0wQNYISJ2c+YQGxOQWsJJ6s+ssC
+        sUxd4s+8S8wQtrjErSfzmSBseYnmrbOZJzAKz0LSPgtJyywkLbOQtCxgZFnFKJlaUJybnlts
+        WGCYl1quV5yYW1yal66XnJ+7iREce1qaOxgvL4k/xCjAwajEw8twuzNOiDWxrLgy9xCjBAez
+        kgivVC9QiDclsbIqtSg/vqg0J7X4EKM0B4uSOO/TvGORQgLpiSWp2ampBalFMFkmDk6pBkbe
+        aYsCnbPDxQ9+4PjPe108nDO1/2uOQPPul6aTQ43/W30vnL1Nc3MDa4i/Wdx/s8d3j95K39Fv
+        6nJzCuez3k/z3xzMKLrjUmVek2K5/t//xx3Om3/UWf8/8SZ+4xaWk8UPPC/fC5r169eS9XKz
+        31Uuq5O6Kr5EIsFYo8pYVv9bmt7/jlOHYyyVWIozEg21mIuKEwFq319kuQIAAA==
+X-CMS-MailID: 20200405235120epcas1p45e7a155cbceaeb44f40f60c14c1c7cba
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200404184602epcas1p1e0188779ade7c393f9e37a4757e1b6cc
+References: <CGME20200404184602epcas1p1e0188779ade7c393f9e37a4757e1b6cc@epcas1p1.samsung.com>
+        <ba67e238-43a7-6c53-363e-7a2c12f09949@web.de>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-04.04.2020 04:25, Sowjanya Komatineni пишет:
-...
-> +static int tegra_vi_tpg_channels_alloc(struct tegra_vi *vi)
-> +{
-> +	struct tegra_vi_channel *chan, *tmp;
-> +	unsigned int port_num;
-> +	unsigned int nchannels = vi->soc->vi_max_channels;
-> +	int ret = 0;
+On 4/5/20 3:45 AM, Markus Elfring wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Sat, 4 Apr 2020 20:34:02 +0200
+> 
+> The function “platform_get_irq” can log an error already.
+> Thus omit a redundant message for the exception handling in the
+> calling function.
+> 
+> This issue was detected by using the Coccinelle software.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> ---
+>  drivers/devfreq/tegra30-devfreq.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index 28b2c7ca416e..93e6f4b25b04 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -807,10 +807,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  	}
+> 
+>  	err = platform_get_irq(pdev, 0);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "Failed to get IRQ: %d\n", err);
+> +	if (err < 0)
+>  		return err;
+> -	}
 > +
-> +	for (port_num = 0; port_num < nchannels; port_num++) {
-> +		/*
-> +		 * Do not use devm_kzalloc as memory is freed immediately
-> +		 * when device instance is unbound but application might still
-> +		 * be holding the device node open. Channel memory allocated
-> +		 * with kzalloc is freed during video device release callback.
-> +		 */
-> +		chan = kzalloc(sizeof(*chan), GFP_KERNEL);
+>  	tegra->irq = err;
+> 
+>  	irq_set_status_flags(tegra->irq, IRQ_NOAUTOEN);
+> --
+> 2.26.0
+> 
+> 
+> 
 
-Why anyone would want to unbind this driver in practice?
+Applied it. Thanks.
 
-I think it should make more sense to set suppress_bind_attrs=true.
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
