@@ -2,104 +2,187 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22DD41A140B
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Apr 2020 20:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B51C11A1547
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Apr 2020 20:55:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727376AbgDGSiE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Apr 2020 14:38:04 -0400
-Received: from 8bytes.org ([81.169.241.247]:57616 "EHLO theia.8bytes.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727192AbgDGSiE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 7 Apr 2020 14:38:04 -0400
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 12C8A70B; Tue,  7 Apr 2020 20:37:54 +0200 (CEST)
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Joerg Roedel <jroedel@suse.de>
-Subject: [RFC PATCH 34/34] iommu: Unexport iommu_group_get_for_dev()
-Date:   Tue,  7 Apr 2020 20:37:42 +0200
-Message-Id: <20200407183742.4344-35-joro@8bytes.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200407183742.4344-1-joro@8bytes.org>
-References: <20200407183742.4344-1-joro@8bytes.org>
+        id S1726628AbgDGSzN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Apr 2020 14:55:13 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:10343 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbgDGSzN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Apr 2020 14:55:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8ccc2a0001>; Tue, 07 Apr 2020 11:53:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 07 Apr 2020 11:55:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 07 Apr 2020 11:55:12 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr
+ 2020 18:55:12 +0000
+Received: from [10.24.37.103] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr 2020
+ 18:55:07 +0000
+From:   sumitg <sumitg@nvidia.com>
+Subject: Re: [TEGRA194_CPUFREQ Patch v2 2/3] cpufreq: Add Tegra194 cpufreq
+ driver
+To:     Dmitry Osipenko <digetx@gmail.com>, <rjw@rjwysocki.net>,
+        <viresh.kumar@linaro.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <talho@nvidia.com>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <bbasu@nvidia.com>, <mperttunen@nvidia.com>, <sumitg@nvidia.com>
+References: <1586028547-14993-1-git-send-email-sumitg@nvidia.com>
+ <1586028547-14993-3-git-send-email-sumitg@nvidia.com>
+ <67f9feb1-ba51-f1ac-b6eb-4587924d0748@gmail.com>
+Message-ID: <538ddcf4-b760-a342-eab6-5a61c9bd860a@nvidia.com>
+Date:   Wed, 8 Apr 2020 00:25:38 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <67f9feb1-ba51-f1ac-b6eb-4587924d0748@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586285610; bh=9hwDPF9VnbM85J5PKb1WmMWXNhaY35UANwXzXHCJb2w=;
+        h=X-PGP-Universal:From:Subject:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=RpyBtvuW4zXVIrNxiDX8UX/Xomrv4A7Z1yqgIwYlAcurOdV36H+rD1k/iCneY13Hb
+         BYk5O90k96V1wzaJPZZRJNnfi/xRQZjTWt1o8o2/CxaD84gq0hvbejKpJkcc4+u0Aw
+         eBTOFS12N1UXN6XEBSuhB6mw7X6RLWRF3oNEcb9ZRQmKPka04lrRIBWoYAK/NUvyEK
+         +GtOEw3fTZijPq2+kMcQbb8av8mxL38StLZL6bi22+1zkGxGNu5jMe3SeDKl2seMov
+         rCoaXtZGRBaJaGjFY/nalQmATSCQjKt95+sdsoicBKJ3THhoMW6rliFPHzmo3GYRNI
+         XpJ5uv/kQ8UCw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Joerg Roedel <jroedel@suse.de>
 
-The function is now only used in IOMMU core code and shouldn't be used
-outside of it anyway, so remove the export for it.
 
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
----
- drivers/iommu/iommu.c | 4 ++--
- include/linux/iommu.h | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+On 05/04/20 7:35 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>=20
+>=20
+> 04.04.2020 22:29, Sumit Gupta =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>> +static void tegra_read_counters(struct work_struct *work)
+>> +{
+>> +     struct read_counters_work *read_counters_work;
+>> +     struct tegra_cpu_ctr *c;
+>> +     u64 val;
+>> +
+>> +     /*
+>> +      * ref_clk_counter(32 bit counter) runs on constant clk,
+>> +      * pll_p(408MHz).
+>> +      * It will take =3D 2 ^ 32 / 408 MHz to overflow ref clk counter
+>> +      *              =3D 10526880 usec =3D 10.527 sec to overflow
+>> +      *
+>> +      * Like wise core_clk_counter(32 bit counter) runs on core clock.
+>> +      * It's synchronized to crab_clk (cpu_crab_clk) which runs at
+>> +      * freq of cluster. Assuming max cluster clock ~2000MHz,
+>> +      * It will take =3D 2 ^ 32 / 2000 MHz to overflow core clk counter
+>> +      *              =3D ~2.147 sec to overflow
+>> +      */
+>> +     read_counters_work =3D container_of(work, struct read_counters_wor=
+k,
+>> +                                       work);
+>> +     c =3D &read_counters_work->c;
+>> +
+>> +     val =3D read_freq_feedback();
+>> +     c->last_refclk_cnt =3D lower_32_bits(val);
+>> +     c->last_coreclk_cnt =3D upper_32_bits(val);
+>> +     udelay(c->delay);
+>> +     val =3D read_freq_feedback();
+>> +     c->refclk_cnt =3D lower_32_bits(val);
+>> +     c->coreclk_cnt =3D upper_32_bits(val);
+>> +}
+>> +
+>> +/*
+>> + * Return instantaneous cpu speed
+>> + * Instantaneous freq is calculated as -
+>> + * -Takes sample on every query of getting the freq.
+>> + *   - Read core and ref clock counters;
+>> + *   - Delay for X us
+>> + *   - Read above cycle counters again
+>> + *   - Calculates freq by subtracting current and previous counters
+>> + *     divided by the delay time or eqv. of ref_clk_counter in delta ti=
+me
+>> + *   - Return Kcycles/second, freq in KHz
+>> + *
+>> + *   delta time period =3D x sec
+>> + *                     =3D delta ref_clk_counter / (408 * 10^6) sec
+>> + *   freq in Hz =3D cycles/sec
+>> + *              =3D (delta cycles / x sec
+>> + *              =3D (delta cycles * 408 * 10^6) / delta ref_clk_counter
+>> + *   in KHz     =3D (delta cycles * 408 * 10^3) / delta ref_clk_counter
+>> + *
+>> + * @cpu - logical cpu whose freq to be updated
+>=20
+>=20
+>> + * Returns freq in KHz on success, 0 if cpu is offline
+>=20
+> I don't see any checks in the code about whether CPU is offline.
+>=20
+> Googling for "queue_work_on offline cpu" suggests that this function
+> should hang.
+>=20
+Tried this and didn't get crash or hang.
+show_cpuinfo_cur_freq() returns "<unknown>" value on reading frequency=20
+from a cluster having both it's cores offline.
+If only one cpu is offline, then frequency of other online cpu which is=20
+managing the policy of that cluster is returned.
+Have still added below check as guard in get|set() freq calls.
+	if (!cpu_online(cpu))
+		return -EINVAL;
+Thankyou for the input.
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index d9032f9d597c..8a5e1ac328dd 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -91,6 +91,7 @@ static void __iommu_detach_group(struct iommu_domain *domain,
- 				 struct iommu_group *group);
- static int iommu_create_device_direct_mappings(struct iommu_group *group,
- 					       struct device *dev);
-+static struct iommu_group *iommu_group_get_for_dev(struct device *dev);
- 
- #define IOMMU_GROUP_ATTR(_name, _mode, _show, _store)		\
- struct iommu_group_attribute iommu_group_attr_##_name =		\
-@@ -1483,7 +1484,7 @@ static int iommu_alloc_default_domain(struct device *dev)
-  * to the returned IOMMU group, which will already include the provided
-  * device.  The reference should be released with iommu_group_put().
-  */
--struct iommu_group *iommu_group_get_for_dev(struct device *dev)
-+static struct iommu_group *iommu_group_get_for_dev(struct device *dev)
- {
- 	const struct iommu_ops *ops = dev->bus->iommu_ops;
- 	struct iommu_group *group;
-@@ -1514,7 +1515,6 @@ struct iommu_group *iommu_group_get_for_dev(struct device *dev)
- 
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL(iommu_group_get_for_dev);
- 
- struct iommu_domain *iommu_group_default_domain(struct iommu_group *group)
- {
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index dd076366383f..7cfd2dddb49d 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -527,7 +527,6 @@ extern int iommu_page_response(struct device *dev,
- 			       struct iommu_page_response *msg);
- 
- extern int iommu_group_id(struct iommu_group *group);
--extern struct iommu_group *iommu_group_get_for_dev(struct device *dev);
- extern struct iommu_domain *iommu_group_default_domain(struct iommu_group *);
- 
- extern int iommu_domain_get_attr(struct iommu_domain *domain, enum iommu_attr,
--- 
-2.17.1
-
+>> + */
+>> +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
+>> +{
+>> +     struct read_counters_work read_counters_work;
+>> +     struct tegra_cpu_ctr c;
+>> +     u32 delta_refcnt;
+>> +     u32 delta_ccnt;
+>> +     u32 rate_mhz;
+>> +
+>> +     read_counters_work.c.cpu =3D cpu;
+>> +     read_counters_work.c.delay =3D delay;
+>> +     INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
+>> +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
+>> +     flush_work(&read_counters_work.work);
+>> +     c =3D read_counters_work.c;
+>> +
+>> +     if (c.coreclk_cnt < c.last_coreclk_cnt)
+>> +             delta_ccnt =3D c.coreclk_cnt + (MAX_CNT - c.last_coreclk_c=
+nt);
+>> +     else
+>> +             delta_ccnt =3D c.coreclk_cnt - c.last_coreclk_cnt;
+>> +     if (!delta_ccnt)
+>> +             return 0;
+>> +
+>> +     /* ref clock is 32 bits */
+>> +     if (c.refclk_cnt < c.last_refclk_cnt)
+>> +             delta_refcnt =3D c.refclk_cnt + (MAX_CNT - c.last_refclk_c=
+nt);
+>> +     else
+>> +             delta_refcnt =3D c.refclk_cnt - c.last_refclk_cnt;
+>> +     if (!delta_refcnt) {
+>> +             pr_debug("cpufreq: %d is idle, delta_refcnt: 0\n", cpu);
+>> +             return 0;
+>> +     }
+>> +     rate_mhz =3D ((unsigned long)(delta_ccnt * REF_CLK_MHZ)) / delta_r=
+efcnt;
+>> +
+>> +     return (rate_mhz * KHZ); /* in KHz */
+>> +}
+>=20
