@@ -2,35 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E7521A17EB
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 00:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AC271A187D
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 01:12:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbgDGWWK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Apr 2020 18:22:10 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13202 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726438AbgDGWWJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Apr 2020 18:22:09 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8cfca90000>; Tue, 07 Apr 2020 15:20:25 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Apr 2020 15:22:08 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Apr 2020 15:22:08 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr
- 2020 22:22:07 +0000
-Received: from [10.2.171.175] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr 2020
- 22:22:06 +0000
+        id S1726417AbgDGXMc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Apr 2020 19:12:32 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46583 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbgDGXMc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Apr 2020 19:12:32 -0400
+Received: by mail-lf1-f68.google.com with SMTP id m19so1677410lfq.13;
+        Tue, 07 Apr 2020 16:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RwBDvU/d/RuyuOicf+LMSeUuB7FpaSGPCFNY8uUMcT8=;
+        b=ITb0PCiLvFvAVN7bpWpJlckTjQ8s/wjqbxLsbWXCFsj+XrR6vru92/JlT6lzOgpb0u
+         GvSyCbY86jIPTEp7Rr6UG3CpHXhrlyN6C7QMfn9hGHT5V94hmDalVuuw6l9Uj+jhnEpL
+         0w+zGOx2K4nyKvpPS1itml53GKUo/T2CDvs+jNKP83LXgAiqyUEMkQukAExr3FGhUMK0
+         /q2xBHo/iw98t6r1GJ1gaaC8/QbQZmkYgHikswey901fj0KneeQkZ/8Oq6B4+5lXpTPy
+         QCx3IlR4i1XwPUTGs2RiyEngHTxoZVbLXWuUTpGiGD93wuoUcU/BPwTEWWiry2rngf2P
+         dYpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RwBDvU/d/RuyuOicf+LMSeUuB7FpaSGPCFNY8uUMcT8=;
+        b=A8cj4Mm/6m7HBUghxwF8KyDY8QfJD5MoDA5jW8IJuOMEmFWCA6o3ihf2QRPynMe/9r
+         Hy9a1L7ur3XRdLN21rzampW7+uxxC+jypwsQe49wK4ZYGXEkMsfN5g50G9qBk/D+O27r
+         fT8j/ExA6jz8VSiE14WfNBACgYMY6471MnSbv+sRlU9aS1oP3wc6q7P4SgQNDCH39zEP
+         tDwkVeK9THQ0iv9o3nY8euBNmGokrOGuGm1v994Ckn613Gc7vzyrq5wgwNzcllPGynZM
+         qHhycVQ8jStsP3pay3g35A7mWT7LEJXZgSg1c2712EgsqlV3m7DTG/4hu3JhY7idIrCe
+         vDYw==
+X-Gm-Message-State: AGi0PuatZMcSzG14cIesifDWQDDJG8I2gc48bLlbKibvskhFrwa7tQZI
+        IyGILgnDNkiIXiD2dJRrKh4zTns6
+X-Google-Smtp-Source: APiQypLgfZ7BpY4nMrnJrXTT3z+5gBIe2iOt5bl8wLbbK0kgy8mwEcvrUJhccF8GU5G5Zh9WGlI4uw==
+X-Received: by 2002:ac2:5607:: with SMTP id v7mr2758744lfd.212.1586301148120;
+        Tue, 07 Apr 2020 16:12:28 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id c2sm14650894lfb.43.2020.04.07.16.12.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2020 16:12:27 -0700 (PDT)
 Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
  <200bb96e-2d07-764f-9e14-55538dc742fd@gmail.com>
@@ -48,63 +69,53 @@ References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
  <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
  <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
-Date:   Tue, 7 Apr 2020 15:22:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
+Date:   Wed, 8 Apr 2020 02:12:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586298025; bh=affO1Yr/fVkdDgXtDFDw59Iv7waWtClGoqGLbuDmMvA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=gQN4aVBFGHGfJTH4B+1M5e3V40VRWaNWZ/4VYh6O83zGBgCCkEPn7tt+e+40JAfW1
-         LyY6THdOiL1ww8uD/iOy8wzG4YyNEoYiepsyeHS3cPFJrvmG/hk0wWHEJQKrfU/xVY
-         kKlhkNye6bffxcrrQFV3xQ/bIdjKoo5BG4CTP/CirNy9gMgdx2lpwob70+O9RBk5hF
-         xHrfDGeBjgLLWYilKcS3QWfJ8gALhtXkFruZyu+210ZEkZAmfQZtORygckCHc6fPx9
-         IaCUaNMPEmyknNUyPY8tn3H/mHhuj1EgBiYlZ56GJn7NlTw5AZ8i+xuen6mBQ/1c7e
-         EFZIAi3TcTWcw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 4/7/20 3:08 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 08.04.2020 00:08, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->>>> I think you need a semaphore with resource count =3D 2.
->>> we hold on to issuing capture if more than 2 buffers are queued and it
->>> continues only after fifo has min 1 slot empty
+08.04.2020 01:22, Sowjanya Komatineni пишет:
+> 
+> On 4/7/20 3:08 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
 >>
->> Just want to close on this part of feedback. Hope above explanation is
->> clear regarding triggering/issuing at max 2 frame capture to VI HW and
->> also regarding capture threads where they use wait_event_interruptible
->> to prevent blocking waiting for buffers to be available for captures.
 >>
->> So no changes related to this part are needed in v7.
->  From what I see in the code, you "hold on" by making kthread to spin in
-> a busy-loop while caps_inflight >=3D SYNCPT_FIFO_DEPTH. So some change
-> should be needed to prevent this.
->
-> The wait_event_interruptible seems should be okay.
+>> 08.04.2020 00:08, Sowjanya Komatineni пишет:
+>> ...
+>>>>> I think you need a semaphore with resource count = 2.
+>>>> we hold on to issuing capture if more than 2 buffers are queued and it
+>>>> continues only after fifo has min 1 slot empty
+>>>
+>>> Just want to close on this part of feedback. Hope above explanation is
+>>> clear regarding triggering/issuing at max 2 frame capture to VI HW and
+>>> also regarding capture threads where they use wait_event_interruptible
+>>> to prevent blocking waiting for buffers to be available for captures.
+>>>
+>>> So no changes related to this part are needed in v7.
+>>  From what I see in the code, you "hold on" by making kthread to spin in
+>> a busy-loop while caps_inflight >= SYNCPT_FIFO_DEPTH. So some change
+>> should be needed to prevent this.
+>>
+>> The wait_event_interruptible seems should be okay.
+> 
+> We don't want to prevent that as we already have buffers available for
+> capture so as soon as VI HW issuing single shot is done and when min 1
+> slot is empty we should continue with issuing for another capture.
+> 
+> As long as buffers are available, we should continue to capture and
+> should not hold
+> 
 
-We don't want to prevent that as we already have buffers available for=20
-capture so as soon as VI HW issuing single shot is done and when min 1=20
-slot is empty we should continue with issuing for another capture.
-
-As long as buffers are available, we should continue to capture and=20
-should not hold
-
+I suppose that taking a shot takes at least few milliseconds, which
+should be unacceptable to waste.
