@@ -2,89 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D779E1A2A16
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 22:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0BD11A2A84
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 22:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729468AbgDHUIi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Apr 2020 16:08:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:39779 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbgDHUIi (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Apr 2020 16:08:38 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MHG4W-1jZSGb2XFQ-00DGKB; Wed, 08 Apr 2020 22:08:29 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        id S1726891AbgDHUlF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Apr 2020 16:41:05 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37890 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726795AbgDHUlF (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Apr 2020 16:41:05 -0400
+Received: by mail-lj1-f193.google.com with SMTP id v16so9183828ljg.5;
+        Wed, 08 Apr 2020 13:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x9w5E+HapWonCQjMtyDC8375wQXju054hOLV5mQ/Whw=;
+        b=Rzvt9if/5nk0Qrd5E0KcoJCDmJgJ0Wu4kwxrxBJOse89mVEYHlpHYTLac4I2hMmuHl
+         K0dMhP6Yz4FmhnJvM902dtWOspE24NP8nHmtLu316qYdxIgQs+BDROp+jKdxGNQJzSh5
+         sGy7stXPE5D63XeYgAW90LK32nhR8j5t5IPNQbQVNAA5sMj9V1oF9oe5Kdq0fB793jAp
+         VyJoqYJtaR8Yivjg6zO0v30D41T5r6HWlvb16QunPx4jXHaI1Dd/UN1EQqP9lvtXbzM7
+         l31N3K2J0D1dZI6kPBde6l2r0Dmzyp0iVnrIMM15mHZVoJ0cGdCnWCPAgqGXQWgH9YJk
+         SBMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x9w5E+HapWonCQjMtyDC8375wQXju054hOLV5mQ/Whw=;
+        b=b+MV5TxZIsD0mgYIkmx83Qvp2q9Rt6DxHQ+VS0QfP9sHWR5ClMOwNQTDaJC8Qi3TME
+         /mnUCZBWZAUwaDSyUzZauUiPJE6WPDzHsKcypQ/lJF5rTL2AmfbmP2OY7cmfhg42iECB
+         YbyPrkjoq0PdsTx970Nz3qyi/RewOM1JrhiVmNIEIFlr/wMQtPycPetiU33FYD2kEKCx
+         5oOJu8OFC7rUtAOTa/j7xSAfzI1p+t5lO+uuXetfRTw2wVYWbufXl+oeQO46hA+KqjiJ
+         jkipiPDzKYMAiOCVU1yPnmaJUdRWbM/00zJtJ0Roz1Xz86wlG07rd6kWWjZOfjdSxAkh
+         8tug==
+X-Gm-Message-State: AGi0PuZ5b1V9xlCe+pxRYxodq67I/zwoTnVMnpAtm54JlYenwpkm6Ogo
+        oaCKnrCmZzX0qunLHlnGlHY=
+X-Google-Smtp-Source: APiQypLADbDn1KWbppW6sBYUPcYJ0zUtbrTZcXK4qNKB0fjRrSA/DLxVwT5/hElXOYQxCz9rYu+MGQ==
+X-Received: by 2002:a2e:7a0b:: with SMTP id v11mr5753748ljc.120.1586378463530;
+        Wed, 08 Apr 2020 13:41:03 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.gmail.com with ESMTPSA id p14sm13189727lfe.87.2020.04.08.13.41.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2020 13:41:02 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Thierry Reding <treding@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] phy: tegra: fix USB dependencies
-Date:   Wed,  8 Apr 2020 22:08:14 +0200
-Message-Id: <20200408200828.124139-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        =?UTF-8?q?Pedro=20=C3=82ngelo?= <pangelo@void.io>,
+        Matt Merhar <mattmerhar@protonmail.com>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/6] Support NVIDIA Tegra-based Acer A500 and Nexus 7 devices
+Date:   Wed,  8 Apr 2020 23:39:39 +0300
+Message-Id: <20200408203945.10329-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kUzwfLYLaHsZpKlTy4n+0vussKWl3Ftu9RnLUf4mhmFXohPzTmH
- wi9J5Xrz92VvWWaVhGoy4eGOh9nxRsmb6gyzpE34ECy4I55coV+LxZDoMlDNUmbjHnLmpiu
- prJXQXOwAs167fMBF2YRxpTD0kaEOpCFPsRgHEFiBTKqj0SS+fg2IO24nqY+s2zntmn+Ih0
- QKehqgKLZNjWr4PAcJQ2w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AM4pn0KeM6w=:vZLclcrBBMaxMpySOwMon4
- BbSK3XIk3rVKOCuv2itMAAc2THQ0BZBLsqsHemLM8C2larnYUkvud2BHzb6nauxhEdkny95hh
- 11CyINZE1K5TowecRzwdHw8SlHyUFytQtxA1wPG0o+rDd2i4PYEnxAOmAV7MvnEv9Uh9ffl4y
- QxhI5S1OP99m6b3z74r6ed1/kZ/V6rs7/UKS4ebTqqQXJ0jkPWBoPhpSuQ2Jl6O6Ttf1fKwhG
- ZAiLbvVYroWdsFhIo95lipufu6dCWJhxYYGx0F5GLWXGTqXzUDtpWk8XiMwEdQWMNeYaZc+a3
- rtKIG4O5bnqqx8BzVgbylLRmICe5zRisjk2Y0mJDV8OHkzWSM/r5bK4P9IXbXV3ln0guLhBgx
- dhnUKSVl/YYFHvIP1iKklUYVhsKAPNYf4OzWP6PHTWTz1V+mKaQH+AgpeFKpFjQtvqw6wALzw
- UP5MI03Izh2cdIiBkrV1zGyj8x3iFmArET/LpxM1i83OW3mfYS/1vNt7XkzJ7osf+wzBU/Es6
- TFpOeq5LGUp77io8X2zARp0hTzFN72TVG6mIzKnSJDKjnAwsLOgU0dyQKvm/prxn1ZqKtKZKe
- avBUNfL4qEaOuBdsUGLoXOCupuFBuCEe0ekSfUEjndW89NaTE35i40LREWifLwx0lo3HcYNbp
- j/oBcu9vwoqSeRfHVbOI1zs8Vzf6lsV4NrndXxSi5ED2/tg8XfzGK4aNcNa8Ud7hKLdhuThwe
- QGosSl/Y4ihAmMNavDGzgC40D7Tbt01eISUNNpPDjhhpNzZI+9fqSKJMyVuzadt7OmbA4f+cL
- WRJmBlSoV/nssCfM5lks5XCuoSCA0IYw3IBaFHdb0Hq9Hm+Ql8=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Without CONFIG_USB_SUPPORT, we can get a couple of warnings for
-missing dependencies:
+Hello,
 
-WARNING: unmet direct dependencies detected for USB_PHY
-  Depends on [n]: USB_SUPPORT [=n]
-  Selected by [m]:
-  - PHY_TEGRA_XUSB [=m] && ARCH_TEGRA [=y]
+This series introduces upstream kernel support for Acer Iconia Tab A500
+and ASUS Google Nexus 7 tablet devices. Please review and apply, thanks
+in advance.
 
-WARNING: unmet direct dependencies detected for USB_CONN_GPIO
-  Depends on [n]: USB_SUPPORT [=n] && GPIOLIB [=y]
-  Selected by [m]:
-  - PHY_TEGRA_XUSB [=m] && ARCH_TEGRA [=y]
+Changelog:
 
-Fixes: 6835bdc99580 ("phy: tegra: Select USB_PHY")
-Fixes: f67213cee2b3 ("phy: tegra: xusb: Add usb-role-switch support")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/phy/tegra/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: - Improved device-tree node-names in accordance to review comments that
+      were made by Thierry Reding to v2.
 
-diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
-index a208aca4ba7b..4f8c61863411 100644
---- a/drivers/phy/tegra/Kconfig
-+++ b/drivers/phy/tegra/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config PHY_TEGRA_XUSB
- 	tristate "NVIDIA Tegra XUSB pad controller driver"
--	depends on ARCH_TEGRA
-+	depends on ARCH_TEGRA && USB_SUPPORT
- 	select USB_CONN_GPIO
- 	select USB_PHY
- 	help
+    - Corrected LVDS encoder powerdown-GPIO polarity on both A500 and Nexus 7
+      because I implemented the DRM bridges support in the Tegra DRM driver
+      and found that there was a mistake in the device-trees. The updated
+      polarity also matches the boards schematics. Now DRM bridges support
+      becomes mandatory since LVDS is getting disabled during of the encoder
+      driver probing. I'll send the DRM patch separately from this series.
+
+    - Replaced recently deprecated CONFIG_DRM_LVDS_ENCODER with the new
+      CONFIG_DRM_LVDS_CODEC in tegra_defconfig.
+
+    - Added more config options to tegra_defconfig, like pstore and thermal.
+
+    - Added atmel,cfg_name to the A500 DT, which is a new upcoming property
+      in 5.8+ that allows to specify the per-board hardware config file name.
+
+v2: - Corrected "volume down" key-label in the grouper's device-tree and
+      improved some other names in device-trees.
+
+    - Added optional (upcoming in 5.8+) VDD/AVDD regulators to the touchscreen
+      node in A500 device-tree.
+
+Dmitry Osipenko (6):
+  ARM: tegra: Add device-tree for Acer Iconia Tab A500
+  ARM: tegra: Add device-tree for ASUS Google Nexus 7
+  dt-bindings: Add vendor prefix for Acer Inc.
+  dt-bindings: ARM: tegra: Add Acer Iconia Tab A500
+  dt-bindings: ARM: tegra: Add ASUS Google Nexus 7
+  ARM: tegra_defconfig: Enable options useful for Nexus 7 and Acer A500
+
+ .../devicetree/bindings/arm/tegra.yaml        |   10 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ arch/arm/boot/dts/Makefile                    |    3 +
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 1458 +++++++++
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 2646 +++++++++++++++++
+ .../boot/dts/tegra30-asus-nexus7-grouper.dts  |  463 +++
+ .../boot/dts/tegra30-asus-nexus7-tilapia.dts  |  549 ++++
+ arch/arm/configs/tegra_defconfig              |   38 +
+ 8 files changed, 5169 insertions(+)
+ create mode 100644 arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dts
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dts
+
 -- 
-2.26.0
+2.25.1
 
