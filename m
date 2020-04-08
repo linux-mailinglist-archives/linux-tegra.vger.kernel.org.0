@@ -2,96 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A990D1A2430
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 16:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 426001A2473
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 17:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727327AbgDHOkF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Apr 2020 10:40:05 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:47088 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726605AbgDHOkF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Apr 2020 10:40:05 -0400
-Received: by mail-lf1-f67.google.com with SMTP id m19so3274703lfq.13;
-        Wed, 08 Apr 2020 07:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mT95lQCkhBdMpNK+wCwJVLQFubt0We+EU+RGsEst00k=;
-        b=C+TJUW80s4ICV4iIDL2Xv4P2rEaAfprrIC5vML/OW4ADtGz9mm/CdS1YrccnZhK5z5
-         xW5Tq/fQ96IKuaJg0oaxXjzIOEZ0QaMG6dG1zSELO7OrNgHlZSRt0PpAfWND+2jdhmir
-         m5KBfCJ9veDqtgAPLQikb3YOUqNSk9H0CGMDsqRuhW8ddQfFKtPSH8CtfJyQOiATnEkA
-         WEuZTvKP7boIL0mkbFcQAcDXrQiWTjB1efgB9j7ud5Ib4Vyy9RaE7jZpyuNHaYzee8ca
-         Yug3xife/Bk4xo9QRF/GbHzvDxDaJ5GCPHiPYe8L4NSmEsQy/LMe2vU9qg2g0+NNpzrz
-         GPXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mT95lQCkhBdMpNK+wCwJVLQFubt0We+EU+RGsEst00k=;
-        b=WVK6FqILY6iHEt+MTbKeSmjtBl5RuIvhA/5Icu1QqF5E0crNIvy6SZziCKnp4u3xC8
-         TcESH7W5fScyGaqEs6c1IPWa4R8M1K6ExvtRWs07dzdO23ZdLY+T23AWrauCnV9MaYRb
-         u33UBlwDMqDXtYZZ4FScKwLZjvrhNF9Gj6e5y66JWcJOO2Wh55vnJacdZlk2Hv9VCc9l
-         tG0899fn1P9Lw3tV2cu2GWyXYHv1fEYqT8tVulsbvqnjzil15ZlPp+mGiaeV8OZ9Cm3d
-         mo8P2nwuLtlbbEkIOs7ETDZEtEr8ydEWO2wGv186kFtDh45Upnkt3tW3m7a4l6qBMLIb
-         sbtg==
-X-Gm-Message-State: AGi0PuYGgmrYQ1dikIHsNk2ZnZLrmBUfita2lPd67VXjyxpMF9V7UFw7
-        F4L+lKK3uF/TD+eJWseDtMaQMBvh
-X-Google-Smtp-Source: APiQypL1MgjqXQVGY/+BzqIZTD/XQMvp4r63ch4UWxYMnhIjCPOfkGyERhubDt+w6UWbIxPESQ3AZw==
-X-Received: by 2002:ac2:414f:: with SMTP id c15mr4788355lfi.2.1586356802923;
-        Wed, 08 Apr 2020 07:40:02 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id b28sm16718683ljp.90.2020.04.08.07.40.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Apr 2020 07:40:02 -0700 (PDT)
-Subject: Re: [PATCH v2 6/6] ARM: tegra_defconfig: Enable options useful for
- Nexus 7 and Acer A500
-To:     Peter Geis <pgwipeout@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S1729222AbgDHPAS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Apr 2020 11:00:18 -0400
+Received: from 8bytes.org ([81.169.241.247]:58646 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727929AbgDHPAS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 8 Apr 2020 11:00:18 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 7190D387; Wed,  8 Apr 2020 17:00:16 +0200 (CEST)
+Date:   Wed, 8 Apr 2020 17:00:15 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        =?UTF-8?Q?Pedro_=c3=82ngelo?= <pangelo@void.io>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200406194110.21283-1-digetx@gmail.com>
- <20200406194110.21283-7-digetx@gmail.com> <20200407100829.GB1720957@ulmo>
- <70ad6fd6-9603-a114-2d0f-608110b68c0b@gmail.com>
- <CAMdYzYr76GUEEXgKippfCJDTU1L+A0UXTyO_B14vkOxVp_pijw@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7a12e4bf-43bc-0788-d20c-6681af705137@gmail.com>
-Date:   Wed, 8 Apr 2020 17:40:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Joerg Roedel <jroedel@suse.de>
+Subject: Re: [RFC PATCH 31/34] iommu/exynos: Create iommu_device in struct
+ exynos_iommu_owner
+Message-ID: <20200408150014.GM3103@8bytes.org>
+References: <20200407183742.4344-1-joro@8bytes.org>
+ <CGME20200407184501eucas1p25407bc96e4345df406cf6ba061ae6a82@eucas1p2.samsung.com>
+ <20200407183742.4344-32-joro@8bytes.org>
+ <449e7f16-e719-9617-ec92-63b82c0bc33f@samsung.com>
+ <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMdYzYr76GUEEXgKippfCJDTU1L+A0UXTyO_B14vkOxVp_pijw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-08.04.2020 03:37, Peter Geis пишет:
-...
->> For example, the T30 Broadcom WiFi doesn't work using stock
->> linux-firmware, it's on my to-do list to try to figure out why.
-> 
-> I've encountered the same issue on the Ouya, only the original
-> firmware that came with it will work with the chip. (AW-NH660)
-> I wonder if it's an azurewave quirk.
-> 
-> I've also noticed the Ouya specific configuration txt file seems a lot
-> more involved than the standard brcm configs.
+Hi Marek,
 
-The T20 boards also use Azurewave module and it works fine with the
-stock linux-firmware, although that is BCM4329.
+On Wed, Apr 08, 2020 at 04:23:05PM +0200, Marek Szyprowski wrote:
+> I need a place to initialize properly all the structures for the given 
+> master (IOMMU client device, the one which performs DMA operations).
 
-It could be that the configuration format differs for the stock
-firmware, but we don't really know yet.
+That could be in the probe_device() call-back, no?
+
+> I tried to move all the initialization from xlate() to device_probe(), 
+> but such approach doesn't work.
+
+device_probe() is exynos_sysmmu_probe(), then yes, this is called before
+any of the xlate() calls are made.
+
+Would it work to keep the iommu_device structures in the sysmmus and
+also create them for the owners? This isn't really a nice solution but
+should work the the IOMMU driver until there is a better way to fix
+this.
+
+Regards,
+
+	Joerg
