@@ -2,96 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EAB41A3642
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 16:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 187B81A3679
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 17:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbgDIOwQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Apr 2020 10:52:16 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:43505 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726940AbgDIOwQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 10:52:16 -0400
-Received: by mail-lf1-f67.google.com with SMTP id k28so8096003lfe.10;
-        Thu, 09 Apr 2020 07:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ze/V2JXU5Dd6o3pQccxKMS1reN02+30rheQBo6CTvd8=;
-        b=EtJmkLcKWT1VvBoekMfVi4G/IdP51lOLqGI3DCGWKvYoSJX9VTKrBV7CfBuc5fCDo+
-         uKw1cbIpserHPhUs/W//5NfRkr2B1Iac8FMcQImayUXWPy/IBMA1wJ4WHZtvOBI8XGtd
-         LjpQ/cco9NMOtKBsQIWtLsallphNy3kVNYKHwJ7U5SYaMeVK6CwILbQbp103mlI/l2gy
-         My75x9UeDmhAx+bzfZERtqKjTOH2oZcR67OlnF+0H9OBzBudwTyYEIt0nBZqDch6WHIn
-         kaVycaWjKQ+S4qRGChhI68gskphg55kBWYyKUcCGSoT021hFDuf8nOBT475Ue3sjuNQJ
-         CcNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ze/V2JXU5Dd6o3pQccxKMS1reN02+30rheQBo6CTvd8=;
-        b=iebuAhm18WUx4AGJdjVdkG0XUNFXxjQcdGZ1xnBAFllbEtFeNC22h2BXWo6Uvv0p5Y
-         DTBel7u75VNtqTJU4PWMKvhovQISRuCig9BQd9KaMZmJ4ISGU2+XW+3xSOn6o6oxHq1G
-         4s9oTnuXhQQLcYXr0bysDfQ36bgfNpGXtiZ1UwyduABsrkA2ykWU9Bpo/PxVeKAKWIck
-         qL6d0XDwFl5ly0KoyZf5EXbW/R/JVCHjn0kGyw4Ad1b1AdsmOQJJiMaBiEgoCnjC277G
-         NeyOGMotgiZuCYxVPVal/YhkuCkVWz0DrBgvUau6ugFoOQovX7Xt1DuKlZ7n+l7ogfu/
-         6OmA==
-X-Gm-Message-State: AGi0PuaG9TV6+g6Rk1LGNl2m/Gjpx1Tk76Il+smxzJThsMkv1yU21syT
-        2WANygNDtwYa9jh2I4gGLmd9sRfw
-X-Google-Smtp-Source: APiQypKEJgsBG72cT7T421h/LiCZlt01kMa/HHAJAkrMz6hTbZ3iGPgQpuFAJHbdjXE3AzP9I6kzuw==
-X-Received: by 2002:ac2:4c34:: with SMTP id u20mr8073483lfq.40.1586443931852;
-        Thu, 09 Apr 2020 07:52:11 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id v17sm3353142lfe.34.2020.04.09.07.52.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2020 07:52:11 -0700 (PDT)
-Subject: Re: [PATCH v1 0/2] Support headset on Tegra boards that use WM8903
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-References: <20200330204011.18465-1-digetx@gmail.com>
-Message-ID: <5c9c995a-a571-e543-e680-30739cb1561c@gmail.com>
-Date:   Thu, 9 Apr 2020 17:52:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727906AbgDIPBt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Apr 2020 11:01:49 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5968 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727884AbgDIPBt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 11:01:49 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8f38d00000>; Thu, 09 Apr 2020 08:01:36 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 09 Apr 2020 08:01:49 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 09 Apr 2020 08:01:49 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
+ 2020 15:01:48 +0000
+Received: from localhost (10.124.1.5) by DRHQMAIL107.nvidia.com (10.27.9.16)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020 15:01:48
+ +0000
+Date:   Thu, 9 Apr 2020 17:01:46 +0200
+From:   Thierry Reding <treding@nvidia.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] memory: tegra: avoid unused function warnings
+Message-ID: <20200409150146.GA3505571@ulmo>
+References: <20200408190043.532711-1-arnd@arndb.de>
 MIME-Version: 1.0
-In-Reply-To: <20200330204011.18465-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200408190043.532711-1-arnd@arndb.de>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.13.1 (2019-12-14)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
+Content-Disposition: inline
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586444496; bh=230bk55FM60HDeEDaVtGNsbVY+5/gRY3TT5xB7NycJQ=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:In-Reply-To:X-NVConfidentiality:User-Agent:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Disposition;
+        b=jjpV0xYDrI5Jh1DdqRNFyUEGGwgYhpf7tDYD3Ia41t3pixcPKpQPNo+Wc6h+r4Jpk
+         6tE3V0VhfWkegayHAVLVoK+/ATDwEtPMrR7ZHrXTp899PB/kCcCz1hn0Qf+E7+7yec
+         D0fX3FXFuHl9Rqfy0yxbrpAK2EF33ZgllfFbyxgsulQ4w7WdL64hrnCb0R1g1Oy+/N
+         Tv42Jp6GGBhcItUpf69xckICWh7fMt35EAkYBjjn3x00JJA7WiMYEEV8p9+6Ff3pYB
+         j4H7PPB33dALl5r3nGt/fDiQRvDQ0ol03WtHsZr/AsmgWy32JeRjk/jCkGCLIGtgre
+         IKZJG42c1OMPg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.03.2020 23:40, Dmitry Osipenko пишет:
-> Hello,
-> 
-> Some devices have a 4-pin jack instead of a 3-pin and currently the
-> WM8903 configuration is hardcoded to the case of 3-pin jack in the
-> Tegra's ASoC driver. A new device-tree property is required in order
-> to convey that hardware has a 4-pin jack, and thus, microphone's
-> detection needs to be done in a different way.
-> 
-> In particular this is needed for Acer A500 tablet device that has
-> a 4-pin headset jack, otherwise userspace sees headset instead of
-> headphones and internal microphone isn't enabled by ALSA UCM rule
-> when it should be. Please review and apply, thanks in advance.
-> 
-> Dmitry Osipenko (2):
->   dt-bindings: sound: tegra-wm8903: Document new nvidia,headset property
->   ASoC: tegra: tegra_wm8903: Support nvidia,headset property
-> 
->  .../devicetree/bindings/sound/nvidia,tegra-audio-wm8903.txt | 1 +
->  sound/soc/tegra/tegra_wm8903.c                              | 6 +++++-
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
+--x+6KMIRAuhnl3hBn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Jon / Stephen, are you okay with this patchset? Could you please ack it?
-Thanks in advance.
+On Wed, Apr 08, 2020 at 09:00:30PM +0200, Arnd Bergmann wrote:
+> The suspend/resume functions have no callers depending on
+> configuration, so they must be marked __maybe_unused to
+> avoid these harmless warnings:
+>=20
+> drivers/memory/tegra/tegra186.c:1578:12: error: 'tegra186_mc_resume' defi=
+ned but not used [-Werror=3Dunused-function]
+>  1578 | static int tegra186_mc_resume(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~~~
+> drivers/memory/tegra/tegra186.c:1573:12: error: 'tegra186_mc_suspend' def=
+ined but not used [-Werror=3Dunused-function]
+>  1573 | static int tegra186_mc_suspend(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~~~~
+>=20
+> Fixes: 177602b00641 ("memory: tegra: Add system sleep support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/memory/tegra/tegra186.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Do you want to apply this to ARM SoC directly or would you prefer if I
+collected fixes and send a PR sometime later in the cycle?
+
+If the former:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--x+6KMIRAuhnl3hBn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6PONkACgkQ3SOs138+
+s6GwCxAAqz/EbclxuLXTI0bmj3b7UG7+js/fzr2oWdIIu3SkJWJfoxyfxdWXZDUG
+M5989jPwZxiqyZU68dplxAED6TzPTMFJHYqvtk+Ex73gwRidRj5Jpoa8sXuOVsLL
+Io7Us/Zhd233Qi+QyfSfmR3Gvq6X9M/HKvLIVj8x/lbLinnunGlmMBE0i4VTt0e0
+1yK6L2wMWTolXwmJqRYtZ8Ct8HbSJUfOQnrx4dvrthrxYpEGe9c3mqj7b2ds7TeQ
+Y7tAoPxqOmMbju5BKHhmMkY+xpIfE4NNxyCGfiLcGaPuJ0DQtrIqrLGWAtD7RpMj
+CXAqI7YUvp3fF/CUIDgVrPRt17G/VR98EYYuyu0YO7Frr3eUx9p7LsWtmC0vQvb5
+I2c+crnGHhnb8Rw9I4B9xH3pYt+7bLPg5wz/4stF8SWE3oq3FZc41Dd9k2jir7vy
+daz7SxTC++0aBIa3gwk2tXWLbb90fZuMOi0T8QVz5uaGWUpGygaT/WyUBucMTGQ3
+qtJJe7nJ6RHwQZL8tvsuxDR6djl0zV3jHtOvT5s17ET/HNCgANp1cSr8UOJOgqdg
+F+ape+W428Hgpkp+6Kj6IbCtVHbW1lgmEcLxuLb4BvPIR4mroQNg5ffYzpWZ5TTL
+8iUv9Z4kedsuVwd01glV7uMV6+aW3n2u5P34R5s21OTFlF2C8e4=
+=KD63
+-----END PGP SIGNATURE-----
+
+--x+6KMIRAuhnl3hBn--
