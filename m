@@ -2,91 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E44E1A3221
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 11:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ACDA1A3315
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 13:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgDIJzs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Apr 2020 05:55:48 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6186 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726632AbgDIJzr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 05:55:47 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8ef0ee0000>; Thu, 09 Apr 2020 02:54:54 -0700
+        id S1726082AbgDILUz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Apr 2020 07:20:55 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17408 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725972AbgDILUz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 07:20:55 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8f04ae0000>; Thu, 09 Apr 2020 04:19:10 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 09 Apr 2020 02:55:47 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 09 Apr 2020 04:20:54 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 09 Apr 2020 02:55:47 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Thu, 09 Apr 2020 04:20:54 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
- 2020 09:55:47 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 9 Apr 2020 09:55:47 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.26.73.58]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e8ef1210001>; Thu, 09 Apr 2020 02:55:47 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Vidya Sagar <vidyas@nvidia.com>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] arm64: defconfig: Re-enable Tegra PCIe Host driver
-Date:   Thu, 9 Apr 2020 10:55:30 +0100
-Message-ID: <20200409095530.12004-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+ 2020 11:20:54 +0000
+Received: from [10.24.37.103] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020
+ 11:20:49 +0000
+Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+CC:     <rjw@rjwysocki.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <bbasu@nvidia.com>,
+        <mperttunen@nvidia.com>, Sumit Gupta <sumitg@nvidia.com>
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+ <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
+ <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
+ <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
+ <20200406025549.qfwzlk3745y3r274@vireshk-i7>
+ <3ab4136c-8cca-c2f9-d286-b82dac23e720@nvidia.com>
+ <20200408055301.jhvu5bc2luu3b5qr@vireshk-i7>
+ <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
+ <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
+From:   Sumit Gupta <sumitg@nvidia.com>
+Message-ID: <00390070-38a1-19aa-ca59-42c4658bee7e@nvidia.com>
+Date:   Thu, 9 Apr 2020 16:51:13 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586426094; bh=LC+xdxWnqrjeSuG6FbiFd91p56RmdIaWaTsvY+88hs0=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=d+NFzngmRDCjLzZ/7jgwMohEtEFfkoWEYCBhmwabkTUgkH4OZY90wDi4yXlpdmc9w
-         00tJIGVHH40hDZKXDwtlYmjsGk+3j+KaJFx90W13XdqW3wRTuCAzD1zprXKMTyFAOK
-         2PAyY0JfiuUbkx49MWMKtvEV7ajugZRggGUenD0e6MCfR24Qj15nPpE8NJXYqLpYg+
-         U7vSsKs2oSjz/sYFfYrUQOEIKvb0nQdIsGocOk+IhiS7bX+cwqSfw9zwvb1mqYKjwY
-         5uQTMY8PVXi8IITDDGpdmxo9fmrwMoJw/6A3ogNJCs9i9Yri3eOsW8aVb7f5wyNzc9
-         3iHJK/qyCGQ+A==
+        t=1586431150; bh=qMj+7UqSwh6oU1fngw5KoRbQ6xPzFrPcGepKTB1mVZk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Rjpp4cG4bDTXrC6kQByGu9sXXULFmZfKueFslkBwG7MqdgPN4ewhwHCClI/UlFr1d
+         g6vaC3CTN0fXLX0i7vcueUHYBa25tt4wGFjyidi3w7T5dnKEKSkoMJcZV9z4/bmhVs
+         ByaVYwf6aGGyg/syi9vdzrlI0cpmWKa+OxAwB+FqGzoMZlKD5d9KQf2CT/hL1Uh/Tu
+         2nOWyBtV7AD4CnOOCSnc98IrrljSfAXLEYGcPAfN1pzi0zi604lvPQev+KkSPctUtk
+         +yX1OQGsBistlrxX97ZqQNJ+K8RFRHUawTd+BDj+Q70YcTWAnUTMU629pspUBI7unW
+         Ic82eu3GUyjkg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit c57247f940e8 ("PCI: tegra: Add support for PCIe endpoint mode in
-Tegra194") updated the Tegra PCIe Kconfig symbol for building the Tegra
-PCIe host controller driver. Following this change the Tegra PCIe host
-controller driver is no longer built by default and so no works without
-updating the arm64 defconfig. Fix this by updating the Kconfig symbol
-in the arm64 for the Tegra PCIe host controller so that again it is
-built by default.
 
-Fixes: c57247f940e8 ("PCI: tegra: Add support for PCIe endpoint mode in Tegra194")
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
-Please note that this is needed as a fix for v5.7.
+On 09/04/20 1:14 PM, Viresh Kumar wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> On 08-04-20, 16:54, sumitg wrote:
+>>
+>>
+>> On 08/04/20 11:23 AM, Viresh Kumar wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> On 07-04-20, 23:48, sumitg wrote:
+>>>> On 06/04/20 8:25 AM, Viresh Kumar wrote:
+>>>>> On 05-04-20, 00:08, sumitg wrote:
+>>>>>> On 26/03/20 5:20 PM, Viresh Kumar wrote:
+>>>>>>> On 03-12-19, 23:02, Sumit Gupta wrote:
+>>>>>>>> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
+>>>>>>>> +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
+>>>>>>>> +{
+>>>>>>>> +     struct read_counters_work read_counters_work;
+>>>>>>>> +     struct tegra_cpu_ctr c;
+>>>>>>>> +     u32 delta_refcnt;
+>>>>>>>> +     u32 delta_ccnt;
+>>>>>>>> +     u32 rate_mhz;
+>>>>>>>> +
+>>>>>>>> +     read_counters_work.c.cpu = cpu;
+>>>>>>>> +     read_counters_work.c.delay = delay;
+>>>>>>>> +     INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
+> 
+> Initialize the work only once from init routine.
+> 
+We are using "read_counters_work" as local variable. So every invocation 
+the function will have its own copy of counters for corresponding cpu. 
+That's why are doing INIT_WORK_ONSTACK here.
 
- arch/arm64/configs/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>>> +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
+>>>>>>>> +     flush_work(&read_counters_work.work);
+>>>>>>>
+>>>>>>> Why can't this be done in current context ?
+>>>>>>>
+>>>>>> We used work queue instead of smp_call_function_single() to have long delay.
+>>>>>
+>>>>> Please explain completely, you have raised more questions than you
+>>>>> answered :)
+>>>>>
+>>>>> Why do you want to have long delays ?
+>>>>>
+>>>> Long delay value is used to have the observation window long enough for
+>>>> correctly reconstructing the CPU frequency considering noise.
+>>>> In next patch version, changed delay value to 500us which in our tests is
+>>>> considered reliable.
+>>>
+>>> I understand that you need to put a udelay() while reading the freq from
+>>> hardware, that is fine, but why do you need a workqueue for that? Why can't you
+>>> just read the values directly from the same context ?
+>>>
+>> The register to read frequency is per core and not accessible to other
+>> cores. So, we have to execute the function remotely as the target core to
+>> read frequency might be different from current.
+>> The functions for that are smp_call_function_single or queue_work_on.
+>> We used queue_work_on() to avoid long delay inside ipi interrupt context
+>> with interrupts disabled.
+> 
+> Okay, I understand this now, finally :)
+> 
+> But if the interrupts are disabled during some call, won't workqueues face the
+> same problem ?
+> 
+Yes, we are trying to minimize the case.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 24e534d85045..266ad7b5ce91 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -208,7 +208,7 @@ CONFIG_PCIE_QCOM=y
- CONFIG_PCIE_ARMADA_8K=y
- CONFIG_PCIE_KIRIN=y
- CONFIG_PCIE_HISI_STB=y
--CONFIG_PCIE_TEGRA194=m
-+CONFIG_PCIE_TEGRA194_HOST=m
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_FW_LOADER_USER_HELPER=y
--- 
-2.17.1
-
+> --
+> viresh
+> 
