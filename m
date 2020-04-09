@@ -2,154 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 282A21A2DFE
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 05:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 476C71A3061
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 09:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbgDIDir (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Apr 2020 23:38:47 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14454 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726534AbgDIDir (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Apr 2020 23:38:47 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8e98910000>; Wed, 08 Apr 2020 20:37:53 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 08 Apr 2020 20:38:46 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 08 Apr 2020 20:38:46 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
- 2020 03:38:46 +0000
-Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020
- 03:38:45 +0000
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
- <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
- <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
- <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
- <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
- <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
- <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
- <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
- <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
- <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
- <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
- <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
- <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
- <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
- <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
- <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
- <a638bb8e-bb50-7aa5-05a0-8de1c6207ba7@nvidia.com>
- <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
-Message-ID: <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
-Date:   Wed, 8 Apr 2020 20:38:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1725783AbgDIHoU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Apr 2020 03:44:20 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:37064 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726559AbgDIHoU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 03:44:20 -0400
+Received: by mail-pg1-f195.google.com with SMTP id r4so4611467pgg.4
+        for <linux-tegra@vger.kernel.org>; Thu, 09 Apr 2020 00:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=S4xKuTMpvub44uC+2VePDHC2aHUHahAepDBHwFjnk3U=;
+        b=BRdTs+aUrBtkDH3qvrVnSv17R/XI4bmx3i/sUL+WIVC1VN4nUGqRW5P2DPokR8Pox4
+         Jty0vLGz8xpjnzIArbd/y1S9HKzmdEkIdu9W4GOJTfwKOpiZhOqxOzouv8wtRXDiTVKA
+         H/ktGuX7DMh5izjF8whaDS/SOYuiDuTxVPUagdnP0URZMl8Cuxm/4Iy9x7uepkxNoix2
+         3CK8gk7FLxV6hSNKJKLoLh4gJ4/b06x5uLe1Cff4Yd2rdscP3gAZuYZAf3XoXSX+oBvA
+         fHtPSef1lmA5xyTN1GH/OnUNoXFgIktEnp+S6Hb3v0DipiT2x4Q6w99rvOXqdzALSXcI
+         q42Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=S4xKuTMpvub44uC+2VePDHC2aHUHahAepDBHwFjnk3U=;
+        b=DI5tGUhj6zC4ioZJOIILIV33euWr2W0AqDxEMu1WBNZHrGnhJOBBcC5y4ChAcDaWwp
+         r9UKK//46v5sNUuXKSEPce2+NTod+3YAGjA1RWsbOItZuvgYKg9ry7oxYjOBG0gNLm14
+         jwKs8IrLY7Fccl80uR8YRgjJFOzPhfekS1WExkZevg0xzig0HhvhPPmardFELoSa8nGD
+         wWBVTidEAE+Tr/ZIfuF+sj/8Bobl/3B6JbIQ6YGpUsAhbjpzkQA/ogCjDxAoy+6XeCRf
+         bP4PjmKcCpoj2JGg4rk8Sf3tutTZDXApNosSBNxpO9RtpCagczaNN6gIW3FaL8mxRFnQ
+         J5Ag==
+X-Gm-Message-State: AGi0PubMj/y41wse6TyyaSI+Z1+JAiGLTItUKCAjuge7B/TxHGyyj2RO
+        o6QC8rM26WBIMiZl60QuGF4XqQ==
+X-Google-Smtp-Source: APiQypLfvzycvtY7B0F9LPaaNExw8KdQUsdLORxwe+vO7XdvZD2yR56LW38fhQ7je8aXybIQeolseA==
+X-Received: by 2002:a62:d10b:: with SMTP id z11mr11675504pfg.205.1586418258201;
+        Thu, 09 Apr 2020 00:44:18 -0700 (PDT)
+Received: from localhost ([122.171.118.46])
+        by smtp.gmail.com with ESMTPSA id k20sm17128358pgn.62.2020.04.09.00.44.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Apr 2020 00:44:17 -0700 (PDT)
+Date:   Thu, 9 Apr 2020 13:14:15 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     sumitg <sumitg@nvidia.com>
+Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bbasu@nvidia.com, mperttunen@nvidia.com
+Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
+Message-ID: <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+ <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
+ <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
+ <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
+ <20200406025549.qfwzlk3745y3r274@vireshk-i7>
+ <3ab4136c-8cca-c2f9-d286-b82dac23e720@nvidia.com>
+ <20200408055301.jhvu5bc2luu3b5qr@vireshk-i7>
+ <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586403473; bh=F3HaYrMPuOWwgOrFNUyJnJrQiX8sKdxipOmM0RTMENg=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=V/lySZEDTrNKSUloen7q5QCbi5mqLHaFQ6Y2gcCm/EPx4ZVA0Ml2r/KrvN5qdkA0Y
-         gjw1nZhoHHvu/lQNnDeIcWjV/iouQHEx1u72vmggPBb7jx5fMtqFXkXeachsDRBh6v
-         tIImffl66CeV/sMm6yfOZ1AKgy0i0AVSv/2HOPYrQF8ldIILMwAZzkgBW1y76AAJWq
-         5x3IiqGODYBo7qF3jjByJMCluRc9sx4gmcTqzYkxuHM97ZCjCJI8fVJsI0nyDYvbEY
-         PB9HNjUIjr3yR0wF7l42smtzt0CZJnSaYEKWGLLYTT8QcdFpDmYTQrr780vxRXbdt/
-         pOYd4LQkJ/qZw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 08-04-20, 16:54, sumitg wrote:
+> 
+> 
+> On 08/04/20 11:23 AM, Viresh Kumar wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > On 07-04-20, 23:48, sumitg wrote:
+> > > On 06/04/20 8:25 AM, Viresh Kumar wrote:
+> > > > On 05-04-20, 00:08, sumitg wrote:
+> > > > > On 26/03/20 5:20 PM, Viresh Kumar wrote:
+> > > > > > On 03-12-19, 23:02, Sumit Gupta wrote:
+> > > > > > > diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
+> > > > > > > +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
+> > > > > > > +{
+> > > > > > > +     struct read_counters_work read_counters_work;
+> > > > > > > +     struct tegra_cpu_ctr c;
+> > > > > > > +     u32 delta_refcnt;
+> > > > > > > +     u32 delta_ccnt;
+> > > > > > > +     u32 rate_mhz;
+> > > > > > > +
+> > > > > > > +     read_counters_work.c.cpu = cpu;
+> > > > > > > +     read_counters_work.c.delay = delay;
+> > > > > > > +     INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
 
-On 4/8/20 12:38 PM, Sowjanya Komatineni wrote:
->
-> On 4/8/20 11:58 AM, Sowjanya Komatineni wrote:
->>
->> On 4/8/20 10:45 AM, Sowjanya Komatineni wrote:
->>>
->>> On 4/8/20 7:21 AM, Dmitry Osipenko wrote:
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> 08.04.2020 03:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> ...
->>>>>>>>> I suppose that taking a shot takes at least few milliseconds,=20
->>>>>>>>> which
->>>>>>>>> should be unacceptable to waste.
->>>>>>>> As long as buffers are in queue we have to keep processing each
->>>>>>>> buffer and between buffers obviously we have to wait for previous
->>>>>>>> frames to finish and this why we have separate thread for frame
->>>>>>>> finish where we can have next buffer capture ready and issue while
->>>>>>>> previous frame memory write happens
->>>>>> Also we specified numbers buffers as 3 to vb2 queue. So this is rare
->>>>>> case but to prevent issuing more than 2 at a time as VI HW is only
->>>>>> double buffered and syncpt fifo max depth is 2 added this to be=20
->>>>>> safer.
->>>>> To be more clear, when more buffers are enqueued from userspace=20
->>>>> always
->>>>> capture list will be full and thread will be busy in capture till=20
->>>>> either
->>>>> error or stop stream request happens.
->>>>>
->>>> If kthreads take more than 1% of CPU time during capture (video) with
->>>> more than 2 buffers in queue, then it's not good and I think you=20
->>>> should
->>>> do something about it. If kthreads stay at ~0%, then it should be okay
->>>> as-is.
->>>
->>> VI outstanding requests max can only be 2=C2=A0 as syncpt fifo depth is=
-=20
->>> 2=C2=A0 and waiting to issue next capture when already 2 captures are=20
->>> inflight happens only during beginning of streaming where buffers=20
->>> allocated go thru capture for first time after queuing.
->>>
->>> same buffers are returned to userspace after capture and same=20
->>> allocated buffers will be queued back for subsequent captures.
->>>
->>> So this case of holding to issue single shot when already single=20
->>> shot is issue for 2 frames simultaneous happens only during=20
->>> beginning of start stream and also we set num_buffers to allocate=20
->>> for queue as 3 although 2 is good enough where we will not hit this=20
->>> case even during streaming start with 2 buffers
->>>
->> As 2 buffers are good enough to be clear will update in v7 to use 2=20
->> buffers so we don't need to check for more than 2 outstanding buffers.
->
-> correction: With 3 buffers, as soon as buffer is available capture=20
-> starts. So right most times I see it waiting for few ms before 3rd=20
-> capture to get through.
->
-> As only 2 frames single shot can be issued in sequence (inflight=20
-> requests), instead of waiting for 1 of the request to finish, we can=20
-> use 2 buffers and avoid waiting as 2 buffers are good enough. Will=20
-> change this in v7.
->
->
->
-Tested with 3 buffers and by checking outstanding buffers in process by=20
-VI hw and holding to start capture till one outstanding buffer in=20
-process by HW.
-Also tested with 2 buffers without checking for outstanding buffers.
+Initialize the work only once from init routine.
 
-In both cases, I see same %CPU for the kthreads and is < 1%
+> > > > > > > +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
+> > > > > > > +     flush_work(&read_counters_work.work);
+> > > > > > 
+> > > > > > Why can't this be done in current context ?
+> > > > > > 
+> > > > > We used work queue instead of smp_call_function_single() to have long delay.
+> > > > 
+> > > > Please explain completely, you have raised more questions than you
+> > > > answered :)
+> > > > 
+> > > > Why do you want to have long delays ?
+> > > > 
+> > > Long delay value is used to have the observation window long enough for
+> > > correctly reconstructing the CPU frequency considering noise.
+> > > In next patch version, changed delay value to 500us which in our tests is
+> > > considered reliable.
+> > 
+> > I understand that you need to put a udelay() while reading the freq from
+> > hardware, that is fine, but why do you need a workqueue for that? Why can't you
+> > just read the values directly from the same context ?
+> > 
+> The register to read frequency is per core and not accessible to other
+> cores. So, we have to execute the function remotely as the target core to
+> read frequency might be different from current.
+> The functions for that are smp_call_function_single or queue_work_on.
+> We used queue_work_on() to avoid long delay inside ipi interrupt context
+> with interrupts disabled.
 
+Okay, I understand this now, finally :)
+
+But if the interrupts are disabled during some call, won't workqueues face the
+same problem ?
+
+-- 
+viresh
