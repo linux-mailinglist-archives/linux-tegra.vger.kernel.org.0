@@ -2,119 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E4191A2B57
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Apr 2020 23:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 282A21A2DFE
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 05:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729719AbgDHVhi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Apr 2020 17:37:38 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:46142 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726754AbgDHVhh (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Apr 2020 17:37:37 -0400
-Received: from [10.2.49.83] (thunderhill.nvidia.com [216.228.112.22])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 339571C053D;
-        Wed,  8 Apr 2020 15:37:36 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.1 at avon.wwwdotorg.org
-Subject: Re: [PATCH] dmaengine: tegra: fix broken 'select' statement
-To:     Arnd Bergmann <arnd@arndb.de>, Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20200408200504.4067970-1-arnd@arndb.de>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Autocrypt: addr=swarren@wwwdotorg.org; prefer-encrypt=mutual; keydata=
- xsFNBE6KoecBEACosznehcVarBMNKGOiQ4MBbDAKQo73RDLP4hKEtaTVoQKg7tAM/tcQgbR6
- p1NSxVq9tunbEskwHkHc/ES/xT+JBFMmG8mh2SmBocyuNjlN8lsW8r2CuLA8EuDr7Laz5yl0
- Gf/G3Q+yYH+ytUnUuPmlxTueR7MNxIT0lz0fjil2HJclha/T3o8osagYWsXyN9Iaqy+6YTit
- fG4hVCr0s+3SYylRp9m2/LaP0CPTQVCJKnv1Oq83PnnV/BA/9sBYxDaVNGfdz2FAWqSH4H7q
- oyonAMzsF7f/cTYcFGTN3kL3UonG43DHpqCv+gHMKITBCxN+3HjX4wuNC7raoHVRRbx7/JES
- ZrJ1ymKdMNxl8bquldTk6VyAJlTRjuq7jRY9LIEHcns91MYFgpz7RAhCPmXnsMgpuIvU/yTE
- aApIAkHSo2Nyk9NeyIsji5voa9VAAoZKLGFTkhyPLEcjU9JmH/x224zGLtK28bL+P61PCk02
- jG7RTF4665IDbmC8UNvEm9mBgFNlEgOPqbVF9oa5Gd9cnaOTucDLJqjCpM53SM5Jd3eRHk7A
- zDHSBWsRsmKXU4hhxlu+90tb7I0TcjPfqeCrO46rNELdskcJAlLzx0v07+IhhGAM70oAbP49
- VBA7hsVCimuITFSUUwAtzFJmFg/mjxNdftTr3yssaK41VmxsIQARAQABzSZTdGVwaGVuIFdh
- cnJlbiA8c3dhcnJlbkB3d3dkb3Rvcmcub3JnPsLBrAQTAQIAPwIbAwYLCQgHAwIGFQgCCQoL
- BBYCAwECHgECF4AWIQTmd6/Z3M3mpZiMqw6bjacJJlQhnAUCXboEKAUJERCVvgAhCRCbjacJ
- JlQhnBYhBOZ3r9nczealmIyrDpuNpwkmVCGc074P/jq2nW6yORiLCgiTX3I0ro0sUq6aOvkq
- WH/g1Oq4fTr6TmabZVFvuuUZDF/AwB6p0Mm6tWar29nF1/OEx7QrrrHrBEcaAEHmZFjoenDK
- 3SJDHDLBkcuMiZS7CFdb22vBYrgzoHwptySrRcHWW5rxhAKgyTX/p7F96zicNPS1sljc7JNW
- oik6b90PmCeKCeuoH4ruBO+3naDInKrL389xvujF38aTkgai9DJtWjWizZzAP+DWJrHtb6zz
- fsPA41hnZ5mKmUbiuJehPbv0+Q6QSFjLhNiP6lvkV34uANH3TQn2o6nApoa3XT5fIxrJOFrz
- q6xuM2tcyd/dRr1TdtIQCRABaKYIF/mgtMa19+GbLI8A/t1RmxEhlctSEUOFO7E3PNiwIjvI
- OpqZjq3NR8/+Lw2Zv9H3B7Wywk87ESwaYhYL29AzVvAMKFYHpDbn0abN+GVyit+fVbrUvKed
- nr63H7bG81O1DBA44gBDaIZhwOQDqeTou05rFa2PLGbdd6YL8AM6nWVI9UqD2+aKg1GcXtFO
- cq3Ll5fzUoSys13a14cCDLI82XvPxJh8TOtC8wJywYwAa75ieuVXxWh74d9qRYq3iJZpIWCE
- s5NkkGN4Q1dul84OQrwiN+2PYH+k2M6MGMt+9MHEoR+vrtMNUIeCa/ctYX6mb+nSPZAr5Fx0
- LZMdzsFNBE6KoecBEAC5xnYhQJCsaOCCTrzpnifMCUC0zLvhKgdChd4QAJm8ap+qufkbz3oF
- iJx1u19AbX8PNT3mdtwsguJhcamdT49YepVEvo6znc4S/pxjbX882CovKoOqSPSnE9VIbLHG
- VnxwDQGp2cbdqYOF7qvr4wGliR/X1Hx72EK3kSppvGEQp/uyW0QzHUC6XX9TdKawWAPohaqm
- TXqaQSMp6uOhNCTmydTAN2V4bJpQBU3BpNNtBZ+mnHlu/Yl74x0tgIYBqxEVdYz3Ryn1FTTC
- NCKcGiO8px2e7VBsKAiC9tRMZYjuH5HaS0SgI2asbAqX1OduiC1BTvM9P3oqps0Vs8zR7nxt
- Lodws79Vjoc0Ab/5BSEMIooww0Eo/VYwqnMs6Bvk5dtv7kCVRMUyV2JrTD0cCw0E+urjW5Dw
- kr4hRDTi8Xr45WecHxXMHZOllE4q8PxaK+rwoX0boXIQ+i3bL6Nemj3d6+ELYe5Dpswzmn0Z
- RrDegq7ly9303bEve09cIVZ4PS2rkx54bGN9R9TgXhU7XnRHyCSKFE8vSXXyG9Lu2aHq+od1
- bUoTOQfoLOAeJOrbo+crZAq33W69t6rD0Q1WHuvzd2zpOQdlsrUOGkDKuk0dBxpzlf8uusaD
- lE5fjd4RQXreKVjSKczrMd9uhLe2cdsVNFljHZlXnFRciNsUge6AKwARAQABwsGTBBgBAgAm
- AhsMFiEE5nev2dzN5qWYjKsOm42nCSZUIZwFAl03xTwFCRD+ZlUAIQkQm42nCSZUIZwWIQTm
- d6/Z3M3mpZiMqw6bjacJJlQhnA+lD/9/DbFI8lUQyb0ZOBLHW6iX+Ps++hElYOmjL4T4f6wa
- FMNiFk2lPom/xq8OL5B2swWC7w5o/j+GwrS6MbkL/s932zQ15+AVD0HfhTBKKQEnQUPVLM2T
- 9AcXpY0s8AYsWa89YNTJpdbFc5ep/Nx6R3rYu0ixJtrJT+p19qhIavMRaHMYuxGLO4xs4CUO
- Z2kq6+KKNIAi63FjYBLYPPGd6KyXSj1zWZwAE6qLLPl/MGrbKSqETj01Z7NuGYbJNVi0ooIq
- b+iBGsPQRx6FhiVXbo9eheBJ/Qui4QVCur2WFzxzlhqTDknA0d5by+tQvg4NUmm0u64YIeGQ
- 5U4wLL60kch1Cr1MSM9eBi1fsq3FRCd7QQnCO3MaJ9odE5BaHKpDFzd9cxrBA/StoDkiU6Ci
- o9HrHblS9gNQemZT+WTSA/t7dB97NesqGbDtdW5G0wfliNFmvS9qDpUe3hSa6f9PgCz/8QzS
- aXcBhnI7xRoXZxRKo3mnNihC/5hnNxMsUP5oNdhRPVyTs8wlLKXBHXUpj6OgoFO01e05Niak
- UR3Mub2hXCUcJ3UuO1+nxY88x+K86LZnMCa+0A6RTeTJAz6aaF2Fr/h7xncLk3LG3/ODQFjb
- S1cWYsAeg++INJffJzend+91hvGp1WcI8TGc6BjYnO5mKBuVumOKXi4wa2OJo9y3lMLBkwQY
- AQIAJgIbDBYhBOZ3r9nczealmIyrDpuNpwkmVCGcBQJdugQxBQkREJXIACEJEJuNpwkmVCGc
- FiEE5nev2dzN5qWYjKsOm42nCSZUIZywWA//d3PsJki5IAkAsALeF+qMHtyGFCf/vc1V91jN
- MC2wuAo7MKLxQDyMdkjSp0s+UrDzTY9bYocfB2G3mXnJDEzQSd6snf0pEMQVf77SGbddcFCO
- GsfJuE6DmsSjVncK3JO9/eXeqyTup/PNN2RYkuR394+RxeUvf/f1km80DtO0beI3g/EtMSE1
- ljLwDuh98j9qVSJ0xK7cmf/ngi703BltS8rpoXDioS1fTlVFdJpGOH94PVlyJsDbHy4rDeFU
- Ptk1Q0hRGKNpCPCVQntLAc3mH9++3oVxxCsvgUfjHbgwzptTGj6SbXH3piyBPMHRXhtIiHRH
- kkrxbMKGuzkU5dPmMv7Mzw9yaMYY8mmPZMPJoLA0bW6DuZ1nAz9U7njM/xb1WIZHKA8HVfTz
- 4fO8lP7jxCod6uBvu3vgBRbYTu3QoQjxhIjbAE5P9ZxLggx919dKypYiXeIPB8OHg5/4LwEi
- f+rjKF/HHMo+ZCJx9BCZeW5yNkeTm638JfD1XjrZzDNsawdMFFdGL5TJrubu52fxsml41ay6
- Qacni4jVUmZDP1HVYzcQN42O7ynZKMecpwM3G6V9L3Ifs8VpfdPpOnJb6TOXUOrITz4kyHDy
- 0hRsU1DwGeqzyyZAJT6MHZR0qO93XKFy9+WgzUXS2j0rQ9D4zTQI4c0Zp3ri8v5ZDXJh1W0=
-Message-ID: <7c637edc-200b-ed8e-26c8-52c2c7d8025a@wwwdotorg.org>
-Date:   Wed, 8 Apr 2020 15:37:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726549AbgDIDir (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Apr 2020 23:38:47 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14454 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726534AbgDIDir (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Apr 2020 23:38:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8e98910000>; Wed, 08 Apr 2020 20:37:53 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 08 Apr 2020 20:38:46 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 08 Apr 2020 20:38:46 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
+ 2020 03:38:46 +0000
+Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020
+ 03:38:45 +0000
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+ <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
+ <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
+ <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
+ <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
+ <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+ <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+ <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
+ <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+ <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
+ <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
+ <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
+ <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
+ <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
+ <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
+ <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
+ <a638bb8e-bb50-7aa5-05a0-8de1c6207ba7@nvidia.com>
+ <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
+Message-ID: <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
+Date:   Wed, 8 Apr 2020 20:38:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200408200504.4067970-1-arnd@arndb.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586403473; bh=F3HaYrMPuOWwgOrFNUyJnJrQiX8sKdxipOmM0RTMENg=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=V/lySZEDTrNKSUloen7q5QCbi5mqLHaFQ6Y2gcCm/EPx4ZVA0Ml2r/KrvN5qdkA0Y
+         gjw1nZhoHHvu/lQNnDeIcWjV/iouQHEx1u72vmggPBb7jx5fMtqFXkXeachsDRBh6v
+         tIImffl66CeV/sMm6yfOZ1AKgy0i0AVSv/2HOPYrQF8ldIILMwAZzkgBW1y76AAJWq
+         5x3IiqGODYBo7qF3jjByJMCluRc9sx4gmcTqzYkxuHM97ZCjCJI8fVJsI0nyDYvbEY
+         PB9HNjUIjr3yR0wF7l42smtzt0CZJnSaYEKWGLLYTT8QcdFpDmYTQrr780vxRXbdt/
+         pOYd4LQkJ/qZw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 4/8/20 2:04 PM, Arnd Bergmann wrote:
-> A SoC driver selects the dmaengine driver for the platform it
-> is made for, leading to Kconfig warnings in some configurations:
-> 
-> WARNING: unmet direct dependencies detected for TEGRA20_APB_DMA
->   Depends on [n]: DMADEVICES [=n] && (ARCH_TEGRA [=y] || COMPILE_TEST [=y])
->   Selected by [y]:
->   - SOC_TEGRA_FUSE [=y] && ARCH_TEGRA [=y] && ARCH_TEGRA_2x_SOC [=y]
-> 
-> WARNING: unmet direct dependencies detected for TEGRA20_APB_DMA
->   Depends on [n]: DMADEVICES [=n] && (ARCH_TEGRA [=y] || COMPILE_TEST [=y])
->   Selected by [y]:
->   - SOC_TEGRA_FUSE [=y] && ARCH_TEGRA [=y] && ARCH_TEGRA_2x_SOC [=y]
-> 
-> Generally, no driver should 'select' a driver from a different subsystem,
-> especially when there is no build-time dependency between the two.
 
-IIRC there's a run-time dependency between the two though; without the
-DMA driver available to implement a HW WAR, the fuse driver has to
-access fuse registers directly which IIRC can cause a lock-up, or
-something like that. So I think allowing APD_DMA to be deselected by the
-user is wrong for T20 at least; it simply must be enabled. Perhaps
-ARCH_TEGRA_2x_SOC should select it instead?
+On 4/8/20 12:38 PM, Sowjanya Komatineni wrote:
+>
+> On 4/8/20 11:58 AM, Sowjanya Komatineni wrote:
+>>
+>> On 4/8/20 10:45 AM, Sowjanya Komatineni wrote:
+>>>
+>>> On 4/8/20 7:21 AM, Dmitry Osipenko wrote:
+>>>> External email: Use caution opening links or attachments
+>>>>
+>>>>
+>>>> 08.04.2020 03:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> ...
+>>>>>>>>> I suppose that taking a shot takes at least few milliseconds,=20
+>>>>>>>>> which
+>>>>>>>>> should be unacceptable to waste.
+>>>>>>>> As long as buffers are in queue we have to keep processing each
+>>>>>>>> buffer and between buffers obviously we have to wait for previous
+>>>>>>>> frames to finish and this why we have separate thread for frame
+>>>>>>>> finish where we can have next buffer capture ready and issue while
+>>>>>>>> previous frame memory write happens
+>>>>>> Also we specified numbers buffers as 3 to vb2 queue. So this is rare
+>>>>>> case but to prevent issuing more than 2 at a time as VI HW is only
+>>>>>> double buffered and syncpt fifo max depth is 2 added this to be=20
+>>>>>> safer.
+>>>>> To be more clear, when more buffers are enqueued from userspace=20
+>>>>> always
+>>>>> capture list will be full and thread will be busy in capture till=20
+>>>>> either
+>>>>> error or stop stream request happens.
+>>>>>
+>>>> If kthreads take more than 1% of CPU time during capture (video) with
+>>>> more than 2 buffers in queue, then it's not good and I think you=20
+>>>> should
+>>>> do something about it. If kthreads stay at ~0%, then it should be okay
+>>>> as-is.
+>>>
+>>> VI outstanding requests max can only be 2=C2=A0 as syncpt fifo depth is=
+=20
+>>> 2=C2=A0 and waiting to issue next capture when already 2 captures are=20
+>>> inflight happens only during beginning of streaming where buffers=20
+>>> allocated go thru capture for first time after queuing.
+>>>
+>>> same buffers are returned to userspace after capture and same=20
+>>> allocated buffers will be queued back for subsequent captures.
+>>>
+>>> So this case of holding to issue single shot when already single=20
+>>> shot is issue for 2 frames simultaneous happens only during=20
+>>> beginning of start stream and also we set num_buffers to allocate=20
+>>> for queue as 3 although 2 is good enough where we will not hit this=20
+>>> case even during streaming start with 2 buffers
+>>>
+>> As 2 buffers are good enough to be clear will update in v7 to use 2=20
+>> buffers so we don't need to check for more than 2 outstanding buffers.
+>
+> correction: With 3 buffers, as soon as buffer is available capture=20
+> starts. So right most times I see it waiting for few ms before 3rd=20
+> capture to get through.
+>
+> As only 2 frames single shot can be issued in sequence (inflight=20
+> requests), instead of waiting for 1 of the request to finish, we can=20
+> use 2 buffers and avoid waiting as 2 buffers are good enough. Will=20
+> change this in v7.
+>
+>
+>
+Tested with 3 buffers and by checking outstanding buffers in process by=20
+VI hw and holding to start capture till one outstanding buffer in=20
+process by HW.
+Also tested with 2 buffers without checking for outstanding buffers.
+
+In both cases, I see same %CPU for the kthreads and is < 1%
+
