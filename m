@@ -2,93 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 512E01A38F2
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 19:33:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 568FB1A3929
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 19:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbgDIRda (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Apr 2020 13:33:30 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:34077 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726538AbgDIRda (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 13:33:30 -0400
-Received: by mail-lj1-f193.google.com with SMTP id m8so576279lji.1;
-        Thu, 09 Apr 2020 10:33:27 -0700 (PDT)
+        id S1726523AbgDIRwq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Apr 2020 13:52:46 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:35887 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725970AbgDIRwq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 13:52:46 -0400
+Received: by mail-wm1-f68.google.com with SMTP id d202so655474wmd.1;
+        Thu, 09 Apr 2020 10:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w6oua6pgdDdSLqZ3ElhE13JK0x2D0ixah/qXhh6Ol1s=;
-        b=i33YDFJbxAY1klyUDrn2OSxE4UVt9CzORk36sK2BG/j0PsNrBCtaMIKE+7iaPewQJt
-         PB4k7YFlnp7LTU0Rl9P9t+XEqXnQOuOK3m0fcKC7UBGcPKwDOD2KC7fYfGqZrpQqiLVH
-         4P4KUpeLgqtjuHbmkH1Kol4U6zu3/EtBcC+1xPcqiPY7gAU5/trfH4HZPStaH44Q8Ocj
-         YEDus66YJHWajYVDdHMSFW9zbAIi2/Ih9Q/AfLeqB6LGr/sWvSfOxRmv0X6c+6qh/n6u
-         Lt6BEuRkvBkEuU51VvtT34BKIta0ENM9TVh1jIjqxGeuypqu1VvVIaS6iPU0pIOy2M2U
-         Es3Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a+Mi6KDkPWzdlDV0g49k1I6RXnFF1LUw8bky5xoGFzI=;
+        b=lh/5Onvo8Sxk7LUxcskXMpZ3z3znzprt8Iccxu5eJ5pLPW/pywKpoDqig28WLUBWAE
+         Z7gCtoU0p+f9OptjXJEuCXfmrwzP0YVN4WeIdNAn1ph0B9dHn/AcpOsC8NEe9lV0u7cY
+         7v6P7+csUEcXsaiBN8tj6epzuxBEFJseR/ZewMeOZrNZ7POHeV8FGbU3j9DJZ4uJPMI6
+         s73wvX9EhRUkhepBvFxde4lHjV8fBHAwFN5JKDW1t8rDOC8lTLMALLCQSKCOG0N3gvLp
+         0MjWOOwjYIMWdBqGfMilV/jVnzh7JyGnsVd6UAgtKFhDRwCUhZXcdcFego3mfSgSKCGm
+         63hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=w6oua6pgdDdSLqZ3ElhE13JK0x2D0ixah/qXhh6Ol1s=;
-        b=cdFW6oFBlGdCv1dN9alY+IrfSrbqlUmw89QuS8CtIoPz7aux/oTyxpsATBvuv4xTqb
-         GypLhejf51UX7khElaHEM0DFF3njAaky3KDK5mZ3ej90XJ0sI1rMm39wAeS+0kcyr5Ii
-         H1iHaEBeWKuYwlUzUPNfI/Mw5b0SvkYOIMeDiWqhf7VdooPi9fA/WEUjlWOX2EiejgWf
-         E/sE8vI/Yu/8vEFZl9KRsmGe6PPIcmQo8lCyZSeLUF3Ad0htfUNbxqcUgpYjDQBef7VL
-         pT8zMtDwR05si/+w85djwqPefODNwuYZgEj0A+49zWy9zqdhkNUQTbX0/2BQ00Q/hu4u
-         SGlA==
-X-Gm-Message-State: AGi0PuboZrUPPeWABNrd2orsI4ouRqBUgGzJNaGc9h03oFNj5pNwTyov
-        nAW4NAKtD+lSFfBPjNKQ1Xv1z9Vn
-X-Google-Smtp-Source: APiQypIFKzX2orBYpj3ZpvYChLybojahKGx4VgxULoLxhE1PIkc77vnIGEr1STj82ZoZhDpkUZ+Vhg==
-X-Received: by 2002:a2e:9757:: with SMTP id f23mr513176ljj.269.1586453606298;
-        Thu, 09 Apr 2020 10:33:26 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id y25sm10535877lfy.59.2020.04.09.10.33.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2020 10:33:25 -0700 (PDT)
-Subject: Re: [PATCH v1 0/2] Support headset on Tegra boards that use WM8903
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Stephen Warren <swarren@wwwdotorg.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org
-References: <20200330204011.18465-1-digetx@gmail.com>
- <5c9c995a-a571-e543-e680-30739cb1561c@gmail.com>
- <848cc6c5-e8e4-2796-3ee1-3e12a3e92c54@wwwdotorg.org>
- <a7159a8e-4987-0c08-ce3a-fa82d926218e@gmail.com>
- <20200409172952.GG5399@sirena.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0a82ccac-7a4c-ca0c-9a88-3a77c7bc24e6@gmail.com>
-Date:   Thu, 9 Apr 2020 20:33:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        bh=a+Mi6KDkPWzdlDV0g49k1I6RXnFF1LUw8bky5xoGFzI=;
+        b=EdTLeDgBSdLIaQ63/ajOCzUUbDCoSX2KdVzRyHtQJ35UnwFKS6qUAA4FL6O5Imkuxk
+         P1OVTjTuM1Qu2QX6f2oAjgl6kzX5xW4hnNGjDygnaAG/vUeU9Nj3h4mM+kCxypudG7OM
+         oMd63dI2a7ddPpyjaQadSBWYU86NDpJy9xYnC5xJPm3xVzqb3Lhr5tzL4iLCSyNB9NJK
+         NOmAigAoeclzDdm3ww/NsPI5tPKdpMZL1mpG98RYZK8ZvQo2rMifYqDcEuujzsj2kqt6
+         mx2N1qKF2XqiGfOz6GRqKLuM3dFsZNk9gdqcSR5cPfTJPPhG9O2i0Bt73aFfiupKL4sA
+         oYxw==
+X-Gm-Message-State: AGi0PuanFRfoC0HRtLFX1RWbFH7J1m3UPInI9EayN+yiCp9fPVACHDtG
+        N9e6i8TAc4Ci4VL/Cofwe3Y=
+X-Google-Smtp-Source: APiQypIwQYedhkD4ikYzon3PH8hdI8DOqzbEo6/+G/j0PB9M4GgoOca6zYcnr6G9RspgrJHZzCDV4g==
+X-Received: by 2002:a1c:9658:: with SMTP id y85mr975665wmd.63.1586454764586;
+        Thu, 09 Apr 2020 10:52:44 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+        by smtp.gmail.com with ESMTPSA id k23sm3956675wmi.46.2020.04.09.10.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2020 10:52:43 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v6 00/14] Add EMC scaling support for Tegra210
+Date:   Thu,  9 Apr 2020 19:52:24 +0200
+Message-Id: <20200409175238.3586487-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200409172952.GG5399@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.04.2020 20:29, Mark Brown пишет:
-> On Thu, Apr 09, 2020 at 08:13:54PM +0300, Dmitry Osipenko wrote:
-> 
->> The code change doesn't affect any of the old users, so it should be
->> safe anyways.
-> 
->> I understand that you don't feel comfortable to give an ACK if you're
->> unsure, but I assume that Jon is in the same position, and thus, I'm not
->> sure how to move forward.
-> 
->> Mark, could you please help with reviewing this series?
-> 
-> It is currently the merge window.  Nothing other than bug fixes is going
-> to get applied until the merge window is over, probably Sunday or Monday.
-> 
+From: Thierry Reding <treding@nvidia.com>
 
-Will be awesome, thank you :)
+This series introduces the EMC clock scaling support for Tegra210. The
+EMC table of supported frequencies is passed to the kernel via a device
+tree reserved memory region.
+
+Joseph posted the v4 of this series[0] about a year ago. I've dusted it
+off a bit and tried to address all of the comments that Dmitry had made
+in response to v4.
+
+Changes in v6:
+- add support for derated tables which are used under high temperatures
+- add patches to support memory-region-names property in DT
+- address review comments
+
+Changes in v5:
+- major rework to split this into a clk driver and an EMC driver
+- refactored some code to remove duplication and improve readability
+- removed some unused code and variables
+
+Thierry
+
+[0]: https://lore.kernel.org/linux-arm-kernel/20190529082139.5581-1-josephl@nvidia.com/
+
+Joseph Lo (8):
+  clk: tegra: Add PLLP_UD and PLLMB_UD for Tegra210
+  clk: tegra: Export functions for EMC clock scaling
+  clk: tegra: Implement Tegra210 EMC clock
+  dt-bindings: memory: tegra: Add external memory controller binding for
+    Tegra210
+  memory: tegra: Add EMC scaling support code for Tegra210
+  memory: tegra: Add EMC scaling sequence code for Tegra210
+  arm64: tegra: Add external memory controller node for Tegra210
+  clk: tegra: Remove the old emc_mux clock for Tegra210
+
+Thierry Reding (6):
+  dt-bindings: reserved-memory: Introduce memory-region-names
+  of: reserved-memory: Support lookup of regions by name
+  of: reserved-memory: Support multiple regions per device
+  clk: tegra: Rename Tegra124 EMC clock source file
+  memory: tegra: Support derated timings on Tegra210
+  arm64: tegra: Hook up EMC cooling device
+
+ .../nvidia,tegra210-emc.yaml                  |   82 +
+ .../reserved-memory/reserved-memory.txt       |    2 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi      |   37 +-
+ drivers/clk/tegra/Makefile                    |    3 +-
+ .../tegra/{clk-emc.c => clk-tegra124-emc.c}   |    0
+ drivers/clk/tegra/clk-tegra210-emc.c          |  369 +++
+ drivers/clk/tegra/clk-tegra210.c              |   87 +-
+ drivers/clk/tegra/clk.h                       |    3 +
+ drivers/memory/tegra/Kconfig                  |   14 +
+ drivers/memory/tegra/Makefile                 |    4 +
+ drivers/memory/tegra/mc.h                     |    1 +
+ drivers/memory/tegra/tegra210-emc-cc-r21021.c | 1744 ++++++++++++++
+ drivers/memory/tegra/tegra210-emc-core.c      | 2099 +++++++++++++++++
+ drivers/memory/tegra/tegra210-emc-table.c     |   94 +
+ drivers/memory/tegra/tegra210-emc.h           | 1023 ++++++++
+ drivers/memory/tegra/tegra210-mc.h            |   49 +
+ drivers/of/of_reserved_mem.c                  |   41 +-
+ include/dt-bindings/clock/tegra210-car.h      |    4 +-
+ include/linux/clk/tegra.h                     |   27 +
+ include/linux/of_reserved_mem.h               |   11 +
+ 20 files changed, 5656 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.yaml
+ rename drivers/clk/tegra/{clk-emc.c => clk-tegra124-emc.c} (100%)
+ create mode 100644 drivers/clk/tegra/clk-tegra210-emc.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc-cc-r21021.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc-core.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc-table.c
+ create mode 100644 drivers/memory/tegra/tegra210-emc.h
+ create mode 100644 drivers/memory/tegra/tegra210-mc.h
+
+-- 
+2.24.1
+
