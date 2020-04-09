@@ -2,148 +2,400 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ACDA1A3315
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 13:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88DBA1A3372
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Apr 2020 13:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbgDILUz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Apr 2020 07:20:55 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17408 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725972AbgDILUz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Apr 2020 07:20:55 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8f04ae0000>; Thu, 09 Apr 2020 04:19:10 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 09 Apr 2020 04:20:54 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 09 Apr 2020 04:20:54 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
- 2020 11:20:54 +0000
-Received: from [10.24.37.103] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020
- 11:20:49 +0000
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-CC:     <rjw@rjwysocki.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <bbasu@nvidia.com>,
-        <mperttunen@nvidia.com>, Sumit Gupta <sumitg@nvidia.com>
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
- <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
- <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
- <20200406025549.qfwzlk3745y3r274@vireshk-i7>
- <3ab4136c-8cca-c2f9-d286-b82dac23e720@nvidia.com>
- <20200408055301.jhvu5bc2luu3b5qr@vireshk-i7>
- <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
- <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
-From:   Sumit Gupta <sumitg@nvidia.com>
-Message-ID: <00390070-38a1-19aa-ca59-42c4658bee7e@nvidia.com>
-Date:   Thu, 9 Apr 2020 16:51:13 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726523AbgDILq1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Apr 2020 07:46:27 -0400
+Received: from 8bytes.org ([81.169.241.247]:58840 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726082AbgDILq0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 9 Apr 2020 07:46:26 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 60A51398; Thu,  9 Apr 2020 13:46:25 +0200 (CEST)
+Date:   Thu, 9 Apr 2020 13:46:20 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Joerg Roedel <jroedel@suse.de>
+Subject: [PATCH] iommu/exynos: Get rid of 'struct exynos_iommu_owner'
+ exynos_iommu_owner
+Message-ID: <20200409114620.GA16298@8bytes.org>
+References: <20200407183742.4344-1-joro@8bytes.org>
+ <CGME20200407184501eucas1p25407bc96e4345df406cf6ba061ae6a82@eucas1p2.samsung.com>
+ <20200407183742.4344-32-joro@8bytes.org>
+ <449e7f16-e719-9617-ec92-63b82c0bc33f@samsung.com>
+ <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586431150; bh=qMj+7UqSwh6oU1fngw5KoRbQ6xPzFrPcGepKTB1mVZk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Rjpp4cG4bDTXrC6kQByGu9sXXULFmZfKueFslkBwG7MqdgPN4ewhwHCClI/UlFr1d
-         g6vaC3CTN0fXLX0i7vcueUHYBa25tt4wGFjyidi3w7T5dnKEKSkoMJcZV9z4/bmhVs
-         ByaVYwf6aGGyg/syi9vdzrlI0cpmWKa+OxAwB+FqGzoMZlKD5d9KQf2CT/hL1Uh/Tu
-         2nOWyBtV7AD4CnOOCSnc98IrrljSfAXLEYGcPAfN1pzi0zi604lvPQev+KkSPctUtk
-         +yX1OQGsBistlrxX97ZqQNJ+K8RFRHUawTd+BDj+Q70YcTWAnUTMU629pspUBI7unW
-         Ic82eu3GUyjkg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Marek,
 
+I had some more thoughts and discussions with Robin about how to make
+this work with the Exynos driver. The result is the patch below, can you
+please test it and report back? Even better if you can fix up any
+breakage it might cause :)
 
-On 09/04/20 1:14 PM, Viresh Kumar wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> On 08-04-20, 16:54, sumitg wrote:
->>
->>
->> On 08/04/20 11:23 AM, Viresh Kumar wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> On 07-04-20, 23:48, sumitg wrote:
->>>> On 06/04/20 8:25 AM, Viresh Kumar wrote:
->>>>> On 05-04-20, 00:08, sumitg wrote:
->>>>>> On 26/03/20 5:20 PM, Viresh Kumar wrote:
->>>>>>> On 03-12-19, 23:02, Sumit Gupta wrote:
->>>>>>>> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
->>>>>>>> +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
->>>>>>>> +{
->>>>>>>> +     struct read_counters_work read_counters_work;
->>>>>>>> +     struct tegra_cpu_ctr c;
->>>>>>>> +     u32 delta_refcnt;
->>>>>>>> +     u32 delta_ccnt;
->>>>>>>> +     u32 rate_mhz;
->>>>>>>> +
->>>>>>>> +     read_counters_work.c.cpu = cpu;
->>>>>>>> +     read_counters_work.c.delay = delay;
->>>>>>>> +     INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
-> 
-> Initialize the work only once from init routine.
-> 
-We are using "read_counters_work" as local variable. So every invocation 
-the function will have its own copy of counters for corresponding cpu. 
-That's why are doing INIT_WORK_ONSTACK here.
+From 60a288509baa34df6a0bf437c977925a0a617c72 Mon Sep 17 00:00:00 2001
+From: Joerg Roedel <jroedel@suse.de>
+Date: Thu, 9 Apr 2020 13:38:18 +0200
+Subject: [PATCH] iommu/exynos: Get rid of 'struct exynos_iommu_owner'
 
->>>>>>>> +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
->>>>>>>> +     flush_work(&read_counters_work.work);
->>>>>>>
->>>>>>> Why can't this be done in current context ?
->>>>>>>
->>>>>> We used work queue instead of smp_call_function_single() to have long delay.
->>>>>
->>>>> Please explain completely, you have raised more questions than you
->>>>> answered :)
->>>>>
->>>>> Why do you want to have long delays ?
->>>>>
->>>> Long delay value is used to have the observation window long enough for
->>>> correctly reconstructing the CPU frequency considering noise.
->>>> In next patch version, changed delay value to 500us which in our tests is
->>>> considered reliable.
->>>
->>> I understand that you need to put a udelay() while reading the freq from
->>> hardware, that is fine, but why do you need a workqueue for that? Why can't you
->>> just read the values directly from the same context ?
->>>
->> The register to read frequency is per core and not accessible to other
->> cores. So, we have to execute the function remotely as the target core to
->> read frequency might be different from current.
->> The functions for that are smp_call_function_single or queue_work_on.
->> We used queue_work_on() to avoid long delay inside ipi interrupt context
->> with interrupts disabled.
-> 
-> Okay, I understand this now, finally :)
-> 
-> But if the interrupts are disabled during some call, won't workqueues face the
-> same problem ?
-> 
-Yes, we are trying to minimize the case.
+Remove 'struct exynos_iommu_owner' and replace it with a single-linked
+list of 'struct sysmmu_drvdata'. The first item in the list acts as a
+replacement for the previous exynos_iommu_owner structure. The
+iommu_device member of the first list item is reported to the IOMMU
+core code for the master device.
 
-> --
-> viresh
-> 
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+---
+ drivers/iommu/exynos-iommu.c | 155 ++++++++++++++++++++---------------
+ 1 file changed, 88 insertions(+), 67 deletions(-)
+
+diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
+index 186ff5cc975c..e70eb360093f 100644
+--- a/drivers/iommu/exynos-iommu.c
++++ b/drivers/iommu/exynos-iommu.c
+@@ -225,18 +225,6 @@ static const struct sysmmu_fault_info sysmmu_v5_faults[] = {
+ 	{ 20, REG_V5_FAULT_AW_VA, "AW SECURITY PROTECTION", IOMMU_FAULT_WRITE },
+ };
+ 
+-/*
+- * This structure is attached to dev.archdata.iommu of the master device
+- * on device add, contains a list of SYSMMU controllers defined by device tree,
+- * which are bound to given master device. It is usually referenced by 'owner'
+- * pointer.
+-*/
+-struct exynos_iommu_owner {
+-	struct list_head controllers;	/* list of sysmmu_drvdata.owner_node */
+-	struct iommu_domain *domain;	/* domain this device is attached */
+-	struct mutex rpm_lock;		/* for runtime pm of all sysmmus */
+-};
+-
+ /*
+  * This structure exynos specific generalization of struct iommu_domain.
+  * It contains list of SYSMMU controllers from all master devices, which has
+@@ -271,13 +259,23 @@ struct sysmmu_drvdata {
+ 	bool active;			/* current status */
+ 	struct exynos_iommu_domain *domain; /* domain we belong to */
+ 	struct list_head domain_node;	/* node for domain clients list */
+-	struct list_head owner_node;	/* node for owner controllers list */
++	struct sysmmu_drvdata *next;	/* Single-linked list to group SMMUs for
++					   one master. NULL means not in any
++					   list, ERR_PTR(-ENODEV) means end of
++					   list */
++	struct mutex rpm_lock;		/* for runtime pm of all sysmmus */
+ 	phys_addr_t pgtable;		/* assigned page table structure */
+ 	unsigned int version;		/* our version */
+ 
+ 	struct iommu_device iommu;	/* IOMMU core handle */
+ };
+ 
++/* Helper to iterate over all SYSMMUs for a given platform device */
++#define for_each_sysmmu(dev, drvdata)			\
++	for (drvdata = (dev)->archdata.iommu;		\
++	     drvdata != ERR_PTR(-ENODEV);		\
++	     drvdata = drvdata->next)
++
+ static struct exynos_iommu_domain *to_exynos_domain(struct iommu_domain *dom)
+ {
+ 	return container_of(dom, struct exynos_iommu_domain, domain);
+@@ -624,6 +622,8 @@ static int exynos_sysmmu_probe(struct platform_device *pdev)
+ 
+ 	data->sysmmu = dev;
+ 	spin_lock_init(&data->lock);
++	data->next = NULL;
++	mutex_init(&data->rpm_lock);
+ 
+ 	ret = iommu_device_sysfs_add(&data->iommu, &pdev->dev, NULL,
+ 				     dev_name(data->sysmmu));
+@@ -668,17 +668,20 @@ static int __maybe_unused exynos_sysmmu_suspend(struct device *dev)
+ {
+ 	struct sysmmu_drvdata *data = dev_get_drvdata(dev);
+ 	struct device *master = data->master;
++	struct sysmmu_drvdata *master_data;
+ 
+-	if (master) {
+-		struct exynos_iommu_owner *owner = master->archdata.iommu;
++	if (!master)
++		return 0;
+ 
+-		mutex_lock(&owner->rpm_lock);
+-		if (data->domain) {
+-			dev_dbg(data->sysmmu, "saving state\n");
+-			__sysmmu_disable(data);
+-		}
+-		mutex_unlock(&owner->rpm_lock);
++	master_data = master->archdata.iommu;
++
++	mutex_lock(&master_data->rpm_lock);
++	if (data->domain) {
++		dev_dbg(data->sysmmu, "saving state\n");
++		__sysmmu_disable(data);
+ 	}
++	mutex_unlock(&master_data->rpm_lock);
++
+ 	return 0;
+ }
+ 
+@@ -686,17 +689,20 @@ static int __maybe_unused exynos_sysmmu_resume(struct device *dev)
+ {
+ 	struct sysmmu_drvdata *data = dev_get_drvdata(dev);
+ 	struct device *master = data->master;
++	struct sysmmu_drvdata *master_data;
+ 
+-	if (master) {
+-		struct exynos_iommu_owner *owner = master->archdata.iommu;
++	if (!master)
++		return 0;
+ 
+-		mutex_lock(&owner->rpm_lock);
+-		if (data->domain) {
+-			dev_dbg(data->sysmmu, "restoring state\n");
+-			__sysmmu_enable(data);
+-		}
+-		mutex_unlock(&owner->rpm_lock);
++	master_data = master->archdata.iommu;
++
++	mutex_lock(&master_data->rpm_lock);
++	if (data->domain) {
++		dev_dbg(data->sysmmu, "restoring state\n");
++		__sysmmu_enable(data);
+ 	}
++	mutex_unlock(&master_data->rpm_lock);
++
+ 	return 0;
+ }
+ 
+@@ -834,21 +840,21 @@ static void exynos_iommu_domain_free(struct iommu_domain *iommu_domain)
+ 	kfree(domain);
+ }
+ 
+-static void exynos_iommu_detach_device(struct iommu_domain *iommu_domain,
+-				    struct device *dev)
++static void __exynos_iommu_detach_device(struct exynos_iommu_domain *domain,
++					 struct device *dev)
+ {
+-	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+-	struct exynos_iommu_domain *domain = to_exynos_domain(iommu_domain);
+ 	phys_addr_t pagetable = virt_to_phys(domain->pgtable);
+-	struct sysmmu_drvdata *data, *next;
++	struct sysmmu_drvdata *dev_data, *data, *next;
+ 	unsigned long flags;
+ 
+-	if (!has_sysmmu(dev) || owner->domain != iommu_domain)
++	dev_data = dev->archdata.iommu;
++
++	if (!has_sysmmu(dev) || dev_data->domain != domain)
+ 		return;
+ 
+-	mutex_lock(&owner->rpm_lock);
++	mutex_lock(&dev_data->rpm_lock);
+ 
+-	list_for_each_entry(data, &owner->controllers, owner_node) {
++	for_each_sysmmu(dev, data) {
+ 		pm_runtime_get_noresume(data->sysmmu);
+ 		if (pm_runtime_active(data->sysmmu))
+ 			__sysmmu_disable(data);
+@@ -863,51 +869,59 @@ static void exynos_iommu_detach_device(struct iommu_domain *iommu_domain,
+ 		list_del_init(&data->domain_node);
+ 		spin_unlock(&data->lock);
+ 	}
+-	owner->domain = NULL;
+ 	spin_unlock_irqrestore(&domain->lock, flags);
+ 
+-	mutex_unlock(&owner->rpm_lock);
++	mutex_unlock(&dev_data->rpm_lock);
+ 
+ 	dev_dbg(dev, "%s: Detached IOMMU with pgtable %pa\n", __func__,
+ 		&pagetable);
+ }
+ 
++static void exynos_iommu_detach_device(struct iommu_domain *iommu_domain,
++				       struct device *dev)
++{
++	struct exynos_iommu_domain *domain = to_exynos_domain(iommu_domain);
++
++	__exynos_iommu_detach_device(domain, dev);
++}
++
+ static int exynos_iommu_attach_device(struct iommu_domain *iommu_domain,
+ 				   struct device *dev)
+ {
+-	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+ 	struct exynos_iommu_domain *domain = to_exynos_domain(iommu_domain);
+-	struct sysmmu_drvdata *data;
++	struct sysmmu_drvdata *dev_data, *data;
+ 	phys_addr_t pagetable = virt_to_phys(domain->pgtable);
+ 	unsigned long flags;
+ 
+ 	if (!has_sysmmu(dev))
+ 		return -ENODEV;
+ 
+-	if (owner->domain)
+-		exynos_iommu_detach_device(owner->domain, dev);
++	dev_data = dev->archdata.iommu;
+ 
+-	mutex_lock(&owner->rpm_lock);
++	if (dev_data->domain)
++		__exynos_iommu_detach_device(dev_data->domain, dev);
++
++	mutex_lock(&dev_data->rpm_lock);
+ 
+ 	spin_lock_irqsave(&domain->lock, flags);
+-	list_for_each_entry(data, &owner->controllers, owner_node) {
++	for_each_sysmmu(dev, data) {
+ 		spin_lock(&data->lock);
+ 		data->pgtable = pagetable;
+ 		data->domain = domain;
+ 		list_add_tail(&data->domain_node, &domain->clients);
+ 		spin_unlock(&data->lock);
+ 	}
+-	owner->domain = iommu_domain;
+ 	spin_unlock_irqrestore(&domain->lock, flags);
+ 
+-	list_for_each_entry(data, &owner->controllers, owner_node) {
++
++	for_each_sysmmu(dev, data) {
+ 		pm_runtime_get_noresume(data->sysmmu);
+ 		if (pm_runtime_active(data->sysmmu))
+ 			__sysmmu_enable(data);
+ 		pm_runtime_put(data->sysmmu);
+ 	}
+ 
+-	mutex_unlock(&owner->rpm_lock);
++	mutex_unlock(&dev_data->rpm_lock);
+ 
+ 	dev_dbg(dev, "%s: Attached IOMMU with pgtable %pa\n", __func__,
+ 		&pagetable);
+@@ -1237,7 +1251,6 @@ static phys_addr_t exynos_iommu_iova_to_phys(struct iommu_domain *iommu_domain,
+ 
+ static int exynos_iommu_add_device(struct device *dev)
+ {
+-	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+ 	struct sysmmu_drvdata *data;
+ 	struct iommu_group *group;
+ 
+@@ -1249,7 +1262,7 @@ static int exynos_iommu_add_device(struct device *dev)
+ 	if (IS_ERR(group))
+ 		return PTR_ERR(group);
+ 
+-	list_for_each_entry(data, &owner->controllers, owner_node) {
++	for_each_sysmmu(dev, data) {
+ 		/*
+ 		 * SYSMMU will be runtime activated via device link
+ 		 * (dependency) to its master device, so there are no
+@@ -1261,37 +1274,39 @@ static int exynos_iommu_add_device(struct device *dev)
+ 	}
+ 	iommu_group_put(group);
+ 
++	data = dev->archdata.iommu;
++	iommu_device_link(&data->iommu, dev);
++
+ 	return 0;
+ }
+ 
+ static void exynos_iommu_remove_device(struct device *dev)
+ {
+-	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+-	struct sysmmu_drvdata *data;
++	struct sysmmu_drvdata *data = dev->archdata.iommu;
+ 
+ 	if (!has_sysmmu(dev))
+ 		return;
+ 
+-	if (owner->domain) {
++	if (data->domain) {
+ 		struct iommu_group *group = iommu_group_get(dev);
+ 
+ 		if (group) {
+-			WARN_ON(owner->domain !=
++			WARN_ON(&data->domain->domain !=
+ 				iommu_group_default_domain(group));
+-			exynos_iommu_detach_device(owner->domain, dev);
++			__exynos_iommu_detach_device(data->domain, dev);
+ 			iommu_group_put(group);
+ 		}
+ 	}
++	iommu_device_unlink(&data->iommu, dev);
+ 	iommu_group_remove_device(dev);
+ 
+-	list_for_each_entry(data, &owner->controllers, owner_node)
++	for_each_sysmmu(dev, data)
+ 		device_link_del(data->link);
+ }
+ 
+ static int exynos_iommu_of_xlate(struct device *dev,
+ 				 struct of_phandle_args *spec)
+ {
+-	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+ 	struct platform_device *sysmmu = of_find_device_by_node(spec->np);
+ 	struct sysmmu_drvdata *data, *entry;
+ 
+@@ -1302,22 +1317,28 @@ static int exynos_iommu_of_xlate(struct device *dev,
+ 	if (!data)
+ 		return -ENODEV;
+ 
+-	if (!owner) {
+-		owner = kzalloc(sizeof(*owner), GFP_KERNEL);
+-		if (!owner)
+-			return -ENOMEM;
++	data->master = dev;
+ 
+-		INIT_LIST_HEAD(&owner->controllers);
+-		mutex_init(&owner->rpm_lock);
+-		dev->archdata.iommu = owner;
++	if (!dev->archdata.iommu) {
++		WARN_ON(data->next != NULL);
++
++		/* SYSMMU list is empty - add drvdata and return */
++		data->next = ERR_PTR(-ENODEV);
++		dev->archdata.iommu = data;
++
++		return 0;
+ 	}
+ 
+-	list_for_each_entry(entry, &owner->controllers, owner_node)
++	/* Check if SYSMMU is already in the list */
++	for_each_sysmmu(dev, entry)
+ 		if (entry == data)
+ 			return 0;
+ 
+-	list_add_tail(&data->owner_node, &owner->controllers);
+-	data->master = dev;
++	/* Not in the list yet */
++	WARN_ON(data->next != NULL);
++	entry = dev->archdata.iommu;
++	data->next  = entry->next;
++	entry->next = data;
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
+
