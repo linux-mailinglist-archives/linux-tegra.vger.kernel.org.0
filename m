@@ -2,88 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF361A4767
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2020 16:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40FD91A491B
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2020 19:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbgDJO20 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Apr 2020 10:28:26 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34086 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgDJO20 (ORCPT
+        id S1726695AbgDJRhL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Apr 2020 13:37:11 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42313 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbgDJRhK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Apr 2020 10:28:26 -0400
-Received: by mail-lf1-f66.google.com with SMTP id x23so1502440lfq.1;
-        Fri, 10 Apr 2020 07:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=114DepywJbkKU/kNK8ifxFxs4xFQzPNOTcqxhW01gig=;
-        b=vb+IEAC9JkmoBHpGwKsz0ASSJblQcwkss5tbEZrtPTg9+AUTqKOuJ45fe1+AnyMYL5
-         Tc0TT8YjluJfHOZk6aHSWSIt6J2lwEFAzns+Z26BNdGZo50LlLEy+nte46mBQYq9XlR4
-         Erh2NVUxmWuLIlA0WGNEuKx4P7G1fWFKNUAwxZHaaqMddS9wt29OKkwNuBQlqLab9W2K
-         AJzFosMzctfnHY0/kJpgNgKU8VniE0FScHP4SPYJX9l8R5a5qBdjtJrHaPNY7u9Q6f1O
-         4PiwFumFlLTF/S43L+8hGL2dmZqHy00kHSed3woKNhL12tlGBRDCEaTqqhwyWkeIOkl+
-         n36A==
+        Fri, 10 Apr 2020 13:37:10 -0400
+Received: by mail-ot1-f68.google.com with SMTP id j20so1783985otl.9;
+        Fri, 10 Apr 2020 10:37:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=114DepywJbkKU/kNK8ifxFxs4xFQzPNOTcqxhW01gig=;
-        b=NuMLRHDq1W6Mtnw2xmDRjiXgAjSHcMsshwOweCkpkKpd0joYSSDr9R3aOUkFU9ARGI
-         KMYgtJEjSKZQWFJk3EjpVczWkqrND3V0ddkUflPlrCXwJXxsQye+5Fj71cWtda8jTixn
-         tDc5GtSdo9fBYYI9AQWsCgJJr7sedlNF7Ykd0DjGRfmvZ8C8EqPhWa0+mV6zNjLCqSXv
-         W2jadipmFfOqZ8L7qdfrkpLyEWKn48AxNjrfGlyI/lsBVLM1EWIdZK4hkuogedCLOJBR
-         bwQ71/e1tYp3AWNUReK8D/m8eBRn3J/ygW/y8AUodJPAZ6fx1SiJOd65rckOQ/qJrfEo
-         OJUg==
-X-Gm-Message-State: AGi0Pub01PNR/pR91ybA07wLhDUCu3wsS+0f7G4BvNi8JuODUPtVpCTr
-        kGlQRTCw+TU1hsqKZtuo0cs=
-X-Google-Smtp-Source: APiQypK+DeCHy8Q90LIm8WJtFHRQdsbxGiBMPZhDXTTciugISnAqkYYnxNBFX0eNC3l+386WkJSWwA==
-X-Received: by 2002:a19:d84:: with SMTP id 126mr2840495lfn.35.1586528904234;
-        Fri, 10 Apr 2020 07:28:24 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id k4sm1351793lfo.47.2020.04.10.07.28.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2020 07:28:23 -0700 (PDT)
-Subject: Re: [PATCH v6 11/14] memory: tegra: Support derated timings on
- Tegra210
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20200409175238.3586487-1-thierry.reding@gmail.com>
- <20200409175238.3586487-12-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <937a1aa6-473a-f6c5-729a-4f34e4ee3abb@gmail.com>
-Date:   Fri, 10 Apr 2020 17:28:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OvsHNilOxSyiwGW3V/imzWzd5sgcwB1R86uU7/0uLTg=;
+        b=kigp8dttzmLP+Qsad67IeMe62x4ooQks84vN4tj5l3ca55HbNzWVpIAXuB0MA0YdQZ
+         UOeVvtMT3Dm4cXed5fr6RgNxE/L6n9IH86LHlpFmg4wdP36DpCsQW/sDELZjqjGsHDuW
+         axX8cJ0eaYzZucghVbrYxgTezp4hkPnAYx5DbxfLTGQ5V6rgwHUoyKGUjTcOAzOn710Z
+         3SczSPgrBWHOSHvBqIEUfaGtmae2Q+5V52WRCHg37KE/fvg5PdUmpVy8huO1NJOXqL9g
+         cN7ztYF5mQcYyx3Rs8nleJc5afOIr0bZ6Hin6nBkBY8zc4nM2t+NHIO+1dW5Q0iTNqpf
+         nP8w==
+X-Gm-Message-State: AGi0PubHbGu6y0d2WiXy5P3ProwKM+fpbvWN/GmkyuQn0DgOO3aaqxJS
+        I/qIWw/5WfiOKRhRvOPtXw==
+X-Google-Smtp-Source: APiQypL0WB5tGIuunT3qritEJX9PvG/EVqigMCAxoki77FmP/HPVGri3fzYS6+Bezx2cJ8PtdYYb+Q==
+X-Received: by 2002:a4a:9cd8:: with SMTP id d24mr4988155ook.84.1586540230111;
+        Fri, 10 Apr 2020 10:37:10 -0700 (PDT)
+Received: from rob-hp-laptop (ip-99-203-29-27.pools.cgn.spcsdns.net. [99.203.29.27])
+        by smtp.gmail.com with ESMTPSA id d3sm1480526oth.81.2020.04.10.10.37.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2020 10:37:08 -0700 (PDT)
+Received: (nullmailer pid 30639 invoked by uid 1000);
+        Fri, 10 Apr 2020 17:05:13 -0000
+Date:   Fri, 10 Apr 2020 12:05:13 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 01/22] dt-bindings: memory: tegra20: mc: Document new
+ interconnect property
+Message-ID: <20200410170513.GA30556@bogus>
+References: <20200330010904.27643-1-digetx@gmail.com>
+ <20200330010904.27643-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200409175238.3586487-12-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200330010904.27643-2-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.04.2020 20:52, Thierry Reding пишет:
-> -enum tegra210_emc_dram_over_temp_state {
-> -	TEGRA210_EMC_DRAM_OVER_TEMP_NONE = 0,
-> -	TEGRA210_EMC_DRAM_OVER_TEMP_REFRESH_X2,
-> -	TEGRA210_EMC_DRAM_OVER_TEMP_REFRESH_X4,
-> -	TEGRA210_EMC_DRAM_OVER_TEMP_THROTTLE, /* 4x Refresh + derating. */
-> +enum tegra210_emc_refresh {
-> +	TEGRA210_EMC_REFRESH_NOMINAL = 0,
-> +	TEGRA210_EMC_REFRESH_2X,
-> +	TEGRA210_EMC_REFRESH_4X,
-> +	TEGRA210_EMC_REFRESH_THROTTLE, /* 4x Refresh + derating. */
->  };
+On Mon, 30 Mar 2020 04:08:43 +0300, Dmitry Osipenko wrote:
+> Memory controller is interconnected with memory clients and with the
+> external memory controller. Document new interconnect property which
+> turns memory controller into interconnect provider.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../bindings/memory-controllers/nvidia,tegra20-mc.txt          | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-What about to avoid all the unnecessary renamings?
+Acked-by: Rob Herring <robh@kernel.org>
