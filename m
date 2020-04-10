@@ -2,38 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F4571A4A0E
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2020 20:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D59E31A4AC6
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2020 21:45:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbgDJS7N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Apr 2020 14:59:13 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1886 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbgDJS7M (ORCPT
+        id S1726648AbgDJTpe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Apr 2020 15:45:34 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:34366 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726142AbgDJTpe (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Apr 2020 14:59:12 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e90c1f30000>; Fri, 10 Apr 2020 11:58:59 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 10 Apr 2020 11:59:12 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 10 Apr 2020 11:59:12 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 10 Apr
- 2020 18:59:12 +0000
-Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 10 Apr
- 2020 18:59:10 +0000
+        Fri, 10 Apr 2020 15:45:34 -0400
+Received: by mail-lj1-f195.google.com with SMTP id m8so3010146lji.1;
+        Fri, 10 Apr 2020 12:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WmpyDrH3/Z1ArRlEY0K8VHiqZidN8GFc86xX3wY/+WQ=;
+        b=FKBdXp6ePaKSTrAVJhlKMKicO0i7xHQtV+9ZTL4XF31qUhQ/AAYEe3RL090ZqE+ZBO
+         3awpkYttC3Kvp5XYu98L1pEAWkUgpbGUAjN2OvQxbSAVXhVBP+qvHFkpGPkRJ3KzsBuZ
+         GQ2+eraY4worAlGNbTmPtt3iW0TXsjYPtHEAYcf1YG2jFHcmlYRpFA36rmXmpkFYnpzG
+         dHAuPDXb09dI/ginIO1Y8Yd1BOqs9sFlNv8t79j1SaWTsGIkacGy4Tt9lHCO4S7IH7XA
+         qfAqJhAGRAMHyDrg2uGgbHyiRg4diJomBWtGpfXWKZO7wzm0rQV4LJR92A/pwPOzQHGQ
+         BAMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WmpyDrH3/Z1ArRlEY0K8VHiqZidN8GFc86xX3wY/+WQ=;
+        b=rcmk4w3q7lWK3wgYWF281+oJGSBhvJz/cKsoT5MI3hqqM1fKScuYmMcQtUQz5thpYt
+         B4B3K+ynCE3LUXdAevOW053/iwSGV1q589CmuBZ4BBhQZcrcRcc64Ll7bDsfVim+iTa/
+         eTtq4sx23zuYW2XamKDhpknQw0m+eYQzBvHQ6zi6oxrCfu+pQZMpEOpoX5v6so7aLqWF
+         zyorhGTujp8Scwqt48d3mVsM060FbxhSx+rkvSVoICVPXnd73mYeF6TuDtoHmE354tx2
+         PX6AcPg5qdq81AdBK4j1SCqLqdZSke6R4Fm7fOfWcfOxyxhL1YwaLj/tZQtkmXA3a3Lo
+         QCQw==
+X-Gm-Message-State: AGi0PuaHcxtcb6p6+XQpIDz5tnWGVBje2bXzuxzVSlqPdxEoCx9a5Fke
+        813SPDoQAhSdJi+/rv7Fbt5iA2IE
+X-Google-Smtp-Source: APiQypLLzBS7621tO3Wel2SfE0Xjvt7RUjgBgFXwgQ2nsbvqvN7qClIRoOKGe4DBy0C+g/hMhI3PQA==
+X-Received: by 2002:a2e:7e09:: with SMTP id z9mr3974602ljc.18.1586547929691;
+        Fri, 10 Apr 2020 12:45:29 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id o25sm1478102lfg.41.2020.04.10.12.45.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Apr 2020 12:45:28 -0700 (PDT)
 Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
  <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
  <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
  <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
@@ -51,90 +71,43 @@ References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <7288cacd-badc-cb01-1f4c-286dd024ca10@gmail.com>
  <77c88717-618f-b366-2b6a-f8b4abaa66cc@nvidia.com>
  <00708f34-cf45-e248-c6b0-c3d2286671ca@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <ab010164-e8ea-89e9-a7e9-d7213841fa90@nvidia.com>
-Date:   Fri, 10 Apr 2020 11:59:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <ab010164-e8ea-89e9-a7e9-d7213841fa90@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <34d9baa0-fa1e-0b67-fb9b-343b3cba0066@gmail.com>
+Date:   Fri, 10 Apr 2020 22:45:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <00708f34-cf45-e248-c6b0-c3d2286671ca@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ab010164-e8ea-89e9-a7e9-d7213841fa90@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586545139; bh=ZBW/PUHYOdwTpJyjsheKidgPJTMhxh/TzCO8TSSiZaA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=RAMPMs2dSQ3C9rlqNgf5QwxdldGUg2vgtt0b6tWvWms2EZWw1T8HxAPd9zbUND9D0
-         ozfTpaOQLJUY9v6l3hdIcdz09Fj9gFnUyJi64iz5c9RC1Du/8oLCzdBUAzVZ+AgQnl
-         KDE8JGetO1D4czpdTvUiu6f4BEIfh1PqqvfDsdVOrusmaI8R2JJ0/rPvSG+5P7aPNj
-         KxxMYkzOZgNaTT86APbzsQ0no8h4mSISzmykM0Q8aTnKoHhNG3JDVlFe0hE7A1Sy+p
-         FylfWXg7hcrlNpA+tWYjlefekzhIEFrQHQXMozcM4pUFwaM3ZTT3kVBXLMl8kLh3bI
-         FY4TvYl0nLxEw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+10.04.2020 21:59, Sowjanya Komatineni пишет:
+...
+>> It's still not clear to me how the "pre-queued buffers" will be limited.
+>> I'll take another look at the v7.
+> 
+> OK, but I don't understand what you mean by limit on pre-queued buffers.
+> 
+> I was saying vb2 queue has min_buffers_needed which was set to 3 where
+> streaming will start only after 3 buffers got queued up.
+> 
+> Regarding outstanding condition check to make sure no more than 2 syncpt
+> trigger requests are in FIFO I added it to be safe where mostly we may
+> not hit and also I only see capture start thread holding for it during
+> initial frame capture as it issues single shot for 1st 2 buffers capture
+> and holds 3 buffers which is already queued till at least one of those 2
+> issued capture is done to make sure of not triggering syncpt condition
+> when fifo already has 2 pending.
+> 
+> In v7, will remove setting min_buffers_needed and also outstanding
+> syncpt trigger check.
 
-On 4/10/20 11:47 AM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 09.04.2020 21:28, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 4/9/20 7:50 AM, Dmitry Osipenko wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> 09.04.2020 06:38, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> ...
->>>> Tested with 3 buffers and by checking outstanding buffers in process b=
-y
->>>> VI hw and holding to start capture till one outstanding buffer in
->>>> process by HW.
->>>> Also tested with 2 buffers without checking for outstanding buffers.
->>>>
->>>> In both cases, I see same %CPU for the kthreads and is < 1%
->>>>
->>> I don't see where buffers queue max limit is set to 3 in the code, but
->>> should be okay if CPU isn't getting hogged. Looking forward to v7.
->> Sorry, correction I meant to say pre-queued buffers before streaming not
->> num_buffers.
->> vb2 queue min_buffers_needed was set to 3 as part of one of the issue
->> debug in earlier version which actually was irrelevant to that issue and
->> should have been removed. Will remove min_buffers_needed in v7.
->>
->> I added checking for outstanding requests by hardware just to be safer
->> although we may not hit this case of issuing more than 1 outstanding
->> frame capture to VI hardware as capture_frame() waits till it sees frame
->> start event through HW syncpt increment before proceeding for memory
->> write and issuing next frame capture.
->>
->> So issuing frame captures are synchronized with frame start and frame en=
-d.
->>
->> Will remove min_buffers_needed and also explicit check for outstanding
->> buffers in v7.
-> It's still not clear to me how the "pre-queued buffers" will be limited.
-> I'll take another look at the v7.
-
-OK, but I don't understand what you mean by limit on pre-queued buffers.
-
-I was saying vb2 queue has min_buffers_needed which was set to 3 where=20
-streaming will start only after 3 buffers got queued up.
-
-Regarding outstanding condition check to make sure no more than 2 syncpt=20
-trigger requests are in FIFO I added it to be safe where mostly we may=20
-not hit and also I only see capture start thread holding for it during=20
-initial frame capture as it issues single shot for 1st 2 buffers capture=20
-and holds 3 buffers which is already queued till at least one of those 2=20
-issued capture is done to make sure of not triggering syncpt condition=20
-when fifo already has 2 pending.
-
-In v7, will remove setting min_buffers_needed and also outstanding=20
-syncpt trigger check.
+Okay, seems I got what you're saying. Yes, the check should be removed.
+It's impossible to get the frame-start event while capture of the
+previous buffer is in-progress.
