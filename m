@@ -2,92 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 076411A4B68
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Apr 2020 22:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B66D1A4EFD
+	for <lists+linux-tegra@lfdr.de>; Sat, 11 Apr 2020 11:01:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726641AbgDJUtW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Apr 2020 16:49:22 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37315 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbgDJUtW (ORCPT
+        id S1725900AbgDKJB0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 11 Apr 2020 05:01:26 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:42623 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725877AbgDKJB0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Apr 2020 16:49:22 -0400
-Received: by mail-lj1-f194.google.com with SMTP id r24so3152467ljd.4;
-        Fri, 10 Apr 2020 13:49:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RtQay0p36yFoHHnkkvAKDptGQmyg6Qy1Y9oDL+R6OJs=;
-        b=JYxrDAPPO7YcJQGQmfkDNy78riHDRnxnk+1BuPlS7InbdQdxLTvIz8OEPZiFpOU0X9
-         ADT7Ft9odOWbzW9finqAX/+rKSLfnVSeR5Xa9J4oDuoZc8WSgiBXwkPvTWNMK5QpoSzN
-         1xg345q38jbniCJJ64eiSGzaeGA44fhbyi5H4thk4LUHgSXt58daDdfyPUcXv+0GjcGe
-         F4H5APl8W/ee6OkZLAkUhs4j7OpWcn9y25FlGh93o4+Mu+UEgQH6tmw2E6EOi8MUeF2i
-         2aPAZ/DjIos0ISMXOdtcg0a828pLKVjCvFrg05ZPhPQe7PmFCw5csXUaxkljrQ3P9JVy
-         8uGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RtQay0p36yFoHHnkkvAKDptGQmyg6Qy1Y9oDL+R6OJs=;
-        b=gymH4iAYrdD89KTYxC7WsOj2+8OzRw1wqKWTsYOEDtTAQ/lO0Gc5uA718WquVOybf/
-         ZDqBc+OOqj+AZJtMesbHUWTt3KooayzWAuuuEJoxG+tvSy3evPfZ4pgTyBRIgz1uUb04
-         XTXhh8hELz9jNWpVy74l34oonHj4gBFS7ReqP6ILsLebGCL4IdVitzqDxoNBpbDe7O/z
-         smE8L+CUgBrm4SUQlocx3j3YLRzPbCeJqQdleWLHr8tQoiJTFHG9r85IZvUgT3TxKeaf
-         uOaFCVuFYjVPywu3+1V1EGkg+7iQpnxvQQkYBXTwCcMYcYW57uae/ntlmXcxphLB7PrR
-         hDbQ==
-X-Gm-Message-State: AGi0PuZYmY40FIslkrKFrT/6VwBzsdF15vQjfYdZmrZYEgvM9PwZeP8U
-        DpZGYvK+elY7aLmd9ku2n3U=
-X-Google-Smtp-Source: APiQypKfmrULbbonnzAShBhrnEqTia/HO1FQk3qKGk14wKYdR6iNAa6QFkvw+u0KqefzQ/PvT2QTPg==
-X-Received: by 2002:a2e:b4d1:: with SMTP id r17mr3909160ljm.117.1586551760333;
-        Fri, 10 Apr 2020 13:49:20 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id v9sm1775739ljj.31.2020.04.10.13.49.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2020 13:49:19 -0700 (PDT)
-Subject: Re: [PATCH v6 07/14] clk: tegra: Implement Tegra210 EMC clock
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20200409175238.3586487-1-thierry.reding@gmail.com>
- <20200409175238.3586487-8-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0e040cf9-56cf-dd44-3523-ff4c82fb1f2c@gmail.com>
-Date:   Fri, 10 Apr 2020 23:49:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Sat, 11 Apr 2020 05:01:26 -0400
+Received: from mail-qk1-f170.google.com ([209.85.222.170]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1N49Qd-1jE5DA1hwn-01061n; Sat, 11 Apr 2020 11:01:25 +0200
+Received: by mail-qk1-f170.google.com with SMTP id c63so4531238qke.2;
+        Sat, 11 Apr 2020 02:01:25 -0700 (PDT)
+X-Gm-Message-State: AGi0PuakGIqo1uIxr8HLOPeGeH6LU6PW9cKtcNuYvPoOXZU97yx1LGCN
+        q+wu+2NdOwsMZwWTNoghE9zdtLoJ+ABWUMJ7wrY=
+X-Google-Smtp-Source: APiQypKhDmVAIU0z8agDejiZXz9OBxIwMlgFklDn7Rrv5q+p5XAxHWKHi77FzV/FNVWHIsKUQeFHo1tNP/u1dTlnWpk=
+X-Received: by 2002:a05:620a:5ee:: with SMTP id z14mr1058582qkg.3.1586595684151;
+ Sat, 11 Apr 2020 02:01:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200409175238.3586487-8-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200408200828.124139-1-arnd@arndb.de> <20200409132435.GA3263479@ulmo>
+In-Reply-To: <20200409132435.GA3263479@ulmo>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 11 Apr 2020 11:01:08 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0Ktmt_9VLaQfm98ZzRnB9LnnjriHeJ+7O5aE=eMXk7oQ@mail.gmail.com>
+Message-ID: <CAK8P3a0Ktmt_9VLaQfm98ZzRnB9LnnjriHeJ+7O5aE=eMXk7oQ@mail.gmail.com>
+Subject: Re: [PATCH] phy: tegra: fix USB dependencies
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:SMaxRY3ptf++WVxvQEi66DejCKOoCt8Ygpe0PdzzJz0DiGFNKr/
+ 1U8L3vTuDXGPHZL8wc+nydbukK3nLkPcljWsbJ6toqxX0aVfIV8bbEgNS9qjuBUuImOarrx
+ vMabGFy4yJHzXO+fyIyq+6Jw65+NpHaxvUrNMiPFvSGnEtSzh/pAZ0+QmVhXfWYQK5dpRtZ
+ dKUcLlMoXoptYtW8sKzWQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OXaZuq25LLs=:hU/z/8lfLCG/W/1NmOzXtF
+ LhI2nzbGTr3eNHSl6v0Ki3YQi0hmsQyOqrX40J2Oax1PqlIDwdH03ll0tT9AzIrQ0ESihXw18
+ D83adzLFp4hbQdfpHZrENMNc8VD/QuLgn5uk2afIgrth3YG4ESIzETxX6/2Nno/kRky/MhF9Y
+ mO7Nqmc48srNmEZ/c9VRRPDGCwN+qbxYTgcGUbg27TP9lrWfTkw4R6kusr8Kaa4mIiT5N0dNc
+ r3cIr0SBFsrYkU6EZuBl9dVsJDU3ZdU8lYcmZS2uBTuzdweYGH3lKEfu6sHdZ3Uva0csv6N6o
+ L4kZb4cHb03JagagzO+WhRYEXz/svPN2xRkCGzHBt3qPg4/saSg4IIkFeRmlXKWDyI/LWKUl/
+ fEzaAtyKT2/sNu9sS01Ziu7b543lhX0iHEwroZlXy6LaRJOChSDuLFwlAzrv7jP1r0JPzNhHA
+ qVMLrX2ECqPBJePa0mFZvXl+qEAvCGsyJULd6MokngzxAQCWzKjhPsig4EoXw1+Xl2MljSNkW
+ /i7WMjo/kvkLfBKZr50zTFDS3bQtZoMpH2Sx/09b06iYo8sW4/VJ529QBPqzLus1oGg2pSSKE
+ U1JS6wZ4YNLn2GmeJL5fwbuugqm0XGpxeUpgI5AtXSrraNH//3QTUprhLUcgoWvZMtherBftl
+ SR9BRgbbG18AFNK4qS4D3z0FFcqxM3bANVHHlVZ3/RUEe7CmD8D2ysko5vu2mtr1BPrkHNh7i
+ WtA+37rV3OQGu6RE1HsVIIfcJjm+J9GU0Gnv9lfxZlyKIIj0y6yLFOiRwphxjRD+JwBAG9QXp
+ +Pyr30RlqjVXrjWtWu7YvuvViSjJI6O0b2X6LbSyZKs/MaVev8=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.04.2020 20:52, Thierry Reding пишет:
-...
-> +int tegra210_clk_emc_attach(struct clk *clk,
-> +			    struct tegra210_clk_emc_provider *provider)
-> +{
-> +	struct clk_hw *hw = __clk_get_hw(clk);
-> +	struct tegra210_clk_emc *emc = to_tegra210_clk_emc(hw);
-> +	struct device *dev = provider->dev;
-> +	unsigned int i;
-> +	int err;
-> +
-> +	if (!try_module_get(provider->owner))
-> +		return -ENODEV;
+On Thu, Apr 9, 2020 at 3:24 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Wed, Apr 08, 2020 at 10:08:14PM +0200, Arnd Bergmann wrote:
+> > Without CONFIG_USB_SUPPORT, we can get a couple of warnings for
+> > missing dependencies:
+> >
+> > WARNING: unmet direct dependencies detected for USB_PHY
+> >   Depends on [n]: USB_SUPPORT [=n]
+> >   Selected by [m]:
+> >   - PHY_TEGRA_XUSB [=m] && ARCH_TEGRA [=y]
+> >
+> > WARNING: unmet direct dependencies detected for USB_CONN_GPIO
+> >   Depends on [n]: USB_SUPPORT [=n] && GPIOLIB [=y]
+> >   Selected by [m]:
+> >   - PHY_TEGRA_XUSB [=m] && ARCH_TEGRA [=y]
+> >
+> > Fixes: 6835bdc99580 ("phy: tegra: Select USB_PHY")
+> > Fixes: f67213cee2b3 ("phy: tegra: xusb: Add usb-role-switch support")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > ---
+> >  drivers/phy/tegra/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> I sent a similar patch a couple of days ago:
+>
+>         http://patchwork.ozlabs.org/patch/1263865/
+>
+> This should be applied by Greg on top of the PR that I sent for USB. I
+> did get the semi-automated "we're in the merge window" reply from Greg,
+> but I was under the impression that he still applied fixes during the
+> merge window. It seems like he didn't pick this up yet, though.
+>
+> Greg, anything I should've done differently for you to notice this?
 
-Is the EMC driver module bumping its own refcount by itself?
+FWIW, your patch is correct, mine was wrong as I forgot the "select USB_COMMON".
 
-In the other patch I already suggested that the EMC module should be
-disallowed to be unloaded once it has been loaded, seems you're already
-doing it. Correct?
+       Arnd
