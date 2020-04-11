@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 945A01A57CA
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Apr 2020 01:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8FE61A5716
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Apr 2020 01:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730143AbgDKXZG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 11 Apr 2020 19:25:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52362 "EHLO mail.kernel.org"
+        id S1729842AbgDKXU3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 11 Apr 2020 19:20:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55016 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728057AbgDKXMU (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:12:20 -0400
+        id S1730523AbgDKXNl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 11 Apr 2020 19:13:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D2B02216FD;
-        Sat, 11 Apr 2020 23:12:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1EB95215A4;
+        Sat, 11 Apr 2020 23:13:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646740;
-        bh=6xvhjvjRyxtRjmwjRl/WGzQ7Jh+WHnRyJm8u5cqRRy0=;
+        s=default; t=1586646821;
+        bh=1f0C9+h3Ca875KB6G7eOrSbb0hcwgHXQUUmOxZgbUVM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Pj+AZ5t5YpBDv5WfOPSJMfEWiK9gs8B3B4CZrjaGw8fWWBZ9R6u1qUSsL8ke+BFC5
-         YIoM59P63nuu4eSWrixVmKX0gCqZi2k07O96P4t9RYucr7V0iGnYLJG/RDAv+il2au
-         Du5F1t+g6oiauR1d05MwLpB0agyJFfEK4JriA1dA=
+        b=cYLEWoJj9jA9e6VIszTMrTlVXsw4qM1jgSNQ0vJzI7H/EBYQuZP05fF1jbfPh6tVX
+         /5pVlho0raQsXn3dctMaJCTDEHmtVN+L31Ph343uYNzLMSmSn2uBF6TkP0EmkiiLbf
+         VOM4keqnhcALpXx4jR38jhZM3K4vDSD3vHrAIH14=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 14/66] drm/tegra: dc: Release PM and RGB output when client's registration fails
-Date:   Sat, 11 Apr 2020 19:11:11 -0400
-Message-Id: <20200411231203.25933-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 12/37] drm/tegra: dc: Release PM and RGB output when client's registration fails
+Date:   Sat, 11 Apr 2020 19:13:01 -0400
+Message-Id: <20200411231327.26550-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411231203.25933-1-sashal@kernel.org>
-References: <20200411231203.25933-1-sashal@kernel.org>
+In-Reply-To: <20200411231327.26550-1-sashal@kernel.org>
+References: <20200411231327.26550-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,10 +59,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 965088afcfade..923088626e1f4 100644
+index 4df39112e38ec..176fb9a40ddf9 100644
 --- a/drivers/gpu/drm/tegra/dc.c
 +++ b/drivers/gpu/drm/tegra/dc.c
-@@ -2420,10 +2420,16 @@ static int tegra_dc_probe(struct platform_device *pdev)
+@@ -2059,10 +2059,16 @@ static int tegra_dc_probe(struct platform_device *pdev)
  	if (err < 0) {
  		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
  			err);
