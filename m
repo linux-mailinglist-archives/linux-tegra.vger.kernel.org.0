@@ -2,111 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05CEA1A65C5
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 13:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA2F11A6644
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 14:20:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729205AbgDMLtw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Apr 2020 07:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729181AbgDMLtu (ORCPT
+        id S1729446AbgDMMTe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Apr 2020 08:19:34 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15646 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728344AbgDMMTd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Apr 2020 07:49:50 -0400
-X-Greylist: delayed 500 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Apr 2020 07:49:50 EDT
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D3AC008597
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Apr 2020 04:41:30 -0700 (PDT)
-Received: by mail-il1-x131.google.com with SMTP id i2so7335588ils.12
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Apr 2020 04:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
-        b=prjS9vX1/lBHBQnmn8S5eSRPyVAkL53RoKQzE5AAHbxvNYI4a2v2cjTji7kXTppOEc
-         z/YC5TVvRJiGk2ecDbuxQbDezIHvoL12TwU8A8MoLDqkPTvq0EUKN12xVXuoac5P5vPG
-         CDxQUahEZp79myUg0SW4XqnobzWbEdaMDOCEcwJOYEkU2vBAFQtTx1QiAdzIaX9heUrh
-         wXqF9HmIVWbzu+LjtyhWb9YxG3jDJu9H0/2YRuWHtIWQg0GYyRRf+7+N2+T4/5hNzYkA
-         0Td5bmAVNGOZBhXtNLv8DRN8PKs1LisEF6odwJbW1cWSeUhqmMnZAT2UKZl4iJ1E/PV6
-         qofQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
-        b=JpaAHu4ABf8d/8ZUJQ70aI9MvxkLvVZfdnd5uzdLiruu6iceY6JzFaG7XxlGjxzanS
-         UgnJemPzIKBWfgms1c5bCnrkrb/UXqDwQJcdHIhScVW5GTPSbmWeZ4qmJg7qh69N73Rt
-         OWm68UilhniNp58Rl3Wn8BKJvBhxg4ArqW0DwodvgYdu5DapC9btOtzq8d9g675K7LyY
-         Rj03sPpHv8MEudBqOcrtyBmsOLfUqPIt/uVn/lyay7av33kpf2hrhHqwJ0prsmkaPT9C
-         lWAB4ajs613ui2QplimEgB36qOC2xCSVEu/yLgT5XmvsrXfSuwBCRKEx6E/lrd2Kux1h
-         1sdw==
-X-Gm-Message-State: AGi0Puaz4lmhLxXCtzZP0koTNJXCB46df3GvQexlQr1eDVa8tZa48nCH
-        gg+qTQtD0KuNRU5duAz8xC5VZkYmI+Q0+HMUBQ==
-X-Google-Smtp-Source: APiQypL8TqJIeu3sv8q1i+SGhGHI+g2m6cjavfj0dEc+5JPmC3aVP4wfZgyktqWXbHy6/UF7VoKUuS2YyJ3E1gwa7Hs=
-X-Received: by 2002:a92:cccb:: with SMTP id u11mr9656514ilq.8.1586778089638;
- Mon, 13 Apr 2020 04:41:29 -0700 (PDT)
+        Mon, 13 Apr 2020 08:19:33 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e9458680001>; Mon, 13 Apr 2020 05:17:44 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 13 Apr 2020 05:19:32 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 13 Apr 2020 05:19:32 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Apr
+ 2020 12:19:32 +0000
+Received: from [10.24.37.103] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Apr
+ 2020 12:19:28 +0000
+Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+CC:     <rjw@rjwysocki.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <bbasu@nvidia.com>,
+        <mperttunen@nvidia.com>
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+ <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
+ <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
+ <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
+ <20200406025549.qfwzlk3745y3r274@vireshk-i7>
+ <3ab4136c-8cca-c2f9-d286-b82dac23e720@nvidia.com>
+ <20200408055301.jhvu5bc2luu3b5qr@vireshk-i7>
+ <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
+ <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
+ <00390070-38a1-19aa-ca59-42c4658bee7e@nvidia.com>
+ <20200413062141.a6hmwipexhv3sctq@vireshk-i7>
+From:   Sumit Gupta <sumitg@nvidia.com>
+Message-ID: <64b609f1-efb1-425f-a91a-27a492bd3ec4@nvidia.com>
+Date:   Mon, 13 Apr 2020 17:50:00 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:a02:5e49:0:0:0:0:0 with HTTP; Mon, 13 Apr 2020 04:41:28
- -0700 (PDT)
-Reply-To: mgbenin903@gmail.com
-From:   Barrister Robert Richter UN-Attorney at Law Court-Benin 
-        <info.zennitbankplcnigerian@gmail.com>
-Date:   Mon, 13 Apr 2020 13:41:28 +0200
-Message-ID: <CABHzvrngm=rA5Ct9h+JGdbyDfHJmnfntceDPoyJToo8PZn+YZg@mail.gmail.com>
-Subject: I have already sent you first payment US$5000.00 this morning through
- MONEY Gram service.it is available to pick up in address now.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200413062141.a6hmwipexhv3sctq@vireshk-i7>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586780264; bh=sm196NiMqA8gyR8DT4vdRI+KvcOo8ha9TmgFSKUPb3I=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=SagSxSkltbuOB5/r68bXwwj2Py22FS0okY336BB5sSpzMGJd+D4SfPeDrbLizmuLi
+         FL3tnoxu3StWADbYI1GhBsP9wJIoxZ94WO+1lfqHNV6qQjHaYITR8Dng3YGYwpsdqB
+         CBgUXEv4fhMD+z8G7TsKXaGLnByZEWvjK4ygbim5H44rSzc2FCxRfvtpLLbz/8dYbD
+         m8LYWPG47mTzvFPYr5EEYsjlfHTCod5MqtPdKHqrdXpPlVFyl+9IjxuoH0Lv/nnAht
+         +ETx8yIwVHTH/LBs+15idwsSoSdYWZI4aixVx24qtttaWYIpxtGYZzsPt2VQtUHD+t
+         gux1X9yQKzipA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-ATTN DEAR BENEFICIARY.
-
-GOOD NEWS.
-
-I have already sent you first payment US$5000.00 this morning through
-MONEY Gram service.it is available to pick up in address now.
-
-So we advise you to Contact This Money Gram office to pick up your
-transfer $US5000.00 today.
 
 
-Note that your compensation payment funds is total amount $US2.800,000
-Million Dollars.We have instructed the Money Gram Agent,Mr. James
-Gadner to keep sending the transfer to you daily, but the maximum
-amount you will be receiving everyday is US$5000.00. Contact Agent now
-to pick up your first payment $US5000.00 immediately.
+On 13/04/20 11:51 AM, Viresh Kumar wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> On 09-04-20, 16:51, Sumit Gupta wrote:
+>> We are using "read_counters_work" as local variable. So every invocation the
+>> function will have its own copy of counters for corresponding cpu. That's
+>> why are doing INIT_WORK_ONSTACK here.
+> 
+> Why? To support parallel calls to reading the freq ?
+> 
+Yes.
 
-Contact Person, Mr. James Gadner, Dir. Money Gram Benin.
-Email: mgbenin903@gmail.com
-Telephone Numbers: +229 62819378/ +229 98477762
+>>>>>>>>>> +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
+>>>>>>>>>> +     flush_work(&read_counters_work.work);
+>>>>>>>>>
+>>>>>>>>> Why can't this be done in current context ?
+>>>>>>>>>
+>>>>>>>> We used work queue instead of smp_call_function_single() to have long delay.
+>>>>>>>
+>>>>>>> Please explain completely, you have raised more questions than you
+>>>>>>> answered :)
+>>>>>>>
+>>>>>>> Why do you want to have long delays ?
+>>>>>>>
+>>>>>> Long delay value is used to have the observation window long enough for
+>>>>>> correctly reconstructing the CPU frequency considering noise.
+>>>>>> In next patch version, changed delay value to 500us which in our tests is
+>>>>>> considered reliable.
+>>>>>
+>>>>> I understand that you need to put a udelay() while reading the freq from
+>>>>> hardware, that is fine, but why do you need a workqueue for that? Why can't you
+>>>>> just read the values directly from the same context ?
+>>>>>
+>>>> The register to read frequency is per core and not accessible to other
+>>>> cores. So, we have to execute the function remotely as the target core to
+>>>> read frequency might be different from current.
+>>>> The functions for that are smp_call_function_single or queue_work_on.
+>>>> We used queue_work_on() to avoid long delay inside ipi interrupt context
+>>>> with interrupts disabled.
+>>>
+>>> Okay, I understand this now, finally :)
+>>>
+>>> But if the interrupts are disabled during some call, won't workqueues face the
+>>> same problem ?
+>>>
+>> Yes, we are trying to minimize the case.
+> 
+> But how do you know workqueues will perform better than
+> smp_call_function_single() ? Just asking for clarity on this as normally
+> everyone tries to do smp_call_function_single().
+> 
+This was done considering long delay value as explained previously.
+Do you think that smp_call_function_single() would be better than work 
+queue here?
 
-HERE IS YOUR PAYMENT DETAILS FOR THE FIRST =C2=A3US5000.00 SENT TODAY.
-
-Track View Website link:
-https://secure.moneygram.com/track
-Sender=E2=80=99s First name: David
-Sender=E2=80=99s Last Name: Joiner
-Money Transfer Control Number (MTCN) (REFERENCE)# 26046856
-
-Contact the Mmoney Gram Urgent and reconfirm your address to the
-office before, they will allow you to pick up the transfer today.
-
-HERE IS WHAT REQUIRED OF YOU.
-
-YOUR FULL NAME---------
-ADDRESS--------------
-COUNTRY-----------------------------
-TELEPHONE NUMBERS-----------------
-
-Note, I paid the transfer fee for you, but only you are required to
-send to the office is $75 only,Been Your Payment File activation fee,
-Send once you contact the office,before you can able to pick up your
-transfer today.
-
-Let me know once you pick up first payment today.
-
-Barrister Robert Richter UN-Attorney at Law Court-Benin
+> --
+> viresh
+> 
