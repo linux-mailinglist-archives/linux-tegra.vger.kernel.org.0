@@ -2,103 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D18D31A68A5
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 17:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F4151A6EEC
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 00:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729968AbgDMPSH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Apr 2020 11:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50480 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729618AbgDMPSF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Apr 2020 11:18:05 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728EAC0A3BDC;
-        Mon, 13 Apr 2020 08:18:05 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id u15so4549030ljd.3;
-        Mon, 13 Apr 2020 08:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GdKC161+a5UeWpGOznjCxdPHuVYqeTMUmqQiY/jkoXQ=;
-        b=TFN6Q/Qgniz7+QYsjrimIJAqCoe+peI4ByNh8FPtgWl+IxMFdtouuBQ3DdCfB3D8PN
-         oFoEqruP2xgPxXpyoHNn7qkhyEfX/knBklwQHC5cEDT3c8wCkZh5Ant45cCoCf7L+MnY
-         H9jUYnfTNe6PyAgtlZ+i/fuxbnZVf4Dbs1zi4RBwYbjaTw5yYEp0ctKxn78YOe65eoPN
-         rx8ERcL3GJNubbv3oJRiJylWBD6nwN0AzKmhs876f815+Z0TA5E5rUylFvQ6uRI0yiFm
-         WPyD5sUC/vewP9l6d/8A9aE7jafPavBULRPl6+/Xcp/ROcHhElXempcZia6FYjyLEN61
-         iDoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GdKC161+a5UeWpGOznjCxdPHuVYqeTMUmqQiY/jkoXQ=;
-        b=OqQxRhw8KrDurPNG806ifDojrf3ea2/cBx4r9mb714hzMQlTzy1xUxgmLO3hV3ZgKC
-         KcVStm+r4W233qsXsaYw8nKSylNphoWhZFYY2GsyezDGenOG0Ukx8scM8rhAdS9jqlbW
-         xu0flqlLuCTpO40OOze2VQD2KOoFzPjkGlWjFd8mDBiZW97cFhmvG7Cm+8DkEnn0gItW
-         uCr6796aXbV9WsS57jOF46LDT619aaaaAyTOCNZldgOwjxXAuY7Bd9/imSdjL4SWyhhW
-         jFYhX3xNRFmcQGSQonS7xAu7w7Qi5YH2VcDYnwmFsHJLBhl41m0Pm76ROqLUhA59fVPl
-         1aEA==
-X-Gm-Message-State: AGi0PuZgnnIWZdX0accSqktqutm6EVcEdjaAXEWjuEaAHJO/kyV5JkkS
-        5920Gch3ORFL2ETbDrUD3YjlvtLX
-X-Google-Smtp-Source: APiQypKxQ/EghHVYpg1HOEBLhbZ8HlHRew/LfP6ed1H+YL6pEvyGOKxv7C+tCEfvFdT33UG6L9Hk1g==
-X-Received: by 2002:a05:651c:120e:: with SMTP id i14mr7500365lja.12.1586791083641;
-        Mon, 13 Apr 2020 08:18:03 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id 64sm8427382lfh.32.2020.04.13.08.18.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Apr 2020 08:18:02 -0700 (PDT)
-Subject: Re: [PATCH v2 17/22] memory: tegra30-emc: Register as interconnect
- provider
-To:     Georgi Djakov <georgi.djakov@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20200330010904.27643-1-digetx@gmail.com>
- <20200330010904.27643-18-digetx@gmail.com>
- <d8e39d8b-b3f3-4a30-cb5a-67fcbe18a957@linaro.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8d072775-aec8-5a55-8fd7-7166e2a34c95@gmail.com>
-Date:   Mon, 13 Apr 2020 18:18:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <d8e39d8b-b3f3-4a30-cb5a-67fcbe18a957@linaro.org>
-Content-Type: text/plain; charset=utf-8
+        id S2389471AbgDMWKx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Apr 2020 18:10:53 -0400
+Received: from mga06.intel.com ([134.134.136.31]:28746 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727871AbgDMWKv (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Apr 2020 18:10:51 -0400
+IronPort-SDR: UjJnjSWF//cJkwdYQChy7N95T/itK2TTMoDnuKjFyWRCpF+FVOjybsxBTFtuL47UvUnyoYZAUN
+ C/n7wCi1gn1w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2020 15:10:51 -0700
+IronPort-SDR: JDDj75TY0RQWmARuE0Xi/GlC0/H86xFO5b0ySd1j8fwE8sDPolTRHc1UN0cL/FNVTr9odVA0lc
+ CPOqlLX5jQDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,380,1580803200"; 
+   d="scan'208";a="268335512"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+  by orsmga008.jf.intel.com with ESMTP; 13 Apr 2020 15:10:51 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.204]) by
+ ORSMSX104.amr.corp.intel.com ([169.254.4.76]) with mapi id 14.03.0439.000;
+ Mon, 13 Apr 2020 15:10:51 -0700
+From:   "Derrick, Jonathan" <jonathan.derrick@intel.com>
+To:     "heiko@sntech.de" <heiko@sntech.de>,
+        "kgene@kernel.org" <kgene@kernel.org>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+        "krzk@kernel.org" <krzk@kernel.org>,
+        "robdclark@gmail.com" <robdclark@gmail.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "gerald.schaefer@de.ibm.com" <gerald.schaefer@de.ibm.com>,
+        "agross@kernel.org" <agross@kernel.org>
+CC:     "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jroedel@suse.de" <jroedel@suse.de>
+Subject: Re: [RFC PATCH 11/34] iommu: Split off default domain allocation
+ from group assignment
+Thread-Topic: [RFC PATCH 11/34] iommu: Split off default domain allocation
+ from group assignment
+Thread-Index: AQHWDQv5OT53tBkslE6hk6FAwlK+4qh4HAeA
+Date:   Mon, 13 Apr 2020 22:10:50 +0000
+Message-ID: <6a801ff9e6471bda7c6f510dfa2ba7e7c35cb559.camel@intel.com>
+References: <20200407183742.4344-1-joro@8bytes.org>
+         <20200407183742.4344-12-joro@8bytes.org>
+In-Reply-To: <20200407183742.4344-12-joro@8bytes.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.0.111]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <32CCA6BEC8F53949916D97ED0C44AA2D@intel.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.04.2020 15:44, Georgi Djakov пишет:
-...
-> All the above seems like a duplicate of what we already have in the previous
-> patch for tegra20-emc. Can we have a single driver for both? Maybe extract the
-> above as a separate interconnect provider driver.
-
-Perhaps we could do it later on, once the work on the drivers will
-settle down. I think it should be okay to have some minor duplication
-for now, we already have some other small things duplicated in these
-drivers.
-
->>  static int tegra_emc_probe(struct platform_device *pdev)
->>  {
->>  	struct platform_device *mc;
->> @@ -1344,6 +1452,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
->>  	platform_set_drvdata(pdev, emc);
->>  	tegra_emc_debugfs_init(emc);
->>  
->> +	if (IS_ENABLED(CONFIG_INTERCONNECT)) {
->> +		err = tegra_emc_interconnect_init(emc);
-> 
-> How about registering a platform device that will use the same driver to handle
-> the interconnect functionality for both tegra20 and tegra30?
-
-It should be possible. But it also should be possible to make all these
-drivers modular, which I'm going to try out.
+SGkgSm9lcmcsDQoNCk9uIFR1ZSwgMjAyMC0wNC0wNyBhdCAyMDozNyArMDIwMCwgSm9lcmcgUm9l
+ZGVsIHdyb3RlOg0KPiBGcm9tOiBKb2VyZyBSb2VkZWwgPGpyb2VkZWxAc3VzZS5kZT4NCj4gDQo+
+IFdoZW4gYSBidXMgaXMgaW5pdGlhbGl6ZWQgd2l0aCBpb21tdS1vcHMsIGFsbCBkZXZpY2VzIG9u
+IHRoZSBidXMgYXJlDQo+IHNjYW5uZWQgYW5kIGlvbW11LWdyb3VwcyBhcmUgYWxsb2NhdGVkIGZv
+ciB0aGVtLCBhbmQgZWFjaCBncm91cHMgd2lsbA0KPiBhbHNvIGdldCBhIGRlZmF1bHQgZG9tYWlu
+IGFsbG9jYXRlZC4NCj4gDQo+IFVudGlsIG5vdyB0aGlzIGhhcHBlbmVkIGFzIHNvb24gYXMgdGhl
+IGdyb3VwIHdhcyBjcmVhdGVkIGFuZCB0aGUgZmlyc3QNCj4gZGV2aWNlIGFkZGVkIHRvIGl0LiBX
+aGVuIG90aGVyIGRldmljZXMgd2l0aCBkaWZmZXJlbnQgZGVmYXVsdCBkb21haW4NCj4gcmVxdWly
+ZW1lbnRzIHdlcmUgYWRkZWQgdG8gdGhlIGdyb3VwIGxhdGVyIG9uLCB0aGUgZGVmYXVsdCBkb21h
+aW4gd2FzDQo+IHJlLWFsbG9jYXRlZCwgaWYgcG9zc2libGUuDQo+IA0KPiBUaGlzIHJlc3VsdGVk
+IGluIHNvbWUgYmFjayBhbmQgZm9ydGggYW5kIHVubmVjZXNzYXJ5IGFsbG9jYXRpb25zLCBzbw0K
+PiBjaGFuZ2UgdGhlIGZsb3cgdG8gZGVmZXIgZGVmYXVsdCBkb21haW4gYWxsb2NhdGlvbiB1bnRp
+bCBhbGwgZGV2aWNlcw0KPiBoYXZlIGJlZW4gYWRkZWQgdG8gdGhlaXIgcmVzcGVjdGl2ZSBJT01N
+VSBncm91cHMuDQo+IA0KPiBUaGUgZGVmYXVsdCBkb21haW5zIGFyZSBhbGxvY2F0ZWQgZm9yIG5l
+d2x5IGFsbG9jYXRlZCBncm91cHMgYWZ0ZXINCj4gZWFjaCBkZXZpY2Ugb24gdGhlIGJ1cyBpcyBo
+YW5kbGVkIGFuZCB3YXMgcHJvYmVkIGJ5IHRoZSBJT01NVSBkcml2ZXIuDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBKb2VyZyBSb2VkZWwgPGpyb2VkZWxAc3VzZS5kZT4NCj4gLS0tDQpbc25pcF0NCg0K
+DQpJIGhhZCB0byBhZGQgdGhlIGZvbGxvd2luZyBmb3IgaW5pdGlhbCBWTUQgc3VwcG9ydC4gVGhl
+IG5ldyBQQ0llIGRvbWFpbg0KYWRkZWQgb24gVk1EIGVuZHBvaW50IHByb2JlIGRpZG4ndCBoYXZl
+IHRoZSBkZXZfaW9tbXUgbWVtYmVyIHNldCBvbiB0aGUNClZNRCBzdWJkZXZpY2VzLCB3aGljaCBJ
+J20gZ3Vlc3NpbmcgaXMgZHVlIHRvIHByb2JlX2lvbW11X2dyb3VwIGFscmVhZHkNCmhhdmluZyBi
+ZWVuIHJ1biBvbiB0aGUgVk1EIGVuZHBvaW50J3MgZ3JvdXAgcHJpb3IgdG8gdGhvc2Ugc3ViZGV2
+aWNlcw0KYmVpbmcgYWRkZWQuDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2lvbW11LmMg
+Yi9kcml2ZXJzL2lvbW11L2lvbW11LmMNCmluZGV4IDhhNWUxYWMzMjhkZC4uYWMxZTRmYjliZjQ4
+IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9pb21tdS9pb21tdS5jDQorKysgYi9kcml2ZXJzL2lvbW11
+L2lvbW11LmMNCkBAIC0xNTc3LDYgKzE1NzcsOSBAQCBzdGF0aWMgaW50IGlvbW11X2J1c19ub3Rp
+ZmllcihzdHJ1Y3Qgbm90aWZpZXJfYmxvY2sgKm5iLA0KICAgICAgICBpZiAoYWN0aW9uID09IEJV
+U19OT1RJRllfQUREX0RFVklDRSkgew0KICAgICAgICAgICAgICAgIGludCByZXQ7DQogDQorICAg
+ICAgICAgICAgICAgaWYgKCFkZXZfaW9tbXVfZ2V0KGRldikpDQorICAgICAgICAgICAgICAgICAg
+ICAgICByZXR1cm4gLUVOT01FTTsNCisNCiAgICAgICAgICAgICAgICByZXQgPSBpb21tdV9wcm9i
+ZV9kZXZpY2UoZGV2KTsNCiAgICAgICAgICAgICAgICByZXR1cm4gKHJldCkgPyBOT1RJRllfRE9O
+RSA6IE5PVElGWV9PSzsNCiAgICAgICAgfSBlbHNlIGlmIChhY3Rpb24gPT0gQlVTX05PVElGWV9S
+RU1PVkVEX0RFVklDRSkgew0K
