@@ -1,128 +1,112 @@
 Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
-Received: from vger.kernel.org (unknown [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D83C41A62FD
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 08:21:47 +0200 (CEST)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id 05CEA1A65C5
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 13:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728010AbgDMGVp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Apr 2020 02:21:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.18]:49618 "EHLO
+        id S1729205AbgDMLtw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Apr 2020 07:49:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727719AbgDMGVp (ORCPT
+        with ESMTP id S1729181AbgDMLtu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Apr 2020 02:21:45 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30BA0C008651
-        for <linux-tegra@vger.kernel.org>; Sun, 12 Apr 2020 23:21:46 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id c23so4065092pgj.3
-        for <linux-tegra@vger.kernel.org>; Sun, 12 Apr 2020 23:21:46 -0700 (PDT)
+        Mon, 13 Apr 2020 07:49:50 -0400
+X-Greylist: delayed 500 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Apr 2020 07:49:50 EDT
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D3AC008597
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Apr 2020 04:41:30 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id i2so7335588ils.12
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Apr 2020 04:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=La50agcb/2KWA0YXVPyR15X/cVxbH5EFFNzow2CasCk=;
-        b=U4AhDKmpTjiiQCZMx8qJ1pvV8qHN5/3QPa+VuBSFlJKps1DI9ITUMc5Vs0rjFqGEFk
-         jnergkSEQGWU+5Kxd+rABuZrt2Uj2pIFjr97R4gXPKNC2B/tXBLXUEMn3jWZTCMxTC+d
-         Y4KwetQ/ZEN+5oNXk8NX3XVPtMRJjfP50fHutrzSmg8Ifet9woNEzC0a/qi0yLFeVccx
-         yRgkeliuuX2KAd5dT6IYcQ6e99JJXkCFk5kQixdxmzcrT9s3llqQkdUclDJTvA9sLQPS
-         owAhwVjvH/loJKinZhJcY6sV48c57edrdQub9pYTPcZQAbuOoulrCTh1pW59H8Tz2tlK
-         lW2Q==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
+        b=prjS9vX1/lBHBQnmn8S5eSRPyVAkL53RoKQzE5AAHbxvNYI4a2v2cjTji7kXTppOEc
+         z/YC5TVvRJiGk2ecDbuxQbDezIHvoL12TwU8A8MoLDqkPTvq0EUKN12xVXuoac5P5vPG
+         CDxQUahEZp79myUg0SW4XqnobzWbEdaMDOCEcwJOYEkU2vBAFQtTx1QiAdzIaX9heUrh
+         wXqF9HmIVWbzu+LjtyhWb9YxG3jDJu9H0/2YRuWHtIWQg0GYyRRf+7+N2+T4/5hNzYkA
+         0Td5bmAVNGOZBhXtNLv8DRN8PKs1LisEF6odwJbW1cWSeUhqmMnZAT2UKZl4iJ1E/PV6
+         qofQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=La50agcb/2KWA0YXVPyR15X/cVxbH5EFFNzow2CasCk=;
-        b=XVwpPmfBaCaZggyqDwTWkMRWjNvluUEpn8QXSdUZTOk6nU7rHxkqHeY5cBE1CpsMSX
-         vN4IjC+7abimOetWB+8FnHC73U9XhIwLi5OHK5KnvMMV7H8VONabd710c/9oyfaDTdml
-         0sFLGkeb+l1vZ6hv+lFr4ns0XIfeIYsMuo8f3lDCxBziCG8dT7om1XLmw9AbXePDQRFD
-         GOcWHGLtyCs+wOmNdlV1ygleHhRllxLAlhfTblnt0lTbzrjEs3QAlJGToFlUa1emjBbK
-         WL3sPd+4+JX5TMDd2F5+nWkdaw7igNkjoa3Mq6TcrK4yyXjVphKo7aqklIpeGtvH8rsF
-         IIXg==
-X-Gm-Message-State: AGi0PuZwmqaQw57p2E/lcYpdIxDqczkDqdrlVL9nEYpvlXFK4nE4wvTA
-        132y/Hw1C9tlSUkkEHrNPR/esw==
-X-Google-Smtp-Source: APiQypJQcvb09jM8vKcT10ou779L5BrE/iVeMVqorUgMs0rxNdmOzAZ2huH75ZLiRKpYDW7+F1nNsw==
-X-Received: by 2002:a63:a50c:: with SMTP id n12mr16740745pgf.274.1586758905511;
-        Sun, 12 Apr 2020 23:21:45 -0700 (PDT)
-Received: from localhost ([122.171.118.46])
-        by smtp.gmail.com with ESMTPSA id d203sm2351825pfd.79.2020.04.12.23.21.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 12 Apr 2020 23:21:44 -0700 (PDT)
-Date:   Mon, 13 Apr 2020 11:51:41 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bbasu@nvidia.com, mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-Message-ID: <20200413062141.a6hmwipexhv3sctq@vireshk-i7>
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
- <20200326115023.xy3n5bl7uetuw7mx@vireshk-i7>
- <d233b26b-6b50-7d41-9f33-a5dc151e0e7d@nvidia.com>
- <20200406025549.qfwzlk3745y3r274@vireshk-i7>
- <3ab4136c-8cca-c2f9-d286-b82dac23e720@nvidia.com>
- <20200408055301.jhvu5bc2luu3b5qr@vireshk-i7>
- <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
- <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
- <00390070-38a1-19aa-ca59-42c4658bee7e@nvidia.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
+        b=JpaAHu4ABf8d/8ZUJQ70aI9MvxkLvVZfdnd5uzdLiruu6iceY6JzFaG7XxlGjxzanS
+         UgnJemPzIKBWfgms1c5bCnrkrb/UXqDwQJcdHIhScVW5GTPSbmWeZ4qmJg7qh69N73Rt
+         OWm68UilhniNp58Rl3Wn8BKJvBhxg4ArqW0DwodvgYdu5DapC9btOtzq8d9g675K7LyY
+         Rj03sPpHv8MEudBqOcrtyBmsOLfUqPIt/uVn/lyay7av33kpf2hrhHqwJ0prsmkaPT9C
+         lWAB4ajs613ui2QplimEgB36qOC2xCSVEu/yLgT5XmvsrXfSuwBCRKEx6E/lrd2Kux1h
+         1sdw==
+X-Gm-Message-State: AGi0Puaz4lmhLxXCtzZP0koTNJXCB46df3GvQexlQr1eDVa8tZa48nCH
+        gg+qTQtD0KuNRU5duAz8xC5VZkYmI+Q0+HMUBQ==
+X-Google-Smtp-Source: APiQypL8TqJIeu3sv8q1i+SGhGHI+g2m6cjavfj0dEc+5JPmC3aVP4wfZgyktqWXbHy6/UF7VoKUuS2YyJ3E1gwa7Hs=
+X-Received: by 2002:a92:cccb:: with SMTP id u11mr9656514ilq.8.1586778089638;
+ Mon, 13 Apr 2020 04:41:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00390070-38a1-19aa-ca59-42c4658bee7e@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Received: by 2002:a02:5e49:0:0:0:0:0 with HTTP; Mon, 13 Apr 2020 04:41:28
+ -0700 (PDT)
+Reply-To: mgbenin903@gmail.com
+From:   Barrister Robert Richter UN-Attorney at Law Court-Benin 
+        <info.zennitbankplcnigerian@gmail.com>
+Date:   Mon, 13 Apr 2020 13:41:28 +0200
+Message-ID: <CABHzvrngm=rA5Ct9h+JGdbyDfHJmnfntceDPoyJToo8PZn+YZg@mail.gmail.com>
+Subject: I have already sent you first payment US$5000.00 this morning through
+ MONEY Gram service.it is available to pick up in address now.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 09-04-20, 16:51, Sumit Gupta wrote:
-> We are using "read_counters_work" as local variable. So every invocation the
-> function will have its own copy of counters for corresponding cpu. That's
-> why are doing INIT_WORK_ONSTACK here.
+ATTN DEAR BENEFICIARY.
 
-Why? To support parallel calls to reading the freq ?
+GOOD NEWS.
 
-> > > > > > > > > +     queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
-> > > > > > > > > +     flush_work(&read_counters_work.work);
-> > > > > > > > 
-> > > > > > > > Why can't this be done in current context ?
-> > > > > > > > 
-> > > > > > > We used work queue instead of smp_call_function_single() to have long delay.
-> > > > > > 
-> > > > > > Please explain completely, you have raised more questions than you
-> > > > > > answered :)
-> > > > > > 
-> > > > > > Why do you want to have long delays ?
-> > > > > > 
-> > > > > Long delay value is used to have the observation window long enough for
-> > > > > correctly reconstructing the CPU frequency considering noise.
-> > > > > In next patch version, changed delay value to 500us which in our tests is
-> > > > > considered reliable.
-> > > > 
-> > > > I understand that you need to put a udelay() while reading the freq from
-> > > > hardware, that is fine, but why do you need a workqueue for that? Why can't you
-> > > > just read the values directly from the same context ?
-> > > > 
-> > > The register to read frequency is per core and not accessible to other
-> > > cores. So, we have to execute the function remotely as the target core to
-> > > read frequency might be different from current.
-> > > The functions for that are smp_call_function_single or queue_work_on.
-> > > We used queue_work_on() to avoid long delay inside ipi interrupt context
-> > > with interrupts disabled.
-> > 
-> > Okay, I understand this now, finally :)
-> > 
-> > But if the interrupts are disabled during some call, won't workqueues face the
-> > same problem ?
-> > 
-> Yes, we are trying to minimize the case.
+I have already sent you first payment US$5000.00 this morning through
+MONEY Gram service.it is available to pick up in address now.
 
-But how do you know workqueues will perform better than
-smp_call_function_single() ? Just asking for clarity on this as normally
-everyone tries to do smp_call_function_single().
+So we advise you to Contact This Money Gram office to pick up your
+transfer $US5000.00 today.
 
--- 
-viresh
+
+Note that your compensation payment funds is total amount $US2.800,000
+Million Dollars.We have instructed the Money Gram Agent,Mr. James
+Gadner to keep sending the transfer to you daily, but the maximum
+amount you will be receiving everyday is US$5000.00. Contact Agent now
+to pick up your first payment $US5000.00 immediately.
+
+Contact Person, Mr. James Gadner, Dir. Money Gram Benin.
+Email: mgbenin903@gmail.com
+Telephone Numbers: +229 62819378/ +229 98477762
+
+HERE IS YOUR PAYMENT DETAILS FOR THE FIRST =C2=A3US5000.00 SENT TODAY.
+
+Track View Website link:
+https://secure.moneygram.com/track
+Sender=E2=80=99s First name: David
+Sender=E2=80=99s Last Name: Joiner
+Money Transfer Control Number (MTCN) (REFERENCE)# 26046856
+
+Contact the Mmoney Gram Urgent and reconfirm your address to the
+office before, they will allow you to pick up the transfer today.
+
+HERE IS WHAT REQUIRED OF YOU.
+
+YOUR FULL NAME---------
+ADDRESS--------------
+COUNTRY-----------------------------
+TELEPHONE NUMBERS-----------------
+
+Note, I paid the transfer fee for you, but only you are required to
+send to the office is $75 only,Been Your Payment File activation fee,
+Send once you contact the office,before you can able to pick up your
+transfer today.
+
+Let me know once you pick up first payment today.
+
+Barrister Robert Richter UN-Attorney at Law Court-Benin
