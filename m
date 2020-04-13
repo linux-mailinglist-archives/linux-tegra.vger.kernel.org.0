@@ -2,279 +2,427 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28CFF1A6676
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 14:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4886D1A6722
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Apr 2020 15:36:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728616AbgDMMvY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Apr 2020 08:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729542AbgDMMtm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Apr 2020 08:49:42 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D6F8C00860E
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Apr 2020 05:44:29 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id x25so9215124wmc.0
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Apr 2020 05:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SyAoCky+LpQV+8kyCzw4R1m9WdNTQKY8khlOcJkxk24=;
-        b=NedGkSaTlgNzjG4eF9EQSGsA52uybp7FXFKpNaUSZLzsPue3f/S0Fa6FPHa88Lf3oU
-         ITzO3wWe6wqQ5+P83C4QDBIx/6AiElMPC1ITZTGBvGI+i7EuGEVhd8SsIV8hsSiyfE81
-         E2ZnrSJ/9JMrXcUBnv/yMR8nECtkUcOuhmqs40KXtVeFiYCTKD/PxXu8m1uh5njJlsku
-         LziyPC4hf8TQRFywxX9yi2Q65h4LLCUjOpDf8kAdd2b7HcuUUJQ3m5ApythIGI2dCT2J
-         ixYwuaXAoQ0K5CQP3iHaxb/FEXxnFKM7h6Tb64vhImE3Dvg6tohXtTT1VMLoDHG0RBVk
-         gsAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SyAoCky+LpQV+8kyCzw4R1m9WdNTQKY8khlOcJkxk24=;
-        b=tthZy2YkKkeafzWnPS05Qw1ILOIkYxmKBDxZpiclFPMK9M5ytee00LWtKUCI0y53Qo
-         xRTiqI2VPdAobYQOkzY9UFbWM1+lRVNv0/MwAvQGdsVuzr9BfDfVNtHTpJhoTjEjUH+B
-         Ul/VNTOMjj91OZYZI7LUrWIH3x7JV86KfEDWX/37yQwjpFquBDPGeHAIcdi9d5s8Fq5i
-         qUn7o8hU6yDKzvvrL8O1bR+nmrxL+ciTH/stAjmEu17K9T7giG+scmS9KHEbH5MlHxda
-         cbEBrOwx8yHqepx4lwN7QLMQGa5kRsz3/OfmBBeHmw7Fy8No0RNKWwb1pwjOvA5WK+En
-         r0tA==
-X-Gm-Message-State: AGi0Pubao52z8Lo1g6A7rfGsyt6Ok4MUZ99cBXXbfwflEUBDWznFUGBz
-        q6IMWe9Jzf5/zMzoMKvRY2Z40g==
-X-Google-Smtp-Source: APiQypLzK9gJ8i4aeA2jYafZ3cBueTCznG3RB7Max2k+vH6mgdUaAoCwL3PVcssH/FcnGn6rQu+Ygg==
-X-Received: by 2002:a7b:ce0b:: with SMTP id m11mr18912081wmc.67.1586781868200;
-        Mon, 13 Apr 2020 05:44:28 -0700 (PDT)
-Received: from [192.168.0.136] ([87.120.218.65])
-        by smtp.googlemail.com with ESMTPSA id w6sm10690816wrm.86.2020.04.13.05.44.26
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Apr 2020 05:44:27 -0700 (PDT)
-Subject: Re: [PATCH v2 17/22] memory: tegra30-emc: Register as interconnect
- provider
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1730048AbgDMNgm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Apr 2020 09:36:42 -0400
+Received: from foss.arm.com ([217.140.110.172]:41592 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729900AbgDMNgl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Apr 2020 09:36:41 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C912431B;
+        Mon, 13 Apr 2020 06:36:39 -0700 (PDT)
+Received: from ssg-dev-vb.arm.com (unknown [10.57.58.121])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFCA13F68F;
+        Mon, 13 Apr 2020 06:36:27 -0700 (PDT)
+From:   Hadar Gat <hadar.gat@arm.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20200330010904.27643-1-digetx@gmail.com>
- <20200330010904.27643-18-digetx@gmail.com>
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <d8e39d8b-b3f3-4a30-cb5a-67fcbe18a957@linaro.org>
-Date:   Mon, 13 Apr 2020 15:44:26 +0300
-MIME-Version: 1.0
-In-Reply-To: <20200330010904.27643-18-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        "David S. Miller" <davem@davemloft.net>, JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     Gilad Ben-Yossef <gilad@benyossef.com>,
+        Ofir Drang <ofir.drang@arm.com>, Hadar Gat <hadar.gat@arm.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        dmaengine@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH] of_device: removed #include that caused a recursion in included headers
+Date:   Mon, 13 Apr 2020 16:35:53 +0300
+Message-Id: <1586784960-22692-1-git-send-email-hadar.gat@arm.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
+Both of_platform.h and of_device.h were included each other.
+In of_device.h, removed unneeded #include to of_platform.h
+and added include to of_platform.h in the files that needs it.
 
-On 3/30/20 04:08, Dmitry Osipenko wrote:
-> Now external memory controller is a memory interconnection provider.
-> This allows us to use interconnect API to change memory configuration.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/tegra/tegra30-emc.c | 115 +++++++++++++++++++++++++++++
->  1 file changed, 115 insertions(+)
-> 
-> diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-> index 69698665d431..5a4106173a75 100644
-> --- a/drivers/memory/tegra/tegra30-emc.c
-> +++ b/drivers/memory/tegra/tegra30-emc.c
-> @@ -14,6 +14,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/delay.h>
->  #include <linux/err.h>
-> +#include <linux/interconnect-provider.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
-> @@ -327,6 +328,7 @@ struct tegra_emc {
->  	struct device *dev;
->  	struct tegra_mc *mc;
->  	struct notifier_block clk_nb;
-> +	struct icc_provider provider;
->  	struct clk *clk;
->  	void __iomem *regs;
->  	unsigned int irq;
-> @@ -1264,6 +1266,112 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
->  			    emc, &tegra_emc_debug_max_rate_fops);
->  }
->  
-> +static inline struct tegra_emc *
-> +to_tegra_emc_provider(struct icc_provider *provider)
-> +{
-> +	return container_of(provider, struct tegra_emc, provider);
-> +}
-> +
-> +static struct icc_node *
-> +emc_of_icc_xlate_onecell(struct of_phandle_args *spec, void *data)
-> +{
-> +	struct icc_provider *provider = data;
-> +	struct icc_node *node;
-> +
-> +	/* External Memory is the only possible ICC route */
-> +	list_for_each_entry(node, &provider->nodes, node_list) {
-> +		if (node->id == TEGRA_ICC_EMEM)
-> +			return node;
-> +	}
-> +
-> +	return ERR_PTR(-EINVAL);
-> +}
-> +
-> +static int emc_icc_set(struct icc_node *src, struct icc_node *dst)
-> +{
-> +	struct tegra_emc *emc = to_tegra_emc_provider(dst->provider);
-> +	unsigned long long rate = icc_units_to_bps(dst->avg_bw);
-> +	unsigned int dram_data_bus_width_bytes = 4;
-> +	unsigned int ddr = 2;
-> +	int err;
-> +
-> +	do_div(rate, ddr * dram_data_bus_width_bytes);
-> +	rate = min_t(u64, rate, U32_MAX);
-> +
-> +	err = clk_set_min_rate(emc->clk, rate);
-> +	if (err)
-> +		return err;
-> +
-> +	err = clk_set_rate(emc->clk, rate);
-> +	if (err)
-> +		return err;
-> +
-> +	return 0;
-> +}
-> +
-> +static int emc_icc_aggregate(struct icc_node *node,
-> +			     u32 tag, u32 avg_bw, u32 peak_bw,
-> +			     u32 *agg_avg, u32 *agg_peak)
-> +{
-> +	*agg_avg = min((u64)avg_bw + (*agg_avg), (u64)U32_MAX);
-> +	*agg_peak = max(*agg_peak, peak_bw);
-> +
-> +	return 0;
-> +}
-> +
-> +static int tegra_emc_interconnect_init(struct tegra_emc *emc)
-> +{
-> +	struct icc_node *node;
-> +	int err;
-> +
-> +	/* older device-trees don't have interconnect properties */
-> +	if (!of_find_property(emc->dev->of_node, "#interconnect-cells", NULL))
-> +		return 0;
-> +
-> +	emc->provider.dev = emc->dev;
-> +	emc->provider.set = emc_icc_set;
-> +	emc->provider.data = &emc->provider;
-> +	emc->provider.xlate = emc_of_icc_xlate_onecell;
-> +	emc->provider.aggregate = emc_icc_aggregate;
-> +
-> +	err = icc_provider_add(&emc->provider);
-> +	if (err)
-> +		return err;
-> +
-> +	/* create External Memory Controller node */
-> +	node = icc_node_create(TEGRA_ICC_EMC);
-> +	err = PTR_ERR_OR_ZERO(node);
-> +	if (err)
-> +		goto del_provider;
-> +
-> +	node->name = "External Memory Controller";
-> +	icc_node_add(node, &emc->provider);
-> +
-> +	/* link External Memory Controller to External Memory (DRAM) */
-> +	err = icc_link_create(node, TEGRA_ICC_EMEM);
-> +	if (err)
-> +		goto remove_nodes;
-> +
-> +	/* create External Memory node */
-> +	node = icc_node_create(TEGRA_ICC_EMEM);
-> +	err = PTR_ERR_OR_ZERO(node);
-> +	if (err)
-> +		goto remove_nodes;
-> +
-> +	node->name = "External Memory (DRAM)";
-> +	icc_node_add(node, &emc->provider);
-> +
-> +	return 0;
-> +
-> +remove_nodes:
-> +	icc_nodes_remove(&emc->provider);
-> +
-> +del_provider:
-> +	icc_provider_del(&emc->provider);
-> +
-> +	return err;
-> +}
+Signed-off-by: Hadar Gat <hadar.gat@arm.com>
+---
+ drivers/base/platform.c                           | 1 +
+ drivers/bus/vexpress-config.c                     | 1 +
+ drivers/dma/at_hdmac.c                            | 1 +
+ drivers/dma/stm32-dmamux.c                        | 1 +
+ drivers/dma/ti/dma-crossbar.c                     | 1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c             | 1 +
+ drivers/gpu/drm/msm/hdmi/hdmi.c                   | 1 +
+ drivers/gpu/drm/msm/msm_drv.c                     | 1 +
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 1 +
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                | 1 +
+ drivers/iio/adc/stm32-adc-core.c                  | 1 +
+ drivers/iio/adc/stm32-dfsdm-adc.c                 | 1 +
+ drivers/iio/adc/stm32-dfsdm-core.c                | 1 +
+ drivers/iommu/tegra-smmu.c                        | 1 +
+ drivers/memory/atmel-ebi.c                        | 1 +
+ drivers/mfd/palmas.c                              | 1 +
+ drivers/mfd/ssbi.c                                | 1 +
+ drivers/mtd/nand/raw/omap2.c                      | 1 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+ drivers/net/ethernet/ti/cpsw.c                    | 1 +
+ drivers/phy/tegra/xusb.c                          | 1 +
+ drivers/pinctrl/nomadik/pinctrl-nomadik.c         | 1 +
+ drivers/soc/samsung/exynos-pmu.c                  | 1 +
+ drivers/soc/sunxi/sunxi_sram.c                    | 1 +
+ include/linux/of_device.h                         | 2 --
+ lib/genalloc.c                                    | 1 +
+ 26 files changed, 25 insertions(+), 2 deletions(-)
 
-All the above seems like a duplicate of what we already have in the previous
-patch for tegra20-emc. Can we have a single driver for both? Maybe extract the
-above as a separate interconnect provider driver.
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 5255550..f549274b 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -12,6 +12,7 @@
+ #include <linux/string.h>
+ #include <linux/platform_device.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+diff --git a/drivers/bus/vexpress-config.c b/drivers/bus/vexpress-config.c
+index ff70575..12b8b0b 100644
+--- a/drivers/bus/vexpress-config.c
++++ b/drivers/bus/vexpress-config.c
+@@ -8,6 +8,7 @@
+ #include <linux/init.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/vexpress.h>
+ 
+ 
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index 672c73b..51337b4 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -20,6 +20,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ 
+ #include "at_hdmac_regs.h"
+diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
+index 3c89bd3..74695b9 100644
+--- a/drivers/dma/stm32-dmamux.c
++++ b/drivers/dma/stm32-dmamux.c
+@@ -16,6 +16,7 @@
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+diff --git a/drivers/dma/ti/dma-crossbar.c b/drivers/dma/ti/dma-crossbar.c
+index f255056..10c6d23 100644
+--- a/drivers/dma/ti/dma-crossbar.c
++++ b/drivers/dma/ti/dma-crossbar.c
+@@ -10,6 +10,7 @@
+ #include <linux/io.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ 
+ #define TI_XBAR_DRA7		0
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index c4e71ab..f523254 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -6,6 +6,7 @@
+ #include <linux/interconnect.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_opp.h>
++#include <linux/of_platform.h>
+ #include <soc/qcom/cmd-db.h>
+ 
+ #include "a6xx_gpu.h"
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 737453b..5034d40 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/of_irq.h>
+ #include <linux/of_gpio.h>
++#include <linux/of_platform.h>
+ 
+ #include <sound/hdmi-codec.h>
+ #include "hdmi.h"
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 29295de..ddc9e85 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -8,6 +8,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/kthread.h>
+ #include <linux/uaccess.h>
++#include <linux/of_platform.h>
+ #include <uapi/linux/sched/types.h>
+ 
+ #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 6e1270e..d038bae 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -12,6 +12,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 624437b..aa35757 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+diff --git a/drivers/iio/adc/stm32-adc-core.c b/drivers/iio/adc/stm32-adc-core.c
+index 2df88d2..3dc3453 100644
+--- a/drivers/iio/adc/stm32-adc-core.c
++++ b/drivers/iio/adc/stm32-adc-core.c
+@@ -17,6 +17,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+diff --git a/drivers/iio/adc/stm32-dfsdm-adc.c b/drivers/iio/adc/stm32-dfsdm-adc.c
+index 76a60d9..e83848cb 100644
+--- a/drivers/iio/adc/stm32-dfsdm-adc.c
++++ b/drivers/iio/adc/stm32-dfsdm-adc.c
+@@ -20,6 +20,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/drivers/iio/adc/stm32-dfsdm-core.c b/drivers/iio/adc/stm32-dfsdm-core.c
+index 26e2011..f6a53ab 100644
+--- a/drivers/iio/adc/stm32-dfsdm-core.c
++++ b/drivers/iio/adc/stm32-dfsdm-core.c
+@@ -12,6 +12,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 63a147b..3797caa 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -10,6 +10,7 @@
+ #include <linux/kernel.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/dma-mapping.h>
+diff --git a/drivers/memory/atmel-ebi.c b/drivers/memory/atmel-ebi.c
+index 14386d0..272b1a8 100644
+--- a/drivers/memory/atmel-ebi.c
++++ b/drivers/memory/atmel-ebi.c
+@@ -13,6 +13,7 @@
+ #include <linux/mfd/syscon/atmel-smc.h>
+ #include <linux/init.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/regmap.h>
+ #include <soc/at91/atmel-sfr.h>
+ 
+diff --git a/drivers/mfd/palmas.c b/drivers/mfd/palmas.c
+index f5b3fa9..cca44bc 100644
+--- a/drivers/mfd/palmas.c
++++ b/drivers/mfd/palmas.c
+@@ -19,6 +19,7 @@
+ #include <linux/mfd/core.h>
+ #include <linux/mfd/palmas.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ static const struct regmap_config palmas_regmap_config[PALMAS_NUM_CLIENTS] = {
+ 	{
+diff --git a/drivers/mfd/ssbi.c b/drivers/mfd/ssbi.c
+index 94f60df..72cd45a 100644
+--- a/drivers/mfd/ssbi.c
++++ b/drivers/mfd/ssbi.c
+@@ -20,6 +20,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ /* SSBI 2.0 controller registers */
+ #define SSBI2_CMD			0x0008
+diff --git a/drivers/mtd/nand/raw/omap2.c b/drivers/mtd/nand/raw/omap2.c
+index ad77c11..d851ec7 100644
+--- a/drivers/mtd/nand/raw/omap2.c
++++ b/drivers/mtd/nand/raw/omap2.c
+@@ -22,6 +22,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <linux/mtd/nand_bch.h>
+ #include <linux/platform_data/elm.h>
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 58e0511..d704d57 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -12,6 +12,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/phy.h>
+diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
+index c2c5bf8..6932945 100644
+--- a/drivers/net/ethernet/ti/cpsw.c
++++ b/drivers/net/ethernet/ti/cpsw.c
+@@ -28,6 +28,7 @@
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/if_vlan.h>
+ #include <linux/kmemleak.h>
+ #include <linux/sys_soc.h>
+diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+index de4a46f..0eac1b8 100644
+--- a/drivers/phy/tegra/xusb.c
++++ b/drivers/phy/tegra/xusb.c
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/phy/tegra/xusb.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/pinctrl/nomadik/pinctrl-nomadik.c b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+index 95f864d..d61ee59 100644
+--- a/drivers/pinctrl/nomadik/pinctrl-nomadik.c
++++ b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+@@ -19,6 +19,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/slab.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_address.h>
+ #include <linux/bitops.h>
+ #include <linux/pinctrl/machine.h>
+diff --git a/drivers/soc/samsung/exynos-pmu.c b/drivers/soc/samsung/exynos-pmu.c
+index 17304fa..25129b0 100644
+--- a/drivers/soc/samsung/exynos-pmu.c
++++ b/drivers/soc/samsung/exynos-pmu.c
+@@ -8,6 +8,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/platform_device.h>
+ #include <linux/delay.h>
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 1b0d50f..423cec3 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -16,6 +16,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ 
+diff --git a/include/linux/of_device.h b/include/linux/of_device.h
+index 8d31e39..752999b 100644
+--- a/include/linux/of_device.h
++++ b/include/linux/of_device.h
+@@ -4,8 +4,6 @@
+ 
+ #include <linux/cpu.h>
+ #include <linux/platform_device.h>
+-#include <linux/of_platform.h> /* temporary until merge */
+-
+ #include <linux/of.h>
+ #include <linux/mod_devicetable.h>
+ 
+diff --git a/lib/genalloc.c b/lib/genalloc.c
+index 7f1244b..08e21eeb 100644
+--- a/lib/genalloc.c
++++ b/lib/genalloc.c
+@@ -33,6 +33,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/genalloc.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/vmalloc.h>
+ 
+ static inline size_t chunk_size(const struct gen_pool_chunk *chunk)
+-- 
+2.7.4
 
-> +
->  static int tegra_emc_probe(struct platform_device *pdev)
->  {
->  	struct platform_device *mc;
-> @@ -1344,6 +1452,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, emc);
->  	tegra_emc_debugfs_init(emc);
->  
-> +	if (IS_ENABLED(CONFIG_INTERCONNECT)) {
-> +		err = tegra_emc_interconnect_init(emc);
-
-How about registering a platform device that will use the same driver to handle
-the interconnect functionality for both tegra20 and tegra30?
-
-Thanks,
-Georgi
