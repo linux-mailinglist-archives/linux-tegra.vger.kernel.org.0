@@ -2,69 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 363E31A7FB3
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 16:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58B651A7FDE
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 16:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390720AbgDNO1E (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 10:27:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37942 "EHLO
+        id S2390970AbgDNOeb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 10:34:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390697AbgDNO1B (ORCPT
+        with ESMTP id S2390961AbgDNOe3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 10:27:01 -0400
+        Tue, 14 Apr 2020 10:34:29 -0400
 Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CA95C061A0F
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 07:27:00 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id y24so14170784wma.4
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 07:27:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5193BC061A0C;
+        Tue, 14 Apr 2020 07:34:29 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id r26so14252249wmh.0;
+        Tue, 14 Apr 2020 07:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=zEhwiR+vyHHEAXkMwbsVNm/lmU61lK9swOpVtUCs63A=;
-        b=hD2cwrFrHSDinmjs202lPgG/kqeVPUD1XhAccX9hGHGrk+0YBfrgcbvoaf2aS7t2VW
-         jufP0ADcPK8Ss5GeOEpdp5hrmWWLWzbCg9ttqLgTdbcDzrm7fwH+4YgGWKWHfyof/Q/T
-         7QD0SPQv3cNYbOr95YefyZ7ZRraJeqgKa/PHqPIu1JZdJawkIgGYyqTfdc0U4gWZvCJa
-         a4NIkOlrydcVbu5jFSIiwvdGymjCu50RhvaQx/GVGI3JLZHRZtRxn+GvTpMhEEX3dN9M
-         b1BEQG4DePP2ttV+Ylrt61N5GApKqhIlzKhbGgkl9WktV+0K//kFV9pdMtVWIbVMZGdd
-         E14A==
+        bh=GzDsay7ZtiUVlGJrHI4dwfbZX1amh97113yqGdPhgsI=;
+        b=pH8ZpxX86b9a+zmBKSD6oQacbBLG6EAUwd7+HWjEleK6fQSx5ckspywSPxY2vX922b
+         z2389d7IpkI72Wczr3fPFN0H/iR3Pl5H0p9fxAivAnLF7tDOVTWW/Fd76rEC+6SjAfI9
+         x0Gx6wj5ly4Z97+t4Bw/08mXmnIzF+uMT5wunJPlBnqLPbSA+pvSlSNamOSyVzQobmn/
+         b+avRlJr4Nt1HtcTkWxLQs/GWXSTMs5IQM/+tnalhXoN5HJrEHbeHXQzabW8ATh9Wi/y
+         KJVNE7Dv063mAxV7P4Zmm9bCAPWqGul4/5K2BzJ6wQG/qUbBQf5XqI9TFV00PYFQbkj/
+         RGQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zEhwiR+vyHHEAXkMwbsVNm/lmU61lK9swOpVtUCs63A=;
-        b=B61mBg3oynLDsHlzk3irTqnnPFp2Zbapyk2KAhTEbe7wRmvmu9vELteHQa4Nt0Ety1
-         gSmtBdtlJywXYzfBq2KcCzj+TzOH9dl2d2d9V6Bf4TUT4kEU8rCE2rr+VwhvdVx24yTE
-         PzqmqJv97NvgMxam3QdgI0LDmCDKk9voF/rAQzzdj+1vnLLGFAh0YD5a3TOkOgtOd6H1
-         pjBL1AuuyCSLBx8xynm75GRKW6K4/sa1hlBnvEX4C6Qbra5JLORJDO0Zzm7xwmpIVFUb
-         gU3Gea/OOspLzEkX7/2nrjkKTAVtV7SZ7/HL6iwBK5fMt/tqKpEHYUtPiyUALuOH3cBf
-         1OnA==
-X-Gm-Message-State: AGi0PuYlMgTj3sVMyYWtKOknNsr3dC7MCkro8jjBAgq3YU0ber7kUVmb
-        aZ4p74RJY0RTz0bI7gwSTGa/rSbN
-X-Google-Smtp-Source: APiQypIRTWEUu6tlvFDBTOgLwhZvew1YX0WsnFc5ex7ur5Tqq+z9rollOx+SWPnyFscoJTsvglGL7g==
-X-Received: by 2002:a7b:c931:: with SMTP id h17mr130289wml.105.1586874418826;
-        Tue, 14 Apr 2020 07:26:58 -0700 (PDT)
+        bh=GzDsay7ZtiUVlGJrHI4dwfbZX1amh97113yqGdPhgsI=;
+        b=QO/GSBRUQ8W6sWwSYbUU31ct7tt4V6erz78Q7oiUFGvuq9pL/hCgqXPXIE0kGUxECy
+         ozDxeW2NmkTYrnreb2TKLgwCfgbIeVpZvrgXDcyS5SV75aUAdE35MdQm1A8tjCBdeFSM
+         dL91x3uX2PpKlDY/mZtK3Nwds6XM3GeW0vengYa11hqiJPnerbVwzdVrY3NDJKP/SesX
+         Kq04gveYSN27fBoxlp+rmvooK8a9EooH31a8TTbqypp94/m9n1t78oPbOGceUJMOtfv7
+         m5Epjg3RpaMxc8wKj0tLbRIvy7HF5Fo1PxalnOTqTkSs0a96PXTzm/Jyx/YKY8PLBJbR
+         nWCw==
+X-Gm-Message-State: AGi0PuZBLMRtoRriSUvpqsZ84WbwRSMeV2avS/Dy8vcrNRcEyf/Wcglu
+        d77XGjYjH9vFfOxXQ8VCKiw=
+X-Google-Smtp-Source: APiQypKQlLXB+oj+GcW3+9i6c3fANKqXUMA8Cm07ep/LoWEiOgjrO70vfEfldPonvOpewJ6cfmC1dA==
+X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr145571wmg.117.1586874868078;
+        Tue, 14 Apr 2020 07:34:28 -0700 (PDT)
 Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
-        by smtp.gmail.com with ESMTPSA id y18sm20183332wmc.45.2020.04.14.07.26.56
+        by smtp.gmail.com with ESMTPSA id q143sm19971427wme.31.2020.04.14.07.34.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 07:26:56 -0700 (PDT)
-Date:   Tue, 14 Apr 2020 16:26:55 +0200
+        Tue, 14 Apr 2020 07:34:25 -0700 (PDT)
+Date:   Tue, 14 Apr 2020 16:34:24 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Vidya Sagar <vidyas@nvidia.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] arm64: defconfig: Re-enable Tegra PCIe Host driver
-Message-ID: <20200414142655.GF3593749@ulmo>
-References: <20200409095530.12004-1-jonathanh@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 07/14] clk: tegra: Implement Tegra210 EMC clock
+Message-ID: <20200414143424.GG3593749@ulmo>
+References: <20200409175238.3586487-1-thierry.reding@gmail.com>
+ <20200409175238.3586487-8-thierry.reding@gmail.com>
+ <8dc000fb-8867-cf8f-8204-a9e1e79a4811@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="JcvBIhDvR6w3jUPA"
+        protocol="application/pgp-signature"; boundary="pE2VAHO2njSJCslu"
 Content-Disposition: inline
-In-Reply-To: <20200409095530.12004-1-jonathanh@nvidia.com>
+In-Reply-To: <8dc000fb-8867-cf8f-8204-a9e1e79a4811@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -72,52 +75,72 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---JcvBIhDvR6w3jUPA
-Content-Type: text/plain; charset=us-ascii
+--pE2VAHO2njSJCslu
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 09, 2020 at 10:55:30AM +0100, Jon Hunter wrote:
-> Commit c57247f940e8 ("PCI: tegra: Add support for PCIe endpoint mode in
-> Tegra194") updated the Tegra PCIe Kconfig symbol for building the Tegra
-> PCIe host controller driver. Following this change the Tegra PCIe host
-> controller driver is no longer built by default and so no works without
-> updating the arm64 defconfig. Fix this by updating the Kconfig symbol
-> in the arm64 for the Tegra PCIe host controller so that again it is
-> built by default.
+On Thu, Apr 09, 2020 at 09:24:31PM +0300, Dmitry Osipenko wrote:
+> 09.04.2020 20:52, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+> > +static long tegra210_clk_emc_round_rate(struct clk_hw *hw, unsigned lo=
+ng rate,
+> > +					unsigned long *prate)
+> > +{
+> > +	struct tegra210_clk_emc *emc =3D to_tegra210_clk_emc(hw);
+> > +	struct tegra210_clk_emc_provider *provider =3D emc->provider;
+> > +	unsigned int i;
+> > +
+> > +	if (!provider || !provider->configs || provider->num_configs =3D=3D 0)
+> > +		return clk_hw_get_rate(hw);
 >=20
-> Fixes: c57247f940e8 ("PCI: tegra: Add support for PCIe endpoint mode in T=
-egra194")
->=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
-> Please note that this is needed as a fix for v5.7.
->=20
->  arch/arm64/configs/defconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This still looks wrong to me. Nobody should be able to get EMC clock
+> until provider is registered.
 
-Applied, thanks.
+The EMC clock is mostly orthogonal to the provider. The provider really
+only allows you to actually change the frequency. The clock will still
+remain even if the provider goes away, it just will loose the ability to
+change rate.
+
+> This is troublesome, especially given that you're allowing the EMC
+> driver to be compiled as a loadable module. For example, this won't work
+> with the current ACTMON driver because it builds OPP table based on the
+> clk-rate rounding during the driver's probe, so it won't be able to do
+> it properly if provider is "temporarily" missing.
+>=20
+> ... I think that in a longer run we should stop manually building the
+> ACTMON's OPP table and instead define a proper OPP table (per-HW Speedo
+> ID, with voltages) in a device-tree. But this is just a vague plans for
+> the future for now.
+
+This code only applies to Tegra210 and we don't currently support ACTMON
+on Tegra210. I'm also not sure we'll ever do because using interconnects
+to describe paths to system memory and then using ICC requests for each
+driver to submit memory bandwidth requests seems like a better way of
+dealing with this problem than using ACTMON to monitor activity because
+that only allows you to react, whereas we really want to be able to
+allocate memory bandwidth upfront.
 
 Thierry
 
---JcvBIhDvR6w3jUPA
+--pE2VAHO2njSJCslu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6VyCsACgkQ3SOs138+
-s6HnjhAAorO/eH1wOSgRsSF23BCq+30hhKgnRnkyOsrtCHgf/MeYFIAzvcr06pDp
-RDijJcmBvSzoNFsdsVDxhzOdYrzh2Nyw2NLSO7kDejN3UHxfsc5qqnQE5MfLsBkf
-u1JRxL8KiQY3fOk1ImSfFrhZC8svbWMKgZGtb/xP1Ejx+PKWHpAOnkpt7blT4HqW
-oUapgRS+sKD1QlrPLiShBLayktAljR2kI3ZOujqRZtOQ0AGIr3RTpNERveN+alSi
-nyEjFfny7HJPgw0SoyDlprrC/XZXVEVLvqOzGVjGird0qMihyuBpI3Y0nKz0ODbY
-c1xtFGqfeYXz77nETFl0rjDlBYPrepKZNfyPG34mq9Z5Ihze9eDWo74jU0WjXfT9
-P+yr1Y5fom2kcC7T9EvvW26WKIebto2fjW42ogTvoixHKh1A9fcxvqBMTTqlPP8M
-aJ5xB4SqaMVtEvXBtlyycexWP+zVaEg4kFZY++hAUhKmhKS1CLLBxlP0v+OIFSfU
-2iWRC6zulaN/yppee9aUwOrKEgMw/LuBZ9G9LKlTokOuDMsIphqNQFNmXhMC8jEp
-r09W8PTt6xhXlhNmPmyfm+rUAGtVWVgT4g6V+SlU04YPqgaoTNz0kx0Gqz+FlRej
-kchihYhNuHEXNdTfVOscJlMHoxY2ESCNzQQ3U4MYDeYZSWehUCc=
-=2UgN
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6VyfAACgkQ3SOs138+
+s6HofRAAia8TjCbY5zDBbRMouJEBKcUyaKEoUaUahRyFSZueh7M+Cbv/OqonijkR
+LM4T1jYRzLNA6mhU+k0bDjFhM9NWnCxs5HAAr0uMk6pVdGXMyYnUtqps0mGfVJFd
+q6M842aj7XYqZaQcamhCqTC62Bpi5ggbSLzkhV9nv1k5OKR06rXWYu//FAogjIKM
+zVHansjaeBdsaeuWg4kvsx6su7IPAyVzYJCO05fooziHEKJjUzouzCkIDSXM6noQ
+LhmnidHUVAOHw4Qit4/ccT3azEYYSEuOl1R2P9JyRgR9zvOxp3GJtIOC09KUjyP/
+Z8EiLDKlgyMPi4Ev10njlhHjkJ9Sao/ICYYyfzika+RQtdILzCLhx4tIlxsu+Ahp
+MOwUU4RYufFF3GGbeCrMd2qwPN15VdxhaiqWUeIlusBLiCSu/jXUdI0VRa06J4dv
+wp0gkDdDQE+IxDms1sp3BCppQyMgf7wZvW+obCPTofwUFzs+uyUllZn8Mv9+2QKC
+DGO30C2kk2NrA5XZASA/y0+6LQFAzNMIYl+TqKgKuusW3jHeSR1dzPmwl0v1qdb/
+YqibANFqzqFbhSbR0JLlG30lZ1LW62AbKCVu6kiyz8xOm34bhQTCNlbtYkopfuHs
+RfM7hq61jxfyqyCvwujvw3EIxfdMFwejUCX0vmfCHEfvF24bxQ4=
+=V99P
 -----END PGP SIGNATURE-----
 
---JcvBIhDvR6w3jUPA--
+--pE2VAHO2njSJCslu--
