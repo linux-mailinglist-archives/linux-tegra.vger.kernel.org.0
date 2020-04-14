@@ -2,130 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A13D11A8574
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 18:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 718E11A859D
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 18:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437274AbgDNQoD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 12:44:03 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:38898 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437160AbgDNQoB (ORCPT
+        id S2440038AbgDNQsN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 12:48:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2440012AbgDNQsM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 12:44:01 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k21so278401otl.5;
-        Tue, 14 Apr 2020 09:44:00 -0700 (PDT)
+        Tue, 14 Apr 2020 12:48:12 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1849C061A0C;
+        Tue, 14 Apr 2020 09:48:11 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id z6so14864711wml.2;
+        Tue, 14 Apr 2020 09:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HmHndUdYmjfvwN8+szi9UffSkAWgcwK4XPxePVLmE5E=;
+        b=cIGVfYNJIFIXzopt97czJ66YgjE7dsheWI+C8GytAm+zVbtjEemAcHk6ZdRb3V0lBT
+         4OMKcSxnkWHVz5e1UM6cU6JX9VvgoWh+pPwkfoMk2fgsbppO7XIh8ktS07sUAvoK0y/N
+         u5Ah1U9mChTMnpuuq9YNzWsfq777eO/6OjnNXuC9l18Vg+UQz7oPfnRBlSbdz9GUt6Wi
+         H6LH2heqSjvmXdyAiOmSd1lBl9DksddEfLSEy36kBKxUh2Ap0qxfRD4a7iuIieFcGEt+
+         BKY1Sj1w06gi4tptdCVbhEpu8alEO8/29tUz1srETZFJ64nRodbntvMjK6vYlm3eJH8e
+         2YSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mdJGN+n2VYiCEYSu8u8xlSZpkqPfV2n6FeIMEPtdiVw=;
-        b=jRawnFkhpMXRAk9E226hLegLZOwJm+sg5V2l2IliKC7kTYlv3AjUbLNF2Q/3Db2pG8
-         /kBLzUav3peM7gUMIYvigwE7gudFjwgnz5cgfkvZaBIEmTKPPMwy21G9B/mNL19P0q+u
-         RnRmLqPM6octnPqaWHTIeyAzVkUP1eqT5CxQ+EQLFFSo5E3Mut6TtUNXCoiT+xikwlw8
-         o4EOKK1f3egKel9MXtX8QR4O0SnZQ7KJJxhMuX5CycDZ1j950fQCO+wXDhRdANxD+A/N
-         sCw5YYCzQa4ob6TORHTfkpqBzF6UeZV4grvYJZmGRw3Ll8N3V0Kt80ikIwcC8Gae8mtE
-         LH9w==
-X-Gm-Message-State: AGi0PuYsill/UOYWVcuAPTo1VL4eUTb985sb7O5B8uo3WEl08upTdoj1
-        qt2ARle7JPS4CPTrL/Hnyw==
-X-Google-Smtp-Source: APiQypINczSaAx3RvBdTvMgP/hZFPK9N4KYJKAMcgw+8KVN2riIwZXpaqEpmPb+hOROqaiW2MJnmaw==
-X-Received: by 2002:a4a:a98b:: with SMTP id w11mr19105677oom.80.1586882640106;
-        Tue, 14 Apr 2020 09:44:00 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w15sm6274633ooq.24.2020.04.14.09.43.57
+        bh=HmHndUdYmjfvwN8+szi9UffSkAWgcwK4XPxePVLmE5E=;
+        b=GEULIrOnm0/CkxAOGacRkC0sYTdPKP38AP5troBmTTzXx0Lke1lBzt9mOxg2pZN0cb
+         SwIhvJmvPgP81+f+444kIQw7UsHltBgNndqZOapFg/TnWYGLL/NqfAyMP8plb9ICepIF
+         PhE9jl9QuOWcynf07+q71AcL75+yvEmv0CF/eIuA0bG9q7VJqWIQxaiWIy2uYz/tNDt8
+         swWhOtdLudlqEsnfOJbaFTWhRXi11X4pUZmEsxifnFZwRspH64m8Lu1ytIKDKH3xKV4B
+         3atWxcOv43pPEzaugx8HS9vJhwf2pM/KhR0Na0p5+R4Sg4vHBstpdDFgpfMm6mTUD5ov
+         OT5g==
+X-Gm-Message-State: AGi0PuYYgxsJEGo147TFJYUbLQ/PCsIZFj9tiq7ozwTHC/fODSAvDLVo
+        kXBXueb0z2IHHzazwyxWrUA=
+X-Google-Smtp-Source: APiQypIHuIKA92yozOH6Ncxbv9kbJEehQ9zh8Wp/4dmg7gSGA4CMpUjWByNqYERfgv9OqDb3Yh3TEw==
+X-Received: by 2002:a7b:c010:: with SMTP id c16mr776352wmb.73.1586882890736;
+        Tue, 14 Apr 2020 09:48:10 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+        by smtp.gmail.com with ESMTPSA id o13sm20192640wrm.74.2020.04.14.09.48.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 09:43:59 -0700 (PDT)
-Received: (nullmailer pid 11212 invoked by uid 1000);
-        Tue, 14 Apr 2020 16:43:57 -0000
-Date:   Tue, 14 Apr 2020 11:43:57 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Amit Kucheria <amit.kucheria@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        lukasz.luba@arm.com, daniel.lezcano@linaro.org,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Talel Shenhar <talel@amazon.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Marc Gonzalez <marc.w.gonzalez@free.fr>,
-        Mans Rullgard <mans@mansr.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: thermal: Get rid of thermal.txt and replace
- references
-Message-ID: <20200414164357.GA11178@bogus>
-References: <cbd70c2f0f5ddae0d8e418fcb1e03101e408f6c2.1585753313.git.amit.kucheria@linaro.org>
+        Tue, 14 Apr 2020 09:48:09 -0700 (PDT)
+Date:   Tue, 14 Apr 2020 18:48:08 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 11/14] memory: tegra: Support derated timings on
+ Tegra210
+Message-ID: <20200414164808.GA15932@ulmo>
+References: <20200409175238.3586487-1-thierry.reding@gmail.com>
+ <20200409175238.3586487-12-thierry.reding@gmail.com>
+ <543bfc3b-2bb9-01d3-62da-89d1f0b18a5b@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
 Content-Disposition: inline
-In-Reply-To: <cbd70c2f0f5ddae0d8e418fcb1e03101e408f6c2.1585753313.git.amit.kucheria@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <543bfc3b-2bb9-01d3-62da-89d1f0b18a5b@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed,  1 Apr 2020 20:35:50 +0530, Amit Kucheria wrote:
-> Now that we have yaml bindings for the thermal subsystem, get rid of the
-> old bindings (thermal.txt).
-> 
-> Replace all references to thermal.txt in the Documentation with a link
-> to the appropriate YAML bindings using the following search and replace
-> pattern:
->  - If the reference is specific to the thermal-sensor-cells property,
->  replace with a pointer to thermal-sensor.yaml
->  - If the reference is to the cooling-cells property, replace with a
->  pointer to thermal-cooling-devices.yaml
->  - If the reference is generic thermal bindings, replace with a
->  reference to thermal*.yaml.
-> 
-> Signed-off-by: Amit Kucheria <amit.kucheria@linaro.org>
-> ---
->  .../devicetree/bindings/arm/arm,scmi.txt      |   2 +-
->  .../devicetree/bindings/arm/arm,scpi.txt      |   2 +-
->  .../arm/marvell/ap80x-system-controller.txt   |   2 +-
->  .../arm/marvell/cp110-system-controller.txt   |   2 +-
->  .../bindings/cpufreq/cpufreq-dt.txt           |   3 +-
->  .../bindings/cpufreq/cpufreq-mediatek.txt     |   4 +-
->  .../devicetree/bindings/hwmon/gpio-fan.txt    |   3 +-
->  .../devicetree/bindings/hwmon/lm90.txt        |   4 +-
->  .../thermal/allwinner,sun8i-a83t-ths.yaml     |   2 +-
->  .../bindings/thermal/amazon,al-thermal.txt    |   2 +-
->  .../bindings/thermal/brcm,avs-ro-thermal.yaml |   2 +-
->  .../bindings/thermal/brcm,bcm2835-thermal.txt |   2 +-
->  .../bindings/thermal/hisilicon-thermal.txt    |   2 +-
->  .../bindings/thermal/max77620_thermal.txt     |   6 +-
->  .../bindings/thermal/mediatek-thermal.txt     |   2 +-
->  .../thermal/nvidia,tegra124-soctherm.txt      |  10 +-
->  .../thermal/nvidia,tegra186-bpmp-thermal.txt  |   2 +-
->  .../bindings/thermal/qcom-spmi-temp-alarm.txt |   2 +-
->  .../bindings/thermal/rockchip-thermal.txt     |   2 +-
->  .../bindings/thermal/tango-thermal.txt        |   2 +-
->  .../bindings/thermal/thermal-generic-adc.txt  |   2 +-
->  .../devicetree/bindings/thermal/thermal.txt   | 586 ------------------
->  .../bindings/thermal/uniphier-thermal.txt     |   2 +-
->  23 files changed, 33 insertions(+), 615 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/thermal/thermal.txt
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 14, 2020 at 07:40:55PM +0300, Dmitry Osipenko wrote:
+> 09.04.2020 20:52, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > -	/* EMC training timer */
+>=20
+> Guess this comment isn't really needed from the start, or should it be ke=
+pt?
+
+Nope, I'll remove it since the code is already pretty explicit.
+
+Thierry
+
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6V6UYACgkQ3SOs138+
+s6FQnRAAwJoMauB0YUdSUVh1pXLf4jHxluqKui/zk3P9bXAk7mLipovO5mcIkkHM
+lYPBh/nhQGROQJVqOuf3JBG13bkJvK8DwONh/k6n/GFo6tR8wCid4UX4IEiErdR+
+sM/977LWhcid/wgZPtLv4vT2+M3pY3ZdqDOYIVf9ZHxD8DkLIIOKZ5IavNCfD/GF
+xA1qhkmrlAiuV3GGP5mFDeq+bYml1ZVfxV2eSFq4fIFWzCcK18AQjzdweOkRLG5t
+H3AoaiIVk9D5SnuH1zy/fsWHc0kMhhEE5iSsTL/uUM2Rm8687u9kCzjz0lxEz2Z6
+1zOIuQM5rExo+C5IXR+Z7AvVIl3uR+NxJD98JstB6NPK7jPTG7F7PX1gdXVx2VGg
+3N/9o7x17N8Ns3mM8enK2YrP605ExK8zvAlJaAbWJDzoeLoQDFsmvSmIKk8Tl5VF
+0p+lFEK/T8yIlXwd4xn4pOHmmZX4+dqJP/7v0O2egfcMBRUB48BeCPDv1H0/Lice
+taivRgUpG8GZv2VwGNywnXYhpAnvOTOmIxqcFFB8Nqp0abTwoSrYqZ1Nd3dukNHj
+7QrRkysO6p2cEA/ZZK7YAuFK3AVk1gSYLJy3hI9LM6rNWe/6jr1H1WY4SteIxvtU
+lVkvtwMHwkxbpwrLWoLHRUI+ibmblRdWJjf+1R7Kw7auKbngZEY=
+=EqDC
+-----END PGP SIGNATURE-----
+
+--sm4nu43k4a2Rpi4c--
