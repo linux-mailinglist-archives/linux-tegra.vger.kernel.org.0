@@ -2,58 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FC391A8E77
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 00:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE19E1A8E76
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 00:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387610AbgDNWUi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 18:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        id S2387647AbgDNWUg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 18:20:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2387646AbgDNWUY (ORCPT
+        by vger.kernel.org with ESMTP id S2387610AbgDNWUY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Tue, 14 Apr 2020 18:20:24 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5AEBC061A0E
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 15:20:21 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id j14so1034024lfg.9
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 15:20:21 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE44C061A0F
+        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 15:20:22 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id m8so1582099lji.1
+        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 15:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zemnxajRILWoZMeBdBTnUfi/BmlkbHyd8FyHUOxvzuw=;
-        b=KU0KC/6kKXBdTSuhTqT6QSpZNSf0GWmK6fdeSEC7fmm45ekuHvd86jQfOs3qxf0tK2
-         wG4VFeCNxR/zmV9TYTaNNh4A3g0Qs2nkmdx/zGPb1JSiGDQZWY+p5s3bqgzgE+HCnYDx
-         tZNWY4QipWHe845qlNIC/VZfRv1DGtMPY9XxhUH/2Xsz6I/KJAW9TYiF91KpUR3zhM+Y
-         Nilq3tRMSqSWXtw6NvCFV3Cz8yaS9i1gcyi6vIFpv36ouS+wcI88wTDh3HfLWPxZYKPf
-         jepC1NyTeDvbVXFB+AXN8xDHC45upE20hQHnfll9zrJhQYfbYZK6IisKMwNohOTL9IJ3
-         rZVw==
+        bh=onnXURnDKlMg1uxo6qnz+iE+q0NRBVnox8AeT5i1HKQ=;
+        b=qMMpe9cdrz7x4TJjmfaO5VHmQbNxFkDe2pVnhslgkSnWNj83Y0vjcvV2f1RQLROfHZ
+         rox+B8BeaGYOnyn1RoiXIYkD8d0moANyTzwDMbg2/wKQgc6t4kgqaeYfQoGwGcTpXFN0
+         rh1+4YV5pfrftLUrKZeykau1/fuLm7VsZItuWqOfqK9/bixQMpPHS++g1wYZpXwhDfLk
+         4K8jTISGXO3wDuzlc5KWJX7YBzkXJKtDM85m2+0tYibU2BG//4jtnnfV1i9j2qPKUuBU
+         9IauDIjwQodV4UxcABcPBdUfSZ0fagMBbKPNX8lAkyC3hJGof7O8ZZzzid6KpjvBSkEU
+         rxCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zemnxajRILWoZMeBdBTnUfi/BmlkbHyd8FyHUOxvzuw=;
-        b=MBWAb9xx8bhKaEO884QdWaWrCPSQGVE8XTVqfrHk2QxMnpmxWGMh+4w9cKXGOApH/y
-         2qnIL3/iNo7hORs12GGe/XhrqEQ68pPjKb//wltwteuJ7nT9FWJPAap3joAUhz5HqSMq
-         2mfgpkANJ4xzD/jLxvbZGWukBNLRf8heWG6ZnZ5ucBsrR7VrTlzCDpH7542Yx/+t2TDp
-         ua5ziO2deRSCORWIno0FuCl6ouIdT+/LP/lJxZplhPlwa3B0nasPKBU67lhFCBwR4/Vl
-         R7Jxw2ttgKoGqsM5TCuatAHjaNWwuYamPB1aL6FD0igVe3oH6hNDjjZndKDJ6wzqKXZ9
-         +e1g==
-X-Gm-Message-State: AGi0PuapXhtBtktAiryiGwylHKQd5XeXYXSj7wzPzqDroj0lP6L7RTY2
-        KJLNMf3rR9aeliCKF7quRNU=
-X-Google-Smtp-Source: APiQypKYoF+QM9cOIvlfpZWhxvyICsjR+0sLrT8HpIQs6NqBbxBA7bY7rrbyI/cQOiBYO79SdZTh1g==
-X-Received: by 2002:a05:6512:1082:: with SMTP id j2mr1149738lfg.53.1586902820227;
-        Tue, 14 Apr 2020 15:20:20 -0700 (PDT)
+        bh=onnXURnDKlMg1uxo6qnz+iE+q0NRBVnox8AeT5i1HKQ=;
+        b=Y9g/heGH/yxRoQbLAY4elHfqOwkuOMP+asNwjXS3S3Jecnrtw/Mn7anhYu8EaRKEtO
+         s7rloXYmdlDoj/5Lb5Et3hBjm8ELdR+ohYlODcrqJ3tdX8+qhhaveQ2nKIonDvv7YSc9
+         gAfr9aihi59aYoSQSbudNAdWw6dhxtSe1a3bR/q4Axh79qZwfY9VZSQbhlq3EyOH1zZM
+         qgQ6IX6p1b1I7BY/sFrSMkjTBzgYLbU1frzoL3uo3rY4KZv7bfCwM05BDH5gEVROVZuY
+         hkAvxSPB6KL0r8tarRtgWQ5DBt+bdwNEpp1mm0Xpsv0u7jvXcBXx/MwW6Tu/Eu2S9zxJ
+         /AIg==
+X-Gm-Message-State: AGi0PubD41TQ4+BDsOUowJQOC2kkn3DqEDwMeoAsl7WmuBZhcpmSrQ1Y
+        k5c+X2x6y+K1TL9noiyqrSw=
+X-Google-Smtp-Source: APiQypLpYz8jfKSPIBcjC/VEtLmf4Lu78UHdIMgYpTMwUzxmRljvh+WvmekbJEyXhoYHYWqxOGXryA==
+X-Received: by 2002:a2e:8410:: with SMTP id z16mr1339187ljg.197.1586902821153;
+        Tue, 14 Apr 2020 15:20:21 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.gmail.com with ESMTPSA id k11sm11120064lfe.44.2020.04.14.15.20.19
+        by smtp.gmail.com with ESMTPSA id k11sm11120064lfe.44.2020.04.14.15.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 15:20:19 -0700 (PDT)
+        Tue, 14 Apr 2020 15:20:20 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 1/2] drm/tegra: output: Support DRM bridges
-Date:   Wed, 15 Apr 2020 01:20:06 +0300
-Message-Id: <20200414222007.31306-2-digetx@gmail.com>
+Subject: [PATCH v2 2/2] drm/tegra: output: rgb: Don't register connector if bridge is used
+Date:   Wed, 15 Apr 2020 01:20:07 +0300
+Message-Id: <20200414222007.31306-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200414222007.31306-1-digetx@gmail.com>
 References: <20200414222007.31306-1-digetx@gmail.com>
@@ -64,92 +64,57 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Newer Tegra device-trees will define a video output graph which involves
-a bridge. This patch adds support for the DRM bridges to the Tegra's DRM
-output.
+We rely on the connector that is created by the bridge, and thus, the
+Tegra's output connector is not needed in this case because it will be
+an unused connector.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/drm.h    |  2 ++
- drivers/gpu/drm/tegra/output.c | 25 ++++++++++++++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tegra/rgb.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index ed99b67deb29..9ca11989679c 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -16,6 +16,7 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fixed.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <uapi/drm/tegra_drm.h>
+diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
+index 4be4dfd4a68a..6e6b3fee1d87 100644
+--- a/drivers/gpu/drm/tegra/rgb.c
++++ b/drivers/gpu/drm/tegra/rgb.c
+@@ -275,21 +275,32 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
+ 	if (!dc->rgb)
+ 		return -ENODEV;
  
-@@ -116,6 +117,7 @@ struct tegra_output {
- 	struct device_node *of_node;
- 	struct device *dev;
- 
-+	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
- 	struct i2c_adapter *ddc;
- 	const struct edid *edid;
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index a264259b97a2..6b8fae4659b4 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -96,13 +96,28 @@ static irqreturn_t hpd_irq(int irq, void *data)
- 
- int tegra_output_probe(struct tegra_output *output)
- {
--	struct device_node *ddc, *panel;
-+	struct device_node *ddc, *panel, *port;
- 	unsigned long flags;
- 	int err, size;
- 
- 	if (!output->of_node)
- 		output->of_node = output->dev->of_node;
- 
-+	/* newer device-trees may utilize output graph */
-+	port = of_get_child_by_name(output->of_node, "port");
-+	if (port) {
-+		err = drm_of_find_panel_or_bridge(output->of_node, 0, 0,
-+						  &output->panel,
-+						  &output->bridge);
-+		of_node_put(port);
-+		if (err)
-+			return err;
-+	}
++	drm_encoder_init(drm, &output->encoder, &tegra_rgb_encoder_funcs,
++			 DRM_MODE_ENCODER_LVDS, NULL);
++	drm_encoder_helper_add(&output->encoder,
++			       &tegra_rgb_encoder_helper_funcs);
 +
-+	if (output->panel || output->bridge)
-+		goto edid_property;
++	/*
++	 * We don't create a parent "output bridge" that sets the
++	 * DRM_BRIDGE_ATTACH_NO_CONNECTOR flag for drm_bridge_attach(),
++	 * and thus, the bridge creates connector for us in this case.
++	 * The output's connector is unused and not needed if bridge is
++	 * used, so skip the connector's registration in this case.
++	 */
++	if (output->bridge)
++		goto init_output;
 +
-+	/* for older device-trees we fall back to nvidia,panel */
- 	panel = of_parse_phandle(output->of_node, "nvidia,panel", 0);
- 	if (panel) {
- 		output->panel = of_drm_find_panel(panel);
-@@ -112,6 +127,7 @@ int tegra_output_probe(struct tegra_output *output)
- 		of_node_put(panel);
- 	}
+ 	drm_connector_init(drm, &output->connector, &tegra_rgb_connector_funcs,
+ 			   DRM_MODE_CONNECTOR_LVDS);
+ 	drm_connector_helper_add(&output->connector,
+ 				 &tegra_rgb_connector_helper_funcs);
+ 	output->connector.dpms = DRM_MODE_DPMS_OFF;
  
-+edid_property:
- 	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
+-	drm_encoder_init(drm, &output->encoder, &tegra_rgb_encoder_funcs,
+-			 DRM_MODE_ENCODER_LVDS, NULL);
+-	drm_encoder_helper_add(&output->encoder,
+-			       &tegra_rgb_encoder_helper_funcs);
+-
+ 	drm_connector_attach_encoder(&output->connector,
+ 					  &output->encoder);
+ 	drm_connector_register(&output->connector);
  
- 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
-@@ -189,6 +205,13 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
- 		err = drm_panel_attach(output->panel, &output->connector);
- 		if (err < 0)
- 			return err;
-+	} else if (output->bridge) {
-+		err = drm_bridge_attach(&output->encoder, output->bridge,
-+					NULL, 0);
-+		if (err) {
-+			dev_err(drm->dev, "cannot connect bridge: %d\n", err);
-+			return err;
-+		}
- 	}
- 
- 	/*
++init_output:
+ 	err = tegra_output_init(drm, output);
+ 	if (err < 0) {
+ 		dev_err(output->dev, "failed to initialize output: %d\n", err);
 -- 
 2.26.0
 
