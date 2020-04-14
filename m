@@ -2,71 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 219AD1A7880
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 12:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DC1D1A78A9
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 12:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438425AbgDNKex (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 06:34:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37480 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438410AbgDNKe2 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 06:34:28 -0400
-Received: from pali.im (pali.im [31.31.79.79])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 97AE520857;
-        Tue, 14 Apr 2020 10:25:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586859931;
-        bh=7AnjB2puNCQx4Q9gGmOLxxCHf1XfRWpqRH6zopFpoVk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GQGO0/OM3WUST01CJFl44QRvJ8uVmMSy5LgxUUHU49aXdr0ZONt8V8eS1n7bwy29k
-         YZNczl5EOFPVjMTk6gLCG9OAvgT+966N5eSCvCi1cEjrbOZFIpV1i6i2Mop7F983go
-         TJlE8TxWUNFXI4TvyvlNA91Mdnf6q/nIXHKzeE28=
-Received: by pali.im (Postfix)
-        id A4E1E770; Tue, 14 Apr 2020 12:25:29 +0200 (CEST)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] PCI: tegra: Fix reporting GPIO error value
-Date:   Tue, 14 Apr 2020 12:25:12 +0200
-Message-Id: <20200414102512.27506-1-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S2438555AbgDNKoF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 06:44:05 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17364 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438550AbgDNKn7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 14 Apr 2020 06:43:59 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e9591d40000>; Tue, 14 Apr 2020 03:35:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 Apr 2020 03:35:58 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 14 Apr 2020 03:35:58 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Apr
+ 2020 10:35:57 +0000
+Received: from [10.26.73.15] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Apr
+ 2020 10:35:54 +0000
+Subject: Re: [PATCH 4.4 00/29] 4.4.219-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200411115407.651296755@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <63b31c56-b5c9-2ced-ee00-772fa9a1dcaf@nvidia.com>
+Date:   Tue, 14 Apr 2020 11:35:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200411115407.651296755@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586860500; bh=wc5RrsSn49RxdciYOKQhAVVgiFmPrVsNjOlrDRUtw+4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=GOgLo8PUxB7kyLRS26OzHHazN5wgHn/I6uvs5RED9i5PQIj+c4aviQxwu57vqw4V6
+         9uF2aBpz/iP4Ttko7L9FUVZcMLT35ZIJnzUqRRIfe/PdKBDj2VzjSO1cegZPw0hdPM
+         q/7YHGFP7afn3im8kt5PoQoZvrlcvsmJzm1hW8SXyEIHridXAGMnwvK9a+qYJauGG1
+         wGPSNtVeF3Uw8iO5NQb0eb+mCaMMvxUdKWLvIfuby3UGrUBYzwMdmW+/XtShtLpGgk
+         Dnm3O3kB3Cje4HErp5+gJ93W+oTvnLUlOAfKsAlzcsfeAjBuBx2t5qeLqb8qG+KYij
+         OPqhIfFB1mIdQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Error code is stored in rp->reset_gpio and not in err variable.
 
-Signed-off-by: Pali Rohár <pali@kernel.org>
----
- drivers/pci/controller/pci-tegra.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 11/04/2020 13:08, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.219 release.
+> There are 29 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Mon, 13 Apr 2020 11:51:28 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.219-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 0e03cef72840..378d5a8773c7 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -2314,8 +2314,8 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
- 			if (PTR_ERR(rp->reset_gpio) == -ENOENT) {
- 				rp->reset_gpio = NULL;
- 			} else {
--				dev_err(dev, "failed to get reset GPIO: %d\n",
--					err);
-+				dev_err(dev, "failed to get reset GPIO: %ld\n",
-+					PTR_ERR(rp->reset_gpio));
- 				return PTR_ERR(rp->reset_gpio);
- 			}
- 		}
+
+Sorry this is late, but all tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.219-rc1-g8cd74c57ff4a
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
 -- 
-2.20.1
-
+nvpublic
