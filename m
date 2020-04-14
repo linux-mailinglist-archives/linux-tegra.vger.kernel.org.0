@@ -2,97 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 494A91A82B2
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 17:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C90991A82C9
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 17:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440398AbgDNP2B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 11:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
+        id S2439737AbgDNPdD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 11:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729746AbgDNP14 (ORCPT
+        by vger.kernel.org with ESMTP id S2407370AbgDNPdA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 11:27:56 -0400
-Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3409CC061A0C;
-        Tue, 14 Apr 2020 08:27:56 -0700 (PDT)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 3493E2A4; Tue, 14 Apr 2020 17:27:54 +0200 (CEST)
-Date:   Tue, 14 Apr 2020 17:27:52 +0200
-From:   "joro@8bytes.org" <joro@8bytes.org>
-To:     "Derrick, Jonathan" <jonathan.derrick@intel.com>
-Cc:     "heiko@sntech.de" <heiko@sntech.de>,
-        "kgene@kernel.org" <kgene@kernel.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-        "krzk@kernel.org" <krzk@kernel.org>,
-        "robdclark@gmail.com" <robdclark@gmail.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "gerald.schaefer@de.ibm.com" <gerald.schaefer@de.ibm.com>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jroedel@suse.de" <jroedel@suse.de>
-Subject: Re: [RFC PATCH 11/34] iommu: Split off default domain allocation
- from group assignment
-Message-ID: <20200414152752.GC14731@8bytes.org>
-References: <20200407183742.4344-1-joro@8bytes.org>
- <20200407183742.4344-12-joro@8bytes.org>
- <6a801ff9e6471bda7c6f510dfa2ba7e7c35cb559.camel@intel.com>
+        Tue, 14 Apr 2020 11:33:00 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097C8C061A0C;
+        Tue, 14 Apr 2020 08:33:00 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id l11so87161lfc.5;
+        Tue, 14 Apr 2020 08:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4eIrItheLX7YX2ovx/taypeY8owEKNTnWW8Vad5FCew=;
+        b=MI34FaFABelIhbrwZvWxpE3BeRjE+jLVkAPgR5417k1cCJsV73RHRHbvaa84RzMxgW
+         xetz+hgEeMaQ9aO0rfNL/aOte1KsQtdBPkNlzr5dikvh/3Lig+gpmfNtfeB7GA9UJASU
+         nbmkKqX2fP7DiasP27nvBvPpo6P2xGWSqXLGirBeR6WrvSn8jCF7ZJOUQZIBGwbgrnH5
+         Rbq+AalrTIDbO3yyhvli1Qw7FejKlGpXk9qwvwwGpEQxfl4FlhhfSlTZ3bxUBPrCRmjP
+         OLqjoR1LLJqjShTkwHmyuGdWL+JU7XSJUeVHv+3YpsEdC8ONzx4MexTEHcObjT1kph/Z
+         pSaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4eIrItheLX7YX2ovx/taypeY8owEKNTnWW8Vad5FCew=;
+        b=XfjYxBW8n42eNO2LdkNInqa8fLA2Ikb78MPyepFk+rdPgTGvmq7v+e5l14tcmryetx
+         GL6xtD8Mdy4ERWWr7I73d9WgsoHCrWSP2gUESPZlFHAeEMpwO5/JpQk0vx3N+B8rmtrv
+         pb/lQvEez3zbHx7Uhu5uXJDy8S8Iv59v+V58iLkEHB3arYpEfVN8W1J70Grfhy4r363z
+         SVw0yDUUSkqMPdVeDTbWDVODjHOO1QCYchE38B3by8UANbMChYF4rmyxXAVFeSadulVP
+         qJVefWA78OEi7E3NkEu3VZcqQj2chNnKx46EKOUlTHxaiJosJmIkE+PBCQYAzr4Io5cR
+         bT+w==
+X-Gm-Message-State: AGi0PuaL7/Dkk5/++APA/zHkVDnHcdBLbI9vqmeFKu/+IyTNRu3up/pr
+        KhpEUlyooJfKge4TzPRoXMo=
+X-Google-Smtp-Source: APiQypKpGY5BqwvpNTlCvMY9U59k/lj+SeiqM+aeyFKz8Q5woDyVq/h4Ljj2eIGognuBJLL5rYF67g==
+X-Received: by 2002:a19:c216:: with SMTP id l22mr229478lfc.172.1586878378571;
+        Tue, 14 Apr 2020 08:32:58 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id l12sm7528500lfp.35.2020.04.14.08.32.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2020 08:32:57 -0700 (PDT)
+Subject: Re: [PATCH v6 09/14] memory: tegra: Add EMC scaling support code for
+ Tegra210
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20200409175238.3586487-1-thierry.reding@gmail.com>
+ <20200409175238.3586487-10-thierry.reding@gmail.com>
+ <3e518dfa-cb3d-e2ce-a9b8-5e143e02fc61@gmail.com>
+ <6976796c-6972-328e-3e9f-60c1737cf0e2@gmail.com>
+ <20200414150516.GL3593749@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <45b65baa-fd9b-3248-bc24-e226cfc8c8dc@gmail.com>
+Date:   Tue, 14 Apr 2020 18:32:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a801ff9e6471bda7c6f510dfa2ba7e7c35cb559.camel@intel.com>
+In-Reply-To: <20200414150516.GL3593749@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Jonathan,
-
-On Mon, Apr 13, 2020 at 10:10:50PM +0000, Derrick, Jonathan wrote:
-> I had to add the following for initial VMD support. The new PCIe domain
-> added on VMD endpoint probe didn't have the dev_iommu member set on the
-> VMD subdevices, which I'm guessing is due to probe_iommu_group already
-> having been run on the VMD endpoint's group prior to those subdevices
-> being added.
+14.04.2020 18:05, Thierry Reding пишет:
+...
+>> What about replacing those barely readable concatenated macros with a
+>> raw values?
+>>
+>> Like:
+>>
+>> TRIM_REG(brlshft_idx, ob_ddll_long_dq_rank_mask, ...)
 > 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 8a5e1ac328dd..ac1e4fb9bf48 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -1577,6 +1577,9 @@ static int iommu_bus_notifier(struct notifier_block *nb,
->         if (action == BUS_NOTIFY_ADD_DEVICE) {
->                 int ret;
->  
-> +               if (!dev_iommu_get(dev))
-> +                       return -ENOMEM;
-> +
->                 ret = iommu_probe_device(dev);
->                 return (ret) ? NOTIFY_DONE : NOTIFY_OK;
->         } else if (action == BUS_NOTIFY_REMOVED_DEVICE) {
+> That's just going to move the complexity from the macros to the
+> callsites, isn't it?
+> 
+> I suppose I could spend a few cycles trying to make this a little more
+> readable, but to be frank, the complexity in this driver is already so
+> high that this doesn't really make much of a difference, in my opinion.
 
-Right, thanks for catching this. The hotplug path does not allocate the
-dev->iommu structure yet. I'll have to figure out if the above patch
-adds it at the right place, but I'll fix it in the next version.
-
-Thanks again,
-
-	Joerg
+I can't guarantee that the final result will be excellent, but I'd try
+to turn that macro into the function and then use the raw HW values
+instead of the defines. It looks to me that the result at least should
+be better.
