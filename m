@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8449D1A871B
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 19:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 722AA1A8733
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 19:14:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405419AbgDNRK2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 13:10:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35500 "EHLO
+        id S2407590AbgDNROe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 13:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732059AbgDNRK0 (ORCPT
+        by vger.kernel.org with ESMTP id S2407566AbgDNROc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 13:10:26 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD2AC061A0C;
-        Tue, 14 Apr 2020 10:10:26 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id o81so8260041wmo.2;
-        Tue, 14 Apr 2020 10:10:26 -0700 (PDT)
+        Tue, 14 Apr 2020 13:14:32 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F621C061A0C;
+        Tue, 14 Apr 2020 10:14:32 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id e26so13876818wmk.5;
+        Tue, 14 Apr 2020 10:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=bu1W45bcgQFVSHHvrZnu1OhprTvQ/cBAqXoUBxCGTks=;
-        b=JKeaJsx/IVZ0S/IqlJRc6hZ/M5bhRIbOkZXhcYLqG96PL7JNdXqqM6J7cmtwsfJUjz
-         2m3rgZAtofnVHEErj8K9XEzwJaavr9k/lh+oTZuUXb5WrMsNaMC00vCA4lPuhwP4vCem
-         yvdbXE3Zk5iHyH9tRgyBV+tE34mmXpJ7LMjNDWlggVq27f4X7QrQzBAFMU8M3HAZ9Ehf
-         u6KKtlH3pSE27PlfOZf4j9uGZN1G8VHjKdiHfDG0S9jEg/qKzgdwK04yBtV8OkWcn2FS
-         oDQxLtjWyyK414Qpu6JrxM9sbYv2UqTVsnSHye5LFKmnl0KqoQbkpbFrsxJVXIViQ0vO
-         6yaA==
+        bh=4s7/P9MzS+AHwYX5Ehx+WXBD5Ss1A0suZC9xBAAs4Nc=;
+        b=SwqKKPpgIQXGa11LiDYPKpl7R21xtiSkDEGqlBD+OZOodqg33J5O/dkr7MA83PEOJJ
+         rIhPMl+vek5+Rkmy/gjIwgWBxPWFrSViI2WvMwIktb7NfwOevGqWGL8Wq9XYhTZRjR/i
+         juSZz+B7nVyBxPg8M0WaYrKXu+o4X11QygyRvl3lay3Py5Yb3KOxiQytqXDCVAo/2WnC
+         Gbe4xAqhDb7ItwVHbl0hce6A7brSLUFlkiD5u5l4T61upiKg33WBCaz3R2pBRF60aLIU
+         0qUwE2/86/KHp8dY+h0lqxaMtupayO9jH+RJIHQtKFzIJLkAhtt/0CF8+UIgCArE6GPG
+         pVvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bu1W45bcgQFVSHHvrZnu1OhprTvQ/cBAqXoUBxCGTks=;
-        b=KAt5zM8do1UI/B5pNaL4qwhp5qqsZEf7WSSop0ai6ekAS+M9X3EytwNLCLW5lbekqv
-         t2V0AfoDApUqA9UewgLH6upRWdupaRvLmhSaUtcMKPmxgDQwkBK3R/wiZsBDXpvhdI2j
-         k0VZGEFPLAY3ldNXYoiEZSRbOnM1XGGmnxTg0JcBqBYrJPANgdI0slrAQJ6vsKLx0yfg
-         wxEj+a+j6CijozHHwK1NiFMksG6o0ZnIExRMOa19uffvCwNHpjelj/91AmSDzdJAa99j
-         ZPR7VC1/oELFBK3XgGehA2wHTeWino2USOHpsSaAGsgrYFfLp+ALdWxLhEM7k2iTgmHN
-         Mckw==
-X-Gm-Message-State: AGi0PuaKXbqNILfWC+bE39L8lrxYzZYJqzuou1LNDerQ+9Ti1x3YBcOm
-        WxDD0BDXfXUYQ2RBl6TWUsU=
-X-Google-Smtp-Source: APiQypI+KQxMP3i3+MDgFxrK5E1p7XsqlGmODv79VinHxIAjnqkas/fyHZzHEec9cQybaQtmap7HBw==
-X-Received: by 2002:a1c:9aca:: with SMTP id c193mr805632wme.38.1586884212134;
-        Tue, 14 Apr 2020 10:10:12 -0700 (PDT)
+        bh=4s7/P9MzS+AHwYX5Ehx+WXBD5Ss1A0suZC9xBAAs4Nc=;
+        b=KY60oiTzhVsA8ttS4S2cv56PGra7940qTi0VVCjrN9kGell2WTgt6IccXxw9wpHbij
+         JDiYY9BC1M8ZjQmz0d/b3Q6tmkjulJajFH+iC9yjeBLLt2/XVvkXdu6RMJ2RbsWcOY/X
+         +iaShr11Tz0r4xcc+j57LQYczhpLexxo/nSYyeiGSO8yiAJLG4VbUJhbciaX4YpeTbLU
+         Vg1nYTnIfvDUnO2VNOXGniHoUoTqTopAjOJ0JlfBmMNtud8GCLewg93yG3sXxXg+IdEq
+         WxdY8AfP8n9M2Ir+ZuR7/Gk+68nIKRI7C8LguuSN9M3tvxhU6tKZ8ARZuInAp7UjodAF
+         j9IA==
+X-Gm-Message-State: AGi0PuaDP/pYcRX2mnBHw+YUC49TTCsvIlzkn76auFwwoowYZ1jRBqHs
+        gV5spZeAvRnz9AusaE/1Qv4=
+X-Google-Smtp-Source: APiQypJEZqr9oXe9t7ABpK1+x84U9UtGQAUsE7LsFqCeUnsT3lRe9eKk6hMreCgAYXXHKbiO+8Klzg==
+X-Received: by 2002:a7b:c247:: with SMTP id b7mr822062wmj.35.1586884470950;
+        Tue, 14 Apr 2020 10:14:30 -0700 (PDT)
 Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
-        by smtp.gmail.com with ESMTPSA id o28sm5240239wra.84.2020.04.14.10.10.10
+        by smtp.gmail.com with ESMTPSA id h13sm8773634wrs.22.2020.04.14.10.14.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 10:10:10 -0700 (PDT)
-Date:   Tue, 14 Apr 2020 19:10:10 +0200
+        Tue, 14 Apr 2020 10:14:29 -0700 (PDT)
+Date:   Tue, 14 Apr 2020 19:14:29 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -57,19 +57,19 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Stephen Boyd <sboyd@kernel.org>,
         Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
         devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 07/14] clk: tegra: Implement Tegra210 EMC clock
-Message-ID: <20200414171010.GB15932@ulmo>
+        linux-arm-kernel@lists.infradead.org,
+        Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v6 04/14] clk: tegra: Rename Tegra124 EMC clock source
+ file
+Message-ID: <20200414171429.GC15932@ulmo>
 References: <20200409175238.3586487-1-thierry.reding@gmail.com>
- <20200409175238.3586487-8-thierry.reding@gmail.com>
- <8dc000fb-8867-cf8f-8204-a9e1e79a4811@gmail.com>
- <20200414143424.GG3593749@ulmo>
- <92eb73ba-73e4-f9f1-bb22-9b515e32cee6@gmail.com>
+ <20200409175238.3586487-5-thierry.reding@gmail.com>
+ <a7209708-6e67-5885-5935-2db3d92174e8@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+        protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
 Content-Disposition: inline
-In-Reply-To: <92eb73ba-73e4-f9f1-bb22-9b515e32cee6@gmail.com>
+In-Reply-To: <a7209708-6e67-5885-5935-2db3d92174e8@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -77,142 +77,74 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---Bn2rw/3z4jIqBvZU
+--5G06lTa6Jq83wMTw
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 14, 2020 at 06:18:29PM +0300, Dmitry Osipenko wrote:
-> 14.04.2020 17:34, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Thu, Apr 09, 2020 at 09:24:31PM +0300, Dmitry Osipenko wrote:
-> >> 09.04.2020 20:52, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> ...
-> >>> +static long tegra210_clk_emc_round_rate(struct clk_hw *hw, unsigned =
-long rate,
-> >>> +					unsigned long *prate)
-> >>> +{
-> >>> +	struct tegra210_clk_emc *emc =3D to_tegra210_clk_emc(hw);
-> >>> +	struct tegra210_clk_emc_provider *provider =3D emc->provider;
-> >>> +	unsigned int i;
-> >>> +
-> >>> +	if (!provider || !provider->configs || provider->num_configs =3D=3D=
- 0)
-> >>> +		return clk_hw_get_rate(hw);
-> >>
-> >> This still looks wrong to me. Nobody should be able to get EMC clock
-> >> until provider is registered.
+On Tue, Apr 14, 2020 at 07:48:12PM +0300, Dmitry Osipenko wrote:
+> 09.04.2020 20:52, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > From: Thierry Reding <treding@nvidia.com>
 > >=20
-> > The EMC clock is mostly orthogonal to the provider. The provider really
-> > only allows you to actually change the frequency. The clock will still
-> > remain even if the provider goes away, it just will loose the ability to
-> > change rate.
->=20
-> It's not only about changing the clock rate, but also about rounding the
-> rate and etc.
-
-The code will currently just return the configured rate when no provider
-is available. It's going to always round to that one rate and it will
-refuse to set another one. The EMC clock is basically going to function
-as a fixed clock while no provider is attached.
-
-> Besides, you won't be able to change the rate until provider is
-> registered, which might be a quite big problem by itself.
-
-Until the provider is registered, there's just no way to change the
-rate. You always need to write MC and EMC registers in order to change
-the rate, so trying to change it when the MC/EMC drivers aren't
-available isn't going to work.
-
-> >> This is troublesome, especially given that you're allowing the EMC
-> >> driver to be compiled as a loadable module. For example, this won't wo=
-rk
-> >> with the current ACTMON driver because it builds OPP table based on the
-> >> clk-rate rounding during the driver's probe, so it won't be able to do
-> >> it properly if provider is "temporarily" missing.
-> >>
-> >> ... I think that in a longer run we should stop manually building the
-> >> ACTMON's OPP table and instead define a proper OPP table (per-HW Speedo
-> >> ID, with voltages) in a device-tree. But this is just a vague plans for
-> >> the future for now.
+> > This code is only used on Tegra124, so rename it accordingly to make it
+> > more consistent with other file names.
 > >=20
-> > This code only applies to Tegra210 and we don't currently support ACTMON
-> > on Tegra210. I'm also not sure we'll ever do because using interconnects
-> > to describe paths to system memory and then using ICC requests for each
-> > driver to submit memory bandwidth requests seems like a better way of
-> > dealing with this problem than using ACTMON to monitor activity because
-> > that only allows you to react, whereas we really want to be able to
-> > allocate memory bandwidth upfront.
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >  drivers/clk/tegra/Makefile                          | 2 +-
+> >  drivers/clk/tegra/{clk-emc.c =3D> clk-tegra124-emc.c} | 0
+> >  2 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename drivers/clk/tegra/{clk-emc.c =3D> clk-tegra124-emc.c} (100%)
+> >=20
+> > diff --git a/drivers/clk/tegra/Makefile b/drivers/clk/tegra/Makefile
+> > index 1f7c30f87ece..dec508ef2ada 100644
+> > --- a/drivers/clk/tegra/Makefile
+> > +++ b/drivers/clk/tegra/Makefile
+> > @@ -14,7 +14,6 @@ obj-y					+=3D clk-tegra-audio.o
+> >  obj-y					+=3D clk-tegra-periph.o
+> >  obj-y					+=3D clk-tegra-fixed.o
+> >  obj-y					+=3D clk-tegra-super-gen4.o
+> > -obj-$(CONFIG_TEGRA_CLK_EMC)		+=3D clk-emc.o
+> >  obj-$(CONFIG_ARCH_TEGRA_2x_SOC)         +=3D clk-tegra20.o
+> >  obj-$(CONFIG_ARCH_TEGRA_2x_SOC)		+=3D clk-tegra20-emc.o
+> >  obj-$(CONFIG_ARCH_TEGRA_3x_SOC)         +=3D clk-tegra30.o
+> > @@ -22,6 +21,7 @@ obj-$(CONFIG_ARCH_TEGRA_3x_SOC)		+=3D clk-tegra20-emc=
+=2Eo
+> >  obj-$(CONFIG_ARCH_TEGRA_114_SOC)	+=3D clk-tegra114.o
+> >  obj-$(CONFIG_ARCH_TEGRA_124_SOC)	+=3D clk-tegra124.o
+> >  obj-$(CONFIG_TEGRA_CLK_DFLL)		+=3D clk-tegra124-dfll-fcpu.o
+> > +obj-$(CONFIG_TEGRA_CLK_EMC)		+=3D clk-tegra124-emc.o
 >=20
-> You absolutely have to have the ACTMON support if you want to provide a
-> good user experience because interconnect won't take into account the
-> dynamic CPU memory traffic. Without ACTMON support CPU will turn into a
-> "turtle" if memory runs on a lowest freq, while CPU needs the highest.
+> What about to rename CONFIG_TEGRA_CLK_EMC to CONFIG_TEGRA124_CLK_EMC as
+> well?
 
-Can we not guess a bandwidth based on the CPU frequency? Yes, that's
-perhaps going to be an overestimation if the CPU doesn't actually access
-memory, but that's better than nothing at all.
+Yeah, I could do that.
 
-Also, at this point I'm less worried about power consumption rather than
-making Tegra210 devices perform useful tasks. Yes, eventually we'll want
-to fine-tune power consumption, but it's going to take a bit of work to
-get there. In the meantime, giving people a way to set an EMC frequency
-other than that set on boot is going to make them very happy.
+> Also.. maybe the CONFIG_TEGRA_CLK_EMC isn't really needed at all and the
+> TEGRA124_EMC of memory/tegra could be re-used here?
 
-> Secondly, the interconnect could underestimate the memory BW requirement
-> because memory performance depends quite a lot on the memory-accessing
-> patterns and it's not possible to predict it properly. Otherwise you may
-> need to always overestimate the BW, which perhaps is not what anyone
-> would really want to have.
-
-Overestimating might be a good starting point, though. At this point I'm
-mostly concerned about being able to change the memory frequency at all
-because many systems are mostly unusable at the boot EMC frequency.
-
-Like I said, if ACTMON really does prove to be useful I'm all for adding
-support on Tegra210, but I don't think trying to do everything all at
-once is a very good plan. So I'm trying to get there in incremental
-steps.
-
-> I'm not sure why you're resisting to do it all properly from the start,
-> it looks to me that it will take you just a few lines of code (like in a
-> case of the T20/30 EMC).
-
-I'm not trying to resist anything. I'm just saying that all of the
-issues that you're bringing up aren't an immediate concern.
-
-My main concerns right now are to: a) allow people to change the EMC
-frequency (and hopefully soon also allow the EMC frequency to be changed
-based on bandwidth demands by memory client drivers) and b) not bloat
-the kernel more than it has to (while my configuration isn't tweaked,
-it's pretty standard and the resulting image is roughly 20 MiB; adding
-the Tegra210 EMC driver adds another 64 KiB).
-
-And if we really do want to add ACTMON support later on, you already
-suggested a better way of moving forward, so it sounds to me like that
-would be a nice incremental improvement, certainly much better than
-bloating the kernel even further by requiring this to be built-in and
-preventing it from being unloaded.
+Sounds like that should work... let me see what I can do.
 
 Thierry
 
---Bn2rw/3z4jIqBvZU
+--5G06lTa6Jq83wMTw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6V7m4ACgkQ3SOs138+
-s6Em4w/9FNIpaqlBNPaffejDRoFi8gSCtTpS700LImB1P8xffbHSrrAGNzhnUN6h
-NK9mJp5ZtIxNawa+OgVyTqLMBvEhLnlbqNXypj2v0KjMEnWldZNO0i6kZ0B74WDx
-j3LHJyhnap8VZYdxGafGCn3mx91XRfmfkXpt/RXR4AFhBCh+tS6MLXm9oKYVElRq
-vydnkirSA55jAZaLObaTfji9z+UdkjQQOXr8D49Ef4qfFPXTSCfCLGrrNCBV8RMb
-AjbIRCNPsJ0JMb99wEc/3iR82MkLFOqQZ/W76iYFpKZjqzOgePoENndse6VFa710
-E4lZ1iG/Mu+FT38tKDFpgfScTTJq8sGLdgPbCbIjDl2ltlX+JoM8qCuEvSrAQq9i
-P1BTYXS7LR5n74BqMSB+s1TS9/KvDOe0rZb91JmrpSPrNZJsN0NKCZwJXrdftAQu
-RL7HombQdmrSdmv9fqLK7JdDOaWr0K/2PyuUyX0Zd6SsdxtvpW6hZKye+Ca05QCe
-N3lcZnJVAlSGGF/wcp6NkY1lXr9AtqTyJoXpHra0yu1QyCTZgqK0ZPJdVC4ot7/N
-SOx0/tp2tWaMJr5xVud7JeUnrM5wgIMK09bOkE9Dsh3DM52EB5s2DgeE7cLCzuzL
-JH0FgfsIyx9Fb+fwUnJmLoRvA/1uadd6LOZErg8nqtZyvFksA/M=
-=XN3P
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6V73QACgkQ3SOs138+
+s6GEsg/+IZcdQCLTqDBB8dWq8+IHcYR4MKibWV3/XPcYJ29XjUgSohR1ne4jlJrB
+7WeB32SUULUOpmRtHw45hF5htbJYHa2Mxwpqv6NGAyXf+A2Xxls2mKzfqNcujijj
+J9ewU0PuBJfvWLjSKGYQtYmIyj73M68NUCJVUaDZ3hbv5INljFNyUN2wuwMzo1L1
+jFOfe+O2YBBr157WZlMZLqIDInAEvZUSVYF80KtOdJUw8jU1uh2zP8ufgD6S6ZGt
+TuMdHIUyEy9qwFldgwEy2nXBIAIiHWtDDHUDatdn/A8PWw+Auqd0v2XKktucqv4S
++Lq3BG3jCNk54vOWiBjJIDTxF/CrAP03myqF19tNO3OfRLffTjLah1qp//sj//lU
+hbq/XEslGhwOzCUvKXawY8RO8yuSGgKDuwV6aSEDNW6Oo0sbCHrMcLFWu2dNR3Gk
+KdwiyZFeo0xLH8/P+pIJ+V7xpMnRJpKhYlRrnHl94qt6Gum2LSlQXVATklZHcBoE
+1eV5NBovcpH9Eq4FJWFlkkT2VWcLrWam0UF1LG6gBHllWJBXhBvX95k2Yfb3gF4m
+Zh2V92hkPa0ZzU3pdNEu8Qlcbm78yAMYHSrN+oNnV7bbbnePkYEiJCauKt+uihB8
+UhUFxei8DW+O9tT1MI0QFaPln6dXzUdhr102o4CevKkD9kDft4U=
+=ednv
 -----END PGP SIGNATURE-----
 
---Bn2rw/3z4jIqBvZU--
+--5G06lTa6Jq83wMTw--
