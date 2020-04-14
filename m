@@ -2,72 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B24091A88F1
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 20:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B1341A8AD3
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 21:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503689AbgDNSPC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 14:15:02 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42335 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503671AbgDNSPB (ORCPT
+        id S2504844AbgDNTcp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 15:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2504843AbgDNTcP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 14:15:01 -0400
-Received: by mail-oi1-f196.google.com with SMTP id d7so6208789oif.9;
-        Tue, 14 Apr 2020 11:15:00 -0700 (PDT)
+        Tue, 14 Apr 2020 15:32:15 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97AEC061A41
+        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 12:32:14 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id g12so7767708wmh.3
+        for <linux-tegra@vger.kernel.org>; Tue, 14 Apr 2020 12:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=r6dF4D+wN0hoeI/HD/8hpNX9Zi5cUiRTSVM80fnZiTg=;
+        b=fBwO8IzrniZxcSL/9GbflmZPAl8MqOi6BSiWdmNVZDtvwiDrXcJ8sFwXX48lFfCr/X
+         wAgnGE8TBRQDx7zep17eczot4owoqocmojJ2B1UIF3996KL5H5yKdjPmNSVnUf4AqjNa
+         rln2yoActQTeguQWHfcZC3czrrvZnhzuMvVik=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=65DkFlztgppXvsQRy19eL08nR3Skwie1axX0JEZh0zY=;
-        b=XzsdHTAejPSOccwdYKT/xRkFiybbt65C4M0dVQthIjsa9Gfz1W/RYrYB2+/FY8jlnw
-         XvUbaG+/xpHQH+riMfSDQ6Wiqz/W5iXWtnmYjhT1t2BVgEG85wHgGnHX+YD3Eueidnat
-         VbNRnp1lZbuUX2/uJ1bnfepSXBg+M2gw9nxs//MWP3Nq8Y1bMvRoarsFk5HM1xVlWbII
-         8MWo+mMr94p574S+oLyBGP96xGG56L6kjNnZjWVf0J9kU6UrCK77kq595iz/FrEoULgT
-         ZH77DwpqZEljo9d8XlRUYXkOwPFiXO+wpIZ/STHR3T/8xOx4MzKT/9MAHtLez5gLcEry
-         2uww==
-X-Gm-Message-State: AGi0PuYOhTtPV+D2294deU9wtvduf2Th/ohfocRjEf08uQWOJZzUx4hi
-        LMtXjU2k1EhYBPFcUxNSVA==
-X-Google-Smtp-Source: APiQypI6GHk8xdPK5wkkeoLMN/Gum7n0XE1rJqDu/xuakTvwO6qkRDc9XPA/bZoazZ2j983VfpVHkw==
-X-Received: by 2002:aca:4243:: with SMTP id p64mr16670247oia.21.1586888100393;
-        Tue, 14 Apr 2020 11:15:00 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i17sm5660774otc.16.2020.04.14.11.14.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 11:14:59 -0700 (PDT)
-Received: (nullmailer pid 18162 invoked by uid 1000);
-        Tue, 14 Apr 2020 18:14:58 -0000
-Date:   Tue, 14 Apr 2020 13:14:58 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     skomatineni@nvidia.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi, helen.koike@collabora.com, digetx@gmail.com,
-        sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v6 8/9] dt-bindings: reset: Add ID for Tegra210 VI
- reset
-Message-ID: <20200414181458.GA18112@bogus>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-9-git-send-email-skomatineni@nvidia.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=r6dF4D+wN0hoeI/HD/8hpNX9Zi5cUiRTSVM80fnZiTg=;
+        b=rnzrm71xQ+HyfmZL9pBoMnApoYIanla4MZzY+19EeQKS9u/0sa7yho2C0QunO7AgU+
+         P2BLzbFXFzSyRz5v3cb/lC6/pLeIe9iFgFu8dJiSGV8yKvlClX6gCUo5OGZSsBZgjJDp
+         IIZ00Vmej7honK8RInbTKaBz9sfb0u8qlaIt3CGGFs4z0TWzPFRIgdN8eGO7alMNoWi3
+         1+vznoYwo4LG254iAXJXNx+rsWwOfWnox/HXAaMoOIJEbx/mEwfT0+ECmQz+UqQnVX9t
+         mMz3l9wuUnqzYxiCrEjhID978wCqMq3l73dQcGCM46m/c/94w/+W7MH2EnQGvH1x+wYY
+         rcxg==
+X-Gm-Message-State: AGi0PuYbkh/4VCnm5T9HRQfuLFX3LUan5MJFxgAsspUftWBwnE2mo9zL
+        2vGyFOj/gHfYcGvnWC9oFCWcbMPVmbi1uVRwtld7Fw==
+X-Google-Smtp-Source: APiQypLlztDYYEwUmNspxfYCm4X+JL6rjJrBiwa1m4IaNyse2DCEG6Vj7c7I41oPprzB2RKLqJ1TOmG77/BhEZSyEk4=
+X-Received: by 2002:a7b:cb03:: with SMTP id u3mr1303254wmj.12.1586892732880;
+ Tue, 14 Apr 2020 12:32:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1585963507-12610-9-git-send-email-skomatineni@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200306002112.255361-1-dbasehore@chromium.org> <ecbfb5f8-615a-4a88-5dac-de17158125bf@gmail.com>
+In-Reply-To: <ecbfb5f8-615a-4a88-5dac-de17158125bf@gmail.com>
+From:   "dbasehore ." <dbasehore@chromium.org>
+Date:   Tue, 14 Apr 2020 12:32:01 -0700
+Message-ID: <CAGAzgsqpjZxh7PEL_Dy7HrFeFGm7+=F6cL3QG9KmK9CHvDWZ9g@mail.gmail.com>
+Subject: Re: [PATCH v10 0/2] Panel rotation patches
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 3 Apr 2020 18:25:06 -0700, Sowjanya Komatineni wrote:
-> This patch adds ID for Tegra210 VI controller reset to use with
-> device tree.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  include/dt-bindings/reset/tegra210-car.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Hi Dmitry, sorry for the late reply.
 
-Acked-by: Rob Herring <robh@kernel.org>
+On Sun, Mar 8, 2020 at 12:25 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 06.03.2020 03:21, Derek Basehore =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > This adds the plumbing for reading panel rotation from the devicetree
+> > and sets up adding a panel property for the panel orientation on
+> > Mediatek SoCs when a rotation is present.
+>
+> Hello Derek and everyone,
+>
+> I'm looking at adding display rotation support to NVIDIA Tegra DRM
+> driver because some devices have display panel physically mounted
+> upside-down, and thus, display controller's scan-out needs to be rotated
+> by 180=C2=B0 in this case.
+>
+> Derek, yours panel-rotation patches add support for assigning panel's
+> orientation to the connector, but then only primary display plane
+> receives rotation value in [1], while rotation needs to be applied to
+> all available overlay/cursor planes and this should happen in other
+> places than [1] as well.
+
+This is intended. We don't correct the output in the kernel. We
+instead rely on notifying userspace that the panel is rotated, then we
+handle it there.
+
+>
+> [1] drm_client_modeset_commit_atomic()
+>
+> Please also note that in a case of the scan-out rotation, plane's
+> coordinates need to be changed in accordance to the display's rotation.
+>
+> I looked briefly through the DRM code and my understanding that the DRM
+> core currently doesn't support use-case where scan-out needs to rotated
+> based on a panel's orientation, correct? Is it the use-case you're
+> working on for the Mediatek driver?
+
+Yes, we rely on userspace to rotate the output. The major reason for
+this is because there may not be a "free" hardware rotation that can
+be applied to the overlay. Sean Paul and others also preferred that
+userspace control what is output to the screen instead of the kernel
+taking care of it. This code just adds the drm property to the panel.
