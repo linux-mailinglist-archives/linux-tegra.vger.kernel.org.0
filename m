@@ -2,80 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D9ED1A7D36
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 15:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B7C1A7EDD
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 15:52:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731401AbgDNNUk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 09:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55888 "EHLO
+        id S2388223AbgDNNwD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 09:52:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731120AbgDNNUd (ORCPT
+        with ESMTP id S2388218AbgDNNv4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:20:33 -0400
-X-Greylist: delayed 277 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Apr 2020 06:20:32 PDT
-Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED76DC061A0C;
-        Tue, 14 Apr 2020 06:20:32 -0700 (PDT)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 340BE45B; Tue, 14 Apr 2020 15:20:31 +0200 (CEST)
-Date:   Tue, 14 Apr 2020 15:20:29 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Tue, 14 Apr 2020 09:51:56 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C103BC061A0C;
+        Tue, 14 Apr 2020 06:51:55 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id x4so13060686wmj.1;
+        Tue, 14 Apr 2020 06:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FOGDiV0hbJz1HxbN2jXqtj/ZF+6uRGkUpCQ+mfwEdqc=;
+        b=rj28FQbuYbXsaqyH1cjVScKGQOVPVLPOqL4vBsWa38E7JDhF/em/0U/N8ugTyZmbB8
+         5u3ziNCGseii9Fd6o5GaB0iKq3ryfySrsY0soGUPAi4dSE5vDxp9FwA1vKl6vfph4HkP
+         L5JX9Y7Vif/7Ku2NuyK2jtKRwH3sQagbP9LSNEjPkbWldE0cfQmROCBOdzl40wqeJeAa
+         3j28uixlqgnT2M3fyB6+uL0f3VVuVFdgvpwrAz/ExM8ffHJO3gpZWHAB7URI7o7A6Qlo
+         eeQlzxDaE7Mu+ZiN0WSfPSBuVfL5SkzvL1HLH63DrBJhq7vrdEKNVA1u4GMUlRdVdMCO
+         l7cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FOGDiV0hbJz1HxbN2jXqtj/ZF+6uRGkUpCQ+mfwEdqc=;
+        b=AJcBX9furE0LrA8XdX6mz4xt8wxpLGzEP5If8ub23pUsxVXQYNbtkQ+s8KfefTWzsR
+         Om4SnWcTtD9wfjSHIGHPAZmd/DsdCDmn98hudMfaMeC1LPgvZSkhajkEVEQav1Q1CAPD
+         PiNPSYQ/J3+NFnYf2fhW7uXjU8EsWMRN2G39VJsJwC7WBObwEn6ffjJ9nx65YYXgUh/M
+         sAYFCU6baBcc679OfDMgflC500ZCa49XiOt5bOfujj5PsbqWeGLhyPWEGqLn2AAUCi/1
+         4jrGHekrmhvCgIo0ZIfAnbEowbOl3K7hYjgrHkTvtVHpHNUzg6LZbLYb3c9agJJZybXW
+         1OIg==
+X-Gm-Message-State: AGi0PuZRrP8UtEBQZx/tpBe4g6XRjkrVeM1aRi9vqy77E3w5DsrF2YyP
+        WF+CD2sWELqQd0l+fQgzwWo=
+X-Google-Smtp-Source: APiQypLsLZfv2no2RHT1VR4cnHQ8aQ/o1kXW3w8nzIS3t33Jr2bsL3TmOpsURd+K8rYZ/rRKXIOufw==
+X-Received: by 2002:a1c:c345:: with SMTP id t66mr25259325wmf.189.1586872314481;
+        Tue, 14 Apr 2020 06:51:54 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+        by smtp.gmail.com with ESMTPSA id k23sm18681735wmi.46.2020.04.14.06.51.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 06:51:53 -0700 (PDT)
+Date:   Tue, 14 Apr 2020 15:51:52 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH] iommu/exynos: Get rid of 'struct exynos_iommu_owner'
- exynos_iommu_owner
-Message-ID: <20200414132029.GB14731@8bytes.org>
-References: <20200407183742.4344-1-joro@8bytes.org>
- <CGME20200407184501eucas1p25407bc96e4345df406cf6ba061ae6a82@eucas1p2.samsung.com>
- <20200407183742.4344-32-joro@8bytes.org>
- <449e7f16-e719-9617-ec92-63b82c0bc33f@samsung.com>
- <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
- <20200409114620.GA16298@8bytes.org>
- <40af831b-d00c-0cf9-0a06-e60c048a9ab8@samsung.com>
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: tegra: Fix reporting GPIO error value
+Message-ID: <20200414135152.GA3593749@ulmo>
+References: <20200414102512.27506-1-pali@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
 Content-Disposition: inline
-In-Reply-To: <40af831b-d00c-0cf9-0a06-e60c048a9ab8@samsung.com>
+In-Reply-To: <20200414102512.27506-1-pali@kernel.org>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Apr 09, 2020 at 03:58:00PM +0200, Marek Szyprowski wrote:
-> I've checked and it works fine on top of 
-> ff68eb23308e6538ec7864c83d39540f423bbe90. However I'm not a fan of 
-> removing this 'owner' structure. It gave a nice abstraction for the all 
-> SYSMMU controllers for the given device (although most devices in the 
-> system have only one SYSMMU). Why this structure is a problem for your 
-> rework?
 
-Okay, the structure itself is not a problem, I just thought it is not
-really necessary. But to keep things simple I've taken another approach
-for v2 of this series: Just use the first SYSMMU of the controllers list
-to link the device and the IOMMU. When the owner structure exists there
-is always one entry in this list, so that should work fine.
+--J2SCkAp4GZ/dPZZf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
+On Tue, Apr 14, 2020 at 12:25:12PM +0200, Pali Roh=C3=A1r wrote:
+> Error code is stored in rp->reset_gpio and not in err variable.
+>=20
+> Signed-off-by: Pali Roh=C3=A1r <pali@kernel.org>
+> ---
+>  drivers/pci/controller/pci-tegra.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-	Joerg
+With or without Micha=C5=82's suggestion:
 
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--J2SCkAp4GZ/dPZZf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6Vv/YACgkQ3SOs138+
+s6Eamw//c9rjXOHWJcTFLrcwMcrxead/8lDekjEgx85muyvjFplQbZzzOSEImmss
+z9vAjmlyGOGOl0mWBqDGl9OHnLxBHjlSYFT2DlZY92dBgfsa0qY9oEAJ2eFaNRnP
+iyRDns4lq14wcRNlVqeA7/LgOjcyYhFMWx4fR5kMqECPxDF9BteS7A8Mbxp+oKl1
+Zg6e8cBfJ92XzRTX1uR2aHmTZTqIC26xxd0qe40/+8dHTtada4TCrX+C5Cyn1gCF
+6pNWvVAWqqcOZqI9tGR5i/7SiMceUxAGcxBLD/owQEKLaIVCQgRmoeKJUo3TJcVk
+UlOjB990t1qVtOQLym7gP9T2wOS01kzwoWy9/EvsLO5WALYrmzhLVJ//qH9ph0Xi
+FyD5BszkDoaG4O+NG1vq9uDoL4k+cOPhyxleJ/Y1QJ04xdsq4fUPcT5YRWkYJukX
+c/SslMaiPeqstf63FNzHmbZuViKcmpFXj+JbRXrdpH8sXVwrchd1PBVXlc0x3o95
+ieD1fQTUU+tYYE0lV5Z8qxLeAZiSYjBa9BOOnRGuULAwbJFigGjs6tkyu0AY54kM
+id2LnQNrL2PdYRO3pwY9Juaqn/ryAE1U2KEoRKSVWQO8/3PgNAzYW7e3IApkEe+I
+6dPJnoqnuebk5fgsoIx3OP6hx5QbcivpaAAdUpHagUEXKdYSgZk=
+=JwZT
+-----END PGP SIGNATURE-----
+
+--J2SCkAp4GZ/dPZZf--
