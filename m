@@ -2,82 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2C111A78FA
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 12:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4459A1A7986
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 13:31:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438803AbgDNK6F (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 06:58:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35432 "EHLO mail.kernel.org"
+        id S2439202AbgDNLbR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 07:31:17 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:21527 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438799AbgDNK56 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 06:57:58 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EDEE6206D5;
-        Tue, 14 Apr 2020 10:57:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586861878;
-        bh=1WrB2l0FmNWsKcNwWuK1uCKo6/mJ1BOM4N7ZW/C64zc=;
+        id S2439200AbgDNLbM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 14 Apr 2020 07:31:12 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 491jwp4f2HzZ5;
+        Tue, 14 Apr 2020 13:31:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1586863867; bh=XMK7e0Dm8F9YE8gKtQY1u7hsmjy1KuLoqRJsGZsIDcE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jbgC1oMqt8PcwlQ0hf/ww976DFjpwMEMv0xnwgD8Q+MiXfcV4a61v4tmqivvVdyRR
-         iKTKvHCGhr0r62CdleENMgGKd5IQhQb+X7t5pv6azVoO+R05L39ubjKl37INHHr1rQ
-         hBWaBwG2Sg7nujknMO5AQrFWCMter3d8c2/zodV0=
-Date:   Tue, 14 Apr 2020 12:57:56 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.4 00/29] 4.4.219-rc1 review
-Message-ID: <20200414105756.GA284526@kroah.com>
-References: <20200411115407.651296755@linuxfoundation.org>
- <63b31c56-b5c9-2ced-ee00-772fa9a1dcaf@nvidia.com>
+        b=CPsOHPWcNDRbKJmA8ReFm7MwVhynuUCOFOdWX6Kj3c3xx9s4hmVn0j6s2Z4nzzt1c
+         Z/XzQ1W/X1ISsCV0CfSuVFBiTlLHb0I0iejhgKeM6WJs/JfZ35kq3KjyN5LuJEjEV5
+         WcWH0WoFwMfJ7qyqXaw3zhARV8ktvem1kFKh/y/aA4APigaAxCXAABAbL0rEQk6rt2
+         n54j71vXR4APXPcqYXC2+hZ0OTlr1LYcy/2dFdqBj8KFoAi158AeS2Ug+8TmLbxJ4G
+         +zsecp8nh0QLpwSIilYPdOCCvD0MbqBUeiP3kFlQ0AdNu22tN631+88QZjSRB3X0La
+         AR5yu3RKD69EQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Tue, 14 Apr 2020 13:31:04 +0200
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Pali =?iso-8859-2?Q?Roh=E1r?= <pali@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: tegra: Fix reporting GPIO error value
+Message-ID: <20200414113104.GA27984@qmqm.qmqm.pl>
+References: <20200414102512.27506-1-pali@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-2
 Content-Disposition: inline
-In-Reply-To: <63b31c56-b5c9-2ced-ee00-772fa9a1dcaf@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200414102512.27506-1-pali@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 11:35:53AM +0100, Jon Hunter wrote:
+On Tue, Apr 14, 2020 at 12:25:12PM +0200, Pali Rohár wrote:
+> Error code is stored in rp->reset_gpio and not in err variable.
 > 
-> On 11/04/2020 13:08, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 4.4.219 release.
-> > There are 29 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Mon, 13 Apr 2020 11:51:28 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.219-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Signed-off-by: Pali Rohár <pali@kernel.org>
+> ---
+>  drivers/pci/controller/pci-tegra.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> 
-> Sorry this is late, but all tests are passing for Tegra ...
-> 
-> Test results for stable-v4.4:
->     6 builds:	6 pass, 0 fail
->     12 boots:	12 pass, 0 fail
->     19 tests:	19 pass, 0 fail
-> 
-> Linux version:	4.4.219-rc1-g8cd74c57ff4a
-> Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
->                 tegra30-cardhu-a04
-> 
+> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+> index 0e03cef72840..378d5a8773c7 100644
+> --- a/drivers/pci/controller/pci-tegra.c
+> +++ b/drivers/pci/controller/pci-tegra.c
+> @@ -2314,8 +2314,8 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+>  			if (PTR_ERR(rp->reset_gpio) == -ENOENT) {
+>  				rp->reset_gpio = NULL;
+>  			} else {
+> -				dev_err(dev, "failed to get reset GPIO: %d\n",
+> -					err);
+> +				dev_err(dev, "failed to get reset GPIO: %ld\n",
+> +					PTR_ERR(rp->reset_gpio));
+>  				return PTR_ERR(rp->reset_gpio);
+>  			}
+>  		}
 
-No problems, thanks for testing all of these and letting me know.
+You can use %pe directly on the pointer for added benefit of translation
+of the error to a name.
 
-greg k-h
+Best Regards,
+Micha³ Miros³aw
