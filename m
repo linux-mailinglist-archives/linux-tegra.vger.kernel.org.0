@@ -2,79 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4459A1A7986
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 13:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382B31A7E0B
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Apr 2020 15:31:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439202AbgDNLbR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Apr 2020 07:31:17 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:21527 "EHLO rere.qmqm.pl"
+        id S1732245AbgDNNaB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Apr 2020 09:30:01 -0400
+Received: from 8bytes.org ([81.169.241.247]:34728 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439200AbgDNLbM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Apr 2020 07:31:12 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 491jwp4f2HzZ5;
-        Tue, 14 Apr 2020 13:31:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1586863867; bh=XMK7e0Dm8F9YE8gKtQY1u7hsmjy1KuLoqRJsGZsIDcE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CPsOHPWcNDRbKJmA8ReFm7MwVhynuUCOFOdWX6Kj3c3xx9s4hmVn0j6s2Z4nzzt1c
-         Z/XzQ1W/X1ISsCV0CfSuVFBiTlLHb0I0iejhgKeM6WJs/JfZ35kq3KjyN5LuJEjEV5
-         WcWH0WoFwMfJ7qyqXaw3zhARV8ktvem1kFKh/y/aA4APigaAxCXAABAbL0rEQk6rt2
-         n54j71vXR4APXPcqYXC2+hZ0OTlr1LYcy/2dFdqBj8KFoAi158AeS2Ug+8TmLbxJ4G
-         +zsecp8nh0QLpwSIilYPdOCCvD0MbqBUeiP3kFlQ0AdNu22tN631+88QZjSRB3X0La
-         AR5yu3RKD69EQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Tue, 14 Apr 2020 13:31:04 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Pali =?iso-8859-2?Q?Roh=E1r?= <pali@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        id S2502860AbgDNNP6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 14 Apr 2020 09:15:58 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 6821A2B0; Tue, 14 Apr 2020 15:15:51 +0200 (CEST)
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Fix reporting GPIO error value
-Message-ID: <20200414113104.GA27984@qmqm.qmqm.pl>
-References: <20200414102512.27506-1-pali@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200414102512.27506-1-pali@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc:     iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
+Date:   Tue, 14 Apr 2020 15:15:09 +0200
+Message-Id: <20200414131542.25608-1-joro@8bytes.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 12:25:12PM +0200, Pali Rohár wrote:
-> Error code is stored in rp->reset_gpio and not in err variable.
-> 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
-> ---
->  drivers/pci/controller/pci-tegra.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index 0e03cef72840..378d5a8773c7 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -2314,8 +2314,8 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  			if (PTR_ERR(rp->reset_gpio) == -ENOENT) {
->  				rp->reset_gpio = NULL;
->  			} else {
-> -				dev_err(dev, "failed to get reset GPIO: %d\n",
-> -					err);
-> +				dev_err(dev, "failed to get reset GPIO: %ld\n",
-> +					PTR_ERR(rp->reset_gpio));
->  				return PTR_ERR(rp->reset_gpio);
->  			}
->  		}
+Hi,
 
-You can use %pe directly on the pointer for added benefit of translation
-of the error to a name.
+here is the second version of this patch-set. The first version with
+some more introductory text can be found here:
 
-Best Regards,
-Micha³ Miros³aw
+	https://lore.kernel.org/lkml/20200407183742.4344-1-joro@8bytes.org/
+
+Changes v1->v2:
+
+	* Rebased to v5.7-rc1
+
+	* Re-wrote the arm-smmu changes as suggested by Robin Murphy
+
+	* Re-worked the Exynos patches to hopefully not break the
+	  driver anymore
+
+	* Fixed a missing mutex_unlock() reported by Marek Szyprowski,
+	  thanks for that.
+
+There is also a git-branch available with these patches applied:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/log/?h=iommu-probe-device-v2
+
+Please review.
+
+Thanks,
+
+	Joerg
+
+Joerg Roedel (32):
+  iommu: Move default domain allocation to separate function
+  iommu/amd: Implement iommu_ops->def_domain_type call-back
+  iommu/vt-d: Wire up iommu_ops->def_domain_type
+  iommu/amd: Remove dma_mask check from check_device()
+  iommu/amd: Return -ENODEV in add_device when device is not handled by
+    IOMMU
+  iommu: Add probe_device() and remove_device() call-backs
+  iommu: Move default domain allocation to iommu_probe_device()
+  iommu: Keep a list of allocated groups in __iommu_probe_device()
+  iommu: Move new probe_device path to separate function
+  iommu: Split off default domain allocation from group assignment
+  iommu: Move iommu_group_create_direct_mappings() out of
+    iommu_group_add_device()
+  iommu: Export bus_iommu_probe() and make is safe for re-probing
+  iommu/amd: Remove dev_data->passthrough
+  iommu/amd: Convert to probe/release_device() call-backs
+  iommu/vt-d: Convert to probe/release_device() call-backs
+  iommu/arm-smmu: Convert to probe/release_device() call-backs
+  iommu/pamu: Convert to probe/release_device() call-backs
+  iommu/s390: Convert to probe/release_device() call-backs
+  iommu/virtio: Convert to probe/release_device() call-backs
+  iommu/msm: Convert to probe/release_device() call-backs
+  iommu/mediatek: Convert to probe/release_device() call-backs
+  iommu/mediatek-v1 Convert to probe/release_device() call-backs
+  iommu/qcom: Convert to probe/release_device() call-backs
+  iommu/rockchip: Convert to probe/release_device() call-backs
+  iommu/tegra: Convert to probe/release_device() call-backs
+  iommu/renesas: Convert to probe/release_device() call-backs
+  iommu/omap: Remove orphan_dev tracking
+  iommu/omap: Convert to probe/release_device() call-backs
+  iommu/exynos: Use first SYSMMU in controllers list for IOMMU core
+  iommu/exynos: Convert to probe/release_device() call-backs
+  iommu: Remove add_device()/remove_device() code-paths
+  iommu: Unexport iommu_group_get_for_dev()
+
+Sai Praneeth Prakhya (1):
+  iommu: Add def_domain_type() callback in iommu_ops
+
+ drivers/iommu/amd_iommu.c       |  97 ++++----
+ drivers/iommu/amd_iommu_types.h |   1 -
+ drivers/iommu/arm-smmu-v3.c     |  38 +--
+ drivers/iommu/arm-smmu.c        |  39 ++--
+ drivers/iommu/exynos-iommu.c    |  24 +-
+ drivers/iommu/fsl_pamu_domain.c |  22 +-
+ drivers/iommu/intel-iommu.c     |  68 +-----
+ drivers/iommu/iommu.c           | 393 +++++++++++++++++++++++++-------
+ drivers/iommu/ipmmu-vmsa.c      |  60 ++---
+ drivers/iommu/msm_iommu.c       |  34 +--
+ drivers/iommu/mtk_iommu.c       |  24 +-
+ drivers/iommu/mtk_iommu_v1.c    |  50 ++--
+ drivers/iommu/omap-iommu.c      |  99 ++------
+ drivers/iommu/qcom_iommu.c      |  24 +-
+ drivers/iommu/rockchip-iommu.c  |  26 +--
+ drivers/iommu/s390-iommu.c      |  22 +-
+ drivers/iommu/tegra-gart.c      |  24 +-
+ drivers/iommu/tegra-smmu.c      |  31 +--
+ drivers/iommu/virtio-iommu.c    |  41 +---
+ include/linux/iommu.h           |  21 +-
+ 20 files changed, 533 insertions(+), 605 deletions(-)
+
+-- 
+2.17.1
+
