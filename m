@@ -2,83 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 194EA1A9357
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 08:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B29D41A9676
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 10:30:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393570AbgDOGgj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 02:36:39 -0400
-Received: from mga12.intel.com ([192.55.52.136]:33899 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393565AbgDOGg0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 02:36:26 -0400
-IronPort-SDR: AxuWUswikhaQHgE9NbIcR4k/XrGOsrf6O51f7y6KnLBDatEdq7L/s6mXCiIN7CYhFGXmkAv9JF
- Q8gfGjalKhfg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 23:36:26 -0700
-IronPort-SDR: e6xHGQuPW0GE2LEJRgwBaaQuNwmEtvc/TZ2WPBNJCcxxDlhT3Yrpnh18pXIf/KDAcMJ1v7zZbH
- nGNmd7m4gNaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; 
-   d="scan'208";a="363591408"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.208]) ([10.254.210.208])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2020 23:36:20 -0700
-Cc:     baolu.lu@linux.intel.com, iommu@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH v2 07/33] iommu: Add probe_device() and remove_device()
- call-backs
-To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20200414131542.25608-1-joro@8bytes.org>
- <20200414131542.25608-8-joro@8bytes.org>
-From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <0ad37581-b464-30ac-c503-4c0daaf43867@linux.intel.com>
-Date:   Wed, 15 Apr 2020 14:36:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S2894575AbgDOI3R (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 04:29:17 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11451 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2894458AbgDOI1K (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 04:27:10 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e96c4e20000>; Wed, 15 Apr 2020 01:25:07 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 15 Apr 2020 01:25:19 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 15 Apr 2020 01:25:19 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Apr
+ 2020 08:25:19 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 15 Apr 2020 08:25:18 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e96c4eb0000>; Wed, 15 Apr 2020 01:25:18 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [PATCH V2 0/8] Tegra XUSB charger detect support
+Date:   Wed, 15 Apr 2020 13:55:00 +0530
+Message-ID: <1586939108-10075-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200414131542.25608-8-joro@8bytes.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586939107; bh=O48+NSKb3uOgoUZUlMx/0cvuA3m+UW6/cKABrRYslCI=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=lL6Mey68iGq4mX1QYckeaa8z69223hklD9jcb3zDBCotKmhg77EC5+F+QCXw3auRN
+         qmd1iftCdza2iVUUn7SNTaCrd4edbcv5HvHA2/Y4+IUOwWElv3bjjFkzDvJ8wz6ztV
+         WQIsnI7M2U3yrZc1DXHYKQaEP9TWEzLItMyPo1fm/ViT5i48p9Ui32NGQuUP/JKME8
+         iCt/G/lNiVGLmabjQcfk8uigJpIdTQL6UE2h4sFyE4ibL/YyKtEo34l6HXuf8QHATw
+         5+ERvAElNEwSjeo1hD+6zB5LBZAxPdxK+CR1lGPISIrT7JA6MtMK5VEM2FQf4TXywU
+         24fa2V8kVTRwg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2020/4/14 21:15, Joerg Roedel wrote:
-> From: Joerg Roedel<jroedel@suse.de>
-> 
-> Add call-backs to 'struct iommu_ops' as an alternative to the
-> add_device() and remove_device() call-backs, which will be removed when
-> all drivers are converted.
-> 
-> The new call-backs will not setupt IOMMU groups and domains anymore,
-> so also add a probe_finalize() call-back where the IOMMU driver can do
-> per-device setup work which require the device to be set up with a
-> group and a domain.
+This patch series adds charger detect support on XUSB hardware used in
+Tegra210 and Tegra186 SoCs.
 
-The subject is inaccurate. probe_device() and release_device() are
-added to replace the add and remove pair.
+This patchset is composed with :
+ - dt bindings of XUSB Pad Controller
+ - Tegra XUSB device mode driver to add vbus_draw support 
+ - Tegra PHY driver for charger detect support
 
-Best regards,
-baolu
+Tests done:
+ - Connect USB cable from ubuntu host to micro-B port of DUT to detect
+   SDP_TYPE charger
+ - Connect USB cable from external powered USB hub(which inturn connects
+   to ubuntu host) to micro-B port of DUT to detect CDP_TYPE charger.
+ - Connect USB cable from USB charger to micro-B port of DUT to detect
+   DCP_TYPE charger.
+DUT: Jetson-tx1, Jetson tx2.
+
+V2:
+ - Added ACKed-by details for DT patches.
+ - All patches rebased.
+
+Nagarjuna Kristam (8):
+  dt-bindings: phy: tegra-xusb: Add charger-detect property
+  usb: gadget: tegra-xudc: Add vbus_draw support
+  phy: tegra: xusb: Add support for UTMI pad power control
+  phy: tegra: xusb: Add USB2 pad power control support for Tegra210
+  phy: tegra: xusb: Add soc ops API to enable UTMI PAD protection
+  phy: tegra: xusb: Add support for charger detect
+  phy: tegra: xusb: Enable charger detect for Tegra186
+  phy: tegra: xusb: Enable charger detect for Tegra210
+
+ .../bindings/phy/nvidia,tegra124-xusb-padctl.txt   |   4 +
+ drivers/phy/tegra/Makefile                         |   2 +-
+ drivers/phy/tegra/xusb-tegra-cd.c                  | 300 +++++++++++++++++++++
+ drivers/phy/tegra/xusb-tegra186.c                  |  92 +++++--
+ drivers/phy/tegra/xusb-tegra210.c                  | 222 +++++++++++----
+ drivers/phy/tegra/xusb.c                           |  80 ++++++
+ drivers/phy/tegra/xusb.h                           |  22 ++
+ drivers/usb/gadget/udc/tegra-xudc.c                |  16 ++
+ 8 files changed, 653 insertions(+), 85 deletions(-)
+ create mode 100644 drivers/phy/tegra/xusb-tegra-cd.c
+
+-- 
+2.7.4
+
