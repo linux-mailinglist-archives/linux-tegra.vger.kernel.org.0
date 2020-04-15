@@ -2,77 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C9EA1AAE56
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 18:33:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB63A1AAEB5
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 18:50:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1416091AbgDOQb2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 12:31:28 -0400
-Received: from sauhun.de ([88.99.104.3]:56520 "EHLO pokefinder.org"
+        id S2410441AbgDOQtf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 12:49:35 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:65085 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1416085AbgDOQb0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:31:26 -0400
-Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
-        by pokefinder.org (Postfix) with ESMTPSA id 549FC2C1FF2;
-        Wed, 15 Apr 2020 18:31:24 +0200 (CEST)
-Date:   Wed, 15 Apr 2020 18:31:24 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        id S2410438AbgDOQte (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 12:49:34 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 492Sxl3MgwzCQ;
+        Wed, 15 Apr 2020 18:49:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1586969372; bh=zQDxlVQ+piC9JeNkcZ3DClymWipO5QIxOiWvmOQrRLg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=B/QM4E1pGqKlysASRsHvl9yQ3uVcn8woliFG/rbdg+oI2cRTYALDxN2QolwTPxslh
+         MP+VpcMd0ulYBRblEV40na0OvFgLXnoLNiv9lni4tOJhDYfYoTGl6VGl4lOd90MxLo
+         3t5YaJhTPURGMBqNmagAprSYc94+TMlnQQwxQ8RJV+ea7Gyuc+f5hAQRgq1xjHX1S/
+         umiiQgRUC7TLBWZTVkReOAdYrfMZP0laeyddnbKWzAshf9sjs4yvVUUD5TFTTVStw8
+         ZZMv5Be+3dtlImpiE1IdyTeuHTYSGBxtIusJiSRqXUOMNtSG8VLftCh6UNPkeX3xrX
+         g9CFETMP941fQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Wed, 15 Apr 2020 18:49:30 +0200
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Pali =?iso-8859-2?Q?Roh=E1r?= <pali@kernel.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] i2c: tegra: Synchronize DMA before termination
-Message-ID: <20200415163123.GD2830@ninjato>
-References: <20200324191217.1829-1-digetx@gmail.com>
- <20200324191217.1829-3-digetx@gmail.com>
+Subject: Re: [PATCH] PCI: tegra: Fix reporting GPIO error value
+Message-ID: <20200415164930.GF19897@qmqm.qmqm.pl>
+References: <20200414102512.27506-1-pali@kernel.org>
+ <20200414113104.GA27984@qmqm.qmqm.pl>
+ <20200415111736.czeh7a3iqmmasow6@pali>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="AkbCVLjbJ9qUtAXD"
+Content-Type: text/plain; charset=iso-8859-2
 Content-Disposition: inline
-In-Reply-To: <20200324191217.1829-3-digetx@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200415111736.czeh7a3iqmmasow6@pali>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, Apr 15, 2020 at 01:17:36PM +0200, Pali Rohár wrote:
+> On Tuesday 14 April 2020 13:31:04 Micha³ Miros³aw wrote:
+> > On Tue, Apr 14, 2020 at 12:25:12PM +0200, Pali Rohár wrote:
+> > > Error code is stored in rp->reset_gpio and not in err variable.a
+[...]
+> > > -				dev_err(dev, "failed to get reset GPIO: %d\n",
+> > > -					err);
+> > > +				dev_err(dev, "failed to get reset GPIO: %ld\n",
+> > > +					PTR_ERR(rp->reset_gpio));
+> > >  				return PTR_ERR(rp->reset_gpio);
+> > >  			}
+> > >  		}
+> > 
+> > You can use %pe directly on the pointer for added benefit of translation
+> > of the error to a name.
+> 
+> Well, I do not know what is the current preferred style of error
+> messages. On lot of places I see just numeric error numbers.
 
---AkbCVLjbJ9qUtAXD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+%pe is quite a recent addition to the kernel (since v5.3).
 
-On Tue, Mar 24, 2020 at 10:12:17PM +0300, Dmitry Osipenko wrote:
-> DMA transfer could be completed, but CPU (which handles DMA interrupt)
-> may get too busy and can't handle the interrupt in a timely manner,
-> despite of DMA IRQ being raised. In this case the DMA state needs to
-> synchronized before terminating DMA transfer in order not to miss the
-> DMA transfer completion.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-
-Applied to for-current, thanks!
-
-
---AkbCVLjbJ9qUtAXD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6XNtsACgkQFA3kzBSg
-KbbADhAAqwvNfOD7mXtxEJtV3RcBhdYNCoJRUtxcGTAHQVpPbAXy6CzQPj/fYsAB
-rUFJEFrFEBBwxemI9pSRgzgR/k1cq/6lxW+S3rH0yaxmSwO0SH2UtctpHnCwI8zQ
-Uk5KwRs5b6jlNaSIWpraI3+7KKMc9n+vpHwqMZAqdqvadgkeyMyLrZq84zZJM1oH
-PB9HUFpEmvxfk0vpI2R7oOSEMYJRZ50z1AX0XfokWwrJ6seqPzDsET3MJLC1bep5
-bLLFD4pHhQ2Cng0DuoEV0APFbpSuW78Yn9nnQY4NdWjE/7UWA35tCdxwsVWSIx0t
-Uqdm4TrYhhJ0neGXb2is8z18NRpsqu9Xyxq5GNFNIKqMeaMRJqy8qDrNfC7vJ4nS
-BdnlYUdQ1SH/IpoCntv7MFFBJ3c11xMKJ1BRXgmltDe+McV0yi5zYND2BIx0B0ZN
-sKe72nwPSalYNYsuCHg3K2wl+mMuZI+l1+TeVrWVK4AHY4RfHp188J/XfhuzJOXm
-PHSZ7L8wMx8b/4iez+J2JtAQCknI93f/tyXxEoCDJBD8Y2PANwzbI5LqVTxiIyq+
-Bwu8bZy0q42hKjN7B2HkF8ynBtumNAZZPc5nlvhLCoG+IdnZKRdjEbvw4e2deQCH
-SHOCCRo+Q1FHRAeiicNlwsSeO0Yoyqz7LVyVBy3dyD6lwjHQReE=
-=C3tM
------END PGP SIGNATURE-----
-
---AkbCVLjbJ9qUtAXD--
+Best Regards
+Micha³ Miros³aw
