@@ -2,146 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F65A1AA09F
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B2591AA033
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:31:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S369406AbgDOM3g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 08:29:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37428 "EHLO mail.kernel.org"
+        id S2409207AbgDOLpm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 07:45:42 -0400
+Received: from sauhun.de ([88.99.104.3]:53290 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409108AbgDOLo5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:44:57 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 03E8C206A2;
-        Wed, 15 Apr 2020 11:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586951096;
-        bh=FuwEmhHqtJHJQqebXlx5aIR78KRZjDzvHcsUNRBbHZo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hvsHBAimPdePTFw1iPblY5fNZjUxANklhs6HMVjasRQ8G9hRmprSO99cvPF28imNt
-         x7NWT8ko4LJY2Ys0BCa7mnfAWR+RjqEA2e2oJNE3oYp21bKk/6yKtYMafPj3RFFgsp
-         6tx87mygpU5sxWLeDnmqU+5HEeMJNW9uLXrVD680=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 12/84] arm64: tegra: Fix Tegra194 PCIe compatible string
-Date:   Wed, 15 Apr 2020 07:43:29 -0400
-Message-Id: <20200415114442.14166-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415114442.14166-1-sashal@kernel.org>
-References: <20200415114442.14166-1-sashal@kernel.org>
+        id S2409185AbgDOLpi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 07:45:38 -0400
+Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
+        by pokefinder.org (Postfix) with ESMTPSA id AFE072C1FF1;
+        Wed, 15 Apr 2020 13:45:36 +0200 (CEST)
+Date:   Wed, 15 Apr 2020 13:45:36 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] NVIDIA Tegra I2C synchronization correction
+Message-ID: <20200415114536.GB910@ninjato>
+References: <20200324191217.1829-1-digetx@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
+Content-Disposition: inline
+In-Reply-To: <20200324191217.1829-1-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Jon Hunter <jonathanh@nvidia.com>
 
-[ Upstream commit f9f711efd441ad0d22874be49986d92121862335 ]
+--Fba/0zbH8Xs+Fj9o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If the kernel configuration option CONFIG_PCIE_DW_PLAT_HOST is enabled
-then this can cause the kernel to incorrectly probe the generic
-designware PCIe platform driver instead of the Tegra194 designware PCIe
-driver. This causes a boot failure on Tegra194 because the necessary
-configuration to access the hardware is not performed.
+On Tue, Mar 24, 2020 at 10:12:15PM +0300, Dmitry Osipenko wrote:
+> Hello,
+>=20
+> Recently I found a way to reliably reproduce I2C timeouts that happen due
+> to improper synchronizations made by the I2C driver. It's quite easy to
+> reproduce the problem when memory is running on a lower freq + there is
+> some memory activity + CPU could get busy for a significant time. This
+> is the case when KASAN is enabled and CPU is busy while accessing FS via
+> NFS. This small series addresses the found problems.
+>=20
+> Changelog:
+>=20
+> v2: - The "Better handle case where CPU0 is busy for a long time" patch
+>       now preserves the old behavior where completion is checked after
+>       disabling the interrupt, preventing potential race-condition of
+>       the completion awaiting vs interrupt syncing.
+>=20
+> Dmitry Osipenko (2):
+>   i2c: tegra: Better handle case where CPU0 is busy for a long time
+>   i2c: tegra: Synchronize DMA before termination
 
-The order in which the compatible strings are populated in Device-Tree
-is not relevant in this case, because the kernel will attempt to probe
-the device as soon as a driver is loaded and if the generic designware
-PCIe driver is loaded first, then this driver will be probed first.
-Therefore, to fix this problem, remove the "snps,dw-pcie" string from
-the compatible string as we never want this driver to be probe on
-Tegra194.
+Patches look good to me. I tend to apply them to for-current instead of
+for-next because they are fixing issues. Even a stable tag?
 
-Fixes: 2602c32f15e7 ("arm64: tegra: Add P2U and PCIe controller nodes to Tegra194 DT")
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../devicetree/bindings/pci/nvidia,tegra194-pcie.txt |  2 +-
- arch/arm64/boot/dts/nvidia/tegra194.dtsi             | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-index b739f92da58e5..1f90eb39870be 100644
---- a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-+++ b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-@@ -118,7 +118,7 @@ Tegra194:
- --------
- 
- 	pcie@14180000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8B>;
- 		reg = <0x00 0x14180000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x38000000 0x0 0x00040000   /* configuration space (256K) */
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 57adcbb7352d6..457b815d57f40 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1151,7 +1151,7 @@
- 	};
- 
- 	pcie@14100000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
- 		reg = <0x00 0x14100000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x30000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1197,7 +1197,7 @@
- 	};
- 
- 	pcie@14120000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
- 		reg = <0x00 0x14120000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x32000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1243,7 +1243,7 @@
- 	};
- 
- 	pcie@14140000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
- 		reg = <0x00 0x14140000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x34000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1289,7 +1289,7 @@
- 	};
- 
- 	pcie@14160000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX4A>;
- 		reg = <0x00 0x14160000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x36000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1335,7 +1335,7 @@
- 	};
- 
- 	pcie@14180000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8B>;
- 		reg = <0x00 0x14180000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x38000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1381,7 +1381,7 @@
- 	};
- 
- 	pcie@141a0000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8A>;
- 		reg = <0x00 0x141a0000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x3a000000 0x0 0x00040000   /* configuration space (256K) */
--- 
-2.20.1
+--Fba/0zbH8Xs+Fj9o
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6W8+AACgkQFA3kzBSg
+KbbVLBAApD7mx+QXfeiebrOtz1sVemHBiPDyiGMu++48UzBSAWD9V6/01TcHK6wm
+ovJ5euQmL554Drn2nONQReDLuNLvrIG+5zqkGBFHEzpO/o+fad1bTc9daw6WJLja
+Pa97wqs5lYZMR9bZxDS5Dm437+7hzHmBEQWJkSRfsHh87l48jzG2ymuN8pJ1bMWB
++n2aXocb8P7LeD1GT3M1rn/2NOFtCwE194RCBsF8Z/fN0FuesRcDmRcZt6Dmd/cZ
+3x1Ppuv3v5T4cFrRAXb6ySV9Lbr1EC3yCWtmnXGYs98OiaJ6p8qKL3w+gwNIFKWF
+K4lEh/7bMBWeq/CSMX+a4PJBSXsdNHtxClHZOrrAXzxVGVytVKmt/aKbyAV5jHyL
++PKZqbC9LJ1DfAc/CFBNxMfJyj34nYwHbX7tROQK7/3RlO/8nNhBYiabf1ja9f7A
+SBrsxuh3wWoVnj1GylB23IrErugxi7ef1szTNGJaGbsTU6xLwmz8eBtOP6lRU/B2
+G441mFDbymv+cEBKn+BcB9ejMELSma/vJq97zcMSln/z5CuflX7UazIGKygyyu/d
+muJWz3QlakJMwoVlNCgVd9ieAxdC1wudbo0tMj1K2qS/9nYLQmgfPEZe7c00bYb0
+UxYu/e6vrHC7LZ80HliOQZ9N1RI9BL0qbIUEXW5cpCVjxIWfZfk=
+=ah7+
+-----END PGP SIGNATURE-----
+
+--Fba/0zbH8Xs+Fj9o--
