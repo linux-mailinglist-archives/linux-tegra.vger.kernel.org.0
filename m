@@ -2,28 +2,28 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C28251A92F4
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 08:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 194EA1A9357
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 08:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389857AbgDOGKX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 02:10:23 -0400
-Received: from mga06.intel.com ([134.134.136.31]:20146 "EHLO mga06.intel.com"
+        id S2393570AbgDOGgj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 02:36:39 -0400
+Received: from mga12.intel.com ([192.55.52.136]:33899 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731298AbgDOGKV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 02:10:21 -0400
-IronPort-SDR: dSuo3T3idle2qp5g+E3kGD33taojMR5EGDQKBaIbqVU7adnzVZJrO+9LVCrq+NBX8DHqhmJUnm
- iP7yDhogvvhQ==
+        id S2393565AbgDOGg0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 02:36:26 -0400
+IronPort-SDR: AxuWUswikhaQHgE9NbIcR4k/XrGOsrf6O51f7y6KnLBDatEdq7L/s6mXCiIN7CYhFGXmkAv9JF
+ Q8gfGjalKhfg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 23:10:10 -0700
-IronPort-SDR: Xrzeker15iDL0GxYgNylnyNCcgOHg/5LrDmSleRIXI69KwIrj67IOyQN42jm1/hyg4yAT+vZ4w
- my6GtVMJbzjQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 23:36:26 -0700
+IronPort-SDR: e6xHGQuPW0GE2LEJRgwBaaQuNwmEtvc/TZ2WPBNJCcxxDlhT3Yrpnh18pXIf/KDAcMJ1v7zZbH
+ nGNmd7m4gNaQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,385,1580803200"; 
-   d="scan'208";a="363586963"
+X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; 
+   d="scan'208";a="363591408"
 Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.208]) ([10.254.210.208])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2020 23:10:04 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2020 23:36:20 -0700
 Cc:     baolu.lu@linux.intel.com, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
@@ -31,8 +31,8 @@ Cc:     baolu.lu@linux.intel.com, iommu@lists.linux-foundation.org,
         linux-tegra@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
         Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH v2 13/33] iommu: Export bus_iommu_probe() and make is safe
- for re-probing
+Subject: Re: [PATCH v2 07/33] iommu: Add probe_device() and remove_device()
+ call-backs
 To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
         Robin Murphy <robin.murphy@arm.com>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -49,14 +49,14 @@ To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Jean-Philippe Brucker <jean-philippe@linaro.org>
 References: <20200414131542.25608-1-joro@8bytes.org>
- <20200414131542.25608-14-joro@8bytes.org>
+ <20200414131542.25608-8-joro@8bytes.org>
 From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <1853992c-47a6-3724-812c-a52558c13732@linux.intel.com>
-Date:   Wed, 15 Apr 2020 14:10:03 +0800
+Message-ID: <0ad37581-b464-30ac-c503-4c0daaf43867@linux.intel.com>
+Date:   Wed, 15 Apr 2020 14:36:20 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200414131542.25608-14-joro@8bytes.org>
+In-Reply-To: <20200414131542.25608-8-joro@8bytes.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -66,35 +66,19 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 On 2020/4/14 21:15, Joerg Roedel wrote:
-> From: Joerg Roedel <jroedel@suse.de>
+> From: Joerg Roedel<jroedel@suse.de>
 > 
-> Add a check to the bus_iommu_probe() call-path to make sure it ignores
-> devices which have already been successfully probed. Then export the
-> bus_iommu_probe() function so it can be used by IOMMU drivers.
+> Add call-backs to 'struct iommu_ops' as an alternative to the
+> add_device() and remove_device() call-backs, which will be removed when
+> all drivers are converted.
 > 
-> Signed-off-by: Joerg Roedel <jroedel@suse.de>
-> ---
->   drivers/iommu/iommu.c | 6 +++++-
->   include/linux/iommu.h | 1 +
->   2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 834a45da0ed0..a2ff95424044 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -1615,6 +1615,10 @@ static int probe_iommu_group(struct device *dev, void *data)
->   	if (!dev_iommu_get(dev))
->   		return -ENOMEM;
->   
-> +	/* Device is probed already if in a group */
-> +	if (iommu_group_get(dev) != NULL)
+> The new call-backs will not setupt IOMMU groups and domains anymore,
+> so also add a probe_finalize() call-back where the IOMMU driver can do
+> per-device setup work which require the device to be set up with a
+> group and a domain.
 
-Same as
-	if (iommu_group_get(dev))
-?
-
-By the way, do we need to put the group if device has already been
-probed?
+The subject is inaccurate. probe_device() and release_device() are
+added to replace the add and remove pair.
 
 Best regards,
 baolu
