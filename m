@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DBA1A9F3D
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD2AC1A9E81
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 13:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441229AbgDOMHm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 08:07:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41934 "EHLO mail.kernel.org"
+        id S2409668AbgDOL4t (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 07:56:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43460 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2897613AbgDOLrQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:47:16 -0400
+        id S2409400AbgDOLrx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 07:47:53 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1FC5C20775;
-        Wed, 15 Apr 2020 11:47:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CC43B2137B;
+        Wed, 15 Apr 2020 11:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586951235;
-        bh=c3tDbP3kjZMereB6y5jCbrX1IZryCnz0sMYCtncHOyQ=;
+        s=default; t=1586951272;
+        bh=diZCH/Mg8n9hXnJ0WhmZgAaGP/vFOO2uGKOad9Enxpw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Jpda8+Z3M2DhHBXflwd/F9bkRGbYBCT3AjnTIBGvDz4p4Pf7CskFI1fss0m0/BxJc
-         W0sYIeSX7/nf1p9Tp/khmny7hzEBHjn8pddluh7ySQTwODp4EMCtlSRnBUIwfSDwPP
-         tWwm3GBwY/AXc4LaDZsRZIYw+kLaiur93rFyIPV4=
+        b=k6JGzRWmG059w7EXAz8TGhThLULVatYwILZgRyT/ErgKlvyYt1lPJ5jCZJmMaouQM
+         zQSVTw8m8KC/lp+WbVAkFlKA+R0YKOOsD++IeGHctvkqi3cPqa1uFv/pmPw7fjynvd
+         KELttE8vB051nYOICcKx4sjx1bkAnS4fK4OV05sM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
@@ -30,12 +30,12 @@ Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 03/30] clk: tegra: Fix Tegra PMC clock out parents
-Date:   Wed, 15 Apr 2020 07:46:44 -0400
-Message-Id: <20200415114711.15381-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 03/21] clk: tegra: Fix Tegra PMC clock out parents
+Date:   Wed, 15 Apr 2020 07:47:30 -0400
+Message-Id: <20200415114748.15713-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415114711.15381-1-sashal@kernel.org>
-References: <20200415114711.15381-1-sashal@kernel.org>
+In-Reply-To: <20200415114748.15713-1-sashal@kernel.org>
+References: <20200415114748.15713-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -67,7 +67,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/clk/tegra/clk-tegra-pmc.c b/drivers/clk/tegra/clk-tegra-pmc.c
-index a35579a3f884f..476dab494c44d 100644
+index 91377abfefa19..17a04300f93bf 100644
 --- a/drivers/clk/tegra/clk-tegra-pmc.c
 +++ b/drivers/clk/tegra/clk-tegra-pmc.c
 @@ -60,16 +60,16 @@ struct pmc_clk_init_data {
