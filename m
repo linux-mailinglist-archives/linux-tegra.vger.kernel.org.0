@@ -2,82 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9791AADF5
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 18:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8382E1AADFA
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 18:32:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415743AbgDOQXt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 12:23:49 -0400
-Received: from sauhun.de ([88.99.104.3]:56404 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1415722AbgDOQXr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:23:47 -0400
-Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
-        by pokefinder.org (Postfix) with ESMTPSA id 5D6B82C1FF1;
-        Wed, 15 Apr 2020 18:23:45 +0200 (CEST)
-Date:   Wed, 15 Apr 2020 18:23:45 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        id S1415761AbgDOQYy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 12:24:54 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33060 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1415759AbgDOQYw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 12:24:52 -0400
+Received: by mail-ot1-f66.google.com with SMTP id j26so524770ots.0;
+        Wed, 15 Apr 2020 09:24:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s8Zpy7lNG4jWfwpFYAsM0x9AqOkd/hZJ5LGUrbOO5n4=;
+        b=BE+94SeQUvH/Qz75BFFvruM3orcKsJlGMfQFvE/MlY+vzJkHGRvVeX0J5EqGs2vsOy
+         9wht7Xdm7GrnGlD/iSOG3sFcRhX/Cz19xOgAZlk7gZejcKTUxCQRJi8y2hJdPWS2p2tK
+         my/lWYrMAEkOAlI4LkwM++A76QUvmnWLHh+qRo1QKk2tUvE51dBCHLLl2bPrpcPMVkBe
+         I+geHB2yeaS9ABuAKFFS5tDMAkLufqG/xznkP9y85CA1sMd8tsLEmLOwAby8OEjRGhTh
+         9WSzbxFkF1n/YTPN3LzhPj+7XrCzeQPvYHqm3dXlGRCBly3fYE1+9/c1949fYmYc7zIv
+         n+yA==
+X-Gm-Message-State: AGi0PuY9c+lCeHhfoy3QFSkjUC+PpCTfrlTht2893+ysPWh3uTb0imVr
+        4rqfel3Dgu21tOBJDUlNMQ==
+X-Google-Smtp-Source: APiQypJAsLyxcP4+sKsLlWhXU12d1z5YBzYdSqPCudaS6dtH2OtG+hAk5XL/zYYtRbtvjFPC3fUEYQ==
+X-Received: by 2002:a9d:23e2:: with SMTP id t89mr2623676otb.316.1586967891178;
+        Wed, 15 Apr 2020 09:24:51 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id o204sm6413412oib.12.2020.04.15.09.24.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 09:24:50 -0700 (PDT)
+Received: (nullmailer pid 1884 invoked by uid 1000);
+        Wed, 15 Apr 2020 16:24:49 -0000
+Date:   Wed, 15 Apr 2020 11:24:49 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] NVIDIA Tegra I2C synchronization correction
-Message-ID: <20200415162344.GB2830@ninjato>
-References: <20200324191217.1829-1-digetx@gmail.com>
- <20200415114536.GB910@ninjato>
- <87f18a67-5aec-b5df-9d8f-341f03ff3a72@gmail.com>
+        Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 02/14] of: reserved-memory: Support lookup of regions
+ by name
+Message-ID: <20200415162449.GA1842@bogus>
+References: <20200409175238.3586487-1-thierry.reding@gmail.com>
+ <20200409175238.3586487-3-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oC1+HKm2/end4ao3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87f18a67-5aec-b5df-9d8f-341f03ff3a72@gmail.com>
+In-Reply-To: <20200409175238.3586487-3-thierry.reding@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu,  9 Apr 2020 19:52:26 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Add support for looking up memory regions by name. This looks up the
+> given name in the newly introduced memory-region-names property and
+> returns the memory region at the corresponding index in the memory-
+> region(s) property.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/of/of_reserved_mem.c    | 19 +++++++++++++++++++
+>  include/linux/of_reserved_mem.h | 11 +++++++++++
+>  2 files changed, 30 insertions(+)
+> 
 
---oC1+HKm2/end4ao3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-> > Patches look good to me. I tend to apply them to for-current instead of
-> > for-next because they are fixing issues. Even a stable tag?
-> >=20
->=20
-> Thank you, yes it should be good to apply this series to 5.7 because the
-> Tegra APBDMA driver dependency-patches are already in 5.7.
->=20
-> The stable tag shouldn't be needed since this is not a critical bug fix
-> and the DMA driver patches are not going into stable. This series should
-> be more actual for the upcoming devices, which should be upstreamed in 5.=
-8+.
-
-Understood. Thanks for the heads up!
-
-
---oC1+HKm2/end4ao3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6XNRAACgkQFA3kzBSg
-KbYelg/+JJQUn9SPGjOZhZGQySY5aLk5fsftZTGeXoFtq6B8HNTDzMlwhubFTvHR
-D682nxBo65nuktk5sw3X/rpHYMT9H1mRdkBgurNWHH9ZIEUpq+qSr0/ZMNmVs0i2
-t8YXR15fi0gw0Es74oGUpo3zhrHY73gBLXOog8M/EBiLEBrsYCW/gtyu99swD2nG
-80MVj5FTGJ0Y+qAHbpo14CX6ofQgDjj8nSbdrYFvzF9QupsyNOZMuTzvoL1AQ2CI
-Ky22W5M/YK1+MWdlIyEPoPmYL7q/PW2yRPbVmDeatx7uIZBvbQvw68mFdH12BQT5
-JdDb3b1UQvf5646S7J8li78hVGyyA86Am5UfDSZLgBopF6xbBUdhEM5nd6mBmjbJ
-OHTd0sZSHbr3PG9VGvL15qnyJiFhzBmjigMLs8dYFHOCMQwRYvgnBoow14BdsToM
-Z49HsvXoFiVQTURQSPGAKqwrwbp1LvGcQ5FYhrhBbIJD9lJZU+lIzViW1Thl5WGt
-7Ax7KX6BF4fBGzexPfOm8ldnv+kIBTeW8cauWLDs6H+6CMISbnHPcioVySFcJu/L
-806eM3+OO4aiiIp1hp0hyFTbvYBJMrvuQkCxpkZz5nF5t/E4w3dYyYuZlou4Gb+F
-L36qGctOsCHcIo/Ia7wPVscBkshBxVSiC3sWrTh8TBbAoVzPKZ4=
-=84CU
------END PGP SIGNATURE-----
-
---oC1+HKm2/end4ao3--
+Reviewed-by: Rob Herring <robh@kernel.org>
