@@ -2,237 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AF581A9F8C
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24CBE1AA067
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S368664AbgDOMOQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 08:14:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45578 "EHLO
+        id S369276AbgDOM0f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 08:26:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S368577AbgDOMLd (ORCPT
+        with ESMTP id S369272AbgDOM0b (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 08:11:33 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F1AC061A0E
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Apr 2020 05:11:33 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id t3so13028283qkg.1
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Apr 2020 05:11:33 -0700 (PDT)
+        Wed, 15 Apr 2020 08:26:31 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA42FC061A0C
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Apr 2020 05:26:30 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id k21so3470528ljh.2
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Apr 2020 05:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1ryUjonk9Bo6/VS6Kj71zUulwTQ80F/AKeChrr6mLo8=;
-        b=Akp1fer9yVAmgP8VjIfq5WX5ZdO2GE+UmqSWAvAtSRdqeW6PqIPWPXGhYDIh8hxDLP
-         nkizW0Y91VngW4SPn+pfoUBBWiiYK7oemLUWLAuQehOlWhNvJdlkH6T/s0m+y+JSH/hv
-         BesmWX7IClKpXY2gGUaPB1SSjnx74qxx+mYI93bsB8oOH9lAO8ZdwRjCal9h7zgp1VyV
-         kRikT3Hc1uDyDVlXFr3RePkgJVApmpSQrqGYBWT9HT4hAoMVTkAFaBu125jqgo72FtIG
-         tqorH+l3Dmp9/K4hshwiOvh8ZFmy3ar7ZLhBkUpOjdl+zrzWHZ3wtgMVHNh45I/owmyH
-         kC8w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LkmmiF1XQ2RsXcgInA6IwLSuuiFHluAPXsS2Oe/IWDE=;
+        b=u/1ndgfJrMrT+7oxzJUoB3LMRfaTpL/yt5Il3j37hI1RQMkiFRxref6uRk6DmeZ3MP
+         hsX4Ml098bL/1oKRvw+OPWcZVFFThKTOOxqd+8+H+MO4HXW1eWvD9tysEYKAkqPG7GCD
+         7A7J/Q7JcGi1C1MhUH5C54SgW4VGpafTg94MwUKWaFnkse+EF0geLlpCvvcyIN21Aymk
+         xnYI1Yhwrke37XIZLyrDoimLZNMHXiDL0Rec+uxfppl15QfTZ1BAfksU8tTf4Mo4ISE3
+         vBLxaN0rXIp6aXGXnlCEcK3+7gjXuK4+f9ifDVWSAr9rxdSL8sKc7Vekt+fZsa959zjz
+         OiMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1ryUjonk9Bo6/VS6Kj71zUulwTQ80F/AKeChrr6mLo8=;
-        b=bEEmjFtlrhvP6yiZbItCQt7y7IacLRrtg2p/l5ww4fLuTnairLDUHH3FOgHQ4YXaa7
-         fGcDY4/6LyIC6j8u5Z7mJ3tAdTFq0zVzppr4zeu0+kEOcEFTmPJHsKaeGhJAbnLUmcZX
-         FfCTUcVHAthLaxsYAZ7owaM/QkCr6z+6xK/MWo3Ryf7m7tU4c48hP6e/Ghp04lxy8cLm
-         lc4kpedg40IoN6mWo6PYYwh55Vqat05OQZbcej8agHQcCt/2TuiqpOze2adaEPeTwIWJ
-         aP1P1Zar0/Rtve/waKaxGXamXouozEMRc53ZOA1NrF+ID2kNncMeUcMaIEkVz8I5mAge
-         B8vQ==
-X-Gm-Message-State: AGi0Pub0IzL10REKeNHj2x8Efvxaf0kSpGTXCw8WH6h35tdqPzVD988J
-        GLcyqB7mpYUgp89rBLuhlc5fvY9dFQnDCXivyreQuw==
-X-Google-Smtp-Source: APiQypJgfPJKXTdaDjJRJr3ndqin0UUnaDjqE2AyDq5NBSSQzQDFNUc9CIsSNsRjndjy+phc70+GxTlLLKlmpciMDiA=
-X-Received: by 2002:a05:620a:4f2:: with SMTP id b18mr25463065qkh.433.1586952692854;
- Wed, 15 Apr 2020 05:11:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LkmmiF1XQ2RsXcgInA6IwLSuuiFHluAPXsS2Oe/IWDE=;
+        b=DkdnPpt1tdCD7Tsn7dp79xcjw1Q2abdI3tw/naOW+JGMXU1Sh3NuIxYune2EF5j6rP
+         LioycHdXJvdjsqrTuJNSnCxR0XFd4oM+XV5KH2+iSZj/eTpJR5YiUcjjJ4dQB5NeuSEu
+         z2G/Nr8n6HvVi6HOccjKn/hTSH+s/MfYU8gSBDdMEgs0wBREQZVOqINUJIknV4FV4Ifu
+         48UYDCXu2p6I9sB2RSnGLB134P/tAJ4S/b87jCj/qDz4Fl0mwncYIh7sJ/AxKfJJpGLb
+         Ac5ZNhuWi8zdhC6fMfhgbxzV9y20pwLWJmHydE9drXf/NPaEPQrScSr7nEftvxaNCTp4
+         RmAQ==
+X-Gm-Message-State: AGi0PuYHMvb7ZMGG2MthrNZYJmVdkAgtem1MnePW5todm7Wf53doGUPm
+        yxrEoCc4P6Q1+ZNCScVP2t2E9uxrthU=
+X-Google-Smtp-Source: APiQypJFe7/3fHo/ERXXbzUML0AuJEny/et3ctB8MUPLhBr9ZgLHW/E0Mkl1bDVqEghMR2GdKdietA==
+X-Received: by 2002:a2e:3c10:: with SMTP id j16mr3075775lja.2.1586953589348;
+        Wed, 15 Apr 2020 05:26:29 -0700 (PDT)
+Received: from localhost.localdomain (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+        by smtp.gmail.com with ESMTPSA id n9sm11248038ljo.89.2020.04.15.05.26.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 05:26:28 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] drm/tegra: Clean up GPIO includes
+Date:   Wed, 15 Apr 2020 14:24:27 +0200
+Message-Id: <20200415122427.111769-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-References: <cover.1586946605.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cover.1586946605.git.mchehab+huawei@kernel.org>
-From:   Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date:   Wed, 15 Apr 2020 14:11:21 +0200
-Message-ID: <CA+M3ks4QE-eXgqwrG=_a_Esyyf5k1hGGm2_L3xGQ9hgu1HvmtQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Move CEC drivers and menu to be out of MEDIA_SUPPORT
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Kukjin Kim <kgene@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Benson Leung <bleung@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        "moderated list:ARM/S5P EXYNOS AR..." 
-        <linux-samsung-soc@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        linux-amlogic@lists.infradead.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-tegra@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Le mer. 15 avr. 2020 =C3=A0 12:31, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> a =C3=A9crit :
->
-> The CEC_CORE doesn't depend on MEDIA_SUPPORT. So, it doesn't make
-> much sense to keep it under its menu.
->
-> This series move it to be just after RC support. As a side effect, now
-> dependencies like PCI and USB are now selected, making easier to
-> enable CEC drivers.
->
-> - v2:
->   - move more CEC drivers from platform/
->   - rename kconfig options to be more coherent
->
-> Mauro Carvalho Chehab (6):
->   media: cec: move the core to a separate directory
->   media: place CEC menu before MEDIA_SUPPORT
->   media: move CEC platform drivers to a separate directory
->   media: move CEC USB drivers to a separate directory
->   media: cec: rename CEC platform drivers config options
->   media: cec: rename USB config options
->
->  arch/arm/configs/exynos_defconfig             |   2 +-
->  arch/arm/configs/multi_v7_defconfig           |   2 +-
->  drivers/media/Kconfig                         |  30 +----
->  drivers/media/cec/Kconfig                     |  25 ++++
->  drivers/media/cec/Makefile                    |  16 +--
->  drivers/media/cec/core/Makefile               |  16 +++
->  drivers/media/cec/{ =3D> core}/cec-adap.c       |   0
->  drivers/media/cec/{ =3D> core}/cec-api.c        |   0
->  drivers/media/cec/{ =3D> core}/cec-core.c       |   0
->  drivers/media/cec/{ =3D> core}/cec-notifier.c   |   0
->  .../media/cec/{ =3D> core}/cec-pin-error-inj.c  |   0
->  drivers/media/cec/{ =3D> core}/cec-pin-priv.h   |   0
->  drivers/media/cec/{ =3D> core}/cec-pin.c        |   0
->  drivers/media/cec/{ =3D> core}/cec-priv.h       |   0
->  drivers/media/cec/platform/Kconfig            | 121 +++++++++++++++++
->  drivers/media/cec/platform/Makefile           |  14 ++
->  .../{ =3D> cec}/platform/cec-gpio/Makefile      |   0
->  .../{ =3D> cec}/platform/cec-gpio/cec-gpio.c    |   0
->  drivers/media/cec/platform/cros-ec/Makefile   |   2 +
->  .../platform/cros-ec}/cros-ec-cec.c           |   0
->  drivers/media/cec/platform/meson/Makefile     |   3 +
->  .../{ =3D> cec}/platform/meson/ao-cec-g12a.c    |   0
->  .../media/{ =3D> cec}/platform/meson/ao-cec.c   |   0
->  .../s5p-cec =3D> cec/platform/s5p}/Makefile     |   2 +-
->  .../platform/s5p}/exynos_hdmi_cec.h           |   0
->  .../platform/s5p}/exynos_hdmi_cecctrl.c       |   0
->  .../s5p-cec =3D> cec/platform/s5p}/regs-cec.h   |   0
->  .../s5p-cec =3D> cec/platform/s5p}/s5p_cec.c    |   0
->  .../s5p-cec =3D> cec/platform/s5p}/s5p_cec.h    |   0
->  drivers/media/cec/platform/seco/Makefile      |   2 +
->  .../seco-cec =3D> cec/platform/seco}/seco-cec.c |   2 +-
->  .../seco-cec =3D> cec/platform/seco}/seco-cec.h |   0
->  drivers/media/cec/platform/sti/Makefile       |   2 +
->  .../sti/cec =3D> cec/platform/sti}/stih-cec.c   |   0
->  drivers/media/cec/platform/stm32/Makefile     |   2 +
->  .../{ =3D> cec}/platform/stm32/stm32-cec.c      |   0
->  drivers/media/cec/platform/tegra/Makefile     |   2 +
->  .../platform/tegra}/tegra_cec.c               |   0
->  .../platform/tegra}/tegra_cec.h               |   0
->  drivers/media/cec/usb/Kconfig                 |   6 +
->  drivers/media/cec/usb/Makefile                |   6 +
->  .../pulse8-cec =3D> cec/usb/pulse8}/Kconfig     |   5 +-
->  drivers/media/cec/usb/pulse8/Makefile         |   2 +
->  .../usb/pulse8}/pulse8-cec.c                  |   0
->  .../usb/rainshadow}/Kconfig                   |   5 +-
->  drivers/media/cec/usb/rainshadow/Makefile     |   2 +
->  .../usb/rainshadow}/rainshadow-cec.c          |   0
->  drivers/media/platform/Kconfig                | 125 ------------------
->  drivers/media/platform/Makefile               |  12 --
->  drivers/media/platform/cros-ec-cec/Makefile   |   2 -
->  drivers/media/platform/meson/Makefile         |   3 -
->  drivers/media/platform/seco-cec/Makefile      |   2 -
->  drivers/media/platform/sti/cec/Makefile       |   2 -
->  drivers/media/platform/stm32/Makefile         |   1 -
->  drivers/media/platform/tegra-cec/Makefile     |   2 -
->  drivers/media/usb/Kconfig                     |   6 -
->  drivers/media/usb/Makefile                    |   2 -
->  drivers/media/usb/pulse8-cec/Makefile         |   2 -
->  drivers/media/usb/rainshadow-cec/Makefile     |   2 -
->  59 files changed, 218 insertions(+), 212 deletions(-)
->  create mode 100644 drivers/media/cec/core/Makefile
->  rename drivers/media/cec/{ =3D> core}/cec-adap.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-api.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-core.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-notifier.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-pin-error-inj.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-pin-priv.h (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-pin.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-priv.h (100%)
->  create mode 100644 drivers/media/cec/platform/Kconfig
->  create mode 100644 drivers/media/cec/platform/Makefile
->  rename drivers/media/{ =3D> cec}/platform/cec-gpio/Makefile (100%)
->  rename drivers/media/{ =3D> cec}/platform/cec-gpio/cec-gpio.c (100%)
->  create mode 100644 drivers/media/cec/platform/cros-ec/Makefile
->  rename drivers/media/{platform/cros-ec-cec =3D> cec/platform/cros-ec}/cr=
-os-ec-cec.c (100%)
->  create mode 100644 drivers/media/cec/platform/meson/Makefile
->  rename drivers/media/{ =3D> cec}/platform/meson/ao-cec-g12a.c (100%)
->  rename drivers/media/{ =3D> cec}/platform/meson/ao-cec.c (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/Makefile (=
-63%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/exynos_hdm=
-i_cec.h (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/exynos_hdm=
-i_cecctrl.c (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/regs-cec.h=
- (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/s5p_cec.c =
-(100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/s5p_cec.h =
-(100%)
->  create mode 100644 drivers/media/cec/platform/seco/Makefile
->  rename drivers/media/{platform/seco-cec =3D> cec/platform/seco}/seco-cec=
-.c (99%)
->  rename drivers/media/{platform/seco-cec =3D> cec/platform/seco}/seco-cec=
-.h (100%)
->  create mode 100644 drivers/media/cec/platform/sti/Makefile
->  rename drivers/media/{platform/sti/cec =3D> cec/platform/sti}/stih-cec.c=
- (100%)
->  create mode 100644 drivers/media/cec/platform/stm32/Makefile
->  rename drivers/media/{ =3D> cec}/platform/stm32/stm32-cec.c (100%)
->  create mode 100644 drivers/media/cec/platform/tegra/Makefile
->  rename drivers/media/{platform/tegra-cec =3D> cec/platform/tegra}/tegra_=
-cec.c (100%)
->  rename drivers/media/{platform/tegra-cec =3D> cec/platform/tegra}/tegra_=
-cec.h (100%)
->  create mode 100644 drivers/media/cec/usb/Kconfig
->  create mode 100644 drivers/media/cec/usb/Makefile
->  rename drivers/media/{usb/pulse8-cec =3D> cec/usb/pulse8}/Kconfig (86%)
->  create mode 100644 drivers/media/cec/usb/pulse8/Makefile
->  rename drivers/media/{usb/pulse8-cec =3D> cec/usb/pulse8}/pulse8-cec.c (=
-100%)
->  rename drivers/media/{usb/rainshadow-cec =3D> cec/usb/rainshadow}/Kconfi=
-g (85%)
->  create mode 100644 drivers/media/cec/usb/rainshadow/Makefile
->  rename drivers/media/{usb/rainshadow-cec =3D> cec/usb/rainshadow}/rainsh=
-adow-cec.c (100%)
->  delete mode 100644 drivers/media/platform/cros-ec-cec/Makefile
->  delete mode 100644 drivers/media/platform/meson/Makefile
->  delete mode 100644 drivers/media/platform/seco-cec/Makefile
->  delete mode 100644 drivers/media/platform/sti/cec/Makefile
->  delete mode 100644 drivers/media/platform/tegra-cec/Makefile
->  delete mode 100644 drivers/media/usb/pulse8-cec/Makefile
->  delete mode 100644 drivers/media/usb/rainshadow-cec/Makefile
->
+The Tegra DRM drivers includes the legacy GPIO headers
+<linux/gpio.h> and <linux/of_gpio.h> but what it really
+uses is <linux/gpio/consumer.h> since only gpio_desc
+structs are ever referenced.
 
-For sti and stm32 CEC drivers:
-Acked-by: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Include the right header on the top level tegra/drm.h
+file and drop all the surplus includes.
 
-> --
-> 2.25.2
->
->
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/tegra/dpaux.c | 2 --
+ drivers/gpu/drm/tegra/drm.h   | 2 +-
+ drivers/gpu/drm/tegra/hdmi.c  | 1 -
+ drivers/gpu/drm/tegra/sor.c   | 1 -
+ 4 files changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index 7dfb50f65067..105fb9cdbb3b 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -5,12 +5,10 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+-#include <linux/gpio.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+-#include <linux/of_gpio.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/pinctrl/pinmux.h>
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index ed99b67deb29..bf0512177e8f 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -9,7 +9,7 @@
+ 
+ #include <linux/host1x.h>
+ #include <linux/iova.h>
+-#include <linux/of_gpio.h>
++#include <linux/gpio/consumer.h>
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_edid.h>
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 38252c0f068d..94fb0193fa3d 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -7,7 +7,6 @@
+ #include <linux/clk.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
+-#include <linux/gpio.h>
+ #include <linux/hdmi.h>
+ #include <linux/math64.h>
+ #include <linux/module.h>
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 81226a4953c1..b010826e86da 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -6,7 +6,6 @@
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/debugfs.h>
+-#include <linux/gpio.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+-- 
+2.25.2
+
