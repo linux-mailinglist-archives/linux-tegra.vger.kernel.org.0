@@ -2,89 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2591AA033
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3107D1A9FC2
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 14:23:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409207AbgDOLpm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 07:45:42 -0400
-Received: from sauhun.de ([88.99.104.3]:53290 "EHLO pokefinder.org"
+        id S368745AbgDOMRI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 08:17:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409185AbgDOLpi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:45:38 -0400
-Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
-        by pokefinder.org (Postfix) with ESMTPSA id AFE072C1FF1;
-        Wed, 15 Apr 2020 13:45:36 +0200 (CEST)
-Date:   Wed, 15 Apr 2020 13:45:36 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] NVIDIA Tegra I2C synchronization correction
-Message-ID: <20200415114536.GB910@ninjato>
-References: <20200324191217.1829-1-digetx@gmail.com>
+        id S2409290AbgDOLq3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 07:46:29 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0A718214D8;
+        Wed, 15 Apr 2020 11:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586951187;
+        bh=c3tDbP3kjZMereB6y5jCbrX1IZryCnz0sMYCtncHOyQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IGLVck58A724U2Y8uPQBSKY7HRZje89LXWtVYpzd5OdGniWCg6UvZoBaGUYgCe7g6
+         f1P0bYC2A7EYZi3Hc67a9hPSWKHK3SxQdyEsE2GKsJ6GYq7rE90VvjEVqeWRLGQ/Wb
+         WguE4vmUODohsekgnlXGIPeF8ZtgYzFjDP4WswZk=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Sasha Levin <sashal@kernel.org>, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 03/40] clk: tegra: Fix Tegra PMC clock out parents
+Date:   Wed, 15 Apr 2020 07:45:46 -0400
+Message-Id: <20200415114623.14972-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200415114623.14972-1-sashal@kernel.org>
+References: <20200415114623.14972-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
-Content-Disposition: inline
-In-Reply-To: <20200324191217.1829-1-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Sowjanya Komatineni <skomatineni@nvidia.com>
 
---Fba/0zbH8Xs+Fj9o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit 6fe38aa8cac3a5db38154331742835a4d9740788 ]
 
-On Tue, Mar 24, 2020 at 10:12:15PM +0300, Dmitry Osipenko wrote:
-> Hello,
->=20
-> Recently I found a way to reliably reproduce I2C timeouts that happen due
-> to improper synchronizations made by the I2C driver. It's quite easy to
-> reproduce the problem when memory is running on a lower freq + there is
-> some memory activity + CPU could get busy for a significant time. This
-> is the case when KASAN is enabled and CPU is busy while accessing FS via
-> NFS. This small series addresses the found problems.
->=20
-> Changelog:
->=20
-> v2: - The "Better handle case where CPU0 is busy for a long time" patch
->       now preserves the old behavior where completion is checked after
->       disabling the interrupt, preventing potential race-condition of
->       the completion awaiting vs interrupt syncing.
->=20
-> Dmitry Osipenko (2):
->   i2c: tegra: Better handle case where CPU0 is busy for a long time
->   i2c: tegra: Synchronize DMA before termination
+Tegra PMC clocks clk_out_1, clk_out_2, and clk_out_3 supported parents
+are osc, osc_div2, osc_div4 and extern clock.
 
-Patches look good to me. I tend to apply them to for-current instead of
-for-next because they are fixing issues. Even a stable tag?
+Clock driver is using incorrect parents clk_m, clk_m_div2, clk_m_div4
+for PMC clocks.
 
+This patch fixes this.
 
---Fba/0zbH8Xs+Fj9o
-Content-Type: application/pgp-signature; name="signature.asc"
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clk/tegra/clk-tegra-pmc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/clk/tegra/clk-tegra-pmc.c b/drivers/clk/tegra/clk-tegra-pmc.c
+index a35579a3f884f..476dab494c44d 100644
+--- a/drivers/clk/tegra/clk-tegra-pmc.c
++++ b/drivers/clk/tegra/clk-tegra-pmc.c
+@@ -60,16 +60,16 @@ struct pmc_clk_init_data {
+ 
+ static DEFINE_SPINLOCK(clk_out_lock);
+ 
+-static const char *clk_out1_parents[] = { "clk_m", "clk_m_div2",
+-	"clk_m_div4", "extern1",
++static const char *clk_out1_parents[] = { "osc", "osc_div2",
++	"osc_div4", "extern1",
+ };
+ 
+-static const char *clk_out2_parents[] = { "clk_m", "clk_m_div2",
+-	"clk_m_div4", "extern2",
++static const char *clk_out2_parents[] = { "osc", "osc_div2",
++	"osc_div4", "extern2",
+ };
+ 
+-static const char *clk_out3_parents[] = { "clk_m", "clk_m_div2",
+-	"clk_m_div4", "extern3",
++static const char *clk_out3_parents[] = { "osc", "osc_div2",
++	"osc_div4", "extern3",
+ };
+ 
+ static struct pmc_clk_init_data pmc_clks[] = {
+-- 
+2.20.1
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6W8+AACgkQFA3kzBSg
-KbbVLBAApD7mx+QXfeiebrOtz1sVemHBiPDyiGMu++48UzBSAWD9V6/01TcHK6wm
-ovJ5euQmL554Drn2nONQReDLuNLvrIG+5zqkGBFHEzpO/o+fad1bTc9daw6WJLja
-Pa97wqs5lYZMR9bZxDS5Dm437+7hzHmBEQWJkSRfsHh87l48jzG2ymuN8pJ1bMWB
-+n2aXocb8P7LeD1GT3M1rn/2NOFtCwE194RCBsF8Z/fN0FuesRcDmRcZt6Dmd/cZ
-3x1Ppuv3v5T4cFrRAXb6ySV9Lbr1EC3yCWtmnXGYs98OiaJ6p8qKL3w+gwNIFKWF
-K4lEh/7bMBWeq/CSMX+a4PJBSXsdNHtxClHZOrrAXzxVGVytVKmt/aKbyAV5jHyL
-+PKZqbC9LJ1DfAc/CFBNxMfJyj34nYwHbX7tROQK7/3RlO/8nNhBYiabf1ja9f7A
-SBrsxuh3wWoVnj1GylB23IrErugxi7ef1szTNGJaGbsTU6xLwmz8eBtOP6lRU/B2
-G441mFDbymv+cEBKn+BcB9ejMELSma/vJq97zcMSln/z5CuflX7UazIGKygyyu/d
-muJWz3QlakJMwoVlNCgVd9ieAxdC1wudbo0tMj1K2qS/9nYLQmgfPEZe7c00bYb0
-UxYu/e6vrHC7LZ80HliOQZ9N1RI9BL0qbIUEXW5cpCVjxIWfZfk=
-=ah7+
------END PGP SIGNATURE-----
-
---Fba/0zbH8Xs+Fj9o--
