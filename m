@@ -2,89 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A11F01AAE20
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 18:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4DB1AAE53
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Apr 2020 18:33:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415902AbgDOQ1L (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Apr 2020 12:27:11 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42680 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1415896AbgDOQ1J (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:27:09 -0400
-Received: by mail-oi1-f196.google.com with SMTP id d7so8918993oif.9;
-        Wed, 15 Apr 2020 09:27:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QoWSyptq3r7jFBqwiB+wzQmxtvTTslBNIl5gglBkLNo=;
-        b=HY1i5U29vF/9GOuib82x0MVY4aPTAJ1kByhH7rd5InEXWPflAEuLXmhks+XhRIzS14
-         6t/iQAil6k6AG4A4gZRtb/4VzEAXCXFTHsa8q3/UMooQPbCc9wIALQRr5aYO0KrM5VCm
-         T0v6H0YqB4hITny2oMPHS2BiytbsOA2MG4fw7cYf0SylC4nlg+AsWxcc9qTTOaxJHNwC
-         FLyrPd0WFwP4kArXg0bxmm+2Q5Or2zZWmZDeDOPPd9PnQdN4fXI/g/0NeKhFja+R8Id3
-         byBhiVX/ywbpE3Y7Fd7JY7i2KlRYzYIOF6UHDc4kTKbY1ZvIBC4uS0h/xj13XLGBkWJV
-         hfSA==
-X-Gm-Message-State: AGi0PuZBYeE6WOy1iV4aiVJJRJZbMfUvwMP2YhG1VzXAtxDTdsRToXTb
-        +/mcHkMGdloQkKsrXGrVmQ==
-X-Google-Smtp-Source: APiQypIQ2YEOM2xPkhIK1e7H2ZCsw87caX8t1G4qJ1Op/t60CQS2o6DAcnKl4kvVepkYzIq8a/Hyow==
-X-Received: by 2002:aca:5d8a:: with SMTP id r132mr5493oib.129.1586968027427;
-        Wed, 15 Apr 2020 09:27:07 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i17sm6365730otc.16.2020.04.15.09.27.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 09:27:06 -0700 (PDT)
-Received: (nullmailer pid 5651 invoked by uid 1000);
-        Wed, 15 Apr 2020 16:27:05 -0000
-Date:   Wed, 15 Apr 2020 11:27:05 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
+        id S1416088AbgDOQb0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Apr 2020 12:31:26 -0400
+Received: from sauhun.de ([88.99.104.3]:56514 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1416070AbgDOQbW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Apr 2020 12:31:22 -0400
+Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
+        by pokefinder.org (Postfix) with ESMTPSA id 097A02C1FF1;
+        Wed, 15 Apr 2020 18:31:21 +0200 (CEST)
+Date:   Wed, 15 Apr 2020 18:31:20 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 08/14] dt-bindings: memory: tegra: Add external memory
- controller binding for Tegra210
-Message-ID: <20200415162705.GA5587@bogus>
-References: <20200409175238.3586487-1-thierry.reding@gmail.com>
- <20200409175238.3586487-9-thierry.reding@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
+ for a long time
+Message-ID: <20200415163120.GC2830@ninjato>
+References: <20200324191217.1829-1-digetx@gmail.com>
+ <20200324191217.1829-2-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ghzN8eJ9Qlbqn3iT"
 Content-Disposition: inline
-In-Reply-To: <20200409175238.3586487-9-thierry.reding@gmail.com>
+In-Reply-To: <20200324191217.1829-2-digetx@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu,  9 Apr 2020 19:52:32 +0200, Thierry Reding wrote:
-> From: Joseph Lo <josephl@nvidia.com>
-> 
-> Add the binding document for the external memory controller (EMC) which
-> communicates with external LPDDR4 devices. It includes the bindings of
-> the EMC node and a sub-node of EMC table which under the reserved memory
-> node. The EMC table contains the data of the rates that EMC supported.
-> 
-> Signed-off-by: Joseph Lo <josephl@nvidia.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> Changes in v6:
-> - fix example by changing #address-cells and #size-cells
-> - remove status property from example
-> 
-> Changes in v5:
-> - convert to dt-schema
-> 
->  .../nvidia,tegra210-emc.yaml                  | 82 +++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.yaml
-> 
 
-Applied, thanks.
+--ghzN8eJ9Qlbqn3iT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+On Tue, Mar 24, 2020 at 10:12:16PM +0300, Dmitry Osipenko wrote:
+> Boot CPU0 always handle I2C interrupt and under some rare circumstances
+> (like running KASAN + NFS root) it may stuck in uninterruptible state for
+> a significant time. In this case we will get timeout if I2C transfer is
+> running on a sibling CPU, despite of IRQ being raised. In order to handle
+> this rare condition, the IRQ status needs to be checked after completion
+> timeout.
+>=20
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+
+Applied to for-current, thanks!
+
+
+--ghzN8eJ9Qlbqn3iT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6XNtgACgkQFA3kzBSg
+KbYgpw//Tp3dEVOrTD0EDeh5adYZ7oZJ90mS77fM9WqydszpDRrl235F9X6YEGt1
+y6DZ6YgwGAYBOPRym13VHYm9fgKwXrRA/zjBO7AEN/ZT4+zKy/z1Yh3rw+BJxtNC
+bqVjnRiIm+7bgN9bdo0NV82HWu/a/4GxQ695udZ+SZt07Z2ohDHx2qwbpPCEJHdb
+wPH+DipJJI18iNWuKep4+p5GaoKqx7oEqqfghhVVBWDEEc5fPJ/IgtsXCxYwkKjR
+8dbe6X3X6dK5VxL9mxBbmP4wJp6S/3/EpD2qmX9TKN/o87W2+v8KxSsj6VuBNcnZ
+OU2f12d1HrEnhAc6XYAZuIWGAmAP9DgIofXF9Aep4WCy/aBQ2zeXrUbwKyEmS5jT
+ZnMWrGbR+Ir9fNznmMd+oQwgLsrT4qJpr15l2uXp711XjYeshCHNMOfonHgQk4Wi
+nRzQkMon/1DbzCBvjwoWcAEJG+faZdxjdOMG0vOJK74DIa3xxTUO/Ws9GmJQBtBs
+ulGhzNuVuJyyzduJAv/dRweh7gJ7ARl21IoGDEUbWwX/0j2X830H8pvXwQlRfaIh
+uida9TnFVG2IY3AHpZOsadGLCZycDY1IoJ9IJ8j68aljMxCNrz2KrLL+HRxdTl7a
+Lyd0PTmyKHp//FdcUCu0GLnM5JufUjSIKM3vc+tyjRH8e2CskWw=
+=+7O0
+-----END PGP SIGNATURE-----
+
+--ghzN8eJ9Qlbqn3iT--
