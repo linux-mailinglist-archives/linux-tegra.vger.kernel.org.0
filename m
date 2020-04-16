@@ -2,96 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E67451ACEB0
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 19:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2BB31ACEB7
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 19:31:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728925AbgDPR1m (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 13:27:42 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50116 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726514AbgDPR1m (ORCPT
+        id S1727779AbgDPRa2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Apr 2020 13:30:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726207AbgDPRa1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 13:27:42 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A838B23;
-        Thu, 16 Apr 2020 19:27:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587058059;
-        bh=2oEsITlKsJY88YYqzsh6fJEmUOFQaNSHSjn/9Tj3WN0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Cz/mwzxPMTVQQmY/eHuOzRF4rb5ao5dK3ywKpwgzbEECiwCr3vRpv3b/zClKr/7g1
-         M2/T33fgavzAzVRGiYWqxbZYlSF7WMJtJoy6IxTHf3hEdiTcB2gLZspbzzPOlLVS6A
-         nhQueS3FFcR82qMioUu0uEXB0+eVj8HLw6d1nRgo=
-Date:   Thu, 16 Apr 2020 20:27:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        Thu, 16 Apr 2020 13:30:27 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7161EC061A0C
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Apr 2020 10:30:27 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id m8so8758317lji.1
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Apr 2020 10:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PzXYo6swgx9ErVWXLPhxkfiU9vzkaSg3H3Qei59zPVk=;
+        b=EMKTHWrZe1g6E1jAx3Mm6n4rNEbgdAY2tazlr947do0XAmQrCx7fqdG7Y/NQ7ZvIGa
+         +Vr2LStXg+i/M68mtRtC7AGVSWpk0b8ZZXgW7BQQefZb38i6cKZqmBLA5gzPrXhzgUGd
+         9Ljsx+ARG6EHoZhu+sblmtC8ZIZvW7Vh+P11bc3+R7eS+1ZkJbAmloYpBj0ocpIg188O
+         qRxHoayqIWP6gQ9nmQLxRXXzgb9Ff9O3gBoMs0KUwIwUSu+7MncsrUXKf3caQ02xkaCz
+         9nyD32+f+p8xtfm3+H0VnrbT+0WAHkMyi+/6XhdOL+/RtVEYM+i63Nr2V9ns56qfe9XI
+         wqiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PzXYo6swgx9ErVWXLPhxkfiU9vzkaSg3H3Qei59zPVk=;
+        b=SWqNyxB1ZHLjq/ATUISrXjgHqFro90kRdJR247FyHIVTdWEG66FeKz9q3ocqD/Dmvi
+         tz1c+OxERCvLwtxD5IGQDEif/kbvJIrxGVbk3TXZaBavjZJonyd0UCQ099baOQnLS2q9
+         5vZvXVzqtDHnci24tOzww3Y3Hak7ai9tIpQz/KcgmUYgKW1buXP1imetuyUnCqNyfYOi
+         5VpIhTpWocsox1n4cM/54r0Ze42gwv+ggAHv/DKLvRK14n2vt9gk8yJz6jf94WWo1C/g
+         AvcIMHap0L4XMP8AmIVH/Sz2CbMxEIu1oRDINdf5UMDrx9aIBtucypKvoe6eT6FTFiLo
+         j7eQ==
+X-Gm-Message-State: AGi0PuYbqVDiYX449PxnQqTA+6O/lBNtNSxPthB6qTeK6puSd4v3blPH
+        NEa0WlzxmVQU59Wk1AALhkWwlYb5
+X-Google-Smtp-Source: APiQypKtQyEgNh58ni0ovy2jVpR3dc7TEccd1Z071GjbZqt59NIctX8jyj1HZRyg/Uuy9PaODkOlWw==
+X-Received: by 2002:a2e:9a54:: with SMTP id k20mr7012405ljj.272.1587058225547;
+        Thu, 16 Apr 2020 10:30:25 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id u19sm12879858lji.61.2020.04.16.10.30.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2020 10:30:24 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] drm/tegra: output: Don't leak OF node on error
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] drm/tegra: output: Don't leak OF node on error
-Message-ID: <20200416172727.GN4796@pendragon.ideasonboard.com>
 References: <20200416172405.5051-1-digetx@gmail.com>
  <20200416172405.5051-2-digetx@gmail.com>
+ <20200416172727.GN4796@pendragon.ideasonboard.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <304a2a58-0031-bf88-6290-e72ab025d8c5@gmail.com>
+Date:   Thu, 16 Apr 2020 20:30:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200416172727.GN4796@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200416172405.5051-2-digetx@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
-
-Thank you for the patch.
-
-On Thu, Apr 16, 2020 at 08:24:04PM +0300, Dmitry Osipenko wrote:
-> The OF node should be put before returning error in tegra_output_probe(),
-> otherwise node's refcount will be leaked.
+16.04.2020 20:27, Laurent Pinchart пишет:
+> Hi Dmitry,
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/tegra/output.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-> index e36e5e7c2f69..a6a711d54e88 100644
-> --- a/drivers/gpu/drm/tegra/output.c
-> +++ b/drivers/gpu/drm/tegra/output.c
-> @@ -102,10 +102,10 @@ int tegra_output_probe(struct tegra_output *output)
->  	panel = of_parse_phandle(output->of_node, "nvidia,panel", 0);
->  	if (panel) {
->  		output->panel = of_drm_find_panel(panel);
-> +		of_node_put(panel);
-> +
->  		if (IS_ERR(output->panel))
->  			return PTR_ERR(output->panel);
-> -
-> -		of_node_put(panel);
->  	}
->  
->  	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
-> @@ -113,13 +113,12 @@ int tegra_output_probe(struct tegra_output *output)
->  	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
->  	if (ddc) {
->  		output->ddc = of_find_i2c_adapter_by_node(ddc);
-> +		of_node_put(ddc);
-> +
->  		if (!output->ddc) {
->  			err = -EPROBE_DEFER;
-> -			of_node_put(ddc);
->  			return err;
->  		}
-> -
-> -		of_node_put(ddc);
->  	}
->  
->  	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
+> On Thu, Apr 16, 2020 at 08:24:04PM +0300, Dmitry Osipenko wrote:
+>> The OF node should be put before returning error in tegra_output_probe(),
+>> otherwise node's refcount will be leaked.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
--- 
-Regards,
+Hello Laurent,
 
-Laurent Pinchart
+That is the fastest kernel review I ever got, thank you :)
