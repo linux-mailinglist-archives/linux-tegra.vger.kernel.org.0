@@ -2,81 +2,266 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12FDA1AD17F
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 22:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 409121AD1AA
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 23:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728243AbgDPUua (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 16:50:30 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35012 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgDPUu3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 16:50:29 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 577CA97D;
-        Thu, 16 Apr 2020 22:50:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587070224;
-        bh=+3HruF7BWI3dgo7B6OhbPOuvAroBWE8pf/TumbaPCNE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GOwCpuEhOVC5GevTvJXEoi/Qk7P1KlX897QfWZMYhfj4ComYApD7KvhqkllmU19mP
-         QldRhosz0iZgv73AxKq3hbxz4Q1RDTJXLXX0uV0Pc3hFo4bxYuDTfakUEaiF0aWeID
-         T94H6CCO0JaBNJsP6wmSzCTC6+UjjieK9mSOxKwQ=
-Date:   Thu, 16 Apr 2020 23:50:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder
- bridge
-Message-ID: <20200416205012.GA28162@pendragon.ideasonboard.com>
-References: <20200416172405.5051-1-digetx@gmail.com>
- <20200416172405.5051-3-digetx@gmail.com>
- <20200416174112.GS4796@pendragon.ideasonboard.com>
- <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
- <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
+        id S1728134AbgDPVDN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Apr 2020 17:03:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43740 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726320AbgDPVDN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 16 Apr 2020 17:03:13 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 746E522202;
+        Thu, 16 Apr 2020 21:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587070991;
+        bh=AWOEVk56lIsRUxVQRPyTZEvG11RZxuh/vr2RhTlLGD4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ko9mrQcHlyPTKydNkO0FBl2I/cve3riHVAl/dEdYpM5QejULPUa/9M0RtqFUF1BPy
+         ki84B6VAl+UrWQpWN1+AhBfMqRk+2Z6Y+6122CjCZu9visr0b+wT1H56X8JlKLQ8HG
+         wf6w6niqlaKNvgjYVb480dQKZbhxpD/Hga/ZDRk8=
+Received: by mail-qt1-f179.google.com with SMTP id b10so130060qtt.9;
+        Thu, 16 Apr 2020 14:03:11 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZ2Kf8InUPqsv/CMQYhHPQSw3NJatpXV+8idj9n8r0trnVLrdrM
+        m479VP6gxgtzHzG6NShiC7U2DZAtJt0JYHtFYw==
+X-Google-Smtp-Source: APiQypJ9CPStA21dmEG4Pw+wkQToBwzb9UsuS9u7k0jxZmYkIMgnueVRGpvhBIMIR23CbNLC4h4N2QH9F4ePINdwkG0=
+X-Received: by 2002:ac8:4907:: with SMTP id e7mr28698015qtq.300.1587070990286;
+ Thu, 16 Apr 2020 14:03:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
+References: <20200117230855.25567-1-robh@kernel.org>
+In-Reply-To: <20200117230855.25567-1-robh@kernel.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 16 Apr 2020 16:02:58 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLDsoJteGC6BRMFvPZ0pekOU71eUNQUqh74we_BB7RZ_g@mail.gmail.com>
+Message-ID: <CAL_JsqLDsoJteGC6BRMFvPZ0pekOU71eUNQUqh74we_BB7RZ_g@mail.gmail.com>
+Subject: Re: [PATCH] arm: tegra: dts: Kill off "simple-panel" compatibles
+To:     devicetree@vger.kernel.org,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
+On Fri, Jan 17, 2020 at 5:08 PM Rob Herring <robh@kernel.org> wrote:
+>
+> "simple-panel" is a Linux driver and has never been an accepted upstream
+> compatible string, so remove it.
+>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: linux-tegra@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-On Thu, Apr 16, 2020 at 11:21:40PM +0300, Dmitry Osipenko wrote:
-> 16.04.2020 21:52, Dmitry Osipenko пишет:
-> ...
-> >> May I also recommend switching to the DRM panel bridge helper ? It will
-> >> simplify the code.
-> > 
-> > Could you please clarify what is the "DRM panel bridge helper"?
-> > 
-> > I think we won't need any additional helpers after switching to the
-> > bridge connector helper, no?
-> 
-> Actually, I now see that the panel needs to be manually attached to the
-> connector.
+Ping. This never got picked up.
 
-The DRM panel bridge helper creates a bridge from a panel (with
-devm_drm_panel_bridge_add()). You can then attach that bridge to the
-chain, like any other bridge, and the enable/disable operations will be
-called automatically without any need to call the panel enable/disable
-manually as done currently.
-
-> Still it's not apparent to me how to get panel out of the bridge. It
-> looks like there is no such "panel helper" for the bridge API or I just
-> can't find it.
-
-You don't need to get a panel out of the bridge. You should get the
-bridge as done today, and wrap it in a bridge with
-devm_drm_panel_bridge_add().
-
--- 
-Regards,
-
-Laurent Pinchart
+> ---
+>  arch/arm/boot/dts/tegra114-dalmore.dts         | 3 +--
+>  arch/arm/boot/dts/tegra124-venice2.dts         | 2 +-
+>  arch/arm/boot/dts/tegra20-colibri-eval-v3.dts  | 2 +-
+>  arch/arm/boot/dts/tegra20-colibri-iris.dts     | 2 +-
+>  arch/arm/boot/dts/tegra20-harmony.dts          | 2 +-
+>  arch/arm/boot/dts/tegra20-medcom-wide.dts      | 2 +-
+>  arch/arm/boot/dts/tegra20-paz00.dts            | 2 +-
+>  arch/arm/boot/dts/tegra20-seaboard.dts         | 2 +-
+>  arch/arm/boot/dts/tegra20-ventana.dts          | 2 +-
+>  arch/arm/boot/dts/tegra30-apalis-eval.dts      | 2 +-
+>  arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts | 2 +-
+>  arch/arm/boot/dts/tegra30-cardhu.dtsi          | 2 +-
+>  arch/arm/boot/dts/tegra30-colibri-eval-v3.dts  | 2 +-
+>  arch/arm64/boot/dts/nvidia/tegra132-norrin.dts | 2 +-
+>  14 files changed, 14 insertions(+), 15 deletions(-)
+>
+> diff --git a/arch/arm/boot/dts/tegra114-dalmore.dts b/arch/arm/boot/dts/tegra114-dalmore.dts
+> index 97a5c3504bbe..8e48792ecdc8 100644
+> --- a/arch/arm/boot/dts/tegra114-dalmore.dts
+> +++ b/arch/arm/boot/dts/tegra114-dalmore.dts
+> @@ -46,8 +46,7 @@
+>                         avdd-dsi-csi-supply = <&avdd_1v2_reg>;
+>
+>                         panel@0 {
+> -                               compatible = "panasonic,vvx10f004b00",
+> -                                            "simple-panel";
+> +                               compatible = "panasonic,vvx10f004b00";
+>                                 reg = <0>;
+>
+>                                 power-supply = <&avdd_lcd_reg>;
+> diff --git a/arch/arm/boot/dts/tegra124-venice2.dts b/arch/arm/boot/dts/tegra124-venice2.dts
+> index 7309393bfced..9004fb6dcede 100644
+> --- a/arch/arm/boot/dts/tegra124-venice2.dts
+> +++ b/arch/arm/boot/dts/tegra124-venice2.dts
+> @@ -1087,7 +1087,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "lg,lp129qe", "simple-panel";
+> +               compatible = "lg,lp129qe";
+>
+>                 backlight = <&backlight>;
+>                 ddc-i2c-bus = <&dpaux>;
+> diff --git a/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts b/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts
+> index 3c0f2681fcde..37ad508b61d9 100644
+> --- a/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts
+> +++ b/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts
+> @@ -223,7 +223,7 @@
+>                  * edt,et057090dhu: EDT 5.7" LCD TFT
+>                  * edt,et070080dh6: EDT 7.0" LCD TFT
+>                  */
+> -               compatible = "edt,et057090dhu", "simple-panel";
+> +               compatible = "edt,et057090dhu";
+>                 backlight = <&backlight>;
+>                 power-supply = <&reg_3v3>;
+>         };
+> diff --git a/arch/arm/boot/dts/tegra20-colibri-iris.dts b/arch/arm/boot/dts/tegra20-colibri-iris.dts
+> index d8004d68efa0..af4740847769 100644
+> --- a/arch/arm/boot/dts/tegra20-colibri-iris.dts
+> +++ b/arch/arm/boot/dts/tegra20-colibri-iris.dts
+> @@ -205,7 +205,7 @@
+>                  * edt,et057090dhu: EDT 5.7" LCD TFT
+>                  * edt,et070080dh6: EDT 7.0" LCD TFT
+>                  */
+> -               compatible = "edt,et057090dhu", "simple-panel";
+> +               compatible = "edt,et057090dhu";
+>                 backlight = <&backlight>;
+>                 power-supply = <&reg_3v3>;
+>         };
+> diff --git a/arch/arm/boot/dts/tegra20-harmony.dts b/arch/arm/boot/dts/tegra20-harmony.dts
+> index 1d96d92b72a7..02cd67ea2503 100644
+> --- a/arch/arm/boot/dts/tegra20-harmony.dts
+> +++ b/arch/arm/boot/dts/tegra20-harmony.dts
+> @@ -665,7 +665,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "auo,b101aw03", "simple-panel";
+> +               compatible = "auo,b101aw03";
+>
+>                 power-supply = <&vdd_pnl_reg>;
+>                 enable-gpios = <&gpio TEGRA_GPIO(B, 2) GPIO_ACTIVE_HIGH>;
+> diff --git a/arch/arm/boot/dts/tegra20-medcom-wide.dts b/arch/arm/boot/dts/tegra20-medcom-wide.dts
+> index cda5448c2ace..c73510cd501c 100644
+> --- a/arch/arm/boot/dts/tegra20-medcom-wide.dts
+> +++ b/arch/arm/boot/dts/tegra20-medcom-wide.dts
+> @@ -57,7 +57,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "innolux,n156bge-l21", "simple-panel";
+> +               compatible = "innolux,n156bge-l21";
+>
+>                 power-supply =  <&vdd_1v8_reg>, <&vdd_3v3_reg>;
+>                 enable-gpios = <&gpio TEGRA_GPIO(B, 2) GPIO_ACTIVE_HIGH>;
+> diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
+> index 85fce5bc72d6..0151cdd09ffb 100644
+> --- a/arch/arm/boot/dts/tegra20-paz00.dts
+> +++ b/arch/arm/boot/dts/tegra20-paz00.dts
+> @@ -558,7 +558,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "samsung,ltn101nt05", "simple-panel";
+> +               compatible = "samsung,ltn101nt05";
+>
+>                 ddc-i2c-bus = <&lvds_ddc>;
+>                 power-supply = <&vdd_pnl_reg>;
+> diff --git a/arch/arm/boot/dts/tegra20-seaboard.dts b/arch/arm/boot/dts/tegra20-seaboard.dts
+> index f91441683aad..376ecb6435f4 100644
+> --- a/arch/arm/boot/dts/tegra20-seaboard.dts
+> +++ b/arch/arm/boot/dts/tegra20-seaboard.dts
+> @@ -826,7 +826,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "chunghwa,claa101wa01a", "simple-panel";
+> +               compatible = "chunghwa,claa101wa01a";
+>
+>                 power-supply = <&vdd_pnl_reg>;
+>                 enable-gpios = <&gpio TEGRA_GPIO(B, 2) GPIO_ACTIVE_HIGH>;
+> diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
+> index f44551e2d9d0..022649119821 100644
+> --- a/arch/arm/boot/dts/tegra20-ventana.dts
+> +++ b/arch/arm/boot/dts/tegra20-ventana.dts
+> @@ -611,7 +611,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "chunghwa,claa101wa01a", "simple-panel";
+> +               compatible = "chunghwa,claa101wa01a";
+>
+>                 power-supply = <&vdd_pnl_reg>;
+>                 enable-gpios = <&gpio TEGRA_GPIO(B, 2) GPIO_ACTIVE_HIGH>;
+> diff --git a/arch/arm/boot/dts/tegra30-apalis-eval.dts b/arch/arm/boot/dts/tegra30-apalis-eval.dts
+> index 749fc6d1ff70..b39c26806bf2 100644
+> --- a/arch/arm/boot/dts/tegra30-apalis-eval.dts
+> +++ b/arch/arm/boot/dts/tegra30-apalis-eval.dts
+> @@ -195,7 +195,7 @@
+>                  * edt,et057090dhu: EDT 5.7" LCD TFT
+>                  * edt,et070080dh6: EDT 7.0" LCD TFT
+>                  */
+> -               compatible = "edt,et057090dhu", "simple-panel";
+> +               compatible = "edt,et057090dhu";
+>                 backlight = <&backlight>;
+>                 power-supply = <&reg_3v3>;
+>         };
+> diff --git a/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts b/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts
+> index 0be50e881684..e29dca92ba0a 100644
+> --- a/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts
+> +++ b/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts
+> @@ -196,7 +196,7 @@
+>                  * edt,et057090dhu: EDT 5.7" LCD TFT
+>                  * edt,et070080dh6: EDT 7.0" LCD TFT
+>                  */
+> -               compatible = "edt,et057090dhu", "simple-panel";
+> +               compatible = "edt,et057090dhu";
+>                 backlight = <&backlight>;
+>                 power-supply = <&reg_3v3>;
+>         };
+> diff --git a/arch/arm/boot/dts/tegra30-cardhu.dtsi b/arch/arm/boot/dts/tegra30-cardhu.dtsi
+> index 7ce61edd52f5..9048fdf4ad54 100644
+> --- a/arch/arm/boot/dts/tegra30-cardhu.dtsi
+> +++ b/arch/arm/boot/dts/tegra30-cardhu.dtsi
+> @@ -432,7 +432,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "chunghwa,claa101wb01", "simple-panel";
+> +               compatible = "chunghwa,claa101wb01";
+>                 ddc-i2c-bus = <&panelddc>;
+>
+>                 power-supply = <&vdd_pnl1_reg>;
+> diff --git a/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts b/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
+> index 5965150ecdd2..8e106e784dce 100644
+> --- a/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
+> +++ b/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
+> @@ -159,7 +159,7 @@
+>                  * edt,et057090dhu: EDT 5.7" LCD TFT
+>                  * edt,et070080dh6: EDT 7.0" LCD TFT
+>                  */
+> -               compatible = "edt,et057090dhu", "simple-panel";
+> +               compatible = "edt,et057090dhu";
+>                 backlight = <&backlight>;
+>                 power-supply = <&reg_3v3>;
+>         };
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts b/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
+> index a0385a386a3f..9f3206c63900 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
+> +++ b/arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
+> @@ -990,7 +990,7 @@
+>         };
+>
+>         panel: panel {
+> -               compatible = "innolux,n116bge", "simple-panel";
+> +               compatible = "innolux,n116bge";
+>                 backlight = <&backlight>;
+>                 ddc-i2c-bus = <&dpaux>;
+>         };
+> --
+> 2.20.1
+>
