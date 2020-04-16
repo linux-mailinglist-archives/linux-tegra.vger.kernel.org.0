@@ -2,116 +2,245 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 513331ACFF4
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 20:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB5FF1AD074
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 21:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727833AbgDPSwb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 14:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727796AbgDPSwb (ORCPT
+        id S1731263AbgDPTjB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Apr 2020 15:39:01 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4671 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgDPTjA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 14:52:31 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B25F0C061A0C
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Apr 2020 11:52:30 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id m2so6402634lfo.6
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Apr 2020 11:52:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=py7oEgmRCooYj2CPRnKMi71cKEMq2nTHeaImBJf9BbU=;
-        b=LfN9BJrMTXYSHJ48+TPTF6hqH79k99zTWSxz5JYksutzuqfV1AyeGkj3fhJEyGPdJR
-         vqYxFUvHhk1D+dLL+M9NDKjWrBwhl155TAs09Dq9UfqqjzgdP8IUL5mu2ojmcdKfNQ9S
-         B71TdsaBTF3ITggGDIbL16Bl+m296H068j8rK5lyzgwGhciXYEyhL0VGJ6I8suD2o8KE
-         n9386adRUObZDWjrsdt5uuATd6JWfo4E/SWvzaQ9d08lHa70BFaCCIUAFbkVAlCUV82M
-         0A3rkQD2qvhO1f9SRl3HCTmxd1n1JWZsPOjKga038TJXS04isBlwBa4fKeG6W5Vkfysc
-         TwuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=py7oEgmRCooYj2CPRnKMi71cKEMq2nTHeaImBJf9BbU=;
-        b=R8mp+YiMS8oEjnjofSt5FONRWCN7QM4/W/dulffrhirpi9P9kXwvMpFnmjaoeSTu26
-         Gl9t/l9HcGWaEqe1cLCJ9ARrANB2ALQLVX3iOJp7JPRk2+usyyNrRImuIgDrTMp732ok
-         xi+9Fpe1gjCFmGDZyPv4ngCz6lme6qceUukZl3qr0Nvo0ouox1rkDHvFq+VVh7yKWmXe
-         o5rm/sHQsl98vjX6uUO5PU9W2N9mg9OaOGS7k1B6ndCNk4Fim9airSYdlr717z/qMPoC
-         FJ6QN0ls2enHpEeyo0gMyFPL2NNa/OKAfmZtg9UO7aIZ1ArN5KuwD0CnFdMBzMx5cPD5
-         zIIg==
-X-Gm-Message-State: AGi0Pubs/kOXwULxxjGGm4OIQ7+6cP8ZpryqavgPP1qmJIH7AwTN+hqT
-        LRVCPJUUky8AxkDbVaaI/qpZNd78
-X-Google-Smtp-Source: APiQypJRhEE+vxpkY0spXrvTzGYMIa/BcafeIvcF8eO3lirtSeQl6gSTQYW/8N1v3nvnWCNscNfg5g==
-X-Received: by 2002:ac2:5f73:: with SMTP id c19mr7087040lfc.29.1587063148827;
-        Thu, 16 Apr 2020 11:52:28 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id l18sm363987ljg.98.2020.04.16.11.52.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Apr 2020 11:52:27 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder
- bridge
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20200416172405.5051-1-digetx@gmail.com>
- <20200416172405.5051-3-digetx@gmail.com>
- <20200416174112.GS4796@pendragon.ideasonboard.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
-Date:   Thu, 16 Apr 2020 21:52:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 16 Apr 2020 15:39:00 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e98b3e40000>; Thu, 16 Apr 2020 12:37:08 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 16 Apr 2020 12:38:59 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 16 Apr 2020 12:38:59 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
+ 2020 19:38:58 +0000
+Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
+ 2020 19:38:56 +0000
+Subject: Re: [PATCH v2 1/2] sdhci: tegra: Implement Tegra specific set_timeout
+ callback
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>
+CC:     Adrian Hunter <adrian.hunter@intel.com>,
+        "(Exiting) Baolin Wang" <baolin.wang@linaro.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bradley Bolen <bradleybolen@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "Jon Hunter" <jonathanh@nvidia.com>,
+        Aniruddha Tvs Rao <anrao@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        <lkft-triage@lists.linaro.org>,
+        linux- stable <stable@vger.kernel.org>
+References: <1583886030-11339-1-git-send-email-skomatineni@nvidia.com>
+ <CA+G9fYvreAv5HmZg0O4VvLvf_PYSvzD1rp08XONNQGExctgQ0Q@mail.gmail.com>
+ <CAPDyKFpZEiqTdD6O-y6Sw7ifXF__MHAv0zKT=RFKs+Fmvr-K_Q@mail.gmail.com>
+ <753ec108-858c-660e-af0a-f57922134609@nvidia.com>
+Message-ID: <512441d1-a9ba-912f-ed2e-46edad22278b@nvidia.com>
+Date:   Thu, 16 Apr 2020 12:38:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200416174112.GS4796@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <753ec108-858c-660e-af0a-f57922134609@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587065828; bh=yof6X6rV69zuRCOOErruqXvyViu+DLoQF5o7Ja8s66o=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=nx/sEQY+aDNWeB+UH9SVf4IMJhj910xm0DhgM0XdemImrdQv0A04QyPTOPdrZbaaH
+         kxnwowMfDRxaDAXfjlBIN56Ksg4YOy0uHTn+Ff+54UY32A742M+O2swtVcaWtp70jL
+         8yJ3vKw6Bmf/hWcyvzNUod5vb3v0zecv060Gp4ALmrr1Vv93BkIBOwseiP8Tqf3SBJ
+         Exu5XAg/WXdX8ohkyIosK39pbcNKy691oBACr3DkcpQj+2BOxAdly1Q6TnJZlKTG4B
+         +Zx9Hih3bZA0jbT1I9flwKbyKKSEpHlO+QPHfjAtnG64RCKLGZrg75TMKkHTK2+Wu0
+         BzlNhlF/6MrSQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.04.2020 20:41, Laurent Pinchart пишет:
-...
->> +	if (output->bridge) {
->> +		err = drm_bridge_attach(&output->encoder, output->bridge,
->> +					NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> 
-> Using DRM_BRIDGE_ATTACH_NO_CONNECTOR is definitely the way to go, but
-> please be aware that it will require creating a connector and an encoder
-> manually (which I think this driver already does), and using the bridge
-> operations to implement the connector operations. I highly recommend
-> using the DRM bridge connector helper for this purpose.
 
-Okay, I missed that there is a DRM bridge connector helper. Thank you
-very much for the suggestion, I'll switch to the bridge helper in v4.
+On 4/16/20 9:29 AM, Sowjanya Komatineni wrote:
+>
+> On 4/16/20 3:59 AM, Ulf Hansson wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On Wed, 15 Apr 2020 at 19:55, Naresh Kamboju=20
+>> <naresh.kamboju@linaro.org> wrote:
+>>> On Fri, 13 Mar 2020 at 06:41, Sowjanya Komatineni
+>>> <skomatineni@nvidia.com> wrote:
+>>>> Tegra host supports HW busy detection and timeouts based on the
+>>>> count programmed in SDHCI_TIMEOUT_CONTROL register and max busy
+>>>> timeout it supports is 11s in finite busy wait mode.
+>>>>
+>>>> Some operations like SLEEP_AWAKE, ERASE and flush cache through
+>>>> SWITCH commands take longer than 11s and Tegra host supports
+>>>> infinite HW busy wait mode where HW waits forever till the card
+>>>> is busy without HW timeout.
+>>>>
+>>>> This patch implements Tegra specific set_timeout sdhci_ops to allow
+>>>> switching between finite and infinite HW busy detection wait modes
+>>>> based on the device command expected operation time.
+>>>>
+>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>> ---
+>>>> =C2=A0 drivers/mmc/host/sdhci-tegra.c | 31 +++++++++++++++++++++++++++=
+++++
+>>>> =C2=A0 1 file changed, 31 insertions(+)
+>>>>
+>>>> diff --git a/drivers/mmc/host/sdhci-tegra.c=20
+>>>> b/drivers/mmc/host/sdhci-tegra.c
+>>>> index a25c3a4..fa8f6a4 100644
+>>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>>> @@ -45,6 +45,7 @@
+>>>> =C2=A0 #define SDHCI_TEGRA_CAP_OVERRIDES_DQS_TRIM_SHIFT=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 8
+>>>>
+>>>> =C2=A0 #define SDHCI_TEGRA_VENDOR_MISC_CTRL 0x120
+>>>> +#define SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT BIT(0)
+>>>> =C2=A0 #define SDHCI_MISC_CTRL_ENABLE_SDR104=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 0x8
+>>>> =C2=A0 #define SDHCI_MISC_CTRL_ENABLE_SDR50 0x10
+>>>> =C2=A0 #define SDHCI_MISC_CTRL_ENABLE_SDHCI_SPEC_300 0x20
+>>>> @@ -1227,6 +1228,34 @@ static u32 sdhci_tegra_cqhci_irq(struct=20
+>>>> sdhci_host *host, u32 intmask)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>> =C2=A0 }
+>>>>
+>>>> +static void tegra_sdhci_set_timeout(struct sdhci_host *host,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct mmc_com=
+mand *cmd)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 val;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * HW busy detection timeou=
+t is based on programmed data=20
+>>>> timeout
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * counter and maximum supp=
+orted timeout is 11s which may=20
+>>>> not be
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * enough for long operatio=
+ns like cache flush, sleep=20
+>>>> awake, erase.
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * ERASE_TIMEOUT_LIMIT bit =
+of VENDOR_MISC_CTRL register allows
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * host controller to wait =
+for busy state until the card is=20
+>>>> busy
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * without HW timeout.
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * So, use infinite busy wa=
+it mode for operations that may=20
+>>>> take
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * more than maximum HW bus=
+y timeout of 11s otherwise use=20
+>>>> finite
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * busy wait mode.
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D sdhci_readl(host, SDHCI_=
+TEGRA_VENDOR_MISC_CTRL);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (cmd && cmd->busy_timeout >=
+=3D 11 * HZ)
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 val |=3D SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 val &=3D ~SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sdhci_writel(host, val, SDHCI_TE=
+GRA_VENDOR_MISC_CTRL);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __sdhci_set_timeout(host, cmd);
+>>> kernel build on arm and arm64 architecture failed on stable-rc 4.19
+>>> (arm), 5.4 (arm64) and 5.5 (arm64)
+>>>
+>>> drivers/mmc/host/sdhci-tegra.c: In function 'tegra_sdhci_set_timeout':
+>>> drivers/mmc/host/sdhci-tegra.c:1256:2: error: implicit declaration of
+>>> function '__sdhci_set_timeout'; did you mean
+>>> 'tegra_sdhci_set_timeout'? [-Werror=3Dimplicit-function-declaration]
+>>> =C2=A0=C2=A0 __sdhci_set_timeout(host, cmd);
+>>> =C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~
+>>> =C2=A0=C2=A0 tegra_sdhci_set_timeout
+>>>
+>>> Full build log,
+>>> https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-5=
+.5/DISTRO=3Dlkft,MACHINE=3Dam57xx-evm,label=3Ddocker-lkft/83/consoleText=20
+>>>
+>>> https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-5=
+.4/DISTRO=3Dlkft,MACHINE=3Djuno,label=3Ddocker-lkft/158/consoleText=20
+>>>
+>>> https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-4=
+.19/DISTRO=3Dlkft,MACHINE=3Dam57xx-evm,label=3Ddocker-lkft/511/consoleText=
+=20
+>>>
+>>>
+>>> - Naresh
+>> Thanks for reporting! What a mess.
+>>
+>> It turns out that the commit that was queued for stable that is
+>> causing the above errors, also requires another commit.
+>>
+>> The commit that was queued:
+>> 5e958e4aacf4 ("sdhci: tegra: Implement Tegra specific set_timeout=20
+>> callback")
+>>
+>> The additional commit needed (which was added in v5.6-rc1):
+>> 7d76ed77cfbd ("mmc: sdhci: Refactor sdhci_set_timeout()")
+>>
+>> However, the above commit needs a manual backport (quite trivial, but
+>> still) for the relevant stable kernels, to allow it to solve the build
+>> problems.
+>>
+>> Greg, Sasha - I suggest you to drop the offending commit from the
+>> stable kernels, for now. I think it's better to let Sowjanya deal with
+>> the backports, then send them in small series instead.
+>>
+>> Kind regards
+>> Uffe
+>
+> Hi Ufee,
+>
+> Will back-porting below commit cause any issues to other vendors?
+>
+> 7d76ed77cfbd ("mmc: sdhci: Refactor sdhci_set_timeout()")
+>
+sdhci-tegra driver in 4.19 is using same sdhci_ops for Tegra114 and=20
+Tegra210 and separate sdhci_ops for T210 started from 4.20.
 
->> +		if (err) {
->> +			dev_err(output->dev, "cannot connect bridge: %d\n",
->> +				err);
->> +			return err;
->> +		}
->> +	}
->> +
->>  	if (output->panel) {
-> 
-> May I also recommend switching to the DRM panel bridge helper ? It will
-> simplify the code.
+5e958e4aacf4 ("sdhci: tegra: Implement Tegra specific set_timeout callback"=
+)
 
-Could you please clarify what is the "DRM panel bridge helper"?
+So above commit can't be applied to 4.19. So probably a separate patch=20
+need to be created to apply for 4.19 and back port above commit along=20
+with its dependency commit (7d76ed77cfbd ("mmc: sdhci: Refactor=20
+sdhci_set_timeout()") for 5.4 and 5.4.
 
-I think we won't need any additional helpers after switching to the
-bridge connector helper, no?
 
-...
->> +		np = of_graph_get_remote_node(rgb->output.bridge->of_node,
->> +					      panel_port, -1);
-> 
-> This shouldn't be needed, the LVDS codec bridge driver should already
-> get the panel and handle it internally. You only need to handle panels
-> in this driver when they're connected directly to the RGB input.
-
-Indeed, it won't be needed if we will use the bridge connector helper.
-Thank you very much for the clarifications!
+> Thanks
+Sowjanya
+>
