@@ -2,248 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 078B41ABA10
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 09:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D55741ABD32
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 11:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439401AbgDPHe6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 03:34:58 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9968 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438944AbgDPHe4 (ORCPT
+        id S2504186AbgDPJqx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Apr 2020 05:46:53 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42084 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2504172AbgDPJqt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 03:34:56 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e980a320000>; Thu, 16 Apr 2020 00:33:06 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 16 Apr 2020 00:34:56 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 16 Apr 2020 00:34:56 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
- 2020 07:34:56 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 16 Apr 2020 07:34:55 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e980a9d0002>; Thu, 16 Apr 2020 00:34:55 -0700
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [PATCH V1 4/4] usb: gadget: tegra-xudc: add port_speed_quirk
-Date:   Thu, 16 Apr 2020 13:04:20 +0530
-Message-ID: <1587022460-31988-5-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
-References: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        Thu, 16 Apr 2020 05:46:49 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m18so2530127otq.9;
+        Thu, 16 Apr 2020 02:46:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RM/nTDzMiJT/jjtvKRl0rtdDn36SiM29khhvLS3Fy9U=;
+        b=Xccck0PlJztAKzkOSS8HtUFqxL1IblHjJXccTmztJ0vL0ZAKoUxiptOtLUQQ/47P0X
+         FFjXZgHOu+GQ3OUTwKRERci9fnF2M6M4ztzkjQHC+SKl8l948nSFRcIfgUoM5Db9NqVB
+         9182lSVlbXYnMtZ2TUe2e3l33hZ/LW+DedQiIIOv636gRoOyskpMDdAOMMtAmr6OIMdY
+         GSQWa4IrDsOlh9iopemdCLMrsuqCj2RA84KJj22hOXJTwYPZ3FrYn2j1ma2lWE92w1Dp
+         jNY7JyXABwnH7zMbg44B8dP7DUx3rjv4jZYxScLVI3TD1eJwIgBOz3JPKsmtkW3S7wOD
+         wJ2w==
+X-Gm-Message-State: AGi0PuYF9yaPBC+PfS6B3fT7Dvi90QoRNgOGYna65I3FF73VVWeK9Vtw
+        ssmgGtFC3dAoEOeJr8jAm0PDv+xvE61mV88kvYE=
+X-Google-Smtp-Source: APiQypIl3DcyhF0BNQx8p7xql+qmz/EnqLfrFLnv69mUOw78OJnDaQgEns2mc5nF+ZGDxENyc+UKCUv1ihzy5/CmGB4=
+X-Received: by 2002:a9d:6299:: with SMTP id x25mr20179548otk.107.1587030408635;
+ Thu, 16 Apr 2020 02:46:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587022386; bh=naqEuQE4k8cFdiWBVAPEQm5vMjpwh+WbGHA3Ol+AaAk=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=opxz6HfZIJWYEIzeiI+X7Lf9binF1dK6DgrdR6jS/Sz7lBx8q+i/xCtnL1tBqy/Ap
-         GMB/TsL77Nk12pl2qFZ9mWQu1jLSemwa6h/yf3UVgO1yR7z/cubFoJFUAn2h9mze1U
-         r2QQUb6OaNFSH/mqE2Bo6cwyHS+K3yzuRbAU7PmHcbkGRuOS2IRzyeDlAVC6hU3KlE
-         6ARbenruqp8FkcrrmeHV0n2kn8cNGaaTYILhsiINxEWLxiOqVFCl4ZqyOp6RKM1h+T
-         Pe6tkFu5GjEBNZ4wMiUBHBEtOiZgfOdFeSs4yO7+k+iwhsAUASULu3vFgRJSllfo99
-         weKekPQt/qXeQ==
+References: <cover.1586946605.git.mchehab+huawei@kernel.org> <221ac8f88034bb55c7029c162c0273eccd6b6480.1586946605.git.mchehab+huawei@kernel.org>
+In-Reply-To: <221ac8f88034bb55c7029c162c0273eccd6b6480.1586946605.git.mchehab+huawei@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 16 Apr 2020 11:46:37 +0200
+Message-ID: <CAMuHMdXuq0SVUUE3gN5sF2pPaHfhQXX8JsXaR6+qXdnBXVikHg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] media: move CEC platform drivers to a separate directory
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add port_speed_quirk that modify below registers to limit/restore OTG
-port speed to GEN1/GEN2.
-SSPX_CORE_CNT56
-SSPX_CORE_CNT57
-SSPX_CORE_CNT65
-SSPX_CORE_CNT66
-SSPX_CORE_CNT67
-SSPX_CORE_CNT72
+Hi Mauro,
 
-The basic idea is to make SCD intentionally fail, reduce SCD timeout and
-force device transit to TSEQ. Enable this flag to only Tegra194.
+On Wed, Apr 15, 2020 at 12:32 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> As CEC support doesn't depend on MEDIA_SUPPORT, let's
+> place the platform drivers outside the media menu.
 
-Based on work by WayneChang <waynec@nvidia.com>
+Thanks for your patch!
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 106 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 106 insertions(+)
+> As a side effect, instead of depends on PCI, seco driver
+> can select it (and DMI).
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index fb01117..63484f98 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -158,6 +158,30 @@
- #define  SSPX_CORE_CNT32_POLL_TBURST_MAX_MASK GENMASK(7, 0)
- #define  SSPX_CORE_CNT32_POLL_TBURST_MAX(x) ((x) & \
- 					SSPX_CORE_CNT32_POLL_TBURST_MAX_MASK)
-+#define SSPX_CORE_CNT56 0x6fc
-+#define  SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX_MASK GENMASK(19, 0)
-+#define  SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX(x) ((x) & \
-+				SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX_MASK)
-+#define SSPX_CORE_CNT57 0x700
-+#define  SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX_MASK GENMASK(19, 0)
-+#define  SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX(x) ((x) & \
-+				SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX_MASK)
-+#define SSPX_CORE_CNT65 0x720
-+#define  SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID_MASK GENMASK(19, 0)
-+#define  SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID(x) ((x) & \
-+				SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID_MASK)
-+#define SSPX_CORE_CNT66 0x724
-+#define  SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID_MASK GENMASK(19, 0)
-+#define  SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID(x) ((x) & \
-+				SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID_MASK)
-+#define SSPX_CORE_CNT67 0x728
-+#define  SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID_MASK GENMASK(19, 0)
-+#define  SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID(x) ((x) & \
-+				SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID_MASK)
-+#define SSPX_CORE_CNT72 0x73c
-+#define  SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT_MASK GENMASK(19, 0)
-+#define  SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT(x) ((x) & \
-+				SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT_MASK)
- #define SSPX_CORE_PADCTL4 0x750
- #define  SSPX_CORE_PADCTL4_RXDAT_VLD_TIMEOUT_U3_MASK GENMASK(19, 0)
- #define  SSPX_CORE_PADCTL4_RXDAT_VLD_TIMEOUT_U3(x) ((x) & \
-@@ -530,6 +554,7 @@ struct tegra_xudc_soc {
- 	bool invalid_seq_num;
- 	bool pls_quirk;
- 	bool port_reset_quirk;
-+	bool port_speed_quirk;
- 	bool has_ipfs;
- };
- 
-@@ -599,6 +624,78 @@ static inline void dump_trb(struct tegra_xudc *xudc, const char *type,
- 		trb->control);
- }
- 
-+static void tegra_xudc_limit_port_speed(struct tegra_xudc *xudc)
-+{
-+	u32 val;
-+
-+	/* limit port speed to gen 1 */
-+	val = xudc_readl(xudc, SSPX_CORE_CNT56);
-+	val &= ~(SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX_MASK);
-+	val |= SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX(0x260);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT56);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT57);
-+	val &= ~(SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX_MASK );
-+	val |= SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX(0x6D6);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT57);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT65);
-+	val &= ~(SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID_MASK);
-+	val |= SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID(0x4B0);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT66);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT66);
-+	val &= ~(SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID_MASK);
-+	val |= SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID(0x4B0);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT66);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT67);
-+	val &= ~(SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID_MASK);
-+	val |= SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID(0x4B0);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT67);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT72);
-+	val &= ~(SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT_MASK);
-+	val |= SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT(0x10);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT72);
-+}
-+
-+static void tegra_xudc_restore_port_speed(struct tegra_xudc *xudc)
-+{
-+	u32 val;
-+
-+	/* restore port speed to gen2 */
-+	val = xudc_readl(xudc, SSPX_CORE_CNT56);
-+	val &= ~(SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX_MASK);
-+	val |= SSPX_CORE_CNT56_SCD_BIT0_TRPT_MAX(0x438);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT56);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT57);
-+	val &= ~(SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX_MASK );
-+	val |= SSPX_CORE_CNT57_SCD_BIT1_TRPT_MAX(0x528);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT57);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT65);
-+	val &= ~(SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID_MASK);
-+	val |= SSPX_CORE_CNT65_TX_SCD_END_TRPT_MID(0xE10);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT66);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT66);
-+	val &= ~(SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID_MASK);
-+	val |= SSPX_CORE_CNT66_TX_SCD_BIT0_TRPT_MID(0x348);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT66);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT67);
-+	val &= ~(SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID_MASK);
-+	val |= SSPX_CORE_CNT67_TX_SCD_BIT1_TRPT_MID(0x5a0);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT67);
-+
-+	val = xudc_readl(xudc, SSPX_CORE_CNT72);
-+	val &= ~(SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT_MASK);
-+	val |= SSPX_CORE_CNT72_SCD_LFPS_TIMEOUT(0x1c21);
-+	xudc_writel(xudc, val, SSPX_CORE_CNT72);
-+}
-+
- static void tegra_xudc_device_mode_on(struct tegra_xudc *xudc)
- {
- 	int err;
-@@ -631,6 +728,9 @@ static void tegra_xudc_device_mode_off(struct tegra_xudc *xudc)
- 
- 	reinit_completion(&xudc->disconnect_complete);
- 
-+	if (xudc->soc->port_speed_quirk)
-+		tegra_xudc_restore_port_speed(xudc);
-+
- 	phy_set_mode_ext(xudc->curr_utmi_phy, PHY_MODE_USB_OTG, USB_ROLE_NONE);
- 
- 	pls = (xudc_readl(xudc, PORTSC) & PORTSC_PLS_MASK) >>
-@@ -3274,6 +3374,9 @@ static void tegra_xudc_device_params_init(struct tegra_xudc *xudc)
- 		xudc_writel(xudc, val, BLCG);
- 	}
- 
-+	if (xudc->soc->port_speed_quirk)
-+		tegra_xudc_limit_port_speed(xudc);
-+
- 	/* Set a reasonable U3 exit timer value. */
- 	val = xudc_readl(xudc, SSPX_CORE_PADCTL4);
- 	val &= ~(SSPX_CORE_PADCTL4_RXDAT_VLD_TIMEOUT_U3_MASK);
-@@ -3513,6 +3616,7 @@ static struct tegra_xudc_soc tegra210_xudc_soc_data = {
- 	.invalid_seq_num = true,
- 	.pls_quirk = true,
- 	.port_reset_quirk = true,
-+	.port_speed_quirk = false,
- 	.has_ipfs = true,
- };
- 
-@@ -3526,6 +3630,7 @@ static struct tegra_xudc_soc tegra186_xudc_soc_data = {
- 	.invalid_seq_num = false,
- 	.pls_quirk = false,
- 	.port_reset_quirk = false,
-+	.port_speed_quirk = false,
- 	.has_ipfs = false,
- };
- 
-@@ -3539,6 +3644,7 @@ static struct tegra_xudc_soc tegra194_xudc_soc_data = {
- 	.invalid_seq_num = false,
- 	.pls_quirk = false,
- 	.port_reset_quirk = false,
-+	.port_speed_quirk = true,
- 	.has_ipfs = false,
- };
- 
+I don't think that's a good idea, as it suddenly enables selecting all PCI
+drivers on platforms that do not have PCI.
+
+    WARNING: unmet direct dependencies detected for PCI
+      Depends on [n]: HAVE_PCI [=n]
+      Selected by [m]:
+      - CEC_SECO [=m] && MEDIA_CEC_SUPPORT [=y] && (X86 || IA64 ||
+COMPILE_TEST [=y])
+
+However, it already exposed some bugs that were hidden by PCI=n ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
