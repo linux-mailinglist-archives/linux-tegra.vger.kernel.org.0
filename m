@@ -2,113 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3501E1AB956
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 09:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 028151ABA03
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 09:36:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438050AbgDPHGY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 03:06:24 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4641 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437186AbgDPHGU (ORCPT
+        id S2439340AbgDPHeq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Apr 2020 03:34:46 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6231 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438944AbgDPHep (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 03:06:20 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e9803af0000>; Thu, 16 Apr 2020 00:05:19 -0700
+        Thu, 16 Apr 2020 03:34:45 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e980a870001>; Thu, 16 Apr 2020 00:34:31 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 16 Apr 2020 00:06:18 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 16 Apr 2020 00:34:44 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 16 Apr 2020 00:06:18 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+        by hqpgpgate101.nvidia.com on Thu, 16 Apr 2020 00:34:44 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
- 2020 07:06:18 +0000
-Received: from [10.24.37.103] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
- 2020 07:06:14 +0000
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-CC:     <rjw@rjwysocki.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+ 2020 07:34:44 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 16 Apr 2020 07:34:44 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e980a910000>; Thu, 16 Apr 2020 00:34:44 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <bbasu@nvidia.com>,
-        <mperttunen@nvidia.com>, Sumit Gupta <sumitg@nvidia.com>
-References: <20200406025549.qfwzlk3745y3r274@vireshk-i7>
- <3ab4136c-8cca-c2f9-d286-b82dac23e720@nvidia.com>
- <20200408055301.jhvu5bc2luu3b5qr@vireshk-i7>
- <08307e54-0e14-14a3-7d6a-d59e1e04a683@nvidia.com>
- <20200409074415.twpzu2n4frqlde7b@vireshk-i7>
- <00390070-38a1-19aa-ca59-42c4658bee7e@nvidia.com>
- <20200413062141.a6hmwipexhv3sctq@vireshk-i7>
- <64b609f1-efb1-425f-a91a-27a492bd3ec4@nvidia.com>
- <20200414054504.e3qn2cnxqur4sclw@vireshk-i7>
- <d6e0eed6-4267-fca9-59e1-02d16e17ff34@nvidia.com>
- <20200416033715.hscztwkxie2o5i3r@vireshk-i7>
-From:   Sumit Gupta <sumitg@nvidia.com>
-Message-ID: <8ea80551-b47c-3dd5-4efa-6befecc279e1@nvidia.com>
-Date:   Thu, 16 Apr 2020 12:36:30 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [PATCH V1 0/4] Tegra XUDC support on Tegra194 Soc
+Date:   Thu, 16 Apr 2020 13:04:16 +0530
+Message-ID: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200416033715.hscztwkxie2o5i3r@vireshk-i7>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587020719; bh=MEcFP8G3VxgwBAt3A1oRVQWL07CnwPJfWLc3Wywyjpg=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Ym1Zof5kV4ZzNBXuhXOY6pCMuNXLHXbISr+b04QIKvNWYzdvddezwVuXMpid2BF5/
-         dPfkdQNOTOxwvEjv0+wd7hCnNKkb8FlFD8nTuS66Zsv/E+tYrpbTFQtsnTyCM0IHed
-         QJxsYrwBMxHjeNsU7m177c0g4VNPYU5YLdeyBsjHvmbkdksZ0xTbWVzZeIvZXdJgj7
-         qnnuPfvuQoOA+S/MvnDcKQZN5bkim4KueK5S7THIGk9WB1KWKuJPst/htuBdxTdd78
-         SsokaJxGXH+ZdN77GNGGGQ9I3cwDBWGmBrY6dMiePRVUIu9mpDj4o3swCIo5ZHNWFH
-         nsLq+/ogcmUUg==
+        t=1587022471; bh=WGWsXBGjVNAF9MTyr/8Av9p7t7MtwWUDSCVP9RaLjYU=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=Cvry6dAqsoE//M0k5t/Ig/f/O6aNpjTasH5/9RZxrnFQLm9Zb2qXn1LHK8VHzBT9U
+         hUlLfwRqhu7iGm17G70Yu6C8TP3StMEB+cMSbFsFFusG0VKLTl3jluSqhl0yFaK3k7
+         XneTv3btVWvmR8KAIdwhxwU+ezxHc8SvWncsVH4CTca0NysFXSPn8fovumLdEtcN4o
+         JI22c1TZOpJlMvCvg6wEIhXh0EurT7uJ9sUi7neh8EvHiBobsryQ3pUWO/rwCqfy3F
+         B2oL7ocn+ruL+28aSLXQXScvEzDH1IzWRvbCEJmUw+eIlg/oiMt8rsyBMAIm39z1Ea
+         SoLNJjhTg97iw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This patch series adds support for XUSB Device Mode support on Tegra194 SoCs.
 
+This patchset is composed with:
+ - dt bindings of XUDC driver.
+ - dt changes to add xudc node on Tegra194 Soc.
+ - USB driver changes to tegra-xudc to add support on Tegra194 Soc. 
 
-On 16/04/20 9:07 AM, Viresh Kumar wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> On 15-04-20, 16:55, Sumit Gupta wrote:
->>
->>
->> On 14/04/20 11:15 AM, Viresh Kumar wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> On 13-04-20, 17:50, Sumit Gupta wrote:
->>>> This was done considering long delay value as explained previously.
->>>> Do you think that smp_call_function_single() would be better than work queue
->>>> here?
->>>
->>> Don't work with assumptions, you should test both and see which one
->>> works better. Workqueue should never be faster than
->>> smp_call_function_single() with my understanding.
->> Checked the time taken and its almost same in both cases.
->> Earlier we used smp_call_function_single(), but delay time period was small
->> in that SOC. In T194, the time period was more. So, this is an optimization
->> done because using work queue has advantage as interrupts will not be
->> disabled for that period.
-> 
-> Hmm, okay, keep the workqueue and mention the required details in a
-> comment for everyone to understand why the implementation is done that
-> way.
-> 
+Nagarjuna Kristam (4):
+  dt-bindings: usb: tegra-xudc: Add Tegra194 XUSB controller support
+  arm64: tegra: Add xudc node for Tegra194
+  usb: gadget: tegra-xudc: Add Tegra194 support
+  usb: gadget: tegra-xudc: add port_speed_quirk
 
-sure, thank you!
+ .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml |   2 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           |  18 +++
+ drivers/usb/gadget/udc/tegra-xudc.c                | 130 +++++++++++++++++++++
+ 3 files changed, 150 insertions(+)
 
-> --
-> viresh
-> 
+-- 
+2.7.4
+
