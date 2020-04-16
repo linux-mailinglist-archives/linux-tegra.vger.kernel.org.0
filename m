@@ -2,248 +2,194 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A7831ACCD9
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 18:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98DE81ACDB9
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Apr 2020 18:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394314AbgDPQLX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 12:11:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2394113AbgDPQLS (ORCPT
+        id S2410755AbgDPQ3d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Apr 2020 12:29:33 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2030 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439478AbgDPQ3b (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 12:11:18 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34742C061A0C;
-        Thu, 16 Apr 2020 09:11:18 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id m2so6000194lfo.6;
-        Thu, 16 Apr 2020 09:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HbkBbD06z19K2oXgXWs3e4TxBosadcwBWzBePKeICjY=;
-        b=nKasxaMTmkuWtYRTKl8xRMQuhNoBbieU95TdDiE2auVOXjKorRY+QxsPbKEYt0Oldc
-         ynJLnLpMTjjyjJAQH3peTMrCoeTVx1Zirde00f+gaUe2KnISyR8y3/bhIx6Xc1bAhLGR
-         4rM5/lxpgZElxfapcRXCWzUlv8PeIFwDx94BhKGLaKqeBF7lJIQe2Ruec8KDHy3Qq0Kf
-         4aOpuDaNX0wJX4a3g6Dko2GrnNovJyTazIOCrCok1L6ST86ZmiEuqBpwgEetkAcaRChN
-         /tX2OH8AeV7ElLdWyH7Gl6Z6kwVEw/JLoV5044M9O1StMOPJAjobnLg7Jk/0DKom7mYo
-         UzmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HbkBbD06z19K2oXgXWs3e4TxBosadcwBWzBePKeICjY=;
-        b=Z9Tzy4v6RZmvzFYDK8J/War+FaAnQFKsVOghF816QsAFgAB5Zm2gifIJ7zzug+LC6k
-         V/pKe2JFLu8svNb9oMBYD20FM5shSMPe55OeSBARv0duc/w6SmxV3+7YgzKoON0XgsaS
-         NMuRzlgQBUZSZ8ggZVxwvFvc+NpgGYFLmNZi08hRENF3cyaUTsLAHubkljDiKsa/5Hlc
-         XA6xpKisCUlyoBiM4JmGEyeg6Petg3g71Pi8NOCswsFtSczeidEgZ4EPHJ+Ako3HPoun
-         XbW5oD4vLmRXHh6tB0Wp3VUVubzdfL1zcDBK7sXLHzQ9zczqCiz29CZyhUtLrdPE/iEV
-         Rx3Q==
-X-Gm-Message-State: AGi0PubBiK5aQkFo59L8oknc9EWG7UOQXn4d2uvdcZ5UaEz4AVHJrWKT
-        SICbatsF0h1xE6wKPdoDISs=
-X-Google-Smtp-Source: APiQypIuZ7q5ctE25izxyBPRpCrc0f8DKt2ld0cb44a76g+vOyHZzOSoySjWdyU/aAn2eKGIwiXq2g==
-X-Received: by 2002:ac2:550e:: with SMTP id j14mr6479598lfk.188.1587053476675;
-        Thu, 16 Apr 2020 09:11:16 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.gmail.com with ESMTPSA id 125sm15702234lfb.89.2020.04.16.09.11.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2020 09:11:16 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>,
+        Thu, 16 Apr 2020 12:29:31 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e9887dd0000>; Thu, 16 Apr 2020 09:29:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 16 Apr 2020 09:29:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 16 Apr 2020 09:29:30 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
+ 2020 16:29:29 +0000
+Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Apr
+ 2020 16:29:28 +0000
+Subject: Re: [PATCH v2 1/2] sdhci: tegra: Implement Tegra specific set_timeout
+ callback
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>
+CC:     Adrian Hunter <adrian.hunter@intel.com>,
+        "(Exiting) Baolin Wang" <baolin.wang@linaro.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bradley Bolen <bradleybolen@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        =?UTF-8?q?Pedro=20=C3=82ngelo?= <pangelo@void.io>,
-        Matt Merhar <mattmerhar@protonmail.com>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 6/6] ARM: tegra_defconfig: Enable options useful for Nexus 7 and Acer A500
-Date:   Thu, 16 Apr 2020 19:09:56 +0300
-Message-Id: <20200416160956.16468-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200416160956.16468-1-digetx@gmail.com>
-References: <20200416160956.16468-1-digetx@gmail.com>
+        "Jon Hunter" <jonathanh@nvidia.com>,
+        Aniruddha Tvs Rao <anrao@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        <lkft-triage@lists.linaro.org>,
+        linux- stable <stable@vger.kernel.org>
+References: <1583886030-11339-1-git-send-email-skomatineni@nvidia.com>
+ <CA+G9fYvreAv5HmZg0O4VvLvf_PYSvzD1rp08XONNQGExctgQ0Q@mail.gmail.com>
+ <CAPDyKFpZEiqTdD6O-y6Sw7ifXF__MHAv0zKT=RFKs+Fmvr-K_Q@mail.gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <753ec108-858c-660e-af0a-f57922134609@nvidia.com>
+Date:   Thu, 16 Apr 2020 09:29:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPDyKFpZEiqTdD6O-y6Sw7ifXF__MHAv0zKT=RFKs+Fmvr-K_Q@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587054557; bh=eOQ+w5nhOdv04KeF4PFobQIPtNvZjkMJ66eBaSJNtCw=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=MYWrHESZKzBtEwhd96npLAmGcMdMDTgqfrVKWeywoups5jqGjxXweQEXayywyvIrx
+         zF6ExcqtSN1y9J6xy8Kibwqg001eOcBOr0TlqustT0/JEI5YiETrMl0NsqH5JzoRQT
+         ONj+1WZchStALqtZ7Hlm/DcOTZoKN7XXuvYKGXMC5OGBB8JtjZPA1RspaCEEbLe3rv
+         RSIGGnOJz0qEtOZh8/2BL8Zzl6nsVHpypntHdxPcyq/Z8BZS071IrweUPpAwxiY4oX
+         aG+6WW5D4jRVgEpsFX2T9jurBxl36m8m/00rlATQEbpzXwrbRNPsHXKYtwWsLCSU5i
+         CSYlHmLAo/qZQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable several drivers for hardware that is found on Nexus 7 and Acer A500
-tablet devices. Please note that some drivers may require firmware files
-extracted from original Android image.
 
-Link: https://github.com/digetx/linux-firmware
-Link: https://github.com/digetx/alsa-ucm-conf
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 42 ++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+On 4/16/20 3:59 AM, Ulf Hansson wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On Wed, 15 Apr 2020 at 19:55, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>> On Fri, 13 Mar 2020 at 06:41, Sowjanya Komatineni
+>> <skomatineni@nvidia.com> wrote:
+>>> Tegra host supports HW busy detection and timeouts based on the
+>>> count programmed in SDHCI_TIMEOUT_CONTROL register and max busy
+>>> timeout it supports is 11s in finite busy wait mode.
+>>>
+>>> Some operations like SLEEP_AWAKE, ERASE and flush cache through
+>>> SWITCH commands take longer than 11s and Tegra host supports
+>>> infinite HW busy wait mode where HW waits forever till the card
+>>> is busy without HW timeout.
+>>>
+>>> This patch implements Tegra specific set_timeout sdhci_ops to allow
+>>> switching between finite and infinite HW busy detection wait modes
+>>> based on the device command expected operation time.
+>>>
+>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>> ---
+>>>   drivers/mmc/host/sdhci-tegra.c | 31 +++++++++++++++++++++++++++++++
+>>>   1 file changed, 31 insertions(+)
+>>>
+>>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>>> index a25c3a4..fa8f6a4 100644
+>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>> @@ -45,6 +45,7 @@
+>>>   #define SDHCI_TEGRA_CAP_OVERRIDES_DQS_TRIM_SHIFT       8
+>>>
+>>>   #define SDHCI_TEGRA_VENDOR_MISC_CTRL                   0x120
+>>> +#define SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT            BIT(0)
+>>>   #define SDHCI_MISC_CTRL_ENABLE_SDR104                  0x8
+>>>   #define SDHCI_MISC_CTRL_ENABLE_SDR50                   0x10
+>>>   #define SDHCI_MISC_CTRL_ENABLE_SDHCI_SPEC_300          0x20
+>>> @@ -1227,6 +1228,34 @@ static u32 sdhci_tegra_cqhci_irq(struct sdhci_host *host, u32 intmask)
+>>>          return 0;
+>>>   }
+>>>
+>>> +static void tegra_sdhci_set_timeout(struct sdhci_host *host,
+>>> +                                   struct mmc_command *cmd)
+>>> +{
+>>> +       u32 val;
+>>> +
+>>> +       /*
+>>> +        * HW busy detection timeout is based on programmed data timeout
+>>> +        * counter and maximum supported timeout is 11s which may not be
+>>> +        * enough for long operations like cache flush, sleep awake, erase.
+>>> +        *
+>>> +        * ERASE_TIMEOUT_LIMIT bit of VENDOR_MISC_CTRL register allows
+>>> +        * host controller to wait for busy state until the card is busy
+>>> +        * without HW timeout.
+>>> +        *
+>>> +        * So, use infinite busy wait mode for operations that may take
+>>> +        * more than maximum HW busy timeout of 11s otherwise use finite
+>>> +        * busy wait mode.
+>>> +        */
+>>> +       val = sdhci_readl(host, SDHCI_TEGRA_VENDOR_MISC_CTRL);
+>>> +       if (cmd && cmd->busy_timeout >= 11 * HZ)
+>>> +               val |= SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT;
+>>> +       else
+>>> +               val &= ~SDHCI_MISC_CTRL_ERASE_TIMEOUT_LIMIT;
+>>> +       sdhci_writel(host, val, SDHCI_TEGRA_VENDOR_MISC_CTRL);
+>>> +
+>>> +       __sdhci_set_timeout(host, cmd);
+>> kernel build on arm and arm64 architecture failed on stable-rc 4.19
+>> (arm), 5.4 (arm64) and 5.5 (arm64)
+>>
+>> drivers/mmc/host/sdhci-tegra.c: In function 'tegra_sdhci_set_timeout':
+>> drivers/mmc/host/sdhci-tegra.c:1256:2: error: implicit declaration of
+>> function '__sdhci_set_timeout'; did you mean
+>> 'tegra_sdhci_set_timeout'? [-Werror=implicit-function-declaration]
+>>    __sdhci_set_timeout(host, cmd);
+>>    ^~~~~~~~~~~~~~~~~~~
+>>    tegra_sdhci_set_timeout
+>>
+>> Full build log,
+>> https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-5.5/DISTRO=lkft,MACHINE=am57xx-evm,label=docker-lkft/83/consoleText
+>> https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-5.4/DISTRO=lkft,MACHINE=juno,label=docker-lkft/158/consoleText
+>> https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-4.19/DISTRO=lkft,MACHINE=am57xx-evm,label=docker-lkft/511/consoleText
+>>
+>> - Naresh
+> Thanks for reporting! What a mess.
+>
+> It turns out that the commit that was queued for stable that is
+> causing the above errors, also requires another commit.
+>
+> The commit that was queued:
+> 5e958e4aacf4 ("sdhci: tegra: Implement Tegra specific set_timeout callback")
+>
+> The additional commit needed (which was added in v5.6-rc1):
+> 7d76ed77cfbd ("mmc: sdhci: Refactor sdhci_set_timeout()")
+>
+> However, the above commit needs a manual backport (quite trivial, but
+> still) for the relevant stable kernels, to allow it to solve the build
+> problems.
+>
+> Greg, Sasha - I suggest you to drop the offending commit from the
+> stable kernels, for now. I think it's better to let Sowjanya deal with
+> the backports, then send them in small series instead.
+>
+> Kind regards
+> Uffe
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 0029259a6bf5..b382f06f835b 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -10,6 +10,8 @@ CONFIG_RT_GROUP_SCHED=y
- CONFIG_CGROUP_FREEZER=y
- CONFIG_CGROUP_CPUACCT=y
- CONFIG_CGROUP_DEBUG=y
-+CONFIG_NAMESPACES=y
-+CONFIG_USER_NS=y
- CONFIG_BLK_DEV_INITRD=y
- # CONFIG_ELF_CORE is not set
- CONFIG_EMBEDDED=y
-@@ -18,6 +20,7 @@ CONFIG_SLAB=y
- CONFIG_ARCH_TEGRA=y
- CONFIG_SMP=y
- CONFIG_HIGHMEM=y
-+CONFIG_SECCOMP=y
- CONFIG_ZBOOT_ROM_TEXT=0x0
- CONFIG_ZBOOT_ROM_BSS=0x0
- CONFIG_KEXEC=y
-@@ -63,11 +66,17 @@ CONFIG_BT_RFCOMM=y
- CONFIG_BT_BNEP=y
- CONFIG_BT_HIDP=y
- CONFIG_BT_HCIBTUSB=m
-+CONFIG_BT_HCIUART=y
-+CONFIG_BT_HCIUART_BCM=y
- CONFIG_CFG80211=y
- CONFIG_MAC80211=y
- CONFIG_RFKILL=y
- CONFIG_RFKILL_INPUT=y
- CONFIG_RFKILL_GPIO=y
-+CONFIG_NFC=y
-+CONFIG_NFC_HCI=y
-+CONFIG_NFC_SHDLC=y
-+CONFIG_NFC_PN544_I2C=y
- CONFIG_PCI=y
- CONFIG_PCIEPORTBUS=y
- CONFIG_PCI_MSI=y
-@@ -106,20 +115,24 @@ CONFIG_INPUT_JOYDEV=y
- CONFIG_INPUT_EVDEV=y
- CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_TEGRA=y
-+CONFIG_KEYBOARD_CAP11XX=y
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_MOUSE_PS2_ELANTECH=y
- CONFIG_INPUT_TOUCHSCREEN=y
- CONFIG_TOUCHSCREEN_ATMEL_MXT=y
-+CONFIG_TOUCHSCREEN_ELAN=y
- CONFIG_TOUCHSCREEN_WM97XX=y
- # CONFIG_TOUCHSCREEN_WM9705 is not set
- # CONFIG_TOUCHSCREEN_WM9713 is not set
- CONFIG_TOUCHSCREEN_STMPE=y
- CONFIG_INPUT_MISC=y
-+CONFIG_INPUT_GPIO_VIBRA=y
- # CONFIG_LEGACY_PTYS is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_SERIAL_TEGRA=y
-+CONFIG_SERIAL_DEV_BUS=y
- # CONFIG_HW_RANDOM is not set
- # CONFIG_I2C_COMPAT is not set
- CONFIG_I2C_CHARDEV=y
-@@ -131,10 +144,12 @@ CONFIG_SPI_TEGRA114=y
- CONFIG_SPI_TEGRA20_SFLASH=y
- CONFIG_SPI_TEGRA20_SLINK=y
- CONFIG_PINCTRL_AS3722=y
-+CONFIG_PINCTRL_MAX77620=y
- CONFIG_PINCTRL_PALMAS=y
- CONFIG_GPIO_SYSFS=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_GPIO_PCA953X_IRQ=y
-+CONFIG_GPIO_MAX77620=y
- CONFIG_GPIO_PALMAS=y
- CONFIG_GPIO_TPS6586X=y
- CONFIG_GPIO_TPS65910=y
-@@ -142,13 +157,21 @@ CONFIG_POWER_RESET=y
- CONFIG_POWER_RESET_AS3722=y
- CONFIG_POWER_RESET_GPIO=y
- CONFIG_BATTERY_SBS=y
-+CONFIG_BATTERY_BQ27XXX=y
-+CONFIG_CHARGER_GPIO=y
-+CONFIG_CHARGER_SMB347=y
- CONFIG_CHARGER_TPS65090=y
- CONFIG_SENSORS_LM90=y
- CONFIG_SENSORS_LM95245=y
-+CONFIG_THERMAL=y
-+CONFIG_THERMAL_STATISTICS=y
-+CONFIG_CPU_THERMAL=y
- CONFIG_WATCHDOG=y
-+CONFIG_MAX77620_WATCHDOG=y
- CONFIG_TEGRA_WATCHDOG=y
- CONFIG_MFD_AS3722=y
- CONFIG_MFD_CROS_EC=y
-+CONFIG_MFD_MAX77620=y
- CONFIG_MFD_MAX8907=y
- CONFIG_MFD_STMPE=y
- CONFIG_MFD_PALMAS=y
-@@ -159,6 +182,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_REGULATOR_AS3722=y
- CONFIG_REGULATOR_GPIO=y
-+CONFIG_REGULATOR_MAX77620=y
- CONFIG_REGULATOR_MAX8907=y
- CONFIG_REGULATOR_PALMAS=y
- CONFIG_REGULATOR_TPS51632=y
-@@ -174,7 +198,10 @@ CONFIG_USB_GSPCA=y
- CONFIG_DRM=y
- CONFIG_DRM_NOUVEAU=m
- CONFIG_DRM_TEGRA=y
-+CONFIG_DRM_TEGRA_STAGING=y
-+CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_LVDS_CODEC=y
- # CONFIG_LCD_CLASS_DEVICE is not set
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- # CONFIG_BACKLIGHT_GENERIC is not set
-@@ -238,6 +265,7 @@ CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_AS3722=y
- CONFIG_RTC_DRV_DS1307=y
- CONFIG_RTC_DRV_MAX8907=y
-+CONFIG_RTC_DRV_MAX77686=y
- CONFIG_RTC_DRV_PALMAS=y
- CONFIG_RTC_DRV_TPS6586X=y
- CONFIG_RTC_DRV_TPS65910=y
-@@ -259,11 +287,18 @@ CONFIG_ARCH_TEGRA_2x_SOC=y
- CONFIG_ARCH_TEGRA_3x_SOC=y
- CONFIG_ARCH_TEGRA_114_SOC=y
- CONFIG_ARCH_TEGRA_124_SOC=y
-+CONFIG_PM_DEVFREQ=y
-+CONFIG_ARM_TEGRA_DEVFREQ=y
-+CONFIG_ARM_TEGRA20_DEVFREQ=y
- CONFIG_MEMORY=y
- CONFIG_IIO=y
-+CONFIG_KXCJK1013=y
- CONFIG_MPU3050_I2C=y
-+CONFIG_INV_MPU6050_I2C=y
-+CONFIG_AL3010=y
- CONFIG_SENSORS_ISL29018=y
- CONFIG_SENSORS_ISL29028=y
-+CONFIG_AK8974=y
- CONFIG_AK8975=y
- CONFIG_PWM=y
- CONFIG_PWM_TEGRA=y
-@@ -283,6 +318,13 @@ CONFIG_TMPFS_POSIX_ACL=y
- CONFIG_SQUASHFS=y
- CONFIG_SQUASHFS_LZO=y
- CONFIG_SQUASHFS_XZ=y
-+CONFIG_PSTORE=y
-+CONFIG_PSTORE_LZO_COMPRESS=y
-+CONFIG_PSTORE_LZ4_COMPRESS=y
-+CONFIG_PSTORE_LZ4HC_COMPRESS=y
-+CONFIG_PSTORE_842_COMPRESS=y
-+CONFIG_PSTORE_CONSOLE=y
-+CONFIG_PSTORE_RAM=y
- CONFIG_NFS_FS=y
- CONFIG_NFS_V4=y
- CONFIG_ROOT_NFS=y
--- 
-2.26.0
+Hi Ufee,
+
+Will back-porting below commit cause any issues to other vendors?
+
+7d76ed77cfbd ("mmc: sdhci: Refactor sdhci_set_timeout()")
+
+Thanks
+Sowjanya
 
