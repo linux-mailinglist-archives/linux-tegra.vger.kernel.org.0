@@ -2,86 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F47E1ADD86
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Apr 2020 14:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 808481ADE59
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Apr 2020 15:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729654AbgDQMkv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Apr 2020 08:40:51 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19510 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727897AbgDQMkv (ORCPT
+        id S1730370AbgDQNcd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Apr 2020 09:32:33 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10108 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730351AbgDQNcd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Apr 2020 08:40:51 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e99a3630001>; Fri, 17 Apr 2020 05:38:59 -0700
+        Fri, 17 Apr 2020 09:32:33 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e99afe40001>; Fri, 17 Apr 2020 06:32:20 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 17 Apr 2020 05:40:51 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 17 Apr 2020 06:32:33 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 17 Apr 2020 05:40:51 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Apr
- 2020 12:40:50 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 17 Apr 2020 12:40:51 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.26.73.163]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e99a3d10003>; Fri, 17 Apr 2020 05:40:50 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] soc/tegra: fuse: Update the SoC revision attribute to display a name
-Date:   Fri, 17 Apr 2020 13:40:46 +0100
-Message-ID: <20200417124046.26400-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
+        by hqpgpgate102.nvidia.com on Fri, 17 Apr 2020 06:32:33 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Apr
+ 2020 13:32:32 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 17 Apr 2020 13:32:32 +0000
+Received: from sandipan-pc.nvidia.com (Not Verified[10.24.42.163]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e99afed0009>; Fri, 17 Apr 2020 06:32:32 -0700
+From:   Sandipan Patra <spatra@nvidia.com>
+To:     <treding@nvidia.com>, <robh+dt@kernel.org>,
+        <u.kleine-koenig@pengutronix.de>, <jonathanh@nvidia.com>
+CC:     <bbasu@nvidia.com>, <bbiswas@nvidia.com>,
+        <linux-pwm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sandipan Patra <spatra@nvidia.com>
+Subject: [PATCH 1/2] arm64: tegra: Add pwm-fan profile settings
+Date:   Fri, 17 Apr 2020 19:02:41 +0530
+Message-ID: <1587130362-6149-1-git-send-email-spatra@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587127139; bh=J65c/MvkuaR8eKoN8yHmhT2faFLCAxi0NFqBMduNorA=;
+        t=1587130340; bh=XQiGWOGFzg3l+QIfS45QIJAE9J403LC3AAuTqpFbPj4=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          X-NVConfidentiality:MIME-Version:Content-Type;
-        b=l8mddYZixe3VXl3ZUEHPqOeON88seL17bjq9mzY4KKSixB2p+mEZDsGr8EmKrHNhT
-         xcKdi5Ddhstp2a7p9Ze38tMDtI4VZzdgZzxhUlPR8z/GG8SZW1xhfFIxXtV4hvdVa4
-         csrmDRZLV3bRUBynsgPs/ySzbZUS/plL+xAqKJKo2qTnY+NlHV2h/DxUq9SCREYWjP
-         Z7hcyHSrYtnLiPL3qW8zII976N3c1to2Ju7H5GyhleqYI3mdoc0EPaZhVUEMxJKoUr
-         JfvUgsC61LFmQXnWlmcfDLjCQgisE5qw9hFdFG3eqcClvAQX6SDJLcb7Qy3iyCPZxy
-         +3n1epR+K65IA==
+        b=W1ljNgAiglXpYwTiOt5LIiM96HxibYp4Bv/aKBTqcsq5QftmopOp6RjWo6xWx00sb
+         E8rvxbjKJzs0+BvDMSxgSMGxMxNtJ5yh3N8IMQeklBkfX+CIlOyJpMVjs/6DZHaGc5
+         xgrG8Dqvwiv+WxHIvQKkVi6CiU0u+xMa0PONc93b2th8DYfwKW1njjRkidyUTRmEmC
+         MwywXd2lkbNDnIS/jU6wr5sEOGfmrG8mSv+UGIn6yqbABfMIG/Afwhquca4NhuV1cD
+         LGfXGs7aEv+zWFPMqyLq/WEH6SuI4deN/AVN88ZmR8KPs1y9H4rAs1YPH9ROUFoBQD
+         T6N++2c8PtnYw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Currently the SoC revision attribute for Tegra devices displays the
-value of the enum associated with a particular revision. This is not
-very useful because to obtain the actual revision you need to
-use the tegra_revision enumeration to translate the value.
+Add support for profiles in device tree to allow
+different fan settings for trip point temp/hyst/pwm.
 
-It is more meaningful to display a name for the revision, such as
-'A01', than the enumarated value and therefore, update the revision
-attribute to display a name. This change does alter the ABI, which
-is unfortunate, but this is more meaningful and maintable.
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Sandipan Patra <spatra@nvidia.com>
 ---
- drivers/soc/tegra/fuse/fuse-tegra.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
-index db65ddb6a5d2..d1f8dd0289e6 100644
---- a/drivers/soc/tegra/fuse/fuse-tegra.c
-+++ b/drivers/soc/tegra/fuse/fuse-tegra.c
-@@ -363,7 +363,8 @@ struct device * __init tegra_soc_device_register(void)
- 		return NULL;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+index e15d1ea..ff2b980 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+@@ -219,10 +219,19 @@
  
- 	attr->family = kasprintf(GFP_KERNEL, "Tegra");
--	attr->revision = kasprintf(GFP_KERNEL, "%d", tegra_sku_info.revision);
-+	attr->revision = kasprintf(GFP_KERNEL, "%s",
-+		tegra_revision_name[tegra_sku_info.revision]);
- 	attr->soc_id = kasprintf(GFP_KERNEL, "%u", tegra_get_chip_id());
- 	attr->custom_attr_group = fuse->soc->soc_attr_group;
+ 	fan: fan {
+ 		compatible = "pwm-fan";
+-		pwms = <&pwm4 0 45334>;
+-
+-		cooling-levels = <0 64 128 255>;
+ 		#cooling-cells = <2>;
++		pwms = <&pwm4 0 45334>;
++		profiles {
++			default = "quiet";
++			quiet {
++				state_cap = <4>;
++				cooling-levels = <0 77 120 160 255 255 255 255 255 255>;
++			};
++			cool {
++				state_cap = <4>;
++				cooling-levels = <0 77 120 160 255 255 255 255 255 255>;
++			};
++		};
+ 	};
  
+ 	gpio-keys {
 -- 
-2.17.1
+2.7.4
 
