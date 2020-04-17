@@ -2,85 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD4601AE6CF
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Apr 2020 22:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E79DA1AE6D6
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Apr 2020 22:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730937AbgDQUcJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Apr 2020 16:32:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35128 "EHLO
+        id S1731027AbgDQUeu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Apr 2020 16:34:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730903AbgDQUcJ (ORCPT
+        with ESMTP id S1730903AbgDQUeu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Apr 2020 16:32:09 -0400
+        Fri, 17 Apr 2020 16:34:50 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D3EC061A0C
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Apr 2020 13:32:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4607C061A0C
+        for <linux-tegra@vger.kernel.org>; Fri, 17 Apr 2020 13:34:49 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBDD597D;
-        Fri, 17 Apr 2020 22:32:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C3DD97D;
+        Fri, 17 Apr 2020 22:34:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587155527;
-        bh=1RvHnw1ZKhlevuDKfvQm0YMBAgl2taaV6W32cNSeN90=;
+        s=mail; t=1587155688;
+        bh=0N37fRi3Noo3nDa9ghOFWdRREPOQE2piHin6BelNPQQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M6wUmW99K5brWfnux+9+uX/q440cDm4Sw56pfg/pbcdca7cCpAkjAyMPXvZNBf8uD
-         2GzsiMlqiByDl3fydpDeVkMMVog46ibW0UPuH8ItugJG4tkOyZD18WyBGJG9ic5T9A
-         niZfeQ5d/keJ/13kFEXc7sHVeab6LhPkhVl6kvEs=
-Date:   Fri, 17 Apr 2020 23:31:54 +0300
+        b=IvkpxlRvZi9ssQ2VZ0XYKj7TBzUEiUL3Zme3nDACyX0oivYBnnzzil0KHmN75z4/z
+         smiO4QJuGII0wqCy8s/UUHm4y5FZfMl1BTf3NTtXzM3H1wkVK9sMRuNCRcbfc0I1kL
+         yX2YQNPaNP8c+HnApPjvXQVyYvPR+ZA7GZx159KU=
+Date:   Fri, 17 Apr 2020 23:34:35 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] drm/tegra: output: Support DRM bridges
-Message-ID: <20200417203154.GK5861@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 3/3] drm/tegra: output: rgb: Support LVDS encoder
+ bridge
+Message-ID: <20200417203435.GL5861@pendragon.ideasonboard.com>
 References: <20200417175238.27154-1-digetx@gmail.com>
- <20200417175238.27154-3-digetx@gmail.com>
- <20200417193018.GI5861@pendragon.ideasonboard.com>
- <0acc35fd-a74b-e726-7a16-55db13265c39@gmail.com>
+ <20200417175238.27154-4-digetx@gmail.com>
+ <20200417192453.GH5861@pendragon.ideasonboard.com>
+ <598c81ef-ba22-a832-0822-e08023f3dff6@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0acc35fd-a74b-e726-7a16-55db13265c39@gmail.com>
+In-Reply-To: <598c81ef-ba22-a832-0822-e08023f3dff6@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
-
-On Fri, Apr 17, 2020 at 10:41:59PM +0300, Dmitry Osipenko wrote:
-> 17.04.2020 22:30, Laurent Pinchart пишет:
+On Fri, Apr 17, 2020 at 11:11:06PM +0300, Dmitry Osipenko wrote:
+> 17.04.2020 22:24, Laurent Pinchart пишет:
 > ...
-> >>  #include <drm/drm_atomic.h>
-> >> +#include <drm/drm_bridge.h>
+> > As I tried to explain before, if you wrap the panel in a bridge with
+> > drm_panel_bridge_add() (or the devm_ variant), you will always have a
+> > bridge associated with the output, and will be able to remove your
+> > custom connector implementation. I thus recommend converting to
+> > drm_panel_bridge_add() either as part of this patch series, or just
+> > after it, to get full benefits.
 > > 
-> > You could add a forward declaration of struct drm_bridge instead, that
-> > can lower the compilation time a little bit.
-> 
-> This include is not only for the struct, but also for the
-> drm_bridge_attach(). It looks to me that it should be nicer to keep the
-> include here.
-
-drm_bridge_attach() is called from .c files. In the .h file you can use
-a forward declaration. It's entirely up to you, but as a general rule, I
-personally try to use forward structure declarations in .h files as much
-as possible.
-
-> ...
-> >> +	port = of_get_child_by_name(output->of_node, "port");
+> > With the assumption that this will be handled,
 > > 
-> > Do you need to check for the presence of a port node first ? Can you
-> > just check the return value of drm_of_find_panel_or_bridge(), and fall
-> > back to "nvidia,panel" if it returns -ENODEV ?
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Without the check, the drm_of_find_panel_or_bridge() prints a very noisy
-> error message about missing port node for every output that doesn't have
-> a graph specified in a device-tree (HDMI, DSI and etc).
+> Thanks you very much!
 > 
-> https://elixir.bootlin.com/linux/v5.7-rc1/source/drivers/of/property.c#L621
+> Yes, I got yours point about wrapping panel into the bridge. But I don't
+> think that it's worth the effort right now because each Tegra output has
+> it's own implantation of the connector and it should be cleaner not to
+> touch that code.
+> 
+> Secondly, I don't have hardware to test all available panel output types
+> on Tegra and the benefits of messing with all that code are a bit dim to me.
+> 
+> I can make a patch to wrap the RGB panel into a bridge, but this should
+> make code a bit inconsistent in regards to not having a common code path
+> for the "legacy" nvidia,panel. So perhaps it's better to leave it all
+> as-is for now.
 
-Ah yes indeed. That's not very nice.
+I had a brief look at the code, converting the different output types
+one by one would be a better way forward than not doing anything at all
+in my opinion :-) Once you convert the first output it will also serve
+as an example on how to do it, and hopefully other developers with
+access to hardware could then do more conversions.
 
 -- 
 Regards,
