@@ -2,109 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B436A1AD401
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Apr 2020 03:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F8331AD6F6
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Apr 2020 09:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726141AbgDQBOd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Apr 2020 21:14:33 -0400
-Received: from mga11.intel.com ([192.55.52.93]:14369 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725858AbgDQBOd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Apr 2020 21:14:33 -0400
-IronPort-SDR: XEFS9tfV/JgTyQfFuv4VlpD3+O4YSs4ZNqM+JaADKNRSKkqpXpayf2suA2yHs6TuSnVwC9Vis9
- twYjrEzzzKWQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 18:14:32 -0700
-IronPort-SDR: sZlVw/7cjCHq0F1EFVv0TW8FklMi9s4vHlLYLRHCGjn12jklAHdg6QlmB19PsSs7PeDXqv0gk5
- UINIzZVqpibg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,393,1580803200"; 
-   d="scan'208";a="272262073"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-  by orsmga002.jf.intel.com with ESMTP; 16 Apr 2020 18:14:32 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.204]) by
- ORSMSX103.amr.corp.intel.com ([169.254.5.143]) with mapi id 14.03.0439.000;
- Thu, 16 Apr 2020 18:14:32 -0700
-From:   "Derrick, Jonathan" <jonathan.derrick@intel.com>
-To:     "joro@8bytes.org" <joro@8bytes.org>,
-        "drake@endlessm.com" <drake@endlessm.com>
-CC:     "heiko@sntech.de" <heiko@sntech.de>,
-        "kgene@kernel.org" <kgene@kernel.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "krzk@kernel.org" <krzk@kernel.org>,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "robdclark@gmail.com" <robdclark@gmail.com>,
-        "gerald.schaefer@de.ibm.com" <gerald.schaefer@de.ibm.com>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core
- code
-Thread-Topic: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core
- code
-Thread-Index: AQHWEmDrg4k1XREwpUada/q2n6OD7qh8+KGAgAADDAA=
-Date:   Fri, 17 Apr 2020 01:14:30 +0000
-Message-ID: <aafed865c0254934986528b3ce9c4d34ff2fccad.camel@intel.com>
-References: <20200414131542.25608-1-joro@8bytes.org>
-         <20200417010335.31739-1-drake@endlessm.com>
-In-Reply-To: <20200417010335.31739-1-drake@endlessm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.0.232]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B8851D46B4E5F2468CD8AA858DAC2199@intel.com>
-Content-Transfer-Encoding: base64
+        id S1728688AbgDQHIA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Apr 2020 03:08:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728105AbgDQHH7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 17 Apr 2020 03:07:59 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A00C061A0C;
+        Fri, 17 Apr 2020 00:07:59 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id k13so562971wrw.7;
+        Fri, 17 Apr 2020 00:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=R6f7+5GvUI8/osvhifRKheRB5YMwbn4gSSK11WxjPyY=;
+        b=oXBJLJH4PLH3RK1yBkxfgzRuw6DjqbfhrWdBWb+E/LvH+qG159gfIb+Is374+RVUfA
+         Cs71LkEMWR9ELAQ9gjPk1YxP3WfWBMKv8a21B8KL3aCjtFCygi6wZSk5GJQh0xji3is4
+         IrVkuiXxsbmdVxxxdrm0x0/Od0Br1BgOjDttlU3lY64TcZULAN97ugMUuwJKQTCu4dN7
+         J6Cfe4EnfY5JpPnkMa4SLPI9cA2bIeLlnf5AAqioHSZavu96FJW+LQG0MOlIcI3AbjM+
+         JN1pVkfXZH0/eoMoN6ERJWMApP2KOCE4gudwHBIK8ht17PWv+Aiaq871X3Gi2FGK1h6N
+         TKxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=R6f7+5GvUI8/osvhifRKheRB5YMwbn4gSSK11WxjPyY=;
+        b=nQe84mQ7sXZ3/qD72XKPH//I41mFU2fMb1su9xxX+VA9inrLKJsX1Imnbzu33Jf/OY
+         HbPZ7VpTYJbHAkKUqmpVby/Imqti9pvqXZIvvO/ylB5aiHPAtXyNrVjNqw2Nc7DRu8Ze
+         bpuby/+e5ddJaxv9nCgPWdLXMt6hJJ06yEbUlXQj78mlq/oPQxQT3f0VgZQ+gsPTzAnI
+         0SnVw41Y8pndOlITnqdTZ9hDvxqc3QCO1O49hvVUad44pxKrSA2ZJZnBFaPTRWIBPtOb
+         wQVFJd+P6p5hI7AtqSoPZAWAsQ4reALwZKlb3ImClHsaCkmfcuit6FFswg9kv6fxCAis
+         2jFw==
+X-Gm-Message-State: AGi0PuZb5gmdtU6dOVgdz3VeNmGrLZqONqBx1dG+ii/gTdhj/cfail1S
+        w4gqjVhEwRxIVNy+8nU5VAk=
+X-Google-Smtp-Source: APiQypJJtr+UZ6RDe7C4PsLdNv1nMBygM5ArD9/3+LuVDtv01cumvUwtJ7R+nXfuJFTLFostTvHrug==
+X-Received: by 2002:adf:cc8c:: with SMTP id p12mr2250620wrj.165.1587107278003;
+        Fri, 17 Apr 2020 00:07:58 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+        by smtp.gmail.com with ESMTPSA id u7sm7044306wmg.41.2020.04.17.00.07.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2020 00:07:56 -0700 (PDT)
+Date:   Fri, 17 Apr 2020 09:07:55 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] arm: tegra: dts: Kill off "simple-panel" compatibles
+Message-ID: <20200417070755.GA1573554@ulmo>
+References: <20200117230855.25567-1-robh@kernel.org>
+ <CAL_JsqLDsoJteGC6BRMFvPZ0pekOU71eUNQUqh74we_BB7RZ_g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqLDsoJteGC6BRMFvPZ0pekOU71eUNQUqh74we_BB7RZ_g@mail.gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-SGkgRGFuaWVsLA0KDQpPbiBGcmksIDIwMjAtMDQtMTcgYXQgMDk6MDMgKzA4MDAsIERhbmllbCBE
-cmFrZSB3cm90ZToNCj4gSGkgSm9lcmcsDQo+IA0KPiA+IEhpLA0KPiA+IA0KPiA+IGhlcmUgaXMg
-dGhlIHNlY29uZCB2ZXJzaW9uIG9mIHRoaXMgcGF0Y2gtc2V0LiBUaGUgZmlyc3QgdmVyc2lvbiB3
-aXRoDQo+ID4gc29tZSBtb3JlIGludHJvZHVjdG9yeSB0ZXh0IGNhbiBiZSBmb3VuZCBoZXJlOg0K
-PiA+IA0KPiA+IAlodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjAwNDA3MTgzNzQyLjQz
-NDQtMS1qb3JvQDhieXRlcy5vcmcvDQo+IA0KPiBUaGFua3MgZm9yIHRoZSBjb250aW51ZWQgaW1w
-cm92ZW1lbnRzIGluIHRoaXMgYXJlYSENCj4gDQo+IEkgbWF5IGhhdmUgc3BvdHRlZCBhIHByb2Js
-ZW0gd2l0aCBzZXR1cHMgbGlrZSBWTUQuDQo+IA0KPiBUaGUgY29yZSBQQ0kgYnVzIGlzIHNldCB1
-cCBkdXJpbmcgZWFybHkgYm9vdC4NCj4gVGhlbiwgZm9yIHRoZSBQQ0kgYnVzLCB3ZSByZWFjaCBp
-b21tdV9idXNfaW5pdCgpIC0+IGJ1c19pb21tdV9wcm9iZSgpLg0KPiBJbiB0aGVyZSwgd2UgY2Fs
-bCBwcm9iZV9pb21tdV9ncm91cCgpIC0+IGRldl9pb21tdV9nZXQoKSBmb3IgZWFjaCBQQ0kNCj4g
-ZGV2aWNlLCB3aGljaCBhbGxvY2F0ZXMgZGV2LT5pb21tdSBpbiBlYWNoIGNhc2UuIFNvIGZhciBz
-byBnb29kLg0KPiANCj4gVGhlIHByb2JsZW0gaXMgdGhhdCB0aGlzIGlzIHRoZSBsYXN0IHRpbWUg
-dGhhdCB3ZSdsbCBjYWxsIGRldl9pb21tdV9nZXQoKS4NCj4gSWYgYW55IFBDSSBidXMgZGV2aWNl
-cyBnZXQgYWRkZWQgYWZ0ZXIgdGhpcyBwb2ludCwgdGhleSBkbyBub3QgZ2V0IHBhc3NlZA0KPiB0
-byBkZXZfaW9tbXVfZ2V0KCkuDQo+IA0KPiBTbyB3aGVuIHRoZSB2bWQgbW9kdWxlIGdldHMgbG9h
-ZGVkIGxhdGVyLCBhbmQgY3JlYXRlcyBtb3JlIFBDSSBkZXZpY2VzLA0KPiB3ZSBlbmQgdXAgaW4g
-aW9tbXVfYnVzX25vdGlmaWVyKCkgLT4gaW9tbXVfcHJvYmVfZGV2aWNlKCkNCj4gLT4gX19pb21t
-dV9wcm9iZV9kZXZpY2UoKSB3aGljaCBkb2VzOg0KPiANCj4gCWRldi0+aW9tbXUtPmlvbW11X2Rl
-diA9IGlvbW11X2RldjsNCj4gDQo+IGRldi0+aW9tbXUtPiBpcyBhIE5VTEwgZGVyZWZlcmVuY2Ug
-YmVjYXVzZSBkZXZfaW9tbXVfZ2V0KCkgd2FzIG5ldmVyDQo+IGNhbGxlZCBmb3IgdGhpcyBuZXcg
-ZGV2aWNlLg0KPiANCj4gRGFuaWVsDQo+IA0KDQpJIHNob3VsZCBoYXZlIENDZWQgeW91IG9uIHRo
-aXMsIGJ1dCBpdCBzaG91bGQgdGVtcG9yYXJpbHkgcmVzb2x2ZSB0aGF0DQppc3N1ZToNCmh0dHBz
-Oi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9waXBlcm1haWwvaW9tbXUvMjAyMC1BcHJpbC8w
-NDMyNTMuaHRtbA0KDQo=
+
+--BOKacYhQ+x31HxR3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 16, 2020 at 04:02:58PM -0500, Rob Herring wrote:
+> On Fri, Jan 17, 2020 at 5:08 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > "simple-panel" is a Linux driver and has never been an accepted upstream
+> > compatible string, so remove it.
+> >
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: linux-tegra@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>=20
+> Ping. This never got picked up.
+
+Indeed, I somehow missed this. Applied now, thanks.
+
+I did take the liberty of splitting up the patch for 32-bit ARM and
+64-bit ARM but reused the same commit message and authorship, so I hope
+you don't mind.
+
+Thierry
+
+--BOKacYhQ+x31HxR3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6ZVckACgkQ3SOs138+
+s6G7ig//Sa5UUxsU1rQzbWSzOABzwUMTFWwoEOr17cFjrHwxV06b/jUYICr3yKDn
+Qdyr4e4PNRYiDZUWwM5FpY6/Xa0tmqKY+zCv8/Q0KE2RhB1lZFFTkjLSiZ4Eg25A
+ge8urVNALc4Z8pCJElYGFL7LCcDPEXcOsNFjCjrUaie4Jivd62A0rQsjb1Ib7VSf
+QF/156ZMz67iURk7ssKHy0jOdoimXX7e9se96TghvL9CH10RBcJehU/lWnls3S0X
+HhcEt/scIk9CYePhxb+XxdJgy79PJoCImqf17tmsRWq00405BA9PL/lbqmLYlJha
+7A9wXu1pHcU8W5SPNtefWCTT0QBTbE8vx4mqa51pnjDvKzntz7WTaiQsMot1SoKO
+g4WP4QFLqLRK4dEA4nZU9Yer+jnubOYy9LEV+R8Xtcp4gX5YEEBHd1ZZpSxBPTX3
+lZtaaIsNCCwMYfwCaWK/MA13sJPBK8aIga3EE4Nc+QYuWig0vdrfyEcg0kAxPpeL
+1MG+oYdU5COwgxxeGVv+LbTLWGMJ8KQR7jBuYGviaxPEd5trk6KolT4bK3ALIRsY
+LD1AZB6GdWEjEXc109WmB8yu8av3IpKl879JDl3rK0SuuyvKHOlAr20yuoS1GPdG
+qkO7AUVbe4YbXsrTsH2hVyYjPIF6VK694bc6NvJlQIimqxtkqT4=
+=pkFW
+-----END PGP SIGNATURE-----
+
+--BOKacYhQ+x31HxR3--
