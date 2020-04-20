@@ -2,258 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15FFA1B1646
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Apr 2020 21:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 152EA1B1934
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2020 00:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726746AbgDTTxZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Apr 2020 15:53:25 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16256 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728103AbgDTTxY (ORCPT
+        id S1726746AbgDTWMp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Apr 2020 18:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728191AbgDTWL4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Apr 2020 15:53:24 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e9dfda70001>; Mon, 20 Apr 2020 12:53:11 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 20 Apr 2020 12:53:24 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 20 Apr 2020 12:53:24 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Apr
- 2020 19:53:23 +0000
-Received: from [10.26.73.5] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Apr
- 2020 19:53:21 +0000
+        Mon, 20 Apr 2020 18:11:56 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF6FC061A10;
+        Mon, 20 Apr 2020 15:11:54 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id f8so9388244lfe.12;
+        Mon, 20 Apr 2020 15:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=abFbgX87P6tAnngWJgvkhVgQGkIjr5+FFEpq/JTP/jU=;
+        b=KD4n+qztQ6/5Q3z2PmENqx3lf2RXWCeoCdWGi+XO/88jmq5AHCnx0931o0pPnBWdsU
+         Y59M/CMkSOO1PGPkbyESSKGJH2NTzWZ5x37Mn9kCM0N0NBwqhbAyrvWoOWsFlaNe4oi4
+         4huij4+vpltW0vvwtnR1JmuJrIfKdsG6IsWeq35BBM9rYfIKKZ8NLh3FWCxUCpAAclos
+         yPgqev310P7zkr1Z1snIOftQIzOpc4TJDuSS8zjCY9YulCkxoSGjmS0nfqwC5VbUDHFT
+         rBVG2EbkN3TUmlISvWOtKIZCTZJzRnWWrIR5EF2HPJUORNUr3YnDM38kEBu5kw89kG/v
+         VBdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=abFbgX87P6tAnngWJgvkhVgQGkIjr5+FFEpq/JTP/jU=;
+        b=KYZhnHZS1JIo6mzEQiDSCaRktkemt+B7f7f4Q//cNi/kCNWc8sW+942phHYT3wfEIR
+         2wBHGW6Ff2hybezKki7GqrLoi4pvmCiMs1PcI+DTOcrucEC8WM1JRQisrs1zMdsZq8zT
+         sDiyrE7+iCDWYCjfMAsIXQ47JMMdLUwDWXLN3/BSolfAlg3i4sZQwl5iMQ0pEdyLIiNx
+         zIjAD6z/SUFCJmiHKpgqXn+APrLtcW3k7YMke47K5y+YsqKUBg8UPDEWKRxVnAzusvCR
+         /mnhzk3E+/sBkzisbXw34iyN9XGubS3SdE+X3fCCd7ZElISijmDyiEedvufjQxkEdch5
+         dsHQ==
+X-Gm-Message-State: AGi0PuY4JgpxBRZrlDDRrmvFKLv4X1NwoN+JUd+Q0QhtiQmWN0OcVvS5
+        gwfQYdWGEQs/gWI7zyjX2pTRotyF
+X-Google-Smtp-Source: APiQypIqhUkyTJ1w3sh1RFsLXiR48di+nL25yPfMP5Doa+OZOE4dKNUFmcN+RedNEHh3sK+FktfHPg==
+X-Received: by 2002:ac2:5109:: with SMTP id q9mr11684389lfb.145.1587420712928;
+        Mon, 20 Apr 2020 15:11:52 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id l8sm497031ljo.5.2020.04.20.15.11.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2020 15:11:52 -0700 (PDT)
 Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
  for a long time
-To:     Dmitry Osipenko <digetx@gmail.com>,
+To:     Jon Hunter <jonathanh@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Laxman Dewangan <ldewangan@nvidia.com>,
-        "Wolfram Sang" <wsa@the-dreams.de>
-CC:     <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20200324191217.1829-1-digetx@gmail.com>
  <20200324191217.1829-2-digetx@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
-Date:   Mon, 20 Apr 2020 20:53:20 +0100
+ <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f59ba318-8e99-c486-fa4d-1ee28a7b203d@gmail.com>
+Date:   Tue, 21 Apr 2020 01:11:51 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200324191217.1829-2-digetx@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587412391; bh=MaHgc2Ud4bcX42r63WlzgALU6hIPj1jDmiN3kFRyBlE=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=SgiPSULiuZKZq5822JYASXn/xwkWCMj73Hyryd3GmcD5Dw9DAyaVmNchTNlSj5nMw
-         lmxf/cjDYWHnI5JbDYq3uwMVkiV92UrD9Hyx9vaPIhCApPfkhfeQs34cXyniR1xS6y
-         ChIveZNLCyju0EhBf5XMCn2c0E279EcSy+itG+x/Moqz3vvlMNxuhs5xmuZ0OSLseI
-         rk4f5h4irdTlIEgLJJipT69v1s8qV0HaGrp/D7NMK9rIrcsmfjlyhsJSejjtSe+a9T
-         lfUnfyNsuQ+oqwXJDkGhXRYQ/+Np4QdwHTuc5/kl6A/0LZ7QIylkY2VxU/QI7bUpgU
-         MjW32gvYehw8Q==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
+Hello Jon,
 
-On 24/03/2020 19:12, Dmitry Osipenko wrote:
-> Boot CPU0 always handle I2C interrupt and under some rare circumstances
-> (like running KASAN + NFS root) it may stuck in uninterruptible state for
-> a significant time. In this case we will get timeout if I2C transfer is
-> running on a sibling CPU, despite of IRQ being raised. In order to handle
-> this rare condition, the IRQ status needs to be checked after completion
-> timeout.
+20.04.2020 22:53, Jon Hunter пишет:
+> Hi Dmitry,
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/i2c/busses/i2c-tegra.c | 27 +++++++++++++++------------
->  1 file changed, 15 insertions(+), 12 deletions(-)
-
-
-I have noticed a regression on tegra30-cardhu-a04 when testing system
-suspend. Git bisect is pointing to this commit and reverting it fixes
-the problem. In the below console log I2C fails to resume ...
-
-[   40.888512] usb1_vbus: supplied by 5v0
-
-[   40.892408] vddio_sdmmc,avdd_vdac: supplied by 5v0
-
-[   40.897401] cam_1v8: disabling
-
-[   40.900548] modem_3v3: disabling
-
-[   40.903875] vdd_cam1_ldo: disabling
-
-[   40.907501] vdd_cam2_ldo: disabling
-
-[   40.911092] vdd_cam3_ldo: disabling
-
-[   40.914714] vdd_fuse_3v3: disabling
-
-[   40.918305] vddio_vid: disabling
-
-[   40.921623] usb1_vbus: disabling
-
-[   59.445032] PM: suspend entry (deep)
-
-[   59.448852] Filesystems sync: 0.000 seconds
-
-[   59.456161] Freezing user space processes ... (elapsed 0.001 seconds) done.
-
-[   59.457645] OOM killer disabled.
-
-[   59.457649] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-
-[   59.764926] Disabling non-boot CPUs ...
-
-[   59.769540] IRQ 18: no longer affine to CPU1
-
-[   59.789070] IRQ 19: no longer affine to CPU2
-
-[   59.808049] IRQ 20: no longer affine to CPU3
-
-[   59.827113] Entering suspend state LP1
-
-[   59.827163] Enabling non-boot CPUs ...
-
-[   59.834797] CPU1 is up
-
-[   59.840943] CPU2 is up
-
-[   59.847378] CPU3 is up
-
-[   59.850577] tegra-i2c 7000d000.i2c: runtime resume failed -13
-
-[   59.856432] tegra-i2c 7000d000.i2c: runtime resume failed -13
-
-[   59.862231] tegra-i2c 7000d000.i2c: runtime resume failed -13
-
-[   59.868070] vdd_pexa,vdd_pexb: is_enabled() failed: -13
-
-[   59.873334] tegra-i2c 7000d000.i2c: runtime resume failed -13
-
-[   59.879143] vdd_pexa,vdd_pexb: is_enabled() failed: -13
-
-[   59.884420] Failed to enable avdd-pex-pll: -13
-
-[   59.888877] Failed to enable avdd-plle: -13
-
-[   59.893061] Failed to enable avdd-pexb: -13
-
-[   59.897279] Failed to enable vdd-pexb: -13
-
-[   59.901383] tegra-pcie 3000.pcie: failed to enable regulators: -13
-
-[   60.434185] clk_plle_training: timeout waiting for PLLE
-
-[   60.439565] tegra-pcie 3000.pcie: failed to enable CML clock: -16
-
-[   60.445700] ------------[ cut here ]------------
-
-[   60.450346] WARNING: CPU: 0 PID: 653 at /home/jonathanh/workdir/tegra/mlt-linux_next/kernel/drivers/regulator/core.c:2603 _regulator_disable+0xb8/0x1b4
-
-[   60.463959] unbalanced disables for vdd_pexa,vdd_pexb
-
-[   60.469038] Modules linked in:
-
-[   60.472107] CPU: 0 PID: 653 Comm: rtcwake Tainted: G        W         5.7.0-rc2-next-20200420 #2
-
-[   60.480892] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
-
-[   60.487190] [<c0111b68>] (unwind_backtrace) from [<c010bc00>] (show_stack+0x10/0x14)
-
-[   60.494951] [<c010bc00>] (show_stack) from [<c0480f14>] (dump_stack+0xc0/0xd4)
-
-[   60.502189] [<c0480f14>] (dump_stack) from [<c01234a4>] (__warn+0xe0/0xf8)
-
-[   60.509073] [<c01234a4>] (__warn) from [<c0123530>] (warn_slowpath_fmt+0x74/0xb8)
-
-[   60.516568] [<c0123530>] (warn_slowpath_fmt) from [<c0516714>] (_regulator_disable+0xb8/0x1b4)
-
-[   60.525191] [<c0516714>] (_regulator_disable) from [<c0516844>] (regulator_disable+0x34/0xd0)
-
-[   60.533729] [<c0516844>] (regulator_disable) from [<c0518488>] (regulator_bulk_disable+0x28/0xb4)
-
-[   60.542619] [<c0518488>] (regulator_bulk_disable) from [<c04dbc84>] (tegra_pcie_pm_resume+0xbb0/0x107c)
-
-[   60.552032] [<c04dbc84>] (tegra_pcie_pm_resume) from [<c05f7e44>] (dpm_run_callback+0x38/0x1d4)
-
-[   60.560741] [<c05f7e44>] (dpm_run_callback) from [<c05f8af8>] (device_resume_noirq+0x110/0x248)
-
-[   60.569451] [<c05f8af8>] (device_resume_noirq) from [<c05f93e0>] (dpm_resume_noirq+0x10c/0x36c)
-
-[   60.578162] [<c05f93e0>] (dpm_resume_noirq) from [<c017dd74>] (suspend_devices_and_enter+0x27c/0x9dc)
-
-[   60.587393] [<c017dd74>] (suspend_devices_and_enter) from [<c017e7dc>] (pm_suspend+0x308/0x370)
-
-[   60.596110] [<c017e7dc>] (pm_suspend) from [<c017cb30>] (state_store+0x6c/0xc8)
-
-[   60.603440] [<c017cb30>] (state_store) from [<c03138e4>] (kernfs_fop_write+0xf8/0x210)
-
-[   60.611379] [<c03138e4>] (kernfs_fop_write) from [<c0286c44>] (__vfs_write+0x2c/0x1c4)
-
-[   60.619310] [<c0286c44>] (__vfs_write) from [<c02886e8>] (vfs_write+0xa4/0x188)
-
-[   60.626632] [<c02886e8>] (vfs_write) from [<c028898c>] (ksys_write+0xa4/0xd4)
-
-[   60.633778] [<c028898c>] (ksys_write) from [<c01000c0>] (ret_fast_syscall+0x0/0x54)
-
-[   60.641437] Exception stack(0xeda91fa8 to 0xeda91ff0)
-
-[   60.646497] 1fa0:                   0000006c 00498438 00000004 00498438 00000004 00000000
-
-[   60.654683] 1fc0: 0000006c 00498438 00497228 00000004 00000004 00000004 0048478c 00497228
-
-[   60.662866] 1fe0: 00000004 be9029b8 b6ec8c0b b6e53206
-
-[   60.668007] ---[ end trace 5453317048e46ae9 ]---
-
-[   60.672632] Failed to disable vdd-pexb: -5
-
-[   60.676761] tegra-pcie 3000.pcie: tegra pcie power on fail: -16
-
-[   60.682694] PM: dpm_run_callback(): tegra_pcie_pm_resume+0x0/0x107c returns -16
-
-[   60.690035] PM: Device 3000.pcie failed to resume noirq: error -16
-
-[   60.696859] tegra-mc 7000f000.memory-controller: fdcdwr2: write @0x877e8400: EMEM address decode error (SMMU translation error [--S])
-
-[   60.708876] tegra-mc 7000f000.memory-controller: fdcdwr2: write @0x877e8400: Page fault (SMMU translation error [--S])
-
-[   61.278965] OOM killer enabled.
-
-[   61.288563] Restarting tasks ... done.
-
-[   61.300508] PM: suspend exit
-
-[   63.124813] asix 1-1:1.0 eth0: link up, 100Mbps, full-duplex, lpa 0xCDE1
-
-[   63.740705] PM: suspend entry (deep)
-
-[   63.744593] Filesystems sync: 0.000 seconds
-
-[   63.749600] Freezing user space processes ... (elapsed 0.001 seconds) done.
-
-[   63.751053] OOM killer disabled.
-
-[   63.751057] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-
-
-Have you seen this?
-
-Cheers
-Jon
-
--- 
-nvpublic
+> On 24/03/2020 19:12, Dmitry Osipenko wrote:
+>> Boot CPU0 always handle I2C interrupt and under some rare circumstances
+>> (like running KASAN + NFS root) it may stuck in uninterruptible state for
+>> a significant time. In this case we will get timeout if I2C transfer is
+>> running on a sibling CPU, despite of IRQ being raised. In order to handle
+>> this rare condition, the IRQ status needs to be checked after completion
+>> timeout.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/i2c/busses/i2c-tegra.c | 27 +++++++++++++++------------
+>>  1 file changed, 15 insertions(+), 12 deletions(-)
+> 
+> 
+> I have noticed a regression on tegra30-cardhu-a04 when testing system
+> suspend. Git bisect is pointing to this commit and reverting it fixes
+> the problem. In the below console log I2C fails to resume ...
+> 
+...
+> [   60.690035] PM: Device 3000.pcie failed to resume noirq: error -16
+
+...
+> [   60.696859] tegra-mc 7000f000.memory-controller: fdcdwr2: write @0x877e8400: EMEM address decode error (SMMU translation error [--S])
+> 
+> [   60.708876] tegra-mc 7000f000.memory-controller: fdcdwr2: write @0x877e8400: Page fault (SMMU translation error [--S])
+
+This looks very wrong, the error tells that 3d hardware is active and
+doing something odd. Are you running some 3d tests?
+
+...
+> Have you seen this?
+
+No, I haven't seen that. I'm not using PCIE and it looks like it's the
+problem.
+
+Looking at the PCIE driver code, seems it's not syncing the RPM state on
+suspend/resume.
+
+Please try this change:
+
+--- >8 ---
+diff --git a/drivers/pci/controller/pci-tegra.c
+b/drivers/pci/controller/pci-tegra.c
+index 3e64ba6a36a8..b1fcbae4109c 100644
+--- a/drivers/pci/controller/pci-tegra.c
++++ b/drivers/pci/controller/pci-tegra.c
+@@ -2870,8 +2870,8 @@ static int __maybe_unused
+tegra_pcie_pm_resume(struct device *dev)
+
+ static const struct dev_pm_ops tegra_pcie_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(tegra_pcie_pm_suspend, tegra_pcie_pm_resume, NULL)
+-	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(tegra_pcie_pm_suspend,
+-				      tegra_pcie_pm_resume)
++	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				      pm_runtime_force_resume)
+ };
+
+
+ static struct platform_driver tegra_pcie_driver = {
+--- >8 ---
+
+Secondly, I2C driver suspends on NOIRQ level, while APBDMA driver
+suspends on default level. This is also wrong, please try to apply this
+hunk as well:
+
+--- >8 ---
+diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+index f6a2f42ffc51..e682ac86bd27 100644
+--- a/drivers/dma/tegra20-apb-dma.c
++++ b/drivers/dma/tegra20-apb-dma.c
+@@ -1653,7 +1653,7 @@ static int __maybe_unused
+tegra_dma_dev_resume(struct device *dev)
+ static const struct dev_pm_ops tegra_dma_dev_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(tegra_dma_runtime_suspend, tegra_dma_runtime_resume,
+ 			   NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(tegra_dma_dev_suspend, tegra_dma_dev_resume)
++	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(tegra_dma_dev_suspend, tegra_dma_dev_resume)
+ };
+
+ static const struct of_device_id tegra_dma_of_match[] = {
+--- >8 ---
