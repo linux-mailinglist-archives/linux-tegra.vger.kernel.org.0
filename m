@@ -2,115 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D57E1B328B
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 00:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 353771B33B5
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 02:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbgDUWQL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Apr 2020 18:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36322 "EHLO
+        id S1726024AbgDVABY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Apr 2020 20:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725850AbgDUWQL (ORCPT
+        with ESMTP id S1725850AbgDVABY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Apr 2020 18:16:11 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D4DC0610D5;
-        Tue, 21 Apr 2020 15:16:09 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id h2so40839wmb.4;
-        Tue, 21 Apr 2020 15:16:09 -0700 (PDT)
+        Tue, 21 Apr 2020 20:01:24 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36D4C0610D5;
+        Tue, 21 Apr 2020 17:01:23 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id e25so371086ljg.5;
+        Tue, 21 Apr 2020 17:01:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=F4WRDj2X5QQrEYRw/a+K7isgsB0ZBr1VCngrYHGVPQE=;
-        b=YjMvmxbtzIxiPSpvyeDzhVN91hOfvfe4NO24ZIxnhdSC7Jh5pFBZ/jz4nFLci2o0o3
-         Kn+EBqdDQ0wE2qxdQhSZ+NvTyq8dgquooLDf346frDFSsdNW5SvHy5+DGHN1h7w8BTMw
-         y1SKsjDOMJoQAahKMMwxSSQnrP4AdWqF4eMbVvYnv5YZlUhUumMfycF7xt8XT2MmFaPT
-         canRWukk1Qut6nFlXtGSTmDt45P7NBP+e03j5Xz4/JCaqc8Qu1bLbIQPNd+AWI4JCDwG
-         +cf9hYy0vCUZzNYUKQAZtHMn/pAgybGJHDdYQeyhKuXh8fmIBGtG6fVd6+LZXNBDt5/G
-         FAzw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tXcBXN5qYaxx1xKt4iyFGahtDr9mQmZjgcjMz4L8BrI=;
+        b=Is5s9jR7rJ+eiBB53FBXlc7NxdrXy1sE0u4FzVMbeoRBSIRH1cCs1EDqqCYHeZ2QAA
+         ++M7v1DoG2y7BPbFBlyZ7nsDs9BgaIchM9Wo+xTgp/4ZVjTTPIoJ2JM5AUFCo3FTZV2G
+         DB0o1PoFt1m9QTPIs6yDaE0ROjzt+GgK5N7PcUeJIdslX6tAUK0FuGaW0/WMVgJZ5DzT
+         j/XbKJCJSZWmR+gHHeB6ThCUW+Ukr3gi0amE8eboLjDwvrkjlW7Gsxujqr8+cXDgGy+9
+         PZ7kopsiv3HIhMHCjXPdctrEyYG+Vf16xldyXbUZ/CoDt7t++nPIcyMYifVYmZ5Ochpl
+         Lw0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=F4WRDj2X5QQrEYRw/a+K7isgsB0ZBr1VCngrYHGVPQE=;
-        b=qN0H4ORisUlCVHjO1SF7UidfX5XKQgQPhI19b2Vesh23fsq7hmDm4OMpSLjaJPkbWO
-         osBk9cRu1p9un9SqQB90btsL9bkfO2W8XZHgVkVOI1DvOizIT61iCyMmBxflobGHmhov
-         BTmh5LGgJFBP6jrFkSdHIoWslE5HH7udIg7uSytWfDisvc9B789T7VDM87dDDmv7DbCs
-         EK0dk6QiKYukpQnZwwUw79qdoKkZpOH3jWPp12jspAAvjPC82leSZkvcWfWqYsfxCaE0
-         qTii83j+j4ngAhk/bGJjEbfQ7vrnn4yXaVu6KCUrsxAYa5ptVfn3v59IYdvjmmLcJAms
-         0O2w==
-X-Gm-Message-State: AGi0PuYaNF38Hp1wjadJB4ZTLwgRpBudp5DxAsV7ysOVzfmGz2titn20
-        9Iby9yxRZbREOP2V8jF/iyVRKeo9
-X-Google-Smtp-Source: APiQypIeKmocXt3cSj07h7nJzOQe05tAv/aewV8blJWeulywv0MPc0r6Smu8Vzw4HKmaerppZcr8gQ==
-X-Received: by 2002:a1c:3c87:: with SMTP id j129mr6800228wma.157.1587507368068;
-        Tue, 21 Apr 2020 15:16:08 -0700 (PDT)
-Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
-        by smtp.gmail.com with ESMTPSA id s17sm5389229wmc.48.2020.04.21.15.16.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tXcBXN5qYaxx1xKt4iyFGahtDr9mQmZjgcjMz4L8BrI=;
+        b=hd0YZipYAzqPYjt0kYx7ady9OO9zSkdxuyHfWfrLTdsXx2YrKnDRPlmbpKZ2pPzl2z
+         eOVJCWlOQd8PJ1TsLLsLwWnMzfZ4f+cim2+hpiHaGWzBJ3sNj9d+JiPJB6GBd0VpL4R1
+         siQaf5A1PcdtoLtJoI/ftDhC00e5YVCPp0ybxMA2cLvUtmNKxlVYWeWtMySHTxqbX/XL
+         Zy0l9t0+CIbVS2TLxw6/J5wXxXJag2XV/rcDJHDUCHA/aBCze1nMEVbZenkigzIzAgyS
+         6LIDrmn853/meWXrfA4uq5j3+VYJCNLzso8T5e17vvQYaUEHRJCpRmjjzqV0vKrcFCaE
+         Y6YQ==
+X-Gm-Message-State: AGi0PubqAV8obdvRDoC+hR4P+ZCgAyz7b4XYbSpGG+Ea2uxYQTjOopbp
+        GQoZt8zfDfaK6XW/Pv/7hQQ=
+X-Google-Smtp-Source: APiQypLoxHIupQzEPhA799FGgqpwdVtDAru/ZoOpydAYUPZHy9F+GNUCw7nqSKHW9OKWmQVQGAThgQ==
+X-Received: by 2002:a2e:8645:: with SMTP id i5mr13586747ljj.56.1587513682075;
+        Tue, 21 Apr 2020 17:01:22 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.gmail.com with ESMTPSA id y9sm2933425ljm.11.2020.04.21.17.01.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 15:16:06 -0700 (PDT)
-Date:   Wed, 22 Apr 2020 00:16:06 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc/tegra: fuse: Update the SoC revision attribute to
- display a name
-Message-ID: <20200421221606.GD3445172@ulmo>
-References: <20200417124046.26400-1-jonathanh@nvidia.com>
+        Tue, 21 Apr 2020 17:01:21 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        =?UTF-8?q?Pedro=20=C3=82ngelo?= <pangelo@void.io>,
+        Matt Merhar <mattmerhar@protonmail.com>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/6] Support NVIDIA Tegra-based Acer A500 and Nexus 7 devices
+Date:   Wed, 22 Apr 2020 02:59:37 +0300
+Message-Id: <20200421235943.13627-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4zI0WCX1RcnW9Hbu"
-Content-Disposition: inline
-In-Reply-To: <20200417124046.26400-1-jonathanh@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello,
 
---4zI0WCX1RcnW9Hbu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series introduces upstream kernel support for Acer Iconia Tab A500
+and ASUS Google Nexus 7 tablet devices. Please review and apply, thanks
+in advance.
 
-On Fri, Apr 17, 2020 at 01:40:46PM +0100, Jon Hunter wrote:
-> Currently the SoC revision attribute for Tegra devices displays the
-> value of the enum associated with a particular revision. This is not
-> very useful because to obtain the actual revision you need to
-> use the tegra_revision enumeration to translate the value.
->=20
-> It is more meaningful to display a name for the revision, such as
-> 'A01', than the enumarated value and therefore, update the revision
-> attribute to display a name. This change does alter the ABI, which
-> is unfortunate, but this is more meaningful and maintable.
->=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  drivers/soc/tegra/fuse/fuse-tegra.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Changelog:
 
-Applied, thanks.
+v6: - Corrected PMIC's RTC alias in the DTs. Sometime ago I renamed the
+      PMIC's node to match the modern upstream styling, but forgot to change
+      the RTC alias. Now PMIC RTC alias uses node's handle instead of string.
 
-Thierry
+    - Removed "panel: " handle from device trees, which became unused after
+      v5 and I just missed to remove it.
 
---4zI0WCX1RcnW9Hbu
-Content-Type: application/pgp-signature; name="signature.asc"
+v5: - After spending some more time on adding LVDS encoder bridge support
+      to the Tegra DRM driver, I'm now having a second thought and agree
+      with Thierry Reding that in a longer run it should be better not to
+      mix old nvidia,panel with new output graph in device-tree. So the
+      nvidia,panel phandle is removed now in both A500 and Nexus 7 DTs.
 
------BEGIN PGP SIGNATURE-----
+v4: - Corrected CPU's thermal zone on both A500 and Nexus 7, which
+      should use the remote thermal sensor (Tegra chip) instead of the
+      local ("skin" temperature).
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6fcKYACgkQ3SOs138+
-s6G0mg/+P+8Rot7VDNd1EWJMIktuk2Nb3qJ9o0Cu31aSzy7qjODcc7qKB2duHkh4
-D96kUWvGLMYVn2c13uaU97TnmSPbruadM8+oxBqFkKnUcfO6G80ExLHE6pebhhUV
-7Ot7T9EESV1dh0wtrcEGH2wuOUyvOpzZDV09cKb7FdezEyiGDQ5hKHBarHdeTWXd
-eYDEMeTJ54edTMSrdbCxD3GJ0Lw26gIkWbEPZTwE1oZ8iwDhSvaqvm9MbwSl8cns
-y3ReXdrlnlchWMY8+QvQsrQLz80+T2U4wt1VGelr/xwttS3buQLsB0erSLJuRTTE
-OgrcZrN8HH2db/pO2s8nr1hgao7N6GAe7OWaDpHQCM7DVFcgOfwIJeffRfod51Nt
-ue/2Au0eVoXDEcZrlesENgtoCazK3ePaHVOuORjmndZi4afmruVwiI3Qc0LFRzOR
-v9U1cMOTcIzoT7wcMlJ5maXPHsovK58mWLZ5KkIEgmaBps6By9+4vdI9liSQ+3FS
-PnQ/tBrQx1ESKYV/j9UqnIvbn9qrXq9EmuGxCyPjXUZ22seYiMsW0MhFPbuuddFm
-E6fxlK9N5+udDepUBCJr0vfdr1mKxyR+qpKa9uBrwc1cJZbMB+nmhFzomvB8xsdI
-EUIdY5Ylqa7SzqrO2a+/Mwz2+Vxaop2G0k49K62e0MLy/vmseKg=
-=Ibkn
------END PGP SIGNATURE-----
+    - Added default PMIC pinmux state on Nexus 7, for completeness.
 
---4zI0WCX1RcnW9Hbu--
+    - Added PMIC cpu_pwr_req GPIO hog on Nexus 7, for completeness.
+
+    - Renamed thermal sensor node label to NCT72 on Nexus 7 to match the
+      actual hardware (NCT72 is compatible with NCT1008). For completeness.
+
+    - Added always-on USB AVDD regulator on Nexus 7, which is controlled by
+      the PMIC GPIO. For completeness.
+
+    - Added PMIC GPIO enable-control to the 3v3_sys regulator on Nexus 7,
+      for completeness.
+
+    - Added CONFIG_NAMESPACES, CONFIG_USER_NS, CONFIG_SECCOMP and
+      CONFIG_PINCTRL_MAX77620 to the tegra_defconfig. The first three
+      options are must-have for the modern userspace, the last is somewhat
+      actual now since the default PMIC pinmux state is added to the N7 DT.
+
+v3: - Improved device-tree node-names in accordance to review comments that
+      were made by Thierry Reding to v2.
+
+    - Corrected LVDS encoder powerdown-GPIO polarity on both A500 and Nexus 7
+      because I implemented the DRM bridges support in the Tegra DRM driver
+      and found that there was a mistake in the device-trees. The updated
+      polarity also matches the boards schematics. Now DRM bridges support
+      becomes mandatory since LVDS is getting disabled during of the encoder
+      driver probing. I'll send the DRM patch separately from this series.
+
+    - Replaced recently deprecated CONFIG_DRM_LVDS_ENCODER with the new
+      CONFIG_DRM_LVDS_CODEC in tegra_defconfig.
+
+    - Added more config options to tegra_defconfig, like pstore and thermal.
+
+    - Added atmel,cfg_name to the A500 DT, which is a new upcoming property
+      in 5.8+ that allows to specify the per-board hardware config file name.
+
+v2: - Corrected "volume down" key-label in the grouper's device-tree and
+      improved some other names in device-trees.
+
+    - Added optional (upcoming in 5.8+) VDD/AVDD regulators to the touchscreen
+      node in A500 device-tree.
+
+Dmitry Osipenko (6):
+  ARM: tegra: Add device-tree for Acer Iconia Tab A500
+  ARM: tegra: Add device-tree for ASUS Google Nexus 7
+  dt-bindings: Add vendor prefix for Acer Inc.
+  dt-bindings: ARM: tegra: Add Acer Iconia Tab A500
+  dt-bindings: ARM: tegra: Add ASUS Google Nexus 7
+  ARM: tegra_defconfig: Enable options useful for Nexus 7 and Acer A500
+
+ .../devicetree/bindings/arm/tegra.yaml        |   10 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ arch/arm/boot/dts/Makefile                    |    3 +
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 1457 +++++++++
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 2679 +++++++++++++++++
+ .../boot/dts/tegra30-asus-nexus7-grouper.dts  |  463 +++
+ .../boot/dts/tegra30-asus-nexus7-tilapia.dts  |  549 ++++
+ arch/arm/configs/tegra_defconfig              |   42 +
+ 8 files changed, 5205 insertions(+)
+ create mode 100644 arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dts
+ create mode 100644 arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dts
+
+-- 
+2.26.0
+
