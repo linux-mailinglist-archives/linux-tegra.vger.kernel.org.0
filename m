@@ -2,113 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B611B3096
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2020 21:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFFA71B3163
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Apr 2020 22:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726012AbgDUTmq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Apr 2020 15:42:46 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:3074 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725930AbgDUTmp (ORCPT
+        id S1726124AbgDUUqw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Apr 2020 16:46:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726024AbgDUUqw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Apr 2020 15:42:45 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e9f4ca80001>; Tue, 21 Apr 2020 12:42:32 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 21 Apr 2020 12:42:45 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 21 Apr 2020 12:42:45 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Apr
- 2020 19:42:45 +0000
-Received: from [10.26.73.24] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Apr
- 2020 19:42:42 +0000
-Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
- for a long time
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "Wolfram Sang" <wsa@the-dreams.de>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>
-CC:     <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200324191217.1829-1-digetx@gmail.com>
- <20200324191217.1829-2-digetx@gmail.com>
- <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
- <f59ba318-8e99-c486-fa4d-1ee28a7b203d@gmail.com>
- <b01cec76-bb39-9fb5-8f6e-4023c075e6b3@gmail.com>
- <8cd085e1-f9fd-6ec0-9f7a-d5463f176a63@nvidia.com>
- <db1132ce-53a8-371c-98e0-cb7cd91d5c7d@gmail.com>
- <fa344989-4cce-0d2c-dc93-4ca546823160@nvidia.com>
- <bba0a93a-8ec4-eda6-97f3-fb2ab0b9b503@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <6f07e5c8-7916-7ea2-2fe7-d05f8f011471@nvidia.com>
-Date:   Tue, 21 Apr 2020 20:42:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 21 Apr 2020 16:46:52 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A914AC0610D5;
+        Tue, 21 Apr 2020 13:46:50 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id u16so5049943wmc.5;
+        Tue, 21 Apr 2020 13:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=q6uPC1CnCPTFfr9RZtZjgLS8wz+TR/yHxAxpCEB2ABE=;
+        b=WGSXQ+29Ak7SWw6XyBBOxnAH68o34jNmWGCdSwuAEY1YdHxy2Q3GaOntJ+kdFb1tT+
+         Ng0Loh1AGdVwX8vf+w0CPN1iJ9oDCZOiZ17bnvVlgzouMijVA50KnBn8C649htQ6HmZ5
+         18BsCfiUMLQ4c/0vTBDNjJFIKQBW+uSXjgW8reGxf8AlwwVq87VRKZbVMrUXoVv5MW7E
+         ghslZfoXi7gxJZr+q7L73S4SWZEilk/3OKKUjAD9bLfgqSndZ51bQWuVyGAfAn89GhIA
+         yTLjp0wJNhJN0/DusDeUZC5K8w93pqZnSGkw8BG01cYYINHMF4QQ6rsnn08fIHxPc9KH
+         4wAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=q6uPC1CnCPTFfr9RZtZjgLS8wz+TR/yHxAxpCEB2ABE=;
+        b=X/Vz7CTsxnRSXpgrCZuOCgxsy7Y42sF/Fa/4nO41O8tNMKdK1YyAdblQtS1xLFZlws
+         YrpH2DamVYvOiRAFskcfCKs7fQK0DW1m3/4Fsz8byC7QN8xfN5F1SgS0lljh2JnTUo1m
+         bRQmI7eSUENS+fDNxJpJo5UjL0CYQ/1tNJ6VurasCqoKIWr58/z+PcUONik/ROvhedSy
+         NfHAKXDDuuK2OnG+OYZmuQNvi/C1HZOJfAzcIhAQjs19OpXz2Nnb4DHSlnzpzZH9zvo3
+         IjGbqaWetAIxrXhN/JqqVoeYK+FAh9HCYq7A60/AQPfT/y5WsicddPzfRaA2v0pg0JDp
+         XkNA==
+X-Gm-Message-State: AGi0PuYGiZqpLLqQit7LrHsEo6HRFXZVkqoNACty3ijoKsYGfVLo8sLn
+        ldMaOZH7ChZjHUiKF0yrE4w=
+X-Google-Smtp-Source: APiQypJpQe3wpc763YuNJO0Sx0DlrTQK3dxcxLZhIl4oN7YF3FMeSKlRhIhE/z2gMyKgA2LNdg+fhg==
+X-Received: by 2002:a05:600c:2218:: with SMTP id z24mr6646985wml.82.1587502009392;
+        Tue, 21 Apr 2020 13:46:49 -0700 (PDT)
+Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
+        by smtp.gmail.com with ESMTPSA id k184sm4990111wmf.9.2020.04.21.13.46.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2020 13:46:47 -0700 (PDT)
+Date:   Tue, 21 Apr 2020 22:46:46 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, helen.koike@collabora.com, digetx@gmail.com,
+        sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v8 5/9] dt-binding: tegra: Add VI and CSI bindings
+Message-ID: <20200421204646.GA3233341@ulmo>
+References: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
+ <1587427874-3291-6-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <bba0a93a-8ec4-eda6-97f3-fb2ab0b9b503@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587498152; bh=/6J0M2JR25SBCbaG9GKcmtfg56nuGtX/szS0WdPB7Dw=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=h3wxWueIYlEZ7hhNyhqUm9JbuIRN/F2x1dKrVbcl0sxRU+KCmbEgEJ9/C0uNdv0iS
-         pwqWjkDCPp2MzEZHchdlI2jT9H2XwFGujBqGsex3PPsBqNa2s4GX+qOi9g4Hkmgm2Y
-         FdZkMPLT76Ik3Irrq5SoVLHCRjwFtAYV1qZduaJyVoqL9PgRJOMv+QvjgxH5JAuuyg
-         vD8hQ2JuivuFlKNSlBjlBQXC6s/irwY1cUDjOzrpMq5J+a2PLdMX1HLHOpiWbf/Z42
-         FArtF+dvmbMDhCTYfyQZNESjaKVuVappgpKmgrjqw/fXkKXzUqjvmV6UC3Ko9TcEnQ
-         huJmuQbfQXoqQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
+Content-Disposition: inline
+In-Reply-To: <1587427874-3291-6-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 21/04/2020 16:08, Dmitry Osipenko wrote:
-> 21.04.2020 17:40, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>
->> On 21/04/2020 14:25, Dmitry Osipenko wrote:
->>> 21.04.2020 12:49, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> ...
->>>> I can try the above, but I agree it would be best to avoid messing wit=
-h
->>>> the suspend levels if possible.
->>>
->>> Will be awesome if you could try it and report back the result.
->>>
->>
->> I gave it a try but suspend still fails.
->=20
-> Perhaps the RPM's -EACCES is returned from here:
->=20
-> https://elixir.free-electrons.com/linux/v5.7-rc2/source/drivers/base/powe=
-r/runtime.c#L723
->=20
-> Which suggests that I2C is accessed after being suspended. I guess the
-> PCIe driver suspends after the I2C and somehow my change affected the
-> suspension order, although not sure how.
->=20
-> Jon, could you please try to enable PM logging and post the log? Please
-> also post log of the working kernel version, so that we could compare
-> the PM sequence.
->=20
-> Something like this should enable the logging: "echo 1 >
-> /sys/power/pm_trace" + there is RPM tracing.
+--5vNYLRcllDrimb99
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately, after enabling that I don't any output and so no help there.
+On Mon, Apr 20, 2020 at 05:11:10PM -0700, Sowjanya Komatineni wrote:
+> Tegra contains VI controller which can support up to 6 MIPI CSI
+> camera sensors.
+>=20
+> Each Tegra CSI port from CSI unit can be one-to-one mapper to
+> VI channel and can capture from an external camera sensor or
+> from built-in test pattern generator.
+>=20
+> This patch adds dt-bindings for Tegra VI and CSI.
+>=20
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-host1x.txt        | 73 ++++++++++++++++=
+++----
+>  1 file changed, 60 insertions(+), 13 deletions(-)
 
-Jon
+Acked-by: Thierry Reding <treding@nvidia.com>
 
---=20
-nvpublic
+--5vNYLRcllDrimb99
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6fW7MACgkQ3SOs138+
+s6GcPQ/9FNBtMbNYeZe7HR8tmPr1TQ7xTJ21ncNt7vGdlFWn0F7TXycPiWu86+V6
+Zc2pIGZjSk2uhHKbvYUvA9IXkAY0mxtzZrJeXIU+vAADOjAc6+rYYKcf0zuRr28g
+AAgcnaAZPIsxWCdIM/G4l+Bir8kw82HGIpK45J2m4aWmgBF9c1vMVO4yzj5FALzj
+F7nqa2Iiufghax5P7n/9yKWLeQroDPqsrWCWqVh9ILOn52l/qIDfRPAsEjuoCy3s
+FaDQQQRRSoyYTRg8iNLF6t2H8yI89Suyia4ZcN+YzuhwtEc/DlSvIWFW9BVgyXxH
+N6AdkZzFID0me3ij0xAGJWD2bmUlhQVPMPAJZq52t6vdH+0k9WReRUuBp1D0P7nC
+FYuwttry5BJiXXceFOR29KKAe2qO3IMl3/cpLvcDVPSbMi38Zyd3VvhNbvFD+fn+
+hTa3S+5xLhbQxLZsSDnaPA1Phl4EGGNSWo08Nn5mwU+H/oCO11i/Luy4+usaYgor
+lfa9//chWihgxUnpa0fN4nUdgmaRWxymLiJL3bY8twgvEWlzn7cbtf6EacXY5Yzt
+jUE+kPSEAYy0jjuWANsQJUe2BQiLHIRJEEQSt6EsSgLmV2P+5utoIuAjUQWAiF1V
+fE8pGGlhXJza9q7fbW62lHW/c7agPohXsRsq59UytdnjJtnzTz0=
+=FTJX
+-----END PGP SIGNATURE-----
+
+--5vNYLRcllDrimb99--
