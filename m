@@ -2,64 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE41E1B3285
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 00:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB351B3287
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 00:15:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725850AbgDUWPI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Apr 2020 18:15:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
+        id S1725987AbgDUWPm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Apr 2020 18:15:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbgDUWPI (ORCPT
+        with ESMTP id S1725850AbgDUWPl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Apr 2020 18:15:08 -0400
+        Tue, 21 Apr 2020 18:15:41 -0400
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A73C0610D5
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2020 15:15:07 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id t14so54232wrw.12
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2020 15:15:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744C1C0610D5;
+        Tue, 21 Apr 2020 15:15:41 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id x18so101019wrq.2;
+        Tue, 21 Apr 2020 15:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Vp+BHFQY1Hh6JqMh5HS6HD45Ub0B5oqXNKVfhqM48lQ=;
-        b=WFiYhyJ7pjwr4PDhAdo6+XhGMKZ6vUDucMhofLSqrSLDoxNLBBsduHGlAS7dMb/4gS
-         CQS+OLe1TxOdY5c3Yz773SSEGUiuHd1SLEuHNOCwE8D3Us/G6dzoisTmmKGeORMd1SPc
-         Uh14qhPXIQshqET+q+oZ78Tev9pXJESyR+rIcXhYud4zi+ZfU5kf9e2CFDYuptN++q+3
-         14ilU85tLhHIBkipGRecymrEprFU28vIfHioCxmeOFlVN4jq7VpcrhJ9UwEcfNnAwON5
-         cKyMJmIlT8enqTEl8NDVVvCRlNZmZUj+4vdSwhbX3MfkIiGqrV7Eybwpkhqm7lDNNHmd
-         dSZw==
+        bh=yvv6tja4Yk+eVEILjZRBST0jDGm4v/FbXtO/ZgqjM74=;
+        b=RGfG3VUURFNtWc+VoPO9NVYyWunzCVcQA22ux57ph9xyOtZCIvDPzw9sG3NnSGWdxD
+         DPxCABohIZKsnwINyit+tsz4qVL9lf3GROmiBgEHtVIHUrKbEIzp7MpwzW8UzCdZGjhg
+         y4W7IgEX7maGTmX3ZT/8htQG30zvyLhaa5YID/wDuygZsqAKn8tWqq1Z1wepVZ/nDrcK
+         Qtpdy5n2HknWu2HOGkPt8OJm9dDEQAVruqBXFcwsEqG4HnbTZYsZTVBakz3vVsp/neKL
+         arxywQi8oxwxeEbF6c0r38sd+Iw5WYhlpzMfnCqVQIa6vybC6rrQEz4h1t2qrmJzPjzv
+         38og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Vp+BHFQY1Hh6JqMh5HS6HD45Ub0B5oqXNKVfhqM48lQ=;
-        b=s5DxTUleXg9bWrlAhHAz3RLDTVDkAo1LxdxJJ27EqDmAYIqcra881fmYSpo0C/fP3Z
-         h4JJV7dxZ8i0By39iRnuujWr2VlYOJGuR+xsBhUOUOh/Ci9Vvn0WjFjnNxKBc6XYFt8g
-         6G7l1UAWZXfrW9c+apKuDOeFTUHUb3bg7qDS4O6/IrHOoybMW13Hqvbd6fZCJOKJAk1G
-         imBwDKqGiI57SGSNUMUxcT1SYc7YvDZeql89v9KYZBMk3EI8BbZFHj4Efe9XFtiYt7Cs
-         9U8R65DemTrjxG46t4et90IbsPyz4vZ1iowgFzIJ9VzV4iu86ePCRSJLsM452xL93xgr
-         3FyA==
-X-Gm-Message-State: AGi0PuYQw5ksBKl9L3OSQr1lN/vfesuQPKapI2eEqRiEnwqkTFhC0Jgg
-        tZO9DkMT9BDSnSavPLxnVhipNip7
-X-Google-Smtp-Source: APiQypLzPm6SFJdjwFdz1QWHt7ZDv7wGpy6PStIN//zTdZhF9krr3qs4I+84wpP8PBiC2ldjM8H3FQ==
-X-Received: by 2002:adf:afc6:: with SMTP id y6mr25210051wrd.74.1587507306478;
-        Tue, 21 Apr 2020 15:15:06 -0700 (PDT)
+        bh=yvv6tja4Yk+eVEILjZRBST0jDGm4v/FbXtO/ZgqjM74=;
+        b=Ry1gipnDDjnD364YixM1ntuSfVqzdFID00rAVh7uQk60o2WT322DiamBQKBiqmGEAC
+         iURyNuHPXy3aOAeBTm59DoRUer/kuXi4FjSChUe34dNb+Spq7/6qRIhhYx8f2BBScS4z
+         /XGUkTSECaLpL8Nvc9QMNH7nSvQ6c6jtZozu5Awshmjc3teVHmywgAGAagsTpZdW34r3
+         LvQT0WmScr/MNRNZVjU4AYOPMKxUOIm2x44TcPHFU/bYhKUkli7fgAGjMj1Eha5p7y4D
+         UVEoaLrCUABEE4Nqp+A63fZI/Yqno7QtPnKXqKvXxT5owl1A+VYGWj+/gqakr7JeuxnJ
+         71mA==
+X-Gm-Message-State: AGi0PubIKOtfSaBzjFAuwOmeF5W3J7QBq0VG7tbj45UYXdfqsHhD+C3f
+        ZgMyFG2z5QV0iOY6251PCDvF+ue0
+X-Google-Smtp-Source: APiQypI5TRVNGnBxrY9Qs5LadawigWas7BSd7e+LErX/pZCbbEu2ZW0JsegsVtN1Jl5LDmSdi6pjBA==
+X-Received: by 2002:adf:df01:: with SMTP id y1mr25888894wrl.401.1587507340215;
+        Tue, 21 Apr 2020 15:15:40 -0700 (PDT)
 Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
-        by smtp.gmail.com with ESMTPSA id h16sm6089076wrw.36.2020.04.21.15.15.04
+        by smtp.gmail.com with ESMTPSA id o18sm5551756wrp.23.2020.04.21.15.15.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 15:15:05 -0700 (PDT)
-Date:   Wed, 22 Apr 2020 00:15:03 +0200
+        Tue, 21 Apr 2020 15:15:39 -0700 (PDT)
+Date:   Wed, 22 Apr 2020 00:15:38 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] drm/tegra: Clean up GPIO includes
-Message-ID: <20200421221503.GA3445172@ulmo>
-References: <20200415122427.111769-1-linus.walleij@linaro.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 1/2] soc/tegra: fuse: Add custom SoC attributes
+Message-ID: <20200421221538.GB3445172@ulmo>
+References: <20200417123949.26288-1-jonathanh@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+        protocol="application/pgp-signature"; boundary="hQiwHBbRI9kgIhsi"
 Content-Disposition: inline
-In-Reply-To: <20200415122427.111769-1-linus.walleij@linaro.org>
+In-Reply-To: <20200417123949.26288-1-jonathanh@nvidia.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -67,50 +67,66 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---rwEMma7ioTxnRzrJ
+--hQiwHBbRI9kgIhsi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 15, 2020 at 02:24:27PM +0200, Linus Walleij wrote:
-> The Tegra DRM drivers includes the legacy GPIO headers
-> <linux/gpio.h> and <linux/of_gpio.h> but what it really
-> uses is <linux/gpio/consumer.h> since only gpio_desc
-> structs are ever referenced.
+On Fri, Apr 17, 2020 at 01:39:48PM +0100, Jon Hunter wrote:
+> Add a custom SoC attribute for Tegra to expose the HIDREV register
+> fields to userspace via the sysfs. This register provides additional
+> details about the type of device (eg, silicon, FPGA, etc) as well as
+> revision. Exposing this information is useful for identifying the
+> exact device revision and device type.
 >=20
-> Include the right header on the top level tegra/drm.h
-> file and drop all the surplus includes.
+> For Tegra devices up until Tegra186, the majorrev and minorrev fields of
+> the HIDREV register are used to determine the device revision and device
+> type. For Tegra194, the majorrev and minorrev fields only determine the
+> revision. Starting with Tegra194, there is an additional field,
+> pre_si_platform (which occupies bits 20-23), that now determines device
+> type. Therefore, for all Tegra devices, add a custom SoC attribute for
+> the majorrev and minorrev fields and for Tegra194 add an additional
+> attribute for the pre_si_platform field.
 >=20
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
->  drivers/gpu/drm/tegra/dpaux.c | 2 --
->  drivers/gpu/drm/tegra/drm.h   | 2 +-
->  drivers/gpu/drm/tegra/hdmi.c  | 1 -
->  drivers/gpu/drm/tegra/sor.c   | 1 -
->  4 files changed, 1 insertion(+), 5 deletions(-)
+> Changes since V2:
+> - Renamed attributes
+> - Fix checkpatch warnings
+> - Simplified code by using DEVICE_ATTR_RO
+>=20
+> Changes since V1:
+> - Exported individual fields of the HIDREV register
+>=20
+>  drivers/soc/tegra/fuse/fuse-tegra.c    | 54 ++++++++++++++++++++++++++
+>  drivers/soc/tegra/fuse/fuse-tegra20.c  |  1 +
+>  drivers/soc/tegra/fuse/fuse-tegra30.c  |  6 +++
+>  drivers/soc/tegra/fuse/fuse.h          |  8 ++++
+>  drivers/soc/tegra/fuse/tegra-apbmisc.c | 10 +++++
+>  5 files changed, 79 insertions(+)
 
 Applied, thanks.
 
 Thierry
 
---rwEMma7ioTxnRzrJ
+--hQiwHBbRI9kgIhsi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6fcGQACgkQ3SOs138+
-s6HLkhAAu4iEB6DmFiY8mIfbg5zlR+Zh1clXUkIPGTDhEGEQjmNF+j3mjMs+Ij6k
-fJZapANopEijtJpoAYpr8mDOAQ1gcdWLAaeKfGKWLyW/r3aoDO1ZxsaLQBQIeimN
-oIrDycRU0d2r5wbg1bHQfOq0wwaUS1YuHEMx4v2RGSvK/E5IrDB/O3Td7E1ols6l
-K8zZFHvvAvTUaecYHwVKac2NqRJVDHjDqvu9YIvaXbJ2VbXDy5kY33MjX8nfBewK
-HBsnQ/r8nUpAjSBx9SRZy3lxBiFXfYOiWQwNvvBF+GSO/za5RTWzSJP8WQKvn2eo
-gw4Foxqp+5xBEqLmRzjPya1y3y2pno3WKTzLTYPcUjBwu8SnUJ1eAmxj8JQpdRPx
-FYeEaka89Ip5fX+NJ89N/pTmRfSYH5zkKecTMbloafmXcbsLP79YsYSEFuiC8pUW
-Tot7yRErxDXuCgfeqUwfx/pcuuYHTIolYBGzJkzX/Kylw6tD1kgg3ChngveZjPTz
-GS49BeviCSSAELi/B51+vHaQa4um9SSClAlqW1Rp4VI+d16lQsIgO48cUhEUC6X2
-2g/BBScvZ5Kl+QBJmDriMHaa6/n4UkU5J2wgnNgcwuPbLJLqsmrkPjHaUr4S+Om7
-s0jglCkeo/U/naAYZrQu+M9pkhY+PE9BWWBhWgqiW3C6SNnZyKg=
-=S/Uu
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6fcIoACgkQ3SOs138+
+s6HqSQ/8Ce2MbHuw0lLNqNQYqrIExlw4tXEFdJYralJSe4UYsJgrw6YODCCxwL7N
+IyMWNAD4w0zw1dK6bIOiwRfI2hx6UzM3W1j2868X/qTvureTJ8k5fGMFqA7kLM7h
+5iTNjwtT/IWpBXU0sVO8hQuHHh8PWV9PpgU1ALUWQzekbSuo8Xd8jJzwWyYcqpn9
+C9zCxa71Y6+mzEVHoHby0NSBMmhHl7bLcPkGqrFxySTWNLm9XtNVxkd9XXfKd5R9
+iMffnZCL0Y2seM/Ug+axHu8hdqU+VXbAHdwxHAI6gSFmzx1kVQdM6iamr8bu0kkj
+7wWWf/Pjx5G+y4VKFp2peGW4GIqmOUkJpvp/g1hC7gLztCyZ5mOdCmhfWLLogpG8
+hP/nuaHaHADwY6s5YbMfjNCChyuJJMYTjajcpAVcvK6WzWbf8J9A+kI9AlGyOtBn
+0cT4T1DxlJc5hf0TfJzsiziEDp0JQk9UhYZvfyxDlgY2HcvfOC1dYGAGs3rkOzOr
+muXUkg1MF9p4OrQxoVpxqIQqBQZ5LisbnMg0nfaWC/fMoEIovM4iOlRfzere45Ln
+WNAbLB3Wpy3kXHVIbmTTbovAslOpv3+3+pZ5GgOpQkdqK4XLgW3d2F8D/5OFs8JS
+lpHYnosUl0zJPdr7RelvHSovvZrl88g+MDSDtO7SZpUjpUCZNss=
+=huHJ
 -----END PGP SIGNATURE-----
 
---rwEMma7ioTxnRzrJ--
+--hQiwHBbRI9kgIhsi--
