@@ -2,122 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E84B21B326E
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 00:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE41E1B3285
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 00:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbgDUWBB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Apr 2020 18:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33972 "EHLO
+        id S1725850AbgDUWPI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Apr 2020 18:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725850AbgDUWBB (ORCPT
+        with ESMTP id S1725987AbgDUWPI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Apr 2020 18:01:01 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F64C0610D5
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2020 15:01:00 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id u127so22362wmg.1
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2020 15:01:00 -0700 (PDT)
+        Tue, 21 Apr 2020 18:15:08 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A73C0610D5
+        for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2020 15:15:07 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id t14so54232wrw.12
+        for <linux-tegra@vger.kernel.org>; Tue, 21 Apr 2020 15:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6AyHLOTZao8epI2YFOeKhft6dXxmLHMbz1NBrxSQgIU=;
-        b=DrJU+M4rLkdb8ASj/JJsH3Gh6B42FOHsIOYnm9QZ9q6Z4z5m5qewETOsHDnB56Jw5Y
-         njqqrfHM9Mzq3LHVChjx54D5FqFtEnikIjaPBQSaLB3n09NI6VSybXZ86yWo9sjbfnzo
-         9aTrtKj0aPf11+FZ0pWu3f99BeOuGlWUP9N6BcRsbYrw4FWKZ1CiVjzFkBea1R/xt5D/
-         OP4By5NgzSn0R6buB37OWWV3pOlA05rf9ZlogWO+n5UIef+DP4wmg1eL1F3BCjX2koxY
-         nPU2utw8XiRw3WR/PbF9jJIJdXhZpC3U+c47q6zO1BTNgt7QbjkS3AkyWA1hrDdyzZ49
-         bs5w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Vp+BHFQY1Hh6JqMh5HS6HD45Ub0B5oqXNKVfhqM48lQ=;
+        b=WFiYhyJ7pjwr4PDhAdo6+XhGMKZ6vUDucMhofLSqrSLDoxNLBBsduHGlAS7dMb/4gS
+         CQS+OLe1TxOdY5c3Yz773SSEGUiuHd1SLEuHNOCwE8D3Us/G6dzoisTmmKGeORMd1SPc
+         Uh14qhPXIQshqET+q+oZ78Tev9pXJESyR+rIcXhYud4zi+ZfU5kf9e2CFDYuptN++q+3
+         14ilU85tLhHIBkipGRecymrEprFU28vIfHioCxmeOFlVN4jq7VpcrhJ9UwEcfNnAwON5
+         cKyMJmIlT8enqTEl8NDVVvCRlNZmZUj+4vdSwhbX3MfkIiGqrV7Eybwpkhqm7lDNNHmd
+         dSZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6AyHLOTZao8epI2YFOeKhft6dXxmLHMbz1NBrxSQgIU=;
-        b=e+fGn+Ct8J/Yl2EGMUeUQc3I0Q0zuHUkqSM9sKYI9vr9NsVBYJXxEA+IOi0AQUoEHL
-         yaQ0aIiACfdd34ucoenWGMjg99fMfNwx/hwz8CS5+wLNuW2JC52iUuH85ERZCqmBPc+1
-         N8HTyZEoqOfYxnO7QTyXbynf2n2h+DlsQ9cS6e245ZTS3n7LgUwmi75gmI9pIBggjD2V
-         Blib+/f1+6nNINhX0dLgBZCJ6gbb2Ibq/oxLceCP4DrVWP4+yBrMhBAmJ1NGtKVTvB3K
-         HO+xQW0kAzaf3uQHK2pZiT0wJYigZxzhjGMYHIiyz/NdLc153BZUzIyt8aA9cDZWmGJA
-         sbPQ==
-X-Gm-Message-State: AGi0PuY8G54XLlYKJM2BOyRtp5FCjfVLsBOTE4l8oxJznx701MZK8Gee
-        tCBgS+BiY1mgWyHpPAVEHAMxH4RC
-X-Google-Smtp-Source: APiQypJGHMIeDkpwNvyI+qkhVGVIY4+32vcT29mvquU8eOzHfdr5ghoBLU3cBzaJzInvcOKVg82FNg==
-X-Received: by 2002:a1c:770e:: with SMTP id t14mr6721404wmi.187.1587506459564;
-        Tue, 21 Apr 2020 15:00:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Vp+BHFQY1Hh6JqMh5HS6HD45Ub0B5oqXNKVfhqM48lQ=;
+        b=s5DxTUleXg9bWrlAhHAz3RLDTVDkAo1LxdxJJ27EqDmAYIqcra881fmYSpo0C/fP3Z
+         h4JJV7dxZ8i0By39iRnuujWr2VlYOJGuR+xsBhUOUOh/Ci9Vvn0WjFjnNxKBc6XYFt8g
+         6G7l1UAWZXfrW9c+apKuDOeFTUHUb3bg7qDS4O6/IrHOoybMW13Hqvbd6fZCJOKJAk1G
+         imBwDKqGiI57SGSNUMUxcT1SYc7YvDZeql89v9KYZBMk3EI8BbZFHj4Efe9XFtiYt7Cs
+         9U8R65DemTrjxG46t4et90IbsPyz4vZ1iowgFzIJ9VzV4iu86ePCRSJLsM452xL93xgr
+         3FyA==
+X-Gm-Message-State: AGi0PuYQw5ksBKl9L3OSQr1lN/vfesuQPKapI2eEqRiEnwqkTFhC0Jgg
+        tZO9DkMT9BDSnSavPLxnVhipNip7
+X-Google-Smtp-Source: APiQypLzPm6SFJdjwFdz1QWHt7ZDv7wGpy6PStIN//zTdZhF9krr3qs4I+84wpP8PBiC2ldjM8H3FQ==
+X-Received: by 2002:adf:afc6:: with SMTP id y6mr25210051wrd.74.1587507306478;
+        Tue, 21 Apr 2020 15:15:06 -0700 (PDT)
 Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
-        by smtp.gmail.com with ESMTPSA id h6sm5303447wmf.31.2020.04.21.15.00.57
+        by smtp.gmail.com with ESMTPSA id h16sm6089076wrw.36.2020.04.21.15.15.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 15:00:58 -0700 (PDT)
+        Tue, 21 Apr 2020 15:15:05 -0700 (PDT)
+Date:   Wed, 22 Apr 2020 00:15:03 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2] firmware: tegra: Make BPMP a regular driver
-Date:   Wed, 22 Apr 2020 00:00:53 +0200
-Message-Id: <20200421220053.3442050-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: Clean up GPIO includes
+Message-ID: <20200421221503.GA3445172@ulmo>
+References: <20200415122427.111769-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Disposition: inline
+In-Reply-To: <20200415122427.111769-1-linus.walleij@linaro.org>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-The Tegra BPMP driver typically ends up deferring probe because it wants
-to attach to the SMMU, so there's little sense in registering it at the
-core init-level.
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-One side-effect of this is that the driver will be probed later even if
-it doesn't want to attach to an SMMU, which means that consumers will
-end up deferring probe, which in turn takes care of ordering the suspend
-and resume queue in the correct way. Currently since suspend/resume
-order depends on instantiation order, and because BPMP is listed at the
-very end of the device tree (after most of its consumers), the suspend
-and resume queue is ordered wrongly, which can cause issues for drivers
-(like I2C) which suspend after and resume before BPMP. In the case of
-I2C this typically leads to the clock failing to enable.
+On Wed, Apr 15, 2020 at 02:24:27PM +0200, Linus Walleij wrote:
+> The Tegra DRM drivers includes the legacy GPIO headers
+> <linux/gpio.h> and <linux/of_gpio.h> but what it really
+> uses is <linux/gpio/consumer.h> since only gpio_desc
+> structs are ever referenced.
+>=20
+> Include the right header on the top level tegra/drm.h
+> file and drop all the surplus includes.
+>=20
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/gpu/drm/tegra/dpaux.c | 2 --
+>  drivers/gpu/drm/tegra/drm.h   | 2 +-
+>  drivers/gpu/drm/tegra/hdmi.c  | 1 -
+>  drivers/gpu/drm/tegra/sor.c   | 1 -
+>  4 files changed, 1 insertion(+), 5 deletions(-)
 
-Besides fixing this suspend/resume ordering issue, this also has the
-added benefit of allowing the driver to be built as a loadable module,
-which can help decrease the size of multiplatform kernel.
+Applied, thanks.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v2:
-- make driver a builtin platform driver and suppress sysfs bind/unbind
+Thierry
 
- drivers/firmware/tegra/bpmp.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
-index 6741fcda0c37..fe6702df24bf 100644
---- a/drivers/firmware/tegra/bpmp.c
-+++ b/drivers/firmware/tegra/bpmp.c
-@@ -6,6 +6,7 @@
- #include <linux/clk/tegra.h>
- #include <linux/genalloc.h>
- #include <linux/mailbox_client.h>
-+#include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_device.h>
-@@ -869,12 +870,8 @@ static struct platform_driver tegra_bpmp_driver = {
- 		.name = "tegra-bpmp",
- 		.of_match_table = tegra_bpmp_match,
- 		.pm = &tegra_bpmp_pm_ops,
-+		.suppress_bind_attrs = true,
- 	},
- 	.probe = tegra_bpmp_probe,
- };
--
--static int __init tegra_bpmp_init(void)
--{
--	return platform_driver_register(&tegra_bpmp_driver);
--}
--core_initcall(tegra_bpmp_init);
-+builtin_platform_driver(tegra_bpmp_driver);
--- 
-2.24.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6fcGQACgkQ3SOs138+
+s6HLkhAAu4iEB6DmFiY8mIfbg5zlR+Zh1clXUkIPGTDhEGEQjmNF+j3mjMs+Ij6k
+fJZapANopEijtJpoAYpr8mDOAQ1gcdWLAaeKfGKWLyW/r3aoDO1ZxsaLQBQIeimN
+oIrDycRU0d2r5wbg1bHQfOq0wwaUS1YuHEMx4v2RGSvK/E5IrDB/O3Td7E1ols6l
+K8zZFHvvAvTUaecYHwVKac2NqRJVDHjDqvu9YIvaXbJ2VbXDy5kY33MjX8nfBewK
+HBsnQ/r8nUpAjSBx9SRZy3lxBiFXfYOiWQwNvvBF+GSO/za5RTWzSJP8WQKvn2eo
+gw4Foxqp+5xBEqLmRzjPya1y3y2pno3WKTzLTYPcUjBwu8SnUJ1eAmxj8JQpdRPx
+FYeEaka89Ip5fX+NJ89N/pTmRfSYH5zkKecTMbloafmXcbsLP79YsYSEFuiC8pUW
+Tot7yRErxDXuCgfeqUwfx/pcuuYHTIolYBGzJkzX/Kylw6tD1kgg3ChngveZjPTz
+GS49BeviCSSAELi/B51+vHaQa4um9SSClAlqW1Rp4VI+d16lQsIgO48cUhEUC6X2
+2g/BBScvZ5Kl+QBJmDriMHaa6/n4UkU5J2wgnNgcwuPbLJLqsmrkPjHaUr4S+Om7
+s0jglCkeo/U/naAYZrQu+M9pkhY+PE9BWWBhWgqiW3C6SNnZyKg=
+=S/Uu
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
