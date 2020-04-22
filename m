@@ -2,248 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D84AF1B33BC
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 02:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6C121B3607
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 06:12:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbgDVABc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Apr 2020 20:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726407AbgDVABb (ORCPT
+        id S1726494AbgDVEMu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Apr 2020 00:12:50 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2939 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725968AbgDVEMu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Apr 2020 20:01:31 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1D0C0610D5;
-        Tue, 21 Apr 2020 17:01:31 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id l11so164974lfc.5;
-        Tue, 21 Apr 2020 17:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9duifyysftuOHq6stxeBoXSaEQaPvw17HHZ03swcqDE=;
-        b=OVaGmLcumY9gk+DVW7uXmoh9als5DVTBQ/jAaCWT93E7eWwHHhk5gafi1NezNl4wAb
-         Y3QqpXyvPa4LXFN/yT1p1E1P0PhAQ0vnDTTo1iutM5+bH8LBMvAcB2sgdlTki+ts/hpL
-         C1OYZVHMnsJZwbXPxOg6gk2eoAnbQMFlRGnfjYdfp49XUEZZnDuzINlBsvMMk4ABbUKo
-         y1P1XloYVYC67tzpga1fBbXLGec7qe6p/oFrBnFzO91L4txsLK0GraI01CjPkU9Ldlou
-         oO0kPyFtarROCccA4rMvAl+uLYUkfVZP4HZvchZ3GYX31i67k97xttlthgARCvsdpZLI
-         1Osw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9duifyysftuOHq6stxeBoXSaEQaPvw17HHZ03swcqDE=;
-        b=lE+bxJe8F0J1GRBvXC6bH3IhM4bPR09R1AYfPfzThHE7dWPxGLE7JcGo4ygNVkjQqC
-         TAibTgd16rXVNfnv+OOT/D3FM51MzH/bhOuux5a4aVvIyIHMuaMhapW3mqmeNyZT+cW6
-         oLd4LFdSLq9Hiv8CyqIMTQobOxAaP/oK3njfPcJ310hmzCvP0abN/kmhRn0ESNGRCt5I
-         nm+/MfYt+H1yBnj0R72vsR+MX0IzOTRQWJCLqGJG0GgLIoLtev5QlEMviNHwyor4LCoa
-         PRnOdJEeCmO5MkvW7trLKRdx9WfoFxTtU4Mukb2+7XmAGn/fIm86hw/FS/7otVXmioaR
-         htqw==
-X-Gm-Message-State: AGi0PubHcAaW5Jt32mnP0/bHlLZSTIXcu+xng6GuZKJGuC5mhjjmapJF
-        yQUn1gQr3GTgPd7aMHaEoAg=
-X-Google-Smtp-Source: APiQypJe7QvKvXBc8avbSzxkqC9d0YmeQQKHyqG3dZIqfCdRGTOT8BXkV2J8zNLZx0Mrs8fOrkGZsQ==
-X-Received: by 2002:ac2:5e86:: with SMTP id b6mr15091943lfq.65.1587513689717;
-        Tue, 21 Apr 2020 17:01:29 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.gmail.com with ESMTPSA id y9sm2933425ljm.11.2020.04.21.17.01.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 17:01:29 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        =?UTF-8?q?Pedro=20=C3=82ngelo?= <pangelo@void.io>,
-        Matt Merhar <mattmerhar@protonmail.com>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v6 6/6] ARM: tegra_defconfig: Enable options useful for Nexus 7 and Acer A500
-Date:   Wed, 22 Apr 2020 02:59:43 +0300
-Message-Id: <20200421235943.13627-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200421235943.13627-1-digetx@gmail.com>
-References: <20200421235943.13627-1-digetx@gmail.com>
+        Wed, 22 Apr 2020 00:12:50 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e9fc4350001>; Tue, 21 Apr 2020 21:12:37 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 21 Apr 2020 21:12:50 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 21 Apr 2020 21:12:50 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Apr
+ 2020 04:12:49 +0000
+Received: from [10.2.165.49] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Apr
+ 2020 04:12:48 +0000
+Subject: Re: Re: [RFC PATCH v8 0/9] Add Tegra driver for video capture
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <helen.koike@collabora.com>, <digetx@gmail.com>,
+        <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
+ <5c44beca-4016-6e4f-01bb-e38480bfc34b@xs4all.nl>
+ <20200421205032.GD3233341@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <cfbd9954-6a89-3973-55f5-920b7a807774@nvidia.com>
+Date:   Tue, 21 Apr 2020 21:12:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200421205032.GD3233341@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587528757; bh=e1UDRc9LEWdDQqaH6RNlYU5o4VaoyIvF1ybwOVa69Y0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=J4tOajztaOIXIOdr2cQJxAyPjXsnlchY3FCd7y0FRaKBWMCKFzfzbEFSh4uf6AbID
+         3zIouYXEl2IZ4TXHwg2+hlnhxjsfQe9J2Uu6do5hnn+FoofcNvcR2tB5FFyYcPrKO9
+         aycILuMg9uvUPxG647Kb082qLwc94hTDyznYVHQab4Fd6ti+s5RDenr52//WmL+g5K
+         kVy+cC29xWw5zT15mnze/LZnq72S6Hazek0o+k2FJuzSrBz0jAReohMGN87jqUo0gq
+         KtKQQr5zsAfMEb5eSr+Z7Z2YxNeOwEBUcCesIeDlNizzSdrtfLQjvxTxOGyNcI/U7z
+         dE7AH2VqS0NTg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable several very useful options and drivers for hardware that is found
-on Nexus 7 and Acer A500 tablet devices. Please note that some drivers may
-require firmware files extracted from original Android image.
 
-Link: https://github.com/digetx/linux-firmware
-Link: https://github.com/digetx/alsa-ucm-conf
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 42 ++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+On 4/21/20 1:50 PM, Thierry Reding wrote:
+> On Tue, Apr 21, 2020 at 01:09:50PM +0200, Hans Verkuil wrote:
+>> Hi Sowjanya,
+>>
+>> On 21/04/2020 02:11, Sowjanya Komatineni wrote:
+>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>> generator (TPG) capture.
+>>>
+>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>
+>>> This series has TPG support only where it creates hard media links
+>>> between CSI subdevice and VI video device without device graphs.
+>>>
+>>> v4l2-compliance results are available below the patch diff.
+>> I'm ready to merge this v8. Looking at the series I should only merge
+>> patches 6 and 7, all other patches go through different subsystems, right?
+> You could also pick up patch 5 because it adds the bindings that are
+> implemented by the driver in patch 6. But I can also pick that up into
+> the Tegra tree. In fact, I do have a set of patches to convert some
+> Tegra bindings to the new json-schema format and the host1x file is
+> among them. If I do get around to finish those up for v5.8 it might be
+> better for me to pick up patch 5 so that I can base my conversion patch
+> on top of that.
+>
+> Either way is fine with me, so I've acked the three patches. Take which
+> ones you want and I'll pick up the rest.
+>
+> Thanks again for your guidance on this patch set!
+>
+> Thierry
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 0029259a6bf5..b382f06f835b 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -10,6 +10,8 @@ CONFIG_RT_GROUP_SCHED=y
- CONFIG_CGROUP_FREEZER=y
- CONFIG_CGROUP_CPUACCT=y
- CONFIG_CGROUP_DEBUG=y
-+CONFIG_NAMESPACES=y
-+CONFIG_USER_NS=y
- CONFIG_BLK_DEV_INITRD=y
- # CONFIG_ELF_CORE is not set
- CONFIG_EMBEDDED=y
-@@ -18,6 +20,7 @@ CONFIG_SLAB=y
- CONFIG_ARCH_TEGRA=y
- CONFIG_SMP=y
- CONFIG_HIGHMEM=y
-+CONFIG_SECCOMP=y
- CONFIG_ZBOOT_ROM_TEXT=0x0
- CONFIG_ZBOOT_ROM_BSS=0x0
- CONFIG_KEXEC=y
-@@ -63,11 +66,17 @@ CONFIG_BT_RFCOMM=y
- CONFIG_BT_BNEP=y
- CONFIG_BT_HIDP=y
- CONFIG_BT_HCIBTUSB=m
-+CONFIG_BT_HCIUART=y
-+CONFIG_BT_HCIUART_BCM=y
- CONFIG_CFG80211=y
- CONFIG_MAC80211=y
- CONFIG_RFKILL=y
- CONFIG_RFKILL_INPUT=y
- CONFIG_RFKILL_GPIO=y
-+CONFIG_NFC=y
-+CONFIG_NFC_HCI=y
-+CONFIG_NFC_SHDLC=y
-+CONFIG_NFC_PN544_I2C=y
- CONFIG_PCI=y
- CONFIG_PCIEPORTBUS=y
- CONFIG_PCI_MSI=y
-@@ -106,20 +115,24 @@ CONFIG_INPUT_JOYDEV=y
- CONFIG_INPUT_EVDEV=y
- CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_TEGRA=y
-+CONFIG_KEYBOARD_CAP11XX=y
- CONFIG_KEYBOARD_CROS_EC=y
- CONFIG_MOUSE_PS2_ELANTECH=y
- CONFIG_INPUT_TOUCHSCREEN=y
- CONFIG_TOUCHSCREEN_ATMEL_MXT=y
-+CONFIG_TOUCHSCREEN_ELAN=y
- CONFIG_TOUCHSCREEN_WM97XX=y
- # CONFIG_TOUCHSCREEN_WM9705 is not set
- # CONFIG_TOUCHSCREEN_WM9713 is not set
- CONFIG_TOUCHSCREEN_STMPE=y
- CONFIG_INPUT_MISC=y
-+CONFIG_INPUT_GPIO_VIBRA=y
- # CONFIG_LEGACY_PTYS is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_SERIAL_TEGRA=y
-+CONFIG_SERIAL_DEV_BUS=y
- # CONFIG_HW_RANDOM is not set
- # CONFIG_I2C_COMPAT is not set
- CONFIG_I2C_CHARDEV=y
-@@ -131,10 +144,12 @@ CONFIG_SPI_TEGRA114=y
- CONFIG_SPI_TEGRA20_SFLASH=y
- CONFIG_SPI_TEGRA20_SLINK=y
- CONFIG_PINCTRL_AS3722=y
-+CONFIG_PINCTRL_MAX77620=y
- CONFIG_PINCTRL_PALMAS=y
- CONFIG_GPIO_SYSFS=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_GPIO_PCA953X_IRQ=y
-+CONFIG_GPIO_MAX77620=y
- CONFIG_GPIO_PALMAS=y
- CONFIG_GPIO_TPS6586X=y
- CONFIG_GPIO_TPS65910=y
-@@ -142,13 +157,21 @@ CONFIG_POWER_RESET=y
- CONFIG_POWER_RESET_AS3722=y
- CONFIG_POWER_RESET_GPIO=y
- CONFIG_BATTERY_SBS=y
-+CONFIG_BATTERY_BQ27XXX=y
-+CONFIG_CHARGER_GPIO=y
-+CONFIG_CHARGER_SMB347=y
- CONFIG_CHARGER_TPS65090=y
- CONFIG_SENSORS_LM90=y
- CONFIG_SENSORS_LM95245=y
-+CONFIG_THERMAL=y
-+CONFIG_THERMAL_STATISTICS=y
-+CONFIG_CPU_THERMAL=y
- CONFIG_WATCHDOG=y
-+CONFIG_MAX77620_WATCHDOG=y
- CONFIG_TEGRA_WATCHDOG=y
- CONFIG_MFD_AS3722=y
- CONFIG_MFD_CROS_EC=y
-+CONFIG_MFD_MAX77620=y
- CONFIG_MFD_MAX8907=y
- CONFIG_MFD_STMPE=y
- CONFIG_MFD_PALMAS=y
-@@ -159,6 +182,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_REGULATOR_AS3722=y
- CONFIG_REGULATOR_GPIO=y
-+CONFIG_REGULATOR_MAX77620=y
- CONFIG_REGULATOR_MAX8907=y
- CONFIG_REGULATOR_PALMAS=y
- CONFIG_REGULATOR_TPS51632=y
-@@ -174,7 +198,10 @@ CONFIG_USB_GSPCA=y
- CONFIG_DRM=y
- CONFIG_DRM_NOUVEAU=m
- CONFIG_DRM_TEGRA=y
-+CONFIG_DRM_TEGRA_STAGING=y
-+CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_LVDS_CODEC=y
- # CONFIG_LCD_CLASS_DEVICE is not set
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- # CONFIG_BACKLIGHT_GENERIC is not set
-@@ -238,6 +265,7 @@ CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_AS3722=y
- CONFIG_RTC_DRV_DS1307=y
- CONFIG_RTC_DRV_MAX8907=y
-+CONFIG_RTC_DRV_MAX77686=y
- CONFIG_RTC_DRV_PALMAS=y
- CONFIG_RTC_DRV_TPS6586X=y
- CONFIG_RTC_DRV_TPS65910=y
-@@ -259,11 +287,18 @@ CONFIG_ARCH_TEGRA_2x_SOC=y
- CONFIG_ARCH_TEGRA_3x_SOC=y
- CONFIG_ARCH_TEGRA_114_SOC=y
- CONFIG_ARCH_TEGRA_124_SOC=y
-+CONFIG_PM_DEVFREQ=y
-+CONFIG_ARM_TEGRA_DEVFREQ=y
-+CONFIG_ARM_TEGRA20_DEVFREQ=y
- CONFIG_MEMORY=y
- CONFIG_IIO=y
-+CONFIG_KXCJK1013=y
- CONFIG_MPU3050_I2C=y
-+CONFIG_INV_MPU6050_I2C=y
-+CONFIG_AL3010=y
- CONFIG_SENSORS_ISL29018=y
- CONFIG_SENSORS_ISL29028=y
-+CONFIG_AK8974=y
- CONFIG_AK8975=y
- CONFIG_PWM=y
- CONFIG_PWM_TEGRA=y
-@@ -283,6 +318,13 @@ CONFIG_TMPFS_POSIX_ACL=y
- CONFIG_SQUASHFS=y
- CONFIG_SQUASHFS_LZO=y
- CONFIG_SQUASHFS_XZ=y
-+CONFIG_PSTORE=y
-+CONFIG_PSTORE_LZO_COMPRESS=y
-+CONFIG_PSTORE_LZ4_COMPRESS=y
-+CONFIG_PSTORE_LZ4HC_COMPRESS=y
-+CONFIG_PSTORE_842_COMPRESS=y
-+CONFIG_PSTORE_CONSOLE=y
-+CONFIG_PSTORE_RAM=y
- CONFIG_NFS_FS=y
- CONFIG_NFS_V4=y
- CONFIG_ROOT_NFS=y
--- 
-2.26.0
+Hi Hans,
+
+Would like to add a small fix to the driver for explicit check for vi 
+and csi availability before TPG setup and cleanup in case if video 
+driver is enabled without device tree support where vi and csi drivers 
+does not register.
+
+Although we are not enabling driver by default now, would be good to 
+have this in this series itself.
+
+Will send out the updated version, please pick v9.
+
+Thanks
+
+Sowjanya
+
 
