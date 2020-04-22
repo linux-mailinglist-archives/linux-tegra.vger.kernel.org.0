@@ -2,159 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 717F51B46D2
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 16:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08EA51B488A
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Apr 2020 17:25:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbgDVOHc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Apr 2020 10:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42318 "EHLO
+        id S1725980AbgDVPZo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Apr 2020 11:25:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725810AbgDVOHc (ORCPT
+        with ESMTP id S1725779AbgDVPZn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Apr 2020 10:07:32 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A6FC03C1A9;
-        Wed, 22 Apr 2020 07:07:30 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f18so2379182lja.13;
-        Wed, 22 Apr 2020 07:07:30 -0700 (PDT)
+        Wed, 22 Apr 2020 11:25:43 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84038C03C1A9
+        for <linux-tegra@vger.kernel.org>; Wed, 22 Apr 2020 08:25:43 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id u15so2748798ljd.3
+        for <linux-tegra@vger.kernel.org>; Wed, 22 Apr 2020 08:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sGFsUbHKcZdDejmr78iBjwIpQAyRNSoI/t3r9/k3A3A=;
-        b=rPjsmnfI0GJwWjNcs6Rpr3ZBKQl32nRgHSOSMlhg/qNHEu0aCQmCXVRKzV2BpbnY29
-         VN2W/sxMEpsQU7Cyb3Iq7CuS4xRhobmyj289o686dJt2/TLKo5/d/hlhg64aQyWnwvZX
-         s8irlUQRkAjHjg5ZDKTg9vjpmG4PtUp5wftQdU045JEZVH4UCkzOm7oLn2HvuHDkaUOT
-         BWVO+ARGLNgo+E1RUcs6nU2S9t2/cvg+/P6s+OQPk+lAwipVRvbAIRoFFcbkfFirD0NG
-         w4hDVnQ/sYmVl9L26HpTKP4wjHVvLuiLd+7YlkcmWXks+WNp5+3GfHspjCdYzE1QWPbr
-         +jcg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kcC+pbj4ZcfvbHCLZqUFTY0hzVPPKZG0teLtba1dQ4g=;
+        b=E2AAI5RpkkNKxi6Kdo3QSl4i9u76CqtAS/il9w4uN0XNf3BZtYgkpj7Hr0PYHYchVA
+         HaNeWUiG2uz6gUVpqUoUhRMnbtvxNXypxZ1F7yMYT3SXJbBwMvaxmMIf5cx9LCDHN/KO
+         vVTaJthejojxugzarXvDN87O9Sya36OqRxYyUjiYVA49Fwt7+vwJbQO5Z6I8cqwG6MFc
+         sKAlJGsRINwJAn3lB0icezjqH2Pz9JBU279E/7VUeXvcgfJsAHtrspsn/NRUKhFq05pR
+         RPc+7LOQg2qmeZTCZaYV07gLixHJQslJX01xBFwf4oCLreHvIHg4f/zyxdi6qjSRInD3
+         DKaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sGFsUbHKcZdDejmr78iBjwIpQAyRNSoI/t3r9/k3A3A=;
-        b=DK/gt9KgNDZTFV4Ta9DF6styz57Babx1Knfx6XOtL771Zp8W9IZWiigWHwyqJHJukm
-         endHB8zVhsl6vepDA4p1No8Qz6e3/Duon/nIQ+SXNe1511z3gLNgFHOccLtjKIsqDc2/
-         ElWPNxv4X+HqoOFX094s2njWVmdWKTaVk0tbQX3AUebdcM7WA9d3UDFEwwT2jI45WkHt
-         3hnyfDc9WqK0GKtAXNngHExdRMdYCSNFauMF/XoKeYbJLoVsI8a73CSRXCPZbDRh8N78
-         DgMpqsiKZ5yqC+zWTp4/rPawgIlm7j9TjFAoCjjATQK6ykqO+w5yoDEgDhmbxz/fQdpF
-         OOkA==
-X-Gm-Message-State: AGi0PuYiaQpp6QUlK+f1/g6IPG1hm7x/esNNnwhjd/8DVfLpu88B9nFa
-        lxwdgiyvsa+c1T2WOkB1ZQDd3prk
-X-Google-Smtp-Source: APiQypI9yRUvS3Meb2Cbw5syBXnTe9EEJglLSIP4ty1U07mF2D7n0RENW98m4VhcK4w9eSEJRQ1t8w==
-X-Received: by 2002:a2e:87d9:: with SMTP id v25mr11704447ljj.241.1587564448475;
-        Wed, 22 Apr 2020 07:07:28 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id a26sm4773980lfl.66.2020.04.22.07.07.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2020 07:07:27 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
- for a long time
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200324191217.1829-1-digetx@gmail.com>
- <20200324191217.1829-2-digetx@gmail.com>
- <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
- <f59ba318-8e99-c486-fa4d-1ee28a7b203d@gmail.com>
- <b01cec76-bb39-9fb5-8f6e-4023c075e6b3@gmail.com>
- <8cd085e1-f9fd-6ec0-9f7a-d5463f176a63@nvidia.com>
- <db1132ce-53a8-371c-98e0-cb7cd91d5c7d@gmail.com>
- <fa344989-4cce-0d2c-dc93-4ca546823160@nvidia.com>
- <bba0a93a-8ec4-eda6-97f3-fb2ab0b9b503@gmail.com>
- <6f07e5c8-7916-7ea2-2fe7-d05f8f011471@nvidia.com>
- <77a31b2f-f525-ba9e-f1ae-2b474465bde4@gmail.com>
- <470b4de4-e98a-1bdc-049e-6259ad603507@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d2531fc1-b452-717d-af71-19497e14ef00@gmail.com>
-Date:   Wed, 22 Apr 2020 17:07:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kcC+pbj4ZcfvbHCLZqUFTY0hzVPPKZG0teLtba1dQ4g=;
+        b=DeI+0XmO7mSkZGXEzrJD0RhbpRivXcHQWWWHguJUhKJ0omnl0zpkGXPCgMXT8t4u35
+         cx2m4q1FvfYB1OGzuAsR7N2akSM4P2fAaiqVljVI0hv23uSpiFFc3bACQQneIuPOxgi0
+         J/XdRQ9RqwxrXZCGJS8G4Mr14ZC/xntf2uUHc8II8t9jwBDr4g9dXQ35k2sLpF3fnzpM
+         lQt+UMaw4xfr6jnRJKt8Ld9cpvcMiBjiqV2J7KMjhxMPizoBhgln8exnqdju0e2u3e9n
+         fNoTRJiOGoTqawT5+nqUqBQWL9K3xkGE2D+IEJrBXTptiDT7Dj1+hr7lkT/ejCrimk8M
+         3u9A==
+X-Gm-Message-State: AGi0PubdJ6N8i7/QuYSV1zdmjFufsxBGyelDorbWK+UKLwgHKkOjNg3k
+        ozcuJxPY6Pdqyd8URoDYofWBkl4oD4Flmj7t0LpAEg==
+X-Google-Smtp-Source: APiQypKP6nTQvKryk4pIL89bVUoyZiSqb5qF0boxlZav5xddJylw/En7b2au24RdQWtP46OYGuZ5g65rs3VOD5+WDWA=
+X-Received: by 2002:a05:651c:32e:: with SMTP id b14mr16632111ljp.277.1587569141996;
+ Wed, 22 Apr 2020 08:25:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <470b4de4-e98a-1bdc-049e-6259ad603507@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200415122427.111769-1-linus.walleij@linaro.org> <20200421221503.GA3445172@ulmo>
+In-Reply-To: <20200421221503.GA3445172@ulmo>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 22 Apr 2020 17:25:29 +0200
+Message-ID: <CACRpkdZ2OBmejaGwjdpmJpZ0=30W2aoUgXrrX8xkmwps=MX3kQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/tegra: Clean up GPIO includes
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-22.04.2020 16:59, Jon Hunter пишет:
-> 
-> On 22/04/2020 14:40, Dmitry Osipenko wrote:
->> 21.04.2020 22:42, Jon Hunter пишет:
->>>
->>> On 21/04/2020 16:08, Dmitry Osipenko wrote:
->>>> 21.04.2020 17:40, Jon Hunter пишет:
->>>>>
->>>>> On 21/04/2020 14:25, Dmitry Osipenko wrote:
->>>>>> 21.04.2020 12:49, Jon Hunter пишет:
->>>>>> ...
->>>>>>> I can try the above, but I agree it would be best to avoid messing with
->>>>>>> the suspend levels if possible.
->>>>>>
->>>>>> Will be awesome if you could try it and report back the result.
->>>>>>
->>>>>
->>>>> I gave it a try but suspend still fails.
->>>>
->>>> Perhaps the RPM's -EACCES is returned from here:
->>>>
->>>> https://elixir.free-electrons.com/linux/v5.7-rc2/source/drivers/base/power/runtime.c#L723
->>>>
->>>> Which suggests that I2C is accessed after being suspended. I guess the
->>>> PCIe driver suspends after the I2C and somehow my change affected the
->>>> suspension order, although not sure how.
->>>>
->>>> Jon, could you please try to enable PM logging and post the log? Please
->>>> also post log of the working kernel version, so that we could compare
->>>> the PM sequence.
->>>>
->>>> Something like this should enable the logging: "echo 1 >
->>>> /sys/power/pm_trace" + there is RPM tracing.
->>>
->>> Unfortunately, after enabling that I don't any output and so no help there.
->>
->> 1. I now tried to check the pm_trace myself and found that it's
->> available only on X86, my bad.
->>
->> 2. Jon, could you please clarify what exactly you were trying to test?
->>
->> 3. Is it only the Cardhu board that is affected by this problem?
->>
->> 4. Could you please try to add this to the kernel's cmdline and post the
->> logs:
->>
->> tp_printk
->> trace_event=rpm_suspend,rpm_resume,rpm_usage,rpm_idle,rpm_return_int
-> 
-> 
-> So I think that part of the problem already existed prior to these
-> patches. Without your patches I see ...
-> 
-> [   59.543528] tegra-i2c 7000d000.i2c: i2c transfer timed out
+On Wed, Apr 22, 2020 at 12:15 AM Thierry Reding
+<thierry.reding@gmail.com> wrote:
+> On Wed, Apr 15, 2020 at 02:24:27PM +0200, Linus Walleij wrote:
+> > The Tegra DRM drivers includes the legacy GPIO headers
+> > <linux/gpio.h> and <linux/of_gpio.h> but what it really
+> > uses is <linux/gpio/consumer.h> since only gpio_desc
+> > structs are ever referenced.
+> >
+> > Include the right header on the top level tegra/drm.h
+> > file and drop all the surplus includes.
+> >
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > ---
+> >  drivers/gpu/drm/tegra/dpaux.c | 2 --
+> >  drivers/gpu/drm/tegra/drm.h   | 2 +-
+> >  drivers/gpu/drm/tegra/hdmi.c  | 1 -
+> >  drivers/gpu/drm/tegra/sor.c   | 1 -
+> >  4 files changed, 1 insertion(+), 5 deletions(-)
+>
+> Applied, thanks.
 
-Does this I2C timeout happen with my patches? Could you please post full
-logs of an older and the recent kernel versions?
+I think I already applied it to the drm misc tree the other day,
+sorry if that wasn't clear. If tegra has a separate tree I suppose
+git will figure it all out in the end.
 
-> [   59.549036] vdd_sata,avdd_plle: failed to disable
-> 
-> [   59.553778] Failed to disable avdd-plle: -110
-> 
-> [   59.558150] tegra-pcie 3000.pcie: failed to disable regulators: -110
-> 
-> 
-> However, now with your patches the i2c is failing to resume and this
-> breaks system suspend completely for Tegra30. So far this is the only
-> board that appears to break.
-> 
-> So the above issue needs to be fixed and I will chat to Thierry about this.
-
-Okay
+Yours,
+Linus Walleij
