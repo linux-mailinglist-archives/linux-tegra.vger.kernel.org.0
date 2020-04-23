@@ -2,120 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 435881B5662
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Apr 2020 09:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1DA91B58F1
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Apr 2020 12:20:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726806AbgDWHsU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Apr 2020 03:48:20 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59635 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726271AbgDWHsT (ORCPT
+        id S1726790AbgDWKUK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Apr 2020 06:20:10 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18649 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbgDWKUJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:48:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id RWahjKdw87xncRWaljPcej; Thu, 23 Apr 2020 09:48:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587628096; bh=lJ9loEmVaJryUiVmPLNo9go2q+BR27ddnJpMegvNhPw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rPlAzvHYxfTDXr8aJtmoN4++BOKth5dNDNcSepvFoJT7P7WCOYzzwnHy4TOSHZe6S
-         7M2KN8kdpM6BukUl+UG7o8I1zMXlJJ02sCYwkjEai36m/CH89gdApuOz5JLxTq5EAz
-         wFbfX234WeCAnqBYj6TX+ZyYzSFoKYg2vv0zpGDC/rZ1jcxQvZZmiDldoRQeGIj9Cy
-         OqJwPWDWtjrtQoAtrRs7iP5lKi1skasCMeAfZmOefMAydY4Tb39VlV14vmByJUUYY4
-         LXubK5zsBb5sfzdtqje206JABOfOzo+m5hx2Crs8fnQB/GJfvgwJkGCGvWhXXxcO09
-         gSVMCkGxDBr3A==
-Subject: Re: [RFC PATCH v9 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1587536339-4030-1-git-send-email-skomatineni@nvidia.com>
- <1587536339-4030-7-git-send-email-skomatineni@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ae6dfd6b-4b0b-db73-54cf-a16e59476f38@xs4all.nl>
-Date:   Thu, 23 Apr 2020 09:48:11 +0200
+        Thu, 23 Apr 2020 06:20:09 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea16b630000>; Thu, 23 Apr 2020 03:18:11 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 23 Apr 2020 03:20:08 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 23 Apr 2020 03:20:08 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 10:20:07 +0000
+Received: from [10.26.73.193] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 10:20:02 +0000
+Subject: Re: [PATCH 4.4 000/100] 4.4.220-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200422095022.476101261@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <f37865f7-f90e-f092-172d-56903c0cd219@nvidia.com>
+Date:   Thu, 23 Apr 2020 11:20:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1587536339-4030-7-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200422095022.476101261@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBrqqqyGyVRnDMGKreG0gYg22SyVz4yFDJM/l05Yhqmq4BQCdIaJ4DuxIQosu4gWlSjxs/MSCdBjvgXZu3W/LAAUpVk9hbTWPilQrU08m1zbkoKfwi3f
- IeI5VvCQ4yT9S2S93z9cpy80I6a77P8ny8m/ETG6EDu8B+kD1AwsRZfL/2w/Cyq3J4O4/y2vVNxVwkc0qVapTgjSAl8hZSriuL9sgkUrIUBQ6Mrgji4ae0Ow
- 8tiQQiScGT7/SFoLT9fd4PgY6msv9uEWYUwz0R5kmizB1B+Rg5vUx7rj8XUZ+CrBbv2b25xdwN0pEksib83f92vtLpidRoj0oXFjqbSEbanvcUuFdHkWpYYu
- kJx9rWU6ZZdK2Qx8id5pQRK3WAAin3PZxGtn1Q6UWMJGZkDRqGm102J2zTbpuqD6VqR2HwuRd3aoomLeBCm4WEWsItddDwFjMiqAMcIrKW6oPEjFCY3cxtaA
- VXIVmba0haiNpsRiLFhh0SsUy9pci3J1/PowZ8iTZJdXJDLEMYdwrQhHX5oeFf34vJdlM7Ns+aLX+SoHX4SeN9Jj9jc07fwMcUhC+tCjj1go2vwHteqZc6pm
- YmE=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587637092; bh=vMEs/3hl+8egeKKl17HsCAB3Ev994FgGsO4KeDNjmtc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=dMZkObjQQdyTvDohncKXWENusyZx4CaX8PO51BQxkSiypIGd9aE9/2kOaR1+4+N1Z
+         jy1K6UPJ1ZRIvyghsMg9Acz0I7RAtE5cOKN0lb50moVkUz0vNGEznmcFCwM7kOkOot
+         keQ7Yeu9qjqMADtqfd9ixEdrSbz3JeAMLunknQYN99RcnU7wbw/KVUfzDgXEj5Nm/n
+         FvMlyWRWRxlZaA1sD+UlkMQHwbyPqFrijNR4w5WZWNxOYc8hp+3vyMPtV7zKE/aAji
+         LzPun2RXzTt0G3d4hKvzBH+TJ4Fbyr5xN1Op7/gPuUiOqyxrqApKI/Hokl4gVIw3Dm
+         0eHgqOceq3xWA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 22/04/2020 08:18, Sowjanya Komatineni wrote:
-> Tegra210 contains a powerful Video Input (VI) hardware controller
-> which can support up to 6 MIPI CSI camera sensors.
+
+On 22/04/2020 10:55, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.220 release.
+> There are 100 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Each Tegra CSI port can be one-to-one mapped to VI channel and can
-> capture from an external camera sensor connected to CSI or from
-> built-in test pattern generator.
+> Responses should be made by Fri, 24 Apr 2020 09:48:23 +0000.
+> Anything received after that time might be too late.
 > 
-> Tegra210 supports built-in test pattern generator from CSI to VI.
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.220-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
 > 
-> This patch adds a v4l2 capture driver with media interface for
-> Tegra210 built-in CSI to VI test pattern generator.
+> thanks,
 > 
-> This patch includes TPG support only and all the video pipeline
-> configuration happens through the video device node.
-> 
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  drivers/staging/media/Kconfig          |    2 +
->  drivers/staging/media/Makefile         |    1 +
->  drivers/staging/media/tegra/Kconfig    |   13 +
->  drivers/staging/media/tegra/Makefile   |    8 +
->  drivers/staging/media/tegra/TODO       |   10 +
->  drivers/staging/media/tegra/common.h   |  262 ++++++++
->  drivers/staging/media/tegra/csi.c      |  606 +++++++++++++++++
->  drivers/staging/media/tegra/csi.h      |  149 +++++
->  drivers/staging/media/tegra/tegra210.c |  709 ++++++++++++++++++++
->  drivers/staging/media/tegra/tegra210.h |  190 ++++++
->  drivers/staging/media/tegra/vi.c       | 1132 ++++++++++++++++++++++++++++++++
->  drivers/staging/media/tegra/vi.h       |   83 +++
->  drivers/staging/media/tegra/video.c    |  153 +++++
->  drivers/staging/media/tegra/video.h    |   34 +
->  14 files changed, 3352 insertions(+)
->  create mode 100644 drivers/staging/media/tegra/Kconfig
->  create mode 100644 drivers/staging/media/tegra/Makefile
->  create mode 100644 drivers/staging/media/tegra/TODO
->  create mode 100644 drivers/staging/media/tegra/common.h
->  create mode 100644 drivers/staging/media/tegra/csi.c
->  create mode 100644 drivers/staging/media/tegra/csi.h
->  create mode 100644 drivers/staging/media/tegra/tegra210.c
->  create mode 100644 drivers/staging/media/tegra/tegra210.h
->  create mode 100644 drivers/staging/media/tegra/vi.c
->  create mode 100644 drivers/staging/media/tegra/vi.h
->  create mode 100644 drivers/staging/media/tegra/video.c
->  create mode 100644 drivers/staging/media/tegra/video.h
+> greg k-h
 
-With 'make menuconfig' I get this:
+All tests are passing for Tegra
 
-scripts/kconfig/mconf  Kconfig
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    16 tests:	16 pass, 0 fail
 
-WARNING: unmet direct dependencies detected for TEGRA_HOST1X
-  Depends on [n]: HAS_IOMEM [=y] && (ARCH_TEGRA || ARM && COMPILE_TEST [=y])
-  Selected by [y]:
-  - VIDEO_TEGRA [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && (ARCH_TEGRA || COMPILE_TEST [=y])
+Linux version:	4.4.220-rc1-gacb152478366
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
-This is an x86_64 build with COMPILE_TEST set. I can provide my full .config if you need it.
+Cheers
+Jon
 
-CONFIG_TEGRA_HOST1X=y
-CONFIG_VIDEO_TEGRA=y
-
-Regards,
-
-	Hans
+-- 
+nvpublic
