@@ -2,83 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 744751B5958
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Apr 2020 12:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D8191B59BE
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Apr 2020 12:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbgDWKhY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Apr 2020 06:37:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60284 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725863AbgDWKhX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Apr 2020 06:37:23 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E813E2076C;
-        Thu, 23 Apr 2020 10:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587638242;
-        bh=xhJR5aH/f7qdTrdiw1br0HJ2h6Qmi1BvSbpvMrPn+qU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JSOXLM8QtpEKj8IYaDyMnAVMToc+H98zE+8vcUFa2lD7z7ExuU+zjo0aoCJ9C2cdr
-         0ZyzNcA97eSIG/DDe8ZJNKF6+vuF2txwjXQ+ePffT2yClS4i4LbbxZVvXGIYxmzBbO
-         X2/1FjjC25msOc1NO47MAYDFZ+iXxO+lrHiFPXjY=
-Date:   Thu, 23 Apr 2020 12:37:20 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.6 000/166] 5.6.7-rc1 review
-Message-ID: <20200423103720.GB3730645@kroah.com>
-References: <20200422095047.669225321@linuxfoundation.org>
- <c2447ca7-0a90-fa71-5611-8d3d7349eb2b@nvidia.com>
+        id S1727916AbgDWK4U (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Apr 2020 06:56:20 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1154 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727911AbgDWK4S (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 23 Apr 2020 06:56:18 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea173dd0000>; Thu, 23 Apr 2020 03:54:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 23 Apr 2020 03:56:18 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 23 Apr 2020 03:56:18 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 10:56:18 +0000
+Received: from [10.26.73.193] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 10:56:15 +0000
+Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
+ for a long time
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "Wolfram Sang" <wsa@the-dreams.de>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>
+CC:     <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200324191217.1829-1-digetx@gmail.com>
+ <20200324191217.1829-2-digetx@gmail.com>
+ <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
+ <f59ba318-8e99-c486-fa4d-1ee28a7b203d@gmail.com>
+ <b01cec76-bb39-9fb5-8f6e-4023c075e6b3@gmail.com>
+ <8cd085e1-f9fd-6ec0-9f7a-d5463f176a63@nvidia.com>
+ <db1132ce-53a8-371c-98e0-cb7cd91d5c7d@gmail.com>
+ <fa344989-4cce-0d2c-dc93-4ca546823160@nvidia.com>
+ <bba0a93a-8ec4-eda6-97f3-fb2ab0b9b503@gmail.com>
+ <6f07e5c8-7916-7ea2-2fe7-d05f8f011471@nvidia.com>
+ <77a31b2f-f525-ba9e-f1ae-2b474465bde4@gmail.com>
+ <470b4de4-e98a-1bdc-049e-6259ad603507@nvidia.com>
+ <d2531fc1-b452-717d-af71-19497e14ef00@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <a5198024-7273-74c4-b4f4-3a29d042bc36@nvidia.com>
+Date:   Thu, 23 Apr 2020 11:56:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2447ca7-0a90-fa71-5611-8d3d7349eb2b@nvidia.com>
+In-Reply-To: <d2531fc1-b452-717d-af71-19497e14ef00@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587639261; bh=WJzV1Jv0Ce9gv3BZE2UoDPJdOFk4EzrOQ7ddtDD0IpQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Ta7B/bt77dEvbces/XxV6IU4FQh26/tXcAY+s0a6HoRsYoUFgLQPdJ1iUgUnkG6qh
+         59dwFvLfpdY5/akeYk1yAvgHKsmO8FF72rXcIUEMfMJm5bL+VFaHxGn+uggWde9vRV
+         xZ98JrcqdRWxvrEie1pyeoAJXaANRUB98c1JB+L0r045gnxV6h+aoyd+5PAx/1dm5S
+         9G7++0Vc3lEfyfNUefaBeaTPM1uqwv0x+sJaAbOKv+varrIR2xE5G8NkIk//MY2kaa
+         7SDI6q0MHo/mRXTwKggeNmgsDfTX++qNVxWXnS5iz773Ec31sel+n9zOlwvq0xR4X/
+         I3EjyobghTudA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 11:23:09AM +0100, Jon Hunter wrote:
-> 
-> On 22/04/2020 10:55, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.6.7 release.
-> > There are 166 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri, 24 Apr 2020 09:48:23 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.7-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h 
-> 
-> All tests are passing for Tegra
-> 
-> Test results for stable-v5.6:
->     13 builds:	13 pass, 0 fail
->     24 boots:	24 pass, 0 fail
->     40 tests:	40 pass, 0 fail
-> 
-> Linux version:	5.6.7-rc1-g8614562dd305
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
-> 
 
-Great, thanks for testing all of these and letting me know.
+On 22/04/2020 15:07, Dmitry Osipenko wrote:
 
-greg k-h
+...
+
+>> So I think that part of the problem already existed prior to these
+>> patches. Without your patches I see ...
+>>
+>> [   59.543528] tegra-i2c 7000d000.i2c: i2c transfer timed out
+> 
+> Does this I2C timeout happen with my patches? Could you please post full
+> logs of an older and the recent kernel versions?
+
+I believe that it does, but I need to check.
+
+>> [   59.549036] vdd_sata,avdd_plle: failed to disable
+>>
+>> [   59.553778] Failed to disable avdd-plle: -110
+>>
+>> [   59.558150] tegra-pcie 3000.pcie: failed to disable regulators: -110
+>>
+>>
+>> However, now with your patches the i2c is failing to resume and this
+>> breaks system suspend completely for Tegra30. So far this is the only
+>> board that appears to break.
+>>
+>> So the above issue needs to be fixed and I will chat to Thierry about this.
+> 
+> Okay
+
+So I have been looking at this some more and this starting to all look a
+bit of a mess :-(
+
+Firstly, the Tegra PCI driver suspends late (noirq) as we know. The PCI
+driver will warn if it cannot disable the regulators when suspending but
+does not actually fail suspend. So this warning is just indicating that
+we were unable to disable the regulators.
+
+Now I don't see that we can ever disable the PCI regulators currently
+when entering suspend because ...
+
+1. We are in the noirq phase and so we will not get the completion
+   interrupt for the I2C transfer. I know that you recently added the
+   atomic I2C transfer support, but we can get the regulator framework
+   to use this (I have not looked in much detail so far).
+
+2. Even if the regulator framework supported atomic I2C transfers, we
+   also have the problem that the I2C controller could be runtime-
+   suspended and pm_runtime_get_sync() will not work during during this
+   phase to resume it correctly. This is a problem that needs to be
+   fixed indeed!
+
+3. Then we also have the possible dependency on the DMA driver that is
+   suspended during the noirq phase.
+
+It could be argued that if the PCI regulators are never turned off
+(currently) then we should not even bother and this will likely resolve
+this for now. However, really we should try to fix that correctly.
+
+What I still don't understand is why your patch breaks resume. Even if
+the I2C transfer fails, and is deemed harmless by the client driver, we
+should still be able to suspend and resume correctly.
+
+Cheers
+Jon
+
+-- 
+nvpublic
