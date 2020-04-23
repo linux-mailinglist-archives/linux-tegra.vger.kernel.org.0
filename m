@@ -2,221 +2,157 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C0571B6107
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Apr 2020 18:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C6F1B614C
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Apr 2020 18:51:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729453AbgDWQdq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Apr 2020 12:33:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729407AbgDWQdq (ORCPT
+        id S1729707AbgDWQvA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Apr 2020 12:51:00 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16536 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729673AbgDWQvA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Apr 2020 12:33:46 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F4FC09B041;
-        Thu, 23 Apr 2020 09:33:46 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id a21so6874739ljb.9;
-        Thu, 23 Apr 2020 09:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=tAn1shUBNNakvYCQL+s6mMcCDRrVLS5bHorftkCoepw=;
-        b=F/sDkbg9eR9uOa3Ziuy7wuAPTZdYr3C4xlrE793YbjCkgvCCwv4f1kRw4pVa1scuTi
-         VmmVDU2mLAWRBfG5uhiPuEQOu3l7hJTRbujcT9dttF8QjldZdiMFnwCHhBSf+9SHKbBd
-         bcBINMVHHZwCYExvpG8uRi84L79NcLAguqwTWcHAyN/pxIY4zfqUxWkJIF0J+S3tYw6T
-         LYOhxBt5w4TFMC1sJydAW+j8oN7NJ5KYJWHESQGP/fNOItXVjLq+6i8dwkqzF2nq+Cnk
-         QSb1PNh8bBqYmUmyeOTUXtL9BpDCp97ckrRniEpP8fXHT/anyEnS91/IOg/6s4mNPZAz
-         A1xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tAn1shUBNNakvYCQL+s6mMcCDRrVLS5bHorftkCoepw=;
-        b=byIOpp5guWA/JNJbDEI5R6iM3vbrwm6+uCbAYPNIqj6hG64IYvlFzgDTYV8eiD9yvt
-         utmDujoLw8kJrpSKayoAOkGj4zymCix8wZQQ4nwHaKXT9DTuJPR4Ykqp4vSa9pVLJPUV
-         jrFZ8MA18PWlQYggKWAdqcyvp+z0RsFwxOadYeSxKMklD92xRqxZTMNoKe2SVNKluvlY
-         w9MgRH8gchowyBoSYXQIkB6iVR/WGaALHfA0Lit6rtdnM+hrAxF6318cCXWLCSc2EEQy
-         XomLdWp7PPHlQFp5eYTNfwypw7pQHjc3dti0G2KcGgjAPd++5WoUGGHDiD4OTMWOZTEh
-         wEMQ==
-X-Gm-Message-State: AGi0PubW6G9WUoh3lBAbXfCcb9gcsQgJJCQ3DJm8DQ5mX5ZrCh/NaQDa
-        EHQO0tup6D86PWPHjFo+J5lWBsym
-X-Google-Smtp-Source: APiQypL1iVIogi3rRVYwY+/ni9SjumEkAptLvW+9rxUc9zq2PVTO6ihJP5Gh1pvA1xhNnIkP+/WWMg==
-X-Received: by 2002:a2e:85c4:: with SMTP id h4mr2975652ljj.112.1587659624165;
-        Thu, 23 Apr 2020 09:33:44 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id o16sm2420603ljp.53.2020.04.23.09.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2020 09:33:43 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
- for a long time
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200324191217.1829-1-digetx@gmail.com>
- <20200324191217.1829-2-digetx@gmail.com>
- <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
- <f59ba318-8e99-c486-fa4d-1ee28a7b203d@gmail.com>
- <b01cec76-bb39-9fb5-8f6e-4023c075e6b3@gmail.com>
- <8cd085e1-f9fd-6ec0-9f7a-d5463f176a63@nvidia.com>
- <db1132ce-53a8-371c-98e0-cb7cd91d5c7d@gmail.com>
- <fa344989-4cce-0d2c-dc93-4ca546823160@nvidia.com>
- <bba0a93a-8ec4-eda6-97f3-fb2ab0b9b503@gmail.com>
- <6f07e5c8-7916-7ea2-2fe7-d05f8f011471@nvidia.com>
- <77a31b2f-f525-ba9e-f1ae-2b474465bde4@gmail.com>
- <470b4de4-e98a-1bdc-049e-6259ad603507@nvidia.com>
- <d2531fc1-b452-717d-af71-19497e14ef00@gmail.com>
- <a5198024-7273-74c4-b4f4-3a29d042bc36@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f8fb1f7f-2497-033e-ff2c-c86c6caa9706@gmail.com>
-Date:   Thu, 23 Apr 2020 19:33:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 23 Apr 2020 12:51:00 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea1c6fe0000>; Thu, 23 Apr 2020 09:49:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 23 Apr 2020 09:50:59 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 23 Apr 2020 09:50:59 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 16:50:59 +0000
+Received: from [10.2.165.49] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 16:50:58 +0000
+Subject: Re: [RFC PATCH v9 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1587536339-4030-1-git-send-email-skomatineni@nvidia.com>
+ <1587536339-4030-7-git-send-email-skomatineni@nvidia.com>
+ <ae6dfd6b-4b0b-db73-54cf-a16e59476f38@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <3115a959-045e-7b27-94fb-a11a8b5f4a6a@nvidia.com>
+Date:   Thu, 23 Apr 2020 09:50:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <a5198024-7273-74c4-b4f4-3a29d042bc36@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ae6dfd6b-4b0b-db73-54cf-a16e59476f38@xs4all.nl>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587660543; bh=dej+/NPj9Zi1pabB1YDOATDwcPgl93oxjqVQvLEgeFI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=AFFUb/gOdvlNFh1DMRIVqsHEiu2OxZA7yamw8sGomynyNEQHjU2gdH4D/+rYuHqzW
+         GIE8dqx8IYgzpyoX8l8Xq9wTvP0fkBgIqmSUWljq4BsBGCshvTvhd4DDHKLOz2zvZs
+         dCFHPknwxPg2f4a/rXS/H6paMn9MbEc4DsdqHaeok/pVCehqLD0knLBkIh4DbpiRwt
+         juF5SVtaW6gsd9UosilztfUhUIxEx4gWkpM5qQUCpVc7iDEavnuhMEEMXGZuh7thla
+         G7AeWdL8aB6c99SkEIgPAIrzhVYcDr6dpiunAdtX5Kx3iSSgXoGfJHOwWLbDMK93tx
+         0ep0Na2OjP/IQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.04.2020 13:56, Jon Hunter пишет:
-> 
-> On 22/04/2020 15:07, Dmitry Osipenko wrote:
-> 
-> ...
-> 
->>> So I think that part of the problem already existed prior to these
->>> patches. Without your patches I see ...
->>>
->>> [   59.543528] tegra-i2c 7000d000.i2c: i2c transfer timed out
+
+On 4/23/20 12:48 AM, Hans Verkuil wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 22/04/2020 08:18, Sowjanya Komatineni wrote:
+>> Tegra210 contains a powerful Video Input (VI) hardware controller
+>> which can support up to 6 MIPI CSI camera sensors.
 >>
->> Does this I2C timeout happen with my patches? Could you please post full
->> logs of an older and the recent kernel versions?
-> 
-> I believe that it does, but I need to check.
-> 
->>> [   59.549036] vdd_sata,avdd_plle: failed to disable
->>>
->>> [   59.553778] Failed to disable avdd-plle: -110
->>>
->>> [   59.558150] tegra-pcie 3000.pcie: failed to disable regulators: -110
->>>
->>>
->>> However, now with your patches the i2c is failing to resume and this
->>> breaks system suspend completely for Tegra30. So far this is the only
->>> board that appears to break.
->>>
->>> So the above issue needs to be fixed and I will chat to Thierry about this.
+>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+>> capture from an external camera sensor connected to CSI or from
+>> built-in test pattern generator.
 >>
->> Okay
-> 
-> So I have been looking at this some more and this starting to all look a
-> bit of a mess :-(
-> 
-> Firstly, the Tegra PCI driver suspends late (noirq) as we know. The PCI
-> driver will warn if it cannot disable the regulators when suspending but
-> does not actually fail suspend. So this warning is just indicating that
-> we were unable to disable the regulators.
-> 
-> Now I don't see that we can ever disable the PCI regulators currently
-> when entering suspend because ...
-> 
-> 1. We are in the noirq phase and so we will not get the completion
->    interrupt for the I2C transfer. I know that you recently added the
->    atomic I2C transfer support, but we can get the regulator framework
->    to use this (I have not looked in much detail so far).
+>> Tegra210 supports built-in test pattern generator from CSI to VI.
+>>
+>> This patch adds a v4l2 capture driver with media interface for
+>> Tegra210 built-in CSI to VI test pattern generator.
+>>
+>> This patch includes TPG support only and all the video pipeline
+>> configuration happens through the video device node.
+>>
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/staging/media/Kconfig          |    2 +
+>>   drivers/staging/media/Makefile         |    1 +
+>>   drivers/staging/media/tegra/Kconfig    |   13 +
+>>   drivers/staging/media/tegra/Makefile   |    8 +
+>>   drivers/staging/media/tegra/TODO       |   10 +
+>>   drivers/staging/media/tegra/common.h   |  262 ++++++++
+>>   drivers/staging/media/tegra/csi.c      |  606 +++++++++++++++++
+>>   drivers/staging/media/tegra/csi.h      |  149 +++++
+>>   drivers/staging/media/tegra/tegra210.c |  709 ++++++++++++++++++++
+>>   drivers/staging/media/tegra/tegra210.h |  190 ++++++
+>>   drivers/staging/media/tegra/vi.c       | 1132 ++++++++++++++++++++++++++++++++
+>>   drivers/staging/media/tegra/vi.h       |   83 +++
+>>   drivers/staging/media/tegra/video.c    |  153 +++++
+>>   drivers/staging/media/tegra/video.h    |   34 +
+>>   14 files changed, 3352 insertions(+)
+>>   create mode 100644 drivers/staging/media/tegra/Kconfig
+>>   create mode 100644 drivers/staging/media/tegra/Makefile
+>>   create mode 100644 drivers/staging/media/tegra/TODO
+>>   create mode 100644 drivers/staging/media/tegra/common.h
+>>   create mode 100644 drivers/staging/media/tegra/csi.c
+>>   create mode 100644 drivers/staging/media/tegra/csi.h
+>>   create mode 100644 drivers/staging/media/tegra/tegra210.c
+>>   create mode 100644 drivers/staging/media/tegra/tegra210.h
+>>   create mode 100644 drivers/staging/media/tegra/vi.c
+>>   create mode 100644 drivers/staging/media/tegra/vi.h
+>>   create mode 100644 drivers/staging/media/tegra/video.c
+>>   create mode 100644 drivers/staging/media/tegra/video.h
+> With 'make menuconfig' I get this:
+>
+> scripts/kconfig/mconf  Kconfig
+>
+> WARNING: unmet direct dependencies detected for TEGRA_HOST1X
+>    Depends on [n]: HAS_IOMEM [=y] && (ARCH_TEGRA || ARM && COMPILE_TEST [=y])
+>    Selected by [y]:
+>    - VIDEO_TEGRA [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && (ARCH_TEGRA || COMPILE_TEST [=y])
+>
+> This is an x86_64 build with COMPILE_TEST set. I can provide my full .config if you need it.
+>
+> CONFIG_TEGRA_HOST1X=y
+> CONFIG_VIDEO_TEGRA=y
+>
+> Regards,
+>
+>          Hans
 
-That's not good :) I didn't realize that *all* interrupts of every
-device are disabled before .noirq is invoked. It appeared to me that the
-IRQs disabling and .noirq invocation is performed for the drivers one
-after another, but now I see that it's not true.
+Hi Hans,
 
-https://elixir.bootlin.com/linux/v5.7-rc2/source/drivers/base/power/main.c#L1446
+In v7, changed Kconfig to remove ARM. But looks like we should limit
 
-> 2. Even if the regulator framework supported atomic I2C transfers, we
->    also have the problem that the I2C controller could be runtime-
->    suspended and pm_runtime_get_sync() will not work during during this
->    phase to resume it correctly. This is a problem that needs to be
->    fixed indeed!
+TEGRA_HOST1X also limits compile to ARM only so running VIDEO_TEGRA on 
+x86_64 shows above warning.
 
-Could you please clarify why pm_runtime_get_sync() can't be used by the
-I2C driver's in NOIRQ phase?
+We should limit compile to ARM for CONFIG_VIDEO_TEGRA.
 
-> 3. Then we also have the possible dependency on the DMA driver that is
->    suspended during the noirq phase.
+Will update CONFIG_VIDEO_TEGRA dependency to use ARM && COMPILE_TEST 
+like I had in previous version. Sorry about this.
 
-Yes, this is correct.
 
-Again, some regulator drivers may do something on suspend too, although
-looks like the current upstream Tegra devices are not affected by this
-potential problem.
+Also, I see some changes went into latest linux-next staging media 
+Kconfig, So, will have my patches on top of today's linux-next.
 
-> It could be argued that if the PCI regulators are never turned off
-> (currently) then we should not even bother and this will likely resolve
-> this for now. However, really we should try to fix that correctly.
+Thanks
 
-Yes, keeping PCI regulators always-enabled should be a good immediate
-solution.
+Sowjanya
 
-Also, the RPM's system suspend/resume needs to fixed for the pci-tegra
-driver, like I already suggested before.
 
-> What I still don't understand is why your patch breaks resume. Even if
-> the I2C transfer fails, and is deemed harmless by the client driver, we
-> should still be able to suspend and resume correctly.
-
-If DMA is getting synchronized after DMA driver being suspended, then it
-could be a problem.
-
-Could you please try to apply this hunk and see if it makes any
-difference (I'll probably make it as proper patch):
-
---- >8 ---
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index a42c0b4d14ac..55fc7400f717 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -816,6 +816,13 @@ static bool
-tegra_dma_eoc_interrupt_deasserted(struct tegra_dma_channel *tdc)
- static void tegra_dma_synchronize(struct dma_chan *dc)
- {
- 	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
-+	int err;
-+
-+	err = pm_runtime_get_sync(tdc->tdma->dev);
-+	if (err < 0) {
-+		dev_err(tdc2dev(tdc), "Failed to synchronize DMA: %d\n", err);
-+		return;
-+	}
-
- 	/*
- 	 * CPU, which handles interrupt, could be busy in
-@@ -825,6 +832,8 @@ static void tegra_dma_synchronize(struct dma_chan *dc)
- 	wait_event(tdc->wq, tegra_dma_eoc_interrupt_deasserted(tdc));
-
- 	tasklet_kill(&tdc->tasklet);
-+
-+	pm_runtime_put(tdc->tdma->dev);
- }
-
- static unsigned int tegra_dma_sg_bytes_xferred(struct tegra_dma_channel
-*tdc,
---- >8 ---
-
-It also could be that there is more than the suspend ordering problem,
-but for now it is hard to tell without having a detailed log which
-includes I2C/DMA/RPM traces.
-
-Lastly, it should be worthwhile to try to apply the WIP ARM32 KASAN
-series and see what will happen using CONFIG_KASAN=y.
-
-https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=230197
