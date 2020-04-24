@@ -2,113 +2,143 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C177D1B7900
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2020 17:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 508A31B794D
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2020 17:19:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbgDXPLv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Apr 2020 11:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726908AbgDXPLv (ORCPT
+        id S1726950AbgDXPTb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Apr 2020 11:19:31 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12145 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbgDXPTa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Apr 2020 11:11:51 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01EE1C09B045;
-        Fri, 24 Apr 2020 08:11:51 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id h6so8012305lfc.0;
-        Fri, 24 Apr 2020 08:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NCKvIwAX2lyXMS3V6hPb1K5t940QaLImTpHp7o0dE7s=;
-        b=ZPPlj6KejWk1GgqB17PvtCeurdQHT9dJyPcc6ya8nlrJqICXXJUQxO5szQgOw9D+/u
-         EzCY3JkhGA7rbu8v44DxyBba204k0ftrATJ02TAt/4dBuMkIhzlclFO7ixNYvtCnYPXg
-         Vj0EF2QOxCYxovSVnTdHhWjKMdL8/W+aWrWL/gJUOeVJt0wZG22IH2UrHmgFuMjifPkq
-         o6c9HiQINryTwKeTLeh6Oc1MUYB0lJfma2zgJ0dHDoP7agJUrMAToOXKOwpxuM2+DsRN
-         ZkUCrzKMPvZ0c8knVIbQUhYNRU8Co59TjlKp1VzmDgG8/OU0M+2YV2UxHO/iiInjvNO5
-         v4sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NCKvIwAX2lyXMS3V6hPb1K5t940QaLImTpHp7o0dE7s=;
-        b=eVDCK/OCE0ZjXSopaoKxFIMljHo9Zbspq6s/AONUIwq5PevvqxPCW4tvqCRJRc187K
-         aDIeWJxcC8bY9Uc4/Jvcj0Cn7XBCYE2wFQ3TIU3sArSuLs0pYJKtuzdeuadr+oyEGwV+
-         VsHXUkQL6W/HaXvhLtIRNSbFz9vkvzqkT+RwfZflcN25Hoq+ONoM5sfT9s1sd2l4B93c
-         SPzYAtTyQUJw1cbpEnVrEk4sffBy22TfHnOOX+JZ7LWe/0j8BuJplNLm8R/kbsFpRfi9
-         +VjJJpvNutrDMCThVPimu4QtQSkp/D5mt2xEdT6m6i7STOB+VYw9Pm1B5YWS9dSX4Oz9
-         I1tw==
-X-Gm-Message-State: AGi0PuZwiVl7PahJrtxuAg6PjrAV/bTYNbDzs/4zWgIUelM7uzEZ+B6t
-        sewlowr4PX3oMM7TioVqYlJDlU6s
-X-Google-Smtp-Source: APiQypL6Y5pP8frZ9lwc0gIlbRZu3rStQ/IZIVvDo4JJv6attpFW3Fvcwp2bbk7qQ+x9ipofzKGfEw==
-X-Received: by 2002:a05:6512:308c:: with SMTP id z12mr6528775lfd.195.1587741108845;
-        Fri, 24 Apr 2020 08:11:48 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id a26sm4679765lfl.66.2020.04.24.08.11.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2020 08:11:47 -0700 (PDT)
-Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
- <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
-Date:   Fri, 24 Apr 2020 18:11:46 +0300
+        Fri, 24 Apr 2020 11:19:30 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea303760000>; Fri, 24 Apr 2020 08:19:18 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 24 Apr 2020 08:19:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 24 Apr 2020 08:19:30 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
+ 2020 15:19:30 +0000
+Received: from [10.26.73.231] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
+ 2020 15:19:27 +0000
+Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
+ for a long time
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "Wolfram Sang" <wsa@the-dreams.de>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>
+CC:     <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200324191217.1829-1-digetx@gmail.com>
+ <20200324191217.1829-2-digetx@gmail.com>
+ <1e259e22-c300-663a-e537-18d854e0f478@nvidia.com>
+ <f59ba318-8e99-c486-fa4d-1ee28a7b203d@gmail.com>
+ <b01cec76-bb39-9fb5-8f6e-4023c075e6b3@gmail.com>
+ <8cd085e1-f9fd-6ec0-9f7a-d5463f176a63@nvidia.com>
+ <db1132ce-53a8-371c-98e0-cb7cd91d5c7d@gmail.com>
+ <fa344989-4cce-0d2c-dc93-4ca546823160@nvidia.com>
+ <bba0a93a-8ec4-eda6-97f3-fb2ab0b9b503@gmail.com>
+ <6f07e5c8-7916-7ea2-2fe7-d05f8f011471@nvidia.com>
+ <77a31b2f-f525-ba9e-f1ae-2b474465bde4@gmail.com>
+ <470b4de4-e98a-1bdc-049e-6259ad603507@nvidia.com>
+ <d2531fc1-b452-717d-af71-19497e14ef00@gmail.com>
+ <a5198024-7273-74c4-b4f4-3a29d042bc36@nvidia.com>
+ <f8fb1f7f-2497-033e-ff2c-c86c6caa9706@gmail.com>
+ <fd1ca178-1ea3-851f-20a6-10bf00453ce3@nvidia.com>
+ <a5734f19-254e-b6bc-e791-fa1ac63f11a4@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <79f6560e-dbb5-0ae1-49f8-cf1cd95396ec@nvidia.com>
+Date:   Fri, 24 Apr 2020 16:19:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <a5734f19-254e-b6bc-e791-fa1ac63f11a4@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587741558; bh=6EvpFp10VeCDVx1lp61rQp1uS7/tMoIZMqDEb+agf+I=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ah4+pULA1j3bd4sv6xF57BpM40y/gqIdTIObBUAAVJHhrv1ei9bZQHEGKduTQCOEc
+         vU1sPRZZkH2FbeBn9JodzAd7Xdx51ldXdm02fDKkNL4DZRxltcWEi9yYWlRMyncwYZ
+         kcvRlT2TQgbUDYiG1BYgDqIdhqmeJwCeFn2ElQWFpE2CH4Zr0SVXGbMxcPAVp7Zf5D
+         rFuU5pJwqkGzkH3tqYJMegxbtQmA3fTPNeOaQWViFNfeacO4DB3jxIsAE4FG+lKX/i
+         VfkXqf1CLMpvZF4oncwWkSMbyo17t93XNfQOXdmj4b5XuljMg5SV2rszA0ZjE/Kw38
+         iU3QH1yKibVdA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-24.04.2020 06:55, Sowjanya Komatineni пишет:
-> Tegra210 contains a powerful Video Input (VI) hardware controller
-> which can support up to 6 MIPI CSI camera sensors.
-> 
-> Each Tegra CSI port can be one-to-one mapped to VI channel and can
-> capture from an external camera sensor connected to CSI or from
-> built-in test pattern generator.
-> 
-> Tegra210 supports built-in test pattern generator from CSI to VI.
-> 
-> This patch adds a v4l2 capture driver with media interface for
-> Tegra210 built-in CSI to VI test pattern generator.
-> 
-> This patch includes TPG support only and all the video pipeline
-> configuration happens through the video device node.
-> 
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  drivers/staging/media/Kconfig          |    2 +
->  drivers/staging/media/Makefile         |    1 +
->  drivers/staging/media/tegra/Kconfig    |   12 +
->  drivers/staging/media/tegra/Makefile   |    8 +
->  drivers/staging/media/tegra/TODO       |   10 +
->  drivers/staging/media/tegra/common.h   |  259 ++++++++
->  drivers/staging/media/tegra/csi.c      |  604 +++++++++++++++++
->  drivers/staging/media/tegra/csi.h      |  144 ++++
->  drivers/staging/media/tegra/tegra210.c |  708 ++++++++++++++++++++
->  drivers/staging/media/tegra/tegra210.h |  190 ++++++
->  drivers/staging/media/tegra/vi.c       | 1127 ++++++++++++++++++++++++++++++++
->  drivers/staging/media/tegra/vi.h       |   72 ++
->  drivers/staging/media/tegra/video.c    |  153 +++++
->  drivers/staging/media/tegra/video.h    |   29 +
 
-The media/tegra/ sounds a bit too generic, the media/tegra-vi/ path
-should better reflect the driver, IMO.
+On 24/04/2020 15:45, Dmitry Osipenko wrote:
+> 24.04.2020 10:10, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>>> Could you please clarify why pm_runtime_get_sync() can't be used by the
+>>> I2C driver's in NOIRQ phase?
+>>
+>> Yes take a look at commit 1e2ef05bb8cf ("PM: Limit race conditions
+>> between runtime PM and system sleep (v2)").
+>=20
+> I2C driver now uses irq-safe RPM since ede2299f7 ("i2c: tegra: Support
+> atomic transfers"), and thus, the RPM's workqueue shouldn't be a
+> problem. I guess RPM should work fine in this case, don't you think so?
 
-It also should be better to name the compiled kernel module as tegra-vi,
-IMO.
+I was testing, and I did not see it using atomic transfers. I can
+confirm if the RPM callbacks are called or not, but I did not think so.
+However, let me confirm.
+
+>>> Yes, keeping PCI regulators always-enabled should be a good immediate
+>>> solution.
+>>
+>> I was thinking about that, and I am not sure it is. I don't think that
+>> the failure to send the I2C command should break suspend.
+>=20
+> It shouldn't, but looks like it should be a separate problem.
+
+Maybe but all these other problems appear to have existed for sometime
+now. We need to fix all, but for the moment we need to figure out what's
+best for v5.7.
+
+>> So I confirmed that DMA is not the issue in this case. I tested this by
+>> ensuring that DMA is never used. However, it is a potential problem
+>> indeed.
+>>
+>>> Could you please try to apply this hunk and see if it makes any
+>>> difference (I'll probably make it as proper patch):
+>>
+>> Per my tests, I don't believe that it will as disabling DMA does not
+>> resolve the problem.
+>>
+>>> It also could be that there is more than the suspend ordering problem,
+>>> but for now it is hard to tell without having a detailed log which
+>>> includes I2C/DMA/RPM traces.
+>>
+>> I have taken a look and I don't see any issues with ordering. I2C is
+>> suspended after PCI. This did not change.
+>=20
+> Do you see a "completion done after timeout" messages in the KMSG log of
+> the v5.6 kernel?
+>=20
+> Could you please try this hunk? Although, I'll be surprised if it
+> changes anything.
+
+Yes I can test.
+
+Cheers
+Jon
+
+--=20
+nvpublic
