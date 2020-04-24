@@ -2,104 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA39C1B6EEA
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2020 09:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BB5D1B6F23
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2020 09:40:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726633AbgDXHYZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Apr 2020 03:24:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbgDXHYZ (ORCPT
+        id S1726654AbgDXHkb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Apr 2020 03:40:31 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11324 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbgDXHka (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Apr 2020 03:24:25 -0400
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E09C09B046
-        for <linux-tegra@vger.kernel.org>; Fri, 24 Apr 2020 00:24:23 -0700 (PDT)
-Received: by mail-ua1-x941.google.com with SMTP id 36so4412432uaf.9
-        for <linux-tegra@vger.kernel.org>; Fri, 24 Apr 2020 00:24:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bwU7oZ/XAAyY4lpunUIkqcm1gubUdFQTG9en47Gx4nM=;
-        b=U/kCdDqlJOd1t2vRuAJazeRN4kJyJhL8c20e2AZyQiNSeFyDxg2MRNpxtdeYhO5rIK
-         vtqkEpxvw0a89RGYgOoRh+8DAkWYm7/eXrn4gibrW9zZJa9pyD1eWp61ZZRKn8RNsP2X
-         CjOTQp0QBUXXW949H4Ni8j5Coze/J/jGKFIfNNwsd14oo3lmjqeq3sMPtBxY8beJ6os2
-         lulqpVkbj/zD2vMaHKK/ec+bwX2xHA0sCYxK0JpPcUO4oCzVVQ2KSaQup9KfiNrnv2Nv
-         2nM+QjPvXA+mXqoHYXzbjvzTHSiurIpJ2MWASURG+6mdwNC3Ruah2gL3Xbv9fCx1vbiZ
-         e2LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bwU7oZ/XAAyY4lpunUIkqcm1gubUdFQTG9en47Gx4nM=;
-        b=Js3yS2F1I71x+A5p4/NqjPOH1E1AW0KHiHStObSrxB4tk3T2KySwjEe/IVZwD/izWY
-         XfoM5gVxYynVnRof0QowVK94obOe49qcWIBuJbDMwow5T1aU4JCHVMEKY9t6EyXHXdgT
-         YChtlCC7r0H6aznoyHfNI7SENJ2NfNR5c79iIi1Byzf+gGg9IJSAzf5SSd4nvSjADuho
-         OfWhYgVxTC9thp530nvOAqJvOQhwSC29uwZ8a+V0qBW6NCufweml3/xLl0p0Jg6SLmTb
-         npr4Fwt7TMG/t3TfeBUYQ4f2eF+gK7VxLIAp78NZ+HDjwBFZ8bD6+CAyfJ2WQkWMCN0q
-         XHpw==
-X-Gm-Message-State: AGi0PuY646OexcooMbNQCvv9aRBiYgaQ/r4RfLWXdmrxZiBDoY+7M3A9
-        5galS3BsAInZFcjCBTVg/fxLaYme8xWqrcCSqE8r0g==
-X-Google-Smtp-Source: APiQypL6qzCRDuV/VbVYnPK5EVP2CZUDyh3ce3Agw5OQpvjytHoi9RN5IqoljEP2WZVNlu7rsy4mEAMRNQyRya+68vI=
-X-Received: by 2002:ab0:6588:: with SMTP id v8mr6618953uam.100.1587713062734;
- Fri, 24 Apr 2020 00:24:22 -0700 (PDT)
+        Fri, 24 Apr 2020 03:40:30 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea297e10001>; Fri, 24 Apr 2020 00:40:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 24 Apr 2020 00:40:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 24 Apr 2020 00:40:30 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
+ 2020 07:40:30 +0000
+Received: from [10.26.73.231] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
+ 2020 07:40:27 +0000
+Subject: Re: [PATCH 4.4 00/99] 4.4.220-rc2 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200423103313.886224224@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <225e448d-9f12-79a6-2ed2-a640b6d90b13@nvidia.com>
+Date:   Fri, 24 Apr 2020 08:40:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <1587573149-30269-1-git-send-email-skomatineni@nvidia.com>
- <20200423064755.GA3491005@kroah.com> <fe49d36f-65c9-736f-791c-27c602cc3bb8@nvidia.com>
-In-Reply-To: <fe49d36f-65c9-736f-791c-27c602cc3bb8@nvidia.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 24 Apr 2020 09:23:46 +0200
-Message-ID: <CAPDyKFo0vx1=_j5M-X068n8Xp3wU9JVrXkADCDcGX0Q1oRBzRg@mail.gmail.com>
-Subject: Re: [PATCH 5.4.33 0/2] Fix for long operation cmds busy detection
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        "(Exiting) Baolin Wang" <baolin.wang@linaro.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bradley Bolen <bradleybolen@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Aniruddha Tvs Rao <anrao@nvidia.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200423103313.886224224@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587714017; bh=soYeYf1LknidSFFvoym3JGwbRK2lE8doSBhKvaadGII=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=K5Fbz4W1V/i9yee+PWWkDyEETHppiKbp5ixlESVuqAe0VYklzWOlhLbsRI2Hdz8cs
+         jNW5f50Kqrbtf4GPNqFY5FWQOeETLF9RVlWy8l0Nz4ejVDKe2RBoQOk9B0+qoktxJ8
+         dgkRFANqzgZPjQZKi6V4CHiEQbl+OmWTwNxam/+EitLH5v1dgBxhuNYf9sJ5DRXB8e
+         G29XLZ5RuXbOc1wyGCZoRI9xvZPx5PVQ6R2aCaRtyrhZkjYGD1+IOVu+E/iJCXBqWN
+         lFEv0GaXjWVUXq5JyqSymry5vnSR/pl+E6SUtcE2s5RtO2epM/p+QXPGWSM9XcLzQD
+         Qu3yGLyOuhxHQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 23 Apr 2020 at 17:38, Sowjanya Komatineni
-<skomatineni@nvidia.com> wrote:
->
->
-> On 4/22/20 11:47 PM, Greg KH wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Wed, Apr 22, 2020 at 09:32:27AM -0700, Sowjanya Komatineni wrote:
-> >> This series is to backport the upstream patches that fixes busy detection
-> >> for long operation mmc commands by implementing Tegra specific timeout
-> >> callback to switch between finite and infinite HW busy detection wait
-> >> modes.
-> >>
-> >>
-> >> Sowjanya Komatineni (2):
-> >>    sdhci: tegra: Implement Tegra specific set_timeout callback
-> >>    sdhci: tegra: Enable MMC_CAP_WAIT_WHILE_BUSY host capability
-> >>
-> >>   drivers/mmc/host/sdhci-tegra.c | 33 +++++++++++++++++++++++++++++++++
-> >>   1 file changed, 33 insertions(+)
-> > Any specific reason you did not cc: the stable@vger list when asking for
-> > stable patches to be merged?
->
-> I added Cc: <stable@vger.kernel.org> in Signed-off area of patches
 
-I think Greg meant you actually need to send manually backported
-patches to stable@vger.kernel.org. This helps Greg and Sasha to pick
-them up.
+On 23/04/2020 11:34, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.220 release.
+> There are 99 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sat, 25 Apr 2020 10:31:20 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.220-rc2.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Kind regards
-Uffe
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.220-rc2-gb7353bd580c0
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
