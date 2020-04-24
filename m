@@ -2,101 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D111C1B6F33
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2020 09:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F9E91B738B
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Apr 2020 14:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgDXHmd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Apr 2020 03:42:33 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11421 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726056AbgDXHmd (ORCPT
+        id S1726942AbgDXMDG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Apr 2020 08:03:06 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:54599 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726289AbgDXMDF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Apr 2020 03:42:33 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ea2985c0000>; Fri, 24 Apr 2020 00:42:20 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 24 Apr 2020 00:42:33 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 24 Apr 2020 00:42:33 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
- 2020 07:42:32 +0000
-Received: from [10.26.73.231] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
- 2020 07:42:30 +0000
-Subject: Re: [PATCH 4.14 000/198] 4.14.177-rc2 review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200423103335.768056640@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <b3abc546-98a3-ef8d-57b5-d75491ca5a82@nvidia.com>
-Date:   Fri, 24 Apr 2020 08:42:28 +0100
+        Fri, 24 Apr 2020 08:03:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Rx2ojFZSvlKa1Rx2sjNxSJ; Fri, 24 Apr 2020 14:03:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587729782; bh=1z7Vrb+eIs3Q+QIWDRbo2xCq8jhibPasLV2HTZfVOog=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ZlyPC9VQ5ff2hpccNwIL2QhGpvr2dS/KqV3UCYEs5HwOVw73ZYjPkdCDG4n2Jdrgq
+         ATsCWdw/9lStxO8S5Sc3ioGQ3PzpyvdMFf4PvnuGec+2TqRPVF8YAciwKtttFczqKV
+         IDQ9h6kM6GXMU+yJ+rjj4UdVUjnE7Q6+Jm34cj3BHH4LxMja05v19qdIllxQxMNtRL
+         l2G7EAACZW813vsCR24MzVSpscHtB0TzDyQBvM5Exz0mGqtQTCjVw53ZC/ViqsxOHE
+         HZhsQ5wELmpUztcRvcSAGWZ/E8XTalOINYm1sIOnOBPk9C47NMe5gkvtGpZv2cSp2f
+         URUrRbaQXu+fw==
+Subject: Re: [RFC PATCH v8 0/9] Add Tegra driver for video capture
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
+        frankc@nvidia.com, sakari.ailus@iki.fi, helen.koike@collabora.com,
+        digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
+ <5c44beca-4016-6e4f-01bb-e38480bfc34b@xs4all.nl>
+ <20200421205032.GD3233341@ulmo>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <928b9b1d-b977-a281-ef5e-128b63cce94d@xs4all.nl>
+Date:   Fri, 24 Apr 2020 14:02:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200423103335.768056640@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200421205032.GD3233341@ulmo>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587714140; bh=3VcYSyENb3v5WQnqbdYshpays7hrJtoEp41UYWAGWU4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=FnoLjfZMftne8+3WouqfTOcjG1j16x8r/naQjC+Aku28O+Wyyez0z2eT7drrezi29
-         +BQQMUJveELIFWlIHK9jDNpU0O4PijqY/CayvknEPnKFA0Xh/5ax1PioFMkSPCuBVD
-         zt0aFoUhD9rX+XV3KnQV0yryX++2D6oBP3SAgb0FQZb5TF6DWNh1eCVQZ0C/Ppc4xI
-         LlvAc/GYvjL7f9QTwmICNj6R3tg3ZIaK0NUxcyhnc6zkoWqRBP0Vu46Yvt64VI/ioT
-         ncnoPcqGkhf5MNu1nTfCJp8Fz7MtqcCNQds6+Myx1vJl66em/7tTXsAbfVTSIBn8Fe
-         PnM1QnKWHHy6w==
+X-CMAE-Envelope: MS4wfP+I527Xj1o8On5xKP38GN60mxeh+SBcy8NpFGiniFnxzqcNuMRssBXZQ/3IFDm8ELdGAvqMJwNuXTa2TgFqYUsmAGImzoFCWE31tTkgvLJlZBuHwgHc
+ bkpO1sgMKy2zn7y+/vBB7xIlaoflcV0TWxp6+mM6QKt4NsRXEB/MeZOzLYGE4HQhr6q7xMglkgXoP90WTwRfHJOiX4ELUxt/AYqXnysyZioKG2lOaLIwbpL8
+ 9Hl5ZYpVPujJxNp8fZlp/XFoQXFshrR3Wxps6eVozgTEZC1R706ccn36TP8zP4RuR8bi/RhJYdrW2VRDvySLijyiuaBYXxDd3xKdllZfdorpenBkljEjWiQp
+ WOXgNvKKpI5ICo2NAfE81tD3qQTbK9HkQpjVAkY2GNOb8pJyEof5L+ph9Iwc2nQhyIYCuYunrILeO3ZoaluXoBX9MY3BX9h2EKgrRyo1eQohRPvURjL/4Ni6
+ tN6ifmNYX4gpw9Ahf2EMfpyE7LCoXW7OVmkyJNouyRxZ24p9wMPIgTF241u2Pd1YrdGYdgtwMVedZnowURRMGZjitpS9fXOxnVm5rhnfQDDF7LJVLFk1ajUS
+ 7Yg=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Thierry,
 
-On 23/04/2020 11:35, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.14.177 release.
-> There are 198 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On 21/04/2020 22:50, Thierry Reding wrote:
+> On Tue, Apr 21, 2020 at 01:09:50PM +0200, Hans Verkuil wrote:
+>> Hi Sowjanya,
+>>
+>> On 21/04/2020 02:11, Sowjanya Komatineni wrote:
+>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>> generator (TPG) capture.
+>>>
+>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>
+>>> This series has TPG support only where it creates hard media links
+>>> between CSI subdevice and VI video device without device graphs.
+>>>
+>>> v4l2-compliance results are available below the patch diff.
+>>
+>> I'm ready to merge this v8. Looking at the series I should only merge
+>> patches 6 and 7, all other patches go through different subsystems, right?
 > 
-> Responses should be made by Sat, 25 Apr 2020 10:31:20 +0000.
-> Anything received after that time might be too late.
+> You could also pick up patch 5 because it adds the bindings that are
+> implemented by the driver in patch 6. But I can also pick that up into
+> the Tegra tree. In fact, I do have a set of patches to convert some
+> Tegra bindings to the new json-schema format and the host1x file is
+> among them. If I do get around to finish those up for v5.8 it might be
+> better for me to pick up patch 5 so that I can base my conversion patch
+> on top of that.
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.177-rc2.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
-> and the diffstat can be found below.
+> Either way is fine with me, so I've acked the three patches. Take which
+> ones you want and I'll pick up the rest.
+
+I've decided to take only patches 6 and 7. Just let me know if for some
+reason you want me to merge patch 5 as well, but I think it makes more
+sense if you pick that one up.
+
 > 
-> thanks,
-> 
-> greg k-h
+> Thanks again for your guidance on this patch set!
 
+My pleasure, and it's nice to see this driver going in. Looking forward
+to the next phase when sensor support is added!
 
-All tests are passing for Tegra ...
+Regards,
 
-Test results for stable-v4.14:
-    8 builds:	8 pass, 0 fail
-    16 boots:	16 pass, 0 fail
-    24 tests:	24 pass, 0 fail
-
-Linux version:	4.14.177-rc2-ga7097ef0ff82
-Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
--- 
-nvpublic
+	Hans
