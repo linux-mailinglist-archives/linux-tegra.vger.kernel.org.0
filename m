@@ -2,189 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E368E1B87EB
-	for <lists+linux-tegra@lfdr.de>; Sat, 25 Apr 2020 19:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98E4E1B89AD
+	for <lists+linux-tegra@lfdr.de>; Sat, 25 Apr 2020 23:52:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726145AbgDYRCr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 25 Apr 2020 13:02:47 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:55586 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbgDYRCr (ORCPT
+        id S1726241AbgDYVwC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 25 Apr 2020 17:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbgDYVwC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 25 Apr 2020 13:02:47 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id D03B820023;
-        Sat, 25 Apr 2020 19:02:38 +0200 (CEST)
-Date:   Sat, 25 Apr 2020 19:02:37 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        Sat, 25 Apr 2020 17:52:02 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21DB8C09B04D;
+        Sat, 25 Apr 2020 14:52:02 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id y4so13645646ljn.7;
+        Sat, 25 Apr 2020 14:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WTFn6rB9HKermcvkoC+LjOH1uLnCCCkq/7Yk0Bhk1hY=;
+        b=ctifTUoW5D6cpHfjxDauyqzluTWYK6w53t0tAtbRJh/7mTvp5osgtao5DHPC2ZCsfy
+         0F7bv5j5gdNFDHjT3Uljtsok3FdmdMmVROA9Fh3bFVTvCQM9oCZCHJrh7xinj+xzJ5mf
+         2LaIJ7d+q8TCT4nIn5Yk75z0c9HdCZISgMTC9sTxoEu/tUFN6ei8hIOQEPcOqN2ZOU5c
+         PPq9FFYlXI8ygNSc62Zt5sDTjtVkX1aKDRXyHxX/54Cf2UDmDH1TSv4KWjf1aL0CMtvF
+         PZRZywh0se+wPkMcMPh7zjCzqv7Z2p3H95x9ZIn61s8p3su56DYqCSA9VM9SBo0wbzc4
+         hqMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WTFn6rB9HKermcvkoC+LjOH1uLnCCCkq/7Yk0Bhk1hY=;
+        b=YTF+Byc7sD4N/ZhacjDt21TQjaHK8z7Xq/kuaVaI7RuuzjFKV8Ly2gtSD6d0Icms12
+         70BnoSTeq6Y0GumsnAhbFiRAZublShuDEZgCF8UrBYIhEy39oFN9C1/V9ORiSL0wiDOQ
+         jRgnxX4lMxH6Nz3rTEyYhbY0SfbjuEqM9MAO1pAoiGCWfl0hHXKIM+CfoxrhzikPguCh
+         /4Ym22HJ9xu/Undof25Ic5lkw5g/J8+W7Np14SGoklsAt+STjJFldt/9G+5WdAhZfVRP
+         S23zEWDpoa8TQ1QPHJ5+LkMuU0+FzlcObDLf+JVaVZhdWIIUDKUMRSmGE8gLQOt7Ux5X
+         kblg==
+X-Gm-Message-State: AGi0PubWSRFoD4WbI6t1GA2XuQPbvSPXU5UcN7rjlrOaCOfTleb8AjsS
+        3bvPlKDU1XRZqBqFo21UP7M=
+X-Google-Smtp-Source: APiQypJYgN8HmjiAC+Az+JE+6s5LC3yyQ5KUiUc+DMuLZfUfxWBQXCbPiBkO2LCclFex5yr8qn5c0g==
+X-Received: by 2002:a2e:814e:: with SMTP id t14mr9632764ljg.204.1587851520651;
+        Sat, 25 Apr 2020 14:52:00 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id a26sm7599728lfl.66.2020.04.25.14.51.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Apr 2020 14:51:59 -0700 (PDT)
+Subject: Re: [PATCH v5 6/6] drm/tegra: output: rgb: Wrap directly-connected
+ panel into DRM bridge
+To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
         linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 6/6] drm/tegra: output: rgb: Wrap directly-connected
- panel into DRM bridge
-Message-ID: <20200425170237.GA20498@ravnborg.org>
 References: <20200418170703.1583-1-digetx@gmail.com>
  <20200418170703.1583-7-digetx@gmail.com>
+ <20200425170237.GA20498@ravnborg.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f03c260b-54ae-93ed-69e8-de434e74ed82@gmail.com>
+Date:   Sun, 26 Apr 2020 00:51:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200418170703.1583-7-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8
-        a=e5mUnYsNAAAA:8 a=V0GYCF9GdKgsJ-jD5OsA:9 a=CjuIK1q_8ugA:10
-        a=D0XLA9XvdZm18NrgonBM:22 a=E9Po1WZjFZOl8hwRPBS3:22
-        a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200425170237.GA20498@ravnborg.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry
-
-On Sat, Apr 18, 2020 at 08:07:03PM +0300, Dmitry Osipenko wrote:
-> Currently Tegra DRM driver manually manages display panel, but this
-> management could be moved out into DRM core if we'll wrap panel into
-> DRM bridge. This patch wraps RGB panel into a DRM bridge and removes
-> manual handling of the panel from the RGB output code.
+25.04.2020 20:02, Sam Ravnborg пишет:
+> Hi Dmitry
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-
-This resulted in the expected simplifications - good.
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-> ---
->  drivers/gpu/drm/tegra/rgb.c | 53 +++++++++++++------------------------
->  1 file changed, 18 insertions(+), 35 deletions(-)
+> On Sat, Apr 18, 2020 at 08:07:03PM +0300, Dmitry Osipenko wrote:
+>> Currently Tegra DRM driver manually manages display panel, but this
+>> management could be moved out into DRM core if we'll wrap panel into
+>> DRM bridge. This patch wraps RGB panel into a DRM bridge and removes
+>> manual handling of the panel from the RGB output code.
+>>
+>> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > 
-> diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-> index 9a7024ec96bc..a4c5a6066c54 100644
-> --- a/drivers/gpu/drm/tegra/rgb.c
-> +++ b/drivers/gpu/drm/tegra/rgb.c
-> @@ -8,7 +8,6 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge_connector.h>
-> -#include <drm/drm_panel.h>
->  #include <drm/drm_simple_kms_helper.h>
->  
->  #include "drm.h"
-> @@ -86,15 +85,6 @@ static void tegra_dc_write_regs(struct tegra_dc *dc,
->  		tegra_dc_writel(dc, table[i].value, table[i].offset);
->  }
->  
-> -static const struct drm_connector_funcs tegra_rgb_connector_funcs = {
-> -	.reset = drm_atomic_helper_connector_reset,
-> -	.detect = tegra_output_connector_detect,
-> -	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = tegra_output_connector_destroy,
-> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> -};
-> -
->  static enum drm_mode_status
->  tegra_rgb_connector_mode_valid(struct drm_connector *connector,
->  			       struct drm_display_mode *mode)
-> @@ -117,14 +107,8 @@ static void tegra_rgb_encoder_disable(struct drm_encoder *encoder)
->  	struct tegra_output *output = encoder_to_output(encoder);
->  	struct tegra_rgb *rgb = to_rgb(output);
->  
-> -	if (output->panel)
-> -		drm_panel_disable(output->panel);
-> -
->  	tegra_dc_write_regs(rgb->dc, rgb_disable, ARRAY_SIZE(rgb_disable));
->  	tegra_dc_commit(rgb->dc);
-> -
-> -	if (output->panel)
-> -		drm_panel_unprepare(output->panel);
->  }
->  
->  static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
-> @@ -133,9 +117,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
->  	struct tegra_rgb *rgb = to_rgb(output);
->  	u32 value;
->  
-> -	if (output->panel)
-> -		drm_panel_prepare(output->panel);
-> -
->  	tegra_dc_write_regs(rgb->dc, rgb_enable, ARRAY_SIZE(rgb_enable));
->  
->  	value = DE_SELECT_ACTIVE | DE_CONTROL_NORMAL;
-> @@ -157,9 +138,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
->  	tegra_dc_writel(rgb->dc, value, DC_DISP_SHIFT_CLOCK_OPTIONS);
->  
->  	tegra_dc_commit(rgb->dc);
-> -
-> -	if (output->panel)
-> -		drm_panel_enable(output->panel);
->  }
->  
->  static int
-> @@ -278,6 +256,23 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
->  	drm_encoder_helper_add(&output->encoder,
->  			       &tegra_rgb_encoder_helper_funcs);
->  
-> +	/*
-> +	 * Wrap directly-connected panel into DRM bridge in order to let
-> +	 * DRM core to handle panel for us.
-> +	 */
-> +	if (output->panel) {
-> +		output->bridge = devm_drm_panel_bridge_add(output->dev,
-> +							   output->panel);
-> +		if (IS_ERR(output->bridge)) {
-> +			dev_err(output->dev,
-> +				"failed to wrap panel into bridge: %pe\n",
-> +				output->bridge);
-> +			return PTR_ERR(output->bridge);
-> +		}
-> +
-> +		output->panel = NULL;
-> +	}
-> +
->  	/*
->  	 * Tegra devices that have LVDS panel utilize LVDS encoder bridge
->  	 * for converting up to 28 LCD LVTTL lanes into 5/4 LVDS lanes that
-> @@ -292,8 +287,7 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
->  	 * Newer device-trees utilize LVDS encoder bridge, which provides
->  	 * us with a connector and handles the display panel.
->  	 *
-> -	 * For older device-trees we fall back to our own connector and use
-> -	 * nvidia,panel phandle.
-> +	 * For older device-trees we wrapped panel into the panel-bridge.
->  	 */
->  	if (output->bridge) {
->  		err = drm_bridge_attach(&output->encoder, output->bridge,
-> @@ -313,17 +307,6 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
->  		}
->  
->  		drm_connector_attach_encoder(connector, &output->encoder);
-> -	} else {
-> -		drm_connector_init(drm, &output->connector,
-> -				   &tegra_rgb_connector_funcs,
-> -				   DRM_MODE_CONNECTOR_LVDS);
-> -		drm_connector_helper_add(&output->connector,
-> -					 &tegra_rgb_connector_helper_funcs);
-> -		output->connector.dpms = DRM_MODE_DPMS_OFF;
-> -
-> -		drm_connector_attach_encoder(&output->connector,
-> -					     &output->encoder);
-> -		drm_connector_register(&output->connector);
->  	}
->  
->  	err = tegra_output_init(drm, output);
-> -- 
-> 2.26.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> This resulted in the expected simplifications - good.
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+Hello Sam,
+
+Thank you for taking a look at this patch! :)
