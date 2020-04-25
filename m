@@ -2,85 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 095521B81D9
-	for <lists+linux-tegra@lfdr.de>; Sat, 25 Apr 2020 00:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22D1A1B8312
+	for <lists+linux-tegra@lfdr.de>; Sat, 25 Apr 2020 03:45:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbgDXWAp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Apr 2020 18:00:45 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8834 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725874AbgDXWAp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Apr 2020 18:00:45 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ea361170001>; Fri, 24 Apr 2020 14:58:47 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 24 Apr 2020 15:00:45 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 24 Apr 2020 15:00:45 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
- 2020 22:00:45 +0000
-Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Apr
- 2020 22:00:43 +0000
-Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
- <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
- <3155e0d2-94b0-6e0a-bf35-b3560c201039@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <fffc09d1-a25f-2d6e-83bd-f7657dd2ff16@nvidia.com>
-Date:   Fri, 24 Apr 2020 15:00:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726053AbgDYBp6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Apr 2020 21:45:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43930 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726038AbgDYBp6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 24 Apr 2020 21:45:58 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C8FC720776;
+        Sat, 25 Apr 2020 01:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587779158;
+        bh=Bsxnl2K3A5XAIn6prZzLDll+iJkvSiJDNO68VKWaOG0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A6xJQGCHctBWbt0qg3tmipfzwSFl/LhY1h9HmPFtN+AURFrQ0SuKuJGoudCbVcPB2
+         +Lr7mG/FrKTLe528cp/UlqzbmYrrefFomy99fIorAT2Z8tkjQnXTuCbp5HLw/BfGmm
+         0XkxjTWUqVwn09sbQGA0wcCH/AsJDtbk1qt6NhMc=
+Date:   Fri, 24 Apr 2020 21:45:56 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     adrian.hunter@intel.com, ulf.hansson@linaro.org,
+        baolin.wang@linaro.org, kstewart@linuxfoundation.org,
+        tglx@linutronix.de, bradleybolen@gmail.com,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, anrao@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 5.4.33 0/2] Fix for long operation cmds busy detection
+Message-ID: <20200425014556.GD13035@sasha-vm>
+References: <1587758766-3274-1-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <3155e0d2-94b0-6e0a-bf35-b3560c201039@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587765527; bh=FpcOx6PfCadj3eE4qyv+7F6UJr7IJK3I60weagCPMHA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=OcI9iHqBAt3zPDERTFGnL2DLtT5l+Ros3tkaBJ+lIiz2wCqoottbppfxw2J5GUIt0
-         6vqKxZu+WuaHwKEKrDuOtPHlrDLz1eIe+c8D0mDzO9LTkZf3nEpJpodJhQVoXCKCiv
-         llf+ryHkBozJqOMG2ThsHFRwTaxOqfnvVRVOvA7O3UvvTLzGyeAItPpnhyxHn0Wlq3
-         Tu0aLbLNQbSHOPf2vWWPERAWU6FXUsx/7dRG7rvaMDgxsfqa7aF/6L6/9SRPG1WI92
-         vMaEtoNzttKGX+64ZrVFUoZLHvuWJVIULkt0/CcysFySq1tqXyaS9Tr8bDtxOHcjx8
-         b48E17i3xbdqg==
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <1587758766-3274-1-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, Apr 24, 2020 at 01:06:04PM -0700, Sowjanya Komatineni wrote:
+>This series is to backport the upstream patches that fixes busy detection
+>for long operation mmc commands by implementing Tegra specific timeout
+>callback to switch between finite and infinite HW busy detection wait
+>modes.
+>
+>
+>Sowjanya Komatineni (2):
+>  sdhci: tegra: Implement Tegra specific set_timeout callback
+>  sdhci: tegra: Enable MMC_CAP_WAIT_WHILE_BUSY host capability
 
-On 4/24/20 8:07 AM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 24.04.2020 06:55, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->
-> Is this driver compiled as a single kernel module file?
->
->> +MODULE_AUTHOR("Sowjanya Komatineni <skomatineni@nvidia.com>");
->> +MODULE_DESCRIPTION("NVIDIA Tegra CSI Device Driver");
->> +MODULE_LICENSE("GPL v2");
-> ...
->> +MODULE_AUTHOR("Sowjanya Komatineni <skomatineni@nvidia.com>");
->> +MODULE_DESCRIPTION("NVIDIA Tegra Video Input Device Driver");
->> +MODULE_LICENSE("GPL v2");
-> I don't think that these macros are needed in that case.
-> The video.c should be enough, isn't it?
-yes these can be removed
+What regression do these patches fix?
+
+-- 
+Thanks,
+Sasha
