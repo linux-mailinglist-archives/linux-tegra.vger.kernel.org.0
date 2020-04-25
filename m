@@ -2,83 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2221B841B
-	for <lists+linux-tegra@lfdr.de>; Sat, 25 Apr 2020 09:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C7F61B854E
+	for <lists+linux-tegra@lfdr.de>; Sat, 25 Apr 2020 11:36:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726117AbgDYHEN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 25 Apr 2020 03:04:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50442 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726110AbgDYHEN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 25 Apr 2020 03:04:13 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C30E520767;
-        Sat, 25 Apr 2020 07:04:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587798252;
-        bh=F2+6MvmGS8dTiCwdyXanmLMCmyfcjoCvYSppu0gTqLc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s6yckjif2iVIYCwieYc6XK/kXtDa4ms7wVsnXpovmikGg041ItC2RRRfCt+lhzq7t
-         eYy3b1CcB+dcu0SZCsrxXGkOBAt9uGqZ272pWzkhnaNOA8jmI+k5R9HpQq3BxhMcfz
-         UBr8gvNAcAIcFCdZ/g9aUA4qVPnX2bwF6nKSPFgY=
-Date:   Sat, 25 Apr 2020 09:04:08 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Sasha Levin <sashal@kernel.org>, adrian.hunter@intel.com,
-        ulf.hansson@linaro.org, baolin.wang@linaro.org,
-        kstewart@linuxfoundation.org, tglx@linutronix.de,
-        bradleybolen@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, anrao@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 5.4.33 0/2] Fix for long operation cmds busy detection
-Message-ID: <20200425070408.GB2042217@kroah.com>
-References: <1587758766-3274-1-git-send-email-skomatineni@nvidia.com>
- <20200425014556.GD13035@sasha-vm>
- <81be9ca0-5c61-6e94-8398-85354764b429@nvidia.com>
+        id S1726061AbgDYJg2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 25 Apr 2020 05:36:28 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:54873 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725837AbgDYJg1 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 25 Apr 2020 05:36:27 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id SHERjN65NlKa1SHEVjTTIE; Sat, 25 Apr 2020 11:36:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587807384; bh=fSYBdxjgYtmYwGO3ICwPcGjEcBBVqN9UZaSZatOml9E=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=CslqNo6TKr61FhjvZFeX4gxFSTW3yda1JQn1LdpQJf2j+M8j5S3RH+XrsXl496S7p
+         gf31e4sre4Ofq1DdZLgfcJC8Ac5lpBctqgW7gTPd2cz4Ix6OdwLd+VekbGRSVdXXTK
+         fpFLeoeBYqx3mlBVvD4quAru9/yw24j9WZCxnp95EQZq5BJAZKt73XBv1rA/N4TL60
+         6WdWxWUFYjKroQBXNemGwgj3M/YdjE3O5BoeeCYQLie9tmGjqgqoExq7exGZd60Qlf
+         nvqqbjkQHVOFLYKYNC1x+gdsyMamBqWeAJhhr792mj8y1NlelP0wkPejUVAQlETWNk
+         ppsheNEsfYhLA==
+Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
+ <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+ <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <62546d1f-eca5-06be-2bc2-e45ccd53830a@xs4all.nl>
+Date:   Sat, 25 Apr 2020 11:36:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <81be9ca0-5c61-6e94-8398-85354764b429@nvidia.com>
+X-CMAE-Envelope: MS4wfNDz9HNxuqvyVl2LksfOfgdeceMdmfDlPtUuL8p5+1z94jh0ysXaXrk72fRFAoZruzMaSpqmLAabuLPR5TyA5ByC+iydYkYlRyRlM0C7ttuXsNFV1eGY
+ LsJkH3/vDAMCBJ8Fv5m1EmuwJm5pi6PX3ch6aCVALXxDadxmW1SA5WVFFbo/LjjGLfyzePjxAWsMOl4PNiGprlcYCqN9VqdJG/IkgFFMUOKPFSSxmoHwkOXZ
+ sZzwyghdVQA+TzD0DxfFTpptWzbrvMWwJvpm7/pvgomRw2+iOS5U1NDSfaULH8RDhLI1dlwk1st1XgsqGjbcInAIH34OqwchG0gW24U41PG00p7bkKnhIWB3
+ MOKrYVqHcNLQ401YQFQ2uGXfxY9AGfuYHQDSz2jw2CzWCk2BF+/ApXoz+OkOJ03Ap38lV0W5JccjA42GvfgfF0FhSg5cAOtCr+Az78jHzp6Awo/u81IYG3yO
+ cCtMKi9bxEuozGXV/hol1DzHh743hJQKa9h8R0WJ2VoyKmsCZGifmne5T1DQZ5bWxP+eD0DBuQGX00+YvBzXvVZKJx1hyfnPYXFers040re5rp3+Y4mMTiqP
+ JNc=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 07:42:16PM -0700, Sowjanya Komatineni wrote:
+On 24/04/2020 17:11, Dmitry Osipenko wrote:
+> 24.04.2020 06:55, Sowjanya Komatineni пишет:
+>> Tegra210 contains a powerful Video Input (VI) hardware controller
+>> which can support up to 6 MIPI CSI camera sensors.
+>>
+>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+>> capture from an external camera sensor connected to CSI or from
+>> built-in test pattern generator.
+>>
+>> Tegra210 supports built-in test pattern generator from CSI to VI.
+>>
+>> This patch adds a v4l2 capture driver with media interface for
+>> Tegra210 built-in CSI to VI test pattern generator.
+>>
+>> This patch includes TPG support only and all the video pipeline
+>> configuration happens through the video device node.
+>>
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>  drivers/staging/media/Kconfig          |    2 +
+>>  drivers/staging/media/Makefile         |    1 +
+>>  drivers/staging/media/tegra/Kconfig    |   12 +
+>>  drivers/staging/media/tegra/Makefile   |    8 +
+>>  drivers/staging/media/tegra/TODO       |   10 +
+>>  drivers/staging/media/tegra/common.h   |  259 ++++++++
+>>  drivers/staging/media/tegra/csi.c      |  604 +++++++++++++++++
+>>  drivers/staging/media/tegra/csi.h      |  144 ++++
+>>  drivers/staging/media/tegra/tegra210.c |  708 ++++++++++++++++++++
+>>  drivers/staging/media/tegra/tegra210.h |  190 ++++++
+>>  drivers/staging/media/tegra/vi.c       | 1127 ++++++++++++++++++++++++++++++++
+>>  drivers/staging/media/tegra/vi.h       |   72 ++
+>>  drivers/staging/media/tegra/video.c    |  153 +++++
+>>  drivers/staging/media/tegra/video.h    |   29 +
 > 
-> On 4/24/20 6:45 PM, Sasha Levin wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On Fri, Apr 24, 2020 at 01:06:04PM -0700, Sowjanya Komatineni wrote:
-> > > This series is to backport the upstream patches that fixes busy
-> > > detection
-> > > for long operation mmc commands by implementing Tegra specific timeout
-> > > callback to switch between finite and infinite HW busy detection wait
-> > > modes.
-> > > 
-> > > 
-> > > Sowjanya Komatineni (2):
-> > > �sdhci: tegra: Implement Tegra specific set_timeout callback
-> > > �sdhci: tegra: Enable MMC_CAP_WAIT_WHILE_BUSY host capability
-> > 
-> > What regression do these patches fix?
-> > 
-> This isn't a regression as we don't have any known failures as of today with
-> the specific mmc devices we are using on our platforms.
+> The media/tegra/ sounds a bit too generic, the media/tegra-vi/ path
+> should better reflect the driver, IMO.
+> 
+> It also should be better to name the compiled kernel module as tegra-vi,
+> IMO.
+> 
 
-Have you read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-?
+The driver name and the directory should be in sync, so either tegra-video
+or tegra-vi for both. I have no preference myself, as long as they are the
+same.
 
-> But this patch fixes a long outstanding bug for sdhci-tegra to handle long
-> busy wait for mmc command operations that may take longer than host max busy
-> timeout. So, this is something that's missing from the beginning and good to
-> have.
+This can be done as a follow-up patch.
 
-So it's a new feature?
+Regards,
 
+	Hans
