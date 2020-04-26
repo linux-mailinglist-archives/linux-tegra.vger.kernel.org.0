@@ -2,92 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 540F11B8C9B
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Apr 2020 07:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37F631B8DC9
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 Apr 2020 10:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726191AbgDZFvW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Apr 2020 01:51:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725468AbgDZFvW (ORCPT
+        id S1726150AbgDZIHi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Apr 2020 04:07:38 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50373 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726112AbgDZIHh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Apr 2020 01:51:22 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D71DC061A0C;
-        Sat, 25 Apr 2020 22:51:20 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f11so9513667ljp.1;
-        Sat, 25 Apr 2020 22:51:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9l6cZQwVi62pvIqETuB/BI3xEqSyHGo+hbBw6siI59Q=;
-        b=QsL3MOnLLUGvNM05WV+aiR2DQodDwGyBvcnEjIIYEp5CoUMxgK1io1QLNt9b10HmHj
-         AR0sd3DwFgI9Ggl3T/ll2g/MlH+SthYXi27cEZz27VNqly0cSjXXiQHiyIF5q/OM8zJn
-         FMK2+uPTJwTP+B1IvySGsI22KFmjqqnA+u2OIvpbGBDiU7sFFIXzR5M9JFcVh9gsJigg
-         7/VGyKEBWHxmFHQzf17z6xwRYvl9pjo/n8xyvOwW5A4FUv2dagWYdR46b0356C1ZLxj5
-         suaF4uIhPTaCA/7qfrarUHdTemtlNJdnBGH+KvV7Awe2AeMYlKS/FM9I4KkOd2as40pk
-         B1Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9l6cZQwVi62pvIqETuB/BI3xEqSyHGo+hbBw6siI59Q=;
-        b=e7NB006wz98AZJ1BxHR7W39BfK0B/KUGBBSYqsYwu+nYTGAufekaQWLIPFp1Hlzv1X
-         8SdJFE3YIdaiSKYPmwIebQXeScWIXk85RRNjRE8+E2KWay+2aNWspxRlIMFtYHtzCgbd
-         KzOSt3QM4FrQl8N3AbsKTSTiCxuHrcNKKi/d8tYnqwa5tOS5I25Y5t0doZWEiIwpZgbV
-         +yrSP3/TPRysWCEXQvQTWPwrrWM1pnFXgo6W+DAdds4Ig6PnfZx5o5n4RV7QcYzx5AvO
-         5mz+LuDyQEKbLKgEfat5YOf5St5SA2tuCH0ygl9c6unvb5LoGCOTXHHjeJFz0I/g6CNw
-         m49A==
-X-Gm-Message-State: AGi0PuZ07W3+6mei2wM6ILsBOcUV9owcahizx0OT6bDC79h1b35Czfv2
-        BEk1oSO06LIXRod73L6atQrIGzZq
-X-Google-Smtp-Source: APiQypKbEXF0/MPHXCyXmrFS0UvNJxZgw+x9UT0Pv1dZWn7VGPCfOJZMhJH//mO4lcNdeMODvcw1bQ==
-X-Received: by 2002:a2e:8056:: with SMTP id p22mr10800739ljg.266.1587880278443;
-        Sat, 25 Apr 2020 22:51:18 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id i20sm8771214lfe.15.2020.04.25.22.51.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Apr 2020 22:51:17 -0700 (PDT)
+        Sun, 26 Apr 2020 04:07:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id ScK2jiToB7xncScK5jZO5d; Sun, 26 Apr 2020 10:07:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587888454; bh=QhVuhF+AVfllDkBKFsK2AKInudEe6KEWl3QCVzDXRws=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=IQIm+mAi/a7dkltvRvHFD0IiBjJXhIgiOr68C/GogyDzpk//xijALKZE3zvjvw0fF
+         mr8w1d1PLJHW1OHNXfzqPNhlIUcTpn1UaEFWY8Iozd1SkU8Fan3ZBSk/buhcSGS4ce
+         cRLPbdkNJ0oynSmbbfYnuNlDws2ftxOwl49jDUSJMJsNnoKlj5Y170rCDqPwKrgO6T
+         FdfzMq3zewo8oqZbpJHFNxvjWEv67t22rlQOkp/ADhMuICU8NtvZLfPjOGEJ3c2OMX
+         ZVy7Q39blSovYVV3pGtDmIg5kn9QGkpxnv8GPQ3r6pQdcHzpwNkhWc3Umft0WKeLeY
+         /zKh4RlUpAqug==
 Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, frankc@nvidia.com, sakari.ailus@iki.fi,
-        helen.koike@collabora.com
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        sakari.ailus@iki.fi, helen.koike@collabora.com
 Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
  <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
- <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
- <62546d1f-eca5-06be-2bc2-e45ccd53830a@xs4all.nl>
- <50fd1016-ca8b-ec5d-e5a8-f257138b152e@gmail.com>
- <658c4232-94d9-3051-8c93-bff7046cf5f2@nvidia.com>
- <03426915-25ea-69b4-bc64-f87f3046d33f@nvidia.com>
- <aabaecc4-3494-0137-7d2b-853304bfa68b@gmail.com>
- <09f20441-fec6-7496-2edc-c69db535e441@nvidia.com>
- <61799fab-858c-8b0d-ba7d-846cd041e044@gmail.com>
- <7dfca778-e402-3a6f-617c-dd8448187a13@gmail.com>
- <be48a991-3047-6ee3-8d6f-85979752d86f@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <edad2953-ff4c-7c3c-4550-a3638a714c65@gmail.com>
-Date:   Sun, 26 Apr 2020 08:51:16 +0300
+ <3155e0d2-94b0-6e0a-bf35-b3560c201039@gmail.com>
+ <fffc09d1-a25f-2d6e-83bd-f7657dd2ff16@nvidia.com>
+ <e5602c48-a73e-8e71-188d-6a53ebf8e4a4@gmail.com>
+ <f6d62dde-9ab5-7001-0ff4-93ed70cb207f@nvidia.com>
+ <6568af00-3d65-4ddb-f003-7a4161d751a0@gmail.com>
+ <f3a122b9-3600-b1eb-be4f-39be79d979a5@nvidia.com>
+ <5a6f61c6-2049-fb61-3a80-e729708b3fb8@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9aaf6c09-1a01-aa82-cab5-d2dd07649707@xs4all.nl>
+Date:   Sun, 26 Apr 2020 10:07:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <be48a991-3047-6ee3-8d6f-85979752d86f@nvidia.com>
+In-Reply-To: <5a6f61c6-2049-fb61-3a80-e729708b3fb8@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfE0xlF+3OKnPUNkt9qK2y1N8a9STspTDxXqp8oaV5OuA5fmxZb/86Uh6I9qWV4gyzl7Y0sVsgUYkjgH4+MAOHXfwB+sXmVcXI8fESiqFmBRMZitGixOV
+ ngA7m+8yZrXxGfeJZKW1tdODtDBftrJyXmKHCRGQ4BeCyoS48I2R0tRg9ybpabEz7oM/kPRXaYy1FJ0affh6Y6e49UOmGjpwFNkv+CAxezDHaOkXPvjgMRkA
+ uR9Y+dbAZLezw4B+yr0y9wLLUHTyubaeUlMXshqJe5Cuk2c5SPNJpJRqgN3KMeSovmGiAIxqAWk/DyANTy/I8m/jGnJwo9nnK8c3cmZcF9+Opu33hBwOrNye
+ JjcI1Jjf/aUzirZxkj1Trp67MtDKibwBRBkv6UOXCoS/Nmb2P7wkwIZjbrTWcWxSZDAkqFagSE32pT2A857Di4f8EpaXSnwve+2F6AhSytaR1g1+IL7nOhzA
+ gh+qxQ6R6dOEPv9bSEAW+hRVKIP6L8TDv4ApUVGjNqlawtOsDaUkTustiQuArcrC9SqI3zsxG4fitBrPkJ/JAm6Ot2m03DhAUA4gcF2Teo9qKO7qRWPNh9E6
+ 5g4=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-26.04.2020 07:47, Sowjanya Komatineni пишет:
+On 26/04/2020 02:19, Dmitry Osipenko wrote:
+> 26.04.2020 02:44, Sowjanya Komatineni пишет:
+> ...
+>>> How much of the T210 code could be reused by T186/194?
+>>
+>> vi/csi are common driver where soc structure should be populated for
+>> T186/T194
+>>
+>> Tegra210.c can't be reused for Tegra186/t194 as programming seq is a
+>> whole lot diff
+>>
 > 
-> So, probably what we have regarding structure is ok except video formats
-> I will move to Tegra210 and change defines to use Tegra210 prefix.
+> How are you going to separate Tegra210/186/194 drivers from each other?
+> I don't think you'll want to have one "fat" driver that covers all those
+> SoCs, won't you?
 
-If those defines aren't reusable by T186, then you could move them all
-to t210.c.
+As long as the differences between SoCs are small, the media subsystem policy
+is to keep it all in one driver. You might split off some of it into separate
+SoC-specific sources that are included only if selected in the Kconfig (see
+e.g. drivers/staging/media/hantro/ or drivers/staging/media/imx/). If that
+makes sense for the Tegra, then that's a perfectly fine option. But creating
+multiple drivers for SoCs that only differ in relatively minor ways is not
+recommended.
+
+Also, these drivers allocate *huge* amounts of memory when streaming video,
+so a somewhat bigger driver is not something you'll notice. Keeping things
+readable, simple and maintainable is much more important.
+
+Regards,
+
+	Hans
+
+> 
+> In the end it should be three modules: tegra210-video.ko
+> tegra186-video.ko tegra194-video.ko.
+> 
+> Using a per-SoC OPS doesn't allow you to do that because the "root"
+> driver will have to lookup OPS' code symbols of every SoC, and thus, the
+> unwanted driver modules will get auto-loaded if you'll try to factor out
+> the OPS into a separate driver modules.
+> 
+
