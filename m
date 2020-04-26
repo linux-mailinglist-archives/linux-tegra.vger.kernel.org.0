@@ -2,64 +2,32 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BB181B938C
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Apr 2020 21:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A60651B9392
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 Apr 2020 21:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgDZTIt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Apr 2020 15:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726166AbgDZTIt (ORCPT
+        id S1726199AbgDZTQh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Apr 2020 15:16:37 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:20504 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726004AbgDZTQg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Apr 2020 15:08:49 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AECBC061A0F;
-        Sun, 26 Apr 2020 12:08:47 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id r17so11982806lff.2;
-        Sun, 26 Apr 2020 12:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V/4kgm18MPKyif9QF7RKPNqTGNQbBIVS8DbK5GTpM+Y=;
-        b=NEYzbPbCKaVbsoswB64nzatO6wDRbdWqn7IQh9ZuWnEwcaGh/609EU7KJ0UAae1ymd
-         cBAV1IuKXEHn+cHCE2b51SzVkIj0d1zkofuQkdRWwZ5BQ6IxBX643e9n29V5p2+GpJyw
-         1jT94pNCQeMhPDoFqtk16TO7KLGvHvc1Wb9z0OJVjmUXWpY2VTZGkrXEoW3S7o8GxX+8
-         zREaXQyCJzEAI59rQNYnVStrPZKtIuvi9RcIafYxwuy/bjEw1n4FRSl9LiNKccvMdx1X
-         1HhkLjvwYtX+AGwerusZQU+CyiQft9ZhH+ZulqoDLCr2HxtxzmIaZVfv83XtZkisrU7D
-         PKUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V/4kgm18MPKyif9QF7RKPNqTGNQbBIVS8DbK5GTpM+Y=;
-        b=Y55lRGGNBYSJ/piPsh3P9bKGfH5QBlVR1MZW+3b/UnuBB1I8AisA4ctKXH+JwyOM/Q
-         g79/yrXBtb2m71IKg4K0vrBYubKAXMmmr9thicGBYZKV7mKXPdFEtTQw2xY5mG8CKtmb
-         BEqSITlkfvnKK2UEHXhDCmZLVVTjDOi+s/eI4vuvGtmQ6dmYORclpZo4kmETW61/ORrO
-         HgNkc8x/m9N3S70WSfe7jtDfTA7k1NNJt06sCDOGmq+Apq98D4FCcAWmedU+MJDhPBw9
-         oG6GIjpM/eyHaZTzTENOT8AbZjte5AZsdNUc7RoyAYFFmTjOSP2+0dgPlKxnzftDExhD
-         GT8w==
-X-Gm-Message-State: AGi0Pub67Qy+AisSpPqAEsqsFgFRsQJTVuSsmTQXOdWhGm9jGue/+Zho
-        J/FmKSJx+PL2Heh35HtfIYg=
-X-Google-Smtp-Source: APiQypIF5PNYEJ5NTpcX4aInGwC+Ef+A12wqHzFlGoXoI+AbOjsCJZfV4gc1ewtK6Ao1r9PSEoEO9g==
-X-Received: by 2002:a19:7507:: with SMTP id y7mr13173859lfe.121.1587928126145;
-        Sun, 26 Apr 2020 12:08:46 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.gmail.com with ESMTPSA id h24sm9351933lji.99.2020.04.26.12.08.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2020 12:08:45 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] dmaengine: tegra-apb: Ensure that clock is enabled during of DMA synchronization
-Date:   Sun, 26 Apr 2020 22:08:35 +0300
-Message-Id: <20200426190835.21950-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        Sun, 26 Apr 2020 15:16:36 -0400
+Received: from localhost.localdomain ([93.23.12.11])
+        by mwinf5d64 with ME
+        id XXGZ220060EJ3pp03XGZe2; Sun, 26 Apr 2020 21:16:34 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 26 Apr 2020 21:16:34 +0200
+X-ME-IP: 93.23.12.11
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     thierry.reding@gmail.com
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] gpu: host1x: Clean up debugfs in error handling path in 'host1x_probe()'
+Date:   Sun, 26 Apr 2020 21:16:30 +0200
+Message-Id: <20200426191630.41290-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -67,48 +35,28 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-DMA synchronization hook checks whether interrupt is raised by testing
-corresponding bit in a hardware status register, and thus, clock should
-be enabled in this case, otherwise CPU may hang if synchronization is
-invoked while Runtime PM is in suspended state. This patch resumes the RPM
-during of the DMA synchronization process in order to avoid potential
-problems. It is a minor clean up of a previous commit, no real problem is
-fixed by this patch because currently RPM is always in a resumed state
-while DMA is synchronized, although this may change in the future.
+'host1x_debug_init()' must be reverted in an error handling path.
 
-Fixes: 6697255f239f ("dmaengine: tegra-apb: Improve DMA synchronization")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+This is already fixed in the remove function since commit 44156eee91ba
+("gpu: host1x: Clean up debugfs on removal")
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/dma/tegra20-apb-dma.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/host1x/dev.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index a42c0b4d14ac..55fc7400f717 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -816,6 +816,13 @@ static bool tegra_dma_eoc_interrupt_deasserted(struct tegra_dma_channel *tdc)
- static void tegra_dma_synchronize(struct dma_chan *dc)
- {
- 	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
-+	int err;
-+
-+	err = pm_runtime_get_sync(tdc->tdma->dev);
-+	if (err < 0) {
-+		dev_err(tdc2dev(tdc), "Failed to synchronize DMA: %d\n", err);
-+		return;
-+	}
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 388bcc2889aa..be46554968af 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -435,6 +435,7 @@ static int host1x_probe(struct platform_device *pdev)
+ 	return 0;
  
- 	/*
- 	 * CPU, which handles interrupt, could be busy in
-@@ -825,6 +832,8 @@ static void tegra_dma_synchronize(struct dma_chan *dc)
- 	wait_event(tdc->wq, tegra_dma_eoc_interrupt_deasserted(tdc));
- 
- 	tasklet_kill(&tdc->tasklet);
-+
-+	pm_runtime_put(tdc->tdma->dev);
- }
- 
- static unsigned int tegra_dma_sg_bytes_xferred(struct tegra_dma_channel *tdc,
+ deinit_intr:
++	host1x_debug_deinit(host);
+ 	host1x_intr_deinit(host);
+ deinit_syncpt:
+ 	host1x_syncpt_deinit(host);
 -- 
-2.26.0
+2.25.1
 
