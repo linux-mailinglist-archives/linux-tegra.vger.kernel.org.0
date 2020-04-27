@@ -2,117 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C38AC1BA45F
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2020 15:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA5341BA46B
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2020 15:17:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbgD0NP0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Apr 2020 09:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726786AbgD0NPZ (ORCPT
+        id S1727824AbgD0NRf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Apr 2020 09:17:35 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:5673 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726953AbgD0NRd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Apr 2020 09:15:25 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30590C0610D5;
-        Mon, 27 Apr 2020 06:15:25 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id e25so17528337ljg.5;
-        Mon, 27 Apr 2020 06:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Yv+Yf1SDaIjRjfiGBc4e6L26R7Y5+CX+LAg5EicPHrE=;
-        b=VAiQfdYYK49y2ij6jlP/UkXehRD0FlOK3KIywZgntgpXPqtpipYHBUXUYysji6qI8x
-         RRCREB9Hosdaoqf9u2vCOaanQTM/FmgI1G2e0FCWnl9m9/SSioQUMPx6paQZmrmoRb3U
-         GtbzkgF//kZajx/ADE61JJ5jlytOM59igNeWj7zSXPoX20knFCYqDeDdKiAyGmVPGXjE
-         tHgcux94zLaVlWzQ2z80QubdOcPkO7C/hcozd8pqm//44A4VrhmYOTV0gVtNRcGCn9tN
-         DVyB5UUCxDSeNFewBgELpVjvFcqxMXnc8+dpbfYbNd2MS/Lg40jmJJ756LM0rgJY0Ssl
-         Hlxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Yv+Yf1SDaIjRjfiGBc4e6L26R7Y5+CX+LAg5EicPHrE=;
-        b=IfnAl0+WTjKP7FeVsEjs5HZzyHoHf0v0WFBt4xKLg8C/JrF7aX2AwrRaX++rwjhBzW
-         ZprjHKhWmkKiLHdbAjDl57j/vAFujH1COwjZGcGrXHrh4YQVbbVgkCVDljx6oIWjVzaY
-         1MJYib4L39MMnr7NuW8wYvuLvoC+Uctux6NJ1hLkwBWIoJ1+GQoKHQyVeWjN3bQx5EB2
-         RM5YBwnZSW6oYiTDLA4bIpLGSPSqJrpuXBh1dbMe8FT6rsAf0L3fy5FjZqDwCL7kEdBu
-         k+IXmpER3fR+/SNiLLoFbFRTbb3LJBxtepthlI13Hq0jnpVe3K+kED0jplK4JNewcVuo
-         Kp3Q==
-X-Gm-Message-State: AGi0PuYCbOQcPtHMk/tP7JwQpirHCbf7fjMNr8Hqa1SMnwk7fZgSrBeT
-        G+FaZBrcF8IHDoS5xrjkMgWfN8jV
-X-Google-Smtp-Source: APiQypKEDGP/PSN983auyZAywmLt8GSg70EdZeYAC2WFD1YAvqJ8Q5FjzS/gNq1XPeVYCcycOiNAlg==
-X-Received: by 2002:a2e:b4a5:: with SMTP id q5mr14589286ljm.58.1587993323426;
-        Mon, 27 Apr 2020 06:15:23 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id z65sm11447664lfa.37.2020.04.27.06.15.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2020 06:15:22 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
- for a long time
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <77a31b2f-f525-ba9e-f1ae-2b474465bde4@gmail.com>
- <470b4de4-e98a-1bdc-049e-6259ad603507@nvidia.com>
- <d2531fc1-b452-717d-af71-19497e14ef00@gmail.com>
- <a5198024-7273-74c4-b4f4-3a29d042bc36@nvidia.com>
- <f8fb1f7f-2497-033e-ff2c-c86c6caa9706@gmail.com>
- <fd1ca178-1ea3-851f-20a6-10bf00453ce3@nvidia.com>
- <a5734f19-254e-b6bc-e791-fa1ac63f11a4@gmail.com>
- <79f6560e-dbb5-0ae1-49f8-cf1cd95396ec@nvidia.com>
- <20200427074837.GC3451400@ulmo>
- <c1190858-eaea-8e94-b4d1-1cf28076c330@gmail.com>
- <20200427103851.GB24446@kunai>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <dc2de966-81d6-6ad5-0c51-16dd28ca4165@gmail.com>
-Date:   Mon, 27 Apr 2020 16:15:21 +0300
+        Mon, 27 Apr 2020 09:17:33 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea6daf40001>; Mon, 27 Apr 2020 06:15:32 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 27 Apr 2020 06:17:33 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 27 Apr 2020 06:17:33 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Apr
+ 2020 13:17:33 +0000
+Received: from [10.26.73.54] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Apr
+ 2020 13:17:21 +0000
+Subject: Re: [PATCH] backlight: lp855x: Ensure regulators are disabled on
+ probe failure
+To:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>
+CC:     Milo Kim <milo.kim@ti.com>, Jingoo Han <jingoohan1@gmail.com>,
+        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <20200224140748.2182-1-jonathanh@nvidia.com>
+ <20200224143732.rreev3ypou26hvx3@holly.lan>
+ <6ec74817-968b-ab5e-6566-56bbb9b67599@nvidia.com>
+ <20200316090546.5eufi423ahstz6v3@holly.lan>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <b57f3ef0-8d14-c0bf-524c-9ec0d6334e0c@nvidia.com>
+Date:   Mon, 27 Apr 2020 14:17:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200427103851.GB24446@kunai>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200316090546.5eufi423ahstz6v3@holly.lan>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587993332; bh=PWx8n+kYRA1n2vodVtlcl5MSgTdEhqLiiBItjXVs/nA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=CkD/p2YTdNlyTddyE4uATk7emVK+mMQlRmf80wOjePk8J8B+ueUTzoMvVB7PLQXuo
+         g/QXkFsyAPpDPOV35S7mZ5eMG4M7kgwDwBM4COJeOzO/Cn0np4hQBGWR43y1VwYJNz
+         PDuiYuyNsBPd0A93YpPj7xqhM50Dk4MrkMIPrT+5vZL+G8nHzxpu77Um5w9dx29y/m
+         NaKV9q0/e4ssVmWBd8u7R8J9jlVNGRmiDPS3c81vZO5fg3N/yQpJFzIt/TGp0NivH1
+         bEG8ZC/FdDe6RMspv+7QFzEuOnOS0CoRobI7uP9xj6vQqNbgkramjx7F48lkg0rdmR
+         FYgjRnNBKQQnA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.04.2020 13:38, Wolfram Sang пишет:
-> On Mon, Apr 27, 2020 at 12:52:10PM +0300, Dmitry Osipenko wrote:
->> 27.04.2020 10:48, Thierry Reding пишет:
->> ...
->>>> Maybe but all these other problems appear to have existed for sometime
->>>> now. We need to fix all, but for the moment we need to figure out what's
->>>> best for v5.7.
->>>
->>> To me it doesn't sound like we have a good handle on what exactly is
->>> going on here and we're mostly just poking around.
->>>
->>> And even if things weren't working quite properly before, it sounds to
->>> me like this patch actually made things worse.
+Hi Lee,
+
+On 16/03/2020 09:05, Daniel Thompson wrote:
+> On Fri, Mar 13, 2020 at 02:16:16PM +0000, Jon Hunter wrote:
+>> Hi Lee, Daniel,
 >>
->> There is a plenty of time to work on the proper fix now. To me it sounds
->> like you're giving up on fixing the root of the problem, sorry.
+>> On 24/02/2020 14:37, Daniel Thompson wrote:
+>>> On Mon, Feb 24, 2020 at 02:07:48PM +0000, Jon Hunter wrote:
+>>>> If probing the LP885x backlight fails after the regulators have been
+>>>> enabled, then the following warning is seen when releasing the
+>>>> regulators ...
+>>>>
+>>>>  WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
+>>>>  Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
+>>>>  CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
+>>>>  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+>>>>
+>>>>  ...
+>>>>
+>>>> Fix this by ensuring that the regulators are disabled, if enabled, on
+>>>> probe failure.
+>>>>
+>>>> Finally, ensure that the vddio regulator is disabled in the driver
+>>>> remove handler.
+>>>>
+>>>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+>>>
+>>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+>> I received a bounce from Milo's email and so I am not sure that his
+>> email address is still valid.
+>>
+>> Can either of you pick this up?
 > 
-> From what I understood, there were (at least) two regressions reported.
-> So, to me, it makes sense to revert the change, so for upstream users
-> everything stays "the same". Of course, this does not mean it should
-> stay like this forever and you guys can work on fixing the root causes.
-> I'll happily apply them for this release when you are confident with the
-> results.
-> 
+> Lee generally starts to hoover up patches about this stage in the dev
+> cycle so I'd expect this to move fairly soon.
 
-For now it's a single regression in the PCIe driver and it's actually
-not a regression, but a PCIe driver bug that needs to be fixed. The I2C
-part should be okay.
+Does not look like this ever got picked up. Please let me know if you
+can queue this one. Note it still applies cleanly to -next.
 
-By reverting the I2C patch, we're back to the PCIe bug being papered
-over and I don't like this. Let's just fix the PCIe driver and the
-problem is gone.. it needs to be fixed anyways.
+Jon
+
+-- 
+nvpublic
