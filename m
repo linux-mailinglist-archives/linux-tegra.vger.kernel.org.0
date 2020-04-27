@@ -2,103 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6ED31BAB38
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Apr 2020 19:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A78A91BB1FF
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 01:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725963AbgD0R2P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Apr 2020 13:28:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbgD0R2O (ORCPT
+        id S1726253AbgD0X0Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Apr 2020 19:26:25 -0400
+Received: from avon.wwwdotorg.org ([104.237.132.123]:59690 "EHLO
+        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725968AbgD0X0Z (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Apr 2020 13:28:14 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4111BC03C1A7
-        for <linux-tegra@vger.kernel.org>; Mon, 27 Apr 2020 10:28:14 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id u10so14527857lfo.8
-        for <linux-tegra@vger.kernel.org>; Mon, 27 Apr 2020 10:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dq6UXDEp+CfhWskvNuEfUSYYLoNA4rRIzRZcrwo0+MY=;
-        b=x5Zqjzao8L+ufNxFV7ltgeMVwwgp9ywdXPktv0A4tuA/TaySL6cN2ioBLum7Civlu1
-         mOWqG0GZaqxC6XmB2whqvkJ6yZkI0+6/1DldT4Rf69iCuuSf0fzdh+rzwK4wQWJ9NFAQ
-         CToGTup9Wx28bgq1lK6Xy7mcBOZeXGt8wmg6wXw9RU/LEIAuwNm1SLphUKyKPYjRtniM
-         CCzKJii7PGY4MRFaNyBL2QrXRc2B2UjrogvGv7J8dalEq2ezNIRUz+aHLTni/Xm5x/ve
-         ThCVeWwgJaPSJBVccziQTvoX+uAfGA06P2WGFUEW+jeOhpkofx1dzeVWKGFdcZrbc/Vy
-         9+Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dq6UXDEp+CfhWskvNuEfUSYYLoNA4rRIzRZcrwo0+MY=;
-        b=tp/+t1qMXYz8obHXN9KTj84Nx8t9OnoRLAUYG74AopJ9QEaVbrktO14671SPzO7wDZ
-         AY7PSMGruUs85HQ63CaMZyFkQU87EpgOsDRhwT/qeY7BXJTcN63K2rEoJMblQE1uqhts
-         ORJ0KL6Mtv/bX6GWe19Ge7QL5kntieuaqr0KTR8zJVqFD8y7co1SVOT7ge+445qC1NsK
-         C0OTYeWytkK8v6L364287/8ISwbnfzpy+yp/BADhUffk+bP9M1Ww504wh4TgjUSWQjjo
-         7n6FEv0ogTMFek7Nc13U2uxoCFsUP7kzh7do95CzDf+0qWh6AqyUDfU4dtzOxu4VxRDh
-         Lumw==
-X-Gm-Message-State: AGi0PuZcPFAOyPSdgIFyVWKTszc3/Bc5X0ih2JS9XzW1/BJu1mSQD7lu
-        yxzRkDue553q1hIlnVMu0CduCA==
-X-Google-Smtp-Source: APiQypJWv8O+pTWo8o5RVwex9KReKqhYTkJvhJxn5WYJuBnoQNeHME9vZsTS6HDD1lhOtGRpi+iE4w==
-X-Received: by 2002:a19:5f4e:: with SMTP id a14mr16402967lfj.57.1588008492538;
-        Mon, 27 Apr 2020 10:28:12 -0700 (PDT)
-Received: from localhost (c-8c28e555.07-21-73746f28.bbcust.telenor.se. [85.229.40.140])
-        by smtp.gmail.com with ESMTPSA id c19sm8058077lfj.18.2020.04.27.10.28.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 10:28:11 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH] memory: tegra: mark PM functions as __maybe_unused
-Date:   Mon, 27 Apr 2020 19:28:02 +0200
-Message-Id: <20200427172802.17569-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+        Mon, 27 Apr 2020 19:26:25 -0400
+Received: from swarren-lx1.nvidia.com (unknown [216.228.112.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 6069D1C081C;
+        Mon, 27 Apr 2020 17:26:24 -0600 (MDT)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at avon.wwwdotorg.org
+From:   Stephen Warren <swarren@wwwdotorg.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Stephen Warren <swarren@nvidia.com>
+Subject: [PATCH] gpio: tegra: mask GPIO IRQs during IRQ shutdown
+Date:   Mon, 27 Apr 2020 17:26:05 -0600
+Message-Id: <20200427232605.11608-1-swarren@wwwdotorg.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Without this, we get a couple of warnings when CONFIG_PM_SLEEP is
-disabled.
+From: Stephen Warren <swarren@nvidia.com>
 
-../drivers/memory/tegra/tegra186.c:1578:12: warning: ‘tegra186_mc_resume’ defined but not used [-Wunused-function]
- 1578 | static int tegra186_mc_resume(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~
-../drivers/memory/tegra/tegra186.c:1573:12: warning: ‘tegra186_mc_suspend’ defined but not used [-Wunused-function]
- 1573 | static int tegra186_mc_suspend(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~~
+The driver currently leaves GPIO IRQs unmasked even when the GPIO IRQ
+client has released the GPIO IRQ. This allows the HW to raise IRQs, and
+SW to process them, after shutdown. Fix this by masking the IRQ when it's
+shut down. This is usually taken care of by the irqchip core, but since
+this driver has a custom irq_shutdown implementation, it must do this
+explicitly itself.
 
-Fixes: 177602b00641 ("memory: tegra: Add system sleep support")
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+Signed-off-by: Stephen Warren <swarren@nvidia.com>
 ---
- drivers/memory/tegra/tegra186.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpio/gpio-tegra.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/tegra186.c
-index 5d53f11ca7b6..e25c954dde2e 100644
---- a/drivers/memory/tegra/tegra186.c
-+++ b/drivers/memory/tegra/tegra186.c
-@@ -1570,12 +1570,12 @@ static const struct of_device_id tegra186_mc_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, tegra186_mc_of_match);
+diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
+index acb99eff9939..86568154cdb3 100644
+--- a/drivers/gpio/gpio-tegra.c
++++ b/drivers/gpio/gpio-tegra.c
+@@ -368,6 +368,7 @@ static void tegra_gpio_irq_shutdown(struct irq_data *d)
+ 	struct tegra_gpio_info *tgi = bank->tgi;
+ 	unsigned int gpio = d->hwirq;
  
--static int tegra186_mc_suspend(struct device *dev)
-+static int __maybe_unused tegra186_mc_suspend(struct device *dev)
- {
- 	return 0;
++	tegra_gpio_irq_mask(d);
+ 	gpiochip_unlock_as_irq(&tgi->gc, gpio);
  }
  
--static int tegra186_mc_resume(struct device *dev)
-+static int __maybe_unused tegra186_mc_resume(struct device *dev)
- {
- 	struct tegra186_mc *mc = dev_get_drvdata(dev);
- 
 -- 
-2.20.1
+2.25.1
 
