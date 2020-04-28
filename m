@@ -2,131 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85BFB1BC473
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 18:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C1C21BC564
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 18:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728037AbgD1QEr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Apr 2020 12:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49182 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727985AbgD1QEr (ORCPT
+        id S1728037AbgD1QjS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 12:39:18 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:46930 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728161AbgD1QjS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Apr 2020 12:04:47 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E003FC03C1AB;
-        Tue, 28 Apr 2020 09:04:45 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id w20so22095925ljj.0;
-        Tue, 28 Apr 2020 09:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7mUYj4GA/1dIgbyNxbqxWEcPwwbVckITyPakRYctQPs=;
-        b=aJpp4Gbsa77D3CwVDtT/kYQST/DBrxv9rK0Cmb3AfK9jOlmBirwL/8H9udjnDy1uwC
-         OvVx+TPsWhWHJfN1JckNgwNrss927ul1AFg3fExe2Fy4TdkANKvM796IN2LlBBrIHp8x
-         5iLj7jc1kXxAzB5NhwGaq+g+dM/Z7WM6D+dzg7VedmfRtYkQqc9Pv9ynCj43PsNocGzo
-         25FPXPl6+tmpmPnBu0HmtVmrHtuyRJ8LY7pGFF56q3jtZgBgSX9+oFtOIhDi1Inc4+Zu
-         6rhSvD5jHBNcfYsEOOCYr5kQxYQ3YwkhzbXHZnj6ZvK5R6UGkMNrY5K3oxymw4rV66nN
-         GoHA==
+        Tue, 28 Apr 2020 12:39:18 -0400
+Received: by mail-ot1-f67.google.com with SMTP id z25so33667795otq.13;
+        Tue, 28 Apr 2020 09:39:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7mUYj4GA/1dIgbyNxbqxWEcPwwbVckITyPakRYctQPs=;
-        b=iErlHJzu5kTsLBEOmKHPwZEEYO5a9Z6WPFOQwZUTszcgHflHUdE+GdSHhprUhqcqRz
-         PzSXLjtXIUFjfyyvWUmjr413W3BPt7VQxymMbq59qRwpSl0yCZxPlA7eKmbQi3poiwSK
-         U1w039t/IeK0zNJDWMh7DZ5ucRzwwzsHofLJDuAviM0HUDCdKG3igo93xh794Gk6tGj4
-         mms4oTLgXSTMEue2QFOg8zsXB+C+BlA7po/O/hofWUq76kWxhJAP17dy/7ii9kl6pqcA
-         fmHQJNaQcXNMFM4FlEz6m1uylV3UcHyYN/aUSVT3jYSi4B/mAkx8mZPK/kEN2mUaczBw
-         uxMw==
-X-Gm-Message-State: AGi0PuZbw4WerVq3ne2ZxrMjQucN9SFBRMDdSBdyjy7tCmJxmN47HMOq
-        RqKept0oqtPjcq0Tr3o5bdjmuvlY
-X-Google-Smtp-Source: APiQypIXNtHvVX8LwOfgEDM/DfnbP2+tEIeXxPj7WLF58KTKZ9BuBggQ1ApM3WiwWyk/G+ctJakpBg==
-X-Received: by 2002:a05:651c:1131:: with SMTP id e17mr19194200ljo.79.1588089883949;
-        Tue, 28 Apr 2020 09:04:43 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id c19sm11233645lfj.18.2020.04.28.09.04.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2020 09:04:43 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 3/5] media: tegra-video: Move PM runtime handle to
- streaming
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
- <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
- <631390cb-9aff-0e3f-6c39-81d6c565987e@gmail.com>
- <3ef69413-a606-b475-f530-d5534760b73b@nvidia.com>
- <2b334095-fadb-bf0a-f7a8-62fc798c2bd2@gmail.com>
- <18a7b095-7f0f-7819-c786-7e011cfd14ed@nvidia.com>
- <ce31e273-f424-f13e-5cd6-0db2589a2a10@gmail.com>
- <5741d5d3-e474-e23c-4841-809df5760067@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f6e34203-3e4b-b804-30a5-bf78445ab366@gmail.com>
-Date:   Tue, 28 Apr 2020 19:04:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Psn5StSW3/AwNuoWctl3xGfoh47xJjTm97rYfc0wLfA=;
+        b=HnILptA9WxHQGkPEAIuvAuAj/zqv7SJ3KRYSEzXjGfH9gFQdeweTJX3nVhvbbAQC5A
+         x7HRdxiT7q1kvvbWS96hD0838rgulLfIxLVltEu+nJWMUXRv9vju6MW2STuwYGyJHl3d
+         P0MlAqCgFWmqr1UmQvL6lTD1HJ14GgDTf28zZwVWU5Sc1E4Wa0iUzz1BN4lZot0nxjpg
+         E202aaDaxYtwoiQhTLf0FSfswivAw1KE3D6NJO9CunvPH7yZdNS+2eZh43kYfnG1QM/7
+         LqPqo+bXnkp22gA54TePDQH6JwO1yyE2VM8/54mKG9dL7413IBMYMQYYF0+7c+PP3dlr
+         8cVw==
+X-Gm-Message-State: AGi0Pub1ujll6MIepqvWT26aH+eXusjZaCTQUhkBLndggJnEO5nEnpVo
+        LpepyxEHzcYTAC9gYXeg+w==
+X-Google-Smtp-Source: APiQypK3Qr2qwAfk5iwllkYqM8CjkZH0gMjqmnJsCUIVs/xb9JKhkKaZWMl/MZS8ovkjBe6a9/gmfA==
+X-Received: by 2002:a05:6830:19f7:: with SMTP id t23mr24217664ott.110.1588091957633;
+        Tue, 28 Apr 2020 09:39:17 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b19sm4958640oii.1.2020.04.28.09.39.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 09:39:17 -0700 (PDT)
+Received: (nullmailer pid 26637 invoked by uid 1000);
+        Tue, 28 Apr 2020 16:39:16 -0000
+Date:   Tue, 28 Apr 2020 11:39:16 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: Re: [PATCH V1 1/4] dt-bindings: usb: tegra-xudc: Add Tegra194 XUSB
+ controller support
+Message-ID: <20200428163916.GA26582@bogus>
+References: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
+ <1587022460-31988-2-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <5741d5d3-e474-e23c-4841-809df5760067@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1587022460-31988-2-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-28.04.2020 18:22, Sowjanya Komatineni пишет:
+On Thu, 16 Apr 2020 13:04:17 +0530, Nagarjuna Kristam wrote:
+> Extend the Tegra XUSB controller device tree binding with Tegra194
+> support.
 > 
-> On 4/28/20 8:15 AM, Dmitry Osipenko wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> 28.04.2020 18:08, Sowjanya Komatineni пишет:
->>> On 4/28/20 7:59 AM, Dmitry Osipenko wrote:
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> 28.04.2020 17:51, Sowjanya Komatineni пишет:
->>>>> On 4/28/20 6:59 AM, Dmitry Osipenko wrote:
->>>>>> External email: Use caution opening links or attachments
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Is it possible to disable this corporate-email message?
-
->>>>>>
->>>>>>
->>>>>> 28.04.2020 07:20, Sowjanya Komatineni пишет:
->>>>>>> diff --git a/drivers/staging/media/tegra-video/csi.c
->>>>>>> b/drivers/staging/media/tegra-video/csi.c
->>>>>>> index b3dd0c3..29ccdae 100644
->>>>>>> --- a/drivers/staging/media/tegra-video/csi.c
->>>>>>> +++ b/drivers/staging/media/tegra-video/csi.c
->>>>>>> @@ -272,8 +272,25 @@ static int tegra_csi_s_stream(struct
->>>>>>> v4l2_subdev
->>>>>>> *subdev, int enable)
->>>>>>>          struct tegra_vi_channel *chan =
->>>>>>> v4l2_get_subdev_hostdata(subdev);
->>>>>>>          struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
->>>>>>>          struct tegra_csi *csi = csi_chan->csi;
->>>>>>> +     int ret;
->>>>>>> +
->>>>>>> +     if (enable && atomic_add_return(1, &csi->clk_refcnt) == 1) {
->>>>>>> +             ret = pm_runtime_get_sync(csi->dev);
->>>>>>> +             if (ret < 0) {
->>>>>>> +                     dev_err(csi->dev,
->>>>>>> +                             "failed to get runtime PM: %d\n",
->>>>>>> ret);
->>>>>>> +                     pm_runtime_put_noidle(csi->dev);
->> Why this pm_runtime_put_noidle() is needed? This should be wrong, please
->> remove it.
-> 
-> pm_runtime_get_sync() increments power.usage_count prior to rpm_resume
-> 
-> if rpm_resume fails it does not decrement usage_count.
-> 
-> So to balance count on failure, calling pm_runtime_put_noidle()
-
-Hmm.. maybe you're right. I'll need to take a more detailed look.
+Acked-by: Rob Herring <robh@kernel.org>
