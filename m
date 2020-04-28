@@ -2,129 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D2F61BB73E
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 09:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E241BB7D3
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 09:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726279AbgD1HJ6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Apr 2020 03:09:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49840 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbgD1HJ5 (ORCPT
+        id S1726259AbgD1HiO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 03:38:14 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37375 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726253AbgD1HiO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Apr 2020 03:09:57 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 901D8C03C1A9
-        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2020 00:09:57 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j1so23326549wrt.1
-        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2020 00:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=lMEa6R/eYAIqk1WFDzSBGM7+C3iUTrOyPMrRdGdHxQI=;
-        b=XK+3/aOKMdWUeiVuCoBZONtKCMfLLzYajSsCKOXfvsR6utqJUQhr+6FIry9ABFD6g1
-         HFBeJpmo1mf3rvsdRFrXS8PXKlhAuKWiCd9I6K7lZfGYcZJ79v1T5YimjffH0G9yj87q
-         aLSE8hWboyqXwcsegUE2bW4HB/6ZE6+LDN9X1l6E91g1+1xWVoCwP/OTOeOQUY/bk+IP
-         ZYMbzeihgHkWc2ALWXiCsvcM6w3y3gNigL8hdyGqEsu+u9b0PIBuG+nKgpYIEUEBlD65
-         LRvndNI/a7Stuwyeb/MaYykxFCyRuZKjpvL/mlSn+6riTQ/VGOs0cZMmhJ1yKIhho5/C
-         9frw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=lMEa6R/eYAIqk1WFDzSBGM7+C3iUTrOyPMrRdGdHxQI=;
-        b=h+89OF3itdnbGAmnIzQtflet6WEaGyLEbUZ+iJ0WTvyIIulmCu4Y1Za7uW3mo4AAQR
-         YiOa7qDg/hM+6M/276wxktiuk0aBJ82qnbIGREj2/A0/sJD9A74noIXmO1KayOyZUvWM
-         ylO7wb8XVvCAuQfAq9X9OWWJr/cc3gsRokkvbwKZRb8nzFf5RYdzX8w6Wfp9PeSYBse5
-         u36Xa5PVAr6kGPpB3tnomEtmdgF14OVjCsi9tVc5eh/sPj0iupP8lfv9lLFJpzT3z3ix
-         5u9qElyZeH3iwrVzZIKeHnZc+vkOExeQhODVqAU8ZlydiKyp/QyBHjRwUw7QZhA2UmPu
-         aREQ==
-X-Gm-Message-State: AGi0PuaFcrW5ZfTUj+BvwAxGQf4Rh51EeVWSZlf1QXs6Wc+sFkzFdNF9
-        XSuI2Maef9yS74XU2WAGikJAZg==
-X-Google-Smtp-Source: APiQypK0KOM5V4C2Z5llck0w8pFFM5So+4+1Ay4saK2Pj2qjCPKB3yWrM321BmZUfw8SL8WDLVr+bw==
-X-Received: by 2002:a5d:51c6:: with SMTP id n6mr31406670wrv.314.1588057796054;
-        Tue, 28 Apr 2020 00:09:56 -0700 (PDT)
-Received: from dell ([2.31.163.63])
-        by smtp.gmail.com with ESMTPSA id j4sm23732081wrm.85.2020.04.28.00.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 00:09:55 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 08:09:53 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Milo Kim <milo.kim@ti.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] backlight: lp855x: Ensure regulators are disabled on
- probe failure
-Message-ID: <20200428070953.GI3559@dell>
-References: <20200224140748.2182-1-jonathanh@nvidia.com>
+        Tue, 28 Apr 2020 03:38:14 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id TKohjjwJplKa1TKoljkB2C; Tue, 28 Apr 2020 09:38:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588059492; bh=+nAgS30c07wDN6lSEWd2/CCFrQtC4lXyHeV3iYFeXr8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=mBrX3lU7q134xiasmBAak+ZWfmaAQQrJetv44aekDE+ksxsm8RXWBLJ1Use1JCl1I
+         BNuw0PeUOY9yC8G8KpXKYvjaoWL6EF9bWY6mcY4gClBI4AZMAkIpBHVztc2QZ55FXQ
+         hqWMlu9XFOpTiCm/THBGdcluPNCw8z9/ulLHdPO3zBmDxNx8GuKTMOHsIZQRy3i1Qr
+         DG9NwevQ5K+bk1iU3tWo5kkmQN2NzghndxPOh2sB9lqm2fGjd0ToxEl+08T4tsqVBa
+         XWuWsr42mhUyZOmHB5fjFR+g0jkbKbq+rX8zKv4jTYPVqn5w1yn3PuL7W/+rfXm1de
+         zxwD9Uv85jWAA==
+Subject: Re: [RFC PATCH v1 0/5] media: tegra: Tegra video driver follow-up
+ patches
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
+Cc:     digetx@gmail.com, linux-media@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5f065fc5-0f45-6b9e-068c-28d0a2e4684e@xs4all.nl>
+Date:   Tue, 28 Apr 2020 09:38:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200224140748.2182-1-jonathanh@nvidia.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNnYN4mXESrKOpzlixmWEfZewJ9vePxyXiaZ6eW8U8sCyiqmmBh4L32L7ha5AdhsZGvLriTlcjavNogmiOF5LjXDr2At4PGJsV+wyFJ6oVTyHgLXXlE3
+ lFXrY3m1G3Ek/L39otmz3XNqNPgLiN+8UWLeeJ9oQFu0gp7oUHuR05FWFDVbvG1G6rSV8v+6aR5PfiBZQNFim6rs8eXkhVKMdkuC5KUWY+SkEBrYaLJmjkP1
+ AwEMi5Gn4fQpYifQsawYhLphF3CH1o3ueY5AGW5VEWUkIm0mA4aoMomZjhgiI7S5tdouZEwVreO8DvynFMnPcdMI6NhUaDIqwPLypDaULPyWhPfWqGpOAUrC
+ AiwCUkqDCfAwoFVKTHgrToY5yrAnAF9NoKNV8TX8098zQMQItqIp3mOEAqNlWJ44PlYRfjLJ
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 24 Feb 2020, Jon Hunter wrote:
+On 28/04/2020 06:20, Sowjanya Komatineni wrote:
+> This is a fllow-up to some last feedback received for Tegra VI driver RFC
+> v10 patches.
+> https://patchwork.linuxtv.org/cover/63334/
+> 
+> 
+> Sowjanya Komatineni (5):
+>   MAINTAINERS: Rename Tegra Video driver path
+>   media: tegra: Rename driver path to tegra-video
+>   media: tegra-video: Move PM runtime handle to streaming
+>   media: tegra-video: Rearrange SoC specific to Tegra210 and cleanup
+>     files
+>   media: tegra-video: Remove module macros for vi and csi driver
+> 
+>  MAINTAINERS                                  |    2 +-
+>  drivers/staging/media/Kconfig                |    2 +-
+>  drivers/staging/media/Makefile               |    2 +-
+>  drivers/staging/media/tegra-video/Kconfig    |   12 +
+>  drivers/staging/media/tegra-video/Makefile   |    8 +
+>  drivers/staging/media/tegra-video/TODO       |   10 +
+>  drivers/staging/media/tegra-video/csi.c      |  536 ++++++++++++
+>  drivers/staging/media/tegra-video/csi.h      |  146 ++++
+>  drivers/staging/media/tegra-video/tegra210.c | 1080 ++++++++++++++++++++++++
+>  drivers/staging/media/tegra-video/vi.c       | 1082 +++++++++++++++++++++++++
+>  drivers/staging/media/tegra-video/vi.h       |  258 ++++++
+>  drivers/staging/media/tegra-video/video.c    |  155 ++++
+>  drivers/staging/media/tegra-video/video.h    |   29 +
+>  drivers/staging/media/tegra/Kconfig          |   12 -
+>  drivers/staging/media/tegra/Makefile         |    8 -
+>  drivers/staging/media/tegra/TODO             |   10 -
+>  drivers/staging/media/tegra/common.h         |  259 ------
+>  drivers/staging/media/tegra/csi.c            |  604 --------------
+>  drivers/staging/media/tegra/csi.h            |  144 ----
+>  drivers/staging/media/tegra/tegra210.c       |  708 ----------------
+>  drivers/staging/media/tegra/tegra210.h       |  190 -----
+>  drivers/staging/media/tegra/vi.c             | 1127 --------------------------
+>  drivers/staging/media/tegra/vi.h             |   72 --
+>  drivers/staging/media/tegra/video.c          |  153 ----
+>  drivers/staging/media/tegra/video.h          |   29 -
+>  25 files changed, 3319 insertions(+), 3319 deletions(-)
 
-> If probing the LP885x backlight fails after the regulators have been
-> enabled, then the following warning is seen when releasing the
-> regulators ...
-> 
->  WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
->  Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
->  CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
->  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
-> 
->  ...
-> 
->  Call trace:
->   _regulator_put.part.28+0x158/0x160
->   regulator_put+0x34/0x50
->   devm_regulator_release+0x10/0x18
->   release_nodes+0x12c/0x230
->   devres_release_all+0x34/0x50
->   really_probe+0x1c0/0x370
->   driver_probe_device+0x58/0x100
->   device_driver_attach+0x6c/0x78
->   __driver_attach+0xb0/0xf0
->   bus_for_each_dev+0x68/0xc8
->   driver_attach+0x20/0x28
->   bus_add_driver+0x160/0x1f0
->   driver_register+0x60/0x110
->   i2c_register_driver+0x40/0x80
->   lp855x_driver_init+0x20/0x1000 [lp855x_bl]
->   do_one_initcall+0x58/0x1a0
->   do_init_module+0x54/0x1d0
->   load_module+0x1d80/0x21c8
->   __do_sys_finit_module+0xe8/0x100
->   __arm64_sys_finit_module+0x18/0x20
->   el0_svc_common.constprop.3+0xb0/0x168
->   do_el0_svc+0x20/0x98
->   el0_sync_handler+0xf4/0x1b0
->   el0_sync+0x140/0x180
-> 
-> Fix this by ensuring that the regulators are disabled, if enabled, on
-> probe failure.
-> 
-> Finally, ensure that the vddio regulator is disabled in the driver
-> remove handler.
-> 
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  drivers/video/backlight/lp855x_bl.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
+I thought that the follow-up series was just a rename of a directory
+and perhaps one or two smaller changes, but this is too much change.
+I prefer to have a v11 instead with all these changes incorporated.
 
-Applied, thanks.
+Sorry about that,
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+	Hans
+
+>  create mode 100644 drivers/staging/media/tegra-video/Kconfig
+>  create mode 100644 drivers/staging/media/tegra-video/Makefile
+>  create mode 100644 drivers/staging/media/tegra-video/TODO
+>  create mode 100644 drivers/staging/media/tegra-video/csi.c
+>  create mode 100644 drivers/staging/media/tegra-video/csi.h
+>  create mode 100644 drivers/staging/media/tegra-video/tegra210.c
+>  create mode 100644 drivers/staging/media/tegra-video/vi.c
+>  create mode 100644 drivers/staging/media/tegra-video/vi.h
+>  create mode 100644 drivers/staging/media/tegra-video/video.c
+>  create mode 100644 drivers/staging/media/tegra-video/video.h
+>  delete mode 100644 drivers/staging/media/tegra/Kconfig
+>  delete mode 100644 drivers/staging/media/tegra/Makefile
+>  delete mode 100644 drivers/staging/media/tegra/TODO
+>  delete mode 100644 drivers/staging/media/tegra/common.h
+>  delete mode 100644 drivers/staging/media/tegra/csi.c
+>  delete mode 100644 drivers/staging/media/tegra/csi.h
+>  delete mode 100644 drivers/staging/media/tegra/tegra210.c
+>  delete mode 100644 drivers/staging/media/tegra/tegra210.h
+>  delete mode 100644 drivers/staging/media/tegra/vi.c
+>  delete mode 100644 drivers/staging/media/tegra/vi.h
+>  delete mode 100644 drivers/staging/media/tegra/video.c
+>  delete mode 100644 drivers/staging/media/tegra/video.h
+> 
+
