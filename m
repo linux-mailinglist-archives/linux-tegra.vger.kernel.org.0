@@ -2,92 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C0F1BBBE3
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 13:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F311BBD45
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 14:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbgD1LGh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Apr 2020 07:06:37 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:52798 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726345AbgD1LGh (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Apr 2020 07:06:37 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 17C49FA5ABDC1D5E94A3;
-        Tue, 28 Apr 2020 19:06:33 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 28 Apr 2020 19:06:26 +0800
-From:   Wei Yongjun <weiyongjun1@huawei.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-CC:     Wei Yongjun <weiyongjun1@huawei.com>,
-        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>
-Subject: [PATCH -next] ASoC: tegra: tegra_wm8903: Use devm_snd_soc_register_card()
-Date:   Tue, 28 Apr 2020 11:07:42 +0000
-Message-ID: <20200428110742.110335-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726768AbgD1MQe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 08:16:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726361AbgD1MQc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 28 Apr 2020 08:16:32 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A793C03C1A9;
+        Tue, 28 Apr 2020 05:16:32 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id k13so24408923wrw.7;
+        Tue, 28 Apr 2020 05:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=KJcceZKHt8YY/nAlytIbRqg+XVhvkXqTJQkvmynr/Jo=;
+        b=PjR9IzQ8VD3sksu/DJg+ZCI27xjQM2hp3LDGLLrBEn6lwZoi0hx0FbNn34GGPXBU0g
+         4Pyqp/f/L4WeeqIp40aL724tWTQGScWi8CBHzbhDCa6DXk9WPMrG89YTkEe2hM2eRpXX
+         XYQPpDzxx6W2PQ8VlJbvMlL499j+fGlTO9BjitN8n/U4zyLsmf2xwczWdpmdaRgmDVVB
+         DALWUIskfHDPpTFWeGfrQvjp3y9Br9LsaksIico9cRhGq3JgwHmU+UPM+7zEBYOSYH5P
+         tbmeKkMJZC/w+gw8S0W7mw4EQa1I4aUe6ln2WUkDQHsNzyfXSx2qKvpVrm9r3SsvcYvY
+         GwBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KJcceZKHt8YY/nAlytIbRqg+XVhvkXqTJQkvmynr/Jo=;
+        b=WJSzPyA6963HzxAR5jVQyknqMG1cG6TctzoOu4XWm4lth2/eTn6KqPnuV/9QQbRLIJ
+         QnMFcQMevyaSTO3PlKn9It5ULukrMCt9v90fjFlHnCY+JbaCgiu/0TzhCoyx3LUjvrnS
+         fAdUImpmKwd8bHs3UeTdE/9c3ebHEFB2xMv9BSXbLdDo9LHjBZ6e7lSWJG7pCfSZbPuB
+         e1jU/2uYFGrJr2E+zf1RtYlr1WclJtAO2XFtiG1OkGVKy/XhXke7XH9ZI9hHQHCmwAEc
+         XmiY1bTYW/hGTo3NDCi70W30QADQFJeGAC58iaI6iqpBs9KbMuBW9yhvFZy1FeynJlLp
+         KVIA==
+X-Gm-Message-State: AGi0PubD6celFiJxp4xp/ecPpK0uZ6TNYlhp039i/zEsu6Mt511Sm12/
+        qpRRHztd78Cg+bbIY517OtY=
+X-Google-Smtp-Source: APiQypInzRT5VmQThYG3hxKLRxdUsWIeHCEjdaSPbMEX3fOsSnTEiOElIJit9A8BQBrWmmHk6GooDQ==
+X-Received: by 2002:adf:e9cb:: with SMTP id l11mr32334378wrn.24.1588076191212;
+        Tue, 28 Apr 2020 05:16:31 -0700 (PDT)
+Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
+        by smtp.gmail.com with ESMTPSA id s30sm25530090wrb.67.2020.04.28.05.16.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 05:16:27 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 14:16:26 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH V1 2/4] arm64: tegra: Add xudc node for Tegra194
+Message-ID: <20200428121626.GL3592148@ulmo>
+References: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
+ <1587022460-31988-3-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="m+jEI8cDoTn6Mu9E"
+Content-Disposition: inline
+In-Reply-To: <1587022460-31988-3-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Using devm_snd_soc_register_card() can make the code
-shorter and cleaner.
 
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- sound/soc/tegra/tegra_wm8903.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+--m+jEI8cDoTn6Mu9E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/tegra/tegra_wm8903.c b/sound/soc/tegra/tegra_wm8903.c
-index 7bf159965c4d..d3ead0213cef 100644
---- a/sound/soc/tegra/tegra_wm8903.c
-+++ b/sound/soc/tegra/tegra_wm8903.c
-@@ -351,9 +351,9 @@ static int tegra_wm8903_driver_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	ret = snd_soc_register_card(card);
-+	ret = devm_snd_soc_register_card(&pdev->dev, card);
- 	if (ret) {
--		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n",
-+		dev_err(&pdev->dev, "devm_snd_soc_register_card failed (%d)\n",
- 			ret);
- 		return ret;
- 	}
-@@ -361,15 +361,6 @@ static int tegra_wm8903_driver_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int tegra_wm8903_driver_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
--
--	snd_soc_unregister_card(card);
--
--	return 0;
--}
--
- static const struct of_device_id tegra_wm8903_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-wm8903", },
- 	{},
-@@ -382,7 +373,6 @@ static struct platform_driver tegra_wm8903_driver = {
- 		.of_match_table = tegra_wm8903_of_match,
- 	},
- 	.probe = tegra_wm8903_driver_probe,
--	.remove = tegra_wm8903_driver_remove,
- };
- module_platform_driver(tegra_wm8903_driver);
+On Thu, Apr 16, 2020 at 01:04:18PM +0530, Nagarjuna Kristam wrote:
+> Tegra194 has one XUSB device mode controller, which can be operated
+> HS and SS modes. Add DT entry for XUSB device mode controller
+>=20
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 
+Looks good to me, I'll pick this up into the Tegra tree.
 
+Thierry
 
+--m+jEI8cDoTn6Mu9E
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6oHpcACgkQ3SOs138+
+s6F38w/8DcNjQD7ygu05FLIvH5mMzvp/ZOq1zIJxBqJ39kNj1aGgyT1wlnw0d6o7
+MfdVgIC2Z4rRXaGjGkD1UAvatjkgOUhdONYBJVM7FvoGmv/+1KRSR03ibr+EZtvy
+WfCxoj11GHauJlzuYulg+6fpnCxzhXn4RSBDSm1/12Vp3BbQvjOcdidEHCQYbDHy
+mV8ylgoNrJ/DW56wsWlMYsdoTWBuSh6S3NsC1rEzKVs31+qcp1qIhVTJegdS4KZF
+hr6QasS7SQy2z1VRkFqh+D4fRUErOWHiheJ0EPO/UQpQTnQQW3hO9IHEV3r1N3BQ
+SJV6/4pDaJuKJE1qXfu5QfqYuoD5ZR2ViWE3cEc6VNxGoRu1uGTfs+/fDi0Bz6oR
+INDmJuNXyB+KtrWWooSQMOZ5naawEDRHojCvDJUA+l/474MI6v/RxLCoj9QD9ECx
+AvbALWhpwSzUJWszB4cMBdMuDmKE23V85gDU4Md7VcwqOSelUnoauVeVNmlKwAt7
+Y4FmRC5pL7CZCnP0jHGAEexEnxQaCbMdXe3TN9eRt5RVqj0ks3MkWyJ7PIu63Bu1
+o4yZma2mkq7skiM2e9Ari8JgMBQ+EjBHtpG4kshmkJJpzbrDHH79f3w9hTw49q25
+MCSr+mpc2gnWKx1BPBJHlGSKVVHXyWNEWWFdbI4eK8dmnsVnm0s=
+=2SXp
+-----END PGP SIGNATURE-----
+
+--m+jEI8cDoTn6Mu9E--
