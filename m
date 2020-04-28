@@ -2,95 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B498A1BB25C
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 01:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AEFF1BB517
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 06:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbgD0X5e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Apr 2020 19:57:34 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:7418 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726509AbgD0X5Y (ORCPT
+        id S1725885AbgD1EVr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 00:21:47 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3105 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725803AbgD1EVr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Apr 2020 19:57:24 -0400
-X-UUID: b87e21c10b074b3fb1a1c44fbcb711a6-20200428
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=+p2FpvDesOhvlsbH3Gp9SCnml3/2yorz5SLguxMgjUM=;
-        b=RXJuqDN5TFsanR8YXnuQZvDcfwtNiZt8nyFo1lV8Xpp4inOHi2BJDw0CyrBxUk4WkGOSeEDAyor+Dcw1u3uq+uDgojBv7E7DTA+2tqfG841Jj802mep1N0Q18JN1oCjujeiqdWA0jU8p8DneqmvgxYCjXl0nll9Lfx4xRs/OM1g=;
-X-UUID: b87e21c10b074b3fb1a1c44fbcb711a6-20200428
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
-        (envelope-from <chun-hung.wu@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 994598891; Tue, 28 Apr 2020 07:57:21 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkexhb02.mediatek.inc (172.21.101.103) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 28 Apr 2020 07:57:14 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 28 Apr 2020 07:57:13 +0800
-From:   Chun-Hung Wu <chun-hung.wu@mediatek.com>
-To:     <mirq-linux@rere.qmqm.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>,
-        Yong Mao <yong.mao@mediatek.com>
-CC:     <kernel-team@android.com>, <linux-kernel@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <wsd_upstream@mediatek.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Chun-Hung Wu <chun-hung.wu@mediatek.com>
-Subject: [PATCH v5 5/5] dt-bindings: mmc: mediatek: Add document for mt6779
-Date:   Tue, 28 Apr 2020 07:56:08 +0800
-Message-ID: <1588031768-23677-6-git-send-email-chun-hung.wu@mediatek.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
-References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
+        Tue, 28 Apr 2020 00:21:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea7af190000>; Mon, 27 Apr 2020 21:20:41 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 27 Apr 2020 21:21:47 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 27 Apr 2020 21:21:47 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Apr
+ 2020 04:21:47 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 28 Apr 2020 04:21:46 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.165.152]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ea7af5a0003>; Mon, 27 Apr 2020 21:21:46 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>
+CC:     <digetx@gmail.com>, <linux-media@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH v1 0/5] media: tegra: Tegra video driver follow-up patches
+Date:   Mon, 27 Apr 2020 21:20:45 -0700
+Message-ID: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588047641; bh=GSaMPCKjtNmN1Ta1JOSfTlnh71rhEs0nSfWQEPuSKxE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=cfpTSu7BVIMEqPMmEbhrIo3aj3uQpeE6xd23i88x4YANtXUYEhEAvkDTvZEb+xQsA
+         SvVej6EzYWbWpo8lMCxXU6LDheAswgMHP5t+W1hwhNKdklCTo6pSPo4irLw6tRlwvh
+         Y+lcBPy7Gg1Ul+lM/GxE287Ju6I/gGDndeDl+3INyTIs1EitgkNP3S0gzxW0U+wpby
+         L4v7NGKKGmcv/yJN+378Klf8q/91Ya4LCyuyhNYoJsabjR/vasc9nkqJIUD0NQnst7
+         LEZGO9IoXWQkAl0H56Vubh1tntcYLrK15C51pcabWyE0s2AVvVyeX9jPuOFWTaV0W5
+         zUct0grgYXWZA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-QWRkIGNvbXBhdGlibGUgbm9kZSBmb3IgbXQ2Nzc5IG1tYw0KDQpTaWduZWQtb2ZmLWJ5OiBDaHVu
-LUh1bmcgV3UgPGNodW4taHVuZy53dUBtZWRpYXRlay5jb20+DQpBY2tlZC1ieTogUm9iIEhlcnJp
-bmcgPHJvYmhAa2VybmVsLm9yZz4NCi0tLQ0KIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9tbWMvbXRrLXNkLnR4dCB8IDEgKw0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KQ0KDQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21tYy9t
-dGstc2QudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21tYy9tdGstc2Qu
-dHh0DQppbmRleCA4YTUzMmY0Li4wYzljZjZhIDEwMDY0NA0KLS0tIGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL21tYy9tdGstc2QudHh0DQorKysgYi9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvbW1jL210ay1zZC50eHQNCkBAIC0xMiw2ICsxMiw3IEBAIFJlcXVp
-cmVkIHByb3BlcnRpZXM6DQogCSJtZWRpYXRlayxtdDgxNzMtbW1jIjogZm9yIG1tYyBob3N0IGlw
-IGNvbXBhdGlibGUgd2l0aCBtdDgxNzMNCiAJIm1lZGlhdGVrLG10ODE4My1tbWMiOiBmb3IgbW1j
-IGhvc3QgaXAgY29tcGF0aWJsZSB3aXRoIG10ODE4Mw0KIAkibWVkaWF0ZWssbXQ4NTE2LW1tYyI6
-IGZvciBtbWMgaG9zdCBpcCBjb21wYXRpYmxlIHdpdGggbXQ4NTE2DQorCSJtZWRpYXRlayxtdDY3
-NzktbW1jIjogZm9yIG1tYyBob3N0IGlwIGNvbXBhdGlibGUgd2l0aCBtdDY3NzkNCiAJIm1lZGlh
-dGVrLG10MjcwMS1tbWMiOiBmb3IgbW1jIGhvc3QgaXAgY29tcGF0aWJsZSB3aXRoIG10MjcwMQ0K
-IAkibWVkaWF0ZWssbXQyNzEyLW1tYyI6IGZvciBtbWMgaG9zdCBpcCBjb21wYXRpYmxlIHdpdGgg
-bXQyNzEyDQogCSJtZWRpYXRlayxtdDc2MjItbW1jIjogZm9yIE1UNzYyMiBTb0MNCi0tIA0KMi42
-LjQNCg==
+This is a fllow-up to some last feedback received for Tegra VI driver RFC
+v10 patches.
+https://patchwork.linuxtv.org/cover/63334/
+
+
+Sowjanya Komatineni (5):
+  MAINTAINERS: Rename Tegra Video driver path
+  media: tegra: Rename driver path to tegra-video
+  media: tegra-video: Move PM runtime handle to streaming
+  media: tegra-video: Rearrange SoC specific to Tegra210 and cleanup
+    files
+  media: tegra-video: Remove module macros for vi and csi driver
+
+ MAINTAINERS                                  |    2 +-
+ drivers/staging/media/Kconfig                |    2 +-
+ drivers/staging/media/Makefile               |    2 +-
+ drivers/staging/media/tegra-video/Kconfig    |   12 +
+ drivers/staging/media/tegra-video/Makefile   |    8 +
+ drivers/staging/media/tegra-video/TODO       |   10 +
+ drivers/staging/media/tegra-video/csi.c      |  536 ++++++++++++
+ drivers/staging/media/tegra-video/csi.h      |  146 ++++
+ drivers/staging/media/tegra-video/tegra210.c | 1080 ++++++++++++++++++++++++
+ drivers/staging/media/tegra-video/vi.c       | 1082 +++++++++++++++++++++++++
+ drivers/staging/media/tegra-video/vi.h       |  258 ++++++
+ drivers/staging/media/tegra-video/video.c    |  155 ++++
+ drivers/staging/media/tegra-video/video.h    |   29 +
+ drivers/staging/media/tegra/Kconfig          |   12 -
+ drivers/staging/media/tegra/Makefile         |    8 -
+ drivers/staging/media/tegra/TODO             |   10 -
+ drivers/staging/media/tegra/common.h         |  259 ------
+ drivers/staging/media/tegra/csi.c            |  604 --------------
+ drivers/staging/media/tegra/csi.h            |  144 ----
+ drivers/staging/media/tegra/tegra210.c       |  708 ----------------
+ drivers/staging/media/tegra/tegra210.h       |  190 -----
+ drivers/staging/media/tegra/vi.c             | 1127 --------------------------
+ drivers/staging/media/tegra/vi.h             |   72 --
+ drivers/staging/media/tegra/video.c          |  153 ----
+ drivers/staging/media/tegra/video.h          |   29 -
+ 25 files changed, 3319 insertions(+), 3319 deletions(-)
+ create mode 100644 drivers/staging/media/tegra-video/Kconfig
+ create mode 100644 drivers/staging/media/tegra-video/Makefile
+ create mode 100644 drivers/staging/media/tegra-video/TODO
+ create mode 100644 drivers/staging/media/tegra-video/csi.c
+ create mode 100644 drivers/staging/media/tegra-video/csi.h
+ create mode 100644 drivers/staging/media/tegra-video/tegra210.c
+ create mode 100644 drivers/staging/media/tegra-video/vi.c
+ create mode 100644 drivers/staging/media/tegra-video/vi.h
+ create mode 100644 drivers/staging/media/tegra-video/video.c
+ create mode 100644 drivers/staging/media/tegra-video/video.h
+ delete mode 100644 drivers/staging/media/tegra/Kconfig
+ delete mode 100644 drivers/staging/media/tegra/Makefile
+ delete mode 100644 drivers/staging/media/tegra/TODO
+ delete mode 100644 drivers/staging/media/tegra/common.h
+ delete mode 100644 drivers/staging/media/tegra/csi.c
+ delete mode 100644 drivers/staging/media/tegra/csi.h
+ delete mode 100644 drivers/staging/media/tegra/tegra210.c
+ delete mode 100644 drivers/staging/media/tegra/tegra210.h
+ delete mode 100644 drivers/staging/media/tegra/vi.c
+ delete mode 100644 drivers/staging/media/tegra/vi.h
+ delete mode 100644 drivers/staging/media/tegra/video.c
+ delete mode 100644 drivers/staging/media/tegra/video.h
+
+-- 
+2.7.4
 
