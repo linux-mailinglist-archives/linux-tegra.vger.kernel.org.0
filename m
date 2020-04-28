@@ -2,126 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A88351BBD80
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 14:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B3341BBD9C
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 14:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726361AbgD1MZQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Apr 2020 08:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726739AbgD1MZQ (ORCPT
+        id S1726857AbgD1M3p (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 08:29:45 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:55674 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726684AbgD1M3o (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Apr 2020 08:25:16 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204B8C03C1A9;
-        Tue, 28 Apr 2020 05:25:16 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id k13so24441096wrw.7;
-        Tue, 28 Apr 2020 05:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=781oNo11x931cim0fl8S1PiQGZJbX/Ze59g07/BoxgM=;
-        b=CvOVlnDd5fDcNAf95b63/H/YM7RVcHI1AsIXCZWs6gsASaiIrkBZZkrIruuBH9BLU3
-         Uo/4trUJNULx5eRudzZ4inAv9067APiAs04NPlbwXStqBqxPyIsWYRAEeiRmbqN8CW+S
-         xLnyweO/An8GSYeEecBbC4e5D2gmZpK69UoD6V/ErJB08gn+A3aeknbXlUuOm1eHCjQH
-         pys9lKHWLP369LJa+OqWrzAyX36BnkkolunQNX6Iw6E44B2ZOzJ23UPR/f5HOiB80Fgq
-         Key+z9TLf00n/nIgoUePNFEPE/gqrSx7i5Q3jw9u/jncMVw0vVpD4grN+naolCu2oqBK
-         W3+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=781oNo11x931cim0fl8S1PiQGZJbX/Ze59g07/BoxgM=;
-        b=jeWyAfLeFhuf/iSriOsctbvKgDKMkI0WMcOoKWaqsV9AMmDFHpNC45TxnBYPPnz6bj
-         GKkrliKXjwBDHa/woX8EPh4ViTO0TEZSbfx6soHvazszJ9ZI65Jf9bdVTCvtzI60tsPm
-         K2IhKs0P4IhkotOpfef9MW4yMyiTEH78Ma9ULfdClrnwv87sced5z2q9jidIT1DQAHBQ
-         cST1zG6yA7owwKbIxGR1151tu/zv8LLrcjEJ7LjbJ33Xlr2QJ4kBOpTMPNbWz7sAWOLY
-         PeYoAH8C7UO3ggowFp4yksaMMtOlBzXvjSktiuvMaQgVQ6/1oX3rcO6hcVExR5vGCViv
-         5gtg==
-X-Gm-Message-State: AGi0PuaB1odfwnSk8ByeXaDeMg93stS2cEITISCOoyjJB0/7f/FoEZuN
-        QxTjrTJmkOu1PrLcfrQv69o=
-X-Google-Smtp-Source: APiQypLDXIxO7A0O4EZ58eEalijCyP8izHMI3fCOongyuPYiyfJfo3JND95DyqhBt4AHPgT+1LPYKQ==
-X-Received: by 2002:a5d:5304:: with SMTP id e4mr31268481wrv.87.1588076714459;
-        Tue, 28 Apr 2020 05:25:14 -0700 (PDT)
-Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
-        by smtp.gmail.com with ESMTPSA id j4sm24826680wrm.85.2020.04.28.05.25.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 05:25:13 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 14:25:12 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH V1 4/4] usb: gadget: tegra-xudc: add port_speed_quirk
-Message-ID: <20200428122512.GN3592148@ulmo>
-References: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
- <1587022460-31988-5-git-send-email-nkristam@nvidia.com>
+        Tue, 28 Apr 2020 08:29:44 -0400
+X-UUID: 96c3c8ec85d2473d86a4d2a61570b222-20200428
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=x82FlLAEXLzeRSBYPB5msRYu1TSUP46MR6Ng6NKD4bQ=;
+        b=fuyPALxLcsRMw4yIfqMLHTANQi4nyKdZ1STTuHSyeLWdWnVqONsKGrIVq6QpkqMqJU65PXD/EUPehAcOK9ekYY6E58eLcXKb9xWi/p1fz/ZjC8UP98uYNqcSU7xmklNeZld12sJCec2ZoIiCxQyTyyWzjtbz4ETr8R5GkH6U8vs=;
+X-UUID: 96c3c8ec85d2473d86a4d2a61570b222-20200428
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <yong.mao@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 215005333; Tue, 28 Apr 2020 20:29:36 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 28 Apr
+ 2020 20:29:34 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 28 Apr 2020 20:29:32 +0800
+Message-ID: <1588076927.730.2.camel@mhfsdcap03>
+Subject: Re: [PATCH v5 3/5] mmc: mediatek: refine msdc timeout api
+From:   "yong.mao@mediatek.com" <yong.mao@mediatek.com>
+To:     Chun-Hung Wu <chun-hung.wu@mediatek.com>
+CC:     <mirq-linux@rere.qmqm.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
+        "Al Cooper" <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Kate Stewart" <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        <devicetree@vger.kernel.org>, <wsd_upstream@mediatek.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-tegra@vger.kernel.org>, <kernel-team@android.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Date:   Tue, 28 Apr 2020 20:28:47 +0800
+In-Reply-To: <1588031768-23677-4-git-send-email-chun-hung.wu@mediatek.com>
+References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
+         <1588031768-23677-4-git-send-email-chun-hung.wu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="NJSRbAqOy4NeGDns"
-Content-Disposition: inline
-In-Reply-To: <1587022460-31988-5-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+X-TM-SNTS-SMTP: E01AAD61AB5BB27155A77063CBEA1604E31F717DA3D8618061EF502A15332D7C2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+T24gVHVlLCAyMDIwLTA0LTI4IGF0IDA3OjU2ICswODAwLCBDaHVuLUh1bmcgV3Ugd3JvdGU6DQo+
+IEV4dHJhY3QgbXNkYyB0aW1lb3V0IGFwaSBjb21tb24gcGFydCB0byBoYXZlDQo+IGJldHRlciBj
+b2RlIGFyY2hpdGVjdHVyZSBhbmQgYXZvaWQgcmVkdW5kZW50DQpwbGVhc2UgY29ycmVjdCB0aGUg
+d29yZCAicmVkdW5kYW50IiBpbiBuZXh0IHZlcnNpb24NCj4gY29kZS4NCj4gDQo+IFNpZ25lZC1v
+ZmYtYnk6IENodW4tSHVuZyBXdSA8Y2h1bi1odW5nLnd1QG1lZGlhdGVrLmNvbT4NCkFja2VkLWJ5
+OiBZb25nIE1hbyA8eW9uZy5tYW9AbWVkaWF0ZWsuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvbW1j
+L2hvc3QvbXRrLXNkLmMgfCAzMiArKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KPiAg
+MSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQ0KPiANCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbW1jL2hvc3QvbXRrLXNkLmMgYi9kcml2ZXJzL21tYy9ob3N0
+L210ay1zZC5jDQo+IGluZGV4IDc3MjZkY2YuLmEyMzI4ZmIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZl
+cnMvbW1jL2hvc3QvbXRrLXNkLmMNCj4gKysrIGIvZHJpdmVycy9tbWMvaG9zdC9tdGstc2QuYw0K
+PiBAQCAtNjk5LDIxICs2OTksMjEgQEAgc3RhdGljIHZvaWQgbXNkY191bnByZXBhcmVfZGF0YShz
+dHJ1Y3QgbXNkY19ob3N0ICpob3N0LCBzdHJ1Y3QgbW1jX3JlcXVlc3QgKm1ycSkNCj4gIAl9DQo+
+ICB9DQo+ICANCj4gLS8qIGNsb2NrIGNvbnRyb2wgcHJpbWl0aXZlcyAqLw0KPiAtc3RhdGljIHZv
+aWQgbXNkY19zZXRfdGltZW91dChzdHJ1Y3QgbXNkY19ob3N0ICpob3N0LCB1MzIgbnMsIHUzMiBj
+bGtzKQ0KPiArc3RhdGljIHU2NCBtc2RjX3RpbWVvdXRfY2FsKHN0cnVjdCBtc2RjX2hvc3QgKmhv
+c3QsIHU2NCBucywgdTY0IGNsa3MpDQo+ICB7DQo+IC0JdTMyIHRpbWVvdXQsIGNsa19uczsNCj4g
+Kwl1NjQgdGltZW91dCwgY2xrX25zOw0KPiAgCXUzMiBtb2RlID0gMDsNCj4gIA0KPiAtCWhvc3Qt
+PnRpbWVvdXRfbnMgPSBuczsNCj4gLQlob3N0LT50aW1lb3V0X2Nsa3MgPSBjbGtzOw0KPiAgCWlm
+IChob3N0LT5tbWMtPmFjdHVhbF9jbG9jayA9PSAwKSB7DQo+ICAJCXRpbWVvdXQgPSAwOw0KPiAg
+CX0gZWxzZSB7DQo+IC0JCWNsa19ucyAgPSAxMDAwMDAwMDAwVUwgLyBob3N0LT5tbWMtPmFjdHVh
+bF9jbG9jazsNCj4gLQkJdGltZW91dCA9IChucyArIGNsa19ucyAtIDEpIC8gY2xrX25zICsgY2xr
+czsNCj4gKwkJY2xrX25zICA9IDEwMDAwMDAwMDBVTEw7DQo+ICsJCWRvX2RpdihjbGtfbnMsIGhv
+c3QtPm1tYy0+YWN0dWFsX2Nsb2NrKTsNCj4gKwkJdGltZW91dCA9IG5zICsgY2xrX25zIC0gMTsN
+Cj4gKwkJZG9fZGl2KHRpbWVvdXQsIGNsa19ucyk7DQo+ICsJCXRpbWVvdXQgKz0gY2xrczsNCj4g
+IAkJLyogaW4gMTA0ODU3NiBzY2xrIGN5Y2xlIHVuaXQgKi8NCj4gLQkJdGltZW91dCA9ICh0aW1l
+b3V0ICsgKDB4MSA8PCAyMCkgLSAxKSA+PiAyMDsNCj4gKwkJdGltZW91dCA9IERJVl9ST1VORF9V
+UCh0aW1lb3V0LCAoMHgxIDw8IDIwKSk7DQo+ICAJCWlmIChob3N0LT5kZXZfY29tcC0+Y2xrX2Rp
+dl9iaXRzID09IDgpDQo+ICAJCQlzZHJfZ2V0X2ZpZWxkKGhvc3QtPmJhc2UgKyBNU0RDX0NGRywN
+Cj4gIAkJCQkgICAgICBNU0RDX0NGR19DS01PRCwgJm1vZGUpOw0KPiBAQCAtNzIzLDkgKzcyMywy
+MSBAQCBzdGF0aWMgdm9pZCBtc2RjX3NldF90aW1lb3V0KHN0cnVjdCBtc2RjX2hvc3QgKmhvc3Qs
+IHUzMiBucywgdTMyIGNsa3MpDQo+ICAJCS8qRERSIG1vZGUgd2lsbCBkb3VibGUgdGhlIGNsayBj
+eWNsZXMgZm9yIGRhdGEgdGltZW91dCAqLw0KPiAgCQl0aW1lb3V0ID0gbW9kZSA+PSAyID8gdGlt
+ZW91dCAqIDIgOiB0aW1lb3V0Ow0KPiAgCQl0aW1lb3V0ID0gdGltZW91dCA+IDEgPyB0aW1lb3V0
+IC0gMSA6IDA7DQo+IC0JCXRpbWVvdXQgPSB0aW1lb3V0ID4gMjU1ID8gMjU1IDogdGltZW91dDsN
+Cj4gIAl9DQo+IC0Jc2RyX3NldF9maWVsZChob3N0LT5iYXNlICsgU0RDX0NGRywgU0RDX0NGR19E
+VE9DLCB0aW1lb3V0KTsNCj4gKwlyZXR1cm4gdGltZW91dDsNCj4gK30NCj4gKw0KPiArLyogY2xv
+Y2sgY29udHJvbCBwcmltaXRpdmVzICovDQo+ICtzdGF0aWMgdm9pZCBtc2RjX3NldF90aW1lb3V0
+KHN0cnVjdCBtc2RjX2hvc3QgKmhvc3QsIHU2NCBucywgdTY0IGNsa3MpDQo+ICt7DQo+ICsJdTY0
+IHRpbWVvdXQ7DQo+ICsNCj4gKwlob3N0LT50aW1lb3V0X25zID0gbnM7DQo+ICsJaG9zdC0+dGlt
+ZW91dF9jbGtzID0gY2xrczsNCj4gKw0KPiArCXRpbWVvdXQgPSBtc2RjX3RpbWVvdXRfY2FsKGhv
+c3QsIG5zLCBjbGtzKTsNCj4gKwlzZHJfc2V0X2ZpZWxkKGhvc3QtPmJhc2UgKyBTRENfQ0ZHLCBT
+RENfQ0ZHX0RUT0MsDQo+ICsJCSAgICAgICh1MzIpKHRpbWVvdXQgPiAyNTUgPyAyNTUgOiB0aW1l
+b3V0KSk7DQo+ICB9DQo+ICANCj4gIHN0YXRpYyB2b2lkIG1zZGNfZ2F0ZV9jbG9jayhzdHJ1Y3Qg
+bXNkY19ob3N0ICpob3N0KQ0KDQo=
 
---NJSRbAqOy4NeGDns
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 16, 2020 at 01:04:20PM +0530, Nagarjuna Kristam wrote:
-> Add port_speed_quirk that modify below registers to limit/restore OTG
-> port speed to GEN1/GEN2.
-> SSPX_CORE_CNT56
-> SSPX_CORE_CNT57
-> SSPX_CORE_CNT65
-> SSPX_CORE_CNT66
-> SSPX_CORE_CNT67
-> SSPX_CORE_CNT72
->=20
-> The basic idea is to make SCD intentionally fail, reduce SCD timeout and
-> force device transit to TSEQ. Enable this flag to only Tegra194.
->=20
-> Based on work by WayneChang <waynec@nvidia.com>
->=20
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> ---
->  drivers/usb/gadget/udc/tegra-xudc.c | 106 ++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 106 insertions(+)
-
-You're telling readers what you're doing, but after reading the commit
-message, I have no idea why this is being done. Can you provide more
-information on why exactly is this needed? Why do we have to limit the
-OTG port speed?
-
-Thierry
-
---NJSRbAqOy4NeGDns
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6oIKgACgkQ3SOs138+
-s6H1XRAAgIkN+EUOOO1bRRCqdItpBhUzAnXz56qxx16NpYjpIjJPHwPtCDwb2XhK
-NK6gSk93H07QtoJtWLRt74q5c/exqcYbFDpP1Zx1tnPaK9IlTi0x450TBO6cW5QC
-NDeOAyRwckbJT16Iab59ZOM6uSIW2VnB2eHHmEiq46mKPm/TQb2aE3lJMjkNskE7
-ZzW7SCNwfkJu7r8WcDq/+4jYjg+/0viQ/jd8gyZCJ+WqQu+G6qlPws2D7sVlta6Z
-PjC4lWFddArpC6W1Xvhq+I0cDJ4ActilTeIeOnSPF60T52S1Uso4cJRBn0AwGcaG
-Eoab3z2D9s1HkbvCwbteWpMnXWuscXasxKonQ71Z4ifwcQFxoXRtNLBFKrX+Zdxy
-azEmdmu/6WF5AY28LvmM36UzWvQgPcXimOE2Bb+fOUOb7jW4qtqTNbBPtSJg8zqP
-NlzMxQ5JDfxhdG7W/A9MzV31cuDjLSWCI59BGSEOcoKjN3ehapybAHxfacvpqarz
-VoEvo/KG2AykqH8Xx5DJU7eLyOHZKSTF86mHKCucU2G+7NcdMi+j8kQwhzY41rDH
-2G4Jh8ycg/HpjIdQLXebWLZh+afh2M0LxX9ShM6MJ4KrTph0hbnzf72mCHhmRzFk
-C5g1JrwbmRR+tdwsfbSUHOnK7S4J+kG65VCCuyKexREetPWzeY0=
-=KTH2
------END PGP SIGNATURE-----
-
---NJSRbAqOy4NeGDns--
