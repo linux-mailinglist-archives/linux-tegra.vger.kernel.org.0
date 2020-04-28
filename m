@@ -2,110 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C528E1BBBBD
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 12:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66C0F1BBBE3
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 13:06:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgD1K6i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Apr 2020 06:58:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726364AbgD1K6h (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Apr 2020 06:58:37 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E0DCC03C1A9;
-        Tue, 28 Apr 2020 03:58:37 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id i10so24098229wrv.10;
-        Tue, 28 Apr 2020 03:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=t5n1x2S+hMgzHe+DJTRE4uXUFYWCAd6cwy2zE9TXKj8=;
-        b=fsseRELGzjV3nw0OnJb8J2yMMUals+T3NpyLSCeLTidRv9zn8DMxFkKyKdD57O4CJV
-         hAjrf7r0FguwBG/jG6NK40oEyLvnCdGvp3w/n/PRiPEBrb+1UAkUyfB9O5QERqf0/6kS
-         YcuHcAAp2e1/XkofVRhC4L1NQSWDB+QbYlexgj1BRqegG4hyu3LOs0K4KXZlC/4rtdEM
-         2+NETjYYpaS91AEbjW7MiDq8hn+mmch1e5oO/pGtS7cCqEibUhYMWHeMeTpixr2KPNRS
-         jQqm8kjnGigKykRb/mi/1PWEEgTbqDpg4ly8mwn2uzlo7dPlrZnb5ev/o/Rkgovz2CrM
-         zJcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=t5n1x2S+hMgzHe+DJTRE4uXUFYWCAd6cwy2zE9TXKj8=;
-        b=QEB9mLEl1tZcYrlCXzLyeCZOwlTKioEt2TNr4ExP3YJmpDdV41ZcDALqzJGZgQoNdi
-         z8Gqez1CbdsFNp+8ecy9t3CLw9IuATiPaRPFNHGu0F+fW8gds4J5dBH1eIVT9gPpdKjs
-         kUkSuyJ5nqDohjZj7GsZQYvtctyC1hTQ91j26SpBd5V1BQFEyppilOMNbvev9biID7CW
-         3NQnTvK/DtSji48KDTMVGSmreh1SyFsv5A2xPn651Ag4ly3/CUpG/u0DCbhEjVT3/plQ
-         gKOjN9BJR5NQkVC8nmKLvXljaqsWQfg3qavd7xZWlQVdDoXH3v+X8gbtWxDwvFdxXn01
-         9IEw==
-X-Gm-Message-State: AGi0PuadHD41owXFccnQQYdTFiSuFm5K2Cdk1Vk/BAWvQiPgnaFbgJq0
-        5brBiu8h5g7d1wBTSLKEqLo=
-X-Google-Smtp-Source: APiQypIgHZ4wbuHTwISD2PgDLUFcIjklJBGdOddlFw0x5NjmTtmMuFA/4Th25Tf2Ulo3BTah8l9PCw==
-X-Received: by 2002:a05:6000:4:: with SMTP id h4mr33856041wrx.386.1588071516225;
-        Tue, 28 Apr 2020 03:58:36 -0700 (PDT)
-Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
-        by smtp.gmail.com with ESMTPSA id w6sm25776444wrm.86.2020.04.28.03.58.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 03:58:34 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 12:58:33 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH V1 1/4] dt-bindings: usb: tegra-xudc: Add Tegra194 XUSB
- controller support
-Message-ID: <20200428105833.GK3592148@ulmo>
-References: <1587022460-31988-1-git-send-email-nkristam@nvidia.com>
- <1587022460-31988-2-git-send-email-nkristam@nvidia.com>
+        id S1726477AbgD1LGh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 07:06:37 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:52798 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726345AbgD1LGh (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 28 Apr 2020 07:06:37 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 17C49FA5ABDC1D5E94A3;
+        Tue, 28 Apr 2020 19:06:33 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 28 Apr 2020 19:06:26 +0800
+From:   Wei Yongjun <weiyongjun1@huawei.com>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+CC:     Wei Yongjun <weiyongjun1@huawei.com>,
+        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>
+Subject: [PATCH -next] ASoC: tegra: tegra_wm8903: Use devm_snd_soc_register_card()
+Date:   Tue, 28 Apr 2020 11:07:42 +0000
+Message-ID: <20200428110742.110335-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5dNcufZ4prhark0F"
-Content-Disposition: inline
-In-Reply-To: <1587022460-31988-2-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Using devm_snd_soc_register_card() can make the code
+shorter and cleaner.
 
---5dNcufZ4prhark0F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ sound/soc/tegra/tegra_wm8903.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-On Thu, Apr 16, 2020 at 01:04:17PM +0530, Nagarjuna Kristam wrote:
-> Extend the Tegra XUSB controller device tree binding with Tegra194
-> support.
->=20
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> ---
->  Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+diff --git a/sound/soc/tegra/tegra_wm8903.c b/sound/soc/tegra/tegra_wm8903.c
+index 7bf159965c4d..d3ead0213cef 100644
+--- a/sound/soc/tegra/tegra_wm8903.c
++++ b/sound/soc/tegra/tegra_wm8903.c
+@@ -351,9 +351,9 @@ static int tegra_wm8903_driver_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = snd_soc_register_card(card);
++	ret = devm_snd_soc_register_card(&pdev->dev, card);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n",
++		dev_err(&pdev->dev, "devm_snd_soc_register_card failed (%d)\n",
+ 			ret);
+ 		return ret;
+ 	}
+@@ -361,15 +361,6 @@ static int tegra_wm8903_driver_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int tegra_wm8903_driver_remove(struct platform_device *pdev)
+-{
+-	struct snd_soc_card *card = platform_get_drvdata(pdev);
+-
+-	snd_soc_unregister_card(card);
+-
+-	return 0;
+-}
+-
+ static const struct of_device_id tegra_wm8903_of_match[] = {
+ 	{ .compatible = "nvidia,tegra-audio-wm8903", },
+ 	{},
+@@ -382,7 +373,6 @@ static struct platform_driver tegra_wm8903_driver = {
+ 		.of_match_table = tegra_wm8903_of_match,
+ 	},
+ 	.probe = tegra_wm8903_driver_probe,
+-	.remove = tegra_wm8903_driver_remove,
+ };
+ module_platform_driver(tegra_wm8903_driver);
 
-Acked-by: Thierry Reding <treding@nvidia.com>
 
---5dNcufZ4prhark0F
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6oDFkACgkQ3SOs138+
-s6Emhw//X5T2bBokenhft92gCDW93wpq/OSYsj6EENSnKva4cUvKJwme/xbzPGx+
-mfIOhlR/BmmOXgkCPQ7sbSkpEAxUv2hmAvh3ASZsxQL7jsqfeP1GuR2khkq1uvfb
-JiNY9XHdKFcdxsRqBCTlt2kllTqIANkLbKCUfSO7Ru1JFwAXlD5HFziIyVZh4QvD
-cARWy+t3wkDf04goNM2OsMYihAyNd8p4TMylyDx169PlBDcn4GGKlgOoxvaCQMnz
-c1Y7OmOpF4j6C2Fswbs4bJr4M1UNN+Vgvl8dG0pBYk1iLdYa1wn/kupAheR2yIBo
-0C/1t7Kj8ledBkjvBx5sd7BWcoo1RKXseCP/dElWY/JtPeyWyllQBi+o62Up76h+
-1aimXHp0L5NkmAXoQaGRrcSR9qEchdAy2JOW78569wSNuWoqN5RlXUdD93dz1PB6
-NOpKOUAyUGckAIKzc9cgGPFKIRMFqLDE6vSktJFEkrT8qOjui/9J5+OOjEPWP9Uw
-Ckyk7wzXNjDIOnoePxdl/O5aD0zENQSHkZQSXmM7hQxPbDNnO4G4hqMvtJQR9Yr3
-n4Zt0UvTKT+9ZeVUD5kPTUX8EfARr81ZyzUtOq0TvLxkSevnsm86zJhNWhZTF5XK
-1nxENTF6xhGB7OjEED5W7UsWNdRe+9htq6gDDCMAv+SNpRfrbLQ=
-=iXcs
------END PGP SIGNATURE-----
-
---5dNcufZ4prhark0F--
