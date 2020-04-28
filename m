@@ -2,83 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 780E11BC08D
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 16:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D561BC117
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Apr 2020 16:23:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727794AbgD1OFl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Apr 2020 10:05:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727110AbgD1OFl (ORCPT
+        id S1727898AbgD1OXL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Apr 2020 10:23:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727883AbgD1OXL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Apr 2020 10:05:41 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF07CC03C1A9;
-        Tue, 28 Apr 2020 07:05:40 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id m2so16978691lfo.6;
-        Tue, 28 Apr 2020 07:05:40 -0700 (PDT)
+        Tue, 28 Apr 2020 10:23:11 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B432CC03C1AB
+        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2020 07:23:10 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id j14so17048444lfg.9
+        for <linux-tegra@vger.kernel.org>; Tue, 28 Apr 2020 07:23:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r3hzm7yTEE9xqQrbBm8OOfDWzkr0IEj+zeX1Eo846UY=;
-        b=p4OEQHwXTSirIiP6YEPENS2RQpq4t+1vw3fDD9fE9E8qcWtTcCZjEiliG02mYh8L94
-         Ywbew18Wx/pTNrgJ+iHkP5dxm6P9hnXERGOxdOLboqd3bVsAeMPPfDmhx/9sHfnt+4FR
-         TEESang+PBYT9XsK31s2qaADmj/AtHch+sKPWBZm3AnGtBIgwYadBoNSVOsqG4GpuNWm
-         Td/NDuBgeXQR3rdklugeFSOOfDo1Sa/LSfOniv818VlOnD8TxHpSK0/bETwCF0a+liRJ
-         C0QxMCjnQIp6K07U1Qxed5S1lL+fJTnCz2dFKVL4R2Hx9NpJ8t83Ddf5qX9NH5EGIiwY
-         1f+g==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e82wrxH8EFgI5d69qDWjt/I8rjbTFp6+0zndATZdTvM=;
+        b=ePMdkQkoTfFK+4coY0fnsrGdh2XVrFCg3MRcjHaXYFtBJde4EmsOwmiQMDNbc83Utk
+         DtnqX52tdKAnDuLcE8xgCN+ZRkOCsYR5PnNjoAVtRzcSpZkJ/QWirgU2nwENiN9LaHKT
+         cky0aj2mwB7g4DVs7vNhD0llKkIuffrZr5xR0M4q5QG3S8P08axzpUXGb2WvYLhOmv0q
+         jIZfAXplKOZz56/jesOBK9wEasMhkjBODXTJg2W78lZ/vfjRDVqwLn7f6gUGQJ1ewJJw
+         O1OuJowxs+H1svNIFAZA6oj3+zI+4blvZSRno9AUKLLAcKf1qgPKpm3sb6DjpbAeU1os
+         8A0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r3hzm7yTEE9xqQrbBm8OOfDWzkr0IEj+zeX1Eo846UY=;
-        b=rvQewAiAQQg29GHhXgGxX7iWhEyKPL5vK95a8av+TfPIbkGP9VI91V4qWVVKI8ZxWt
-         1q9TGd8Yyv9LcghToZDTL3e6gVSJfFvuc8wb4lNUq90mueYinWI+y/N/9zYTCP6I1GuZ
-         wYh/VlWuv3XzpvTv594Dfgnq4rRas4hF7lFRRvxCZkGe7v4l/cauj9ukKKgZVOgWy+Ty
-         /gRXm4Vi0+yVBqhT/zmznLoR3sMCjYIDXbzxQW50tsOgxlyPbRJpnpTJkcSMqVUCT+tt
-         TJxArA4AtcZ9P8EXGy8HhgTCn5nKx3itWiRl1gTknNEXgVHP0vyNAT0XiWZVUNFuauNw
-         LVZQ==
-X-Gm-Message-State: AGi0PuadPeqQ6Lq4QfUjXg/Q8Y67Qt/XdcCmJhJ+EcloQIxIb6Nyg1zt
-        e9WxWSUh9GIi1PtP1jqB95ZhsEFE
-X-Google-Smtp-Source: APiQypKxN3pfvXCQL3vLYQ1O+Zw8BJKyVvfYPi9WBRQ+0uc2Ezri5OcRPNp9EyLJ5HnBfm7cUFyp2A==
-X-Received: by 2002:ac2:53a6:: with SMTP id j6mr19174715lfh.153.1588082736038;
-        Tue, 28 Apr 2020 07:05:36 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id v7sm14124531lfq.55.2020.04.28.07.05.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2020 07:05:35 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 3/5] media: tegra-video: Move PM runtime handle to
- streaming
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
- <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4d069601-5507-dc8f-0cbc-acd8fd7324b3@gmail.com>
-Date:   Tue, 28 Apr 2020 17:05:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e82wrxH8EFgI5d69qDWjt/I8rjbTFp6+0zndATZdTvM=;
+        b=oSNJAff2UZRhD9XvqAPYANZSwkY3+Qt4+Vp6zb29OEuz+j1TwabrKPrYImrUN9iR8v
+         epzgFzediTzaJ3OPS+YOCZGIfTE60w5OxakxAzZ+gRzq0bygAA6r+SSbQhPuvzFkd+6L
+         u9kSQpeBSWQ0W31fukBdM4CHwmGraLMRtg/GQyzKzwEPi4TTsab+6dPguJxGqsnA4/KH
+         YXnLNGbmpJf61+v4A92Sz+OXK/zYu61QX3INTNI8aY6c+fXGGnqtWZCBaH4knWpkRqVZ
+         1/Ng1ydEQfwQoVwL7ho2aPmUUpnz1t2ZqGvo2rKjSJZjh6EoRcJWchd787DmUPmKZHzH
+         jv2g==
+X-Gm-Message-State: AGi0Pua9sHfTV37KOOU7Bb2p95aDehnU87Ans3AuT/4Ae3qQhCgc/8ot
+        8DObORn/VZG2GZfF2Eu+88PTmfWLNyDvE9FTjwWyMw==
+X-Google-Smtp-Source: APiQypJC8bIv/Sn8VoOVg1N3jSzATmQtowcWVRLdelQP+LWb50FFE1SxRsk72d7horaMs4takiRtaRBj8vEXZBFodqI=
+X-Received: by 2002:a19:cb41:: with SMTP id b62mr19578339lfg.21.1588083789059;
+ Tue, 28 Apr 2020 07:23:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200427232605.11608-1-swarren@wwwdotorg.org>
+In-Reply-To: <20200427232605.11608-1-swarren@wwwdotorg.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 28 Apr 2020 16:22:56 +0200
+Message-ID: <CACRpkdY6nU4DW-cadbo8+LTsCbL08nrZM4e9DXz2Nxp0PHj=qQ@mail.gmail.com>
+Subject: Re: [PATCH] gpio: tegra: mask GPIO IRQs during IRQ shutdown
+To:     Stephen Warren <swarren@wwwdotorg.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org, Stephen Warren <swarren@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-28.04.2020 07:20, Sowjanya Komatineni пишет:
-> +	ret = csi->ops->csi_streaming(csi_chan, chan->pg_mode, enable);
->  
-> -	return csi->ops->csi_streaming(csi_chan, chan->pg_mode, enable);
-> +	if ((ret < 0 || !enable) && atomic_dec_and_test(&csi->clk_refcnt))
-> +		pm_runtime_put_sync(csi->dev);
+On Tue, Apr 28, 2020 at 1:26 AM Stephen Warren <swarren@wwwdotorg.org> wrote:
 
-There shouldn't be a need to sync the RPM here, hence just
-pm_runtime_put(csi->dev). Same for the VI.
+> From: Stephen Warren <swarren@nvidia.com>
+>
+> The driver currently leaves GPIO IRQs unmasked even when the GPIO IRQ
+> client has released the GPIO IRQ. This allows the HW to raise IRQs, and
+> SW to process them, after shutdown. Fix this by masking the IRQ when it's
+> shut down. This is usually taken care of by the irqchip core, but since
+> this driver has a custom irq_shutdown implementation, it must do this
+> explicitly itself.
+>
+> Signed-off-by: Stephen Warren <swarren@nvidia.com>
+
+Patch applied for fixes.
+
+Yours,
+Linus Walleij
