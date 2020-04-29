@@ -2,102 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B357F1BD952
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2020 12:17:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 898C81BDC66
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Apr 2020 14:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbgD2KRl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Apr 2020 06:17:41 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15647 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726457AbgD2KRl (ORCPT
+        id S1726826AbgD2Mfa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Apr 2020 08:35:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43356 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726426AbgD2Mfa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Apr 2020 06:17:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ea954020000>; Wed, 29 Apr 2020 03:16:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 29 Apr 2020 03:17:41 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 29 Apr 2020 03:17:41 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Apr
- 2020 10:17:40 +0000
-Received: from [10.26.73.139] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Apr
- 2020 10:17:37 +0000
-Subject: Re: [PATCH 5.6 000/167] 5.6.8-rc1 review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200428182225.451225420@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <aa146242-b3f0-c7f8-9540-5f90e1473896@nvidia.com>
-Date:   Wed, 29 Apr 2020 11:17:35 +0100
+        Wed, 29 Apr 2020 08:35:30 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C63E1C03C1AD;
+        Wed, 29 Apr 2020 05:35:29 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id f11so2445742ljp.1;
+        Wed, 29 Apr 2020 05:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NUoe38klOCQtxasI+t9o8qMGW2IzeduoGzN0/atKrts=;
+        b=MRiAm3TFoo3RKDwRuwyjSpfg0hBAboJFu4Rg82H4SpneSimPkxNpnFDp4x0JH/adU3
+         ULl1pjCoQXNHiox1BNXexlIyVXL10N9pJKSBmqe1TnKZCce24DbwlAmyL63O5x+949Bl
+         m4EH3xn7pki+DkNj6lpzgURhqw1xD77/1wDLPOm/PiY3qHHd88hRM+fy4T1k8o6polkT
+         tX+zpbdFCxHrJ33BGkYSHqqgojH8XgOwwKrbZ1053jD1oVgNMwjDJyi/9kMuVoLAotMw
+         80BOgbaBS8y39odMfidpUpClcBcAIPS+XTgGI1MdidQcto0jv6GVyJRpTbc2HtQWv4xO
+         x1Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NUoe38klOCQtxasI+t9o8qMGW2IzeduoGzN0/atKrts=;
+        b=NOWcLswioiGn7BY9QmlLKNCqadibVyQjO61ttkd00WGsqnedWjBdaf/R8j0hfEN6AU
+         gRGET9qtF66GCMduZ5JYiwhM8x26oErg7QFnQ1MppHbCCSVUjtg4PodqPMzxhJF84otK
+         rlBficTje2pBP+jTX4BLCSk8jYP3+4ouIXpv5qP9kVkY93get0mBueBniurO5GGibvXD
+         qm5p+LXLdt5/U0QfSJWR5SrZ21Ga4d6woNwQuPteV9b6oVhhx6ec1Fti32sCtx1M+Jaj
+         Rb8RtYd+yAomSqVAhi8eUG4NllQL2jgJwPdib5R1MNs3C/am4V35vXZ36DX3r7E2txWs
+         ZlFA==
+X-Gm-Message-State: AGi0Pua8oVpHy0mfJ/WRLr74opjGzkPh/9fPpqxqBHTEwaKrCeDdgkMx
+        4KFkvz8ijEGgmDzjcHm1kbg8MEmN
+X-Google-Smtp-Source: APiQypI6czpfoNYYXqi1LKDgN8gs6cesq80NGh3Mlp6b3MgVjn1J8FfLxftkDbxG90dgaZk8ibUFYw==
+X-Received: by 2002:a2e:700b:: with SMTP id l11mr17063691ljc.255.1588163727943;
+        Wed, 29 Apr 2020 05:35:27 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id k18sm3007442lfg.81.2020.04.29.05.35.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2020 05:35:27 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
+ for a long time
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <fd1ca178-1ea3-851f-20a6-10bf00453ce3@nvidia.com>
+ <a5734f19-254e-b6bc-e791-fa1ac63f11a4@gmail.com>
+ <79f6560e-dbb5-0ae1-49f8-cf1cd95396ec@nvidia.com>
+ <20200427074837.GC3451400@ulmo>
+ <c1190858-eaea-8e94-b4d1-1cf28076c330@gmail.com>
+ <20200427110033.GC3464906@ulmo>
+ <3a06811c-02dc-ce72-ebef-78c3fc3f4f7c@gmail.com>
+ <20200427151234.GE3464906@ulmo>
+ <1ab276cf-c2b0-e085-49d8-b8ce3dba8fbe@gmail.com>
+ <20200429081448.GA2345465@ulmo> <20200429085502.GB2345465@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9e36c4ec-ca02-bd15-d765-15635f09db4b@gmail.com>
+Date:   Wed, 29 Apr 2020 15:35:26 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200428182225.451225420@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200429085502.GB2345465@ulmo>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588155395; bh=tbtkqZOiAm2kam04d0NkJSsJTXL6c6qAUDGGyb5YaKk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=EIZygsMvq8uKtjb0rkedyG6Sl5FUZXGNQ767s0Djc36r8phn407bRcZjYJeE62Sn1
-         LZLcErwJmNsFmwIDzc+MDn7Af4HnFzLJiKG5VIS66WbiNRWgMM3jEmVNo+mfHXe0Pn
-         JIrB4/3XR5CmBleTZY4THZ0g5a6wy4Wa66BWdyLmofl83MSbd41pxIUKJGizhh4Yia
-         NmXD4dAJ/8pa1c+jS7zIYai7G6CMOClGqbJ86s3kS1BUWjvyuVQ3ICeHDmpWuQAt82
-         520ML0HXrZvTRYbRmNLQgRsl0GCc5QxGdxO1jNZJByNtUIrsbB9GxfPH8wzqEOELnX
-         5a2+ajPdftfHw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 28/04/2020 19:22, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.6.8 release.
-> There are 167 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+29.04.2020 11:55, Thierry Reding пишет:
+...
+>>> It's not "papering over an issue". The bug can't be fixed properly
+>>> without introducing I2C atomic transfers support for a late suspend
+>>> phase, I don't see any other solutions for now. Stable kernels do not
+>>> support atomic transfers at all, that proper solution won't be backportable.
+>>
+>> Hm... on a hunch I tried something and, lo and behold, it worked. I can
+>> get Cardhu to properly suspend/resume on top of v5.7-rc3 with the
+>> following sequence:
+>>
+>> 	revert 9f42de8d4ec2 i2c: tegra: Fix suspending in active runtime PM state
+>> 	apply http://patchwork.ozlabs.org/project/linux-tegra/patch/20191213134417.222720-1-thierry.reding@gmail.com/
+>>
+>> I also ran that through our test farm and I don't see any other issues.
+>> At the time I was already skeptical about pm_runtime_force_suspend() and
+>> pm_runtime_force_resume() and while I'm not fully certain why exactly it
+>> doesn't work, the above on top of v5.7-rc3 seems like a good option.
+>>
+>> I'll try to do some digging if I can find out why exactly force suspend
+>> and resume doesn't work.
 > 
-> Responses should be made by Thu, 30 Apr 2020 18:20:42 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.8-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+> Ah... so it looks like pm_runtime_force_resume() never actually does
+> anything in this case and then disable_depth remains at 1 and the first
+> tegra_i2c_xfer() will then fail to runtime resume the controller.
 
-All tests are passing for Tegra ...
+That's the exactly expected behaviour of the RPM force suspend/resume.
+The only unexpected part for me is that the tegra_i2c_xfer() runtime
+resume then fails in the NOIRQ phase.
 
-Test results for stable-v5.6:
-    13 builds:	13 pass, 0 fail
-    24 boots:	24 pass, 0 fail
-    40 tests:	40 pass, 0 fail
-
-Linux version:	5.6.8-rc1-g853ae83af7cc
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
-
-Cheers
-Jon
-
--- 
-nvpublic
+Anyways, again, today it's wrong to use I2C in the NOIRQ phase becasue
+I2C interrupt is disabled. It's the PCIe driver that should be fixed.
