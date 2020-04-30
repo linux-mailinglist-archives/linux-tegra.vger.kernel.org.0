@@ -2,206 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7DF51BF852
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 14:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 686951BF96C
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 15:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgD3Mlb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Apr 2020 08:41:31 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13036 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726774AbgD3Mlb (ORCPT
+        id S1727103AbgD3NYY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Apr 2020 09:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50542 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727085AbgD3NYY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Apr 2020 08:41:31 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eaac76e0000>; Thu, 30 Apr 2020 05:41:18 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 30 Apr 2020 05:41:30 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 30 Apr 2020 05:41:30 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
- 2020 12:41:30 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 30 Apr 2020 12:41:30 +0000
-Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5eaac7740003>; Thu, 30 Apr 2020 05:41:29 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
-        <kuninori.morimoto.gx@renesas.com>
-CC:     <lgirdwood@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <digetx@gmail.com>,
-        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
-        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
-        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
-        <atalambedu@nvidia.com>, <nwartikar@nvidia.com>,
-        <swarren@nvidia.com>, <nicoleotsuka@gmail.com>
-Subject: [RFC] DPCM for Tegra
-Date:   Thu, 30 Apr 2020 18:11:23 +0530
-Message-ID: <1588250483-10014-1-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 30 Apr 2020 09:24:24 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64271C035494;
+        Thu, 30 Apr 2020 06:24:23 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id h4so6432840ljg.12;
+        Thu, 30 Apr 2020 06:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qde8t3vRUc/hQ/MC7JEYphNWgl9OWJai6PKBunRXPXA=;
+        b=lMKcXJnvcttkwHN0EbPnQfc1IC1TeYfDz2/nKRisC3XiSrB6PRb6AMLIkRVM3+cbXv
+         iSFdihYCojZZbCI4glgaa3Lz74NEbsN/kPs0wpfm/7+amrmd9LCoShpr0Id6Kx9ieenf
+         mIuqI/Zqr06HVNstAfDNtLuoPQ0TkhhpbiSQwy7X8XiTYsU5XWgZeHOzRH7pU20SKimY
+         0LtRVMhyDxnuDRD4qQ6H5emdnmTEuNwSTu8+HDURfpB4WZcz0ajyGLhdY9v6oS/GzE1y
+         BHDTbisHQnjiUv9Yu5jUZf5t4lke+TxWj7+CKHzhXHeSxITy+6mhIzInLIFAvEdHIDoQ
+         CIBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qde8t3vRUc/hQ/MC7JEYphNWgl9OWJai6PKBunRXPXA=;
+        b=YsILYFAR32LJqnoMTOfitLmbeOJMuz6xK0+LxnbQfh+yKiIDTtrP0Q++H82evq5TF5
+         ocBZneha8HIrND0dQi07mWsLK3DKBOgxEJQ+g9IS63F9GW19eQd92+nWEJmGgHRA8c2u
+         R9olJkzyu3sZ/WPJw5Wf+0uIw6qtVbBH9E9BNlIVH+hVdBieRh0L7qs/maiyYGQbS6Ci
+         /eLQd9uocNCFf9XtDIx3wzezNaV2VogKwNcO+x8g2QD3RPFrieNRQ2kFVy1z6/azcZ/0
+         PAPZ4KWtJyVS181KyWUSYY404P7ir/F3Xmknr7C3qlWPmZr617kOQCSj9DWDRJYB/ldE
+         QmCA==
+X-Gm-Message-State: AGi0PuZBa3fSQkKA6s+yF0a1xiZp+dEDGaYEJUKNzL8eyNinFfXw0Aw4
+        qNmzSK/DZnj4O0z6tSv45YCvBReR
+X-Google-Smtp-Source: APiQypKVnFF7PMVGH7zBRJZEH4i3Y3qqneV0Yoo3oMoTYqDvFv2MSojkc9RD0I7qj0CVmALYXElfpQ==
+X-Received: by 2002:a2e:99c2:: with SMTP id l2mr2248343ljj.92.1588253061664;
+        Thu, 30 Apr 2020 06:24:21 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id h6sm4566128ljj.29.2020.04.30.06.24.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 06:24:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 3/5] media: tegra-video: Move PM runtime handle to
+ streaming
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
+ <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
+ <631390cb-9aff-0e3f-6c39-81d6c565987e@gmail.com>
+ <3ef69413-a606-b475-f530-d5534760b73b@nvidia.com>
+ <2b334095-fadb-bf0a-f7a8-62fc798c2bd2@gmail.com>
+ <18a7b095-7f0f-7819-c786-7e011cfd14ed@nvidia.com>
+ <ce31e273-f424-f13e-5cd6-0db2589a2a10@gmail.com>
+ <5741d5d3-e474-e23c-4841-809df5760067@nvidia.com>
+ <f6e34203-3e4b-b804-30a5-bf78445ab366@gmail.com>
+Message-ID: <6a676161-e948-9afc-296b-ccd1df202e36@gmail.com>
+Date:   Thu, 30 Apr 2020 16:24:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588250478; bh=iOTBcDsLLgLJQNleti1NyLgN7hxMgJVLaYlGA0OF9uM=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=MyXancF3Zn1YW8lTjlAnrdqdJsnfZSi2IMP6aRcvGmuQldaw9Ll0QThJ9byqHBFzX
-         2oKXdykB2Vmd6lQ4PXYhReD3K4VqdTs/lDVnZOrNuP7sbHc9KCXXf8WT3GudVwAoot
-         IHtQvJtDaGel/USTbevevWmyBh6i/pPFMU02akxvC8o7nLsEqkLTIQ69mwi1Ro3vhC
-         HdD69WSlG5WNr9DCOLV4pzqNpkrQ0jSoUwEqwPOE/gsBhVyBgGuxWZwqQBvLTFPgu9
-         5dmqlB71yP6A8nSqrDPgTwdBtN7NIjbsLfzLbHzys6PmWfcDRtScp4YyzoCxaq8sXq
-         TzPR4cCpSgGYQ==
+In-Reply-To: <f6e34203-3e4b-b804-30a5-bf78445ab366@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mark,
+28.04.2020 19:04, Dmitry Osipenko пишет:
+...
+>>>>>>>> +             ret = pm_runtime_get_sync(csi->dev);
+>>>>>>>> +             if (ret < 0) {
+>>>>>>>> +                     dev_err(csi->dev,
+>>>>>>>> +                             "failed to get runtime PM: %d\n",
+>>>>>>>> ret);
+>>>>>>>> +                     pm_runtime_put_noidle(csi->dev);
+>>> Why this pm_runtime_put_noidle() is needed? This should be wrong, please
+>>> remove it.
+>>
+>> pm_runtime_get_sync() increments power.usage_count prior to rpm_resume
+>>
+>> if rpm_resume fails it does not decrement usage_count.
+>>
+>> So to balance count on failure, calling pm_runtime_put_noidle()
+> 
+> Hmm.. maybe you're right. I'll need to take a more detailed look.
+> 
 
-Earlier I had sent Tegra ASoC series [0] for review and writing back
-to follow up on the same.
-
-
-Background
-==========
-There were following concerns on [0]:
-
- - Usage of mixer control overrides in each driver for PCM parameters.
-
- - Exposure of routing controls to the user.
-
-The comments are mostly captured in [1] and [2].
-
-There was a suggestion to use DPCM for the Tegra audio requirements.
-
-Note: As of now, below does not cover specific solution for propogation
-of audio configurations or PCM parameters (like sample rate, sample size
-and channels).
-
-DPCM Testing
-============
-Since then I was looking into internals of DPCM and was trying to get it
-working with Tegra. I was able to get following things working.
-
- - Audio playback/capture over I2S/DMIC/DSPK.
- - Audio resampling use case.
- - Mixing of two audio streams with resampler in the path.
-
-Objective was to understand and get audio working with DPCM. Please note
-that I used simple-card DPCM driver for a quick testing on top of the above
-Tegra Audio series. I had to tweak the simple-card driver a little, but
-currently keeping it out of the scope of current discussion.
-
-At a high level Tegra Audio HW is depicted as below.
-
-|     Front End PCMs     |  SoC DSP   |     Back End DAIs    |
-
-                         *************
-ADMAIF<0> <------------> *           * <----DAI<0>-----> I2S
-                         *           *
-ADMAIF<1> <------------> *           * <----DAI<1>-----> DMIC
-                         *    XBAR   *
-ADMAIF<2> <------------> *           * <----DAI<2>-----> DSPK
-                         *           *
-ADMAIF<N> <------------> *           * <----DAI<3>-----> SFC (Resampler)
-                         *           *
-                         *           * <----DAI<4>-----> MIXER
-                         *           *
-                         *           * <----DAI<N>-----> ...
-                         *************
-
-Note:
------
-
- * XBAR is just a cross bar interconnecting one component to another.
-   Specific switch needs to be programmed for audio data to flow from
-   one component to another.
-
- * SFC or Mixer are separate HW blocks and separate ASoC drivers are
-   written for these. These drivers were not sent earlier as part of
-   initial upstream series [0].
-
-
-Follow up queries
-=================
-Based on the above experience I do have few follow up queries and request
-for your inputs on this.
-
- a) Can I use a DAPM Mux control to activate a BE path? This in turn can
-    program required switch in XBAR.
-
-    This is needed for following reasons:
-
-    - For an open platform like Jetson, we want to give maximum flexibility
-      for a user to customize their audio paths. Number of connected
-      components and order of these can vary depending on a use case.
-
-    - Allow re-use of audio components across multiple use cases.
-      For example, number of SFC instances are lesser than PCM playback or
-      capture devices.
-
- b) I have modelled SFC and MIXER as backends. Is this allowed?
-
-    This was done to include SFC or MIXER HW components as part of the
-    sound card and use like below in one of the audio use cases.
- 
-    ADMAIF1(FE) --> SFC(BE1) --> I2S(BE2) ... OR
-    ADMAIF2(FE) --> SFC(BE1) --> I2S(BE2) ...
-
-    I used following workaround to connect multiple BE components.
-    With this I can see PCM callbacks happen for all BE DAIs along the DAPM
-    path. The obective was to connect multiple components together and (a)
-    was used to connect one component to another. Each "-->" here connects
-    two components and it is a switch in XBAR. 
-
-    ---
-      sound/soc/soc-pcm.c | 2 +-
-      1 file changed, 1 insertion(+), 1 deletion(-)
-
-      diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-      index e256d43..ee7af55 100644
-      --- a/sound/soc/soc-pcm.c
-      +++ b/sound/soc/soc-pcm.c
-      @@ -1494,7 +1494,7 @@ int dpcm_path_get(struct snd_soc_pcm_runtime *fe,
- 
- 	  /* get number of valid DAI paths and their widgets */
- 	  paths = snd_soc_dapm_dai_get_connected_widgets(cpu_dai, stream, list,
-      -			dpcm_end_walk_at_be);
-      +			NULL);
- 
- 	dev_dbg(fe->dev, "ASoC: found %d audio %s paths\n", paths,
- 			stream ? "capture" : "playback");
-    -- 
-
- c) Hostless mode did NOT work:
-     - Following audio path was intended to be tested:
-       I2S1 --> SFC --> I2S2
-
-     - [3] offers two options:
-         * CODEC<->CODEC: If I were to use a separate DAI link for each BE to BE
-           connection, then it will result in a similar design what we have
-           currently.
-
-         * Hostless: I did not come across references for this.
-           (Any references in this regard will be helpful)
-
-
-May be the current Tegra ASoC design is more suitable for component model as you
-had previously mentioned. I wanted to understand if above, especially (a) and (b),
-are acceptable in this regard or if there are better options to interconnect
-multiple ASoC components.
-
-Looking forward for your feedback.
-
-Thanks,
-Sameer.
-
-References
-==========
-[0] http://patchwork.ozlabs.org/project/linux-tegra/list/?series=159664&archive=both&state=*
-[1] http://patchwork.ozlabs.org/project/linux-tegra/patch/1582180492-25297-6-git-send-email-spujar@nvidia.com/
-[2] http://patchwork.ozlabs.org/project/linux-tegra/patch/1582180492-25297-4-git-send-email-spujar@nvidia.com/
-[3] https://www.kernel.org/doc/html/v5.6/sound/soc/dpcm.html
+I checked the RPM's use-count after error condition and yours variant is
+correct. Perhaps we should start correcting all other Tegra drivers that
+do not handle the RPM error properly.
