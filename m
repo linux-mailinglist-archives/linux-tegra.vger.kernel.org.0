@@ -2,112 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B79A51BFCA3
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA02A1BFD18
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728607AbgD3OHF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Apr 2020 10:07:05 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:41977 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728945AbgD3OHE (ORCPT
+        id S1728609AbgD3OKO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Apr 2020 10:10:14 -0400
+Received: from mail-oo1-f67.google.com ([209.85.161.67]:45620 "EHLO
+        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728141AbgD3OKN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Apr 2020 10:07:04 -0400
-Received: by mail-oi1-f193.google.com with SMTP id 19so5285305oiy.8;
-        Thu, 30 Apr 2020 07:07:03 -0700 (PDT)
+        Thu, 30 Apr 2020 10:10:13 -0400
+Received: by mail-oo1-f67.google.com with SMTP id 190so1297688ooa.12;
+        Thu, 30 Apr 2020 07:10:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ypl3TMqHlEyc54S03DtZTNB+eyp6v+vQ5hgOUzmHpUg=;
-        b=SFkYlMRXJa1HQ07Vm9xq+/fUHRF/zrLe5DI+io2D0hUv09irfHHaC3/1RovhELkLl/
-         7M/FtKN16USdyv/qXLMP3gFaobhgra6wepDNXH5YSwnn3Vayon2M0rX0KLs2GZ0vi754
-         Kk9+waZK4mBk35uSo5yYfQWGn0zxsBUsjptk3KoHbsjxzS5k1QBok9S8tk/FkvAvqGjo
-         o//Gv7RHgyqWLfaV+L71c17+USRbGnfwV7QJ1yHrspRHkEIrPQdqKWh+CJl4wTldTOFz
-         oUjn1xw/5p/yS6r0cn8frVkNqxU9/9B/QjORlDM5RcqElLdX5w0tqbAnc3GxdLKBoeB3
-         hPAg==
-X-Gm-Message-State: AGi0PubHnws3Z0Lxpeu4bHQk2Nj8omKENfKHBug8zRvWa3g9ffiy7Bxt
-        1Wh+jeMjG2BeVjWOFaqKUA==
-X-Google-Smtp-Source: APiQypIP8LI9E0STiYnne0hBy5N7yLlgo3kcsx6yXCtmZ7uE9MOuR1kv9WPAh62YT3wAZ4XcJhqUuQ==
-X-Received: by 2002:aca:1709:: with SMTP id j9mr1847601oii.59.1588255622600;
-        Thu, 30 Apr 2020 07:07:02 -0700 (PDT)
+        bh=6aiOkcIgJAWhCqfCs33Rhe1wkSnQyKwXVAe/pUh2Rrw=;
+        b=tEabOy9KM9d7LRpLuowDfHa3grtUQXFhRb2NhOXb1jC+n25OcJI/CPHVJ2hoGBL0AV
+         bQZW/AEkMCJJJCJmbkLjqJSybjjF39nfoDb+1zec5tQY2YDd/+HUyVb1PL/mb8Vy6g1j
+         k3EFVdk01IO5HzTctxpG1qfP8Pm7Dc2uipe9q82d6X9Y4QKiPcXp77XC5ODDIE4KEAXT
+         byEjM2RxzePIllwIxe4Bk5jUIcELo27BI1dF9gwuR8D7SY0pK/5nqvf/kLmEKBInWM82
+         0X5jY3D2PEsJODv7obzXkopLojx4QLHNArVJVGf2lGAz9wzugmwebeYGTKC7bFTBlPfk
+         ZhcQ==
+X-Gm-Message-State: AGi0PubzrAtthmqGA7SayY2TyG7N3vGebiIiJPT3tEW3YuyDOG3CVyfw
+        zo/nZN/nKzfzwvMzoL0ez6hLSPE=
+X-Google-Smtp-Source: APiQypIlZrdNDKXt4h5JYSoYrTTeKI8v+e+CVvcep7L1dYna5MbvAQ/q4ekiXc5lL7JJyjUKWiE5Xg==
+X-Received: by 2002:a4a:390b:: with SMTP id m11mr2952624ooa.2.1588255811640;
+        Thu, 30 Apr 2020 07:10:11 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id j42sm1327968ooi.5.2020.04.30.07.07.01
+        by smtp.gmail.com with ESMTPSA id m16sm1304134oou.44.2020.04.30.07.10.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 07:07:01 -0700 (PDT)
-Received: (nullmailer pid 31546 invoked by uid 1000);
-        Thu, 30 Apr 2020 14:07:01 -0000
-Date:   Thu, 30 Apr 2020 09:07:01 -0500
+        Thu, 30 Apr 2020 07:10:10 -0700 (PDT)
+Received: (nullmailer pid 4677 invoked by uid 1000);
+        Thu, 30 Apr 2020 14:10:10 -0000
+Date:   Thu, 30 Apr 2020 09:10:10 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Document the RTC present on
- MAX77620
-Message-ID: <20200430140701.GA21776@bogus>
-References: <20200417170825.2551367-1-thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/6] of_graph: add of_graph_get_local_port()
+Message-ID: <20200430141010.GA4602@bogus>
+References: <20200418170703.1583-1-digetx@gmail.com>
+ <20200418170703.1583-2-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200417170825.2551367-1-thierry.reding@gmail.com>
+In-Reply-To: <20200418170703.1583-2-digetx@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 07:08:23PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+On Sat, 18 Apr 2020 20:06:58 +0300, Dmitry Osipenko wrote:
+> In some case, like a DRM display code for example, it's useful to silently
+> check whether port node exists at all in a device-tree before proceeding
+> with parsing the graph.
 > 
-> The RTC present on MAX77620 can be used to generate an alarm at a given
-> time, which in turn can be used as a wakeup source for the system if it
-> is properly wired up.
+> This patch adds of_graph_get_local_port() which returns pointer to a local
+> port node, or NULL if graph isn't specified in a device-tree for a given
+> device node.
 > 
-> Document how to enable the RTC to act as a wakeup source.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  .../devicetree/bindings/mfd/max77620.txt          | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  drivers/of/property.c    | 32 +++++++++++++++++++++++---------
+>  include/linux/of_graph.h |  7 +++++++
+>  2 files changed, 30 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/max77620.txt b/Documentation/devicetree/bindings/mfd/max77620.txt
-> index 5a642a51d58e..f05005b0993e 100644
-> --- a/Documentation/devicetree/bindings/mfd/max77620.txt
-> +++ b/Documentation/devicetree/bindings/mfd/max77620.txt
-> @@ -125,6 +125,17 @@ MAX77663 supports 20, 40, 80, 160, 320, 640, 1280 and 2540 microseconds.
->  			control) then, GPIO1/nRST_IO goes LOW.
->  			this property is valid for max20024 only.
->  
-> +Realtime Clock
-> +--------------
-> +The MAX77620 family of power management ICs contain a realtime clock block
-> +that can be used to keep track of time even when the system is powered off.
-> +
-> +The realtime clock can also be programmed to trigger alerts, which can be
-> +used to wake the system up from sleep. In order to configure the RTC to act
-> +as a wakeup source, add an "rtc" child node and add the "wakeup-source"
-> +property.
-> +
-> +
->  For DT binding details of different sub modules like GPIO, pincontrol,
->  regulator, power, please refer respective device-tree binding document
->  under their respective sub-system directories.
-> @@ -159,4 +170,8 @@ max77620@3c {
->  			maxim,fps-event-source = <MAX77620_FPS_EVENT_SRC_SW>;
->  		};
->  	};
-> +
-> +	rtc {
-> +		wakeup-source;
 
-Is the RTC really the only thing that could wake the system in this 
-PMIC?
-
-I don't think it's really valid to have 'wakeup-source' without 
-'interrupts' unless the wakeup mechanism is somehow not an interrupt. So 
-I think this belongs in the parent node.
-
-Rob
+Reviewed-by: Rob Herring <robh@kernel.org>
