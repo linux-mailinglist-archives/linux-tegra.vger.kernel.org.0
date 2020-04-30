@@ -2,83 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A327E1BFE20
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6112F1C0168
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 18:06:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727087AbgD3O0O (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Apr 2020 10:26:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbgD3O0O (ORCPT
+        id S1728303AbgD3QGJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Apr 2020 12:06:09 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10786 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727813AbgD3QGJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Apr 2020 10:26:14 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF5AC035494;
-        Thu, 30 Apr 2020 07:26:12 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id w14so1393554lfk.3;
-        Thu, 30 Apr 2020 07:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=q+UFp6Ib7z3ZjpMo/76B36boHiAngfIxECFau2eYJlo=;
-        b=p54tUHYwXZlbsqlaNAUxYv63ugmI/LEoMUYEoTA1sY4gBfVO+tG0BTwd7x6YOHUTs2
-         nTzGwRX5TjpcYY1TZPUSa+cxkCTWxNUZdYevcrLkaN/Ekc6jvOZ+CUcCdnleR3q3p27T
-         whk1vdtV1qxzo1HavdEseqMfOi/i9nAFX2WAGLQJlGDnrlC+3TwU52pAnN3Z8D/MADor
-         nDjRL84nr76I5+x6fjqIyune7b6MsFqFx2h+F/4u7Hec+LyfKk53q67id0h8fsCxcLyW
-         tbXhiFuOD9bw+wkhtRyca9EMuMU3PuIAQ8uy339L+/tlCfYVjByjTVtoQUrR/Y8tFNz3
-         flVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=q+UFp6Ib7z3ZjpMo/76B36boHiAngfIxECFau2eYJlo=;
-        b=iJIxfVSd/M6ckpqtq2KYoC0UyY9bM7jPudkJsv94Z+BbzGWLhOiy6S33mrHb95jTbP
-         GsEilJRwulQTAc253so955Y16Upt9/eUTK9wSXv+KaNC4wfWclOywlbHgWzw9BBJEE8f
-         dODhnu62A8KjVe1Lr8HoGTAP923LtLhfEcB6yo2kwj7xrMsqIlyD3Io4xzd7cFiG/4JX
-         QmxIFzg/BQzFwYabgu9H11nOVcdwkt+X3X9u27riW5Eg7fzrVz8sDHUOt2hF9Lx7kMiM
-         eRJTNOfhmI7pgi3pKBHHO7gJg6ee51G19UerLGxLAmebqcSs901GvHp9+d6ROVO07hrE
-         popw==
-X-Gm-Message-State: AGi0PuYIrFoPjbw+ifno776pIbRCh3xAiEuLFJ73X4WiIY4Ak86eNS8P
-        IqRlyvzZliwvxJlF+trEa0Xuff3S
-X-Google-Smtp-Source: APiQypJV95MF9Q83bkw8gnjdPRcQLL8CpazAt4tHwIesvF0QFuGC0cuw4n5pHLGWNELeui7Ee7mb7g==
-X-Received: by 2002:ac2:4554:: with SMTP id j20mr2399366lfm.91.1588256770843;
-        Thu, 30 Apr 2020 07:26:10 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id a24sm4473769ljk.10.2020.04.30.07.26.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2020 07:26:10 -0700 (PDT)
+        Thu, 30 Apr 2020 12:06:09 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eaaf72c0002>; Thu, 30 Apr 2020 09:05:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 30 Apr 2020 09:06:07 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 30 Apr 2020 09:06:07 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 16:06:07 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 16:06:06 +0000
 Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
  <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8369a113-d85d-a50c-f9e7-fe5df8270aed@gmail.com>
-Date:   Thu, 30 Apr 2020 17:26:09 +0300
+ <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
+ <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
+ <c6d54885-6f23-f60c-a17b-3481fc4d6adf@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <b14b9dc5-7ac9-7735-d98d-eebc7e151cba@nvidia.com>
+Date:   Thu, 30 Apr 2020 09:04:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c6d54885-6f23-f60c-a17b-3481fc4d6adf@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588262700; bh=eWajUdI0iXeAXeqVD5ZpEmRaSpEhM1U8KfCosqzO194=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=kP9ln9IFyG1CyD2zYD6UBRJU+3nqtrfnnZ+cS/JlbzMx3B5faTPLBdCdqyTod9yo1
+         Z0Z2LBvNwQOpWFZIlo0fsv987r878bT2zeUtFfUToRuBf1Lh/HgCJgU7bLrKBMWn3Q
+         7EPPKclFWEMjk0R/r47l9T1m3+0SRS07OY7Pci/cE1nIgNUWDe6tk+Kayl8v2RJ0Rk
+         3nt0YCCT4XfBt1BFf++ZQhEXx6KRIn9v+noVua6ZqWw5Skg8oeWfj68av04Fza1i/d
+         F7E8EIRMAtO/MowkXFoanRyv6lWSbQx/oMz+9gxgwUq+u9RKO8pXG3cOzg4ztuNvIk
+         5iYSGa7WbeIhA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.04.2020 01:00, Sowjanya Komatineni пишет:
-> +		chan = kzalloc(sizeof(*chan), GFP_KERNEL);
-> +		if (!chan) {
-> +			ret = -ENOMEM;
-> +			return ret;
 
-return -ENOMEM;
+On 4/30/20 7:13 AM, Dmitry Osipenko wrote:
+> 30.04.2020 17:02, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> 30.04.2020 16:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> +static int chan_capture_kthread_finish(void *data)
+>>>> +{
+>>>> +	struct tegra_vi_channel *chan =3D data;
+>>>> +	struct tegra_channel_buffer *buf;
+>>>> +
+>>>> +	set_freezable();
+>>>> +
+>>>> +	while (1) {
+>>>> +		try_to_freeze();
+>>> I guess it won't be great to freeze in the middle of a capture process,=
+ so:
+>>> 		if (list_empty(&chan->done))
+>>> 			try_to_freeze();
+>> And here should be some locking protection in order not race with the
+>> chan_capture_kthread_start because kthread_finish could freeze before
+>> kthread_start.
+> Or maybe both start / finish threads should simply be allowed to freeze
+> only when both capture and done lists are empty.
+>
+> if (list_empty(&chan->capture) &&
+>      list_empty(&chan->done))
+> 	try_to_freeze();
 
-> +		}
+good to freeze when not in middle of the frame capture but why should we=20
+not allow freeze in between captures?
+
+Other drivers do allow freeze in between frame captures.
+
+I guess we can freeze before dequeue for capture and in finish thread we=20
+can freeze after capture done. This also don't need to check for=20
+list_empty with freeze to allow between frame captures.
+
+
