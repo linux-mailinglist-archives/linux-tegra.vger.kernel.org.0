@@ -2,105 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F18721BFDA0
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72CB81BFE16
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbgD3OPY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Apr 2020 10:15:24 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:59711 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726405AbgD3OPY (ORCPT
+        id S1728381AbgD3OZO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Apr 2020 10:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726853AbgD3OZO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Apr 2020 10:15:24 -0400
-Received: from localhost (lfbn-lyo-1-9-35.w86-202.abo.wanadoo.fr [86.202.105.35])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id D1D30240003;
-        Thu, 30 Apr 2020 14:15:20 +0000 (UTC)
-Date:   Thu, 30 Apr 2020 16:15:20 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Document the RTC present on
- MAX77620
-Message-ID: <20200430141520.GA101194@piout.net>
-References: <20200417170825.2551367-1-thierry.reding@gmail.com>
- <20200430140701.GA21776@bogus>
+        Thu, 30 Apr 2020 10:25:14 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0BDAC035494;
+        Thu, 30 Apr 2020 07:25:13 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id j14so1371441lfg.9;
+        Thu, 30 Apr 2020 07:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tCY9CYxU1gOzRgXfCj/hSl5kyF2mN2AlCiXAxXLnSuM=;
+        b=Yls6c42gjD6zTZpJzYY5ocdHYSZeyoSnujMd9pi8JSCHJ3DnixNK8u1NSrrQghA6w8
+         9tkHj0U6/xNjU7hJhx8h64wdiry/1JMSUI1rS4Mm7eqZh7AXgVBecNthGqNzwOb4DOaE
+         lIlIiTvDtAl+OPGwD17vAL7ZWINU10TUkLgRdmS3s1IACHN7iF6cKMPYGnz+EVz+fsAS
+         Y3NDUEKc5nmiGii7c4qhPvDTYfG+Bu2MVsm0Qw8qJnBq9C46ngDOfo/okVRzh1+OtHl+
+         x60FWuExZgACWju7/R55m1NGf8Ig87+ClD2hP8N6zTo29DsWU3piOGyPfZ6qSbIkpxRf
+         6QJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tCY9CYxU1gOzRgXfCj/hSl5kyF2mN2AlCiXAxXLnSuM=;
+        b=AmNOpei6ToD9ZUslZq0usvosFVEDuYZPrfMyzAfGmIxuxSnRnxIAiK15nKJEH7Pxqf
+         emgmSUX/dsSN8zSjimgBtkNP8mqTSYAhHKUrzU94xm0A6NpeK34N2U6vLer2tDxZ9GLF
+         tS5zLFGAbGq7o0gYtk6VGkciyRod/ajo2Za4STy6gEO3yu6ZW54GEs8kfT7LLJKD7d7M
+         ovQvNb6cNI+51gWjxwJbx5RFMFjFUT6BG5yVlSTvjGm9uSTpEegtzBrqerp7XK1W2dvS
+         5V9u3b72gvM1Uhu0V2Y0OSwNUnfNVDnuFjRgcgXfk/V3zCSiqO8CGBAgZVgdeXOBsaFU
+         l80w==
+X-Gm-Message-State: AGi0PuY7rL9dyRxLBqW0bZNJisuuC9E0XsSiXa+c0hU2BS6CwAHRnOdJ
+        sMSCxLvDGSHSuylzYWSUJZWuwZBP
+X-Google-Smtp-Source: APiQypIxKIrY61iyWN8E2p2v+gt5AUX6i+jScFYei172jZBeATJ8+md5KljdfAj8+Dhqh3p5r2H+ig==
+X-Received: by 2002:a05:6512:108a:: with SMTP id j10mr2368340lfg.38.1588256712061;
+        Thu, 30 Apr 2020 07:25:12 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id a28sm4893311lfr.4.2020.04.30.07.25.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 07:25:11 -0700 (PDT)
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <05271cd8-010d-6e09-2bb0-97519d3db3c6@gmail.com>
+Date:   Thu, 30 Apr 2020 17:25:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200430140701.GA21776@bogus>
+In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 30/04/2020 09:07:01-0500, Rob Herring wrote:
-> On Fri, Apr 17, 2020 at 07:08:23PM +0200, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> > 
-> > The RTC present on MAX77620 can be used to generate an alarm at a given
-> > time, which in turn can be used as a wakeup source for the system if it
-> > is properly wired up.
-> > 
-> > Document how to enable the RTC to act as a wakeup source.
-> > 
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  .../devicetree/bindings/mfd/max77620.txt          | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/max77620.txt b/Documentation/devicetree/bindings/mfd/max77620.txt
-> > index 5a642a51d58e..f05005b0993e 100644
-> > --- a/Documentation/devicetree/bindings/mfd/max77620.txt
-> > +++ b/Documentation/devicetree/bindings/mfd/max77620.txt
-> > @@ -125,6 +125,17 @@ MAX77663 supports 20, 40, 80, 160, 320, 640, 1280 and 2540 microseconds.
-> >  			control) then, GPIO1/nRST_IO goes LOW.
-> >  			this property is valid for max20024 only.
-> >  
-> > +Realtime Clock
-> > +--------------
-> > +The MAX77620 family of power management ICs contain a realtime clock block
-> > +that can be used to keep track of time even when the system is powered off.
-> > +
-> > +The realtime clock can also be programmed to trigger alerts, which can be
-> > +used to wake the system up from sleep. In order to configure the RTC to act
-> > +as a wakeup source, add an "rtc" child node and add the "wakeup-source"
-> > +property.
-> > +
-> > +
-> >  For DT binding details of different sub modules like GPIO, pincontrol,
-> >  regulator, power, please refer respective device-tree binding document
-> >  under their respective sub-system directories.
-> > @@ -159,4 +170,8 @@ max77620@3c {
-> >  			maxim,fps-event-source = <MAX77620_FPS_EVENT_SRC_SW>;
-> >  		};
-> >  	};
-> > +
-> > +	rtc {
-> > +		wakeup-source;
-> 
-> Is the RTC really the only thing that could wake the system in this 
-> PMIC?
-> 
-> I don't think it's really valid to have 'wakeup-source' without 
-> 'interrupts' unless the wakeup mechanism is somehow not an interrupt. So 
-> I think this belongs in the parent node.
-> 
+30.04.2020 01:00, Sowjanya Komatineni пишет:
+> +int tegra_v4l2_nodes_setup_tpg(struct tegra_video_device *vid)
+> +{
+> +	struct tegra_vi *vi = vid->vi;
+> +	struct tegra_csi *csi = vid->csi;
+> +	struct tegra_vi_channel *vi_chan;
+> +	struct tegra_csi_channel *csi_chan;
+> +	u32 link_flags = MEDIA_LNK_FL_ENABLED;
 
-I don't think this is true because in the case of a discrete RTC, its
-interrupt pin can be connected directly to a PMIC to power up a board
-instead of being connected to the SoC. In that case we don't have an
-interrupt property but the RTC is still a wakeup source. This is the
-usual use case for wakeup-source in the RTC subsystem. Else, if there is
-an interrupt, then we assume the RTC is a wakeup source and there is no
-need to have the wakeup-source property.
+> +	int ret = 0;
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+No need to unnecessarily initialize variables. Same for all other
+similar occurrences in the code.
