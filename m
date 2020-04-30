@@ -2,114 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43C4E1BFBE7
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B79A51BFCA3
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Apr 2020 16:07:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729260AbgD3OC2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Apr 2020 10:02:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56524 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729147AbgD3OCX (ORCPT
+        id S1728607AbgD3OHF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Apr 2020 10:07:05 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:41977 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728945AbgD3OHE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Apr 2020 10:02:23 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37561C035494;
-        Thu, 30 Apr 2020 07:02:23 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id a21so6594391ljb.9;
-        Thu, 30 Apr 2020 07:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=N+Ht0CmfDxJVUU6J4yFlhD6kd2eTTrdGjBG9WTx/UyQ=;
-        b=XPLsH1OV1IK/7IHKpVHzrXqje08ez4AfmDTnVvgYOvBOy0FfpRqK+D9XYPlaE05rNQ
-         tbWt8gHkoewEz1ZUIHtmfsi6katLHTeLsDVuZdrrb/9kmBnnr7Nqg4uaZMHik+Lfx6bT
-         CnqceWSKVJEUN9qF/EyddjcmjwKe2GCmxEKpOxxTndVb9qiTjOzT0MYSxJFK+kGc+B1U
-         ss1n7PFEVRDR/o9znXtZsEQYylgNtoHQJBLwCePduH/UfxVLEX40B8VRVdyP8pEunGTV
-         kZTPfxQ4HNrinx9RBPk88XHaX88dN3YSuwQOdCnup6aHtdw0gsWv+BchoKbWH6xQEaEw
-         K0mg==
+        Thu, 30 Apr 2020 10:07:04 -0400
+Received: by mail-oi1-f193.google.com with SMTP id 19so5285305oiy.8;
+        Thu, 30 Apr 2020 07:07:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=N+Ht0CmfDxJVUU6J4yFlhD6kd2eTTrdGjBG9WTx/UyQ=;
-        b=s57I4YQgB+D0UXAnhqsItvyDVqjJNqarQ00pQ/nIAnEcQUg+rjc9mJVF93UqcRDv+9
-         BJ87PNUr0/ZI4c83Ey5jbxBj2bGsIVMNyhgaE6y+hK+iP/Rgdl8mi45QH1ifOfqMHM/e
-         8LA05IGc6tnnWLMKTksdCBgCrV0lZbTIKk615KkLmHnZA3p7NzgD7wwNss5AGMNC9aBr
-         ipGI3mPTSzrUjqgqnTI1atvcwF4OX2zHt9RPyIr6cfvr8jlMneUdXp5rOWtll0WfnJ0R
-         7R1pXHW4ODbWl9Jj4gayufqn+n+ojVz7fBATu53t+ARa27L5engxI6uLxZZ02rC5CCoh
-         g9cQ==
-X-Gm-Message-State: AGi0PubsdP8A1WQGp7T6pGEU46IiNbmVW5kRWUoRoj/KegF+QT8CReSj
-        a6/i9R+F0bzyEbMoozGwfXC8yt19
-X-Google-Smtp-Source: APiQypInaM7ORzF/CVsxNxUc0J9Cyf/Q6St4WH9tVfb2A8VygbMaxJllBH4AhcGid0vObbUWazuWjQ==
-X-Received: by 2002:a2e:87d9:: with SMTP id v25mr2275164ljj.241.1588255341268;
-        Thu, 30 Apr 2020 07:02:21 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id v8sm4886684lfp.85.2020.04.30.07.02.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2020 07:02:20 -0700 (PDT)
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
- <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
-Message-ID: <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
-Date:   Thu, 30 Apr 2020 17:02:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ypl3TMqHlEyc54S03DtZTNB+eyp6v+vQ5hgOUzmHpUg=;
+        b=SFkYlMRXJa1HQ07Vm9xq+/fUHRF/zrLe5DI+io2D0hUv09irfHHaC3/1RovhELkLl/
+         7M/FtKN16USdyv/qXLMP3gFaobhgra6wepDNXH5YSwnn3Vayon2M0rX0KLs2GZ0vi754
+         Kk9+waZK4mBk35uSo5yYfQWGn0zxsBUsjptk3KoHbsjxzS5k1QBok9S8tk/FkvAvqGjo
+         o//Gv7RHgyqWLfaV+L71c17+USRbGnfwV7QJ1yHrspRHkEIrPQdqKWh+CJl4wTldTOFz
+         oUjn1xw/5p/yS6r0cn8frVkNqxU9/9B/QjORlDM5RcqElLdX5w0tqbAnc3GxdLKBoeB3
+         hPAg==
+X-Gm-Message-State: AGi0PubHnws3Z0Lxpeu4bHQk2Nj8omKENfKHBug8zRvWa3g9ffiy7Bxt
+        1Wh+jeMjG2BeVjWOFaqKUA==
+X-Google-Smtp-Source: APiQypIP8LI9E0STiYnne0hBy5N7yLlgo3kcsx6yXCtmZ7uE9MOuR1kv9WPAh62YT3wAZ4XcJhqUuQ==
+X-Received: by 2002:aca:1709:: with SMTP id j9mr1847601oii.59.1588255622600;
+        Thu, 30 Apr 2020 07:07:02 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id j42sm1327968ooi.5.2020.04.30.07.07.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2020 07:07:01 -0700 (PDT)
+Received: (nullmailer pid 31546 invoked by uid 1000);
+        Thu, 30 Apr 2020 14:07:01 -0000
+Date:   Thu, 30 Apr 2020 09:07:01 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: Document the RTC present on
+ MAX77620
+Message-ID: <20200430140701.GA21776@bogus>
+References: <20200417170825.2551367-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200417170825.2551367-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.04.2020 16:56, Dmitry Osipenko пишет:
-> 30.04.2020 01:00, Sowjanya Komatineni пишет:
->> +static int chan_capture_kthread_finish(void *data)
->> +{
->> +	struct tegra_vi_channel *chan = data;
->> +	struct tegra_channel_buffer *buf;
->> +
->> +	set_freezable();
->> +
->> +	while (1) {
->> +		try_to_freeze();
+On Fri, Apr 17, 2020 at 07:08:23PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> I guess it won't be great to freeze in the middle of a capture process, so:
-> 		if (list_empty(&chan->done))
-> 			try_to_freeze();
-
-And here should be some locking protection in order not race with the
-chan_capture_kthread_start because kthread_finish could freeze before
-kthread_start.
-
->> +		wait_event_interruptible(chan->done_wait,
->> +					 !list_empty(&chan->done) ||
->> +					 kthread_should_stop());
->> +
->> +		/* dequeue buffers and finish capture */
->> +		buf = dequeue_buf_done(chan);
->> +		while (buf) {
->> +			tegra_channel_capture_done(chan, buf);
->> +			buf = dequeue_buf_done(chan);
->> +		}
->> +
->> +		if (kthread_should_stop())
->> +			break;
->> +	}
->> +
->> +	return 0;
->> +}
+> The RTC present on MAX77620 can be used to generate an alarm at a given
+> time, which in turn can be used as a wakeup source for the system if it
+> is properly wired up.
 > 
+> Document how to enable the RTC to act as a wakeup source.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../devicetree/bindings/mfd/max77620.txt          | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/max77620.txt b/Documentation/devicetree/bindings/mfd/max77620.txt
+> index 5a642a51d58e..f05005b0993e 100644
+> --- a/Documentation/devicetree/bindings/mfd/max77620.txt
+> +++ b/Documentation/devicetree/bindings/mfd/max77620.txt
+> @@ -125,6 +125,17 @@ MAX77663 supports 20, 40, 80, 160, 320, 640, 1280 and 2540 microseconds.
+>  			control) then, GPIO1/nRST_IO goes LOW.
+>  			this property is valid for max20024 only.
+>  
+> +Realtime Clock
+> +--------------
+> +The MAX77620 family of power management ICs contain a realtime clock block
+> +that can be used to keep track of time even when the system is powered off.
+> +
+> +The realtime clock can also be programmed to trigger alerts, which can be
+> +used to wake the system up from sleep. In order to configure the RTC to act
+> +as a wakeup source, add an "rtc" child node and add the "wakeup-source"
+> +property.
+> +
+> +
+>  For DT binding details of different sub modules like GPIO, pincontrol,
+>  regulator, power, please refer respective device-tree binding document
+>  under their respective sub-system directories.
+> @@ -159,4 +170,8 @@ max77620@3c {
+>  			maxim,fps-event-source = <MAX77620_FPS_EVENT_SRC_SW>;
+>  		};
+>  	};
+> +
+> +	rtc {
+> +		wakeup-source;
 
+Is the RTC really the only thing that could wake the system in this 
+PMIC?
+
+I don't think it's really valid to have 'wakeup-source' without 
+'interrupts' unless the wakeup mechanism is somehow not an interrupt. So 
+I think this belongs in the parent node.
+
+Rob
