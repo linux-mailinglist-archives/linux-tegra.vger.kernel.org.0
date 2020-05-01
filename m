@@ -2,70 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C82E91C16CE
-	for <lists+linux-tegra@lfdr.de>; Fri,  1 May 2020 16:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C2811C1926
+	for <lists+linux-tegra@lfdr.de>; Fri,  1 May 2020 17:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730883AbgEANxR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 1 May 2020 09:53:17 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:60231 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729727AbgEANxN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 May 2020 09:53:13 -0400
-X-Originating-IP: 86.202.105.35
-Received: from localhost (lfbn-lyo-1-9-35.w86-202.abo.wanadoo.fr [86.202.105.35])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 3553820003;
-        Fri,  1 May 2020 13:53:10 +0000 (UTC)
-Date:   Fri, 1 May 2020 15:53:09 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
-        <linux-rtc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Document the RTC present on
- MAX77620
-Message-ID: <20200501135309.GC51277@piout.net>
-References: <20200417170825.2551367-1-thierry.reding@gmail.com>
- <20200430140701.GA21776@bogus>
- <20200430141520.GA101194@piout.net>
- <CAL_Jsq+HzG8QT+kHUjqC8joDxfm1WM+N_F1ZwYXg7cL5faGxVA@mail.gmail.com>
+        id S1729203AbgEAPN1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 1 May 2020 11:13:27 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6044 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728896AbgEAPN0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 May 2020 11:13:26 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eac3c190000>; Fri, 01 May 2020 08:11:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 01 May 2020 08:13:26 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 01 May 2020 08:13:26 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 1 May
+ 2020 15:13:25 +0000
+Received: from [10.26.73.180] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 1 May 2020
+ 15:13:22 +0000
+Subject: Re: [PATCH 4.4 00/70] 4.4.221-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200501131513.302599262@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <5bd427c7-9a92-cae9-27c7-1998dbff2d83@nvidia.com>
+Date:   Fri, 1 May 2020 16:13:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+HzG8QT+kHUjqC8joDxfm1WM+N_F1ZwYXg7cL5faGxVA@mail.gmail.com>
+In-Reply-To: <20200501131513.302599262@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588345881; bh=D1qWdXKYvcHZVzuSDVINfTGagAk3jxTBROcztaJ1+js=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=K3AlNroQGrZKvTDRf1+FgXJePPNdNVOFIUXM3f9g0tJnD24wIgvyBUfRofFS6QzBH
+         CTnw4yqpj6VAetUD4+4OGygAL0ZjCtWfeSbrNt2nrmHDNMqq6AvQucou+ZD+7+AS/L
+         sL32cXbbO9OxmuRqgNxWK3apfLz+6P2O56OqrbHQC3rq69tr1K4HmBx/IxXjqgGGju
+         Kt2RMyyBl9YeermR0niB7QMxIBlozp+J9Kx6J9EHDlYve05Oghp/Ra3uDKmNxhuesz
+         nSM3wIBldNskej61X/8E+f5TAD5qdq7/l5aCJB+0PWteJY1XlBy3sfMy2ThsYDt3Bp
+         Wz/Zy/LY5LLfQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 01/05/2020 08:00:11-0500, Rob Herring wrote:
-> > I don't think this is true because in the case of a discrete RTC, its
-> > interrupt pin can be connected directly to a PMIC to power up a board
-> > instead of being connected to the SoC. In that case we don't have an
-> > interrupt property but the RTC is still a wakeup source. This is the
-> > usual use case for wakeup-source in the RTC subsystem. Else, if there is
-> > an interrupt, then we assume the RTC is a wakeup source and there is no
-> > need to have the wakeup-source property.
-> 
-> Yes, that would be an example of "unless the wakeup mechanism is
-> somehow not an interrupt". I guess I should add not an interrupt from
-> the perspective of the OS.
-> 
-> So if the wakeup is self contained within the PMIC, why do we need a
-> DT property? The capability is always there and enabling/disabling
-> wakeup from it is userspace policy.
-> 
 
-Yes, for this particular case, I'm not sure wakeup-source is actually
-necessary. If the interrupt line is used to wakeup the SoC, then the
-presence of the interrupts property is enough to enable wakeup.
+On 01/05/2020 14:20, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.221 release.
+> There are 70 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sun, 03 May 2020 13:12:02 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.221-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
+
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.221-rc1-gbe0a2ec77b53
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
 
 -- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+nvpublic
