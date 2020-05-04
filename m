@@ -2,103 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CCFE1C33D5
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 09:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19DCA1C3427
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 10:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727951AbgEDHoX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 4 May 2020 03:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727088AbgEDHoX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 4 May 2020 03:44:23 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE05C061A0E;
-        Mon,  4 May 2020 00:44:21 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id f11so8712066ljp.1;
-        Mon, 04 May 2020 00:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=e4Prdlmnh5uMplVy6wvzEHluFiUsOf4wHXUycuzMInI=;
-        b=rc7VQyjWHiU8q8qd53Z+gt23a2bhQs1Im6BnZyZBhVh5XJ6EL6dKzE0iatghW6oR0H
-         GL9eYKW6E7wbVT1gk9tepA8LjwnLXAcv+SyREN2WF6uyqARF0upWipHGR44MIPXI3tT/
-         mC01pyqegP/i+P24L1gtiPXRDUY9PRP2p68Nb79PKEkKH2FoU5Eymqqwr38LstdpGTea
-         KnOXiCfrxgYoURdxxy3lnKGl2x3v2lAnAtT/n/ON2L+UsmdX48dNiAmgiwDjljQHlFKL
-         gLnETiVHjve/Ud4pkfvKYZ3gQy+oiTX8KFtF6ipQcDDlKuboY0l3Ay0Iq55aUi2YKhT3
-         +KAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=e4Prdlmnh5uMplVy6wvzEHluFiUsOf4wHXUycuzMInI=;
-        b=U6eK5sh2SJWR3r3+sTXiTveVOcSruTCsGfzwqfPi4XwsDXL9298kDs49WG1Rcy3jOE
-         bZj43S0F2wVm558nfuqGjCuunPsjOyXAyW0inrgJlA78ns9udUBJ2ziyYAxw8XKYHFtC
-         f749s+B1IHs/1yJA7jQ1WZ24foE8t0SaUC/2AX/hqcnpxjS3l5JUU2Gbo53pJmjqPgyc
-         Qn6YwitwCe026eStLO5QjtA9VIoYDw4GVt3QX3q6TUu5SG2y56hfbSj1PC8FASF3KXV5
-         0G+gp9Zk6G18R40IqiDxLD1ICV3D3QDrheKI6efieWrzUHt5Tx3regX5quXid3DH1hoK
-         CBDg==
-X-Gm-Message-State: AGi0PubOfSz82sLpR9rJ0V+SNTM9NFxGBUGfXm9Jmxu5HtRNiOiUwWZb
-        fzMl1abpggZhkDTeRNhuzV9RY8K/
-X-Google-Smtp-Source: APiQypJ8wNAZdGO/6Y4ZZsGPSt3WVOBD64UxuHEzeznj10Lv1Ffj/SWws8iZ49zH7gwc43OFr4X0OQ==
-X-Received: by 2002:a2e:5813:: with SMTP id m19mr9144139ljb.230.1588578259413;
-        Mon, 04 May 2020 00:44:19 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id y21sm7535417ljg.66.2020.05.04.00.44.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2020 00:44:18 -0700 (PDT)
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f1cbb602-163e-a539-aaa5-c7e947a8945b@gmail.com>
-Date:   Mon, 4 May 2020 10:44:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1728118AbgEDIQh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 May 2020 04:16:37 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6427 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727878AbgEDIQh (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 May 2020 04:16:37 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eafcee50001>; Mon, 04 May 2020 01:14:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 04 May 2020 01:16:37 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 04 May 2020 01:16:37 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 08:16:36 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 4 May 2020 08:16:36 +0000
+Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5eafcf600002>; Mon, 04 May 2020 01:16:35 -0700
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <perex@perex.cz>, <tiwai@suse.com>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
+        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
+        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <atalambedu@nvidia.com>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH 0/3] Tegra194 HW Fixes
+Date:   Mon, 4 May 2020 13:46:13 +0530
+Message-ID: <1588580176-2801-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588580070; bh=zUEiA6/N+ok9bG2zchOM1YIm2uvHGbS/o7XvZezsxfM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=GgqI2nXcuC6ccVS6bieRn5Iw7/KjOyCod8MRs9TCbQcNxbiOTQV8sblj3cBiNIjGf
+         p6hU0CwveBHLEgKfzNUS1XKAPKV7ONCxWbbnUMzRX3ymljjqibisdZUJDcWbamKKXu
+         BJF9XpoTAOtIvI5BciTZAJUsyL5Nc68G+JqIMGy/uwxKuXc4+f6E250YoRFpaTzDA0
+         IpdXP6xBP+elHtR5gyh4BQ7EgKdrl9W9So2zPWh2XyZPPMobiFlKVHUj8w845iUlkx
+         bZj/YSV+HRfogPSl1+2Z8MX8rCtow1e6oj5QLvH2+YfYVwCXUO6X4Z4Wt9hjr71IgB
+         voxUOYky7/L+w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.04.2020 01:00, Sowjanya Komatineni пишет:
-> +/*
-> + * VI channel input data type enum.
-> + * These data type enum value gets programmed into corresponding Tegra VI
-> + * channel register bits.
-> + */
-> +enum tegra_image_dt {
-> +	TEGRA_IMAGE_DT_YUV420_8 = 24,
-> +	TEGRA_IMAGE_DT_YUV420_10,
-> +
-> +	TEGRA_IMAGE_DT_YUV420CSPS_8 = 28,
-> +	TEGRA_IMAGE_DT_YUV420CSPS_10,
-> +	TEGRA_IMAGE_DT_YUV422_8,
-> +	TEGRA_IMAGE_DT_YUV422_10,
-> +	TEGRA_IMAGE_DT_RGB444,
-> +	TEGRA_IMAGE_DT_RGB555,
-> +	TEGRA_IMAGE_DT_RGB565,
-> +	TEGRA_IMAGE_DT_RGB666,
-> +	TEGRA_IMAGE_DT_RGB888,
-> +
-> +	TEGRA_IMAGE_DT_RAW6 = 40,
-> +	TEGRA_IMAGE_DT_RAW7,
-> +	TEGRA_IMAGE_DT_RAW8,
-> +	TEGRA_IMAGE_DT_RAW10,
-> +	TEGRA_IMAGE_DT_RAW12,
-> +	TEGRA_IMAGE_DT_RAW14,
-> +};
+This series proposes SW workarounds for Tegra194 HDA HW bugs.
+Following are the two issues seen:
+ 1. GCAP register does not reflect true capability.
+    The actual number of SDO lines is "4", where as it reflects "2".
+ 2. With 4 SDO line configuration playback fails for,
+    44.1K/48K, 2-channel, 16-bps audio stream.
 
-Are these format IDs common to all Tegra SoCs or they unique to T210?
+After fixing [1], issue [2] is uncovered.
+As per recommendation by Tegra HW team the workarounds are pushed.
+
+Testing done
+============
+ * Verify GCAP register after registering HDA sound card
+ * Verify audio playback for 44.1K/48K, 2-channel, 16-bps.
+
+Sameer Pujar (3):
+  ALSA: hda/tegra: correct number of SDO lines for Tegra194
+  ALSA: hda: add member to store ratio for stripe control
+  ALSA: hda/tegra: workaround playback failure on Tegra194
+
+ include/sound/hdaudio.h     |  3 +++
+ sound/hda/hdac_controller.c | 11 ++++++++++
+ sound/hda/hdac_stream.c     |  2 +-
+ sound/pci/hda/hda_tegra.c   | 50 +++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 65 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
+
