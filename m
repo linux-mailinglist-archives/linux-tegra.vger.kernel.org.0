@@ -2,174 +2,257 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 398701C391E
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 14:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6EFB1C3A36
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 14:55:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728700AbgEDMSR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 4 May 2020 08:18:17 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36921 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726744AbgEDMSR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 4 May 2020 08:18:17 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Va2zj7GgatKAsVa32jNiyx; Mon, 04 May 2020 14:18:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588594693; bh=HVNXIkkNMZQlYuLbLWLUIzp75qNsPdBtM9JVbTK3Ih4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=wGwc8o0VwP2CuMsWR0P9h8hr75SYZR//XkpDxYxIoAEUs2UWI2rUYDSsYClO1rsbX
-         4YR4EInbdAiGRaoVPMGRBKDa6I+tivF1a6RxbGIwmp6kcpPMz+7qvLHt9Gfy/Nh+gU
-         V4dM19O2uhp663hUUjf8uYJHcGBCyR1knX7GBFYF/wRzOdR/MJ+PdoSTE8y7FAx776
-         C5EczPZqzdksKfLOe0i6KqiTHWWR/qn2eDM4d8ZRfE8KuA2s78wi6ZrVjz9RAmNjRb
-         3iBgT6vAW4IKnRrCaOoYvIKM8KF61T9gXTy1x6KhcL55DWgEkkK320HNOuZYVuBkTd
-         gSToIAztD0NiA==
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, frankc@nvidia.com, sakari.ailus@iki.fi,
-        helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <9aa64f21-7b23-7228-b5eb-d2ff092682ad@nvidia.com>
- <668cc4a0-2c81-0d87-b801-9fbf64e19137@nvidia.com>
- <bf3f654e-b8f8-d560-fc5e-03d73cb7eab0@nvidia.com>
- <525e481b-9137-6fdd-bbf9-3779a5704e6b@nvidia.com>
- <fe7ebad6-0368-b1f0-4f58-648baa5e3f79@nvidia.com>
- <4f095181-2338-3b71-316c-f8bbfc7865cc@nvidia.com>
- <50e872bb-913a-7b47-3264-af6b1cedb0e2@nvidia.com>
- <e17a8a49-be53-465d-f64c-3f4c77391d98@nvidia.com>
- <da5154b4-85f9-3e56-a440-f75debaec3a8@nvidia.com>
- <cbb047ae-97dc-8b9a-a5ba-8e2a5dab3771@nvidia.com>
- <6ae2d00d-7955-d12b-5b56-955ef72ece26@nvidia.com>
- <f9073b28-f1f1-636c-be53-764fb0a531a1@gmail.com>
- <1767e50f-efb7-5e89-22f6-0917821b660d@nvidia.com>
- <235a4cd4-4d4a-04b8-6c65-43a4dba48a0b@nvidia.com>
- <f8103170-7879-8597-3e3c-da9a3b6a40b3@nvidia.com>
- <5d847770-dad9-8f18-67b5-c1ba79084957@nvidia.com>
- <4abf30e0-fed9-ba39-ae38-350789bce99d@gmail.com>
- <b5f6a4e0-6e97-05ae-f034-b84fc5a1129a@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <eddb1de3-81c2-159b-b24b-2e30ba2ba948@xs4all.nl>
-Date:   Mon, 4 May 2020 14:18:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <b5f6a4e0-6e97-05ae-f034-b84fc5a1129a@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfC/9I5yCpR9QTbwYRfbWeo4XJNYMtYq035bhhkI8MQx/AST33orAwOy3B+7rSNzuLEKTn+BP8TP4v3lQpr5eY92DFADr1wm4twGH0oPCblkgZQCIz7xP
- 2d4+LmDJoxyFmt8FStQa3jP8RfSkxlrghM/gqpbF+FHpt2lxG/Rm98CgBlWYJDC0IRvus9jFc/x1YHHCsppBBBstssOqEoiPCafQEJ/umSLVTEkZNeyKYLhv
- PGLTjBoIe2Bgm/044DdeMVvYU0r16rHeOIvcNQxHOiVy7R+tKUkw8fzBpfashZJILiPbJ4887peC4Tr6j1+BpD4I3mEqNhICd523ar6SrRFapcXn/V6fP5UV
- V8GWhXe9OKNxo2RNgrl+ySbExrUPNFcnmdlEu7NBVXhFofkF1af1XPhcrKMem2s2plFUs1g8vzEuNJw0FQoAGRGEDgHqc1/6dIJAQXvMc6KdgZwIftPGK8xJ
- pxHL9+3JPaUIpguLVGpFvXZQdVqz+agLFNE6i6Ci7xx8fz79Hf97TbdP5t2dwsS+ywtd6otVlOAXhaJAviwKymEzo7uQYczO0Di5l8kG2x20Fq9jrlYPlkR5
- uk0=
+        id S1728965AbgEDMyY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 May 2020 08:54:24 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:59258 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728942AbgEDMyU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 May 2020 08:54:20 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200504125418euoutp02976bab42da9fb9b47f72c5eb4c235906~L1G0oKRKK1839718397euoutp02v
+        for <linux-tegra@vger.kernel.org>; Mon,  4 May 2020 12:54:18 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200504125418euoutp02976bab42da9fb9b47f72c5eb4c235906~L1G0oKRKK1839718397euoutp02v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1588596858;
+        bh=oXKAiZsd3uylE1bkjXQANkaBzCM+Y/1iAKwOReHGbvk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gptGuzFau/RJBmBktbg/UCm3+JKBqaq5GWF4LsutRzTneuMcDa8cqM2OyJiHDbxGh
+         4Ykjqh/T7AGN/Lm8Tu8me4viAA2EPYkiT35a4UCIMUYZPNHaIPaIzTVYt5j0PyJaQ4
+         ywskVGGPlIj7s0+PSMwYQvh5yKUl06IcUocXQPLg=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200504125418eucas1p17e73f107eede867dcb8807733386f81f~L1G0XsQls1174811748eucas1p1Z;
+        Mon,  4 May 2020 12:54:18 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id B8.12.60698.A7010BE5; Mon,  4
+        May 2020 13:54:18 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200504125418eucas1p2d649919f1969a85c8f7dfc8c73d58459~L1G0ACwsc2250922509eucas1p26;
+        Mon,  4 May 2020 12:54:18 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200504125418eusmtrp19882edb11d87b702b04b993e8472678e~L1Gz-TuXK2470624706eusmtrp1l;
+        Mon,  4 May 2020 12:54:18 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-54-5eb0107ac8e4
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 0A.06.07950.A7010BE5; Mon,  4
+        May 2020 13:54:18 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200504125417eusmtip275f66edcfb0b7cf1a6159b74762416f5~L1GzUHuQe0350103501eusmtip22;
+        Mon,  4 May 2020 12:54:17 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v2 12/21] drm: tegra: fix sg_table nents vs. orig_nents
+ misuse
+Date:   Mon,  4 May 2020 14:53:50 +0200
+Message-Id: <20200504125359.5678-12-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200504125359.5678-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSezBUYRjG59uze/bYsTqW8o0uZrahmMllpDlREmY6/aEx/aNM0eIMJrfZ
+        gzCjhExt6GJCWxktjVwXyxLJ3VYaGpeQSy5NN5cuFimpPQ7673mf9/d8z8w7H4aIGnimWHBY
+        JCUNk4SIUQFX3bHcvS8OL/exvdy6k0jresEhKrKVPOKv+hZC9C18RYnC4nYOkdvoRCTLFVxC
+        2zfBISqn3vCI3rr7KHFNK0eJ0rZRPtH87T2PWK7L4boYkCU5JYBsWMzlkk/ko3yyZnGcR767
+        ruGQqvxL5PDqFEJmDBYAsn4oASXTkuZQMr2qCJDzlbs89b0FhwKokOBoSmrjfE4Q1PDANWLa
+        KqZ2dpKTANrFMqCHQXw/nKlP5MuAABPhjwFU9fXy2EELoGJ8an2YB7DsXhJvI/I2VYWwiwIA
+        P42pwWbk+Y0yDkOhuB2UzcpQRhvjV3SLNH0GQvBUBDZlLukSGGaEe8JGlQcjubg5HM5zY3Ah
+        fhhWqn5z2DIzWFzehDCIns6/m7aHeQXiPXz4Z/Iln2Xc4Q9lP8pqI/hFU7Xu74CdGalcNpAE
+        4ERXKZ8dUgHsTcwGLOUER7p+oUwDgltCZZ0Nax+F6jv9azbEDeDgrCFjIzp5W52FsLYQXk0R
+        sbQFlGvKNmubX/cgrCZhxlL+2t1EeCuAs3kON4GZ/H9XLgBFwISKokMDKdo+jLpgTUtC6aiw
+        QGv/8NBKoPtUnauahVrwbMWvBeAYEOsLT80rfUQ8STQdG9oCIIaIjYW1yTpLGCCJjaOk4b7S
+        qBCKbgHbMa7YRGiv+HxWhAdKIqnzFBVBSTe2HEzPNAG4zhiszFvE//zgkLUiS4ffqw8+ass+
+        Y+m/V2vr1x2S5JWDGSorYl6JhzqsR3qz7MoVUB0+npIZlPzQy8i9SvOxesnBA3UZE2inNfGt
+        Pd7b5hq2Nvtotww8dR7aHX784lhEQG3eSbdj/bvlfb41dM8Jx9Mzmf3WNeZHHA8MFA5JZGIu
+        HSSxs0KktOQfYKycRVADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPIsWRmVeSWpSXmKPExsVy+t/xe7pVAhviDGY+4LToPXeSyWLjjPWs
+        Fv+3TWS2uPL1PZvFytVHmSwW7Le2aJm1iMXiy5WHTBabHl9jtbi8aw6bReeXWWwWa4/cZbc4
+        +OEJq8XPXfNYHPg81sxbw+ix99sCFo+ds+6ye2z/9oDV4373cSaPzUvqPW7/e8zsMfnGckaP
+        3Tcb2Dx6m9+xefRtWcXo8XmTXABPlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayV
+        kamSvp1NSmpOZllqkb5dgl7G3rlOBa+1Kna8fcTUwHhUqYuRk0NCwETiVs9m5i5GLg4hgaWM
+        Es937GOFSMhInJzWAGULS/y51sUGUfSJUeLG648sIAk2AUOJrrcQCRGBTkaJad0f2UEcZoEp
+        zBJT7zcwdjFycAgL+Ems/2IOYrIIqErcXuwM0ssrYCuxafNvJogF8hKrNxxgBinhBIrP7FUH
+        CQsJ5EvcffqPZQIj3wJGhlWMIqmlxbnpucVGesWJucWleel6yfm5mxiBkbPt2M8tOxi73gUf
+        YhTgYFTi4d3wdX2cEGtiWXFl7iFGCQ5mJRHeHS1AId6UxMqq1KL8+KLSnNTiQ4ymQCdNZJYS
+        Tc4HRnVeSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQbGPVGrF0m4
+        2/StOxsszlsqXcfrf6ow3/lR789LP3dtu1ZSvvH/L9WqHXkPZufNLLGpzhffq/xK5s3zA5vr
+        Xy6b29T9b/3ipAluD2x/K29j3SGj/WPen3+XS2bI3PnT7PbY1r2n0+16yft9MUlLAjvitipK
+        R3GfCIgxPxXAMJurddL9kknO+UcWKrEUZyQaajEXFScCAKM6r9iyAgAA
+X-CMS-MailID: 20200504125418eucas1p2d649919f1969a85c8f7dfc8c73d58459
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200504125418eucas1p2d649919f1969a85c8f7dfc8c73d58459
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200504125418eucas1p2d649919f1969a85c8f7dfc8c73d58459
+References: <20200504125017.5494-1-m.szyprowski@samsung.com>
+        <20200504125359.5678-1-m.szyprowski@samsung.com>
+        <CGME20200504125418eucas1p2d649919f1969a85c8f7dfc8c73d58459@eucas1p2.samsung.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 03/05/2020 00:46, Sowjanya Komatineni wrote:
-> 
-> On 5/2/20 1:48 PM, Dmitry Osipenko wrote:
->> 02.05.2020 19:55, Sowjanya Komatineni пишет:
->>> Also stop stream ioctl request happens during suspend where both threads
->>> will be stopped properly. done thread stop happens only after finishing
->>> all outstanding buffers.
->> Do you mean that V4L core takes care of stopping the streami on suspend
->> and re-starting it on resume from suspend?
->>
->>> Stop stream request happens from streaming applications so even without
->>> driver suspend/resume implementation currently, streaming will be
->>> stopped prior to system  suspend where both threads will be stopped
->>> properly (after finishing out standing buffers) and will be resumed by
->>> application on system resume
->> All userspace is frozen on suspend. System suspension is transparent for
->> userspace applications. I'm not sure what you're meaning here.
->>
->>> Also tested suspending while streaming with this unconditional freeze, I
->>> don't see any issue as application stops stream where v4l_streamoff gets
->>> executed during suspend and on resume streaming starts where
->>> v4l_streamon happens.
->>>
->>> So, I don't see any issue with existing implementation of unconditional
->>> freeze.
->> I don't understand why freezing is needed at all if V4L core takes care
->> of stopping the stream on suspend, what is the point? If there is no
->> real point, then let's make threads non-freezable and done with that.
-> 
-> video device fops unlocked_ioctl is set to video_ioctl2() in vi driver.
-> 
-> video device fops unlocked_ioctl gets executed with stream off cmd 
-> during suspend and stream on cmd during resume which eventually calls 
-> v4l_streamoff and v4l_streamon during system suspend/resume.
+The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
+numer of the created entries in the DMA address space. However the
+subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
+called with the original number of entries passed to dma_map_sg. The
+sg_table->nents in turn holds the result of the dma_map_sg call as stated
+in include/linux/scatterlist.h. Adapt the code to obey those rules.
 
-That's news to me. The 'only' thing that suspend/resume needs to do is to
-stop the HW DMA on suspend and to restart the HW DMA (and typically reconfigure
-the whole HW video pipeline) on resume. Userspace doesn't do anything special.
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+For more information, see '[PATCH v2 00/21] DRM: fix struct sg_table nents
+vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/4/373
+---
+ drivers/gpu/drm/tegra/gem.c   | 25 +++++++++++++------------
+ drivers/gpu/drm/tegra/plane.c | 13 +++++++------
+ 2 files changed, 20 insertions(+), 18 deletions(-)
 
-That's how e.g. a UVC webcam behaves when you close the lid of a laptop while
-it is streaming and open it again later.
-
-It can be hard to get this right, and I suspect many media drivers will fail
-this test.
-
-> 
-> My understanding to have freezable threads is during system suspend user 
-> space applications are frozen prior to kernel freeze and during suspend 
-> when opened video character device node gets closed these ioctl gets 
-> invoked and stream off during suspend and stream on during resume 
-> happens. So probably we still need to use freezable threads to sync with 
-> user space application when frozen before really entering suspend.
-> 
-> Will wait for Thierry/Hans comment to correct if my above understanding 
-> is wrong and help clarify if we need freezable threads at all in this 
-> case...
-> 
-> Note: I see other drivers using freezable threads for capture drivers.
-
-Well, it's often a copy-and-paste without truly understanding what is
-going on. You should not assume that the author knew what was happening.
-
-To be honest, I'm not an expert on this either.
-
-Looking at the tegra start/finish threads: they basically look at the
-chan->capture and chan->done lists. Freezing the threads should not be
-a problem as long as the actual suspend/resume doesn't mess with those
-lists. If it does, then it may get tricky to prove that it is safe to
-do suspend/resume (I think).
-
-An alternative is to stop and restart those threads when suspending or
-resuming. Then those threads do not need to be 'freezable' and it might
-be easier to validate the code.
-
-In any case, I do not want to postpone the merger of the upcoming v12 for
-this. Changes can be done in later patches, if needed.
-
-Regards,
-
-	Hans
-
-> 
-> 
-> Assuming we use freezable threads, I was saying we don't need 
-> conditional try_to_freeze() like you pointed because even if finish 
-> thread freeze happens prior to frame capture initiated by start thread, 
-> vi hardware will still continue to update this single ongoing buffer and 
-> will finish max within 200ms and actually there is no direct processing 
-> of this done by finish thread itself except that it returns buffers back 
-> when done and in this case it returns back when unfreeze/wake up happens.
-> 
-> So, I don't see any issue of unconditional try_to_freeze() even with 
-> freezable threads.
-> 
-> Thanks
-> 
-> Sowjanya
-> 
-> 
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index 6237681..5710ab4 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -98,8 +98,8 @@ static struct sg_table *tegra_bo_pin(struct device *dev, struct host1x_bo *bo,
+ 		 * the SG table needs to be copied to avoid overwriting any
+ 		 * other potential users of the original SG table.
+ 		 */
+-		err = sg_alloc_table_from_sg(sgt, obj->sgt->sgl, obj->sgt->nents,
+-					     GFP_KERNEL);
++		err = sg_alloc_table_from_sg(sgt, obj->sgt->sgl,
++					     obj->sgt->orig_nents, GFP_KERNEL);
+ 		if (err < 0)
+ 			goto free;
+ 	} else {
+@@ -197,7 +197,7 @@ static int tegra_bo_iommu_map(struct tegra_drm *tegra, struct tegra_bo *bo)
+ 	bo->iova = bo->mm->start;
+ 
+ 	bo->size = iommu_map_sg(tegra->domain, bo->iova, bo->sgt->sgl,
+-				bo->sgt->nents, prot);
++				bo->sgt->orig_nents, prot);
+ 	if (!bo->size) {
+ 		dev_err(tegra->drm->dev, "failed to map buffer\n");
+ 		err = -ENOMEM;
+@@ -264,7 +264,7 @@ static struct tegra_bo *tegra_bo_alloc_object(struct drm_device *drm,
+ static void tegra_bo_free(struct drm_device *drm, struct tegra_bo *bo)
+ {
+ 	if (bo->pages) {
+-		dma_unmap_sg(drm->dev, bo->sgt->sgl, bo->sgt->nents,
++		dma_unmap_sg(drm->dev, bo->sgt->sgl, bo->sgt->orig_nents,
+ 			     DMA_FROM_DEVICE);
+ 		drm_gem_put_pages(&bo->gem, bo->pages, true, true);
+ 		sg_free_table(bo->sgt);
+@@ -290,9 +290,9 @@ static int tegra_bo_get_pages(struct drm_device *drm, struct tegra_bo *bo)
+ 		goto put_pages;
+ 	}
+ 
+-	err = dma_map_sg(drm->dev, bo->sgt->sgl, bo->sgt->nents,
+-			 DMA_FROM_DEVICE);
+-	if (err == 0) {
++	bo->sgt->nents = dma_map_sg(drm->dev, bo->sgt->sgl, bo->sgt->orig_nents,
++				DMA_FROM_DEVICE);
++	if (bo->sgt->nents == 0) {
+ 		err = -EFAULT;
+ 		goto free_sgt;
+ 	}
+@@ -571,7 +571,8 @@ int tegra_drm_mmap(struct file *file, struct vm_area_struct *vma)
+ 			goto free;
+ 	}
+ 
+-	if (dma_map_sg(attach->dev, sgt->sgl, sgt->nents, dir) == 0)
++	sgt->nents = dma_map_sg(attach->dev, sgt->sgl, sgt->orig_nents, dir);
++	if (sgt->nents == 0)
+ 		goto free;
+ 
+ 	return sgt;
+@@ -590,7 +591,7 @@ static void tegra_gem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+ 	struct tegra_bo *bo = to_tegra_bo(gem);
+ 
+ 	if (bo->pages)
+-		dma_unmap_sg(attach->dev, sgt->sgl, sgt->nents, dir);
++		dma_unmap_sg(attach->dev, sgt->sgl, sgt->orig_nents, dir);
+ 
+ 	sg_free_table(sgt);
+ 	kfree(sgt);
+@@ -609,7 +610,7 @@ static int tegra_gem_prime_begin_cpu_access(struct dma_buf *buf,
+ 	struct drm_device *drm = gem->dev;
+ 
+ 	if (bo->pages)
+-		dma_sync_sg_for_cpu(drm->dev, bo->sgt->sgl, bo->sgt->nents,
++		dma_sync_sg_for_cpu(drm->dev, bo->sgt->sgl, bo->sgt->orig_nents,
+ 				    DMA_FROM_DEVICE);
+ 
+ 	return 0;
+@@ -623,8 +624,8 @@ static int tegra_gem_prime_end_cpu_access(struct dma_buf *buf,
+ 	struct drm_device *drm = gem->dev;
+ 
+ 	if (bo->pages)
+-		dma_sync_sg_for_device(drm->dev, bo->sgt->sgl, bo->sgt->nents,
+-				       DMA_TO_DEVICE);
++		dma_sync_sg_for_device(drm->dev, bo->sgt->sgl,
++				       bo->sgt->orig_nents, DMA_TO_DEVICE);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
+index 9ccfb56..3982bf8 100644
+--- a/drivers/gpu/drm/tegra/plane.c
++++ b/drivers/gpu/drm/tegra/plane.c
+@@ -130,9 +130,10 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 		}
+ 
+ 		if (sgt) {
+-			err = dma_map_sg(dc->dev, sgt->sgl, sgt->nents,
+-					 DMA_TO_DEVICE);
+-			if (err == 0) {
++			sgt->nents = dma_map_sg(dc->dev, sgt->sgl,
++						sgt->orig_nents,
++						DMA_TO_DEVICE);
++			if (sgt->nents == 0) {
+ 				err = -ENOMEM;
+ 				goto unpin;
+ 			}
+@@ -143,7 +144,7 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 			 * map its SG table to a single contiguous chunk of
+ 			 * I/O virtual memory.
+ 			 */
+-			if (err > 1) {
++			if (sgt->nents > 1) {
+ 				err = -EINVAL;
+ 				goto unpin;
+ 			}
+@@ -165,7 +166,7 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 		struct sg_table *sgt = state->sgt[i];
+ 
+ 		if (sgt)
+-			dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents,
++			dma_unmap_sg(dc->dev, sgt->sgl, sgt->orig_nents,
+ 				     DMA_TO_DEVICE);
+ 
+ 		host1x_bo_unpin(dc->dev, &bo->base, sgt);
+@@ -185,7 +186,7 @@ static void tegra_dc_unpin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 		struct sg_table *sgt = state->sgt[i];
+ 
+ 		if (sgt)
+-			dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents,
++			dma_unmap_sg(dc->dev, sgt->sgl, sgt->orig_nents,
+ 				     DMA_TO_DEVICE);
+ 
+ 		host1x_bo_unpin(dc->dev, &bo->base, sgt);
+-- 
+1.9.1
 
