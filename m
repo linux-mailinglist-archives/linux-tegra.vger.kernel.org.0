@@ -2,79 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 545D11C3ECE
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 17:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D0281C3EF3
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 17:50:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728926AbgEDPmb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 4 May 2020 11:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35238 "EHLO
+        id S1728294AbgEDPuf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 May 2020 11:50:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726509AbgEDPmb (ORCPT
+        by vger.kernel.org with ESMTP id S1726641AbgEDPuf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 4 May 2020 11:42:31 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DA8C061A0E;
-        Mon,  4 May 2020 08:42:30 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id v4so309405wme.1;
-        Mon, 04 May 2020 08:42:30 -0700 (PDT)
+        Mon, 4 May 2020 11:50:35 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558FBC061A0E;
+        Mon,  4 May 2020 08:50:34 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id u127so34053wmg.1;
+        Mon, 04 May 2020 08:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=HZ0kwajVNDVc6kGRwmzoSlZILWUSqHM0exCohrNVZMM=;
-        b=BkqQFi0+AaEtXI7qFmwdV/U1uRMvXrakoc5iKBneVuNlGZnI9wD220a1BtDxjCqfan
-         o3+VUSP5Xes2bctImgy2dqXoBG9giE3NKvjUiroyuy8bb4llt9xoBuoXGcnVjy7KRCLO
-         XAinVgEqxy5poa1UXsg47JMsXE3BCfrsL/vU2JByPuXh0Yorm1My3FKYKH/esydeNXeJ
-         XU6zqtt8uzGpQJJfYRaVmFQ6s2MbORUkXEAswxHpkMbuWgcjzgkEd9XPcwPqcaSL1XMM
-         Xjtr62lGe/M+G1yQjH/CJNg/sZANHFkQyUtA6JH7LyK2EWVhSlBAlw6FCHn4T6BaJYWm
-         vwrg==
+        bh=gDbxAIGwkGFnO7JdYjM4B8UxbcSuztivvzfmZ25PAKM=;
+        b=YuMrxmske+uyYkS7RaNS2eWyAMMxL9tD7Ndbb5B8pxET/eDcQRjDJwGxveHTXZC72e
+         d1mdIOfVzXVMQkwxD+B2Myi/b7dtW1YprPR7Xa3Dj0H4rRznOqiBdE7Oh3YanteLiHRk
+         alV9ml8VIeIQuo/c/npYQEyNL6rce/3M2/EV+KGs0xEXD30Eh55prXUkwd+HK9nP38yO
+         n+9ifcJR4XDyMxzt83rm3dQiiaVxoDLbTs++EGsuS+ThOVwMh+azVNVvXoFYYiMSTeN+
+         +FF1Q5Gon7AEQOZs9Ji/EicTuocvvMohwr6QA5QTr7SBeQ4E1zJtjyHpJ+GFJ8Q8/2FZ
+         jsJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HZ0kwajVNDVc6kGRwmzoSlZILWUSqHM0exCohrNVZMM=;
-        b=OWtlDEoS0BVNtMjOxB2l4isKiEfT9QvmayhGgdvvOLRqPNVhA2cKwubtXVjEP3XCgH
-         0VH5bmJfk0beIBk+GoLkabNMwgPqEv/Thgduu1rmJbmFXe+yIl80jo5YZPUd0TRQ/vsQ
-         Mv6EiSv1o2NFLVqm0iErWajRbWc6lm7S4bpuel8oBGRyDZLudEdJtFNlqrHgawTgq+RV
-         t/19wf0K/4GB5NHnkz+/yERd0W6EcOs5PIWinTBsv7pwJTkjuIN5SdxlXAgJII5ShNTU
-         z5RqjxjewfhGjvhbsp8s7ItvCHe8vvAbEODBfWduEwr8GpokHGOv0V2wFlJl3aSVt4zp
-         tt5w==
-X-Gm-Message-State: AGi0PubKRUuI8snmldx0CBRz134GOYYe7Kuwa05LZ8xmB/SJVLnGUy0q
-        8TBaYfiSPRDxSNU9+2ci7j8=
-X-Google-Smtp-Source: APiQypLpDC/GMx6y2l/BDiHCciUPwVbk3Hj60EHeltjqMQ2qh8snhlQDpB1WaaKTBiTwxh7Uv4DY+g==
-X-Received: by 2002:a1c:c345:: with SMTP id t66mr16418509wmf.189.1588606949426;
-        Mon, 04 May 2020 08:42:29 -0700 (PDT)
+        bh=gDbxAIGwkGFnO7JdYjM4B8UxbcSuztivvzfmZ25PAKM=;
+        b=YD9ZdQ0xhOX36IMQ1BykKJnMqjl3vXngJectz4F1wvDwhvQz/EW8j8aFvc3LHxi4xt
+         SesGEBtaGil4/4Q33mk+ZFFMDAR+SO7TLCOakGH20vY1UUwV8pm2xv5x9orILlmcCV0Y
+         L3mhb5T+5rI+AC5Npy2UOnP+vC9rXtaoNGbb87a1ulfqz7DUIzHDIqv/SD4h1RDURHdT
+         JHZpoYlEsGfaYV8vlBVcqkAxt2M0AApuQXLETygaleFRWjjGsqjgLF4vX5enDDTuZm9B
+         e6fH267E/Hojs35BRzH8Jvd8fWT+0CVJ/U8hELOs/gq/D1cndEslB20z6KS5URK6lw8H
+         JTxw==
+X-Gm-Message-State: AGi0PuZWkHgrkf2CFExuyLTPNDks6fbXbmwoO/sxCiA86xQOR8ZcpASe
+        MyQFABp8xG2yevqlRrzL34Q=
+X-Google-Smtp-Source: APiQypKnJGn1vS4Eg8RCc1KXF7sKTOKAxbim0Q3sWmDU+fYHki26sF37pi8iDVNMNQKQoi+WdX0yIw==
+X-Received: by 2002:a7b:c84f:: with SMTP id c15mr14487577wml.166.1588607432993;
+        Mon, 04 May 2020 08:50:32 -0700 (PDT)
 Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id q184sm14544893wma.25.2020.05.04.08.42.27
+        by smtp.gmail.com with ESMTPSA id d1sm18696767wrx.65.2020.05.04.08.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 08:42:27 -0700 (PDT)
-Date:   Mon, 4 May 2020 17:42:26 +0200
+        Mon, 04 May 2020 08:50:31 -0700 (PDT)
+Date:   Mon, 4 May 2020 17:50:29 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
- for a long time
-Message-ID: <20200504154226.GA614153@ulmo>
-References: <fd1ca178-1ea3-851f-20a6-10bf00453ce3@nvidia.com>
- <a5734f19-254e-b6bc-e791-fa1ac63f11a4@gmail.com>
- <79f6560e-dbb5-0ae1-49f8-cf1cd95396ec@nvidia.com>
- <20200427074837.GC3451400@ulmo>
- <c1190858-eaea-8e94-b4d1-1cf28076c330@gmail.com>
- <20200427103851.GB24446@kunai>
- <dc2de966-81d6-6ad5-0c51-16dd28ca4165@gmail.com>
- <20200427141922.GD3464906@ulmo>
- <20200427153106.GA8113@kunai>
- <e5a3dd07-97f5-29f1-974e-3037a01cc89c@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 6/8] phy: tegra: xusb: Add support for charger detect
+Message-ID: <20200504155029.GB614153@ulmo>
+References: <1586939108-10075-1-git-send-email-nkristam@nvidia.com>
+ <1586939108-10075-7-git-send-email-nkristam@nvidia.com>
+ <20200428105510.GH3592148@ulmo>
+ <ea0f5906-4681-8b84-a55a-e959ce40aece@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
+        protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
 Content-Disposition: inline
-In-Reply-To: <e5a3dd07-97f5-29f1-974e-3037a01cc89c@gmail.com>
+In-Reply-To: <ea0f5906-4681-8b84-a55a-e959ce40aece@nvidia.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -82,81 +73,105 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---lrZ03NoBR/3+SXJZ
-Content-Type: text/plain; charset=utf-8
+--6sX45UoQRIJXqkqR
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 02, 2020 at 05:40:35PM +0300, Dmitry Osipenko wrote:
-> 27.04.2020 18:31, Wolfram Sang =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+On Mon, May 04, 2020 at 02:32:51PM +0530, Nagarjuna Kristam wrote:
+> >On 28-04-2020 16:25, Thierry Reding wrote:
+> > > On Wed, Apr 15, 2020 at 01:55:06PM +0530, Nagarjuna Kristam wrote:
+[...]
+> > > diff --git a/drivers/phy/tegra/xusb-tegra-cd.c b/drivers/phy/tegra/xu=
+sb-tegra-cd.c
+> > > +static void tegra_xusb_padctl_utmi_pad_dcd(struct tegra_xusb_padctl =
+*padctl,
+> > > +					      u32 index)
+> > > +{
+> > > +	u32 value;
+> > > +	int dcd_timeout_ms =3D 0;
+> > > +	bool ret =3D false;
+> > > +
+> > > +	/* Turn on IDP_SRC */
+> > > +	value =3D padctl_readl(padctl, USB2_BATTERY_CHRG_OTGPADX_CTL0(index=
+));
+> > > +	value |=3D OP_I_SRC_EN;
+> > > +	padctl_writel(padctl, value, USB2_BATTERY_CHRG_OTGPADX_CTL0(index));
+> > > +
+> > > +	/* Turn on D- pull-down resistor */
+> > > +	value =3D padctl_readl(padctl, USB2_BATTERY_CHRG_OTGPADX_CTL1(index=
+));
+> > > +	value |=3D USBON_RPD_OVRD_VAL;
+> > > +	padctl_writel(padctl, value, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
+> > > +
+> > > +	/* Wait for TDCD_DBNC */
+> > > +	usleep_range(10000, 120000);
+> >  From the comment this looks like we're waiting for some hardware
+> > condition. Can we somehow obtain this rather than implementing a fixed
+> > sleep? Especially since the range here is so large.
 > >=20
-> >> Yes, that bug should be fixed anyway. But that doesn't justify breaking
-> >> suspend/resume completely, which *is* a regression.
-> >>
-> >> Look, I'm not saying that we should drop this patch altogether. All I'm
-> >> saying is that we should postpone it so that we can: a) get suspend and
-> >> resume working again (and by doing so make sure no other suspend/resume
-> >> regressions silently creep in, because that always seems to happen when
-> >> you're not looking) and b) fix any preexisting issues without possibly
-> >> scrambling the result with this perhaps unrelated fix.
-> >>
-> >> So, again, I think the safest road forward is to back this one out for
-> >> now, fix whatever this other bug is and once suspend/resume is working
-> >> properly again we can revisit this patch based on a known-good baselin=
-e.
-> >=20
-> > I am with you here. I want to add that the proper fix should be
-> > developed without thinking too much about stable in the first place.
-> > *When* we have a proper working fix, then we can think about making it
-> > "more" suitable for backporting. Yet, it may also be a result that older
-> > kernels need a different solution. Or have no solution at all, in case
-> > they can't do atomic_transfers and this is needed.
-> >=20
-> > D'accord?
-> >=20
->=20
-> I saw that you submitted the revert of the patches for 5.7, hopefully it
-> won't result in putting the PCIe driver problem into the back burner.
-> I'll try not to forget about these patches to resubmit them later on,
-> once the problem will be resolved :)
+> As per data sheet we need to wait for 10 micro seconds as settle time.
 
-I can put these two patches into a local development branch to keep
-track of them. From what I said earlier, it looks like it would be fine
-to apply these if we also make that runtime PM change (i.e. drop force
-runtime PM and instead manually invoke runtime PM callbacks, which seems
-to be in line with what the PM maintainers suggest, as pointed out
-elsewhere in this thread).
+Okay, so TDCD_DBNC is a value that comes from a timing diagram in a
+datasheet? Seems fine to leave it as-is then. Perhaps add parentheses
+and mention which exact datasheet that's from, and perhaps which figure
+so that people can more easily reference it. Provided there is a
+publicly available datasheet, of course.
 
-How about if I put all of that into a branch and push it to linux-next
-so that we can get some broader testing? I've already run it through our
-internal test system, which, while not perfect, is the broadest system I
-am aware of, and all tests came back positive.
+Actually, one other thing: If the data sheet says to wait 10 us, why do
+you use an upper range of 120 us? Shouldn't a range of 10-20 us be good
+enough?
 
-I'm not exactly sure I see a real issue with the PCIe driver after those
-patches are applied. The regulator errors are gone (presumably because
-the regulators now do get turned off properly) and I don't observe any
-other issues.
+> > > +	/* Wait for TVDPSRC_ON */
+> > > +	msleep(40);
+> > Again, is this a hardware condition that we can wait on by polling a
+> > register?
+> >=20
+> It HW settle time before reading registers.
+
+Again, perhaps link to the datasheet, or alternatively describe in the
+comment what this is waiting for. That is, something like:
+
+	/* wait for TVDPSRC_ON (wait for hardware to settle) */
+
+or similar.
+
+> > > +		if (tegra_xusb_padctl_utmi_pad_secondary_charger_detect(padctl,
+> > > +									index))
+> > > +			chrg_type =3D CDP_TYPE;
+> > > +		else
+> > > +			chrg_type =3D DCP_TYPE;
+> > > +	} else {
+> > > +		chrg_type =3D SDP_TYPE;
+> > > +	}
+> > > +
+> > > +	dev_dbg(&port->dev, "charger detected of type %d", chrg_type);
+> > Do we have a string representation of this?
+> >=20
+> No String representation available. Shall i add one for wasy reading ?
+
+Yeah, I think that'd be nice.
 
 Thierry
 
---lrZ03NoBR/3+SXJZ
+--6sX45UoQRIJXqkqR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6wN+AACgkQ3SOs138+
-s6FAxQ//Z4QpPdcFLKFZCSCH23KA4t2/646O0Py+XUV421tLkrvkOepTvI2CXWQd
-vj8cFw6SyA7IKDOEorgHT8nDwJqNTPuEO9eNS33QVlq21ezkibKXAfJH4kbrDr7l
-pVFJajPsJWvHUS9ULWtWdQKbH7QgAFyiqO5r/b6tOP32uEN+uHAatlUb0ao3ZXnR
-FZZWkZ4QdX+kxb1RRyLc6+KMIl/XwIdVkgXthRHjhKGT5UQOArj7LrxYQgPaUrqK
-yFp9ahclAinfGsbPEHbIyxmDTy20SxQbfM9l9Bq/+Tb3NzXfhs5tTnFKx1SImXDY
-0fEWZWLiV/uOzwVaAZZ80LRJd2T4VpYGdbX3m06GksmuZRfN74ART7F+dDegECXf
-Eug96QB2gNLJKaxwP1eBnlLnEobsmAfIKpo4DMcdKD8kcdMQu6TAJSbIl4vT/f19
-n0+er/TSPBmVO8c8FlnT2EXmrYvM2uy4BJiE7TdqU7SauexrUxErR5O2mt3Etofb
-9aIq3aApVEG1SyU7/Q1HznCJREGv1kB711bgJxE32ZbgpqxdJF7tuTxWX7aV48Os
-2HAO4tVeXZWJ5EiciF0v54QrH0TtsLhtbwb6GyIxJvjOLERDffzvKAwKgGXL+1XU
-Ym4+vPB4bGYtfzASLHrJgMFSTVrHBlrS2v4ZOe5zcBgcBUJk48I=
-=+3Hv
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6wOcQACgkQ3SOs138+
+s6Gczw/8DmZ+CrTXiEWQGprlWVnXJRhLbaMmN3d2ncl3kdUo2Me244NGxLhb2lvj
+IsO26k9RgdiXF0gfwWIK1J7swxrrczwbR6Y4xqRcZ1uKL4qDj3WLSZXqRBZs2ZeX
+T58TaRJDoN8CQcN+2EV0lLVL5nWYBxR8NJGsN6Gfh9T2DUeZ5Yyx10an/ircSPoY
+wQuHi991cScgvK+y0poOFTs2p74T2/YRZ1fEFRmJLVzSuACpHLypBRbafUdz3wNE
+NS4dgf+OE05fI2OfW4gugPirVzrxOl76WEQ5HGb/eYBXBT5EOp/dLxiJPf9T8zHj
+L8qDO7BJY/Fwa1067zXsukpvTUTOoryRjXF3dwoHT3/Iix+WvU9Rq8pVc0zrxGYl
+0vWPaPNtZ+r5C2iQZtfQO/IjGSPIo+DU/lQkjvUKSYyZCVWjiJnjiM674wbSNzVT
+N3bPf3F7W4XXYYjVD5LzEBKPBEWXgfrocrcYf4rjzpm26UZd9mO52ASJiH4jvE4e
+tYNSjE2FgJuR4ZRAfgsYTxiTlsx6Nh7hVaID9esAENxxHDl4hzVFnxJA2q5FhE+K
+JVA+3dL5gL+WtQsRbUiu8aYttGKMUfJNUqrYGHDUklQwgzdXkot0thPLV8zHBu95
+RsKP9+USnAiI3QYo89cZnnnkn5UXpE51rSVEh18RwCM7vpTfja0=
+=j6Ma
 -----END PGP SIGNATURE-----
 
---lrZ03NoBR/3+SXJZ--
+--6sX45UoQRIJXqkqR--
