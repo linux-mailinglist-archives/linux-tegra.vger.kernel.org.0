@@ -2,321 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D28F91C47B4
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 22:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4F381C489F
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 22:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726404AbgEDULw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 4 May 2020 16:11:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49416 "EHLO
+        id S1726469AbgEDUzQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 May 2020 16:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726111AbgEDULv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 May 2020 16:11:51 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31ECC061A0E
-        for <linux-tegra@vger.kernel.org>; Mon,  4 May 2020 13:11:51 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jVhR6-0002Pb-1u; Mon, 04 May 2020 22:11:32 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jVhR5-0007po-DD; Mon, 04 May 2020 22:11:31 +0200
-Date:   Mon, 4 May 2020 22:11:31 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Sandipan Patra <spatra@nvidia.com>
-Cc:     treding@nvidia.com, robh+dt@kernel.org, jonathanh@nvidia.com,
-        bbasu@nvidia.com, ldewangan@nvidia.com, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] pwm: tegra: dynamic clk freq configuration by PWM
- driver
-Message-ID: <20200504201131.l5ofxem3owrl5siv@pengutronix.de>
-References: <1587398043-18767-1-git-send-email-spatra@nvidia.com>
+        with ESMTP id S1726338AbgEDUzO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 May 2020 16:55:14 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0794C061A0E;
+        Mon,  4 May 2020 13:55:13 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id f18so11123762lja.13;
+        Mon, 04 May 2020 13:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=462DgipZWXKeW4Bkk/lkob1uYe6oS0tY/vxkgckhdAs=;
+        b=nmMiqcYXUxCNHMDY6rNZt9nIYFpn2LDdh2oaJxnLzASlADJ0Cw/j9O0qUHGMl2UuhI
+         LJrjCIpzTTHe3DXJ/pNHR4b0xtq7qFRqiHQH3OINqLF1LFr9GnqSC5TJMGbHAZ+YgxW9
+         nOnD+BKcuKIxzcWasFjMZuqKav4AdXBLt4dv6Vm0XKHQwaEb+vtvtrZN73Ti8jkSCTLv
+         E59AWMLh9sCK3ztS1zQ5eUAsYD08+NRj9XAC7KYK3Ty/cd6iMH5jQyYU002YuhBGrdiT
+         lXVPuZnejmUaYhQN3rHqMQITYdHbpM+4dK1WXBTugNco17bbD4Lh9wYFEG6YhtJxpaY6
+         FRIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=462DgipZWXKeW4Bkk/lkob1uYe6oS0tY/vxkgckhdAs=;
+        b=k5eudCUNv/kTPSCf4DavZxTZaAspYwWgdo2P+Vbibfh3RP1Ok5EIl/2m4zK6TRQYPq
+         /U1urkFXIEuurNkaxxYImPEPw+aFoMrsMIiLhAgEzfv64wKZqpk7V+nyVBAq3omMErS6
+         yHPzUeDCvMNFv/79RafFcWtNhvPc+zNsqQ1Dh6WOHoU+SegvXj8xjcYezbhwhn1cu739
+         22B/qG9UYgYaWIGxnBAcMe6X00J7oV0/m6mTXHQb3YJTizx3ehDIUXBgElAy/7FHiEWW
+         ILHUN854PN4kERZ/Vv/vHCP6NSReRDJzGNbLYiqpkMs7YaWDmLTqqV6zPrHh/KLEqaLT
+         IGMA==
+X-Gm-Message-State: AGi0PuYjdNG7UVHepalXP9Lkm3jRdEetaT9ncskjRbleDKmWIdF47ttu
+        wvr0xfLvg9HOVn6IEkaNyGIFWNLT
+X-Google-Smtp-Source: APiQypKq0N/xP2mWmHajaeZphpPInajOx5A2endRHkYZbTtG1YblgavCgaEcPx4d7TMt0xreasUwCg==
+X-Received: by 2002:a2e:90c9:: with SMTP id o9mr10732090ljg.187.1588625711974;
+        Mon, 04 May 2020 13:55:11 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id v19sm62346lfa.54.2020.05.04.13.55.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2020 13:55:11 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] i2c: tegra: Better handle case where CPU0 is busy
+ for a long time
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <fd1ca178-1ea3-851f-20a6-10bf00453ce3@nvidia.com>
+ <a5734f19-254e-b6bc-e791-fa1ac63f11a4@gmail.com>
+ <79f6560e-dbb5-0ae1-49f8-cf1cd95396ec@nvidia.com>
+ <20200427074837.GC3451400@ulmo>
+ <c1190858-eaea-8e94-b4d1-1cf28076c330@gmail.com>
+ <20200427103851.GB24446@kunai>
+ <dc2de966-81d6-6ad5-0c51-16dd28ca4165@gmail.com>
+ <20200427141922.GD3464906@ulmo> <20200427153106.GA8113@kunai>
+ <e5a3dd07-97f5-29f1-974e-3037a01cc89c@gmail.com>
+ <20200504154226.GA614153@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <fb261f0c-157c-b97c-b58f-057b053f8444@gmail.com>
+Date:   Mon, 4 May 2020 23:55:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200504154226.GA614153@ulmo>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1587398043-18767-1-git-send-email-spatra@nvidia.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
-
-On Mon, Apr 20, 2020 at 09:24:03PM +0530, Sandipan Patra wrote:
-> Added support for dynamic clock freq configuration in pwm kernel driver.
-> Earlier the pwm driver used to cache boot time clock rate by pwm clock
-> parent during probe. Hence dynamically changing pwm frequency was not
-> possible for all the possible ranges. With this change, dynamic calculation
-> is enabled and it is able to set the requested period from sysfs knob
-> provided the value is supported by clock source.
+04.05.2020 18:42, Thierry Reding пишет:
+> On Sat, May 02, 2020 at 05:40:35PM +0300, Dmitry Osipenko wrote:
+>> 27.04.2020 18:31, Wolfram Sang пишет:
+>>>
+>>>> Yes, that bug should be fixed anyway. But that doesn't justify breaking
+>>>> suspend/resume completely, which *is* a regression.
+>>>>
+>>>> Look, I'm not saying that we should drop this patch altogether. All I'm
+>>>> saying is that we should postpone it so that we can: a) get suspend and
+>>>> resume working again (and by doing so make sure no other suspend/resume
+>>>> regressions silently creep in, because that always seems to happen when
+>>>> you're not looking) and b) fix any preexisting issues without possibly
+>>>> scrambling the result with this perhaps unrelated fix.
+>>>>
+>>>> So, again, I think the safest road forward is to back this one out for
+>>>> now, fix whatever this other bug is and once suspend/resume is working
+>>>> properly again we can revisit this patch based on a known-good baseline.
+>>>
+>>> I am with you here. I want to add that the proper fix should be
+>>> developed without thinking too much about stable in the first place.
+>>> *When* we have a proper working fix, then we can think about making it
+>>> "more" suitable for backporting. Yet, it may also be a result that older
+>>> kernels need a different solution. Or have no solution at all, in case
+>>> they can't do atomic_transfers and this is needed.
+>>>
+>>> D'accord?
+>>>
+>>
+>> I saw that you submitted the revert of the patches for 5.7, hopefully it
+>> won't result in putting the PCIe driver problem into the back burner.
+>> I'll try not to forget about these patches to resubmit them later on,
+>> once the problem will be resolved :)
 > 
-> Changes mainly have 2 parts:
->   - T186 and later chips [1]
->   - T210 and prior chips [2]
+> I can put these two patches into a local development branch to keep
+> track of them. From what I said earlier, it looks like it would be fine
+> to apply these if we also make that runtime PM change (i.e. drop force
+> runtime PM and instead manually invoke runtime PM callbacks, which seems
+> to be in line with what the PM maintainers suggest, as pointed out
+> elsewhere in this thread).
 > 
-> For [1] - Changes implemented to set pwm period dynamically and
->           also checks added to allow only if requested period(ns) is
->           below or equals to higher range.
-> 
-> For [2] - Only checks if the requested period(ns) is below or equals
->           to higher range defined by max clock limit. The limitation
->           in T210 or prior chips are due to the reason of having only
->           one pwm-controller supporting multiple channels. But later
->           chips have multiple pwm controller instances each having
-> 	  single channel support.
-> 
-> Signed-off-by: Sandipan Patra <spatra@nvidia.com>
-> ---
-> V2:
-> 1. Min period_ns calculation is moved to probe.
-> 2. Added descriptioins for PWM register bits and regarding behaviour
->    of the controller when new configuration is applied or pwm is disabled.
-> 3. Setting period with possible value when supplied period is below limit.
-> 4. Corrected the earlier code comment:
->    plus 1 instead of minus 1 during pwm calculation
-> 
->  drivers/pwm/pwm-tegra.c | 110 +++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 94 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
-> index d26ed8f..7a36325 100644
-> --- a/drivers/pwm/pwm-tegra.c
-> +++ b/drivers/pwm/pwm-tegra.c
-> @@ -4,8 +4,39 @@
->   *
->   * Tegra pulse-width-modulation controller driver
->   *
-> - * Copyright (c) 2010, NVIDIA Corporation.
-> - * Based on arch/arm/plat-mxc/pwm.c by Sascha Hauer <s.hauer@pengutronix.de>
-> + * Copyright (c) 2010-2020, NVIDIA Corporation.
-> + *
-> + * Overview of Tegra Pulse Width Modulator Register:
-> + * 1. 13-bit: Frequency division (SCALE)
-> + * 2. 8-bit : Puls division (DUTY)
-> + * 3. 1-bit : Enable bit
-> + *
-> + * The PWM clock frequency is divided by 256 before subdividing it based
-> + * on the programmable frequency division value to generate the required
-> + * frequency for PWM output. The maximum output frequency that can be
-> + * achieved is (max rate of source clock) / 256.
-> + * i.e. if source clock rate is 408 MHz, maximum output frequency cab be:
+> How about if I put all of that into a branch and push it to linux-next
+> so that we can get some broader testing? I've already run it through our
+> internal test system, which, while not perfect, is the broadest system I
+> am aware of, and all tests came back positive.
+Will be great.
 
-s/i.e./e.g./, s/cab/can/
+> I'm not exactly sure I see a real issue with the PCIe driver after those
+> patches are applied. The regulator errors are gone (presumably because
+> the regulators now do get turned off properly) and I don't observe any
+> other issues.
 
-> + * 408 MHz/256 = 1.6 MHz.
-> + * This 1.6 MHz frequency can further be divided using SCALE value in PWM.
-> + *
-> + * PWM pulse width: 8 bits are usable [23:16] for varying pulse width.
-> + * To achieve 100% duty cycle, program Bit [24] of this register to
-> + * 1’b1. In which case the other bits [23:16] are set to don't care.
-> + *
-> + * Limitations and known facts:
+That's probably because this I2C patch removed the "completion done
+after timeout" message. You may try to re-add the message, it should pop
+up on the PCIe driver's suspension. The IRQF_NO_SUSPEND flag should fix it.
 
-Please use "Limitations:" here to make this easier greppable.
-
-> + * -	When PWM is disabled, the output is driven to 0.
-
-0 or inactive?
-
-> + * -	It does not allow the current PWM period to complete and
-> + *	stops abruptly.
-> + *
-> + * -	If the register is reconfigured while pwm is running,
-
-s/pwm/PWM/
-
-> + *	It does not let the currently running period to complete.
-
-s/It/it/; s/let/complete/; s/ to complete//
-
-> + *
-> + * -	Pulse width of the pwm can never be out of bound.
-
-I don't understand that one.
-
-> + *	It's taken care at HW and SW
-> + * -	If the user input duty is below limit, then driver sets it to
-> + *	minimum possible value.
-
-that is 0? Do you mean "input period"? If so, better refuse the request.
-
-> + * -	If anything else goes wrong for setting duty or period,
-> + *	-EINVAL is returned.
-
-I wouldn't state this, too trivial. Instead the following are
-interesting:
-
- - The driver doesn't implement the right rounding rules
- - The driver needs updating to the atomic API
-
->   */
->  
->  #include <linux/clk.h>
-> @@ -41,6 +72,7 @@ struct tegra_pwm_chip {
->  	struct reset_control*rst;
->  
->  	unsigned long clk_rate;
-> +	unsigned long min_period_ns;
->  
->  	void __iomem *regs;
->  
-> @@ -67,8 +99,9 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
->  			    int duty_ns, int period_ns)
->  {
->  	struct tegra_pwm_chip *pc = to_tegra_pwm_chip(chip);
-> -	unsigned long long c = duty_ns, hz;
-> -	unsigned long rate;
-> +	unsigned long long p_width = duty_ns, period_hz;
-> +	unsigned long rate, required_clk_rate;
-> +	unsigned long pfm; /* Frequency divider */
->  	u32 val = 0;
->  	int err;
->  
-> @@ -77,37 +110,77 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
->  	 * per (1 << PWM_DUTY_WIDTH) cycles and make sure to round to the
->  	 * nearest integer during division.
->  	 */
-> -	c *= (1 << PWM_DUTY_WIDTH);
-> -	c = DIV_ROUND_CLOSEST_ULL(c, period_ns);
-> +	p_width *= (1 << PWM_DUTY_WIDTH);
-> +	p_width = DIV_ROUND_CLOSEST_ULL(p_width, period_ns);
->  
-> -	val = (u32)c << PWM_DUTY_SHIFT;
-> +	val = (u32)p_width << PWM_DUTY_SHIFT;
-> +
-> +	/*
-> +	 *  Period in nano second has to be <= highest allowed period
-> +	 *  based on max clock rate of the pwm controller.
-> +	 *
-> +	 *  higher limit = max clock limit >> PWM_DUTY_WIDTH
-> +	 *  lower limit = min clock limit >> PWM_DUTY_WIDTH >> PWM_SCALE_WIDTH
-> +	 */
-> +	if (period_ns < pc->min_period_ns) {
-> +		period_ns = pc->min_period_ns;
-> +		pr_warn("Period is adjusted to allowed value (%d ns)\n",
-> +				period_ns);
-
-That pr_warn is a bad idea as it spams the kernel log when the
-configuration is changed frequently. Wouldn't it be easier to calculate
-the frequency that is needed to achieve period_ns and check that against
-max_frequency?
-
-> +	}
->  
->  	/*
->  	 * Compute the prescaler value for which (1 << PWM_DUTY_WIDTH)
->  	 * cycles at the PWM clock rate will take period_ns nanoseconds.
->  	 */
-> -	rate = pc->clk_rate >> PWM_DUTY_WIDTH;
-> +	if (pc->soc->num_channels == 1) {
-
-required_clk_rate could be defined here, which is better as it narrows
-its scope.
-
-> +		/*
-> +		 * Rate is multiplied with 2^PWM_DUTY_WIDTH so that it matches
-> +		 * with the hieghest applicable rate that the controller can
-
-s/hieghest/highest/
-
-> +		 * provide. Any further lower value can be derived by setting
-> +		 * PFM bits[0:12].
-> +		 * Higher mark is taken since BPMP has round-up mechanism
-> +		 * implemented.
-
-I don't understand the part with the round-up mechanism.
-
-> +		 */
-> +		required_clk_rate =
-> +			(NSEC_PER_SEC / period_ns) << PWM_DUTY_WIDTH;
-> +
-> +		err = clk_set_rate(pc->clk, required_clk_rate);
-> +		if (err < 0)
-> +			return -EINVAL;
-
-What happens if clk_set_rate configures a higher rate than requested?
-
-> +
-> +		rate = clk_get_rate(pc->clk) >> PWM_DUTY_WIDTH;
-> +	} else {
-> +		/*
-> +		 * This is the case for SoCs who support multiple channels:
-
-s/who/that/
-
-> +		 *
-> +		 * clk_set_rate() can not be called again in config because
-> +		 * T210 or any prior chip supports one pwm-controller and
-> +		 * multiple channels. Hence in this case cached clock rate
-> +		 * will be considered which was stored during probe.
-> +		 */
-> +		rate = pc->clk_rate >> PWM_DUTY_WIDTH;
-> +	}
->  
->  	/* Consider precision in PWM_SCALE_WIDTH rate calculation */
-> -	hz = DIV_ROUND_CLOSEST_ULL(100ULL * NSEC_PER_SEC, period_ns);
-> -	rate = DIV_ROUND_CLOSEST_ULL(100ULL * rate, hz);
-> +	period_hz = DIV_ROUND_CLOSEST_ULL(100ULL * NSEC_PER_SEC, period_ns);
-> +	pfm = DIV_ROUND_CLOSEST_ULL(100ULL * rate, period_hz);
->  
->  	/*
->  	 * Since the actual PWM divider is the register's frequency divider
-> -	 * field minus 1, we need to decrement to get the correct value to
-> +	 * field plus 1, we need to decrement to get the correct value to
->  	 * write to the register.
->  	 */
-> -	if (rate > 0)
-> -		rate--;
-> +	if (pfm > 0)
-> +		pfm--;
->  
->  	/*
-> -	 * Make sure that the rate will fit in the register's frequency
-> +	 * Make sure that pfm will fit in the register's frequency
->  	 * divider field.
->  	 */
-> -	if (rate >> PWM_SCALE_WIDTH)
-> +	if (pfm >> PWM_SCALE_WIDTH)
->  		return -EINVAL;
->  
-> -	val |= rate << PWM_SCALE_SHIFT;
-> +	val |= pfm << PWM_SCALE_SHIFT;
->  
->  	/*
->  	 * If the PWM channel is disabled, make sure to turn on the clock
-> @@ -205,6 +278,10 @@ static int tegra_pwm_probe(struct platform_device *pdev)
->  	 */
->  	pwm->clk_rate = clk_get_rate(pwm->clk);
->  
-> +	/* Set minimum limit of PWM period for the IP */
-> +	pwm->min_period_ns =
-> +	    (NSEC_PER_SEC / (pwm->soc->max_frequency >> PWM_DUTY_WIDTH)) + 1;
-
-With my suggestion above, you can drop the min_period_ns field.
-
-> +
->  	pwm->rst = devm_reset_control_get_exclusive(&pdev->dev, "pwm");
->  	if (IS_ERR(pwm->rst)) {
->  		ret = PTR_ERR(pwm->rst);
-> @@ -313,4 +390,5 @@ module_platform_driver(tegra_pwm_driver);
->  
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("NVIDIA Corporation");
-> +MODULE_AUTHOR("Sandipan Patra <spatra@nvidia.com>");
->  MODULE_ALIAS("platform:tegra-pwm");
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+My assumption was that it should be always fine handle interrupt after
+timeout, and thus, the message isn't really needed. But this wasn't a
+correct assumption as we see now, so it should be better to keep the
+message for the debugging purposes, maybe turn it into dev_info_once().
