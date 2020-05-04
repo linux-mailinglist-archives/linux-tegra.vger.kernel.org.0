@@ -2,97 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 274D21C3F1C
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 17:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94CC81C4361
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 May 2020 19:55:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729538AbgEDPz2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 4 May 2020 11:55:28 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14053 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729529AbgEDPz2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 May 2020 11:55:28 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eb03a700000>; Mon, 04 May 2020 08:53:20 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 04 May 2020 08:55:28 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 04 May 2020 08:55:28 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
- 2020 15:55:28 +0000
-Received: from [10.2.165.119] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May 2020
- 15:55:26 +0000
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
- <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
- <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
- <c6d54885-6f23-f60c-a17b-3481fc4d6adf@gmail.com>
- <b14b9dc5-7ac9-7735-d98d-eebc7e151cba@nvidia.com>
- <7d31d24f-f353-7e82-3ff9-cdba8b773d1e@nvidia.com>
- <06a4a067-8d54-4322-b2a6-14e82eaeda29@nvidia.com>
- <47873bbd-cf90-4595-5a99-7e9113327ecc@nvidia.com>
- <f6088e0f-4ac7-a6be-3ede-0233dc88ef2c@nvidia.com>
- <71532440-f455-cc24-74f7-9ccad5947099@gmail.com>
- <960d2715-a717-0cc3-df19-ff78dc426535@nvidia.com>
- <23520fa4-4d8f-b083-0ad3-b249339ee032@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <d74df9cd-f256-f215-ae78-3c31d6754641@nvidia.com>
-Date:   Mon, 4 May 2020 08:56:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1730006AbgEDRz6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 May 2020 13:55:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729386AbgEDRz6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 4 May 2020 13:55:58 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 40165206B8;
+        Mon,  4 May 2020 17:55:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588614957;
+        bh=7AASLHxv2Rby4dstXR1mZull2LY1/sl46uo96ENxXog=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T/4b4jqaWekrwSnAOxrrDnnsqhQdyBbqnCTaU4oZvRIk1eLfkoYWFZ1ih5QvyBaPn
+         /XDMyxX07GqjYgR0nbxYkb7arLT1aQCJjt4ADoIePOJItfhJ06Z1Gf3LlyxSV+FfeV
+         FizZRIenSvfWO2jknmk2ojaBVX7K1p8zWc+VBTk0=
+Date:   Mon, 4 May 2020 18:55:55 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com,
+        lgirdwood@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, digetx@gmail.com,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com, nwartikar@nvidia.com,
+        swarren@nvidia.com, nicoleotsuka@gmail.com
+Subject: Re: [RFC] DPCM for Tegra
+Message-ID: <20200504175555.GG5491@sirena.org.uk>
+References: <1588250483-10014-1-git-send-email-spujar@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <23520fa4-4d8f-b083-0ad3-b249339ee032@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588607600; bh=inT5Kwq5fLKQOMa7wX4038NLS0luRlAH5Jiof0DA9jw=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=jXirWH8Ithxt07Hyz/8Cmz31T68tCIVi9k49c/ozfC3zmP7y60GKQgYnKMuvzXvNV
-         BMUTO6oZwPJSPgd9hg2FPOpnkNrolhsqUrRtbn150JF3Y4ousGcE+uOSPJjLYNBC+V
-         9sm3xil/bKykE5B7YGtFyawSxHB73sNmcD79DiCCGRWL33XIEgd0WWn06Zp6NTUg9c
-         OBT0ErCkyVfZM/theiVM/fytmWZ5jy5wDiPxOCfMcj3BjbHIiwVTZnvOM+JwzIlSOv
-         In5tYm2v85ZAH/YUvBz2IdT26IMMlbIH783KHOTLlu4tUgXgr91l3ym7QLsJERHDgb
-         DDF1eRtrYPMCA==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ahP6B03r4gLOj5uD"
+Content-Disposition: inline
+In-Reply-To: <1588250483-10014-1-git-send-email-spujar@nvidia.com>
+X-Cookie: My life is a patio of fun!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 5/4/20 8:53 AM, Dmitry Osipenko wrote:
-> 04.05.2020 17:53, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 4/30/20 12:33 PM, Dmitry Osipenko wrote:
->>>>>> Hi Dmitry,
->>>>>>
->>>>>> Will update in v12 to not allow freeze in middle of a frame capture.
->>>>>>
->>>>>> Can you please confirm on above if you agree to allow freeze to
->>>>>> happen in b/w frame captures?
->>>>>>
->>>>>> Also as most feedback has been received from you by now, appreciate
->>>>>> if you can provide all in this v11 if you have anything else so we
->>>>>> will not have any new changes after v12.
->>> I'll take another look tomorrow / during weekend and let you know.
->> Hi Dmitry,
->>
->> Will send v12 if there is no more feedback. Please let me know.
-> Hello Sowjanya,
->
-> I don't have any more comments to add, looking forward to v12.
-Thanks Dmitry
+--ahP6B03r4gLOj5uD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 30, 2020 at 06:11:23PM +0530, Sameer Pujar wrote:
+
+>  a) Can I use a DAPM Mux control to activate a BE path? This in turn can
+>     program required switch in XBAR.
+
+If it works then sure, that seems sensible.
+
+>  b) I have modelled SFC and MIXER as backends. Is this allowed?
+>=20
+>     This was done to include SFC or MIXER HW components as part of the
+>     sound card and use like below in one of the audio use cases.
+> =20
+>     ADMAIF1(FE) --> SFC(BE1) --> I2S(BE2) ... OR
+>     ADMAIF2(FE) --> SFC(BE1) --> I2S(BE2) ...
+
+This is the sort of setup that'd be a lot happier using a component
+model.
+
+>     I used following workaround to connect multiple BE components.
+>     With this I can see PCM callbacks happen for all BE DAIs along the DA=
+PM
+>     path. The obective was to connect multiple components together and (a)
+>     was used to connect one component to another. Each "-->" here connects
+>     two components and it is a switch in XBAR.=20
+
+This doesn't strike me as something that's likely to be robust but given
+that that applies to DPCM in general so long as it doesn't break anyone
+else's existing stuff I guess it should be viable, it's not like there
+are actually good options that you could use currently.  It's really
+hard to get enthusiastic about it though.
+
+>  c) Hostless mode did NOT work:
+>      - Following audio path was intended to be tested:
+>        I2S1 --> SFC --> I2S2
+
+>      - [3] offers two options:
+>          * CODEC<->CODEC: If I were to use a separate DAI link for each B=
+E to BE
+>            connection, then it will result in a similar design what we ha=
+ve
+>            currently.
+
+This is more in line with components so will probably be easier going
+forwards.
+
+>          * Hostless: I did not come across references for this.
+>            (Any references in this regard will be helpful)
+
+Not sure anyone has ever done this with DPCM, could be wrong though.
+
+> May be the current Tegra ASoC design is more suitable for component model=
+ as you
+> had previously mentioned. I wanted to understand if above, especially (a)=
+ and (b),
+> are acceptable in this regard or if there are better options to interconn=
+ect
+> multiple ASoC components.
+
+In general most systems would be happier with components but yeah, I
+think that's particularly the case for something as powerful and
+flexible as your hardware seems to be.
+
+--ahP6B03r4gLOj5uD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6wVyoACgkQJNaLcl1U
+h9BsCQf+NDpQnXUKOhrp8OMCAs73chnv7fTrNscXnf0V+rnrqqSC7b6d0Q2tz3QL
+8HYzl1AiMtRaAmybm98BhWpdUWXMGTKdYMBM7uKX2r+uVkm6oWhhK+EST6fOMv3k
+ZvgRM35+2mIXUrSR5b62uPIi8O3mtbLuFkPb3oWkw/hT0jQm4MPKl/c6h3f9e2qb
+FY8yrgExhRQkp+NAKMSNKV4gEZbViEJG5M9w879aEjQdWWhJ4tqo2s2QQXZmg5p2
+x/uNk6mgWU+edW21BN78iaOB8urYcnac5ItgRCiVVCrhRjNeP8qhs0irsRF5l03X
+656KL7U44mgySYNW2tlLHsXV/jmJXg==
+=W0ip
+-----END PGP SIGNATURE-----
+
+--ahP6B03r4gLOj5uD--
