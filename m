@@ -2,92 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C34BD1C5A4F
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2020 17:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73E091C5AB5
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2020 17:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729668AbgEEPBP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 May 2020 11:01:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729667AbgEEPBO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 5 May 2020 11:01:14 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A881AC061A0F;
-        Tue,  5 May 2020 08:01:14 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id mq3so1268056pjb.1;
-        Tue, 05 May 2020 08:01:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id;
-        bh=9Wez+z5lCI0hS4teojmRNn9oUej07xsC5ZAyPPM7jFw=;
-        b=aDXKeHOfSlo2rCfHADtT4Q9TjUr+Ag9sUEzdm27UQPz6km3DVswbPcQsXkSIsXAG1c
-         xPaPYTpqAyMbhth2rciiELDkH75JsEtyeeghzKUgkCNLQfOwKx3KbdoLvkHmyKvbgxT5
-         Z4HxlBVwDBZVYdr0H3oAQHO0pAi8XmtaAOiEZ6gkbXuME5vhTyOcztrsYp4U6sXEGhpj
-         wePIwTVuQC1FH1o3hvYmX5K5+1NzMWeKZoNJfAdarz6s4T89efpih7e8JDO3tZJOkF5V
-         S/M2dZhxvKQfHcprkmxMAe+b9zL3kH0cP9dMo64gZ3lckOTsRwAbQH8lp1b0zGUhqgtt
-         VLNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=9Wez+z5lCI0hS4teojmRNn9oUej07xsC5ZAyPPM7jFw=;
-        b=taYI+7agvqSuVEqgu2vLSPe/Yo3lxL8GvKHeWc5Mb8/35he8425Z5WHIpHtzgLL2kW
-         HukkVjfl213dXZ3V5XbHYjuRkAAK7RRknYqfmf3Io3hkHJmKiNNHrWmtlCj/pKfkiZA6
-         Xkt22LXJTdOv0qnCfUm1LDZb/1W54wcA2xRb+y45nvuRMzaXvl1OGp8fysNzWYahy6p3
-         rC0paoEWQwEa1+yUW+POO6STWYpwFV8mqS55UHqNiSe2i01OaIK0LB3e9KATwO3lYSYn
-         M0PPsyvzbAvbazgqZfeGw+Lu1Vx8KNF3pnioJpHLDfKHypC3Ndfp6NG7sL6yJw22exwQ
-         HYdg==
-X-Gm-Message-State: AGi0PuYENiBPjXhm6Gc/f5v2QMNAxGMac4HV1I2NOcju9VXZZVHpeBP3
-        uyBXzsRAkxVBPnUHYC8U3mI=
-X-Google-Smtp-Source: APiQypKzA24AprFbdvl7cKbfXxFljMkzCLaOOlg46OaMd9qXV1YnzY2Ud71/6w5xZSMVuUBnksX4Ow==
-X-Received: by 2002:a17:90a:d56:: with SMTP id 22mr3425448pju.187.1588690874256;
-        Tue, 05 May 2020 08:01:14 -0700 (PDT)
-Received: from localhost.localdomain ([2409:4072:60b:fcd9:7c28:bcca:10e4:5523])
-        by smtp.gmail.com with ESMTPSA id t188sm2186681pfb.185.2020.05.05.08.01.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 08:01:13 -0700 (PDT)
-From:   Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        id S1729728AbgEEPLm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 May 2020 11:11:42 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:2490 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729359AbgEEPLl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 5 May 2020 11:11:41 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 49GjqZ4kvgz8r;
+        Tue,  5 May 2020 17:11:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1588691499; bh=69YTMc1MT+A51zlzuZgEqvLApEm0SUOq8lZn3zUGa1o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ch3UdGqN0/ZNnxEIoAdn1qKmaKIi19O8LiOzfkzYLvn4N9JBmC1/WgmbXS9f+rXhY
+         hcvAONABtpJL06SefZFiR6dlapNx4l0Ex7I/iBH8dYxZSdjiypnpM6rju/B1F7scKV
+         3gowWo4YCh8U64WW8y0eoI4RMaGyUu1+JiIXeMSQKuIEhi5oJAJZw894VM/B4Dd3Fe
+         AtKmRkMRLmSIkBKi19ajuzEb9BH83KjzvDUKEmi7Bihze21QH9QkbqNlQJF0+vbLx8
+         Xd6hYZoj41Pwxcp7/81xc+Dyav4CftyztWsag+lmxrkLcyaAH9X4lp1MctIUX5+cwY
+         JqDN2BXXiUCWA==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Tue, 5 May 2020 17:11:36 +0200
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Vidya Sagar <vidyas@nvidia.com>, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] phy: tegra: Use PTR_ERR_OR_ZERO() to simplify code
-Date:   Tue,  5 May 2020 20:30:49 +0530
-Message-Id: <20200505150058.17674-1-aishwaryarj100@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Pedro =?iso-8859-2?Q?=C2ngelo?= <pangelo@void.io>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Zack Pearsall <zpearsall@yahoo.com>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/6] Support NVIDIA Tegra-based Acer A500 and Nexus 7
+ devices
+Message-ID: <20200505151136.GA26776@qmqm.qmqm.pl>
+References: <20200505022517.30523-1-digetx@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200505022517.30523-1-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-PTR_ERR_OR_ZERO contains if(IS_ERR(...)) + PTR_ERR.
+On Tue, May 05, 2020 at 05:25:11AM +0300, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This series introduces upstream kernel support for Acer Iconia Tab A500
+> and ASUS Google Nexus 7 tablet devices. Please review and apply, thanks
+> in advance.
+> 
+> Changelog:
+> 
+> v7: - This version brings support for a Nexus 7 variant that uses Ti PMIC
+>       instead of the Maxim PMIC. Previously we assumed that variant with
+>       the Ti PMIC doesn't exist in a wild, but turned out that it was a
+>       wrong assumption. In a result the device-trees are separated into
+>       more DTSI pieces, which combined together form the final device-tree.
+>       Thanks to Zack Pearsall for testing the Ti version!
+[...]
 
-Generated by: scripts/coccinelle/api/ptr_ret.cocci
+Hi Dmitry!
 
-Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
----
- drivers/phy/tegra/phy-tegra194-p2u.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+This Ti-based (PM269) version might be very similar to Asus TF300T I have.
+I'll have a look on your DT during the weekend.
 
-diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c b/drivers/phy/tegra/phy-tegra194-p2u.c
-index 7042bed9feaa..42394d27f4cb 100644
---- a/drivers/phy/tegra/phy-tegra194-p2u.c
-+++ b/drivers/phy/tegra/phy-tegra194-p2u.c
-@@ -92,10 +92,7 @@ static int tegra_p2u_probe(struct platform_device *pdev)
- 	phy_set_drvdata(generic_phy, phy);
- 
- 	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
--	if (IS_ERR(phy_provider))
--		return PTR_ERR(phy_provider);
--
--	return 0;
-+	return PTR_ERR_OR_ZERO(phy_provider);
- }
- 
- static const struct of_device_id tegra_p2u_id_table[] = {
--- 
-2.17.1
-
+Best Regards,
+Micha³ Miros³aw
