@@ -2,60 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 759401C558B
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2020 14:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C34BD1C5A4F
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2020 17:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728967AbgEEMha (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 May 2020 08:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33400 "EHLO
+        id S1729668AbgEEPBP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 May 2020 11:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728609AbgEEMha (ORCPT
+        by vger.kernel.org with ESMTP id S1729667AbgEEPBO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 5 May 2020 08:37:30 -0400
-Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB24C061A0F;
-        Tue,  5 May 2020 05:37:30 -0700 (PDT)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 4BA1539A; Tue,  5 May 2020 14:37:27 +0200 (CEST)
-Date:   Tue, 5 May 2020 14:37:25 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Tue, 5 May 2020 11:01:14 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A881AC061A0F;
+        Tue,  5 May 2020 08:01:14 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id mq3so1268056pjb.1;
+        Tue, 05 May 2020 08:01:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=9Wez+z5lCI0hS4teojmRNn9oUej07xsC5ZAyPPM7jFw=;
+        b=aDXKeHOfSlo2rCfHADtT4Q9TjUr+Ag9sUEzdm27UQPz6km3DVswbPcQsXkSIsXAG1c
+         xPaPYTpqAyMbhth2rciiELDkH75JsEtyeeghzKUgkCNLQfOwKx3KbdoLvkHmyKvbgxT5
+         Z4HxlBVwDBZVYdr0H3oAQHO0pAi8XmtaAOiEZ6gkbXuME5vhTyOcztrsYp4U6sXEGhpj
+         wePIwTVuQC1FH1o3hvYmX5K5+1NzMWeKZoNJfAdarz6s4T89efpih7e8JDO3tZJOkF5V
+         S/M2dZhxvKQfHcprkmxMAe+b9zL3kH0cP9dMo64gZ3lckOTsRwAbQH8lp1b0zGUhqgtt
+         VLNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=9Wez+z5lCI0hS4teojmRNn9oUej07xsC5ZAyPPM7jFw=;
+        b=taYI+7agvqSuVEqgu2vLSPe/Yo3lxL8GvKHeWc5Mb8/35he8425Z5WHIpHtzgLL2kW
+         HukkVjfl213dXZ3V5XbHYjuRkAAK7RRknYqfmf3Io3hkHJmKiNNHrWmtlCj/pKfkiZA6
+         Xkt22LXJTdOv0qnCfUm1LDZb/1W54wcA2xRb+y45nvuRMzaXvl1OGp8fysNzWYahy6p3
+         rC0paoEWQwEa1+yUW+POO6STWYpwFV8mqS55UHqNiSe2i01OaIK0LB3e9KATwO3lYSYn
+         M0PPsyvzbAvbazgqZfeGw+Lu1Vx8KNF3pnioJpHLDfKHypC3Ndfp6NG7sL6yJw22exwQ
+         HYdg==
+X-Gm-Message-State: AGi0PuYENiBPjXhm6Gc/f5v2QMNAxGMac4HV1I2NOcju9VXZZVHpeBP3
+        uyBXzsRAkxVBPnUHYC8U3mI=
+X-Google-Smtp-Source: APiQypKzA24AprFbdvl7cKbfXxFljMkzCLaOOlg46OaMd9qXV1YnzY2Ud71/6w5xZSMVuUBnksX4Ow==
+X-Received: by 2002:a17:90a:d56:: with SMTP id 22mr3425448pju.187.1588690874256;
+        Tue, 05 May 2020 08:01:14 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4072:60b:fcd9:7c28:bcca:10e4:5523])
+        by smtp.gmail.com with ESMTPSA id t188sm2186681pfb.185.2020.05.05.08.01.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 08:01:13 -0700 (PDT)
+From:   Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     Daniel Drake <drake@endlessm.com>, jonathan.derrick@intel.com,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v3 00/34] iommu: Move iommu_group setup to IOMMU core code
-Message-ID: <20200505123725.GB18353@8bytes.org>
-References: <20200429133712.31431-1-joro@8bytes.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200429133712.31431-1-joro@8bytes.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Vidya Sagar <vidyas@nvidia.com>, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] phy: tegra: Use PTR_ERR_OR_ZERO() to simplify code
+Date:   Tue,  5 May 2020 20:30:49 +0530
+Message-Id: <20200505150058.17674-1-aishwaryarj100@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Apr 29, 2020 at 03:36:38PM +0200, Joerg Roedel wrote:
-> Please review. If there are no objections I plan to put these patches
-> into the IOMMU tree early next week.
+PTR_ERR_OR_ZERO contains if(IS_ERR(...)) + PTR_ERR.
 
-Series is now applied.
+Generated by: scripts/coccinelle/api/ptr_ret.cocci
+
+Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+---
+ drivers/phy/tegra/phy-tegra194-p2u.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c b/drivers/phy/tegra/phy-tegra194-p2u.c
+index 7042bed9feaa..42394d27f4cb 100644
+--- a/drivers/phy/tegra/phy-tegra194-p2u.c
++++ b/drivers/phy/tegra/phy-tegra194-p2u.c
+@@ -92,10 +92,7 @@ static int tegra_p2u_probe(struct platform_device *pdev)
+ 	phy_set_drvdata(generic_phy, phy);
+ 
+ 	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+-	if (IS_ERR(phy_provider))
+-		return PTR_ERR(phy_provider);
+-
+-	return 0;
++	return PTR_ERR_OR_ZERO(phy_provider);
+ }
+ 
+ static const struct of_device_id tegra_p2u_id_table[] = {
+-- 
+2.17.1
+
