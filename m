@@ -2,111 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA8981C4EE2
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2020 09:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8AF51C5071
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 May 2020 10:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728284AbgEEHRE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 May 2020 03:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725766AbgEEHRE (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 5 May 2020 03:17:04 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6607BC061A0F;
-        Tue,  5 May 2020 00:17:02 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id k1so1392617wrx.4;
-        Tue, 05 May 2020 00:17:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=emMqIAfTmjcgvm1WUdIrm2dV6d1JMni+YiBRBMmX0eQ=;
-        b=VXiucNkKpaip/zEZ6eBBDS6iKOD3nIpqI2Fh2iN85/Sl++tlzvouYppk/Fo5nBiBX6
-         A6A72YGdafkTVVQiPi38t+ySHKExmYY36S64CR8fpVFTn2AKi0SONKBl+vBu/fYeHEoV
-         Q5HJ3QZsTcEHoKsBHLLofZS7RVetwqMcPFVR7/FsynFE7qJc2oe3MSCRxIF120cO7awC
-         wz6+gG1IvPigOpuzvYAXRlB3aE3aRmD26J7zWc0MXo4cC28OT9yv+kvR+gxhGu66jotD
-         tqS+s0mgYv+eGiRu2OlWx8gsBFU78ZkAR4ydg+wSeoG5hSoZg8lZT/YUZQ/L+Y+X9r9K
-         nWcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=emMqIAfTmjcgvm1WUdIrm2dV6d1JMni+YiBRBMmX0eQ=;
-        b=TAYBVqjW8WAaGQcicRg1XqdZMytU8e3jvMyWPYKHACXhNsMOtPyMCpkmh+/ayVrfwZ
-         KdaEQ4z7QOEq+wrefaFsnt0Crcpjw/tpYXrFN+y1cRoFZMqQvO3hsSZNVKr5Stl4QvL7
-         dR0dkIT3apsISBtCbarxh76cNvR4o6wEHAU3nJJZQD2sB40h09Jce4Gf8DgyGa8JUlOT
-         AeUWKz8vahlhSfg3f26aQD6fc3CUSpK7uaNLh9wBpssKoxZURolwwKjE8G2iiEfwXSEi
-         1pZAyO7NWN1de6WO45bczfs5t0zKDve0UHRNTUyPS+DTdp65tbBXS1/RL861fIC7p5FN
-         hsAQ==
-X-Gm-Message-State: AGi0PuYRj0/6BLFOPONzm0QebOTeh0YuLbbTkBdyep14LC3ChbU57f6s
-        5m2+FAO02rNm7/iHYhl8NY4=
-X-Google-Smtp-Source: APiQypJfp1jaYnS8GcWJcUlLxMofx0mkoUY2CEAkpWUvjs6Jz1EciDTzqso+47ZlYU196Xa0qUVkyg==
-X-Received: by 2002:adf:f6cb:: with SMTP id y11mr1990205wrp.304.1588663020899;
-        Tue, 05 May 2020 00:17:00 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id a24sm2251287wmb.24.2020.05.05.00.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 00:16:59 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v5.7] clk: tegra: Fix initial rate for pll_a on Tegra124
-Date:   Tue,  5 May 2020 09:16:55 +0200
-Message-Id: <20200505071655.644773-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        id S1728565AbgEEIgj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 May 2020 04:36:39 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:12333 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725833AbgEEIgi (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 May 2020 04:36:38 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eb125150000>; Tue, 05 May 2020 01:34:29 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 05 May 2020 01:36:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 05 May 2020 01:36:38 -0700
+Received: from [10.26.73.45] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 May
+ 2020 08:36:35 +0000
+Subject: Re: [PATCH 4.4 00/18] 4.4.222-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200504165441.533160703@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <779ededd-d368-95fd-bd26-70447775df77@nvidia.com>
+Date:   Tue, 5 May 2020 09:36:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200504165441.533160703@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588667669; bh=EZjaSzY5oCOxjQFkKHW2nMdSLp44HFcax5hGCGwiKiQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=IrZIvOWkumZtcB6RDV9fvr2WMh600QCiRfiiQ02UB6F3T7/qPKSNP8ocMRiL+WXkI
+         OuBlJWN9Z1AMMBhkReMDk9ITxaMb6pqSRcOdX5CO6IHWDcafCAcgZR7y6/doaZhxsQ
+         su1S8NtMoI242kMvBV8SLo0vxcJIoDuofMmOekPKOZb1m/6i8At9s0Kr0EvZ4Vqcrv
+         e7TerXCh+y2iuvGv6LdH8VBO1gYhnobgPWIP+qL/jTMHxZqQkUPGP154bdcwpKgL9t
+         rFKlWor9k0TWZhl44t03mBdmHlhoORvp44YOwJ1ANxu1po3HdDZ1izQxt0F2WZX0+R
+         BxdLEPhdu67fw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-pll_a_out0 and the I2S clocks are already configured to default to rates
-corresponding to a 44.1 kHz sampling rate, but the pll_a configuration
-was set to a default that is not listed in the frequency table, which
-caused the PLL code to compute an invalid configuration. As a result of
-this invalid configuration, Jetson TK1 fails to resume from suspend.
+On 04/05/2020 18:56, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.222 release.
+> There are 18 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed, 06 May 2020 16:52:55 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.222-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-This used to get papered over because the ASoC driver would force audio
-clocks to a 44.1 kHz configuration on boot. However, that's not really
-necessary and was hence removed in commit ff5d18cb04f4 ("ASoC: tegra:
-Enable audio mclk during tegra_asoc_utils_init()").
+All tests are passing for Tegra ...
 
-Fix the initial rate for pll_a so that it matches the 44.1 kHz entry in
-the pll_a frequency table.
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
 
-Fixes: ff5d18cb04f4 ("ASoC: tegra: Enable audio mclk during tegra_asoc_utils_init()")
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Mike, Stephen,
+Linux version:	4.4.222-rc1-g2f5149253281
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
-this fixes a regression in v5.7, so it'd be great if you could queue it
-up in your fixes branch.
+Cheers
+Jon
 
-Thanks,
-Thierry
-
- drivers/clk/tegra/clk-tegra124.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra124.c
-index 64e229ddf2a5..e931319dcc9d 100644
---- a/drivers/clk/tegra/clk-tegra124.c
-+++ b/drivers/clk/tegra/clk-tegra124.c
-@@ -1292,7 +1292,7 @@ static struct tegra_clk_init_table common_init_table[] __initdata = {
- 	{ TEGRA124_CLK_UARTB, TEGRA124_CLK_PLL_P, 408000000, 0 },
- 	{ TEGRA124_CLK_UARTC, TEGRA124_CLK_PLL_P, 408000000, 0 },
- 	{ TEGRA124_CLK_UARTD, TEGRA124_CLK_PLL_P, 408000000, 0 },
--	{ TEGRA124_CLK_PLL_A, TEGRA124_CLK_CLK_MAX, 564480000, 0 },
-+	{ TEGRA124_CLK_PLL_A, TEGRA124_CLK_CLK_MAX, 282240000, 0 },
- 	{ TEGRA124_CLK_PLL_A_OUT0, TEGRA124_CLK_CLK_MAX, 11289600, 0 },
- 	{ TEGRA124_CLK_I2S0, TEGRA124_CLK_PLL_A_OUT0, 11289600, 0 },
- 	{ TEGRA124_CLK_I2S1, TEGRA124_CLK_PLL_A_OUT0, 11289600, 0 },
 -- 
-2.24.1
-
+nvpublic
