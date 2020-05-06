@@ -2,118 +2,174 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 709091C644D
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 01:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8401C6733
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 07:08:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729119AbgEEXMN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 May 2020 19:12:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
+        id S1726350AbgEFFH5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 01:07:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727089AbgEEXMM (ORCPT
+        by vger.kernel.org with ESMTP id S1725821AbgEFFH4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 5 May 2020 19:12:12 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9830CC061A0F;
-        Tue,  5 May 2020 16:12:11 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id e16so4691924wra.7;
-        Tue, 05 May 2020 16:12:11 -0700 (PDT)
+        Wed, 6 May 2020 01:07:56 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3176FC061A0F;
+        Tue,  5 May 2020 22:07:56 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id 188so988744wmc.2;
+        Tue, 05 May 2020 22:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5nCJ70q6OrlsQs6J0gSq3Rwu8I1zCE+Jl2YwAdQlPNo=;
-        b=jhRV68V1BWkaeYFDVHBkeAYHqLuJC0/f4h1ReJijnx+ZItov5jdwfT05XcBfcUetfv
-         PXYO2+tbZCam9dqETbyWzBUoUONNo3kfSBZ2dxujzNJh0MZvSs2yQEPSFXqk6gLTHtSN
-         LRKkuaER46B8ADSCjz3pUbfNx0rnqxjbcXJwtmHrcz74h87/tXPzZbij0McQDXTXoFFP
-         0Gv9MWevJDZVHQZfruUjJFDVNP+/9K/8jLc2fGbEJwdD/0QqhMzNFWK9q0XZcSGoXiLS
-         V9L2F0oFuvY6d0DzlcSv5z1uQ8w9YjNroxEBzN5sdIi3+iN7WNTuhg1+mkuInifqLtDy
-         Z0DA==
+        h=from:to:cc:subject:date:message-id;
+        bh=vH1kJeWFMFqUY6h5ETi0ZcC8WleFTiD6Swlqzl2oX7U=;
+        b=pl3mqNDFiO1VQ//NUB/a6LkFWdanYHjiv0fnTZkQ5RSbzLJ77gdm6X6hWt2CiFyaS1
+         zdmIRRCuSaXtk9n35DrnHK8BigRY9zi8ydaxTBzqMm4oWNJge23/3PcGSK30xEZlbImm
+         JzvRPPtsuJ5iAvyLlEzEtPaoeuXmllsd/r7J7DN/Box6IttiFmAykBIh4Wb/v9TmjlPc
+         H/aB+R1iSkMsIMO1o4/DFbGuORdTZGyaE/pgHRxl5GJ7ZxLDTqrjuv67k0j97cVu+Hg/
+         rwuAOm7Zsn5heUAMhMmQ1ePZ7QhWAe2bzCsGuX8dZpu6NyIDr3nSO76mGIBSW3aBD+JL
+         hTJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5nCJ70q6OrlsQs6J0gSq3Rwu8I1zCE+Jl2YwAdQlPNo=;
-        b=Kl8yWbLqldZVSDCqSTFG9sDnNl8MsptJUiq3c2wz6CMoE4m05sDgk+Q/dZ1WsS/CUq
-         gGTNQ8fPIVy2lqDVjf6BjfC0cQ8oGQ0nMzt9d/Ne4RT3MkTWMCGyPZvX/w4yVzEy0vWk
-         5O/wBKhqwBix/iwpQIJ2qCuZUVm7TjTETWufqN1LAkKXN0ZVmOB+CikE9LMoQcN8cWDb
-         iwA4mFbCEsTZsPbBSYfRFfjDWknNN5vlyEVQ0jGIuYVOQoJu2cOld5rv/8nhqKMse0U7
-         aNniukCP5RteKQkM1jILcdZ8zUkw/2WBDfa68Y5a7fwYNKh8Oj+mwvTlD+w8l9MBhNC4
-         qQmg==
-X-Gm-Message-State: AGi0PuY3/N96yNFlGNkXW5VeQotgGpZBGeO+8XUC9BFBer9DJ17Dg4Ok
-        go36lfhVA43dFKCFxEaIwuo=
-X-Google-Smtp-Source: APiQypLVljBZkbjWKlDFFTM1aT8j4lcKSwyon9q9hMwYVKmrIlQZFEqUiRoqJmuhy2mjP/qcKlYT9Q==
-X-Received: by 2002:adf:dfcd:: with SMTP id q13mr4933591wrn.22.1588720329521;
-        Tue, 05 May 2020 16:12:09 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id w6sm106310wrt.39.2020.05.05.16.12.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=vH1kJeWFMFqUY6h5ETi0ZcC8WleFTiD6Swlqzl2oX7U=;
+        b=hsC4y3OeNyDy7pQLs/146sIWUqaUnHq8kqmBKbfAjBPGKKj06i9EADyWZwGbW1bu1J
+         XMv1MWNqThA6adMzwyAZKr+Yd05kVH3HHsFPKsufBpo8YyBch7rXOBCuMmtz2Zz3Kwbd
+         Hu+1QAYgbBzErwWKzaYqjriUJ7jA3P4Z3IgMR+FnPzuAJq8lAVB5G5fvkTOIB8vR0e3L
+         yTwqDN4f2yAlozq9Ht/FfT6Gk5Mb+ebEN/9NkL8NIowggs6SOFpTsWtaw7cUlTZXFng1
+         Cmh3+EVhamc1VNHqt/IDA82Gmzo20pFC/XRr2yAW9QjvKh6LGWcQStEZSUbR9CwXaX3I
+         DebQ==
+X-Gm-Message-State: AGi0PuYv+xViMALBqK62bG885vrQOrVv6oX5aw2FrMgZt7gD4+cyCVnP
+        21Ymu+p4a3J6G6zMX3azJJA=
+X-Google-Smtp-Source: APiQypLH9+oYRyIqGtyM1npSpJ2vPM3TI6PRcfz/EzhzDgzXQrn+PSvjdvVyw1TNdLyHW7ga380FUg==
+X-Received: by 2002:a1c:4b12:: with SMTP id y18mr2242366wma.149.1588741674674;
+        Tue, 05 May 2020 22:07:54 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2df1:2500:bc2e:80a7:2be5:2fcf])
+        by smtp.gmail.com with ESMTPSA id x24sm791504wrd.51.2020.05.05.22.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 16:12:07 -0700 (PDT)
-Date:   Wed, 6 May 2020 01:12:05 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Peter Robinson <pbrobinson@redhat.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] arm64: tegra: Fix ethernet phy-mode for Jetson Xavier
-Message-ID: <20200505231205.GA2682073@ulmo>
-References: <20200501072756.25348-1-jonathanh@nvidia.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
-Content-Disposition: inline
-In-Reply-To: <20200501072756.25348-1-jonathanh@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+        Tue, 05 May 2020 22:07:53 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, Joe Perches <joe@perches.com>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH RESEND] MAINTAINERS: adjust entries to moving CEC platform drivers
+Date:   Wed,  6 May 2020 07:07:44 +0200
+Message-Id: <20200506050744.4779-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Commit 4be5e8648b0c ("media: move CEC platform drivers to a separate
+directory") moved various files into a new directory structure, but did
+not adjust the entries in MAINTAINERS.
 
---liOOAslEiF7prFVr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since then, ./scripts/get_maintainer.pl --self-test=patterns complains:
 
-On Fri, May 01, 2020 at 08:27:56AM +0100, Jon Hunter wrote:
-> The 'phy-mode' property is currently defined as 'rgmii' for Jetson
-> Xavier. This indicates that the RGMII RX and TX delays are set by the
-> MAC and the internal delays set by the PHY are not used.
->=20
-> If the Marvell PHY driver is enabled, such that it is used and not the
-> generic PHY, ethernet failures are seen (DHCP is failing to obtain an
-> IP address) and this is caused because the Marvell PHY driver is
-> disabling the internal RX and TX delays. For Jetson Xavier the internal
-> PHY RX and TX delay should be used and so fix this by setting the
-> 'phy-mode' to 'rgmii-id' and not 'rgmii'.
->=20
-> Cc: stable@vger.kernel.org
->=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+  warning: no file matches F: drivers/media/platform/s5p-cec/
+  warning: no file matches F: drivers/media/platform/tegra-cec/
+  warning: no file matches F: drivers/media/platform/cec-gpio/
+  warning: no file matches F: drivers/media/platform/meson/ao-cec-g12a.c
+  warning: no file matches F: drivers/media/platform/meson/ao-cec.c
+  warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.c
+  warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.h
+  warning: no file matches F: drivers/media/platform/sti/cec/
 
-Added a Fixes: tag and applied to for-5.8/arm64/dt, thanks.
+Update the MAINTAINERS entries to the new file locations.
 
-Thierry
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Mauro, please pick this non-urgent minor clean-up patch on top of the
+CEC platform driver moves.
 
---liOOAslEiF7prFVr
-Content-Type: application/pgp-signature; name="signature.asc"
+applies cleanly on next-20200417 and still on next-20200505 for this
+resend.
 
------BEGIN PGP SIGNATURE-----
+v1 send here:
+https://lore.kernel.org/lkml/20200418093630.6149-1-lukas.bulwahn@gmail.com/
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6x8q4ACgkQ3SOs138+
-s6Hj4A//bZzyUQMMk8z/OhSarJzGUzrOqlYlezjQWrmfuCIkygHuWvV/VxPmaHPK
-PHCC9sdUBqlv2ZLRSlOxwMDYiZGCI8cht26eZwYSteHvaVm/IbIPs24y/nLf+FDB
-GXAN0dGim6OwcwHvJ1UiGzSbmwvp51YIdqTujH8UgQgjfUjHcf5ZQZ95cmXLi6gd
-RSSVQ5Pmmk/FG2wYq9y8w/wgBP0NQXegb0wsQ8U4AMP9EetQL1k+L5BlBIEvhCrp
-9NHvPovmlyzCPic7qEPD637LNJViCT+It7lE46V2y1FWlKeFdFPwwmzipDwxX6i5
-wKGx9x9QMCcg9s50uRRtbSrN81PNUZfR8bE2AITRqrLMF1i1u4wd9ERveLq3qMla
-c2WxvcfTOA2/MCHj62Qq+/WglXw31bzm7FbJyjIdjIz5jNM8oK5E15TWJShSc0MN
-/DGt0YQkZeoeqlzlyYsr1UMeAi087ToBvxA4KgfIX9kx093kM/YOUIvllqUn3GD7
-eqYaoygiMJSQIHLqvHvpPvMLuS3PLBHucJozOjL7E47yzPrkuOZ8rWIQTQZiI4d6
-g1Iyt5CSG5ZZ+XJUpTYuVMPdcTnBp0bdo+AmS6U3sVnpwT22Dr6BnsHKYyweci2A
-c89pQBxfY3quf7jj9XmPX2d8Zf0nQjDkoqAxQbP12CgD5UCUQr0=
-=dj8D
------END PGP SIGNATURE-----
+ MAINTAINERS | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
---liOOAslEiF7prFVr--
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3083282134de..a708773e1af7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2373,7 +2373,7 @@ L:	linux-samsung-soc@vger.kernel.org (moderated for non-subscribers)
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/s5p-cec.txt
+-F:	drivers/media/platform/s5p-cec/
++F:	drivers/media/cec/platform/s5p/
+ 
+ ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT
+ M:	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+@@ -2518,7 +2518,7 @@ L:	linux-tegra@vger.kernel.org
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/tegra-cec.txt
+-F:	drivers/media/platform/tegra-cec/
++F:	drivers/media/cec/platform/tegra/
+ 
+ ARM/TETON BGA MACHINE SUPPORT
+ M:	"Mark F. Brown" <mark.brown314@gmail.com>
+@@ -3932,7 +3932,7 @@ S:	Supported
+ W:	http://linuxtv.org
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/cec-gpio.txt
+-F:	drivers/media/platform/cec-gpio/
++F:	drivers/media/cec/platform/cec-gpio/
+ 
+ CELL BROADBAND ENGINE ARCHITECTURE
+ M:	Arnd Bergmann <arnd@arndb.de>
+@@ -11027,8 +11027,7 @@ S:	Supported
+ W:	http://linux-meson.com/
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+-F:	drivers/media/platform/meson/ao-cec-g12a.c
+-F:	drivers/media/platform/meson/ao-cec.c
++F:	drivers/media/cec/platform/meson/
+ 
+ MESON NAND CONTROLLER DRIVER FOR AMLOGIC SOCS
+ M:	Liang Yang <liang.yang@amlogic.com>
+@@ -15063,8 +15062,7 @@ F:	drivers/mmc/host/sdricoh_cs.c
+ SECO BOARDS CEC DRIVER
+ M:	Ettore Chimenti <ek5.chimenti@gmail.com>
+ S:	Maintained
+-F:	drivers/media/platform/seco-cec/seco-cec.c
+-F:	drivers/media/platform/seco-cec/seco-cec.h
++F:	drivers/media/cec/platform/seco/
+ 
+ SECURE COMPUTING
+ M:	Kees Cook <keescook@chromium.org>
+@@ -16089,7 +16087,7 @@ STI CEC DRIVER
+ M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/stih-cec.txt
+-F:	drivers/media/platform/sti/cec/
++F:	drivers/media/cec/platform/sti/
+ 
+ STK1160 USB VIDEO CAPTURE DRIVER
+ M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+-- 
+2.17.1
+
