@@ -2,135 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B02941C751F
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 17:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5701C7560
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 17:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729197AbgEFPk3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 11:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728994AbgEFPk3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 11:40:29 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EF6C061A0F;
-        Wed,  6 May 2020 08:40:29 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id g4so2881564ljl.2;
-        Wed, 06 May 2020 08:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=0VvaK4qV5Etc72CR3O+s6dMnkCvk9HbAf4bkxXWnjEk=;
-        b=rhjyr4lDLoMgtOYB2r0o+OivmiLZx9dTkjsQDZagRb9Q7LOphEreVu7j948kVIskqU
-         pB00zCfLrigfNDjQPvnSbpEA/3JH+bsvdictzcAByx3TSHu5HT3KKScX9HpYZoqbNRrQ
-         pIgLDvC0dsm8atptTDJKGNXibJCC/ogo956lYPMcAG5wHID8weG0LsxzEImi0VYMPBHQ
-         mM9r4Le4mdnH4VSA57t08E/b/8dRN6yq82Xwll0cEUhf/hWBrGgn7ywNMUTwIYFkN66c
-         Po4MLektX/wUlAOBRPGHIVL+M2z724VA17kk0iDqCb+m30OIJE/yi3wHB3A8pFWyvZNM
-         PGzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0VvaK4qV5Etc72CR3O+s6dMnkCvk9HbAf4bkxXWnjEk=;
-        b=tUXSgALTrehTRxwFxvJ1AChdI0Tqj7OwQtIpcz15sGjhp/oK/udaJHBvWtsHZU0h4u
-         ghRKBKRaLznpMi3NN4du0zVKlNpglNm79JJZ/ZQAcYPS5i2NBPN+tS6ymFPvYqXGPpWY
-         gX7ooIxaiREgrsZ4NsIyn0zzbpXR6WEKH0QWGSCqY8koXO+2pKoASNBsH62SqtbKve4U
-         0TKQsPQ/WRljarphI5de8hM1inklSljtxhQYgmHApSYyUOfiSKMPSel93dMqUqWXaEhf
-         4IYmI/W9o9NCjxO9dF8ZccaonCWhpCfLt/Vic+95jP90l0puDByKR30PBS45j7vjIkN4
-         FciA==
-X-Gm-Message-State: AGi0PubSUzXHi0yiZQ/vIRpNyzNcbSBNm4RZCzmgn5bQQsshWDbS88HL
-        XSVvvD22M5o/Xw6FKzdphmc=
-X-Google-Smtp-Source: APiQypJwNgzw4wq+U0P/io4z1Terb+WwllbnYJIXZLSDc1WfL/Fy5HRVyoHY9h17kjjk+8rpPHfUvw==
-X-Received: by 2002:a2e:6a08:: with SMTP id f8mr5671980ljc.8.1588779627589;
-        Wed, 06 May 2020 08:40:27 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id m15sm1557297lji.21.2020.05.06.08.40.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2020 08:40:26 -0700 (PDT)
-Subject: Re: [PATCH] phy: tegra: Use PTR_ERR_OR_ZERO() to simplify code
-To:     Vidya Sagar <vidyas@nvidia.com>,
-        Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Julia Lawall <julia.lawall@inria.fr>
-References: <20200505150058.17674-1-aishwaryarj100@gmail.com>
- <be185976-3d12-f49d-6131-39f5075e0190@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d3397bc6-099e-591a-ff60-5e67da478526@gmail.com>
-Date:   Wed, 6 May 2020 18:40:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729624AbgEFPxP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 11:53:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728991AbgEFPxP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 6 May 2020 11:53:15 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CF25F20708;
+        Wed,  6 May 2020 15:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588780394;
+        bh=61SzP6jYuIR+DjFGG/3AzUM3hopX9KA2QA96YzJI/5I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n02M6rTfUPMddeoyC4siuILDTmJjZuaqWDo9upgcwpX6XKADKRGtnaaaFXzg73kw2
+         UTXti58uJIzNXeNOa9fT46C9sy4lArpmqerVdZVU4B0zSBh97JZ3U+qADxqYn/HoY0
+         v5ePdk+ien+u/L70HvI+C4ynIJEXVFuEBmpFzUxg=
+Date:   Wed, 6 May 2020 16:53:11 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jerome Brunet <jbrunet@baylibre.com>
+Cc:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        kuninori.morimoto.gx@renesas.com, nicoleotsuka@gmail.com,
+        alsa-devel@alsa-project.org, swarren@nvidia.com,
+        linux-kernel@vger.kernel.org, nwartikar@nvidia.com,
+        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
+        sharadg@nvidia.com, thierry.reding@gmail.com,
+        atalambedu@nvidia.com, linux-tegra@vger.kernel.org,
+        digetx@gmail.com, rlokhande@nvidia.com, mkumard@nvidia.com,
+        dramesh@nvidia.com
+Subject: Re: [RFC] DPCM for Tegra
+Message-ID: <20200506155311.GG5299@sirena.org.uk>
+References: <1588250483-10014-1-git-send-email-spujar@nvidia.com>
+ <1jzhalffhh.fsf@starbuckisacylon.baylibre.com>
+ <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
+ <1jwo5pf7de.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-In-Reply-To: <be185976-3d12-f49d-6131-39f5075e0190@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="BzCohdixPhurzSK4"
+Content-Disposition: inline
+In-Reply-To: <1jwo5pf7de.fsf@starbuckisacylon.baylibre.com>
+X-Cookie: Not recommended for children.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.05.2020 14:47, Vidya Sagar пишет:
-> Thanks for pushing this change.
-> I'm fine with this change as it is attempting to change only the last
-> occurrence of the (IS_ERR(...)) + PTR_ERR combination.
-> But, this code was initially written with PTR_ERR_OR_ZERO() itself but
-> later changed to use (IS_ERR(...)) + PTR_ERR based on the review comment
-> from Dmitry Osipenko ( https://lkml.org/lkml/2019/6/20/1457 )
-> 
-> Adding Dmitry as well to review the change.
-> 
-> I'm fine with this change.
-> Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
-> 
-> On 05-May-20 8:30 PM, Aishwarya Ramakrishnan wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> PTR_ERR_OR_ZERO contains if(IS_ERR(...)) + PTR_ERR.
->>
->> Generated by: scripts/coccinelle/api/ptr_ret.cocci
->>
->> Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
->> ---
->>   drivers/phy/tegra/phy-tegra194-p2u.c | 5 +----
->>   1 file changed, 1 insertion(+), 4 deletions(-)
->>
->> diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c
->> b/drivers/phy/tegra/phy-tegra194-p2u.c
->> index 7042bed9feaa..42394d27f4cb 100644
->> --- a/drivers/phy/tegra/phy-tegra194-p2u.c
->> +++ b/drivers/phy/tegra/phy-tegra194-p2u.c
->> @@ -92,10 +92,7 @@ static int tegra_p2u_probe(struct platform_device
->> *pdev)
->>          phy_set_drvdata(generic_phy, phy);
->>
->>          phy_provider = devm_of_phy_provider_register(dev,
->> of_phy_simple_xlate);
->> -       if (IS_ERR(phy_provider))
->> -               return PTR_ERR(phy_provider);
->> -
->> -       return 0;
->> +       return PTR_ERR_OR_ZERO(phy_provider);
->>   }
 
-Quite some people think that such a change doesn't bring any benefits,
-it doesn't help readability of the code, it even makes harder to read
-the code for a human being.
+--BzCohdixPhurzSK4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-IIRC, there were some requests in the past to remove that cocci rule to
-stop such auto-generated patches to re-occur over and over again.
+On Wed, May 06, 2020 at 04:47:09PM +0200, Jerome Brunet wrote:
+> On Wed 06 May 2020 at 16:12, Sameer Pujar <spujar@nvidia.com> wrote:
 
-The PTR_ERR_OR_ZERO is good to use in a cases where it's not returned
-directly, like this:
+> > XBAR currently exports all routing widgets which can be used to
+> > interconnect multiple components and thus implements Mux widgets. Fixing
+> > the routing paths in driver would limit anyone to try a different
+> > combination as per the need, unless driver is modified.
 
-phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
-err = PTR_ERR_OR_ZERO(phy_provider);
-if (err)
-	return err;
+> I did not mean that you should restrict the routing ability of your SoC,
+> quite the opposite actually.
 
-return 0;
+> You should just expose it correctly
+
+Yes, it's going to be less effort in the long run if nothing else.
+
+--BzCohdixPhurzSK4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6y3WcACgkQJNaLcl1U
+h9C+9wf9FhV0+uWoqDcuQBDbDmaqyavUV8uakHgopXF3Q9Ny3WMoj1EBaIpxOOM1
+nFLZGkaXGkbOEDxuixc2ptvMvML5c8WccOrS3J9Ux6K16BbXpwjFsqClUrzpix0O
+r40xsg0q81/pSxIFOWU0BKmFebz8wLG3NGGV2d7ZMW//kIG7LVAb8oB6epKkeKYY
+sACMClQ7QsGOeWqteFWq91phXk4OL9KJ4SileYVgTcMBoeN8xgIytv+v7unCTKhk
+aJALdHiBajto60CLYG6UPUoIZ3FRLWEoybSOdI7uQz2MmWctYmzn5OQu3lGGlM4l
+XM3B0/3XWGsyGhK+XM1JqWoi9cz1tw==
+=tJVE
+-----END PGP SIGNATURE-----
+
+--BzCohdixPhurzSK4--
