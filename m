@@ -2,84 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 723481C704F
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 14:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 908791C713C
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 15:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727971AbgEFMcl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 08:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728109AbgEFMcl (ORCPT
+        id S1727964AbgEFNBE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 09:01:04 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:49086 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728154AbgEFNBC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 08:32:41 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9F26C03C1A6
-        for <linux-tegra@vger.kernel.org>; Wed,  6 May 2020 05:32:40 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:6572:4a1f:d283:9ae8])
-        by andre.telenet-ops.be with bizsmtp
-        id bQYe2200Y3ZRV0X01QYeog; Wed, 06 May 2020 14:32:38 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jWJE6-0000iD-GT; Wed, 06 May 2020 14:32:38 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jWJE6-0001xC-FC; Wed, 06 May 2020 14:32:38 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Wed, 6 May 2020 09:01:02 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588770062; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=EEVpYpqQ1QRwHdkwdt5mqy1ieqOZLEZitiAbr0eLLME=; b=kUOFuDGhhKgCxFzxKfm1vuTPZqlPt6UTHSjgFfZKadV8Jp+YiqYDKy7B5SVoRq7O6xR4Pwb3
+ 6qx3aDQb2iMdiiinuqSgw8d5WlaCkq1XqYQSlDHH4RfJ4cHnvy6A/OXUjmHKwDxSFxjWshOG
+ LjluxZTjd8j8DjNQ2Gwxjrv8UeA=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI0ODE0OSIsICJsaW51eC10ZWdyYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb2b4e8.7fc83cd1fdf8-smtp-out-n03;
+ Wed, 06 May 2020 13:00:24 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 0BFC2C00456; Wed,  6 May 2020 13:00:20 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.43.57] (unknown [27.59.131.204])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: vbadigan)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B9225C433BA;
+        Wed,  6 May 2020 13:00:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B9225C433BA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=vbadigan@codeaurora.org
+Subject: Re: [PATCH v5 1/5] mmc: core: Extend mmc_of_parse() to parse CQE
+ bindings
+To:     Chun-Hung Wu <chun-hung.wu@mediatek.com>, mirq-linux@rere.qmqm.pl,
         Jonathan Hunter <jonathanh@nvidia.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Joseph Lo <josephl@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] memory: tegra: Drop <linux/clk-provider.h>
-Date:   Wed,  6 May 2020 14:32:36 +0200
-Message-Id: <20200506123236.7463-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200506123236.7463-1-geert+renesas@glider.be>
-References: <20200506123236.7463-1-geert+renesas@glider.be>
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        Yong Mao <yong.mao@mediatek.com>
+Cc:     kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
+ <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com>
+From:   Veerabhadrarao Badiganti <vbadigan@codeaurora.org>
+Message-ID: <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
+Date:   Wed, 6 May 2020 18:30:04 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra EMC scaling support code is not a clock provider, but merely a
-clock consumer, and thus does not need to include
-<linux/clk-provider.h>.
 
-Fixes: ec37a9a17afbfad5 ("memory: tegra: Add EMC scaling support code for Tegra210")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/memory/tegra/tegra210-emc-core.c | 1 -
- drivers/memory/tegra/tegra210-emc.h      | 1 -
- 2 files changed, 2 deletions(-)
+On 4/28/2020 5:26 AM, Chun-Hung Wu wrote:
+> Parse CQE bindings "supports-cqe" and "disable-cqe-dcmd"
+> in mmc_of_parse().
+>
+> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+> ---
+>   drivers/mmc/core/host.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
+> index c876872..47521c6 100644
+> --- a/drivers/mmc/core/host.c
+> +++ b/drivers/mmc/core/host.c
+> @@ -302,6 +302,11 @@ int mmc_of_parse(struct mmc_host *host)
+>   		host->caps2 |= MMC_CAP2_NO_SD;
+>   	if (device_property_read_bool(dev, "no-mmc"))
+>   		host->caps2 |= MMC_CAP2_NO_MMC;
+> +	if (device_property_read_bool(dev, "supports-cqe"))
+> +		host->caps2 |= MMC_CAP2_CQE;
 
-diff --git a/drivers/memory/tegra/tegra210-emc-core.c b/drivers/memory/tegra/tegra210-emc-core.c
-index d64ffe27c2457c9e..cdd663ba4733d8ff 100644
---- a/drivers/memory/tegra/tegra210-emc-core.c
-+++ b/drivers/memory/tegra/tegra210-emc-core.c
-@@ -6,7 +6,6 @@
- #include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/clk/tegra.h>
--#include <linux/clk-provider.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/kernel.h>
-diff --git a/drivers/memory/tegra/tegra210-emc.h b/drivers/memory/tegra/tegra210-emc.h
-index 63b3d0a790f1a908..8988bcf1529072a7 100644
---- a/drivers/memory/tegra/tegra210-emc.h
-+++ b/drivers/memory/tegra/tegra210-emc.h
-@@ -7,7 +7,6 @@
- #define TEGRA210_EMC_H
- 
- #include <linux/clk.h>
--#include <linux/clk-provider.h>
- #include <linux/clk/tegra.h>
- #include <linux/io.h>
- #include <linux/platform_device.h>
--- 
-2.17.1
+This change is breaking emmc driver on qcom platforms where this dt 
+property is defined.
 
+[    1.543453]  cqhci_deactivate+0xc/0x38
+[    1.545627]  sdhci_msm_reset+0x40/0x58
+[    1.549447]  sdhci_do_reset+0x48/0x7c
+[    1.553180]  __sdhci_read_caps+0x7c/0x214
+[    1.556913]  sdhci_setup_host+0x58/0xce8
+[    1.560905]  sdhci_msm_probe+0x588/0x8a4
+[    1.564900]  platform_drv_probe+0x4c/0xb0
+
+So, we cant have this flag defined before sdhci_setup_host().
+
+I will have to clear this cap and re-enable it in our initialization.
+
+> +	if (!device_property_read_bool(dev, "disable-cqe-dcmd")) {
+> +		host->caps2 |= MMC_CAP2_CQE_DCMD;
+> +	}
+>   
+>   	/* Must be after "non-removable" check */
+>   	if (device_property_read_u32(dev, "fixed-emmc-driver-type", &drv_type) == 0) {
