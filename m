@@ -2,129 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00FA21C7691
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 18:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B53A1C76A1
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 18:36:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730084AbgEFQev (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 12:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41594 "EHLO
+        id S1729968AbgEFQgu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 12:36:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729774AbgEFQev (ORCPT
+        by vger.kernel.org with ESMTP id S1729837AbgEFQgt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 12:34:51 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8AFC061A0F;
-        Wed,  6 May 2020 09:34:51 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id x17so2967833wrt.5;
-        Wed, 06 May 2020 09:34:51 -0700 (PDT)
+        Wed, 6 May 2020 12:36:49 -0400
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98EEDC0610D6
+        for <linux-tegra@vger.kernel.org>; Wed,  6 May 2020 09:36:49 -0700 (PDT)
+Received: by mail-vk1-xa42.google.com with SMTP id n207so702278vkf.8
+        for <linux-tegra@vger.kernel.org>; Wed, 06 May 2020 09:36:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CitFOW6lSCwIM6aw5NC/+3Zn/prCPjR6lg9nFJoDblU=;
-        b=pw9fk+/IZaZeW50iJflg9PhbuzRdzLg808N7u2Fez6ORNPCvTn4U/En6ZNVoy1q4FA
-         Uf2pw1nwS6gqTx7REZYSdawIUha1dkYjj5r1GCU/1ewCeJNxsQKgmOXOSNXcWKYK1DJv
-         62t3uKrx2SaH1SGCgedfOSjOpTYD54k6Z5B5iF7CiXeid7vlco/BKhnHnxAMHMw3Fvd3
-         jHIeXwoKTqsg30eMuCBNDlkQstSOdVxKxTzyBAwbaRlTR/Y0n8rSdp+UuSreOzzEJjPg
-         b5mc100rw6sjev7bTHgNhYKGi6aKdzd9aiak1/oSe+et1Acb0Ut90fGpODCSBRRDTUcc
-         DOfQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qEp/F3SbsRoDv1jpNGzhOxbfis7J4KDcT9P9z6XWkHg=;
+        b=eVnVRn4S8Hb7sl1mAhlDpCkwg2p7TvzKWg0qVVe/dWs+kNzu0dkUnF12cuHSLRfxJA
+         k1JsPhNHp6gpFvg3metDV/hPplaRlu3pQXHecw2lhBu91JqE8L0mSdp5Zmc9jNhUWqIB
+         1xGIHjkcCR9gqoJXy85LS+19SdMWYi5+Ih9W8LUXfrQqUUPxnoOEUhmxOrI+MLwWHhr+
+         E9RKn25uZiu4s/nZwk/EVD7PaM11znkaVIxenvyVhmirLDphTRgJue6k6ZZ0J3TwDTz6
+         0ZY1n1k1WDVUIhczz4M4qBDev1+txdlb4jFvLkVck7EDsXiBjF4LLHsLj3SpxlVGryrw
+         tIxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CitFOW6lSCwIM6aw5NC/+3Zn/prCPjR6lg9nFJoDblU=;
-        b=VyutDvXPuLzIi/YXK0slCVj5U1YImhmCJluTn5NkrclbRbXqUIzKjE8xp1KKeRkyP8
-         sDaAXJXtHc+yVvQzbKpXatEiV3MbUqyrSl/cBGDIQdxgjt2k5fJupQSYLnDql4ca7gP9
-         OjjZMccsjE78wRxF61o4s7vkgvYVGE1lVGxV0g9VR0fPlZFfSQvCsCrdDTocwSBI/Ggf
-         5551fNpx85hteVbLzR3D2xdWURjG68kl02OONQ4dsj7NaDNhWaixCCoZufM99e529e3D
-         cHaOPaM5+CFoUWdDnqF6pDFH16HvZkXzcDYF29WJOnsZcBfPn/Yf8zWM+LL7gwz15FLm
-         8/6w==
-X-Gm-Message-State: AGi0PuZoaYzlVYxkGKnsf+qcDFj1EihYvLxSnoiV/2m6mu1DjdaAMr84
-        tbIMe1FSmrvr3AchCaqFi7c=
-X-Google-Smtp-Source: APiQypK1bdGwO4NQxd7pKQ9BlCG76pCZhDO/3C0TjjeFDAcxUmgUbDnUVkcYYf++x/xrrPP+67mExA==
-X-Received: by 2002:a5d:42c1:: with SMTP id t1mr10771365wrr.18.1588782889895;
-        Wed, 06 May 2020 09:34:49 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id b23sm1506720wmb.26.2020.05.06.09.34.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 09:34:48 -0700 (PDT)
-Date:   Wed, 6 May 2020 18:34:47 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Jasper Korten <jja2000@gmail.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] firmware: trusted_foundations: Different way of
- L2 cache enabling after LP2 suspend
-Message-ID: <20200506163447.GC2723057@ulmo>
-References: <20200324224335.5825-1-digetx@gmail.com>
- <20200324224335.5825-3-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qEp/F3SbsRoDv1jpNGzhOxbfis7J4KDcT9P9z6XWkHg=;
+        b=ucV1krXNtwUYCC9dxIdhS0WT2Zgq+QaoZqSdH7uZyxfM7yRT3xMpm3HL8xGw+oHA/5
+         0F2gjKNqWL/m+ZC3zDCAl0nBAEzJDrrrZJEYwBSetU+m9pe/evVJ9HQHxd7YBVLvcidy
+         Kan7V55VXUlcCZervtQHnhn730m5k3FLB1K0jbSXM/1OZkpzstJINUX5YzLXoO9HlLPH
+         TTdPT8P1dJjrPZCQ+g/2B1TQ58WXuHE2y7quy2764QN54FM354/qTlzCdu725oBj8idM
+         8qOvJldEVG4YxNyd2FHv0/NgnQSHaYr93HgghjGMRln/aPVlW1KyG8ry+AnItbbnUbZY
+         oicA==
+X-Gm-Message-State: AGi0PuYl2agNWvcCRsnJea9iHxQqBSpEcd/Rggb7RP9sHQ0Vq0JI1sPW
+        nfq21HCBhRa6Z4vjbx+qHrGXoOElYgMY2CNokkdRXg==
+X-Google-Smtp-Source: APiQypLm9f0btuKktuvMb+D03IME6dlX6dRX4NRiQ4NXE3O3t6sARzsGX6NfhfAe3VIx+4GZEIKh+9FQbLrJ4BJaBxM=
+X-Received: by 2002:a1f:8ccf:: with SMTP id o198mr8122974vkd.53.1588783008587;
+ Wed, 06 May 2020 09:36:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="lMM8JwqTlfDpEaS6"
-Content-Disposition: inline
-In-Reply-To: <20200324224335.5825-3-digetx@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
+ <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com> <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
+In-Reply-To: <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 6 May 2020 18:36:12 +0200
+Message-ID: <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] mmc: core: Extend mmc_of_parse() to parse CQE bindings
+To:     Veerabhadrarao Badiganti <vbadigan@codeaurora.org>
+Cc:     Chun-Hung Wu <chun-hung.wu@mediatek.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        Yong Mao <yong.mao@mediatek.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        DTML <devicetree@vger.kernel.org>, wsd_upstream@mediatek.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, 6 May 2020 at 15:01, Veerabhadrarao Badiganti
+<vbadigan@codeaurora.org> wrote:
+>
+>
+> On 4/28/2020 5:26 AM, Chun-Hung Wu wrote:
+> > Parse CQE bindings "supports-cqe" and "disable-cqe-dcmd"
+> > in mmc_of_parse().
+> >
+> > Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+> > ---
+> >   drivers/mmc/core/host.c | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
+> > index c876872..47521c6 100644
+> > --- a/drivers/mmc/core/host.c
+> > +++ b/drivers/mmc/core/host.c
+> > @@ -302,6 +302,11 @@ int mmc_of_parse(struct mmc_host *host)
+> >               host->caps2 |= MMC_CAP2_NO_SD;
+> >       if (device_property_read_bool(dev, "no-mmc"))
+> >               host->caps2 |= MMC_CAP2_NO_MMC;
+> > +     if (device_property_read_bool(dev, "supports-cqe"))
+> > +             host->caps2 |= MMC_CAP2_CQE;
+>
+> This change is breaking emmc driver on qcom platforms where this dt
+> property is defined.
+>
+> [    1.543453]  cqhci_deactivate+0xc/0x38
+> [    1.545627]  sdhci_msm_reset+0x40/0x58
+> [    1.549447]  sdhci_do_reset+0x48/0x7c
+> [    1.553180]  __sdhci_read_caps+0x7c/0x214
+> [    1.556913]  sdhci_setup_host+0x58/0xce8
+> [    1.560905]  sdhci_msm_probe+0x588/0x8a4
+> [    1.564900]  platform_drv_probe+0x4c/0xb0
+>
+> So, we cant have this flag defined before sdhci_setup_host().
+>
+> I will have to clear this cap and re-enable it in our initialization.
 
---lMM8JwqTlfDpEaS6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for reporting! I have dropped all the four patches from
+Chun-Hung, so we can figure out how to fix this.
 
-On Wed, Mar 25, 2020 at 01:43:34AM +0300, Dmitry Osipenko wrote:
-> ASUS TF300T device may not work properly if firmware is asked to fully
-> re-initialize L2 cache after resume from LP2 suspend. The downstream
-> kernel of TF300T uses different opcode to enable cache after resuming
-> from LP2, this opcode also works fine on Nexus 7 and Ouya devices.
-> Supposedly, this may be needed by an older firmware versions.
->=20
-> Reported-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> Tested-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> Tested-by: Jasper Korten <jja2000@gmail.com>
-> Tested-by: David Heidelberg <david@ixit.cz>
-> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  arch/arm/mach-tegra/pm.c                     |  4 ++++
->  drivers/firmware/trusted_foundations.c       | 21 ++++++++++++++++++--
->  include/linux/firmware/trusted_foundations.h |  1 +
->  3 files changed, 24 insertions(+), 2 deletions(-)
+Please help to review the next version of the series.
 
-I split this up and applied it to for-5.8/firmware and for-5.8/arm/core,
-respectively.
+>
+> > +     if (!device_property_read_bool(dev, "disable-cqe-dcmd")) {
+> > +             host->caps2 |= MMC_CAP2_CQE_DCMD;
+> > +     }
+> >
+> >       /* Must be after "non-removable" check */
+> >       if (device_property_read_u32(dev, "fixed-emmc-driver-type", &drv_type) == 0) {
 
-Thanks,
-Thierry
-
---lMM8JwqTlfDpEaS6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6y5ycACgkQ3SOs138+
-s6FCSRAAh02WAmouPtmya248FjU/uaRY3IDf6ewTOb0PsVokeZQB4biQYVvIN7CW
-l15w6+90Ni3RTxe6g3GewA8IIxmRYet1RGeRIFYo2ZhLCL5SurzOcQp1V7NO3Jg3
-UrgHSCOlmZM3W55qOwucjdolZINuXvhqbgscHdDHn3hbfJ7vciHSAVvKR+eDijU7
-xL+UZJ72i2UVgFwnu0ecREIPLDzzRSbwTP7z5Aedelr6RyNpjJFpwXL1ARRIpV+B
-f5AVWvyn4PqKrHgav+N7mPAccVXu3NImsa6e+GlPq6JJCMt2bD8a7FBXha0Xp+z9
-LcF3Fwv3H7ZWfGiqqtTrhBADXUaj3fkJ8zQzbeHR5W5DvYJFkaZtIuAtH4/Rissh
-Fnk0j3kJ+WRUD3/CdAKpOdMEcqmQW4eU5JWHFrEqXtwICE51tKiF7qnLtgwNsrll
-m/Y4dCq7l4KsKAHQSU4/H53PuJkyAlQW5UKCIdOzizqjMtRQCjvQFsq46WSYD9uK
-b7WW44l8UpUHfKGT7hSQfHhi5OHucY5otFCx81rTj3Dyv6ckLbd5igPAZk8cylMg
-HXfxegHGR0f1Tb8HfUsBbs/fNUFnhPNsWgM0nMvbmxNbpKH9LCeOlKSdY1y/WpWy
-OEJiuem6uaohDNwOC+tUOEBhRn06wZcOpGkQOBNm3qswQkXecos=
-=+mgt
------END PGP SIGNATURE-----
-
---lMM8JwqTlfDpEaS6--
+Kind regards
+Uffe
