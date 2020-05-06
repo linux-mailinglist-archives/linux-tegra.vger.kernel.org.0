@@ -2,90 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F5701C7560
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 17:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DD1C1C75CC
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 18:10:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729624AbgEFPxP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 11:53:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48340 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728991AbgEFPxP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 11:53:15 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CF25F20708;
-        Wed,  6 May 2020 15:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588780394;
-        bh=61SzP6jYuIR+DjFGG/3AzUM3hopX9KA2QA96YzJI/5I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n02M6rTfUPMddeoyC4siuILDTmJjZuaqWDo9upgcwpX6XKADKRGtnaaaFXzg73kw2
-         UTXti58uJIzNXeNOa9fT46C9sy4lArpmqerVdZVU4B0zSBh97JZ3U+qADxqYn/HoY0
-         v5ePdk+ien+u/L70HvI+C4ynIJEXVFuEBmpFzUxg=
-Date:   Wed, 6 May 2020 16:53:11 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jerome Brunet <jbrunet@baylibre.com>
-Cc:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
-        kuninori.morimoto.gx@renesas.com, nicoleotsuka@gmail.com,
-        alsa-devel@alsa-project.org, swarren@nvidia.com,
-        linux-kernel@vger.kernel.org, nwartikar@nvidia.com,
-        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
-        sharadg@nvidia.com, thierry.reding@gmail.com,
-        atalambedu@nvidia.com, linux-tegra@vger.kernel.org,
-        digetx@gmail.com, rlokhande@nvidia.com, mkumard@nvidia.com,
-        dramesh@nvidia.com
-Subject: Re: [RFC] DPCM for Tegra
-Message-ID: <20200506155311.GG5299@sirena.org.uk>
+        id S1729969AbgEFQKK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 12:10:10 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15094 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729425AbgEFQKK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 12:10:10 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eb2e0e00000>; Wed, 06 May 2020 09:08:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 06 May 2020 09:10:10 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 06 May 2020 09:10:10 -0700
+Received: from [10.25.100.73] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 6 May
+ 2020 16:10:01 +0000
+CC:     <spujar@nvidia.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <kuninori.morimoto.gx@renesas.com>, <nicoleotsuka@gmail.com>,
+        <alsa-devel@alsa-project.org>, <swarren@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <nwartikar@nvidia.com>,
+        <lgirdwood@gmail.com>, <jonathanh@nvidia.com>,
+        <viswanathl@nvidia.com>, <sharadg@nvidia.com>,
+        <thierry.reding@gmail.com>, <atalambedu@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <digetx@gmail.com>,
+        <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
+Subject: Re: Re: [RFC] DPCM for Tegra
+To:     Mark Brown <broonie@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>
 References: <1588250483-10014-1-git-send-email-spujar@nvidia.com>
  <1jzhalffhh.fsf@starbuckisacylon.baylibre.com>
  <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
  <1jwo5pf7de.fsf@starbuckisacylon.baylibre.com>
+ <20200506155311.GG5299@sirena.org.uk>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <74e724ec-72c9-e06a-cada-85110c9b145b@nvidia.com>
+Date:   Wed, 6 May 2020 21:39:58 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="BzCohdixPhurzSK4"
-Content-Disposition: inline
-In-Reply-To: <1jwo5pf7de.fsf@starbuckisacylon.baylibre.com>
-X-Cookie: Not recommended for children.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200506155311.GG5299@sirena.org.uk>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588781280; bh=luEZbp/2pQikNm6FKyeutAkc6bT22MBQsDLNbbelIrA=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=a9mOjW6RuG26hYzX7UOGzVEZDVrreu3mqV6fw12xry5J1FudrZ+vEg9ndnajwE97Q
+         UvxZTMPsQg6LlL2Db0Z+bSoHxp2ygtUeO2JxAJauQRWWKt44llawNCjfCIBKFs3gV9
+         LWQi1aF3m7ewByj1PsniavquSAbPLxtrLslPRveM122li9gSihnjFuLY6zgfQU7cWR
+         9q3+wy/DGpzQCGvM4l5dJxVFoXIXiw/xbo1bnfP7ib1tdfL8cHi5vn8CSW7DXzO6k4
+         FdsOiiYA7EtaQXVOjkZW0TCMFSHgwUH8fBYjN60WgW/unKVFhREP9lKoGw470ibQFw
+         mhwElpSkq9KhQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---BzCohdixPhurzSK4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, May 06, 2020 at 04:47:09PM +0200, Jerome Brunet wrote:
-> On Wed 06 May 2020 at 16:12, Sameer Pujar <spujar@nvidia.com> wrote:
+On 5/6/2020 9:23 PM, Mark Brown wrote:
+> On Wed, May 06, 2020 at 04:47:09PM +0200, Jerome Brunet wrote:
+>> On Wed 06 May 2020 at 16:12, Sameer Pujar <spujar@nvidia.com> wrote:
+>>> XBAR currently exports all routing widgets which can be used to
+>>> interconnect multiple components and thus implements Mux widgets. Fixing
+>>> the routing paths in driver would limit anyone to try a different
+>>> combination as per the need, unless driver is modified.
+>> I did not mean that you should restrict the routing ability of your SoC,
+>> quite the opposite actually.
 
-> > XBAR currently exports all routing widgets which can be used to
-> > interconnect multiple components and thus implements Mux widgets. Fixing
-> > the routing paths in driver would limit anyone to try a different
-> > combination as per the need, unless driver is modified.
+>> You should just expose it correctly
+> Yes, it's going to be less effort in the long run if nothing else.
 
-> I did not mean that you should restrict the routing ability of your SoC,
-> quite the opposite actually.
+This is what below reference tried to achieve in the original series, 
+where all Mux widgets and corresponding kcontrols were exposed.
+[1] 
+http://patchwork.ozlabs.org/project/linux-tegra/patch/1582180492-25297-6-git-send-email-spujar@nvidia.com/
 
-> You should just expose it correctly
+However it has DAI declarations too, that was mainly because 
+codec-to-codec links were used to connect multiple components. DT would 
+expose all these links (please note that machine driver was not sent as 
+part of the original series). May be with DPCM these additional DAIs can 
+be avoided, but it comes with few challenges highlighted in this RFC patch.
 
-Yes, it's going to be less effort in the long run if nothing else.
 
---BzCohdixPhurzSK4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6y3WcACgkQJNaLcl1U
-h9C+9wf9FhV0+uWoqDcuQBDbDmaqyavUV8uakHgopXF3Q9Ny3WMoj1EBaIpxOOM1
-nFLZGkaXGkbOEDxuixc2ptvMvML5c8WccOrS3J9Ux6K16BbXpwjFsqClUrzpix0O
-r40xsg0q81/pSxIFOWU0BKmFebz8wLG3NGGV2d7ZMW//kIG7LVAb8oB6epKkeKYY
-sACMClQ7QsGOeWqteFWq91phXk4OL9KJ4SileYVgTcMBoeN8xgIytv+v7unCTKhk
-aJALdHiBajto60CLYG6UPUoIZ3FRLWEoybSOdI7uQz2MmWctYmzn5OQu3lGGlM4l
-XM3B0/3XWGsyGhK+XM1JqWoi9cz1tw==
-=tJVE
------END PGP SIGNATURE-----
-
---BzCohdixPhurzSK4--
