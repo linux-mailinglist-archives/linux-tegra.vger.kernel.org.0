@@ -2,121 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF17E1C778A
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 19:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52E9E1C79FF
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 21:15:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728595AbgEFRNz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 13:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47790 "EHLO
+        id S1728193AbgEFTPV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 15:15:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728093AbgEFRNy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 13:13:54 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF99C061A0F;
-        Wed,  6 May 2020 10:13:53 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id r26so3622613wmh.0;
-        Wed, 06 May 2020 10:13:53 -0700 (PDT)
+        with ESMTP id S1728106AbgEFTPU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 15:15:20 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C1A4C061A0F;
+        Wed,  6 May 2020 12:15:20 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id v12so2196797wrp.12;
+        Wed, 06 May 2020 12:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GNKW7Nj5sqqTflAX7xBN/lqrOeNoUdudCj9pQHf3RMg=;
-        b=ZDs0lNMpexah6bbEgwbPxd4LeMcR+Qm1BK90fPCv/D0cFZxwt2Grs0fvEDM9Y5Zt/y
-         /8J4uGB59bV3tf70QrxXdzJU/OFwxMaso4PzHBVPPBecQv9ouM1SYY4mROlJA4j8BE3h
-         woJK0P/yuvSu4GaZhZqrnGfrQjmtaMmbxPb63jGfukM2PR+zWh/eAVW7xOTekYW+P7wn
-         OiGRqrHDi5UJXBQRSL1LAiGJ7QQ6dnxkAPXUwVAb8yNHflAQxIEGumUKMj8sRymzXJyu
-         yHDy/Jxn5FydMZAej+qOb6yND7AArqQWv2AVBE0cyJeVxfXdvMocKXlNQN5xnS1vMACg
-         fVYA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RrqM/gDwp6UGuwUPWnv/mh4oPobSp/aWsyukQo1CxvI=;
+        b=cxA8D3iiTE/hL+qlaHxVwDUvKGRIcmWw+aTR+ZBpkhdgSuw6GRvUitZYOpyTFzlrZW
+         SKsbL7iGdTV9eI82GnWctH6HD5VL9+hqDoTQ1JP6PTVDdu4RvEkAXV7Ad3XVSIQt5hfm
+         5MVrfSGo8t9psawNFpNFYjTgTvgFY+8xKzx0rHke+Lx8Zuhh1fXgsrpl1PspU4x9kSjY
+         4sXuiaJZn3Z9eafLs0B7lBcxlsgE9bzMAKw/ZNc87Q2TsPlIiP9FqRMspDGc21xgC/8Z
+         BtJ49ydOD+J2swb8GpBKvAYDxRLoX50TdqtDe29EMCQV7E60bW7vcpsHuNzNfnXwOLLq
+         5+Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GNKW7Nj5sqqTflAX7xBN/lqrOeNoUdudCj9pQHf3RMg=;
-        b=TGdBaV7icU6xBlgsysgf6cPWubLBZG/DExQHbHoCnY+agXycQzmwq2la7DxcOsKdyF
-         I1k9ewpyeVy81pB4giG6OADjYekgOq/u+iOP9jAcMLIm8Iy/NuQ6SOZTjlRFBdZ91h/t
-         oF8VALrwy4OUew5o6LCpnUVo8kN/FesH+BNB1taA4jZaMYgBxOqVTKcD8rVH1QPd85Zl
-         jebAX/QNmpukxaQCqjx/71Ujvi+H2/C2ul+jbieA9/VRbR2LdSCjia/r9uVDEsY4LX4y
-         IOfHTm0/S/yoPUxzvVLQK108WognAOoe4waWFByGLK0DXjuhHMGvODB+xXBlH/egDgAf
-         oKNg==
-X-Gm-Message-State: AGi0PuaOnM9Vg6ITuK8ucS69Y2vG7Edg7weKpyfkcuo+uqdKt3qTmW/g
-        8DkXF8VJYPArjA6k24TqJVxfRdevABU=
-X-Google-Smtp-Source: APiQypIi7fdhqbB6pSzfRPoD9/lP54yHlUzEC2PyN83Nmu07s3nwp1ZMpJxcpIjOp08BCiP9Vn83LA==
-X-Received: by 2002:a1c:a344:: with SMTP id m65mr5497369wme.20.1588785232026;
-        Wed, 06 May 2020 10:13:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RrqM/gDwp6UGuwUPWnv/mh4oPobSp/aWsyukQo1CxvI=;
+        b=Kk3z9vytQItbQVIfcqZht84jWKAf60kTbJCZliPpheuSpL2CBIVnmsp7ZqQd/ThT7L
+         Ja3RbvmZnlSJnC3Vd4ajmQyOx9IaV8doCEkWGe5ed2sOoEs86xxtblAg4hj+zZ3DNAjI
+         w2VE+ZpD4s/SEYz3yrADpS5aQ9hTo7n15mCO2OT6+ZyOxbSy4jseVNC7IajHTLAlucRs
+         lvKqS0g5KmJeqv/v0gntiInXVU+o7PDXXWUSA15uXZxf4lAHoHJtd+v2ghy/42vn9Prw
+         wnti5g+iXIds31UAw00IeoW1Vje5xDGfcE1GWmha053qsvU+VmBjTTEe5g5QnfMvfiQJ
+         3ArQ==
+X-Gm-Message-State: AGi0PuZSp1ZMxWzx2L4GcUP3hq16aQda9SR1zbAbhrfnsEP5aKI0dtCv
+        fey+2760AuOGq1OI4hT47To=
+X-Google-Smtp-Source: APiQypI2ys+lta8xKxSXhqcpXkj95ZBF5B3Rac5oGwgtkP/qFlg7Il+VvfbwlDEsS3YTfqwuuHLotg==
+X-Received: by 2002:adf:f086:: with SMTP id n6mr6636642wro.388.1588792518757;
+        Wed, 06 May 2020 12:15:18 -0700 (PDT)
 Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id 7sm3844106wra.50.2020.05.06.10.13.50
+        by smtp.gmail.com with ESMTPSA id r23sm4715600wra.74.2020.05.06.12.15.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 10:13:50 -0700 (PDT)
-Date:   Wed, 6 May 2020 19:13:49 +0200
+        Wed, 06 May 2020 12:15:14 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: tegra-xudc: Fix idle suspend/resume
-Message-ID: <20200506171349.GF2723987@ulmo>
-References: <20200417170537.2540914-1-thierry.reding@gmail.com>
+To:     Wolfram Sang <wsa@the-dreams.de>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 0/4] i2c: tegra: Add support for the VI I2C on Tegra210
+Date:   Wed,  6 May 2020 21:15:07 +0200
+Message-Id: <20200506191511.2791107-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Zs/RYxT/hKAHzkfQ"
-Content-Disposition: inline
-In-Reply-To: <20200417170537.2540914-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---Zs/RYxT/hKAHzkfQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Wolfram,
 
-On Fri, Apr 17, 2020 at 07:05:37PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> When the XUDC device is idle (i.e. powergated), care must be taken not
-> to access any registers because that would lead to a crash.
->=20
-> Move the call to tegra_xudc_device_mode_off() into the same conditional
-> as the tegra_xudc_powergate() call to make sure we only force device
-> mode off if the XUDC is actually powered up.
->=20
-> Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB device m=
-ode controller")
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+This small set of patches cleans up a few things in the I2C driver and
+then adds support for the VI instance of the I2C controller which is a
+regular I2C controller wrapped by some multimedia-specific logic. As a
+result, the regular I2C controller register interface is offset by a
+couple of bytes.
 
-Hi Felipe, Greg,
+I can pick up patch 4/4 into the Tegra tree. These patches also don't
+have any conflicts with Dmitry's patches that we've been discussing.
 
-can you guys pick this up for v5.7, please?
+That said, I could also put this set of patches (except the DTS change)
+into the same branch I already have for Dmitry's patches (plus the fixes
+that we had discussed) and take it into linux-next and let it brew for a
+couple of days to get more testing and then send everything to you with
+a PR, say, sometime next week? How does that sound?
 
-Thanks,
 Thierry
 
---Zs/RYxT/hKAHzkfQ
-Content-Type: application/pgp-signature; name="signature.asc"
+Thierry Reding (4):
+  dt-bindings: i2c: tegra: Document Tegra210 VI I2C
+  i2c: tegra: Use FIELD_PREP/FIELD_GET macros
+  i2c: tegra: Add support for the VI I2C on Tegra210
+  arm64: tegra: Enable VI I2C on Jetson Nano
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/i2c/nvidia,tegra20-i2c.txt       |   6 +
+ .../boot/dts/nvidia/tegra210-p3450-0000.dts   |   4 +
+ drivers/i2c/busses/i2c-tegra.c                | 178 +++++++++++++-----
+ 3 files changed, 145 insertions(+), 43 deletions(-)
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6y8E0ACgkQ3SOs138+
-s6EAIQ/9Hu7iv4+5FnG2vFRCAbaCleabiFAWeWUg7kxxWd8ya0y/UvD/3YOsNqLA
-M7y32t2KlQYcrVGIpryz4dyEtQtyCcibtd1uMbm2gLQWEbjU6KvxlX6siKyIk3dI
-rxneQDTjUMToGhdIEuLAuJ5En1c9qs5X5STZ2kW6OdzQMoZ/oMPmItTBHwxMJ+FR
-+jyiCA9sDwEwzSWYQsFqOlwEaZ2SoboTfcnSobx2nhvvJh4+MBl6rDG7iMmGt8iA
-fNMl483j+2tpNDbkd+YJHlINeemTyJvuCAV6eGGlpcjPFd6yabVLY9tqyEE+X/6b
-JjHoRA66q7FiyXeB7qg8ia0zJcVjKgP/Xc/YgZ+R81UdTld6f9OAkVvWqXX/MCSX
-Lgq9MFEv+anqrplOyZc3TEx2108yxoxTEuAhoHu7uIZC8dMACgSlZeh/fvxJqlLy
-GSciiTnnhl3McdwsWvDbCxwO4s83GsdndBTSBuPEY9P81yfqt7u2+/LWjHO0/6WH
-s5LIirh8cLlomRymzszh9j64wVvaMHMxBDtUaJFg9jV13pPoWto50es9iKMJ6+Sk
-uFkEMERPPWBV+6h2EpXjy9rzDgAYJ39h2iHUAgAPpsns9j+zhnXXOLlwNq9wJQ44
-DzA3RptRzkZiOCXJDI8bNkAm1kQoFiO5tkmaQyzSdV1ynEl/+p4=
-=qWY6
------END PGP SIGNATURE-----
+-- 
+2.24.1
 
---Zs/RYxT/hKAHzkfQ--
