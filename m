@@ -2,240 +2,174 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1611C7283
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 16:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08B5A1C733F
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 16:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728555AbgEFOMi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 10:12:38 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:7474 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728535AbgEFOMh (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 10:12:37 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eb2c5530000>; Wed, 06 May 2020 07:10:27 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 06 May 2020 07:12:37 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 06 May 2020 07:12:37 -0700
-Received: from [10.25.100.73] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 6 May
- 2020 14:12:28 +0000
-CC:     <spujar@nvidia.com>, <nicoleotsuka@gmail.com>,
-        <alsa-devel@alsa-project.org>, <swarren@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <nwartikar@nvidia.com>,
-        <lgirdwood@gmail.com>, <jonathanh@nvidia.com>,
-        <viswanathl@nvidia.com>, <sharadg@nvidia.com>,
-        <thierry.reding@gmail.com>, <atalambedu@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <digetx@gmail.com>,
-        <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
+        id S1729187AbgEFOrN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 10:47:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729164AbgEFOrN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 10:47:13 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202C8C061A10
+        for <linux-tegra@vger.kernel.org>; Wed,  6 May 2020 07:47:13 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id u16so2992401wmc.5
+        for <linux-tegra@vger.kernel.org>; Wed, 06 May 2020 07:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=references:user-agent:from:to:cc:subject:in-reply-to:date
+         :message-id:mime-version;
+        bh=GCrHnOXne5LQYzx7qf0NksizLMHmLnAy47QVPvHQx6Y=;
+        b=aQ8oRcJtVr1zvX95yYSbWP2oNTN5fvt0CC45Cl7XST4LmLLIUB0Z5rH+qEGbVSq8uN
+         HrnvEE797zkZYYvYvQAxdEDEoWA6HB0AQHlI6Y2QsuJ4QFfIHzE40Qv/JrzKq7GRnkRO
+         lTSt9sDho5oc0qjvX2JGIvh7fsU8XfakYdWizNHOJeahQZkyDfsaIn2FqBT0vMCiSCHG
+         Z764PkLLvz1Zt4RrV2Sge3Oq7EhCEJ47VED4tH7CdYQtGLEQW1PisQAcIdHR8ayn4ZDo
+         OEYvf6/dT8FRbonulUDI+aPa6PU9B4SNuzdva6MC75yTL6iHx4DRj4DeS4ALwIJ7vnZH
+         A+ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:date:message-id:mime-version;
+        bh=GCrHnOXne5LQYzx7qf0NksizLMHmLnAy47QVPvHQx6Y=;
+        b=mSQeGwVqBi6HSki3KdCBxn/w0k1FTpOWkj6BXtIyrN4Q6c26N2UZ2SL3QF7UktD6KL
+         sy51hDsS7GWi8J+SkPioqBouO9KJbXVva7H8apIEgc8KuNfUs4i3+4vtZSC7S5Qkk5fG
+         h/AOcwMPywl4K6ozZMBaTYkfeGsU8RnQ0Jcu1KKD+WHHIGedAKK3KFkBCJrXt+hp825c
+         8+0Pznz5o5fligIzC8YFbYFZaUclpUgC3Q8u45YYxwdyE2XTBdcSCL21Qkf5Bt9rArna
+         JoK5pmL1S+uIL4R/PbppKbmqhW39RtnywJUreEp9m3RBvl7OEbmU4U9H7Qv1LdN3xM+E
+         VinA==
+X-Gm-Message-State: AGi0Pubjm52TCeatemjU5GK54SHEhIY5HLeTb4ZX+yJbd7cAAVQaY3iH
+        krhHH0+wx56qMZ7I0zcL4JJnu8ldceU=
+X-Google-Smtp-Source: APiQypJUCJR76CQmyVGoW6s3CFc3WW+P6Hh7M9OerXMmN1I0H8y+YBedIb2KvnRIymXqkCvI/lNSlQ==
+X-Received: by 2002:a1c:7f91:: with SMTP id a139mr4594836wmd.164.1588776431739;
+        Wed, 06 May 2020 07:47:11 -0700 (PDT)
+Received: from localhost (cag06-3-82-243-161-21.fbx.proxad.net. [82.243.161.21])
+        by smtp.gmail.com with ESMTPSA id c19sm3185436wrb.89.2020.05.06.07.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2020 07:47:10 -0700 (PDT)
+References: <1588250483-10014-1-git-send-email-spujar@nvidia.com> <1jzhalffhh.fsf@starbuckisacylon.baylibre.com> <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
+User-agent: mu4e 1.3.3; emacs 26.3
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com
+Cc:     nicoleotsuka@gmail.com, alsa-devel@alsa-project.org,
+        swarren@nvidia.com, linux-kernel@vger.kernel.org,
+        nwartikar@nvidia.com, lgirdwood@gmail.com, jonathanh@nvidia.com,
+        viswanathl@nvidia.com, sharadg@nvidia.com,
+        thierry.reding@gmail.com, atalambedu@nvidia.com,
+        linux-tegra@vger.kernel.org, digetx@gmail.com,
+        rlokhande@nvidia.com, mkumard@nvidia.com, dramesh@nvidia.com
 Subject: Re: [RFC] DPCM for Tegra
-To:     Jerome Brunet <jbrunet@baylibre.com>, <broonie@kernel.org>,
-        <perex@perex.cz>, <tiwai@suse.com>,
-        <kuninori.morimoto.gx@renesas.com>
-References: <1588250483-10014-1-git-send-email-spujar@nvidia.com>
- <1jzhalffhh.fsf@starbuckisacylon.baylibre.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
-Date:   Wed, 6 May 2020 19:42:25 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+In-reply-to: <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
+Date:   Wed, 06 May 2020 16:47:09 +0200
+Message-ID: <1jwo5pf7de.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-In-Reply-To: <1jzhalffhh.fsf@starbuckisacylon.baylibre.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588774227; bh=9Msqnz7jhEBLl+G7E7cOof/VahVpWn8exGwBX3HSCEM=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=md3p70F7J1Ms+vmsbgb4kHkoG2IhzuDsCcPR/A/kHwphH9X26oPYVGTAgcTjGlr34
-         hw8FCsEGs5JUBuIJWsNqIM82GV2gLLE7W2xcuu5qtQBymIV1FmKPdMUeOYwogOcErY
-         7HMvaxBbPqTXEGue7fCEinRvJg4Lm10jfuC6gQIBuhehULto46SXXYtnDgFqzLVJYM
-         647TGgXNNjKJsAc0vPo/NYhOI/noJtkOpoTB5KP1eHeQs4iTUW6qxHlRymytv2oxkt
-         NanypWN0O9qD0eYxB/p+3DJ08Ipt/IAj8KdDJl2B/s6lq67Ilp3UaOoORe+3ob/QcC
-         GZkq0LSmlCdZg==
+Content-Type: text/plain
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+On Wed 06 May 2020 at 16:12, Sameer Pujar <spujar@nvidia.com> wrote:
 
-On 5/6/2020 5:21 PM, Jerome Brunet wrote:
-> External email: Use caution opening links or attachments
+>>>
+>>> |     Front End PCMs     |  SoC DSP   |     Back End DAIs    |
+>>>
+>>>                           *************
+>>> ADMAIF<0> <------------> *           * <----DAI<0>-----> I2S
+>>>                           *           *
+>>> ADMAIF<1> <------------> *           * <----DAI<1>-----> DMIC
+>>>                           *    XBAR   *
+>>> ADMAIF<2> <------------> *           * <----DAI<2>-----> DSPK
+>>>                           *           *
+>>> ADMAIF<N> <------------> *           * <----DAI<3>-----> SFC (Resampler)
+>>>                           *           *
+>>>                           *           * <----DAI<4>-----> MIXER
+>>>                           *           *
+>>>                           *           * <----DAI<N>-----> ...
+>>>                           *************
+>>>
+>>>
+>>> Follow up queries
+>>> =================
+>>> Based on the above experience I do have few follow up queries and request
+>>> for your inputs on this.
+>>>
+>>>   a) Can I use a DAPM Mux control to activate a BE path? This in turn can
+>>>      program required switch in XBAR.
+>> My 2 cents:
 >
+>> DPCM should activate any BE which has:
+>> * a valid DAPM path from the current FE
+>> * a valid BE stream (ex: can handle the stream direction)
 >
-> On Thu 30 Apr 2020 at 14:41, Sameer Pujar <spujar@nvidia.com> wrote:
+> Yes, this is taken care.
+>>
+>> AFAIK, you can use any combination of DAPM elements to model your
+>> components, including the XBAR. Then, it is the job of the card driver to
+>> link the DAPM widgets of the different components together and bring the
+>> system to life.
 >
->> At a high level Tegra Audio HW is depicted as below.
->>
->> |     Front End PCMs     |  SoC DSP   |     Back End DAIs    |
->>
->>                           *************
->> ADMAIF<0> <------------> *           * <----DAI<0>-----> I2S
->>                           *           *
->> ADMAIF<1> <------------> *           * <----DAI<1>-----> DMIC
->>                           *    XBAR   *
->> ADMAIF<2> <------------> *           * <----DAI<2>-----> DSPK
->>                           *           *
->> ADMAIF<N> <------------> *           * <----DAI<3>-----> SFC (Resampler)
->>                           *           *
->>                           *           * <----DAI<4>-----> MIXER
->>                           *           *
->>                           *           * <----DAI<N>-----> ...
->>                           *************
->>
->>
->> Follow up queries
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> Based on the above experience I do have few follow up queries and reques=
-t
->> for your inputs on this.
->>
->>   a) Can I use a DAPM Mux control to activate a BE path? This in turn ca=
-n
->>      program required switch in XBAR.
-> My 2 cents:
+> XBAR currently exports all routing widgets which can be used to
+> interconnect multiple components and thus implements Mux widgets. Fixing
+> the routing paths in driver would limit anyone to try a different
+> combination as per the need, unless driver is modified.
 
-> DPCM should activate any BE which has:
-> * a valid DAPM path from the current FE
-> * a valid BE stream (ex: can handle the stream direction)
+I did not mean that you should restrict the routing ability of your SoC,
+quite the opposite actually.
 
-Yes, this is taken care.
->
-> AFAIK, you can use any combination of DAPM elements to model your
-> components, including the XBAR. Then, it is the job of the card driver to
-> link the DAPM widgets of the different components together and bring the
-> system to life.
+You should just expose it correctly
 
-XBAR currently exports all routing widgets which can be used to=20
-interconnect multiple components and thus implements Mux widgets. Fixing=20
-the routing paths in driver would limit anyone to try a different=20
-combination as per the need, unless driver is modified. Device tree (DT)=20
-can be one of the solutions here, but currently static paths can only be=20
-added AFAIK. Even if this is extended to include routes with Mux=20
-widgets, still it won't give the real flexibility. I cannot re-use a=20
-component for a different routing path, unless DT is modified again.
+From the diagram above, each comp (ASMAIFs, BE even the XBAR) should
+export AIF_IN/AIF_OUT widgets. Think of those as the interfaces of your
+components.
 
-Hence a Mux widget with user space control could offer required=20
-flexibility.
->
-> If your XBAR is widgets are not provided by a component which also
-> provides a dai_link in the sound card, you'll need to add the component
-> to the auxiliary device list of the card for the widget to be available
-> in the card.
+The connections between those interfaces are fixed, the
+represent what the HW is (IOW, the wires). They could possibly be
+described in DT (audio-routing prop)
 
-I registered XBAR device as a component having a dummy DAI just to allow=20
-routing paths to be available for the given sound card. Are you=20
-suggesting I can register XBAR as an auxiliary device so that all the=20
-routing paths are available?
->
->>      This is needed for following reasons:
->>
->>      - For an open platform like Jetson, we want to give maximum flexibi=
-lity
->>        for a user to customize their audio paths. Number of connected
->>        components and order of these can vary depending on a use case.
->>
->>      - Allow re-use of audio components across multiple use cases.
->>        For example, number of SFC instances are lesser than PCM playback=
- or
->>        capture devices.
->>
->>   b) I have modelled SFC and MIXER as backends. Is this allowed?
->>
->>      This was done to include SFC or MIXER HW components as part of the
->>      sound card and use like below in one of the audio use cases.
->>
->>      ADMAIF1(FE) --> SFC(BE1) --> I2S(BE2) ... OR
->>      ADMAIF2(FE) --> SFC(BE1) --> I2S(BE2) ...
+The XBAR should implement the N to M MUX and export all the necessary
+kcontrols to act it. The routing magic happens in this component.
+There is no limit to the flexibility this provides, unless you set one
+;)
 
-> What your are trying to achieve here is DAI chaining. From the DAPM
-> perspective, it is alright. Unfortunately this kind of chaining are
-> not supported (not yet, at least) from the dai_link perspective, even
-> with DPCM.
+> Device tree (DT)
+> can be one of the solutions here, but currently static paths can only be
+> added AFAIK. Even if this is extended to include routes with Mux widgets,
+> still it won't give the real flexibility.
+> I cannot re-use a component for a
+> different routing path, unless DT is modified again.
 
-In the current design we achieve this by using codec-to-codec links and=20
-attempt here is if we can use DPCM to simplify few things.
->
->
->  From the DPCM perspective, I think your patch does the following:
->
-> ADMAIF1(FE) ---> SFC(BE1)
->              |--> I2S(BE2)
-> ADMAIF2(FE) ---> SFC(BE1)
->              |--> I2S(BE2)
->
-> Your DAIs are not chained, but put in parallel. Maybe all your DAI
-> callbacks are called in a way that is convinient enough for your
-> use cases, but it is not what you intended.
+If you implement the XBAR capability in the comp, not a use case, there
+is no reason to change it.
 
-Yes this seems to be the case. All of my BE DAIs are added to the list=20
-and callbacks happen for all. DPCM is viewing these as parallel paths.
->
-> For the example, the rate passed to 'I2S(BE2)' in hw_params() will
-> be the one provided by the 'ADMAIF', not the output rate of the 'SFC'.
+DT describes the HW, changing it to describe a use case means something
+is wrong, usually.
 
-I was earlier thinking if dpcm_be_dai_hw_params() can be enhanced to=20
-propagate PCM parameters (sample rate, channels, sample size) from BE to=20
-BE. This is a rough idea, I have not tried this. But because of above it=20
-will be a problem unless real parallel paths are not differentiated.
-For example:
-ADMAIF1(FE) ---> SFC1 ---> I2S1 (operated at 48 kHz)
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |--> SF=
-C2 ---> I2S2 (operated at 16 kHz)
-
-If I understand correctly, this problem will be there if I want to drive=20
-multiple paths with the "same FE". I am not sure how often we have such=20
-requirements.
-For example below would work fine (though it is functionally not same as=20
-above example):
-ADMAIF1(FE) ---> SFC1 ---> I2S1 (operated at 48 kHz)
-ADMAIF2(FE) ---> SFC2 ---> I2S2 (operated at 16 kHz)
 >
->>      I used following workaround to connect multiple BE components.
->>      With this I can see PCM callbacks happen for all BE DAIs along the =
-DAPM
->>      path. The obective was to connect multiple components together and =
-(a)
->>      was used to connect one component to another. Each "-->" here conne=
-cts
->>      two components and it is a switch in XBAR.
+> Hence a Mux widget with user space control could offer required
+> flexibility.
+
+Exactly, your XBAR comp should provide the widget(s) and related
+kcontrol(s).
+
 >>
->>      ---
->>        sound/soc/soc-pcm.c | 2 +-
->>        1 file changed, 1 insertion(+), 1 deletion(-)
->>
->>        diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
->>        index e256d43..ee7af55 100644
->>        --- a/sound/soc/soc-pcm.c
->>        +++ b/sound/soc/soc-pcm.c
->>        @@ -1494,7 +1494,7 @@ int dpcm_path_get(struct snd_soc_pcm_runtim=
-e *fe,
->>
->>          /* get number of valid DAI paths and their widgets */
->>          paths =3D snd_soc_dapm_dai_get_connected_widgets(cpu_dai, strea=
-m, list,
->>        -                       dpcm_end_walk_at_be);
->>        +                       NULL);
->>
->>        dev_dbg(fe->dev, "ASoC: found %d audio %s paths\n", paths,
->>                        stream ? "capture" : "playback");
->>      --
-. . .
->> References
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> [0] http://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D15966=
-4&archive=3Dboth&state=3D*
->> [1] http://patchwork.ozlabs.org/project/linux-tegra/patch/1582180492-252=
-97-6-git-send-email-spujar@nvidia.com/
->> [2] http://patchwork.ozlabs.org/project/linux-tegra/patch/1582180492-252=
-97-4-git-send-email-spujar@nvidia.com/
->> [3] https://www.kernel.org/doc/html/v5.6/sound/soc/dpcm.html
+>> If your XBAR is widgets are not provided by a component which also
+>> provides a dai_link in the sound card, you'll need to add the component
+>> to the auxiliary device list of the card for the widget to be available
+>> in the card.
+>
+> I registered XBAR device as a component having a dummy DAI just to allow
+> routing paths to be available
+
+From you description, you XBAR should not have DAIs, just DAPM widgets
+and kcontrols
+
+> for the given sound card. Are you suggesting
+> I can register XBAR as an auxiliary device so that all the routing paths
+> are available?
+
+Precisely.
+I have been using the same method on Amlogic cards.
 
