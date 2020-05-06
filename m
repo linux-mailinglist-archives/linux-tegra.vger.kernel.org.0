@@ -2,174 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08B5A1C733F
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 16:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B02941C751F
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 17:40:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729187AbgEFOrN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 10:47:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52838 "EHLO
+        id S1729197AbgEFPk3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 11:40:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729164AbgEFOrN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 10:47:13 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202C8C061A10
-        for <linux-tegra@vger.kernel.org>; Wed,  6 May 2020 07:47:13 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id u16so2992401wmc.5
-        for <linux-tegra@vger.kernel.org>; Wed, 06 May 2020 07:47:13 -0700 (PDT)
+        with ESMTP id S1728994AbgEFPk3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 11:40:29 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EF6C061A0F;
+        Wed,  6 May 2020 08:40:29 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id g4so2881564ljl.2;
+        Wed, 06 May 2020 08:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=GCrHnOXne5LQYzx7qf0NksizLMHmLnAy47QVPvHQx6Y=;
-        b=aQ8oRcJtVr1zvX95yYSbWP2oNTN5fvt0CC45Cl7XST4LmLLIUB0Z5rH+qEGbVSq8uN
-         HrnvEE797zkZYYvYvQAxdEDEoWA6HB0AQHlI6Y2QsuJ4QFfIHzE40Qv/JrzKq7GRnkRO
-         lTSt9sDho5oc0qjvX2JGIvh7fsU8XfakYdWizNHOJeahQZkyDfsaIn2FqBT0vMCiSCHG
-         Z764PkLLvz1Zt4RrV2Sge3Oq7EhCEJ47VED4tH7CdYQtGLEQW1PisQAcIdHR8ayn4ZDo
-         OEYvf6/dT8FRbonulUDI+aPa6PU9B4SNuzdva6MC75yTL6iHx4DRj4DeS4ALwIJ7vnZH
-         A+ew==
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=0VvaK4qV5Etc72CR3O+s6dMnkCvk9HbAf4bkxXWnjEk=;
+        b=rhjyr4lDLoMgtOYB2r0o+OivmiLZx9dTkjsQDZagRb9Q7LOphEreVu7j948kVIskqU
+         pB00zCfLrigfNDjQPvnSbpEA/3JH+bsvdictzcAByx3TSHu5HT3KKScX9HpYZoqbNRrQ
+         pIgLDvC0dsm8atptTDJKGNXibJCC/ogo956lYPMcAG5wHID8weG0LsxzEImi0VYMPBHQ
+         mM9r4Le4mdnH4VSA57t08E/b/8dRN6yq82Xwll0cEUhf/hWBrGgn7ywNMUTwIYFkN66c
+         Po4MLektX/wUlAOBRPGHIVL+M2z724VA17kk0iDqCb+m30OIJE/yi3wHB3A8pFWyvZNM
+         PGzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=GCrHnOXne5LQYzx7qf0NksizLMHmLnAy47QVPvHQx6Y=;
-        b=mSQeGwVqBi6HSki3KdCBxn/w0k1FTpOWkj6BXtIyrN4Q6c26N2UZ2SL3QF7UktD6KL
-         sy51hDsS7GWi8J+SkPioqBouO9KJbXVva7H8apIEgc8KuNfUs4i3+4vtZSC7S5Qkk5fG
-         h/AOcwMPywl4K6ozZMBaTYkfeGsU8RnQ0Jcu1KKD+WHHIGedAKK3KFkBCJrXt+hp825c
-         8+0Pznz5o5fligIzC8YFbYFZaUclpUgC3Q8u45YYxwdyE2XTBdcSCL21Qkf5Bt9rArna
-         JoK5pmL1S+uIL4R/PbppKbmqhW39RtnywJUreEp9m3RBvl7OEbmU4U9H7Qv1LdN3xM+E
-         VinA==
-X-Gm-Message-State: AGi0Pubjm52TCeatemjU5GK54SHEhIY5HLeTb4ZX+yJbd7cAAVQaY3iH
-        krhHH0+wx56qMZ7I0zcL4JJnu8ldceU=
-X-Google-Smtp-Source: APiQypJUCJR76CQmyVGoW6s3CFc3WW+P6Hh7M9OerXMmN1I0H8y+YBedIb2KvnRIymXqkCvI/lNSlQ==
-X-Received: by 2002:a1c:7f91:: with SMTP id a139mr4594836wmd.164.1588776431739;
-        Wed, 06 May 2020 07:47:11 -0700 (PDT)
-Received: from localhost (cag06-3-82-243-161-21.fbx.proxad.net. [82.243.161.21])
-        by smtp.gmail.com with ESMTPSA id c19sm3185436wrb.89.2020.05.06.07.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 07:47:10 -0700 (PDT)
-References: <1588250483-10014-1-git-send-email-spujar@nvidia.com> <1jzhalffhh.fsf@starbuckisacylon.baylibre.com> <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
-User-agent: mu4e 1.3.3; emacs 26.3
-From:   Jerome Brunet <jbrunet@baylibre.com>
-To:     Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org,
-        perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com
-Cc:     nicoleotsuka@gmail.com, alsa-devel@alsa-project.org,
-        swarren@nvidia.com, linux-kernel@vger.kernel.org,
-        nwartikar@nvidia.com, lgirdwood@gmail.com, jonathanh@nvidia.com,
-        viswanathl@nvidia.com, sharadg@nvidia.com,
-        thierry.reding@gmail.com, atalambedu@nvidia.com,
-        linux-tegra@vger.kernel.org, digetx@gmail.com,
-        rlokhande@nvidia.com, mkumard@nvidia.com, dramesh@nvidia.com
-Subject: Re: [RFC] DPCM for Tegra
-In-reply-to: <fe842d81-22da-fbbe-b5e2-9872cefb9d8b@nvidia.com>
-Date:   Wed, 06 May 2020 16:47:09 +0200
-Message-ID: <1jwo5pf7de.fsf@starbuckisacylon.baylibre.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0VvaK4qV5Etc72CR3O+s6dMnkCvk9HbAf4bkxXWnjEk=;
+        b=tUXSgALTrehTRxwFxvJ1AChdI0Tqj7OwQtIpcz15sGjhp/oK/udaJHBvWtsHZU0h4u
+         ghRKBKRaLznpMi3NN4du0zVKlNpglNm79JJZ/ZQAcYPS5i2NBPN+tS6ymFPvYqXGPpWY
+         gX7ooIxaiREgrsZ4NsIyn0zzbpXR6WEKH0QWGSCqY8koXO+2pKoASNBsH62SqtbKve4U
+         0TKQsPQ/WRljarphI5de8hM1inklSljtxhQYgmHApSYyUOfiSKMPSel93dMqUqWXaEhf
+         4IYmI/W9o9NCjxO9dF8ZccaonCWhpCfLt/Vic+95jP90l0puDByKR30PBS45j7vjIkN4
+         FciA==
+X-Gm-Message-State: AGi0PubSUzXHi0yiZQ/vIRpNyzNcbSBNm4RZCzmgn5bQQsshWDbS88HL
+        XSVvvD22M5o/Xw6FKzdphmc=
+X-Google-Smtp-Source: APiQypJwNgzw4wq+U0P/io4z1Terb+WwllbnYJIXZLSDc1WfL/Fy5HRVyoHY9h17kjjk+8rpPHfUvw==
+X-Received: by 2002:a2e:6a08:: with SMTP id f8mr5671980ljc.8.1588779627589;
+        Wed, 06 May 2020 08:40:27 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id m15sm1557297lji.21.2020.05.06.08.40.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2020 08:40:26 -0700 (PDT)
+Subject: Re: [PATCH] phy: tegra: Use PTR_ERR_OR_ZERO() to simplify code
+To:     Vidya Sagar <vidyas@nvidia.com>,
+        Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Julia Lawall <julia.lawall@inria.fr>
+References: <20200505150058.17674-1-aishwaryarj100@gmail.com>
+ <be185976-3d12-f49d-6131-39f5075e0190@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d3397bc6-099e-591a-ff60-5e67da478526@gmail.com>
+Date:   Wed, 6 May 2020 18:40:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <be185976-3d12-f49d-6131-39f5075e0190@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On Wed 06 May 2020 at 16:12, Sameer Pujar <spujar@nvidia.com> wrote:
-
->>>
->>> |     Front End PCMs     |  SoC DSP   |     Back End DAIs    |
->>>
->>>                           *************
->>> ADMAIF<0> <------------> *           * <----DAI<0>-----> I2S
->>>                           *           *
->>> ADMAIF<1> <------------> *           * <----DAI<1>-----> DMIC
->>>                           *    XBAR   *
->>> ADMAIF<2> <------------> *           * <----DAI<2>-----> DSPK
->>>                           *           *
->>> ADMAIF<N> <------------> *           * <----DAI<3>-----> SFC (Resampler)
->>>                           *           *
->>>                           *           * <----DAI<4>-----> MIXER
->>>                           *           *
->>>                           *           * <----DAI<N>-----> ...
->>>                           *************
->>>
->>>
->>> Follow up queries
->>> =================
->>> Based on the above experience I do have few follow up queries and request
->>> for your inputs on this.
->>>
->>>   a) Can I use a DAPM Mux control to activate a BE path? This in turn can
->>>      program required switch in XBAR.
->> My 2 cents:
->
->> DPCM should activate any BE which has:
->> * a valid DAPM path from the current FE
->> * a valid BE stream (ex: can handle the stream direction)
->
-> Yes, this is taken care.
+06.05.2020 14:47, Vidya Sagar пишет:
+> Thanks for pushing this change.
+> I'm fine with this change as it is attempting to change only the last
+> occurrence of the (IS_ERR(...)) + PTR_ERR combination.
+> But, this code was initially written with PTR_ERR_OR_ZERO() itself but
+> later changed to use (IS_ERR(...)) + PTR_ERR based on the review comment
+> from Dmitry Osipenko ( https://lkml.org/lkml/2019/6/20/1457 )
+> 
+> Adding Dmitry as well to review the change.
+> 
+> I'm fine with this change.
+> Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
+> 
+> On 05-May-20 8:30 PM, Aishwarya Ramakrishnan wrote:
+>> External email: Use caution opening links or attachments
 >>
->> AFAIK, you can use any combination of DAPM elements to model your
->> components, including the XBAR. Then, it is the job of the card driver to
->> link the DAPM widgets of the different components together and bring the
->> system to life.
->
-> XBAR currently exports all routing widgets which can be used to
-> interconnect multiple components and thus implements Mux widgets. Fixing
-> the routing paths in driver would limit anyone to try a different
-> combination as per the need, unless driver is modified.
-
-I did not mean that you should restrict the routing ability of your SoC,
-quite the opposite actually.
-
-You should just expose it correctly
-
-From the diagram above, each comp (ASMAIFs, BE even the XBAR) should
-export AIF_IN/AIF_OUT widgets. Think of those as the interfaces of your
-components.
-
-The connections between those interfaces are fixed, the
-represent what the HW is (IOW, the wires). They could possibly be
-described in DT (audio-routing prop)
-
-The XBAR should implement the N to M MUX and export all the necessary
-kcontrols to act it. The routing magic happens in this component.
-There is no limit to the flexibility this provides, unless you set one
-;)
-
-> Device tree (DT)
-> can be one of the solutions here, but currently static paths can only be
-> added AFAIK. Even if this is extended to include routes with Mux widgets,
-> still it won't give the real flexibility.
-> I cannot re-use a component for a
-> different routing path, unless DT is modified again.
-
-If you implement the XBAR capability in the comp, not a use case, there
-is no reason to change it.
-
-DT describes the HW, changing it to describe a use case means something
-is wrong, usually.
-
->
-> Hence a Mux widget with user space control could offer required
-> flexibility.
-
-Exactly, your XBAR comp should provide the widget(s) and related
-kcontrol(s).
-
 >>
->> If your XBAR is widgets are not provided by a component which also
->> provides a dai_link in the sound card, you'll need to add the component
->> to the auxiliary device list of the card for the widget to be available
->> in the card.
->
-> I registered XBAR device as a component having a dummy DAI just to allow
-> routing paths to be available
+>> PTR_ERR_OR_ZERO contains if(IS_ERR(...)) + PTR_ERR.
+>>
+>> Generated by: scripts/coccinelle/api/ptr_ret.cocci
+>>
+>> Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+>> ---
+>>   drivers/phy/tegra/phy-tegra194-p2u.c | 5 +----
+>>   1 file changed, 1 insertion(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c
+>> b/drivers/phy/tegra/phy-tegra194-p2u.c
+>> index 7042bed9feaa..42394d27f4cb 100644
+>> --- a/drivers/phy/tegra/phy-tegra194-p2u.c
+>> +++ b/drivers/phy/tegra/phy-tegra194-p2u.c
+>> @@ -92,10 +92,7 @@ static int tegra_p2u_probe(struct platform_device
+>> *pdev)
+>>          phy_set_drvdata(generic_phy, phy);
+>>
+>>          phy_provider = devm_of_phy_provider_register(dev,
+>> of_phy_simple_xlate);
+>> -       if (IS_ERR(phy_provider))
+>> -               return PTR_ERR(phy_provider);
+>> -
+>> -       return 0;
+>> +       return PTR_ERR_OR_ZERO(phy_provider);
+>>   }
 
-From you description, you XBAR should not have DAIs, just DAPM widgets
-and kcontrols
+Quite some people think that such a change doesn't bring any benefits,
+it doesn't help readability of the code, it even makes harder to read
+the code for a human being.
 
-> for the given sound card. Are you suggesting
-> I can register XBAR as an auxiliary device so that all the routing paths
-> are available?
+IIRC, there were some requests in the past to remove that cocci rule to
+stop such auto-generated patches to re-occur over and over again.
 
-Precisely.
-I have been using the same method on Amlogic cards.
+The PTR_ERR_OR_ZERO is good to use in a cases where it's not returned
+directly, like this:
 
+phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+err = PTR_ERR_OR_ZERO(phy_provider);
+if (err)
+	return err;
+
+return 0;
