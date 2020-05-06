@@ -2,97 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9E01C6974
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 08:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C0851C6FA2
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 13:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgEFGx4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 02:53:56 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:52829 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725782AbgEFGx4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 02:53:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id WDwEjnDEK8hmdWDwHjBf2e; Wed, 06 May 2020 08:53:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588748034; bh=ajeYTYpW2stA5uxu5d9aTwu82ozRtYvaSmlwniMHM7g=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=tNlpNrhmVLgMGOJ9zBRHwpB4FJi//gD1n5ZyZaWBVVi+ElW+XnjlLdzyWC5a9sBDJ
-         pzTkJe1+mewgJnve8bMhjs2/xARqjNmGK5O3Dx/Px5DMxOHJecFcCFriaKhmjxP9Vj
-         AO5N41lrlw3qzyAa++8HlseTSf5xQf9FrYzxaaSaCGR9EsQesxCrSM3W1oomd1mf4j
-         9Ct7p6I80AgzKfjBhxVq/0LMUwNvOW7fVUN47jwrTTJzRK2Mfc/BlA5eunICnBXrD6
-         VEwZyQ+tL1Wr1y53CoaSfxe5TTaCbW5Ztezz0D9ft/FpZPHJROFMk4Z0eDNMJdkIn8
-         mO7ptlXIdAowQ==
-Subject: Re: [RFC PATCH v12 7/9] MAINTAINERS: Add Tegra Video driver section
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1588645920-20557-1-git-send-email-skomatineni@nvidia.com>
- <1588645920-20557-8-git-send-email-skomatineni@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f8c66ec5-7641-5600-b79e-30624a18ebdd@xs4all.nl>
-Date:   Wed, 6 May 2020 08:53:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1725887AbgEFLrz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 07:47:55 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6394 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725796AbgEFLry (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 07:47:54 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eb2a3a40000>; Wed, 06 May 2020 04:46:44 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 06 May 2020 04:47:54 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 06 May 2020 04:47:54 -0700
+Received: from [10.25.78.179] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 6 May
+ 2020 11:47:52 +0000
+Subject: Re: [PATCH] phy: tegra: Use PTR_ERR_OR_ZERO() to simplify code
+To:     Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <digetx@gmail.com>
+References: <20200505150058.17674-1-aishwaryarj100@gmail.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <be185976-3d12-f49d-6131-39f5075e0190@nvidia.com>
+Date:   Wed, 6 May 2020 17:17:49 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <1588645920-20557-8-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200505150058.17674-1-aishwaryarj100@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfP+ADfYPsJxKFMVzegRcx63hwx1VPGOY6SaLmRkjlJq/HES6338CeQoKPOKdclkKQMafEqMOqUEeJG8PJaXxUX4tHzS0oA3uEQwBbG5ZJyju7smDqcZm
- XjVQG125ksEoKx7NKRPmCndh+R++QKs5TgFLHaloLV8uIUOdDS2RzHHGNRFv/Vdgw5wle9CDtPh80Gk1EHKt2nlrR3HyiTgkVABa5CGcEHFKUrZLacJG+m8T
- RLliCCbxg8BOdsC8g6zHZBvMTEnSdQFI/wgQVITa+mAV8uxLtsUoGpZ66pj0+8BcUahF15tZJl23jH7E8BbxKOgIj/4+jmnOHbuDvABcLt0KAlTP1kYyjnwe
- lXmEod1FHxVjBw1dpn1mnC/qInOOKA24zq3jPS6W1n3OKBX6VW3Pr5dGdRrkSDzZuKcd+Hh2F3aI2MZgJc6Zjwo4Wv9wV7nperBxKy2OH/qEFyw9lEPw8kql
- 0e2N4OK/zmL8Z2xLOjcygDYZI8rLRDPNRvPtEcjI0GG4f1F8mA0wCVBSKASAiomy8jnbhjI+fE2x25rqfj0ix6rTnNhbB1JWiSSqyDEh3mU17HfziU6/isXS
- z3M=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588765604; bh=BJBqJSRQf6+TfAc5agbOFu+x857JC8+7fnNqVj7P1aE=;
+        h=X-PGP-Universal:Subject:To:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=lXAvBhJkbpUiZOHzaAwwDF61VpqdKcCQGjDYB34C2b8sPNq7TrGSB3yvPYtbmQ2h6
+         +MUrs1BzMuJRLLzbOQt5hu6exzpC4jTOGViSMgvjbkuolxNc1WLbewql4IROEm6lNQ
+         cnRpdROBQ9U8rfQMeenem0ZdDaHxAOV41X+s2Qi8bwK+V2ZuWuYmQTdcZCkLUGWMdL
+         f0KRQqtmzsrfmiFZpuS0hsMnvYQVMj14ttF9m5thK8LtIfBXbFpi3Ie7fPZ3tPOOiK
+         KYtnFLAkCBGhjbr9DR8YCI2R0NcUWpwWguuDKRaHxKmZD7OC0NFQ33dePxQ8kwkzL8
+         m/SopzUpAFZCQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 05/05/2020 04:31, Sowjanya Komatineni wrote:
-> Add maintainers and mailing list entries to Tegra Video driver section.
+Thanks for pushing this change.
+I'm fine with this change as it is attempting to change only the last 
+occurrence of the (IS_ERR(...)) + PTR_ERR combination.
+But, this code was initially written with PTR_ERR_OR_ZERO() itself but 
+later changed to use (IS_ERR(...)) + PTR_ERR based on the review comment 
+from Dmitry Osipenko ( https://lkml.org/lkml/2019/6/20/1457 )
+
+Adding Dmitry as well to review the change.
+
+I'm fine with this change.
+Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
+
+On 05-May-20 8:30 PM, Aishwarya Ramakrishnan wrote:
+> External email: Use caution opening links or attachments
 > 
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-
-Since this goes through Thierry:
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
+> 
+> PTR_ERR_OR_ZERO contains if(IS_ERR(...)) + PTR_ERR.
+> 
+> Generated by: scripts/coccinelle/api/ptr_ret.cocci
+> 
+> Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
 > ---
->  MAINTAINERS | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>   drivers/phy/tegra/phy-tegra194-p2u.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fe55b3f..611d7bc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16652,6 +16652,16 @@ M:	Laxman Dewangan <ldewangan@nvidia.com>
->  S:	Supported
->  F:	drivers/spi/spi-tegra*
->  
-> +TEGRA VIDEO DRIVER
-> +M:	Thierry Reding <thierry.reding@gmail.com>
-> +M:	Jonathan Hunter <jonathanh@nvidia.com>
-> +M:	Sowjanya Komatineni <skomatineni@nvidia.com>
-> +L:	linux-media@vger.kernel.org
-> +L:	linux-tegra@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> +F:	drivers/staging/media/tegra/
-> +
->  TEGRA XUSB PADCTL DRIVER
->  M:	JC Kuo <jckuo@nvidia.com>
->  S:	Supported
+> diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c b/drivers/phy/tegra/phy-tegra194-p2u.c
+> index 7042bed9feaa..42394d27f4cb 100644
+> --- a/drivers/phy/tegra/phy-tegra194-p2u.c
+> +++ b/drivers/phy/tegra/phy-tegra194-p2u.c
+> @@ -92,10 +92,7 @@ static int tegra_p2u_probe(struct platform_device *pdev)
+>          phy_set_drvdata(generic_phy, phy);
 > 
-
+>          phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+> -       if (IS_ERR(phy_provider))
+> -               return PTR_ERR(phy_provider);
+> -
+> -       return 0;
+> +       return PTR_ERR_OR_ZERO(phy_provider);
+>   }
+> 
+>   static const struct of_device_id tegra_p2u_id_table[] = {
+> --
+> 2.17.1
+> 
