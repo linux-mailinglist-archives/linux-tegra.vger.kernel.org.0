@@ -2,150 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B53A1C76A1
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 18:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF14C1C76B6
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 18:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729968AbgEFQgu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 12:36:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729837AbgEFQgt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 12:36:49 -0400
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98EEDC0610D6
-        for <linux-tegra@vger.kernel.org>; Wed,  6 May 2020 09:36:49 -0700 (PDT)
-Received: by mail-vk1-xa42.google.com with SMTP id n207so702278vkf.8
-        for <linux-tegra@vger.kernel.org>; Wed, 06 May 2020 09:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qEp/F3SbsRoDv1jpNGzhOxbfis7J4KDcT9P9z6XWkHg=;
-        b=eVnVRn4S8Hb7sl1mAhlDpCkwg2p7TvzKWg0qVVe/dWs+kNzu0dkUnF12cuHSLRfxJA
-         k1JsPhNHp6gpFvg3metDV/hPplaRlu3pQXHecw2lhBu91JqE8L0mSdp5Zmc9jNhUWqIB
-         1xGIHjkcCR9gqoJXy85LS+19SdMWYi5+Ih9W8LUXfrQqUUPxnoOEUhmxOrI+MLwWHhr+
-         E9RKn25uZiu4s/nZwk/EVD7PaM11znkaVIxenvyVhmirLDphTRgJue6k6ZZ0J3TwDTz6
-         0ZY1n1k1WDVUIhczz4M4qBDev1+txdlb4jFvLkVck7EDsXiBjF4LLHsLj3SpxlVGryrw
-         tIxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qEp/F3SbsRoDv1jpNGzhOxbfis7J4KDcT9P9z6XWkHg=;
-        b=ucV1krXNtwUYCC9dxIdhS0WT2Zgq+QaoZqSdH7uZyxfM7yRT3xMpm3HL8xGw+oHA/5
-         0F2gjKNqWL/m+ZC3zDCAl0nBAEzJDrrrZJEYwBSetU+m9pe/evVJ9HQHxd7YBVLvcidy
-         Kan7V55VXUlcCZervtQHnhn730m5k3FLB1K0jbSXM/1OZkpzstJINUX5YzLXoO9HlLPH
-         TTdPT8P1dJjrPZCQ+g/2B1TQ58WXuHE2y7quy2764QN54FM354/qTlzCdu725oBj8idM
-         8qOvJldEVG4YxNyd2FHv0/NgnQSHaYr93HgghjGMRln/aPVlW1KyG8ry+AnItbbnUbZY
-         oicA==
-X-Gm-Message-State: AGi0PuYl2agNWvcCRsnJea9iHxQqBSpEcd/Rggb7RP9sHQ0Vq0JI1sPW
-        nfq21HCBhRa6Z4vjbx+qHrGXoOElYgMY2CNokkdRXg==
-X-Google-Smtp-Source: APiQypLm9f0btuKktuvMb+D03IME6dlX6dRX4NRiQ4NXE3O3t6sARzsGX6NfhfAe3VIx+4GZEIKh+9FQbLrJ4BJaBxM=
-X-Received: by 2002:a1f:8ccf:: with SMTP id o198mr8122974vkd.53.1588783008587;
- Wed, 06 May 2020 09:36:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
- <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com> <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
-In-Reply-To: <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 6 May 2020 18:36:12 +0200
-Message-ID: <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] mmc: core: Extend mmc_of_parse() to parse CQE bindings
-To:     Veerabhadrarao Badiganti <vbadigan@codeaurora.org>
-Cc:     Chun-Hung Wu <chun-hung.wu@mediatek.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
+        id S1729789AbgEFQli (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 12:41:38 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:59562 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729447AbgEFQlh (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 12:41:37 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id 798738046E;
+        Wed,  6 May 2020 18:41:34 +0200 (CEST)
+Date:   Wed, 6 May 2020 18:41:33 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>,
-        Yong Mao <yong.mao@mediatek.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        DTML <devicetree@vger.kernel.org>, wsd_upstream@mediatek.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 2/6] drm/of: Make drm_of_find_panel_or_bridge() to
+ check graph's presence
+Message-ID: <20200506164133.GB19296@ravnborg.org>
+References: <20200418170703.1583-1-digetx@gmail.com>
+ <20200418170703.1583-3-digetx@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200418170703.1583-3-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+        a=ZfXzQBuPKYn6lThc9qoA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+        a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 6 May 2020 at 15:01, Veerabhadrarao Badiganti
-<vbadigan@codeaurora.org> wrote:
->
->
-> On 4/28/2020 5:26 AM, Chun-Hung Wu wrote:
-> > Parse CQE bindings "supports-cqe" and "disable-cqe-dcmd"
-> > in mmc_of_parse().
-> >
-> > Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
-> > ---
-> >   drivers/mmc/core/host.c | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
-> > index c876872..47521c6 100644
-> > --- a/drivers/mmc/core/host.c
-> > +++ b/drivers/mmc/core/host.c
-> > @@ -302,6 +302,11 @@ int mmc_of_parse(struct mmc_host *host)
-> >               host->caps2 |= MMC_CAP2_NO_SD;
-> >       if (device_property_read_bool(dev, "no-mmc"))
-> >               host->caps2 |= MMC_CAP2_NO_MMC;
-> > +     if (device_property_read_bool(dev, "supports-cqe"))
-> > +             host->caps2 |= MMC_CAP2_CQE;
->
-> This change is breaking emmc driver on qcom platforms where this dt
-> property is defined.
->
-> [    1.543453]  cqhci_deactivate+0xc/0x38
-> [    1.545627]  sdhci_msm_reset+0x40/0x58
-> [    1.549447]  sdhci_do_reset+0x48/0x7c
-> [    1.553180]  __sdhci_read_caps+0x7c/0x214
-> [    1.556913]  sdhci_setup_host+0x58/0xce8
-> [    1.560905]  sdhci_msm_probe+0x588/0x8a4
-> [    1.564900]  platform_drv_probe+0x4c/0xb0
->
-> So, we cant have this flag defined before sdhci_setup_host().
->
-> I will have to clear this cap and re-enable it in our initialization.
-
-Thanks for reporting! I have dropped all the four patches from
-Chun-Hung, so we can figure out how to fix this.
-
-Please help to review the next version of the series.
-
->
-> > +     if (!device_property_read_bool(dev, "disable-cqe-dcmd")) {
-> > +             host->caps2 |= MMC_CAP2_CQE_DCMD;
-> > +     }
-> >
-> >       /* Must be after "non-removable" check */
-> >       if (device_property_read_u32(dev, "fixed-emmc-driver-type", &drv_type) == 0) {
-
-Kind regards
-Uffe
+On Sat, Apr 18, 2020 at 08:06:59PM +0300, Dmitry Osipenko wrote:
+> When graph isn't defined in a device-tree, the of_graph_get_remote_node()
+> prints a noisy error message, telling that port node is not found. This is
+> undesirable behaviour in our case because absence of a panel/bridge graph
+> is a valid case. Let's check presence of the local port in a device-tree
+> before proceeding with parsing the graph.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/drm_of.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index b50b44e76279..e0652c38f357 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -239,13 +239,24 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+>  				struct drm_bridge **bridge)
+>  {
+>  	int ret = -EPROBE_DEFER;
+> -	struct device_node *remote;
+> +	struct device_node *local, *remote;
+>  
+>  	if (!panel && !bridge)
+>  		return -EINVAL;
+>  	if (panel)
+>  		*panel = NULL;
+>  
+> +	/*
+> +	 * of_graph_get_remote_node() produces a noisy error message if port
+> +	 * node isn't found and the absence of the port is a legit case here,
+> +	 * so at first we silently check presence of the local port.
+> +	 */
+> +	local = of_graph_get_local_port(np);
+> +	if (!local)
+> +		return -ENODEV;
+> +
+> +	of_node_put(local);
+> +
+>  	remote = of_graph_get_remote_node(np, port, endpoint);
+>  	if (!remote)
+>  		return -ENODEV;
+> -- 
+> 2.26.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
