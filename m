@@ -2,62 +2,31 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01A2B1C7A5C
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 21:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5431C7AF1
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 22:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729243AbgEFTeU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 15:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729209AbgEFTeT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 15:34:19 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F24C061A0F;
-        Wed,  6 May 2020 12:34:19 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id i15so3145155wrx.10;
-        Wed, 06 May 2020 12:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zRA8XHCGUliIZX7g4aZI0lIxZlvmSkIAUWwgi9G+qmo=;
-        b=n5vOV7HTcxF5a+OaKTiHiiO+Rfql0MJMQKpTrjndMphBnZmng80wX+qiuonm+Ev0hz
-         aLWuHvLPGnbFf6EIQQDGPRB0xvgNfm5mieh65bP6y34nc3VWnud/0VOxm92l5mW+qbik
-         64yqmN1djlV6dXttqAykbMAl5gDzFrwCMhhKBLodjdK39utli1z9s/FYXcofRzH1sWZ3
-         whVOHr3gCv8/olhimRCiWj+vapQUoLEQEtjMKhG0EcFDkS7Gf0rT4Y3RooYYKc8fm9Se
-         x6SY1gGc04tTikIDlUCFS+RjzhSQqfCnfSfjZGc+Hom8s25nRI42KfVeTY1xE47ihuF7
-         WC1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zRA8XHCGUliIZX7g4aZI0lIxZlvmSkIAUWwgi9G+qmo=;
-        b=GKdFK9tc+REKPG414aS71rjvPm7hDJ/JwDBp/hFsLrLSJjbswaO/VakkKbxRVmP8zB
-         5gbAp9FCCJ5tpiF6yeUCTjVKsYaN11uoxXyuw3kDv0ua8Xoo7++AGYWuzwa7jZt5SgK9
-         EtrwpYJgsNh/cSWQAnW6wxzdqMFuoK3lbEfHGaX2GvFdHL6uNUudyQelYFO0piC0AZPS
-         zjo+0cTY/6CxWC3XRGmP2s49BRYPX64AIc+l+hu2BteFGkEs2YrUnuSgTOjt4gyPGj7U
-         j/BZWL3v6ntzJHrMVavyniM4RoTTamxTvta9dAhbwbpSDEuq+HWYjvci+FatDSr/mZDm
-         lk4w==
-X-Gm-Message-State: AGi0PuZB7lvaz4pRtpNmNEXc7euce1aLSe9FJ5HqsvPLkss65v3EuwN7
-        ojS8cDTlvFLz6+g73gLMerA=
-X-Google-Smtp-Source: APiQypJ+kc/R94I1R5NmwlQqbRyKNjrwfCC6Th54Lb8dAgLwYFZHQH8rWfUE2kYvG4BEcjdY+darhQ==
-X-Received: by 2002:a5d:46cf:: with SMTP id g15mr7064607wrs.276.1588793658383;
-        Wed, 06 May 2020 12:34:18 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id s18sm4807274wra.94.2020.05.06.12.34.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 12:34:13 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 5/5] i2c: tegra: Synchronize DMA before termination
-Date:   Wed,  6 May 2020 21:33:58 +0200
-Message-Id: <20200506193358.2807244-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200506193358.2807244-1-thierry.reding@gmail.com>
-References: <20200506193358.2807244-1-thierry.reding@gmail.com>
+        id S1728173AbgEFUJM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 16:09:12 -0400
+Received: from smtp04.smtpout.orange.fr ([80.12.242.126]:21645 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728062AbgEFUJM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 16:09:12 -0400
+Received: from localhost.localdomain ([93.23.14.107])
+        by mwinf5d60 with ME
+        id bY992200F2JbCfx03Y99bF; Wed, 06 May 2020 22:09:10 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 06 May 2020 22:09:10 +0200
+X-ME-IP: 93.23.14.107
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] memory: tegra: Fix an error handling path in 'tegra186_emc_probe()'
+Date:   Wed,  6 May 2020 22:09:07 +0200
+Message-Id: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -65,40 +34,73 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+The call to 'tegra_bpmp_get()' must be balanced by a call to
+'tegra_bpmp_put()' in case of error, as already done in the remove
+function.
 
-DMA transfer could be completed, but CPU (which handles DMA interrupt)
-may get too busy and can't handle the interrupt in a timely manner,
-despite of DMA IRQ being raised. In this case the DMA state needs to
-synchronized before terminating DMA transfer in order not to miss the
-DMA transfer completion.
+Add an error handling path and corresponding goto.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Fixes: 52d15dd23f0b ("memory: tegra: Support DVFS on Tegra186 and later")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/i2c/busses/i2c-tegra.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/memory/tegra/tegra186-emc.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index d504e272d9fa..4cee596a604d 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -1219,6 +1219,15 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 		time_left = tegra_i2c_wait_completion_timeout(
- 				i2c_dev, &i2c_dev->dma_complete, xfer_time);
+diff --git a/drivers/memory/tegra/tegra186-emc.c b/drivers/memory/tegra/tegra186-emc.c
+index 97f26bc77ad4..7b35bf6450f3 100644
+--- a/drivers/memory/tegra/tegra186-emc.c
++++ b/drivers/memory/tegra/tegra186-emc.c
+@@ -185,7 +185,7 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(emc->clk)) {
+ 		err = PTR_ERR(emc->clk);
+ 		dev_err(&pdev->dev, "failed to get EMC clock: %d\n", err);
+-		return err;
++		goto err_put_bpmp;
+ 	}
  
-+		/*
-+		 * Synchronize DMA first, since dmaengine_terminate_sync()
-+		 * performs synchronization after the transfer's termination
-+		 * and we want to get a completion if transfer succeeded.
-+		 */
-+		dmaengine_synchronize(i2c_dev->msg_read ?
-+				      i2c_dev->rx_dma_chan :
-+				      i2c_dev->tx_dma_chan);
+ 	platform_set_drvdata(pdev, emc);
+@@ -201,7 +201,7 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+ 	err = tegra_bpmp_transfer(emc->bpmp, &msg);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "failed to EMC DVFS pairs: %d\n", err);
+-		return err;
++		goto err_put_bpmp;
+ 	}
+ 
+ 	emc->debugfs.min_rate = ULONG_MAX;
+@@ -211,8 +211,10 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+ 
+ 	emc->dvfs = devm_kmalloc_array(&pdev->dev, emc->num_dvfs,
+ 				       sizeof(*emc->dvfs), GFP_KERNEL);
+-	if (!emc->dvfs)
+-		return -ENOMEM;
++	if (!emc->dvfs) {
++		err = -ENOMEM;
++		goto err_put_bpmp;
++	}
+ 
+ 	dev_dbg(&pdev->dev, "%u DVFS pairs:\n", emc->num_dvfs);
+ 
+@@ -237,7 +239,7 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+ 			"failed to set rate range [%lu-%lu] for %pC\n",
+ 			emc->debugfs.min_rate, emc->debugfs.max_rate,
+ 			emc->clk);
+-		return err;
++		goto err_put_bpmp;
+ 	}
+ 
+ 	emc->debugfs.root = debugfs_create_dir("emc", NULL);
+@@ -254,6 +256,10 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+ 			    emc, &tegra186_emc_debug_max_rate_fops);
+ 
+ 	return 0;
 +
- 		dmaengine_terminate_sync(i2c_dev->msg_read ?
- 					 i2c_dev->rx_dma_chan :
- 					 i2c_dev->tx_dma_chan);
++err_put_bpmp:
++	tegra_bpmp_put(emc->bpmp);
++	return err;
+ }
+ 
+ static int tegra186_emc_remove(struct platform_device *pdev)
 -- 
-2.24.1
+2.25.1
 
