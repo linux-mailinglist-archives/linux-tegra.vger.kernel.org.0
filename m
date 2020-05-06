@@ -2,174 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8401C6733
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 07:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F82B1C6970
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 08:53:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbgEFFH5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 01:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47160 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725821AbgEFFH4 (ORCPT
+        id S1727940AbgEFGxm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 02:53:42 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:36493 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725782AbgEFGxm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 01:07:56 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3176FC061A0F;
-        Tue,  5 May 2020 22:07:56 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id 188so988744wmc.2;
-        Tue, 05 May 2020 22:07:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=vH1kJeWFMFqUY6h5ETi0ZcC8WleFTiD6Swlqzl2oX7U=;
-        b=pl3mqNDFiO1VQ//NUB/a6LkFWdanYHjiv0fnTZkQ5RSbzLJ77gdm6X6hWt2CiFyaS1
-         zdmIRRCuSaXtk9n35DrnHK8BigRY9zi8ydaxTBzqMm4oWNJge23/3PcGSK30xEZlbImm
-         JzvRPPtsuJ5iAvyLlEzEtPaoeuXmllsd/r7J7DN/Box6IttiFmAykBIh4Wb/v9TmjlPc
-         H/aB+R1iSkMsIMO1o4/DFbGuORdTZGyaE/pgHRxl5GJ7ZxLDTqrjuv67k0j97cVu+Hg/
-         rwuAOm7Zsn5heUAMhMmQ1ePZ7QhWAe2bzCsGuX8dZpu6NyIDr3nSO76mGIBSW3aBD+JL
-         hTJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=vH1kJeWFMFqUY6h5ETi0ZcC8WleFTiD6Swlqzl2oX7U=;
-        b=hsC4y3OeNyDy7pQLs/146sIWUqaUnHq8kqmBKbfAjBPGKKj06i9EADyWZwGbW1bu1J
-         XMv1MWNqThA6adMzwyAZKr+Yd05kVH3HHsFPKsufBpo8YyBch7rXOBCuMmtz2Zz3Kwbd
-         Hu+1QAYgbBzErwWKzaYqjriUJ7jA3P4Z3IgMR+FnPzuAJq8lAVB5G5fvkTOIB8vR0e3L
-         yTwqDN4f2yAlozq9Ht/FfT6Gk5Mb+ebEN/9NkL8NIowggs6SOFpTsWtaw7cUlTZXFng1
-         Cmh3+EVhamc1VNHqt/IDA82Gmzo20pFC/XRr2yAW9QjvKh6LGWcQStEZSUbR9CwXaX3I
-         DebQ==
-X-Gm-Message-State: AGi0PuYv+xViMALBqK62bG885vrQOrVv6oX5aw2FrMgZt7gD4+cyCVnP
-        21Ymu+p4a3J6G6zMX3azJJA=
-X-Google-Smtp-Source: APiQypLH9+oYRyIqGtyM1npSpJ2vPM3TI6PRcfz/EzhzDgzXQrn+PSvjdvVyw1TNdLyHW7ga380FUg==
-X-Received: by 2002:a1c:4b12:: with SMTP id y18mr2242366wma.149.1588741674674;
-        Tue, 05 May 2020 22:07:54 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2df1:2500:bc2e:80a7:2be5:2fcf])
-        by smtp.gmail.com with ESMTPSA id x24sm791504wrd.51.2020.05.05.22.07.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 22:07:53 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, Joe Perches <joe@perches.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH RESEND] MAINTAINERS: adjust entries to moving CEC platform drivers
-Date:   Wed,  6 May 2020 07:07:44 +0200
-Message-Id: <20200506050744.4779-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 6 May 2020 02:53:42 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id WDvzjnD9u8hmdWDw2jBezh; Wed, 06 May 2020 08:53:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588748019; bh=Ddl4ba8z2sdkFORjy6VpZX0NiuD+njlkCF/5UPTFDhQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=YdKKR/zFlVMl6PdQNI+Dz8Rbn1g7xsA5evWTPTtt1jiu54MRUrlAg2m+KYMxeSHyy
+         mXIiIfzm7gwfuQHU+0VzIEVF4OXRIBPf9Qi7YuKevqRW0jTsKMHs5cgS8IYgWWffPM
+         P5X+3WSljeKOZpZQgV1nQPmZj13LABeW5teoJ6xyErG+t5wMXWj6ngQjUYu2j0NSQq
+         dsUEi82QVqCu6huemIrzJ6vOGkSWlQrZ5Ewzi0JtywujZBJcZqCr8G32ZH2iO56ZjK
+         pNdI0HDGkLifgsVmxK9z4NlJuKqNfMG5BB/ARbwf33qGeJ82BvcA7AtvCewwmURnWD
+         /akEXcAHM1Xmw==
+Subject: Re: [RFC PATCH v12 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588645920-20557-1-git-send-email-skomatineni@nvidia.com>
+ <1588645920-20557-7-git-send-email-skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <e4a5c68b-4856-175f-5d02-06dc4a038b00@xs4all.nl>
+Date:   Wed, 6 May 2020 08:53:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <1588645920-20557-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEX9ydVl7E+s7YONC63NHL4RtUlk0vpw7gHw/qvWvWz35D5FYSom7dt9UFaUAIfdPFX8sRJ0HiyPLTtK5e/ObCadkslhnRDwHBvi9T1SNxOF96nJN/Am
+ IW/x2eWW5iZMNib74/ndHPt58VApCxK0K2e7iiX9pwkJqXS3WxrOjKgL9OjrrDiKx9AOylCxAHqbY1jCXZZXYGaZyyyCpDlUnG6GxRXaD1W8tJBvwM5X5tyv
+ SHCxAXtDl3BXOot+PeDAHOl8oNh9epL+EHZIdNGZ3rhpolf8uLCydnKXrXpdo5dt4tQTUr88ukcQuJ7NNwcfvAgUHC11qKElGJCEC/FDy7ZmEahvOL6WWa63
+ wuffyJq3CSltos3h7/54WkLRR971dheZyeQqyQaiAZPUh4AQ5PNIsjMkbnHKAOhuLFpDulUNYwuhyq5vweZyXJsR5WaOI/6Q6cQjg7+zvSWEzCsQ4/VzWwki
+ OinvMOOb9SBSel5gULKfYRs+rxkoMQFhpAHwNhJ1saxNvZZnX1Hc0/fEmKrdWXyGV7IKvOBpeqPOW1Yrlk8RmqZBZPfavg3Pf5jt6XSK+NRVk4qOICgTXVdu
+ U+rXYmyVvU87pBkgaUsS+5wV
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit 4be5e8648b0c ("media: move CEC platform drivers to a separate
-directory") moved various files into a new directory structure, but did
-not adjust the entries in MAINTAINERS.
+On 05/05/2020 04:31, Sowjanya Komatineni wrote:
+> Tegra210 contains a powerful Video Input (VI) hardware controller
+> which can support up to 6 MIPI CSI camera sensors.
+> 
+> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+> capture from an external camera sensor connected to CSI or from
+> built-in test pattern generator.
+> 
+> Tegra210 supports built-in test pattern generator from CSI to VI.
+> 
+> This patch adds a v4l2 capture driver with media interface for
+> Tegra210 built-in CSI to VI test pattern generator.
+> 
+> This patch includes TPG support only and all the video pipeline
+> configuration happens through the video device node.
+> 
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 
-Since then, ./scripts/get_maintainer.pl --self-test=patterns complains:
+Since this goes through Thierry:
 
-  warning: no file matches F: drivers/media/platform/s5p-cec/
-  warning: no file matches F: drivers/media/platform/tegra-cec/
-  warning: no file matches F: drivers/media/platform/cec-gpio/
-  warning: no file matches F: drivers/media/platform/meson/ao-cec-g12a.c
-  warning: no file matches F: drivers/media/platform/meson/ao-cec.c
-  warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.c
-  warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.h
-  warning: no file matches F: drivers/media/platform/sti/cec/
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Update the MAINTAINERS entries to the new file locations.
+Regards,
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Mauro, please pick this non-urgent minor clean-up patch on top of the
-CEC platform driver moves.
-
-applies cleanly on next-20200417 and still on next-20200505 for this
-resend.
-
-v1 send here:
-https://lore.kernel.org/lkml/20200418093630.6149-1-lukas.bulwahn@gmail.com/
-
- MAINTAINERS | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3083282134de..a708773e1af7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2373,7 +2373,7 @@ L:	linux-samsung-soc@vger.kernel.org (moderated for non-subscribers)
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/s5p-cec.txt
--F:	drivers/media/platform/s5p-cec/
-+F:	drivers/media/cec/platform/s5p/
- 
- ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT
- M:	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-@@ -2518,7 +2518,7 @@ L:	linux-tegra@vger.kernel.org
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/tegra-cec.txt
--F:	drivers/media/platform/tegra-cec/
-+F:	drivers/media/cec/platform/tegra/
- 
- ARM/TETON BGA MACHINE SUPPORT
- M:	"Mark F. Brown" <mark.brown314@gmail.com>
-@@ -3932,7 +3932,7 @@ S:	Supported
- W:	http://linuxtv.org
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/cec-gpio.txt
--F:	drivers/media/platform/cec-gpio/
-+F:	drivers/media/cec/platform/cec-gpio/
- 
- CELL BROADBAND ENGINE ARCHITECTURE
- M:	Arnd Bergmann <arnd@arndb.de>
-@@ -11027,8 +11027,7 @@ S:	Supported
- W:	http://linux-meson.com/
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
--F:	drivers/media/platform/meson/ao-cec-g12a.c
--F:	drivers/media/platform/meson/ao-cec.c
-+F:	drivers/media/cec/platform/meson/
- 
- MESON NAND CONTROLLER DRIVER FOR AMLOGIC SOCS
- M:	Liang Yang <liang.yang@amlogic.com>
-@@ -15063,8 +15062,7 @@ F:	drivers/mmc/host/sdricoh_cs.c
- SECO BOARDS CEC DRIVER
- M:	Ettore Chimenti <ek5.chimenti@gmail.com>
- S:	Maintained
--F:	drivers/media/platform/seco-cec/seco-cec.c
--F:	drivers/media/platform/seco-cec/seco-cec.h
-+F:	drivers/media/cec/platform/seco/
- 
- SECURE COMPUTING
- M:	Kees Cook <keescook@chromium.org>
-@@ -16089,7 +16087,7 @@ STI CEC DRIVER
- M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/stih-cec.txt
--F:	drivers/media/platform/sti/cec/
-+F:	drivers/media/cec/platform/sti/
- 
- STK1160 USB VIDEO CAPTURE DRIVER
- M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
--- 
-2.17.1
-
+	Hans
