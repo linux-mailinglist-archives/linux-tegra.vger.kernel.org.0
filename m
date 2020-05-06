@@ -2,89 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C35421C7761
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 19:05:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF17E1C778A
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 May 2020 19:13:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729936AbgEFRFb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 13:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46446 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729414AbgEFRFb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 13:05:31 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E2FC061A0F;
-        Wed,  6 May 2020 10:05:30 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f11so3206517ljp.1;
-        Wed, 06 May 2020 10:05:30 -0700 (PDT)
+        id S1728595AbgEFRNz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 13:13:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728093AbgEFRNy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 May 2020 13:13:54 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF99C061A0F;
+        Wed,  6 May 2020 10:13:53 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id r26so3622613wmh.0;
+        Wed, 06 May 2020 10:13:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i6DgO5+TRdDJq45v1B/zETVA5zYOWCANdfi6IDZAE08=;
-        b=nJ/sVN4kSr6t9IdoSsZPyyOmbUtLWQu7s5b311BEDJvl06V1lFO2Wk5poGrlIbZsWG
-         G8EybU7nSnwfFfkbvCXPrcZUZQIqm16wZ+rPp0O3hQE0JEcsYsFTb3O3J/N12j9y2gzY
-         RBKwbVGcFBA26M8N0u/dDpO8IVTP26eaMkcKJ0052VehWgaqhfAqoGIcUzS/bm+YkiGh
-         Ky74G8aJ+0xjJNlTypLKNlTCx+b/tYENL6cUTpTDZwR/eERinbs/nmOg/5KfmgeHFH8G
-         DQemBq3wpqRb34Ade7odH7pdEztMk6j5BPSz1mhgc2rrp7b5WDgNZtw5mGMw6mWcU5J2
-         Vzgw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GNKW7Nj5sqqTflAX7xBN/lqrOeNoUdudCj9pQHf3RMg=;
+        b=ZDs0lNMpexah6bbEgwbPxd4LeMcR+Qm1BK90fPCv/D0cFZxwt2Grs0fvEDM9Y5Zt/y
+         /8J4uGB59bV3tf70QrxXdzJU/OFwxMaso4PzHBVPPBecQv9ouM1SYY4mROlJA4j8BE3h
+         woJK0P/yuvSu4GaZhZqrnGfrQjmtaMmbxPb63jGfukM2PR+zWh/eAVW7xOTekYW+P7wn
+         OiGRqrHDi5UJXBQRSL1LAiGJ7QQ6dnxkAPXUwVAb8yNHflAQxIEGumUKMj8sRymzXJyu
+         yHDy/Jxn5FydMZAej+qOb6yND7AArqQWv2AVBE0cyJeVxfXdvMocKXlNQN5xnS1vMACg
+         fVYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=i6DgO5+TRdDJq45v1B/zETVA5zYOWCANdfi6IDZAE08=;
-        b=X/DJ7g8LVCJd9Mwys2iRezV9obV/srv9ag8+BsKWBCQ1c0MvG/9ou3Gm0YYFWDUShY
-         tvOzxj1Gm1U3URAnukF+bFuWqE6qYdwV0xnuOnH4/KfXstGMWaXd0740ajC41xLhNOoc
-         V1WdeBKgyzR14OeHpwYkl43vCTSl5/8Wf+XISW3nCl9JiQPgKuhQ1tw5adl3DUki6Suw
-         8QTVfpCM+yAOF6K6iN5hlXcWA1pFmDBWj3ZdfvNdEfRPmKwIDOiEggduIbs6BdmwErlU
-         Fshge/A99aQifaAsHxAFCPGB3p2V+NJ1LEaZDdkoPUt/3NZ+6MkN33yku5cUjD39CmId
-         PKsQ==
-X-Gm-Message-State: AGi0PuaNgC34bypz34amyowUGNL1187KFnR0e/KNZR15JGCFA5R4BA+8
-        vSlykkGs70s0mVuUGf3m0CA3doJg
-X-Google-Smtp-Source: APiQypKTUTxtYqnFPuX+HwJKBbGWBlPEj9Ko1LNSd7vmorqXwvlYb84XnkdhwewUOEpEiJLOYMc43Q==
-X-Received: by 2002:a2e:80c1:: with SMTP id r1mr5389478ljg.227.1588784729261;
-        Wed, 06 May 2020 10:05:29 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id d9sm1971851lfa.77.2020.05.06.10.05.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2020 10:05:28 -0700 (PDT)
-Subject: Re: [PATCH v5 2/6] drm/of: Make drm_of_find_panel_or_bridge() to
- check graph's presence
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20200418170703.1583-1-digetx@gmail.com>
- <20200418170703.1583-3-digetx@gmail.com>
- <20200506164133.GB19296@ravnborg.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f288e704-2fdb-d548-9f5b-8016412dfd3f@gmail.com>
-Date:   Wed, 6 May 2020 20:05:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GNKW7Nj5sqqTflAX7xBN/lqrOeNoUdudCj9pQHf3RMg=;
+        b=TGdBaV7icU6xBlgsysgf6cPWubLBZG/DExQHbHoCnY+agXycQzmwq2la7DxcOsKdyF
+         I1k9ewpyeVy81pB4giG6OADjYekgOq/u+iOP9jAcMLIm8Iy/NuQ6SOZTjlRFBdZ91h/t
+         oF8VALrwy4OUew5o6LCpnUVo8kN/FesH+BNB1taA4jZaMYgBxOqVTKcD8rVH1QPd85Zl
+         jebAX/QNmpukxaQCqjx/71Ujvi+H2/C2ul+jbieA9/VRbR2LdSCjia/r9uVDEsY4LX4y
+         IOfHTm0/S/yoPUxzvVLQK108WognAOoe4waWFByGLK0DXjuhHMGvODB+xXBlH/egDgAf
+         oKNg==
+X-Gm-Message-State: AGi0PuaOnM9Vg6ITuK8ucS69Y2vG7Edg7weKpyfkcuo+uqdKt3qTmW/g
+        8DkXF8VJYPArjA6k24TqJVxfRdevABU=
+X-Google-Smtp-Source: APiQypIi7fdhqbB6pSzfRPoD9/lP54yHlUzEC2PyN83Nmu07s3nwp1ZMpJxcpIjOp08BCiP9Vn83LA==
+X-Received: by 2002:a1c:a344:: with SMTP id m65mr5497369wme.20.1588785232026;
+        Wed, 06 May 2020 10:13:52 -0700 (PDT)
+Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
+        by smtp.gmail.com with ESMTPSA id 7sm3844106wra.50.2020.05.06.10.13.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2020 10:13:50 -0700 (PDT)
+Date:   Wed, 6 May 2020 19:13:49 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: tegra-xudc: Fix idle suspend/resume
+Message-ID: <20200506171349.GF2723987@ulmo>
+References: <20200417170537.2540914-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200506164133.GB19296@ravnborg.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Zs/RYxT/hKAHzkfQ"
+Content-Disposition: inline
+In-Reply-To: <20200417170537.2540914-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.05.2020 19:41, Sam Ravnborg пишет:
-> On Sat, Apr 18, 2020 at 08:06:59PM +0300, Dmitry Osipenko wrote:
->> When graph isn't defined in a device-tree, the of_graph_get_remote_node()
->> prints a noisy error message, telling that port node is not found. This is
->> undesirable behaviour in our case because absence of a panel/bridge graph
->> is a valid case. Let's check presence of the local port in a device-tree
->> before proceeding with parsing the graph.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-Thank you again for taking a look at these patches!
+--Zs/RYxT/hKAHzkfQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 17, 2020 at 07:05:37PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> When the XUDC device is idle (i.e. powergated), care must be taken not
+> to access any registers because that would lead to a crash.
+>=20
+> Move the call to tegra_xudc_device_mode_off() into the same conditional
+> as the tegra_xudc_powergate() call to make sure we only force device
+> mode off if the XUDC is actually powered up.
+>=20
+> Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB device m=
+ode controller")
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+
+Hi Felipe, Greg,
+
+can you guys pick this up for v5.7, please?
+
+Thanks,
+Thierry
+
+--Zs/RYxT/hKAHzkfQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6y8E0ACgkQ3SOs138+
+s6EAIQ/9Hu7iv4+5FnG2vFRCAbaCleabiFAWeWUg7kxxWd8ya0y/UvD/3YOsNqLA
+M7y32t2KlQYcrVGIpryz4dyEtQtyCcibtd1uMbm2gLQWEbjU6KvxlX6siKyIk3dI
+rxneQDTjUMToGhdIEuLAuJ5En1c9qs5X5STZ2kW6OdzQMoZ/oMPmItTBHwxMJ+FR
++jyiCA9sDwEwzSWYQsFqOlwEaZ2SoboTfcnSobx2nhvvJh4+MBl6rDG7iMmGt8iA
+fNMl483j+2tpNDbkd+YJHlINeemTyJvuCAV6eGGlpcjPFd6yabVLY9tqyEE+X/6b
+JjHoRA66q7FiyXeB7qg8ia0zJcVjKgP/Xc/YgZ+R81UdTld6f9OAkVvWqXX/MCSX
+Lgq9MFEv+anqrplOyZc3TEx2108yxoxTEuAhoHu7uIZC8dMACgSlZeh/fvxJqlLy
+GSciiTnnhl3McdwsWvDbCxwO4s83GsdndBTSBuPEY9P81yfqt7u2+/LWjHO0/6WH
+s5LIirh8cLlomRymzszh9j64wVvaMHMxBDtUaJFg9jV13pPoWto50es9iKMJ6+Sk
+uFkEMERPPWBV+6h2EpXjy9rzDgAYJ39h2iHUAgAPpsns9j+zhnXXOLlwNq9wJQ44
+DzA3RptRzkZiOCXJDI8bNkAm1kQoFiO5tkmaQyzSdV1ynEl/+p4=
+=qWY6
+-----END PGP SIGNATURE-----
+
+--Zs/RYxT/hKAHzkfQ--
