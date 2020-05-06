@@ -2,82 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F411C7D8A
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 00:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 984441C7E15
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 01:42:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730252AbgEFWnj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 May 2020 18:43:39 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:34691 "EHLO rere.qmqm.pl"
+        id S1728266AbgEFXmU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 May 2020 19:42:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729226AbgEFWni (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 May 2020 18:43:38 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49HWpd2Ntsz2n;
-        Thu,  7 May 2020 00:43:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1588805017; bh=5NEC5Kr51h3mVGXy1wYxaVPEuEtY3+/b4NfJfgwyA7E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nbKWac4D9X28X0P9whCo5ZLsywDf4Xn2N/iqsAw9GeBzo/SnoJCcJ5KG62cyRXDUT
-         mvoU4c9kL9XdEp0B1fX6JVqNuBx2FusVhPcOJUYnX0A6HuhwKd/vEn9E1psJj3pWQg
-         kaO7JLUnkDQahUkau4x6TxgzaeRDRSlzfVY4CuktySO/VfdKv614ESbAq64I5La5FG
-         h9feY5uBaqf8FPJfRVu68SotzkFUP9oPThbVhe7xUsSVLJpfAJmMumX7PTXaV2z0B7
-         oyfxJBxbH/a3dAHQsrb0gR7uaQo7PgMxnrGMBskgqmPASLDQtp39NyuM8iYUwSCsAN
-         bJVBbkZmEJggw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Thu, 7 May 2020 00:43:36 +0200
-From:   mirq-test@rere.qmqm.pl
+        id S1728216AbgEFXmS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 6 May 2020 19:42:18 -0400
+Received: from localhost (unknown [137.135.114.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E11D2082E;
+        Wed,  6 May 2020 23:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588808538;
+        bh=pIDuvi7hZHDoRNZ0lRKDUEFjk1MXxuMGhXIA0Wo68U0=;
+        h=Date:From:To:To:To:CC:Cc:Cc:Subject:In-Reply-To:References:From;
+        b=JjaTHdC38uOJSHNE+tyA3DGXHGYw8YtnJE7wrxtrumD5ACDtLSulvVzYjzomSDBxO
+         aP32xzZrFMXUy7TaAxJaH4lBhlgcIlx48ARCdmbmdvlq6SvmdqKU9KRSXVaqPdWRhy
+         OlRlh4aWw2ii38zyaXhHBTJpQgzjn8x2BuoRfjBw=
+Date:   Wed, 06 May 2020 23:42:17 +0000
+From:   Sasha Levin <sashal@kernel.org>
+To:     Sasha Levin <sashal@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 2/5] i2c: tegra: Restore pinmux on system resume
-Message-ID: <20200506224336.GA23423@qmqm.qmqm.pl>
-References: <20200506193358.2807244-1-thierry.reding@gmail.com>
- <20200506193358.2807244-3-thierry.reding@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200506193358.2807244-3-thierry.reding@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Cc:     stable@vger.kernel.org
+Cc:     stable@vger.kernel.org
+Subject: Re: [PATCH] arm64: tegra: Fix ethernet phy-mode for Jetson Xavier
+In-Reply-To: <20200501072756.25348-1-jonathanh@nvidia.com>
+References: <20200501072756.25348-1-jonathanh@nvidia.com>
+Message-Id: <20200506234218.4E11D2082E@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, May 06, 2020 at 09:33:55PM +0200, Thierry Reding wrote:
-[...]
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -1769,10 +1769,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
->  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->  {
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
-> +	int err = 0;
->  
->  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
->  
-> -	return 0;
-> +	if (!pm_runtime_status_suspended(dev))
-> +		err = tegra_i2c_runtime_suspend(dev);
-> +
-> +	return err;
->  }
->  
->  static int __maybe_unused tegra_i2c_resume(struct device *dev)
-> @@ -1788,9 +1792,11 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
->  	if (err)
->  		return err;
->  
-> -	err = tegra_i2c_runtime_suspend(dev);
-> -	if (err)
-> -		return err;
-> +	if (pm_runtime_status_suspended(dev)) {
-[...]
-Shouldn't this be negated as in suspend? I would assume that inbetween
-suspend and resume nothing changes the stored state.
+Hi
 
-Best Regards,
-Micha³ Miros³aw
+[This is an automated email]
+
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
+
+The bot has tested the following trees: v5.6.8, v5.4.36, v4.19.119, v4.14.177, v4.9.220, v4.4.220.
+
+v5.6.8: Build OK!
+v5.4.36: Build OK!
+v4.19.119: Build OK!
+v4.14.177: Failed to apply! Possible dependencies:
+    5425fb15d8ee ("arm64: tegra: Add Tegra194 chip device tree")
+    b8656c673a6b ("arm64: tegra: Add device tree for the Tegra194 P2972-0000 board")
+    f69ce393ec48 ("arm64: tegra: Add GPIO controller on Tegra194")
+    f89b58ce71a9 ("arm64: tegra: Add ethernet controller on Tegra194")
+
+v4.9.220: Failed to apply! Possible dependencies:
+    5425fb15d8ee ("arm64: tegra: Add Tegra194 chip device tree")
+    99575bceebd6 ("arm64: tegra: Add NVIDIA P2771 board support")
+    b8656c673a6b ("arm64: tegra: Add device tree for the Tegra194 P2972-0000 board")
+    f69ce393ec48 ("arm64: tegra: Add GPIO controller on Tegra194")
+    f89b58ce71a9 ("arm64: tegra: Add ethernet controller on Tegra194")
+
+v4.4.220: Failed to apply! Possible dependencies:
+    0f279ebdf3ce ("arm64: tegra: Add NVIDIA Tegra132 Norrin support")
+    2cc85bd90337 ("arm64: tegra: Add NVIDIA P2571 board support")
+    34b4f6d0599e ("arm64: tegra: Add Tegra132 support")
+    5425fb15d8ee ("arm64: tegra: Add Tegra194 chip device tree")
+    5d17ba6e638e ("arm64: tegra: Add support for Google Pixel C")
+    63023e95bec0 ("arm64: tegra: Add NVIDIA P2371 board support")
+    99575bceebd6 ("arm64: tegra: Add NVIDIA P2771 board support")
+    b8656c673a6b ("arm64: tegra: Add device tree for the Tegra194 P2972-0000 board")
+    f69ce393ec48 ("arm64: tegra: Add GPIO controller on Tegra194")
+    f89b58ce71a9 ("arm64: tegra: Add ethernet controller on Tegra194")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
+
+-- 
+Thanks
+Sasha
