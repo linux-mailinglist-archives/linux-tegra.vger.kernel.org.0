@@ -2,84 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36F3A1C866D
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 12:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D9701C8A86
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 14:20:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbgEGKOA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 06:14:00 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12964 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725809AbgEGKN7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 May 2020 06:13:59 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eb3df5b0000>; Thu, 07 May 2020 03:13:47 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 07 May 2020 03:13:59 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 07 May 2020 03:13:59 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 7 May
- 2020 10:13:59 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 7 May 2020 10:13:59 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.26.74.75]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5eb3df660002>; Thu, 07 May 2020 03:13:59 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
+        id S1725879AbgEGMUk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 08:20:40 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:30060 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725949AbgEGMUk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 7 May 2020 08:20:40 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 49HsxK3Pjsz5w;
+        Thu,  7 May 2020 14:20:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1588854037; bh=6tewwqfLzrtjeC61d+9JygytIL+HVfjbhQ3OBGJvseo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DncWvkk/oEPh6aaiHJgxgUER84xvIL9SLcydXSP802b7cj01x+o5qrU0JokRAgZxY
+         LUW2WdnKYopvrtlUraPFx1Llz03xZnSMiwLrmFR8VagujyXd0elPYYOXBbzpVoEzrF
+         KPMZzFBqcHvBtXiMAz/wQWGDXd9tO56xB8Y3cxtmAmiRbHAY3sqZwudiErAwqlw3yp
+         uKRBS9kfeQvNElXnnSHbJYLZnhe+vSWHUnlNWw075w9SCnqulwgKAC0lhaIN+XlMrY
+         m26qRuuW+8hnglMCiZXJ4cmd5c9G0eKrC8kZgEdNDXdnYn8O2OLI/UmRMCrVNPd/gI
+         nmQk58JDsRITQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Thu, 7 May 2020 14:20:35 +0200
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
 To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 2/2] arm64: tegra: Allow the PMIC RTC to wakeup Jetson Xavier
-Date:   Thu, 7 May 2020 11:13:49 +0100
-Message-ID: <20200507101349.14118-2-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200507101349.14118-1-jonathanh@nvidia.com>
-References: <20200507101349.14118-1-jonathanh@nvidia.com>
-X-NVConfidentiality: public
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 2/5] i2c: tegra: Restore pinmux on system resume
+Message-ID: <20200507122035.GA5408@qmqm.qmqm.pl>
+References: <20200506193358.2807244-1-thierry.reding@gmail.com>
+ <20200506193358.2807244-3-thierry.reding@gmail.com>
+ <20200506224336.GA23423@qmqm.qmqm.pl>
+ <20200507100315.GA2890327@ulmo>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588846427; bh=1hd7UO7e4/0O4siyJRQzrwEbDwRzmLIjEN8fOV8V+vY=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=XfOJJXm+p+XN23h5v5jI9Q4PoatxfEMJLor300JC/4DCnCTYL78Z4SoJ/U4jUx40D
-         p876Nz1T9wxIPrcnngkkBDACuWvlSKJupUQpOGzvcdkpVZXHgdpelzB5H4EMcJ04Uv
-         ZBIBP/nOvUiVnILHDvkdyIO9H1EOv2PfwveBLxPXNdimxSXVYJyLFkxL5/XffLdGxD
-         HNodcLANPI3s2fe8o2Fd4es2CjdngVWkxqNzfGhT1Qi/PwQXMbuRt3Zut8PTI1b8Mk
-         ST15nxkGROIc/OPYVBCAKz5ZfxTA7yR8aDy0797R/JZJiZMKpQgNKxq8OtS3iKrFka
-         63GE6LA8oROZw==
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200507100315.GA2890327@ulmo>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The PMIC RTC is currently unable to wakeup Tegra194 on the Jetson Xavier
-platform because the interrupt from the PMIC is not usin the PMC as the
-interrupt parent but the GIC directly. Update the PMIC interrupt to use
-the PMC as the interrupt parent so that the PMIC RTC alarms can wakeup
-the device.
+On Thu, May 07, 2020 at 12:03:15PM +0200, Thierry Reding wrote:
+> On Thu, May 07, 2020 at 12:43:36AM +0200, mirq-test@rere.qmqm.pl wrote:
+> > On Wed, May 06, 2020 at 09:33:55PM +0200, Thierry Reding wrote:
+> > [...]
+> > > --- a/drivers/i2c/busses/i2c-tegra.c
+> > > +++ b/drivers/i2c/busses/i2c-tegra.c
+> > > @@ -1769,10 +1769,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
+> > >  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
+> > >  {
+> > >  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+> > > +	int err = 0;
+> > >  
+> > >  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
+> > >  
+> > > -	return 0;
+> > > +	if (!pm_runtime_status_suspended(dev))
+> > > +		err = tegra_i2c_runtime_suspend(dev);
+> > > +
+> > > +	return err;
+> > >  }
+> > >  
+> > >  static int __maybe_unused tegra_i2c_resume(struct device *dev)
+> > > @@ -1788,9 +1792,11 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
+> > >  	if (err)
+> > >  		return err;
+> > >  
+> > > -	err = tegra_i2c_runtime_suspend(dev);
+> > > -	if (err)
+> > > -		return err;
+> > > +	if (pm_runtime_status_suspended(dev)) {
+> > [...]
+> > Shouldn't this be negated as in suspend? I would assume that inbetween
+> > suspend and resume nothing changes the stored state.
+> 
+> I know this is confusing because I have now twice had the same doubts
+> after looking at the patch after I sent it out and thought I had sent
+> out a wrong version.
+> 
+> However, I think it starts to make more sense when you look at the
+> resulting code, which I'll reproduce below:
+> 
+> 	static int __maybe_unused tegra_i2c_resume(struct device *dev)
+> 	{
+> 		struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+> 		int err;
+> 
+> 		err = tegra_i2c_runtime_resume(dev);
+> 		if (err)
+> 			return err;
+> 
+> 		err = tegra_i2c_init(i2c_dev, false);
+> 		if (err)
+> 			return err;
+> 
+> 		if (pm_runtime_status_suspended(dev)) {
+> 			err = tegra_i2c_runtime_suspend(dev);
+> 			if (err)
+> 				return err;
+> 		}
+> 
+> 		i2c_mark_adapter_resumed(&i2c_dev->adapter);
+> 
+> 		return 0;
+> 	}
+> 
+> So the purpose here is to runtime resume the I2C controller temporarily
+> so that the register context can be reprogrammed because it was lost
+> during suspend. Now, if the controller was runtime suspended prior to
+> system suspend, we want to put it back into suspend after the context
+> was loaded again. Conversely, if it was not runtime suspended, then we
+> want to keep it on.
+> 
+> If it helps I can sprinkle some comments throughout this function to try
+> and explain why exactly this is being done.
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Now it makes sense. Thanks!
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index 623f7d7d216b..eaba167d6cf0 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -111,7 +111,8 @@
- 				compatible = "maxim,max20024";
- 				reg = <0x3c>;
- 
--				interrupts = <GIC_SPI 209 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-parent = <&pmc>;
-+				interrupts = <24 IRQ_TYPE_LEVEL_LOW>;
- 				#interrupt-cells = <2>;
- 				interrupt-controller;
- 
--- 
-2.17.1
+The full function is the missing context. What you wrote here 
+put in commit message should also do the job.
 
+Best Regards,
+Micha³ Miros³aw
