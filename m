@@ -2,71 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35CE41C9B4F
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 21:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 074141C9B85
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 22:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgEGToy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 15:44:54 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:46631 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726326AbgEGTox (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 May 2020 15:44:53 -0400
-Received: by mail-oo1-f67.google.com with SMTP id x16so1612063oop.13;
-        Thu, 07 May 2020 12:44:52 -0700 (PDT)
+        id S1726514AbgEGUCo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 16:02:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726320AbgEGUCo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 7 May 2020 16:02:44 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36F9C05BD43;
+        Thu,  7 May 2020 13:02:43 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id e16so7890201wra.7;
+        Thu, 07 May 2020 13:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VAjjagUIED4AtWW/kvDiQTKteVZtsEvk40+7qXQuD8o=;
+        b=MnIAbXnc+k4yZvtOe8rJ3kc7H1BzlG2+54F3qKz/Vgklw08oyxR4nImID0g7aMwKUE
+         rvvghPTdsyzr2WqXEMvSlSX4+lsY8P+L9QFY9BywTIsqlyy2AsE6Osk9rRzxGxZ591SG
+         14/wlPmv4C+gHtk3YgW4eX8ZpnYcJW+3qvw/0bazCqclWbKCe3VKIz5aMOXZWW3cwbNR
+         FYssSJ6CERRLoeT1aD0RaE29B41HMmsbNWxJ2aYKiU32lCX7OTNKRDfjt8oqzxtagTyY
+         fiVAes92mbgF2h5H6K7ks6taNGrpP5SGzEjAw0j/z49QzZDtniaUeFYBnUBRoJTos1yP
+         UAMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=0knBIBoZa1fhrLfHhlBCmtkeQd++JrRt2MMqGHWeht4=;
-        b=Id+sZt+Q7KtKxF6wBuntet0URgMgjhgyBP9w1OBfSktNIz0ImDgQg07WQqREO4/B9u
-         zcPtgStd+1aKP3VOw/8R9g4teNp+vUsgPWtP4Gky/zw9yHaCTQlRYZtGFS/B6d9LLSo7
-         fsCI+YSk9pap17tc93wdZC41FB9+KtyhU/t30H6gbfjc0VrYeUWn5uinlN/xUl+1Vozc
-         ynYIu+ciDkeAYAVBvo2dHWNSbyrSoyc0UPoRDupvxQUV2DO1hWBQbkAQj+09mvp7Rfim
-         RUlmYeDKsgtwvxgO74sUHYMsaAky5UPlevwqW4LIgScSY5ymIa9aRR0AFtK5kYPCHykZ
-         90pQ==
-X-Gm-Message-State: AGi0PuYb8sp/xbGrxvUblmCao0LoCSr9uowNvrWRd49wE1pGB8q1iXtQ
-        K9aG1nZMzTJnuTA8s3NABg==
-X-Google-Smtp-Source: APiQypKQ9hchUvLCeIFKV8nt8CxTJKxHp3QhpkCDcIIPl6JnFmMIu3D8onuZ4Ff/MLkNAMvH/ik6eg==
-X-Received: by 2002:a4a:a54a:: with SMTP id s10mr13421411oom.73.1588880691546;
-        Thu, 07 May 2020 12:44:51 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t186sm1646722oif.13.2020.05.07.12.44.50
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VAjjagUIED4AtWW/kvDiQTKteVZtsEvk40+7qXQuD8o=;
+        b=gbjCxiPLvTDIBYVpbyxaq4r299ZyMk2aC8NuBlKxU6RseKsJYg/VMWuFGZzcq10Ryn
+         jmXAKm5Awd0O3tsvcDXyZpCVRFOO5m4wEjK8daUxC/2MpKIZr0YPEzshdUxgH8dkpOHv
+         VTi+2+TsQpFKx4galeT0WGB/SngRERBBkToWeqt8kRFRksLzkeZU0KoIASrRwmX0hdzk
+         +uovab7tIztSMbhRQJfpUbLUJHs9+xNZGUSaXVfABIeQLN2Ouupy3LIBKPjDmOLC65Q+
+         c+rPUK/HSpGGB2dT1uIpi61jOkJZHn/ETvvciAj8i8geYLsJfHNemVkfDfPItdkca+Lo
+         mJJA==
+X-Gm-Message-State: AGi0PuY2DRmiPfG5+M24kfp7qKH9IT8ym9hWmYVSv5U5nOyGRh+IAaKd
+        5d13fdaTATPYcZRABzlCSni7UMZKXTk=
+X-Google-Smtp-Source: APiQypKSMwNkdwKsiEakQ6SafujPAdYB4/F0ghRwsHD/Wmpptr9mN/o9A38D0m58QkclWlIeLjst0g==
+X-Received: by 2002:adf:8b45:: with SMTP id v5mr19024913wra.175.1588881762418;
+        Thu, 07 May 2020 13:02:42 -0700 (PDT)
+Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
+        by smtp.gmail.com with ESMTPSA id n6sm9111679wmc.28.2020.05.07.13.02.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 12:44:50 -0700 (PDT)
-Received: (nullmailer pid 26367 invoked by uid 1000);
-        Thu, 07 May 2020 19:44:49 -0000
-Date:   Thu, 7 May 2020 14:44:49 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Fix reporting GPIO error value
-Message-ID: <20200507194449.GA26252@bogus>
-References: <20200414102512.27506-1-pali@kernel.org>
+        Thu, 07 May 2020 13:02:40 -0700 (PDT)
+Date:   Thu, 7 May 2020 22:02:40 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] memory: tegra: avoid unused function warnings
+Message-ID: <20200507200240.GA2981633@ulmo>
+References: <20200408190043.532711-1-arnd@arndb.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200414102512.27506-1-pali@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200408190043.532711-1-arnd@arndb.de>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 14 Apr 2020 12:25:12 +0200, =?UTF-8?q?Pali=20Roh=C3=A1r?= wrote:
-> Error code is stored in rp->reset_gpio and not in err variable.
-> 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
-> ---
->  drivers/pci/controller/pci-tegra.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
 
-Acked-by: Rob Herring <robh@kernel.org>
+--ibTvN161/egqYuK8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Apr 08, 2020 at 09:00:30PM +0200, Arnd Bergmann wrote:
+> The suspend/resume functions have no callers depending on
+> configuration, so they must be marked __maybe_unused to
+> avoid these harmless warnings:
+>=20
+> drivers/memory/tegra/tegra186.c:1578:12: error: 'tegra186_mc_resume' defi=
+ned but not used [-Werror=3Dunused-function]
+>  1578 | static int tegra186_mc_resume(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~~~
+> drivers/memory/tegra/tegra186.c:1573:12: error: 'tegra186_mc_suspend' def=
+ined but not used [-Werror=3Dunused-function]
+>  1573 | static int tegra186_mc_suspend(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~~~~
+>=20
+> Fixes: 177602b00641 ("memory: tegra: Add system sleep support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/memory/tegra/tegra186.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Applied to for-5.8/memory, thanks.
+
+Thierry
+
+--ibTvN161/egqYuK8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl60aV4ACgkQ3SOs138+
+s6HB4xAAtc0jHXbJjHqyz+xVNP+KreaFGVRf3w9YmnJhAFFOhWaUf0/5UUOKwzp9
+5XwyYYa5cSzJtk/AOGPgfEtGF4pBx7KJKF+Sxhg8jVJXMfRwYc4q2wqoKsfbT42h
+fslFVb7sGWUiUtCvvkCFlDLw+8QhmbTqnG4zCSL4d/YdNqTPKAZIFrivP5LU9UZT
+m+VSSrSegwekwvHN1oWtoXIrO7j8tCoXHHjzvHH457ijv/s7QXW2GycnNstPOOIj
+KqLLCyrY7UPxJykiGBsO+tCmT8bo/xZKEFOTtxsZNFAmA6Ckzx5s1KA5EX8Gf/G6
+zg/+9t1DATutn+USPq3yTznqN+OnN8R6xohhC5CjsxHSWsxmQwtaYH4rtr49sRp8
+TaMtA3Rz4bD+8MUoT69fXC7xnj7fmXDZh2NwK4AnxlDvV+YFsz7Fj614IqOucDzj
+b/vXJkT4VwHjmUg9yIAKDiTVSeT/y25xWtI8uEbEJKHNCRv9ybfZOqi7gnAIsa9M
+oSCrBL8W8aDsze4kpbWnOvadFWEOFErhWShPTA5I+sgYCvstY9OXg+75/0QBa/1L
++YooiDJWhAjlM+o/f+2Unb/DB2VQsIToYTTu6VkKe66+9xZ3ki2qt149sEKu4piQ
+VTGmTotNkWBSKivcBqU10+rJPbNmeJYFNGfWiLC+Jz2SkNaeU+g=
+=xt3U
+-----END PGP SIGNATURE-----
+
+--ibTvN161/egqYuK8--
