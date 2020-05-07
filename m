@@ -2,132 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D9701C8A86
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 14:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 275861C96A0
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 18:34:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725879AbgEGMUk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 08:20:40 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:30060 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725949AbgEGMUk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 7 May 2020 08:20:40 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49HsxK3Pjsz5w;
-        Thu,  7 May 2020 14:20:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1588854037; bh=6tewwqfLzrtjeC61d+9JygytIL+HVfjbhQ3OBGJvseo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DncWvkk/oEPh6aaiHJgxgUER84xvIL9SLcydXSP802b7cj01x+o5qrU0JokRAgZxY
-         LUW2WdnKYopvrtlUraPFx1Llz03xZnSMiwLrmFR8VagujyXd0elPYYOXBbzpVoEzrF
-         KPMZzFBqcHvBtXiMAz/wQWGDXd9tO56xB8Y3cxtmAmiRbHAY3sqZwudiErAwqlw3yp
-         uKRBS9kfeQvNElXnnSHbJYLZnhe+vSWHUnlNWw075w9SCnqulwgKAC0lhaIN+XlMrY
-         m26qRuuW+8hnglMCiZXJ4cmd5c9G0eKrC8kZgEdNDXdnYn8O2OLI/UmRMCrVNPd/gI
-         nmQk58JDsRITQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Thu, 7 May 2020 14:20:35 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 2/5] i2c: tegra: Restore pinmux on system resume
-Message-ID: <20200507122035.GA5408@qmqm.qmqm.pl>
-References: <20200506193358.2807244-1-thierry.reding@gmail.com>
- <20200506193358.2807244-3-thierry.reding@gmail.com>
- <20200506224336.GA23423@qmqm.qmqm.pl>
- <20200507100315.GA2890327@ulmo>
+        id S1727983AbgEGQdu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 12:33:50 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:54932 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726521AbgEGQds (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 7 May 2020 12:33:48 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588869228; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=wLT5CFLaqtgLB/BEi/RGwsauWrW4mdPxSqIRzxuvoL8=; b=xkAYrHKCo8TGvO887ZVvdHSL2pDquKxTaHAcxaQbQTI58fUkuI8Posk5yY1VbSbGWL+mpGTP
+ stTri4kQ2LhnE8cSy1cAq7ujv1r/spMxpSEe8Jbt14UgGZRyhA6NQ5ypS8R8Kk65DkhoGo2g
+ EWs6lGAGJ4VWDtsl5c6fyFltw8M=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI0ODE0OSIsICJsaW51eC10ZWdyYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb43865.7f82d41e94c8-smtp-out-n05;
+ Thu, 07 May 2020 16:33:41 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id CB5D3C44792; Thu,  7 May 2020 16:33:41 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.0.106] (unknown [183.83.65.109])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: vbadigan)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6B9BCC433D2;
+        Thu,  7 May 2020 16:33:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6B9BCC433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=vbadigan@codeaurora.org
+Subject: Re: [PATCH v5 1/5] mmc: core: Extend mmc_of_parse() to parse CQE
+ bindings
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Chun-Hung Wu <chun-hung.wu@mediatek.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        Yong Mao <yong.mao@mediatek.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        DTML <devicetree@vger.kernel.org>, wsd_upstream@mediatek.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
+ <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com>
+ <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
+ <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
+From:   Veerabhadrarao Badiganti <vbadigan@codeaurora.org>
+Message-ID: <f9fa0232-3945-4e47-9238-0b51f6531199@codeaurora.org>
+Date:   Thu, 7 May 2020 22:03:14 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
+In-Reply-To: <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200507100315.GA2890327@ulmo>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 07, 2020 at 12:03:15PM +0200, Thierry Reding wrote:
-> On Thu, May 07, 2020 at 12:43:36AM +0200, mirq-test@rere.qmqm.pl wrote:
-> > On Wed, May 06, 2020 at 09:33:55PM +0200, Thierry Reding wrote:
-> > [...]
-> > > --- a/drivers/i2c/busses/i2c-tegra.c
-> > > +++ b/drivers/i2c/busses/i2c-tegra.c
-> > > @@ -1769,10 +1769,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
-> > >  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
-> > >  {
-> > >  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
-> > > +	int err = 0;
-> > >  
-> > >  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
-> > >  
-> > > -	return 0;
-> > > +	if (!pm_runtime_status_suspended(dev))
-> > > +		err = tegra_i2c_runtime_suspend(dev);
-> > > +
-> > > +	return err;
-> > >  }
-> > >  
-> > >  static int __maybe_unused tegra_i2c_resume(struct device *dev)
-> > > @@ -1788,9 +1792,11 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
-> > >  	if (err)
-> > >  		return err;
-> > >  
-> > > -	err = tegra_i2c_runtime_suspend(dev);
-> > > -	if (err)
-> > > -		return err;
-> > > +	if (pm_runtime_status_suspended(dev)) {
-> > [...]
-> > Shouldn't this be negated as in suspend? I would assume that inbetween
-> > suspend and resume nothing changes the stored state.
-> 
-> I know this is confusing because I have now twice had the same doubts
-> after looking at the patch after I sent it out and thought I had sent
-> out a wrong version.
-> 
-> However, I think it starts to make more sense when you look at the
-> resulting code, which I'll reproduce below:
-> 
-> 	static int __maybe_unused tegra_i2c_resume(struct device *dev)
-> 	{
-> 		struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
-> 		int err;
-> 
-> 		err = tegra_i2c_runtime_resume(dev);
-> 		if (err)
-> 			return err;
-> 
-> 		err = tegra_i2c_init(i2c_dev, false);
-> 		if (err)
-> 			return err;
-> 
-> 		if (pm_runtime_status_suspended(dev)) {
-> 			err = tegra_i2c_runtime_suspend(dev);
-> 			if (err)
-> 				return err;
-> 		}
-> 
-> 		i2c_mark_adapter_resumed(&i2c_dev->adapter);
-> 
-> 		return 0;
-> 	}
-> 
-> So the purpose here is to runtime resume the I2C controller temporarily
-> so that the register context can be reprogrammed because it was lost
-> during suspend. Now, if the controller was runtime suspended prior to
-> system suspend, we want to put it back into suspend after the context
-> was loaded again. Conversely, if it was not runtime suspended, then we
-> want to keep it on.
-> 
-> If it helps I can sprinkle some comments throughout this function to try
-> and explain why exactly this is being done.
 
-Now it makes sense. Thanks!
+On 5/6/2020 10:06 PM, Ulf Hansson wrote:
+> On Wed, 6 May 2020 at 15:01, Veerabhadrarao Badiganti
+> <vbadigan@codeaurora.org> wrote:
+>>
+>> On 4/28/2020 5:26 AM, Chun-Hung Wu wrote:
+>>> Parse CQE bindings "supports-cqe" and "disable-cqe-dcmd"
+>>> in mmc_of_parse().
+>>>
+>>> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+>>> ---
+>>>    drivers/mmc/core/host.c | 5 +++++
+>>>    1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
+>>> index c876872..47521c6 100644
+>>> --- a/drivers/mmc/core/host.c
+>>> +++ b/drivers/mmc/core/host.c
+>>> @@ -302,6 +302,11 @@ int mmc_of_parse(struct mmc_host *host)
+>>>                host->caps2 |= MMC_CAP2_NO_SD;
+>>>        if (device_property_read_bool(dev, "no-mmc"))
+>>>                host->caps2 |= MMC_CAP2_NO_MMC;
+>>> +     if (device_property_read_bool(dev, "supports-cqe"))
+>>> +             host->caps2 |= MMC_CAP2_CQE;
+>> This change is breaking emmc driver on qcom platforms where this dt
+>> property is defined.
+>>
+>> [    1.543453]  cqhci_deactivate+0xc/0x38
+>> [    1.545627]  sdhci_msm_reset+0x40/0x58
+>> [    1.549447]  sdhci_do_reset+0x48/0x7c
+>> [    1.553180]  __sdhci_read_caps+0x7c/0x214
+>> [    1.556913]  sdhci_setup_host+0x58/0xce8
+>> [    1.560905]  sdhci_msm_probe+0x588/0x8a4
+>> [    1.564900]  platform_drv_probe+0x4c/0xb0
+>>
+>> So, we cant have this flag defined before sdhci_setup_host().
+>>
+>> I will have to clear this cap and re-enable it in our initialization.
+> Thanks for reporting! I have dropped all the four patches from
+> Chun-Hung, so we can figure out how to fix this.
+>
+> Please help to review the next version of the series.
 
-The full function is the missing context. What you wrote here 
-put in commit message should also do the job.
+Thanks Ulf.
 
-Best Regards,
-Micha� Miros�aw
+Hi Chun-Hung,
+
+On qcom controller CQE also gets reset when SDHC is reset. So we have to 
+explicitly disable CQE
+by invoking  cqhci_deactivate() during sdhc reset
+
+SDHC gets reset in sdhci_setup_host() even before cqe is initialized.
+With MMC_CAP2_CQE_DCMD cap set even before sdhci_set_host(), we are 
+getting null pointer access with cqhci_deactivate().
+
+If CQE getting reset with SDHC reset is generic (applicable to other 
+controllers) then you have revisit your logic.
+If its not the case then only qcom driver would get affected.
+
+I see you are updating sdhci-msm.c file as-well. How about including 
+below change besides your change?
+
+@@ -1658,6 +1658,8 @@ static int sdhci_msm_cqe_add_host(struct 
+sdhci_host *host,
+         if (host->caps & SDHCI_CAN_64BIT)
+                 host->alloc_desc_sz = 16;
+
++       /* Clear the CQE cap during setup host */
++       msm_host->mmc->caps2 &= ~MMC_CAP2_CQE;
++
+         ret = sdhci_setup_host(host);
+
+>>> +     if (!device_property_read_bool(dev, "disable-cqe-dcmd")) {
+>>> +             host->caps2 |= MMC_CAP2_CQE_DCMD;
+>>> +     }
+>>>
+>>>        /* Must be after "non-removable" check */
+>>>        if (device_property_read_u32(dev, "fixed-emmc-driver-type", &drv_type) == 0) {
+> Kind regards
+> Uffe
