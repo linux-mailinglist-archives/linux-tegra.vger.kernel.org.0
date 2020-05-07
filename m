@@ -2,178 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 275861C96A0
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 18:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4ED31C9B04
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 21:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727983AbgEGQdu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 12:33:50 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:54932 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726521AbgEGQds (ORCPT
+        id S1726515AbgEGT1X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 15:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726320AbgEGT1W (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 7 May 2020 12:33:48 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1588869228; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=wLT5CFLaqtgLB/BEi/RGwsauWrW4mdPxSqIRzxuvoL8=; b=xkAYrHKCo8TGvO887ZVvdHSL2pDquKxTaHAcxaQbQTI58fUkuI8Posk5yY1VbSbGWL+mpGTP
- stTri4kQ2LhnE8cSy1cAq7ujv1r/spMxpSEe8Jbt14UgGZRyhA6NQ5ypS8R8Kk65DkhoGo2g
- EWs6lGAGJ4VWDtsl5c6fyFltw8M=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI0ODE0OSIsICJsaW51eC10ZWdyYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5eb43865.7f82d41e94c8-smtp-out-n05;
- Thu, 07 May 2020 16:33:41 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id CB5D3C44792; Thu,  7 May 2020 16:33:41 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.0.106] (unknown [183.83.65.109])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: vbadigan)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6B9BCC433D2;
-        Thu,  7 May 2020 16:33:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6B9BCC433D2
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=vbadigan@codeaurora.org
-Subject: Re: [PATCH v5 1/5] mmc: core: Extend mmc_of_parse() to parse CQE
- bindings
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Chun-Hung Wu <chun-hung.wu@mediatek.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>,
-        Yong Mao <yong.mao@mediatek.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        DTML <devicetree@vger.kernel.org>, wsd_upstream@mediatek.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
- <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com>
- <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org>
- <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
-From:   Veerabhadrarao Badiganti <vbadigan@codeaurora.org>
-Message-ID: <f9fa0232-3945-4e47-9238-0b51f6531199@codeaurora.org>
-Date:   Thu, 7 May 2020 22:03:14 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Thu, 7 May 2020 15:27:22 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67EDFC05BD43;
+        Thu,  7 May 2020 12:27:22 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id y3so7796270wrt.1;
+        Thu, 07 May 2020 12:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=juyJ9lwzr2janjOSEHzVoFlAFrc9APYn5GdZLAkVqVc=;
+        b=umE8GfA+bHenXOWvcmjiP+45bDgfaYbTvHQ/hacGGjWxmK3hRlnoqycD0UKK8jGCko
+         iak/Jv50S+X4+ZAowstqq4ZYxe+Sb85eqR/7LYk+6gczJv6Cw7RVzJIGRwjyOX792eWb
+         H2hzes4pJSXnXI4G/r099kpqo8cmEvLbpHeXDKWXnQO6R6N1lrP0w6Ki2blPG7Fd/JQV
+         HQ+j1Sxs07V71UwwHqbHwX7gfPZq4LgA1JXbbES1asXVyMd4bz60Zn3YR515FeR8+k/Q
+         I0NvNscwlFH4PENJZoRJny3fQqYODqROOzsGUjbZfyCTBCUO6E3onx5hZnPiEsj1Ovpk
+         T52w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=juyJ9lwzr2janjOSEHzVoFlAFrc9APYn5GdZLAkVqVc=;
+        b=eSak8UyTxcacLXEJWxL/np5AFcW/1IcdRW6Z+QkSY9k/RhrGui4APEOSWERcLeBK2s
+         qYmWpw7LqkRQgcCOa5OqqKhoXyDo9e0mVNDsItOhJGIpMP3olwqwKxANT40AjMObxR0y
+         MmqW1QPopoBQWZ15AKTAmn1plIg7XKhkEZUzNjSo7T61m3jQjTFssnqO9uvk6fN+TH7A
+         T6TFuiUC35nBbQ92XSk/FiLEM1eHmOC3TtZ4koBpRBLubwTZt0QX3AO5QKv84RPGcu9G
+         DHMw9HTwYaWg40mnQ9tJyfsh7mE2Z6JhiDvWC3abcv9eQjJrszicD9SUN5wX2UprIlDT
+         uKmQ==
+X-Gm-Message-State: AGi0PuZJ9M/vDi7Aasf/HEsbaWuSzZqI4ATVL3QV7k0oGsI6WKGt0+5b
+        QQp0DANUl5tQjO+GSq3ZxIY=
+X-Google-Smtp-Source: APiQypJOZABF8JKClO8579wnGqVXB4heq+mJNVis4yMmBNkvzyrxD3cHqfWEUirjY8quYem3/WrGeg==
+X-Received: by 2002:adf:d0d1:: with SMTP id z17mr17076474wrh.295.1588879640019;
+        Thu, 07 May 2020 12:27:20 -0700 (PDT)
+Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
+        by smtp.gmail.com with ESMTPSA id w11sm9184361wmi.32.2020.05.07.12.27.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 12:27:18 -0700 (PDT)
+Date:   Thu, 7 May 2020 21:27:17 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] memory: tegra: Fix an error handling path in
+ 'tegra186_emc_probe()'
+Message-ID: <20200507192717.GA2905961@ulmo>
+References: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="OgqxwSJOaUobr8KG"
+Content-Disposition: inline
+In-Reply-To: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 5/6/2020 10:06 PM, Ulf Hansson wrote:
-> On Wed, 6 May 2020 at 15:01, Veerabhadrarao Badiganti
-> <vbadigan@codeaurora.org> wrote:
->>
->> On 4/28/2020 5:26 AM, Chun-Hung Wu wrote:
->>> Parse CQE bindings "supports-cqe" and "disable-cqe-dcmd"
->>> in mmc_of_parse().
->>>
->>> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
->>> ---
->>>    drivers/mmc/core/host.c | 5 +++++
->>>    1 file changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
->>> index c876872..47521c6 100644
->>> --- a/drivers/mmc/core/host.c
->>> +++ b/drivers/mmc/core/host.c
->>> @@ -302,6 +302,11 @@ int mmc_of_parse(struct mmc_host *host)
->>>                host->caps2 |= MMC_CAP2_NO_SD;
->>>        if (device_property_read_bool(dev, "no-mmc"))
->>>                host->caps2 |= MMC_CAP2_NO_MMC;
->>> +     if (device_property_read_bool(dev, "supports-cqe"))
->>> +             host->caps2 |= MMC_CAP2_CQE;
->> This change is breaking emmc driver on qcom platforms where this dt
->> property is defined.
->>
->> [    1.543453]  cqhci_deactivate+0xc/0x38
->> [    1.545627]  sdhci_msm_reset+0x40/0x58
->> [    1.549447]  sdhci_do_reset+0x48/0x7c
->> [    1.553180]  __sdhci_read_caps+0x7c/0x214
->> [    1.556913]  sdhci_setup_host+0x58/0xce8
->> [    1.560905]  sdhci_msm_probe+0x588/0x8a4
->> [    1.564900]  platform_drv_probe+0x4c/0xb0
->>
->> So, we cant have this flag defined before sdhci_setup_host().
->>
->> I will have to clear this cap and re-enable it in our initialization.
-> Thanks for reporting! I have dropped all the four patches from
-> Chun-Hung, so we can figure out how to fix this.
->
-> Please help to review the next version of the series.
+--OgqxwSJOaUobr8KG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks Ulf.
+On Wed, May 06, 2020 at 10:09:07PM +0200, Christophe JAILLET wrote:
+> The call to 'tegra_bpmp_get()' must be balanced by a call to
+> 'tegra_bpmp_put()' in case of error, as already done in the remove
+> function.
+>=20
+> Add an error handling path and corresponding goto.
+>=20
+> Fixes: 52d15dd23f0b ("memory: tegra: Support DVFS on Tegra186 and later")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/memory/tegra/tegra186-emc.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 
-Hi Chun-Hung,
+Applied to for-5.8/memory, thanks.
 
-On qcom controller CQE also gets reset when SDHC is reset. So we have to 
-explicitly disable CQE
-by invoking  cqhci_deactivate() during sdhc reset
+Thierry
 
-SDHC gets reset in sdhci_setup_host() even before cqe is initialized.
-With MMC_CAP2_CQE_DCMD cap set even before sdhci_set_host(), we are 
-getting null pointer access with cqhci_deactivate().
+--OgqxwSJOaUobr8KG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If CQE getting reset with SDHC reset is generic (applicable to other 
-controllers) then you have revisit your logic.
-If its not the case then only qcom driver would get affected.
+-----BEGIN PGP SIGNATURE-----
 
-I see you are updating sdhci-msm.c file as-well. How about including 
-below change besides your change?
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl60YRIACgkQ3SOs138+
+s6E0uhAArwnuPlgr7H/3NTv0vER3Av5CqoabBWqcHkdalDEoowrpcAIKG7Y+J3yp
+teJ8yCVlGPVPQp5P3peK+ABdZCVVtLx6FnRfuiIlEFih8xJwfLmUukabewO3+sC6
+TE0QZtJl7q4R9aXRHHvi2lv/Wl2X4j7A3ucZEVYcB4fEHI7GCWJaGluR6/B6QRS6
+D7ad5FQOPbDKWr7vg8ePm+mfypMs8Fes739f8JDnBCnS9Ol3s6Z83xnBc7BTlcUl
+hxqY8YRBbyiyWIjTbo5jjg1UGYdKdt0c42YIvmnMpRfxMpwlyyIYDZDirLGo+cF9
+ZjJ4p9cVyTTgL9J3CR4LUA2Klxsa6iaLC2lzZ/bUq4zLzxBtWVQinN2z/j8Lav24
+54dW1UqhW7VLFxOWqZNa8X7vHTI7LF/gxiaop6J6o/+vYVpIkwHIftEyJz7Na2VO
+rfS5Njj9WgYAlNYP4mq1kZigXZOpW5s8ahOpoVA6q0Qbcas11eR8oU8QvwiYQ4c3
+v/tDrG/IqehyIpEdvmz7Xr63j45QQmxWH0hYDd1gBRWCzWfB/dM1e41LQe0sOTes
+HhWd0qmmj9Ld0XvnYEZvwRTA0nQkuPAH9pr5PdHedUyB/EpKtOnZYM+VQZ/8JAEA
+/5X/ZuRMs5hrKgT8XsVTrtnVo+dMxclmYN7CtSizt4LjMumBIH8=
+=jPaV
+-----END PGP SIGNATURE-----
 
-@@ -1658,6 +1658,8 @@ static int sdhci_msm_cqe_add_host(struct 
-sdhci_host *host,
-         if (host->caps & SDHCI_CAN_64BIT)
-                 host->alloc_desc_sz = 16;
-
-+       /* Clear the CQE cap during setup host */
-+       msm_host->mmc->caps2 &= ~MMC_CAP2_CQE;
-+
-         ret = sdhci_setup_host(host);
-
->>> +     if (!device_property_read_bool(dev, "disable-cqe-dcmd")) {
->>> +             host->caps2 |= MMC_CAP2_CQE_DCMD;
->>> +     }
->>>
->>>        /* Must be after "non-removable" check */
->>>        if (device_property_read_u32(dev, "fixed-emmc-driver-type", &drv_type) == 0) {
-> Kind regards
-> Uffe
+--OgqxwSJOaUobr8KG--
