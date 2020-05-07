@@ -2,131 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 278171C9BA5
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 22:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F28EE1C9DE8
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 23:50:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgEGUHW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 16:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726326AbgEGUHW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 7 May 2020 16:07:22 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEF3C05BD43;
-        Thu,  7 May 2020 13:07:21 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id y3so7934833wrt.1;
-        Thu, 07 May 2020 13:07:21 -0700 (PDT)
+        id S1726495AbgEGVuN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 17:50:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726437AbgEGVuN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 May 2020 17:50:13 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06323C05BD43;
+        Thu,  7 May 2020 14:50:12 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id f18so7969663lja.13;
+        Thu, 07 May 2020 14:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=SIPxEGkoigO/RdOn28FMwPwqLB9D7Bf2pDVWj4s0qzc=;
-        b=BKCgobvvRk12sNHbQdFp+jiN+mhqDLIsgN1BPt5/gOiz6w7q/RC36egt8JkAzGEfB2
-         rmw4ZCtt4ohfBNhFThzB8aMSnGCBgUATdSDMswU0j9M7NqMYFhjSxTsl7+wf0XvS6KRP
-         fG1xdg7y/0KiBK5yZMXDS4xFB5o4jIMi6Zv/5FLMDely/LqMO+GIoMPTyLC57O4ehli9
-         lf3OvA5mjrsOue86jHJzdbdsmqGjuuH1xDP7+989AKT2RVoltDdc+C6qZjcTJzt3ndNE
-         168Y43cITyDVhe7QmPGuIdO8MLIliZF6yB6sNWga9oyqdjMJw337OUCZsQeyLediPkHt
-         T+9w==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=41U6IdGyl2aTqqJFmI2Vbfv7pSlY6pFytOZNp3BPIx4=;
+        b=aLjM1FrD1GKUPsueKURI0156vKweVH0WCOtQKAx0dDerAO0ienZ9BYmGwzZd/uX2rR
+         D3KzJjMZCdEXJ0iRkEevaw8UwjQzqrdtZxZrVFV4d3dgpH64iqsgnk5W3U/7pGRXq9Na
+         MmJOGzjpboBpdnNhPk4rsKogO0JInJksWn1cRteKPuKH3ULdYdG0VzDXR3TLGqVh0pFl
+         kUkDFPlrHxfvjvnSVEzQezqVsiL89qmF687dgqr0oV7MpLe8XsjwJRjHO1nJaxNCOnuu
+         7l6THFHL0LLSDdGU+ap2b//3+kxNG6BublK1Ho3OmgoCcQmboaLBaHED0jUi6dvqZLs2
+         SQ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SIPxEGkoigO/RdOn28FMwPwqLB9D7Bf2pDVWj4s0qzc=;
-        b=Cb0TCZScrH/D0epUkn+QqwJdhtNDc7qDY37K6I0OFo7Dfv+zvcCSw69doMh5Cp5CNu
-         V2Me49vr/IRllWSE3WdIJwxwZUhV2Jop/Qu5n64H22RYLK93yvZ2QlYw9WFkviKpY/ux
-         blaCOwUA9y20A6eilYtwmJ1kxZyOpfTOedtBqMyXq28hEo/QShUQUiVGRZuNsFHFiqd6
-         eIvGBR+geZSsUsMKafq3i5aq7sijlK93UTGKs1oQg3MKoYdhoeWx4jcKPyPmUTs3Dd2d
-         tQoDd14Smz4Z6RQNYlu/Ae4auZxGlBeWyFKVODCo5WbdSdd1JzPX6J249n1BkCkYpkhM
-         J+2g==
-X-Gm-Message-State: AGi0PuaEwiHMGownWr8uQmF2fMnc/uDFNJC7cKd03QltryPLC5Cbagmp
-        PgfR3YVXSKZT3kjGxfmbRoRjVt2aing=
-X-Google-Smtp-Source: APiQypI8cqMnwNEw1dPA8CPIiiM5LeFDJj/l6ggkxKJc3616ZPFx9eahE4EJ1H2wPJFUTJw/ziTj3A==
-X-Received: by 2002:a5d:4447:: with SMTP id x7mr17126025wrr.299.1588882040490;
-        Thu, 07 May 2020 13:07:20 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id 185sm10472035wmc.32.2020.05.07.13.07.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 13:07:19 -0700 (PDT)
-Date:   Thu, 7 May 2020 22:07:18 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] memory: tegra: EMC scaling is not a clock provider
-Message-ID: <20200507200718.GD2981633@ulmo>
-References: <20200506123236.7463-1-geert+renesas@glider.be>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=41U6IdGyl2aTqqJFmI2Vbfv7pSlY6pFytOZNp3BPIx4=;
+        b=g3jxqaZLskUzrCbA6aQsMQjHcu4BoW9I1JQRuRinfC0o2/AbroXf3WsaYMakwLZEfD
+         AMLHDBechsR6l3q4ukLvWX8azlGE7waJDMdTDhKutfmkN4ctilLn4pOBEtv0VJyZ6ZNF
+         JA9lmEZoRkXrBKsrKDZe8KwlS2cW25rrBn/uht3PJgtfmnIdx73tm8YLGpziD6uCZ/FE
+         0Xgoo7PwC/9Z+OaKXMqWFeCoeSGmXKzBQvI/ToS2JAMvHXpg5lSHpaKJS9giNvgaM6jT
+         2efwyvVX89M16oofa86E44D9ujXayOAU5c+L/m0/fgsaWV3ZY2Ph1cu5mMP8T6VqdXyK
+         Ielg==
+X-Gm-Message-State: AGi0PubmbeypC59aQyT5g50fztns3WG2b4cagat1gi3amA+GZIpxJbyZ
+        1ge2+qQ4+9bt7dkR7x5fZFjbXKwF
+X-Google-Smtp-Source: APiQypL3//HahkAsh+LvPvIsbb0YvzC3Llst/eQYvuvZd6UtyMfHkmA6xwDXUmxBPH7verQyo5hMBQ==
+X-Received: by 2002:a2e:80d2:: with SMTP id r18mr9526882ljg.269.1588888211030;
+        Thu, 07 May 2020 14:50:11 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id a25sm4531668lfb.87.2020.05.07.14.50.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2020 14:50:10 -0700 (PDT)
+Subject: Re: [PATCH 2/5] i2c: tegra: Restore pinmux on system resume
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20200506193358.2807244-1-thierry.reding@gmail.com>
+ <20200506193358.2807244-3-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2a0404ac-73bf-2f27-9147-8bef28ae995f@gmail.com>
+Date:   Fri, 8 May 2020 00:50:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
-Content-Disposition: inline
-In-Reply-To: <20200506123236.7463-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200506193358.2807244-3-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+06.05.2020 22:33, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Depending on the board design, the I2C controllers found on Tegra SoCs
+> may require pinmuxing in order to function. This is done as part of the
+> driver's runtime suspend/resume operations. However, the PM core does
+> not allow devices to go into runtime suspend during system sleep to
+> avoid potential races with the suspend/resume of their parents.
+> 
+> As a result of this, when Tegra SoCs resume from system suspend, their
+> I2C controllers may have lost the pinmux state in hardware, whereas the
+> pinctrl subsystem is not aware of this. To fix this, make sure that if
+> the I2C controller is not runtime suspended, the runtime suspend code is
+> still executed in order to disable the module clock (which we don't need
+> to be enabled during sleep) and set the pinmux to the idle state.
+> 
+> Conversely, make sure that the I2C controller is properly resumed when
+> waking up from sleep so that pinmux settings are properly restored.
+> 
+> This fixes a bug seen with DDC transactions to an HDMI monitor timing
+> out when resuming from system suspend.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/i2c/busses/i2c-tegra.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index 7c88611c732c..db142d897604 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -1769,10 +1769,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
+>  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
+>  {
+>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+> +	int err = 0;
+>  
+>  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
+>  
+> -	return 0;
+> +	if (!pm_runtime_status_suspended(dev))
+> +		err = tegra_i2c_runtime_suspend(dev);
+> +
+> +	return err;
+>  }
+>  
+>  static int __maybe_unused tegra_i2c_resume(struct device *dev)
+> @@ -1788,9 +1792,11 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
+>  	if (err)
+>  		return err;
+>  
+> -	err = tegra_i2c_runtime_suspend(dev);
+> -	if (err)
+> -		return err;
+> +	if (pm_runtime_status_suspended(dev)) {
+> +		err = tegra_i2c_runtime_suspend(dev);
+> +		if (err)
+> +			return err;
+> +	}
+>  
+>  	i2c_mark_adapter_resumed(&i2c_dev->adapter);
+>  
+> 
 
---veXX9dWIonWZEC6h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 06, 2020 at 02:32:34PM +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
->=20
-> The Tegra EMC scaling support code is not a clock provider, but merely a
-> clock consumer, and thus does not need to include
-> <linux/clk-provider.h>.
->=20
-> However, drivers/memory/tegra/tegra210-emc-table.c relies on
-> tegra210-emc.h to include <linux/of.h> through <linux/clk-provider.h>.
-> Hence the first patch makes <linux/of_reserved_mem.h> self-contained
-> first.
->=20
-> Thanks for your comments!
->=20
-> Geert Uytterhoeven (2):
->   of: Make <linux/of_reserved_mem.h> self-contained
->   memory: tegra: Drop <linux/clk-provider.h>
->=20
->  drivers/memory/tegra/tegra210-emc-core.c | 1 -
->  drivers/memory/tegra/tegra210-emc.h      | 1 -
->  include/linux/of_reserved_mem.h          | 1 +
->  3 files changed, 1 insertion(+), 2 deletions(-)
-
-Ah... I should've read the cover letter first. Looks like I need to take
-that first patch through the Tegra tree as well to avoid introducing the
-build error in the second patch.
-
-Rob, do you mind if I pick up patch 1 of this into the same OF branch
-that I already carry the memory-region-names patches on?
-
-Thierry
-
---veXX9dWIonWZEC6h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl60anYACgkQ3SOs138+
-s6EaEw/9EGmZ4wRdJQnZKEPfSrkI8ezYGzEWDNRp9OC17IzFf2+rDPyHkuM6zynx
-sqWhXQeersjdUCJLMyRStJ47/ismsDY9Dsi/Y52S1Bhc9PibFbKO6GsEOUyiRaSa
-FQJX/LstrlkGtTsymCp7rXw1SnneQg4StyPI7pXmoNBZafCEdRVHAUt5atl3dKO1
-vPQolPeuzA9oaizomcnPKM2eY7JXxWw0J/ZnphMRcpPLkNXdGLcKb4IZocBS9DcX
-Qd/4Ipk5jMR4lILYOHweJFHV3FagRj8GSO/cotDSDPlPdxYPQF1XDNTRau2FAuv0
-fdft30qVrMr4XwZW5opTxafv90UZJXXtchexfUMx+SBgtQ8DGy1PLiNbKxyQjbcD
-SqKNNKIoz3LdcKv3PTBSmIsdROOPoKtO0lSTR3lqsc1gMWt/RVdnIoffOupFFxU/
-FLoXWUfbQojhjUg7NME0ViUVaJDrORqbbH6Wq7F7zNBTBJJPq+pC1G4jkvvuFmvG
-0s//QGxgO8hoZOE8++1pw+F1fybzkGOiDATBCxFBllutuHq897y9sgIk6FquRud4
-cf8wdwJ+fOAH1eHMTr/U3TXNMKm3YccLNYY6Iry8xDGU3/vAk8MsUrFkFKLSMIm5
-Lxd5rMApw+T2sZX2BDThuWZN38gotqCZhJbgBl0b/P1PnclP1IU=
-=qNDk
------END PGP SIGNATURE-----
-
---veXX9dWIonWZEC6h--
+Is it legal to touch DPAUX registers while DPAUX is in a suspended state?
