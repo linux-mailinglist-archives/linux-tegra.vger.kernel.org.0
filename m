@@ -2,66 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4ED31C9B04
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 21:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C84C1C9B06
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 21:27:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgEGT1X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 15:27:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
+        id S1726598AbgEGT1l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 15:27:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726320AbgEGT1W (ORCPT
+        by vger.kernel.org with ESMTP id S1726320AbgEGT1l (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 7 May 2020 15:27:22 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67EDFC05BD43;
-        Thu,  7 May 2020 12:27:22 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id y3so7796270wrt.1;
-        Thu, 07 May 2020 12:27:22 -0700 (PDT)
+        Thu, 7 May 2020 15:27:41 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FB37C05BD43;
+        Thu,  7 May 2020 12:27:41 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id l18so7758667wrn.6;
+        Thu, 07 May 2020 12:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=juyJ9lwzr2janjOSEHzVoFlAFrc9APYn5GdZLAkVqVc=;
-        b=umE8GfA+bHenXOWvcmjiP+45bDgfaYbTvHQ/hacGGjWxmK3hRlnoqycD0UKK8jGCko
-         iak/Jv50S+X4+ZAowstqq4ZYxe+Sb85eqR/7LYk+6gczJv6Cw7RVzJIGRwjyOX792eWb
-         H2hzes4pJSXnXI4G/r099kpqo8cmEvLbpHeXDKWXnQO6R6N1lrP0w6Ki2blPG7Fd/JQV
-         HQ+j1Sxs07V71UwwHqbHwX7gfPZq4LgA1JXbbES1asXVyMd4bz60Zn3YR515FeR8+k/Q
-         I0NvNscwlFH4PENJZoRJny3fQqYODqROOzsGUjbZfyCTBCUO6E3onx5hZnPiEsj1Ovpk
-         T52w==
+        bh=LlPLDfwje1tAdN3zsiBftfq/kTS7lRiyrpRwWyfLplE=;
+        b=M6unrzNThRfyWrZVItZ/vv2gQIz9R3orZi/f29sjnr6s2E6udusGdMOkvWNy24MJWW
+         IG72WdmO+QQPsdidvgI35T718pNf0usOFEo5uO0YO8I2WSH8jkM+ONyw9mUpqvlSCyQN
+         xF8DlsTaeOu3kRJXMRH+2p806dKUPrmr4zbUY00R5onhnzmdIMoc9T/wsqHlmVmmdyOH
+         VsnPfmSTyVj93S/9M2q7q0qf1N6f1HBYPL1g+rCYbw7Wwh526vxaMoV0hPuIhinLC1HX
+         tPkA3zpGGtToGKp0HtzxsRRJ1kiKsc7EpXriSJKOxOVijowmqtZNWlyPfRwXgf15DFel
+         0n6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=juyJ9lwzr2janjOSEHzVoFlAFrc9APYn5GdZLAkVqVc=;
-        b=eSak8UyTxcacLXEJWxL/np5AFcW/1IcdRW6Z+QkSY9k/RhrGui4APEOSWERcLeBK2s
-         qYmWpw7LqkRQgcCOa5OqqKhoXyDo9e0mVNDsItOhJGIpMP3olwqwKxANT40AjMObxR0y
-         MmqW1QPopoBQWZ15AKTAmn1plIg7XKhkEZUzNjSo7T61m3jQjTFssnqO9uvk6fN+TH7A
-         T6TFuiUC35nBbQ92XSk/FiLEM1eHmOC3TtZ4koBpRBLubwTZt0QX3AO5QKv84RPGcu9G
-         DHMw9HTwYaWg40mnQ9tJyfsh7mE2Z6JhiDvWC3abcv9eQjJrszicD9SUN5wX2UprIlDT
-         uKmQ==
-X-Gm-Message-State: AGi0PuZJ9M/vDi7Aasf/HEsbaWuSzZqI4ATVL3QV7k0oGsI6WKGt0+5b
-        QQp0DANUl5tQjO+GSq3ZxIY=
-X-Google-Smtp-Source: APiQypJOZABF8JKClO8579wnGqVXB4heq+mJNVis4yMmBNkvzyrxD3cHqfWEUirjY8quYem3/WrGeg==
-X-Received: by 2002:adf:d0d1:: with SMTP id z17mr17076474wrh.295.1588879640019;
-        Thu, 07 May 2020 12:27:20 -0700 (PDT)
+        bh=LlPLDfwje1tAdN3zsiBftfq/kTS7lRiyrpRwWyfLplE=;
+        b=AYNPo5ex/DO9k3h2PcNhog3ZyH5HPejpsi60+KJrcVrjXbU4tUgCiosQAGd/AO4xc+
+         zyuFVRlv/g0y+C18XyQwtvpBO4BM2GfvSe+MgWK5IwKuDyiqISj/D2NUhU7czXICW/En
+         dV1EBXbU3R/BE7JwXNDmdYRu/miAOckQEEQ7NqQv8y4nfz83RGEFOwVvP0A3VoKDGpGm
+         wzQWU17zeWD00DYzEJaYJr4blLBPOB9pU2LP+mB8YL/IyW9UFXtD/e3IlQKGLWiqzZYv
+         VDVwiTQU6rcl7wKThfSvvwQZhmRuugFUp9DEsHBEIOprCzcczOL/zvGkof0tHgM1QHkr
+         xkbA==
+X-Gm-Message-State: AGi0Pubt4/K3XiHHTCSiXNNM8xzS5GubeJeBVD281Z1ThlQqtahhicDb
+        WGjka5WHDEFSsIXmGzQPcDsfa8z7OaQ=
+X-Google-Smtp-Source: APiQypLEvlk9fY0LQRrNunJJ4ly3QRqhHeoVn2/nPql9tAv1ZvP1clgNwqxrUPLpEepxu8BDr6+CBw==
+X-Received: by 2002:adf:e90b:: with SMTP id f11mr17056980wrm.364.1588879659978;
+        Thu, 07 May 2020 12:27:39 -0700 (PDT)
 Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id w11sm9184361wmi.32.2020.05.07.12.27.17
+        by smtp.gmail.com with ESMTPSA id s12sm9171650wmc.7.2020.05.07.12.27.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 12:27:18 -0700 (PDT)
-Date:   Thu, 7 May 2020 21:27:17 +0200
+        Thu, 07 May 2020 12:27:38 -0700 (PDT)
+Date:   Thu, 7 May 2020 21:27:37 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] memory: tegra: Fix an error handling path in
- 'tegra186_emc_probe()'
-Message-ID: <20200507192717.GA2905961@ulmo>
-References: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] soc/tegra: pmc: Enable PMIC wake event on Tegra194
+Message-ID: <20200507192737.GB2905961@ulmo>
+References: <20200507101349.14118-1-jonathanh@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OgqxwSJOaUobr8KG"
+        protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
 Content-Disposition: inline
-In-Reply-To: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20200507101349.14118-1-jonathanh@nvidia.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,46 +67,42 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---OgqxwSJOaUobr8KG
+--jho1yZJdad60DJr+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 06, 2020 at 10:09:07PM +0200, Christophe JAILLET wrote:
-> The call to 'tegra_bpmp_get()' must be balanced by a call to
-> 'tegra_bpmp_put()' in case of error, as already done in the remove
-> function.
+On Thu, May 07, 2020 at 11:13:48AM +0100, Jon Hunter wrote:
+> The PMIC wake event can be used to bring the system out of suspend based
+> on certain events happening on the PMIC (such as an RTC alarm).
 >=20
-> Add an error handling path and corresponding goto.
->=20
-> Fixes: 52d15dd23f0b ("memory: tegra: Support DVFS on Tegra186 and later")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
->  drivers/memory/tegra/tegra186-emc.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+>  drivers/soc/tegra/pmc.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Applied to for-5.8/memory, thanks.
+Applied to for-5.8/soc, thanks.
 
 Thierry
 
---OgqxwSJOaUobr8KG
+--jho1yZJdad60DJr+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl60YRIACgkQ3SOs138+
-s6E0uhAArwnuPlgr7H/3NTv0vER3Av5CqoabBWqcHkdalDEoowrpcAIKG7Y+J3yp
-teJ8yCVlGPVPQp5P3peK+ABdZCVVtLx6FnRfuiIlEFih8xJwfLmUukabewO3+sC6
-TE0QZtJl7q4R9aXRHHvi2lv/Wl2X4j7A3ucZEVYcB4fEHI7GCWJaGluR6/B6QRS6
-D7ad5FQOPbDKWr7vg8ePm+mfypMs8Fes739f8JDnBCnS9Ol3s6Z83xnBc7BTlcUl
-hxqY8YRBbyiyWIjTbo5jjg1UGYdKdt0c42YIvmnMpRfxMpwlyyIYDZDirLGo+cF9
-ZjJ4p9cVyTTgL9J3CR4LUA2Klxsa6iaLC2lzZ/bUq4zLzxBtWVQinN2z/j8Lav24
-54dW1UqhW7VLFxOWqZNa8X7vHTI7LF/gxiaop6J6o/+vYVpIkwHIftEyJz7Na2VO
-rfS5Njj9WgYAlNYP4mq1kZigXZOpW5s8ahOpoVA6q0Qbcas11eR8oU8QvwiYQ4c3
-v/tDrG/IqehyIpEdvmz7Xr63j45QQmxWH0hYDd1gBRWCzWfB/dM1e41LQe0sOTes
-HhWd0qmmj9Ld0XvnYEZvwRTA0nQkuPAH9pr5PdHedUyB/EpKtOnZYM+VQZ/8JAEA
-/5X/ZuRMs5hrKgT8XsVTrtnVo+dMxclmYN7CtSizt4LjMumBIH8=
-=jPaV
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl60YSkACgkQ3SOs138+
+s6Fz1g//Q5iLIzPYo4fuJLRgZp7tCFNkrigukibQ22iSDLgmes6200DvfkFd4o9j
+PeFSs4LsS+/cP7lc5jS7PyKBH2QfTvYqCPFSpb5aKS9YUhagGdNcFcTYnMIp+JCW
+gngiBV36gBHKMortvFh6hhO1KPNKhltWEDwdUj04bRJ7n2q52ZBR1PUkvTPiVeZR
+mIk4kW1HTk6Tl29rLZ003HhL7aluyGsQsQwk72S7/P4PxRTvCYcgDamBetymvHwF
+CGI5MKXslq6oQ8+hOAr8h3uQKEzuGeufxWoIkUEr1h5OS2yyp4bcP3tdYzwQCzcP
+ZE+a7Zw1vZOmpZ7h1lmhQP3M6rLLKrra26alHnFUnXzE4ELbmksxNh2UAcw7DyhO
+INy2hwjUTGT08HtBDLUIaLGcZCRMFnVuOu2BNwUkR9UzO5/gqqpXgFb+eTLdHZUL
+w07KEYtM67f074LIn3BsOF83NjOW4GA9yF90Jf36xd97LWWWkb3U2W1DEVV0EFHx
+kQcYKUmA6R2j5otTwe7HgkBwPpnvlNYmhHwOYNplbE7YYn6XAOepqOfp/A/rkHhp
+3KRUe5TKOC0Hc3yeV/sVv+JovgK+3LCVTNSreOSgOdWdrHxCUjhoNcim9vgg8ROV
+n8+oDDXzXTpbWKctMSlSQuu48z2VKQUSOdio5pGisJgmQIttLOU=
+=/INY
 -----END PGP SIGNATURE-----
 
---OgqxwSJOaUobr8KG--
+--jho1yZJdad60DJr+--
