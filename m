@@ -2,118 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD331CA95B
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 13:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 653541CA9D0
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 13:43:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbgEHLPT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 8 May 2020 07:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726616AbgEHLPT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 8 May 2020 07:15:19 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10ADDC05BD43;
-        Fri,  8 May 2020 04:15:19 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id g13so1392015wrb.8;
-        Fri, 08 May 2020 04:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fYVKyLBoNazrldB00m19zXIkILYKVcaKghSKl2P2ohk=;
-        b=XW2aHJLA6Mx+PiVTSct4Xp3IlQ0EtB/u43rWDJ9lX7/I5B0bPPdp0s1Lx3tJ9p3zOD
-         5xJy8jDID8S1mZb+joNkFZhRrYepAd9ak3YTc3fKx4Mh/PUGGwdhD/Z0yA45iycYNHsJ
-         wE2trO0TyuA2EqvESOWjNI2leIv9EhuIvWFdZaeZF3fbj9ZEnOfZr93fqTIV0Gs6LGqo
-         /qzEn1PmaiZWXb1bacZQhqHR9hojXlV6slthspVatXKk/SAj6FaiUWZNsLTHeFWtknES
-         xGS2dpCoa2iyZco/HzDzqh4gKqU8D+CB6E8d2sNdcrTP//p6jlx6OT5Qdk7ERUdBMPoU
-         VAfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fYVKyLBoNazrldB00m19zXIkILYKVcaKghSKl2P2ohk=;
-        b=m2a667IQgXLd1vvB1k7KyF0WbHi7MMuXnjOTG/qRpxcerZE95AliIDm3Tv98Yss79g
-         CKlPuT5EoNMSSRV3UM9yLCCBdNEOKpSbAw6TWXRe5a3z6/Wok3nfp6q3oxwa+kw20MaL
-         ARdqsVguuThCuwoEk/9WpHlvnLPoax+jhhFyBPNaFvDXIVNUrxo/BYxHixDWUASEG3Bw
-         9zB3Y+R8mDLcxziE5dnwmWL4Il4nuY+qYpS7QiE5bWTNBAwygSnPNreSvHRo+xRUo7tL
-         JjPmJl6ijHPZO6Ll/4o7Lz9ebj+sKcXfJiG6J1Ymh+t4q3vFLBx2kXYFzQxu6BZj2Kn1
-         TlpQ==
-X-Gm-Message-State: AGi0PuZHyHWLXeQ7Rm7pGdv/ZvO1wCR+fAuL8AyOml2/mJukUidBxSx/
-        kw8RRZDrXWX8nwA7A/o95Rk=
-X-Google-Smtp-Source: APiQypIpsDAj8HfWoRBDBp1VG1Dv4CQ4hSbll1vTO2j1vgMnnhkGXrmVoOXfzOZzSbK7QkjjBt0e1w==
-X-Received: by 2002:a5d:4b4d:: with SMTP id w13mr2528537wrs.178.1588936516876;
-        Fri, 08 May 2020 04:15:16 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id k5sm2308675wrx.16.2020.05.08.04.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 04:15:15 -0700 (PDT)
-Date:   Fri, 8 May 2020 13:15:14 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mfd: max77620: Use single-byte writes on MAX77620
-Message-ID: <20200508111514.GA3034899@ulmo>
-References: <20200417170913.2552327-1-thierry.reding@gmail.com>
+        id S1726618AbgEHLm6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 May 2020 07:42:58 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:57406 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726616AbgEHLm6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 May 2020 07:42:58 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 048BbhYJ042794;
+        Fri, 8 May 2020 11:42:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=HFdRmpu5jurrGV09UZbVaS/kuFUzL0y7LA7cyHmxBOo=;
+ b=tv8JrdgpVBhzpYS38pSwvyzTIkvHpdHu8lCYYGS6VmQdPM/KOPZ+nzRGUUyq40AGt65K
+ VteoO8gWUPgQaY8/Ig3RSWkoBnDcYwJ3clEdG9/EJO8481ck0SADhxwns1Y1ubLlqNii
+ Fx/X+cyEJDp1PZTha5b21NyXlVQ8vAshuUrL/lGpJv1qW8JFterj5u+SMPMMvXbz7JfY
+ x+aVEAu7p0xfYk7T2AOpbt6iUprwDlhI3mIEJo1T85aK6uJnMTajGSW4XPXZ07fb64++
+ qkXEPXtbCjOk6zwZ4kxwufOQSRJe0EAn8AOdHWm+2FtieKCv3Ou3vWzh61VAQ1c93hgs kg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 30vtewtgvf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 11:42:55 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 048BauKS063434;
+        Fri, 8 May 2020 11:42:54 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 30vtdnednk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 11:42:54 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 048BgrI5014523;
+        Fri, 8 May 2020 11:42:53 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 08 May 2020 04:42:52 -0700
+Date:   Fri, 8 May 2020 14:42:46 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-tegra@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] memory: tegra: Delete some dead code
+Message-ID: <20200508114246.GA334755@mwanda>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200417170913.2552327-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 spamscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005080102
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 clxscore=1015 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005080102
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The debugfs_create_dir() function never returns NULL and anyway the
+correct behavior is to ignore errors in this situation.  The
+debugfs_create_file() will become a no-op if "emc->debugfs.root" is an
+error pointer.
 
---r5Pyd7+fXNt84Ff3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/memory/tegra/tegra186-emc.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-On Fri, Apr 17, 2020 at 07:09:13PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> The MAX77620 doesn't support bulk writes, so make sure the regmap code
-> breaks bulk writes into multiple single-byte writes.
->=20
-> Note that this is mostly cosmetic because currently only the RTC sub-
-> driver uses bulk writes and the RTC driver ends up using a different
-> regmap on the MAX77620 anyway. However, it seems like a good idea to
-> make this change now in order to avoid running into issues if bulk
-> writes are ever used by other sub-drivers sometime down the road.
->=20
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/mfd/max77620.c | 1 +
->  1 file changed, 1 insertion(+)
+diff --git a/drivers/memory/tegra/tegra186-emc.c b/drivers/memory/tegra/tegra186-emc.c
+index 97f26bc77ad41..7c904e9bba8e8 100644
+--- a/drivers/memory/tegra/tegra186-emc.c
++++ b/drivers/memory/tegra/tegra186-emc.c
+@@ -241,11 +241,6 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	emc->debugfs.root = debugfs_create_dir("emc", NULL);
+-	if (!emc->debugfs.root) {
+-		dev_err(&pdev->dev, "failed to create debugfs directory\n");
+-		return 0;
+-	}
+-
+ 	debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root,
+ 			    emc, &tegra186_emc_debug_available_rates_fops);
+ 	debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
+-- 
+2.26.2
 
-Hi Lee,
-
-did you have a chance to look at this patch?
-
-Thierry
-
---r5Pyd7+fXNt84Ff3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl61Pz8ACgkQ3SOs138+
-s6E+7A//a03m70gtgZGEknOoNZ0CgU5RIPvSY0ARoSLPdVfn3U7lymln4Qozoqpd
-fG1juRJx4/a1rW2kKjNrXAGtp02I5UMyNH3gQ++Hv+dHKOzQwS2daqpFYBNstg52
-MxfQXZGeCY6itzefnnQOV39wGkRLnPnDWdyi+KvPj+AxTM0snKT2CplhcRLNrFIO
-08IF7EQgO1I8pQxqggbZD/PYyFVEMql07N4ngnNw+ffdvwKa8tBrE5XN6fkkOXZY
-YbNGJuR7CznCYwwgEbG7lg232hKHuTW41e9M3NBvkWknIeLCHcWdyUNYQYqYQ4yC
-Olbv/CbVrS1UxDgOQHT/v80MI4rIYgMBDqu9uTZP8kp5uG2kc67RiQopaA1y1trP
-9zXIBR5m9aA8KcMQtl5QXXbFMqqSgeuBPsKAmIFknufJjCOiJYD0nv/f4ZEEKcBL
-eW48OH5LbAsmU82kBEO+UvL6mcH/Y0a5q2cNhmWvCx5bWJUfOfkjgRAcdIQzUW8X
-b4qPznmtylujpafCIT110QwyThH6sOXocJwJkvybAWcD8JJh6Lux6kH73IDWbH13
-uDOODx1CxRzhJWf0Qy75sVEnwZKSlhneb/AcjVD1AxvHfN5sKJGIHqR8mrOGddJF
-qQtRSBX8eBXMIqp3E+hOq3ZZy7YYDXUDJhrSw7Icgu7Ews6N9vQ=
-=2rKA
------END PGP SIGNATURE-----
-
---r5Pyd7+fXNt84Ff3--
