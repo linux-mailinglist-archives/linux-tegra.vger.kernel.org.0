@@ -2,136 +2,161 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F28EE1C9DE8
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 May 2020 23:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99CD1CA1B7
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 05:54:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbgEGVuN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 17:50:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbgEGVuN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 May 2020 17:50:13 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06323C05BD43;
-        Thu,  7 May 2020 14:50:12 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f18so7969663lja.13;
-        Thu, 07 May 2020 14:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=41U6IdGyl2aTqqJFmI2Vbfv7pSlY6pFytOZNp3BPIx4=;
-        b=aLjM1FrD1GKUPsueKURI0156vKweVH0WCOtQKAx0dDerAO0ienZ9BYmGwzZd/uX2rR
-         D3KzJjMZCdEXJ0iRkEevaw8UwjQzqrdtZxZrVFV4d3dgpH64iqsgnk5W3U/7pGRXq9Na
-         MmJOGzjpboBpdnNhPk4rsKogO0JInJksWn1cRteKPuKH3ULdYdG0VzDXR3TLGqVh0pFl
-         kUkDFPlrHxfvjvnSVEzQezqVsiL89qmF687dgqr0oV7MpLe8XsjwJRjHO1nJaxNCOnuu
-         7l6THFHL0LLSDdGU+ap2b//3+kxNG6BublK1Ho3OmgoCcQmboaLBaHED0jUi6dvqZLs2
-         SQ4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=41U6IdGyl2aTqqJFmI2Vbfv7pSlY6pFytOZNp3BPIx4=;
-        b=g3jxqaZLskUzrCbA6aQsMQjHcu4BoW9I1JQRuRinfC0o2/AbroXf3WsaYMakwLZEfD
-         AMLHDBechsR6l3q4ukLvWX8azlGE7waJDMdTDhKutfmkN4ctilLn4pOBEtv0VJyZ6ZNF
-         JA9lmEZoRkXrBKsrKDZe8KwlS2cW25rrBn/uht3PJgtfmnIdx73tm8YLGpziD6uCZ/FE
-         0Xgoo7PwC/9Z+OaKXMqWFeCoeSGmXKzBQvI/ToS2JAMvHXpg5lSHpaKJS9giNvgaM6jT
-         2efwyvVX89M16oofa86E44D9ujXayOAU5c+L/m0/fgsaWV3ZY2Ph1cu5mMP8T6VqdXyK
-         Ielg==
-X-Gm-Message-State: AGi0PubmbeypC59aQyT5g50fztns3WG2b4cagat1gi3amA+GZIpxJbyZ
-        1ge2+qQ4+9bt7dkR7x5fZFjbXKwF
-X-Google-Smtp-Source: APiQypL3//HahkAsh+LvPvIsbb0YvzC3Llst/eQYvuvZd6UtyMfHkmA6xwDXUmxBPH7verQyo5hMBQ==
-X-Received: by 2002:a2e:80d2:: with SMTP id r18mr9526882ljg.269.1588888211030;
-        Thu, 07 May 2020 14:50:11 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id a25sm4531668lfb.87.2020.05.07.14.50.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2020 14:50:10 -0700 (PDT)
-Subject: Re: [PATCH 2/5] i2c: tegra: Restore pinmux on system resume
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-References: <20200506193358.2807244-1-thierry.reding@gmail.com>
- <20200506193358.2807244-3-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2a0404ac-73bf-2f27-9147-8bef28ae995f@gmail.com>
-Date:   Fri, 8 May 2020 00:50:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726768AbgEHDyq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 May 2020 23:54:46 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:43438 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726683AbgEHDyq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 May 2020 23:54:46 -0400
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200508035443epoutp02f27feac0015be9b7a4fbfc88b9bd5cfe~M8U1vy5yv0637406374epoutp02K
+        for <linux-tegra@vger.kernel.org>; Fri,  8 May 2020 03:54:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200508035443epoutp02f27feac0015be9b7a4fbfc88b9bd5cfe~M8U1vy5yv0637406374epoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1588910083;
+        bh=F962LpSrFOl3x1UqKVgw8NIpqI4eBnKTQnStyDbMIiU=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=hivsNr5lFveg12lfH2F0F9EFy02h0KDxHJv6DZDRNKEOFAuuFyqWzywjbENSLBSAN
+         Rwvh0CdqL7DVz9osk54bYdgLUs1lifUaSeaLU69MoRRhALCrC3z4h9nAB2PDOqokiY
+         rF0k0ijA2qOgn1Iqk33qNkw/acG2866i0RLxM95o=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20200508035442epcas1p3077679ccbe91f54e6c87f08fd38f7ba1~M8U1D0jw42074720747epcas1p3j;
+        Fri,  8 May 2020 03:54:42 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.152]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 49JGg43gk2zMqYkj; Fri,  8 May
+        2020 03:54:40 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        F5.F9.04402.008D4BE5; Fri,  8 May 2020 12:54:40 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200508035438epcas1p12d02b9a9ac102e68b74bdd62ce9d390a~M8UxmMiTp0145501455epcas1p14;
+        Fri,  8 May 2020 03:54:38 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200508035438epsmtrp22236cf07c6ebe21b7c0b72292534dfee~M8UxlWPia2412024120epsmtrp2X;
+        Fri,  8 May 2020 03:54:38 +0000 (GMT)
+X-AuditID: b6c32a35-753ff70000001132-73-5eb4d8008b39
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        96.DC.18461.EF7D4BE5; Fri,  8 May 2020 12:54:38 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200508035438epsmtip2b574f3494727385bbd41c8aa15358639~M8UxVCku41898718987epsmtip2A;
+        Fri,  8 May 2020 03:54:38 +0000 (GMT)
+Subject: Re: [PATCH v2] PM / devfreq: tegra: Add Dmitry as a maintainer
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <921abb5e-8c12-db8b-b345-fbe49080dc1c@samsung.com>
+Date:   Fri, 8 May 2020 13:04:35 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20200506193358.2807244-3-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200402221723.6064-1-digetx@gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUwTURDHfT22W6D6rKJjjYirH4SEwlqLq1KioWqjRjHGixhwhRWQHptu
+        qdcH8YhVIioRNTYVFWOi4hWpAjWEWIxK8ArEEzEaUDzxQI1EQbtsjXz7zbz5z/WGlGvPEToy
+        3+7inHbWShERiisNcfqEQY/9mUmerTFM5Zd2xGz3ViiYO1s/qJiWgI9gukuuI2bXNy/BtG45
+        RTC3m5qVTE+gXDFDban1tqksJdu6CIv/gUdh2eM/gyzdl2LSlRkFKXkcm8M5Yzl7tiMn355r
+        ouYtzkrLMiYn0Qn0VGYKFWtnbZyJMs9PT5idbw01RMW6WWthyJXOCgKVmJridBS6uNg8h+Ay
+        URyfY+Wn8nqBtQmF9lx9tsM2jU5KmmQMBa4qyGu7cUPJt0auD5T3qIpQg7oYqUnAk6G4r1cl
+        shbXILhXpCtGESH+iuDlvkPhhx8IDvaZ/wkaf5YppaA6BG/OtoaNTwjKOz0hgySH4Tmw96hJ
+        9A/HvxHcb21Wimo5XgENtZUykQkcD/VvHhMiD8Hj4MHPdiSyBqdCxeWgTMyjwBPAtzdVdEfj
+        pdB4ZXs4ZCg0Hu5QiKzGRvB7PofTj4SnHUdlEo+F6o8+udgD4NMk9H3wyaQJzHD7WrVS4mHw
+        7qZfJbEOurvqCIk3wenG64Qk3onAX38/LDBA/cn9/c3JcRxcCCRK7nFQ++sIkgoPhq7vu/v3
+        AFgDO3dopZDx0PKiLdzCKDjh2UXsQ5R3wDjeASN4B4zg/V/sGFKcQSM4XrDlcgLN0wP/+hLq
+        P9V4Yw0quzs/iDCJqCgN86UqU6tk3cIGWxABKaeGa0rX+zO1mhx2w0bO6chyFlo5IYiMoWWX
+        ynXR2Y7Q4dtdWbRxksFgYCbTyUaapkZqDjyyZmpxLuviCjiO55z/dDJSrStCTWMj/zyJPsIv
+        OEfXOF73zWxR97g3H5qlNXdGZSS625akLSq9zByvfFFSXF0Vk2A+75uoW8G9ndPhL3P39iYu
+        fzcr3ZTyNrn0T0SHvn3h3JX44WpDlT4Y3CisjRr98Rk/ffW6TfXvIzW3np+4umN3VXNdxpjg
+        sozAK/lFTdOadWklcZRCyGPpeLlTYP8Cpg/OkcADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJXvff9S1xBp9mm1qs/viY0aJl1iIW
+        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZnDl9idXi5655LA6cHjtn3WX36G1+x+ax5Wo7
+        i0ffllWMHp83yQWwRnHZpKTmZJalFunbJXBl3D12jLXgNnfFrnk/2RsYD3N2MXJySAiYSJz8
+        MYW1i5GLQ0hgN6PEkt2X2CESkhLTLh5l7mLkALKFJQ4fLoaoecsoMaP7MBtIXFjAXaJ/vi1I
+        XESggUmiddEyJpBeZoFIiZ65W9ggGjoYJa7N2wyWYBPQktj/4gYbiM0voChx9cdjRhCbV8BO
+        YtHWQ0wgQ1kEVCTm9NuBhEUFwiR2LnnMBFEiKHFy5hMWEJtTwFRiS/sHVohd6hJ/5l1ihrDF
+        JW49mQ91g7zE9rdzmCcwCs9C0j4LScssJC2zkLQsYGRZxSiZWlCcm55bbFhgmJdarlecmFtc
+        mpeul5yfu4kRHGFamjsYt6/6oHeIkYmD8RCjBAezkgjvxIotcUK8KYmVValF+fFFpTmpxYcY
+        pTlYlMR5bxQujBMSSE8sSc1OTS1ILYLJMnFwSjUwnT4Sdicg7kIMwySVOdoyFw77avyb+niB
+        9pV0Vr8fBRMtDm3wT/v7f8OS//FT5/faZe6VNJKzqa7p31D+96bjehYtlULDZdGP59e5btQU
+        vPHolFjnSZfVvx83S3jeY6tx2NPVpmLR8/Tx/uDdCps9Zu4vfHJyI0drbs/UmK/Zif2Tuu4w
+        zNmRabvKvsV7xqeYGJlT5ZGrouekzsowexlpxr2L9dbX/twE7cNzdl/lPtR2Zql8jMuKr6+f
+        y0++/MlLsdhoupdc82njLU9WTdKdciTq0SWOW05GKhvr4/04o62rGT+/XFNy3XPGVcajCjc2
+        hthL1zw4OadxwqV5eeoveOwmNDqZ/ZTq71V4WpWwTImlOCPRUIu5qDgRAKmLcc4fAwAA
+X-CMS-MailID: 20200508035438epcas1p12d02b9a9ac102e68b74bdd62ce9d390a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec
+References: <CGME20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec@epcas1p4.samsung.com>
+        <20200402221723.6064-1-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.05.2020 22:33, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Depending on the board design, the I2C controllers found on Tegra SoCs
-> may require pinmuxing in order to function. This is done as part of the
-> driver's runtime suspend/resume operations. However, the PM core does
-> not allow devices to go into runtime suspend during system sleep to
-> avoid potential races with the suspend/resume of their parents.
-> 
-> As a result of this, when Tegra SoCs resume from system suspend, their
-> I2C controllers may have lost the pinmux state in hardware, whereas the
-> pinctrl subsystem is not aware of this. To fix this, make sure that if
-> the I2C controller is not runtime suspended, the runtime suspend code is
-> still executed in order to disable the module clock (which we don't need
-> to be enabled during sleep) and set the pinmux to the idle state.
-> 
-> Conversely, make sure that the I2C controller is properly resumed when
-> waking up from sleep so that pinmux settings are properly restored.
-> 
-> This fixes a bug seen with DDC transactions to an HDMI monitor timing
-> out when resuming from system suspend.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/i2c/busses/i2c-tegra.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-> index 7c88611c732c..db142d897604 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -1769,10 +1769,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
->  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->  {
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
-> +	int err = 0;
->  
->  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
->  
-> -	return 0;
-> +	if (!pm_runtime_status_suspended(dev))
-> +		err = tegra_i2c_runtime_suspend(dev);
-> +
-> +	return err;
->  }
->  
->  static int __maybe_unused tegra_i2c_resume(struct device *dev)
-> @@ -1788,9 +1792,11 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
->  	if (err)
->  		return err;
->  
-> -	err = tegra_i2c_runtime_suspend(dev);
-> -	if (err)
-> -		return err;
-> +	if (pm_runtime_status_suspended(dev)) {
-> +		err = tegra_i2c_runtime_suspend(dev);
-> +		if (err)
-> +			return err;
-> +	}
->  
->  	i2c_mark_adapter_resumed(&i2c_dev->adapter);
->  
-> 
+Hi Rafael,
 
-Is it legal to touch DPAUX registers while DPAUX is in a suspended state?
+Could you please apply it to linux-pm directly?
+
+I think that it is better to be applied directly
+for preventing the possible merge conflict of MAINTAINERS file.
+
+Best Regards,
+Chanwoo Choi
+
+On 4/3/20 7:17 AM, Dmitry Osipenko wrote:
+> I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
+> want to help keep them working and evolving in the future.
+> 
+> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Addressed review comments made by Chanwoo Choi to v1 by correcting
+>       git's address, making this patch standalone and adding Rafael Wysocki
+>       to the list of email recipients.
+> 
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 245a96316636..0a694e20ea19 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10922,6 +10922,15 @@ F:	include/linux/memblock.h
+>  F:	mm/memblock.c
+>  F:	Documentation/core-api/boot-time-mm.rst
+>  
+> +MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
+> +M:	Dmitry Osipenko <digetx@gmail.com>
+> +L:	linux-pm@vger.kernel.org
+> +L:	linux-tegra@vger.kernel.org
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git
+> +S:	Maintained
+> +F:	drivers/devfreq/tegra20-devfreq.c
+> +F:	drivers/devfreq/tegra30-devfreq.c
+> +
+>  MEMORY MANAGEMENT
+>  M:	Andrew Morton <akpm@linux-foundation.org>
+>  L:	linux-mm@kvack.org
+> 
