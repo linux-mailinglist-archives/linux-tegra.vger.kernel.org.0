@@ -2,130 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A491CA645
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 10:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A99B1CA692
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 10:51:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbgEHIlH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 8 May 2020 04:41:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40562 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726756AbgEHIlG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 8 May 2020 04:41:06 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 35CFBAA55;
-        Fri,  8 May 2020 08:41:07 +0000 (UTC)
-From:   Mian Yousaf Kaukab <ykaukab@suse.de>
-To:     talho@nvidia.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        afaerber@suse.de, Mian Yousaf Kaukab <ykaukab@suse.de>
-Subject: arm64: tegra186: bpmp: kernel crash while decompressing initrd
-Date:   Fri,  8 May 2020 10:40:41 +0200
-Message-Id: <20200508084041.23366-1-ykaukab@suse.de>
-X-Mailer: git-send-email 2.25.0
+        id S1726638AbgEHIvx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 May 2020 04:51:53 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:40282 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726616AbgEHIvw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 May 2020 04:51:52 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0488lwp9066596;
+        Fri, 8 May 2020 08:51:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=AWbUZitwGxqH5XK2qvZBSe3apYjT0vdFp0iz/vgH32U=;
+ b=CfJCRY58BEkHUdPT/WP0qB2DDdtV9oL9tJgua2Nrve3zL7CeCCGIkB8bf6rgWPVJCMCK
+ Bhremhku2blJuXF9HLzZiwMTDymIx2sdfVnv/3eWgQBt58FpfWaTo8IUhPbg6m6N+pLJ
+ ySRUeCZ9+cmmB5XR2ffYj+6m0fnechdYXG4Q2M/33cYed0RRy6L9zmHzzz5AyXDGNJdV
+ m4JBzXnEd6SarXecfCIbvoHbKPeUPdl2YHNEjlpeSDLQ/uxT9OoKY9ciD0mHtBb+eHAG
+ uIUdqD6wxtmVInUp0YRTEoQat0UvK7lhMubaWdCEgRyTgTzR9b61hpwg/Nrp29v5QLBE iw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 30vtexsucp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 08:51:49 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0488kgWO163200;
+        Fri, 8 May 2020 08:49:49 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 30vteg9pxh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 08:49:49 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0488nmOY027677;
+        Fri, 8 May 2020 08:49:48 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 08 May 2020 01:49:47 -0700
+Date:   Fri, 8 May 2020 11:49:41 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] memory: tegra: Fix an error handling path in
+ 'tegra186_emc_probe()'
+Message-ID: <20200508084941.GE9365@kadam>
+References: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200506200907.195502-1-christophe.jaillet@wanadoo.fr>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005080076
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005080076
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I am seeing following kernel crash on Jetson TX2. Board is flashed with
-firmware bits from L4T R32.4.2 with upstream u-boot. Crash always
-happens while decompressing initrd. Initrd is approximately 80 MiB in
-size and compressed with xz (xz --check=crc32 --lzma2=dict=32MiB).
-Crash is not observed if the same initrd is compressed with gzip.
-[1] was a previous attempt to workaround the same issue.
+On Wed, May 06, 2020 at 10:09:07PM +0200, Christophe JAILLET wrote:
+> @@ -237,7 +239,7 @@ static int tegra186_emc_probe(struct platform_device *pdev)
+>  			"failed to set rate range [%lu-%lu] for %pC\n",
+>  			emc->debugfs.min_rate, emc->debugfs.max_rate,
+>  			emc->clk);
+> -		return err;
+> +		goto err_put_bpmp;
+>  	}
+>  
+>  	emc->debugfs.root = debugfs_create_dir("emc", NULL);
 
-[    0.651168] Trying to unpack rootfs image as initramfs...
-[    2.890171] SError Interrupt on CPU0, code 0xbf40c000 -- SError
-[    2.890174] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G S                5.7.0-rc4-next-20200505 #22
-[    2.890175] Hardware name: nvidia p2771-0000/p2771-0000, BIOS 2020.04-rc3 03/25/2020
-[    2.890176] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
-[    2.890177] pc : lzma_main+0x648/0x908
-[    2.890178] lr : lzma_main+0x330/0x908
-[    2.890179] sp : ffff80001003bb70
-[    2.890180] x29: ffff80001003bb70 x28: 0000000004d794a4
-[    2.890183] x27: 0000000004769941 x26: ffff0001eb064000
-[    2.890185] x25: ffff0001eb060028 x24: 0000000000000002
-[    2.890187] x23: 0000000000000003 x22: 0000000000000007
-[    2.890189] x21: 0000000000611f4b x20: ffff0001eb060000
-[    2.890192] x19: ffff80001003bcb8 x18: 0000000000000068
-[    2.890194] x17: 00000000000000c0 x16: fffffe00076b2108
-[    2.890196] x15: 0000000000000800 x14: 0000000000ffffff
-[    2.890198] x13: 0000000000000001 x12: ffff0001eb060000
-[    2.890200] x11: 0000000000000600 x10: ffff0001eb060028
-[    2.890202] x9 : 00000000ffbb2a08 x8 : 0000000000000ed0
-[    2.890204] x7 : 00000000011553ec x6 : 0000000000000000
-[    2.890206] x5 : 0000000000000000 x4 : 0000000000000006
-[    2.890208] x3 : 00000000015a29e4 x2 : ffff0001eb062d0c
-[    2.890210] x1 : 000000000000000c x0 : 000000000263de44
+Not really related to this patch but the error handling on this
+debugfs_create_dir() call is wrong.  It never returns NULL.  The error
+should just be ignored.  It shouldn't try print a message when debugfs
+is deliberately disabled.
 
-With some debugging aid ported from Nvidia downstream kernel [2] the
-actual cause was found:
+As in the correct code looks like:
 
-[    0.761525] Trying to unpack rootfs image as initramfs...
-[    2.955499] CPU0: SError: mpidr=0x80000100, esr=0xbf40c000
-[    2.955502] CPU1: SError: mpidr=0x80000000, esr=0xbe000000
-[    2.955505] CPU2: SError: mpidr=0x80000001, esr=0xbe000000
-[    2.955506] CPU3: SError: mpidr=0x80000101, esr=0xbf40c000
-[    2.955507] ROC:CCE Machine Check Error:
-[    2.955508] ROC:CCE Registers:
-[    2.955509]  STAT: 0xb400000000400415
-[    2.955510]  ADDR: 0x400c00e7a00c
-[    2.955511]  MSC1: 0x80ffc
-[    2.955512]  MSC2: 0x3900000000800
-[    2.955513] --------------------------------------
-[    2.955514] Decoded ROC:CCE Machine Check:
-[    2.955515]  Uncorrected (this is fatal)
-[    2.955516]  Error reporting enabled when error arrived
-[    2.955517]  Error Code = 0x415
-[    2.955518]  Poison Error
-[    2.955518]  Command = NCRd (0xc)
-[    2.955519]  Address Type = Non-Secure DRAM
-[    2.955521]  Address = 0x30039e80 -- 30000000.sysram + 0x39e80
-[    2.955521]  TLimit = 0x3ff
-[    2.955522]  Poison Error Mask = 0x80
-[    2.955523]  More Info = 0x800
-[    2.955524]  Timeout Info = 0x0
-[    2.955525]          Poison Info = 0x800
-[    2.955526]          Read Request failed GSC checks
-[    2.955527]  Source = L2_1 (A57) (0x1)
-[    2.955528]  TID = 0xe
+ 
+        emc->debugfs.root = debugfs_create_dir("emc", NULL);
+-       if (!emc->debugfs.root) {
+-               dev_err(&pdev->dev, "failed to create debugfs directory\n");
+-               return 0;
+-       }
+-
+        debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root,
+                            emc, &tegra186_emc_debug_available_rates_fops);
+        debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
 
-IIUC, there was read request for 0x30039e80 from EL1/2 which failed.
-This address falls in the sysram security aperture and hence a read
-from normal mode failed.
+debugfs_create_file() will return an error pointer if debugfs_create_dir()
+fails or if debugfs is disabled.  (It is a no-op).
 
-sysram is mapped at 0x3000_0000 to 0x3004_ffff and is managed by the
-sram driver (drivers/misc/sram.c). There are two reserved pools for
-BPMP driver communication at 0x3004_e000 and 0x3004_f000 of 0x1000
-bytes each.
+regards,
+dan carpenter
 
-sram driver maps complete 0x3000_0000 to 0x3004_ffff range as normal
-memory. However, only the BPMP reserved pools (0x3004_e000 - 0x3004_ffff)
-are accessible from the kernel. Address 0x3003_9e80 is inaccessible
-from the kernel and a read to it (which I believe is speculative)
-causes the SError. Only driver which uses sysram is not initialized at
-this point (rootfs_initcall level). As since
-commit d70f5e541ab3 ("firmware: tegra: Make BPMP a regular driver")
-bpmp driver is initialized at device_initcall level.
-
-If none of the drivers on the kernel side using 0x3003_9e80 address
-range. Why a read to it occurs even speculatively? Could it be that
-some EL3 software didn’t cleanup after itself properly? Any
-suggestions on debugging this issue further?
-
-Another solution suggested in [1] was to add no-memory-wc in sysram
-node in device-tree so that sysram is mapped as device-memory. Thus
-preventing any speculative access. However, it causes another set of
-issues with the bpmp driver. That's may be a discussion for another
-time.
-
-BR,
-Yousaf
-
-[1]: https://lore.kernel.org/patchwork/patch/1132429/
-[2]: git://nv-tegra.nvidia.com/linux-4.9.git
