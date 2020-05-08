@@ -2,94 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECA881CA802
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 12:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C131CA847
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 12:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725825AbgEHKOG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 8 May 2020 06:14:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36324 "EHLO
+        id S1726083AbgEHK0f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 May 2020 06:26:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbgEHKOF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 May 2020 06:14:05 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13BB4C05BD43
-        for <linux-tegra@vger.kernel.org>; Fri,  8 May 2020 03:14:04 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id e26so9635404wmk.5
-        for <linux-tegra@vger.kernel.org>; Fri, 08 May 2020 03:14:04 -0700 (PDT)
+        with ESMTP id S1725825AbgEHK0f (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 May 2020 06:26:35 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A831BC05BD43;
+        Fri,  8 May 2020 03:26:34 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id s8so1243553wrt.9;
+        Fri, 08 May 2020 03:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vSVzsNo/f2HsblA9EhDyIIGLzh8Z4JeTmAlaXX4Bxm4=;
-        b=JMFcWPz3oKo6z2O/k/rTcfj414wMLqtRujLQ3nUf2rUVeOk7nef9GjvA/55CeCJTr7
-         VM7fqFtA7xHmtHRr+m1Zd/Xnj9HrQHl95HqD7qjSXNVYBDNoOjTAJWnlxS5lq/xnw/hb
-         9YDqJL5vCRgbvS5krnmP9L0XRhd5OU/KLgQnVx4jxlGfWADZ3BhYx7aA70CvChSB0RoI
-         SWGh5kQvtxBr2rnzg0Ksrfh69bspWnLhX0zY6f1JXfpVDKWivciC85TX89Tz5iLq9dHK
-         e5OG4ylP4wfe7i1DvZqzotvxG4Qr76xyHnjQyOcxJ5K6j75BXlIpVI0LHjiO4cw0VL7g
-         hnjw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=U/nGiKbFLFriNl4EVgpGj88MYeZZdcTLN4ma7CGTOns=;
+        b=f5YjvUPChhk0lY3dMb5i7+8WWfjET6KiM41cHBRUu6xufVdFD+lXMAQ8LwyL+QfbD4
+         W8rrmbc5708tczFvjA3+i0m70+26t13Dih7H2T0D/fedRyIbGkXRzjWEUsBoIbqs5uhU
+         Ustc+v1CDaRSr16TyxMWmiXR83u5yH0ipJxHRGfE9lGYtWNkGIy/U//whczKkAFjp1b9
+         GYUyiogtmunUJAeUY46LFh8/NRyJMxxO/CkFVlbB2V1yYRtxS7MAE2eEkQYMtwPM1NU7
+         EqRtaEhfIHvEzGkipg7KxZKDfELKELHg6PcsTrHA3O7Fc7aHahTQkvOG2/G+WK56HcKI
+         oVEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vSVzsNo/f2HsblA9EhDyIIGLzh8Z4JeTmAlaXX4Bxm4=;
-        b=DTECGddm3GyMsnsF7ejeG47fApTykbjTzR66neDOu9vqvTKZNczv4xS3dxFqlBik8y
-         /RACfwo92yKGI2H8pMe13sNQAZcdI6vzC/Rk1FkiQEAAK0GRk/SlOUsLFD/ZqtTSM1NN
-         8XT7A+SQkfeqlqxy6xwrXDF1StZFbHDPG2A26oNZ0rCmmodFQv09dyVgm2oDLsboo1IN
-         BNoKAf4L1NccDPVc9t266WxkU2kU3OJn+P4KTgkMQBX+HvZqSTf2OZ3SGRiSxhSGT6eX
-         5QtCsAAhlD9zBx534UuaY9igPxOaDhLGcDVqxSlb4vAe08x0WC5O4CBhkmavYK8Daco2
-         jIoQ==
-X-Gm-Message-State: AGi0PuaENg7yyI8vtXvyN6QodWjgepLGQaWGGDey7UhNlJ5QkWmLnYDQ
-        6MX0C6GAw8/ZGqOvB55Owb0=
-X-Google-Smtp-Source: APiQypJQNxGUMRRBHHoLIP9X4chOGOOgTS4J3ZHvpJEMuH3vJqu4bC631vKsVd469lBypyffY4xF7A==
-X-Received: by 2002:a1c:1d3:: with SMTP id 202mr9291808wmb.145.1588932842798;
-        Fri, 08 May 2020 03:14:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=U/nGiKbFLFriNl4EVgpGj88MYeZZdcTLN4ma7CGTOns=;
+        b=Oy4yuKFjTE35o/g8FziF+iQC/pjcDbqZbXRdEMSEE72zbxZRiffoN3Q/n7nnjDIhYA
+         CNq1jB7qyLpTq6nM5nWXyblDwI3rqDl7AOOhVfCChi8PNhfnys6Xr/8L4w1wy8swR6fc
+         1Pgz094e2SlRkExwHFV8JigJ8rmHC5HGLBG8maTJ++vmG/1yUNAoQevyag4apP+pd39t
+         gxLlWoaNaFJV/EThJJpSE7dbIo9xR7p48f8Cea2xcv4422xZH6Sew5u7FU2a52MPkaqA
+         Y/TbV+Q/KaF0rMDN+O13kITHH2z4+VidOkqjbQVa2z+9Ze63OKc+UgwV3GsXqa9AqNzg
+         EzaQ==
+X-Gm-Message-State: AGi0PuaaPEnrmIa3dz+5URAfkb3mjzv5MhFhshn+5MrnRbM2Vos4rzh+
+        DsoQuGCPQHJ2iwZyZZ5Y5xE=
+X-Google-Smtp-Source: APiQypKRGJRAQ0UZdIySQIaoUKnB7SQfKdP6aHBF/MqvfySOmbKcCMXcGTUk1STZ47zTNYv8/b2/xw==
+X-Received: by 2002:adf:e788:: with SMTP id n8mr418066wrm.317.1588933593344;
+        Fri, 08 May 2020 03:26:33 -0700 (PDT)
 Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id 18sm313743wmj.19.2020.05.08.03.14.01
+        by smtp.gmail.com with ESMTPSA id c19sm2364623wrb.89.2020.05.08.03.26.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 03:14:01 -0700 (PDT)
+        Fri, 08 May 2020 03:26:31 -0700 (PDT)
+Date:   Fri, 8 May 2020 12:26:31 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] drm/tegra: Fixes for v5.7
-Date:   Fri,  8 May 2020 12:13:55 +0200
-Message-Id: <20200508101355.3031268-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] gpu: host1x: Clean up debugfs in error handling path in
+ 'host1x_probe()'
+Message-ID: <20200508102631.GA3030605@ulmo>
+References: <20200426191630.41290-1-christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
+Content-Disposition: inline
+In-Reply-To: <20200426191630.41290-1-christophe.jaillet@wanadoo.fr>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dave,
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+--pWyiEgJYm5f9v55/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+On Sun, Apr 26, 2020 at 09:16:30PM +0200, Christophe JAILLET wrote:
+> 'host1x_debug_init()' must be reverted in an error handling path.
+>=20
+> This is already fixed in the remove function since commit 44156eee91ba
+> ("gpu: host1x: Clean up debugfs on removal")
+>=20
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/gpu/host1x/dev.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-are available in the Git repository at:
+Applied, thanks.
 
-  git://anongit.freedesktop.org/tegra/linux tags/drm/tegra/for-5.7-fixes
-
-for you to fetch changes up to 4010e729349fcab69183f338fe3743df17a473a0:
-
-  gpu: host1x: Use SMMU on Tegra124 and Tegra210 (2020-04-28 11:44:07 +0200)
-
-Thanks,
 Thierry
 
-----------------------------------------------------------------
-drm/tegra: Fixes for v5.7
+--pWyiEgJYm5f9v55/
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This contains a pair of patches which fix SMMU support on Tegra124 and
-Tegra210 for host1x and the Tegra DRM driver.
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Thierry Reding (2):
-      drm/tegra: Fix SMMU support on Tegra124 and Tegra210
-      gpu: host1x: Use SMMU on Tegra124 and Tegra210
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl61M9QACgkQ3SOs138+
+s6E5qA/+MmoiWrLTVaFdEnFgY568ldpbMKJel9y+2djQ7IncLvkQt+g/Z6o0ghVD
+OkhEvQfWM6rdYUehLaFfN9k1VJ+8VaNqrvDPa+SEfivIS0lDAF5dU4x6rOxN8gFf
+t6VHONMlhZsHhPI8jlMvIW+v3OczrbDzXmo5P9o6iKPFDfkqEpbS8FAqlzhpXGPY
+qVSmowOZtNJcvF1754ssJFb95uz0kl0XZ6LNa5Pgl1YFHgBAZrUKHtu5ekmvs2hU
+tXJB6Z/nyJs8/38HWqQD6+6MjOsPVD3hBEf/Mz6PE3TLSQlTxUoGGvECjU4NNnnl
+HrdBPXIOCNYC5a8KAEyaFg9I4jUcpnhwfB7RwXZeFUmUMdl0DZx4m6jckCbD13pV
+Qax13ypm7mUuTAh1ZpzI01Vb193QG5Zx3YpSb/cFlFeoe12YXZH+j9lawuoCI83s
+TfcwxTaPtYhUd3UnxpW21SKmun49sL12lilKyLhydEWCVcMozaYJUyz7wkJPEoU5
+Jkpnu8M1YhW6W3nFa/hOBXdcEHg+LG14DRaGZ/Dfv+9oMRNcOEoW+p7WZSSDODs1
+84p1Ec/NedIcB9XJjtaB6RLkwu5PbPk5g7uBEZLl6hVSZfUnXW7/wg/zcuedwkO4
+p7GYMpqt2vRfQ7iM4VXH60fqlN3lF1GDj0T5JZsMrclFInwK2dw=
+=zg/O
+-----END PGP SIGNATURE-----
 
- drivers/gpu/drm/tegra/drm.c |  3 ++-
- drivers/gpu/host1x/dev.c    | 59 ++++++++++++++++++++++++++++++++++++++++++---
- include/linux/host1x.h      |  3 +++
- 3 files changed, 60 insertions(+), 5 deletions(-)
+--pWyiEgJYm5f9v55/--
