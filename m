@@ -2,75 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 542801CA8E6
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 13:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD331CA95B
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 13:15:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbgEHLCf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 8 May 2020 07:02:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43846 "EHLO
+        id S1726618AbgEHLPT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 May 2020 07:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726519AbgEHLCe (ORCPT
+        by vger.kernel.org with ESMTP id S1726616AbgEHLPT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 8 May 2020 07:02:34 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89066C05BD43;
-        Fri,  8 May 2020 04:02:34 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id z8so1370747wrw.3;
-        Fri, 08 May 2020 04:02:34 -0700 (PDT)
+        Fri, 8 May 2020 07:15:19 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10ADDC05BD43;
+        Fri,  8 May 2020 04:15:19 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id g13so1392015wrb.8;
+        Fri, 08 May 2020 04:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=FkEHL5zjH9NOXTmK8upd4DOiKhI1dh7AJQdWAx10iwY=;
-        b=nK2YQiQhonp8TBWc6SJQNRqvr7zeP+LE21igKDXN4j5VesKJlVCmRjhYHS8JobWE06
-         ixAqzm1gXoUMXs3AYjA5wsC1v+EiKr3WvQQ0MD/7NcqqAlFW1DuFGErGsLGZnF4EPDFX
-         0+Fr7zGjSHs+RzyNBviNQlfvM/Sfs9icoKyE+WJN+K8F88Wea3uFAornpjZ53yge2MLY
-         aDolyAbVZMXeUVHyfBzNC7E481UOo2YllD0m8NqYLkNUVAKvR0iSYtKWMrtThkbtPmRR
-         6Ttdvw0IxnkqfCbwaR0phfvfNvCK5KTj06PwrOP9FVq0O4762kGy6xuzbIVD1QBQJ9BB
-         Gexw==
+        bh=fYVKyLBoNazrldB00m19zXIkILYKVcaKghSKl2P2ohk=;
+        b=XW2aHJLA6Mx+PiVTSct4Xp3IlQ0EtB/u43rWDJ9lX7/I5B0bPPdp0s1Lx3tJ9p3zOD
+         5xJy8jDID8S1mZb+joNkFZhRrYepAd9ak3YTc3fKx4Mh/PUGGwdhD/Z0yA45iycYNHsJ
+         wE2trO0TyuA2EqvESOWjNI2leIv9EhuIvWFdZaeZF3fbj9ZEnOfZr93fqTIV0Gs6LGqo
+         /qzEn1PmaiZWXb1bacZQhqHR9hojXlV6slthspVatXKk/SAj6FaiUWZNsLTHeFWtknES
+         xGS2dpCoa2iyZco/HzDzqh4gKqU8D+CB6E8d2sNdcrTP//p6jlx6OT5Qdk7ERUdBMPoU
+         VAfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FkEHL5zjH9NOXTmK8upd4DOiKhI1dh7AJQdWAx10iwY=;
-        b=g4M93J81oRg58IHWgdRH0QL3i0444JLvtIBPoF2TMR2VDZWiyAp3GZ5VC+M7GJz78d
-         GYpxo+DqUb2Y8na8iUizW5cNmWZc1mPabHurG4VuXgt5oIzvO9zw8en0uBXX9gU5Y5Yx
-         vEFYF3MdmYqBLLRokJkWSdCRVYMNL1u8vGPodFgLI3ugUwkS6lyg0Wif1aGC+P0w7Okc
-         aY9q9ZuIp7jcMAju22Kj83o4UwJRNP6SfiVWwopwjS9XuY6AWnMTOgaBfSyUbWy6yYzL
-         Tj8pWDh0o3NxO9kPJhEDIqNvR8I88kDkajWyUYGwSWjUXmB/eMF4F7KwE8kBb/r53OYb
-         WBQg==
-X-Gm-Message-State: AGi0PubLMngXqGJvzKMZFR1MOp0X7mwj1cRPj+NAqJiSZgTgjlvhNpAh
-        OkZnNE/a+unLKk6ZbdVpl6E=
-X-Google-Smtp-Source: APiQypIp6YIwXaUa5824wcmZA6NiTZhT6Gn3InjfzNfs5u6CIl1RBWsEt6Jq9rAgWjRRJ2CQI0Z/Dw==
-X-Received: by 2002:adf:e591:: with SMTP id l17mr2304234wrm.406.1588935753156;
-        Fri, 08 May 2020 04:02:33 -0700 (PDT)
+        bh=fYVKyLBoNazrldB00m19zXIkILYKVcaKghSKl2P2ohk=;
+        b=m2a667IQgXLd1vvB1k7KyF0WbHi7MMuXnjOTG/qRpxcerZE95AliIDm3Tv98Yss79g
+         CKlPuT5EoNMSSRV3UM9yLCCBdNEOKpSbAw6TWXRe5a3z6/Wok3nfp6q3oxwa+kw20MaL
+         ARdqsVguuThCuwoEk/9WpHlvnLPoax+jhhFyBPNaFvDXIVNUrxo/BYxHixDWUASEG3Bw
+         9zB3Y+R8mDLcxziE5dnwmWL4Il4nuY+qYpS7QiE5bWTNBAwygSnPNreSvHRo+xRUo7tL
+         JjPmJl6ijHPZO6Ll/4o7Lz9ebj+sKcXfJiG6J1Ymh+t4q3vFLBx2kXYFzQxu6BZj2Kn1
+         TlpQ==
+X-Gm-Message-State: AGi0PuZHyHWLXeQ7Rm7pGdv/ZvO1wCR+fAuL8AyOml2/mJukUidBxSx/
+        kw8RRZDrXWX8nwA7A/o95Rk=
+X-Google-Smtp-Source: APiQypIpsDAj8HfWoRBDBp1VG1Dv4CQ4hSbll1vTO2j1vgMnnhkGXrmVoOXfzOZzSbK7QkjjBt0e1w==
+X-Received: by 2002:a5d:4b4d:: with SMTP id w13mr2528537wrs.178.1588936516876;
+        Fri, 08 May 2020 04:15:16 -0700 (PDT)
 Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
-        by smtp.gmail.com with ESMTPSA id a81sm5874924wmh.7.2020.05.08.04.02.26
+        by smtp.gmail.com with ESMTPSA id k5sm2308675wrx.16.2020.05.08.04.15.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 04:02:27 -0700 (PDT)
-Date:   Fri, 8 May 2020 13:02:26 +0200
+        Fri, 08 May 2020 04:15:15 -0700 (PDT)
+Date:   Fri, 8 May 2020 13:15:14 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Rob Herring <robh@kernel.org>, Lee Jones <lee.jones@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
-        <linux-rtc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: mfd: Document the RTC present on
- MAX77620
-Message-ID: <20200508110226.GA3034719@ulmo>
-References: <20200417170825.2551367-1-thierry.reding@gmail.com>
- <20200430140701.GA21776@bogus>
- <20200430141520.GA101194@piout.net>
- <CAL_Jsq+HzG8QT+kHUjqC8joDxfm1WM+N_F1ZwYXg7cL5faGxVA@mail.gmail.com>
- <20200501135309.GC51277@piout.net>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mfd: max77620: Use single-byte writes on MAX77620
+Message-ID: <20200508111514.GA3034899@ulmo>
+References: <20200417170913.2552327-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+        protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
 Content-Disposition: inline
-In-Reply-To: <20200501135309.GC51277@piout.net>
+In-Reply-To: <20200417170913.2552327-1-thierry.reding@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -78,71 +68,52 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---sm4nu43k4a2Rpi4c
+--r5Pyd7+fXNt84Ff3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 01, 2020 at 03:53:09PM +0200, Alexandre Belloni wrote:
-> On 01/05/2020 08:00:11-0500, Rob Herring wrote:
-> > > I don't think this is true because in the case of a discrete RTC, its
-> > > interrupt pin can be connected directly to a PMIC to power up a board
-> > > instead of being connected to the SoC. In that case we don't have an
-> > > interrupt property but the RTC is still a wakeup source. This is the
-> > > usual use case for wakeup-source in the RTC subsystem. Else, if there=
- is
-> > > an interrupt, then we assume the RTC is a wakeup source and there is =
-no
-> > > need to have the wakeup-source property.
-> >=20
-> > Yes, that would be an example of "unless the wakeup mechanism is
-> > somehow not an interrupt". I guess I should add not an interrupt from
-> > the perspective of the OS.
-> >=20
-> > So if the wakeup is self contained within the PMIC, why do we need a
-> > DT property? The capability is always there and enabling/disabling
-> > wakeup from it is userspace policy.
-> >=20
+On Fri, Apr 17, 2020 at 07:09:13PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 >=20
-> Yes, for this particular case, I'm not sure wakeup-source is actually
-> necessary. If the interrupt line is used to wakeup the SoC, then the
-> presence of the interrupts property is enough to enable wakeup.
+> The MAX77620 doesn't support bulk writes, so make sure the regmap code
+> breaks bulk writes into multiple single-byte writes.
+>=20
+> Note that this is mostly cosmetic because currently only the RTC sub-
+> driver uses bulk writes and the RTC driver ends up using a different
+> regmap on the MAX77620 anyway. However, it seems like a good idea to
+> make this change now in order to avoid running into issues if bulk
+> writes are ever used by other sub-drivers sometime down the road.
+>=20
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/mfd/max77620.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-So yes, the wakeup-source property isn't necessary. The goal of patches
-1 and 2 was to allow the RTC to be actually disabled as a wakeup-source
-in case it didn't work as intended. But since the RTC is enabled as a
-wakeup source on these PMICs by default, the idea was to add a new sub-
-node for the RTC and required the wakeup-source in that subnode if that
-subnode was present.
+Hi Lee,
 
-That said, patch 3 actually does make the RTC work as a wakeup source
-on the particular board that I tested this, so patches 1 and 2 are no
-longer really required from my point of view.
+did you have a chance to look at this patch?
 
-Do you want me to send patch 3/3 again separately or can you pick it up
-=66rom this series?
-
-Thanks,
 Thierry
 
---sm4nu43k4a2Rpi4c
+--r5Pyd7+fXNt84Ff3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl61PD8ACgkQ3SOs138+
-s6GV8BAAgLR4lg0g62qMQgR8ZL2stOQFzJoRTr3EOif7vMW34wGNJxEkGewzJGN0
-eEuXOqMN5x0bVIqbb1/xETy7P6/38SOUx6PwaaxuFCVCi+XjCdg5lqoYSliMaUcC
-LWZnojhwjBiEb5MyesMgZPtAq9zoimroASiCC2MMgadKefm3qhO6dF5l3L46Mscl
-63NpGDbQVhmXCzASor/+yzV+x6SjpzFSL61J2bUuaovMcWSBljsiLtMu5z3m39f8
-UeQ3brtGLDlXRHMNfPNt9+F7Wtd7oUyfhAhu5lSS2ukSVSZgoID1fX3ctBlunGn/
-U/Ou0jaefIItGRTsENY+7sebpZoQeeo6x0/BYE2rPFPw5Nle4u7QYw5WIIFG2U1p
-+Ijti2WHSAt3jgWc0pw1LiCMPpmJ+BGQ//ceT3X1Fca4z4tNERcRbR4eJqjPuRV8
-GQKsjPYP1kmaxDPtZpPoq9LCizS1dkITkFCl3PlFbEIJt1tF6nOn0XaYSd43LCBZ
-zP82oKrtnWFH0+mob1WgZ5zIs5Z5Azhua4Ad7+SVl0m0tGQEncH2u0xV3yGd2yJl
-KUiJZY0CWad3b32pKSPhZY7hHzXN26XsnCQH7YqhWoKdR5b6d4Z9zcBTUpK1uezY
-0PCUNKzTTvMJHsJR2lMeoNNSNu6sCCEz8CPj+2FPHZXvALC/354=
-=L+Q9
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl61Pz8ACgkQ3SOs138+
+s6E+7A//a03m70gtgZGEknOoNZ0CgU5RIPvSY0ARoSLPdVfn3U7lymln4Qozoqpd
+fG1juRJx4/a1rW2kKjNrXAGtp02I5UMyNH3gQ++Hv+dHKOzQwS2daqpFYBNstg52
+MxfQXZGeCY6itzefnnQOV39wGkRLnPnDWdyi+KvPj+AxTM0snKT2CplhcRLNrFIO
+08IF7EQgO1I8pQxqggbZD/PYyFVEMql07N4ngnNw+ffdvwKa8tBrE5XN6fkkOXZY
+YbNGJuR7CznCYwwgEbG7lg232hKHuTW41e9M3NBvkWknIeLCHcWdyUNYQYqYQ4yC
+Olbv/CbVrS1UxDgOQHT/v80MI4rIYgMBDqu9uTZP8kp5uG2kc67RiQopaA1y1trP
+9zXIBR5m9aA8KcMQtl5QXXbFMqqSgeuBPsKAmIFknufJjCOiJYD0nv/f4ZEEKcBL
+eW48OH5LbAsmU82kBEO+UvL6mcH/Y0a5q2cNhmWvCx5bWJUfOfkjgRAcdIQzUW8X
+b4qPznmtylujpafCIT110QwyThH6sOXocJwJkvybAWcD8JJh6Lux6kH73IDWbH13
+uDOODx1CxRzhJWf0Qy75sVEnwZKSlhneb/AcjVD1AxvHfN5sKJGIHqR8mrOGddJF
+qQtRSBX8eBXMIqp3E+hOq3ZZy7YYDXUDJhrSw7Icgu7Ews6N9vQ=
+=2rKA
 -----END PGP SIGNATURE-----
 
---sm4nu43k4a2Rpi4c--
+--r5Pyd7+fXNt84Ff3--
