@@ -2,161 +2,172 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B99CD1CA1B7
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 05:54:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 135111CA281
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 May 2020 07:06:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbgEHDyq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 May 2020 23:54:46 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:43438 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726683AbgEHDyq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 May 2020 23:54:46 -0400
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200508035443epoutp02f27feac0015be9b7a4fbfc88b9bd5cfe~M8U1vy5yv0637406374epoutp02K
-        for <linux-tegra@vger.kernel.org>; Fri,  8 May 2020 03:54:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200508035443epoutp02f27feac0015be9b7a4fbfc88b9bd5cfe~M8U1vy5yv0637406374epoutp02K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1588910083;
-        bh=F962LpSrFOl3x1UqKVgw8NIpqI4eBnKTQnStyDbMIiU=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=hivsNr5lFveg12lfH2F0F9EFy02h0KDxHJv6DZDRNKEOFAuuFyqWzywjbENSLBSAN
-         Rwvh0CdqL7DVz9osk54bYdgLUs1lifUaSeaLU69MoRRhALCrC3z4h9nAB2PDOqokiY
-         rF0k0ijA2qOgn1Iqk33qNkw/acG2866i0RLxM95o=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-        20200508035442epcas1p3077679ccbe91f54e6c87f08fd38f7ba1~M8U1D0jw42074720747epcas1p3j;
-        Fri,  8 May 2020 03:54:42 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.152]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 49JGg43gk2zMqYkj; Fri,  8 May
-        2020 03:54:40 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        F5.F9.04402.008D4BE5; Fri,  8 May 2020 12:54:40 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200508035438epcas1p12d02b9a9ac102e68b74bdd62ce9d390a~M8UxmMiTp0145501455epcas1p14;
-        Fri,  8 May 2020 03:54:38 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200508035438epsmtrp22236cf07c6ebe21b7c0b72292534dfee~M8UxlWPia2412024120epsmtrp2X;
-        Fri,  8 May 2020 03:54:38 +0000 (GMT)
-X-AuditID: b6c32a35-753ff70000001132-73-5eb4d8008b39
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        96.DC.18461.EF7D4BE5; Fri,  8 May 2020 12:54:38 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200508035438epsmtip2b574f3494727385bbd41c8aa15358639~M8UxVCku41898718987epsmtip2A;
-        Fri,  8 May 2020 03:54:38 +0000 (GMT)
-Subject: Re: [PATCH v2] PM / devfreq: tegra: Add Dmitry as a maintainer
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <921abb5e-8c12-db8b-b345-fbe49080dc1c@samsung.com>
-Date:   Fri, 8 May 2020 13:04:35 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
-        Thunderbird/59.0
+        id S1725891AbgEHFGH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 May 2020 01:06:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725773AbgEHFGH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 May 2020 01:06:07 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA0AC05BD0B
+        for <linux-tegra@vger.kernel.org>; Thu,  7 May 2020 22:06:06 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id a16so206118uaq.5
+        for <linux-tegra@vger.kernel.org>; Thu, 07 May 2020 22:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GOyJCplE0htCyKO+7S6/vnX0Dv0M9OHzxvwXwcOQOP4=;
+        b=yOR+kZsOgcu3/Opchfd0y0C8bGMkBMGR0doFFK9FPvDPc7z8ErZvL7sKHTdw/qa/dz
+         vwQb7uq+1bBHAJitd7DHu33y1u5/2XWL6XeR7xIfarln2m0W5tyjJxIQtragP/eGPxSZ
+         QICFM4RGditudJKQTQrhmZJqvAMtj+Yli1q6nJY0g3+7l/ikFJYY48TWu6Mx7KHEHC/4
+         Ir622C0eVbJVEXEqtkrkjMVfd/sijw36iAinDFuIlOYVM2FNShq5zd9P1r0ydAMOBLn9
+         4G1Ez4KEljvtrT13T1s5DY74tCI1M7t50tW71tit6nh8LhN7AeyBuWfJIeLwQXONv5aQ
+         yQig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GOyJCplE0htCyKO+7S6/vnX0Dv0M9OHzxvwXwcOQOP4=;
+        b=EYZO1vla8Ara7All53J7As/R3YhbwxbrN0UWvztJDuayUFRD4ps0/Wclnu02jjtuCI
+         WiKoDG9wQKnDHuKaiHhS7EvFiu+w16Ih0SLq9yK58BSuIY3OzgKIiqKwLbb6iPlj3EFW
+         Yt6BzPVLErjAikPdIcm+dICL//N4YjvydSy2D2lXuyMMtJjzK/akVx9YOLN7+dlq3wGe
+         slmJ/sBffY0C98ldyHHY4fSYYSK320NEjJs6UWRNqrAnCimXEbpE5d1QQGY1tGF5UZWQ
+         lmqb0AnKWrJlmemQuPeTc+amSEqk45SPJoz4D8uBRmGETiQqbCBi8bI+BHng4sWdtMWv
+         IkOQ==
+X-Gm-Message-State: AGi0PuaYe0RAXHRdNRkIU13PC+qPykfSizOmbO3LxNqlARvI8Koo4qKB
+        VqguhVnRcL099wmFFLGtae8+0ZYJqe24UvWqouSg8Q==
+X-Google-Smtp-Source: APiQypIV3sbG4ZSLW2R9RC7kszUeNGv4pTkPCpr++SJIgTpFreELrbQMO3vTo+toXhRCi6FYQeprQHSzN9Qws1pY5HQ=
+X-Received: by 2002:ab0:5ca:: with SMTP id e68mr505205uae.19.1588914365738;
+ Thu, 07 May 2020 22:06:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200402221723.6064-1-digetx@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUwTURDHfT22W6D6rKJjjYirH4SEwlqLq1KioWqjRjHGixhwhRWQHptu
-        qdcH8YhVIioRNTYVFWOi4hWpAjWEWIxK8ArEEzEaUDzxQI1EQbtsjXz7zbz5z/WGlGvPEToy
-        3+7inHbWShERiisNcfqEQY/9mUmerTFM5Zd2xGz3ViiYO1s/qJiWgI9gukuuI2bXNy/BtG45
-        RTC3m5qVTE+gXDFDban1tqksJdu6CIv/gUdh2eM/gyzdl2LSlRkFKXkcm8M5Yzl7tiMn355r
-        ouYtzkrLMiYn0Qn0VGYKFWtnbZyJMs9PT5idbw01RMW6WWthyJXOCgKVmJridBS6uNg8h+Ay
-        URyfY+Wn8nqBtQmF9lx9tsM2jU5KmmQMBa4qyGu7cUPJt0auD5T3qIpQg7oYqUnAk6G4r1cl
-        shbXILhXpCtGESH+iuDlvkPhhx8IDvaZ/wkaf5YppaA6BG/OtoaNTwjKOz0hgySH4Tmw96hJ
-        9A/HvxHcb21Wimo5XgENtZUykQkcD/VvHhMiD8Hj4MHPdiSyBqdCxeWgTMyjwBPAtzdVdEfj
-        pdB4ZXs4ZCg0Hu5QiKzGRvB7PofTj4SnHUdlEo+F6o8+udgD4NMk9H3wyaQJzHD7WrVS4mHw
-        7qZfJbEOurvqCIk3wenG64Qk3onAX38/LDBA/cn9/c3JcRxcCCRK7nFQ++sIkgoPhq7vu/v3
-        AFgDO3dopZDx0PKiLdzCKDjh2UXsQ5R3wDjeASN4B4zg/V/sGFKcQSM4XrDlcgLN0wP/+hLq
-        P9V4Yw0quzs/iDCJqCgN86UqU6tk3cIGWxABKaeGa0rX+zO1mhx2w0bO6chyFlo5IYiMoWWX
-        ynXR2Y7Q4dtdWbRxksFgYCbTyUaapkZqDjyyZmpxLuviCjiO55z/dDJSrStCTWMj/zyJPsIv
-        OEfXOF73zWxR97g3H5qlNXdGZSS625akLSq9zByvfFFSXF0Vk2A+75uoW8G9ndPhL3P39iYu
-        fzcr3ZTyNrn0T0SHvn3h3JX44WpDlT4Y3CisjRr98Rk/ffW6TfXvIzW3np+4umN3VXNdxpjg
-        sozAK/lFTdOadWklcZRCyGPpeLlTYP8Cpg/OkcADAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJXvff9S1xBp9mm1qs/viY0aJl1iIW
-        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZnDl9idXi5655LA6cHjtn3WX36G1+x+ax5Wo7
-        i0ffllWMHp83yQWwRnHZpKTmZJalFunbJXBl3D12jLXgNnfFrnk/2RsYD3N2MXJySAiYSJz8
-        MYW1i5GLQ0hgN6PEkt2X2CESkhLTLh5l7mLkALKFJQ4fLoaoecsoMaP7MBtIXFjAXaJ/vi1I
-        XESggUmiddEyJpBeZoFIiZ65W9ggGjoYJa7N2wyWYBPQktj/4gYbiM0voChx9cdjRhCbV8BO
-        YtHWQ0wgQ1kEVCTm9NuBhEUFwiR2LnnMBFEiKHFy5hMWEJtTwFRiS/sHVohd6hJ/5l1ihrDF
-        JW49mQ91g7zE9rdzmCcwCs9C0j4LScssJC2zkLQsYGRZxSiZWlCcm55bbFhgmJdarlecmFtc
-        mpeul5yfu4kRHGFamjsYt6/6oHeIkYmD8RCjBAezkgjvxIotcUK8KYmVValF+fFFpTmpxYcY
-        pTlYlMR5bxQujBMSSE8sSc1OTS1ILYLJMnFwSjUwnT4Sdicg7kIMwySVOdoyFw77avyb+niB
-        9pV0Vr8fBRMtDm3wT/v7f8OS//FT5/faZe6VNJKzqa7p31D+96bjehYtlULDZdGP59e5btQU
-        vPHolFjnSZfVvx83S3jeY6tx2NPVpmLR8/Tx/uDdCps9Zu4vfHJyI0drbs/UmK/Zif2Tuu4w
-        zNmRabvKvsV7xqeYGJlT5ZGrouekzsowexlpxr2L9dbX/twE7cNzdl/lPtR2Zql8jMuKr6+f
-        y0++/MlLsdhoupdc82njLU9WTdKdciTq0SWOW05GKhvr4/04o62rGT+/XFNy3XPGVcajCjc2
-        hthL1zw4OadxwqV5eeoveOwmNDqZ/ZTq71V4WpWwTImlOCPRUIu5qDgRAKmLcc4fAwAA
-X-CMS-MailID: 20200508035438epcas1p12d02b9a9ac102e68b74bdd62ce9d390a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec
-References: <CGME20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec@epcas1p4.samsung.com>
-        <20200402221723.6064-1-digetx@gmail.com>
+References: <1588031768-23677-1-git-send-email-chun-hung.wu@mediatek.com>
+ <1588031768-23677-2-git-send-email-chun-hung.wu@mediatek.com>
+ <9bc2454f-0b42-e256-7927-2564b56f369f@codeaurora.org> <CAPDyKFq7ffHeWg-S41tLvScg_BXCUULig=G=EzD_to1TG0NhVg@mail.gmail.com>
+ <f9fa0232-3945-4e47-9238-0b51f6531199@codeaurora.org>
+In-Reply-To: <f9fa0232-3945-4e47-9238-0b51f6531199@codeaurora.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Fri, 8 May 2020 07:05:29 +0200
+Message-ID: <CAPDyKFoAa3=Rg77Af7nNQOZN13m9NQYERosrqiK_kuL3s-YECA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] mmc: core: Extend mmc_of_parse() to parse CQE bindings
+To:     Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
+        Chun-Hung Wu <chun-hung.wu@mediatek.com>
+Cc:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        Yong Mao <yong.mao@mediatek.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        DTML <devicetree@vger.kernel.org>, wsd_upstream@mediatek.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Rafael,
+On Thu, 7 May 2020 at 18:33, Veerabhadrarao Badiganti
+<vbadigan@codeaurora.org> wrote:
+>
+>
+> On 5/6/2020 10:06 PM, Ulf Hansson wrote:
+> > On Wed, 6 May 2020 at 15:01, Veerabhadrarao Badiganti
+> > <vbadigan@codeaurora.org> wrote:
+> >>
+> >> On 4/28/2020 5:26 AM, Chun-Hung Wu wrote:
+> >>> Parse CQE bindings "supports-cqe" and "disable-cqe-dcmd"
+> >>> in mmc_of_parse().
+> >>>
+> >>> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+> >>> ---
+> >>>    drivers/mmc/core/host.c | 5 +++++
+> >>>    1 file changed, 5 insertions(+)
+> >>>
+> >>> diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
+> >>> index c876872..47521c6 100644
+> >>> --- a/drivers/mmc/core/host.c
+> >>> +++ b/drivers/mmc/core/host.c
+> >>> @@ -302,6 +302,11 @@ int mmc_of_parse(struct mmc_host *host)
+> >>>                host->caps2 |= MMC_CAP2_NO_SD;
+> >>>        if (device_property_read_bool(dev, "no-mmc"))
+> >>>                host->caps2 |= MMC_CAP2_NO_MMC;
+> >>> +     if (device_property_read_bool(dev, "supports-cqe"))
+> >>> +             host->caps2 |= MMC_CAP2_CQE;
+> >> This change is breaking emmc driver on qcom platforms where this dt
+> >> property is defined.
+> >>
+> >> [    1.543453]  cqhci_deactivate+0xc/0x38
+> >> [    1.545627]  sdhci_msm_reset+0x40/0x58
+> >> [    1.549447]  sdhci_do_reset+0x48/0x7c
+> >> [    1.553180]  __sdhci_read_caps+0x7c/0x214
+> >> [    1.556913]  sdhci_setup_host+0x58/0xce8
+> >> [    1.560905]  sdhci_msm_probe+0x588/0x8a4
+> >> [    1.564900]  platform_drv_probe+0x4c/0xb0
+> >>
+> >> So, we cant have this flag defined before sdhci_setup_host().
+> >>
+> >> I will have to clear this cap and re-enable it in our initialization.
+> > Thanks for reporting! I have dropped all the four patches from
+> > Chun-Hung, so we can figure out how to fix this.
+> >
+> > Please help to review the next version of the series.
+>
+> Thanks Ulf.
+>
+> Hi Chun-Hung,
+>
+> On qcom controller CQE also gets reset when SDHC is reset. So we have to
+> explicitly disable CQE
+> by invoking  cqhci_deactivate() during sdhc reset
+>
+> SDHC gets reset in sdhci_setup_host() even before cqe is initialized.
+> With MMC_CAP2_CQE_DCMD cap set even before sdhci_set_host(), we are
+> getting null pointer access with cqhci_deactivate().
+>
+> If CQE getting reset with SDHC reset is generic (applicable to other
+> controllers) then you have revisit your logic.
+> If its not the case then only qcom driver would get affected.
 
-Could you please apply it to linux-pm directly?
+Thanks for clarifying the problem, much appreciated.
 
-I think that it is better to be applied directly
-for preventing the possible merge conflict of MAINTAINERS file.
+To me, it looks like the DT parsing of the CQE properties are better
+suited to be managed by each sdhci variant, to continue to leave some
+room for flexibility.
 
-Best Regards,
-Chanwoo Choi
+Chun-Hung, can you please drop patch 1 and patch2 from the series and
+adapt to this change in the mediatek variant?
 
-On 4/3/20 7:17 AM, Dmitry Osipenko wrote:
-> I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
-> want to help keep them working and evolving in the future.
-> 
-> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
-> 
-> Changelog:
-> 
-> v2: - Addressed review comments made by Chanwoo Choi to v1 by correcting
->       git's address, making this patch standalone and adding Rafael Wysocki
->       to the list of email recipients.
-> 
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 245a96316636..0a694e20ea19 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10922,6 +10922,15 @@ F:	include/linux/memblock.h
->  F:	mm/memblock.c
->  F:	Documentation/core-api/boot-time-mm.rst
->  
-> +MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
-> +M:	Dmitry Osipenko <digetx@gmail.com>
-> +L:	linux-pm@vger.kernel.org
-> +L:	linux-tegra@vger.kernel.org
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git
-> +S:	Maintained
-> +F:	drivers/devfreq/tegra20-devfreq.c
-> +F:	drivers/devfreq/tegra30-devfreq.c
-> +
->  MEMORY MANAGEMENT
->  M:	Andrew Morton <akpm@linux-foundation.org>
->  L:	linux-mm@kvack.org
-> 
+[...]
+
+Kind regards
+Uffe
