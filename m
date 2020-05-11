@@ -2,114 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B69C1CD056
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 05:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09DCA1CD2E0
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 09:41:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727960AbgEKDRx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 10 May 2020 23:17:53 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4435 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727094AbgEKDRx (ORCPT
+        id S1728402AbgEKHlY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 May 2020 03:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725916AbgEKHlY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 10 May 2020 23:17:53 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eb8c3d30001>; Sun, 10 May 2020 20:17:39 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 10 May 2020 20:17:52 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 10 May 2020 20:17:52 -0700
-Received: from [10.19.66.205] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 11 May
- 2020 03:17:49 +0000
-Subject: Re: [PATCH V2 6/8] phy: tegra: xusb: Add support for charger detect
+        Mon, 11 May 2020 03:41:24 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB72DC061A0C
+        for <linux-tegra@vger.kernel.org>; Mon, 11 May 2020 00:41:23 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id z72so8345861wmc.2
+        for <linux-tegra@vger.kernel.org>; Mon, 11 May 2020 00:41:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hseT4o3e+iJvKvlfPpNLzXEPteR4GO6bBd3Kzf2HHZM=;
+        b=ZEwp7zsvc6V/NaIZ350pitGQRs0EMYP8K6a8+IIsELLZ5AAzsHB965S9ZDCWNaBym7
+         5XimvrLLj3O6IYOPThMbNl+vsJeoxSHtkg9a7L7brMoaPPIE+obGgZRFUILa5sHqPCaj
+         /jQ7/bLYVucXsb/mw/GQMCjzy0T/LtXC2C4n6QYiKkAz2Cdk7nEYEX3O/u9fqwMKRz/t
+         3Kxr/WZw5aFxC+9CmrXKhv9AguMA/PVIGdSWh8lG7dOZ4fHttZW9BdpR2NjP6bP1Wlij
+         TcZENsfPqxRIXZ0PsT5O3xTRsqA4+zpH2SRfzop9QS8dU00cSN8SS7ts7PHaWglWD9wu
+         BMhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hseT4o3e+iJvKvlfPpNLzXEPteR4GO6bBd3Kzf2HHZM=;
+        b=X7ghoGF71lKBXYCo5KrqCjpA89OdZLGD0PZaij7rW1cCN+aEBI4RDc8zyqrSdMg/vD
+         XuNdoET9+9H2/8z1DdFtc8k6/fk7QOo2wvqQHh6LxPMlTu961GxzM0XEzgHMtzy56CBf
+         1GGvTe5rNRs1+MNEHtyFxLFvzzQnQDUWs0OlS5kZvYgZaOAmIK3CNGJ54KHHaRkTNnnh
+         jST9tZU2He8yEVliBJJU36a1Sw5VUAWv7VIAX/lf/I5UjZiR+wyHUMrCPI8ru9Tpdj3n
+         6gCoIm76288fUEZ+vAr82VeOk9EPLr73f2r6ZNY+DgQygiWibDhPyxgAwwicvnd4jqBw
+         mA1Q==
+X-Gm-Message-State: AGi0PuYEafEgajrlW+Fr8XgIziqn+Xs4hhphp1LXxA8UlvKam94tZ4S1
+        thfHrBPA6XpMVnAsksEli9JRkw==
+X-Google-Smtp-Source: APiQypKV+Y/OjUeg8G20v03d/FoUTGa1xDhXfJWs1qQga0pjoK9gYLJRg52leg1oMHXQf3UY3BC8EQ==
+X-Received: by 2002:a7b:cc0e:: with SMTP id f14mr30057659wmh.39.1589182882327;
+        Mon, 11 May 2020 00:41:22 -0700 (PDT)
+Received: from dell ([2.31.163.63])
+        by smtp.gmail.com with ESMTPSA id y70sm26799304wmc.36.2020.05.11.00.41.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 00:41:21 -0700 (PDT)
+Date:   Mon, 11 May 2020 08:41:20 +0100
+From:   Lee Jones <lee.jones@linaro.org>
 To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <kishon@ti.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1586939108-10075-1-git-send-email-nkristam@nvidia.com>
- <1586939108-10075-7-git-send-email-nkristam@nvidia.com>
- <20200428105510.GH3592148@ulmo>
- <ea0f5906-4681-8b84-a55a-e959ce40aece@nvidia.com>
- <20200504155029.GB614153@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <229333de-8dd6-2d09-c8ad-99afdcec703f@nvidia.com>
-Date:   Mon, 11 May 2020 08:49:37 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mfd: max77620: Use single-byte writes on MAX77620
+Message-ID: <20200511074120.GB3548@dell>
+References: <20200417170913.2552327-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200504155029.GB614153@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589167059; bh=dhOCrrvTkzHB+DWGZHHMWxRBnVmIB3xIwhi9oro8Ae4=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=EjLINloir2HvrF0Xcs//fNNihRZi7fY12ShF48GOmR2ek7FpdH28Fd56VuOqH90Ea
-         eMgsFlP41Y3N4fqJBLDkoL/tOZiTQtp2RAYh1WXI5DZD5GnI6TH6P0HUH8j9QcTEui
-         uZgYjpVwQDhYs2dC/KOyG9pIgErQaf4Wj3moctX+6r+GWdo8yeIghs+CR56oKe4mgI
-         LvwhEC6Ox9J0FS58SL4NFlyEQ988BzhxYj3012lFzQkHdWN3UpKvrQjxA3EPrd1pNR
-         PpwckUh4jC8DUv7pSArMHGjGtTMOUv7H9uFVzsML82zs3J7hd+dQQ0yoS9SMRUEcIv
-         GUmi4oW+StK/Q==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200417170913.2552327-1-thierry.reding@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, 17 Apr 2020, Thierry Reding wrote:
 
-
-On 04-05-2020 21:20, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> On Mon, May 04, 2020 at 02:32:51PM +0530, Nagarjuna Kristam wrote:
->>> On 28-04-2020 16:25, Thierry Reding wrote:
->>>> On Wed, Apr 15, 2020 at 01:55:06PM +0530, Nagarjuna Kristam wrote:
-> [...]
->>>> diff --git a/drivers/phy/tegra/xusb-tegra-cd.c b/drivers/phy/tegra/xusb-tegra-cd.c
->>>> +static void tegra_xusb_padctl_utmi_pad_dcd(struct tegra_xusb_padctl *padctl,
->>>> +					      u32 index)
->>>> +{
->>>> +	u32 value;
->>>> +	int dcd_timeout_ms = 0;
->>>> +	bool ret = false;
->>>> +
->>>> +	/* Turn on IDP_SRC */
->>>> +	value = padctl_readl(padctl, USB2_BATTERY_CHRG_OTGPADX_CTL0(index));
->>>> +	value |= OP_I_SRC_EN;
->>>> +	padctl_writel(padctl, value, USB2_BATTERY_CHRG_OTGPADX_CTL0(index));
->>>> +
->>>> +	/* Turn on D- pull-down resistor */
->>>> +	value = padctl_readl(padctl, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
->>>> +	value |= USBON_RPD_OVRD_VAL;
->>>> +	padctl_writel(padctl, value, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
->>>> +
->>>> +	/* Wait for TDCD_DBNC */
->>>> +	usleep_range(10000, 120000);
->>>   From the comment this looks like we're waiting for some hardware
->>> condition. Can we somehow obtain this rather than implementing a fixed
->>> sleep? Especially since the range here is so large.
->>>
->> As per data sheet we need to wait for 10 micro seconds as settle time.
-> Okay, so TDCD_DBNC is a value that comes from a timing diagram in a
-> datasheet? Seems fine to leave it as-is then. Perhaps add parentheses
-> and mention which exact datasheet that's from, and perhaps which figure
-> so that people can more easily reference it. Provided there is a
-> publicly available datasheet, of course.
+> The MAX77620 doesn't support bulk writes, so make sure the regmap code
+> breaks bulk writes into multiple single-byte writes.
 > 
-Will update reference to table in the data sheet where these values are 
-recommended. ITs part of BC 1.2 spec from USB.
+> Note that this is mostly cosmetic because currently only the RTC sub-
+> driver uses bulk writes and the RTC driver ends up using a different
+> regmap on the MAX77620 anyway. However, it seems like a good idea to
+> make this change now in order to avoid running into issues if bulk
+> writes are ever used by other sub-drivers sometime down the road.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/mfd/max77620.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-> Actually, one other thing: If the data sheet says to wait 10 us, why do
-> you use an upper range of 120 us? Shouldn't a range of 10-20 us be good
-> enough?
-> Yes, will reduce it to 20ms.
+Applied, thanks.
 
--Nagarjuna
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
