@@ -2,71 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 081141CD5A4
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 11:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EB101CD767
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 13:14:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729046AbgEKJrf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 May 2020 05:47:35 -0400
-Received: from foss.arm.com ([217.140.110.172]:55006 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728209AbgEKJre (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 May 2020 05:47:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31DFC1FB;
-        Mon, 11 May 2020 02:47:34 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1734D3F305;
-        Mon, 11 May 2020 02:47:32 -0700 (PDT)
-Date:   Mon, 11 May 2020 10:47:27 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Fix reporting GPIO error value
-Message-ID: <20200511094727.GA24149@e121166-lin.cambridge.arm.com>
-References: <20200414102512.27506-1-pali@kernel.org>
+        id S1729215AbgEKLOX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 May 2020 07:14:23 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4328 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725993AbgEKLOX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 11 May 2020 07:14:23 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id B94A1FEFA1A624C5B161;
+        Mon, 11 May 2020 19:14:18 +0800 (CST)
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 11 May 2020 19:14:09 +0800
+From:   Samuel Zou <zou_wei@huawei.com>
+To:     <mchehab@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
+CC:     <skomatineni@nvidia.com>, <linux-media@vger.kernel.org>,
+        <devel@driverdev.osuosl.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Samuel Zou <zou_wei@huawei.com>
+Subject: [PATCH -next] media: tegra: Make tegra210_video_formats static
+Date:   Mon, 11 May 2020 19:20:15 +0800
+Message-ID: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200414102512.27506-1-pali@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-CFilter-Loop: Reflected
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 12:25:12PM +0200, Pali Rohár wrote:
-> Error code is stored in rp->reset_gpio and not in err variable.
-> 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
-> ---
->  drivers/pci/controller/pci-tegra.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Fix the following sparse warning:
 
-Applied to pci/tegra, thanks.
+drivers/staging/media/tegra-video/tegra210.c:589:33: warning: symbol 'tegra210_video_formats' was not declared.
 
-Lorenzo
+The tegra210_video_formats has only call site within tegra210.c
+It should be static
 
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index 0e03cef72840..378d5a8773c7 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -2314,8 +2314,8 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  			if (PTR_ERR(rp->reset_gpio) == -ENOENT) {
->  				rp->reset_gpio = NULL;
->  			} else {
-> -				dev_err(dev, "failed to get reset GPIO: %d\n",
-> -					err);
-> +				dev_err(dev, "failed to get reset GPIO: %ld\n",
-> +					PTR_ERR(rp->reset_gpio));
->  				return PTR_ERR(rp->reset_gpio);
->  			}
->  		}
-> -- 
-> 2.20.1
-> 
+Fixes: 423d10a99b30 ("media: tegra: Add Tegra210 Video input driver")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Samuel Zou <zou_wei@huawei.com>
+---
+ drivers/staging/media/tegra-video/tegra210.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
+index 2045609..3baa4e3 100644
+--- a/drivers/staging/media/tegra-video/tegra210.c
++++ b/drivers/staging/media/tegra-video/tegra210.c
+@@ -586,7 +586,7 @@ enum tegra210_image_format {
+ }
+ 
+ /* Tegra210 supported video formats */
+-const struct tegra_video_format tegra210_video_formats[] = {
++static const struct tegra_video_format tegra210_video_formats[] = {
+ 	/* RAW 8 */
+ 	TEGRA210_VIDEO_FMT(RAW8, 8, SRGGB8_1X8, 1, T_L8, SRGGB8),
+ 	TEGRA210_VIDEO_FMT(RAW8, 8, SGRBG8_1X8, 1, T_L8, SGRBG8),
+-- 
+2.6.2
+
