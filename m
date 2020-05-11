@@ -2,101 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CCDE1CDA9D
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 15:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 366201CDD22
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 16:28:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbgEKNAq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 May 2020 09:00:46 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17033 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727827AbgEKNAq (ORCPT
+        id S1729463AbgEKO2G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 May 2020 10:28:06 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:32495 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725993AbgEKO2G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 May 2020 09:00:46 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eb94bf70005>; Mon, 11 May 2020 05:58:31 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 11 May 2020 06:00:46 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 11 May 2020 06:00:46 -0700
-Received: from [10.26.74.25] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 11 May
- 2020 13:00:44 +0000
-Subject: Re: [GIT PULL] arm64: tegra: Default configuration fixes for v5.7-rc4
-To:     Thierry Reding <thierry.reding@gmail.com>, <arm@kernel.org>,
-        <soc@kernel.org>
-CC:     <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200430105700.167199-1-thierry.reding@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <384ae777-3e3c-8244-0645-13d9c7a8eb37@nvidia.com>
-Date:   Mon, 11 May 2020 14:00:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Mon, 11 May 2020 10:28:06 -0400
+X-Originating-IP: 86.202.105.35
+Received: from localhost (lfbn-lyo-1-9-35.w86-202.abo.wanadoo.fr [86.202.105.35])
+        (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id E5271240014;
+        Mon, 11 May 2020 14:27:59 +0000 (UTC)
+Date:   Mon, 11 May 2020 16:27:59 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] rtc: max77686: Use single-byte writes on MAX77620
+Message-ID: <20200511142759.GS34497@piout.net>
+References: <20200417170825.2551367-1-thierry.reding@gmail.com>
+ <20200417170825.2551367-3-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200430105700.167199-1-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589201911; bh=oPxaLJJLXpOzcbjWYs7b5HPDSqzPDCu4tyqmLQjNRvU=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=NMDHjwc+JHurWicn7HXc6nMWUcIgvO7OqXqcZiRmDku1eAOjUrHhjt5VpXiSgBfHa
-         SgjawDFB98k6jf+fz8oDHaxsdatYqz4v5LnfaChL4EwPiVkH3YBQ1xl8VEpJMIXA+c
-         oDpHheAoPRJhTg8dJhWvKcPhhEL3A2ZFk/r7pnZmc7BWuuS9lBmMs4BlFskZDXi2/W
-         hcm9LAHuvgYurmjlwuyeqbSUj41aLJKtqWJoi0MaXr4jCo8abVmigYpx1YZ4OyajMG
-         KT49JTsfVblD/ibYhNCLy0ZgWqLsmWZFV59F1Z6Z2O1G8MiZbKhyfPUSmNK2dgRZ7y
-         RTOOP8hiNdt3g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200417170825.2551367-3-thierry.reding@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 30/04/2020 11:57, Thierry Reding wrote:
-> Hi ARM SoC maintainers,
+On 17/04/2020 19:08:25+0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+> The MAX77620 doesn't support bulk writes, so make sure the regmap code
+> breaks bulk writes into multiple single-byte writes.
 > 
->   Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/rtc/rtc-max77686.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
 > 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.7-arm64-defconfig-fixes
-> 
-> for you to fetch changes up to 90670f0ef690f9c8712f236e8cf14c156c9a6365:
-> 
->   arm64: defconfig: Re-enable Tegra PCIe host driver (2020-04-14 16:15:00 +0200)
-> 
-> Thanks,
-> Thierry
-> 
-> ----------------------------------------------------------------
-> arm64: tegra: Default configuration fixes
-> 
-> This contains a single fix to reenable the Tegra194 PCIe host support by
-> default that was inadvertently dropped as a result of the host/endpoint
-> mode support that was added in v5.7-rc1.
-> 
-> ----------------------------------------------------------------
-> Jon Hunter (1):
->       arm64: defconfig: Re-enable Tegra PCIe host driver
-> 
->  arch/arm64/configs/defconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-
-
-Please can you pick this up for v5.7 fixes?
-
-Thanks!
-Jon
+Applied, thanks.
 
 -- 
-nvpublic
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
