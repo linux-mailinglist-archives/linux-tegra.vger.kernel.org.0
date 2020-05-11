@@ -2,76 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0251E1CE509
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 22:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C0991CE573
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 22:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729329AbgEKUG5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 May 2020 16:06:57 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10535 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729215AbgEKUG4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 May 2020 16:06:56 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eb9b0160000>; Mon, 11 May 2020 13:05:42 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 11 May 2020 13:06:56 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 11 May 2020 13:06:56 -0700
-Received: from [10.2.160.186] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 11 May
- 2020 20:06:56 +0000
-Subject: Re: [PATCH -next] media: tegra: Make tegra210_video_formats static
-To:     Samuel Zou <zou_wei@huawei.com>, <mchehab@kernel.org>,
-        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-media@vger.kernel.org>, <devel@driverdev.osuosl.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <095bb6a1-c4a0-1983-ac5e-701969aa3346@nvidia.com>
-Date:   Mon, 11 May 2020 13:06:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1731599AbgEKU2B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 May 2020 16:28:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727873AbgEKU2A (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 11 May 2020 16:28:00 -0400
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6B0AC20752;
+        Mon, 11 May 2020 20:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589228880;
+        bh=Nz6bTgIxUAn7rUabLhD1q1zn78Zqka5bB1ueKi/F2BQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BHozvJi5BG8Yx/0T1MOrqp/qMMQOQIlc2yfH0wPjmH/W9fNac63HYVSf2O8XDHI56
+         3nbcJXGDJMUfQtOuLBmNgCjEWHwTdwnZL8xE0ahfvEX2w7PaV36yNitkgO9OuD0ZZe
+         GyJmzLOxCr5+zPeCvxtUMeNbWYv6ICCl1TxnndHs=
+Received: by mail-oo1-f46.google.com with SMTP id b3so544907oob.0;
+        Mon, 11 May 2020 13:28:00 -0700 (PDT)
+X-Gm-Message-State: AGi0PuawI/I9uFwl4pQ+ACBzoIGhoHPaYr/0cPag8xnzNcDfJGWFXJV0
+        hHuDwFNv/o+PFpCMNGB+/GArWh/xac77DilcBg==
+X-Google-Smtp-Source: APiQypLSBJzRE+cCsGihwUlGGjWJH9/vO5uxkoJWXIl2XNbr12Oy6bpN1iK3mElpqX8cGoxAID5e8vKZk15IV0bTy4E=
+X-Received: by 2002:a4a:9285:: with SMTP id i5mr14814535ooh.50.1589228879703;
+ Mon, 11 May 2020 13:27:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589227542; bh=8NkRMhmEgp8vXL9arKWTRj7av/YgRy1DwkZ7Z7QGPWE=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=D8FW17cg1BSjdvPU1ki890GVx4lYKBEGU6UFG0wwJ4u96XRHd5+fc6+xKa0yNuXWH
-         Zskx93VyA9IjGdy1i+JpzQzs1L1pLn0r4zRok4JZjSP3HGvUtQPTOLbinaXw+qALoV
-         xu1VsC/Kk3vHwmVyIcA+EfuMptOQcusr1SxSCD5vvDPXwM10XCgZD0JXx0xuu99maw
-         xm5VdHS4SfKrfcrN2bi7N0HqCRfIgcJ0Y+QXyIvtCX1nnqduQRuqWY641yQFbLPqIM
-         U2NXXRNVr97FzDGtyVrtjk0kWjwxsua1t4mKBGuJBCZwD6SIpSjBWk1GO/bMVYZ7KU
-         vUHA4XF2lBpXA==
+References: <20200418170703.1583-1-digetx@gmail.com> <20200418170703.1583-2-digetx@gmail.com>
+ <20200506163237.GA19296@ravnborg.org>
+In-Reply-To: <20200506163237.GA19296@ravnborg.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 11 May 2020 15:27:47 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+xU4p+CQ=xzvgcktCo9i=SfHajMgbZ1DKOVzo+hCYdCw@mail.gmail.com>
+Message-ID: <CAL_Jsq+xU4p+CQ=xzvgcktCo9i=SfHajMgbZ1DKOVzo+hCYdCw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] of_graph: add of_graph_get_local_port()
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, May 6, 2020 at 11:32 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Dmitry
+>
+> On Sat, Apr 18, 2020 at 08:06:58PM +0300, Dmitry Osipenko wrote:
+> > In some case, like a DRM display code for example, it's useful to silently
+> > check whether port node exists at all in a device-tree before proceeding
+> > with parsing the graph.
+> >
+> > This patch adds of_graph_get_local_port() which returns pointer to a local
+> > port node, or NULL if graph isn't specified in a device-tree for a given
+> > device node.
+> >
+> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> Nice little helper function.
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>
+> Rob - OK to commit to drm-misc-next?
 
-On 5/11/20 4:20 AM, Samuel Zou wrote:
-> Fix the following sparse warning:
->
-> drivers/staging/media/tegra-video/tegra210.c:589:33: warning: symbol 'tegra210_video_formats' was not declared.
->
-> The tegra210_video_formats has only call site within tegra210.c
-> It should be static
->
-> Fixes: 423d10a99b30 ("media: tegra: Add Tegra210 Video input driver")
-> Reported-by: Hulk Robot<hulkci@huawei.com>
-> Signed-off-by: Samuel Zou<zou_wei@huawei.com>
-> ---
->   drivers/staging/media/tegra-video/tegra210.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-Acked-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Yes, that's why I gave my R-by.
+
+Rob
