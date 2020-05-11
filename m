@@ -2,94 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 144EC1CE2AD
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 20:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C5341CE474
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 May 2020 21:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731188AbgEKS1k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 May 2020 14:27:40 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:43149 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731176AbgEKS1j (ORCPT
+        id S1731456AbgEKT3A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 May 2020 15:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731353AbgEKT27 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 May 2020 14:27:39 -0400
-Received: by mail-oi1-f195.google.com with SMTP id j16so15937987oih.10;
-        Mon, 11 May 2020 11:27:38 -0700 (PDT)
+        Mon, 11 May 2020 15:28:59 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62FC5C061A0C;
+        Mon, 11 May 2020 12:28:59 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id k1so12462812wrx.4;
+        Mon, 11 May 2020 12:28:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=ZAtH0faIljYlKbUs4LOqwPvsHvq1UMeElD7Sjj/OCPg=;
+        b=eSLzEC3SAsl3cXTDCPbtCGyX8b2dFryfRulWYzicOAsqusDu34FRZwOuHH8HUh0qBI
+         XuQumhjFb9KdzljstM2R5RpVmMwrhlQj2RVC6Ada+RHuVbMZ0IPfH+d4DZh+X9V/Ppnq
+         YisCkeowg2JpZIpfvSzft5Sb0pHA8TuG6pQyRvkbDMaBRv4hvL36txLFMflZ8J+XAPqL
+         FylG7Ts6DqwWevPNj80HwojO2onvzq3dWqgtWiBTmVrxmunF66B0/62AoV4+dzl5r7cv
+         Ab8B2Sxi5nsVHLq9W4zBpFtrdW4NyVjRt5JJcvc1rO6RsHZmEUzSgGtSk9tVTY/T4LG+
+         9oqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8UqBS1lQR2q+XxDhxu6aNZ/bIhX5PHWACaiv6Dgd2LQ=;
-        b=YbHcgpDdJs5V45uRHYQDmKiW9LuZ5J7XKTLr5zolG5vbG2mWZISHY5pWw19EI8FoSP
-         X4Lj0qzDBC9iUdWNDJFeOkpHI461f8sH/BFvYefyz7xQLIw4czlvWNmVk2gA7/1U12kv
-         6oezpghRUpL/1ANP1hHbO09D8EqJoATZ9JWxZynjELgdg+7IbaEmZLde7bfS4Y8tHpzB
-         j5tW4PZ/kRTYv0trpgddIF90EvCwqGJp08YD4fHtTJD/QkRD63aaxP/NaQMVg22ki/Zi
-         L6mwP74FOcxAp2lM769MC/WWq6E51/f3u+fXXdMXsmCNQFRG8Oz5bTzLqq9SWhB0NQQF
-         qO4Q==
-X-Gm-Message-State: AGi0PubTgzysPV3v8gJN0rTW4BdPaLyKIdo5dMgg8v1+ouZSp6Flpke3
-        i3ryUmxs6B7u28IAwJGnNA==
-X-Google-Smtp-Source: APiQypK6P/hEdy6mo2ATCuUvZ14EVXN/An88waBSg+NBZOfZZiZiojO0qq3eBtkwOGsdP9sQoPEKeg==
-X-Received: by 2002:aca:4ac3:: with SMTP id x186mr11881071oia.81.1589221658261;
-        Mon, 11 May 2020 11:27:38 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v27sm2942183oov.14.2020.05.11.11.27.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ZAtH0faIljYlKbUs4LOqwPvsHvq1UMeElD7Sjj/OCPg=;
+        b=QG2qnpcfbV5lHkvqOtBE4E+Ria0WZd1y8HxGNnDgLQ7YihHRnjkCGGq7C7zmcfts9e
+         B/px4bZZIqJSiOjX4FAvH9QebmZHiuQ+T9h05EKu2LxfiGDxVEwDaPNbqe0UBq6yooy6
+         xgK8W+gfmAHaNpUB12Fcdd471SgW0/eCW4RjTokNrZE+A1kvlQFjRfLqPSbMjLecZDbI
+         STEgj6TQs4n9iRhrdcLl/49+x/eumSZRjmXaPxGXnuNccphEwooyV3qCpRTGnMGouSSz
+         P+GEa1cgrRf9GOtvLemKPr6HUPBNwvn0pOujeN+BuKJ8jztkIp5S14WJW1LWORWlNHTE
+         w25g==
+X-Gm-Message-State: AGi0Pub3/oAGfHUuWFArlxk/BrJ70iVbSMI37FNT9cSmKFECCP2X4KGr
+        GqeLwNvERcyp6ENHIBy+/0c=
+X-Google-Smtp-Source: APiQypL550SiDakiWSzBnEQgDEpmGUtS2Kxf+BKvqRsSGWbsDn8qXbb87i4v281xXMYsGjt4jNmqOA==
+X-Received: by 2002:a5d:4008:: with SMTP id n8mr7444252wrp.82.1589225338114;
+        Mon, 11 May 2020 12:28:58 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2dce:7200:7930:ad7c:21cb:6736])
+        by smtp.gmail.com with ESMTPSA id u9sm7218846wmb.19.2020.05.11.12.28.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 11:27:37 -0700 (PDT)
-Received: (nullmailer pid 18590 invoked by uid 1000);
-        Mon, 11 May 2020 17:17:43 -0000
-Date:   Mon, 11 May 2020 12:17:43 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 11 May 2020 12:28:57 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Joseph Lo <josephl@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] memory: tegra: EMC scaling is not a clock provider
-Message-ID: <20200511171743.GA16850@bogus>
-References: <20200506123236.7463-1-geert+renesas@glider.be>
- <20200507200718.GD2981633@ulmo>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200507200718.GD2981633@ulmo>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: correct path in TEGRA VIDEO DRIVER
+Date:   Mon, 11 May 2020 21:28:44 +0200
+Message-Id: <20200511192844.11044-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 07, 2020 at 10:07:18PM +0200, Thierry Reding wrote:
-> On Wed, May 06, 2020 at 02:32:34PM +0200, Geert Uytterhoeven wrote:
-> > 	Hi all,
-> > 
-> > The Tegra EMC scaling support code is not a clock provider, but merely a
-> > clock consumer, and thus does not need to include
-> > <linux/clk-provider.h>.
-> > 
-> > However, drivers/memory/tegra/tegra210-emc-table.c relies on
-> > tegra210-emc.h to include <linux/of.h> through <linux/clk-provider.h>.
-> > Hence the first patch makes <linux/of_reserved_mem.h> self-contained
-> > first.
-> > 
-> > Thanks for your comments!
-> > 
-> > Geert Uytterhoeven (2):
-> >   of: Make <linux/of_reserved_mem.h> self-contained
-> >   memory: tegra: Drop <linux/clk-provider.h>
-> > 
-> >  drivers/memory/tegra/tegra210-emc-core.c | 1 -
-> >  drivers/memory/tegra/tegra210-emc.h      | 1 -
-> >  include/linux/of_reserved_mem.h          | 1 +
-> >  3 files changed, 1 insertion(+), 2 deletions(-)
-> 
-> Ah... I should've read the cover letter first. Looks like I need to take
-> that first patch through the Tegra tree as well to avoid introducing the
-> build error in the second patch.
-> 
-> Rob, do you mind if I pick up patch 1 of this into the same OF branch
-> that I already carry the memory-region-names patches on?
+Commit 423d10a99b30 ("media: tegra: Add Tegra210 Video input driver") added
+the driver to drivers/staging/media/tegra-video/, but commit 2c6b617f2cca
+("MAINTAINERS: Add Tegra Video driver section") added a file entry
+referring to drivers/staging/media/tegra/.
 
-No, it's fine.
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
 
-Acked-by: Rob Herring <robh@kernel.org>
+  warning: no file matches  F:  drivers/staging/media/tegra/
+
+Adjust the file entry in TEGRA VIDEO DRIVER to the correct path.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Sowjanya, please ack this minor patch.
+
+applies cleanly on next-20200511
+
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0abba1aff1ae..dd310f1c3bb7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16679,7 +16679,7 @@ L:	linux-media@vger.kernel.org
+ L:	linux-tegra@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+-F:	drivers/staging/media/tegra/
++F:	drivers/staging/media/tegra-video/
+ 
+ TEGRA XUSB PADCTL DRIVER
+ M:	JC Kuo <jckuo@nvidia.com>
+-- 
+2.17.1
+
