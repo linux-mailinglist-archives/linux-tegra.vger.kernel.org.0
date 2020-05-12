@@ -2,117 +2,190 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E40E41CFFE8
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 May 2020 22:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B3AB1D0005
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 May 2020 23:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726324AbgELUzs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 12 May 2020 16:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
+        id S1729619AbgELVAc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 12 May 2020 17:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725938AbgELUzr (ORCPT
+        by vger.kernel.org with ESMTP id S1728882AbgELVAb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 12 May 2020 16:55:47 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F29C061A0C;
-        Tue, 12 May 2020 13:55:47 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id j5so17647043wrq.2;
-        Tue, 12 May 2020 13:55:47 -0700 (PDT)
+        Tue, 12 May 2020 17:00:31 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C3F2C061A0E
+        for <linux-tegra@vger.kernel.org>; Tue, 12 May 2020 14:00:31 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id u15so15326861ljd.3
+        for <linux-tegra@vger.kernel.org>; Tue, 12 May 2020 14:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jp7GeaNDAqJlfR+e7XcP59HTgpKh1bKvuvHK4VwDL+w=;
-        b=SSp/+IVS9LX8TzdmNCCnRSFDbWo5oj4ZQO4HcQHbGJgm2HVL1XWTOf5iO16yrIyQRL
-         YSlbbfKgJ6dkIGjMLs3Dw288SYAGvQCsiuHsqH6+qMLStAJC4Eb364VyI9+5vtmv0Uxo
-         anCMszzM1P00E6yNHV1qciKp8DM00tyL+bPsrFQ/oATilaTOxbd3rY+gQePmEL2b86HL
-         1Wjr0F52LHwseLTT5lZRaOEE6ehaObnZs5CGwpf1miC3AwdkVlZ3v6A+5HCHe/Z7+5Yk
-         YGxQvwfdsg24yd/QO+rhz7zo/z3B8rLyC3Eu8fsfmLl/G+SEwjnvZGhJOsUsL1QmvnES
-         AvHA==
+        d=poorly.run; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=TDdEsiy1lD5BaG8worU3pfEwiy8TVHZ/OK/6hiOMkBQ=;
+        b=RFrsodxTsCdMDcQ0B7Lm3EsixY3LdaI1+OVIps49ZoFWYCOGlDFAB5lJO7dN6wAQOV
+         scwBlc1HXjxzj4mfj9JHfkqfA+0XS6g3aaghfXVv80FYYVFhuABYTTGrXdoL6ncQf4dT
+         pWsdlUJcelgB/v7AjD/q4992ZpzmFZEhY3OZjXIPO0JVggQepdu9n60DxKT3dEm3xErg
+         KFTkRFuOhVZqSbtzQjEkDmUGl4XWywDr0kwTM7ZdOOktys4+RqaKmUhXtvMaRldPBBBu
+         zrS/bzo8arfMKgwFRWigGHY8QYGOEdQJA6J4aK36/kwgVulFFtUyS/7dSCEOl1PmBohB
+         m5vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jp7GeaNDAqJlfR+e7XcP59HTgpKh1bKvuvHK4VwDL+w=;
-        b=VMnlhE4gMZ5KWOulMfg9DaxYL82y8/daW5hGE7RHuY4cxpjHhxwrYMVA3VVXak03jW
-         avHw+B1CBCsDwQYuvQlapB0YgWWN/n2t8hNUBChjghaKT+WtxHgMOUfGhvUrGJF/tbO6
-         13dl6YTQsp7a5EapnbLFf+R+QGqCp+q79bl5P5pB7AEOtlwrNSrUb2po+BnSEzUkrDiT
-         faV+RD7h5L8d706vPl2APXJruOZj+uBV0Z3bk23N757jhPQ+ORzUbA9Jf4J9E6WFoRTY
-         W1A3hEC9uCjH/yWq9WWXNwEOcK3Vhut2jATAWfN3/sw3HcGWv4QEXt8P3prcFlRM88no
-         XrDQ==
-X-Gm-Message-State: AGi0PuYvCpM8xyenDZUDcWAWSb5L/8neynJYgewCIcyuGJTmrqjkU9Ej
-        /tjkDvA7GHzyS7orVrVsYZ0=
-X-Google-Smtp-Source: APiQypIeT6aWn9V2z4if5f7/8c3cKK3rSrS1h05YMd/NU6FK/dfa9eaAksPaqw0t49JKBUlPPndKvQ==
-X-Received: by 2002:a05:6000:1ca:: with SMTP id t10mr26855242wrx.230.1589316946050;
-        Tue, 12 May 2020 13:55:46 -0700 (PDT)
-Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id g25sm32389123wmh.24.2020.05.12.13.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 13:55:44 -0700 (PDT)
-Date:   Tue, 12 May 2020 22:55:43 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Samuel Zou <zou_wei@huawei.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        jonathanh@nvidia.com, skomatineni@nvidia.com,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] media: tegra: Make tegra210_video_formats static
-Message-ID: <20200512205543.GC3864641@ulmo>
-References: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TDdEsiy1lD5BaG8worU3pfEwiy8TVHZ/OK/6hiOMkBQ=;
+        b=Kblst74yhxxAADKJggZTYRWCbFsheRbk2OHEIPQBkUp8w/eu1De+XcMzisahjlGdSf
+         La56cZyqdh/wEdRNbOhVAbIVptaxGJf1hC4NVa1/kg1VLAAkfO8E4YnN26bEKYTKvVf/
+         +kJOJJdnC5DCeFwiyo5xYq4PWs9sT8Lzpm6JUFs3EbI+5NF4Ei5OuxejtpJzkYICdUn2
+         SVcrrLFJON8XwbZW3cD5MlIg8QKNgW1YWp1/tYmn4HNwwWX7DIg7ygLU7JNIu6ilYUqs
+         S4hZwrwrkMznis/1BISVu3GcActmjv5uhesDZptHAjnW/GdpyHRMK1Z1arNlUsPAny80
+         lpTg==
+X-Gm-Message-State: AOAM533EuG0p7GyFs914rWerWst9VQDRKcubC3LMgoyUKmfCbLY0kbnu
+        lbdK3LxZzXJLllh/bwisOpi2pz9a7sUoLl+OfabBWw==
+X-Google-Smtp-Source: ABdhPJwf2XbHn64f/pzEGlh7y/CxqM3rg7OqY0mu+g2r0Irzp74CC5oIv2nH/0mHE3u+OoFIutEpx9VWuzzH0188Js4=
+X-Received: by 2002:a2e:96cd:: with SMTP id d13mr14284184ljj.219.1589317229927;
+ Tue, 12 May 2020 14:00:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
-Content-Disposition: inline
-In-Reply-To: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <20200306002112.255361-1-dbasehore@chromium.org>
+ <ecbfb5f8-615a-4a88-5dac-de17158125bf@gmail.com> <CAGAzgsqpjZxh7PEL_Dy7HrFeFGm7+=F6cL3QG9KmK9CHvDWZ9g@mail.gmail.com>
+ <6dc9ef16-9671-6ce8-27e6-aa1f4c009ee2@gmail.com> <CAGAzgsrNrq+S+-5KEFVnJn6S5DRn1fKkToD5=KR911T9AOAF-w@mail.gmail.com>
+ <736ad1d2-4a28-87e8-62f7-28a5582c9fcf@gmail.com>
+In-Reply-To: <736ad1d2-4a28-87e8-62f7-28a5582c9fcf@gmail.com>
+From:   Sean Paul <sean@poorly.run>
+Date:   Tue, 12 May 2020 16:59:53 -0400
+Message-ID: <CAMavQKJtbha_o==X+MX6GmjfAMYvdLyubvCFg48Tbn1mdgo40w@mail.gmail.com>
+Subject: Re: [PATCH v10 0/2] Panel rotation patches
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     "dbasehore ." <dbasehore@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Apr 16, 2020 at 7:03 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 15.04.2020 00:32, dbasehore . =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Apr 14, 2020 at 2:18 PM Dmitry Osipenko <digetx@gmail.com> wrot=
+e:
+> >>
+> >> 14.04.2020 22:32, dbasehore . =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> Hi Dmitry, sorry for the late reply.
+> >>>
+> >>> On Sun, Mar 8, 2020 at 12:25 PM Dmitry Osipenko <digetx@gmail.com> wr=
+ote:
+> >>>>
+> >>>> 06.03.2020 03:21, Derek Basehore =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>> This adds the plumbing for reading panel rotation from the devicetr=
+ee
+> >>>>> and sets up adding a panel property for the panel orientation on
+> >>>>> Mediatek SoCs when a rotation is present.
+> >>>>
+> >>>> Hello Derek and everyone,
+> >>>>
+> >>>> I'm looking at adding display rotation support to NVIDIA Tegra DRM
+> >>>> driver because some devices have display panel physically mounted
+> >>>> upside-down, and thus, display controller's scan-out needs to be rot=
+ated
+> >>>> by 180=C2=B0 in this case.
+> >>>>
+> >>>> Derek, yours panel-rotation patches add support for assigning panel'=
+s
+> >>>> orientation to the connector, but then only primary display plane
+> >>>> receives rotation value in [1], while rotation needs to be applied t=
+o
+> >>>> all available overlay/cursor planes and this should happen in other
+> >>>> places than [1] as well.
+> >>>
+> >>> This is intended. We don't correct the output in the kernel. We
+> >>> instead rely on notifying userspace that the panel is rotated, then w=
+e
+> >>> handle it there.
+> >>>
+> >>>>
+> >>>> [1] drm_client_modeset_commit_atomic()
+> >>>>
+> >>>> Please also note that in a case of the scan-out rotation, plane's
+> >>>> coordinates need to be changed in accordance to the display's rotati=
+on.
+> >>>>
+> >>>> I looked briefly through the DRM code and my understanding that the =
+DRM
+> >>>> core currently doesn't support use-case where scan-out needs to rota=
+ted
+> >>>> based on a panel's orientation, correct? Is it the use-case you're
+> >>>> working on for the Mediatek driver?
+> >>>
+> >>> Yes, we rely on userspace to rotate the output. The major reason for
+> >>> this is because there may not be a "free" hardware rotation that can
+> >>> be applied to the overlay. Sean Paul and others also preferred that
+> >>> userspace control what is output to the screen instead of the kernel
+> >>> taking care of it. This code just adds the drm property to the panel.
+> >>>
+> >>
+> >> Could you please explain what that userspace is?
+> >
+> > This was added for Chrome OS, which uses its own graphics stack,
+> > Ozone, instead of Xorg.
+> >
+>
+> Thank you very much for the clarification.
+>
+> It's probably not a big problem for something monolithic and customized
+> like ChromeOS to issue a software update in order to take into account
+> all specifics of a particular device, but this doesn't work nicely for a
+> generic software, like a usual Linux distro.
+>
+> >> AFAIK, things like Xorg modesetting don't support that orientation pro=
+perty.
+>
+> In my case it's not only the display panel which is upside-down, but
+> also the touchscreen. Hence both display output and touchscreen input
+> need to be rotated at once, otherwise you'll end up with either display
+> or input being upside-down.
+>
+> The 180=C2=B0 rotation should be free on NVIDIA Tegra. There are no known
+> limitations for the planes and BSP kernel video driver handles the
+> plane's coordinates/framebuffer rotation within the driver.
+>
+> The kernel's input subsystem allows us to transparently (for userspace)
+> remap the touchscreen input (by specifying generic touchscreen
+> device-tree properties), while this is not the case for the DRM subsystem=
+.
+>
+> @Thierry, @Sean, @Daniel, could you please help me to understand how a
+> coordinated display / input rotation could be implemented, making the
+> rotation transparent to the user (i.e. avoiding xorg.conf hacking and
+> etc)? It should be nice if display's output could be flipped within the
+> DRM driver, hiding this fact from userspace.
 
---/Uq4LBwYP4y1W6pO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think the right thing to do is to fix userspace to respect this
+property, since that has the most communal benefit.
 
-On Mon, May 11, 2020 at 07:20:15PM +0800, Samuel Zou wrote:
-> Fix the following sparse warning:
->=20
-> drivers/staging/media/tegra-video/tegra210.c:589:33: warning: symbol 'teg=
-ra210_video_formats' was not declared.
->=20
-> The tegra210_video_formats has only call site within tegra210.c
-> It should be static
->=20
-> Fixes: 423d10a99b30 ("media: tegra: Add Tegra210 Video input driver")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Samuel Zou <zou_wei@huawei.com>
-> ---
->  drivers/staging/media/tegra-video/tegra210.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+However(!!) if you don't want to do that, how about inspecting the
+info->panel_orientation value after drm_panel_attach in tegra driver
+and then adjusting rotation values in the driver. Of course, you
+wouldn't want to expose the panel orientation property since you don't
+want userspaces to be double-rotating on you, but it's optional so
+you'd be fine.
 
-Applied, thanks.
+>
+> Will it be okay if we'll add a transparent-rotation support specifically
+> to the Tegra DRM driver? For example if device-tree contains
+> nvidia,display-flip-y property, then the Tegra DRM driver will take care
+> of rotating coordinates/framebuffer of the display planes.
 
-Thierry
+I don't think this is necessary, but it also wouldn't really be
+appropriate to put software attributes into devicetree anyways.
 
---/Uq4LBwYP4y1W6pO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl67DU0ACgkQ3SOs138+
-s6FvtA//e37GxkMc9E73ef/XZuzCXW0aTZUMH7NhzcWq6QuuXjKXb7wa77NAvMRh
-q+n5FaU2nK0cKhI6zdW9qmwF2pN6TKIAXeK5HSFfkUs+COwC8EwZT7REVBtMo3/T
-VAxyTWE/oZt6rgG+uPbmI5ahCy3zzsr20Z5+jk9YcdXZT92ZGa/hiDBV294OS/gx
-CCG1GXcbQWO98xw8EyZCRYIYfSRLTRVNq1nNjie95z99dJhEZ4/KNxnGBDBI6hzW
-zqIyiwSrlijNZvVcWaa+lWJ+ldrlxb54wbPhDRihe5y9moFzyxJevnCvQ8gXcix/
-SnxdqHWT++FP/6vaWpwtrwzcLqNg9D28sk1t/tkevBJX9FQ2mP3TZEn6JT0qKTK8
-+cqr16CNkC3myhPuznf6P/SdRrAw1gRT58+dwiEvXYeugUVgBQ/d+D1Q8fZlbBW0
-Tuq+hUDOSIeIWRNEMxjgwC4fTtUwOYMFvcbFUOO0+dCismX/dcxbhKcNZdxiqd9b
-fhoEfRxcJtFHoGAXF/4ThTDM5QXF+CnODkbpupWN8aQmN6lOAckpe9CIXgLlDTqu
-MBHhaSksQGsmoZ0h5e536irVvwPnVC35sDB8hx6sqpd5qW/1NTkUWWFEwYV6dk4I
-at7p0W9nfOMGz6D3HdMg2s2M8kCDOpSyqSTojBwIUFCPIPHV7vo=
-=/sE0
------END PGP SIGNATURE-----
-
---/Uq4LBwYP4y1W6pO--
+Sean
