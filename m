@@ -2,122 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18F0B1CFE95
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 May 2020 21:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E40E41CFFE8
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 May 2020 22:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727825AbgELTpd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 12 May 2020 15:45:33 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:44168 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbgELTpc (ORCPT
+        id S1726324AbgELUzs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 12 May 2020 16:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725938AbgELUzr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 12 May 2020 15:45:32 -0400
-Received: from [10.2.57.154] (searspoint.nvidia.com [216.228.112.21])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id C66151C044A;
-        Tue, 12 May 2020 13:45:29 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at avon.wwwdotorg.org
-Subject: Re: [PATCH 2/4] dt-bindings: sram: add documentation for
- reserved-only flag
-To:     Mian Yousaf Kaukab <ykaukab@suse.de>
-Cc:     robh+dt@kernel.org, robin.murphy@arm.com,
-        devicetree@vger.kernel.org, talho@nvidia.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, afaerber@suse.de,
-        arnd@arndb.de, gregkh@linuxfoundation.org
-References: <20200512144803.24344-1-ykaukab@suse.de>
- <20200512144803.24344-2-ykaukab@suse.de>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Autocrypt: addr=swarren@wwwdotorg.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <52f099e4-5c03-2141-f049-cd3adeb04c5b@wwwdotorg.org>
-Date:   Tue, 12 May 2020 13:45:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 12 May 2020 16:55:47 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F29C061A0C;
+        Tue, 12 May 2020 13:55:47 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id j5so17647043wrq.2;
+        Tue, 12 May 2020 13:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jp7GeaNDAqJlfR+e7XcP59HTgpKh1bKvuvHK4VwDL+w=;
+        b=SSp/+IVS9LX8TzdmNCCnRSFDbWo5oj4ZQO4HcQHbGJgm2HVL1XWTOf5iO16yrIyQRL
+         YSlbbfKgJ6dkIGjMLs3Dw288SYAGvQCsiuHsqH6+qMLStAJC4Eb364VyI9+5vtmv0Uxo
+         anCMszzM1P00E6yNHV1qciKp8DM00tyL+bPsrFQ/oATilaTOxbd3rY+gQePmEL2b86HL
+         1Wjr0F52LHwseLTT5lZRaOEE6ehaObnZs5CGwpf1miC3AwdkVlZ3v6A+5HCHe/Z7+5Yk
+         YGxQvwfdsg24yd/QO+rhz7zo/z3B8rLyC3Eu8fsfmLl/G+SEwjnvZGhJOsUsL1QmvnES
+         AvHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jp7GeaNDAqJlfR+e7XcP59HTgpKh1bKvuvHK4VwDL+w=;
+        b=VMnlhE4gMZ5KWOulMfg9DaxYL82y8/daW5hGE7RHuY4cxpjHhxwrYMVA3VVXak03jW
+         avHw+B1CBCsDwQYuvQlapB0YgWWN/n2t8hNUBChjghaKT+WtxHgMOUfGhvUrGJF/tbO6
+         13dl6YTQsp7a5EapnbLFf+R+QGqCp+q79bl5P5pB7AEOtlwrNSrUb2po+BnSEzUkrDiT
+         faV+RD7h5L8d706vPl2APXJruOZj+uBV0Z3bk23N757jhPQ+ORzUbA9Jf4J9E6WFoRTY
+         W1A3hEC9uCjH/yWq9WWXNwEOcK3Vhut2jATAWfN3/sw3HcGWv4QEXt8P3prcFlRM88no
+         XrDQ==
+X-Gm-Message-State: AGi0PuYvCpM8xyenDZUDcWAWSb5L/8neynJYgewCIcyuGJTmrqjkU9Ej
+        /tjkDvA7GHzyS7orVrVsYZ0=
+X-Google-Smtp-Source: APiQypIeT6aWn9V2z4if5f7/8c3cKK3rSrS1h05YMd/NU6FK/dfa9eaAksPaqw0t49JKBUlPPndKvQ==
+X-Received: by 2002:a05:6000:1ca:: with SMTP id t10mr26855242wrx.230.1589316946050;
+        Tue, 12 May 2020 13:55:46 -0700 (PDT)
+Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id g25sm32389123wmh.24.2020.05.12.13.55.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 13:55:44 -0700 (PDT)
+Date:   Tue, 12 May 2020 22:55:43 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Samuel Zou <zou_wei@huawei.com>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, skomatineni@nvidia.com,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] media: tegra: Make tegra210_video_formats static
+Message-ID: <20200512205543.GC3864641@ulmo>
+References: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200512144803.24344-2-ykaukab@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
+Content-Disposition: inline
+In-Reply-To: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/12/20 8:48 AM, Mian Yousaf Kaukab wrote:
-> Add documentation for the new optional flag added for SRAM driver.
 
-> diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
+--/Uq4LBwYP4y1W6pO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +  reserved-only:
-> +    description:
-> +      The flag indicating, that only SRAM reserved regions have to be remapped.
-> +      remapping type is selected depending upon no-memory-wc as usual.
-> +    type: boolean
+On Mon, May 11, 2020 at 07:20:15PM +0800, Samuel Zou wrote:
+> Fix the following sparse warning:
+>=20
+> drivers/staging/media/tegra-video/tegra210.c:589:33: warning: symbol 'teg=
+ra210_video_formats' was not declared.
+>=20
+> The tegra210_video_formats has only call site within tegra210.c
+> It should be static
+>=20
+> Fixes: 423d10a99b30 ("media: tegra: Add Tegra210 Video input driver")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Samuel Zou <zou_wei@huawei.com>
+> ---
+>  drivers/staging/media/tegra-video/tegra210.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-This feels a bit like a SW flag rather than a HW description, so I'm not
-sure it's appropriate to put it into DT.
+Applied, thanks.
 
-Are there any cases where the SW should map all of the SRAM, i.e. where
-we wouldn't expect to set reserved-only? I'd expect reserved-only to be
-the default, and perhaps only, mode of operation for the SRAM driver. If
-we can't do that because some SW currently expects to be able to map
-arbitrary portions of the SRAM, shouldn't that SW be fixed to tell the
-SRAM driver which parts it's using, hence still allowing the driver to
-only map in-use portions?
+Thierry
+
+--/Uq4LBwYP4y1W6pO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl67DU0ACgkQ3SOs138+
+s6FvtA//e37GxkMc9E73ef/XZuzCXW0aTZUMH7NhzcWq6QuuXjKXb7wa77NAvMRh
+q+n5FaU2nK0cKhI6zdW9qmwF2pN6TKIAXeK5HSFfkUs+COwC8EwZT7REVBtMo3/T
+VAxyTWE/oZt6rgG+uPbmI5ahCy3zzsr20Z5+jk9YcdXZT92ZGa/hiDBV294OS/gx
+CCG1GXcbQWO98xw8EyZCRYIYfSRLTRVNq1nNjie95z99dJhEZ4/KNxnGBDBI6hzW
+zqIyiwSrlijNZvVcWaa+lWJ+ldrlxb54wbPhDRihe5y9moFzyxJevnCvQ8gXcix/
+SnxdqHWT++FP/6vaWpwtrwzcLqNg9D28sk1t/tkevBJX9FQ2mP3TZEn6JT0qKTK8
++cqr16CNkC3myhPuznf6P/SdRrAw1gRT58+dwiEvXYeugUVgBQ/d+D1Q8fZlbBW0
+Tuq+hUDOSIeIWRNEMxjgwC4fTtUwOYMFvcbFUOO0+dCismX/dcxbhKcNZdxiqd9b
+fhoEfRxcJtFHoGAXF/4ThTDM5QXF+CnODkbpupWN8aQmN6lOAckpe9CIXgLlDTqu
+MBHhaSksQGsmoZ0h5e536irVvwPnVC35sDB8hx6sqpd5qW/1NTkUWWFEwYV6dk4I
+at7p0W9nfOMGz6D3HdMg2s2M8kCDOpSyqSTojBwIUFCPIPHV7vo=
+=/sE0
+-----END PGP SIGNATURE-----
+
+--/Uq4LBwYP4y1W6pO--
