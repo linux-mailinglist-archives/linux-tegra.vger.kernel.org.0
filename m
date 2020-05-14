@@ -2,62 +2,43 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E91331D2FF0
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 14:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3122E1D3C31
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 21:15:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726169AbgENMi7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 14 May 2020 08:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725955AbgENMi7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 14 May 2020 08:38:59 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A72C061A0C;
-        Thu, 14 May 2020 05:38:59 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id w64so151805wmg.4;
-        Thu, 14 May 2020 05:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MmmeNEZrjOkx1Cy+isBz9LxMlDnG3aHp30agruimX6g=;
-        b=Not+DOqiJAhwlYKuU8oWOQK9NW/ToXWF4bQYVipYB5pS9fdcUArbqrJJKIUi03KHOw
-         O/2iU2gJfR7svc+L6yQj/e7WSO2lH6sT6HxlCL55VQGyNsPPeQ7az35X6sjDrxfxM+hX
-         r+7lPVKbMtWmcU+hkab5bQyUgYiiolSXo0ZYpIhTo8lEPMde3y9YRvU57pJMcTYYd3hl
-         zmoHNrLUAlHl9HHs3OIstskWDJOBHj2jko811Hdc2nUEgLKIQWXcy568tHF83tP+esXy
-         Cw0LVZwKqb++tWGyhCKIL1Z/dm8bgxpJfnQXYY5XakTSVRutCO39bD64wizmBnU46/S5
-         I9Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MmmeNEZrjOkx1Cy+isBz9LxMlDnG3aHp30agruimX6g=;
-        b=dPg2hYo5b3e2fRVOvyYeiexbsaSL4P93sqLOeGbbBC/cxr2aOFmjyhSDletz0Z8L/+
-         C4gGT9T2yxcwmHPZmdaDgtvuYAYlKsFOqk91WPhHhCRCweXvqALpAIuwGxtN6b+xdtTl
-         2F+qkp4bzP9BzdqaO99SChL9F9udBvZhS6O4YV26EDTFHf/92jm2x15iGX4gjhE/5Bwm
-         eYIip1qvJwU8UXnpUzwr8W5TfKHVf/cmfAf+8T5Jf5x9AAnIp3YPll7lyBUfPbANM/Yy
-         584MxjEyKYE5fDY+6iYNArdMXPLb0kRKsYm6/u5Xn2HwwZe36VqcGGgQlA9HpMVBC7PJ
-         vxQA==
-X-Gm-Message-State: AGi0PuZY2EZ/6Ic3ucgOkMmC3+QelmCFArQaE3II/M+ZJD3ZvWrNflk0
-        lr+Z3ZgUMkeNAn107alHLqkDBWy/
-X-Google-Smtp-Source: APiQypIVDLtiquGPj4wJVqRcDwOwEPpLZpE1TaanWgY1lWPgqx7aIFcF2EZYU32+G/5D65PV3yc+Hw==
-X-Received: by 2002:a1c:6506:: with SMTP id z6mr19493129wmb.104.1589459937744;
-        Thu, 14 May 2020 05:38:57 -0700 (PDT)
-Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id y4sm3673729wro.91.2020.05.14.05.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 05:38:56 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     "David S. Miller" <davem@davemloft.net>
-Cc:     Hayes Wang <hayeswang@realtek.com>,
-        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH net/next] r8152: Use MAC address from device tree if available
-Date:   Thu, 14 May 2020 14:38:48 +0200
-Message-Id: <20200514123848.933199-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        id S1728053AbgENSwC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 14 May 2020 14:52:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49970 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728041AbgENSwB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 14 May 2020 14:52:01 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 385F720722;
+        Thu, 14 May 2020 18:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589482321;
+        bh=tf2ztxkAvM8sk5YuIjcwOdoi9GJMWD9JK3628o4+K3o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=T7zAaw7iWFoO8Wk3Vgu+//IrGN+hPpbsFt6kHtkye8EcoiyfzFI+oxInL6tr4kK27
+         rqdTQCp5/UxTSOei0f7q6QtXCZigXUBIicrXdFew6rbMIdTESX9/Q08Z1hd1uwHu3H
+         jIzIgM3FzVzFVK6FjnbWwbd0ElUVU05FmUjqphN8=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Thierry Reding <treding@nvidia.com>,
+        kbuild test robot <lkp@intel.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 09/62] phy: tegra: Select USB_COMMON for usb_get_maximum_speed()
+Date:   Thu, 14 May 2020 14:50:54 -0400
+Message-Id: <20200514185147.19716-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200514185147.19716-1-sashal@kernel.org>
+References: <20200514185147.19716-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -66,50 +47,39 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-If a MAC address was passed via the device tree node for the r8152
-device, use it and fall back to reading from EEPROM otherwise. This is
-useful for devices where the r8152 EEPROM was not programmed with a
-valid MAC address, or if users want to explicitly set a MAC address in
-the bootloader and pass that to the kernel.
+[ Upstream commit 0d5c9bc7c68009af04bbadf22306467674c6fb90 ]
 
+The usb_get_maximum_speed() function is part of the usb-common module,
+so enable it by selecting the corresponding Kconfig symbol.
+
+While at it, also make sure to depend on USB_SUPPORT because USB_PHY
+requires that. This can lead to Kconfig conflicts if USB_SUPPORT is not
+enabled while attempting to enable PHY_TEGRA_XUSB.
+
+Reported-by: kbuild test robot <lkp@intel.com>
+Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
+Link: https://lore.kernel.org/r/20200330101038.2422389-1-thierry.reding@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/r8152.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ drivers/phy/tegra/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 8f8d9883d363..1af72ec284ca 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1504,15 +1504,19 @@ static int determine_ethernet_addr(struct r8152 *tp, struct sockaddr *sa)
+diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
+index f9817c3ae85f0..2e66a123f5a2c 100644
+--- a/drivers/phy/tegra/Kconfig
++++ b/drivers/phy/tegra/Kconfig
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config PHY_TEGRA_XUSB
+ 	tristate "NVIDIA Tegra XUSB pad controller driver"
+-	depends on ARCH_TEGRA
++	depends on ARCH_TEGRA && USB_SUPPORT
++	select USB_COMMON
+ 	help
+ 	  Choose this option if you have an NVIDIA Tegra SoC.
  
- 	sa->sa_family = dev->type;
- 
--	if (tp->version == RTL_VER_01) {
--		ret = pla_ocp_read(tp, PLA_IDR, 8, sa->sa_data);
--	} else {
--		/* if device doesn't support MAC pass through this will
--		 * be expected to be non-zero
--		 */
--		ret = vendor_mac_passthru_addr_read(tp, sa);
--		if (ret < 0)
--			ret = pla_ocp_read(tp, PLA_BACKUP, 8, sa->sa_data);
-+	ret = eth_platform_get_mac_address(&dev->dev, sa->sa_data);
-+	if (ret < 0) {
-+		if (tp->version == RTL_VER_01) {
-+			ret = pla_ocp_read(tp, PLA_IDR, 8, sa->sa_data);
-+		} else {
-+			/* if device doesn't support MAC pass through this will
-+			 * be expected to be non-zero
-+			 */
-+			ret = vendor_mac_passthru_addr_read(tp, sa);
-+			if (ret < 0)
-+				ret = pla_ocp_read(tp, PLA_BACKUP, 8,
-+						   sa->sa_data);
-+		}
- 	}
- 
- 	if (ret < 0) {
 -- 
-2.24.1
+2.20.1
 
