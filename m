@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A39F31D3B75
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 21:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAEB61D3B31
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 21:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729689AbgENTC1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 14 May 2020 15:02:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55532 "EHLO mail.kernel.org"
+        id S1729376AbgENS7q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 14 May 2020 14:59:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56842 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729300AbgENSzH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 14 May 2020 14:55:07 -0400
+        id S1728305AbgENS4B (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 14 May 2020 14:56:01 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 835F0207ED;
-        Thu, 14 May 2020 18:55:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C581207FB;
+        Thu, 14 May 2020 18:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482507;
+        s=default; t=1589482561;
         bh=0R8mz2R+nq6sMxuEDlBQl2ByD9/WeJn9V11MB1lxkeo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ITAoa2upi41a1gNJxAag5PeQeb71f6kphVsvDLMDKH3UAoB7Y8NuVzKIjE+EoZQCx
-         C2IMFOD6+Ow7JJ6jMRyJqlbZg156nwCaThswz92ilSYgIg53Eo94W8rLV7rdh1sCNM
-         ujdAQiSef+2QRv4WuNMuGZjoWqRgVt6C12XMj+PM=
+        b=WTK01Ad5NsN2xWeeDtrjKNOv/mq4TzTk+B/M8AKZaGbadLEdT0k6UEZf+PIsSvi3q
+         GWDy40z7EWwTYiaL41DskiJCwK/671bVfkYMjs+jQPi0cjhwz3UpRYh2M02E3CORmj
+         zDDO6W2FHGkSqzahMpHFc8zwmJhfsWod+sNw7nps=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thierry Reding <treding@nvidia.com>,
@@ -30,12 +30,12 @@ Cc:     Thierry Reding <treding@nvidia.com>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 08/39] phy: tegra: Select USB_COMMON for usb_get_maximum_speed()
-Date:   Thu, 14 May 2020 14:54:25 -0400
-Message-Id: <20200514185456.21060-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 08/27] phy: tegra: Select USB_COMMON for usb_get_maximum_speed()
+Date:   Thu, 14 May 2020 14:55:31 -0400
+Message-Id: <20200514185550.21462-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185456.21060-1-sashal@kernel.org>
-References: <20200514185456.21060-1-sashal@kernel.org>
+In-Reply-To: <20200514185550.21462-1-sashal@kernel.org>
+References: <20200514185550.21462-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
