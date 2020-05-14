@@ -2,82 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FBEE1D1683
-	for <lists+linux-tegra@lfdr.de>; Wed, 13 May 2020 15:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47D281D277A
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 08:23:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387906AbgEMNya (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 13 May 2020 09:54:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47418 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387593AbgEMNya (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 13 May 2020 09:54:30 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E94652054F;
-        Wed, 13 May 2020 13:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589378069;
-        bh=OaCIyJaknHnXL4A2CM7xPhFVRnnkmUrAQr7NCYr0ZWo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FujL5I+sarhZUbmaL7dIqwNkRuJxH0NKNVktbQbYiAkWVKnFDX/BibiUV+JYONJZ2
-         GydfOikgiNggwDWrjauLcDc6XuWV84EfdkhQD68FTDmK2KkOPfpFQ9Qvg35Yf9Jvbo
-         +WngV9Nk5Uky9RIrV6ktKwruTgCOBPHiatH2PP2Q=
-Date:   Wed, 13 May 2020 15:54:27 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.6 000/118] 5.6.13-rc1 review
-Message-ID: <20200513135427.GB1309267@kroah.com>
-References: <20200513094417.618129545@linuxfoundation.org>
- <12592104-9a83-5b19-be42-5bbf92198ad7@nvidia.com>
+        id S1725876AbgENGWu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 14 May 2020 02:22:50 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17875 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725818AbgENGWu (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 14 May 2020 02:22:50 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ebce36f0000>; Wed, 13 May 2020 23:21:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 13 May 2020 23:22:50 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 13 May 2020 23:22:50 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 14 May
+ 2020 06:22:50 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 14 May 2020 06:22:49 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ebce3b60000>; Wed, 13 May 2020 23:22:48 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [PATCH V3 0/8] Tegra XUSB charger detect support
+Date:   Thu, 14 May 2020 11:52:35 +0530
+Message-ID: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12592104-9a83-5b19-be42-5bbf92198ad7@nvidia.com>
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589437295; bh=dCrSdDPfqMabU4Rtjih+53UFPUq2Jf/3H2721hE+UMo=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=Zjl0+N3ldDdS6Fdqyhin2/sjQ/i9t2fUGxhCN4ag/y3FWawpvpoBvMd2N0UQMiV54
+         gIKSaKsO7++kZ5OZC6Q4pO+yTzqX7qb99iAZiOcpV72RjpiKzkwDPopwd3UGffmLS1
+         Q+ZmgCxpzISerxMMXQF/vjYFRt1MYRhJd2+RXT4MUOv6OQoR9o1KTX2kRVfPmZYYTW
+         AEfjYOxZmUYxHWV3qIPIuUrIahKaLkk9VLsb2nsGaXGR809+XbYGGgxmtCWivajwRb
+         +J7VLprt5chwee2cDgUmhNYPji6iyYWkCU/6EYg1tr7JvbXXokSMojRIHlh6UVgJ7p
+         iOtPUYBZNOPGw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, May 13, 2020 at 02:46:31PM +0100, Jon Hunter wrote:
-> 
-> On 13/05/2020 10:43, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.6.13 release.
-> > There are 118 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri, 15 May 2020 09:41:20 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.13-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.6:
->     13 builds:	13 pass, 0 fail
->     26 boots:	26 pass, 0 fail
->     42 tests:	42 pass, 0 fail
-> 
-> Linux version:	5.6.13-rc1-gf1d28d1c7608
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+This patch series adds charger detect support on XUSB hardware used in
+Tegra210 and Tegra186 SoCs.
 
-Wonderful, thanks for testing all of these and letting me know.
+This patchset is composed with :
+ - dt bindings of XUSB Pad Controller
+ - Tegra XUSB device mode driver to add vbus_draw support 
+ - Tegra PHY driver for charger detect support
 
-greg k-h
+Tests done:
+ - Connect USB cable from ubuntu host to micro-B port of DUT to detect
+   SDP_TYPE charger
+ - Connect USB cable from external powered USB hub(which inturn connects
+   to ubuntu host) to micro-B port of DUT to detect CDP_TYPE charger.
+ - Connect USB cable from USB charger to micro-B port of DUT to detect
+   DCP_TYPE charger.
+DUT: Jetson-tx1, Jetson tx2.
+
+V3:
+ - Added ACKed-by details for PHY driver and DT changes.
+ - Functions and its arguments are aligned.
+ - Tabs are used for alignment of MACRO's
+ - For vbus_draw USDC callback, usb_phy set_power error is propogated.
+ - Fixed various comments given by thierry.
+V2:
+ - Added ACKed-by details for DT patches.
+ - All patches rebased.
+
+Nagarjuna Kristam (8):
+  dt-bindings: phy: tegra-xusb: Add charger-detect property
+  usb: gadget: tegra-xudc: Add vbus_draw support
+  phy: tegra: xusb: Add support for UTMI pad power control
+  phy: tegra: xusb: Add USB2 pad power control support for Tegra210
+  phy: tegra: xusb: Add soc ops API to enable UTMI PAD protection
+  phy: tegra: xusb: Add support for charger detect
+  phy: tegra: xusb: Enable charger detect for Tegra186
+  phy: tegra: xusb: Enable charger detect for Tegra210
+
+ .../bindings/phy/nvidia,tegra124-xusb-padctl.txt   |   4 +
+ drivers/phy/tegra/Makefile                         |   2 +-
+ drivers/phy/tegra/cd.c                             | 283 +++++++++++++++++++++
+ drivers/phy/tegra/xusb-tegra186.c                  |  92 +++++--
+ drivers/phy/tegra/xusb-tegra210.c                  | 223 +++++++++++-----
+ drivers/phy/tegra/xusb.c                           |  80 ++++++
+ drivers/phy/tegra/xusb.h                           |  22 ++
+ drivers/usb/gadget/udc/tegra-xudc.c                |  17 ++
+ 8 files changed, 638 insertions(+), 85 deletions(-)
+ create mode 100644 drivers/phy/tegra/cd.c
+
+-- 
+2.7.4
+
