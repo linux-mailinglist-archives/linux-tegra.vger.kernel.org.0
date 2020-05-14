@@ -2,108 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C921D2BB4
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 11:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E91331D2FF0
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 14:38:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726084AbgENJol (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 14 May 2020 05:44:41 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18803 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbgENJol (ORCPT
+        id S1726169AbgENMi7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 14 May 2020 08:38:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46360 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725955AbgENMi7 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 14 May 2020 05:44:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ebd127f0001>; Thu, 14 May 2020 02:42:23 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 14 May 2020 02:44:41 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 14 May 2020 02:44:41 -0700
-Received: from [10.25.73.206] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 14 May
- 2020 09:44:37 +0000
-Subject: Re: [PATCH V3 0/8] Tegra XUSB charger detect support
-To:     Felipe Balbi <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
- <87wo5e4zzi.fsf@kernel.org>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <de31ad94-6884-cf83-36c4-0a865bc01753@nvidia.com>
-Date:   Thu, 14 May 2020 15:16:48 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thu, 14 May 2020 08:38:59 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A72C061A0C;
+        Thu, 14 May 2020 05:38:59 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id w64so151805wmg.4;
+        Thu, 14 May 2020 05:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MmmeNEZrjOkx1Cy+isBz9LxMlDnG3aHp30agruimX6g=;
+        b=Not+DOqiJAhwlYKuU8oWOQK9NW/ToXWF4bQYVipYB5pS9fdcUArbqrJJKIUi03KHOw
+         O/2iU2gJfR7svc+L6yQj/e7WSO2lH6sT6HxlCL55VQGyNsPPeQ7az35X6sjDrxfxM+hX
+         r+7lPVKbMtWmcU+hkab5bQyUgYiiolSXo0ZYpIhTo8lEPMde3y9YRvU57pJMcTYYd3hl
+         zmoHNrLUAlHl9HHs3OIstskWDJOBHj2jko811Hdc2nUEgLKIQWXcy568tHF83tP+esXy
+         Cw0LVZwKqb++tWGyhCKIL1Z/dm8bgxpJfnQXYY5XakTSVRutCO39bD64wizmBnU46/S5
+         I9Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MmmeNEZrjOkx1Cy+isBz9LxMlDnG3aHp30agruimX6g=;
+        b=dPg2hYo5b3e2fRVOvyYeiexbsaSL4P93sqLOeGbbBC/cxr2aOFmjyhSDletz0Z8L/+
+         C4gGT9T2yxcwmHPZmdaDgtvuYAYlKsFOqk91WPhHhCRCweXvqALpAIuwGxtN6b+xdtTl
+         2F+qkp4bzP9BzdqaO99SChL9F9udBvZhS6O4YV26EDTFHf/92jm2x15iGX4gjhE/5Bwm
+         eYIip1qvJwU8UXnpUzwr8W5TfKHVf/cmfAf+8T5Jf5x9AAnIp3YPll7lyBUfPbANM/Yy
+         584MxjEyKYE5fDY+6iYNArdMXPLb0kRKsYm6/u5Xn2HwwZe36VqcGGgQlA9HpMVBC7PJ
+         vxQA==
+X-Gm-Message-State: AGi0PuZY2EZ/6Ic3ucgOkMmC3+QelmCFArQaE3II/M+ZJD3ZvWrNflk0
+        lr+Z3ZgUMkeNAn107alHLqkDBWy/
+X-Google-Smtp-Source: APiQypIVDLtiquGPj4wJVqRcDwOwEPpLZpE1TaanWgY1lWPgqx7aIFcF2EZYU32+G/5D65PV3yc+Hw==
+X-Received: by 2002:a1c:6506:: with SMTP id z6mr19493129wmb.104.1589459937744;
+        Thu, 14 May 2020 05:38:57 -0700 (PDT)
+Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id y4sm3673729wro.91.2020.05.14.05.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 05:38:56 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     Hayes Wang <hayeswang@realtek.com>,
+        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH net/next] r8152: Use MAC address from device tree if available
+Date:   Thu, 14 May 2020 14:38:48 +0200
+Message-Id: <20200514123848.933199-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <87wo5e4zzi.fsf@kernel.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589449343; bh=IjElWauWpJw92WntPBv2Q9z6+yo5qw4xWM56DjfOXrA=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=UFysw5t4oIzHzmyonRYLlW3RfxdrYITKUAEJOaiNz8TXpelUnGolk8wRFclt2gUsp
-         milukPQu8fyoz+ySK0BJ6vimiRDpWU2QZidyPER2HDyJP8mkaXRjiUdz84u5lB7Crz
-         SDZqkjVEoPM29GeGfEMaA/pVrwn9MPIvqnXeg58cHreZhExEC/JT+ss/Uj9hXwzoPj
-         WXmHMAq2reAs0aJoIf6Gl7y1E9P+yvuT9A/az7+svUa+Cy/90YH+SLVLNlTPythwx3
-         SfN2TehRuXTXPrMrgduBc3RJnRUWIr2CLMp9eMrFQ8IY4/MSlYdwTOo24z0EcvCLR+
-         31RExRP4EVujQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
+If a MAC address was passed via the device tree node for the r8152
+device, use it and fall back to reading from EEPROM otherwise. This is
+useful for devices where the r8152 EEPROM was not programmed with a
+valid MAC address, or if users want to explicitly set a MAC address in
+the bootloader and pass that to the kernel.
 
-On 14-05-2020 15:09, Felipe Balbi wrote:
-> Nagarjuna Kristam<nkristam@nvidia.com>  writes:
-> 
->> This patch series adds charger detect support on XUSB hardware used in
->> Tegra210 and Tegra186 SoCs.
->>
->> This patchset is composed with :
->>   - dt bindings of XUSB Pad Controller
->>   - Tegra XUSB device mode driver to add vbus_draw support
->>   - Tegra PHY driver for charger detect support
->>
->> Tests done:
->>   - Connect USB cable from ubuntu host to micro-B port of DUT to detect
->>     SDP_TYPE charger
->>   - Connect USB cable from external powered USB hub(which inturn connects
->>     to ubuntu host) to micro-B port of DUT to detect CDP_TYPE charger.
->>   - Connect USB cable from USB charger to micro-B port of DUT to detect
->>     DCP_TYPE charger.
->> DUT: Jetson-tx1, Jetson tx2.
->>
->> V3:
->>   - Added ACKed-by details for PHY driver and DT changes.
->>   - Functions and its arguments are aligned.
->>   - Tabs are used for alignment of MACRO's
->>   - For vbus_draw USDC callback, usb_phy set_power error is propogated.
->>   - Fixed various comments given by thierry.
->> V2:
->>   - Added ACKed-by details for DT patches.
->>   - All patches rebased.
->>
->> Nagarjuna Kristam (8):
->>    dt-bindings: phy: tegra-xusb: Add charger-detect property
->>    usb: gadget: tegra-xudc: Add vbus_draw support
->>    phy: tegra: xusb: Add support for UTMI pad power control
->>    phy: tegra: xusb: Add USB2 pad power control support for Tegra210
->>    phy: tegra: xusb: Add soc ops API to enable UTMI PAD protection
->>    phy: tegra: xusb: Add support for charger detect
->>    phy: tegra: xusb: Enable charger detect for Tegra186
->>    phy: tegra: xusb: Enable charger detect for Tegra210
-> Is there a hard-dependency between gadget and phy patches?
-> 
-> -- balbiNo dependency. They can be merged independently.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/net/usb/r8152.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-- Nagarjuna
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 8f8d9883d363..1af72ec284ca 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -1504,15 +1504,19 @@ static int determine_ethernet_addr(struct r8152 *tp, struct sockaddr *sa)
+ 
+ 	sa->sa_family = dev->type;
+ 
+-	if (tp->version == RTL_VER_01) {
+-		ret = pla_ocp_read(tp, PLA_IDR, 8, sa->sa_data);
+-	} else {
+-		/* if device doesn't support MAC pass through this will
+-		 * be expected to be non-zero
+-		 */
+-		ret = vendor_mac_passthru_addr_read(tp, sa);
+-		if (ret < 0)
+-			ret = pla_ocp_read(tp, PLA_BACKUP, 8, sa->sa_data);
++	ret = eth_platform_get_mac_address(&dev->dev, sa->sa_data);
++	if (ret < 0) {
++		if (tp->version == RTL_VER_01) {
++			ret = pla_ocp_read(tp, PLA_IDR, 8, sa->sa_data);
++		} else {
++			/* if device doesn't support MAC pass through this will
++			 * be expected to be non-zero
++			 */
++			ret = vendor_mac_passthru_addr_read(tp, sa);
++			if (ret < 0)
++				ret = pla_ocp_read(tp, PLA_BACKUP, 8,
++						   sa->sa_data);
++		}
+ 	}
+ 
+ 	if (ret < 0) {
+-- 
+2.24.1
+
