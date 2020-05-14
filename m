@@ -2,120 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A472A1D2869
-	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 09:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFC3A1D2B9D
+	for <lists+linux-tegra@lfdr.de>; Thu, 14 May 2020 11:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbgENHDy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 14 May 2020 03:03:54 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:11775 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725925AbgENHDy (ORCPT
+        id S1726067AbgENJjh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 14 May 2020 05:39:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725925AbgENJjh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 14 May 2020 03:03:54 -0400
-X-UUID: fcb38e2b35a447638b004c071c864383-20200514
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=dUbZ4h/pak8n0CVkjJFglNd+gPQf1JMPki21rpI0rB4=;
-        b=n6Sz4IPkrLAZYE/pA3143h6ZlgvdagIG5IWiBhuXBr2jSZQ0o9lfvwDsWcZPlVKmdw5ECq7EKIpCvIQo4zlnPcc7TX1xiZJM1S/sztzUFj9mdZb+Hvs9rHb5kXAVyEqKVr8nIigjGoEfef0duvVSuwaojy+NweWy+8kvQ9esy2c=;
-X-UUID: fcb38e2b35a447638b004c071c864383-20200514
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1275437998; Thu, 14 May 2020 15:03:42 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 14 May
- 2020 15:03:41 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 14 May 2020 15:03:41 +0800
-Message-ID: <1589439742.5899.2.camel@mhfsdcap03>
-Subject: Re: [PATCH V3 6/8] phy: tegra: xusb: Add support for charger detect
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Date:   Thu, 14 May 2020 15:02:22 +0800
-In-Reply-To: <1589437363-16727-7-git-send-email-nkristam@nvidia.com>
+        Thu, 14 May 2020 05:39:37 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51DFC061A0C;
+        Thu, 14 May 2020 02:39:36 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id f18so2715711lja.13;
+        Thu, 14 May 2020 02:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=OxS8vqvqj5Tr0ZkdHwRMNglsDe3G/PVMMHh5u2SO1wo=;
+        b=L1GlHQvutJlPEE4AR09vwVJi8jWRZBU0NQVjrR5YB5TTlYhyRu9f7l2D1IIcYDLrD1
+         CCH7HejECVIeADMWwdFi0UJm2fI47wg22JlnDZmnwQZ9cN0tCQXnxcnCStbL7NzbLxIz
+         Cp0iBciM+bDOx1JdlrEaYYEaQLyu/i9gwmRdcORbEJIdYfp6qEuE+gyNts3eQxtTjA1M
+         bKJ8PBhKpIOhgw5lNEpob0i6jWIYCySaZC8NhRkACOUAJg7ju5aiEtJZXRB2UufO3KSh
+         zbLzQzBBaPm+yHGVGXfkVeCV7BKeyyqFTa2jL4hMoMmliMHLuSNcuj2/cYP4OW0OTvLi
+         4GZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=OxS8vqvqj5Tr0ZkdHwRMNglsDe3G/PVMMHh5u2SO1wo=;
+        b=DIwioWobLwKFBqyA0eg5dmt7V5rVnosSoAgsXW3mB4ThJUlkHdKWGpaGgDijeo3jGp
+         lF4/x4h03X9GDhMs5VzIe+5EiwF7FujrT2dieb4JNKBYB9dfJeysubZ7Cvx04oTTXMCT
+         Z5Oy25aK4hJyFvbxk7D9R/RK285YmEehqgvKU5L8FzPXZyZY9VLn7s/KCc3NDvchQbJb
+         rwJGTNPyKTC+TELttNvvfPwsK0q7Pom2+r2duls0W9P6Zwm1L44bWSuhO9WvnLzCc8Gv
+         MsCYSN/ZRw+p+ydw1o0O371RMI+ZC9fg2/BIxufhllp7DsJ1LZ6RmbgqAWWXewlRq8Rx
+         8kOQ==
+X-Gm-Message-State: AOAM533lLUkVvCy4rbkqGfPaVflLq3GUjHCofoSmqaLErG9sR3G78gP7
+        TafU5yd0ibVsd5SaWRb28zk=
+X-Google-Smtp-Source: ABdhPJzKe0N7VQTiyNc655mi0DwcdGzeeMa2U/AI657syJNtZDcKKI3Q3Ik/9qKXjxLpGxvQRXgPyQ==
+X-Received: by 2002:a2e:9a82:: with SMTP id p2mr2240701lji.279.1589449175347;
+        Thu, 14 May 2020 02:39:35 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id a24sm1189084ljk.10.2020.05.14.02.39.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 14 May 2020 02:39:34 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, mark.rutland@arm.com, robh+dt@kernel.org,
+        kishon@ti.com
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: Re: [PATCH V3 0/8] Tegra XUSB charger detect support
+In-Reply-To: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
 References: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
-         <1589437363-16727-7-git-send-email-nkristam@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Date:   Thu, 14 May 2020 12:39:29 +0300
+Message-ID: <87wo5e4zzi.fsf@kernel.org>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 630653DF28017AEEC4A91D6B8F0C31D2D6B4094032B02BF0A5F4434F43D9BF9A2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-T24gVGh1LCAyMDIwLTA1LTE0IGF0IDExOjUyICswNTMwLCBOYWdhcmp1bmEgS3Jpc3RhbSB3cm90
-ZToNCj4gUGVyZm9ybSBjaGFyZ2VyLWRldGVjdCBvcGVyYXRpb24gaWYgY29ycmVzcG9uZGluZyBk
-dCBwcm9wZXJ0eSBpcyBlbmFibGVkLg0KPiBVcGRhdGUgdXNiLXBoeSB3aXRoIHRoZSBkZXRlY3Rl
-ZCBjaGFyZ2VyIHN0YXRlIGFuZCBtYXggY3VycmVudCB2YWx1ZXMuDQo+IFJlZ2lzdGVyIGNoYXJn
-ZXItZGV0ZWN0IEFQSSdzIG9mIHVzYi1waHkgdG8gcHJvdmlkZSBuZWVkZWQgZnVuY3Rpb25hbGl0
-aWVzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTmFnYXJqdW5hIEtyaXN0YW0gPG5rcmlzdGFtQG52
-aWRpYS5jb20+DQo+IC0tLQ0KPiBWMzoNCj4gIC0gQWxsaWdoZWQgZnVuY3Rpb25zIGFuZCBpdHMg
-YXJndW1lbnRzLg0KPiAgLSByZXBsYWNlZCBzcGFjZWQgYnkgdGFicyBmb3IgTUFDUk8gZGVmaW5p
-dGlvbiBhbGxpZ25tZW50cy4NCj4gIC0gVW5pZmllZCBwcmltYXJ5IGFuZCBzZWNvbmRhcnkgY2hh
-cmdlciBkZXRlY3QgQVBJJ3MuDQo+ICAtIFVzZWQgcmVhZGxfcG9sbF90aW1lb3V0IGluc3RlYWQg
-b2Ygd2hpbGUgbG9vcCBjb25kaXRpb24gY2hlY2sgZm9yIHJlZ2lzdGVyLg0KPiAgLSBGaXhlZCBv
-dGhlciBjb21tZW50cyBhcyBwZXIgaW5wdXRzIGZyb20gVGhpZXJyeS4NCj4gLS0tDQo+IFYyOg0K
-PiAgLSBQYXRjaCByZS1iYXNlZC4NCj4gLS0tDQo+ICBkcml2ZXJzL3BoeS90ZWdyYS9NYWtlZmls
-ZSB8ICAgMiArLQ0KPiAgZHJpdmVycy9waHkvdGVncmEvY2QuYyAgICAgfCAyODMgKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICBkcml2ZXJzL3BoeS90ZWdy
-YS94dXNiLmMgICB8ICA4MCArKysrKysrKysrKysrDQo+ICBkcml2ZXJzL3BoeS90ZWdyYS94dXNi
-LmggICB8ICAgNyArKw0KPiAgNCBmaWxlcyBjaGFuZ2VkLCAzNzEgaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvcGh5L3RlZ3JhL2NkLmMN
-Cj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3BoeS90ZWdyYS9NYWtlZmlsZSBiL2RyaXZlcnMv
-cGh5L3RlZ3JhL01ha2VmaWxlDQo+IGluZGV4IDg5Yjg0MDYuLmJlZmRmYzQgMTAwNjQ0DQo+IC0t
-LSBhL2RyaXZlcnMvcGh5L3RlZ3JhL01ha2VmaWxlDQo+ICsrKyBiL2RyaXZlcnMvcGh5L3RlZ3Jh
-L01ha2VmaWxlDQo+IEBAIC0xLDcgKzEsNyBAQA0KPiAgIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
-cjogR1BMLTIuMC1vbmx5DQo+ICBvYmotJChDT05GSUdfUEhZX1RFR1JBX1hVU0IpICs9IHBoeS10
-ZWdyYS14dXNiLm8NCj4gIA0KPiAtcGh5LXRlZ3JhLXh1c2IteSArPSB4dXNiLm8NCj4gK3BoeS10
-ZWdyYS14dXNiLXkgKz0geHVzYi5vIGNkLm8NCj4gIHBoeS10ZWdyYS14dXNiLSQoQ09ORklHX0FS
-Q0hfVEVHUkFfMTI0X1NPQykgKz0geHVzYi10ZWdyYTEyNC5vDQo+ICBwaHktdGVncmEteHVzYi0k
-KENPTkZJR19BUkNIX1RFR1JBXzEzMl9TT0MpICs9IHh1c2ItdGVncmExMjQubw0KPiAgcGh5LXRl
-Z3JhLXh1c2ItJChDT05GSUdfQVJDSF9URUdSQV8yMTBfU09DKSArPSB4dXNiLXRlZ3JhMjEwLm8N
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvcGh5L3RlZ3JhL2NkLmMgYi9kcml2ZXJzL3BoeS90ZWdy
-YS9jZC5jDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAuLmZkZGJlNGMN
-Cj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9kcml2ZXJzL3BoeS90ZWdyYS9jZC5jDQo+IEBAIC0w
-LDAgKzEsMjgzIEBADQo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiAr
-LyoNCj4gKyAqIENvcHlyaWdodCAoYykgMjAyMCwgTlZJRElBIENPUlBPUkFUSU9OLiAgQWxsIHJp
-Z2h0cyByZXNlcnZlZC4NCj4gKyAqLw0KPiArDQo+ICsjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4N
-Cj4gKyNpbmNsdWRlIDxsaW51eC9pb3BvbGwuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9tb2R1bGUu
-aD4NCj4gKyNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gKyNpbmNsdWRlIDxs
-aW51eC9waHkvcGh5Lmg+DQo+ICsNCj4gKyNpbmNsdWRlICJ4dXNiLmgiDQo+ICsNCj4gKy8qIERh
-dGEgY29udGFjdCBkZXRlY3Rpb24gdGltZW91dCAqLw0KPiArI2RlZmluZSBURENEX1RJTUVPVVRf
-TVMJCQkJNDAwDQo+ICsNCj4gKyNkZWZpbmUgVVNCMl9CQVRURVJZX0NIUkdfT1RHUEFEWF9DVEww
-KHgpCSgweDgwICsgKHgpICogMHg0MCkNCj4gKyNkZWZpbmUgIFBEX0NIRwkJCQkJKDEgPDwgMCkN
-Cj4gKyNkZWZpbmUgIFZEQ0RfREVUX0ZJTFRFUl9FTgkJCSgxIDw8IDQpDQo+ICsjZGVmaW5lICBW
-REFUX0RFVAkJCQkoMSA8PCA1KQ0KPiArI2RlZmluZSAgVkRBVF9ERVRfRklMVEVSX0VOCQkJKDEg
-PDwgOCkNCj4gKyNkZWZpbmUgIE9QX1NJTktfRU4JCQkJKDEgPDwgOSkNCj4gKyNkZWZpbmUgIE9Q
-X1NSQ19FTgkJCQkoMSA8PCAxMCkNCj4gKyNkZWZpbmUgIE9OX1NJTktfRU4JCQkJKDEgPDwgMTEp
-DQo+ICsjZGVmaW5lICBPTl9TUkNfRU4JCQkJKDEgPDwgMTIpDQo+ICsjZGVmaW5lICBPUF9JX1NS
-Q19FTgkJCQkoMSA8PCAxMykNCj4gKyNkZWZpbmUgIFpJUF9GSUxURVJfRU4JCQkJKDEgPDwgMjEp
-DQo+ICsjZGVmaW5lICBaSU5fRklMVEVSX0VOCQkJCSgxIDw8IDI1KQ0KPiArI2RlZmluZSAgRENE
-X0RFVEVDVEVECQkJCSgxIDw8IDI2KQ0KVXNlIEJJVCgpID8NCj4gKw0KPiArI2RlZmluZSBVU0Iy
-X0JBVFRFUllfQ0hSR19PVEdQQURYX0NUTDEoeCkJKDB4ODQgKyAoeCkgKiAweDQwKQ0KPiArI2Rl
-ZmluZSAgUERfVlJFRwkJCQkoMSA8PCA2KQ0KPiArI2RlZmluZSAgVlJFR19MRVYoeCkJCQkJKCgo
-eCkgJiAweDMpIDw8IDcpDQo+ICsjZGVmaW5lICBWUkVHX0RJUih4KQkJCQkoKCh4KSAmIDB4Mykg
-PDwgMTEpDQo+ICsjZGVmaW5lICBWUkVHX0RJUl9JTgkJCQlWUkVHX0RJUigxKQ0KPiArI2RlZmlu
-ZSAgVlJFR19ESVJfT1VUCQkJCVZSRUdfRElSKDIpDQo+ICsjZGVmaW5lICBVU0JPUF9SUERfT1ZS
-RAkJCQkoMSA8PCAxNikNCj4gKyNkZWZpbmUgIFVTQk9QX1JQRF9PVlJEX1ZBTAkJCSgxIDw8IDE3
-KQ0KPiArI2RlZmluZSAgVVNCT1BfUlBVX09WUkQJCQkJKDEgPDwgMTgpDQo+ICsjZGVmaW5lICBV
-U0JPUF9SUFVfT1ZSRF9WQUwJCQkoMSA8PCAxOSkNCj4gKyNkZWZpbmUgIFVTQk9OX1JQRF9PVlJE
-CQkJCSgxIDw8IDIwKQ0KPiArI2RlZmluZSAgVVNCT05fUlBEX09WUkRfVkFMCQkJKDEgPDwgMjEp
-DQo+ICsjZGVmaW5lICBVU0JPTl9SUFVfT1ZSRAkJCQkoMSA8PCAyMikNCj4gKyNkZWZpbmUgIFVT
-Qk9OX1JQVV9PVlJEX1ZBTAkJCSgxIDw8IDIzKQ0KPiArDQo+ICsjZGVmaW5lIFhVU0JfUEFEQ1RM
-X1VTQjJfT1RHX1BBRFhfQ1RMMCh4KQkoMHg4OCArICh4KSAqIDB4NDApDQo+ICsjZGVmaW5lICBV
-U0IyX09UR19QRDIJCQkJKDEgPDwgMjcpDQo+ICsjZGVmaW5lICBVU0IyX09UR19QRDJfT1ZSRF9F
-TgkJCSgxIDw8IDI4KQ0KPiArI2RlZmluZSAgVVNCMl9PVEdfUERfWkkJCQkJKDEgPDwgMjkpDQo+
-ICsNCj4gKyNkZWZpbmUgWFVTQl9QQURDVExfVVNCMl9CQVRURVJZX0NIUkdfVERDRF9EQk5DX1RJ
-TUVSXzAgKDB4MjgwKQ0KPiArI2RlZmluZSAgIFREQ0RfREJOQyh4KQkJCQkoKCh4KSAmIDB4N2Zm
-KSA8PCAwKQ0KPiArDQo+ICtzdGF0aWMgdm9pZA0KPiArdGVncmFfeHVzYl9wYWRjdGxfc2V0X2Rl
-Ym91bmNlX3RpbWUoc3RydWN0IHRlZ3JhX3h1c2JfcGFkY3RsICpwYWRjdGwsDQo+ICsJCQkJICAg
-IHUzMiBkZWJvdW5jZSkNCg0K
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
+Nagarjuna Kristam <nkristam@nvidia.com> writes:
+
+> This patch series adds charger detect support on XUSB hardware used in
+> Tegra210 and Tegra186 SoCs.
+>
+> This patchset is composed with :
+>  - dt bindings of XUSB Pad Controller
+>  - Tegra XUSB device mode driver to add vbus_draw support=20
+>  - Tegra PHY driver for charger detect support
+>
+> Tests done:
+>  - Connect USB cable from ubuntu host to micro-B port of DUT to detect
+>    SDP_TYPE charger
+>  - Connect USB cable from external powered USB hub(which inturn connects
+>    to ubuntu host) to micro-B port of DUT to detect CDP_TYPE charger.
+>  - Connect USB cable from USB charger to micro-B port of DUT to detect
+>    DCP_TYPE charger.
+> DUT: Jetson-tx1, Jetson tx2.
+>
+> V3:
+>  - Added ACKed-by details for PHY driver and DT changes.
+>  - Functions and its arguments are aligned.
+>  - Tabs are used for alignment of MACRO's
+>  - For vbus_draw USDC callback, usb_phy set_power error is propogated.
+>  - Fixed various comments given by thierry.
+> V2:
+>  - Added ACKed-by details for DT patches.
+>  - All patches rebased.
+>
+> Nagarjuna Kristam (8):
+>   dt-bindings: phy: tegra-xusb: Add charger-detect property
+>   usb: gadget: tegra-xudc: Add vbus_draw support
+>   phy: tegra: xusb: Add support for UTMI pad power control
+>   phy: tegra: xusb: Add USB2 pad power control support for Tegra210
+>   phy: tegra: xusb: Add soc ops API to enable UTMI PAD protection
+>   phy: tegra: xusb: Add support for charger detect
+>   phy: tegra: xusb: Enable charger detect for Tegra186
+>   phy: tegra: xusb: Enable charger detect for Tegra210
+
+Is there a hard-dependency between gadget and phy patches?
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl69EdEACgkQzL64meEa
+mQb8sA//arcV2sJenLAVwznTaumNZT/wFev4shUg+YBRJMGWcpGLvoSIDp1isgKF
+RfHgWCgIywoyBulBpklhyz/aa1Z1g9ZAYMKnz08hbvmaTwrN3/YHArbi3nWhx1N4
+nqM0M9D0qFvsuYUENE7vlaVRnKtEzjQHvDl0c8G4ACUYmT5A3RWuvo4JNvdkKPiE
+52Apk0ccU/or8IGZIPO0DeYQR60KIr+hNjiBSPa7uY0RtyuRCvHJaiUrYw3PeIHg
+rk+/6eNdKR1XFIuwoboS6vg8OMvcVg4Kozyr/v0duk0AzhB66o7LyV8XQbtoITVH
+mizLxQvGas+dyi1PbcPOAuTuTjrrq1/Cpnwhkih/rZEDfJtBOUs5iud5ZQiz2+wz
++cvjKX5YF4UcfeFgAUi8536qnD+j5aKGgra9eWp+LgscTEYqOajZpK8QdvHqtcKK
+o/hXvC6dM5MxFQKfj3xvSNeoDFf8/jMwhYHx/bnYIXP5IbgGuwQ7dmZbF0W6Snrn
+zg8GEjjdjyzEB6aWVQ8EbybgqRoySodmDhXsNtbTzj9duGyc+I794FS2hsYw8Emy
+HntxrKiyf58VTjwcRE4FTlHJizLnk+eGZFCOReYPx3rIxjZbint8pkm6s/nLwIyq
+wJQezFji3PAJyJM8X1wB0iN1fA+QQKGuWeWmfcR3yivGaAgdJg0=
+=DTUT
+-----END PGP SIGNATURE-----
+--=-=-=--
