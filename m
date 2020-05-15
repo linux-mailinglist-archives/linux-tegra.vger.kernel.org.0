@@ -2,118 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 406161D57F1
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 19:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 169EC1D58E8
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 20:18:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726592AbgEORaw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 13:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726494AbgEORav (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 13:30:51 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC59DC061A0C;
-        Fri, 15 May 2020 10:30:49 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id h188so2493887lfd.7;
-        Fri, 15 May 2020 10:30:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=h/F90YLQpUp0HHTIQUShz3e2nnAFVjUCmhXhEdzbwnY=;
-        b=KibfLZUk0ftdUq5UDaH2o15irQFHqyz8gi8IqEMsrfk7C4YJfNpMj1v3aDGFgUiDl+
-         Ei/Kt5/khtVtNkdg/aICAD6wcWLCfORTzMRxOmigg+/vPxaELL+8f1WC/9y11fbjbHfc
-         GkSWrvrsVc/rgXn+5qNqg/TRJrPdhUTl+jp0IwbwXhNHIeTopMkk3ImSd+kEUIvFqBr+
-         Yqg6bF92+Qyql0MoOeSdMxXGCb9h+vlV3qey2xv/lkRFsB9TtIqHzC7xJlYRvN6c3ydT
-         twT6Vi7ldFq7ZGduwpM5To/mB8XIFwT2UhuzlXRkcydEWl9zsgVqe5PPOOGegc1+g2vc
-         B3mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=h/F90YLQpUp0HHTIQUShz3e2nnAFVjUCmhXhEdzbwnY=;
-        b=sEraOlyV+/B5BCM5fiPv4vnBkb/Xjerwg0gBuMwzgN1kTq5BEwxomuko6Dbk0nEhEi
-         /P7r56yrQmZvrsSjA+GhAOOPzvouDGVPy5MTEbRopvFU9Fh/OkXEGLtya5ILdLQow9v1
-         gm29tlcZCgVAnVtuGcigFqm5iEQ6ceJ8Aw1j9+b3+2f3+4oBiZTB1Whs7m8vX1e+zEQL
-         6MojS8lWiV4L/sbhcL2OJ2hbNrBOFdp4KmHp/bdI0Dyv5UHbg6n/KHMBgLmbxnl93UYq
-         eB/oSHgsiNAdykavktFI7pTwtaUGvVy6cGieDja844eSJaFt/oSvLRucR0m3hhw1CxgG
-         2m2A==
-X-Gm-Message-State: AOAM531H78aLFnwD4Natz1e6xv29Qd4AAoSNr9kXz3W2zcyixZjKeGRw
-        RwwKmMh32NnMukg4thTjJ+A+F+1L
-X-Google-Smtp-Source: ABdhPJzLU8VsfwD5/Dk7DrFX5XwnW81Mi8DgWZ+Ksz9fXlo1zTYn5GD+V6GGX8UA5KK8Mn9lMX5Wug==
-X-Received: by 2002:ac2:5ccf:: with SMTP id f15mr3073677lfq.216.1589563847942;
-        Fri, 15 May 2020 10:30:47 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id j24sm1471099ljg.60.2020.05.15.10.30.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2020 10:30:45 -0700 (PDT)
-Subject: Re: [PATCH v1] mfd: tps65910: Correct power-off programming sequence
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Tony Lindgren <tony@atomide.com>, Lee Jones <lee.jones@linaro.org>,
+        id S1726188AbgEOSS5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 May 2020 14:18:57 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:18972 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726206AbgEOSS4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 15 May 2020 14:18:56 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 49NxW01cC9z7B;
+        Fri, 15 May 2020 20:18:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1589566734; bh=ibTN24of7CC9GYhGpn9w94v7GehPRPTxrrybf7nWK+o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aUgXK6SjBE3skG2RJxmzVo44RCiO+5kz1JeHPog7kjzR/vNVC4kZ8RjBTQ5f0xlYo
+         wg4acm3Ox/HQHEm/nOIzdjcqvL3q3dBJ0Kq5A3kRR7R8pVY1VF5kPB6Gjf6he8Lsrw
+         YTRIjp7tNqoyjgUMXXy1C/EyDAYpvxdtRfXX2wy13z4Hui/m5n6xJ+lHzlIgrrk3uK
+         p22Dg8Koh5e+zKz6PaETkaO2NQtidlG61In2Dsj2+OxzSaBmDtjVs9MTFiFS7e3uhI
+         tJ/cLZReypv7pvN4O0q+KeHlXZk6W5wx7uvyszyYh3L8eRZhCSfIwFJezp/vhjvVNu
+         qEUA2PVpgovRQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Fri, 15 May 2020 20:18:47 +0200
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Pedro =?iso-8859-2?Q?=C2ngelo?= <pangelo@void.io>,
+        Matt Merhar <mattmerhar@protonmail.com>,
         Zack Pearsall <zpearsall@yahoo.com>,
-        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20200514205022.7024-1-digetx@gmail.com>
- <20200515110754.GB20564@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7e1eaac5-34d1-f76e-e4c5-bc36f56a7064@gmail.com>
-Date:   Fri, 15 May 2020 20:30:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Subject: Re: [PATCH v8 2/6] ARM: tegra: Add device-tree for ASUS Google Nexus
+ 7
+Message-ID: <20200515181847.GA13860@qmqm.qmqm.pl>
+References: <20200514213654.12834-1-digetx@gmail.com>
+ <20200514213654.12834-3-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200515110754.GB20564@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200514213654.12834-3-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.05.2020 16:30, Michał Mirosław пишет:
-> On Thu, May 14, 2020 at 11:50:21PM +0300, Dmitry Osipenko wrote:
->> This patch fixes system shutdown on a devices that use TPS65910 as a
->> system's power controller. In accordance to the TPS65910 datasheet, the
->> PMIC's state-machine transitions into the OFF state only when DEV_OFF
->> bit of DEVCTRL_REG is set. The ON / SLEEP states also should be cleared,
->> otherwise PMIC won't get into a proper state on shutdown. Devices like
->> Nexus 7 tablet and Ouya game console are now shutting down properly.
->>
->> Tested-by: Zack Pearsall <zpearsall@yahoo.com>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/mfd/tps65910.c | 12 ++++++++++--
->>  1 file changed, 10 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/mfd/tps65910.c b/drivers/mfd/tps65910.c
->> index 11959021b50a..22116cee411d 100644
->> --- a/drivers/mfd/tps65910.c
->> +++ b/drivers/mfd/tps65910.c
->> @@ -440,8 +440,16 @@ static void tps65910_power_off(void)
->>  			DEVCTRL_PWR_OFF_MASK) < 0)
->>  		return;
->>  
->> -	tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
->> -			DEVCTRL_DEV_ON_MASK);
->> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
->> +			DEVCTRL_DEV_SLP_MASK) < 0)
->> +		return;
->> +
->> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
->> +			DEVCTRL_DEV_ON_MASK) < 0)
->> +		return;
->> +
->> +	tps65910_reg_set_bits(tps65910, TPS65910_DEVCTRL,
->> +			DEVCTRL_DEV_OFF_MASK);
->>  }
+On Fri, May 15, 2020 at 12:36:50AM +0300, Dmitry Osipenko wrote:
+> There are few hardware variants of NVIDIA Tegra30-based Nexus 7 device:
 > 
-> Isn't it enough to update the DEVCTRL with just one
-> tps65910_reg_update_bits()?
+> 1. WiFi-only (named Grouper)
+> 2. GSM (named Tilapia)
+> 3. Using Maxim PMIC (E1565 board ID)
+> 4. Using Ti PMIC (PM269 board ID)
 
-IIRC, we've tried that variant and it didn't work. Although, maybe it
-was affected by some other changes that we were trying simultaneously,
-so could be worthwhile to re-check it. Thank you for the comment!
+Hi,
+
+I've briefly looked at the PM269 devicetree (PMIC part) and it looks very
+similar, if not the same, to what I deduced from the TF300T kernel.
+Those devices don't look to differ much from original Cardhu tablet
+devkit, so maybe the trees can base off of that?
+
+I would also guess that because of this 'ram-code', memory timings would
+be duplicated between devices. I can see small differences between
+ram-code=1 timings of Grouper and TF300T, though they look like arbiter
+tuning differences. I'll have to test if my TF300T works with Grouper's
+settings. In case they work, could you split the memory timings to another
+dtsi file?
+
+BTW, shouldn't EMC timing set match MC? I see more frequencies listed in
+MC than EMC nodes.
+
+Best Regards,
+Micha��Miros�aw
