@@ -2,352 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FA001D56AF
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 18:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 406161D57F1
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 19:31:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbgEOQwz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 12:52:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45946 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbgEOQwy (ORCPT
+        id S1726592AbgEORaw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 May 2020 13:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35044 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726494AbgEORav (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 12:52:54 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 2F1C42A32FD
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
+        Fri, 15 May 2020 13:30:51 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC59DC061A0C;
+        Fri, 15 May 2020 10:30:49 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id h188so2493887lfd.7;
+        Fri, 15 May 2020 10:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=h/F90YLQpUp0HHTIQUShz3e2nnAFVjUCmhXhEdzbwnY=;
+        b=KibfLZUk0ftdUq5UDaH2o15irQFHqyz8gi8IqEMsrfk7C4YJfNpMj1v3aDGFgUiDl+
+         Ei/Kt5/khtVtNkdg/aICAD6wcWLCfORTzMRxOmigg+/vPxaELL+8f1WC/9y11fbjbHfc
+         GkSWrvrsVc/rgXn+5qNqg/TRJrPdhUTl+jp0IwbwXhNHIeTopMkk3ImSd+kEUIvFqBr+
+         Yqg6bF92+Qyql0MoOeSdMxXGCb9h+vlV3qey2xv/lkRFsB9TtIqHzC7xJlYRvN6c3ydT
+         twT6Vi7ldFq7ZGduwpM5To/mB8XIFwT2UhuzlXRkcydEWl9zsgVqe5PPOOGegc1+g2vc
+         B3mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=h/F90YLQpUp0HHTIQUShz3e2nnAFVjUCmhXhEdzbwnY=;
+        b=sEraOlyV+/B5BCM5fiPv4vnBkb/Xjerwg0gBuMwzgN1kTq5BEwxomuko6Dbk0nEhEi
+         /P7r56yrQmZvrsSjA+GhAOOPzvouDGVPy5MTEbRopvFU9Fh/OkXEGLtya5ILdLQow9v1
+         gm29tlcZCgVAnVtuGcigFqm5iEQ6ceJ8Aw1j9+b3+2f3+4oBiZTB1Whs7m8vX1e+zEQL
+         6MojS8lWiV4L/sbhcL2OJ2hbNrBOFdp4KmHp/bdI0Dyv5UHbg6n/KHMBgLmbxnl93UYq
+         eB/oSHgsiNAdykavktFI7pTwtaUGvVy6cGieDja844eSJaFt/oSvLRucR0m3hhw1CxgG
+         2m2A==
+X-Gm-Message-State: AOAM531H78aLFnwD4Natz1e6xv29Qd4AAoSNr9kXz3W2zcyixZjKeGRw
+        RwwKmMh32NnMukg4thTjJ+A+F+1L
+X-Google-Smtp-Source: ABdhPJzLU8VsfwD5/Dk7DrFX5XwnW81Mi8DgWZ+Ksz9fXlo1zTYn5GD+V6GGX8UA5KK8Mn9lMX5Wug==
+X-Received: by 2002:ac2:5ccf:: with SMTP id f15mr3073677lfq.216.1589563847942;
+        Fri, 15 May 2020 10:30:47 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id j24sm1471099ljg.60.2020.05.15.10.30.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2020 10:30:45 -0700 (PDT)
+Subject: Re: [PATCH v1] mfd: tps65910: Correct power-off programming sequence
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Tony Lindgren <tony@atomide.com>, Lee Jones <lee.jones@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        kernel@collabora.com, Patrik Fimml <patrikf@chromium.org>
-Subject: [PATCHv2 6/7] Input: Add "inhibited" property
-Date:   Fri, 15 May 2020 18:52:37 +0200
-Message-Id: <20200515165237.28906-1-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
-References: <20200515164943.28480-1-andrzej.p@collabora.com>
+        Zack Pearsall <zpearsall@yahoo.com>,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200514205022.7024-1-digetx@gmail.com>
+ <20200515110754.GB20564@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7e1eaac5-34d1-f76e-e4c5-bc36f56a7064@gmail.com>
+Date:   Fri, 15 May 2020 20:30:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200515110754.GB20564@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Patrik Fimml <patrikf@chromium.org>
+15.05.2020 16:30, Michał Mirosław пишет:
+> On Thu, May 14, 2020 at 11:50:21PM +0300, Dmitry Osipenko wrote:
+>> This patch fixes system shutdown on a devices that use TPS65910 as a
+>> system's power controller. In accordance to the TPS65910 datasheet, the
+>> PMIC's state-machine transitions into the OFF state only when DEV_OFF
+>> bit of DEVCTRL_REG is set. The ON / SLEEP states also should be cleared,
+>> otherwise PMIC won't get into a proper state on shutdown. Devices like
+>> Nexus 7 tablet and Ouya game console are now shutting down properly.
+>>
+>> Tested-by: Zack Pearsall <zpearsall@yahoo.com>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/mfd/tps65910.c | 12 ++++++++++--
+>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/mfd/tps65910.c b/drivers/mfd/tps65910.c
+>> index 11959021b50a..22116cee411d 100644
+>> --- a/drivers/mfd/tps65910.c
+>> +++ b/drivers/mfd/tps65910.c
+>> @@ -440,8 +440,16 @@ static void tps65910_power_off(void)
+>>  			DEVCTRL_PWR_OFF_MASK) < 0)
+>>  		return;
+>>  
+>> -	tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
+>> -			DEVCTRL_DEV_ON_MASK);
+>> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
+>> +			DEVCTRL_DEV_SLP_MASK) < 0)
+>> +		return;
+>> +
+>> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
+>> +			DEVCTRL_DEV_ON_MASK) < 0)
+>> +		return;
+>> +
+>> +	tps65910_reg_set_bits(tps65910, TPS65910_DEVCTRL,
+>> +			DEVCTRL_DEV_OFF_MASK);
+>>  }
+> 
+> Isn't it enough to update the DEVCTRL with just one
+> tps65910_reg_update_bits()?
 
-Userspace might want to implement a policy to temporarily disregard input
-from certain devices, including not treating them as wakeup sources.
-
-An example use case is a laptop, whose keyboard can be folded under the
-screen to create tablet-like experience. The user then must hold the laptop
-in such a way that it is difficult to avoid pressing the keyboard keys. It
-is therefore desirable to temporarily disregard input from the keyboard,
-until it is folded back. This obviously is a policy which should be kept
-out of the kernel, but the kernel must provide suitable means to implement
-such a policy.
-
-This patch adds a sysfs interface for exactly this purpose.
-
-To implement the said interface it adds an "inhibited" property to struct
-input_dev and two optional methods - inhibit() and uninhibit(), and
-effectively creates four states a device can be in: closed uninhibited,
-closed inhibited, open uninhibited, open inhibited. It also defers calling
-driver's ->open() and ->close() to until they are actually needed, e.g. it
-makes no sense to prepare the underlying device for generating events
-(->open()) if the device is inhibited.
-
-              uninhibit
-closed      <------------ closed
-uninhibited ------------> inhibited
-      | ^     inhibit        | ^
- 1st  | |               1st  | |
- open | |               open | |
-      | |                    | |
-      | | last               | | last
-      | | close              | | close
-      v |     uninhibit      v |
-open        <------------ open
-uninhibited ------------> inhibited
-
-The top inhibit/uninhibit transition happens when users == 0.
-The bottom inhibit/uninhibit transition happens when users > 0.
-The left open/close transition happens when !inhibited.
-The right open/close transition happens when inhibited.
-Due to all transitions being serialized with dev->mutex, it is impossible
-to have "diagonal" transitions between closed uninhibited and open
-inhibited or between open uninhibited and closed inhibited.
-
-open() and close() - if provided - are called in both inhibit and uninhibit
-paths. Please note that close() does not return a value, so if your driver
-might need failing inhibiting, you need to provide inhibit() so that it
-returns a value to check.
-
-It is drivers' responsibility to implement their inhibiting capability in
-terms of whatever is suitable in their context, be it open/close,
-inhibit/uninhibit or a combination of both. The drivers should also ensure
-that they properly interact with suspend/resume and PM runtime, because
-most likely a side effect of inhibiting a device should be its going into
-low power mode. Properly inhibiting a device means to prevent it from being
-a wakeup source, so drivers should also take care of that.
-
-Signed-off-by: Patrik Fimml <patrikf@chromium.org>
-Co-developed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- drivers/input/input.c | 136 ++++++++++++++++++++++++++++++++++++++----
- include/linux/input.h |   8 +++
- 2 files changed, 134 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 41377bfa142d..5b859a178c11 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -367,8 +367,13 @@ static int input_get_disposition(struct input_dev *dev,
- static void input_handle_event(struct input_dev *dev,
- 			       unsigned int type, unsigned int code, int value)
- {
--	int disposition = input_get_disposition(dev, type, code, &value);
-+	int disposition;
- 
-+	/* filter-out events from inhibited devices */
-+	if (dev->inhibited)
-+		return;
-+
-+	disposition = input_get_disposition(dev, type, code, &value);
- 	if (disposition != INPUT_IGNORE_EVENT && type != EV_SYN)
- 		add_input_randomness(type, code, value);
- 
-@@ -612,7 +617,7 @@ int input_open_device(struct input_handle *handle)
- 
- 	handle->open++;
- 
--	if (dev->users++) {
-+	if (dev->users++ || dev->inhibited) {
- 		/*
- 		 * Device is already opened, so we can exit immediately and
- 		 * report success.
-@@ -660,6 +665,14 @@ int input_flush_device(struct input_handle *handle, struct file *file)
- }
- EXPORT_SYMBOL(input_flush_device);
- 
-+static inline void input_stop(struct input_dev *dev)
-+{
-+	if (dev->poller)
-+		input_dev_poller_stop(dev->poller);
-+	if (dev->close)
-+		dev->close(dev);
-+}
-+
- /**
-  * input_close_device - close input device
-  * @handle: handle through which device is being accessed
-@@ -675,13 +688,8 @@ void input_close_device(struct input_handle *handle)
- 
- 	__input_release_device(handle);
- 
--	if (!--dev->users) {
--		if (dev->poller)
--			input_dev_poller_stop(dev->poller);
--
--		if (dev->close)
--			dev->close(dev);
--	}
-+	if (!dev->inhibited && !--dev->users)
-+		input_stop(dev);
- 
- 	if (!--handle->open) {
- 		/*
-@@ -1416,12 +1424,49 @@ static ssize_t input_dev_show_properties(struct device *dev,
- }
- static DEVICE_ATTR(properties, S_IRUGO, input_dev_show_properties, NULL);
- 
-+static int input_inhibit(struct input_dev *dev);
-+static int input_uninhibit(struct input_dev *dev);
-+
-+static ssize_t inhibited_show(struct device *dev,
-+			      struct device_attribute *attr,
-+			      char *buf)
-+{
-+	struct input_dev *input_dev = to_input_dev(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", input_dev->inhibited);
-+}
-+
-+static ssize_t inhibited_store(struct device *dev,
-+			       struct device_attribute *attr, const char *buf,
-+			       size_t len)
-+{
-+	struct input_dev *input_dev = to_input_dev(dev);
-+	ssize_t rv;
-+	bool inhibited;
-+
-+	if (strtobool(buf, &inhibited))
-+		return -EINVAL;
-+
-+	if (inhibited)
-+		rv = input_inhibit(input_dev);
-+	else
-+		rv = input_uninhibit(input_dev);
-+
-+	if (rv != 0)
-+		return rv;
-+
-+	return len;
-+}
-+
-+static DEVICE_ATTR_RW(inhibited);
-+
- static struct attribute *input_dev_attrs[] = {
- 	&dev_attr_name.attr,
- 	&dev_attr_phys.attr,
- 	&dev_attr_uniq.attr,
- 	&dev_attr_modalias.attr,
- 	&dev_attr_properties.attr,
-+	&dev_attr_inhibited.attr,
- 	NULL
- };
- 
-@@ -1703,6 +1748,77 @@ void input_reset_device(struct input_dev *dev)
- }
- EXPORT_SYMBOL(input_reset_device);
- 
-+static int input_inhibit(struct input_dev *dev)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&dev->mutex);
-+
-+	if (dev->inhibited)
-+		goto out;
-+
-+	if (dev->users) {
-+		if (dev->inhibit) {
-+			ret = dev->inhibit(dev);
-+			if (ret)
-+				goto out;
-+		}
-+		input_stop(dev);
-+	}
-+
-+	spin_lock_irq(&dev->event_lock);
-+	input_dev_release_keys(dev);
-+	input_dev_toggle(dev, false);
-+	spin_unlock_irq(&dev->event_lock);
-+
-+	dev->inhibited = true;
-+
-+out:
-+	mutex_unlock(&dev->mutex);
-+	return ret;
-+}
-+
-+static int input_uninhibit(struct input_dev *dev)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&dev->mutex);
-+
-+	if (!dev->inhibited)
-+		goto out;
-+
-+	if (dev->users) {
-+		if (dev->open) {
-+			ret = dev->open(dev);
-+			if (ret)
-+				goto toggle;
-+		}
-+		if (dev->uninhibit) {
-+			ret = dev->uninhibit(dev);
-+			if (ret) {
-+				if (dev->close)
-+					dev->close(dev);
-+				goto toggle;
-+			}
-+		}
-+		if (dev->poller)
-+			input_dev_poller_start(dev->poller);
-+	}
-+
-+	dev->inhibited = false;
-+
-+toggle:
-+	if (!dev->inhibited) {
-+		spin_lock_irq(&dev->event_lock);
-+		input_dev_toggle(dev, true);
-+		spin_unlock_irq(&dev->event_lock);
-+	}
-+
-+out:
-+	mutex_unlock(&dev->mutex);
-+	return ret;
-+}
-+
- #ifdef CONFIG_PM_SLEEP
- static int input_dev_suspend(struct device *dev)
- {
-@@ -2131,7 +2247,7 @@ bool input_device_enabled(struct input_dev *dev)
- {
- 	lockdep_assert_held(&dev->mutex);
- 
--	return dev->users > 0;
-+	return !dev->inhibited && dev->users > 0;
- }
- EXPORT_SYMBOL_GPL(input_device_enabled);
- 
-diff --git a/include/linux/input.h b/include/linux/input.h
-index eda4587dba67..8d0dcfaeaf6f 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -127,6 +127,9 @@ enum input_clock_type {
-  *	and needs not be explicitly unregistered or freed.
-  * @timestamp: storage for a timestamp set by input_set_timestamp called
-  *  by a driver
-+ * @inhibit: makes the device ignore all input
-+ * @uninhibit: undoes the effect of inhibit
-+ * @inhibited: indicates that the input device is inhibited
-  */
- struct input_dev {
- 	const char *name;
-@@ -201,6 +204,11 @@ struct input_dev {
- 	bool devres_managed;
- 
- 	ktime_t timestamp[INPUT_CLK_MAX];
-+
-+	int (*inhibit)(struct input_dev *dev);
-+	int (*uninhibit)(struct input_dev *dev);
-+
-+	bool inhibited;
- };
- #define to_input_dev(d) container_of(d, struct input_dev, dev)
- 
--- 
-2.17.1
-
+IIRC, we've tried that variant and it didn't work. Although, maybe it
+was affected by some other changes that we were trying simultaneously,
+so could be worthwhile to re-check it. Thank you for the comment!
