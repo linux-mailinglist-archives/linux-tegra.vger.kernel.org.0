@@ -2,84 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 169EC1D58E8
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 20:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B07101D58F0
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 20:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726188AbgEOSS5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 14:18:57 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:18972 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726206AbgEOSS4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 14:18:56 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49NxW01cC9z7B;
-        Fri, 15 May 2020 20:18:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1589566734; bh=ibTN24of7CC9GYhGpn9w94v7GehPRPTxrrybf7nWK+o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aUgXK6SjBE3skG2RJxmzVo44RCiO+5kz1JeHPog7kjzR/vNVC4kZ8RjBTQ5f0xlYo
-         wg4acm3Ox/HQHEm/nOIzdjcqvL3q3dBJ0Kq5A3kRR7R8pVY1VF5kPB6Gjf6he8Lsrw
-         YTRIjp7tNqoyjgUMXXy1C/EyDAYpvxdtRfXX2wy13z4Hui/m5n6xJ+lHzlIgrrk3uK
-         p22Dg8Koh5e+zKz6PaETkaO2NQtidlG61In2Dsj2+OxzSaBmDtjVs9MTFiFS7e3uhI
-         tJ/cLZReypv7pvN4O0q+KeHlXZk6W5wx7uvyszyYh3L8eRZhCSfIwFJezp/vhjvVNu
-         qEUA2PVpgovRQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Fri, 15 May 2020 20:18:47 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        id S1726249AbgEOSTS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 May 2020 14:19:18 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37706 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726293AbgEOSTR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 15 May 2020 14:19:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589566755;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
+        b=FmfAuVh4QGkOpPgfhCFAuYt7jmv7Qagj1fzOAUyM01z8aAILrmmE7Ffn2dB4qTegdq1Shp
+        d/5G7ZCAVreovBNZmSD9zeIoqfER5+DTXru1T58BU9nfaNx7+GQTLlGXQU0xm81jmqojTk
+        ePaeUnUZj/WKqZMpPivCquDW6Q5eJEI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-5Lg3j4pVPCKam9iMWVf5vg-1; Fri, 15 May 2020 14:19:14 -0400
+X-MC-Unique: 5Lg3j4pVPCKam9iMWVf5vg-1
+Received: by mail-wm1-f71.google.com with SMTP id m123so1544036wmm.5
+        for <linux-tegra@vger.kernel.org>; Fri, 15 May 2020 11:19:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
+        b=WJ7Z21SuyUFGoqYj9hfUFRuDbpScmyTWvoB7C/Xx2YV3H8WMoc8TTZtrp0vyMGTfD1
+         eAybwSK/laxt2o+lMT275oiywKbn591+t1GS0wJX8AcCuNUuc9B+rJccBlJv2uD9+tYX
+         EpjhXYZJhKuEktfPq0ZEYnzgdPLZjtXti/AZc6cVW8Nn0lefXBXeCZ5vQkcI7QR0OTu8
+         aTGByO3RSic4WDqEyuGzkuCmfAD252b0dvE0rvrpl0MkLKFllwri7JaTRxF2O5kj2K1y
+         UeDeyYb11pd5uS3E/EFB2/M+pz0TaCvYM9F5VLizlXUA4RUjLkEbxyx/SENHEpDB8w4S
+         6Kwg==
+X-Gm-Message-State: AOAM532L3CRpWvNGMj5Painspy2NVsjwoSESkPslqbIYAhuBMgt+Hr3O
+        jdkeZxVEAKj7c2MgTybMPnqrrwFJrF3tOT8no7Dyd6ID4zuwR2Evv+YiGJviRJ3L2X7LXoZUYB3
+        cwA94Dd9vdwzeypNiGPoWb80=
+X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299522wmf.89.1589566752682;
+        Fri, 15 May 2020 11:19:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwEhyZogIb52tbS8Sjh71yaPa5wKbVCzzV1bSu62tN2QyZWoHUXHTTKTerADtg5ez9J3v5UBw==
+X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299458wmf.89.1589566752273;
+        Fri, 15 May 2020 11:19:12 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id a15sm4604338wrw.56.2020.05.15.11.19.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2020 11:19:11 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Pedro =?iso-8859-2?Q?=C2ngelo?= <pangelo@void.io>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Zack Pearsall <zpearsall@yahoo.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 2/6] ARM: tegra: Add device-tree for ASUS Google Nexus
- 7
-Message-ID: <20200515181847.GA13860@qmqm.qmqm.pl>
-References: <20200514213654.12834-1-digetx@gmail.com>
- <20200514213654.12834-3-digetx@gmail.com>
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+Date:   Fri, 15 May 2020 20:19:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
+In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200514213654.12834-3-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, May 15, 2020 at 12:36:50AM +0300, Dmitry Osipenko wrote:
-> There are few hardware variants of NVIDIA Tegra30-based Nexus 7 device:
+Hi Andrezj,
+
+On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
+> Userspace might want to implement a policy to temporarily disregard input
+> from certain devices, including not treating them as wakeup sources.
 > 
-> 1. WiFi-only (named Grouper)
-> 2. GSM (named Tilapia)
-> 3. Using Maxim PMIC (E1565 board ID)
-> 4. Using Ti PMIC (PM269 board ID)
+> An example use case is a laptop, whose keyboard can be folded under the
+> screen to create tablet-like experience. The user then must hold the laptop
+> in such a way that it is difficult to avoid pressing the keyboard keys. It
+> is therefore desirable to temporarily disregard input from the keyboard,
+> until it is folded back. This obviously is a policy which should be kept
+> out of the kernel, but the kernel must provide suitable means to implement
+> such a policy.
 
-Hi,
+Actually libinput already binds together (inside libinput) SW_TABLET_MODE
+generating evdev nodes and e.g. internal keyboards on devices with 360Â°
+hinges for this reason. libinput simply closes the /dev/input/event#
+node when folded and re-opens it when the keyboard should become active
+again. Thus not only suppresses events but allows e.g. touchpads to
+enter runtime suspend mode which saves power. Typically closing the
+/dev/input/event# node will also disable the device as wakeup source.
 
-I've briefly looked at the PM269 devicetree (PMIC part) and it looks very
-similar, if not the same, to what I deduced from the TF300T kernel.
-Those devices don't look to differ much from original Cardhu tablet
-devkit, so maybe the trees can base off of that?
+So I wonder what this series actually adds for functionality for
+userspace which can not already be achieved this way?
 
-I would also guess that because of this 'ram-code', memory timings would
-be duplicated between devices. I can see small differences between
-ram-code=1 timings of Grouper and TF300T, though they look like arbiter
-tuning differences. I'll have to test if my TF300T works with Grouper's
-settings. In case they work, could you split the memory timings to another
-dtsi file?
+I also noticed that you keep the device open (do not call the
+input_device's close callback) when inhibited and just throw away
+any events generated. This seems inefficient and may lead to
+the internal state getting out of sync. What if a key is pressed
+while inhibited and then the device is uninhibited while the key
+is still pressed?  Now the press event is lost and userspace
+querying the current state will see the pressed key as being
+released.
 
-BTW, shouldn't EMC timing set match MC? I see more frequencies listed in
-MC than EMC nodes.
+On top of this you add special inhibit and uninhibit callbacks
+and implement those for just a few devices. How do these differ
+from just closing the device and later opening it again ?
 
-Best Regards,
-Micha³ Miros³aw
+Also using a sysfs property for this is very weird given that the
+rest of the evdev interface is using ioctls for everything...
+
+So all in all I see a lot of question marks here and I think we
+need to have a detailed discussion about what use-cases this
+series tries to enable before moving forward with this.
+
+Regards,
+
+Hans
+
