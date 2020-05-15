@@ -2,90 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC221D4F42
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 15:30:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 951951D5067
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 16:27:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbgEONaQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 09:30:16 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:35466 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726179AbgEONaQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 09:30:16 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49Nq5x0fTgz8j;
-        Fri, 15 May 2020 15:30:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1589549414; bh=YhB2JsZedxwN/B0OR0Q2lPRzMCO96sFs8wnazr66xiA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VUjaUsVKtUrnMR6cwbBIf5YkkpBfI3oQfiB7seL4Jr+YGEGDsR1TP/ynHi/NHLI8b
-         ZtlqWJL1ima5A6MTYIuf3T05sWlwe9Rkg6O9Biwc2jyxj7aDqMUviAuKmRMgisLYVg
-         xB9eAAsoPGso/w1GskeocPjPquQE9gqy9IxeFMBW5WDalHYDehVxzVLskMe1JDU8YV
-         LZXCwNw+Nb5QpeEbHm8Z+8vBdm/9e/DRsfMpeo1zXkIgTjTuD44czwTVXFUMK2XeDo
-         x8wE9jOJ1pToKB8OoMcRfWX0GIxJeXBG+gzZVcE9gU+ZswKiX/HgTTqZDpUSqEJCyi
-         2R3OJQeBXobNQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Fri, 15 May 2020 15:30:11 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Tony Lindgren <tony@atomide.com>, Lee Jones <lee.jones@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Zack Pearsall <zpearsall@yahoo.com>,
-        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] mfd: tps65910: Correct power-off programming sequence
-Message-ID: <20200515110754.GB20564@qmqm.qmqm.pl>
-References: <20200514205022.7024-1-digetx@gmail.com>
+        id S1726231AbgEOO1e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 May 2020 10:27:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726144AbgEOO1e (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 15 May 2020 10:27:34 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2ADC061A0C;
+        Fri, 15 May 2020 07:27:33 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id j5so3826029wrq.2;
+        Fri, 15 May 2020 07:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZqEfVTuDY9bEUsJPlzwIaQx1lrVA14fy9lOBt0SuZsI=;
+        b=nSzF8uWMlBuWgPkJo620l4HBDnpGUQc0GuB5wiBQybK2PHDmdqv74v6aDOtP2rH6ti
+         K4m1KkwrO+q8BvTwTabJcixy71OE6H5xL2sy44a0g8Un/GwifvjFpLegkil8BRcG9pn7
+         08icjkBQ6zcvYqU6Z+irBm59G0ASQ7vDutWt5X4BLHcGV6tY6/IF6Ekm9iS3KZfn7Ne0
+         Ky53qLFw2VzACWQ61ZOc3S+vxNHvHn44pv9Ga/RAarZflluzKZXRRjNzwvkxqqmcCULQ
+         edKnX/UnxRv3FTNOq+K5v6tNS/cUmzvXAC7/Ae4kFoahElfIX8sA2TMJcn1kpQxCVtqy
+         CJvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZqEfVTuDY9bEUsJPlzwIaQx1lrVA14fy9lOBt0SuZsI=;
+        b=P5jjjWU2utfV6bMjW9Jc7bcoSconaansFe4IqxIvJr2fKGDc8SuCklnKXRQhVZazS7
+         4Q6YOrypp8m4NbBb7muq16lEml4ebBSk/HnKGeYMsGUqDhax30DSy558L7iuSuTqW8NN
+         rPgiSV45/RqksXqDXAA6hxVqk85o86TNUsK6tDJrumExjulYCShle1iyc2LccupNLd0w
+         yCuKDCjZdFr9XJAZmRv9A5J6sfjhZKvrl7C7gmeL4GnTfF28VVTPr0xfhU4CxO6OoXPo
+         grVIrgPEsHM6j7TKC9sj7oKyqaszYmeB1i4vghad3xXdo3KBLDvMEWBe2Q6BySxpmpRw
+         oqpQ==
+X-Gm-Message-State: AOAM531SK606U0PTjjHHs8GFqfhc+BTEV2QOI70iwb/CjRgNLQ7BIgzS
+        qoDriXxAaLLeMyIZn9fqLPE=
+X-Google-Smtp-Source: ABdhPJwB9R/SLlX2Uxqudh6APRzsvbqZz9CPXwL6WTdh11Gs3GYpUtZTTqDrfcrZ4txXKIu5R7d7lA==
+X-Received: by 2002:adf:f4c4:: with SMTP id h4mr4675606wrp.142.1589552852640;
+        Fri, 15 May 2020 07:27:32 -0700 (PDT)
+Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id a10sm3841945wmf.46.2020.05.15.07.27.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2020 07:27:31 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [GIT PULL] clk: tegra: Changes for v5.8-rc1
+Date:   Fri, 15 May 2020 16:27:30 +0200
+Message-Id: <20200515142730.1573945-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200514205022.7024-1-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 14, 2020 at 11:50:21PM +0300, Dmitry Osipenko wrote:
-> This patch fixes system shutdown on a devices that use TPS65910 as a
-> system's power controller. In accordance to the TPS65910 datasheet, the
-> PMIC's state-machine transitions into the OFF state only when DEV_OFF
-> bit of DEVCTRL_REG is set. The ON / SLEEP states also should be cleared,
-> otherwise PMIC won't get into a proper state on shutdown. Devices like
-> Nexus 7 tablet and Ouya game console are now shutting down properly.
-> 
-> Tested-by: Zack Pearsall <zpearsall@yahoo.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/mfd/tps65910.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/mfd/tps65910.c b/drivers/mfd/tps65910.c
-> index 11959021b50a..22116cee411d 100644
-> --- a/drivers/mfd/tps65910.c
-> +++ b/drivers/mfd/tps65910.c
-> @@ -440,8 +440,16 @@ static void tps65910_power_off(void)
->  			DEVCTRL_PWR_OFF_MASK) < 0)
->  		return;
->  
-> -	tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
-> -			DEVCTRL_DEV_ON_MASK);
-> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
-> +			DEVCTRL_DEV_SLP_MASK) < 0)
-> +		return;
-> +
-> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
-> +			DEVCTRL_DEV_ON_MASK) < 0)
-> +		return;
-> +
-> +	tps65910_reg_set_bits(tps65910, TPS65910_DEVCTRL,
-> +			DEVCTRL_DEV_OFF_MASK);
->  }
+Hi Mike, Stephen,
 
-Isn't it enough to update the DEVCTRL with just one
-tps65910_reg_update_bits()?
+The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
 
-Best Regards
-Micha³ Miros³aw
+  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.8-clk
+
+for you to fetch changes up to dec396322d25ca5ce2f307b6da897060fdf9a782:
+
+  clk: tegra: Add Tegra210 CSI TPG clock gate (2020-05-12 22:48:43 +0200)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+clk: tegra: Changes for v5.8-rc1
+
+Thise are a couple of changes to implement EMC frequency scaling on
+Tegra210, CPU frequency scaling on Tegra20 and Tegra30 as well as a
+special clock gate for the CSI test pattern generator on Tegra210.
+
+----------------------------------------------------------------
+Dmitry Osipenko (5):
+      clk: tegra: Add custom CCLK implementation
+      clk: tegra: pll: Add pre/post rate-change hooks
+      clk: tegra: cclk: Add helpers for handling PLLX rate changes
+      clk: tegra20: Use custom CCLK implementation
+      clk: tegra30: Use custom CCLK implementation
+
+Joseph Lo (4):
+      clk: tegra: Add PLLP_UD and PLLMB_UD for Tegra210
+      clk: tegra: Export functions for EMC clock scaling
+      clk: tegra: Implement Tegra210 EMC clock
+      clk: tegra: Remove the old emc_mux clock for Tegra210
+
+Sowjanya Komatineni (2):
+      dt-bindings: clock: tegra: Add clock ID for CSI TPG clock
+      clk: tegra: Add Tegra210 CSI TPG clock gate
+
+Thierry Reding (2):
+      Merge branch 'for-5.8/dt-bindings' into for-5.8/clk
+      clk: tegra: Rename Tegra124 EMC clock source file
+
+ drivers/clk/tegra/Kconfig                          |   4 -
+ drivers/clk/tegra/Makefile                         |   4 +-
+ drivers/clk/tegra/clk-pll.c                        |  12 +-
+ drivers/clk/tegra/clk-tegra-super-cclk.c           | 212 ++++++++++++
+ .../clk/tegra/{clk-emc.c => clk-tegra124-emc.c}    |   0
+ drivers/clk/tegra/clk-tegra20.c                    |   7 +-
+ drivers/clk/tegra/clk-tegra210-emc.c               | 369 +++++++++++++++++++++
+ drivers/clk/tegra/clk-tegra210.c                   |  94 ++++--
+ drivers/clk/tegra/clk-tegra30.c                    |   6 +-
+ drivers/clk/tegra/clk.h                            |  24 +-
+ include/dt-bindings/clock/tegra210-car.h           |   6 +-
+ include/linux/clk/tegra.h                          |  27 ++
+ 12 files changed, 730 insertions(+), 35 deletions(-)
+ create mode 100644 drivers/clk/tegra/clk-tegra-super-cclk.c
+ rename drivers/clk/tegra/{clk-emc.c => clk-tegra124-emc.c} (100%)
+ create mode 100644 drivers/clk/tegra/clk-tegra210-emc.c
