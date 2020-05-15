@@ -2,59 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 951951D5067
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 16:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F2B1D51B3
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 16:41:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbgEOO1e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 10:27:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34076 "EHLO
+        id S1726537AbgEOOj1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 May 2020 10:39:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726144AbgEOO1e (ORCPT
+        by vger.kernel.org with ESMTP id S1727853AbgEOOj1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 10:27:34 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2ADC061A0C;
-        Fri, 15 May 2020 07:27:33 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id j5so3826029wrq.2;
-        Fri, 15 May 2020 07:27:33 -0700 (PDT)
+        Fri, 15 May 2020 10:39:27 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6CFC061A0C;
+        Fri, 15 May 2020 07:39:27 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id l18so3837120wrn.6;
+        Fri, 15 May 2020 07:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZqEfVTuDY9bEUsJPlzwIaQx1lrVA14fy9lOBt0SuZsI=;
-        b=nSzF8uWMlBuWgPkJo620l4HBDnpGUQc0GuB5wiBQybK2PHDmdqv74v6aDOtP2rH6ti
-         K4m1KkwrO+q8BvTwTabJcixy71OE6H5xL2sy44a0g8Un/GwifvjFpLegkil8BRcG9pn7
-         08icjkBQ6zcvYqU6Z+irBm59G0ASQ7vDutWt5X4BLHcGV6tY6/IF6Ekm9iS3KZfn7Ne0
-         Ky53qLFw2VzACWQ61ZOc3S+vxNHvHn44pv9Ga/RAarZflluzKZXRRjNzwvkxqqmcCULQ
-         edKnX/UnxRv3FTNOq+K5v6tNS/cUmzvXAC7/Ae4kFoahElfIX8sA2TMJcn1kpQxCVtqy
-         CJvA==
+        bh=c0AI7exajo6fiVUs6s7O45O24ivjL3JaDYf6aB0WxVU=;
+        b=cfm5u0zCY8qcsXUUBw7I6yPO91GXVNJFqK9rROLdykDwkL2YYdC150kyi052qkkQrS
+         84fzm02Wg1h4vOsepFm1Q30ZYGUolcxmU1IB31boZ55N/T+6V4fpM13tZnVpeMqYaAfQ
+         6rDvdpIsIKL/MffuG6VXsl72zC/KQggEp4Jo4nbpBZw44dHRKqRxOiC4jH5qYyKlwBwm
+         FCtQOmEuw5YsZo0u9AVCHJ3fPv43NTtsSP6IdeuM+LYxvnmk0EwU+GTwCoYcyB8qx3Dr
+         YPVQSA3vPW+h5odF7yea0lpxEXvDFbBlyj4nBDQiSo28phzTv3YetPzmqdsOHNhYhqev
+         n2IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZqEfVTuDY9bEUsJPlzwIaQx1lrVA14fy9lOBt0SuZsI=;
-        b=P5jjjWU2utfV6bMjW9Jc7bcoSconaansFe4IqxIvJr2fKGDc8SuCklnKXRQhVZazS7
-         4Q6YOrypp8m4NbBb7muq16lEml4ebBSk/HnKGeYMsGUqDhax30DSy558L7iuSuTqW8NN
-         rPgiSV45/RqksXqDXAA6hxVqk85o86TNUsK6tDJrumExjulYCShle1iyc2LccupNLd0w
-         yCuKDCjZdFr9XJAZmRv9A5J6sfjhZKvrl7C7gmeL4GnTfF28VVTPr0xfhU4CxO6OoXPo
-         grVIrgPEsHM6j7TKC9sj7oKyqaszYmeB1i4vghad3xXdo3KBLDvMEWBe2Q6BySxpmpRw
-         oqpQ==
-X-Gm-Message-State: AOAM531SK606U0PTjjHHs8GFqfhc+BTEV2QOI70iwb/CjRgNLQ7BIgzS
-        qoDriXxAaLLeMyIZn9fqLPE=
-X-Google-Smtp-Source: ABdhPJwB9R/SLlX2Uxqudh6APRzsvbqZz9CPXwL6WTdh11Gs3GYpUtZTTqDrfcrZ4txXKIu5R7d7lA==
-X-Received: by 2002:adf:f4c4:: with SMTP id h4mr4675606wrp.142.1589552852640;
-        Fri, 15 May 2020 07:27:32 -0700 (PDT)
+        bh=c0AI7exajo6fiVUs6s7O45O24ivjL3JaDYf6aB0WxVU=;
+        b=W58qTjDZFsrn+7YpD9tULbUiFGtlj3X7u7QYju9hYDA77110FY78Z15jegOVCoDM06
+         4PDDwTHDQA2+p0IrT1kSE/RIOx9PhrYUcuUEMyl3e1TudsnQvXMjWhb82HUXfBlYXqZA
+         IBrmTxr3NEt/pbfxGmwz6uT0PYSjm82eTWfoSkssZH9+76OLGdNWnPf49fDc4ilOukrZ
+         BKO7CtcRA1giHEtncuxCgV46Y2Vu8bY9nnBYrk0EegBBc5/1Flq7N/Fctr8CVv6+m7jf
+         oEaC7Pyv/QMPHghrmj+268UzNowoNRl3azrX0zCfC76kY3PgYDkfSTZy8/NNx1u7lNKw
+         Qb6Q==
+X-Gm-Message-State: AOAM530uTY6HWy5+HvHU/Oo4csgaOIeP3fOqKexrMI/EEhkqxFIUNlSt
+        TTwlAy2O3+sGJ/6PDkL77XDrH2Lr
+X-Google-Smtp-Source: ABdhPJyA83VNwFV91fTnPw0hn3TM4MdL8y4a46EV7ISjdOJ8jS4WjWDHqQcCdszaljQp2E3iekEyUw==
+X-Received: by 2002:a5d:5492:: with SMTP id h18mr4543232wrv.35.1589553565875;
+        Fri, 15 May 2020 07:39:25 -0700 (PDT)
 Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id a10sm3841945wmf.46.2020.05.15.07.27.31
+        by smtp.gmail.com with ESMTPSA id 81sm4338355wme.16.2020.05.15.07.39.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 07:27:31 -0700 (PDT)
+        Fri, 15 May 2020 07:39:25 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] clk: tegra: Changes for v5.8-rc1
-Date:   Fri, 15 May 2020 16:27:30 +0200
-Message-Id: <20200515142730.1573945-1-thierry.reding@gmail.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [GIT PULL] i2c: tegra: Changes for v5.8-rc1
+Date:   Fri, 15 May 2020 16:39:24 +0200
+Message-Id: <20200515143924.1579055-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
@@ -64,65 +63,42 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mike, Stephen,
+Hi,
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+The following changes since commit 0e698dfa282211e414076f9dc7e83c1c288314fd:
 
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+  Linux 5.7-rc4 (2020-05-03 14:56:04 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.8-clk
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.8-i2c
 
-for you to fetch changes up to dec396322d25ca5ce2f307b6da897060fdf9a782:
+for you to fetch changes up to c73178b93754edd8449dccd3faf05baafd4d3f0e:
 
-  clk: tegra: Add Tegra210 CSI TPG clock gate (2020-05-12 22:48:43 +0200)
+  i2c: tegra: Add support for the VI I2C on Tegra210 (2020-05-12 22:47:52 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-clk: tegra: Changes for v5.8-rc1
+i2c: tegra: Changes for v5.8-rc1
 
-Thise are a couple of changes to implement EMC frequency scaling on
-Tegra210, CPU frequency scaling on Tegra20 and Tegra30 as well as a
-special clock gate for the CSI test pattern generator on Tegra210.
+This includes a few improvements to make the Tegra I2C controller behave
+properly on suspend/resume, does a bit of cleanup and adds support for
+the VI-variant of the I2C controller that is used primarily for video
+capture purposes.
 
 ----------------------------------------------------------------
-Dmitry Osipenko (5):
-      clk: tegra: Add custom CCLK implementation
-      clk: tegra: pll: Add pre/post rate-change hooks
-      clk: tegra: cclk: Add helpers for handling PLLX rate changes
-      clk: tegra20: Use custom CCLK implementation
-      clk: tegra30: Use custom CCLK implementation
+Dmitry Osipenko (2):
+      i2c: tegra: Better handle case where CPU0 is busy for a long time
+      i2c: tegra: Synchronize DMA before termination
 
-Joseph Lo (4):
-      clk: tegra: Add PLLP_UD and PLLMB_UD for Tegra210
-      clk: tegra: Export functions for EMC clock scaling
-      clk: tegra: Implement Tegra210 EMC clock
-      clk: tegra: Remove the old emc_mux clock for Tegra210
+Thierry Reding (5):
+      Revert "i2c: tegra: Fix suspending in active runtime PM state"
+      i2c: tegra: Restore pinmux on system resume
+      i2c: tegra: Keep IRQs enabled during suspend/resume
+      i2c: tegra: Use FIELD_PREP/FIELD_GET macros
+      i2c: tegra: Add support for the VI I2C on Tegra210
 
-Sowjanya Komatineni (2):
-      dt-bindings: clock: tegra: Add clock ID for CSI TPG clock
-      clk: tegra: Add Tegra210 CSI TPG clock gate
-
-Thierry Reding (2):
-      Merge branch 'for-5.8/dt-bindings' into for-5.8/clk
-      clk: tegra: Rename Tegra124 EMC clock source file
-
- drivers/clk/tegra/Kconfig                          |   4 -
- drivers/clk/tegra/Makefile                         |   4 +-
- drivers/clk/tegra/clk-pll.c                        |  12 +-
- drivers/clk/tegra/clk-tegra-super-cclk.c           | 212 ++++++++++++
- .../clk/tegra/{clk-emc.c => clk-tegra124-emc.c}    |   0
- drivers/clk/tegra/clk-tegra20.c                    |   7 +-
- drivers/clk/tegra/clk-tegra210-emc.c               | 369 +++++++++++++++++++++
- drivers/clk/tegra/clk-tegra210.c                   |  94 ++++--
- drivers/clk/tegra/clk-tegra30.c                    |   6 +-
- drivers/clk/tegra/clk.h                            |  24 +-
- include/dt-bindings/clock/tegra210-car.h           |   6 +-
- include/linux/clk/tegra.h                          |  27 ++
- 12 files changed, 730 insertions(+), 35 deletions(-)
- create mode 100644 drivers/clk/tegra/clk-tegra-super-cclk.c
- rename drivers/clk/tegra/{clk-emc.c => clk-tegra124-emc.c} (100%)
- create mode 100644 drivers/clk/tegra/clk-tegra210-emc.c
+ drivers/i2c/busses/i2c-tegra.c | 248 +++++++++++++++++++++++++++++------------
+ 1 file changed, 179 insertions(+), 69 deletions(-)
