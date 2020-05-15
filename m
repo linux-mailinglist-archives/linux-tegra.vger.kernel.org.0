@@ -2,58 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F2B1D51B3
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 16:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 373A61D5288
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 16:53:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726537AbgEOOj1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 10:39:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36010 "EHLO
+        id S1726168AbgEOOxS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 May 2020 10:53:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727853AbgEOOj1 (ORCPT
+        by vger.kernel.org with ESMTP id S1726144AbgEOOxR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 10:39:27 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6CFC061A0C;
-        Fri, 15 May 2020 07:39:27 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id l18so3837120wrn.6;
-        Fri, 15 May 2020 07:39:27 -0700 (PDT)
+        Fri, 15 May 2020 10:53:17 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53CC6C061A0C
+        for <linux-tegra@vger.kernel.org>; Fri, 15 May 2020 07:53:17 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id y3so3933082wrt.1
+        for <linux-tegra@vger.kernel.org>; Fri, 15 May 2020 07:53:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=c0AI7exajo6fiVUs6s7O45O24ivjL3JaDYf6aB0WxVU=;
-        b=cfm5u0zCY8qcsXUUBw7I6yPO91GXVNJFqK9rROLdykDwkL2YYdC150kyi052qkkQrS
-         84fzm02Wg1h4vOsepFm1Q30ZYGUolcxmU1IB31boZ55N/T+6V4fpM13tZnVpeMqYaAfQ
-         6rDvdpIsIKL/MffuG6VXsl72zC/KQggEp4Jo4nbpBZw44dHRKqRxOiC4jH5qYyKlwBwm
-         FCtQOmEuw5YsZo0u9AVCHJ3fPv43NTtsSP6IdeuM+LYxvnmk0EwU+GTwCoYcyB8qx3Dr
-         YPVQSA3vPW+h5odF7yea0lpxEXvDFbBlyj4nBDQiSo28phzTv3YetPzmqdsOHNhYhqev
-         n2IA==
+        bh=SX5Bvwgq1NCpycdgBCR9PBZe8tNMYarBnn+Wo58F7TE=;
+        b=ZSpUts1p2V+jm65xGyFdEfdNEm3vqUIjDn0QO3tjKgS7pVp1tsIS5TQWMV2YUO4qyf
+         S/N/ColVzKXLowSbNJ/8sAGDDKC8qLcMYbZKCjBucHgC225cPawt/3dNSiqeRPZvK2Oh
+         NBL8CcaQWULu7hcL/wjBTeIEpZBvG3njqPMICgvChW+4ZuQD/HfxnzshLyMFHY9G/1m9
+         q/qPzwhNruQw3dx3awwob4WAt6648UxmdwLLl4FRyK4V6tRB42c1kCfsMDXBuYgzG6Aw
+         STLV5cz1kxuOMU9TBR/nlC88uNYv67ua/ufOIF2g9TvGu4qhSlPKe2R2LS9hb0yKM3Mg
+         OVig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=c0AI7exajo6fiVUs6s7O45O24ivjL3JaDYf6aB0WxVU=;
-        b=W58qTjDZFsrn+7YpD9tULbUiFGtlj3X7u7QYju9hYDA77110FY78Z15jegOVCoDM06
-         4PDDwTHDQA2+p0IrT1kSE/RIOx9PhrYUcuUEMyl3e1TudsnQvXMjWhb82HUXfBlYXqZA
-         IBrmTxr3NEt/pbfxGmwz6uT0PYSjm82eTWfoSkssZH9+76OLGdNWnPf49fDc4ilOukrZ
-         BKO7CtcRA1giHEtncuxCgV46Y2Vu8bY9nnBYrk0EegBBc5/1Flq7N/Fctr8CVv6+m7jf
-         oEaC7Pyv/QMPHghrmj+268UzNowoNRl3azrX0zCfC76kY3PgYDkfSTZy8/NNx1u7lNKw
-         Qb6Q==
-X-Gm-Message-State: AOAM530uTY6HWy5+HvHU/Oo4csgaOIeP3fOqKexrMI/EEhkqxFIUNlSt
-        TTwlAy2O3+sGJ/6PDkL77XDrH2Lr
-X-Google-Smtp-Source: ABdhPJyA83VNwFV91fTnPw0hn3TM4MdL8y4a46EV7ISjdOJ8jS4WjWDHqQcCdszaljQp2E3iekEyUw==
-X-Received: by 2002:a5d:5492:: with SMTP id h18mr4543232wrv.35.1589553565875;
-        Fri, 15 May 2020 07:39:25 -0700 (PDT)
+        bh=SX5Bvwgq1NCpycdgBCR9PBZe8tNMYarBnn+Wo58F7TE=;
+        b=lyBsmzEZueL6z0580sbsAj7C/zh7qblB/OKup/GNmlxekObt6jKCL2hrWQGPwO/lIU
+         btviWLIQLnQhpc4BNAJzAn/2DE/ltNzztMInqtdc/KI6CZU9CzTLLvq6pqB9sEYCHh6+
+         3P2bMJKqDdVVtMzrTuNDbPm53zLDlDR0iQQnn89cgtL0cLIfyLINgkr0EvJG5XoLrpgL
+         5zOFxPRTAyKzswaTXvWEWkZ0FnSgJUvrVl5dgdBZDdtCfs0CuBjo5mGKfRCwCDAKVfIh
+         clLK7Dqkd9JPyzrhnNWRIUuDQukL8bPQTY6tTn15m5ATTMvKbYmNv5Sz2AFDukKuGr2+
+         Entg==
+X-Gm-Message-State: AOAM533+sO/3KlvlEu2gMKWAk0dbUw9mcNUgo1jClixY36G+1/f5qwuW
+        JPN36IyC3TsOXOCVcrpEn0M=
+X-Google-Smtp-Source: ABdhPJzgQb+q8i0SHtbCmU9o/4qBh9GOqYxAltQtOQU4/+xzTU8ZChsTImA8UBelmztau/r7CJmOiA==
+X-Received: by 2002:adf:9d91:: with SMTP id p17mr4519295wre.119.1589554396003;
+        Fri, 15 May 2020 07:53:16 -0700 (PDT)
 Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id 81sm4338355wme.16.2020.05.15.07.39.24
+        by smtp.gmail.com with ESMTPSA id l1sm4182436wrc.24.2020.05.15.07.53.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 07:39:25 -0700 (PDT)
+        Fri, 15 May 2020 07:53:14 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] i2c: tegra: Changes for v5.8-rc1
-Date:   Fri, 15 May 2020 16:39:24 +0200
-Message-Id: <20200515143924.1579055-1-thierry.reding@gmail.com>
+To:     arm@kernel.org, soc@kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL 00/11] tegra: Changes for v5.8-rc1
+Date:   Fri, 15 May 2020 16:53:00 +0200
+Message-Id: <20200515145311.1580134-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
@@ -63,42 +65,26 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+Hi ARM SoC maintainers,
 
-The following changes since commit 0e698dfa282211e414076f9dc7e83c1c288314fd:
+This set of pull requests contains a couple more driver changes than
+usual, which is primarily because of some build-time and runtime
+dependencies.
 
-  Linux 5.7-rc4 (2020-05-03 14:56:04 -0700)
+The biggest driver here is probably the VI/CSI driver for Tegra210
+which has been extensively been reviewed on the mailing list and was
+acked by two of the subsystem maintainers.
 
-are available in the Git repository at:
+Other than that there's CPU frequency scaling work and CPU idle support
+for older chips, both of which have also been acked by the corresponding
+maintainers. There are also three patches to core OF support which Rob
+also acked and which are a build-time dependency for the Tegra210 EMC
+frequency scaling patches.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.8-i2c
+The rest is pretty standard stuff.
 
-for you to fetch changes up to c73178b93754edd8449dccd3faf05baafd4d3f0e:
+For last cycle you had asked subarch maintainers to help with fleshing
+out pull request details. Is this something that you wanted to pursue
+for this cycle as well?
 
-  i2c: tegra: Add support for the VI I2C on Tegra210 (2020-05-12 22:47:52 +0200)
-
-Thanks,
 Thierry
-
-----------------------------------------------------------------
-i2c: tegra: Changes for v5.8-rc1
-
-This includes a few improvements to make the Tegra I2C controller behave
-properly on suspend/resume, does a bit of cleanup and adds support for
-the VI-variant of the I2C controller that is used primarily for video
-capture purposes.
-
-----------------------------------------------------------------
-Dmitry Osipenko (2):
-      i2c: tegra: Better handle case where CPU0 is busy for a long time
-      i2c: tegra: Synchronize DMA before termination
-
-Thierry Reding (5):
-      Revert "i2c: tegra: Fix suspending in active runtime PM state"
-      i2c: tegra: Restore pinmux on system resume
-      i2c: tegra: Keep IRQs enabled during suspend/resume
-      i2c: tegra: Use FIELD_PREP/FIELD_GET macros
-      i2c: tegra: Add support for the VI I2C on Tegra210
-
- drivers/i2c/busses/i2c-tegra.c | 248 +++++++++++++++++++++++++++++------------
- 1 file changed, 179 insertions(+), 69 deletions(-)
