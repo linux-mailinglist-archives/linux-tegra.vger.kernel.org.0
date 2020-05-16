@@ -2,117 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBDC81D5F75
-	for <lists+linux-tegra@lfdr.de>; Sat, 16 May 2020 09:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 515A11D63A7
+	for <lists+linux-tegra@lfdr.de>; Sat, 16 May 2020 20:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbgEPHph (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 16 May 2020 03:45:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725934AbgEPHpg (ORCPT
+        id S1726296AbgEPSjI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Sat, 16 May 2020 14:39:08 -0400
+Received: from dynamic-168-196-86-226.romaotelecom.net.br ([168.196.86.226]:45921
+        "EHLO srv01.fortnetprovedor.com.br" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726238AbgEPSjI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 16 May 2020 03:45:36 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2818BC061A0C;
-        Sat, 16 May 2020 00:45:36 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id h26so3733828lfg.6;
-        Sat, 16 May 2020 00:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r051ZtscWAFEcwFXTElJPWWhBN0jv0av84Oriy8NXF0=;
-        b=Nde/IQ8ZgdfP/+ZFaM0t2CjZda+NjRrxe5VOxJiNELtJsZWil+xblmGvW6qMEOuxVE
-         qRa73T5Az4SOIDXVqf4E60V54gUkkkb+wDYmw+2AH5yJG8sBbw38DVkM+1hzJtcEt7HO
-         Huenawq1IqvH/zwGTmOaEiTsbWpVGENgHK+mAcOMlzTFKdUR4Q9VkvNMsOaZJ4WX51X5
-         iXUm0iMIH7JqkGFUaGjcS3C97pL0rUmHaRzVEx5u4boVkAxjf8277cDH39TNIn1ROeiq
-         3Z0mJx39xX77+5GyXN4SD/3DkThyZWKofljwmCYWKC73cJCtQziH/RxHqMBfj5slRLM6
-         1feQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r051ZtscWAFEcwFXTElJPWWhBN0jv0av84Oriy8NXF0=;
-        b=cTCX08+PwzFbDaPArShIkne7qMs7EjBJped4+Rae/nlkVOtCXJSVQel1+CKTVVM0Wn
-         o6NRepE958vUnriD4KfpWS78hmVK2ExCzd55mn+qlwNuuXeZ2qD+WP3DVu+G8xjerLw5
-         W53FpSAbABRpZmdHGMgLljc7zSSbNgs+DIn1vfIMcg5dhBs58+YpoR+7lKjbDGCHzu9t
-         f+u8IWviOnT48mzsgIfGyHWgLPn8v1Frez9OI9XebM4PVmQqV/ZKlgTw6mSsH2EvzTHZ
-         I/J14sVbsnruX97hxnkYxZimsb9M/+XYprEC9BHAwGt3PwDPJc/a1sXtQhMVcj74ot0A
-         789w==
-X-Gm-Message-State: AOAM530kMg7Cuyr1QXEJyGYozZHvTgLRoHwiV/FkoPLCV0hOpPpzuJ9+
-        VJzOXE10Q1dYgSFCYjPCBfXGf1hs
-X-Google-Smtp-Source: ABdhPJyDGBd+HPYbjsQt4MvgrhGWyRCVR4XGU9lU52TvZe43hp00hLEnDwgo/PTWo9QueyZJWRRaOw==
-X-Received: by 2002:a19:e86:: with SMTP id 128mr4864067lfo.34.1589615134285;
-        Sat, 16 May 2020 00:45:34 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id 5sm2651357lfy.60.2020.05.16.00.45.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 May 2020 00:45:33 -0700 (PDT)
-Subject: Re: [GIT PULL] i2c: tegra: Changes for v5.8-rc1
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20200515143924.1579055-1-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <314a292e-bcd9-bb30-4067-71dc7cc399d6@gmail.com>
-Date:   Sat, 16 May 2020 10:45:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Sat, 16 May 2020 14:39:08 -0400
+X-Greylist: delayed 23890 seconds by postgrey-1.27 at vger.kernel.org; Sat, 16 May 2020 14:39:07 EDT
+Received: from [197.211.61.37] (helo=[10.222.190.241])
+        by srv01.fortnetprovedor.com.br with esmtpa (Exim 4.92.2)
+        (envelope-from <pessina@info.com>)
+        id 1jZvQU-0004vu-Tz; Sat, 16 May 2020 08:56:23 -0300
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20200515143924.1579055-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?HERZLICHEN_GL=C3=9CCKWUNSCH_=E2=82=AC_2=2C000=2E000=2C00_wurde_?=
+ =?utf-8?q?an_Sie_gespendet?=
+To:     Recipients <pessina@info.com>
+From:   Stefano <pessina@info.com>
+Date:   Sat, 16 May 2020 04:55:35 -0700
+Reply-To: pessinastefa@gmail.com
+Message-Id: <E1jZvQU-0004vu-Tz@srv01.fortnetprovedor.com.br>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.05.2020 17:39, Thierry Reding пишет:
-> Hi,
-> 
-> The following changes since commit 0e698dfa282211e414076f9dc7e83c1c288314fd:
-> 
->   Linux 5.7-rc4 (2020-05-03 14:56:04 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.8-i2c
-> 
-> for you to fetch changes up to c73178b93754edd8449dccd3faf05baafd4d3f0e:
-> 
->   i2c: tegra: Add support for the VI I2C on Tegra210 (2020-05-12 22:47:52 +0200)
-> 
-> Thanks,
-> Thierry
-> 
-> ----------------------------------------------------------------
-> i2c: tegra: Changes for v5.8-rc1
-> 
-> This includes a few improvements to make the Tegra I2C controller behave
-> properly on suspend/resume, does a bit of cleanup and adds support for
-> the VI-variant of the I2C controller that is used primarily for video
-> capture purposes.
-> 
-> ----------------------------------------------------------------
-> Dmitry Osipenko (2):
->       i2c: tegra: Better handle case where CPU0 is busy for a long time
->       i2c: tegra: Synchronize DMA before termination
-> 
-> Thierry Reding (5):
->       Revert "i2c: tegra: Fix suspending in active runtime PM state"
+Hallo,
 
->       i2c: tegra: Restore pinmux on system resume
+Ich bin Stefano Pessina, ein italienischer Wirtschaftsmagnat, Investor und
+philanthropist.the stellvertretende Vorsitzende, Chief Executive
+Officer (CEO), und
+der größte Einzelaktionär der Walgreens Boots Alliance. ich gab
+25 Prozent meines persönlichen Vermögens für wohltätige Zwecke
+wegbringen. Und ich habe auch zugesagt
+den Rest von 25% in diesem Jahr 2020 an Einzelpersonen zu verschenken
+Ich habe beschlossen, Ihnen €1.000.000,00EURO zu spenden. Wenn Sie an meiner
+Spende interessiert sind, kontaktieren Sie mich
+für mehr Informationen
 
-In general this series is good to me, although I have some concerns
-about this patch. Could you please answer the review comments?
+Sie können auch mehr über mich über den unten stehenden Link lesen
 
->       i2c: tegra: Keep IRQs enabled during suspend/resume
->       i2c: tegra: Use FIELD_PREP/FIELD_GET macros
->       i2c: tegra: Add support for the VI I2C on Tegra210
-> 
->  drivers/i2c/busses/i2c-tegra.c | 248 +++++++++++++++++++++++++++++------------
->  1 file changed, 179 insertions(+), 69 deletions(-)
-> 
+https://en.wikipedia.org/wiki/Stefano_Pessina
 
+Herzlicher Gruss
+CEO Walgreens Boots Alliance
+Stefano Pessina
