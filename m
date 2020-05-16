@@ -2,60 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 201D91D625D
-	for <lists+linux-tegra@lfdr.de>; Sat, 16 May 2020 17:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5303C1D6262
+	for <lists+linux-tegra@lfdr.de>; Sat, 16 May 2020 17:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbgEPPle (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 16 May 2020 11:41:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45914 "EHLO
+        id S1726226AbgEPPoV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 16 May 2020 11:44:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726876AbgEPPle (ORCPT
+        with ESMTP id S1726206AbgEPPoV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 16 May 2020 11:41:34 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2908C061A0C
-        for <linux-tegra@vger.kernel.org>; Sat, 16 May 2020 08:41:33 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id c21so4335970lfb.3
-        for <linux-tegra@vger.kernel.org>; Sat, 16 May 2020 08:41:33 -0700 (PDT)
+        Sat, 16 May 2020 11:44:21 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB58C061A0C;
+        Sat, 16 May 2020 08:44:20 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id e125so3556484lfd.1;
+        Sat, 16 May 2020 08:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=eIzUXuD/V9HhUju7GTzLWPyzNHW6BnF7bRxOjSTf+QA=;
-        b=F2J3duNvPYYOgCm4O0PbPkVry2+QQoXEzOR+FYYnm39uZZAozYuOZcVwnp6oMahY3d
-         pEhYQbajpFxGK/wG/BzIIH5xq44AfjjK1K4xjQ9uld59spiHYUrIuatwrqA5PecqxSfu
-         R3lSDsMCiWKs19acEdVZraOSWEnpWl9MRuuM+sS9I4DVr4T6hH1ul6Sfj+D8mK4FshPy
-         RYXHxYqgeDYGjvAa0hNurdzKpt5kPqURkXW0Z2lRXWpbFI8zSRfSxHIT8DcApRhlXR1g
-         GdlepnKv56q0lCzf6+i0Et2fKiF9BZLFMb2/wzi4dOk7D8eNhd4v6Q6V1r9yVxjWGUdK
-         qPbQ==
+        bh=v/VX1vyjPaZkfuYoHi0upfiopwVhKsLaoMAnz354uIg=;
+        b=e21cNtvcbU9P2bVOYcM0XDuiUivXQQzLsTpXzYYxIaoehSCHurHfJOJpaitIaVLIRR
+         hq3nIN0eCqTI2ngL/OS4FNmXTEHRvDuCLuU9P0FcmW5cTS6rPf0IOHdbmKAdHyixOLcQ
+         4tcQvaNEF3noc5bh+KDSSGmlT7JEb5Uo7g2ST6mXkQPQ1q6pX/bJfjLAOeIMaqupUl4g
+         gF8sNbe2/rixQ9tNSR6Ia0PptW7K+HMRlM6Cd3aQDPBMa0k6/jtWZGVvMZ2PgMQbYGrc
+         /jXetNJiuE1cHqSyVZ2+Yvj3Q2x4aX5ZcREANi2TMuZWztanfSWT23dxZmebeoAxF3eY
+         RvGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=eIzUXuD/V9HhUju7GTzLWPyzNHW6BnF7bRxOjSTf+QA=;
-        b=lZ3I1Akilcmp6MXNBZvdQ2cWqamYAeSro9YIrJlaxjqxfU9CBef0KhaDy83lRk/6ZM
-         sdH6g/2gGR6jds3miACp7/WCBVL4ziZXBJpG4Xd6P/1AJuViwhMU8uG5XIVdbb9Empbq
-         CYP31a3OOLttfxOvLlHyxeDTvcXloPfcdfB607jZqYmsh9EGFT2WhCgc3JmhwXBDmKAp
-         +zVTeXxhN0ilWmRHiwlZm7nsI5dLmf+RflXXrfqGqsXof+3P0nTxgNFQxt0T5Ic5eR3x
-         Tj49cDXiwQ5u61JF9djjAGX4G7OtixDuUQXPJoNTeQw9BZRe3OYo9IDuyZiPJa8zMHNb
-         lwSA==
-X-Gm-Message-State: AOAM533jTqpozQh/qckI+TzcfHXfaxIu8wJDmRhbxxAfvDyrJZ3x8CKm
-        digL0irt+0JG/jRaoeYofWc=
-X-Google-Smtp-Source: ABdhPJwYeCTep/xT1011C4iJO6nPJ5k1EtNf5/UG4xLqxGDRn7q7vck322J/zyOj/hEf2jBUqtpg3w==
-X-Received: by 2002:a19:ee19:: with SMTP id g25mr6041107lfb.124.1589643691295;
-        Sat, 16 May 2020 08:41:31 -0700 (PDT)
+        bh=v/VX1vyjPaZkfuYoHi0upfiopwVhKsLaoMAnz354uIg=;
+        b=Ud9JD+GH0IKbuR+9hwA0vtg85/Le51cwdas+qbDIAIMxSAwH5iSsBhBg7g4//StahD
+         DcZZyq9gj8AZLlqBA59F235PY739Ub9htgj+wqPffdgDd6XA+O4hjZgcgL8f5l4V+9EW
+         /njTa/HSjPo5tg44XxENfP16FhMnDYDG1orR6TWce0ESj3qOZFBAA4ty15eohtCMW4ys
+         /BW9vY+bYwVSjyI0OPPLHFb7lrN8qu5MXTV4LVL55lNo2BerrYxJbKi0gH93EKlFMAbO
+         pJyYWp8r44hHnmkV7exkFmDBo2rEo6W/wwREonNdRAmAnExTj9eDU7cqHOu858kuxTZC
+         Cigw==
+X-Gm-Message-State: AOAM5319Qb9oWNV3WeN54QIiAOquDO04a5Q7lVqUCrq86A8Lqvl2/3Oc
+        tEUaSKl/X+jpkO3KmrRz3Mg=
+X-Google-Smtp-Source: ABdhPJw4/hyk4jMm+lUZN4PMDAtHP6vSDhQO/jmufuSCzzNnE1IBgC5QfaLZXm/AHPShBxx3ZTuaHQ==
+X-Received: by 2002:a05:6512:44e:: with SMTP id y14mr5963865lfk.190.1589643859115;
+        Sat, 16 May 2020 08:44:19 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.gmail.com with ESMTPSA id v2sm2894525ljj.96.2020.05.16.08.41.30
+        by smtp.gmail.com with ESMTPSA id h3sm3399288lfk.3.2020.05.16.08.44.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2020 08:41:30 -0700 (PDT)
+        Sat, 16 May 2020 08:44:18 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1] drm/tegra: gr3d: Assert reset before power-gating
-Date:   Sat, 16 May 2020 18:41:15 +0300
-Message-Id: <20200516154115.14510-1-digetx@gmail.com>
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] sdhci: tegra: Remove warnings about missing device-tree properties
+Date:   Sat, 16 May 2020 18:43:14 +0300
+Message-Id: <20200516154314.14769-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,32 +66,74 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra TRM documentation states that hardware should be in a default state
-when power partition is turned off, i.e. reset should be asserted. This
-patch adds the missing reset assertions.
+Several people asked me about the MMC warnings in the KMSG log and
+I had to tell to ignore them because these warning are irrelevant to
+pre-Tegra210 SoCs. It should be up to a board's device-tree writer to
+properly describe all the necessary properties. Secondly, eventually all
+device-tree bindings will be converted to YAML, which allows to validate
+board DT files, giving a warning about missing properties. Hence let's
+remove the noisy warnings to stop the confusion.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/gr3d.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/mmc/host/sdhci-tegra.c | 28 ++++------------------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/gr3d.c b/drivers/gpu/drm/tegra/gr3d.c
-index c0a528be0369..b0b8154e8104 100644
---- a/drivers/gpu/drm/tegra/gr3d.c
-+++ b/drivers/gpu/drm/tegra/gr3d.c
-@@ -381,10 +381,12 @@ static int gr3d_remove(struct platform_device *pdev)
- 	}
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index 3e2c5101291d..83867629013d 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -607,46 +607,26 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
+ 	err = device_property_read_u32(host->mmc->parent,
+ 			"nvidia,pad-autocal-pull-up-offset-3v3-timeout",
+ 			&autocal->pull_up_3v3_timeout);
+-	if (err) {
+-		if (!IS_ERR(tegra_host->pinctrl_state_3v3) &&
+-			(tegra_host->pinctrl_state_3v3_drv == NULL))
+-			pr_warn("%s: Missing autocal timeout 3v3-pad drvs\n",
+-				mmc_hostname(host->mmc));
++	if (err)
+ 		autocal->pull_up_3v3_timeout = 0;
+-	}
  
- 	if (gr3d->clk_secondary) {
-+		reset_control_assert(gr3d->rst_secondary);
- 		tegra_powergate_power_off(TEGRA_POWERGATE_3D1);
- 		clk_disable_unprepare(gr3d->clk_secondary);
- 	}
+ 	err = device_property_read_u32(host->mmc->parent,
+ 			"nvidia,pad-autocal-pull-down-offset-3v3-timeout",
+ 			&autocal->pull_down_3v3_timeout);
+-	if (err) {
+-		if (!IS_ERR(tegra_host->pinctrl_state_3v3) &&
+-			(tegra_host->pinctrl_state_3v3_drv == NULL))
+-			pr_warn("%s: Missing autocal timeout 3v3-pad drvs\n",
+-				mmc_hostname(host->mmc));
++	if (err)
+ 		autocal->pull_down_3v3_timeout = 0;
+-	}
  
-+	reset_control_assert(gr3d->rst);
- 	tegra_powergate_power_off(TEGRA_POWERGATE_3D);
- 	clk_disable_unprepare(gr3d->clk);
+ 	err = device_property_read_u32(host->mmc->parent,
+ 			"nvidia,pad-autocal-pull-up-offset-1v8-timeout",
+ 			&autocal->pull_up_1v8_timeout);
+-	if (err) {
+-		if (!IS_ERR(tegra_host->pinctrl_state_1v8) &&
+-			(tegra_host->pinctrl_state_1v8_drv == NULL))
+-			pr_warn("%s: Missing autocal timeout 1v8-pad drvs\n",
+-				mmc_hostname(host->mmc));
++	if (err)
+ 		autocal->pull_up_1v8_timeout = 0;
+-	}
  
+ 	err = device_property_read_u32(host->mmc->parent,
+ 			"nvidia,pad-autocal-pull-down-offset-1v8-timeout",
+ 			&autocal->pull_down_1v8_timeout);
+-	if (err) {
+-		if (!IS_ERR(tegra_host->pinctrl_state_1v8) &&
+-			(tegra_host->pinctrl_state_1v8_drv == NULL))
+-			pr_warn("%s: Missing autocal timeout 1v8-pad drvs\n",
+-				mmc_hostname(host->mmc));
++	if (err)
+ 		autocal->pull_down_1v8_timeout = 0;
+-	}
+ 
+ 	err = device_property_read_u32(host->mmc->parent,
+ 			"nvidia,pad-autocal-pull-up-offset-sdr104",
 -- 
 2.26.0
 
