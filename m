@@ -2,101 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B07101D58F0
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 May 2020 20:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBDC81D5F75
+	for <lists+linux-tegra@lfdr.de>; Sat, 16 May 2020 09:45:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726249AbgEOSTS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 May 2020 14:19:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37706 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726293AbgEOSTR (ORCPT
+        id S1726803AbgEPHph (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 16 May 2020 03:45:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725934AbgEPHpg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 May 2020 14:19:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589566755;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
-        b=FmfAuVh4QGkOpPgfhCFAuYt7jmv7Qagj1fzOAUyM01z8aAILrmmE7Ffn2dB4qTegdq1Shp
-        d/5G7ZCAVreovBNZmSD9zeIoqfER5+DTXru1T58BU9nfaNx7+GQTLlGXQU0xm81jmqojTk
-        ePaeUnUZj/WKqZMpPivCquDW6Q5eJEI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-5Lg3j4pVPCKam9iMWVf5vg-1; Fri, 15 May 2020 14:19:14 -0400
-X-MC-Unique: 5Lg3j4pVPCKam9iMWVf5vg-1
-Received: by mail-wm1-f71.google.com with SMTP id m123so1544036wmm.5
-        for <linux-tegra@vger.kernel.org>; Fri, 15 May 2020 11:19:13 -0700 (PDT)
+        Sat, 16 May 2020 03:45:36 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2818BC061A0C;
+        Sat, 16 May 2020 00:45:36 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id h26so3733828lfg.6;
+        Sat, 16 May 2020 00:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=r051ZtscWAFEcwFXTElJPWWhBN0jv0av84Oriy8NXF0=;
+        b=Nde/IQ8ZgdfP/+ZFaM0t2CjZda+NjRrxe5VOxJiNELtJsZWil+xblmGvW6qMEOuxVE
+         qRa73T5Az4SOIDXVqf4E60V54gUkkkb+wDYmw+2AH5yJG8sBbw38DVkM+1hzJtcEt7HO
+         Huenawq1IqvH/zwGTmOaEiTsbWpVGENgHK+mAcOMlzTFKdUR4Q9VkvNMsOaZJ4WX51X5
+         iXUm0iMIH7JqkGFUaGjcS3C97pL0rUmHaRzVEx5u4boVkAxjf8277cDH39TNIn1ROeiq
+         3Z0mJx39xX77+5GyXN4SD/3DkThyZWKofljwmCYWKC73cJCtQziH/RxHqMBfj5slRLM6
+         1feQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
-        b=WJ7Z21SuyUFGoqYj9hfUFRuDbpScmyTWvoB7C/Xx2YV3H8WMoc8TTZtrp0vyMGTfD1
-         eAybwSK/laxt2o+lMT275oiywKbn591+t1GS0wJX8AcCuNUuc9B+rJccBlJv2uD9+tYX
-         EpjhXYZJhKuEktfPq0ZEYnzgdPLZjtXti/AZc6cVW8Nn0lefXBXeCZ5vQkcI7QR0OTu8
-         aTGByO3RSic4WDqEyuGzkuCmfAD252b0dvE0rvrpl0MkLKFllwri7JaTRxF2O5kj2K1y
-         UeDeyYb11pd5uS3E/EFB2/M+pz0TaCvYM9F5VLizlXUA4RUjLkEbxyx/SENHEpDB8w4S
-         6Kwg==
-X-Gm-Message-State: AOAM532L3CRpWvNGMj5Painspy2NVsjwoSESkPslqbIYAhuBMgt+Hr3O
-        jdkeZxVEAKj7c2MgTybMPnqrrwFJrF3tOT8no7Dyd6ID4zuwR2Evv+YiGJviRJ3L2X7LXoZUYB3
-        cwA94Dd9vdwzeypNiGPoWb80=
-X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299522wmf.89.1589566752682;
-        Fri, 15 May 2020 11:19:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEhyZogIb52tbS8Sjh71yaPa5wKbVCzzV1bSu62tN2QyZWoHUXHTTKTerADtg5ez9J3v5UBw==
-X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299458wmf.89.1589566752273;
-        Fri, 15 May 2020 11:19:12 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id a15sm4604338wrw.56.2020.05.15.11.19.10
+        bh=r051ZtscWAFEcwFXTElJPWWhBN0jv0av84Oriy8NXF0=;
+        b=cTCX08+PwzFbDaPArShIkne7qMs7EjBJped4+Rae/nlkVOtCXJSVQel1+CKTVVM0Wn
+         o6NRepE958vUnriD4KfpWS78hmVK2ExCzd55mn+qlwNuuXeZ2qD+WP3DVu+G8xjerLw5
+         W53FpSAbABRpZmdHGMgLljc7zSSbNgs+DIn1vfIMcg5dhBs58+YpoR+7lKjbDGCHzu9t
+         f+u8IWviOnT48mzsgIfGyHWgLPn8v1Frez9OI9XebM4PVmQqV/ZKlgTw6mSsH2EvzTHZ
+         I/J14sVbsnruX97hxnkYxZimsb9M/+XYprEC9BHAwGt3PwDPJc/a1sXtQhMVcj74ot0A
+         789w==
+X-Gm-Message-State: AOAM530kMg7Cuyr1QXEJyGYozZHvTgLRoHwiV/FkoPLCV0hOpPpzuJ9+
+        VJzOXE10Q1dYgSFCYjPCBfXGf1hs
+X-Google-Smtp-Source: ABdhPJyDGBd+HPYbjsQt4MvgrhGWyRCVR4XGU9lU52TvZe43hp00hLEnDwgo/PTWo9QueyZJWRRaOw==
+X-Received: by 2002:a19:e86:: with SMTP id 128mr4864067lfo.34.1589615134285;
+        Sat, 16 May 2020 00:45:34 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id 5sm2651357lfy.60.2020.05.16.00.45.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2020 11:19:11 -0700 (PDT)
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
-Date:   Fri, 15 May 2020 20:19:10 +0200
+        Sat, 16 May 2020 00:45:33 -0700 (PDT)
+Subject: Re: [GIT PULL] i2c: tegra: Changes for v5.8-rc1
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20200515143924.1579055-1-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <314a292e-bcd9-bb30-4067-71dc7cc399d6@gmail.com>
+Date:   Sat, 16 May 2020 10:45:32 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200515143924.1579055-1-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -104,52 +69,50 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Andrezj,
-
-On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
-> Userspace might want to implement a policy to temporarily disregard input
-> from certain devices, including not treating them as wakeup sources.
+15.05.2020 17:39, Thierry Reding пишет:
+> Hi,
 > 
-> An example use case is a laptop, whose keyboard can be folded under the
-> screen to create tablet-like experience. The user then must hold the laptop
-> in such a way that it is difficult to avoid pressing the keyboard keys. It
-> is therefore desirable to temporarily disregard input from the keyboard,
-> until it is folded back. This obviously is a policy which should be kept
-> out of the kernel, but the kernel must provide suitable means to implement
-> such a policy.
+> The following changes since commit 0e698dfa282211e414076f9dc7e83c1c288314fd:
+> 
+>   Linux 5.7-rc4 (2020-05-03 14:56:04 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.8-i2c
+> 
+> for you to fetch changes up to c73178b93754edd8449dccd3faf05baafd4d3f0e:
+> 
+>   i2c: tegra: Add support for the VI I2C on Tegra210 (2020-05-12 22:47:52 +0200)
+> 
+> Thanks,
+> Thierry
+> 
+> ----------------------------------------------------------------
+> i2c: tegra: Changes for v5.8-rc1
+> 
+> This includes a few improvements to make the Tegra I2C controller behave
+> properly on suspend/resume, does a bit of cleanup and adds support for
+> the VI-variant of the I2C controller that is used primarily for video
+> capture purposes.
+> 
+> ----------------------------------------------------------------
+> Dmitry Osipenko (2):
+>       i2c: tegra: Better handle case where CPU0 is busy for a long time
+>       i2c: tegra: Synchronize DMA before termination
+> 
+> Thierry Reding (5):
+>       Revert "i2c: tegra: Fix suspending in active runtime PM state"
 
-Actually libinput already binds together (inside libinput) SW_TABLET_MODE
-generating evdev nodes and e.g. internal keyboards on devices with 360°
-hinges for this reason. libinput simply closes the /dev/input/event#
-node when folded and re-opens it when the keyboard should become active
-again. Thus not only suppresses events but allows e.g. touchpads to
-enter runtime suspend mode which saves power. Typically closing the
-/dev/input/event# node will also disable the device as wakeup source.
+>       i2c: tegra: Restore pinmux on system resume
 
-So I wonder what this series actually adds for functionality for
-userspace which can not already be achieved this way?
+In general this series is good to me, although I have some concerns
+about this patch. Could you please answer the review comments?
 
-I also noticed that you keep the device open (do not call the
-input_device's close callback) when inhibited and just throw away
-any events generated. This seems inefficient and may lead to
-the internal state getting out of sync. What if a key is pressed
-while inhibited and then the device is uninhibited while the key
-is still pressed?  Now the press event is lost and userspace
-querying the current state will see the pressed key as being
-released.
-
-On top of this you add special inhibit and uninhibit callbacks
-and implement those for just a few devices. How do these differ
-from just closing the device and later opening it again ?
-
-Also using a sysfs property for this is very weird given that the
-rest of the evdev interface is using ioctls for everything...
-
-So all in all I see a lot of question marks here and I think we
-need to have a detailed discussion about what use-cases this
-series tries to enable before moving forward with this.
-
-Regards,
-
-Hans
+>       i2c: tegra: Keep IRQs enabled during suspend/resume
+>       i2c: tegra: Use FIELD_PREP/FIELD_GET macros
+>       i2c: tegra: Add support for the VI I2C on Tegra210
+> 
+>  drivers/i2c/busses/i2c-tegra.c | 248 +++++++++++++++++++++++++++++------------
+>  1 file changed, 179 insertions(+), 69 deletions(-)
+> 
 
