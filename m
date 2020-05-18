@@ -2,88 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ABED1D7268
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2020 10:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A2E1D7586
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2020 12:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbgERIAv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 May 2020 04:00:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53342 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726489AbgERIAv (ORCPT
+        id S1726358AbgERKsV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 May 2020 06:48:21 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38648 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbgERKsU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 May 2020 04:00:51 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF0EC061A0C;
-        Mon, 18 May 2020 01:00:50 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id b6so8804388ljj.1;
-        Mon, 18 May 2020 01:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Wa0lI6K9c2yizlhSExJV0yCXbar6s/0dBsIvA7fyzwA=;
-        b=oPLDLtlCK3B2UirJcEaAVEMyyyarJuhdVpRe82gCi9qltMAuPD8+OrVGJNnsu287dw
-         Q+QMgQPlK7qMFybK+ZqLbtPuTyn3Dq6KSa8oEoC+5QCSMdknUudt/2FTp7r2nwyilvHA
-         nqz5JzFr7pde7P+TGvcGEHny8gHDgFqR9bMeFQ8ib76BiO+aleTsPs6qsf2/q5cLLd6v
-         pih0UohBzTW47QmtMyw4IutJEaa9SQJsrRs4FW5YFDQu+SOvZtAP4euOrD8LRV9yJEdZ
-         DsgilaN2qQZpqi00fMZjPpyz9tBhmgX4MG8okHdhPqhfQAam3mKhAs2Ga2/o6QHy2iCF
-         rfvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Wa0lI6K9c2yizlhSExJV0yCXbar6s/0dBsIvA7fyzwA=;
-        b=DMjqZtyj4TMcMR299funv873V+nBkKKCzdBcXdJeh/j0rwkRTxei9SNWyaajOKDfOY
-         qpbqc7XWICTAWVtrjGbaP6pNxXzHlox64o8ZnXTq5n4pBq03DDGHx8xqs8PA3wtCcONr
-         u8vs27gv2J9kT9l2VLU0TQq6hZjd99v241xIPbWT/dwGbt0QD2Bdz6A9tZBzGAq01i42
-         Ev1WNrZ1q2FFhA0GXgaWM9EfVnmOKDheg7yzqiJh1TI48g3kyOm07Uk3j9pHI9kLBKnO
-         UWx1aQfQ/p5Z43jxs/i3w+1cAmf0MjgeDeYJIOCvR0nmmK1HYeJIrvjb4Y0gugYL3rCQ
-         JZsA==
-X-Gm-Message-State: AOAM530dHKiB8dq4V+VjnEkcfZJZcMMXRlPo7Viu0tHV6llBjfM6BAdO
-        95LGcHZasEO1mZfh6t3ZFMPjQFxW
-X-Google-Smtp-Source: ABdhPJxMqFz7gXK2/VXT0Hb0n/u/XYAceGn1f4MvnraJ0aqoh7Ghj6X7hlfP+a4hCXweDRrxLP2s/g==
-X-Received: by 2002:a2e:a211:: with SMTP id h17mr10103921ljm.289.1589788848104;
-        Mon, 18 May 2020 01:00:48 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id m10sm6452213lfd.15.2020.05.18.01.00.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2020 01:00:47 -0700 (PDT)
-Subject: Re: [PATCH v5 6/6] soc/tegra: Expose Boot Configuration Table via
- sysfs
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Jens Axboe <axboe@kernel.dk>,
+        Mon, 18 May 2020 06:48:20 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 849C52A04C1
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Billy Laws <blaws05@gmail.com>,
-        =?UTF-8?Q?Nils_=c3=96stlund?= <nils@naltan.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
-        Andrey Danin <danindrey@mail.ru>,
-        Gilles Grandou <gilles@grandou.net>,
-        Ryan Grachek <ryan@edited.us>, linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Steve McIntyre <steve@einval.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>
-References: <20200516153644.13748-1-digetx@gmail.com>
- <20200516153644.13748-7-digetx@gmail.com>
- <20200518074557.GA12306@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <75e7d242-268c-07a3-a4f9-7b8252769140@gmail.com>
-Date:   Mon, 18 May 2020 11:00:46 +0300
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+Date:   Mon, 18 May 2020 12:48:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200518074557.GA12306@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -91,61 +68,65 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.05.2020 10:45, Michał Mirosław пишет:
-> On Sat, May 16, 2020 at 06:36:44PM +0300, Dmitry Osipenko wrote:
->> It's quite useful to have unencrypted BCT exposed to userspace for
->> debugging purposes, so let's expose it via sysfs.  The BCT data will be
->> present in '/sys/tegra/boot_config_table' binary file if BCT is available.
-> [...]
->> +/*
->> + * spare_bct[] will be released once kernel is booted, hence not wasting
->> + * kernel space if BCT is missing. The tegra_bct can't be allocated during
->> + * of BCT setting up because it's too early for the slab allocator.
->> + */
->> +static u8 spare_bct[SZ_8K] __initdata;
->> +static u8 *tegra_bct;
->> +
->> +static ssize_t boot_config_table_read(struct file *filp,
->> +				      struct kobject *kobj,
->> +				      struct bin_attribute *bin_attr,
->> +				      char *buf, loff_t off, size_t count)
->> +{
->> +	memcpy(buf, tegra_bct + off, count);
->> +	return count;
->> +}
->> +static BIN_ATTR_RO(boot_config_table, 0);
->> +
->> +static int __init tegra_bootdata_bct_sysfs_init(void)
->> +{
->> +	if (!bin_attr_boot_config_table.size)
->> +		return 0;
->> +
->> +	tegra_bct = kmalloc(GFP_KERNEL, bin_attr_boot_config_table.size);
->> +	if (!tegra_bct)
->> +		return -ENOMEM;
->> +
->> +	memcpy(tegra_bct, spare_bct, bin_attr_boot_config_table.size);
->> +
->> +	return sysfs_create_bin_file(tegra_soc_kobj,
->> +				     &bin_attr_boot_config_table);
+Hi Hans,
+
+W dniu 15.05.2020 o 20:19, Hans de Goede pisze:
+> Hi Andrezj,
 > 
-> Should we consider freeing the table if sysfs registration fails?
-
-This is a good suggestion, thank you :)
-
->> +}
->> +late_initcall(tegra_bootdata_bct_sysfs_init)
->> +
->> +void __init tegra_bootdata_bct_setup(void __iomem *bct_ptr, size_t bct_size)
->> +{
->> +	memcpy_fromio(spare_bct, bct_ptr, bct_size);
->> +	bin_attr_boot_config_table.size = bct_size;
-> [...]
+> On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
+>> Userspace might want to implement a policy to temporarily disregard input
+>> from certain devices, including not treating them as wakeup sources.
+>>
+>> An example use case is a laptop, whose keyboard can be folded under the
+>> screen to create tablet-like experience. The user then must hold the laptop
+>> in such a way that it is difficult to avoid pressing the keyboard keys. It
+>> is therefore desirable to temporarily disregard input from the keyboard,
+>> until it is folded back. This obviously is a policy which should be kept
+>> out of the kernel, but the kernel must provide suitable means to implement
+>> such a policy.
 > 
-> The size isn't checked anywhere. How the maximum is obtained? At least
-> a comment would be good if the 8k limit is guaranteed by other means.
+> Actually libinput already binds together (inside libinput) SW_TABLET_MODE
+> generating evdev nodes and e.g. internal keyboards on devices with 360°
+> hinges for this reason. libinput simply closes the /dev/input/event#
+> node when folded and re-opens it when the keyboard should become active
+> again. Thus not only suppresses events but allows e.g. touchpads to
+> enter runtime suspend mode which saves power. Typically closing the
+> /dev/input/event# node will also disable the device as wakeup source.
+> 
+> So I wonder what this series actually adds for functionality for
+> userspace which can not already be achieved this way?
+> 
+> I also noticed that you keep the device open (do not call the
+> input_device's close callback) when inhibited and just throw away
 
-Yes, I can add a clarifying comment about the 8K. It also should be
-possible to create a union of T20/T30 BCT structs and then use use
-sizeof(bct_union). I'll consider this change for the next version, thank
-you for the suggestion.
+I'm not sure if I understand you correctly, it is called:
+
++static inline void input_stop(struct input_dev *dev)
++{
++	if (dev->poller)
++		input_dev_poller_stop(dev->poller);
++	if (dev->close)
++		dev->close(dev);
+                 ^^^^^^^^^^^^^^^^
++static int input_inhibit(struct input_dev *dev)
++{
++	int ret = 0;
++
++	mutex_lock(&dev->mutex);
++
++	if (dev->inhibited)
++		goto out;
++
++	if (dev->users) {
++		if (dev->inhibit) {
++			ret = dev->inhibit(dev);
++			if (ret)
++				goto out;
++		}
++		input_stop(dev);
+                 ^^^^^^^^^^^^^^^^
+
+It will not be called when dev->users is zero, but if it is zero,
+then nobody has opened the device yet so there is nothing to close.
+
+Andrzej
