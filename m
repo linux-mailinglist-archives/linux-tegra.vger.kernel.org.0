@@ -2,193 +2,197 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA831D71B6
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2020 09:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E2D91D71F5
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2020 09:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgERHZU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 May 2020 03:25:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47740 "EHLO
+        id S1726573AbgERHgR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 May 2020 03:36:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726573AbgERHZT (ORCPT
+        with ESMTP id S1726489AbgERHgR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 May 2020 03:25:19 -0400
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 498C0C05BD09
-        for <linux-tegra@vger.kernel.org>; Mon, 18 May 2020 00:25:19 -0700 (PDT)
-Received: by mail-ua1-x941.google.com with SMTP id i89so174842uad.5
-        for <linux-tegra@vger.kernel.org>; Mon, 18 May 2020 00:25:19 -0700 (PDT)
+        Mon, 18 May 2020 03:36:17 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D15BBC061A0C;
+        Mon, 18 May 2020 00:36:16 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id z18so494765lji.12;
+        Mon, 18 May 2020 00:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=aM+aPj0zOelCyynTrSmLMMQxc/+9X5BzxNpmeNMaiC4=;
-        b=soiaT+IlxtbU5bq6IqH0Hfp0oTnXcMaNQXTj3b/oA7odKHdqeOpIAT4AP18YPTa+tJ
-         QU+brKC5T+uT06O5yb35yJ0a3o3PlIIZz8uHd+abKZTErLQtIVRSkBI0TrxMcKvrRsL5
-         J4TabbAwz7055GNTUqrcH54OifcE0MnnFcqdGxogoh7Usu5JYo8dWW1GBaXD2W0WSIdG
-         Z68VroVjJTmK5QKbN6MiZO9D7wbg52jJ5t6Op/fPqvV/yZnUBo2A9L8ivWHhYSpxHF/D
-         07OiDBSE6PXT+sCN09hHYEF1OUnsTwra2pOdio3nsRu1520JgxorFIMMdbJK8v2wHRS8
-         rGSg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GLuSEpDkxbRCowgvSh3SeCEIDw8QwMJHOr1bbB7Cpyo=;
+        b=LwxT2dbEJ7gOqng7mC9yPXRksFgJLS1PErbV94hynNBXE1Xro+28KCbEapKVXNHY9j
+         8fg4EhjQXS4k6zykpFLymfKqmmC5Vbj7h7hi8beouN7wmaGkW8bbHchXlooOFywxt/yx
+         I8aLf25BqP7h17q+Zf+qYkj05GVeq4ThwK7AotHweMiKBRSbg+JlOw3EhrNeeTgbY6IU
+         KDYiogorlxJxUom2cDtPiJyDifFZqbatbW5BzlIhH4yggLywZwy49RZqws3gHOXEdSNe
+         SiPM6qJZUlTFziQI4dJP3ThE9rPdS5npNYjK4B65eD/Ajzj3Sk0wYdRmZKJzy0+JMdU5
+         JWDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=aM+aPj0zOelCyynTrSmLMMQxc/+9X5BzxNpmeNMaiC4=;
-        b=IOtGeg08rd8zmGRgRT9ae5030Byl4/263ldL06aDTLf+3l/h+NbfoWHY7+rgVe9/zV
-         SEfuUhz0S/p5gGNXq+zcq6enjFokJCf8jmMVf1xkJXdHlgo3Vdd2B3ydh+iH1dw0bSB2
-         uVZ1Hr4mWCvCecuBP7LV5hql3+UCBsv+PwGJYWv6W2hG24LzRuPiGVEiaLgciRNUqlvP
-         gmrV7C8cKYrwzUHgMGCNMGL/R5mDI8kV8KLMADFwX4L/lhsvAZGSTfbQbPxZW+gRg8X1
-         O3l6o5NvwGUC5dBORqudhMdiHa9jx84gvnkdVd0O2JtW6IDEYTac7FYI2V28XhfMXntd
-         7BBw==
-X-Gm-Message-State: AOAM530T0mOwDtnAKrqh8yLnNPsikCdVioFpvfKmIEK0PyBVrtwC5OIT
-        txzz36cGH7OcMIrOMSOCAZPQKf9/LfBPwmfbWj18kQ==
-X-Google-Smtp-Source: ABdhPJweGliNvIcLeCDU05CO+CaxX92MJZt0aMcqXXyqQIkHu9/Nlxtk64UFlOyWaAs4a7SkMmnbVVYmQTm7wnBffrY=
-X-Received: by 2002:ab0:544a:: with SMTP id o10mr10183460uaa.15.1589786718366;
- Mon, 18 May 2020 00:25:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200517021225.22890-1-digetx@gmail.com> <20200517021225.22890-3-digetx@gmail.com>
- <7bddacf1-5fe0-5119-48ac-6a0cc65c5af0@gmail.com>
-In-Reply-To: <7bddacf1-5fe0-5119-48ac-6a0cc65c5af0@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 18 May 2020 09:24:42 +0200
-Message-ID: <CAPDyKFrGbKSx=afZCNBN_r_6iNm_TX0tZVRLK05ZUTDBGvAuyA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/7] mmc: block: Add mmc_bdev_to_card() helper
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GLuSEpDkxbRCowgvSh3SeCEIDw8QwMJHOr1bbB7Cpyo=;
+        b=oLJhUxmG0NMcDiAjdQB1dZMlTZ7hv7qoV82FFj6WIikQn7nQKB+4FMAdOJa0GgCQnk
+         ynQSvvcMoNDVOCBKVboJ2MO/3yT20IG0rNQsmrSq1r6zI2ng5aVw8Vw5c6r2IYnvKh65
+         zZl7Z7KHcy36nus6blkCc1Q2V9Xbl52mGp/bpPWnv7uv+9w6td9wxLVtzVKWmuohdbFx
+         P+6/wsEnKO0r56wzc/fhZ+gj5Hoy48ghXQC1b+kUcK3aKIgt6hR2xZf4T756fErxgPzJ
+         nx+L8KDA1Yc4DAZ3bK+jZ8pfM0ofA+dUPRFlQaT+sOBG1wxjkv34R3Jflaq9hRND/6JY
+         60gw==
+X-Gm-Message-State: AOAM5327kQ0JAFZ8LVp3u/IIpB8yAie4l0dHuL6iCjXoh3XxjEqJJvFS
+        ShhVu3t+grOtP15u64vo46UXptlf
+X-Google-Smtp-Source: ABdhPJztXwHnw/eNsd+e6rSdLZtpRAJ7fk3tYqf/2h3SlRC27XECadeX7s2y5YnLKzL/LT36TMDqYA==
+X-Received: by 2002:a2e:b0c4:: with SMTP id g4mr9347764ljl.235.1589787374697;
+        Mon, 18 May 2020 00:36:14 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id n23sm5234245ljj.48.2020.05.18.00.36.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2020 00:36:13 -0700 (PDT)
+Subject: Re: [PATCH v10 0/2] Panel rotation patches
+To:     Sean Paul <sean@poorly.run>
+Cc:     "dbasehore ." <dbasehore@chromium.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Billy Laws <blaws05@gmail.com>,
-        =?UTF-8?Q?Nils_=C3=96stlund?= <nils@naltan.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Andrey Danin <danindrey@mail.ru>,
-        Gilles Grandou <gilles@grandou.net>,
-        Ryan Grachek <ryan@edited.us>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steve McIntyre <steve@einval.com>,
-        linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <20200306002112.255361-1-dbasehore@chromium.org>
+ <ecbfb5f8-615a-4a88-5dac-de17158125bf@gmail.com>
+ <CAGAzgsqpjZxh7PEL_Dy7HrFeFGm7+=F6cL3QG9KmK9CHvDWZ9g@mail.gmail.com>
+ <6dc9ef16-9671-6ce8-27e6-aa1f4c009ee2@gmail.com>
+ <CAGAzgsrNrq+S+-5KEFVnJn6S5DRn1fKkToD5=KR911T9AOAF-w@mail.gmail.com>
+ <736ad1d2-4a28-87e8-62f7-28a5582c9fcf@gmail.com>
+ <CAMavQKJtbha_o==X+MX6GmjfAMYvdLyubvCFg48Tbn1mdgo40w@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <fa443308-7610-9060-68eb-e14e446dd4bf@gmail.com>
+Date:   Mon, 18 May 2020 10:36:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAMavQKJtbha_o==X+MX6GmjfAMYvdLyubvCFg48Tbn1mdgo40w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 18 May 2020 at 01:55, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 17.05.2020 05:12, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > NVIDIA Tegra Partition Table takes into account MMC card's BOOT_SIZE_MU=
-LT
-> > parameter, and thus, the partition parser needs to retrieve that EXT_CS=
-D
-> > value from the block device.  There are also some other parts of struct
-> > mmc_card that are needed for the partition parser in order to calculate
-> > the eMMC offset and verify different things.  This patch introduces new
-> > helper which takes block device for the input argument and returns the
-> > corresponding MMC card.
-> >
-> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > ---
-> >  drivers/mmc/core/block.c   | 15 +++++++++++++++
-> >  include/linux/mmc/blkdev.h | 13 +++++++++++++
-> >  2 files changed, 28 insertions(+)
-> >  create mode 100644 include/linux/mmc/blkdev.h
-> >
-> > diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
-> > index c5367e2c8487..99298e888381 100644
-> > --- a/drivers/mmc/core/block.c
-> > +++ b/drivers/mmc/core/block.c
-> > @@ -40,6 +40,7 @@
-> >  #include <linux/debugfs.h>
-> >
-> >  #include <linux/mmc/ioctl.h>
-> > +#include <linux/mmc/blkdev.h>
-> >  #include <linux/mmc/card.h>
-> >  #include <linux/mmc/host.h>
-> >  #include <linux/mmc/mmc.h>
-> > @@ -305,6 +306,20 @@ static ssize_t force_ro_store(struct device *dev, =
-struct device_attribute *attr,
-> >       return ret;
-> >  }
-> >
-> > +struct mmc_card *mmc_bdev_to_card(struct block_device *bdev)
-> > +{
-> > +     struct mmc_blk_data *md;
-> > +
-> > +     if (bdev->bd_disk->major !=3D MMC_BLOCK_MAJOR)
-> > +             return NULL;
-> > +
-> > +     md =3D mmc_blk_get(bdev->bd_disk);
-> > +     if (!md)
-> > +             return NULL;
-> > +
-> > +     return md->queue.card;
-> > +}
-> > +
-> >  static int mmc_blk_open(struct block_device *bdev, fmode_t mode)
-> >  {
-> >       struct mmc_blk_data *md =3D mmc_blk_get(bdev->bd_disk);
-> > diff --git a/include/linux/mmc/blkdev.h b/include/linux/mmc/blkdev.h
-> > new file mode 100644
-> > index 000000000000..67608c58de70
-> > --- /dev/null
-> > +++ b/include/linux/mmc/blkdev.h
-> > @@ -0,0 +1,13 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + *  linux/include/linux/mmc/blkdev.h
-> > + */
-> > +#ifndef LINUX_MMC_BLOCK_DEVICE_H
-> > +#define LINUX_MMC_BLOCK_DEVICE_H
-> > +
-> > +struct block_device;
-> > +struct mmc_card;
-> > +
-> > +struct mmc_card *mmc_bdev_to_card(struct block_device *bdev);
-> > +
-> > +#endif /* LINUX_MMC_BLOCK_DEVICE_H */
-> >
->
-> Hello Ulf / Jens and everyone,
+12.05.2020 23:59, Sean Paul пишет:
+> On Thu, Apr 16, 2020 at 7:03 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 15.04.2020 00:32, dbasehore . пишет:
+>>> On Tue, Apr 14, 2020 at 2:18 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> 14.04.2020 22:32, dbasehore . пишет:
+>>>>> Hi Dmitry, sorry for the late reply.
+>>>>>
+>>>>> On Sun, Mar 8, 2020 at 12:25 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>>
+>>>>>> 06.03.2020 03:21, Derek Basehore пишет:
+>>>>>>> This adds the plumbing for reading panel rotation from the devicetree
+>>>>>>> and sets up adding a panel property for the panel orientation on
+>>>>>>> Mediatek SoCs when a rotation is present.
+>>>>>>
+>>>>>> Hello Derek and everyone,
+>>>>>>
+>>>>>> I'm looking at adding display rotation support to NVIDIA Tegra DRM
+>>>>>> driver because some devices have display panel physically mounted
+>>>>>> upside-down, and thus, display controller's scan-out needs to be rotated
+>>>>>> by 180° in this case.
+>>>>>>
+>>>>>> Derek, yours panel-rotation patches add support for assigning panel's
+>>>>>> orientation to the connector, but then only primary display plane
+>>>>>> receives rotation value in [1], while rotation needs to be applied to
+>>>>>> all available overlay/cursor planes and this should happen in other
+>>>>>> places than [1] as well.
+>>>>>
+>>>>> This is intended. We don't correct the output in the kernel. We
+>>>>> instead rely on notifying userspace that the panel is rotated, then we
+>>>>> handle it there.
+>>>>>
+>>>>>>
+>>>>>> [1] drm_client_modeset_commit_atomic()
+>>>>>>
+>>>>>> Please also note that in a case of the scan-out rotation, plane's
+>>>>>> coordinates need to be changed in accordance to the display's rotation.
+>>>>>>
+>>>>>> I looked briefly through the DRM code and my understanding that the DRM
+>>>>>> core currently doesn't support use-case where scan-out needs to rotated
+>>>>>> based on a panel's orientation, correct? Is it the use-case you're
+>>>>>> working on for the Mediatek driver?
+>>>>>
+>>>>> Yes, we rely on userspace to rotate the output. The major reason for
+>>>>> this is because there may not be a "free" hardware rotation that can
+>>>>> be applied to the overlay. Sean Paul and others also preferred that
+>>>>> userspace control what is output to the screen instead of the kernel
+>>>>> taking care of it. This code just adds the drm property to the panel.
+>>>>>
+>>>>
+>>>> Could you please explain what that userspace is?
+>>>
+>>> This was added for Chrome OS, which uses its own graphics stack,
+>>> Ozone, instead of Xorg.
+>>>
+>>
+>> Thank you very much for the clarification.
+>>
+>> It's probably not a big problem for something monolithic and customized
+>> like ChromeOS to issue a software update in order to take into account
+>> all specifics of a particular device, but this doesn't work nicely for a
+>> generic software, like a usual Linux distro.
+>>
+>>>> AFAIK, things like Xorg modesetting don't support that orientation property.
+>>
+>> In my case it's not only the display panel which is upside-down, but
+>> also the touchscreen. Hence both display output and touchscreen input
+>> need to be rotated at once, otherwise you'll end up with either display
+>> or input being upside-down.
+>>
+>> The 180° rotation should be free on NVIDIA Tegra. There are no known
+>> limitations for the planes and BSP kernel video driver handles the
+>> plane's coordinates/framebuffer rotation within the driver.
+>>
+>> The kernel's input subsystem allows us to transparently (for userspace)
+>> remap the touchscreen input (by specifying generic touchscreen
+>> device-tree properties), while this is not the case for the DRM subsystem.
+>>
+>> @Thierry, @Sean, @Daniel, could you please help me to understand how a
+>> coordinated display / input rotation could be implemented, making the
+>> rotation transparent to the user (i.e. avoiding xorg.conf hacking and
+>> etc)? It should be nice if display's output could be flipped within the
+>> DRM driver, hiding this fact from userspace.
+> 
+> I think the right thing to do is to fix userspace to respect this
+> property, since that has the most communal benefit.
 
-Hi Dmitry,
+Hello Sean,
 
->
-> Guys, what do you think about this change?
+This will be ideal, but it's difficult to achieve in a loosely
+controlled userspace environment.
 
-As I stated in an earlier reply, I am deferring the review from mmc
-point of view, until I see some confirmation from Jens that he is okay
-with adding a new partition format.
+> However(!!) if you don't want to do that, how about inspecting the
+> info->panel_orientation value after drm_panel_attach in tegra driver
+> and then adjusting rotation values in the driver. Of course, you
+> wouldn't want to expose the panel orientation property since you don't
+> want userspaces to be double-rotating on you, but it's optional so
+> you'd be fine.
 
-Otherwise I may just waste my time on reviews. I hope you understand.
+Thank you very much for the suggestion, I'll be trying it out soon.
 
-Kind regards
-Uffe
+>>
+>> Will it be okay if we'll add a transparent-rotation support specifically
+>> to the Tegra DRM driver? For example if device-tree contains
+>> nvidia,display-flip-y property, then the Tegra DRM driver will take care
+>> of rotating coordinates/framebuffer of the display planes.
+> 
+> I don't think this is necessary, but it also wouldn't really be
+> appropriate to put software attributes into devicetree anyways.
 
->
-> Currently it's not allowed to compile MMC_BLOCK as a loadable kernel
-> module if TEGRA_PARTITION is enabled because it depends on MMC_BLOCK
-> presence. I'm curious if this situation could be improved by moving
-> mmc_bdev_to_card() to linux/mmc/blkdev.h and then:
->
-> 1. Moving all private mmc/core/block.c structs to the public
-> linux/mmc/blkdev.h.
->
-> 2. Or adding a "private opaque" pointer to a struct block_device and
-> setting it to md->queue.card, for example.
->
-> 3. I see that struct block_device already has some bd_private field, but
-> I'm not sure whether it could be used for what I'm trying to achieve.
-> Actually I don't see where bd_private is used in kernel at all.
->
-> I'd like get yours feedback, thanks in advance.
+Yes, I'm also not feeling very excited about this variant.
