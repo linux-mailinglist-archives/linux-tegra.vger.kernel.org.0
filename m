@@ -2,245 +2,191 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E08A1D787F
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2020 14:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C908F1D7879
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 May 2020 14:24:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727076AbgERMYS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 May 2020 08:24:18 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:56750 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726957AbgERMYQ (ORCPT
+        id S1726828AbgERMYM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 May 2020 08:24:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23156 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726946AbgERMYL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 May 2020 08:24:16 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04ICO8Km124534;
-        Mon, 18 May 2020 07:24:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1589804648;
-        bh=9I8QiEcaEmO1r2jkUwpnJ5LxWet/9V+Ju+hCheGBXTI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=BoRQ16RmxENsI4VGy5oqz0+hKGTV1mi619nY6EWiTGhEW1vinxzG5f/92gC0Zuh7f
-         F6MDJpDOqseNKpV/PZeBSXxSOThoKQ0s5A7YNVTfOL/qC3kc3fXnzxH9ecsQ5Pkyqm
-         jJbD40ZvRzODZfohpiM+R2UOlFsRvXbLDGuRp5mc=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04ICO7jc083806
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 18 May 2020 07:24:08 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 18
- May 2020 07:24:07 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 18 May 2020 07:24:07 -0500
-Received: from [10.250.233.85] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04ICO4Wl093892;
-        Mon, 18 May 2020 07:24:04 -0500
-Subject: Re: [PATCH V3 5/8] phy: tegra: xusb: Add soc ops API to enable UTMI
- PAD protection
-To:     Nagarjuna Kristam <nkristam@nvidia.com>, <balbi@kernel.org>,
-        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
- <1589437363-16727-6-git-send-email-nkristam@nvidia.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <db698a53-c5f6-d03f-edf0-f4fb38963e1f@ti.com>
-Date:   Mon, 18 May 2020 17:54:03 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Mon, 18 May 2020 08:24:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589804649;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aNddrvnjvVAzGmBCFtMQ5iaiY8jsBoqXulJlnAFXCC4=;
+        b=T5uumCHSDMPvC08G/0nzvx7AhJTEZpRGaKujLjWViaD1XVjKvVDf0IptrlK5FVY8VeIrlz
+        bF+MxdtrVbw7TmWqVWCuDOm81eHEHCRfXqC4bu2C7FhEfoNw8+xklIj+rU6ZnYZ082iKX2
+        GrmR37CHrerODcmEmK/32p1hVDXsgJ8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-0Z8vMSEcOx66n-Fuf-SgrA-1; Mon, 18 May 2020 08:24:08 -0400
+X-MC-Unique: 0Z8vMSEcOx66n-Fuf-SgrA-1
+Received: by mail-wm1-f70.google.com with SMTP id 202so759833wmb.8
+        for <linux-tegra@vger.kernel.org>; Mon, 18 May 2020 05:24:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aNddrvnjvVAzGmBCFtMQ5iaiY8jsBoqXulJlnAFXCC4=;
+        b=tOn48G88JTfH1RCSN7uKNO58pzlSCRF19hyBuxTKV3X6lmYnX2Kn3EiwOVXy0llKwe
+         m+xKFpX0XomRRtwbQpNonzXW1mB1KiCRO6MEp89Y7nEeHlWcEQFxhnUi5bk3JE7ty6VN
+         SV1D2jdXQ4bzYcU8+xOO2A1Ac9qFA8gYYjurmBWT4mPoH9CjymMyA5O8ODng5POPRxEx
+         1MeIIQXUOZdHdpbN1maom50Ol699/BLTcWOXAk8e2VORj72dy2P6AZWCvVTexAFxyFED
+         KEQBn1zCvfZKEF0m2AGqdAJIT/sF2YyXyemvIq7w1wdBgd6akM4qyuFQrXXWo0xWg0sD
+         HhSw==
+X-Gm-Message-State: AOAM532Fp3YhPpNtdKBbFQbGQO5BZgDDGtWfCTpoWSKoCTvUPJjObcgT
+        G1ticEPmrbaftnSeL9RVT2Phqrnj0aXk70W/OZ/DFdfnvfe1VumTXXn08N4912YvfGBs0dinXLb
+        Tq6m+DR+2ALBG3HKz4o1vbVQ=
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr19377377wrn.268.1589804647174;
+        Mon, 18 May 2020 05:24:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLe3p91ExNY6QGf1SRfv5g2doyaKilcFhk73/bWJl/jln6ZVFltTOdpBm/OQccJvw+caL9KA==
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr19377325wrn.268.1589804646888;
+        Mon, 18 May 2020 05:24:06 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id 18sm15993570wmj.19.2020.05.18.05.24.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2020 05:24:06 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
+Date:   Mon, 18 May 2020 14:24:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <1589437363-16727-6-git-send-email-nkristam@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Thierry,
+Hi,
 
-On 5/14/2020 11:52 AM, Nagarjuna Kristam wrote:
-> When USB charger is enabled, UTMI PAD needs to be protected according
-> to the direction and current level. Add support for the same on Tegra210
-> and Tegra186.
+On 5/18/20 12:48 PM, Andrzej Pietrasiewicz wrote:
+> Hi Hans,
 > 
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-
-Can you give your Acked by for pending patches in this series?
-
-Thanks
-Kishon
-> ---
-> V3:
->  - Alligned function and its arguments.
->  - Fixed other comments from Thierry.
-> ---
-> V2:
->  - Commit message coorected.
->  - Patch re-based.
-> ---
->  drivers/phy/tegra/xusb-tegra186.c | 40 +++++++++++++++++++++++++++++++++++++++
->  drivers/phy/tegra/xusb-tegra210.c | 32 +++++++++++++++++++++++++++++++
->  drivers/phy/tegra/xusb.h          | 13 +++++++++++++
->  3 files changed, 85 insertions(+)
+> W dniu 15.05.2020 o 20:19, Hans de Goede pisze:
+>> Hi Andrezj,
+>>
+>> On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
+>>> Userspace might want to implement a policy to temporarily disregard input
+>>> from certain devices, including not treating them as wakeup sources.
+>>>
+>>> An example use case is a laptop, whose keyboard can be folded under the
+>>> screen to create tablet-like experience. The user then must hold the laptop
+>>> in such a way that it is difficult to avoid pressing the keyboard keys. It
+>>> is therefore desirable to temporarily disregard input from the keyboard,
+>>> until it is folded back. This obviously is a policy which should be kept
+>>> out of the kernel, but the kernel must provide suitable means to implement
+>>> such a policy.
+>>
+>> Actually libinput already binds together (inside libinput) SW_TABLET_MODE
+>> generating evdev nodes and e.g. internal keyboards on devices with 360°
+>> hinges for this reason. libinput simply closes the /dev/input/event#
+>> node when folded and re-opens it when the keyboard should become active
+>> again. Thus not only suppresses events but allows e.g. touchpads to
+>> enter runtime suspend mode which saves power. Typically closing the
+>> /dev/input/event# node will also disable the device as wakeup source.
+>>
+>> So I wonder what this series actually adds for functionality for
+>> userspace which can not already be achieved this way?
+>>
+>> I also noticed that you keep the device open (do not call the
+>> input_device's close callback) when inhibited and just throw away
 > 
-> diff --git a/drivers/phy/tegra/xusb-tegra186.c b/drivers/phy/tegra/xusb-tegra186.c
-> index f862254..59b78a7 100644
-> --- a/drivers/phy/tegra/xusb-tegra186.c
-> +++ b/drivers/phy/tegra/xusb-tegra186.c
-> @@ -68,6 +68,13 @@
->  #define   PORTX_SPEED_SUPPORT_MASK		(0x3)
->  #define     PORT_SPEED_SUPPORT_GEN1		(0x0)
->  
-> +#define USB2_BATTERY_CHRG_OTGPADX_CTL1(x)       (0x84 + (x) * 0x40)
-> +#define  PD_VREG                                (1 << 6)
-> +#define  VREG_LEV(x)                            (((x) & 0x3) << 7)
-> +#define  VREG_DIR(x)                            (((x) & 0x3) << 11)
-> +#define  VREG_DIR_IN                            VREG_DIR(1)
-> +#define  VREG_DIR_OUT                           VREG_DIR(2)
-> +
->  #define XUSB_PADCTL_USB2_OTG_PADX_CTL0(x)	(0x88 + (x) * 0x40)
->  #define  HS_CURR_LEVEL(x)			((x) & 0x3f)
->  #define  TERM_SEL				BIT(25)
-> @@ -289,6 +296,37 @@ static void tegra_phy_xusb_utmi_pad_power_down(struct phy *phy)
->  	usb2->powered_on = false;
->  }
->  
-> +static void
-> +tegra186_xusb_padctl_utmi_pad_set_protection(struct tegra_xusb_port *port,
-> +					     int level,
-> +					     enum tegra_vbus_dir dir)
+> I'm not sure if I understand you correctly, it is called:
+> 
+> +static inline void input_stop(struct input_dev *dev)
 > +{
-> +	u32 value;
-> +	struct tegra_xusb_padctl *padctl = port->padctl;
-> +	unsigned int index = port->index;
-> +
-> +	value = padctl_readl(padctl, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-> +
-> +	if (level < 0) {
-> +		/* disable pad protection */
-> +		value |= PD_VREG;
-> +		value &= ~VREG_LEV(~0);
-> +		value &= ~VREG_DIR(~0);
-> +	} else {
-> +		if (dir == TEGRA_VBUS_SOURCE)
-> +			value |= VREG_DIR_OUT;
-> +		else if (dir == TEGRA_VBUS_SINK)
-> +			value |= VREG_DIR_IN;
-> +
-> +		value &= ~PD_VREG;
-> +		value &= ~VREG_DIR(~0);
-> +		value &= ~VREG_LEV(~0);
-> +		value |= VREG_LEV(level);
-> +	}
-> +
-> +	padctl_writel(padctl, value, USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-> +}
-> +
->  static int tegra186_xusb_padctl_vbus_override(struct tegra_xusb_padctl *padctl,
->  					       bool status)
->  {
-> @@ -935,6 +973,8 @@ static const struct tegra_xusb_padctl_ops tegra186_xusb_padctl_ops = {
->  	.vbus_override = tegra186_xusb_padctl_vbus_override,
->  	.utmi_pad_power_on = tegra_phy_xusb_utmi_pad_power_on,
->  	.utmi_pad_power_down = tegra_phy_xusb_utmi_pad_power_down,
-> +	.utmi_pad_set_protection =
-> +			tegra186_xusb_padctl_utmi_pad_set_protection,
->  };
->  
->  #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC)
-> diff --git a/drivers/phy/tegra/xusb-tegra210.c b/drivers/phy/tegra/xusb-tegra210.c
-> index caf0890..80c4349 100644
-> --- a/drivers/phy/tegra/xusb-tegra210.c
-> +++ b/drivers/phy/tegra/xusb-tegra210.c
-> @@ -74,6 +74,8 @@
->  #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_MASK 0x3
->  #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_VAL 0x1
->  #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18 (1 << 6)
-> +#define USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(x) (((x) & 0x3) << 7)
-> +#define USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_DIR(x) (((x) & 0x3) << 11)
->  
->  #define XUSB_PADCTL_USB2_OTG_PADX_CTL0(x) (0x088 + (x) * 0x40)
->  #define XUSB_PADCTL_USB2_OTG_PAD_CTL0_PD_ZI (1 << 29)
-> @@ -1116,6 +1118,34 @@ void tegra210_usb2_pad_power_down(struct phy *phy)
->  	usb2->powered_on = false;
->  }
->  
-> +static void
-> +tegra210_xusb_padctl_utmi_pad_set_protection(struct tegra_xusb_port *port,
-> +					     int level,
-> +					     enum tegra_vbus_dir dir)
+> +    if (dev->poller)
+> +        input_dev_poller_stop(dev->poller);
+> +    if (dev->close)
+> +        dev->close(dev);
+>                  ^^^^^^^^^^^^^^^^
+> +static int input_inhibit(struct input_dev *dev)
 > +{
-> +	u32 value;
-> +	struct tegra_xusb_padctl *padctl = port->padctl;
-> +	unsigned int index = port->index;
+> +    int ret = 0;
 > +
-> +	value = padctl_readl(padctl,
-> +			     XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
+> +    mutex_lock(&dev->mutex);
 > +
-> +	if (level < 0) {
-> +		/* disable pad protection */
-> +		value |= XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18;
-> +		value &= USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(~0);
-> +		value &= ~USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_DIR(~0);
-> +	} else {
-> +		value &= ~XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18;
-> +		value &= ~USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_DIR(~0);
-> +		value &= USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(~0);
-> +		value |= USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV(level);
-> +	}
+> +    if (dev->inhibited)
+> +        goto out;
 > +
-> +	padctl_writel(padctl, value,
-> +		      XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
-> +}
-> +
->  static int tegra210_usb2_phy_set_mode(struct phy *phy, enum phy_mode mode,
->  				      int submode)
->  {
-> @@ -2291,6 +2321,8 @@ static const struct tegra_xusb_padctl_ops tegra210_xusb_padctl_ops = {
->  	.utmi_port_reset = tegra210_utmi_port_reset,
->  	.utmi_pad_power_on = tegra210_usb2_pad_power_on,
->  	.utmi_pad_power_down = tegra210_usb2_pad_power_down,
-> +	.utmi_pad_set_protection =
-> +			tegra210_xusb_padctl_utmi_pad_set_protection,
->  };
->  
->  static const char * const tegra210_xusb_padctl_supply_names[] = {
-> diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
-> index 6995fc4..475bcc6 100644
-> --- a/drivers/phy/tegra/xusb.h
-> +++ b/drivers/phy/tegra/xusb.h
-> @@ -259,6 +259,17 @@ to_sata_pad(struct tegra_xusb_pad *pad)
->   */
->  struct tegra_xusb_port_ops;
->  
-> +/*
-> + * Tegra OTG port VBUS direction:
-> + * default (based on port capability) or
-> + * as source or sink
-> + */
-> +enum tegra_vbus_dir {
-> +	TEGRA_VBUS_DEFAULT,
-> +	TEGRA_VBUS_SOURCE,
-> +	TEGRA_VBUS_SINK
-> +};
-> +
->  struct tegra_xusb_port {
->  	struct tegra_xusb_padctl *padctl;
->  	struct tegra_xusb_lane *lane;
-> @@ -398,6 +409,8 @@ struct tegra_xusb_padctl_ops {
->  	int (*utmi_port_reset)(struct phy *phy);
->  	void (*utmi_pad_power_on)(struct phy *phy);
->  	void (*utmi_pad_power_down)(struct phy *phy);
-> +	void (*utmi_pad_set_protection)(struct tegra_xusb_port *port,
-> +					int level, enum tegra_vbus_dir dir);
->  };
->  
->  struct tegra_xusb_padctl_soc {
+> +    if (dev->users) {
+> +        if (dev->inhibit) {
+> +            ret = dev->inhibit(dev);
+> +            if (ret)
+> +                goto out;
+> +        }
+> +        input_stop(dev);
+>                  ^^^^^^^^^^^^^^^^
 > 
+> It will not be called when dev->users is zero, but if it is zero,
+> then nobody has opened the device yet so there is nothing to close.
+
+Ah, I missed that.
+
+So if the device implements the inhibit call back then on
+inhibit it will get both the inhibit and close callback called?
+
+And what happens if the last user goes away and the device
+is not inhibited?
+
+I'm trying to understand here what the difference between the 2
+is / what the goal of having a separate inhibit callback ?
+
+IOW is there something which we want to do on close when
+the close is being done to inhibit the device, which we do
+not want to do on a normal close ?
+
+Regards,
+
+Hans
+
+
