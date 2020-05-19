@@ -2,115 +2,143 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C052C1D9C78
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 18:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95CE31D9CE1
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 18:34:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729219AbgESQZX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 12:25:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46536 "EHLO
+        id S1729435AbgESQdq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 12:33:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729041AbgESQZX (ORCPT
+        with ESMTP id S1729488AbgESQdn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 12:25:23 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BA6C08C5C0;
-        Tue, 19 May 2020 09:25:23 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id l18so76658wrn.6;
-        Tue, 19 May 2020 09:25:23 -0700 (PDT)
+        Tue, 19 May 2020 12:33:43 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E863BC08C5C0;
+        Tue, 19 May 2020 09:33:41 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id c12so40979lfc.10;
+        Tue, 19 May 2020 09:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=nM06eYScX+XNokoAV7+9FvMc5yktmL9LEFe0oZB9L9Y=;
-        b=KuOCfHiLtLqcY80YA+zJqExocYmA8ZcpYRP7snwL65qx/hbvURsliycG9heOxO/fV9
-         3Fy8c4PR03P7tJFeX6QBgSkJqs9Ox3G8ZiJorzGDmj/Fm28CAqn80qZMPVt6IRhK5NnR
-         XIz5wtA8TfBPLSt0N8XTk3m851XhAsb7wmGNNDnzxVgBLuv+uWSVQeCb4cFcPQmReL0o
-         R4LqUkztD9SW7JXk6ISHBZnchT+LNFVEeoY62cVM18Yh08LQM52fQ8Amxaky1vH5WZgj
-         kUgXE3/gIcS28w2cvagnv5hQjpJskXkFxORXhdE63CaThtyKjsF4N6l8RTMBv8P2LOmA
-         ss4A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=erHld5g8aUsGObcGGn0MGFVIEHLOUjB0Us6LDfsWtwI=;
+        b=PXXIEkHbyn+P/kMEEJSfC4wL0O4hX4OmmwcfZbc+VOa1IlbTxAww8MjZF1eb69czSl
+         JhNxWfdAvNvf0aLOJ2zIgjjWjoo3/qMuhePXkwjT47u0273RtTb2w6fbghDsX1IyOsh7
+         ycbxPguVWsvQKY0q2jHaG22jnYYiiQMY92Rhi39x4/Lpu35VITIeAg19c9SUDG8w/qVo
+         OX3zjE3HtGEFaPiApNAXpWAwHWvFp5S5zxBcHjnSAgOQpvSbZOc664cbBcgISbUKtgLG
+         FhgDukKAHwsL4iNX8v0Uc6U3aGczmzdO5M2bQ+S/NnIv/eLlwVXMGR8NYl2RmzgB+wk1
+         u8mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=nM06eYScX+XNokoAV7+9FvMc5yktmL9LEFe0oZB9L9Y=;
-        b=qaGsh9aTlJbs21Dhzvzyg3LkSC9QHZszaOvZpYcOWM88laBfxBkR++crbVaa188DmI
-         7qvmncPxpINhfqCqAnIN6/bCfZmwZ9KkslsZ7pQTr4XWO3theqpWpLTW6rQ/mG9A55+c
-         139mLREEsCJoLZdMuyC3DtfENahMOkwlMOnr9ysp2wp0d03m0Ntny30kj1U7uId8SiGl
-         XFEC4ARCxFSujDO91hF96l3+KYy2nKp7LbogZ2HodpyCvq01/vyOkU3kc572yFq5v+vQ
-         ueHaPInQEGa3XWkc7EY9Fkl1avntFn66J+xYFhBgizKzN03O4AweEoLd/I7c4HzfHJt9
-         /6xw==
-X-Gm-Message-State: AOAM532mt5X0llN6pIzlKw6dGbdPRshdyB81sBh6ONfc+C0JTmj6SEek
-        kf/7Td09/9wgbwtwVenh/RU=
-X-Google-Smtp-Source: ABdhPJxag+JM0bTEClmR4Am4vtfn8gaUpVvbku+9BQ3YhxQkbmBNaa4vnCEDKCbL5TbA35D/8bJsOw==
-X-Received: by 2002:adf:dcc6:: with SMTP id x6mr26271344wrm.126.1589905521923;
-        Tue, 19 May 2020 09:25:21 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id l18sm206371wmj.22.2020.05.19.09.25.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 09:25:20 -0700 (PDT)
-Date:   Tue, 19 May 2020 18:25:19 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     ldewangan@nvidia.com, jonathanh@nvidia.com,
-        dan.j.williams@intel.com, vkoul@kernel.org,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] dmaengine: tegra210-adma: Fix an error handling path in
- 'tegra_adma_probe()'
-Message-ID: <20200519162519.GE2113674@ulmo>
-References: <20200516214205.276266-1-christophe.jaillet@wanadoo.fr>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=erHld5g8aUsGObcGGn0MGFVIEHLOUjB0Us6LDfsWtwI=;
+        b=mZVYCtG+b8MGjjdEASra3n+ImZWjkBDnrWDrC04vcBrkKpwVrAzsBgrLbKLTXgh3yR
+         /2fn0nTzN+q2YQxeqF9vf0MQgbBA0peUj4mfnBgY7B2h6ExnN2tPKoAeKTGRcbaLgyw7
+         /EHdPZ3vbE2Oh0aZi1Ifok1uZdAI61FFAAarRYs64E1Z1tMXUOi/TqG5L3LZNIIbZyld
+         ceCYu6T93g6eN86KXYKA83yokL8qi4zJdYX2NlvVdODRfQFKshE6CqH6XxIXzXdHnPDp
+         xtcjFHup8nGbEc/qjM5zHoe3pANHaDpaOxD+GnsyCqhiSix3mPuPWd3hpbN164eFfKFT
+         piZw==
+X-Gm-Message-State: AOAM531y+Ayjle6mwW5EvlH6xxYXtEVRvsYkdKpecs7K+YN5emUbOIm/
+        jAxzSxZP/Ohh6GqO7ruNWANN11Iw
+X-Google-Smtp-Source: ABdhPJynTG9WE/2wz7rU96llUm+O8M3VCxmsoLGn8GGEC/AtLXD3ecQSqJWInxjS2UgGX4APrbMdJA==
+X-Received: by 2002:ac2:5ccf:: with SMTP id f15mr15638072lfq.216.1589906019877;
+        Tue, 19 May 2020 09:33:39 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id v4sm52411ljj.104.2020.05.19.09.33.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2020 09:33:39 -0700 (PDT)
+Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
+ device-tree properties
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200516154314.14769-1-digetx@gmail.com>
+ <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
+ <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
+ <20200519162444.GD2113674@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b4eb368e-adc2-7b77-3ae9-fefdcfddaf3d@gmail.com>
+Date:   Tue, 19 May 2020 19:33:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5xSkJheCpeK0RUEJ"
-Content-Disposition: inline
-In-Reply-To: <20200516214205.276266-1-christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200519162444.GD2113674@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+19.05.2020 19:24, Thierry Reding пишет:
+> On Tue, May 19, 2020 at 05:05:27PM +0300, Dmitry Osipenko wrote:
+>> 19.05.2020 10:28, Ulf Hansson пишет:
+>>> On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> Several people asked me about the MMC warnings in the KMSG log and
+>>>> I had to tell to ignore them because these warning are irrelevant to
+>>>> pre-Tegra210 SoCs.
+>>>
+>>> Why are the warnings irrelevant?
+>>
+>> That's what the DT binding doc says [1].
+>>
+>> [1]
+>> https://www.kernel.org/doc/Documentation/devicetree/bindings/mmc/nvidia%2Ctegra20-sdhci.txt
+>>
+>> Although, looking at the driver's code and TRM docs, it seems that all
+>> those properties are really irrelevant only to the older Terga20 SoC. So
+>> the binding doc is a bit misleading.
+>>
+>> Nevertheless, the binding explicitly says that the properties are
+>> optional, which is correct.
+> 
+> Optional only means that drivers must not fail if these properties
+> aren't found, it doesn't mean that the driver can't warn that they
+> are missing.
+> 
+> Quite possibly the only reason why they were made optional is because
+> they weren't part of the bindings since the beginning. Anything added
+> to a binding after the first public release has to be optional by
+> definition, otherwise DT ABI wouldn't be stable.
+> 
+> I think these warnings were added on purpose, though I also see that
+> there are only values for these in device tree for Tegra186 and Tegra194
+> but not Tegra210 where these should also be necessary.
+> 
+> Adding Sowjanya who wrote this code. Perhaps she can clarify why the
+> warnings were added. If these values /should/ be there on a subset of
+> Tegra, then I think we should keep them, or add them again, but perhaps
+> add a better way of identifying when they are necessary and when it is
+> safe to work without them.
+> 
+> That said, looking at those checks I wonder if they are perhaps just
+> wrong. Or at the very least they seem redundant. It looks to me like
+> they can just be:
+> 
+> 	if (tegra_host->pinctrl_state_XYZ == NULL) {
+> 		...
+> 	}
+> 
+> That !IS_ERR(...) doesn't seem to do anything. But in that case, it's
+> also obvious why we're warning about them on platforms where these
+> properties don't exist in DT.
+> 
+> So I think we either need to add those values where appropriate so that
+> the warning doesn't show, or we need to narrow down where they are
+> really needed and add a corresponding condition.
+> 
+> But again, perhaps Sowjanya can help clarify if these really are only
+> needed on Tegra210 and later or if these also apply to older chips.
 
---5xSkJheCpeK0RUEJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Either way will be cleaner to convert the DT binding to YAML rather than
+clutter the driver, IMO.
 
-On Sat, May 16, 2020 at 11:42:05PM +0200, Christophe JAILLET wrote:
-> Commit b53611fb1ce9 ("dmaengine: tegra210-adma: Fix crash during probe")
-> has moved some code in the probe function and reordered the error handling
-> path accordingly.
-> However, a goto has been missed.
->=20
-> Fix it and goto the right label if 'dma_async_device_register()' fails, so
-> that all resources are released.
->=20
-> Fixes: b53611fb1ce9 ("dmaengine: tegra210-adma: Fix crash during probe")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/dma/tegra210-adma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---5xSkJheCpeK0RUEJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7ECG8ACgkQ3SOs138+
-s6HyGBAAtqw2Y28Sav7FpIgNdlgPeJGBIZ8WuLD4zojjs15UzXAuuHndZNzOR1xL
-dJSZvlK1T2GFmmtHmzjJJUtng+A9GDFJD8J6UeKOdpy6eLlmvtRT6hCueljrJGOb
-aKdGNRnFBoDZ/DqBArUILTkTgCdqHY66gacajY7p42DHGr7RxovPr/RNjzblE4Ae
-7uA1CEY9Hqs3Xu7P5Aty3UhFh0cubPGCtMRnW9Y9hvyv6XSWIVnzAUwMiPJGBNLg
-pn3D9WeK970Ef/QEvkRCWNW4mpM1dfiHmIjbjcFRwn1NvuTI4A1MukWzS3/Qbs9u
-SrLIquFBkk+AtGNF5pPW/RmKOFTq+6eDaMEArLVuN6G6MNrS2xCE2mN2hb1arBAH
-rV/7Sc+H/FfEWjXtRSnf0JwZmSKB/rObzOyPTAzERwKDNTVU1XDuCWSjlAv9A8e/
-7TLFcFueYmMZO48jvdw1NL4u+v2kf0rWWzcyNBVeukTSHrlNvT+jI50fJ9omb0Bp
-RqM5CktLjENleIelSb25TSFRjMB27w703QJdRb7Njr/iDw65wrasz+q8dqGCJLJQ
-AFqb5peekfnhyQcHiYqd9cU+FYXnk+UJNUv3uh1T+JWZM+ec8NbDJe7v1JpTtWIY
-2Yw4rtrkVHfL/mqnKkFzPLziFy72mrh7IQ1bHHx9CyTibg9B0dU=
-=TqZK
------END PGP SIGNATURE-----
-
---5xSkJheCpeK0RUEJ--
