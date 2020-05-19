@@ -2,82 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD2C51D96C0
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 14:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3071D98E3
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 16:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728795AbgESMyi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 08:54:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48006 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726169AbgESMyi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 08:54:38 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E202A2081A;
-        Tue, 19 May 2020 12:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589892878;
-        bh=y11pCBN/OhCyA6le7xtubNCV+K22LDiOpZqaPO+00Fs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r0ZH/3xru4qeEBfLVqtgWd5mp2+5dmbKhS+u76eFkGqoxu0ZjKZSnuVCPeJJyPFVB
-         7wdgjmOwduOq/RiPum6ADFuXejMMNV09fZZHAR5icoP+hICJ8R4nGPEvddgf99EwED
-         SidLIUcFKx06QrHWgO+ZVR8vmoMkYbGk/nUOUc70=
-Date:   Tue, 19 May 2020 14:54:36 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.6 000/194] 5.6.14-rc1 review
-Message-ID: <20200519125436.GB410029@kroah.com>
-References: <20200518173531.455604187@linuxfoundation.org>
- <714571ae-b9be-8d11-0d47-08aab00ca23d@nvidia.com>
+        id S1729123AbgESOFd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 10:05:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52960 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727910AbgESOFc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 May 2020 10:05:32 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE78BC08C5C0;
+        Tue, 19 May 2020 07:05:31 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id w15so3988578lfe.11;
+        Tue, 19 May 2020 07:05:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3ngWGohqyk1bY0kV0++kwnpeD3y2ZE5Nt8l5LSZ6FRQ=;
+        b=JNM5HwwQ0gQ6nuCM6Kwij9v2fd9iRgUdc+MT4Op08k7J6Ulu1qQVyXeFLvk7ehAi8K
+         +EnpUcbc4KK4ErikoxL4837JsZFfJMcoh84iWKWNRzVzXjZ3XIG6NVQUa2XVeWrq25d2
+         V+UdACbBZga9RlPT36llf67I9pQrLn+zXRj6i2YjZOWNjdlLzI2cV4vuVtzqUlp3NvXH
+         Xrnj8h6hFoKRUMc+ejo1L08QIDjmdyERbsLAqcmyc67t1TPEFbBmc1JE3Al9M9lw9Izt
+         3QnnpQRuriGz91mMQ8rFOxR8bHQDEtW4+Xes5BCx5wARSFHjdNioYpTlgqJiJcPj5rl8
+         VRzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3ngWGohqyk1bY0kV0++kwnpeD3y2ZE5Nt8l5LSZ6FRQ=;
+        b=lUGHUGAWx44nLseswMnQXMVm+h1ToXFRKJ7YL3gp2bTOkXFFpGrQ3cNx6ReSUJ5IGu
+         Ut7/21Rnfbv7kAoS26kfpsmQQqzEphvJda4BOqY4Z8Ax8gzfC9xM6pfLxMPO6bEnn25O
+         jOnLir1rXwPLWWNVuAZvd1Qvvuf4Cb9cEmB+mgwtDS8QO2PFJefqqQ9PAKWyZ+ZTRY1w
+         FGTfS5eNhl8Bhic18ijsABOg6lFaG9Q4BMKGu5xp2oC233cs9PUVjXgi/DQ1SzT8PbUJ
+         0s2Q0bZylQZp6HDvDLROVXLCd80S33pQJWUxoyvUOq93PmaebAd58UnztztVBAytnYLL
+         Ou3Q==
+X-Gm-Message-State: AOAM530uvaFHxBxrAGSQsCX4/DrK7951SFU6uSGeL8x9vkBatDq2wRN0
+        wLh4XtwUD1uTfmNzixHjeBd2A8kZ
+X-Google-Smtp-Source: ABdhPJwWBveEsnFnC70i5Th3zmI8qQ90kscFZox1OYGMh21oaSbVDP3KHvAzjOQRvnunWXdFREr1Dg==
+X-Received: by 2002:ac2:5f69:: with SMTP id c9mr8778817lfc.2.1589897130069;
+        Tue, 19 May 2020 07:05:30 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id v28sm3041273lfd.35.2020.05.19.07.05.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2020 07:05:28 -0700 (PDT)
+Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
+ device-tree properties
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200516154314.14769-1-digetx@gmail.com>
+ <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
+Date:   Tue, 19 May 2020 17:05:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <714571ae-b9be-8d11-0d47-08aab00ca23d@nvidia.com>
+In-Reply-To: <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, May 19, 2020 at 09:52:13AM +0100, Jon Hunter wrote:
+19.05.2020 10:28, Ulf Hansson пишет:
+> On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> Several people asked me about the MMC warnings in the KMSG log and
+>> I had to tell to ignore them because these warning are irrelevant to
+>> pre-Tegra210 SoCs.
 > 
-> On 18/05/2020 18:34, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.6.14 release.
-> > There are 194 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Wed, 20 May 2020 17:32:42 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.14-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.6:
->     13 builds:	13 pass, 0 fail
->     26 boots:	26 pass, 0 fail
->     42 tests:	42 pass, 0 fail
-> 
-> Linux version:	5.6.14-rc2-g67346f550ad8
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+> Why are the warnings irrelevant?
 
-Wonderful, thanks for testing all of these and letting me know.
+That's what the DT binding doc says [1].
 
-greg k-h
+[1]
+https://www.kernel.org/doc/Documentation/devicetree/bindings/mmc/nvidia%2Ctegra20-sdhci.txt
+
+Although, looking at the driver's code and TRM docs, it seems that all
+those properties are really irrelevant only to the older Terga20 SoC. So
+the binding doc is a bit misleading.
+
+Nevertheless, the binding explicitly says that the properties are
+optional, which is correct.
+
+>> It should be up to a board's device-tree writer to
+>> properly describe all the necessary properties. Secondly, eventually all
+>> device-tree bindings will be converted to YAML, which allows to validate
+>> board DT files, giving a warning about missing properties. Hence let's
+>> remove the noisy warnings to stop the confusion.
+> 
+> Yep, makes sense. However, perhaps we should do this conversion then,
+> rather than first drop the warnings?
+
+I don't mind to postpone this patch. But again, IIUC, all these
+properties are optional, and thus, there is no critical need to verify
+them in DT right now, it could be done later on.
