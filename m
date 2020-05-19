@@ -2,99 +2,226 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 175681D928F
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 10:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FE3F1D92E2
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 11:03:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgESIwR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 04:52:17 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18311 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbgESIwR (ORCPT
+        id S1728490AbgESJDK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 05:03:10 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49894 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbgESJDI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 04:52:17 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ec39db30000>; Tue, 19 May 2020 01:49:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 19 May 2020 01:52:17 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 19 May 2020 01:52:17 -0700
-Received: from [10.26.74.144] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 May
- 2020 08:52:14 +0000
-Subject: Re: [PATCH 5.6 000/194] 5.6.14-rc1 review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200518173531.455604187@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <714571ae-b9be-8d11-0d47-08aab00ca23d@nvidia.com>
-Date:   Tue, 19 May 2020 09:52:13 +0100
+        Tue, 19 May 2020 05:03:08 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 7A8D02A1ED2
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+ <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
+ <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
+ <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
+Date:   Tue, 19 May 2020 11:02:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200518173531.455604187@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589878195; bh=HpdkXkTa9twIADGxhBG+8MMD+AKNVabtWOsBQxiVjaU=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=NxBsSD3GAdcX6SFQmBhTlZMNnI8yANG5uMK7m2fFfV/jjE1ymFQc6M/Oa28sSACrq
-         kA6OHCXnoMwL9Dal0bc1NO3w0PJVbUfB3zsZiQtIllBM3kFn6t2pg8dI5dcwzTj/a9
-         w0ZbkDK6YbZaDD9BvAF0kkmNH8vqlDO0c4GSihogdito0y7l7yIYYZb5NV6vIDO66v
-         QRFXdb6fYl/6VCw1giJuRWc0huM9oKomVGo2HTKEa6gH3IrpvoUlTaYFEgpToHZJIj
-         Z0s1G+TPNXcqSNv+sQfUwUs1nn2cZkrVeMkPrZw4ecoolPSNChIoVQYmZu2rKzmS4K
-         A30RUSmcHaAag==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Hans, Hi Dmitry,
 
-On 18/05/2020 18:34, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.6.14 release.
-> There are 194 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+W dniu 18.05.2020 o 16:23, Hans de Goede pisze:
+> Hi,
+
+<snip>
+
+>>>>>
+>>>>> So I wonder what this series actually adds for functionality for
+>>>>> userspace which can not already be achieved this way?
+>>>>>
+>>>>> I also noticed that you keep the device open (do not call the
+>>>>> input_device's close callback) when inhibited and just throw away
+>>>>
+>>>> I'm not sure if I understand you correctly, it is called:
+>>>>
+>>>> +static inline void input_stop(struct input_dev *dev)
+>>>> +{
+>>>> +    if (dev->poller)
+>>>> +        input_dev_poller_stop(dev->poller);
+>>>> +    if (dev->close)
+>>>> +        dev->close(dev);
+>>>>                  ^^^^^^^^^^^^^^^^
+>>>> +static int input_inhibit(struct input_dev *dev)
+>>>> +{
+>>>> +    int ret = 0;
+>>>> +
+>>>> +    mutex_lock(&dev->mutex);
+>>>> +
+>>>> +    if (dev->inhibited)
+>>>> +        goto out;
+>>>> +
+>>>> +    if (dev->users) {
+>>>> +        if (dev->inhibit) {
+>>>> +            ret = dev->inhibit(dev);
+>>>> +            if (ret)
+>>>> +                goto out;
+>>>> +        }
+>>>> +        input_stop(dev);
+>>>>                  ^^^^^^^^^^^^^^^^
+>>>>
+>>>> It will not be called when dev->users is zero, but if it is zero,
+>>>> then nobody has opened the device yet so there is nothing to close.
+>>>
+>>> Ah, I missed that.
+>>>
+>>> So if the device implements the inhibit call back then on
+>>> inhibit it will get both the inhibit and close callback called?
+>>>
+>>
+>> That's right. And conversely, upon uninhibit open() and uninhibit()
+>> callbacks will be invoked. Please note that just as with open()/close(),
+>> providing inhibit()/uninhibit() is optional.
 > 
-> Responses should be made by Wed, 20 May 2020 17:32:42 +0000.
-> Anything received after that time might be too late.
+> Ack.
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.14-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> and the diffstat can be found below.
+>>> And what happens if the last user goes away and the device
+>>> is not inhibited?
+>>
+>> close() is called as usually.
 > 
-> thanks,
+> But not inhibit, hmm, see below.
 > 
-> greg k-h
+>>> I'm trying to understand here what the difference between the 2
+>>> is / what the goal of having a separate inhibit callback ?
+>>>
+>>
+>> Drivers have very different ideas about what it means to suspend/resume
+>> and open/close. The optional inhibit/uninhibit callbacks are meant for
+>> the drivers to know that it is this particular action going on.
+> 
+> So the inhibit() callback triggers the "suspend" behavior ?
+> But shouldn't drivers which are capable of suspending the device
+> always do so on close() ?
+> 
+> Since your current proposal also calls close() on inhibit() I
+> really see little difference between an inhibit() and the last
+> user of the device closing it and IMHO unless there is a good
+> reason to actually differentiate the 2 it would be better
+> to only stick with the existing close() and in cases where
+> that does not put the device in a low-power mode yet, fix
+> the existing close() callback to do the low-power mode
+> setting instead of adding a new callback.
+> 
+>> For inhibit() there's one more argument: close() does not return a value,
+>> so its meaning is "do some last cleanup" and as such it is not allowed
+>> to fail - whatever its effect is, we must deem it successful. inhibit()
+>> does return a value and so it is allowed to fail.
+> 
+> Well, we could make close() return an error and at least in the inhibit()
+> case propagate that to userspace. I wonder if userspace is going to
+> do anything useful with that error though...
+> 
+> In my experience errors during cleanup/shutdown are best logged
+> (using dev_err) and otherwise ignored, so that we try to clean up
+> as much possible. Unless the very first step of the shutdown process
+> fails the device is going to be in some twilight zone state anyways
+> at this point we might as well try to cleanup as much as possible.
 
-All tests are passing for Tegra ...
+What you say makes sense to me.
+@Dmitry?
 
-Test results for stable-v5.6:
-    13 builds:	13 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    42 tests:	42 pass, 0 fail
+> 
+>> All in all, it is up to the drivers to decide which callback they
+>> provide. Based on my work so far I would say that there are tens
+>> of simple cases where open() and close() are sufficient, out of total
+>> ~400 users of input_allocate_device():
+>>
+>> $ git grep "input_allocate_device(" | grep -v ^Documentation | \
+>> cut -f1 -d: | sort | uniq | wc
+>>      390     390   13496
+> 
+> So can you explain a bit more about the cases where only having
+> open/close is not sufficient?  So far I have the feeling that
+> those are all we need and that we really do not need separate
+> [un]inhibit callbacks.
 
-Linux version:	5.6.14-rc2-g67346f550ad8
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+My primary concern was not being able to propagate inhibit() error
+to userspace, and then if we have inhibit(), uninhibit() should be
+there for completeness. If propagating the error to userspace can
+be neglected then yes, it seems open/close should be sufficient,
+even more because the real meaning of "open" is "prepare the device
+for generating input events".
 
-Cheers
-Jon
+To validate the idea of not introducing inhibit()/uninhibit() callbacks
+to implement device inhibiting/uninhibiting let's look at
+drivers/input/mouse/elan_i2c_core.c (PATCH 7/7):
 
--- 
-nvpublic
+static int elan_inhibit(struct input_dev *input)
+{
+[...]
+
+	ret = mutex_lock_interruptible(&data->sysfs_mutex);
+	if (ret)
+		return ret;
+
+	disable_irq(client->irq);
+
+	ret = elan_disable_power(data);
+	if (ret)
+		enable_irq(client->irq);
+[...]
+}
+
+First, close() does not exist in this driver. Of course this can be
+fixed. Then it doesn't return a value. Then, if either taking the
+mutex or disabling the power fails, the close() is still deemed
+successful. Is it ok?
+@Dmitry?
+
+Regards,
+
+Andrzej
