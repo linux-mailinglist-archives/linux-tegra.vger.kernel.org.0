@@ -2,150 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 333681D910E
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 09:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6381D926E
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 10:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728248AbgESH3V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 03:29:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727057AbgESH3V (ORCPT
+        id S1726466AbgESItK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 04:49:10 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13505 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726369AbgESItK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 03:29:21 -0400
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB57C05BD0A
-        for <linux-tegra@vger.kernel.org>; Tue, 19 May 2020 00:29:20 -0700 (PDT)
-Received: by mail-ua1-x942.google.com with SMTP id f9so2274017uaq.2
-        for <linux-tegra@vger.kernel.org>; Tue, 19 May 2020 00:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MGKa+ni4azruYMg4t2OX9ZfrcsxATG1wfkYBrvmx3ac=;
-        b=ppCH2waksv32s+VVjjgoMAHZCn1L6IO+CmDuUgCw0Ah8QKNmJsagxzjFwL1icKfVL6
-         GMFWWLDxgqUgXutFVVzJi3VAwC3XUqmxCY6DikqwItRz2Z+sxzMOxZUIuGbPS7LMLFAo
-         2CrhGUnvrHNzcOhTf6J0cWp5Wo3JPer7NcqIN4d26PORoOmIKbmdOgEqFUpk8WacxsAB
-         sb+1PA2XFj/jrKGRv1/6lcfY4xY1zeXqbaeFMama6eAdHX+1zaVPRgJV0L6RpsaTdRae
-         i4ngUbPx2AjAShzmkOh4EQOybvPQ8BhHHrNYB7CrCeeFd2fNUK/+ptg132X2WpNow7o3
-         laUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MGKa+ni4azruYMg4t2OX9ZfrcsxATG1wfkYBrvmx3ac=;
-        b=mj9/o9HYdPqfApuXIWhVclP0Cw9xC6Y3vF6MR+vLmIxemkNhK2iVJB1Im8pbxhy7N8
-         AqPJaNOrsB+dKfE13Iz1iqe0rQivwXbA7csEwY8kvPXOiz9sW7+jGo2EiTnjrI3C9dYj
-         /L575o9FOIvUefQ+NKiXnfJjVV8E2v01snWMJ+r5Fz4dWsdytw5w0Max3UzDbrtPV7uT
-         RWgLxQ4ADUWq9CqW1DYA3z6dVJM0VDIwwUyFyzIFdIHTcd16xWkt9a/PuCECeiWA/vU3
-         hNa0riED5Mg7aKhYasawFlm9WWgTZgzTdJHndNfu/SvzW0VIoHr5gNbE0nVPIc4XDicP
-         5ZKw==
-X-Gm-Message-State: AOAM531FcWLdeNCJddvtcQ8HecBCUEJV+GI+k8G1wpCybv//CwUwMH7P
-        +AH1zCcptam2Cldg1+olx2g8wp3/IPHj6uYt0MVQow==
-X-Google-Smtp-Source: ABdhPJziq/dAaaMSV1g+QUyl2hxCAINBzMD1C8r8rFdoRyfZhqRSKCVUBriAlDSydtj6W9Tb1GcQRCiaHtbeQ3upsjw=
-X-Received: by 2002:ab0:5ca:: with SMTP id e68mr13796837uae.19.1589873359897;
- Tue, 19 May 2020 00:29:19 -0700 (PDT)
+        Tue, 19 May 2020 04:49:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec39d790001>; Tue, 19 May 2020 01:48:57 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 19 May 2020 01:49:09 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 19 May 2020 01:49:09 -0700
+Received: from [10.26.74.144] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 May
+ 2020 08:49:07 +0000
+Subject: Re: [PATCH 4.4 00/86] 4.4.224-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200518173450.254571947@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <20c46455-d403-89f2-9f5b-82a8f679d97c@nvidia.com>
+Date:   Tue, 19 May 2020 09:49:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200516154314.14769-1-digetx@gmail.com>
-In-Reply-To: <20200516154314.14769-1-digetx@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 19 May 2020 09:28:43 +0200
-Message-ID: <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
-Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
- device-tree properties
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200518173450.254571947@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589878137; bh=aUrtNfycJMaM6JFZ6gtmXfhoRBylsDCxXvp0ZFVVrtk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=LlDcY3ciXipMyDozkc42kS3mygWMIzHbDBT/BFODjWgLmmE42BehRLcQdWYcyyWWt
+         We+KjH9vR2Ef8YWxyAM8jvZXTBZN9P9Rt6ErSGWkZMw7a56GIv02tgIo0ZFT9jDcbM
+         XG7mxZzX9DnPMsFXjcGjdPxBoftOXkeVGkqmCbj99RT7p4z6GuDpuUA12lXMLUyZOj
+         uHhs3O+85HqfKBWOQR63DtgRjNfcxQdUh3jTes5v24UWJnPzq1JYwIAsSWwa6OLNnI
+         BqA93Vh2kzSUKKAXcwJcd3h1v0B4c3H2Or9ap9PN24zkwNcDOdB6l7BCixdti/LxME
+         O8HkJKXn1y81A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> Several people asked me about the MMC warnings in the KMSG log and
-> I had to tell to ignore them because these warning are irrelevant to
-> pre-Tegra210 SoCs.
 
-Why are the warnings irrelevant?
+On 18/05/2020 18:35, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.224 release.
+> There are 86 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed, 20 May 2020 17:32:42 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.224-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-> It should be up to a board's device-tree writer to
-> properly describe all the necessary properties. Secondly, eventually all
-> device-tree bindings will be converted to YAML, which allows to validate
-> board DT files, giving a warning about missing properties. Hence let's
-> remove the noisy warnings to stop the confusion.
 
-Yep, makes sense. However, perhaps we should do this conversion then,
-rather than first drop the warnings?
+All tests are passing for Tegra ...
 
-Kind regards
-Uffe
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
 
->
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 28 ++++------------------------
->  1 file changed, 4 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index 3e2c5101291d..83867629013d 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -607,46 +607,26 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
->         err = device_property_read_u32(host->mmc->parent,
->                         "nvidia,pad-autocal-pull-up-offset-3v3-timeout",
->                         &autocal->pull_up_3v3_timeout);
-> -       if (err) {
-> -               if (!IS_ERR(tegra_host->pinctrl_state_3v3) &&
-> -                       (tegra_host->pinctrl_state_3v3_drv == NULL))
-> -                       pr_warn("%s: Missing autocal timeout 3v3-pad drvs\n",
-> -                               mmc_hostname(host->mmc));
-> +       if (err)
->                 autocal->pull_up_3v3_timeout = 0;
-> -       }
->
->         err = device_property_read_u32(host->mmc->parent,
->                         "nvidia,pad-autocal-pull-down-offset-3v3-timeout",
->                         &autocal->pull_down_3v3_timeout);
-> -       if (err) {
-> -               if (!IS_ERR(tegra_host->pinctrl_state_3v3) &&
-> -                       (tegra_host->pinctrl_state_3v3_drv == NULL))
-> -                       pr_warn("%s: Missing autocal timeout 3v3-pad drvs\n",
-> -                               mmc_hostname(host->mmc));
-> +       if (err)
->                 autocal->pull_down_3v3_timeout = 0;
-> -       }
->
->         err = device_property_read_u32(host->mmc->parent,
->                         "nvidia,pad-autocal-pull-up-offset-1v8-timeout",
->                         &autocal->pull_up_1v8_timeout);
-> -       if (err) {
-> -               if (!IS_ERR(tegra_host->pinctrl_state_1v8) &&
-> -                       (tegra_host->pinctrl_state_1v8_drv == NULL))
-> -                       pr_warn("%s: Missing autocal timeout 1v8-pad drvs\n",
-> -                               mmc_hostname(host->mmc));
-> +       if (err)
->                 autocal->pull_up_1v8_timeout = 0;
-> -       }
->
->         err = device_property_read_u32(host->mmc->parent,
->                         "nvidia,pad-autocal-pull-down-offset-1v8-timeout",
->                         &autocal->pull_down_1v8_timeout);
-> -       if (err) {
-> -               if (!IS_ERR(tegra_host->pinctrl_state_1v8) &&
-> -                       (tegra_host->pinctrl_state_1v8_drv == NULL))
-> -                       pr_warn("%s: Missing autocal timeout 1v8-pad drvs\n",
-> -                               mmc_hostname(host->mmc));
-> +       if (err)
->                 autocal->pull_down_1v8_timeout = 0;
-> -       }
->
->         err = device_property_read_u32(host->mmc->parent,
->                         "nvidia,pad-autocal-pull-up-offset-sdr104",
-> --
-> 2.26.0
->
+Linux version:	4.4.224-rc1-g4935dd6adfe2
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
