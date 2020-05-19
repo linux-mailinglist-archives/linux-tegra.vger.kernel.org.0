@@ -2,226 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE3F1D92E2
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 11:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A09E1D92DA
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 11:03:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728490AbgESJDK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 05:03:10 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49894 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbgESJDI (ORCPT
+        id S1727869AbgESJDF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 05:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbgESJDF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 05:03:08 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 7A8D02A1ED2
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
- <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
- <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
- <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
-Date:   Tue, 19 May 2020 11:02:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Tue, 19 May 2020 05:03:05 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10501C061A0C;
+        Tue, 19 May 2020 02:03:05 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id 23so6219698pfy.8;
+        Tue, 19 May 2020 02:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=g7l8f0Zv5HCPiGiqrR0/5unpKCy3N2qumpqSQ5QZRv0=;
+        b=gxVEiKnOHOpzOMXUCO9AgTFR22gtEofog93jxkLur8uXfyuNpzgdZgCu3EOHfO9WOd
+         0cL7wt4UUibv9MBJafxdPTHN/RfQoO4vj/YedXi8+hmwEoSmkuzzJJoFKLBuKCSc4BrS
+         yPTZjpa6RBovbwSNwyowJyjwwyk/tcLCs41eLCAB6iuD/o2z1RlRZ63TtXtAYlGMvgFc
+         quh0GXOlj/vK+QcvBfttYKm6KlfCECFdW/lIoSlNDFy4srlxabF0n3c7efj2p1V/YZyb
+         Lx/WtWN5LPn/l74DI721wUsRc62KfXTbuIspRtQTL3Ez/foiRnn2u40HnRmnXv1g7lki
+         Q4aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=g7l8f0Zv5HCPiGiqrR0/5unpKCy3N2qumpqSQ5QZRv0=;
+        b=evw/Akxro/w5EUyJBHfD6LYH+0xOAwBP8xx66dQeQXL1rpN+8kx+qbTBTkMeFsFIVB
+         OLBcqNyduZ+yU4otXUqhdKbiDLgXgHg7qEQsnzzRxeBGiVZNhKLcPGyIgRYf4bEfL2rn
+         ZtF82mv+MCXuikuv8YWDhOi2F2zzxfVkGvrYI/CCifHeXhvquPnKh+/Vm36v7GGTuv1g
+         lH2Acl8jZoUpUMD5luX/XP44UPVTs3iRdSfBktP6DfPEVMJURm85kLRzUUyXXeHjTBIq
+         e8z7uY2Ovv8BgVenupcFKpygS+7wKT99J9lUNSv42dLS9GiSVf2BVbykGACxEcyYXmgI
+         R63A==
+X-Gm-Message-State: AOAM530Q8s0UG1npE5eerTBln2BqfpjO6cHNYpJ7u2XoPaxiHdytXfP8
+        SEl8KoVudWGLcQIRA1013T24qoD5lVM=
+X-Google-Smtp-Source: ABdhPJzb0ZYQ3HiDvsOVxjLFhTBa2u5r+klKCMhULaQYcLI8QEUl5NNR9NwoIW5wXqC85Fj8q6UQGw==
+X-Received: by 2002:aa7:8c53:: with SMTP id e19mr16678053pfd.264.1589878984490;
+        Tue, 19 May 2020 02:03:04 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (searspoint.nvidia.com. [216.228.112.21])
+        by smtp.gmail.com with ESMTPSA id i128sm10843094pfc.149.2020.05.19.02.03.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2020 02:03:04 -0700 (PDT)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     thierry.reding@gmail.com
+Cc:     airlied@linux.ie, daniel@ffwll.ch, jonathanh@nvidia.com,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/tegra: hub: Do not enable orphaned window group
+Date:   Tue, 19 May 2020 02:03:01 -0700
+Message-Id: <20200519090301.32689-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Hans, Hi Dmitry,
+Though the unconditional enable/disable code is not a final solution,
+we don't want to run into a NULL pointer situation when window group
+doesn't link to its DC parent if the DC is disabled in Device Tree.
 
-W dniu 18.05.2020 o 16:23, Hans de Goede pisze:
-> Hi,
+So this patch simply adds a check to make sure that window group has
+a valid parent before running into tegra_windowgroup_enable/disable.
 
-<snip>
+Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+---
+ drivers/gpu/drm/tegra/hub.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
->>>>>
->>>>> So I wonder what this series actually adds for functionality for
->>>>> userspace which can not already be achieved this way?
->>>>>
->>>>> I also noticed that you keep the device open (do not call the
->>>>> input_device's close callback) when inhibited and just throw away
->>>>
->>>> I'm not sure if I understand you correctly, it is called:
->>>>
->>>> +static inline void input_stop(struct input_dev *dev)
->>>> +{
->>>> +    if (dev->poller)
->>>> +        input_dev_poller_stop(dev->poller);
->>>> +    if (dev->close)
->>>> +        dev->close(dev);
->>>>                  ^^^^^^^^^^^^^^^^
->>>> +static int input_inhibit(struct input_dev *dev)
->>>> +{
->>>> +    int ret = 0;
->>>> +
->>>> +    mutex_lock(&dev->mutex);
->>>> +
->>>> +    if (dev->inhibited)
->>>> +        goto out;
->>>> +
->>>> +    if (dev->users) {
->>>> +        if (dev->inhibit) {
->>>> +            ret = dev->inhibit(dev);
->>>> +            if (ret)
->>>> +                goto out;
->>>> +        }
->>>> +        input_stop(dev);
->>>>                  ^^^^^^^^^^^^^^^^
->>>>
->>>> It will not be called when dev->users is zero, but if it is zero,
->>>> then nobody has opened the device yet so there is nothing to close.
->>>
->>> Ah, I missed that.
->>>
->>> So if the device implements the inhibit call back then on
->>> inhibit it will get both the inhibit and close callback called?
->>>
->>
->> That's right. And conversely, upon uninhibit open() and uninhibit()
->> callbacks will be invoked. Please note that just as with open()/close(),
->> providing inhibit()/uninhibit() is optional.
-> 
-> Ack.
-> 
->>> And what happens if the last user goes away and the device
->>> is not inhibited?
->>
->> close() is called as usually.
-> 
-> But not inhibit, hmm, see below.
-> 
->>> I'm trying to understand here what the difference between the 2
->>> is / what the goal of having a separate inhibit callback ?
->>>
->>
->> Drivers have very different ideas about what it means to suspend/resume
->> and open/close. The optional inhibit/uninhibit callbacks are meant for
->> the drivers to know that it is this particular action going on.
-> 
-> So the inhibit() callback triggers the "suspend" behavior ?
-> But shouldn't drivers which are capable of suspending the device
-> always do so on close() ?
-> 
-> Since your current proposal also calls close() on inhibit() I
-> really see little difference between an inhibit() and the last
-> user of the device closing it and IMHO unless there is a good
-> reason to actually differentiate the 2 it would be better
-> to only stick with the existing close() and in cases where
-> that does not put the device in a low-power mode yet, fix
-> the existing close() callback to do the low-power mode
-> setting instead of adding a new callback.
-> 
->> For inhibit() there's one more argument: close() does not return a value,
->> so its meaning is "do some last cleanup" and as such it is not allowed
->> to fail - whatever its effect is, we must deem it successful. inhibit()
->> does return a value and so it is allowed to fail.
-> 
-> Well, we could make close() return an error and at least in the inhibit()
-> case propagate that to userspace. I wonder if userspace is going to
-> do anything useful with that error though...
-> 
-> In my experience errors during cleanup/shutdown are best logged
-> (using dev_err) and otherwise ignored, so that we try to clean up
-> as much possible. Unless the very first step of the shutdown process
-> fails the device is going to be in some twilight zone state anyways
-> at this point we might as well try to cleanup as much as possible.
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index 8183e617bf6b..a2ef8f218d4e 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -149,7 +149,9 @@ int tegra_display_hub_prepare(struct tegra_display_hub *hub)
+ 	for (i = 0; i < hub->soc->num_wgrps; i++) {
+ 		struct tegra_windowgroup *wgrp = &hub->wgrps[i];
+ 
+-		tegra_windowgroup_enable(wgrp);
++		/* Skip orphaned window group whose parent DC is disabled */
++		if (wgrp->parent)
++			tegra_windowgroup_enable(wgrp);
+ 	}
+ 
+ 	return 0;
+@@ -166,7 +168,9 @@ void tegra_display_hub_cleanup(struct tegra_display_hub *hub)
+ 	for (i = 0; i < hub->soc->num_wgrps; i++) {
+ 		struct tegra_windowgroup *wgrp = &hub->wgrps[i];
+ 
+-		tegra_windowgroup_disable(wgrp);
++		/* Skip orphaned window group whose parent DC is disabled */
++		if (wgrp->parent)
++			tegra_windowgroup_disable(wgrp);
+ 	}
+ }
+ 
+-- 
+2.17.1
 
-What you say makes sense to me.
-@Dmitry?
-
-> 
->> All in all, it is up to the drivers to decide which callback they
->> provide. Based on my work so far I would say that there are tens
->> of simple cases where open() and close() are sufficient, out of total
->> ~400 users of input_allocate_device():
->>
->> $ git grep "input_allocate_device(" | grep -v ^Documentation | \
->> cut -f1 -d: | sort | uniq | wc
->>      390     390   13496
-> 
-> So can you explain a bit more about the cases where only having
-> open/close is not sufficient?  So far I have the feeling that
-> those are all we need and that we really do not need separate
-> [un]inhibit callbacks.
-
-My primary concern was not being able to propagate inhibit() error
-to userspace, and then if we have inhibit(), uninhibit() should be
-there for completeness. If propagating the error to userspace can
-be neglected then yes, it seems open/close should be sufficient,
-even more because the real meaning of "open" is "prepare the device
-for generating input events".
-
-To validate the idea of not introducing inhibit()/uninhibit() callbacks
-to implement device inhibiting/uninhibiting let's look at
-drivers/input/mouse/elan_i2c_core.c (PATCH 7/7):
-
-static int elan_inhibit(struct input_dev *input)
-{
-[...]
-
-	ret = mutex_lock_interruptible(&data->sysfs_mutex);
-	if (ret)
-		return ret;
-
-	disable_irq(client->irq);
-
-	ret = elan_disable_power(data);
-	if (ret)
-		enable_irq(client->irq);
-[...]
-}
-
-First, close() does not exist in this driver. Of course this can be
-fixed. Then it doesn't return a value. Then, if either taking the
-mutex or disabling the power fails, the close() is still deemed
-successful. Is it ok?
-@Dmitry?
-
-Regards,
-
-Andrzej
