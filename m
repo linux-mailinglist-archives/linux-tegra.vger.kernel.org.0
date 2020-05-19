@@ -2,160 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 556781D9C38
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 18:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8A41D9C6C
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 18:24:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729194AbgESQQs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 12:16:48 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:49646 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728689AbgESQQr (ORCPT
+        id S1729210AbgESQYt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 12:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728689AbgESQYt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 12:16:47 -0400
-Received: from [10.2.55.234] (searspoint.nvidia.com [216.228.112.21])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 37E621C074F;
-        Tue, 19 May 2020 10:16:45 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at avon.wwwdotorg.org
-Subject: Re: [PATCH 2/4] dt-bindings: sram: add documentation for
- reserved-only flag
-To:     Mian Yousaf Kaukab <ykaukab@suse.de>
-Cc:     robh+dt@kernel.org, robin.murphy@arm.com,
-        devicetree@vger.kernel.org, talho@nvidia.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, afaerber@suse.de,
-        arnd@arndb.de, gregkh@linuxfoundation.org
-References: <20200512144803.24344-1-ykaukab@suse.de>
- <20200512144803.24344-2-ykaukab@suse.de>
- <52f099e4-5c03-2141-f049-cd3adeb04c5b@wwwdotorg.org>
- <20200513104127.GA2309@suse.de>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Autocrypt: addr=swarren@wwwdotorg.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <efcc6b5e-423c-8ae1-8a46-d6a06c1a1bab@wwwdotorg.org>
-Date:   Tue, 19 May 2020 10:16:43 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 19 May 2020 12:24:49 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F21A4C08C5C0;
+        Tue, 19 May 2020 09:24:48 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id f134so3698265wmf.1;
+        Tue, 19 May 2020 09:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HbYmiwsnojREGBSr3iiIto18QpIAMZAWTnaELN8H+qA=;
+        b=HgMgoHQpMA04iqCNcYeeSP5MhMO40YItZE2/pSoarHZjp94lsZmGr3gsdaEoO1feeZ
+         ufxnqJyGdRAac5YyHV+TjjjomQwN2sNqEMFRZTGHH41rI/eg8hJh99nHIAKUavlUd8nd
+         3FDxPlF94j1uwBTIdreiAKkHy1IMlVY5ll13ZQyipkpWwIv9v4ogsuyKOLaMSyHDGmj+
+         6iNkRyuabRn6XxyRwSkQrgEPrjfCnjGU+/DKR2cDLbjXPHOEY9eW123/YBZrH6SDgBAW
+         a1e2dThzwa5xem0NFlK06dcj3rwAbNrBu9VkKsRcubWk/0u9Rvv+SqZnRZdeo61DzWTu
+         oYqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HbYmiwsnojREGBSr3iiIto18QpIAMZAWTnaELN8H+qA=;
+        b=fG+kfebCqnyb4U4V5ExctwqBXcM9HKbdu2DTt6+PgqxXeMnmRMM6uoK90sFT6fn9Vf
+         XorLV5sGR/c6glL/XWptHVvpJiCLWeep2oqmwcZWCk+8xwpS9B2i4WTyI3/Y2X/tOre/
+         PTVCHhIJFLl5ZYFXewA+dl9Uz3Me0YzkrSU3PJgG2axldXKgGgLz5HfR/8HlwZLQOrce
+         cFRzYLELDXtOkNYCGCjEUu5Xulw1MRoEMo5UQXDl6FAIdySCdXGuhi/98DdaPhJyKN3U
+         dB7kop5ipXZzl4CQqmkv1t6+DTN87D+dfGP86ecAAtCLgfqg0TEqUXKl5TfBumGU0imo
+         wwXQ==
+X-Gm-Message-State: AOAM533ixm9i7K6kGQSVMZlSUwgRYRbIYjSkYByNs4FqMg+mGb6LM1dS
+        KsKAcPsLQ9fiyMYL6kppQa4=
+X-Google-Smtp-Source: ABdhPJzaPPsrxPdcksqIS4X86FSsXGyfBSVhDHOT/f2jOa5KJceE9s6wxzPkSy5pS6AJwVp7W49Urw==
+X-Received: by 2002:a1c:3c8b:: with SMTP id j133mr195777wma.17.1589905486577;
+        Tue, 19 May 2020 09:24:46 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id t7sm20954644wrq.39.2020.05.19.09.24.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2020 09:24:45 -0700 (PDT)
+Date:   Tue, 19 May 2020 18:24:44 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
+ device-tree properties
+Message-ID: <20200519162444.GD2113674@ulmo>
+References: <20200516154314.14769-1-digetx@gmail.com>
+ <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
+ <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200513104127.GA2309@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Km1U/tdNT/EmXiR1"
+Content-Disposition: inline
+In-Reply-To: <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/13/20 4:41 AM, Mian Yousaf Kaukab wrote:
-> On Tue, May 12, 2020 at 01:45:28PM -0600, Stephen Warren wrote:
->> On 5/12/20 8:48 AM, Mian Yousaf Kaukab wrote:
->>> Add documentation for the new optional flag added for SRAM driver.
->>
->>> diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
->>
->>> +  reserved-only:
->>> +    description:
->>> +      The flag indicating, that only SRAM reserved regions have to be remapped.
->>> +      remapping type is selected depending upon no-memory-wc as usual.
->>> +    type: boolean
->>
->> This feels a bit like a SW flag rather than a HW description, so I'm not
->> sure it's appropriate to put it into DT.
-> 
-> Reserved regions themselves are software descriptions, no? Then we have 'pool'
-> flag which is again a software flag and so on. This flag falls into same
-> category and nothing out of ordinary.
 
-I suppose that's true to some extent. This is indeed a description of
-the system environment presented to the SW that consumes the DT, which
-is a bit more than pure HW description but still a description of
-something imposed externally rather than describing something that's up
-to the discretion of the consuming SW. So, go ahead.
+--Km1U/tdNT/EmXiR1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> Are there any cases where the SW should map all of the SRAM, i.e. where
->> we wouldn't expect to set reserved-only? [...]
-> 
-> Yes, here are a few examples:
-> arch/arm/boot/dts/aspeed-g*.dtsi
-> arch/arm/boot/dts/at91*.dtsi
-> arch/arm/boot/dts/bcm7445.dtsi
-> Then arch/arm/boot/dts/dra7.dtsi is an example where we should map everything
-> except the reserved region.
-> 
->> [...] I'd expect reserved-only to be
->> the default, and perhaps only, mode of operation for the SRAM driver.
-> 
-> It will break compatibility with existing dtbs.
-> 
->> If we can't do that because some SW currently expects to be able to map
->> arbitrary portions of the SRAM, shouldn't that SW be fixed to tell the
->> SRAM driver which parts it's using, hence still allowing the driver to
->> only map in-use portions?
-> 
-> User doesn’t need sram driver in that case. It can use genalloc api directly.
+On Tue, May 19, 2020 at 05:05:27PM +0300, Dmitry Osipenko wrote:
+> 19.05.2020 10:28, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com> wrote:
+> >>
+> >> Several people asked me about the MMC warnings in the KMSG log and
+> >> I had to tell to ignore them because these warning are irrelevant to
+> >> pre-Tegra210 SoCs.
+> >=20
+> > Why are the warnings irrelevant?
+>=20
+> That's what the DT binding doc says [1].
+>=20
+> [1]
+> https://www.kernel.org/doc/Documentation/devicetree/bindings/mmc/nvidia%2=
+Ctegra20-sdhci.txt
+>=20
+> Although, looking at the driver's code and TRM docs, it seems that all
+> those properties are really irrelevant only to the older Terga20 SoC. So
+> the binding doc is a bit misleading.
+>=20
+> Nevertheless, the binding explicitly says that the properties are
+> optional, which is correct.
 
-This sounds a bit odd. Without a driver for the reserved region, nothing
-should be touching it, since otherwise there's no code that owns an
-manages the region. If any code needs to consume the region, it should
-obtain info about the region from some form of provider code that can
-handle both the allocation and mapping. Anything else sounds like some
-consumer code directly making use of DT nodes it doesn't own. But since
-I'm not familiar enough with the SRAM driver and genalloc code that you
-mention to fully understand the allocation paths I guess I won't object
-for now, although it does still sound fishy.
+Optional only means that drivers must not fail if these properties
+aren't found, it doesn't mean that the driver can't warn that they
+are missing.
+
+Quite possibly the only reason why they were made optional is because
+they weren't part of the bindings since the beginning. Anything added
+to a binding after the first public release has to be optional by
+definition, otherwise DT ABI wouldn't be stable.
+
+I think these warnings were added on purpose, though I also see that
+there are only values for these in device tree for Tegra186 and Tegra194
+but not Tegra210 where these should also be necessary.
+
+Adding Sowjanya who wrote this code. Perhaps she can clarify why the
+warnings were added. If these values /should/ be there on a subset of
+Tegra, then I think we should keep them, or add them again, but perhaps
+add a better way of identifying when they are necessary and when it is
+safe to work without them.
+
+That said, looking at those checks I wonder if they are perhaps just
+wrong. Or at the very least they seem redundant. It looks to me like
+they can just be:
+
+	if (tegra_host->pinctrl_state_XYZ =3D=3D NULL) {
+		...
+	}
+
+That !IS_ERR(...) doesn't seem to do anything. But in that case, it's
+also obvious why we're warning about them on platforms where these
+properties don't exist in DT.
+
+So I think we either need to add those values where appropriate so that
+the warning doesn't show, or we need to narrow down where they are
+really needed and add a corresponding condition.
+
+But again, perhaps Sowjanya can help clarify if these really are only
+needed on Tegra210 and later or if these also apply to older chips.
+
+Thierry
+
+--Km1U/tdNT/EmXiR1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7ECEkACgkQ3SOs138+
+s6EgNhAAqw1+R9dClbJN52qhX8PClRXnmElzmtGpuZf4cQ5wSG07AMfW5yk/9yGX
+bJ3et36KfT30XOALiGf40LN2AYU8kHbr2cwyazj58f5KlAGUCUkr/CVPVDrqwWZ+
+sVY5QmVZlJBZf5LTBzt7gowEtQ1eexQ3VtbgaHDxAHOJrc5n6k3JISNcYFGPs3Vn
+grAGoyhj1nObR3r/4AjHXpQANSYEUUkGcYikg0yWM3MW/ATcRyRpAIYdFrIQj/3k
+Q2i3lG8PCdBKhGtFom9doq+fkU72E0aBmOytJjhdxtqmWJAF0GpOgGE2hWd8o0cZ
+UrNBKvY0dvFgBjwtsGfZtSRiNzJU37V7vfSFNNfvl5LPhfvlmYlvbF1YNIScytK1
+/oa/sqHZygdwFJRxfuOAvat9q0v31LziUq8/eCGNGPJjxi+9TbQG1F7NBtbsXtBg
+YvV3m70VOF7tPtRbWiHyPju/DEgM3tytIE8EluOMOYc2hxCO1K1qeBR9ujgB5iVo
+cEUq/Ho4QvN9Taa+d/PrDb26PQiHKRPoU/z8W7Ni+S0VW1xm7Rf5XZ8pGnD2gwvp
+QrBbF/r5zzs+XNUIBwBHBrXHRvV5UqDX092lrR0kbBfXNhWQCXq9ZyR2gWqrevtl
+iGiH2A/0+xWGKXDZYVX2hT4ZfZD5YZztQqCP1KZ50m3k1h/7msg=
+=FLne
+-----END PGP SIGNATURE-----
+
+--Km1U/tdNT/EmXiR1--
