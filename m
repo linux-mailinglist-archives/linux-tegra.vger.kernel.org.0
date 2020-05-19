@@ -2,113 +2,140 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A101B1D9B3C
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 17:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC6A71D9BC9
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 17:57:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729271AbgESPaj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 11:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38008 "EHLO
+        id S1729210AbgESP5e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 11:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729180AbgESPah (ORCPT
+        with ESMTP id S1729124AbgESP5d (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 11:30:37 -0400
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A60EDC08C5C0
-        for <linux-tegra@vger.kernel.org>; Tue, 19 May 2020 08:30:37 -0700 (PDT)
-Received: by mail-vk1-xa42.google.com with SMTP id p7so3469788vkf.5
-        for <linux-tegra@vger.kernel.org>; Tue, 19 May 2020 08:30:37 -0700 (PDT)
+        Tue, 19 May 2020 11:57:33 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69449C08C5C0;
+        Tue, 19 May 2020 08:57:33 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id t8so1056931wmi.0;
+        Tue, 19 May 2020 08:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rnSyU5f4PrzmexMJlgXOLUxtZCdHxKJvdv/zUlkAcrA=;
-        b=uFDIdf1+QUnCUyeb3hS0KTf1RU83RdK39E8uD55PKtjZVNtGka7FbU96itQXslCa3v
-         DBf1jMaS0xKuLCHFJcuI7M8Mg9AkIPcrVFepYErgEehXvkrtxdty6I1QwJXnoAcmTNg0
-         AVHL3RW8MyuTnQLz/F0B+CkFXCjFj3IMVZZKMReDU7+GoMDGHD1R/XSzfjUizPauPxG5
-         YyffwHfYRRQ86kbn0GzRL0AI98LNK2SIx4AI9Fdb/faRU6JCpYcjuSxfyPrVp1FjwR+E
-         qNuH4yOtO3RNGh73/dQW5BHCznhU0oV1R8GElfWHP1z620/sPMHAJtS3/c1QwkteKu7q
-         eEEw==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wVHnheUXb3rHqUKvRML054BsK6ulx8JWBVXMW18p7w0=;
+        b=U7zuFt9CsNY863Jhdrf0UCrPxbW9bKXQNboA0eG91Q0LogrEFouMiy68rhQUCHuwdc
+         NVyKKyHeM2oqkaB7Jx/ZJaamUs3uXz2e/7/OJYypxd5ON5cenIimGzLLmjC4mf2ikgdQ
+         sTXh01dezYSmMjDtS1r/lVZkecz0XTJrIDMwJK1kQ5q7LlLc7QFfb7BpUOlhm5mVM+Q9
+         vIUa46IF0IpLwqhP81fNB2/VSkfxSmNjixnbQk/amBlZEX+NDlr8bGcFehodc0d5Nxhq
+         1bxWMkXdYch2Mh7Vf9+pXoWzi9ooyvLZD5+gx5S5vxyMizqRmhMys/hvxd+h53yzsIsc
+         Rb5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rnSyU5f4PrzmexMJlgXOLUxtZCdHxKJvdv/zUlkAcrA=;
-        b=B/ryRKVw3XHGoTZ2LxkY9Wn42FuohT0YDFDHj2qiFYsHvONa8yoLm3BEP1KHzvwlQ1
-         LCgni4V4r7IfWuukXMZZsaVm+L/4axenS0cIc3JtpLvoFSkjmThKtWeMd+BQHTJsIla6
-         2tyC+RryHLz1ayUhPqjP55tupg8ruG5EH6ENObEJSlmxnDX2MJtqMBVe8JGXCuDDMnER
-         0FgGamY/lKc0sZi/tFA4ZPjL5+k5lZcQcO7VE/gGWUUqX7udTeC74YevzmQ1zVn3DT1d
-         XAH8SfQqC+TkVY/cZSrMox/vYS9Y41ZYHw6A2hdtEHgscy1AE5DsS3a1ptBgtGu/FBdE
-         WvOA==
-X-Gm-Message-State: AOAM530KiEcoy/MwASEAOW5fsu4Hi6lNOHbzUEEqo8WptFt+DFBfLbg0
-        uZ8XzOUYCFrMf1N6KVTmIDbLQvxODGtJxMbit4CTUA==
-X-Google-Smtp-Source: ABdhPJwaSFdjHczLXzH9xCa6keZ5wUU3dU1twsfttZ1EL/Ani+DZymqchdVlLIbyjUH+aWh/LxEzie1suQrANmZB0Dk=
-X-Received: by 2002:ac5:cded:: with SMTP id v13mr222021vkn.59.1589902236878;
- Tue, 19 May 2020 08:30:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200516154314.14769-1-digetx@gmail.com> <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
- <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
-In-Reply-To: <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 19 May 2020 17:29:59 +0200
-Message-ID: <CAPDyKFq4MoEzLr3Mgk0-4JWeB3khKawMC+bCEKDNiNKn3tUarg@mail.gmail.com>
-Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
- device-tree properties
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wVHnheUXb3rHqUKvRML054BsK6ulx8JWBVXMW18p7w0=;
+        b=DyZO25snnNEuO0Blx3YtA0131iqsLspOYcqdlHUzrfyboMwptAKRR6XXkNV3jGSj6Q
+         yQiqVFghtO2BnJzy7WjjPm95qDSiYGciKJ6KXzGQXKVYmP4Ocg6qs5XfoHjUvZYGtKCU
+         ZNwMWvjqnBhccMS1xYGPDl9Gaxkka9mR+QN6iU+fcmKhg2y2whRGeZi7QFUg+cNqn6pR
+         1apWtEmOQchGF+DCDzDIP/WT6Ds7Ef9sbj5d2efwywWqapXrzNr7OASURa2XHgWfXuYp
+         AtQno/XtnZefihjeANsLH53YFepoOdXZsH/Dbkqsc5m9QG2MMT0tIwUClsK1TQXx1mYd
+         13PQ==
+X-Gm-Message-State: AOAM530wR1aMrdw0Qmvp3JDn4J/1pEptctl93BUfsVvdS91ZXCncHJs9
+        OU+Dxgd0ZmJSoHGUriu5VrE3sBGv
+X-Google-Smtp-Source: ABdhPJy5ugWSpEqoVqs8XKxTn/m0rDzLaorfTKIJeC6HArn3zTz1dBerxI0JFBk0FiF291adNaOWoA==
+X-Received: by 2002:a1c:6204:: with SMTP id w4mr56809wmb.55.1589903852097;
+        Tue, 19 May 2020 08:57:32 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id q17sm127445wmk.36.2020.05.19.08.57.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2020 08:57:30 -0700 (PDT)
+Date:   Tue, 19 May 2020 17:57:28 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 2/5] i2c: tegra: Restore pinmux on system resume
+Message-ID: <20200519155728.GA2113674@ulmo>
+References: <20200506193358.2807244-1-thierry.reding@gmail.com>
+ <20200506193358.2807244-3-thierry.reding@gmail.com>
+ <2a0404ac-73bf-2f27-9147-8bef28ae995f@gmail.com>
+ <20200508103130.GB3030605@ulmo>
+ <f149bb64-e93b-364e-47bc-c851e9638a35@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
+In-Reply-To: <f149bb64-e93b-364e-47bc-c851e9638a35@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 19 May 2020 at 16:05, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 19.05.2020 10:28, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com> wrote:
-> >>
-> >> Several people asked me about the MMC warnings in the KMSG log and
-> >> I had to tell to ignore them because these warning are irrelevant to
-> >> pre-Tegra210 SoCs.
-> >
-> > Why are the warnings irrelevant?
->
-> That's what the DT binding doc says [1].
->
+
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 08, 2020 at 06:00:57PM +0300, Dmitry Osipenko wrote:
+> 08.05.2020 13:31, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+> >> Is it legal to touch DPAUX registers while DPAUX is in a suspended sta=
+te?
+> >=20
+> > DPAUX is never runtime suspended and the dependency from the I2C
+> > controller on DPAUX should ensure that they are suspended and resumed in
+> > the right order during system sleep.
+>=20
+> 1. Could you please explain why DPAUX is never suspended? Isn't it a
+> problem?
+>=20
+> It looks a bit odd that driver is doing this [1][2]. RPM is supposed to
+> be used for the *dynamic* power management. Should we remove RPM usage
+> from the DPAUX driver?
+>=20
 > [1]
-> https://www.kernel.org/doc/Documentation/devicetree/bindings/mmc/nvidia%2=
-Ctegra20-sdhci.txt
->
-> Although, looking at the driver's code and TRM docs, it seems that all
-> those properties are really irrelevant only to the older Terga20 SoC. So
-> the binding doc is a bit misleading.
->
-> Nevertheless, the binding explicitly says that the properties are
-> optional, which is correct.
->
-> >> It should be up to a board's device-tree writer to
-> >> properly describe all the necessary properties. Secondly, eventually a=
-ll
-> >> device-tree bindings will be converted to YAML, which allows to valida=
-te
-> >> board DT files, giving a warning about missing properties. Hence let's
-> >> remove the noisy warnings to stop the confusion.
-> >
-> > Yep, makes sense. However, perhaps we should do this conversion then,
-> > rather than first drop the warnings?
->
-> I don't mind to postpone this patch. But again, IIUC, all these
-> properties are optional, and thus, there is no critical need to verify
-> them in DT right now, it could be done later on.
+> https://elixir.bootlin.com/linux/v5.7-rc4/source/drivers/gpu/drm/tegra/dp=
+aux.c#L524
+> [2]
+> https://elixir.bootlin.com/linux/v5.7-rc4/source/drivers/gpu/drm/tegra/dp=
+aux.c#L591
 
-Ok, fair enough.
+Looks more like the intention had been to eventually enable dynamic
+power management but I never got around to it. The runtime PM
+implementations are what's necessary to runtime suspend the device,
+so all that should be needed is hook up the pm_runtime_get() and
+pm_runtime_put() calls correctly.
 
-Applied for next, thanks!
+> 2. Could you please explain why I2C driver has to care about restoring
+> the pinmux state? Why pinctrl driver isn't doing that for I2C and
+> everything else?
 
-Kind regards
-Uffe
+We could probably do it either way. I did it this way because the
+runtime suspend/resume will get called either way, so might as well
+reuse the same code paths rather than add context save/restore.
+
+Thierry
+
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7EAeQACgkQ3SOs138+
+s6GxKA/9F1d7M5zu28FG0E8bt+oxWhTeupG07NNioVF1IUKq6TKzLAcMcRIiJ6tk
+QKxlEEEQJRdzGQ49rX0WZE6Qanqy3tf3id32rS6vbna4mIImdaWt1jAGLICubLus
+689DsfyFIGHiZCdcbsCC23Mpa3YkQm6fcet1ymObfV8WjMGgr8H2sCqkzC2xX//a
+KXlXUdA6GEXsrWx9NJIvk+U7+M0o7mraj6hM7lm4Qy6eNSu/NhvPibZ+IDGEBbJY
+daGf//ugxAp5/byoK6v09XJUniI2sXQhoMx8zBgnTitAOwiubNd3Mjd4hgiHRTu/
++OBECb1vyTNizvSCb61qNqpMABTS+NymosVCTSwxDyqmlFwW9TKexO2Rsd31o05P
+s2oaMQjAdrcwXSbS6XImANfnUBfVhw0RQu0Nc3Gr21+oKnXyGnIEdUlY6nKYKWIg
+XckwfFytvCK51L/xdzDhsTUUCbcUxNMWwTDot3Ul5DPYrvzBK41Cya8Z8Ik+w7rf
+9KzJ9FBnnLs3TZ5c+7quEEGlUGNpyj5CNQvjXMW1ib9F44vH0BJ0bCtEPEWMlimO
+2JkI2iDdRQ1zQUV9gnvXI1WuwdoibNkDO1PAuQGvIY3XzsqzyKaDxW+DERTXeriZ
+AWjBe000xllVPEvZMYhcxDdgNvbbxgMLMJtVvICxKW50F7w9wRY=
+=Osjb
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
