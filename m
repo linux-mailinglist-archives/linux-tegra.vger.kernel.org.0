@@ -2,57 +2,193 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8157A1D9D50
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 18:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CD771D9F90
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 May 2020 20:34:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728778AbgESQ4h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 May 2020 12:56:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60720 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728689AbgESQ4h (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 May 2020 12:56:37 -0400
-Received: from localhost (unknown [122.182.207.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DB4C5204EA;
-        Tue, 19 May 2020 16:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589907396;
-        bh=IupW7XaMJkYsAayJCAozFvTTvpKJWQQBm6o5U94IMBI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wpq3faH0UEduYmM5h1fBDkA1ZA33Iw8GA1bwkOTlaDqWlOFKRjHIf/6rQ48aDkK1I
-         +Dxj/G8unzQ6VJFUkh67Ufvbwuha8uSsHCPutEYuiMgAP+uCT/C2s/VRCUr5lCEpjx
-         EOaHnn7jg/+WwcL8rnnHQ2sQThRvMPaFB1uj4QJk=
-Date:   Tue, 19 May 2020 22:26:32 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     ldewangan@nvidia.com, jonathanh@nvidia.com,
-        dan.j.williams@intel.com, thierry.reding@gmail.com,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] dmaengine: tegra210-adma: Fix an error handling path in
- 'tegra_adma_probe()'
-Message-ID: <20200519165632.GQ374218@vkoul-mobl.Dlink>
-References: <20200516214205.276266-1-christophe.jaillet@wanadoo.fr>
+        id S1726632AbgESSeS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 May 2020 14:34:18 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2156 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726059AbgESSeS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 May 2020 14:34:18 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec4261b0000>; Tue, 19 May 2020 11:31:55 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 19 May 2020 11:34:17 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 19 May 2020 11:34:17 -0700
+Received: from [10.2.164.184] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 May
+ 2020 18:34:17 +0000
+Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
+ device-tree properties
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200516154314.14769-1-digetx@gmail.com>
+ <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
+ <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com>
+ <20200519162444.GD2113674@ulmo>
+ <b4eb368e-adc2-7b77-3ae9-fefdcfddaf3d@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <11c93dac-f5ba-2193-6f44-63af27fdce09@nvidia.com>
+Date:   Tue, 19 May 2020 11:34:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200516214205.276266-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <b4eb368e-adc2-7b77-3ae9-fefdcfddaf3d@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589913115; bh=5KWFwdYOoMqfK+gO+F6WRRcLXY6+E6LwiwOO0clvCQU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Yq5wHiBBbPDT7P4f8ego6ZzS3IkPhzFzLIZ8CUYy3RzgG7zraz7NBjEeQh9W5x/Z6
+         8Bvz6vZBV7AOsC6QUIc0DRI135Lq5hSNcIsTwGxmSabiPsJRav91kfuoTGepsZ9RH7
+         sd4w6AbKdv0i0GvZBn/Ug4AsqwRSyNZI5H2H22NX2nu46P64Cqc+53I/vpPXHIbM7O
+         kTkW7pRRxo6OVrRqlv14gQfLfr8luxtGMxo4xy9OgBxehdwzG6qMaKwK67l1QFDySt
+         X2bM2VrTylkpP6gXXSnGqpGiSZnSy4M/mQF3wj9ptQU3zf1Bb9R7ISub2XynKLaqgk
+         9OZ6GrffZ6Aaw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 16-05-20, 23:42, Christophe JAILLET wrote:
-> Commit b53611fb1ce9 ("dmaengine: tegra210-adma: Fix crash during probe")
-> has moved some code in the probe function and reordered the error handling
-> path accordingly.
-> However, a goto has been missed.
-> 
-> Fix it and goto the right label if 'dma_async_device_register()' fails, so
-> that all resources are released.
 
-Applied for fixes, thanks
+On 5/19/20 9:33 AM, Dmitry Osipenko wrote:
+> 19.05.2020 19:24, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On Tue, May 19, 2020 at 05:05:27PM +0300, Dmitry Osipenko wrote:
+>>> 19.05.2020 10:28, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com> wrote=
+:
+>>>>> Several people asked me about the MMC warnings in the KMSG log and
+>>>>> I had to tell to ignore them because these warning are irrelevant to
+>>>>> pre-Tegra210 SoCs.
+>>>> Why are the warnings irrelevant?
+>>> That's what the DT binding doc says [1].
+>>>
+>>> [1]
+>>> https://www.kernel.org/doc/Documentation/devicetree/bindings/mmc/nvidia=
+%2Ctegra20-sdhci.txt
+>>>
+>>> Although, looking at the driver's code and TRM docs, it seems that all
+>>> those properties are really irrelevant only to the older Terga20 SoC. S=
+o
+>>> the binding doc is a bit misleading.
+>>>
+>>> Nevertheless, the binding explicitly says that the properties are
+>>> optional, which is correct.
+>> Optional only means that drivers must not fail if these properties
+>> aren't found, it doesn't mean that the driver can't warn that they
+>> are missing.
+>>
+>> Quite possibly the only reason why they were made optional is because
+>> they weren't part of the bindings since the beginning. Anything added
+>> to a binding after the first public release has to be optional by
+>> definition, otherwise DT ABI wouldn't be stable.
+>>
+>> I think these warnings were added on purpose, though I also see that
+>> there are only values for these in device tree for Tegra186 and Tegra194
+>> but not Tegra210 where these should also be necessary.
 
--- 
-~Vinod
+dt binding doc we have is common for MMC, SD and SDIO of all Tegras. Its=20
+not mandatory to have both 3v3 and 1v8 in device tree as based on signal=20
+mode.
+
+As these driver strengths are SoC specific, they are part of Tegra SoC=20
+specific device tree where same values will be applicable to all Tegra=20
+SoC specific platforms.
+
+Based on interface usage on platform, we use one or both of them like=20
+sdcard supports dual voltage and we use both 3V3 and 1V8 but if same=20
+interface is used for WIFI SD we use 1V8 only.
+
+So made these dt properties as optional.
+
+Other reason they are optional is, Tegra210 and prior has drive strength=20
+settings part of apb_misc and Tegra186 and later has driver strengths=20
+part of SDMMC controller. So,
+
+- Pinctrls "sdmmc-3v3-drv" and "sdmmc-1v8-drv" for driver strengths are=20
+applicable for Tegra210 and prior.
+- dt properties pad-autocal-pull-up/down-offset-1v8/3v3-timeout are for=20
+T186 onwards for driver strengths
+
+Looks like dt binding doc need fix to clearly document these based on=20
+SoC or agree with Yaml we can conditionally specify pinctrl or dt=20
+properties based on SoC dependent.
+
+
+>> Adding Sowjanya who wrote this code. Perhaps she can clarify why the
+>> warnings were added. If these values /should/ be there on a subset of
+>> Tegra, then I think we should keep them, or add them again, but perhaps
+>> add a better way of identifying when they are necessary and when it is
+>> safe to work without them.
+>>
+>> That said, looking at those checks I wonder if they are perhaps just
+>> wrong. Or at the very least they seem redundant. It looks to me like
+>> they can just be:
+>>
+>> 	if (tegra_host->pinctrl_state_XYZ =3D=3D NULL) {
+>> 		...
+>> 	}
+>>
+>> That !IS_ERR(...) doesn't seem to do anything. But in that case, it's
+>> also obvious why we're warning about them on platforms where these
+>> properties don't exist in DT.
+
+As drive strengths are through dt properties for T186 and later and thru=20
+pinctrl for T210 and prior, driver first checks for dt autocal timeout=20
+pull-up/down properties and if they are not found, it then checks for=20
+presence of pinctrl_state_xyx_drv only when valid pinctrl_state_xyz is=20
+present.
+
+Driver expects either pinctrl or dt properties and shows warning when=20
+neither of them are present as its mandatory to use fixed driver=20
+strengths when auto calibration fails.
+
+ =C2=A0=C2=A0=C2=A0 err =3D device_property_read_u32(host->mmc->parent,
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 "nvidia,pad-autoc=
+al-pull-down-offset-3v3-timeout",
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 &autocal->pull_do=
+wn_3v3_timeout);
+ =C2=A0=C2=A0=C2=A0 if (err) {
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (!IS_ERR(tegra_host->pinctrl_stat=
+e_3v3) &&
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 (tegra_host->pinc=
+trl_state_3v3_drv =3D=3D NULL))
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn("%s: Miss=
+ing autocal timeout 3v3-pad drvs\n",
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=
+=A0 mmc_hostname(host->mmc));
+ =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 autocal->pull_down_3v3_timeout =3D 0=
+;
+ =C2=A0=C2=A0=C2=A0 }
+
+>>
+>> So I think we either need to add those values where appropriate so that
+>> the warning doesn't show, or we need to narrow down where they are
+>> really needed and add a corresponding condition.
+>>
+>> But again, perhaps Sowjanya can help clarify if these really are only
+>> needed on Tegra210 and later or if these also apply to older chips.
+> Either way will be cleaner to convert the DT binding to YAML rather than
+> clutter the driver, IMO.
+>
+
+
+
+
