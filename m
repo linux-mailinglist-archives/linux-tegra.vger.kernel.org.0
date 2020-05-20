@@ -2,126 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8479F1DAF05
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 11:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACE0C1DAF57
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 11:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbgETJko (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 May 2020 05:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39192 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726832AbgETJko (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 May 2020 05:40:44 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0631BC061A0F;
-        Wed, 20 May 2020 02:40:38 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id x20so2824505ejb.11;
-        Wed, 20 May 2020 02:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ADjHdTIqQWA2GKdm5wosIbVA7qcZMOsh9pTvjrEbKGc=;
-        b=atLc/iwFND3LI8tpTOAPuRqxkiJzV6Ul7YMqJqhMS5JHWaH6/pwpYhJK4p5Fqciqc3
-         JyneqrVO/Jzd7emLQpiyMycoytfjo3dudeIbwaGujGCcyyroVrx4bjUMdTsAfqpycZlb
-         83jlB7EgroB0rgoDyBLjVTwsveoE1o2UsKao64q+BWESa9vu5HfIsqDI941gx9Scx1rJ
-         hg5RCYVcbjTxYvxaH7QaFaaf0JuhySw1wn9CX06zOGxJzJLL7gtdHeleJyeOnBcfBx42
-         ONiLBtHfAjMxf1X1/PXSBullG7Di+8b/7V3aTh0wXMTYDYsbxyGe8Ma1X/5OrGlILEVI
-         xeAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ADjHdTIqQWA2GKdm5wosIbVA7qcZMOsh9pTvjrEbKGc=;
-        b=OXnCh884hluHyyWF4cv/fRnQ7TenJ6U9FYWJSg6lsY0f/2iwNDkdMeerwM3kz/HvSU
-         +j/Dx4W3woXTE8qVMTq8oselffGVHIrnkETaTevi0IBCwZ2X4E4IKiYnfJ98W7bMM/gj
-         eV1GMNBlEJT8VClI1551ZjvX2YeOAVm3gn2/du2jwb2VBP5QeRoK4j2TENd8yJRdtnT/
-         71hFPRuE6blqPNu3D+pbfgCCDiHPWwBG8K19eiB+JWgJWDqOABAfXbEQ69ue7MZD3drb
-         OVObTtrd335GNrwbNig2HnnKXcQ4z5mbNvPwxWSk66H0i86OWF79tpianEmnpzTVBkTO
-         ynbg==
-X-Gm-Message-State: AOAM530HRDfYbqR1eFCYjALOLKKSjiTlWMReT95CeZeN9c9fbJYirNaa
-        ejm9p03yVbm/A0lG0oWVdHQ=
-X-Google-Smtp-Source: ABdhPJzwBNPfX8wLJBhheOieRefmuo7Yih3L2ox5kOQGM1KQSaz0kDU4d4/OhNLC9RUb/PXkwrCZ/g==
-X-Received: by 2002:a17:906:3095:: with SMTP id 21mr3090796ejv.32.1589967637648;
-        Wed, 20 May 2020 02:40:37 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id u10sm1325154edb.65.2020.05.20.02.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2020 02:40:36 -0700 (PDT)
-Date:   Wed, 20 May 2020 11:40:35 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        id S1726697AbgETJwG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 May 2020 05:52:06 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:53562 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726224AbgETJwG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 20 May 2020 05:52:06 -0400
+X-Greylist: delayed 4296 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 05:52:04 EDT
+Received: from localhost.localdomain (unknown [222.205.77.158])
+        by mail-app2 (Coremail) with SMTP id by_KCgDnzpG1_cRe4SSMAQ--.43211S4;
+        Wed, 20 May 2020 17:51:53 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: fix runtime pm imbalance on error
-Message-ID: <20200520094035.GC2136208@ulmo>
-References: <20200520084012.30190-1-dinghao.liu@zju.edu.cn>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="S1BNGpv0yoYahz37"
-Content-Disposition: inline
-In-Reply-To: <20200520084012.30190-1-dinghao.liu@zju.edu.cn>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance on error
+Date:   Wed, 20 May 2020 17:51:48 +0800
+Message-Id: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgDnzpG1_cRe4SSMAQ--.43211S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrW5ZF15Jr17CrWrKFy7trb_yoW3KFc_Cr
+        s0qw1xu345Ar4xtr17K3W3ZrySvFWDua18tF1SyrW3Gw4jvFy3GrykZrnrC3ZrXay2gry2
+        vr93uF1Syr4fAjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbT8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+        Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
+        67AK6r4fMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
+        CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+        6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+        WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
+        6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+        1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU8KZXUUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+pm_runtime_get_sync() increments the runtime PM usage counter even
+it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
---S1BNGpv0yoYahz37
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/staging/media/tegra-vde/vde.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, May 20, 2020 at 04:40:12PM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> it returns an error code. Thus a pairing decrement is needed on
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index d3e63512a765..dd134a3a15c7 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 
+ 	ret = pm_runtime_get_sync(dev);
+ 	if (ret < 0)
+-		goto unlock;
++		goto put_runtime_pm;
+ 
+ 	/*
+ 	 * We rely on the VDE registers reset value, otherwise VDE
+-- 
+2.17.1
 
-s/even it/even when it/
-
-> the error handling path to keep the counter balanced.
->=20
-> Also This driver forgets to call pm_runtime_disable() when
-
-s/Also This/Also this/
-
-> pm_runtime_get_sync() returns an error code.
->=20
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
->  drivers/pci/controller/pci-tegra.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-
-Otherwise looks correct. It's came as somewhat of a surprise to me that
-pm_runtime_get_sync() increments the usage counter even on failure, but
-it does indeed.
-
-With the above fixes to the commit message:
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---S1BNGpv0yoYahz37
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7E+xAACgkQ3SOs138+
-s6Ev0A/+LbNyGHEdbiqOD9y5/qaNsNqqMWMlwIt/mWXfZScDeEIpC3QPIsDtD5xU
-ouYqP8sbmo/0Elu56py6NUKPWEC0xDRX9TwopJ7HwSFa8egl1AjR87eHOgjXFXgd
-EuVB7+7TyE2rxp6UBtqQu1y9PDcTWmjQvyLaXBfQMyZqNaSt7e71yTdsz3cMHVa0
-DnNipyvYDrGUzr/cgadt/kN5FrTGQbgEodLebDnkgzOHVuqeJKuCBGpOGUL2eEKS
-r6fg3zb64SNwzQxB8k5hBek6+S+drfyTRcxzJgJOctehCq9xFA/5COUwdZpdzWQr
-7tD8AVEe+GUb1MS1VugJyVdMe3QecRKCuO7fqJPLjLuy54LCHYJVUyMpWBvVYslf
-Sl1e3ClVjUUt65y3Rtuvf0c7WzhRURoVBycKxsGlwM/nWZ+JjF/eejknZsifFZLQ
-FDtEgX+MWIa0XL59NY419YH1ul6xwTIkK6mU7F+gEkK0E0lcsVyX1ItHKPPJWQ0C
-hsRJCuGMqTlYetZorIzkAuOQCY0qR7qtsif1g+k7y2NeGBtDVDFmrsZjJNw52NRE
-6wDjxlZaCGGAXMu38SqDjUCSuXSSBywODU+BJuD3AyzT3CZ6nU/gfBv4K1QsITQi
-M9Q3U4+kFzKGpLHCVngyRhbZG9IYh012GSJeEDY+K+PX+I+/MU0=
-=0vzD
------END PGP SIGNATURE-----
-
---S1BNGpv0yoYahz37--
