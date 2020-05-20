@@ -2,93 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A39D1DB7CE
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 17:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E07021DB7D9
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 17:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbgETPMM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 May 2020 11:12:12 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19943 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbgETPML (ORCPT
+        id S1726548AbgETPN2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 May 2020 11:13:28 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12583 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgETPN2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 May 2020 11:12:11 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ec548bf0000>; Wed, 20 May 2020 08:11:59 -0700
+        Wed, 20 May 2020 11:13:28 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec548c90000>; Wed, 20 May 2020 08:12:09 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 20 May 2020 08:12:11 -0700
+  Wed, 20 May 2020 08:13:27 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 20 May 2020 08:12:11 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
- 2020 15:12:10 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 20 May 2020 15:12:10 +0000
+        by hqpgpgate101.nvidia.com on Wed, 20 May 2020 08:13:27 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
+ 2020 15:13:27 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 20 May 2020 15:13:27 +0000
 Received: from moonraker.nvidia.com (Not Verified[10.26.75.44]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ec548c90000>; Wed, 20 May 2020 08:12:09 -0700
+        id <B5ec549150002>; Wed, 20 May 2020 08:13:26 -0700
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] firmware: tegra: Defer BPMP probe if shared memory not available
-Date:   Wed, 20 May 2020 16:12:06 +0100
-Message-ID: <20200520151206.15253-1-jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: [PATCH 1/2] soc/tegra: pmc: Enable PMIC wake event on Tegra210
+Date:   Wed, 20 May 2020 16:13:17 +0100
+Message-ID: <20200520151318.15493-1-jonathanh@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589987519; bh=F7hvT2hG6fOGVSVaRQDr8+JP8MjnrkNvzh0h68pPxoo=;
+        t=1589987529; bh=QGwdxLviP/l+bdVuaJlzsUL4fMWcBhpCkeQe+bGHGC8=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          X-NVConfidentiality:MIME-Version:Content-Type;
-        b=aFCsAMhdTklDBDBpY/DNcsgc61NF+gUwy2Jam9df7p6IVWding6xw1LETUsISY6YE
-         BpAZ9NZ1igW67SW/3WOoD2T9zO+T6U7AEkZbvvRMmgo5r/Hl8Tj66HYHURbuf7GCGI
-         5gvCkcrCIPxq1JgDxOar0ESGMJT7LMq5mpJ8uRlw2rmuSJdDD6B4J2DqGa8EoLDQ+O
-         xq6Z9O84J3Xoxuj/MWGejkuvFGvIQmmXsegSy4KkjXs01ifViSTFR1fBscWJr5n1KS
-         xubCbfINvJSj/5Fz4goVtwS5TZ/y6XqvnI6n6Ztc+6JNjLlX5LuTWVLEf0N4YjHhBa
-         v15zVfST1ml9Q==
+        b=kEl7UXjAJeUndHt7xgWWNcwMh4z2XIlvzfErAN5G/ObpYh7/LCWiXh+ySCz2ekSI/
+         KDLEwg+TNArfKb9wQh3kSvYjatCc6oExvMb0IOeSZVxRZtXKmtqPRSKknBzY4leleO
+         6rz/ImwC+Bl7yMFnmlGTLv6/Khvo2RC5L9mksFU67uUOTojxNJU/1sLPzRkQzox/e3
+         OwVu7c6MwWEl53mgup2wSQc7djyCAbBKFVNWM9OXmIUHR1yUF0KHcUsdDhE9X9t5tm
+         Ah5FzoHG5JbinSftoB3u+DSD/POQ+qmxgf9S2ZVc+OtNF3acFcQziZ9/pDX7O/71Fk
+         l7/W6V3Kqzj0Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Since commit 93d2e4322aa7 ("of: platform: Batch fwnode parsing when
-adding all top level devices") was added, the probing of the Tegra
-SRAM device has occurred later in the boot sequence, after the BPMP
-has been probed. The BPMP uses sections of the SRAM for shared memory
-and if the BPMP is probed before the SRAM then it fails to probe and
-never tries again. This is causing a boot failure on Tegra186 and
-Tegra194. Fix this by allowing the probe of the BPMP to be deferred if
-the SRAM is not available yet.
+The PMIC wake event can be used to bring the system out of suspend based
+on certain events happening on the PMIC (such as an RTC alarm).
 
 Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- drivers/firmware/tegra/bpmp-tegra186.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/soc/tegra/pmc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/firmware/tegra/bpmp-tegra186.c b/drivers/firmware/tegra/bpmp-tegra186.c
-index ea308751635f..63ab21d89c2c 100644
---- a/drivers/firmware/tegra/bpmp-tegra186.c
-+++ b/drivers/firmware/tegra/bpmp-tegra186.c
-@@ -176,7 +176,7 @@ static int tegra186_bpmp_init(struct tegra_bpmp *bpmp)
- 	priv->tx.pool = of_gen_pool_get(bpmp->dev->of_node, "shmem", 0);
- 	if (!priv->tx.pool) {
- 		dev_err(bpmp->dev, "TX shmem pool not found\n");
--		return -ENOMEM;
-+		return -EPROBE_DEFER;
- 	}
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 8169737c3252..42cf37a0556b 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -3063,6 +3063,7 @@ static const struct pinctrl_pin_desc tegra210_pin_descs[] = {
  
- 	priv->tx.virt = gen_pool_dma_alloc(priv->tx.pool, 4096, &priv->tx.phys);
-@@ -188,7 +188,7 @@ static int tegra186_bpmp_init(struct tegra_bpmp *bpmp)
- 	priv->rx.pool = of_gen_pool_get(bpmp->dev->of_node, "shmem", 1);
- 	if (!priv->rx.pool) {
- 		dev_err(bpmp->dev, "RX shmem pool not found\n");
--		err = -ENOMEM;
-+		err = -EPROBE_DEFER;
- 		goto free_tx;
- 	}
+ static const struct tegra_wake_event tegra210_wake_events[] = {
+ 	TEGRA_WAKE_IRQ("rtc", 16, 2),
++	TEGRA_WAKE_IRQ("pmu", 51, 86),
+ };
  
+ static const struct tegra_pmc_soc tegra210_pmc_soc = {
 -- 
 2.17.1
 
