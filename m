@@ -2,116 +2,290 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E25591DB173
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 13:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFF911DB1AF
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 13:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbgETLYx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 May 2020 07:24:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
+        id S1726691AbgETL1b (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 May 2020 07:27:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726403AbgETLYw (ORCPT
+        with ESMTP id S1726435AbgETL1b (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 May 2020 07:24:52 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D11C061A0E;
-        Wed, 20 May 2020 04:24:52 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id n24so3381419ejd.0;
-        Wed, 20 May 2020 04:24:52 -0700 (PDT)
+        Wed, 20 May 2020 07:27:31 -0400
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24020C061A0E
+        for <linux-tegra@vger.kernel.org>; Wed, 20 May 2020 04:27:31 -0700 (PDT)
+Received: by mail-vk1-xa44.google.com with SMTP id w188so671400vkf.0
+        for <linux-tegra@vger.kernel.org>; Wed, 20 May 2020 04:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rM6TuXzAfG+Cg1PeXrhjsnMeCds8hzCLFKNqnazCe1o=;
-        b=rKomY94B3lyOtRSFb4PBs6G9lWDzlV7Pr55EMkHkmhJ+S6ZFBQEGZcgkbns/S8ayYM
-         3WN5IYivoUhkBHTUM39A3jzciphtcJZPKMO4QoqWXFydA7CR2UnzeU4sFepiRFibWqSs
-         GyMukzaJb0O8ApHkOD7aCVCb2cim2PnqzS92lfaCRqJQu3CM1OgSNlF0M2In7IPtzHQW
-         3CRZ5afKX04glhKoa9T+TWzh3yMOk8sjmFXVtFr5gbPXFaDEm3wZXkDQlvi3mxxEulSc
-         AzJye4IS6rC3ZPWGxsbJHMFWkKpZys4WvUFvmgXwCnw/A6bMwoiXf8/mJJ2ueVEuXsPb
-         Yslw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bK70iXgwtoTYU2+kxEkYS2dPmfYEzUvYbO5p+9cOsao=;
+        b=iY3vTkxPVUWFZAoKbgr6fycybDoVLlukU2vKTCC4y0p3egIArgw2DOi3MtEAas4jjd
+         xkKVVRg/NEtDskAHckyfyT9UcFM7q072/qWRCIZ2eGkUij9SxkM37dnegWCBnlnNFokj
+         a+vgg/PlOgZmGgJ0crTeiqkLATt9X3NiPgfKTRP+5MLW+IlSDtQUliwSXsrGF/voQKjh
+         XltAcrvk7xvpiJjR2rvJuhIvQQHMf/+ns8PPIaUGE+IKrp46xJ2DNqjFmSzOIf69qLJr
+         dDQ1fEbYOJuSIMJcPVyUMC2Ivvz6eoVcCAke+qrlSpohIhnD3bC/sshNos6p2bZdelUg
+         JjLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rM6TuXzAfG+Cg1PeXrhjsnMeCds8hzCLFKNqnazCe1o=;
-        b=hiK89ti0GnEnQSruqezmE7xyGWXJHxzdZYuFiOe4xcF1DUnLtkzDVcKnWFOvWXmS5l
-         3Tabo0PvN+l2jS7R2EJATyVXYK4TwG+/WWEihJMUV/O3m5bPwpaSR+KGfzFXJMHnxPkV
-         ILSk4eoGf6ITuo0nTmSxq6Scs7bR8Z5xHvvfvDGNy9W1lrLa7nPFWE8cipaSrKAJtWGp
-         G50krIGiIGpu57epQZK0spdGRodltj0MO/RSb00t9nbqSgZJMmVks5+L9yCE2WCduUgj
-         d1XC11V26jsU92hzVdXx9z6DsOUcnrJgyfks6A13ZfKg3Vx6l34crmaXzGtaWrh8GL4n
-         BV2A==
-X-Gm-Message-State: AOAM5321ajsy+bu10OF/C/wf/ExCbIxrlVZr+Bia8EJ/ThLLmivz3zJB
-        5WtNAilcDmSgXiiRowNgeK8=
-X-Google-Smtp-Source: ABdhPJw5WrhAq1CxpQ+C3vJ7bKyvmoGcaPX59iGGanIN0OAbpabxLUUBjtZNMcV34PqQByDS0PPvBg==
-X-Received: by 2002:a17:907:aae:: with SMTP id bz14mr3119837ejc.521.1589973891012;
-        Wed, 20 May 2020 04:24:51 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id h5sm1733495ejg.124.2020.05.20.04.24.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2020 04:24:48 -0700 (PDT)
-Date:   Wed, 20 May 2020 13:24:47 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     robh+dt@kernel.org, jonathanh@nvidia.com,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        amurray@thegoodpenguin.co.uk, bhelgaas@google.com,
-        linux-kernel@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH V2] arm64: tegra: Fix flag for 64-bit resources in
- 'ranges' property
-Message-ID: <20200520112447.GC2141681@ulmo>
-References: <20200513191627.8533-1-vidyas@nvidia.com>
- <20200514135437.29814-1-vidyas@nvidia.com>
- <20200518135006.GB31554@e121166-lin.cambridge.arm.com>
- <e64ccace-d2b9-0e03-db3f-e65ed6f56230@nvidia.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bK70iXgwtoTYU2+kxEkYS2dPmfYEzUvYbO5p+9cOsao=;
+        b=sBWkOQv176sm38Ad209R8E2AxDWNL1K5YdyvQ5W+1dVaAu1TCum7qnApBoY6lPhlko
+         gRV6McU4cFcK/PdtT6HDPIrB5B28IYEs7neYIR9M1GBAQwt+AONz5iTCqBF3huLMG7uh
+         HoLGbDqLXiCd8PtkSOaafHYnRb604VwRZ+W7NdRz+2b1y/orPXe0IJf+WJAifmz0DlZa
+         kjSk32XQc8hBYqi1f4o9MpVEpvbS96UXNdWDJ4RfKafUKMRnSKMiIRtTlcoW0d74jOUv
+         LOFdqOz+hy5yJEyKudacRJTreLNdJIBSVUVjYbpZfd1lWlB9QBZs/2srQynjutwabrJV
+         UhLQ==
+X-Gm-Message-State: AOAM5332sI7yMrnv5Rlbf2NYtDUxzDhvSENWTmFG4dCfiRnclgnue2Js
+        DkBuY7flF5SiPXQ0o3wijZaTagbylDb5uH4cyvv7+Q==
+X-Google-Smtp-Source: ABdhPJzhsUfJuFtIop+5Vw1e3jma114eZdMV16i3kG0IE4cNpPawoTMqme4OfpFdENFIkCzg2zpGAnz3ium8qwnA960=
+X-Received: by 2002:a1f:4845:: with SMTP id v66mr3370034vka.43.1589974050027;
+ Wed, 20 May 2020 04:27:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wxDdMuZNg1r63Hyj"
-Content-Disposition: inline
-In-Reply-To: <e64ccace-d2b9-0e03-db3f-e65ed6f56230@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <20200516154314.14769-1-digetx@gmail.com> <CAPDyKFo_Xp-zipqE26iMv4CFwUoMCQZy3Zr63Cp=uzePgWX7BA@mail.gmail.com>
+ <b634e7a5-9a30-3bd1-126d-be62e4dd73e1@gmail.com> <20200519162444.GD2113674@ulmo>
+ <b4eb368e-adc2-7b77-3ae9-fefdcfddaf3d@gmail.com> <11c93dac-f5ba-2193-6f44-63af27fdce09@nvidia.com>
+ <aed72c87-0e16-6dea-a4e2-7fc6a97cd313@nvidia.com> <c7469c16-f6f1-f9c0-566f-3b1d3774f130@nvidia.com>
+ <c712de1d-cfa4-2746-ec6b-54f318aeaac2@nvidia.com> <d2c71267-e696-c459-fbd6-dbb5fd312ed3@gmail.com>
+In-Reply-To: <d2c71267-e696-c459-fbd6-dbb5fd312ed3@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 20 May 2020 13:26:53 +0200
+Message-ID: <CAPDyKFqdeGyQpXpM+xynd_rWbi0S6hCeQS1Dyiy6Hd2E_yfHpg@mail.gmail.com>
+Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
+ device-tree properties
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, 20 May 2020 at 04:00, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 19.05.2020 23:44, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >
+> > On 5/19/20 12:07 PM, Sowjanya Komatineni wrote:
+> >>
+> >> On 5/19/20 11:41 AM, Sowjanya Komatineni wrote:
+> >>>
+> >>> On 5/19/20 11:34 AM, Sowjanya Komatineni wrote:
+> >>>>
+> >>>> On 5/19/20 9:33 AM, Dmitry Osipenko wrote:
+> >>>>> 19.05.2020 19:24, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>>> On Tue, May 19, 2020 at 05:05:27PM +0300, Dmitry Osipenko wrote:
+> >>>>>>> 19.05.2020 10:28, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>>>>> On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmail.com>
+> >>>>>>>> wrote:
+> >>>>>>>>> Several people asked me about the MMC warnings in the KMSG log =
+and
+> >>>>>>>>> I had to tell to ignore them because these warning are
+> >>>>>>>>> irrelevant to
+> >>>>>>>>> pre-Tegra210 SoCs.
+> >>>>>>>> Why are the warnings irrelevant?
+> >>>>>>> That's what the DT binding doc says [1].
+> >>>>>>>
+> >>>>>>> [1]
+> >>>>>>> https://www.kernel.org/doc/Documentation/devicetree/bindings/mmc/=
+nvidia%2Ctegra20-sdhci.txt
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Although, looking at the driver's code and TRM docs, it seems
+> >>>>>>> that all
+> >>>>>>> those properties are really irrelevant only to the older Terga20
+> >>>>>>> SoC. So
+> >>>>>>> the binding doc is a bit misleading.
+> >>>>>>>
+> >>>>>>> Nevertheless, the binding explicitly says that the properties are
+> >>>>>>> optional, which is correct.
+> >>>>>> Optional only means that drivers must not fail if these properties
+> >>>>>> aren't found, it doesn't mean that the driver can't warn that they
+> >>>>>> are missing.
+> >>>>>>
+> >>>>>> Quite possibly the only reason why they were made optional is beca=
+use
+> >>>>>> they weren't part of the bindings since the beginning. Anything ad=
+ded
+> >>>>>> to a binding after the first public release has to be optional by
+> >>>>>> definition, otherwise DT ABI wouldn't be stable.
+> >>>>>>
+> >>>>>> I think these warnings were added on purpose, though I also see th=
+at
+> >>>>>> there are only values for these in device tree for Tegra186 and
+> >>>>>> Tegra194
+> >>>>>> but not Tegra210 where these should also be necessary.
+> >>>>
+> >>>> dt binding doc we have is common for MMC, SD and SDIO of all Tegras.
+> >>>> Its not mandatory to have both 3v3 and 1v8 in device tree as based
+> >>>> on signal mode.
+> >>>>
+> >>>> As these driver strengths are SoC specific, they are part of Tegra
+> >>>> SoC specific device tree where same values will be applicable to all
+> >>>> Tegra SoC specific platforms.
+> >>>>
+> >>>> Based on interface usage on platform, we use one or both of them
+> >>>> like sdcard supports dual voltage and we use both 3V3 and 1V8 but if
+> >>>> same interface is used for WIFI SD we use 1V8 only.
+> >>>>
+> >>>> So made these dt properties as optional.
+> >>>>
+> >>>> Other reason they are optional is, Tegra210 and prior has drive
+> >>>> strength settings part of apb_misc and Tegra186 and later has driver
+> >>>> strengths part of SDMMC controller. So,
+> >>>>
+> >>>> - Pinctrls "sdmmc-3v3-drv" and "sdmmc-1v8-drv" for driver strengths
+> >>>> are applicable for Tegra210 and prior.
+> >>>> - dt properties pad-autocal-pull-up/down-offset-1v8/3v3-timeout are
+> >>>> for T186 onwards for driver strengths
+> >>>>
+> >>>> Looks like dt binding doc need fix to clearly document these based
+> >>>> on SoC or agree with Yaml we can conditionally specify pinctrl or dt
+> >>>> properties based on SoC dependent.
+> >>>>
+> >>>>
+> >>>>>> Adding Sowjanya who wrote this code. Perhaps she can clarify why t=
+he
+> >>>>>> warnings were added. If these values /should/ be there on a subset=
+ of
+> >>>>>> Tegra, then I think we should keep them, or add them again, but
+> >>>>>> perhaps
+> >>>>>> add a better way of identifying when they are necessary and when
+> >>>>>> it is
+> >>>>>> safe to work without them.
+> >>>>>>
+> >>>>>> That said, looking at those checks I wonder if they are perhaps ju=
+st
+> >>>>>> wrong. Or at the very least they seem redundant. It looks to me li=
+ke
+> >>>>>> they can just be:
+> >>>>>>
+> >>>>>>     if (tegra_host->pinctrl_state_XYZ =3D=3D NULL) {
+> >>>>>>         ...
+> >>>>>>     }
+> >>>>>>
+> >>>>>> That !IS_ERR(...) doesn't seem to do anything. But in that case, i=
+t's
+> >>>>>> also obvious why we're warning about them on platforms where these
+> >>>>>> properties don't exist in DT.
+> >>>>
+> >>>> As drive strengths are through dt properties for T186 and later and
+> >>>> thru pinctrl for T210 and prior, driver first checks for dt autocal
+> >>>> timeout pull-up/down properties and if they are not found, it then
+> >>>> checks for presence of pinctrl_state_xyx_drv only when valid
+> >>>> pinctrl_state_xyz is present.
+> >>>>
+> >>>> Driver expects either pinctrl or dt properties and shows warning
+> >>>> when neither of them are present as its mandatory to use fixed
+> >>>> driver strengths when auto calibration fails.
+> >>>>
+> >>>>     err =3D device_property_read_u32(host->mmc->parent,
+> >>>>             "nvidia,pad-autocal-pull-down-offset-3v3-timeout",
+> >>>>             &autocal->pull_down_3v3_timeout);
+> >>>>     if (err) {
+> >>>>         if (!IS_ERR(tegra_host->pinctrl_state_3v3) &&
+> >>>>             (tegra_host->pinctrl_state_3v3_drv =3D=3D NULL))
+> >>>>             pr_warn("%s: Missing autocal timeout 3v3-pad drvs\n",
+> >>>>                 mmc_hostname(host->mmc));
+> >>>>         autocal->pull_down_3v3_timeout =3D 0;
+> >>>>     }
+> >>>>
+> >>>>>>
+> >>>>>> So I think we either need to add those values where appropriate so
+> >>>>>> that
+> >>>>>> the warning doesn't show, or we need to narrow down where they are
+> >>>>>> really needed and add a corresponding condition.
+> >>>>>>
+> >>>>>> But again, perhaps Sowjanya can help clarify if these really are o=
+nly
+> >>>>>> needed on Tegra210 and later or if these also apply to older chips=
+.
+> >>>>> Either way will be cleaner to convert the DT binding to YAML rather
+> >>>>> than
+> >>>>> clutter the driver, IMO.
+> >>>>>
+> >>>>
+> >>>>
+> >>>>
+> >>> Auto calibration is present from Tegra30 onward and looking into
+> >>> change where autocalibration was added to sdhci driver somehow it was
+> >>> enabled only for T30/T210/T186/T194.
+> >>>
+> >>> tegra_sdhci_parse_pad_autocal_dt() was added when auto-calibration
+> >>> was added to driver and I see this dt parse is being done
+> >>> irrespective of NVQUIRK_HAS_PADCALIB quirk so even on platforms
+> >>> without auto cal enabled in driver, these messages shows up.
+> >>>
+> >>> This should be fixed in driver to allow
+> >>> tegra_sdhci_parse_pad_autocal_dt() only when NVQUIRK_HAS_PADCALIB is
+> >>> set to avoid dt parsing to happen on platforms that don't have auto
+> >>> cal enabled.
+> >>
+> >> Warning on missing drive strengths when auto cal is enabled should be
+> >> present as we should switch to fixed recommended drive strengths when
+> >> auto cal fails.
+> >>
+> >> So probably proper fix should be
+> >>
+> >> - allow tegra_sdhci_parse_pad_autocal_dt() only when
+> >> NVQUIRK_HAS_PADCALIB is set
+> >>
+> >> - current driver sets NVQUIRK_HAS_PADCALIB for T30 as well so need to
+> >> add pinctrls "sdmmc-3v3-drv" and "sdmmc-1v8-drv" to Tegra30 device tre=
+e.
+> > [Correction] T30 has same drive strengths to use irrespective of signal
+> > voltage and it doesn't have pad control. So for T3- we can update devic=
+e
+> > tree to specify "default" pinctrl with drvup/dn settings.
+> >>
+> >> - Keep warning message of missing auto cal timeouts as its mandatory
+> >> to use fixed recommended driver strengths when auto cal fails.
+> >>
+> > Regarding warnings, I guess simpler and easy fix is to remove warning
+> > message on missing 3v3/1v8 drive strengths as pinctrl/dt properties wer=
+e
+> > already added for T210/186/194 where we need and old device tree don't
+> > have them but the case where auto cal can fail is very rare.
+> >
+> > Otherwise should update driver to allow
+> > tegra_sdhci_parse_pad_autocal_dt() only when NVQUIRK_HAS_PADCALIB is se=
+t
+> > and also within tegra_sdhci_parse_pad_autocal_dt() show warning of
+> > missing 3v3/1v8 settings only when NVQUIRK_NEEDS_PAD_CONTROL is set.
+> >
+> > Thierry, please suggest if you prefer to removing warnings or fix drive=
+r
+> > to show warning based on PADCALIB and PAD_CONTROL quirks.
+>
+> The SDIO PINCTRL drive-strengths are usually a part of the board's
+> default PINCTRL state, which is either preset by bootloader or by
+> PINCTRL driver early at a boot time.
+>
+> The SDIO drive-strengths values should be board-specific and not
+> SoC-specific because they should depend on the electrical properties of
+> the board, IIUC.
+>
+> If the SDIO PINCTRL states are mandatory for the SDHCI nodes in the
+> device-trees, then the DT binding is wrong since it says that all
+> properties are optional. But I think that the current binding is okay,
+> since today SDHCI PINCTRL drive-strengths are specified implicitly in
+> the device-trees, and thus, there is no real need to emit the noisy
+> warnings in this case.
 
---wxDdMuZNg1r63Hyj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For now I will keep $subject patch applied, but please tell me if I
+should drop it so we can start over.
 
-On Mon, May 18, 2020 at 07:52:24PM +0530, Vidya Sagar wrote:
-> Thanks Lorenzo.
-> I've moved linux-pci to BCC and included
-> devicetree and linux-tegra mailing lists to CC.
->=20
-> Rob, Could you please review this patch?
+In any case, I would appreciate it if someone could have a stab at
+converting sdhci and tegra DT bindings to yaml.
 
-I don't think there's any need for Rob to review this. It's a simple
-bugfix and I've applied it for v5.8.
-
-Thanks,
-Thierry
-
---wxDdMuZNg1r63Hyj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7FE38ACgkQ3SOs138+
-s6HPDhAAmLcGCglJvHOKAlrfnKHcEc9ouq1S0D072FzCtpybboX8Pf89sG2s0ME0
-2NTcwWNTwTLFUcGghwzc/AW3fsofQUilwio37IwgFzyHxG1tTnJ5jN86o0niGAlu
-Qq/oNYtnkRNIJ5N4/+2k5Z6Vhek3XcMwX77WNO/84FcT9hwvE6yaT8/5GbQiCA95
-x8Jd2b+hYqfYV6k6qP2tm2oHWlE/VZbwZzMA6Mhgj6APecsKA0tMEwDFcbuQCdsK
-48EBqcaQGsiAvDvWWVdT7tetV+U6EPSEZDSXPflTV434mKkXHPfXhIS8G+nGRcWz
-0eekGbiuHwEH3sWRLW9Cx3bs4XYEGAvOwtpJuJc3GIKFWveTeh1XG0WXu0k1h2HH
-krNJ6NdjZcLQuqbx6Q8M37aD6UT9WsrYfi2LlQB2kUFbyMmaXM7oHdLjXmW75FZR
-kXD5cWKfr5CQp8nJX3WadKEwt3nCDUWE8RnV9rYxc4NqnVfVy/fSDtU+RtxSTH5s
-ZqAyqQKGWASjNEpYzyOuNfGh0IfTDvK+PH7izjcOp5jczFIe9CQVhDF6A7sRz6Tq
-R6+qfzdClObL/MIvGJlE0KRsmGrka7HIv0mBkmkX/UflZ7rIWKpvOO2JS89v1ZpU
-YQcDpForQXpkaHS9szRneb0MNgYmXP95ytItGP8eGvYzIys+rAA=
-=YugZ
------END PGP SIGNATURE-----
-
---wxDdMuZNg1r63Hyj--
+Kind regards
+Uffe
