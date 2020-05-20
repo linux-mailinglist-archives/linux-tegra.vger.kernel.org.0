@@ -2,176 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A44FE1DB7A3
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 17:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A39D1DB7CE
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 May 2020 17:12:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbgETPDJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 May 2020 11:03:09 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:48778 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbgETPDJ (ORCPT
+        id S1726545AbgETPMM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 May 2020 11:12:12 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19943 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726439AbgETPML (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 May 2020 11:03:09 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KEvG3s045853;
-        Wed, 20 May 2020 15:02:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=bP+cMvdzxHbOp4/kQJ7d2LwPqN/I8FVf/8zsS1gA1f4=;
- b=x86o//a+N7sUAMQyKvyRC0wBFiyV77EMWjWVN/dvnkhMVZ4wU4iVAn88oqMp84gAouIm
- keFU98X+h+UHkob/rIpEI6K69DYND4SSbrGkb7bRdR8/0zP8zKnc3XYVyevMHkrvb9Vg
- Tts6oGcty537eqVTExN/JdbCYxB57kwfu168GmTiQygzHYKa8oADoK9AokYdHnzu1DBF
- kevyPCKqY5YkIzMsC9EjXR7LOkIaJmcMqMUQCUcbLNHxVNfACqksLqoJZit+Vxfkganp
- 0O26RwODFqFy0kd0uyZ2bdmoaDmTrgkRg0jFrG644gGIT3Q+uU7l3CKmtC1t7TEcJNe8 ew== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 3127krbntq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 20 May 2020 15:02:50 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KF2fg2037820;
-        Wed, 20 May 2020 15:02:49 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 313gj3p64t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 May 2020 15:02:49 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04KF2dcD010490;
-        Wed, 20 May 2020 15:02:40 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 20 May 2020 08:02:39 -0700
-Date:   Wed, 20 May 2020 18:02:30 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu,
-        devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance on
- error
-Message-ID: <20200520150230.GC30374@kadam>
-References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
- <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+        Wed, 20 May 2020 11:12:11 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec548bf0000>; Wed, 20 May 2020 08:11:59 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 20 May 2020 08:12:11 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 20 May 2020 08:12:11 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
+ 2020 15:12:10 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 20 May 2020 15:12:10 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.75.44]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ec548c90000>; Wed, 20 May 2020 08:12:09 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] firmware: tegra: Defer BPMP probe if shared memory not available
+Date:   Wed, 20 May 2020 16:12:06 +0100
+Message-ID: <20200520151206.15253-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 malwarescore=0
- mlxscore=0 adultscore=0 bulkscore=0 suspectscore=1 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005200124
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 clxscore=1011 priorityscore=1501 mlxscore=0 impostorscore=0
- suspectscore=1 mlxlogscore=999 malwarescore=0 cotscore=-2147483648
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2005200123
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589987519; bh=F7hvT2hG6fOGVSVaRQDr8+JP8MjnrkNvzh0h68pPxoo=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=aFCsAMhdTklDBDBpY/DNcsgc61NF+gUwy2Jam9df7p6IVWding6xw1LETUsISY6YE
+         BpAZ9NZ1igW67SW/3WOoD2T9zO+T6U7AEkZbvvRMmgo5r/Hl8Tj66HYHURbuf7GCGI
+         5gvCkcrCIPxq1JgDxOar0ESGMJT7LMq5mpJ8uRlw2rmuSJdDD6B4J2DqGa8EoLDQ+O
+         xq6Z9O84J3Xoxuj/MWGejkuvFGvIQmmXsegSy4KkjXs01ifViSTFR1fBscWJr5n1KS
+         xubCbfINvJSj/5Fz4goVtwS5TZ/y6XqvnI6n6Ztc+6JNjLlX5LuTWVLEf0N4YjHhBa
+         v15zVfST1ml9Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, May 20, 2020 at 01:15:44PM +0300, Dmitry Osipenko wrote:
-> 20.05.2020 12:51, Dinghao Liu пишет:
-> > pm_runtime_get_sync() increments the runtime PM usage counter even
-> > it returns an error code. Thus a pairing decrement is needed on
-> > the error handling path to keep the counter balanced.
-> > 
-> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> > ---
-> >  drivers/staging/media/tegra-vde/vde.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-> > index d3e63512a765..dd134a3a15c7 100644
-> > --- a/drivers/staging/media/tegra-vde/vde.c
-> > +++ b/drivers/staging/media/tegra-vde/vde.c
-> > @@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
-> >  
-> >  	ret = pm_runtime_get_sync(dev);
-> >  	if (ret < 0)
-> > -		goto unlock;
-> > +		goto put_runtime_pm;
-> >  
-> >  	/*
-> >  	 * We rely on the VDE registers reset value, otherwise VDE
-> > 
-> 
-> Hello Dinghao,
-> 
-> Thank you for the patch. I sent out a similar patch a week ago [1].
-> 
-> [1]
-> https://patchwork.ozlabs.org/project/linux-tegra/patch/20200514210847.9269-2-digetx@gmail.com/
-> 
-> The pm_runtime_put_noidle() should have the same effect as yours
-> variant, although my variant won't change the last_busy RPM time, which
-> I think is a bit more appropriate behavior.
+Since commit 93d2e4322aa7 ("of: platform: Batch fwnode parsing when
+adding all top level devices") was added, the probing of the Tegra
+SRAM device has occurred later in the boot sequence, after the BPMP
+has been probed. The BPMP uses sections of the SRAM for shared memory
+and if the BPMP is probed before the SRAM then it fails to probe and
+never tries again. This is causing a boot failure on Tegra186 and
+Tegra194. Fix this by allowing the probe of the BPMP to be deferred if
+the SRAM is not available yet.
 
-I don't think either patch is correct.  The right thing to do is to fix
-__pm_runtime_resume() so it doesn't leak a reference count on error.
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/firmware/tegra/bpmp-tegra186.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The problem is that a lot of functions don't check the return so
-possibly we are relying on that behavior.  We may need to introduce a
-new function which cleans up properly instead of leaking reference
-counts?
-
-Also it's not documented that pm_runtime_get_sync() returns 1 sometimes
-on success so it leads to a few bugs.
-
-drivers/gpu/drm/stm/ltdc.c:             ret = pm_runtime_get_sync(ddev->dev);
-drivers/gpu/drm/stm/ltdc.c-             if (ret) {
---
-drivers/gpu/drm/stm/ltdc.c:             ret = pm_runtime_get_sync(ddev->dev);
-drivers/gpu/drm/stm/ltdc.c-             if (ret) {
-
-drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c:  ret = pm_runtime_get_sync(pm->dev);
-drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c-  if (ret)
-
-drivers/media/platform/ti-vpe/cal.c:    ret = pm_runtime_get_sync(&pdev->dev);
-drivers/media/platform/ti-vpe/cal.c-    if (ret)
-
-drivers/mfd/arizona-core.c:                     ret = pm_runtime_get_sync(arizona->dev);
-drivers/mfd/arizona-core.c-                     if (ret != 0)
-
-drivers/remoteproc/qcom_q6v5_adsp.c:    ret = pm_runtime_get_sync(adsp->dev);
-drivers/remoteproc/qcom_q6v5_adsp.c-    if (ret)
-
-drivers/spi/spi-img-spfi.c:     ret = pm_runtime_get_sync(dev);
-drivers/spi/spi-img-spfi.c-     if (ret)
-
-drivers/usb/dwc3/dwc3-pci.c:    ret = pm_runtime_get_sync(&dwc3->dev);
-drivers/usb/dwc3/dwc3-pci.c-    if (ret)
-
-drivers/watchdog/rti_wdt.c:     ret = pm_runtime_get_sync(dev);
-drivers/watchdog/rti_wdt.c-     if (ret) {
-
-regards,
-dan carpenter
-
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 99c7da112c95..e280991a977d 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -1082,6 +1082,9 @@ int __pm_runtime_resume(struct device *dev, int rpmflags)
- 	retval = rpm_resume(dev, rpmflags);
- 	spin_unlock_irqrestore(&dev->power.lock, flags);
+diff --git a/drivers/firmware/tegra/bpmp-tegra186.c b/drivers/firmware/tegra/bpmp-tegra186.c
+index ea308751635f..63ab21d89c2c 100644
+--- a/drivers/firmware/tegra/bpmp-tegra186.c
++++ b/drivers/firmware/tegra/bpmp-tegra186.c
+@@ -176,7 +176,7 @@ static int tegra186_bpmp_init(struct tegra_bpmp *bpmp)
+ 	priv->tx.pool = of_gen_pool_get(bpmp->dev->of_node, "shmem", 0);
+ 	if (!priv->tx.pool) {
+ 		dev_err(bpmp->dev, "TX shmem pool not found\n");
+-		return -ENOMEM;
++		return -EPROBE_DEFER;
+ 	}
  
-+	if (retval < 0 && rpmflags & RPM_GET_PUT)
-+		atomic_dec(&dev->power.usage_count);
-+
- 	return retval;
- }
- EXPORT_SYMBOL_GPL(__pm_runtime_resume);
+ 	priv->tx.virt = gen_pool_dma_alloc(priv->tx.pool, 4096, &priv->tx.phys);
+@@ -188,7 +188,7 @@ static int tegra186_bpmp_init(struct tegra_bpmp *bpmp)
+ 	priv->rx.pool = of_gen_pool_get(bpmp->dev->of_node, "shmem", 1);
+ 	if (!priv->rx.pool) {
+ 		dev_err(bpmp->dev, "RX shmem pool not found\n");
+-		err = -ENOMEM;
++		err = -EPROBE_DEFER;
+ 		goto free_tx;
+ 	}
+ 
+-- 
+2.17.1
+
