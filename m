@@ -2,134 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 626F31DD499
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 May 2020 19:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06C8B1DDAFA
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2020 01:31:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgEURle (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 May 2020 13:41:34 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:42724 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726821AbgEURle (ORCPT
+        id S1730108AbgEUXbY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 May 2020 19:31:24 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17646 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729726AbgEUXbY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 May 2020 13:41:34 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LHbUjp196368;
-        Thu, 21 May 2020 17:41:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=gA43wCjQqcJxoz3k/kU6IZwsYpzQYq2m+PwRQ/B3VuI=;
- b=KXrFiR/REHrzSvFv/SIXpsQFfN3guFg4aqUUlyaEwJhRMZIaeY41DOT6xi2xWZn1VgLH
- DOUvuKNnw+mcyEfDfOLg8Bf+knoOCwah2Mh47Q/mAmskorEFJ6kS+2vysisdbD5TNWUW
- MA0+YBpTVhUSTet98TijOcTX9S7qH7oj5XKjgFl3KDmcZIowc+7RNabKIIzXbDZR3H6T
- JpVH3whqOTuGKzGCFLlrzwMfjuUq/q6oYMtVVPN9R1Iy8lEDIQ1K+iuBacIXG799P1ic
- gKds2Z/KQwLMd4ajPFxq1AvbrJ0WExNDzVKZ6DR6MxrqVsPUi3MvXt7b8+SrCGrxcain WA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 31501rgby4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 21 May 2020 17:41:19 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LHdFtJ105995;
-        Thu, 21 May 2020 17:39:18 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 315022uevc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 21 May 2020 17:39:18 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04LHdBli014341;
-        Thu, 21 May 2020 17:39:11 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 21 May 2020 10:39:10 -0700
-Date:   Thu, 21 May 2020 20:39:02 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     dinghao.liu@zju.edu.cn, devel@driverdev.osuosl.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PM <linux-pm@vger.kernel.org>, Kangjie Lu <kjlu@umn.edu>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
- on error
-Message-ID: <20200521173901.GA22310@kadam>
-References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
- <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
- <20200520150230.GC30374@kadam>
- <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn>
- <20200521091505.GF30374@kadam>
- <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
+        Thu, 21 May 2020 19:31:24 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec70efc0000>; Thu, 21 May 2020 16:30:04 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 21 May 2020 16:31:23 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 21 May 2020 16:31:23 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 May
+ 2020 23:31:23 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 21 May 2020 23:31:23 +0000
+Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ec70f4b0000>; Thu, 21 May 2020 16:31:23 -0700
+From:   Krishna Reddy <vdumpa@nvidia.com>
+CC:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
+        <talho@nvidia.com>, <bbiswas@nvidia.com>, <mperttunen@nvidia.com>,
+        <nicolinc@nvidia.com>, <bhuntsman@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>
+Subject: [PATCH v5 0/5] Nvidia Arm SMMUv2 Implementation
+Date:   Thu, 21 May 2020 16:31:02 -0700
+Message-ID: <20200521233107.11968-1-vdumpa@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9628 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 bulkscore=0 suspectscore=18 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005210127
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9628 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 spamscore=0
- mlxlogscore=999 clxscore=1011 priorityscore=1501 cotscore=-2147483648
- impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
- mlxscore=0 suspectscore=18 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2005210127
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1590103804; bh=M6pyOSXeBOTReqc8kunREzZAoNiV34NpWkSM15LmbZE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=aKVeXdDGaA5yxJZ9pHolRgPOdSbkNSWg3kK+lUBbUZhQQ8Vb9s4KmPGN9/eDyh2pn
+         fwDfQe0yzIv0NLTsZykdKRyWp7YXPKDD9rb2BCOeMz9ZQU95HlzqW4bBv4MjjCZQeY
+         1AuoNyiplaMpTgMHcLGdmQIvZwp06S12ZAgkh7foMDbF0n+bKbFY049vuCdHxdDUiB
+         Zm9ouLoxsGAurFj20nn9lIZ8ObBzDoZ115+7yTax6wXfbLZ9ooXQHifZuFA3OCdySY
+         Rl4b0eFi+F6pYDD4heoETKWAe46D4SFwnqLowoCothFcJbF/1ZXSonGYkjp6ZaQQRr
+         KB17wiPqbDPFg==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 21, 2020 at 05:22:05PM +0200, Rafael J. Wysocki wrote:
-> On Thu, May 21, 2020 at 11:15 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> >
-> > On Thu, May 21, 2020 at 11:42:55AM +0800, dinghao.liu@zju.edu.cn wrote:
-> > > Hi, Dan,
-> > >
-> > > I agree the best solution is to fix __pm_runtime_resume(). But there are also
-> > > many cases that assume pm_runtime_get_sync() will change PM usage
-> > > counter on error. According to my static analysis results, the number of these
-> > > "right" cases are larger. Adjusting __pm_runtime_resume() directly will introduce
-> > > more new bugs. Therefore I think we should resolve the "bug" cases individually.
-> > >
-> >
-> > That's why I was saying that we may need to introduce a new replacement
-> > function for pm_runtime_get_sync() that works as expected.
-> >
-> > There is no reason why we have to live with the old behavior.
-> 
-> What exactly do you mean by "the old behavior"?
+Changes in v5:
+Rebased on top of git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.=
+git next
 
-I'm suggesting we leave pm_runtime_get_sync() alone but we add a new
-function which called pm_runtime_get_sync_resume() which does something
-like this:
+v4 - https://lkml.org/lkml/2019/10/30/1054
+v3 - https://lkml.org/lkml/2019/10/18/1601
+v2 - https://lkml.org/lkml/2019/9/2/980
+v1 - https://lkml.org/lkml/2019/8/29/1588
 
-static inline int pm_runtime_get_sync_resume(struct device *dev)
-{
-	int ret;
+Krishna Reddy (5):
+  iommu/arm-smmu: add NVIDIA implementation for dual ARM MMU-500 usage
+  dt-bindings: arm-smmu: Add binding for Tegra194 SMMU
+  iommu/arm-smmu: Add global/context fault implementation hooks
+  arm64: tegra: Add DT node for T194 SMMU
+  arm64: tegra: enable SMMU for SDHCI and EQOS on T194
 
-	ret = __pm_runtime_resume(dev, RPM_GET_PUT);
-	if (ret < 0) {
-		pm_runtime_put(dev);
-		return ret;
-	}
-	return 0;
-}
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |   5 +
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  81 ++++++
+ drivers/iommu/Makefile                        |   2 +-
+ drivers/iommu/arm-smmu-impl.c                 |   3 +
+ drivers/iommu/arm-smmu-nvidia.c               | 261 ++++++++++++++++++
+ drivers/iommu/arm-smmu.c                      |  11 +-
+ drivers/iommu/arm-smmu.h                      |   4 +
+ 8 files changed, 366 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/iommu/arm-smmu-nvidia.c
 
-I'm not sure if pm_runtime_put() is the correct thing to do?  The other
-thing is that this always returns zero on success.  I don't know that
-drivers ever care to differentiate between one and zero returns.
 
-Then if any of the caller expect that behavior we update them to use the
-new function.
-
-regards,
-dan carpenter
+base-commit: 365f8d504da50feaebf826d180113529c9383670
+--=20
+2.26.2
 
