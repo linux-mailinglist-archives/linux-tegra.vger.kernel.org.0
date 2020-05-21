@@ -2,73 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2890C1DC873
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 May 2020 10:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA84B1DC8D4
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 May 2020 10:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728598AbgEUIZH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 May 2020 04:25:07 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:50406 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728596AbgEUIZH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 May 2020 04:25:07 -0400
-Received: by ajax-webmail-mail-app4 (Coremail) ; Thu, 21 May 2020 16:24:53
- +0800 (GMT+08:00)
-X-Originating-IP: [222.205.77.158]
-Date:   Thu, 21 May 2020 16:24:53 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   dinghao.liu@zju.edu.cn
-To:     "Andy Shevchenko" <andy.shevchenko@gmail.com>
-Cc:     "Kangjie Lu" <kjlu@umn.edu>,
-        "Laxman Dewangan" <ldewangan@nvidia.com>,
+        id S1728587AbgEUIjX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 May 2020 04:39:23 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13339 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728374AbgEUIjW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 21 May 2020 04:39:22 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec63deb0000>; Thu, 21 May 2020 01:38:03 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 21 May 2020 01:39:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 21 May 2020 01:39:22 -0700
+Received: from [10.26.75.55] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 May
+ 2020 08:39:20 +0000
+Subject: Re: [PATCH] spi: tegra20-slink: Fix runtime PM imbalance on error
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>
+CC:     Kangjie Lu <kjlu@umn.edu>, Laxman Dewangan <ldewangan@nvidia.com>,
         "Mark Brown" <broonie@kernel.org>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        "Jonathan Hunter" <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         linux-spi <linux-spi@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
+        <linux-tegra@vger.kernel.org>,
         "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH] spi: tegra20-slink: Fix runtime PM imbalance on
- error
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
- Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
-In-Reply-To: <CAHp75Vf=a54jY+5ZoWG9Fkjf-0-TQWqNY6R4sPM7Y2oTyCNL6A@mail.gmail.com>
 References: <20200521074946.21799-1-dinghao.liu@zju.edu.cn>
  <CAHp75VfOeUaqRW2vRwyWaz3JJw41hX5jTgE+kZ8pB8E_HtHwqw@mail.gmail.com>
- <CAHp75Vf=a54jY+5ZoWG9Fkjf-0-TQWqNY6R4sPM7Y2oTyCNL6A@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <af91d97e-6367-996b-a925-a5c81f6fb182@nvidia.com>
+Date:   Thu, 21 May 2020 09:38:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Message-ID: <611a62f0.baefa.1723655d227.Coremail.dinghao.liu@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgDn7z_VOsZe9wzqAQ--.42098W
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgEHBlZdtOPItAAZs7
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbXvS07vEb7Iv0x
-        C_JF4lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
-        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
-        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
-        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlV2xY628EF7xvwVC2z280aVAFwI0_Gc
-        CE3s1lV2xY628EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wCS07vEe2I262IYc4CY6c8I
-        j28IcVAaY2xG8wCS07vE5I8CrVACY4xI64kE6c02F40Ex7xfMIAIbVAv7VC0I7IYx2IY67
-        AKxVWUJVWUGwCS07vEYx0Ex4A2jsIE14v26r4j6F4UMIAIbVAm72CE4IkC6x0Yz7v_Jr0_
-        Gr1lV2xY6x02cVAKzwCS07vEc2xSY4AK67AK6r43MIAIbVCY0x0Ix7I2Y4AK64vIr41lV2
-        xY6xAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCS07vE4x8a6x804xWlV2xY6xC20s026xCa
-        FVCjc4AY6r1j6r4UMIAIbVC20s026c02F40E14v26r1j6r18MIAIbVC20s026x8GjcxK67
-        AKxVWUGVWUWwCS07vEx4CE17CEb7AF67AKxVWUtVW8ZwCS07vEIxAIcVC0I7IYx2IY67AK
-        xVWUJVWUCwCS07vEIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIAIbVCI42IY6xAIw2
-        0EY4v20xvaj40_Wr1j6rW3Jr1lV2xY6IIF0xvEx4A2jsIE14v26r4j6F4UMIAIbVCI42IY
-        6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUU==
+In-Reply-To: <CAHp75VfOeUaqRW2vRwyWaz3JJw41hX5jTgE+kZ8pB8E_HtHwqw@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1590050283; bh=9uLtQsPxoNaJRi8sxPLkhckPw0g+X+KrcTIUZx4NfZk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=AttJ7FDh44xMD7mI+iREGssNXw5zU2RVPvmo4Jo4ltPG/DR1bVvMQSflel+JQtEB3
+         9ouUrhSJcQTZivK8eciplgY5/OBeSp/QwmICHQkJGCcWudtezMyCZZIGrhxtDzXj0o
+         cvPyfBpqR3uYqEn2+u5lB+jfxZ5MqDMgoRkSKaD0p1xpLifRAXpGDLHOPlkrodSqCU
+         DXgmf9ZIOjyKrRYzU8bvC2SdD2WS4lPDV37oqxBvpLJtTPFSq71EVYzALjRka2F09b
+         vx4J5CQqlFQ9kCQDQValw/tGeTORLnoftuZB0KQ4yEFTyx8a0aGL7xMgNVzXIPDvE/
+         32dORs7OSfnVg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-SGkgQW5keSwKClRoYW5rIHlvdSBmb3IgeW91ciBhZHZpY2UhIEkgd2lsbCBmaXggdGhlIHByb2Js
-ZW0gaW4gdGhlIG5leHQgZWRpdGlvbgpvZiBwYXRjaC4gVGhlIGNvY2NpbmVsbGUgc2NyaXB0IHdp
-bGwgYmUgdmVyeSBoZWxwZnVsIGFuZCBJJ20gbG9va2luZyAKZm9yd2FyZCB0byBpdC4KClJlZ2Fy
-ZHMsCkRpbmdoYW8gCgomcXVvdDtBbmR5IFNoZXZjaGVua28mcXVvdDsgJmx0O2FuZHkuc2hldmNo
-ZW5rb0BnbWFpbC5jb20mZ3Q75YaZ6YGT77yaCj4gT24gVGh1LCBNYXkgMjEsIDIwMjAgYXQgMTE6
-MDQgQU0gQW5keSBTaGV2Y2hlbmtvDQo+IDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPiB3cm90
-ZToNCj4gPiBPbiBUaHUsIE1heSAyMSwgMjAyMCBhdCAxMDo1MCBBTSBEaW5naGFvIExpdSA8ZGlu
-Z2hhby5saXVAemp1LmVkdS5jbj4gd3JvdGU6DQo+IA0KPiBBbnkgSSBoYXZlIGNvY2NpbmVsbGUg
-c2NyaXB0IGZvciB0aGlzLCBJIGNhbiBzaGFyZSB3aXRoIHlvdS4NCj4gDQo+IC0tIA0KPiBXaXRo
-IEJlc3QgUmVnYXJkcywNCj4gQW5keSBTaGV2Y2hlbmtvDQo=
+
+On 21/05/2020 09:04, Andy Shevchenko wrote:
+> On Thu, May 21, 2020 at 10:50 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
+>>
+>> pm_runtime_get_sync() increments the runtime PM usage counter even
+>> when it returns an error code. Thus a pairing decrement is needed on
+>> the error handling path to keep the counter balanced.
+> 
+> ...
+> 
+>>         ret = pm_runtime_get_sync(&pdev->dev);
+>>         if (ret < 0) {
+>>                 dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
+> 
+>> +               pm_runtime_put(&pdev->dev);
+> 
+> For all your patches, please, double check what you are proposing.
+> 
+> Here, I believe, the correct one will be _put_noidle().
+> 
+> AFAIU you are not supposed to actually suspend the device in case of error.
+> But I might be mistaken, thus see above.
+> 
+>>                 goto exit_pm_disable;
+>>         }
+
+
+Is there any reason why this is not handled in pm_runtime_get itself?
+Jon
+
+-- 
+nvpublic
