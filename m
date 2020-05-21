@@ -2,84 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E981DCCBC
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 May 2020 14:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D441DCD1A
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 May 2020 14:40:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727987AbgEUMWS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 May 2020 08:22:18 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:13300 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727969AbgEUMWS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 May 2020 08:22:18 -0400
-Received: by ajax-webmail-mail-app4 (Coremail) ; Thu, 21 May 2020 20:21:38
- +0800 (GMT+08:00)
-X-Originating-IP: [222.205.77.158]
-Date:   Thu, 21 May 2020 20:21:38 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   dinghao.liu@zju.edu.cn
-To:     "Dan Carpenter" <dan.carpenter@oracle.com>
-Cc:     devel@driverdev.osuosl.org,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, kjlu@umn.edu,
-        linux-kernel@vger.kernel.org,
-        "Jonathan Hunter" <jonathanh@nvidia.com>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org, "Dmitry Osipenko" <digetx@gmail.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: Re: Re: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm
- imbalance on error
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
- Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20200521120344.GH30374@kadam>
-References: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
- <20200521112131.GG30374@kadam>
- <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
- <20200521120344.GH30374@kadam>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        id S1729119AbgEUMkg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 May 2020 08:40:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728164AbgEUMkg (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 21 May 2020 08:40:36 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A46C061A0E;
+        Thu, 21 May 2020 05:40:34 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id z6so8023268ljm.13;
+        Thu, 21 May 2020 05:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Bz9kW9o/9YtdCQhvvB7QDx10N00o+JmEwpJejIQIQC4=;
+        b=sqbpbKXnnY6uMSFqSGEn3a6CxICrJyZqvk65oaAGSlYLP6esz/UkVdoJ2LsTojVQ/z
+         F3mY0HIvY/wzm+zDbYRIfXdktMFD9zXqXQXT4JfkeXUxe3W0Cs443CEmdR1MlnqbiLvz
+         sCwSMTuRvktY2ATbNsLmp0qgnnL71T6aWbCznAKMUaGT0ZuIp9j0NNQA7eoXEo/wH/Bp
+         WSq5daGmq8lRF07dPqfeOG8+ZRrgeVeHa1gmMJ3R0PNOMS2YbBpR/lIg9XaVJD2571uY
+         q7yLIPA6cKu6yujpOcFxI231bGWMTIxV2feb1uuBQheKSt43UleIlU2grjUVGqCzfa1I
+         RUog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Bz9kW9o/9YtdCQhvvB7QDx10N00o+JmEwpJejIQIQC4=;
+        b=nE1Ewlq/01ZOcvuf5vAGXTKCVzbEMdeRcparP8hYg1axXQ3Y2/FHRKekIan+/aAlPT
+         eP7TUeGMPDyL0Qwz0IfmjdUqgx30Yr0MHIga+A+KnOOO5G/WUHyEX78DFhwL2mQKjTtM
+         nMMG7p39UPqjl6R6LNCt681D3LZc16tLX5tnNsJgVSSfeRDNUWmATDPH7KvcjPo9LcuW
+         03MQk8gxNu/7Gqq6vjL1acd2sQ2v6dh+BPiYi8dupo8KA8oRQMY5X0nAU3R6NlmB132N
+         uFjseGKQmk5BiTyxW7mr/PqVdJ7gi0t6gF6Q/rsmEUpJGptXGAzedk/nKhMUK8/szdFP
+         72iA==
+X-Gm-Message-State: AOAM531OXszLU2W0YYy0HW1Jw7I/YHlkLZ/OZJ3tgG6jF/5iWyQsSt8F
+        snM4kTQD2e/rKDW2NUe9na0z1t2F
+X-Google-Smtp-Source: ABdhPJzNyDE6H412DCiAfBDPeBmNqbKsp22MrTsH+gzNfvHqt6hOaJDPP4B9eJy5cVKcOiRlz5Skqg==
+X-Received: by 2002:a2e:9743:: with SMTP id f3mr5151896ljj.205.1590064833179;
+        Thu, 21 May 2020 05:40:33 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id x8sm1700413ljh.97.2020.05.21.05.40.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 May 2020 05:40:32 -0700 (PDT)
+Subject: Re: [PATCH] sdhci: tegra: Avoid reading autocal timeout values when
+ not applicable
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        adrian.hunter@intel.com, ulf.hansson@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org
+References: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <45c290f9-e276-53be-a7a6-23bf81f50bc3@gmail.com>
+Date:   Thu, 21 May 2020 15:40:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Message-ID: <10fd55e1.bbe50.172372e9216.Coremail.dinghao.liu@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgBHf3hScsZeyebtAQ--.38289W
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAIs0
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbK0S07vEb7Iv0x
-        C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
-        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
-        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
-        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIAIbVA2z4x0Y4vEx4A2jsIE14v26r
-        xl6s0DMIAIbVA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lV2xY62AIxVAIcxkEcVAq
-        07x20xvEncxIr21lV2xY6c02F40EFcxC0VAKzVAqx4xG6I80ewCS07vEYx0E2Ix0cI8IcV
-        AFwI0_Jr0_Jr4lV2xY6cIj6I8E87Iv67AKxVW8JVWxJwCS07vEOx8S6xCaFVCjc4AY6r1j
-        6r4UMIAIbVACI402YVCY1x02628vn2kIc2xKxwCS07vE7I0Y64k_MIAIbVCY02Avz4vE14
-        v_Xr1lV2xY6xkI7II2jI8vz4vEwIxGrwCS07vE42xK82IY6x8ErcxFaVAv8VW8uw4UJr1U
-        MIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lV2xY6I8I3I0E5I8CrV
-        AFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14v26r106r1rMIAIbVC2zVAF1VAY17CE14v2
-        6r1q6r43MIAIbVCI42IY6xIIjxv20xvE14v26r1j6r1xMIAIbVCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lV2xY6IIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCS07vEIxAI
-        cVC2z280aVAFwI0_Gr0_Cr1lV2xY6IIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCT
-        nIWIevJa73U
+In-Reply-To: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-U29ycnksIEkgbWlzdW5kZXJzdG9vZCB5b3VyIGlkZWEgYmVmb3JlLiBBIG5ldyBmdW5jdGlvbiBp
-cyAKdGhlIGJlc3Qgc29sdXRpb24gZm9yIHRoaXMgcHJvYmxlbS4KClJlZ2FyZHMsCkRpbmdoYW8K
-CiZxdW90O0RhbiBDYXJwZW50ZXImcXVvdDsgJmx0O2Rhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbSZn
-dDvlhpnpgZPvvJoKPiBPbiBUaHUsIE1heSAyMSwgMjAyMCBhdCAwNzo0Mjo1NlBNICswODAwLCBk
-aW5naGFvLmxpdUB6anUuZWR1LmNuIHdyb3RlOg0KPiA+IFdlIG5lZWQgdG8gbWFrZSBzdXJlIGlm
-IHBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBpcyBkZXNpZ25lZCB3aXRoDQo+ID4gc3VjaCBiZWhhdmlv
-ciBiZWZvcmUgbW9kaWZ5aW5nIGl0LiAgDQo+ID4gDQo+ID4gSSByZWNlaXZlZCBhIHJlc3BvbnNl
-IGZyb20gUmFmYWVsIHdoZW4gSSBjb21taXRlZCBhIHNpbWlsYXIgcGF0Y2g6DQo+ID4gaHR0cHM6
-Ly9sa21sLm9yZy9sa21sLzIwMjAvNS8yMC8xMTAwDQo+ID4gSXQgc2VlbXMgdGhhdCB0aGlzIGJl
-aGF2aW9yIGlzIGludGVudGlvbmFsIGFuZCBuZWVkcyB0byBiZSBrZXB0Lg0KPiANCj4gWWVzLiAg
-VGhpcyBpcyB3aHkgSSBoYXZlIHNhaWQgdHdpY2Ugb3IgdGhyZWUgdGltZXMgdG8gbm90IGNoYW5n
-ZQ0KPiBwbV9ydW50aW1lX2dldF9zeW5jKCkgYnV0IGluc3RlYWQgdG8gd3JpdGUgYSByZXBsYWNl
-bWVudC4NCj4gDQo+IEEgbGFyZ2UgcGVyY2VudCBvZiB0aGUgY2FsbGVycyBhcmUgYnVnZ3kuICBU
-aGUgcG1fcnVudGltZV9nZXRfc3luYygpIGlzDQo+IGEgLTQgb24gUnVzdHkncyBBUEkgc2NhbGUu
-DQo+IGh0dHA6Ly9zd2VuZy50aGUtZGF2aWVzLm5ldC9Ib21lL3J1c3R5cy1hcGktZGVzaWduLW1h
-bmlmZXN0bw0KPiBPbmUgY291bGQgYXJndWUgdGhhdCBhbnl0aGluZyBhYm92ZSBhIC00IGlzIHJl
-YWxseSBhIDIgaWYgeW91IHJlYWQNCj4gdGhlIGltcGxlbWVudGF0aW9uIHRob3Vyb3VnaGx5IGVu
-b3VnaC4uLg0KPiANCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBlbnRlcg0KPiANCg==
+20.05.2020 23:08, Sowjanya Komatineni пишет:
+> When auto calibration timeouts, calibration is disabled and fail-safe
+> drive strength values are programmed based on the signal voltage.
+> 
+> Different fail-safe drive strength values based on voltage are
+> applicable only for SoCs supporting 3V3 and 1V8 pad controls.
+> 
+> So, this patch avoids reading these properties from the device tree
+> for SoCs not using pad controls and the warning of missing properties
+> will not show up on these SoC platforms.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/mmc/host/sdhci-tegra.c | 57 ++++++++++++++++++++++++------------------
+>  1 file changed, 33 insertions(+), 24 deletions(-)
+
+Hello Sowjanya,
+
+Thank you for the patch.
+
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
