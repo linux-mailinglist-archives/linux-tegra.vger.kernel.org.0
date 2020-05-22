@@ -2,77 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E16D31DEA32
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2020 16:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EA4D1DEB88
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2020 17:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731160AbgEVOwA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 May 2020 10:52:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54140 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730543AbgEVOv7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 May 2020 10:51:59 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B2CB20756;
-        Fri, 22 May 2020 14:51:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590159119;
-        bh=QCGs2VJ3mgj3c/lTVvzLSLDvK8wWgrR4q8YaSeox8lI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ympEjN+/gYMXe9aRUf66guFkJKO4mtI+6Us+C0f4sjGBzyzwJm/l04QusCiXH38jR
-         PL2BQ8VIv5x6prkU18t81obvZAfszBTDt7pb8zWXytpjxnmmIPZVy0mJ50ANWZGb4c
-         nFTj8UxvStAPPlWsCUEhmrN/XU5Sdn0O2X/z0J6Y=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stephen Warren <swarren@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sasha Levin <sashal@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/8] gpio: tegra: mask GPIO IRQs during IRQ shutdown
-Date:   Fri, 22 May 2020 10:51:50 -0400
-Message-Id: <20200522145157.435215-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        id S1730007AbgEVPLr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 May 2020 11:11:47 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:7392 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729929AbgEVPLq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 22 May 2020 11:11:46 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec7eba60001>; Fri, 22 May 2020 08:11:34 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 22 May 2020 08:11:46 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 22 May 2020 08:11:46 -0700
+Received: from [10.2.164.184] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 22 May
+ 2020 15:11:46 +0000
+Subject: Re: [PATCH] sdhci: tegra: Avoid reading autocal timeout values when
+ not applicable
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
+        <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mmc@vger.kernel.org>
+References: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
+ <20200522122644.GE2163848@ulmo>
+ <95d01fae-bf1f-28d1-2d11-8f5693646fa3@gmail.com>
+ <20200522125230.GH2163848@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <e574c225-aa2a-7431-6ea8-2d2f1e7dd384@nvidia.com>
+Date:   Fri, 22 May 2020 08:11:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200522125230.GH2163848@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1590160294; bh=Cu28XGa339sBuWwlN0QzgMrZoS1F9/2gZmihdDFygrc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=d+hHBwcOlxc0SyYXGAZcvYybu5e3BZ7RDbBRuPWZSxkz2ZbnGmCLmx5uZZagc/cic
+         W1IsywmOoIUrW1Xc+O4eeNnovorvnLlQIeBzD2J54Kq0QlRk4x3NEFjeBtSlgdqio4
+         Xr6pV6HalC3i5l2nTEgBF++TtwveDpo5jokK/hwn/faCFtyb42o1fH/vNUcBAU4Jer
+         YKUHhnC6GYI//QmHE2GhmFUJ9lffP5bPaSJ93FUdWC31kI7f09dmgnK2O+4LCKLjpG
+         c+iNxCWOqJjlcM8M43mwyc9vkKBQCW4UiGtYKCN5f3vP9YMsTImMfpbGq42cVRVj66
+         Mac15biGHQaPw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Stephen Warren <swarren@nvidia.com>
 
-[ Upstream commit 0cf253eed5d2bdf7bb3152457b38f39b012955f7 ]
+On 5/22/20 5:52 AM, Thierry Reding wrote:
+> On Fri, May 22, 2020 at 03:42:18PM +0300, Dmitry Osipenko wrote:
+>> 22.05.2020 15:26, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> On Wed, May 20, 2020 at 01:08:57PM -0700, Sowjanya Komatineni wrote:
+>>>> When auto calibration timeouts, calibration is disabled and fail-safe
+>>>> drive strength values are programmed based on the signal voltage.
+>>>>
+>>>> Different fail-safe drive strength values based on voltage are
+>>>> applicable only for SoCs supporting 3V3 and 1V8 pad controls.
+>>>>
+>>>> So, this patch avoids reading these properties from the device tree
+>>>> for SoCs not using pad controls and the warning of missing properties
+>>>> will not show up on these SoC platforms.
+>>>>
+>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>> ---
+>>>>   drivers/mmc/host/sdhci-tegra.c | 57 ++++++++++++++++++++++++--------=
+----------
+>>>>   1 file changed, 33 insertions(+), 24 deletions(-)
+>>>>
+>>>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-t=
+egra.c
+>>>> index 3e2c510..141b49b 100644
+>>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>>> @@ -605,6 +605,39 @@ static void tegra_sdhci_parse_pad_autocal_dt(stru=
+ct sdhci_host *host)
+>>>>   		autocal->pull_down_1v8 =3D 0;
+>>>>  =20
+>>>>   	err =3D device_property_read_u32(host->mmc->parent,
+>>>> +			"nvidia,pad-autocal-pull-up-offset-sdr104",
+>>>> +			&autocal->pull_up_sdr104);
+>>>> +	if (err)
+>>>> +		autocal->pull_up_sdr104 =3D autocal->pull_up_1v8;
+>>>> +
+>>>> +	err =3D device_property_read_u32(host->mmc->parent,
+>>>> +			"nvidia,pad-autocal-pull-down-offset-sdr104",
+>>>> +			&autocal->pull_down_sdr104);
+>>>> +	if (err)
+>>>> +		autocal->pull_down_sdr104 =3D autocal->pull_down_1v8;
+>>>> +
+>>>> +	err =3D device_property_read_u32(host->mmc->parent,
+>>>> +			"nvidia,pad-autocal-pull-up-offset-hs400",
+>>>> +			&autocal->pull_up_hs400);
+>>>> +	if (err)
+>>>> +		autocal->pull_up_hs400 =3D autocal->pull_up_1v8;
+>>>> +
+>>>> +	err =3D device_property_read_u32(host->mmc->parent,
+>>>> +			"nvidia,pad-autocal-pull-down-offset-hs400",
+>>>> +			&autocal->pull_down_hs400);
+>>>> +	if (err)
+>>>> +		autocal->pull_down_hs400 =3D autocal->pull_down_1v8;
+>>>> +
+>>>> +	/*
+>>>> +	 * Different fail-safe drive strength values based on the signaling
+>>>> +	 * voltage are applicable for SoCs supporting 3V3 and 1V8 pad contro=
+ls.
+>>>> +	 * So, avoid reading below device tree properies for SoCs that don't
+>>>> +	 * have NVQUIRK_NEEDS_PAD_CONTROL.
+>>>> +	 */
+>>>> +	if (!(tegra_host->soc_data->nvquirks & NVQUIRK_NEEDS_PAD_CONTROL))
+>>>> +		return;
+>>> Hm... so what exactly is the difference between NVQUIRK_HAS_PADCALIB? I
+>>> think Tegra30 will also end up calling tegra_sdhci_set_padctrl(), but i=
+t
+>>> will then write the default (0) value for these drive strength. Is that
+>>> okay?
 
-The driver currently leaves GPIO IRQs unmasked even when the GPIO IRQ
-client has released the GPIO IRQ. This allows the HW to raise IRQs, and
-SW to process them, after shutdown. Fix this by masking the IRQ when it's
-shut down. This is usually taken care of by the irqchip core, but since
-this driver has a custom irq_shutdown implementation, it must do this
-explicitly itself.
+Yes separate 3v3 and 1v8 drive strengths are for Tegra210/184/194 where=20
+they have separate pad controls.
 
-Signed-off-by: Stephen Warren <swarren@nvidia.com>
-Link: https://lore.kernel.org/r/20200427232605.11608-1-swarren@wwwdotorg.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpio/gpio-tegra.c | 1 +
- 1 file changed, 1 insertion(+)
+T30 also has auto calibration enabled but don't need to use these=20
+properties as they don't have separate default drive strengths based on=20
+signaling.
 
-diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
-index 05d3241ad20b..9d763557a105 100644
---- a/drivers/gpio/gpio-tegra.c
-+++ b/drivers/gpio/gpio-tegra.c
-@@ -341,6 +341,7 @@ static void tegra_gpio_irq_shutdown(struct irq_data *d)
- 	struct tegra_gpio_info *tgi = bank->tgi;
- 	int gpio = d->hwirq;
- 
-+	tegra_gpio_irq_mask(d);
- 	gpiochip_unlock_as_irq(&tgi->gc, gpio);
- }
- 
--- 
-2.25.1
+Same default drive strengths set by boot loader/default pinmux will hold=20
+good.
 
+>> It won't write 0, but skip the writing if values are 0. Technically T30+
+>> supports the customized strengths, but I'm not sure whether it was ever
+>> tested and whether it's really needed. I think Sowjanya said before that
+>> the default values are always okay for older SoCs.
+> Alright then, in that case:
+>
+> Acked-by: Thierry Reding <treding@nvidia.com>
