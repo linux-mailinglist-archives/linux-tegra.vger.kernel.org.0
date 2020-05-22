@@ -2,178 +2,390 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4CAB1DEC03
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2020 17:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 188561DEC96
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 May 2020 17:57:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730544AbgEVPgD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 May 2020 11:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727807AbgEVPgC (ORCPT
+        id S1730306AbgEVP5J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 May 2020 11:57:09 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1102 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730195AbgEVP5I (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 May 2020 11:36:02 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B397C061A0E;
-        Fri, 22 May 2020 08:36:02 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 7F0622A38F6
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Fri, 22 May 2020 11:57:08 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec7f5c20000>; Fri, 22 May 2020 08:54:42 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 22 May 2020 08:57:08 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 22 May 2020 08:57:08 -0700
+Received: from [10.2.165.30] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 22 May
+ 2020 15:57:07 +0000
+Subject: Re: [PATCH v1] sdhci: tegra: Remove warnings about missing
+ device-tree properties
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     Dmitry Osipenko <digetx@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <20200517225510.GA205823@koala> <20200518024034.GL89269@dtor-ws>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <513f25c0-7125-c564-0090-052d626fe508@collabora.com>
-Date:   Fri, 22 May 2020 17:35:56 +0200
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
+References: <aed72c87-0e16-6dea-a4e2-7fc6a97cd313@nvidia.com>
+ <c7469c16-f6f1-f9c0-566f-3b1d3774f130@nvidia.com>
+ <c712de1d-cfa4-2746-ec6b-54f318aeaac2@nvidia.com>
+ <d2c71267-e696-c459-fbd6-dbb5fd312ed3@gmail.com>
+ <CAPDyKFqdeGyQpXpM+xynd_rWbi0S6hCeQS1Dyiy6Hd2E_yfHpg@mail.gmail.com>
+ <96f917a3-d822-1c36-d088-3e4a322c1761@nvidia.com>
+ <20200522121357.GD2163848@ulmo>
+ <2fa9db46-e310-dbbc-e1f7-f7058435a688@gmail.com>
+ <20200522123437.GF2163848@ulmo>
+ <920b9fdb-4435-b0d1-3f54-08a8ce97946d@nvidia.com>
+ <20200522152645.GB2377357@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <32045732-bc95-60e4-56f5-15cd19e0b9f6@nvidia.com>
+Date:   Fri, 22 May 2020 08:57:06 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200518024034.GL89269@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200522152645.GB2377357@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1590162882; bh=nxxyOT/dH92nCgf1zHZ96miNcxDRpAhejP5PsyoGqF0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Q4Y//5399fD8oJuPcfCFEpI24mx0hv7zvNpwqtNZRUuMRJbkC/9DbjSQbZq/6Ekvc
+         VbMhLcFtwWQzHkJSW1/ypJkimOiv+VeIx/Nzus2op4RxKqPAyZu5YIK7OEbP9Cs35D
+         sp8a+erRuXVQ+KbBZAM6bMXe+lAinBrGUrB0LM1IPnL8WRj7a1bAJGU827PkakKiVj
+         aJYROQiw6LtrplC/wg1dLBjz//iUJTAatUXY4K+mD8+cJSjz/1FsGTbF6QmJG8rNPX
+         gyctCxm1B7L2UWq88CJhVriY2xaeDFnx6f08T+Yz9eMX9J4bxwxfGywrddMqk1AMt5
+         9rwtlcKaO9tdQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Hans, hi Dmitry,
 
-W dniu 18.05.2020 o 04:40, Dmitry Torokhov pisze:
-> Hi Hans, Peter,
-> 
-> On Mon, May 18, 2020 at 08:55:10AM +1000, Peter Hutterer wrote:
->> On Fri, May 15, 2020 at 08:19:10PM +0200, Hans de Goede wrote:
->>> Hi Andrezj,
->>>
-
-<snip>
-
+On 5/22/20 8:26 AM, Thierry Reding wrote:
+> On Fri, May 22, 2020 at 08:22:47AM -0700, Sowjanya Komatineni wrote:
+>> On 5/22/20 5:34 AM, Thierry Reding wrote:
+>>> On Fri, May 22, 2020 at 03:18:40PM +0300, Dmitry Osipenko wrote:
+>>>> 22.05.2020 15:13, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>> On Wed, May 20, 2020 at 09:09:33AM -0700, Sowjanya Komatineni wrote:
+>>>>>> On 5/20/20 4:26 AM, Ulf Hansson wrote:
+>>>>>>> On Wed, 20 May 2020 at 04:00, Dmitry Osipenko <digetx@gmail.com> wr=
+ote:
+>>>>>>>> 19.05.2020 23:44, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>> On 5/19/20 12:07 PM, Sowjanya Komatineni wrote:
+>>>>>>>>>> On 5/19/20 11:41 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>> On 5/19/20 11:34 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>> On 5/19/20 9:33 AM, Dmitry Osipenko wrote:
+>>>>>>>>>>>>> 19.05.2020 19:24, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>>>>>>> On Tue, May 19, 2020 at 05:05:27PM +0300, Dmitry Osipenko wr=
+ote:
+>>>>>>>>>>>>>>> 19.05.2020 10:28, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>>>>>>>>> On Sat, 16 May 2020 at 17:44, Dmitry Osipenko <digetx@gmai=
+l.com>
+>>>>>>>>>>>>>>>> wrote:
+>>>>>>>>>>>>>>>>> Several people asked me about the MMC warnings in the KMS=
+G log and
+>>>>>>>>>>>>>>>>> I had to tell to ignore them because these warning are
+>>>>>>>>>>>>>>>>> irrelevant to
+>>>>>>>>>>>>>>>>> pre-Tegra210 SoCs.
+>>>>>>>>>>>>>>>> Why are the warnings irrelevant?
+>>>>>>>>>>>>>>> That's what the DT binding doc says [1].
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> [1]
+>>>>>>>>>>>>>>> https://www.kernel.org/doc/Documentation/devicetree/binding=
+s/mmc/nvidia%2Ctegra20-sdhci.txt
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Although, looking at the driver's code and TRM docs, it see=
+ms
+>>>>>>>>>>>>>>> that all
+>>>>>>>>>>>>>>> those properties are really irrelevant only to the older Te=
+rga20
+>>>>>>>>>>>>>>> SoC. So
+>>>>>>>>>>>>>>> the binding doc is a bit misleading.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Nevertheless, the binding explicitly says that the properti=
+es are
+>>>>>>>>>>>>>>> optional, which is correct.
+>>>>>>>>>>>>>> Optional only means that drivers must not fail if these prop=
+erties
+>>>>>>>>>>>>>> aren't found, it doesn't mean that the driver can't warn tha=
+t they
+>>>>>>>>>>>>>> are missing.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Quite possibly the only reason why they were made optional i=
+s because
+>>>>>>>>>>>>>> they weren't part of the bindings since the beginning. Anyth=
+ing added
+>>>>>>>>>>>>>> to a binding after the first public release has to be option=
+al by
+>>>>>>>>>>>>>> definition, otherwise DT ABI wouldn't be stable.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> I think these warnings were added on purpose, though I also =
+see that
+>>>>>>>>>>>>>> there are only values for these in device tree for Tegra186 =
+and
+>>>>>>>>>>>>>> Tegra194
+>>>>>>>>>>>>>> but not Tegra210 where these should also be necessary.
+>>>>>>>>>>>> dt binding doc we have is common for MMC, SD and SDIO of all T=
+egras.
+>>>>>>>>>>>> Its not mandatory to have both 3v3 and 1v8 in device tree as b=
+ased
+>>>>>>>>>>>> on signal mode.
+>>>>>>>>>>>>
+>>>>>>>>>>>> As these driver strengths are SoC specific, they are part of T=
+egra
+>>>>>>>>>>>> SoC specific device tree where same values will be applicable =
+to all
+>>>>>>>>>>>> Tegra SoC specific platforms.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Based on interface usage on platform, we use one or both of th=
+em
+>>>>>>>>>>>> like sdcard supports dual voltage and we use both 3V3 and 1V8 =
+but if
+>>>>>>>>>>>> same interface is used for WIFI SD we use 1V8 only.
+>>>>>>>>>>>>
+>>>>>>>>>>>> So made these dt properties as optional.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Other reason they are optional is, Tegra210 and prior has driv=
+e
+>>>>>>>>>>>> strength settings part of apb_misc and Tegra186 and later has =
+driver
+>>>>>>>>>>>> strengths part of SDMMC controller. So,
+>>>>>>>>>>>>
+>>>>>>>>>>>> - Pinctrls "sdmmc-3v3-drv" and "sdmmc-1v8-drv" for driver stre=
+ngths
+>>>>>>>>>>>> are applicable for Tegra210 and prior.
+>>>>>>>>>>>> - dt properties pad-autocal-pull-up/down-offset-1v8/3v3-timeou=
+t are
+>>>>>>>>>>>> for T186 onwards for driver strengths
+>>>>>>>>>>>>
+>>>>>>>>>>>> Looks like dt binding doc need fix to clearly document these b=
+ased
+>>>>>>>>>>>> on SoC or agree with Yaml we can conditionally specify pinctrl=
+ or dt
+>>>>>>>>>>>> properties based on SoC dependent.
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>>> Adding Sowjanya who wrote this code. Perhaps she can clarify=
+ why the
+>>>>>>>>>>>>>> warnings were added. If these values /should/ be there on a =
+subset of
+>>>>>>>>>>>>>> Tegra, then I think we should keep them, or add them again, =
+but
+>>>>>>>>>>>>>> perhaps
+>>>>>>>>>>>>>> add a better way of identifying when they are necessary and =
+when
+>>>>>>>>>>>>>> it is
+>>>>>>>>>>>>>> safe to work without them.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> That said, looking at those checks I wonder if they are perh=
+aps just
+>>>>>>>>>>>>>> wrong. Or at the very least they seem redundant. It looks to=
+ me like
+>>>>>>>>>>>>>> they can just be:
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>        if (tegra_host->pinctrl_state_XYZ =3D=3D NULL) {
+>>>>>>>>>>>>>>            ...
+>>>>>>>>>>>>>>        }
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> That !IS_ERR(...) doesn't seem to do anything. But in that c=
+ase, it's
+>>>>>>>>>>>>>> also obvious why we're warning about them on platforms where=
+ these
+>>>>>>>>>>>>>> properties don't exist in DT.
+>>>>>>>>>>>> As drive strengths are through dt properties for T186 and late=
+r and
+>>>>>>>>>>>> thru pinctrl for T210 and prior, driver first checks for dt au=
+tocal
+>>>>>>>>>>>> timeout pull-up/down properties and if they are not found, it =
+then
+>>>>>>>>>>>> checks for presence of pinctrl_state_xyx_drv only when valid
+>>>>>>>>>>>> pinctrl_state_xyz is present.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Driver expects either pinctrl or dt properties and shows warni=
+ng
+>>>>>>>>>>>> when neither of them are present as its mandatory to use fixed
+>>>>>>>>>>>> driver strengths when auto calibration fails.
+>>>>>>>>>>>>
+>>>>>>>>>>>>        err =3D device_property_read_u32(host->mmc->parent,
+>>>>>>>>>>>>                "nvidia,pad-autocal-pull-down-offset-3v3-timeou=
+t",
+>>>>>>>>>>>>                &autocal->pull_down_3v3_timeout);
+>>>>>>>>>>>>        if (err) {
+>>>>>>>>>>>>            if (!IS_ERR(tegra_host->pinctrl_state_3v3) &&
+>>>>>>>>>>>>                (tegra_host->pinctrl_state_3v3_drv =3D=3D NULL)=
+)
+>>>>>>>>>>>>                pr_warn("%s: Missing autocal timeout 3v3-pad dr=
+vs\n",
+>>>>>>>>>>>>                    mmc_hostname(host->mmc));
+>>>>>>>>>>>>            autocal->pull_down_3v3_timeout =3D 0;
+>>>>>>>>>>>>        }
+>>>>>>>>>>>>
+>>>>>>>>>>>>>> So I think we either need to add those values where appropri=
+ate so
+>>>>>>>>>>>>>> that
+>>>>>>>>>>>>>> the warning doesn't show, or we need to narrow down where th=
+ey are
+>>>>>>>>>>>>>> really needed and add a corresponding condition.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> But again, perhaps Sowjanya can help clarify if these really=
+ are only
+>>>>>>>>>>>>>> needed on Tegra210 and later or if these also apply to older=
+ chips.
+>>>>>>>>>>>>> Either way will be cleaner to convert the DT binding to YAML =
+rather
+>>>>>>>>>>>>> than
+>>>>>>>>>>>>> clutter the driver, IMO.
+>>>>>>>>>>>>>
+>>>>>>>>>>> Auto calibration is present from Tegra30 onward and looking int=
+o
+>>>>>>>>>>> change where autocalibration was added to sdhci driver somehow =
+it was
+>>>>>>>>>>> enabled only for T30/T210/T186/T194.
+>>>>>>>>>>>
+>>>>>>>>>>> tegra_sdhci_parse_pad_autocal_dt() was added when auto-calibrat=
+ion
+>>>>>>>>>>> was added to driver and I see this dt parse is being done
+>>>>>>>>>>> irrespective of NVQUIRK_HAS_PADCALIB quirk so even on platforms
+>>>>>>>>>>> without auto cal enabled in driver, these messages shows up.
+>>>>>>>>>>>
+>>>>>>>>>>> This should be fixed in driver to allow
+>>>>>>>>>>> tegra_sdhci_parse_pad_autocal_dt() only when NVQUIRK_HAS_PADCAL=
+IB is
+>>>>>>>>>>> set to avoid dt parsing to happen on platforms that don't have =
+auto
+>>>>>>>>>>> cal enabled.
+>>>>>>>>>> Warning on missing drive strengths when auto cal is enabled shou=
+ld be
+>>>>>>>>>> present as we should switch to fixed recommended drive strengths=
+ when
+>>>>>>>>>> auto cal fails.
+>>>>>>>>>>
+>>>>>>>>>> So probably proper fix should be
+>>>>>>>>>>
+>>>>>>>>>> - allow tegra_sdhci_parse_pad_autocal_dt() only when
+>>>>>>>>>> NVQUIRK_HAS_PADCALIB is set
+>>>>>>>>>>
+>>>>>>>>>> - current driver sets NVQUIRK_HAS_PADCALIB for T30 as well so ne=
+ed to
+>>>>>>>>>> add pinctrls "sdmmc-3v3-drv" and "sdmmc-1v8-drv" to Tegra30 devi=
+ce tree.
+>>>>>>>>> [Correction] T30 has same drive strengths to use irrespective of =
+signal
+>>>>>>>>> voltage and it doesn't have pad control. So for T3- we can update=
+ device
+>>>>>>>>> tree to specify "default" pinctrl with drvup/dn settings.
+>>>>>>>>>> - Keep warning message of missing auto cal timeouts as its manda=
+tory
+>>>>>>>>>> to use fixed recommended driver strengths when auto cal fails.
+>>>>>>>>>>
+>>>>>>>>> Regarding warnings, I guess simpler and easy fix is to remove war=
+ning
+>>>>>>>>> message on missing 3v3/1v8 drive strengths as pinctrl/dt properti=
+es were
+>>>>>>>>> already added for T210/186/194 where we need and old device tree =
+don't
+>>>>>>>>> have them but the case where auto cal can fail is very rare.
+>>>>>>>>>
+>>>>>>>>> Otherwise should update driver to allow
+>>>>>>>>> tegra_sdhci_parse_pad_autocal_dt() only when NVQUIRK_HAS_PADCALIB=
+ is set
+>>>>>>>>> and also within tegra_sdhci_parse_pad_autocal_dt() show warning o=
+f
+>>>>>>>>> missing 3v3/1v8 settings only when NVQUIRK_NEEDS_PAD_CONTROL is s=
+et.
+>>>>>>>>>
+>>>>>>>>> Thierry, please suggest if you prefer to removing warnings or fix=
+ driver
+>>>>>>>>> to show warning based on PADCALIB and PAD_CONTROL quirks.
+>>>>>>>> The SDIO PINCTRL drive-strengths are usually a part of the board's
+>>>>>>>> default PINCTRL state, which is either preset by bootloader or by
+>>>>>>>> PINCTRL driver early at a boot time.
+>>>>>>>>
+>>>>>>>> The SDIO drive-strengths values should be board-specific and not
+>>>>>>>> SoC-specific because they should depend on the electrical properti=
+es of
+>>>>>>>> the board, IIUC.
+>>>>>> Drive strengths we program here when auto calibration fails are reco=
+mmended
+>>>>>> values based on pre-SI circuit analysis and characterized across PVT=
+.
+>>>>>>
+>>>>>> So,=C2=A0 these fail safe values are same for all boards of specific=
+ SoC as all
+>>>>>> platform designs follow the design guidelines.
+>>>>>>
+>>>>>>>> If the SDIO PINCTRL states are mandatory for the SDHCI nodes in th=
+e
+>>>>>>>> device-trees, then the DT binding is wrong since it says that all
+>>>>>>>> properties are optional. But I think that the current binding is o=
+kay,
+>>>>>>>> since today SDHCI PINCTRL drive-strengths are specified implicitly=
+ in
+>>>>>>>> the device-trees, and thus, there is no real need to emit the nois=
+y
+>>>>>>>> warnings in this case.
+>>>>>>> For now I will keep $subject patch applied, but please tell me if I
+>>>>>>> should drop it so we can start over.
+>>>>>>>
+>>>>>>> In any case, I would appreciate it if someone could have a stab at
+>>>>>>> converting sdhci and tegra DT bindings to yaml.
+>>>>>>>
+>>>>>>> Kind regards
+>>>>>>> Uffe
+>>>>>> HI Uffe,
+>>>>>>
+>>>>>> Please drop $subject patch. Will send patch that allows parsing for =
+these
+>>>>>> properties only for SoC where auto cal is enabled as that's where dr=
+iver
+>>>>>> needs these properties.
+>>>>>>
+>>>>>> So with this fix, warning will not show up on systems where autocal =
+is not
+>>>>>> enabled.
+>>>>> Yes, I think that's a better option. Have we ensured that on all syst=
+ems
+>>>>> where autocal is enabled these values are part of the device tree? Ju=
+st
+>>>>> making sure that we're not going to have some generation still spit o=
+ut
+>>>>> these warnings because we forgot to update the device tree.
+>>>>>
+>>>>> For example I see that we set NVQUIRK_HAS_PADCALIB but I don't see th=
+ese
+>>>>> properties being set in arch/arm/boot/dts/tegra30.dtsi. Can you add a
+>>>>> patch that also adds the properties for Tegra30?
+>>>> I don't see the warnings on T30 using Sowjanya's patch which checks fo=
+r
+>>>> NVQUIRK_NEEDS_PAD_CONTROL and not NVQUIRK_HAS_PADCALIB.
+>> Both of these quirks are different.
 >>
->>> I also noticed that you keep the device open (do not call the
->>> input_device's close callback) when inhibited and just throw away
->>> any events generated. This seems inefficient and may lead to
->>> the internal state getting out of sync. What if a key is pressed
->>> while inhibited and then the device is uninhibited while the key
->>> is still pressed?  Now the press event is lost and userspace
->>> querying the current state will see the pressed key as being
->>> released.
-> 
-> This is a good point. We should look into signalling that some events
-> have been dropped (via EV_SYN/SYN_DROPPED) so that clients are aware of
-> it.
-> 
-
-It seems to me that the situation Hans envisions is not possible,
-or will not be possible with a simple change. Let me explain.
-
-For a start, let's recall that the input core prevents consecutive
-events of the same kind (type _and_ code _and_ value) from being
-delivered to handlers. The decision is made in input_get_disposition().
-For EV_KEY it is:
-
-		if (is_event_supported(code, dev->keybit, KEY_MAX)) {
-
-			/* auto-repeat bypasses state updates */
-			if (value == 2) {
-				disposition = INPUT_PASS_TO_HANDLERS;
-				break;
-			}
-
-			if (!!test_bit(code, dev->key) != !!value) {
-
-				__change_bit(code, dev->key);
-				disposition = INPUT_PASS_TO_HANDLERS;
-			}
-		}
-
-Let's now focus on value != 2 (events other than auto-repeat).
-The disposition changes from the default INPUT_IGNORE_EVENT to
-INPUT_PASS_TO_HANDLERS only when the event in question changes
-the current state: either by releasing a pressed key, or by
-pressing a released key. Subsequent releases of a released key
-or subsequent presses of a pressed key will be ignored.
-
-What Hans points out is the possibility of uninhibiting a device
-while its key is pressed and then releasing the key. First of all,
-during inhibiting input_dev_release_keys() is called, so input_dev's
-internal state will be cleared of all pressed keys. Then the device
-- after being uninhibited - all of a sudden produces a key release
-event. It will be ignored as per the "subsequent releases of a
-released key" case, so the handlers will not be passed an unmatched
-key release event. Assuming that passing an unmatched key release
-event was Hans's concern, in this case it seems impossible.
-
-Now, the value of 2 (auto-repeat) needs some attention. There are two
-cases to consider: the device uses input core's software repeat or it
-uses its own (hardware) repeat.
-
-Let's consider the first case. The timer which generates auto-repeat
-is only started on a key press event and only stopped on a key release
-event. As such, if any auto-repeat was in progress when inhibiting
-happened, it must have been stopped as per input_dev_release_keys().
-Then the key is pressed and held after the device has been inhibited,
-and the device is being uninhibited. Since it uses software auto-repeat,
-no events will be reported by the device until the key is released,
-and, as explained above, the release event will be ignored.
-
-Let's consider the second case. The key is pressed and held after the
-device has been inhibited and the device is being uninhibited. The worst
-thing that can happen is unmatched key repeat events will start coming
-from the device. We must prevent them from reaching the handlers and
-ignore them instead. So I suggest something on the lines of:
-
-if (is_event_supported(code, dev->keybit, KEY_MAX)) {
-
-			/* auto-repeat bypasses state updates */
--			if (value == 2) {
-+			if (value == 2 && test_bit(code, dev->key)) {
-				disposition = INPUT_PASS_TO_HANDLERS;
-				break;
-			}
-
-The intended meaning is "ignore key repeat events if the key is not
-pressed".
-
-With this small change I believe it is not possible to have neither
-unmatched release nor unmatched repeat being delivered to handlers.
-
-Regards,
-
-Andrzej
+>> PADCALIB is for auto calibration support.
+>>
+>> NEEDS_PAD_CONTROL is for SoC having separate 3V3 and 1V8 pads where they
+>> have pad state selection and also diff drive strengths apply based on 3V=
+3
+>> and 1V8 which are used only when auto cal is not used/failed.
+> Great, would you mind sending out a patch that describes their uses
+> somewhere above their definitions? It'd be good to have this documented
+> in the code in case this ever comes up again.
+>
+> Thierry
+OK, Will send
