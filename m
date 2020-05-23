@@ -2,18 +2,18 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7789D1DF738
-	for <lists+linux-tegra@lfdr.de>; Sat, 23 May 2020 14:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D94291DF748
+	for <lists+linux-tegra@lfdr.de>; Sat, 23 May 2020 14:48:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731216AbgEWM3Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 23 May 2020 08:29:25 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:23726 "EHLO zju.edu.cn"
+        id S1731266AbgEWMsN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 23 May 2020 08:48:13 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:24630 "EHLO zju.edu.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728969AbgEWM3Y (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 23 May 2020 08:29:24 -0400
+        id S1726671AbgEWMsN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 23 May 2020 08:48:13 -0400
 Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app4 (Coremail) with SMTP id cS_KCgAnfwkVF8leVdkSAg--.9139S4;
-        Sat, 23 May 2020 20:29:13 +0800 (CST)
+        by mail-app4 (Coremail) with SMTP id cS_KCgB3zwl+G8leagsTAg--.11847S4;
+        Sat, 23 May 2020 20:48:02 +0800 (CST)
 From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
 To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
 Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
@@ -22,14 +22,14 @@ Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] spi: tegra20-slink: Fix runtime PM imbalance on error
-Date:   Sat, 23 May 2020 20:29:09 +0800
-Message-Id: <20200523122909.25247-1-dinghao.liu@zju.edu.cn>
+Subject: [PATCH] [v2] spi: tegra20-sflash: Fix runtime PM imbalance on error
+Date:   Sat, 23 May 2020 20:47:58 +0800
+Message-Id: <20200523124758.28604-1-dinghao.liu@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgAnfwkVF8leVdkSAg--.9139S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWfKrb_Cr
-        s0v3Z7Wr4Sgr4kJF17uay3ZrySv3Z8Xr1vqrs7tFy3K3909FnrC34DXFn0krs8uw4UAr1q
-        yr93KFyxAr98CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: cS_KCgB3zwl+G8leagsTAg--.11847S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWfZrg_Cr
+        s0qr9rGr4fKFWkW3WUG343ZrySvFZ8Zr1vqrs2yFy3K39YvF1Uu34kXrs8Cr18u3yjyr1q
+        yr95KFyxArn8CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
         9fnUUIcSsGvfJTRUUUbIkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
         wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
         vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
@@ -43,7 +43,7 @@ X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWfKrb_Cr
         CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
         14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
         9x0JUID73UUUUU=
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgEJBlZdtORShQABsB
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgEJBlZdtORShQADsD
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -60,21 +60,21 @@ Changelog:
 
 v2: - Use pm_runtime_put_noidle() instead of pm_runtime_put().
 ---
- drivers/spi/spi-tegra20-slink.c | 1 +
+ drivers/spi/spi-tegra20-sflash.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
-index 7f4d932dade7..a07b72e9c344 100644
---- a/drivers/spi/spi-tegra20-slink.c
-+++ b/drivers/spi/spi-tegra20-slink.c
-@@ -1118,6 +1118,7 @@ static int tegra_slink_probe(struct platform_device *pdev)
+diff --git a/drivers/spi/spi-tegra20-sflash.c b/drivers/spi/spi-tegra20-sflash.c
+index 514429379206..02cf5f463ba6 100644
+--- a/drivers/spi/spi-tegra20-sflash.c
++++ b/drivers/spi/spi-tegra20-sflash.c
+@@ -491,6 +491,7 @@ static int tegra_sflash_probe(struct platform_device *pdev)
  	ret = pm_runtime_get_sync(&pdev->dev);
  	if (ret < 0) {
  		dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
 +		pm_runtime_put_noidle(&pdev->dev);
  		goto exit_pm_disable;
  	}
- 	tspi->def_command_reg  = SLINK_M_S;
+ 
 -- 
 2.17.1
 
