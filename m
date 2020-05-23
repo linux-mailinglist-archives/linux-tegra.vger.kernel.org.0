@@ -2,79 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 589D21DF750
-	for <lists+linux-tegra@lfdr.de>; Sat, 23 May 2020 14:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A4E1DF8A0
+	for <lists+linux-tegra@lfdr.de>; Sat, 23 May 2020 19:13:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731318AbgEWM5U (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 23 May 2020 08:57:20 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:25134 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731216AbgEWM5S (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 23 May 2020 08:57:18 -0400
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app4 (Coremail) with SMTP id cS_KCgBXrwmgHcleqCMTAg--.8066S4;
-        Sat, 23 May 2020 20:57:08 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] spi: tegra114: Fix runtime PM imbalance on error
-Date:   Sat, 23 May 2020 20:57:04 +0800
-Message-Id: <20200523125704.30300-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgBXrwmgHcleqCMTAg--.8066S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWfWrc_Cr
-        s8Xr1xKF4SgFsrJa1jga43ZrySqF98Xr1Fqr1vyFy3K3yq9r1UC34DXr1qkF47uw47ZF1q
-        yFn0gFySyrn8CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbIAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
-        JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48J
-        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
-        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
-        14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
-        uYvjfUeWlkDUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgEJBlZdtORShQAFsF
+        id S2388092AbgEWRMM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 23 May 2020 13:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387606AbgEWRML (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 23 May 2020 13:12:11 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFA1C061A0E
+        for <linux-tegra@vger.kernel.org>; Sat, 23 May 2020 10:12:11 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jcXgR-0007uE-FA; Sat, 23 May 2020 19:11:39 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jcXgG-0004qV-BC; Sat, 23 May 2020 19:11:28 +0200
+Date:   Sat, 23 May 2020 19:11:28 +0200
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Yangtao Li <tiny.windzz@gmail.com>
+Cc:     claudiu.beznea@microchip.com, thierry.reding@gmail.com,
+        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+        ludovic.desroches@microchip.com, rjui@broadcom.com,
+        sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+        f.fainelli@gmail.com, nsaenzjulienne@suse.de, shc_work@mail.ru,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, vz@mleia.com,
+        slemieux.tyco@gmail.com, khilman@baylibre.com,
+        matthias.bgg@gmail.com, heiko@sntech.de, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, mripard@kernel.org, wens@csie.org,
+        jonathanh@nvidia.com, linux@prisktech.co.nz,
+        linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 01/32] pwm: sun4i: convert to
+ devm_platform_ioremap_resource
+Message-ID: <20200523171128.suii6ixbb5kpem34@pengutronix.de>
+References: <20191229080610.7597-1-tiny.windzz@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191229080610.7597-1-tiny.windzz@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
+On Sun, Dec 29, 2019 at 08:05:39AM +0000, Yangtao Li wrote:
+> Use devm_platform_ioremap_resource() to simplify code.
+> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
+Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Changelog:
 
-v2: - Use pm_runtime_put_noidle() instead of pm_runtime_put().
----
- drivers/spi/spi-tegra114.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
-index 83edabdb41ad..c2c58871a947 100644
---- a/drivers/spi/spi-tegra114.c
-+++ b/drivers/spi/spi-tegra114.c
-@@ -1398,6 +1398,7 @@ static int tegra_spi_probe(struct platform_device *pdev)
- 	ret = pm_runtime_get_sync(&pdev->dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
-+		pm_runtime_put_noidle(&pdev->dev);
- 		goto exit_pm_disable;
- 	}
- 
 -- 
-2.17.1
-
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
