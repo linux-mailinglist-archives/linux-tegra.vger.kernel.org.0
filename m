@@ -2,146 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A96B71DFFDC
-	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 17:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D101E0147
+	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 19:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729362AbgEXPdG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 24 May 2020 11:33:06 -0400
-Received: from mga04.intel.com ([192.55.52.120]:4655 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728879AbgEXPdG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 24 May 2020 11:33:06 -0400
-IronPort-SDR: 3YwnvRi7lHSeMg/V31Qk3vZ37k7uZ9Npe3RNM16el3I4KrGcNXwmPILoea8GwC7HNhZZXzTgmq
- xnWM1HJpms5A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2020 08:33:06 -0700
-IronPort-SDR: QrK45m7zkqwMl8XRO5Mfaqz70ESsi8VKLD55T6xbt2A38ozJiTIaPwCWhwV2nvnjwQiK5lcLoI
- A5UliBJzU+yA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,430,1583222400"; 
-   d="scan'208";a="413277405"
-Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.157]) ([10.237.72.157])
-  by orsmga004.jf.intel.com with ESMTP; 24 May 2020 08:33:03 -0700
-Subject: Re: [PATCH] sdhci: tegra: Avoid reading autocal timeout values when
- not applicable
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        ulf.hansson@linaro.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com
-Cc:     digetx@gmail.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org
-References: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
-From:   Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Message-ID: <c29287da-a497-8b5e-7275-d2254ee4fb7e@intel.com>
-Date:   Sun, 24 May 2020 18:33:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S2387656AbgEXRwr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 24 May 2020 13:52:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387766AbgEXRwr (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 24 May 2020 13:52:47 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E41C05BD43
+        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:46 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id w10so18457719ljo.0
+        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7aR3YE6Bd8ZKirlEsF7qmRCiqSqK5gXeUv4sa0t1B5c=;
+        b=tMPJkT7nYXzIltgSxd8IMB1ZfmKN7RQ0Vo6jw6DbXG/aftDjIm52h3KjdYosFIX2sT
+         RzGuS+TYtE6hiLTN0iQbigzokbZAKHcxf9wx7XKLCbaQwIdYTpOGaaeT4grZeaKRTk8R
+         r+Kd8SsNnkBm1BTxWA4B713AxaeYjTfjYwgvl+CDmulG9VXTFkHhQmVaTfrIKKTp0mVk
+         Bhyf5rQbxEPM/uxJ4AE1+NiBHpoeNutdt7uIQSQ451dTP+EgKIcJNGZ3NhKYjiqhewaG
+         uMoo4vY6ZHHmtcqJa733wowG86MYgEOB7pfA42MrwsiSfEsXKtGaKKzIj4R71TIQSYOh
+         nkYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7aR3YE6Bd8ZKirlEsF7qmRCiqSqK5gXeUv4sa0t1B5c=;
+        b=qQ84nCxObYjcs8USf6TNDmtu7eeAN+7Ab7eez3Y5z9+kvPoHzV48XfSHwmThYkh+PS
+         IYZWKa0STS8c2qaf5s6/rj+VFZSJ2z8DDlbb52bHxvufjjti97hlIhtUh5Gn0VW/tBww
+         XBgOKYdlW/Gro+CIXUHuT/tkkNkO+o3X5JPhNxM/oMh/4mApH44YWFGZe38hznPAR0Vz
+         qPtgdGDgVGVXRqMfdnErslOyjr708YTn0vjzGmCyEDQEX5HBEy2tgsqml4+sjnJJKR9k
+         t4UIWJU9Q8w0xYPnJAMq0a90nmEzVr8h2kDxMLZfn7p5klegEvtK56EzAAyNVUMygLmk
+         pRow==
+X-Gm-Message-State: AOAM533m5ZmRKtMTihADzFyGWxlZ3LxKV5MB5hxeopqVnmAwPc8sJuJ4
+        uzdj1nrxKyvzhGbktoAWFHg=
+X-Google-Smtp-Source: ABdhPJx/D1WOpoi7YhAWGUmlWW8wdWMarJABuwSnWKv1uUXtK7oI2xLYIypZ0T3+PlXs0jNbKLMkxg==
+X-Received: by 2002:a2e:3517:: with SMTP id z23mr11915394ljz.147.1590342764482;
+        Sun, 24 May 2020 10:52:44 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
+        by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2020 10:52:43 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/4] Minor improvements for Host1x driver
+Date:   Sun, 24 May 2020 20:50:56 +0300
+Message-Id: <20200524175100.9334-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20/05/20 11:08 pm, Sowjanya Komatineni wrote:
-> When auto calibration timeouts, calibration is disabled and fail-safe
-> drive strength values are programmed based on the signal voltage.
-> 
-> Different fail-safe drive strength values based on voltage are
-> applicable only for SoCs supporting 3V3 and 1V8 pad controls.
-> 
-> So, this patch avoids reading these properties from the device tree
-> for SoCs not using pad controls and the warning of missing properties
-> will not show up on these SoC platforms.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Hello,
 
-Acked-by: Adrian Hunter <adrian.hunter@intel.com>
+This series contains some minor improvements for the Host1x driver which
+I picked up from an older local git branch. I selected the less invasive
+and most relevant patches and added one new patch that dumps the push
+buffer state, a day ago it helped me to debug SMMU driver issue that is
+easily triggered using the vanilla upstream Host1x driver.
 
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 57 ++++++++++++++++++++++++------------------
->  1 file changed, 33 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index 3e2c510..141b49b 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -605,6 +605,39 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
->  		autocal->pull_down_1v8 = 0;
->  
->  	err = device_property_read_u32(host->mmc->parent,
-> +			"nvidia,pad-autocal-pull-up-offset-sdr104",
-> +			&autocal->pull_up_sdr104);
-> +	if (err)
-> +		autocal->pull_up_sdr104 = autocal->pull_up_1v8;
-> +
-> +	err = device_property_read_u32(host->mmc->parent,
-> +			"nvidia,pad-autocal-pull-down-offset-sdr104",
-> +			&autocal->pull_down_sdr104);
-> +	if (err)
-> +		autocal->pull_down_sdr104 = autocal->pull_down_1v8;
-> +
-> +	err = device_property_read_u32(host->mmc->parent,
-> +			"nvidia,pad-autocal-pull-up-offset-hs400",
-> +			&autocal->pull_up_hs400);
-> +	if (err)
-> +		autocal->pull_up_hs400 = autocal->pull_up_1v8;
-> +
-> +	err = device_property_read_u32(host->mmc->parent,
-> +			"nvidia,pad-autocal-pull-down-offset-hs400",
-> +			&autocal->pull_down_hs400);
-> +	if (err)
-> +		autocal->pull_down_hs400 = autocal->pull_down_1v8;
-> +
-> +	/*
-> +	 * Different fail-safe drive strength values based on the signaling
-> +	 * voltage are applicable for SoCs supporting 3V3 and 1V8 pad controls.
-> +	 * So, avoid reading below device tree properies for SoCs that don't
-> +	 * have NVQUIRK_NEEDS_PAD_CONTROL.
-> +	 */
-> +	if (!(tegra_host->soc_data->nvquirks & NVQUIRK_NEEDS_PAD_CONTROL))
-> +		return;
-> +
-> +	err = device_property_read_u32(host->mmc->parent,
->  			"nvidia,pad-autocal-pull-up-offset-3v3-timeout",
->  			&autocal->pull_up_3v3_timeout);
->  	if (err) {
-> @@ -647,30 +680,6 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
->  				mmc_hostname(host->mmc));
->  		autocal->pull_down_1v8_timeout = 0;
->  	}
-> -
-> -	err = device_property_read_u32(host->mmc->parent,
-> -			"nvidia,pad-autocal-pull-up-offset-sdr104",
-> -			&autocal->pull_up_sdr104);
-> -	if (err)
-> -		autocal->pull_up_sdr104 = autocal->pull_up_1v8;
-> -
-> -	err = device_property_read_u32(host->mmc->parent,
-> -			"nvidia,pad-autocal-pull-down-offset-sdr104",
-> -			&autocal->pull_down_sdr104);
-> -	if (err)
-> -		autocal->pull_down_sdr104 = autocal->pull_down_1v8;
-> -
-> -	err = device_property_read_u32(host->mmc->parent,
-> -			"nvidia,pad-autocal-pull-up-offset-hs400",
-> -			&autocal->pull_up_hs400);
-> -	if (err)
-> -		autocal->pull_up_hs400 = autocal->pull_up_1v8;
-> -
-> -	err = device_property_read_u32(host->mmc->parent,
-> -			"nvidia,pad-autocal-pull-down-offset-hs400",
-> -			&autocal->pull_down_hs400);
-> -	if (err)
-> -		autocal->pull_down_hs400 = autocal->pull_down_1v8;
->  }
->  
->  static void tegra_sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
-> 
+Dmitry Osipenko (4):
+  gpu: host1x: Optimize BOs usage when firewall is enabled
+  gpu: host1x: Put gather's BO on pinning error
+  gpu: host1x: debug: Fix multiple channels emitting messages
+    simultaneously
+  gpu: host1x: debug: Dump push buffer state
+
+ drivers/gpu/host1x/debug.c       |  4 ++++
+ drivers/gpu/host1x/hw/debug_hw.c |  6 ++++++
+ drivers/gpu/host1x/job.c         | 27 ++++++++++++++++++++-------
+ 3 files changed, 30 insertions(+), 7 deletions(-)
+
+-- 
+2.26.0
 
