@@ -2,61 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D488F1E0149
-	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 19:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B241E017E
+	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 20:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387903AbgEXRwu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 24 May 2020 13:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
+        id S2387951AbgEXSif (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 24 May 2020 14:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387913AbgEXRwt (ORCPT
+        with ESMTP id S2387656AbgEXSif (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 24 May 2020 13:52:49 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 821B1C061A0E
-        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:49 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id z6so18359973ljm.13
-        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:49 -0700 (PDT)
+        Sun, 24 May 2020 14:38:35 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E3FC061A0E;
+        Sun, 24 May 2020 11:38:35 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id a4so9311932lfh.12;
+        Sun, 24 May 2020 11:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VRiXq9jvD5cunzbI/cTlKdAeJSiGSMflTkILhjo8iJU=;
-        b=Y7mar+F7PxVh1S2w9HVLeu0mYCxQga2HQ7WLa/UHBXgqumDOX5nbwSU24FoeJXNXxn
-         OiwLSvl6TmcY+W6PwaPPReq4X1wIto+8ki2zQDo1JtAOXJrK2iqF1Wv64iIZ+AIWPyvk
-         Gj0UUIzQvmd6n6r3dO4me+iXtl/FZ8ozr1qhrLBkfh2vBOii07nTEXU7lTD+u+72kmF1
-         yUM8ek4rAtXDPifI5iWWPYAlrjvXSFNgs3lA2Ah7hBoCGINwcqUlO0Oih5/UdOZkTuW9
-         3uuP95ozgIXbzur1s8vL7gC+tMx+eyE0KUUriQgl3vVFNf4RYl3BRSJLOF7vlXVDQ85Z
-         uXPQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pYT9f0p49OrTiOELlvubWq1vIb7g6shIaYTIu0Gm+zg=;
+        b=u5H9vvT5k8scDsx+POyU0shZVifa4FherTo/OapzZoNXp7Zidf7P3c5Od5c4Dd0L7Y
+         bRuxN1Mn0dqnL60ncB6+6EE8cGHbaCU7mxDPTJrC5O8UuCosT0HE4RAt44nUkkHTzEb+
+         iHThTWg3wd3gv/PMdzJdBL8ceQNRY2iCj6/p2+I+uxggEsD3jgP5OgU50yk3Qw+YCwlc
+         vQpStpZNdyvOs0zE8QRpRaIpUUf/Y0fPgaXbyO6mrwKGKLf+cGfx0GhMLt9Eqc0ggWZA
+         ZbQvFottb8EhvzKXW9E9DcTzIWIIoiaDn/ge5gjp3UXCyGYesfaCzjJmfxpEaqiUHj4X
+         W/Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VRiXq9jvD5cunzbI/cTlKdAeJSiGSMflTkILhjo8iJU=;
-        b=LLc5K9M8Br0cow0afbwBRjggns5uvugnFD73bgIvqr6GmwfvEJw/p0nnBzFpRK7RXi
-         kK1m/u1ypfXmIJvxMnb1sUnhMP6lWuD6fMuNBCn3vQrwyC04vUG0ahC90Pq1I7rpq3+r
-         ejigcblL/evrhp/4au0dUJ2UQVKxFCkV2BvSxJk1dpSq1wkXw2Rf9prnevSgHVKpO/Jh
-         5QbXvbOVXW6FnkwRFb09/pc7JMNW/NwI8Zx8Vak2lQsNjarYhRFh79vIdG7FmT8p0ZS1
-         E0wzjUVwJ52crKdaa+2zeT/F3ly03hiiY5AWs0QlewYuXe2sezTSYM1xNb/QxuCNQxgC
-         AHbA==
-X-Gm-Message-State: AOAM530WcyBkDVtTkqrkG7WTIcxANjTFgM34TpsYu0uvc/MogFecivIo
-        YkQ8ea8N3LelI2xKsBtgy8o=
-X-Google-Smtp-Source: ABdhPJxxHYozBMeF8YxtfRr0CLbWPcGZeJW1Sz76poXxA9qB7Tx4z89RTIrDddAQ51LQn316QbIf6A==
-X-Received: by 2002:a2e:3c14:: with SMTP id j20mr12580732lja.175.1590342768100;
-        Sun, 24 May 2020 10:52:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pYT9f0p49OrTiOELlvubWq1vIb7g6shIaYTIu0Gm+zg=;
+        b=R4OxF7raSN7YOz8YU+c9jIvBNXIPC4Ck6w6cqXZRS1YrGCnS/Eu7fty/M/xjh3tPBp
+         AYN+ayli+YTTsGCeZwNARxIEBGbNfNuxLL4aVMDz5rD6OiX//4otvBOs6Ez7D5M6NJj/
+         kUCexg4ZlT0ch1/3S8mXlNVxgf67fXxD7qtrx/lloG4cllDToyLgE3kokZlHc/wOwl+X
+         hbU9awKjNXi6mNXPj56sHNX3WXVHra4OECSkQxGgf+YJJR3jToT6GzmOUzgawwngG5Ic
+         5A8JHXBmvTwSalcvnlPtVQZM1YXr8XKUiUxJfyRpfRm6GMa3vqCd7cXupjh93fcBxSS0
+         HjtQ==
+X-Gm-Message-State: AOAM531S2edKp28NwnOdmu2G2CYu0ieBR0tNTSAkeBqphpSbVD2gAkN9
+        3dqc3fVgsu3w7CQM20yam0CkUTai
+X-Google-Smtp-Source: ABdhPJzUNqnOTqln023qni+m9VSVMUUYbEvwMh/SkJCeg0imawJKLvbeaV3mZRh2K0yxoCmHRIUK7w==
+X-Received: by 2002:a19:be11:: with SMTP id o17mr12401587lff.187.1590345513713;
+        Sun, 24 May 2020 11:38:33 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
-        by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.47
+        by smtp.gmail.com with ESMTPSA id w25sm4079428lfn.42.2020.05.24.11.38.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 10:52:47 -0700 (PDT)
+        Sun, 24 May 2020 11:38:33 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 4/4] gpu: host1x: debug: Dump push buffer state
-Date:   Sun, 24 May 2020 20:51:00 +0300
-Message-Id: <20200524175100.9334-5-digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] iommu/tegra-smmu: Add missing locks around mapping operations
+Date:   Sun, 24 May 2020 21:37:55 +0300
+Message-Id: <20200524183755.3774-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200524175100.9334-1-digetx@gmail.com>
-References: <20200524175100.9334-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -64,35 +65,117 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-When job hangs and there is a memory error pointing at channel's push
-buffer, it is very handy to know the push buffer's state. This patch
-makes the push buffer's state to be dumped into KMSG in addition to the
-job's gathers.
+The mapping operations of the Tegra SMMU driver are subjected to a race
+condition issues because SMMU Address Space isn't allocated and freed
+atomically, while it should be. This patch makes the mapping operations
+atomic, it fixes an accidentally released Host1x Address Space problem
+which happens while running multiple graphics tests in parallel on
+Tegra30, i.e. by having multiple threads racing with each other in the
+Host1x's submission and completion code paths, performing IOVA mappings
+and unmappings in parallel.
 
+Cc: <stable@vger.kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/host1x/hw/debug_hw.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/iommu/tegra-smmu.c | 43 +++++++++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/host1x/hw/debug_hw.c b/drivers/gpu/host1x/hw/debug_hw.c
-index 02125842071c..c25c3fe0a295 100644
---- a/drivers/gpu/host1x/hw/debug_hw.c
-+++ b/drivers/gpu/host1x/hw/debug_hw.c
-@@ -192,8 +192,14 @@ static void show_gather(struct output *o, phys_addr_t phys_addr,
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 7426b7666e2b..4f956a797838 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -12,6 +12,7 @@
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/spinlock.h>
+ #include <linux/dma-mapping.h>
  
- static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
+ #include <soc/tegra/ahb.h>
+@@ -49,6 +50,7 @@ struct tegra_smmu_as {
+ 	struct iommu_domain domain;
+ 	struct tegra_smmu *smmu;
+ 	unsigned int use_count;
++	spinlock_t lock;
+ 	u32 *count;
+ 	struct page **pts;
+ 	struct page *pd;
+@@ -308,6 +310,8 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
+ 		return NULL;
+ 	}
+ 
++	spin_lock_init(&as->lock);
++
+ 	/* setup aperture */
+ 	as->domain.geometry.aperture_start = 0;
+ 	as->domain.geometry.aperture_end = 0xffffffff;
+@@ -578,7 +582,7 @@ static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
+ 		struct page *page;
+ 		dma_addr_t dma;
+ 
+-		page = alloc_page(GFP_KERNEL | __GFP_DMA | __GFP_ZERO);
++		page = alloc_page(GFP_ATOMIC | __GFP_DMA | __GFP_ZERO);
+ 		if (!page)
+ 			return NULL;
+ 
+@@ -655,8 +659,9 @@ static void tegra_smmu_set_pte(struct tegra_smmu_as *as, unsigned long iova,
+ 	smmu_flush(smmu);
+ }
+ 
+-static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+-			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++static int
++tegra_smmu_map_locked(struct iommu_domain *domain, unsigned long iova,
++		      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
  {
-+	struct push_buffer *pb = &cdma->push_buffer;
- 	struct host1x_job *job;
+ 	struct tegra_smmu_as *as = to_smmu_as(domain);
+ 	dma_addr_t pte_dma;
+@@ -685,8 +690,9 @@ static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return 0;
+ }
  
-+	host1x_debug_output(o, "Push Buffer at %08x, %d words\n",
-+			    pb->dma, pb->size / 4);
-+
-+	show_gather(o, pb->dma, pb->size / 4, cdma, pb->dma, pb->mapped);
-+
- 	list_for_each_entry(job, &cdma->sync_queue, list) {
- 		unsigned int i;
+-static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+-			       size_t size, struct iommu_iotlb_gather *gather)
++static size_t
++tegra_smmu_unmap_locked(struct iommu_domain *domain, unsigned long iova,
++			size_t size, struct iommu_iotlb_gather *gather)
+ {
+ 	struct tegra_smmu_as *as = to_smmu_as(domain);
+ 	dma_addr_t pte_dma;
+@@ -702,6 +708,33 @@ static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 	return size;
+ }
  
++static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
++			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++{
++	struct tegra_smmu_as *as = to_smmu_as(domain);
++	unsigned long flags;
++	int ret;
++
++	spin_lock_irqsave(&as->lock, flags);
++	ret = tegra_smmu_map_locked(domain, iova, paddr, size, prot, gfp);
++	spin_unlock_irqrestore(&as->lock, flags);
++
++	return ret;
++}
++
++static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
++			       size_t size, struct iommu_iotlb_gather *gather)
++{
++	struct tegra_smmu_as *as = to_smmu_as(domain);
++	unsigned long flags;
++
++	spin_lock_irqsave(&as->lock, flags);
++	size = tegra_smmu_unmap_locked(domain, iova, size, gather);
++	spin_unlock_irqrestore(&as->lock, flags);
++
++	return size;
++}
++
+ static phys_addr_t tegra_smmu_iova_to_phys(struct iommu_domain *domain,
+ 					   dma_addr_t iova)
+ {
 -- 
 2.26.0
 
