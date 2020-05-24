@@ -2,59 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08D101E0147
-	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 19:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D7DB1E0146
+	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 19:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387656AbgEXRwr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S2387899AbgEXRwr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Sun, 24 May 2020 13:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387766AbgEXRwr (ORCPT
+        with ESMTP id S2387656AbgEXRwr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Sun, 24 May 2020 13:52:47 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E41C05BD43
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3D7C061A0E
         for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:46 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id w10so18457719ljo.0
+Received: by mail-lj1-x243.google.com with SMTP id o14so18455284ljp.4
         for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7aR3YE6Bd8ZKirlEsF7qmRCiqSqK5gXeUv4sa0t1B5c=;
-        b=tMPJkT7nYXzIltgSxd8IMB1ZfmKN7RQ0Vo6jw6DbXG/aftDjIm52h3KjdYosFIX2sT
-         RzGuS+TYtE6hiLTN0iQbigzokbZAKHcxf9wx7XKLCbaQwIdYTpOGaaeT4grZeaKRTk8R
-         r+Kd8SsNnkBm1BTxWA4B713AxaeYjTfjYwgvl+CDmulG9VXTFkHhQmVaTfrIKKTp0mVk
-         Bhyf5rQbxEPM/uxJ4AE1+NiBHpoeNutdt7uIQSQ451dTP+EgKIcJNGZ3NhKYjiqhewaG
-         uMoo4vY6ZHHmtcqJa733wowG86MYgEOB7pfA42MrwsiSfEsXKtGaKKzIj4R71TIQSYOh
-         nkYw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZqX/ziB/3PC8jQi/MNjK/OF3UvmP/IxboFt/kpaG6UI=;
+        b=jNSTgmjo7JlEJiRl4entQGAY/9K5w//iPKe7T/dmGV9JEa8Tnfk9pxlc3z1q72l2UI
+         1aHWwA1qy7qFQBdXxPMlpvP4udhnvZ0nZvJBX7l6seLztMirVgP/FH0vxQGlGeV7+E9h
+         dMcNpM+7nks/gVavzNJXv67F7mGHvyN3JT3TmU1VymyNvblKsCs9XeArZU6UCV8w/Hvu
+         s5rQ74eHYc65EWgTmjENLjitWGq/xPu2HFbsy8Y8fGze3Tj7SlatqvTbVRjURaQj+Upy
+         NxJoIPs5jlb9J7Sopemmx4UFBa0jCUskrdLfoWqjaWVK8J8TojIxXMqMqHftDrX9jdji
+         H26Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7aR3YE6Bd8ZKirlEsF7qmRCiqSqK5gXeUv4sa0t1B5c=;
-        b=qQ84nCxObYjcs8USf6TNDmtu7eeAN+7Ab7eez3Y5z9+kvPoHzV48XfSHwmThYkh+PS
-         IYZWKa0STS8c2qaf5s6/rj+VFZSJ2z8DDlbb52bHxvufjjti97hlIhtUh5Gn0VW/tBww
-         XBgOKYdlW/Gro+CIXUHuT/tkkNkO+o3X5JPhNxM/oMh/4mApH44YWFGZe38hznPAR0Vz
-         qPtgdGDgVGVXRqMfdnErslOyjr708YTn0vjzGmCyEDQEX5HBEy2tgsqml4+sjnJJKR9k
-         t4UIWJU9Q8w0xYPnJAMq0a90nmEzVr8h2kDxMLZfn7p5klegEvtK56EzAAyNVUMygLmk
-         pRow==
-X-Gm-Message-State: AOAM533m5ZmRKtMTihADzFyGWxlZ3LxKV5MB5hxeopqVnmAwPc8sJuJ4
-        uzdj1nrxKyvzhGbktoAWFHg=
-X-Google-Smtp-Source: ABdhPJx/D1WOpoi7YhAWGUmlWW8wdWMarJABuwSnWKv1uUXtK7oI2xLYIypZ0T3+PlXs0jNbKLMkxg==
-X-Received: by 2002:a2e:3517:: with SMTP id z23mr11915394ljz.147.1590342764482;
-        Sun, 24 May 2020 10:52:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZqX/ziB/3PC8jQi/MNjK/OF3UvmP/IxboFt/kpaG6UI=;
+        b=ByVrm73ubTj/2BFkrXPF3ystiNoqV9oKkRm1VLRlR05xsGW4tXnjP4dnS5DfsXACsl
+         P1fJDpRhopMbVkHwIsoenyDWCGRGXGJT3i2hwt3Gc8d11p/Clf+I7EgPkyxeUdymwXZi
+         bhjI4JBwJcvHUGj6aZA/GQ7JQ7JYJBZBn/kCfyHHB4EqZySRozt+LhsGwrL50AGamn7p
+         t+1eo+1UB1gg6mEyJBwGW8abrOu+AHjkPSaFM4fvNtR4GL7zm3TLLGqlYqrHiBdQUNsu
+         tP7atzjI8xfwWD+77hPIxOUw0v0ev+llo1NVcTT8xYMyetfmiPEvm4Bd+DB08U4uT+Ci
+         9rSg==
+X-Gm-Message-State: AOAM531W5doQBdNneosqDrwKGWFvxqUBQUe/QgNm/yqW3AYBO2+UnCoG
+        jXYgg94ZNj8iu8IEy26SwGU=
+X-Google-Smtp-Source: ABdhPJwGLV7Yi1e8Sv66wz7A1qTYC1R8o08w7VEY7vL/P7EyDKWAgu+eTDBV8ZV9Plp7JJ7w3YhdPA==
+X-Received: by 2002:a2e:958b:: with SMTP id w11mr12732072ljh.262.1590342765306;
+        Sun, 24 May 2020 10:52:45 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
-        by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.43
+        by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 10:52:43 -0700 (PDT)
+        Sun, 24 May 2020 10:52:44 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 0/4] Minor improvements for Host1x driver
-Date:   Sun, 24 May 2020 20:50:56 +0300
-Message-Id: <20200524175100.9334-1-digetx@gmail.com>
+Subject: [PATCH v1 1/4] gpu: host1x: Optimize BOs usage when firewall is enabled
+Date:   Sun, 24 May 2020 20:50:57 +0300
+Message-Id: <20200524175100.9334-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200524175100.9334-1-digetx@gmail.com>
+References: <20200524175100.9334-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -62,26 +64,57 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
+We don't need to hold and pin original BOs of the gathers in a case of
+enabled firewall because in this case gather's content is copied and the
+copy is used by the executed job.
 
-This series contains some minor improvements for the Host1x driver which
-I picked up from an older local git branch. I selected the less invasive
-and most relevant patches and added one new patch that dumps the push
-buffer state, a day ago it helped me to debug SMMU driver issue that is
-easily triggered using the vanilla upstream Host1x driver.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/gpu/host1x/job.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Dmitry Osipenko (4):
-  gpu: host1x: Optimize BOs usage when firewall is enabled
-  gpu: host1x: Put gather's BO on pinning error
-  gpu: host1x: debug: Fix multiple channels emitting messages
-    simultaneously
-  gpu: host1x: debug: Dump push buffer state
-
- drivers/gpu/host1x/debug.c       |  4 ++++
- drivers/gpu/host1x/hw/debug_hw.c |  6 ++++++
- drivers/gpu/host1x/job.c         | 27 ++++++++++++++++++++-------
- 3 files changed, 30 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
+index a10643aa89aa..a954bd41aa79 100644
+--- a/drivers/gpu/host1x/job.c
++++ b/drivers/gpu/host1x/job.c
+@@ -27,10 +27,13 @@ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
+ 				    u32 num_cmdbufs, u32 num_relocs)
+ {
+ 	struct host1x_job *job = NULL;
+-	unsigned int num_unpins = num_cmdbufs + num_relocs;
++	unsigned int num_unpins = num_relocs;
+ 	u64 total;
+ 	void *mem;
+ 
++	if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
++		num_unpins += num_cmdbufs;
++
+ 	/* Check that we're not going to overflow */
+ 	total = sizeof(struct host1x_job) +
+ 		(u64)num_relocs * sizeof(struct host1x_reloc) +
+@@ -183,6 +186,13 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 		job->num_unpins++;
+ 	}
+ 
++	/*
++	 * We will copy gathers BO content later, so there is no need to
++	 * hold and pin them.
++	 */
++	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
++		return 0;
++
+ 	for (i = 0; i < job->num_gathers; i++) {
+ 		struct host1x_job_gather *g = &job->gathers[i];
+ 		size_t gather_size = 0;
+@@ -216,7 +226,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 			goto unpin;
+ 		}
+ 
+-		if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) && host->domain) {
++		if (host->domain) {
+ 			for_each_sg(sgt->sgl, sg, sgt->nents, j)
+ 				gather_size += sg->length;
+ 			gather_size = iova_align(&host->iova, gather_size);
 -- 
 2.26.0
 
