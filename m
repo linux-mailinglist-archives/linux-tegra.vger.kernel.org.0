@@ -2,58 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61FC81E0148
+	by mail.lfdr.de (Postfix) with ESMTP id D488F1E0149
 	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 19:52:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387906AbgEXRwt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 24 May 2020 13:52:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51260 "EHLO
+        id S2387903AbgEXRwu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 24 May 2020 13:52:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387766AbgEXRwt (ORCPT
+        with ESMTP id S2387913AbgEXRwt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Sun, 24 May 2020 13:52:49 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A498AC05BD43
-        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:48 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id q2so18363411ljm.10
-        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:48 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 821B1C061A0E
+        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:49 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id z6so18359973ljm.13
+        for <linux-tegra@vger.kernel.org>; Sun, 24 May 2020 10:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/eQIGPn3KMuayvmsa1uBxd3r4xLA/7zWEvkyj+/TLy0=;
-        b=qFbpAYGm2ctEH/cC83guZs3dwS5irE0qdb6SQG2jOfs74P0SJmeFLRgzhWG2eCE88Z
-         9IG7Mdrywrc6/34gr1/fCDip09Xxn2K1L/Kud49oxmA1TLyRFBADa6tXVL6VD35Knlef
-         r8Qc+Dlai0N12/dbzZQfKKhgvsAJIOA75Z/B2jpEQInWxPEol/uksDQwvC3kIWyCXDjl
-         vmmRUc7g3GdY/vWj1Iq0+6bQz9aZovLpotnihjQQzFasUCo1DvGiwwZNTCfIk88ZJttB
-         5mXjAgDKC00EpzLlmI5sIpPqDHvmugmKfjsQXA0Manh0J42KocWSPNSrKRKw6AtskJfW
-         httA==
+        bh=VRiXq9jvD5cunzbI/cTlKdAeJSiGSMflTkILhjo8iJU=;
+        b=Y7mar+F7PxVh1S2w9HVLeu0mYCxQga2HQ7WLa/UHBXgqumDOX5nbwSU24FoeJXNXxn
+         OiwLSvl6TmcY+W6PwaPPReq4X1wIto+8ki2zQDo1JtAOXJrK2iqF1Wv64iIZ+AIWPyvk
+         Gj0UUIzQvmd6n6r3dO4me+iXtl/FZ8ozr1qhrLBkfh2vBOii07nTEXU7lTD+u+72kmF1
+         yUM8ek4rAtXDPifI5iWWPYAlrjvXSFNgs3lA2Ah7hBoCGINwcqUlO0Oih5/UdOZkTuW9
+         3uuP95ozgIXbzur1s8vL7gC+tMx+eyE0KUUriQgl3vVFNf4RYl3BRSJLOF7vlXVDQ85Z
+         uXPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/eQIGPn3KMuayvmsa1uBxd3r4xLA/7zWEvkyj+/TLy0=;
-        b=CS15Uj89nsKo56HXW2vN81QGIhsb8SarMGn2NmJOTIjOlVqHaQiIwCr6nOmB9A5EXB
-         VtE6vYOO/8ErzO4FPwtsca1BlnxyLtmsP6ZwBGQpFGRI0BRkQ459fgMo2ZdCKVuru04U
-         fFCgeNlE4OjHT6HrKz3HK4DNJaFRFgLtrhquQMZ/POAQ/TUPEQH8NRNjfLaWn95nTN7U
-         hVjvh1XyLaee3UQjvmeUk+rAweUWMQBn7PYWRKipX6RGRdHvslWtYFdAS2gKmHbBiTLM
-         /uQaOi4HNmI+34ngxJYuceu+punt2FekEYFn7LdJ75tAoMzDKOFRQwYIuMzMQ45xGUrq
-         hdEg==
-X-Gm-Message-State: AOAM530x00sbV29UiCbMcZBQ68GWBgx+VNWk2ndeevAd1LmKv89JSlaf
-        3BraHjgeipVv3EWjQC15PLs=
-X-Google-Smtp-Source: ABdhPJzzT3pdVktptKpAh2SToU/NOmklk6NdnbF+ydEgCUs1DHwV6vUPb6SLAa4FKS75PWQlahl9Nw==
-X-Received: by 2002:a2e:7d17:: with SMTP id y23mr11878027ljc.105.1590342767222;
-        Sun, 24 May 2020 10:52:47 -0700 (PDT)
+        bh=VRiXq9jvD5cunzbI/cTlKdAeJSiGSMflTkILhjo8iJU=;
+        b=LLc5K9M8Br0cow0afbwBRjggns5uvugnFD73bgIvqr6GmwfvEJw/p0nnBzFpRK7RXi
+         kK1m/u1ypfXmIJvxMnb1sUnhMP6lWuD6fMuNBCn3vQrwyC04vUG0ahC90Pq1I7rpq3+r
+         ejigcblL/evrhp/4au0dUJ2UQVKxFCkV2BvSxJk1dpSq1wkXw2Rf9prnevSgHVKpO/Jh
+         5QbXvbOVXW6FnkwRFb09/pc7JMNW/NwI8Zx8Vak2lQsNjarYhRFh79vIdG7FmT8p0ZS1
+         E0wzjUVwJ52crKdaa+2zeT/F3ly03hiiY5AWs0QlewYuXe2sezTSYM1xNb/QxuCNQxgC
+         AHbA==
+X-Gm-Message-State: AOAM530WcyBkDVtTkqrkG7WTIcxANjTFgM34TpsYu0uvc/MogFecivIo
+        YkQ8ea8N3LelI2xKsBtgy8o=
+X-Google-Smtp-Source: ABdhPJxxHYozBMeF8YxtfRr0CLbWPcGZeJW1Sz76poXxA9qB7Tx4z89RTIrDddAQ51LQn316QbIf6A==
+X-Received: by 2002:a2e:3c14:: with SMTP id j20mr12580732lja.175.1590342768100;
+        Sun, 24 May 2020 10:52:48 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
-        by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.46
+        by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 10:52:46 -0700 (PDT)
+        Sun, 24 May 2020 10:52:47 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 3/4] gpu: host1x: debug: Fix multiple channels emitting messages simultaneously
-Date:   Sun, 24 May 2020 20:50:59 +0300
-Message-Id: <20200524175100.9334-4-digetx@gmail.com>
+Subject: [PATCH v1 4/4] gpu: host1x: debug: Dump push buffer state
+Date:   Sun, 24 May 2020 20:51:00 +0300
+Message-Id: <20200524175100.9334-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200524175100.9334-1-digetx@gmail.com>
 References: <20200524175100.9334-1-digetx@gmail.com>
@@ -64,45 +64,35 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Once channel's job is hung, it dumps the channel's state into KMSG before
-tearing down the offending job. If multiple channels hang at once, then
-they dump messages simultaneously, making the debug info unreadable, and
-thus, useless. This patch adds mutex which allows only one channel to emit
-debug messages at a time.
+When job hangs and there is a memory error pointing at channel's push
+buffer, it is very handy to know the push buffer's state. This patch
+makes the push buffer's state to be dumped into KMSG in addition to the
+job's gathers.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/host1x/debug.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/host1x/hw/debug_hw.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
-index c0392672a842..1b4997bda1c7 100644
---- a/drivers/gpu/host1x/debug.c
-+++ b/drivers/gpu/host1x/debug.c
-@@ -16,6 +16,8 @@
- #include "debug.h"
- #include "channel.h"
+diff --git a/drivers/gpu/host1x/hw/debug_hw.c b/drivers/gpu/host1x/hw/debug_hw.c
+index 02125842071c..c25c3fe0a295 100644
+--- a/drivers/gpu/host1x/hw/debug_hw.c
++++ b/drivers/gpu/host1x/hw/debug_hw.c
+@@ -192,8 +192,14 @@ static void show_gather(struct output *o, phys_addr_t phys_addr,
  
-+static DEFINE_MUTEX(debug_lock);
+ static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
+ {
++	struct push_buffer *pb = &cdma->push_buffer;
+ 	struct host1x_job *job;
+ 
++	host1x_debug_output(o, "Push Buffer at %08x, %d words\n",
++			    pb->dma, pb->size / 4);
 +
- unsigned int host1x_debug_trace_cmdbuf;
++	show_gather(o, pb->dma, pb->size / 4, cdma, pb->dma, pb->mapped);
++
+ 	list_for_each_entry(job, &cdma->sync_queue, list) {
+ 		unsigned int i;
  
- static pid_t host1x_debug_force_timeout_pid;
-@@ -52,12 +54,14 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
- 	struct output *o = data;
- 
- 	mutex_lock(&ch->cdma.lock);
-+	mutex_lock(&debug_lock);
- 
- 	if (show_fifo)
- 		host1x_hw_show_channel_fifo(m, ch, o);
- 
- 	host1x_hw_show_channel_cdma(m, ch, o);
- 
-+	mutex_unlock(&debug_lock);
- 	mutex_unlock(&ch->cdma.lock);
- 
- 	return 0;
 -- 
 2.26.0
 
