@@ -2,69 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7B651E0184
-	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 20:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 407D51E01C3
+	for <lists+linux-tegra@lfdr.de>; Sun, 24 May 2020 21:09:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387920AbgEXSlV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 24 May 2020 14:41:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58774 "EHLO
+        id S2388014AbgEXTJN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 24 May 2020 15:09:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387656AbgEXSlV (ORCPT
+        with ESMTP id S2387744AbgEXTJN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 24 May 2020 14:41:21 -0400
+        Sun, 24 May 2020 15:09:13 -0400
 Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B81C061A0E;
-        Sun, 24 May 2020 11:41:19 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id a25so6832399ljp.3;
-        Sun, 24 May 2020 11:41:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB97C061A0E;
+        Sun, 24 May 2020 12:09:12 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id z18so18473630lji.12;
+        Sun, 24 May 2020 12:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i8KyzXHKIumyKcOOKIQxQqqoRSvdhyjaN9Ou/p7liK8=;
-        b=BqhRT/gd4E44riA6Wiy8Om0tHR69jQXMYmbdhNefaQphsk3H7v9+/R4I4EuLk/MrEP
-         +Dv2TRzhLwOpCc0n597mnkqxjySzcoio4vs5V0pPN+M+sYCjBDcFbMxrCiCswJh0QY4N
-         yzsg7iTNM4tTwkfFmmn7ZXuzXSy2ZcX8DNj+UBKpPMLu1EtZcgXxroyvdH7HPHp+ikfl
-         xuNzKBCj3bziZCjoV8U5N5dXY4cxhsdWtcveEi52GXgaX1HidVQJ6mBoKvpmWhJ9bdrN
-         oi9jyv6NLMP9rnzK+Vo6/cJGAr5sAL7GM95v2vLs0N70raolMn+Bml8LzNAeyqsIEKeX
-         W8iw==
+        bh=LMdjSe0e4mZx0DgOSlru/fa7QuHJbrDuWzDwWOCe4i0=;
+        b=LulrS0SBgqaBvc10gVG82AgEpTiv/NizjKbJz3SW/nPv+rc9Kww5tlxYj2lAwL5j4H
+         zp7bmG2Z8YPNmaoKM7O+18nR0dQ9VpcSqejFxbPilaq3c6YZZKjmtw+TqqPoROBkEUf8
+         yIOkHhUUwLrLaSzEiPTDntbjwj/KVDWjDVO//fnTTbeU7FPN4Av8a7k+gd597j02Lptk
+         UXK22LgKl7evFJELPdz0GeAPSvGVTKU3iyZWzXjCDyiy1WMkPBY9gXlaxfcR36rVSgui
+         VXjhjxmWympN8vVnu9g7K77FbdpUX5+4OKllqVobXgeAIGHkwoiZgGGu6nJzb5zxfSoc
+         RSUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=i8KyzXHKIumyKcOOKIQxQqqoRSvdhyjaN9Ou/p7liK8=;
-        b=qznJ4Jk2hper6ALol7ON5LuFiZtLpY807ks1A7D2tFQxHgpSNpVYDcE32GQf14odxq
-         MBh4Zdrj0f3UzrX6h2K3i3YmpE3TEW476DdMm1va+xiDmpVwkbo+/hCZMjLsBBvCl+Cx
-         2qNy2+AHC68AveAQhINZu8HsE/8soxBebAXCkimJn/7Bmcaf17soDC+eQacswSrk/oei
-         +hx2CAuoemgZkVollcPiHX7HKf9sMx58DC1ExHT6zz0AW/SZrr/HQdv5QdAVC9BwvRJD
-         5+po9FSdxWIXpE8SCLDdRomHGVtxlUvpmDbDnOo4M7YjCm20WjLmp09C92hkco/RtFie
-         I58g==
-X-Gm-Message-State: AOAM532CdBINbadCxW9rJVjKgkOpoWXAadIv8xBGzta2r2/I/itzC4/6
-        gblJVgK2sLswKgp31NChlBzgM95n
-X-Google-Smtp-Source: ABdhPJzswEHQjqu7AlJZeRjZr+f5jmG4PSyaBms0l5qUUhd3hzXmhpqNt+e61OpwIJBsdLbfxMAAbw==
-X-Received: by 2002:a2e:9746:: with SMTP id f6mr12032867ljj.189.1590345677778;
-        Sun, 24 May 2020 11:41:17 -0700 (PDT)
+        bh=LMdjSe0e4mZx0DgOSlru/fa7QuHJbrDuWzDwWOCe4i0=;
+        b=jcMHCRehz/g8ddNr90FBjJ3rCH4aAFovRg4nE7KmlFmvpZYV3A1yEw8hiIOzY3mdTV
+         Cm2RCF0Sn4BL5qYP2X6b9TF4FCgGR4q4tJhd1oEZbzcGHZDuug9Kkjg3fCWMRcQSD0Lb
+         d1paI9wMafM2cf5NcErKFpUSmEWS32q5OUzEdz721TDWMTrBdn6hvVaWUTMIjC8H5S5p
+         CTAMhlhpoah8jGFbupa1d/hEBtOoHLz4CYcApCt8Sv/svlP562pXM/yFVHWy1lzeDS0d
+         uhl8I0gI7I5btkUKxZW1SW5vO72abvDMrVwmScFpFhLebGIdwWiY665N5nmoEAUQuaEC
+         ymAw==
+X-Gm-Message-State: AOAM533XtP0hmYLVWt670TDpcTYsMllsNJ9ZQ+oKtQUtDzrNVLKQF2aw
+        Rx9omMATaRP1xwJtWThn4DHRpPWi
+X-Google-Smtp-Source: ABdhPJxNKQlYnDW4nt6D6EISvLPXoXzl5UspSEvu55rh3XUIxr9pk7sfF3shf6pyQtcVpgs9HppSOw==
+X-Received: by 2002:a2e:8105:: with SMTP id d5mr9562125ljg.354.1590347350889;
+        Sun, 24 May 2020 12:09:10 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
-        by smtp.googlemail.com with ESMTPSA id o4sm4063239lfb.75.2020.05.24.11.41.16
+        by smtp.googlemail.com with ESMTPSA id b25sm4089796lff.26.2020.05.24.12.09.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 May 2020 11:41:17 -0700 (PDT)
-Subject: Re: [PATCH v5 0/6] Support DRM bridges on NVIDIA Tegra
+        Sun, 24 May 2020 12:09:10 -0700 (PDT)
+Subject: Re: [PATCH v1] mfd: tps65910: Correct power-off programming sequence
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200418170703.1583-1-digetx@gmail.com>
-Message-ID: <65a9c464-7031-586d-3b5e-d29ec01934ab@gmail.com>
-Date:   Sun, 24 May 2020 21:41:16 +0300
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Tony Lindgren <tony@atomide.com>, Lee Jones <lee.jones@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Zack Pearsall <zpearsall@yahoo.com>,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200514205022.7024-1-digetx@gmail.com>
+ <20200515110754.GB20564@qmqm.qmqm.pl>
+ <7e1eaac5-34d1-f76e-e4c5-bc36f56a7064@gmail.com>
+Message-ID: <86d37179-53d1-e0df-6b30-62160351fa4d@gmail.com>
+Date:   Sun, 24 May 2020 22:09:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200418170703.1583-1-digetx@gmail.com>
+In-Reply-To: <7e1eaac5-34d1-f76e-e4c5-bc36f56a7064@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,65 +75,57 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.04.2020 20:06, Dmitry Osipenko пишет:
-> Hello,
+15.05.2020 20:30, Dmitry Osipenko пишет:
+> 15.05.2020 16:30, Michał Mirosław пишет:
+>> On Thu, May 14, 2020 at 11:50:21PM +0300, Dmitry Osipenko wrote:
+>>> This patch fixes system shutdown on a devices that use TPS65910 as a
+>>> system's power controller. In accordance to the TPS65910 datasheet, the
+>>> PMIC's state-machine transitions into the OFF state only when DEV_OFF
+>>> bit of DEVCTRL_REG is set. The ON / SLEEP states also should be cleared,
+>>> otherwise PMIC won't get into a proper state on shutdown. Devices like
+>>> Nexus 7 tablet and Ouya game console are now shutting down properly.
+>>>
+>>> Tested-by: Zack Pearsall <zpearsall@yahoo.com>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/mfd/tps65910.c | 12 ++++++++++--
+>>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/mfd/tps65910.c b/drivers/mfd/tps65910.c
+>>> index 11959021b50a..22116cee411d 100644
+>>> --- a/drivers/mfd/tps65910.c
+>>> +++ b/drivers/mfd/tps65910.c
+>>> @@ -440,8 +440,16 @@ static void tps65910_power_off(void)
+>>>  			DEVCTRL_PWR_OFF_MASK) < 0)
+>>>  		return;
+>>>  
+>>> -	tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
+>>> -			DEVCTRL_DEV_ON_MASK);
+>>> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
+>>> +			DEVCTRL_DEV_SLP_MASK) < 0)
+>>> +		return;
+>>> +
+>>> +	if (tps65910_reg_clear_bits(tps65910, TPS65910_DEVCTRL,
+>>> +			DEVCTRL_DEV_ON_MASK) < 0)
+>>> +		return;
+>>> +
+>>> +	tps65910_reg_set_bits(tps65910, TPS65910_DEVCTRL,
+>>> +			DEVCTRL_DEV_OFF_MASK);
+>>>  }
+>>
+>> Isn't it enough to update the DEVCTRL with just one
+>> tps65910_reg_update_bits()?
 > 
-> This series adds initial support for the DRM bridges to NVIDIA Tegra DRM
-> driver. This is required by newer device-trees where we model the LVDS
-> encoder bridge properly.
-> 
-> Changelog:
-> 
-> v5: - Added new patches that make drm_of_find_panel_or_bridge() more usable
->       if graph isn't defined in a device-tree:
-> 
->         of_graph: add of_graph_get_local_port()
->         drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
-> 
->     - Updated "Support DRM bridges" patch to use drm_of_find_panel_or_bridge()
->       directly and added WARN_ON(output->panel || output->bridge) sanity-check.
-> 
->     - Added new "Wrap directly-connected panel into DRM bridge" patch, as
->       was suggested by Laurent Pinchart.
-> 
-> v4: - Following review comments that were made by Laurent Pinchart to the v3,
->       we now create and use the "bridge connector".
-> 
-> v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
->       model is now being used, i.e. we ask bridge to *not* create a connector
->       using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-> 
->     - The bridge is now created only for the RGB (LVDS) output, and only
->       when necessary. For now we don't need bridges for HDMI or DSI outputs.
-> 
->     - I noticed that we're leaking OF node in the panel's error code path,
->       this is fixed now by the new patch "Don't leak OF node on error".
-> 
-> v2: - Added the new "rgb: Don't register connector if bridge is used"
->       patch, which hides the unused connector provided by the Tegra DRM
->       driver when bridge is used, since bridge provides its own connector
->       to us.
-> 
->     - Please notice that the first "Support DRM bridges" patch was previously
->       sent out as a standalone v1 change.
-> 
-> Dmitry Osipenko (6):
->   of_graph: add of_graph_get_local_port()
->   drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
->   drm/tegra: output: Don't leak OF node on error
->   drm/tegra: output: Support DRM bridges
->   drm/tegra: output: rgb: Support LVDS encoder bridge
->   drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
-> 
->  drivers/gpu/drm/drm_of.c       | 13 +++++-
->  drivers/gpu/drm/tegra/drm.h    |  2 +
->  drivers/gpu/drm/tegra/output.c | 21 +++++++--
->  drivers/gpu/drm/tegra/rgb.c    | 85 +++++++++++++++++++++-------------
->  drivers/of/property.c          | 32 +++++++++----
->  include/linux/of_graph.h       |  7 +++
->  6 files changed, 114 insertions(+), 46 deletions(-)
+> IIRC, we've tried that variant and it didn't work. Although, maybe it
+> was affected by some other changes that we were trying simultaneously,
+> so could be worthwhile to re-check it. Thank you for the comment!
 > 
 
-Hello Thierry,
+We tried it once again and the variant with a single update_bits() for
+all bits doesn't work. The single update_bits() for the ON/OFF_MASK mask
+works, it's actually the same what downstream driver does [1].
 
-Do you you have any objections to this series?
+[1]
+https://android.googlesource.com/kernel/tegra/+/refs/heads/android-tegra3-grouper-3.1-lollipop-release/drivers/mfd/tps6591x.c#374
+
+I'll prepare a v2.
