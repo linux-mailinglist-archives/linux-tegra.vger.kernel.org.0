@@ -2,89 +2,168 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94EA51E14C9
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 May 2020 21:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D31A1E14F9
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 May 2020 21:56:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389921AbgEYTev (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 May 2020 15:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37550 "EHLO
+        id S2388803AbgEYT4z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 May 2020 15:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389904AbgEYTev (ORCPT
+        with ESMTP id S2388737AbgEYT4z (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 May 2020 15:34:51 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A6DC061A0E;
-        Mon, 25 May 2020 12:34:50 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id q2so21826637ljm.10;
-        Mon, 25 May 2020 12:34:50 -0700 (PDT)
+        Mon, 25 May 2020 15:56:55 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E423CC061A0E;
+        Mon, 25 May 2020 12:56:54 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id 82so11072430lfh.2;
+        Mon, 25 May 2020 12:56:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=A4jmYZdU5ozBMAXAqmyk44sUjgV6hYrwfu6KlXmyOS8=;
-        b=ftDR4Ed6/4/UwzMezVOfDErK3teieIpd8y1f/Lb84PRLBTlN2umIzX2SO8oKktyN9e
-         JxqTIRfCcwtNJ4LX6lpD5nFObH6vKi8me1zNJN2kX0e/Ds+WWtXr18qRSpTMPB0N3sFB
-         G/5DZBl3ODACPw5Kn8rNvy5XQJ+dXJV4nbAAH60KeUSkUsb0/uzkDK1xlRgvrrY5bpxl
-         93EZYzGzrqMt273yWJxW3MjIEed6niJeHEs7XgHwqirnTBQ0SbEQkOut+XXIIdb1X09J
-         yArmCxgNS8p9Zw4vCLki32tJeRME3xZ9o7Q9tp2OASJD2psnlzoldExpvY3lyJ4ER2pW
-         AK7Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RfuCHKTNwaWG0c1gzxYwDnFHu5cJwWR/Dhzr/q0GiRw=;
+        b=lgLthuD3Ld85JCIhPPZXcc8lF1lDUPUO+ueiGkF5X/sPrWlsszmqCWXWampG6miusl
+         2srBFOe/fjJeFzZmwUgt11DY8EbMcLLXXrdQ1G6zKKGZ27Z2pSTMSd4fc5JRHQJOVFDf
+         59dDsbf+UBIgFc7MFm6J756ZyXChxi2jkBRBu3VQ9Lee8bqOSih4bu9PbojTTjFSC/A7
+         iejiNvUCmFneoMP+Iyf+QH08DCm1Rul7fHjltQQBFeqPE4lruc3ybApD/n2TX21mMc5V
+         6JfHsyESU+9A3DlDrryCvFL8zZLvJrZvEB+eSMpyQNWE+fiwvlDqqdv7rQtksK3zrkaR
+         hdmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A4jmYZdU5ozBMAXAqmyk44sUjgV6hYrwfu6KlXmyOS8=;
-        b=YzBy3kTpi7ie1ss5FwXN8H3ZYPyqXguC3KnITa/YWhHGaBBfe+vATuMYNkWKrbLoS6
-         bE1quObLmCd1J+dNrREj5lHxHV/fsC51pY2pQoF6A21ueVTIe0o9IfIyb246x+nvmrHC
-         bA1FTWdxM3ySy4NDFk3f4OAn0K52RvhLZaiiybdB5HH3Hfz1G9ZahUJGNF3O0eQASYhU
-         /ABCzjlq3E2KROFBt/D03tqGMLYxi0YKCNBQzrd3DLxZq9bnKdkFvkVp41XbRJQak7mm
-         HxsstD+tN6kHSe+etNnqgZzXQzujZ+DcH08jCGAA+tITWKILaNUAHEmsjK5qHaT18sKU
-         d3Aw==
-X-Gm-Message-State: AOAM5308A/UBgi2vhd0YIjpbvVufEqH+jvcv1ez26zuPEN7w35rzdMv9
-        7iW8FYJKDmD00bg54qogv9XuyGCh
-X-Google-Smtp-Source: ABdhPJxMGuM6N/f4LC792sPrhgWYvy5nLWumLbUsFmsrQl5S04rMvyYu8zXeOAyUN4d60W1isrrMrg==
-X-Received: by 2002:a2e:701a:: with SMTP id l26mr15350495ljc.50.1590435289168;
-        Mon, 25 May 2020 12:34:49 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
-        by smtp.googlemail.com with ESMTPSA id j9sm5339418lfe.24.2020.05.25.12.34.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 May 2020 12:34:48 -0700 (PDT)
-Subject: Re: [PATCH v1] iommu/tegra-smmu: Add missing locks around mapping
- operations
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Joerg Roedel <joro@8bytes.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200524183755.3774-1-digetx@gmail.com>
- <20200525083556.GA2382769@ulmo>
- <ffa2f98f-1809-e4f0-009e-d06dcde0ed49@gmail.com>
- <20200525122016.GB2393266@ulmo>
+        bh=RfuCHKTNwaWG0c1gzxYwDnFHu5cJwWR/Dhzr/q0GiRw=;
+        b=H44WCMk5qff/uNGs8VYKy6UmC+7sv4oNHM8FdpzX2hCPSUOtSJfuOiIIB4d5716veB
+         CnAyDSpbGUTawicPZYiSLtIlFJ6gxHZAxJJzZsN8T2KIfqajqBQIc7aFmgfBlfXvv0C3
+         eYBazea9EJeWHfs/fdnUhtDF89POt/1CyQaLLMBMY5joB1k7EHSwHYe32rIbfJ+5tCvM
+         vWmRcVYccwD0I4uYO3iARwccmmIJX+7TfXOwk4KkKUevWWUfmVBxC41QG+ucKQQPh1/5
+         syqgIRqqhwjJKvb74Mb4ffPXPe0pIdumRspyADB+ieRACrw3SFCrgtq2uFL76hCBm030
+         bFcw==
+X-Gm-Message-State: AOAM532KIkviL9fEe32h6RS6ucVQP74nKwQ2ugr160qqENL2F0el9Nxl
+        vHFT9GZg73NzJzc0h/NYBMQ=
+X-Google-Smtp-Source: ABdhPJx9UAHgWJ2dxnysys+OcIQSSLPgoqP+qo2oC8iiHOzMR+KSp1wVnhO5Hq7jBtEyUsruf78VQg==
+X-Received: by 2002:a05:6512:3e7:: with SMTP id n7mr15253609lfq.118.1590436613238;
+        Mon, 25 May 2020 12:56:53 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
+        by smtp.gmail.com with ESMTPSA id u4sm2889969lfl.18.2020.05.25.12.56.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2020 12:56:52 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c6819193-6200-b7a6-57e4-c763d1a7129e@gmail.com>
-Date:   Mon, 25 May 2020 22:34:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] iommu/tegra-smmu: Add missing locks around mapping operations
+Date:   Mon, 25 May 2020 22:54:37 +0300
+Message-Id: <20200525195437.14341-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <20200525122016.GB2393266@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.05.2020 15:20, Thierry Reding пишет:
-...
-> Do we have a good way to find out how bad exactly the contention would
-> be when using a mutex?
+The mapping operations of the Tegra SMMU driver are subjected to a race
+condition issues because SMMU Address Space isn't allocated and freed
+atomically, while it should be. This patch makes the mapping operations
+atomic, it fixes an accidentally released Host1x Address Space problem
+which happens while running multiple graphics tests in parallel on
+Tegra30, i.e. by having multiple threads racing with each other in the
+Host1x's submission and completion code paths, performing IOVA mappings
+and unmappings in parallel.
 
-I'm now having a second thought about it. We don't need to care about
-that scenario at all because it's a software-design defect of the
-upstream Host1x driver that it maps gathers dynamically. The defect can
-be fixed and then the potential problem won't exist at all.
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
 
-Neither of the drivers that are using Tegra SMMU need the IOMMU mapping
-operations to be performed under spinlock, so mutex will be good a
-variant. I'll make a v2 with a mutex, thank you for the suggestion.
+Changelog:
+
+v2: - Now using mutex instead of spinlock.
+
+    - The _locked postfix is replaced with the underscores prefix.
+
+ drivers/iommu/tegra-smmu.c | 38 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 7426b7666e2b..9cf06acb00ce 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -49,6 +49,7 @@ struct tegra_smmu_as {
+ 	struct iommu_domain domain;
+ 	struct tegra_smmu *smmu;
+ 	unsigned int use_count;
++	struct mutex lock;
+ 	u32 *count;
+ 	struct page **pts;
+ 	struct page *pd;
+@@ -308,6 +309,8 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
+ 		return NULL;
+ 	}
+ 
++	mutex_init(&as->lock);
++
+ 	/* setup aperture */
+ 	as->domain.geometry.aperture_start = 0;
+ 	as->domain.geometry.aperture_end = 0xffffffff;
+@@ -655,8 +658,9 @@ static void tegra_smmu_set_pte(struct tegra_smmu_as *as, unsigned long iova,
+ 	smmu_flush(smmu);
+ }
+ 
+-static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+-			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++static int
++__tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
++		 phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+ {
+ 	struct tegra_smmu_as *as = to_smmu_as(domain);
+ 	dma_addr_t pte_dma;
+@@ -685,8 +689,9 @@ static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return 0;
+ }
+ 
+-static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+-			       size_t size, struct iommu_iotlb_gather *gather)
++static size_t
++__tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
++		   size_t size, struct iommu_iotlb_gather *gather)
+ {
+ 	struct tegra_smmu_as *as = to_smmu_as(domain);
+ 	dma_addr_t pte_dma;
+@@ -702,6 +707,31 @@ static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 	return size;
+ }
+ 
++static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
++			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++{
++	struct tegra_smmu_as *as = to_smmu_as(domain);
++	int ret;
++
++	mutex_lock(&as->lock);
++	ret = __tegra_smmu_map(domain, iova, paddr, size, prot, gfp);
++	mutex_unlock(&as->lock);
++
++	return ret;
++}
++
++static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
++			       size_t size, struct iommu_iotlb_gather *gather)
++{
++	struct tegra_smmu_as *as = to_smmu_as(domain);
++
++	mutex_lock(&as->lock);
++	size = __tegra_smmu_unmap(domain, iova, size, gather);
++	mutex_unlock(&as->lock);
++
++	return size;
++}
++
+ static phys_addr_t tegra_smmu_iova_to_phys(struct iommu_domain *domain,
+ 					   dma_addr_t iova)
+ {
+-- 
+2.26.0
+
