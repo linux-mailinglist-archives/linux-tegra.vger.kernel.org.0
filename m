@@ -2,170 +2,219 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BD4F1E0949
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 May 2020 10:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 259101E0C2D
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 May 2020 12:51:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389294AbgEYIsZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 May 2020 04:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49214 "EHLO
+        id S2389861AbgEYKvz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 May 2020 06:51:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389289AbgEYIsY (ORCPT
+        with ESMTP id S2389484AbgEYKvy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 May 2020 04:48:24 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676BAC08C5C0
-        for <linux-tegra@vger.kernel.org>; Mon, 25 May 2020 01:48:24 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id 62so9541803vsi.2
-        for <linux-tegra@vger.kernel.org>; Mon, 25 May 2020 01:48:24 -0700 (PDT)
+        Mon, 25 May 2020 06:51:54 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801CCC061A0E;
+        Mon, 25 May 2020 03:51:54 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id b6so20299937ljj.1;
+        Mon, 25 May 2020 03:51:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PgoGKBAveUpNLnIgQcx75kKaH5k5+uJlCEKBpDn1ehg=;
-        b=tdGsAmBcL08JRMs+nYm8YpHBTOpij3fZk+r9MXovn+wfyDMMbkBpQlOFfdPsB3W1n1
-         +eTZplU85wrUMVjRqEzqZr3rMJ4Ix6HfL28ktBCWfFBDgFTF8iwHQTO51kAPJnRzwWwU
-         q6g0X9H989G9DPhSRJ7ZX1PNDShY/2DUxSQbtENhrPGjI4tfhhplwNskUt3Yed/f4k1B
-         g5OD0XtBtM8gtLo8wmjyidjxzrEzhun+enD1dv6A75BbCmLIKkC+NqIr7jg0FQINxvzC
-         MkwzQsUygNX9Pt7OmsLVoKzoVQN9pgRkRpv/+iLeODFQjBBMT41z8O6j7wsuF+V1m7Wu
-         QuSg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XQIdOLJRAwyJ5EbjAztcZMJDAH7v10sKhYh7WWEKDDE=;
+        b=GHyW8PrU+iJwHOF0FEHSSkP/VUckZK2wd0Xtqn8bJs31enXxhzhcRZlAzA7f/ZkeHv
+         Ri3reeQyEmZ/nTKF4ERTSWCysCRXejtvjTUC3p++uxs0d7ITrrLcN19BqqE9waRXTrwW
+         voCBBClvZwgI26ap+9JIBEweeAH9RRCAXjIma1Ek6E+i6Jrwy2NxwKK2U1RUgUMGdnyh
+         BuUFIgpfgvNlX5SKbiyiRsQTHXHdNlgGDyvK6OIJ2P4BDwL7kQeA9BB1yqUu3wqWNYev
+         kHcj8YNDuujRpn9ovWCyIfgR9bUHhEPis5J6+8vIBxFuBPcGjWQJz2eq03d2iy4wR+ZG
+         ZvzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PgoGKBAveUpNLnIgQcx75kKaH5k5+uJlCEKBpDn1ehg=;
-        b=MIvhu55zhPSHS1epuoP4nDvXiC/N6ezNWjoD6cdVs6Xx6LsjqoaHSqrwHVJm52CdDj
-         GiV6yzj3J0k2okeg/bjQaE4N0y39uQSqTeVYvU21s0ErfWLoW8fwutQErkR0hFagxQvy
-         wRdB+jsaXlyBq1afpkz0W7T+DMjBtD3afT57/HDyl4uq5THYorkIPeSmVUhCRBnpxH3n
-         okKLpf7nP8NvUfjTsFhxGUBHDOBkHaUTiaDkIw+EOFoPgG1MRlAoqXQTC9jgEWn0Q4uD
-         313kZRTFRt7mbMWGInbMJqbaTfjRQVRADxdR8cW61EsRCzWnz7ByzCPfvcVC8rodjmy2
-         WR2w==
-X-Gm-Message-State: AOAM530IxuMTdNXcrta7VxFHX5BwzOdSFXTmA2Mt1EQaYLVpOy1Ttbka
-        EHv49VLL+T2Hg8YLh7nsWKAtrGyJBvLKIQcebP3cmMctZCA=
-X-Google-Smtp-Source: ABdhPJz/2B30euWiWchhGIeeUoF37uMCLF0YLBKETXSYWThkUgvYPD7ALh48YAC5IyTjWbETQujZNpRuwz2LoyiuuRE=
-X-Received: by 2002:a67:690e:: with SMTP id e14mr18180245vsc.34.1590396503592;
- Mon, 25 May 2020 01:48:23 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XQIdOLJRAwyJ5EbjAztcZMJDAH7v10sKhYh7WWEKDDE=;
+        b=tIfSm/t+j9p7SoMSiUgPt2zu5Jf8oWJG60IMERIuAosCODd2lKolKyZZ9MgmARUcQ9
+         ZahNqsvVEFxIMQQk/7FQ8PqIE2hgdjObrVXAX8/LNWIDeDkB+xkwoV5aFdJHl0fxH3ul
+         mugAvFwNMTydL7ZBtyIc4VL1+EYWDoA5jS3NIOos1MPEK2jbZpiIvTtUl+qPM5IoZ5+f
+         8m2lu6+oy+bvyTUEnX6TTao/s3qUoMcDB9m2rUwwxL3jzUBYwn4KXX47JnFoOBbVGTQ4
+         Lsb8Mteb05Nz4E0SPw/fUsfAV2a3wNqPGQnLod2SSPeswgS2Pj53dEnEBEurnXfzqChK
+         iFwg==
+X-Gm-Message-State: AOAM531hqe3ucIKPXUrhJ9ecCwAINexRe0NNQv4ISwXHgY8q2fXVy/Nc
+        1PhETx4acn964SojxS3LGfID8Zzs
+X-Google-Smtp-Source: ABdhPJzxEXhkUYgz7wB2wyVTUOtV+rStTtfu8v79n+/fusca3jSbZEbrqAfNoHeG47DgKC4rlRTt0Q==
+X-Received: by 2002:a2e:6a11:: with SMTP id f17mr3222251ljc.328.1590403912651;
+        Mon, 25 May 2020 03:51:52 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
+        by smtp.googlemail.com with ESMTPSA id i24sm4472114ljg.82.2020.05.25.03.51.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2020 03:51:51 -0700 (PDT)
+Subject: Re: [PATCH v1] iommu/tegra-smmu: Add missing locks around mapping
+ operations
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200524183755.3774-1-digetx@gmail.com>
+ <20200525083556.GA2382769@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ffa2f98f-1809-e4f0-009e-d06dcde0ed49@gmail.com>
+Date:   Mon, 25 May 2020 13:51:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
-In-Reply-To: <1590005337-1087-1-git-send-email-skomatineni@nvidia.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 25 May 2020 10:47:47 +0200
-Message-ID: <CAPDyKFoV93OdjfuupYgFDegqBVjJpTnSeR3s8WOUaUmM19S4EA@mail.gmail.com>
-Subject: Re: [PATCH] sdhci: tegra: Avoid reading autocal timeout values when
- not applicable
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Adrian Hunter <adrian.hunter@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200525083556.GA2382769@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 20 May 2020 at 22:09, Sowjanya Komatineni
-<skomatineni@nvidia.com> wrote:
->
-> When auto calibration timeouts, calibration is disabled and fail-safe
-> drive strength values are programmed based on the signal voltage.
->
-> Different fail-safe drive strength values based on voltage are
-> applicable only for SoCs supporting 3V3 and 1V8 pad controls.
->
-> So, this patch avoids reading these properties from the device tree
-> for SoCs not using pad controls and the warning of missing properties
-> will not show up on these SoC platforms.
->
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+25.05.2020 11:35, Thierry Reding пишет:
+> On Sun, May 24, 2020 at 09:37:55PM +0300, Dmitry Osipenko wrote:
+>> The mapping operations of the Tegra SMMU driver are subjected to a race
+>> condition issues because SMMU Address Space isn't allocated and freed
+>> atomically, while it should be. This patch makes the mapping operations
+>> atomic, it fixes an accidentally released Host1x Address Space problem
+>> which happens while running multiple graphics tests in parallel on
+>> Tegra30, i.e. by having multiple threads racing with each other in the
+>> Host1x's submission and completion code paths, performing IOVA mappings
+>> and unmappings in parallel.
+>>
+>> Cc: <stable@vger.kernel.org>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/iommu/tegra-smmu.c | 43 +++++++++++++++++++++++++++++++++-----
+>>  1 file changed, 38 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+>> index 7426b7666e2b..4f956a797838 100644
+>> --- a/drivers/iommu/tegra-smmu.c
+>> +++ b/drivers/iommu/tegra-smmu.c
+>> @@ -12,6 +12,7 @@
+>>  #include <linux/of_device.h>
+>>  #include <linux/platform_device.h>
+>>  #include <linux/slab.h>
+>> +#include <linux/spinlock.h>
+>>  #include <linux/dma-mapping.h>
+>>  
+>>  #include <soc/tegra/ahb.h>
+>> @@ -49,6 +50,7 @@ struct tegra_smmu_as {
+>>  	struct iommu_domain domain;
+>>  	struct tegra_smmu *smmu;
+>>  	unsigned int use_count;
+>> +	spinlock_t lock;
+>>  	u32 *count;
+>>  	struct page **pts;
+>>  	struct page *pd;
+>> @@ -308,6 +310,8 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
+>>  		return NULL;
+>>  	}
+>>  
+>> +	spin_lock_init(&as->lock);
+>> +
+>>  	/* setup aperture */
+>>  	as->domain.geometry.aperture_start = 0;
+>>  	as->domain.geometry.aperture_end = 0xffffffff;
+>> @@ -578,7 +582,7 @@ static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
+>>  		struct page *page;
+>>  		dma_addr_t dma;
+>>  
+>> -		page = alloc_page(GFP_KERNEL | __GFP_DMA | __GFP_ZERO);
+>> +		page = alloc_page(GFP_ATOMIC | __GFP_DMA | __GFP_ZERO);
+> 
+> I'm not sure this is a good idea. My recollection is that GFP_ATOMIC
+> will allocate from a special reserved region of memory, which may be
+> easily exhausted.
 
-Applied for next and by fixing the misspelled "properies", thanks!
+So far I haven't noticed any problems. Will be great if you could
+provide more details about the pool size and how this exhaustion problem
+could be reproduced in practice.
 
-Kind regards
-Uffe
+> Is there any reason why we need the spinlock? Can't we use a mutex
+> instead?
 
+This is what other IOMMU drivers do. I guess mutex might be too
+expensive, it may create a noticeable contention which you don't want to
+have in a case of a GPU submission code path.
 
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 57 ++++++++++++++++++++++++------------------
->  1 file changed, 33 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index 3e2c510..141b49b 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -605,6 +605,39 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
->                 autocal->pull_down_1v8 = 0;
->
->         err = device_property_read_u32(host->mmc->parent,
-> +                       "nvidia,pad-autocal-pull-up-offset-sdr104",
-> +                       &autocal->pull_up_sdr104);
-> +       if (err)
-> +               autocal->pull_up_sdr104 = autocal->pull_up_1v8;
-> +
-> +       err = device_property_read_u32(host->mmc->parent,
-> +                       "nvidia,pad-autocal-pull-down-offset-sdr104",
-> +                       &autocal->pull_down_sdr104);
-> +       if (err)
-> +               autocal->pull_down_sdr104 = autocal->pull_down_1v8;
-> +
-> +       err = device_property_read_u32(host->mmc->parent,
-> +                       "nvidia,pad-autocal-pull-up-offset-hs400",
-> +                       &autocal->pull_up_hs400);
-> +       if (err)
-> +               autocal->pull_up_hs400 = autocal->pull_up_1v8;
-> +
-> +       err = device_property_read_u32(host->mmc->parent,
-> +                       "nvidia,pad-autocal-pull-down-offset-hs400",
-> +                       &autocal->pull_down_hs400);
-> +       if (err)
-> +               autocal->pull_down_hs400 = autocal->pull_down_1v8;
-> +
-> +       /*
-> +        * Different fail-safe drive strength values based on the signaling
-> +        * voltage are applicable for SoCs supporting 3V3 and 1V8 pad controls.
-> +        * So, avoid reading below device tree properies for SoCs that don't
-> +        * have NVQUIRK_NEEDS_PAD_CONTROL.
-> +        */
-> +       if (!(tegra_host->soc_data->nvquirks & NVQUIRK_NEEDS_PAD_CONTROL))
-> +               return;
-> +
-> +       err = device_property_read_u32(host->mmc->parent,
->                         "nvidia,pad-autocal-pull-up-offset-3v3-timeout",
->                         &autocal->pull_up_3v3_timeout);
->         if (err) {
-> @@ -647,30 +680,6 @@ static void tegra_sdhci_parse_pad_autocal_dt(struct sdhci_host *host)
->                                 mmc_hostname(host->mmc));
->                 autocal->pull_down_1v8_timeout = 0;
->         }
-> -
-> -       err = device_property_read_u32(host->mmc->parent,
-> -                       "nvidia,pad-autocal-pull-up-offset-sdr104",
-> -                       &autocal->pull_up_sdr104);
-> -       if (err)
-> -               autocal->pull_up_sdr104 = autocal->pull_up_1v8;
-> -
-> -       err = device_property_read_u32(host->mmc->parent,
-> -                       "nvidia,pad-autocal-pull-down-offset-sdr104",
-> -                       &autocal->pull_down_sdr104);
-> -       if (err)
-> -               autocal->pull_down_sdr104 = autocal->pull_down_1v8;
-> -
-> -       err = device_property_read_u32(host->mmc->parent,
-> -                       "nvidia,pad-autocal-pull-up-offset-hs400",
-> -                       &autocal->pull_up_hs400);
-> -       if (err)
-> -               autocal->pull_up_hs400 = autocal->pull_up_1v8;
-> -
-> -       err = device_property_read_u32(host->mmc->parent,
-> -                       "nvidia,pad-autocal-pull-down-offset-hs400",
-> -                       &autocal->pull_down_hs400);
-> -       if (err)
-> -               autocal->pull_down_hs400 = autocal->pull_down_1v8;
->  }
->
->  static void tegra_sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
-> --
-> 2.7.4
->
+I also suspect that drivers of other platforms are using IOMMU API in
+interrupt context, although today this is not needed for Tegra.
+
+>>  		if (!page)
+>>  			return NULL;
+>>  
+>> @@ -655,8 +659,9 @@ static void tegra_smmu_set_pte(struct tegra_smmu_as *as, unsigned long iova,
+>>  	smmu_flush(smmu);
+>>  }
+>>  
+>> -static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+>> -			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+>> +static int
+>> +tegra_smmu_map_locked(struct iommu_domain *domain, unsigned long iova,
+>> +		      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+> 
+> I think it's more typical to use the _unlocked suffix for functions that
+> don't take a lock themselves.
+
+Personally I can't feel the difference. Both variants are good to me. I
+can replace the literal postfix with a __tegra_smmu prefix, similarly to
+what we have in the GART driver, to avoid bikeshedding.
+
+>>  {
+>>  	struct tegra_smmu_as *as = to_smmu_as(domain);
+>>  	dma_addr_t pte_dma;
+>> @@ -685,8 +690,9 @@ static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+>>  	return 0;
+>>  }
+>>  
+>> -static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+>> -			       size_t size, struct iommu_iotlb_gather *gather)
+>> +static size_t
+>> +tegra_smmu_unmap_locked(struct iommu_domain *domain, unsigned long iova,
+>> +			size_t size, struct iommu_iotlb_gather *gather)
+>>  {
+>>  	struct tegra_smmu_as *as = to_smmu_as(domain);
+>>  	dma_addr_t pte_dma;
+>> @@ -702,6 +708,33 @@ static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+>>  	return size;
+>>  }
+>>  
+>> +static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
+>> +			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+>> +{
+>> +	struct tegra_smmu_as *as = to_smmu_as(domain);
+>> +	unsigned long flags;
+>> +	int ret;
+>> +
+>> +	spin_lock_irqsave(&as->lock, flags);
+>> +	ret = tegra_smmu_map_locked(domain, iova, paddr, size, prot, gfp);
+>> +	spin_unlock_irqrestore(&as->lock, flags);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+>> +			       size_t size, struct iommu_iotlb_gather *gather)
+>> +{
+>> +	struct tegra_smmu_as *as = to_smmu_as(domain);
+>> +	unsigned long flags;
+>> +
+>> +	spin_lock_irqsave(&as->lock, flags);
+>> +	size = tegra_smmu_unmap_locked(domain, iova, size, gather);
+>> +	spin_unlock_irqrestore(&as->lock, flags);
+>> +
+>> +	return size;
+>> +}
+> 
+> Why the extra functions here? We never call locked vs. unlocked variants
+> in the driver and the IOMMU framework only has a single callback, so I
+> think the locking can just move into the main implementation.
+
+Because this makes code cleaner, easier to read and follow. You don't
+need to care about handling error code paths. This is the same what we
+do in the GART driver. Pretty much every other IOMMU driver use this
+code pattern as well.
