@@ -2,177 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7207E1E108C
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 May 2020 16:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94EA51E14C9
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 May 2020 21:34:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725905AbgEYOaE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 May 2020 10:30:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46476 "EHLO
+        id S2389921AbgEYTev (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 May 2020 15:34:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725809AbgEYOaE (ORCPT
+        with ESMTP id S2389904AbgEYTev (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 May 2020 10:30:04 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD54EC061A0E;
-        Mon, 25 May 2020 07:30:03 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id x1so20648999ejd.8;
-        Mon, 25 May 2020 07:30:03 -0700 (PDT)
+        Mon, 25 May 2020 15:34:51 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A6DC061A0E;
+        Mon, 25 May 2020 12:34:50 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id q2so21826637ljm.10;
+        Mon, 25 May 2020 12:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=yMh1OLCPJYxMT3dRwDh/Pc1pXHaCVXG/hZf91AhdVB4=;
-        b=BOeyv6u90esY242TIOVf8kZuHxZc7IiQ4MFI+Zqvwnzes9+xpAj9hLrHuSa2uyOBDF
-         Or68NuUhIgoEg6nrhjh+IEbnG9Whd1p5tJqEWeNdAT0ST3Osy+qsjbWYmUd9upYS+BdI
-         2qgI30mwbvOogfXDlMdztExw+nMndzWJd43DYd3kfgXSNP3MnD7GjZ0Xy8FkjRu7QqWk
-         VUSXBMCyKF/d2KTbv5eA+/8WowJnlaEfolsh1wtKblHmFhkOjXyGM9Yf7P7h8hbeuACF
-         hyKMECLKRaGsrNpU3R2oAklEG3KJhKdUdgKPm1XyKHn81exBNgBWveq1bY0yPJAdBZfJ
-         PuyA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=A4jmYZdU5ozBMAXAqmyk44sUjgV6hYrwfu6KlXmyOS8=;
+        b=ftDR4Ed6/4/UwzMezVOfDErK3teieIpd8y1f/Lb84PRLBTlN2umIzX2SO8oKktyN9e
+         JxqTIRfCcwtNJ4LX6lpD5nFObH6vKi8me1zNJN2kX0e/Ds+WWtXr18qRSpTMPB0N3sFB
+         G/5DZBl3ODACPw5Kn8rNvy5XQJ+dXJV4nbAAH60KeUSkUsb0/uzkDK1xlRgvrrY5bpxl
+         93EZYzGzrqMt273yWJxW3MjIEed6niJeHEs7XgHwqirnTBQ0SbEQkOut+XXIIdb1X09J
+         yArmCxgNS8p9Zw4vCLki32tJeRME3xZ9o7Q9tp2OASJD2psnlzoldExpvY3lyJ4ER2pW
+         AK7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=yMh1OLCPJYxMT3dRwDh/Pc1pXHaCVXG/hZf91AhdVB4=;
-        b=qxD1Xddd72zLq/ZkJcZ5XRGNGtDfMHflZ96jbipnEr027zHorfkcHjLReZIfGgGdU3
-         BmaMwxmVGb0DwiiXeo6sJ6QQAVQyTD8fRwSX1QI/bPhWfaba93GjwN390Cxypsme5bB2
-         HqZ+4bJYOzby6snhmfAoqF1+DpeFgjdV3ZnbMc2+Fmh9R26ZaUDevUTNEj4ZtKYoa7M6
-         EtOldMPY8wsrwCva114JlxcNR2pkcO1VCkcfH03Hh2cQzxQp2rOpZWUoF0MMkpbRHXa/
-         ELNtweGZ9UM9YkSnc2bCgoO3Vm1JThr/ysi+Snogw8mTl40wUSs6kkGxzTAj2ftb47u3
-         SU1w==
-X-Gm-Message-State: AOAM530CffYyOzHyEYcjAtKg0QQZ9YuY/j898e55VCf9d86mAqGub+R5
-        kjMXkyAk5Z3H6Eg/BgG6nZk=
-X-Google-Smtp-Source: ABdhPJwpDfwq3VxDQ5PqHUh5/tPRWT5lYSDfIlEbnN3rH0SxoiirUlcrfg9jhMOb+eHRznUbsJQX/A==
-X-Received: by 2002:a17:906:c7cc:: with SMTP id dc12mr19635108ejb.263.1590417002325;
-        Mon, 25 May 2020 07:30:02 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2dfa:6900:4b6:3b49:50f6:6c03])
-        by smtp.gmail.com with ESMTPSA id f10sm16642978edt.69.2020.05.25.07.30.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 07:30:01 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=A4jmYZdU5ozBMAXAqmyk44sUjgV6hYrwfu6KlXmyOS8=;
+        b=YzBy3kTpi7ie1ss5FwXN8H3ZYPyqXguC3KnITa/YWhHGaBBfe+vATuMYNkWKrbLoS6
+         bE1quObLmCd1J+dNrREj5lHxHV/fsC51pY2pQoF6A21ueVTIe0o9IfIyb246x+nvmrHC
+         bA1FTWdxM3ySy4NDFk3f4OAn0K52RvhLZaiiybdB5HH3Hfz1G9ZahUJGNF3O0eQASYhU
+         /ABCzjlq3E2KROFBt/D03tqGMLYxi0YKCNBQzrd3DLxZq9bnKdkFvkVp41XbRJQak7mm
+         HxsstD+tN6kHSe+etNnqgZzXQzujZ+DcH08jCGAA+tITWKILaNUAHEmsjK5qHaT18sKU
+         d3Aw==
+X-Gm-Message-State: AOAM5308A/UBgi2vhd0YIjpbvVufEqH+jvcv1ez26zuPEN7w35rzdMv9
+        7iW8FYJKDmD00bg54qogv9XuyGCh
+X-Google-Smtp-Source: ABdhPJxMGuM6N/f4LC792sPrhgWYvy5nLWumLbUsFmsrQl5S04rMvyYu8zXeOAyUN4d60W1isrrMrg==
+X-Received: by 2002:a2e:701a:: with SMTP id l26mr15350495ljc.50.1590435289168;
+        Mon, 25 May 2020 12:34:49 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
+        by smtp.googlemail.com with ESMTPSA id j9sm5339418lfe.24.2020.05.25.12.34.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2020 12:34:48 -0700 (PDT)
+Subject: Re: [PATCH v1] iommu/tegra-smmu: Add missing locks around mapping
+ operations
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, Joe Perches <joe@perches.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH SECOND RESEND] MAINTAINERS: adjust entries to moving CEC platform drivers
-Date:   Mon, 25 May 2020 16:29:46 +0200
-Message-Id: <20200525142946.8268-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200524183755.3774-1-digetx@gmail.com>
+ <20200525083556.GA2382769@ulmo>
+ <ffa2f98f-1809-e4f0-009e-d06dcde0ed49@gmail.com>
+ <20200525122016.GB2393266@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c6819193-6200-b7a6-57e4-c763d1a7129e@gmail.com>
+Date:   Mon, 25 May 2020 22:34:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200525122016.GB2393266@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit 4be5e8648b0c ("media: move CEC platform drivers to a separate
-directory") moved various files into a new directory structure, but did
-not adjust the entries in MAINTAINERS.
+25.05.2020 15:20, Thierry Reding пишет:
+...
+> Do we have a good way to find out how bad exactly the contention would
+> be when using a mutex?
 
-Since then, ./scripts/get_maintainer.pl --self-test=patterns complains:
+I'm now having a second thought about it. We don't need to care about
+that scenario at all because it's a software-design defect of the
+upstream Host1x driver that it maps gathers dynamically. The defect can
+be fixed and then the potential problem won't exist at all.
 
-  warning: no file matches F: drivers/media/platform/s5p-cec/
-  warning: no file matches F: drivers/media/platform/tegra-cec/
-  warning: no file matches F: drivers/media/platform/cec-gpio/
-  warning: no file matches F: drivers/media/platform/meson/ao-cec-g12a.c
-  warning: no file matches F: drivers/media/platform/meson/ao-cec.c
-  warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.c
-  warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.h
-  warning: no file matches F: drivers/media/platform/sti/cec/
-
-Update the MAINTAINERS entries to the new file locations.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Mauro, please pick this non-urgent minor clean-up patch on top of the
-CEC platform driver moves.
- 
-applies cleanly on next-20200417, next-20200505 and still on next-20200525
-for this second resend.
-
-v1 send here:
-https://lore.kernel.org/lkml/20200418093630.6149-1-lukas.bulwahn@gmail.com/
-
-v1 first resend here:
-https://lore.kernel.org/lkml/20200506050744.4779-1-lukas.bulwahn@gmail.com/
-
- MAINTAINERS | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7a442b48f24b..bf5cb149101b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2403,7 +2403,7 @@ L:	linux-samsung-soc@vger.kernel.org (moderated for non-subscribers)
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/s5p-cec.txt
--F:	drivers/media/platform/s5p-cec/
-+F:	drivers/media/cec/platform/s5p/
- 
- ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT
- M:	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-@@ -2548,7 +2548,7 @@ L:	linux-tegra@vger.kernel.org
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/tegra-cec.txt
--F:	drivers/media/platform/tegra-cec/
-+F:	drivers/media/cec/platform/tegra/
- 
- ARM/TETON BGA MACHINE SUPPORT
- M:	"Mark F. Brown" <mark.brown314@gmail.com>
-@@ -3969,7 +3969,7 @@ S:	Supported
- W:	http://linuxtv.org
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/cec-gpio.txt
--F:	drivers/media/platform/cec-gpio/
-+F:	drivers/media/cec/platform/cec-gpio/
- 
- CELL BROADBAND ENGINE ARCHITECTURE
- M:	Arnd Bergmann <arnd@arndb.de>
-@@ -11146,8 +11146,7 @@ S:	Supported
- W:	http://linux-meson.com/
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
--F:	drivers/media/platform/meson/ao-cec-g12a.c
--F:	drivers/media/platform/meson/ao-cec.c
-+F:	drivers/media/cec/platform/meson/
- 
- MESON NAND CONTROLLER DRIVER FOR AMLOGIC SOCS
- M:	Liang Yang <liang.yang@amlogic.com>
-@@ -15212,8 +15211,7 @@ F:	drivers/mmc/host/sdricoh_cs.c
- SECO BOARDS CEC DRIVER
- M:	Ettore Chimenti <ek5.chimenti@gmail.com>
- S:	Maintained
--F:	drivers/media/platform/seco-cec/seco-cec.c
--F:	drivers/media/platform/seco-cec/seco-cec.h
-+F:	drivers/media/cec/platform/seco/
- 
- SECURE COMPUTING
- M:	Kees Cook <keescook@chromium.org>
-@@ -16249,7 +16247,7 @@ STI CEC DRIVER
- M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/stih-cec.txt
--F:	drivers/media/platform/sti/cec/
-+F:	drivers/media/cec/platform/sti/
- 
- STK1160 USB VIDEO CAPTURE DRIVER
- M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
--- 
-2.17.1
-
+Neither of the drivers that are using Tegra SMMU need the IOMMU mapping
+operations to be performed under spinlock, so mutex will be good a
+variant. I'll make a v2 with a mutex, thank you for the suggestion.
