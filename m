@@ -2,106 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A49D31E3014
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2020 22:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CC791E30C8
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 May 2020 22:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391324AbgEZUe6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 May 2020 16:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47172 "EHLO
+        id S2389277AbgEZU63 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 May 2020 16:58:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389339AbgEZUe6 (ORCPT
+        with ESMTP id S2389243AbgEZU62 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 26 May 2020 16:34:58 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178FBC061A0F
-        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2020 13:34:57 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id 69so17459384otv.2
-        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2020 13:34:57 -0700 (PDT)
+        Tue, 26 May 2020 16:58:28 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE3AC061A0F
+        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2020 13:58:27 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id x22so13165675lfd.4
+        for <linux-tegra@vger.kernel.org>; Tue, 26 May 2020 13:58:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xlg1WEt/1KpzYv+/vA9j7Mf3YWi1IPnXCFcohcpUSKM=;
-        b=vqBfuJzMnCts3H+g3tzxBLb3DHdb9u8YAPd1Lr4hpr9zPYnd/hQ9htQE4e+QzEUmjl
-         7ZrK+oEdm0wLIE7MuIMmiI71OhNKS8oqoG5svb2EehG6CFlmnhdeq9cw6Vf2tq/axJ2H
-         ssZdHqJcXZVSLkR/cPGAeFiJSasA4lSnrLDZRpKXHynba/SmCOYCvHWd2hPTm3NCdn4r
-         BNzmOO0gWoq0pD+6uFTBvcgyL6jgx7zvs2rGaMsCKa11K7bwAsrXJaOHz3GnLa3znOG5
-         YZJKlEQz0ZUmv6xTUjr2n7E5cvEvNuf9zyblA43KWchCM+klzpd5j7n4bXULce1BXFzm
-         8BLw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=za0Xo3I0LAsRZXk95U5AbhwvFqCyP5Coh1Szk4hdFT0=;
+        b=sYqdL00wxBsKV/tWk4c/6PSxudVVmlGYO0JOmSXa3vGMFJbEfYsZkZ2WKjLTUH3NIe
+         GAJj1QX36IrwRg6focC8XHG6l+oVVpXsQkejxtsnxe64lRSIYubjo7ZCRJoYh8iKDEWN
+         SznVDhs2V4NCL9rtvxIKN2dy+06oSC4/Vk52LKYk5KLLkyCQVM+zr3CKrBZgJNDub0G8
+         nRen1btPHNviYUBqKzOeWSAQ38QWr+MOcaVvV2zM8N49pBQ/6WVvGOCAbCZYsRsBnkdf
+         o2jISFaIs1Z1jGm3PkL5sruecUWjw/wZM8eO1lOkbftNZxuu5Sczjr+cXCXWR/t/hV9z
+         waVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xlg1WEt/1KpzYv+/vA9j7Mf3YWi1IPnXCFcohcpUSKM=;
-        b=W75iO1RFF/HwpNK5VNH7ScDCvb/fL0KgrJK2a++4KxCbeJMdMriVpa89MgE3v+OE24
-         ymf/kWrHdYFq3E9MKitYfMUAFZe5YWCf6QF7NCn8MegH/sz4mICQ7SMe+Y69frE1Qh2/
-         GG5qDuemRzLq0CDEpatKywPqZt5CzIl3Nb65gfmzhSmtQ6eyraT7f9hk4UKZxsjmT2KU
-         FrRwOAMYYIfxSNoWLNP+bD1kBJ+f6lUMEXNItFx1Ep1gjyLM+3S6tVlHwAqMdNzHzVHc
-         +LyE8ETV8WwyYb2MxJAu3k515EnaXDAgmPGbmZMxuV2QaMm3Xk9DJ6RLG8uq7193lDJd
-         d8EA==
-X-Gm-Message-State: AOAM532fSv6JVJnYVKoh10hkaHUhZkukc09YOFIxbWQECQxWhwtBdse6
-        fedD5T1SsRD5IFCsgQ2P5g+9nRiKsfxaNaDBVcadeA==
-X-Google-Smtp-Source: ABdhPJwRnLRczAXOAB9YCm7o1K0N3H8lb7+2jzEf7cyls1IaN/ZEhrkFXvBSwAYhJHpTTYYnVbUBS2F8yL7vvHUmhEs=
-X-Received: by 2002:a9d:b82:: with SMTP id 2mr2072353oth.221.1590525296383;
- Tue, 26 May 2020 13:34:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=za0Xo3I0LAsRZXk95U5AbhwvFqCyP5Coh1Szk4hdFT0=;
+        b=RenR/P4YMfzF2qfYXM+mPawzYoj7uO4rv1B8QZlP4qh+ys3hvyxAs8K8rYECML2hBN
+         keCl9AMWXH4RWVAr9bUuJqiDhU1Xkr2QgO8vpldsJH0RSfhDaF6uRPC18YS4Lt6s7m4c
+         FFNaCpARBuIXcX66TQ/b1Grrp24Q0+7Yt9z0Rcc+4WdqdCqOWRyZbymqODtq8ACOwewL
+         blaMMRIUfgBk5w6H/rn34s607wWQkIPMrjjENggJJzeb0NYKTbN0afjqHyXICTO7wClV
+         YLN5QRPCI26y6dTHdI5V8FvSygqSQZLrWIdsTEnI7hE8HRrDv1xNaTrmU71mnh4KYR6E
+         tKeg==
+X-Gm-Message-State: AOAM5309XxSLMeDfgYE4iw0Y6l8HC4040AkdGHuhacvQ9LDfs8HRNWxp
+        B26iGvEvsi5Zi9fY0l7BNBg=
+X-Google-Smtp-Source: ABdhPJz2zthhB+lGno5dNWs8TPvEIizQS0U7tTQWF0e28Oqqtl5d4pIalYrtVRccmB5y8rQ0SirXwA==
+X-Received: by 2002:ac2:5094:: with SMTP id f20mr1391175lfm.128.1590526704190;
+        Tue, 26 May 2020 13:58:24 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru. [91.76.17.204])
+        by smtp.gmail.com with ESMTPSA id y130sm241192lfc.22.2020.05.26.13.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 13:58:23 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1] drm/tegra: gr2d: Add tiled PATBASE address register
+Date:   Tue, 26 May 2020 23:57:53 +0300
+Message-Id: <20200526205753.14423-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200228025700.GA856087@builder> <20200514193249.GE279327@builder.lan>
-In-Reply-To: <20200514193249.GE279327@builder.lan>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 26 May 2020 13:34:45 -0700
-Message-ID: <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
->
-> On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
->
-> Rob, Will, we're reaching the point where upstream has enough
-> functionality that this is becoming a critical issue for us.
->
-> E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
-> mainline with display, GPU, WiFi and audio working and the story is
-> similar on several devboards.
->
-> As previously described, the only thing I want is the stream mapping
-> related to the display controller in place, either with the CB with
-> translation disabled or possibly with a way to specify the framebuffer
-> region (although this turns out to mess things up in the display
-> driver...)
->
-> I did pick this up again recently and concluded that by omitting the
-> streams for the USB controllers causes an instability issue seen on one
-> of the controller to disappear. So I would prefer if we somehow could
-> have a mechanism to only pick the display streams and the context
-> allocation for this.
->
->
-> Can you please share some pointers/insights/wishes for how we can
-> conclude on this subject?
+There are two PATBASE address registers, one for linear layout and other
+for tiled. The driver's address registers list misses the tiled PATBASE
+register.
 
-Ping? I just wanted to follow up on this discussion as this small
-series is crucial for booting mainline on the Dragonboard 845c
-devboard. It would be really valuable to be able to get some solution
-upstream so we can test mainline w/o adding additional patches.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/gpu/drm/tegra/gr2d.c | 1 +
+ drivers/gpu/drm/tegra/gr2d.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-The rest of the db845c series has been moving forward smoothly, but
-this set seems to be very stuck with no visible progress since Dec.
+diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
+index 48363f744bb9..1a0d3ba6e525 100644
+--- a/drivers/gpu/drm/tegra/gr2d.c
++++ b/drivers/gpu/drm/tegra/gr2d.c
+@@ -177,6 +177,7 @@ static const u32 gr2d_addr_regs[] = {
+ 	GR2D_DSTC_BASE_ADDR,
+ 	GR2D_SRCA_BASE_ADDR,
+ 	GR2D_SRCB_BASE_ADDR,
++	GR2D_PATBASE_ADDR,
+ 	GR2D_SRC_BASE_ADDR_SB,
+ 	GR2D_DSTA_BASE_ADDR_SB,
+ 	GR2D_DSTB_BASE_ADDR_SB,
+diff --git a/drivers/gpu/drm/tegra/gr2d.h b/drivers/gpu/drm/tegra/gr2d.h
+index 2398486f0699..9b7d66e15b9f 100644
+--- a/drivers/gpu/drm/tegra/gr2d.h
++++ b/drivers/gpu/drm/tegra/gr2d.h
+@@ -14,6 +14,7 @@
+ #define GR2D_DSTC_BASE_ADDR		0x2d
+ #define GR2D_SRCA_BASE_ADDR		0x31
+ #define GR2D_SRCB_BASE_ADDR		0x32
++#define GR2D_PATBASE_ADDR		0x47
+ #define GR2D_SRC_BASE_ADDR_SB		0x48
+ #define GR2D_DSTA_BASE_ADDR_SB		0x49
+ #define GR2D_DSTB_BASE_ADDR_SB		0x4a
+-- 
+2.26.0
 
-Are there any pointers for what folks would prefer to see?
-
-thanks
--john
