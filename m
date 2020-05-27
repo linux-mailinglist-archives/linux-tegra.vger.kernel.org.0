@@ -2,99 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF28B1E3C10
-	for <lists+linux-tegra@lfdr.de>; Wed, 27 May 2020 10:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2F131E3D43
+	for <lists+linux-tegra@lfdr.de>; Wed, 27 May 2020 11:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388042AbgE0Ie3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 27 May 2020 04:34:29 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18593 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388037AbgE0Ie3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 27 May 2020 04:34:29 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ece25bc0000>; Wed, 27 May 2020 01:33:00 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 27 May 2020 01:34:29 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 27 May 2020 01:34:29 -0700
-Received: from [10.26.74.131] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 27 May
- 2020 08:34:26 +0000
-Subject: Re: [PATCH 5.6 000/126] 5.6.15-rc1 review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200526183937.471379031@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <d5c1dffe-98d3-d60e-669b-90277bbb0a03@nvidia.com>
-Date:   Wed, 27 May 2020 09:34:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200526183937.471379031@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+        id S2388355AbgE0JHM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 27 May 2020 05:07:12 -0400
+Received: from mail-db8eur05on2072.outbound.protection.outlook.com ([40.107.20.72]:34401
+        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388112AbgE0JHL (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 27 May 2020 05:07:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OBPJdPvbFiwsnaQTW1E7CXPR6BAqmYSTA2G0xLXufSDt2xVZxIQqsQHd9JCdlol5GpUjmbleybiE+OnQzat2G/ehEVO5T+O32mU8I2N6jruH/COFWhn3Di5xTMxPFiYEVQYjeeYs+M6xa+Fs3K+cgmnd1bpgiJxMSZaIrGfHcIood3U+2ZnFh5FObaHiVXdGy8gH9VMrkX6V3hrXTlptP18uUnH+bcMMCc+QawEds58/fVgHAIhDETzVY1ZSK70Y45mlC1xy4wt5ohjvqKg/YQjqz/AUSLE7+hpKomgzrqeEQplnl/ePJPVlgZi7wxOkSGEGjyjQGXKCEa2hY/UK7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TsMWYnkF0zsSzwaUEJUm9Mm0xl8ixJsagcGv1mF6n7o=;
+ b=ksnJLgTgzX2mxuq2wU+9ceNOScYhgrDki17DtAPUUDI9K04C9KVGS7kUr5BpmsvCpQlE3zbov8+cy18TRWKr5XpTQ19Y02jBOWgZoWVVydP2kbFkzjYZm3y7ROmLi4ELrcbKb1JjMzjABctF7EDvSGwpMQDDJwVZ/4G2hA/QwEFYW2NXmTjdF48dO5xpY6EOOn2cxF2yCQlRckjW7RvqN6srrMdeYy4d2golTzECQcDPHqkubBi/xzM8xFbzGuAlp9Hd6WNbiamKLczTi6xFz+6SNzpI+8VGXfEwMWJB+cvLDMLy+Y+NkBQauB/z5F+dkKnf3g3whcIg/Fn1pds33w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TsMWYnkF0zsSzwaUEJUm9Mm0xl8ixJsagcGv1mF6n7o=;
+ b=kT4fPR08VTTKCuV9aM5DcYiQ+tjye9/SGxsVrKjeAvPZMOMZNa4dKP8jXPZyPwQSiC/UjeKRlh8g7VLydYZ5AFTqjVDD7hPGbk4W6usX+ElzbMma49V1Zz3jiCAxTXzqmhPunxUhdIomqicehhGK09lXnyrZruc50B0eoel1IWk=
+Authentication-Results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=nxp.com;
+Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com (2603:10a6:803:3::26)
+ by VI1PR0402MB3502.eurprd04.prod.outlook.com (2603:10a6:803:c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Wed, 27 May
+ 2020 09:07:08 +0000
+Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com
+ ([fe80::b97a:64f0:3ab5:d7fa]) by VI1PR0402MB3405.eurprd04.prod.outlook.com
+ ([fe80::b97a:64f0:3ab5:d7fa%5]) with mapi id 15.20.3045.018; Wed, 27 May 2020
+ 09:07:08 +0000
+Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
+To:     John Stultz <john.stultz@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        iommu@lists.linux-foundation.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-tegra@vger.kernel.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+References: <20191209150748.2471814-1-thierry.reding@gmail.com>
+ <20200228025700.GA856087@builder> <20200514193249.GE279327@builder.lan>
+ <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
+From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Message-ID: <f1208f83-d261-74e7-10d0-45ad9bf6c0a0@nxp.com>
+Date:   Wed, 27 May 2020 12:06:51 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1590568380; bh=eCJczOzJXw50OnVXon9Pjid3fsAlyDrm8Ygj/fkaOrM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=h1KNMu/XVnIl1vo5WTH7xZEo9V2aT1R4mKchd/aVj2v+oSBvTDza3eX0sWWvIeY52
-         KzRhUsZBQL/FdLW6yZ8SUF6OqcU5jkQhlO7rxkABVKwjYsSaK8xkwieq4czbkXoLbU
-         6A65JuIU3X5Eh+3Fw2OVkHD174Rka3EhStIZISFgNhBAfFrFadiWDDUMLLxlSpd5tC
-         k7iueYaULTIuDXBhJHA25239LRo06msrWouX7HXHMaaIwvjbQoKVmDHApcvmklIwX2
-         VVvuOKzwm8befNRLP4dHSRpFwWYjDlwXgQ/jeTSZN1guTvBXpI7v7I9jXb3uEXWK5O
-         DYhIcfgs5Ge2g==
+X-ClientProxiedBy: VI1PR07CA0184.eurprd07.prod.outlook.com
+ (2603:10a6:802:3e::32) To VI1PR0402MB3405.eurprd04.prod.outlook.com
+ (2603:10a6:803:3::26)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.107] (86.123.58.2) by VI1PR07CA0184.eurprd07.prod.outlook.com (2603:10a6:802:3e::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.9 via Frontend Transport; Wed, 27 May 2020 09:07:08 +0000
+X-Originating-IP: [86.123.58.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 84310272-c450-4ac8-8b04-08d8021d557a
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB3502:
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB35020528A771E00460B04966ECB10@VI1PR0402MB3502.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 04163EF38A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EvxwkUN+KfviIDkMOEc1RsODCW8G1yTj2Dvtu2txLSIEI3UsiAuo7pVbPlFvlQNaSdb1ZN+n/oWnH5dat29Tx06u/87v/HbRftNL19zpwyH+4pTDTe3DAXwLmeQgZA0DIRRdZG6bTXjiaoUunGhr2DUTN86jvMVbi33JfD+oDMsQNC+HKd4d+6Rw5bxXpCbn8gPSSY0+/OWBjUsHEXH0SdiLdaETV9F6TyYaljzmr8ujIJrCsouHvJBtV8UHSVUZhCvdHino9+V8QPctOcxeEtlkeTM1PP3b2m/PHHpt7VL+i9XkP0jNvpGvxbiMjO9HGitzR71IuMiwWvuBL2XGlCfb1DX2Oyyhhdc1NfXPYXoLsbCAaQn8LTFarMOc/S7KFnsbx7w71xz0xvBm7itlYLy8HX7vzzkfGHEnhGxKiI9+CTD/MWWh5yasKOCFOwP7eRfP1IZSTV/zM19vJK+w4w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0402MB3405.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(6486002)(36756003)(966005)(83380400001)(5660300002)(16576012)(26005)(16526019)(186003)(53546011)(66946007)(66556008)(66476007)(8936002)(31686004)(4326008)(8676002)(316002)(110136005)(478600001)(6666004)(54906003)(86362001)(2616005)(956004)(2906002)(44832011)(52116002)(31696002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: I/kb9tkTwQAWp7qp7swICUHAX83oN2BRw/6pzbM6bNYdLf9I/ICiXAFHhE2JzmsSykMnKtdj0SD0CCyhMF+s5EHhxvPA+8UWGNKqjzH8lVv382b0L0uY6j/dFuVSOJ1yYePPqbZ3UPohlU6atKg9HPzP98edAm8c7bKrlPTOAOkBL+x8XQct/4LO436ZYfdQfLREG7n5Jw7vDmiE4+FxHay2A2ABFflHvquLgxDfMHCBGkVPKlmaomByFNwSdEwAThLPpleAi8TsmSReO9+xesePip+6ZhJgTuab7y7QZfqk5p/xyXR5gDaUY1qMvztx+KtsxXBTzcL2jnbA7RndNitghtZ9j7ybzzIMxJ96muC6CfckgpgOskd/+LZiGEOE68jvUGQff40qupwUsocxLrnBeiCl0HQglUt1gOHLO36ulDHSgu5TkK3Xvlg/uq/xwpIAl0YfPunP+XDvjxxtT1wcFUMxROWOiRh1RGaNfVE=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84310272-c450-4ac8-8b04-08d8021d557a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2020 09:07:08.7314
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5+vQwa1bdTV1Ml4zkcWOUc25pTO/jQG4xP09F5O5bBluVgbSkq2TGoAKzsCbQeuJIBu/wPYvE5PPVx+Q3lg3aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3502
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 26/05/2020 19:52, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.6.15 release.
-> There are 126 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On 5/26/2020 11:34 PM, John Stultz wrote:
+> On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
+>>
+>> On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
+>>
+>> Rob, Will, we're reaching the point where upstream has enough
+>> functionality that this is becoming a critical issue for us.
+>>
+>> E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
+>> mainline with display, GPU, WiFi and audio working and the story is
+>> similar on several devboards.
+>>
+>> As previously described, the only thing I want is the stream mapping
+>> related to the display controller in place, either with the CB with
+>> translation disabled or possibly with a way to specify the framebuffer
+>> region (although this turns out to mess things up in the display
+>> driver...)
+>>
+>> I did pick this up again recently and concluded that by omitting the
+>> streams for the USB controllers causes an instability issue seen on one
+>> of the controller to disappear. So I would prefer if we somehow could
+>> have a mechanism to only pick the display streams and the context
+>> allocation for this.
+>>
+>>
+>> Can you please share some pointers/insights/wishes for how we can
+>> conclude on this subject?
 > 
-> Responses should be made by Thu, 28 May 2020 18:36:22 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.6.15-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.6.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+> Ping? I just wanted to follow up on this discussion as this small
+> series is crucial for booting mainline on the Dragonboard 845c
+> devboard. It would be really valuable to be able to get some solution
+> upstream so we can test mainline w/o adding additional patches.
 
-All tests are passing for Tegra ...
++1
 
-Test results for stable-v5.6:
-    11 builds:	11 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    42 tests:	42 pass, 0 fail
+There are also some NXP chips that depend on this. Also, I've submitted
+a v2 [1] a while back that tries to address the feedback on the initial
+implementation.
 
-Linux version:	5.6.15-rc1-g8f40203f4915
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=164853
 
-Cheers
-Jon
-
--- 
-nvpublic
+---
+Best Regards, Laurentiu
