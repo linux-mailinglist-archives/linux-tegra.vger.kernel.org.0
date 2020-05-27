@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A433E1E3DF0
-	for <lists+linux-tegra@lfdr.de>; Wed, 27 May 2020 11:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 516E71E3E18
+	for <lists+linux-tegra@lfdr.de>; Wed, 27 May 2020 11:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728234AbgE0JsH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 27 May 2020 05:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57254 "EHLO
+        id S1725964AbgE0Jxl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 27 May 2020 05:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727800AbgE0JsG (ORCPT
+        with ESMTP id S1729548AbgE0Jxk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 27 May 2020 05:48:06 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB8BC061A0F
-        for <linux-tegra@vger.kernel.org>; Wed, 27 May 2020 02:48:06 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id u13so2443592wml.1
-        for <linux-tegra@vger.kernel.org>; Wed, 27 May 2020 02:48:06 -0700 (PDT)
+        Wed, 27 May 2020 05:53:40 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E9EC03E96E
+        for <linux-tegra@vger.kernel.org>; Wed, 27 May 2020 02:53:39 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id r7so6681678wro.1
+        for <linux-tegra@vger.kernel.org>; Wed, 27 May 2020 02:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=w14YFhZuDwO6AvcycIgjfoGJ600rZsKKEQPGlxaD5MA=;
-        b=FW09Yrjl0md2D0eXeDsWGwcFK+AUQoddpIP5OUm6JsEd63Gq6ep/btek63GFxfPVcN
-         asG6mr85r/1qzxttg6jRvOCENjnvnioo8dXb6xDf5eYQtA0q2AhQNIsbE6monuyrqs/Z
-         9cNsKTDEN/01RtFXYIgBZ0pi9Cg7Fgmg/xEkU=
+        bh=HLxBkm2B6V9hs4dFBcFurpntolstcFK25vP3KRDWVa0=;
+        b=fa4thrgLxjDhniEwQYPYD/H+x/QbKmGiRySiRfSh87MTCTch5T8t+Ve31NjWDIW0YT
+         kDJgyAe8bSVK//GZiSMx5YJmadDecrW3Fx5OuEZOwFZaZ/lRGTENVckcuqnWcCYFJ1wZ
+         D8fkVtiF9gfiVgL5RgfWD4WyNaoU3llWQTC/I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=w14YFhZuDwO6AvcycIgjfoGJ600rZsKKEQPGlxaD5MA=;
-        b=V5qUQZyi3CUOnd7WGbFNZkZ/2Y35zz87DMxfa3Cbcdx2Zp/ZcIHYpkwsVeHmfAH4Gs
-         pNtcrCUNL7+dCjNX3TS61UncyDUNXs6MZ7Kwtipx8OujBzweycWDuj+vygtP8atEHnQe
-         E+CBhLSMOaHKJQzdkMuw0qAiZasZQPdPAxgeIcfEDh5hMfvsvEMhLN5fzyyID2PWo4ey
-         bsX4uQ7pUXLqpQ1elYvDOIZNOX8XWC3ZcAEXvsLNERVDMSHdHQ46UDc+Ahe1um99fR0P
-         Po4PGQdU+tKVXd/XZog0u3SAAoff8kOoUk7D6pmvAv+Ot+kkJOqyeBMPpgags7LwWUUB
-         LeZA==
-X-Gm-Message-State: AOAM5323b+8i/vFeztHSIoYhTj7F7TVIaEQ2WZZMYxK9TKTpfjKvcoyL
-        btApxXkjZKCpsfZftm7ldw9Qag==
-X-Google-Smtp-Source: ABdhPJx+zYPkR1EP83OOnF4McQb574M7Xynj0o63im1XV8g6Cjj5pGw/+3pyUHnMZeS2KIMsHaJCmg==
-X-Received: by 2002:a05:600c:147:: with SMTP id w7mr3495135wmm.89.1590572885017;
-        Wed, 27 May 2020 02:48:05 -0700 (PDT)
+        bh=HLxBkm2B6V9hs4dFBcFurpntolstcFK25vP3KRDWVa0=;
+        b=Zmi/SQ3MqymoXm5bZP39UZL4zkGENGRg1vFekcXvx0Da/k1I1Zo8DA5uzIDvzZz6nd
+         Sni39w+m89OBnWgrmyf0oWEmsD1jyeFBnrV74fmFlMDzCSGBEW0PxB3syCuztSrLZsvs
+         4VSDSUCcjQ1Dg88d8Gdf2hpkaypnI94GMhlpam1OJBDSqHM0B8bO5xlFtTR24n7pUQKd
+         uMvyTCOoYAkWYNxmndZnkrhmbeeKYV2wqD+ZWKeHk/ocdEERMhWhEmod9i3G/9nM+mbM
+         Y2akJRb60VzucO2uA4JGQxYxZa2RdxwEMKvPkxGuweoV2shCLnpjsnbe4mpK+ZPQbew5
+         icOg==
+X-Gm-Message-State: AOAM532Zs51oChWtwLx7Ptsymhp8Wb705yMElWCl8M3FlOUjM9aiIacG
+        yWG3eDosyZNRBSrYF1/oqZDYtA==
+X-Google-Smtp-Source: ABdhPJyaZWZ0YQNhfnEuj+fU6HuYVlVn0Rwr6TgAOPpcXbBWaQHs0Pc7mO/YcKhXZEoodOyHkFmTow==
+X-Received: by 2002:adf:82ab:: with SMTP id 40mr22758171wrc.85.1590573218324;
+        Wed, 27 May 2020 02:53:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s8sm2353489wrg.50.2020.05.27.02.48.03
+        by smtp.gmail.com with ESMTPSA id d16sm2163947wmd.42.2020.05.27.02.53.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2020 02:48:04 -0700 (PDT)
+        Wed, 27 May 2020 02:53:37 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
@@ -77,12 +77,12 @@ Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         linux-tegra@vger.kernel.org,
         Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 2/2] drm/atomic-helper: reset vblank on crtc reset
-Date:   Wed, 27 May 2020 11:47:57 +0200
-Message-Id: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
+Subject: [PATCH] drm/atomic-helper: reset vblank on crtc reset
+Date:   Wed, 27 May 2020 11:53:32 +0200
+Message-Id: <20200527095332.1439425-1-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
-References: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
+References: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -124,6 +124,8 @@ drm_vblank_init. After the previous patch fixing mxsfb all atomic
 drivers do call drm_crtc_vblank_on/off as they should, the remaining
 drivers are either legacy kms or legacy dri1 drivers, so not affected
 by this change to atomic helpers.
+
+v2: Use the drm_dev_has_vblank() helper.
 
 Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
 Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
@@ -229,7 +231,7 @@ index 10985134ce0b..ce246b96330b 100644
  	drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
  	drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
 diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 8fce6a115dfe..843964252239 100644
+index 8fce6a115dfe..9ad74045158e 100644
 --- a/drivers/gpu/drm/drm_atomic_state_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
 @@ -32,6 +32,7 @@
@@ -244,7 +246,7 @@ index 8fce6a115dfe..843964252239 100644
  	if (crtc_state)
  		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
  
-+	if (crtc->dev->num_crtcs)
++	if (drm_dev_has_vblank(crtc->dev))
 +		drm_crtc_vblank_reset(crtc);
 +
  	crtc->state = crtc_state;
