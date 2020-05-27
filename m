@@ -2,106 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13D4F1E4C78
-	for <lists+linux-tegra@lfdr.de>; Wed, 27 May 2020 19:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 957851E4E50
+	for <lists+linux-tegra@lfdr.de>; Wed, 27 May 2020 21:36:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391740AbgE0R5H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 27 May 2020 13:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387653AbgE0R5G (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 27 May 2020 13:57:06 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 104C9C03E97D;
-        Wed, 27 May 2020 10:57:06 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id z13so20366038ljn.7;
-        Wed, 27 May 2020 10:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=l4NpTDexV8NESh3eG0B8gFwKIHqu0TSUXXYRfhGYw7Y=;
-        b=b+B6T+tBvfzagYHPLXBQNz8SCjxiQkUWkDAaKG0p0w291UMQEAvZHxegetvnU3L7e+
-         B05xBzx9hfsr/9mYjUBl3SCsr4UsO4gBKG9HiLRBHerPk7RI+0YVH1nIfhvgZwqSV0gn
-         IWm0mzjFkedkZL8TjkmrIXq1Xow47cv6BtTlJlDhczotmg07MPPcXNKiA4vtl5H/gPeh
-         D06dSyaRBKsTEcLilqgxHYGw+y0ivMTHkKu4MPXa7fJmYW/9IgcwJAtoCJyvl3bOQCHb
-         vzXvrjLWQ6mx9XFAT4j45AkHTyVQLLZ3kP0wCCmydB9x1eO4pCU+ImVKjaebHXCvPjSu
-         rMOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=l4NpTDexV8NESh3eG0B8gFwKIHqu0TSUXXYRfhGYw7Y=;
-        b=CmblZwB2HwxXrK2vnf7/WVzeJiAF+JUOe0yh3x+KHaJN/7yq/bF0FHUNaApOdxa9Cf
-         QbIM8qZhDj+F/EcOqWDRMcGNmkeAp3eIYqR9+/yaxuBasjsRoMTeDhOOSN4KGrV5mPCQ
-         //+I9H5dH4sJDVNjUzhH/kYyeqqX5QXX8jBVUE01zgHbc9IBg2XS65XWqjPKQEmcEvZ5
-         MurKrn3I1ITyGlth5pGniuZfQCa8o+lDqqOwG+tcSMkMclbDAkUseLzcDzVA2qQaZBt/
-         zUPiCuS2twkOensfx76h7M6PsQ1yzbjUkY1aPKTYwB/IqoFBFGGN7xeGpLOLJsmLlNIK
-         brdQ==
-X-Gm-Message-State: AOAM531OgLOlt/1aH9tzzMXmIrivRIbFjNVrJpdQ2cJha32OKsLvCHjf
-        /LRxH/ny58TJD684vJ51JwpxpsKg
-X-Google-Smtp-Source: ABdhPJyqLNLcb7qoReLMeZMoVIOzAmQUlY1fXb7b0/Yec6i4WzKF+DVENYGIIo/mdHTuhx2vw5WHiA==
-X-Received: by 2002:a2e:860f:: with SMTP id a15mr3322870lji.197.1590602224226;
-        Wed, 27 May 2020 10:57:04 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
-        by smtp.googlemail.com with ESMTPSA id s9sm819212ljc.43.2020.05.27.10.57.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2020 10:57:03 -0700 (PDT)
-Subject: Re: [PATCH v1 2/5] clk: Introduce clk_round_rate_unboundly()
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
+        id S1727103AbgE0Tg7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 27 May 2020 15:36:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57478 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725872AbgE0Tg7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 27 May 2020 15:36:59 -0400
+Received: from localhost.localdomain (unknown [194.230.155.118])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 25AD62088E;
+        Wed, 27 May 2020 19:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590608218;
+        bh=VVCdXP3NNPa4Va2mfBBQ2aGZhnDaopT3gzY7ZePkmeQ=;
+        h=From:To:Subject:Date:From;
+        b=j3eqKeYZUqe5PyYNz8sqv/XXe+Rcf9Pmp3chLAC4mvnUnDou/c4FgmH8819OEb+7S
+         aqI58qpU2WLtsIIeM9cI3NjXr4UqL2FnLhmrpNLnd8CzCFutTLUB+un6dqbob8KRJl
+         ktRepybTYbjLyxJnmoCSYerLNV6YP1eh31Goet58=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200330231617.17079-1-digetx@gmail.com>
- <20200330231617.17079-3-digetx@gmail.com>
- <159055894944.88029.2029223648098859689@swboyd.mtv.corp.google.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3fcac59c-7a37-d4af-9d12-710d7af05845@gmail.com>
-Date:   Wed, 27 May 2020 20:57:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <159055894944.88029.2029223648098859689@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v3 1/2] arm64: dts: tegra: Rename sysram node to "sram"
+Date:   Wed, 27 May 2020 21:36:49 +0200
+Message-Id: <20200527193650.17617-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.05.2020 08:55, Stephen Boyd пишет:
-> Quoting Dmitry Osipenko (2020-03-30 16:16:14)
->> In same cases it may be desired to round clock's rate without taking into
->> account current min/max requests made by the clock's users. One example is
->> building up OPP table based on a possible clock rates.
-> 
-> Shouldn't the OPP table come from firmware/DT? I don't quite understand
-> why we're generating OPP tables on top of the rate rounding API.
-> clk_round_rate() is supposed to tell us what rate we'll get if we call
-> clk_set_rate() with the same arguments. An unboundly version of that
-> doesn't make sense. 
+The device node name should reflect generic class of a device so rename
+the "sysram" node to "sram".  This will be also in sync with upcoming DT
+schema.  No functional change.
 
-The OPP should come from the DT, but unfortunately DT and Tegra's
-devfreq driver wasn't designed like that from the start, so it will take
-some extra effort to re-do it properly now. I wanted to postpone that
-effort a tad and get at least the basics upstreamed for the starter.
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> I wonder if perhaps the clk provider should be populating OPP tables in
-> this case? Or basically anything besides adding another clk consumer API
-> to solve this problem. Who is the caller? Something later in this
-> series?
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index 58100fb9cd8b..3ed7d7a26219 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1213,7 +1213,7 @@
+ 		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_GPU>;
+ 	};
+ 
+-	sysram@30000000 {
++	sram@30000000 {
+ 		compatible = "nvidia,tegra186-sysram", "mmio-sram";
+ 		reg = <0x0 0x30000000 0x0 0x50000>;
+ 		#address-cells = <2>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 4bc187a4eacd..0533c45b9237 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1737,7 +1737,7 @@
+ 		nvidia,aspm-l0s-entrance-latency-us = <3>;
+ 	};
+ 
+-	sysram@40000000 {
++	sram@40000000 {
+ 		compatible = "nvidia,tegra194-sysram", "mmio-sram";
+ 		reg = <0x0 0x40000000 0x0 0x50000>;
+ 		#address-cells = <1>;
+-- 
+2.17.1
 
-I'll try to add a proper OPP table with freqs and voltages, will see how
-it goes. We will need to do it sooner or later anyways. So perhaps it's
-fine to drop the current approach with the clk_round_rate_unboundly()
-and re-focus on a proper OPP implementation.
-
-Thank you for getting back and replying to this topic :)
