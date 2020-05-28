@@ -2,88 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33AF51E510A
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2020 00:13:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E951E5252
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 May 2020 02:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725820AbgE0WNn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 27 May 2020 18:13:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:43409 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725780AbgE0WNm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 27 May 2020 18:13:42 -0400
-Received: from threadripper.lan ([149.172.98.151]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MZTa2-1jXvWm2V4I-00WYLm; Thu, 28 May 2020 00:13:30 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     soc@kernel.org, Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Thierry Reding <treding@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: tegra-video: fix V4L2 dependency
-Date:   Thu, 28 May 2020 00:13:06 +0200
-Message-Id: <20200527221327.3339232-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.2
+        id S1725795AbgE1AiR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 27 May 2020 20:38:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59020 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725267AbgE1AiR (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 27 May 2020 20:38:17 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 62F82206DF;
+        Thu, 28 May 2020 00:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590626296;
+        bh=cmSou5VE1UNh7bIXRNVGEpuB0HEm75DbJwXB1O6nCt8=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=I4zKjqrD5Xi60T8w5xlbBJOO1r9GlOycS6B77QnDNwNpYrmFm/Mm49/7WcydqN9MD
+         7zmIaEBqkLR64PKfIOcN/Fr4AFWAP5R6aB+10rKCIUr707orYGhMrsD9zmryXAniVQ
+         DcWGtigeJR5AmjNXretYcdxXURCwZqBJEC3mI4fM=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OkSCNXrxgq+QBC6VZibXnhg/MVMqw5QZ+B8NVtwOjOHdh8pK7KV
- oNEVVM4Oeri88gdj7u5OW8bijKaO6HHtbsrhzkmFFZmCUhd2m7Gd2ygmRgvRxVfHB/smmNN
- 55R6GIMNzhZJYM3/igbihA7ZqXkAXDHxi8VVZpihLDblQ/StiZ+Y5GsvkNU2A8W3qVFeKqQ
- SaiD+hsn+mHITvEqJXKkw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8tSYDyvKwCo=:LVwvEWqO4zqtVa9oCHOyUR
- uNwRBjTb9L3mYUmVSjV7rIcFNmq+cDjGRFIlFNf9fwOnPvFfN/qYDMWpeILTUwBDiyoTcd7I6
- OtReLlFW8QOdfRy16htFKM/nXzZbMpbAMJFPvcwSreaTx/ZerqczDQHOU6iMPsOf3E3mgblF5
- hkfVSufRgbmScDBbPkPJRrdqEFfXab87hi226bAgMn0kAA+nFWszlvJIoUReNd223KDhHgPxS
- VIuo2Q2cLy6IGrflYwLwvwC+hFtKNSEuO7qGE+n7ZgVw1n919QXDKFkd/oDzRs/apKdPmEkoh
- gnMGAk/MxlU23oXo08ekP4butF4UORCC7O0P/nTtFohSgb8EEe2Tp4OLC18uYXoj+R6zHpLX8
- 1/OA+BmFG8Lr7A5mwILNGm0FyyZ7CJr24xTwSlp7YM9gaWcr8DNFgftm9aFNYsuJCL2CLPQok
- g14eEiZEdb9YaRHtoJ0IhC9PbBrlue8IMbCSdgDAdFx80qg4wQji/lxBXDJii0+suFdWHahhl
- NRkqnAk7b6W5aKtXfd0CZoOWvegIVTl3WF13HIfkfyMg+io7U6igWGsCMJMXVrAaLXLl6QrDe
- cUL12Yat+ighNEMELCAiMZ1C7Dkj6x0+QmOu0bAwjry1MGcg1LfwqbS3E+oCK6m3hsWtakD+n
- rMkIGhi4Gt2of6tqBkzr0tuWqWTesMJqo0RrKXCkr5azyx23Qf3emsGUy90QePxLMPbRXyqvC
- XQ5tF84oR+SW97FBEQcbkFyWmLw/b6Y9rxvOB6Mohz4lStJqlTPtaiySH3ISw/thz+HCRnlGT
- 9oJOh0yhDvRSfbkS231duc4zUWmAhFWvkEkPc1FpjEQKFo6cWU=
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <3fcac59c-7a37-d4af-9d12-710d7af05845@gmail.com>
+References: <20200330231617.17079-1-digetx@gmail.com> <20200330231617.17079-3-digetx@gmail.com> <159055894944.88029.2029223648098859689@swboyd.mtv.corp.google.com> <3fcac59c-7a37-d4af-9d12-710d7af05845@gmail.com>
+Subject: Re: [PATCH v1 2/5] clk: Introduce clk_round_rate_unboundly()
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Date:   Wed, 27 May 2020 17:38:15 -0700
+Message-ID: <159062629560.69627.6748976171636917991@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Rather than using a dependency on VIDEO_V4L2, this driver uses
-"select", which fails when other dependencies are missing:
+Quoting Dmitry Osipenko (2020-05-27 10:57:01)
+> 27.05.2020 08:55, Stephen Boyd \u043f\u0438\u0448\u0435\u0442:
+> > Quoting Dmitry Osipenko (2020-03-30 16:16:14)
+> >> In same cases it may be desired to round clock's rate without taking i=
+nto
+> >> account current min/max requests made by the clock's users. One exampl=
+e is
+> >> building up OPP table based on a possible clock rates.
+> >=20
+> > Shouldn't the OPP table come from firmware/DT? I don't quite understand
+> > why we're generating OPP tables on top of the rate rounding API.
+> > clk_round_rate() is supposed to tell us what rate we'll get if we call
+> > clk_set_rate() with the same arguments. An unboundly version of that
+> > doesn't make sense.=20
+>=20
+> The OPP should come from the DT, but unfortunately DT and Tegra's
+> devfreq driver wasn't designed like that from the start, so it will take
+> some extra effort to re-do it properly now. I wanted to postpone that
+> effort a tad and get at least the basics upstreamed for the starter.
+>=20
+> > I wonder if perhaps the clk provider should be populating OPP tables in
+> > this case? Or basically anything besides adding another clk consumer API
+> > to solve this problem. Who is the caller? Something later in this
+> > series?
+>=20
+> I'll try to add a proper OPP table with freqs and voltages, will see how
+> it goes. We will need to do it sooner or later anyways. So perhaps it's
+> fine to drop the current approach with the clk_round_rate_unboundly()
+> and re-focus on a proper OPP implementation.
+>=20
+> Thank you for getting back and replying to this topic :)
 
-WARNING: unmet direct dependencies detected for VIDEO_V4L2
-  Depends on [n]: MEDIA_SUPPORT [=y] && (I2C [=y] || I2C [=y]=n) && VIDEO_DEV [=n]
-  Selected by [y]:
-  - VIDEO_TEGRA [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && TEGRA_HOST1X [=y]
-(plus an endless stream of link errors for other drivers that
-depend on VIDEO_V4L2 but are now lacking their dependencies)
-
-Fixes: 3d8a97eabef0 ("media: tegra-video: Add Tegra210 Video input driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/staging/media/tegra-video/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
-index 3f03b5b39e6c..f6c61ec74386 100644
---- a/drivers/staging/media/tegra-video/Kconfig
-+++ b/drivers/staging/media/tegra-video/Kconfig
-@@ -2,7 +2,7 @@
- config VIDEO_TEGRA
- 	tristate "NVIDIA Tegra VI driver"
- 	depends on TEGRA_HOST1X
--	select VIDEO_V4L2
-+	depends on VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEOBUF2_DMA_CONTIG
- 	help
--- 
-2.26.2
-
+Alright, it sounds better to me if we can avoid a one off addition to
+the clk API in favor of implementing a proper OPP table from the start.
