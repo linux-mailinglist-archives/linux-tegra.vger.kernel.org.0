@@ -2,54 +2,30 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34CD61E7C74
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2020 13:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0CE11E7C82
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2020 14:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725961AbgE2L6M (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 May 2020 07:58:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45108 "EHLO
+        id S1726052AbgE2MCQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 May 2020 08:02:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbgE2L6K (ORCPT
+        with ESMTP id S1725775AbgE2MCQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 May 2020 07:58:10 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E4BC03E969
-        for <linux-tegra@vger.kernel.org>; Fri, 29 May 2020 04:58:08 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id t18so3241842wru.6
-        for <linux-tegra@vger.kernel.org>; Fri, 29 May 2020 04:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xx1veJ0bxaB2/083Vidu3CaROGdKYLceDHTRUZktGpw=;
-        b=Wt/+CBVkeqmhoDxkgUcUrdYCWXBHm+nr/cR5jGeFZlv5gPbPpgUNV9WI/2FpxL7Sh1
-         BunXXti7wfywtJ60rGKddXoln6Av/Oa0ZZrsy+7IP/AEwggylOynKubSxPnll/s9ssyO
-         U1OzX8nAUnwWw4wdQsTbGNiG0MvI03ULQ/5z4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xx1veJ0bxaB2/083Vidu3CaROGdKYLceDHTRUZktGpw=;
-        b=hHID+1LCVhYavxm9auzOtny95WnRgSGj/L3LVwZTacqPYAT9IIqzkSOk8r2/GsUc9q
-         Ge+yiQz2LK+L7Yzk7uhQb+luAZuQQ1mbsOhXsFrQamegeMdV2px6PKuD/C0/C4YEI7QB
-         oazeRlyONF8HcHKv3lLIVXjgdZgN7Jb+c4wq33V7rDNTucI8fEqE+4PIGDOHbrCCKArO
-         bJRJObOsf9ZbAPLyRS34RgX2do7GEXrFNThSehhBWVOD6PYK8/y4IDdK8Ro5flDrudi3
-         /RmeSPqCxTS7ewOGdSN8KIYRkstGJYnxMUIBb4GR0g5Ht9rLKB5jZfp2XU7ok6EJWcWr
-         oVwQ==
-X-Gm-Message-State: AOAM530OXJTkrONiaGqKgPeK44kN+yVAiccWot8BFv37MxhBJIqmGaa7
-        9J5gkfjYkZR1mtveWI0Nxt+hcw==
-X-Google-Smtp-Source: ABdhPJwA+WuHmyqac7N86Lzq6cy3+brw4uW9ek2KTrnTVCi54FYc9484ltnjwTUAbNK945k6dJDLyg==
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr7872964wrr.337.1590753487253;
-        Fri, 29 May 2020 04:58:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id k17sm9605881wmj.15.2020.05.29.04.58.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 04:58:06 -0700 (PDT)
-Date:   Fri, 29 May 2020 13:58:04 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Fri, 29 May 2020 08:02:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5832C03E969
+        for <linux-tegra@vger.kernel.org>; Fri, 29 May 2020 05:02:15 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F25E12A44A5;
+        Fri, 29 May 2020 13:02:12 +0100 (BST)
+Date:   Fri, 29 May 2020 14:02:09 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
         syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
         "James (Qian) Wang" <james.qian.wang@arm.com>,
@@ -79,20 +55,23 @@ Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         linux-tegra@vger.kernel.org,
         Daniel Vetter <daniel.vetter@intel.com>
 Subject: Re: [PATCH 2/2] drm/atomic-helper: reset vblank on crtc reset
-Message-ID: <20200529115804.GD1630358@phenom.ffwll.local>
-References: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
- <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <20200529140209.23457fad@collabora.com>
 In-Reply-To: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+References: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
+        <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, May 27, 2020 at 11:47:57AM +0200, Daniel Vetter wrote:
+On Wed, 27 May 2020 11:47:57 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+
 > Only when vblanks are supported ofc.
 > 
 > Some drivers do this already, but most unfortunately missed it. This
@@ -127,10 +106,6 @@ On Wed, May 27, 2020 at 11:47:57AM +0200, Daniel Vetter wrote:
 > drivers do call drm_crtc_vblank_on/off as they should, the remaining
 > drivers are either legacy kms or legacy dri1 drivers, so not affected
 > by this change to atomic helpers.
-
-Note that mxsfb has accidentally totally broken vblank support, so doesn't
-need fixing at all. I'll update that paragraph when merging.
-
 > 
 > Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
 > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
@@ -162,15 +137,15 @@ need fixing at all. I'll update that paragraph when merging.
 > Cc: Thomas Gleixner <tglx@linutronix.de>
 > Cc: linux-tegra@vger.kernel.org
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Ping for some more eyes and maybe testing on this patch here.
-
-Thanks, Daniel
-
 > ---
 >  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
 >  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
 >  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+
+For atmel-hlcdc:
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 >  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
 >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
 >  drivers/gpu/drm/tegra/dc.c                       | 1 -
@@ -316,11 +291,4 @@ Thanks, Daniel
 >  	drm_mode_config_reset(ddev);
 >  
 >  	dev_dbg(tidss->dev, "%s done\n", __func__);
-> -- 
-> 2.26.2
-> 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
