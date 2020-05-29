@@ -2,93 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E15D1E7D79
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2020 14:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C431E8630
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2020 20:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbgE2Mpb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 May 2020 08:45:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52522 "EHLO
+        id S1727830AbgE2SFZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 May 2020 14:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbgE2Mpa (ORCPT
+        with ESMTP id S1726849AbgE2SFY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 May 2020 08:45:30 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9D5C03E969;
-        Fri, 29 May 2020 05:45:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=hWDpNSmqqL4jiVuIX8+MfcVSYKD0Sr0CkGGlOnTksS8=; b=Mw3cOcpwT75KMypA7DbQN76n3K
-        LmIujEvwcjqz8mB4DIQNPRDiJKYUham8VvC6rSnD6+3ba6I3VkRz3MaFsFNabdvTOT2j5AatU+Z7I
-        o2P6if4RDFm1y5wwdk2idNMSaFbHSv9nUDIt/4zeeljrafN3UYBqYE+KqfQCvuFK6OcWyAc+raczK
-        RK1oGDElglttDYT91kX4m02qQyIV6yN6hy+hALyRQRMTpe79Bv+Xx23bujAFJtHO/oMRx35Hz3zuD
-        lD4co5ouUY7qPRY4OdLY/2HO+5AIT+8BT8rZU73mdGN5IlVfIzk0ihyFqydTRs7blGIxekQ3JxAc7
-        R7D+WZjw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jeeO3-00062M-2L; Fri, 29 May 2020 12:45:23 +0000
-Date:   Fri, 29 May 2020 05:45:23 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Logan Gunthorpe <logang@deltatee.com>
-Cc:     Tom Murphy <murphyt7@tcd.ie>, iommu@lists.linux-foundation.org,
-        kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Julien Grall <julien.grall@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Fri, 29 May 2020 14:05:24 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39569C03E969;
+        Fri, 29 May 2020 11:05:24 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id e1so4808419wrt.5;
+        Fri, 29 May 2020 11:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oaV3HDgGaW/NdtRSKlBZ4ciqfTWQuovxIxjYOpe1nbU=;
+        b=MComGRxNSGOa2AQcZx8svu/uqApOWKEYSEr2xBJDnae+l5DzInr1bPXiPAH+Fna2w8
+         QOoAzytrQn9ZyvJ0B6YJUJIvAzc+ETN9gBglLQBM5HRcN+K33ubV8ts7QyGrlYhaLEv1
+         ebNasHcWy12Mx8+fAnzNK3pJPqS0+B0rSvIsLYGUguzA0pzvqix4meK7bxRLFKcqFIzm
+         0b1rEjyO+aV0eVutL7TO55I2WAPfo2o1FYIkEEbcuw4XvIRXN/CjdmEvxQWG1TWFpfdf
+         4gyhbbz4Q9N2Z+7yh01woPV/QR9FjUJzefck20Xy0Lny2vqrBcGqIiC1zkieeOxWEtGz
+         Jadg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oaV3HDgGaW/NdtRSKlBZ4ciqfTWQuovxIxjYOpe1nbU=;
+        b=OruHiKZaVunDLfCT7ixKx+dCr0t9wWOFM9gUj0aIYtneq0nULxy95ONMW1SzjdxFYK
+         ydoztacbGN3+oAMIdpwUPON9R1tHn6iKqZuKH8NRSgz4cRDcjc5nICpCqaiJ0pMI18mb
+         0x7A1fbeu4nOJMPz5RX2fM1usJbbiVUEt2DI5L8c/CLbUz+BQwU1PKoZSHpX+32Dqhlh
+         wa+rccAd7In4XbSwncHaTtAJuwxP54bYNawVIGQi3xT+0x9gj3DG+kFk2f15c0ska0T3
+         homqkR01qCXEBNGT4rj4zeg5mypwUkYWtmL5aiOrLRaPWQAgMgn1ZwGIDYFw5VTVoNO4
+         i1Yg==
+X-Gm-Message-State: AOAM530zetuUoqN8JzouzhIgNt9tvxAQUECnsFDnUnMWzlWiSowS6vpD
+        RGMJNA/3JiO4WVcsV6x8irA=
+X-Google-Smtp-Source: ABdhPJxWYCv97CQHbzXupNUr3SbhQeyf/jQNBDfH31WBn02Uqr5j6SgI7ipKH03fRVpx/lh3Omy+1w==
+X-Received: by 2002:adf:f707:: with SMTP id r7mr10497594wrp.390.1590775522997;
+        Fri, 29 May 2020 11:05:22 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id u10sm248995wmc.31.2020.05.29.11.05.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2020 11:05:20 -0700 (PDT)
+Date:   Fri, 29 May 2020 20:05:18 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc:     kjlu@umn.edu, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        Alex Williamson <alex.williamson@redhat.com>,
-        linux-mediatek@lists.infradead.org,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        virtualization@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org,
-        Robin Murphy <robin.murphy@arm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        linux-kernel@vger.kernel.org, Kukjin Kim <kgene@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
-Message-ID: <20200529124523.GA11817@infradead.org>
-References: <20191221150402.13868-1-murphyt7@tcd.ie>
- <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v2] PCI: tegra: Fix runtime PM imbalance on error
+Message-ID: <20200529180518.GA3078281@ulmo>
+References: <20200521024709.2368-1-dinghao.liu@zju.edu.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200521024709.2368-1-dinghao.liu@zju.edu.cn>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 28, 2020 at 06:00:44PM -0600, Logan Gunthorpe wrote:
-> > This issue is most likely in the i915 driver and is most likely caused by the driver not respecting the return value of the dma_map_ops::map_sg function. You can see the driver ignoring the return value here:
-> > https://github.com/torvalds/linux/blob/7e0165b2f1a912a06e381e91f0f4e495f4ac3736/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c#L51
-> > 
-> > Previously this didn’t cause issues because the intel map_sg always returned the same number of elements as the input scatter gather list but with the change to this dma-iommu api this is no longer the case. I wasn’t able to track the bug down to a specific line of code unfortunately.  
 
-Mark did a big audit into the map_sg API abuse and initially had
-some i915 patches, but then gave up on them with this comment:
+--vkogqOf2sHV7VnPd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"The biggest TODO is DRM/i915 driver and I don't feel brave enough to fix
- it fully. The driver creatively uses sg_table->orig_nents to store the
- size of the allocate scatterlist and ignores the number of the entries
- returned by dma_map_sg function. In this patchset I only fixed the
- sg_table objects exported by dmabuf related functions. I hope that I
- didn't break anything there."
+On Thu, May 21, 2020 at 10:47:09AM +0800, Dinghao Liu wrote:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code. Thus a pairing decrement is needed on
+> the error handling path to keep the counter balanced.
+>=20
+> Also, call pm_runtime_disable() when pm_runtime_get_sync() returns
+> an error code.
+>=20
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/pci/controller/pci-tegra.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-it would be really nice if the i915 maintainers could help with sorting
-that API abuse out.
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--vkogqOf2sHV7VnPd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7RTtcACgkQ3SOs138+
+s6FFww/+KMM+DRTaPWNZojZr63GKToc/xvSE1Nb55d6CJHWJdLjxwzaoeVxmMAzO
+W9sX31ectNIrK1a1p+4TiErNIrzNr4bEyjZWpGMlljo2LJrS3e7n5VNVHrZBK5PW
+mfxdVWdhYWVoVtQOeXf193TSRLkAuvsiznFknYHr4sKCBTXCm06zaRucjFxIX2Jt
+EzF0L72aKYGQe93JmSGh3HJdOrryiCd3f5IAc8kc+KfYRAUm8jlLIgmUUGM9o+GR
+NQGhHFHm/fnsQAehXieRx1DR4GwZPa1FzrBBkhGcMNcg+io8Qe1rdH3imSD17P5D
+v+lB6v3SMHOdf0/ahUGHf6/xkuX2oBvOYEhmMucguOXksM0N/QsuyHUAkIc/W6Tc
+RnPrxtK4ui8LrCJtrLb4+Qn3L33IMj0eIKEajY7/IA1Z/ElILC25HgQHlsbFWPis
+WCbAv7vYvdf7uunrys6fTr2WIuX6f3lOI2svqfVfWFkmzAN3D0Cxl1vOyTb5FXjG
+CH/1Jf0CxgCMZDMB4F/7NNH1snTQ8hNPe+u40TjlDexYV28ArVCzJ+IH3ghdUb9O
+2RcDyL4yIpAJJ5VPwd9ao9HEg9TiRzGoi0nqSWtauGDbasTFLcDtpFSQYijJpJfg
+JFgpeJ4a5Cn54XZSwdZs9oWaXvkJoP902S5fUZkuHgDc8SQXtqU=
+=3fsG
+-----END PGP SIGNATURE-----
+
+--vkogqOf2sHV7VnPd--
