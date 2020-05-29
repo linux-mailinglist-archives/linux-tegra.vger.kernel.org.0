@@ -2,83 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 512F11E7A86
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2020 12:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F19C91E7B11
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 May 2020 12:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725601AbgE2K1c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 May 2020 06:27:32 -0400
-Received: from foss.arm.com ([217.140.110.172]:34686 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725681AbgE2K13 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 May 2020 06:27:29 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C41E11063;
-        Fri, 29 May 2020 03:27:28 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31BF23F52E;
-        Fri, 29 May 2020 03:27:27 -0700 (PDT)
-Date:   Fri, 29 May 2020 11:27:24 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu, Rob Herring <robh@kernel.org>,
+        id S1725836AbgE2K6k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 May 2020 06:58:40 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19845 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbgE2K6j (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 29 May 2020 06:58:39 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed0ea830000>; Fri, 29 May 2020 03:57:07 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 29 May 2020 03:58:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 29 May 2020 03:58:38 -0700
+Received: from [10.25.76.239] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 29 May
+ 2020 10:58:28 +0000
+Subject: Re: [PATCH] PCI: tegra: fix runtime pm imbalance on error
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     Bjorn Helgaas <helgaas@kernel.org>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>, <kjlu@umn.edu>,
+        Rob Herring <robh@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>,
         Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] PCI: tegra194: Fix runtime PM imbalance on error
-Message-ID: <20200529102724.GB12270@e121166-lin.cambridge.arm.com>
-References: <20200521031355.7022-1-dinghao.liu@zju.edu.cn>
+        <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200520163739.GA1100601@bjorn-Precision-5520>
+ <e7c967a0-c285-450a-bbad-f6456c661d41@nvidia.com>
+ <20200529102317.GA12270@e121166-lin.cambridge.arm.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <74c911ac-95ab-d2a0-8604-1ef19c2f997d@nvidia.com>
+Date:   Fri, 29 May 2020 16:28:23 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200521031355.7022-1-dinghao.liu@zju.edu.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200529102317.GA12270@e121166-lin.cambridge.arm.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1590749827; bh=06/Fdr3bA+ciLNMseJ/kn2hvnWdtUgAwTL8Ebufl9cc=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=HEnxrdPaTamFwHVwP3lcJImL81/SCDFEZkJuQc5KwaxVLRLmvWOEP351hf9uYUYGJ
+         FxwSBmNrfIAzLYGFbDJT5OY9gPtBxbkJyjCnVBW+S4HT+Cw8+mKmlr/p8ReSOtrIm9
+         g/BxOqEHeNyosTal4A9G3kN20WAE3xigboj76gQXb8rT6x2CqIJhHhdeedqYWeFh+z
+         vrza/JEBnhtiQQeq7C/fMvcogEvwtpUNpTi1tHWWtNwjT8NRsvR3cRa2aTFDXKOku3
+         Iqh+VT++jpyYnJP+D++u8eh+IZN/o//C4jY6vCAcQbfgjnZcLOG6o1ufzZdP0qQxCv
+         lAmu3X47o+AMg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 21, 2020 at 11:13:49AM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code. Thus a pairing decrement is needed on
-> the error handling path to keep the counter balanced.
+
+
+On 29-May-20 3:53 PM, Lorenzo Pieralisi wrote:
+> External email: Use caution opening links or attachments
 > 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
->  drivers/pci/controller/dwc/pcie-tegra194.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-
-Applied to pci/tegra, thanks.
-
-Lorenzo
-
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index ae30a2fd3716..2c0d2ce16b47 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -1623,7 +1623,7 @@ static int tegra_pcie_config_rp(struct tegra_pcie_dw *pcie)
->  	ret = pinctrl_pm_select_default_state(dev);
->  	if (ret < 0) {
->  		dev_err(dev, "Failed to configure sideband pins: %d\n", ret);
-> -		goto fail_pinctrl;
-> +		goto fail_pm_get_sync;
->  	}
->  
->  	tegra_pcie_init_controller(pcie);
-> @@ -1650,9 +1650,8 @@ static int tegra_pcie_config_rp(struct tegra_pcie_dw *pcie)
->  
->  fail_host_init:
->  	tegra_pcie_deinit_controller(pcie);
-> -fail_pinctrl:
-> -	pm_runtime_put_sync(dev);
->  fail_pm_get_sync:
-> +	pm_runtime_put_sync(dev);
->  	pm_runtime_disable(dev);
->  	return ret;
->  }
-> -- 
-> 2.17.1
 > 
+> On Wed, May 20, 2020 at 11:39:08PM +0530, Vidya Sagar wrote:
+>> Thanks for pushing a patch to fix it. I've been under the wrong assumption
+>> that a failing pm_runtime_get_sync() wouldn't increment the usage counter.
+>> With Thierry's and Bjorn's comments addressed
+>>
+>> Acked-by: Vidya Sagar <vidyas@nvidia.com>
+> 
+> Thierry, Vidya,
+> 
+> are your ACKs applying also to:
+> 
+> https://patchwork.kernel.org/patch/11562109/
+I just took a look at this change and it looks good to me.
+So, I'm fine with extending my 'Acked-by' to this patch as well.
+
+Thanks,
+Vidya Sagar
+> 
+> Dinghao did not carry them over and I could not understand from this
+> thread if your ACKs apply to both tegra and tegra194.
+> 
+> Thanks,
+> Lorenzo
+> 
+>> On 20-May-20 10:07 PM, Bjorn Helgaas wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> On Wed, May 20, 2020 at 11:59:08AM +0200, Thierry Reding wrote:
+>>>> On Wed, May 20, 2020 at 04:52:23PM +0800, Dinghao Liu wrote:
+>>>>> pm_runtime_get_sync() increments the runtime PM usage counter even
+>>>>> it returns an error code. Thus a pairing decrement is needed on
+>>>>
+>>>> s/even it/even when it/
+>>>>
+>>>> Might also be a good idea to use a different subject prefix because I
+>>>> was almost not going to look at the other patch, taking this to be a
+>>>> replacement for it.
+>>>
+>>> Amen.  This would be a good change to start using "PCI: tegra194" or
+>>> something for pcie-tegra194.c.  Or will there be tegra195, tegra 196,
+>>> etc added to this driver?
+>>>
+>>> Also, please capitalize the first word and "PM" in the subjects:
+>>>
+>>>     PCI: tegra194: Fix runtime PM imbalance on error
+>>>
+>>> Bjorn
+>>>
