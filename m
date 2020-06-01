@@ -2,259 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86C971EA4C4
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jun 2020 15:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 525241EA5E5
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jun 2020 16:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726825AbgFANRR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jun 2020 09:17:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43113 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726110AbgFANRP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jun 2020 09:17:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591017433;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:in-reply-to:in-reply-to:  references:references;
-        bh=bTjB8qfrHTSFjfUbutxvl/qwCsz3nerFRx3HPBX7A6Q=;
-        b=dswp2DhJoFaSOmPNwMaXbIaKy6CFL13P7eaCaEPC/GituVYk6AruQ4OtexHZPJWXzXwg5N
-        AdA4W1oPkEQmUAB/kJjK5ol8je6ZJxgZteCkMeRDnwaJXmwBflBoyg2dbY8iWqhvlVw27a
-        0D7Uqc0Z/YQMRrFbx4jOaGWiOGH4ehs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-zbmb2EdhNE63O35zy7oiKA-1; Mon, 01 Jun 2020 09:17:06 -0400
-X-MC-Unique: zbmb2EdhNE63O35zy7oiKA-1
-Received: by mail-qv1-f72.google.com with SMTP id v1so8539030qvx.8
-        for <linux-tegra@vger.kernel.org>; Mon, 01 Jun 2020 06:17:06 -0700 (PDT)
+        id S1726667AbgFAOar (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 1 Jun 2020 10:30:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60484 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbgFAOaq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jun 2020 10:30:46 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1F2C05BD43;
+        Mon,  1 Jun 2020 07:30:46 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id s1so8413453ljo.0;
+        Mon, 01 Jun 2020 07:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qrXfNg8Dhf3rKXKa4YFqpN12r/srvtJJMd2BqfCjhzo=;
+        b=pyWpR2G+dxSQ+AfcOgiIpEdWYHmL7eQO0yLqH5QZiiNiWKilyq5pdydncNy1V19aWg
+         B9KzcrHihZn9ExL3n/LFPf/MLsfeXSBLNEoYTYltIy+FDVUe6v88lOwCS1WsZtDhQZYS
+         BzffqzFiQ5I0h2YdM4VdY99XIzzbfLJWxvS7JN4BaRlHYjzDZddqcvYKZhRkdDValiwo
+         YNGXJw5hgg4EgZwHJd9RFhIRkUSF1lQCoP5V0tgEIq04YIYjJRSV9Vq/oPEcTa1Iagm6
+         cEP0J/U6kKRZdlAC/CTJAQtmuiACuBh8fRcjjRU0CU/xNlYQ5rQj2w465uBzmhCJaP76
+         8l5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:reply-to
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=bTjB8qfrHTSFjfUbutxvl/qwCsz3nerFRx3HPBX7A6Q=;
-        b=WEqraRSAo0wwqfkq/zfkxGmXu4k+OTavtdrSmyIMKsuAiJIwH9ZtlU4idBnnB/1jiE
-         3WG6/9wXFGhYpPxYtZs67aGOM7PyqrBg1n4H/paSDTMJ7ijRwvcKNfDy7eRtlEsiGkKD
-         zRVMZOG6enDS7iyINTRju8DGDrGPtv4N08OPBpasIZ5BPNcz4b8+A52IPF+jkTP8ESML
-         qMpDUyhltiO1jMWHd0WKhdWofnrBWw5f/i5/1AbeU6hU3+Wfx9YQG9hzeVMs089Inp6v
-         w4QhascbxkPaWVyRZhPEif1ZF5X5cYImHl1pEFBTDBcVI6HqnGvv38O/L5OvU55+V3LL
-         wHPw==
-X-Gm-Message-State: AOAM533L17xGfJpzDukfU6fnX8LWDfXbKrA1XnMV1kBC0GVNQTsrnN+S
-        waP8/OcaPmqjvbXIVbnx/RsiLgZl5YsegfFAkI/k5rzmUO1VTKLCYSRwCdL5bTCsdSq/QmXKDi5
-        IEmZaGvo2IK6UMbD6o9xER9E=
-X-Received: by 2002:a0c:ee25:: with SMTP id l5mr20058571qvs.5.1591017425796;
-        Mon, 01 Jun 2020 06:17:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfI03wn2xa5VbguB4ZgxB0Liv4dY32KsoEfpHfoc+ZEMln7Vo+khXJZaEY6bPHZ9c8b/Aysw==
-X-Received: by 2002:a0c:ee25:: with SMTP id l5mr20058438qvs.5.1591017424552;
-        Mon, 01 Jun 2020 06:17:04 -0700 (PDT)
-Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
-        by smtp.gmail.com with ESMTPSA id r77sm12075150qke.6.2020.06.01.06.17.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 06:17:03 -0700 (PDT)
-Date:   Mon, 1 Jun 2020 06:17:02 -0700
-From:   Jerry Snitselaar <jsnitsel@redhat.com>
-To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
-Message-ID: <20200601131702.4ksimsjvnsmo3mvn@cantor>
-Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
-Mail-Followup-To: Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-References: <20200414131542.25608-1-joro@8bytes.org>
- <20200529221623.qc6twmpzryh7nkvb@cantor>
- <20200601104240.7f5xhz7gooqhaq4n@cantor>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qrXfNg8Dhf3rKXKa4YFqpN12r/srvtJJMd2BqfCjhzo=;
+        b=LtFgetvjMfHnbcQxoBnwSuITAtr81iDT3P6upGWL/1ifdxyjgJmZGk/Ozy2vebpNQa
+         1cKJkkdeI+9sLZLsNru/ZKUzSkyexgF+ulGgzEq/bBfsErkaIs6C6P3Ng8YmJ2KtxJMN
+         xVIenQKUUpv3HaPQmaz9vxDHHabxFSh2ED52hTKh1oqhCTSOJigng0CB3MNkZU/pYhgo
+         IcEZSWiWqtPMVpFsi8oVsH+OTY0Gy5nWUNYeA5avHyGFDLcYBC1oIrviAdsJ8E38sbXC
+         MnbGr3IFD7STdwa7nwrYKxwFHVO5N8i30TPG+HdKNF7CqeZix2F1RyWSD+MFyIRn4Ys3
+         jOgQ==
+X-Gm-Message-State: AOAM532bYu7GE8MzMTxNZPKyMBcvzjUsFsd4z1rhNFpPWW4mB0SaDlbJ
+        xESCMYDL+ECWRTHFCOEvMyMtcuJf
+X-Google-Smtp-Source: ABdhPJworqpq/dL7ubf5GJxn9N5XNdiyDOT8oDEy1M0BHLIEgPJeM+ZwjYjAa3RfGgEjqdZxP/LlMw==
+X-Received: by 2002:a05:651c:1039:: with SMTP id w25mr11674726ljm.30.1591021844175;
+        Mon, 01 Jun 2020 07:30:44 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
+        by smtp.googlemail.com with ESMTPSA id h26sm4896061lja.0.2020.06.01.07.30.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2020 07:30:40 -0700 (PDT)
+Subject: Re: tegra124-jetson-tk1: sata doesnt work since 5.2
+To:     LABBE Corentin <clabbe@baylibre.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, pgaikwad@nvidia.com, pdeschrijver@nvidia.com,
+        mturquette@baylibre.com, sboyd@kernel.org, axboe@kernel.dk
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-ide@vger.kernel.org
+References: <20200319074401.GA4116@Red> <20200531193111.GA15331@Red>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ff9923ca-1d02-ab5e-c335-83ee2e993061@gmail.com>
+Date:   Mon, 1 Jun 2020 17:30:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200601104240.7f5xhz7gooqhaq4n@cantor>
+In-Reply-To: <20200531193111.GA15331@Red>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon Jun 01 20, Jerry Snitselaar wrote:
->On Fri May 29 20, Jerry Snitselaar wrote:
->>On Tue Apr 14 20, Joerg Roedel wrote:
->>>Hi,
->>>
->>>here is the second version of this patch-set. The first version with
->>>some more introductory text can be found here:
->>>
->>>	https://lore.kernel.org/lkml/20200407183742.4344-1-joro@8bytes.org/
->>>
->>>Changes v1->v2:
->>>
->>>	* Rebased to v5.7-rc1
->>>
->>>	* Re-wrote the arm-smmu changes as suggested by Robin Murphy
->>>
->>>	* Re-worked the Exynos patches to hopefully not break the
->>>	  driver anymore
->>>
->>>	* Fixed a missing mutex_unlock() reported by Marek Szyprowski,
->>>	  thanks for that.
->>>
->>>There is also a git-branch available with these patches applied:
->>>
->>>	https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/log/?h=iommu-probe-device-v2
->>>
->>>Please review.
->>>
->>>Thanks,
->>>
->>>	Joerg
->>>
->>>Joerg Roedel (32):
->>>iommu: Move default domain allocation to separate function
->>>iommu/amd: Implement iommu_ops->def_domain_type call-back
->>>iommu/vt-d: Wire up iommu_ops->def_domain_type
->>>iommu/amd: Remove dma_mask check from check_device()
->>>iommu/amd: Return -ENODEV in add_device when device is not handled by
->>>  IOMMU
->>>iommu: Add probe_device() and remove_device() call-backs
->>>iommu: Move default domain allocation to iommu_probe_device()
->>>iommu: Keep a list of allocated groups in __iommu_probe_device()
->>>iommu: Move new probe_device path to separate function
->>>iommu: Split off default domain allocation from group assignment
->>>iommu: Move iommu_group_create_direct_mappings() out of
->>>  iommu_group_add_device()
->>>iommu: Export bus_iommu_probe() and make is safe for re-probing
->>>iommu/amd: Remove dev_data->passthrough
->>>iommu/amd: Convert to probe/release_device() call-backs
->>>iommu/vt-d: Convert to probe/release_device() call-backs
->>>iommu/arm-smmu: Convert to probe/release_device() call-backs
->>>iommu/pamu: Convert to probe/release_device() call-backs
->>>iommu/s390: Convert to probe/release_device() call-backs
->>>iommu/virtio: Convert to probe/release_device() call-backs
->>>iommu/msm: Convert to probe/release_device() call-backs
->>>iommu/mediatek: Convert to probe/release_device() call-backs
->>>iommu/mediatek-v1 Convert to probe/release_device() call-backs
->>>iommu/qcom: Convert to probe/release_device() call-backs
->>>iommu/rockchip: Convert to probe/release_device() call-backs
->>>iommu/tegra: Convert to probe/release_device() call-backs
->>>iommu/renesas: Convert to probe/release_device() call-backs
->>>iommu/omap: Remove orphan_dev tracking
->>>iommu/omap: Convert to probe/release_device() call-backs
->>>iommu/exynos: Use first SYSMMU in controllers list for IOMMU core
->>>iommu/exynos: Convert to probe/release_device() call-backs
->>>iommu: Remove add_device()/remove_device() code-paths
->>>iommu: Unexport iommu_group_get_for_dev()
->>>
->>>Sai Praneeth Prakhya (1):
->>>iommu: Add def_domain_type() callback in iommu_ops
->>>
->>>drivers/iommu/amd_iommu.c       |  97 ++++----
->>>drivers/iommu/amd_iommu_types.h |   1 -
->>>drivers/iommu/arm-smmu-v3.c     |  38 +--
->>>drivers/iommu/arm-smmu.c        |  39 ++--
->>>drivers/iommu/exynos-iommu.c    |  24 +-
->>>drivers/iommu/fsl_pamu_domain.c |  22 +-
->>>drivers/iommu/intel-iommu.c     |  68 +-----
->>>drivers/iommu/iommu.c           | 393 +++++++++++++++++++++++++-------
->>>drivers/iommu/ipmmu-vmsa.c      |  60 ++---
->>>drivers/iommu/msm_iommu.c       |  34 +--
->>>drivers/iommu/mtk_iommu.c       |  24 +-
->>>drivers/iommu/mtk_iommu_v1.c    |  50 ++--
->>>drivers/iommu/omap-iommu.c      |  99 ++------
->>>drivers/iommu/qcom_iommu.c      |  24 +-
->>>drivers/iommu/rockchip-iommu.c  |  26 +--
->>>drivers/iommu/s390-iommu.c      |  22 +-
->>>drivers/iommu/tegra-gart.c      |  24 +-
->>>drivers/iommu/tegra-smmu.c      |  31 +--
->>>drivers/iommu/virtio-iommu.c    |  41 +---
->>>include/linux/iommu.h           |  21 +-
->>>20 files changed, 533 insertions(+), 605 deletions(-)
->>>
->>>-- 
->>>2.17.1
->>>
->>>_______________________________________________
->>>iommu mailing list
->>>iommu@lists.linux-foundation.org
->>>https://lists.linuxfoundation.org/mailman/listinfo/iommu
->>>
+31.05.2020 22:31, LABBE Corentin пишет:
+> On Thu, Mar 19, 2020 at 08:44:01AM +0100, LABBE Corentin wrote:
+>> Hello
 >>
->>Hi Joerg,
+>> sata doesnt work on tegra124-jetson-tk1 on next and master and at least since 5.2 (but 5.1 works).
+>> [    0.492810] +5V_SATA: supplied by +5V_SYS
+>> [    0.493230] +12V_SATA: supplied by +VDD_MUX
+>> [    2.088675] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
+>> [    2.097643] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
+>> [    3.314776] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
+>> [    3.323658] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
+>> [    5.236964] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
+>> [    5.245867] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
+>> [    5.254706] tegra-ahci 70027000.sata: 70027000.sata supply target not found, using dummy regulator
+>> [    5.310270] phy phy-sata.6: phy poweron failed --> -110
+>> [    5.315604] tegra-ahci 70027000.sata: failed to power on AHCI controller: -110
+>> [    5.323022] tegra-ahci: probe of 70027000.sata failed with error -110
+>> [   35.694269] +5V_SATA: disabling
+>> [   35.697438] +12V_SATA: disabling
 >>
->>With this patchset, I have an epyc system where if I boot with
->>iommu=nopt and force a dump I will see some io page faults for a nic
->>on the system. The vmcore is harvested and the system reboots. I
->>haven't reproduced it on other systems yet, but without the patchset I
->>don't see the io page faults during the kdump.
+>> I have bisected this problem:
+>> git bisect start
+>> # bad: [22c58fd70ca48a29505922b1563826593b08cc00] Merge tag 'armsoc-soc' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+>> git bisect bad 22c58fd70ca48a29505922b1563826593b08cc00
+>> # good: [67e38f578aaebf34fc1278bbe45a78ee8c73dd33] ARM: ep93xx: move pinctrl interfaces into include/linux/soc
+>> git bisect good 67e38f578aaebf34fc1278bbe45a78ee8c73dd33
+>> # good: [80f232121b69cc69a31ccb2b38c1665d770b0710] Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next
+>> git bisect good 80f232121b69cc69a31ccb2b38c1665d770b0710
+>> # good: [e57ccca1ba33e1d92cc3bbf8b6304a46948844b0] Merge tag 'sound-5.2-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+>> git bisect good e57ccca1ba33e1d92cc3bbf8b6304a46948844b0
+>> # bad: [983dfa4b6ee556563f7963348e4e2f97fc8a15b8] Merge tag 'for-linus-5.2-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/rw/uml
+>> git bisect bad 983dfa4b6ee556563f7963348e4e2f97fc8a15b8
+>> # good: [8e4ff713ce313dcabbb60e6ede1ffc193e67631f] Merge tag 'rtc-5.2' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux
+>> git bisect good 8e4ff713ce313dcabbb60e6ede1ffc193e67631f
+>> # bad: [b970afcfcabd63cd3832e95db096439c177c3592] Merge tag 'powerpc-5.2-1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
+>> git bisect bad b970afcfcabd63cd3832e95db096439c177c3592
+>> # bad: [601e6bcc4ef02bda2831d5ac8133947b5edf597b] Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net
+>> git bisect bad 601e6bcc4ef02bda2831d5ac8133947b5edf597b
+>> # good: [7e9c62bdb41af76974d594da89854a6aba645e58] Merge branches 'clk-sa', 'clk-aspeed', 'clk-samsung', 'clk-ingenic' and 'clk-zynq' into clk-next
+>> git bisect good 7e9c62bdb41af76974d594da89854a6aba645e58
+>> # bad: [0caf000817353cfc5db22363ecdac63b83d3a3f9] Merge branch 'clk-ti' into clk-next
+>> git bisect bad 0caf000817353cfc5db22363ecdac63b83d3a3f9
+>> # good: [5816b74581b45cf086a84ab14e13354a65e8e22c] Merge branches 'clk-hisi', 'clk-lochnagar', 'clk-allwinner', 'clk-rockchip' and 'clk-qoriq' into clk-next
+>> git bisect good 5816b74581b45cf086a84ab14e13354a65e8e22c
+>> # good: [7b4c162e03d47e037f8ee773c3e300eefb599a83] clk: at91: Mark struct clk_range as const
+>> git bisect good 7b4c162e03d47e037f8ee773c3e300eefb599a83
+>> # bad: [e71f4d385878671991e200083c7d30eb4ca8e99a] clk: tegra: divider: Mark Memory Controller clock as read-only
+>> git bisect bad e71f4d385878671991e200083c7d30eb4ca8e99a
+>> # bad: [924ee3d551c9deb16090230b824988bd37e72aa8] clk: tegra: emc: Don't enable EMC clock manually
+>> git bisect bad 924ee3d551c9deb16090230b824988bd37e72aa8
+>> # bad: [40db569d6769ffa3864fd1b89616b1a7323568a8] clk: tegra: Fix PLLM programming on Tegra124+ when PMC overrides divider
+>> git bisect bad 40db569d6769ffa3864fd1b89616b1a7323568a8
+>> # bad: [bff1cef5f23afbe49f5ebd766980dc612f5e9d0a] clk: tegra: Don't enable already enabled PLLs
+>> git bisect bad bff1cef5f23afbe49f5ebd766980dc612f5e9d0a
+>> # first bad commit: [bff1cef5f23afbe49f5ebd766980dc612f5e9d0a] clk: tegra: Don't enable already enabled PLLs
 >>
->>Regards,
->>Jerry
->
->I just hit an issue on a separate intel based system (kdump iommu=nopt),
->where it panics in during intel_iommu_attach_device, in is_aux_domain,
->due to device_domain_info being DEFER_DEVICE_DOMAIN_INFO. That doesn't
->get set to a valid address until the domain_add_dev_info call.
->
->Is it as simple as the following?
->
->diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
->index 29d3940847d3..f1bbeed46a4c 100644
->--- a/drivers/iommu/intel-iommu.c
->+++ b/drivers/iommu/intel-iommu.c
->@@ -5053,8 +5053,8 @@ is_aux_domain(struct device *dev, struct iommu_domain *domain)
-> {
->        struct device_domain_info *info = dev->archdata.iommu;
->-       return info && info->auxd_enabled &&
->-                       domain->type == IOMMU_DOMAIN_UNMANAGED;
->+       return info && info != DEFER_DEVICE_DOMAIN_INFO &&
->+               info->auxd_enabled && domain->type == IOMMU_DOMAIN_UNMANAGED;
-> }
-> static void auxiliary_link_device(struct dmar_domain *domain,
->
->
->Regards,
->Jerry
->
+> 
+> Hello
+> 
+> I have digged a bit more and with the following "patch" I have now access to sata again
+> diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+> index 0b212cf2e794..b4e2020051d5 100644
+> --- a/drivers/clk/tegra/clk-pll.c
+> +++ b/drivers/clk/tegra/clk-pll.c
+> @@ -1602,7 +1603,7 @@ static int clk_plle_tegra114_enable(struct clk_hw *hw)
+>         unsigned long input_rate;
+>  
+>         if (clk_pll_is_enabled(hw))
+> -               return 0;
+> +               pr_info("%s %s\n", __func__, clk_hw_get_name(&pll->hw));
+>  
+>         input_rate = clk_hw_get_rate(clk_hw_get_parent(hw));
+> 
+> This patch lead to a probed ahci, and I can see "clk_plle_tegra114_enable pll_e" in messages.
+> 
+> So the bad part of bff1cef5f23afbe49f5ebd766980dc612f5e9d0a is found.
 
-With the patch, I avoid the panic, but I'm seeing an issue similar to the epyc system.
-I'm getting dmar faults from a couple of nics and the hp ilo. The addresses in question
-were in e820 reserved sections, but there aren't rmrr covering those addresses. The system
-manages to harvest the vmcore and reboot like the epyc. Without the patches I don't see
-the dmar faults. I needed to give this system back, but I'll try to poke at it some more
-in the next couple of days.
+Hello Labbe,
 
-Regards,
-Jerry
+Looks like indeed this PLLE change should be reverted. I see that the
+code disables PLLE before changing its configuration, so apparently the
+enable-check shouldn't be needed.
 
+> As additional information, my previous kernel has CONFIG_PHY_TEGRA_XUSB=m (since firmware is on rootfs which is on sata)
+> but with this sata fail the same, having CONFIG_PHY_TEGRA_XUSB=y (and so xusb firmware in kernel) seems "necessary" for having SATA working.
+
+Sounds like PLLE needs to be enabled for SATA, but ahci-tegra driver
+doesn't do that.
+
+Could you please try this change:
+
+--- >8 ---
+diff --git a/drivers/clk/tegra/clk-tegra124.c
+b/drivers/clk/tegra/clk-tegra124.c
+index e931319dcc9d..7dbc14652830 100644
+--- a/drivers/clk/tegra/clk-tegra124.c
++++ b/drivers/clk/tegra/clk-tegra124.c
+@@ -1330,6 +1330,7 @@ static struct tegra_clk_init_table
+common_init_table[] __initdata = {
+ 	{ TEGRA124_CLK_I2S3_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
+ 	{ TEGRA124_CLK_I2S4_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
+ 	{ TEGRA124_CLK_VIMCLK_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
++	{ TEGRA124_CLK_PLL_E, TEGRA124_CLK_CLK_MAX, 0, 1 },
+ 	/* must be the last entry */
+ 	{ TEGRA124_CLK_CLK_MAX, TEGRA124_CLK_CLK_MAX, 0, 0 },
+ };
+--- >8 ---
