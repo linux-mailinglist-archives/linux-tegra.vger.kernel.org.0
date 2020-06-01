@@ -2,249 +2,263 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5003B1EA20E
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jun 2020 12:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9261EA374
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jun 2020 14:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbgFAKmx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jun 2020 06:42:53 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46942 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725925AbgFAKmx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 1 Jun 2020 06:42:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591008170;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:in-reply-to:in-reply-to:  references:references;
-        bh=AeMGc882OThjd+9FTKhf2SV28sW70mLexiTD0o0MA38=;
-        b=PQhH5MTOAXNTBxswoMPZGGbINY9xgsFQoFDXLrde2mjGAatD9A27siLc2WYuymkN/iTA14
-        I6O5ZwifADA8xy7gxWPlhHLXDsNiIJW61JHlbkUFeTkmQXiBDfHzhpAjVvO/n9att3AB69
-        WnBZA2nmzUfMDTqwyDeYsL7X+AHnPYc=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-hH2KI__CNp-RGKR3V_iq_A-1; Mon, 01 Jun 2020 06:42:43 -0400
-X-MC-Unique: hH2KI__CNp-RGKR3V_iq_A-1
-Received: by mail-qv1-f71.google.com with SMTP id a7so8221797qvl.2
-        for <linux-tegra@vger.kernel.org>; Mon, 01 Jun 2020 03:42:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:reply-to
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=AeMGc882OThjd+9FTKhf2SV28sW70mLexiTD0o0MA38=;
-        b=U5hqmeK3vIuafR40nip3dFjWoCAz9QmxkOF5G3Mjumk0y7PraZ2W8Cmz18UAu7TEOS
-         AxB1OhZ4FsgXml5qZFkNDbOuM545lmcl2/briOI/9CTrTrP1fPtvPCI5XjKvDy4X29GG
-         pdFnhAD7gD8am8gqyOpPeVs0Pdh0TvL/+EjXDDRSgu5JTCgGkf77oHcNNd8VAecPFk4i
-         0z1i5h7z0trAv8WjoF0ujff70RJo9V3J27JPUVQtNym5AFNcrH+IoBVTcndqnvLT3WRZ
-         zBHph4nJd1c/aSKVyokeNCaOfq3wAeiXmSMwoaw+nSuw/GpgWWY6MOxwG5HIoovvGFDG
-         i7Xg==
-X-Gm-Message-State: AOAM531EhS/c3aH/+U8L/UkVJCbVAinWk9Dt12XpuJVNC12DI46JEzBE
-        jKB0J9V5lD4BrWgEsdwKMDO8BAsNS2S36bnFo9kZQ8C+ZPiofrPIhmUraLLFPFhkDJjkGKgaZka
-        9lvToEKkMdN25YVOPE3xh+sA=
-X-Received: by 2002:a0c:e4d3:: with SMTP id g19mr19829674qvm.42.1591008163375;
-        Mon, 01 Jun 2020 03:42:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+BINnTJE9j45H+TvYk5eeeeQO8aLXNnH2+mU7xE+aZ2rhNvGdUvylAKc6cV/RkkqIBE9yOw==
-X-Received: by 2002:a0c:e4d3:: with SMTP id g19mr19829653qvm.42.1591008163033;
-        Mon, 01 Jun 2020 03:42:43 -0700 (PDT)
-Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
-        by smtp.gmail.com with ESMTPSA id m10sm15395899qtg.94.2020.06.01.03.42.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 03:42:42 -0700 (PDT)
-Date:   Mon, 1 Jun 2020 03:42:40 -0700
-From:   Jerry Snitselaar <jsnitsel@redhat.com>
-To:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
-Message-ID: <20200601104240.7f5xhz7gooqhaq4n@cantor>
-Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
-Mail-Followup-To: Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-References: <20200414131542.25608-1-joro@8bytes.org>
- <20200529221623.qc6twmpzryh7nkvb@cantor>
+        id S1726322AbgFAMGY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 1 Jun 2020 08:06:24 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19412 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726078AbgFAMGY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jun 2020 08:06:24 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed4eee90000>; Mon, 01 Jun 2020 05:04:57 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 01 Jun 2020 05:06:23 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 01 Jun 2020 05:06:23 -0700
+Received: from [10.26.75.158] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 1 Jun
+ 2020 12:06:21 +0000
+Subject: Re: [PATCH V4] pwm: tegra: dynamic clk freq configuration by PWM
+ driver
+To:     Sandipan Patra <spatra@nvidia.com>, <treding@nvidia.com>,
+        <u.kleine-koenig@pengutronix.de>
+CC:     <bbasu@nvidia.com>, <ldewangan@nvidia.com>,
+        <kyarlagadda@nvidia.com>, <linux-pwm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1590988836-11308-1-git-send-email-spatra@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <bf426520-4b95-093c-721e-cc3965b63aff@nvidia.com>
+Date:   Mon, 1 Jun 2020 13:06:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200529221623.qc6twmpzryh7nkvb@cantor>
+In-Reply-To: <1590988836-11308-1-git-send-email-spatra@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591013097; bh=0btnqTmhPiPE7D30ZWO5vBR9veyjxzgzTVf7egc0MLg=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=eaqxpDi8MjsCfvXZW2VAVToMwC/QHAuIRlUZkmxX/xv4LChLqKVfgxs9BohE/rrJW
+         aKWne3ONHYWgTxAAwC7ETfSxGsba/kBEaBhUwF8vcN8wbMK9NO+2JxcpG03ZAY1SVt
+         HlHZGWhJyCFsm9ZkO9iDtg/JPHHMtRFMEwdWCWKyoATuDH3cdxV6BG4YnpPbWNCmnj
+         Ut+pExqgmdYl3i6HV4DQb1wjw7RqgoEREw5eCbShNYVmkDyXMdIdyOGidi6vce5pXg
+         jRnL5XiYjsC800FYVIlm+tvTqf/VqAVmZHZ/FqIkegz4yjEBVLBs1i8MFc9jxUD//9
+         gTku3DYSHOPjw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri May 29 20, Jerry Snitselaar wrote:
->On Tue Apr 14 20, Joerg Roedel wrote:
->>Hi,
->>
->>here is the second version of this patch-set. The first version with
->>some more introductory text can be found here:
->>
->>	https://lore.kernel.org/lkml/20200407183742.4344-1-joro@8bytes.org/
->>
->>Changes v1->v2:
->>
->>	* Rebased to v5.7-rc1
->>
->>	* Re-wrote the arm-smmu changes as suggested by Robin Murphy
->>
->>	* Re-worked the Exynos patches to hopefully not break the
->>	  driver anymore
->>
->>	* Fixed a missing mutex_unlock() reported by Marek Szyprowski,
->>	  thanks for that.
->>
->>There is also a git-branch available with these patches applied:
->>
->>	https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/log/?h=iommu-probe-device-v2
->>
->>Please review.
->>
->>Thanks,
->>
->>	Joerg
->>
->>Joerg Roedel (32):
->> iommu: Move default domain allocation to separate function
->> iommu/amd: Implement iommu_ops->def_domain_type call-back
->> iommu/vt-d: Wire up iommu_ops->def_domain_type
->> iommu/amd: Remove dma_mask check from check_device()
->> iommu/amd: Return -ENODEV in add_device when device is not handled by
->>   IOMMU
->> iommu: Add probe_device() and remove_device() call-backs
->> iommu: Move default domain allocation to iommu_probe_device()
->> iommu: Keep a list of allocated groups in __iommu_probe_device()
->> iommu: Move new probe_device path to separate function
->> iommu: Split off default domain allocation from group assignment
->> iommu: Move iommu_group_create_direct_mappings() out of
->>   iommu_group_add_device()
->> iommu: Export bus_iommu_probe() and make is safe for re-probing
->> iommu/amd: Remove dev_data->passthrough
->> iommu/amd: Convert to probe/release_device() call-backs
->> iommu/vt-d: Convert to probe/release_device() call-backs
->> iommu/arm-smmu: Convert to probe/release_device() call-backs
->> iommu/pamu: Convert to probe/release_device() call-backs
->> iommu/s390: Convert to probe/release_device() call-backs
->> iommu/virtio: Convert to probe/release_device() call-backs
->> iommu/msm: Convert to probe/release_device() call-backs
->> iommu/mediatek: Convert to probe/release_device() call-backs
->> iommu/mediatek-v1 Convert to probe/release_device() call-backs
->> iommu/qcom: Convert to probe/release_device() call-backs
->> iommu/rockchip: Convert to probe/release_device() call-backs
->> iommu/tegra: Convert to probe/release_device() call-backs
->> iommu/renesas: Convert to probe/release_device() call-backs
->> iommu/omap: Remove orphan_dev tracking
->> iommu/omap: Convert to probe/release_device() call-backs
->> iommu/exynos: Use first SYSMMU in controllers list for IOMMU core
->> iommu/exynos: Convert to probe/release_device() call-backs
->> iommu: Remove add_device()/remove_device() code-paths
->> iommu: Unexport iommu_group_get_for_dev()
->>
->>Sai Praneeth Prakhya (1):
->> iommu: Add def_domain_type() callback in iommu_ops
->>
->>drivers/iommu/amd_iommu.c       |  97 ++++----
->>drivers/iommu/amd_iommu_types.h |   1 -
->>drivers/iommu/arm-smmu-v3.c     |  38 +--
->>drivers/iommu/arm-smmu.c        |  39 ++--
->>drivers/iommu/exynos-iommu.c    |  24 +-
->>drivers/iommu/fsl_pamu_domain.c |  22 +-
->>drivers/iommu/intel-iommu.c     |  68 +-----
->>drivers/iommu/iommu.c           | 393 +++++++++++++++++++++++++-------
->>drivers/iommu/ipmmu-vmsa.c      |  60 ++---
->>drivers/iommu/msm_iommu.c       |  34 +--
->>drivers/iommu/mtk_iommu.c       |  24 +-
->>drivers/iommu/mtk_iommu_v1.c    |  50 ++--
->>drivers/iommu/omap-iommu.c      |  99 ++------
->>drivers/iommu/qcom_iommu.c      |  24 +-
->>drivers/iommu/rockchip-iommu.c  |  26 +--
->>drivers/iommu/s390-iommu.c      |  22 +-
->>drivers/iommu/tegra-gart.c      |  24 +-
->>drivers/iommu/tegra-smmu.c      |  31 +--
->>drivers/iommu/virtio-iommu.c    |  41 +---
->>include/linux/iommu.h           |  21 +-
->>20 files changed, 533 insertions(+), 605 deletions(-)
->>
->>-- 
->>2.17.1
->>
->>_______________________________________________
->>iommu mailing list
->>iommu@lists.linux-foundation.org
->>https://lists.linuxfoundation.org/mailman/listinfo/iommu
->>
+
+On 01/06/2020 06:20, Sandipan Patra wrote:
+> Added support for dynamic clock freq configuration in pwm kernel driver.
+> Earlier the pwm driver used to cache boot time clock rate by pwm clock
+> parent during probe. Hence dynamically changing pwm frequency was not
+> possible for all the possible ranges. With this change, dynamic calculati=
+on
+> is enabled and it is able to set the requested period from sysfs knob
+> provided the value is supported by clock source.
+>=20
+> Changes mainly have 2 parts:
+>   - T186 and later chips [1]
+>   - T210 and prior chips [2]
+>=20
+> For [1] - Changes implemented to set pwm period dynamically and
+>           also checks added to allow only if requested period(ns) is
+>           below or equals to higher range.
+>=20
+> For [2] - Only checks if the requested period(ns) is below or equals
+>           to higher range defined by max clock limit. The limitation
+>           in T210 or prior chips are due to the reason of having only
+>           one pwm-controller supporting multiple channels. But later
+>           chips have multiple pwm controller instances each having
+> 	  single channel support.
+>=20
+> Signed-off-by: Sandipan Patra <spatra@nvidia.com>
+> ---
+> PATCH V4:
+> 1. Code comments fixes
+>=20
+> PATCH V3:
+> 1. Return -EINVAL if requested period does not fall inside limit.
+> 2. Store the new clock rate for further references.
+> 3. Variable name change reverted.
+> 4. Comments corrected and new comments are added.
+>=20
+> PATCH V2:
+> 1. Maximum frequency calculation is moved to probe.
+> 2. Added descriptions for PWM register bits and functional behavior
+>    of the controller when new configuration is applied.
+> 3. Setting period with possible value when supplied period is below limit=
+.
+> 4. Corrected the earlier code comment:
+>    plus 1 instead of minus 1 during pwm calculation
+>=20
+>  drivers/pwm/pwm-tegra.c | 80 +++++++++++++++++++++++++++++++++++++++++++=
++++---
+>  1 file changed, 76 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
+> index d26ed8f..1daf591 100644
+> --- a/drivers/pwm/pwm-tegra.c
+> +++ b/drivers/pwm/pwm-tegra.c
+> @@ -4,8 +4,36 @@
+>   *
+>   * Tegra pulse-width-modulation controller driver
+>   *
+> - * Copyright (c) 2010, NVIDIA Corporation.
+> + * Copyright (c) 2010-2020, NVIDIA Corporation.
+>   * Based on arch/arm/plat-mxc/pwm.c by Sascha Hauer <s.hauer@pengutronix=
+.de>
+> + *
+> + * Overview of Tegra Pulse Width Modulator Register:
+> + * 1. 13-bit: Frequency division (SCALE)
+> + * 2. 8-bit : Pulse division (DUTY)
+> + * 3. 1-bit : Enable bit
+> + *
+> + * The PWM clock frequency is divided by 256 before subdividing it based
+> + * on the programmable frequency division value to generate the required
+> + * frequency for PWM output. The maximum output frequency that can be
+> + * achieved is (max rate of source clock) / 256.
+> + * e.g. if source clock rate is 408 MHz, maximum output frequency can be=
+:
+> + * 408 MHz/256 =3D 1.6 MHz.
+> + * This 1.6 MHz frequency can further be divided using SCALE value in PW=
+M.
+> + *
+> + * PWM pulse width: 8 bits are usable [23:16] for varying pulse width.
+> + * To achieve 100% duty cycle, program Bit [24] of this register to
+> + * 1=E2=80=99b1. In which case the other bits [23:16] are set to don't c=
+are.
+> + *
+> + * Limitations:
+> + * -	When PWM is disabled, the output is driven to inactive.
+> + * -	It does not allow the current PWM period to complete and
+> + *	stops abruptly.
+> + *
+> + * -	If the register is reconfigured while PWM is running,
+> + *	it does not complete the currently running period.
+> + *
+> + * -	If the user input duty is beyond acceptible limits,
+> + *	-EINVAL is returned.
+>   */
+> =20
+>  #include <linux/clk.h>
+> @@ -41,6 +69,7 @@ struct tegra_pwm_chip {
+>  	struct reset_control*rst;
+> =20
+>  	unsigned long clk_rate;
+> +	unsigned long min_period_ns;
+> =20
+>  	void __iomem *regs;
+> =20
+> @@ -68,7 +97,7 @@ static int tegra_pwm_config(struct pwm_chip *chip, stru=
+ct pwm_device *pwm,
+>  {
+>  	struct tegra_pwm_chip *pc =3D to_tegra_pwm_chip(chip);
+>  	unsigned long long c =3D duty_ns, hz;
+> -	unsigned long rate;
+> +	unsigned long rate, required_clk_rate;
+>  	u32 val =3D 0;
+>  	int err;
+> =20
+> @@ -83,9 +112,47 @@ static int tegra_pwm_config(struct pwm_chip *chip, st=
+ruct pwm_device *pwm,
+>  	val =3D (u32)c << PWM_DUTY_SHIFT;
+> =20
+>  	/*
+> +	 *  min period =3D max clock limit >> PWM_DUTY_WIDTH
+> +	 */
+> +	if (period_ns < pc->min_period_ns)
+> +		return -EINVAL;
+> +
+> +	/*
+>  	 * Compute the prescaler value for which (1 << PWM_DUTY_WIDTH)
+>  	 * cycles at the PWM clock rate will take period_ns nanoseconds.
+> +	 *
+> +	 * num_channels: If single instance of PWM controller has multiple
+> +	 * channels (e.g. Tegra210 or older) then it is not possible to
+> +	 * configure separate clock rates to each of the channels, in such
+> +	 * case the value stored during probe will be referred.
+> +	 *
+> +	 * If every PWM controller instance has one channel respectively, i.e.
+> +	 * nums_channels =3D=3D 1 then only the clock rate can be modified
+> +	 * dynamically (e.g. Tegra186 or Tegra194).
+>  	 */
+> +	if (pc->soc->num_channels =3D=3D 1) {
+> +		/*
+> +		 * Rate is multiplied with 2^PWM_DUTY_WIDTH so that it matches
+> +		 * with the maximum possible rate that the controller can
+> +		 * provide. Any further lower value can be derived by setting
+> +		 * PFM bits[0:12].
+> +		 *
+> +		 * required_clk_rate is a reference rate for source clock and
+> +		 * it is derived based on user requested period. By setting the
+> +		 * source clock rate as required_clk_rate, PWM controller will
+> +		 * be able to configure the requested period.
+> +		 */
+> +		required_clk_rate =3D
+> +			(NSEC_PER_SEC / period_ns) << PWM_DUTY_WIDTH;
+> +
+> +		err =3D clk_set_rate(pc->clk, required_clk_rate);
+> +		if (err < 0)
+> +			return -EINVAL;
+> +
+> +		/* Store the new rate for further references */
+> +		pc->clk_rate =3D clk_get_rate(pc->clk);
+> +	}
+> +
+>  	rate =3D pc->clk_rate >> PWM_DUTY_WIDTH;
+> =20
+>  	/* Consider precision in PWM_SCALE_WIDTH rate calculation */
+> @@ -94,7 +161,7 @@ static int tegra_pwm_config(struct pwm_chip *chip, str=
+uct pwm_device *pwm,
+> =20
+>  	/*
+>  	 * Since the actual PWM divider is the register's frequency divider
+> -	 * field minus 1, we need to decrement to get the correct value to
+> +	 * field plus 1, we need to decrement to get the correct value to
+>  	 * write to the register.
+>  	 */
+>  	if (rate > 0)
+> @@ -205,6 +272,10 @@ static int tegra_pwm_probe(struct platform_device *p=
+dev)
+>  	 */
+>  	pwm->clk_rate =3D clk_get_rate(pwm->clk);
+> =20
+> +	/* Set minimum limit of PWM period for the IP */
+> +	pwm->min_period_ns =3D
+> +	    (NSEC_PER_SEC / (pwm->soc->max_frequency >> PWM_DUTY_WIDTH)) + 1;
+> +
+>  	pwm->rst =3D devm_reset_control_get_exclusive(&pdev->dev, "pwm");
+>  	if (IS_ERR(pwm->rst)) {
+>  		ret =3D PTR_ERR(pwm->rst);
+> @@ -312,5 +383,6 @@ static struct platform_driver tegra_pwm_driver =3D {
+>  module_platform_driver(tegra_pwm_driver);
+> =20
+>  MODULE_LICENSE("GPL");
+> -MODULE_AUTHOR("NVIDIA Corporation");
+> +MODULE_AUTHOR("Sandipan Patra <spatra@nvidia.com>");
+> +MODULE_DESCRIPTION("Tegra PWM controller driver");
+>  MODULE_ALIAS("platform:tegra-pwm");
 >
->Hi Joerg,
->
->With this patchset, I have an epyc system where if I boot with
->iommu=nopt and force a dump I will see some io page faults for a nic
->on the system. The vmcore is harvested and the system reboots. I
->haven't reproduced it on other systems yet, but without the patchset I
->don't see the io page faults during the kdump.
->
->Regards,
->Jerry
 
-I just hit an issue on a separate intel based system (kdump iommu=nopt),
-where it panics in during intel_iommu_attach_device, in is_aux_domain,
-due to device_domain_info being DEFER_DEVICE_DOMAIN_INFO. That doesn't
-get set to a valid address until the domain_add_dev_info call.
+Thanks. LGTM.
 
-Is it as simple as the following?
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 29d3940847d3..f1bbeed46a4c 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -5053,8 +5053,8 @@ is_aux_domain(struct device *dev, struct iommu_domain *domain)
-  {
-         struct device_domain_info *info = dev->archdata.iommu;
-  
--       return info && info->auxd_enabled &&
--                       domain->type == IOMMU_DOMAIN_UNMANAGED;
-+       return info && info != DEFER_DEVICE_DOMAIN_INFO &&
-+               info->auxd_enabled && domain->type == IOMMU_DOMAIN_UNMANAGED;
-  }
-  
-  static void auxiliary_link_device(struct dmar_domain *domain,
+Cheers
+Jon
 
-
-Regards,
-Jerry
-
+--=20
+nvpublic
