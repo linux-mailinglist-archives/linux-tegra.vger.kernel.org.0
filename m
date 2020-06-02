@@ -2,167 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1328F1EC43B
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 23:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B3E61EC547
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 00:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgFBVRa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 17:17:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54587 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726320AbgFBVR3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Jun 2020 17:17:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591132646;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:in-reply-to:in-reply-to:  references:references;
-        bh=Ylu/HiOGtyIh3U7JFEU/kaSkFMIS4f2I77a/faIj58k=;
-        b=Kha5ZPT9qd30aZRPGuurt2WrcSYCkMFZPufcY6BHoeZ7XUux4APccxEq2JYaBYT43Nkntu
-        OW1DHvd4bljRH+Phw4QJGXQsUSTwUDUxvvC/CzrHNQv6nfU7S4ujBmMSv4rKW/9F6vQa9S
-        Xp1EVPNXFj1yZV+8DZ1EcS3/25DkfeM=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-ZdwioLjVNjSwekQCFiDjfw-1; Tue, 02 Jun 2020 17:17:20 -0400
-X-MC-Unique: ZdwioLjVNjSwekQCFiDjfw-1
-Received: by mail-qv1-f70.google.com with SMTP id w3so4901855qvl.9
-        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 14:17:20 -0700 (PDT)
+        id S1730453AbgFBWuC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 18:50:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730446AbgFBWuC (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 18:50:02 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4144C08C5C0;
+        Tue,  2 Jun 2020 15:50:01 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id z206so70602lfc.6;
+        Tue, 02 Jun 2020 15:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=K9/SgI9YdO/9LT3+Izi8n6c8S/w+ByCB2jxpSWaCAkY=;
+        b=QZmxnaFyacmIQbFLMQ/PnU4x0JCALc+F7ifH8M1UhOriKjuHPMoB6ZgyyJu+jNK/Ra
+         IFN4bfvWvQPI3nPohkNHPVWlseiPNu4TFNaoDpGXKyxc95gSsaxO3gxRW7LVawYPx+A6
+         NvuARXBHOc4Qw7clC8MfW/EkJkcJMBEltK22ceI0A/wxCXfoJYqgiBz0N2K9ZLy6Gx8P
+         P9l6D119uApNn4vQR/HeBuZVQTBXmsiatc4N8y+MBomPTZm0Ej61aExGlzbh/Us2DW9r
+         vPBe1Sfgu3iKt0HEKyhR3u4Id0kn80SPbn2kAnKrNVrQl+4rhDG8ZGLucePRJyGTy3yT
+         ez7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:reply-to
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=Ylu/HiOGtyIh3U7JFEU/kaSkFMIS4f2I77a/faIj58k=;
-        b=eWysCxeu7gzW07Zk0G1HwiKkYoaLuP31uq1zeXB6Nj9gXnJyFSvW1T83ulVVhuIaBe
-         UKp1nlXFDKOfMmvxFI0v6vQ+gsrJLnlMYzecRaB51XFQsf8fr6TOm9D01XFdoY1DmwoT
-         Tg35sddf/K0lCV7USfBTmUF5uXUn2FSGIXyEbwkw/HcABzK9aY42sBMOf2bZKEIAqNQ2
-         YWQ6l8TUVyNr05l8iyKI8XR4x6C6Qk+k80xJKGo2Yd3v+haHTXYtjtBhrrJI7LmCQpqH
-         PDNwjQNwC/+t+60uX2iTfPQPgkhcy4lie1jHmpoN2Jc6Me8oDw7zyw0wssZ5qhWylDM6
-         ontg==
-X-Gm-Message-State: AOAM5333OzY3fx8VMZ+jHFHgQIYkg7Vnewy9sCA1Pv4NJA1mz9Xnfwwo
-        RrASDzJSBeAmpAoWovBfJAfSCVJ+7gt3j0G4y/weaaLQHNsn1BXsVnkGbArziFbdBQ0yFMm9bKC
-        /WKzTddrMyGJfZCxX3kQNxac=
-X-Received: by 2002:ad4:4572:: with SMTP id o18mr4280441qvu.228.1591132639420;
-        Tue, 02 Jun 2020 14:17:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyjUlzm0vhI6fKGjvvF8hVsaVisMes9o90lVEfQF4r2oAsbB6iugyCZPUzy6UK1t6uFVWKiBA==
-X-Received: by 2002:ad4:4572:: with SMTP id o18mr4280428qvu.228.1591132639109;
-        Tue, 02 Jun 2020 14:17:19 -0700 (PDT)
-Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
-        by smtp.gmail.com with ESMTPSA id l9sm3244877qki.90.2020.06.02.14.17.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 14:17:18 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 14:17:16 -0700
-From:   Jerry Snitselaar <jsnitsel@redhat.com>
-To:     Joerg Roedel <joro@8bytes.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
-Message-ID: <20200602211716.mcwacflxvh7kycya@cantor>
-Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
-Mail-Followup-To: Joerg Roedel <joro@8bytes.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-References: <20200414131542.25608-1-joro@8bytes.org>
- <20200529221623.qc6twmpzryh7nkvb@cantor>
- <20200601104240.7f5xhz7gooqhaq4n@cantor>
- <47711845-98ee-95b8-aa95-423a36ed9741@linux.intel.com>
- <20200602000236.j4m3jvluzdhjngdc@cantor>
- <20200602142312.GJ14598@8bytes.org>
- <20200602163806.o5dpj2tpemwdzyiw@cantor>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=K9/SgI9YdO/9LT3+Izi8n6c8S/w+ByCB2jxpSWaCAkY=;
+        b=OYpRa1LqXorPhTKqWQiAmTC2D4qVDEa3DzjPUc77z17JpGHWVix5a2ilxtAJwD4eMO
+         p970ucdILzdpuYtYYAkwJAeU7R56EItBgP1c7XJcM0ElSgcAO+/ew3pHG3Ad9gcrzGGM
+         mV9erYBkhcR+PWNLQ23ASC+RUAtvIB6TdXqlgtDlXr/AZ+Wb7DO3rZvnz13hckXnm0ox
+         v553Fzw4JrjuvzGSBk3N5Wreg2YXh5qtDsZOs5akcjhZ3XHox64kA17j2+mc6oBYBVDK
+         du74LHCzlxd0kyBYYOEWXMue14zBWmFJjK4oJZ2xOUPlDM8tnHJGmhjZNnp+3SVF7rMI
+         jNuQ==
+X-Gm-Message-State: AOAM5314hwFwHX5gJB7gs6m0OxFC1iUqYqKYy+HZ5qJDWUzxABmgvYic
+        45hJBQjWhrmtV/ClmKwmtzIGJ32b
+X-Google-Smtp-Source: ABdhPJxaG2sb/6jK3MGpf0asba7yX6FRD8JQxmwB7Mz7pBlOjg99gaFWaTIFle1G7zsW7o9E1zV55w==
+X-Received: by 2002:a19:6e0e:: with SMTP id j14mr796240lfc.155.1591138199679;
+        Tue, 02 Jun 2020 15:49:59 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
+        by smtp.googlemail.com with ESMTPSA id m11sm101077lfl.70.2020.06.02.15.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2020 15:49:58 -0700 (PDT)
+Subject: Re: tegra124-jetson-tk1: sata doesnt work since 5.2
+To:     LABBE Corentin <clabbe@baylibre.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        pgaikwad@nvidia.com, pdeschrijver@nvidia.com,
+        mturquette@baylibre.com, sboyd@kernel.org, axboe@kernel.dk,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-ide@vger.kernel.org
+References: <20200319074401.GA4116@Red> <20200531193111.GA15331@Red>
+ <ff9923ca-1d02-ab5e-c335-83ee2e993061@gmail.com> <20200602081958.GA21773@Red>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <56700c1d-ffb0-e44e-ea8e-48a848ccf3bf@gmail.com>
+Date:   Wed, 3 Jun 2020 01:49:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200602163806.o5dpj2tpemwdzyiw@cantor>
+In-Reply-To: <20200602081958.GA21773@Red>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue Jun 02 20, Jerry Snitselaar wrote:
->On Tue Jun 02 20, Joerg Roedel wrote:
->>Hi Jerry,
+02.06.2020 11:19, LABBE Corentin пишет:
+...
+>> Sounds like PLLE needs to be enabled for SATA, but ahci-tegra driver
+>> doesn't do that.
 >>
->>On Mon, Jun 01, 2020 at 05:02:36PM -0700, Jerry Snitselaar wrote:
->>>
->>>Yeah, that will solve the panic.
->>>
+>> Could you please try this change:
 >>
->>If you still see the kdump faults, can you please try with the attached
->>diff? I was not able to reproduce them in my setup.
->>
->>Regards,
->>
->>	Joerg
->>
->
->I have another hp proliant server now, and reproduced. I will have the
->patch below tested shortly. Minor change, I switched group->domain to
->domain since group isn't an argument, and *data being passed in comes
->from group->domain anyways.
->
+>> --- >8 ---
+>> diff --git a/drivers/clk/tegra/clk-tegra124.c
+>> b/drivers/clk/tegra/clk-tegra124.c
+>> index e931319dcc9d..7dbc14652830 100644
+>> --- a/drivers/clk/tegra/clk-tegra124.c
+>> +++ b/drivers/clk/tegra/clk-tegra124.c
+>> @@ -1330,6 +1330,7 @@ static struct tegra_clk_init_table
+>> common_init_table[] __initdata = {
+>>  	{ TEGRA124_CLK_I2S3_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
+>>  	{ TEGRA124_CLK_I2S4_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
+>>  	{ TEGRA124_CLK_VIMCLK_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
+>> +	{ TEGRA124_CLK_PLL_E, TEGRA124_CLK_CLK_MAX, 0, 1 },
+>>  	/* must be the last entry */
+>>  	{ TEGRA124_CLK_CLK_MAX, TEGRA124_CLK_CLK_MAX, 0, 0 },
+>>  };
+>> --- >8 ---
+> 
+> This patch alone does not fix the issue.
 
-Looks like it solves problem for both the epyc system, and the hp proliant
-server,
-
->>diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->>index b5ea203f6c68..5a6d509f72b6 100644
->>--- a/drivers/iommu/iommu.c
->>+++ b/drivers/iommu/iommu.c
->>@@ -1680,8 +1680,12 @@ static void probe_alloc_default_domain(struct bus_type *bus,
->>static int iommu_group_do_dma_attach(struct device *dev, void *data)
->>{
->>	struct iommu_domain *domain = data;
->>+	int ret = 0;
->>
->>-	return __iommu_attach_device(domain, dev);
->>+	if (!iommu_is_attach_deferred(group->domain, dev))
->>+		ret = __iommu_attach_device(group->domain, dev);
->>+
->>+	return ret;
->>}
->>
->>static int __iommu_group_dma_attach(struct iommu_group *group)
->>_______________________________________________
->>iommu mailing list
->>iommu@lists.linux-foundation.org
->>https://lists.linuxfoundation.org/mailman/listinfo/iommu
->>
-
+I'd try to enable all the clocks and voltage regulators that are enabled
+by the USB driver. Also won't hurt to check the clock rate
+configurations with the enabled / disabled USB, try to replicate the
+working configuration.
