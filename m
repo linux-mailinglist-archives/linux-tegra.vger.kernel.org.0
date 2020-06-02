@@ -2,182 +2,339 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA2681EB737
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 10:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABADE1EB8B9
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 11:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726184AbgFBIUD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 04:20:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
+        id S1726012AbgFBJoS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 05:44:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725921AbgFBIUD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 04:20:03 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E85C08C5C0
-        for <linux-tegra@vger.kernel.org>; Tue,  2 Jun 2020 01:20:02 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id t18so2407909wru.6
-        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 01:20:02 -0700 (PDT)
+        with ESMTP id S1725958AbgFBJoR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 05:44:17 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C46C061A0E
+        for <linux-tegra@vger.kernel.org>; Tue,  2 Jun 2020 02:44:12 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id j198so1838171wmj.0
+        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 02:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ucrKANAavc1NtdTnXRC9YmP/hh/YfnXjx8eiS0Iol/Q=;
-        b=FdZyRvUSL0wlJKAQLjX0RYOmaRlwJyOk9yFO3Oj3DuhLsONvhCZMZhZmgfWfkDNdPr
-         7ww5coZ4a9/fvqiXRA+HEk+RzYDBJfPSVHzZ/0q/S1HUbZsW2XRMz4ZucaF3OlJP7ozC
-         62sFDvx+ak+W1cfo1UyseCBnmQ/Tvj3gddBViTbO4PA8gDcity8HtsGNjpiMTIPxgqAy
-         ObsSCga5PAIOjZwwIASDczGbpG54ciygDdrRDJiv9jQL2EV4dEbnnZM9M4mxVflaUa7O
-         ZXgbRyp0bfb+67lZs9WhO0x6ZiNF5PS7DeYvYHLZJb/ZJWugDR1r/vAll/JKw9+UOAHw
-         UL5Q==
+         :content-disposition:in-reply-to;
+        bh=8V4rZjkqzHFTF/LdSJ1CXEfhWY+0KxmQTLgE0KPDAPk=;
+        b=HmiyDfEv9Vosd0Oh13UMtNtQaMWM61T0tuJJXOyayMZV5+dbsQqwW4YOuX4+D82ZLo
+         9M0IfhfHzRi3WdG7Kxx8Rwaq6EOKKbzwOGR1p9tY32qfkHq+V99O/zgVmMlRMrWBCkGw
+         cSIzg4utAQv6XmknYb31XoPkhNaCIFevqzVSY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ucrKANAavc1NtdTnXRC9YmP/hh/YfnXjx8eiS0Iol/Q=;
-        b=nqdR/VuRyQUJrta6mF7cyCcxYZSijj9v1YHuMYYANEin7+ostmN3j1f1wjlru8/KoQ
-         oiJ5Qd3qMTSVDdqUlxBdJw0OolGcjUCFRtY45Zh9CcKiAiknPaCHxgKRxRqUvhidC0oX
-         d1fIa4EcVP1NQnfCA9g0r66F5pYxvigZyshUl/cbXYrtn9TxBAwVnXQgCX21is4bMoeI
-         82DgHsXX7VaPaD4vDMgK54kPAgZ1Jx0X4ByQ7dd6OVRVYTS8DjL82dM4JDK98oi96ZKB
-         mYme6sAcVdXhceytqCab8LsVgub7HLh/vGojRKA4n5Zvahd3uzYOCeKQ3ChBfUU02e42
-         vlPQ==
-X-Gm-Message-State: AOAM531fu+3o/J8x7NQpwNFOSZ0TRDtGzTmWsPrasYN5bNl3rkziQjsS
-        WdS449b4Ln/1TZbe3yHSrYDRTg==
-X-Google-Smtp-Source: ABdhPJziqtJ8towpdAmhrxob1OLK+VXu4+yoez2i5EtTZF4PeeAOc3/k3KaHbihgaipMRXQMQ/YIBQ==
-X-Received: by 2002:adf:97cb:: with SMTP id t11mr15492995wrb.314.1591086001045;
-        Tue, 02 Jun 2020 01:20:01 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:2e56:dcff:fed2:c6d6])
-        by smtp.googlemail.com with ESMTPSA id h5sm2746408wrw.85.2020.06.02.01.19.59
+         :mime-version:content-disposition:in-reply-to;
+        bh=8V4rZjkqzHFTF/LdSJ1CXEfhWY+0KxmQTLgE0KPDAPk=;
+        b=WmaCxbIJTZZU+GrxRLe/DL0xSJ2rdgL6md9ixlT52QAqeOtqFTtnfUCSwkfr17ribC
+         hEkuae8YVo2s3/QTlGApYohnfG9rX0Va/0hKcvR3rTb+VzCN1GyjQJuP0KTb60GFYNkn
+         qx3eCNWyVW22J6bAOtQjOrWLqwfk3FkdnSGBeXT2oLfj/evKHDthWy8RSGnVf+UwaefL
+         22UMc6vu6fCC7k7mtZsDuWY0aGxkUK3Hdc7LxyTmoACvRIYLgIC48ENm/muOnOyJ/uS3
+         lqgIkydHc4qvDkvcfrTUejJ8au7zhZXxQuQQjnNlDLFN8ZuGtPObCFiHsCU1T6c3lFDj
+         ZNmg==
+X-Gm-Message-State: AOAM533NoPl14TmHaKpEXz4SBdO5v8iD+6SxASlLQLcZPnyG9xrzJ71p
+        65B6lxQgDxbQu5uVeVd0aBjlwA==
+X-Google-Smtp-Source: ABdhPJwhQEsdXlr1T3ABytxbhkw8yhfN1roTCqU8ktSIqGj3glB7A3uYgFR7fqgtSWkTc706ESA+sQ==
+X-Received: by 2002:a1c:38c2:: with SMTP id f185mr3512820wma.79.1591091051047;
+        Tue, 02 Jun 2020 02:44:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id k17sm2989541wrl.54.2020.06.02.02.44.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 01:20:00 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 10:19:58 +0200
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        pgaikwad@nvidia.com, pdeschrijver@nvidia.com,
-        mturquette@baylibre.com, sboyd@kernel.org, axboe@kernel.dk,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-ide@vger.kernel.org
-Subject: Re: tegra124-jetson-tk1: sata doesnt work since 5.2
-Message-ID: <20200602081958.GA21773@Red>
-References: <20200319074401.GA4116@Red>
- <20200531193111.GA15331@Red>
- <ff9923ca-1d02-ab5e-c335-83ee2e993061@gmail.com>
+        Tue, 02 Jun 2020 02:44:10 -0700 (PDT)
+Date:   Tue, 2 Jun 2020 11:43:59 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        "James (Qian) Wang" <james.qian.wang@arm.com>,
+        syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Sean Paul <seanpaul@chromium.org>, Jyri Sarha <jsarha@ti.com>,
+        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        zhengbin <zhengbin13@huawei.com>,
+        Brian Masney <masneyb@onstation.org>
+Subject: Re: [PATCH] drm/atomic-helper: reset vblank on crtc reset
+Message-ID: <20200602094359.GA20149@phenom.ffwll.local>
+References: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
+ <20200527095332.1439425-1-daniel.vetter@ffwll.ch>
+ <20200530032258.GD5961@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff9923ca-1d02-ab5e-c335-83ee2e993061@gmail.com>
+In-Reply-To: <20200530032258.GD5961@pendragon.ideasonboard.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 01, 2020 at 05:30:37PM +0300, Dmitry Osipenko wrote:
-> 31.05.2020 22:31, LABBE Corentin пишет:
-> > On Thu, Mar 19, 2020 at 08:44:01AM +0100, LABBE Corentin wrote:
-> >> Hello
-> >>
-> >> sata doesnt work on tegra124-jetson-tk1 on next and master and at least since 5.2 (but 5.1 works).
-> >> [    0.492810] +5V_SATA: supplied by +5V_SYS
-> >> [    0.493230] +12V_SATA: supplied by +VDD_MUX
-> >> [    2.088675] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
-> >> [    2.097643] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
-> >> [    3.314776] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
-> >> [    3.323658] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
-> >> [    5.236964] tegra-ahci 70027000.sata: 70027000.sata supply ahci not found, using dummy regulator
-> >> [    5.245867] tegra-ahci 70027000.sata: 70027000.sata supply phy not found, using dummy regulator
-> >> [    5.254706] tegra-ahci 70027000.sata: 70027000.sata supply target not found, using dummy regulator
-> >> [    5.310270] phy phy-sata.6: phy poweron failed --> -110
-> >> [    5.315604] tegra-ahci 70027000.sata: failed to power on AHCI controller: -110
-> >> [    5.323022] tegra-ahci: probe of 70027000.sata failed with error -110
-> >> [   35.694269] +5V_SATA: disabling
-> >> [   35.697438] +12V_SATA: disabling
-> >>
-> >> I have bisected this problem:
-> >> git bisect start
-> >> # bad: [22c58fd70ca48a29505922b1563826593b08cc00] Merge tag 'armsoc-soc' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
-> >> git bisect bad 22c58fd70ca48a29505922b1563826593b08cc00
-> >> # good: [67e38f578aaebf34fc1278bbe45a78ee8c73dd33] ARM: ep93xx: move pinctrl interfaces into include/linux/soc
-> >> git bisect good 67e38f578aaebf34fc1278bbe45a78ee8c73dd33
-> >> # good: [80f232121b69cc69a31ccb2b38c1665d770b0710] Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next
-> >> git bisect good 80f232121b69cc69a31ccb2b38c1665d770b0710
-> >> # good: [e57ccca1ba33e1d92cc3bbf8b6304a46948844b0] Merge tag 'sound-5.2-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
-> >> git bisect good e57ccca1ba33e1d92cc3bbf8b6304a46948844b0
-> >> # bad: [983dfa4b6ee556563f7963348e4e2f97fc8a15b8] Merge tag 'for-linus-5.2-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/rw/uml
-> >> git bisect bad 983dfa4b6ee556563f7963348e4e2f97fc8a15b8
-> >> # good: [8e4ff713ce313dcabbb60e6ede1ffc193e67631f] Merge tag 'rtc-5.2' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux
-> >> git bisect good 8e4ff713ce313dcabbb60e6ede1ffc193e67631f
-> >> # bad: [b970afcfcabd63cd3832e95db096439c177c3592] Merge tag 'powerpc-5.2-1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
-> >> git bisect bad b970afcfcabd63cd3832e95db096439c177c3592
-> >> # bad: [601e6bcc4ef02bda2831d5ac8133947b5edf597b] Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net
-> >> git bisect bad 601e6bcc4ef02bda2831d5ac8133947b5edf597b
-> >> # good: [7e9c62bdb41af76974d594da89854a6aba645e58] Merge branches 'clk-sa', 'clk-aspeed', 'clk-samsung', 'clk-ingenic' and 'clk-zynq' into clk-next
-> >> git bisect good 7e9c62bdb41af76974d594da89854a6aba645e58
-> >> # bad: [0caf000817353cfc5db22363ecdac63b83d3a3f9] Merge branch 'clk-ti' into clk-next
-> >> git bisect bad 0caf000817353cfc5db22363ecdac63b83d3a3f9
-> >> # good: [5816b74581b45cf086a84ab14e13354a65e8e22c] Merge branches 'clk-hisi', 'clk-lochnagar', 'clk-allwinner', 'clk-rockchip' and 'clk-qoriq' into clk-next
-> >> git bisect good 5816b74581b45cf086a84ab14e13354a65e8e22c
-> >> # good: [7b4c162e03d47e037f8ee773c3e300eefb599a83] clk: at91: Mark struct clk_range as const
-> >> git bisect good 7b4c162e03d47e037f8ee773c3e300eefb599a83
-> >> # bad: [e71f4d385878671991e200083c7d30eb4ca8e99a] clk: tegra: divider: Mark Memory Controller clock as read-only
-> >> git bisect bad e71f4d385878671991e200083c7d30eb4ca8e99a
-> >> # bad: [924ee3d551c9deb16090230b824988bd37e72aa8] clk: tegra: emc: Don't enable EMC clock manually
-> >> git bisect bad 924ee3d551c9deb16090230b824988bd37e72aa8
-> >> # bad: [40db569d6769ffa3864fd1b89616b1a7323568a8] clk: tegra: Fix PLLM programming on Tegra124+ when PMC overrides divider
-> >> git bisect bad 40db569d6769ffa3864fd1b89616b1a7323568a8
-> >> # bad: [bff1cef5f23afbe49f5ebd766980dc612f5e9d0a] clk: tegra: Don't enable already enabled PLLs
-> >> git bisect bad bff1cef5f23afbe49f5ebd766980dc612f5e9d0a
-> >> # first bad commit: [bff1cef5f23afbe49f5ebd766980dc612f5e9d0a] clk: tegra: Don't enable already enabled PLLs
-> >>
+On Sat, May 30, 2020 at 06:22:58AM +0300, Laurent Pinchart wrote:
+> Hi Daniel,
+> 
+> Thank you for the patch.
+> 
+> On Wed, May 27, 2020 at 11:53:32AM +0200, Daniel Vetter wrote:
+> > Only when vblanks are supported ofc.
 > > 
-> > Hello
+> > Some drivers do this already, but most unfortunately missed it. This
+> > opens up bugs after driver load, before the crtc is enabled for the
+> > first time. syzbot spotted this when loading vkms as a secondary
+> > output. Given how many drivers are buggy it's best to solve this once
+> > and for all in shared helper code.
 > > 
-> > I have digged a bit more and with the following "patch" I have now access to sata again
-> > diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
-> > index 0b212cf2e794..b4e2020051d5 100644
-> > --- a/drivers/clk/tegra/clk-pll.c
-> > +++ b/drivers/clk/tegra/clk-pll.c
-> > @@ -1602,7 +1603,7 @@ static int clk_plle_tegra114_enable(struct clk_hw *hw)
-> >         unsigned long input_rate;
-> >  
-> >         if (clk_pll_is_enabled(hw))
-> > -               return 0;
-> > +               pr_info("%s %s\n", __func__, clk_hw_get_name(&pll->hw));
-> >  
-> >         input_rate = clk_hw_get_rate(clk_hw_get_parent(hw));
+> > Aside from moving the few existing calls to drm_crtc_vblank_reset into
+> > helpers (i915 doesn't use helpers, so keeps its own) I think the
+> > regression risk is minimal: atomic helpers already rely on drivers
+> > calling drm_crtc_vblank_on/off correctly in their hooks when they
+> > support vblanks. And driver that's failing to handle vblanks after
+> > this is missing those calls already, and vblanks could only work by
+> > accident when enabling a CRTC for the first time right after boot.
 > > 
-> > This patch lead to a probed ahci, and I can see "clk_plle_tegra114_enable pll_e" in messages.
+> > Big thanks to Tetsuo for helping track down what's going wrong here.
 > > 
-> > So the bad part of bff1cef5f23afbe49f5ebd766980dc612f5e9d0a is found.
+> > There's only a few drivers which already had the necessary call and
+> > needed some updating:
+> > - komeda, atmel and tidss also needed to be changed to call
+> >   __drm_atomic_helper_crtc_reset() intead of open coding it
+> > - tegra and msm even had it in the same place already, just code
+> >   motion, and malidp already uses __drm_atomic_helper_crtc_reset().
 > 
-> Hello Labbe,
-> 
-> Looks like indeed this PLLE change should be reverted. I see that the
-> code disables PLLE before changing its configuration, so apparently the
-> enable-check shouldn't be needed.
-> 
-> > As additional information, my previous kernel has CONFIG_PHY_TEGRA_XUSB=m (since firmware is on rootfs which is on sata)
-> > but with this sata fail the same, having CONFIG_PHY_TEGRA_XUSB=y (and so xusb firmware in kernel) seems "necessary" for having SATA working.
-> 
-> Sounds like PLLE needs to be enabled for SATA, but ahci-tegra driver
-> doesn't do that.
-> 
-> Could you please try this change:
-> 
-> --- >8 ---
-> diff --git a/drivers/clk/tegra/clk-tegra124.c
-> b/drivers/clk/tegra/clk-tegra124.c
-> index e931319dcc9d..7dbc14652830 100644
-> --- a/drivers/clk/tegra/clk-tegra124.c
-> +++ b/drivers/clk/tegra/clk-tegra124.c
-> @@ -1330,6 +1330,7 @@ static struct tegra_clk_init_table
-> common_init_table[] __initdata = {
->  	{ TEGRA124_CLK_I2S3_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
->  	{ TEGRA124_CLK_I2S4_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
->  	{ TEGRA124_CLK_VIMCLK_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-> +	{ TEGRA124_CLK_PLL_E, TEGRA124_CLK_CLK_MAX, 0, 1 },
->  	/* must be the last entry */
->  	{ TEGRA124_CLK_CLK_MAX, TEGRA124_CLK_CLK_MAX, 0, 0 },
->  };
-> --- >8 ---
+> Have you intentionally not touched drivers that use
+> drm_crtc_vblank_off() at init time instead of drm_crtc_vblank_reset() ?
+> I'm thinking about omapdrm and rcar-du that both call neither
+> drm_crtc_vblank_reset() nor __drm_atomic_helper_crtc_reset() in their
+> CRTC reset handler, and call drm_crtc_vblank_off() at init time. Should
+> these (and likely other) drivers be updated ?
 
-This patch alone does not fix the issue.
+Good catch, I think we should remove those too with this patch.
+
+I also used that opportunity to review all callers fo drm_crtc_vblank_off,
+and I found two bogus callers in malidp and hdlcd. But only in the unload
+code, so doesn't matter much.
+
+I'll resend a new version.
+-Daniel
+
+> Other than that the patch looks good to me,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > Only call left is in i915, which doesn't use drm_mode_config_reset,
+> > but has its own fastboot infrastructure. So that's the only case where
+> > we actually want this in the driver still.
+> > 
+> > I've also reviewed all other drivers which set up vblank support with
+> > drm_vblank_init. After the previous patch fixing mxsfb all atomic
+> > drivers do call drm_crtc_vblank_on/off as they should, the remaining
+> > drivers are either legacy kms or legacy dri1 drivers, so not affected
+> > by this change to atomic helpers.
+> > 
+> > v2: Use the drm_dev_has_vblank() helper.
+> > 
+> > Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
+> > Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: Jyri Sarha <jsarha@ti.com>
+> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Sean Paul <seanpaul@chromium.org>
+> > Cc: Brian Masney <masneyb@onstation.org>
+> > Cc: Emil Velikov <emil.velikov@collabora.com>
+> > Cc: zhengbin <zhengbin13@huawei.com>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: linux-tegra@vger.kernel.org
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
+> >  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
+> >  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+> >  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
+> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
+> >  drivers/gpu/drm/tegra/dc.c                       | 1 -
+> >  drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
+> >  drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
+> >  8 files changed, 9 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > index 56bd938961ee..f33418d6e1a0 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > @@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
+> >  	crtc->state = NULL;
+> >  
+> >  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > -	if (state) {
+> > -		crtc->state = &state->base;
+> > -		crtc->state->crtc = crtc;
+> > -	}
+> > +	if (state)
+> > +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> >  }
+> >  
+> >  static struct drm_crtc_state *
+> > @@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+> >  		return err;
+> >  
+> >  	drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
+> > -	drm_crtc_vblank_reset(crtc);
+> >  
+> >  	crtc->port = kcrtc->master->of_output_port;
+> >  
+> > diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> > index c2507b7d8512..02904392e370 100644
+> > --- a/drivers/gpu/drm/arm/malidp_drv.c
+> > +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> > @@ -870,7 +870,6 @@ static int malidp_bind(struct device *dev)
+> >  	drm->irq_enabled = true;
+> >  
+> >  	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> > -	drm_crtc_vblank_reset(&malidp->crtc);
+> >  	if (ret < 0) {
+> >  		DRM_ERROR("failed to initialise vblank\n");
+> >  		goto vblank_fail;
+> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> > index 10985134ce0b..ce246b96330b 100644
+> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> > @@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
+> >  	}
+> >  
+> >  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > -	if (state) {
+> > -		crtc->state = &state->base;
+> > -		crtc->state->crtc = crtc;
+> > -	}
+> > +	if (state)
+> > +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> >  }
+> >  
+> >  static struct drm_crtc_state *
+> > @@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
+> >  	}
+> >  
+> >  	drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
+> > -	drm_crtc_vblank_reset(&crtc->base);
+> >  
+> >  	drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
+> >  	drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > index 8fce6a115dfe..9ad74045158e 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -32,6 +32,7 @@
+> >  #include <drm/drm_device.h>
+> >  #include <drm/drm_plane.h>
+> >  #include <drm/drm_print.h>
+> > +#include <drm/drm_vblank.h>
+> >  #include <drm/drm_writeback.h>
+> >  
+> >  #include <linux/slab.h>
+> > @@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+> >  	if (crtc_state)
+> >  		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
+> >  
+> > +	if (drm_dev_has_vblank(crtc->dev))
+> > +		drm_crtc_vblank_reset(crtc);
+> > +
+> >  	crtc->state = crtc_state;
+> >  }
+> >  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
+> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > index ca3368c828d0..9606185c284b 100644
+> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > @@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
+> >  		mdp5_crtc_destroy_state(crtc, crtc->state);
+> >  
+> >  	__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
+> > -
+> > -	drm_crtc_vblank_reset(crtc);
+> >  }
+> >  
+> >  static const struct drm_crtc_funcs mdp5_crtc_funcs = {
+> > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> > index 83f31c6e891c..9b308b572eac 100644
+> > --- a/drivers/gpu/drm/tegra/dc.c
+> > +++ b/drivers/gpu/drm/tegra/dc.c
+> > @@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
+> >  		tegra_crtc_atomic_destroy_state(crtc, crtc->state);
+> >  
+> >  	__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> > -	drm_crtc_vblank_reset(crtc);
+> >  }
+> >  
+> >  static struct drm_crtc_state *
+> > diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> > index 89a226912de8..4d01c4af61cd 100644
+> > --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> > +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> > @@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
+> >  		return;
+> >  	}
+> >  
+> > -	crtc->state = &tcrtc->base;
+> > -	crtc->state->crtc = crtc;
+> > +	__drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
+> >  }
+> >  
+> >  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+> > diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+> > index 4b99e9fa84a5..e6ab59eed259 100644
+> > --- a/drivers/gpu/drm/tidss/tidss_kms.c
+> > +++ b/drivers/gpu/drm/tidss/tidss_kms.c
+> > @@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > -	/* Start with vertical blanking interrupt reporting disabled. */
+> > -	for (i = 0; i < tidss->num_crtcs; ++i)
+> > -		drm_crtc_vblank_reset(tidss->crtcs[i]);
+> > -
+> >  	drm_mode_config_reset(ddev);
+> >  
+> >  	dev_dbg(tidss->dev, "%s done\n", __func__);
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
