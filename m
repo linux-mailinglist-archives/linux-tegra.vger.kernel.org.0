@@ -2,75 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D9771EB9FD
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 13:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F139D1EBC06
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 14:48:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725919AbgFBLC2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 07:02:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
+        id S1726130AbgFBMsC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 08:48:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725802AbgFBLC1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 07:02:27 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5430FC061A0E;
-        Tue,  2 Jun 2020 04:02:27 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id w7so6046033edt.1;
-        Tue, 02 Jun 2020 04:02:27 -0700 (PDT)
+        with ESMTP id S1725940AbgFBMsC (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 08:48:02 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E68C061A0E;
+        Tue,  2 Jun 2020 05:48:01 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id w7so6294595edt.1;
+        Tue, 02 Jun 2020 05:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=xgkzO+n+OaR1PsIu6Y5TBKCmjAXGMbznUyr7FevGw1Y=;
-        b=UFzbey8vdoQPyo1fDkaxCPS4iGMpGAadkgSJ+erXoeY62mKWRUFz3hcNGgMViPlMt6
-         AzBaW5OjYZjGi9C15/5z7rAJ1uJpuhFJUOF3YRIJIMtgrc0EiiAqy8rajx3d9DRgrW+6
-         c+yAk50O9FTR3FzuAQoCZ9Zhij24F/OcZobrs2PYlhE4fGHPU0U0M8W9VaWrYheS0l/V
-         YgCvWCcnm+Sff3ypUP2XaKhTcHribLwzfqUkmZEL9Ana/ZJJxd5YNCeKjYjUdamxQ6OI
-         o7DduFgW4ufoeD0iWjV5a5+56uj6VBETLcgrjMolq04qsRiDBz9Cd64ZRq8ukwWJEzqU
-         L1/A==
+        bh=Yf4GXAhEWn+sWFUgRmxvX5UkbgRsnK6CDYcGHL39uUU=;
+        b=tHuHJ+gtmpVUv5nKezqAI3B3fgx2P1v6opMTGb6Z6CQHHePqzNFdea0SIogb6aPN3Y
+         ZWqRLmLKpsbGDCXY/SIxVtcU0BZjdOMGT8u5VLnQBkoO04uCozfZGlJLrVkqWyxUW5W3
+         xKdKeOQQxJtiL033ZG8U0xrq2d7QE4gdvTB6vBo89nJ8U3yMjTJnMPFvKBFjlXvRqny6
+         8b3TiYI7PLAsPUPayF4Qe/4gGbFMu36q5YPnl7EvEX9J3SSS9Mau7HqWZBk7fZ9VWjxy
+         KM7anBc/SXUEc28F1/I/eF1YKEBrvqIZsE/AzEBFn4En6922ts9t4WM+VGjAIVwLfLGl
+         425g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xgkzO+n+OaR1PsIu6Y5TBKCmjAXGMbznUyr7FevGw1Y=;
-        b=KfrL4JN8F4cp9ULCpoHllsuBPgJgBJ+3P13X4YgDiQZTOKKEch3wMto5fKX8G+GZRd
-         J103hPDymQA/tdIkJ/MRn+hqG48wiDNV7uHNsFSy3hBVaR4eCFsK51uaG/Vv64bktWoz
-         XG0QarMdiLbie9LmT7uPvU7bGGLIOaktv4plqnf84PWsyMeHig0C3Z/3lIeIw9fCqD/K
-         Ua0q2gmJsfTJ+lLcWHyPPVnHUHLTRPS2z61Tgi+P3fveLF5g1/DJG2yXvfMeu3S0LSwV
-         EabYbyjlxkHrtp8Q4kQi30cd5/i9IlBtrHJAbzVDtIlwTtdX+1k1ST8pMw6uzfWU0tJL
-         pSFg==
-X-Gm-Message-State: AOAM530AveW3GmQMag3p/SifCHm2IVDKrORqmOknwy6c0lNOdbdDpsv8
-        QhMnGa8yY/ApXl2S62pXan0=
-X-Google-Smtp-Source: ABdhPJw82udMbDApJ+beV5fEl+EF6IRgM2MG0DNUBeiIVsIjkESu71dUiOyq5Ln1AnZkuwapXb8bgQ==
-X-Received: by 2002:a05:6402:1d30:: with SMTP id dh16mr25188393edb.302.1591095745784;
-        Tue, 02 Jun 2020 04:02:25 -0700 (PDT)
+        bh=Yf4GXAhEWn+sWFUgRmxvX5UkbgRsnK6CDYcGHL39uUU=;
+        b=RJP3H2hiKzmqjOt/5qdCYi+INISmvq2tt7SVPQsvtJKuhXdJONIa4PsBZlJcGYqejj
+         fix0s5IynL3Ea5B7vGA5KLQu7WAG+F5bHDq8iQ/FplIcKp3v/hB1pKOTtWDZL1vfpG5N
+         P/NIZHrVTg2WmQqmC2+KuXV1zP7b7PSFuPR4AHhRmhcse2YvDMyhnX/okMkfQEOkuz87
+         ESDiNEZ5T+yKcdk0sZymWzg802psNEttuVCoxBxBklLlBfff3Q14ioxRmF2d7GM0dFQH
+         TvbX8/223J/TZ2ehXc5IwAqynB74lN1oEnkYzdMXN0Oxy5dmB/eMwTulrOt15XblT93y
+         24ww==
+X-Gm-Message-State: AOAM533lXjFM4A7OMUhYxrbyYN4t6JI/Io7TTOLan4HeJP9/QOgjogQX
+        qQdq0Suh4MXpo6CbKKYUs3k=
+X-Google-Smtp-Source: ABdhPJzLNH6sjpsVM2MZNCAKxy0ZLIgGrIFfO3a5ZPLwC/X1e/HaDzhllSyC6liBrnFy340xlskkuQ==
+X-Received: by 2002:a50:af85:: with SMTP id h5mr18954583edd.86.1591102080350;
+        Tue, 02 Jun 2020 05:48:00 -0700 (PDT)
 Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id s15sm1375913edw.54.2020.06.02.04.02.21
+        by smtp.gmail.com with ESMTPSA id u23sm1498694eds.73.2020.06.02.05.47.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 04:02:21 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 13:02:16 +0200
+        Tue, 02 Jun 2020 05:47:58 -0700 (PDT)
+Date:   Tue, 2 Jun 2020 14:47:58 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-        linux-tegra@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-Message-ID: <20200602110216.GA3354422@ulmo>
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200228025700.GA856087@builder>
- <20200514193249.GE279327@builder.lan>
- <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
- <20200527110343.GD11111@willie-the-truck>
+To:     Sandipan Patra <spatra@nvidia.com>
+Cc:     treding@nvidia.com, jonathanh@nvidia.com,
+        u.kleine-koenig@pengutronix.de, bbasu@nvidia.com,
+        ldewangan@nvidia.com, kyarlagadda@nvidia.com,
+        linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V4] pwm: tegra: dynamic clk freq configuration by PWM
+ driver
+Message-ID: <20200602124758.GE3360525@ulmo>
+References: <1590988836-11308-1-git-send-email-spatra@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
+        protocol="application/pgp-signature"; boundary="k3qmt+ucFURmlhDS"
 Content-Disposition: inline
-In-Reply-To: <20200527110343.GD11111@willie-the-truck>
+In-Reply-To: <1590988836-11308-1-git-send-email-spatra@nvidia.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -78,139 +71,80 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---ZPt4rx8FFjLCG7dd
+--k3qmt+ucFURmlhDS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2020 at 12:03:44PM +0100, Will Deacon wrote:
-> Hi John, Bjorn,
+On Mon, Jun 01, 2020 at 10:50:36AM +0530, Sandipan Patra wrote:
+> Added support for dynamic clock freq configuration in pwm kernel driver.
+> Earlier the pwm driver used to cache boot time clock rate by pwm clock
+> parent during probe. Hence dynamically changing pwm frequency was not
+> possible for all the possible ranges. With this change, dynamic calculati=
+on
+> is enabled and it is able to set the requested period from sysfs knob
+> provided the value is supported by clock source.
 >=20
-> On Tue, May 26, 2020 at 01:34:45PM -0700, John Stultz wrote:
-> > On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
-> > >
-> > > On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
-> > >
-> > > Rob, Will, we're reaching the point where upstream has enough
-> > > functionality that this is becoming a critical issue for us.
-> > >
-> > > E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
-> > > mainline with display, GPU, WiFi and audio working and the story is
-> > > similar on several devboards.
-> > >
-> > > As previously described, the only thing I want is the stream mapping
-> > > related to the display controller in place, either with the CB with
-> > > translation disabled or possibly with a way to specify the framebuffer
-> > > region (although this turns out to mess things up in the display
-> > > driver...)
-> > >
-> > > I did pick this up again recently and concluded that by omitting the
-> > > streams for the USB controllers causes an instability issue seen on o=
-ne
-> > > of the controller to disappear. So I would prefer if we somehow could
-> > > have a mechanism to only pick the display streams and the context
-> > > allocation for this.
-> > >
-> > >
-> > > Can you please share some pointers/insights/wishes for how we can
-> > > conclude on this subject?
-> >=20
-> > Ping? I just wanted to follow up on this discussion as this small
-> > series is crucial for booting mainline on the Dragonboard 845c
-> > devboard. It would be really valuable to be able to get some solution
-> > upstream so we can test mainline w/o adding additional patches.
+> Changes mainly have 2 parts:
+>   - T186 and later chips [1]
+>   - T210 and prior chips [2]
 >=20
-> Sorry, it's been insanely busy recently and I haven't had a chance to thi=
-nk
-> about this on top of everything else. We're also carrying a hack in Andro=
-id
-> for you :)
+> For [1] - Changes implemented to set pwm period dynamically and
+>           also checks added to allow only if requested period(ns) is
+>           below or equals to higher range.
 >=20
-> > The rest of the db845c series has been moving forward smoothly, but
-> > this set seems to be very stuck with no visible progress since Dec.
-> >=20
-> > Are there any pointers for what folks would prefer to see?
+> For [2] - Only checks if the requested period(ns) is below or equals
+>           to higher range defined by max clock limit. The limitation
+>           in T210 or prior chips are due to the reason of having only
+>           one pwm-controller supporting multiple channels. But later
+>           chips have multiple pwm controller instances each having
+> 	  single channel support.
 >=20
-> I've had a chat with Robin about this. Originally, I was hoping that
-> people would all work together towards an idyllic future where firmware
-> would be able to describe arbitrary pre-existing mappings for devices,
-> irrespective of the IOMMU through which they master and Linux could
-> inherit this configuration. However, that hasn't materialised (there was
-> supposed to be an IORT update, but I don't know what happened to that)
-> and, in actual fact, the problem that you have on db845 is /far/ more
-> restricted than the general problem.
+> Signed-off-by: Sandipan Patra <spatra@nvidia.com>
+> ---
+> PATCH V4:
+> 1. Code comments fixes
+>=20
+> PATCH V3:
+> 1. Return -EINVAL if requested period does not fall inside limit.
+> 2. Store the new clock rate for further references.
+> 3. Variable name change reverted.
+> 4. Comments corrected and new comments are added.
+>=20
+> PATCH V2:
+> 1. Maximum frequency calculation is moved to probe.
+> 2. Added descriptions for PWM register bits and functional behavior
+>    of the controller when new configuration is applied.
+> 3. Setting period with possible value when supplied period is below limit.
+> 4. Corrected the earlier code comment:
+>    plus 1 instead of minus 1 during pwm calculation
+>=20
+>  drivers/pwm/pwm-tegra.c | 80 +++++++++++++++++++++++++++++++++++++++++++=
++++---
+>  1 file changed, 76 insertions(+), 4 deletions(-)
 
-It doesn't sound to me like implementing platform-specific workarounds
-is a good long-term solution (especially since, according to Bjorn, they
-aren't as trivial to implement as it sounds). And we already have all
-the infrastructure in place to implement what you describe, so I don't
-see why we shouldn't do that. This patchset uses standard device tree
-bindings that were designed for exactly this kind of use-case.
-
-So at least for device-tree based boot firmware can already describe
-these pre-existing mappings. If something standard materializes for ACPI
-eventually I'm sure we can find ways to integrate that into whatever we
-come up with now for DT.
-
-I think between Bjorn, John, Laurentiu and myself there's pretty broad
-consensus (correct me if I'm wrong, guys) that solving this via reserved
-memory regions is a good solution that works. So I think what's really
-missing is feedback on whether the changes proposed here or Laurentiu's
-updated proposal[0] are acceptable, and if not, what the preference is
-for getting something equivalent upstream.
-
-Just to highlight: the IOMMU framework already provides infrastructure
-to create direct mappings (via iommu_get_resv_regions(), called from
-iommu_create_device_direct_mappings()). I have patches that make use of
-this on Tegra210 and earlier where a non-ARM SMMU is used and where the
-IOMMU driver enables translations (and doesn't fault by default) only at
-device attachment time. That works perfectly using reserved-memory
-regions. Perhaps that infrastructure could be extended to cover the
-kinds of early mappings that we're discussing here. On the other hand it
-might be a bit premature at this point because the ARM SMMU is the only
-device that currently needs this, as far as I can tell.
+Applied, thanks.
 
 Thierry
 
-[0]: https://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D164853
-
-> Could you please try hacking something along the following lines and see
-> how you get on? You may need my for-joerg/arm-smmu/updates branch for
-> all the pieces:
->=20
->   1. Use the ->cfg_probe() callback to reserve the SMR/S2CRs you need
->      "pinning" and configure for bypass.
->=20
->   2. Use the ->def_domain_type() callback to return IOMMU_DOMAIN_IDENTITY
->      for the display controller
->=20
-> I /think/ that's sufficient, but note that it differs from the current
-> approach because we don't end up reserving a CB -- bypass is configured
-> in the S2CR instead. Some invalidation might therefore be needed in
-> ->cfg_probe() after unhooking the CB.
->=20
-> Thanks, and please yell if you run into problems with this approach.
->=20
-> Will
-
---ZPt4rx8FFjLCG7dd
+--k3qmt+ucFURmlhDS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7WMbMACgkQ3SOs138+
-s6FS7hAAjnzmOGg8TMxb0NhiGM6QcXO3Js8Tej1WhHH/3E6vxv+RV6kunncGhxwH
-Iw3wyGnqbwRjjzCdM+tgojDnyi+eEeb5961WbNoEmWZFJtk2ARhOxbjizxbH8ZNo
-GZnKiYKHRk4VamcBxHZGgzRyhxAi1GPYGgoCmDbf0lzkvX3fydaurT3UBtlcxUC0
-rBRIZppeNMFqzyyX1derKVtrLrsSIlZtdIl08tPvD+pDdpIoglxx3+JRI0oO6ESU
-4uDUHipo8Ww1uRzEnEwWi1RAOAtl+M17QGlAl6OF33N2+m7bvHcyAlTYJDzksNHB
-jNd8q7obRseZkGsUdbmYkW7ZJDYFa6ygQr2iEUQuGoqcQKY4eQcxRCdM2GsgzLzv
-YpIFRsSfuRK1f/+YmanGqPLP+K0LQ1fP/QxllEuk+taQyFmEYn27VwWnGZBNT/cm
-j5RZWrReSHcRDCDolUGlBAoWsqIOrk2qYH+z3gWBcaK+YZ+8uEZldXmX+RXNq/IX
-XKKkYBioF5UnYhx0u0AB964vGKLYnalp5ajSyEWybbWFLaj/SYdLTShmz3bffy0L
-rEldzwfiSS3uhmtAjSFOAhjHtnr1ExCXxrMiyGP6XEeOOfmQCe6fOOuM1GSytIaP
-AlC/E7XjsbPeVjUvYffk0a0lK7x1WMuPYOq6RBVVACkVvH6G8Uo=
-=0kMT
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7WSn0ACgkQ3SOs138+
+s6Gs2hAAuKnY8XRGX2cCIMv6LUK/mMn655EzVcw8MBN6IjTjqWgPbkQf590CXT0E
+/YdjXLEMaijZhzvsffpkUZpRfQJkbmUqQ1fTLM1ag+6Y6NKWZrrz2XRE8HAmwjef
+2Vz7qxFXPofe6KblDH6hdpMt0GiYgGKNr2SMPd/Mr8nGIcTFHjSz1J2jdXjHKi7d
+3yrKgXH1/3YjjiYLuVqoritQlnwFVWELGargD4o7pDgu/9untwWLrCAVs7QH1ST2
+6vZwChEsC9lHvg0GbA9Lz0QLXuFG89FDlpYGOnik96R3/8Lpq8hvXDlmn0ttJn6H
+9SBzAWQpyMdz4GW0/a09o79YmzOLB4hH20du8s0nzB0i6QphMkZGjOeXNPkxHGU2
+e2ga6dbvDFLHvN61xii91hMEwH1DvhL0uWgwwXmNq4Bsz205fjhubE6SptVQ6c6q
+lNPh5JJuhKYyuWjRTWZyW8hx0VImqE89IAFkmLrEzeiasAPc/frvo3uCqrn46s+B
+YouYpYk2STWRs9NiFTh5FRso86BSOovFqWS35DagLFcTHw7gGcbuzQMl3ZTfJKdQ
++29iq/Dx1U43IEA4YQj0zoGfnTglk+c/W91D69AicdbLVT5yScRpefmu9on654Lh
+cjvAU1Yx5zgM5dXhdLw1dN5IVbcNIoR/rs4SmGORb4XpS0XKqyw=
+=ZV5c
 -----END PGP SIGNATURE-----
 
---ZPt4rx8FFjLCG7dd--
+--k3qmt+ucFURmlhDS--
