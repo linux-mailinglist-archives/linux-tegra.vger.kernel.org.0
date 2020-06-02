@@ -2,61 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C30D1EB53E
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 07:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4FC41EB578
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 07:48:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgFBF0L (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 01:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59768 "EHLO
+        id S1726003AbgFBFsu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 01:48:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbgFBF0K (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 01:26:10 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C208AC061A0E;
-        Mon,  1 Jun 2020 22:26:09 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id d7so9546375ioq.5;
-        Mon, 01 Jun 2020 22:26:09 -0700 (PDT)
+        with ESMTP id S1725921AbgFBFsu (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 01:48:50 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC51C061A0E;
+        Mon,  1 Jun 2020 22:48:48 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id z2so3462278ilq.0;
+        Mon, 01 Jun 2020 22:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=eLZuld5pvjUjHTyC9j66F5S+wq2+0vGChjS9TT4ZwMo=;
-        b=EMv27LpMIUtFKLVi6M3Rxvn6I4xQRfZl4upqBVY+UXu+dtv4EEGPR0VL7Nk2OqskKy
-         phBh+CZXrsqf+kuoTNTp6O41xH+DCyZiDYShq3CCGfKhKs7okGBtMBxpO1JRBCDViUjP
-         aGDUHpExpZ2wgQAu8R7E20+tnbYuuKRBGSRM3E2KRDhSfg+UJfXea1TQd3P+7HtbTLKv
-         xcsGeDcXljCkBZhjwOP7FhsdVMOF7c0OzDCKysCQ70B/ZyI9gHQ+9hm3PWzKYsyFpVWw
-         DNy2vxXCtZ0ZwLwJxY1TYK38OeBn9esfEauXCpWfW2JJKpuahQzHgIJa7iZ81ZzG/Wfl
-         m8mQ==
+        bh=k9I8ETp57ehY+cewlXxiibzOu/2WehbLAtG+rirGofY=;
+        b=PTTy3Jc1hh5d7OAQOhMTiWNWJ4RspVKcuazsI9Qgbx+DVn0MAAadyVf3uR+SewUl1w
+         gqIcebnNBkhmqGbGqm5Fg4dRdKaeeX1SeyH1eiSkGZyofFaoVkQ2VOLVzhcTza5F3uOa
+         5Ij9D+nRUzuz4QO1wb6XWri6RH6ozWyuLsPSKcXJ4iuPX0de1IrYswiCNZAWCQdaI3Zt
+         1S9Fq6wCHjKOulSz3m7wqNOxsEP+ldTR1c+QrzPqFx5hiWA92V2kosaJls13rcfClr4B
+         0iEXswWzLMyYx7L4aM16VXMLHYczOkLn+7fC+706rUgVriAWcroR+dhT3kUhW51ejeFj
+         agyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=eLZuld5pvjUjHTyC9j66F5S+wq2+0vGChjS9TT4ZwMo=;
-        b=Ay7fMCzockYfOJnqOp6pRUmTAsjboo1Is9Z7ITYheIIZNTmPGTPgoTinPh5BP3uDNi
-         RXXyVGE2UtpdU9XCdR3FIUvMQfosL1zBJkXZ41c89Z7Q2qEQNB2seU3YESt/6VDAE54u
-         kXzyrIWxT7x493pairB4q3db50aCUixE1URrei+I3Sr/CYhcsS9u9R4kHuQWErUtl9lo
-         HBmgxAh81ZIUb2+ySbSJ1cLXfWGeLpqmQCrRx1w1pthj8Qeh6mK4bmcD9SPgBrd2mlDS
-         3x5HO8Il173EahEKs6Di2UGFGD3TaS8hJMzx6fwLXSS9r9OmVN0jR/qSmqtzWxRsGRJe
-         SkjQ==
-X-Gm-Message-State: AOAM532nmUqKaHOEUwlqjgtmLtTc38ecBbcNJc6VxoLWchtHAWrcoHGV
-        rLBVdnEgt4oZK1Z6kfKWHsg=
-X-Google-Smtp-Source: ABdhPJwBOGEwnwn8n+mXhBsecMitZVSOH2/twetB8hNZ/aJD7OWvpM+OfsPFJ0CtrHtkLqNx+/+CkA==
-X-Received: by 2002:a02:908b:: with SMTP id x11mr23046437jaf.41.1591075569100;
-        Mon, 01 Jun 2020 22:26:09 -0700 (PDT)
+        bh=k9I8ETp57ehY+cewlXxiibzOu/2WehbLAtG+rirGofY=;
+        b=Bu9aanQYQeiZFG1DF5hlFDzl7tUS7BTEnD8/Jq9TV9d44SxeSGWNa9PR23Rj224bVr
+         v+1sXxnhXqhvY1KJrMk4AXqWVa/Ryjot3x1NQwAotqzono+k6gCJQSt2v44lcMIM+NNE
+         6aB9M2oTWVmtbT+cJXMDxOGLxIdbo7LEJQ3Wm+I/H7ndhK9ErfIslztaMV6ZtSNMgo5K
+         DS/n+Ho3XP+ocDqI9LVOB6So/MOku24iJYn2ZDoKSQqDLxs0kLfFIznOISuWPoHjphIL
+         XSNQqqqZ/iIIcJ0vxbVIqE71o2R7uGwnbwMTqq1odLQymVYl/pXXjgMIkMCklGpO2WY1
+         s8xg==
+X-Gm-Message-State: AOAM5337HjMgd+Ky123YFeWwQGKhYjlhdW1NWT9I+oLyjTYGzKreGsVp
+        s4atjdrRNnCP5HBqIMwEDt4=
+X-Google-Smtp-Source: ABdhPJxaffrkPss8NMfyN5duhlcFxRD0Zwf2ag1xzDGUschjC6B9gf0XBShNKhn+Lw1PGm6gXIEycA==
+X-Received: by 2002:a92:5e07:: with SMTP id s7mr24998837ilb.266.1591076928307;
+        Mon, 01 Jun 2020 22:48:48 -0700 (PDT)
 Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
-        by smtp.googlemail.com with ESMTPSA id d11sm647818iod.11.2020.06.01.22.26.08
+        by smtp.googlemail.com with ESMTPSA id z4sm911293ilm.72.2020.06.01.22.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 22:26:08 -0700 (PDT)
+        Mon, 01 Jun 2020 22:48:47 -0700 (PDT)
 From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
 Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
         Navid Emamdoost <navid.emamdoost@gmail.com>
-Subject: [PATCH] spi: tegra20-slink: add missing pm_runtime_put
-Date:   Tue,  2 Jun 2020 00:26:02 -0500
-Message-Id: <20200602052602.91374-1-navid.emamdoost@gmail.com>
+Subject: [PATCH] media: staging: tegra-vde: add missing pm_runtime_put_autosuspend
+Date:   Tue,  2 Jun 2020 00:48:41 -0500
+Message-Id: <20200602054841.15746-1-navid.emamdoost@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -65,25 +66,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 Call to pm_runtime_get_sync increments counter even in case of
 failure leading to incorrect ref count.
-Call pm_runtime_put if pm_runtime_get_sync fails.
+Call pm_runtime_put_autosuspend if pm_runtime_get_sync fails.
 
 Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 ---
- drivers/spi/spi-tegra20-slink.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/tegra-vde/vde.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
-index 7f4d932dade7..0675b36d647b 100644
---- a/drivers/spi/spi-tegra20-slink.c
-+++ b/drivers/spi/spi-tegra20-slink.c
-@@ -1192,6 +1192,7 @@ static int tegra_slink_resume(struct device *dev)
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index d3e63512a765..52cdd4a91e93 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -776,8 +776,10 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 		goto release_dpb_frames;
+ 
  	ret = pm_runtime_get_sync(dev);
- 	if (ret < 0) {
- 		dev_err(dev, "pm runtime failed, e = %d\n", ret);
-+		pm_runtime_put(dev);
- 		return ret;
- 	}
- 	tegra_slink_writel(tspi, tspi->command_reg, SLINK_COMMAND);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_autosuspend(dev);
+ 		goto unlock;
++	}
+ 
+ 	/*
+ 	 * We rely on the VDE registers reset value, otherwise VDE
 -- 
 2.17.1
 
