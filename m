@@ -2,348 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E94A1EB8D8
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 11:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD6F11EB986
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 12:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726217AbgFBJvy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 05:51:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbgFBJvx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 05:51:53 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79752C061A0E
-        for <linux-tegra@vger.kernel.org>; Tue,  2 Jun 2020 02:51:53 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id l10so2691487wrr.10
-        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 02:51:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+TUQlURBiYUvX4eGj1cmnygFBEIqoBCMKPSr5vwFyYk=;
-        b=i+OdYT4kLo1/b2shX9NxpycnXGOHsI3rZsaVnWOdzITJvXO5gFAWmpKtZqPyupqMFD
-         M6ib1JemUVtn9Hw8BFc2WCjBh+qkBr4tpUAL/SjeWMQpnu98ZGSsOUVZMKTw6i8KRCMk
-         92oJBMisxnekYBP5clqL/6nt91hi8i2nDOh50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+TUQlURBiYUvX4eGj1cmnygFBEIqoBCMKPSr5vwFyYk=;
-        b=sghDVvptbUim2yLycSrjpUrfloxRpcGTjNiL8pjJX/hAmxvx1gDTXihwH1UH0X8Ayt
-         4wVCphNNwY+OhTyYdANUQ2L/ar3f1pKADeLiC96sDsCCJrS1LtIuKQWLdBuTJSByJlRS
-         4JZ5faMQM9m3bahaQGcIJm1p9OS2oscxjTn2HEGP+yZ6qLSnAPnXmQMlEYhTWg3KgqdX
-         oIRlgepoUKOGJxVB7dX6Jki8gKmrs353sekEt3jU2lneVfEcyITCzNiMSaAdLoitq1LP
-         J4G/Bjank7iast0uNlbmr2VyXBrb1LCrYuqj4tGSvUF44LVMjikZ8kTQywOXNYIvsNec
-         om5Q==
-X-Gm-Message-State: AOAM533RjfXd9z1BHZGsY9e803YEF8gu/8ZTfpxuNNYQv6hHIvY30bya
-        d7F6yg+wMNJP4OL+zGU9/BTOMA==
-X-Google-Smtp-Source: ABdhPJwGhsG45NVOnFfrcSqMCGUUP5Na6EQs7omzLU2JngUUImZOWaj0hrPPGW7fd1TjkTghzVGsVA==
-X-Received: by 2002:a5d:4b85:: with SMTP id b5mr25214853wrt.8.1591091512202;
-        Tue, 02 Jun 2020 02:51:52 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id a6sm2996443wrn.38.2020.06.02.02.51.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 02:51:51 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
-        "James (Qian) Wang" <james.qian.wang@arm.com>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        id S1726648AbgFBKXo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 06:23:44 -0400
+Received: from mout.web.de ([212.227.15.4]:43949 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726110AbgFBKX3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 2 Jun 2020 06:23:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1591093396;
+        bh=PFMGEEOay+KgZ+tXV/1dnZ9aJORVzZha7g+cmHJx9K8=;
+        h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
+        b=VRVEvddnONAMEny8KtNapxroWH7qeQ5VOn37yV9iYEfoZ5lOd0xw4WEeIwlwEEUjj
+         n1jy9Jt+9K/6pkK7yzfICsI9hA5PcvOSHSeBqam9EIzUpaN3dqzGpiLx9wNyhZzHCV
+         rz0AczPERVoUDM8jmaDy4ueqVVlPkTGhIjbZO584=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.243.186.246]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LyDqv-1it2MT1ThV-015Yx5; Tue, 02
+ Jun 2020 12:23:16 +0200
+Cc:     Navid Emamdoost <emamd001@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
+        Stephen McCamant <smccaman@umn.edu>,
+        Qiushi Wu <wu000273@umn.edu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jyri Sarha <jsarha@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        Brian Masney <masneyb@onstation.org>,
-        Emil Velikov <emil.velikov@collabora.com>,
-        zhengbin <zhengbin13@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-tegra@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 1/3] drm/atomic-helper: reset vblank on crtc reset
-Date:   Tue,  2 Jun 2020 11:51:38 +0200
-Message-Id: <20200602095140.36678-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.26.2
+        Thierry Reding <thierry.reding@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: staging: tegra-vde: add missing
+ pm_runtime_put_autosuspend
+To:     Navid Emamdoost <navid.emamdoost@gmail.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <248e05e2-1df9-70f2-a6ac-f1af7de59a06@web.de>
+Date:   Tue, 2 Jun 2020 12:23:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zzAdO8FDlE8+3RjN3/UcNosPsDNRbO7ORKaZl8/b3LHhlFIaxvH
+ 7l7k/zWu8fm71fyJyKpCL1YysRM6mBTLLDGwIUqjezHjfblXLcXlJF8XQBhY1pflpDoVW7P
+ yQMZj4DeNymYg1ux++5Fr3PMPg52BmVeNa+6/NSSUGz4KTBRVhQiDvqM8GDRfLrMeTfuA0k
+ RMvZndltEYM6m3+idKf+Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZELtrguBuZA=:hPxfbE514D3MZieRb5wXe+
+ h2JP6P2lIW4atfnN7632HFi7VbZRxzAJKNcovw8X+36zGRtefPekSHAdEuObqBmXN45InEWcV
+ AmhQ6aJ45cevuXPOVDbV7JftxQ4k53IqtJkkJCiDGw9pFIGTw8KGk+pJbchkdDorNJspI4BXc
+ jT/yZzACEthJ1CZOB5pD/aYOswy4F+eyDeQKcT533IA4+47yF3H1a97CEUlqZny52B5q9p8+r
+ t0TGgoCc71epvXjY07TtUpFcT++3RQa4rZynCxGxNw+a2smyUqZf53tnGtPY2QyqGhutpQHU+
+ xkaEy39jonT+zBL41qIa1KU5za47ywbC+SF/PZ/ovgeTn+59pk7UNFmj3IDbu0jH+MLm0Pj9B
+ uD10Dbr0xp6BmaBHScSx4bryEegFkdAmf00w268izHcMk78a0ypf8lQLHLeaux521dOpRZFNB
+ /0waCCJZHf9n4fzkqB1gw61Y3AUiDDhl9GLQlISrWKmLswsQ2bLLYuIhJ45z6JobveD9KDwHF
+ OOx0uqWzu0hsoAqCpZCkdegwIFABJriqpHuZzxU7XbAEpHyxbjmGGjsGucPPyx9OS7dvF1mpr
+ vDX4GlpCbdhsASPI4XC4KsPm94ZAgxyU2aV7LTEsLBVtpMHj/v3BEBHdKhkEQGOT9yCePDhYi
+ RuZX8mKacdaKYHFbpXIg/gzl+fvcz42HXKGdjdoyAnxwKXu3dalFwgjTuI5IX+dmNpFDaOoCe
+ 5IHnytdcJsAiRLkNIWd6vI7V3jU0Sz+juf+g7HUbQ0eHi0Hc9+MO2b7qw9Y0O+qsaolrv2JLv
+ Lb55ga+j7TBqQqtBTaOtqR3vAMZU492Eav/la5uuul7BCGcPsissNX2H/XL/tkUBWvHPy+AjA
+ IjLcC33dUjcWe7MfrnmFO/E9FDJW13du+DrNKtuh9ALyjHFfkYNma5nXzse9+vPG1G5hdvw7r
+ KmTbJQfHzxKTBfiZsfytA4XLtbG55istuKWU4xVVIblU0uTl8Feld/qmY7gjl8NBd6h+rOGYX
+ GLE8bYvku8TVGKPTrFX/5KVjxvg8NuGsOSvsdxJyPgN1abtJ+7+NnsOzHgiFCITJQNQavtAcP
+ 54+m3Ur1BA5C24LbFYiGv+6nqqVuthPgVV0eIX8+bC3O68WBkc2Kd2MglLo6iV7IFVnHTUZXX
+ a65eoeigeFuvx5o7MK3GL0euW4FrTRHyxbpttQ5s7z0so/JWpPSXwByBJ9dnMjk9ZnafgUTZt
+ WhZSsWyn96j97T2i0
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Only when vblanks are supported ofc.
+> Call to pm_runtime_get_sync increments counter even in case of
+> failure leading to incorrect ref count.
+> Call pm_runtime_put_autosuspend if pm_runtime_get_sync fails.
 
-Some drivers do this already, but most unfortunately missed it. This
-opens up bugs after driver load, before the crtc is enabled for the
-first time. syzbot spotted this when loading vkms as a secondary
-output. Given how many drivers are buggy it's best to solve this once
-and for all in shared helper code.
+How do you think about a wording variant like the following?
 
-Aside from moving the few existing calls to drm_crtc_vblank_reset into
-helpers (i915 doesn't use helpers, so keeps its own) I think the
-regression risk is minimal: atomic helpers already rely on drivers
-calling drm_crtc_vblank_on/off correctly in their hooks when they
-support vblanks. And driver that's failing to handle vblanks after
-this is missing those calls already, and vblanks could only work by
-accident when enabling a CRTC for the first time right after boot.
+   Change description:
+   The PM runtime reference counter is generally incremented by a call of
+   the function =E2=80=9Cpm_runtime_get_sync=E2=80=9D.
+   Thus call the function =E2=80=9Cpm_runtime_put_autosuspend=E2=80=9D als=
+o in one error case
+   to keep the reference counting consistent.
 
-Big thanks to Tetsuo for helping track down what's going wrong here.
 
-There's only a few drivers which already had the necessary call and
-needed some updating:
-- komeda, atmel and tidss also needed to be changed to call
-  __drm_atomic_helper_crtc_reset() intead of open coding it
-- tegra and msm even had it in the same place already, just code
-  motion, and malidp already uses __drm_atomic_helper_crtc_reset().
+Would you like to add the tag =E2=80=9CFixes=E2=80=9D to the commit messag=
+e?
 
-Only call left is in i915, which doesn't use drm_mode_config_reset,
-but has its own fastboot infrastructure. So that's the only case where
-we actually want this in the driver still.
-
-I've also reviewed all other drivers which set up vblank support with
-drm_vblank_init. After the previous patch fixing mxsfb all atomic
-drivers do call drm_crtc_vblank_on/off as they should, the remaining
-drivers are either legacy kms or legacy dri1 drivers, so not affected
-by this change to atomic helpers.
-
-v2: Use the drm_dev_has_vblank() helper.
-
-v3: Laurent pointed out that omap and rcar-du used drm_crtc_vblank_off
-instead of drm_crtc_vblank_reset. Adjust them too.
-
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
-Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-Cc: Brian Starkey <brian.starkey@arm.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Jyri Sarha <jsarha@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <seanpaul@chromium.org>
-Cc: Brian Masney <masneyb@onstation.org>
-Cc: Emil Velikov <emil.velikov@collabora.com>
-Cc: zhengbin <zhengbin13@huawei.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-tegra@vger.kernel.org
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
- drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
- drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
- drivers/gpu/drm/omapdrm/omap_drv.c               | 3 ---
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c           | 3 ---
- drivers/gpu/drm/tegra/dc.c                       | 1 -
- drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
- drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
- 10 files changed, 9 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 56bd938961ee..f33418d6e1a0 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
- 	crtc->state = NULL;
- 
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
--	if (state) {
--		crtc->state = &state->base;
--		crtc->state->crtc = crtc;
--	}
-+	if (state)
-+		__drm_atomic_helper_crtc_reset(crtc, &state->base);
- }
- 
- static struct drm_crtc_state *
-@@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
- 		return err;
- 
- 	drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
--	drm_crtc_vblank_reset(crtc);
- 
- 	crtc->port = kcrtc->master->of_output_port;
- 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index c2507b7d8512..02904392e370 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -870,7 +870,6 @@ static int malidp_bind(struct device *dev)
- 	drm->irq_enabled = true;
- 
- 	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
--	drm_crtc_vblank_reset(&malidp->crtc);
- 	if (ret < 0) {
- 		DRM_ERROR("failed to initialise vblank\n");
- 		goto vblank_fail;
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index 10985134ce0b..ce246b96330b 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
- 	}
- 
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
--	if (state) {
--		crtc->state = &state->base;
--		crtc->state->crtc = crtc;
--	}
-+	if (state)
-+		__drm_atomic_helper_crtc_reset(crtc, &state->base);
- }
- 
- static struct drm_crtc_state *
-@@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
- 	}
- 
- 	drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
--	drm_crtc_vblank_reset(&crtc->base);
- 
- 	drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
- 	drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 8fce6a115dfe..9ad74045158e 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -32,6 +32,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_print.h>
-+#include <drm/drm_vblank.h>
- #include <drm/drm_writeback.h>
- 
- #include <linux/slab.h>
-@@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
- 	if (crtc_state)
- 		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
- 
-+	if (drm_dev_has_vblank(crtc->dev))
-+		drm_crtc_vblank_reset(crtc);
-+
- 	crtc->state = crtc_state;
- }
- EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-index ca3368c828d0..9606185c284b 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-@@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
- 		mdp5_crtc_destroy_state(crtc, crtc->state);
- 
- 	__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
--
--	drm_crtc_vblank_reset(crtc);
- }
- 
- static const struct drm_crtc_funcs mdp5_crtc_funcs = {
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 242d28281784..7a7066cded79 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -642,9 +642,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
- 		goto err_cleanup_modeset;
- 	}
- 
--	for (i = 0; i < priv->num_pipes; i++)
--		drm_crtc_vblank_off(priv->pipes[i].crtc);
--
- 	omap_fbdev_init(ddev);
- 
- 	drm_kms_helper_poll_init(ddev);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index d73e88ddecd0..e2959e32fd19 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -1271,9 +1271,6 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
- 
- 	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
- 
--	/* Start with vertical blanking interrupt reporting disabled. */
--	drm_crtc_vblank_off(crtc);
--
- 	/* Register the interrupt handler. */
- 	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
- 		/* The IRQ's are associated with the CRTC (sw)index. */
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 83f31c6e891c..9b308b572eac 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
- 		tegra_crtc_atomic_destroy_state(crtc, crtc->state);
- 
- 	__drm_atomic_helper_crtc_reset(crtc, &state->base);
--	drm_crtc_vblank_reset(crtc);
- }
- 
- static struct drm_crtc_state *
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index 89a226912de8..4d01c4af61cd 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
- 		return;
- 	}
- 
--	crtc->state = &tcrtc->base;
--	crtc->state->crtc = crtc;
-+	__drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
- }
- 
- static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index 4b99e9fa84a5..e6ab59eed259 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
- 	if (ret)
- 		return ret;
- 
--	/* Start with vertical blanking interrupt reporting disabled. */
--	for (i = 0; i < tidss->num_crtcs; ++i)
--		drm_crtc_vblank_reset(tidss->crtcs[i]);
--
- 	drm_mode_config_reset(ddev);
- 
- 	dev_dbg(tidss->dev, "%s done\n", __func__);
--- 
-2.26.2
-
+Regards,
+Markus
