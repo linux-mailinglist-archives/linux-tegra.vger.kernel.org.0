@@ -2,138 +2,215 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD6F11EB986
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 12:26:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D9771EB9FD
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 13:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbgFBKXo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 06:23:44 -0400
-Received: from mout.web.de ([212.227.15.4]:43949 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726110AbgFBKX3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Jun 2020 06:23:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1591093396;
-        bh=PFMGEEOay+KgZ+tXV/1dnZ9aJORVzZha7g+cmHJx9K8=;
-        h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
-        b=VRVEvddnONAMEny8KtNapxroWH7qeQ5VOn37yV9iYEfoZ5lOd0xw4WEeIwlwEEUjj
-         n1jy9Jt+9K/6pkK7yzfICsI9hA5PcvOSHSeBqam9EIzUpaN3dqzGpiLx9wNyhZzHCV
-         rz0AczPERVoUDM8jmaDy4ueqVVlPkTGhIjbZO584=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.243.186.246]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LyDqv-1it2MT1ThV-015Yx5; Tue, 02
- Jun 2020 12:23:16 +0200
-Cc:     Navid Emamdoost <emamd001@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
-        Stephen McCamant <smccaman@umn.edu>,
-        Qiushi Wu <wu000273@umn.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: staging: tegra-vde: add missing
- pm_runtime_put_autosuspend
-To:     Navid Emamdoost <navid.emamdoost@gmail.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <248e05e2-1df9-70f2-a6ac-f1af7de59a06@web.de>
-Date:   Tue, 2 Jun 2020 12:23:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+        id S1725919AbgFBLC2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 07:02:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725802AbgFBLC1 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 07:02:27 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5430FC061A0E;
+        Tue,  2 Jun 2020 04:02:27 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id w7so6046033edt.1;
+        Tue, 02 Jun 2020 04:02:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=xgkzO+n+OaR1PsIu6Y5TBKCmjAXGMbznUyr7FevGw1Y=;
+        b=UFzbey8vdoQPyo1fDkaxCPS4iGMpGAadkgSJ+erXoeY62mKWRUFz3hcNGgMViPlMt6
+         AzBaW5OjYZjGi9C15/5z7rAJ1uJpuhFJUOF3YRIJIMtgrc0EiiAqy8rajx3d9DRgrW+6
+         c+yAk50O9FTR3FzuAQoCZ9Zhij24F/OcZobrs2PYlhE4fGHPU0U0M8W9VaWrYheS0l/V
+         YgCvWCcnm+Sff3ypUP2XaKhTcHribLwzfqUkmZEL9Ana/ZJJxd5YNCeKjYjUdamxQ6OI
+         o7DduFgW4ufoeD0iWjV5a5+56uj6VBETLcgrjMolq04qsRiDBz9Cd64ZRq8ukwWJEzqU
+         L1/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xgkzO+n+OaR1PsIu6Y5TBKCmjAXGMbznUyr7FevGw1Y=;
+        b=KfrL4JN8F4cp9ULCpoHllsuBPgJgBJ+3P13X4YgDiQZTOKKEch3wMto5fKX8G+GZRd
+         J103hPDymQA/tdIkJ/MRn+hqG48wiDNV7uHNsFSy3hBVaR4eCFsK51uaG/Vv64bktWoz
+         XG0QarMdiLbie9LmT7uPvU7bGGLIOaktv4plqnf84PWsyMeHig0C3Z/3lIeIw9fCqD/K
+         Ua0q2gmJsfTJ+lLcWHyPPVnHUHLTRPS2z61Tgi+P3fveLF5g1/DJG2yXvfMeu3S0LSwV
+         EabYbyjlxkHrtp8Q4kQi30cd5/i9IlBtrHJAbzVDtIlwTtdX+1k1ST8pMw6uzfWU0tJL
+         pSFg==
+X-Gm-Message-State: AOAM530AveW3GmQMag3p/SifCHm2IVDKrORqmOknwy6c0lNOdbdDpsv8
+        QhMnGa8yY/ApXl2S62pXan0=
+X-Google-Smtp-Source: ABdhPJw82udMbDApJ+beV5fEl+EF6IRgM2MG0DNUBeiIVsIjkESu71dUiOyq5Ln1AnZkuwapXb8bgQ==
+X-Received: by 2002:a05:6402:1d30:: with SMTP id dh16mr25188393edb.302.1591095745784;
+        Tue, 02 Jun 2020 04:02:25 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id s15sm1375913edw.54.2020.06.02.04.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2020 04:02:21 -0700 (PDT)
+Date:   Tue, 2 Jun 2020 13:02:16 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        linux-tegra@vger.kernel.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
+Message-ID: <20200602110216.GA3354422@ulmo>
+References: <20191209150748.2471814-1-thierry.reding@gmail.com>
+ <20200228025700.GA856087@builder>
+ <20200514193249.GE279327@builder.lan>
+ <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
+ <20200527110343.GD11111@willie-the-truck>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zzAdO8FDlE8+3RjN3/UcNosPsDNRbO7ORKaZl8/b3LHhlFIaxvH
- 7l7k/zWu8fm71fyJyKpCL1YysRM6mBTLLDGwIUqjezHjfblXLcXlJF8XQBhY1pflpDoVW7P
- yQMZj4DeNymYg1ux++5Fr3PMPg52BmVeNa+6/NSSUGz4KTBRVhQiDvqM8GDRfLrMeTfuA0k
- RMvZndltEYM6m3+idKf+Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZELtrguBuZA=:hPxfbE514D3MZieRb5wXe+
- h2JP6P2lIW4atfnN7632HFi7VbZRxzAJKNcovw8X+36zGRtefPekSHAdEuObqBmXN45InEWcV
- AmhQ6aJ45cevuXPOVDbV7JftxQ4k53IqtJkkJCiDGw9pFIGTw8KGk+pJbchkdDorNJspI4BXc
- jT/yZzACEthJ1CZOB5pD/aYOswy4F+eyDeQKcT533IA4+47yF3H1a97CEUlqZny52B5q9p8+r
- t0TGgoCc71epvXjY07TtUpFcT++3RQa4rZynCxGxNw+a2smyUqZf53tnGtPY2QyqGhutpQHU+
- xkaEy39jonT+zBL41qIa1KU5za47ywbC+SF/PZ/ovgeTn+59pk7UNFmj3IDbu0jH+MLm0Pj9B
- uD10Dbr0xp6BmaBHScSx4bryEegFkdAmf00w268izHcMk78a0ypf8lQLHLeaux521dOpRZFNB
- /0waCCJZHf9n4fzkqB1gw61Y3AUiDDhl9GLQlISrWKmLswsQ2bLLYuIhJ45z6JobveD9KDwHF
- OOx0uqWzu0hsoAqCpZCkdegwIFABJriqpHuZzxU7XbAEpHyxbjmGGjsGucPPyx9OS7dvF1mpr
- vDX4GlpCbdhsASPI4XC4KsPm94ZAgxyU2aV7LTEsLBVtpMHj/v3BEBHdKhkEQGOT9yCePDhYi
- RuZX8mKacdaKYHFbpXIg/gzl+fvcz42HXKGdjdoyAnxwKXu3dalFwgjTuI5IX+dmNpFDaOoCe
- 5IHnytdcJsAiRLkNIWd6vI7V3jU0Sz+juf+g7HUbQ0eHi0Hc9+MO2b7qw9Y0O+qsaolrv2JLv
- Lb55ga+j7TBqQqtBTaOtqR3vAMZU492Eav/la5uuul7BCGcPsissNX2H/XL/tkUBWvHPy+AjA
- IjLcC33dUjcWe7MfrnmFO/E9FDJW13du+DrNKtuh9ALyjHFfkYNma5nXzse9+vPG1G5hdvw7r
- KmTbJQfHzxKTBfiZsfytA4XLtbG55istuKWU4xVVIblU0uTl8Feld/qmY7gjl8NBd6h+rOGYX
- GLE8bYvku8TVGKPTrFX/5KVjxvg8NuGsOSvsdxJyPgN1abtJ+7+NnsOzHgiFCITJQNQavtAcP
- 54+m3Ur1BA5C24LbFYiGv+6nqqVuthPgVV0eIX8+bC3O68WBkc2Kd2MglLo6iV7IFVnHTUZXX
- a65eoeigeFuvx5o7MK3GL0euW4FrTRHyxbpttQ5s7z0so/JWpPSXwByBJ9dnMjk9ZnafgUTZt
- WhZSsWyn96j97T2i0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
+Content-Disposition: inline
+In-Reply-To: <20200527110343.GD11111@willie-the-truck>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-> Call to pm_runtime_get_sync increments counter even in case of
-> failure leading to incorrect ref count.
-> Call pm_runtime_put_autosuspend if pm_runtime_get_sync fails.
 
-How do you think about a wording variant like the following?
+--ZPt4rx8FFjLCG7dd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   Change description:
-   The PM runtime reference counter is generally incremented by a call of
-   the function =E2=80=9Cpm_runtime_get_sync=E2=80=9D.
-   Thus call the function =E2=80=9Cpm_runtime_put_autosuspend=E2=80=9D als=
-o in one error case
-   to keep the reference counting consistent.
+On Wed, May 27, 2020 at 12:03:44PM +0100, Will Deacon wrote:
+> Hi John, Bjorn,
+>=20
+> On Tue, May 26, 2020 at 01:34:45PM -0700, John Stultz wrote:
+> > On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
+> > >
+> > > On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
+> > >
+> > > Rob, Will, we're reaching the point where upstream has enough
+> > > functionality that this is becoming a critical issue for us.
+> > >
+> > > E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
+> > > mainline with display, GPU, WiFi and audio working and the story is
+> > > similar on several devboards.
+> > >
+> > > As previously described, the only thing I want is the stream mapping
+> > > related to the display controller in place, either with the CB with
+> > > translation disabled or possibly with a way to specify the framebuffer
+> > > region (although this turns out to mess things up in the display
+> > > driver...)
+> > >
+> > > I did pick this up again recently and concluded that by omitting the
+> > > streams for the USB controllers causes an instability issue seen on o=
+ne
+> > > of the controller to disappear. So I would prefer if we somehow could
+> > > have a mechanism to only pick the display streams and the context
+> > > allocation for this.
+> > >
+> > >
+> > > Can you please share some pointers/insights/wishes for how we can
+> > > conclude on this subject?
+> >=20
+> > Ping? I just wanted to follow up on this discussion as this small
+> > series is crucial for booting mainline on the Dragonboard 845c
+> > devboard. It would be really valuable to be able to get some solution
+> > upstream so we can test mainline w/o adding additional patches.
+>=20
+> Sorry, it's been insanely busy recently and I haven't had a chance to thi=
+nk
+> about this on top of everything else. We're also carrying a hack in Andro=
+id
+> for you :)
+>=20
+> > The rest of the db845c series has been moving forward smoothly, but
+> > this set seems to be very stuck with no visible progress since Dec.
+> >=20
+> > Are there any pointers for what folks would prefer to see?
+>=20
+> I've had a chat with Robin about this. Originally, I was hoping that
+> people would all work together towards an idyllic future where firmware
+> would be able to describe arbitrary pre-existing mappings for devices,
+> irrespective of the IOMMU through which they master and Linux could
+> inherit this configuration. However, that hasn't materialised (there was
+> supposed to be an IORT update, but I don't know what happened to that)
+> and, in actual fact, the problem that you have on db845 is /far/ more
+> restricted than the general problem.
 
+It doesn't sound to me like implementing platform-specific workarounds
+is a good long-term solution (especially since, according to Bjorn, they
+aren't as trivial to implement as it sounds). And we already have all
+the infrastructure in place to implement what you describe, so I don't
+see why we shouldn't do that. This patchset uses standard device tree
+bindings that were designed for exactly this kind of use-case.
 
-Would you like to add the tag =E2=80=9CFixes=E2=80=9D to the commit messag=
-e?
+So at least for device-tree based boot firmware can already describe
+these pre-existing mappings. If something standard materializes for ACPI
+eventually I'm sure we can find ways to integrate that into whatever we
+come up with now for DT.
 
-Regards,
-Markus
+I think between Bjorn, John, Laurentiu and myself there's pretty broad
+consensus (correct me if I'm wrong, guys) that solving this via reserved
+memory regions is a good solution that works. So I think what's really
+missing is feedback on whether the changes proposed here or Laurentiu's
+updated proposal[0] are acceptable, and if not, what the preference is
+for getting something equivalent upstream.
+
+Just to highlight: the IOMMU framework already provides infrastructure
+to create direct mappings (via iommu_get_resv_regions(), called from
+iommu_create_device_direct_mappings()). I have patches that make use of
+this on Tegra210 and earlier where a non-ARM SMMU is used and where the
+IOMMU driver enables translations (and doesn't fault by default) only at
+device attachment time. That works perfectly using reserved-memory
+regions. Perhaps that infrastructure could be extended to cover the
+kinds of early mappings that we're discussing here. On the other hand it
+might be a bit premature at this point because the ARM SMMU is the only
+device that currently needs this, as far as I can tell.
+
+Thierry
+
+[0]: https://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D164853
+
+> Could you please try hacking something along the following lines and see
+> how you get on? You may need my for-joerg/arm-smmu/updates branch for
+> all the pieces:
+>=20
+>   1. Use the ->cfg_probe() callback to reserve the SMR/S2CRs you need
+>      "pinning" and configure for bypass.
+>=20
+>   2. Use the ->def_domain_type() callback to return IOMMU_DOMAIN_IDENTITY
+>      for the display controller
+>=20
+> I /think/ that's sufficient, but note that it differs from the current
+> approach because we don't end up reserving a CB -- bypass is configured
+> in the S2CR instead. Some invalidation might therefore be needed in
+> ->cfg_probe() after unhooking the CB.
+>=20
+> Thanks, and please yell if you run into problems with this approach.
+>=20
+> Will
+
+--ZPt4rx8FFjLCG7dd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7WMbMACgkQ3SOs138+
+s6FS7hAAjnzmOGg8TMxb0NhiGM6QcXO3Js8Tej1WhHH/3E6vxv+RV6kunncGhxwH
+Iw3wyGnqbwRjjzCdM+tgojDnyi+eEeb5961WbNoEmWZFJtk2ARhOxbjizxbH8ZNo
+GZnKiYKHRk4VamcBxHZGgzRyhxAi1GPYGgoCmDbf0lzkvX3fydaurT3UBtlcxUC0
+rBRIZppeNMFqzyyX1derKVtrLrsSIlZtdIl08tPvD+pDdpIoglxx3+JRI0oO6ESU
+4uDUHipo8Ww1uRzEnEwWi1RAOAtl+M17QGlAl6OF33N2+m7bvHcyAlTYJDzksNHB
+jNd8q7obRseZkGsUdbmYkW7ZJDYFa6ygQr2iEUQuGoqcQKY4eQcxRCdM2GsgzLzv
+YpIFRsSfuRK1f/+YmanGqPLP+K0LQ1fP/QxllEuk+taQyFmEYn27VwWnGZBNT/cm
+j5RZWrReSHcRDCDolUGlBAoWsqIOrk2qYH+z3gWBcaK+YZ+8uEZldXmX+RXNq/IX
+XKKkYBioF5UnYhx0u0AB964vGKLYnalp5ajSyEWybbWFLaj/SYdLTShmz3bffy0L
+rEldzwfiSS3uhmtAjSFOAhjHtnr1ExCXxrMiyGP6XEeOOfmQCe6fOOuM1GSytIaP
+AlC/E7XjsbPeVjUvYffk0a0lK7x1WMuPYOq6RBVVACkVvH6G8Uo=
+=0kMT
+-----END PGP SIGNATURE-----
+
+--ZPt4rx8FFjLCG7dd--
