@@ -2,256 +2,167 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E831EC39E
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 22:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1328F1EC43B
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 23:17:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726112AbgFBUTi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 16:19:38 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46908 "EHLO
+        id S1726130AbgFBVRa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 17:17:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54587 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726420AbgFBUTh (ORCPT
+        by vger.kernel.org with ESMTP id S1726320AbgFBVR3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Jun 2020 16:19:37 -0400
+        Tue, 2 Jun 2020 17:17:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591129174;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Prna0/QXu/RjY6S2skvVofYK79iQXfjyUXH6P+LLwHQ=;
-        b=bstaA63mgOwTdbCxMZzSpnGby6KEy5ys5Q+L9rltuPmGfKnnOnfWJtvuSlKnJHjSYzBBiU
-        mf0jn8mWz07vS/OLXs9OIMQI1ek/GUSOHiu5a3Djs5CUN0RBOFTyu7crcE9EbWqFWZOGWX
-        xnR+8V6GZxw7QwrmqnZ+BTh6G1xZT+M=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-FuJS1vwcPcetDpEXrQdJXA-1; Tue, 02 Jun 2020 16:19:33 -0400
-X-MC-Unique: FuJS1vwcPcetDpEXrQdJXA-1
-Received: by mail-wr1-f70.google.com with SMTP id j16so6780wre.22
-        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 13:19:33 -0700 (PDT)
+        s=mimecast20190719; t=1591132646;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:mime-version:mime-version:
+         content-type:content-type:in-reply-to:in-reply-to:  references:references;
+        bh=Ylu/HiOGtyIh3U7JFEU/kaSkFMIS4f2I77a/faIj58k=;
+        b=Kha5ZPT9qd30aZRPGuurt2WrcSYCkMFZPufcY6BHoeZ7XUux4APccxEq2JYaBYT43Nkntu
+        OW1DHvd4bljRH+Phw4QJGXQsUSTwUDUxvvC/CzrHNQv6nfU7S4ujBmMSv4rKW/9F6vQa9S
+        Xp1EVPNXFj1yZV+8DZ1EcS3/25DkfeM=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-ZdwioLjVNjSwekQCFiDjfw-1; Tue, 02 Jun 2020 17:17:20 -0400
+X-MC-Unique: ZdwioLjVNjSwekQCFiDjfw-1
+Received: by mail-qv1-f70.google.com with SMTP id w3so4901855qvl.9
+        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 14:17:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Prna0/QXu/RjY6S2skvVofYK79iQXfjyUXH6P+LLwHQ=;
-        b=j/NYhJ5sGOahhu+QbPO4Fg5ShxbKAkp5K0UX5srqtGgxtz0mReBgtN1X5wqWCCI/LR
-         EUDgE/Bvy8jrw92Rorkh58wvGC1hqir27CjRRKijprB/MqLtFM+lc3FOW+fqb/9Qoxd6
-         3HqgkaUYFue4KDTWXIQn5stQm/lhFH45QAiUg2+gm7HoaUgKqCQtVyX2kpxKu1YzWsTE
-         pLHGCBc8dE1NDLhYMFM2CWkz5dnvV4OAHmJmiSRbJK8nV/8HSO7mRKQ03Tjn7nUWyol7
-         bm1XZMOLjY9Tq2WWK4QnRjmbIo1cs2ypeAkelL+RiLQa4z+MHZgHBTJYV02clufuy2ed
-         L7Gw==
-X-Gm-Message-State: AOAM5324Gge31TAc0Wogg+Gsid+iTFgjUtQWU+k4LpX+BXboH/gMBYx9
-        YbtG/LlrBCweobN5wihAcjqeNlACelMYExL9NPRS7dpSB4mqsaEN7WTQ160FGjXa68EJz/5N7zF
-        f0ERGGTabNw2lL8YxsIQQzP8=
-X-Received: by 2002:a5d:484b:: with SMTP id n11mr28093366wrs.356.1591129171924;
-        Tue, 02 Jun 2020 13:19:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMYENJoMzY4AqoZffM5AF2cZne0ecRAtN7LTzh8blACu0ehnQ6ebDawV6NM8gCv3R3iJD8YQ==
-X-Received: by 2002:a5d:484b:: with SMTP id n11mr28093336wrs.356.1591129171649;
-        Tue, 02 Jun 2020 13:19:31 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id y37sm155399wrd.55.2020.06.02.13.19.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2020 13:19:30 -0700 (PDT)
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        h=x-gm-message-state:date:from:to:subject:message-id:reply-to
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=Ylu/HiOGtyIh3U7JFEU/kaSkFMIS4f2I77a/faIj58k=;
+        b=eWysCxeu7gzW07Zk0G1HwiKkYoaLuP31uq1zeXB6Nj9gXnJyFSvW1T83ulVVhuIaBe
+         UKp1nlXFDKOfMmvxFI0v6vQ+gsrJLnlMYzecRaB51XFQsf8fr6TOm9D01XFdoY1DmwoT
+         Tg35sddf/K0lCV7USfBTmUF5uXUn2FSGIXyEbwkw/HcABzK9aY42sBMOf2bZKEIAqNQ2
+         YWQ6l8TUVyNr05l8iyKI8XR4x6C6Qk+k80xJKGo2Yd3v+haHTXYtjtBhrrJI7LmCQpqH
+         PDNwjQNwC/+t+60uX2iTfPQPgkhcy4lie1jHmpoN2Jc6Me8oDw7zyw0wssZ5qhWylDM6
+         ontg==
+X-Gm-Message-State: AOAM5333OzY3fx8VMZ+jHFHgQIYkg7Vnewy9sCA1Pv4NJA1mz9Xnfwwo
+        RrASDzJSBeAmpAoWovBfJAfSCVJ+7gt3j0G4y/weaaLQHNsn1BXsVnkGbArziFbdBQ0yFMm9bKC
+        /WKzTddrMyGJfZCxX3kQNxac=
+X-Received: by 2002:ad4:4572:: with SMTP id o18mr4280441qvu.228.1591132639420;
+        Tue, 02 Jun 2020 14:17:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjUlzm0vhI6fKGjvvF8hVsaVisMes9o90lVEfQF4r2oAsbB6iugyCZPUzy6UK1t6uFVWKiBA==
+X-Received: by 2002:ad4:4572:: with SMTP id o18mr4280428qvu.228.1591132639109;
+        Tue, 02 Jun 2020 14:17:19 -0700 (PDT)
+Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
+        by smtp.gmail.com with ESMTPSA id l9sm3244877qki.90.2020.06.02.14.17.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2020 14:17:18 -0700 (PDT)
+Date:   Tue, 2 Jun 2020 14:17:16 -0700
+From:   Jerry Snitselaar <jsnitsel@redhat.com>
+To:     Joerg Roedel <joro@8bytes.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
         Kukjin Kim <kgene@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
- <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
- <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
- <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
- <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
- <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
- <20200527063430.GJ89269@dtor-ws>
- <88f939cd-1518-d516-59f2-8f627a6a70d2@collabora.com>
- <20200602175241.GO89269@dtor-ws>
- <82e9f2ab-a16e-51ee-1413-bedf0122026a@collabora.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8f97d2e1-497a-495d-bc82-f46dbeba440c@redhat.com>
-Date:   Tue, 2 Jun 2020 22:19:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-rockchip@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
+Message-ID: <20200602211716.mcwacflxvh7kycya@cantor>
+Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
+Mail-Followup-To: Joerg Roedel <joro@8bytes.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-rockchip@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
+References: <20200414131542.25608-1-joro@8bytes.org>
+ <20200529221623.qc6twmpzryh7nkvb@cantor>
+ <20200601104240.7f5xhz7gooqhaq4n@cantor>
+ <47711845-98ee-95b8-aa95-423a36ed9741@linux.intel.com>
+ <20200602000236.j4m3jvluzdhjngdc@cantor>
+ <20200602142312.GJ14598@8bytes.org>
+ <20200602163806.o5dpj2tpemwdzyiw@cantor>
 MIME-Version: 1.0
-In-Reply-To: <82e9f2ab-a16e-51ee-1413-bedf0122026a@collabora.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20200602163806.o5dpj2tpemwdzyiw@cantor>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
-
-On 6/2/20 8:50 PM, Andrzej Pietrasiewicz wrote:
-> Hi Dmitry,
-> 
-> W dniu 02.06.2020 o 19:52, Dmitry Torokhov pisze:
->> Hi Andrzej,
+On Tue Jun 02 20, Jerry Snitselaar wrote:
+>On Tue Jun 02 20, Joerg Roedel wrote:
+>>Hi Jerry,
 >>
->> On Tue, Jun 02, 2020 at 06:56:40PM +0200, Andrzej Pietrasiewicz wrote:
->>> Hi Dmitry,
+>>On Mon, Jun 01, 2020 at 05:02:36PM -0700, Jerry Snitselaar wrote:
 >>>
->>> W dniu 27.05.2020 o 08:34, Dmitry Torokhov pisze:
->>>> That said, I think the way we should handle inhibit/uninhibit, is that
->>>> if we have the callback defined, then we call it, and only call open and
->>>> close if uninhibit or inhibit are _not_ defined.
->>>>
+>>>Yeah, that will solve the panic.
 >>>
->>> If I understand you correctly you suggest to call either inhibit,
->>> if provided or close, if inhibit is not provided, but not both,
->>> that is, if both are provided then on the inhibit path only
->>> inhibit is called. And, consequently, you suggest to call either
->>> uninhibit or open, but not both. The rest of my mail makes this
->>> assumption, so kindly confirm if I understand you correctly.
 >>
->> Yes, that is correct. If a driver wants really fine-grained control, it
->> will provide inhibit (or both inhibit and close), otherwise it will rely
->> on close in place of inhibit.
+>>If you still see the kdump faults, can you please try with the attached
+>>diff? I was not able to reproduce them in my setup.
 >>
->>>
->>> In my opinion this idea will not work.
->>>
->>> The first question is should we be able to inhibit a device
->>> which is not opened? In my opinion we should, in order to be
->>> able to inhibit a device in anticipation without needing to
->>> open it first.
+>>Regards,
 >>
->> I agree.
+>>	Joerg
 >>
->>>
->>> Then what does opening (with input_open_device()) an inhibited
->>> device mean? Should it succeed or should it fail?
->>
->> It should succeed.
->>
->>> If it is not
->>> the first opening then effectively it boils down to increasing
->>> device's and handle's counters, so we can allow it to succeed.
->>> If, however, the device is being opened for the first time,
->>> the ->open() method wants to be called, but that somehow
->>> contradicts the device's inhibited state. So a logical thing
->>> to do is to either fail input_open_device() or postpone ->open()
->>> invocation to the moment of uninhibiting - and the latter is
->>> what the patches in this series currently do.
->>>
->>> Failing input_open_device() because of the inhibited state is
->>> not the right thing to do. Let me explain. Suppose that a device
->>> is already inhibited and then a new matching handler appears
->>> in the system. Most handlers (apm-power.c, evbug.c, input-leds.c,
->>> mac_hid.c, sysrq.c, vt/keyboard.c and rfkill/input.c) don't create
->>> any character devices (only evdev.c, joydev.c and mousedev.c do),
->>> so for them it makes no sense to delay calling input_open_device()
->>> and it is called in handler's ->connect(). If input_open_device()
->>> now fails, we have lost the only chance for this ->connect() to
->>> succeed.
->>>
->>> Summarizing, IMO the uninhibit path should be calling both
->>> ->open() and ->uninhibit() (if provided), and conversely, the inhibit
->>> path should be calling both ->inhibit() and ->close() (if provided).
->>
->> So what you are trying to say is that you see inhibit as something that
->> is done in addition to what happens in close. But what exactly do you
->> want to do in inhibit, in addition to what close is doing?
-> 
-> See below (*).
-> 
->>
->> In my view, if we want to have a dedicated inhibit callback, then it
->> will do everything that close does, they both are aware of each other
->> and can sort out the state transitions between them. For drivers that do
->> not have dedicated inhibit/uninhibit, we can use open and close
->> handlers, and have input core sort out when each should be called. That
->> means that we should not call dev->open() in input_open_device() when
->> device is inhibited (and same for dev->close() in input_close_device).
->> And when uninhibiting, we should not call dev->open() when there are no
->> users for the device, and no dev->close() when inhibiting with no users.
->>
->> Do you see any problems with this approach?
-> 
-> My concern is that if e.g. both ->open() and ->uninhibit() are provided,
-> then in certain circumstances ->open() won't be called:
-> 
-> 1. users == 0
-> 2. inhibit happens
-> 3. input_open_device() happens, ->open() not called
-> 4. uninhibit happens
-> 5. as part of uninhibit ->uninhibit() is only called, but ->open() is not.
-> 
-> They way I understand your answer is that we implicitly impose requirements
-> on drivers which choose to implement e.g. both ->open() and ->uninhibit():
-> in such a case ->uninhibit() should be doing exactly the same things as
-> ->open() does. Which leads to a conclusion that in practice no drivers
-> should choose to implement both, otherwise they must be aware that
-> ->uninhibit() can be sometimes called instead of ->open(). Then ->open()
-> becomes synonymous with ->uninhibit(), and ->close() with ->inhibit().
-> Or, maybe, then ->inhibit() can be a superset of ->close() and
-> ->uninhibit() a superset of ->open().
-> 
-> If such an approach is ok with you, it is ok with me, too.
-> 
-> (*)
-> Calling both ->inhibit() and ->close() (if they are provided) allows
-> drivers to go fancy and fail inhibiting (which is impossible using
-> only ->close() as it does not return a value, but ->inhibit() by design
-> does). Then ->uninhibit() is mostly for symmetry.
+>
+>I have another hp proliant server now, and reproduced. I will have the
+>patch below tested shortly. Minor change, I switched group->domain to
+>domain since group isn't an argument, and *data being passed in comes
+>from group->domain anyways.
+>
 
-All the complications discussed above are exactly why I still
-believe that there should be only open and close.
+Looks like it solves problem for both the epyc system, and the hp proliant
+server,
 
-If error propagation on inhibit is considered as something
-really important to have then we can make the input driver close
-callback return an error (*), note I'm talking about the
-driver close callback here, not the system call.
-
-If the close callback is called for actually closing the fd
-referring to the input node, then the new error return code
-can be ignored, as we already do for errors on close atm
-since the driver close callback returns void.
-
-I still have not seen a very convincing argument for having
-separate inhibit and close callbacks and as the messy discussion
-above shows, having 2 such very similar yet subtly different
-calls seems like a bad idea...
-
-Regards,
-
-Hans
-
-
-*) This will require a flag day where "return 0" is added
-to all current close handlers
+>>diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>>index b5ea203f6c68..5a6d509f72b6 100644
+>>--- a/drivers/iommu/iommu.c
+>>+++ b/drivers/iommu/iommu.c
+>>@@ -1680,8 +1680,12 @@ static void probe_alloc_default_domain(struct bus_type *bus,
+>>static int iommu_group_do_dma_attach(struct device *dev, void *data)
+>>{
+>>	struct iommu_domain *domain = data;
+>>+	int ret = 0;
+>>
+>>-	return __iommu_attach_device(domain, dev);
+>>+	if (!iommu_is_attach_deferred(group->domain, dev))
+>>+		ret = __iommu_attach_device(group->domain, dev);
+>>+
+>>+	return ret;
+>>}
+>>
+>>static int __iommu_group_dma_attach(struct iommu_group *group)
+>>_______________________________________________
+>>iommu mailing list
+>>iommu@lists.linux-foundation.org
+>>https://lists.linuxfoundation.org/mailman/listinfo/iommu
+>>
 
