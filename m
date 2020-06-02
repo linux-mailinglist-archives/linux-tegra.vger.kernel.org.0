@@ -2,215 +2,256 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C7EA1EC2CB
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 21:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7E831EC39E
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 22:19:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbgFBTdt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 15:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbgFBTds (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 15:33:48 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 805EFC08C5C1
-        for <linux-tegra@vger.kernel.org>; Tue,  2 Jun 2020 12:33:48 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id 64so5614769pfg.8
-        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 12:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=j2731q8TZbNlQF3Z/Bp/V56dsnSlRnzdVVRnH3OA0YQ=;
-        b=u+KiM8rkKC+5ACEm+D37UxEKMAjZpNWVemeVjQ2DlN/fbrQljAtpcLea19wo9SJ3zZ
-         tQD9Muiy3zxy6qdkHFEJTgb6g9vfXw5yNvNf50QdKL9StCfj1dQx4T74d2GFrwnesuve
-         3y2hdJMz2NeBaNDZCPcbB1beX/WCymmiYkJ6ajWy16pHf2psCTbQaaxkhMwZNJUtUiiM
-         A/kug+5FjorSKZRndPov3hQGuBYD8lAxS4Yu6dNmw6n5B1YOo1h0G6fUxDqT7uDBpSL2
-         BZ3mKtdCY9SIwElxLu9t82mJ2t/CGRZYxVV3ZKd5e55Z+N8Yy9TCalBwiFSp2GgYyAw8
-         Qg9g==
+        id S1726112AbgFBUTi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 16:19:38 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46908 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726420AbgFBUTh (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 2 Jun 2020 16:19:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1591129174;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Prna0/QXu/RjY6S2skvVofYK79iQXfjyUXH6P+LLwHQ=;
+        b=bstaA63mgOwTdbCxMZzSpnGby6KEy5ys5Q+L9rltuPmGfKnnOnfWJtvuSlKnJHjSYzBBiU
+        mf0jn8mWz07vS/OLXs9OIMQI1ek/GUSOHiu5a3Djs5CUN0RBOFTyu7crcE9EbWqFWZOGWX
+        xnR+8V6GZxw7QwrmqnZ+BTh6G1xZT+M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-FuJS1vwcPcetDpEXrQdJXA-1; Tue, 02 Jun 2020 16:19:33 -0400
+X-MC-Unique: FuJS1vwcPcetDpEXrQdJXA-1
+Received: by mail-wr1-f70.google.com with SMTP id j16so6780wre.22
+        for <linux-tegra@vger.kernel.org>; Tue, 02 Jun 2020 13:19:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=j2731q8TZbNlQF3Z/Bp/V56dsnSlRnzdVVRnH3OA0YQ=;
-        b=IM5aBX0CMi8SHzQ8AR8y5BB20OopM6sznBDHv8JIXfPz6EvK5Hrp6YI+DC0FZUlwHs
-         55QW05t6V1BfUAf2w4Bu34PMOj8nBrljCdyEi4U9gTIhBp8rOtRAOfirJTRDtY5IuWqB
-         k/6YfYuK0wEVf6IGJk84LUDnIIat383tkFn+Odly06OBy6YqOWep/m27Evo9DyqkEe75
-         FTK3XnYULYsj+Ht+WnEbtt9gLZqVk3huQ2BJ7SlZ4aJQoU/u35tkixvcvNvQOWXL7v5S
-         ltLz6sYl2StFOkywElOs6XoJiglrFhzDsk92KsUZ1RLTL+5kirwGSTp6RDrj2V07eSpN
-         acKg==
-X-Gm-Message-State: AOAM53033ro2CmVVCNEgrZB7RRdZbK+PgNBblBoJsqFNm+RiFMjcSiC6
-        +uyk1Qa6RqOKFbXxMOsVNQeQMw==
-X-Google-Smtp-Source: ABdhPJyUesfEHfZc8D0N1MFN1N5Jd1zZeoohNWHEhngaOfdDpGXggsJuQz2Z7OJYnatzZFTs893Z9A==
-X-Received: by 2002:a63:cc12:: with SMTP id x18mr25062622pgf.140.1591126427475;
-        Tue, 02 Jun 2020 12:33:47 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id m2sm2955054pjk.52.2020.06.02.12.33.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 12:33:46 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 12:32:49 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Will Deacon <will@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-        linux-tegra@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-Message-ID: <20200602193249.GC1799770@builder.lan>
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200228025700.GA856087@builder>
- <20200514193249.GE279327@builder.lan>
- <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
- <20200527110343.GD11111@willie-the-truck>
- <20200602110216.GA3354422@ulmo>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Prna0/QXu/RjY6S2skvVofYK79iQXfjyUXH6P+LLwHQ=;
+        b=j/NYhJ5sGOahhu+QbPO4Fg5ShxbKAkp5K0UX5srqtGgxtz0mReBgtN1X5wqWCCI/LR
+         EUDgE/Bvy8jrw92Rorkh58wvGC1hqir27CjRRKijprB/MqLtFM+lc3FOW+fqb/9Qoxd6
+         3HqgkaUYFue4KDTWXIQn5stQm/lhFH45QAiUg2+gm7HoaUgKqCQtVyX2kpxKu1YzWsTE
+         pLHGCBc8dE1NDLhYMFM2CWkz5dnvV4OAHmJmiSRbJK8nV/8HSO7mRKQ03Tjn7nUWyol7
+         bm1XZMOLjY9Tq2WWK4QnRjmbIo1cs2ypeAkelL+RiLQa4z+MHZgHBTJYV02clufuy2ed
+         L7Gw==
+X-Gm-Message-State: AOAM5324Gge31TAc0Wogg+Gsid+iTFgjUtQWU+k4LpX+BXboH/gMBYx9
+        YbtG/LlrBCweobN5wihAcjqeNlACelMYExL9NPRS7dpSB4mqsaEN7WTQ160FGjXa68EJz/5N7zF
+        f0ERGGTabNw2lL8YxsIQQzP8=
+X-Received: by 2002:a5d:484b:: with SMTP id n11mr28093366wrs.356.1591129171924;
+        Tue, 02 Jun 2020 13:19:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMYENJoMzY4AqoZffM5AF2cZne0ecRAtN7LTzh8blACu0ehnQ6ebDawV6NM8gCv3R3iJD8YQ==
+X-Received: by 2002:a5d:484b:: with SMTP id n11mr28093336wrs.356.1591129171649;
+        Tue, 02 Jun 2020 13:19:31 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id y37sm155399wrd.55.2020.06.02.13.19.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2020 13:19:30 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+ <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
+ <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
+ <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
+ <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
+ <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
+ <20200527063430.GJ89269@dtor-ws>
+ <88f939cd-1518-d516-59f2-8f627a6a70d2@collabora.com>
+ <20200602175241.GO89269@dtor-ws>
+ <82e9f2ab-a16e-51ee-1413-bedf0122026a@collabora.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <8f97d2e1-497a-495d-bc82-f46dbeba440c@redhat.com>
+Date:   Tue, 2 Jun 2020 22:19:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200602110216.GA3354422@ulmo>
+In-Reply-To: <82e9f2ab-a16e-51ee-1413-bedf0122026a@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue 02 Jun 04:02 PDT 2020, Thierry Reding wrote:
+Hi,
 
-> On Wed, May 27, 2020 at 12:03:44PM +0100, Will Deacon wrote:
-> > Hi John, Bjorn,
-> > 
-> > On Tue, May 26, 2020 at 01:34:45PM -0700, John Stultz wrote:
-> > > On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
-> > > >
-> > > > On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
-> > > >
-> > > > Rob, Will, we're reaching the point where upstream has enough
-> > > > functionality that this is becoming a critical issue for us.
-> > > >
-> > > > E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
-> > > > mainline with display, GPU, WiFi and audio working and the story is
-> > > > similar on several devboards.
-> > > >
-> > > > As previously described, the only thing I want is the stream mapping
-> > > > related to the display controller in place, either with the CB with
-> > > > translation disabled or possibly with a way to specify the framebuffer
-> > > > region (although this turns out to mess things up in the display
-> > > > driver...)
-> > > >
-> > > > I did pick this up again recently and concluded that by omitting the
-> > > > streams for the USB controllers causes an instability issue seen on one
-> > > > of the controller to disappear. So I would prefer if we somehow could
-> > > > have a mechanism to only pick the display streams and the context
-> > > > allocation for this.
-> > > >
-> > > >
-> > > > Can you please share some pointers/insights/wishes for how we can
-> > > > conclude on this subject?
-> > > 
-> > > Ping? I just wanted to follow up on this discussion as this small
-> > > series is crucial for booting mainline on the Dragonboard 845c
-> > > devboard. It would be really valuable to be able to get some solution
-> > > upstream so we can test mainline w/o adding additional patches.
-> > 
-> > Sorry, it's been insanely busy recently and I haven't had a chance to think
-> > about this on top of everything else. We're also carrying a hack in Android
-> > for you :)
-> > 
-> > > The rest of the db845c series has been moving forward smoothly, but
-> > > this set seems to be very stuck with no visible progress since Dec.
-> > > 
-> > > Are there any pointers for what folks would prefer to see?
-> > 
-> > I've had a chat with Robin about this. Originally, I was hoping that
-> > people would all work together towards an idyllic future where firmware
-> > would be able to describe arbitrary pre-existing mappings for devices,
-> > irrespective of the IOMMU through which they master and Linux could
-> > inherit this configuration. However, that hasn't materialised (there was
-> > supposed to be an IORT update, but I don't know what happened to that)
-> > and, in actual fact, the problem that you have on db845 is /far/ more
-> > restricted than the general problem.
+On 6/2/20 8:50 PM, Andrzej Pietrasiewicz wrote:
+> Hi Dmitry,
 > 
-> It doesn't sound to me like implementing platform-specific workarounds
-> is a good long-term solution (especially since, according to Bjorn, they
-> aren't as trivial to implement as it sounds). And we already have all
-> the infrastructure in place to implement what you describe, so I don't
-> see why we shouldn't do that. This patchset uses standard device tree
-> bindings that were designed for exactly this kind of use-case.
+> W dniu 02.06.2020 o 19:52, Dmitry Torokhov pisze:
+>> Hi Andrzej,
+>>
+>> On Tue, Jun 02, 2020 at 06:56:40PM +0200, Andrzej Pietrasiewicz wrote:
+>>> Hi Dmitry,
+>>>
+>>> W dniu 27.05.2020 o 08:34, Dmitry Torokhov pisze:
+>>>> That said, I think the way we should handle inhibit/uninhibit, is that
+>>>> if we have the callback defined, then we call it, and only call open and
+>>>> close if uninhibit or inhibit are _not_ defined.
+>>>>
+>>>
+>>> If I understand you correctly you suggest to call either inhibit,
+>>> if provided or close, if inhibit is not provided, but not both,
+>>> that is, if both are provided then on the inhibit path only
+>>> inhibit is called. And, consequently, you suggest to call either
+>>> uninhibit or open, but not both. The rest of my mail makes this
+>>> assumption, so kindly confirm if I understand you correctly.
+>>
+>> Yes, that is correct. If a driver wants really fine-grained control, it
+>> will provide inhibit (or both inhibit and close), otherwise it will rely
+>> on close in place of inhibit.
+>>
+>>>
+>>> In my opinion this idea will not work.
+>>>
+>>> The first question is should we be able to inhibit a device
+>>> which is not opened? In my opinion we should, in order to be
+>>> able to inhibit a device in anticipation without needing to
+>>> open it first.
+>>
+>> I agree.
+>>
+>>>
+>>> Then what does opening (with input_open_device()) an inhibited
+>>> device mean? Should it succeed or should it fail?
+>>
+>> It should succeed.
+>>
+>>> If it is not
+>>> the first opening then effectively it boils down to increasing
+>>> device's and handle's counters, so we can allow it to succeed.
+>>> If, however, the device is being opened for the first time,
+>>> the ->open() method wants to be called, but that somehow
+>>> contradicts the device's inhibited state. So a logical thing
+>>> to do is to either fail input_open_device() or postpone ->open()
+>>> invocation to the moment of uninhibiting - and the latter is
+>>> what the patches in this series currently do.
+>>>
+>>> Failing input_open_device() because of the inhibited state is
+>>> not the right thing to do. Let me explain. Suppose that a device
+>>> is already inhibited and then a new matching handler appears
+>>> in the system. Most handlers (apm-power.c, evbug.c, input-leds.c,
+>>> mac_hid.c, sysrq.c, vt/keyboard.c and rfkill/input.c) don't create
+>>> any character devices (only evdev.c, joydev.c and mousedev.c do),
+>>> so for them it makes no sense to delay calling input_open_device()
+>>> and it is called in handler's ->connect(). If input_open_device()
+>>> now fails, we have lost the only chance for this ->connect() to
+>>> succeed.
+>>>
+>>> Summarizing, IMO the uninhibit path should be calling both
+>>> ->open() and ->uninhibit() (if provided), and conversely, the inhibit
+>>> path should be calling both ->inhibit() and ->close() (if provided).
+>>
+>> So what you are trying to say is that you see inhibit as something that
+>> is done in addition to what happens in close. But what exactly do you
+>> want to do in inhibit, in addition to what close is doing?
 > 
-
-I think my results would imply that we would have to end up with (at
-least) some special case of your proposal (i.e. we need a context bank
-allocated).
-
-> So at least for device-tree based boot firmware can already describe
-> these pre-existing mappings. If something standard materializes for ACPI
-> eventually I'm sure we can find ways to integrate that into whatever we
-> come up with now for DT.
+> See below (*).
 > 
-> I think between Bjorn, John, Laurentiu and myself there's pretty broad
-> consensus (correct me if I'm wrong, guys) that solving this via reserved
-> memory regions is a good solution that works. So I think what's really
-> missing is feedback on whether the changes proposed here or Laurentiu's
-> updated proposal[0] are acceptable, and if not, what the preference is
-> for getting something equivalent upstream.
+>>
+>> In my view, if we want to have a dedicated inhibit callback, then it
+>> will do everything that close does, they both are aware of each other
+>> and can sort out the state transitions between them. For drivers that do
+>> not have dedicated inhibit/uninhibit, we can use open and close
+>> handlers, and have input core sort out when each should be called. That
+>> means that we should not call dev->open() in input_open_device() when
+>> device is inhibited (and same for dev->close() in input_close_device).
+>> And when uninhibiting, we should not call dev->open() when there are no
+>> users for the device, and no dev->close() when inhibiting with no users.
+>>
+>> Do you see any problems with this approach?
 > 
-
-As described in my reply to your proposal, the one problem I ran into
-was that I haven't figured out how to reliably "move" my display streams
-from one mapping entry to another.
-
-With the current scheme I see that their will either be gaps in time
-with no mapping for my display, or multiple mappings.
-
-
-The other thing I noticed in your proposal was that I have a whole bunch
-of DT nodes with both iommus and memory-region properties that I really
-don't care to set up mappings for, but I've not finalized my thoughts on
-this causing actual problems...
-
-> Just to highlight: the IOMMU framework already provides infrastructure
-> to create direct mappings (via iommu_get_resv_regions(), called from
-> iommu_create_device_direct_mappings()). I have patches that make use of
-> this on Tegra210 and earlier where a non-ARM SMMU is used and where the
-> IOMMU driver enables translations (and doesn't fault by default) only at
-> device attachment time. That works perfectly using reserved-memory
-> regions. Perhaps that infrastructure could be extended to cover the
-> kinds of early mappings that we're discussing here. On the other hand it
-> might be a bit premature at this point because the ARM SMMU is the only
-> device that currently needs this, as far as I can tell.
+> My concern is that if e.g. both ->open() and ->uninhibit() are provided,
+> then in certain circumstances ->open() won't be called:
 > 
+> 1. users == 0
+> 2. inhibit happens
+> 3. input_open_device() happens, ->open() not called
+> 4. uninhibit happens
+> 5. as part of uninhibit ->uninhibit() is only called, but ->open() is not.
+> 
+> They way I understand your answer is that we implicitly impose requirements
+> on drivers which choose to implement e.g. both ->open() and ->uninhibit():
+> in such a case ->uninhibit() should be doing exactly the same things as
+> ->open() does. Which leads to a conclusion that in practice no drivers
+> should choose to implement both, otherwise they must be aware that
+> ->uninhibit() can be sometimes called instead of ->open(). Then ->open()
+> becomes synonymous with ->uninhibit(), and ->close() with ->inhibit().
+> Or, maybe, then ->inhibit() can be a superset of ->close() and
+> ->uninhibit() a superset of ->open().
+> 
+> If such an approach is ok with you, it is ok with me, too.
+> 
+> (*)
+> Calling both ->inhibit() and ->close() (if they are provided) allows
+> drivers to go fancy and fail inhibiting (which is impossible using
+> only ->close() as it does not return a value, but ->inhibit() by design
+> does). Then ->uninhibit() is mostly for symmetry.
 
-For Qualcomm we got patches picked up for 5.8 that will cause the
-display controller to be attached with direct mapping, so I think all
-missing now is the lack of stream mappings between arm-smmu probe and
-display driver probe...
+All the complications discussed above are exactly why I still
+believe that there should be only open and close.
+
+If error propagation on inhibit is considered as something
+really important to have then we can make the input driver close
+callback return an error (*), note I'm talking about the
+driver close callback here, not the system call.
+
+If the close callback is called for actually closing the fd
+referring to the input node, then the new error return code
+can be ignored, as we already do for errors on close atm
+since the driver close callback returns void.
+
+I still have not seen a very convincing argument for having
+separate inhibit and close callbacks and as the messy discussion
+above shows, having 2 such very similar yet subtly different
+calls seems like a bad idea...
 
 Regards,
-Bjorn
 
-> Thierry
-> 
-> [0]: https://patchwork.ozlabs.org/project/linux-tegra/list/?series=164853
-> 
-> > Could you please try hacking something along the following lines and see
-> > how you get on? You may need my for-joerg/arm-smmu/updates branch for
-> > all the pieces:
-> > 
-> >   1. Use the ->cfg_probe() callback to reserve the SMR/S2CRs you need
-> >      "pinning" and configure for bypass.
-> > 
-> >   2. Use the ->def_domain_type() callback to return IOMMU_DOMAIN_IDENTITY
-> >      for the display controller
-> > 
-> > I /think/ that's sufficient, but note that it differs from the current
-> > approach because we don't end up reserving a CB -- bypass is configured
-> > in the S2CR instead. Some invalidation might therefore be needed in
-> > ->cfg_probe() after unhooking the CB.
-> > 
-> > Thanks, and please yell if you run into problems with this approach.
-> > 
-> > Will
+Hans
 
+
+*) This will require a flag day where "return 0" is added
+to all current close handlers
 
