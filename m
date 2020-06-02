@@ -2,176 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE001EB281
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 02:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0CE31EB4A6
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 06:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726365AbgFBAC7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jun 2020 20:02:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27656 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726472AbgFBACz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 1 Jun 2020 20:02:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591056173;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WEgguSwsSBQsO87++CE0y1rNffa4jp9PI1ZebsV4DLs=;
-        b=fbfiDVLzF3ugPR+moWhJgiAxuMHL7loRpI3aocYTJk8Qgkc6VpqbbfBnMi1HmnO25FsXUd
-        cloUBUVMwb61L4hVSGLCoGtc+/HFX02bTgLO2AlJ4Gjud72uC7xS4tJ5Q1HFB6q7GTyzOS
-        6X7j1xq6n9Mpti5VtIux013jpzOA/Eo=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-x32CfxQ6PWKLJP1fj2mf4w-1; Mon, 01 Jun 2020 20:02:39 -0400
-X-MC-Unique: x32CfxQ6PWKLJP1fj2mf4w-1
-Received: by mail-qk1-f200.google.com with SMTP id v6so9763866qkd.9
-        for <linux-tegra@vger.kernel.org>; Mon, 01 Jun 2020 17:02:39 -0700 (PDT)
+        id S1725957AbgFBEk6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 00:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725616AbgFBEk6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 00:40:58 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6CB2C061A0E;
+        Mon,  1 Jun 2020 21:40:56 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id d7so9467584ioq.5;
+        Mon, 01 Jun 2020 21:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=lgXeopS4rXAhOaW6ojxV14zwgm7+wVhyDRRur+u16mo=;
+        b=LzfmUpAa5RQLblGpcefo25+/lbne+hqvfzKmVMT0MxkkTzzhaJh3sn5qn2XQ2/y9DP
+         L77swLDMc3wtpHmmXNbO3xrfLP526qBENk8p5XbTpSf0hOvSgdcsrxZDiI4C/3faRyPy
+         t/Y7zA8je7JLHbPra/M/dL0cWlBCiQIOMVUlJPaARDJ1T6kh5WjiORLaCIYk203sV/YM
+         E9kbNzNiiz9wUHS/uEn0neecuwFXhTtEwZUOOHgQehJakeIc7ARGK6IYG2+kiqUky3Rv
+         53cPkqUo3JZzVCNVwAY8L+naiB9rDXw+SOlb3CuaqWIFH78M76JUpgDfA4XN9ap5kQKt
+         JHPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=WEgguSwsSBQsO87++CE0y1rNffa4jp9PI1ZebsV4DLs=;
-        b=CSy6XSLaq1h3T3x2ilQTq3LnpQmDII8f07LtFp18FlFhtNhYyOW79V0oMWwA8/ijL3
-         v96lfdUpavuwNLb4jLDabXmkQu80anOWdP3bXHIZ/roB3sY+erwhn9UWpaH7bb7uum9n
-         FlsDCq6+VKKri7viPXptE7kn2ESyPwwP/BBY9bbaKFnMJZyhXoYjmeUzf1RfBQnjDacW
-         kph70TzDeCkFSGG4RDrDZ9bTOcwjNG/AJNVHr6xzrjc7imvQxnMYDBM3wwuEyTHAOyKg
-         kloASsR4I1k+gj5QeqtRcHneVxzOIChVAWDZ/54GgkoF1YsKXu2kD0A1vhob3E/9wk9U
-         kwxg==
-X-Gm-Message-State: AOAM530df9HBC8As3KqIT0Kk+wdyBxUaYc2F30Z0yrp/aAKtsoze2Bsx
-        tTH6sbfAiuIwFTAaBpmHShjQVsTUOgtLUqY+AR7XYRbztxuWwmEBfaTp/+UVEZ8+DLJO+nwefbU
-        /cG1IXe4RZfyRE/hNYZmCbt8=
-X-Received: by 2002:ac8:724c:: with SMTP id l12mr23746266qtp.259.1591056159436;
-        Mon, 01 Jun 2020 17:02:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRFkXYMc6X8G+o56RMfYFp5n8699HmlGFcYOLIr9n0Jz/P369Z9v//wIL4kQ8Ioy89XjW8QQ==
-X-Received: by 2002:ac8:724c:: with SMTP id l12mr23746213qtp.259.1591056159140;
-        Mon, 01 Jun 2020 17:02:39 -0700 (PDT)
-Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
-        by smtp.gmail.com with ESMTPSA id t13sm852903qtc.77.2020.06.01.17.02.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=lgXeopS4rXAhOaW6ojxV14zwgm7+wVhyDRRur+u16mo=;
+        b=sMPxwL8QEZhoeqzASQN2kIdOAqvjILVAxoJ8Hq4kn3Vhex4xMAcwxSlHs/gLJ3GNaJ
+         1m/OEMaoa2gntAhn3zjFucc33HjzYP2o9dndi2Sq46SbcHH/20/KNphj93W7NEnEGCKb
+         EhpU4lrkzfcyO6VtzwJ2G4X0gRCQ1rYyg5Z/U4l4zpZjWd6XFOUMbPwO2PZkPcNB4/hM
+         26sKqSKQNv6KthSC7BSdI2al1ps2CKpEwnd9ojJkS1wp/n5EewDpTzxYBsjPCxytWXzI
+         uT52MC0njPGrOx+ba7eigZLP2R/uC/TH5SPyR64b/2Y+eno9ieGOZF/WOLyYKa/1oIRO
+         i4NQ==
+X-Gm-Message-State: AOAM5337F5xESJ9I2gYFiCABB+/KJQUjDIyX46ztUpQs8ToARTcdZte0
+        3vCXXoISUQ34YZwpsWNP3h5WIQi4flWe1A==
+X-Google-Smtp-Source: ABdhPJx9gqtedMNOQIz2FZKyCCeg/Z12Y42fQViRruIdOa6l1yDiABgPGmf59KzIikWDf+ZLfQW81g==
+X-Received: by 2002:a02:23c1:: with SMTP id u184mr22804511jau.11.1591072855938;
+        Mon, 01 Jun 2020 21:40:55 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+        by smtp.googlemail.com with ESMTPSA id t18sm887267ili.24.2020.06.01.21.40.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 17:02:37 -0700 (PDT)
-Date:   Mon, 1 Jun 2020 17:02:36 -0700
-From:   Jerry Snitselaar <jsnitsel@redhat.com>
-To:     Lu Baolu <baolu.lu@linux.intel.com>
-Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Mon, 01 Jun 2020 21:40:55 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
-Message-ID: <20200602000236.j4m3jvluzdhjngdc@cantor>
-Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
-Mail-Followup-To: Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-References: <20200414131542.25608-1-joro@8bytes.org>
- <20200529221623.qc6twmpzryh7nkvb@cantor>
- <20200601104240.7f5xhz7gooqhaq4n@cantor>
- <47711845-98ee-95b8-aa95-423a36ed9741@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <47711845-98ee-95b8-aa95-423a36ed9741@linux.intel.com>
+        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
+        Navid Emamdoost <navid.emamdoost@gmail.com>
+Subject: [PATCH] spi: tegra20-sflash: call pm_runtime_put in case of pm_runtime_get failure
+Date:   Mon,  1 Jun 2020 23:40:49 -0500
+Message-Id: <20200602044049.17378-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue Jun 02 20, Lu Baolu wrote:
->Hi Jerry,
->
->On 6/1/20 6:42 PM, Jerry Snitselaar wrote:
->>>
->>>Hi Joerg,
->>>
->>>With this patchset, I have an epyc system where if I boot with
->>>iommu=nopt and force a dump I will see some io page faults for a nic
->>>on the system. The vmcore is harvested and the system reboots. I
->>>haven't reproduced it on other systems yet, but without the patchset I
->>>don't see the io page faults during the kdump.
->>>
->>>Regards,
->>>Jerry
->>
->>I just hit an issue on a separate intel based system (kdump iommu=nopt),
->>where it panics in during intel_iommu_attach_device, in is_aux_domain,
->>due to device_domain_info being DEFER_DEVICE_DOMAIN_INFO. That doesn't
->>get set to a valid address until the domain_add_dev_info call.
->>
->>Is it as simple as the following?
->
->I guess you won't hit this issue if you use iommu/next branch of Joerg's
->tree. We've changed to use a generic helper to retrieve the valid per
->device iommu data or NULL (if there's no).
->
->Best regards,
->baolu
->
+The counter is incremented via pm_runtime_get even in failure case.
+To correct the counter call pm_runtime_put in case of failure, too.
 
-Yeah, that will solve the panic. 
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/spi/spi-tegra20-sflash.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->>
->>diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
->>index 29d3940847d3..f1bbeed46a4c 100644
->>--- a/drivers/iommu/intel-iommu.c
->>+++ b/drivers/iommu/intel-iommu.c
->>@@ -5053,8 +5053,8 @@ is_aux_domain(struct device *dev, struct 
->>iommu_domain *domain)
->>  {
->>         struct device_domain_info *info = dev->archdata.iommu;
->>
->>-       return info && info->auxd_enabled &&
->>-                       domain->type == IOMMU_DOMAIN_UNMANAGED;
->>+       return info && info != DEFER_DEVICE_DOMAIN_INFO &&
->>+               info->auxd_enabled && domain->type == 
->>IOMMU_DOMAIN_UNMANAGED;
->>  }
->>
->>  static void auxiliary_link_device(struct dmar_domain *domain,
->>
->>
->>Regards,
->>Jerry
->_______________________________________________
->iommu mailing list
->iommu@lists.linux-foundation.org
->https://lists.linuxfoundation.org/mailman/listinfo/iommu
+diff --git a/drivers/spi/spi-tegra20-sflash.c b/drivers/spi/spi-tegra20-sflash.c
+index 514429379206..33c34f9c2021 100644
+--- a/drivers/spi/spi-tegra20-sflash.c
++++ b/drivers/spi/spi-tegra20-sflash.c
+@@ -552,6 +552,7 @@ static int tegra_sflash_resume(struct device *dev)
+ 
+ 	ret = pm_runtime_get_sync(dev);
+ 	if (ret < 0) {
++		pm_runtime_put(dev);
+ 		dev_err(dev, "pm runtime failed, e = %d\n", ret);
+ 		return ret;
+ 	}
+-- 
+2.17.1
 
