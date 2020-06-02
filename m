@@ -2,243 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CAED1EBE1D
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 16:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 685C21EC01E
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jun 2020 18:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbgFBO2R (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 10:28:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbgFBO2R (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 10:28:17 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0BEC08C5C0;
-        Tue,  2 Jun 2020 07:28:15 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id p30so5137479pgl.11;
-        Tue, 02 Jun 2020 07:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=s2IOnX3zKkXIUT6wUoKoBXlyqx0Y+I+17VfSpIhvk84=;
-        b=lMybFZ4lq31Vu+6iGZMhjnJdfelS+yMicHgS9k6rcFyDPcksw+cB0dMB4GMD5Rtzos
-         z+RE+5kq7GhE/2LqSrle2ePeoLu/y6yEi9z0K+Wu8cNxxW+IFWiFwYR55S2ZUwOe+hYn
-         ZKUCCWVyKgSOjPFcudx4Z6tl9nf4ucxnXZw8H0uD9TbNTFylXVeshDsf+vXafH9b825r
-         deOUQ9Ph1GEuA7O8TuIbWhuYACyKpFjlfFvfmOKoMlh32u9F6v2+W90SCV5KGwzt3qtj
-         g+qN8Z7zNdsLH6DLgTET56UExItKTKczu+Cs+GEIavBGETYXGztfwjtuOwTJAr9sUVG0
-         3GJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=s2IOnX3zKkXIUT6wUoKoBXlyqx0Y+I+17VfSpIhvk84=;
-        b=BBY0lOLgGmpcM6e3r69lvlMm3o/7kHGR3/HsGUcmM8EzMs1Yvx0dvTbmD3bAOI50yF
-         5d8x2Jul+1fwVco6pmpsJJ+4/NuC/JQFxOvAw3wWSyG3Dwrq/9DQV5tJLYA59bw0uLBv
-         YjBroiHurgy8x1e+6P+pxrwMOiL11N0OVi37No31A8IE/nxvVcINWHODs2040dXsJsVf
-         mR7/AWg7Bb4TaAyax8BlApcX1D36vSVEeEhDe2jH4eFuWlO5ZY1ClOnzSzJXXDFzCeDk
-         uxeyV95mbN2Qh43lK8qoFf0M63fqXq5qRT9MCSeld43LH1r3JkXwKuKDMp9zj1EtzPWz
-         6VBQ==
-X-Gm-Message-State: AOAM530rjTuQNaLAp5zfjIRe3CyDcB8eLq9mDP1dRIkQ6j9Qz+NHMZa9
-        hA5W2QsIHi+zVwwudYTttks=
-X-Google-Smtp-Source: ABdhPJxnY5n/XEXbe6QNCKZgfgv/GfeUAJ7hPqaxvxWT3ckpmGAVELrBYpUF9lWr0W/v4lw+qIlctw==
-X-Received: by 2002:a63:b95a:: with SMTP id v26mr24029030pgo.196.1591108095140;
-        Tue, 02 Jun 2020 07:28:15 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x2sm2562982pfj.142.2020.06.02.07.28.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 02 Jun 2020 07:28:14 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 07:28:13 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Sandipan Patra <spatra@nvidia.com>
-Cc:     treding@nvidia.com, jonathanh@nvidia.com, kamil@wypas.org,
-        jdelvare@suse.com, robh+dt@kernel.org,
-        u.kleine-koenig@pengutronix.de, bbasu@nvidia.com,
-        bbiswas@nvidia.com, kyarlagadda@nvidia.com,
-        linux-pwm@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 1/2] hwmon: pwm-fan: Add profile support and add
- remove module support
-Message-ID: <20200602142813.GA54592@roeck-us.net>
-References: <1590992354-12623-1-git-send-email-spatra@nvidia.com>
+        id S1726461AbgFBQeF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 12:34:05 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18823 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbgFBQeF (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 12:34:05 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed67f700001>; Tue, 02 Jun 2020 09:33:52 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 02 Jun 2020 09:34:04 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 02 Jun 2020 09:34:04 -0700
+Received: from [10.26.72.151] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 2 Jun
+ 2020 16:34:02 +0000
+Subject: Re: [PATCH 4.4 00/47] 4.4.226-rc2 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200602100034.001608787@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <f6c8ef22-648c-e0fc-0dbb-5db8ab1801df@nvidia.com>
+Date:   Tue, 2 Jun 2020 17:34:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1590992354-12623-1-git-send-email-spatra@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200602100034.001608787@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591115632; bh=dO9FAXY2H297iJOHtU92SBoDR8kGdEM8PvbArK2JJjc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=TWk3STfzl2RVgJAsFHoalAhhDqkhz/gE6gHdPUrVyqiIkod6zeAIu8fi0SbDG2SZz
+         n//l41PXOSHT5IQ/ElYL+FKhZNX+SpfXKBIgP37NWfJ9jeZpltZ9pXhN9ClJbrQKQf
+         vP1rsXAcd5vltEzl8IfB68E7veKAd2/9mgXKyXsq1XI86595fdzEIxIAlegEqojwln
+         YuKjBcRfuy2SQcNtm6Vl//1dSiFRKN7XSU0NL9MMG518X22j6cVTZZEvzW0EC+kyec
+         ZkspJFfr3mEkH7DiEHOThxjcnL4cVgOfXmBz1kaZV8yILlvF86CaZ18sitPWyvs1sC
+         2Xcw01ktI4Msw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 01, 2020 at 11:49:13AM +0530, Sandipan Patra wrote:
-> Add support for profiles mode settings.
-> This allows different fan settings for trip point temp/hyst/pwm.
-> Tegra194 has multiple fan-profiles support.
+
+On 02/06/2020 11:16, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.226 release.
+> There are 47 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Signed-off-by: Sandipan Patra <spatra@nvidia.com>
-
-The subject says "remove module support". What is this supposed to be
-about ?
-
-The code adds support for multiple cooling "profiles" but, unless I am
-really missing something, no means to actually select a profile.
-This adds a lot of complexity to the code with zero value.
-
-Either case, and I may have mentioned this before, functionality like this
-should really reside in the thermal core and not in individual drivers.
-
-> ---
+> Responses should be made by Thu, 04 Jun 2020 09:57:12 +0000.
+> Anything received after that time might be too late.
 > 
-> PATCH V2:
-> 	Cleaned pwm_fan_remove support as it is not required.
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.226-rc2.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
 > 
->  drivers/hwmon/pwm-fan.c | 92 ++++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 80 insertions(+), 12 deletions(-)
+> thanks,
 > 
-> diff --git a/drivers/hwmon/pwm-fan.c b/drivers/hwmon/pwm-fan.c
-> index 30b7b3e..1d2a416 100644
-> --- a/drivers/hwmon/pwm-fan.c
-> +++ b/drivers/hwmon/pwm-fan.c
-> @@ -3,8 +3,10 @@
->   * pwm-fan.c - Hwmon driver for fans connected to PWM lines.
->   *
->   * Copyright (c) 2014 Samsung Electronics Co., Ltd.
-> + * Copyright (c) 2020, NVIDIA Corporation.
->   *
->   * Author: Kamil Debski <k.debski@samsung.com>
-> + * Author: Sandipan Patra <spatra@nvidia.com>
+> greg k-h
 
-You can not claim authorship for a driver by adding a few lines of code
-to it.
 
->   */
->  
->  #include <linux/hwmon.h>
-> @@ -21,6 +23,8 @@
->  #include <linux/timer.h>
->  
->  #define MAX_PWM 255
-> +/* Based on OF max device tree node name length */
-> +#define MAX_PROFILE_NAME_LENGTH	31
->  
->  struct pwm_fan_ctx {
->  	struct mutex lock;
-> @@ -38,6 +42,12 @@ struct pwm_fan_ctx {
->  	unsigned int pwm_fan_state;
->  	unsigned int pwm_fan_max_state;
->  	unsigned int *pwm_fan_cooling_levels;
-> +
-> +	unsigned int pwm_fan_profiles;
-> +	const char **fan_profile_names;
-> +	unsigned int **fan_profile_cooling_levels;
-> +	unsigned int fan_current_profile;
-> +
->  	struct thermal_cooling_device *cdev;
->  };
->  
-> @@ -227,28 +237,86 @@ static int pwm_fan_of_get_cooling_data(struct device *dev,
->  				       struct pwm_fan_ctx *ctx)
->  {
->  	struct device_node *np = dev->of_node;
-> +	struct device_node *base_profile = NULL;
-> +	struct device_node *profile_np = NULL;
-> +	const char *default_profile = NULL;
->  	int num, i, ret;
->  
-> -	if (!of_find_property(np, "cooling-levels", NULL))
-> -		return 0;
-> +	num = of_property_count_u32_elems(np, "cooling-levels");
-> +	if (num <= 0) {
-> +		base_profile = of_get_child_by_name(np, "profiles");
+All tests are passing for Tegra ...
 
-You can not just add new properties like this without documenting it
-and getting approval by devicetree maintainers.
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
 
-Guenter
+Linux version:	4.4.226-rc2-gab13e7ba60cc
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
-> +		if (!base_profile) {
-> +			dev_err(dev, "Wrong Data\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	if (base_profile) {
-> +		ctx->pwm_fan_profiles =
-> +			of_get_available_child_count(base_profile);
->  
-> -	ret = of_property_count_u32_elems(np, "cooling-levels");
-> -	if (ret <= 0) {
-> -		dev_err(dev, "Wrong data!\n");
-> -		return ret ? : -EINVAL;
-> +		if (ctx->pwm_fan_profiles <= 0) {
-> +			dev_err(dev, "Profiles used but not defined\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		ctx->fan_profile_names = devm_kzalloc(dev,
-> +			sizeof(const char *) * ctx->pwm_fan_profiles,
-> +							GFP_KERNEL);
-> +		ctx->fan_profile_cooling_levels = devm_kzalloc(dev,
-> +			sizeof(int *) * ctx->pwm_fan_profiles,
-> +							GFP_KERNEL);
-> +
-> +		if (!ctx->fan_profile_names
-> +				|| !ctx->fan_profile_cooling_levels)
-> +			return -ENOMEM;
-> +
-> +		ctx->fan_current_profile = 0;
-> +		i = 0;
-> +		for_each_available_child_of_node(base_profile, profile_np) {
-> +			num = of_property_count_u32_elems(profile_np,
-> +							"cooling-levels");
-> +			if (num <= 0) {
-> +				dev_err(dev, "No data in cooling-levels inside profile node!\n");
-> +				return -EINVAL;
-> +			}
-> +
-> +			of_property_read_string(profile_np, "name",
-> +						&ctx->fan_profile_names[i]);
-> +			if (default_profile &&
-> +				!strncmp(default_profile,
-> +				ctx->fan_profile_names[i],
-> +				MAX_PROFILE_NAME_LENGTH))
-> +				ctx->fan_current_profile = i;
-> +
-> +			ctx->fan_profile_cooling_levels[i] =
-> +				devm_kzalloc(dev, sizeof(int) * num,
-> +							GFP_KERNEL);
-> +			if (!ctx->fan_profile_cooling_levels[i])
-> +				return -ENOMEM;
-> +
-> +			of_property_read_u32_array(profile_np, "cooling-levels",
-> +				ctx->fan_profile_cooling_levels[i], num);
-> +			i++;
-> +		}
->  	}
->  
-> -	num = ret;
->  	ctx->pwm_fan_cooling_levels = devm_kcalloc(dev, num, sizeof(u32),
->  						   GFP_KERNEL);
->  	if (!ctx->pwm_fan_cooling_levels)
->  		return -ENOMEM;
->  
-> -	ret = of_property_read_u32_array(np, "cooling-levels",
-> -					 ctx->pwm_fan_cooling_levels, num);
-> -	if (ret) {
-> -		dev_err(dev, "Property 'cooling-levels' cannot be read!\n");
-> -		return ret;
-> +	if (base_profile) {
-> +		memcpy(ctx->pwm_fan_cooling_levels,
-> +		  ctx->fan_profile_cooling_levels[ctx->fan_current_profile],
-> +						num);
-> +	} else {
-> +		ret = of_property_read_u32_array(np, "cooling-levels",
-> +				ctx->pwm_fan_cooling_levels, num);
-> +		if (ret) {
-> +			dev_err(dev, "Property 'cooling-levels' cannot be read!\n");
-> +			return -EINVAL;
-> +		}
->  	}
->  
->  	for (i = 0; i < num; i++) {
+Cheers
+Jon
+
+-- 
+nvpublic
