@@ -2,148 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55BF11ECE06
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 13:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B6BD1ECE23
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 13:19:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725922AbgFCLMG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jun 2020 07:12:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57408 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725917AbgFCLMF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 3 Jun 2020 07:12:05 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 30E882067B;
-        Wed,  3 Jun 2020 11:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591182724;
-        bh=Xza7Kf3c+nc+4WelfKWntJ9cpTKEbMrpBSWK718FdBc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NANcdNB0vCZOqbyeeJf8M2LCgAsngzmzsHvZLb86tzCuCPkSpOIa/lju/l9/CcnG/
-         CYfCtPG9X5ls7k40e8pb3GV5gopQoeV3XY4yGLR/+ZEZ3LWxRkTgd5ynPDZhnUNsPu
-         24iaoPVLFdOoXINYwwq+YkYBnVvIjrrZnikV25og=
-Date:   Wed, 3 Jun 2020 12:11:59 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-tegra@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-Message-ID: <20200603111159.GA8408@willie-the-truck>
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200228025700.GA856087@builder>
- <20200514193249.GE279327@builder.lan>
- <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
- <20200527110343.GD11111@willie-the-truck>
- <20200602063210.GT11847@yoga>
+        id S1725859AbgFCLTb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jun 2020 07:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725855AbgFCLTa (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 07:19:30 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5707BC08C5C0;
+        Wed,  3 Jun 2020 04:19:30 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id n24so1772581ejd.0;
+        Wed, 03 Jun 2020 04:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jb3MHoDug5g39jQ0cE92JC3amngg0VjixJlgvY2BE6Y=;
+        b=X7v8uJkJ2/+anXEIFK4o/2QW+FAEzHO+uZcE07ONYJ89ZmXZ+gnWtZr2YpOgaPL07J
+         YxscfnhWKk7OkwnLHf5L0sbpal8WCxoBswwEPOjFyx7am9FlDfvLG5B0OqON9XwAIDNU
+         dNKYdSrudRV3/ZBk2g5oaNGDk1kRlV3HUNxJIxeB7rO/zbwFpa15Upola3uccz69VMyX
+         mGfOwSue0WfTCtxRMKmwWJ66nVh73F2nmq5v2QZMhoQ8j5F1Q1Pi7BosY4JSW82YJWG2
+         0fhiZKOhZWa2TXLmOtghYr/Sj+Dex8A6fAUz8FD27bqbAc31q5HJaL7d0oPwxRI2Jj1+
+         vOgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jb3MHoDug5g39jQ0cE92JC3amngg0VjixJlgvY2BE6Y=;
+        b=elN2G+3zNVMTzRb2uaww3chbCjDNVsVoxGb1F80ep3CnB1pWI+wloZZGlI8w0kPMXb
+         1nfYKxZtGRhK6ugPL+WiNIuvxiQtYKLnCLYcw6qRPXnzYra8QGiXWUSx435jPclYGkJN
+         VijndLJa5o+JhU3a9l31OBgODvwwSflam6GgpyqF9Pvg9t8iHG0NOeCe7jkms5n7ovbH
+         fRc5G5QQTFDFF/eUilzyasXqhBpgwyQs/NnRVIqscwUCeA8djksPLkzap9siwz967JkL
+         7krYWLAw/c3mlMF/kErbUxskZDpJ1Yg7Of6+qrZEN6ojNQKj1OcMcYcIRZzkawqvV0u4
+         kxlQ==
+X-Gm-Message-State: AOAM532fLs0vKbvcunqc6rlKiTLzmnii3ou+2qFVeSCZ+swkH5VSq+XX
+        QGPjMzApV2CfBvilZhSPDZo+tgRk
+X-Google-Smtp-Source: ABdhPJwJzBvoyfz+CNz6ZZQ6lAEr5UTHCmHRwWQPPy9U/aSY05TC+wv4Ib+9Zs9A8ZX4lsaMR4RjHg==
+X-Received: by 2002:a17:906:9397:: with SMTP id l23mr25136175ejx.79.1591183169124;
+        Wed, 03 Jun 2020 04:19:29 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id a24sm939019ejc.109.2020.06.03.04.19.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2020 04:19:28 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        LABBE Corentin <clabbe@baylibre.com>,
+        Dmitry Osipenko <digetx@gmail.com>, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 1/2] clk: tegra: Capitalization fixes
+Date:   Wed,  3 Jun 2020 13:19:22 +0200
+Message-Id: <20200603111923.3545261-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200602063210.GT11847@yoga>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 01, 2020 at 11:32:10PM -0700, Bjorn Andersson wrote:
-> On Wed 27 May 04:03 PDT 2020, Will Deacon wrote:
-> 
-> > Hi John, Bjorn,
-> > 
-> > On Tue, May 26, 2020 at 01:34:45PM -0700, John Stultz wrote:
-> > > On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
-> > > >
-> > > > On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
-> > > >
-> > > > Rob, Will, we're reaching the point where upstream has enough
-> > > > functionality that this is becoming a critical issue for us.
-> > > >
-> > > > E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
-> > > > mainline with display, GPU, WiFi and audio working and the story is
-> > > > similar on several devboards.
-> > > >
-> > > > As previously described, the only thing I want is the stream mapping
-> > > > related to the display controller in place, either with the CB with
-> > > > translation disabled or possibly with a way to specify the framebuffer
-> > > > region (although this turns out to mess things up in the display
-> > > > driver...)
-> > > >
-> > > > I did pick this up again recently and concluded that by omitting the
-> > > > streams for the USB controllers causes an instability issue seen on one
-> > > > of the controller to disappear. So I would prefer if we somehow could
-> > > > have a mechanism to only pick the display streams and the context
-> > > > allocation for this.
-> > > >
-> > > >
-> > > > Can you please share some pointers/insights/wishes for how we can
-> > > > conclude on this subject?
-> > > 
-> > > Ping? I just wanted to follow up on this discussion as this small
-> > > series is crucial for booting mainline on the Dragonboard 845c
-> > > devboard. It would be really valuable to be able to get some solution
-> > > upstream so we can test mainline w/o adding additional patches.
-> > 
-> > Sorry, it's been insanely busy recently and I haven't had a chance to think
-> > about this on top of everything else. We're also carrying a hack in Android
-> > for you :)
-> > 
-> 
-> Thanks for taking the time to get back to us on this!
-> 
-> > > The rest of the db845c series has been moving forward smoothly, but
-> > > this set seems to be very stuck with no visible progress since Dec.
-> > > 
-> > > Are there any pointers for what folks would prefer to see?
-> > 
-> > I've had a chat with Robin about this. Originally, I was hoping that
-> > people would all work together towards an idyllic future where firmware
-> > would be able to describe arbitrary pre-existing mappings for devices,
-> > irrespective of the IOMMU through which they master and Linux could
-> > inherit this configuration. However, that hasn't materialised (there was
-> > supposed to be an IORT update, but I don't know what happened to that)
-> > and, in actual fact, the problem that you have on db845 is /far/ more
-> > restricted than the general problem.
-> > 
-> > Could you please try hacking something along the following lines and see
-> > how you get on? You may need my for-joerg/arm-smmu/updates branch for
-> > all the pieces:
-> > 
-> >   1. Use the ->cfg_probe() callback to reserve the SMR/S2CRs you need
-> >      "pinning" and configure for bypass.
-> > 
-> >   2. Use the ->def_domain_type() callback to return IOMMU_DOMAIN_IDENTITY
-> >      for the display controller
-> > 
-> > I /think/ that's sufficient, but note that it differs from the current
-> > approach because we don't end up reserving a CB -- bypass is configured
-> > in the S2CR instead. Some invalidation might therefore be needed in
-> > ->cfg_probe() after unhooking the CB.
-> > 
-> > Thanks, and please yell if you run into problems with this approach.
-> > 
-> 
-> This sounded straight forward and cleaner, so I implemented it...
-> 
-> Unfortunately the hypervisor is playing tricks on me when writing to
-> S2CR registers:
-> - TRANS writes lands as requested
-> - BYPASS writes ends up in the register as requested, with type FAULT
-> - FAULT writes are ignored
-> 
-> In other words, the Qualcomm firmware prevents us from relying on
-> marking the relevant streams as BYPASS type.
+From: Thierry Reding <treding@nvidia.com>
 
-Is this for all S2CR registers, or only the ones in use by the display
-controller? Is there any scope for stopping the hypervisor from doing this?
+HW, XUSB and PLL are abbreviations and should be all-uppercase.
 
-It makes it really difficult for the driver when the hardware is emulated
-in a way that doesn't match the architecture...
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/clk/tegra/clk-pll.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Will
+diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+index 0b212cf2e794..583d2ac61e9e 100644
+--- a/drivers/clk/tegra/clk-pll.c
++++ b/drivers/clk/tegra/clk-pll.c
+@@ -1663,7 +1663,7 @@ static int clk_plle_tegra114_enable(struct clk_hw *hw)
+ 	pll_writel(val, PLLE_SS_CTRL, pll);
+ 	udelay(1);
+ 
+-	/* Enable hw control of xusb brick pll */
++	/* Enable HW control of XUSB brick PLL */
+ 	val = pll_readl_misc(pll);
+ 	val &= ~PLLE_MISC_IDDQ_SW_CTRL;
+ 	pll_writel_misc(val, pll);
+@@ -1686,7 +1686,7 @@ static int clk_plle_tegra114_enable(struct clk_hw *hw)
+ 	val |= XUSBIO_PLL_CFG0_SEQ_ENABLE;
+ 	pll_writel(val, XUSBIO_PLL_CFG0, pll);
+ 
+-	/* Enable hw control of SATA pll */
++	/* Enable HW control of SATA PLL */
+ 	val = pll_readl(SATA_PLL_CFG0, pll);
+ 	val &= ~SATA_PLL_CFG0_PADPLL_RESET_SWCTL;
+ 	val |= SATA_PLL_CFG0_PADPLL_USE_LOCKDET;
+-- 
+2.24.1
+
