@@ -2,103 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BBD51ED2F8
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 17:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B0931ED39A
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 17:42:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbgFCPGE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jun 2020 11:06:04 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11927 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726077AbgFCPGE (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 11:06:04 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ed7bbfa0001>; Wed, 03 Jun 2020 08:04:26 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 03 Jun 2020 08:06:03 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 03 Jun 2020 08:06:03 -0700
-Received: from [10.26.72.154] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 3 Jun
- 2020 15:06:01 +0000
-Subject: Re: [PATCH 4.9 00/55] 4.9.226-rc3 review
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200602181325.420361863@linuxfoundation.org>
- <4eaf333a-e497-d39e-338e-a790b116dc62@nvidia.com>
-Message-ID: <ca7bfb13-a22d-7988-9be2-469b0c4a8437@nvidia.com>
-Date:   Wed, 3 Jun 2020 16:05:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1726150AbgFCPm6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jun 2020 11:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbgFCPm6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 11:42:58 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3862FC08C5C0
+        for <linux-tegra@vger.kernel.org>; Wed,  3 Jun 2020 08:42:58 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id 1so1645474vsl.9
+        for <linux-tegra@vger.kernel.org>; Wed, 03 Jun 2020 08:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+v4mUPWrEgtC6NRHUyR/xEDnM6YAcz7lXyI+WN23E04=;
+        b=khLffvfzVOTkhZTg4LH+qEdUt73iWPRnL9GaoDNme5UbPkDVXCY5TqrzYGvhtcIoga
+         cKEaaSukhEUrbDyPveKQNibicwL0vJI1sqkVdxs+iz+nSTyId8VO4WYcHwUJu5wOeIi/
+         c8UVYg5uRcelc59CHgFsp5wPS5Q4t3aG+dXUOm+3JKQc8ZGIcJo8eQdYnFtyvqSvpMEc
+         meiMqZLRqBZt5tPR/mAcgTkKvrNnL5gDlBwx4LvepacSHca14xeZxhAEHEdGCnw9Qc55
+         +RLa6I2bbLDEWBZwsIct44sDCTTKbj2jrpCrRX4C1mOSEsPSDJUbuZV5LROQ/IcLK7Om
+         Sp+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+v4mUPWrEgtC6NRHUyR/xEDnM6YAcz7lXyI+WN23E04=;
+        b=dQSaVm/bVZw2xT9FVRSGIUMTE7q6wqRG7siP0faQle3XgY1eXWhGBDzHFZZKhMEdiS
+         oOx7ScuSbnl01yo5+RePgU3n9Vb9fp+l6WiUA4s2uQCMy5zj3C5HGo6OYadbnJu+RvUO
+         aSzlJapP6No5iXoaDBp8hEvtVFJx7uD5DtEjPjuH+6mbpvjoQZ7xKTmd79x/1oozmCXG
+         I2QIFD2u3dNHnO2J9OpvQKsYeK0XlGd4mfiAKAUuHPfmpoNZFPDGPokOrCOD1Wpd7RYN
+         W8p5DVATfAgWzckBWVX5taZjLIwg63r6ogqc8stSPd6fZtaL6uUTEPiQUJg5o6Dy4uQN
+         pqpQ==
+X-Gm-Message-State: AOAM533kPBjXwCcqBE50AXkLZV8mYhP2efPBF48yY6SWRPv7XKog9U7s
+        P8fqhDv6Y5+7XZpcOGMGKPs2L5yGL3LFIGrnuYsbVgqc
+X-Google-Smtp-Source: ABdhPJw5n02lpBHKugUxtKm8DveNj4ZSMg6h12mYs3x3BR4r2dCSxt3GQS8NEU5HWJZuWnL499Nz8JoOwcgIKa+ySt4=
+X-Received: by 2002:a05:6102:22ec:: with SMTP id b12mr18862vsh.138.1591198977515;
+ Wed, 03 Jun 2020 08:42:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <4eaf333a-e497-d39e-338e-a790b116dc62@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1591196667; bh=4hUV0TwB+fKkfxySAIqP/sd7nZ7/zxOBIH/wTAQXWIw=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=XtQaQb8nnM+h52K43PvC+dTjspHT27MKrVaJXs+urGx55oIWrM+F03bWiLmwvld/G
-         AudPozz4PVXc3c3638zTdWiJouNxFyID36GPW4PN8R0SFC9uJBNa23nl/VRyU08QK5
-         oV6JFj8oq31iWFuaGD1KZXme5X0wMUvy15LJZcowa7R6qg7JSfC691EKNlBOzr23pl
-         eGhcbHOJqk9zUsugmwARZYk7JVen5WHFRongUnKFbyhWT1S5J9ZvEzKL+JobUwJ5Iy
-         QWTWXsolEBhe/XiQtxZdXZmumxqjtZcMSM9bWwt+AWtyB1slsaBwclmG8Bo0pVlTAs
-         bywVysCxQ3R1g==
+References: <20200603142002.3776672-1-thierry.reding@gmail.com>
+In-Reply-To: <20200603142002.3776672-1-thierry.reding@gmail.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Wed, 3 Jun 2020 16:39:37 +0100
+Message-ID: <CACvgo529m+fub=ZddGkjRXEY-7i3rRUs0EssYGf+DJgkcDm3Zg@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH] drm/nouveau: gr/gk20a: Use firmware version 0
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Ben Skeggs <bskeggs@redhat.com>, linux-tegra@vger.kernel.org,
+        ML nouveau <nouveau@lists.freedesktop.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, 3 Jun 2020 at 15:20, Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> From: Thierry Reding <treding@nvidia.com>
+>
+> Tegra firmware doesn't actually use any version numbers and passing -1
+> causes the existing firmware binaries not to be found. Use version 0 to
+> find the correct files.
+>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-On 03/06/2020 11:42, Jon Hunter wrote:
-> 
-> On 02/06/2020 19:13, Greg Kroah-Hartman wrote:
->> This is the start of the stable review cycle for the 4.9.226 release.
->> There are 55 patches in this series, all will be posted as a response
->> to this one.  If anyone has any issues with these being applied, please
->> let me know.
->>
->> Responses should be made by Thu, 04 Jun 2020 18:12:28 +0000.
->> Anything received after that time might be too late.
->>
->> The whole patch series can be found in one patch at:
->> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.226-rc3.gz
->> or in the git tree and branch at:
->> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
->> and the diffstat can be found below.
->>
->> thanks,
->>
->> greg k-h
-> 
-> 
-> All tests are passing for Tegra. Seems that our test gremlins are still
-> at large and I cannot pull the report yet. However, I can see that
-> everything is passing fine.
+Fixes: ef16dc278ec2 ("drm/nouveau/gr/gf100-: select implementation
+based on available FW")
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
-Just for completeness ...
-
-Test results for stable-v4.9:
-    8 builds:	8 pass, 0 fail
-    16 boots:	16 pass, 0 fail
-    26 tests:	26 pass, 0 fail
-
-Linux version:	4.9.226-rc3-ga836fd8c024d
-Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Jon
-
--- 
-nvpublic
+-Emil
