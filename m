@@ -2,103 +2,350 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B3E61EC547
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 00:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 063B11EC630
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 02:19:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730453AbgFBWuC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jun 2020 18:50:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730446AbgFBWuC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 18:50:02 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4144C08C5C0;
-        Tue,  2 Jun 2020 15:50:01 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id z206so70602lfc.6;
-        Tue, 02 Jun 2020 15:50:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=K9/SgI9YdO/9LT3+Izi8n6c8S/w+ByCB2jxpSWaCAkY=;
-        b=QZmxnaFyacmIQbFLMQ/PnU4x0JCALc+F7ifH8M1UhOriKjuHPMoB6ZgyyJu+jNK/Ra
-         IFN4bfvWvQPI3nPohkNHPVWlseiPNu4TFNaoDpGXKyxc95gSsaxO3gxRW7LVawYPx+A6
-         NvuARXBHOc4Qw7clC8MfW/EkJkcJMBEltK22ceI0A/wxCXfoJYqgiBz0N2K9ZLy6Gx8P
-         P9l6D119uApNn4vQR/HeBuZVQTBXmsiatc4N8y+MBomPTZm0Ej61aExGlzbh/Us2DW9r
-         vPBe1Sfgu3iKt0HEKyhR3u4Id0kn80SPbn2kAnKrNVrQl+4rhDG8ZGLucePRJyGTy3yT
-         ez7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=K9/SgI9YdO/9LT3+Izi8n6c8S/w+ByCB2jxpSWaCAkY=;
-        b=OYpRa1LqXorPhTKqWQiAmTC2D4qVDEa3DzjPUc77z17JpGHWVix5a2ilxtAJwD4eMO
-         p970ucdILzdpuYtYYAkwJAeU7R56EItBgP1c7XJcM0ElSgcAO+/ew3pHG3Ad9gcrzGGM
-         mV9erYBkhcR+PWNLQ23ASC+RUAtvIB6TdXqlgtDlXr/AZ+Wb7DO3rZvnz13hckXnm0ox
-         v553Fzw4JrjuvzGSBk3N5Wreg2YXh5qtDsZOs5akcjhZ3XHox64kA17j2+mc6oBYBVDK
-         du74LHCzlxd0kyBYYOEWXMue14zBWmFJjK4oJZ2xOUPlDM8tnHJGmhjZNnp+3SVF7rMI
-         jNuQ==
-X-Gm-Message-State: AOAM5314hwFwHX5gJB7gs6m0OxFC1iUqYqKYy+HZ5qJDWUzxABmgvYic
-        45hJBQjWhrmtV/ClmKwmtzIGJ32b
-X-Google-Smtp-Source: ABdhPJxaG2sb/6jK3MGpf0asba7yX6FRD8JQxmwB7Mz7pBlOjg99gaFWaTIFle1G7zsW7o9E1zV55w==
-X-Received: by 2002:a19:6e0e:: with SMTP id j14mr796240lfc.155.1591138199679;
-        Tue, 02 Jun 2020 15:49:59 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
-        by smtp.googlemail.com with ESMTPSA id m11sm101077lfl.70.2020.06.02.15.49.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2020 15:49:58 -0700 (PDT)
-Subject: Re: tegra124-jetson-tk1: sata doesnt work since 5.2
-To:     LABBE Corentin <clabbe@baylibre.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        pgaikwad@nvidia.com, pdeschrijver@nvidia.com,
-        mturquette@baylibre.com, sboyd@kernel.org, axboe@kernel.dk,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-ide@vger.kernel.org
-References: <20200319074401.GA4116@Red> <20200531193111.GA15331@Red>
- <ff9923ca-1d02-ab5e-c335-83ee2e993061@gmail.com> <20200602081958.GA21773@Red>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <56700c1d-ffb0-e44e-ea8e-48a848ccf3bf@gmail.com>
-Date:   Wed, 3 Jun 2020 01:49:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726894AbgFCATT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jun 2020 20:19:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38600 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbgFCATT (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jun 2020 20:19:19 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2B362A4;
+        Wed,  3 Jun 2020 02:19:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591143555;
+        bh=Q7cmx3U5XTa4YcMMmjWZL/HdX08vsw/IQkR1dckQirw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AFGvM8veUrIpYhcroj/SNQzhUALp9qC39sc1pZoTHMEA8a9uxZlDoHHCEbMYxcMj8
+         OMgVQCHFz6Ad0su+lezIfTudB5jA6WG4w88iwvtSOrTc3U/cHLKnSO3BfY6yfpUvZ6
+         YMok+gJCTg9hmVya497TzJXCnmyFIK6ZjcxkgQTk=
+Date:   Wed, 3 Jun 2020 03:19:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
+        "James (Qian) Wang" <james.qian.wang@arm.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        zhengbin <zhengbin13@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-tegra@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH 1/3] drm/atomic-helper: reset vblank on crtc reset
+Message-ID: <20200603001900.GV6547@pendragon.ideasonboard.com>
+References: <20200602095140.36678-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20200602081958.GA21773@Red>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20200602095140.36678-1-daniel.vetter@ffwll.ch>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-02.06.2020 11:19, LABBE Corentin пишет:
-...
->> Sounds like PLLE needs to be enabled for SATA, but ahci-tegra driver
->> doesn't do that.
->>
->> Could you please try this change:
->>
->> --- >8 ---
->> diff --git a/drivers/clk/tegra/clk-tegra124.c
->> b/drivers/clk/tegra/clk-tegra124.c
->> index e931319dcc9d..7dbc14652830 100644
->> --- a/drivers/clk/tegra/clk-tegra124.c
->> +++ b/drivers/clk/tegra/clk-tegra124.c
->> @@ -1330,6 +1330,7 @@ static struct tegra_clk_init_table
->> common_init_table[] __initdata = {
->>  	{ TEGRA124_CLK_I2S3_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
->>  	{ TEGRA124_CLK_I2S4_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
->>  	{ TEGRA124_CLK_VIMCLK_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
->> +	{ TEGRA124_CLK_PLL_E, TEGRA124_CLK_CLK_MAX, 0, 1 },
->>  	/* must be the last entry */
->>  	{ TEGRA124_CLK_CLK_MAX, TEGRA124_CLK_CLK_MAX, 0, 0 },
->>  };
->> --- >8 ---
-> 
-> This patch alone does not fix the issue.
+Hi Daniel,
 
-I'd try to enable all the clocks and voltage regulators that are enabled
-by the USB driver. Also won't hurt to check the clock rate
-configurations with the enabled / disabled USB, try to replicate the
-working configuration.
+Thank you for the patch.
+
+May I remind you about the -v option to git-format-patch ? :-) Seriously
+speaking, it really helps review.
+
+On Tue, Jun 02, 2020 at 11:51:38AM +0200, Daniel Vetter wrote:
+> Only when vblanks are supported ofc.
+> 
+> Some drivers do this already, but most unfortunately missed it. This
+> opens up bugs after driver load, before the crtc is enabled for the
+> first time. syzbot spotted this when loading vkms as a secondary
+> output. Given how many drivers are buggy it's best to solve this once
+> and for all in shared helper code.
+> 
+> Aside from moving the few existing calls to drm_crtc_vblank_reset into
+> helpers (i915 doesn't use helpers, so keeps its own) I think the
+> regression risk is minimal: atomic helpers already rely on drivers
+> calling drm_crtc_vblank_on/off correctly in their hooks when they
+> support vblanks. And driver that's failing to handle vblanks after
+> this is missing those calls already, and vblanks could only work by
+> accident when enabling a CRTC for the first time right after boot.
+> 
+> Big thanks to Tetsuo for helping track down what's going wrong here.
+> 
+> There's only a few drivers which already had the necessary call and
+> needed some updating:
+> - komeda, atmel and tidss also needed to be changed to call
+>   __drm_atomic_helper_crtc_reset() intead of open coding it
+> - tegra and msm even had it in the same place already, just code
+>   motion, and malidp already uses __drm_atomic_helper_crtc_reset().
+> 
+> Only call left is in i915, which doesn't use drm_mode_config_reset,
+> but has its own fastboot infrastructure. So that's the only case where
+> we actually want this in the driver still.
+> 
+> I've also reviewed all other drivers which set up vblank support with
+> drm_vblank_init. After the previous patch fixing mxsfb all atomic
+> drivers do call drm_crtc_vblank_on/off as they should, the remaining
+> drivers are either legacy kms or legacy dri1 drivers, so not affected
+> by this change to atomic helpers.
+> 
+> v2: Use the drm_dev_has_vblank() helper.
+> 
+> v3: Laurent pointed out that omap and rcar-du used drm_crtc_vblank_off
+> instead of drm_crtc_vblank_reset. Adjust them too.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+> Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> Cc: Brian Starkey <brian.starkey@arm.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Jyri Sarha <jsarha@ti.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Brian Masney <masneyb@onstation.org>
+> Cc: Emil Velikov <emil.velikov@collabora.com>
+> Cc: zhengbin <zhengbin13@huawei.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-tegra@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
+>  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+>  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
+>  drivers/gpu/drm/omapdrm/omap_drv.c               | 3 ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c           | 3 ---
+>  drivers/gpu/drm/tegra/dc.c                       | 1 -
+>  drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
+>  drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
+>  10 files changed, 9 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 56bd938961ee..f33418d6e1a0 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
+>  	crtc->state = NULL;
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (state) {
+> -		crtc->state = &state->base;
+> -		crtc->state->crtc = crtc;
+> -	}
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> @@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  		return err;
+>  
+>  	drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
+> -	drm_crtc_vblank_reset(crtc);
+>  
+>  	crtc->port = kcrtc->master->of_output_port;
+>  
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> index c2507b7d8512..02904392e370 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -870,7 +870,6 @@ static int malidp_bind(struct device *dev)
+>  	drm->irq_enabled = true;
+>  
+>  	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> -	drm_crtc_vblank_reset(&malidp->crtc);
+>  	if (ret < 0) {
+>  		DRM_ERROR("failed to initialise vblank\n");
+>  		goto vblank_fail;
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> index 10985134ce0b..ce246b96330b 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> @@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
+>  	}
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (state) {
+> -		crtc->state = &state->base;
+> -		crtc->state->crtc = crtc;
+> -	}
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> @@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
+>  	}
+>  
+>  	drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
+> -	drm_crtc_vblank_reset(&crtc->base);
+>  
+>  	drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
+>  	drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 8fce6a115dfe..9ad74045158e 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -32,6 +32,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_plane.h>
+>  #include <drm/drm_print.h>
+> +#include <drm/drm_vblank.h>
+>  #include <drm/drm_writeback.h>
+>  
+>  #include <linux/slab.h>
+> @@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+>  	if (crtc_state)
+>  		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
+>  
+> +	if (drm_dev_has_vblank(crtc->dev))
+> +		drm_crtc_vblank_reset(crtc);
+> +
+>  	crtc->state = crtc_state;
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> index ca3368c828d0..9606185c284b 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> @@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
+>  		mdp5_crtc_destroy_state(crtc, crtc->state);
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
+> -
+> -	drm_crtc_vblank_reset(crtc);
+>  }
+>  
+>  static const struct drm_crtc_funcs mdp5_crtc_funcs = {
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index 242d28281784..7a7066cded79 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -642,9 +642,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+>  		goto err_cleanup_modeset;
+>  	}
+>  
+> -	for (i = 0; i < priv->num_pipes; i++)
+> -		drm_crtc_vblank_off(priv->pipes[i].crtc);
+> -
+>  	omap_fbdev_init(ddev);
+>  
+>  	drm_kms_helper_poll_init(ddev);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index d73e88ddecd0..e2959e32fd19 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -1271,9 +1271,6 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
+> -	/* Start with vertical blanking interrupt reporting disabled. */
+> -	drm_crtc_vblank_off(crtc);
+> -
+
+I'm sure I've added this code for a good reason, I would have sworn that
+vblank would be either broken or would complain very loudly without this
+call. I've however tested this patch, and haven't noticed any
+regression. Has something changed since I've added the call to
+drm_crtc_vblank_off() in the rcar-du driver ? It can't be
+__drm_atomic_helper_crtc_reset() handling it, as the rcar-du driver has
+a custom CRTC reset handler that doesn't call
+__drm_atomic_helper_crtc_reset(). If it works without calling
+drm_crtc_vblank_off() or drm_crtc_vblank_reset(), what's the purpose of
+drm_crtc_vblank_reset() ?
+
+/me is very puzzled
+
+>  	/* Register the interrupt handler. */
+>  	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
+>  		/* The IRQ's are associated with the CRTC (sw)index. */
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index 83f31c6e891c..9b308b572eac 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
+>  		tegra_crtc_atomic_destroy_state(crtc, crtc->state);
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> -	drm_crtc_vblank_reset(crtc);
+>  }
+>  
+>  static struct drm_crtc_state *
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index 89a226912de8..4d01c4af61cd 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
+>  		return;
+>  	}
+>  
+> -	crtc->state = &tcrtc->base;
+> -	crtc->state->crtc = crtc;
+> +	__drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
+>  }
+>  
+>  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+> index 4b99e9fa84a5..e6ab59eed259 100644
+> --- a/drivers/gpu/drm/tidss/tidss_kms.c
+> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
+> @@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Start with vertical blanking interrupt reporting disabled. */
+> -	for (i = 0; i < tidss->num_crtcs; ++i)
+> -		drm_crtc_vblank_reset(tidss->crtcs[i]);
+> -
+>  	drm_mode_config_reset(ddev);
+>  
+>  	dev_dbg(tidss->dev, "%s done\n", __func__);
+
+-- 
+Regards,
+
+Laurent Pinchart
