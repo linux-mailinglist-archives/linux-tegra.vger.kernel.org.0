@@ -2,114 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40AAE1ED1A2
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 16:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85BA01ED1F7
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 16:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725882AbgFCOER (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jun 2020 10:04:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52564 "EHLO
+        id S1725930AbgFCOUJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jun 2020 10:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725833AbgFCOER (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 10:04:17 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B877C08C5C0;
-        Wed,  3 Jun 2020 07:04:16 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id s1so2915875ljo.0;
-        Wed, 03 Jun 2020 07:04:16 -0700 (PDT)
+        with ESMTP id S1725882AbgFCOUJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 10:20:09 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD225C08C5C0
+        for <linux-tegra@vger.kernel.org>; Wed,  3 Jun 2020 07:20:08 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id z5so2378059ejb.3
+        for <linux-tegra@vger.kernel.org>; Wed, 03 Jun 2020 07:20:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=O6mpNiafUZcG8Fhsf6HGMpDE9adAt7StKtXsaBM0T+Q=;
-        b=AzaodNJg3VOQsiRKHbO9Hv77PErwygfjIXwX/tZEOBvMuWgNon7cmaNX9ap58Ub6sy
-         xv65blgx6PJMU1TF8Y646ZifjYkZMRqUCWALOcIfkiQyX/WQzFUH7ID8r8/4M4m1Y7XT
-         aGi/EgZAKKgWtJNghfbufOtb4i2MFsFtVYN8BmjtMm+mjDU2WNqDDcCslw1yrJtMz+wl
-         BdNj8TovUnYjP6JU7pQGq0FUVeG9Z6ByEOEW/oLszVatQulUqTbMUVX5wtDmwOeyrMUp
-         ZwaGO3xDdWtdXqS/e9cAVemIum5KxR+IRHqTtE0d3GAdKmO7EgS5Bxsx/evWOzarvseR
-         8AUQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=brk2U8DSU4E7P9UsEsDcp0iVP2I5n96xwIrVhsO2D0U=;
+        b=O3Hc7B/C+hhE0kIURHDPGIQom3B8NcaK2/PBXIHdaKszf4Shr2XwE/CY7e3K3X9un7
+         bunwidpWUmEKcYQ1+DyovPB6Ss6ilCeqcQ08x4EQjzR8XyyYqwz/Ka4UKJQ4lUHrSSpM
+         UHfXsDtK5Y4CtSSURVBI0x02U4AdOU02Bj41bKnGK2vTB7kQSZrGcKnOXatYMQolqilO
+         xCyzgl8avJ0ILIK67XyJppKrJbmKdazxxb4M4E2N8uaImFg6Kt99NQStQGn4TxJzFZ+C
+         FfnCUK9sHHPZOOE2xvN8K1wDNSa9YBLZfhshse7L2EPgQe3TPqAv5IxCBdCNgm3h27yd
+         7q0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=O6mpNiafUZcG8Fhsf6HGMpDE9adAt7StKtXsaBM0T+Q=;
-        b=gnFUuSTjVNT8i7Rt1+nvGCNXsUZgWMrTcTqWRKa0Pa9rKMBvyYA3ioes76S0NsIuao
-         nrK7AOk2ff2X9MTFT8v5l2gNMFwLHSEQSKWi6VAKZ1xUVef/S6zud63m5CLDo1SmsjnZ
-         O/tK+vb0xn1GU80qm7m6H2Sj18c6hkZZXrlkMvU6ZS9HxoROZHnkxj7irt67HMUmWHjZ
-         1CcFRHHfkxNIEtToR272hXYX4cgVOiO1WihRTRsDVR8imT885kauMf3Kia/CDMx9Q5uD
-         pRmObH1bCxRBQR4oDUBt3rEaOa1DbtOPvHkxCeEDHVKwWJ0TE9LUy5E8S1j26epUWApa
-         I3cg==
-X-Gm-Message-State: AOAM533sXe4R8sx+44UnJCAHypKmttfa9mSOxxgehxMC5vQubiupNEJ4
-        +E2KP3v5PiDJ/OaL5ABPXhhxm58w
-X-Google-Smtp-Source: ABdhPJwIHwZbtDzrrkI6X6CYF0aYFzM9eU5acE44LyeiwdNt+9wuEMC8oGiskmYOBKVFbcAlxv47rg==
-X-Received: by 2002:a2e:8747:: with SMTP id q7mr1973693ljj.459.1591193054336;
-        Wed, 03 Jun 2020 07:04:14 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
-        by smtp.googlemail.com with ESMTPSA id a15sm489634ljn.105.2020.06.03.07.04.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2020 07:04:13 -0700 (PDT)
-Subject: Re: [PATCH 2/2] clk: tegra: Always program PLL_E when enabled
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        LABBE Corentin <clabbe@baylibre.com>,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20200603111923.3545261-1-thierry.reding@gmail.com>
- <20200603111923.3545261-2-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0433a4b9-f5a4-e92f-7101-cbc4e1e6ef8d@gmail.com>
-Date:   Wed, 3 Jun 2020 17:04:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        bh=brk2U8DSU4E7P9UsEsDcp0iVP2I5n96xwIrVhsO2D0U=;
+        b=rpLhTGkIV8y2pFyCkCqptc7MFT6nTavXx4RVOAkInC09frF9K9qbq/YJjeaksQGCX5
+         2XSTN1Bh8UumrxlTWqHbf+7Sm/cZNlBvyEyAPm01fajSX/JqxAarqyc8kWCDB/SzVQN2
+         DHNfdyNcGom+P/NhKNZ1LY+eDyL4Ln5Ih3Sx83yUhgsE3X7u1BLSQRcmp5OSL8w3pUKm
+         cu5JBEUzCyPpHR0q/8ijw6kBAGD+kAt/ANhk0sLYpAXbjggm2of2gTeunFWItsDLtuMX
+         1M7v8xLnIUb9bcHQv7dBU9W+/jQLfPbH+yNWHUDOy9FTTu0r8cP+UQUyfaSk0tX+noSO
+         h0TQ==
+X-Gm-Message-State: AOAM531YXNei+H17ICJAhquClOjDjjKzzhKQlAEA6v4237DRAdOyQ+6A
+        xLqiXfeE/h1N2/MAeKYMPtY=
+X-Google-Smtp-Source: ABdhPJybWenTiub6eisJLN+mdRwASGIKTFULXH9VQVTeL1bG9nxCvoga0C3ZtE7cqaD3yXClqEsFtQ==
+X-Received: by 2002:a17:906:3289:: with SMTP id 9mr6777119ejw.316.1591194007599;
+        Wed, 03 Jun 2020 07:20:07 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id qp16sm1181788ejb.64.2020.06.03.07.20.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2020 07:20:06 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Ben Skeggs <bskeggs@redhat.com>
+Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] drm/nouveau: gr/gk20a: Use firmware version 0
+Date:   Wed,  3 Jun 2020 16:20:02 +0200
+Message-Id: <20200603142002.3776672-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200603111923.3545261-2-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.06.2020 14:19, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Commit bff1cef5f23a ("clk: tegra: Don't enable already enabled PLLs")
-> added checks to avoid enabling PLLs that have already been enabled by
-> the bootloader. However, the PLL_E configuration inherited from the
-> bootloader isn't necessarily the one that is needed for the kernel.
-> 
-> This can cause SATA to fail like this:
-> 
->     [    5.310270] phy phy-sata.6: phy poweron failed --> -110
->     [    5.315604] tegra-ahci 70027000.sata: failed to power on AHCI controller: -110
->     [    5.323022] tegra-ahci: probe of 70027000.sata failed with error -110
-> 
-> Fix this by always programming the PLL_E. This ensures that any mis-
-> configuration by the bootloader will be overwritten by the kernel.
-> 
-> Fixes: bff1cef5f23a ("clk: tegra: Don't enable already enabled PLLs")
-> Reported-by: LABBE Corentin <clabbe@baylibre.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/clk/tegra/clk-pll.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
-> index 583d2ac61e9e..b2d39a66f0fa 100644
-> --- a/drivers/clk/tegra/clk-pll.c
-> +++ b/drivers/clk/tegra/clk-pll.c
-> @@ -1601,9 +1601,6 @@ static int clk_plle_tegra114_enable(struct clk_hw *hw)
->  	unsigned long flags = 0;
->  	unsigned long input_rate;
->  
-> -	if (clk_pll_is_enabled(hw))
-> -		return 0;
-> -
->  	input_rate = clk_hw_get_rate(clk_hw_get_parent(hw));
->  
->  	if (_get_table_rate(hw, &sel, pll->params->fixed_rate, input_rate))
-> 
+From: Thierry Reding <treding@nvidia.com>
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Tegra firmware doesn't actually use any version numbers and passing -1
+causes the existing firmware binaries not to be found. Use version 0 to
+find the correct files.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
+index ec330d791d15..e56880f3e3bd 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
+@@ -352,7 +352,7 @@ gk20a_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+ 
+ static const struct gf100_gr_fwif
+ gk20a_gr_fwif[] = {
+-	{ -1, gk20a_gr_load, &gk20a_gr },
++	{ 0, gk20a_gr_load, &gk20a_gr },
+ 	{}
+ };
+ 
+-- 
+2.24.1
+
