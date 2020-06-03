@@ -2,190 +2,209 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 872C11ED4E8
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 19:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 321ED1ED517
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jun 2020 19:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgFCRXX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jun 2020 13:23:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgFCRXX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 13:23:23 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F66EC08C5C0
-        for <linux-tegra@vger.kernel.org>; Wed,  3 Jun 2020 10:23:22 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id f3so2021026pfd.11
-        for <linux-tegra@vger.kernel.org>; Wed, 03 Jun 2020 10:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3ar3esfA/vt48SBclsM8WJOD1g7kG4QWgmN6yHU/oXc=;
-        b=tNO9sJQ61o9UyfrhBb16ZezG7kOCbgIYdGMnrrumT9Vk/c2n/h/s+PdRpzJbFe8FYO
-         yeudGjKQZ0Pt1ICeNO6VcYJ6HjF/icPSuk1BuGZ4bH81kkEfIl/ZxByLmoGxLyCKrRFm
-         CJQOubP39NApW2ReGmIXspA3q3P+0DvsyPH4488eYYXQrgcihobQVr7F2xydvRMhgc3m
-         Sm4C4d2gcq2qEYqHdEZN9NoysyOvYSqiL6EXV+myDnpzY74kA6JYPfBm3qsqVuyiZWwR
-         6GfEnxHpL5HlA5n+IFWn4+eIHxMiZ0XstV7KGsJiw6xOdlWck+YVpE9IQLD+F9s1wVmC
-         6GvQ==
+        id S1726173AbgFCRiO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jun 2020 13:38:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60847 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726159AbgFCRiN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jun 2020 13:38:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1591205891;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=g4JdSAXlLTFOykR3a704n7KRgSRjVj4aOucsElPOq3c=;
+        b=FpOBrKgkftREUgd0U/XK7F3/pFaJqwqdIuzEafs9OdKSSsmxFoAIhdAiYFG+5YH8JhKD+y
+        Ks1Oe2ORN4jD0eb1CCzqOtlbVlJh6HrBVRtnL81cij+yh2BlnD5JMVq2zoHSSs5UDByUse
+        1/zp5qJAv2brF7bES8GakpV9lqSdTKo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-FnFnlmSgML250BoiYfAL8A-1; Wed, 03 Jun 2020 13:38:09 -0400
+X-MC-Unique: FnFnlmSgML250BoiYfAL8A-1
+Received: by mail-wm1-f72.google.com with SMTP id 18so1022741wmu.1
+        for <linux-tegra@vger.kernel.org>; Wed, 03 Jun 2020 10:38:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3ar3esfA/vt48SBclsM8WJOD1g7kG4QWgmN6yHU/oXc=;
-        b=fazB0/v8yKT+J2zzQc8FuctKXbAMC/f7uD8peMD7t0ucLtoWQTaJGcU54n/ufeCgg1
-         oS2qjym5KbLeNWrMG8Czgnvojrt9vDqGt+BOQDNxLoi+nhTOFci8frm65mRGAmjGTFtp
-         C0FS1V4A58m0Ut/wWBK+95KJgp+r7ykzn4iSXL6EejgDmkc9JFzTzkn10LTZf7J2U1hq
-         m+vuTxBzmgQONc/YXOGMNnt+tio66zJFP1845PMHZ4uRZXcIZWxxNx7hGXQA/XcOQi7x
-         yrlDVgUNU/Hv0OvqS20QUfxej40xza28q2SiedZ1l5beJtnZknGL5TqxOPJCBdUOgLLJ
-         rKvQ==
-X-Gm-Message-State: AOAM530HFElXnDWDgnHbwHTzKNl8QKGiy5EklMcosgV8S9FiBX2A4kOo
-        t8nPRt/y9BSnvpEsn9LC1XgZYcl5s08=
-X-Google-Smtp-Source: ABdhPJxy8Q5HTd5Gs4lSKz3+cPkTGrkqopHgfHUy1PStfA94XjybI5ykp5i4gqE6gRIaSm04U9EfmQ==
-X-Received: by 2002:a65:52c3:: with SMTP id z3mr445454pgp.146.1591205001388;
-        Wed, 03 Jun 2020 10:23:21 -0700 (PDT)
-Received: from yoga ([2607:fb90:84f0:6dc6:b843:e3ff:fe62:cb58])
-        by smtp.gmail.com with ESMTPSA id y187sm2358942pfb.46.2020.06.03.10.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2020 10:23:20 -0700 (PDT)
-Date:   Wed, 3 Jun 2020 10:23:16 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=g4JdSAXlLTFOykR3a704n7KRgSRjVj4aOucsElPOq3c=;
+        b=iJ6JIrFeweTfFYxIgSWQBpPzq5mc3tnSJcOzam+LxYZxTdDTRMLkw88TFkbiulr+jw
+         DAnZtuxSGnScxxYj+FATydUxB5A1q9NVYS86qsMGvZQW7pglWPNIt2CqV6oxy+RArU+h
+         dtfMmxCmDyQqqa54sbPTuPF9hQM1CNAsQ88MiveT8h+RQWhqBaIy0VlK2sNEPEnyhGm6
+         Q6/0LvXaLAxApNFei3738Lx2WQFZDjj0zwiOIx+0+fIXH+Djg05CCx6MhckmHti8/Pdj
+         +g/kSIgVhYwnHuLF0TD8ignnmy/PLThK57q/HkVdyjrPm7oUmcNEXt2xcpbQMmPSzvs3
+         j44w==
+X-Gm-Message-State: AOAM530yReAfQedGRnCUogIHtQx9OPHcWk8lFmHdZRvfBqoPrPEX6gLV
+        4AOFz8ApZPApsa7TOondljFZZ64RwmaRaKesnOObo4V8/Cjhm402ltTWC49MS9qPGkP5uipzdaN
+        Ia0C7+wRzhgNO9MNB+sEtYqs=
+X-Received: by 2002:a7b:c385:: with SMTP id s5mr261300wmj.121.1591205885429;
+        Wed, 03 Jun 2020 10:38:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLjq4IDRdqkukHBckHKOOOLiGmG+r2akHBeeZCOhLw2fV6SQWj3VXyhtQLJX0YNKizL01l8A==
+X-Received: by 2002:a7b:c385:: with SMTP id s5mr261254wmj.121.1591205885130;
+        Wed, 03 Jun 2020 10:38:05 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id f11sm4390115wrj.2.2020.06.03.10.38.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2020 10:38:04 -0700 (PDT)
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-tegra@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-Message-ID: <20200603172316.GW11847@yoga>
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200228025700.GA856087@builder>
- <20200514193249.GE279327@builder.lan>
- <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
- <20200527110343.GD11111@willie-the-truck>
- <20200602063210.GT11847@yoga>
- <20200603111159.GA8408@willie-the-truck>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
+ <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
+ <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
+ <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
+ <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
+ <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
+ <20200527063430.GJ89269@dtor-ws>
+ <88f939cd-1518-d516-59f2-8f627a6a70d2@collabora.com>
+ <20200602175241.GO89269@dtor-ws>
+ <82e9f2ab-a16e-51ee-1413-bedf0122026a@collabora.com>
+ <8f97d2e1-497a-495d-bc82-f46dbeba440c@redhat.com>
+ <fb5bee72-6a75-88aa-8157-75f07c491eeb@collabora.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <681abc14-ef0f-ff15-68ed-944b2f96bdaf@redhat.com>
+Date:   Wed, 3 Jun 2020 19:38:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200603111159.GA8408@willie-the-truck>
+In-Reply-To: <fb5bee72-6a75-88aa-8157-75f07c491eeb@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed 03 Jun 04:11 PDT 2020, Will Deacon wrote:
+Hi,
 
-> On Mon, Jun 01, 2020 at 11:32:10PM -0700, Bjorn Andersson wrote:
-> > On Wed 27 May 04:03 PDT 2020, Will Deacon wrote:
-> > 
-> > > Hi John, Bjorn,
-> > > 
-> > > On Tue, May 26, 2020 at 01:34:45PM -0700, John Stultz wrote:
-> > > > On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
-> > > > >
-> > > > > On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
-> > > > >
-> > > > > Rob, Will, we're reaching the point where upstream has enough
-> > > > > functionality that this is becoming a critical issue for us.
-> > > > >
-> > > > > E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
-> > > > > mainline with display, GPU, WiFi and audio working and the story is
-> > > > > similar on several devboards.
-> > > > >
-> > > > > As previously described, the only thing I want is the stream mapping
-> > > > > related to the display controller in place, either with the CB with
-> > > > > translation disabled or possibly with a way to specify the framebuffer
-> > > > > region (although this turns out to mess things up in the display
-> > > > > driver...)
-> > > > >
-> > > > > I did pick this up again recently and concluded that by omitting the
-> > > > > streams for the USB controllers causes an instability issue seen on one
-> > > > > of the controller to disappear. So I would prefer if we somehow could
-> > > > > have a mechanism to only pick the display streams and the context
-> > > > > allocation for this.
-> > > > >
-> > > > >
-> > > > > Can you please share some pointers/insights/wishes for how we can
-> > > > > conclude on this subject?
-> > > > 
-> > > > Ping? I just wanted to follow up on this discussion as this small
-> > > > series is crucial for booting mainline on the Dragonboard 845c
-> > > > devboard. It would be really valuable to be able to get some solution
-> > > > upstream so we can test mainline w/o adding additional patches.
-> > > 
-> > > Sorry, it's been insanely busy recently and I haven't had a chance to think
-> > > about this on top of everything else. We're also carrying a hack in Android
-> > > for you :)
-> > > 
-> > 
-> > Thanks for taking the time to get back to us on this!
-> > 
-> > > > The rest of the db845c series has been moving forward smoothly, but
-> > > > this set seems to be very stuck with no visible progress since Dec.
-> > > > 
-> > > > Are there any pointers for what folks would prefer to see?
-> > > 
-> > > I've had a chat with Robin about this. Originally, I was hoping that
-> > > people would all work together towards an idyllic future where firmware
-> > > would be able to describe arbitrary pre-existing mappings for devices,
-> > > irrespective of the IOMMU through which they master and Linux could
-> > > inherit this configuration. However, that hasn't materialised (there was
-> > > supposed to be an IORT update, but I don't know what happened to that)
-> > > and, in actual fact, the problem that you have on db845 is /far/ more
-> > > restricted than the general problem.
-> > > 
-> > > Could you please try hacking something along the following lines and see
-> > > how you get on? You may need my for-joerg/arm-smmu/updates branch for
-> > > all the pieces:
-> > > 
-> > >   1. Use the ->cfg_probe() callback to reserve the SMR/S2CRs you need
-> > >      "pinning" and configure for bypass.
-> > > 
-> > >   2. Use the ->def_domain_type() callback to return IOMMU_DOMAIN_IDENTITY
-> > >      for the display controller
-> > > 
-> > > I /think/ that's sufficient, but note that it differs from the current
-> > > approach because we don't end up reserving a CB -- bypass is configured
-> > > in the S2CR instead. Some invalidation might therefore be needed in
-> > > ->cfg_probe() after unhooking the CB.
-> > > 
-> > > Thanks, and please yell if you run into problems with this approach.
-> > > 
-> > 
-> > This sounded straight forward and cleaner, so I implemented it...
-> > 
-> > Unfortunately the hypervisor is playing tricks on me when writing to
-> > S2CR registers:
-> > - TRANS writes lands as requested
-> > - BYPASS writes ends up in the register as requested, with type FAULT
-> > - FAULT writes are ignored
-> > 
-> > In other words, the Qualcomm firmware prevents us from relying on
-> > marking the relevant streams as BYPASS type.
+On 6/3/20 3:07 PM, Andrzej Pietrasiewicz wrote:
+> Hi Hans, hi Dmitry,
+
+<snip>
+
+> I'm taking one step back and looking at the ->open() and ->close()
+> driver callbacks. They are called from input_open_device() and
+> input_close_device(), respectively:
 > 
-> Is this for all S2CR registers, or only the ones in use by the display
-> controller? Is there any scope for stopping the hypervisor from doing this?
+> input_open_device():
+> "This function should be called by input handlers when they
+> want to start receive events from given input device."
 > 
-
-This is for all S2CR registers. There's no chance to change this and get
-it deployed on all the devices people care about.
-
-As you know John need this for the RB3/db845c, where we might have a
-chance to modify the firmware.
-
-But I'm writing this on my Lenovo Yoga C630 and John and his colleagues
-are working on various phones, such as Pixel 3. None of these boots
-without this "workaround" and I don't expect that we can propagate a
-firmware modification to any of them - and definitely not all of them.
-
-> It makes it really difficult for the driver when the hardware is emulated
-> in a way that doesn't match the architecture...
+> ->open() callback:
+> "this method is called when the very first user calls
+> input_open_device(). The driver must prepare the device to start
+> generating events (start polling thread, request an IRQ, submit
+> URB, etc.)"
 > 
+> input_close_device():
+> "This function should be called by input handlers when they
+> want to stop receive events from given input device."
+> 
+> ->close() callback:
+> "this method is called when the very last user calls
+> input_close_device()"
+> 
+> It seems to me that the callback names do not reflect their
+> purpose: their meaning is not to "open" or to "close" but to
+> give drivers a chance to control when they start or stop
+> providing events to the input core.
+> 
+> What would you say about changing the callbacks' names?
+> I'd envsion: ->provide_events() instead of ->open() and
+> ->stop_events() instead of ->close(). Of course drivers can
+> exploit the fact of knowing that nobody wants any events
+> from them and do whatever they consider appropriate, for
+> example go into a low power mode - but the latter is beyond
+> the scope of the input subsystem and is driver-specific.
 
-Understood.
+I don't have much of an opinion on changing the names,
+to me open/close have always means start/stop receiving
+events. This follows the everything is a file philosophy,
+e.g. you can also not really "open" a serial port,
+yet opening /dev/ttyS0 will activate the receive IRQ
+of the UART, etc. So maybe we just need to make the
+docs clearer rather then do the rename?  Doing the
+rename is certainly going to cause a lot of churn.
+
+Anyways as said, I don't have much of an opinion,
+so I'll leave commenting (more) on this to Dmitry.
+
+> With such a naming change in mind let's consider inhibiting.
+> We want to be able to control when to disregard events from
+> a given device. It makes sense to do it at device level, otherwise
+> such an operation would have to be invoked in all associated
+> handlers (those that have an open handle associating them with
+> the device in question). But of course we can do better than
+> merely ignoring the events received: we can tell the drivers
+> that we don't want any events from them, and later, at uninhibit
+> time, tell them to start providing the events again. Conceptually,
+> the two operations (provide or don't provide envents) are exactly
+> the same thing we want to be happening at input_open_device() and
+> input_close_device() time. To me, changing the names of
+> ->open() and ->close() exposes this fact very well.
+> 
+> Consequently, ->inhibit() and ->uninhibit() won't be needed,
+> and drivers which already implement ->provide_events() (formerly
+> ->open()) and ->stop_events() (formerly ->close()) will receive
+> full inhibit/uninhibit support for free (subject to how well they
+> implement ->provide_events()/->stop_events()). Unless we can come
+> up with what the drivers might be doing on top of ->stop_events()
+> and ->provide_events() when inhibiting/uninhibiting, but it seems
+> to me we can't. Can we?
+
+Right. I'm happy that you've come to see that both on open/close
+and on inhibit/uninhibit we want to "start receiving events" and
+"stop receiving events", so that we only need one set of callbacks.
+
+> Optionally ->close() (only the callback, not input_close_device())
+> can be made return a value, just as Hans suggests. The value
+> can be ignored in input_close_device() but used in input_inhibit().
+> No strong opinion here, though. (btw it seems to me that
+> input_inhibit() should be renamed to input_inhibit_device()).
+
+Ack.
 
 Regards,
-Bjorn
+
+Hans
+
