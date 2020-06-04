@@ -2,102 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E28F91EEA00
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jun 2020 20:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E68B1EEB94
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jun 2020 22:11:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730362AbgFDSAK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jun 2020 14:00:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57920 "EHLO
+        id S1728717AbgFDULM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jun 2020 16:11:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730291AbgFDSAK (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 14:00:10 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D479DC08C5C0;
-        Thu,  4 Jun 2020 11:00:09 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id e4so8481854ljn.4;
-        Thu, 04 Jun 2020 11:00:09 -0700 (PDT)
+        with ESMTP id S1726262AbgFDULL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 16:11:11 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69A8C08C5C0;
+        Thu,  4 Jun 2020 13:11:11 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id u13so1597458iol.10;
+        Thu, 04 Jun 2020 13:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=K5hXBosjT34N5pe55Zo3AXrhYRYyL0wmamJerePymfg=;
-        b=f+Q49A8u/sllE4uZIds5hGyaYD7tV1apOkk8or3iXPkoHjuO+YfBSyFwGx2yDzqpJq
-         XNNCW9ca4PReoItNsgn6QIy9wIEkFUsVm9AzYPQoY+ZXzNMfTVuIuFf90o1cQhDcBfWb
-         L2imJNgj3grrLu058wPejRniR5nQakEPnPlyFZhSOH3z15LmIEZXB8lAaNVA9HTrq+B/
-         iIw7RTnTNMo/rif2AwylBWLdDvKe4liqeVymF/TGycUrmw4k0MC0FujfF/ZTstWC8xm+
-         KFQkYAm7tzKoT/IGh30N9G51Nt9XwR5+MLOYavrBc77+v9cwXyE5Rmb6d3p4zanX51G1
-         HLAw==
+        h=from:to:cc:subject:date:message-id;
+        bh=Pi/zBjFq7tRVG33YykVUtKHdjWOyuCQKzTlU7tlBF7U=;
+        b=lBB2oy+l9vqKat9u2vnCdAL9M0TQDIpPrMh2tdRpHEtN5UkRxct6thh3HTVUB5oWNo
+         81Bl4/TFBla4jrWCUtz0xisKmElWSnNBbpKe/dZQdRTdv9wT2/FZoJhYqBf365Bm8MR4
+         Umev2czrKdMGVMVe+FyMaEIurlOhjPO1DCWF76EZZapzggrjoFWwHONdFU8fmbYl0HY6
+         9uG5jey4zXI9w3BlUcdN4zK5jg/8VGXcqB2eir2FIpxqFQZv46ADedjjemkbiOJNenCS
+         laNrSq6I6WsNST/2eBdxW7duNc9lLLStJ0W0MwXO33KysyHnQRCVPoVw6nrCDqGr99Ac
+         t9+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=K5hXBosjT34N5pe55Zo3AXrhYRYyL0wmamJerePymfg=;
-        b=LHrVkp8cjo9zbBCdOU/+l7kEVMbl4AWXnTd9zQmuRcOiw5MmMPrdqS5afF3niqqjuf
-         w2A72E2tpsagaXg8nkO8aY6bbGSTffEndaiJmRwFuZ+Q22ND9wh6vClo6Kgiwhv9F34f
-         4Pgmt+W2f6qC4wzrzXMr1rV4CtDBclwzi8DhMd1/OBwiRbqxxrQmJTR8RL9c0hOlLdrq
-         8gugiCkoaSo8FhfoB7zrAGcr31QM0VX9n6ZneVcLz0ZU75OC4JMrDmexDC7uaoSmB83Z
-         F9qndfYEkr+aUFpaWbb17L6IzEMcCWf5Ubp0Li/I58yY3mcT/riJZurU/u29yst8jFut
-         SQKQ==
-X-Gm-Message-State: AOAM533GR4bhDkFj5b8mvn7GhElfq6UUorWH030woNSIfKDaSauTReG3
-        /HqR7fra/cZ3M5wO8tEoQuw=
-X-Google-Smtp-Source: ABdhPJxWOe8bCnc/Ps106uS9rKC3UVwmEAlt4lo1901TQelBb1AJxkeq4n5R/lp6ng69HGddbRaQ+g==
-X-Received: by 2002:a2e:b0ce:: with SMTP id g14mr2716505ljl.49.1591293608363;
-        Thu, 04 Jun 2020 11:00:08 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
-        by smtp.googlemail.com with ESMTPSA id f10sm77210lfm.34.2020.06.04.11.00.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2020 11:00:07 -0700 (PDT)
-Subject: Re: [PATCH] pinctrl: tegra: Use noirq suspend/resume callbacks
-To:     Vidya Sagar <vidyas@nvidia.com>, linus.walleij@linaro.org,
-        treding@nvidia.com, jonathanh@nvidia.com, skomatineni@nvidia.com
-Cc:     linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-References: <20200604174935.26560-1-vidyas@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <70a740d5-05b2-b8a6-fea6-da192f9411f3@gmail.com>
-Date:   Thu, 4 Jun 2020 21:00:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200604174935.26560-1-vidyas@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Pi/zBjFq7tRVG33YykVUtKHdjWOyuCQKzTlU7tlBF7U=;
+        b=ECgXhC+zluTpJolnKhUwinEYsqiszFofsTf2jFXkYzE1jjVha6Uxa7P2MGqKZzAeyn
+         ZY7xguURv2HqX5p/I/XGvTpQG0bRjycy84VuCCzNAIl2aVJUUoMBb8c93vepkbH8oH0m
+         Hs/YZuQVzoqa7Tsafz0p0sDsMyvL27MXDLfM44HKbHqogW4OjWbIOUgxoIBw8/y7yS2D
+         QiSLKiI4+i0UidgATiBclEZXVDgmJAElxOjM2DjLyW9IhmToiqqoJLjtkTPH8VLnYRfo
+         nPDGtqm6KefHlzWQOBnRbxck9fyMjRC02HAuTxC0SLiyc5mQqBGiZmRfRfyl+KbdX7SF
+         G2Yg==
+X-Gm-Message-State: AOAM533wtUwWRzOHxRIpeHrK+VaylbxxAItPN01mY5bxWR2pTS38qE0w
+        /ofAlx1Ob7+/AtWNvvqBT8Q=
+X-Google-Smtp-Source: ABdhPJyMVZut24SMKLBXsgjpmcZScbs8OJAuqugOBN1c33TeRW2hoM6Y6/wbK3+sEOAYlEPS1ykATQ==
+X-Received: by 2002:a5d:860b:: with SMTP id f11mr5441744iol.104.1591301469814;
+        Thu, 04 Jun 2020 13:11:09 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+        by smtp.googlemail.com with ESMTPSA id w18sm1936296ili.19.2020.06.04.13.11.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 13:11:09 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu,
+        mccamant@cs.umn.edu, Navid Emamdoost <navid.emamdoost@gmail.com>
+Subject: [PATCH] dmaengine: tegra210-adma: handle pm_runtime_get_sync failure cases
+Date:   Thu,  4 Jun 2020 15:10:58 -0500
+Message-Id: <20200604201058.86457-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-04.06.2020 20:49, Vidya Sagar пишет:
-> Use noirq suspend/resume callbacks as other drivers which implement
-> noirq suspend/resume callbacks (Ex:- PCIe) depend on pinctrl driver to
-> configure the signals used by their respective devices in the noirq phase.
-> 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
->  drivers/pinctrl/tegra/pinctrl-tegra.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> index 21661f6490d6..195cfe557511 100644
-> --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> @@ -731,8 +731,8 @@ static int tegra_pinctrl_resume(struct device *dev)
->  }
->  
->  const struct dev_pm_ops tegra_pinctrl_pm = {
-> -	.suspend = &tegra_pinctrl_suspend,
-> -	.resume = &tegra_pinctrl_resume
-> +	.suspend_noirq = &tegra_pinctrl_suspend,
-> +	.resume_noirq = &tegra_pinctrl_resume
->  };
->  
->  static bool tegra_pinctrl_gpio_node_has_range(struct tegra_pmx *pmx)
-> 
+Calling pm_runtime_get_sync increments the counter even in case of
+failure, causing incorrect ref count. Call pm_runtime_put if
+pm_runtime_get_sync fails.
 
-That's a good catch! Perhaps I2C on later Tegra SoCs also should suffer
-similarly to the PCIe.
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/dma/tegra210-adma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index c4ce5dfb149b..899eaaf9fc48 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -659,6 +659,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
+ 	ret = pm_runtime_get_sync(tdc2dev(tdc));
+ 	if (ret < 0) {
+ 		free_irq(tdc->irq, tdc);
++		pm_runtime_put(tdc2dev(tdc));
+ 		return ret;
+ 	}
+ 
+@@ -870,7 +871,7 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 
+ 	ret = pm_runtime_get_sync(&pdev->dev);
+ 	if (ret < 0)
+-		goto rpm_disable;
++		goto rpm_put;
+ 
+ 	ret = tegra_adma_init(tdma);
+ 	if (ret)
+-- 
+2.17.1
+
