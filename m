@@ -2,109 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ABFE1EE9B6
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jun 2020 19:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C2DF1EE9C5
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jun 2020 19:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730174AbgFDRsW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jun 2020 13:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730124AbgFDRsW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 13:48:22 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C0AAC08C5C0;
-        Thu,  4 Jun 2020 10:48:22 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id i1so5725874ils.11;
-        Thu, 04 Jun 2020 10:48:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/V5YN3JVU+H2ybPVxXGB5Yo/z8JMsprmG2VuUwYuRz4=;
-        b=sI7b/qDlRiArW/5SdFyLqdgMpyDYULV1NOXwELfaYauvEpbt74X36o+SGdZ0XY0oMw
-         EpaXz8RJCt/CpvBzR+OYBkwFOk1WpNZbKQVuTFWUrR3te4T2zmLHJzEFg8hwVsYrB7/N
-         I09OKDJDFNk7f8Tu3D3Zq2YoPScRztc+8zcHKHI/gpfX2mT91iVcUyVT6zLvOGMbNlZn
-         GmUEqrEKUXiNRM5zGBvaonxxjpFF+Wx02FqC+20RilKlSP441jDoLViM/EB9RAxNfmSs
-         4xuC5aMG8pzk1XT0M8/inYWjUyzpCbRIeFMt5CGH2+g+AJ5nS5k8Zcpv4uhrH/Wr155e
-         Frkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/V5YN3JVU+H2ybPVxXGB5Yo/z8JMsprmG2VuUwYuRz4=;
-        b=tv/WhXF0qEfLdJt0CHJslXD5g+/CDZ4hkRdJNKbOORx+g42bYv3JV+bzViDIWDAcUc
-         AtiTskk/X8dDcGUKibIOya8s0DojmrA3TbhxNg/TezhWsUx6yf8IS1TL7yh3MQRFiTog
-         L0Th0t0mArZ5FitU77irqphhBg2a1haIplexcLBZG1Q3tf9aD4YYLQcUz5ydwUxmH1m0
-         E65usdlsKJOcl/QGQiFF+mzX8OreQpBn+TLlSIsOtQOCiZnbFOYtHG0X1GWO9lS45IR9
-         4RzIgrd1XtUa2LxVGsCFR24pQ7sdNyK5Y8UC7Z/jkE4jEQtofSPhj3lGxbCRrItCAIeb
-         az1w==
-X-Gm-Message-State: AOAM5316GtgdV1awEP+o67E64P2Oqy5+nCV2KYpam6NDNvD1vZnzeKOQ
-        OqUu+NEHRfE25sibP8l2a1JZabnriU/R9D9AeQU=
-X-Google-Smtp-Source: ABdhPJzFeNeeQM7soCpQdZ+IhQ7n6azUC9Mg45G4VT9kcauWSICOdgF4RaKvqGNHiRKEevdJDQLNgIrhu3an3lem1s0=
-X-Received: by 2002:a92:4852:: with SMTP id v79mr1192467ila.172.1591292901477;
- Thu, 04 Jun 2020 10:48:21 -0700 (PDT)
+        id S1730148AbgFDRtm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jun 2020 13:49:42 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10847 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730124AbgFDRtm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 13:49:42 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed9342a0002>; Thu, 04 Jun 2020 10:49:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 04 Jun 2020 10:49:42 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 04 Jun 2020 10:49:42 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Jun
+ 2020 17:49:42 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 4 Jun 2020 17:49:41 +0000
+Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.48]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ed934320001>; Thu, 04 Jun 2020 10:49:41 -0700
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <linus.walleij@linaro.org>, <treding@nvidia.com>,
+        <jonathanh@nvidia.com>, <digetx@gmail.com>,
+        <skomatineni@nvidia.com>
+CC:     <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH] pinctrl: tegra: Use noirq suspend/resume callbacks
+Date:   Thu, 4 Jun 2020 23:19:35 +0530
+Message-ID: <20200604174935.26560-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20200603184104.4475-1-navid.emamdoost@gmail.com> <900909fe-fa15-fbca-80f7-79aeee721ed9@nvidia.com>
-In-Reply-To: <900909fe-fa15-fbca-80f7-79aeee721ed9@nvidia.com>
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-Date:   Thu, 4 Jun 2020 12:48:10 -0500
-Message-ID: <CAEkB2ET8+Bo+0xw0TS80tzg0zq0ygPd=GEDsPEnd96k8shMAAg@mail.gmail.com>
-Subject: Re: [PATCH] dmaengine: tegra210-adma: fix pm_runtime_get_sync failure
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Navid Emamdoost <emamd001@umn.edu>,
-        Qiushi Wu <wu000273@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
-        Stephen McCamant <smccaman@umn.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591292970; bh=xR23JKq5v+Y6Duxl7O+LbjwVq9ym59WYyqYJNuSpFnE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=G+5QrvzdGeBeATKiBXZ27jl8h0KEUryWdnUytfQr0AkRRBf1GOFFnli4Uxb52cVJj
+         x856B1WVsEKiAqEAwDm5o4c42dC9OPAYgURs0LtQk1YqXcvROzdLi4VQ3ZWHowpOV1
+         +N/j3dlFQWQ00BsBWf+j/0ZL+MAkd1xzA6bftYTyMCwg93f7dkCeiuiTlY0ZgXGwS+
+         cQ+WO6qNjLxgzvhWc498YczQFDu9hFyIUM13BOvVhzZ1sAdiTOdW2ItuYaMbJZDYmo
+         nKWlrKY5mgGrR/0Xl8+3AluLwZGbpC49PHJKKLTov9H4mGdPClpXCnFM6eTk+QQFpe
+         p9K15NeVich0w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jun 4, 2020 at 12:45 PM Jon Hunter <jonathanh@nvidia.com> wrote:
->
->
-> On 03/06/2020 19:41, Navid Emamdoost wrote:
-> > Calling pm_runtime_get_sync increments the counter even in case of
-> > failure, causing incorrect ref count. Call pm_runtime_put if
-> > pm_runtime_get_sync fails.
-> >
-> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-> > ---
-> >  drivers/dma/tegra210-adma.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-> > index c4ce5dfb149b..e8c749cd3fe8 100644
-> > --- a/drivers/dma/tegra210-adma.c
-> > +++ b/drivers/dma/tegra210-adma.c
-> > @@ -659,6 +659,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
-> >       ret = pm_runtime_get_sync(tdc2dev(tdc));
-> >       if (ret < 0) {
-> >               free_irq(tdc->irq, tdc);
-> > +             pm_runtime_put(tdc2dev(tdc));
-> >               return ret;
-> >       }
->
->
-> Please do not send two patches with the same $subject that are fixing
-> two different areas of the driver. In fact, please squash these two
-> patches into a single fix and resend because they are fixing the same issue.
+Use noirq suspend/resume callbacks as other drivers which implement
+noirq suspend/resume callbacks (Ex:- PCIe) depend on pinctrl driver to
+configure the signals used by their respective devices in the noirq phase.
 
-Sure, I will prepare a version 2 with your suggestions.
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+---
+ drivers/pinctrl/tegra/pinctrl-tegra.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> Jon
->
-> --
-> nvpublic
-
-
-
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
+index 21661f6490d6..195cfe557511 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra.c
++++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
+@@ -731,8 +731,8 @@ static int tegra_pinctrl_resume(struct device *dev)
+ }
+ 
+ const struct dev_pm_ops tegra_pinctrl_pm = {
+-	.suspend = &tegra_pinctrl_suspend,
+-	.resume = &tegra_pinctrl_resume
++	.suspend_noirq = &tegra_pinctrl_suspend,
++	.resume_noirq = &tegra_pinctrl_resume
+ };
+ 
+ static bool tegra_pinctrl_gpio_node_has_range(struct tegra_pmx *pmx)
 -- 
-Navid.
+2.17.1
+
