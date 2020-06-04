@@ -2,117 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE1B1EE622
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jun 2020 15:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A4A1EE99B
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jun 2020 19:43:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728679AbgFDN6u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jun 2020 09:58:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728337AbgFDN6u (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 09:58:50 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A577C08C5C0;
-        Thu,  4 Jun 2020 06:58:50 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id o26so4819804edq.0;
-        Thu, 04 Jun 2020 06:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3qC5bBE2TNzOj1a5qZ4ztpSJPzwogmBB/9SPnd42iqo=;
-        b=iT6orcQpn/Zi9wQ2jD0Zv6Ejjxgz46upF6pdzB8ylmJX5eM/yc1F7rzfJ77zsa3h6+
-         9+gSoxRgJ88r5eHycx4vpD6wv5Kgk68jXO2c679Qn11EMfJw9PsEkNMI88NBPV002slG
-         uJR2RVM0GH1wDx5EiO7DjUBGJWaKHdhAAlE7GDE31zlEd6eXFqqP/30ikBJ1/MvZMmrC
-         qwV5HOS2W8BbBaK8f1z7zHZVVw2c/RxCbQ6yBKiYrnEBIeSTZXooB5JWsM++eT6hxwFl
-         /la/P/dLY9kocRmiWWtTjD0k8qk8GsRG9b/BplEUVihPlWXZ19MIb9HK3YdAGoAXjaF9
-         jXDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3qC5bBE2TNzOj1a5qZ4ztpSJPzwogmBB/9SPnd42iqo=;
-        b=frUUtv0XWPxN0RCeTYRXgDfjtxB4l+z1v4tm9Q3n3XTBDAmEY5m+/yTxBV4zkVYBCo
-         yPoFGpwUk3iC5qdnosyGTEQVIB9y/DNOZgTeOd/irLcbA4IHakQ+gvlhmZhEENq3nxFq
-         pNLMXF9fSCNgPAYGcGAsflZ6+6ctIXuKb8IlkLNyFkpsXbjcU35j5X2XqCEvHIuWqr6E
-         pj57ZWucjYCQnsG5JufcC6ob+BmsjC151bRlsjKT3zuSYcrhfUp1Lbg8FdGxMuyZYPcr
-         6glWfBBfn2+uRcz+rtbMmUSpG4CQ2DYq/iktL6y7r6TpeCpcoQYJSKr4NNBlXikPRhSH
-         DhNg==
-X-Gm-Message-State: AOAM530pkynx6vf+jmHuLsA8oR3hTjKNHGTIkyeIrhUGgfnLYB947ZJR
-        SH5QJHEl53GSFOKtH3i0aQ8=
-X-Google-Smtp-Source: ABdhPJznfDDx1LlyjwF9qSl9ZNsDXsrN8tt512tci2tZybQ3b4FkTErmLxkpVRFdHyfSZnNaDP1Oag==
-X-Received: by 2002:a05:6402:149:: with SMTP id s9mr4288851edu.375.1591279128550;
-        Thu, 04 Jun 2020 06:58:48 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id kt10sm2221923ejb.54.2020.06.04.06.58.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 06:58:47 -0700 (PDT)
-Date:   Thu, 4 Jun 2020 15:58:46 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Nagarjuna Kristam <nkristam@nvidia.com>, balbi@kernel.org,
-        gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3 5/8] phy: tegra: xusb: Add soc ops API to enable UTMI
- PAD protection
-Message-ID: <20200604135846.GD1138399@ulmo>
-References: <1589437363-16727-1-git-send-email-nkristam@nvidia.com>
- <1589437363-16727-6-git-send-email-nkristam@nvidia.com>
- <db698a53-c5f6-d03f-edf0-f4fb38963e1f@ti.com>
+        id S1730053AbgFDRnc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jun 2020 13:43:32 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3723 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729998AbgFDRnc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 13:43:32 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed932610001>; Thu, 04 Jun 2020 10:41:53 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 04 Jun 2020 10:43:31 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 04 Jun 2020 10:43:31 -0700
+Received: from [10.26.72.155] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Jun
+ 2020 17:43:25 +0000
+Subject: Re: [PATCH] dmaengine: tegra210-adma: fix pm_runtime_get_sync failure
+To:     Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <emamd001@umn.edu>, <wu000273@umn.edu>, <kjlu@umn.edu>,
+        <smccaman@umn.edu>
+References: <20200603183845.91054-1-navid.emamdoost@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <eb3e65fa-0ab6-a448-e5c8-e95561b6e4e9@nvidia.com>
+Date:   Thu, 4 Jun 2020 18:43:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="3Gf/FFewwPeBMqCJ"
-Content-Disposition: inline
-In-Reply-To: <db698a53-c5f6-d03f-edf0-f4fb38963e1f@ti.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200603183845.91054-1-navid.emamdoost@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591292513; bh=ZHcZTR0+Fn9VncgxZEaHqLU+bBLnTpMfnNu+8OCdCzs=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qz4+VFqIzmYTK/IU8ojHSoNULssifQRbkr0G1WTnRjv5lhh+EWgXrXwQaMupgYwNb
+         RVrUAupngeAoB4sH8wGv281nV51HhZhNLNuxRvhgO0lnvNfIvOHMe8PZBOX3S0syJ6
+         GySvJWmE0cxwildAuNWQn6W2eHp/DJmlTAr8wEj2Y2iNgUP+b1rpVf0/uqftg3sVIj
+         Up5x7X8NGwfr1AUpGCUefXN2xpe8bM5EgXD8gpRcf5500Fn/wGDmqO9JJ8BoPcsyMb
+         N1XK8rqZifrR/sWM6I9kNwRDlGH9ePhghPJR1JPhbaNtyS7nuqgxzZJh+PNPKyJq7c
+         sYj8CMSQgl/EA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---3Gf/FFewwPeBMqCJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 03/06/2020 19:38, Navid Emamdoost wrote:
+> Calling pm_runtime_get_sync increments the counter even in case of
+> failure, causing incorrect ref count. Call pm_runtime_put if
+> pm_runtime_get_sync fails.
+> 
+> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> ---
+>  drivers/dma/tegra210-adma.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+> index c4ce5dfb149b..87f2a1bed3aa 100644
+> --- a/drivers/dma/tegra210-adma.c
+> +++ b/drivers/dma/tegra210-adma.c
+> @@ -869,8 +869,10 @@ static int tegra_adma_probe(struct platform_device *pdev)
+>  	pm_runtime_enable(&pdev->dev);
+>  
+>  	ret = pm_runtime_get_sync(&pdev->dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put_sync(&pdev->dev);
+>  		goto rpm_disable;
+> +	}
 
-On Mon, May 18, 2020 at 05:54:03PM +0530, Kishon Vijay Abraham I wrote:
-> Thierry,
->=20
-> On 5/14/2020 11:52 AM, Nagarjuna Kristam wrote:
-> > When USB charger is enabled, UTMI PAD needs to be protected according
-> > to the direction and current level. Add support for the same on Tegra210
-> > and Tegra186.
-> >=20
-> > Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->=20
-> Can you give your Acked by for pending patches in this series?
+I would prefer it if you did not add the pm_runtime_put_sync() call here
+because there is already one in the error path that can be used.
 
-I went through these patches one more time and I think they're all good
-now. I've acked the ones that didn't have my Acked-by yet.
+Jon
 
-Thierry
-
---3Gf/FFewwPeBMqCJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7Y/hYACgkQ3SOs138+
-s6HnyA/9Fj2LLU1HqZfshnRjI3aQgaPbxFFuL1xOjZMMWSLk0qZ9BkE+knzQ9/c2
-G0EfbsP+Z0tp3HFRK37yT6YL2xNwciVYEQow+y0TMzwVCQdBY+ChdcL4M7Da/iNp
-VjJsEsmp7kWn2AApkN3CqZsrtYp+rzWTFoh7DPZfJr1Ny21gKaa7CHI72b/PXYoS
-sNnJvHwYBYZ9KofaSKteV+LyueAMuOxvQHA8CTWP9qgG5rpPb9n3lbv0D6BGOjSP
-xbt2Q1I5mxrTOVkpUpTjXDpVKglC3TCwUC9FLkDHOrfzjoF3pJFG1x97EuU2aH5Y
-E2xbIA7kSniYH+ZtxlL6f+iYmWqFyNsm6H6dWF3m/j5sryhLzwoa3KYSCdH2QSoc
-L/sW43agd+HcUKsHKk0mH1K1cVgGO2grnTQdSwbNRn8tlhchy0gikuCM1Ecs3Ehc
-bfSRDHVsV75gQtOxavNEdKfIwz9ExOKGolDsazpgLJ32c57lwGLHHGxPTmI5PmTo
-NgwrE40zXoC5fG3XuWg/Iel3zXvUZSHn/rfk+d41wZXN2CpDjESOkK+RTiSeherg
-UHYPTk5jGBFw9WVZFImkI+791yWp8cWpJej73wKj3bhoCcFpIXgFvV7R+iKvPxkp
-WqFTPpsaCZVq1WB2vzCxKhiYe1U6IuN+uhvNaoCCKFtZiq1NI1g=
-=91er
------END PGP SIGNATURE-----
-
---3Gf/FFewwPeBMqCJ--
+-- 
+nvpublic
