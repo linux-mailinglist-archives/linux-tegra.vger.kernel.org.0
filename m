@@ -2,85 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 865631EEFB7
-	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 05:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47BA91EEFC1
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 05:12:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726016AbgFEDEH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jun 2020 23:04:07 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8071 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbgFEDEG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 23:04:06 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ed9b5c30000>; Thu, 04 Jun 2020 20:02:27 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 04 Jun 2020 20:04:06 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 04 Jun 2020 20:04:06 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Jun
- 2020 03:04:05 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 5 Jun 2020 03:04:05 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.162.42]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ed9b624000a>; Thu, 04 Jun 2020 20:04:05 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
-CC:     <skomatineni@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mmc@vger.kernel.org>
-Subject: [PATCH] sdhci: tegra: Add comment for PADCALIB and PAD_CONTROL NVQUIRKS
-Date:   Thu, 4 Jun 2020 20:04:00 -0700
-Message-ID: <1591326240-28928-1-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
-MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1591326148; bh=e6lsRUyXbBY2DH6vBJIzg+ZcZznqgTERIZGcofUkzto=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=LqnMJUj+jbBilQ7EU+mu5q8/upRIMByYnXuUOaNcnxFteeGYdqtuY97E6Gmf/tHOG
-         Ul/EbXJZ6TsNFg0rQh9Pa9nMrIz5Tdr78nWoUZXgiNJ8eN7GNK4p8MPmxyI8rOfaNh
-         9C+lz+3SHZEwpzx1NKNLB4MOSggjuL+LlrRxc60V6UQu+Q/r1zJLvL0Wxscyc4DB2L
-         9KDH7hzy7e0zmskbGr0JPf3AARxH5DqiFv+KlHMFAEM6GfrirMsKFMCNpMPk8qAS3X
-         dq9oROKqJjMCIhElRwBLxplePenwpRW755nOINgl9X70GOgn/IsMEIzDk2UWKfpSoB
-         0g0ssaK6lVFEA==
+        id S1725954AbgFEDMr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jun 2020 23:12:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725883AbgFEDMr (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 23:12:47 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D0EC08C5C0;
+        Thu,  4 Jun 2020 20:12:46 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id b5so8183100iln.5;
+        Thu, 04 Jun 2020 20:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Bwy3kLbPJLykuSYZEsLy4fGgrjBMNY4QghQaNEXTtao=;
+        b=minHNrYKJRdYHWBYj4vN7Rb/TAGIa2odYSuDObBhK7QokvuNPQVPNbVaVi5uKij9JM
+         HzQsSfEMUepG6RwIwvXO3Z/Kz3a8Ene3LxdZvVs7eGjVyywQJ3teK8k8ZZv/tBnq8Enp
+         VX3KgHaVBkC/0QG+z6+hxrNZhB9Na00xSC+4wHVcmydicW8DgzzrcsmNlRUa/Sq783Se
+         KyyGvIewIje/bwRFDs5ZkbPpxhuT0SLEsvhTuPxMrci1betWf68FX7C6QA5kK5wMqY1k
+         qjQEesTBNeE0g8H0257ofiIw7KGD0OYRc3Yp7qGGg2oDvMsRcbBQPokXsQJRiwRASJ0J
+         hEfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Bwy3kLbPJLykuSYZEsLy4fGgrjBMNY4QghQaNEXTtao=;
+        b=V/YbDdtKVbBSRNeNWSKZb7TMspWoIMsmyp8glrYp+MRqWsiyUJR3Hdfn9/Z7/CZy35
+         KAUpDf4z01dY5z2ChJEj7fpIhbalRF0vtc1xcaq/nSnzaSJwZz4YFTY1U4x9ObDGbT2D
+         KQg/aNccBv3aD7uxDs271AuTmqvDx1opeaeqeNJek8huqydkx963rluKWDmoQeZ2qmrI
+         lBlnrDV1Qa8tsc391BKYEmmfiY1hkcDh8ei2dnJigSywFK8Y6Wl8YGxPsHoGtcLX7L1X
+         HcvYwkNfTlpMA6JV5ox+4djqsC/qoLZisCQc/X0EldJ2YnSK4Ls5iiTiBrITCgjcFh7w
+         bhZg==
+X-Gm-Message-State: AOAM531WGTQH8V5cYyyNu2ct0LKwv+By8UNE5kWa7ViMnNqrwP1RGNVD
+        OuTeROAOCqqQS+kKi3AIT/o=
+X-Google-Smtp-Source: ABdhPJymLCD7irIm72PYWJoFekESbRyoxTq1Bfb0WvWMHqV/VHJFkRKN3Wuo/+2aJY3jVun6wOy0HA==
+X-Received: by 2002:a92:cb91:: with SMTP id z17mr6552981ilo.305.1591326765968;
+        Thu, 04 Jun 2020 20:12:45 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+        by smtp.googlemail.com with ESMTPSA id k126sm767149iof.50.2020.06.04.20.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 20:12:45 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
+        Navid Emamdoost <navid.emamdoost@gmail.com>
+Subject: [PATCH] PCI: tegra: handle failure case of pm_runtime_get_sync
+Date:   Thu,  4 Jun 2020 22:12:39 -0500
+Message-Id: <20200605031239.6638-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds comments about NVQUIRKS HAS_PADCALIB and NEEDS_PAD_CONTROL.
+Calling pm_runtime_get_sync increments the counter even in case of
+failure, causing incorrect ref count. Call pm_runtime_put if
+pm_runtime_get_sync fails.
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 ---
- drivers/mmc/host/sdhci-tegra.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/pci/controller/pci-tegra.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-index 3a372ab..0a3f9d0 100644
---- a/drivers/mmc/host/sdhci-tegra.c
-+++ b/drivers/mmc/host/sdhci-tegra.c
-@@ -96,7 +96,16 @@
- #define NVQUIRK_ENABLE_SDR50				BIT(3)
- #define NVQUIRK_ENABLE_SDR104				BIT(4)
- #define NVQUIRK_ENABLE_DDR50				BIT(5)
-+/*
-+ * HAS_PADCALIB NVQUIRK is for SoC's supporting auto calibration of pads
-+ * drive strength.
-+ */
- #define NVQUIRK_HAS_PADCALIB				BIT(6)
-+/*
-+ * NEEDS_PAD_CONTROL NVQUIRK is for SoC's having separate 3V3 and 1V8 pads.
-+ * 3V3/1V8 pad selection happens through pinctrl state selection depending
-+ * on the signaling mode.
-+ */
- #define NVQUIRK_NEEDS_PAD_CONTROL			BIT(7)
- #define NVQUIRK_DIS_CARD_CLK_CONFIG_TAP			BIT(8)
- #define NVQUIRK_CQHCI_DCMD_R1B_CMD_TIMING		BIT(9)
+diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+index 3e64ba6a36a8..3d4b448fd8df 100644
+--- a/drivers/pci/controller/pci-tegra.c
++++ b/drivers/pci/controller/pci-tegra.c
+@@ -2712,6 +2712,7 @@ static int tegra_pcie_probe(struct platform_device *pdev)
+ 	err = pm_runtime_get_sync(pcie->dev);
+ 	if (err < 0) {
+ 		dev_err(dev, "fail to enable pcie controller: %d\n", err);
++		pm_runtime_put_sync(pcie->dev);
+ 		goto teardown_msi;
+ 	}
+ 
 -- 
-2.7.4
+2.17.1
 
