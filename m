@@ -2,91 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 361BA1EEE76
-	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 01:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865631EEFB7
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 05:04:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbgFDXoX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jun 2020 19:44:23 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14873 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726259AbgFDXoW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 19:44:22 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ed986fd0000>; Thu, 04 Jun 2020 16:42:54 -0700
+        id S1726016AbgFEDEH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jun 2020 23:04:07 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8071 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725883AbgFEDEG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 23:04:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed9b5c30000>; Thu, 04 Jun 2020 20:02:27 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 04 Jun 2020 16:44:22 -0700
+  Thu, 04 Jun 2020 20:04:06 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 04 Jun 2020 16:44:22 -0700
+        by hqpgpgate101.nvidia.com on Thu, 04 Jun 2020 20:04:06 -0700
 Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Jun
- 2020 23:44:13 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Jun
+ 2020 03:04:05 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 4 Jun 2020 23:44:13 +0000
-Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ed9874c0001>; Thu, 04 Jun 2020 16:44:13 -0700
-From:   Krishna Reddy <vdumpa@nvidia.com>
-CC:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
-        <talho@nvidia.com>, <bbiswas@nvidia.com>, <mperttunen@nvidia.com>,
-        <nicolinc@nvidia.com>, <bhuntsman@nvidia.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        kbuild test robot <lkp@intel.com>
-Subject: [PATCH v6 4/4] iommu/arm-smmu-nvidia: fix the warning reported by kbuild test robot
-Date:   Thu, 4 Jun 2020 16:44:14 -0700
-Message-ID: <20200604234414.21912-5-vdumpa@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200604234414.21912-1-vdumpa@nvidia.com>
-References: <20200604234414.21912-1-vdumpa@nvidia.com>
-MIME-Version: 1.0
+ Transport; Fri, 5 Jun 2020 03:04:05 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.162.42]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ed9b624000a>; Thu, 04 Jun 2020 20:04:05 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
+CC:     <skomatineni@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mmc@vger.kernel.org>
+Subject: [PATCH] sdhci: tegra: Add comment for PADCALIB and PAD_CONTROL NVQUIRKS
+Date:   Thu, 4 Jun 2020 20:04:00 -0700
+Message-ID: <1591326240-28928-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1591314174; bh=2ofUV6N4w8MVqMXhL27SWFuQR3WHDuZrVd5MUpa+Yso=;
+        t=1591326148; bh=e6lsRUyXbBY2DH6vBJIzg+ZcZznqgTERIZGcofUkzto=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=I8hehESMwvZR2f+fZE445YwxDRNXgLctdd8NHKLZ2A7c3EDVSuTTi0FTk/Z5qdyHU
-         CG1nkGlM4Yacr5TIDNltsyxdaPp0IrJRSa+FN/AUX9ksGCDnIlFQ9+tro99Dwmk+ZI
-         5IdPA6SDWXL4cAuDDLvfs7HfmDmiPlNAUextWo0FDNUW5VdI/YPj2TQeSqWM3oLwVn
-         aoWOupD2+Yn/nLhUYCoOQcvXqJ47LWYSM+Ht8N6CLn/ebhiF+sFGhZgo7XRAhJ18cf
-         IbJuH/61fiMVLueQm1hJxiuvdAmeIjTbIvtM9+M4RnGPR0SMbVr34ce8Flq+9sC76P
-         TRcVafU8b7/HA==
-To:     unlisted-recipients:; (no To-header on input)
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=LqnMJUj+jbBilQ7EU+mu5q8/upRIMByYnXuUOaNcnxFteeGYdqtuY97E6Gmf/tHOG
+         Ul/EbXJZ6TsNFg0rQh9Pa9nMrIz5Tdr78nWoUZXgiNJ8eN7GNK4p8MPmxyI8rOfaNh
+         9C+lz+3SHZEwpzx1NKNLB4MOSggjuL+LlrRxc60V6UQu+Q/r1zJLvL0Wxscyc4DB2L
+         9KDH7hzy7e0zmskbGr0JPf3AARxH5DqiFv+KlHMFAEM6GfrirMsKFMCNpMPk8qAS3X
+         dq9oROKqJjMCIhElRwBLxplePenwpRW755nOINgl9X70GOgn/IsMEIzDk2UWKfpSoB
+         0g0ssaK6lVFEA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
->> drivers/iommu/arm-smmu-nvidia.c:151:33: sparse: sparse: cast removes
->> address space '<asn:2>' of expression
+This patch adds comments about NVQUIRKS HAS_PADCALIB and NEEDS_PAD_CONTROL.
 
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
+Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 ---
- drivers/iommu/arm-smmu-nvidia.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mmc/host/sdhci-tegra.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/iommu/arm-smmu-nvidia.c b/drivers/iommu/arm-smmu-nvidi=
-a.c
-index 5999b6a770992..6348d8dc17fc2 100644
---- a/drivers/iommu/arm-smmu-nvidia.c
-+++ b/drivers/iommu/arm-smmu-nvidia.c
-@@ -248,7 +248,7 @@ struct arm_smmu_device *nvidia_smmu_impl_init(struct ar=
-m_smmu_device *smmu)
- 			break;
- 		nsmmu->bases[i] =3D devm_ioremap_resource(dev, res);
- 		if (IS_ERR(nsmmu->bases[i]))
--			return (struct arm_smmu_device *)nsmmu->bases[i];
-+			return ERR_CAST(nsmmu->bases[i]);
- 		nsmmu->num_inst++;
- 	}
-=20
---=20
-2.26.2
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index 3a372ab..0a3f9d0 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -96,7 +96,16 @@
+ #define NVQUIRK_ENABLE_SDR50				BIT(3)
+ #define NVQUIRK_ENABLE_SDR104				BIT(4)
+ #define NVQUIRK_ENABLE_DDR50				BIT(5)
++/*
++ * HAS_PADCALIB NVQUIRK is for SoC's supporting auto calibration of pads
++ * drive strength.
++ */
+ #define NVQUIRK_HAS_PADCALIB				BIT(6)
++/*
++ * NEEDS_PAD_CONTROL NVQUIRK is for SoC's having separate 3V3 and 1V8 pads.
++ * 3V3/1V8 pad selection happens through pinctrl state selection depending
++ * on the signaling mode.
++ */
+ #define NVQUIRK_NEEDS_PAD_CONTROL			BIT(7)
+ #define NVQUIRK_DIS_CARD_CLK_CONFIG_TAP			BIT(8)
+ #define NVQUIRK_CQHCI_DCMD_R1B_CMD_TIMING		BIT(9)
+-- 
+2.7.4
 
