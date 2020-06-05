@@ -2,89 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47BA91EEFC1
-	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 05:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 036C81EF100
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 07:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgFEDMr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jun 2020 23:12:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbgFEDMr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jun 2020 23:12:47 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D0EC08C5C0;
-        Thu,  4 Jun 2020 20:12:46 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id b5so8183100iln.5;
-        Thu, 04 Jun 2020 20:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Bwy3kLbPJLykuSYZEsLy4fGgrjBMNY4QghQaNEXTtao=;
-        b=minHNrYKJRdYHWBYj4vN7Rb/TAGIa2odYSuDObBhK7QokvuNPQVPNbVaVi5uKij9JM
-         HzQsSfEMUepG6RwIwvXO3Z/Kz3a8Ene3LxdZvVs7eGjVyywQJ3teK8k8ZZv/tBnq8Enp
-         VX3KgHaVBkC/0QG+z6+hxrNZhB9Na00xSC+4wHVcmydicW8DgzzrcsmNlRUa/Sq783Se
-         KyyGvIewIje/bwRFDs5ZkbPpxhuT0SLEsvhTuPxMrci1betWf68FX7C6QA5kK5wMqY1k
-         qjQEesTBNeE0g8H0257ofiIw7KGD0OYRc3Yp7qGGg2oDvMsRcbBQPokXsQJRiwRASJ0J
-         hEfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Bwy3kLbPJLykuSYZEsLy4fGgrjBMNY4QghQaNEXTtao=;
-        b=V/YbDdtKVbBSRNeNWSKZb7TMspWoIMsmyp8glrYp+MRqWsiyUJR3Hdfn9/Z7/CZy35
-         KAUpDf4z01dY5z2ChJEj7fpIhbalRF0vtc1xcaq/nSnzaSJwZz4YFTY1U4x9ObDGbT2D
-         KQg/aNccBv3aD7uxDs271AuTmqvDx1opeaeqeNJek8huqydkx963rluKWDmoQeZ2qmrI
-         lBlnrDV1Qa8tsc391BKYEmmfiY1hkcDh8ei2dnJigSywFK8Y6Wl8YGxPsHoGtcLX7L1X
-         HcvYwkNfTlpMA6JV5ox+4djqsC/qoLZisCQc/X0EldJ2YnSK4Ls5iiTiBrITCgjcFh7w
-         bhZg==
-X-Gm-Message-State: AOAM531WGTQH8V5cYyyNu2ct0LKwv+By8UNE5kWa7ViMnNqrwP1RGNVD
-        OuTeROAOCqqQS+kKi3AIT/o=
-X-Google-Smtp-Source: ABdhPJymLCD7irIm72PYWJoFekESbRyoxTq1Bfb0WvWMHqV/VHJFkRKN3Wuo/+2aJY3jVun6wOy0HA==
-X-Received: by 2002:a92:cb91:: with SMTP id z17mr6552981ilo.305.1591326765968;
-        Thu, 04 Jun 2020 20:12:45 -0700 (PDT)
-Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
-        by smtp.googlemail.com with ESMTPSA id k126sm767149iof.50.2020.06.04.20.12.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 20:12:45 -0700 (PDT)
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
-        Navid Emamdoost <navid.emamdoost@gmail.com>
-Subject: [PATCH] PCI: tegra: handle failure case of pm_runtime_get_sync
-Date:   Thu,  4 Jun 2020 22:12:39 -0500
-Message-Id: <20200605031239.6638-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1725986AbgFEF4X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 5 Jun 2020 01:56:23 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12144 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725280AbgFEF4X (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 5 Jun 2020 01:56:23 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed9de7a0002>; Thu, 04 Jun 2020 22:56:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 04 Jun 2020 22:56:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 04 Jun 2020 22:56:22 -0700
+Received: from [10.26.75.201] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Jun
+ 2020 05:56:16 +0000
+Subject: Re: [PATCH] dmaengine: tegra210-adma: handle pm_runtime_get_sync
+ failure cases
+To:     Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <emamd001@umn.edu>, <wu000273@umn.edu>, <kjlu@umn.edu>,
+        <mccamant@cs.umn.edu>
+References: <20200604201058.86457-1-navid.emamdoost@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <103127de-ff57-d033-5794-71effc032e9a@nvidia.com>
+Date:   Fri, 5 Jun 2020 06:56:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200604201058.86457-1-navid.emamdoost@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591336570; bh=WlWaFRsE4QHRYgg3PJsHxTPc4ovoB/3ghesZk3APzdo=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=L1+Wk6txMgumNeQHCnVfktQ/01eRVwvG3UMhaMp845RNTG6U+3Xw2ykDtLY72DLUI
+         2HsLyHgSNgDbDD/idY3VyQLSDvteAgjSBj0ub8Fu8PHPjFHIFP4Co6ne3754rHBn/t
+         HWEkG2pE8HuiZRIJKXTDQChZUE2WVv5OeKA9YsN21CanxNyk+SM6OwzKiqFOfDcZLZ
+         hCfCpCEcWUw2s+crKygKZP4gcEWJEt5co7PVi2mWKdRy0LBAtNtuFZdYV8zUU71FcN
+         fsTjQsbTQKp/fXYf3wqu2aRPu+5CinMIeO2RnPR9SDNPB4FHPNF7QfbO/avTt5+flm
+         aHttn9iZaJmpw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Calling pm_runtime_get_sync increments the counter even in case of
-failure, causing incorrect ref count. Call pm_runtime_put if
-pm_runtime_get_sync fails.
 
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
----
- drivers/pci/controller/pci-tegra.c | 1 +
- 1 file changed, 1 insertion(+)
+On 04/06/2020 21:10, Navid Emamdoost wrote:
+> Calling pm_runtime_get_sync increments the counter even in case of
+> failure, causing incorrect ref count. Call pm_runtime_put if
+> pm_runtime_get_sync fails.
+> 
+> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> ---
+>  drivers/dma/tegra210-adma.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+> index c4ce5dfb149b..899eaaf9fc48 100644
+> --- a/drivers/dma/tegra210-adma.c
+> +++ b/drivers/dma/tegra210-adma.c
+> @@ -659,6 +659,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
+>  	ret = pm_runtime_get_sync(tdc2dev(tdc));
+>  	if (ret < 0) {
+>  		free_irq(tdc->irq, tdc);
+> +		pm_runtime_put(tdc2dev(tdc));
+>  		return ret;
+>  	}
+>  
+> @@ -870,7 +871,7 @@ static int tegra_adma_probe(struct platform_device *pdev)
+>  
+>  	ret = pm_runtime_get_sync(&pdev->dev);
+>  	if (ret < 0)
+> -		goto rpm_disable;
+> +		goto rpm_put;
+>  
+>  	ret = tegra_adma_init(tdma);
+>  	if (ret)
+> 
 
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 3e64ba6a36a8..3d4b448fd8df 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -2712,6 +2712,7 @@ static int tegra_pcie_probe(struct platform_device *pdev)
- 	err = pm_runtime_get_sync(pcie->dev);
- 	if (err < 0) {
- 		dev_err(dev, "fail to enable pcie controller: %d\n", err);
-+		pm_runtime_put_sync(pcie->dev);
- 		goto teardown_msi;
- 	}
- 
+The label rpm_disable should now be removed. You should also update the
+subject-prefix to be [PATCH V2] to make it clear that this is the
+updated patch.
+
+Jon
+
 -- 
-2.17.1
-
+nvpublic
