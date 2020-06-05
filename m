@@ -2,118 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBC7F1EF13E
-	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 08:13:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C3D61EF9EC
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jun 2020 16:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726027AbgFEGNs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 5 Jun 2020 02:13:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57906 "EHLO
+        id S1727055AbgFEOF7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 5 Jun 2020 10:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725962AbgFEGNr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 5 Jun 2020 02:13:47 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E83C08C5C2;
-        Thu,  4 Jun 2020 23:13:47 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id q8so9028418iow.7;
-        Thu, 04 Jun 2020 23:13:47 -0700 (PDT)
+        with ESMTP id S1726553AbgFEOF6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 5 Jun 2020 10:05:58 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D807C08C5C2;
+        Fri,  5 Jun 2020 07:05:58 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id a25so11901869ljp.3;
+        Fri, 05 Jun 2020 07:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1DliN9cWI9tOr6qCWIwnsIRGllVyzqzKKx/V7aOAhqw=;
-        b=kLPvCJogKo7qETqtMQGB6/ogTb+8DdxAWtZblbO2zztSbESn5CXEbgj7hJpt3Zfe2U
-         6Y5/4wYylXCZl1jWxmzm05PBz1nqCf/Cets7bwLMU+Tj8nC6KRayOVtBptFeSIhM9xlu
-         sRTIDF2li6tA46U5BUrM0SVuR8sN/giHFCZU++WDySP20eo8sXNIkyItC3JP36mJc6/Q
-         Mgva1x16M1PUv80ZclYg4DDdSXKDl1J9aKl5vpK8dO85EwTZJ1oGzbGfPlW7xNYibIbQ
-         +Pn2mipQp1eKs4hGLMR+KjRoQrAsWP01sdX98PwvHBpeWl/vDQuxKMBKMzx44K7+zI3c
-         Uz3A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E2imZowYcWsqMuYyPOGiSh8Vkqqat7rhLhXVyMR2k0w=;
+        b=D/wJ7NyAluy19hD4lOArO9SudJkVEhvukrBzFKZOOidCtGQr8L7Zz5q/SToiDFhpSb
+         p5UTbi5gebuWIbN8mFJ80H3cJ+qyXanlpYp6tAHrZnkCfsCkbTwF1pe0eHBrfooqhwlU
+         lpiMA4Yehiqnot+x/r0IkPCAWzTBw/N1Xos/ndEeL78XLizAf9w1AGm+gMTtpRc64OZH
+         mtHx+WeQepSOZP6of5WOZkXFBatcKPwQuk8aBMzg4/tBJcTerQNqSLHw6ddo540CyJgG
+         iM1hrslBg2I3UsbIqpUSRl2OdYaIQLPTJBXg6hK8wDEeQv8sPB2PZpXzEjhIeR0jUM0d
+         g8mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1DliN9cWI9tOr6qCWIwnsIRGllVyzqzKKx/V7aOAhqw=;
-        b=LsyH+SxfPWMmJfHZYj4sjRfYwgvzawu7amZYiEjE4vcMDerTXxoPzsd9jCU67mR1Qh
-         vgV/EOohxWOU2bvUgjoPZF2D3hR4PUGMsItXEb2NMPAVEBVakZ5eisChDk5Ze3M9+E3y
-         xpu7YNRcZKbYrxgXU65Rr/hyZAmcdYdJIN+iCtN5n/h7F4erkAtI+CO2rRK9VMzc6WNq
-         3uP3cP0l2oAp4AQ/h0oXtaku8CFZLJoZtbfxb8Gc23oy8Nn3z1QYB7L8QaPqklKlumRI
-         sB1HpbBgh9Xmh3jiN+IjF5dAtkn+1+X4vDhrw2AWlng0wxf9Lovc/feEK/OD56ESjTcZ
-         oFQA==
-X-Gm-Message-State: AOAM530wLQV/wZpZANuL7cVT67HDjQvLo+3XATC9ec5ChFyXUR8DG3HN
-        cclfv80ec7P8XYw7StoA9VZrRQhDBJXfd5Qacfk=
-X-Google-Smtp-Source: ABdhPJysOq/A5q91X5YKCecp8SjXtRrccofsFE5ct0IbUqhYeBNgFZgynxG2VEcpMLS2aYeifTFcE74V1QhXiNdB3UA=
-X-Received: by 2002:a05:6602:2055:: with SMTP id z21mr7237276iod.60.1591337626749;
- Thu, 04 Jun 2020 23:13:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200602045506.40574-1-navid.emamdoost@gmail.com> <f928fb02-47d7-b6f9-6198-bd549d6ac6b5@nvidia.com>
-In-Reply-To: <f928fb02-47d7-b6f9-6198-bd549d6ac6b5@nvidia.com>
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-Date:   Fri, 5 Jun 2020 01:13:35 -0500
-Message-ID: <CAEkB2EREyXRS18Kq+6428MAJKtB3VoZdVqbJOODVJ7Pk9bzLLQ@mail.gmail.com>
-Subject: Re: [PATCH] spi: tegra114: missing put on pm_runtime_get_sync failure
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E2imZowYcWsqMuYyPOGiSh8Vkqqat7rhLhXVyMR2k0w=;
+        b=KG8jhXBpuPxdAspOVP+TA7DyLrL8yxAEP6D3sudjYr2SLPXMWMohYfyOIvLXJUW2Kw
+         zF+ya/b4fip+OCmEhuVzE7+YH2vdqyhSV6JDfXMD+bFZC6a7HJ1zlrfGHaHUGXRMfDAH
+         oQJz/N8mbtumpMmeiAc6hLhZntAX1WIv51l6R5zZQ7L7XjS0oneRJ7QL/d77P78wO6Hb
+         JljU8VqK6Pl4WthWkRzMgtLp+6RLeVXCNfo7+vL9/zu8TWIZyAxyYvVs29H6lLFjuOXm
+         gvfIXnAU6LJewePeEdMww+VTzFPilCeM64XuIuezOEPIS1B67ObOOE+Lhz/Lp1pdLdqF
+         nJBQ==
+X-Gm-Message-State: AOAM533FUVdAYhZASJC3IpV0Si/u5twza8QIwz8w7/M0/VLBbyEJrHKg
+        SUKQDIt42wEaclfRxcm5aIM=
+X-Google-Smtp-Source: ABdhPJyhDQJ3TrPRcEnQIaSKKUFiV1lqR92HYbBU8YHDoEyM3qNNPqHz0h+AjVhHM+ruxqLhmDTBYg==
+X-Received: by 2002:a2e:975a:: with SMTP id f26mr4974996ljj.302.1591365956611;
+        Fri, 05 Jun 2020 07:05:56 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-173-94.dynamic.spd-mgts.ru. [109.252.173.94])
+        by smtp.googlemail.com with ESMTPSA id z133sm980669lfa.41.2020.06.05.07.05.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jun 2020 07:05:47 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: tegra-vde: add missing
+ pm_runtime_put_autosuspend
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Navid Emamdoost <emamd001@umn.edu>,
-        Qiushi Wu <wu000273@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
-        mccamant@cs.umn.edu
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu
+References: <20200602054841.15746-1-navid.emamdoost@gmail.com>
+ <7061eb81-c00c-9978-5e4b-f9896c0ffd5e@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b03670e5-2718-062e-0f53-d596434fe9a4@gmail.com>
+Date:   Fri, 5 Jun 2020 17:05:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <7061eb81-c00c-9978-5e4b-f9896c0ffd5e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jun 5, 2020 at 1:09 AM Jon Hunter <jonathanh@nvidia.com> wrote:
->
->
-> On 02/06/2020 05:55, Navid Emamdoost wrote:
-> > the call to pm_runtime_get_sync increments the counter even
-> > in case of failure leading to incorrect ref count.
-> > Call pm_runtime_put if pm_runtime_get_sync fails.
-> >
-> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-> > ---
-> >  drivers/spi/spi-tegra114.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
-> > index 83edabdb41ad..dccd2ac1a975 100644
-> > --- a/drivers/spi/spi-tegra114.c
-> > +++ b/drivers/spi/spi-tegra114.c
-> > @@ -974,6 +974,7 @@ static int tegra_spi_setup(struct spi_device *spi)
-> >               dev_err(tspi->dev, "pm runtime failed, e = %d\n", ret);
-> >               if (cdata)
-> >                       tegra_spi_cleanup(spi);
-> > +             pm_runtime_put(tspi->dev);
-> >               return ret;
-> >       }
-> >
-> > @@ -1398,6 +1399,7 @@ static int tegra_spi_probe(struct platform_device *pdev)
-> >       ret = pm_runtime_get_sync(&pdev->dev);
-> >       if (ret < 0) {
-> >               dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
-> > +             pm_runtime_put(&pdev->dev);
-> >               goto exit_pm_disable;
-> >       }
->
-> I am wondering if it is better we use put_sync() here to ensure that
-> this happens before we exit the probe.
+05.06.2020 09:00, Jon Hunter пишет:
+> 
+> On 02/06/2020 06:48, Navid Emamdoost wrote:
+>> Call to pm_runtime_get_sync increments counter even in case of
+>> failure leading to incorrect ref count.
+>> Call pm_runtime_put_autosuspend if pm_runtime_get_sync fails.
+>>
+>> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+>> ---
+>>  drivers/staging/media/tegra-vde/vde.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+>> index d3e63512a765..52cdd4a91e93 100644
+>> --- a/drivers/staging/media/tegra-vde/vde.c
+>> +++ b/drivers/staging/media/tegra-vde/vde.c
+>> @@ -776,8 +776,10 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>>  		goto release_dpb_frames;
+>>  
+>>  	ret = pm_runtime_get_sync(dev);
+>> -	if (ret < 0)
+>> +	if (ret < 0) {
+>> +		pm_runtime_put_autosuspend(dev);
+>>  		goto unlock;
+>> +	}
+>>  
+>>  	/*
+>>  	 * We rely on the VDE registers reset value, otherwise VDE
+> 
+> Please use the put in the error path.
 
-To be honest I am not sure when to use different flavors of
-pm_runtime_put (like pm_runtime_put_noidle,
-pm_runtime_put_autosuspend, pm_runtime_put_sync, pm_runtime_put,
-pm_runtime_put_sync_suspend). I'd appreciate it if you could give me a
-pointer on how to decide on this.
+This is a third version of the patch [1][2].
 
->
-> Jon
->
-> --
-> nvpublic
+[1]
+https://patchwork.ozlabs.org/project/linux-tegra/patch/20200514210847.9269-2-digetx@gmail.com/
+[2]
+https://patchwork.ozlabs.org/project/linux-tegra/patch/20200520095148.10995-1-dinghao.liu@zju.edu.cn/
 
+I'd prefer to stick with my variant of the patch [1] because in my
+opinion it's most straightforward variant and I actually tested that it
+works properly.
 
-
--- 
-Navid.
+Navid, anyways thank you for the patch. Next time please check if
+somebody else already sent similar patches before you.
