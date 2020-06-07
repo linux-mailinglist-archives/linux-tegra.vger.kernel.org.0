@@ -2,170 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 339A71F0ED2
-	for <lists+linux-tegra@lfdr.de>; Sun,  7 Jun 2020 21:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E69C1F0F89
+	for <lists+linux-tegra@lfdr.de>; Sun,  7 Jun 2020 22:24:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728938AbgFGTAd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 7 Jun 2020 15:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728157AbgFGS5R (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jun 2020 14:57:17 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726D5C061A0E;
-        Sun,  7 Jun 2020 11:57:17 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id 9so8118273ljv.5;
-        Sun, 07 Jun 2020 11:57:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8/aMBkNYS1l8Movaag8RDV924EOkO8H/4xoiXZl2WiM=;
-        b=GTlefWECu/G29LjpCAIpxjCOUFiA8eAXuiWyHiMbICAos73tv92mfFafb0TW5OvmQO
-         CZ3wah4xZcJOe5t6GIlzYpN4m1UOskyr7Iybv0Rin7JLkxGc9BZqxgX8IW7GeAlscrP0
-         ziI0vTRXlxzHIDk7xOsD/Hg5FAvJYUXw/DwA50k2x8DimEndkp6GZYIJ/Yc84EOZo32G
-         iuKgKqr8J/atODjv1abhjYZfHe+5JEazr7arX8SI+fJ8Jy5e2Rd7pjmAAt09ANEegYJq
-         x5buSn9t6r3k3o+KLsg4Dt4pcCRpua2Nei8qqCRO8kxkbBSVp8b/upmXTzeJ4IUlvJHl
-         8hOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8/aMBkNYS1l8Movaag8RDV924EOkO8H/4xoiXZl2WiM=;
-        b=unBZPGw5/6B6LlxsOeEWnVUxIB26CrycP0XeWJcIU2tXA+L+Mugu4ZQoAkUPfZsKXT
-         3UvKhtJBgun1tJxmNUyPKGxmyUnMF4iCiTIu0UGakcEl0lpTp5XbDfZPl54r/Y6WbSyc
-         vZvJZg7s3JHX+tOkqZkc7DRyra6zUehVRUl9W8qZT8dusyQ3x3ctXvX5FfEh3Z1SQMGF
-         QKoTRGT+0x+D0KtVhIh2fUteskaTbhI64mdZjZnBscZbrpdETgRBHWwn2jYFawuXJO97
-         1l4ekK17iRMIObt655kQvyYXIyXhoJKIXjOpvNqbArsJ0f3lYjVB62J+ri0EZbfRgunz
-         Vk1g==
-X-Gm-Message-State: AOAM5302LMXf8bilbSARqbr6kCpQfuIslqwN94aOaNOE2E5xHqd8MZJY
-        KX2fHMsmZawnkju3Si93T20=
-X-Google-Smtp-Source: ABdhPJyl2mCiNiylo8SFzh15mikFwk4nidSsQRH+DDDM7Vcu+uuHrcsG0hfKfbwp27Pa/rx/yHAxyA==
-X-Received: by 2002:a2e:97d8:: with SMTP id m24mr4441620ljj.166.1591556235980;
-        Sun, 07 Jun 2020 11:57:15 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2020 11:57:15 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1727107AbgFGUYS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 7 Jun 2020 16:24:18 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:53638 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726093AbgFGUYS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jun 2020 16:24:18 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 44C241C0BD2; Sun,  7 Jun 2020 22:24:15 +0200 (CEST)
+Date:   Sun, 7 Jun 2020 22:24:14 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
-        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v3 05/39] memory: tegra30-emc: Make driver modular
-Date:   Sun,  7 Jun 2020 21:54:56 +0300
-Message-Id: <20200607185530.18113-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200607185530.18113-1-digetx@gmail.com>
-References: <20200607185530.18113-1-digetx@gmail.com>
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com
+Subject: Re: [PATCH v3 0/7] Support inhibiting input devices
+Message-ID: <20200607202414.GB13138@amd>
+References: <20200604072853.GP89269@dtor-ws>
+ <20200605173335.13753-1-andrzej.p@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="E39vaYmALEf/7YXx"
+Content-Disposition: inline
+In-Reply-To: <20200605173335.13753-1-andrzej.p@collabora.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds modularization support to the Tegra30 EMC driver. Driver
-now can be compiled as a loadable kernel module.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/memory/tegra/Kconfig       |  2 +-
- drivers/memory/tegra/mc.c          |  3 +++
- drivers/memory/tegra/tegra30-emc.c | 16 +++++++++++-----
- 3 files changed, 15 insertions(+), 6 deletions(-)
+--E39vaYmALEf/7YXx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
-index 7e0e1ef87763..bd453de9d446 100644
---- a/drivers/memory/tegra/Kconfig
-+++ b/drivers/memory/tegra/Kconfig
-@@ -18,7 +18,7 @@ config TEGRA20_EMC
- 	  external memory.
- 
- config TEGRA30_EMC
--	bool "NVIDIA Tegra30 External Memory Controller driver"
-+	tristate "NVIDIA Tegra30 External Memory Controller driver"
- 	default y
- 	depends on TEGRA_MC && ARCH_TEGRA_3x_SOC
- 	help
-diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index ec8403557ed4..772aa021b5f6 100644
---- a/drivers/memory/tegra/mc.c
-+++ b/drivers/memory/tegra/mc.c
-@@ -6,6 +6,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
-+#include <linux/export.h>
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -298,6 +299,7 @@ int tegra_mc_write_emem_configuration(struct tegra_mc *mc, unsigned long rate)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(tegra_mc_write_emem_configuration);
- 
- unsigned int tegra_mc_get_emem_device_count(struct tegra_mc *mc)
- {
-@@ -309,6 +311,7 @@ unsigned int tegra_mc_get_emem_device_count(struct tegra_mc *mc)
- 
- 	return dram_count;
- }
-+EXPORT_SYMBOL_GPL(tegra_mc_get_emem_device_count);
- 
- static int load_one_timing(struct tegra_mc *mc,
- 			   struct tegra_mc_timing *timing,
-diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-index 055af0e08a2e..205d8053fa75 100644
---- a/drivers/memory/tegra/tegra30-emc.c
-+++ b/drivers/memory/tegra/tegra30-emc.c
-@@ -1343,6 +1343,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, emc);
- 	tegra_emc_debugfs_init(emc);
- 
-+	/*
-+	 * Don't allow the kernel module to be unloaded. Unloading adds some
-+	 * extra complexity which doesn't really worth the effort in a case of
-+	 * this driver.
-+	 */
-+	try_module_get(THIS_MODULE);
-+
- 	return 0;
- 
- unset_cb:
-@@ -1393,6 +1400,7 @@ static const struct of_device_id tegra_emc_of_match[] = {
- 	{ .compatible = "nvidia,tegra30-emc", },
- 	{},
- };
-+MODULE_DEVICE_TABLE(of, tegra_emc_of_match);
- 
- static struct platform_driver tegra_emc_driver = {
- 	.probe = tegra_emc_probe,
-@@ -1403,9 +1411,7 @@ static struct platform_driver tegra_emc_driver = {
- 		.suppress_bind_attrs = true,
- 	},
- };
-+module_platform_driver(tegra_emc_driver);
- 
--static int __init tegra_emc_init(void)
--{
--	return platform_driver_register(&tegra_emc_driver);
--}
--subsys_initcall(tegra_emc_init);
-+MODULE_DESCRIPTION("NVIDIA Tegra30 EMC driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.26.0
+On Fri 2020-06-05 19:33:28, Andrzej Pietrasiewicz wrote:
+> Userspace might want to implement a policy to temporarily disregard input
+> from certain devices.
 
+Wow, you certainly cc a lot of lists.
+
+> An example use case is a convertible laptop, whose keyboard can be folded
+> under the screen to create tablet-like experience. The user then must hold
+> the laptop in such a way that it is difficult to avoid pressing the keybo=
+ard
+> keys. It is therefore desirable to temporarily disregard input from the
+> keyboard, until it is folded back. This obviously is a policy which should
+> be kept out of the kernel, but the kernel must provide suitable means to
+> implement such a policy.
+>=20
+> Due to interactions with suspend/resume, a helper has been added for driv=
+ers
+> to decide if the device is being used or not (PATCH 1/7) and it has been
+> applied to relevant drivers (PATCH 2,4,5,6/7).
+
+But is that a right way to implement it?
+
+We want this for cellphones, too -- touchscreen should be disabled
+while the device is locked in the pocket -- but we really want the
+touchscreen hardware to be powered down in that case (because it keeps
+SoC busy and eats a _lot_ of electricity).
+
+But simplistic "receive an event and then drop it if device is
+inhibited" does not allow that...
+
+Best regards,
+								Pavel
+							=09
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--E39vaYmALEf/7YXx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl7dTO4ACgkQMOfwapXb+vKNuACgw3cpx7Z15Nm3EAs8yyTuu1RS
+DsYAn1yorcZKMbA2oKpOoVakbRalRIie
+=Dt1J
+-----END PGP SIGNATURE-----
+
+--E39vaYmALEf/7YXx--
