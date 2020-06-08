@@ -2,37 +2,38 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C35B21F2E33
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jun 2020 02:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13DFF1F2D46
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jun 2020 02:33:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730165AbgFIAjw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 Jun 2020 20:39:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32866 "EHLO mail.kernel.org"
+        id S1730661AbgFIAcF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 8 Jun 2020 20:32:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36188 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729245AbgFHXNL (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:13:11 -0400
+        id S1728834AbgFHXPT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:15:19 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D48A4208C3;
-        Mon,  8 Jun 2020 23:13:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EF36B2076C;
+        Mon,  8 Jun 2020 23:15:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657990;
-        bh=39vqlRfsBoNdJeuI4mEYkQrLbavGQuPFoJIQ8ZIkAzQ=;
+        s=default; t=1591658118;
+        bh=QkkKrfXIqBTewevv8yU5ylGQpIpEznDfIwmX3poadq8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WAaKUN4WzHRmZ/D2SLtDdWHbpOTC7oR9EhMeBaUHWpvcmj55xVi/E0Me2Qy21ERK5
-         qqNKkAlQEy5N0xk5M8sKaDKMX/4Iyq491goQQlmoLuddS6b6vFPR1jDDUj5EGv+/st
-         uCfFvxnHwv8ou2SmT3VxQfns4qOg6C6MRMRnXQqc=
+        b=cUJsubXgLnxli/j2JGKMhkNVdw5Jltwh4jQHWGf7awAruTrtAfbaM5xoUAOuSyYQA
+         cfdfKL6MmHW/Y4+OiNawgAxAa/NNnr9oml1USzj7HlwfFZXdhsY/iW1Lvk70uk6wUg
+         0m1cZfgn5VSz7Fmv8Sz1RY7hVnUml+gCLk3HN5kw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thierry Reding <treding@nvidia.com>,
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         Jon Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 049/606] usb: gadget: tegra-xudc: Fix idle suspend/resume
-Date:   Mon,  8 Jun 2020 19:02:54 -0400
-Message-Id: <20200608231211.3363633-49-sashal@kernel.org>
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 156/606] dmaengine: tegra210-adma: Fix an error handling path in 'tegra_adma_probe()'
+Date:   Mon,  8 Jun 2020 19:04:41 -0400
+Message-Id: <20200608231211.3363633-156-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
 References: <20200608231211.3363633-1-sashal@kernel.org>
@@ -45,47 +46,42 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-commit 0534d40160cb9505073b0ecf5e7210daee319a66 upstream.
+commit 3a5fd0dbd87853f8bd2ea275a5b3b41d6686e761 upstream.
 
-When the XUDC device is idle (i.e. powergated), care must be taken not
-to access any registers because that would lead to a crash.
+Commit b53611fb1ce9 ("dmaengine: tegra210-adma: Fix crash during probe")
+has moved some code in the probe function and reordered the error handling
+path accordingly.
+However, a goto has been missed.
 
-Move the call to tegra_xudc_device_mode_off() into the same conditional
-as the tegra_xudc_powergate() call to make sure we only force device
-mode off if the XUDC is actually powered up.
+Fix it and goto the right label if 'dma_async_device_register()' fails, so
+that all resources are released.
 
-Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB device mode controller")
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Fixes: b53611fb1ce9 ("dmaengine: tegra210-adma: Fix crash during probe")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Link: https://lore.kernel.org/r/20200516214205.276266-1-christophe.jaillet@wanadoo.fr
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/dma/tegra210-adma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 634c2c19a176..a22d190d00a0 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -3740,11 +3740,11 @@ static int __maybe_unused tegra_xudc_suspend(struct device *dev)
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index 6e1268552f74..914901a680c8 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -900,7 +900,7 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 	ret = dma_async_device_register(&tdma->dma_dev);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "ADMA registration failed: %d\n", ret);
+-		goto irq_dispose;
++		goto rpm_put;
+ 	}
  
- 	flush_work(&xudc->usb_role_sw_work);
- 
--	/* Forcibly disconnect before powergating. */
--	tegra_xudc_device_mode_off(xudc);
--
--	if (!pm_runtime_status_suspended(dev))
-+	if (!pm_runtime_status_suspended(dev)) {
-+		/* Forcibly disconnect before powergating. */
-+		tegra_xudc_device_mode_off(xudc);
- 		tegra_xudc_powergate(xudc);
-+	}
- 
- 	pm_runtime_disable(dev);
- 
+ 	ret = of_dma_controller_register(pdev->dev.of_node,
 -- 
 2.25.1
 
