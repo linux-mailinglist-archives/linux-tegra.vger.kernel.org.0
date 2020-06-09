@@ -2,83 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 061751F47B1
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jun 2020 22:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EB701F493B
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 00:12:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732509AbgFIUCa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jun 2020 16:02:30 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:45692 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbgFIUC2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jun 2020 16:02:28 -0400
-Received: by mail-io1-f68.google.com with SMTP id y5so24174642iob.12;
-        Tue, 09 Jun 2020 13:02:27 -0700 (PDT)
+        id S1728202AbgFIWMq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jun 2020 18:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726992AbgFIWMn (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jun 2020 18:12:43 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCE04C05BD1E;
+        Tue,  9 Jun 2020 15:12:42 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id z9so27058266ljh.13;
+        Tue, 09 Jun 2020 15:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3C9MNSSLz5k4HgIlBTzG1S99/DUa1Q5oTEHE9/q2XSM=;
+        b=Sa9ddKfVX/pQhio3QNjTFPjLCbmHUnC5fk3Ftrz3tilCnbI3guBN3BDIXX/LxeVTns
+         6biEY98ZL2oqWwfIC8YkUdM7IvXd91VL4CtHs3gZiL1li4sh25fE/sfJSfq7Ba/g8hXu
+         zQtwxCtnzelHvfrBg26ACFr7WDcWAL2r2lKiB/G6brVIx520FaZToBpLhP9hkPbAEop9
+         B4b66sXcSkz4HPu226x56vUdhVKeEpKI6m0+4NlQ7RV+Pt6r0mcjLzXp23Uo0muQY5Ui
+         uwYmrFG/Y1jx+VGj29/zzv8sraI9blE6diNqKs37qhT5FkrVVS0qgzkbSI0rOUH95xgp
+         gToA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=k8Vtkuk+eVaXGU/8rfVJdWcttoiSK9i9poLLXc4pfnw=;
-        b=uUvqEBhR3EXCW+mC25JRkSeAgKuETy/N8Sae6xZgNXUOrjyI0FECNYsbroCECbajXq
-         dCHsQN+UiqSB2fbcx3A787iYg8yTfT7mWo8da9GBGETkj4YQJm65JGV9oAoxyQ5Oxgtq
-         bQcWDmPV3kupCm8l9dCikZ5who4CvhImNKn/oDmgopVnIm2/JKY6eZL6BNwuHsTMi1vo
-         pjdpJZ0uF9myXpxZfS3oTZmZnTsHgwaCYzr/cFcZ5LMuLTWOt509+dnRU+FMjmTcLlY7
-         GgB0RVqNav5c1Lzgt+r7nZCLxrXymqpid/+XI0rbx1iQWjQ+AEkft6zHrEx6v7vMOLQq
-         zOIg==
-X-Gm-Message-State: AOAM531oX/4IWQc2zMqx67sPN7oilvsD7g4J7eGMnmQ016ZbMiXdRqrZ
-        P0ilHD7QC6YZ1Kjx6OS7ZQ==
-X-Google-Smtp-Source: ABdhPJwwjhFBa9o+ou5vR9zbKMqsajdWUO/uk2RF8iJ7Mxb3+utXKh5+R6GmAI2gbaTUyNT6I1quhg==
-X-Received: by 2002:a05:6602:2e96:: with SMTP id m22mr28955927iow.165.1591732947458;
-        Tue, 09 Jun 2020 13:02:27 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id e184sm7664983iof.44.2020.06.09.13.02.26
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3C9MNSSLz5k4HgIlBTzG1S99/DUa1Q5oTEHE9/q2XSM=;
+        b=tuYxM1lINCLfXt7/eU0lEBY1zuqjlplPZy3Rp507a065tfx3hxx9f9LAlImElNtNln
+         IxcT0gYg6xnouX2mOieYFdBTvwYndy95Hjbr+8Bl7bdc/Kijwio14KaM3TfNDuPb0yOU
+         rpK2VJNN/rMVNZEdEgbWoN5C4ar0pnuGyK5fRFZE+++oJcIBksyoLuWd59hIJjuK066p
+         QmCSBfsXHBFG00usSvQk/8kNglCCsdXPaXC9JKxD32s8jM2F18uKcgpyiyiVASf7NM5h
+         o/nMNbZo3JxFajs0iXVHzXVaZg8b1EdZnha9HAJ5gni3y5N2QEZt2GA8Vc31D+6+9D23
+         h1bA==
+X-Gm-Message-State: AOAM533SavKqzSIMl3V4Uojfz3/O+KdDUNqzoIEY59D+e+yLfh/icXmj
+        e8Fd99jIRuj1mW/U4nPDHts=
+X-Google-Smtp-Source: ABdhPJypP95cSn79r40HgE6S7hKvSZl2oE1/rs4o7jDGGcf0d82K+Y5JRA3Cy2G4MWTbIWx5KJpqsg==
+X-Received: by 2002:a2e:98d4:: with SMTP id s20mr196514ljj.83.1591740761017;
+        Tue, 09 Jun 2020 15:12:41 -0700 (PDT)
+Received: from localhost.localdomain (h-82-196-111-136.NA.cust.bahnhof.se. [82.196.111.136])
+        by smtp.gmail.com with ESMTPSA id r197sm5289226lff.5.2020.06.09.15.12.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2020 13:02:27 -0700 (PDT)
-Received: (nullmailer pid 1359505 invoked by uid 1000);
-        Tue, 09 Jun 2020 20:02:25 -0000
-Date:   Tue, 9 Jun 2020 14:02:25 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-kernel@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
-        linux-pm@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>, devicetree@vger.kernel.org,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>
-Subject: Re: [PATCH v3 24/39] dt-bindings: memory: tegra30: Add memory client
- IDs
-Message-ID: <20200609200225.GA1359394@bogus>
-References: <20200607185530.18113-1-digetx@gmail.com>
- <20200607185530.18113-25-digetx@gmail.com>
+        Tue, 09 Jun 2020 15:12:40 -0700 (PDT)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, josephl@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] memory: tegra: Constify struct thermal_cooling_device_ops
+Date:   Wed, 10 Jun 2020 00:12:35 +0200
+Message-Id: <20200609221235.44602-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200607185530.18113-25-digetx@gmail.com>
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, 07 Jun 2020 21:55:15 +0300, Dmitry Osipenko wrote:
-> Each memory client have a unique hardware ID, this patch adds these IDs.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  include/dt-bindings/memory/tegra30-mc.h | 67 +++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
-> 
+tegra210_emc_cd_ops is never modified and can be made const to allow the
+compiler to put it in read-only memory.
 
+Before:
+   text    data     bss     dec     hex filename
+  27936    5600     192   33728    83c0 drivers/memory/tegra/tegra210-emc-core.o
 
-Please add Acked-by/Reviewed-by tags when posting new versions. However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for acks received on the version they apply.
+After:
+   text    data     bss     dec     hex filename
+  28040    5504     192   33736    83c8 drivers/memory/tegra/tegra210-emc-core.o
 
-If a tag was not added on purpose, please state why and what changed.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/memory/tegra/tegra210-emc-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/memory/tegra/tegra210-emc-core.c b/drivers/memory/tegra/tegra210-emc-core.c
+index cdd663ba4733..2dfcc0e2e15d 100644
+--- a/drivers/memory/tegra/tegra210-emc-core.c
++++ b/drivers/memory/tegra/tegra210-emc-core.c
+@@ -711,7 +711,7 @@ static int tegra210_emc_cd_set_state(struct thermal_cooling_device *cd,
+ 	return 0;
+ }
+ 
+-static struct thermal_cooling_device_ops tegra210_emc_cd_ops = {
++static const struct thermal_cooling_device_ops tegra210_emc_cd_ops = {
+ 	.get_max_state = tegra210_emc_cd_max_state,
+ 	.get_cur_state = tegra210_emc_cd_get_state,
+ 	.set_cur_state = tegra210_emc_cd_set_state,
+-- 
+2.27.0
 
