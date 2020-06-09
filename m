@@ -2,80 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78AC61F40EB
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jun 2020 18:31:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 831901F47A8
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jun 2020 22:02:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbgFIQbR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jun 2020 12:31:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44620 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgFIQbR (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 9 Jun 2020 12:31:17 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DD0FE20774;
-        Tue,  9 Jun 2020 16:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591720277;
-        bh=KGsTckml0xbEI9J0TlXRHHhvg6RDFGQ4i5mIyxkxaRM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2Vi1eeq41LwbYuDhmRV6SXYFOUt7Zcb/rvNpdZsjsEudsphM5ldCTWGm3IQU9UqSx
-         C5gajI05pVV1hIBCo8l023M0xJyOo6ztJMiYOzgrT5Fh6nXoWLPzc0KM5s1YPXXQYY
-         K1Eg7uaM9FrGJIOhe6EcDaLq09mbI+5+B5R9RiR4=
-Date:   Tue, 9 Jun 2020 17:31:15 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mfd: max77620: Convert to json-schema
-Message-ID: <20200609163115.GL4583@sirena.org.uk>
-References: <20200609162621.1769610-1-thierry.reding@gmail.com>
+        id S1732436AbgFIUCC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jun 2020 16:02:02 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:46910 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbgFIUCC (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jun 2020 16:02:02 -0400
+Received: by mail-il1-f196.google.com with SMTP id h3so21572427ilh.13;
+        Tue, 09 Jun 2020 13:02:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ELH9Be8+gsKdPlrt+pdF1SGavvBGmA9LnuUEzWNi+6g=;
+        b=CHOc8+QJrn/5WqMMg8YRiB3zcAfYtVhxV5HXKC0YpvfngKn0tEyqL0KHsi2E7PD6+A
+         bkM1L+/U5l9x65d9M9CM6ISAQCykSjP4sYskYnu//mY11bmS14KX08WfFDHXXLyqRnYx
+         KpYlTauTcPq+coaXiel9C55rIvH03MrevWKITA4gRtyp24s23dgLDi9RmegieP3DDJ9e
+         1/RFvoFj0uFCdUd75Gnqbod7+IUUyvOspQlnhpVhk9MhNaGAznPDusZoN5+9F/rPGrjs
+         7QCVdO+uV6j4Uo/rUbXN1M0z42IYI0drh8RrUeexL9FGEekA+L9VjJAZZ7xOe7wfrvQY
+         7CIQ==
+X-Gm-Message-State: AOAM532acxCxnD3Gu6iZ9w8lRfm8+8OcT1uoxXmu+K8jQ/dSRjjiqZfH
+        0zuOOn+gyzONqlSQlo6SWA==
+X-Google-Smtp-Source: ABdhPJzzN9h/0yFH/jDM7Lc0O27CSSrGvQPkicYGBRLDyugbScvihBoQuG1yDC/Qmm+eVczJTsZiSQ==
+X-Received: by 2002:a92:854a:: with SMTP id f71mr28102764ilh.28.1591732921382;
+        Tue, 09 Jun 2020 13:02:01 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id g64sm7823853iof.5.2020.06.09.13.01.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 13:02:00 -0700 (PDT)
+Received: (nullmailer pid 1358678 invoked by uid 1000);
+        Tue, 09 Jun 2020 20:01:59 -0000
+Date:   Tue, 9 Jun 2020 14:01:59 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        linux-pm@vger.kernel.org,
+        Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        linux-tegra@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        dri-devel@lists.freedesktop.org,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v3 23/39] dt-bindings: memory: tegra20: Add memory client
+ IDs
+Message-ID: <20200609200159.GA1358512@bogus>
+References: <20200607185530.18113-1-digetx@gmail.com>
+ <20200607185530.18113-24-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="AGBBLMjITsWHeOTZ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200609162621.1769610-1-thierry.reding@gmail.com>
-X-Cookie: Be careful!  Is it classified?
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200607185530.18113-24-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Sun, 07 Jun 2020 21:55:14 +0300, Dmitry Osipenko wrote:
+> Each memory client have a unique hardware ID, this patch adds these IDs.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+> 
 
---AGBBLMjITsWHeOTZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 09, 2020 at 06:26:21PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> Convert the Maxim MAX77620 PMIC device tree bindings from free-form text
-> format to json-schema.
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+If a tag was not added on purpose, please state why and what changed.
 
---AGBBLMjITsWHeOTZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7fuVIACgkQJNaLcl1U
-h9CftAf/U/sNqwgkbzXWIw+NaofN1U68XUh173YGDAYEDgYZrv+dd7iVw7bOXuPe
-+j5x5gtNssHTKVU+W9umxb1yRMJ/AZCoAiCruVFWmgd+XXMatFG73X+DdPQZyR+9
-kicOZlf+I95Gz31Ih5dyZ5waOgQMOf8NARAT/V7pwJsepGWRLercdCVePXDtFx6I
-s4Fv8fXfMklu8VR4+DkcFzV78FCDDpRlcCwOQOlHdYKrzlhMETutMzQGwJg4eMYA
-UXby6+vQPPC3fEkEk3o6EA9/YuI4CrpiWBfTAGnzg3uPZuz1zDcJ70hmscSkw54w
-OL9VSs8BdDlIE2ucAFDsXWNxBI3ewg==
-=yEfK
------END PGP SIGNATURE-----
-
---AGBBLMjITsWHeOTZ--
