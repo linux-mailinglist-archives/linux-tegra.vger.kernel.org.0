@@ -2,217 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAA251F577D
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 17:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F62C1F5939
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 18:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730104AbgFJPPV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 10 Jun 2020 11:15:21 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7884 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726979AbgFJPPV (ORCPT
+        id S1726254AbgFJQis (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jun 2020 12:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726095AbgFJQip (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 10 Jun 2020 11:15:21 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ee0f8db0001>; Wed, 10 Jun 2020 08:14:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 10 Jun 2020 08:15:20 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 10 Jun 2020 08:15:20 -0700
-Received: from [10.2.167.70] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jun
- 2020 15:15:20 +0000
-Subject: Re: [RFC PATCH v1 10/18] dt-bindings: tegra: Document VI and CSI port
- nodes
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <frankc@nvidia.com>, <hverkuil@xs4all.nl>, <robh+dt@kernel.org>,
-        <helen.koike@collabora.com>, <digetx@gmail.com>,
-        <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>
-References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
- <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
- <20200610112303.GB805@valkosipuli.retiisi.org.uk>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <075d9d2e-eaa8-1895-8759-64c682fee1c4@nvidia.com>
-Date:   Wed, 10 Jun 2020 08:15:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Wed, 10 Jun 2020 12:38:45 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6303DC03E96B;
+        Wed, 10 Jun 2020 09:38:45 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id 9so3300086ljc.8;
+        Wed, 10 Jun 2020 09:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4o9LdKBdQI4Xw0X6DBGZV3+M+KUXZfmXVAd7OspnHY4=;
+        b=VNTtd+GcNu8jNRAUDP/kbJWJxCcWxUggQSdsrptXxSwqaRJ2vBUD7J+Wog7Rnocm3i
+         xn4cAUnDo4+a4ZLYmwUmgT+Bl+nD5aTfEif/hqsbmAwepfq9RndVekxOvyq3/fMoQPo+
+         hSOZcsbZxY9s3mfy5j+vorR9kwJgI9MMzbLukHo5fJjECRMjr2lik0dn/Ph1vXA+eASi
+         VEerkrqRyAIYnvJ4ZWHgKhdvWh1LjH5CqqLyGUOoyoXKKjmb2WL60dBE9mfGQjshi8Z0
+         Aqq+v5LhyaqHZD8sp8aL892WuLZwU8RqVJ9vCd11OD5pZ0NW5hoK84XCwZam3ti1EMdN
+         gkvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4o9LdKBdQI4Xw0X6DBGZV3+M+KUXZfmXVAd7OspnHY4=;
+        b=sTeWHnl5xaa/0NGDDob9sRZq/hZcaO1RrTGgZhpnkT2UJLOdMS4VbEOa0KWwNLVRel
+         ML8gxILtf/RoX4qXYgi9LplMReUc8YO07fymmIez8sQecTAJuvFMynJG7qrNVyuXdBt4
+         jVJzqezvHeYVnKxXed3oxmiIHIN2W6S1/Ze4oTPJtpXnJWT03DoeugMZ38v6B3OoqVPX
+         wSjINg2JJYg/c9z2vDsKgXbIRmEUgTMktODRiHbJK9r6enowtdFfKgLn8P5zd9KW2xA2
+         w4ZcgmwHjOhSuGh7xXmvV/lYMu+J+oCMtyGLtyp06ZVrOrx50xF7r0HFj/xPYHl31fza
+         c1ZQ==
+X-Gm-Message-State: AOAM531qfP7kUMVHjaVF2IcYLMhnBWrwLMI47zu64i8QjvniielZMUCG
+        VlOKnJwmtEVCNprVLFsV8IY=
+X-Google-Smtp-Source: ABdhPJypPUuoq+xIcrWQhm7AFGbkqwnRbH7qt2lfZbzVikpJUbJ2EyXU00QIw3EMW1Lfa6ekU7/1yg==
+X-Received: by 2002:a2e:94d0:: with SMTP id r16mr2079054ljh.351.1591807123820;
+        Wed, 10 Jun 2020 09:38:43 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id k1sm82825lja.27.2020.06.10.09.38.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 09:38:43 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] clk: tegra: pll: Improve PLLM enable-state detection
+Date:   Wed, 10 Jun 2020 19:37:38 +0300
+Message-Id: <20200610163738.29304-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <20200610112303.GB805@valkosipuli.retiisi.org.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1591802075; bh=kk+QMVEOjc1lV2kCwKPqvUooZW7O6ZM/dk+n2Vpww1I=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=MFkqUeanNXj7YJ7FGzM7DBn4AJjXWtgazzXgRA784zPBzaxM2ulHOtMFGOurpOhnM
-         EwmxTSdIVlQ3yPEwfa0y7DCw9KSpQ5FzHYasTOo8hzAbuuundwbAlvWXXX9jEZdjtP
-         a8PexiFY8BSuWapSjGFDvV5AI1sqP21VrNjJWAm7Ni7D1EYlOir36PJuVf34Wtae/b
-         AdpQXFrlmZAJtwNKlVFTvqH/J/1qR2xplPdUz0v/r1q/b66WPew8Oh+ZrmYkmQfwCw
-         PwS7xtU3t2s7mGlYs/dKXz7+8IoEeY+B7qYVLJd0lO3J7rtLMC202JPFeviJTW7v6G
-         Q/01ljPFErdPQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Power Management Controller (PMC) can override the PLLM clock settings,
+including the enable-state. Although PMC could only act as a second level
+gate, meaning that PLLM needs to be enabled by the Clock and Reset
+Controller (CaR) anyways if we want it to be enabled. Hence, when PLLM is
+overridden by PMC, it needs to be enabled by CaR and ungated by PMC in
+order to be functional. Please note that this patch doesn't fix any known
+problem, and thus, it's merely a minor improvement.
 
-On 6/10/20 4:23 AM, Sakari Ailus wrote:
-> Hi Sowjanya,
->
-> Thanks for the patchset.
->
-> On Tue, Jun 09, 2020 at 11:02:32PM -0700, Sowjanya Komatineni wrote:
->> This patch documents Tegra VI and CSI port and endpoint nodes along
->> with the other required properties.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   .../display/tegra/nvidia,tegra20-host1x.txt        | 87 ++++++++++++++++++++++
->>   1 file changed, 87 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> index 4731921..f70a838 100644
->> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> @@ -65,6 +65,48 @@ of the following host1x client modules:
->>         - power-domains: Must include sor powergate node as csicil is in
->>           SOR partition.
->>   
->> +      Optional properties for csi node:
-> What hardware does the csi node represent? A CSI-2 receiver? Something
-> else?
->
-> If you have two connections, you need two ports. The example isn't quite
-> clear on this; it would appear to represent a single physical interface.
+Link: https://lore.kernel.org/linux-arm-kernel/20191210120909.GA2703785@ulmo/T/
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/clk/tegra/clk-pll.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-CS-2 receiver with 2 connections. one for sink with sensor to csi and 
-other as source with csi to Tegra vi.
+diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+index 0b212cf2e794..4fd1edba8caf 100644
+--- a/drivers/clk/tegra/clk-pll.c
++++ b/drivers/clk/tegra/clk-pll.c
+@@ -330,17 +330,18 @@ int tegra_pll_wait_for_lock(struct tegra_clk_pll *pll)
+ static int clk_pll_is_enabled(struct clk_hw *hw)
+ {
+ 	struct tegra_clk_pll *pll = to_clk_pll(hw);
++	bool pllm_enabled = true;
+ 	u32 val;
+ 
+ 	if (pll->params->flags & TEGRA_PLLM) {
+ 		val = readl_relaxed(pll->pmc + PMC_PLLP_WB0_OVERRIDE);
+ 		if (val & PMC_PLLP_WB0_OVERRIDE_PLLM_OVERRIDE)
+-			return val & PMC_PLLP_WB0_OVERRIDE_PLLM_ENABLE ? 1 : 0;
++			pllm_enabled = !!(val & PMC_PLLP_WB0_OVERRIDE_PLLM_ENABLE);
+ 	}
+ 
+ 	val = pll_readl_base(pll);
+ 
+-	return val & PLL_BASE_ENABLE ? 1 : 0;
++	return pllm_enabled && (val & PLL_BASE_ENABLE);
+ }
+ 
+ static void _clk_pll_enable(struct clk_hw *hw)
+-- 
+2.26.0
 
-Was using separate port for sink and source and then I misunderstood 
-device graph document and changed to have multiple endpoints in same port.
-
-Will update this in v2 to have separate port for each sink and source 
-endpoint in csi in dt and also in driver implementation.
-
->> +
->> +      - channel nodes: Max upto 6 channels/streams are supported with each CSI
->> +	brick can as either x4 or x2 based on hw connectivity to sensor.
->> +
->> +	Required properties:
->> +	- reg: channel/stream index
->> +	- nvidia,mipi-calibrate: Should contain a phandle and a specifier
->> +	  specifying which pads are used by this CSI port and need to be
->> +	  calibrated. See also ../display/tegra/nvidia,tegra114-mipi.txt.
->> +
->> +	- port: CSI port node and its endpoint nodes as per device graph
->> +          bindings defined in Documentation/devicetree/bindings/graph.txt.
->> +	  Required properties:
-> You have both properties and nodes here. Same for the above (port is a
-> node).
-Will update document to separate out port node from properties
->
->> +	  - reg: csi port index based on hw csi lanes connectivity to the
->> +	    sensor.
->> +	  - bus-width: number of lanes used by this port. Supported lanes
->> +	    are 1/2/4.
-> bus-width belongs to the endpoint. Note that this is for parallel busses
-> only. If you need the number of lanes, the property is called data-lanes.
-Will update in v2 for having separate ports for sink and source 
-endpoints will move bus-width to endpoint.
->
->> +	  - endpoint@0: sink node
->> +	    Required properties:
->> +	    - reg: endpoint id. This is used to retrieve pad for creating
->> +	      media link
->> +	    - remote-endpoint: phandle to sensor endpoint
->> +	  - endpoint@1: source node
->> +	    - reg: endpoint id. This is used to retrieve pad for creating
->> +	      media link
->> +	    - remote-endpoint: phandle to vi port endpoint
->> +
->> +  Optional properties for vi node:
->> +  - ports: Video port nodes and endpoint nodes as per device graph bindings
->> +    defined in Documentation/devicetree/bindings/graph.txt
->> +    Max 6 ports are supported and each port should have one endpoint node.
->> +
->> +    Required properties:
->> +    - port: VI port node and its sink endpoint node
->> +      Required properties:
->> +    - reg: should match port index
->> +    - endpoint@0: sink node
->> +      Required properties:
->> +      - reg: endpoint id must be 0
->> +      - remote-endpoint: phandle to CSI endpoint node.
->> +
->>   - epp: encoder pre-processor
->>   
->>     Required properties:
->> @@ -340,6 +382,22 @@ Example:
->>   
->>   			ranges = <0x0 0x0 0x54080000 0x2000>;
->>   
->> +			ports {
->> +				#address-cells = <1>;
->> +				#size-cells = <0>;
->> +
->> +				port@0 {
->> +					reg = <0>;
->> +					#address-cells = <1>;
->> +					#size-cells = <0>;
->> +
->> +					imx219_vi_in0: endpoint@0 {
->> +						reg = <0>;
->> +						remote-endpoint = <&imx219_csi_out0>;
->> +					};
->> +				};
->> +			};
->> +
->>   			csi@838 {
->>   				compatible = "nvidia,tegra210-csi";
->>   				reg = <0x838 0x1300>;
->> @@ -362,6 +420,35 @@ Example:
->>   					 <&tegra_car TEGRA210_CLK_CSI_TPG>;
->>   				clock-names = "csi", "cilab", "cilcd", "cile", "csi_tpg";
->>   				power-domains = <&pd_sor>;
->> +
->> +				#address-cells = <1>;
->> +				#size-cells = <0>;
->> +
->> +				channel@0 {
->> +					reg = <0>;
->> +					nvidia,mipi-calibrate = <&mipi 0x001>;
->> +
->> +					#address-cells = <1>;
->> +					#size-cells = <0>;
->> +
->> +					port@0 {
->> +						reg = <0>;
->> +						bus-width = <2>;
->> +
->> +						#address-cells = <1>;
->> +						#size-cells = <0>;
->> +
->> +						imx219_csi_in0: endpoint@0 {
->> +							reg = <0>;
->> +							remote-endpoint = <&imx219_out0>;
->> +						};
->> +
->> +						imx219_csi_out0: endpoint@1 {
->> +							reg = <1>;
->> +							remote-endpoint = <&imx219_vi_in0>;
->> +						};
->> +					};
->> +				};
->>   			};
->>   		};
->>   
