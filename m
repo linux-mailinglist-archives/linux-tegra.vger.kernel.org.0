@@ -2,112 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C52C91F4ADC
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 03:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D38271F4DCB
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 08:05:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726042AbgFJB2O (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jun 2020 21:28:14 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:40293 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725944AbgFJB2M (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 9 Jun 2020 21:28:12 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49hTrh691xz8r;
-        Wed, 10 Jun 2020 03:28:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1591752489; bh=GKakFZj7r0PwB6e2LKfOoZiiZ9swBqGVdyd905VRjjc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JcyUlr+WvHTHmVp9QAURy3vHUtHVVvuUk1Xc6U+oronaswAv4sPlpbwXkVXPI8OAh
-         +ZCIKP6b32XkKvBIkcDKfm7t5TkDfmLGkNf74ukWIjaGqoW7qPfkxtWoih0Eomc4q/
-         w2zgsXY6Ruhf8XUqJzx4KoGN+dBRlxxN21IxsSv4ms6v4OXw8WDPGKcSmtcRlDrzu+
-         SXD6KNjcaDfhF9rBu5rWcpoycCx3SX/hJ8Ihse3BcYOPhIiNqNAicuPBIwHgj3I9AF
-         SpBhhg7k+AJoi+ZsRdKBumYPce06a6uaA4FP/36CK0TBm0UvejlWb02cPOjzHiUszs
-         CUzBf4na9/iZw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Wed, 10 Jun 2020 03:28:01 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com
-Subject: Re: [PATCH v4 5/7] iio: adc: exynos: Use input_device_enabled()
-Message-ID: <20200610012801.GA11530@qmqm.qmqm.pl>
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com>
- <20200608112211.12125-6-andrzej.p@collabora.com>
+        id S1726097AbgFJGCp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jun 2020 02:02:45 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10474 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbgFJGCo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 10 Jun 2020 02:02:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee077760000>; Tue, 09 Jun 2020 23:02:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 09 Jun 2020 23:02:44 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 09 Jun 2020 23:02:44 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jun
+ 2020 06:02:43 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 10 Jun 2020 06:02:43 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.167.70]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ee077830000>; Tue, 09 Jun 2020 23:02:43 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+Subject: [RFC PATCH v1 00/18] Support for Tegra video capture from external sensor
+Date:   Tue, 9 Jun 2020 23:02:22 -0700
+Message-ID: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200608112211.12125-6-andrzej.p@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591768950; bh=FXhZfk63iIGnhOl7ObWf5a0rZNtaUwqXcQ95FoPZsQU=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=o/oLmO/k+w1qnam9L4g1yDi4XMZro4JQyplhYPpSNViUombSnHD9yM+9ivDykplVT
+         C6Om7NGufPOo4rRsGAPVr/0bMdjp/TGaKUuS91KDGWaOTCShHR5YT1mlSJ/YdT4ef2
+         Os6Od+BXGQC+yQ8bkfBqaeVLHivEGwH8Jw7srs+MdrVAoBOmpJl5dUNCKEtN/DZvVn
+         yjEhJYzLoljehxwCl1BkyrXA75z4LuLk3oyl/4HtN70DEv0itsFWa/UfGGaZrm4Fpp
+         4+LOd/qbwfW6wIrH/Ji5ge9ch45AdmrGQ41WBMBQEoouAt5oBiRmWAuK+TSgX/jmiL
+         mXoDBU3LSuzTA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 08, 2020 at 01:22:09PM +0200, Andrzej Pietrasiewicz wrote:
-> A new helper is available, so use it. Inspecting 'users' member of
-> input_dev requires taking device's mutex.
-[...]
-> --- a/drivers/iio/adc/exynos_adc.c
-> +++ b/drivers/iio/adc/exynos_adc.c
-> @@ -633,7 +633,9 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
->  	bool pressed;
->  	int ret;
->  
-> -	while (info->input->users) {
-> +	mutex_lock(&info->input->mutex);
-> +	while (input_device_enabled(info->input)) {
-> +		mutex_unlock(&info->input->mutex);
->  		ret = exynos_read_s3c64xx_ts(dev, &x, &y);
->  		if (ret == -ETIMEDOUT)
->  			break;
-> @@ -651,6 +653,8 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
->  		input_sync(info->input);
->  
->  		usleep_range(1000, 1100);
-> +
-> +		mutex_lock(&info->input->mutex);
->  	}
+This series adds support for video capture from external camera sensor to
+Tegra video driver.
 
-Missed an mutex_unlock() here.
+Jetson TX1 has camera expansion connector and supports custom camera module
+designed as per TX1 design specification.
 
->  
->  	writel(0, ADC_V1_CLRINTPNDNUP(info->regs));
+This series also enables camera capture support for Jetson Nano which has
+Raspberry PI camera header.
 
-Best Regards,
-Micha³ Miros³aw
+This series is tested with IMX219 camera sensor.
+
+This series include,
+
+VI I2C related fixes
+- Camera sensor programming happens through VI I2C which is on host1x bus.
+- These patches includes device tree and I2C driver fixes for VI I2C.
+
+Tegra video driver updates
+- TPG Vs Non-TPG based on Kconfig
+- Support for external sensor video capture based on device graph from DT.
+- Support for selection ioctl operations
+- Tegra MIPI CSI pads calibration
+- CSI T-CLK and T-HS settle time computation based on clock rates.
+
+Host1x driver updates
+- Adds API to allow creating mipi device for specific device node.
+- Splits MIPI pads calibrate start and waiting for calibration to be done.
+
+Device tree updates
+- Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson TX1 DT.
+- Enabled VI and CSI support in Jetson Nano DT.
+
+
+
+Sowjanya Komatineni (18):
+  dt-bindings: i2c: tegra: Document Tegra210 VI I2C clocks and
+    power-domains
+  arm64: tegra: Add missing clocks and power-domains to Tegra210 VI I2C
+  i2c: tegra: Don't mark VI I2C as IRQ safe runtime PM
+  i2c: tegra: Fix the error path in tegra_i2c_runtime_resume
+  i2c: tegra: Fix runtime resume to re-init VI I2C
+  i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra210 vi i2c
+  media: tegra-video: Fix channel format alignment
+  media: tegra-video: Enable TPG based on kernel config
+  media: tegra-video: Update format lookup to offset based
+  dt-bindings: tegra: Document VI and CSI port nodes
+  media: tegra-video: Add support for external sensor capture
+  media: tegra-video: Add support for selection ioctl ops
+  gpu: host1x: mipi: Add of_tegra_mipi_request() API
+  gpu: host1x: mipi: Split tegra_mipi_calibrate and tegra_mipi_wait
+  media: tegra-video: Add CSI MIPI pads calibration
+  media: tegra-video: Compute settle times based on the clock rate
+  arm64: tegra: jetson-tx1: Add camera supplies
+  arm64: tegra: Enable Tegra VI CSI support for Jetson Nano
+
+ .../display/tegra/nvidia,tegra20-host1x.txt        |  87 +++
+ .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  19 +-
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |  41 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |  10 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +
+ drivers/gpu/drm/tegra/dsi.c                        |   7 +-
+ drivers/gpu/host1x/mipi.c                          |  33 +-
+ drivers/i2c/busses/i2c-tegra.c                     |  41 +-
+ drivers/staging/media/tegra-video/Kconfig          |   7 +
+ drivers/staging/media/tegra-video/csi.c            | 245 ++++++-
+ drivers/staging/media/tegra-video/csi.h            |   9 +
+ drivers/staging/media/tegra-video/tegra210.c       |  25 +-
+ drivers/staging/media/tegra-video/vi.c             | 770 +++++++++++++++++++--
+ drivers/staging/media/tegra-video/vi.h             |  23 +-
+ drivers/staging/media/tegra-video/video.c          |  23 +-
+ include/linux/host1x.h                             |   3 +
+ 16 files changed, 1253 insertions(+), 96 deletions(-)
+
+-- 
+2.7.4
+
