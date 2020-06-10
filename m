@@ -2,110 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F2311F55A1
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 15:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFBBD1F55DA
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 15:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729258AbgFJNVr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 10 Jun 2020 09:21:47 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35612 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729250AbgFJNVp (ORCPT
+        id S1729228AbgFJNdt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jun 2020 09:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726453AbgFJNds (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 10 Jun 2020 09:21:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591795303;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DlplkVPrHKzwqp9XQ8hCr9mQJfW4CL7+sK6OIcyqTu0=;
-        b=hIOwwl22hsH7JyDLZD1TDkrfIBC3zLN8ru/qtM+MN7cUpd1GLLYuW8uKRfeAuKWp2Y9Po8
-        1c7E8oGY3v3eeSlxvROqgQs8OsapqHwfFdqrewxQlT38daH3ZBQO3eMMHJKeJ4xDhWWUhy
-        tegf0hzaj5muAtEWMkYTlM33s7HIDnc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-jluBm6qMPTuNSdk5KUjojQ-1; Wed, 10 Jun 2020 09:21:41 -0400
-X-MC-Unique: jluBm6qMPTuNSdk5KUjojQ-1
-Received: by mail-ej1-f70.google.com with SMTP id g9so1088624ejs.20
-        for <linux-tegra@vger.kernel.org>; Wed, 10 Jun 2020 06:21:40 -0700 (PDT)
+        Wed, 10 Jun 2020 09:33:48 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4A2C03E96B;
+        Wed, 10 Jun 2020 06:33:48 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id x22so1474483lfd.4;
+        Wed, 10 Jun 2020 06:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=YEZkLSkeVvdVz2I9RR2Z8l3HmZABbiGFnykMWSMSezE=;
+        b=OdUq18jK2Why49i+Fv2ZXOOBYqasjrH2pqWcZVdLX967PGJq9HdqxQaquw3YwPXeTf
+         PMGfty+eAs7DMXM8DecR12of2f7QSIlpaTAbGp5n351K94hBsEn+7kbYQKYPaVFb2v2p
+         8agfdrk4em/hCjeb7qpsJd/hD6NCgojvqQMhP0IOzcGrPoqdAxz3QUcRgANFJmUGPEEO
+         N4lP/hIr4j1F0db02LJWebmPEEsspl7RPQpzijtmiGB8t+AyV4YZa7vqK7oj0mfaz2j2
+         y8dRex51vZi3RqpOLHVmEtea3dsUAdoNSHIkCrxIJZ099zQ3Epn3+V+EFShEsCDd5LgS
+         rhOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=DlplkVPrHKzwqp9XQ8hCr9mQJfW4CL7+sK6OIcyqTu0=;
-        b=GeBtxSlvbjo0Yd/vhEF7DMd0Wyvwfp27KT9Vs20BDJKZJ27AqE84UU8ZHB7n2ASvAx
-         DMnxsRd9ImKnfR/tBoPv9/jWAUY96lvIENRKW7tLRZmTAoreK+oVmOBx7dZH+Au3b+/f
-         BIbk/W2q3jjcG2PIYsBzKrzmRDvVDez9kDon97LSncnxo7sXHPh0OcZJhagA8IFpXCrP
-         6Cd4Z3SFBPPwQpB8S+VCK4/zHtQy7Tt4nRBHFZw/iSLQMkemx13mDImRW9JMtLt19hhe
-         AR+uoVSBTaCcsy4EHYXuj7LWBM3rGqEvoyQ0EWzRZQb07kFhFEAxW2pd0E+C6GAtU4bB
-         k13g==
-X-Gm-Message-State: AOAM532eTHVt/YB9DNqKjSevTr45KZWaa86SGlT/+34+A2MCAeZLE0Jk
-        saBxvNcRqwa3o08iAFlhXR/YL+edkIXBr79l2FwC3qMtpJk0WV7fQ+nhkt5+uIu0vk2Y01h9Fgc
-        CkRYcQPo9BZ+sdjDzrh5pshc=
-X-Received: by 2002:a50:bf0e:: with SMTP id f14mr2520505edk.37.1591795296911;
-        Wed, 10 Jun 2020 06:21:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3Kk79EA+wXpXk6yhNsxocbwWxoup7cqkJV7mK6aQdCYbcNsTWoysAMZWDcdRtd0q1XzbZ6w==
-X-Received: by 2002:a50:bf0e:: with SMTP id f14mr2520475edk.37.1591795296587;
-        Wed, 10 Jun 2020 06:21:36 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id l8sm15626086ejz.52.2020.06.10.06.21.35
+        bh=YEZkLSkeVvdVz2I9RR2Z8l3HmZABbiGFnykMWSMSezE=;
+        b=fAJQbgDbHm7AW3fc5gh3j3cwq5zmQ37d2drqYsbftaeBylv03AtfLzWzmCKtWY9pfg
+         NX4GcYGkBHG39BLCEZrndflws5ElQ+7da1mNt8Jvj0cwgCvdbDr8ik+c4z0p7ZtmHaTg
+         43vltUB+8koE+BJNY69osONIjya2T6wBkOcXTebRA5yCkqU1LtZRWedzPlTmmMgF7PYt
+         TvcCPkAE0LJPj3OmTrjc1FNk5R/4WqSKPu6ULkMp+ElsHlPqVTnxp7NNgUgOUuhl3Y/G
+         fGvW5mCsmFr+ohGL91xW+viRY5USnMfjzjY3/kU3H0+UqQ2QMJUe1ZBz2mvZEaIGxNg+
+         JuVw==
+X-Gm-Message-State: AOAM532iZvlskYGe0dPAFWuFx2GWetW42Pf4uPEZ9cxRUgCWDJxsp+tO
+        KiM7cKB7UVnuYdnvVpIhloFYU7T4
+X-Google-Smtp-Source: ABdhPJx6QoodCmeaFLd2gAfQNcaDVSeaiNrrnokJtx5cXUmYo+dwjW5WfG+0fI8yb+gdaqJI/l13kA==
+X-Received: by 2002:ac2:5e90:: with SMTP id b16mr1832962lfq.170.1591796026124;
+        Wed, 10 Jun 2020 06:33:46 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id 4sm4997461ljq.34.2020.06.10.06.33.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 06:21:35 -0700 (PDT)
-Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-input@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com>
- <964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com>
- <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
- <6136f26c-e090-e025-af55-4c5f3a6aec92@collabora.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3e61c9c1-b211-da9f-c55b-b44eb6522f2a@redhat.com>
-Date:   Wed, 10 Jun 2020 15:21:34 +0200
+        Wed, 10 Jun 2020 06:33:45 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 13/18] gpu: host1x: mipi: Add
+ of_tegra_mipi_request() API
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-14-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <e84c6723-e94a-3fcf-8b38-eb680c88de25@gmail.com>
+Date:   Wed, 10 Jun 2020 16:33:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <6136f26c-e090-e025-af55-4c5f3a6aec92@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1591768960-31648-14-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -113,135 +76,57 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
-
-On 6/10/20 3:12 PM, Andrzej Pietrasiewicz wrote:
-> Hi All,
+10.06.2020 09:02, Sowjanya Komatineni пишет:
+> This patch adds an API of_tegra_mipi_request() to allow creating
+> mipi device for specific device node rather than a device so Tegra
+> CSI driver can use it for calibrating MIPI pads for each stream
+> independently.
 > 
-> W dniu 10.06.2020 o 12:38, Rafael J. Wysocki pisze:
->> On Wed, Jun 10, 2020 at 11:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>
->>> Hi All,
->>>
->>> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
->>>> This is a quick respin of v3, with just two small changes, please see
->>>> the changelog below.
->>>>
->>>> Userspace might want to implement a policy to temporarily disregard input
->>>> from certain devices.
->>>>
->>>> An example use case is a convertible laptop, whose keyboard can be folded
->>>> under the screen to create tablet-like experience. The user then must hold
->>>> the laptop in such a way that it is difficult to avoid pressing the keyboard
->>>> keys. It is therefore desirable to temporarily disregard input from the
->>>> keyboard, until it is folded back. This obviously is a policy which should
->>>> be kept out of the kernel, but the kernel must provide suitable means to
->>>> implement such a policy.
->>>
->>> First of all sorry to start a somewhat new discussion about this
->>> while this patch set is also somewhat far along in the review process,
->>> but I believe what I discuss below needs to be taken into account.
->>>
->>> Yesterday I have been looking into why an Asus T101HA would not stay
->>> suspended when the LID is closed. The cause is that the USB HID multi-touch
->>> touchpad in the base of the device starts sending events when the screen
->>> gets close to the touchpad (so when the LID is fully closed) and these
->>> events are causing a wakeup from suspend. HID multi-touch devices
->>> do have a way to tell them to fully stop sending events, also disabling
->>> the USB remote wakeup the device is doing. The question is when to tell
->>> it to not send events though ...
->>>
->>> So now I've been thinking about how to fix this and I believe that there
->>> is some interaction between this problem and this patch-set.
->>>
->>> The problem I'm seeing on the T101HA is about wakeups, so the question
->>> which I want to discuss is:
->>>
->>> 1. How does inhibiting interact with enabling /
->>> disabling the device as a wakeup source ?
->>>
->>> 2. Since we have now made inhibiting equal open/close how does open/close
->>> interact with a device being a wakeup source ?
->>>
->>> And my own initial (to be discussed) answers to these questions:
->>>
->>> 1. It seems to me that when a device is inhibited it should not be a
->>> wakeup source, so where possible a input-device-driver should disable
->>> a device's wakeup capabilities on suspend if inhibited
->>
->> If "inhibit" means "do not generate any events going forward", then
->> this must also cover wakeup events, so I agree.
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/gpu/host1x/mipi.c | 10 ++++++++--
+>  include/linux/host1x.h    |  2 ++
+>  2 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> I agree, too.
-> 
->>
->>> 2. This one is trickier I don't think we have really clearly specified
->>> any behavior here. The default behavior of most drivers seems to be
->>> using something like this in their suspend callback:
->>>
->>>           if (device_may_wakeup(dev))
->>>                   enable_irq_wake(data->irq);
->>>           else if (input->users)
->>>                   foo_stop_receiving_events(data);
->>>
->>> Since this is what most drivers seem to do I believe we should keep
->>> this as is and that we should just clearly document that if the
->>> input_device has users (has been opened) or not does not matter
->>> for its wakeup behavior.
->>>
->>> Combining these 2 answers leads to this new pseudo code template
->>> for an input-device's suspend method:
->>>
->>>          /*
->>>           * If inhibited we have already disabled events and
->>>           * we do NOT want to setup the device as wake source.
->>>           */
->>>          if (input->inhibited)
->>>                  return 0;
-> 
-> Right, if a device is inhibited it shouldn't become a wakeup source,
-> because that would contradict the purpose of being inhibited.
+> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+> index e00809d..f51fe69 100644
+> --- a/drivers/gpu/host1x/mipi.c
+> +++ b/drivers/gpu/host1x/mipi.c
+> @@ -206,9 +206,9 @@ static int tegra_mipi_power_down(struct tegra_mipi *mipi)
+>  	return 0;
+>  }
+>  
+> -struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+> +struct tegra_mipi_device *of_tegra_mipi_request(struct device *device,
+> +						struct device_node *np)
+>  {
+> -	struct device_node *np = device->of_node;
+>  	struct tegra_mipi_device *dev;
+>  	struct of_phandle_args args;
+>  	int err;
+> @@ -252,6 +252,12 @@ struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+>  	of_node_put(args.np);
+>  	return ERR_PTR(err);
+>  }
+> +EXPORT_SYMBOL(of_tegra_mipi_request);
+> +
+> +struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+> +{
+> +	return of_tegra_mipi_request(device, device->of_node);
+> +}
+>  EXPORT_SYMBOL(tegra_mipi_request);
+>  
+>  void tegra_mipi_free(struct tegra_mipi_device *device)
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index c230b4e..a61ca52 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -325,6 +325,8 @@ int host1x_client_resume(struct host1x_client *client);
+>  
+>  struct tegra_mipi_device;
+>  
+> +struct tegra_mipi_device *of_tegra_mipi_request(struct device *device,
+> +						struct device_node *np);
 
-Ack. Note I do think that we need to document this (and more
-in general the answer to both questions from above) clearly so
-that going forward if there are any questions about how this is
-supposed to work we can just point to the docs.
-
-Can you do a follow-up patch, or include a patch in your next
-version which documents this (once we agree on what "this"
-exactly is) ?
-
->>>
->>>           if (device_may_wakeup(dev))
->>>                   enable_irq_wake(data->irq);
-> 
-> What would it mean to become a wakeup source if there are no users,
-> or nobody has ever opened the device? There are no interested
-> input handlers (users) so what's the point of becoming a wakeup
-> source? Why would the system need to wake up?
-
-Well this is what we have been doing so far, so arguably we
-need to keep doing it to avoid regressions / breaking our ABI.
-
-Lets for example take a laptop, where when suspended the
-power-button is the only valid wakeup-source and this is
-running good old slackware with fvwm2 or windowmaker as
-"desktop environment", then likely no process will have
-the power-button input evdev node open.  Still we should
-wakeup the laptop on the power-button press, otherwise
-it will never wakeup.
-
-Note I agree with you that the way this works is not
-ideal, I just do not think that we can change it.
-
->>>           else if (input->users)
->>>                   foo_stop_receiving_events(data);
->>>
->>> ###
-
-<snip>
-
-Regards,
-
-Hans
-
+Looks like adding a new function here is a bit of overkill. What about
+to change tegra_mipi_request() to take the node argument?
