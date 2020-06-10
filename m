@@ -2,111 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F62C1F5939
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 18:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF941F5989
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 18:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726254AbgFJQis (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 10 Jun 2020 12:38:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726095AbgFJQip (ORCPT
+        id S1727925AbgFJQ6b (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jun 2020 12:58:31 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16700 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726560AbgFJQ6a (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 10 Jun 2020 12:38:45 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6303DC03E96B;
-        Wed, 10 Jun 2020 09:38:45 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id 9so3300086ljc.8;
-        Wed, 10 Jun 2020 09:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4o9LdKBdQI4Xw0X6DBGZV3+M+KUXZfmXVAd7OspnHY4=;
-        b=VNTtd+GcNu8jNRAUDP/kbJWJxCcWxUggQSdsrptXxSwqaRJ2vBUD7J+Wog7Rnocm3i
-         xn4cAUnDo4+a4ZLYmwUmgT+Bl+nD5aTfEif/hqsbmAwepfq9RndVekxOvyq3/fMoQPo+
-         hSOZcsbZxY9s3mfy5j+vorR9kwJgI9MMzbLukHo5fJjECRMjr2lik0dn/Ph1vXA+eASi
-         VEerkrqRyAIYnvJ4ZWHgKhdvWh1LjH5CqqLyGUOoyoXKKjmb2WL60dBE9mfGQjshi8Z0
-         Aqq+v5LhyaqHZD8sp8aL892WuLZwU8RqVJ9vCd11OD5pZ0NW5hoK84XCwZam3ti1EMdN
-         gkvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4o9LdKBdQI4Xw0X6DBGZV3+M+KUXZfmXVAd7OspnHY4=;
-        b=sTeWHnl5xaa/0NGDDob9sRZq/hZcaO1RrTGgZhpnkT2UJLOdMS4VbEOa0KWwNLVRel
-         ML8gxILtf/RoX4qXYgi9LplMReUc8YO07fymmIez8sQecTAJuvFMynJG7qrNVyuXdBt4
-         jVJzqezvHeYVnKxXed3oxmiIHIN2W6S1/Ze4oTPJtpXnJWT03DoeugMZ38v6B3OoqVPX
-         wSjINg2JJYg/c9z2vDsKgXbIRmEUgTMktODRiHbJK9r6enowtdFfKgLn8P5zd9KW2xA2
-         w4ZcgmwHjOhSuGh7xXmvV/lYMu+J+oCMtyGLtyp06ZVrOrx50xF7r0HFj/xPYHl31fza
-         c1ZQ==
-X-Gm-Message-State: AOAM531qfP7kUMVHjaVF2IcYLMhnBWrwLMI47zu64i8QjvniielZMUCG
-        VlOKnJwmtEVCNprVLFsV8IY=
-X-Google-Smtp-Source: ABdhPJypPUuoq+xIcrWQhm7AFGbkqwnRbH7qt2lfZbzVikpJUbJ2EyXU00QIw3EMW1Lfa6ekU7/1yg==
-X-Received: by 2002:a2e:94d0:: with SMTP id r16mr2079054ljh.351.1591807123820;
-        Wed, 10 Jun 2020 09:38:43 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id k1sm82825lja.27.2020.06.10.09.38.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 09:38:43 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] clk: tegra: pll: Improve PLLM enable-state detection
-Date:   Wed, 10 Jun 2020 19:37:38 +0300
-Message-Id: <20200610163738.29304-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        Wed, 10 Jun 2020 12:58:30 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee110da0000>; Wed, 10 Jun 2020 09:56:58 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 10 Jun 2020 09:58:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 10 Jun 2020 09:58:30 -0700
+Received: from [10.2.167.70] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jun
+ 2020 16:58:29 +0000
+Subject: Re: [RFC PATCH v1 05/18] i2c: tegra: Fix runtime resume to re-init VI
+ I2C
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-6-git-send-email-skomatineni@nvidia.com>
+ <fcced8cd-d80d-b09c-b657-cb413ec418f9@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <dc310c94-ae8d-fcf5-be9f-6236f3615dd7@nvidia.com>
+Date:   Wed, 10 Jun 2020 09:58:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fcced8cd-d80d-b09c-b657-cb413ec418f9@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591808218; bh=lCn+LcemkNEZVacRc5PI7q1npMKqaFgl+fw6okE0H6U=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=cAdMeWgVEE6NrJQx9xaYzarZGK4cJyQAiZ7rz/T68LylkHXoKF9ZkCO4cE5J4WPJq
+         XqyqOJnzN1EnJnKmXed80z3kWtKMNbInpHBZGDfr9wq/qVSj3g4VPx7mAlyVAVemL/
+         zDYp5EYDTApVFC/EHXQguOlm2P4nJ7ZiddjaFp4a0vF1w7zNA4TSeF4+TAPOAZLwzh
+         lA9sA7jYugjKYvC5LyAxx05fy0Gp6vu7vzB1tHc5APoXMprBjBnw7y5WjWASSktptq
+         sNrLyHrgvxTy7RJViwMupBAjSxEP71nlEkEiWg/FEiHkPyf3KyWzOMDvMsjO7ZatDa
+         QI7UY/E4NDRpg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Power Management Controller (PMC) can override the PLLM clock settings,
-including the enable-state. Although PMC could only act as a second level
-gate, meaning that PLLM needs to be enabled by the Clock and Reset
-Controller (CaR) anyways if we want it to be enabled. Hence, when PLLM is
-overridden by PMC, it needs to be enabled by CaR and ungated by PMC in
-order to be functional. Please note that this patch doesn't fix any known
-problem, and thus, it's merely a minor improvement.
 
-Link: https://lore.kernel.org/linux-arm-kernel/20191210120909.GA2703785@ulmo/T/
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/clk/tegra/clk-pll.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
-index 0b212cf2e794..4fd1edba8caf 100644
---- a/drivers/clk/tegra/clk-pll.c
-+++ b/drivers/clk/tegra/clk-pll.c
-@@ -330,17 +330,18 @@ int tegra_pll_wait_for_lock(struct tegra_clk_pll *pll)
- static int clk_pll_is_enabled(struct clk_hw *hw)
- {
- 	struct tegra_clk_pll *pll = to_clk_pll(hw);
-+	bool pllm_enabled = true;
- 	u32 val;
- 
- 	if (pll->params->flags & TEGRA_PLLM) {
- 		val = readl_relaxed(pll->pmc + PMC_PLLP_WB0_OVERRIDE);
- 		if (val & PMC_PLLP_WB0_OVERRIDE_PLLM_OVERRIDE)
--			return val & PMC_PLLP_WB0_OVERRIDE_PLLM_ENABLE ? 1 : 0;
-+			pllm_enabled = !!(val & PMC_PLLP_WB0_OVERRIDE_PLLM_ENABLE);
- 	}
- 
- 	val = pll_readl_base(pll);
- 
--	return val & PLL_BASE_ENABLE ? 1 : 0;
-+	return pllm_enabled && (val & PLL_BASE_ENABLE);
- }
- 
- static void _clk_pll_enable(struct clk_hw *hw)
--- 
-2.26.0
-
+On 6/10/20 6:14 AM, Dmitry Osipenko wrote:
+> 10.06.2020 09:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> VI I2C is on host1x bus and is part of VE power domain.
+>>
+>> During suspend/resume VE power domain goes through power off/on.
+>>
+>> So, controller reset followed by i2c re-initialization is required
+>> after the domain power up.
+>>
+>> This patch fixes it.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/i2c/busses/i2c-tegra.c | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-teg=
+ra.c
+>> index dba38a5..650240d 100644
+>> --- a/drivers/i2c/busses/i2c-tegra.c
+>> +++ b/drivers/i2c/busses/i2c-tegra.c
+>> @@ -293,6 +293,8 @@ struct tegra_i2c_dev {
+>>   	bool is_curr_atomic_xfer;
+>>   };
+>>  =20
+>> +static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev, bool clk_reini=
+t);
+>> +
+>>   static void dvc_writel(struct tegra_i2c_dev *i2c_dev, u32 val,
+>>   		       unsigned long reg)
+>>   {
+>> @@ -679,8 +681,22 @@ static int __maybe_unused tegra_i2c_runtime_resume(=
+struct device *dev)
+>>   		goto disable_slow_clk;
+>>   	}
+>>  =20
+>> +	/*
+>> +	 * VI I2C device is attached to VE power domain which goes through
+>> +	 * power ON/OFF during PM runtime resume/suspend. So, controller
+>> +	 * should go through reset and need to re-initialize after power
+>> +	 * domain ON.
+>> +	 */
+>> +	if (i2c_dev->is_vi) {
+>> +		ret =3D tegra_i2c_init(i2c_dev, true);
+>> +		if (ret)
+>> +			goto disable_div_clk;
+>> +	}
+>> +
+>>   	return 0;
+>>  =20
+>> +disable_div_clk:
+>> +	clk_disable(i2c_dev->div_clk);
+>>   disable_slow_clk:
+>>   	if (i2c_dev->slow_clk)
+>>   		clk_disable(i2c_dev->slow_clk);
+>>
+> The clk_disable() can cope with a NULL argument. Won't it be cleaner to
+> remove the conditions?
+will remove in v2
