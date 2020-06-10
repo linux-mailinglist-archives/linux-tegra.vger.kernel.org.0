@@ -2,124 +2,217 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5E71F566C
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 16:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAA251F577D
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jun 2020 17:15:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729694AbgFJOB7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 10 Jun 2020 10:01:59 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40605 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726616AbgFJOB6 (ORCPT
+        id S1730104AbgFJPPV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jun 2020 11:15:21 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7884 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726979AbgFJPPV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 10 Jun 2020 10:01:58 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t25so2125349oij.7;
-        Wed, 10 Jun 2020 07:01:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Nl62HWLkcdUncszr4NfDCSNaITirf4yc7zsH9ph91Mg=;
-        b=Qjbj7mjG42s8fdutEj5DgbH6byB8n5MLqHfiKyUWonA4a4y0blxWJtnDLzm61eXgvX
-         mLI6wOslj9O2hMC9K3JJiF2g1JilrdLbDmQyY/lXExZR2rGaXg8UCmpo7pByP+0nolyy
-         61PhVJQqEjkADfxN9cB9UJwHd0JL2u5XmF4yjVg93zdP6y6L0rjns0serLkbaJ/5SRM0
-         wk22BBjC5FcF1MCmISFrUPflEJzRFmZupj5i5P+d/0AfvqLqua0w8+It2T3T7qcCkC9T
-         mkvvvAfwSmpqTRmqEEvuQPkPc6SGvKLfymN2zZvaCkhROeBHdRAC8lKWNjxsj00LlFJZ
-         GpgQ==
-X-Gm-Message-State: AOAM532vpbd+wgSf2RJM31KV9qcPmfPSI4tGBtoqTlHzlWjz8mmSpFSJ
-        7PMWSoJ8vX5sohvV7pQOH3bNRXyc7L127yKHnzM=
-X-Google-Smtp-Source: ABdhPJzorUjsiFcKJqkTkUHEOkzCM8G8rZoea2g27dOAzap4gGLrBRRziPbedIOP6/JlYUlFFWbvc+8f9RAYMPdl7zE=
-X-Received: by 2002:aca:ad88:: with SMTP id w130mr2656825oie.103.1591797717254;
- Wed, 10 Jun 2020 07:01:57 -0700 (PDT)
+        Wed, 10 Jun 2020 11:15:21 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee0f8db0001>; Wed, 10 Jun 2020 08:14:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 10 Jun 2020 08:15:20 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 10 Jun 2020 08:15:20 -0700
+Received: from [10.2.167.70] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jun
+ 2020 15:15:20 +0000
+Subject: Re: [RFC PATCH v1 10/18] dt-bindings: tegra: Document VI and CSI port
+ nodes
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <frankc@nvidia.com>, <hverkuil@xs4all.nl>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>, <digetx@gmail.com>,
+        <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
+ <20200610112303.GB805@valkosipuli.retiisi.org.uk>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <075d9d2e-eaa8-1895-8759-64c682fee1c4@nvidia.com>
+Date:   Wed, 10 Jun 2020 08:15:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com> <964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com>
- <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
- <6136f26c-e090-e025-af55-4c5f3a6aec92@collabora.com> <3e61c9c1-b211-da9f-c55b-b44eb6522f2a@redhat.com>
-In-Reply-To: <3e61c9c1-b211-da9f-c55b-b44eb6522f2a@redhat.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 10 Jun 2020 16:01:45 +0200
-Message-ID: <CAJZ5v0gVBzLpQqNrV-kzV84mLB86Gd6Ws63RwBKT=r1WgbeDSQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-input@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200610112303.GB805@valkosipuli.retiisi.org.uk>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591802075; bh=kk+QMVEOjc1lV2kCwKPqvUooZW7O6ZM/dk+n2Vpww1I=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=MFkqUeanNXj7YJ7FGzM7DBn4AJjXWtgazzXgRA784zPBzaxM2ulHOtMFGOurpOhnM
+         EwmxTSdIVlQ3yPEwfa0y7DCw9KSpQ5FzHYasTOo8hzAbuuundwbAlvWXXX9jEZdjtP
+         a8PexiFY8BSuWapSjGFDvV5AI1sqP21VrNjJWAm7Ni7D1EYlOir36PJuVf34Wtae/b
+         AdpQXFrlmZAJtwNKlVFTvqH/J/1qR2xplPdUz0v/r1q/b66WPew8Oh+ZrmYkmQfwCw
+         PwS7xtU3t2s7mGlYs/dKXz7+8IoEeY+B7qYVLJd0lO3J7rtLMC202JPFeviJTW7v6G
+         Q/01ljPFErdPQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jun 10, 2020 at 3:21 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 6/10/20 3:12 PM, Andrzej Pietrasiewicz wrote:
-> > Hi All,
-> >
 
-[cut]
-
-> > What would it mean to become a wakeup source if there are no users,
-> > or nobody has ever opened the device? There are no interested
-> > input handlers (users) so what's the point of becoming a wakeup
-> > source? Why would the system need to wake up?
+On 6/10/20 4:23 AM, Sakari Ailus wrote:
+> Hi Sowjanya,
 >
-> Well this is what we have been doing so far, so arguably we
-> need to keep doing it to avoid regressions / breaking our ABI.
+> Thanks for the patchset.
 >
-> Lets for example take a laptop, where when suspended the
-> power-button is the only valid wakeup-source and this is
-> running good old slackware with fvwm2 or windowmaker as
-> "desktop environment", then likely no process will have
-> the power-button input evdev node open.  Still we should
-> wakeup the laptop on the power-button press, otherwise
-> it will never wakeup.
+> On Tue, Jun 09, 2020 at 11:02:32PM -0700, Sowjanya Komatineni wrote:
+>> This patch documents Tegra VI and CSI port and endpoint nodes along
+>> with the other required properties.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   .../display/tegra/nvidia,tegra20-host1x.txt        | 87 ++++++++++++++++++++++
+>>   1 file changed, 87 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+>> index 4731921..f70a838 100644
+>> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+>> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+>> @@ -65,6 +65,48 @@ of the following host1x client modules:
+>>         - power-domains: Must include sor powergate node as csicil is in
+>>           SOR partition.
+>>   
+>> +      Optional properties for csi node:
+> What hardware does the csi node represent? A CSI-2 receiver? Something
+> else?
 >
-> Note I agree with you that the way this works is not
-> ideal, I just do not think that we can change it.
+> If you have two connections, you need two ports. The example isn't quite
+> clear on this; it would appear to represent a single physical interface.
 
-Please note that "no users" merely means that user space is not
-interested in receiving and processing the events from that device.
+CS-2 receiver with 2 connections. one for sink with sensor to csi and 
+other as source with csi to Tegra vi.
 
-If it is configured for system wakeup, it doesn't matter whether or
-not user space will consume the related events.
+Was using separate port for sink and source and then I misunderstood 
+device graph document and changed to have multiple endpoints in same port.
 
-Thanks!
+Will update this in v2 to have separate port for each sink and source 
+endpoint in csi in dt and also in driver implementation.
+
+>> +
+>> +      - channel nodes: Max upto 6 channels/streams are supported with each CSI
+>> +	brick can as either x4 or x2 based on hw connectivity to sensor.
+>> +
+>> +	Required properties:
+>> +	- reg: channel/stream index
+>> +	- nvidia,mipi-calibrate: Should contain a phandle and a specifier
+>> +	  specifying which pads are used by this CSI port and need to be
+>> +	  calibrated. See also ../display/tegra/nvidia,tegra114-mipi.txt.
+>> +
+>> +	- port: CSI port node and its endpoint nodes as per device graph
+>> +          bindings defined in Documentation/devicetree/bindings/graph.txt.
+>> +	  Required properties:
+> You have both properties and nodes here. Same for the above (port is a
+> node).
+Will update document to separate out port node from properties
+>
+>> +	  - reg: csi port index based on hw csi lanes connectivity to the
+>> +	    sensor.
+>> +	  - bus-width: number of lanes used by this port. Supported lanes
+>> +	    are 1/2/4.
+> bus-width belongs to the endpoint. Note that this is for parallel busses
+> only. If you need the number of lanes, the property is called data-lanes.
+Will update in v2 for having separate ports for sink and source 
+endpoints will move bus-width to endpoint.
+>
+>> +	  - endpoint@0: sink node
+>> +	    Required properties:
+>> +	    - reg: endpoint id. This is used to retrieve pad for creating
+>> +	      media link
+>> +	    - remote-endpoint: phandle to sensor endpoint
+>> +	  - endpoint@1: source node
+>> +	    - reg: endpoint id. This is used to retrieve pad for creating
+>> +	      media link
+>> +	    - remote-endpoint: phandle to vi port endpoint
+>> +
+>> +  Optional properties for vi node:
+>> +  - ports: Video port nodes and endpoint nodes as per device graph bindings
+>> +    defined in Documentation/devicetree/bindings/graph.txt
+>> +    Max 6 ports are supported and each port should have one endpoint node.
+>> +
+>> +    Required properties:
+>> +    - port: VI port node and its sink endpoint node
+>> +      Required properties:
+>> +    - reg: should match port index
+>> +    - endpoint@0: sink node
+>> +      Required properties:
+>> +      - reg: endpoint id must be 0
+>> +      - remote-endpoint: phandle to CSI endpoint node.
+>> +
+>>   - epp: encoder pre-processor
+>>   
+>>     Required properties:
+>> @@ -340,6 +382,22 @@ Example:
+>>   
+>>   			ranges = <0x0 0x0 0x54080000 0x2000>;
+>>   
+>> +			ports {
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +
+>> +				port@0 {
+>> +					reg = <0>;
+>> +					#address-cells = <1>;
+>> +					#size-cells = <0>;
+>> +
+>> +					imx219_vi_in0: endpoint@0 {
+>> +						reg = <0>;
+>> +						remote-endpoint = <&imx219_csi_out0>;
+>> +					};
+>> +				};
+>> +			};
+>> +
+>>   			csi@838 {
+>>   				compatible = "nvidia,tegra210-csi";
+>>   				reg = <0x838 0x1300>;
+>> @@ -362,6 +420,35 @@ Example:
+>>   					 <&tegra_car TEGRA210_CLK_CSI_TPG>;
+>>   				clock-names = "csi", "cilab", "cilcd", "cile", "csi_tpg";
+>>   				power-domains = <&pd_sor>;
+>> +
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +
+>> +				channel@0 {
+>> +					reg = <0>;
+>> +					nvidia,mipi-calibrate = <&mipi 0x001>;
+>> +
+>> +					#address-cells = <1>;
+>> +					#size-cells = <0>;
+>> +
+>> +					port@0 {
+>> +						reg = <0>;
+>> +						bus-width = <2>;
+>> +
+>> +						#address-cells = <1>;
+>> +						#size-cells = <0>;
+>> +
+>> +						imx219_csi_in0: endpoint@0 {
+>> +							reg = <0>;
+>> +							remote-endpoint = <&imx219_out0>;
+>> +						};
+>> +
+>> +						imx219_csi_out0: endpoint@1 {
+>> +							reg = <1>;
+>> +							remote-endpoint = <&imx219_vi_in0>;
+>> +						};
+>> +					};
+>> +				};
+>>   			};
+>>   		};
+>>   
