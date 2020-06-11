@@ -2,101 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 189C41F6697
-	for <lists+linux-tegra@lfdr.de>; Thu, 11 Jun 2020 13:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FF511F6DB7
+	for <lists+linux-tegra@lfdr.de>; Thu, 11 Jun 2020 21:08:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727911AbgFKL1t (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Jun 2020 07:27:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
+        id S1726535AbgFKTIV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Jun 2020 15:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727904AbgFKL1t (ORCPT
+        with ESMTP id S1726159AbgFKTIV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Jun 2020 07:27:49 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDFA9C08C5C1
-        for <linux-tegra@vger.kernel.org>; Thu, 11 Jun 2020 04:27:48 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id n23so6439540ljh.7
-        for <linux-tegra@vger.kernel.org>; Thu, 11 Jun 2020 04:27:48 -0700 (PDT)
+        Thu, 11 Jun 2020 15:08:21 -0400
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1756C08C5C1;
+        Thu, 11 Jun 2020 12:08:20 -0700 (PDT)
+Received: by mail-qv1-xf41.google.com with SMTP id r16so3149959qvm.6;
+        Thu, 11 Jun 2020 12:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6mOcf9ZGxPDgSVNgmAnnXwaYZSHaObyKh3HOSAxgHnE=;
-        b=OSMwMV0xxxnYiWt/GmJIR6BTDA/fFzxhD9xcJ7S6k5gjCKaRkcHqny1h2aQXPlaSZN
-         7S3QSS0WaYO1zNIvj9lCG4zO9UhmOtTdBY8vycTUOKcAvIcr5GExw1MusXua7m1rLG5y
-         XYDePxsuM86TC2ZR/wZ811Sz9hy2wS7HD5lkGIujIXcJMjE8QT3KEheis9MFmmDNx6aL
-         xxtfVKPZsr5ggc6+PBCBhJldMxA87BJp24u3C3DOnsV+Zg1f8PHXSV5dWJVmPzTB1em6
-         wd0xylgdwvJvsAt6zztbAQRRG9SO/pIK7AOjSV1gMPsb8K7NtmfQqaGBPRdDNR6edkV3
-         aM9Q==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G/T0L3vtmfhfUZJlcR7h60nF+XO/Ie4LghE2fvgkbZM=;
+        b=vg9yinuUP/HhgCq8yfP7FEWTkmybKE2b+XeVxLwefQjCm6y3CB4EmMHl4RuVNNAxLd
+         XYFhJxnArnLZs0XWQDp+mICxNvkFi9O0ux1vcYVBAB/iPYsSpOJOgL6FNAL/TKTq1bh6
+         pRTUx/aFMlryBwKz6+cIiuiDoJ0hK3KGf3aDwd8G7ouGUrBE9shN/MqSVTbhhBbT++PI
+         IRpk7ME4+J4Ssuq5QH1wcuC4kR4lyQLXrjMaD26jNrLSnLQ8vKhTcGXVcEiiIFvjMPbL
+         IK81BOeiBVH49ySOJLvBQfmidQfrrLYYZpqbqSSNcbnaplezFEvD8XcaesdY9FCi03tz
+         AeTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6mOcf9ZGxPDgSVNgmAnnXwaYZSHaObyKh3HOSAxgHnE=;
-        b=mbmI+zafc+47AkL97L2ZwLkIrDPMZRcJkbH+58r8iDhPAOXXtECoq2XBIAp3oNErt1
-         HZENHLPMuF90HiYYurBt4ZwqkjDla7uJ6sGKX1qclJQeV3fyG60z2yPN8AllOAP1y9HZ
-         /+AiWihZaJ5QUU5w1OT7lfxtrSiO0JCVvPOhr01LDANGakB+7TdsO0WUrOfuyzRjVFCG
-         rrALqXTRBH8xxSEBRKBOXoEh5+ob6M2IaPhI1zEMEpDNRT4KjqQmVloxTlTD9x8jL7FV
-         DtEaoJY9Hu54KurvjPqC8y3Jd880rYRqOALkbAptKHMLYM4DZ84+vZTDXG9EkJI2GzoS
-         iWhQ==
-X-Gm-Message-State: AOAM531/t6J7p4cdUTaP0cOKEfAsiH7j9iQteP3Y5QNP3F1WhUUZHBtr
-        D7NEPPGlicEsRbkchGJ0yp0=
-X-Google-Smtp-Source: ABdhPJxae9xtcIrlbVyBA7jQxQTe90UwgE4VJSSx0Fcf/X94sIB27L8KEIYpC44xzgP5sWlebhg+nA==
-X-Received: by 2002:a2e:9a54:: with SMTP id k20mr4127615ljj.106.1591874867184;
-        Thu, 11 Jun 2020 04:27:47 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id c20sm729143lfb.33.2020.06.11.04.27.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2020 04:27:46 -0700 (PDT)
-Subject: Re: [PATCH] drm/tegra: Add zpos property for cursor planes
-To:     Daniel Stone <daniel@fooishbar.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-References: <20200610113059.2164132-1-thierry.reding@gmail.com>
- <ca53d82f-1fd0-b2da-cfbf-7183a977e1d1@gmail.com>
- <CAPj87rMcXQozYX90wGYbv_vNnQ0-fLLnEdH3Lzio+B1L7xZuYg@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <6e4dfca3-3f0f-0094-47eb-f267243ae7d1@gmail.com>
-Date:   Thu, 11 Jun 2020 14:27:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        bh=G/T0L3vtmfhfUZJlcR7h60nF+XO/Ie4LghE2fvgkbZM=;
+        b=ZtmrWk2qFZv8io8Z0P5xLBnE3VtLq1T/s2CAaSAguvzWVLhWm3V9fN0wOCPnvEMWjt
+         FXJpypteQcozyZvccvKD1onuw1vsJfE9OEbiPfaT+CNAFnSEUb+iokadTU+IZT/Fet4C
+         UXhIvECIJoZSY4CUD5VCfYrAZ10C023Cazqq9t/hc1nwn3bEjrH+t09DvuEsSFLbNa/Y
+         JTMyDkUjZ7ZGbP1hZe38tpNM9SY/L8qTaZWpzJTPpVowS6a4oB1a9QYPiKIub9bgnJsQ
+         pG90O6XeOlcv8AJChISrVny1ZKKCZGhVQBiUVCK/GNRLKwYlsR/b/rg+1/WDbm079/po
+         dpFw==
+X-Gm-Message-State: AOAM533Pk8YTToPYtHo3BO9M0toym7N+6IwXKVqtsV9bc1CO5FM4dl66
+        qowWmnbE1olOak7bNtJl6g==
+X-Google-Smtp-Source: ABdhPJzuUKhQ868DWJe9bQUBbkJhKQua1fhg9xG/Y5OVYD0wDtB0q0ro05v/YHhsdN5HykXGB7MRCQ==
+X-Received: by 2002:a05:6214:852:: with SMTP id dg18mr8874834qvb.97.1591902499025;
+        Thu, 11 Jun 2020 12:08:19 -0700 (PDT)
+Received: from localhost.localdomain ([142.118.26.59])
+        by smtp.googlemail.com with ESMTPSA id r138sm2783743qka.56.2020.06.11.12.08.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2020 12:08:18 -0700 (PDT)
+From:   Keyur Patel <iamkeyur96@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Keyur Patel <iamkeyur96@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] memory: tegra: Avoid double error messaging when IRQ absent
+Date:   Thu, 11 Jun 2020 15:07:54 -0400
+Message-Id: <20200611190758.172605-1-iamkeyur96@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAPj87rMcXQozYX90wGYbv_vNnQ0-fLLnEdH3Lzio+B1L7xZuYg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-11.06.2020 11:17, Daniel Stone пишет:
-> Hi Dmitry,
-> 
-> On Thu, 11 Jun 2020 at 08:54, Dmitry Osipenko <digetx@gmail.com> wrote:
->> 10.06.2020 14:30, Thierry Reding пишет:
->>> From: Thierry Reding <treding@nvidia.com>
->>> As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
->>> have a zpos property") a warning is emitted if there's a mix of planes
->>> with and without a zpos property.
->>
->> What problem does it solve?
-> 
-> Well, it fixes the WARN_ON, which asserts that either no planes have
-> the zpos property attached, or all planes have the zpos property
-> attached. When only _some_ planes have the property, the property is
-> pretty much useless: zpos exists to guarantee to userspace the
-> relative ordering between planes, defined by the value of the
-> property. If not all planes have the property, then userspace cannot
-> reason about the ordering, since some of the planes have undefined
-> ordering.
+Since the commit 7723f4c ("driver core: platform: Add an error message
+to platform_get_irq*()") platform_get_irq() started issuing an error message.
+Thus, there is no need to have the same in the driver.
 
-Hello Daniel,
+Signed-off-by: Keyur Patel <iamkeyur96@gmail.com>
+---
+ drivers/memory/tegra/mc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-So it's a kernel warning, thank you for the clarification! I'm running
-only older Tegras that have a black-n-white cursor plane, but this is
-not supported by the upstream kernel. No wonder that I haven't seen the
-warning, this made me curious what this patch is about :)
+diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
+index ec8403557ed4..f519c0987485 100644
+--- a/drivers/memory/tegra/mc.c
++++ b/drivers/memory/tegra/mc.c
+@@ -659,10 +659,8 @@ static int tegra_mc_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	mc->irq = platform_get_irq(pdev, 0);
+-	if (mc->irq < 0) {
+-		dev_err(&pdev->dev, "interrupt not specified\n");
++	if (mc->irq < 0)
+ 		return mc->irq;
+-	}
+ 
+ 	WARN(!mc->soc->client_id_mask, "missing client ID mask for this SoC\n");
+ 
+-- 
+2.26.2
+
