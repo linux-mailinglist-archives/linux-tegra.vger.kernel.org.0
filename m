@@ -2,98 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FF511F6DB7
-	for <lists+linux-tegra@lfdr.de>; Thu, 11 Jun 2020 21:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B192D1F70B7
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 01:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbgFKTIV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Jun 2020 15:08:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726159AbgFKTIV (ORCPT
+        id S1726306AbgFKXFf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Jun 2020 19:05:35 -0400
+Received: from sonic315-55.consmr.mail.gq1.yahoo.com ([98.137.65.31]:33429
+        "EHLO sonic315-55.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726277AbgFKXFa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Jun 2020 15:08:21 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1756C08C5C1;
-        Thu, 11 Jun 2020 12:08:20 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id r16so3149959qvm.6;
-        Thu, 11 Jun 2020 12:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=G/T0L3vtmfhfUZJlcR7h60nF+XO/Ie4LghE2fvgkbZM=;
-        b=vg9yinuUP/HhgCq8yfP7FEWTkmybKE2b+XeVxLwefQjCm6y3CB4EmMHl4RuVNNAxLd
-         XYFhJxnArnLZs0XWQDp+mICxNvkFi9O0ux1vcYVBAB/iPYsSpOJOgL6FNAL/TKTq1bh6
-         pRTUx/aFMlryBwKz6+cIiuiDoJ0hK3KGf3aDwd8G7ouGUrBE9shN/MqSVTbhhBbT++PI
-         IRpk7ME4+J4Ssuq5QH1wcuC4kR4lyQLXrjMaD26jNrLSnLQ8vKhTcGXVcEiiIFvjMPbL
-         IK81BOeiBVH49ySOJLvBQfmidQfrrLYYZpqbqSSNcbnaplezFEvD8XcaesdY9FCi03tz
-         AeTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=G/T0L3vtmfhfUZJlcR7h60nF+XO/Ie4LghE2fvgkbZM=;
-        b=ZtmrWk2qFZv8io8Z0P5xLBnE3VtLq1T/s2CAaSAguvzWVLhWm3V9fN0wOCPnvEMWjt
-         FXJpypteQcozyZvccvKD1onuw1vsJfE9OEbiPfaT+CNAFnSEUb+iokadTU+IZT/Fet4C
-         UXhIvECIJoZSY4CUD5VCfYrAZ10C023Cazqq9t/hc1nwn3bEjrH+t09DvuEsSFLbNa/Y
-         JTMyDkUjZ7ZGbP1hZe38tpNM9SY/L8qTaZWpzJTPpVowS6a4oB1a9QYPiKIub9bgnJsQ
-         pG90O6XeOlcv8AJChISrVny1ZKKCZGhVQBiUVCK/GNRLKwYlsR/b/rg+1/WDbm079/po
-         dpFw==
-X-Gm-Message-State: AOAM533Pk8YTToPYtHo3BO9M0toym7N+6IwXKVqtsV9bc1CO5FM4dl66
-        qowWmnbE1olOak7bNtJl6g==
-X-Google-Smtp-Source: ABdhPJzuUKhQ868DWJe9bQUBbkJhKQua1fhg9xG/Y5OVYD0wDtB0q0ro05v/YHhsdN5HykXGB7MRCQ==
-X-Received: by 2002:a05:6214:852:: with SMTP id dg18mr8874834qvb.97.1591902499025;
-        Thu, 11 Jun 2020 12:08:19 -0700 (PDT)
-Received: from localhost.localdomain ([142.118.26.59])
-        by smtp.googlemail.com with ESMTPSA id r138sm2783743qka.56.2020.06.11.12.08.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 12:08:18 -0700 (PDT)
-From:   Keyur Patel <iamkeyur96@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 11 Jun 2020 19:05:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1591916728; bh=4YUy2dnKX+aLfXhIKF01g98COCeJaRGO0uIb0VS79Kk=; h=Date:From:Subject:To:Cc:References:From:Subject; b=ksY/536Vx4+k7UgUuK7sU+hVBThfiszI09Iuz1pRDsEDzIekIw49uYjp7ORgIcNYz0f6DNDzfy6/4yfZrOHqInTp/7Z/HcyjmMMLgeZWuD8TRAwOaMMkENqEBRHmRUuLAghQQjihayEfj8L20m6zZMfg23tNVn0w4aye3VB6XxwcQwPiMIHahzYpkJItzHEI+CmtRNoS45OeF8pkyYlQXTj5rda13IOwNMLzMGJ8ZXmNJM+2AQJKKYg2covwyMtdvSqzYCtGIcWITwCXA8hKPZtr12KvBVm1CK0E2O6h8qR/7PTGpw4okY+ctPIvnNIDw3ffcEEgwvbMVoGH5mEvNw==
+X-YMail-OSG: VeI5KAIVM1l8FZBKKOcgI77XPMQpX1yRxgEuJkG2HwGiwftSWlMzUhg.wI9RpCO
+ 0m9mb_xDfGj9T2zqhX.uH.ouvYYHvpDFZhv1pWFL5y1aS4v9hb1LGwKsLcCxtdjVmrndIAxlrgTz
+ 8LO3W4t7Y60g_t0QstSujZEh68oL_wRlHCSB5Td_M.HVxGsUQjqWM2qr_3.AkhSA0yutg5qcke8K
+ Tv4I9pYJd9awi6FeCBU8.AW0hdjLa6mwHM8hm8SCtmWxN5P9kgX8HCxAaSA2wWYE5BgfOiUDY0eN
+ 8SdF4xfPgafkYHgez7VCD9nxGHLJtR8PsxeXciMIqqC1F9E63fd4UIcXYfSp5mCCnXf1pW2oA0VZ
+ eHnF2Lf5MUvy0KsxA7VkbSJfJnhx72DN4PMW15_Pqypq2CTc5FOh7t_XE2x5gmqPfv8aAgem9Z6S
+ G754j7JvVIvxR16NyP1NJHKbTMsWHNX0qPQnbyQSB5vpRmVwkBOq_AHkSPmPavoJRKp4qbzy6bBO
+ Bgl5ef0LdH1w0IGoNwlRH.UR8MrIAnwak32wCqG5lf.SwS9m.j1yNpS4_5D0o_3_e09XXbmbVT87
+ JydTvntH.WypWlGKDwbEeflUZOlJnJ07XyPmONgYYP36533AICJBEt96Va3.mhtjhlFw3.29ZciX
+ DUnx7ZrUMS58v2ROWoMShz.kIsuifGl.62rbZy_X8r4vO.Uxo5XJwzW4msMSwsvTqaOqT_X2DSbr
+ LLj_UnAnYi2D4y9bOLYthO6rgknJsjH5NNK_yfRdTmQy.0mTEM7K9s8uzcE9CTS8fKfsDaVPyVxh
+ xVmmJFX.A8jqmra2IrNsfF8nyaPIwxTRtGkfxuk34ZNH.5c0amNlvLcBd8.CT2wpn_WASLVEIrIT
+ lDlihOCfti987bgw5CyoUnMPwNm0_HyhWtZkakVcpPqyn4HsvO_sGZRdcb0.0tEu_C025pvdxswN
+ rmgxGP8nc8FxFl_ewO1mGzIfh.LwtPgP6qxJHGwfAB.8sgV6oyaOcpklbPCK0mtb2TNuawY.gM1Y
+ 4EIewDISpLaEHGybdY02ejlYI9grt4UFGP66cBLM98U9eaSs476RtjcbgJDnZF0_b5o12Ivh3yDE
+ .RRrOjKXttZUE3n3qAJp9VaVUkrJ1tU13bF05OPpKcgEydjxVzV7vX1CE71IihUl_3XGlg_spYT1
+ ddNGRuEIqFA0z2RSjAXwv25g7eOX4gy.2PVQRZ6tqkn.PDou7IfhlVk8_1frFp5r3OUVYDW2Om7X
+ b38HOjsBTSMFQLSdrTiz56K7c1Ygr8lUnUMCqgmgaJUxAZUUchMUduSb9Ii8mcXGP569B9NwAMAc
+ y3hNB5BRs5SQzb2xm6fsFam.vFlKXVBiNz6MHR.jitsw1wi_Lt0BaPaD8ibirje_yAw4-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.gq1.yahoo.com with HTTP; Thu, 11 Jun 2020 23:05:28 +0000
+Received: by smtp422.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 385a77de6a3948fc2d5a9f83b3566fac;
+          Thu, 11 Jun 2020 23:05:25 +0000 (UTC)
+Date:   Thu, 11 Jun 2020 19:05:21 -0400
+From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+Subject: AMD IOMMU + SME + amdgpu regression
+To:     Joerg Roedel <joro@8bytes.org>, linux-kernel@vger.kernel.org,
+        David Rientjes <rientjes@google.com>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Keyur Patel <iamkeyur96@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] memory: tegra: Avoid double error messaging when IRQ absent
-Date:   Thu, 11 Jun 2020 15:07:54 -0400
-Message-Id: <20200611190758.172605-1-iamkeyur96@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Daniel Drake <drake@endlessm.com>, jonathan.derrick@intel.com,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Joerg Roedel <jroedel@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <1591915710.rakbpzst8h.none@localhost>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+References: <1591915710.rakbpzst8h.none.ref@localhost>
+X-Mailer: WebService/1.1.16072 hermes_yahoo Apache-HttpAsyncClient/4.1.4 (Java/11.0.6)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Since the commit 7723f4c ("driver core: platform: Add an error message
-to platform_get_irq*()") platform_get_irq() started issuing an error message.
-Thus, there is no need to have the same in the driver.
+Hi,
 
-Signed-off-by: Keyur Patel <iamkeyur96@gmail.com>
----
- drivers/memory/tegra/mc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+amdgpu + IOMMU + SME is now working for me on 5.7, yay! But, it is=20
+broken on torvalds master, boo. On boot, depending on which exact commit=20
+I test, it either hangs immediately (with built-in driver, before=20
+starting initramfs), displays some errors then hangs, or spams the=20
+screen with many amdgpu errors.
 
-diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index ec8403557ed4..f519c0987485 100644
---- a/drivers/memory/tegra/mc.c
-+++ b/drivers/memory/tegra/mc.c
-@@ -659,10 +659,8 @@ static int tegra_mc_probe(struct platform_device *pdev)
- 	}
- 
- 	mc->irq = platform_get_irq(pdev, 0);
--	if (mc->irq < 0) {
--		dev_err(&pdev->dev, "interrupt not specified\n");
-+	if (mc->irq < 0)
- 		return mc->irq;
--	}
- 
- 	WARN(!mc->soc->client_id_mask, "missing client ID mask for this SoC\n");
- 
--- 
-2.26.2
+I bisected the black screen hang to:
 
+commit dce8d6964ebdb333383bacf5e7ab8c27df151218
+Author: Joerg Roedel <jroedel@suse.de>
+Date:   Wed Apr 29 15:36:53 2020 +0200
+
+    iommu/amd: Convert to probe/release_device() call-backs
+
+    Convert the AMD IOMMU Driver to use the probe_device() and
+    release_device() call-backs of iommu_ops, so that the iommu core code
+    does the group and sysfs setup.
+
+    Signed-off-by: Joerg Roedel <jroedel@suse.de>
+    Link: https://lore.kernel.org/r/20200429133712.31431-16-joro@8bytes.org
+    Signed-off-by: Joerg Roedel <jroedel@suse.de>
+
+Testing torvalds master (623f6dc593) with the containing merge=20
+(98bdc74b36) plus the DMA mapping merge (4e94d08734) reverted allows=20
+amdgpu + IOMMU + SME to once again work.
+
+I think that nobody is really working on amdgpu + SME, but it would be a=20
+shame if it was supported and then incidentally broken by a small=20
+change.
+
+I am using an ASRock B450 Pro4 with Ryzen 1600 and ASUS RX 480. I don't=20
+understand this code at all, but let me know what I can do to=20
+troubleshoot.
+
+Thanks,
+Alex.
