@@ -2,73 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B192D1F70B7
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 01:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 825891F7521
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 10:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbgFKXFf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Jun 2020 19:05:35 -0400
-Received: from sonic315-55.consmr.mail.gq1.yahoo.com ([98.137.65.31]:33429
-        "EHLO sonic315-55.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726277AbgFKXFa (ORCPT
+        id S1726452AbgFLIO3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Jun 2020 04:14:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50647 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726456AbgFLIO0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Jun 2020 19:05:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1591916728; bh=4YUy2dnKX+aLfXhIKF01g98COCeJaRGO0uIb0VS79Kk=; h=Date:From:Subject:To:Cc:References:From:Subject; b=ksY/536Vx4+k7UgUuK7sU+hVBThfiszI09Iuz1pRDsEDzIekIw49uYjp7ORgIcNYz0f6DNDzfy6/4yfZrOHqInTp/7Z/HcyjmMMLgeZWuD8TRAwOaMMkENqEBRHmRUuLAghQQjihayEfj8L20m6zZMfg23tNVn0w4aye3VB6XxwcQwPiMIHahzYpkJItzHEI+CmtRNoS45OeF8pkyYlQXTj5rda13IOwNMLzMGJ8ZXmNJM+2AQJKKYg2covwyMtdvSqzYCtGIcWITwCXA8hKPZtr12KvBVm1CK0E2O6h8qR/7PTGpw4okY+ctPIvnNIDw3ffcEEgwvbMVoGH5mEvNw==
-X-YMail-OSG: VeI5KAIVM1l8FZBKKOcgI77XPMQpX1yRxgEuJkG2HwGiwftSWlMzUhg.wI9RpCO
- 0m9mb_xDfGj9T2zqhX.uH.ouvYYHvpDFZhv1pWFL5y1aS4v9hb1LGwKsLcCxtdjVmrndIAxlrgTz
- 8LO3W4t7Y60g_t0QstSujZEh68oL_wRlHCSB5Td_M.HVxGsUQjqWM2qr_3.AkhSA0yutg5qcke8K
- Tv4I9pYJd9awi6FeCBU8.AW0hdjLa6mwHM8hm8SCtmWxN5P9kgX8HCxAaSA2wWYE5BgfOiUDY0eN
- 8SdF4xfPgafkYHgez7VCD9nxGHLJtR8PsxeXciMIqqC1F9E63fd4UIcXYfSp5mCCnXf1pW2oA0VZ
- eHnF2Lf5MUvy0KsxA7VkbSJfJnhx72DN4PMW15_Pqypq2CTc5FOh7t_XE2x5gmqPfv8aAgem9Z6S
- G754j7JvVIvxR16NyP1NJHKbTMsWHNX0qPQnbyQSB5vpRmVwkBOq_AHkSPmPavoJRKp4qbzy6bBO
- Bgl5ef0LdH1w0IGoNwlRH.UR8MrIAnwak32wCqG5lf.SwS9m.j1yNpS4_5D0o_3_e09XXbmbVT87
- JydTvntH.WypWlGKDwbEeflUZOlJnJ07XyPmONgYYP36533AICJBEt96Va3.mhtjhlFw3.29ZciX
- DUnx7ZrUMS58v2ROWoMShz.kIsuifGl.62rbZy_X8r4vO.Uxo5XJwzW4msMSwsvTqaOqT_X2DSbr
- LLj_UnAnYi2D4y9bOLYthO6rgknJsjH5NNK_yfRdTmQy.0mTEM7K9s8uzcE9CTS8fKfsDaVPyVxh
- xVmmJFX.A8jqmra2IrNsfF8nyaPIwxTRtGkfxuk34ZNH.5c0amNlvLcBd8.CT2wpn_WASLVEIrIT
- lDlihOCfti987bgw5CyoUnMPwNm0_HyhWtZkakVcpPqyn4HsvO_sGZRdcb0.0tEu_C025pvdxswN
- rmgxGP8nc8FxFl_ewO1mGzIfh.LwtPgP6qxJHGwfAB.8sgV6oyaOcpklbPCK0mtb2TNuawY.gM1Y
- 4EIewDISpLaEHGybdY02ejlYI9grt4UFGP66cBLM98U9eaSs476RtjcbgJDnZF0_b5o12Ivh3yDE
- .RRrOjKXttZUE3n3qAJp9VaVUkrJ1tU13bF05OPpKcgEydjxVzV7vX1CE71IihUl_3XGlg_spYT1
- ddNGRuEIqFA0z2RSjAXwv25g7eOX4gy.2PVQRZ6tqkn.PDou7IfhlVk8_1frFp5r3OUVYDW2Om7X
- b38HOjsBTSMFQLSdrTiz56K7c1Ygr8lUnUMCqgmgaJUxAZUUchMUduSb9Ii8mcXGP569B9NwAMAc
- y3hNB5BRs5SQzb2xm6fsFam.vFlKXVBiNz6MHR.jitsw1wi_Lt0BaPaD8ibirje_yAw4-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.gq1.yahoo.com with HTTP; Thu, 11 Jun 2020 23:05:28 +0000
-Received: by smtp422.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 385a77de6a3948fc2d5a9f83b3566fac;
-          Thu, 11 Jun 2020 23:05:25 +0000 (UTC)
-Date:   Thu, 11 Jun 2020 19:05:21 -0400
-From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: AMD IOMMU + SME + amdgpu regression
-To:     Joerg Roedel <joro@8bytes.org>, linux-kernel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Christoph Hellwig <hch@lst.de>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Fri, 12 Jun 2020 04:14:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1591949663;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=V2zTglIal5OiHZJ8iFKvfCqf75RWAmlyagUCe+VaIC8=;
+        b=fLdkaDcJhKyjlbOI5ITXal+WFuvkxpLcN7mLoOe4Wdz2422JzybFxc/Vm/WxP3vC2cIbYW
+        1T4J/MQene0DP7LcN7ys1EFePjpUcP8/BfoTFJuOuU3AQo++cmqhdKjIS8VjS828NmFA7x
+        nEF1aam4Ja11KoheiaAdxBW8jQ2p+H0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-r4BoWv6XNbmT7-imFlWA4A-1; Fri, 12 Jun 2020 04:14:21 -0400
+X-MC-Unique: r4BoWv6XNbmT7-imFlWA4A-1
+Received: by mail-ed1-f70.google.com with SMTP id x3so2603156eds.14
+        for <linux-tegra@vger.kernel.org>; Fri, 12 Jun 2020 01:14:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=V2zTglIal5OiHZJ8iFKvfCqf75RWAmlyagUCe+VaIC8=;
+        b=STRUuS2gcG0ksoyDozzccWBfOAMsE2tKQdkdNqdhVW9isn4TxxtEy68Xp1JIJlSFFt
+         kkA0XF44oH3BFBXHs7H85FhAng4GqGJYOx/151L36njC/0l9Ren4NW91Rzu8FTJ3TcFO
+         YWtZH7mk921BBiUdsdE0yQFKLNemTGOSsI+M/DTKspS9LQUNvwZkLbetVMnA15cr6VmC
+         dymCAR3gRij66fR03rVH6f9XqWTfwlfNqOtyFcZ4ZRzamSTOk+WoNStvyOpH61cDMmZy
+         CS0CsTDMLk4oLgzCP55HrO6Da9alhlfCOQ9tyI3Ai/z/5mgaT0FTJ2ewNWHiEhfsHxUd
+         aBig==
+X-Gm-Message-State: AOAM533OcvBUxt4rS/BJVAVoW8WXX8iqXJ/qCLg4eqXGM5Qxrd7MF4Pv
+        Q6lQhAu+68Z91Ly3Cr/fdoJ8o6N2VFxlYHQatKw4YIsZOOamEsmrlf7k5gj7ryCsqNkOL8h8azJ
+        2YuVeKGOb6JJjpGWNw5YbEM0=
+X-Received: by 2002:a17:907:209b:: with SMTP id pv27mr11743711ejb.146.1591949659887;
+        Fri, 12 Jun 2020 01:14:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBAHer5t4lrLm+vMdTXed6gLDbil+57VlZQwx847llFMXVqLhRHTvWPje2pJt4EUELeeQ+uA==
+X-Received: by 2002:a17:907:209b:: with SMTP id pv27mr11743678ejb.146.1591949659541;
+        Fri, 12 Jun 2020 01:14:19 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id h1sm2725555edz.88.2020.06.12.01.14.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2020 01:14:18 -0700 (PDT)
+Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-iio@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
+        linux-input@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
         Kukjin Kim <kgene@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Daniel Drake <drake@endlessm.com>, jonathan.derrick@intel.com,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Joerg Roedel <jroedel@suse.de>
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Collabora Kernel ML <kernel@collabora.com>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com>
+ <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
+ <20200610182836.GA248110@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <2e4bd050-117c-cc5f-8cf0-055b5304717f@redhat.com>
+Date:   Fri, 12 Jun 2020 10:14:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Message-Id: <1591915710.rakbpzst8h.none@localhost>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-References: <1591915710.rakbpzst8h.none.ref@localhost>
-X-Mailer: WebService/1.1.16072 hermes_yahoo Apache-HttpAsyncClient/4.1.4 (Java/11.0.6)
+In-Reply-To: <20200610182836.GA248110@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -76,39 +115,165 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 Hi,
 
-amdgpu + IOMMU + SME is now working for me on 5.7, yay! But, it is=20
-broken on torvalds master, boo. On boot, depending on which exact commit=20
-I test, it either hangs immediately (with built-in driver, before=20
-starting initramfs), displays some errors then hangs, or spams the=20
-screen with many amdgpu errors.
+On 6/10/20 8:28 PM, Dmitry Torokhov wrote:
+> On Wed, Jun 10, 2020 at 12:38:30PM +0200, Rafael J. Wysocki wrote:
+>> On Wed, Jun 10, 2020 at 11:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>>
+>>> Hi All,
+>>>
+>>> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
+>>>> This is a quick respin of v3, with just two small changes, please see
+>>>> the changelog below.
+>>>>
+>>>> Userspace might want to implement a policy to temporarily disregard input
+>>>> from certain devices.
+>>>>
+>>>> An example use case is a convertible laptop, whose keyboard can be folded
+>>>> under the screen to create tablet-like experience. The user then must hold
+>>>> the laptop in such a way that it is difficult to avoid pressing the keyboard
+>>>> keys. It is therefore desirable to temporarily disregard input from the
+>>>> keyboard, until it is folded back. This obviously is a policy which should
+>>>> be kept out of the kernel, but the kernel must provide suitable means to
+>>>> implement such a policy.
+>>>
+>>> First of all sorry to start a somewhat new discussion about this
+>>> while this patch set is also somewhat far along in the review process,
+>>> but I believe what I discuss below needs to be taken into account.
+>>>
+>>> Yesterday I have been looking into why an Asus T101HA would not stay
+>>> suspended when the LID is closed. The cause is that the USB HID multi-touch
+>>> touchpad in the base of the device starts sending events when the screen
+>>> gets close to the touchpad (so when the LID is fully closed) and these
+>>> events are causing a wakeup from suspend. HID multi-touch devices
+>>> do have a way to tell them to fully stop sending events, also disabling
+>>> the USB remote wakeup the device is doing. The question is when to tell
+>>> it to not send events though ...
+>>>
+>>> So now I've been thinking about how to fix this and I believe that there
+>>> is some interaction between this problem and this patch-set.
+>>>
+>>> The problem I'm seeing on the T101HA is about wakeups, so the question
+>>> which I want to discuss is:
+>>>
+>>> 1. How does inhibiting interact with enabling /
+>>> disabling the device as a wakeup source ?
+> 
+> One should not affect the other.
+> 
+>>>
+>>> 2. Since we have now made inhibiting equal open/close how does open/close
+>>> interact with a device being a wakeup source ?
+> 
+> One did not affect another, and it should not.
+> 
+>>>
+>>> And my own initial (to be discussed) answers to these questions:
+>>>
+>>> 1. It seems to me that when a device is inhibited it should not be a
+>>> wakeup source, so where possible a input-device-driver should disable
+>>> a device's wakeup capabilities on suspend if inhibited
+>>
+>> If "inhibit" means "do not generate any events going forward", then
+>> this must also cover wakeup events, so I agree.
+> 
+> Why? These are separate concepts. Do we disable wake on lan when
+> bringing network interface down? Do we update power/wakeup when device
+> is inhibited? Do we restore it afterwards? Do we un-inhibit if we
+> reenable wakeup after device is inhibited? Do we return error? How?
+> 
+> Inhibit works on logical level, i.e. if I have several input interfaces
+> on the same hardware device, I cam inhibit one leaving others intact.
+> This does not mean that the device should stop generating wakeup events.
+> We can't even guarantee this for composite devices.
 
-I bisected the black screen hang to:
+After thinking more about this I believe you are right and we should
+keep these as 2 separate, completely independent settings.
 
-commit dce8d6964ebdb333383bacf5e7ab8c27df151218
-Author: Joerg Roedel <jroedel@suse.de>
-Date:   Wed Apr 29 15:36:53 2020 +0200
+Especially since the wakeup setting typically is a setting of the
+parent device, where as the inhibit is done on the actual input-dev.
 
-    iommu/amd: Convert to probe/release_device() call-backs
+###
 
-    Convert the AMD IOMMU Driver to use the probe_device() and
-    release_device() call-backs of iommu_ops, so that the iommu core code
-    does the group and sysfs setup.
+Some quick background info on my original thoughts here, as mentioned
+I started thinking about this because of spurious wakeups from suspend
+when the lid of an asus t101ha is "touching" its touchpad. The HID
+multi-touch protocol has a setting where we can ask the device to
+stop sending events. So even though the kbd + touchpad are a
+single composite USB device, we can disable wakeup (in a way)
+for just the touchpad at the hid-multitouch level.
 
-    Signed-off-by: Joerg Roedel <jroedel@suse.de>
-    Link: https://lore.kernel.org/r/20200429133712.31431-16-joro@8bytes.org
-    Signed-off-by: Joerg Roedel <jroedel@suse.de>
+So I was thinking maybe adding a separate wakeup setting to the
+input device itself for this. But thinking more about it, when
+the lid is closed we can just disable wakeup on the entire USB
+device, since the keyboard is covered by the lid too.
 
-Testing torvalds master (623f6dc593) with the containing merge=20
-(98bdc74b36) plus the DMA mapping merge (4e94d08734) reverted allows=20
-amdgpu + IOMMU + SME to once again work.
+And then on suspend the hid-multitouch driver can detect that its
+parent (or parents parent in the case of USB) has wakeup disabled
+and also tell the device to stop scanning for fingers to save some
+power.
 
-I think that nobody is really working on amdgpu + SME, but it would be a=20
-shame if it was supported and then incidentally broken by a small=20
-change.
+We probably also need a close and open callbacks add the HID-driver
+level, so that if there are no touchpad users we can also use
+the same option to put the HID multi-touch device in a low power mode
+where it does not scan for fingers.
 
-I am using an ASRock B450 Pro4 with Ryzen 1600 and ASUS RX 480. I don't=20
-understand this code at all, but let me know what I can do to=20
-troubleshoot.
+<snip>
 
-Thanks,
-Alex.
+>>> A different, but related issue is how to make devices actually use the
+>>> new inhibit support on the builtin keyboard + touchpad when say the lid
+>>> is closed.   Arguably this is an userspace problem, but it is a tricky
+>>> one. Currently on most modern Linux distributions suspend-on-lid-close
+>>> is handled by systemd-logind and most modern desktop-environments are
+>>> happy to have logind handle this for them.
+>>>
+>>> But most knowledge about input devices and e.g. heurisitics to decide
+>>> if a touchpad is internal or external are part of libinput. Now we could
+>>> have libinput use the new inhibit support (1), but then when the lid
+>>> closes we get race between whatever process is using libinput trying
+>>> to inhibit the touchpad (which must be done before to suspend to disable
+>>> it as wakeup source) and logind trying to suspend the system.
+>>>
+>>> One solution here would be to move the setting of the inhibit sysfs
+>>> attr into logind, but that requires adding a whole bunch of extra
+>>> knowledge to logind which does not really belong there IMHO.
+> 
+> You do not need to push the knowledge into logind, you just need to
+> communicate to logind what devices can be wakeup sources and which ones
+> should not. Chrome OS uses udev tags/properties for that.
+
+True, I did not think of doing the tag thingie + letting logind do
+the inhibit on LID close based on that. logind could also disable
+wakeup (to save power while suspended) on devices which are tagged
+for it to do that (should probably be a separate tag from the
+inhibit tag).
+
+>>> I've been thinking a bit about this and to me it seems that the kernel
+>>> is in the ideal position to automatically inhibit some devices when
+>>> some EV_SW transitions from 0->1 (and uninhibit again on 1->0). The
+>>> issue here is to chose on which devices to enable this. I believe
+>>> that the auto inhibit on some switches mechanism is best done inside
+>>> the kernel (disabled by default) and then we can have a sysfs
+>>> attr called auto_inhibit_ev_sw_mask which can be set to e.g.
+>>> (1 << SW_LID) to make the kernel auto-inhibit the input-device whenever
+>>> the lid is closed, or to ((1 << SW_LID) | (1 << SW_TABLET_MODE)) to
+>>> inhibit both when the lid is closed or when switched to tablet mode.
+> 
+> This is a policy and should be kept out of the kernel. Yes, we had it
+> implemented with rfkill input handler, but it caused quite a few issues.
+> As far as I know it is not being used anymore and we should not try with
+> SW_LID->inhibit either.
+> 
+> I know it is faster to patch the kernel than to roll out proper
+> userspace because everyone updates kernel regularly, but it does not
+> mean it is the right solution.
+
+Agreed, I just could not come up with a clean userspace solution, but
+using udev+hwdb to set a tag for logind instead of having the write
+to a new auto_inhibit_ev_sw_mask will work nicely.
+
+So I think this is all resolved now (or at least we have a plan for it).
+
+Regards,
+
+Hans
+
