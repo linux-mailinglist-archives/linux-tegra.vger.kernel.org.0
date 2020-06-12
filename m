@@ -2,217 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A57A1F7578
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 10:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CFC21F793C
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 16:02:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726455AbgFLIsC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jun 2020 04:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
+        id S1726089AbgFLOCM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Jun 2020 10:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbgFLIsB (ORCPT
+        with ESMTP id S1726085AbgFLOCL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jun 2020 04:48:01 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CBCC03E96F;
-        Fri, 12 Jun 2020 01:48:00 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id ADEDA2A52ED
-Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-input@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com>
- <964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com>
- <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
- <6136f26c-e090-e025-af55-4c5f3a6aec92@collabora.com>
- <3e61c9c1-b211-da9f-c55b-b44eb6522f2a@redhat.com>
- <2d5fd063-66bc-c707-4041-84a17c0a7d04@collabora.com>
- <40988408-8f36-3a52-6439-34084de6b129@redhat.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <16342ec8-2c8e-d030-b253-0db534f04ba6@collabora.com>
-Date:   Fri, 12 Jun 2020 10:47:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Fri, 12 Jun 2020 10:02:11 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA381C03E96F;
+        Fri, 12 Jun 2020 07:02:11 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id x14so9865708wrp.2;
+        Fri, 12 Jun 2020 07:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=akkZ5CcN2estHPn/j8677EKazv05ZTETWmgOXSOMGAg=;
+        b=WXz3tnYF6jjpUAYNGK3xeINfmxO7spB3uBuM2Ups4gjo341cq84JNNhjQhe21wpU+/
+         DnwnqaTnGqUovXPkBIfpFU0TMHp1fsdV/sS2qZK+212gVSjTm8qFNC671fvtd8+bLv6G
+         090jddhdl8SSIYJ6I9BQGc4+TctmE7BxQU1D+6qSD3d1mwE+6DX8T7k28ZjLxDqhlcAm
+         z+PfuwruF3DIm5Dy+HsDqiRc4IoNerzPkN7niDzN1+AxLzxGjcQVkrANj6a8fil671tq
+         r0rpR2uJQWFPNUIM5vFSrO6m7GCOD6UUfltIKg6bdqFkZIGcJJ+oGZWwBEGvMVMwt0Eu
+         Dbng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=akkZ5CcN2estHPn/j8677EKazv05ZTETWmgOXSOMGAg=;
+        b=ZzWQ06tpuNo0mJuvjXseAaLvfxS2AK9xlPS5X5esXd6it2i8eGmJV9XqopP/jafpJ5
+         Tot7c2UX/MItsIJfCtBM+tZKoNoMHPpQWAwBQIiGQAUI+7FdB8yJEHBYT9ltsqj6eJvJ
+         rjIgaDnBAoltPYNr8x6rcZ1Goq7HLDSoJlcTcbUt1D79HrRoPvdSO4snfq7szGDHB7Tp
+         3E0kdptzzuZQ1pEKpi5vPsrY471rrMMNj9zBQ9PQdH/+c+mlLaiceR08PxEuH5xi7ilW
+         wJMq70FZJSHeZG+xbGZQQjBoFLY2asbxpaNvuE3pcaJoMvLpQaJkYfuTOOE56Ei0vljC
+         lDhQ==
+X-Gm-Message-State: AOAM532cxSgtMbGWW6N9me8WzRWXRriBV4SNfPBEodhHTDqTywwrcyIT
+        YC0obrb5MtuYlUCBJH8kCcQ=
+X-Google-Smtp-Source: ABdhPJzK3j1LBhz8Se1O6BCl7+LWrqUAPftuzBtZlq5yv7A30P7bSJrPWzHxMzaJTRIJ71BU8yUTSA==
+X-Received: by 2002:adf:f8cc:: with SMTP id f12mr14797474wrq.418.1591970530346;
+        Fri, 12 Jun 2020 07:02:10 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id k17sm10437798wrl.54.2020.06.12.07.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2020 07:02:09 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] usb: xhci: tegra: Remove PLL power supplies
+Date:   Fri, 12 Jun 2020 16:02:05 +0200
+Message-Id: <20200612140205.2342900-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <40988408-8f36-3a52-6439-34084de6b129@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Hans,
+From: Thierry Reding <treding@nvidia.com>
 
-W dniu 12.06.2020 o 10:30, Hans de Goede pisze:
-> Hi,
-> 
-> On 6/10/20 3:41 PM, Andrzej Pietrasiewicz wrote:
->> Hi Hans,
->>
->> W dniu 10.06.2020 o 15:21, Hans de Goede pisze:
->>> Hi,
->>>
->>> On 6/10/20 3:12 PM, Andrzej Pietrasiewicz wrote:
->>>> Hi All,
->>>>
->>>> W dniu 10.06.2020 o 12:38, Rafael J. Wysocki pisze:
->>>>> On Wed, Jun 10, 2020 at 11:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>>>
->>>>>> Hi All,
->>>>>>
->>>>>> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
->>>>>>> This is a quick respin of v3, with just two small changes, please see
->>>>>>> the changelog below.
->>>>>>>
->>>>>>> Userspace might want to implement a policy to temporarily disregard input
->>>>>>> from certain devices.
->>>>>>>
->>>>>>> An example use case is a convertible laptop, whose keyboard can be folded
->>>>>>> under the screen to create tablet-like experience. The user then must hold
->>>>>>> the laptop in such a way that it is difficult to avoid pressing the keyboard
->>>>>>> keys. It is therefore desirable to temporarily disregard input from the
->>>>>>> keyboard, until it is folded back. This obviously is a policy which should
->>>>>>> be kept out of the kernel, but the kernel must provide suitable means to
->>>>>>> implement such a policy.
->>>>>>
->>>>>> First of all sorry to start a somewhat new discussion about this
->>>>>> while this patch set is also somewhat far along in the review process,
->>>>>> but I believe what I discuss below needs to be taken into account.
->>>>>>
->>>>>> Yesterday I have been looking into why an Asus T101HA would not stay
->>>>>> suspended when the LID is closed. The cause is that the USB HID multi-touch
->>>>>> touchpad in the base of the device starts sending events when the screen
->>>>>> gets close to the touchpad (so when the LID is fully closed) and these
->>>>>> events are causing a wakeup from suspend. HID multi-touch devices
->>>>>> do have a way to tell them to fully stop sending events, also disabling
->>>>>> the USB remote wakeup the device is doing. The question is when to tell
->>>>>> it to not send events though ...
->>>>>>
->>>>>> So now I've been thinking about how to fix this and I believe that there
->>>>>> is some interaction between this problem and this patch-set.
->>>>>>
->>>>>> The problem I'm seeing on the T101HA is about wakeups, so the question
->>>>>> which I want to discuss is:
->>>>>>
->>>>>> 1. How does inhibiting interact with enabling /
->>>>>> disabling the device as a wakeup source ?
->>>>>>
->>>>>> 2. Since we have now made inhibiting equal open/close how does open/close
->>>>>> interact with a device being a wakeup source ?
->>>>>>
->>>>>> And my own initial (to be discussed) answers to these questions:
->>>>>>
->>>>>> 1. It seems to me that when a device is inhibited it should not be a
->>>>>> wakeup source, so where possible a input-device-driver should disable
->>>>>> a device's wakeup capabilities on suspend if inhibited
->>>>>
->>>>> If "inhibit" means "do not generate any events going forward", then
->>>>> this must also cover wakeup events, so I agree.
->>>>
->>>> I agree, too.
->>>>
->>>>>
->>>>>> 2. This one is trickier I don't think we have really clearly specified
->>>>>> any behavior here. The default behavior of most drivers seems to be
->>>>>> using something like this in their suspend callback:
->>>>>>
->>>>>>           if (device_may_wakeup(dev))
->>>>>>                   enable_irq_wake(data->irq);
->>>>>>           else if (input->users)
->>>>>>                   foo_stop_receiving_events(data);
->>>>>>
->>>>>> Since this is what most drivers seem to do I believe we should keep
->>>>>> this as is and that we should just clearly document that if the
->>>>>> input_device has users (has been opened) or not does not matter
->>>>>> for its wakeup behavior.
->>>>>>
->>>>>> Combining these 2 answers leads to this new pseudo code template
->>>>>> for an input-device's suspend method:
->>>>>>
->>>>>>          /*
->>>>>>           * If inhibited we have already disabled events and
->>>>>>           * we do NOT want to setup the device as wake source.
->>>>>>           */
->>>>>>          if (input->inhibited)
->>>>>>                  return 0;
->>>>
->>>> Right, if a device is inhibited it shouldn't become a wakeup source,
->>>> because that would contradict the purpose of being inhibited.
->>>
->>> Ack. Note I do think that we need to document this (and more
->>> in general the answer to both questions from above) clearly so
->>> that going forward if there are any questions about how this is
->>> supposed to work we can just point to the docs.
->>>
->>> Can you do a follow-up patch, or include a patch in your next
->>> version which documents this (once we agree on what "this"
->>> exactly is) ?
->>
->> Sure I can. Just need to know when "this" becomes stable enough ;)
->> If this series otherwise looks mature enough I would opt for a
->> follow-up patch.
-> 
-> FWIW after my flip-flop to agreeing with Dmitry that the 2
-> (inhibit vs wakeup) should be completely orthogonal this new
-> policy is stable/mature from my pov (and consistent with how
-> we handle wakeup vs input_dev->users).
-> 
-> I still think it would be good to do a follow-up documentation
-> patch documenting that these (and esp. inhibit) are orthogonal.
-> 
-> This will mean for example that if a device is inhibit but
-> still wakeup enabled and the device's close method silences
-> the devices, that it needs to be unsilenced in suspend.
-> This might be worth mentioning in the docs even though
-> drivers which silence the device on close should already
-> unsilence the device on suspend when it is wakeup-enabled.
-> 
-> Note maybe we should give it a couple of days for others to
-> give their opinion before you submit the follow-up documentation
-> patch.
-> 
+The Tegra XUSB controller driver doesn't need to control the PLL power
+supplies directly, but rather uses the pads provided by the XUSB pad
+controller, which in turn is responsible for supplying power to the
+PLLs.
 
-True. I will send something after the weekend.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/usb/host/xhci-tegra.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-Andrzej
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index 2eaf5c0af80c..9ce28ab47f4b 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -1853,11 +1853,7 @@ static const char * const tegra124_supply_names[] = {
+ 	"avddio-pex",
+ 	"dvddio-pex",
+ 	"avdd-usb",
+-	"avdd-pll-utmip",
+-	"avdd-pll-erefe",
+-	"avdd-usb-ss-pll",
+ 	"hvdd-usb-ss",
+-	"hvdd-usb-ss-pll-e",
+ };
+ 
+ static const struct tegra_xusb_phy_type tegra124_phy_types[] = {
+@@ -1931,10 +1927,6 @@ static const char * const tegra210_supply_names[] = {
+ 	"dvddio-pex",
+ 	"hvddio-pex",
+ 	"avdd-usb",
+-	"avdd-pll-utmip",
+-	"avdd-pll-uerefe",
+-	"dvdd-pex-pll",
+-	"hvdd-pex-pll-e",
+ };
+ 
+ static const struct tegra_xusb_phy_type tegra210_phy_types[] = {
+-- 
+2.24.1
+
