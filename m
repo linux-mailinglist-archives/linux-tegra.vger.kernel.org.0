@@ -2,116 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C031F79B0
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 16:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E7D1F79CB
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 16:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726379AbgFLOU2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jun 2020 10:20:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726307AbgFLOU1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jun 2020 10:20:27 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78323C03E96F;
-        Fri, 12 Jun 2020 07:20:26 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id p5so9898750wrw.9;
-        Fri, 12 Jun 2020 07:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jEblzHqXG0PiyjZlhQC9lr2hTzAJz0nty/o1pAmsRO4=;
-        b=A/OVzo8rYg13I/WtADx2Blk9+OHnfjF/YI6ViT04x9ewHsF7SgDuwI2mIIh0Toj0Ya
-         XfcEanizrjhUSXJ5JeLGKhF18fDPgt8e4a9xWzFtESVvgvIbsD3bTIboQgJZemzxmPN4
-         lL0TAgcOL0NTGuRzUgaL9to3fyNSrsQvyKyDp6HWbzIu5v2Fxt3FZBsiZ05OZgZLtAtx
-         xcSqEFrGl9bJkjA/W107k2ZX0AJtbS9+5Ka0mCAnxVAh077XqZE97dG8139SAvlL12Iv
-         mHKmltHwmNrU1z4FteyvcszglBDqrVxXKohFm0m7hSnbL2l68EfT6QMMDz6TeTNMJ/vl
-         KLNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jEblzHqXG0PiyjZlhQC9lr2hTzAJz0nty/o1pAmsRO4=;
-        b=Ra9jeYTKKI9RwtNRNU3qT2Ubshnunz9CB9f6WJ2he02DGegPsziNVPDnC/aVMX1wC3
-         XdwowQXUByKLIO6VtQrwblRKqhWLi+e3FL/fQyc3MGlabUol4h6RGJkArkPxuZvFQEqj
-         5v3TzztNRc9A5uqQINttMXR4nPOb14bIQH/7cDmW3ZwrLOIWr+tICeagxQtr6OxcOX0x
-         PwthYVX9TovQLVZaEyi+d0hVGFOVkTpX2nP/dH7NG1gNR5pM6K/6OGTqhyjRHMIJgt22
-         GKpbjHxDbFT4QlyYU/vT+Ddy0tJUnEg16XXdeMtvTdZ75I83QkcUcILibLSt+tyjLhcr
-         mhYw==
-X-Gm-Message-State: AOAM5320VyTESnWGMk6fgnLxdKo/eZLrpeS/SBdmz7TmgAfoCvTlhMWd
-        zUWa+iJ+cfVlcgiVfKRTwVsUyo7A
-X-Google-Smtp-Source: ABdhPJwhHJ9QfE5kJTjTSNQeEjkX6Bgvs9kR5W5jMwB1ZEO22ncL6dVH0kvosM3pNpR3hhCFKJwGsQ==
-X-Received: by 2002:a5d:4f09:: with SMTP id c9mr15020614wru.3.1591971625220;
-        Fri, 12 Jun 2020 07:20:25 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id n1sm10163494wrp.10.2020.06.12.07.20.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 07:20:24 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 38/38] dt-bindings: serial: Document Tegra-specific properties
-Date:   Fri, 12 Jun 2020 16:19:03 +0200
-Message-Id: <20200612141903.2391044-39-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200612141903.2391044-1-thierry.reding@gmail.com>
-References: <20200612141903.2391044-1-thierry.reding@gmail.com>
+        id S1726444AbgFLO20 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Jun 2020 10:28:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43160 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726089AbgFLO20 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 12 Jun 2020 10:28:26 -0400
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 75A6D20835;
+        Fri, 12 Jun 2020 14:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591972105;
+        bh=pfvcHafRtoStjYZYQPm86F3vnWbbDleWgNAM2Y2KWfg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zZNWNAHryRij42ZQs8sorg7pGvOuK78NKdqUjO/6tVoqxY3U5XjDWVBaG97ox9vlO
+         W0IqNCnj6UIq/rmDMiKIEHE3MxVfILCjzeBSVrZ9Ry5xBPXOt5ynSCe8McmO8q+Joy
+         LEd/aEbNGRT1/Moqjzidrhb3gyuh3q9bMTups+zI=
+Received: by mail-ot1-f45.google.com with SMTP id b18so7447164oti.1;
+        Fri, 12 Jun 2020 07:28:25 -0700 (PDT)
+X-Gm-Message-State: AOAM532Lgxr8Z+zYXWOX34vdcIEPvFAoOIipLuJ0Ys6qSyztymAU0oZl
+        yXiBA/2Ufa5G4YXR1citVacnm5slYEPPChLGwA==
+X-Google-Smtp-Source: ABdhPJybkHbAScwpesYWSZpW80zK7MV/Z2fxh5HCjuFrDX7f1fqyJTQ1qQeP+4F0rc4Myf5HcbVKHtIfxEVk4j9/RKE=
+X-Received: by 2002:a05:6830:549:: with SMTP id l9mr11132724otb.129.1591972104732;
+ Fri, 12 Jun 2020 07:28:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200612141903.2391044-1-thierry.reding@gmail.com> <20200612141903.2391044-32-thierry.reding@gmail.com>
+In-Reply-To: <20200612141903.2391044-32-thierry.reding@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 12 Jun 2020 08:28:13 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKHkW8Q-prwEP_tkyWHUU5YuQHOipzjZ9MWa9M+uMoCkg@mail.gmail.com>
+Message-ID: <CAL_JsqKHkW8Q-prwEP_tkyWHUU5YuQHOipzjZ9MWa9M+uMoCkg@mail.gmail.com>
+Subject: Re: [PATCH 31/38] dt-bindings: panel: simple: Use unevaluatedProperties
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     devicetree@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Fri, Jun 12, 2020 at 8:20 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> From: Thierry Reding <treding@nvidia.com>
+>
+> Using "additionalProperties: false" results in rejecting any of the
+> properties defined in panel-common.yaml, whereas the intent is to
+> inherit the common properties defined in that file.
+>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 34fe3d42b829..c58bc90ffd43 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -275,7 +275,7 @@ properties:
+>    port: true
+>    power-supply: true
+>
+> -additionalProperties: false
+> +unevaluatedProperties: false
 
-On Tegra the UART is described using additional properties, such as
-clock-names, reset-names, dmas and dma-names. Document them in the
-bindings so that Tegra device trees are properly validated.
+But we've listed the properties we use here. Some of the common ones
+may not be applicable. Maybe they are and if so, then you should drop
+all the ones listed with 'true' with this change.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- .../devicetree/bindings/serial/8250.yaml      | 26 +++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/serial/8250.yaml b/Documentation/devicetree/bindings/serial/8250.yaml
-index c1d4c196f005..9c8fad27c3f3 100644
---- a/Documentation/devicetree/bindings/serial/8250.yaml
-+++ b/Documentation/devicetree/bindings/serial/8250.yaml
-@@ -28,6 +28,32 @@ allOf:
-           const: 2
-       required:
-         - reg-shift
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - nvidia,tegra20-uart
-+    then:
-+      properties:
-+        clock-names:
-+          $ref: "/schemas/types.yaml#/definitions/string-array"
-+          items:
-+            - const: serial
-+
-+        dmas:
-+          $ref: "/schemas/types.yaml#/definitions/phandle-array"
-+
-+        dma-names:
-+          $ref: "/schemas/types.yaml#/definitions/string-array"
-+          items:
-+            - const: rx
-+            - const: tx
-+
-+        reset-names:
-+          $ref: "/schemas/types.yaml#/definitions/string-array"
-+          items:
-+            - const: serial
-   - if:
-       not:
-         properties:
--- 
-2.24.1
-
+Rob
