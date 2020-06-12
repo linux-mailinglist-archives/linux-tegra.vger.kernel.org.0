@@ -2,60 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CFC21F793C
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 16:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 171F41F7942
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jun 2020 16:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbgFLOCM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jun 2020 10:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
+        id S1726279AbgFLODJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Jun 2020 10:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726085AbgFLOCL (ORCPT
+        with ESMTP id S1726085AbgFLODJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jun 2020 10:02:11 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA381C03E96F;
-        Fri, 12 Jun 2020 07:02:11 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id x14so9865708wrp.2;
-        Fri, 12 Jun 2020 07:02:11 -0700 (PDT)
+        Fri, 12 Jun 2020 10:03:09 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED08FC03E96F;
+        Fri, 12 Jun 2020 07:03:08 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id x14so9869261wrp.2;
+        Fri, 12 Jun 2020 07:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=akkZ5CcN2estHPn/j8677EKazv05ZTETWmgOXSOMGAg=;
-        b=WXz3tnYF6jjpUAYNGK3xeINfmxO7spB3uBuM2Ups4gjo341cq84JNNhjQhe21wpU+/
-         DnwnqaTnGqUovXPkBIfpFU0TMHp1fsdV/sS2qZK+212gVSjTm8qFNC671fvtd8+bLv6G
-         090jddhdl8SSIYJ6I9BQGc4+TctmE7BxQU1D+6qSD3d1mwE+6DX8T7k28ZjLxDqhlcAm
-         z+PfuwruF3DIm5Dy+HsDqiRc4IoNerzPkN7niDzN1+AxLzxGjcQVkrANj6a8fil671tq
-         r0rpR2uJQWFPNUIM5vFSrO6m7GCOD6UUfltIKg6bdqFkZIGcJJ+oGZWwBEGvMVMwt0Eu
-         Dbng==
+        bh=aZNRsGSij8yEXoRL33rsv2fSZi9pkwOnUqRTKVPOJGo=;
+        b=q8MOxvbMRb9Z74pxJ+Jrzy7qklzY2KHArIxgRj8vVsXInKI4DuhFQ5iqFjH4IUE5ZM
+         1durRcrUVyUc0Sh5RDI27snx3KAGRx+MYEKxRcFVeefnmh+BYJHXmD5nIaOM4ogk2E+k
+         usnRW3zkoJ/2GakAhV+uoZaDHMnh6UOJ4P9VW+SbKAoO6d7sYTPsDVNx4DUZH/OFWUJt
+         geQPgCTReP5jnl3RUXINU0pRsuEc4ZC2RrXprn3ZL+89xu2wF9M2HlAR5hGv+rxvmsQ4
+         Z34NS7TH5FshnKcKTzjABzPVya1Nidlm6YuofMltEIkuBRASt1r9qkiZJ56SrJ6/CN6a
+         436A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=akkZ5CcN2estHPn/j8677EKazv05ZTETWmgOXSOMGAg=;
-        b=ZzWQ06tpuNo0mJuvjXseAaLvfxS2AK9xlPS5X5esXd6it2i8eGmJV9XqopP/jafpJ5
-         Tot7c2UX/MItsIJfCtBM+tZKoNoMHPpQWAwBQIiGQAUI+7FdB8yJEHBYT9ltsqj6eJvJ
-         rjIgaDnBAoltPYNr8x6rcZ1Goq7HLDSoJlcTcbUt1D79HrRoPvdSO4snfq7szGDHB7Tp
-         3E0kdptzzuZQ1pEKpi5vPsrY471rrMMNj9zBQ9PQdH/+c+mlLaiceR08PxEuH5xi7ilW
-         wJMq70FZJSHeZG+xbGZQQjBoFLY2asbxpaNvuE3pcaJoMvLpQaJkYfuTOOE56Ei0vljC
-         lDhQ==
-X-Gm-Message-State: AOAM532cxSgtMbGWW6N9me8WzRWXRriBV4SNfPBEodhHTDqTywwrcyIT
-        YC0obrb5MtuYlUCBJH8kCcQ=
-X-Google-Smtp-Source: ABdhPJzK3j1LBhz8Se1O6BCl7+LWrqUAPftuzBtZlq5yv7A30P7bSJrPWzHxMzaJTRIJ71BU8yUTSA==
-X-Received: by 2002:adf:f8cc:: with SMTP id f12mr14797474wrq.418.1591970530346;
-        Fri, 12 Jun 2020 07:02:10 -0700 (PDT)
+        bh=aZNRsGSij8yEXoRL33rsv2fSZi9pkwOnUqRTKVPOJGo=;
+        b=On8AF+PC0FVg0neyAR0cRmE/6QMM//ypdDMslyv2wydcIiW1qBVfxZl4VbWEGJvaDj
+         CGI73JcC4a7zECJTXpKcT5OtqqNUZXK+Sz2IF+arGg2Cmz+PRX6b9t8N75bl8kXJhs8G
+         khVmEsNosPUAhNE9pB4HB3lunn1aiHqfCU/uRsnH5OaN+DvP3aWvLHnWe4f4BvoPr2wp
+         K0hZUmN5SO9sIVvgYx3i6iq5rE/cfPJDt8hYy7wRRbQ2Iobo6HEH9tahoV2uZIftqRHL
+         rdxQRCl68heEb8EJy0Ug9834D8UtSJdkwgJqGZOxKb7TxQFn///ij4y71tw/WLmUP2bT
+         R00A==
+X-Gm-Message-State: AOAM530S01Gf8D4EzU6C1z1y2OZ/KmL3GCR/1ZhWEttSAoCOEfs85EKP
+        etAK6hrwCRd7v6g9rOH5w1Q=
+X-Google-Smtp-Source: ABdhPJzYiaoohxqrCEND9i4JKTHNRjwkvz2Le3u67elvIdpD2gyXz0emLtxheJa5nuG+0InojSn7Og==
+X-Received: by 2002:adf:db47:: with SMTP id f7mr15772418wrj.101.1591970587680;
+        Fri, 12 Jun 2020 07:03:07 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id k17sm10437798wrl.54.2020.06.12.07.02.09
+        by smtp.gmail.com with ESMTPSA id y80sm9047336wmc.34.2020.06.12.07.03.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 07:02:09 -0700 (PDT)
+        Fri, 12 Jun 2020 07:03:06 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] usb: xhci: tegra: Remove PLL power supplies
-Date:   Fri, 12 Jun 2020 16:02:05 +0200
-Message-Id: <20200612140205.2342900-1-thierry.reding@gmail.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] PCI: tegra: Remove PLL power supplies
+Date:   Fri, 12 Jun 2020 16:03:05 +0200
+Message-Id: <20200612140305.2343139-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,43 +67,57 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The Tegra XUSB controller driver doesn't need to control the PLL power
+The Tegra PCI controller driver doesn't need to control the PLL power
 supplies directly, but rather uses the pads provided by the XUSB pad
 controller, which in turn is responsible for supplying power to the
 PLLs.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/usb/host/xhci-tegra.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/pci/controller/pci-tegra.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 2eaf5c0af80c..9ce28ab47f4b 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1853,11 +1853,7 @@ static const char * const tegra124_supply_names[] = {
- 	"avddio-pex",
- 	"dvddio-pex",
- 	"avdd-usb",
--	"avdd-pll-utmip",
--	"avdd-pll-erefe",
--	"avdd-usb-ss-pll",
- 	"hvdd-usb-ss",
--	"hvdd-usb-ss-pll-e",
- };
+diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+index 235b456698fc..f87a09d21eb0 100644
+--- a/drivers/pci/controller/pci-tegra.c
++++ b/drivers/pci/controller/pci-tegra.c
+@@ -2025,7 +2025,7 @@ static int tegra_pcie_get_regulators(struct tegra_pcie *pcie, u32 lane_mask)
+ 		pcie->supplies[i++].supply = "hvdd-pex";
+ 		pcie->supplies[i++].supply = "vddio-pexctl-aud";
+ 	} else if (of_device_is_compatible(np, "nvidia,tegra210-pcie")) {
+-		pcie->num_supplies = 6;
++		pcie->num_supplies = 3;
  
- static const struct tegra_xusb_phy_type tegra124_phy_types[] = {
-@@ -1931,10 +1927,6 @@ static const char * const tegra210_supply_names[] = {
- 	"dvddio-pex",
- 	"hvddio-pex",
- 	"avdd-usb",
--	"avdd-pll-utmip",
--	"avdd-pll-uerefe",
--	"dvdd-pex-pll",
--	"hvdd-pex-pll-e",
- };
+ 		pcie->supplies = devm_kcalloc(pcie->dev, pcie->num_supplies,
+ 					      sizeof(*pcie->supplies),
+@@ -2033,14 +2033,11 @@ static int tegra_pcie_get_regulators(struct tegra_pcie *pcie, u32 lane_mask)
+ 		if (!pcie->supplies)
+ 			return -ENOMEM;
  
- static const struct tegra_xusb_phy_type tegra210_phy_types[] = {
+-		pcie->supplies[i++].supply = "avdd-pll-uerefe";
+ 		pcie->supplies[i++].supply = "hvddio-pex";
+ 		pcie->supplies[i++].supply = "dvddio-pex";
+-		pcie->supplies[i++].supply = "dvdd-pex-pll";
+-		pcie->supplies[i++].supply = "hvdd-pex-pll-e";
+ 		pcie->supplies[i++].supply = "vddio-pex-ctl";
+ 	} else if (of_device_is_compatible(np, "nvidia,tegra124-pcie")) {
+-		pcie->num_supplies = 7;
++		pcie->num_supplies = 4;
+ 
+ 		pcie->supplies = devm_kcalloc(dev, pcie->num_supplies,
+ 					      sizeof(*pcie->supplies),
+@@ -2050,11 +2047,8 @@ static int tegra_pcie_get_regulators(struct tegra_pcie *pcie, u32 lane_mask)
+ 
+ 		pcie->supplies[i++].supply = "avddio-pex";
+ 		pcie->supplies[i++].supply = "dvddio-pex";
+-		pcie->supplies[i++].supply = "avdd-pex-pll";
+ 		pcie->supplies[i++].supply = "hvdd-pex";
+-		pcie->supplies[i++].supply = "hvdd-pex-pll-e";
+ 		pcie->supplies[i++].supply = "vddio-pex-ctl";
+-		pcie->supplies[i++].supply = "avdd-pll-erefe";
+ 	} else if (of_device_is_compatible(np, "nvidia,tegra30-pcie")) {
+ 		bool need_pexa = false, need_pexb = false;
+ 
 -- 
 2.24.1
 
