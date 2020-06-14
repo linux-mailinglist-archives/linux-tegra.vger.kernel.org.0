@@ -2,54 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB9DC1F8A64
-	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jun 2020 21:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2FC1F8A7D
+	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jun 2020 22:01:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726844AbgFNTgd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 14 Jun 2020 15:36:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33624 "EHLO
+        id S1727910AbgFNUB4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 14 Jun 2020 16:01:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726648AbgFNTgd (ORCPT
+        with ESMTP id S1727866AbgFNUBp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 14 Jun 2020 15:36:33 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A4EC08C5C2;
-        Sun, 14 Jun 2020 12:36:31 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id i27so16597864ljb.12;
-        Sun, 14 Jun 2020 12:36:31 -0700 (PDT)
+        Sun, 14 Jun 2020 16:01:45 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38929C08C5C2;
+        Sun, 14 Jun 2020 13:01:43 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id o4so642316lfi.7;
+        Sun, 14 Jun 2020 13:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1oH7NEv4PmtGLNbJThmXxcB8UaLcSHXncndfYE40f7s=;
-        b=bkf5YXbqGdwW6lPc/1SSSWgymcELeJyDmOtK7/kYlJc/HWU2UIcK60fCWIwvN9PkGX
-         74iIUMnv/pCLXNK8YRnSObP4mmegyxoB8efjFVhVCmt7WVLqOzbrJHe5rhRCEMLOnOnn
-         bTxEE500hpm00IDWiEV2WbODS835j702vjOJKke0bwrlidMjYQTIW+RsFKOMqkfdOkAK
-         iuPtDGP9GM7W30IWtxUv9Bxo3JXXUcF5Ic3csiHpWKivQwE+EGjEDXekfQKB0zwMQDgA
-         bw+KmqYR5MpvdWfzS6+jBNyerfNWPCFdozk6p7wZE185FiksqVqG+ADprFDulpj0HPnx
-         XNsQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eyeaYzeQX7ccLjnwiymvagyxejIqtIT2ra5PuWujjzM=;
+        b=huWfunRd9o8izmq8clvCzaVTN/lEYRrSHD9pJ+wLb7vl0rdY72NAHw8wOmHniXhuDh
+         amsqUmwpLcz+GON705A2GfRQG1iYBH2Twv/RioQ//2fGjFEcWniI5CEWPrm0wPePm+VD
+         dcjgmUBX7+kWBXt+0B0zAFPNoFhyxJkGB8LSxiNjE8XH3m87IvGiaPQMJoMnSg0E1Eik
+         A6nuQRbxkKOZFzGwNG9N/oGcpb7NVwPPrCFD3T7jTzsIFPS8HRgPs/DchYNJwk1mHXaU
+         cJ3m203wFec2IkUbrtTQtg4L6SdvHRSBqwf5QHhr9Q/1ASpzM9T07wxc852GGu6kXbl6
+         H9aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1oH7NEv4PmtGLNbJThmXxcB8UaLcSHXncndfYE40f7s=;
-        b=Tb6JqEf/FchmhqJJ/e/ae2aoEl3ZXI/0P6Nt+n0EcaENC8MesGHkLytzcnysJN9/KX
-         5jqS6EY2hfG5YAr761OVB+ALZilAl3/wvzmCXrscjbSxcyOXDILAhuGp8TnGFxJGxXCb
-         2QMBGIboz+SpJCs+OZdesQ5NwHe5SNCQE0ffmz4f6yHybIxFkmuchKl2MKS2KbrvUGam
-         MRhEqy427fMzUfMFrsjI7qA/ziz2aBmiHKvXKULspjEslTSF4fSfLOVerTKWDVcWXvW8
-         ZVUtKNfHCJWHrcpnEVSA98OuDwTVLRTSuBLSRwXq0AG9SPTWamXQB63UfGY86zLQLspo
-         yW9A==
-X-Gm-Message-State: AOAM530oo9YWQqLUI8DBG2v4k4FwfBs09tCVXHEcoIHjRWB9JBJI4qUJ
-        kugG+kWSB+i6nxufg7qiy1UMV5p+
-X-Google-Smtp-Source: ABdhPJyl6Ol7cj6oCxj3XNEdTRqr/duhC5G7MTmnjBSgNWPgoRcc5u81BoYLmHaL3Z+LaswrxAaSsg==
-X-Received: by 2002:a2e:7e08:: with SMTP id z8mr10385946ljc.339.1592163389586;
-        Sun, 14 Jun 2020 12:36:29 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id s25sm3418494ljj.119.2020.06.14.12.36.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jun 2020 12:36:28 -0700 (PDT)
-Subject: Re: [PATCH v1 2/6] drm/panel: Set display info in panel attach
+        bh=eyeaYzeQX7ccLjnwiymvagyxejIqtIT2ra5PuWujjzM=;
+        b=c/EP2RcBKL0s6XnYut+0aE2ULWfLv/5MhQNXq/MDGiOJ9+oavN1EPOCzDt4lkELTOR
+         PJ9lr/R22B1Y5Rf5DrVr6ptkzCrhAm3JS5T9tL9mknWOqEP9bjVW2a7HpME1XZ8wDkLX
+         SdGe/p0NI4xzR3AxYVP9kD2mBKebo0DGlKB7urZGfseO+Aqqy5jn65Y2TYvF/Lu+D0hi
+         vWV9ypK9IlpD9CCG7xDlvPirufy+02OWsX8iI+uTCbE8ebcQMSJkbc8JDVoasAtplIlO
+         +p2KtwazDn/J2RHgxxAfgG1mW0lZ+PeT1em8xCzjGknPkC/l5XaUjcIdIKaOD49tiJ63
+         zo3w==
+X-Gm-Message-State: AOAM530prMVkX34TbeGDeINFxrF/7Kv8FTtYpaLHiPhrLlX3XwbxZqAl
+        7SvHamDAmIAInDJEEgF3x1M=
+X-Google-Smtp-Source: ABdhPJywA20RCBGKn37WbaaGhZeic/ZVAiBmfPA7Mnftr3GiywM/pb5B6AVXLylwpr+0Vq3t9EQiyw==
+X-Received: by 2002:a19:c3d5:: with SMTP id t204mr11970529lff.50.1592164901434;
+        Sun, 14 Jun 2020 13:01:41 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id 144sm1422105lfm.87.2020.06.14.13.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2020 13:01:40 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -59,38 +57,68 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Sean Paul <sean@poorly.run>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20200614190348.12193-1-digetx@gmail.com>
- <20200614190348.12193-3-digetx@gmail.com>
-Message-ID: <81b3ed4b-5cf1-0b61-1457-b07e8d8a2de3@gmail.com>
-Date:   Sun, 14 Jun 2020 22:36:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Subject: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
+Date:   Sun, 14 Jun 2020 23:01:16 +0300
+Message-Id: <20200614200121.14147-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <20200614190348.12193-3-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.06.2020 22:03, Dmitry Osipenko пишет:
-> From: Derek Basehore <dbasehore@chromium.org>
-> 
-> Devicetree systems can set panel orientation via a panel binding, but
-> there's no way, as is, to propagate this setting to the connector,
-> where the property need to be added.
-> To address this, this patch sets orientation, as well as other fixed
-> values for the panel, in the drm_panel_attach function. These values
-> are stored from probe in the drm_panel struct.
-> 
-> Signed-off-by: Derek Basehore <dbasehore@chromium.org>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Tested-by: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
+Hello!
 
-Ah, I just realized that this patch is obsolete now! I also got email
-bounces saying that some email servers didn't like the UTF symbol in
-name of the first email, so will make a v2 shortly.
+This series adds 180° display plane rotation support to the NVIDIA Tegra
+DRM driver which is needed for devices that have display panel physically
+mounted upside-down, like Nexus 7 tablet device for example [1]. Since
+DRM panel rotation is a new thing for a userspace, currently only
+Opentegra Xorg driver handles the rotated display panel [2], but this
+is good enough for the start.
+
+Note that later on it should be possible to implement a transparent 180°
+display rotation for Tegra DRM driver which will remove the need to have
+a bleeding edge userspace that knows how to rotate display planes and I'm
+slowly working on it. For the starter we can go with the minimal rotation
+support, so it's not a blocker.
+
+This series is based on the work that was made by Derek Basehore for the
+Mediatek driver [3], his patch is included into this patchset. I added
+my tested-by tag to the Derek's patch.
+
+Please review and apply, thanks in advance!
+
+[1] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200607154327.18589-3-digetx@gmail.com/
+[2] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a3959bbe5bc3a3b67e55977093fd5114ca
+[3] https://lkml.org/lkml/2020/3/5/1119
+
+Changelog:
+
+v2: - Dropped "drm/panel: Set display info in panel attach" patch, which
+      turned out to be obsolete now.
+
+    - Renamed the cover-latter, hopefully this will fix the bouncing emails.
+
+Derek Basehore (1):
+  drm/panel: Add helper for reading DT rotation
+
+Dmitry Osipenko (4):
+  drm/panel: lvds: Set up panel orientation
+  drm/tegra: plane: Rename bottom_up to reflect_y
+  drm/tegra: plane: Support horizontal reflection mode
+  drm/tegra: plane: Support 180° rotation
+
+ drivers/gpu/drm/drm_panel.c        | 43 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/panel/panel-lvds.c |  8 ++++++
+ drivers/gpu/drm/tegra/dc.c         | 43 ++++++++++++++++++++++++------
+ drivers/gpu/drm/tegra/dc.h         |  3 ++-
+ drivers/gpu/drm/tegra/plane.c      |  3 ++-
+ drivers/gpu/drm/tegra/plane.h      |  3 ++-
+ include/drm/drm_panel.h            |  9 +++++++
+ 7 files changed, 101 insertions(+), 11 deletions(-)
+
+-- 
+2.26.0
+
