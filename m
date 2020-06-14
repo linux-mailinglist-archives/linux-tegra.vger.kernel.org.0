@@ -2,66 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 650EF1F89E2
-	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jun 2020 19:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D381F8A42
+	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jun 2020 21:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbgFNRXk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 14 Jun 2020 13:23:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41470 "EHLO
+        id S1727036AbgFNTEH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 14 Jun 2020 15:04:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727785AbgFNRX0 (ORCPT
+        with ESMTP id S1726648AbgFNTEH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 14 Jun 2020 13:23:26 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D0D9C03E969;
-        Sun, 14 Jun 2020 10:23:26 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id n24so16355975lji.10;
-        Sun, 14 Jun 2020 10:23:25 -0700 (PDT)
+        Sun, 14 Jun 2020 15:04:07 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81FD7C08C5C2;
+        Sun, 14 Jun 2020 12:04:06 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id i27so16541460ljb.12;
+        Sun, 14 Jun 2020 12:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=37Z3HYJxY12m2q1zLLMVAo9a4Krobq6zohBrdzALyVQ=;
-        b=sUM+61bHMTQwyYxyYmN3fSPDw7/38uK50F0zfc7/YI9dEkVzyM9NDOvp2JksQFxlp5
-         +XXYcNtE6bwKD1ZtEgCTqYbjoKGJUk9bFlSM7g7PCqKJLuNbskX9LlACSXwTrgLzq+zK
-         nIIkNqncpoEs6GazHlCOxHv9tVrGbnBki3ob+PiT9cP4TBBmfSfBZKtE5K6Y9vT3iaw9
-         YyDnfQ6O/jedLLqaOUACuoh7l6pXCyG/CGAupZ4k8xPzrjheB0PwD97CVU9RSxwek/tN
-         K0CsnhRxmA4w6XasvfzFQ7yqEOfRH8CLbhoPum1rJly1ylZ7qxjWtnH0seb1nKRGI2SQ
-         wY0Q==
+        bh=//s7SgUTdZk+8R0ozrOfOf203NYUFv49iTLgW3uAUIg=;
+        b=Iyjdkh0mbQkgHvVan288CrdQuoR5cmQ6FWASyvs8zcJCE/P0982J1hgDDiRYX1uRm/
+         Xi0HAcQBRfd1wIHERU96sEpt8gjq7PojpXhez1X8JjVxM2BFS/fuKeKQn0ihSWDUIcFX
+         0rvluEOhC/DEK1ym9mSfcZyoNYjhNBDino1i2qFcs17gLjU6mTm+UXbEkqsaSZmOR7pw
+         QXkkn5C8FM4F9DBIH/IMhxcOKfVJ4sC2e9/t1QGKf6sPgL8pOnx5PXqo8Ie2mI1EMomG
+         2HkTkPJ+IvtjoqzgVnH/BhwEqQKuT7PTN5y61JySInVktU577Sqv4DH7ZVLoHn+7d5uu
+         jJzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=37Z3HYJxY12m2q1zLLMVAo9a4Krobq6zohBrdzALyVQ=;
-        b=TjOWHK4wdNchuUGltFLxwrefm+Sk0szr8Tj4KeXXHRtQqaHawtIZxkqFS0oUgZ5Y7d
-         u4cFjJLUbwag7HoUKY1yws4LC0Cm/7+AB4ak1n77sa6uUVni5PryduNTUwkP7G+rif9+
-         pYf1pIG7nxpdCywzrbM8XjveBIfZb3+nyNli5DJcbnZaC5ghm/E5oGLZdmUXZcjUVpe0
-         7UpbqSLF82oZt86JBb16jREZMIkP6k4V/EAgh5q1gTe4TXY6JShVFcUBKaPovcJRpN6u
-         EHtUs5tsy22y2g/X2TR0E2ueu8OW/0W9q1ZUVWNU86WBFQ+VYvvEozdrpbPfTPwgiM90
-         aXxA==
-X-Gm-Message-State: AOAM531nDCEd0QtVd3EnqrjLGhFg+m2yXbWSVtTG229lrfOI+uab8nbv
-        qJ63c+OVPy+gMzAq/QUpcUB70Dql
-X-Google-Smtp-Source: ABdhPJwJkmicC3yQWMn1EaHLj6NqgXGyVJXWs5uV2d/dqFdB4aC3XCOIC1NQbPfRIz+w9Luv9PWQ2w==
-X-Received: by 2002:a2e:82ce:: with SMTP id n14mr12022057ljh.9.1592155404533;
-        Sun, 14 Jun 2020 10:23:24 -0700 (PDT)
+        bh=//s7SgUTdZk+8R0ozrOfOf203NYUFv49iTLgW3uAUIg=;
+        b=OP34HKJwl8vJlZ3jFu4Lvz7VlmfhAcdofd6H3sFi1YkWfSj5rqMKt4Zz30fzIhbpx5
+         VUIzUSj3Kle5Mclj0Cs3jbrmD2NNVnQWbYU+fAd+EgI3YmAMQW4pZZcURRZRksOLWAmr
+         x4aSU2+azCLyxexE3f9SB1wuz3481aEm8uP4Uw4rdb4tTdztod1DXrPUedKLwmxfBb4E
+         Ieec9NOClfMKYp1jWQZI0tkyjwASAdbJvlHpwoUIPMRNKkKdGselzKHzxhFrGFd3St5E
+         isRjCDmjlSE/U0531ksah6yYrpH5aPyht5cijqy1TQRiSgoCrNai+PuTYxl7zg7EjLiC
+         lIGw==
+X-Gm-Message-State: AOAM533kSQ0Qze1232254GubPfd89lQgGRTRE4yMUWkCkbZ9xLamUHic
+        crDSg8DnRcFZBvtGMNlgdvU=
+X-Google-Smtp-Source: ABdhPJzPp91GdqO3kCC1kc6IhuJKumRGs2/R0UkwI0FYu3XOpGGkrWqyTp55S7XHuA3La+NCL2rFtg==
+X-Received: by 2002:a2e:7311:: with SMTP id o17mr11125740ljc.35.1592161444972;
+        Sun, 14 Jun 2020 12:04:04 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id m14sm55144lfp.18.2020.06.14.10.23.23
+        by smtp.gmail.com with ESMTPSA id p15sm3410856ljn.53.2020.06.14.12.04.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2020 10:23:24 -0700 (PDT)
+        Sun, 14 Jun 2020 12:04:04 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
         Sam Ravnborg <sam@ravnborg.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
+        Sean Paul <sean@poorly.run>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 6/6] drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
-Date:   Sun, 14 Jun 2020 20:22:34 +0300
-Message-Id: <20200614172234.8856-7-digetx@gmail.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/6] drm/panel: Add helper for reading DT rotation
+Date:   Sun, 14 Jun 2020 22:03:43 +0300
+Message-Id: <20200614190348.12193-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200614172234.8856-1-digetx@gmail.com>
-References: <20200614172234.8856-1-digetx@gmail.com>
+In-Reply-To: <20200614190348.12193-1-digetx@gmail.com>
+References: <20200614190348.12193-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -69,148 +70,106 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Currently Tegra DRM driver manually manages display panel, but this
-management could be moved out into DRM core if we'll wrap panel into
-DRM bridge. This patch wraps RGB panel into a DRM bridge and removes
-manual handling of the panel from the RGB output code.
+From: Derek Basehore <dbasehore@chromium.org>
 
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+This adds a helper function for reading the rotation (panel
+orientation) from the device tree.
+
+Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/rgb.c | 70 ++++++++++---------------------------
- 1 file changed, 18 insertions(+), 52 deletions(-)
+ drivers/gpu/drm/drm_panel.c | 43 +++++++++++++++++++++++++++++++++++++
+ include/drm/drm_panel.h     |  9 ++++++++
+ 2 files changed, 52 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index 9a7024ec96bc..4142a56ca764 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -8,7 +8,6 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge_connector.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "drm.h"
-@@ -86,45 +85,13 @@ static void tegra_dc_write_regs(struct tegra_dc *dc,
- 		tegra_dc_writel(dc, table[i].value, table[i].offset);
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index 8c7bac85a793..5557c75301f1 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -300,6 +300,49 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
+ 	return ERR_PTR(-EPROBE_DEFER);
  }
- 
--static const struct drm_connector_funcs tegra_rgb_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.detect = tegra_output_connector_detect,
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = tegra_output_connector_destroy,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
--static enum drm_mode_status
--tegra_rgb_connector_mode_valid(struct drm_connector *connector,
--			       struct drm_display_mode *mode)
--{
--	/*
--	 * FIXME: For now, always assume that the mode is okay. There are
--	 * unresolved issues with clk_round_rate(), which doesn't always
--	 * reliably report whether a frequency can be set or not.
--	 */
--	return MODE_OK;
--}
--
--static const struct drm_connector_helper_funcs tegra_rgb_connector_helper_funcs = {
--	.get_modes = tegra_output_connector_get_modes,
--	.mode_valid = tegra_rgb_connector_mode_valid,
--};
--
- static void tegra_rgb_encoder_disable(struct drm_encoder *encoder)
- {
- 	struct tegra_output *output = encoder_to_output(encoder);
- 	struct tegra_rgb *rgb = to_rgb(output);
- 
--	if (output->panel)
--		drm_panel_disable(output->panel);
--
- 	tegra_dc_write_regs(rgb->dc, rgb_disable, ARRAY_SIZE(rgb_disable));
- 	tegra_dc_commit(rgb->dc);
--
--	if (output->panel)
--		drm_panel_unprepare(output->panel);
- }
- 
- static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
-@@ -133,9 +100,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	struct tegra_rgb *rgb = to_rgb(output);
- 	u32 value;
- 
--	if (output->panel)
--		drm_panel_prepare(output->panel);
--
- 	tegra_dc_write_regs(rgb->dc, rgb_enable, ARRAY_SIZE(rgb_enable));
- 
- 	value = DE_SELECT_ACTIVE | DE_CONTROL_NORMAL;
-@@ -157,9 +121,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	tegra_dc_writel(rgb->dc, value, DC_DISP_SHIFT_CLOCK_OPTIONS);
- 
- 	tegra_dc_commit(rgb->dc);
--
--	if (output->panel)
--		drm_panel_enable(output->panel);
- }
- 
- static int
-@@ -278,6 +239,23 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	drm_encoder_helper_add(&output->encoder,
- 			       &tegra_rgb_encoder_helper_funcs);
- 
-+	/*
-+	 * Wrap directly-connected panel into DRM bridge in order to let
-+	 * DRM core to handle panel for us.
-+	 */
-+	if (output->panel) {
-+		output->bridge = devm_drm_panel_bridge_add(output->dev,
-+							   output->panel);
-+		if (IS_ERR(output->bridge)) {
-+			dev_err(output->dev,
-+				"failed to wrap panel into bridge: %pe\n",
-+				output->bridge);
-+			return PTR_ERR(output->bridge);
-+		}
+ EXPORT_SYMBOL(of_drm_find_panel);
 +
-+		output->panel = NULL;
++/**
++ * of_drm_get_panel_orientation - look up the orientation of the panel through
++ * the "rotation" binding from a device tree node
++ * @np: device tree node of the panel
++ * @orientation: orientation enum to be filled in
++ *
++ * Looks up the rotation of a panel in the device tree. The orientation of the
++ * panel is expressed as a property name "rotation" in the device tree. The
++ * rotation in the device tree is counter clockwise.
++ *
++ * Return: 0 when a valid rotation value (0, 90, 180, or 270) is read or the
++ * rotation property doesn't exist. -EERROR otherwise.
++ */
++int of_drm_get_panel_orientation(const struct device_node *np,
++				 enum drm_panel_orientation *orientation)
++{
++	int rotation, ret;
++
++	ret = of_property_read_u32(np, "rotation", &rotation);
++	if (ret == -EINVAL) {
++		/* Don't return an error if there's no rotation property. */
++		*orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
++		return 0;
 +	}
 +
- 	/*
- 	 * Tegra devices that have LVDS panel utilize LVDS encoder bridge
- 	 * for converting up to 28 LCD LVTTL lanes into 5/4 LVDS lanes that
-@@ -292,8 +270,7 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	 * Newer device-trees utilize LVDS encoder bridge, which provides
- 	 * us with a connector and handles the display panel.
- 	 *
--	 * For older device-trees we fall back to our own connector and use
--	 * nvidia,panel phandle.
-+	 * For older device-trees we wrapped panel into the panel-bridge.
- 	 */
- 	if (output->bridge) {
- 		err = drm_bridge_attach(&output->encoder, output->bridge,
-@@ -313,17 +290,6 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 		}
++	if (ret < 0)
++		return ret;
++
++	if (rotation == 0)
++		*orientation = DRM_MODE_PANEL_ORIENTATION_NORMAL;
++	else if (rotation == 90)
++		*orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP;
++	else if (rotation == 180)
++		*orientation = DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP;
++	else if (rotation == 270)
++		*orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++EXPORT_SYMBOL(of_drm_get_panel_orientation);
+ #endif
  
- 		drm_connector_attach_encoder(connector, &output->encoder);
--	} else {
--		drm_connector_init(drm, &output->connector,
--				   &tegra_rgb_connector_funcs,
--				   DRM_MODE_CONNECTOR_LVDS);
--		drm_connector_helper_add(&output->connector,
--					 &tegra_rgb_connector_helper_funcs);
--		output->connector.dpms = DRM_MODE_DPMS_OFF;
--
--		drm_connector_attach_encoder(&output->connector,
--					     &output->encoder);
--		drm_connector_register(&output->connector);
- 	}
+ #if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
+diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+index 6193cb555acc..781c735f0f9b 100644
+--- a/include/drm/drm_panel.h
++++ b/include/drm/drm_panel.h
+@@ -35,6 +35,8 @@ struct drm_device;
+ struct drm_panel;
+ struct display_timing;
  
- 	err = tegra_output_init(drm, output);
++enum drm_panel_orientation;
++
+ /**
+  * struct drm_panel_funcs - perform operations on a given panel
+  *
+@@ -191,11 +193,18 @@ int drm_panel_get_modes(struct drm_panel *panel, struct drm_connector *connector
+ 
+ #if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL)
+ struct drm_panel *of_drm_find_panel(const struct device_node *np);
++int of_drm_get_panel_orientation(const struct device_node *np,
++				 enum drm_panel_orientation *orientation);
+ #else
+ static inline struct drm_panel *of_drm_find_panel(const struct device_node *np)
+ {
+ 	return ERR_PTR(-ENODEV);
+ }
++static inline int of_drm_get_panel_orientation(const struct device_node *np,
++		enum drm_panel_orientation *orientation)
++{
++	return -ENODEV;
++}
+ #endif
+ 
+ #if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLASS_DEVICE) || \
 -- 
 2.26.0
 
