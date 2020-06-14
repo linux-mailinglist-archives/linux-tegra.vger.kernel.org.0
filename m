@@ -2,131 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7FB11F852F
-	for <lists+linux-tegra@lfdr.de>; Sat, 13 Jun 2020 22:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 019451F89D3
+	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jun 2020 19:23:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbgFMUod (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 13 Jun 2020 16:44:33 -0400
-Received: from mta-p6.oit.umn.edu ([134.84.196.206]:49682 "EHLO
-        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726304AbgFMUob (ORCPT
+        id S1727103AbgFNRXV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 14 Jun 2020 13:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41444 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726905AbgFNRXU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 13 Jun 2020 16:44:31 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49kqMf3YjPz9vC9j
-        for <linux-tegra@vger.kernel.org>; Sat, 13 Jun 2020 20:44:30 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p6.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id CnkxdIEq7JqZ for <linux-tegra@vger.kernel.org>;
-        Sat, 13 Jun 2020 15:44:30 -0500 (CDT)
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49kqMf1svHz9vC9Y
-        for <linux-tegra@vger.kernel.org>; Sat, 13 Jun 2020 15:44:30 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49kqMf1svHz9vC9Y
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49kqMf1svHz9vC9Y
-Received: by mail-il1-f199.google.com with SMTP id c8so9155543ilm.5
-        for <linux-tegra@vger.kernel.org>; Sat, 13 Jun 2020 13:44:30 -0700 (PDT)
+        Sun, 14 Jun 2020 13:23:20 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F88C05BD43;
+        Sun, 14 Jun 2020 10:23:20 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id y11so16427143ljm.9;
+        Sun, 14 Jun 2020 10:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=b+iEIISmV4Ee/AXAA3HOB7wr+a6MNiCQ3dfMd9OfhgA=;
-        b=bOdSaBZJyTwhn3YzlHvp7XflMqAXEC1LpqwMml0xxBo5lSuHSEclQyM/T+uTA3IZzc
-         HEO/kBe9rFXMiKJRk3a8ITNQhwu+BCUnLYS+hBSKoK8Ku25nLty0vAuqscqrUK76nYvV
-         TuYLPgp7WsAg5VrDyySlBlUZzgOt8QDJLcJJ0xqXFrTUQzlLDWOt80HDhJRJaJ1BOeH6
-         AhJl+Hl4QQQV2/JQZWVLX2BVdaba0VD3zbvqjFDl1Xkdwc0JL713elOt7Gvu3nrdWcCQ
-         bReuBufMwdFIEVOhMswp6HS4S/OL/jnNj5MuyrwVJ9/g1IzBA/sxtlaCU+At7lFPgC4T
-         PGUg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DoRr46QhZzu0HYtQht+6OOn/uSyoSM/yNa2CkMx8bbU=;
+        b=f8Oh+lSoSCkVY/0YlicukXiWjUqLz/HYxP0U6jvwdYBi5gDOGiBl/oELXD49rw8YzR
+         E1qNDohgiFrb3XNcxlfWa/uzuVGnZHXd+ak8Uca1njRJaNmreEcmqY6v/sYDk90r+jpG
+         IeLL8EcukkC49BqJAHe8raVvYo5NjKs2xqDfOKGuAFine6bRWuvu/+0CtMO+wyHaKjo4
+         BaQOaMVGLAHi4bexKQuznFlg8QgLI6W2iOMGMlkllCLySgBrfeo7bSgKTZfqM1GIVuiT
+         Rw1eLxAg2V8tlWhxKuQl0t98kdYWR+hedXsk0TlMwrQev7a64vBT9ZtjeQFxzPMcdcUD
+         1OvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=b+iEIISmV4Ee/AXAA3HOB7wr+a6MNiCQ3dfMd9OfhgA=;
-        b=lqtE24c5+5ok7C3ruFLWBdqf43m+6bg7jcqddSfCm7DDd98EjZINN2qXflFfAcQAel
-         fPGLq1YQm3cMtNCH+A2VkDgu2e2JE0nG+dc/vWPcSOzthuUgkJMrX+vDyxAJlJJBPzde
-         uxjLYOviVLQ8tc9wISLKs1ZCedgk4E2CTGegI+c3Ju29r1WUoiGEyllR5IxZ4U9EHI3a
-         t1EfFPHLyMRRATDKjEZUprhIpmfyixZ/+8QopchoK02dbakD3QL6zb0PffWcemXyVbgY
-         v0cLa6H14jqI354rfGIQOTxPhsuIpEdysD+MEoGgg2yVdw4XU12g/SXr4YBf97vV2iYa
-         +R/w==
-X-Gm-Message-State: AOAM530CmQXboorxPtaHdHsVXmXdCJ10lnWOmzF/FGjpDn72LckoVX4U
-        Wykhq+3YY75ysKAZTEe6VY93aYZRhyq9Y0R74a6dvJkNfKcqXk8bg35Y4YZp2ww5KuXP3c1owsr
-        nxEKvzNXP9D+0Yomrndyxj9UsRXk=
-X-Received: by 2002:a05:6602:491:: with SMTP id y17mr20185657iov.72.1592081069821;
-        Sat, 13 Jun 2020 13:44:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzuUH0JGzr6A1aKGQO/t0YzwjO1OxoyYGiXTl5u65tMnE63FPrdxzR6es2yGQb9rtR6FHN2PQ==
-X-Received: by 2002:a05:6602:491:: with SMTP id y17mr20185631iov.72.1592081069282;
-        Sat, 13 Jun 2020 13:44:29 -0700 (PDT)
-Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
-        by smtp.gmail.com with ESMTPSA id t14sm5083251ilp.73.2020.06.13.13.44.27
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DoRr46QhZzu0HYtQht+6OOn/uSyoSM/yNa2CkMx8bbU=;
+        b=EQ5QSwiCbEW8Jwn4XOHU7y6UPaPLJNXjBgMYzuh6FZUGCWa8CmHdGgA8okEmvlvFaR
+         epF93L/yUsvs7Qj1FJgNRoBxg7tK7pbX1v1cN5owXfWjl3fgaElihBCJUddaYEwexXWH
+         HYQNWrPdsi9/CpS4QFnmZSS69rfAzLVvDEuHVDDvgpJhyKKkp+nGtXZzGY6ByWTX5HjB
+         3eHlGJrvwm4LAfrfmhdCtbMHRsu4Tn5hT1rIqobAQschWCmQl5J+FIfTorD9TGAy66Cx
+         kmdd9qujfrFIYtpk0JPQvMMpioxMmlTauhNC/cCQdL5z1UNoQBVdjt/tbD0tLLaj3esB
+         WMpQ==
+X-Gm-Message-State: AOAM533P60aZdFBIY0nj/CNB7dIkI9+4Xg5zhVy4/DOwZFN4/I3R3Vy0
+        5O+VPziRqfmvUqKpvomOND5brgSA
+X-Google-Smtp-Source: ABdhPJynr0Oqx6i5Cq+XWwMGVpYqQ9pToiSFkSouw+lixWm0qm2sn+p2xRDaApoDSVO8nh2oCCbdAQ==
+X-Received: by 2002:a2e:b8c2:: with SMTP id s2mr12065988ljp.368.1592155398456;
+        Sun, 14 Jun 2020 10:23:18 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id m14sm55144lfp.18.2020.06.14.10.23.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2020 13:44:28 -0700 (PDT)
-From:   wu000273@umn.edu
-To:     kjlu@umn.edu
-Cc:     wu000273@umn.edu, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tegra: Fix reference count leaks.
-Date:   Sat, 13 Jun 2020 15:44:19 -0500
-Message-Id: <20200613204422.24484-1-wu000273@umn.edu>
-X-Mailer: git-send-email 2.17.1
+        Sun, 14 Jun 2020 10:23:17 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/6] Support DRM bridges on NVIDIA Tegra
+Date:   Sun, 14 Jun 2020 20:22:28 +0300
+Message-Id: <20200614172234.8856-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+Hello,
 
-Calling pm_runtime_get_sync increments the counter even in case of
-failure, causing incorrect ref count if pm_runtime_put is not called in
-error handling paths. Call pm_runtime_put if pm_runtime_get_sync fails.
+This series adds initial support for the DRM bridges to NVIDIA Tegra DRM
+driver. This is required by newer device-trees where we model the LVDS
+encoder bridge properly.
 
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
----
- sound/soc/tegra/tegra30_ahub.c | 4 +++-
- sound/soc/tegra/tegra30_i2s.c  | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+Changelog:
 
-diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
-index 635eacbd28d4..156e3b9d613c 100644
---- a/sound/soc/tegra/tegra30_ahub.c
-+++ b/sound/soc/tegra/tegra30_ahub.c
-@@ -643,8 +643,10 @@ static int tegra30_ahub_resume(struct device *dev)
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(dev);
--	if (ret < 0)
-+	if (ret < 0) {
-+		pm_runtime_put(dev);
- 		return ret;
-+	}
- 	ret = regcache_sync(ahub->regmap_ahub);
- 	ret |= regcache_sync(ahub->regmap_apbif);
- 	pm_runtime_put(dev);
-diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index d59882ec48f1..db5a8587bfa4 100644
---- a/sound/soc/tegra/tegra30_i2s.c
-+++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -567,8 +567,10 @@ static int tegra30_i2s_resume(struct device *dev)
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(dev);
--	if (ret < 0)
-+	if (ret < 0) {
-+		pm_runtime_put(dev);
- 		return ret;
-+	}
- 	ret = regcache_sync(i2s->regmap);
- 	pm_runtime_put(dev);
- 
+v7: - Removed the obscure unused structs (which GCC doesn't detect, but CLANG
+      does) in the patch "Wrap directly-connected panel into DRM bridge",
+      which was reported by kernel test robot for v6.
+
+v6: - Added r-b and acks from Rob Herring and Sam Ravnborg.
+
+    - Rebased on a recent linux-next, patches now apply without fuzz.
+
+v5: - Added new patches that make drm_of_find_panel_or_bridge() more usable
+      if graph isn't defined in a device-tree:
+
+        of_graph: add of_graph_get_local_port()
+        drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+
+    - Updated "Support DRM bridges" patch to use drm_of_find_panel_or_bridge()
+      directly and added WARN_ON(output->panel || output->bridge) sanity-check.
+
+    - Added new "Wrap directly-connected panel into DRM bridge" patch, as
+      was suggested by Laurent Pinchart.
+
+v4: - Following review comments that were made by Laurent Pinchart to the v3,
+      we now create and use the "bridge connector".
+
+v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
+      model is now being used, i.e. we ask bridge to *not* create a connector
+      using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+
+    - The bridge is now created only for the RGB (LVDS) output, and only
+      when necessary. For now we don't need bridges for HDMI or DSI outputs.
+
+    - I noticed that we're leaking OF node in the panel's error code path,
+      this is fixed now by the new patch "Don't leak OF node on error".
+
+v2: - Added the new "rgb: Don't register connector if bridge is used"
+      patch, which hides the unused connector provided by the Tegra DRM
+      driver when bridge is used, since bridge provides its own connector
+      to us.
+
+Dmitry Osipenko (6):
+  of_graph: add of_graph_get_local_port()
+  drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+  drm/tegra: output: Don't leak OF node on error
+  drm/tegra: output: Support DRM bridges
+  drm/tegra: output: rgb: Support LVDS encoder bridge
+  drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
+
+ drivers/gpu/drm/drm_of.c       |  13 ++++-
+ drivers/gpu/drm/tegra/drm.h    |   2 +
+ drivers/gpu/drm/tegra/output.c |  21 +++++--
+ drivers/gpu/drm/tegra/rgb.c    | 102 +++++++++++++++++----------------
+ drivers/of/property.c          |  32 ++++++++---
+ include/linux/of_graph.h       |   7 +++
+ 6 files changed, 114 insertions(+), 63 deletions(-)
+
 -- 
-2.17.1
+2.26.0
 
