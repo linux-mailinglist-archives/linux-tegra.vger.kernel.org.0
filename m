@@ -2,120 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5A9E1F9985
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jun 2020 16:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A2E81F9D7C
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jun 2020 18:32:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729243AbgFOOCh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jun 2020 10:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33822 "EHLO
+        id S1730701AbgFOQcQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jun 2020 12:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728510AbgFOOCh (ORCPT
+        with ESMTP id S1729966AbgFOQcQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jun 2020 10:02:37 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31825C061A0E;
-        Mon, 15 Jun 2020 07:02:37 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id s28so9516899edw.11;
-        Mon, 15 Jun 2020 07:02:37 -0700 (PDT)
+        Mon, 15 Jun 2020 12:32:16 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD16C061A0E;
+        Mon, 15 Jun 2020 09:32:16 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id d27so5354290lfq.5;
+        Mon, 15 Jun 2020 09:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=H/I16QzIcgZuuNr7TvHVEb2ZvJ/su1VA0igQPyblFHY=;
-        b=pY/CM9zoLr5+Qvi1sPZYDPwjv4WFKkthBSJykclV776GXcBClitnueD+8Tb9otC69Z
-         zUeDIWN4pvMShWfGU+SbmtjLSc9VliomZBQc0QwwUuBdzwT0T4Af0rp1UqEUXrk9mI9X
-         2qDX/XowIPk7WKrVLQ+AnOsRi9BQW6SgWRibU7hrkvPhFsJE4ceMj0jMXvN3H3C3RtwY
-         OhQwYsrllVlNg3rKB/xBNtqDeXRDaZqMjkuTasat0I4oT0t8c+UCdPyoF/UULXSCWfWD
-         YKT8HUmK5F78tGqXIz7L1c3hYtuYhDG2uevuQws2xAMd+qCcFwIXl65/XlvexZgJY/Hm
-         Ytsw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fMk2WCiKFI7HDNUd7jyJvNehAsaSBC9pPNifu9uuF5E=;
+        b=e5Q4JjF9w+dM6qvdisFCw4sw574hVWyf3FxAuI24lHOW0+Ub5IUR90+zuw7eG1Q2Vs
+         hbeyrdLAnUTx8Da0wb02cCcEJi6w69J1s4QG7/jkLBCDBG1JTxVk5vGjMZBuM6kHkFx/
+         xNeulklIAuTMicpF1E0ZMT07sjoR9IW1n2hF/fAG1GZ45/6Xa4Vc65YTNlUpwV2XpybO
+         gIdibt2xwWLkPD7Fdmd7WSGBtTXT6SlMztlfQBwYuckX0NDc9YYnirK8Svh3XDBHmmm3
+         iXZ1nEL9KCkJvK3oW9IyovqyWILjMW2pkHrlgnq/r5WR3ATVMNPPoXipM/aXlCXZhrn+
+         wqzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H/I16QzIcgZuuNr7TvHVEb2ZvJ/su1VA0igQPyblFHY=;
-        b=LYJFPcI2oAc2DtUKMNilEIT7H1jSlMG//Sc8kwcG3AQg0KExqWVGc+33SnUzusZbaK
-         sModgGwGHh1Gov9EudiB0ntc5ci5LHn7ySqGG7V/eN05whUwbUcuCxxrbAifXz86Q2Rs
-         dhr90rWXa9hOrAdMTHCUsj7OGyceVBmHDokPl2KdH/NT6hPYAknXfncofD9qQQPAiVCH
-         q8Djs+/qYpmeyfv6FngWMBL5luNVhQEt56FtWws9Q2TaUVnZ5+eDVEk+30CF5lTNbfeg
-         mS+5fBL79qd5iPmV84W0SksCJ7sKVia2VOB70yY5A7e1a7KQqh0egR5QFnVIzbaSCHVx
-         FVGw==
-X-Gm-Message-State: AOAM533AzIXVxgc7YjKe98fuRwV6pNBP8LAuEdIurX9q0GZv+WefwEW8
-        cX9xu/7sTm7OShu3GmFgdbU=
-X-Google-Smtp-Source: ABdhPJwFy5wyb6mOMFbSozmcKmPQ95hcvYCNNyE1BdDoJwex/WBTFLKDkBSu6K0j7gz9aD9KEWWiGg==
-X-Received: by 2002:aa7:c15a:: with SMTP id r26mr23019460edp.21.1592229755767;
-        Mon, 15 Jun 2020 07:02:35 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id p13sm8489879edx.69.2020.06.15.07.02.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 07:02:33 -0700 (PDT)
-Date:   Mon, 15 Jun 2020 16:02:32 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Stephen Boyd <sboyd@kernel.org>, arm@kernel.org, soc@kernel.org,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>
-Subject: Re: [GIT PULL 07/11] memory: tegra: Changes for v5.8-rc1
-Message-ID: <20200615140232.GA2812318@ulmo>
-References: <20200515145311.1580134-1-thierry.reding@gmail.com>
- <20200515145311.1580134-8-thierry.reding@gmail.com>
- <CAK8P3a0kqjt8UNxe2ruRDOJNedOcqWxP-i5y2uW6YsaMNJgejg@mail.gmail.com>
- <20200526114054.GA2935745@ulmo>
- <159053113019.88029.6264653349405850933@swboyd.mtv.corp.google.com>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fMk2WCiKFI7HDNUd7jyJvNehAsaSBC9pPNifu9uuF5E=;
+        b=TyNERCYH3wPTdA/s63hccScDXUuvNhMSi23OSndFnJEAeROxnHRyq9Ijv0yrUPXnM0
+         +wLNubcjixL8osooxDWMYCOvy1jEl+cVGi6cbc9ET7nBYB/I2dUGhrfg+Q6JEB7f7rKb
+         GHUDrV6azmtqEXWc6szdi8ppAnav1I5y8drjdF06R3gE7756Klot8AhFLs8NdCO6Ywnp
+         3HP2tsPQW0XZAEBoypniMH8kFSlhsesHP8uDhJ5nUMgTF6V2EF/F3uqmBJtI1RzcB83K
+         gNuNjov6KjGJXzkkScAxMFGeIfqnlxbLSakAQXJvZbmKcetEN9V4DrgDoZE98ydscxLG
+         hAKw==
+X-Gm-Message-State: AOAM530EQP4CfmulrHCSLEoClYmGixlm/8e10JJO0iBTPb0BquAshsmA
+        A+cZYQS/I0YUdcwGT1j5RqSEiwXI
+X-Google-Smtp-Source: ABdhPJz+g/xw+V5R8UknOJ0K9sfrwk4Ecr0W8o/gGvlvEGKkiqDGbUonmPvCse3iEffPw5EH41jd3g==
+X-Received: by 2002:ac2:5cd1:: with SMTP id f17mr13196552lfq.4.1592238734394;
+        Mon, 15 Jun 2020 09:32:14 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id k1sm4662630lja.27.2020.06.15.09.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jun 2020 09:32:13 -0700 (PDT)
+Subject: Re: [PATCH v2] iommu/tegra-smmu: Add missing locks around mapping
+ operations
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200525195437.14341-1-digetx@gmail.com>
+Message-ID: <efe29e0d-5dbe-f6fa-2c4c-f8248c9aad29@gmail.com>
+Date:   Mon, 15 Jun 2020 19:32:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-In-Reply-To: <159053113019.88029.6264653349405850933@swboyd.mtv.corp.google.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200525195437.14341-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+25.05.2020 22:54, Dmitry Osipenko пишет:
+> The mapping operations of the Tegra SMMU driver are subjected to a race
+> condition issues because SMMU Address Space isn't allocated and freed
+> atomically, while it should be. This patch makes the mapping operations
+> atomic, it fixes an accidentally released Host1x Address Space problem
+> which happens while running multiple graphics tests in parallel on
+> Tegra30, i.e. by having multiple threads racing with each other in the
+> Host1x's submission and completion code paths, performing IOVA mappings
+> and unmappings in parallel.
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Now using mutex instead of spinlock.
+> 
+>     - The _locked postfix is replaced with the underscores prefix.
+> 
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Thierry and Joerg!
 
-On Tue, May 26, 2020 at 03:12:10PM -0700, Stephen Boyd wrote:
-> Quoting Thierry Reding (2020-05-26 04:40:54)
-> > On Mon, May 25, 2020 at 11:52:30PM +0200, Arnd Bergmann wrote:
-> >=20
-> > > Waiting for clarification before I can pull this.
-> >=20
-> > Given the above, might be best to hold off on this for a bit until the
-> > clock branch was pulled by Mike or Stephen.
-> >=20
->=20
-> I pulled the clk branch into clk-next now.
-
-Hi Arnd,
-
-looks like this pull request didn't make it into v5.8-rc1. Was there
-anything left here that you're waiting for me to address?
-
-Thierry
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7nf3YACgkQ3SOs138+
-s6FTUBAAuSroJTRcRlre6LWMudEbVF+IX0fsiiFUYRwa9bnlDm6U9pKP9bR7pi9Y
-00g6DRvMP6w6P6h2tEg0PqZun3DYAE0rVWZIwr70QbeJmA6BDf85pKNNXmJD/TeB
-9Y/EOivRxznw/NP7PSuWfmIWAX/5YWsX7l6PS3iMkf0xNIzJDS5XxWRJUA5sx5Sv
-kUiXbgdKrZJTu3JvGDT+3l0HVbZR4wLglBKt7cMJIZGwPaVz28lTiw1PtZzgziVJ
-Y9es9piW8fRiAi9MGDNXKcRtfRIYsfdZA98dHeEljcJBloBlhxpCAbqXEEt8OnHc
-plRWkPBo3g9QAhhPU2NZoIYdKprbf38bfmXq7zDfrNZdutZ0+gC7cNNe0toloyYR
-S/1fEk3Fy+fuIVgiONaRT7HSui9XxDLfMug6NBpOBiJCtv12tU6ODJhoYtCKhIXK
-3gfN9sxxQODCvFDHzjiBc9kfVBkfRrhhM+sLlEksjfe3230NBHMvVju2C4t+Avw6
-bTqYNCZF7H71IBBDHjVNqFBBKhy36SFxqh+J+8e20rzl5tDiyrM+jlmUNR7s2a/H
-9LlB9TA3iQpO0KjnOQeZc11KUmX5di1C+EfIA7unHmB1PhP4HdVBSkRn1Gx4b8JN
-sxLFetx7OPh2c573oEb6IlsHdfbL8HS4L+29b6Vvd8Gak0unXXc=
-=2YI7
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
+Guys, are you okay with the v2 variant? Will be great if we could fix
+the issue ASAP since it's quite unpleasant. Thanks in advance!
