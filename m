@@ -2,88 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2AB31F91AE
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jun 2020 10:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A9E1F9985
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jun 2020 16:02:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729019AbgFOIjf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jun 2020 04:39:35 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:40771 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728861AbgFOIje (ORCPT
+        id S1729243AbgFOOCh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jun 2020 10:02:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728510AbgFOOCh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jun 2020 04:39:34 -0400
-Received: by mail-ot1-f65.google.com with SMTP id s13so12473792otd.7;
-        Mon, 15 Jun 2020 01:39:33 -0700 (PDT)
+        Mon, 15 Jun 2020 10:02:37 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31825C061A0E;
+        Mon, 15 Jun 2020 07:02:37 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id s28so9516899edw.11;
+        Mon, 15 Jun 2020 07:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=H/I16QzIcgZuuNr7TvHVEb2ZvJ/su1VA0igQPyblFHY=;
+        b=pY/CM9zoLr5+Qvi1sPZYDPwjv4WFKkthBSJykclV776GXcBClitnueD+8Tb9otC69Z
+         zUeDIWN4pvMShWfGU+SbmtjLSc9VliomZBQc0QwwUuBdzwT0T4Af0rp1UqEUXrk9mI9X
+         2qDX/XowIPk7WKrVLQ+AnOsRi9BQW6SgWRibU7hrkvPhFsJE4ceMj0jMXvN3H3C3RtwY
+         OhQwYsrllVlNg3rKB/xBNtqDeXRDaZqMjkuTasat0I4oT0t8c+UCdPyoF/UULXSCWfWD
+         YKT8HUmK5F78tGqXIz7L1c3hYtuYhDG2uevuQws2xAMd+qCcFwIXl65/XlvexZgJY/Hm
+         Ytsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7wf5WtePaBKPY0Bp8z4FODm50aRt5JbGt5tRztVB4pk=;
-        b=GxfOrI1cqhdfHllY7jIIaXlG5+1oR+SAP3raeaCQrxST021ONB8s86oXUOW6v13Yya
-         FVZX9DUpJS5J+ne6PwN7GHAwW1XF1xevjVt8XntZU3zSXZUpsIA8b9ErW/TKiCRdyK94
-         C+Ag3pgsmCaQv/6u3cM4GKwcJmUvyuDzYU4Z+SBPt3JOGDEiZakl9FIostp9uTSnMqT+
-         u7+5KSpLF4WjOPP07gr93aNoKrozzWwptiPXc/frrOum12BbAaqq3xK4pZB8a9ioxlxP
-         KsXmx4weN7+oul8aGMgtsEVAueL8gjs3LeFn70r751yPDaWxUqH9wZR1DE8CIZVGGww4
-         iaRg==
-X-Gm-Message-State: AOAM532B4Jo0o1VBGrq2xQFwaradZ/D7f7sXKtIv4/aXPkssV7v9kK91
-        lNfJKXms+o3C2fMOJI+jvOE/YP4MdOxxKcN6RhE=
-X-Google-Smtp-Source: ABdhPJwuMKW/S2T3+nGDgfWQJsU+Elnk3Z4DUyNzB+BrCwdb2xIAo2LW2mswFqh60WvA1fIgh73z1U7cDAVx7nbKNKw=
-X-Received: by 2002:a9d:c29:: with SMTP id 38mr19347614otr.107.1592210373272;
- Mon, 15 Jun 2020 01:39:33 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=H/I16QzIcgZuuNr7TvHVEb2ZvJ/su1VA0igQPyblFHY=;
+        b=LYJFPcI2oAc2DtUKMNilEIT7H1jSlMG//Sc8kwcG3AQg0KExqWVGc+33SnUzusZbaK
+         sModgGwGHh1Gov9EudiB0ntc5ci5LHn7ySqGG7V/eN05whUwbUcuCxxrbAifXz86Q2Rs
+         dhr90rWXa9hOrAdMTHCUsj7OGyceVBmHDokPl2KdH/NT6hPYAknXfncofD9qQQPAiVCH
+         q8Djs+/qYpmeyfv6FngWMBL5luNVhQEt56FtWws9Q2TaUVnZ5+eDVEk+30CF5lTNbfeg
+         mS+5fBL79qd5iPmV84W0SksCJ7sKVia2VOB70yY5A7e1a7KQqh0egR5QFnVIzbaSCHVx
+         FVGw==
+X-Gm-Message-State: AOAM533AzIXVxgc7YjKe98fuRwV6pNBP8LAuEdIurX9q0GZv+WefwEW8
+        cX9xu/7sTm7OShu3GmFgdbU=
+X-Google-Smtp-Source: ABdhPJwFy5wyb6mOMFbSozmcKmPQ95hcvYCNNyE1BdDoJwex/WBTFLKDkBSu6K0j7gz9aD9KEWWiGg==
+X-Received: by 2002:aa7:c15a:: with SMTP id r26mr23019460edp.21.1592229755767;
+        Mon, 15 Jun 2020 07:02:35 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id p13sm8489879edx.69.2020.06.15.07.02.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2020 07:02:33 -0700 (PDT)
+Date:   Mon, 15 Jun 2020 16:02:32 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Stephen Boyd <sboyd@kernel.org>, arm@kernel.org, soc@kernel.org,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>
+Subject: Re: [GIT PULL 07/11] memory: tegra: Changes for v5.8-rc1
+Message-ID: <20200615140232.GA2812318@ulmo>
+References: <20200515145311.1580134-1-thierry.reding@gmail.com>
+ <20200515145311.1580134-8-thierry.reding@gmail.com>
+ <CAK8P3a0kqjt8UNxe2ruRDOJNedOcqWxP-i5y2uW6YsaMNJgejg@mail.gmail.com>
+ <20200526114054.GA2935745@ulmo>
+ <159053113019.88029.6264653349405850933@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-References: <20200506123236.7463-1-geert+renesas@glider.be>
- <20200506123236.7463-3-geert+renesas@glider.be> <20200507200410.GB2981633@ulmo>
-In-Reply-To: <20200507200410.GB2981633@ulmo>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 15 Jun 2020 10:39:21 +0200
-Message-ID: <CAMuHMdUkNiVU3Df-VvGbSxEx-R29=OtLzrqjb0+mbt6gYYCfhw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] memory: tegra: Drop <linux/clk-provider.h>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Joseph Lo <josephl@nvidia.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
+Content-Disposition: inline
+In-Reply-To: <159053113019.88029.6264653349405850933@swboyd.mtv.corp.google.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thierry,
 
-On Thu, May 7, 2020 at 10:04 PM Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Wed, May 06, 2020 at 02:32:36PM +0200, Geert Uytterhoeven wrote:
-> > The Tegra EMC scaling support code is not a clock provider, but merely a
-> > clock consumer, and thus does not need to include
-> > <linux/clk-provider.h>.
-> >
-> > Fixes: ec37a9a17afbfad5 ("memory: tegra: Add EMC scaling support code for Tegra210")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/memory/tegra/tegra210-emc-core.c | 1 -
-> >  drivers/memory/tegra/tegra210-emc.h      | 1 -
-> >  2 files changed, 2 deletions(-)
->
-> Applied to for-5.8/memory, thanks.
+--yrj/dFKFPuw6o+aM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Which hasn't made it into v5.8-rc1, and was rebased.
-New fixes tag is
-Fixes: 01218c59f9bcf067 ("memory: tegra: Add EMC scaling support code
-for Tegra210")
+On Tue, May 26, 2020 at 03:12:10PM -0700, Stephen Boyd wrote:
+> Quoting Thierry Reding (2020-05-26 04:40:54)
+> > On Mon, May 25, 2020 at 11:52:30PM +0200, Arnd Bergmann wrote:
+> >=20
+> > > Waiting for clarification before I can pull this.
+> >=20
+> > Given the above, might be best to hold off on this for a bit until the
+> > clock branch was pulled by Mike or Stephen.
+> >=20
+>=20
+> I pulled the clk branch into clk-next now.
 
-Gr{oetje,eeting}s,
+Hi Arnd,
 
-                        Geert
+looks like this pull request didn't make it into v5.8-rc1. Was there
+anything left here that you're waiting for me to address?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thierry
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--yrj/dFKFPuw6o+aM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7nf3YACgkQ3SOs138+
+s6FTUBAAuSroJTRcRlre6LWMudEbVF+IX0fsiiFUYRwa9bnlDm6U9pKP9bR7pi9Y
+00g6DRvMP6w6P6h2tEg0PqZun3DYAE0rVWZIwr70QbeJmA6BDf85pKNNXmJD/TeB
+9Y/EOivRxznw/NP7PSuWfmIWAX/5YWsX7l6PS3iMkf0xNIzJDS5XxWRJUA5sx5Sv
+kUiXbgdKrZJTu3JvGDT+3l0HVbZR4wLglBKt7cMJIZGwPaVz28lTiw1PtZzgziVJ
+Y9es9piW8fRiAi9MGDNXKcRtfRIYsfdZA98dHeEljcJBloBlhxpCAbqXEEt8OnHc
+plRWkPBo3g9QAhhPU2NZoIYdKprbf38bfmXq7zDfrNZdutZ0+gC7cNNe0toloyYR
+S/1fEk3Fy+fuIVgiONaRT7HSui9XxDLfMug6NBpOBiJCtv12tU6ODJhoYtCKhIXK
+3gfN9sxxQODCvFDHzjiBc9kfVBkfRrhhM+sLlEksjfe3230NBHMvVju2C4t+Avw6
+bTqYNCZF7H71IBBDHjVNqFBBKhy36SFxqh+J+8e20rzl5tDiyrM+jlmUNR7s2a/H
+9LlB9TA3iQpO0KjnOQeZc11KUmX5di1C+EfIA7unHmB1PhP4HdVBSkRn1Gx4b8JN
+sxLFetx7OPh2c573oEb6IlsHdfbL8HS4L+29b6Vvd8Gak0unXXc=
+=2YI7
+-----END PGP SIGNATURE-----
+
+--yrj/dFKFPuw6o+aM--
