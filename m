@@ -2,56 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99A761FA312
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jun 2020 23:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDE561FA387
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 00:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgFOVvT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jun 2020 17:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49992 "EHLO
+        id S1725843AbgFOWaL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jun 2020 18:30:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbgFOVvT (ORCPT
+        with ESMTP id S1725960AbgFOWaL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jun 2020 17:51:19 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47FC0C061A0E;
-        Mon, 15 Jun 2020 14:51:19 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id q2so10270446vsr.1;
-        Mon, 15 Jun 2020 14:51:19 -0700 (PDT)
+        Mon, 15 Jun 2020 18:30:11 -0400
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com [IPv6:2607:f8b0:4864:20::a43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA37C061A0E;
+        Mon, 15 Jun 2020 15:30:10 -0700 (PDT)
+Received: by mail-vk1-xa43.google.com with SMTP id q10so4345731vka.4;
+        Mon, 15 Jun 2020 15:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qgketSwNHBH9JjKBViUJC5dtablUpG9gaeko3bA7e1g=;
-        b=kF+GOarzfpIuy/JohE32cXP4Vd2JnpxHM6h0pYme+S7/RWHhC/TmS14r6nlHzUA7+H
-         s338WjKce/rQdZZlsDASW3HB7VCWcETvbyXs5Ia+aeWjOfo2+BUJGG2Fxb36GrbjhXrp
-         jSuaGAHywJk+9Yvu636+61kzkxBZNPZywBqUJLXOBQfAwAhROHIsoXp6Du9Z6Mtqxc96
-         AmJxrsalGzepTrvbjQHDzP3eAh6alhDAJx2EhVaWiQWYgykER/4i2ofnR1OF7vVHz4q/
-         +pBMozwuGP4nTI9vBVOIcndY/I2eL2OkLca321sNh+qPYUJM6wM03a2MSLl/2VkmBCmS
-         /DjQ==
+         :cc:content-transfer-encoding;
+        bh=rpEvl9+AZzZHXUNhYOtOBN1Cia0euR/+OQQwMFjqbXo=;
+        b=EZrWU9avSmTrOwBXllhDDMODBVzH65l8k5aNUhbaqaWoKi47mpiTGyycaJKbRHhiMk
+         JjyGTxJ9j1gybEjiOi5FMcA67moDtX5wzTchiQcT4QMnOz2NRLTS2qNpdj1NyX0YFu2a
+         c7421yxvBXpnB/5b4C9dcUMLia0gSZINQtSz9wvYFXMnhQy3+a/WT/HDbF6G0Dqnsbpd
+         r8+/i1JEnSUpQjP/Mx7scH0soh3FYqcJ01A1gV+t799kpHAP62FsK3zMhXF4GIAVW7Rv
+         uO1hfODdOQ8/lnT/wIWEa/P/OFjQItWwx0BKWAbSnTXZtRFUi1fhmZMr2ATB7cLDi4fO
+         iMJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qgketSwNHBH9JjKBViUJC5dtablUpG9gaeko3bA7e1g=;
-        b=Kvt3V1oGNqFsQtQxJJYhn3ST/33jQ2AVrA09WbuDqCtRvBnHiE+nKM1LoZaSWK9/B2
-         mSC8l3wRrxo0dkydoAA/orVuOljsB8ONe4ycU9RSSrb4SvH+0qSd55hIA2211GSdq0DS
-         75YvRuCcNQNOwshPtW5XfDzCV68c6RVWsot7kTn8+ZTp+irThCagNl6Wz3Ia0ESKZU24
-         TqoquTuqWTeoNIeGt1W94++81cGajBgIsjGr3xO/wugmft0OPZv8XNjRkbMN1X89FeH2
-         BvqSF5Ewuk2++ujb56zTSAunKo/2QY+H6aLmmotDOJXK0jk+LElj/ks0d/2dvyQJV7D8
-         FJtg==
-X-Gm-Message-State: AOAM5308otkTayKyQg3zIRkzzIaH6cApD9HS6O4nwWM+ui9sMMB/Alip
-        qN7hxWLijQRO7bIicUTJwRMmHHhGjBq2WKoBFp0=
-X-Google-Smtp-Source: ABdhPJzv/Bc7NGZajPShdorVicz6OHnHErN3ywjEZYsKSV3VG3JL4TYVkoKlW2KXsaRy+3TOPCaluY8wxU3XWXFdMS4=
-X-Received: by 2002:a67:b149:: with SMTP id z9mr20210130vsl.85.1592257878077;
- Mon, 15 Jun 2020 14:51:18 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rpEvl9+AZzZHXUNhYOtOBN1Cia0euR/+OQQwMFjqbXo=;
+        b=X/dvTpKo37cpiHYVzW+sgg7WfIv7ryjmnF4KP/29Q+SOi+tE9py/gFZIGONV0DYEtJ
+         z3Me1wge6gW1rxJlxaZLm5YHo7fOS/wc3eO9mm1ghy0mvj5VFoRW77krloITJrws6bSr
+         1dG5n5yb7njkE7ex1w9Awp20o5OqS3zjgyPkDZd9bOhZi1REgUQ3qO1NFGgb/h15jOK4
+         ANCTzD3EqRqcRJHxqT98KIeIK+EMaKRV9kmn/wOLGa1Y4K1cVVSbaKSpygySPRWI2xrS
+         Kwkgl8IW23uewb278KjXGv7e0/CaGCvsdsBYR8BbCzopl37mgUaD7ZbDQDSUba03dxEe
+         GlcQ==
+X-Gm-Message-State: AOAM5300QwqOAJ844a8PfwTj29rYxU/rzuHBxPUYaJLu/zN+TJnlsHOt
+        l3z3Y1i/eBvpA3DBq/8R48rXLkAUV9Wz6gUV3wbf/w==
+X-Google-Smtp-Source: ABdhPJwlZ736CSyVAz5cSN0v84AJqRxTSjDwcbeB0kNdNx5+26a5GPHmih8UIPJ4PlSyNQ7QirNClwKcrpKoDwxYJGo=
+X-Received: by 2002:a1f:9445:: with SMTP id w66mr11075500vkd.22.1592260209977;
+ Mon, 15 Jun 2020 15:30:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200614200121.14147-1-digetx@gmail.com> <20200614200121.14147-6-digetx@gmail.com>
-In-Reply-To: <20200614200121.14147-6-digetx@gmail.com>
+References: <20200614200121.14147-1-digetx@gmail.com>
+In-Reply-To: <20200614200121.14147-1-digetx@gmail.com>
 From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Mon, 15 Jun 2020 22:47:37 +0100
-Message-ID: <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_=5BPATCH_v2_5=2F5=5D_drm=2Ftegra=3A_plane=3A_Support_180=C2=B0_r?=
-        =?UTF-8?Q?otation?=
+Date:   Mon, 15 Jun 2020 23:26:29 +0100
+Message-ID: <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -62,47 +61,80 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
         ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi all,
-
-Perhaps a silly question:
+Hi Dmitry,
 
 On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrote:
 >
-> Combining horizontal and vertical reflections gives us 180 degrees of
-> rotation.
+> Hello!
 >
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+> This series adds 180=C2=B0 display plane rotation support to the NVIDIA T=
+egra
+> DRM driver which is needed for devices that have display panel physically
+> mounted upside-down, like Nexus 7 tablet device for example [1]. Since
+> DRM panel rotation is a new thing for a userspace, currently only
+> Opentegra Xorg driver handles the rotated display panel [2], but this
+> is good enough for the start.
 >
-> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> index f31bca27cde4..ddd9b88f8fce 100644
-> --- a/drivers/gpu/drm/tegra/dc.c
-> +++ b/drivers/gpu/drm/tegra/dc.c
+> Note that later on it should be possible to implement a transparent 180=
+=C2=B0
+> display rotation for Tegra DRM driver which will remove the need to have
+> a bleeding edge userspace that knows how to rotate display planes and I'm
+> slowly working on it. For the starter we can go with the minimal rotation
+> support, so it's not a blocker.
+>
+> This series is based on the work that was made by Derek Basehore for the
+> Mediatek driver [3], his patch is included into this patchset. I added
+> my tested-by tag to the Derek's patch.
+>
+> Please review and apply, thanks in advance!
+>
+> [1] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200607154327=
+.18589-3-digetx@gmail.com/
+> [2] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a39=
+59bbe5bc3a3b67e55977093fd5114ca
+> [3] https://lkml.org/lkml/2020/3/5/1119
+>
+> Changelog:
+>
+> v2: - Dropped "drm/panel: Set display info in panel attach" patch, which
+>       turned out to be obsolete now.
+>
+>     - Renamed the cover-latter, hopefully this will fix the bouncing emai=
+ls.
+>
+> Derek Basehore (1):
+>   drm/panel: Add helper for reading DT rotation
+>
+> Dmitry Osipenko (4):
+>   drm/panel: lvds: Set up panel orientation
 
-> +       if (rotation & DRM_MODE_ROTATE_180) {
-> +               plane_state->reflect_x = !plane_state->reflect_x;
-> +               plane_state->reflect_y = !plane_state->reflect_y;
-> +       }
-> +
-As mentioned by Ville the above is already handled by
-drm_rotation_simplify() ... although it makes me wonder:
+IMHO it's perfectly reasonable to report the panel orientation to
+userspace, which can apply plane rotation as needed.
 
+Although I see that this series, alike Derek's, has a couple of issues:
+ - only a single panel driver is updated
+ - rotation is _not_ listed as supported property, in said panel
+driver device-tree bindings
 
->         err = drm_plane_create_rotation_property(&plane->base,
->                                                  DRM_MODE_ROTATE_0,
->                                                  DRM_MODE_ROTATE_0 |
-> +                                                DRM_MODE_ROTATE_180 |
->                                                  DRM_MODE_REFLECT_X |
->                                                  DRM_MODE_REFLECT_Y);
+My personal inclination is that we should aim for a comprehensive solution:
+ - wire all panel drivers, as currently documented (quick grep list below)
+ - document and wire-up the lvds and boe panels - as proposed by you
+and Derek respectively
 
-Would it make sense for drm_plane_create_rotation_property() itself,
-to add DRM_MODE_ROTATE_180, when both reflections are supported?
+HTH
+Emil
 
--Emil
+Documentation/devicetree/bindings/display/himax,hx8357d.txt:2
+Documentation/devicetree/bindings/display/ilitek,ili9225.txt:2
+Documentation/devicetree/bindings/display/ilitek,ili9341.txt:2
+Documentation/devicetree/bindings/display/ilitek,ili9486.yaml:2
+Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt:2
+Documentation/devicetree/bindings/display/panel/panel-common.yaml:2
+Documentation/devicetree/bindings/display/sitronix,st7586.txt:1
+Documentation/devicetree/bindings/display/sitronix,st7735r.yaml:2
