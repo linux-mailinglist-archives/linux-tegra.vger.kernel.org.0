@@ -2,135 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2771C1F8A7B
-	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jun 2020 22:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2AB31F91AE
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jun 2020 10:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727887AbgFNUBv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 14 Jun 2020 16:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727877AbgFNUBs (ORCPT
+        id S1729019AbgFOIjf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jun 2020 04:39:35 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40771 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728861AbgFOIje (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 14 Jun 2020 16:01:48 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C82C08C5C2;
-        Sun, 14 Jun 2020 13:01:48 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id 9so16693623ljc.8;
-        Sun, 14 Jun 2020 13:01:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1tlVNSxgPSIVY7njRp82EoP3y9oei5GEhi6LB4YQ4wY=;
-        b=jQ4is4o3msNRctJPE8x/rXfdtxgqL+UaT5OUefWyjpSdGCCCRnJTJD8hwrAK+7dPak
-         ccLE732RqdOIO/h1BblHTlMoyhV6snAr+fWgyjo2ypIIksW1HO090SR7hNyA74nKJ6/5
-         am79uNqc5PvmxUBgiI7DxAt+1ki57FYP2g/LNw1/WiArCa6EES4f+ZwZaXqFbvM8WLiG
-         73o+tLz0aSqAxnAUFfKgQQYFmlipvKHJWrOFKIsFuhb+NW/FS6TCteBvhKhFvRplnG7N
-         QgdOsenUoIWC55wmJq6fPfYqWFpBf9CNRsDhakCSfMBa625Z6xw25OV8BPkh3+zeM+/v
-         kJog==
+        Mon, 15 Jun 2020 04:39:34 -0400
+Received: by mail-ot1-f65.google.com with SMTP id s13so12473792otd.7;
+        Mon, 15 Jun 2020 01:39:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1tlVNSxgPSIVY7njRp82EoP3y9oei5GEhi6LB4YQ4wY=;
-        b=kdCeuT4FXG885jHJTjJsJk+44THbdqQd6WzJxks9dQq9YH1aHbJvskzTxZidDIOb44
-         qxCYMICAlCfSodWTAcI+krdJs58H/EE3nfea+ddsl4nGGHO1mR/mpb1ivv/tpzN1UkDn
-         rA/fcPcZoty3dLJPlTiZsOfYQaB6uopNPpS29EAyjyqxiteuGAZD2zSBx6hQYrYoa3kf
-         T9dsSuYFeCMsukHQzYSvnhILHeeoV89RyZS/A1HmttgFLuV9A3zL9UILip0v0KYz1x2G
-         NyMGKt8OJEii2613oDbEyPqmPOqeBPHHi09WVlHHsUTYd4wIKw1cyo5IsMEhoRQ1mBm0
-         RPGA==
-X-Gm-Message-State: AOAM530VnuzE9EhR0vUwKxUeUxYIGk+Ts8u+1zz8eTRDgjdMY/vMVVOM
-        Z0bqHR1RlsmRcnQS5cOOrqY=
-X-Google-Smtp-Source: ABdhPJwkjAohrFdbnjXNIyKjz2EOPAHBkTIDfMEzdvwoiExIpOvjnhuRzO8/1I+pHiLBdhjK8q9qyw==
-X-Received: by 2002:a05:651c:1193:: with SMTP id w19mr11737184ljo.121.1592164906663;
-        Sun, 14 Jun 2020 13:01:46 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id 144sm1422105lfm.87.2020.06.14.13.01.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2020 13:01:46 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] =?UTF-8?q?drm/tegra:=20plane:=20Support=20180?= =?UTF-8?q?=C2=B0=20rotation?=
-Date:   Sun, 14 Jun 2020 23:01:21 +0300
-Message-Id: <20200614200121.14147-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200614200121.14147-1-digetx@gmail.com>
-References: <20200614200121.14147-1-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7wf5WtePaBKPY0Bp8z4FODm50aRt5JbGt5tRztVB4pk=;
+        b=GxfOrI1cqhdfHllY7jIIaXlG5+1oR+SAP3raeaCQrxST021ONB8s86oXUOW6v13Yya
+         FVZX9DUpJS5J+ne6PwN7GHAwW1XF1xevjVt8XntZU3zSXZUpsIA8b9ErW/TKiCRdyK94
+         C+Ag3pgsmCaQv/6u3cM4GKwcJmUvyuDzYU4Z+SBPt3JOGDEiZakl9FIostp9uTSnMqT+
+         u7+5KSpLF4WjOPP07gr93aNoKrozzWwptiPXc/frrOum12BbAaqq3xK4pZB8a9ioxlxP
+         KsXmx4weN7+oul8aGMgtsEVAueL8gjs3LeFn70r751yPDaWxUqH9wZR1DE8CIZVGGww4
+         iaRg==
+X-Gm-Message-State: AOAM532B4Jo0o1VBGrq2xQFwaradZ/D7f7sXKtIv4/aXPkssV7v9kK91
+        lNfJKXms+o3C2fMOJI+jvOE/YP4MdOxxKcN6RhE=
+X-Google-Smtp-Source: ABdhPJwuMKW/S2T3+nGDgfWQJsU+Elnk3Z4DUyNzB+BrCwdb2xIAo2LW2mswFqh60WvA1fIgh73z1U7cDAVx7nbKNKw=
+X-Received: by 2002:a9d:c29:: with SMTP id 38mr19347614otr.107.1592210373272;
+ Mon, 15 Jun 2020 01:39:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200506123236.7463-1-geert+renesas@glider.be>
+ <20200506123236.7463-3-geert+renesas@glider.be> <20200507200410.GB2981633@ulmo>
+In-Reply-To: <20200507200410.GB2981633@ulmo>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 15 Jun 2020 10:39:21 +0200
+Message-ID: <CAMuHMdUkNiVU3Df-VvGbSxEx-R29=OtLzrqjb0+mbt6gYYCfhw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] memory: tegra: Drop <linux/clk-provider.h>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Combining horizontal and vertical reflections gives us 180 degrees of
-rotation.
+Hi Thierry,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+On Thu, May 7, 2020 at 10:04 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+> On Wed, May 06, 2020 at 02:32:36PM +0200, Geert Uytterhoeven wrote:
+> > The Tegra EMC scaling support code is not a clock provider, but merely a
+> > clock consumer, and thus does not need to include
+> > <linux/clk-provider.h>.
+> >
+> > Fixes: ec37a9a17afbfad5 ("memory: tegra: Add EMC scaling support code for Tegra210")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  drivers/memory/tegra/tegra210-emc-core.c | 1 -
+> >  drivers/memory/tegra/tegra210-emc.h      | 1 -
+> >  2 files changed, 2 deletions(-)
+>
+> Applied to for-5.8/memory, thanks.
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index f31bca27cde4..ddd9b88f8fce 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -608,6 +608,7 @@ static int tegra_plane_atomic_check(struct drm_plane *plane,
- {
- 	struct tegra_plane_state *plane_state = to_tegra_plane_state(state);
- 	unsigned int rotation = DRM_MODE_ROTATE_0 |
-+				DRM_MODE_ROTATE_180 |
- 				DRM_MODE_REFLECT_X |
- 				DRM_MODE_REFLECT_Y;
- 	struct tegra_bo_tiling *tiling = &plane_state->tiling;
-@@ -659,6 +660,14 @@ static int tegra_plane_atomic_check(struct drm_plane *plane,
- 	else
- 		plane_state->reflect_y = false;
- 
-+	if (tegra_fb_is_bottom_up(state->fb))
-+		plane_state->reflect_y = true;
-+
-+	if (rotation & DRM_MODE_ROTATE_180) {
-+		plane_state->reflect_x = !plane_state->reflect_x;
-+		plane_state->reflect_y = !plane_state->reflect_y;
-+	}
-+
- 	/*
- 	 * Tegra doesn't support different strides for U and V planes so we
- 	 * error out if the user tries to display a framebuffer with such a
-@@ -720,7 +729,7 @@ static void tegra_plane_atomic_update(struct drm_plane *plane,
- 	window.dst.h = drm_rect_height(&plane->state->dst);
- 	window.bits_per_pixel = fb->format->cpp[0] * 8;
- 	window.reflect_x = state->reflect_x;
--	window.reflect_y = tegra_fb_is_bottom_up(fb) || state->reflect_y;
-+	window.reflect_y = state->reflect_y;
- 
- 	/* copy from state */
- 	window.zpos = plane->state->normalized_zpos;
-@@ -806,6 +815,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
- 	err = drm_plane_create_rotation_property(&plane->base,
- 						 DRM_MODE_ROTATE_0,
- 						 DRM_MODE_ROTATE_0 |
-+						 DRM_MODE_ROTATE_180 |
- 						 DRM_MODE_REFLECT_X |
- 						 DRM_MODE_REFLECT_Y);
- 	if (err < 0)
-@@ -1094,6 +1104,7 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
- 	err = drm_plane_create_rotation_property(&plane->base,
- 						 DRM_MODE_ROTATE_0,
- 						 DRM_MODE_ROTATE_0 |
-+						 DRM_MODE_ROTATE_180 |
- 						 DRM_MODE_REFLECT_X |
- 						 DRM_MODE_REFLECT_Y);
- 	if (err < 0)
+Which hasn't made it into v5.8-rc1, and was rebased.
+New fixes tag is
+Fixes: 01218c59f9bcf067 ("memory: tegra: Add EMC scaling support code
+for Tegra210")
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.26.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
