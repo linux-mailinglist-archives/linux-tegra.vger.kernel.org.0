@@ -2,61 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E061FC0D5
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 23:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1F781FC0F9
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 23:25:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726044AbgFPVQb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 17:16:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41216 "EHLO
+        id S1725849AbgFPVZp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 17:25:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725967AbgFPVQa (ORCPT
+        with ESMTP id S1725967AbgFPVZl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 17:16:30 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446A8C061573;
-        Tue, 16 Jun 2020 14:16:30 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id i27so217926ljb.12;
-        Tue, 16 Jun 2020 14:16:30 -0700 (PDT)
+        Tue, 16 Jun 2020 17:25:41 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65699C06174E;
+        Tue, 16 Jun 2020 14:25:41 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id t74so6690lff.2;
+        Tue, 16 Jun 2020 14:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OnZOezgZVzOz9JB4hQqD3uRAyvohb+j0oda6sI9lrns=;
-        b=Qwjrg/vI39KV/BVNwQVK88aehEvDlwgph3TCqPFTxNYt0KpwEpAZkM7KL3QcW+6wiN
-         //kV1IzXUlHXUGjZJkHSmigiJwYb3KdwZDZObx1PXSP/xT2tmQJ1XzrmmvojkVWpPknL
-         2PGOynS5ikN7+fi14+ISM3YTlFPZgMo9I8C+V+MH+JtJt/m0ZJhyMTcGqDOuKoW7ffsJ
-         Q+A5Qn6otX4Qh8llD43kfCA2fpLoVC/Tp/2RPJmvPbhW+Kd8Vg3qo8KkwMfCZ6HUyk7k
-         +oovK5b66w1iZmpek1dxhIChEWMds2ELKb77xO7dPqFV8pDIadt+vxDck/5UKD5GwqVV
-         FNCQ==
+        bh=hVdt6AXODFboWYabzNYMUEMNfFhxWDLJgJNzupuDcUc=;
+        b=pGXke/vHvJbeYRKgVgjKaAGVVWlGt2Zlyo2sdvyXiMnK0Z2k8tgv2lOmK3fZQ5hdsI
+         U4DNuVOz26tSkoxV4Ag5qMiLAyX4PcDc4Kwb+qmh37FoEIuz6kLdjs8xZeQW/TddmCaz
+         VqubvdibZYToYvyAx2s73doWSZTWfyqCWWYxynDtbAS/kceU1iF/iPq7spKDD1F++TR2
+         tqpVmFBKfTyiWTJJWSfSty29m2Cw2Zu8zCGrgWv27paZjVfmqoLuj6ecp79wYKFE5Rsq
+         raFGS92UaPIIwTD9+eOyMB8H1nWKgBqT5eZR53OC+oCM6hXIibX60d5YZN4fE8H1M/1P
+         hXRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=OnZOezgZVzOz9JB4hQqD3uRAyvohb+j0oda6sI9lrns=;
-        b=JJ5Bc+wLm4QowUFmh3xr6IzzonOqbh9QLLkOeQNaB5tjUIeiyX8tHwIF/ssK4rflKf
-         SzOE/XS02EqcRjZ2xskPjWqZWeXylvma6a8CZpSMNJnKkCJEmLdwTxTtlzhhJlI1BDAF
-         Nt15eVKJLmy/2ScXhmE1VoXzWj6m3I0IyzF7EXuEljgEBC/pv0Ioo3ZZzyDUJDNjGPes
-         xN/Sft5T/LQt3FFpnhQCf91uQ1xX5HvCubMKA3mJN/zq5HIuYfdicXb9B0x2ys//c2oK
-         bS0jLalEDvaIgr5MvlmrDB85nB3ROFcV69dF6Lq8tMAQmPokNVs1P8uco3l5tOujXVFp
-         GQIg==
-X-Gm-Message-State: AOAM530+C8qpLqr51663wOFjpAxbOJK2LfAZjEZHT/UF0AsjEKM9YmXM
-        jvr3fAaEgag8olz//8d5QJo=
-X-Google-Smtp-Source: ABdhPJxV0UzC1PmGkRHvtnIQwv36oY6aTT21lS7mK9zwEdagk0VyfLJ137UPRI8gR7YlMGQModFb7A==
-X-Received: by 2002:a2e:1558:: with SMTP id 24mr2293460ljv.202.1592342188684;
-        Tue, 16 Jun 2020 14:16:28 -0700 (PDT)
+        bh=hVdt6AXODFboWYabzNYMUEMNfFhxWDLJgJNzupuDcUc=;
+        b=cOg5NjSYlMwIrA6da8cbCtfGXL91wa4qoR+vtOQTGywBQOiykwAxQ4wGLyL2iygU/M
+         CdB0eagAWYDWM8DcvCuqk9Zo18vkDcMzVqHwYQvePd+Or+PkwlzzA5UghULNkkt/b+fr
+         OuOyBTQ74pVLBVsdcOGpG4ArDUR7O5+l1lIZiud+PyGQVcZlXPKD41wubL6p1H9xwp+K
+         hYDZ5y26atw3LV0GvGFqx4Dnsc7S2JkYjUcn9m06ykFVupHucT9ZrLG5N1cwmNZMIFFJ
+         SUod8cH4xcrmp2sBSaGSiWCYnCBNkvmqbPra6zP30cAWJNIQ5ZpK938r/V7qG7kXuOy3
+         e12A==
+X-Gm-Message-State: AOAM533EVVhB5SSQQzSLhAPJGiTkM59MuGz8aRekQ6vNKFpKBBuHh+Q7
+        k22e63ouAJcwIpnyv40nsYs=
+X-Google-Smtp-Source: ABdhPJxJ16gTDiEqo2xtKJxQd/8rm2iOA6GJb7n/d5HI200HY+0KKnM4psUU1+k67xApqZgL9p/Cqg==
+X-Received: by 2002:ac2:544b:: with SMTP id d11mr2714926lfn.157.1592342739859;
+        Tue, 16 Jun 2020 14:25:39 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id p19sm5516068lfc.91.2020.06.16.14.16.27
+        by smtp.googlemail.com with ESMTPSA id 11sm1336289lfz.78.2020.06.16.14.25.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 14:16:27 -0700 (PDT)
+        Tue, 16 Jun 2020 14:25:39 -0700 (PDT)
 Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Emil Velikov <emil.l.velikov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
+        Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+        linux-tegra@vger.kernel.org,
         "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
         ML dri-devel <dri-devel@lists.freedesktop.org>
 References: <20200614200121.14147-1-digetx@gmail.com>
@@ -64,14 +64,14 @@ References: <20200614200121.14147-1-digetx@gmail.com>
  <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
  <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
  <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
- <CACvgo50BFH5qsPyWx9a1aZ4k5bzjSN-3KTU0BvnZ-nG-hfzKOQ@mail.gmail.com>
+ <20200616174558.GA913@pendragon.ideasonboard.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fe845434-cbf6-29d4-eeb6-8868d628fd04@gmail.com>
-Date:   Wed, 17 Jun 2020 00:16:26 +0300
+Message-ID: <2862a842-322e-34d6-6826-3b3352f98230@gmail.com>
+Date:   Wed, 17 Jun 2020 00:25:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CACvgo50BFH5qsPyWx9a1aZ4k5bzjSN-3KTU0BvnZ-nG-hfzKOQ@mail.gmail.com>
+In-Reply-To: <20200616174558.GA913@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -80,9 +80,8 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.06.2020 21:54, Emil Velikov пишет:
-> On Tue, 16 Jun 2020 at 18:20, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
+16.06.2020 20:45, Laurent Pinchart пишет:
+> On Tue, Jun 16, 2020 at 08:20:57PM +0300, Dmitry Osipenko wrote:
 >> 16.06.2020 18:48, Emil Velikov пишет:
 >>> On Tue, 16 Jun 2020 at 12:40, Dmitry Osipenko <digetx@gmail.com> wrote:
 >>>>
@@ -175,65 +174,10 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 >> Interesting.. my understanding that the rotation property is supposed to
 >> be a generic property which represents physical orientation of a display
 >> panel and hence it should be applicable to all panels.
->>
-> You're spot on - it is/should be a generic property.
 > 
-> I believe that in general many panels were mounted in the correct
-> orientation so the property, kernel and userspace were slow to catch
-> up. In some cases panels will use flip x+y to denote 180 rotation, yet
-> lacking the rotation property.
-> The s6e8aa0 is an example of the last oddity. To make it better, the
-> two dts in-tree always set both flip x and y.
-> 
-> Tl;Dr: Hysterical raisins
-> 
->>> Sam seems like you've done most of the YAML conversion. IMHO it would
->>> make sense to revisit the patches and inherit common properties only
->>> as applicable.
+> Adding a bit more food for thoughts, the DT rotation property for camera
+> sensor modules has recently been documented with lots of details. See
+> https://lore.kernel.org/linux-media/20200509090456.3496481-3-jacopo@jmondi.org/,
+> part of the documentation may be useful for panels.
 
-It looks to me that the conversion was done properly because rotation
-property was added as a common panel property from the start.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=b60c1be747418a07fbe04f8533394a64b27b6181
-
->>>> I don't think that it makes sense to wire up rotation property to all
->>>> panel drivers at once because those drivers will be untested, at least I
->>>> don't know anything about those other panels and can't test them. It
->>>> will be much better to support the rotation on by as-needed basis for
->>>> each panel driver individually.
->>>
->>> How about CCing the author and reviewer asking them to test the patch?
->>> The only place where the patches might cause an issue is with tiny,
->>> although patches would still be appreciated.
->>
->> There are quite a lot of panel drivers and I'm a bit doubtful that at
->> least half of devices that use those panels have any real use for the
->> rotation property. I could write the patches.. but in the end it could
->> be a wasted effort if nobody needs it, so I'd prefer not to do it.
-> 
-> That's why I mentioned the rotation introduction or "confusion" if I
-> may. Skimming through the pre/post YAML device tree bindings and grep
-> through the panel themselves will greatly reduce the list.
-> In other words: if neither binding documentation/in-tree dts nor panel
-> mentions rotation - omit it.
-
-I looked through the DT bindings and only those few tiny-DRM drivers use
-the DT rotation property. The parsed rotation value passed to the MIPI
-DBI core where it's validated and utilized further. I don't feel that
-it's worthwhile to touch that code because switching it to the common
-DRM helper for reading out DT orientation won't bring any real benefits.
-
-The samsung-s6e8aa0 panel driver indeed uses the non-standard flip-x/y
-DT properties in order to achieve the 180 rotation, but I'm not sure
-whether it's worthwhile to touch this driver as well because it will
-require the board's DT change.
-
-The panel's orientation could be parsed by any panel driver and then
-assigned as the connector's property in order to allow userspace/FB-core
-to decide what to do with the rotated display. Apparently upstream
-kernel supports only that one Samsung device which has display panel
-mounted upside-down and it already uses the custom DT properties for
-achieving the 180 rotation. So I don't quite see any panel drivers that
-instantly could benefit from using the rotation property. Perhaps I can
-add the orientation support to the panel-simple driver, but will it be
-useful to anyone?
+Thanks!
