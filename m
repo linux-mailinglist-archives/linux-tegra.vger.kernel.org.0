@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EAE41FB2E0
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 637771FB2E1
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728740AbgFPNz2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 09:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57378 "EHLO
+        id S1728885AbgFPNzb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 09:55:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728557AbgFPNz1 (ORCPT
+        with ESMTP id S1728557AbgFPNza (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 09:55:27 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5AFC061573
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:27 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id d128so3182993wmc.1
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:27 -0700 (PDT)
+        Tue, 16 Jun 2020 09:55:30 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D4FC061573
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:29 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id l26so2973894wme.3
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qZkPY5bmoCgpmhUCVf6pNbB0U2EgFEkvwmeKVPqcE4I=;
-        b=RJBSY6X3D75xtJyfmnTDI6AZfDHhVeb64mmheEEmVIb/poZNRfrXigc+Kg10fO4Hvy
-         e7IiCqrmBN36GV2U3nGUDZDf5rZAtlkRCHLcwVwx1LaIKhcWZ8ZFY1WU0YvWoqYKFJJb
-         03Kk0e4KOkIumR/Js4azvwYTa2kxAxPCSko59QWp4pBPE5/e6McJLYcMqVf3isRsKijp
-         VHAfk5YTUZwQtJdxMFHqbzGVATF83sQlcgox+JFw5gdE8nM1m/0basM2WFig1a8Wy+iX
-         0WSLf6j49GiHDsStQZ8kBobnmkpbHvfyXtTLr6HjKCP+hYeW7MY9Dh6CYo16NhlBL2gL
-         v3TA==
+        bh=m+Oy5TCjklnJXJnTpsKQEAS9YPNmRw7/jZUo1uh4cXY=;
+        b=LxamS/MKqnBLmNYe28YdSGsQ2D8LWMfmQDzPPPrawRoo0jK+j9uVCTVLqs3pRS/lLV
+         fPfBQTV4wbWNspZy2uIfTzJLjaPx88EiNXMYxUhzlj94j4q3Ua6rTaCdigGBt1p3vAED
+         EsLzN8r3e7G/PmEt1aeNOjqoo63QtrqHRoEJ0NbE9VuZ9zjOQVvGH8EU6yxURx12AARe
+         YTMteZDPpvpcq2c7rfr4RUc+BoMcVO73enc2RF6ANHiWUarzlVFt8MkXya37iTOScJgU
+         aN4QX72MwfXU/uMzvNOrO9+IUZWhYtoLMPNs8DIZ0zePW1mYaDGMcvDLoBpMbhImHzH+
+         i1OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qZkPY5bmoCgpmhUCVf6pNbB0U2EgFEkvwmeKVPqcE4I=;
-        b=l2QhELrs5acBjJXkaQolGaA3jknCN370VTqS5hrymaxHZhBcqCCy9xsvlq7wQO6ee0
-         1tFAtITuVBWuZr/d7r9jTP6Md+vY16S20O+ULhSthw7GA5a9zQDlHqakC2CANc2Y1fll
-         evDwPj2PmOgGGCxyc32Y93xICCrvwE7V5E3oIKXK8+KllkONsdjlDA2Rgg6O1A0WNZvg
-         Wdj2QqMokdLZQkrrrG6u2LWtoUMECOBxMsm0+LCBIu8aZ8xjrG30Qr8y8nmAlLG/9kEW
-         u/75hqp+GX+PLOmDc7qqBj1jl56KJG1AtH3OuSmxPuqTMrZj4pUr1OxrejTFubroQgVV
-         Qq+g==
-X-Gm-Message-State: AOAM531TZ3LavX46sg5yabxLX5Vt/Y/qOBbzJ3HUdAj8AnZK2Ghg4wW/
-        jDtGw7LhqmcjGyIRk99d2mE=
-X-Google-Smtp-Source: ABdhPJzhOQC9gckMGWo4NKUvSt4NZfpgQk/k5WXziNdJe6I0mhJandqfAD4DXCQ2dCspJWQEhoMUEQ==
-X-Received: by 2002:a1c:c908:: with SMTP id f8mr3402681wmb.150.1592315726078;
-        Tue, 16 Jun 2020 06:55:26 -0700 (PDT)
+        bh=m+Oy5TCjklnJXJnTpsKQEAS9YPNmRw7/jZUo1uh4cXY=;
+        b=YDgg4+f4FfQj9iW33suHQJbmd0ohNGzMgiJRSfPsCZoiz8H2KnxbPdf7baiSb03FAj
+         20qcGJtRiB3xdCQhaKbsAOCYEbzTRYCJ6AsJlRL8rTcejDsjjwC5z758QmTkKNqsCeZ4
+         GAweeLGqmREWqhgFm+a27nTFz0OQRcQ+02YQhLh3eHXkRM/J4LpVPSfDHRh3j1IxAaeM
+         0/6e/aOtWQ5Tynp1K8IwTlN6ou8P8zFsmTyiZEVkYy9RaW2o11P/9nW/AwaDEyArP2i+
+         7yz0jiiymSWjDXIABpZailJ2D+U4bHaM7zXoMQKv2xUX9lBay+00Mkr+BGZpFTtKA+1Z
+         s6EQ==
+X-Gm-Message-State: AOAM530Aq/jBm/5aZo62uKczG6MQbZUclK3kqqM/MIIiIwtQhPxfA8Ap
+        rygCN15enThxfb8lG1R8w3g=
+X-Google-Smtp-Source: ABdhPJw3jkTqJ+lgKZ6qIB5biG0YKqBZg1et2dqIrNIfkE5GKlgmyf7OxfU5uJnFQ/yiM2iWbEIe1w==
+X-Received: by 2002:a7b:c10c:: with SMTP id w12mr3164846wmi.132.1592315728126;
+        Tue, 16 Jun 2020 06:55:28 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id u3sm4187727wmg.38.2020.06.16.06.55.24
+        by smtp.gmail.com with ESMTPSA id w14sm1974388wrt.55.2020.06.16.06.55.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 06:55:25 -0700 (PDT)
+        Tue, 16 Jun 2020 06:55:27 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 67/73] arm64: tegra: Remove unused interrupts from Tegra194 AON GPIO
-Date:   Tue, 16 Jun 2020 15:52:32 +0200
-Message-Id: <20200616135238.3001888-68-thierry.reding@gmail.com>
+Subject: [PATCH 68/73] arm64: tegra: Fix indentation in Tegra194 device tree
+Date:   Tue, 16 Jun 2020 15:52:33 +0200
+Message-Id: <20200616135238.3001888-69-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200616135238.3001888-1-thierry.reding@gmail.com>
 References: <20200616135238.3001888-1-thierry.reding@gmail.com>
@@ -67,30 +67,26 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The AON GPIO controller on Tegra194 currently only uses a single
-interrupt, so remove the extra ones.
+Properly indent subsequent lines so that they align with the first line.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 2ecb80e1b09d..e0aa6c74073a 100644
+index e0aa6c74073a..307f999edbf9 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
 +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -999,10 +999,7 @@ gpio_aon: gpio@c2f0000 {
- 			reg-names = "security", "gpio";
- 			reg = <0xc2f0000 0x1000>,
- 			      <0xc2f1000 0x1000>;
--			interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 59 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
- 			gpio-controller;
- 			#gpio-cells = <2>;
- 			interrupt-controller;
+@@ -1669,7 +1669,7 @@ pcie@141a0000 {
+ 		pinctrl-0 = <&pex_rst_c5_out_state>, <&clkreq_c5_bi_dir_state>;
+ 
+ 		clocks = <&bpmp TEGRA194_CLK_PEX1_CORE_5>,
+-			<&bpmp TEGRA194_CLK_PEX1_CORE_5M>;
++			 <&bpmp TEGRA194_CLK_PEX1_CORE_5M>;
+ 		clock-names = "core", "core_m";
+ 
+ 		resets = <&bpmp TEGRA194_RESET_PEX1_CORE_5_APB>,
 -- 
 2.24.1
 
