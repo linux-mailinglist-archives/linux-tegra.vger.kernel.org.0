@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 684351FB2DE
+	by mail.lfdr.de (Postfix) with ESMTP id D2FB81FB2DF
 	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728869AbgFPNz0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 09:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57362 "EHLO
+        id S1728553AbgFPNz1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 09:55:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728553AbgFPNzW (ORCPT
+        with ESMTP id S1728740AbgFPNzZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 09:55:22 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73932C06174E
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:22 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id y20so3178922wmi.2
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:22 -0700 (PDT)
+        Tue, 16 Jun 2020 09:55:25 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A98FC061573
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:25 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id l10so20846140wrr.10
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iIbYc6mjj2XC9sB0100ZE5S9+tg7Z6KcqIjSEJek5/A=;
-        b=txZgLaXFOtb1TJEVVvNDNlwz12hfxlSWcBarAU9dyFlctbMWrhF2nzSBhF3LhePv1T
-         Ww/TUO2Rdz4HLFnjRLPAnitwyWxCZkAIJ21GXL0VVzh73J/rF6mhbnRj1nyKPok/1RGc
-         MBoBs6w6tnd95AkdiAIe8CSdnG3DC/A5NdJoaX67YhOWosNuv3w1qk089WMEdz5l1CZV
-         PerrFUyuimQoHRrBX3J9AElj7uGBKpwag1GbftgmP1n3aL9rkAst0f3pg/1nQZMkumjy
-         +/gSwYqxJfkadCa1iwh3V4QM5rRP5O1uUL+QOBzyoXho97Yw4DBdeeurN7vLI0BS1dP3
-         1boQ==
+        bh=H88x6vjpuSpzZHQlZkQcpEZG1CuEYDHzgnWI54VWfdI=;
+        b=UIL/3uQu1mOuZeZy1jk8Xr/dmIFVxbxNQvcZvHrcocJxrXVigTf3Il9pyRRsNxi8D8
+         Ps/yCXagsypaZ+ocjewOKtpfJkaFaveZO+DgBbDKcsJXw40T35WYtgFmgs0iCos3jMg0
+         NL0cqyiJWUhthFeOJl36rS0z+a6/ONze71FUYDTeNoKJTOLQX3GDOB2+2IKRnhyukesQ
+         dEd4YoBJdODLgN0mulnCUKOODwmIX8Cvs9VjelDfHiNxtlUUBD9+DBQnwuEcD4/a2Agk
+         sv7DH/vKFQORQorpKZ5XGjNHu6HVoW/iZFaK+LcKZPCImeTplDr+48WoMjMqtQVJdg1h
+         IeqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iIbYc6mjj2XC9sB0100ZE5S9+tg7Z6KcqIjSEJek5/A=;
-        b=Hx9Yr2P3qgFIjUplO9RbDRfnxvaL3uz5A91Oq4TtNirp2E6HjT/0OEzxsXIZOzx4yK
-         ZqlZ/vpPOZMyiPlvp5rsPenWywf8yYdsFnhMyf1TLS+1m+3Tv1/Q+DuFm6mVe4jmsnW4
-         hnVhKnWKPDMivr1bVLTTNPcewTtiYN8FseOGTUFVEMWkG1yvEYWhn8fiRNX5iJiTsPXv
-         doEFyoYT23a2hwrI7JMyhltIUnC/jIp8Nw9Rs3QWO8nUVMZlCf3lI+eH75LPad9j+QRM
-         rlHQchiOUWAFLbntzb+iSrIY7vgdXIA20iBFp8mobBikI7Z7tq66ugo1IghQ37BQOBeb
-         +Frg==
-X-Gm-Message-State: AOAM530urgEe1Of0HjyEpvVTG/yx5txlbfzXi3fA0GBavw0VatXHc9Qm
-        DXv32m1Bh70G+Ullbl3WNHg=
-X-Google-Smtp-Source: ABdhPJx+AEgax2zGOWrfqomo1JreetAMxNewvozhWQyn7Y2ngUxG6D9CWDLNNRWJtNNec19UjZ1t5g==
-X-Received: by 2002:a1c:f204:: with SMTP id s4mr3548336wmc.159.1592315721268;
-        Tue, 16 Jun 2020 06:55:21 -0700 (PDT)
+        bh=H88x6vjpuSpzZHQlZkQcpEZG1CuEYDHzgnWI54VWfdI=;
+        b=qbfK2A4rc1WDqsZ0HX3TWq0OSurwLoUXLD2OyYg/Z3QeKcbqq459aR7ORdtBMs8V7z
+         bY2cGkrV1Qs8D+EPIiilk1BrPM9Ac2U99NhdY7Ojf4WvQ+pmCm3LtgoRoTH01T4kOlX3
+         i38bsxu2RF7AXfMqRZGXCjEC5e0KEVhXm5TSaozWQ7U5Atih6mQqkNmn01MYEtQ7vgj5
+         5KRDyPTP6VapJu6ZMdVEAgxXCtclbpzAPUzoJ5kMwnu93ZDuV1YPptluIHzju7LEcE5H
+         s2z5JRHMvNRXAoAThn79EIvHIbBr/P2Jo6IQA6TzVofJKTXajgq1KeMDRxtbQuFaVHRP
+         Nu0w==
+X-Gm-Message-State: AOAM533LogukntqwbBMtP8reCNCdzW7rzIHidq8dkon8ckqak6QyjeaU
+        OozZBsacARZPNT1OI1IhhsU=
+X-Google-Smtp-Source: ABdhPJxtfNSOEILiVqh/qFM/nf/bExgvAibeoQa8jEe42UWA0sSe2bg3ikALt84AYI+GGaRuEInUvg==
+X-Received: by 2002:a5d:628c:: with SMTP id k12mr3184108wru.211.1592315724035;
+        Tue, 16 Jun 2020 06:55:24 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id k14sm28337070wrq.97.2020.06.16.06.55.20
+        by smtp.gmail.com with ESMTPSA id 185sm4084382wmz.22.2020.06.16.06.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 06:55:20 -0700 (PDT)
+        Tue, 16 Jun 2020 06:55:22 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 65/73] arm64: tegra: Do not mark display hub as simple bus
-Date:   Tue, 16 Jun 2020 15:52:30 +0200
-Message-Id: <20200616135238.3001888-66-thierry.reding@gmail.com>
+Subject: [PATCH 66/73] arm64: tegra: Use standard names for SRAM nodes
+Date:   Tue, 16 Jun 2020 15:52:31 +0200
+Message-Id: <20200616135238.3001888-67-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200616135238.3001888-1-thierry.reding@gmail.com>
 References: <20200616135238.3001888-1-thierry.reding@gmail.com>
@@ -67,41 +67,77 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The display hub on Tegra186 and Tegra194 is not a simple bus, so drop
-the corresponding compatible string.
+SRAM nodes should be named sram@<unit-address> to match the bindings.
+
+While at it, also remove the unneeded, custom compatible string for
+SRAM partition nodes.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 2 +-
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 8 +++-----
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 8 +++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index a73050ec61a7..3a41203deba2 100644
+index 3a41203deba2..d92eea1ddac7 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
 +++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -990,7 +990,7 @@ i2c-bus {
+@@ -1262,22 +1262,20 @@ gpu@17000000 {
+ 		interconnect-names = "dma-mem", "write-0", "read-1", "write-1";
+ 	};
+ 
+-	sysram@30000000 {
++	sram@30000000 {
+ 		compatible = "nvidia,tegra186-sysram", "mmio-sram";
+ 		reg = <0x0 0x30000000 0x0 0x50000>;
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+ 		ranges = <0x0 0x0 0x30000000 0x50000>;
+ 
+-		cpu_bpmp_tx: shmem@4e000 {
+-			compatible = "nvidia,tegra186-bpmp-shmem";
++		cpu_bpmp_tx: sram@4e000 {
+ 			reg = <0x4e000 0x1000>;
+ 			label = "cpu-bpmp-tx";
+ 			pool;
  		};
  
- 		display-hub@15200000 {
--			compatible = "nvidia,tegra186-display", "simple-bus";
-+			compatible = "nvidia,tegra186-display";
- 			reg = <0x15200000 0x00040000>;
- 			resets = <&bpmp TEGRA186_RESET_NVDISPLAY0_MISC>,
- 				 <&bpmp TEGRA186_RESET_NVDISPLAY0_WGRP0>,
+-		cpu_bpmp_rx: shmem@4f000 {
+-			compatible = "nvidia,tegra186-bpmp-shmem";
++		cpu_bpmp_rx: sram@4f000 {
+ 			reg = <0x4f000 0x1000>;
+ 			label = "cpu-bpmp-rx";
+ 			pool;
 diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 4d6f2127dd4a..3089ebecfbef 100644
+index 3089ebecfbef..2ecb80e1b09d 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
 +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1055,7 +1055,7 @@ host1x@13e00000 {
- 			interconnect-names = "dma-mem";
+@@ -1803,22 +1803,20 @@ pcie_ep@141a0000 {
+ 		nvidia,aspm-l0s-entrance-latency-us = <3>;
+ 	};
  
- 			display-hub@15200000 {
--				compatible = "nvidia,tegra194-display", "simple-bus";
-+				compatible = "nvidia,tegra194-display";
- 				reg = <0x15200000 0x00040000>;
- 				resets = <&bpmp TEGRA194_RESET_NVDISPLAY0_MISC>,
- 					 <&bpmp TEGRA194_RESET_NVDISPLAY0_WGRP0>,
+-	sysram@40000000 {
++	sram@40000000 {
+ 		compatible = "nvidia,tegra194-sysram", "mmio-sram";
+ 		reg = <0x0 0x40000000 0x0 0x50000>;
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+ 		ranges = <0x0 0x0 0x40000000 0x50000>;
+ 
+-		cpu_bpmp_tx: shmem@4e000 {
+-			compatible = "nvidia,tegra194-bpmp-shmem";
++		cpu_bpmp_tx: sram@4e000 {
+ 			reg = <0x4e000 0x1000>;
+ 			label = "cpu-bpmp-tx";
+ 			pool;
+ 		};
+ 
+-		cpu_bpmp_rx: shmem@4f000 {
+-			compatible = "nvidia,tegra194-bpmp-shmem";
++		cpu_bpmp_rx: sram@4f000 {
+ 			reg = <0x4f000 0x1000>;
+ 			label = "cpu-bpmp-rx";
+ 			pool;
 -- 
 2.24.1
 
