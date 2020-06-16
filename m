@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72D31FB2D8
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D98D1FB2D9
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729014AbgFPNzO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S1728861AbgFPNzO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Tue, 16 Jun 2020 09:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57308 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728861AbgFPNzM (ORCPT
+        with ESMTP id S1728997AbgFPNzM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Tue, 16 Jun 2020 09:55:12 -0400
 Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EBD1C06174E
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:10 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id d128so3181966wmc.1
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65620C061573
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:12 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id u26so2327472wmn.1
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OICfzC5DNLWC8Mt/Hql2kszDs/lPys4EDGoOcxnuo0E=;
-        b=ejfJqBK5B17ICN8HyRWo+casH8nlg9Up9/8htgKPkCd8aRnMre1x9N/B/gQ0sWK3T1
-         bnWnGSaFnd1xS5jO4Fdk0JOTxkQgA7EUSGZamPQyABLoiIyXKpr3KAaovLLQK6R1JAr0
-         3SOJ5QpW6xINrnsIOBiV7PSAz8/zvXGQVHZYgjNF5CHA2gkAjvLp+S0Nvl/MXGB6lKQZ
-         ziddCKD9Lb1xR6EY+y+Vkg0WXy276udCubEHjZfZoqE47rKHWxJViy1U0wSdj50w6bbR
-         wjjVFaRipO/uTWuWhLv6Zrw+BCRBWtNSHEa/AflX7tw++/b8eXeP08UAitNIUcYb676b
-         IdgA==
+        bh=SUdlPyxdGWCgmnigeWgRVCwmjI++8hho3XmOt25jjdI=;
+        b=lG33AK5PdVrGfzQbJRnW9klc7931v/SPsOkRM/oequaJiGe/cbVfXTzZ+rQHIApQcf
+         gEUph1xaWj1okiVqas98eKy5J85tlN84RfqVfRkFwTVr/Rpge0QDA+XjMYgg/xa8LjJq
+         xTNXRiLH0AvC3vDmfE+E0Nkvv9jCHdPS6V98KVYFy6/1oXdjdarPhfzeYhU8iP4V1QyV
+         Zi30DaGHvwPrRKa+lGhjMgQZxF3C1nG+15jI9gjzns9lNDQAZb2Fqsn3TET3zhGIKr81
+         XOs/oh6gy3rInlFu8MesJx/8tOOu3e8mKeFsf7ZIx9lPxPrGSigTVo5sbTpHRb1M8B0P
+         QaZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OICfzC5DNLWC8Mt/Hql2kszDs/lPys4EDGoOcxnuo0E=;
-        b=TEO7tZ6TjKclHpuFO8BMhV6kiwa93bEPBsiH30j2jvKg9zb/oLZX2V3qYtkVU9+Ho8
-         hjtGGIoRbGmSKZkBYwulQ0vgGDxLxbGERaYfD+2grDeL510fJeW+FRa5chnrk+HdCY/J
-         iWaBcb4ijh7N9dAZE5kde1+hsUpYo62oT64/XxCiT9M5lcFx72WNxZAdq+iaXaYM4Kii
-         7ZUVHUOlDNKFU53h03FyNsKwQitq2uUODym1BExW9osprxvcDJcPI86zo5qVXOoq5Vr7
-         vYaXp4qMOe3TXlRZC/SXjQ4cqrnMdU/vOTDByZ+HYXUxLSpmy4mAwt1Df4FOM2DL3hys
-         aJgw==
-X-Gm-Message-State: AOAM532Cjf2o6ym2zo2NacYFd7wM0umbrv4SkB3QI7YwwOwrJZgb7HX9
-        m1MAHpoPOh85NR8rABm1XBo=
-X-Google-Smtp-Source: ABdhPJzOQCn/2tSUkdTXWMJYbll+3NsWiJc9+A2Xy3fZHYpJeayA9xv/Fk+mcpbj4ole1j/Zprj1qA==
-X-Received: by 2002:a7b:c944:: with SMTP id i4mr3358571wml.22.1592315709317;
-        Tue, 16 Jun 2020 06:55:09 -0700 (PDT)
+        bh=SUdlPyxdGWCgmnigeWgRVCwmjI++8hho3XmOt25jjdI=;
+        b=EaL4ICVXWg8IGXvu96PHSOH5Y/X82nPjOPMYfiVz7EOxQ4x3UkAUARsBl9+lc+3liT
+         HVITVye0aeHbrSpmucFsp6yps1rLGQWqI44uOInHiGpPyNiWrAmSJWNyaBEwlX4Cm78a
+         H6j1z3jLJbkcgHzQf5UyjtqsbmhIFuIHd0yDhPhNEz6i9ZCPx8Ic6u/yIvUpUCQEQmWZ
+         7kvQU2Y6mV7RcThCABphkv7wdg0lAM62Fgfpf5aPymnryVztEzs7XXUPplaeW+qty9BI
+         PWHuUQiYIKpg15uB91H+4mmvxOhvpFtTd+tqMC3a9vT9vwudHiN3ossWv5MYi5xPTnmn
+         jmRQ==
+X-Gm-Message-State: AOAM5305nVw9NNL/JjthAa9o69ZYkj+7jOM1QzT3QghzilHIrSgIekBe
+        3ztflHfl4dPk9EMSmId8sJU=
+X-Google-Smtp-Source: ABdhPJyRJKmPN8L7dtwQ/4k64aAuB2UW6h7GFFC+jQd8XIlu/SoAy1Yac0HJcSCb4Voylfd6BUkeeQ==
+X-Received: by 2002:a7b:c0cc:: with SMTP id s12mr3476240wmh.111.1592315711173;
+        Tue, 16 Jun 2020 06:55:11 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id a10sm1096846wrm.21.2020.06.16.06.55.07
+        by smtp.gmail.com with ESMTPSA id d17sm30608379wrg.75.2020.06.16.06.55.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 06:55:07 -0700 (PDT)
+        Tue, 16 Jun 2020 06:55:10 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 59/73] arm64: tegra: Add missing #phy-cells property to USB PHYs
-Date:   Tue, 16 Jun 2020 15:52:24 +0200
-Message-Id: <20200616135238.3001888-60-thierry.reding@gmail.com>
+Subject: [PATCH 60/73] arm64: tegra: Remove unneeded power supplies
+Date:   Tue, 16 Jun 2020 15:52:25 +0200
+Message-Id: <20200616135238.3001888-61-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200616135238.3001888-1-thierry.reding@gmail.com>
 References: <20200616135238.3001888-1-thierry.reding@gmail.com>
@@ -67,42 +67,30 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-USB PHYs must have a #phy-cells property, so add one to the Tegra USB
-PHYs which don't have one.
+On Tegra186 and later, the BPMP is responsible for enabling/disabling
+the PCIe related power supplies of the pad controller and there is no
+need for the operating system to control them, so they can be removed.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra132.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra132.dtsi b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-index 0425e584791b..9d1dd021a2cb 100644
---- a/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-@@ -1113,6 +1113,7 @@ phy1: usb-phy@7d000000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 22>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -1151,6 +1152,7 @@ phy2: usb-phy@7d004000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 58>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -1188,6 +1190,7 @@ phy3: usb-phy@7d008000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 59>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+index 43b8d643e7a1..482ed7b0fcff 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+@@ -119,10 +119,6 @@ padctl@3520000 {
+ 
+ 		avdd-pll-erefeut-supply = <&vdd_1v8_pll>;
+ 		avdd-usb-supply = <&vdd_3v3_sys>;
+-		dvdd-pex-supply = <&vdd_pex>;
+-		dvdd-pex-pll-supply = <&vdd_pex>;
+-		hvdd-pex-supply = <&vdd_1v8>;
+-		hvdd-pex-pll-supply = <&vdd_1v8>;
+ 		vclamp-usb-supply = <&vdd_1v8>;
+ 		vddio-hsic-supply = <&gnd>;
+ 
 -- 
 2.24.1
 
