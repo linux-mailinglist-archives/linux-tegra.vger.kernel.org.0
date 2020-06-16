@@ -2,132 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 522591FB480
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 16:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53BA51FB4BA
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 16:43:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728448AbgFPOfa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 10:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35320 "EHLO
+        id S1729579AbgFPOmx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 10:42:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727804AbgFPOfa (ORCPT
+        with ESMTP id S1729439AbgFPOmw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 10:35:30 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F55C061573;
-        Tue, 16 Jun 2020 07:35:30 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id y20so3341687wmi.2;
-        Tue, 16 Jun 2020 07:35:29 -0700 (PDT)
+        Tue, 16 Jun 2020 10:42:52 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350FAC061573;
+        Tue, 16 Jun 2020 07:42:52 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id q19so23899565lji.2;
+        Tue, 16 Jun 2020 07:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Fl6OuHf2JqTI1ta3E0cDGqilLd8TzJqbN0a4SH77N0g=;
-        b=SHyCeOS23onj86MIssP1R+CZlMhj0uTw8+aCtlQIN5aeBH4ET4sJYelLHI32P4CpR/
-         kS6Pocx64A70EmRFRVvvaolaBsAais0jEw/j1iqcWNwUQaf2AnK0B7wYqRCu0C1S8BBR
-         IA5Cnum58BRN2pjtqTo4lLme284DjWyDi4A+l2Nlz4qmUTm5f3PBK2qYO3MMGHQgtrXn
-         YOm0GZMKRraFN3XROIrg2mTv35fS9mg3XVZKWwot+elS5vqFk81Zcj2MPZ5rqZ4eRs4l
-         TnukKDyzksJujDWX6EX4pW/Bd2xald1BoNAFbwbnAGfXxVNy5UbROu+vOkDL9ldZiaKC
-         AwmA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7P3LB8iTbLRgQbcq6lDOMzujkFPYmAYJeuZvysUa6f8=;
+        b=ADu0zGoccAnnbS99Om04LkeJDNXA9DWDossI9TySgkmvs4J+DKTT+JIKZhXaNnLmzb
+         WYkPFt34tOPuseJUbTM9ZtB0PVi2e8Lg5Vq+I+SmmjoIEWeoJ/ENydWUc+3MRck84qBS
+         Mt47n2z23tQ7aa4Auo68bD0WRYVpc3d6gO9WJVuDK3/npnE7AjX2H6H+QXUq0uKZbQkS
+         au8u0ny2N/inXli/Z62DboR5qtqj22jwvK4fsmPI4aw51bGA9i+PqxLh8yktJbNQeZ58
+         hqSnFS8KIvknbjw6c2d6jiBFYnqKFnRjTgHBxEZrbSAPQ0v0nfaj/+i5M2JRPYzGM9ZR
+         dMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Fl6OuHf2JqTI1ta3E0cDGqilLd8TzJqbN0a4SH77N0g=;
-        b=taMzWVw7yf4stZkqAr5lhR1R18Eq/aSf9K8WHCdjQ6A/l/+7qyv7sXIDAdYPoO0bVJ
-         gmo4GvqSkFXntzHWYPlEspwvdFNAMcPgec9rvrk4SQnzn9US6JXtROybPfQ+eE6KyrRg
-         +aY/vm9f4WKmagdJMKUp7257y5uXDTTosf6z+SZlbPZ3giN981E9+YFy3onwN/4Waobw
-         KGgGrlTmvO1XpF4G/yGNPsgcBpZdb4RlEpzbtr63TTuJiPRZ0jMkDTBpQy1ow20t6hs3
-         LqgplmdL2bTGo0uelkJ1flMy4YzZv1WMuayqXrDp/Rzr3XvQ5s2tMtwVrOF79B6WuHt1
-         qc2A==
-X-Gm-Message-State: AOAM533BsfaisQ4gbp9+3fHSubWV1pAhYNj4y9r4tCP0NZJwBQfUwLNH
-        9Hz9L+YtVE9z2wRpFsJw1Tk=
-X-Google-Smtp-Source: ABdhPJwahV6qdm8TGCg6uC66Tox+B5fnggxMQW9Z9wn+JVm4rEdJ/Ve9cwiiyfEyM6JfrfKh7AoaKA==
-X-Received: by 2002:a7b:c0d9:: with SMTP id s25mr3745189wmh.175.1592318128766;
-        Tue, 16 Jun 2020 07:35:28 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id b18sm28775073wrn.88.2020.06.16.07.35.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 07:35:25 -0700 (PDT)
-Date:   Tue, 16 Jun 2020 16:35:24 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 30/38] dt-bindings: panel: Allow reg property for DSI
- panels
-Message-ID: <20200616143524.GB3000485@ulmo>
-References: <20200612141903.2391044-1-thierry.reding@gmail.com>
- <20200612141903.2391044-31-thierry.reding@gmail.com>
- <CAL_JsqL4wMN3+cd=WEUegGU9xwpj9DTXeKT6EwTRfqiS+y6fMw@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7P3LB8iTbLRgQbcq6lDOMzujkFPYmAYJeuZvysUa6f8=;
+        b=cHtLyN4zWZT+HQIpI+960kS6wX0iD4Rc7knH/TOy68gpz7ocoLl9ezXbq+g+wOomgY
+         m0jN9905XK67NnLetX5EBe8A8u1ZXgKcmsHHykKxZbpLJF/l3qu4IB6NUlDMq/7xZwMk
+         4PQlm0vMA7kT68jCRj4IFK0nXkE2Odolqv3VYKa/MCUQBi2GkvoIksz5FW8zHMzvRNBk
+         5up348ZL/3oWwQO5fFeAYDCmx9D7XavryZ9F7VdE3R/nyYDuSmgkO5nhUDjR9dlX98/u
+         JbfPMcNY5iL0q6xNpoNSXBVZ2MoDnJdliGIoMols+rEPPaUodKz7VHeYdeTssHFOXPxb
+         w3HQ==
+X-Gm-Message-State: AOAM533rDiB/sb+gX6irZEk7x9fEJDDDw4OjE0ECMXBGh9XKxD6ORGu0
+        1dXJnA834tEokVS9Tpwi6MOiMpZs
+X-Google-Smtp-Source: ABdhPJzHbxcWgrsUxt3jCoFrHkDiV/PhurwVcFvaIIZXLxdiCSoHFpT/VAaQTPgjgct7v0/18fPXbQ==
+X-Received: by 2002:a2e:b892:: with SMTP id r18mr1720077ljp.319.1592318570363;
+        Tue, 16 Jun 2020 07:42:50 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id z15sm4451503ljo.102.2020.06.16.07.42.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2020 07:42:49 -0700 (PDT)
+Subject: Re: [PATCH v7 2/6] drm/of: Make drm_of_find_panel_or_bridge() to
+ check graph's presence
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200614172234.8856-1-digetx@gmail.com>
+ <20200614172234.8856-3-digetx@gmail.com>
+ <20200616012652.GG1629@pendragon.ideasonboard.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <4f0bb2e8-3522-4a3e-4ebd-32f9d5bc2da5@gmail.com>
+Date:   Tue, 16 Jun 2020 17:42:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqL4wMN3+cd=WEUegGU9xwpj9DTXeKT6EwTRfqiS+y6fMw@mail.gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200616012652.GG1629@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+16.06.2020 04:26, Laurent Pinchart пишет:
+> Hi Dmitry,
+> 
+> Thank you for the patch.
+> 
+> On Sun, Jun 14, 2020 at 08:22:30PM +0300, Dmitry Osipenko wrote:
+>> When graph isn't defined in a device-tree, the of_graph_get_remote_node()
+>> prints a noisy error message, telling that port node is not found. This is
+>> undesirable behaviour in our case because absence of a panel/bridge graph
+>> is a valid case. Let's check presence of the local port in a device-tree
+>> before proceeding with parsing the graph.
+>>
+>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/gpu/drm/drm_of.c | 13 ++++++++++++-
+>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+>> index b50b44e76279..e0652c38f357 100644
+>> --- a/drivers/gpu/drm/drm_of.c
+>> +++ b/drivers/gpu/drm/drm_of.c
+>> @@ -239,13 +239,24 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+>>  				struct drm_bridge **bridge)
+>>  {
+>>  	int ret = -EPROBE_DEFER;
+>> -	struct device_node *remote;
+>> +	struct device_node *local, *remote;
+>>  
+>>  	if (!panel && !bridge)
+>>  		return -EINVAL;
+>>  	if (panel)
+>>  		*panel = NULL;
+>>  
+>> +	/*
+>> +	 * of_graph_get_remote_node() produces a noisy error message if port
+>> +	 * node isn't found and the absence of the port is a legit case here,
+>> +	 * so at first we silently check presence of the local port.
+>> +	 */
+>> +	local = of_graph_get_local_port(np);
+>> +	if (!local)
+>> +		return -ENODEV;
+>> +
+>> +	of_node_put(local);
+>> +
+> 
+> The code looks fine, but you may want to take into account my proposal
+> in 1/7 to instead create a of_graph_has_port() function. The could would
+> be simpler here.
+> 
+>>  	remote = of_graph_get_remote_node(np, port, endpoint);
+>>  	if (!remote)
+>>  		return -ENODEV;
+> 
 
---s2ZSL+KKDSLx8OML
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jun 12, 2020 at 08:29:35AM -0600, Rob Herring wrote:
-> On Fri, Jun 12, 2020 at 8:20 AM Thierry Reding <thierry.reding@gmail.com>=
- wrote:
-> >
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > For DSI panels the "reg" property is needed to represent the virtual
-> > channel of the given panel.
-> >
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  .../devicetree/bindings/display/panel/panel-simple.yaml        | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-simp=
-le.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > index d6cca1479633..34fe3d42b829 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > @@ -267,6 +267,9 @@ properties:
-> >          # Winstar Display Corporation 3.5" QVGA (320x240) TFT LCD panel
-> >        - winstar,wf35ltiacd
-> >
-> > +  reg:
-> > +    description: virtual channel for DSI panels
-> > +
->=20
-> panel-simple-dsi.yaml?
-
-Heh... I had completely missed that. I've now replaced this patch with
-one that moves the lg,lh500wx1-sd03 compatible string to the DSI schema.
-
-Thierry
-
---s2ZSL+KKDSLx8OML
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7o2KwACgkQ3SOs138+
-s6HG9g/+PX0Xjkon9vFxMTkYjjJ7yg1KDrHTwi6omDpt7goanb39WXqanIC8rrDi
-VxB3rcws6TcsgLzMkjY/mxtEu2eG/71ERDkiLKmGbbzQ6/sE80iqc5FUD9EGjeyU
-u37A1yWgeby3wyDdCmi9aGO+IXBGMF6MtX7Fjl5MG67HLJL6+NeN7uPOybNS1ege
-x/YuaQCX4DkL+GTTCXyqwoPA3kbK3o+JBDdwoHt29ECWk9FeMWKiBQJnDP4TA3zN
-SKj/zhlEfckOHyTqBR52bI3j9gUznzFXHC7ToOZy7kxjxIkYLEXdYDo4/OKs2GkE
-7eJ9xZs5PSEP6jjmItKlMAkhE4kivZPJGhTWquVPOkGA6Trq5m98ZY0XgVGqywLo
-zuHZV45GWkJNjw8ULu0grhszYjSGEMNp3rfoeW1CVcwzwa9641PQ1ljW3Kl2tOSh
-syRskBn8vRDjvt91wficpHNa+tv+5XGs2FtE/axID0LNGm/Z9x1MgvI86KMhL4eV
-GzraTWwYks5itO9iLE3f9LaROy2NvGzS7Z0pMp/XF7dVx3Lx+8O9Ebaz3SZn3Pzc
-zcceED4jzTOgfCPR+uHOY3aqcRmqVPe6CDd/2xDRs+gOxbLpQa0Y4huKidlklVYc
-zy9IRXmJGKdQEBA1vyIKIrZCDO61EpAM9sax/aTF1QdjyRzDGYE=
-=2xCw
------END PGP SIGNATURE-----
-
---s2ZSL+KKDSLx8OML--
+I like yours proposals and will prepare v8 based on them, thanks!
