@@ -2,222 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D65891FBE9E
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 20:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D371FBEBD
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 21:07:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728561AbgFPS5t (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 14:57:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730543AbgFPS5s (ORCPT
+        id S1730034AbgFPTHA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 15:07:00 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14456 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729841AbgFPTHA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 14:57:48 -0400
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A70C061573;
-        Tue, 16 Jun 2020 11:57:48 -0700 (PDT)
-Received: by mail-ua1-x944.google.com with SMTP id g44so7267023uae.12;
-        Tue, 16 Jun 2020 11:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=++LLNhIunq6DJtsYt7QZbdqySyg8Go49MpsG3rgmJFk=;
-        b=ucqd3uRfFrWWfhaWf9cHHzOjFfxjf+pM4uKzNCUtF/d+yZgJyda2W8vRmNZTm1bayL
-         ApfngBOpOMdN6PzBTFTDn5ZDvzQ+hZTx/O5Bc61BarswK4M3/TWkbP3G/EDw7yFl6FfN
-         b0WGuUH8p94o8xa78M0Pw5GtNyBAXLSbVfEAZ3JVVtxB52wjpaXUrbWmvhrHK7amPaTC
-         I89MkXxWZL+P9zfwnOofiMiR05w0LUtemmqwx9eF7rxbYZV5LbvLH4BW4vn5xvvlZeKa
-         rO44opmN0Vbscb9rd2pRP5SMuncZsYxio5xx/pJuIGqU3W5RlSOKaL20wL3KjIhGOarv
-         eIKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=++LLNhIunq6DJtsYt7QZbdqySyg8Go49MpsG3rgmJFk=;
-        b=GRIC7JJ91raUgO2YCmNEzq1WuxJgiG5Rgj4dbdbe/LGMW4hteZwH8a4+ACGxmS+Rqt
-         /RFK8UEoLBxDMRGmR0MkS/VaAC85aCfwh3d7P7idNbQsF12eI1DII3ylI8ROcs9mXQxl
-         zfhIgY2JCpZBvIOh8pdGOiH8xlvZNFbC4PE5mcGail2+7MyW+EL4YAMPf0+EJabvqCxt
-         ICglS+iRiGa6V0EGO5uRabtqnF5LA9a5gdOkmCWZ2Fgx6Dccble4GkH3xQh5kxR82aqj
-         ucRu33D8zqyJUWw/o7xcct7l4kQVrpgkHJHYp+yhOgUtlg1ZO0U923DU0RmrmjWdIVpX
-         0g5w==
-X-Gm-Message-State: AOAM533D7f1ElUVAShSB/Yxy6wZlyGv+tB0dDCncPJqdxW5N6GJohFWq
-        7hL3QU2HZcv+Zuv9dhdRhy4aMc2k6/TdJlWbIQE=
-X-Google-Smtp-Source: ABdhPJyYmytGR8vTEkPVUPgo49cK7EQnTHmS8BVcg2vn5GTHd6Fgny/W6WxC0wlrw/Rf9G2X+D5P4Lx6cnQx09zgPeI=
-X-Received: by 2002:ab0:71ce:: with SMTP id n14mr3669545uao.46.1592333867137;
- Tue, 16 Jun 2020 11:57:47 -0700 (PDT)
+        Tue, 16 Jun 2020 15:07:00 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee918230000>; Tue, 16 Jun 2020 12:06:11 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 16 Jun 2020 12:06:59 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 12:06:59 -0700
+Received: from [10.26.75.222] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 16 Jun
+ 2020 19:06:58 +0000
+Subject: Re: [PATCH 02/73] ARM: tegra: Remove simple clocks bus
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200616135238.3001888-1-thierry.reding@gmail.com>
+ <20200616135238.3001888-3-thierry.reding@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <74f8be81-216b-b69b-4517-c90d5f7d578a@nvidia.com>
+Date:   Tue, 16 Jun 2020 20:06:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200614200121.14147-1-digetx@gmail.com> <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
- <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com> <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
- <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
-In-Reply-To: <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Tue, 16 Jun 2020 19:54:04 +0100
-Message-ID: <CACvgo50BFH5qsPyWx9a1aZ4k5bzjSN-3KTU0BvnZ-nG-hfzKOQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200616135238.3001888-3-thierry.reding@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1592334371; bh=R2i0lM6/Q2GYNtUg/5aZk4Dq/DDByTEiEOBnYdFl5H4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=oFNo6rWySVm7C3865r6yK8ZWn6xIfYx3w+gdXGcFYy4ryJlPY70EbiVggqKD+Lzvq
+         IlTsdrdNw2nMaM7o9ryVRdiQetCmnx8jm9rrM+ZHrnj545vAHlp8DaKotrv1WYg6de
+         kL8cy+aJdyVwiK+QZmCTQFJ4KTHEFVuW6c9BJVZvqmg0xEsRDl4H2VwWSPyRF71et5
+         hYZ/dbeYG+HSxVgTf69FlPdbkhaMIySRSeFZHQHWRS64BZDIM4imkRtpdWZfpCRUi1
+         WfwI1QPuXy6hqolXR4unVaVA3R3po9II7yVxWmD6MFRRSSmDNF76Sgj7evpu5U2C4u
+         EWsHTlTNNvu6g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 16 Jun 2020 at 18:20, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 16.06.2020 18:48, Emil Velikov =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, 16 Jun 2020 at 12:40, Dmitry Osipenko <digetx@gmail.com> wrote:
-> >>
-> >> 16.06.2020 01:26, Emil Velikov =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> Hi Dmitry,
-> >>>
-> >>> On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrot=
-e:
-> >>>>
-> >>>> Hello!
-> >>>>
-> >>>> This series adds 180=C2=B0 display plane rotation support to the NVI=
-DIA Tegra
-> >>>> DRM driver which is needed for devices that have display panel physi=
-cally
-> >>>> mounted upside-down, like Nexus 7 tablet device for example [1]. Sin=
-ce
-> >>>> DRM panel rotation is a new thing for a userspace, currently only
-> >>>> Opentegra Xorg driver handles the rotated display panel [2], but thi=
-s
-> >>>> is good enough for the start.
-> >>>>
-> >>>> Note that later on it should be possible to implement a transparent =
-180=C2=B0
-> >>>> display rotation for Tegra DRM driver which will remove the need to =
-have
-> >>>> a bleeding edge userspace that knows how to rotate display planes an=
-d I'm
-> >>>> slowly working on it. For the starter we can go with the minimal rot=
-ation
-> >>>> support, so it's not a blocker.
-> >>>>
-> >>>> This series is based on the work that was made by Derek Basehore for=
- the
-> >>>> Mediatek driver [3], his patch is included into this patchset. I add=
-ed
-> >>>> my tested-by tag to the Derek's patch.
-> >>>>
-> >>>> Please review and apply, thanks in advance!
-> >>>>
-> >>>> [1] https://patchwork.ozlabs.org/project/linux-tegra/patch/202006071=
-54327.18589-3-digetx@gmail.com/
-> >>>> [2] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb=
-20a3959bbe5bc3a3b67e55977093fd5114ca
-> >>>> [3] https://lkml.org/lkml/2020/3/5/1119
-> >>>>
-> >>>> Changelog:
-> >>>>
-> >>>> v2: - Dropped "drm/panel: Set display info in panel attach" patch, w=
-hich
-> >>>>       turned out to be obsolete now.
-> >>>>
-> >>>>     - Renamed the cover-latter, hopefully this will fix the bouncing=
- emails.
-> >>>>
-> >>>> Derek Basehore (1):
-> >>>>   drm/panel: Add helper for reading DT rotation
-> >>>>
-> >>>> Dmitry Osipenko (4):
-> >>>>   drm/panel: lvds: Set up panel orientation
-> >>>
-> >>> IMHO it's perfectly reasonable to report the panel orientation to
-> >>> userspace, which can apply plane rotation as needed.
-> >>>
-> >>> Although I see that this series, alike Derek's, has a couple of issue=
-s:
-> >>>  - only a single panel driver is updated
-> >>>  - rotation is _not_ listed as supported property, in said panel
-> >>> driver device-tree bindings
-> >>>
-> >>> My personal inclination is that we should aim for a comprehensive sol=
-ution:
-> >>>  - wire all panel drivers, as currently documented (quick grep list b=
-elow)
-> >>>  - document and wire-up the lvds and boe panels - as proposed by you
-> >>> and Derek respectively
-> >>>
-> >>> HTH
-> >>> Emil
-> >>>
-> >>> Documentation/devicetree/bindings/display/himax,hx8357d.txt:2
-> >>> Documentation/devicetree/bindings/display/ilitek,ili9225.txt:2
-> >>> Documentation/devicetree/bindings/display/ilitek,ili9341.txt:2
-> >>> Documentation/devicetree/bindings/display/ilitek,ili9486.yaml:2
-> >>> Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt:2
-> >>> Documentation/devicetree/bindings/display/panel/panel-common.yaml:2
-> >>> Documentation/devicetree/bindings/display/sitronix,st7586.txt:1
-> >>> Documentation/devicetree/bindings/display/sitronix,st7735r.yaml:2
-> >>
-> >> Rotation is a common DT panel property that is described in the
-> >> panel-common.yaml.
-> > The property was introduced almost exclusively for tiny drm panels.
-> > Those ones are a bit different from the rest (in panel/) -
-> > MIPI-DBI/SPI w/o (not connected at least) an actual GPU.
-> >
-> > To make it a bit better, the rotation is seemingly performed in the
-> > tiny driver itself ouch.
-> >
-> >> This property is supported by all panel bindings
-> >> because these bindings inherent the common properties from the
-> >> panel-common.yaml.
-> >>
-> > Seems like that was an unintentional change with the conversion to YAML=
-.
-> > Beforehand only a few selected panels had rotation. Upon closer look -
-> > some panels do have follow-up fixes, to remove/limit the implicit
-> > inclusion.
->
-> Interesting.. my understanding that the rotation property is supposed to
-> be a generic property which represents physical orientation of a display
-> panel and hence it should be applicable to all panels.
->
-You're spot on - it is/should be a generic property.
 
-I believe that in general many panels were mounted in the correct
-orientation so the property, kernel and userspace were slow to catch
-up. In some cases panels will use flip x+y to denote 180 rotation, yet
-lacking the rotation property.
-The s6e8aa0 is an example of the last oddity. To make it better, the
-two dts in-tree always set both flip x and y.
 
-Tl;Dr: Hysterical raisins
+On 16/06/2020 14:51, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> The standard way to do this is to list out the clocks at the top-level.
+> Adopt the standard way to fix validation.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  arch/arm/boot/dts/tegra114-dalmore.dts    | 15 ++++-----------
+>  arch/arm/boot/dts/tegra114-roth.dts       | 15 ++++-----------
+>  arch/arm/boot/dts/tegra114-tn7.dts        | 15 ++++-----------
+>  arch/arm/boot/dts/tegra124-jetson-tk1.dts | 15 ++++-----------
+>  arch/arm/boot/dts/tegra124-nyan.dtsi      | 15 ++++-----------
+>  arch/arm/boot/dts/tegra124-venice2.dts    | 15 ++++-----------
+>  arch/arm/boot/dts/tegra20-harmony.dts     | 15 ++++-----------
+>  arch/arm/boot/dts/tegra20-paz00.dts       | 15 ++++-----------
+>  arch/arm/boot/dts/tegra20-seaboard.dts    | 15 ++++-----------
+>  arch/arm/boot/dts/tegra20-trimslice.dts   | 19 ++++++-------------
+>  arch/arm/boot/dts/tegra20-ventana.dts     | 15 ++++-----------
+>  arch/arm/boot/dts/tegra30-beaver.dts      | 15 ++++-----------
+>  arch/arm/boot/dts/tegra30-cardhu.dtsi     | 15 ++++-----------
+>  13 files changed, 54 insertions(+), 145 deletions(-)
 
-> > Sam seems like you've done most of the YAML conversion. IMHO it would
-> > make sense to revisit the patches and inherit common properties only
-> > as applicable.
-> >
-> >> I don't think that it makes sense to wire up rotation property to all
-> >> panel drivers at once because those drivers will be untested, at least=
- I
-> >> don't know anything about those other panels and can't test them. It
-> >> will be much better to support the rotation on by as-needed basis for
-> >> each panel driver individually.
-> >
-> > How about CCing the author and reviewer asking them to test the patch?
-> > The only place where the patches might cause an issue is with tiny,
-> > although patches would still be appreciated.
->
-> There are quite a lot of panel drivers and I'm a bit doubtful that at
-> least half of devices that use those panels have any real use for the
-> rotation property. I could write the patches.. but in the end it could
-> be a wasted effort if nobody needs it, so I'd prefer not to do it.
+...
 
-That's why I mentioned the rotation introduction or "confusion" if I
-may. Skimming through the pre/post YAML device tree bindings and grep
-through the panel themselves will greatly reduce the list.
-In other words: if neither binding documentation/in-tree dts nor panel
-mentions rotation - omit it.
+> diff --git a/arch/arm/boot/dts/tegra20-trimslice.dts b/arch/arm/boot/dts/tegra20-trimslice.dts
+> index 8debd3d3c20d..5b26482a55b7 100644
+> --- a/arch/arm/boot/dts/tegra20-trimslice.dts
+> +++ b/arch/arm/boot/dts/tegra20-trimslice.dts
+> @@ -366,30 +366,23 @@ usb-phy@c5008000 {
+>  		status = "okay";
+>  	};
+>  
+> -	sdhci@c8000000 {
+> +	mmc@c8000000 {
+>  		status = "okay";
+>  		broken-cd;
+>  		bus-width = <4>;
+>  	};
+>  
+> -	sdhci@c8000600 {
+> +	mmc@c8000600 {
+>  		status = "okay";
+>  		cd-gpios = <&gpio TEGRA_GPIO(P, 1) GPIO_ACTIVE_LOW>;
+>  		wp-gpios = <&gpio TEGRA_GPIO(P, 2) GPIO_ACTIVE_HIGH>;
+>  		bus-width = <4>;
+>  	};
 
--Emil
+I think that the above belongs in patch 13/73.
+
+Jon
+-- 
+nvpublic
