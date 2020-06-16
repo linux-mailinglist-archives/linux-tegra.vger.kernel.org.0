@@ -2,46 +2,41 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4A6A1FBF22
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 21:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5AFE1FBFDE
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 22:20:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730301AbgFPTnB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 15:43:01 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16648 "EHLO
+        id S1731220AbgFPUUI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 16:20:08 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18888 "EHLO
         hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728144AbgFPTnB (ORCPT
+        with ESMTP id S1726428AbgFPUUI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 15:43:01 -0400
+        Tue, 16 Jun 2020 16:20:08 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ee920940000>; Tue, 16 Jun 2020 12:42:12 -0700
+        id <B5ee929460000>; Tue, 16 Jun 2020 13:19:18 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 16 Jun 2020 12:43:01 -0700
+  Tue, 16 Jun 2020 13:20:07 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 12:43:01 -0700
+        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 13:20:07 -0700
 Received: from [10.26.75.222] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 16 Jun
- 2020 19:42:53 +0000
-Subject: Re: [PATCH] ASoC: tegra: Fix reference count leaks.
-To:     <wu000273@umn.edu>, <kjlu@umn.edu>
-CC:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        "Ben Dooks" <ben.dooks@codethink.co.uk>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+ 2020 20:20:05 +0000
+Subject: Re: [PATCH 5.4 000/131] 5.4.47-rc2 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <linux-kernel@vger.kernel.org>
-References: <20200613204422.24484-1-wu000273@umn.edu>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200616172616.044174583@linuxfoundation.org>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <9492fa91-067b-f74f-1a52-a2622d8f28d6@nvidia.com>
-Date:   Tue, 16 Jun 2020 20:42:50 +0100
+Message-ID: <dcc826f2-a9c9-4870-f1da-76bda0bb767b@nvidia.com>
+Date:   Tue, 16 Jun 2020 21:20:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200613204422.24484-1-wu000273@umn.edu>
+In-Reply-To: <20200616172616.044174583@linuxfoundation.org>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -49,71 +44,54 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1592336532; bh=Dp/0r6Nw2uRw3rP0FQK/EUznQLmj2KVDZ1kdtwhRPqg=;
+        t=1592338758; bh=wn/uQcO0/lI7I/tJ3A3dP8S9I67Ph+r5VwJNVID9FNk=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=fanpFU3012dPk+RxNw8Z8OH9a8yVg3Ep2EZFgySPCXu7I7bateQDqSJXuqeMK5XXM
-         b7ltzhNCUAFQ8kjhZVL73eUgCoRh2ze1h/gKVYGUmvPjwmNO4+LMqe5hLv+WOOXIP0
-         rfFqnxn1y3pd9GuzXpP4Fqpbg+YD3DQvt+FaPJgxy7MEOdHnExRlZwiZ9p5vIgz2Hj
-         vuy3qreGl0kkuJXyEIxd21POD/SvJPIIOsVmjyJleSeY6GBbfZxR6OTFhJPENrRQ05
-         c2LxeDWz8GsTOVXRiw43JYE8vYMaHMZ+GoaawdaJOxFOcVR1XAxzezJQvJjA40L/fV
-         0V4lObTvqbCeg==
+        b=jsmUsgFLnlXsphgNgWVyvUyFpJqyM655AzTRmkKOp2e6qq0uXYnmZyYTS8Edqmltb
+         h8ECjsSrp2+n+tsmzOmR4s/1f+4UjgFOBHQr+vR15QZBXr/tARoWH9OQCRbRmUTMTb
+         R2E0Ao2ipbTsfB4nZ1GNmTaQHURLhzg5J0D+f7uTL/EhSLP3YaRhUBTjIXytJbkwZU
+         mLid0pmh1qi7SZJblRBweD8S3RHqWkMs0cgIL9TOKiuRA2OM79WotN+Fg0DxLTD3VW
+         fuHoxvsynv9dIk0REmgrSJAHxxHA6tp1gqZXcxM8PEWL8g2tYleMIYGJiiDJ8xQeJ2
+         N4GIT87k51tSQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 13/06/2020 21:44, wu000273@umn.edu wrote:
-> From: Qiushi Wu <wu000273@umn.edu>
+On 16/06/2020 18:27, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.4.47 release.
+> There are 131 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Calling pm_runtime_get_sync increments the counter even in case of
-> failure, causing incorrect ref count if pm_runtime_put is not called in
-> error handling paths. Call pm_runtime_put if pm_runtime_get_sync fails.
+> Responses should be made by Thu, 18 Jun 2020 17:25:49 +0000.
+> Anything received after that time might be too late.
 > 
-> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
-> ---
->  sound/soc/tegra/tegra30_ahub.c | 4 +++-
->  sound/soc/tegra/tegra30_i2s.c  | 4 +++-
->  2 files changed, 6 insertions(+), 2 deletions(-)
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.47-rc2.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> and the diffstat can be found below.
 > 
-> diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
-> index 635eacbd28d4..156e3b9d613c 100644
-> --- a/sound/soc/tegra/tegra30_ahub.c
-> +++ b/sound/soc/tegra/tegra30_ahub.c
-> @@ -643,8 +643,10 @@ static int tegra30_ahub_resume(struct device *dev)
->  	int ret;
->  
->  	ret = pm_runtime_get_sync(dev);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		pm_runtime_put(dev);
->  		return ret;
-> +	}
->  	ret = regcache_sync(ahub->regmap_ahub);
->  	ret |= regcache_sync(ahub->regmap_apbif);
->  	pm_runtime_put(dev);
-> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-> index d59882ec48f1..db5a8587bfa4 100644
-> --- a/sound/soc/tegra/tegra30_i2s.c
-> +++ b/sound/soc/tegra/tegra30_i2s.c
-> @@ -567,8 +567,10 @@ static int tegra30_i2s_resume(struct device *dev)
->  	int ret;
->  
->  	ret = pm_runtime_get_sync(dev);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		pm_runtime_put(dev);
->  		return ret;
-> +	}
->  	ret = regcache_sync(i2s->regmap);
->  	pm_runtime_put(dev);
+> thanks,
+> 
+> greg k-h
 
-Thanks.
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+All tests are passing for Tegra ...
+
+Test results for stable-v5.4:
+    11 builds:	11 pass, 0 fail
+    26 boots:	26 pass, 0 fail
+    56 tests:	56 pass, 0 fail
+
+Linux version:	5.4.47-rc2-ga7debb64f8b4
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra210-p3450-0000,
+                tegra30-cardhu-a04
 
 Cheers
 Jon
