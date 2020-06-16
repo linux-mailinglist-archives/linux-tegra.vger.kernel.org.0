@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4595A1FB2E7
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B7ED1FB2E5
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728885AbgFPNzw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 09:55:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57402 "EHLO
+        id S1728740AbgFPNzt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 09:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbgFPNze (ORCPT
+        with ESMTP id S1728997AbgFPNzg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 09:55:34 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BDFC061755
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:33 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id r15so3163863wmh.5
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:33 -0700 (PDT)
+        Tue, 16 Jun 2020 09:55:36 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C532C06174E
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:35 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id t194so3167968wmt.4
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Uz0efW8iA6V8zBMtaBk0aU4WternaWXVod/MWBXLlPY=;
-        b=EE4mfDSdA0ZrSOT8o19klgutHvWOj43dyB/DNktOgAqpYIkEbBubei5Njx8OxObiFr
-         a9DG9BTgRhKiAr2c0ymuyC5V0LaiMOvJetTN2Vk3V72YrXSbhm5s70c58uCaPcHiVii8
-         aMWcGsRlZDMEo1VrfdELoaUZz1Eo9YVQOxzE7f0Cjr8+2AaZYrJgmUwDuf9xTjWq37mx
-         077IqHDL37AmL9yPEqCIxK61rNeggG9bVeklnoauV1XkNuy1vEpyIMdSj0zb0Lo/v5mV
-         VgaMzY+rjlKa0Ae2DV4sukC6HYxEUEdTUsdG/u7ex0iU8Jd052PS+VAEwc405E/4zLvM
-         0LIg==
+        bh=b/ud2iNCzzfUQWkTRBupAyrbtSyjxPAlpvmlQzKE/M8=;
+        b=KaTK7VRcLSeBOA7sASfQ27MMNh4YKF8HqkEh2vTw6jfVOCtQnukZVveEbDu5+hvMEJ
+         hhHk2VXTN0BmdqT3HQFGHME9C1Sn5MMt/EECRcAoc9hc23b7f+X1ge6xNjFgT4qBQvgP
+         vrTR4H6doaOFapam1uChBUItERsO6Tlv+oJ/VSdY0Uzp2I1LJtsI7uRMyBokETN2Ci7V
+         eQZdcQRnKABoNJnEna3COj+2pWvh+yp1VTW9JCoicR590hdjQSUGGFT70UatJd6UOblr
+         InsFA9dgAxcjfX8jQyXlfEFTSKS32klyEPkD8Lp6VIXl2gWRg6JLewPLAFq9YsCUqS7g
+         uEbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Uz0efW8iA6V8zBMtaBk0aU4WternaWXVod/MWBXLlPY=;
-        b=EmlzMwuHz8Rl/BoswTJmOOuVSEt2Lidg8B8G6KNXEXooeSQVgbm59H7F90/rBJAHRk
-         TN2SZ5y2OW56w4u8+qaNeX4GoZe5M/FPVAVfUJDIVTBXTfWkXXxp1sC6HHksIggyf4a2
-         RXpOx0fCpaNh/LCqmpbDvUR6zUcsyu26iZhPkuwKmfKMD1ZoLCRy0uTASy99QqEF2SF6
-         ElkUuYiyRfueHxm5qyUCyYs+rzL9obIChxo+llsBLncTowotKqpjAU7c0mnSc8DiPxIp
-         FuhUXTYxV7qbL5rcB4i+rXYos3ZRbTmrMS+6w+cEwxyNiwwihj36c7ssbwuumGk+eJSw
-         bnVg==
-X-Gm-Message-State: AOAM532ZhiGzKUHNADRs13etDGs/3ISWJlDQ5M9od6Ws5JOwQa1mxPFo
-        /vbbx5s2u/XjHFzfDqKwx1aWjIfJ
-X-Google-Smtp-Source: ABdhPJymcGJMOYoLq3eDy8kdaHoIf86nUxQ8Hmbzn8ciSNOiUXTeReikZFFVZyjWZVsfXxpE2EN3wA==
-X-Received: by 2002:a1c:e40a:: with SMTP id b10mr3246953wmh.41.1592315732244;
-        Tue, 16 Jun 2020 06:55:32 -0700 (PDT)
+        bh=b/ud2iNCzzfUQWkTRBupAyrbtSyjxPAlpvmlQzKE/M8=;
+        b=oJ4ITWt/JjrRNQqVeKMXIA/ZwBWEaucW7VVGfNDNxxTFI4BlOpvdMWNyQkbwB8FH34
+         4WP/Q2/6voYg01yU0dkSZ7feV59iPnRjeP5j8U4zIKBygJ0GGT+HZp5kju+dNsQPmGMb
+         cDtTxeqmU9B436NdSsZwsDnc1UTBoI6h1okkgvGKuILW6lUujfD1Po1BFzc0+/0UgtMZ
+         oBMdQ8e6U505mkUxTYa7m29bT2tG7QPOcMC9gKI+wf5OcgYR+mt734A4Zsnhy1Pa48J+
+         wJThl5GaZ3t3YQPd14jF5faFkONH7bheeZpvu2ul0ZFnTo5JdcXehOenpexh4vW/Zur+
+         1cqg==
+X-Gm-Message-State: AOAM530h4qfRCQrwq8p/hGWmnljRtQMvBAr+K+d2mZRBCzb+WLMoMfEl
+        wtSJ+N33NrDZwwUnfdD4/JA=
+X-Google-Smtp-Source: ABdhPJw98uyBFK8XEAC3DjOAnK67bOy1RiJufbug7vvO/yieL4pz7/m9oka73Gid+XbR56+o4MbdqA==
+X-Received: by 2002:a1c:3b43:: with SMTP id i64mr3515565wma.112.1592315734143;
+        Tue, 16 Jun 2020 06:55:34 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id w10sm29435711wrp.16.2020.06.16.06.55.30
+        by smtp.gmail.com with ESMTPSA id g82sm4221734wmf.1.2020.06.16.06.55.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 06:55:31 -0700 (PDT)
+        Tue, 16 Jun 2020 06:55:33 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 70/73] arm64: tegra: Various fixes for PMICs
-Date:   Tue, 16 Jun 2020 15:52:35 +0200
-Message-Id: <20200616135238.3001888-71-thierry.reding@gmail.com>
+Subject: [PATCH 71/73] arm64: tegra: Sort nodes by unit-address on Jetson Nano
+Date:   Tue, 16 Jun 2020 15:52:36 +0200
+Message-Id: <20200616135238.3001888-72-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200616135238.3001888-1-thierry.reding@gmail.com>
 References: <20200616135238.3001888-1-thierry.reding@gmail.com>
@@ -67,144 +67,48 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Standardize on "pmic" as the node name for the PMIC on Tegra210 systems
-and use consistent names for pinmux and GPIO hog nodes.
+Move the usb@700d0000 node to the correct place in the device tree,
+ordered by unit-address.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- .../arm64/boot/dts/nvidia/tegra210-p2894.dtsi | 31 +++++++++----------
- arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 14 ++++-----
- 2 files changed, 22 insertions(+), 23 deletions(-)
+ .../boot/dts/nvidia/tegra210-p3450-0000.dts      | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi
-index 1acb9bb6c7df..41beab626d95 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi
-@@ -1328,7 +1328,7 @@ i2c@7000d000 {
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+index beec6aab2157..4eb51e5eef3a 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+@@ -545,14 +545,6 @@ mmc@700b0000 {
+ 		vmmc-supply = <&vdd_3v3_sd>;
+ 	};
+ 
+-	usb@700d0000 {
+-		status = "okay";
+-		phys = <&micro_b>;
+-		phy-names = "usb2-0";
+-		avddio-usb-supply = <&vdd_3v3_sys>;
+-		hvdd-usb-supply = <&vdd_1v8>;
+-	};
+-
+ 	mmc@700b0400 {
  		status = "okay";
- 		clock-frequency = <400000>;
+ 		bus-width = <4>;
+@@ -566,6 +558,14 @@ mmc@700b0400 {
+ 		wakeup-source;
+ 	};
  
--		max77620: max77620@3c {
-+		pmic: pmic@3c {
- 			compatible = "maxim,max77620";
- 			reg = <0x3c>;
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1343,12 +1343,12 @@ max77620: max77620@3c {
- 			pinctrl-0 = <&max77620_default>;
- 
- 			max77620_default: pinmux@0 {
--				pin_gpio0 {
-+				gpio0 {
- 					pins = "gpio0";
- 					function = "gpio";
- 				};
- 
--				pin_gpio1 {
-+				gpio1 {
- 					pins = "gpio1";
- 					function = "fps-out";
- 					drive-push-pull = <1>;
-@@ -1357,34 +1357,33 @@ pin_gpio1 {
- 					maxim,active-fps-power-down-slot = <0>;
- 				};
- 
--				pin_gpio2_3 {
--					pins = "gpio2", "gpio3";
-+				gpio2 {
-+					pins = "gpio2";
- 					function = "fps-out";
- 					drive-open-drain = <1>;
- 					maxim,active-fps-source = <MAX77620_FPS_SRC_0>;
- 				};
- 
--				pin_gpio4 {
-+				gpio3 {
-+					pins = "gpio3";
-+					function = "fps-out";
-+					drive-open-drain = <1>;
-+					maxim,active-fps-source = <MAX77620_FPS_SRC_0>;
-+				};
++	usb@700d0000 {
++		status = "okay";
++		phys = <&micro_b>;
++		phy-names = "usb2-0";
++		avddio-usb-supply = <&vdd_3v3_sys>;
++		hvdd-usb-supply = <&vdd_1v8>;
++	};
 +
-+				gpio4 {
- 					pins = "gpio4";
- 					function = "32k-out1";
- 				};
- 
--				pin_gpio5_6_7 {
-+				gpio5_6_7 {
- 					pins = "gpio5", "gpio6", "gpio7";
- 					function = "gpio";
- 					drive-push-pull = <1>;
- 				};
--
--				pin_gpio2 {
--					maxim,active-fps-source = <MAX77620_FPS_SRC_0>;
--				};
--
--				pin_gpio3 {
--					maxim,active-fps-source = <MAX77620_FPS_SRC_0>;
--				};
- 			};
- 
--			spmic-default-output-high {
-+			gpio@0 {
- 				gpio-hog;
- 				output-high;
- 				gpios = <2 GPIO_ACTIVE_HIGH>,
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-index f7840e5e069a..a946c5c31102 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-@@ -1354,11 +1354,11 @@ max77621_cpu: max77621@1b {
- 			maxim,enable-active-discharge;
- 			maxim,enable-bias-control;
- 			maxim,enable-etr;
--			maxim,enable-gpio = <&max77620 5 0>;
-+			maxim,enable-gpio = <&pmic 5 0>;
- 			maxim,externally-enable;
- 		};
- 
--		max77620: max77620@3c {
-+		pmic: pmic@3c {
- 			compatible = "maxim,max77620";
- 			reg = <0x3c>;
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1372,8 +1372,8 @@ max77620: max77620@3c {
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&max77620_default>;
- 
--			max77620_default: pinmux@0 {
--				pin_gpio {
-+			max77620_default: pinmux {
-+				gpio0_1_2_7 {
- 					pins = "gpio0", "gpio1", "gpio2", "gpio7";
- 					function = "gpio";
- 				};
-@@ -1383,7 +1383,7 @@ pin_gpio {
- 				 * sequence, So it must be sequenced up (automatically
- 				 * set by OTP) and down properly.
- 				 */
--				pin_gpio3 {
-+				gpio3 {
- 					pins = "gpio3";
- 					function = "fps-out";
- 					drive-open-drain = <1>;
-@@ -1392,13 +1392,13 @@ pin_gpio3 {
- 					maxim,active-fps-power-down-slot = <2>;
- 				};
- 
--				pin_gpio5_6 {
-+				gpio5_6 {
- 					pins = "gpio5", "gpio6";
- 					function = "gpio";
- 					drive-push-pull = <1>;
- 				};
- 
--				pin_32k {
-+				gpio4 {
- 					pins = "gpio4";
- 					function = "32k-out1";
- 				};
+ 	clk32k_in: clock@0 {
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <32768>;
 -- 
 2.24.1
 
