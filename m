@@ -2,63 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FCEE1FB02A
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 14:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0DC1FB289
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:52:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728772AbgFPMSZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 08:18:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
+        id S1726306AbgFPNws (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 09:52:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728716AbgFPMRX (ORCPT
+        with ESMTP id S1728740AbgFPNwr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 08:17:23 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3300CC08C5C5
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 05:17:23 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id c71so2655463wmd.5
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 05:17:23 -0700 (PDT)
+        Tue, 16 Jun 2020 09:52:47 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8A94C061573
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:52:45 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id y20so3169504wmi.2
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8bnxqQ/VAftsoq8Me5sQx+qpNnPJPcZh+U5miJTjAOY=;
-        b=alKYbtIErka4S28IGsVN9xqXyx7H66TZN4rNQS/pSediSAYZrnjlo9VtJ0Z8kY+pqy
-         78EIXv5VNf42ucbWZv0CaSNTwquvoySVK+GEhKNDkznX9iXa1kbUzG2Zu/O/wpEIvH3b
-         38EU+zB238/N85VsPVYsV/co4Mxr/5/nmC44EKZnt2lIJDDQwhCpBqSM82xtcnwMl4Bh
-         dkD62xdsIHYOFRgCWdeUAzRr16tsAumZsOIkjGmhnSgzxGZpzZds/1Nis1Txkvv3xXlv
-         1ka8rVsa9heWJyDqTNGtb3lC37tB6X+JIACQpUsg9EFNDJwA2dAHs5JanfznnUAgA3cx
-         j4Bw==
+        bh=j1J4tm1q8tSZJEs1FfICyP0r5ADqjsLWR7rjfnk7ae4=;
+        b=TD+tzFi204QHnSFfiXglD+glrMz4N2VQkwjtM1ZvI9DdBzbeDUOu/an1khejjKaBSy
+         lULDIfzvJAV1Y3IAvLf44ukhpNVYHdsNixUuti3jYVyjXQr69yeBEoe4PC4iy4yV7nTR
+         7/G6t7oa4Fop8dsugWAxjuL43S4O80rhpM4Z3lsjc/DiHWAgOJirVpHEtXXDYdZsZa1E
+         kjgbARu+N34mBCdXsEWIjeyxhqqvhJmKjxWCKWqI67UN+q+zBIIWkX4ukYLiuKXYB0z1
+         tijibMX2hLKxIWakGJjJadXkdHaeRzL1eGyPq0k53K86J1jUEPlkua1aR45hW79ZUPTA
+         jaWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8bnxqQ/VAftsoq8Me5sQx+qpNnPJPcZh+U5miJTjAOY=;
-        b=F9Y2F5R0Y2kM+sy9QhVzVtGgGeUnSFfxNdOum4/cY14QCBEBiXcsqxvHqRT61VBgaR
-         sdeM39ISwxk6Pw0aA4gEMkOGit35ypxwmDxyh15LcXGfrv7ItFWRcS2U7nf7/JkeZUZa
-         C19CIJrl10pB3TB1LzukVBO85Ru9BIBl87arp/M5FuhbQcPj1asvRZWbYDgSpk/Z93XU
-         6oxoJxxbeOU2su5R9oYU4L3hTsvuKm+05EvYqIU0cOlrLoEGmuWMaPhBgeSfkMDTUBLW
-         QvSD4LW65djXtL+Jb4cP4tj9OIPWn8QjQMnemfirxLQBSYF1axTtRk54B48Xr86WDckb
-         sGGg==
-X-Gm-Message-State: AOAM531JYKz7oVzgjPXFXZ35Ag0OIX+yPylf4DlRDZXhZSXEwW6qoXft
-        cQgGH0KrBjCNs/Cwmsnv6yc=
-X-Google-Smtp-Source: ABdhPJzYD5ZgVU8Qso6kCT2qCc5TO7bLPnygjG6dG6OPFgby0GqGuhRxI4ObAAtCm77qGk70rA8Aaw==
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr2888883wml.108.1592309841939;
-        Tue, 16 Jun 2020 05:17:21 -0700 (PDT)
+        bh=j1J4tm1q8tSZJEs1FfICyP0r5ADqjsLWR7rjfnk7ae4=;
+        b=j+PGAZThXHHvTvbPrAiSAxXS0FKUbsibo0PyiyGh/4uNPcYLs7VNX3dB9dgx3Jg9QV
+         FuK77nAQ4tAuS7D/hWz8obKhgu4m1kEqBEYyjiLUTfkggubmElsPE8embc4FGX3ozoS1
+         m9NrwoElEZXPPlQyq5V7X8YZS2BxioaKHqu7UvufMKKS3ROP45zYGMiWOR3oLdU323ct
+         GybqknsPZOx5STOLDCMrDUIjoXnlmMzQX+0F6lRCwIM9B9x5pdaWGuG3MDjmEfCcnAPb
+         GSH1tO01eHzfFc8TVgYuatsIp1CyynHlRB95GibsuiQ7Oxin8lHsCzfWkUKOuLBYiOth
+         sITQ==
+X-Gm-Message-State: AOAM533rsp3BA6sZSVeB8ManGLglFEiRpea9sJi+9G0GvfyFanypd+u/
+        h/wOIioLN9JBatKw+6uo2+c=
+X-Google-Smtp-Source: ABdhPJydV04j64vm3qyH+Hs0hroQu7rNpzczmij8/T+13wcp+fPH7N9NO5vp2FiEaTMIfVGobN1pzw==
+X-Received: by 2002:a1c:1d94:: with SMTP id d142mr3423929wmd.42.1592315564379;
+        Tue, 16 Jun 2020 06:52:44 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id p1sm28059177wrx.44.2020.06.16.05.17.18
+        by smtp.gmail.com with ESMTPSA id x66sm4089973wmb.40.2020.06.16.06.52.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 05:17:18 -0700 (PDT)
+        Tue, 16 Jun 2020 06:52:43 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2] drm/tegra: Add zpos property for cursor planes
-Date:   Tue, 16 Jun 2020 14:17:13 +0200
-Message-Id: <20200616121713.2983627-1-thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Philippe Schenker <philippe.schenker@toradex.com>
+Subject: [PATCH 00/73] ARM: tegra: Various fixes for DT schema validation
+Date:   Tue, 16 Jun 2020 15:51:25 +0200
+Message-Id: <20200616135238.3001888-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,72 +67,156 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
-have a zpos property") a warning is emitted if there's a mix of planes
-with and without a zpos property.
+This set of patches fixes a bunch of issues that I ran into while
+validating device trees for Tegra-based boards against json-schema. Note
+that some of these issues won't become apparent until the DT binding
+conversions to json-schema are applied:
 
-On Tegra, cursor planes are always composited on top of all other
-planes, which is why they never had a zpos property attached to them.
-However, since the composition order is fixed, this is trivial to
-remedy by simply attaching an immutable zpos property to them.
+	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=183004
 
-Changes in v2:
-- hardcode cursor plane zpos to 255 instead of 0 (Ville)
+Marcel, Philippe: I've Cc'ed you explicitly on a couple of patches that
+make changes to Toradex boards where I wasn't sure whether those changes
+would be safe. Those are mostly things like node names that I wasn't
+sure whether maybe some firmware might run into issues if we rename
+them. Please take a look and shout if any of those are problematic.
 
-Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/dc.c  | 9 +++++++--
- drivers/gpu/drm/tegra/hub.c | 2 +-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+Thierry
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 83f31c6e891c..85408eed4685 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -787,7 +787,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
- 	}
- 
- 	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
--	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
-+	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
- 
- 	err = drm_plane_create_rotation_property(&plane->base,
- 						 DRM_MODE_ROTATE_0,
-@@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
- 	}
- 
- 	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
-+	drm_plane_create_zpos_immutable_property(&plane->base, 255);
- 
- 	return &plane->base;
- }
-@@ -1074,7 +1075,11 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
- 	}
- 
- 	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
--	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
-+
-+	if (!cursor)
-+		drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
-+	else
-+		drm_plane_create_zpos_immutable_property(&plane->base, 255);
- 
- 	err = drm_plane_create_rotation_property(&plane->base,
- 						 DRM_MODE_ROTATE_0,
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index 22a03f7ffdc1..f8afc05bceb3 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -590,7 +590,7 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
- 	}
- 
- 	drm_plane_helper_add(p, &tegra_shared_plane_helper_funcs);
--	drm_plane_create_zpos_property(p, 0, 0, 255);
-+	drm_plane_create_zpos_property(p, index, 0, 254);
- 
- 	return p;
- }
+Thierry Reding (73):
+  ARM: tegra: Add missing clock-names for SDHCI on Tegra114
+  ARM: tegra: Remove simple clocks bus
+  ARM: tegra: Remove simple regulators bus
+  ARM: tegra: Remove battery-name property
+  ARM: tegra: roth: Use the correct DSI/CSI supply
+  ARM: tegra: tn7: Use the correct DSI/CSI supply
+  ARM: tegra: Do not mark host1x as simple bus
+  ARM: tegra: Add missing host1x properties
+  ARM: tegra: gr2d is not backwards-compatible
+  ARM: tegra: gr3d is not backwards-compatible
+  ARM: tegra: The Tegra114 DC is not backwards-compatible
+  ARM: tegra: Drop display controller parent clocks on Tegra114
+  ARM: tegra: Rename sdhci nodes to mmc
+  ARM: tegra: Tegra114 SDHCI is not backwards-compatible
+  ARM: tegra: Add missing #phy-cells property to USB PHYs
+  ARM: tegra: Add missing #sound-dai-cells property to codecs
+  ARM: tegra: Name GPIO hog nodes consistently
+  ARM: tegra: Use standard name for Ethernet devices
+  ARM: tegra: Use proper tuple notation
+  ARM: tegra: Add micro-USB A/B port on Jetson TK1
+  ARM: tegra: Add missing panel power supplies on Nyan
+  ARM: tegra: Add #reset-cells to Tegra124 memory controller
+  ARM: tegra: Fix order of XUSB controller clocks
+  ARM: tegra: Add missing clock-names for SDHCI controllers
+  ARM: tegra: Use proper unit-addresses for OPPs
+  ARM: tegra: medcom-wide: Remove extra panel power supply
+  ARM: tegra: Use numeric unit-addresses
+  ARM: tegra: Use standard names for LED nodes
+  ARM: tegra: seaboard: Use standard battery bindings
+  ARM: tegra: Use standard names for SRAM nodes
+  ARM: tegra: Add parent clock to DSI output
+  ARM: tegra: Remove spurious comma from node name
+  ARM: tegra: The Tegra30 DC is not backwards-compatible
+  ARM: tegra: The Tegra30 SDHCI is not backwards-compatible
+  arm64: tegra: Add missing #phy-cells property on Jetson TX2
+  arm64: tegra: Add missing #phy-cells property on Jetson AGX Xavier
+  arm64: tegra: Fix #address-cells/#size-cells for SRAM on Tegra186
+  arm64: tegra: Use standard notation for interrupts
+  arm64: tegra: Remove extra compatible for Tegra194 SDHCI
+  arm64: tegra: Remove extra compatible for Tegra210 SDHCI
+  arm64: tegra: Describe interconnect paths on Tegra186
+  arm64: tegra: Describe interconnect paths on Tegra194
+  arm64: tegra: Add interrupt for Tegra194 memory controller
+  arm64: tegra: Add Tegra132 compatible string for host1x
+  arm64: tegra: Add interrupt-names for host1x
+  arm64: tegra: Remove parent clock from display controllers
+  arm64: tegra: Fixup I/O and PLL supply names for HDMI/DP
+  arm64: tegra: Add unit-address to memory node
+  arm64: tegra: Rename sdhci nodes to mmc
+  arm64: tegra: Enable XUSB on Norrin
+  arm64: tegra: Remove undocumented battery-name property
+  arm64: tegra: Remove simple clocks bus
+  arm64: tegra: Remove simple regulators bus
+  arm64: tegra: norrin: Add missing panel power supply
+  arm64: tegra: Use proper tuple notation
+  arm64: tegra: Do not mark host1x as simple bus
+  arm64: tegra: Use sor0_out clock on Tegra132
+  arm64: tegra: Tegra132 EMC is not compatible with Tegra124
+  arm64: tegra: Add missing #phy-cells property to USB PHYs
+  arm64: tegra: Remove unneeded power supplies
+  arm64: tegra: Update USB connector nodes
+  arm64: tegra: Use standard EEPROM properties
+  arm64: tegra: Remove XUSB pad controller interrupt from XUSB node
+  arm64: tegra: Fix {clock,reset}-names ordering
+  arm64: tegra: Do not mark display hub as simple bus
+  arm64: tegra: Use standard names for SRAM nodes
+  arm64: tegra: Remove unused interrupts from Tegra194 AON GPIO
+  arm64: tegra: Fix indentation in Tegra194 device tree
+  arm64: tegra: Rename agic -> interrupt-controller
+  arm64: tegra: Various fixes for PMICs
+  arm64: tegra: Sort nodes by unit-address on Jetson Nano
+  arm64: tegra: Rename cbb@0 to bus@0 on Tegra194
+  arm64: tegra: Fix order of XUSB controller clocks
+
+ arch/arm/boot/dts/tegra114-dalmore.dts        | 149 +++----
+ arch/arm/boot/dts/tegra114-roth.dts           | 141 +++---
+ arch/arm/boot/dts/tegra114-tn7.dts            |  84 ++--
+ arch/arm/boot/dts/tegra114.dtsi               |  44 +-
+ arch/arm/boot/dts/tegra124-apalis-eval.dts    |   6 +-
+ .../boot/dts/tegra124-apalis-v1.2-eval.dts    |   6 +-
+ arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi   |   9 +-
+ arch/arm/boot/dts/tegra124-apalis.dtsi        |   9 +-
+ arch/arm/boot/dts/tegra124-jetson-tk1.dts     | 263 ++++++-----
+ arch/arm/boot/dts/tegra124-nyan-big.dts       |   3 +-
+ arch/arm/boot/dts/tegra124-nyan-blaze.dts     |   1 +
+ arch/arm/boot/dts/tegra124-nyan.dtsi          | 280 ++++++------
+ arch/arm/boot/dts/tegra124-venice2.dts        | 284 ++++++------
+ arch/arm/boot/dts/tegra124.dtsi               |  50 ++-
+ arch/arm/boot/dts/tegra20-colibri-eval-v3.dts |   2 +-
+ arch/arm/boot/dts/tegra20-colibri-iris.dts    |   2 +-
+ arch/arm/boot/dts/tegra20-colibri.dtsi        |   6 +-
+ .../boot/dts/tegra20-cpu-opp-microvolt.dtsi   |  98 ++---
+ arch/arm/boot/dts/tegra20-cpu-opp.dtsi        |  98 ++---
+ arch/arm/boot/dts/tegra20-harmony.dts         | 140 +++---
+ arch/arm/boot/dts/tegra20-medcom-wide.dts     |  68 ++-
+ arch/arm/boot/dts/tegra20-paz00.dts           |  61 +--
+ arch/arm/boot/dts/tegra20-plutux.dts          |  66 ++-
+ arch/arm/boot/dts/tegra20-seaboard.dts        | 152 +++----
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |  39 +-
+ arch/arm/boot/dts/tegra20-tec.dts             |  66 ++-
+ arch/arm/boot/dts/tegra20-trimslice.dts       | 104 ++---
+ arch/arm/boot/dts/tegra20-ventana.dts         | 106 ++---
+ arch/arm/boot/dts/tegra20.dtsi                |  61 +--
+ arch/arm/boot/dts/tegra30-apalis-eval.dts     |   6 +-
+ .../arm/boot/dts/tegra30-apalis-v1.1-eval.dts |  10 +-
+ arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi    |   5 +-
+ arch/arm/boot/dts/tegra30-apalis.dtsi         |   5 +-
+ arch/arm/boot/dts/tegra30-beaver.dts          | 212 ++++-----
+ arch/arm/boot/dts/tegra30-cardhu-a02.dts      | 128 +++---
+ arch/arm/boot/dts/tegra30-cardhu-a04.dts      | 149 +++----
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         | 280 ++++++------
+ arch/arm/boot/dts/tegra30-colibri-eval-v3.dts |   2 +-
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |   7 +-
+ .../boot/dts/tegra30-cpu-opp-microvolt.dtsi   | 398 ++++++++---------
+ arch/arm/boot/dts/tegra30-cpu-opp.dtsi        | 398 ++++++++---------
+ arch/arm/boot/dts/tegra30.dtsi                |  77 ++--
+ .../arm64/boot/dts/nvidia/tegra132-norrin.dts | 396 ++++++++++-------
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi      | 194 ++++++--
+ .../boot/dts/nvidia/tegra186-p2771-0000.dts   | 110 ++---
+ .../arm64/boot/dts/nvidia/tegra186-p3310.dtsi |  78 ++--
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      | 122 ++++--
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 123 +++---
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  16 +-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 220 ++++++----
+ .../arm64/boot/dts/nvidia/tegra210-p2180.dtsi |  46 +-
+ .../boot/dts/nvidia/tegra210-p2371-2180.dts   |   6 +-
+ .../arm64/boot/dts/nvidia/tegra210-p2530.dtsi |  19 +-
+ .../arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 292 ++++++------
+ .../arm64/boot/dts/nvidia/tegra210-p2894.dtsi | 414 ++++++++----------
+ .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 230 +++++-----
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 171 ++++----
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi      |  51 ++-
+ 58 files changed, 3214 insertions(+), 3349 deletions(-)
+
 -- 
 2.24.1
 
