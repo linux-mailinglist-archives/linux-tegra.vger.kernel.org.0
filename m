@@ -2,182 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB441FBEE6
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 21:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4A6A1FBF22
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 21:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729941AbgFPTYP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 15:24:15 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15424 "EHLO
+        id S1730301AbgFPTnB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 15:43:01 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16648 "EHLO
         hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728861AbgFPTYP (ORCPT
+        with ESMTP id S1728144AbgFPTnB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 15:24:15 -0400
+        Tue, 16 Jun 2020 15:43:01 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ee91c2e0000>; Tue, 16 Jun 2020 12:23:26 -0700
+        id <B5ee920940000>; Tue, 16 Jun 2020 12:42:12 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 16 Jun 2020 12:24:15 -0700
+  Tue, 16 Jun 2020 12:43:01 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 12:24:15 -0700
+        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 12:43:01 -0700
 Received: from [10.26.75.222] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 16 Jun
- 2020 19:24:14 +0000
-Subject: Re: [PATCH 03/73] ARM: tegra: Remove simple regulators bus
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200616135238.3001888-1-thierry.reding@gmail.com>
- <20200616135238.3001888-4-thierry.reding@gmail.com>
+ 2020 19:42:53 +0000
+Subject: Re: [PATCH] ASoC: tegra: Fix reference count leaks.
+To:     <wu000273@umn.edu>, <kjlu@umn.edu>
+CC:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        "Ben Dooks" <ben.dooks@codethink.co.uk>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200613204422.24484-1-wu000273@umn.edu>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <cf8eb9d4-70d5-400f-ecc8-2139c25563a9@nvidia.com>
-Date:   Tue, 16 Jun 2020 20:24:11 +0100
+Message-ID: <9492fa91-067b-f74f-1a52-a2622d8f28d6@nvidia.com>
+Date:   Tue, 16 Jun 2020 20:42:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200616135238.3001888-4-thierry.reding@gmail.com>
+In-Reply-To: <20200613204422.24484-1-wu000273@umn.edu>
 X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1592335406; bh=IgcYSTEZup91mLMIxzY/KXwrtl0zNB5vnKc+awAbO0w=;
+        t=1592336532; bh=Dp/0r6Nw2uRw3rP0FQK/EUznQLmj2KVDZ1kdtwhRPqg=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=DayI5ToxF82lUpY6WwCokaxcDFhh7HDvmDjr2gWthHSMl9QaSgk834VcLOd4TqPb6
-         0pyXrv0z381nreB89mUEA+gPP+uFoTDRaNyxBfgUVpzI2Oa7ZjjDvweEBdx283R8t0
-         TCINkSWe8q5sUb32+SJFnjy3aUpVrQTFTPDIhh25SXoKU2jzbNmqX598WYlpJE47I0
-         zTpgWcf6dM1GmGPjVqWS5gDEaMqtz8+WYJkyr3dw8pmn5eFG8OCVJBhhf/SCjkjyen
-         EnnPTZFCNWkQBZq8ii8IE6VOrwcZ539uAdcDRc+pjP+I/UmRT/dD6hDeI/dBz0n+Z1
-         0AzS6dH+3fA4g==
+        b=fanpFU3012dPk+RxNw8Z8OH9a8yVg3Ep2EZFgySPCXu7I7bateQDqSJXuqeMK5XXM
+         b7ltzhNCUAFQ8kjhZVL73eUgCoRh2ze1h/gKVYGUmvPjwmNO4+LMqe5hLv+WOOXIP0
+         rfFqnxn1y3pd9GuzXpP4Fqpbg+YD3DQvt+FaPJgxy7MEOdHnExRlZwiZ9p5vIgz2Hj
+         vuy3qreGl0kkuJXyEIxd21POD/SvJPIIOsVmjyJleSeY6GBbfZxR6OTFhJPENrRQ05
+         c2LxeDWz8GsTOVXRiw43JYE8vYMaHMZ+GoaawdaJOxFOcVR1XAxzezJQvJjA40L/fV
+         0V4lObTvqbCeg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-
-On 16/06/2020 14:51, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+On 13/06/2020 21:44, wu000273@umn.edu wrote:
+> From: Qiushi Wu <wu000273@umn.edu>
 > 
-> The standard way to do this is to list out the regulators at the top
-> level. Adopt the standard way to fix validation.
+> Calling pm_runtime_get_sync increments the counter even in case of
+> failure, causing incorrect ref count if pm_runtime_put is not called in
+> error handling paths. Call pm_runtime_put if pm_runtime_get_sync fails.
 > 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 > ---
->  arch/arm/boot/dts/tegra114-dalmore.dts    | 129 +++++------
->  arch/arm/boot/dts/tegra114-roth.dts       | 120 +++++-----
->  arch/arm/boot/dts/tegra114-tn7.dts        |  65 +++---
->  arch/arm/boot/dts/tegra124-jetson-tk1.dts | 238 +++++++++----------
->  arch/arm/boot/dts/tegra124-nyan.dtsi      | 259 ++++++++++-----------
->  arch/arm/boot/dts/tegra124-venice2.dts    | 265 ++++++++++------------
->  arch/arm/boot/dts/tegra20-harmony.dts     | 121 +++++-----
->  arch/arm/boot/dts/tegra20-medcom-wide.dts |  66 +++---
->  arch/arm/boot/dts/tegra20-paz00.dts       |  38 ++--
->  arch/arm/boot/dts/tegra20-plutux.dts      |  66 +++---
->  arch/arm/boot/dts/tegra20-seaboard.dts    | 125 +++++-----
->  arch/arm/boot/dts/tegra20-tamonten.dtsi   |  39 +---
->  arch/arm/boot/dts/tegra20-tec.dts         |  66 +++---
->  arch/arm/boot/dts/tegra20-trimslice.dts   |  85 +++----
->  arch/arm/boot/dts/tegra20-ventana.dts     |  85 +++----
->  arch/arm/boot/dts/tegra30-beaver.dts      | 193 ++++++++--------
->  arch/arm/boot/dts/tegra30-cardhu-a02.dts  | 128 +++++------
->  arch/arm/boot/dts/tegra30-cardhu-a04.dts  | 149 ++++++------
->  arch/arm/boot/dts/tegra30-cardhu.dtsi     | 261 ++++++++++-----------
->  19 files changed, 1130 insertions(+), 1368 deletions(-)
-
-...
-
-> diff --git a/arch/arm/boot/dts/tegra124-venice2.dts b/arch/arm/boot/dts/tegra124-venice2.dts
-> index 6a7a31c831c5..effdb303c7f7 100644
-> --- a/arch/arm/boot/dts/tegra124-venice2.dts
-> +++ b/arch/arm/boot/dts/tegra124-venice2.dts
-> @@ -1077,164 +1077,145 @@ power {
+>  sound/soc/tegra/tegra30_ahub.c | 4 +++-
+>  sound/soc/tegra/tegra30_i2s.c  | 4 +++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
+> index 635eacbd28d4..156e3b9d613c 100644
+> --- a/sound/soc/tegra/tegra30_ahub.c
+> +++ b/sound/soc/tegra/tegra30_ahub.c
+> @@ -643,8 +643,10 @@ static int tegra30_ahub_resume(struct device *dev)
+>  	int ret;
 >  
->  	panel: panel {
->  		compatible = "lg,lp129qe";
-> -
-> +		power-supply = <&vdd_3v3_panel>;
->  		backlight = <&backlight>;
->  		ddc-i2c-bus = <&dpaux>;
->  	};
-
-Is this meant to be in this patch?
-
-> diff --git a/arch/arm/boot/dts/tegra20-tamonten.dtsi b/arch/arm/boot/dts/tegra20-tamonten.dtsi
-> index 20137fc578b1..95e6bccdb4f6 100644
-> --- a/arch/arm/boot/dts/tegra20-tamonten.dtsi
-> +++ b/arch/arm/boot/dts/tegra20-tamonten.dtsi
-> @@ -495,40 +495,25 @@ usb-phy@c5008000 {
->  		status = "okay";
->  	};
+>  	ret = pm_runtime_get_sync(dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put(dev);
+>  		return ret;
+> +	}
+>  	ret = regcache_sync(ahub->regmap_ahub);
+>  	ret |= regcache_sync(ahub->regmap_apbif);
+>  	pm_runtime_put(dev);
+> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+> index d59882ec48f1..db5a8587bfa4 100644
+> --- a/sound/soc/tegra/tegra30_i2s.c
+> +++ b/sound/soc/tegra/tegra30_i2s.c
+> @@ -567,8 +567,10 @@ static int tegra30_i2s_resume(struct device *dev)
+>  	int ret;
 >  
-> -	sdhci@c8000600 {
-> +	mmc@c8000600 {
->  		cd-gpios = <&gpio TEGRA_GPIO(H, 2) GPIO_ACTIVE_LOW>;
->  		wp-gpios = <&gpio TEGRA_GPIO(H, 3) GPIO_ACTIVE_HIGH>;
->  		bus-width = <4>;
->  		status = "okay";
->  	};
->  
-> -	clocks {
-> -		compatible = "simple-bus";
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -
-> -		clk32k_in: clock@0 {
-> -			compatible = "fixed-clock";
-> -			reg = <0>;
-> -			#clock-cells = <0>;
-> -			clock-frequency = <32768>;
-> -		};
-> +	clk32k_in: clock@0 {
-> +		compatible = "fixed-clock";
-> +		clock-frequency = <32768>;
-> +		#clock-cells = <0>;
->  	};
+>  	ret = pm_runtime_get_sync(dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put(dev);
+>  		return ret;
+> +	}
+>  	ret = regcache_sync(i2s->regmap);
+>  	pm_runtime_put(dev);
 
-The above appears in to be in the wrong patch.
+Thanks.
 
-> diff --git a/arch/arm/boot/dts/tegra30-cardhu-a02.dts b/arch/arm/boot/dts/tegra30-cardhu-a02.dts
-> index a02ec5082287..4899e05a0d9c 100644
-> --- a/arch/arm/boot/dts/tegra30-cardhu-a02.dts
-> +++ b/arch/arm/boot/dts/tegra30-cardhu-a02.dts
-> @@ -9,87 +9,75 @@ / {
->  	model = "NVIDIA Tegra30 Cardhu A02 evaluation board";
->  	compatible = "nvidia,cardhu-a02", "nvidia,cardhu", "nvidia,tegra30";
->  
-> -	sdhci@78000400 {
-> +	mmc@78000400 {
->  		status = "okay";
->  		power-gpios = <&gpio TEGRA_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
->  		bus-width = <4>;
->  		keep-power-in-suspend;
->  	};
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-And here.
-
-> diff --git a/arch/arm/boot/dts/tegra30-cardhu-a04.dts b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-> index 9234988624ec..c1c0ca628af1 100644
-> --- a/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-> +++ b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-> @@ -11,99 +11,86 @@ / {
->  	model = "NVIDIA Tegra30 Cardhu A04 (A05, A06, A07) evaluation board";
->  	compatible = "nvidia,cardhu-a04", "nvidia,cardhu", "nvidia,tegra30";
->  
-> -	sdhci@78000400 {
-> +	mmc@78000400 {
->  		status = "okay";
->  		power-gpios = <&gpio TEGRA_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
->  		bus-width = <4>;
->  		keep-power-in-suspend;
->  	};
-
-And here.
-
+Cheers
 Jon
 
 -- 
