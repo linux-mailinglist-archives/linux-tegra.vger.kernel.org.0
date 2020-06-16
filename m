@@ -2,88 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 784D41FAFB6
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 14:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FCEE1FB02A
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 14:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728440AbgFPMAx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 08:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39364 "EHLO
+        id S1728772AbgFPMSZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 08:18:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726606AbgFPMAw (ORCPT
+        with ESMTP id S1728716AbgFPMRX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 08:00:52 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4903BC08C5C2;
-        Tue, 16 Jun 2020 05:00:52 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id q19so23202403lji.2;
-        Tue, 16 Jun 2020 05:00:52 -0700 (PDT)
+        Tue, 16 Jun 2020 08:17:23 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3300CC08C5C5
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 05:17:23 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id c71so2655463wmd.5
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 05:17:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QSDz1CcTlXHevMdT17dfagrIIYP8BvIZ7bez+W8TR/I=;
-        b=oVXqvcoYIkCXNR7wL6n3vOVqa4vsvz555GXgN3SvQbk++DqCfyY3ihS6C44FTj/1l6
-         oxmN6rQSl/0N9Rs3GD1cLcFTRNOKZVrFi+4MTLxT4A2/TIruex3OouFYhG8DGyT0KOei
-         Egd1CQ9keFWRBVCIckvgZJkqKf+CloQ3UDJ82KcY8QsjVL5gnReCpUBL/e/CbpjQs1IB
-         8i7oNBfAdR0pwujcU3YFsnbfNvsFqW8GB4um9FicmqKBkBg+cjmgG00mhPHH06pjiOMn
-         Yh7v9I+PaSONtPPasNP/XArF6pxddi6OvJDr7wTny6RMQ7M6/XNYqeMBP+Vd+B4k5NLy
-         MlIg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8bnxqQ/VAftsoq8Me5sQx+qpNnPJPcZh+U5miJTjAOY=;
+        b=alKYbtIErka4S28IGsVN9xqXyx7H66TZN4rNQS/pSediSAYZrnjlo9VtJ0Z8kY+pqy
+         78EIXv5VNf42ucbWZv0CaSNTwquvoySVK+GEhKNDkznX9iXa1kbUzG2Zu/O/wpEIvH3b
+         38EU+zB238/N85VsPVYsV/co4Mxr/5/nmC44EKZnt2lIJDDQwhCpBqSM82xtcnwMl4Bh
+         dkD62xdsIHYOFRgCWdeUAzRr16tsAumZsOIkjGmhnSgzxGZpzZds/1Nis1Txkvv3xXlv
+         1ka8rVsa9heWJyDqTNGtb3lC37tB6X+JIACQpUsg9EFNDJwA2dAHs5JanfznnUAgA3cx
+         j4Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=QSDz1CcTlXHevMdT17dfagrIIYP8BvIZ7bez+W8TR/I=;
-        b=Ec6xqW6fCdV5BRUROYAof+dWucvox0XxNn1JOZokn7nFsqD+r1lDqyEBRFMZ/G+Srj
-         QL2m6+fXLxak2r6TERz0a1SVWrvQQQLSEJ7/OI41B53gthOgJDWTtZQB7tNETMUPc7j1
-         eV+T4dZ5hB12gacpr5ypIZToU2+P96MggM4Yu/vFx2aIPtOT2nEr880ESKYNZNiTfdcF
-         HISCWlhCF9421z6gLifIgWexHZxMJUmn85rzUx6JZOYtCRxHIzN7ZaqOqE+rLggOl0uI
-         r1I/3OPn01PPEbDnX4fuRVVx8D5AMNaJKDT9ExkeW60FiYJh31v1Ms9I070qjAFt6ld/
-         duYw==
-X-Gm-Message-State: AOAM530S/pBbXTp82v2wm/Mp15GSDNxGvfKEFc9znFJ3DSHuUE96Remb
-        VNQfZj3uQgxFT48zaPTk6gM=
-X-Google-Smtp-Source: ABdhPJwuQbHaMDqXb3iB07dLDs9sxQLsnHPublzf3ks7pGsQG6s9Bp48XpLM+JQKBc+w1SQqlJh7Iw==
-X-Received: by 2002:a2e:98d4:: with SMTP id s20mr1343979ljj.83.1592308850862;
-        Tue, 16 Jun 2020 05:00:50 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id i22sm4343234ljb.21.2020.06.16.05.00.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 05:00:50 -0700 (PDT)
-Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>
-References: <20200614200121.14147-1-digetx@gmail.com>
- <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e6b50ec8-08f9-a15e-6aa5-2ca306613e97@gmail.com>
-Date:   Tue, 16 Jun 2020 15:00:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        bh=8bnxqQ/VAftsoq8Me5sQx+qpNnPJPcZh+U5miJTjAOY=;
+        b=F9Y2F5R0Y2kM+sy9QhVzVtGgGeUnSFfxNdOum4/cY14QCBEBiXcsqxvHqRT61VBgaR
+         sdeM39ISwxk6Pw0aA4gEMkOGit35ypxwmDxyh15LcXGfrv7ItFWRcS2U7nf7/JkeZUZa
+         C19CIJrl10pB3TB1LzukVBO85Ru9BIBl87arp/M5FuhbQcPj1asvRZWbYDgSpk/Z93XU
+         6oxoJxxbeOU2su5R9oYU4L3hTsvuKm+05EvYqIU0cOlrLoEGmuWMaPhBgeSfkMDTUBLW
+         QvSD4LW65djXtL+Jb4cP4tj9OIPWn8QjQMnemfirxLQBSYF1axTtRk54B48Xr86WDckb
+         sGGg==
+X-Gm-Message-State: AOAM531JYKz7oVzgjPXFXZ35Ag0OIX+yPylf4DlRDZXhZSXEwW6qoXft
+        cQgGH0KrBjCNs/Cwmsnv6yc=
+X-Google-Smtp-Source: ABdhPJzYD5ZgVU8Qso6kCT2qCc5TO7bLPnygjG6dG6OPFgby0GqGuhRxI4ObAAtCm77qGk70rA8Aaw==
+X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr2888883wml.108.1592309841939;
+        Tue, 16 Jun 2020 05:17:21 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id p1sm28059177wrx.44.2020.06.16.05.17.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2020 05:17:18 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v2] drm/tegra: Add zpos property for cursor planes
+Date:   Tue, 16 Jun 2020 14:17:13 +0200
+Message-Id: <20200616121713.2983627-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.06.2020 01:26, Emil Velikov пишет:
-...
-> Although I see that this series, alike Derek's, has a couple of issues:
->  - only a single panel driver is updated
+From: Thierry Reding <treding@nvidia.com>
 
-I'll separate this series into two patchsets.
+As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
+have a zpos property") a warning is emitted if there's a mix of planes
+with and without a zpos property.
 
-One will add orientation support to the panel drivers and I'll include
-the Derek's tv101wum-nl6 patch, so it will be two panel drivers \o/ :)
+On Tegra, cursor planes are always composited on top of all other
+planes, which is why they never had a zpos property attached to them.
+However, since the composition order is fixed, this is trivial to
+remedy by simply attaching an immutable zpos property to them.
 
-The other will add reflection-x support to the Tegra driver.
+Changes in v2:
+- hardcode cursor plane zpos to 255 instead of 0 (Ville)
+
+Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/dc.c  | 9 +++++++--
+ drivers/gpu/drm/tegra/hub.c | 2 +-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 83f31c6e891c..85408eed4685 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -787,7 +787,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
+-	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
++	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
+ 
+ 	err = drm_plane_create_rotation_property(&plane->base,
+ 						 DRM_MODE_ROTATE_0,
+@@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
++	drm_plane_create_zpos_immutable_property(&plane->base, 255);
+ 
+ 	return &plane->base;
+ }
+@@ -1074,7 +1075,11 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
+-	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
++
++	if (!cursor)
++		drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
++	else
++		drm_plane_create_zpos_immutable_property(&plane->base, 255);
+ 
+ 	err = drm_plane_create_rotation_property(&plane->base,
+ 						 DRM_MODE_ROTATE_0,
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index 22a03f7ffdc1..f8afc05bceb3 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -590,7 +590,7 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(p, &tegra_shared_plane_helper_funcs);
+-	drm_plane_create_zpos_property(p, 0, 0, 255);
++	drm_plane_create_zpos_property(p, index, 0, 254);
+ 
+ 	return p;
+ }
+-- 
+2.24.1
+
