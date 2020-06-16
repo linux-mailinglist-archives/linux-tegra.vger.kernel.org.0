@@ -2,106 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CE11FA5A3
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 03:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C152E1FAF16
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 13:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726782AbgFPB1R (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jun 2020 21:27:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54866 "EHLO
+        id S1726452AbgFPLZo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 07:25:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726564AbgFPB1Q (ORCPT
+        with ESMTP id S1725843AbgFPLZo (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jun 2020 21:27:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FA5C061A0E;
-        Mon, 15 Jun 2020 18:27:15 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49F82F9;
-        Tue, 16 Jun 2020 03:27:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592270834;
-        bh=yVhdm4SmO3wkXqvKwAY69etuikCBZKRYuD4KmrUh1q0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FQSvnTVBX3f5SqO3sC1FJmr87CZEgDB2GeYpJ6t1MWr7iPx3WCHsMIeMWAHX5JZcI
-         pOrrNnySCtO4QjgIPkebFxXT7BA54jdQ6PDbGpZsuuJ9yLFv1kNM3GFqVsnb47mXX7
-         O3+D9HQC4H79Ays/zPN9+DcJXivDaescPY1p2scA=
-Date:   Tue, 16 Jun 2020 04:26:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        Tue, 16 Jun 2020 07:25:44 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79E35C08C5C2;
+        Tue, 16 Jun 2020 04:25:42 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id x18so23016989lji.1;
+        Tue, 16 Jun 2020 04:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=J1DJhGQSDd9qg+4bq2SW3OfC6fEmq2H0sypmce6w78g=;
+        b=NdYAIpb7i1OzFNFczOX1yx07+L+e97QHtSv2zsJBVC0+5rFPj/vk8NM6zyAqza9cI/
+         aZgSWHyLtVqhA/TO0g+Y5YU7ghd1YNeh7rll7dE1Gmq63UWE1uK1U7A6AB5wDyyjmAGH
+         0tCVT1k81e2XaX/j5wxbsboGwAxRlllezqIKYjcYrgo59S/MCSUAgmuYZZtOibTPsdul
+         ezj1+z4QIVnIW1e+EdjMWWfu8LSRScN1uN6prsTMMU2U9MEmd9wg5aoHPJnJWZ54kFTS
+         1782YCmue9vyxtN6OvJXJt0NSxZLtGMmW87yOmVALqr/l781Bj0s8EPJQiHH0sOmlpaB
+         bmrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=J1DJhGQSDd9qg+4bq2SW3OfC6fEmq2H0sypmce6w78g=;
+        b=kSXrlwDm/AuE1Am+cLrh6C2PSHpqWEDmxcgAgF3r4CrIFlUpPHU0eC9aZYAC3GIayF
+         wsmNDp9HTLkaIFa+SR+yYgcyIeRKw7ofJIFhfA3A7KPwTNHBuEj7CJ00MOWIvEREpy7Z
+         bNy/2FK5MQpjDL+90E3uuaim1rQlm5f3YjpPsRb+8q/Du00swWASWnbyUBO/6Kaco6Lr
+         jJIvd7Ha7KAzMrP7oBKhFwWQURCt4Ay4/5LOl/MlKA91q9vvBL9WSuBYZmE7ZAuWj8Xi
+         qJ7ghoMeerpFJ2jyfpXsBOwIjk0evAj/FWzv81R7eT9s7rsYycE99PaUZXiJFneYTv7Z
+         DJAA==
+X-Gm-Message-State: AOAM531OKxwqUSh735BzmfLDAakCQ983K+E8w65Sf7UbEPXPycZzs8T8
+        gmzH0IIMAg+eBTYw1gxjdvk=
+X-Google-Smtp-Source: ABdhPJxncMV2D3cQoYqF+t1E8bMGN3msVW0HWI/2ula2kxfrb21MS9IJZ6vNePInt+ZL3dFG8Esxxg==
+X-Received: by 2002:a2e:8744:: with SMTP id q4mr1240969ljj.91.1592306741034;
+        Tue, 16 Jun 2020 04:25:41 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id 72sm5201098lfa.52.2020.06.16.04.25.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2020 04:25:40 -0700 (PDT)
+Subject: =?UTF-8?Q?Re=3a_=5bPATCH_v2_5/5=5d_drm/tegra=3a_plane=3a_Support_18?=
+ =?UTF-8?Q?0=c2=b0_rotation?=
+To:     Emil Velikov <emil.l.velikov@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
         Sam Ravnborg <sam@ravnborg.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/6] drm/of: Make drm_of_find_panel_or_bridge() to
- check graph's presence
-Message-ID: <20200616012652.GG1629@pendragon.ideasonboard.com>
-References: <20200614172234.8856-1-digetx@gmail.com>
- <20200614172234.8856-3-digetx@gmail.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <20200614200121.14147-6-digetx@gmail.com>
+ <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
+Date:   Tue, 16 Jun 2020 14:25:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200614172234.8856-3-digetx@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
-
-Thank you for the patch.
-
-On Sun, Jun 14, 2020 at 08:22:30PM +0300, Dmitry Osipenko wrote:
-> When graph isn't defined in a device-tree, the of_graph_get_remote_node()
-> prints a noisy error message, telling that port node is not found. This is
-> undesirable behaviour in our case because absence of a panel/bridge graph
-> is a valid case. Let's check presence of the local port in a device-tree
-> before proceeding with parsing the graph.
+16.06.2020 00:47, Emil Velikov пишет:
+> Hi all,
 > 
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/drm_of.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+> Perhaps a silly question:
 > 
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index b50b44e76279..e0652c38f357 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -239,13 +239,24 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->  				struct drm_bridge **bridge)
->  {
->  	int ret = -EPROBE_DEFER;
-> -	struct device_node *remote;
-> +	struct device_node *local, *remote;
->  
->  	if (!panel && !bridge)
->  		return -EINVAL;
->  	if (panel)
->  		*panel = NULL;
->  
-> +	/*
-> +	 * of_graph_get_remote_node() produces a noisy error message if port
-> +	 * node isn't found and the absence of the port is a legit case here,
-> +	 * so at first we silently check presence of the local port.
-> +	 */
-> +	local = of_graph_get_local_port(np);
-> +	if (!local)
-> +		return -ENODEV;
-> +
-> +	of_node_put(local);
-> +
+> On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> Combining horizontal and vertical reflections gives us 180 degrees of
+>> rotation.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
+>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+>> index f31bca27cde4..ddd9b88f8fce 100644
+>> --- a/drivers/gpu/drm/tegra/dc.c
+>> +++ b/drivers/gpu/drm/tegra/dc.c
+> 
+>> +       if (rotation & DRM_MODE_ROTATE_180) {
+>> +               plane_state->reflect_x = !plane_state->reflect_x;
+>> +               plane_state->reflect_y = !plane_state->reflect_y;
+>> +       }
+>> +
+> As mentioned by Ville the above is already handled by
+> drm_rotation_simplify() ... although it makes me wonder:
+> 
+> 
+>>         err = drm_plane_create_rotation_property(&plane->base,
+>>                                                  DRM_MODE_ROTATE_0,
+>>                                                  DRM_MODE_ROTATE_0 |
+>> +                                                DRM_MODE_ROTATE_180 |
+>>                                                  DRM_MODE_REFLECT_X |
+>>                                                  DRM_MODE_REFLECT_Y);
+> 
+> Would it make sense for drm_plane_create_rotation_property() itself,
+> to add DRM_MODE_ROTATE_180, when both reflections are supported?
 
-The code looks fine, but you may want to take into account my proposal
-in 1/7 to instead create a of_graph_has_port() function. The could would
-be simpler here.
+Hello Emil,
 
->  	remote = of_graph_get_remote_node(np, port, endpoint);
->  	if (!remote)
->  		return -ENODEV;
-
--- 
-Regards,
-
-Laurent Pinchart
+That's a good point! All DRM_MODE_ROTATE_180 should be removed because
+Tegra can't do 180° + reflected-x. The DRM core takes care of 180°
+rotation when both x/y reflections are supported.
