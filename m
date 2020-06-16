@@ -2,59 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C5A81FB29B
+	by mail.lfdr.de (Postfix) with ESMTP id D81AB1FB29C
 	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728959AbgFPNxZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 09:53:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56968 "EHLO
+        id S1728694AbgFPNx0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 09:53:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728740AbgFPNxX (ORCPT
+        with ESMTP id S1728957AbgFPNxZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 09:53:23 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F03C061755
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:53:22 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id b82so2978609wmb.1
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:53:21 -0700 (PDT)
+        Tue, 16 Jun 2020 09:53:25 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701F8C061573
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:53:24 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id x6so20827895wrm.13
+        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sltisSwSDb4vZTWSDf6iNnpKJG7q/Z1Zz8yhqClsgiw=;
-        b=IQm8uHieQl4l0fZ9aX4OOFW9UhUTrAwDF4VPzVjuKMFTv9fFwcz5xTe/Qxk6Fm93GF
-         4yDxWXtSBwlZ5Ur5n1VtHLy+xL3ibbPYg/Cnd4VyuqEc8F96SAs7pVlzkidvQI/XBpD6
-         +QYpYOayvhJKvdAd54lD/+l36kyv21cdUe7TB8DEZvuqfAsYWPBJ5tLVJhYjjreFLRq6
-         vWAm8mJDVtsEeQMywhuiBSBBbpJB2kBHmPlOhO8/QY8rETGlIQeXdt38/KA6czg5lwUW
-         3TFqRGkDcGTs2EeQB4LP4usH2tcXIP8sXV6otU/2DpkB5b6bkw/Mve/7fNYfzLxPHnr6
-         vh1w==
+        bh=sJr39yyI9C/ZJvW0g3qtF5zBH+JRNLr/9lqcD3hVnn4=;
+        b=ge76C2STL0f+4pHYCR/B/zivH9wngVFJZySJe0vcYGTFXSEoJ8xYJ+3WqCGaVNI7f4
+         Y/bVY0QaNLbAyvXip/dx0zWuaTtfUC1evAAtLHVehtCIUdzgOJoGNiohXmWvsPhssCQj
+         Ig1qiw8vYOJJNXah/u2fTKkfGbkpe/b74HAcCRTRxEC9isCKYLuDy+O3PgJSu3WhnOGD
+         F2148SvgkCvrKdcCB6QE1gdgEKdewPEFcpYWgeV975q0k0WXJCQc15J32KbW+mc61d3s
+         +411O26aFDGS83qywohAvz+mBEgKGDx2SGHxNrewXe5TVrty9DzA4WcYLTNQc/8XoD6v
+         6PlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sltisSwSDb4vZTWSDf6iNnpKJG7q/Z1Zz8yhqClsgiw=;
-        b=kea/CPIvxIY3GDFWzupjtYIrvoRZFHNKeL4pdMaWLmLP8pzld+l/W4vttFxuFMoOsh
-         4mi9RGCuRHDttcYaJbaN6g5tfmigKsEhOOCprY9XpzzBgyhqXYeXFgQnxcAb+VRdv4oL
-         a6G2NEESoLG92uBJkXOFnguSA0jx4R773kmylAxzI8zCFiAp9/NGOvYAuJVYk/O1RKX5
-         TdZe9MbmSVt68+0AFXMESU6U3TtXi6lg8PIs9Zbk/vkdwFZcwfTK6cLQeR7KzxqfrCdu
-         YDiRR+P1xnyKL2IwtnrHrGx/5YfsxKkpks9cfmeGVW+zJa2uEkedFy2MFzWPV2S8bZ0L
-         fEKQ==
-X-Gm-Message-State: AOAM531knwgJXjJvFfZBWRJL0XapbhKU4XHk0mlwycs0Y9PkuJ/KsL5W
-        vGAr1TfVDn8qMnIAw7UFBcs=
-X-Google-Smtp-Source: ABdhPJxz+/WkHdLvzaQjBQXQEbkXuzkgfpaKe6bCAJRcfdcCysuzOrn7cZPPl0/Qr9+nrLVEgsFt6w==
-X-Received: by 2002:a1c:7505:: with SMTP id o5mr3277219wmc.164.1592315600776;
-        Tue, 16 Jun 2020 06:53:20 -0700 (PDT)
+        bh=sJr39yyI9C/ZJvW0g3qtF5zBH+JRNLr/9lqcD3hVnn4=;
+        b=fGAliaUtY8G1rXQl5aGeEZXm/BE08FmVttFgjf1WfrwNWMTNFwVN246SvTNkphfY1u
+         3nlvnWilgkQ6cHExe7OmjtC3IH4gPx1reJEghhgs2tk7Dsm/2q4FEy2tOO4ICPCekHsN
+         nWvU+9/UVPxnDiNTRhOX4XbAs3dy6nk6O05cFXhTY3GLCWFbGGV/+liOshmcW9uyMAiF
+         7cZFdLYnXxIMLmy1F0TbUamM4QXYvJ77/8+9eMYzgAv/uQ7JG3Ku/iN8dO+tzN+jEpD3
+         wTP/7MDPylNdvSkxKmmvW7bphYSx65KuRfa9v1cQ4n2srQT7pSc351dTqgjbliQ97xb6
+         7R9A==
+X-Gm-Message-State: AOAM5327BTl8g7tPy/FSh8bfqtcTdcKXjGGym/YXmg1TheLifbVndtOC
+        BfINQwVzzgUVHAFyc/yOj9U=
+X-Google-Smtp-Source: ABdhPJyz6TTLW931mI4EuZycjFe/csNpCf2t8SIsQf8tt0+UuVUzftCJ0kkDFugJicecoimo3nNIAA==
+X-Received: by 2002:a05:6000:1289:: with SMTP id f9mr3276316wrx.5.1592315603164;
+        Tue, 16 Jun 2020 06:53:23 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id d5sm31603455wrb.14.2020.06.16.06.53.19
+        by smtp.gmail.com with ESMTPSA id d5sm31603598wrb.14.2020.06.16.06.53.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 06:53:19 -0700 (PDT)
+        Tue, 16 Jun 2020 06:53:22 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 15/73] ARM: tegra: Add missing #phy-cells property to USB PHYs
-Date:   Tue, 16 Jun 2020 15:51:40 +0200
-Message-Id: <20200616135238.3001888-16-thierry.reding@gmail.com>
+        linux-arm-kernel@lists.infradead.org,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Philippe Schenker <philippe.schenker@toradex.com>
+Subject: [PATCH 16/73] ARM: tegra: Add missing #sound-dai-cells property to codecs
+Date:   Tue, 16 Jun 2020 15:51:41 +0200
+Message-Id: <20200616135238.3001888-17-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200616135238.3001888-1-thierry.reding@gmail.com>
 References: <20200616135238.3001888-1-thierry.reding@gmail.com>
@@ -67,121 +69,80 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-USB PHYs must have a #phy-cells property, so add one to the Tegra USB
-PHYs which don't have one.
+Audio codecs need a #sound-dai-cells property, so add one to the audio
+codecs on various Tegra-based boards that don't have one.
 
+Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Cc: Philippe Schenker <philippe.schenker@toradex.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm/boot/dts/tegra114.dtsi | 2 ++
- arch/arm/boot/dts/tegra124.dtsi | 3 +++
- arch/arm/boot/dts/tegra20.dtsi  | 3 +++
- arch/arm/boot/dts/tegra30.dtsi  | 3 +++
- 4 files changed, 11 insertions(+)
+ arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi | 1 +
+ arch/arm/boot/dts/tegra124-apalis.dtsi      | 1 +
+ arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi  | 1 +
+ arch/arm/boot/dts/tegra30-apalis.dtsi       | 1 +
+ arch/arm/boot/dts/tegra30-colibri.dtsi      | 1 +
+ 5 files changed, 5 insertions(+)
 
-diff --git a/arch/arm/boot/dts/tegra114.dtsi b/arch/arm/boot/dts/tegra114.dtsi
-index 88632d8d0bde..d28d35dc3f5c 100644
---- a/arch/arm/boot/dts/tegra114.dtsi
-+++ b/arch/arm/boot/dts/tegra114.dtsi
-@@ -710,6 +710,7 @@ phy1: usb-phy@7d000000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 22>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -746,6 +747,7 @@ phy3: usb-phy@7d008000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 59>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-diff --git a/arch/arm/boot/dts/tegra124.dtsi b/arch/arm/boot/dts/tegra124.dtsi
-index 76c1ef923213..f00e962c8f55 100644
---- a/arch/arm/boot/dts/tegra124.dtsi
-+++ b/arch/arm/boot/dts/tegra124.dtsi
-@@ -1056,6 +1056,7 @@ phy1: usb-phy@7d000000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 22>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -1093,6 +1094,7 @@ phy2: usb-phy@7d004000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 58>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -1129,6 +1131,7 @@ phy3: usb-phy@7d008000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 59>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index 9e71ed84bf28..77f6b3ee8418 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -735,6 +735,7 @@ phy1: usb-phy@c5000000 {
- 		clock-names = "reg", "pll_u", "timer", "utmi-pads";
- 		resets = <&tegra_car 22>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,has-legacy-mode;
- 		nvidia,hssync-start-delay = <9>;
- 		nvidia,idle-wait-delay = <17>;
-@@ -769,6 +770,7 @@ phy2: usb-phy@c5004000 {
- 		clock-names = "reg", "pll_u", "ulpi-link";
- 		resets = <&tegra_car 58>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		status = "disabled";
- 	};
- 
-@@ -795,6 +797,7 @@ phy3: usb-phy@c5008000 {
- 		clock-names = "reg", "pll_u", "timer", "utmi-pads";
- 		resets = <&tegra_car 59>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <9>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 536cc5629440..3d0515f6db51 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -914,6 +914,7 @@ phy1: usb-phy@7d000000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 22>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <9>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -951,6 +952,7 @@ phy2: usb-phy@7d004000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 58>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <9>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
-@@ -987,6 +989,7 @@ phy3: usb-phy@7d008000 {
- 		clock-names = "reg", "pll_u", "utmi-pads";
- 		resets = <&tegra_car 59>, <&tegra_car 22>;
- 		reset-names = "usb", "utmi-pads";
-+		#phy-cells = <0>;
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,idle-wait-delay = <17>;
- 		nvidia,elastic-limit = <16>;
+diff --git a/arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi b/arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi
+index 3fdc6ff32b0c..0d6890af457e 100644
+--- a/arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi
++++ b/arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi
+@@ -1559,6 +1559,7 @@ i2c@7000d000 {
+ 		sgtl5000: codec@a {
+ 			compatible = "fsl,sgtl5000";
+ 			reg = <0x0a>;
++			#sound-dai-cells = <0>;
+ 			VDDA-supply = <&reg_module_3v3_audio>;
+ 			VDDD-supply = <&reg_1v8_vddio>;
+ 			VDDIO-supply = <&reg_1v8_vddio>;
+diff --git a/arch/arm/boot/dts/tegra124-apalis.dtsi b/arch/arm/boot/dts/tegra124-apalis.dtsi
+index 29ceeba1e7b1..8857a11332c2 100644
+--- a/arch/arm/boot/dts/tegra124-apalis.dtsi
++++ b/arch/arm/boot/dts/tegra124-apalis.dtsi
+@@ -1552,6 +1552,7 @@ i2c@7000d000 {
+ 		sgtl5000: codec@a {
+ 			compatible = "fsl,sgtl5000";
+ 			reg = <0x0a>;
++			#sound-dai-cells = <0>;
+ 			VDDA-supply = <&reg_module_3v3_audio>;
+ 			VDDD-supply = <&reg_1v8_vddio>;
+ 			VDDIO-supply = <&reg_1v8_vddio>;
+diff --git a/arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi b/arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi
+index 9421063cd86c..fdd3e4e3522b 100644
+--- a/arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi
++++ b/arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi
+@@ -855,6 +855,7 @@ i2c@7000d000 {
+ 		sgtl5000: codec@a {
+ 			compatible = "fsl,sgtl5000";
+ 			reg = <0x0a>;
++			#sound-dai-cells = <0>;
+ 			VDDA-supply = <&reg_module_3v3_audio>;
+ 			VDDD-supply = <&reg_1v8_vio>;
+ 			VDDIO-supply = <&reg_module_3v3>;
+diff --git a/arch/arm/boot/dts/tegra30-apalis.dtsi b/arch/arm/boot/dts/tegra30-apalis.dtsi
+index d13f6b0c7c0c..90694d1a3b0c 100644
+--- a/arch/arm/boot/dts/tegra30-apalis.dtsi
++++ b/arch/arm/boot/dts/tegra30-apalis.dtsi
+@@ -846,6 +846,7 @@ i2c@7000d000 {
+ 		sgtl5000: codec@a {
+ 			compatible = "fsl,sgtl5000";
+ 			reg = <0x0a>;
++			#sound-dai-cells = <0>;
+ 			VDDA-supply = <&reg_module_3v3_audio>;
+ 			VDDD-supply = <&reg_1v8_vio>;
+ 			VDDIO-supply = <&reg_module_3v3>;
+diff --git a/arch/arm/boot/dts/tegra30-colibri.dtsi b/arch/arm/boot/dts/tegra30-colibri.dtsi
+index a7bfe26f038d..933087ee45a8 100644
+--- a/arch/arm/boot/dts/tegra30-colibri.dtsi
++++ b/arch/arm/boot/dts/tegra30-colibri.dtsi
+@@ -723,6 +723,7 @@ i2c@7000d000 {
+ 		sgtl5000: codec@a {
+ 			compatible = "fsl,sgtl5000";
+ 			reg = <0x0a>;
++			#sound-dai-cells = <0>;
+ 			VDDA-supply = <&reg_module_3v3_audio>;
+ 			VDDD-supply = <&reg_1v8_vio>;
+ 			VDDIO-supply = <&reg_module_3v3>;
 -- 
 2.24.1
 
