@@ -2,102 +2,186 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F30B1FB2EA
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1207D1FB2FA
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 15:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728917AbgFPNz5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 09:55:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
+        id S1729065AbgFPN4q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 09:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728815AbgFPNzj (ORCPT
+        with ESMTP id S1728934AbgFPN4q (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 09:55:39 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3743EC0613ED
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:39 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id l17so2992369wmj.0
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 06:55:39 -0700 (PDT)
+        Tue, 16 Jun 2020 09:56:46 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFA0C061573;
+        Tue, 16 Jun 2020 06:56:45 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id i3so19114624ljg.3;
+        Tue, 16 Jun 2020 06:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DGzB0/0/il17VNqcHra8V8a8lDPZ/qFFOjjsMWa0K+o=;
-        b=GfDCizPR0iMBSNcQN8A211laGhsls+R4319HIstBW6C1SFDmd/9irZfxnoX4S60PUi
-         HAXLjAdQcFcuFGKlmV+i9AAvQWHeKyZ0rpF+LOpkU7bD/c8wk8ThMdrpTxOdVfvqSelE
-         joNh0xtDepA/6i5QrPygN0+5v0GyU+oj+u7c5lIfWZwonOFFs8kSowxhKjCqLiC0T0AN
-         xXHu6cbW10RvD9MF5OZ+y6PV/fUhpG3ktuRh8PyurPWiZ82zP6Zb1x99u2ezmDW57DIt
-         2wYSYmcqVsB6O7lVqwzBHBRG6QiElal9y5jT8rdQzApMiceDzT6IPrnhuamv4Uztm93/
-         tAFA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PS/HoxcWaI8mWZ7gB9+dY98FWzRMtZgjXEzoehTh0Ew=;
+        b=pAGImOj5/FyFG7cuoImMCNenbaRAmkeTotTDDzfPVZVbJM1K88K4JP6jm6dvadYcZy
+         mPZC5kmnXbfscwKku7+Z/gM8b+ZSJgtl6d5voJZ0Po5uBt7VtwYQT48DoFwslLPdj+YH
+         4JDzN8UsAam8lv/hY4H3SxlNVNpDUPPgtwxAVnwub6sRM1AFM5csEXv/pxUY64fgUerI
+         f7hxolJj/ulFB9UCFpSVWlOtCyUFTNkAL+4rRN99AmoaF0Mt9LdK2Uw/u1drRDmLQ2rF
+         rpMrSnktgUkzbFMa5/pB95loMH7fVddBJvQX5t3myVpCdi/GPT89SsHtTWFylKuqIoUM
+         ff2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DGzB0/0/il17VNqcHra8V8a8lDPZ/qFFOjjsMWa0K+o=;
-        b=CwhIdNr/QgCiYUwXm/r4xDl50lD04K5kwpHedVB1NxZZCziTHoPNgpHfYvXHs9FLoe
-         ztL2j89iXUZgO1CXG0RXKpJL82+BxvlqHncJ6qHeZtIgBjeYZsexYked571HWaovpbei
-         ie/xDlvBTWu3HUcPR+bzjQXbBbP+Mjsk/uN7dLori2soVrGIqXqctF4g50W9EoZr/VSY
-         dHAX0rA82gDqAkgvPXIviqlpgGGIN0JeWySXscUTPI/lungCFVbR5yURK/nWrd8eMwxG
-         IB48Thagtdx9QIQXgjUP3LhLH9WOu8URymaEpHvBps32RN0JNCGWaPC4aJd5sGCUgZIK
-         f9sA==
-X-Gm-Message-State: AOAM530mMcuBNUDIMQ5F9yIM8hwjlDccMu/PeXJzrxNa07v+PnimtjkP
-        aldDslGr18tzohqzXMI8uEQ=
-X-Google-Smtp-Source: ABdhPJyvOJUx8J8tverpbBVlKwlWUXIE1Ix8D7gKUxJaOT4kLqxfAok6NyTmm+d7P2I1R0jX1hubiQ==
-X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr3232857wmc.1.1592315738010;
-        Tue, 16 Jun 2020 06:55:38 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id a1sm4008540wmj.29.2020.06.16.06.55.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 06:55:37 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 73/73] arm64: tegra: Fix order of XUSB controller clocks
-Date:   Tue, 16 Jun 2020 15:52:38 +0200
-Message-Id: <20200616135238.3001888-74-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200616135238.3001888-1-thierry.reding@gmail.com>
-References: <20200616135238.3001888-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PS/HoxcWaI8mWZ7gB9+dY98FWzRMtZgjXEzoehTh0Ew=;
+        b=XIaL1i2RoI7uSNcaS3RZpoLsGp/22yFDW/ug/Gv5EESHz4LSDjo4xvsbswnwCvTBZo
+         qeDIYs+an04uKa3uIZ2wIzmfksm4LRTPMh2aAhjNTi4y1C/Mwh4vR3T2Vwmp3eQnApsw
+         KVBc15GHRzNexexU73XK5QHOJvhXUJHpizkE6nkeIZRqhEuvB9bEcBoz5NuKoxRIQged
+         Dntc3b6ZL6mdkmHKbMIOhqChHSwzlkF+Mn3nQGZWnGhrubOvh90MJ4hpyIE1uoh6GYGT
+         VwlMSIRzFRNgAPLe0xc5m20XI+gHyR4kqoCap/A02hVNURFtyqKoOjrzW8ADvtD/V7mD
+         cttA==
+X-Gm-Message-State: AOAM5300Y6n13YJEqzCfOuOHxabFVJ7ohl7/wup3RrSTEpZRXR/E+iDn
+        IYoy5HFwb9nwlJRy579ZwJKIqfap
+X-Google-Smtp-Source: ABdhPJwzAbeBz96CnSD3eXpvoUY0onr46lm/vCHg1gRZHDpRKM99xRKWswjoFbC3ypLhP+eFpq26lA==
+X-Received: by 2002:a2e:8601:: with SMTP id a1mr1404322lji.255.1592315803565;
+        Tue, 16 Jun 2020 06:56:43 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id 80sm4401198ljf.85.2020.06.16.06.56.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2020 06:56:42 -0700 (PDT)
+Subject: Re: [PATCH v7 1/6] of_graph: add of_graph_get_local_port()
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200614172234.8856-1-digetx@gmail.com>
+ <20200614172234.8856-2-digetx@gmail.com>
+ <20200616012111.GE1629@pendragon.ideasonboard.com>
+ <20200616012513.GF1629@pendragon.ideasonboard.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8b7c6395-edd8-cecd-7004-e9f3f22d61f2@gmail.com>
+Date:   Tue, 16 Jun 2020 16:56:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200616012513.GF1629@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+16.06.2020 04:25, Laurent Pinchart пишет:
+> On Tue, Jun 16, 2020 at 04:21:12AM +0300, Laurent Pinchart wrote:
+>> Hi Dmitry,
+>>
+>> Thank you for the patch.
+>>
+>> On Sun, Jun 14, 2020 at 08:22:29PM +0300, Dmitry Osipenko wrote:
+>>> In some case, like a DRM display code for example, it's useful to silently
+>>> check whether port node exists at all in a device-tree before proceeding
+>>> with parsing the graph.
+>>>
+>>> This patch adds of_graph_get_local_port() which returns pointer to a local
+>>> port node, or NULL if graph isn't specified in a device-tree for a given
+>>> device node.
+>>>
+>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/of/property.c    | 32 +++++++++++++++++++++++---------
+>>>  include/linux/of_graph.h |  7 +++++++
+>>>  2 files changed, 30 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/of/property.c b/drivers/of/property.c
+>>> index 1f2086f4e7ce..05c5f619b8bb 100644
+>>> --- a/drivers/of/property.c
+>>> +++ b/drivers/of/property.c
+>>> @@ -608,15 +608,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+>>>  	 * parent port node.
+>>>  	 */
+>>>  	if (!prev) {
+>>> -		struct device_node *node;
+>>> -
+>>> -		node = of_get_child_by_name(parent, "ports");
+>>> -		if (node)
+>>> -			parent = node;
+>>> -
+>>> -		port = of_get_child_by_name(parent, "port");
+>>> -		of_node_put(node);
+>>> -
+>>> +		port = of_graph_get_local_port(parent);
+>>>  		if (!port) {
+>>>  			pr_err("graph: no port node found in %pOF\n", parent);
+>>>  			return NULL;
+>>> @@ -765,6 +757,28 @@ struct device_node *of_graph_get_remote_port(const struct device_node *node)
+>>>  }
+>>>  EXPORT_SYMBOL(of_graph_get_remote_port);
+>>>  
+>>> +/**
+>>> + * of_graph_get_local_port() - get local port node
+>>> + * @node: pointer to a local endpoint device_node
+>>> + *
+>>> + * Return: First local port node associated with local endpoint node linked
+>>> + *	   to @node. Use of_node_put() on it when done.
+>>> + */
+>>> +struct device_node *of_graph_get_local_port(const struct device_node *node)
+> 
+> I forgot to mention that, given that there could be multiple 'port'
+> nodes, this function would be better named
+> of_graph_get_first_local_port(). 'first' here would refer to the nodes
+> order in the device tree, which I believe may not match the port number.
+> For instance, in the following case
+> 
+> 	ports {
+> 		#address-cells = <1>;
+> 		#size-cells = <1>;
+> 		port@1 {
+> 			reg = <1>;
+> 		};
+> 		port@0 {
+> 			reg = <0>;
+> 		};
+> 	};
+> 
+> the function would I believe return port@1. It may be a good idea to
+> explain this in the documentation.
 
-This is purely to make the json-schema validation tools happy because
-they cannot deal with string arrays that may be in arbitrary order.
+Hello Laurent,
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+It's correct that the port@1 will be returned in yours example.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index c265211f8a84..b9c6ba707ef9 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -997,8 +997,8 @@ usb@70090000 {
- 			 <&tegra_car TEGRA210_CLK_XUSB_HOST_SRC>,
- 			 <&tegra_car TEGRA210_CLK_XUSB_FALCON_SRC>,
- 			 <&tegra_car TEGRA210_CLK_XUSB_SS>,
--			 <&tegra_car TEGRA210_CLK_XUSB_SS_DIV2>,
- 			 <&tegra_car TEGRA210_CLK_XUSB_SS_SRC>,
-+			 <&tegra_car TEGRA210_CLK_XUSB_SS_DIV2>,
- 			 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
- 			 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>,
- 			 <&tegra_car TEGRA210_CLK_PLL_U_480M>,
-@@ -1006,7 +1006,7 @@ usb@70090000 {
- 			 <&tegra_car TEGRA210_CLK_PLL_E>;
- 		clock-names = "xusb_host", "xusb_host_src",
- 			      "xusb_falcon_src", "xusb_ss",
--			      "xusb_ss_div2", "xusb_ss_src",
-+			      "xusb_ss_src", "xusb_ss_div2",
- 			      "xusb_hs_src", "xusb_fs_src",
- 			      "pll_u_480m", "clk_m", "pll_e";
- 		resets = <&tegra_car 89>, <&tegra_car 156>,
--- 
-2.24.1
+I'll improve the doc and the function's name in the next revision, thank
+you for the suggestions!
 
+> Depending on how you use this
+> function, if your only use case is to test for the presence of port
+> nodes, it may be best to return a bool and name it of_graph_has_port()
+> or something similar.
+> 
+>>> +{
+>>> +	struct device_node *ports, *port;
+>>> +
+>>> +	ports = of_get_child_by_name(node, "ports");
+>>> +	if (ports)
+>>> +		node = ports;
+>>> +
+>>> +	port = of_get_child_by_name(node, "port");
+>>> +	of_node_put(ports);
+>>> +
+>>> +	return port;
+>>
+>> The implementation doesn't seem to match the documentation. If node is a
+>> pointer to an endpoint, it should not have any ports child.
+
+Right, I'll reword the doc in v8. This function doesn't differentiate
+between start / end points. It's up to a user of this function to check
+whether node is endpoint or something else if needed.
+
+Thank you very much for the comments!
