@@ -2,69 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5909D1FBBE1
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 18:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 164571FBCB0
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jun 2020 19:21:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729215AbgFPQip (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 12:38:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54468 "EHLO
+        id S1727989AbgFPRVB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jun 2020 13:21:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729096AbgFPQio (ORCPT
+        with ESMTP id S1726573AbgFPRVB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 12:38:44 -0400
+        Tue, 16 Jun 2020 13:21:01 -0400
 Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF765C061573
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 09:38:43 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id c11so1772947lfh.8
-        for <linux-tegra@vger.kernel.org>; Tue, 16 Jun 2020 09:38:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB5FC061573;
+        Tue, 16 Jun 2020 10:21:00 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id u25so5740896lfm.1;
+        Tue, 16 Jun 2020 10:21:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=goTjruJDxLjz4AJd/syAHegMRf5NuYWgRb49fm6LsE0=;
-        b=vHepsuqmzRFE/eoj9fB/+OVEMXjR1MyCFDI5crng09VxEJLwAFfUIHMp5o0K9qT4rt
-         L1Yh51cGsH3Jy53L05nHILmYaqmKz44ieslnmH84OOhIvslnV8zH+HzpO6DUCnIiUd1d
-         5nn5rmwXUK52TGX3UTkXqxav5GAajxYhUw5a4KJcnY7Ulb3IJVDsYhL/bXeiFEDYWjIG
-         875oWxRwZl4i5mGm9tVo2L5GAb5V5+NmAJP6dIzpl21fOeYBgOqANXiD1WljVcmBwX9i
-         jNT59Z0hMcmbnYwTPl5O7VZ8K6f1V5LYumAUk3w3OHi+PaZg9h1uy6+e3V5U5FCDF6Nh
-         8Jkg==
+        bh=xz/J2mfr4ZLz3Nv4ZC1hfD6KYzp10cq3v/xXkiMhBe8=;
+        b=cqHsDB8jT5NZgtLBCl9w/wds8fgGQCEFg8oiukWotf2MWoE6K9YydrTOlKgqicTIjp
+         EqGYEo7mNBJEekdGbZ3z59MFYyxh31iTIOFqIMwIfJPZ+qDxEpmOBniiCzPvjQIyrfFh
+         T68Fes70FKWOaAM+bttpvi0zxIkqnkGTn83KU1U/TknuX75OiJs6jWPra7MdtsIZr/Jd
+         roT0oNld+8+cam/01kba37cbkdc+FbEjg9724IcKGnlKQLBPAlXtUODBVRMb2/5mVedI
+         e4M355vTl3X0TSBi2d5+9y4BOXQhTqsq7bPXb4dfSPmNg3CjycHAYs2qWSqZoBO/7qH+
+         AW9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=goTjruJDxLjz4AJd/syAHegMRf5NuYWgRb49fm6LsE0=;
-        b=AUvdbpOOq7LXu1y0MqCNIkNBP6AvNc2oh/ZJC6QFuclcUXbfIHjbGGdrcMy5/+SqVn
-         vHeNl3nSXmuyV9XZo7Mef+einozsRIo9R3N6VDr5X2l8I3SyAaNiSfzbHGnc3d76988W
-         qf81LChKr85aNyVZNAFy/ZSDxg4mh8uN+UiZiYb29qXsOA/54RtZ0G2xM7U4T0pF5He8
-         JQW9c7VBhn8qRvh+PkEbo3RXpMJO/5pk9UCmng5iBkrBSEnT/MHmpvX2PAcoXljcJeZT
-         3hcF4fFuX7TM2fsl92PHQ1f+uDCpYIBMUoy3H53QMVp1k8TE9rw1aeh1n3/kmeMX0DdG
-         GOhg==
-X-Gm-Message-State: AOAM5304h9Cl7O/pNHXhUwZnVHpD9zFuH7UKaiQiBCGJiNF1tFZXn8LF
-        CjJeuSgAuZE90zEaHU/HIp78NhfQ
-X-Google-Smtp-Source: ABdhPJwjGtdQRc29lKLhwd+XFnY0aTIdP/fKM26BJVc2NCs6StmmoDyRYP4CLesmh6GLfsD7U7kehA==
-X-Received: by 2002:a19:cb92:: with SMTP id b140mr2239964lfg.63.1592325522081;
-        Tue, 16 Jun 2020 09:38:42 -0700 (PDT)
+        bh=xz/J2mfr4ZLz3Nv4ZC1hfD6KYzp10cq3v/xXkiMhBe8=;
+        b=MEjH9Nyp0BnvZLDDKA1j0UYHPTYlkqz/UQq+AdtSrd5PiSQcFtLnijS3xkJ9F6YWGP
+         kj2LCoJMj06ZF+viy2oliqXXBTeftCGiQSfvowDs4BOCPfwh5N3/S15W91bZDj8Kzrfw
+         1c/Bofp7jcLSeRne4g/Z1HbyoUQPFv7NnNuC4D8vQukh95sP0OLFzYoEHf91rxWwcVWe
+         X+6WhrTPsFyy8swcfRBtq11j8emBJwllRgEpXcuuNVjJpkiIUKB2Rrzhu6oss/p7JDDW
+         8x3r1jDQviV5i4C2epGgXILEIrru8KtfLvzxWSgKNiSfIjGwg7wJDPdQx2B/u6gk4CYy
+         S6Fw==
+X-Gm-Message-State: AOAM530c5TpMYgOAHk6Oca+OjiE7xGdKMTFDv9knkOVkMChJgVv/17oo
+        QyiCyeY6wVDWCQUEgl1r6os=
+X-Google-Smtp-Source: ABdhPJwmRS1Y2/ri0XsSXCFuEMSpKb0CsVkzRMi5+vL2Z292q2XEKJgXhlValE8FdhA4+4/xgOJBFg==
+X-Received: by 2002:ac2:4c23:: with SMTP id u3mr1127081lfq.84.1592328058834;
+        Tue, 16 Jun 2020 10:20:58 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id w26sm4463879ljj.114.2020.06.16.09.38.40
+        by smtp.googlemail.com with ESMTPSA id s18sm5353810ljj.63.2020.06.16.10.20.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 09:38:41 -0700 (PDT)
-Subject: Re: [PATCH v2] drm/tegra: Add zpos property for cursor planes
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20200616121713.2983627-1-thierry.reding@gmail.com>
- <c34c97ab-08de-341e-05e5-77e2651d956f@gmail.com>
- <20200616161341.GA3009091@ulmo>
+        Tue, 16 Jun 2020 10:20:58 -0700 (PDT)
+Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
+ <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
+ <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <515daee1-464f-31ab-53c4-ec01fbf42c2d@gmail.com>
-Date:   Tue, 16 Jun 2020 19:38:40 +0300
+Message-ID: <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
+Date:   Tue, 16 Jun 2020 20:20:57 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200616161341.GA3009091@ulmo>
+In-Reply-To: <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,80 +78,114 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.06.2020 19:13, Thierry Reding пишет:
-> On Tue, Jun 16, 2020 at 06:54:35PM +0300, Dmitry Osipenko wrote:
->> 16.06.2020 15:17, Thierry Reding пишет:
->>> From: Thierry Reding <treding@nvidia.com>
->>>
->>> As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
->>> have a zpos property") a warning is emitted if there's a mix of planes
->>> with and without a zpos property.
->>>
->>> On Tegra, cursor planes are always composited on top of all other
->>> planes, which is why they never had a zpos property attached to them.
->>> However, since the composition order is fixed, this is trivial to
->>> remedy by simply attaching an immutable zpos property to them.
->>>
->>> Changes in v2:
->>> - hardcode cursor plane zpos to 255 instead of 0 (Ville)
->>>
->>> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
->>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>> ---
->>>  drivers/gpu/drm/tegra/dc.c  | 9 +++++++--
->>>  drivers/gpu/drm/tegra/hub.c | 2 +-
->>>  2 files changed, 8 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
->>> index 83f31c6e891c..85408eed4685 100644
->>> --- a/drivers/gpu/drm/tegra/dc.c
->>> +++ b/drivers/gpu/drm/tegra/dc.c
->>> @@ -787,7 +787,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
->>>  	}
->>>  
->>>  	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
->>> -	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
->>> +	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
->>>  
->>>  	err = drm_plane_create_rotation_property(&plane->base,
->>>  						 DRM_MODE_ROTATE_0,
->>> @@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
->>>  	}
->>>  
->>>  	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
->>> +	drm_plane_create_zpos_immutable_property(&plane->base, 255);
->>>  
->>>  	return &plane->base;
->>>  }
->>> @@ -1074,7 +1075,11 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
->>>  	}
->>>  
->>>  	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
->>> -	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
->>> +
->>> +	if (!cursor)
->>> +		drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
->>> +	else
->>> +		drm_plane_create_zpos_immutable_property(&plane->base, 255);
+16.06.2020 18:48, Emil Velikov пишет:
+> On Tue, 16 Jun 2020 at 12:40, Dmitry Osipenko <digetx@gmail.com> wrote:
 >>
->> On T20/30 we're are setting the plane's type to CURSOR because we want
->> to use one overlay plane for the mouse cursor. Nevertheless, it's still
->> a generic overlay plane that can change its z-position, and thus, it's
->> wrong to make zpos immutable here.
+>> 16.06.2020 01:26, Emil Velikov пишет:
+>>> Hi Dmitry,
+>>>
+>>> On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> Hello!
+>>>>
+>>>> This series adds 180° display plane rotation support to the NVIDIA Tegra
+>>>> DRM driver which is needed for devices that have display panel physically
+>>>> mounted upside-down, like Nexus 7 tablet device for example [1]. Since
+>>>> DRM panel rotation is a new thing for a userspace, currently only
+>>>> Opentegra Xorg driver handles the rotated display panel [2], but this
+>>>> is good enough for the start.
+>>>>
+>>>> Note that later on it should be possible to implement a transparent 180°
+>>>> display rotation for Tegra DRM driver which will remove the need to have
+>>>> a bleeding edge userspace that knows how to rotate display planes and I'm
+>>>> slowly working on it. For the starter we can go with the minimal rotation
+>>>> support, so it's not a blocker.
+>>>>
+>>>> This series is based on the work that was made by Derek Basehore for the
+>>>> Mediatek driver [3], his patch is included into this patchset. I added
+>>>> my tested-by tag to the Derek's patch.
+>>>>
+>>>> Please review and apply, thanks in advance!
+>>>>
+>>>> [1] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200607154327.18589-3-digetx@gmail.com/
+>>>> [2] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a3959bbe5bc3a3b67e55977093fd5114ca
+>>>> [3] https://lkml.org/lkml/2020/3/5/1119
+>>>>
+>>>> Changelog:
+>>>>
+>>>> v2: - Dropped "drm/panel: Set display info in panel attach" patch, which
+>>>>       turned out to be obsolete now.
+>>>>
+>>>>     - Renamed the cover-latter, hopefully this will fix the bouncing emails.
+>>>>
+>>>> Derek Basehore (1):
+>>>>   drm/panel: Add helper for reading DT rotation
+>>>>
+>>>> Dmitry Osipenko (4):
+>>>>   drm/panel: lvds: Set up panel orientation
+>>>
+>>> IMHO it's perfectly reasonable to report the panel orientation to
+>>> userspace, which can apply plane rotation as needed.
+>>>
+>>> Although I see that this series, alike Derek's, has a couple of issues:
+>>>  - only a single panel driver is updated
+>>>  - rotation is _not_ listed as supported property, in said panel
+>>> driver device-tree bindings
+>>>
+>>> My personal inclination is that we should aim for a comprehensive solution:
+>>>  - wire all panel drivers, as currently documented (quick grep list below)
+>>>  - document and wire-up the lvds and boe panels - as proposed by you
+>>> and Derek respectively
+>>>
+>>> HTH
+>>> Emil
+>>>
+>>> Documentation/devicetree/bindings/display/himax,hx8357d.txt:2
+>>> Documentation/devicetree/bindings/display/ilitek,ili9225.txt:2
+>>> Documentation/devicetree/bindings/display/ilitek,ili9341.txt:2
+>>> Documentation/devicetree/bindings/display/ilitek,ili9486.yaml:2
+>>> Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt:2
+>>> Documentation/devicetree/bindings/display/panel/panel-common.yaml:2
+>>> Documentation/devicetree/bindings/display/sitronix,st7586.txt:1
+>>> Documentation/devicetree/bindings/display/sitronix,st7735r.yaml:2
+>>
+>> Rotation is a common DT panel property that is described in the
+>> panel-common.yaml.
+> The property was introduced almost exclusively for tiny drm panels.
+> Those ones are a bit different from the rest (in panel/) -
+> MIPI-DBI/SPI w/o (not connected at least) an actual GPU.
 > 
-> But it doesn't really make sense for the cursor plane to change z-
-> position, even if it's technically possible. We do want it to always be
-> on top anyway. Doing it this way makes the cursor behave the same way
-> irrespective of the Tegra generation that we're running on.
+> To make it a bit better, the rotation is seemingly performed in the
+> tiny driver itself ouch.
 > 
-> Yes, that may not fully expose the capabilities of the hardware, but we
-> are already restricting the hardware capabilities by exposing the
-> overlay plane as a cursor plane in the first place.
+>> This property is supported by all panel bindings
+>> because these bindings inherent the common properties from the
+>> panel-common.yaml.
+>>
+> Seems like that was an unintentional change with the conversion to YAML.
+> Beforehand only a few selected panels had rotation. Upon closer look -
+> some panels do have follow-up fixes, to remove/limit the implicit
+> inclusion.
 
-Userspace is free to reuse cursor's plane for different purposes. For
-example, cursor may be not needed at all and then cursor plane could be
-used as a regular overlay plane.
+Interesting.. my understanding that the rotation property is supposed to
+be a generic property which represents physical orientation of a display
+panel and hence it should be applicable to all panels.
 
-The patch's title and commit's description says "*Add* zpos property for
-cursor planes", but in this case zpos property already existed before
-this patch, hence you're changing the old behavior here.
+> Sam seems like you've done most of the YAML conversion. IMHO it would
+> make sense to revisit the patches and inherit common properties only
+> as applicable.
+> 
+>> I don't think that it makes sense to wire up rotation property to all
+>> panel drivers at once because those drivers will be untested, at least I
+>> don't know anything about those other panels and can't test them. It
+>> will be much better to support the rotation on by as-needed basis for
+>> each panel driver individually.
+> 
+> How about CCing the author and reviewer asking them to test the patch?
+> The only place where the patches might cause an issue is with tiny,
+> although patches would still be appreciated.
+
+There are quite a lot of panel drivers and I'm a bit doubtful that at
+least half of devices that use those panels have any real use for the
+rotation property. I could write the patches.. but in the end it could
+be a wasted effort if nobody needs it, so I'd prefer not to do it.
