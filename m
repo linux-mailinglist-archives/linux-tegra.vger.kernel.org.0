@@ -2,72 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3CD21FD883
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 00:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1651FD8A7
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 00:28:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbgFQWOS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 18:14:18 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:46042 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbgFQWOQ (ORCPT
+        id S1726919AbgFQW14 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 18:27:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726909AbgFQW14 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 18:14:16 -0400
-Received: by mail-io1-f68.google.com with SMTP id y5so4738827iob.12;
-        Wed, 17 Jun 2020 15:14:15 -0700 (PDT)
+        Wed, 17 Jun 2020 18:27:56 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E807C061755;
+        Wed, 17 Jun 2020 15:27:56 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id n24so4827080lji.10;
+        Wed, 17 Jun 2020 15:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3D9xQhWZ3+YNDU2r3XFRC5VYoSXlYv2ysEuYOTTgQ9M=;
+        b=un8se91FM/g6jWvRAyHnx+IUi/eX7BKAQqq6Z2OB8CfQ//QMLl2IMo6RFV2TF3qk4s
+         qIAybcRM+CUXrSX+5Snhy0T73NiNIOT+vdWGw8zQWXbM6wh32a1ynuUfaMGVD59wEcSg
+         kMc7rwuFWLfJ97dQnTM+OK0Lw9U9msQgdYCK11ju+lpeO23kuD1TSYGZ944zoj/Wl1hs
+         m+N8lOGSJpOpYwmxlKiapIIx5uuw1SH5bOV2/R+zPKBZZdvFnQsD91Nb5hnVow/oCtlr
+         +r6LLBTAfL5bbNOv9AOLMtjKBPI0U9vVLjzHk5tmmT010oguOyIaSs5O5eqQ8RJ3S/e1
+         Z0cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DRXryslTGLkMJqQMxB14CHKUq6hyTDjdoN304utJi9Y=;
-        b=A86biCGZ7pKnsRQEEStEZdz59LmUrWX+8fti3y48EXk5NieYJgoOZwPz0+aUeZ3CI5
-         KD6NpsHz1v8LyLsGZ1N5YGJAHhiJzbUO6cnnoBHYSNOSQpNVuQCXfkzaQQjBeH5UTImY
-         p2rN+lJywhel8QhIpBNXmz0Hc37bJNPFHiLM5j4n8YrmGbir27yusQzTlnj04LLvUoXN
-         LJXcPSiYiMqct+CI0ogCwfNs709/T2Ehe7K1L9YldBL2emq9sIot8EJ8RObPlRdR7WL9
-         DZNwDlIJVnU27XPghZovC5UVMpEVyGX/bRvTHOHKdC5lIiCl7UI6Mycu9kjhcTeDtmuX
-         Nlpg==
-X-Gm-Message-State: AOAM532zcyyOqjEJ/MP0hZQ91tKgA8sb3rImTeDNXXpgEAfFScO+XMrR
-        2yegpUmVNZb0ha4PqTD65g==
-X-Google-Smtp-Source: ABdhPJz7QUutK4RE5S/N61ajEcfcIYnRVvw0B0Br3nuAULonfWSMZqjN0BZ4yZD6EFLd0+qnRQpNQQ==
-X-Received: by 2002:a05:6638:35d:: with SMTP id x29mr1434644jap.71.1592432054953;
-        Wed, 17 Jun 2020 15:14:14 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id f1sm494482ilh.17.2020.06.17.15.14.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3D9xQhWZ3+YNDU2r3XFRC5VYoSXlYv2ysEuYOTTgQ9M=;
+        b=HMsR1wsY7i4vf1ImVvv4N90/T0oTlmIywQtZ4eU1EUpkr/uYAuS9Ui38HzB85GMzhd
+         ScdouqPIaXvlc7Q8tPr1pcMHkw2Ale2uRSFu5cfBuEv6B0Rs4mfCbYX+eEten9TaXsPN
+         2jtK+p4GDoR8jEdwZNn4HSNvpYDvzCV7/ixBP6FLnIzOz4lft24NdwgA1q1m5c1TyF+h
+         900bjXIU7TTLVeY/Zu7/eS6N5NkuIj6/0j7tVVjfFYaM20PRI3tkg4wdvC5elX9ucjy1
+         bDNg0VyL1NQgPjHO5pEEN5bX5HaOxuG0nUKVQq9+7++w8puaKRALPSh/O5/CCEn2KTZS
+         o3OA==
+X-Gm-Message-State: AOAM533fS5EnWvKs+h2prYDq5xdFqzKRV9rlQ8mJoJI3bgxavgteGsrF
+        2syxy6zXbuHiKVWNsqF1xYs=
+X-Google-Smtp-Source: ABdhPJzEGsBdGJFrpea3RjyykDqUrbmbjFAu/LCuXYLIg2VKoB8KYemorANMJW815Fpx/HLak+SjYQ==
+X-Received: by 2002:a2e:800b:: with SMTP id j11mr744710ljg.467.1592432874394;
+        Wed, 17 Jun 2020 15:27:54 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id a1sm210378ljk.133.2020.06.17.15.27.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 15:14:14 -0700 (PDT)
-Received: (nullmailer pid 2927550 invoked by uid 1000);
-        Wed, 17 Jun 2020 22:14:11 -0000
-Date:   Wed, 17 Jun 2020 16:14:11 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com,
-        digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v1 10/18] dt-bindings: tegra: Document VI and CSI
- port nodes
-Message-ID: <20200617221411.GB2923473@bogus>
-References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
- <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
+        Wed, 17 Jun 2020 15:27:53 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v8 0/7] Support DRM bridges on NVIDIA Tegra
+Date:   Thu, 18 Jun 2020 01:26:56 +0300
+Message-Id: <20200617222703.17080-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 09, 2020 at 11:02:32PM -0700, Sowjanya Komatineni wrote:
-> This patch documents Tegra VI and CSI port and endpoint nodes along
-> with the other required properties.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  .../display/tegra/nvidia,tegra20-host1x.txt        | 87 ++++++++++++++++++++++
->  1 file changed, 87 insertions(+)
+Hello,
 
-This is getting converted to schema by Thierry.
+This series adds initial support for the DRM bridges to NVIDIA Tegra DRM
+driver. This is required by newer device-trees where we model the LVDS
+encoder bridge properly.
 
-Rob
+Changelog:
+
+v8: - The new of_graph_get_local_port() helper is replaced with the
+      of_graph_presents(), which simply checks the graph presence in a
+      given DT node. Thank to Laurent Pinchart for the suggestion!
+
+    - The of_graph_get_local_port() is still there, but now it isn't a public
+      function anymore. In the review to v7 Laurent Pinchart suggested that
+      the function's doc-comments and name could be improved and I implemented
+      these suggestions in v8.
+
+    - A day ago I discovered that devm_drm_panel_bridge_add() requires
+      panel to have connector type to be properly set, otherwise function
+      rejects panels with the incomplete description. So, I checked what
+      LVDS panels are used on Tegra and fixed the missing connector types
+      in this new patch:
+
+        drm/panel-simple: Add missing connector type for some panels
+
+v7: - Removed the obscure unused structs (which GCC doesn't detect, but CLANG
+      does) in the patch "Wrap directly-connected panel into DRM bridge",
+      which was reported by kernel test robot for v6.
+
+v6: - Added r-b and acks from Rob Herring and Sam Ravnborg.
+
+    - Rebased on a recent linux-next, patches now apply without fuzz.
+
+v5: - Added new patches that make drm_of_find_panel_or_bridge() more usable
+      if graph isn't defined in a device-tree:
+
+        of_graph: add of_graph_get_local_port()
+        drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+
+    - Updated "Support DRM bridges" patch to use drm_of_find_panel_or_bridge()
+      directly and added WARN_ON(output->panel || output->bridge) sanity-check.
+
+    - Added new "Wrap directly-connected panel into DRM bridge" patch, as
+      was suggested by Laurent Pinchart.
+
+v4: - Following review comments that were made by Laurent Pinchart to the v3,
+      we now create and use the "bridge connector".
+
+v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
+      model is now being used, i.e. we ask bridge to *not* create a connector
+      using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+
+    - The bridge is now created only for the RGB (LVDS) output, and only
+      when necessary. For now we don't need bridges for HDMI or DSI outputs.
+
+    - I noticed that we're leaking OF node in the panel's error code path,
+      this is fixed now by the new patch "Don't leak OF node on error".
+
+v2: - Added the new "rgb: Don't register connector if bridge is used"
+      patch, which hides the unused connector provided by the Tegra DRM
+      driver when bridge is used, since bridge provides its own connector
+      to us.
+
+Dmitry Osipenko (7):
+  of_graph: add of_graph_presents()
+  drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+  drm/tegra: output: Don't leak OF node on error
+  drm/tegra: output: Support DRM bridges
+  drm/tegra: output: rgb: Support LVDS encoder bridge
+  drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
+  drm/panel-simple: Add missing connector type for some panels
+
+ drivers/gpu/drm/drm_of.c             |   9 +++
+ drivers/gpu/drm/panel/panel-simple.c |   7 ++
+ drivers/gpu/drm/tegra/drm.h          |   2 +
+ drivers/gpu/drm/tegra/output.c       |  21 ++++--
+ drivers/gpu/drm/tegra/rgb.c          | 102 ++++++++++++++-------------
+ drivers/of/property.c                |  52 +++++++++++---
+ include/linux/of_graph.h             |   6 ++
+ 7 files changed, 137 insertions(+), 62 deletions(-)
+
+-- 
+2.26.0
+
