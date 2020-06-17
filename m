@@ -2,119 +2,234 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C141FD697
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 23:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD481FD781
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 23:37:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726881AbgFQVCw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 17:02:52 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:44359 "EHLO
+        id S1726998AbgFQVhb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 17:37:31 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:37079 "EHLO
         mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgFQVCv (ORCPT
+        with ESMTP id S1726758AbgFQVha (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 17:02:51 -0400
-Received: by mail-io1-f66.google.com with SMTP id i4so1550059iov.11;
-        Wed, 17 Jun 2020 14:02:51 -0700 (PDT)
+        Wed, 17 Jun 2020 17:37:30 -0400
+Received: by mail-io1-f66.google.com with SMTP id r2so4725090ioo.4;
+        Wed, 17 Jun 2020 14:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xFFFGVbhSch5Pt2svn8MimZRF1LlF10vkrqi5t3dW9I=;
-        b=sQdyR7yg6FjwlEvFgoJUeHxE4yCreObyk4DB8tdEQZ8kJMm8lMOSqwmWtvzCCCc4tX
-         OBM8PyeHLCgCQPFupTCiN5+9uikcM8CiTlfAcOi54zFNHzM028w7K4NTspv8naLWIfxD
-         0zIOaE9/9LMO8AymXJ9JdXIqX43hBYnCtx25CfZOIAx+lahwlAT51lXVDMMOCITWjLjY
-         Rn6Wdb41NGZP+TgCWoEBTtgFLry5LI8hHB+k9mPfQ2y4bokX7BQABkZw+qo0MiQHSc44
-         mUftUJdb42wONV8JeDondOluvGCNbyaDhOiTDHud8BFLeGJh7PgiZDnyVS9HZyY5jQOL
-         WAjw==
-X-Gm-Message-State: AOAM5319ZfGjgha8FIt0dNCDbzOUcRiUpbWrfZJtc8lod9gT97WhoxzL
-        QDvsJZtg/r5P1HOxI967Dw==
-X-Google-Smtp-Source: ABdhPJyXhGFVD9efkJSsHu1gz54q5MCenhejfFdnSe9K2byNsnC5c7h0Xj90NBIYtbqHKRUf3MoPIg==
-X-Received: by 2002:a6b:9054:: with SMTP id s81mr1423659iod.122.1592427770922;
-        Wed, 17 Jun 2020 14:02:50 -0700 (PDT)
+        bh=eDqg9gDgvVSfPZzqiBmC+Ly0PCsBuRi5ihRQMpFBE8U=;
+        b=blsnpdE83Rk2nkPaXZMnuo8F2uMG3zjYPB9+atRTIkV95ZrCMW0vU9Dxppn9T7B4DE
+         E4rO/RUQkaW+UH/qNb3n7OSI2eBH5Xj31j3SPGZWosMuaKZkb1Ii24XKsdIGIDh0Jk3V
+         7zkd9YCqGg4WO/04oulGG4wfcSNUOB20R6fjk4d6ZYzKJbpz2gHCX29xFczwg8Tiigwg
+         Rk7gzFhUc/rD4WtyKo+Cclqiyv27TZ3nzDJu5nX4o+oWxP+Uiycvz0ZMjaUGg1FLNyKi
+         qLfJ8+LNXhN7JyV/NGvfoRiTGRRtzfiZB+0eAwCQIouqgFkOy8kay8glFhClOoB3KicT
+         sqlg==
+X-Gm-Message-State: AOAM530zmsh+FAawsfANKtYDywyfZ9Brj4/gIHZ1aZuil+en97fSa0L5
+        1NiE29gPvt5NycvM8bLJ3w==
+X-Google-Smtp-Source: ABdhPJx9QQcoVumUNEnF3FgFX3xUdRgc7f0svAxUDzJFTb5OqnUWg/b7lDrd5jMkkInGDWqQ6v+G+Q==
+X-Received: by 2002:a05:6602:809:: with SMTP id z9mr1553086iow.79.1592429848645;
+        Wed, 17 Jun 2020 14:37:28 -0700 (PDT)
 Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id f11sm398301ilf.53.2020.06.17.14.02.48
+        by smtp.gmail.com with ESMTPSA id r19sm608186ioj.12.2020.06.17.14.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 14:02:50 -0700 (PDT)
-Received: (nullmailer pid 2809826 invoked by uid 1000);
-        Wed, 17 Jun 2020 21:02:47 -0000
-Date:   Wed, 17 Jun 2020 15:02:47 -0600
+        Wed, 17 Jun 2020 14:37:27 -0700 (PDT)
+Received: (nullmailer pid 2869525 invoked by uid 1000);
+        Wed, 17 Jun 2020 21:37:26 -0000
+Date:   Wed, 17 Jun 2020 15:37:26 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Chun-Hung Wu <chun-hung.wu@mediatek.com>
-Cc:     mirq-linux@rere.qmqm.pl, Jonathan Hunter <jonathanh@nvidia.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v6 4/4] dt-bindings: mmc: mediatek: Add document for
- mt6779
-Message-ID: <20200617210247.GA2800817@bogus>
-References: <1591665502-6573-1-git-send-email-chun-hung.wu@mediatek.com>
- <1591665502-6573-5-git-send-email-chun-hung.wu@mediatek.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 22/37] dt-bindings: host1x: Document new interconnect
+ properties
+Message-ID: <20200617213726.GA2837398@bogus>
+References: <20200609131404.17523-1-digetx@gmail.com>
+ <20200609131404.17523-23-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1591665502-6573-5-git-send-email-chun-hung.wu@mediatek.com>
+In-Reply-To: <20200609131404.17523-23-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 09, 2020 at 09:18:22AM +0800, Chun-Hung Wu wrote:
-> Add compatible node for mt6779 mmc and HW cmdq selection
-> node "mediatek,cqhci".
+On Tue, Jun 09, 2020 at 04:13:49PM +0300, Dmitry Osipenko wrote:
+> Most of Host1x devices have at least one memory client. These clients
+> are directly connected to the memory controller. The new interconnect
+> properties represent the memory client's connection to the memory
+> controller.
 > 
-> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  Documentation/devicetree/bindings/mmc/mtk-sd.txt | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../display/tegra/nvidia,tegra20-host1x.txt   | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/mmc/mtk-sd.txt b/Documentation/devicetree/bindings/mmc/mtk-sd.txt
-> index 8a532f4..d4d20b9 100644
-> --- a/Documentation/devicetree/bindings/mmc/mtk-sd.txt
-> +++ b/Documentation/devicetree/bindings/mmc/mtk-sd.txt
-> @@ -12,6 +12,7 @@ Required properties:
->  	"mediatek,mt8173-mmc": for mmc host ip compatible with mt8173
->  	"mediatek,mt8183-mmc": for mmc host ip compatible with mt8183
->  	"mediatek,mt8516-mmc": for mmc host ip compatible with mt8516
-> +	"mediatek,mt6779-mmc": for mmc host ip compatible with mt6779
->  	"mediatek,mt2701-mmc": for mmc host ip compatible with mt2701
->  	"mediatek,mt2712-mmc": for mmc host ip compatible with mt2712
->  	"mediatek,mt7622-mmc": for MT7622 SoC
-> @@ -49,6 +50,9 @@ Optional properties:
->  		     error caused by stop clock(fifo full)
->  		     Valid range = [0:0x7]. if not present, default value is 0.
->  		     applied to compatible "mediatek,mt2701-mmc".
-> +- mediatek,cqhci: HW cmdq selection
-> +		  If present, hw command queue is enabled.
-> +		  If not present, hw command queue is disabled.
-
-'supports-cqe' does the same thing.
-
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> index 47319214b5f6..ab4fbee7bccf 100644
+> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> @@ -20,6 +20,10 @@ Required properties:
+>  - reset-names: Must include the following entries:
+>    - host1x
 >  
->  Examples:
->  mmc0: mmc@11230000 {
+> +Each host1x client module having to perform DMA through the Memory Controller
+> +should have the interconnect endpoints set to the Memory Client and External
+> +Memory respectively.
+> +
+>  The host1x top-level node defines a number of children, each representing one
+>  of the following host1x client modules:
+>  
+> @@ -36,6 +40,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - mpe
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the MPE memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - vi: video input
+>  
+>    Required properties:
+> @@ -65,6 +75,12 @@ of the following host1x client modules:
+>        - power-domains: Must include sor powergate node as csicil is in
+>          SOR partition.
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the VI memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - epp: encoder pre-processor
+>  
+>    Required properties:
+> @@ -78,6 +94,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - epp
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the EPP memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - isp: image signal processor
+>  
+>    Required properties:
+> @@ -91,6 +113,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - isp
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the ISP memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - gr2d: 2D graphics engine
+>  
+>    Required properties:
+> @@ -104,6 +132,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - 2d
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the GR2D memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - gr3d: 3D graphics engine
+>  
+>    Required properties:
+> @@ -122,6 +156,12 @@ of the following host1x client modules:
+>      - 3d
+>      - 3d2 (Only required on SoCs with two 3D clocks)
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the GR3D memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - dc: display controller
+>  
+>    Required properties:
+> @@ -149,6 +189,10 @@ of the following host1x client modules:
+>    - nvidia,hpd-gpio: specifies a GPIO used for hotplug detection
+>    - nvidia,edid: supplies a binary EDID blob
+>    - nvidia,panel: phandle of a display panel
+> +  - interconnects: Must contain entry for the DC memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+>  
+>  - hdmi: High Definition Multimedia Interface
+>  
+> @@ -297,6 +341,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - vic
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the VIC memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  Example:
+>  
+>  / {
+> @@ -410,6 +460,15 @@ Example:
+>  			resets = <&tegra_car 27>;
+>  			reset-names = "dc";
+>  
+> +			interconnects = <&mc TEGRA20_MC_DISPLAY0A &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0B &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0C &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY1B &emc>;
+
+This looks odd or wrong. Each entry has 2 phandles? 
+
+> +			interconnect-names = "display0a",
+> +					     "display0b",
+> +					     "display0c",
+> +					     "display1b";
+> +
+>  			rgb {
+>  				status = "disabled";
+>  			};
+> @@ -425,6 +484,15 @@ Example:
+>  			resets = <&tegra_car 26>;
+>  			reset-names = "dc";
+>  
+> +			interconnects = <&mc TEGRA20_MC_DISPLAY0AB &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0BB &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0CB &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY1BB &emc>;
+> +			interconnect-names = "display0a",
+> +					     "display0b",
+> +					     "display0c",
+> +					     "display1b";
+> +
+>  			rgb {
+>  				status = "disabled";
+>  			};
 > -- 
-> 1.9.1
+> 2.26.0
+> 
