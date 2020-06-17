@@ -2,93 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD9D21FC384
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 03:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C6271FC50E
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 06:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726835AbgFQBkC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jun 2020 21:40:02 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13838 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726808AbgFQBju (ORCPT
+        id S1726762AbgFQEYU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 00:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726728AbgFQEYU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jun 2020 21:39:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ee974580002>; Tue, 16 Jun 2020 18:39:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 16 Jun 2020 18:39:49 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 18:39:49 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 17 Jun
- 2020 01:39:49 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 17 Jun 2020 01:39:48 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.171.186]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ee974630001>; Tue, 16 Jun 2020 18:39:48 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
-        <helen.koike@collabora.com>
-CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
-Subject: [RFC PATCH v2 18/18] arm64: tegra: Enable Tegra VI CSI support for Jetson Nano
-Date:   Tue, 16 Jun 2020 18:41:34 -0700
-Message-ID: <1592358094-23459-19-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Wed, 17 Jun 2020 00:24:20 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A1DC061573;
+        Tue, 16 Jun 2020 21:24:19 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id z206so438536lfc.6;
+        Tue, 16 Jun 2020 21:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=k4Z6DmcjO4F40f/mGsIu+r4CtG3oqiS9+2FvsS6aCpA=;
+        b=q5oFhyejGgj4F26hFNM3e+35ecsdbAb0qtq8E2LzCpIuuWIQPjVV2bBp2b8fSjJ5+b
+         xHQfu1jjqWd3rBUGyHsNqtM3EwUjEw+qKt68+27MIJen97Q4IW/qL1f4mLOlATbBp12L
+         6a/xoF7tKvxAHndOM9qtRs2g/cdhWstMSLSFkQufItYwwQU7lCRxAKOUX9FrTB4gwYbm
+         t8FxFQUlh8Zp14xrc/ee0xzBs+0rdfDPluQj+fo0tKneuS/cDyind+0W2hjbUjplZ0YK
+         XWUZa0ArSxfdndbGS4l7X62o74I8Zspc2MnSFi0JSMKTj3EtUZe7HrxY8uIs8dWi9vZ8
+         i9aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=k4Z6DmcjO4F40f/mGsIu+r4CtG3oqiS9+2FvsS6aCpA=;
+        b=DCayjOq6Impsw2lrAUxbo5IFYbVlHK/mYsO6T3NNi2dpKMExaC0UIhkAfseg+Upalf
+         oMhuArWDmvwViZ9u/dtg7lkCUCgZfrRuQI8i6yhJkJxcKqrYN1+tNBlP/WO1fiOXdDPL
+         Xzd+j92Pc86yT5d+0vEBWO2dkonPK2rPIenMtqIVirlDGtEfdVzqwnmYpgws0HYkWRat
+         x1PWMFQT5KgaqUsOR2GP+0mOYPsHaFk5xHD7r88PTPDQOey/p/pCJlCPcyqRksJyAMMV
+         glmD/Sj3X7JQ4sfhF4u5HguU4uGkf1TL7EB7zX02nUE3bVpPVRF12JeUiIeLf/OoBAqY
+         0qLw==
+X-Gm-Message-State: AOAM531Oy8Tpomfst68Wh2By3EHgr+kP5e/A+P7ZrqlOzDyO7PBre0o3
+        PlNG2Tbdn2CifNPsCFZG7QyvrmLs
+X-Google-Smtp-Source: ABdhPJyuLFzxQUrqklsWbQwrG/hgHoSNkpkR9epdnuxeXa7GaJPTLt9weuaoLzDKQc+hHgE2pKUPmw==
+X-Received: by 2002:ac2:57c6:: with SMTP id k6mr3403238lfo.179.1592367858148;
+        Tue, 16 Jun 2020 21:24:18 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id 26sm4745278ljp.22.2020.06.16.21.24.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2020 21:24:17 -0700 (PDT)
+Subject: Re: [PATCH 25/38] dt-bindings: gpio: tegra: Convert to json-schema
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20200612141903.2391044-1-thierry.reding@gmail.com>
+ <20200612141903.2391044-26-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <186ceadd-317c-a7b2-d4ab-32473f857545@gmail.com>
+Date:   Wed, 17 Jun 2020 07:24:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1592357976; bh=SY37x9I8FIxsGnkaaa43HhEyCfrzG7BzBuiyswO6da0=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=iiRx+dfGO6SuQLvAj9gL6WEGTY3c8ViPNzvI/HV7ane5+rZct4mdlT+LszFnxnlSp
-         vfDpNGFyhlcEMFGxAwGZXHPeOuOHxZkXeiErCSOZfNC6ZDhycAgO0XRZ1Zk+r2eAVy
-         OgGfXxl2NlsiYccNZ2yYuecvmgDg0j4D6eRDb7v2YuC7qyZ5eRM8b+2Sb+qhkfiNQI
-         9sncl/e5SWhS5MGjO0LLwB4fdxxF+uBzpbVqt0ZR8ljnSm8g4qAj+7A0TB/7lTh74+
-         RxSlpQBuqbkIQ+yjnvZbc9ouwrcu7sEzWwOGP+esF8hitq6Wt7dMlf1KQvGsUYQt+u
-         FnTOW15dMcD3Q==
+In-Reply-To: <20200612141903.2391044-26-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch enables VI and CSI in device tree for Jetson Nano.
+12.06.2020 17:18, Thierry Reding пишет:
+...
+> +patternProperties:
+> +  # GPIO hogs; /schemas/gpio/gpio-hog.yaml will match
+> +  "^gpios(-[a-zA-Z0-9-]+)?$":
+> +    type: object
+> +    required:
+> +      - gpio-hog
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+There are two problems here:
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 9bc52fd..eab5c5e 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -64,6 +64,16 @@
- 			status = "okay";
- 		};
- 
-+		vi@54080000 {
-+			status = "okay";
-+
-+			avdd-dsi-csi-supply = <&vdd_sys_1v2>;
-+
-+			csi@838 {
-+				status = "okay";
-+			};
-+		};
-+
- 		sor@54540000 {
- 			status = "okay";
- 
--- 
-2.7.4
+1. This naming limitation didn't exist before this patch, so it's not a
+part of the conversion.
 
+2. GPIO core uses the node's name for the hog's name. Hence by imposing
+the "gpios-" prefix, you're forcing all hogs to be named as gpios-xxx,
+which doesn't make much sense to me.
+
+Please explain the rationale of this change.
