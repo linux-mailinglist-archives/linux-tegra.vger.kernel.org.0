@@ -2,71 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 919A81FD337
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 19:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E6EB1FD4D9
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 20:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbgFQROL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 13:14:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56692 "EHLO
+        id S1727039AbgFQSur (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 14:50:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgFQROK (ORCPT
+        with ESMTP id S1726851AbgFQSur (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 13:14:10 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32337C06174E
-        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 10:14:10 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id q19so3842247lji.2
-        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 10:14:10 -0700 (PDT)
+        Wed, 17 Jun 2020 14:50:47 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7754BC06174E;
+        Wed, 17 Jun 2020 11:50:45 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id x18so4204910lji.1;
+        Wed, 17 Jun 2020 11:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ol8wJ0Ar+0WXAazQ6Zc8KnmCQN6jIxvcfv9I6pv77y8=;
-        b=L4npYbNcAsVHBbGJ//fKoV8U9viNmJxA9T2kxtQncuEIUq3Fbrb+J06rGe5dWV0duH
-         iHQEPP32axfGgYn/S8WL0XLL+f2u6NLQm6TlMANSafLiPdL/IrxCRVOeZtnlTHTz4/pU
-         mS4mClFOf/NbyfkVj2In5kwzkLFlTbDTG8PkJGHu8g/lFDAtYN+HoR6DulWul7rin210
-         Sh80Tkff54qReGnmtEojvZiRmmrcEWvnlUiuPzUK1hRcs02ryYPE7675+6u6KY/fJOA+
-         aSTLaBjop6+4VC4YnkqCwDA3SIKQ0GHPNkMPHdZaAnzJTEeZ/n1v2G0YvZje2nVAUz25
-         EVTQ==
+        bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
+        b=M8QbXD3dhMgoC9HGZspqf7XvjFgGe8WazwwUzCVArg0/V4J/2jzwL8H4RGbmNBNkwD
+         R8wGcFDnf2lOnU41m/g9QNA/9d+ub6zNKxZNXZWQ8tvxe8mZUd8MMFDtixbRyq/Pc/BF
+         PIlXs0P58oAy4Q0Hx7D0IDtf6qGVRToB7UUTEKeWrh2FvdpOJVARsCgHhh3DM2YDYITG
+         yv2i+lxcsBl69kQVaF0qbqTQ0Q5+tPfaYHxiZHxuDl7GF//mofzMEAyRhY5MUNk0ZEEC
+         ecIvPUB2Ri/1v20pzwyv+rz8M4vudDHoEqRG2l6oEitpvq6n6iLOMI6v2o8SNoiAejZ8
+         ZauQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Ol8wJ0Ar+0WXAazQ6Zc8KnmCQN6jIxvcfv9I6pv77y8=;
-        b=qJVfdobGhEEFTPygWlb9cP1CzgX/ePXOPxscj5pT9Prfs5I6qRt4eJi5fHLAd2IcUW
-         HJprIv9LA4cMdx9BfGdNKcGEUlBxad1eXUzwVRbudCy1rgiyQE8yYvztCcYuoSxszXkf
-         Jhmr7ZYr0gQTfgdtd3gB88lXMYkCrpW4yrTJSAhlo2dR9nBXq5pbr+z9kwC+K4g/3PIk
-         hdABlPFVKReITE7LhY4J/GK1itWjvwEQx3r0STUGQDn6mOdWVVAlqK72zd45vBb3yN9G
-         +3yoBtwshg9mAEzwrCkM4BGQm5weLzRq/EzKVYD8jog+ubeXadlpaOm4LoGLLrexa6TL
-         QQ8A==
-X-Gm-Message-State: AOAM531UidlCvazRgfEMgG07OLzDIq4nNpRN3Aib3SGhJDeO/LRXxn4s
-        ybpcLYTvfMlqdxHAM+3Sq4onkw/S
-X-Google-Smtp-Source: ABdhPJyaYtF9klst9couhUW+AQHaqb1DmTJjkPF8/AOeqytSQkgQljNa7GWfBHj8pRRA1Xcfp+N4DQ==
-X-Received: by 2002:a2e:920a:: with SMTP id k10mr105816ljg.413.1592414048294;
-        Wed, 17 Jun 2020 10:14:08 -0700 (PDT)
+        bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
+        b=U2+gxQS7UexMuXU93D9tcwVFGURVgTOryPuJp05WfPX68eKYAftCDrtmuYErkGg6M4
+         vjVLxZcXOHyc8SOEY8MRT6AZdPOLYek5QD9Mj0wW4xCg3/G9bituUG7ZIQk+P0AflvL4
+         sTrvZR0YS3nxvG55gvFUXsp0T1ZvJYaZXwhewQlg8OPZhkhIBVUrwJtZ7jF37zYSr+Tb
+         4kN3jCTZWCb1O126ZLAKWAu/SOUcnynkqHnWwRsAOQL5WitX+izYWgNpbqh2OAJW/LTp
+         62RBHlmBzVyBbsD6p+SiLQp0ZcHnBS13IQaiQnSlTmRfsQ1W8OTKPrC6DfAlffPbuON9
+         QLlg==
+X-Gm-Message-State: AOAM530sL807Jevi4UHrOMTVkOftGz8z7aH2g90ZnhEnC1qqSBfkzozl
+        +C0M7E64I5Lq0tMaz8QD21M=
+X-Google-Smtp-Source: ABdhPJwHrFp7hl7apCuUIGY5sl9ZXw4ffQukc+KSdkIkDhhEWKTpuESWMBtJoDInAjZab47xZDYMIQ==
+X-Received: by 2002:a05:651c:544:: with SMTP id q4mr348194ljp.310.1592419843008;
+        Wed, 17 Jun 2020 11:50:43 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id i23sm82452ljh.56.2020.06.17.10.14.07
+        by smtp.googlemail.com with ESMTPSA id r15sm119829ljm.31.2020.06.17.11.50.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2020 10:14:07 -0700 (PDT)
-Subject: Re: [PATCH v3] drm/tegra: Add zpos property for cursor planes
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20200616181449.3147258-1-thierry.reding@gmail.com>
- <8e45b425-b667-433e-2074-7a058329f5c2@gmail.com>
- <20200617141015.GB3536291@ulmo>
- <cef8e371-03a8-455e-561d-fca9d0b88309@gmail.com>
- <20200617163724.GA3547875@ulmo>
+        Wed, 17 Jun 2020 11:50:42 -0700 (PDT)
+Subject: =?UTF-8?Q?Re=3a_=5bPATCH_v2_5/5=5d_drm/tegra=3a_plane=3a_Support_18?=
+ =?UTF-8?Q?0=c2=b0_rotation?=
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fcb11625-b17c-752b-de12-29f916ade7cb@gmail.com>
-Date:   Wed, 17 Jun 2020 20:14:06 +0300
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <20200614200121.14147-6-digetx@gmail.com>
+ <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
+ <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
+Message-ID: <2a004826-a505-75e4-b922-c74618404166@gmail.com>
+Date:   Wed, 17 Jun 2020 21:50:41 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200617163724.GA3547875@ulmo>
+In-Reply-To: <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,86 +79,55 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.06.2020 19:37, Thierry Reding пишет:
-> On Wed, Jun 17, 2020 at 05:20:14PM +0300, Dmitry Osipenko wrote:
->> 17.06.2020 17:10, Thierry Reding пишет:
->>> On Tue, Jun 16, 2020 at 09:39:19PM +0300, Dmitry Osipenko wrote:
->>>> 16.06.2020 21:14, Thierry Reding пишет:
->>>>> From: Thierry Reding <treding@nvidia.com>
->>>>>
->>>>> As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
->>>>> have a zpos property") a warning is emitted if there's a mix of planes
->>>>> with and without a zpos property.
->>>>>
->>>>> On Tegra, cursor planes are always composited on top of all other
->>>>> planes, which is why they never had a zpos property attached to them.
->>>>> However, since the composition order is fixed, this is trivial to
->>>>> remedy by simply attaching an immutable zpos property to them.
->>>>>
->>>>> v3: do not hardcode zpos for overlay planes used as cursor (Dmitry)
->>>>> v2: hardcode cursor plane zpos to 255 instead of 0 (Ville)
->>>>>
->>>>> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
->>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>>>> ---
->>>>>  drivers/gpu/drm/tegra/dc.c | 1 +
->>>>>  1 file changed, 1 insertion(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
->>>>> index 83f31c6e891c..04d6848d19fc 100644
->>>>> --- a/drivers/gpu/drm/tegra/dc.c
->>>>> +++ b/drivers/gpu/drm/tegra/dc.c
->>>>> @@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
->>>>>  	}
->>>>>  
->>>>>  	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
->>>>> +	drm_plane_create_zpos_immutable_property(&plane->base, 255);
->>>>>  
->>>>>  	return &plane->base;
->>>>>  }
->>>>>
->>>>
->>>> Looks nice, thanks! Since you dropped all other zpos changes for other
->>>> planes and given that the other planes have 255 for the max zpos, what
->>>> about to set the cursor's zpos to 256?
->>>
->>> I'd prefer to have all of the planes' zpos within the same range. By
->>> default the other planes will be on the very bottom end of that range
->>> and the atomic core will normalize the zpos for all planes anyway, so
->>> the cursor plane will end up with a very small normalized zpos in the
->>> end.
->>>
->>> The zpos documentation already mentions that the behaviour is undefined
->>> if two planes have the same zpos value, so I think userspace is going to
->>> know how to set these anyway.
->>>
->>> It might be worth to do a follow-up patch that is smarter about setting
->>> the range of valid values. 0-255 is true on later chips where we
->>> actually have a proper "layer depth" register field and I wanted this to
->>> be uniform across all generations. Other drivers seem to set the upper
->>> limit on the zpos range to be equal to the number of planes available,
->>> so that there aren't potentially big gaps in the numbering. That said,
->>> since the core already normalizes the zpos for us, I don't see a big
->>> benefit in explicitly clipping the range.
+16.06.2020 14:25, Dmitry Osipenko пишет:
+> 16.06.2020 00:47, Emil Velikov пишет:
+>> Hi all,
 >>
->> But the cursor plane doesn't use the "layer depth" register, doesn't it?
->> So the zpos over 255 shouldn't matter in this case.
+>> Perhaps a silly question:
 >>
->> I know that DRM should normalizes the given zpos, but still it makes me
->> a bit uncomfortable knowing that there are the ranges overlap visible to
->> userspace :)
+>> On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>
+>>> Combining horizontal and vertical reflections gives us 180 degrees of
+>>> rotation.
+>>>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
+>>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+>>> index f31bca27cde4..ddd9b88f8fce 100644
+>>> --- a/drivers/gpu/drm/tegra/dc.c
+>>> +++ b/drivers/gpu/drm/tegra/dc.c
+>>
+>>> +       if (rotation & DRM_MODE_ROTATE_180) {
+>>> +               plane_state->reflect_x = !plane_state->reflect_x;
+>>> +               plane_state->reflect_y = !plane_state->reflect_y;
+>>> +       }
+>>> +
+>> As mentioned by Ville the above is already handled by
+>> drm_rotation_simplify() ... although it makes me wonder:
+>>
+>>
+>>>         err = drm_plane_create_rotation_property(&plane->base,
+>>>                                                  DRM_MODE_ROTATE_0,
+>>>                                                  DRM_MODE_ROTATE_0 |
+>>> +                                                DRM_MODE_ROTATE_180 |
+>>>                                                  DRM_MODE_REFLECT_X |
+>>>                                                  DRM_MODE_REFLECT_Y);
+>>
+>> Would it make sense for drm_plane_create_rotation_property() itself,
+>> to add DRM_MODE_ROTATE_180, when both reflections are supported?
 > 
-> Userspace has to be able to deal with this anyway because it can't make
-> any assumptions about what hardware supports underneath. A cursor on a
-> different platform may very well be stackable anywhere in the layout so
-> it must ensure that the cursor always has the highest zpos (provided
-> that that's what it wants). Immutable 255 basically just says that the
-> cursor is always going to be at the top. /If/ userspace then decides to
-> set some other plane's zpos = 255, then we're in the "undefined"
-> behaviour case that the documentation mentions, in which case the
-> behaviour on Tegra would still be sane in showing the cursor on top.
+> Hello Emil,
 > 
-> So I don't think there's really an issue with the overlap.
+> That's a good point! All DRM_MODE_ROTATE_180 should be removed because
+> Tegra can't do 180° + reflected-x. The DRM core takes care of 180°
+> rotation when both x/y reflections are supported.
+> 
 
-It should work okay, but if cursor had zpos set to 256 then it would
-lower the chance for userspace to create the undefined behavior situation.
+I just found out that I forgot to drop the WIP patches which added
+transparent rotation support while was checking whether these plane
+DRM_MODE_ROTATE_180 could be dropped and it's actually need to be set
+for the planes, otherwise 180 rotation support is filtered out by the
+atomic check.
