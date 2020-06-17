@@ -2,161 +2,277 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8421FD8B1
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 00:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C6431FD936
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 00:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727081AbgFQW2H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 18:28:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbgFQW2D (ORCPT
+        id S1726906AbgFQWtS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 18:49:18 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:37575 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbgFQWtS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 18:28:03 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38CADC06174E;
-        Wed, 17 Jun 2020 15:28:03 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id y11so4847894ljm.9;
-        Wed, 17 Jun 2020 15:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IKFzNibCd7jzC+wKme/62sVxJsUZsrptVvulkctN6fc=;
-        b=sogBx8KF5qXKU6uIzglmpLtOwdnq8arZ4/R7HdxFWl9vEyg25TbvzNbcUG5pA7PTxu
-         +Y21qITF5l2IeoGbX8+uDtgy295BPargj9NdUoojpbkgn1HjN2SCkttS5sEeV73w6saM
-         lQut9MIEPs+qRJyP3MahcOMs7ZdAGaGGGpixTEHQfzJoUjI8IPCu6T/6Apst2DmMOBy/
-         KUO8dzCcRhMPS2jxwmOYrUeLehzEENLkwHe15tzosdjPEL44iaqVVBabhJPAmHrJMz4M
-         83Q694VYVrE3UFGfqvgWshqUx5wEp6r2E6qeGiZ5eA67Iax9eZVlDzkJJ/iD0iL2vq96
-         QKyw==
+        Wed, 17 Jun 2020 18:49:18 -0400
+Received: by mail-io1-f68.google.com with SMTP id r2so4908812ioo.4;
+        Wed, 17 Jun 2020 15:49:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IKFzNibCd7jzC+wKme/62sVxJsUZsrptVvulkctN6fc=;
-        b=Rn7kc1PjAgXC846sVcmyjgVYZF3JR0tJY1gkxFfky6IoYPFa43QSs43JZvq9UzNcG7
-         fp55WhiFP3DsYFo+BZElnL6Z0dH/kaWik2fN/uk5/gKVcOQR7DWyjeB6Jjjwru2hBDyj
-         aKYEQxu5Q5JtnkvdVaVVefclGOVTtf8gzTMQfESeRJDnHRX10Dbkl1/nUsn8YpaflATz
-         lXjTfvpxAZ20hIQEDX6/u+GkkX1uk0TYzfLkLA6DbcpdW8Uvvr/UaRv74yshhpxBJC7a
-         YFhTEyQbifOsfPmhe4EXVUcNeVRLxYBZZLnaGS8pC2ciCPjW6DaYjLAQYexdWIZbhTtr
-         qJJQ==
-X-Gm-Message-State: AOAM533ZIQK2mSLH6Y0z9nDu+LjGIw36+/cOUvzUaozZ34tqnmFsSpK2
-        NjoSJs8F2mPtk8ObX4qBTzY=
-X-Google-Smtp-Source: ABdhPJwcUfeogdH2fdQoZn2uStj+lMY3N6d4lTg2ozcjT5sN41K76ccpr8S5r0ZJF0Z0vAo7B1CP+A==
-X-Received: by 2002:a2e:9810:: with SMTP id a16mr648149ljj.157.1592432881697;
-        Wed, 17 Jun 2020 15:28:01 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id a1sm210378ljk.133.2020.06.17.15.28.00
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QigeAS457+5JbnKyqceb7A/VSpOK6TigkkKcUHNI7RU=;
+        b=DpcV1XfHRE8FNkZW1F6rFycRzfHH+DKRTNlAlIK34OENXK7KGQdYJ3nvoE+VSpSS14
+         pgwfOzX1J2EO9eRLtK2USh06DYbxb8g5UH3/t1/sGOGnooGdwrlTTT7T8g5QYejRLNU7
+         IDmMbvaqGMSruxII0rVkfKsRbRXVRito36lAnGWzPlA4lrxnINEC+31KfJqoQU7fQv24
+         FZj5c3bUGXZv1cQvj7zH7+/fkFbqgyvMQZVXY/KiqTz1FKG5D/w2fN0v7u5JnTArVTz2
+         pIPNEdqWA1IyVqb9D1jtTktJ2uYGMksNDevgOP+LOtUHujgGqWgeczSULQ9eA6KTwLTD
+         XVmg==
+X-Gm-Message-State: AOAM531/PKrlr4f8X4Qn9bT0KWK8FuP2XgBPoKuuccSLPP7iceFzhkBs
+        YQNAXHwgIq9q4kj2YNJuD8MLKWHb7Q==
+X-Google-Smtp-Source: ABdhPJxp/kUq578hjZ8jpF4g0Ohrm7M+mUGBKyktg3sr7kFOnp4Sef1IpZfcDehXG06I4taEMZIK6g==
+X-Received: by 2002:a6b:1745:: with SMTP id 66mr1855119iox.151.1592434156635;
+        Wed, 17 Jun 2020 15:49:16 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id v14sm665937ioj.46.2020.06.17.15.49.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 15:28:01 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for some panels
-Date:   Thu, 18 Jun 2020 01:27:03 +0300
-Message-Id: <20200617222703.17080-8-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200617222703.17080-1-digetx@gmail.com>
-References: <20200617222703.17080-1-digetx@gmail.com>
+        Wed, 17 Jun 2020 15:49:15 -0700 (PDT)
+Received: (nullmailer pid 2984170 invoked by uid 1000);
+        Wed, 17 Jun 2020 22:49:15 -0000
+Date:   Wed, 17 Jun 2020 16:49:15 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 04/38] dt-bindings: firmware: Convert Tegra186 BPMP
+ bindings to json-schema
+Message-ID: <20200617224915.GA2975260@bogus>
+References: <20200612141903.2391044-1-thierry.reding@gmail.com>
+ <20200612141903.2391044-5-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200612141903.2391044-5-thierry.reding@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The DRM panel bridge core requires connector type to be set up properly,
-otherwise it rejects the panel. The missing connector type problem popped
-up while I was trying to wrap CLAA070WP03XG panel into a DRM bridge in
-order to test whether panel's rotation property work properly using
-panel-simple driver on NVIDIA Tegra30 Nexus 7 tablet device, which uses
-CLAA070WP03XG display panel.
+On Fri, Jun 12, 2020 at 04:18:29PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Convert the Tegra186 BPMP bindings from the free-form text format to a
+> json-schema and fix things up so that existing device trees properly
+> validate.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../firmware/nvidia,tegra186-bpmp.txt         | 107 -----------
+>  .../firmware/nvidia,tegra186-bpmp.yaml        | 180 ++++++++++++++++++
+>  2 files changed, 180 insertions(+), 107 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.txt
+>  create mode 100644 Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
 
-The NVIDIA Tegra DRM driver recently gained DRM bridges support for the
-RGB output and now driver wraps directly-connected panels into DRM bridge.
-Hence all panels should have connector type set properly now, otherwise
-the panel's wrapping fails.
+[...]
 
-This patch adds missing connector types for the LVDS panels that are found
-on NVIDIA Tegra devices:
+> diff --git a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
+> new file mode 100644
+> index 000000000000..0e4d51ba7aa1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
+> @@ -0,0 +1,180 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/firmware/nvidia,tegra186-bpmp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra186 (and later) Boot and Power Management Processor (BPMP)
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Jon Hunter <jonathanh@nvidia.com>
+> +
+> +description: |
+> +  The BPMP is a specific processor in Tegra chip, which is designed for
+> +  booting process handling and offloading the power management, clock
+> +  management, and reset control tasks from the CPU. The binding document
+> +  defines the resources that would be used by the BPMP firmware driver,
+> +  which can create the interprocessor communication (IPC) between the
+> +  CPU and BPMP.
+> +
+> +  The BPMP implements some services which must be represented by separate
+> +  nodes. For example, it can provide access to certain I2C controllers, and
+> +  the I2C bindings represent each I2C controller as a device tree node. Such
+> +  nodes should be nested directly inside the main BPMP node.
+> +
+> +  Software can determine whether a child node of the BPMP node represents a
+> +  device by checking for a compatible property. Any node with a compatible
+> +  property represents a device that can be instantiated. Nodes without a
+> +  compatible property may be used to provide configuration information
+> +  regarding the BPMP itself, although no such configuration nodes are
+> +  currently defined by this binding.
+> +
+> +  The BPMP firmware defines no single global name-/numbering-space for such
+> +  services. Put another way, the numbering scheme for I2C buses is distinct
+> +  from the numbering scheme for any other service the BPMP may provide (e.g.
+> +  a future hypothetical SPI bus service). As such, child device nodes will
+> +  have no "reg" property, and the BPMP node will have no "#address-cells" or
+> +  "#size-cells" property.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - nvidia,tegra186-bpmp
+> +
+> +  iommus:
+> +    description: |
+> +      The phandle of the IOMMU and the IOMMU specifier. See ../iommu/iommu.txt
+> +      for details.
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
 
-  1. AUO B101AW03
-  2. Chunghwa CLAA070WP03XG
-  3. Chunghwa CLAA101WA01A
-  4. Chunghwa CLAA101WB01
-  5. EDT ET057090DHU
-  6. Innolux N156BGE L21
-  7. Samsung LTN101NT05
+Standard property, don't need a type. Just 'maxItems: 1' if 1 entry or 
+an 'items' list if more than 1.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +
+> +  mboxes:
+> +    description: |
+> +      The phandle of the mailbox controller and the mailbox specifier. See
+> +      ../mailbox/mailbox.txt and ../mailbox/nvidia,tegra186-hsp.txt for
+> +      details.
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 6764ac630e22..9eb2dbb7bfa6 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -687,6 +687,7 @@ static const struct panel_desc auo_b101aw03 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct display_timing auo_b101ean01_timing = {
-@@ -1340,6 +1341,7 @@ static const struct panel_desc chunghwa_claa070wp03xg = {
- 		.width = 94,
- 		.height = 150,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode chunghwa_claa101wa01a_mode = {
-@@ -1362,6 +1364,7 @@ static const struct panel_desc chunghwa_claa101wa01a = {
- 		.width = 220,
- 		.height = 120,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode chunghwa_claa101wb01_mode = {
-@@ -1384,6 +1387,7 @@ static const struct panel_desc chunghwa_claa101wb01 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode dataimage_scf0700c48ggu18_mode = {
-@@ -1573,6 +1577,7 @@ static const struct panel_desc edt_et057090dhu = {
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode edt_etm0700g0dh6_mode = {
-@@ -2055,6 +2060,7 @@ static const struct panel_desc innolux_n156bge_l21 = {
- 		.width = 344,
- 		.height = 193,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
-@@ -3001,6 +3007,7 @@ static const struct panel_desc samsung_ltn101nt05 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode samsung_ltn140at29_301_mode = {
--- 
-2.26.0
+Same here.
 
+> +
+> +  shmem:
+> +    description: |
+> +      List of phandles for the TX and RX shared memory areas used for
+> +      interprocess communication between the CPU and the BPMP.
+> +
+> +      The shared memory area for the IPC TX and RX between CPU and BPMP are
+> +      predefined and work on top of sysram, which is an SRAM inside the chip.
+> +
+> +      See ../sram/sram.yaml for the bindings.
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> +
+> +  "#clock-cells":
+> +    const: 1
+> +
+> +  "#power-domain-cells":
+> +    const: 1
+> +
+> +  "#reset-cells":
+> +    const: 1
+> +
+> +  i2c:
+> +    type: object
+> +    description: |
+> +      The BPMP can provide serialized access to I2C controllers that have
+> +      been assigned to it.
+
+Should have a $ref to i2c-controller.yaml
+
+> +
+> +    properties:
+> +      compatible:
+> +        items:
+> +          - enum:
+> +              - nvidia,tegra186-bpmp-i2c
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      nvidia,bpmp-bus-id:
+> +        description: The bus ID of the I2C controller.
+> +        $ref: "/schemas/types.yaml#/definitions/uint32"
+> +
+> +    required:
+> +      - compatible
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - nvidia,bpmp-bus-id
+> +
+> +    patternProperties:
+> +      "^.*@[0-9a-f]+$":
+> +        type: object
+> +        description: I2C slave
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +            description: I2C address of the slave
+> +
+> +        required:
+> +          - reg
+
+And child node schema can be dropped.
+
+> +
+> +    additionalProperties: false
+> +
+> +  thermal:
+> +    type: object
+> +    description:
+> +      The BPMP provides functionality that exposes system temperature sensors
+> +      and which can be used to trigger a system shutdown if the temperature
+> +      for a given zone exceeds the specified thresholds.
+> +
+> +    properties:
+> +      compatible:
+> +        items:
+> +          - enum:
+> +              - nvidia,tegra186-bpmp-thermal
+> +
+> +      "#thermal-sensor-cells":
+> +        description: The ID of the thermal zone.
+> +        const: 1
+> +
+> +    required:
+> +      - compatible
+> +      - "#thermal-sensor-cells"
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - mboxes
+> +  - shmem
+> +  - "#clock-cells"
+> +  - "#power-domain-cells"
+> +  - "#reset-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/mailbox/tegra186-hsp.h>
+> +    #include <dt-bindings/memory/tegra186-mc.h>
+> +
+> +    bpmp {
+> +        compatible = "nvidia,tegra186-bpmp";
+> +        iommus = <&smmu TEGRA186_SID_BPMP>;
+> +        mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_DB TEGRA_HSP_DB_MASTER_BPMP>;
+> +        shmem = <&cpu_bpmp_tx &cpu_bpmp_rx>;
+> +        #clock-cells = <1>;
+> +        #power-domain-cells = <1>;
+> +        #reset-cells = <1>;
+> +
+> +        i2c {
+> +            compatible = "nvidia,tegra186-bpmp-i2c";
+> +            nvidia,bpmp-bus-id = <5>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            status = "disabled";
+
+Don't show status in examples.
+
+> +        };
+> +
+> +        thermal {
+> +            compatible = "nvidia,tegra186-bpmp-thermal";
+> +            #thermal-sensor-cells = <1>;
+> +        };
+> +    };
+> -- 
+> 2.24.1
+> 
