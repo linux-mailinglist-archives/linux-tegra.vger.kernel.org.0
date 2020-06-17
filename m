@@ -2,103 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 893E11FC7C0
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 09:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6DA41FC9F5
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 11:36:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbgFQHoo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 03:44:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36238 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726597AbgFQHom (ORCPT
+        id S1725979AbgFQJgu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 05:36:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725554AbgFQJgt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 03:44:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592379879;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LdQWvEMUJWYJ0ayIlG9RiKefcYkYap4fRHuTq5TItU8=;
-        b=hQBb6VNk5VZ6n6dWI+MiTg3s6OBWkdKILGkGMubVROqy3a/Rgqi55GDqau2Gcc3kpXjhW6
-        BH4tz8lO+10eS5fDDJjfTB/EI4XP9cI51RQtKrDCMOblhX2V4swm7etwHqaQa4LuyuGn03
-        PpE8w/F1Lk4t2YzWPnAY48Z5JFFIEHk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-P4axZmt7PRGs7XdH1z8Uaw-1; Wed, 17 Jun 2020 03:44:38 -0400
-X-MC-Unique: P4axZmt7PRGs7XdH1z8Uaw-1
-Received: by mail-ej1-f72.google.com with SMTP id a20so638267ejt.19
-        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 00:44:38 -0700 (PDT)
+        Wed, 17 Jun 2020 05:36:49 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69ABCC061573
+        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 02:36:49 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id g10so1179011wmh.4
+        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 02:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kqV7b/dRGRsaYFJFTZmEAIxbxpemJlUlmyVmWunucJQ=;
+        b=a1jJ0h4Gh9g26ELV/twHuTjWpRiKFHPp8TLQgzONwinJq+v0ldA8u5Eup6Ntp0eQBq
+         nc1Lpg4kzTSI9EogHgUCu6Yr5o6TiGOdyYEUUCMjtBhKeBJkCdSzbL0uqikcMECQzOVp
+         Zqchdh7yOtiUOSFYENISzhvCiIXwq0wbd6SI3ndto2+BES4dRC4hLCUprwa87V2AsrtG
+         WqhBE2JM8omhJa4pmFycbSidghsV633Z49FM1+QGKfYNjHFDCxSOmXRnl7+h05r/tn6p
+         /DmqFKKV9v2dwcM9yR1IGCSbxzmt71MWIxNdkkqw6pfqLArKDMB6tJBJm/imJNvsP/oA
+         imzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LdQWvEMUJWYJ0ayIlG9RiKefcYkYap4fRHuTq5TItU8=;
-        b=EvZVszvglh+kB9AdYdOiqzJXrVeFnMFIrLz1VrwzMPwNPVh63sZ79ZSijNt0gsMm9R
-         ldpuLISe/ED0AGz0VGB+ESKGtZImGlCvdHPNPIUjEFa+yUfmPla07HBdphMyAEAs6VbX
-         HiOec5V9e2o2grsJxOMAElGZkJ0DLGvwWvxKWVN3j0g/OkEvpC0DcIcrQpearZcmlbOL
-         xccnEn3Uf4BStGciTUnNz5YOmHypbDTutoGDSMY0vgw/9ehgxal7ec+hwNTjzjViAPFX
-         /wySJ+F8vqg9SfWT18bhmnkE4Lb0QMjh21Zq9CTo9483kARej2ZHcEdYnmL6wDugo5QE
-         Alcg==
-X-Gm-Message-State: AOAM533gXZmKEEDZORSjpUm7BQiV7cAqfA4UdqO1ngrWugKzsl5EFQGA
-        KSlqKnpQfusgYFszRMvg4d2WJ8S0BHXZ1AGzRCE5bourLl3ulcTIIeD72I5i2E5HUqFB5THgLZu
-        guKtMJDACQlSrtIAtR1S7B0I=
-X-Received: by 2002:a17:906:e47:: with SMTP id q7mr6349224eji.279.1592379877126;
-        Wed, 17 Jun 2020 00:44:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztAsLsgDaFxPRHVMxQyWpwuzemyHiIKlOYzD7aKaYp8CK5bsLlyAMtEHuAjaMc+cKU/OAdZw==
-X-Received: by 2002:a17:906:e47:: with SMTP id q7mr6349200eji.279.1592379876894;
-        Wed, 17 Jun 2020 00:44:36 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id i12sm12619661ejz.122.2020.06.17.00.44.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2020 00:44:36 -0700 (PDT)
-Subject: Re: [PATCH] Input: document inhibiting
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>, Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        kernel@collabora.com
-References: <40988408-8f36-3a52-6439-34084de6b129@redhat.com>
- <20200616172909.21625-1-andrzej.p@collabora.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <f9007f37-c526-5fa4-3188-a554d2434177@redhat.com>
-Date:   Wed, 17 Jun 2020 09:44:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kqV7b/dRGRsaYFJFTZmEAIxbxpemJlUlmyVmWunucJQ=;
+        b=PM8nJCPYnaAsfESJkHdiCDUsxJ3C3R3FyhCaAmXmMUuuUl0IrN/6ZCwRvzx1Edzkr7
+         jU3WmBxwdLo05eprsHjvHVUNRILVlK9cMoxZa2WNIYzVcYQbbTxQ0KTuQsjoVCeXqe6Y
+         7285r2lykOkd4hA+VcyCwv4aBmqaqZmyrdfRsv0jU9JDW5pY/LvqsqqcJd8MTex5dCQ6
+         AkUaSsHrg+iygotowwac3ppHqChvXWeEHJhDr/GbKtuh3TXY05XGb4rsJSJ5W81rFuI8
+         2Jk1/+IV+6D1Cn6KBBiBGJRXa5s7zNMPanhpYnvN0eJKSOzIqMwTwffkXr8XprQbFiji
+         C3wA==
+X-Gm-Message-State: AOAM531O1082TvK1RGOfFEvVd5zwbAIm12RGM9B1lgEZ3ff/JKkXGRzz
+        Lup3kqjQWygu9O8wM65ll5z8lEl6v0LI3jLda5Qk1A==
+X-Google-Smtp-Source: ABdhPJyt/DSGWPMjUA/TqeAozgDqsIajAJ3rBCfT6Uxx5ItAbPuwx37kc6zO5bdEkyBLeZ+LenZ5E1u117tWg7+oIi0=
+X-Received: by 2002:a1c:bbd6:: with SMTP id l205mr7896275wmf.147.1592386608011;
+ Wed, 17 Jun 2020 02:36:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200616172909.21625-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200614200121.14147-1-digetx@gmail.com> <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
+ <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com> <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
+ <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com> <CACvgo50BFH5qsPyWx9a1aZ4k5bzjSN-3KTU0BvnZ-nG-hfzKOQ@mail.gmail.com>
+ <fe845434-cbf6-29d4-eeb6-8868d628fd04@gmail.com>
+In-Reply-To: <fe845434-cbf6-29d4-eeb6-8868d628fd04@gmail.com>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Wed, 17 Jun 2020 10:34:41 +0100
+Message-ID: <CAPj87rPwwHWtYpuZfiTMyELvr3D+UAY8CVnH3v6+Lo1-UMRRVA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Emil Velikov <emil.l.velikov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -106,87 +72,20 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 Hi,
 
-On 6/16/20 7:29 PM, Andrzej Pietrasiewicz wrote:
-> Document inhibiting input devices and its relation to being
-> a wakeup source.
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
-> 
-> @Hans, @Dmitry,
-> 
-> My fist attempt at documenting inhibiting. Kindly look at it to see if I haven't got anything
-> wrong.
-> 
-> Andrzej
-> 
->   Documentation/input/input-programming.rst | 36 +++++++++++++++++++++++
->   1 file changed, 36 insertions(+)
-> 
-> diff --git a/Documentation/input/input-programming.rst b/Documentation/input/input-programming.rst
-> index 45a4c6e05e39..0cd1ad4504fb 100644
-> --- a/Documentation/input/input-programming.rst
-> +++ b/Documentation/input/input-programming.rst
-> @@ -164,6 +164,42 @@ disconnects. Calls to both callbacks are serialized.
->   The open() callback should return a 0 in case of success or any nonzero value
->   in case of failure. The close() callback (which is void) must always succeed.
->   
-> +Inhibiting input devices
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Inhibiting a device means ignoring input events from it. As such it is about maintaining
-> +relationships with input handlers - either an already existing relationships, or
-> +relationships to be established while the device is in inhibited state.
-> +
-> +If a device is inhibited, no input handler will receive events from it.
-> +
-> +The fact that nobody wants events from the device is exploited further, by calling device's
-> +close() (if there are users) and open() (if there are users) on inhibit and uninhibit
-> +operations, respectively. Indeed, the meaning of close() is to stop providing events
-> +to the input core and that of open() is to start providing events to the input core.
+On Tue, 16 Jun 2020 at 22:16, Dmitry Osipenko <digetx@gmail.com> wrote:
+> The panel's orientation could be parsed by any panel driver and then
+> assigned as the connector's property in order to allow userspace/FB-core
+> to decide what to do with the rotated display. Apparently upstream
+> kernel supports only that one Samsung device which has display panel
+> mounted upside-down and it already uses the custom DT properties for
+> achieving the 180 rotation. So I don't quite see any panel drivers that
+> instantly could benefit from using the rotation property. Perhaps I can
+> add the orientation support to the panel-simple driver, but will it be
+> useful to anyone?
 
-Maybe add the following here? :
+Yes, exposing it to userspace is helpful, since Weston at least will
+parse the property and then apply the correct transform:
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
 
-Calling the device's close() method on inhibit (if there are users) allows the driver
-to save power. Either by directly powering down the device or by releasing the
-runtime-pm reference it got in open() when the driver is using runtime-pm.
-
-Otherwise this looks good to me. Thank you for doing this, we (including myself)
-really need to get better at doucmenting all sorts of kernel things. Often we have
-these long discussions about something on the mailinglist and then everyone is
-expected to just know what was decided from the on, which really doesn't work all
-that well.
-
-> +
-> +Inhibiting and uninhibiting is orthogonal to opening and closing the device by input
-> +handlers. Userspace might want to inhibit a device in anticipation before any handler is
-> +positively matched against it.
-> +
-> +Inhibiting and uninhibiting is orthogonal to device's being a wakeup source, too. Being a
-> +wakeup source plays a role when the system is sleeping, not when the system is operating.
-> +How drivers should program their interaction between inhibiting, sleeping and being a wakeup
-> +source is driver-specific.
-> +
-> +Taking the analogy with the network devices - bringing a network interface down doesn't mean
-> +that it should be impossible to be wake the system up on LAN through this interface. So, there
-> +may be input drivers which should be considered wakeup sources even when inhibited. Actually,
-> +in many i2c input devices their interrupt is declared a wakeup interrupt and its handling
-> +happens in driver's core, which is not aware of input-specific inhibit (nor should it be).
-> +Composite devices containing several interfaces can be inhibited on a per-interface basis and
-> +e.g. inhibiting one interface shouldn't affect the device's capability of being a wakeup source.
-> +
-> +If a device is to be considered a wakeup source while inhibited, special care must be taken when
-> +programming its suspend(), as it might need to call device's open(). Depending on what close()
-> +means for the device in question not opening() it before going to sleep might make it impossible
-> +to provide any wakeup events. The device is going to sleep anyway.
-> +
->   Basic event types
->   ~~~~~~~~~~~~~~~~~
->   
-> 
-
-
-Regards,
-
-Hans
-
+Cheers,
+Daniel
