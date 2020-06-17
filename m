@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9C451FD98A
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 01:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA8FC1FD9CD
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 01:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbgFQXUY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 19:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
+        id S1727807AbgFQXlF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 19:41:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbgFQXUU (ORCPT
+        with ESMTP id S1727804AbgFQXlE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 19:20:20 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455E9C061755;
-        Wed, 17 Jun 2020 16:20:20 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id n24so4938443lji.10;
-        Wed, 17 Jun 2020 16:20:20 -0700 (PDT)
+        Wed, 17 Jun 2020 19:41:04 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7D2C06174E;
+        Wed, 17 Jun 2020 16:41:02 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id i27so4961534ljb.12;
+        Wed, 17 Jun 2020 16:41:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xDuNPkLsn+qFGP55GoH5xYzbgggRa+4B+kAR6hG962I=;
-        b=g5Lw8nME1Hx+IKrcWvFOiOO3x5pYdTMxJsp+tioyT1hBv02M1bMp5s01sY8XgGifIG
-         So0Ny31B115rEJ9QMjDp8X36aSgKBRzJ2CatKNoSGXImoQh3Qx7fue8sdYY9qh+MDLNJ
-         bGkpUXtm00F4oUHZqwtlOflj2lGUYqYqSiip1o1TdsYhFYJ24inX8mpaj8I6qFht7eaw
-         gGdhYgGitPewoIYECH11D3uCl4slXBSWGKjprY+5/PZinDjsXNg48UdQMI9LI3xnKkG2
-         zMRBNZoGnnQVZ+1a1jURa/3L6pxFCMPAYiGoKEYJduzsOsIeN5hN7nBLpP1YT6KKzZ4l
-         M19w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OcOqz11XDX1GFeXdHeD+rrzTbKQ6O43sVtDhODmNqc0=;
+        b=I4EL+9xSGNrxK6Z2hdF8hp2JFC0Q71MdVSv9gkIsSfmBiXE3tO953ygNuEyhWzWq/Y
+         kt5sgsr0FU2tTuUPnCvyEy7uo41zYwtq/dc73J6ghXA2pAHLwbp5yDmdG5/9Lj7ZsKVB
+         e95PwhYCe6jdiPXV9LN4hyWDXJXW7lEadkgGY1uzMk4kXxOOVB6yJQDhIC+MAszjYRK0
+         HzWexz6TTLOMQLkNeq0V64kYu3nwoGtyZKNUAtmX+v9HIHye607uCpTMNtke6/agA4AN
+         aHu0CkuCGO4alJutuER72zo7mtz4yAcvRq0eFLnDx7ATn2lh86AUYnSifHlgJcewZFde
+         Y+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xDuNPkLsn+qFGP55GoH5xYzbgggRa+4B+kAR6hG962I=;
-        b=Ud9xiHFnsGuIeWWJIaDrGnnWpYGvZb0JUZsCoMXrCZ5p9TEVn98x4Rh0BI0tCIRZAq
-         i2aaD3ezcWvyxYunylTqrQtNMe7W+Zp1Q8WMT/ntJ/b0VkQCCL5ZKRUxsudIH8uDD3SE
-         POpR91zebnF8a7gnO+RonZ4TOcByOmLGyTylzHOKzbNnGqTdHlOFbb45r+brtY7V06r8
-         ro7del38b9BNkMQzee3nMxVjALRLBKsWMHYrVjhQV4WH5HATupyuiiUpVjUIKu+5ixtm
-         jyJMPiChM+QUCE2Rui/n5OhQwgvA+RLgmnLIW6QvmwnczAvuEYLAlAXNoXeGeWv5qAjB
-         srTg==
-X-Gm-Message-State: AOAM531iHINSeWasJ+a8f/IwLv5t6tx0VMH/fXjCWCwm3HClPyATSGRD
-        vQeZIkAbNnZ9HgMK7o507R0=
-X-Google-Smtp-Source: ABdhPJxT3+3ITtvZoxfpauwQtWfxUAcDCm937r+DCvi1iRnPkjGrWGExiRvyaUOt2t6UOl7y6A9wsQ==
-X-Received: by 2002:a2e:b550:: with SMTP id a16mr830166ljn.345.1592436018131;
-        Wed, 17 Jun 2020 16:20:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OcOqz11XDX1GFeXdHeD+rrzTbKQ6O43sVtDhODmNqc0=;
+        b=WBh6dcj6lkRnh6ykFoxl4uUcRhokulMkdv3uh8yq05dQL+FEDUjhsah6B6juYFiySo
+         egspPZWr+cjdQTR0khSXwe94dg/XC/+BEhMVkhMiPcUqbAD94TVGgg6jxCC6G7NPOTTt
+         t0Tkgac2Ucv3VtkshqTrV1g0R/5yND0/sBS8nbQTwdBLyWb+YOeQXlkTFjRpdKFbg86u
+         F0VsDVCw8SVseOr/6F7Y8ov59XsFcEEBujYeJID55p53kyECWl4Xp5OLrr1ODABqZcyR
+         e3YHc6dji1hT/nozaoORzrl2UneoIB8TrUme7ERQdUL7mPTxlLE5UfeouZyDVUGUqZjx
+         FlvA==
+X-Gm-Message-State: AOAM533djdn2TYs/ydB5Ud/GPusded6ceF7flvi8TZqZIkWHF8y2vS23
+        EUVM2834hXsv+Es92wtyDbo=
+X-Google-Smtp-Source: ABdhPJzwtCosDXfqxKV938U918086QPW2Y3T4a+nySVKa/edKjWK6dOc4Uodf6FWGzHT3zqti2DCHg==
+X-Received: by 2002:a2e:9b8f:: with SMTP id z15mr879391lji.185.1592437260890;
+        Wed, 17 Jun 2020 16:41:00 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id x3sm235100ljc.82.2020.06.17.16.20.17
+        by smtp.gmail.com with ESMTPSA id c8sm287871lfc.46.2020.06.17.16.40.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 16:20:17 -0700 (PDT)
+        Wed, 17 Jun 2020 16:41:00 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -61,64 +61,55 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Daniel Stone <daniel@fooishbar.org>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v11 4/4] drm/panel-simple: Read panel orientation
-Date:   Thu, 18 Jun 2020 02:18:42 +0300
-Message-Id: <20200617231842.30671-5-digetx@gmail.com>
+Subject: [PATCH v3 0/3] 180 degrees rotation support for NVIDIA Tegra DRM
+Date:   Thu, 18 Jun 2020 02:40:37 +0300
+Message-Id: <20200617234040.1094-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200617231842.30671-1-digetx@gmail.com>
-References: <20200617231842.30671-1-digetx@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The panel orientation needs to parsed from a device-tree and assigned to
-the panel's connector in order to make orientation property available to
-userspace. That's what this patch does for the panel-simple driver.
+Hello!
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+This series adds 180° display plane rotation support to the NVIDIA Tegra
+DRM driver which is needed for devices that have display panel physically
+mounted upside-down, like Nexus 7 tablet device for example [1]. Since
+DRM panel rotation is a new thing for a userspace, currently only
+Opentegra Xorg driver [2] and a recent Weston [3] have support for the
+rotated display panels, but this is more than good enough for the starter.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 6764ac630e22..2dee1320216c 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -112,6 +112,8 @@ struct panel_simple {
- 	struct gpio_desc *hpd_gpio;
- 
- 	struct drm_display_mode override_mode;
-+
-+	enum drm_panel_orientation orientation;
- };
- 
- static inline struct panel_simple *to_panel_simple(struct drm_panel *panel)
-@@ -371,6 +373,9 @@ static int panel_simple_get_modes(struct drm_panel *panel,
- 	/* add hard-coded panel modes */
- 	num += panel_simple_get_non_edid_modes(p, connector);
- 
-+	/* set up connector's "panel orientation" property */
-+	drm_connector_set_panel_orientation(connector, p->orientation);
-+
- 	return num;
- }
- 
-@@ -530,6 +535,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		return err;
- 	}
- 
-+	err = of_drm_get_panel_orientation(dev->of_node, &panel->orientation);
-+	if (err) {
-+		dev_err(dev, "failed to parse rotation property: %d\n", err);
-+		return err;
-+	}
-+
- 	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
- 	if (ddc) {
- 		panel->ddc = of_find_i2c_adapter_by_node(ddc);
+[1] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200607154327.18589-3-digetx@gmail.com/
+[2] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a3959bbe5bc3a3b67e55977093fd5114ca
+[3] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
+
+Changelog:
+
+v3: - Factored out the panel patches into standalone series [4] because
+      this series doesn't have hard dependency on the panel patches and it
+      should be nicer to review and apply the properly grouped patches.
+
+    - The DRM_MODE_ROTATE_180 now isn't passed to drm_rotation_simplify(),
+      like it was suggested by Ville Syrjälä in the comment to v2.
+
+    - Added clarifying comment for the tegra_fb_is_bottom_up() in the code.
+
+[4] https://lore.kernel.org/lkml/20200617231842.30671-1-digetx@gmail.com/T/#t
+
+Dmitry Osipenko (3):
+  drm/tegra: plane: Rename bottom_up to reflect_y
+  drm/tegra: plane: Support horizontal reflection
+  drm/tegra: plane: Support 180° rotation
+
+ drivers/gpu/drm/tegra/dc.c    | 46 ++++++++++++++++++++++++++++-------
+ drivers/gpu/drm/tegra/dc.h    |  3 ++-
+ drivers/gpu/drm/tegra/plane.c |  3 ++-
+ drivers/gpu/drm/tegra/plane.h |  3 ++-
+ 4 files changed, 43 insertions(+), 12 deletions(-)
+
 -- 
 2.26.0
 
