@@ -2,156 +2,159 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E7AF1FD2E0
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 18:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 919A81FD337
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 19:14:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbgFQQxF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 12:53:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53444 "EHLO
+        id S1726913AbgFQROL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 13:14:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbgFQQxF (ORCPT
+        with ESMTP id S1726511AbgFQROK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 12:53:05 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49DDC06174E;
-        Wed, 17 Jun 2020 09:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=3aHDULVOAZalwQVfI9n5bUMyn1CLTGa3J/NFAT87OxI=; b=EjXQIdObgegi5j91EFEDjl6J4B
-        4PFr18Fmi9N2VNb1fcBGNkiLBXvVZ1htcGrseMu9kTS9bo9T44MNOJqZ007Xrbp4NGvwIhogVMROC
-        4xtL4tRjznzBTriAV5EjM3uTlwrvgQlihLewoVQE8JFYD41d85i4wnyyAiSwg0Ckhm1pLMAj99YQD
-        QdSXFKeUT+35nzi0FYZdeC1mkdJzl2xxgC10iJIbNe3MwEtwTXMWmltCGmq0CuBk8ERWPzwHQblLB
-        iJ6ysmGyfsUwrKbj3L5z7An9AM1KW4q34m1/jm2fcnd3SznIGzuPTxs7Gb+F0uIni5G6Tk/eu9I/E
-        MpsG7yaQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jlbIe-0002Zw-LA; Wed, 17 Jun 2020 16:52:32 +0000
-Subject: Re: [PATCH v2] Input: document inhibiting
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        kernel@collabora.com
-References: <f9007f37-c526-5fa4-3188-a554d2434177@redhat.com>
- <20200617101822.8558-1-andrzej.p@collabora.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8ebf502e-855d-6a6b-9c7b-d96d5e519d82@infradead.org>
-Date:   Wed, 17 Jun 2020 09:52:30 -0700
+        Wed, 17 Jun 2020 13:14:10 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32337C06174E
+        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 10:14:10 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id q19so3842247lji.2
+        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 10:14:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ol8wJ0Ar+0WXAazQ6Zc8KnmCQN6jIxvcfv9I6pv77y8=;
+        b=L4npYbNcAsVHBbGJ//fKoV8U9viNmJxA9T2kxtQncuEIUq3Fbrb+J06rGe5dWV0duH
+         iHQEPP32axfGgYn/S8WL0XLL+f2u6NLQm6TlMANSafLiPdL/IrxCRVOeZtnlTHTz4/pU
+         mS4mClFOf/NbyfkVj2In5kwzkLFlTbDTG8PkJGHu8g/lFDAtYN+HoR6DulWul7rin210
+         Sh80Tkff54qReGnmtEojvZiRmmrcEWvnlUiuPzUK1hRcs02ryYPE7675+6u6KY/fJOA+
+         aSTLaBjop6+4VC4YnkqCwDA3SIKQ0GHPNkMPHdZaAnzJTEeZ/n1v2G0YvZje2nVAUz25
+         EVTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ol8wJ0Ar+0WXAazQ6Zc8KnmCQN6jIxvcfv9I6pv77y8=;
+        b=qJVfdobGhEEFTPygWlb9cP1CzgX/ePXOPxscj5pT9Prfs5I6qRt4eJi5fHLAd2IcUW
+         HJprIv9LA4cMdx9BfGdNKcGEUlBxad1eXUzwVRbudCy1rgiyQE8yYvztCcYuoSxszXkf
+         Jhmr7ZYr0gQTfgdtd3gB88lXMYkCrpW4yrTJSAhlo2dR9nBXq5pbr+z9kwC+K4g/3PIk
+         hdABlPFVKReITE7LhY4J/GK1itWjvwEQx3r0STUGQDn6mOdWVVAlqK72zd45vBb3yN9G
+         +3yoBtwshg9mAEzwrCkM4BGQm5weLzRq/EzKVYD8jog+ubeXadlpaOm4LoGLLrexa6TL
+         QQ8A==
+X-Gm-Message-State: AOAM531UidlCvazRgfEMgG07OLzDIq4nNpRN3Aib3SGhJDeO/LRXxn4s
+        ybpcLYTvfMlqdxHAM+3Sq4onkw/S
+X-Google-Smtp-Source: ABdhPJyaYtF9klst9couhUW+AQHaqb1DmTJjkPF8/AOeqytSQkgQljNa7GWfBHj8pRRA1Xcfp+N4DQ==
+X-Received: by 2002:a2e:920a:: with SMTP id k10mr105816ljg.413.1592414048294;
+        Wed, 17 Jun 2020 10:14:08 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id i23sm82452ljh.56.2020.06.17.10.14.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2020 10:14:07 -0700 (PDT)
+Subject: Re: [PATCH v3] drm/tegra: Add zpos property for cursor planes
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+References: <20200616181449.3147258-1-thierry.reding@gmail.com>
+ <8e45b425-b667-433e-2074-7a058329f5c2@gmail.com>
+ <20200617141015.GB3536291@ulmo>
+ <cef8e371-03a8-455e-561d-fca9d0b88309@gmail.com>
+ <20200617163724.GA3547875@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <fcb11625-b17c-752b-de12-29f916ade7cb@gmail.com>
+Date:   Wed, 17 Jun 2020 20:14:06 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200617101822.8558-1-andrzej.p@collabora.com>
+In-Reply-To: <20200617163724.GA3547875@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 6/17/20 3:18 AM, Andrzej Pietrasiewicz wrote:
-> Document inhibiting input devices and its relation to being
-> a wakeup source.
+17.06.2020 19:37, Thierry Reding пишет:
+> On Wed, Jun 17, 2020 at 05:20:14PM +0300, Dmitry Osipenko wrote:
+>> 17.06.2020 17:10, Thierry Reding пишет:
+>>> On Tue, Jun 16, 2020 at 09:39:19PM +0300, Dmitry Osipenko wrote:
+>>>> 16.06.2020 21:14, Thierry Reding пишет:
+>>>>> From: Thierry Reding <treding@nvidia.com>
+>>>>>
+>>>>> As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
+>>>>> have a zpos property") a warning is emitted if there's a mix of planes
+>>>>> with and without a zpos property.
+>>>>>
+>>>>> On Tegra, cursor planes are always composited on top of all other
+>>>>> planes, which is why they never had a zpos property attached to them.
+>>>>> However, since the composition order is fixed, this is trivial to
+>>>>> remedy by simply attaching an immutable zpos property to them.
+>>>>>
+>>>>> v3: do not hardcode zpos for overlay planes used as cursor (Dmitry)
+>>>>> v2: hardcode cursor plane zpos to 255 instead of 0 (Ville)
+>>>>>
+>>>>> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+>>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>>>> ---
+>>>>>  drivers/gpu/drm/tegra/dc.c | 1 +
+>>>>>  1 file changed, 1 insertion(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+>>>>> index 83f31c6e891c..04d6848d19fc 100644
+>>>>> --- a/drivers/gpu/drm/tegra/dc.c
+>>>>> +++ b/drivers/gpu/drm/tegra/dc.c
+>>>>> @@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+>>>>>  	}
+>>>>>  
+>>>>>  	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
+>>>>> +	drm_plane_create_zpos_immutable_property(&plane->base, 255);
+>>>>>  
+>>>>>  	return &plane->base;
+>>>>>  }
+>>>>>
+>>>>
+>>>> Looks nice, thanks! Since you dropped all other zpos changes for other
+>>>> planes and given that the other planes have 255 for the max zpos, what
+>>>> about to set the cursor's zpos to 256?
+>>>
+>>> I'd prefer to have all of the planes' zpos within the same range. By
+>>> default the other planes will be on the very bottom end of that range
+>>> and the atomic core will normalize the zpos for all planes anyway, so
+>>> the cursor plane will end up with a very small normalized zpos in the
+>>> end.
+>>>
+>>> The zpos documentation already mentions that the behaviour is undefined
+>>> if two planes have the same zpos value, so I think userspace is going to
+>>> know how to set these anyway.
+>>>
+>>> It might be worth to do a follow-up patch that is smarter about setting
+>>> the range of valid values. 0-255 is true on later chips where we
+>>> actually have a proper "layer depth" register field and I wanted this to
+>>> be uniform across all generations. Other drivers seem to set the upper
+>>> limit on the zpos range to be equal to the number of planes available,
+>>> so that there aren't potentially big gaps in the numbering. That said,
+>>> since the core already normalizes the zpos for us, I don't see a big
+>>> benefit in explicitly clipping the range.
+>>
+>> But the cursor plane doesn't use the "layer depth" register, doesn't it?
+>> So the zpos over 255 shouldn't matter in this case.
+>>
+>> I know that DRM should normalizes the given zpos, but still it makes me
+>> a bit uncomfortable knowing that there are the ranges overlap visible to
+>> userspace :)
 > 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
-> v1..v2:
+> Userspace has to be able to deal with this anyway because it can't make
+> any assumptions about what hardware supports underneath. A cursor on a
+> different platform may very well be stackable anywhere in the layout so
+> it must ensure that the cursor always has the highest zpos (provided
+> that that's what it wants). Immutable 255 basically just says that the
+> cursor is always going to be at the top. /If/ userspace then decides to
+> set some other plane's zpos = 255, then we're in the "undefined"
+> behaviour case that the documentation mentions, in which case the
+> behaviour on Tegra would still be sane in showing the cursor on top.
 > 
-> - Addressed editorial comments from Randy
-> - Added a paragraph by Hans
-> 
->  Documentation/input/input-programming.rst | 40 +++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/Documentation/input/input-programming.rst b/Documentation/input/input-programming.rst
-> index 45a4c6e05e39..7432315cc829 100644
-> --- a/Documentation/input/input-programming.rst
-> +++ b/Documentation/input/input-programming.rst
-> @@ -164,6 +164,46 @@ disconnects. Calls to both callbacks are serialized.
->  The open() callback should return a 0 in case of success or any nonzero value
->  in case of failure. The close() callback (which is void) must always succeed.
->  
-> +Inhibiting input devices
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Inhibiting a device means ignoring input events from it. As such it is about maintaining
-> +relationships with input handlers - either already existing relationships, or relationships
-> +to be established while the device is in inhibited state.
-> +
-> +If a device is inhibited, no input handler will receive events from it.
-> +
-> +The fact that nobody wants events from the device is exploited further, by calling device's
-> +close() (if there are users) and open() (if there are users) on inhibit and uninhibit
-> +operations, respectively. Indeed, the meaning of close() is to stop providing events
-> +to the input core and that of open() is to start providing events to the input core.
-> +
-> +Calling the device's close() method on inhibit (if there are users) allows the driver
-> +to save power. Either by directly powering down the device or by releasing the
-> +runtime-pm reference it got in open() when the driver is using runtime-pm.
-> +
-> +Inhibiting and uninhibiting are orthogonal to opening and closing the device by input
-> +handlers. Userspace might want to inhibit a device in anticipation before any handler is
-> +positively matched against it.
-> +
-> +Inhibiting and uninhibiting are orthogonal to device's being a wakeup source, too. Being a
-> +wakeup source plays a role when the system is sleeping, not when the system is operating.
-> +How drivers should program their interaction between inhibiting, sleeping and being a wakeup
-> +source is driver-specific.
-> +
-> +Taking the analogy with the network devices - bringing a network interface down doesn't mean
-> +that it should be impossible be wake the system up on LAN through this interface. So, there
-> +may be input drivers which should be considered wakeup sources even when inhibited. Actually,
-> +in many I2C input devices their interrupt is declared a wakeup interrupt and its handling
-> +happens in driver's core, which is not aware of input-specific inhibit (nor should it be).
-> +Composite devices containing several interfaces can be inhibited on a per-interface basis and
-> +e.g. inhibiting one interface shouldn't affect the device's capability of being a wakeup source.
-> +
-> +If a device is to be considered a wakeup source while inhibited, special care must be taken when
-> +programming its suspend(), as it might need to call device's open(). Depending on what close()
-> +means for the device in question, not opening() it before going to sleep might make it
-> +impossible to provide any wakeup events. The device is going to sleep anyway.
-> +
->  Basic event types
->  ~~~~~~~~~~~~~~~~~
->  
-> 
+> So I don't think there's really an issue with the overlap.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
--- 
-~Randy
+It should work okay, but if cursor had zpos set to 256 then it would
+lower the chance for userspace to create the undefined behavior situation.
