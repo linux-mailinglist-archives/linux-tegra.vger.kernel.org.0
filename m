@@ -2,131 +2,140 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C831FCF4F
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 16:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA451FCF5C
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 16:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726950AbgFQORM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 10:17:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57168 "EHLO
+        id S1726495AbgFQOUU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 10:20:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726594AbgFQORM (ORCPT
+        with ESMTP id S1726480AbgFQOUT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 10:17:12 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 191C2C06174E;
-        Wed, 17 Jun 2020 07:17:12 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id q11so2541594wrp.3;
-        Wed, 17 Jun 2020 07:17:12 -0700 (PDT)
+        Wed, 17 Jun 2020 10:20:19 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55721C06174E
+        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 07:20:18 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id c17so3051471lji.11
+        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 07:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=xHucdp/h38zOZR0BfimAbq+vskBs7PZI63d+Fmy/6YA=;
-        b=RHICmRimL1M9Gy9mlY5GomnND1WhLpd3lnoE0HJ6XX/Y1pb4nXhJ335aRW0grOSk9I
-         OullYdV88XHFlusHsm9GS2yERzG/2AhGcdGpoc+zvOGD50pGpJee2N/TdJBxeld/yStO
-         uHXuXyj0VKyfHroNif1gyomp4EJHucgaZx5T8Lu1pCY5AoJa6vklNd9Sp7q4KJsQ9Z2f
-         aRmk1cA/v8zU+rl6LxVfT7o9A9d7ZHVtDTgy7OPUuQmE0Kf8NQ2WeMYadyoOX4EQfUWK
-         WevM5K0h+8Dgm3ScPznjD5QBH2IlIrPpflbGSJjtQNGyz0ldnaMA/ZPbBDtC05PQLtqs
-         bQ6Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=V4JLMz2DyNc9DZlCXfygme3vyorMs8d0BwMT8g/PCDM=;
+        b=ED+yIktKhA0fqclBgysqcqOeWWNof0cSIFSi8rQEq55yH64CoqoXNp/x03pSQs9xpK
+         zMVzbcH5tNcj2DhO0XujNbVQFA86xg9OPAq/gGFNfkQm8e1bnhRmMWuY/ZuoJZK4uQNG
+         55z4eJvSNHuUWXC1RkAPfX3RaHsz7pYNdMMWnUgHhZMZasWiTnDnLD3Vmr3hLns38RGe
+         eiJ+X/om3Ar8AoX2ly2vaWFqCtl0EXbD1xa6rFIlSH5kg+t5y4Y0K25r8qCdl+oJaJRB
+         CW44eU00qXoE8UkUfqBmuhpgiJPYfqCXYnm0SK4AEzvk/5c+t45oCaaf896dZMUS4yrr
+         TEPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xHucdp/h38zOZR0BfimAbq+vskBs7PZI63d+Fmy/6YA=;
-        b=W9L5PcfpjPNcg6bTGcbd7rOwGRafjsZ+Izanlq78lOoHodiMePIUORzPI0zOk10Ny7
-         A0JDrOa+2onCQfBoeRJJwk2ApiWpmuH2gFOw7L2ON5KOty6Ry7Gm/9u5rHpt7fK6dR5M
-         QReYAElBwPRqHrb04/pQuvnpPZB4U6KNaxPywsV3N5g5c94wJuLehRTGX3YcEenb6oLR
-         k2YhhCa5MNVsh5YntwpG4G5+2LcOk9uZ2UoxVzSN4d5syMs/g2euV1n+EPUhQwbNyY64
-         ftZzBAufv69UIOj/kNLpWOGGvxVfF2NtEb8ClNwIYKsxbAkdLOqyDq4/jEYQI6ikCG57
-         Y4XQ==
-X-Gm-Message-State: AOAM531mMN/1H0FzJrarNj3mdAky5LN6ZyrMRj8uYOYSeq61+Jjr/PyO
-        QEwTC23mFD8vPaouO6tKEctzmxfF
-X-Google-Smtp-Source: ABdhPJyQRxOpTD09q4mx6/zcF7p2kcdd04OU6TdLRfW0WNxKcyV1ida42vneC7oFYwWK+z+uJ8pfrw==
-X-Received: by 2002:a5d:468d:: with SMTP id u13mr9357002wrq.73.1592403430829;
-        Wed, 17 Jun 2020 07:17:10 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id h7sm582337wml.24.2020.06.17.07.17.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 07:17:07 -0700 (PDT)
-Date:   Wed, 17 Jun 2020 16:17:06 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 25/38] dt-bindings: gpio: tegra: Convert to json-schema
-Message-ID: <20200617141706.GC3536291@ulmo>
-References: <20200612141903.2391044-1-thierry.reding@gmail.com>
- <20200612141903.2391044-26-thierry.reding@gmail.com>
- <186ceadd-317c-a7b2-d4ab-32473f857545@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=V4JLMz2DyNc9DZlCXfygme3vyorMs8d0BwMT8g/PCDM=;
+        b=M8i6Mu/7hbO102JHyyt8q5FMDn+Kd0LmWGwDPUV1xf+3l5PH6iF5NLqQ+r1hOpw6U/
+         tq9C2tkwrdWmDX0dI5ojzMRbGMatXxM0fowPKQsKUQsUFuY/mhGB0uGkfmJm095JVbzR
+         KEccv9yNbPAGXW3vaMB2GacxLcJOkcWY6TxaGTri1Bm5RUKbMiBD5of+OtppTdqjyBec
+         MP0w3QpyTe9PybKIPIvHZL9ziwEEkictEYZXtBMHiTTL9BcssTEZlwyvz+GCQzj378Iz
+         o3aZs0aIrgF8YrVuCG7neUeoa3j9D7H7vG20YHmUcwvfp8BA9yK+fGmgqLlTjxHm0wgy
+         BN1Q==
+X-Gm-Message-State: AOAM532e8HqG7D9Szk115jqYiM1TmZBx/lDAHbfBVREQkJdBxVs/sJHR
+        8imQT5wELdE1fmMMeim6NY4Og+SY
+X-Google-Smtp-Source: ABdhPJwG66NISXRY5Ia3T+p6a2YHiNyQj6rHxAo8mP76P7n6hnrx1CL++kCOeMz4RC4DyI0W4y4LLA==
+X-Received: by 2002:a2e:81c5:: with SMTP id s5mr3961755ljg.372.1592403616226;
+        Wed, 17 Jun 2020 07:20:16 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id s20sm13366ljs.36.2020.06.17.07.20.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2020 07:20:15 -0700 (PDT)
+Subject: Re: [PATCH v3] drm/tegra: Add zpos property for cursor planes
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+References: <20200616181449.3147258-1-thierry.reding@gmail.com>
+ <8e45b425-b667-433e-2074-7a058329f5c2@gmail.com>
+ <20200617141015.GB3536291@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <cef8e371-03a8-455e-561d-fca9d0b88309@gmail.com>
+Date:   Wed, 17 Jun 2020 17:20:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OBd5C1Lgu00Gd/Tn"
-Content-Disposition: inline
-In-Reply-To: <186ceadd-317c-a7b2-d4ab-32473f857545@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200617141015.GB3536291@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+17.06.2020 17:10, Thierry Reding пишет:
+> On Tue, Jun 16, 2020 at 09:39:19PM +0300, Dmitry Osipenko wrote:
+>> 16.06.2020 21:14, Thierry Reding пишет:
+>>> From: Thierry Reding <treding@nvidia.com>
+>>>
+>>> As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
+>>> have a zpos property") a warning is emitted if there's a mix of planes
+>>> with and without a zpos property.
+>>>
+>>> On Tegra, cursor planes are always composited on top of all other
+>>> planes, which is why they never had a zpos property attached to them.
+>>> However, since the composition order is fixed, this is trivial to
+>>> remedy by simply attaching an immutable zpos property to them.
+>>>
+>>> v3: do not hardcode zpos for overlay planes used as cursor (Dmitry)
+>>> v2: hardcode cursor plane zpos to 255 instead of 0 (Ville)
+>>>
+>>> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>> ---
+>>>  drivers/gpu/drm/tegra/dc.c | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+>>> index 83f31c6e891c..04d6848d19fc 100644
+>>> --- a/drivers/gpu/drm/tegra/dc.c
+>>> +++ b/drivers/gpu/drm/tegra/dc.c
+>>> @@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+>>>  	}
+>>>  
+>>>  	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
+>>> +	drm_plane_create_zpos_immutable_property(&plane->base, 255);
+>>>  
+>>>  	return &plane->base;
+>>>  }
+>>>
+>>
+>> Looks nice, thanks! Since you dropped all other zpos changes for other
+>> planes and given that the other planes have 255 for the max zpos, what
+>> about to set the cursor's zpos to 256?
+> 
+> I'd prefer to have all of the planes' zpos within the same range. By
+> default the other planes will be on the very bottom end of that range
+> and the atomic core will normalize the zpos for all planes anyway, so
+> the cursor plane will end up with a very small normalized zpos in the
+> end.
+> 
+> The zpos documentation already mentions that the behaviour is undefined
+> if two planes have the same zpos value, so I think userspace is going to
+> know how to set these anyway.
+> 
+> It might be worth to do a follow-up patch that is smarter about setting
+> the range of valid values. 0-255 is true on later chips where we
+> actually have a proper "layer depth" register field and I wanted this to
+> be uniform across all generations. Other drivers seem to set the upper
+> limit on the zpos range to be equal to the number of planes available,
+> so that there aren't potentially big gaps in the numbering. That said,
+> since the core already normalizes the zpos for us, I don't see a big
+> benefit in explicitly clipping the range.
 
---OBd5C1Lgu00Gd/Tn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+But the cursor plane doesn't use the "layer depth" register, doesn't it?
+So the zpos over 255 shouldn't matter in this case.
 
-On Wed, Jun 17, 2020 at 07:24:16AM +0300, Dmitry Osipenko wrote:
-> 12.06.2020 17:18, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
-> > +patternProperties:
-> > +  # GPIO hogs; /schemas/gpio/gpio-hog.yaml will match
-> > +  "^gpios(-[a-zA-Z0-9-]+)?$":
-> > +    type: object
-> > +    required:
-> > +      - gpio-hog
->=20
-> There are two problems here:
->=20
-> 1. This naming limitation didn't exist before this patch, so it's not a
-> part of the conversion.
->=20
-> 2. GPIO core uses the node's name for the hog's name. Hence by imposing
-> the "gpios-" prefix, you're forcing all hogs to be named as gpios-xxx,
-> which doesn't make much sense to me.
->=20
-> Please explain the rationale of this change.
-
-We could probably do without this if we didn't enforce additional or
-unevaluated properties. Because if we don't match on a pattern here then
-all of those GPIO hog nodes would show up as "extra" properties and they
-are currently not allowed. If we do allow them, then we can drop this,
-but we then have no way to fail validation for whatever else somebody
-might want to put into these device tree nodes.
-
-That said, I think additionalProperties can be a schema in itself, so
-maybe there's a way to only allow additional properties if they are of
-type object and have a gpio-hog property. I'll look into that.
-
-Thierry
-
---OBd5C1Lgu00Gd/Tn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7qJeIACgkQ3SOs138+
-s6GJrA/+Izbidb/DwVp99EqfGaOmDTMzV5gJN0QHu61EurvpUzDSGK2xJWrojuvU
-tnhkNPZjEzlDTqDvILh1NBBMikSdxo5PzK/7RRHaqZSsMM1txiQaOpTwZ77+NFS9
-/xL6kyKeTeaSbX3dtKJf+oxkJBlqfZjYCQdjvI0Vtn7P44b8kNjl7Kcxu0y13gNq
-Z5eSuy+SFBC35not1IwhZEpwHFALtRPKthc5m+VJwybvLUI7hr7KXU2XvZECW9f3
-AcFE5mmO6tWxCaXaaovjTPzGj55hfSpHAa1IIUxPr255z+Jici80P/zJpqPxqmnj
-gYxcouACMqABwjN90ZZymF5uOl3RtMMOK9HwjPPTsn+qE84C5ZLK7vx6+WaRL8v1
-GresAhtOXlY+PQ9lAYGwpoWdpaehASh2jC7Thid1uVCCSp5nqoenhg6BoqbF1VLg
-ze5A49NgAEX6XEsVixy0AvlqFxBatRK8XbGiOzMlQV3DESQM0OdKdjCYcG6LHcxg
-e+ghWhjCwV7obcIi433OnY73aoPBvaJHdmWU9VEfWTbNVkwkh6PDcA78HkxBIZ7L
-VE+YI548k9zPG3qwQZMWezL8wIpUzDEDd/hpazAzSoaofUtQQGZlmk0kZL+LSfFv
-OvPEpI4LW65arvMkLW5np5qQaoDrsl+MQPOHOBeNDw5F/QxiXbo=
-=X4Kg
------END PGP SIGNATURE-----
-
---OBd5C1Lgu00Gd/Tn--
+I know that DRM should normalizes the given zpos, but still it makes me
+a bit uncomfortable knowing that there are the ranges overlap visible to
+userspace :)
