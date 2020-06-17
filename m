@@ -2,66 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 050671FD1DA
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 18:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7D81FD219
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 18:29:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbgFQQVf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 12:21:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48270 "EHLO
+        id S1727051AbgFQQ1X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 12:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgFQQVe (ORCPT
+        with ESMTP id S1727857AbgFQQ1W (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 12:21:34 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B37DC06174E
-        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 09:21:33 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id 9so3596002ljc.8
-        for <linux-tegra@vger.kernel.org>; Wed, 17 Jun 2020 09:21:33 -0700 (PDT)
+        Wed, 17 Jun 2020 12:27:22 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70509C06174E;
+        Wed, 17 Jun 2020 09:27:22 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id d27so1690911lfq.5;
+        Wed, 17 Jun 2020 09:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IRiK2UUVRAsIPqcMgasRPg24vJVeAUpdnyR9861AUZo=;
-        b=u4GPDiiQRz2ATonnih1RGhxWuD9iVyOFZ9P85BYBXNXYhl0LtvhqgxB2XsOLLc66Co
-         kL7UaNQTtlZL/ynZ4MAj29AR/Rs1Fc4yCor+n9CS5+eaT8sChwdALidi79f4wx4LYdyn
-         RBHlUJjzY6YaE50XJ3vGjQfDNtT9UkDx0IcS4TR74nPfbMW1nkmVZegZexSUud/6cPxf
-         1Yn5/0rMfuIWfE7C8StZt+ls5aoJcCMmsDl3/OVgS3DAz3B0BBhoPvvmDFrTjmmHODTz
-         6Kftx8xhp8XftMSCed6XkrhJbPg/6NFotH2li0APja/99VPDVKQv5G1gpUr3iw4FKJ0N
-         Sw0Q==
+        bh=tBdtd4BbSytzH+yn8Qia+tXk6Gs+WeAHP5EfpLtwsp8=;
+        b=X9G2VFwG+kypTS6e33cyAimN3ATS28yZLc7+RSukAtDpY5QYY5eBQglww7MLPaD83h
+         rIjriWkglL5vxCbr9qVzPqpgVokj4HScFR3NLVbSnJXCLhoTuTj9hjZnei3VFIo0eqdT
+         LDdAFXSb1RyMLiZvwWwcKSt7m2G/hqSM8WsK1nQImL+Lgc8EdmrtI9Zvmo64XBYkLspo
+         xTE3pCfFLaIOAqBCJsNxj7FNwkdMsZrASXddwxBKlVreXyld5TyYvyUtvfvplsRnZEIe
+         tKAUpR/W47SCAZ205IDRQmsy0dVteCso6LPZyUvfG+rAVyFXWxHSUIjXfKdtl+GpzcdF
+         gceg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IRiK2UUVRAsIPqcMgasRPg24vJVeAUpdnyR9861AUZo=;
-        b=n938l89qlvORfgfPUwcMNar4uS8EhFfzjLYVZqeypzFHUb7c7E7Qh2Ec566yS4oKD5
-         NkDp/a+NPsaxXCz3PYSon/ZdVBK2WQxzjm4h8mUylP4CyFZ4iruLScuMU6BdibvgUHd8
-         RJR6H3xNw1K0N2Aj3pcg/izI8yAQMaYEMNPkv+MbW0g4kMPYOpupX4r08bTekE8yb4s8
-         e5Skeap7FzgBpS1jLrwP0NSwlMO+izevDDBxH4gU4gnCNwg6eJljnWUl9c0gTDTWH+wt
-         isXnPu3nZ17QtiqjIPOaDDOtNSeg+kqycvou37YomP9bVm0xg5dG1moF94VBuNC9CKtL
-         xc7g==
-X-Gm-Message-State: AOAM530WsmDTfsBgTzlDRYTP/7mdkAIM6WaVc5kNgUu/QKZT/6jlzbKr
-        mSahBukjLVZ/+wVYotseQ30=
-X-Google-Smtp-Source: ABdhPJz3aiPxKTjef7ws1Wk0kCPVBhHmctYWL0jMJEPomcZI7gJIPON3eEZiqN7mZyOpvLO4P8eWqA==
-X-Received: by 2002:a2e:9a08:: with SMTP id o8mr42939lji.126.1592410891870;
-        Wed, 17 Jun 2020 09:21:31 -0700 (PDT)
+        bh=tBdtd4BbSytzH+yn8Qia+tXk6Gs+WeAHP5EfpLtwsp8=;
+        b=ADUEy6W/ZfBTc2MypJaRmIYSrHWp3Mjw90Lvdv6AJZdjbiEHHQzFpb7/6/o5S8MZEv
+         ad6fScbY/UKbTJTRfHCqsQR3W+SM/E+6gwW7PtzlH2PcZ3sQCzhTLhzxF3nb8EImiyUZ
+         G719tdhEwG7YTt4fXdkoDmBhZOD4n6mkJzjjh2HkvQaf8hq17vEtOJk00IyEDUjb62H/
+         l/cceZMFans6BvVGPKaYCuSyMFWLPyuZ/KTFAI3BTzR3N6vG0W9yyDUSpRGMRQ3x4Ci5
+         wSKjR1SkSJeVuReBc2+/SrFZ9HFlJ21vCfLepF6mKDNu+oGUAr2WIGhtSjs7Mxk10kcC
+         dTPQ==
+X-Gm-Message-State: AOAM531IFpsq5e2PGbkyUmokP8wjpp+uo7HAsemq/ZkGIJBJmP3iNfxz
+        hPr2i0E67zTfvdCOIv2orxk=
+X-Google-Smtp-Source: ABdhPJzdlve8SscpxQ5lGHRdQw8g0xXtnEZx4khfcDzoIbDFkaI6tCr5C/kFsj24d1QGCa4B73gq5w==
+X-Received: by 2002:a19:8389:: with SMTP id f131mr4963732lfd.16.1592411240453;
+        Wed, 17 Jun 2020 09:27:20 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id 1sm51530lft.95.2020.06.17.09.21.30
+        by smtp.googlemail.com with ESMTPSA id b25sm66852ljo.16.2020.06.17.09.27.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2020 09:21:31 -0700 (PDT)
-Subject: Re: [PATCH 09/73] ARM: tegra: gr2d is not backwards-compatible
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Jon Hunter <jonathanh@nvidia.com>
-References: <20200616135238.3001888-1-thierry.reding@gmail.com>
- <20200616135238.3001888-10-thierry.reding@gmail.com>
+        Wed, 17 Jun 2020 09:27:19 -0700 (PDT)
+Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Emil Velikov <emil.l.velikov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
+ <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
+ <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
+ <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
+ <CACvgo50BFH5qsPyWx9a1aZ4k5bzjSN-3KTU0BvnZ-nG-hfzKOQ@mail.gmail.com>
+ <fe845434-cbf6-29d4-eeb6-8868d628fd04@gmail.com>
+ <CAPj87rPwwHWtYpuZfiTMyELvr3D+UAY8CVnH3v6+Lo1-UMRRVA@mail.gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9f56be9a-1a79-07cc-371f-f3abcd20701e@gmail.com>
-Date:   Wed, 17 Jun 2020 19:21:30 +0300
+Message-ID: <36496bd6-b18a-de97-1afb-f2f8aeb3feaf@gmail.com>
+Date:   Wed, 17 Jun 2020 19:27:18 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200616135238.3001888-10-thierry.reding@gmail.com>
+In-Reply-To: <CAPj87rPwwHWtYpuZfiTMyELvr3D+UAY8CVnH3v6+Lo1-UMRRVA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -70,32 +83,27 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.06.2020 16:51, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
+17.06.2020 12:34, Daniel Stone пишет:
+> Hi,
 > 
-> The instantiation of gr2d in Tegra114 is not backwards-compatible with
-> the version found on earlier chips. Remove the misleading compatible
-> string.
+> On Tue, 16 Jun 2020 at 22:16, Dmitry Osipenko <digetx@gmail.com> wrote:
+>> The panel's orientation could be parsed by any panel driver and then
+>> assigned as the connector's property in order to allow userspace/FB-core
+>> to decide what to do with the rotated display. Apparently upstream
+>> kernel supports only that one Samsung device which has display panel
+>> mounted upside-down and it already uses the custom DT properties for
+>> achieving the 180 rotation. So I don't quite see any panel drivers that
+>> instantly could benefit from using the rotation property. Perhaps I can
+>> add the orientation support to the panel-simple driver, but will it be
+>> useful to anyone?
 > 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  arch/arm/boot/dts/tegra114.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/tegra114.dtsi b/arch/arm/boot/dts/tegra114.dtsi
-> index a0ac9ea9ec9d..d583dfba688f 100644
-> --- a/arch/arm/boot/dts/tegra114.dtsi
-> +++ b/arch/arm/boot/dts/tegra114.dtsi
-> @@ -35,7 +35,7 @@ host1x@50000000 {
->  		ranges = <0x54000000 0x54000000 0x01000000>;
->  
->  		gr2d@54140000 {
-> -			compatible = "nvidia,tegra114-gr2d", "nvidia,tegra20-gr2d";
-> +			compatible = "nvidia,tegra114-gr2d";
->  			reg = <0x54140000 0x00040000>;
->  			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&tegra_car TEGRA114_CLK_GR2D>;
-> 
+> Yes, exposing it to userspace is helpful, since Weston at least will
+> parse the property and then apply the correct transform:
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
 
-Could you please explain what's the difference? AFAIK, the 2D HW is
-identical on T20/30/114.
+Hello Daniel,
+
+Thank you very much for the pointer! I missed that Weston now uses the
+panel's orientation. I gave a quick test to the recent Weston and indeed
+it applies the transform in accordance to the connector's orientation
+property.
