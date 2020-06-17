@@ -2,132 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E6EB1FD4D9
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 20:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04C141FD697
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Jun 2020 23:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727039AbgFQSur (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 14:50:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726851AbgFQSur (ORCPT
+        id S1726881AbgFQVCw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 17:02:52 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:44359 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726496AbgFQVCv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 14:50:47 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7754BC06174E;
-        Wed, 17 Jun 2020 11:50:45 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id x18so4204910lji.1;
-        Wed, 17 Jun 2020 11:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
-        b=M8QbXD3dhMgoC9HGZspqf7XvjFgGe8WazwwUzCVArg0/V4J/2jzwL8H4RGbmNBNkwD
-         R8wGcFDnf2lOnU41m/g9QNA/9d+ub6zNKxZNXZWQ8tvxe8mZUd8MMFDtixbRyq/Pc/BF
-         PIlXs0P58oAy4Q0Hx7D0IDtf6qGVRToB7UUTEKeWrh2FvdpOJVARsCgHhh3DM2YDYITG
-         yv2i+lxcsBl69kQVaF0qbqTQ0Q5+tPfaYHxiZHxuDl7GF//mofzMEAyRhY5MUNk0ZEEC
-         ecIvPUB2Ri/1v20pzwyv+rz8M4vudDHoEqRG2l6oEitpvq6n6iLOMI6v2o8SNoiAejZ8
-         ZauQ==
+        Wed, 17 Jun 2020 17:02:51 -0400
+Received: by mail-io1-f66.google.com with SMTP id i4so1550059iov.11;
+        Wed, 17 Jun 2020 14:02:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
-        b=U2+gxQS7UexMuXU93D9tcwVFGURVgTOryPuJp05WfPX68eKYAftCDrtmuYErkGg6M4
-         vjVLxZcXOHyc8SOEY8MRT6AZdPOLYek5QD9Mj0wW4xCg3/G9bituUG7ZIQk+P0AflvL4
-         sTrvZR0YS3nxvG55gvFUXsp0T1ZvJYaZXwhewQlg8OPZhkhIBVUrwJtZ7jF37zYSr+Tb
-         4kN3jCTZWCb1O126ZLAKWAu/SOUcnynkqHnWwRsAOQL5WitX+izYWgNpbqh2OAJW/LTp
-         62RBHlmBzVyBbsD6p+SiLQp0ZcHnBS13IQaiQnSlTmRfsQ1W8OTKPrC6DfAlffPbuON9
-         QLlg==
-X-Gm-Message-State: AOAM530sL807Jevi4UHrOMTVkOftGz8z7aH2g90ZnhEnC1qqSBfkzozl
-        +C0M7E64I5Lq0tMaz8QD21M=
-X-Google-Smtp-Source: ABdhPJwHrFp7hl7apCuUIGY5sl9ZXw4ffQukc+KSdkIkDhhEWKTpuESWMBtJoDInAjZab47xZDYMIQ==
-X-Received: by 2002:a05:651c:544:: with SMTP id q4mr348194ljp.310.1592419843008;
-        Wed, 17 Jun 2020 11:50:43 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id r15sm119829ljm.31.2020.06.17.11.50.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2020 11:50:42 -0700 (PDT)
-Subject: =?UTF-8?Q?Re=3a_=5bPATCH_v2_5/5=5d_drm/tegra=3a_plane=3a_Support_18?=
- =?UTF-8?Q?0=c2=b0_rotation?=
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>, linux-tegra@vger.kernel.org,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>
-References: <20200614200121.14147-1-digetx@gmail.com>
- <20200614200121.14147-6-digetx@gmail.com>
- <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
- <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
-Message-ID: <2a004826-a505-75e4-b922-c74618404166@gmail.com>
-Date:   Wed, 17 Jun 2020 21:50:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xFFFGVbhSch5Pt2svn8MimZRF1LlF10vkrqi5t3dW9I=;
+        b=sQdyR7yg6FjwlEvFgoJUeHxE4yCreObyk4DB8tdEQZ8kJMm8lMOSqwmWtvzCCCc4tX
+         OBM8PyeHLCgCQPFupTCiN5+9uikcM8CiTlfAcOi54zFNHzM028w7K4NTspv8naLWIfxD
+         0zIOaE9/9LMO8AymXJ9JdXIqX43hBYnCtx25CfZOIAx+lahwlAT51lXVDMMOCITWjLjY
+         Rn6Wdb41NGZP+TgCWoEBTtgFLry5LI8hHB+k9mPfQ2y4bokX7BQABkZw+qo0MiQHSc44
+         mUftUJdb42wONV8JeDondOluvGCNbyaDhOiTDHud8BFLeGJh7PgiZDnyVS9HZyY5jQOL
+         WAjw==
+X-Gm-Message-State: AOAM5319ZfGjgha8FIt0dNCDbzOUcRiUpbWrfZJtc8lod9gT97WhoxzL
+        QDvsJZtg/r5P1HOxI967Dw==
+X-Google-Smtp-Source: ABdhPJyXhGFVD9efkJSsHu1gz54q5MCenhejfFdnSe9K2byNsnC5c7h0Xj90NBIYtbqHKRUf3MoPIg==
+X-Received: by 2002:a6b:9054:: with SMTP id s81mr1423659iod.122.1592427770922;
+        Wed, 17 Jun 2020 14:02:50 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id f11sm398301ilf.53.2020.06.17.14.02.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 14:02:50 -0700 (PDT)
+Received: (nullmailer pid 2809826 invoked by uid 1000);
+        Wed, 17 Jun 2020 21:02:47 -0000
+Date:   Wed, 17 Jun 2020 15:02:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Chun-Hung Wu <chun-hung.wu@mediatek.com>
+Cc:     mirq-linux@rere.qmqm.pl, Jonathan Hunter <jonathanh@nvidia.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        devicetree@vger.kernel.org, wsd_upstream@mediatek.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v6 4/4] dt-bindings: mmc: mediatek: Add document for
+ mt6779
+Message-ID: <20200617210247.GA2800817@bogus>
+References: <1591665502-6573-1-git-send-email-chun-hung.wu@mediatek.com>
+ <1591665502-6573-5-git-send-email-chun-hung.wu@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1591665502-6573-5-git-send-email-chun-hung.wu@mediatek.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.06.2020 14:25, Dmitry Osipenko пишет:
-> 16.06.2020 00:47, Emil Velikov пишет:
->> Hi all,
->>
->> Perhaps a silly question:
->>
->> On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrote:
->>>
->>> Combining horizontal and vertical reflections gives us 180 degrees of
->>> rotation.
->>>
->>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>> ---
->>>  drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
->>>  1 file changed, 12 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
->>> index f31bca27cde4..ddd9b88f8fce 100644
->>> --- a/drivers/gpu/drm/tegra/dc.c
->>> +++ b/drivers/gpu/drm/tegra/dc.c
->>
->>> +       if (rotation & DRM_MODE_ROTATE_180) {
->>> +               plane_state->reflect_x = !plane_state->reflect_x;
->>> +               plane_state->reflect_y = !plane_state->reflect_y;
->>> +       }
->>> +
->> As mentioned by Ville the above is already handled by
->> drm_rotation_simplify() ... although it makes me wonder:
->>
->>
->>>         err = drm_plane_create_rotation_property(&plane->base,
->>>                                                  DRM_MODE_ROTATE_0,
->>>                                                  DRM_MODE_ROTATE_0 |
->>> +                                                DRM_MODE_ROTATE_180 |
->>>                                                  DRM_MODE_REFLECT_X |
->>>                                                  DRM_MODE_REFLECT_Y);
->>
->> Would it make sense for drm_plane_create_rotation_property() itself,
->> to add DRM_MODE_ROTATE_180, when both reflections are supported?
+On Tue, Jun 09, 2020 at 09:18:22AM +0800, Chun-Hung Wu wrote:
+> Add compatible node for mt6779 mmc and HW cmdq selection
+> node "mediatek,cqhci".
 > 
-> Hello Emil,
+> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+> ---
+>  Documentation/devicetree/bindings/mmc/mtk-sd.txt | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> That's a good point! All DRM_MODE_ROTATE_180 should be removed because
-> Tegra can't do 180° + reflected-x. The DRM core takes care of 180°
-> rotation when both x/y reflections are supported.
-> 
+> diff --git a/Documentation/devicetree/bindings/mmc/mtk-sd.txt b/Documentation/devicetree/bindings/mmc/mtk-sd.txt
+> index 8a532f4..d4d20b9 100644
+> --- a/Documentation/devicetree/bindings/mmc/mtk-sd.txt
+> +++ b/Documentation/devicetree/bindings/mmc/mtk-sd.txt
+> @@ -12,6 +12,7 @@ Required properties:
+>  	"mediatek,mt8173-mmc": for mmc host ip compatible with mt8173
+>  	"mediatek,mt8183-mmc": for mmc host ip compatible with mt8183
+>  	"mediatek,mt8516-mmc": for mmc host ip compatible with mt8516
+> +	"mediatek,mt6779-mmc": for mmc host ip compatible with mt6779
+>  	"mediatek,mt2701-mmc": for mmc host ip compatible with mt2701
+>  	"mediatek,mt2712-mmc": for mmc host ip compatible with mt2712
+>  	"mediatek,mt7622-mmc": for MT7622 SoC
+> @@ -49,6 +50,9 @@ Optional properties:
+>  		     error caused by stop clock(fifo full)
+>  		     Valid range = [0:0x7]. if not present, default value is 0.
+>  		     applied to compatible "mediatek,mt2701-mmc".
+> +- mediatek,cqhci: HW cmdq selection
+> +		  If present, hw command queue is enabled.
+> +		  If not present, hw command queue is disabled.
 
-I just found out that I forgot to drop the WIP patches which added
-transparent rotation support while was checking whether these plane
-DRM_MODE_ROTATE_180 could be dropped and it's actually need to be set
-for the planes, otherwise 180 rotation support is filtered out by the
-atomic check.
+'supports-cqe' does the same thing.
+
+>  
+>  Examples:
+>  mmc0: mmc@11230000 {
+> -- 
+> 1.9.1
