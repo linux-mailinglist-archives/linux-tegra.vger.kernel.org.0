@@ -2,120 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30FF41FEFEC
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 12:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40F881FF00E
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 12:57:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbgFRKuN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jun 2020 06:50:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726899AbgFRKuM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jun 2020 06:50:12 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B90A2C06174E;
-        Thu, 18 Jun 2020 03:50:11 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id e1so5553808wrt.5;
-        Thu, 18 Jun 2020 03:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rq2vtUmYaxK4oFT2JMWTlMByzPndGv5xo1xhKDsPblM=;
-        b=tIRU1k1mmbprjFBezRoJ/fRf6b4ii5Zvlsnfw1NYXXMVmQm4MXjoPLMQkSy9D1oWyU
-         COnpdWBxiA1BzcutzGTvVRN1Tz4Izy1pmKsev0pIwbF81DXfrGYLiZvlBOU8uS/1SBdK
-         wIdX/dgFCGW3al6nLuoYKTb8Qa/tH8GOYUXw945nfC7HvJEeHrU9H+3kfzuaV5SbJ6kq
-         NhZBOvH97jHYsQ3QVAwHyZz1RK52KR1+JgbYMA5qZ4i/w3fuyC+bIlftZl8ag6eJM2dk
-         X2d9D0A+v12N6ssf1BRC6dVsIekuehm0ncNsKB5A5BakdVfpqudtRYBmB5abLqdnYzX1
-         t2JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rq2vtUmYaxK4oFT2JMWTlMByzPndGv5xo1xhKDsPblM=;
-        b=SBJEZZnvCxNnlWkhtUNSLIZUKa6MJIUUAk0n485OYAt+lo+EJ8X/y5k85Iojns4NHl
-         efXxf/5DaGTZXBiJfsHF1tKa5eFnFv672XhMBtFugd2Bf6lSnEMXFsC5v/I96avNYKWa
-         8m0rmsSv3TmOmOzxIL+wbGCPRjG0ti5BUlMVwE2+VH2cnqgZOxZHze25Sg9U8CqzHzNT
-         fslekuPy/PDTMedo/hYTJgTo1BgXu4hdF4+GgK1U2n1Z8yaUo+Qi2QH6KD9XmwF88aKZ
-         GZKOnRn9IQ/7qZ9Z6p/1VMKQGA0hFGQSayDUJKlUtnzaHgnmPg81jv/r03OtScQpZK7n
-         fWcA==
-X-Gm-Message-State: AOAM532PC5FOXWPZcYiVrEEG10IpxGjlPeOmNPbH4qNI5Ns87jB1JM6q
-        szlz1NMK42WzsjeDpQz+Ylg=
-X-Google-Smtp-Source: ABdhPJzn6TiRD5IAKs0XCAIfaFPig7mPGXaimtb/vQ+Sfv8NqJIzzX/LezQJNXioqTqXrux5wOb1qA==
-X-Received: by 2002:adf:df91:: with SMTP id z17mr3835800wrl.273.1592477410465;
-        Thu, 18 Jun 2020 03:50:10 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id o10sm3073553wrj.37.2020.06.18.03.50.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 03:50:09 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 12:50:07 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
-        frankc@nvidia.com, hverkuil@xs4all.nl, sakari.ailus@iki.fi,
-        helen.koike@collabora.com, digetx@gmail.com, sboyd@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v1 10/18] dt-bindings: tegra: Document VI and CSI
- port nodes
-Message-ID: <20200618105007.GA3663225@ulmo>
-References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
- <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
- <20200617221411.GB2923473@bogus>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ew6BAiZeqk4r7MaW"
-Content-Disposition: inline
-In-Reply-To: <20200617221411.GB2923473@bogus>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+        id S1729192AbgFRK5r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jun 2020 06:57:47 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:5264 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727805AbgFRK5q (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 18 Jun 2020 06:57:46 -0400
+Received: from localhost.localdomain (unknown [210.32.144.65])
+        by mail-app4 (Coremail) with SMTP id cS_KCgB3f0uXSOtekaC0AQ--.18905S4;
+        Thu, 18 Jun 2020 18:57:31 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] [v3] dmaengine: tegra210-adma: Fix runtime PM imbalance on error
+Date:   Thu, 18 Jun 2020 18:57:27 +0800
+Message-Id: <20200618105727.14669-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgB3f0uXSOtekaC0AQ--.18905S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1fury5tFWrWr4rXwb_yoW8XFW3pF
+        48Wa45KFW0qw4fKFyDZr1DZFy5u343t3yfK3y8C3ZxZan8Aa4Utr1rXry2vF48ZFWkAF4j
+        y3s8t3y3AF10vFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUU9v1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+        6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxE
+        wVAFwVW8twCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I
+        0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
+        GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
+        0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
+        rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr
+        0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoNBlZdtOqmPwAIsH
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
---ew6BAiZeqk4r7MaW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
 
-On Wed, Jun 17, 2020 at 04:14:11PM -0600, Rob Herring wrote:
-> On Tue, Jun 09, 2020 at 11:02:32PM -0700, Sowjanya Komatineni wrote:
-> > This patch documents Tegra VI and CSI port and endpoint nodes along
-> > with the other required properties.
-> >=20
-> > Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> > ---
-> >  .../display/tegra/nvidia,tegra20-host1x.txt        | 87 ++++++++++++++=
-++++++++
-> >  1 file changed, 87 insertions(+)
->=20
-> This is getting converted to schema by Thierry.
+Changelog:
 
-Yeah, once this has settled it probably makes sense for me to pick this
-up into the json-schema series on top of the initial conversion.
+v2: - Merge two patches that fix runtime PM imbalance in
+      tegra_adma_probe() and tegra_adma_alloc_chan_resources()
+      respectively.
 
-Thierry
+v3: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
+      in tegra_adma_alloc_chan_resources().
+---
+ drivers/dma/tegra210-adma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---ew6BAiZeqk4r7MaW
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index db58d7e4f9fe..bfa8800dfb4c 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -658,6 +658,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
+ 
+ 	ret = pm_runtime_get_sync(tdc2dev(tdc));
+ 	if (ret < 0) {
++		pm_runtime_put_noidle(tdc2dev(tdc));
+ 		free_irq(tdc->irq, tdc);
+ 		return ret;
+ 	}
+@@ -870,7 +871,7 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 
+ 	ret = pm_runtime_get_sync(&pdev->dev);
+ 	if (ret < 0)
+-		goto rpm_disable;
++		goto rpm_put;
+ 
+ 	ret = tegra_adma_init(tdma);
+ 	if (ret)
+@@ -921,7 +922,6 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 	dma_async_device_unregister(&tdma->dma_dev);
+ rpm_put:
+ 	pm_runtime_put_sync(&pdev->dev);
+-rpm_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ irq_dispose:
+ 	while (--i >= 0)
+-- 
+2.17.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7rRt0ACgkQ3SOs138+
-s6GjeQ//V5z5HHU3AGAEhkRvK5MxJwjbKjLteO/qr7SoHUcB0259EJUCo+M/Sj9r
-fhPbTuepd7NldeZBKTTHO+nwYVsl09ztvRAEdHHOZ9Nir6xToHYmr8i9t8bJH0Da
-Z1zueXUCBK+XWvodw0qzW6vLAZKAPgXk9ZyWXE2QcdiKTi/nq//ND3Wl2m1f8qdc
-IeoReqDLMJZEkig5HdDjkDcX0DnYhWaiN6TlYTN0gFt0P9n/3vrys6A3UnKQHcAt
-/vKgw5YKUfk4MHhKVZqWAeOVhRHxpef+2Q5atXqxWCwAQtcbrANXKA2UQMZ/fiux
-7xs8MhOOhkfVrH67N8qU/qzS00k8V+5CW1XVBfMQs2qfwRFSXlpBj5ONXPWLzbKs
-5/LXp/y+A+L0U7SykbfD8lT6SsCxabI5jF6jF/zlExc4gpqlL0gjVEaNpMcFje1/
-40ZwDxxQZHtSamkuOET5flEgDbe/uTc07Susmee5tBP3I91C7zikZZJvvKJ6sZnO
-HuQ3Yq67LFLl/q+pjyHPXoxx7+OsY1Z7Zm/3WWjfnprR+Y2IjUJ70nqxvlx/FZ03
-HrTf1iReuKRJMB1uDJT9YHxkAELACQql2hxCs1pa+X3GV/G5C0sMxN4rmmZQeQnm
-dzqM9ZVaXqmHopcGVfsAXF3/nyLKVPYVTdjngoP1fxcIqv9rEV4=
-=gbuv
------END PGP SIGNATURE-----
-
---ew6BAiZeqk4r7MaW--
