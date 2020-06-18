@@ -2,110 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 635BE1FD9CE
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 01:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 984091FDA39
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 02:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbgFQXlI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Jun 2020 19:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59868 "EHLO
+        id S1726926AbgFRA1m (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Jun 2020 20:27:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727816AbgFQXlG (ORCPT
+        with ESMTP id S1726881AbgFRA1l (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Jun 2020 19:41:06 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6390C06174E;
-        Wed, 17 Jun 2020 16:41:05 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id d27so2368482lfq.5;
-        Wed, 17 Jun 2020 16:41:05 -0700 (PDT)
+        Wed, 17 Jun 2020 20:27:41 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AE1C06174E;
+        Wed, 17 Jun 2020 17:27:41 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id q19so5125939lji.2;
+        Wed, 17 Jun 2020 17:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pAxyB6C7aJlpOxagnpZfk3yhTf/LsEQQa81zSGYW43g=;
-        b=B9nMsiI6lfN7t3LM1U/WpG+wTKt7bOM1IpIV2Ix76X0/HY/Yg9Oqqr903PuHP9lFuB
-         RTREq0KBfW1XVVxk9rl39YWJtc81FtuhslgD61jto+JyxjrceZVMG+fIAc4Tu1xO3Tx4
-         s77pLBWBAOD902doRB8H+zla+jkalMJpQWef2qmIZgwrt/3cQSDnPX1c76cYLzUhQpoX
-         IJVVd0dy2t9y0YmOPFQ7NzbrOeidSofir9I//r3ZjzCLl3SGGZlYsgtD8sBOXwBHe0zm
-         Wvrx1ON+QOIJYfYXoGWYxgaacVdscXRs1IdH69uaRuJ1a6ORkFtnNGALZ30YzpClomt2
-         HMaA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rq/E/19LmZnfaik86wPXedWKtuvz2N6trRDZr1KcBB0=;
+        b=oj+wKzcMU4xmQ8YezB0HM2rn2rQs8YMekF0qTjRrXdc2C+dB168pSjp4kZr1ZRX3SL
+         r2IyE/SLg9KFXpE2zZF/B7d6WKCDhkwO+Tfx876cxyjnlvmpl109teVTh1lZ/KetbUaC
+         3uGtFilcmL61xITYKBbUVgjnJcMDI/iR20EJ4d25SMGLL45etoNCfgErKsFnJvNiCUKV
+         vAml4yrP544gUvZRj5BVsJ/ltAwA0UO8R4bPVl7dGH+sc/uI2NnxDWMDrQ9YO3FHUDum
+         nM9m3FAMf+NsisMkYEQ5je/BnDC9OThKPcNRSppTsYe+wC6SqQ86j/6qA/wlHr0zFDew
+         imvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pAxyB6C7aJlpOxagnpZfk3yhTf/LsEQQa81zSGYW43g=;
-        b=lL3BQeZp90tbns/BFURcCSk+9PgXK0/JkjVXM6hsUhA50fWBZI8Z2Xpk0flaDH/hiT
-         132h75iixvrFZ/2+JGuQ9mRxiT8bOclwomPmjJ7w45M5qCiAYKsOZImz4Gj6AKFbYARD
-         39KTlksi463G+qMVAQc58sHEwGASNiMV5vu4Y2y8luS+v8YhbP6rzhsCU5rDEOv4nwQt
-         wATU1JxRCTM17+9eiZ01bADUQGbGzUSdh9KH3IDKo9+N5i3qvlWUldaL6N5i5sXNldkD
-         UM/psxxE2EscKBas105ILHNaLwbrXEZsmnvBpEcPcTmd7HNRIV5P/QxuHlor0pIPyI34
-         6UyQ==
-X-Gm-Message-State: AOAM532xBdVTkCx5xuFPkyjN2F8qHEF9gn5Gk+Q+su6mCX4AUxMBIJKh
-        eA4ch7gQbal/Couj/Rn8XcQ=
-X-Google-Smtp-Source: ABdhPJz5cDVUwKIFbHJvRRcZm/RgHQl0lqOLx6eYkfTVVUQv765IyixK8lF7EOCan5KXL+JrjhETlQ==
-X-Received: by 2002:a05:6512:10c8:: with SMTP id k8mr704401lfg.181.1592437264376;
-        Wed, 17 Jun 2020 16:41:04 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id c8sm287871lfc.46.2020.06.17.16.41.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 16:41:03 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rq/E/19LmZnfaik86wPXedWKtuvz2N6trRDZr1KcBB0=;
+        b=Wlnu+OluA7+GxW0O/qhHVw4KYU/TPRHl53VGzK6N5lW0uf9L8NEhATENK90WE1HBL0
+         wCjRDlX+QgoaqHm0PTWGmggJ/XzgfoldY4lBDLZa8MKsqJuTOhZOViAK3/kpaMS5pIzn
+         9W0lTNYlC5e4MLhvBklJ97gQBhBtRzgm/TRZyG3qa4XX5nkqzSb33a7c+tEbErTwgD2Q
+         EmjnIRaqCKL6F6zdq5QBJxDXY4CM53sXuv71m1PL8jATvKqTmwdPj8qovT6vZV312/lm
+         RJcFrnyZyiM2BWMcCTDuAMngFiQywZp3OmuA7ws9Ug6CF9+Ay2YaYAXaloolXqmzmo1Q
+         hGyw==
+X-Gm-Message-State: AOAM533KaQOan0og1YlAvzj9QviTFz52/yFZHw629bI24PabJ3KidosF
+        gpFqxCFbyRDweXx7uT7Tf5Awq9FR
+X-Google-Smtp-Source: ABdhPJxwYkNYDNJrwfnlX7YFsBxVWp2WpQw2Bc1wOmh074hF1cO3hSBmpCJDJzKW3LGFMvpMOS9w1g==
+X-Received: by 2002:a2e:b615:: with SMTP id r21mr867334ljn.1.1592440059598;
+        Wed, 17 Jun 2020 17:27:39 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id u26sm357818lfq.72.2020.06.17.17.27.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2020 17:27:38 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 13/18] gpu: host1x: mipi: Update
+ tegra_mipi_request() to be node based
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+ <1592358094-23459-14-git-send-email-skomatineni@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Daniel Stone <daniel@fooishbar.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] =?UTF-8?q?drm/tegra:=20plane:=20Support=20180?= =?UTF-8?q?=C2=B0=20rotation?=
-Date:   Thu, 18 Jun 2020 02:40:40 +0300
-Message-Id: <20200617234040.1094-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200617234040.1094-1-digetx@gmail.com>
-References: <20200617234040.1094-1-digetx@gmail.com>
+Message-ID: <9a0a0a02-0d02-15ae-85de-e752ecdd0ae1@gmail.com>
+Date:   Thu, 18 Jun 2020 03:27:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1592358094-23459-14-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Combining horizontal and vertical reflections gives us 180 degrees of
-rotation. Both reflection modes are already supported, and thus, we just
-need to mark the 180 rotation mode as supported. The 180 rotation mode is
-needed for devices like Nexus 7 tablet, which have display panel mounted
-upside-down.
+17.06.2020 04:41, Sowjanya Komatineni пишет:
+> Tegra CSI driver need a separate MIPI device for each channel as
+> calibration of corresponding MIPI pads for each channel should
+> happen independently.
+> 
+> So, this patch updates tegra_mipi_request() API to add a device_node
+> pointer argument to allow creating mipi device for specific device
+> node rather than a device.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/gpu/drm/tegra/dsi.c | 2 +-
+>  drivers/gpu/host1x/mipi.c   | 7 +++++--
+>  include/linux/host1x.h      | 3 ++-
+>  3 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index 38beab9..0443589 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -1618,7 +1618,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+>  	if (IS_ERR(dsi->regs))
+>  		return PTR_ERR(dsi->regs);
+>  
+> -	dsi->mipi = tegra_mipi_request(&pdev->dev);
+> +	dsi->mipi = tegra_mipi_request(&pdev->dev, NULL);
+>  	if (IS_ERR(dsi->mipi))
+>  		return PTR_ERR(dsi->mipi);
+>  
+> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+> index e00809d..93b354b 100644
+> --- a/drivers/gpu/host1x/mipi.c
+> +++ b/drivers/gpu/host1x/mipi.c
+> @@ -206,13 +206,16 @@ static int tegra_mipi_power_down(struct tegra_mipi *mipi)
+>  	return 0;
+>  }
+>  
+> -struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+> +struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> +					     struct device_node *np)
+>  {
+> -	struct device_node *np = device->of_node;
+>  	struct tegra_mipi_device *dev;
+>  	struct of_phandle_args args;
+>  	int err;
+>  
+> +	if (!np)
+> +		np = device->of_node;
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/dc.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index f8149dc3b1b4..1a9a5f8bba34 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -816,6 +816,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
- 	err = drm_plane_create_rotation_property(&plane->base,
- 						 DRM_MODE_ROTATE_0,
- 						 DRM_MODE_ROTATE_0 |
-+						 DRM_MODE_ROTATE_180 |
- 						 DRM_MODE_REFLECT_X |
- 						 DRM_MODE_REFLECT_Y);
- 	if (err < 0)
-@@ -1105,6 +1106,7 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
- 	err = drm_plane_create_rotation_property(&plane->base,
- 						 DRM_MODE_ROTATE_0,
- 						 DRM_MODE_ROTATE_0 |
-+						 DRM_MODE_ROTATE_180 |
- 						 DRM_MODE_REFLECT_X |
- 						 DRM_MODE_REFLECT_Y);
- 	if (err < 0)
--- 
-2.26.0
-
+Will be nicer if DSI panel could pass the device's node directly,
+instead of this.
