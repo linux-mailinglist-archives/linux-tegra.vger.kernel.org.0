@@ -2,91 +2,206 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCCB41FF4EB
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 16:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4401FF62F
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 17:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgFROje (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jun 2020 10:39:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59980 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726879AbgFROjd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jun 2020 10:39:33 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3B82220773;
-        Thu, 18 Jun 2020 14:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592491172;
-        bh=etN4J2cAIG1MAkGuXWgQccKMRYufQ7F4qFAKChIOWw4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2U3qhHIsheqY690iXD1qI+ppqRsMzOpm+NzmomO4TavPiWPKf3REImXF7dg36dTEV
-         rOLYl4hv03TMsebFcRG1Jqi/47TFJuX0qZDJr5GEkWNWojjz/sWVGx6XZj1aRdwm67
-         /58MLjC3dSXuFKj/enxe8zkb+YKjMumDQJK27Wqs=
-Date:   Thu, 18 Jun 2020 15:39:30 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.7 004/388] ASoC: tegra: tegra_wm8903: Support
- nvidia, headset property
-Message-ID: <20200618143930.GI5789@sirena.org.uk>
-References: <20200618010805.600873-1-sashal@kernel.org>
- <20200618010805.600873-4-sashal@kernel.org>
- <20200618110023.GB5789@sirena.org.uk>
- <20200618143046.GT1931@sasha-vm>
+        id S1730950AbgFRPH1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jun 2020 11:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730858AbgFRPHZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 18 Jun 2020 11:07:25 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29A00C06174E;
+        Thu, 18 Jun 2020 08:07:23 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id c21so3680832lfb.3;
+        Thu, 18 Jun 2020 08:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8fVYUlZR4gHbANoFrVJ4MXFqHsqGPHwcZ5jHv3RoxTw=;
+        b=KpL0+GgYtocWCYoDSHaruLust5oQSAnCvS8cN7Dn4BsjQu0s8W2lcTC1QeMNDnHuRz
+         kWhrrpGiWDblkEFywHXLdAxgii0xTJpaSmj80J84TSg+riiXCM0vaobTIMHaOfVtkyuO
+         5HSc3cDKC6pA9dysuvkFu9u5X6qz5SCXeyktRVCMQSkefFu4lskmEttLEBmYGZ8bZpWy
+         0oRo2j75bW2uhp3FmdlqU97oTi3lXaoGnG6zkP0SBFwrT5YgUryoRlX31l8DVcq2ARbV
+         5AZazFfMrvvKyBs4NC6wof2GLG7pqLwGqZYyptec5PU10N32VUyE3AIbaePbZYFaJtPW
+         OfKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8fVYUlZR4gHbANoFrVJ4MXFqHsqGPHwcZ5jHv3RoxTw=;
+        b=Zp+UQUC10kL+LKwMW/H10ZGO9xLyjrXzhDh1zMDWZ2bTKD5OvMGq2iFtp5Xqxv8/cM
+         tO8K5R0rYQIjIkhZH/+mcP2cDxLUjSbtio8j0Eip+CtJpc/vIh5Qqmvwhx87vQ+1PTpA
+         mFIDqLaDA9S+Eg+pRJPJMKmgGLr6ObaGk2OsYSVn+1m9wZQ0yav0TzA58C7mt7XSpVqC
+         PnvUKvu2UCto1W9nYqQPySIrHQpXgCbPhd7ja277JL0WpQ5wXd2NrXmJcr+TIGqpl+6G
+         nSV942CmR25ZPJRJbEbhIi1r4GTHU4Vghw1zxO0jE+6CS4RMxVBFydjSXlwoeViYfEwA
+         nj7w==
+X-Gm-Message-State: AOAM530y4ss/2x3NDjAgCwVAslW3hJZXpK/BEcsg2mfZZATPrzAmmakM
+        u9/4NNy6xggirNyA/IHdmns0Vi83
+X-Google-Smtp-Source: ABdhPJwZIv9x/9anCIbuhZwZlKygIpuLvOOlrQ90sxGpYN+YIb4p5QeM66FOj8eHsqD9CCc1MZswqQ==
+X-Received: by 2002:ac2:5094:: with SMTP id f20mr2685466lfm.128.1592492838989;
+        Thu, 18 Jun 2020 08:07:18 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id t13sm677246ljg.78.2020.06.18.08.07.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2020 08:07:18 -0700 (PDT)
+Subject: Re: [PATCH 25/38] dt-bindings: gpio: tegra: Convert to json-schema
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20200612141903.2391044-1-thierry.reding@gmail.com>
+ <20200612141903.2391044-26-thierry.reding@gmail.com>
+ <186ceadd-317c-a7b2-d4ab-32473f857545@gmail.com>
+ <20200617141706.GC3536291@ulmo>
+ <c0cfa39b-054c-8e88-7e5a-233c24f5d5e9@gmail.com>
+ <a14c2791-83af-1cd0-1d15-0544a4bf490b@gmail.com>
+ <20200617165008.GB3547875@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <66767af4-748e-733e-65b2-1a5df9781a5e@gmail.com>
+Date:   Thu, 18 Jun 2020 18:07:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dMdWWqg3F2Dv/qfw"
-Content-Disposition: inline
-In-Reply-To: <20200618143046.GT1931@sasha-vm>
-X-Cookie: Androphobia:
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200617165008.GB3547875@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+17.06.2020 19:50, Thierry Reding пишет:
+> On Wed, Jun 17, 2020 at 05:33:00PM +0300, Dmitry Osipenko wrote:
+>> 17.06.2020 17:24, Dmitry Osipenko пишет:
+>>> 17.06.2020 17:17, Thierry Reding пишет:
+>>>> On Wed, Jun 17, 2020 at 07:24:16AM +0300, Dmitry Osipenko wrote:
+>>>>> 12.06.2020 17:18, Thierry Reding пишет:
+>>>>> ...
+>>>>>> +patternProperties:
+>>>>>> +  # GPIO hogs; /schemas/gpio/gpio-hog.yaml will match
+>>>>>> +  "^gpios(-[a-zA-Z0-9-]+)?$":
+>>>>>> +    type: object
+>>>>>> +    required:
+>>>>>> +      - gpio-hog
+>>>>>
+>>>>> There are two problems here:
+>>>>>
+>>>>> 1. This naming limitation didn't exist before this patch, so it's not a
+>>>>> part of the conversion.
+>>>>>
+>>>>> 2. GPIO core uses the node's name for the hog's name. Hence by imposing
+>>>>> the "gpios-" prefix, you're forcing all hogs to be named as gpios-xxx,
+>>>>> which doesn't make much sense to me.
+>>>>>
+>>>>> Please explain the rationale of this change.
+>>>>
+>>>> We could probably do without this if we didn't enforce additional or
+>>>> unevaluated properties. Because if we don't match on a pattern here then
+>>>> all of those GPIO hog nodes would show up as "extra" properties and they
+>>>> are currently not allowed. If we do allow them, then we can drop this,
+>>>> but we then have no way to fail validation for whatever else somebody
+>>>> might want to put into these device tree nodes.
+>>>>
+>>>> That said, I think additionalProperties can be a schema in itself, so
+>>>> maybe there's a way to only allow additional properties if they are of
+>>>> type object and have a gpio-hog property. I'll look into that.
+>>>
+>>> Isn't it possible to validate the additional properties by checking what
+>>> properties they have?
+>>>
+>>> For example, if sub-node has a gpio-hog property then this sub-node is
+>>> okay, otherwise fail.
+>>>
+>>
+>> Ah, I haven't finished reading yours last sentence before started to
+>> type :) Yes, it will be nice if we could avoid the naming limitation, or
+>> at least change it to something like xxx-hog.
+> 
+> So according to the json-schema specification, both additionalProperties
+> and unevaluatedProperties must be a valid JSON schema, which means they
+> can be objects rather than just booleans. Unfortunately, dt-schema tools
+> don't allow these to be objects, so the below currently fails with these
+> tools at the moment.
+> 
+> I can make it work with the following patch against dt-schema.git:
+> 
+> --- >8 ---
+> diff --git a/meta-schemas/keywords.yaml b/meta-schemas/keywords.yaml
+> index ed543235d7e7..aa88f726ea3b 100644
+> --- a/meta-schemas/keywords.yaml
+> +++ b/meta-schemas/keywords.yaml
+> @@ -79,7 +79,11 @@ properties:
+>    additionalItems:
+>      type: boolean
+>    additionalProperties:
+> -    type: boolean
+> +    oneOf:
+> +      - type: object
+> +        allOf:
+> +          - $ref: "#/definitions/sub-schemas"
+> +      - type: boolean
+>    allOf:
+>      items:
+>        $ref: "#/definitions/sub-schemas"
+> @@ -140,7 +144,11 @@ properties:
+>    type: true
+>    typeSize: true
+>    unevaluatedProperties:
+> -    type: boolean
+> +    oneOf:
+> +      - type: object
+> +        allOf:
+> +          - $ref: "#/definitions/sub-schemas"
+> +      - type: boolean
+>    uniqueItems:
+>      type: boolean
+>  
+> --- >8 ---
+> 
+> With that applied, I can make validation of gpio-hog nodes work without
+> requiring the names to change, which incidentally will allow me to drop
+> one of the fixup patches from the ARM/arm64 DTS series.
+> 
+> Here's a hunk that applies on top of this patch and makes this work.
+> I'll squash it in for the next version.
+> 
+> --- >8 ---
+> diff --git a/Documentation/devicetree/bindings/gpio/nvidia,tegra20-gpio.yaml b/Documentation/devicetree/bindings/gpio/nvidia,tegra20-gpio.yaml
+> index b2debdb0caff..3f8a9c988305 100644
+> --- a/Documentation/devicetree/bindings/gpio/nvidia,tegra20-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/nvidia,tegra20-gpio.yaml
+> @@ -57,13 +57,6 @@ properties:
+>    interrupt-controller:
+>      description: Marks the device node as an interrupt controller.
+>  
+> -patternProperties:
+> -  # GPIO hogs; /schemas/gpio/gpio-hog.yaml will match
+> -  "^gpios(-[a-zA-Z0-9-]+)?$":
+> -    type: object
+> -    required:
+> -      - gpio-hog
+> -
+>  allOf:
+>    - if:
+>        properties:
+> @@ -90,7 +83,10 @@ required:
+>    - "#interrupt-cells"
+>    - interrupt-controller
+>  
+> -unevaluatedProperties: false
+> +unevaluatedProperties:
+> +  type: object
+> +  required:
+> +    - gpio-hog
+>  
+>  examples:
+>    - |
+> --- >8 ---
 
---dMdWWqg3F2Dv/qfw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jun 18, 2020 at 10:30:46AM -0400, Sasha Levin wrote:
-> On Thu, Jun 18, 2020 at 12:00:23PM +0100, Mark Brown wrote:
-> > On Wed, Jun 17, 2020 at 09:01:41PM -0400, Sasha Levin wrote:
-> > > From: Dmitry Osipenko <digetx@gmail.com>
-> > >=20
-> > > [ Upstream commit 3ef9d5073b552d56bd6daf2af1e89b7e8d4df183 ]
-> > >=20
-> > > The microphone-jack state needs to be masked in a case of a 4-pin jack
-> > > when microphone and ground pins are shorted. Presence of nvidia,heads=
-et
-> > > tells that WM8903 CODEC driver should mask microphone's status if sho=
-rt
-> > > circuit is detected, i.e headphones are inserted.
-
-> > This is a new feature not a bugfix.
-
-> I saw this patch more as a hardware quirk.
-
-Pretty much any DT property is a hardware quirk :(
-
---dMdWWqg3F2Dv/qfw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7rfKEACgkQJNaLcl1U
-h9D4egf9GAyUHzaf4lnzptpzMRgqOKL3WVybRfxzlzkgBkgbNNF3Rxgl2TGJpoPu
-DQIe6X4ijMZ/LNocdFZi+BWCr/rh9ml0dUly5TEXbwjHQ1Im5SBdJgy9tLq1yjPD
-OY1sD5faXc2gH1A+z3LQ7xYFpNnpRwug4G+SbyiPtfkPXhIXKnx+cF+tdcqYw8hz
-dDcihB9jR8gPEYGqPBQOacSjd969ocvYYj2npO9TztHNXfwvFwNxErrg7pebwrI5
-7NbFOUdEU7aLAPIx2AfHoHTD9FzDGvqY37Q/UZZYqqFxRQ46ZluGN1cyuOet3sEb
-83lXKDitdxTNZOmNGYNNCEZL/dcdTA==
-=Ja8t
------END PGP SIGNATURE-----
-
---dMdWWqg3F2Dv/qfw--
+Thank you for figuring this out! I see that the dt-schema tool is
+already updated in the git, very nice!
