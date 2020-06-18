@@ -2,117 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 581391FF48D
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 16:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655C91FF4B9
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 16:30:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730759AbgFROSq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jun 2020 10:18:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728033AbgFROSm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jun 2020 10:18:42 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21610C0613ED;
-        Thu, 18 Jun 2020 07:18:42 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id t18so6253255wru.6;
-        Thu, 18 Jun 2020 07:18:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3uCMEhUUfaA4BCjkjkjqJ0lwAEGqaqva/Z+vF0ysVdE=;
-        b=KQQymQmF5Wbkg8S8i8MDHLkDMjG/q9PiP2iUcTJpXoRqdEFJe0FQrd1znujArhmW6o
-         MK5o/rtOsM9v7KDzLIFTxDLsH4qesNEOyMTmX1NLElDvLbJw/S0Y2ybGkXyL7ZdPCWEJ
-         3J9HPs6czZoOOwcdxC865YdI+y9BK5XnKhilPk8Ma6ZuAtdSnMerTOpN+lmntxCIasPs
-         iVBsK0ZeYOwf+jqjQFD/eV1NvAISplEVkOnkKvQDbyouwtUWK8xnK3bX5uq11DLBfX7z
-         BHcowOHvUsdxNrg1YJZ4AfQg5m7BsLtj4Z5OSODOA85polIz93d+YeIM/Lc8pIQCqQkB
-         mYSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3uCMEhUUfaA4BCjkjkjqJ0lwAEGqaqva/Z+vF0ysVdE=;
-        b=M+mktYeqIQcXMlqWKEqE1BFpqCPszDLbS0y86pdhg83fHLb2gQgsRqYnDyhiCOz5v+
-         sAjCsfyENH4vjLXRO75BgD9P6V3+vPIJ4gmFPXYvhKreIpGpBfXNpj9SDqP6SSUt1oPW
-         8I33AF0g+04o6VvlKAPYhVWJDEqT25dKSUoTmP/R7iEiK/aUfPp2nnS7TVBzqWzVUwuc
-         g8oocyssi/Ep1pqRQXAPjPOHwgaBGRo+XRRQLp6Et0Cb+LdzVz6tQ1TDTqUuNdmVBBpg
-         sf9J3P9Ksz9cCrPAF/TciymNZUcSH6sRjWsFAoQp28VDxwBHOdKRHXXsDArpXlBCXeuh
-         RT1w==
-X-Gm-Message-State: AOAM531W5gh/ixEhbxIRc5BQ1fRTi1AW3ciA/Xzt4IQz9kdAcW+G849y
-        JaqN6OUrH7diJV2MrdH+wFQ=
-X-Google-Smtp-Source: ABdhPJx0S7yPB8Y6yc3E5ZfkCOSmMJY+ex4Ff1vPQ7qbfTNSq/blLK3D4NzKhA5jRZsVRkNJmUYVBw==
-X-Received: by 2002:adf:9286:: with SMTP id 6mr4859013wrn.361.1592489920582;
-        Thu, 18 Jun 2020 07:18:40 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id t7sm3687899wrq.41.2020.06.18.07.18.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 07:18:39 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 16:18:37 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 26/38] dt-bindings: pci: iommu: Convert to json-schema
-Message-ID: <20200618141837.GC3663225@ulmo>
-References: <20200612141903.2391044-1-thierry.reding@gmail.com>
- <20200612141903.2391044-27-thierry.reding@gmail.com>
- <20200618023457.GA3343853@bogus>
+        id S1726905AbgFROas (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jun 2020 10:30:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726132AbgFROas (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 18 Jun 2020 10:30:48 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4809E207E8;
+        Thu, 18 Jun 2020 14:30:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592490647;
+        bh=obOL30SQn9wE32rmVgFOC0DRObEfMlUdqxWbZkdA/zk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MLAR0Z+XKCoWsWUztqZIKmKpbTfIvoXxXpVb57ccLX3wqamwcWmdavGWQEDSabc7o
+         RiNyr0iPWgpKrnpklb+iGwNvHEmN/5sR9r7KAPkbokHsovHisg/go7+5bFIF9n90cT
+         17pOBbSz12/hBbeKYEC9PRlq0Zw6x0u72Lr7XirA=
+Date:   Thu, 18 Jun 2020 10:30:46 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.7 004/388] ASoC: tegra: tegra_wm8903: Support
+ nvidia, headset property
+Message-ID: <20200618143046.GT1931@sasha-vm>
+References: <20200618010805.600873-1-sashal@kernel.org>
+ <20200618010805.600873-4-sashal@kernel.org>
+ <20200618110023.GB5789@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rQ2U398070+RC21q"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20200618023457.GA3343853@bogus>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200618110023.GB5789@sirena.org.uk>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Jun 18, 2020 at 12:00:23PM +0100, Mark Brown wrote:
+>On Wed, Jun 17, 2020 at 09:01:41PM -0400, Sasha Levin wrote:
+>> From: Dmitry Osipenko <digetx@gmail.com>
+>>
+>> [ Upstream commit 3ef9d5073b552d56bd6daf2af1e89b7e8d4df183 ]
+>>
+>> The microphone-jack state needs to be masked in a case of a 4-pin jack
+>> when microphone and ground pins are shorted. Presence of nvidia,headset
+>> tells that WM8903 CODEC driver should mask microphone's status if short
+>> circuit is detected, i.e headphones are inserted.
+>
+>This is a new feature not a bugfix.
 
---rQ2U398070+RC21q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I saw this patch more as a hardware quirk.
 
-On Wed, Jun 17, 2020 at 08:34:57PM -0600, Rob Herring wrote:
-> On Fri, Jun 12, 2020 at 04:18:51PM +0200, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Convert the PCI IOMMU device tree bindings from free-form text format to
-> > json-schema.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  .../devicetree/bindings/pci/pci-iommu.txt     | 171 ------------------
-> >  .../devicetree/bindings/pci/pci-iommu.yaml    | 168 +++++++++++++++++
-> >  2 files changed, 168 insertions(+), 171 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/pci/pci-iommu.txt
-> >  create mode 100644 Documentation/devicetree/bindings/pci/pci-iommu.yaml
->=20
-> This needs to come before you use it.
-
-Of course, will rearrange the patches.
-
-Thierry
-
---rQ2U398070+RC21q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7rd70ACgkQ3SOs138+
-s6E/Bg//RRvzule+iB5OmSwtBkbTLAFMGY0VImkZFaBaLIn6krNmYE5NLg4naT7i
-9TYu5tpBj/FyPHA/CtkoZ2yAIZNzYrB3UoBaK1eTJNWpVAmwvxzDTCRcl+moDunX
-CZ3braHx0qlTNTMw7xMpJRqHaahmGF/IVmb58XIKhDZWo3d8W66BNK+4dm3xL4cH
-/PEaA080/3EkKtNURgFABJ0ygpDIFkho0WghFBQ8qlLv+y9DUv8BkdIpybawN6QI
-v2cFKs8LZJlm5SO0KdSr/3epqBnGtSpqoprP/3zQ/B5hplm/G2cEfm/mlMu3U7YD
-3+vVjlVnjH6MPJmucr15MyiKjN7jzQcs5fXMyHR51efSgSJGFU3B5Gcrt/0ldK9V
-064nbvpUCiOpdTAbADvrkm+hM47Dp5SXiZM1R2MkdcacTD3s2V8Wx8xQXs+zE3Nm
-vx5od4iKb4rSQ5DhE5LQWRBuJHcpJ/VB7+f9Xwr319bMfFo0Oz+gFquDgdrdnE/z
-5UGlqo1rHt+haYUTFUzMJzHaOWxe0PW1gR3d/yN8YKr/A+MKaaOApblIraVmqj2S
-RXyAeNLLtN504MBbB0HygQ1LCEE+DhaGq3S4MqfE1jBvnuJVzcaSpu/H12++4Oze
-0M1Rr6PVfr81kbpcpyGA+bvoSCuA9dSVLDBrVD5VJM+c67wn6IY=
-=hFVF
------END PGP SIGNATURE-----
-
---rQ2U398070+RC21q--
+-- 
+Thanks,
+Sasha
