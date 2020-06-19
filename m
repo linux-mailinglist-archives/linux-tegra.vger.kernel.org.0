@@ -2,160 +2,245 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42EAB200700
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jun 2020 12:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DA992019F4
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jun 2020 20:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732680AbgFSKnZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 19 Jun 2020 06:43:25 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:39371 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732564AbgFSKiI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 19 Jun 2020 06:38:08 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200619103715euoutp0138e6baca51c37c18a56614cf91df7049~Z66SrX-_71849918499euoutp01p
-        for <linux-tegra@vger.kernel.org>; Fri, 19 Jun 2020 10:37:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200619103715euoutp0138e6baca51c37c18a56614cf91df7049~Z66SrX-_71849918499euoutp01p
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1592563035;
-        bh=RMBhG1Fw6ugPclokWBJRv00vV8Qg1yQmDHqJxe7Y93k=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eS9XS1GW8iDugjgH85Zq2VIEXYFnUiVAtSr3whwJaqABUF5Bq/tii2YyKEqcpmht3
-         CWIN69bGM3gua45w3GUxKUNns47yXIyyCDfXPvez1+wT1rQqSYk8OJXmOyBENmFTPS
-         Qj0gphunlZ7QBWBd3QpsozJ8yEWwpOqJSKWND4ow=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200619103715eucas1p2ad1ec44f1b69aa83e98bc848af6927ee~Z66SSagFB3081930819eucas1p2t;
-        Fri, 19 Jun 2020 10:37:15 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 9C.9C.06318.B559CEE5; Fri, 19
-        Jun 2020 11:37:15 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa~Z66R5XCac0493704937eucas1p18;
-        Fri, 19 Jun 2020 10:37:14 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200619103714eusmtrp1f60c74a1fbb850448d1cac3b7fb23832~Z66R4rTjx1007310073eusmtrp1D;
-        Fri, 19 Jun 2020 10:37:14 +0000 (GMT)
-X-AuditID: cbfec7f5-38bff700000018ae-88-5eec955b3ef3
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id EF.EA.06314.A559CEE5; Fri, 19
-        Jun 2020 11:37:14 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200619103713eusmtip26f278a5ab64dc87293551fc5392692d2~Z66RB0RDS0246802468eusmtip2l;
-        Fri, 19 Jun 2020 10:37:13 +0000 (GMT)
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH v7 31/36] staging: tegra-vde: fix common struct sg_table
- related issues
-Date:   Fri, 19 Jun 2020 12:36:31 +0200
-Message-Id: <20200619103636.11974-32-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200619103636.11974-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSe0hTURzu7D52Hc5u0/BYkTAwKdIye5wozCLoQBEFRVSk3fKm0qax66Mi
-        yNKyqZOeVKtkrYdvV8vUllqzfJSm5ivNrMTsbS915CNr27X67/t9v+/j+36HwxCKd9QUJjIq
-        htdEcSolLSOLqoYa/Lae+RwyN7ncBenqH0nQzXMmCv0uOkGg0rphKcr93gNQy+BXGiVeMdEo
-        O7dSggz3lqAkvZFEAy3dEmTuaaNQs+UijdJu3KaQdkBPo/yHXVJ03TwqQdZvbyg0ZMkgg91x
-        XkYewC/LH5C4zGYg8R19lxSbc7Q0Lra9pvC9S3lS/Cq1WoJvXT2IO8d6CHyqPRPgux0JNNYl
-        fqFxemEOwP3m6esmbpEtDeNVkXG8Zk7QdllEY7qJ2PN24t6Ea1sTQIY8BbgwkJ0PR8qrCAdW
-        sFkAllQsTgEyOx4AsFRbQItDP4Bd/b30X4e1oYEUF5kAGrNeUv8sNsMzqUNFswEwpS/F6fBg
-        jwBYo3N1YIKtI2Hdz0AHdmc3w/bKDKeGZH3g49PPnV45GwTrTtooMc0b5t647+znYuc/JVmd
-        YZDVMfCa9jwhilbCvtb0cYM7/FhdKBXxNFh7Ko0UDYkAdtfnS8UhDcDmw+eAqFoCX9QP22sw
-        9nozockyR6SXw94Pl4GDhqwbbO+bJB7gBk8WnSVEWg6PHVWI6hlQX13wL9ba2DReDUPrC7NU
-        fKATAF4Yy6aPA2/9/zADADnAk48V1OG8EBjFx/sLnFqIjQr33xmtNgP796sdqx4sAeWjOyoA
-        ywClq/z9hk8hCoqLE/apKwBkCKWHfMWT2hCFPIzbt5/XRIdqYlW8UAGmMqTSUx5o/LBNwYZz
-        Mfxunt/Da/5uJYzLlASgpvx2PbCcbZTp1QVGV595eE388EK685BHc8nU1oi1yyxar7vbwoN9
-        Cze1GZMnPw0rM/lsDFzl9sq3Izp+UbH3+pEf+SqDvy1yacnl1b7xxE4utMmjJrZBLw/y+6U5
-        PnvaggP1K8N+1zzSNSVVKVTR797mDXQLBZ9nefkcnpA6yBFKUojgAmYRGoH7A/SHOch6AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBIsWRmVeSWpSXmKPExsVy+t/xe7pRU9/EGfR1G1n0njvJZLFxxnpW
-        i//bJjJb7Dnzi91i9cfHjBZXvr5ns2hevJ7NYuXqo0wWC/ZbW7TMWsRi8eXKQyaLTY+vsVpc
-        3jWHzaJnw1ZWi84vs9gs1h65y26xbNMfJouDH56wWvzcNY/FQdhjzbw1jB739h1m8dj7bQGL
-        x85Zd9k9Nq3qZPPY/u0Bq8f+uWvYPe53H2fy2Lyk3uP2v8fMHpNvLGf02H2zgc2jt/kdm0ff
-        llWMHp83yQXwR+nZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJal
-        FunbJehlXOhbz1zwjL+iYWl0A+M83i5GTg4JAROJg+fPs4DYQgJLGSVOn/GAiMtInJzWwAph
-        C0v8udbF1sXIBVTziVFi2YxtzCAJNgFDia63EAkRgU5GiWndH9lBHGaBGywSc7d8AHI4OIQF
-        wiWmXXMCaWARUJU4NeUWO4jNK2AncWbSN6gN8hKrNxwAG8oJFH/dcpAV4iJbieUL3jNPYORb
-        wMiwilEktbQ4Nz232FCvODG3uDQvXS85P3cTIzAWtx37uXkH46WNwYcYBTgYlXh4X4S8jhNi
-        TSwrrsw9xCjBwawkwut09nScEG9KYmVValF+fFFpTmrxIUZToKMmMkuJJucD00ReSbyhqaG5
-        haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQbG+EXGBwvK983/t677hEFoT4dW
-        j0jMvrcd9zV2rCn6vHTTY6Mdq3TX6M724XY+blp5P6f2DZ+Of9pcxTsBc/o7TnmdZ1m4w1WO
-        n4nz+wyNtxWfu7+FSN+yzVpwdN17v+LTD5MN7m+aueHlxLo0H5EnT9rjfuyvtb7arOysYKfp
-        sWleUmn8rKynSizFGYmGWsxFxYkAiNRTk9sCAAA=
-X-CMS-MailID: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-References: <20200619103636.11974-1-m.szyprowski@samsung.com>
-        <CGME20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa@eucas1p1.samsung.com>
+        id S2387981AbgFSSGP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 19 Jun 2020 14:06:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49684 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730338AbgFSSGO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 19 Jun 2020 14:06:14 -0400
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3602120DD4;
+        Fri, 19 Jun 2020 18:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592589973;
+        bh=UBLV5o5bnnyPViQ1E2jmMb8gNE1pkbM2CtY7sIQixa4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Gbfjl7RxQ/bKUZkDVeMLYKJCJ/6VXlxTXoM9yYDXj6XsPSZb2RwsKLMvIUXL+GSw/
+         x1mYMceOjd3sPsEfZkSKxw6Fl9dka28FEfOZ7CAB9jLUiKvuG3WsBHwKL1eFXMH3Yq
+         os5Yv+0PxJBukSC/+7N1qzkk+LVPld/mmbEwu7EY=
+Received: by mail-ot1-f52.google.com with SMTP id v13so7964916otp.4;
+        Fri, 19 Jun 2020 11:06:13 -0700 (PDT)
+X-Gm-Message-State: AOAM530r7ztRyYFCrZLK1ne18Tfff+jljv5+WFGMUjsGjjb/XFnYLP1z
+        VIBoorFhdyfaPX3etEMgnyDY/u9PuI5t+jH7Vg==
+X-Google-Smtp-Source: ABdhPJyysFfPT49hBJgaANmxEebFJGbqcwc/vqoMlaSwQA5YX9OSJevNmX+hbVAiZpWFf5WfIZiT2YcSzjaOD0vDO/M=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr4145306ots.192.1592589972451;
+ Fri, 19 Jun 2020 11:06:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200612141903.2391044-1-thierry.reding@gmail.com>
+ <20200612141903.2391044-38-thierry.reding@gmail.com> <20200618025140.GB3378010@bogus>
+ <20200619074654.GD3704347@ulmo>
+In-Reply-To: <20200619074654.GD3704347@ulmo>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 19 Jun 2020 12:05:59 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKMu3YypAo0NTPpLK+dwXQqn_tai-mpewRp=fWd-V3Jtw@mail.gmail.com>
+Message-ID: <CAL_JsqKMu3YypAo0NTPpLK+dwXQqn_tai-mpewRp=fWd-V3Jtw@mail.gmail.com>
+Subject: Re: [PATCH 37/38] dt-bindings: pwm: Explicitly include pwm.yaml
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     devicetree@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-returns the number of the created entries in the DMA address space.
-However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-dma_unmap_sg must be called with the original number of the entries
-passed to the dma_map_sg().
+On Fri, Jun 19, 2020 at 1:47 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Wed, Jun 17, 2020 at 08:51:40PM -0600, Rob Herring wrote:
+> > On Fri, Jun 12, 2020 at 04:19:02PM +0200, Thierry Reding wrote:
+> > > From: Thierry Reding <treding@nvidia.com>
+> > >
+> > > For PWM controller device tree bindings, make sure that they include the
+> > > pwm.yaml controller core bindings explicitly. This prevents the tooling
+> > > from matching on the $nodename pattern, which can falsely match things
+> > > like pinmux nodes, etc.
+> >
+> > My preference here is to clean-up the mess that is pinmux nodes.
+>
+> Any suggestions on how to do that? Do you just want to rename the
+> problematic nodes? Or do you want to introduce a standard naming scheme?
 
-struct sg_table is a common structure used for describing a non-contiguous
-memory buffer, used commonly in the DRM and graphics subsystems. It
-consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-and DMA mapped pages (nents entry).
+.*-pins$ is what I've been using/proposing. Doing that also helps
+writing pinctrl schemas.
 
-It turned out that it was a common mistake to misuse nents and orig_nents
-entries, calling DMA-mapping functions with a wrong number of entries or
-ignoring the number of mapped entries returned by the dma_map_sg()
-function.
+> As an example, I was running into the issue with this node:
+>
+>         pinmux@70000014 {
+>                 pinctrl-names = "default";
+>                 pinctrl-0 = <&state_default>;
+>
+>                 state_default: pinmux {
+>                         ...
+>
+>                         pwm-a-b {
+>                                 nvidia,pins = "sdc";
+>                                 nvidia,function = "pwm";
+>                                 nvidia,tristate = <TEGRA_PIN_ENABLE>;
+>                         };
+>
+>                         ...
+>                 };
+>         };
+>
+> My first instinct was to just add some sort of prefix to this, but then
+> I realized that might not be the best option because there could be
+> countless other nodes whose names might start with "pwm-" but that had
+> nothing to do with PWM controllers whatsoever.
+>
+> You could for example have some node named "pwm-fan" and then these
+> standard bindings will require that to be have a #pwm-cells property.
 
-To avoid such issues, lets use a common dma-mapping wrappers operating
-directly on the struct sg_table objects and use scatterlist page
-iterators where possible. This, almost always, hides references to the
-nents and orig_nents entries, making the code robust, easier to follow
-and copy/paste safe.
+Pretty sure we only allow pwm@.* or pwm-[0-9a-f]+, so this would not match.
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/staging/media/tegra-vde/iommu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Plus shouldn't it be just 'fan' to be what the class is, not how it is
+implemented/controlled.
 
-diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
-index 6af863d92123..adf8dc7ee25c 100644
---- a/drivers/staging/media/tegra-vde/iommu.c
-+++ b/drivers/staging/media/tegra-vde/iommu.c
-@@ -36,8 +36,8 @@ int tegra_vde_iommu_map(struct tegra_vde *vde,
- 
- 	addr = iova_dma_addr(&vde->iova, iova);
- 
--	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
--			    IOMMU_READ | IOMMU_WRITE);
-+	size = iommu_map_sgtable(vde->domain, addr, sgt,
-+				 IOMMU_READ | IOMMU_WRITE);
- 	if (!size) {
- 		__free_iova(&vde->iova, iova);
- 		return -ENXIO;
--- 
-2.17.1
+> So I think the solution of only explicitly "activating" PWM controller
+> bindings would work well in this particular case because it would only
+> apply the bindings where explicitly requested. That way it doesn't
+> matter what nodes are named.
+>
+> > This has the side effect of no longer checking pwm nodes that didn't
+> > have explicit schema. Perhaps that's of somewhat limited value.
+>
+> There are two easy solutions to this: 1) convert all PWM bindings to
+> YAML so that they have an explicit schema or 2) consider the presence of
+> the #pwm-cells property as a marker that the node represents a PWM
+> controller/provider, irrespective of the name. The latter would be much
+> like gpio-controller or interrupt-controller, though less redundant.
 
+There's only 2 things we can generically check, #pwm-cells and the
+node name. If we match on one, then we're really only checking the
+other one. We could match on #pwm-cells presence and then check its
+value is 2 or 3, but then we can do that without a select (i.e. always
+apply the schema).
+
+So I guess I'm convinced there's not much value here and we should
+just do 1). Patches welcome. :) (BTW, I do think we should do some
+mass conversions by class. That I think would be a bit more efficient
+in both converting and reviewing. My calculation is something like 6
+years to finish (3K bindings left and doing 100-150 a cycle).)
+
+> We could even go as far as using #pwm-cells as the definitive marker and
+> then require that it has a certain name, like we do for other types of
+> nodes. I did a quick audit and came up with the following results. These
+> are all the PWM controller nodes that I could find that don't follow the
+> "^pwm(@.*)?$" pattern. The files are only one example of where I found
+> them and there were often others that used the same pattern.
+>
+>  - arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
+>      - ec-pwm
+>
+>        It should be trivial to rename these to just "pwm" since I don't
+>        see the cros-ec driver relying on the exact name.
+>
+>  - arch/arm/boot/dts/am5729-beagleboneai.dts
+>      - stmpe_pwm
+>
+>        The stmpe MFD driver actually relies on this name, so not sure if
+>        there's a lot we can do about that.
+
+That's unfortunate...
+
+The question is how do we allow this, but at the same time prevent more cases.
+
+>  - arch/arm/boot/dts/armada-38x.dtsi
+>      - gpio@...
+>
+>        This is both a GPIO and PWM controller, so can't really do much
+>        about the name.
+
+In general, we need some solution for the more than 1 function nodes.
+Combo clock and reset controllers are a common one.
+
+>  - arch/arm/boot/dts/at91-kizbox.dts
+>      - pwm
+>
+>        Actually also matches the pattern because the '@.*' part is
+>        optional.
+>
+>  - arch/arm/boot/dts/at91sam9n12.dtsi
+>      - hlcdc-pwm
+>
+>        The MFD driver matches on the compatible string, so we should be
+>        able to just rename this to "pwm".
+>
+>  - arch/arm/boot/dts/da850.dtsi
+>     - ecap@...
+>
+>       No matching on the name as far as I can tell, so we should be able
+>       to rename this 'pwm@...'.
+>
+>  - arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi
+>     - dmtimer-pwm
+>
+>       Could probably be renamed 'pwm'.
+>
+>  - arch/arm/boot/dts/lpc32xx.dtsi
+>     - mpwm@...
+>
+>       Could probably be renamed 'pwm'.
+>
+>  - arch/arm/boot/dts/motorola-mapphone-common.dtsi
+>     - dmtimer-pwm-*
+>
+>       Maybe these should be renamed 'pwm@*' instead?
+>
+>  - arch/arm/boot/dts/s3c24xx.dtsi
+>     - timer@...
+>
+>       This is a variant similar to dmtimer-pwm above and is driven by a
+>       timer that can run in PWM mode. I think this is the same category
+>       as the GPIO/PWM controller hybrid above.
+>
+>       Not much we can do about the name.
+>
+>  - arch/arm/boot/dts/stm32f429.dtsi
+>     - pwm
+>
+>       Matches the pattern.
+>
+>  - arch/arm/boot/dts/twl4030.dtsi
+>     - pwm
+>
+>       Matches the pattern.
+>
+>     - pwmled
+>
+>       Perhaps both of the above should be named 'pwm@*'? There doesn't
+>       seem to be any matching on the name.
+>
+> For many of the above it should be possible to rename them. But then we
+> will always have exceptions where we can't do that because then it might
+> conflict with other bindings.
+>
+> Two interesting things I gathered from the above are that:
+>
+>   1) nothing in the above actually matches the pwm-* variant that's part
+>      of the current pattern defined in pwm.yaml and which is causing the
+>      problem for the pinmux nodes, so an easy solution would be to
+>      simply drop that part of the pattern since it is useless anyway.
+>
+>   2) There are actually quite a few PWM controllers that currently are
+>      not checked because of the name matching. Now I haven't actually
+>      checked the reverse, i.e. to see if all nodes matching the pattern
+>      actually have a #pwm-cells property, but given that we miss a
+>      number of controller because they don't match the pattern makes me
+>      think that that aspect isn't actually very helpful.
+>
+> All of the above makes me think even more that we should just abandon
+> the idea of matching on the names for PWM controller because in some
+> instances we can't change the name for backwards-compatibility or
+> because the names would then conflict with other bindings.
+
+Yes. :(
+
+Maybe node name checks can be an optional thing to enable until we
+come up with a more general way to opt-in/out of specific checks.
+
+Rob
