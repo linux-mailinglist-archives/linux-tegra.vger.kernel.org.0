@@ -2,100 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5577F1FFBD5
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jun 2020 21:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 522AA1FFFFA
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jun 2020 03:59:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726969AbgFRTc0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jun 2020 15:32:26 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13996 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726940AbgFRTc0 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jun 2020 15:32:26 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eebc1170000>; Thu, 18 Jun 2020 12:31:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 18 Jun 2020 12:32:26 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 18 Jun 2020 12:32:26 -0700
-Received: from [10.26.72.215] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 18 Jun
- 2020 19:32:20 +0000
-Subject: Re: [PATCH] [v3] dmaengine: tegra210-adma: Fix runtime PM imbalance
- on error
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, <kjlu@umn.edu>
-CC:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+        id S1728698AbgFSB7g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jun 2020 21:59:36 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:11670 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727981AbgFSB7f (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 18 Jun 2020 21:59:35 -0400
+Received: by ajax-webmail-mail-app2 (Coremail) ; Fri, 19 Jun 2020 09:59:21
+ +0800 (GMT+08:00)
+X-Originating-IP: [210.32.144.65]
+Date:   Fri, 19 Jun 2020 09:59:21 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   dinghao.liu@zju.edu.cn
+To:     "Jon Hunter" <jonathanh@nvidia.com>
+Cc:     kjlu@umn.edu, "Laxman Dewangan" <ldewangan@nvidia.com>,
+        "Dan Williams" <dan.j.williams@intel.com>,
+        "Vinod Koul" <vkoul@kernel.org>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] [v3] dmaengine: tegra210-adma: Fix runtime PM
+ imbalance on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <9f7684d9-7a75-497d-db1c-75cf0991a072@nvidia.com>
 References: <20200618105727.14669-1-dinghao.liu@zju.edu.cn>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <9f7684d9-7a75-497d-db1c-75cf0991a072@nvidia.com>
-Date:   Thu, 18 Jun 2020 20:32:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ <9f7684d9-7a75-497d-db1c-75cf0991a072@nvidia.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-In-Reply-To: <20200618105727.14669-1-dinghao.liu@zju.edu.cn>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1592508695; bh=Y+el/msl5X9o1BlFounYqeYclLOqf6T/QsJDITBZXqk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=deWdH0miSgiOPdDQJ4OdfEkBzZtj5uvIgYtqy0VRrej0fpBcWv4OgSSNsAkXZ44cZ
-         sQwLVUR0zOQG0C9Ni7x2gjlXCC2QqO7QxhmEC0ELlZ6nfNogu7aqat97o7AMLLveUB
-         WF9z1HKm5RI9OgPjua0UjGpfD12GDfPcfT3IFss1/Y+sa32zgXo4moxutyDc9AtEne
-         BTedBct5s/uHjZB7xuM/UiYciUloab81OHgAxc0UqAgCWTUEB08FXYn7wtW901TqLV
-         QuKBruUbzVr+W3PlKxIsF8PqarvyqGWdUWePMhKU79xqHpsOUrOcBFl5sihmEbnrW3
-         EGuIBEezjmI3Q==
+Message-ID: <24ea1ef1.10213.172ca4d45be.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: by_KCgBXITT5G+xeNNEtAA--.6813W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgsQBlZdtOuLuQABs4
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbGvS07vEb7Iv0x
+        C_Xr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlV2xY628EF7xvwVC2z280aVAFwI0_Gc
+        CE3s1lV2xY628EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wCS07vEe2I262IYc4CY6c8I
+        j28IcVAaY2xG8wCS07vE5I8CrVACY4xI64kE6c02F40Ex7xfMIAIbVAv7VC0I7IYx2IY67
+        AKxVWUJVWUGwCS07vEYx0Ex4A2jsIE14v26r1j6r4UMIAIbVAm72CE4IkC6x0Yz7v_Jr0_
+        Gr1lV2xY6x02cVAKzwCS07vEc2xSY4AK67AK6w4lV2xY6xkI7II2jI8vz4vEwIxGrwCS07
+        vE42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC
+        6x0Yz7v_Jr0_Gr1lV2xY6I8I3I0E5I8CrVAFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14
+        v26r106r1rMIAIbVC2zVAF1VAY17CE14v26r1q6r43MIAIbVCI42IY6xIIjxv20xvE14v2
+        6r1j6r1xMIAIbVCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lV2xY6IIF0xvE42xK8V
+        AvwI8IcIk0rVWrZr1j6s0DMIAIbVCI42IY6I8E87Iv67AKxVWUJVW8JwCS07vEIxAIcVC2
+        z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73U
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 18/06/2020 11:57, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code. Thus a pairing decrement is needed on
-> the error handling path to keep the counter balanced.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
-> 
-> Changelog:
-> 
-> v2: - Merge two patches that fix runtime PM imbalance in
->       tegra_adma_probe() and tegra_adma_alloc_chan_resources()
->       respectively.
-> 
-> v3: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
->       in tegra_adma_alloc_chan_resources().
-> ---
->  drivers/dma/tegra210-adma.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-> index db58d7e4f9fe..bfa8800dfb4c 100644
-> --- a/drivers/dma/tegra210-adma.c
-> +++ b/drivers/dma/tegra210-adma.c
-> @@ -658,6 +658,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
->  
->  	ret = pm_runtime_get_sync(tdc2dev(tdc));
->  	if (ret < 0) {
-> +		pm_runtime_put_noidle(tdc2dev(tdc));
-
-Why noidle?
-
-Jon
-
--- 
-nvpublic
+PiAKPiBXaHkgbm9pZGxlPwo+IAoKX25vaWRsZSBpcyBlbm91Z2ggZm9yIGZpeGluZyB0aGlzIGJ1
+Zy4gX3N5bmMgbWF5IHN1c3BlbmQKdGhlIGRldmljZSBiZXlvbmQgZXhwZWN0YXRpb24uCgpSZWdh
+cmRzLApEaW5naGFv
