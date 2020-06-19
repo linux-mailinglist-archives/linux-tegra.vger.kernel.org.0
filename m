@@ -2,293 +2,276 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A325120034B
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jun 2020 10:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C74CF20070E
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jun 2020 12:44:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730651AbgFSIJL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 19 Jun 2020 04:09:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731130AbgFSIIs (ORCPT
+        id S1732544AbgFSKoE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 19 Jun 2020 06:44:04 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:51699 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732535AbgFSKh4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 19 Jun 2020 04:08:48 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AC7C06174E;
-        Fri, 19 Jun 2020 01:08:46 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id o15so9192271ejm.12;
-        Fri, 19 Jun 2020 01:08:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ml65+Mzf6N120H22koN1yo0+U32VpS4o/Try5WAttxk=;
-        b=QmmIXjqKKTdoBp+i/lc1k0OfIkl6RXv3cSahD6RmY3lz/LmrfNQw5GwVusxZQUNHRe
-         J87XRL80oP1tDO3ua+qcD2u/zoP3NzUlTB52BgpmHQ/bCw+UgznMeIyiLjPLy98zb6UZ
-         O1lljTAd/Znt4A4qBUqEPwIdU/vKFh2Sfc237DptA6N79+Re01renTPFaQ26sxlm+Y3l
-         lTlgUhhRJr5leRGHooYQi6SaQuUObwWKi/+fRFIRCiDpUOlxLNQrlrzwqWVSgjx8z74N
-         SZqtl+H3k9E2yYnmL8Tx1+5kIfZne56v0Lp/9IoWHR7zkqVNE3uDJWA8zrKrrPhGnewD
-         7D0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ml65+Mzf6N120H22koN1yo0+U32VpS4o/Try5WAttxk=;
-        b=UXUZc7H+muqZumebaWbxBgAYb4lOLH/Rb7iA0P8Fu0BRs0K/vCve6Yc/YgXRoc4nMu
-         vQJo0D2+y65DAsw4eitaMJSlWo0MN4kt8m9t1IHMnaKtNGuQvg34Q46ylKn2j4IOHoZN
-         a9d/3FrXUnKWlgSdorD7cyIngL/w0GG/llO+2K8y9RhaB1xqpYY4uze7UOA5ofGS62PA
-         i0zL4v/MYhLqRn2gp2R3DbCMXwWtCzuYKzH5r99m4lcFo2aJfidFTQEtzKCnnXwuij+0
-         Wx8jZPvh6vuZJHon7e0bVGKuGPTCU1t1ooHsv4dKKFYr/pc40+R2640Coh5wVqDcljkF
-         wzug==
-X-Gm-Message-State: AOAM530Wkp86INxmJ651ck/RpjAXtBrVH3C/CZf1nl3jd/Tca4XMrv7U
-        EhsFKkFqiSyYmdak95HtlNI=
-X-Google-Smtp-Source: ABdhPJzlVGRFjC9pWbqD7a+7xGQjpbKelqtNWF1j41TaFCMWSwSjSirDfv+suaerclV+RzLmy0f4sg==
-X-Received: by 2002:a17:907:40c0:: with SMTP id nu24mr2615984ejb.141.1592554121538;
-        Fri, 19 Jun 2020 01:08:41 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id v5sm4123859ejx.123.2020.06.19.01.08.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2020 01:08:40 -0700 (PDT)
-Date:   Fri, 19 Jun 2020 10:08:39 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 07/38] dt-bindings: display: tegra: Convert to json-schema
-Message-ID: <20200619080839.GE3704347@ulmo>
-References: <20200612141903.2391044-1-thierry.reding@gmail.com>
- <20200612141903.2391044-8-thierry.reding@gmail.com>
- <20200617231326.GD2975260@bogus>
- <20200618141630.GB3663225@ulmo>
- <CAL_JsqLfpSgJxRMNTFdAsSEVOTU6a7bzD8v8Sg1LPXHdgEmdAQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="idY8LE8SD6/8DnRI"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqLfpSgJxRMNTFdAsSEVOTU6a7bzD8v8Sg1LPXHdgEmdAQ@mail.gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+        Fri, 19 Jun 2020 06:37:56 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200619103707euoutp0243b198f3cb71e620ceef26bd66ae295b~Z66LDWnzT2372823728euoutp02Z
+        for <linux-tegra@vger.kernel.org>; Fri, 19 Jun 2020 10:37:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200619103707euoutp0243b198f3cb71e620ceef26bd66ae295b~Z66LDWnzT2372823728euoutp02Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1592563027;
+        bh=Z9l2woQ40ZPmHmgLmD1FIzI5uZAPuWFYYBjv7TcHHj8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lzRWGr4bOFJ3OooXJpEieNb7fxObSiAyBTUqTEH1YGUY8kDmr6xNtzOjK2wUYrkPp
+         Z1sb7LlNbgkqov4gOC8FRWLrpxPXhcJrL7hNjCJgomcHWpEAHNUG9kTwYI+ZhHGoM+
+         QYgaUFuwoN0OQzOi+XOO49b6325NPW09eECb/98c=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200619103707eucas1p1aa3961c5a770c18123d171f9ba781bc0~Z66KkHOgr3246432464eucas1p1u;
+        Fri, 19 Jun 2020 10:37:07 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id A4.9C.06318.2559CEE5; Fri, 19
+        Jun 2020 11:37:06 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200619103706eucas1p2b9a9926941e812db1111ec46a97695cd~Z66KRaPFk2893928939eucas1p2d;
+        Fri, 19 Jun 2020 10:37:06 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200619103706eusmtrp175a36441d776a8bb6dff075ae22b4b9d~Z66KQwXOU0949709497eusmtrp1a;
+        Fri, 19 Jun 2020 10:37:06 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-70-5eec9552936b
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 7F.0B.06017.2559CEE5; Fri, 19
+        Jun 2020 11:37:06 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200619103705eusmtip20afd05ddb910ee09064c1699ebcefa22~Z66Jl4QAg0246802468eusmtip2j;
+        Fri, 19 Jun 2020 10:37:05 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v7 20/36] drm: tegra: fix common struct sg_table related
+ issues
+Date:   Fri, 19 Jun 2020 12:36:20 +0200
+Message-Id: <20200619103636.11974-21-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200619103636.11974-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSaUhUYRSG+eYuc11GbqPkh4rCYIKRGwpeUSSjH/dHtKgQKY1OelHLGWXG
+        nUhJKxu1Ms1lEjMxNZdcMzMrR7Kp1Klccsql1Ah3K5dUSpvbVfv3nvc873cOh49AhGrMgoiQ
+        xTBymSRShBuiLS/XtQ6+t+bEzkNlHlSW9jWPaiiow6itlmyEGlhZxKn71V08quS5J5WmKkWp
+        5YFxHtU4+QGj+tuKcOrqsgqnal+M8in1968Ytd5WjB40oWuKawD9dLUEpR+rRvn0o9UvGP05
+        Q8Ojm8qS6eHNSYTO0VUA+snHFJzOSl3A6WvNVYBearQ+bhxg6BXKREbEMXIn72DD8PKxt0h0
+        unPC4sMZPAXM2imBAQFJN6iemOYpgSEhJCsBvFdSiHDFMoAZa3mAK5YArJ5L5e9EcirLUa5R
+        AeDgm0J0NzK8fBtjKZx0gcp5Jc5qM/ISgK+yjFkIITMR2JH3C7ANU/IEzC3o+weh5D7Y2zPF
+        Y7WA9IZV5TqUG2cDq+s7EFYb6P3ZNDXGPgTJT3yY++Mnj4MOwytbbTinTeGMpnl7VyvYnZOJ
+        coFUAMe1tXyuyASw/2IB4ChPOKLd0KcJ/X72sK7NibN9YMNEBsbakDSBuvk9rI3o5c2WfISz
+        BTD9spCj7aBK82B3rPpd3zZCw558S+5A2QDe3WpHbgAb1f9ZJQBUAXMmViENYxSuMibeUSGR
+        KmJlYY4hUdJGoP9Y3ZualVbw7PeZTkASQGQsmPKfFQsxSZwiUdoJIIGIzASHervFQkGoJDGJ
+        kUcFyWMjGUUnsCRQkbnAtXT6tJAMk8Qw5xgmmpHvdHmEgUUKcDhmlZOkSxCqAg/464aLh026
+        wupxe6PqmD8LAWMRI3t9NK7lEcr682LPoSrt+wBbd+CcZ519tm9tSOPXW2Q8JQuOd1xsiY3z
+        ncsSBB11MwpMFrde6LAlNuLmx9ybs+2OeHl8W+sZ8s1M9bMYPNl+/VRCSEa9karJEQbX9hXc
+        cRahinCJy35ErpD8BWSngTVUAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsVy+t/xe7pBU9/EGaz9p2bRe+4kk8XGGetZ
+        Lf5vm8hsceXrezaLlauPMlks2G9t0TJrEYvFlysPmSw2Pb7GanF51xw2i84vs9gs1h65y25x
+        8MMTVoufu+axOPB5rJm3htFj77cFLB47Z91l99j+7QGrx/3u40wem5fUe9z+95jZY/KN5Ywe
+        u282sHn0Nr9j8+jbsorR4/MmuQCeKD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81gr
+        I1MlfTublNSczLLUIn27BL2MZffOMxd0GFS83/qKrYHxtVoXIyeHhICJxOQVy1i6GLk4hASW
+        Mkp0zH7PBpGQkTg5rYEVwhaW+HOtCywuJPCJUWJXrzqIzSZgKNH1FiTOxSEi0MkoMa37IzuI
+        wywwhVli6v0GRpAqYQF/iQV3TrOD2CwCqhJnz7xgArF5BewkVi27wQKxQV5i9YYDzCA2J1D8
+        dctBVohtthLLF7xnnsDIt4CRYRWjSGppcW56brGRXnFibnFpXrpecn7uJkZg/Gw79nPLDsau
+        d8GHGAU4GJV4eF+EvI4TYk0sK67MPcQowcGsJMLrdPZ0nBBvSmJlVWpRfnxRaU5q8SFGU6Cj
+        JjJLiSbnA2M7ryTe0NTQ3MLS0NzY3NjMQkmct0PgYIyQQHpiSWp2ampBahFMHxMHp1QD49Xv
+        4t8un3XZfzh+4pcE9vnVs87x78vqvfJkZzpDuorUL02ht7s9lt9huWDFKnTzjvu67CMhlyuX
+        Tliz+fSLJa5+M8Suxa2oCLiYqf409+/FtUwmcZ+338n46WCyt/jA9gTXdTe++ium1E+68MrZ
+        +Y3kM8k56wuncpjaFF6smvL0iIqu862bwk1KLMUZiYZazEXFiQDgEq+0tQIAAA==
+X-CMS-MailID: 20200619103706eucas1p2b9a9926941e812db1111ec46a97695cd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200619103706eucas1p2b9a9926941e812db1111ec46a97695cd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200619103706eucas1p2b9a9926941e812db1111ec46a97695cd
+References: <20200619103636.11974-1-m.szyprowski@samsung.com>
+        <CGME20200619103706eucas1p2b9a9926941e812db1111ec46a97695cd@eucas1p2.samsung.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
---idY8LE8SD6/8DnRI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
-On Thu, Jun 18, 2020 at 09:23:58AM -0600, Rob Herring wrote:
-> On Thu, Jun 18, 2020 at 8:16 AM Thierry Reding <thierry.reding@gmail.com>=
- wrote:
-> >
-> > On Wed, Jun 17, 2020 at 05:13:26PM -0600, Rob Herring wrote:
-> > > On Fri, Jun 12, 2020 at 04:18:32PM +0200, Thierry Reding wrote:
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >
-> > > > Convert the Tegra host1x controller bindings from the free-form text
-> > > > format to json-schema.
-> > > >
-> > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > > > ---
-> > > >  .../display/tegra/nvidia,tegra20-host1x.txt   |  516 ------
-> > > >  .../display/tegra/nvidia,tegra20-host1x.yaml  | 1418 +++++++++++++=
-++++
-> > > >  2 files changed, 1418 insertions(+), 516 deletions(-)
-> > > >  delete mode 100644 Documentation/devicetree/bindings/display/tegra=
-/nvidia,tegra20-host1x.txt
-> > > >  create mode 100644 Documentation/devicetree/bindings/display/tegra=
-/nvidia,tegra20-host1x.yaml
->=20
-> [...]
->=20
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            enum:
-> > > > +              - nvidia,tegra124-host1x
-> > > > +              - nvidia,tegra210-host1x
-> > > > +              - nvidia,tegra186-host1x
-> > > > +              - nvidia,tegra194-host1x
-> > > > +    then:
-> > > > +      patternProperties:
-> > > > +        "^sor@[0-9a-f]+$":
-> > > > +          description: |
-> > > > +            The Serial Output Resource (SOR) can be used to drive =
-HDMI, LVDS,
-> > > > +            eDP and DP outputs.
-> > > > +
-> > > > +            See ../pinctrl/nvidia,tegra124-dpaux-padctl.txt for in=
-formation
-> > > > +            regarding the DPAUX pad controller bindings.
-> > > > +          type: object
-> > > > +          properties:
-> > > > +            # required
-> > > > +            compatible:
-> > > > +              oneOf:
-> > > > +                - const: nvidia,tegra124-sor
-> > > > +                - items:
-> > > > +                    - const: nvidia,tegra132-sor
-> > > > +                    - const: nvidia,tegra124-sor
-> > > > +                - const: nvidia,tegra210-sor
-> > > > +                - const: nvidia,tegra210-sor1
-> > > > +                - const: nvidia,tegra186-sor
-> > > > +                - const: nvidia,tegra186-sor1
-> > > > +                - const: nvidia,tegra194-sor
-> > > > +
-> > > > +            reg:
-> > > > +              maxItems: 1
-> > > > +
-> > > > +            interrupts:
-> > > > +              maxItems: 1
-> > > > +
-> > > > +            resets:
-> > > > +              items:
-> > > > +                - description: module reset
-> > > > +
-> > > > +            reset-names:
-> > > > +              items:
-> > > > +                - const: sor
-> > > > +
-> > > > +            status:
-> > > > +              $ref: "/schemas/dt-core.yaml#/properties/status"
-> > >
-> > > 'status' should never need to be listed.
-> >
-> > This seems to be needed at least when I try to validate against a single
-> > binding, like so:
-> >
-> >         $ make DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/disp=
-lay/tegra/nvidia,tegra20-host1x.yaml dtbs_check
-> >
-> > I assume that that somehow prevents the tooling from looking at any of
-> > the other bindings, which in turn then causes status and other standard
-> > properties to never be defined and then it flags them as extra and
-> > causes a failure.
->=20
-> I'm surprised using DT_SCHEMA_FILES makes a difference. I'm guessing
-> that has your 'unevaluatedProperties' support. If so, that means
-> there's an unintended side effect that any common schema property
-> becomes always allowed. That's good for 'status' and 'phandle', but
-> not so much for 'reg', '*-gpios, '*-names', etc.
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
 
-I don't think that's an unintended side-effect. If the property
-validates against a schema it counts as evaluated, doesn't it? In order
-to avoid that we would somehow have to restrict which schemas contribute
-to the evaluatedProperties annotation and I don't think there's a way to
-do that because we don't know which out of all the schemas is relevant.
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
 
-> > I think I've even seen this trigger on dt_binding_check if I happened to
-> > have status in there. Now, you've mentioned elsewhere that we shouldn't
-> > use "status" in examples, so that would work around this. However, I
-> > think I've seen this happen as well in examples that referenced some
-> > node via phandle, and then dt_binding_check would emit an error about
-> > phandle being undefined.
-> >
-> > Perhaps this is a problem with the tooling? Should we instruct the
-> > scripts to always include the core schema even if we're only testing a
-> > single YAML file via DT_SCHEMA_FILES?
->=20
-> The purpose of DT_SCHEMA_FILES is to see warnings just from that
-> schema file. If the core schema was warning free, we could add that,
-> but it's not. Plus that wouldn't solve the problem here. 'status' and
-> 'phandle' are added to each schema by the tooling (along with other
-> things), not by another schema file (well, they are in another schema
-> file, but they are added to each schema so that 'additionalProperties:
-> false' works).
->=20
-> This is certainly a limitation in the tooling in that what you have is
-> a bit different from the expected form. Generally it is expected that
-> everything is defined under the top-level 'properties' and then any
-> 'if/then' schema only add further constraints. However, you have the
-> child nodes only defined under an if/then. We could fix that, but I'm
-> not sure I want to. IMO, extensive use of if/then is a sign the schema
-> should be split up. More on that below.
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/gpu/drm/tegra/gem.c   | 27 ++++++++++-----------------
+ drivers/gpu/drm/tegra/plane.c | 15 +++++----------
+ 2 files changed, 15 insertions(+), 27 deletions(-)
 
-Okay, I see your point.
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index 723df142a981..01d94befab11 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -98,8 +98,8 @@ static struct sg_table *tegra_bo_pin(struct device *dev, struct host1x_bo *bo,
+ 		 * the SG table needs to be copied to avoid overwriting any
+ 		 * other potential users of the original SG table.
+ 		 */
+-		err = sg_alloc_table_from_sg(sgt, obj->sgt->sgl, obj->sgt->nents,
+-					     GFP_KERNEL);
++		err = sg_alloc_table_from_sg(sgt, obj->sgt->sgl,
++					     obj->sgt->orig_nents, GFP_KERNEL);
+ 		if (err < 0)
+ 			goto free;
+ 	} else {
+@@ -196,8 +196,7 @@ static int tegra_bo_iommu_map(struct tegra_drm *tegra, struct tegra_bo *bo)
+ 
+ 	bo->iova = bo->mm->start;
+ 
+-	bo->size = iommu_map_sg(tegra->domain, bo->iova, bo->sgt->sgl,
+-				bo->sgt->nents, prot);
++	bo->size = iommu_map_sgtable(tegra->domain, bo->iova, bo->sgt, prot);
+ 	if (!bo->size) {
+ 		dev_err(tegra->drm->dev, "failed to map buffer\n");
+ 		err = -ENOMEM;
+@@ -264,8 +263,7 @@ static struct tegra_bo *tegra_bo_alloc_object(struct drm_device *drm,
+ static void tegra_bo_free(struct drm_device *drm, struct tegra_bo *bo)
+ {
+ 	if (bo->pages) {
+-		dma_unmap_sg(drm->dev, bo->sgt->sgl, bo->sgt->nents,
+-			     DMA_FROM_DEVICE);
++		dma_unmap_sgtable(drm->dev, bo->sgt, DMA_FROM_DEVICE, 0);
+ 		drm_gem_put_pages(&bo->gem, bo->pages, true, true);
+ 		sg_free_table(bo->sgt);
+ 		kfree(bo->sgt);
+@@ -290,12 +288,9 @@ static int tegra_bo_get_pages(struct drm_device *drm, struct tegra_bo *bo)
+ 		goto put_pages;
+ 	}
+ 
+-	err = dma_map_sg(drm->dev, bo->sgt->sgl, bo->sgt->nents,
+-			 DMA_FROM_DEVICE);
+-	if (err == 0) {
+-		err = -EFAULT;
++	err = dma_map_sgtable(drm->dev, bo->sgt, DMA_FROM_DEVICE, 0);
++	if (err)
+ 		goto free_sgt;
+-	}
+ 
+ 	return 0;
+ 
+@@ -571,7 +566,7 @@ tegra_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+ 			goto free;
+ 	}
+ 
+-	if (dma_map_sg(attach->dev, sgt->sgl, sgt->nents, dir) == 0)
++	if (dma_map_sgtable(attach->dev, sgt, dir, 0))
+ 		goto free;
+ 
+ 	return sgt;
+@@ -590,7 +585,7 @@ static void tegra_gem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+ 	struct tegra_bo *bo = to_tegra_bo(gem);
+ 
+ 	if (bo->pages)
+-		dma_unmap_sg(attach->dev, sgt->sgl, sgt->nents, dir);
++		dma_unmap_sgtable(attach->dev, sgt, dir, 0);
+ 
+ 	sg_free_table(sgt);
+ 	kfree(sgt);
+@@ -609,8 +604,7 @@ static int tegra_gem_prime_begin_cpu_access(struct dma_buf *buf,
+ 	struct drm_device *drm = gem->dev;
+ 
+ 	if (bo->pages)
+-		dma_sync_sg_for_cpu(drm->dev, bo->sgt->sgl, bo->sgt->nents,
+-				    DMA_FROM_DEVICE);
++		dma_sync_sgtable_for_cpu(drm->dev, bo->sgt, DMA_FROM_DEVICE);
+ 
+ 	return 0;
+ }
+@@ -623,8 +617,7 @@ static int tegra_gem_prime_end_cpu_access(struct dma_buf *buf,
+ 	struct drm_device *drm = gem->dev;
+ 
+ 	if (bo->pages)
+-		dma_sync_sg_for_device(drm->dev, bo->sgt->sgl, bo->sgt->nents,
+-				       DMA_TO_DEVICE);
++		dma_sync_sgtable_for_device(drm->dev, bo->sgt, DMA_TO_DEVICE);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
+index 9ccfb56e9b01..0d2ef1662a39 100644
+--- a/drivers/gpu/drm/tegra/plane.c
++++ b/drivers/gpu/drm/tegra/plane.c
+@@ -130,12 +130,9 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 		}
+ 
+ 		if (sgt) {
+-			err = dma_map_sg(dc->dev, sgt->sgl, sgt->nents,
+-					 DMA_TO_DEVICE);
+-			if (err == 0) {
+-				err = -ENOMEM;
++			err = dma_map_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
++			if (err)
+ 				goto unpin;
+-			}
+ 
+ 			/*
+ 			 * The display controller needs contiguous memory, so
+@@ -143,7 +140,7 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 			 * map its SG table to a single contiguous chunk of
+ 			 * I/O virtual memory.
+ 			 */
+-			if (err > 1) {
++			if (sgt->nents > 1) {
+ 				err = -EINVAL;
+ 				goto unpin;
+ 			}
+@@ -165,8 +162,7 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 		struct sg_table *sgt = state->sgt[i];
+ 
+ 		if (sgt)
+-			dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents,
+-				     DMA_TO_DEVICE);
++			dma_unmap_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
+ 
+ 		host1x_bo_unpin(dc->dev, &bo->base, sgt);
+ 		state->iova[i] = DMA_MAPPING_ERROR;
+@@ -185,8 +181,7 @@ static void tegra_dc_unpin(struct tegra_dc *dc, struct tegra_plane_state *state)
+ 		struct sg_table *sgt = state->sgt[i];
+ 
+ 		if (sgt)
+-			dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents,
+-				     DMA_TO_DEVICE);
++			dma_unmap_sgtable(dc->dev, sgt, DMA_TO_DEVICE, 0);
+ 
+ 		host1x_bo_unpin(dc->dev, &bo->base, sgt);
+ 		state->iova[i] = DMA_MAPPING_ERROR;
+-- 
+2.17.1
 
-> > > > +            pinctrl-names: true
-> > > > +            phandle:
-> > > > +              $ref: "/schemas/types.yaml#/definitions/uint32"
-> > >
-> > > 'phandle' shouldn't need to be listed.
-> > >
-> > > > +
-> > > > +          patternProperties:
-> > > > +            "^pinctrl-[0-9]+$": true
-> > >
-> > > pinctrl properties are automatically added, but maybe not if under an
-> > > 'if' schema. Really, I think probably either this should be split
-> > > into multiple schema files or all of these child nodes should be
-> > > described at the top-level. I'm not sure it's really important to def=
-ine
-> > > which set of child nodes belong or not for each chip.
-> >
-> > I'm not too worried about the set of child nodes for each chip, but I
-> > think having this all in one file underlines the importance of the
-> > hierarchy. If these were discrete bindings for each of the compatible
-> > strings it'd be easy for someone to create them as standalone nodes in
-> > device tree, but that's not something that would work. All of these
-> > devices are children of host1x and they do depend on host1x for a lot
-> > of the functionality, so the hierarchy must be respected.
->=20
-> I'm not saying don't describe the hierarchy.
->=20
-> The first option is 1 host1x schema file per SoC (roughly) and the
-> 'host1x' parent node would be duplicated in each one. That doesn't
-> worry me too much as it's all standard properties and not that many of
-> them. Though you could have a common 'host1x-bus.yaml' just describing
-> the parent node properties that each <soc>-host1x.yaml references.
->=20
-> The 2nd option is keep this as a single file, but just move every
-> child node definition under the top-level 'patternProperties'. This
-> option has the limitation that you can't enforce which child nodes are
-> valid per SoC.
-
-Okay, I'll give the first option a try and see where I end up.
-
-> > > I'm stopping there. I think the rest is more of the same comments.
-> >
-> > I've made a pass over the whole file and fixed the issues that you
-> > pointed out above in other places.
-> >
-> > Sounds like the biggest remaining issue is with the duplicated standard
-> > properties. I'm not a huge fan of giving up on doing the right thing
-> > because the tooling can't deal with it. I think we should fix the
-> > tooling to do the right thing. So if there's something in the core DT
-> > schema then it should apply regardless of what mode we run in. Much of
-> > the above issues should go away once that's fixed.
-> >
-> > Any thoughts on making some of the schema files "always included"? I
-> > haven't looked at this side of the tooling at all yet, so I'm not sure
-> > how difficult that would be, but if you're okay with it conceptually I
-> > can take a closer look.
->=20
-> Hopefully, it's clear why that doesn't help here. But don't worry,
-> there's plenty of other work to do on the tooling. :)
-
-Yes, I think I understand now.
-
-Thierry
-
---idY8LE8SD6/8DnRI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7scoUACgkQ3SOs138+
-s6H0Kg//ZHQi745W1fmIq8PKL13plA54Nuav4gYArM/r/LjWt9rKVBRvxolDDCTJ
-Fyq8e1xGpanTFeaaLtvgoMA7CoFg1/7MXiI1sM+MiN+ttY0Cc2Kx8TP7NC/tvY3U
-szb+zKlB01BqDcD7h+LY81h3VnB7oGiL+Fi04zuhcjWetCJbW0qzFET5LihM+3gv
-HWHCxF/gkJz9EqWe7EKyVbswJ/k9pZRLPgVU9UInU1luIH9l8Rv0MTPaTanFzrjs
-SFwCjMtjQX4huTLTRkwhzhhiF33KRKT7QsG69z++fhv0sLy+lohiIA7CZVeK5WsT
-smlhr19idPQPsB3liSWd9pCJUHl94u1hEDKXzSitzMwYL0tb3Y89zt2FR1FIulS4
-nQKD0JAhJX2H7VI46Gfw4qTNjEuBVlvoyJWAo9pLIRFLNSRxdrqsUP90POkGVRCf
-/ldop8VIapx4ugeCCxPbBEC99+w7I0+QgSw0efF3VOSAyc/iZrK+Hw1hRsP2aI0A
-s/93bdzMXfB6RrsLdCDAEn5b8OpxvbhjxDlce+slvvO47azuoLmXVGs7XpXg7o9T
-WwZMPouMMEL0v81TcUpR/pMyKAQAjRrpO0b7Q7QLqLQxhJN1mFpIClI36MSSD+vV
-BfrxG5azGwSHd3slBg7b3Q7nyY+DUFORoxonJPsODab8mduRDk4=
-=u19W
------END PGP SIGNATURE-----
-
---idY8LE8SD6/8DnRI--
