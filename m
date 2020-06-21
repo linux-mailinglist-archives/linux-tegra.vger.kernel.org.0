@@ -2,85 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6B94202D0A
-	for <lists+linux-tegra@lfdr.de>; Sun, 21 Jun 2020 23:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1BC6202D66
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 00:28:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730808AbgFUVfH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 21 Jun 2020 17:35:07 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13112 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728928AbgFUVfG (ORCPT
+        id S1730259AbgFUW2G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 21 Jun 2020 18:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730202AbgFUW2G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 21 Jun 2020 17:35:06 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eefd2300000>; Sun, 21 Jun 2020 14:33:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 21 Jun 2020 14:35:06 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 21 Jun 2020 14:35:06 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 21 Jun
- 2020 21:35:04 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 21 Jun 2020 21:35:04 +0000
-Received: from sumitg-l4t.nvidia.com (Not Verified[10.24.37.103]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5eefd2840001>; Sun, 21 Jun 2020 14:35:03 -0700
-From:   Sumit Gupta <sumitg@nvidia.com>
-To:     <rjw@rjwysocki.net>, <viresh.kumar@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <jonathanh@nvidia.com>,
-        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <bbasu@nvidia.com>, <sumitg@nvidia.com>, <mperttunen@nvidia.com>
-Subject: [TEGRA194_CPUFREQ Patch v3 4/4] arm64: defconfig: Enable CONFIG_ARM_TEGRA194_CPUFREQ
-Date:   Mon, 22 Jun 2020 03:04:34 +0530
-Message-ID: <1592775274-27513-5-git-send-email-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592775274-27513-1-git-send-email-sumitg@nvidia.com>
-References: <1592775274-27513-1-git-send-email-sumitg@nvidia.com>
-X-NVConfidentiality: public
+        Sun, 21 Jun 2020 18:28:06 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9489EC061794;
+        Sun, 21 Jun 2020 15:28:04 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id a9so17137550ljn.6;
+        Sun, 21 Jun 2020 15:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ajumZEuWGqqfpvz5AIi0K5R6F27nfu1zPZ2heqoGEwU=;
+        b=Jp/pG79Pnk2/NRLy8xIPgPY3fJK5fxhfma2voYkdeSszDzSDocMuYBJ/A4KFtrkN1X
+         Miw++FXOgfk7NKwF0ZhhF7T8GWeiUlOzHlanZ/eruJ0ZIRZTBHrgOvwqhtFmlRzpQG6O
+         TiSDrbiPbfQ44M/bqqnVYox+pLZui0AJPMTLfxkIrUKFbYw6mUHP9uDfO8S5youbVe3Q
+         qbOxpEfnFC93wLtuYmL85SxLPREK7wEEf5aRwdwY3BfeGKuDW/lTu68hf0s5N7dD+dlW
+         ZcoVtn1Xbk+zoXUoaLQaBhdsfgSfwUIe4DYqmt/B+rrI2cLJt5MFAVVuVUt/04H8ZEQV
+         SknQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ajumZEuWGqqfpvz5AIi0K5R6F27nfu1zPZ2heqoGEwU=;
+        b=QdfKfYsxhqhOe3tvywZBihX0ZXMoqz/KQqWRVOIzr+tY1FD9A9sORhQ/C9HyXDH42w
+         rPHy6B/9qBkCmwBvQIZumDFOpivV8YRxhL9Ybt6I3+P29UriwWwAVHY0upioanrJ15YY
+         csUF1wgdB7DRTzMP4/jUVC19U79jfyk0d/7Fnw+jUvlgi49gEGUhlaHz62VB/++Bkj0i
+         69XM+4FnllCl6zcZ6zyGzZgB2aE6Pl/Nggfd/bfBbmTAWyhMItm+N1+1fwFvm6clEJae
+         TV0fLpy+THseZ5F+JjlM2m74MB8u1wGjU/WRQclF6l8PBLJOO9/X0fhWcMdSpjD/GnuV
+         zK2Q==
+X-Gm-Message-State: AOAM533GAL793HPfkn19Np2JBpdqwOj//n6cRzXjg70sqr1ysl4R8zGB
+        rqeU5QUPepBiMNmHY8/a5gE=
+X-Google-Smtp-Source: ABdhPJzfiAaD32dKdmMh4jARJjfOqTgw+ry8KlCcvWUtzi4c7FUARN+iWGm9seMlIWMWZ/W1ofixwg==
+X-Received: by 2002:a2e:910c:: with SMTP id m12mr7391997ljg.332.1592778483168;
+        Sun, 21 Jun 2020 15:28:03 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id 11sm2361295lju.118.2020.06.21.15.28.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2020 15:28:02 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] Improve descriptions of a few simple-panels
+Date:   Mon, 22 Jun 2020 01:27:40 +0300
+Message-Id: <20200621222742.25695-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1592775216; bh=lHNVU7VOn42qEJNEwY78N3Q41Uu/bIGWrHx8p5IG6bc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=ROO+TbXj5NyrxbBYBz04uSud2CCbMrxOFnH+ff6/UnV0wds2XWnFVC/z88XHZwPGx
-         fwjdTMTLcoFwB8WaxjjRhMLGaa9IDw0TibMP68QzqjZ0CP+l2o5Z+4BLbqHgvxsWce
-         fIZJnq2sRLK1GBudQ+LkZUtXJCvnft2nSBN3FKCrSQF+tyUrVgRHrnycKnzue6kJVd
-         mJ+R9VUIzF45LKhBTA4XFqLD9r/pKpUZ2ORwfwm/+rhyvac4reLxRpmNc4t+7h1pY4
-         6ZvY+zAomPky48squ+UINIV+GMCXsN6NAUosHN3Rd2OzDsIFW5k+D517KXRipHtJYR
-         vDZaeklKc7eug==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable Tegra194 CPU frequency scaling support by default.
+Hello,
 
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+This is a follow up to [1], which was already applied to drm-misc and then
+Laurent Pinchart spotted some problems. This series addresses those problems.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index f9d378d..385bd35 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -91,6 +91,7 @@ CONFIG_ARM_QCOM_CPUFREQ_NVMEM=y
- CONFIG_ARM_QCOM_CPUFREQ_HW=y
- CONFIG_ARM_RASPBERRYPI_CPUFREQ=m
- CONFIG_ARM_TEGRA186_CPUFREQ=y
-+CONFIG_ARM_TEGRA194_CPUFREQ=y
- CONFIG_QORIQ_CPUFREQ=y
- CONFIG_ARM_SCPI_PROTOCOL=y
- CONFIG_RASPBERRYPI_FIRMWARE=y
+[1] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200617222703.17080-8-digetx@gmail.com/
+
+Dmitry Osipenko (2):
+  drm/panel-simple: Correct EDT ET057090DHU connector type
+  drm/panel-simple: Add missing BUS descriptions for some panels
+
+ drivers/gpu/drm/panel/panel-simple.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
 -- 
-2.7.4
+2.26.0
 
