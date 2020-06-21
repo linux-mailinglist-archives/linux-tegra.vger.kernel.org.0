@@ -2,115 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E20AF20252B
-	for <lists+linux-tegra@lfdr.de>; Sat, 20 Jun 2020 18:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A892320283C
+	for <lists+linux-tegra@lfdr.de>; Sun, 21 Jun 2020 06:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727771AbgFTQSQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 20 Jun 2020 12:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34090 "EHLO
+        id S1725792AbgFUEAa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 21 Jun 2020 00:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726139AbgFTQSP (ORCPT
+        with ESMTP id S1725275AbgFUEA3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 20 Jun 2020 12:18:15 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B066DC06174E;
-        Sat, 20 Jun 2020 09:18:14 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id k15so267065lfc.4;
-        Sat, 20 Jun 2020 09:18:14 -0700 (PDT)
+        Sun, 21 Jun 2020 00:00:29 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 132CDC061794;
+        Sat, 20 Jun 2020 21:00:28 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id y13so7749849lfe.9;
+        Sat, 20 Jun 2020 21:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Y/B8+Wt8t65HyAHFIvqCHVw/CPSbL5JP5E6zK3iaABQ=;
-        b=sdlRvIKhkaKKZTjU3Hr85BxtzEcUie+Z3KoUUKlgApYqjtNyyX/51yd9pc/UOLjIcK
-         hej1uV1emdGGYFG5l21iPSkSiVOPTRGWnOCsMsjWYYVuDacDmqkzr35Bb4Lfuird1PCp
-         USG1+oG64s8bR6UOHuxYwiJaJQBvUODlSJi+cmIkfpAygnHxhYeEfsBb2COzHCVH/O3h
-         /aEu0wTZKiFFlBIqOWZS98UF4baUwPhWI38g6BtUUh1+uH/5GUkR6CL+c1McgBNtZj9E
-         Z5FhHfP8Gs+bFwBFNlzziN1F78+Is/EHr8bS35gWFn46NzSyFXfp+c7p83RD45r/FJnf
-         oGXw==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JltmKVlnuo/vC27A3oTu5+r3QU8IRKlE54WmVpTd+6k=;
+        b=s8LYsDYdjxem9SLD1lfB4S3L0wgiHScLHWSjUkMidXktbmXmoFoTDBs1IbY2RwA2F1
+         EXug365lNfpf1c5EIkE19nWURBfp1SgHgRH1JFN1Y73oUrRxuyh3mU1EYkLaX1ivi8bq
+         UmiKqb7y0GNzxSjVlDxQiNIe0bJDKEUNZ35GUG6kdqE8kpW7gGT86lBkEgHc1ctOXksG
+         mWPblnYPDRqHCY8twJXwNrXzYVqGeCSxNOFjQ44nD5tzTN/b1DWhf9g3x2Ck0oI78twV
+         JgTgWEfLztztE4ybodOqRtpugw1CA0r/7k5o8A4kXuiMuFEbV34XN4QHJrAWORLAzTqH
+         wMeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Y/B8+Wt8t65HyAHFIvqCHVw/CPSbL5JP5E6zK3iaABQ=;
-        b=fghDiE3usgPEG1N9M/PIxJiqnpxsED8VbyPcDS05K4VFHkCmdo9h8IFv0a42iHdP9Q
-         IBi7WBzx1JITh9Q05ymLXTYsJsys3RNdZgJROZ6nt3mUKUYViXi6AS1RIjrYZqq7O6d9
-         ejjvL6d4n9u7sbn5wrXjKcYT92FOta/lCRzl76BGPkutg+XdQxsWVo8wwSCON12sUA6p
-         0PQS21Fp2zgmokfK7DKepDiaAECZZNWLjciFv1FtHgNi7wmY5Sm/iw62c58+M2EhIxXO
-         guph0UiFpWC1CH8H9GsUI6IDK/DPjaBgbN+kimt+GHsvn/z+unA3Y0uaz/SrRQlJdNJl
-         YJKg==
-X-Gm-Message-State: AOAM5303VQe6QzwKCfPgs8hTry5IINyrD5zzNucOCYp7CuWi4rj5VMeD
-        bynU+yYzpKNbmUYkasQ9rA4=
-X-Google-Smtp-Source: ABdhPJxC4Ue/7La+Ph2+EqjG4x2knGuQ7LL1+gFoJ+jfuTZGL3POZpxRQSk77anQqyHqi4QWMaYbmw==
-X-Received: by 2002:a19:e93:: with SMTP id 141mr4959112lfo.107.1592669892976;
-        Sat, 20 Jun 2020 09:18:12 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id u8sm2158588lff.38.2020.06.20.09.18.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Jun 2020 09:18:11 -0700 (PDT)
-Subject: Re: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for
- some panels
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20200617222703.17080-1-digetx@gmail.com>
- <20200617222703.17080-8-digetx@gmail.com>
- <20200620112132.GB16901@ravnborg.org>
- <20200620114934.GB5829@pendragon.ideasonboard.com>
- <ea421084-a91c-bc03-5997-1723075b7cae@gmail.com>
- <20200620143114.GA22329@ravnborg.org>
- <e77a34c1-3e0b-7f30-25d0-a955ec8d8c86@gmail.com>
- <20200620153012.GA22743@ravnborg.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JltmKVlnuo/vC27A3oTu5+r3QU8IRKlE54WmVpTd+6k=;
+        b=KjuZn4WpagIAn49hYNMZSjU/ZFyFdUIoLBgpgzHXzPhJyHX099q+2mH3DZvYm57VO1
+         Bcjg09ujRw+zkJc+xX2X1lK3YPqxHFsVQyiVO1FatbinQjSsJp3YdKvE0mQf458lAvE9
+         wd8DJ7NRV0sceXZ00/ygrtg/KG3YUFYvtuevecb6S3kkE70WV52IZcB+F0L2nOxHpFmO
+         PFvOj2hidtebFdnWMIyQ49xXUq3O1BOfp1V8fwLlYIeEu8O92nHK4XLnLeOz9GBhQPWL
+         LUC4DfHhzUXAy2u9ICG+oHDvkCVBKulynQ/xPhfWCIn0k/SV9EaeZ7jPpCwZZbu/fU+L
+         ctUw==
+X-Gm-Message-State: AOAM5318DLSCgVRD7inIO8/1VKnfJYzhn0Vn+onkhVb508cuVYcB+dL+
+        1gOcm+qY5jbAbJEJhP89jTs=
+X-Google-Smtp-Source: ABdhPJwGO/7Iq+BmdzJ4PpOIxZuoSlejYAADJkdbMtQDjpHquFlMxJiDBs2BDDHDfF88d7fV7xZ03Q==
+X-Received: by 2002:ac2:44cd:: with SMTP id d13mr5970328lfm.13.1592712024386;
+        Sat, 20 Jun 2020 21:00:24 -0700 (PDT)
+Received: from dimatab (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id b25sm1977654ljo.16.2020.06.20.21.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jun 2020 21:00:24 -0700 (PDT)
+Date:   Sun, 21 Jun 2020 07:00:15 +0300
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ce053d7d-7458-20a0-4e9e-77f7f99d364b@gmail.com>
-Date:   Sat, 20 Jun 2020 19:18:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH v7 31/36] staging: tegra-vde: fix common struct sg_table
+ related issues
+Message-ID: <20200621070015.0cf833ab@dimatab>
+In-Reply-To: <20200619103636.11974-32-m.szyprowski@samsung.com>
+References: <20200619103636.11974-1-m.szyprowski@samsung.com>
+        <CGME20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa@eucas1p1.samsung.com>
+        <20200619103636.11974-32-m.szyprowski@samsung.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-In-Reply-To: <20200620153012.GA22743@ravnborg.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.06.2020 18:30, Sam Ravnborg пишет:
-> Hi Dmitry
-> On Sat, Jun 20, 2020 at 06:05:37PM +0300, Dmitry Osipenko wrote:
->> 20.06.2020 17:31, Sam Ravnborg пишет:
->>> Hi Dmitry
->>>
->>>>
->>>> Oops! Good catch!
->>> Yep, thanks Laurent. Should have taken a better look before applying.
->>>
->>>> Indeed, I blindly set the LVDS type to all these
->>>> panels. Please revert this patch, I'll double check each panel and
->>>> prepare an updated version of this patch. Thank you very much for the
->>>> review!
->>>
->>> If you can prepare a fix within a few days then lets wait for that.
->>> I will do a better review next time.
->>
->> Hello Sam,
->>
->> I should be able to make it later today or tomorrow. Could you please
->> clarify what do you mean by the fix, do you what it to be as an
->> additional patch on top of the applied one or a new version of the patch?
-> An additional patch on top of the one applied.
-> It shall carry a proper fixes: tag like this:
-> 
-> Fixes: 94f07917ebe8 ("drm/panel-simple: Add missing connector type for some panels")
-> Cc: Dmitry Osipenko <digetx@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
+=D0=92 Fri, 19 Jun 2020 12:36:31 +0200
+Marek Szyprowski <m.szyprowski@samsung.com> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 
-Okay!
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg()
+> function returns the number of the created entries in the DMA address
+> space. However the subsequent calls to the
+> dma_sync_sg_for_{device,cpu}() and dma_unmap_sg must be called with
+> the original number of the entries passed to the dma_map_sg().
+>=20
+> struct sg_table is a common structure used for describing a
+> non-contiguous memory buffer, used commonly in the DRM and graphics
+> subsystems. It consists of a scatterlist with memory pages and DMA
+> addresses (sgl entry), as well as the number of scatterlist entries:
+> CPU pages (orig_nents entry) and DMA mapped pages (nents entry).
+>=20
+> It turned out that it was a common mistake to misuse nents and
+> orig_nents entries, calling DMA-mapping functions with a wrong number
+> of entries or ignoring the number of mapped entries returned by the
+> dma_map_sg() function.
+>=20
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+>=20
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/staging/media/tegra-vde/iommu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/tegra-vde/iommu.c
+> b/drivers/staging/media/tegra-vde/iommu.c index
+> 6af863d92123..adf8dc7ee25c 100644 ---
+> a/drivers/staging/media/tegra-vde/iommu.c +++
+> b/drivers/staging/media/tegra-vde/iommu.c @@ -36,8 +36,8 @@ int
+> tegra_vde_iommu_map(struct tegra_vde *vde,=20
+>  	addr =3D iova_dma_addr(&vde->iova, iova);
+> =20
+> -	size =3D iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
+> -			    IOMMU_READ | IOMMU_WRITE);
+> +	size =3D iommu_map_sgtable(vde->domain, addr, sgt,
+> +				 IOMMU_READ | IOMMU_WRITE);
+>  	if (!size) {
+>  		__free_iova(&vde->iova, iova);
+>  		return -ENXIO;
+
+Ahh, I saw the build failure report. You're changing the DMA API in
+this series, while DMA API isn't used by this driver, it uses IOMMU
+API. Hence there is no need to touch this code. Similar problem in the
+host1x driver patch.
