@@ -2,95 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C401203AE8
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 17:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF36203BF0
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 18:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729316AbgFVPaL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jun 2020 11:30:11 -0400
-Received: from sonic310-21.consmr.mail.gq1.yahoo.com ([98.137.69.147]:36028
-        "EHLO sonic310-21.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729233AbgFVPaL (ORCPT
+        id S1729605AbgFVQCw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jun 2020 12:02:52 -0400
+Received: from sonic302-21.consmr.mail.ne1.yahoo.com ([66.163.186.147]:46792
+        "EHLO sonic302-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729571AbgFVQCW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jun 2020 11:30:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1592839811; bh=ZrqH4CkkktGM5U4f9eYdkRlGgwNo9TU/U6UyKhhS7Nk=; h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject; b=FMooE4Fd+vL4bOCsF19oFQ+8koe0SIaIvvnGdNGfg2bY9knR5NmK7OICT9TR/C4FomIL9cKp+4yWwn+F6H2vlvCQsslSqNrU3R5XJIZ+X3cjerWqjIpY8zb9ydg7gue/6Xc4vqKJOS1EsEMOrpmE2Nv5tvLGQneg7LWwmDotsRzxkX1Wih8HHzws+RGqUypcRFtQLFLn1F+oLy+uSiVoNGeOSvWvy4dlO53/Cs55fitsnVg2Cl8z3JSvTv8QAJz7Fv2TewSJX57O433tT8/QBqo7Xuvbg6idLtQHo9zE9a2gE+v5/0hP+Z6L/rHNzJlToMcYh2Jh4sas0IgFWTyXnQ==
-X-YMail-OSG: Cr3SZHIVM1nhNBz0ZZsYMs_M_FiwKACLBt6kQJYR4K4mF8rlKRnT_f7fT.t2sCC
- DipgYeUhA4EqFw.SkQWXpFDSR9OEwLAwPhxJrNDrZntjEiUyBxrucSuQHm_QF14U8f.b2eKVT72N
- qLFP7qiHUNKXQ4SYEPcuZ_q_hvbnxXiCXViFhbZeefE03ucrFdRs4EM21.p1dmjv5xm1mLoCeWIN
- jkgvvhLmjrY8f5pm5D.I7cSGPM0XP4TaGG6w.i1Rm9gkDs8YL.9moWBhj1cX2qg6nJLn_YP9zuaP
- 0j4YBbovs_HxALABkTP.KUcbU5likQB6ekjU..0CB5QQqi81Q0Hy7bFSr7FHxVMM12ot7uWaEinI
- JzMYBL7BgegWMHyrDLq0BukuCBzZhQ7HtVDiFAb6SLzynuhFE2s0oduA4_8TuEHwugSN8ABWWMon
- VPs76OFaHB4AiH8rlzDNUDvCs7hdVL4wp9PFB6nn9gIroi814lkRYshQ4SiMu8.x1LxzVQKuj_1K
- AuI6G4xS5qHgGm9tql95oMLMkoCQ_OChr1GN3vdf3AkF.9X9Wc6QF3ClqlTETxkAJr74XyNRNefG
- KKhCUU2Mb6kqNBNzFDJhl1nBfl4J3BT0UE0D3HzQ.zUoHGifRb9ATfXlzwDHyItKsky9dMsmfqtp
- i6TMZweDPyfDW5BjQ.MZTGyShESLRfuuUEljOv8zB54h_Fy7RVp.TsJfycEpERk0eoEc8YtNTOHf
- CcMXxFXSBJJWfuCSoiKgkmgJ.tWI9GYciX5ptLM5SO5ucVKruIh5YWFPlCwnk7h.bBmMVMK6JbYY
- FIzEK18BG84ne8qJn5HcUc4YGExVQ_0VdZ68jSrZOOgnALE7w0Yh7P.5FEyFgcDv5CQRtTlDa9XV
- 332GOILLb4zJJheQ0JFSPElT9FH3CBrDs5LCQxJomwN4y7xwltOYhRMK83otrU_Fj_y_eHeotXp5
- XEoZNPauow06YAJ6iF5IF8YixALM0Q7iN05wMbk0d_uc0b55OOLVDb3x3VUYpis0YS82.POsP32I
- ulBQXux3NQlclxawhgWzTJz.jykMGFqABOqUbZETOIhVNH9HkQalW_F5SQXc82W2mLThpOJ_x082
- G.nYAFFP6Iozy3gvrmlA27ubLrteMzz7DLQIULn80k0_6JJr84FSeEkkQDHO2PSnfc8bmvPlGVvp
- 18BXWE0ViDKr5zEztaQIMuEjnaJYCCDIS0FBU4hrX67yVYFDBT0y6ZYXCS4tbw1UClE62qzLiBIP
- UN3eLZ.VIszJNb86Rf9A8WrGMP2tM7.UAiknCB.VtjckyXwujOVTk01wBBbAFbL0YYDxIOdYmGmw
- oInI7KsCeCE6pCvJGjT60utyj2RwD2L_Yt9unDDKpSoj3x.XhDmB.
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.gq1.yahoo.com with HTTP; Mon, 22 Jun 2020 15:30:11 +0000
-Received: by smtp418.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 402ae077068331dedde2e55d9ced12f3;
-          Mon, 22 Jun 2020 15:30:08 +0000 (UTC)
-Date:   Mon, 22 Jun 2020 11:30:04 -0400
-From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: Re: AMD IOMMU + SME + amdgpu regression
-To:     Joerg Roedel <jroedel@suse.de>
-Cc:     Andy Gross <agross@kernel.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Daniel Drake <drake@endlessm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        jonathan.derrick@intel.com, Jonathan Hunter <jonathanh@nvidia.com>,
-        Joerg Roedel <joro@8bytes.org>, Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        David Rientjes <rientjes@google.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        virtualization@lists.linux-foundation.org,
-        Will Deacon <will@kernel.org>
-References: <1591915710.rakbpzst8h.none.ref@localhost>
-        <1591915710.rakbpzst8h.none@localhost> <20200622100257.GD31822@suse.de>
-In-Reply-To: <20200622100257.GD31822@suse.de>
+        Mon, 22 Jun 2020 12:02:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1592841741; bh=cK2qy9Lv5SAgMg9nAvfVmkJPj46H3ss3vOVyjpHm6Nk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=imnMzKvnrwdEkzevY9v55JCHWrS7mFcRp2xLflBpdsWBX5v32iTt1Jwj292Sqyxc6zTWfVf6UW3RltjDxv8H8ZAxxFg96tpPBoXA2f/GRkfTuiNcUr3yDzOGiHeT9IqR//B+9C8c9YoGDJPnAeuuKcQvLl1HS8J+STK4/r0WZ3jbtWFF0MKDjydg+AbeXShoRDHqwsqAaAi7D9jDq8wNDWBIR81puaAh7APGDPK32RqjpFS85hxXrbmotW59Gm/gC9SoLB52q4udtwMI++FS4HYmIHt+kUh9tNcMAsNUvFYo0HWMN59EiLf7lYGm/4AR40adfmghUfkmt4dYpTZmZQ==
+X-YMail-OSG: AhKkJLAVM1lDQ3XPPTTJWpEw.A_YPk4v7tBrtMEv9XTYrBN0vKxPyUyPokZyCLH
+ 0NPJEnbM.Ixt5u0eXkMwZesEBqS.rCtCLJgnod2Yg.I9TXOm0suNzcmJ92mBaA3mHgRFUusjI.6E
+ 3Gu4LEq019.le8uhDgpgUZ.YgtmiKAQJK6Bd4WPLqozbdEc8urSPipLpvwJTvKec65xmptWyRiVv
+ 5wejfhjut7ltVV2EWvbGnxpPsKrHXW63gZY0z7W.qC8yTTTM6xXIAPM6OYdYDYNn.6t5yJFWlC1P
+ OIdbZEYbWLsjaYGAZ3nhw68imywZs7JgVqTzxfR4ZQQxpuo3K8t9CM9O0hpOCt10FP__XXwyrmrD
+ TCoCE7B_Edu3G.zjOUn_rksR4jYB.m1Rp.1vZ_bLxnQwCiAul5Wqfj8PNdUGzT.zvxnBCUVqWq9J
+ 8hXM6oMyn8gklCF.R8KCTVo6NRJRq4thjGWIexrpJEGu0QolvkJTIALFEd6_slAReLmAOEup3xKy
+ .77XY9y0L2WZlQcf1QY4ryEv90HkLK9R59Zd1MxuC8qefRgY6y6xUFmVBWO8SDJCCjnQpB48PRDP
+ pRTSfD8hEjxrcMoyLQRR8ik6SRBEuL1N.zoJ2juJT7TtdJItukcqyaFlw7VOC6cm49vWb13NtnZ0
+ gQ2bWEWTG5v0uAlc54_ulltpKs.Fgm6hkagBtyzunEJ52PGAuturV.LPWyLoBYPiB1KC1HlV8gI8
+ yJqtTplsyPL2eALndgi_xv5WXRslUdVun50zfx9iDK5v_kT1lyZrnl7BpPa5N7roHYs5FCR3fGlt
+ 00HJ7sf.lnan3Im8PEbT96k38NwI6o6wqQk3XTx1x0TOib38VwKLgaWNY916uiRI1upzFCMVqmW6
+ hKW.i_z2qDWeeQaZVyBhDmfLTpSCKpEZXqJt.HWEa0uB7F6lyRoT1rQEzhMY_zbISz6YbRmtNDlq
+ VLlEzjYA6uILpMVD7EkmwXGP0XOJgDIix93HShigByDXDbmOlbnVPelpKvxPRFg3gnhpf.0Rc47i
+ 08Ic.liUMCD9zHGFCga9cXgoGaM8kFbRyDB3CB8uLHuuV8rIwOstkm24RLt0t3H1wtfuP85AC7r8
+ v042NbRsPX1Mj80LTxFt.KStV8ND4Dc1.IiPBslhVUpEA9f2YrGnkjCHG4.U4j0M0U489djAouYX
+ y9F8lECiGIH30pwUi5p9NUzViYBtaTM7ID67rbGjIKdkEdFs14rCm3KSzct0U2izLUB1NerwsRiF
+ IQWasnNhp61WOxqpf4zyo6bEJMCV1B8QkTG.8HvHCcJtAwYQhWHkE5SwAzxSGopkwGBC4.Xf9
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Mon, 22 Jun 2020 16:02:21 +0000
+Date:   Mon, 22 Jun 2020 16:02:19 +0000 (UTC)
+From:   Karim Zakari <kariim1960z@gmail.com>
+Reply-To: kzakari04@gmail.com
+Message-ID: <1507214802.1850985.1592841739314@mail.yahoo.com>
+Subject: URGENT REPLY.
 MIME-Version: 1.0
-Message-Id: <1592839701.mxvvths2x9.none@localhost>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.16138 hermes_yahoo Apache-HttpAsyncClient/4.1.4 (Java/11.0.7)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1507214802.1850985.1592841739314.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16138 YMailNodin Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Excerpts from Joerg Roedel's message of June 22, 2020 6:02 am:
-> Hi Alex,
->=20
-> On Thu, Jun 11, 2020 at 07:05:21PM -0400, Alex Xu (Hello71) wrote:
->> I am using an ASRock B450 Pro4 with Ryzen 1600 and ASUS RX 480. I don't=20
->> understand this code at all, but let me know what I can do to=20
->> troubleshoot.
->=20
-> Does it boot without SME enabled?
->=20
->=20
-> Regards,
->=20
-> 	Joerg
->=20
 
-Yes, it works with SME off with dbed452a078 ("dma-pool: decouple=20
-DMA_REMAP from DMA_COHERENT_POOL") applied.
+
+Good-Day Friend,
+
+ Hope you are doing great Today. I have a proposed business deal worthy (US$16.5 Million Dollars) that will benefit both parties. This is legitimate' legal and your personality will not be compromised.
+
+Waiting for your response for more details, As you are willing to execute this business opportunity with me.
+
+Sincerely Yours,
+Mr. Karim Zakari.
