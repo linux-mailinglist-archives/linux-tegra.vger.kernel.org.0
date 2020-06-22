@@ -2,70 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68C39203975
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 16:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584162039CA
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 16:44:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729842AbgFVO2N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jun 2020 10:28:13 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45790 "EHLO mx2.suse.de"
+        id S1729086AbgFVOoI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jun 2020 10:44:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46786 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729348AbgFVO0Y (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jun 2020 10:26:24 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id E4AB5C1C9;
-        Mon, 22 Jun 2020 14:26:20 +0000 (UTC)
-Date:   Mon, 22 Jun 2020 12:02:57 +0200
-From:   Joerg Roedel <jroedel@suse.de>
-To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Cc:     Joerg Roedel <joro@8bytes.org>, linux-kernel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Christoph Hellwig <hch@lst.de>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Daniel Drake <drake@endlessm.com>, jonathan.derrick@intel.com,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: AMD IOMMU + SME + amdgpu regression
-Message-ID: <20200622100257.GD31822@suse.de>
-References: <1591915710.rakbpzst8h.none.ref@localhost>
- <1591915710.rakbpzst8h.none@localhost>
+        id S1728293AbgFVOoI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 22 Jun 2020 10:44:08 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6B6882071A;
+        Mon, 22 Jun 2020 14:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592837047;
+        bh=JeM2k9LZLGwMR+rmDIhVvU3owb+bFfdgnMZMKkzslrI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DVP6gqnRjQLHKC8DyHJyDDhVgNrgyP7tjiARScsm0+Ali1+lbF0WmxaCZRJEZ/W0T
+         7KtBPBkSc5xg2Kw8ElBdyJEQJDTJ/vJyzGNDjYZOfV1a0V0Fb0Lh2yccrMwVfkjdRI
+         E61BP9sHdlb3k1/t5dMbp1wO+rzGMnq9dvO+4njo=
+Date:   Mon, 22 Jun 2020 10:44:02 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.7 004/388] ASoC: tegra: tegra_wm8903: Support
+ nvidia, headset property
+Message-ID: <20200622144402.GH1931@sasha-vm>
+References: <20200618010805.600873-1-sashal@kernel.org>
+ <20200618010805.600873-4-sashal@kernel.org>
+ <20200618110023.GB5789@sirena.org.uk>
+ <20200618143046.GT1931@sasha-vm>
+ <20200618143930.GI5789@sirena.org.uk>
+ <20200621233352.GA1931@sasha-vm>
+ <20200622112321.GB4560@sirena.org.uk>
+ <20200622123118.GF1931@sasha-vm>
+ <20200622132757.GG4560@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <1591915710.rakbpzst8h.none@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200622132757.GG4560@sirena.org.uk>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Alex,
+On Mon, Jun 22, 2020 at 02:27:57PM +0100, Mark Brown wrote:
+>On Mon, Jun 22, 2020 at 08:31:18AM -0400, Sasha Levin wrote:
+>> On Mon, Jun 22, 2020 at 12:23:21PM +0100, Mark Brown wrote:
+>
+>> > That's concerning - please don't do this.  It's not what stable is
+>> > expected to be and there's no guarantee that you're getting all the
+>> > changes required to actually make things work.
+>
+>> How come? This is one of the things stable rules explicitly call for:
+>> "New device IDs and quirks are also accepted".
+>
+>I would expect that to be data only additions, I would not expect that
+>to be adding new code.
 
-On Thu, Jun 11, 2020 at 07:05:21PM -0400, Alex Xu (Hello71) wrote:
-> I am using an ASRock B450 Pro4 with Ryzen 1600 and ASUS RX 480. I don't 
-> understand this code at all, but let me know what I can do to 
-> troubleshoot.
+These come hand in hand. Take a look at the more complex cases such as
+sound/pci/hda/patch_*
 
-Does it boot without SME enabled?
+>> If we're missing anything, the solution is to make sure we stop missing
+>> it rather than not take anything to begin with :)
+>
+>It would be much better to not have to watch stable constantly like we
+>currently do - we're seeing people report breakage often enough to be a
+>concern as things are, we don't need to be trying to pile extra stuff in
+>there because there's some keywords in a changelog or whatever.  The
+>testing coverage for drivers is weak, increasing the change rate puts
+>more stress on that.
 
+Shouldn't we instead improve testing here? nvidia for example already
+provides Tegra testing for stable releases, if the coverage isn't
+sufficient then let's work on making it better.
 
-Regards,
-
-	Joerg
+-- 
+Thanks,
+Sasha
