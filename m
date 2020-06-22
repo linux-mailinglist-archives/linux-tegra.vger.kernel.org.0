@@ -2,91 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA02203854
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 15:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C39203975
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 16:28:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgFVNkq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jun 2020 09:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728605AbgFVNkq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jun 2020 09:40:46 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A217C061573;
-        Mon, 22 Jun 2020 06:40:45 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id c21so9630226lfb.3;
-        Mon, 22 Jun 2020 06:40:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DKCkItewvHrTs2k8QFit3hIhI+zhzJPCW7qZry58T7E=;
-        b=RHDGDdA6XvMPld+h8oVQ8VGqWtamUH9IP3s5O0umg3aViAetdlw9ndoFXIJpIjBlLi
-         iS67pOYWOuahjaNkD93Ma4eRoyUP/EMuQU7KNAH50Awf2qeT4sbcw4HVr6lL3NCvOpBH
-         c/KFSklOKmoi/e8uwKH3MOhkHM21xI7TqEllbeP13qKBbESFXswZwdHMOuEbWWlSgIAR
-         rnjWYNQ3KIh/jU6bgNWOwTRZD0Uyakw/hnTIQ2UtKLwtlaO9F7+rfy89z2csJxhs/sOu
-         jiDSp+ODov/6TyAfZLeVUJ1TNKrtpYd7B9+x2MBh/dsPXRDqfWU0aABpr9T4Kc32excw
-         EyAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DKCkItewvHrTs2k8QFit3hIhI+zhzJPCW7qZry58T7E=;
-        b=EqeQIpKQ7ww9S1w7CYA7yvbUSP8jb0R2yy1Br3Rt39LKsN3xi18KVM/MJxo+hcrt0n
-         H0QbFxX8h2HDgtLpRFczPDaA0x9PQKiXNQpKjxM8VjatJWZMfzlGq+ZD/lSWdE4t2hAl
-         bSvJo6m6m5LNpu+jDqsl70I0PA64CXlWGg6ZsRGADOzAc1jCrBagJxUNtiZt8wwsdIVa
-         qDQPZxmuKGkP0qNk6S0LU0+ME2A9As+ni3IGGrwzv7FbrD5QXuUny75ghuDtgT8mvGKM
-         P/QQ9gT9ZCqYh82a511gI+eSRUHNRmxjCyM55qqMkJ9fHlJyApuf8B8CCQYfBwTJ9sG1
-         59xw==
-X-Gm-Message-State: AOAM532WhEtP03ndpPhysNWLXH6/BKoIB6TiNPzu1ZGfrnzPQXkqjUDZ
-        eJWyoYqHk9Qq8ZtOyGP+5/Kf87nC
-X-Google-Smtp-Source: ABdhPJyPdQDJrLqZNuusxWqg0pbI3BD5XgSX18Loo0iV3cZZRStbBPxOt63+mnY4/gAitUUv+Fa2VA==
-X-Received: by 2002:a19:4285:: with SMTP id p127mr9320654lfa.74.1592833243786;
-        Mon, 22 Jun 2020 06:40:43 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id s18sm3183832ljj.63.2020.06.22.06.40.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 06:40:43 -0700 (PDT)
-Subject: Re: [PATCH v1 1/2] drm/panel-simple: Correct EDT ET057090DHU
- connector type
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200621222742.25695-1-digetx@gmail.com>
- <20200621222742.25695-2-digetx@gmail.com>
- <20200621222922.GA25355@pendragon.ideasonboard.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0974c58b-71e8-623e-cb04-d19a5167a30c@gmail.com>
-Date:   Mon, 22 Jun 2020 16:40:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729842AbgFVO2N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jun 2020 10:28:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45790 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729348AbgFVO0Y (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 22 Jun 2020 10:26:24 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E4AB5C1C9;
+        Mon, 22 Jun 2020 14:26:20 +0000 (UTC)
+Date:   Mon, 22 Jun 2020 12:02:57 +0200
+From:   Joerg Roedel <jroedel@suse.de>
+To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+Cc:     Joerg Roedel <joro@8bytes.org>, linux-kernel@vger.kernel.org,
+        David Rientjes <rientjes@google.com>,
+        Christoph Hellwig <hch@lst.de>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Daniel Drake <drake@endlessm.com>, jonathan.derrick@intel.com,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: AMD IOMMU + SME + amdgpu regression
+Message-ID: <20200622100257.GD31822@suse.de>
+References: <1591915710.rakbpzst8h.none.ref@localhost>
+ <1591915710.rakbpzst8h.none@localhost>
 MIME-Version: 1.0
-In-Reply-To: <20200621222922.GA25355@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1591915710.rakbpzst8h.none@localhost>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-22.06.2020 01:29, Laurent Pinchart пишет:
-> Hi Dmitry,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Jun 22, 2020 at 01:27:41AM +0300, Dmitry Osipenko wrote:
->> The EDT ET057090DHU panel has a DPI connector and not LVDS. This patch
->> corrects the panel's description.
->>
->> Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Fixes: 94f07917ebe8 ("drm/panel-simple: Add missing connector type for some panels")
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Alex,
 
-Thank you! :)
+On Thu, Jun 11, 2020 at 07:05:21PM -0400, Alex Xu (Hello71) wrote:
+> I am using an ASRock B450 Pro4 with Ryzen 1600 and ASUS RX 480. I don't 
+> understand this code at all, but let me know what I can do to 
+> troubleshoot.
+
+Does it boot without SME enabled?
+
+
+Regards,
+
+	Joerg
