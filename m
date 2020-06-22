@@ -2,71 +2,248 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 167F2202DA6
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 01:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94ADB20308B
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jun 2020 09:20:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726453AbgFUXdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 21 Jun 2020 19:33:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58678 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726375AbgFUXdy (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 21 Jun 2020 19:33:54 -0400
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A4D7D252F2;
-        Sun, 21 Jun 2020 23:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592782433;
-        bh=qfFsuFkELCo/xve5+jsDKnBABJwFvYedwBIRY2vZd3k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M7p5+3YLZbpAq/IXL/IU3gnPBi0EqWNUviYqQv6ts3IeCswY5jpGL9XLrebgTW1J7
-         /MJxrsJ2g5op5J47KQqd7Uf8j1way5+7GCQ217Od8wb9Bc77a8HA5zNOLdCx1LKbGP
-         baYxz+BTnj8loia9QOzdf5Mv51fSU3D3ZaQvUhmk=
-Date:   Sun, 21 Jun 2020 19:33:52 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.7 004/388] ASoC: tegra: tegra_wm8903: Support
- nvidia, headset property
-Message-ID: <20200621233352.GA1931@sasha-vm>
-References: <20200618010805.600873-1-sashal@kernel.org>
- <20200618010805.600873-4-sashal@kernel.org>
- <20200618110023.GB5789@sirena.org.uk>
- <20200618143046.GT1931@sasha-vm>
- <20200618143930.GI5789@sirena.org.uk>
+        id S1731343AbgFVHU6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jun 2020 03:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726924AbgFVHU5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 22 Jun 2020 03:20:57 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6639DC061796
+        for <linux-tegra@vger.kernel.org>; Mon, 22 Jun 2020 00:20:56 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id l63so7751675pge.12
+        for <linux-tegra@vger.kernel.org>; Mon, 22 Jun 2020 00:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TKu4b/neMK0AHW1Fq9DdzM2DE1aRPxbJSRBuKY9XmU0=;
+        b=dOabQXPqHS/z/a9D5rdE5KrM3vn8itgNDR0a3+kEkRWP3H2bx2ES8qpaN4zEhx+cR3
+         vEX23sObt6hSims2SkDI/mvhwaM+MbhQTHPTgGq+024E8nae97F2AepZZhS3Qe5kypxE
+         DDjmY8Tr7n24Dkh3lU89LvP8G8xF57Hv7FnTpGCzVjMBo5IgBkWBdw8yB+eUP3qPDZC7
+         r3AflGoV/k/N+kFjiA4YIdpMVNg8DpeeIu1PZbGclRJgZ/kM4oV/F0pp89IA+OCP2m/C
+         UDSzQulhXOamap2+671hN87wU7wfct91jvLWvsJ4o0C9qAAgGC7wsSTMmayjp6iLx0vF
+         vzaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TKu4b/neMK0AHW1Fq9DdzM2DE1aRPxbJSRBuKY9XmU0=;
+        b=W1daxL937vYBNz0JMUT7lFoBuGUXHFiucSnDI5qmu2tkLCaudRR+alqAFa1AmaT8Kv
+         t7cp680oGU8kYB2s3HvDthuCLuOIAQhpHbEwzJIZo8342wNkdzbWmfmJvCm/ciFCnsJz
+         0wDhE+J86pdiNGSXQt0PrQc9ddm0YizAqjhaNA82Ch9ZxmxUNJIfJ9Vz4Nmq/YpK1Xe+
+         yguL0o+7bbcXCC/bLF310gOXTjWczdC/uPtGUsUmn/CYHJXpAr8q5YtWo489oxfoxSAR
+         U0CI/LlhpsWhVVZM7Ol1z63uOHA3/tH2wFYJpA4UVmcbs2zSNPeNrlEXVo9lnB75HltM
+         wrYg==
+X-Gm-Message-State: AOAM5313/YbKsW7Pknj1tihQEvPGT4LIV4ZcbxYs2xVFjSkXj9T+OUzR
+        wlHaEJlqBw8OKEFis0Av9/fESg==
+X-Google-Smtp-Source: ABdhPJyYR8Nknc0FZ9ccI1tVx2q5D4kHN+UZFFBUA1ZWvJytIH+NFRNcKQk49YOzhWQilC3NG7MZ4Q==
+X-Received: by 2002:aa7:96e9:: with SMTP id i9mr19604759pfq.232.1592810455513;
+        Mon, 22 Jun 2020 00:20:55 -0700 (PDT)
+Received: from localhost ([122.172.111.76])
+        by smtp.gmail.com with ESMTPSA id 26sm5161063pfp.35.2020.06.22.00.20.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Jun 2020 00:20:54 -0700 (PDT)
+Date:   Mon, 22 Jun 2020 12:50:52 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Sumit Gupta <sumitg@nvidia.com>
+Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
+        thierry.reding@gmail.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, jonathanh@nvidia.com, talho@nvidia.com,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bbasu@nvidia.com, mperttunen@nvidia.com
+Subject: Re: [TEGRA194_CPUFREQ Patch v3 3/4] cpufreq: Add Tegra194 cpufreq
+ driver
+Message-ID: <20200622072052.uryxo4hri6gzrkku@vireshk-i7>
+References: <1592775274-27513-1-git-send-email-sumitg@nvidia.com>
+ <1592775274-27513-4-git-send-email-sumitg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200618143930.GI5789@sirena.org.uk>
+In-Reply-To: <1592775274-27513-4-git-send-email-sumitg@nvidia.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 03:39:30PM +0100, Mark Brown wrote:
->On Thu, Jun 18, 2020 at 10:30:46AM -0400, Sasha Levin wrote:
->> On Thu, Jun 18, 2020 at 12:00:23PM +0100, Mark Brown wrote:
->> > On Wed, Jun 17, 2020 at 09:01:41PM -0400, Sasha Levin wrote:
->> > > From: Dmitry Osipenko <digetx@gmail.com>
->> > >
->> > > [ Upstream commit 3ef9d5073b552d56bd6daf2af1e89b7e8d4df183 ]
->> > >
->> > > The microphone-jack state needs to be masked in a case of a 4-pin jack
->> > > when microphone and ground pins are shorted. Presence of nvidia,headset
->> > > tells that WM8903 CODEC driver should mask microphone's status if short
->> > > circuit is detected, i.e headphones are inserted.
->
->> > This is a new feature not a bugfix.
->
->> I saw this patch more as a hardware quirk.
->
->Pretty much any DT property is a hardware quirk :(
+On 22-06-20, 03:04, Sumit Gupta wrote:
+> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
+> new file mode 100644
+> index 0000000..8de8000
+> --- /dev/null
+> +++ b/drivers/cpufreq/tegra194-cpufreq.c
+> @@ -0,0 +1,403 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved
 
-Which is why we're taking most of them :)
+                    2020
+
+> + */
+> +
+> +#include <linux/cpu.h>
+> +#include <linux/cpufreq.h>
+> +#include <linux/delay.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +
+> +#include <asm/smp_plat.h>
+> +
+> +#include <soc/tegra/bpmp.h>
+> +#include <soc/tegra/bpmp-abi.h>
+> +
+> +#define KHZ                     1000
+> +#define REF_CLK_MHZ             408 /* 408 MHz */
+> +#define US_DELAY                500
+> +#define US_DELAY_MIN            2
+> +#define CPUFREQ_TBL_STEP_HZ     (50 * KHZ * KHZ)
+> +#define MAX_CNT                 ~0U
+> +
+> +/* cpufreq transisition latency */
+> +#define TEGRA_CPUFREQ_TRANSITION_LATENCY (300 * 1000) /* unit in nanoseconds */
+> +
+> +#define LOOP_FOR_EACH_CPU_OF_CLUSTER(cl) for (cpu = (cl * 2); \
+> +					cpu < ((cl + 1) * 2); cpu++)
+
+Both latency and this loop are used only once in the code, maybe just open code
+it. Also you should have passed cpu as a parameter to the macro, even if it
+works fine without it, for better readability.
+
+> +
+> +u16 map_freq_to_ndiv(struct mrq_cpu_ndiv_limits_response *nltbl, u32 freq)
+
+Unused routine
+
+> +{
+> +	return DIV_ROUND_UP(freq * nltbl->pdiv * nltbl->mdiv,
+> +			    nltbl->ref_clk_hz / KHZ);
+> +}
+
+> +static int tegra194_cpufreq_init(struct cpufreq_policy *policy)
+> +{
+> +	struct tegra194_cpufreq_data *data = cpufreq_get_driver_data();
+> +	int cl = get_cpu_cluster(policy->cpu);
+> +	u32 cpu;
+> +
+> +	if (cl >= data->num_clusters)
+> +		return -EINVAL;
+> +
+> +	policy->cur = tegra194_fast_get_speed(policy->cpu); /* boot freq */
+> +
+> +	/* set same policy for all cpus in a cluster */
+> +	LOOP_FOR_EACH_CPU_OF_CLUSTER(cl)
+> +		cpumask_set_cpu(cpu, policy->cpus);
+> +
+> +	policy->freq_table = data->tables[cl];
+> +	policy->cpuinfo.transition_latency = TEGRA_CPUFREQ_TRANSITION_LATENCY;
+> +
+> +	return 0;
+> +}
+
+> +static int tegra194_cpufreq_set_target(struct cpufreq_policy *policy,
+> +				       unsigned int index)
+> +{
+> +	struct cpufreq_frequency_table *tbl = policy->freq_table + index;
+> +
+> +	on_each_cpu_mask(policy->cpus, set_cpu_ndiv, tbl, true);
+
+I am still a bit confused. While setting the frequency you are calling this
+routine for each CPU of the policy (cluster). Does that mean that CPUs within a
+cluster can actually run at different frequencies at any given point of time ?
+
+If cpufreq terms, a cpufreq policy represents a group of CPUs that change
+frequency together, i.e. they share the clk line. If all CPUs in your system can
+do DVFS separately, then you must have policy per CPU, instead of cluster.
+
+> +static void tegra194_cpufreq_free_resources(void)
+> +{
+> +	flush_workqueue(read_counters_wq);
+
+Why is this required exactly? I see that you add the work request and
+immediately flush it, then why would you need to do this separately ?
+
+> +	destroy_workqueue(read_counters_wq);
+> +}
+> +
+> +static struct cpufreq_frequency_table *
+> +init_freq_table(struct platform_device *pdev, struct tegra_bpmp *bpmp,
+> +		unsigned int cluster_id)
+> +{
+> +	struct cpufreq_frequency_table *freq_table;
+> +	struct mrq_cpu_ndiv_limits_response resp;
+> +	unsigned int num_freqs, ndiv, delta_ndiv;
+> +	struct mrq_cpu_ndiv_limits_request req;
+> +	struct tegra_bpmp_message msg;
+> +	u16 freq_table_step_size;
+> +	int err, index;
+> +
+> +	memset(&req, 0, sizeof(req));
+> +	req.cluster_id = cluster_id;
+> +
+> +	memset(&msg, 0, sizeof(msg));
+> +	msg.mrq = MRQ_CPU_NDIV_LIMITS;
+> +	msg.tx.data = &req;
+> +	msg.tx.size = sizeof(req);
+> +	msg.rx.data = &resp;
+> +	msg.rx.size = sizeof(resp);
+> +
+> +	err = tegra_bpmp_transfer(bpmp, &msg);
+
+So the firmware can actually return different frequency tables for the clusters,
+right ? Else you could have received the table only once and used it for all the
+CPUs.
+
+> +	if (err)
+> +		return ERR_PTR(err);
+> +
+> +	/*
+> +	 * Make sure frequency table step is a multiple of mdiv to match
+> +	 * vhint table granularity.
+> +	 */
+> +	freq_table_step_size = resp.mdiv *
+> +			DIV_ROUND_UP(CPUFREQ_TBL_STEP_HZ, resp.ref_clk_hz);
+> +
+> +	dev_dbg(&pdev->dev, "cluster %d: frequency table step size: %d\n",
+> +		cluster_id, freq_table_step_size);
+> +
+> +	delta_ndiv = resp.ndiv_max - resp.ndiv_min;
+> +
+> +	if (unlikely(delta_ndiv == 0))
+> +		num_freqs = 1;
+> +	else
+> +		/* We store both ndiv_min and ndiv_max hence the +1 */
+> +		num_freqs = delta_ndiv / freq_table_step_size + 1;
+> +
+> +	num_freqs += (delta_ndiv % freq_table_step_size) ? 1 : 0;
+> +
+> +	freq_table = devm_kcalloc(&pdev->dev, num_freqs + 1,
+> +				  sizeof(*freq_table), GFP_KERNEL);
+> +	if (!freq_table)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	for (index = 0, ndiv = resp.ndiv_min;
+> +			ndiv < resp.ndiv_max;
+> +			index++, ndiv += freq_table_step_size) {
+> +		freq_table[index].driver_data = ndiv;
+> +		freq_table[index].frequency = map_ndiv_to_freq(&resp, ndiv);
+> +	}
+> +
+> +	freq_table[index].driver_data = resp.ndiv_max;
+> +	freq_table[index++].frequency = map_ndiv_to_freq(&resp, resp.ndiv_max);
+> +	freq_table[index].frequency = CPUFREQ_TABLE_END;
+> +
+> +	return freq_table;
+> +}
 
 -- 
-Thanks,
-Sasha
+viresh
