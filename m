@@ -2,105 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3154D205060
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 13:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DDAC20507C
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 13:17:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732461AbgFWLQO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jun 2020 07:16:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732438AbgFWLQO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jun 2020 07:16:14 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B804AC061795
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Jun 2020 04:16:13 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id f18so2788123wml.3
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Jun 2020 04:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=hDK0sPJnOOZEmlDdrbrrHW5q5UYpaIkT1BKJvtzvTjIUv3D6h4uUobDU7w+c3BB99R
-         vsA6wkXoJqt1kmfX/O2VxGcLnJuiWukPzhUsjh8nXZSpMzla7ETMjshfZ3rerojjvgT6
-         VTy6X/vgN6orOIizWJEBIl+Q4t3p8hbAbznifoNYyeYLOikSTGgwwaer0T6sOXia/Etw
-         JAtdekG8bf7AcB+xJICRs6xwxRY7Gow5hoeqv/SulUwG6zgmu8BQLyf03Ott8JZDzUZF
-         L9YcC5nTYUEHEDGotDeNDDcTharaRStn05SqTgo7ENcw/ctZ4spxjMHa79zJeDugrHqy
-         oqUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=rVIy1218rwBNTdwTpHAWDOe0iYriAiZj5l6Twk2A1K5yfgxf686mo9lmPVu2IFwaO8
-         hECc9HQ5azw59auGNRpsJppDQoJ2qqx8xSyujFxdUC+zg9qvNh0YW2KULOe5L1DwMNhA
-         L8zRqAbDtNHbL/Q+o5sdG4MvOJQLOrENg+SIDBbg25BwQos66BzzbsPVdDYfcxkiLa2g
-         uKRpfv0Rdfw85a4hIm08640uT+W8FjvWJinSbqxHHyddHDRWOS2MsrC9lWLaotxyKOhO
-         mCG5KhQ/GSvb81NTD+DANRK+0dvdhucV3GjSbMqJeD1uWrRzSGKESJ1d3lGUfqpuj9ae
-         ANug==
-X-Gm-Message-State: AOAM530lA1aufqcEnu83PEyMWbeEJW4VPSXV6awo7lvgSONt4mPXFZW9
-        uXB1x+s9ITL3pUzgO1oyszmobNerC8vo63Ytu48=
-X-Google-Smtp-Source: ABdhPJwH3m+TLJI1awOuzFhsii8HN6vfpTgeDHFgHiVHBmh+6+HejdRWsuyXO9mWTwd5UAXhw7iiBeVgVmRuNo8dfEc=
-X-Received: by 2002:a1c:de05:: with SMTP id v5mr4253681wmg.56.1592910972436;
- Tue, 23 Jun 2020 04:16:12 -0700 (PDT)
+        id S1732520AbgFWLRB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jun 2020 07:17:01 -0400
+Received: from foss.arm.com ([217.140.110.172]:57500 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732458AbgFWLRB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Jun 2020 07:17:01 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAB441F1;
+        Tue, 23 Jun 2020 04:16:58 -0700 (PDT)
+Received: from [10.57.9.128] (unknown [10.57.9.128])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BD7E3F6CF;
+        Tue, 23 Jun 2020 04:16:56 -0700 (PDT)
+Subject: Re: [PATCH v6 1/4] iommu/arm-smmu: add NVIDIA implementation for dual
+ ARM MMU-500 usage
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>
+Cc:     treding@nvidia.com, bhuntsman@nvidia.com,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        mperttunen@nvidia.com, talho@nvidia.com, snikam@nvidia.com,
+        nicolinc@nvidia.com, linux-tegra@vger.kernel.org, yhsu@nvidia.com,
+        praithatha@nvidia.com, will@kernel.org,
+        linux-arm-kernel@lists.infradead.org, bbiswas@nvidia.com
+References: <20200604234414.21912-1-vdumpa@nvidia.com>
+ <20200604234414.21912-2-vdumpa@nvidia.com> <20200623102927.GD4098287@ulmo>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <5f29c794-406a-db13-d6d0-75dcb0d0b0cc@arm.com>
+Date:   Tue, 23 Jun 2020 12:16:55 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Received: by 2002:a1c:f002:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 04:16:11
- -0700 (PDT)
-Reply-To: sarahkoffi389@yahoo.co.jp
-From:   Sarah Koffi <paulwiliam782@gmail.com>
-Date:   Tue, 23 Jun 2020 12:16:11 +0100
-Message-ID: <CAHqcnY116USNSghJh93uuVHviw=mkwa0qLD7qnjwh-ZKmn8ukA@mail.gmail.com>
-Subject: Greetings From Mrs. Sarah Koffi
-To:     sarahkoffi389@yahoo.co.jp
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200623102927.GD4098287@ulmo>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Greetings From Mrs. Sarah Koffi
+On 2020-06-23 11:29, Thierry Reding wrote:
+[...]
+>> diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
+>> index c75b9d957b702..52c84c30f83e4 100644
+>> --- a/drivers/iommu/arm-smmu-impl.c
+>> +++ b/drivers/iommu/arm-smmu-impl.c
+>> @@ -160,6 +160,9 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
+>>   	 */
+>>   	switch (smmu->model) {
+>>   	case ARM_MMU500:
+>> +		if (of_device_is_compatible(smmu->dev->of_node,
+>> +					    "nvidia,tegra194-smmu-500"))
+>> +			return nvidia_smmu_impl_init(smmu);
+> 
+> Should NVIDIA_TEGRA194_SMMU be a separate value for smmu->model,
+> perhaps? That way we avoid this somewhat odd check here.
 
-I'm contacting you based on your good profiles I read and for a good
-reasons, I am in search of a property to buy in your country as I
-intended to come over to your
-country for investment, Though I have not meet with you before but I
-believe that one has to risk confiding in someone to succeed sometimes
-in life.
+No, this is simply in the wrong place. The design here is that we pick 
+up anything related to the basic SMMU IP (model) first, then make any 
+platform-specific integration checks. That way a platform-specific init 
+function can see the model impl set and subclass it if necessary 
+(although nobody's actually done that yet). The setup for Cavium is just 
+a short-cut since their model is unique to their integration, so the 
+lines get a bit blurred and there's little benefit to trying to separate 
+it out.
 
-My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
-Federal Government of Sudan and he has a personal Oil firm in Bentiu
-Oil zone town and Upper
-Nile city. What I have experience physically, I don't wish to
-experience it again in my life due to the recent civil Ethnic war
-cause by our President Mr. Salva Kiir
-and the rebel leader Mr Riek Machar, I have been Under United Nation
-refuge camp in chad to save my life and that of my little daughter.
+In short, put this down below with the other of_device_is_compatible() 
+checks.
 
-Though, I do not know how you will feel to my proposal, but the truth
-is that I sneaked into Chad our neighboring country where I am living
-now as a refugee.
-I escaped with my little daughter when the rebels bust into our house
-and killed my husband as one of the big oil dealers in the country,
-ever since then, I have being on the run.
+>>   		smmu->impl = &arm_mmu500_impl;
+>>   		break;
+>>   	case CAVIUM_SMMUV2:
+>> diff --git a/drivers/iommu/arm-smmu-nvidia.c b/drivers/iommu/arm-smmu-nvidia.c
+> 
+> I wonder if it would be better to name this arm-smmu-tegra.c to make it
+> clearer that this is for a Tegra chip. We do have regular expressions in
+> MAINTAINERS that catch anything with "tegra" in it to make this easier.
 
-I left my country and move to Chad our neighboring country with the
-little ceasefire we had, due to the face to face peace meeting accord
-coordinated by the US Secretary of State, Mr John Kerry and United
-Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
-and the rebel leader Mr Riek Machar to stop this war.
+There was a notion that these would be grouped by vendor, but if there's 
+a strong preference for all NVIDIA-SoC-related stuff to be named "Tegra" 
+then I'm not going to complain too much.
 
-I want to solicit for your partnership with trust to invest the $8
-million dollars deposited by my late husband in Bank because my life
-is no longer safe in our country, since the rebels are looking for the
-families of all the oil business men in the country to kill, saying
-that they are they one that is milking the country dry.
+>> new file mode 100644
+>> index 0000000000000..dafc293a45217
+>> --- /dev/null
+>> +++ b/drivers/iommu/arm-smmu-nvidia.c
+>> @@ -0,0 +1,161 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +// Nvidia ARM SMMU v2 implementation quirks
+> 
+> s/Nvidia/NVIDIA/
+> 
+>> +// Copyright (C) 2019 NVIDIA CORPORATION.  All rights reserved.
+> 
+> I suppose this should now also include 2020.
+> 
+>> +
+>> +#define pr_fmt(fmt) "nvidia-smmu: " fmt
+> 
+> Same here. Might be worth making this "tegra-smmu: " for consistency.
 
-I will offer you 20% of the total fund for your help while I will
-partner with you for the investment in your country.
-If I get your reply.
+On the other hand, a log prefix that is literally the name of a 
+completely unrelated driver seems more confusing to users than useful. 
+Same for the function naming - the tegra_smmu_* namespace is already 
+owned by that driver.
 
-I will wait to hear from you so as to give you details.With love from
-
- i need you to contact me here sarahkoffi389@yahoo.co.jp
-
-Mrs. Sarah Koffi
+Robin.
