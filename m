@@ -2,102 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A0B2049C3
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 08:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D069204C72
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 10:33:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730708AbgFWGUY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jun 2020 02:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35090 "EHLO
+        id S1731805AbgFWIdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jun 2020 04:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730619AbgFWGUY (ORCPT
+        with ESMTP id S1731769AbgFWIdx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jun 2020 02:20:24 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BA41C061796
-        for <linux-tegra@vger.kernel.org>; Mon, 22 Jun 2020 23:20:24 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id q22so6537396pgk.2
-        for <linux-tegra@vger.kernel.org>; Mon, 22 Jun 2020 23:20:24 -0700 (PDT)
+        Tue, 23 Jun 2020 04:33:53 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A9ECC061573;
+        Tue, 23 Jun 2020 01:33:52 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id g1so15726728edv.6;
+        Tue, 23 Jun 2020 01:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=xkEZLfW1ArYgf+mEiL+b5tURW9CFpN3REEce4uqJNH0=;
-        b=mDh1Fl94b3/LSZ+hMlztNtRD33tkWnaxz8jVAg3XWYW8wZ8vRi1lGAMFXvmC+ld9oq
-         yoj1BYpiF4qp/PUndN/UrCjFRgoxGIVbP7WdIa/Og1WXc5/3wG9C91iC1qcV50TlhZ6m
-         XBllvcUyb3wDmPZK3Etsz833H3UWSiNLXTZlbHuC0a/stsEgjxQDg6gu5q309hEyTJNc
-         VA6U6mtmGjjwP7IWZrxUg9ih8rRJMMh8IC5Jqvi9wNZq8UAohIxZndVvX0mI5xnYvPxJ
-         EmHNG66dntMreD3T8r2oyjt9i/uD//9Mo0vhNQEblG0eGl2WJqHcpUUNoZqCbP92pq5k
-         B5yg==
+        bh=mByc+HdrrJVo82qOlaNYMdsIyPS2/ALz2+ifGVUr9zU=;
+        b=dC2x/AZRE3KWtfaIXsv78v09gfMqxzRs7yz4QEOPZEQOZGrnT/yy44af4IRXkLcV1X
+         xihpklYb9RrIn9oYx+XKoxjApf6RFWl+mEzOC/bdXoSNWahYJ83gU7bZNpsl9vbieaFo
+         obV6YkC4SUEmM2NV/ApFUK7TKzHZ0s3H9wXBBEkAOWmjyAzas5gr0pkIYryq8S4yvQp8
+         FBgKBArq28TI3ur/DQ8N2ZaleywxlzyRDqM6lfG61JR6fskg1bHfmGMDHnesntG7xDqf
+         r6doil1skOkDFqvxPxhp2hY12FIESKM/Wxrk3QYmc+Sq6VBRqe5mV8ABafBr0ILwhTLz
+         NS1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xkEZLfW1ArYgf+mEiL+b5tURW9CFpN3REEce4uqJNH0=;
-        b=V4L94+rk5VZya+e/ZtsTUSsfQIsCCek3Rru54qDNLeSAdpbrvw9m2fsYG/dypyFdln
-         Ur65tEijij1mJO4uorNxmV4JRmO06MHyTw9r/ewpzxoxTG3AKEBzzrjx1FxV6IbLGhrX
-         h/dr8m+euhISniVoTvpFcowgedAhC9QoToWewkrjJBDNiCU2tw1j1yg7v26EL3qKuTpp
-         MkqDbkaTTzMtKW7x1PSaccbSNyPiXGpdmYIeWKMSBREIR7F6d7gLUZGymSmnXVk5ELQf
-         e0AYvqL21IO1ZmexKlwP0aQGFhpipBPBMITnUFUUOhZR8a7gAk2O66HdtnkQvYPYeTPT
-         sunA==
-X-Gm-Message-State: AOAM5336oL+pWuMBzBKEMVmkGiNV6FG1JFSPG1e+nkOaBXWd6dwKbwwZ
-        jMnUvpqRZ4mgUOV2WJXO0AYBlQ==
-X-Google-Smtp-Source: ABdhPJzPhO4piZUlhyX41kRvKT0EgrKEBSKMGlr2VTKP7RKfZOV4lMU0w2m7uDvwx/uYcjh4UjbI6g==
-X-Received: by 2002:a63:3f42:: with SMTP id m63mr16314448pga.310.1592893223436;
-        Mon, 22 Jun 2020 23:20:23 -0700 (PDT)
-Received: from localhost ([122.172.111.76])
-        by smtp.gmail.com with ESMTPSA id np5sm1408030pjb.43.2020.06.22.23.20.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jun 2020 23:20:22 -0700 (PDT)
-Date:   Tue, 23 Jun 2020 11:50:20 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, jonathanh@nvidia.com, talho@nvidia.com,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bbasu@nvidia.com, mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch v3 3/4] cpufreq: Add Tegra194 cpufreq
- driver
-Message-ID: <20200623062020.weg6h4uygelkih7d@vireshk-i7>
-References: <1592775274-27513-1-git-send-email-sumitg@nvidia.com>
- <1592775274-27513-4-git-send-email-sumitg@nvidia.com>
- <20200622072052.uryxo4hri6gzrkku@vireshk-i7>
- <ed6956a3-3f77-2943-6387-5affc25b59d2@nvidia.com>
+        bh=mByc+HdrrJVo82qOlaNYMdsIyPS2/ALz2+ifGVUr9zU=;
+        b=DWVCP5zQSTg64ZddhIaYDWHpu3gJhElVrHezG9YJ5HzdjmPAIN4Jqut3kAoD0+cp/J
+         iY+UI7qLiozIHc4RB7bsGW8eVmCP8GScI5pPJlH5n8INe0gk1LdeKiMsRjl1sw/ymVkp
+         vOslqf7CZucmlrab6mlkmcQFA99qUcijes9rC7egWKu/Xs+DGG0o7ig2JqBKmfkQ48hd
+         KaDQSCmeOfo2gLcZeFYTL7PQwAFmjEQTozkBcD/mW9CYlbrfxqhBWLVkYDWYXPauSgk7
+         6+ydR1HBf3MAHXOTDiumUu2HlRRj+NorHpHwKI8U029sntTUqlWbO8s65wMJzFcCfUK+
+         Oriw==
+X-Gm-Message-State: AOAM531GQWQidbGsTUzMLiWePNdqX/NJh5e7xwFSsXRpQP56faNX4H5j
+        MHfiCziNLlZqa4XDIrUJVGs=
+X-Google-Smtp-Source: ABdhPJxLjGU5g0rdOk2g6boet8HWFpPywMBg/d1/q9eFZqBZEmhRL00230dLs+48qy++4ChmW1D27w==
+X-Received: by 2002:a50:fb14:: with SMTP id d20mr20880575edq.209.1592901231168;
+        Tue, 23 Jun 2020 01:33:51 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id w12sm3339851edx.19.2020.06.23.01.33.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2020 01:33:49 -0700 (PDT)
+Date:   Tue, 23 Jun 2020 10:33:48 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Krishna Reddy <vdumpa@nvidia.com>
+Cc:     snikam@nvidia.com, mperttunen@nvidia.com,
+        kbuild test robot <lkp@intel.com>, bhuntsman@nvidia.com,
+        will@kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
+        praithatha@nvidia.com, talho@nvidia.com,
+        iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
+        linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
+        robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
+        bbiswas@nvidia.com
+Subject: Re: [PATCH v6 4/4] iommu/arm-smmu-nvidia: fix the warning reported
+ by kbuild test robot
+Message-ID: <20200623083348.GA4098287@ulmo>
+References: <20200604234414.21912-1-vdumpa@nvidia.com>
+ <20200604234414.21912-5-vdumpa@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jI8keyz6grp/JLjh"
 Content-Disposition: inline
-In-Reply-To: <ed6956a3-3f77-2943-6387-5affc25b59d2@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20200604234414.21912-5-vdumpa@nvidia.com>
+User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 23-06-20, 10:49, Sumit Gupta wrote:
-> Hi Viresh,
-> 
-> Thank you for the review. please find my reply inline.
-> 
-> 
-> > > +++ b/drivers/cpufreq/tegra194-cpufreq.c
-> > > @@ -0,0 +1,403 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved
-> > 
-> >                      2020
 
-You missed this ?
+--jI8keyz6grp/JLjh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> T194 supports four CPU clusters, each with two cores. Each CPU cluster is
-> capable of running at a specific frequency sourced by respective NAFLL to
-> provide cluster specific clocks. Individual cores within a cluster write
-> freq in per core register. Cluster h/w forwards the max(core0, core1)
-> request to per cluster NAFLL.
+On Thu, Jun 04, 2020 at 04:44:14PM -0700, Krishna Reddy wrote:
+> >> drivers/iommu/arm-smmu-nvidia.c:151:33: sparse: sparse: cast removes
+> >> address space '<asn:2>' of expression
+>=20
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
+> ---
+>  drivers/iommu/arm-smmu-nvidia.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Okay, this is clear now. Add a comment about this max thing in the
-target routine to show why you need to do this on all CPUs.
+This should be folded into the patch that introduced this error.
 
--- 
-viresh
+Thierry
+
+--jI8keyz6grp/JLjh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7xvmoACgkQ3SOs138+
+s6H5OhAAnUJxO+okbp2kcAzUIo+/gCFpLxt2IUml3mizRRO5emehRyjmdq/5zbng
+wee1t+qSJyX65D2aRq1WUi0ENusf6T+5mO+s3Qao6d8cu35H4l3j56kX3gO9mew3
+eCvMH5ZmczMiqS5Tlyk+BxmsBBcP8c6FpygcLrsiMtXX6NkaUScSSOB74tkamv1g
+KOslg0uZNaANq6jCKOaJ4uhkHjAUDLFigq4CNcPG1dqyAIYipHZy1tHgK7IORCic
+SPsMCaOYh7OXKaLdrZn6+TqX1JdlJpRjwecViTdR30CxbPvAJjata1suxbVOK6c/
+sh0bKzeOyeb7iza2nQltD7YkeCF7Y9o69NFyzdl0KKkObCOxuWNn3BwS2iu6rm9r
+ZMBwxo35jzHh/KWtaRaPlQaGwYqYpCTCezyFAo4kvsbD+mjIMvcFtJ786zgsdNcV
+ZplpSnKvt6NwxjxzSZwUI1a25xUYA7WKrxVLi9yEAcfGEZYyQxFkiJDKK0JsmHiU
+NILvdgXpTNZODuLwQ2vItfbrLVK+Uil/frAPNHfNjYlPG24CC7D2FCIgDLhBlhfD
+aU90sf7sbWBIFzFGci5RjTQGkAd0h6akiHuVJkOQBRHM58G5V4Y85H9dpm6C0GmP
+hUcrPhSv+SGL4BLUTu8zBcq0Jyp0kDhbBypUSVotnQdJW5LJrFI=
+=M0sQ
+-----END PGP SIGNATURE-----
+
+--jI8keyz6grp/JLjh--
