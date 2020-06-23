@@ -2,455 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47C1E204F06
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 12:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3154D205060
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 13:16:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732184AbgFWK3f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jun 2020 06:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45328 "EHLO
+        id S1732461AbgFWLQO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jun 2020 07:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731158AbgFWK3e (ORCPT
+        with ESMTP id S1732438AbgFWLQO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jun 2020 06:29:34 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AEDFC061573;
-        Tue, 23 Jun 2020 03:29:34 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id i14so2674406ejr.9;
-        Tue, 23 Jun 2020 03:29:34 -0700 (PDT)
+        Tue, 23 Jun 2020 07:16:14 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B804AC061795
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Jun 2020 04:16:13 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f18so2788123wml.3
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Jun 2020 04:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=tPGW60dM9fSf/IzKxhzQKBLFRcFd0S7nyyUJfJ7rChE=;
-        b=Netg0S81KCIaj8t7fgVMU8+4u0a3kj3VqayqQmsFJ2zN/7a5Oz7J0/MvbSrEcHLRip
-         uOukYgG5jWh1q6J8+4j0vLn9Agi8vthdbhLaUbbAQqog1QB+Ir5eR/OhOWEhk1NlP5m0
-         zUGajfY/jkSMSn/iL7zJoMuXkKOyxVJFBES1VYeJ3mu3M2r3mjimEYZlV6zqCBr9ol18
-         j9iL2WwH2jHon0diAEy1yEFFCpqONNkWFMtpuHdU8YvIIlnQ1oTOHiqGkFxBgNxHSnZs
-         OLXumMATKCn9vEoI/wyWc2/DHtmayrCIpkh9NR4iwbMGsGcV8hX38TMRuOt53asx52eD
-         YOJg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=hDK0sPJnOOZEmlDdrbrrHW5q5UYpaIkT1BKJvtzvTjIUv3D6h4uUobDU7w+c3BB99R
+         vsA6wkXoJqt1kmfX/O2VxGcLnJuiWukPzhUsjh8nXZSpMzla7ETMjshfZ3rerojjvgT6
+         VTy6X/vgN6orOIizWJEBIl+Q4t3p8hbAbznifoNYyeYLOikSTGgwwaer0T6sOXia/Etw
+         JAtdekG8bf7AcB+xJICRs6xwxRY7Gow5hoeqv/SulUwG6zgmu8BQLyf03Ott8JZDzUZF
+         L9YcC5nTYUEHEDGotDeNDDcTharaRStn05SqTgo7ENcw/ctZ4spxjMHa79zJeDugrHqy
+         oqUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tPGW60dM9fSf/IzKxhzQKBLFRcFd0S7nyyUJfJ7rChE=;
-        b=IgfrkRdeJUtVrxp/N3v8P5xf5VSlEtM9FDd36gPuxDVk3a297FQuC+WtcCNbLPfS+k
-         dnbmW3K5coseSybeRcASDIPT3sA2EeInuH9PbmRxgNBN9H1Z5vdtOLRfiQhZUNqcjjNo
-         EWvOxMmlyCiSypRxGuQmcYjK2K5cx5R94sx+615UpuRQk4+BEV9+Dkn7IngPEzZPFpb0
-         2MmmCKswZaGd1GASP4Y55PQHy/ZLD8EGH/fdS/YwRRmA+GEdtE/BBMXY7zsmTh0RsWjj
-         4lHYWyvFLdjCSuMvOFDW89mneCpfX7SuFZlWslmskPJBgblPNJKZtCSYfDeJaJSs+75U
-         d+UA==
-X-Gm-Message-State: AOAM532vq1C5T6b4df+mBApG/Mv1FLcz5Msz5GRzqr8nu9lHidnj2LfJ
-        N9ajBzOBcg9oZ0NiVczsSp4=
-X-Google-Smtp-Source: ABdhPJw0xCzsJkn8DbekZJAFKN2AXHHvsMp8U/XXOFleitYftMpZy9ZHGK+vFBWrK88XEtE7ZjUErA==
-X-Received: by 2002:a17:906:9408:: with SMTP id q8mr1702000ejx.496.1592908172738;
-        Tue, 23 Jun 2020 03:29:32 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id q14sm14692150edj.47.2020.06.23.03.29.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2020 03:29:28 -0700 (PDT)
-Date:   Tue, 23 Jun 2020 12:29:27 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Krishna Reddy <vdumpa@nvidia.com>
-Cc:     snikam@nvidia.com, mperttunen@nvidia.com, bhuntsman@nvidia.com,
-        will@kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
-        praithatha@nvidia.com, talho@nvidia.com,
-        iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
-        linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
-        robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
-        bbiswas@nvidia.com
-Subject: Re: [PATCH v6 1/4] iommu/arm-smmu: add NVIDIA implementation for
- dual ARM MMU-500 usage
-Message-ID: <20200623102927.GD4098287@ulmo>
-References: <20200604234414.21912-1-vdumpa@nvidia.com>
- <20200604234414.21912-2-vdumpa@nvidia.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=rVIy1218rwBNTdwTpHAWDOe0iYriAiZj5l6Twk2A1K5yfgxf686mo9lmPVu2IFwaO8
+         hECc9HQ5azw59auGNRpsJppDQoJ2qqx8xSyujFxdUC+zg9qvNh0YW2KULOe5L1DwMNhA
+         L8zRqAbDtNHbL/Q+o5sdG4MvOJQLOrENg+SIDBbg25BwQos66BzzbsPVdDYfcxkiLa2g
+         uKRpfv0Rdfw85a4hIm08640uT+W8FjvWJinSbqxHHyddHDRWOS2MsrC9lWLaotxyKOhO
+         mCG5KhQ/GSvb81NTD+DANRK+0dvdhucV3GjSbMqJeD1uWrRzSGKESJ1d3lGUfqpuj9ae
+         ANug==
+X-Gm-Message-State: AOAM530lA1aufqcEnu83PEyMWbeEJW4VPSXV6awo7lvgSONt4mPXFZW9
+        uXB1x+s9ITL3pUzgO1oyszmobNerC8vo63Ytu48=
+X-Google-Smtp-Source: ABdhPJwH3m+TLJI1awOuzFhsii8HN6vfpTgeDHFgHiVHBmh+6+HejdRWsuyXO9mWTwd5UAXhw7iiBeVgVmRuNo8dfEc=
+X-Received: by 2002:a1c:de05:: with SMTP id v5mr4253681wmg.56.1592910972436;
+ Tue, 23 Jun 2020 04:16:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wLAMOaPNJ0fu1fTG"
-Content-Disposition: inline
-In-Reply-To: <20200604234414.21912-2-vdumpa@nvidia.com>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+Received: by 2002:a1c:f002:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 04:16:11
+ -0700 (PDT)
+Reply-To: sarahkoffi389@yahoo.co.jp
+From:   Sarah Koffi <paulwiliam782@gmail.com>
+Date:   Tue, 23 Jun 2020 12:16:11 +0100
+Message-ID: <CAHqcnY116USNSghJh93uuVHviw=mkwa0qLD7qnjwh-ZKmn8ukA@mail.gmail.com>
+Subject: Greetings From Mrs. Sarah Koffi
+To:     sarahkoffi389@yahoo.co.jp
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
---wLAMOaPNJ0fu1fTG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jun 04, 2020 at 04:44:11PM -0700, Krishna Reddy wrote:
-> NVIDIA's Tegra194 soc uses two ARM MMU-500s together to interleave
-
-s/soc/SoC/
-
-> IOVA accesses across them.
-> Add NVIDIA implementation for dual ARM MMU-500s and add new compatible
-> string for Tegra194 soc.
-
-Same here.
-
->=20
-> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
-> ---
->  MAINTAINERS                     |   2 +
->  drivers/iommu/Makefile          |   2 +-
->  drivers/iommu/arm-smmu-impl.c   |   3 +
->  drivers/iommu/arm-smmu-nvidia.c | 161 ++++++++++++++++++++++++++++++++
->  drivers/iommu/arm-smmu.h        |   1 +
->  5 files changed, 168 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/iommu/arm-smmu-nvidia.c
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 50659d76976b7..118da0893c964 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16572,9 +16572,11 @@ F:	drivers/i2c/busses/i2c-tegra.c
-> =20
->  TEGRA IOMMU DRIVERS
->  M:	Thierry Reding <thierry.reding@gmail.com>
-> +R:	Krishna Reddy <vdumpa@nvidia.com>
->  L:	linux-tegra@vger.kernel.org
->  S:	Supported
->  F:	drivers/iommu/tegra*
-> +F:	drivers/iommu/arm-smmu-nvidia.c
-> =20
->  TEGRA KBC DRIVER
->  M:	Laxman Dewangan <ldewangan@nvidia.com>
-> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-> index 57cf4ba5e27cb..35542df00da72 100644
-> --- a/drivers/iommu/Makefile
-> +++ b/drivers/iommu/Makefile
-> @@ -15,7 +15,7 @@ obj-$(CONFIG_AMD_IOMMU) +=3D amd_iommu.o amd_iommu_init=
-=2Eo amd_iommu_quirks.o
->  obj-$(CONFIG_AMD_IOMMU_DEBUGFS) +=3D amd_iommu_debugfs.o
->  obj-$(CONFIG_AMD_IOMMU_V2) +=3D amd_iommu_v2.o
->  obj-$(CONFIG_ARM_SMMU) +=3D arm_smmu.o
-> -arm_smmu-objs +=3D arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
-> +arm_smmu-objs +=3D arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o arm-smmu-n=
-vidia.o
->  obj-$(CONFIG_ARM_SMMU_V3) +=3D arm-smmu-v3.o
->  obj-$(CONFIG_DMAR_TABLE) +=3D dmar.o
->  obj-$(CONFIG_INTEL_IOMMU) +=3D intel-iommu.o intel-pasid.o
-> diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
-> index c75b9d957b702..52c84c30f83e4 100644
-> --- a/drivers/iommu/arm-smmu-impl.c
-> +++ b/drivers/iommu/arm-smmu-impl.c
-> @@ -160,6 +160,9 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm=
-_smmu_device *smmu)
->  	 */
->  	switch (smmu->model) {
->  	case ARM_MMU500:
-> +		if (of_device_is_compatible(smmu->dev->of_node,
-> +					    "nvidia,tegra194-smmu-500"))
-> +			return nvidia_smmu_impl_init(smmu);
-
-Should NVIDIA_TEGRA194_SMMU be a separate value for smmu->model,
-perhaps? That way we avoid this somewhat odd check here.
-
->  		smmu->impl =3D &arm_mmu500_impl;
->  		break;
->  	case CAVIUM_SMMUV2:
-> diff --git a/drivers/iommu/arm-smmu-nvidia.c b/drivers/iommu/arm-smmu-nvi=
-dia.c
-
-I wonder if it would be better to name this arm-smmu-tegra.c to make it
-clearer that this is for a Tegra chip. We do have regular expressions in
-MAINTAINERS that catch anything with "tegra" in it to make this easier.
-
-> new file mode 100644
-> index 0000000000000..dafc293a45217
-> --- /dev/null
-> +++ b/drivers/iommu/arm-smmu-nvidia.c
-> @@ -0,0 +1,161 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +// Nvidia ARM SMMU v2 implementation quirks
-
-s/Nvidia/NVIDIA/
-
-> +// Copyright (C) 2019 NVIDIA CORPORATION.  All rights reserved.
-
-I suppose this should now also include 2020.
-
-> +
-> +#define pr_fmt(fmt) "nvidia-smmu: " fmt
-
-Same here. Might be worth making this "tegra-smmu: " for consistency.
-
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/delay.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +
-> +#include "arm-smmu.h"
-> +
-> +/* Tegra194 has three ARM MMU-500 Instances.
-> + * Two of them are used together for Interleaved IOVA accesses and
-> + * used by Non-Isochronous Hw devices for SMMU translations.
-
-"non-isochronous", s/Hw/HW/
-
-> + * Third one is used for SMMU translations from Isochronous HW devices.
-
-"isochronous"
-
-> + * It is possible to use this Implementation to program either
-
-"implementation"
-
-> + * all three or two of the instances identically as desired through
-> + * DT node.
-> + *
-> + * Programming all the three instances identically comes with redundant =
-tlb
-
-s/tlb/TLB/
-
-> + * invalidations as all three never need to be tlb invalidated for a HW =
-device.
-
-Same here.
-
-> + *
-> + * When Linux Kernel supports multiple SMMU devices, The SMMU device use=
-d for
-
-"kernel" and "..., the SMMU device"
-
-> + * Isochornous HW devices should be added as a separate ARM MMU-500 devi=
-ce
-
-"isochronous"
-
-> + * in DT and be programmed independently for efficient tlb invalidates.
-
-"TLB"
-
-> + *
-> + */
-> +#define MAX_SMMU_INSTANCES 3
-> +
-> +#define TLB_LOOP_TIMEOUT		1000000	/* 1s! */
-
-USEC_PER_SEC?
-
-> +#define TLB_SPIN_COUNT			10
-> +
-> +struct nvidia_smmu {
-> +	struct arm_smmu_device	smmu;
-> +	unsigned int		num_inst;
-> +	void __iomem		*bases[MAX_SMMU_INSTANCES];
-> +};
-> +
-> +#define to_nvidia_smmu(s) container_of(s, struct nvidia_smmu, smmu)
-
-Making this static inline can make error messages more readable.
-
-> +
-> +#define nsmmu_page(smmu, inst, page) \
-> +	(((inst) ? to_nvidia_smmu(smmu)->bases[(inst)] : smmu->base) + \
-> +	((page) << smmu->pgshift))
-
-Can we simply define to_nvidia_smmu(smmu)->bases[0] =3D smmu->base in
-nvidia_smmu_impl_init()? Then this would become just:
-
-	to_nvidia_smmu(smmu)->bases[inst] + ((page) << (smmu)->pgshift)
-
-Also, the nsmmu_ prefix looks somewhat odd here. You already use struct
-nvidia_smmu as the name of the structure, so why not be consistent and
-continue to use nvidia_smmu_ as the prefix for function names?
-
-Or perhaps even use tegra_smmu_ as the prefix to match the filename
-change I suggested earlier.
-
-> +
-> +static u32 nsmmu_read_reg(struct arm_smmu_device *smmu,
-> +			      int page, int offset)
-> +{
-> +	return readl_relaxed(nsmmu_page(smmu, 0, page) + offset);
-> +}
-> +
-> +static void nsmmu_write_reg(struct arm_smmu_device *smmu,
-> +			    int page, int offset, u32 val)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < to_nvidia_smmu(smmu)->num_inst; i++)
-> +		writel_relaxed(val, nsmmu_page(smmu, i, page) + offset);
-> +}
-> +
-> +static u64 nsmmu_read_reg64(struct arm_smmu_device *smmu,
-> +				int page, int offset)
-> +{
-> +	return readq_relaxed(nsmmu_page(smmu, 0, page) + offset);
-> +}
-> +
-> +static void nsmmu_write_reg64(struct arm_smmu_device *smmu,
-> +				  int page, int offset, u64 val)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < to_nvidia_smmu(smmu)->num_inst; i++)
-> +		writeq_relaxed(val, nsmmu_page(smmu, i, page) + offset);
-> +}
-> +
-> +static void nsmmu_tlb_sync(struct arm_smmu_device *smmu, int page,
-> +			   int sync, int status)
-> +{
-> +	u32 reg;
-
-I see this is being used to store the value read from a register. I find
-it clearer to call this "value" or "val" (or in this case perhaps even
-"status") because whenever I read "reg" I immediately think this is
-meant to be a register offset, which can then be confusing when I see it
-used in I/O accessors because it is in the wrong position.
-
-But anyway, that's just my opinion and this is a bit subjective, so feel
-free to ignore.
-
-> +	unsigned int i;
-> +	unsigned int spin_cnt, delay;
-> +
-> +	arm_smmu_writel(smmu, page, sync, 0);
-> +
-> +	for (delay =3D 1; delay < TLB_LOOP_TIMEOUT; delay *=3D 2) {
-> +		for (spin_cnt =3D TLB_SPIN_COUNT; spin_cnt > 0; spin_cnt--) {
-> +			reg =3D 0;
-
-You may want to declare the variable at this scope since you never need
-it outside. Also, use a space between variable initialization and the
-for block below for better readability.
-
-> +			for (i =3D 0; i < to_nvidia_smmu(smmu)->num_inst; i++) {
-> +				reg |=3D readl_relaxed(
-> +					nsmmu_page(smmu, i, page) + status);
-> +			}
-
-Maybe add a separate variable for the page address so this can be a bit
-uncluttered. Also, I'd prefer a blank line after the block for
-readability.
-
-> +			if (!(reg & ARM_SMMU_sTLBGSTATUS_GSACTIVE))
-> +				return;
-> +			cpu_relax();
-
-Blank line above cpu_relax() for readability.
-
-> +		}
-> +		udelay(delay);
-
-Again, a blank line between blocks and subsequent statements can help
-readability.
-
-> +	}
-> +	dev_err_ratelimited(smmu->dev,
-> +			    "TLB sync timed out -- SMMU may be deadlocked\n");
-
-Same here.
-
-Also, is there anything we can do when this happens?
-
-> +}
-> +
-> +static int nsmmu_reset(struct arm_smmu_device *smmu)
-> +{
-> +	u32 reg;
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < to_nvidia_smmu(smmu)->num_inst; i++) {
-> +		/* clear global FSR */
-> +		reg =3D readl_relaxed(nsmmu_page(smmu, i, ARM_SMMU_GR0) +
-> +				    ARM_SMMU_GR0_sGFSR);
-> +		writel_relaxed(reg, nsmmu_page(smmu, i, ARM_SMMU_GR0) +
-> +				    ARM_SMMU_GR0_sGFSR);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct arm_smmu_impl nvidia_smmu_impl =3D {
-> +	.read_reg =3D nsmmu_read_reg,
-> +	.write_reg =3D nsmmu_write_reg,
-> +	.read_reg64 =3D nsmmu_read_reg64,
-> +	.write_reg64 =3D nsmmu_write_reg64,
-> +	.reset =3D nsmmu_reset,
-> +	.tlb_sync =3D nsmmu_tlb_sync,
-> +};
-> +
-> +struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *sm=
-mu)
-> +{
-> +	unsigned int i;
-> +	struct nvidia_smmu *nsmmu;
-> +	struct resource *res;
-> +	struct device *dev =3D smmu->dev;
-> +	struct platform_device *pdev =3D to_platform_device(smmu->dev);
-> +
-> +	nsmmu =3D devm_kzalloc(smmu->dev, sizeof(*nsmmu), GFP_KERNEL);
-> +	if (!nsmmu)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	nsmmu->smmu =3D *smmu;
-> +	/* Instance 0 is ioremapped by arm-smmu.c */
-> +	nsmmu->num_inst =3D 1;
-
-Maybe add this here to simplify the nsmmu_page() macro above:
-
-	nsmmu->bases[0] =3D smmu->base;
-
-> +
-> +	for (i =3D 1; i < MAX_SMMU_INSTANCES; i++) {
-> +		res =3D platform_get_resource(pdev, IORESOURCE_MEM, i);
-> +		if (!res)
-> +			break;
-> +		nsmmu->bases[i] =3D devm_ioremap_resource(dev, res);
-> +		if (IS_ERR(nsmmu->bases[i]))
-> +			return (struct arm_smmu_device *)nsmmu->bases[i];
-
-ERR_CAST()?
-
-> +		nsmmu->num_inst++;
-> +	}
-
-More blank lines would make this much easier to read, in my opinion.
-
-> +
-> +	nsmmu->smmu.impl =3D &nvidia_smmu_impl;
-> +	devm_kfree(smmu->dev, smmu);
-
-Maybe a comment here would be useful for readers to immediately
-understand why you're doing this here.
-
-> +	pr_info("NVIDIA ARM SMMU Implementation, Instances=3D%d\n",
-> +		nsmmu->num_inst);
-
-I think I'd just omit this. In general you should only let the user know
-when things go wrong, but the above is printed when everything goes as
-expected.
-
-Thierry
-
---wLAMOaPNJ0fu1fTG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7x2YUACgkQ3SOs138+
-s6FHohAAqVIuYWiM6cSjnAMmfY4aPp5GAld67SpGovHutRbzuWjmKw9lT3AFwmvM
-25lypPdf3OE6uQ55O6HzwCvPzupDXDKvLYHsmSPh15ObD3Pu3dewdu6oSkf+p4Zv
-pkqrs+WOeOc4n0p6zICAM4Ag0YxheytceGFByYLNvu+Pk4HsAcqqssrvr+7aJ6QL
-1WXqVz5BzruXi4rEIlMhWIK7/fvEJMNgqk5A7ahQMgZQ6IgWn1gJUwRnIsuEF5rA
-rqLT1h+kZAS60v9B+CCHyylgfcIUQ1qbCC2uoeH+WNhdLNZWVjtUcgjmFrBkq9e1
-z3qxkFGIvrPWSn483oCoXFfdoJx6pyMgSIZyS/p3/WSTlI7XbNbdROLrBt+2FvHP
-e+fGKtl2DzS/lgZEoZOS+gf15IATZP8BqjnCqq9IXYSaoZ+f81icADXwrDktk8FF
-ll64s8B2L/H0IhELclJB9+2F5JAQg/ZH1B3OFzdlpGGvaLwOOUXhOUi4Vm2lac/r
-rIwWMSJOCw0ldtWHjInvg0yypEp45dJ8EA2uzuwpSRv/5i9UoeBiHkxHSg05LAY6
-Lc8E+TyPMrOxqYVsIuF/k65dg9nOi3EwoVqz2NwB8X2vf4krchCRP2VnlEKOU71i
-sycs1n2qnoYs2MO0eJI5ls8WHQ5m4GRhnwhvcduVZACNbwCs8H4=
-=l/SC
------END PGP SIGNATURE-----
-
---wLAMOaPNJ0fu1fTG--
+Greetings From Mrs. Sarah Koffi
+
+I'm contacting you based on your good profiles I read and for a good
+reasons, I am in search of a property to buy in your country as I
+intended to come over to your
+country for investment, Though I have not meet with you before but I
+believe that one has to risk confiding in someone to succeed sometimes
+in life.
+
+My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
+Federal Government of Sudan and he has a personal Oil firm in Bentiu
+Oil zone town and Upper
+Nile city. What I have experience physically, I don't wish to
+experience it again in my life due to the recent civil Ethnic war
+cause by our President Mr. Salva Kiir
+and the rebel leader Mr Riek Machar, I have been Under United Nation
+refuge camp in chad to save my life and that of my little daughter.
+
+Though, I do not know how you will feel to my proposal, but the truth
+is that I sneaked into Chad our neighboring country where I am living
+now as a refugee.
+I escaped with my little daughter when the rebels bust into our house
+and killed my husband as one of the big oil dealers in the country,
+ever since then, I have being on the run.
+
+I left my country and move to Chad our neighboring country with the
+little ceasefire we had, due to the face to face peace meeting accord
+coordinated by the US Secretary of State, Mr John Kerry and United
+Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
+and the rebel leader Mr Riek Machar to stop this war.
+
+I want to solicit for your partnership with trust to invest the $8
+million dollars deposited by my late husband in Bank because my life
+is no longer safe in our country, since the rebels are looking for the
+families of all the oil business men in the country to kill, saying
+that they are they one that is milking the country dry.
+
+I will offer you 20% of the total fund for your help while I will
+partner with you for the investment in your country.
+If I get your reply.
+
+I will wait to hear from you so as to give you details.With love from
+
+ i need you to contact me here sarahkoffi389@yahoo.co.jp
+
+Mrs. Sarah Koffi
