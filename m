@@ -2,103 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6032050AE
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 13:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A002051D3
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 14:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732396AbgFWLaW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jun 2020 07:30:22 -0400
-Received: from foss.arm.com ([217.140.110.172]:58868 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732191AbgFWLaV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jun 2020 07:30:21 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 477CD1F1;
-        Tue, 23 Jun 2020 04:30:20 -0700 (PDT)
-Received: from [10.57.9.128] (unknown [10.57.9.128])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB48E3F6CF;
-        Tue, 23 Jun 2020 04:30:17 -0700 (PDT)
-Subject: Re: [PATCH v6 3/4] iommu/arm-smmu: Add global/context fault
- implementation hooks
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>
-Cc:     snikam@nvidia.com, mperttunen@nvidia.com, bhuntsman@nvidia.com,
-        will@kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
-        praithatha@nvidia.com, talho@nvidia.com,
-        iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
-        linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
-        linux-arm-kernel@lists.infradead.org, bbiswas@nvidia.com
-References: <20200604234414.21912-1-vdumpa@nvidia.com>
- <20200604234414.21912-4-vdumpa@nvidia.com> <20200623083643.GB4098287@ulmo>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <2dda4530-39cc-d549-1124-26337dd9afbe@arm.com>
-Date:   Tue, 23 Jun 2020 12:30:16 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1732491AbgFWMIP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jun 2020 08:08:15 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:43219 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732333AbgFWMIO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Jun 2020 08:08:14 -0400
+Received: by mail-ot1-f68.google.com with SMTP id u23so16293864otq.10;
+        Tue, 23 Jun 2020 05:08:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6Re+WjjB1dMGkNf1EzZMfoTm0AtEm8gvJc3KpB0+MMw=;
+        b=iQjOmUUKOIWYO9ZuueIhSoE+mqvre9RCKCEvn8LuacTFmYlNZG0kpomMmMSOMickQK
+         igIarSl7Lvh5brYeF0DLMP/YXb9a2DXtU0j/CNWI3NuAbJ9HF7qcS4Q6W3CLooBQKsxT
+         E5DqO5VrP2/sAU1xx/0RX8QbOpVdzIGm4fKuFkmc8Xhm4sS+G1axRvw4EPXhyBikv7F9
+         5HmFMwQyq27rbapPQhPyonlK4+Z4cPlXmBiOksWig1Ar0BhUfnnkeIBIVUqz3eEVbzP1
+         ODjnYWFacs4llD+QEPeQ5Ami/7iNMusonspeLGc517HaQswDOZ5p3p67kXaqZojTtBRH
+         pF1w==
+X-Gm-Message-State: AOAM53127YeGEojQzy34YR7J2hIwxrZLQpJ9pQ9QQ2nl6VgPLXxEdvaw
+        tQVkjCguToTBPOVV6op9RAF0/nvW2TxdAiyiVIlNDVtV
+X-Google-Smtp-Source: ABdhPJwjtQvaDrr3eeGnXHD1JJmS3t1dYujqHaWWHyHw8nXgJiFN/bcBSRw0jwg3owzToimpYmcrIQbYXyhdJF9PQD0=
+X-Received: by 2002:a05:6830:141a:: with SMTP id v26mr18196097otp.250.1592914093700;
+ Tue, 23 Jun 2020 05:08:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200623083643.GB4098287@ulmo>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20200621054710.9915-1-dinghao.liu@zju.edu.cn> <44d7771e-5600-19c2-888a-dd226cbc4b50@nvidia.com>
+In-Reply-To: <44d7771e-5600-19c2-888a-dd226cbc4b50@nvidia.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 23 Jun 2020 14:08:02 +0200
+Message-ID: <CAMuHMdVu=Tm4UTN1GAc3_uy00UhYYJ7ZPyq1qPCXQ+iP3hksfg@mail.gmail.com>
+Subject: Re: [PATCH] [v4] dmaengine: tegra210-adma: Fix runtime PM imbalance
+ on error
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>, Kangjie Lu <kjlu@umn.edu>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2020-06-23 09:36, Thierry Reding wrote:
-[...]
->> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
->> index 243bc4cb2705b..d720e1e191176 100644
->> --- a/drivers/iommu/arm-smmu.c
->> +++ b/drivers/iommu/arm-smmu.c
->> @@ -673,6 +673,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
->>   	enum io_pgtable_fmt fmt;
->>   	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
->>   	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
->> +	irqreturn_t (*context_fault)(int irq, void *dev);
->>   
->>   	mutex_lock(&smmu_domain->init_mutex);
->>   	if (smmu_domain->smmu)
->> @@ -835,7 +836,9 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
->>   	 * handler seeing a half-initialised domain state.
->>   	 */
->>   	irq = smmu->irqs[smmu->num_global_irqs + cfg->irptndx];
->> -	ret = devm_request_irq(smmu->dev, irq, arm_smmu_context_fault,
->> +	context_fault = (smmu->impl && smmu->impl->context_fault) ?
->> +			 smmu->impl->context_fault : arm_smmu_context_fault;
-> 
-> A simpler way might have been to assign arm_smmu_context_fault to all
-> implementations. That way we wouldn't have to perform this check here
-> and instead just always using smmu->impl->context_fault.
+Hi Jon,
 
-But smmu->impl can still be NULL...
+More stirring in the cesspool ;-)
 
-Everything in impl, including the presence of impl itself, is optional, 
-so the notion of overriding a default with the same default doesn't 
-really make much sense, and would go against the pattern everywhere else.
+On Tue, Jun 23, 2020 at 12:13 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+> On 21/06/2020 06:47, Dinghao Liu wrote:
+> > pm_runtime_get_sync() increments the runtime PM usage counter even
+> > when it returns an error code. Thus a pairing decrement is needed on
+> > the error handling path to keep the counter balanced.
+>
+> So you have not mentioned here why you are using _noidle and not _put.
+> Furthermore, in this patch [0] you are not using _noidle to fix the same
+> problem in another driver. We should fix this in a consistent manner
+> across all drivers, otherwise it leads to more confusion.
+>
+> Finally, Rafael mentions we should just use _put [0] and so I think we
+> should follow his recommendation.
+>
+> Jon
+>
+> [0] https://lkml.org/lkml/2020/5/21/601
 
-Robin.
+"_noidle() is the simplest one and it is sufficient."
+https://lore.kernel.org/linux-i2c/CAJZ5v0i87NGcy9+kxubScdPDyByr8ypQWcGgBFn+V-wDd69BHQ@mail.gmail.com/
 
->> +	ret = devm_request_irq(smmu->dev, irq, context_fault,
->>   			       IRQF_SHARED, "arm-smmu-context-fault", domain);
->>   	if (ret < 0) {
->>   		dev_err(smmu->dev, "failed to request context IRQ %d (%u)\n",
->> @@ -2107,6 +2110,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
->>   	struct arm_smmu_device *smmu;
->>   	struct device *dev = &pdev->dev;
->>   	int num_irqs, i, err;
->> +	irqreturn_t (*global_fault)(int irq, void *dev);
->>   
->>   	smmu = devm_kzalloc(dev, sizeof(*smmu), GFP_KERNEL);
->>   	if (!smmu) {
->> @@ -2193,9 +2197,12 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
->>   		smmu->num_context_irqs = smmu->num_context_banks;
->>   	}
->>   
->> +	global_fault = (smmu->impl && smmu->impl->global_fault) ?
->> +			smmu->impl->global_fault : arm_smmu_global_fault;
->> +
-> 
-> Same as above.
-> 
-> Thierry
-> 
+You never know what additional things the other put* variants
+will start doing in the future...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
