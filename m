@@ -2,40 +2,40 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DDAC20507C
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 13:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA6032050AE
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 13:30:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732520AbgFWLRB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jun 2020 07:17:01 -0400
-Received: from foss.arm.com ([217.140.110.172]:57500 "EHLO foss.arm.com"
+        id S1732396AbgFWLaW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jun 2020 07:30:22 -0400
+Received: from foss.arm.com ([217.140.110.172]:58868 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732458AbgFWLRB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jun 2020 07:17:01 -0400
+        id S1732191AbgFWLaV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Jun 2020 07:30:21 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAB441F1;
-        Tue, 23 Jun 2020 04:16:58 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 477CD1F1;
+        Tue, 23 Jun 2020 04:30:20 -0700 (PDT)
 Received: from [10.57.9.128] (unknown [10.57.9.128])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BD7E3F6CF;
-        Tue, 23 Jun 2020 04:16:56 -0700 (PDT)
-Subject: Re: [PATCH v6 1/4] iommu/arm-smmu: add NVIDIA implementation for dual
- ARM MMU-500 usage
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB48E3F6CF;
+        Tue, 23 Jun 2020 04:30:17 -0700 (PDT)
+Subject: Re: [PATCH v6 3/4] iommu/arm-smmu: Add global/context fault
+ implementation hooks
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Krishna Reddy <vdumpa@nvidia.com>
-Cc:     treding@nvidia.com, bhuntsman@nvidia.com,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        mperttunen@nvidia.com, talho@nvidia.com, snikam@nvidia.com,
-        nicolinc@nvidia.com, linux-tegra@vger.kernel.org, yhsu@nvidia.com,
-        praithatha@nvidia.com, will@kernel.org,
+Cc:     snikam@nvidia.com, mperttunen@nvidia.com, bhuntsman@nvidia.com,
+        will@kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
+        praithatha@nvidia.com, talho@nvidia.com,
+        iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
+        linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
         linux-arm-kernel@lists.infradead.org, bbiswas@nvidia.com
 References: <20200604234414.21912-1-vdumpa@nvidia.com>
- <20200604234414.21912-2-vdumpa@nvidia.com> <20200623102927.GD4098287@ulmo>
+ <20200604234414.21912-4-vdumpa@nvidia.com> <20200623083643.GB4098287@ulmo>
 From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <5f29c794-406a-db13-d6d0-75dcb0d0b0cc@arm.com>
-Date:   Tue, 23 Jun 2020 12:16:55 +0100
+Message-ID: <2dda4530-39cc-d549-1124-26337dd9afbe@arm.com>
+Date:   Tue, 23 Jun 2020 12:30:16 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200623102927.GD4098287@ulmo>
+In-Reply-To: <20200623083643.GB4098287@ulmo>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -44,70 +44,61 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2020-06-23 11:29, Thierry Reding wrote:
+On 2020-06-23 09:36, Thierry Reding wrote:
 [...]
->> diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
->> index c75b9d957b702..52c84c30f83e4 100644
->> --- a/drivers/iommu/arm-smmu-impl.c
->> +++ b/drivers/iommu/arm-smmu-impl.c
->> @@ -160,6 +160,9 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
+>> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+>> index 243bc4cb2705b..d720e1e191176 100644
+>> --- a/drivers/iommu/arm-smmu.c
+>> +++ b/drivers/iommu/arm-smmu.c
+>> @@ -673,6 +673,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+>>   	enum io_pgtable_fmt fmt;
+>>   	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+>>   	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
+>> +	irqreturn_t (*context_fault)(int irq, void *dev);
+>>   
+>>   	mutex_lock(&smmu_domain->init_mutex);
+>>   	if (smmu_domain->smmu)
+>> @@ -835,7 +836,9 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+>>   	 * handler seeing a half-initialised domain state.
 >>   	 */
->>   	switch (smmu->model) {
->>   	case ARM_MMU500:
->> +		if (of_device_is_compatible(smmu->dev->of_node,
->> +					    "nvidia,tegra194-smmu-500"))
->> +			return nvidia_smmu_impl_init(smmu);
+>>   	irq = smmu->irqs[smmu->num_global_irqs + cfg->irptndx];
+>> -	ret = devm_request_irq(smmu->dev, irq, arm_smmu_context_fault,
+>> +	context_fault = (smmu->impl && smmu->impl->context_fault) ?
+>> +			 smmu->impl->context_fault : arm_smmu_context_fault;
 > 
-> Should NVIDIA_TEGRA194_SMMU be a separate value for smmu->model,
-> perhaps? That way we avoid this somewhat odd check here.
+> A simpler way might have been to assign arm_smmu_context_fault to all
+> implementations. That way we wouldn't have to perform this check here
+> and instead just always using smmu->impl->context_fault.
 
-No, this is simply in the wrong place. The design here is that we pick 
-up anything related to the basic SMMU IP (model) first, then make any 
-platform-specific integration checks. That way a platform-specific init 
-function can see the model impl set and subclass it if necessary 
-(although nobody's actually done that yet). The setup for Cavium is just 
-a short-cut since their model is unique to their integration, so the 
-lines get a bit blurred and there's little benefit to trying to separate 
-it out.
+But smmu->impl can still be NULL...
 
-In short, put this down below with the other of_device_is_compatible() 
-checks.
-
->>   		smmu->impl = &arm_mmu500_impl;
->>   		break;
->>   	case CAVIUM_SMMUV2:
->> diff --git a/drivers/iommu/arm-smmu-nvidia.c b/drivers/iommu/arm-smmu-nvidia.c
-> 
-> I wonder if it would be better to name this arm-smmu-tegra.c to make it
-> clearer that this is for a Tegra chip. We do have regular expressions in
-> MAINTAINERS that catch anything with "tegra" in it to make this easier.
-
-There was a notion that these would be grouped by vendor, but if there's 
-a strong preference for all NVIDIA-SoC-related stuff to be named "Tegra" 
-then I'm not going to complain too much.
-
->> new file mode 100644
->> index 0000000000000..dafc293a45217
->> --- /dev/null
->> +++ b/drivers/iommu/arm-smmu-nvidia.c
->> @@ -0,0 +1,161 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +// Nvidia ARM SMMU v2 implementation quirks
-> 
-> s/Nvidia/NVIDIA/
-> 
->> +// Copyright (C) 2019 NVIDIA CORPORATION.  All rights reserved.
-> 
-> I suppose this should now also include 2020.
-> 
->> +
->> +#define pr_fmt(fmt) "nvidia-smmu: " fmt
-> 
-> Same here. Might be worth making this "tegra-smmu: " for consistency.
-
-On the other hand, a log prefix that is literally the name of a 
-completely unrelated driver seems more confusing to users than useful. 
-Same for the function naming - the tegra_smmu_* namespace is already 
-owned by that driver.
+Everything in impl, including the presence of impl itself, is optional, 
+so the notion of overriding a default with the same default doesn't 
+really make much sense, and would go against the pattern everywhere else.
 
 Robin.
+
+>> +	ret = devm_request_irq(smmu->dev, irq, context_fault,
+>>   			       IRQF_SHARED, "arm-smmu-context-fault", domain);
+>>   	if (ret < 0) {
+>>   		dev_err(smmu->dev, "failed to request context IRQ %d (%u)\n",
+>> @@ -2107,6 +2110,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+>>   	struct arm_smmu_device *smmu;
+>>   	struct device *dev = &pdev->dev;
+>>   	int num_irqs, i, err;
+>> +	irqreturn_t (*global_fault)(int irq, void *dev);
+>>   
+>>   	smmu = devm_kzalloc(dev, sizeof(*smmu), GFP_KERNEL);
+>>   	if (!smmu) {
+>> @@ -2193,9 +2197,12 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+>>   		smmu->num_context_irqs = smmu->num_context_banks;
+>>   	}
+>>   
+>> +	global_fault = (smmu->impl && smmu->impl->global_fault) ?
+>> +			smmu->impl->global_fault : arm_smmu_global_fault;
+>> +
+> 
+> Same as above.
+> 
+> Thierry
+> 
