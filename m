@@ -2,94 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2888520774B
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 17:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55E3E20785E
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 18:06:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404071AbgFXPYE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jun 2020 11:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404017AbgFXPYE (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jun 2020 11:24:04 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 844FCC061573;
-        Wed, 24 Jun 2020 08:24:03 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id y13so1483594lfe.9;
-        Wed, 24 Jun 2020 08:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7ouKIzv9lcqviAIR01eC0zUDPcbdP0WKdUxuCP9SSpw=;
-        b=E27hEDFRxtZsQruEYVPTKunSsgJg6aALuxPxpQbSwxDRgiJZXbVdVQJKazLD8M5Wjo
-         om0KM0Faci6ftvWbxcquMgWXyDdqtOfBWWlErm0YTPMPTa03xNpBHyYwVibyb2Zzo0M2
-         lLUKMh7OyfZEu106pZZ0RNyuGDGS/S4uk2L6AOrXY+Jh1/LOzcsft59VuVdAXRCw8/UI
-         tcjTk82W9LuJXvGO7esKypzBLAlzPsyTJqqSq9tTMUXUgl0I+StFKkE/jGlxVfZXHQng
-         5tBnnQZgaSockOreNNvEUaLFcdjWc5LD4DodWFz7Xw5DP5j7+DI7/+krFCr1JuaAiZiq
-         yuPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7ouKIzv9lcqviAIR01eC0zUDPcbdP0WKdUxuCP9SSpw=;
-        b=a1xGszQOqrl8mVakOWEcsD5EL4zA6M+a1lBNRSGDlhN1ZtNEn7J977PGFWdWNEcChy
-         C2H0RyfbGx4IBD+TwwLSbCHqIMcuZV36tDQqO8DlKka3/2UcGuh/07+8KbqFdt5HcHF7
-         yQ10H08cHyPhkHu059btIIlVEvYygF5GIuON7ZFkm3i14PD6PxuGjx8tm0qhBQiDnMCX
-         cjgUmaGzlg6Daq9gU2cChTBomW3yIR4G6UBPjNtdkhh/WdzoidstvG8tFu8t5wW4Mact
-         ktoqEnv1LxUiEgP7HiGWl3w6GnAfmk5G6vUBiEENC94efQioC8L7Nf+7fsrI7VkfGs/W
-         d9zQ==
-X-Gm-Message-State: AOAM5327AR6hfLXbl9hAnX0jWL9kYGAODVL0L7lKM5YPdhbVfG4rp61m
-        R9zSX2HVNWY8ezznqESNhbOKFnuY
-X-Google-Smtp-Source: ABdhPJw5CK19plm3sDVgaQZ/FaKkfb0UTJA6gbhs1PnwT7h7YAvOtoMlEmVpoVoZxpLFP0oqUejuXQ==
-X-Received: by 2002:ac2:47e7:: with SMTP id b7mr15661708lfp.68.1593012241393;
-        Wed, 24 Jun 2020 08:24:01 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id d20sm5262732lfi.22.2020.06.24.08.24.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2020 08:24:00 -0700 (PDT)
-Subject: Re: [PATCH v2 0/4] Tegra Video Decoder driver power management
- corrections
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-References: <20200624150847.22672-1-digetx@gmail.com>
- <90323aa6-38b5-0a45-69a7-ccf380690a78@xs4all.nl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <23cbaa18-9461-8f72-3d43-aa14cd0c1095@gmail.com>
-Date:   Wed, 24 Jun 2020 18:23:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S2404627AbgFXQFk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jun 2020 12:05:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52106 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404503AbgFXQFk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jun 2020 12:05:40 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 80B66206F7;
+        Wed, 24 Jun 2020 16:05:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593014740;
+        bh=AWZteoRvB+bV0L1jEfUdGppba27IOiPJkLjir5C2LwQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nDubSH1hcmIHhxBkrJCbAtFInAjaZVP0xAhFeA6PxLTBeQf/86p7360IzPRZquAFb
+         bDJnaPpjo3UVWKv+AP0p3VGoXimYzY6IXnw8ZEGQW06MICo9UUR6LK93eL4Wy3qH1Y
+         d/cWydLMBC4LVwmGMWP5I/3FkG0dwSRSlBNFMM6k=
+Date:   Wed, 24 Jun 2020 18:05:36 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.7 000/474] 5.7.6-rc2 review
+Message-ID: <20200624160536.GA2097866@kroah.com>
+References: <20200624055938.609070954@linuxfoundation.org>
+ <f21cfef6-78a6-af8b-86a0-f278f5e5eda8@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <90323aa6-38b5-0a45-69a7-ccf380690a78@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f21cfef6-78a6-af8b-86a0-f278f5e5eda8@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-24.06.2020 18:16, Hans Verkuil пишет:
-> On 24/06/2020 17:08, Dmitry Osipenko wrote:
->> Hello,
->>
->> This small series addresses a Runtime PM issue that was discovered during
->> of Tegra VI driver reviewing by balancing RPM usage count on RPM resume
->> failure. Secondly it fixes reboot on some Tegra devices due to bootloader
->> expecting VDE power partition to be ON at the boot time, which wasn't
->> happening in case of a warm re-booting (i.e. by PMC resetting).
+On Wed, Jun 24, 2020 at 11:32:40AM +0100, Jon Hunter wrote:
 > 
-> Can you rebase this on top of the media_tree master branch? I think a variant
-> of patch 1 has already been applied. I found a mail today where you mentioned
-> that you preferred your version (it looks like I missed that) so you'll need to
-> rework patch 1.
+> On 24/06/2020 07:10, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.7.6 release.
+> > There are 474 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Fri, 26 Jun 2020 05:58:09 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.7.6-rc2.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.7.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests are passing for Tegra ...
+> 
+> Test results for stable-v5.7:
+>     11 builds:	11 pass, 0 fail
+>     26 boots:	26 pass, 0 fail
+>     56 tests:	56 pass, 0 fail
+> 
+> Linux version:	5.7.6-rc2-ga5e7ca280376
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra210-p3450-0000,
+>                 tegra30-cardhu-a04
 
-Hello Hans,
+Thanks for testing all of these and letting me know.
 
-I'll take a look at what patches has been applied, my bad for sending
-the v2 too late. Thank you for the heads up!
+greg k-h
