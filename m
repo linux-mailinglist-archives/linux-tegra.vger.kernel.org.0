@@ -2,81 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97A29205965
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jun 2020 19:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DB41206CCE
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 08:45:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733288AbgFWRkF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jun 2020 13:40:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33302 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387530AbgFWRgQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jun 2020 13:36:16 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B454D207E8;
-        Tue, 23 Jun 2020 17:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592933775;
-        bh=JQCWNfOt0DHc1emiaikqQlj/f/EBGVEXcXNGQXArUyw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tCXyHwcMgGwr6qBHAEUUlWBHGyuzvSWYoKetF00raGsezvKEP152OyQjSmyo3yFJY
-         mFB7bK5jcEPIA2fxOacdINK+U2nnZe9TIM4ZUngBYllcSJmHWzp2LoO2o9Twyh4i6g
-         Xw+H0lEnXZ+ZHKT72UZM8wfSV8jorTAELr6alsTg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vidya Sagar <vidyas@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sasha Levin <sashal@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 13/24] pinctrl: tegra: Use noirq suspend/resume callbacks
-Date:   Tue, 23 Jun 2020 13:35:48 -0400
-Message-Id: <20200623173559.1355728-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200623173559.1355728-1-sashal@kernel.org>
-References: <20200623173559.1355728-1-sashal@kernel.org>
+        id S2389123AbgFXGp2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jun 2020 02:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389064AbgFXGp2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jun 2020 02:45:28 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CA9C061573;
+        Tue, 23 Jun 2020 23:45:27 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id y18so677854lfh.11;
+        Tue, 23 Jun 2020 23:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=Fjxf+qb/ItzZQx4UrXWnTnAOQAUVXNTVGaqzPkrb5BM=;
+        b=msnIdUqZEAbCO7jGLREZ88fClfVszcU6jAksn4YZ/GPkqEzWJEB15kdqjfrO/dNQ6U
+         uyZgMfn9uoM929hL56CNJp3xY26AYayRH28vt9BiQCXjYet7sddjmCUUUv0tfgniGdo5
+         f8TeCU7jO6LGJGNwiM/rJ2S3evzAnSbr0t10z/osTeW/s/Uc1ytNcdlB24oWJMsqA8nk
+         e+EwRAx3vNzJabOxkId2vM0XMBqn+MVAcrJuxn9tBbb49x7Nh3vI5sqLy1+OXxC7JzY5
+         HV5XEMpL/zQqwihLoAinN4dbqvnjfxkJqEwInCakl8tgEJTkTxuPErlQjHKBw6OJ9InV
+         Ey+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=Fjxf+qb/ItzZQx4UrXWnTnAOQAUVXNTVGaqzPkrb5BM=;
+        b=eyTE1ZJQu2VAU7svDu0RY/C4OqnvQKMLUonbnE7usP8nx8Nk8nlwDjsLMPupdg3vgf
+         AcDN5oUN2cGMWKc/T2MjaOUCSsEuvuvweb3BRNPiAzzAy8034eTHTPHxBzvG8cnGaKoT
+         saJDkqAkIYQeNLfDRaxw77K8TODYfrVPASlomJ/Ku4P4PhXzbqp/NHPf4NCcW7CrFyaL
+         yBY7iKfSHD6xzmVGgQA+uKqjHe/VTCzy3+JjeeVQJ5jpaUR0RyyptmQp/3jF9Izdj6Vi
+         coP2UGOemii4cru5+VFY4ACkrgJOqlzJxUK8+7YMGGAE1h34aDRUeXQ/qVeTXh8AgCR4
+         v/jA==
+X-Gm-Message-State: AOAM533tPKES7y4DrOPAJVpqwmBjiGGCixdNhXlyWctrVXNWGkUxt7UL
+        tLahPSj7afdgz6RDpfYOuCw=
+X-Google-Smtp-Source: ABdhPJznq4+gIqQpwokKLThoiq214WyJzojbNV5jZnBkHxJeZA6MpkpEK5uoGCsu/7vyy7Kk65Letw==
+X-Received: by 2002:a19:ccd0:: with SMTP id c199mr12060659lfg.194.1592981126108;
+        Tue, 23 Jun 2020 23:45:26 -0700 (PDT)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
+        by smtp.gmail.com with ESMTPSA id f21sm1879109ljg.85.2020.06.23.23.45.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 23 Jun 2020 23:45:25 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Tang Bin <tangbin@cmss.chinamobile.com>,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] usb: phy: tegra: Remove unnecessary spaces and tables
+In-Reply-To: <20200528112859.6160-1-tangbin@cmss.chinamobile.com>
+References: <20200528112859.6160-1-tangbin@cmss.chinamobile.com>
+Date:   Wed, 24 Jun 2020 09:45:20 +0300
+Message-ID: <87zh8tvu67.fsf@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Vidya Sagar <vidyas@nvidia.com>
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-[ Upstream commit 782b6b69847f34dda330530493ea62b7de3fd06a ]
 
-Use noirq suspend/resume callbacks as other drivers which implement
-noirq suspend/resume callbacks (Ex:- PCIe) depend on pinctrl driver to
-configure the signals used by their respective devices in the noirq phase.
+Hi,
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Link: https://lore.kernel.org/r/20200604174935.26560-1-vidyas@nvidia.com
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/pinctrl/tegra/pinctrl-tegra.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Tang Bin <tangbin@cmss.chinamobile.com> writes:
+> The macros in phy-tegra-usb.c have inconsistent sapces between
+> the macro name and the value. Thus sets all the macros to have
+> a signal space between the name and value.
+>
+> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+> ---
+>  drivers/usb/phy/phy-tegra-usb.c | 214 ++++++++++++++++----------------
+>  1 file changed, 107 insertions(+), 107 deletions(-)
+>
+> diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-=
+usb.c
+> index 6153cc35a..c294dc617 100644
+> --- a/drivers/usb/phy/phy-tegra-usb.c
+> +++ b/drivers/usb/phy/phy-tegra-usb.c
+> @@ -30,124 +30,124 @@
+>  #include <linux/usb/tegra_usb_phy.h>
+>  #include <linux/usb/ulpi.h>
+>=20=20
+> -#define ULPI_VIEWPORT				0x170
+> +#define ULPI_VIEWPORT	0x170
+>=20=20
+>  /* PORTSC PTS/PHCD bits, Tegra20 only */
+> -#define TEGRA_USB_PORTSC1			0x184
+> -#define TEGRA_USB_PORTSC1_PTS(x)		(((x) & 0x3) << 30)
+> -#define TEGRA_USB_PORTSC1_PHCD			BIT(23)
+> +#define TEGRA_USB_PORTSC1	0x184
+> +#define TEGRA_USB_PORTSC1_PTS(x)	(((x) & 0x3) << 30)
+> +#define TEGRA_USB_PORTSC1_PHCD	BIT(23)
 
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-index e9a7cbb9aa336..01bcef2c01bcf 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-@@ -685,8 +685,8 @@ static int tegra_pinctrl_resume(struct device *dev)
- }
- 
- const struct dev_pm_ops tegra_pinctrl_pm = {
--	.suspend = &tegra_pinctrl_suspend,
--	.resume = &tegra_pinctrl_resume
-+	.suspend_noirq = &tegra_pinctrl_suspend,
-+	.resume_noirq = &tegra_pinctrl_resume
- };
- 
- static bool gpio_node_has_range(const char *compatible)
--- 
-2.25.1
+the idea was the line up the definitions. I'm not taking this, sorry.
 
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl7y9oEACgkQzL64meEa
+mQbi1w/+MTIv4tIMgZim0yPtzrtJUSjxtFHBZzzmIj9J2W6LiwfvtfkDiX7Sww9o
+KXfigdY2/GQRFZHLTOtlnK/VBmXBoM/W3OF6lZv6/QtJ4DbYmAY/LwXdOAA4VRg6
+vtwzYUJ0rnCv6jFU2CBKCyL5gNmWreFUXF4elbrFLHhjggGxmz3wBgXeGGSPTmF6
+qmL8qo95kjyP1DuPsWWLtsEzZb4mCm/c4xps5u+Ig8g3eKTYAMn2TPqTj/0LZrZH
+ZR1Blcinzv42j6jK8R30HlrRZUxKhsf85G2uzGoUQsRoipZwPtBqka0bVyudpBUZ
+ZpvWKLmx9DuCysKTIpd7PXhwgQhTQwigauEQIzg5rlkaZ6TWH5iQsCij1v9piSA8
+swtgqN6sEvnCtQ6/mtrlSGzzRilxIIf2rEm3cCHIdVyHx2b9x49jTAS0RrFibJHI
+Qfp0e1MscQRW3cCmrtBHZ9BLGPTXxyTZBIyACduW3/TB3jTQTbCipOxeBmnO34km
+ggzzI/e41b8BfI6Aeo35ktZjiOCJiJ6ZWLAdi9pXpD8mohwk/wuP+rGM0OnHXKqZ
+yRLJTs7tPfCR7x3N9Pkbu49DW31AAPhL0Hw7CNIQ7yV6NsYTysQgtK+E9e/HsMkv
+LWh7rOVFaEnWNLTLNpgituZalVT1p1V5zVrMpsxhRJYlU/QXD1Y=
+=SZhD
+-----END PGP SIGNATURE-----
+--=-=-=--
