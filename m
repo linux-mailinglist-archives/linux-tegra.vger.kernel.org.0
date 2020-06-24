@@ -2,104 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D378206CF1
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 08:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45C6B206F87
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 10:59:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389508AbgFXGqs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jun 2020 02:46:48 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:12838 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389144AbgFXGqr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jun 2020 02:46:47 -0400
-Received: from localhost.localdomain (unknown [210.32.144.65])
-        by mail-app3 (Coremail) with SMTP id cC_KCgCXknnE9vJeq1Y2AQ--.19863S4;
-        Wed, 24 Jun 2020 14:46:32 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
+        id S2387634AbgFXI7K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jun 2020 04:59:10 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15545 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728732AbgFXI7I (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jun 2020 04:59:08 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ef3157f0000>; Wed, 24 Jun 2020 01:57:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 24 Jun 2020 01:59:07 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 24 Jun 2020 01:59:07 -0700
+Received: from [10.26.73.205] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 24 Jun
+ 2020 08:59:01 +0000
+Subject: Re: [PATCH] [v5] dmaengine: tegra210-adma: Fix runtime PM imbalance
+ on error
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, <kjlu@umn.edu>
+CC:     Laxman Dewangan <ldewangan@nvidia.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Vinod Koul <vkoul@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] [v5] dmaengine: tegra210-adma: Fix runtime PM imbalance on error
-Date:   Wed, 24 Jun 2020 14:46:26 +0800
-Message-Id: <20200624064626.19855-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgCXknnE9vJeq1Y2AQ--.19863S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1fury5tFWrWr4rXwb_yoW8WF1rpF
-        W0gFWUKFZ2q3yftF1DZw1DZFy5u34Fgry5K348u3WDZan5Aa4Utr18tryavF48ZrWkAF1j
-        y34Yvw43AF1jqF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9m1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
-        67AK6r47MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
-        CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
-        6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
-        WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
-        6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
-        0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-J5rUUUUU=
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg4BBlZdtOzjqwABsR
+        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200624064626.19855-1-dinghao.liu@zju.edu.cn>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <ff88aac0-3ba7-f8e5-7ea6-c77550bc936b@nvidia.com>
+Date:   Wed, 24 Jun 2020 09:58:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200624064626.19855-1-dinghao.liu@zju.edu.cn>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1592989055; bh=KRUKpnItOq0WncTXpPUtQ2pqVUvwLgoZiV+ZoufP/1Y=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=XKluAPRSpjLoGzLPLu/+G9Ld/cD8H2ukgd9kRBkglFxIu6eN7b+NsxSGOktEUSafD
+         6jL997xgojrnlvMxj1Tuci3g+kZGQDwun3bJfQsS9EUq0Agwc7yX+L2nTte/TE2Zjp
+         Z8g3/q3xpIRBiYiHSbIEpdoNuRts4qvWUsU7g0Jtzm2H4fvjBbQo4jEVwbtEoyrj6L
+         m9XjlZ19xmys1lNu2MHL8qRQSNIvlBtYahBT9NPhS5iLJ+LWImbbRhf7jmfMvk7DeK
+         xeKegA1mbDdeQyRjl6hI8SLIRb3StImYMjalgLAHIw21UJd1c+hmnqkwNl+3XcKzTy
+         czUgCPRg7QnKw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
+On 24/06/2020 07:46, Dinghao Liu wrote:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code. Thus a pairing decrement is needed on
+> the error handling path to keep the counter balanced.
 
-Changelog:
+I was hoping you would mention explicitly why we are using _noidle in
+the changelog. However, let's not beat the dead horse any more and just
+merge this. So ...
 
-v2: - Merge two patches that fix runtime PM imbalance in
-      tegra_adma_probe() and tegra_adma_alloc_chan_resources()
-      respectively.
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-v3: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
-      in tegra_adma_alloc_chan_resources(). _noidle() is the simplest
-      one and it is sufficient for fixing this bug.
+Thanks
+Jon
 
-v4: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
-      in tegra_adma_probe(). _noidle() is the simplest one and it is
-      sufficient for fixing this bug.
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Merge two patches that fix runtime PM imbalance in
+>       tegra_adma_probe() and tegra_adma_alloc_chan_resources()
+>       respectively.
+> 
+> v3: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
+>       in tegra_adma_alloc_chan_resources(). _noidle() is the simplest
+>       one and it is sufficient for fixing this bug.
+> 
+> v4: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
+>       in tegra_adma_probe(). _noidle() is the simplest one and it is
+>       sufficient for fixing this bug.
+> 
+> v5: - Refine commit message.
+> ---
+>  drivers/dma/tegra210-adma.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+> index db58d7e4f9fe..c5fa2ef74abc 100644
+> --- a/drivers/dma/tegra210-adma.c
+> +++ b/drivers/dma/tegra210-adma.c
+> @@ -658,6 +658,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
+>  
+>  	ret = pm_runtime_get_sync(tdc2dev(tdc));
+>  	if (ret < 0) {
+> +		pm_runtime_put_noidle(tdc2dev(tdc));
+>  		free_irq(tdc->irq, tdc);
+>  		return ret;
+>  	}
+> @@ -869,8 +870,10 @@ static int tegra_adma_probe(struct platform_device *pdev)
+>  	pm_runtime_enable(&pdev->dev);
+>  
+>  	ret = pm_runtime_get_sync(&pdev->dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(&pdev->dev);
+>  		goto rpm_disable;
+> +	}
+>  
+>  	ret = tegra_adma_init(tdma);
+>  	if (ret)
+> 
 
-v5: - Refine commit message.
----
- drivers/dma/tegra210-adma.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index db58d7e4f9fe..c5fa2ef74abc 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -658,6 +658,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
- 
- 	ret = pm_runtime_get_sync(tdc2dev(tdc));
- 	if (ret < 0) {
-+		pm_runtime_put_noidle(tdc2dev(tdc));
- 		free_irq(tdc->irq, tdc);
- 		return ret;
- 	}
-@@ -869,8 +870,10 @@ static int tegra_adma_probe(struct platform_device *pdev)
- 	pm_runtime_enable(&pdev->dev);
- 
- 	ret = pm_runtime_get_sync(&pdev->dev);
--	if (ret < 0)
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(&pdev->dev);
- 		goto rpm_disable;
-+	}
- 
- 	ret = tegra_adma_init(tdma);
- 	if (ret)
 -- 
-2.17.1
-
+nvpublic
