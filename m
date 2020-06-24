@@ -2,131 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DB41206CCE
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 08:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D378206CF1
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jun 2020 08:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389123AbgFXGp2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jun 2020 02:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389064AbgFXGp2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jun 2020 02:45:28 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CA9C061573;
-        Tue, 23 Jun 2020 23:45:27 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id y18so677854lfh.11;
-        Tue, 23 Jun 2020 23:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=Fjxf+qb/ItzZQx4UrXWnTnAOQAUVXNTVGaqzPkrb5BM=;
-        b=msnIdUqZEAbCO7jGLREZ88fClfVszcU6jAksn4YZ/GPkqEzWJEB15kdqjfrO/dNQ6U
-         uyZgMfn9uoM929hL56CNJp3xY26AYayRH28vt9BiQCXjYet7sddjmCUUUv0tfgniGdo5
-         f8TeCU7jO6LGJGNwiM/rJ2S3evzAnSbr0t10z/osTeW/s/Uc1ytNcdlB24oWJMsqA8nk
-         e+EwRAx3vNzJabOxkId2vM0XMBqn+MVAcrJuxn9tBbb49x7Nh3vI5sqLy1+OXxC7JzY5
-         HV5XEMpL/zQqwihLoAinN4dbqvnjfxkJqEwInCakl8tgEJTkTxuPErlQjHKBw6OJ9InV
-         Ey+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=Fjxf+qb/ItzZQx4UrXWnTnAOQAUVXNTVGaqzPkrb5BM=;
-        b=eyTE1ZJQu2VAU7svDu0RY/C4OqnvQKMLUonbnE7usP8nx8Nk8nlwDjsLMPupdg3vgf
-         AcDN5oUN2cGMWKc/T2MjaOUCSsEuvuvweb3BRNPiAzzAy8034eTHTPHxBzvG8cnGaKoT
-         saJDkqAkIYQeNLfDRaxw77K8TODYfrVPASlomJ/Ku4P4PhXzbqp/NHPf4NCcW7CrFyaL
-         yBY7iKfSHD6xzmVGgQA+uKqjHe/VTCzy3+JjeeVQJ5jpaUR0RyyptmQp/3jF9Izdj6Vi
-         coP2UGOemii4cru5+VFY4ACkrgJOqlzJxUK8+7YMGGAE1h34aDRUeXQ/qVeTXh8AgCR4
-         v/jA==
-X-Gm-Message-State: AOAM533tPKES7y4DrOPAJVpqwmBjiGGCixdNhXlyWctrVXNWGkUxt7UL
-        tLahPSj7afdgz6RDpfYOuCw=
-X-Google-Smtp-Source: ABdhPJznq4+gIqQpwokKLThoiq214WyJzojbNV5jZnBkHxJeZA6MpkpEK5uoGCsu/7vyy7Kk65Letw==
-X-Received: by 2002:a19:ccd0:: with SMTP id c199mr12060659lfg.194.1592981126108;
-        Tue, 23 Jun 2020 23:45:26 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id f21sm1879109ljg.85.2020.06.23.23.45.24
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 23 Jun 2020 23:45:25 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Tang Bin <tangbin@cmss.chinamobile.com>,
-        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] usb: phy: tegra: Remove unnecessary spaces and tables
-In-Reply-To: <20200528112859.6160-1-tangbin@cmss.chinamobile.com>
-References: <20200528112859.6160-1-tangbin@cmss.chinamobile.com>
-Date:   Wed, 24 Jun 2020 09:45:20 +0300
-Message-ID: <87zh8tvu67.fsf@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+        id S2389508AbgFXGqs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jun 2020 02:46:48 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:12838 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2389144AbgFXGqr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jun 2020 02:46:47 -0400
+Received: from localhost.localdomain (unknown [210.32.144.65])
+        by mail-app3 (Coremail) with SMTP id cC_KCgCXknnE9vJeq1Y2AQ--.19863S4;
+        Wed, 24 Jun 2020 14:46:32 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] [v5] dmaengine: tegra210-adma: Fix runtime PM imbalance on error
+Date:   Wed, 24 Jun 2020 14:46:26 +0800
+Message-Id: <20200624064626.19855-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgCXknnE9vJeq1Y2AQ--.19863S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1fury5tFWrWr4rXwb_yoW8WF1rpF
+        W0gFWUKFZ2q3yftF1DZw1DZFy5u34Fgry5K348u3WDZan5Aa4Utr18tryavF48ZrWkAF1j
+        y34Yvw43AF1jqF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUU9m1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
+        67AK6r47MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
+        CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+        6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+        WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
+        6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+        0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-J5rUUUUU=
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg4BBlZdtOzjqwABsR
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
 
-Hi,
+Changelog:
 
-Tang Bin <tangbin@cmss.chinamobile.com> writes:
-> The macros in phy-tegra-usb.c have inconsistent sapces between
-> the macro name and the value. Thus sets all the macros to have
-> a signal space between the name and value.
->
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
-> ---
->  drivers/usb/phy/phy-tegra-usb.c | 214 ++++++++++++++++----------------
->  1 file changed, 107 insertions(+), 107 deletions(-)
->
-> diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-=
-usb.c
-> index 6153cc35a..c294dc617 100644
-> --- a/drivers/usb/phy/phy-tegra-usb.c
-> +++ b/drivers/usb/phy/phy-tegra-usb.c
-> @@ -30,124 +30,124 @@
->  #include <linux/usb/tegra_usb_phy.h>
->  #include <linux/usb/ulpi.h>
->=20=20
-> -#define ULPI_VIEWPORT				0x170
-> +#define ULPI_VIEWPORT	0x170
->=20=20
->  /* PORTSC PTS/PHCD bits, Tegra20 only */
-> -#define TEGRA_USB_PORTSC1			0x184
-> -#define TEGRA_USB_PORTSC1_PTS(x)		(((x) & 0x3) << 30)
-> -#define TEGRA_USB_PORTSC1_PHCD			BIT(23)
-> +#define TEGRA_USB_PORTSC1	0x184
-> +#define TEGRA_USB_PORTSC1_PTS(x)	(((x) & 0x3) << 30)
-> +#define TEGRA_USB_PORTSC1_PHCD	BIT(23)
+v2: - Merge two patches that fix runtime PM imbalance in
+      tegra_adma_probe() and tegra_adma_alloc_chan_resources()
+      respectively.
 
-the idea was the line up the definitions. I'm not taking this, sorry.
+v3: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
+      in tegra_adma_alloc_chan_resources(). _noidle() is the simplest
+      one and it is sufficient for fixing this bug.
 
-=2D-=20
-balbi
+v4: - Use pm_runtime_put_noidle() instead of pm_runtime_put_sync()
+      in tegra_adma_probe(). _noidle() is the simplest one and it is
+      sufficient for fixing this bug.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+v5: - Refine commit message.
+---
+ drivers/dma/tegra210-adma.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index db58d7e4f9fe..c5fa2ef74abc 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -658,6 +658,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
+ 
+ 	ret = pm_runtime_get_sync(tdc2dev(tdc));
+ 	if (ret < 0) {
++		pm_runtime_put_noidle(tdc2dev(tdc));
+ 		free_irq(tdc->irq, tdc);
+ 		return ret;
+ 	}
+@@ -869,8 +870,10 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	ret = pm_runtime_get_sync(&pdev->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_noidle(&pdev->dev);
+ 		goto rpm_disable;
++	}
+ 
+ 	ret = tegra_adma_init(tdma);
+ 	if (ret)
+-- 
+2.17.1
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl7y9oEACgkQzL64meEa
-mQbi1w/+MTIv4tIMgZim0yPtzrtJUSjxtFHBZzzmIj9J2W6LiwfvtfkDiX7Sww9o
-KXfigdY2/GQRFZHLTOtlnK/VBmXBoM/W3OF6lZv6/QtJ4DbYmAY/LwXdOAA4VRg6
-vtwzYUJ0rnCv6jFU2CBKCyL5gNmWreFUXF4elbrFLHhjggGxmz3wBgXeGGSPTmF6
-qmL8qo95kjyP1DuPsWWLtsEzZb4mCm/c4xps5u+Ig8g3eKTYAMn2TPqTj/0LZrZH
-ZR1Blcinzv42j6jK8R30HlrRZUxKhsf85G2uzGoUQsRoipZwPtBqka0bVyudpBUZ
-ZpvWKLmx9DuCysKTIpd7PXhwgQhTQwigauEQIzg5rlkaZ6TWH5iQsCij1v9piSA8
-swtgqN6sEvnCtQ6/mtrlSGzzRilxIIf2rEm3cCHIdVyHx2b9x49jTAS0RrFibJHI
-Qfp0e1MscQRW3cCmrtBHZ9BLGPTXxyTZBIyACduW3/TB3jTQTbCipOxeBmnO34km
-ggzzI/e41b8BfI6Aeo35ktZjiOCJiJ6ZWLAdi9pXpD8mohwk/wuP+rGM0OnHXKqZ
-yRLJTs7tPfCR7x3N9Pkbu49DW31AAPhL0Hw7CNIQ7yV6NsYTysQgtK+E9e/HsMkv
-LWh7rOVFaEnWNLTLNpgituZalVT1p1V5zVrMpsxhRJYlU/QXD1Y=
-=SZhD
------END PGP SIGNATURE-----
---=-=-=--
