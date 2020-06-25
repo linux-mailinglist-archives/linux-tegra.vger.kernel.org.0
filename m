@@ -2,157 +2,184 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F23220A83F
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jun 2020 00:32:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8B9E20A861
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jun 2020 00:47:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404360AbgFYWc3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 25 Jun 2020 18:32:29 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13767 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404060AbgFYWc2 (ORCPT
+        id S2404332AbgFYWry (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 25 Jun 2020 18:47:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403795AbgFYWrx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 25 Jun 2020 18:32:28 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ef525cd0000>; Thu, 25 Jun 2020 15:31:41 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 25 Jun 2020 15:32:28 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 25 Jun 2020 15:32:28 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 25 Jun
- 2020 22:32:26 +0000
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
- by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Thu, 25 Jun 2020 22:32:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hJgRWP/8UBXqYktyBIz0hQENGAMToAU1XyRKiFztCN/YITF3Jn00jDss6cgACdbTtqArsXWpGZLS4RRN3VrDg6QX9WF38baAZ/Dud1Nf9WDVduLoeU5ZoX8zWdmwTY1tja8GvJ4k6gpTPECWINga07ySNenQPH254hxmQoZt60ZJXqEaZq0bs/6JOPLAU0zKfMLxLqZLjZhbbjIC9xHsxQtPplVaH2r82SM+bblmmYw67s+zOEVKWDhFEOvZJfufKFgr/PF63HdIgCHxq7IMvA0UWtPZgGL0ZwzBuEA6/SfMTtOrI4ngIqCMeEsPrJwSVbjFa5wvuOxg08wVnR9WpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BBT4oXmAgqHlR4wtELUFVV/DkDUb7NSZEI3m+QnPTaU=;
- b=JKtLKKxOeDQ/OoJMjLvcZXNirE5+slhWnjBr6rMpDVsIcfqd7ALuxUu98s6h/xG5BwdLt72cLNyPeyV7ltldsl+slUr3EfT+GJegCALCcCZdwp2xVCdfOIk0JFU6BxyUjDJvhNrAc/YFEyCd6wekV+MFdfNkSqEONXYG34EaG/bevxb2x6Y86/iiB1eHx/ZzP9/Dkv3A5bmTHLklfQUy64PiXEaAWstZVxWiMBOh8loL0tHH1HZYaQMniPQLXu2aCKoKYNGeKt/EOqclbRTeDGCebZpODYkibTeo7mW+q6CDvlV458NA255l+ZqTU19CjwKNbpBBJAXK9TeelOKYsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
- by BYAPR12MB3126.namprd12.prod.outlook.com (2603:10b6:a03:df::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Thu, 25 Jun
- 2020 22:32:25 +0000
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3109.026; Thu, 25 Jun 2020
- 22:32:25 +0000
-From:   Krishna Reddy <vdumpa@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Sachin Nikam <Snikam@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Bryan Huntsman <bhuntsman@nvidia.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Yu-Huan Hsu <YHsu@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Bitan Biswas <bbiswas@nvidia.com>
-Subject: RE: [PATCH v6 2/4] dt-bindings: arm-smmu: Add binding for Tegra194
- SMMU
-Thread-Topic: [PATCH v6 2/4] dt-bindings: arm-smmu: Add binding for Tegra194
- SMMU
-Thread-Index: AQHWOsoatXeRYg22cUKdLG2g64TOnKjl/cCAgAQNp9A=
-Date:   Thu, 25 Jun 2020 22:32:25 +0000
-Message-ID: <BYAPR12MB28227065EDF92A406A770ECBB3920@BYAPR12MB2822.namprd12.prod.outlook.com>
-References: <20200604234414.21912-1-vdumpa@nvidia.com>
- <20200604234414.21912-3-vdumpa@nvidia.com> <20200623083827.GC4098287@ulmo>
-In-Reply-To: <20200623083827.GC4098287@ulmo>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-25T22:32:21.5028718Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=65d84281-7db6-49a0-bed5-2431a618c7a1;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [216.228.112.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 346089c7-a281-4665-9351-08d81957a298
-x-ms-traffictypediagnostic: BYAPR12MB3126:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB3126F22C7BB7C1E1B17EEAC3B3920@BYAPR12MB3126.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 0445A82F82
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9+/yCn9iEGOzX9xCfzUbcnNDckJEC9nQ4iQIcmkoWCT1H6BxSy7yH1UpA2n+EdT11qfYBvV/Rj9mR68GX2fyDblAzdCUxzvFO87B+iGO9pxqPW9M6gInIg5hRwK0xW0iFfYgl2M0lRLTS2afr5e/ZbfuROmoZzbvmt3gw9n4xYQkbgHhDjoOlVrvp/OQG49cmRvOZi4KPwJQuik+DkxHuDGAvDZHwX7x1u1cMfPINtwLvqrBoK8HaG+sWu6Cb8ClP+hALsL3dOwczVYoSwPhEaQVCSdIqvJ/J3vOv0TM1jNs23BVVGXeRvBxlqcpzUkVUhR6o/HZoJebcI3UJCjq7Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39860400002)(346002)(366004)(396003)(376002)(136003)(33656002)(6506007)(107886003)(316002)(54906003)(26005)(71200400001)(478600001)(7696005)(558084003)(2906002)(186003)(4326008)(52536014)(55016002)(9686003)(86362001)(6916009)(76116006)(66556008)(8936002)(66446008)(66476007)(64756008)(5660300002)(8676002)(66946007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: +k7+tlB9+4EtuKOjx0wjupqMHa3NLwfZhesuo63F6qzQGOyhVA/29dD3l8JpiIsNIIgxZ4APgpMRMdc5lq3dzONjgcTWeh+LgM2Iwyw+n7mzU1X+VzawLVxMxnG6LgCYZ/PoVAby2kJv4PIK0fNrq+Ljy+zerPwFUqqjCKfoF8TgEVmjERx5yygTIv4dLk41biEBA971dZXWrHoS0HPTspqpVbyaSjYGqzeTYuPjOXfBnsSarwf3ZDgtaQ3hMNPYXFVQRh6w+76eoqOWBF28sOxvDFWyo/iOCOHxH6p/jfsjZyzkcbCjFxVVAT8sdzPnLlDPkXSwD2r1gWEuTfxhDO3NZxF5mpOeqVFC+G8+eOJEeZWIJ18slDSGNgO9B08FODP/ooja0F+kWBQ60KnXdLM+fmsqVFrGWzzXnjHYedQadRnrBx7F3MV7bMcGH3Khz0DfV9lrhx7GfAtpIlawCUo0OvF15nJs2juV6thtsVgcsKonOa/WM/ooOh8VgBWO
+        Thu, 25 Jun 2020 18:47:53 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC35CC08C5C1
+        for <linux-tegra@vger.kernel.org>; Thu, 25 Jun 2020 15:47:52 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id u25so4121784lfm.1
+        for <linux-tegra@vger.kernel.org>; Thu, 25 Jun 2020 15:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=C4vrGywFSXvGLVoOss5hU28tEX4KZdVDOtq3n+dB2dc=;
+        b=TSe5FwAqquY2gAjRl1KrSZ7igP7mNtiIVOuWjnXnZZMPF0k5TjmHtZn24t5OZuAaJ/
+         vGKqZKRgtyDjOPot8FJx4LAIm4xyu5/8eMsB2Up2pE5w+cSnBCXgmZWPNp0JatBduk6d
+         skpVkVQ5eQY75vrblIsNa7imNRJYpUj3vFvsR4YSKUsRT/hfcI5PrFb3avOV3gm5lop5
+         AknFehxKoAgiP5TRSB4+P/+Uo7J8k0xMfc9wg6jsTse3bF1a7+cskhSNFHMIgObPwnhV
+         IQRpTzg8wMWAELa9uap3hvagGROhGpeYCkSQOYUoe/s7nBsubteAvy4+pLmcIRNpxMnV
+         xIsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=C4vrGywFSXvGLVoOss5hU28tEX4KZdVDOtq3n+dB2dc=;
+        b=Su8HZkLvhbiJ91DRg6WAAb91wJ+yES7Au5xKr/YZg5PnIo98sgY9CwkS+r6j5DW8cc
+         81sycvyphn/7Lra3coaZp9IemI33hTp9gyjb3GtupFoHBq7UT28UehWxsYf5sylo4LMa
+         dhXUw6Nqxy/Hug/wYr6ZdtkoslRBXzyXtRZ9jZb58iC+VZIHd0fLeeGDBwlsqfXJl4Qv
+         94miwaaiogWN5EppPanBEpnWunOKR3BqyoRcCBXreGFW9o4d2OWJqG8l7hnPwMcjcO75
+         v8E768xsBtNQdkf9Qnr/lray1e5hyHRK0NZUAJV/+72Zw5xXcaPsOlrCzZ6/B+C+WIzq
+         zPNw==
+X-Gm-Message-State: AOAM5310ZKEEwsPigsYrFsQdAO9/f/fViu62ppPAa/yESzYXWXfkn08t
+        n0snzPcrq5qpvE84bSrJk48=
+X-Google-Smtp-Source: ABdhPJyQAh4jIqAraYem2WT7HVJwLp3BcQAOVVikYwcjix7YREyqGXMA62a1zb8hkoobWlBfBqeHKg==
+X-Received: by 2002:a19:ccc5:: with SMTP id c188mr145881lfg.163.1593125269067;
+        Thu, 25 Jun 2020 15:47:49 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id f12sm5052806ljk.44.2020.06.25.15.47.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2020 15:47:48 -0700 (PDT)
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_channel_map)
+To:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
+        gustavo@padovan.org
+Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
+        bhuntsman@nvidia.com
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <4f9ddf30-ad8d-3750-20d7-867be17a1006@gmail.com>
+Date:   Fri, 26 Jun 2020 01:47:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 346089c7-a281-4665-9351-08d81957a298
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2020 22:32:25.1533
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Q9lgTtMK6X74OzojGX8XIRz9jz+M8VHmDXOEWXwrDxgbY9mpenI/LGMpyx0fypTyflR3+lHQ44RPMbKAnjLEnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3126
-X-OriginatorOrg: Nvidia.com
+In-Reply-To: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593124301; bh=BBT4oXmAgqHlR4wtELUFVV/DkDUb7NSZEI3m+QnPTaU=;
-        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
-         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
-         Thread-Index:Date:Message-ID:References:In-Reply-To:
-         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-         authentication-results:x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
-         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam:
-         x-microsoft-antispam-message-info:x-forefront-antispam-report:
-         x-ms-exchange-antispam-messagedata:MIME-Version:
-         X-MS-Exchange-CrossTenant-AuthAs:
-         X-MS-Exchange-CrossTenant-AuthSource:
-         X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=oHDmyDW8I7GfYIVeLKTsopRdzkvSYz6oOggAIPERlGKHSPBiLBDD1Ad09SACrE4vz
-         iigJOH21YDP1hRIgA+WNIgJscg7ElLCPQ6OabVJ7e32plz7oDANSLkmoGyBrkdTBHy
-         k3lOIzr7lvHak17aENL3bU0qM4jzbAquhWLF8UWB5BgY3tME7Y0fa2T45hRlJxaKda
-         zFkuXoqGqrLT/hp42DMFmZ1vR0MRUiEZtnoXvIZjlDvMdnipVFuyikox3uOuLtfVxl
-         LZnpKNXa9h6fXsD0WAhekXX9K4McuBhkWZrCqq1HmsJU907XhchgCPpOIB3+8frZXf
-         8T+yzyDpUtdPw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
->> +              - nvdia,tegra194-smmu-500
->The -500 suffix here seems a bit redundant since there's no other type of =
-SMMU in Tegra194, correct?
+23.06.2020 15:09, Mikko Perttunen пишет:
+> ### DRM_TEGRA_CHANNEL_MAP
+> 
+> Make memory accessible by the engine while executing work on the channel.
+> 
+> ```
+> #define DRM_TEGRA_CHANNEL_MAP_READWRITE        (1<<0)
+> 
+> struct drm_tegra_channel_map {
+>         /*
+>          * [in] ID of the channel for which to map memory to.
+>          */
+>         __u32 channel_id;
+>         /*
+>          * [in] GEM handle of the memory to map.
+>          */
+>         __u32 handle;
+> 
+>         /*
+>          * [in] Offset in GEM handle of the memory area to map.
+>          *
+>          * Must be aligned by 4K.
+>          */
+>         __u64 offset;
 
-Yeah, there is only one type of SMMU supported in T194. It was added to be =
-synonymous with mmu-500.  Can be removed.
+Could you please give a use-case example for this partial mapping?
 
--KR
+I vaguely recalling that maybe it was me who suggested this in the past..
+
+I kinda see that this could be useful for a case where userspace
+allocates a large chunk of memory and then performs sub-allocations in
+the userspace driver. But do we have a real-world example for this right
+now?
+
+Please see more below.
+
+>         /*
+>          * [in] Length of memory area to map in bytes.
+>          *
+>          * Must be aligned by 4K.
+>          */
+>         __u64 length;
+> 
+>         /*
+>          * [out] IOVA of mapped memory. Userspace can use this IOVA
+>          *   directly to refer to the memory to skip using relocations.
+>          *   Only available if hardware memory isolation is enabled.
+>          *
+>          *   Will be set to 0xffff_ffff_ffff_ffff if unavailable.
+>          */
+>         __u64 iova;
+> 
+>         /*
+>          * [out] ID corresponding to the mapped memory to be used for
+>          *   relocations or unmapping.
+>          */
+>         __u32 mapping_id;
+>         /*
+>          * [in] Flags.
+>          */
+>         __u32 flags;
+> 
+>         __u32 reserved[6];
+> };
+
+It looks to me that we actually need a bit different thing here.
+
+This MAP IOCTL maps a portion of a GEM and then returns the mapping_id.
+And I think we need something more flexible that will allow us to use
+GEM handles for the relocation IDs, which should fit nicely with the
+DMA-reservations.
+
+What about an IOCTL that wraps GEM into another GEM? We could wrap a
+portion of GEM_A into a GEM_B, and then map the GEM_B using the MAP IOCTL.
+
+It could be something like this:
+
+### DRM_TEGRA_BO_WRAP
+
+struct drm_tegra_wrap_bo {
+	__u32 bo_handle_wrapped; // out
+	__u32 bo_handle;         // in
+	__u64 offset;
+	__u64 length;
+};
+
+### DRM_TEGRA_CHANNEL_MAP
+
+struct drm_tegra_channel_map {
+        __u32 channels_mask;
+	__u32 mapping_id;
+        __u32 bo_handle;
+        __u32 flags;
+        __u64 iova;
+};
+
+===
+
+This allows multiple mapping_ids to have the same backing GEM, so the
+mapping_id could be resolved into a BO during of job's submission for
+the DMA-reservations handling.
+
+Also:
+
+  1. Maybe the WRAP IOCTL could be a generic GEM IOCTL?
+
+  2. I guess we could start easy without the WRAP IOCTL and
+     add it later on once there will be a real-world need.
