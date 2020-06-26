@@ -2,110 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBF7A20B397
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jun 2020 16:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7366420B50F
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jun 2020 17:44:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725806AbgFZObo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jun 2020 10:31:44 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3396 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbgFZObn (ORCPT
+        id S1729904AbgFZPoE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jun 2020 11:44:04 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12431 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726895AbgFZPoE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jun 2020 10:31:43 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ef606700001>; Fri, 26 Jun 2020 07:30:08 -0700
+        Fri, 26 Jun 2020 11:44:04 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ef617950000>; Fri, 26 Jun 2020 08:43:17 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 26 Jun 2020 07:31:43 -0700
+  Fri, 26 Jun 2020 08:44:04 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 26 Jun 2020 07:31:43 -0700
-Received: from [10.40.205.13] (172.20.13.39) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Fri, 26 Jun 2020 08:44:04 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 26 Jun
- 2020 14:31:37 +0000
-Subject: Re: [RFC] PCI: tegra: Revert raw_violation_fixup for tegra124
-To:     Nicolas Chauvet <kwizart@gmail.com>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>
-References: <20200420164304.28810-1-kwizart@gmail.com>
- <680b456a-b1ed-45f6-aa38-6ec49783af6d@nvidia.com>
- <CABr+WT=Gy6vmB-GdCeR_q8ogB4b19LDqQV5mjNh5VvZ0BUJKig@mail.gmail.com>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <4acabca8-e2fc-b660-0c37-c5f332b99084@nvidia.com>
-Date:   Fri, 26 Jun 2020 20:00:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ 2020 15:44:03 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 26 Jun 2020 15:44:03 +0000
+Received: from sumitg-l4t.nvidia.com (Not Verified[10.24.37.103]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ef617bf0001>; Fri, 26 Jun 2020 08:44:03 -0700
+From:   Sumit Gupta <sumitg@nvidia.com>
+To:     <rjw@rjwysocki.net>, <viresh.kumar@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <jonathanh@nvidia.com>,
+        <talho@nvidia.com>, <linux-pm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <bbasu@nvidia.com>, <sumitg@nvidia.com>, <mperttunen@nvidia.com>
+Subject: [TEGRA194_CPUFREQ PATCH v4 0/4] Add cpufreq driver for Tegra194
+Date:   Fri, 26 Jun 2020 21:13:52 +0530
+Message-ID: <1593186236-12760-1-git-send-email-sumitg@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <CABr+WT=Gy6vmB-GdCeR_q8ogB4b19LDqQV5mjNh5VvZ0BUJKig@mail.gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593181808; bh=rfotPtR65lcNl8JsC77pG5+W18C3D6C7K31DVG1cqEQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=BJ+boJUZ2JgAN8Pial9Ox17ZWvxk19YuxM+bOK1vwqZw5u7fBJKnrqEsAS197WEZ/
-         I4IS/urUZl0KRlpbEZK9wvCthhZ0Yb+QMbaTnReCYzaIlYgI6kv4D0/00YKSazu87Y
-         htxWG4jpN1TAfvDmn/QN07y+wsDaCe81QfyGBlBxAeKJpnji7EISfMpOf/Hc38pXlT
-         ODRrqSMhoMCZrgOWqlmLGJVssZvm3if/2/boJUjK/jd4j7dM6ygbGK7HjmGDWbcq4C
-         MS/SiKM5p5miq/3k35CMPb995VGze1hO34xnN663W73Zg2NMuWocdlU8lElCpeCfRT
-         7g1hB/FJdgUAQ==
+        t=1593186197; bh=UM5Bbd0/GCwYfLhn/DGNjOUA+9lJK2yysJtZ6vuKT3w=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=itVozhVZE0HqUPYrUE3m9zs4S5isSIaSDKgdblwqwDxbYUjQqWeR6Ocizr8a6ENYD
+         eAe5ebcN6juo8UFkShxVOomHAq8+j8AvyJg37XPJYIvwfZxZX2bRtH/pPXs93dfD1+
+         L+PHJ5dO870vMQo5GnDLv+51Sx5UVMfYHrXmC66xGPxcr93hTv24tyEyPNtaF36x2N
+         olV0DzDAA1aLQ8Sl55fiQaRH7K6s/VX7s+5GB2mT29KAWgodPLNcnO37j28sQ0O7tI
+         XPEcoSmZsP37G8ww2zMsBLF+23B6GcmhrT0XVJDFm7cZtX1ESYDfKmq0wm20//s4nP
+         qZol7eI/JzlaA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The patch series adds cpufreq driver for Tegra194 SOC.
+Incorporated the feedback on previous version patchset.
+Please consider this patch series for merging in 5.9.
 
-On 26-Jun-20 6:52 PM, Nicolas Chauvet wrote:
-> External email: Use caution opening links or attachments
->
->
-> Le lun. 20 avr. 2020 =C3=A0 20:16, Manikanta Maddireddy
-> <mmaddireddy@nvidia.com> a =C3=A9crit :
->> Thank you Nicolas for identifying the patch which caused the CmpltTO.
->>
->> Little background on the fixup,
->>  In the internal testing with dGPU on Tegra124, CmplTO is reported by
->> dGPU. This happened because FIFO queue in AFI(AXI to PCIe) module
->> get full by upstream posted writes. Back to back upstream writes
->> interleaved with infrequent reads, triggers RAW violation and CmpltTO.
->> This is fixed by reducing the posted write credits and by changing
->> updateFC timer frequency. These settings are fixed after stress test.
->>
->> In the current case, RTL NIC is also reporting CmplTO. These settings
->> seems to be aggravating the issue instead of fixing it.
-> Seems I've lost track of this  issue.
->
-> @Manikanta Maddireddy  Do you plan to have some time to work on this ?
+v3[3] -> v4
+- Open code LOOP_FOR_EACH_CPU_OF_CLUSTER macro[Viresh]
+- Delete unused funciton map_freq_to_ndiv[Viresh, kernel test bot]
+- Remove flush_workqueue from free_resources[Viresh]
 
-Unfortunately, I don't have access to T124 platform because of lock down.
+v2[2] -> v3
+- Set same policy for all cpus in a cluster[Viresh].
+- Add compatible string for CPU Complex under cpus node[Thierry].
+- Add reference to bpmp node under cpus node[Thierry].
+- Bind cpufreq driver to CPU Complex compatible string[Thierry].
+- Remove patch to get bpmp data as now using cpus node to get that[Thierry].
 
-> If going with the revert I wonder if I need to revert more completely
-> the original patch ? Since only tegra124 used the raw_violation_fixup,
-> should I remove this case and the related function completely or leave
-> the code as is ? (there will be few unused functions maybe). Given
-> other fixup have been added at a later time, the full revert is less
-> trivial.
+v1[1] -> v2:
+- Remove cpufreq_lock mutex from tegra194_cpufreq_set_target [Viresh].
+- Remove CPUFREQ_ASYNC_NOTIFICATION flag [Viresh].
+- Remove redundant _begin|end() call from tegra194_cpufreq_set_target.
+- Rename opp_table to freq_table [Viresh].
 
-There are no unused functions, small piece of code under raw_violation_fixu=
-p
-check will become redundant. Yes, revert will give conflicts.
-I may not get a chance to work on this bug in coming months. If possible,
-please do complete revert. Once I get a chance to work on this bug, I will
-send out new patch.
+Sumit Gupta (4):
+  dt-bindings: arm: Add t194 ccplex compatible and bpmp property
+  arm64: tegra: Add t194 ccplex compatible and bpmp property
+  cpufreq: Add Tegra194 cpufreq driver
+  arm64: defconfig: Enable CONFIG_ARM_TEGRA194_CPUFREQ
 
--Manikanta
+ Documentation/devicetree/bindings/arm/cpus.yaml |   9 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi        |   2 +
+ arch/arm64/configs/defconfig                    |   1 +
+ drivers/cpufreq/Kconfig.arm                     |   6 +
+ drivers/cpufreq/Makefile                        |   1 +
+ drivers/cpufreq/tegra194-cpufreq.c              | 396 ++++++++++++++++++++++++
+ 6 files changed, 415 insertions(+)
+ create mode 100644 drivers/cpufreq/tegra194-cpufreq.c
 
->
-> Right now this partial revert is enough to work reliably with the device.
->
-> Thanks for your advice.
-> I will send a non-RFC version then.
+[1] https://marc.info/?t=157539452300001&r=1&w=2
+[2] https://marc.info/?l=linux-tegra&m=158602857106213&w=2
+[3] https://marc.info/?l=linux-pm&m=159283376010084&w=2
+-- 
+2.7.4
 
