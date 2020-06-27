@@ -2,232 +2,290 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3735020B5F4
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jun 2020 18:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D187A20BE70
+	for <lists+linux-tegra@lfdr.de>; Sat, 27 Jun 2020 06:54:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbgFZQfP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jun 2020 12:35:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726725AbgFZQfO (ORCPT
+        id S1725880AbgF0EyR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Jun 2020 00:54:17 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17339 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725861AbgF0EyQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jun 2020 12:35:14 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30831C03E979
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Jun 2020 09:35:13 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id t25so6426044lji.12
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Jun 2020 09:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OIecv9YlyKV61n8hk7i7ZPRxzKbVL2qdV5qLEcx5Ibs=;
-        b=sEQIS+UATeSUymSPBjRcyB/ZglHPNkPbbE1DUztVSbSRViCxFUV/QTINRmMq82ANhK
-         QN2C7+TmIAUI0mlYVoPFyO9GuPG6WHmWXIuybL/CMqStTeA7A5lZA8cJTCkutbjfeN7z
-         iXd6u4lUNrhnbw88SHgZ7Q4MkIY8ZX7/v2z9LwlPCGDD5BFf6jmT2v7e9lVuslPjj9ph
-         CwEmg4oSSkO6bl+lPs8XxJpucbtX/Gn4NuUbtNtZtayodF8bNqhG6RfqhsNE2xjoKLLg
-         Y8u+WfijgNuj6y0hjF8IFhAgA+ouP03rX4juB9J9eVO5bJO+rPQ7cYc/VEsXp6w2gyyP
-         bRJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=OIecv9YlyKV61n8hk7i7ZPRxzKbVL2qdV5qLEcx5Ibs=;
-        b=QQFO7ZgJamr0U2SdnCy9r9v+TkI+7Z2rjy8ozfZNRoc7sS50l7b8ceQ7XEw3rUv150
-         2CEmhJIApEW4luQX992NdxGHPBW19OvWJRMPrr45d901ZVSsCSpk5n2p2iKfn/D4eZEI
-         j6XZOYiXktaHsx2574nNYqHBbqJcbMd5WQHRny90TVjIFY6+tYS/Rylq7DkOLHQ3GFwB
-         SaVsGslUrCIXzmFR6m6xQsuslOmnS1B+dHnTWD7b0+pWbpTt81dCZGKl5xsMmNxi9qGD
-         8Yl4/dVAwqNitQ9Lm4ixyXwe7YXSHJT7wUJhkYc2kbFWNjqn4xZHFtJDEa1eNxZFd/Oo
-         0UcQ==
-X-Gm-Message-State: AOAM530yONHEC3uq5O+ipnIISWiZYT71dIc6/sg4xnJQz7VRvCvqDCLc
-        SXxEZQ6sFjO2EfiE7SS3XXQ=
-X-Google-Smtp-Source: ABdhPJyYtQMjkQ4XkujoBtJWlC7dnZLM1F89L00QsoyIyilEGnEhqjxg2o2D/qHrMKn6Hgpz2YrFmw==
-X-Received: by 2002:a2e:701a:: with SMTP id l26mr1980479ljc.88.1593189311420;
-        Fri, 26 Jun 2020 09:35:11 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id z16sm2649375ljn.50.2020.06.26.09.35.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2020 09:35:10 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_channel_map)
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
-        gustavo@padovan.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
-        bhuntsman@nvidia.com
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <4f9ddf30-ad8d-3750-20d7-867be17a1006@gmail.com>
- <20200626073430.GA3109062@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4c243f7a-4c53-d995-88a1-0fe03d41fc3a@gmail.com>
-Date:   Fri, 26 Jun 2020 19:35:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Sat, 27 Jun 2020 00:54:16 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ef6d0eb0000>; Fri, 26 Jun 2020 21:54:03 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 26 Jun 2020 21:54:16 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 26 Jun 2020 21:54:16 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 27 Jun
+ 2020 04:54:15 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sat, 27 Jun 2020 04:54:15 +0000
+Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ef6d0f20000>; Fri, 26 Jun 2020 21:54:15 -0700
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <kuninori.morimoto.gx@renesas.com>, <robh+dt@kernel.org>,
+        <lgirdwood@gmail.com>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <digetx@gmail.com>, <alsa-devel@alsa-project.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>,
+        <nwartikar@nvidia.com>, <swarren@nvidia.com>,
+        <nicoleotsuka@gmail.com>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH v4 00/23] Add support for Tegra210 Audio
+Date:   Sat, 27 Jun 2020 10:23:22 +0530
+Message-ID: <1593233625-14961-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20200626073430.GA3109062@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593233643; bh=gS2LeCBOkNr/NDBOzIl7Kje7Ih0caLuxNgYjjUAkrGI=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=ieyO7nVuxuTmORQkdbE14Hai2Rn9w2fwSB8T/JhuxN7zy4axsO/cN17rh8HCzuI13
+         isyZH6lmG6+zUq7FYm5AG7oan9P8z8d0TyZBnLZxfmQAaCWjOnaLAX2PWjlm8FS5Pw
+         4CqDGCUGCeW5MewCYcXG5/j/RcD8IVThc8JzvJhJkwjhYVfO6GnbFjHX5UBF0aMDtJ
+         hcGekQFPwtuaeURJLIwIkUd3+jsONFmhqdO9YijDc0xOLNY0ovywJlG4rwD12UeEk/
+         e/nZRyKdsavpTM31b6Tw2pKmAbchFq5Ub0TzbgVukLdO99DZt0Ghthwx4WCu1N6ceZ
+         f22CFnoUVX8aQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-26.06.2020 10:34, Thierry Reding пишет:
-> On Fri, Jun 26, 2020 at 01:47:46AM +0300, Dmitry Osipenko wrote:
->> 23.06.2020 15:09, Mikko Perttunen пишет:
->>> ### DRM_TEGRA_CHANNEL_MAP
->>>
->>> Make memory accessible by the engine while executing work on the channel.
->>>
->>> ```
->>> #define DRM_TEGRA_CHANNEL_MAP_READWRITE        (1<<0)
->>>
->>> struct drm_tegra_channel_map {
->>>         /*
->>>          * [in] ID of the channel for which to map memory to.
->>>          */
->>>         __u32 channel_id;
->>>         /*
->>>          * [in] GEM handle of the memory to map.
->>>          */
->>>         __u32 handle;
->>>
->>>         /*
->>>          * [in] Offset in GEM handle of the memory area to map.
->>>          *
->>>          * Must be aligned by 4K.
->>>          */
->>>         __u64 offset;
->>
->> Could you please give a use-case example for this partial mapping?
->>
->> I vaguely recalling that maybe it was me who suggested this in the past..
->>
->> I kinda see that this could be useful for a case where userspace
->> allocates a large chunk of memory and then performs sub-allocations in
->> the userspace driver. But do we have a real-world example for this right
->> now?
-> 
-> I think the main point about this IOCTL was to make mapping/unmapping
-> more efficient and avoid relocations for situations where we know it is
-> safe to do so.
-> 
-> The fact that this can be used to create partial mappings is mostly just
-> an added bonus, in my opinion. Doing this doesn't create much complexity
-> but in turn gives us a lot more flexibility.
-> 
-> A couple of places where I think this could be useful are OpenGL and
-> Vulkan, both of which support buffer suballocation. This has a couple of
-> advantages on modern GPUs where sometimes you want to use very large
-> allocation granularity, etc.
-> 
-> Now, I don't think that we'll see much of that in Tegra DRM directly,
-> although grate could certainly make use of this, I suspect. However, I
-> think for interoperation of dGPU and Tegra DRM (with VIC for post-
-> processing, or hopefully some of the other hardware acceleration
-> engines at some point), this might come in handy.
-> 
-> There are other possible use-cases within just Tegra DRM as well. We may
-> want to only partially map planar buffers for video post-processing, for
-> example. Or map each plane separately.
-> 
->> Please see more below.
->>
->>>         /*
->>>          * [in] Length of memory area to map in bytes.
->>>          *
->>>          * Must be aligned by 4K.
->>>          */
->>>         __u64 length;
->>>
->>>         /*
->>>          * [out] IOVA of mapped memory. Userspace can use this IOVA
->>>          *   directly to refer to the memory to skip using relocations.
->>>          *   Only available if hardware memory isolation is enabled.
->>>          *
->>>          *   Will be set to 0xffff_ffff_ffff_ffff if unavailable.
->>>          */
->>>         __u64 iova;
->>>
->>>         /*
->>>          * [out] ID corresponding to the mapped memory to be used for
->>>          *   relocations or unmapping.
->>>          */
->>>         __u32 mapping_id;
->>>         /*
->>>          * [in] Flags.
->>>          */
->>>         __u32 flags;
->>>
->>>         __u32 reserved[6];
->>> };
->>
->> It looks to me that we actually need a bit different thing here.
->>
->> This MAP IOCTL maps a portion of a GEM and then returns the mapping_id.
->> And I think we need something more flexible that will allow us to use
->> GEM handles for the relocation IDs, which should fit nicely with the
->> DMA-reservations.
->>
->> What about an IOCTL that wraps GEM into another GEM? We could wrap a
->> portion of GEM_A into a GEM_B, and then map the GEM_B using the MAP IOCTL.
->>
->> It could be something like this:
->>
->> ### DRM_TEGRA_BO_WRAP
->>
->> struct drm_tegra_wrap_bo {
->> 	__u32 bo_handle_wrapped; // out
->> 	__u32 bo_handle;         // in
->> 	__u64 offset;
->> 	__u64 length;
->> };
->>
->> ### DRM_TEGRA_CHANNEL_MAP
->>
->> struct drm_tegra_channel_map {
->>         __u32 channels_mask;
->> 	__u32 mapping_id;
->>         __u32 bo_handle;
->>         __u32 flags;
->>         __u64 iova;
->> };
->>
->> ===
->>
->> This allows multiple mapping_ids to have the same backing GEM, so the
->> mapping_id could be resolved into a BO during of job's submission for
->> the DMA-reservations handling.
-> 
-> That's pretty much what we have already above, isn't it? Just because we
-> call the field "mapping_id" doesn't mean that in the background we can't
-> create a GEM object and return it's handle as "mapping_id".
-> 
-> One advantage of Mikko's proposal is that we have a single IOCTL rather
-> than two to create the mapping, making it a bit more lightweight.
+Overview
+========
+Audio Processing Engine (APE) comprises of Audio DMA (ADMA) and Audio
+Hub (AHUB) unit. AHUB is a collection of hardware accelerators for audio
+pre-processing and post-processing. It also includes a programmable full
+crossbar for routing audio data across these accelerators.
 
-Thinking a bit more about it, I now changed my mind.
+This series exposes some of these below mentioned HW devices as ASoC
+components for Tegra platforms from Tegra210 onwards.
+ * ADMAIF : The interface between ADMA and AHUB
+ * XBAR   : Crossbar for routing audio samples across various modules
+ * I2S    : Inter-IC Sound Controller
+ * DMIC   : Digital Microphone
+ * DSPK   : Digital Speaker
 
-There is no need to perform implicit fencing on each suballocation,
-instead explicit fencing should be used for the suballocations.
+Following is the summary of current series.
+ * Add YAML DT binding documentation for above mentioned modules.
+ * Helper function for ACIF programming is exposed for Tegra210 and later.
+ * Add ASoC driver components for each of the above modules.
+ * Add DT entries for above components for Tegra210, Tegra186 and
+   Tegra194.
+ * Enable these components for Jetson Nano/TX1/TX2/Xavier
+ * Enhance simple-card DPCM driver to suit Tegra Audio applications with
+   few changes in core.
+ * To begin with, enable sound card support for Tegra210 based platforms
+   like Jetson Nano/TX1.
 
-So, we will need to add the relocation flags for the direction and
-explicit (or implicit) fencing per-relocation. The direction will tell
-how fence should be attached to the BO's DMA-reservation, while the
-fence-flag will tell whether job's scheduler should wait for the BO's
-reservation before executing job on hardware. This all will be needed
-for a proper DRI implementation on older Tegras.
+Sound card support for platforms based on Tegra186 and later will be
+subsequently added which can re-use all of the above components.
 
-Actually, during of my experiments with the UAPI, I added both these
-flags for the relocations [1], but really used only the direction flag
-so far, relying on the implicit fencing.
+Changelog
+=========
 
-[1]
-https://github.com/grate-driver/linux/blob/master/include/uapi/drm/tegra_drm.h#L894
+v3 -> v4
+--------
+ * [1/23] "ASoC: dt-bindings: tegra: Add DT bindings for Tegra210"
+   - Removed multiple examples and retained one example per doc
+   - Fixed as per inputs on the previous series
+   - Tested bindings with 'make dt_binding_check/dtbs_check'
 
-So, let's keep the current variant of this MAP IOCTL as-is.
+ * [2/23] "ASoC: tegra: Add support for CIF programming"
+   - No change
+
+ * Common changes (for patch [3/10] to [7/10])
+   - Mixer control overrides, for PCM parameters (rate, channel, bits),
+     in each driver are dropped.
+   - Updated routing as per DPCM usage
+   - Minor changes related to formatting
+
+ * New changes (patch [8/23] to [18/23] and patch [23/23])
+   - Based on discussions in following threads DPCM is used for Tegra Audio.
+     https://lkml.org/lkml/2020/2/20/91
+     https://lkml.org/lkml/2020/4/30/519
+   - The simple-card driver is used for Tegra Audio and accordingly
+     some enhancements are made in simple-card and core drivers.
+   - Patch [8/23] to [18/23] are related to simple-card and core changes.
+   - Patch [23/23] adds sound card support to realize complete audio path.
+     This is based on simple-card driver with proposed enhancements.
+   - Re-ordered patches depending on above 
+
+v2 -> v3
+--------
+ * [1/10]  "dt-bindings: sound: tegra: add DT binding for AHUB
+   - Updated licence
+   - Removed redundancy w.r.t items/const/enum
+   - Added constraints wherever needed with "pattern" property
+
+ * [2/10]  "ASoC: tegra: add support for CIF programming"
+   - Removed tegra_cif.c
+   - Instead added inline helper function in tegra_cif.h
+
+ * common changes (for patch [3/10] to [7/10])
+   - Replace LATE system calls with Normal sleep
+   - Remove explicit RPM suspend in driver remove() call
+   - Use devm_kzalloc() instead of devm_kcalloc() for single element
+   - Replace 'ret' with 'err' for better reading
+   - Consistent error printing style across drivers
+   - Minor formating fixes
+
+ * [8/10]  "arm64: tegra: add AHUB components for few Tegra chips"
+   - no change
+
+ * [9/10]  "arm64: tegra: enable AHUB modules for few Tegra chips"
+   - no change
+
+ * [10/10] "arm64: defconfig: enable AHUB components for Tegra210 and later"
+   (New patch)
+   - Enables ACONNECT and AHUB components. With this AHUB and components are
+     registered with ASoC core.
+
+
+v1 -> v2
+--------
+ * [1/9] "dt-bindings: sound: tegra: add DT binding for AHUB"
+   - no changes
+
+ * [2/9] "ASoC: tegra: add support for CIF programming"
+   - removed CIF programming changes for legacy chips.
+   - this patch now exposes helper function for CIF programming,
+     which can be used on Tegra210 later.
+   - later tegra_cif.c can be extended for legacy chips as well.
+   - updated commit message accordingly
+
+ * [3/9] "ASoC: tegra: add Tegra210 based DMIC driver"
+   - removed unnecessary initialization of 'ret' in probe()
+
+ * [4/9] "ASoC: tegra: add Tegra210 based I2S driver"
+   - removed unnecessary initialization of 'ret' in probe()
+   - fixed indentation
+   - added consistent bracing for if-else clauses
+   - updated 'rx_fifo_th' type to 'unsigned int'
+   - used BIT() macro for defines like '1 << {x}' in tegra210_i2s.h
+
+ * [5/9] "ASoC: tegra: add Tegra210 based AHUB driver"
+   - used of_device_get_match_data() to get 'soc_data' and removed
+    explicit of_match_device()
+   - used devm_platform_ioremap_resource() and removed explicit
+    platform_get_resource()
+   - fixed indentation for devm_snd_soc_register_component()
+   - updated commit message
+   - updated commit message to reflect compatible binding for Tegra186 and
+     Tegra194.
+* [6/9] "ASoC: tegra: add Tegra186 based DSPK driver"
+   - removed unnecessary initialization of 'ret' in probe()
+   - updated 'max_th' to 'unsigned int'
+   - shortened lengthy macro names to avoid wrapping in
+     tegra186_dspk_wr_reg() and to be consistent
+
+ * [7/9] "ASoC: tegra: add Tegra210 based ADMAIF driver"
+   - used of_device_get_match_data() and removed explicit of_match_device()
+   - used BIT() macro for defines like '1 << {x}' in tegra210_admaif.h
+   - updated commit message to reflect compatible binding for Tegra186 and
+     Tegra194.
+
+ * [8/9] "arm64: tegra: add AHUB components for few Tegra chips"
+   - no change
+
+ * [9/9] "arm64: tegra: enable AHUB modules for few Tegra chips"
+   - no change
+
+ * common changes for patch [3/9] to [7/9]
+   - sorted headers in alphabetical order
+   - moved MODULE_DEVICE_TABLE() right below *_of_match table
+   - removed macro DRV_NAME
+   - removed explicit 'owner' field from platform_driver structure
+   - added 'const' to snd_soc_dai_ops structure
+
+==================
+Sameer Pujar (23):
+  ASoC: dt-bindings: tegra: Add DT bindings for Tegra210
+  ASoC: tegra: Add support for CIF programming
+  ASoC: tegra: Add Tegra210 based DMIC driver
+  ASoC: tegra: Add Tegra210 based I2S driver
+  ASoC: tegra: Add Tegra210 based AHUB driver
+  ASoC: tegra: Add Tegra186 based DSPK driver
+  ASoC: tegra: Add Tegra210 based ADMAIF driver
+  ASoC: soc-core: Fix component name_prefix parsing
+  ASoC: simple-card: Use of_node and DAI names for DAI link names
+  ASoC: simple-card: Wrong daifmt for CPU end of DPCM DAI link
+  ASoC: simple-card: Loop over all children for 'mclk-fs'
+  ASoC: simple-card: Support DPCM DAI link with multiple Codecs
+  ASoC: simple-card: DPCM DAI link direction as per DAI capability
+  ASoC: soc-core: Probe auxiliary component before others
+  ASoC: soc-core: Identify 'no_pcm' DAI links for DPCM
+  ASoC: soc-pcm: Get all BEs along DAPM path
+  ASoC: dt-bindings: simple-card: Add compatible for component chaining
+  ASoC: simple-card: Add support for component chaining
+  arm64: defconfig: Build AHUB component drivers
+  arm64: defconfig: Enable CONFIG_TEGRA210_ADMA
+  arm64: tegra: Add DT binding for AHUB components
+  arm64: tegra: Enable AHUB components on few Tegra platforms
+  arm64: tegra: Add support for APE sound card on Jetson Nano and TX1
+
+ .../bindings/sound/nvidia,tegra186-dspk.yaml       |  88 +++
+ .../bindings/sound/nvidia,tegra210-admaif.yaml     | 116 +++
+ .../bindings/sound/nvidia,tegra210-ahub.yaml       | 144 ++++
+ .../bindings/sound/nvidia,tegra210-dmic.yaml       |  88 +++
+ .../bindings/sound/nvidia,tegra210-i2s.yaml        | 106 +++
+ .../devicetree/bindings/sound/simple-card.yaml     |   1 +
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts |  48 ++
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           | 231 +++++-
+ arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts |  36 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 239 +++++-
+ arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts | 136 +++-
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |  85 +++
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           | 219 +++++-
+ arch/arm64/configs/defconfig                       |   8 +
+ include/sound/simple_card.h                        |   5 +
+ include/sound/soc.h                                |   3 +
+ sound/soc/generic/simple-card.c                    |  96 ++-
+ sound/soc/soc-core.c                               |  43 +-
+ sound/soc/soc-dai.c                                |   1 +
+ sound/soc/soc-pcm.c                                |   3 +-
+ sound/soc/tegra/Kconfig                            |  56 ++
+ sound/soc/tegra/Makefile                           |  10 +
+ sound/soc/tegra/tegra186_dspk.c                    | 427 +++++++++++
+ sound/soc/tegra/tegra186_dspk.h                    |  70 ++
+ sound/soc/tegra/tegra210_admaif.c                  | 845 +++++++++++++++++++++
+ sound/soc/tegra/tegra210_admaif.h                  | 162 ++++
+ sound/soc/tegra/tegra210_ahub.c                    | 578 ++++++++++++++
+ sound/soc/tegra/tegra210_ahub.h                    | 100 +++
+ sound/soc/tegra/tegra210_dmic.c                    | 440 +++++++++++
+ sound/soc/tegra/tegra210_dmic.h                    |  82 ++
+ sound/soc/tegra/tegra210_i2s.c                     | 780 +++++++++++++++++++
+ sound/soc/tegra/tegra210_i2s.h                     | 126 +++
+ sound/soc/tegra/tegra_cif.h                        |  65 ++
+ sound/soc/tegra/tegra_pcm.c                        | 235 +++++-
+ sound/soc/tegra/tegra_pcm.h                        |  21 +-
+ 35 files changed, 5657 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-ahub.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
+ create mode 100644 sound/soc/tegra/tegra186_dspk.c
+ create mode 100644 sound/soc/tegra/tegra186_dspk.h
+ create mode 100644 sound/soc/tegra/tegra210_admaif.c
+ create mode 100644 sound/soc/tegra/tegra210_admaif.h
+ create mode 100644 sound/soc/tegra/tegra210_ahub.c
+ create mode 100644 sound/soc/tegra/tegra210_ahub.h
+ create mode 100644 sound/soc/tegra/tegra210_dmic.c
+ create mode 100644 sound/soc/tegra/tegra210_dmic.h
+ create mode 100644 sound/soc/tegra/tegra210_i2s.c
+ create mode 100644 sound/soc/tegra/tegra210_i2s.h
+ create mode 100644 sound/soc/tegra/tegra_cif.h
+
+-- 
+2.7.4
+
