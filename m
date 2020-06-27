@@ -2,89 +2,179 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 965B520C487
-	for <lists+linux-tegra@lfdr.de>; Sun, 28 Jun 2020 00:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A72820C4B5
+	for <lists+linux-tegra@lfdr.de>; Sun, 28 Jun 2020 00:32:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726316AbgF0WDt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 27 Jun 2020 18:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50836 "EHLO
+        id S1725916AbgF0WcE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Jun 2020 18:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbgF0WDt (ORCPT
+        with ESMTP id S1725912AbgF0WcE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 27 Jun 2020 18:03:49 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830D0C061794
-        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 15:03:49 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id w9so11402440ilk.13
-        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 15:03:49 -0700 (PDT)
+        Sat, 27 Jun 2020 18:32:04 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1FAAC061794
+        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 15:32:03 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id c11so7000272lfh.8
+        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 15:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=N6kPulua2YSlM8imcShAj91mdG3FVs3SsXSz87fb1+u3nd7u7PFa6MKJ279dIRDWxh
-         0Ldfj86Lh7w+Xrc1R5Ac12lp/bi6BKorqLlDMWYld1qOBhdJB4N7Na0XiYaHB8nKtBEn
-         57C/Tzw6MUWAOIXcOnRxxN4MeNm7iQhU/hvtXzHXK0vqQBasxFJE8WhTf5ke+LZ6XEZm
-         /oWHd42QW3NLQJh3kf1TRlauenW2jL1Poq5HUYmLYngCGGUW3fX0WLGx3ldU3AhEukyR
-         HJCMoV5irc6uSRF+aDmFQnYTlSn+N9B5n6b9ltoSvd3dHTYHCaXSwIr77k6vqrwMxy85
-         lwfQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KI0QLmVCjjTMq/liju5LuAbZSO1DU/M8HGIKzvnZfZA=;
+        b=AqdsbRdrumFb5omQ54zZ/ZMuSu6PWS1wyma5Kowy/H7iXUYC5t+Yn4WkAgSfDWQfaK
+         VyAfCFBZQDixCaa/rflKPaOPO2g8l/XtH9PXE7AZZjJVAKosoGNrWnf3B4u+KucbrK/y
+         4cpo9eEkdcsebW2CC63QFf4xjFlJPkm7s7JGXTMCeDlcwUb46z9kvMro+sbbQZKUgzRu
+         qblWJ8HtWJffT8GKNt16HDQ+5qECUVGoyWMgGXEBfizcpL1sRqzZUgGeQm13mZTR6luq
+         HvtZJ++THOWm1vBHVkdknhrW+NomNXNtYLS5gR5buIqhHH3OF8qehZWg48IeuLPjL2mM
+         wbsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=h7WrQYbFvmUd9iq+Wygyi5ds5nYC51CDsbX9J6whkuy7MxnPWIbSen1WiAxVU+gNeO
-         SRlYsq6RHLJJjBpOFMVJlECL5hOnSO88/DfcShKW8WDNG+JnPQCQcyNff2+CLTKG1K6U
-         D6IbLDdhiGJwWe690MfAmvuYbezQo0T1pPZnpnYLubwJ7X/xcKyR4iCyDTYTTBjjTW2n
-         L2uZNs39L6orjcuG29qSLrFKeZ/tQkLYJHAiTK0ybpyu33kMl8rptU36asKlE6cOc2LQ
-         ROVJOGuvWFPwjU3NznJuXLuzlCm0AWdTX1UmjaFD8JSuuDjOID+v5DZLhmmyVcH2cJXT
-         gVNQ==
-X-Gm-Message-State: AOAM530UmiND7ZZ7W7G9I3Meq2J/lDB+0qsAi1iWtZekY54hhXRinwE6
-        aB4QrYb1gZbXM3bEihS6YmkTZ/Sjksr4VhDrHmCY6XGy0Ho=
-X-Google-Smtp-Source: ABdhPJwHv45zwmNuK/YSX2uBVAIqQ2zLOwtA+ngiZqoTP9Rs9Xn2gCCD3OWXiVcvkiJ+PU31Rp2ZvkRVy2hsrxlhX9g=
-X-Received: by 2002:a92:7749:: with SMTP id s70mr10069248ilc.259.1593295098567;
- Sat, 27 Jun 2020 14:58:18 -0700 (PDT)
+        bh=KI0QLmVCjjTMq/liju5LuAbZSO1DU/M8HGIKzvnZfZA=;
+        b=YLkuZzYlQZbGe7btvHFwhPJWf6ins0Mjc39UYkheKdcSrhF/82e0foFfxA5th7Xo9f
+         DvTRAOfjO0DkSvn0b/9HtTgwI4pzibMzCj+cJTpyB1RqDVPn3tBpdlOwGN14cpsFSdP6
+         nPHh2ikIPZnhYvwRW89DIS8jJ2rdblfegm/7PQxcwHYJ4E9KFdaO2i1mI2n/JfjPZ3xL
+         8oTqg3A4rcMEDIdL8bl2VAInAp6G0QN8XoyF9SAk+elIJYOiSIbE+YwxjcV4oSyPDaAf
+         BjIJbXPtVDYrfX7e2+M8iUHNepPS/m9OtjOHVg24rVjJNy9CjT7iyg+fCQs2DpAsNkYL
+         4u2w==
+X-Gm-Message-State: AOAM533qVYCg8A3zJ7T6yWt+c3s1IQ565vMR27vUlS2YdEbDCfXES5ff
+        stOG1FhRSGSSa8VrQe0oECM=
+X-Google-Smtp-Source: ABdhPJwptYMmsgc+XFwI8cVVRMC/GMyQh++1AuGgHnkvFWOM8oeAqqgisonrCpYywqUd+dbSmj/wSg==
+X-Received: by 2002:a05:6512:4c6:: with SMTP id w6mr3250609lfq.76.1593297122246;
+        Sat, 27 Jun 2020 15:32:02 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id z84sm6078108lfa.54.2020.06.27.15.32.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Jun 2020 15:32:01 -0700 (PDT)
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_submit_command)
+To:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
+        gustavo@padovan.org
+Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
+        bhuntsman@nvidia.com
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f31fbe3b-3fc5-2ece-4c2c-9ff4e99995d6@gmail.com>
+Date:   Sun, 28 Jun 2020 01:32:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Received: by 2002:a4f:4e46:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:58:17
- -0700 (PDT)
-From:   lookman joe <mrlookmanjoe@gmail.com>
-Date:   Sat, 27 Jun 2020 22:58:17 +0100
-Message-ID: <CAG9X5Hfvk-fmbqs9+RtHRqyUu35f9-A5+EbwjPrw9eVNH09ftg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-MONEY-GRAM TRANSFERRED PAYMENT INFO:
+23.06.2020 15:09, Mikko Perttunen пишет:
+> /* Command is an opcode gather from a GEM handle */
+> #define DRM_TEGRA_SUBMIT_COMMAND_GATHER             0
+> /* Command is an opcode gather from a user pointer */
+> #define DRM_TEGRA_SUBMIT_COMMAND_GATHER_UPTR        1
+> /* Command is a wait for syncpt fence completion */
+> #define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNCPT        2
+> /* Command is a wait for SYNC_FILE FD completion */
+> #define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNC_FILE     3
+> /* Command is a wait for DRM syncobj completion */
+> #define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNCOBJ       4
+> 
+> /*
+>  * Allow driver to skip command execution if engine
+>  * was not accessed by another channel between
+>  * submissions.
+>  */
+> #define DRM_TEGRA_SUBMIT_CONTEXT_SETUP                        (1<<0)
+> 
+> struct drm_tegra_submit_command {
+>         __u16 type;
+>         __u16 flags;
 
-Below is the sender=E2=80=99s information
+Shouldn't the "packed" attribute be needed if a non-32bit aligned fields
+are used?
 
+>         union {
+>                 struct {
+>                     /* GEM handle */
+>                     __u32 handle;
+> 
+>                     /*
+>                      * Offset into GEM object in bytes.
+>                      * Must be aligned by 4.
+>                      */
+>                     __u64 offset;
 
+64bits for a gather offset is a bit too much, in most cases gathers are
+under 4K.
 
-1. MG. REFERENCE NO#: 36360857
+u32 should be more than enough (maybe even u16 if offset is given in a
+dword granularity).
 
-2. SENDER'S NAME: Johnson Williams
+>                     /*
+>                      * Length of gather in bytes.
+>                      * Must be aligned by 4.
+>                      */
+>                     __u64 length;
 
-3. AMOUNT TO PICKUP: US$10,000
+u32/16
 
+>                 } gather;
 
+>                 struct {
+>                         __u32 reserved[1];
+> 
+>                         /*
+>                          * Pointer to gather data.
+>                          * Must be aligned by 4 bytes.
+>                          */
+>                         __u64 base;
+>                         /*
+>                          * Length of gather in bytes.
+>                          * Must be aligned by 4.
+>                          */
+>                         __u64 length;
+>                 } gather_uptr;
 
-Go to any Money Gram office near you and pick up the payment Track the
+What about to inline the UPTR gather data and relocs into the
+drm_tegra_submit_command[] buffer:
 
-Reference Number by visiting and click the link below
+struct drm_tegra_submit_command {
+	struct {
+		u16 num_words;
+		u16 num_relocs;
 
-(https://secure.moneygram.com/embed/track) and enter the Reference
+		gather_data[];
+		drm_tegra_submit_relocation relocs[];
+	} gather_uptr;
+};
 
-Number: 36360857 and the Last Name: Williams, you will find the payment
+struct drm_tegra_channel_submit {
+        __u32 num_syncpt_incrs;
+        __u32 syncpt_idx;
 
-available for pickup instantly.
+        __u64 commands_ptr;
+	__u32 commands_size;
+...
+};
 
-Yours Sincerely,
+struct drm_tegra_submit_command example[] = {
+	cmd.gather_uptr{},
+	...
+	gather_data[],
+	gather_relocs[],
+	cmd.wait_syncpt{},
+	...
+};
 
-Mrs. Helen Marvis
-United Nations Liaison Office
-Directorate for International Payments
+This way we will have only a single copy_from_user() for the whole
+cmdstream, which should be more efficient to do and nicer from both
+userspace and kernel perspectives in regards to forming and parsing the
+commands.
