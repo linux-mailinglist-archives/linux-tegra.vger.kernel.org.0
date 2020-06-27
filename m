@@ -2,71 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5225520C4D2
-	for <lists+linux-tegra@lfdr.de>; Sun, 28 Jun 2020 01:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06B1920C4DD
+	for <lists+linux-tegra@lfdr.de>; Sun, 28 Jun 2020 01:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgF0X14 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 27 Jun 2020 19:27:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35496 "EHLO
+        id S1726607AbgF0XoU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Jun 2020 19:44:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726449AbgF0X14 (ORCPT
+        with ESMTP id S1725917AbgF0XoT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 27 Jun 2020 19:27:56 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8094C061794
-        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 16:27:55 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id q7so799221ljm.1
-        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 16:27:55 -0700 (PDT)
+        Sat, 27 Jun 2020 19:44:19 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB36C061794;
+        Sat, 27 Jun 2020 16:44:18 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id h22so6883546lji.9;
+        Sat, 27 Jun 2020 16:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EnXw4bugMF7c8ntOpSKESccHjrLLw0Pd5rUigUujDqI=;
-        b=VCniF0Hzjz6JyX4nYw0h6UPyJfbrQWSnrlNaCrHsUBqw5QAd/QTTZBeMQxscgIaDzn
-         S/vWixqU92/Qte51MrGZqHQfoUNHkZPRf8bnVqSjZxCkO0f+q4O1NzdIZpblvTYhAKWU
-         KM6GwnNdsENy/Sx+Z64DxepIpKaS5pj+Tw7FMTzvaBn/UtHZpC/hVtC4Abrv2dxrndQW
-         KNO9G9GcE4UrOO+21RZjmiuFjKtMGRAiTQAjrMWaNLH+n/Cz9rNPoG//riYZQ33tM2TG
-         oBySDPBHItcdJ13d9spS1gETtFn05sKZACmiYvJHNrLuIPWpIgWbbCAyVvUFFMpohHZC
-         oEZA==
+        bh=DsD7awmAZIv1K0t/HRUOLxMTKUOvG6ubHXppAfzr2+A=;
+        b=ockKC02y8P4bF4ese89yysHA7TROKDspX0VPiNSFOxcxPv1bs5o4Ipzt77U6F/bToM
+         Hi5GccIUp1bZi9B8t5Bea8vkAuA0LNa5bZQlODZAVq8wOSDdwwK079pGT1jls92QbPJ0
+         mJZcs6Si2zDMdlaKOgvh+jIstcSQBf3Qq7BMbljOEFNq2QrusldNPkAyay8JdIeW1yhl
+         O5cdFlSsmQuSltOEMqr1kARitCHny0HzAZHwudX3LNX/nWaOUxxY2GRIVwNJ9IX2B9/l
+         KXOHIMcXqRussDfLMZKqMbCM8gKdIBr/1Pa0A8ZubuZ1cBPDwRg5khPkSBSi5FzxpBwG
+         HcDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=EnXw4bugMF7c8ntOpSKESccHjrLLw0Pd5rUigUujDqI=;
-        b=Df/jpfvkC0oCYXOTkvjRL3boULOmvPfXWjm/PUWBgqbKxyZF8yoNxz/gNSqAnerFPm
-         sWfAOw5xh5p+2ZQH+qbTvgd3Wog5dMR4xgQBgnuLbPUn7f+R8RBmCemos8fOWknSppKl
-         w03I10L3nUIsyYWGbqR+dvBUpdYArTcqG+G+DnEOfqdcrHulMv4mqhlCarT1vVmpuJZd
-         LgsUigGCWYta08j19WihoJIDyfA/D4SxmzPOZY5X2OtkpBPLDUL2eBBC4/SV/n2AKPB9
-         3geXWVwtkCmJ5h38Y9be9PMlekXhFckILJAK+N6a6kduZ3b9WKy9appKGIu6ZPPGXsUM
-         OxuQ==
-X-Gm-Message-State: AOAM531BwnF+r1ipWPqRe2flGTXuAdHJIW/V7R/wWGpSVpEQMlxwbqce
-        GLxiU6/jwtVJPz94wp/IFj0=
-X-Google-Smtp-Source: ABdhPJx+klT8Fl5w2gwaFvqvhDrsTl+BjgeuD9WY+fCibnM04chA6gXvARpm/t+PVHgt1KdhE7qsRg==
-X-Received: by 2002:a2e:b889:: with SMTP id r9mr4868742ljp.92.1593300474199;
-        Sat, 27 Jun 2020 16:27:54 -0700 (PDT)
+        bh=DsD7awmAZIv1K0t/HRUOLxMTKUOvG6ubHXppAfzr2+A=;
+        b=Gc34Yvpy/BJDoutr5zMg1plloR2HBovES8fuDa0RsXkOX9fl49ykYBr/VJOf3e79c0
+         kNwScwUdVRuBhLi+vcPs+6+V0HFeyMusUIWoxG7teytpUdkIlKCOO3G41bHbJIG6t8Hu
+         0R1JbY7Wek9a2irskUCbeZCsemL+zBBtIT0t39ZC3u+UAkLLogU+hXvBf8d+d5JmUzQB
+         +tMu0K4i0zhH7IQ3dQOXpjaoM9fzHZMTCwcTVN91ujrNsU3r4DLL0w3/JWbgy8uY7IRi
+         DQvb0m1eQsNlOgaFLNtZyD7ALsPo34K4mrX1V3hbmNphyVzQr76a3ux1wtIAFNPZ4K+T
+         CmDg==
+X-Gm-Message-State: AOAM533D4GncG9U3rNiCLJzO9wuE0gUVIQhkjha/t4X83xC4TPj/pWdA
+        rRVCU0G9uLxXw7qTvasezmKTOLkFOK8=
+X-Google-Smtp-Source: ABdhPJydon2sdcY17f+37qAc3+Bk9DQ7NUVVnunr1D2iOWg1bSdqs9Wqpr8bbJ6Ewek0R4fAVsDI4Q==
+X-Received: by 2002:a2e:7601:: with SMTP id r1mr5117761ljc.111.1593301456651;
+        Sat, 27 Jun 2020 16:44:16 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id b6sm7733197lfe.28.2020.06.27.16.27.52
+        by smtp.googlemail.com with ESMTPSA id e13sm6321404ljo.6.2020.06.27.16.44.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Jun 2020 16:27:53 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (sync points)
-To:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
-        gustavo@padovan.org
-Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
-        bhuntsman@nvidia.com
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+        Sat, 27 Jun 2020 16:44:16 -0700 (PDT)
+Subject: Re: [PATCH v1 2/2] drm/panel-simple: Add missing BUS descriptions for
+ some panels
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200621222742.25695-1-digetx@gmail.com>
+ <20200621222742.25695-3-digetx@gmail.com>
+ <20200627204338.GL5966@pendragon.ideasonboard.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5b1edaad-ba36-7b0f-5b02-457ae5b6d91e@gmail.com>
-Date:   Sun, 28 Jun 2020 02:27:51 +0300
+Message-ID: <dd1c5972-bbac-c2d8-76e8-08997b951e52@gmail.com>
+Date:   Sun, 28 Jun 2020 02:44:15 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+In-Reply-To: <20200627204338.GL5966@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,71 +74,48 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.06.2020 15:09, Mikko Perttunen пишет:
+27.06.2020 23:43, Laurent Pinchart пишет:
+> Hi Dmitry,
 > 
-> ### IOCTL HOST1X_ALLOCATE_SYNCPOINT (on /dev/host1x)
+> Thank you for the patch.
 > 
-> Allocates a free syncpoint, returning a file descriptor representing it.
-> Only the owner of the file descriptor is allowed to mutate the value of
-> the syncpoint.
+> On Mon, Jun 22, 2020 at 01:27:42AM +0300, Dmitry Osipenko wrote:
+>> This patch adds missing BUS fields to the display panel descriptions of
+>> the panels which are found on NVIDIA Tegra devices:
+>>
+>>   1. AUO B101AW03
+>>   2. Chunghwa CLAA070WP03XG
+>>   3. Chunghwa CLAA101WA01A
+>>   4. Chunghwa CLAA101WB01
+>>   5. Innolux N156BGE L21
+>>   6. Samsung LTN101NT05
+>>
+>> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/gpu/drm/panel/panel-simple.c | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+>> index 87edd2bdf09a..986df9937650 100644
+>> --- a/drivers/gpu/drm/panel/panel-simple.c
+>> +++ b/drivers/gpu/drm/panel/panel-simple.c
+>> @@ -698,6 +698,8 @@ static const struct panel_desc auo_b101aw03 = {
+>>  		.width = 223,
+>>  		.height = 125,
+>>  	},
+>> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+>> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
 > 
-> ```
-> struct host1x_ctrl_allocate_syncpoint {
->        /**
->         * @fd:
->         *
->         * [out] New file descriptor representing the allocated syncpoint.
->         */
->        __s32 fd;
+> Does DRM_BUS_FLAG_PIXDATA_DRIVE_* make sense for LVDS ?
+
+To be honest I don't know whether it make sense or not for LVDS. I saw
+that other LVDS panels in panel-simple.c use the PIXDATA flag and then
+looked at what timing diagrams in the datasheets show.
+
+> The rest looks good, except the Samsung panel for which I haven't been
+> able to locate a datasheet.
 > 
->        __u32 reserved[3];
-> };
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-We should need at least these basic things from the sync points API:
-
-- Execution context shouldn't be able to tamper sync points of the other
-contexts.
-
-- Sync point could be shared with other contexts for explicit fencing.
-
-- Sync points should work reliably.
-
-Some problems of the current Host1x driver, like where it falls over if
-sync point value is out-of-sync + all the hang-job recovery labor could
-be easily reduced if sync point health is protected by extra UAPI
-constraints.
-
-So I think we may want the following:
-
-1. We still should need to assign sync point ID to a DRM-channel's
-context. This sync point ID will be used for a commands stream forming,
-like it is done by the current staging UAPI.
-
-So we should need to retain the DRM_TEGRA_GET_SYNCPT IOCTL, but improve it.
-
-2. Allocated sync point must have a clean hardware state.
-
-3. Sync points should be properly refcounted. Job's sync points
-shouldn't be re-used while job is alive.
-
-4. The job's sync point can't be re-used after job's submission (UAPI
-constraint!). Userspace must free sync point and allocate a new one for
-the next job submission. And now we:
-
-  - Know that job's sync point is always in a healthy state!
-
-  - We're not limited by a number of physically available hardware sync
-points! Allocation should block until free sync point is available.
-
-  - The logical number of job's sync point increments matches the SP
-hardware state! Which is handy for a job's debugging.
-
-Optionally, the job's sync point could be auto-removed from the DRM's
-context after job's submission, avoiding a need for an extra SYNCPT_PUT
-IOCTL invocation to be done by userspace after the job's submission.
-Could be a job's flag.
-
-We could avoid a need for a statically-allocated sync points at all for
-a patched cmdstreams! The sync point could be dynamically allocated at a
-job's submission time by the kernel driver and then cmdstream will be
-patched with this sync point.
+Thanks to you and Sam!
