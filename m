@@ -2,136 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C07720C423
-	for <lists+linux-tegra@lfdr.de>; Sat, 27 Jun 2020 22:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16BBD20C461
+	for <lists+linux-tegra@lfdr.de>; Sat, 27 Jun 2020 23:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725819AbgF0Uno (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 27 Jun 2020 16:43:44 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37474 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725792AbgF0Uno (ORCPT
+        id S1725912AbgF0VrR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Jun 2020 17:47:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbgF0VrR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 27 Jun 2020 16:43:44 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6C18576;
-        Sat, 27 Jun 2020 22:43:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1593290622;
-        bh=jvH2aA/gigMXp4FM0R9jUn0zODDOAzaZorDcNJk2SfE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CuoXchm35zDuLxDDzAVCIbwMKI+DOD1CMoMR92qVNJ8JAlCrgNLIic0K+jMjQ1B2O
-         O40aySE55l3R2GgS8DaZBT+At+Jn6E8jCBZR65dmMOt6VttK1HpFTKzxLSeRhJM+MV
-         DbPesDiv173/IwTr7IBAw/T+Zal6MkceHN/H6dPc=
-Date:   Sat, 27 Jun 2020 23:43:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] drm/panel-simple: Add missing BUS descriptions
- for some panels
-Message-ID: <20200627204338.GL5966@pendragon.ideasonboard.com>
-References: <20200621222742.25695-1-digetx@gmail.com>
- <20200621222742.25695-3-digetx@gmail.com>
+        Sat, 27 Jun 2020 17:47:17 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA842C061794
+        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 14:47:16 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id o4so6979059lfi.7
+        for <linux-tegra@vger.kernel.org>; Sat, 27 Jun 2020 14:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ekENi2JYHEuJAdUbeYjX727t9pq4C9ly4N7cklnjims=;
+        b=Y+HHlMeUG0RxTatZAp0BPfDVMCKaT90nwXFPWAs42ZQKMIoxCS5yVC0FIxLIfp+tO1
+         ZhMq5RHuqS53fl9CjjZCU1GOElYN3Ze9brBStc5gSyzYbnSBrdJyggIfuwjwsh6DPRHv
+         xzaUq6GgjCTNyYCwL7kSB/bdDMlfD7nIhXsWU288Qj/4cLfno5qfnk1H4ToFlYVckZE4
+         orHv6ex4e+qr7MRXvbh713z9FQPxkXIKiuIus1rcG27AG7jNTvW9zoHoFszHOCgwYPUI
+         m1GbQRKuG7rGf8oe2iEAMXaymIev9tpn+bI9BTzOjsDkea0L53e7rYvG87vd2TNHx9WK
+         MFrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ekENi2JYHEuJAdUbeYjX727t9pq4C9ly4N7cklnjims=;
+        b=C89DeoHhw3E8WruWdat6l6GmKVKJ8YhrsR4g9qOAnm4mUKk1/5PkyHozT96hYcS3+m
+         R98tP6ho/ToZPnSGyr9zL612sl0HY4Uhv70dUriwJ2JTH98Jt0tC0SDZpTSiSHKcd9xF
+         0wrRtnFulotlkxzxu87L1dMmBPJe5Oqw5M4DFBTaVxHozgpmb12qhdxgxZOrBBEC49cJ
+         /7Pr5j1euwsFgqvEjxKOdsgxPFPNMrFC5kbCUUV3TykOyahXMqRjGc5c8ASnFwso7qa3
+         YcRIhDTiw6cbW/ppnuSBXVwQRQumbXXl8YLwmoYFl7aCBE89FJolGDvvpqEf/RsM78/c
+         ARkQ==
+X-Gm-Message-State: AOAM533qqFAizqpJ3ICXTn9R//TupVOhM0PRbHeKQ4/xuYafJG4UiOys
+        vGOzOLtcpbbFnEhYY14WFpyySh6jwm0=
+X-Google-Smtp-Source: ABdhPJzDdiwU3twKlFT/dTT9VX4bQgwiRxsN/AhDhVDQqgiKa4z3Ss5iaPiYiwbzaI9FkKhAunhr3g==
+X-Received: by 2002:a19:ef09:: with SMTP id n9mr5354460lfh.215.1593294435138;
+        Sat, 27 Jun 2020 14:47:15 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id u19sm854922ljk.0.2020.06.27.14.47.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Jun 2020 14:47:14 -0700 (PDT)
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_submit_syncpt_incr)
+To:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
+        gustavo@padovan.org
+Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
+        bhuntsman@nvidia.com
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9ddfedff-f465-b22d-5d6f-c7ba01731455@gmail.com>
+Date:   Sun, 28 Jun 2020 00:47:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200621222742.25695-3-digetx@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
-
-Thank you for the patch.
-
-On Mon, Jun 22, 2020 at 01:27:42AM +0300, Dmitry Osipenko wrote:
-> This patch adds missing BUS fields to the display panel descriptions of
-> the panels which are found on NVIDIA Tegra devices:
+23.06.2020 15:09, Mikko Perttunen пишет:
+> struct drm_tegra_submit_syncpt_incr {
+>         /*
+>          * [in] Syncpoint FD of the syncpoint that the job will
+>          *   increment.
+>          */
+>         __s32 syncpt_fd;
 > 
->   1. AUO B101AW03
->   2. Chunghwa CLAA070WP03XG
->   3. Chunghwa CLAA101WA01A
->   4. Chunghwa CLAA101WB01
->   5. Innolux N156BGE L21
->   6. Samsung LTN101NT05
+>         /*
+>          * [in] Number of increments that the job will do.
+>          */
+>         __u32 num_incrs;
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>         /*
+>          * [out] Value the syncpoint will have once all increments have
+>          *   executed.
+>          */
+>         __u32 fence_value;
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 87edd2bdf09a..986df9937650 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -698,6 +698,8 @@ static const struct panel_desc auo_b101aw03 = {
->  		.width = 223,
->  		.height = 125,
->  	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+>         __u32 reserved[1];
+> };
 
-Does DRM_BUS_FLAG_PIXDATA_DRIVE_* make sense for LVDS ?
+The job should be considered executed once the final sync point is
+incremented.
 
-The rest looks good, except the Samsung panel for which I haven't been
-able to locate a datasheet.
+Hence, there should be only one sync point per-job for increment, why
+would you ever need more than one?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> @@ -1352,6 +1354,8 @@ static const struct panel_desc chunghwa_claa070wp03xg = {
->  		.width = 94,
->  		.height = 150,
->  	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> @@ -1375,6 +1379,8 @@ static const struct panel_desc chunghwa_claa101wa01a = {
->  		.width = 220,
->  		.height = 120,
->  	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> @@ -1398,6 +1404,8 @@ static const struct panel_desc chunghwa_claa101wb01 = {
->  		.width = 223,
->  		.height = 125,
->  	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> @@ -2071,6 +2079,8 @@ static const struct panel_desc innolux_n156bge_l21 = {
->  		.width = 344,
->  		.height = 193,
->  	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> @@ -3018,6 +3028,8 @@ static const struct panel_desc samsung_ltn101nt05 = {
->  		.width = 223,
->  		.height = 125,
->  	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Could you please explain what this submit_syncpt_incr is about?
