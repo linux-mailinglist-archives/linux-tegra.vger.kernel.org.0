@@ -2,98 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27CC320E6EC
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 00:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F9420E867
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 00:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404014AbgF2Vv7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Jun 2020 17:51:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404581AbgF2Vv5 (ORCPT
+        id S2391912AbgF2WGl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Jun 2020 18:06:41 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40152 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404852AbgF2WGj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Jun 2020 17:51:57 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09482C061755;
-        Mon, 29 Jun 2020 14:51:58 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id j12so8457123pfn.10;
-        Mon, 29 Jun 2020 14:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RvMj5yET6zod7vEbQyQ+dyCF/KGdDXqpRazv7Nh0/qE=;
-        b=khSkOa1iOR9sKq/l2Lwg2R+70F1qzc3rAWzT1DL81iYJKmfl0OXAKmLaQcEHYh75HD
-         Dim7FCtnFG0m3Y7kmHUxgsykRsUHZT5JQ3g87aZYI4UDZCCTRHwPIe67iXeMWm5sEQfb
-         S3DB34IC0Dv9F409Wj8gM0iG9PKhXAsgikpd3QtZ0pNSzZcG6ZPjeTArTudFcF1akU6m
-         eYGILAK+dTr82RFhdBeh3NutZ5dWsG+VNNMJoyuEh2Ok8m/Rse1bW+zrHLKD0opEhiNz
-         FdieyEh5ErWKSTF9nDD3gmex2heXZGcC2WmHB7o+O5FROMQJFQSgrf+aYMzwv6arrIWW
-         yfQA==
+        Mon, 29 Jun 2020 18:06:39 -0400
+Received: by mail-io1-f65.google.com with SMTP id q8so18891303iow.7;
+        Mon, 29 Jun 2020 15:06:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RvMj5yET6zod7vEbQyQ+dyCF/KGdDXqpRazv7Nh0/qE=;
-        b=HSsi7Fq8hp9gkuwklbw1hKl22Tt/NzIJr2bwDAzPYWU+LDW/9Nr/8Su7a8UWdqgF4X
-         mHh9YqMsIWMtTO83LkVn2dYmhkIWKrhWapHQ4z71kS7eqH62QgTo8R2Ao5WsEDp8dwjZ
-         UfPI4gBqoUZeHOy9ykLa8cMX5P3kFNSnYa1P4spKBrIdR6sZkHyMA9JTMqK28/dDeJ+X
-         qMRukOgzSy5MEng0wRZfVZm0WuPoJ+29TmkBoxYsZPGGcgMe5N8WINZg2K93c3oyXuKF
-         T5Onr/L1rcUCN1Tk6F5mup284eEnS7cEHovRt0/NNAzKyN6nIjRVloDWr2BZ9Z6PXpOC
-         nupw==
-X-Gm-Message-State: AOAM5317Gpx/3R5rDrwoE61vAqlLp5KTssLYOifpC1QAUTozxUDod+JM
-        fSwbXFnTi2nqY4nVNL7MfLQ=
-X-Google-Smtp-Source: ABdhPJxC8Fgjn8RTlD0SKk0xsVZpbiGlo9R3VT7A5mIZwpCLggeB5EdfCEKblPcw3+omhGtZUjddyQ==
-X-Received: by 2002:a63:f903:: with SMTP id h3mr12511677pgi.437.1593467517533;
-        Mon, 29 Jun 2020 14:51:57 -0700 (PDT)
-Received: from Asurada-Nvidia (searspoint.nvidia.com. [216.228.112.21])
-        by smtp.gmail.com with ESMTPSA id p189sm542487pfb.217.2020.06.29.14.51.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Jun 2020 14:51:57 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 14:51:24 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Krishna Reddy <vdumpa@nvidia.com>
-Cc:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, treding@nvidia.com, yhsu@nvidia.com,
-        snikam@nvidia.com, praithatha@nvidia.com, talho@nvidia.com,
-        bbiswas@nvidia.com, mperttunen@nvidia.com, nicolinc@nvidia.com,
-        bhuntsman@nvidia.com
-Subject: Re: [PATCH v7 1/3] iommu/arm-smmu: add NVIDIA implementation for
- dual ARM MMU-500 usage
-Message-ID: <20200629215124.GD27967@Asurada-Nvidia>
-References: <20200629022838.29628-1-vdumpa@nvidia.com>
- <20200629022838.29628-2-vdumpa@nvidia.com>
+         :mime-version:content-disposition:in-reply-to;
+        bh=d7i/LtCWxvjcrkXKayf7wJy9l1xOiA2SNi/swky4zLs=;
+        b=qLdJXcPscwc3PFY50yegWdAsLBHC54GiL4gYXMR3cLhKfeE3Qc4tzIKGsyz/QutbkW
+         dNFNivu56Q9rxEcbHgc6nt7Ux9uxtTPEgSbkkK2VaLArJUTSPLPfOhjQvFqNXhEGsONp
+         HfF1/16rL3djkFNZIkWNL//zR0Ve5ogJUcR5mW/cp6UOajRLAQcpAODLTWpdHJptoBVL
+         LBBWcvW8YyxiMfdAlWVxig9cWw7vxrNdjS2LpMOP969UKZLN3VTaduq5qoJzzelrnD5V
+         yDIK+ZWMemU8w/3LmJL4WJI8dfK8Vpq3c0IiHyaGamLZzf32CN0tUBCFDJyGszPasPcE
+         8HXw==
+X-Gm-Message-State: AOAM5310p9e0Oi5sOfZduAQx7NXmtg+f0oMJCFh4x9/0jSfeaaR0+oWg
+        i+CdgQSAe1IZS3VvIj+Fgw==
+X-Google-Smtp-Source: ABdhPJzu7iHEmXhdSieXnQBr0DvEvJgrCjdJBUPurQFawvCOFA7nufQByGRhQUQtaAcZ36ucGFZwCw==
+X-Received: by 2002:a6b:5b14:: with SMTP id v20mr19143451ioh.182.1593468398381;
+        Mon, 29 Jun 2020 15:06:38 -0700 (PDT)
+Received: from xps15 ([64.188.179.255])
+        by smtp.gmail.com with ESMTPSA id t11sm627471ils.3.2020.06.29.15.06.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 15:06:37 -0700 (PDT)
+Received: (nullmailer pid 3025233 invoked by uid 1000);
+        Mon, 29 Jun 2020 22:06:36 -0000
+Date:   Mon, 29 Jun 2020 16:06:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sumit Gupta <sumitg@nvidia.com>
+Cc:     viresh.kumar@linaro.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        catalin.marinas@arm.com, mperttunen@nvidia.com,
+        jonathanh@nvidia.com, rjw@rjwysocki.net,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org, will@kernel.org,
+        talho@nvidia.com, linux-arm-kernel@lists.infradead.org,
+        thierry.reding@gmail.com, bbasu@nvidia.com
+Subject: Re: [TEGRA194_CPUFREQ PATCH v4 1/4] dt-bindings: arm: Add t194
+ ccplex compatible and bpmp property
+Message-ID: <20200629220636.GA3022986@bogus>
+References: <1593186236-12760-1-git-send-email-sumitg@nvidia.com>
+ <1593186236-12760-2-git-send-email-sumitg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200629022838.29628-2-vdumpa@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1593186236-12760-2-git-send-email-sumitg@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Jun 28, 2020 at 07:28:36PM -0700, Krishna Reddy wrote:
-> NVIDIA's Tegra194 SoC uses two ARM MMU-500s together to interleave
-> IOVA accesses across them.
-> Add NVIDIA implementation for dual ARM MMU-500s and add new compatible
-> string for Tegra194 SoC SMMU topology.
+On Fri, 26 Jun 2020 21:13:53 +0530, Sumit Gupta wrote:
+> To do frequency scaling on all CPUs within T194 CPU Complex, we need
+> to query BPMP for data on valid operating points. Document a compatible
+> string under 'cpus' node to represent the CPU Complex for binding drivers
+> like cpufreq which don't have their node or CPU Complex node to bind to.
+> Also, document a property to point to the BPMP device that can be queried
+> for all CPUs.
 > 
-> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/arm/cpus.yaml | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
 
-> +static inline void __iomem *nvidia_smmu_page(struct arm_smmu_device *smmu,
-> +			       unsigned int inst, int page)
-> +{
-> +	struct nvidia_smmu *nvidia_smmu = to_nvidia_smmu(smmu);
-> +
-> +	if (!nvidia_smmu->bases[0])
-> +		nvidia_smmu->bases[0] = smmu->base;
-> +
-> +	return nvidia_smmu->bases[inst] + (page << smmu->pgshift);
-> +}
 
-Not critical -- just a nit: why not put the bases[0] in init()?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Everything else looks good to me:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/arm/cpus.yaml: properties:nvidia,bpmp: Additional properties are not allowed ('descrption' was unexpected)
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/arm/cpus.yaml: properties:nvidia,bpmp: 'descrption' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'type', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/arm/cpus.yaml: properties:nvidia,bpmp: {'$ref': '/schemas/types.yaml#/definitions/phandle', 'descrption': 'Specifies the bpmp node that needs to be queried to get\noperating point data for all CPUs.\n\nOptional for NVIDIA Tegra194 Carmel CPUs\n'} is not valid under any of the given schemas (Possible causes of the failure):
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/arm/cpus.yaml: properties:nvidia,bpmp: 'description' is a required property
 
-Reviewed-by: Nicolin Chen <nicoleotsuka@gmail.com>
+Documentation/devicetree/bindings/Makefile:20: recipe for target 'Documentation/devicetree/bindings/arm/cpus.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/arm/cpus.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Makefile:1347: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+
+See https://patchwork.ozlabs.org/patch/1317775
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
