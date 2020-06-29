@@ -2,100 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CD7720E8BE
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 01:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 417E620E8D8
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 01:14:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbgF2W0k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Jun 2020 18:26:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
+        id S1726895AbgF2WjJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Jun 2020 18:39:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgF2W0j (ORCPT
+        with ESMTP id S1726733AbgF2WjI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Jun 2020 18:26:39 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09794C061755;
-        Mon, 29 Jun 2020 15:26:39 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id g2so10146078lfb.0;
-        Mon, 29 Jun 2020 15:26:38 -0700 (PDT)
+        Mon, 29 Jun 2020 18:39:08 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B13C061755;
+        Mon, 29 Jun 2020 15:39:08 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id x3so2987594pfo.9;
+        Mon, 29 Jun 2020 15:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cP4sHdE6sVU4pAKA0exheCdKvDd6a6G7XmSgVWtBEvc=;
-        b=PzOv3n9Gm5zmFnKCTSTUyKIYFXig6ahMHvW0EniFX7RW08ZtlI4/bI3fd+Kx4hZH9O
-         OOjsRDkX+vZbVDPHYpcF26s6FzHOi5P/6Kdv3fufLA10Agt9o1sCW83RK/OFwNDzDgnV
-         o6+ZrDhxUvzIDzqTPnMtqE6lgZ7qd19KvkwPLhUd5sSjKaES7I2JppBLPZkM143gnmGI
-         B/nVeJPSM+af412HiidnzsyLr8UQtyiQyFEmSp864fyM9JLDJ8K/3P+iEJxuchJxDgtr
-         M2rz/Ft0OLlGr29VWq0wyDOWqFcq9SvKrSJaf0H4lDwgyoy6RBxkiSBv2vQIop4osUx5
-         ypaw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7Iu1xPBy5WXwkFFBJOQd76GqrMB06IUJO2waW3mfV8U=;
+        b=gTjvUlyTbHz0oJ+ZTJLVjld7MNptvaKU+FuhJs4PHp3VJe7iD78Wnm9qRxP8sGXjkT
+         E9n88VrbVyaaM7G/LYjUvQiLO7DTUFz4TNpthv+odbNS6JzQ/4X/5soG013CP6gGIKqC
+         fDdzcbxURl4O6Mo+D1YcpoaPilqUwVZhIgGTvtcfp1+Fl9ZZ8INKmvFWWz/i4fBpobtz
+         wLsJ1LxWtrcbCgu/x541ND/jRxqGlS0WqWGorP031pC+XmEF6FatSkgYj2F7HGJe3ZMT
+         I4Rs4uU+0dsDsK76hJhLW7C0n8dCf/+d1/TbpKay5dGxgUCKgURjQ9aol0DVoL+7UBhS
+         3fvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cP4sHdE6sVU4pAKA0exheCdKvDd6a6G7XmSgVWtBEvc=;
-        b=eIPEvJExXMDSyGMf4yA8Fer2uiYyb8orWymY+1axEx/BJpyjt0+xAB5cmWD1hEq/P4
-         SU4KsiW2vOCoCWBDREbm8G5RaCsokMVaBMtHiryU/iMr4CLyzKeyoj6UhWktWzk+leTX
-         wRqiO3uxLe4ZeVPSiTAqxH9BfW828eO71yzat53vZGFxcxgHNHiLIyPj94NwIBvdwpEi
-         v84NHfPmkvPMgCabBYQPpK4LzBYyaBGNxJ0oHdMJEhXKbPG4MJyywlK/VZkMaH8IY5+a
-         v7IPqPEqTvTYeDeOiXpQ0z1HWUyiQj6SVRNxpcBr/UAU6AsS9DyfZ4KyBHmT/GCrT0ek
-         12sg==
-X-Gm-Message-State: AOAM531Ay2FX52Z9gh5zJey94kuyo8Ulr3HdY3UbE25zv7439EUYMYda
-        CJ5LvB9hO7Yb1ChhY2Pg/DY=
-X-Google-Smtp-Source: ABdhPJyHSgWGq7dLLjGmmpq05cDht4MErm/JFYc9yuMAz773WGNp6QbxwwEY/aAyrCXd0P0fcp/lOw==
-X-Received: by 2002:a05:6512:110e:: with SMTP id l14mr9720085lfg.25.1593469596449;
-        Mon, 29 Jun 2020 15:26:36 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id 25sm222649ljh.139.2020.06.29.15.26.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 15:26:35 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1] cpuidle: tegra: Correctly handle result of arm_cpuidle_simple_enter()
-Date:   Tue, 30 Jun 2020 01:26:25 +0300
-Message-Id: <20200629222625.674-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7Iu1xPBy5WXwkFFBJOQd76GqrMB06IUJO2waW3mfV8U=;
+        b=FK2A3kGk3jakgvhx7m9/LS8UjYdkGNW7ULqh8ki9D1q9RDsW1XxYUXax6hFvFT87qb
+         5SvSB0G9iNLy44drV3btYSLhKVci3mhS7DD4h3tZStJTPj5x/kpZwedzjVpsvZ8/2ccq
+         djwepAeVFqkZGURohcrz0dJb4TKnSQVimFmTYZp/Zhc/dJZ6s9m50XoegRqenQp/w662
+         3NpIwVj2gt5h4Jpm8rh8WnwsBosSYWEIQWAUDQfl2hupzT3a++knVPV5ZstUiMGx0yUZ
+         ICW4t+EJwy21ydkyQJho+O9ofeMjgusI+bj5bJY7BDIqMBdMZFSvYIqYKgZSqtXBLl+G
+         eRsA==
+X-Gm-Message-State: AOAM530UPm7UVYJiCac/N/ehiJlVGzjrgoWUDDudLP+v4QyJ3D2/tknC
+        WlQFfVZCvlv6IBlKL/YKQ9s=
+X-Google-Smtp-Source: ABdhPJxyJjEs525bJOi/owsnsyMW+4K2ovHEsNcudSFqdc/+fbfQqaH+B0HBZxSn54knZLvM1RiQYQ==
+X-Received: by 2002:a63:531e:: with SMTP id h30mr11821163pgb.165.1593470347620;
+        Mon, 29 Jun 2020 15:39:07 -0700 (PDT)
+Received: from Asurada-Nvidia (searspoint.nvidia.com. [216.228.112.21])
+        by smtp.gmail.com with ESMTPSA id z1sm458786pjz.10.2020.06.29.15.39.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Jun 2020 15:39:07 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 15:38:34 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Krishna Reddy <vdumpa@nvidia.com>
+Cc:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, treding@nvidia.com, yhsu@nvidia.com,
+        snikam@nvidia.com, praithatha@nvidia.com, talho@nvidia.com,
+        bbiswas@nvidia.com, mperttunen@nvidia.com, nicolinc@nvidia.com,
+        bhuntsman@nvidia.com
+Subject: Re: [PATCH v7 3/3] iommu/arm-smmu: Add global/context fault
+ implementation hooks
+Message-ID: <20200629223833.GE27967@Asurada-Nvidia>
+References: <20200629022838.29628-1-vdumpa@nvidia.com>
+ <20200629022838.29628-4-vdumpa@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200629022838.29628-4-vdumpa@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The arm_cpuidle_simple_enter() returns the entered idle-index and not a
-error code. It happened that TEGRA_C1=index=err=0, and hence this typo
-was difficult to notice in the code since everything happened to work
-properly. This patch fixes the minor typo, it doesn't fix any problem.
+On Sun, Jun 28, 2020 at 07:28:38PM -0700, Krishna Reddy wrote:
+> Add global/context fault hooks to allow NVIDIA SMMU implementation
+> handle faults across multiple SMMUs.
+> 
+> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/cpuidle/cpuidle-tegra.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> +static irqreturn_t nvidia_smmu_global_fault_inst(int irq,
+> +					       struct arm_smmu_device *smmu,
+> +					       int inst)
+> +{
+> +	u32 gfsr, gfsynr0, gfsynr1, gfsynr2;
+> +	void __iomem *gr0_base = nvidia_smmu_page(smmu, inst, 0);
+> +
+> +	gfsr = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSR);
+> +	gfsynr0 = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR0);
+> +	gfsynr1 = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR1);
+> +	gfsynr2 = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR2);
+> +
+> +	if (!gfsr)
+> +		return IRQ_NONE;
 
-diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
-index 150045849d78..9e9a9cccd755 100644
---- a/drivers/cpuidle/cpuidle-tegra.c
-+++ b/drivers/cpuidle/cpuidle-tegra.c
-@@ -236,14 +236,14 @@ static int tegra_cpuidle_enter(struct cpuidle_device *dev,
- 			       int index)
- {
- 	unsigned int cpu = cpu_logical_map(dev->cpu);
--	int err;
-+	int err = 0;
- 
- 	index = tegra_cpuidle_adjust_state_index(index, cpu);
- 	if (dev->states_usage[index].disable)
- 		return -1;
- 
- 	if (index == TEGRA_C1)
--		err = arm_cpuidle_simple_enter(dev, drv, index);
-+		index = arm_cpuidle_simple_enter(dev, drv, index);
- 	else
- 		err = tegra_cpuidle_state_enter(dev, index, cpu);
- 
--- 
-2.26.0
+Could move this before gfsynr readings to save some readl() for
+!gfsr cases?
 
+> +static irqreturn_t nvidia_smmu_context_fault_bank(int irq,
+
+> +	void __iomem *cb_base = nvidia_smmu_page(smmu, inst, smmu->numpage + idx);
+[...]
+> +	fsr = arm_smmu_cb_read(smmu, idx, ARM_SMMU_CB_FSR);
+[...]
+> +	writel_relaxed(fsr, cb_base + ARM_SMMU_CB_FSR);
+
+It reads FSR of the default inst (1st), but clears the FSR of
+corresponding inst -- just want to make sure that this is okay
+and intended.
+
+> @@ -185,7 +283,8 @@ struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
+>  	}
+>  
+>  	nvidia_smmu->smmu.impl = &nvidia_smmu_impl;
+> -	/* Free the arm_smmu_device struct allocated in arm-smmu.c.
+> +	/*
+> +	 * Free the arm_smmu_device struct allocated in arm-smmu.c.
+>  	 * Once this function returns, arm-smmu.c would use arm_smmu_device
+>  	 * allocated as part of nvidia_smmu struct.
+>  	 */
+
+Hmm, this coding style fix should be probably squashed into PATCH-1?
