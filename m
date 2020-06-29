@@ -2,287 +2,245 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7F5920CBCC
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Jun 2020 04:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9AFF20CBD1
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Jun 2020 04:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbgF2C2o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 28 Jun 2020 22:28:44 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4473 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726209AbgF2C2o (ORCPT
+        id S1725998AbgF2ChE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 28 Jun 2020 22:37:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725983AbgF2ChE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 28 Jun 2020 22:28:44 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ef951cf0000>; Sun, 28 Jun 2020 19:28:31 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sun, 28 Jun 2020 19:28:43 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sun, 28 Jun 2020 19:28:43 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Jun
- 2020 02:28:43 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 29 Jun 2020 02:28:43 +0000
-Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ef951db0002>; Sun, 28 Jun 2020 19:28:43 -0700
-From:   Krishna Reddy <vdumpa@nvidia.com>
-CC:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
-        <talho@nvidia.com>, <bbiswas@nvidia.com>, <mperttunen@nvidia.com>,
-        <nicolinc@nvidia.com>, <bhuntsman@nvidia.com>,
-        Krishna Reddy <vdumpa@nvidia.com>
-Subject: [PATCH v7 3/3] iommu/arm-smmu: Add global/context fault implementation hooks
-Date:   Sun, 28 Jun 2020 19:28:38 -0700
-Message-ID: <20200629022838.29628-4-vdumpa@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200629022838.29628-1-vdumpa@nvidia.com>
-References: <20200629022838.29628-1-vdumpa@nvidia.com>
+        Sun, 28 Jun 2020 22:37:04 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA84C03E979
+        for <linux-tegra@vger.kernel.org>; Sun, 28 Jun 2020 19:37:04 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id s16so2757977lfp.12
+        for <linux-tegra@vger.kernel.org>; Sun, 28 Jun 2020 19:37:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3aaNWUY+ic1MhEW2thjjs+7K3aLg4Qeu7hsc8YXMuHY=;
+        b=EYhTXqxhSGpSxd6RsvJ0XBzYbUqniYRkDlPnUra6tJaAMs9vicknh6hx4Dt3ekuZNU
+         W3J2kEMpj5s+T+SYnJ1swdZWuACib/Bi4Mmcp9/XZ6nKQ/crSZ7vTVVi62tZJ1a4i1vR
+         96F0nwV9DhiqgGhLpfTNV11FOroHpVdlD38lM2Fc7Dk+tvO80hT/fl/PjRsALqaYQScF
+         Mvx3l6D8N8AmJ3knKDxUI4sTQuRst3BzdHZo6g8yM7zrtrj6Cru7HBDGh4B6NTiywJO1
+         pDVHRjJsCcKXcGGsUzkZDx5dZJj4hTIY5CAdJVNibraZVMuE9RWHJq+aB1I8p2S/1br+
+         AdrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3aaNWUY+ic1MhEW2thjjs+7K3aLg4Qeu7hsc8YXMuHY=;
+        b=Z8ACUrXCrRAO9qCCQSb5X2u0Wl976RB9TX15lrIjc3aPMatVGLsbvvRyPq5wHidhJr
+         fH4Qo4xUpgDqrU15ms3e0OOXQzxhOxlFXPh5uu9lfQz61h4nWuZPK5i6YMXFG92lEsLZ
+         9ACMxcJlSp+z27a+fe9qXa6vH0KIT3IXUXwz0LP0mQ3PpUbXgAc8+0E+ZbdXPhgYqJC/
+         VPSUROFJJ/7Xmdn0zmWagzHURtbUyw5oBZfXyq4LXty0elefEF5l/SeJh+gnFpXceL61
+         aS8yIHTdj4QCDIF6P5X7jN2PnU3NjlK49ZGKA8EY0ueoZpSNoFT23GB+XawFGR5WcF5W
+         eiWA==
+X-Gm-Message-State: AOAM533/G0nfOQQouvn91vpXZygbvziZjh9nYLWNJtHSxO/XtNGZn8G4
+        K/vXV2SloGHnTZtf69xfPQA=
+X-Google-Smtp-Source: ABdhPJx7RgPdiojDAT7wK85anJetC3VhwGm+QifqURfbXc5dwtyt2+HBsew6eBfwn8fVGlcOLGbdAw==
+X-Received: by 2002:a05:6512:52a:: with SMTP id o10mr7957247lfc.137.1593398222191;
+        Sun, 28 Jun 2020 19:37:02 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id m9sm6967483lfb.5.2020.06.28.19.37.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jun 2020 19:37:01 -0700 (PDT)
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (sync points)
+To:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
+        gustavo@padovan.org
+Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
+        bhuntsman@nvidia.com, Erik Faye-Lund <kusmabite@gmail.com>
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <5b1edaad-ba36-7b0f-5b02-457ae5b6d91e@gmail.com>
+ <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <623c1eaa-31fb-8dff-f6c0-d8cd0be60070@gmail.com>
+Date:   Mon, 29 Jun 2020 05:36:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593397711; bh=DeTOvgGx0JLkiA+WHeFmx2Voym9GjZi724XC1XCiwp0=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=WFIghWOCSZ9Z/MTbHmKsAQoxkhSTXp62cWPPS+j2ppeMkI9pesENyEA7BzOkxb4yk
-         cF9PLH1vOa/P1GIdA2/K+aNDbqqdT8jh5Pxxku9rbjEOJcbeJkDrkK7BQuxxkipSFR
-         N/d2wXQ4TRnYxisDmMVjcZspAXALycLKFaGegk1BDGMsJEHzDcaRhX4aUYB8FjSyYE
-         Lymow5O1O8PcYHz5cvyTGOTRanC6PQocYd0TDay+LCHc8gjsNQNaA0n42Lil0IrkXA
-         i8NtXgEuH+p5scebLmYBPTjJRm9pE9AvQ+2ASRJXkgpE770D3yQS/csv66OxKgtZ/v
-         Lv+QSUgAGcd1Q==
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add global/context fault hooks to allow NVIDIA SMMU implementation
-handle faults across multiple SMMUs.
+28.06.2020 12:44, Mikko Perttunen пишет:
+> On 6/28/20 2:27 AM, Dmitry Osipenko wrote:
+>> 23.06.2020 15:09, Mikko Perttunen пишет:
+>>>
+>>> ### IOCTL HOST1X_ALLOCATE_SYNCPOINT (on /dev/host1x)
+>>>
+>>> Allocates a free syncpoint, returning a file descriptor representing it.
+>>> Only the owner of the file descriptor is allowed to mutate the value of
+>>> the syncpoint.
+>>>
+>>> ```
+>>> struct host1x_ctrl_allocate_syncpoint {
+>>>         /**
+>>>          * @fd:
+>>>          *
+>>>          * [out] New file descriptor representing the allocated
+>>> syncpoint.
+>>>          */
+>>>         __s32 fd;
+>>>
+>>>         __u32 reserved[3];
+>>> };
+>>
+>> We should need at least these basic things from the sync points API >
+>> - Execution context shouldn't be able to tamper sync points of the other
+>> contexts.
+> 
+> This is covered by this UAPI - when submitting, as part of the
+> syncpt_incr struct you pass the syncpoint FD. This way the driver can
+> check the syncpoints used are correct, or program HW protection.
+> 
+>>
+>> - Sync point could be shared with other contexts for explicit fencing.
+> 
+> Not sure what you specifically mean; you can get the ID out of the
+> syncpoint fd and share the ID for read-only access. (Or the FD for
+> read-write access)
 
-Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
----
- drivers/iommu/arm-smmu-nvidia.c | 101 +++++++++++++++++++++++++++++++-
- drivers/iommu/arm-smmu.c        |  17 +++++-
- drivers/iommu/arm-smmu.h        |   3 +
- 3 files changed, 118 insertions(+), 3 deletions(-)
+I enumerated the overall points that UAPI should provide to us, just for
+clarity. Not like you haven't covered any of them, sorry for the
+confusion! :)
 
-diff --git a/drivers/iommu/arm-smmu-nvidia.c b/drivers/iommu/arm-smmu-nvidi=
-a.c
-index b73c483fa3376..7276bb203ae79 100644
---- a/drivers/iommu/arm-smmu-nvidia.c
-+++ b/drivers/iommu/arm-smmu-nvidia.c
-@@ -147,6 +147,102 @@ static int nvidia_smmu_reset(struct arm_smmu_device *=
-smmu)
- 	return 0;
- }
-=20
-+static struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
-+{
-+	return container_of(dom, struct arm_smmu_domain, domain);
-+}
-+
-+static irqreturn_t nvidia_smmu_global_fault_inst(int irq,
-+					       struct arm_smmu_device *smmu,
-+					       int inst)
-+{
-+	u32 gfsr, gfsynr0, gfsynr1, gfsynr2;
-+	void __iomem *gr0_base =3D nvidia_smmu_page(smmu, inst, 0);
-+
-+	gfsr =3D readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSR);
-+	gfsynr0 =3D readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR0);
-+	gfsynr1 =3D readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR1);
-+	gfsynr2 =3D readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR2);
-+
-+	if (!gfsr)
-+		return IRQ_NONE;
-+
-+	dev_err_ratelimited(smmu->dev,
-+		"Unexpected global fault, this could be serious\n");
-+	dev_err_ratelimited(smmu->dev,
-+		"\tGFSR 0x%08x, GFSYNR0 0x%08x, GFSYNR1 0x%08x, GFSYNR2 0x%08x\n",
-+		gfsr, gfsynr0, gfsynr1, gfsynr2);
-+
-+	writel_relaxed(gfsr, gr0_base + ARM_SMMU_GR0_sGFSR);
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t nvidia_smmu_global_fault(int irq, void *dev)
-+{
-+	int inst;
-+	irqreturn_t irq_ret =3D IRQ_NONE;
-+	struct arm_smmu_device *smmu =3D dev;
-+	struct nvidia_smmu *nvidia_smmu =3D to_nvidia_smmu(smmu);
-+
-+	for (inst =3D 0; inst < nvidia_smmu->num_inst; inst++) {
-+		irq_ret =3D nvidia_smmu_global_fault_inst(irq, smmu, inst);
-+		if (irq_ret =3D=3D IRQ_HANDLED)
-+			return irq_ret;
-+	}
-+
-+	return irq_ret;
-+}
-+
-+static irqreturn_t nvidia_smmu_context_fault_bank(int irq,
-+					    struct arm_smmu_device *smmu,
-+					    int idx, int inst)
-+{
-+	u32 fsr, fsynr, cbfrsynra;
-+	unsigned long iova;
-+	void __iomem *gr1_base =3D nvidia_smmu_page(smmu, inst, 1);
-+	void __iomem *cb_base =3D nvidia_smmu_page(smmu, inst, smmu->numpage + id=
-x);
-+
-+	fsr =3D arm_smmu_cb_read(smmu, idx, ARM_SMMU_CB_FSR);
-+	if (!(fsr & ARM_SMMU_FSR_FAULT))
-+		return IRQ_NONE;
-+
-+	fsynr =3D readl_relaxed(cb_base + ARM_SMMU_CB_FSYNR0);
-+	iova =3D readq_relaxed(cb_base + ARM_SMMU_CB_FAR);
-+	cbfrsynra =3D readl_relaxed(gr1_base + ARM_SMMU_GR1_CBFRSYNRA(idx));
-+
-+	dev_err_ratelimited(smmu->dev,
-+	"Unhandled context fault: fsr=3D0x%x, iova=3D0x%08lx, fsynr=3D0x%x, cbfrs=
-ynra=3D0x%x, cb=3D%d\n",
-+			    fsr, iova, fsynr, cbfrsynra, idx);
-+
-+	writel_relaxed(fsr, cb_base + ARM_SMMU_CB_FSR);
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t nvidia_smmu_context_fault(int irq, void *dev)
-+{
-+	int inst, idx;
-+	irqreturn_t irq_ret =3D IRQ_NONE;
-+	struct iommu_domain *domain =3D dev;
-+	struct arm_smmu_domain *smmu_domain =3D to_smmu_domain(domain);
-+	struct arm_smmu_device *smmu =3D smmu_domain->smmu;
-+
-+	for (inst =3D 0; inst < to_nvidia_smmu(smmu)->num_inst; inst++) {
-+		/*
-+		 * Interrupt line shared between all context faults.
-+		 * Check for faults across all contexts.
-+		 */
-+		for (idx =3D 0; idx < smmu->num_context_banks; idx++) {
-+			irq_ret =3D nvidia_smmu_context_fault_bank(irq, smmu,
-+								 idx, inst);
-+
-+			if (irq_ret =3D=3D IRQ_HANDLED)
-+				return irq_ret;
-+		}
-+	}
-+
-+	return irq_ret;
-+}
-+
- static const struct arm_smmu_impl nvidia_smmu_impl =3D {
- 	.read_reg =3D nvidia_smmu_read_reg,
- 	.write_reg =3D nvidia_smmu_write_reg,
-@@ -154,6 +250,8 @@ static const struct arm_smmu_impl nvidia_smmu_impl =3D =
-{
- 	.write_reg64 =3D nvidia_smmu_write_reg64,
- 	.reset =3D nvidia_smmu_reset,
- 	.tlb_sync =3D nvidia_smmu_tlb_sync,
-+	.global_fault =3D nvidia_smmu_global_fault,
-+	.context_fault =3D nvidia_smmu_context_fault,
- };
-=20
- struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu=
-)
-@@ -185,7 +283,8 @@ struct arm_smmu_device *nvidia_smmu_impl_init(struct ar=
-m_smmu_device *smmu)
- 	}
-=20
- 	nvidia_smmu->smmu.impl =3D &nvidia_smmu_impl;
--	/* Free the arm_smmu_device struct allocated in arm-smmu.c.
-+	/*
-+	 * Free the arm_smmu_device struct allocated in arm-smmu.c.
- 	 * Once this function returns, arm-smmu.c would use arm_smmu_device
- 	 * allocated as part of nvidia_smmu struct.
- 	 */
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 243bc4cb2705b..3bb0aba15a356 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -673,6 +673,7 @@ static int arm_smmu_init_domain_context(struct iommu_do=
-main *domain,
- 	enum io_pgtable_fmt fmt;
- 	struct arm_smmu_domain *smmu_domain =3D to_smmu_domain(domain);
- 	struct arm_smmu_cfg *cfg =3D &smmu_domain->cfg;
-+	irqreturn_t (*context_fault)(int irq, void *dev);
-=20
- 	mutex_lock(&smmu_domain->init_mutex);
- 	if (smmu_domain->smmu)
-@@ -835,7 +836,13 @@ static int arm_smmu_init_domain_context(struct iommu_d=
-omain *domain,
- 	 * handler seeing a half-initialised domain state.
- 	 */
- 	irq =3D smmu->irqs[smmu->num_global_irqs + cfg->irptndx];
--	ret =3D devm_request_irq(smmu->dev, irq, arm_smmu_context_fault,
-+
-+	if (smmu->impl && smmu->impl->context_fault)
-+		context_fault =3D smmu->impl->context_fault;
-+	else
-+		context_fault =3D arm_smmu_context_fault;
-+
-+	ret =3D devm_request_irq(smmu->dev, irq, context_fault,
- 			       IRQF_SHARED, "arm-smmu-context-fault", domain);
- 	if (ret < 0) {
- 		dev_err(smmu->dev, "failed to request context IRQ %d (%u)\n",
-@@ -2107,6 +2114,7 @@ static int arm_smmu_device_probe(struct platform_devi=
-ce *pdev)
- 	struct arm_smmu_device *smmu;
- 	struct device *dev =3D &pdev->dev;
- 	int num_irqs, i, err;
-+	irqreturn_t (*global_fault)(int irq, void *dev);
-=20
- 	smmu =3D devm_kzalloc(dev, sizeof(*smmu), GFP_KERNEL);
- 	if (!smmu) {
-@@ -2193,9 +2201,14 @@ static int arm_smmu_device_probe(struct platform_dev=
-ice *pdev)
- 		smmu->num_context_irqs =3D smmu->num_context_banks;
- 	}
-=20
-+	if (smmu->impl && smmu->impl->global_fault)
-+		global_fault =3D smmu->impl->global_fault;
-+	else
-+		global_fault =3D arm_smmu_global_fault;
-+
- 	for (i =3D 0; i < smmu->num_global_irqs; ++i) {
- 		err =3D devm_request_irq(smmu->dev, smmu->irqs[i],
--				       arm_smmu_global_fault,
-+				       global_fault,
- 				       IRQF_SHARED,
- 				       "arm-smmu global fault",
- 				       smmu);
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index 8cf1511ed9874..8b330076ff2af 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -18,6 +18,7 @@
- #include <linux/io-64-nonatomic-hi-lo.h>
- #include <linux/io-pgtable.h>
- #include <linux/iommu.h>
-+#include <linux/irqreturn.h>
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/types.h>
-@@ -387,6 +388,8 @@ struct arm_smmu_impl {
- 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
- 			 int status);
- 	int (*def_domain_type)(struct device *dev);
-+	irqreturn_t (*global_fault)(int irq, void *dev);
-+	irqreturn_t (*context_fault)(int irq, void *dev);
- };
-=20
- static inline void __iomem *arm_smmu_page(struct arm_smmu_device *smmu, in=
-t n)
---=20
-2.26.2
+Please see more comments below!
 
+>>
+>> - Sync points should work reliably.
+>>
+>> Some problems of the current Host1x driver, like where it falls over if
+>> sync point value is out-of-sync + all the hang-job recovery labor could
+>> be easily reduced if sync point health is protected by extra UAPI
+>> constraints. >
+>> So I think we may want the following:
+>>
+>> 1. We still should need to assign sync point ID to a DRM-channel's
+>> context. This sync point ID will be used for a commands stream forming,
+>> like it is done by the current staging UAPI.
+>>
+>> So we should need to retain the DRM_TEGRA_GET_SYNCPT IOCTL, but
+>> improve it.
+
+My point here is that the UAPI shouldn't be able to increment the job's
+sync point using SYNCPOINT_INCREMENT IOCTL, which is another UAPI
+constraint.
+
+I'm suggesting that we should have two methods of sync point allocations:
+
+1) Sync point that could be used only by a submitted job.
+
+2) Sync point that could be incremented by CPU.
+
+The first method will allocate a raw sync point ID that is assigned to
+the channel's context. This ID will be used for the job's completion
+tracking. Perhaps this method also could optionally return a sync point
+FD if you'd want to wait on this sync point by another job.
+
+We don't need a dedicated sync point FD for all kinds of jobs, don't we?
+For example, I don't see why a sync point FD may be needed in a case of
+Opentegra jobs.
+
+>> 2. Allocated sync point must have a clean hardware state.
+> 
+> What do you mean by clean hardware state?
+
+I mean that sync point should have a predictable state [1], it shouldn't
+accidentally fire during of hardware programming for example.
+
+[1]
+https://github.com/grate-driver/linux/blob/master/drivers/gpu/host1x/soc/syncpoints.c#L132
+
+For a submitted job, the job's sync point state could be reset at a
+submission time, for example like I did it in the grate-kernel's
+experimental driver [2].
+
+[2]
+https://github.com/grate-driver/linux/blob/master/drivers/gpu/host1x/soc/channel.c#L145
+
+>>
+>> 3. Sync points should be properly refcounted. Job's sync points
+>> shouldn't be re-used while job is alive.
+>>
+>> 4. The job's sync point can't be re-used after job's submission (UAPI
+>> constraint!). Userspace must free sync point and allocate a new one for
+>> the next job submission. And now we:
+>>
+>>    - Know that job's sync point is always in a healthy state!
+>>
+>>    - We're not limited by a number of physically available hardware sync
+>> points! Allocation should block until free sync point is available.
+>>
+>>    - The logical number of job's sync point increments matches the SP
+>> hardware state! Which is handy for a job's debugging.
+>>
+>> Optionally, the job's sync point could be auto-removed from the DRM's
+>> context after job's submission, avoiding a need for an extra SYNCPT_PUT
+>> IOCTL invocation to be done by userspace after the job's submission.
+>> Could be a job's flag.
+> 
+> I think this would cause problems where after a job completes but before
+> the fence has been waited, the syncpoint is already recycled (especially
+> if the syncpoint is reset into some clean state).
+
+Exactly, good point! The dma-fence shouldn't be hardwired to the sync
+point in order to avoid this situation :)
+
+Please take a look at the fence implementation that I made for the
+grate-driver [3]. The host1x-fence is a dma-fence [4] that is attached
+to a sync point by host1x_fence_create(). Once job is completed, the
+host1x-fence is detached from the sync point [5][6] and sync point could
+be recycled safely!
+
+[3]
+https://github.com/grate-driver/linux/blob/master/drivers/gpu/host1x/fence.c
+
+[4]
+https://github.com/grate-driver/linux/blob/master/include/linux/host1x.h#L450
+
+[5]
+https://github.com/grate-driver/linux/blob/master/drivers/gpu/host1x/soc/syncpoints_hw.c#L50
+
+[6]
+https://github.com/grate-driver/linux/blob/master/drivers/gpu/drm/tegra/uapi/scheduler.c#L133
+
+Please try to take a closer look at the grate-driver's implementation if
+you haven't yet. I think we should be able to reuse or improve some of
+the ideas. That implementation isn't 100% complete, it doesn't cover
+things like CPU-incremented or exported sync points for example, but
+basics are there.
+
+> I would prefer having a syncpoint for each userspace channel context
+> (several of which could share a hardware channel if MLOCKing is not used).
+> 
+> In my experience it's then not difficult to pinpoint which job has
+> failed, and if each userspace channel context uses a separate syncpoint,
+> a hanging job wouldn't mess with other application's jobs, either.
+
+I agree that there shouldn't be any problems with finding what job is
+hanged. The timed out job is always the hanged job, no? :)
+
+Also, please take a look at the DRM scheduler. Once I started to wire up
+the DRM scheduler support in the grate-driver, I realized that there is
+no real need to try to recover sync point's counter and etc, like the
+current upstream host1x driver does for a hanged job. When job is
+hanged, the whole channel should be turned down and reset, the job's
+sync point state reset, client's HW engine reset, all the pre-queued
+jobs re-submitted. And the generic DRM job scheduler helps us with that!
+It also has other neat features which I haven't tried yet, like job
+priorities for example.
