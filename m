@@ -2,98 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC9120E9C1
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 02:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05BD620EA01
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 02:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726560AbgF2Xw5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Jun 2020 19:52:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727805AbgF2Xw4 (ORCPT
+        id S1728525AbgF3AKx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Jun 2020 20:10:53 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10209 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728500AbgF3AKx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Jun 2020 19:52:56 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DA9EC061755;
-        Mon, 29 Jun 2020 16:52:56 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id d194so5678222pga.13;
-        Mon, 29 Jun 2020 16:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZGfMUVHQlxfLiTJM1WLol0nRk5sgJRj1wqf4MkKus5s=;
-        b=Xh/Vue0q76LlXZ1IVtyp0plcHCg+yS3sou6eCNEplyeHb1RBascLD5jXemJu3z6ioE
-         PEQnSUC8EAaBfx1BtSvvbgAwQNJJ2ucrQrroIdlGPAQQv/7jpS25OnRr1gUi9wsK/b8D
-         RXvb9lS0v+ikbVT8ubeL0uwKOXgpuTQlKgq3cZGlJyHIg97a4iDob4bDoRx23oRNdD4r
-         xS4iFrH3Nj5YbxJ5wrinYNGmgIzT/kcoFq6Q4gZt8F4LDM8PTotHdQ34JLVbDkoMMSoG
-         EZmJRILAhOY7EzQ4a7o/NpFeYhXMbTo5ogcOKUxCV0/o/kqWxbIp7d4kZl3BvTlhgcMg
-         2qdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZGfMUVHQlxfLiTJM1WLol0nRk5sgJRj1wqf4MkKus5s=;
-        b=MCdDxk6znqwe10ULoeIK9zxpv+9kknCBqBP+OgAl+eU0q+ghPPpob7I4nLVipw+RqF
-         nFoI2fI8a35kne8C5/OrQx/cUoyaQw7b6Ra7UL39dw/kwQgwjbaheDdHUQSfx1ZSHTt7
-         j2S2WIkf3MABuDfNIUDqvHiUSxMRLHLCdz7hayWRIOI7IDW5aWTzmEMCSZw8/uO16XbD
-         q1gZggCztZGxmfWh2tCg5QW7IMQYSqZf2vI4gaOOJn9zEfyj6pFmUhux9WZrWVqhGvJS
-         /h90BHzMzb8ce2FH5EXII2zLXa9BzxuBQnhWgzFuv1W44fM7ZDE+yduphhvgtoj3egWE
-         n7CQ==
-X-Gm-Message-State: AOAM5316Ri26Il5nEFtjVMUXv64dqCp+13wWtj+b6degyLh2WOtLCAzz
-        mta5P9ahJfvIK5A/Nztq++SP3jRNag8=
-X-Google-Smtp-Source: ABdhPJyHRiIXYw7M7C5K2woDsZLaiq4jmATiThuvEjJzM6tygMJ9vTs50c26tg/Ye6SHSxXi2HFHdA==
-X-Received: by 2002:aa7:988f:: with SMTP id r15mr7658817pfl.2.1593474775473;
-        Mon, 29 Jun 2020 16:52:55 -0700 (PDT)
-Received: from Asurada-Nvidia (searspoint.nvidia.com. [216.228.112.21])
-        by smtp.gmail.com with ESMTPSA id y18sm662361pff.10.2020.06.29.16.52.54
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Jun 2020 16:52:55 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 16:52:20 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Krishna Reddy <vdumpa@nvidia.com>
-Cc:     "joro@8bytes.org" <joro@8bytes.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
+        Mon, 29 Jun 2020 20:10:53 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efa82ff0001>; Mon, 29 Jun 2020 17:10:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 29 Jun 2020 17:10:52 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 29 Jun 2020 17:10:52 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 00:10:50 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 30 Jun 2020 00:10:50 +0000
+Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5efa83090000>; Mon, 29 Jun 2020 17:10:50 -0700
+From:   Krishna Reddy <vdumpa@nvidia.com>
+CC:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
         <linux-arm-kernel@lists.infradead.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Yu-Huan Hsu <YHsu@nvidia.com>,
-        Sachin Nikam <Snikam@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Bryan Huntsman <bhuntsman@nvidia.com>
-Subject: Re: [PATCH v7 1/3] iommu/arm-smmu: add NVIDIA implementation for
- dual ARM MMU-500 usage
-Message-ID: <20200629235219.GA14616@Asurada-Nvidia>
-References: <20200629022838.29628-1-vdumpa@nvidia.com>
- <20200629022838.29628-2-vdumpa@nvidia.com>
- <20200629215124.GD27967@Asurada-Nvidia>
- <BYAPR12MB2822B08564C7BD7212DCCEFEB36E0@BYAPR12MB2822.namprd12.prod.outlook.com>
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
+        <talho@nvidia.com>, <bbiswas@nvidia.com>, <mperttunen@nvidia.com>,
+        <nicolinc@nvidia.com>, <bhuntsman@nvidia.com>,
+        <nicoleotsuka@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>
+Subject: [PATCH v8 0/3] Nvidia Arm SMMUv2 Implementation
+Date:   Mon, 29 Jun 2020 17:10:48 -0700
+Message-ID: <20200630001051.12350-1-vdumpa@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB2822B08564C7BD7212DCCEFEB36E0@BYAPR12MB2822.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593475839; bh=A/DY8WfS/ePl/C6tRJmTrHqrrBEogIsRd+4oj+0xSTA=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=lGhEO/9E2j7hRcPdFudAxb/eK0vwaElmUAjU13AvIaUJc3ZwS//D+u2EEKmJqrG0M
+         naWxl9V51xSUFkiBqsACvrb+V6Tbb3fjJCu8moZ6hepC9rYzzNPSUUNUaverbuqOGg
+         DMACFX8Uqx3EIKYYvIZqZmB+uT02YZ/4DxkPoAgZOdCzzPmAquBVqrEalWfDL46+eJ
+         nfks+f1bmAdz7M/ECpxgxsKd5qUhm3IhSep5L6HeWxqiDMEKiZws1PpC+af4T2FR+o
+         ZcWqUcJvo1BKS2y2eHYTUUUvBpvt1bUNzOSJL7lyb3bOvmex2m/o4wTN3ZOFvw2FuD
+         5x0Xrg4Jdh1TA==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 10:49:31PM +0000, Krishna Reddy wrote:
-> >> +     if (!nvidia_smmu->bases[0])
-> >> +             nvidia_smmu->bases[0] = smmu->base;
-> >> +
-> >> +     return nvidia_smmu->bases[inst] + (page << smmu->pgshift); }
-> 
-> >Not critical -- just a nit: why not put the bases[0] in init()?
-> 
-> smmu->base is not available during nvidia_smmu_impl_init() call. It is set afterwards in arm-smmu.c.
-> It can't be avoided without changing the devm_ioremap() and impl_init() call order in arm-smmu.c. 
+Changes in v8:
+Fixed incorrect CB_FSR read issue during context bank fault.
+Rebased and validated patches on top of git://git.kernel.org/pub/scm/linux/=
+kernel/git/joro/iommu.git next
 
-I see...just checked arm_ssmu_impl_init().
+v7 - https://lkml.org/lkml/2020/6/28/347
+v6 - https://lkml.org/lkml/2020/6/4/1018
+v5 - https://lkml.org/lkml/2020/5/21/1114
+v4 - https://lkml.org/lkml/2019/10/30/1054
+v3 - https://lkml.org/lkml/2019/10/18/1601
+v2 - https://lkml.org/lkml/2019/9/2/980
+v1 - https://lkml.org/lkml/2019/8/29/1588
+
+Krishna Reddy (3):
+  iommu/arm-smmu: add NVIDIA implementation for dual ARM MMU-500 usage
+  dt-bindings: arm-smmu: Add binding for Tegra194 SMMU
+  iommu/arm-smmu: Add global/context fault implementation hooks
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |   5 +
+ MAINTAINERS                                   |   2 +
+ drivers/iommu/Makefile                        |   2 +-
+ drivers/iommu/arm-smmu-impl.c                 |   3 +
+ drivers/iommu/arm-smmu-nvidia.c               | 294 ++++++++++++++++++
+ drivers/iommu/arm-smmu.c                      |  17 +-
+ drivers/iommu/arm-smmu.h                      |   4 +
+ 7 files changed, 324 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/iommu/arm-smmu-nvidia.c
+
+
+base-commit: 48f0bcfb7aad2c6eb4c1e66476b58475aa14393e
+--=20
+2.26.2
+
