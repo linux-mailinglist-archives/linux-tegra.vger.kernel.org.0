@@ -2,174 +2,197 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 875F720FD8E
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 22:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A83D20FDB3
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 22:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729381AbgF3UV4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 16:21:56 -0400
-Received: from nat-hk.nvidia.com ([203.18.50.4]:10782 "EHLO nat-hk.nvidia.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726642AbgF3UV4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 16:21:56 -0400
-Received: from hkpgpgate102.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb9ee00000>; Wed, 01 Jul 2020 04:21:52 +0800
-Received: from HKMAIL104.nvidia.com ([10.18.16.13])
-  by hkpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 13:21:52 -0700
-X-PGP-Universal: processed;
-        by hkpgpgate102.nvidia.com on Tue, 30 Jun 2020 13:21:52 -0700
-Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL104.nvidia.com
- (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 20:21:47 +0000
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (104.47.44.50) by
- HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 20:21:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MiFHOpsh7vZK57P/Zpxxxb2Ku6dz4uBgQkop/WEa90petb8S7a5JnJDBCoYAjOOwy6ERUWy3Ne6tMhAazwxuDDDuaQ9zPPX0Tr/OLlGZhIdOE97ts+GzUlxvN4JIW1HiI28U+jDyRyi9EsjNxsmTa/me4XGNSQjikJDJE0c/Yy4Y+9/Bv1NGS5lkWN5AGP9EYcXYNdmZfe22dHkzydD2wm5HYFeGlL0IgFsX/CNwySp0NrjvArew/x6jW0OABaiz91qUkLRtERhEsrOzgUV7ZhXyoO+dHI40oka1SG6r+d/HzGm2fD/X8TdloPrQWlMmBQoYE8LPrUUjQJLh8IxfvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V9TmtNU1To6IxI+EH+P3BHjtxVj6UUA2yhTMaYLkcJI=;
- b=OFTPqql2e5EqDooH80QUxD5XTlczrsIeCzhUZv9RX82icNm0Ncm0k2L0ABBp3Z5c8MQr3Je3jLobpfaiKWZvMcq+ZsPqrMxECJgDU7f7xbpDeBSaj8r2N5LdiTaisO3G9e9L+n5wvx16LlFM+N7uCUrKSipUWgv5Aw8Ci72XFI+RwsdpX+HFGHZrWvgUnaEC+t69p5Uu8g8rd+e3UrRFShyx0P+isFbvVF2MKbJyCbpW1qfYKVTCoVkTF3r2cmsKVMSeCb6rQBZoD8N31c7MdAmvDAXeaIVMEwa0s+MBo0Fe4Hzd+pcpWnK/nvAimacNKAV1ZBz5xkCVX9odq6KaUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
- by BYAPR12MB3191.namprd12.prod.outlook.com (2603:10b6:a03:133::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Tue, 30 Jun
- 2020 20:21:44 +0000
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
- 20:21:44 +0000
-From:   Krishna Reddy <vdumpa@nvidia.com>
-To:     Jonathan Hunter <jonathanh@nvidia.com>
-CC:     "joro@8bytes.org" <joro@8bytes.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        "Yu-Huan Hsu" <YHsu@nvidia.com>, Sachin Nikam <Snikam@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Bryan Huntsman <bhuntsman@nvidia.com>,
-        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
-Subject: RE: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
- ARM MMU-500 usage
-Thread-Topic: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for
- dual ARM MMU-500 usage
-Thread-Index: AQHWTnLtXe5vi7jgbE2pRnyepolCC6jw8nYAgABivFCAAAYNgIAAA0WAgAAGCACAACC4AIAAFN+A
-Date:   Tue, 30 Jun 2020 20:21:44 +0000
-Message-ID: <BYAPR12MB282290F6E270DB90040379A0B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
-References: <20200630001051.12350-1-vdumpa@nvidia.com>
- <20200630001051.12350-2-vdumpa@nvidia.com>
- <e6da9661-4e62-6e34-ac21-63ff993ca8bc@nvidia.com>
- <BYAPR12MB282210677459B8D62623C642B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
- <4037efc7-fbed-e8cf-dac7-212c65014e4e@nvidia.com>
- <eb0ffc7e-f41b-d17c-6a90-049335098cd2@nvidia.com>
- <BYAPR12MB2822B43B0218F6E55C97451BB36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
- <64ffa84f-a8cf-ae81-6306-b5d8b1ff0618@nvidia.com>
-In-Reply-To: <64ffa84f-a8cf-ae81-6306-b5d8b1ff0618@nvidia.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-30T20:21:42.5016349Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=e86ac2ad-94a5-4360-b4fe-863d47606bad;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [71.202.129.3]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 30b2cd1e-c839-4a24-cf86-08d81d33350a
-x-ms-traffictypediagnostic: BYAPR12MB3191:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB31911783FCEEF540DC5476E7B36F0@BYAPR12MB3191.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0450A714CB
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9D0EPOHLLsgQl6+NSl7GbzxP6IgfyvIH4wxNzWyxuYt96se0Gl85/kycsYbsOsfSnZ8dmgzrtsCeueL3kOn/ltQ0zaPn+8E6lAMr4iy58gLG07g19ERjY53kvkN+FeimbUhVgiTDTa4BEeM0GNvLZQxgBpOTf/VUyWbXK4OGII5hxx1QJZJwovtDICQSRWMhRNNflv9KG1HoJWpMDkj2p7bXGLYig17JrXRyg58Wa9A4FXbTCl6lh+SYEIJvhBTtiyTiJlXsUNNYU1086Eo35Xs1IS/BYfCdEAFHvqFake+up593NUE3uvEOkCje7N+4
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(39860400002)(346002)(366004)(376002)(396003)(7696005)(6636002)(6506007)(86362001)(52536014)(83380400001)(9686003)(6862004)(316002)(71200400001)(54906003)(478600001)(4326008)(33656002)(55016002)(186003)(26005)(8676002)(64756008)(8936002)(2906002)(66556008)(66476007)(66446008)(76116006)(66946007)(5660300002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 7XsW8+8X7Z15I+wTuT6GOEjHQUcvy8XdL6/5rqupM7RikkG4yNpjWVxR/iJAF8KUkESek7/1xZNln/6boM0/zXMEiyRZnjE2uEDkTkpQ/eoeoaxToPjT1s2vX9yFgxSi8+XDh92fBjHHjO7jXQqRH2N9g/pogNkDX+e93PNWWJLCuRNr5oYuIB87GPXi4cbpN+GZYdTl55EmIf979njpXTexKuQ7QYA1L8lbEHgVx0NHuPDGk4lnz0GcD/WCmPhXkKtwDpg9GODsEkoTJCCSQEZK1Y3eI2DphzARK7oLYzX6PHzV14JNQqJwVnD1ncyJCzpLeEaHIQlkeK3W9XiQgyDeGifAJPMFWaN/JDNXgWXR7hNIFt4H9iu0RDJiD3o2m2GbXD9FJrwL33u9AseQC6laurKAY7np2qJQ9IRZULYCunm/MNKqhQ/R+SxNgoF6rseRe6dkbGMSd5NJPx2VovJAtrgmSzSevgWjZgj2oG4=
+        id S1729503AbgF3Ua4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 16:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726919AbgF3Uaz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Jun 2020 16:30:55 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45466C061755;
+        Tue, 30 Jun 2020 13:30:55 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id rk21so21963256ejb.2;
+        Tue, 30 Jun 2020 13:30:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=K3IWd4UOczfyNkWWyUS87fNAOE77K5rHLOtlJQ7STrg=;
+        b=etZ7q+p4B2JFHM3KgC5RB2LKoUpfAVWQDOfoXe5kfFnF3sWFTpdsPYELXT8nRbRB8V
+         5c31y2BRn1+HmCNdo1tmp3MfuAEy4DbPFs4TATQyhUTLx/qbfnjtDxgdEbovPSeSkVd3
+         HCON9M+7BVdC606lmFGthsXOEIyJ1OCEqJh/TYsKGzxmQbVQJbQdMDwWp+75c4oitJu9
+         e0AAGXCgi2g9MI7I5S5SYIcwD28Um6LlUd2sUgAbg3N87yQ/ufYEtsbVwedargaRYob/
+         35RyETkHIdLM/27llnpBYTq0XeGhtpSfFmP/V0K8VzsYJIZa1aNjZT5FQm97TaOkQT8H
+         B34g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=K3IWd4UOczfyNkWWyUS87fNAOE77K5rHLOtlJQ7STrg=;
+        b=To+A9qiTANMzPNFiudLXaCLs9xT1DD1oZfeVRlk2NtN/oJuYHGSysG6SxFgQZrsJYt
+         +kPPbXoSDwYVuqOannx3dv6awuRJ5YkYn8/iHvUHoZVFLg1bXp7UunBQdeRNx4BbS1XO
+         wQi69tBiPAfWpWvhbkLofqu/EiZyHfZ1StPLLvFH1CNI+pnFgMF4fWR6/MO9eC/skGEC
+         /L3hafRE+VcOQIjhaPOm5f9suZ/HFKrMth2EiuSIY87mJqUK9f9YlwZcDOyluxulMmOp
+         V14W7lh5k6w2pVbEmBpWyFF0cOLCz+4ZHeOCma48Nmzaa85OhIE+ViVu6IXPppXKgxqV
+         1JPg==
+X-Gm-Message-State: AOAM530fXId8P7SUt+wES+sJoLZK1nxPvd+AUVszNW3AuPldjuoMFBOk
+        RhQzaAVfDGkWIyT8OkFq1FM=
+X-Google-Smtp-Source: ABdhPJxSukwxBOIw9LOnc/r5bA5e2YJNHfx7DSS/vLi6YTJhehVxo3tDqN9KmjRn0mC68Sho61Xt2Q==
+X-Received: by 2002:a17:906:f298:: with SMTP id gu24mr19537400ejb.302.1593549051139;
+        Tue, 30 Jun 2020 13:30:51 -0700 (PDT)
+Received: from felia ([2001:16b8:2d31:bc00:cc6f:aee9:d326:7bf7])
+        by smtp.gmail.com with ESMTPSA id w15sm2902179ejk.103.2020.06.30.13.30.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 13:30:50 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date:   Tue, 30 Jun 2020 22:30:39 +0200 (CEST)
+X-X-Sender: lukas@felia
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, Joe Perches <joe@perches.com>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH SECOND RESEND] MAINTAINERS: adjust entries to moving CEC
+ platform drivers
+In-Reply-To: <20200525142946.8268-1-lukas.bulwahn@gmail.com>
+Message-ID: <alpine.DEB.2.21.2006302228320.4753@felia>
+References: <20200525142946.8268-1-lukas.bulwahn@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30b2cd1e-c839-4a24-cf86-08d81d33350a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 20:21:44.2524
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: meKE/dIyBW3rLkFmkswNJh4YdbB/mC4rtz6W4v+VFF1SNJkk6qnB003Cy10yOHDABRBDznaaqOmqZkMWHtiUow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3191
-X-OriginatorOrg: Nvidia.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593548512; bh=V9TmtNU1To6IxI+EH+P3BHjtxVj6UUA2yhTMaYLkcJI=;
-        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
-         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
-         Thread-Index:Date:Message-ID:References:In-Reply-To:
-         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-         authentication-results:x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
-         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam:
-         x-microsoft-antispam-message-info:x-forefront-antispam-report:
-         x-ms-exchange-antispam-messagedata:MIME-Version:
-         X-MS-Exchange-CrossTenant-AuthAs:
-         X-MS-Exchange-CrossTenant-AuthSource:
-         X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=dimS1Y+T9Itbi7CoQXzOmbB575VMGNHXMRu7ycjyJaS5vO4sKz4zxyZNqgFDtbz2T
-         eH8VTkGalhEFoxaKMFtbtJwA1rCeMC404y27WK/5SO1dtweefzvuroiJhqFY0WI4kQ
-         zFSBMNJmu3eg3oX5SQxrkcOTZnvbhhr7DZ7yvokpky7v6CG0SDiEUiVfJkh2fxKzGD
-         8O/54d15VOWzNsQ+52IjZLUkXWcJI91eb8GfVs4d1cU1aI2JMUZ5s3Eds5dkIpqAZt
-         9NTRk1IyclyVOeC9Tp6vNzwesom4yvwhVgGtg2cGjvY3gzO/ZKoQIzmhJdsJRmX4eu
-         lGikUzqk+0HzA==
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Pj4gVGhlIGRyaXZlciBpbnRlbmQgdG8gc3VwcG9ydCB1cCB0byAzIGluc3RhbmNlcy4gSXQgZG9l
-c24ndCByZWFsbHkgbWFuZGF0ZSB0aGF0IGFsbCB0aHJlZSBpbnN0YW5jZXMgYmUgcHJlc2VudCBp
-biBzYW1lIERUIG5vZGUuDQo+PiBFYWNoIG1taW8gYXBlcnR1cmUgaW4gInJlZyIgcHJvcGVydHkg
-aXMgYW4gaW5zdGFuY2UgaGVyZS4gcmVnID0gDQo+PiA8aW5zdDBfYmFzZSwgc2l6ZT4sIDxpbnN0
-MV9iYXNlLCBzaXplPiwgPGluc3QyX2Jhc2UsIHNpemU+OyBUaGUgcmVnIGNhbiBoYXZlIGFsbCB0
-aHJlZSBvciBsZXNzIGFuZCBkcml2ZXIganVzdCBjb25maWd1cmVzIGJhc2VkIG9uIHJlZyBhbmQg
-aXQgd29ya3MgZmluZS4NCg0KPlNvIGl0IHNvdW5kcyBsaWtlIHdlIG5lZWQgYXQgbGVhc3QgMiBT
-TU1VcyAoZm9yIG5vbi1pc28gYW5kIGlzbykgYnV0IHdlIGhhdmUgdXAgdG8gMyAoZm9yIFRlZ3Jh
-MTk0KS4gU28gdGhlIHF1ZXN0aW9uIGlzIGRvIHdlIGhhdmUgYSB1c2UtY2FzZSB3aGVyZSB3ZSBv
-bmx5IHVzZSAyIGFuZCBub3QgMz8gSWYgbm90LCB0aGVuIGl0IHN0aWxsIHNlZW1zIHRoYXQgd2Ug
-c2hvdWxkIHJlcXVpcmUgdGhhdCBhbGwgMyBhcmUgcHJlc2VudC4NCg0KSXQgY2FuIGJlIGVpdGhl
-ciAyIFNNTVVzIChmb3Igbm9uLWlzbykgb3IgMyBTTU1VcyAoZm9yIG5vbi1pc28gYW5kIGlzbyku
-ICBMZXQgbWUgZmFpbCB0aGUgb25lIGluc3RhbmNlIGNhc2UgYXMgaXQgY2FuIHVzZSByZWd1bGFy
-IGFybSBzbW11IGltcGxlbWVudGF0aW9uIGFuZCBkb24ndCAgbmVlZCBudmlkaWEgaW1wbGVtZW50
-YXRpb24gZXhwbGljaXRseS4NCiANCj5UaGUgb3RoZXIgcHJvYmxlbSBJIHNlZSBoZXJlIGlzIHRo
-YXQgY3VycmVudGx5IHRoZSBhcm0tc21tdSBiaW5kaW5nIGRlZmluZXMgdGhlICdyZWcnIHdpdGgg
-YSAnbWF4SXRlbXMnIG9mIDEsIHdoZXJlYXMgd2UgaGF2ZSAzLiBJIGJlbGlldmUgdGhhdCB0aGlz
-IHdpbGwgZ2V0IGNhdWdodCBieSB0aGUgJ2R0X2JpbmRpbmdfY2hlY2snIHdoZW4gd2UgdHJ5IHRv
-IHBvcHVsYXRlIHRoZSBiaW5kaW5nLg0KDQpUaGFua3MgZm9yIHBvaW50aW5nIGl0IG91dCEgV2ls
-bCB1cGRhdGUgdGhlIGJpbmRpbmcgZG9jLg0KDQotS1INCg0KLS0NCm52cHVibGljDQo=
+
+
+On Mon, 25 May 2020, Lukas Bulwahn wrote:
+
+> Commit 4be5e8648b0c ("media: move CEC platform drivers to a separate
+> directory") moved various files into a new directory structure, but did
+> not adjust the entries in MAINTAINERS.
+> 
+> Since then, ./scripts/get_maintainer.pl --self-test=patterns complains:
+> 
+>   warning: no file matches F: drivers/media/platform/s5p-cec/
+>   warning: no file matches F: drivers/media/platform/tegra-cec/
+>   warning: no file matches F: drivers/media/platform/cec-gpio/
+>   warning: no file matches F: drivers/media/platform/meson/ao-cec-g12a.c
+>   warning: no file matches F: drivers/media/platform/meson/ao-cec.c
+>   warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.c
+>   warning: no file matches F: drivers/media/platform/seco-cec/seco-cec.h
+>   warning: no file matches F: drivers/media/platform/sti/cec/
+> 
+> Update the MAINTAINERS entries to the new file locations.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> Mauro, please pick this non-urgent minor clean-up patch on top of the
+> CEC platform driver moves.
+>  
+
+Just a short ping for you, Mauro. Can you pick up this minor clean-up 
+patch?
+
+Lukas
+
+> applies cleanly on next-20200417, next-20200505 and still on next-20200525
+> for this second resend.
+> 
+> v1 send here:
+> https://lore.kernel.org/lkml/20200418093630.6149-1-lukas.bulwahn@gmail.com/
+> 
+> v1 first resend here:
+> https://lore.kernel.org/lkml/20200506050744.4779-1-lukas.bulwahn@gmail.com/
+> 
+>  MAINTAINERS | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7a442b48f24b..bf5cb149101b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2403,7 +2403,7 @@ L:	linux-samsung-soc@vger.kernel.org (moderated for non-subscribers)
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/s5p-cec.txt
+> -F:	drivers/media/platform/s5p-cec/
+> +F:	drivers/media/cec/platform/s5p/
+>  
+>  ARM/SAMSUNG S5P SERIES JPEG CODEC SUPPORT
+>  M:	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+> @@ -2548,7 +2548,7 @@ L:	linux-tegra@vger.kernel.org
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/tegra-cec.txt
+> -F:	drivers/media/platform/tegra-cec/
+> +F:	drivers/media/cec/platform/tegra/
+>  
+>  ARM/TETON BGA MACHINE SUPPORT
+>  M:	"Mark F. Brown" <mark.brown314@gmail.com>
+> @@ -3969,7 +3969,7 @@ S:	Supported
+>  W:	http://linuxtv.org
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/cec-gpio.txt
+> -F:	drivers/media/platform/cec-gpio/
+> +F:	drivers/media/cec/platform/cec-gpio/
+>  
+>  CELL BROADBAND ENGINE ARCHITECTURE
+>  M:	Arnd Bergmann <arnd@arndb.de>
+> @@ -11146,8 +11146,7 @@ S:	Supported
+>  W:	http://linux-meson.com/
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> -F:	drivers/media/platform/meson/ao-cec-g12a.c
+> -F:	drivers/media/platform/meson/ao-cec.c
+> +F:	drivers/media/cec/platform/meson/
+>  
+>  MESON NAND CONTROLLER DRIVER FOR AMLOGIC SOCS
+>  M:	Liang Yang <liang.yang@amlogic.com>
+> @@ -15212,8 +15211,7 @@ F:	drivers/mmc/host/sdricoh_cs.c
+>  SECO BOARDS CEC DRIVER
+>  M:	Ettore Chimenti <ek5.chimenti@gmail.com>
+>  S:	Maintained
+> -F:	drivers/media/platform/seco-cec/seco-cec.c
+> -F:	drivers/media/platform/seco-cec/seco-cec.h
+> +F:	drivers/media/cec/platform/seco/
+>  
+>  SECURE COMPUTING
+>  M:	Kees Cook <keescook@chromium.org>
+> @@ -16249,7 +16247,7 @@ STI CEC DRIVER
+>  M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/stih-cec.txt
+> -F:	drivers/media/platform/sti/cec/
+> +F:	drivers/media/cec/platform/sti/
+>  
+>  STK1160 USB VIDEO CAPTURE DRIVER
+>  M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> -- 
+> 2.17.1
+> 
+> 
