@@ -2,140 +2,180 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B26D20FA12
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 19:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9CA20FA1D
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 19:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389978AbgF3RCK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 13:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727061AbgF3RCJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 13:02:09 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42985C061755;
-        Tue, 30 Jun 2020 10:02:09 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id n23so23475934ljh.7;
-        Tue, 30 Jun 2020 10:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Zm73/VCv6D7tyjxlDYUvUqi434b/awSj205uGGSiY5E=;
-        b=tqjQx/HFMAKT91zIH/bwqIcsxDgnE+o7tj9C36qUiMT6LNlS/MRbarOXOhAjo05SoQ
-         42fTsD0Bbk4bFkjSL/DeMJM1UVylpbSuBvlr1nF/qHCagwxzJ6dQLIUvvgqbJxLp18pv
-         3LWb9GK2CNPoyF1sPNibc8ZYqqCmfOH0Xnk28lzC8Ct4OyESOg2brOSo2eMj2siUijDX
-         Ivn+g/tGC1mkwx1GjiVqPpprQ6Up/09PXknZPXh0nlVUcLsCiMEYAzYS3Aj5GgaDi6Fp
-         R0jkzp/RRyeUbxxpJmjJsJIiUR+11UuIhdigZDR4eYY8I+3d304tk+pC4kvx5942gepY
-         dLUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Zm73/VCv6D7tyjxlDYUvUqi434b/awSj205uGGSiY5E=;
-        b=OWee7zGU7J+sdUsJ4RNDErkYgz11GY+DqrnJmf1k7CMjxaxQ3C0dm27x9r4S+v1Ty5
-         ijPyZhZU3OEaCh6NH8H0yaeI9C9eKogw9+3ljUWwB0UO01D9eP/nnUTcZM+f4U8yPpXw
-         /HSCwFoOcQhF8RpC/gu7AGsAmQudcgHIXp8cNW3jp3tH4hDhtMg+LWj/8yN2l8vCuVNO
-         Otwe2mEh0IHgqI5NtxUPEK7KrqraF5lScMCtoLSWqobmovHb+HXd7pBV+0kHU7Y67Zek
-         7XW2YM8J2Rf+CW7V+uTk94OmbcEhpXYQxdKrzVuBISYBp67Dy8p8L0+XfvU0jGQWrc1I
-         xH8A==
-X-Gm-Message-State: AOAM532lIg/qKHxXpx4a9STzrza7fIeA0FK5Ys/6SYskHDOTt+pF6Hm+
-        m+b3+ji09h1PbIGA9do15VkWfvqMhGI=
-X-Google-Smtp-Source: ABdhPJySlQU/MvAcD940eAO4I0jczbnnGO6YWZ/sb/tciNiEsQmajGFLUIMqC2ALxjQA7vqNRzlD3A==
-X-Received: by 2002:a2e:b8c2:: with SMTP id s2mr11668004ljp.368.1593536527151;
-        Tue, 30 Jun 2020 10:02:07 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id d21sm587797ljo.85.2020.06.30.10.02.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 10:02:06 -0700 (PDT)
-Subject: Re: [PATCH v8 1/7] of_graph: add of_graph_presents()
-To:     Rob Herring <robh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200617222703.17080-1-digetx@gmail.com>
- <20200617222703.17080-2-digetx@gmail.com> <20200629231211.GA3142766@bogus>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1ef25775-1f37-25ce-f534-54cc995a5658@gmail.com>
-Date:   Tue, 30 Jun 2020 20:02:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S2390000AbgF3REW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 13:04:22 -0400
+Received: from nat-hk.nvidia.com ([203.18.50.4]:12446 "EHLO nat-hk.nvidia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389947AbgF3REV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Jun 2020 13:04:21 -0400
+Received: from hkpgpgate101.nvidia.com (Not Verified[10.18.92.100]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb70920001>; Wed, 01 Jul 2020 01:04:18 +0800
+Received: from HKMAIL103.nvidia.com ([10.18.16.12])
+  by hkpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 30 Jun 2020 10:04:18 -0700
+X-PGP-Universal: processed;
+        by hkpgpgate101.nvidia.com on Tue, 30 Jun 2020 10:04:18 -0700
+Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 17:04:16 +0000
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.171)
+ by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 17:04:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Sz8ogrX3yphWMmj28G0zrl7DPe4pQhteLVAFJ3I7kQ/KJhO2Wozbv7gXfv0VOT0uNlCGFrkGAzvQSrJnu7uPIt6dD9qkAgv/ULGMdoXkZlobPv4m9H07jXhb8bgVVOPdufivUVKCJubKB8KwQtWWejli8KS7PdAdaPsgssrIsxNM1zvT+vlbgRNmIg4Z7am6TGfGdPSNptIG7JpyccEYwOtcvH9dyzLYU8RvV/yvoQKoEx2pV6njMdSvBguj5DwTiMCE9g2B0H6xsQxLhlUZo4dPOBK25H3d4IxZmUQF1iZbVFmY8w68WJmkptXZa52Zy8TetqORzTfULfo3SWb3Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PjNOaagwuwlxcGNhARe11W8Vg/6fDbq00jf8kXsGFpM=;
+ b=Hju9NBO0NoH2/YFmcfONRsocQFUHlElkjYrLSMDnKKm4220o/Ds2hBurjMQLjk+dqGyh92EqG5b+aE4yCmfZHNgN4x3QpRaSeMq+c6GxI2pa7OFnhmkXadc86P9VQYMGjM9eRSv7QbRnsNU/jzjCV2VewQ6VqP23K7HtIA/dfRhVt3RZjGKPthQUE/xy6e3A1+SwkHiKi5a2lxoUHX4WvpwUo5twCm5Uz8wrAtXGN0eO9i57X3qpEtB3N1Xr17DvSg8aHQqmKgPcyDgZN98Vu+qfOigXtGmUe2ytdcsHxbQb9+mhAD5F1vsxmTUO/xA3ORw6dGDBS7+EkXojsAoYRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
+ by BYAPR12MB3415.namprd12.prod.outlook.com (2603:10b6:a03:d5::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.25; Tue, 30 Jun
+ 2020 17:04:14 +0000
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 17:04:14 +0000
+From:   Krishna Reddy <vdumpa@nvidia.com>
+To:     Jonathan Hunter <jonathanh@nvidia.com>
+CC:     "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        "Yu-Huan Hsu" <YHsu@nvidia.com>, Sachin Nikam <Snikam@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Bryan Huntsman <bhuntsman@nvidia.com>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
+Subject: RE: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
+ ARM MMU-500 usage
+Thread-Topic: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for
+ dual ARM MMU-500 usage
+Thread-Index: AQHWTnLtXe5vi7jgbE2pRnyepolCC6jw0WKAgACIGaA=
+Date:   Tue, 30 Jun 2020 17:04:14 +0000
+Message-ID: <BYAPR12MB2822A100F2BE2D8141F0B585B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
+References: <20200630001051.12350-1-vdumpa@nvidia.com>
+ <20200630001051.12350-2-vdumpa@nvidia.com>
+ <53bfa5c8-c32d-6fa3-df60-a18ab33ca1c2@nvidia.com>
+In-Reply-To: <53bfa5c8-c32d-6fa3-df60-a18ab33ca1c2@nvidia.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-30T17:04:11.9890059Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=1317b412-78b4-4c24-ad7a-bf78d36dcba8;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [216.228.112.22]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1bf44a11-efd4-4268-871c-08d81d179def
+x-ms-traffictypediagnostic: BYAPR12MB3415:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB34154605E88379628E115FC5B36F0@BYAPR12MB3415.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0450A714CB
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: z7c10Hx2l3Ev3xlDCp68s7kxv9uT+ln8wmM49Rs5d9HWAm6bLtccoHC45IZklzUuMavhS7IJGKObnf7+KsO5QzSYCmWCtMz9y88zkdsBOF7rxJvEKY/XvI6dJ57uDN6uXxI7/ifnNlAk+Mfub+vKupYQLoUoJkMHbCSG+yJg7W88Tyfon0TiEWuCViIPfNja89d2gK5NsjjtG5Q2r6JIYEliYb357lmmwpz7YrYO/l3M2WmmKrIlz5RjR3g4DyzM/zWTOzT8qVswqID3BzsBugzoxcESvqjls7IaD8Op2N43VFSfFOhdHCqSninTRraR2EKiJa5EBNe7/a5xslmA/A==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(136003)(346002)(366004)(39860400002)(396003)(33656002)(478600001)(52536014)(316002)(5660300002)(54906003)(4326008)(71200400001)(6862004)(86362001)(66946007)(83380400001)(66556008)(76116006)(186003)(8676002)(6506007)(6636002)(55016002)(8936002)(9686003)(66476007)(64756008)(26005)(2906002)(66446008)(7696005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 2vnzISzZQpZYaqDlxu9/jD4BcEO30jDyrtwkZb3Z1X85yCR3spEOplLKKFUZzVDK1olYyuOhkK+ntaymhnG+x1r+TJMajYrNqw+XCiP84OKIsKsGiMgrUtcthSVwaHdCBWx4bgb1HA2fnDiHX9ERKRpprS0pD6GXhhhBrvSByYU6m+jvOgE8DcD5tLq+Bac9uvSvCVvcJRT64RcHWDsDiVRqvuezfeQ7YC3ejvsa1/JkD2ulHOCJJ939MdhyAjfESm9+20ZnlsC1xBzBQ2MuVHJlV6W6vRCSVhpmHsPw2fs8gKcTjkeFQtfZfA54wt62ka1Df1bniCa2TIro2tVrFJoLfqFoBrYNsDChdkB8aO5/en+MUJef8QvvyPnM25nrmzxoY1VhdGnUjAYFirMcSNB1877VQMwvS+iXH/cYQ0UI4P+AddFY6Bey+0IeDt7Zuzcoe0sxKxyiGU8bActWRJ3eptSyF+CyduHKpkLwX7Uu9BL8hZ0M4BcTLO/QV+5T
 MIME-Version: 1.0
-In-Reply-To: <20200629231211.GA3142766@bogus>
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bf44a11-efd4-4268-871c-08d81d179def
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 17:04:14.2559
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4T/k9HB8ANt54+6wzcq2P4uBbQZC6nZcPS/uI8zN5sA2GnKRFygrgOPfUlACApHLTo0nnPcNoH4JGxz1p0ya3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3415
+X-OriginatorOrg: Nvidia.com
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593536658; bh=PjNOaagwuwlxcGNhARe11W8Vg/6fDbq00jf8kXsGFpM=;
+        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+         Thread-Index:Date:Message-ID:References:In-Reply-To:
+         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+         authentication-results:x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
+         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam:
+         x-microsoft-antispam-message-info:x-forefront-antispam-report:
+         x-ms-exchange-antispam-messagedata:MIME-Version:
+         X-MS-Exchange-CrossTenant-AuthAs:
+         X-MS-Exchange-CrossTenant-AuthSource:
+         X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-CrossTenant-userprincipalname:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+         Content-Language:Content-Type:Content-Transfer-Encoding;
+        b=q+4aMz5Qz5bkS1AddwShxE8G6xtJksYT9+3ID/I7SVXJJw6t7JZR7wtvj08qrMSUr
+         l0vvKl7YlyGXkb0BPUzxAGN2JFbXoXSf4qY8dbQIQ+G2tGwPA7bj88NVefwft007Ce
+         ltfPru16byiZkAIEspWN6szfEO2B2T7cMNSHMKgSxXSviaw31LJS0bTyMjAhAuki/k
+         ahuYDch9nEyKRkveshf7CHiMiNzjbDpgunEuxE/DiK0Oi95s5V+JbP2AlXmxaeHB9i
+         RGpf4sbVcTZovXfHhn2XAO9cq6dxujYpm2HDCD8iZiWCl7L345KVilgvDCc5my8ZXA
+         iTCUS87vbwTfw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.06.2020 02:12, Rob Herring пишет:
-> On Thu, Jun 18, 2020 at 01:26:57AM +0300, Dmitry Osipenko wrote:
->> In some case, like a DRM display code for example, it's useful to silently
->> check whether port node exists at all in a device-tree before proceeding
->> with parsing of the graph.
->>
->> This patch adds of_graph_presents() that returns true if given device-tree
->> node contains OF graph port.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/of/property.c    | 52 +++++++++++++++++++++++++++++++++-------
->>  include/linux/of_graph.h |  6 +++++
->>  2 files changed, 49 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/of/property.c b/drivers/of/property.c
->> index 1f2086f4e7ce..b84ed6a7cf50 100644
->> --- a/drivers/of/property.c
->> +++ b/drivers/of/property.c
->> @@ -29,6 +29,48 @@
->>  
->>  #include "of_private.h"
->>  
->> +/**
->> + * of_graph_get_first_local_port() - get first local port node
->> + * @node: pointer to a local endpoint device_node
->> + *
->> + * Return: First local port node associated with local endpoint node linked
->> + *	   to @node. Use of_node_put() on it when done.
->> + */
->> +static struct device_node *
->> +of_graph_get_first_local_port(const struct device_node *node)
->> +{
->> +	struct device_node *ports, *port;
->> +
->> +	ports = of_get_child_by_name(node, "ports");
->> +	if (ports)
->> +		node = ports;
->> +
->> +	port = of_get_child_by_name(node, "port");
->> +	of_node_put(ports);
->> +
->> +	return port;
->> +}
->> +
->> +/**
->> + * of_graph_presents() - check graph's presence
->> + * @node: pointer to a device_node checked for the graph's presence
->> + *
->> + * Return: True if @node has a port or ports sub-node, false otherwise.
->> + */
->> +bool of_graph_presents(const struct device_node *node)
-> 
-> of_graph_is_present
-> 
-> Otherwise,
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
-
-Thanks!
-
-I'll address the comment and then factor out this and the
-drm_of_find_panel_or_bridge() changes into a separate series in v9,
-since the Tegra DRM patches could be applied separately by Thierry.
+Pj4gTlZJRElBJ3MgVGVncmExOTQgU29DIHVzZXMgdHdvIEFSTSBNTVUtNTAwcyB0b2dldGhlciB0
+byBpbnRlcmxlYXZlIA0KPj4gSU9WQSBhY2Nlc3NlcyBhY3Jvc3MgdGhlbS4NCj4+IEFkZCBOVklE
+SUEgaW1wbGVtZW50YXRpb24gZm9yIGR1YWwgQVJNIE1NVS01MDBzIGFuZCBhZGQgbmV3IGNvbXBh
+dGlibGUgDQo+PiBzdHJpbmcgZm9yIFRlZ3JhMTk0IFNvQyBTTU1VIHRvcG9sb2d5Lg0KDQo+VGhl
+cmUgaXMgbm8gZGVzY3JpcHRpb24gaGVyZSBvZiB0aGUgM3JkIFNNTVUgdGhhdCB5b3UgbWVudGlv
+biBiZWxvdy4NCj5JIHRoaW5rIHRoYXQgd2Ugc2hvdWxkIGRlc2NyaWJlIHRoZSBmdWxsIHBpY3R1
+cmUgaGVyZS4NCg0KVGhpcyBkcml2ZXIgaXMgcHJpbWFyaWx5IGZvciBkdWFsIFNNTVUgY29uZmln
+LiAgU28sIEl0IGlzIGF2b2lkZWQgaW4gdGhlIGNvbW1pdCBtZXNzYWdlLg0KSG93ZXZlciwgSW1w
+bGVtZW50YXRpb24gc3VwcG9ydHMgb3B0aW9uIHRvIGNvbmZpZ3VyZSAzIGluc3RhbmNlcyBpZGVu
+dGljYWxseSB3aXRoIG9uZSBTTU1VIERUIG5vZGUNCmFuZCBpcyBkb2N1bWVudGVkIGluIHRoZSBp
+bXBsZW1lbnRhdGlvbi4NCg0KPj4gKw0KPj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBfX2lvbWVtICpu
+dmlkaWFfc21tdV9wYWdlKHN0cnVjdCBhcm1fc21tdV9kZXZpY2UgKnNtbXUsDQo+PiArCQkJICAg
+ICAgIHVuc2lnbmVkIGludCBpbnN0LCBpbnQgcGFnZSkNCg0KPklmIHlvdSBydW4gY2hlY2twYXRj
+aCAtLXN0cmljdCBvbiB0aGVzZSB5b3Ugd2lsbCBnZXQgYSBsb3Qgb2YgLi4uDQoNCj5DSEVDSzog
+QWxpZ25tZW50IHNob3VsZCBtYXRjaCBvcGVuIHBhcmVudGhlc2lzDQo+IzExNjogRklMRTogZHJp
+dmVycy9pb21tdS9hcm0tc21tdS1udmlkaWEuYzo0NjoNCj4rc3RhdGljIGlubGluZSB2b2lkIF9f
+aW9tZW0gKm52aWRpYV9zbW11X3BhZ2Uoc3RydWN0IGFybV9zbW11X2RldmljZSAqc21tdSwNCj4r
+CQkJICAgICAgIHVuc2lnbmVkIGludCBpbnN0LCBpbnQgcGFnZSkNCg0KPldlIHNob3VsZCBmaXgg
+dGhlc2UuDQoNCkkgd2lsbCBmaXggdGhlc2UgaWYgSSBuZWVkIHRvIHB1c2ggYSBuZXcgcGF0Y2gg
+c2V0Lg0KDQo+PiArc3RhdGljIHZvaWQgbnZpZGlhX3NtbXVfd3JpdGVfcmVnKHN0cnVjdCBhcm1f
+c21tdV9kZXZpY2UgKnNtbXUsDQo+PiArCQkJICAgIGludCBwYWdlLCBpbnQgb2Zmc2V0LCB1MzIg
+dmFsKSB7DQo+PiArCXVuc2lnbmVkIGludCBpOw0KPj4gKwlzdHJ1Y3QgbnZpZGlhX3NtbXUgKm52
+aWRpYV9zbW11ID0gdG9fbnZpZGlhX3NtbXUoc21tdSk7DQo+PiArDQo+PiArCWZvciAoaSA9IDA7
+IGkgPCBudmlkaWFfc21tdS0+bnVtX2luc3Q7IGkrKykgew0KPj4gKwkJdm9pZCBfX2lvbWVtICpy
+ZWcgPSBudmlkaWFfc21tdV9wYWdlKHNtbXUsIGksIHBhZ2UpICsgb2Zmc2V0Ow0KDQo+UGVyc29u
+YWxseSwgSSB3b3VsZCBkZWNsYXJlICdyZWcnIG91dHNpZGUgb2YgdGhlIGxvb3AgYXMgSSBmZWVs
+IGl0IHdpbGwgbWFrZSB0aGUgY29kZSBjbGVhbmVyIGFuZCBlYXNpZXIgdG8gcmVhZC4NCg0KSXQg
+d2FzIGxpa2UgdGhhdCBiZWZvcmUgYW5kIGlzIHVwZGF0ZWQgdG8gaXRzIGN1cnJlbnQgZm9ybSB0
+byBsaW1pdCB0aGUgc2NvcGUgb2YgdmFyaWFibGVzIGFzIHBlciBUaGllcnJ5J3MgY29tbWVudHMg
+aW4gdjYuIA0KV2UgY2FuIGp1c3QgbGVhdmUgaXQgYXMgaXQgaXMgYXMgdGhlcmUgaXMgbm8gdGVj
+aG5pY2FsIGlzc3VlIGhlcmUuDQoNCi1LUg0KDQotLQ0KbnZwdWJsaWMNCg==
