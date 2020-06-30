@@ -2,106 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3449F20F37A
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 13:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32F9D20F3E2
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 13:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732932AbgF3LRD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 07:17:03 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15521 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728534AbgF3LRD (ORCPT
+        id S1732508AbgF3LzF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 07:55:05 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16640 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732491AbgF3LzF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 07:17:03 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb1f210000>; Tue, 30 Jun 2020 04:16:49 -0700
+        Tue, 30 Jun 2020 07:55:05 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb27e70002>; Tue, 30 Jun 2020 04:54:15 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 04:17:02 -0700
+  Tue, 30 Jun 2020 04:55:04 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 04:17:02 -0700
-Received: from [10.26.75.203] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 04:55:04 -0700
+Received: from [10.25.97.62] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 11:17:01 +0000
-Subject: Re: [PATCH 52/73] arm64: tegra: Remove simple clocks bus
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200616135238.3001888-1-thierry.reding@gmail.com>
- <20200616135238.3001888-53-thierry.reding@gmail.com>
- <46e907c8-6fd5-73ff-9ca4-bcf3ee19d716@nvidia.com>
-Message-ID: <c090f7f3-a3ae-07e9-1ce3-f5340347ae92@nvidia.com>
-Date:   Tue, 30 Jun 2020 12:16:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ 2020 11:54:54 +0000
+CC:     <spujar@nvidia.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <kuninori.morimoto.gx@renesas.com>, <robh+dt@kernel.org>,
+        <lgirdwood@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <digetx@gmail.com>,
+        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
+        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
+        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <atalambedu@nvidia.com>, <nwartikar@nvidia.com>,
+        <swarren@nvidia.com>, <nicoleotsuka@gmail.com>
+Subject: Re: Re: [PATCH v4 00/23] Add support for Tegra210 Audio
+To:     Mark Brown <broonie@kernel.org>
+References: <1593233625-14961-1-git-send-email-spujar@nvidia.com>
+ <20200630105142.GF5272@sirena.org.uk>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <b44cf9a8-f01b-5c73-5929-d02c4502832e@nvidia.com>
+Date:   Tue, 30 Jun 2020 17:24:50 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <46e907c8-6fd5-73ff-9ca4-bcf3ee19d716@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+In-Reply-To: <20200630105142.GF5272@sirena.org.uk>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593515809; bh=jG8XVhuYlyONDA2BW/GFIcFIEej2tjkHvWH6/6UYya4=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+        t=1593518055; bh=aqJ2upnaq3qCdZVAi6vfeAtGXsTFXwxy04lLWsSjgro=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Qo3MxLupW98BJDO8WQD+226Fhf0rFl5oXKnk3wnStQSCnFAZbta04OLjsxLAvUPqj
-         u/gNdeDRYiZiX9ttlUbmgzwlzPYUcyISzxFlwDrig9iDjw9cO/4/CzZ+F/7zZ8F1Ns
-         GYWfUPakd9kMJyVpPB1hZbEugc1ke/bITXoD2hppqdQfNwB0OL9L8bAw2q/hhZdOhP
-         I3CvuhCqNTZbaq/b4XKt0cPwT9Fs+YipbA0p7IB/FJ/hfUa3b7m60tDbNCB7Q2RPkM
-         k0E2YZAQqfYX3GpEyR/tC5J8YluM/s++f9YSrY2y/5qOc9Z90dYjwgHBq7TmvC/Fxq
-         u9U7Oj+v26I8A==
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=H21t0clf+ESX3Od8FVqcK5gF9fZG/EUdlFKDC3XhnyXrw6fVxcoWIf0w1/Cpajsr2
+         6VetDIIzPOi0BA+1zTh4B73h3xNayfS9R0gF2aof1JJrljcsrshrWTiwKCSGFl4zbu
+         hWf9OTFMoGsB+dosGpJqCInbxpxgJWxX78KrLlYWzR9gps5pIwodyG0Hq6M+43kqic
+         MCZPJKCyQNxtykKcNpUxIrEN6OIh4WZnL0Bim+mk476Hb2q1c/DCXbzMcGKf3f5VN1
+         vKaBCrtQD54fv/DlxFcHUIhj6Azi59YOhzUKce4yr/TWqXjUwhOWPJTBTNe3iiwVXd
+         96jpXFk5aTrHQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 30/06/2020 12:13, Jon Hunter wrote:
-> 
-> On 16/06/2020 14:52, Thierry Reding wrote:
->> From: Thierry Reding <treding@nvidia.com>
->>
->> The standard way to do this is to list out the clocks at the top-level.
->> Adopt the standard way to fix validation.
->>
->> Signed-off-by: Thierry Reding <treding@nvidia.com>
->> ---
->>  arch/arm64/boot/dts/nvidia/tegra132-norrin.dts    | 15 ++++-----------
->>  arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi    | 15 ++++-----------
->>  arch/arm64/boot/dts/nvidia/tegra210-p2530.dtsi    | 15 ++++-----------
->>  arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi    | 15 ++++-----------
->>  .../arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 15 ++++-----------
->>  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts     | 15 ++++-----------
->>  6 files changed, 24 insertions(+), 66 deletions(-)
-> 
-> After applying this patch I see the following build breakage ...
-> 
->   DTC     arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb
-> arch/arm64/boot/dts/nvidia/tegra132.dtsi:649.15-682.4: ERROR
-> (phandle_references): /usb@70090000: Reference to non-existent node or
-> label "vdd_3v3_lp0"
-> 
->   also defined at
-> arch/arm64/boot/dts/nvidia/tegra132-norrin.dts:895.15-909.4
-> arch/arm64/boot/dts/nvidia/tegra132.dtsi:649.15-682.4: ERROR
-> (phandle_references): /usb@70090000: Reference to non-existent node or
-> label "vdd_3v3_lp0"
-> 
->   also defined at
-> arch/arm64/boot/dts/nvidia/tegra132-norrin.dts:895.15-909.4
-> arch/arm64/boot/dts/nvidia/tegra132.dtsi:684.26-812.4: ERROR
-> (phandle_references): /padctl@7009f000: Reference to non-existent node
-> or label "vdd_3v3_lp0"
 
+On 6/30/2020 4:21 PM, Mark Brown wrote:
+> On Sat, Jun 27, 2020 at 10:23:22AM +0530, Sameer Pujar wrote:
+>
+>> Following is the summary of current series.
+>>   * Add YAML DT binding documentation for above mentioned modules.
+>>   * Helper function for ACIF programming is exposed for Tegra210 and later.
+>>   * Add ASoC driver components for each of the above modules.
+>>   * Add DT entries for above components for Tegra210, Tegra186 and
+>>     Tegra194.
+>>   * Enable these components for Jetson Nano/TX1/TX2/Xavier
+>>   * Enhance simple-card DPCM driver to suit Tegra Audio applications with
+>>     few changes in core.
+>>   * To begin with, enable sound card support for Tegra210 based platforms
+>>     like Jetson Nano/TX1.
+> This series is too big and covers a few different topics which makes it
+> difficult to manage, please split it up.  The most obvious thing here is
+> that it contains both the drivers you're adding and a bunch of changes
+> to the generic audio cards (which are a single throwaway line in your
+> cover letter) - splitting out the generic card changes into a separate
+> series would result in more manageable sizes.
 
-Same here is might not be this patch, but somewhere during this series I
-see a few build breakages.
+My initial thought was, it would be better to present a entire picture 
+where complete audio path can be tested or reviewed and hence added 
+simple-card patches in the series. I will split this up in next revision.
 
-Jon
-
--- 
-nvpublic
