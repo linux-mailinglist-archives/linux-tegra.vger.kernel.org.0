@@ -2,28 +2,29 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D1C20EC69
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 06:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AA2020ED22
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 07:07:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgF3EXb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 00:23:31 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4326 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726264AbgF3EXa (ORCPT
+        id S1727087AbgF3FHy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 01:07:54 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:62030 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726019AbgF3FHx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 00:23:30 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efabe350000>; Mon, 29 Jun 2020 21:23:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 29 Jun 2020 21:23:30 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 29 Jun 2020 21:23:30 -0700
-Received: from [10.25.97.62] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 04:23:18 +0000
-CC:     <spujar@nvidia.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <robh+dt@kernel.org>, <lgirdwood@gmail.com>,
+        Tue, 30 Jun 2020 01:07:53 -0400
+Date:   30 Jun 2020 14:07:52 +0900
+X-IronPort-AV: E=Sophos;i="5.75,296,1589209200"; 
+   d="scan'208";a="50702037"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 30 Jun 2020 14:07:52 +0900
+Received: from mercury.renesas.com (unknown [10.166.252.133])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 296C44193CE4;
+        Tue, 30 Jun 2020 14:07:52 +0900 (JST)
+Message-ID: <87k0zpywe1.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <lgirdwood@gmail.com>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <digetx@gmail.com>, <alsa-devel@alsa-project.org>,
         <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
@@ -32,103 +33,36 @@ CC:     <spujar@nvidia.com>, <broonie@kernel.org>, <perex@perex.cz>,
         <dramesh@nvidia.com>, <atalambedu@nvidia.com>,
         <nwartikar@nvidia.com>, <swarren@nvidia.com>,
         <nicoleotsuka@gmail.com>
-Subject: Re: [PATCH v4 11/23] ASoC: simple-card: Loop over all children for
- 'mclk-fs'
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v4 10/23] ASoC: simple-card: Wrong daifmt for CPU end of DPCM DAI link
+In-Reply-To: <841ac69f-1c3f-2b13-17f9-6f196811ce52@nvidia.com>
 References: <1593233625-14961-1-git-send-email-spujar@nvidia.com>
- <1593233625-14961-12-git-send-email-spujar@nvidia.com>
- <875zba1y28.wl-kuninori.morimoto.gx@renesas.com>
- <58000bd3-861c-bbc2-75e1-128cf0199a76@nvidia.com>
- <87lfk5z4ov.wl-kuninori.morimoto.gx@renesas.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <b33d5a1b-ecd5-3618-4894-c3ab0f4b077d@nvidia.com>
-Date:   Tue, 30 Jun 2020 09:53:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <87lfk5z4ov.wl-kuninori.morimoto.gx@renesas.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593490997; bh=xVHyFfHPIidSHxN7yApdQRi+VKW3raOMRhZ20mnwvN4=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=KFm94Zmr8NEsE0RETSGuSmaByfCg6wQZQ5B9ZQDnzCQLjQR47nz6Uu1oDaKdoO/2b
-         VIhoKXkfm/7tkDLATqIY46lQdGsfW2SX6xf0TDadHdTm/V8aTiPk4RTwTQJ9x+DdR1
-         50DyqvT9T99B8v2q6tb118gXFQWQpcLpuUQffQJCiuB/0yw4sNOFdLnKDUzhpQmZlx
-         2uTGWtqXkTP7oPoU2uEJ3F7RsWcpr1qnUViW0y+bqdPRsqzJjzvc9ioyck6ohD2efP
-         gNp8+dxrcTxfXVWUR3Nw6h9IQm69+n7DeOzwSyfImNECN81CQvK5cesL+5YbXt3kP5
-         Y8Mg3BWuc7aXg==
+        <1593233625-14961-11-git-send-email-spujar@nvidia.com>
+        <877dvq1yhy.wl-kuninori.morimoto.gx@renesas.com>
+        <6e27daa5-331e-968b-4027-2e30aeb7d382@nvidia.com>
+        <87o8p1z81b.wl-kuninori.morimoto.gx@renesas.com>
+        <841ac69f-1c3f-2b13-17f9-6f196811ce52@nvidia.com>
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+Hi Sameer
 
-On 6/30/2020 7:38 AM, Kuninori Morimoto wrote:
-> External email: Use caution opening links or attachments
->
->
-> Hi Sameer
->
->>>>         snprintf(prop, sizeof(prop), "%smclk-fs", prefix);
->>>>         of_property_read_u32(node,      prop, &props->mclk_fs);
->>>>         of_property_read_u32(cpu,       prop, &props->mclk_fs);
->>>> -     of_property_read_u32(codec,     prop, &props->mclk_fs);
->>>> +
->>>> +     if (cpu != codec)
->>>> +             of_property_read_u32(codec, prop, &props->mclk_fs);
->>> Maybe we want to have "cpu" in simple_dai_link_of_dpcm() side
->>> without using magical code in simple_parse_mclk_fs() side ?
->> Are you suggesting if we should simplify simple_parse_mclk_fs() by
->> either passing 'cpu' or 'codec'?
-> Oops, sorry I was misunderstand.
->
-> But I still not 100% understand what do you want to do here.
-> Maybe 50% is my English skill, but in your code
->
-> (C)             of_property_read_u32(cpu,       prop, &props->mclk_fs);
->          -       of_property_read_u32(codec,     prop, &props->mclk_fs);
->          +
->          +       if (cpu != codec)
-> (B)     +               of_property_read_u32(codec, prop, &props->mclk_fs);
->
-> and
->
->          -       simple_parse_mclk_fs(top, np, codec, dai_props, prefix);
-> (A)     +       simple_parse_mclk_fs(top, np, np, dai_props, prefix);
->
-> Because of (A), cpu = codec = np in simple_parse_mclk_fs().
-> Do we have chance to call (B) ?
-> And it still have read_u32(cpu, ...) at (C),
-> this means all np will read mclk_fs anyway ?
-> For me, if you don't want/need mclk_fs, don't set it on DT
-> is the best answer, but am I misunderstanding ?
-Sorry if I was not clear before.
+> For DPCM links I don't want to flip based on one Codec reference. My
+> goal was to make the binding work for multiple CPU/Codec link. Hence I
+> thought it would be better to explicitly describe the 'Master' DAI. We
+> can eventually get rid of 'codec' argument from
+> simple_dai_link_of_dpcm().
 
-My goal was to get rid of 'codec' argument from DPCM function 
-simple_dai_link_of_dpcm(). Patches 10/23, 11/23 are preparations for 
-12/23 to have multiple Codec support.
+Yes. 'codec' argument on current simple_dai_link_of_dpcm()
+is not good match for multi Codec support.
 
-simple_parse_mclk_fs() is used by both simple_dai_link_of_dpcm() and 
-simple_dai_link_of(). To make the same API work for both the cases, I 
-had to use (A) in DPCM function. Now (B) does not get used for 
-simple_dai_link_of_dpcm(), but will get used by simple_dai_link_of().
+Thank you for your help !!
 
-If it is simpler I will just avoid 'cpu != codec' check and keep the 
-function simple_parse_mclk_fs() as it is.
-
->
-> Thank you for your help !!
->
-> Best regards
-> ---
-> Kuninori Morimoto
-
+Best regards
+---
+Kuninori Morimoto
