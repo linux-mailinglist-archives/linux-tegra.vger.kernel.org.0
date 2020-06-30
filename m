@@ -2,186 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC4520F231
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 12:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 161C820F277
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 12:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732226AbgF3KHc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 06:07:32 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:35151 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732222AbgF3KHa (ORCPT
+        id S1732405AbgF3KRu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 06:17:50 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10565 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732259AbgF3KRt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 06:07:30 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200630100728euoutp02977e60ab13649169e5dbec1cf994ea05~dSmbWlQfw3051130511euoutp02P
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Jun 2020 10:07:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200630100728euoutp02977e60ab13649169e5dbec1cf994ea05~dSmbWlQfw3051130511euoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1593511648;
-        bh=O/UBH/mKXDUvagNJHSuUhhTnnDt9JbXJsJdK+XPv5UI=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=j8Q/Z4e35QiEfKTKTCJwBL5aA7IF+lresLLZlOmyDg53EkTKpqLRcsa27diO0wyP6
-         MCm1VO4ZWj8obBulZs/aCd6Rh37uhHpHRZ1cXs72rlrfPyi/qorGLNuiRFSxEI7m01
-         /mnJTOahNA5rCJLLRVmOyoPHQMec176t7wRbIGUQ=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200630100728eucas1p2058324a11592705d20c19eb2d4431545~dSma8s2PL2152321523eucas1p2k;
-        Tue, 30 Jun 2020 10:07:28 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 16.AF.05997.0EE0BFE5; Tue, 30
-        Jun 2020 11:07:28 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200630100727eucas1p2c13e286da77ef5278226b3610faf0498~dSmakSGW83241632416eucas1p2M;
-        Tue, 30 Jun 2020 10:07:27 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200630100727eusmtrp22b04e33a7a6e2b7d13c0605b6cc61d2e~dSmajTg-F0851908519eusmtrp2k;
-        Tue, 30 Jun 2020 10:07:27 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-e6-5efb0ee08c13
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 5F.F1.06314.FDE0BFE5; Tue, 30
-        Jun 2020 11:07:27 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200630100726eusmtip2e8258a38457a6d6c86f351b866a6b807~dSmZiHLma0424204242eusmtip2D;
-        Tue, 30 Jun 2020 10:07:26 +0000 (GMT)
-Subject: Re: [PATCH v7 31/36] staging: tegra-vde: fix common struct sg_table
- related issues
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <559970b6-e80f-90ec-7fb0-1fab742d99de@samsung.com>
-Date:   Tue, 30 Jun 2020 12:07:26 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.9.0
+        Tue, 30 Jun 2020 06:17:49 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb111b0000>; Tue, 30 Jun 2020 03:16:59 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 30 Jun 2020 03:17:48 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 03:17:48 -0700
+Received: from [10.26.75.203] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 10:17:39 +0000
+Subject: Re: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
+ ARM MMU-500 usage
+To:     Krishna Reddy <vdumpa@nvidia.com>
+CC:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
+        <talho@nvidia.com>, <bbiswas@nvidia.com>, <mperttunen@nvidia.com>,
+        <nicolinc@nvidia.com>, <bhuntsman@nvidia.com>,
+        <nicoleotsuka@gmail.com>
+References: <20200630001051.12350-1-vdumpa@nvidia.com>
+ <20200630001051.12350-2-vdumpa@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <e6da9661-4e62-6e34-ac21-63ff993ca8bc@nvidia.com>
+Date:   Tue, 30 Jun 2020 11:17:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200621070015.0cf833ab@dimatab>
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SZ0xTURjNfauPhuKzoHzBQdIoRhNxEm6icRASn+GPfzSOgFR5AcJMy3QS
-        ioMiCk6sWhBlyBApUAXFgcEWwUIEF+JAIIoJIrEiKyDtA+XfOec73/3OSS5Lys8xbmxoZIyg
-        ilSGKxgpZXw23Lz8s9NowMru54443dJA4PKsMhpPGDNJ/KBpRIKLB7oQbvvdz2DNjTIG3yqu
-        J3DOo3U4RZdLYWtbJ4ENXa9p3FpzlcGn7lTRONWqY3C+YYzAT35203i4Rk9tkvMl+hLEf3z4
-        lOJrB3Movlr3QcIbilIZ/u7gZ5p/dK1Ewn9KMxF8xc2j/PvxLpI/97YA8fffJTF8uuYHw5+u
-        LEL8L8PCbbN2S9cHCeGhcYJqxYZAaUh5s1YSfcY1of3jbyoJpThrkQML3FoofTVIapGUlXOF
-        CIw/DIxIrAie3k2dIr8QFKfXoumVXrNmalCAwPzeQoikH8HllmHC5nLm/OHrsQHGhl04Dyio
-        H6NtJpIbp6DwcQFlGzDcKtD2aSdNLCvjNsAVk5dNprjF8Ljztd0yZ/Kd03k59ndk3GxouNxt
-        1x04T7A2dNhvkZw7aKqukCJ2hfbubHsg4MwsNH/JpcXYvjDUZCZE7AzfTZUSEc+HierpBQ2C
-        TkupRCSnELQmZ02VXgcdlhF7UpJbCmU1K0R5M/T0Xkc2GTgneNs3WwzhBGeNl0hRlsHJ43LR
-        7QE60+1/Z5+0vCQzkEI3o5puRh3djDq6/3dzEFWEXIVYdUSwoF4dKcR7qpUR6tjIYM/9UREG
-        NPlVG8dN1nuoZmxfHeJYpHCUBVqGA+S0Mk6dGFGHgCUVLjKfF40BclmQMvGAoIraq4oNF9R1
-        aB5LKVxla3J7/eVcsDJGCBOEaEE1PSVYB7ck5J5dccQnnj3gYKg8aPG9lR+VtqNK6renfXvs
-        0KKMoIuVb0r6+hft4ne16realXqv0sDRT36HV/+JPhRWFhJjqp2LJGFe+i/UgsGmFDJzyc6B
-        8/IdFwIUvm1bRk7sTj5jHFue8vzd0qyEet/6Hu+N3nuu5n9LOxvqlkgLfaXxLXkJHQpKHaJc
-        tYxUqZV/AZvSq5+mAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsVy+t/xe7r3+X7HGTxdomvRe+4kk8XGGetZ
-        Lf5vm8hssefML3aL1R8fM1pc+fqezaJ58Xo2i5WrjzJZLNhvbdEyaxGLxZcrD5ksNj2+xmpx
-        edccNoueDVtZLTq/zGKzWLbpD5PFwQ9PWC1+7prH4iDksWbeGkaPe/sOs3js/baAxWPnrLvs
-        HptWdbJ5bP/2gNVj/9w17B73u48zeWxeUu9x+99jZo/JN5Yzeuy+2cDm0dv8js2jb8sqRo/P
-        m+QC+KP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0
-        Mjae72Iv6BevuHXvK0sDY4twFyMnh4SAicTLE81sXYxcHEICSxkl7p7sZIVIyEicnNYAZQtL
-        /LnWBVX0llHiyffDYAlhgViJ560f2UBsEQE1ieVH/4DFmQX+sUh0HrGFaHjFKDGr+TU7SIJN
-        wFCi6y3IJA4OXgE7idnHTUHCLAKqEgceXmMBsUWBZn67twVsJq+AoMTJmU/A4pwCehJfTt5h
-        gphvJjFv80NmCFteonnrbChbXOLWk/lMExiFZiFpn4WkZRaSlllIWhYwsqxiFEktLc5Nzy02
-        1CtOzC0uzUvXS87P3cQITCHbjv3cvIPx0sbgQ4wCHIxKPLwJ537GCbEmlhVX5h5ilOBgVhLh
-        dTp7Ok6INyWxsiq1KD++qDQntfgQoynQcxOZpUST84HpLa8k3tDU0NzC0tDc2NzYzEJJnLdD
-        4GCMkEB6YklqdmpqQWoRTB8TB6dUA2NJy7UwZ+GelgfhQS9qFp7cc/PyR9PP2jZNy5lE52xX
-        PbHuaGe0l/ujQoUu8f/npweke3zhmHNS6HqD4eOwC1du3TD9s2hm5BWGyYt2JK0rOv34ybSf
-        3687uudvXjI/NOXwrroj911PvjkVOVdGY6t9T3tJxt7jzStj/kkw16ocWfU5ZVWVVWSXEktx
-        RqKhFnNRcSIA0AcX0DcDAAA=
-X-CMS-MailID: 20200630100727eucas1p2c13e286da77ef5278226b3610faf0498
-X-Msg-Generator: CA
+In-Reply-To: <20200630001051.12350-2-vdumpa@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-References: <20200619103636.11974-1-m.szyprowski@samsung.com>
-        <CGME20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa@eucas1p1.samsung.com>
-        <20200619103636.11974-32-m.szyprowski@samsung.com>
-        <20200621070015.0cf833ab@dimatab>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593512219; bh=BfZIPiMPzpjUihBsAJUP01sDidpTF7q6kK3zqhZ7zvI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=OlRYIRuGOhccq3GHllo7CDUevA5/1z9P5ceHZ3yzGD8KsarRUGUXIN80yEiRHK5Us
+         OdXTUZ2OzIV3KlL9VebsZEIEm1ILF852V/JnTdES6+E8hwyFMf9bpU2uns7SP4/8Kb
+         /SIWsLU6EIe98bqfD/Uwlkjf0wF2liX+WCNEO9+P1FnBIl2oZjhQu01H18Kj3SLgE8
+         iUurpA47wuV7F+JlJlb0bav6z1grUoSWptSt01hQ+yVRKHa0cFoGlmihOH5eSNkSiE
+         D80cjprdSxdGgGxNJH7eJy2c5NLkSw6jS1ci1ezFzxIMpLEcYMFEvYMLVcep1dhowz
+         7uE3EY8UQtZ7A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 21.06.2020 06:00, Dmitry Osipenko wrote:
-> В Fri, 19 Jun 2020 12:36:31 +0200
-> Marek Szyprowski <m.szyprowski@samsung.com> пишет:
->
->> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg()
->> function returns the number of the created entries in the DMA address
->> space. However the subsequent calls to the
->> dma_sync_sg_for_{device,cpu}() and dma_unmap_sg must be called with
->> the original number of the entries passed to the dma_map_sg().
->>
->> struct sg_table is a common structure used for describing a
->> non-contiguous memory buffer, used commonly in the DRM and graphics
->> subsystems. It consists of a scatterlist with memory pages and DMA
->> addresses (sgl entry), as well as the number of scatterlist entries:
->> CPU pages (orig_nents entry) and DMA mapped pages (nents entry).
->>
->> It turned out that it was a common mistake to misuse nents and
->> orig_nents entries, calling DMA-mapping functions with a wrong number
->> of entries or ignoring the number of mapped entries returned by the
->> dma_map_sg() function.
->>
->> To avoid such issues, lets use a common dma-mapping wrappers operating
->> directly on the struct sg_table objects and use scatterlist page
->> iterators where possible. This, almost always, hides references to the
->> nents and orig_nents entries, making the code robust, easier to follow
->> and copy/paste safe.
->>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>   drivers/staging/media/tegra-vde/iommu.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/tegra-vde/iommu.c
->> b/drivers/staging/media/tegra-vde/iommu.c index
->> 6af863d92123..adf8dc7ee25c 100644 ---
->> a/drivers/staging/media/tegra-vde/iommu.c +++
->> b/drivers/staging/media/tegra-vde/iommu.c @@ -36,8 +36,8 @@ int
->> tegra_vde_iommu_map(struct tegra_vde *vde,
->>   	addr = iova_dma_addr(&vde->iova, iova);
->>   
->> -	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
->> -			    IOMMU_READ | IOMMU_WRITE);
->> +	size = iommu_map_sgtable(vde->domain, addr, sgt,
->> +				 IOMMU_READ | IOMMU_WRITE);
->>   	if (!size) {
->>   		__free_iova(&vde->iova, iova);
->>   		return -ENXIO;
-> Ahh, I saw the build failure report. You're changing the DMA API in
-> this series, while DMA API isn't used by this driver, it uses IOMMU
-> API. Hence there is no need to touch this code. Similar problem in the
-> host1x driver patch.
 
-The issue is caused by the lack of iommu_map_sgtable() stub when no 
-IOMMU support is configured. I've posted a patch for this:
+On 30/06/2020 01:10, Krishna Reddy wrote:
+> NVIDIA's Tegra194 SoC uses two ARM MMU-500s together to interleave
+> IOVA accesses across them.
+> Add NVIDIA implementation for dual ARM MMU-500s and add new compatible
+> string for Tegra194 SoC SMMU topology.
+> 
+> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
+> ---
+>  MAINTAINERS                     |   2 +
+>  drivers/iommu/Makefile          |   2 +-
+>  drivers/iommu/arm-smmu-impl.c   |   3 +
+>  drivers/iommu/arm-smmu-nvidia.c | 196 ++++++++++++++++++++++++++++++++
+>  drivers/iommu/arm-smmu.h        |   1 +
+>  5 files changed, 203 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/iommu/arm-smmu-nvidia.c
 
-https://lore.kernel.org/lkml/20200630081756.18526-1-m.szyprowski@samsung.com/
+...
 
-The patch for this driver is fine, we have to wait until the above fix 
-gets merged and then it can be applied during the next release cycle.
+> +struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
+> +{
+> +	unsigned int i;
+> +	struct nvidia_smmu *nvidia_smmu;
+> +	struct platform_device *pdev = to_platform_device(smmu->dev);
+> +
+> +	nvidia_smmu = devm_kzalloc(smmu->dev, sizeof(*nvidia_smmu), GFP_KERNEL);
+> +	if (!nvidia_smmu)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	nvidia_smmu->smmu = *smmu;
+> +	/* Instance 0 is ioremapped by arm-smmu.c after this function returns */
+> +	nvidia_smmu->num_inst = 1;
+> +
+> +	for (i = 1; i < MAX_SMMU_INSTANCES; i++) {
+> +		struct resource *res;
+> +
+> +		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+> +		if (!res)
+> +			break;
 
-Best regards
+Currently this driver is only supported for Tegra194 which I understand
+has 3 SMMUs. Therefore, I don't feel that we should fail silently here,
+I think it is better to return an error if all 3 cannot be initialised.
+In the future if there is an SoC that has less (hopefully not more) than
+Tegra194 then we should handle this via the DT compatible string. In
+other words, we should always know how many SMMUs there are for a given
+SoC and how many we should initialise.
+
+> +
+> +		nvidia_smmu->bases[i] = devm_ioremap_resource(smmu->dev, res);
+> +		if (IS_ERR(nvidia_smmu->bases[i]))
+> +			return ERR_CAST(nvidia_smmu->bases[i]);
+
+You want to use PTR_ERR() here.
+
+Jon
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+nvpublic
