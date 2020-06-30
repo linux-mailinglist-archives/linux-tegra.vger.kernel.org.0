@@ -2,166 +2,153 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 090B720FA48
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 19:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FE0120FC4A
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 20:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390115AbgF3RQT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 13:16:19 -0400
-Received: from nat-hk.nvidia.com ([203.18.50.4]:41648 "EHLO nat-hk.nvidia.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726642AbgF3RQT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 13:16:19 -0400
-Received: from hkpgpgate102.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb735f0000>; Wed, 01 Jul 2020 01:16:16 +0800
-Received: from HKMAIL101.nvidia.com ([10.18.16.10])
-  by hkpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 10:16:16 -0700
-X-PGP-Universal: processed;
-        by hkpgpgate102.nvidia.com on Tue, 30 Jun 2020 10:16:16 -0700
-Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL101.nvidia.com
- (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 17:16:12 +0000
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
- by HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 17:16:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A+fUZABkWpK08pLQEbOIHGY8XLy0B+RHNHSnGUoS+NGKOXf8VGFqopWTYz9cuAFyqRpncySLiTlKNNacmi68EoZ/7v6jyTbIaQl2VyjSORWaLU4FBqpOzYTmdm3q/xUWf+YRWsvQ+sugeJhjw/JA/QE7g/0lwIryzlQowdOkE6a2MiN+4g3DmYGQisEGaAezbXp6ziNBB2vt8aJiqqKMA/CCJX3MbdJ9iIPIqpMwXiDCHkLtYVbGfCXzkKVz51atfwySjQNt5ocDPFTdsKkGlN4ME8zqcAdajW0HS9zxlPbEEjTu7e3h0ieRGX5LYMwPY3r1LEwIvGUkZiA/NEJLVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/rpWkPa4G2BpSb5xcr1KVEdWuniqSALHDaJZNgqVOac=;
- b=WtKai+0yi7qx7YDoCK/TguEaYfMHhtKCT4C1FXjRsHesEXdBtSeNvmOb0fg5MJHB3EgILGJ38ZCDakkQlsEzEoFitHRc0BbVg50dOy5UBbr/hxnY3GErCGcW2lsnoJnhdLaGug2la5+PyX6HZVHyEcLUKnSPf8Y0jUgvC83xFuc9WiqednKQL7XgU8VZYoMibMmgmKUCWin3910im1RQjO6WOxS+GR9t2H89UPdjcYiekO3XxtQ14rOY1dRj71lNN1IKT4HPFddTbOQdvrNHeojrhaze/JW1XC2/HccgnFxR2QrdPkogNiJ68FZJaloZ8SfH7mEdoAVkBTqjtMYI0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
- by BYAPR12MB3126.namprd12.prod.outlook.com (2603:10b6:a03:df::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Tue, 30 Jun
- 2020 17:16:10 +0000
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
- 17:16:09 +0000
-From:   Krishna Reddy <vdumpa@nvidia.com>
-To:     Jonathan Hunter <jonathanh@nvidia.com>
-CC:     "joro@8bytes.org" <joro@8bytes.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        "Yu-Huan Hsu" <YHsu@nvidia.com>, Sachin Nikam <Snikam@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Bryan Huntsman <bhuntsman@nvidia.com>,
-        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
-Subject: RE: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
- ARM MMU-500 usage
-Thread-Topic: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for
- dual ARM MMU-500 usage
-Thread-Index: AQHWTnLtXe5vi7jgbE2pRnyepolCC6jw8nYAgABivFCAAAYNgIAAA0WAgAAGCAA=
-Date:   Tue, 30 Jun 2020 17:16:09 +0000
-Message-ID: <BYAPR12MB2822B43B0218F6E55C97451BB36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
-References: <20200630001051.12350-1-vdumpa@nvidia.com>
- <20200630001051.12350-2-vdumpa@nvidia.com>
- <e6da9661-4e62-6e34-ac21-63ff993ca8bc@nvidia.com>
- <BYAPR12MB282210677459B8D62623C642B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
- <4037efc7-fbed-e8cf-dac7-212c65014e4e@nvidia.com>
- <eb0ffc7e-f41b-d17c-6a90-049335098cd2@nvidia.com>
-In-Reply-To: <eb0ffc7e-f41b-d17c-6a90-049335098cd2@nvidia.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-30T17:16:08.1378150Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=9312166d-7c3d-4376-93ca-0c1bb1b6d0ee;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [216.228.112.22]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 49c3dc5a-94f8-4b05-3ef7-08d81d194875
-x-ms-traffictypediagnostic: BYAPR12MB3126:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB31267AEF461B142437C9446DB36F0@BYAPR12MB3126.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0450A714CB
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eoZSV0Jgzs5uYk/Hdd0uSh8EsZvevrHBZ+AUcR3+z7sjftWvQObYM9JxyRmNdLGWYSiW7EnupfO/U0tYdSO9n0G2g1UDRD0QuUmGBp/ea5SnNU4HXaGz5O1bdkys8B9niCwHhe6hPYr9xea+kIdUQ7J6KUatjHqMJI9F7LFlwPaS3SLmNuINnyWOisiWAPmhETTiV0hceDSRQFPTblDs8BYeR0SW90vCtf5gIQr5FMeow7WXD1ahTg2W/awAatixTTK1B/GWGg44DcrxRFVKvE2i/0EF+WbCukSLDMsJht4ydTnrmb/IKWbWQXsJrUi8EZvO4EQM3kiuCvv167NALg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(39860400002)(366004)(376002)(396003)(346002)(9686003)(7696005)(6636002)(6506007)(86362001)(4744005)(8936002)(71200400001)(33656002)(5660300002)(478600001)(2906002)(8676002)(54906003)(4326008)(66446008)(26005)(6862004)(316002)(55016002)(76116006)(66946007)(66556008)(66476007)(64756008)(52536014)(186003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: ffo5rliOMSfvJ2bDNl0uodDl+d6TocgWCq8GIFaxaXVu9Gl5RHzthZgQoeuAwJVYsDVAKH9ri88H+NOhY4/Y/5BfdDovSyUmFCcDwFHpNWhPvFPI5H+Brc//ZNCjP5UbGsFcCnMARJWVHBQZcn41qdSO/yGrJeJFVilS3PQ6jZN/zq8ZsbXoWFSNkulMssWyvrcDIZDVl2cyRdtmpStkrme8ddxs+FiqBHglM2SKorAag47ixZ6rPJ6+MaG/em+vdB84gYLyvRPnqZtexbRLgswZiWjTv0iXVVuq/NUx78xoTHPXqZy31yJ2PjTJGkrHzRBGoMyv7rcZzYS97gYGNun0lUolksua1j6dwdh98zZzNSnafM0HD5ZkZfTQew3l7Qp7wi7fdDD7w42xeMKWADlc7z7X+t+HGrSaRh4u/0ZuMqxQYFedW/BB3oMfKfhTM5wjtmkELObyiyCX9/Hj3Vg335SK0TJZ4gFYUPlkZlyB7r8dJOs2dyQNneaLRiwT
+        id S1727834AbgF3SzC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 14:55:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726682AbgF3SzB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Jun 2020 14:55:01 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45519C061755;
+        Tue, 30 Jun 2020 11:55:01 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id b25so20249926ljp.6;
+        Tue, 30 Jun 2020 11:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BzgMhXLEUdnpV+eyiXp8gY+NYcPXZt80LsSxCrt130w=;
+        b=Fo4rsg9H56IFS5D6ha3r5T6pqcQWPWslqUXu7kmBvkklL7wJeH3/nl7CKgFL21ghuy
+         9rNrp2/e1H5T168hRirL0tgYM3ttdLYx+qDNm0pMuPCgpxtgJyRj0iCInQw2GFWe6GVa
+         9lySD/DX9Hdo8MBJmertxwdGWyzPmcQ1Ly5MBtIzTVcAaSp9O2gk+EkXIVDhlw/vLQ5b
+         gSQ+MPWtPJ0C3qEezUAKJgaKc7gK3fEA3ulM3AolgdBF9huNYRvsWRYGxUuUazR10rd/
+         m5AzdWfnDSFig3GRjXEC/OF9UD8xoZwq7mF2wOYJmowN6cr6whdMq5UeV5/pG2ZrtZGd
+         sqTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BzgMhXLEUdnpV+eyiXp8gY+NYcPXZt80LsSxCrt130w=;
+        b=hp6QRcTFNoT551qDamadfv31MOYcBsb7VQDoNMhTfe1a+t68zubocctS0XpvmFoV/8
+         jOkGKE08DkNEd8xyZmzNA1pb85bPk5xI9g4vi+kQEIVFQdQTjMbwKcLnZzn7c53sum9I
+         7EQNdVvcs2e1Eh34PnjB45Rs8rOiBuLklasuZGNdgNec3mJm+Y32Ew+d3uRnINsfBY/I
+         Z3yS+3Odt+AiD86DEDQZmw2Kk4mXxKsSJkBqHbOwIoL6LOprmnxoSjFQJMEC7Qs7MbjZ
+         WjrZPdAmBtgrUEilQ1PLrVl3hIB/ZBbQevnXUcGgOPqS5kezbbJ+Mp4q7IuJI7jGQ0g9
+         GZ6g==
+X-Gm-Message-State: AOAM531vPNwal/SeQ6YO452CA4X1SLq8umKqCHLFGpgA1kxpeNg1ufbi
+        jCScoEUH1xBCNpqzAPKM/6Ru4mnjR6c=
+X-Google-Smtp-Source: ABdhPJyhPR2tcOOOHwWqsufCXF381rfcl46YGZknX8X4/gNKMNA8HDyZUfQJJet9owInRvF70mAoJg==
+X-Received: by 2002:a05:651c:119a:: with SMTP id w26mr10725430ljo.126.1593543299276;
+        Tue, 30 Jun 2020 11:54:59 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id z1sm990910ljn.88.2020.06.30.11.54.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2020 11:54:58 -0700 (PDT)
+Subject: Re: [PATCH v1] cpuidle: tegra: Correctly handle result of
+ arm_cpuidle_simple_enter()
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20200629222625.674-1-digetx@gmail.com>
+ <d9efb0f5-d6ab-f3db-540e-c6ae1b42e45e@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <4bae133b-1b51-281c-1759-ca0d259b18ca@gmail.com>
+Date:   Tue, 30 Jun 2020 21:54:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49c3dc5a-94f8-4b05-3ef7-08d81d194875
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 17:16:09.7947
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Wr4H5bsA5FtAIF0kmWiL6iiIYHO28paKasv6WgqZQZvE1MQ+KWF9SXd6rK494r8nQdJJHJyWay+NSY5WlY14+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3126
-X-OriginatorOrg: Nvidia.com
+In-Reply-To: <d9efb0f5-d6ab-f3db-540e-c6ae1b42e45e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593537376; bh=/rpWkPa4G2BpSb5xcr1KVEdWuniqSALHDaJZNgqVOac=;
-        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
-         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
-         Thread-Index:Date:Message-ID:References:In-Reply-To:
-         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-         authentication-results:x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
-         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam:
-         x-microsoft-antispam-message-info:x-forefront-antispam-report:
-         x-ms-exchange-antispam-messagedata:MIME-Version:
-         X-MS-Exchange-CrossTenant-AuthAs:
-         X-MS-Exchange-CrossTenant-AuthSource:
-         X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=PsL9QixBsP51o7ATracMVmH1L2RSjzITpziJo81J/oGMjvJ7XhQohBdYXs7bC1/I2
-         rlvSHLB04gRQPm8a5F/3hIIGhN5+NHlvWVg4W7xu3farHJfrbgr6G3kJyvr9TRwdKn
-         jYCWnrcQPZiZuWz7DMdyM/F2vOYRH0eUoyILgdND3GCpbS6J0rpjg1qhmB/YE0LBVp
-         dQXrNeo3LNdrd21xON4c2qMTJ0VpCbHKXMkdjfWkUnTkSTKKZEgG4ukeUo+vfVZOi/
-         zBFlcJpW72wHRo0GVtD2VXOE1mSfuMZdOX5+arcOmmH8PzbjKkYmAhdrGf0Qf/95wX
-         AZpvLlmiAhudg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Pk9LLCB3ZWxsIEkgc2VlIHdoYXQgeW91IGFyZSBzYXlpbmcsIGJ1dCBpZiB3ZSBpbnRlbmRlZCB0
-byBzdXBwb3J0IGFsbCAzIGZvciBUZWdyYTE5NCwgdGhlbiB3ZSBzaG91bGQgZW5zdXJlIGFsbCAz
-IGFyZSBpbml0aWFsaXNlZCBjb3JyZWN0bHkuDQoNClRoZSBkcml2ZXIgaW50ZW5kIHRvIHN1cHBv
-cnQgdXAgdG8gMyBpbnN0YW5jZXMuIEl0IGRvZXNuJ3QgcmVhbGx5IG1hbmRhdGUgdGhhdCBhbGwg
-dGhyZWUgaW5zdGFuY2VzIGJlIHByZXNlbnQgaW4gc2FtZSBEVCBub2RlLg0KRWFjaCBtbWlvIGFw
-ZXJ0dXJlIGluICJyZWciIHByb3BlcnR5IGlzIGFuIGluc3RhbmNlIGhlcmUuIHJlZyA9IDxpbnN0
-MF9iYXNlLCBzaXplPiwgPGluc3QxX2Jhc2UsIHNpemU+LCA8aW5zdDJfYmFzZSwgc2l6ZT47DQpU
-aGUgcmVnIGNhbiBoYXZlIGFsbCB0aHJlZSBvciBsZXNzIGFuZCBkcml2ZXIganVzdCBjb25maWd1
-cmVzIGJhc2VkIG9uIHJlZyBhbmQgaXQgd29ya3MgZmluZS4NCg0KPkl0IHdvdWxkIGJlIGJldHRl
-ciB0byBxdWVyeSB0aGUgbnVtYmVyIG9mIFNNTVVzIHBvcHVsYXRlZCBpbiBkZXZpY2UtdHJlZSBh
-bmQgdGhlbiBlbnN1cmUgdGhhdCBhbGwgYXJlIGluaXRpYWxpc2VkIGNvcnJlY3RseS4NCg0KR2V0
-dGluZyB0aGUgSU9SRVNPVVJDRV9NRU0gaXMgdGhlIHdheSB0byBjb3VudCB0aGUgaW5zdGFuY2Vz
-IGRyaXZlciBuZWVkIHRvIHN1cHBvcnQuICANCkluIGEgd2F5LCBJdCBpcyBhbHJlYWR5IHF1ZXJ5
-aW5nIHRocm91Z2ggSU9SRVNPVVJDRV9NRU0gaGVyZS4gDQoNCg0KLUtSDQoNCg==
+30.06.2020 12:02, Jon Hunter пишет:
+> 
+> On 29/06/2020 23:26, Dmitry Osipenko wrote:
+>> The arm_cpuidle_simple_enter() returns the entered idle-index and not a
+>> error code. It happened that TEGRA_C1=index=err=0, and hence this typo
+>> was difficult to notice in the code since everything happened to work
+>> properly. This patch fixes the minor typo, it doesn't fix any problem.
+> 
+> I guess that is dependent on if CPUIDLE is enabled ...
+> 
+> #ifdef CONFIG_CPU_IDLE
+> extern int arm_cpuidle_simple_enter(struct cpuidle_device *dev,
+>                 struct cpuidle_driver *drv, int index);
+> #else
+> static inline int arm_cpuidle_simple_enter(struct cpuidle_device *dev,
+>                  struct cpuidle_driver *drv, int index) { return -ENODEV; }
+> #endif
+> 
+> Looks like it could return an error.
+
+Hello Jon!
+
+The cpuidle's enter() callback returns an index of the entered state on
+success, on negative value on failure.
+
+The negative number *could be* a proper error code, but in the same time
+it also doesn't matter what's the exact negative value is for the
+cpuidle's core code. Please see more below!
+
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/cpuidle/cpuidle-tegra.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
+>> index 150045849d78..9e9a9cccd755 100644
+>> --- a/drivers/cpuidle/cpuidle-tegra.c
+>> +++ b/drivers/cpuidle/cpuidle-tegra.c
+>> @@ -236,14 +236,14 @@ static int tegra_cpuidle_enter(struct cpuidle_device *dev,
+>>  			       int index)
+>>  {
+>>  	unsigned int cpu = cpu_logical_map(dev->cpu);
+>> -	int err;
+>> +	int err = 0;
+>>  
+>>  	index = tegra_cpuidle_adjust_state_index(index, cpu);
+>>  	if (dev->states_usage[index].disable)
+>>  		return -1;
+>>  
+>>  	if (index == TEGRA_C1)
+>> -		err = arm_cpuidle_simple_enter(dev, drv, index);
+>> +		index = arm_cpuidle_simple_enter(dev, drv, index);
+>>  	else
+>>  		err = tegra_cpuidle_state_enter(dev, index, cpu);
+>>  
+>>
+> 
+> However, I do think that there is something not right in the error handling
+> here. Would also be nice to get rid of these -1.
+
+IIRC, the -1 was borrowed from some other cpuidle driver, for example
+cpuidle-psci[1] and coupled.c[2] are returning -1 on a failure.
+
+[1]
+https://elixir.bootlin.com/linux/v5.8-rc3/source/drivers/cpuidle/cpuidle-psci.c#L63
+[2]
+https://elixir.bootlin.com/linux/v5.8-rc3/source/drivers/cpuidle/coupled.c#L473
+
+Looking at the the cpuidle's call chain, all of the code checks only
+whether the returned value of the enter() is negative or not and in the
+end that value is ignored [3][4].
+
+[3]
+https://elixir.bootlin.com/linux/v5.8-rc3/source/kernel/sched/idle.c#L216
+[4]
+https://elixir.bootlin.com/linux/v5.8-rc3/source/drivers/cpuidle/cpuidle.c#L360
+
+Indeed, it would be better to return something more meaningful, but what
+should we return for a disabled state if not -1?
