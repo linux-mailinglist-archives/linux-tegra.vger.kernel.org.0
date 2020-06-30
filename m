@@ -2,367 +2,174 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E300520FCF2
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 21:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 875F720FD8E
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 22:21:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728408AbgF3Tsm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 15:48:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728407AbgF3Tsl (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 15:48:41 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD68C061755
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Jun 2020 12:48:41 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id n23so24058677ljh.7
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Jun 2020 12:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qQtk6HCQUvtYy3c5gorgoQB6+ujqBuKaIy85rcA/BUA=;
-        b=V4Ecb4WSpNbuFSwyqzF9WA7lvGnfxs4mpFqR64suNnb/6eIS5y1yy79B2+FnXwKXei
-         jnBa6Bblo7DyUrf1CXmQmQPKBtHknbM381IZzv3lW2zYOjLH9Ut5K8WjPsl3OC1sXILa
-         IHIb9uw/eC8gnpf/y5PjQ01a0pnDCLNNP5rDqDLjUPY4R+IIk+3oDfUvO1oplY2lUfZh
-         h8ChQbG37V0gfC2+GrsSZb7mMGUspEx33zpL07L4YhCyHDWiEGfRELNEc7wUSpQyIvD3
-         hJ/xJ6ZrwQQ//8RdJIaUhTKbvb8HpVVeyUxuGsqGSrZc5DMqY3dYddhEeEZHSE6tE7y5
-         QcYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qQtk6HCQUvtYy3c5gorgoQB6+ujqBuKaIy85rcA/BUA=;
-        b=JWv2YMJjgSKh2iq5thIHB1BJDsOEkJGVyTL83ftvI3wKsXjHeCoGxrvjGBTNuDSjn8
-         Knw7Qx4hddxtFjrvXKWCjqo9BfVSAYkoxExouaH2Q4+k4ZOnZNIiXUzdkKFqogO+10Mw
-         unXZJuqoYqurWBAjuuBysSDHmxuvdZbIxDS0F9CQxjUL8M6nc4264t74Hz/DV0FqGbJh
-         6KCA13Ou4aM2OguiB9Imb73pmSdyKrnoolSsWm81UVV3ETow2jQk0Ir+2VTvBae8GPgA
-         2ZUBr3JDBBRQOVpyE0Riza4rM1zvLJ7zrj41DPDovIEGnL5AW2mF0DXkYS0S1CSviJmb
-         U29w==
-X-Gm-Message-State: AOAM532S1uHxq7xt80YzUQbMwJHDZ6nM9CV2uAOdoA1TCgHJFaRngjgd
-        ekYvICkLyKggrQ0dQ6UybB8=
-X-Google-Smtp-Source: ABdhPJx8lztinhdpAOxWisEddoydfeeiQgFn4JQXshtjg4+N0sca92rMwF3B9thwUjMAL32z8C0jVA==
-X-Received: by 2002:a2e:9c3:: with SMTP id 186mr11734776ljj.293.1593546518909;
-        Tue, 30 Jun 2020 12:48:38 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id y12sm1036425ljh.79.2020.06.30.12.48.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 12:48:38 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_channel_map)
-To:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
-        gustavo@padovan.org,
+        id S1729381AbgF3UV4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 16:21:56 -0400
+Received: from nat-hk.nvidia.com ([203.18.50.4]:10782 "EHLO nat-hk.nvidia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbgF3UV4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Jun 2020 16:21:56 -0400
+Received: from hkpgpgate102.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb9ee00000>; Wed, 01 Jul 2020 04:21:52 +0800
+Received: from HKMAIL104.nvidia.com ([10.18.16.13])
+  by hkpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 30 Jun 2020 13:21:52 -0700
+X-PGP-Universal: processed;
+        by hkpgpgate102.nvidia.com on Tue, 30 Jun 2020 13:21:52 -0700
+Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL104.nvidia.com
+ (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 20:21:47 +0000
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (104.47.44.50) by
+ HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 20:21:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MiFHOpsh7vZK57P/Zpxxxb2Ku6dz4uBgQkop/WEa90petb8S7a5JnJDBCoYAjOOwy6ERUWy3Ne6tMhAazwxuDDDuaQ9zPPX0Tr/OLlGZhIdOE97ts+GzUlxvN4JIW1HiI28U+jDyRyi9EsjNxsmTa/me4XGNSQjikJDJE0c/Yy4Y+9/Bv1NGS5lkWN5AGP9EYcXYNdmZfe22dHkzydD2wm5HYFeGlL0IgFsX/CNwySp0NrjvArew/x6jW0OABaiz91qUkLRtERhEsrOzgUV7ZhXyoO+dHI40oka1SG6r+d/HzGm2fD/X8TdloPrQWlMmBQoYE8LPrUUjQJLh8IxfvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V9TmtNU1To6IxI+EH+P3BHjtxVj6UUA2yhTMaYLkcJI=;
+ b=OFTPqql2e5EqDooH80QUxD5XTlczrsIeCzhUZv9RX82icNm0Ncm0k2L0ABBp3Z5c8MQr3Je3jLobpfaiKWZvMcq+ZsPqrMxECJgDU7f7xbpDeBSaj8r2N5LdiTaisO3G9e9L+n5wvx16LlFM+N7uCUrKSipUWgv5Aw8Ci72XFI+RwsdpX+HFGHZrWvgUnaEC+t69p5Uu8g8rd+e3UrRFShyx0P+isFbvVF2MKbJyCbpW1qfYKVTCoVkTF3r2cmsKVMSeCb6rQBZoD8N31c7MdAmvDAXeaIVMEwa0s+MBo0Fe4Hzd+pcpWnK/nvAimacNKAV1ZBz5xkCVX9odq6KaUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
+ by BYAPR12MB3191.namprd12.prod.outlook.com (2603:10b6:a03:133::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Tue, 30 Jun
+ 2020 20:21:44 +0000
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 20:21:44 +0000
+From:   Krishna Reddy <vdumpa@nvidia.com>
+To:     Jonathan Hunter <jonathanh@nvidia.com>
+CC:     "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>, talho@nvidia.com,
-        bhuntsman@nvidia.com, Erik Faye-Lund <kusmabite@gmail.com>
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <4f9ddf30-ad8d-3750-20d7-867be17a1006@gmail.com>
- <20200626073430.GA3109062@ulmo>
- <4c243f7a-4c53-d995-88a1-0fe03d41fc3a@gmail.com>
- <f622c8ed-efe4-0889-bd26-dc22e96b8e4d@kapsi.fi>
- <b8a8b05e-de1c-400f-3f35-bb1ea49789e9@gmail.com>
- <76e46256-58d3-fdbe-41d6-8ac910fc7fd0@kapsi.fi>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <bad91732-1ae1-6c49-024c-d11e0e8d3579@gmail.com>
-Date:   Tue, 30 Jun 2020 22:48:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thierry Reding <treding@nvidia.com>,
+        "Yu-Huan Hsu" <YHsu@nvidia.com>, Sachin Nikam <Snikam@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Bryan Huntsman <bhuntsman@nvidia.com>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
+Subject: RE: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
+ ARM MMU-500 usage
+Thread-Topic: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for
+ dual ARM MMU-500 usage
+Thread-Index: AQHWTnLtXe5vi7jgbE2pRnyepolCC6jw8nYAgABivFCAAAYNgIAAA0WAgAAGCACAACC4AIAAFN+A
+Date:   Tue, 30 Jun 2020 20:21:44 +0000
+Message-ID: <BYAPR12MB282290F6E270DB90040379A0B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
+References: <20200630001051.12350-1-vdumpa@nvidia.com>
+ <20200630001051.12350-2-vdumpa@nvidia.com>
+ <e6da9661-4e62-6e34-ac21-63ff993ca8bc@nvidia.com>
+ <BYAPR12MB282210677459B8D62623C642B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
+ <4037efc7-fbed-e8cf-dac7-212c65014e4e@nvidia.com>
+ <eb0ffc7e-f41b-d17c-6a90-049335098cd2@nvidia.com>
+ <BYAPR12MB2822B43B0218F6E55C97451BB36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
+ <64ffa84f-a8cf-ae81-6306-b5d8b1ff0618@nvidia.com>
+In-Reply-To: <64ffa84f-a8cf-ae81-6306-b5d8b1ff0618@nvidia.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-30T20:21:42.5016349Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=e86ac2ad-94a5-4360-b4fe-863d47606bad;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [71.202.129.3]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 30b2cd1e-c839-4a24-cf86-08d81d33350a
+x-ms-traffictypediagnostic: BYAPR12MB3191:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB31911783FCEEF540DC5476E7B36F0@BYAPR12MB3191.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0450A714CB
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9D0EPOHLLsgQl6+NSl7GbzxP6IgfyvIH4wxNzWyxuYt96se0Gl85/kycsYbsOsfSnZ8dmgzrtsCeueL3kOn/ltQ0zaPn+8E6lAMr4iy58gLG07g19ERjY53kvkN+FeimbUhVgiTDTa4BEeM0GNvLZQxgBpOTf/VUyWbXK4OGII5hxx1QJZJwovtDICQSRWMhRNNflv9KG1HoJWpMDkj2p7bXGLYig17JrXRyg58Wa9A4FXbTCl6lh+SYEIJvhBTtiyTiJlXsUNNYU1086Eo35Xs1IS/BYfCdEAFHvqFake+up593NUE3uvEOkCje7N+4
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(39860400002)(346002)(366004)(376002)(396003)(7696005)(6636002)(6506007)(86362001)(52536014)(83380400001)(9686003)(6862004)(316002)(71200400001)(54906003)(478600001)(4326008)(33656002)(55016002)(186003)(26005)(8676002)(64756008)(8936002)(2906002)(66556008)(66476007)(66446008)(76116006)(66946007)(5660300002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 7XsW8+8X7Z15I+wTuT6GOEjHQUcvy8XdL6/5rqupM7RikkG4yNpjWVxR/iJAF8KUkESek7/1xZNln/6boM0/zXMEiyRZnjE2uEDkTkpQ/eoeoaxToPjT1s2vX9yFgxSi8+XDh92fBjHHjO7jXQqRH2N9g/pogNkDX+e93PNWWJLCuRNr5oYuIB87GPXi4cbpN+GZYdTl55EmIf979njpXTexKuQ7QYA1L8lbEHgVx0NHuPDGk4lnz0GcD/WCmPhXkKtwDpg9GODsEkoTJCCSQEZK1Y3eI2DphzARK7oLYzX6PHzV14JNQqJwVnD1ncyJCzpLeEaHIQlkeK3W9XiQgyDeGifAJPMFWaN/JDNXgWXR7hNIFt4H9iu0RDJiD3o2m2GbXD9FJrwL33u9AseQC6laurKAY7np2qJQ9IRZULYCunm/MNKqhQ/R+SxNgoF6rseRe6dkbGMSd5NJPx2VovJAtrgmSzSevgWjZgj2oG4=
 MIME-Version: 1.0
-In-Reply-To: <76e46256-58d3-fdbe-41d6-8ac910fc7fd0@kapsi.fi>
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30b2cd1e-c839-4a24-cf86-08d81d33350a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 20:21:44.2524
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: meKE/dIyBW3rLkFmkswNJh4YdbB/mC4rtz6W4v+VFF1SNJkk6qnB003Cy10yOHDABRBDznaaqOmqZkMWHtiUow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3191
+X-OriginatorOrg: Nvidia.com
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593548512; bh=V9TmtNU1To6IxI+EH+P3BHjtxVj6UUA2yhTMaYLkcJI=;
+        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+         Thread-Index:Date:Message-ID:References:In-Reply-To:
+         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+         authentication-results:x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
+         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam:
+         x-microsoft-antispam-message-info:x-forefront-antispam-report:
+         x-ms-exchange-antispam-messagedata:MIME-Version:
+         X-MS-Exchange-CrossTenant-AuthAs:
+         X-MS-Exchange-CrossTenant-AuthSource:
+         X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-CrossTenant-userprincipalname:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+         Content-Language:Content-Type:Content-Transfer-Encoding;
+        b=dimS1Y+T9Itbi7CoQXzOmbB575VMGNHXMRu7ycjyJaS5vO4sKz4zxyZNqgFDtbz2T
+         eH8VTkGalhEFoxaKMFtbtJwA1rCeMC404y27WK/5SO1dtweefzvuroiJhqFY0WI4kQ
+         zFSBMNJmu3eg3oX5SQxrkcOTZnvbhhr7DZ7yvokpky7v6CG0SDiEUiVfJkh2fxKzGD
+         8O/54d15VOWzNsQ+52IjZLUkXWcJI91eb8GfVs4d1cU1aI2JMUZ5s3Eds5dkIpqAZt
+         9NTRk1IyclyVOeC9Tp6vNzwesom4yvwhVgGtg2cGjvY3gzO/ZKoQIzmhJdsJRmX4eu
+         lGikUzqk+0HzA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.06.2020 13:55, Mikko Perttunen пишет:
-> 
-> 
-> On 6/29/20 1:59 AM, Dmitry Osipenko wrote:
->> 28.06.2020 14:16, Mikko Perttunen пишет:
->>> On 6/26/20 7:35 PM, Dmitry Osipenko wrote:
->>>> 26.06.2020 10:34, Thierry Reding пишет:
->>>>> On Fri, Jun 26, 2020 at 01:47:46AM +0300, Dmitry Osipenko wrote:
->>>>>> 23.06.2020 15:09, Mikko Perttunen пишет:
->>>>>>> ### DRM_TEGRA_CHANNEL_MAP
->>>>>>>
->>>>>>> Make memory accessible by the engine while executing work on the
->>>>>>> channel.
->>>>>>>
->>>>>>> ```
->>>>>>> #define DRM_TEGRA_CHANNEL_MAP_READWRITE        (1<<0)
->>>>>>>
->>>>>>> struct drm_tegra_channel_map {
->>>>>>>           /*
->>>>>>>            * [in] ID of the channel for which to map memory to.
->>>>>>>            */
->>>>>>>           __u32 channel_id;
->>>>>>>           /*
->>>>>>>            * [in] GEM handle of the memory to map.
->>>>>>>            */
->>>>>>>           __u32 handle;
->>>>>>>
->>>>>>>           /*
->>>>>>>            * [in] Offset in GEM handle of the memory area to map.
->>>>>>>            *
->>>>>>>            * Must be aligned by 4K.
->>>>>>>            */
->>>>>>>           __u64 offset;
->>>>>>
->>>>>> Could you please give a use-case example for this partial mapping?
->>>>>>
->>>>>> I vaguely recalling that maybe it was me who suggested this in the
->>>>>> past..
->>>>>>
->>>>>> I kinda see that this could be useful for a case where userspace
->>>>>> allocates a large chunk of memory and then performs
->>>>>> sub-allocations in
->>>>>> the userspace driver. But do we have a real-world example for this
->>>>>> right
->>>>>> now?
->>>>>
->>>>> I think the main point about this IOCTL was to make mapping/unmapping
->>>>> more efficient and avoid relocations for situations where we know
->>>>> it is
->>>>> safe to do so.
->>>>>
->>>>> The fact that this can be used to create partial mappings is mostly
->>>>> just
->>>>> an added bonus, in my opinion. Doing this doesn't create much
->>>>> complexity
->>>>> but in turn gives us a lot more flexibility.
->>>>>
->>>>> A couple of places where I think this could be useful are OpenGL and
->>>>> Vulkan, both of which support buffer suballocation. This has a
->>>>> couple of
->>>>> advantages on modern GPUs where sometimes you want to use very large
->>>>> allocation granularity, etc.
->>>>>
->>>>> Now, I don't think that we'll see much of that in Tegra DRM directly,
->>>>> although grate could certainly make use of this, I suspect. However, I
->>>>> think for interoperation of dGPU and Tegra DRM (with VIC for post-
->>>>> processing, or hopefully some of the other hardware acceleration
->>>>> engines at some point), this might come in handy.
->>>>>
->>>>> There are other possible use-cases within just Tegra DRM as well.
->>>>> We may
->>>>> want to only partially map planar buffers for video
->>>>> post-processing, for
->>>>> example. Or map each plane separately.
->>>>>
->>>>>> Please see more below.
->>>>>>
->>>>>>>           /*
->>>>>>>            * [in] Length of memory area to map in bytes.
->>>>>>>            *
->>>>>>>            * Must be aligned by 4K.
->>>>>>>            */
->>>>>>>           __u64 length;
->>>>>>>
->>>>>>>           /*
->>>>>>>            * [out] IOVA of mapped memory. Userspace can use this
->>>>>>> IOVA
->>>>>>>            *   directly to refer to the memory to skip using
->>>>>>> relocations.
->>>>>>>            *   Only available if hardware memory isolation is
->>>>>>> enabled.
->>>>>>>            *
->>>>>>>            *   Will be set to 0xffff_ffff_ffff_ffff if unavailable.
->>>>>>>            */
->>>>>>>           __u64 iova;
->>>>>>>
->>>>>>>           /*
->>>>>>>            * [out] ID corresponding to the mapped memory to be
->>>>>>> used for
->>>>>>>            *   relocations or unmapping.
->>>>>>>            */
->>>>>>>           __u32 mapping_id;
->>>>>>>           /*
->>>>>>>            * [in] Flags.
->>>>>>>            */
->>>>>>>           __u32 flags;
->>>>>>>
->>>>>>>           __u32 reserved[6];
->>>>>>> };
->>>>>>
->>>>>> It looks to me that we actually need a bit different thing here.
->>>>>>
->>>>>> This MAP IOCTL maps a portion of a GEM and then returns the
->>>>>> mapping_id.
->>>>>> And I think we need something more flexible that will allow us to use
->>>>>> GEM handles for the relocation IDs, which should fit nicely with the
->>>>>> DMA-reservations.
->>>>>>
->>>>>> What about an IOCTL that wraps GEM into another GEM? We could wrap a
->>>>>> portion of GEM_A into a GEM_B, and then map the GEM_B using the MAP
->>>>>> IOCTL.
->>>>>>
->>>>>> It could be something like this:
->>>>>>
->>>>>> ### DRM_TEGRA_BO_WRAP
->>>>>>
->>>>>> struct drm_tegra_wrap_bo {
->>>>>>      __u32 bo_handle_wrapped; // out
->>>>>>      __u32 bo_handle;         // in
->>>>>>      __u64 offset;
->>>>>>      __u64 length;
->>>>>> };
->>>>>>
->>>>>> ### DRM_TEGRA_CHANNEL_MAP
->>>>>>
->>>>>> struct drm_tegra_channel_map {
->>>>>>           __u32 channels_mask;
->>>>>>      __u32 mapping_id;
->>>>>>           __u32 bo_handle;
->>>>>>           __u32 flags;
->>>>>>           __u64 iova;
->>>>>> };
->>>>>>
->>>>>> ===
->>>>>>
->>>>>> This allows multiple mapping_ids to have the same backing GEM, so the
->>>>>> mapping_id could be resolved into a BO during of job's submission for
->>>>>> the DMA-reservations handling.
->>>>>
->>>>> That's pretty much what we have already above, isn't it? Just
->>>>> because we
->>>>> call the field "mapping_id" doesn't mean that in the background we
->>>>> can't
->>>>> create a GEM object and return it's handle as "mapping_id".
->>>>>
->>>>> One advantage of Mikko's proposal is that we have a single IOCTL
->>>>> rather
->>>>> than two to create the mapping, making it a bit more lightweight.
->>>>
->>>> Thinking a bit more about it, I now changed my mind.
->>>>
->>>> There is no need to perform implicit fencing on each suballocation,
->>>> instead explicit fencing should be used for the suballocations.
->>>>
->>>> So, we will need to add the relocation flags for the direction and
->>>> explicit (or implicit) fencing per-relocation. The direction will tell
->>>> how fence should be attached to the BO's DMA-reservation, while the
->>>> fence-flag will tell whether job's scheduler should wait for the BO's
->>>> reservation before executing job on hardware. This all will be needed
->>>> for a proper DRI implementation on older Tegras.
->>>>
->>>> Actually, during of my experiments with the UAPI, I added both these
->>>> flags for the relocations [1], but really used only the direction flag
->>>> so far, relying on the implicit fencing.
->>>>
->>>> [1]
->>>> https://github.com/grate-driver/linux/blob/master/include/uapi/drm/tegra_drm.h#L894
->>>>
->>>>
->>>>
->>>> So, let's keep the current variant of this MAP IOCTL as-is.
->>>>
->>>
->>> Let me rephrase to make sure I understand:
->>>
->>> For relocations, we should add flags for direction and fencing. This way
->>> at submit time we can do the proper fencing operations on the relocated
->>> BO's DMA reservation.
->>
->> Correct
->>
->>> This sounds good to me, and I think it makes the "relocation" concept a
->>> bit more general than it is currently. I think we could rename it to
->>> something like "buffer_usage" (open to bikeshedding), and it can have
->>> fence-related flags and relocation-related flags. For newer Tegra chips
->>> we don't necessarily need to relocate, but we still may need to handle
->>> DMA reservations, so in these cases only the fencing flags would be set.
->>
->> Kernel driver already knows whether relocation needs to be patched since
->> it returns 0xffffffff by the MAP if patching is needed, and thus,
->> patching could be auto-skipped by the driver.
->>
->> I don't think that a special flag is required for telling about whether
->> relocation needs to be done. The direction and fence flags should be
->> enough for now.
-> 
-> Yeah, I guess it's not really required.
-> 
->>
->> ===
->>
->> I'm curios what do you think about another variant:
->>
->> In the grate-kernel I'm using a BO table which contains unique BO
->> entries for each job's relocation [1] and then IDs of this table and
->> target offsets are embedded into the cmdstream in-place of the memory
->> addresses [2]. This way, when cmdstream is fully firewalled, we're
->> reading the stream's data anyways, and thus, it's quite nice to embed
->> the BO table IDs and offsets into cmdstream itself [3].
->>
->> In a result:
->>
->>   - Each job's BO is resolved only once during submission.
->>
->>   - BO table is kept small if cmdstream contains duplicated relocations.
->>
->> [1]
->> https://github.com/grate-driver/linux/blob/master/include/uapi/drm/tegra_drm.h#L892
->>
->>
->> [2]
->> https://github.com/grate-driver/linux/blob/master/include/uapi/drm/tegra_drm.h#L783
->>
->>
->> [3]
->> https://github.com/grate-driver/linux/blob/master/drivers/gpu/drm/tegra/uapi/patching.c#L43
->>
->>
->> Of course this limits the number of BOs per-job. In a case of
->> grate-kernel it's max 64 BOs per-job + max 64MB for target offset. I
->> guess the BOs number could be lowered to 32 per-job, which should be a
->> bit more realistic, and then max target offset will be 128MB.
->>
->> So, we could replace the BO table with a mapping table and have the
->> MAPPING_TABLE! :) And it doesn't matter whether cmdstream patched or
->> not, either way the MAPPING_TABLE will contain mapping ID + flags.
->>
->> There are 3 possible variants of how job could be processed, depending
->> on hardware generation and driver security configuration:
->>
->>    1. Job is fully-parsed and patched.
->>    2. Job is patched-only (with relocations).
->>    3. Job isn't parsed, nor patched.
->>
->> My variant covers 1 and 3. I guess we could just ignore the case 2 for
->> now and fall back to 1, for simplicity. It shouldn't be a problem to add
->> support for the RELOCS_TABLE in addition to MAPPING_TABLE later on, if
->> will be really needed.
->>
-> 
-> I think the bitfield will get a bit tight once we add the 'shift' field
-> and 'blocklinear' flag to it :) (which made me notice that apparently my
-> original proposal has the define for
-> DRM_TEGRA_SUBMIT_RELOCATION_BLOCKLINEAR, but doesn't have a flags field
-> in the relocation structure, oops!)
-> Both of those affect the relocation value.
-
-The flags will be in the MAPPING_TABLE. If you'll have two mappings that
-use a different modifier flag, then it should be two different entries
-in the table.
-
-The MAPPING_TABLE is similar to a RELOCATION_TABLE, but it's a bit more
-flexible since it allows to avoid the duplicated entries. For example,
-if we have a job that copies one area of the mapping to another area of
-the same mapping, then it will be a single entry in the table.
-
-IIUC, the shift is always a constant value for each address register,
-correct? Hence, the shift value could be looked up from the address
-registers table of the kernel driver for each patched relocation during
-of the patching process.
-
-> FWIW, we should design option 1 to be functional for new chips as well,
-> as we need to use it e.g. if IOMMU is disabled.
-
-Firewall also could be useful for a debugging purposes. It should work
-for all hardware versions universally.
+Pj4gVGhlIGRyaXZlciBpbnRlbmQgdG8gc3VwcG9ydCB1cCB0byAzIGluc3RhbmNlcy4gSXQgZG9l
+c24ndCByZWFsbHkgbWFuZGF0ZSB0aGF0IGFsbCB0aHJlZSBpbnN0YW5jZXMgYmUgcHJlc2VudCBp
+biBzYW1lIERUIG5vZGUuDQo+PiBFYWNoIG1taW8gYXBlcnR1cmUgaW4gInJlZyIgcHJvcGVydHkg
+aXMgYW4gaW5zdGFuY2UgaGVyZS4gcmVnID0gDQo+PiA8aW5zdDBfYmFzZSwgc2l6ZT4sIDxpbnN0
+MV9iYXNlLCBzaXplPiwgPGluc3QyX2Jhc2UsIHNpemU+OyBUaGUgcmVnIGNhbiBoYXZlIGFsbCB0
+aHJlZSBvciBsZXNzIGFuZCBkcml2ZXIganVzdCBjb25maWd1cmVzIGJhc2VkIG9uIHJlZyBhbmQg
+aXQgd29ya3MgZmluZS4NCg0KPlNvIGl0IHNvdW5kcyBsaWtlIHdlIG5lZWQgYXQgbGVhc3QgMiBT
+TU1VcyAoZm9yIG5vbi1pc28gYW5kIGlzbykgYnV0IHdlIGhhdmUgdXAgdG8gMyAoZm9yIFRlZ3Jh
+MTk0KS4gU28gdGhlIHF1ZXN0aW9uIGlzIGRvIHdlIGhhdmUgYSB1c2UtY2FzZSB3aGVyZSB3ZSBv
+bmx5IHVzZSAyIGFuZCBub3QgMz8gSWYgbm90LCB0aGVuIGl0IHN0aWxsIHNlZW1zIHRoYXQgd2Ug
+c2hvdWxkIHJlcXVpcmUgdGhhdCBhbGwgMyBhcmUgcHJlc2VudC4NCg0KSXQgY2FuIGJlIGVpdGhl
+ciAyIFNNTVVzIChmb3Igbm9uLWlzbykgb3IgMyBTTU1VcyAoZm9yIG5vbi1pc28gYW5kIGlzbyku
+ICBMZXQgbWUgZmFpbCB0aGUgb25lIGluc3RhbmNlIGNhc2UgYXMgaXQgY2FuIHVzZSByZWd1bGFy
+IGFybSBzbW11IGltcGxlbWVudGF0aW9uIGFuZCBkb24ndCAgbmVlZCBudmlkaWEgaW1wbGVtZW50
+YXRpb24gZXhwbGljaXRseS4NCiANCj5UaGUgb3RoZXIgcHJvYmxlbSBJIHNlZSBoZXJlIGlzIHRo
+YXQgY3VycmVudGx5IHRoZSBhcm0tc21tdSBiaW5kaW5nIGRlZmluZXMgdGhlICdyZWcnIHdpdGgg
+YSAnbWF4SXRlbXMnIG9mIDEsIHdoZXJlYXMgd2UgaGF2ZSAzLiBJIGJlbGlldmUgdGhhdCB0aGlz
+IHdpbGwgZ2V0IGNhdWdodCBieSB0aGUgJ2R0X2JpbmRpbmdfY2hlY2snIHdoZW4gd2UgdHJ5IHRv
+IHBvcHVsYXRlIHRoZSBiaW5kaW5nLg0KDQpUaGFua3MgZm9yIHBvaW50aW5nIGl0IG91dCEgV2ls
+bCB1cGRhdGUgdGhlIGJpbmRpbmcgZG9jLg0KDQotS1INCg0KLS0NCm52cHVibGljDQo=
