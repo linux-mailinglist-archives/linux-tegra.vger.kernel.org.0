@@ -2,129 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B07F20F4E4
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 14:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA15920F525
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 14:54:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387810AbgF3MnC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 08:43:02 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1396 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728016AbgF3MnB (ORCPT
+        id S2388027AbgF3MyB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 08:54:01 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:10720 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387913AbgF3MyA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 08:43:01 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb33240000>; Tue, 30 Jun 2020 05:42:12 -0700
+        Tue, 30 Jun 2020 08:54:00 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb35850000>; Tue, 30 Jun 2020 05:52:21 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 05:43:01 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 30 Jun 2020 05:54:00 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 30 Jun 2020 05:43:01 -0700
-Received: from [10.26.75.203] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 05:54:00 -0700
+Received: from [10.25.97.62] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 12:42:54 +0000
-Subject: Re: [PATCH v8 3/3] iommu/arm-smmu: Add global/context fault
- implementation hooks
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Krishna Reddy <vdumpa@nvidia.com>
-CC:     <snikam@nvidia.com>, <nicoleotsuka@gmail.com>,
-        <mperttunen@nvidia.com>, <bhuntsman@nvidia.com>, <will@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <praithatha@nvidia.com>,
-        <talho@nvidia.com>, <iommu@lists.linux-foundation.org>,
-        <nicolinc@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <yhsu@nvidia.com>, <treding@nvidia.com>,
-        <linux-arm-kernel@lists.infradead.org>, <bbiswas@nvidia.com>
-References: <20200630001051.12350-1-vdumpa@nvidia.com>
- <20200630001051.12350-4-vdumpa@nvidia.com>
- <4b4b20af-7baa-0987-e40d-af74235153f6@nvidia.com>
- <6c2ce909-c71b-351f-79f5-b1a4b4c0e4ac@arm.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <fd1f1102-ab05-002a-a86a-d3c6cef21e01@nvidia.com>
-Date:   Tue, 30 Jun 2020 13:42:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ 2020 12:53:53 +0000
+CC:     <spujar@nvidia.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        <perex@perex.cz>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <lgirdwood@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <digetx@gmail.com>,
+        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
+        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
+        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <atalambedu@nvidia.com>, <nwartikar@nvidia.com>,
+        <swarren@nvidia.com>, <nicoleotsuka@gmail.com>
+Subject: Re: Re: [PATCH v4 12/23] ASoC: simple-card: Support DPCM DAI link
+ with multiple Codecs
+To:     Mark Brown <broonie@kernel.org>
+References: <1593233625-14961-1-git-send-email-spujar@nvidia.com>
+ <1593233625-14961-13-git-send-email-spujar@nvidia.com>
+ <874kqu1x70.wl-kuninori.morimoto.gx@renesas.com>
+ <1e0cf6d1-bf4e-8808-5390-c8a3b7c7fe7e@nvidia.com>
+ <87mu4lz6pt.wl-kuninori.morimoto.gx@renesas.com>
+ <1d7888c7-a8cc-e891-01aa-016e31cc9113@nvidia.com>
+ <87ftadyrec.wl-kuninori.morimoto.gx@renesas.com>
+ <492079e9-4518-78ba-a227-859d31594369@nvidia.com>
+ <20200630110100.GH5272@sirena.org.uk>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <81d106c0-e1c8-a79a-8caf-1f3be0d61f0c@nvidia.com>
+Date:   Tue, 30 Jun 2020 18:23:49 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <6c2ce909-c71b-351f-79f5-b1a4b4c0e4ac@arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+In-Reply-To: <20200630110100.GH5272@sirena.org.uk>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593520932; bh=hK3xWsoaF4cxDik6Mhq5qaTx82gKOLvVl8GbV1br+EM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+        t=1593521541; bh=aXxCz2dTV4FtL79w8/1SiDck9RwhPcel5Fp7Yqr93ys=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=puWqgxQA8yIruffJjHDVkJAi+UFOYN1pn9OAiXwGvywkKRxjWFtBhUaip1YoThldr
-         i6NHZ/dtKAjI+ln4Q1pE/KqNNlnUyluMJWqRyzuo/t91r1WMqbicqPfWCCQfx+fvuQ
-         9NXOzVNUNZWMkxYN5++mPnQCMwjlfc9ZOiifR0/dSrwRbbHDHUpyGt6S6pI2K1RXDB
-         xuE3VAKgS4D2NXdlBAtGsx9f6aNRLRdRZV1Cq3f/maRdn2uW4ti2PRd18RZPpqrg4e
-         LqvR5JhOSxqw0tbBOpNj9MgYkrYITBUBAcsKIlpbugPsPSgP09fFVixBvKQSSvPNMp
-         STDwB7x62E+0g==
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Gh3ACliKpLklTAftBCph4CwFuABvt9iKOaYeZz9J9rKIAEuUd7rQRvaTVD6XQZt7T
+         axfWqqI5PiBn9JpHQfL4rhdLKiL76uJ1w5S9AXLytg4BCoLvKCRCEH9kLNV2M1wDFw
+         bc6uYFwF6yT2JQeqDfGjx6xCmCL2jAaPmAQbPZOZmOciS4J0knlc5kq1ijFmM7z6N3
+         EG7PlhYruqj0fsBMzrETSEnSnHNxCc9q/3GEKJ4gd6mAJSiYMI0uvC/QIrlzYDJzWQ
+         ZURoXaJ+7yXHbfQ/3oLA/KBcWn0rYoBp1R/7vrhUiBe9fHg6ZA8NE6L55EZOkiOWgP
+         Q3oHajDJIRzZg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 30/06/2020 13:13, Robin Murphy wrote:
-> On 2020-06-30 09:37, Jon Hunter wrote:
->>
->> On 30/06/2020 01:10, Krishna Reddy wrote:
->>> Add global/context fault hooks to allow NVIDIA SMMU implementation
->>> handle faults across multiple SMMUs.
->>
->> Nit ... this is not just for NVIDIA, but this allows anyone to add
->> custom global/context and fault hooks. So I think that the changelog
->> should be clear that this change permits custom fault hooks and that
->> custom fault hooks are needed for the Tegra194 SMMU. You may also want
->> to say why.
->>
->>>
->>> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
->>> ---
->>> =C2=A0 drivers/iommu/arm-smmu-nvidia.c | 98 +++++++++++++++++++++++++++=
-++++++
->>> =C2=A0 drivers/iommu/arm-smmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 17 +++++-
->>> =C2=A0 drivers/iommu/arm-smmu.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 3 +
->>> =C2=A0 3 files changed, 116 insertions(+), 2 deletions(-)
 
-...
+On 6/30/2020 4:31 PM, Mark Brown wrote:
+> On Tue, Jun 30, 2020 at 01:22:29PM +0530, Sameer Pujar wrote:
+>
+>> Yes there are complex use cases, but if we look at the amount of changes
+>> required in simple-card driver that is not too much. Existing binding for
+>> simple-card driver would still work fine for our cases. Yes there are some
+>> deviations and we don't want to break existing users, that is why a *new*
+>> compatible was introduced and specific items can be pushed under it.
+>> Majority of the simple-card driver is getting re-used here. We just need to
+>> make sure it does not affect anyone else.
+> Why simple-card and not audio-graph-card?
 
->>> @@ -835,7 +836,13 @@ static int arm_smmu_init_domain_context(struct
->>> iommu_domain *domain,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * handler seeing a half-initialise=
-d domain state.
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 irq =3D smmu->irqs[smmu->num_global_irqs=
- + cfg->irptndx];
->>> -=C2=A0=C2=A0=C2=A0 ret =3D devm_request_irq(smmu->dev, irq, arm_smmu_c=
-ontext_fault,
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (smmu->impl && smmu->impl->context_fault)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 context_fault =3D smmu->imp=
-l->context_fault;
->>> +=C2=A0=C2=A0=C2=A0 else
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 context_fault =3D arm_smmu_=
-context_fault;
->>
->> Why not see the default smmu->impl->context_fault to
->> arm_smmu_context_fault in arm_smmu_impl_init() and then allow the
->> various implementations to override as necessary? Then you can get rid
->> of this context_fault variable here and just use
->> smmu->impl->context_fault below.
->=20
-> Because the default smmu->impl is NULL. And as I've said before, NAK to
-> forcing the common case to allocate a set of "quirks" purely to override
-> the default IRQ handler with the default IRQ handler ;)
+Frankly speaking I have not used audio-graph-card before. I had a brief 
+look at the related binding. It seems it can use similar DT properties 
+that simple-card uses, although the binding style appears to be 
+different. However I am not sure if it offers better solutions to the 
+problems I am facing. For example, the ability to connect or form a 
+chain of components to realize more complicated use cases with DPCM, 
+some of which were discussed in [0]. Can you please help me understand 
+why it could be preferred?
 
+[0] https://lkml.org/lkml/2020/4/30/519
 
-Ah OK, makes sense. Sorry I am a bit late to the review :-)
+>>> Using fe/be instead of cpu/codec is easy to understand.
+>> I guess you are referring to DT binding part. The parsing code specifically
+>> looks for "codec" sub node and thus present conventions had to be used.
+> Remember that this stuff gets fixed into the ABI so we'd have to live
+> with this for ever.
 
-Jon
-
---=20
-nvpublic
