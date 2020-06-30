@@ -2,386 +2,171 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D35020F941
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 18:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C474920F951
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 18:23:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732595AbgF3QQv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 12:16:51 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1105 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728290AbgF3QQu (ORCPT
+        id S2387434AbgF3QXs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 12:23:48 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:3199 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726736AbgF3QXr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 12:16:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb653e0000>; Tue, 30 Jun 2020 09:15:58 -0700
+        Tue, 30 Jun 2020 12:23:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb67050000>; Tue, 30 Jun 2020 09:23:33 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 09:16:47 -0700
+  Tue, 30 Jun 2020 09:23:46 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 09:16:47 -0700
-Received: from [10.2.167.193] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 16:16:46 +0000
-Subject: Re: [RFC PATCH v2 00/18] Support for Tegra video capture from
- external sensor
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
-        <robh+dt@kernel.org>, <helen.koike@collabora.com>
-CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
- <b3f63f3f-50b2-e818-2c59-8009c31a9825@xs4all.nl>
- <f5c84071-46ad-aa6f-0820-1813d4a907c9@nvidia.com>
- <a60d8f80-312d-fce3-61f5-328e7f2a7a64@xs4all.nl>
- <72ca3b09-7ca6-7421-4a9d-98326d1af087@nvidia.com>
-Message-ID: <e8a8a678-e9e8-e941-8dcb-0e747616ba59@nvidia.com>
-Date:   Tue, 30 Jun 2020 09:17:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 09:23:46 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 16:23:43 +0000
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
+ by HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 16:23:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DaFBSQl2T87NKzAlrVJYGVGBc2+wqbVwCzDImB5WYA8JNj1Zv5hDol0/BH0TpXV7iVSoCTbABEKzBkBQ4+iZphCgyfkWr6qyQ1nfEMcKtG3SS9AG/hKIS3yZmLa1hhmIzotjs0UTKBZqmJOFcjdw75Wr16cJ0npYL3IbLvEgNENjsS7HdOYi07lQo0vZbTipOvVNse7+MFbnxuCWIYFAl6LUqVL3H4rA9X09jpH9fM6AO8uUMRedcEUQL0rC8UJS9NEa+xVzgo3oBOdY+u/PPMf1fTJnXFNeLedGUI76CpxGwXonxuZKhixwaYb/1ZqHAiKM0P/pDlzF63aIO7pXEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y+CTaHKsFXKP4MOAavIIVbQwTQ3rL7S/DLc0fjBW07Q=;
+ b=gkoEmz4U4Tb7hrsEpwr93UEA7+/enX0nbycBAl2MGkeov0sB6Xu/lgU9QNnJK8Ah5VU1Cb4ZWN2UlOzrG+ge2cz279ZSEqLxtsuWVLQh0DPn19v+YoYPkoDhfmil9WYWUUe0gZNrXBuDQqKnQrkpLTMdrcwHb8KNLtqJwu/q6rwQAYPu5FEw1aus8iVz/9GI0f8ysXce4oPFxXYk45exId+DOrklGixsD4j9b0SUNAiiVX6bZzaeALAcqc/WLVigoKDgTCbjfJiuNhBERxAWgiBxcu0wB29LfxUIPM4v9YwR0e7Rf0lPz9MIuQUO00pBbe3jFhQz0baTXRPN3kbX9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
+ by BY5PR12MB4291.namprd12.prod.outlook.com (2603:10b6:a03:20c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Tue, 30 Jun
+ 2020 16:23:41 +0000
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 16:23:41 +0000
+From:   Krishna Reddy <vdumpa@nvidia.com>
+To:     Jonathan Hunter <jonathanh@nvidia.com>
+CC:     "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        "Yu-Huan Hsu" <YHsu@nvidia.com>, Sachin Nikam <Snikam@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Bryan Huntsman <bhuntsman@nvidia.com>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
+Subject: RE: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
+ ARM MMU-500 usage
+Thread-Topic: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for
+ dual ARM MMU-500 usage
+Thread-Index: AQHWTnLtXe5vi7jgbE2pRnyepolCC6jw8nYAgABivFA=
+Date:   Tue, 30 Jun 2020 16:23:41 +0000
+Message-ID: <BYAPR12MB282210677459B8D62623C642B36F0@BYAPR12MB2822.namprd12.prod.outlook.com>
+References: <20200630001051.12350-1-vdumpa@nvidia.com>
+ <20200630001051.12350-2-vdumpa@nvidia.com>
+ <e6da9661-4e62-6e34-ac21-63ff993ca8bc@nvidia.com>
+In-Reply-To: <e6da9661-4e62-6e34-ac21-63ff993ca8bc@nvidia.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-30T16:23:32.8444925Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=b8df2971-a5e7-4a93-aa2b-232be9dec607;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [216.228.112.22]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e71e1966-005c-44ee-312d-08d81d11f3e4
+x-ms-traffictypediagnostic: BY5PR12MB4291:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB4291DDBD9932FC2DDA0DCA86B36F0@BY5PR12MB4291.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0450A714CB
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0msH39rd2gWanPF6PygEFgKFz0sruDuhnN1EbapVuLqxO6X1thKyKgFmNrs0fRPwYVxtaismF0gmf0Mcr3YAKmiXhT969fKxCN8VSdDAPmG4aU+dtztA4mawYG72+bu3gG1IkWJheDeXkrXpnXILbYd7BN/ZSXtm7J+6G3hoM7Dl44HTh+q4Vd9lUoyv5hXNwNk66JUL+xjmNgbygW0fdRsyfSPGTRccvRRgJEmp/Tt+pY9wugxSVIrS+KmeLczVSHYoNYSxm1YJ64tVqVRsKpWBWjeVKSbLKomLvWsn4A5u0YIGUS9DrTGjz125g7Ql0hlAGAlxEjR0WT8k5xUVWw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(346002)(376002)(39860400002)(366004)(136003)(4326008)(26005)(2906002)(8936002)(6862004)(66946007)(6506007)(5660300002)(66446008)(66556008)(8676002)(71200400001)(55016002)(186003)(9686003)(86362001)(83380400001)(66476007)(64756008)(76116006)(7696005)(54906003)(478600001)(52536014)(6636002)(316002)(33656002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 2usiz6AVV7AjMJEyNCaBvZc64mkFOyZBdD1ENJ4EKB5RfDRddSATa0RMoJWNUc4sQcAj8vrFD87EImdor7gPQT30dqGWaR7ldYjIw67eWtwDn8tQyrqMhrz7pY0qHsRZQtFcV9yFy8NhU7XIkJ6oQbzTgcxG1jnK5HqueCEjLH0FAFgRLGODY521+JToTLcIxdiuqZ9iHWtlAGbOZXoRszjmOsqBN0WbMLu7uBOQQypH43Y86i83hWj1Qu1u66824BKF7aqY8aPcZCr0hfBwPNSftgmTFbcXh6+9UYJZ+/GqFdwjuWI4L8nTqYC+NdLu8pJ1UJwP8v6lNRpThA0AwP/AtpqDOz6Qi7g1L/+V+tcmLQIJDH9I4BXLFsGYd2gG90wzIJ5f8E8/F6izmOZdrmkFc5zo4Srd/6khmPrseSVw5YGbBXlyhJPeyUWzBG/USOOvdEZRpzfwUCMST+3xFrJPQSEcca3LLpWEkCR8I/FF4WXWyGx3s701FTj4OFTB
 MIME-Version: 1.0
-In-Reply-To: <72ca3b09-7ca6-7421-4a9d-98326d1af087@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e71e1966-005c-44ee-312d-08d81d11f3e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 16:23:41.4843
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hoMbj5ocoXhyf/aQkfkqTGWPNoAIU7iZhZmH3RCzRlINdkDYEbbmP5RRXJKZUUII8hDYEH+NKi8cGLzEszZfUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4291
+X-OriginatorOrg: Nvidia.com
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593533758; bh=XSg2qN4yyT+tMT1zZSUfxAuzNf/qjGAod/D3XjDMvSc=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=U+a1y8stOypxAdDAGLd5xIiLrymaSl8aPTN1kxmJUrS9wEYXFMas9Ch5VQm9SctGm
-         R0yM7ZtBEKkamZWP78XKiZZSLpB9D9FSbPM7WCOotCpboKVRvmY38ODbjgErm3pRl4
-         bWY4e0JEohyIUej65fA0LjiyAFMybb6fCTSffr3e9cWYRezGjWZUByRoJvc21UsfPq
-         lG7I3PNbeqYClJaOvA3foL+rBhIgiqryUFMljtlLVERYwfLWSmdVF6E8L8M+dy83xr
-         a3EpT1GmZ2Wd5qtSf830KYTMa9L9mWyjggO89I2xos7m7Mdw8FKrpVGsGvCrt4l1lu
-         bU+ubzvEZmttw==
+        t=1593534213; bh=y+CTaHKsFXKP4MOAavIIVbQwTQ3rL7S/DLc0fjBW07Q=;
+        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+         Thread-Index:Date:Message-ID:References:In-Reply-To:
+         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+         authentication-results:x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
+         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam:
+         x-microsoft-antispam-message-info:x-forefront-antispam-report:
+         x-ms-exchange-antispam-messagedata:MIME-Version:
+         X-MS-Exchange-CrossTenant-AuthAs:
+         X-MS-Exchange-CrossTenant-AuthSource:
+         X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-CrossTenant-userprincipalname:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+         Content-Language:Content-Type:Content-Transfer-Encoding;
+        b=khxBb12Jl9wW2fU84FzJlFSQXKU7DCa9DBrkOA90aRhMe7fuaNsZ9cCQkGKklf0e4
+         Bvsl+eBpC5LFlshMU9P8OaP68PPOpTMvKZ80pZR6tzQUzBrka/JwJaKJOvRoIrcDB4
+         9f2aZ4K/ADwWYQFJmDyPqOXa0xG/04NIppD3zJ57rDqi91qKXwahP3W2z3AYnE2mEZ
+         mTIM1dfM8xdv7KiqYSthPeZWhTCmRnMTzZcAZojUG+8Liegin3WoOhPBCHmZonz7vj
+         VL21GQyi6mlqRZS1/ID7kd8Vz6diJukt7pwqmuF6TX85WFK0axhJqLyJrUF7FBTgwQ
+         mjJ+hCakXwk0A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 6/30/20 8:44 AM, Sowjanya Komatineni wrote:
->
-> On 6/30/20 8:13 AM, Hans Verkuil wrote:
->> On 30/06/2020 16:58, Sowjanya Komatineni wrote:
->>> On 6/30/20 2:21 AM, Hans Verkuil wrote:
->>>> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
->>>>> This series adds support for video capture from external camera=20
->>>>> sensor to
->>>>> Tegra video driver.
->>>>>
->>>>> Jetson TX1 has camera expansion connector and supports custom=20
->>>>> camera module
->>>>> designed as per TX1 design specification.
->>>>>
->>>>> This series also enables camera capture support for Jetson Nano=20
->>>>> which has
->>>>> Raspberry PI camera header.
->>>>>
->>>>> This series is tested with IMX219 camera sensor.
->>>> Which tree did you base this on? The media_tree master? Or the=20
->>>> mainline kernel?
->>> These patches are with linux-next base at the time I sent them out=20
->>> which
->>> are on 20200616
->>>> I now have the imx219 detected, but if I try to stream I get this:
->>>>
->>>> $ v4l2-ctl --stream-mmap
->>>> <[=C2=A0 512.840944] video4linux video0: MW_ACK_DONE syncpt timeout: -=
-11
->>>> [=C2=A0 512.972975] video4linux video0: frame start syncpt timeout: -1=
-1
->>>> <VIDIOC_DQBUF: failed: Input/output error
->>>> [=C2=A0 513.180770] video4linux video0: MW_ACK_DONE syncpt timeout: -1=
-1
->>>>
->>>> And then everything hangs and I need to reset.
->>>>
->>>> I'm testing with the media_tree master with your patches on top.
->>>>
->>>> Regards,
->>>>
->>>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
->>> Are you using same device tree as I sent offline? It uses CSI A for=20
->>> IMX219.
->>>
->>> Does you setup also uses CSI-A as x2 for IMX219?
->>>
->>> I tested them on Jetson Nano + IMX219 rasp PI module and also on Jetson
->>> TX1 + IMX274.
->>>
->>> I did not see any issue and am able to capture from both.
->>>
->>> Will try again on my side with today's latest linux-next and update=20
->>> result.
->> Please use the media_tree master, that's what I use as well.
->>
->> I did some more testing and there is something weird going on.
->>
->> I have a Leopard Imaging camera expansion board (LI-JTX1-MIPI-ADPT) with
->> three camera connectors. See here for the datasheet:
->>
->> https://www.leopardimaging.com/uploads/LI-TX1-KIT-IMX274M12-T_datasheet.=
-pdf=20
->>
->>
->> The first connector (with an IMX274) causes this error:
->>
->> $ v4l2-ctl -d1 --stream-mmap
->> [=C2=A0 599.265885] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->> [=C2=A0 599.473883] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->> [=C2=A0 599.681904] video4linux video1: frame start syncpt timeout: -11
->> [=C2=A0 599.681909] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->> <VIDIOC_DQBUF: failed: Input/output error
->> [=C2=A0 599.897884] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->>
->> Similar to the test above where I had an IMX219 connected. Except it=20
->> didn't
->> hang with the IMX274 (I'm beginning to suspect a locking issue in the=20
->> imx219
->> driver that is causing the hang, I'll look at that tomorrow).
->>
->> If I connect the IMX219 to the middle camera connector, then it works=20
->> fine.
->> I think I tested this with the IMX274 as well, but I'm not 100%=20
->> certain, also
->> something to double check tomorrow.
->>
->> If I connect the IMX219 or IMX274 to the third camera connector, then=20
->> I get this:
->
-> Would like to know CSI port mapping to connectors as mipi calibrate=20
-> pads cells need to be updated in device tree based on CSI port in use.
->
-> Will see if I can find that from DS link you sent above.
->
->>
->> $ v4l2-ctl -d0 --stream-mmap
->> [=C2=A0 820.513866] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>
->> [=C2=A0 820.525354] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>
->> [=C2=A0 820.536780] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>
->> [=C2=A0 820.548222] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>
->> [=C2=A0 820.559639] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> <[=C2=A0 820.646931] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 820.658355] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 820.669797] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 820.681216] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 820.692601] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> <<<<<<<<<<<<<<< 14.50 fps
->> <<<<<<<<<<<<<<< 14.75 fps
->> <<<<<<<<<<<<<<< 14.73 fps
->> <<<<<<<<<<<<<<< 14.80 fps
->> <<<<<<<<<<<<<[ 825.517854] tegra_mc_irq: 133437 callbacks suppressed
->> [=C2=A0 825.517874] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.534395] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.545833] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.557280] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.579346] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.590764] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.602188] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.613649] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.625075] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> [=C2=A0 825.645983] tegra-mc 70019000.memory-controller: viw: write=20
->> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->> < 14.64 fps
->> <<<<<<<<<<<<<<<< 14.87 fps
->> <<<<<<<<<<<<<<< 14.89 fps
->>
->> Something is producing EMEM address decode errors. But it is streaming.
->
-> above memory controller errors may be due to access faults and not=20
-> sure why these show up on your setup. I never have these with my testing.
->
-> Also I am using CMA alloc of 256MB and not sure if low CMA alloc size=20
-> is causing this. Can you try with CMA alloc size of 256MB?
->
->>
->> If I enable the TPG then everything is fine.
->>
->> So I have currently three different behaviors for three camera=20
->> connectors.
->>
->> Do you have a datasheet for your Jetson TX1 camera board? It could be=20
->> useful
->> to compare the two.
->
-> Yeah we have and will send it offline.
->
-> Also based on connector mapping to corresponding CSI port,=20
-> mipi-calibrate pad cell value also need to be changed.
->
-> Below is for CSI-A
->
-> nvidia,mipi-calibrate =3D <&mipi 0x001>
->> Regards,
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0Hans
-Connector-1 is CSI-AB where you had timeouts.
-
-Connector-2 is CSI-CD and this works for you.
-
-Connector-3 is CSI-EF and this works for streaming from above but=20
-there's memory access fault errors (EMEM address decode errors)
-
-These EMEM decode errors are not related to connector but its just they=20
-showed up during connector-3 testing I believe. Can you also keep CMA=20
-size to 256MB and try?
-
-Not sure if CSI-AB issue with FS and MW_ACK sp timeouts are due to some=20
-HW/setup issue. Streaming should work on CSI-AB ports as well just like=20
-CSI-CD/EF with proper device tree change for port index and mipi=20
-calibrate cells for corresponding ports.
-
-On my setup that I tested IMX274 is on CSI-AB.
-
-Will update my side test results with today's linux-next
-
->>
->>>>> This series include,
->>>>>
->>>>> VI I2C related fixes
->>>>> - Camera sensor programming happens through VI I2C which is on=20
->>>>> host1x bus.
->>>>> - These patches includes device tree and I2C driver fixes for VI I2C.
->>>>>
->>>>> Tegra video driver updates
->>>>> - TPG Vs Non-TPG based on Kconfig
->>>>> - Support for external sensor video capture based on device graph=20
->>>>> from DT.
->>>>> - Support for selection ioctl operations
->>>>> - Tegra MIPI CSI pads calibration
->>>>> - CSI T-CLK and T-HS settle time computation based on clock rates.
->>>>>
->>>>> Host1x driver updates
->>>>> - Adds API to allow creating mipi device for specific device node.
->>>>> - Splits MIPI pads calibrate start and waiting for calibration to=20
->>>>> be done.
->>>>>
->>>>> Device tree updates
->>>>> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson=20
->>>>> TX1 DT.
->>>>> - Enabled VI and CSI support in Jetson Nano DT.
->>>>>
->>>>>
->>>>> Delta between patch versions:
->>>>>
->>>>> [v2]:=C2=A0=C2=A0=C2=A0 Includes below changes based on v1 feedback
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0- dt-binding document and the driver update f=
-or device graph=20
->>>>> to use
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 separate ports for sink endpoint and s=
-ource endpoint for csi.
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Use data-lanes endpoint property for csi.
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Update tegra_mipi_request() to take device =
-node pointer=20
->>>>> argument
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rather than adding extra API.
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Remove checking for clk pointer before clk_=
-disable.
->>>>>
->>>>>
->>>>> Sowjanya Komatineni (18):
->>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: i2c: tegra: Document Tegra210 VI I2C =
-clocks and
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 power-domains
->>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Add missing clocks and power-domains=
- to Tegra210=20
->>>>> VI I2C
->>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Don't mark VI I2C as IRQ safe runtime =
-PM
->>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix the error path in tegra_i2c_runtim=
-e_resume
->>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix runtime resume to re-init VI I2C
->>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra21=
-0 vi i2c
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Fix channel format alignment
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Enable TPG based on kernel con=
-fig
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Update format lookup to offset=
- based
->>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: tegra: Update VI and CSI bindings wit=
-h port info
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for external senso=
-r capture
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for selection ioct=
-l ops
->>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Update tegra_mipi_request() to =
-be node based
->>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Split tegra_mipi_calibrate and =
-tegra_mipi_wait
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add CSI MIPI pads calibration
->>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Compute settle times based on =
-the clock rate
->>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: jetson-tx1: Add camera supplies
->>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Enable Tegra VI CSI support for Jets=
-on Nano
->>>>>
->>>>> =C2=A0=C2=A0 .../display/tegra/nvidia,tegra20-host1x.txt=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 92 ++-
->>>>> =C2=A0=C2=A0 .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt | 19 =
-+-
->>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 41 ++
->>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 10 =
-+
->>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210.dtsi=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 +
->>>>> =C2=A0=C2=A0 drivers/gpu/drm/tegra/dsi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +-
->>>>> =C2=A0=C2=A0 drivers/gpu/host1x/mipi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 30 +-
->>>>> =C2=A0=C2=A0 drivers/i2c/busses/i2c-tegra.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 39 +-
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/Kconfig=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 245 ++++++-
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 8 +
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/tegra210.c=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 25 +-
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 770=20
->>>>> +++++++++++++++++++--
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.h=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
->>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/video.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
->>>>> =C2=A0=C2=A0 include/linux/host1x.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 +-
->>>>> =C2=A0=C2=A0 16 files changed, 1251 insertions(+), 100 deletions(-)
->>>>>
+Pj4gK3N0cnVjdCBhcm1fc21tdV9kZXZpY2UgKm52aWRpYV9zbW11X2ltcGxfaW5pdChzdHJ1Y3Qg
+YXJtX3NtbXVfZGV2aWNlIA0KPj4gKypzbW11KSB7DQo+PiArCXVuc2lnbmVkIGludCBpOw0KLi4u
+Lg0KPj4gKwlmb3IgKGkgPSAxOyBpIDwgTUFYX1NNTVVfSU5TVEFOQ0VTOyBpKyspIHsNCj4+ICsJ
+CXN0cnVjdCByZXNvdXJjZSAqcmVzOw0KPj4gKw0KPj4gKwkJcmVzID0gcGxhdGZvcm1fZ2V0X3Jl
+c291cmNlKHBkZXYsIElPUkVTT1VSQ0VfTUVNLCBpKTsNCj4+ICsJCWlmICghcmVzKQ0KPj4gKwkJ
+CWJyZWFrOw0KDQo+Q3VycmVudGx5IHRoaXMgZHJpdmVyIGlzIG9ubHkgc3VwcG9ydGVkIGZvciBU
+ZWdyYTE5NCB3aGljaCBJIHVuZGVyc3RhbmQgaGFzIDMgU01NVXMuIFRoZXJlZm9yZSwgSSBkb24n
+dCBmZWVsIHRoYXQgd2Ugc2hvdWxkIGZhaWwgc2lsZW50bHkgaGVyZSwgSSB0aGluayBpdCBpcyBi
+ZXR0ZXIgdG8gcmV0dXJuIGFuIGVycm9yIGlmIGFsbCAzIGNhbm5vdCBiZSBpbml0aWFsaXNlZC4N
+Cg0KSW5pdGlhbGl6YXRpb24gb2YgYWxsIHRoZSB0aHJlZSBTTU1VIGluc3RhbmNlcyBpcyBub3Qg
+bmVjZXNzYXJ5IGhlcmUuDQpUaGUgZHJpdmVyIGNhbiB3b3JrIHdpdGggYWxsIHRoZSBwb3NzaWJs
+ZSBudW1iZXIgb2YgaW5zdGFuY2VzIDEsIDIgYW5kIDMgYmFzZWQgb24gdGhlIERUIGNvbmZpZyB0
+aG91Z2ggaXQgZG9lc24ndCBtYWtlIG11Y2ggc2Vuc2UgdG8gdXNlIGl0IHdpdGggMSBpbnN0YW5j
+ZS4NClRoZXJlIGlzIG5vIHNpbGVudCBmYWlsdXJlIGhlcmUgZnJvbSBkcml2ZXIgcG9pbnQgb2Yg
+dmlldy4gSWYgdGhlcmUgaXMgbWlzY29uZmlnIGluIERULCBTTU1VIGZhdWx0cyB3b3VsZCBjYXRj
+aCBpc3N1ZXMuDQoNCj4+ICsJCW52aWRpYV9zbW11LT5iYXNlc1tpXSA9IGRldm1faW9yZW1hcF9y
+ZXNvdXJjZShzbW11LT5kZXYsIHJlcyk7DQo+PiArCQlpZiAoSVNfRVJSKG52aWRpYV9zbW11LT5i
+YXNlc1tpXSkpDQo+PiArCQkJcmV0dXJuIEVSUl9DQVNUKG52aWRpYV9zbW11LT5iYXNlc1tpXSk7
+DQoNCj5Zb3Ugd2FudCB0byB1c2UgUFRSX0VSUigpIGhlcmUuDQoNClBUUl9FUlIoKSByZXR1cm5z
+IGxvbmcgaW50ZWdlci4gDQpUaGlzIGZ1bmN0aW9uIHJldHVybnMgYSBwb2ludGVyLiBFUlJfQ0FT
+VCBpcyB0aGUgcmlnaHQgb25lIHRvIHVzZSBoZXJlLiANCg0KDQotLQ0KbnZwdWJsaWMNCg==
