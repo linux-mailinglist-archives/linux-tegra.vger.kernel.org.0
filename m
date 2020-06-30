@@ -2,193 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF64920F818
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 17:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5443920F865
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jun 2020 17:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389273AbgF3PRz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 11:17:55 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13063 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729565AbgF3PRz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 11:17:55 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb57700000>; Tue, 30 Jun 2020 08:17:04 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 08:17:54 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 08:17:54 -0700
-Received: from [10.26.75.203] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 15:17:47 +0000
-Subject: Re: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
- ARM MMU-500 usage
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Krishna Reddy <vdumpa@nvidia.com>
-CC:     <snikam@nvidia.com>, <nicoleotsuka@gmail.com>,
-        <mperttunen@nvidia.com>, <bhuntsman@nvidia.com>, <will@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <praithatha@nvidia.com>,
-        <talho@nvidia.com>, <iommu@lists.linux-foundation.org>,
-        <nicolinc@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <yhsu@nvidia.com>, <treding@nvidia.com>,
-        <linux-arm-kernel@lists.infradead.org>, <bbiswas@nvidia.com>
-References: <20200630001051.12350-1-vdumpa@nvidia.com>
- <20200630001051.12350-2-vdumpa@nvidia.com>
- <53bfa5c8-c32d-6fa3-df60-a18ab33ca1c2@nvidia.com>
- <d59b7220-168c-419f-db16-194307e11065@arm.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <a9d6b11b-d904-153a-6363-6e3a8f62e03f@nvidia.com>
-Date:   Tue, 30 Jun 2020 16:17:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2389425AbgF3PcY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 11:32:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60314 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389467AbgF3PcX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Jun 2020 11:32:23 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 72B5D20760;
+        Tue, 30 Jun 2020 15:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593531143;
+        bh=X9DhlaL3h3M6dHLQYSpCp1s//BjVGMTXEFW1olrYlVY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cGmgcwpjkbNw52cCa7kRC/GPrkFsOqVEstQkyXvVZSV5xfX3TDwLBGaCURvEU0t5J
+         025muooT8Nw9JkjVoawTY13UY5CS39I1DCSxV8E++nanIFjyfYf2b5mkS5P4oQgLsh
+         spZcFcj44mNzi0dHHjyA82NYyDTZtJ89hsbkAFBI=
+Date:   Tue, 30 Jun 2020 16:32:20 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        perex@perex.cz, tiwai@suse.com, robh+dt@kernel.org,
+        lgirdwood@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, digetx@gmail.com,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com, nwartikar@nvidia.com,
+        swarren@nvidia.com, nicoleotsuka@gmail.com
+Subject: Re: Re: [PATCH v4 12/23] ASoC: simple-card: Support DPCM DAI link
+ with multiple Codecs
+Message-ID: <20200630153220.GL5272@sirena.org.uk>
+References: <1593233625-14961-1-git-send-email-spujar@nvidia.com>
+ <1593233625-14961-13-git-send-email-spujar@nvidia.com>
+ <874kqu1x70.wl-kuninori.morimoto.gx@renesas.com>
+ <1e0cf6d1-bf4e-8808-5390-c8a3b7c7fe7e@nvidia.com>
+ <87mu4lz6pt.wl-kuninori.morimoto.gx@renesas.com>
+ <1d7888c7-a8cc-e891-01aa-016e31cc9113@nvidia.com>
+ <87ftadyrec.wl-kuninori.morimoto.gx@renesas.com>
+ <492079e9-4518-78ba-a227-859d31594369@nvidia.com>
+ <20200630110100.GH5272@sirena.org.uk>
+ <81d106c0-e1c8-a79a-8caf-1f3be0d61f0c@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <d59b7220-168c-419f-db16-194307e11065@arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593530224; bh=91KsOAnm+BDzvr6bvaKraTo/wHSaB0sGjCjoXk18ABA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=q9BxtrvgjxBZFZAUIswW2E+r9jYacMdtRAXU31UzobonciMILCOiTgOrglSBJWXOC
-         Nw3Ld3OJhRkalYzLHH6M6kaQEDByt/jtTjFRrLnlErsAZMdnejdtXGLw1KUiIWGYpb
-         xAYw9H68xASCHxw1KB8ySRZZPWT/UC0ykO89X7KdmPhuSFwModgBnGKcX3mANhq4cA
-         1jUaHUwaV277q2HZRs76LVNMDr7HqpnG3uB5TjwjQR+mgZW16EGe8bO4ySAU87ovHL
-         KC7amklSwvERe8WmBdhZcfamoWB3m75rZDrJSuvtt9Sh3dSz214FWxGsEZkOkFxGhS
-         u+d/2ZM3DBT1A==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="9/GiYV45wF7IL3Iq"
+Content-Disposition: inline
+In-Reply-To: <81d106c0-e1c8-a79a-8caf-1f3be0d61f0c@nvidia.com>
+X-Cookie: Walk softly and carry a megawatt laser.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 30/06/2020 15:53, Robin Murphy wrote:
-> On 2020-06-30 09:19, Jon Hunter wrote:
->>
->> On 30/06/2020 01:10, Krishna Reddy wrote:
->>> NVIDIA's Tegra194 SoC uses two ARM MMU-500s together to interleave
->>> IOVA accesses across them.
->>> Add NVIDIA implementation for dual ARM MMU-500s and add new compatible
->>> string for Tegra194 SoC SMMU topology.
->>
->> There is no description here of the 3rd SMMU that you mention below.
->> I think that we should describe the full picture here.
->> =C2=A0
->>> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
+--9/GiYV45wF7IL3Iq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-...
+On Tue, Jun 30, 2020 at 06:23:49PM +0530, Sameer Pujar wrote:
+> On 6/30/2020 4:31 PM, Mark Brown wrote:
 
->>> +static void nvidia_smmu_tlb_sync(struct arm_smmu_device *smmu, int
->>> page,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 int sync, int status)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned int delay;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 arm_smmu_writel(smmu, page, sync, 0);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 for (delay =3D 1; delay < TLB_LOOP_TIMEOUT_IN_US; d=
-elay *=3D 2) {
->>
->> So we are doubling the delay every time? Is this better than just using
->> the same on each loop?
->=20
-> This is the same logic as the main driver (see 8513c8930069) - the sync
-> is expected to complete relatively quickly, hence why we have the inner
-> spin loop to avoid the delay entirely in the typical case, and the
-> longer it's taking, the more likely it is that something's wrong and it
-> will never complete anyway. Realistically, a heavily loaded SMMU at a
-> modest clock rate might take us through a couple of iterations of the
-> outer loop, but beyond that we're pretty much just killing time until we
-> declare it wedged and give up, and by then there's not much point in
-> burning power frantically hamering on the interconnect.
+> > Why simple-card and not audio-graph-card?
 
-Ah OK. Then maybe we should move the definitions for TLB_LOOP_TIMEOUT
-and TLB_SPIN_COUNT into the arm-smmu.h so that we can use them directly
-in this file instead of redefining them. Then it maybe clear that these
-are part of the main driver.
+> Frankly speaking I have not used audio-graph-card before. I had a brief look
+> at the related binding. It seems it can use similar DT properties that
+> simple-card uses, although the binding style appears to be different.
+> However I am not sure if it offers better solutions to the problems I am
+> facing. For example, the ability to connect or form a chain of components to
+> realize more complicated use cases with DPCM, some of which were discussed
+> in [0]. Can you please help me understand why it could be preferred?
 
- >>> +struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device
->>> *smmu)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned int i;
->>> +=C2=A0=C2=A0=C2=A0 struct nvidia_smmu *nvidia_smmu;
->>> +=C2=A0=C2=A0=C2=A0 struct platform_device *pdev =3D to_platform_device=
-(smmu->dev);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 nvidia_smmu =3D devm_kzalloc(smmu->dev, sizeof(*nvi=
-dia_smmu),
->>> GFP_KERNEL);
->>> +=C2=A0=C2=A0=C2=A0 if (!nvidia_smmu)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ERR_PTR(-ENOMEM);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 nvidia_smmu->smmu =3D *smmu;
->>> +=C2=A0=C2=A0=C2=A0 /* Instance 0 is ioremapped by arm-smmu.c after thi=
-s function
->>> returns */
->>> +=C2=A0=C2=A0=C2=A0 nvidia_smmu->num_inst =3D 1;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 for (i =3D 1; i < MAX_SMMU_INSTANCES; i++) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct resource *res;
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 res =3D platform_get_resour=
-ce(pdev, IORESOURCE_MEM, i);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!res)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
-ak;
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvidia_smmu->bases[i] =3D d=
-evm_ioremap_resource(smmu->dev, res);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(nvidia_smmu->bas=
-es[i]))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn ERR_CAST(nvidia_smmu->bases[i]);
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvidia_smmu->num_inst++;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 nvidia_smmu->smmu.impl =3D &nvidia_smmu_impl;
->>> +=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Free the arm_smmu_device struct allocated i=
-n arm-smmu.c.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Once this function returns, arm-smmu.c woul=
-d use arm_smmu_device
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * allocated as part of nvidia_smmu struct.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> +=C2=A0=C2=A0=C2=A0 devm_kfree(smmu->dev, smmu);
->>
->> Why don't we just store the pointer of the smmu struct passed to this
->> function
->> in the nvidia_smmu struct and then we do not need to free this here.
->> In other
->> words make ...
->>
->> =C2=A0 struct nvidia_smmu {
->> =C2=A0=C2=A0=C2=A0=C2=A0struct arm_smmu_device=C2=A0=C2=A0=C2=A0 *smmu;
->> =C2=A0=C2=A0=C2=A0=C2=A0unsigned int=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 num_inst;
->> =C2=A0=C2=A0=C2=A0=C2=A0void __iomem=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 *bases[MAX_SMMU_INSTANCES];
->> =C2=A0 };
->>
->> This seems more appropriate, than copying the struct and freeing memory
->> allocated else-where.
->=20
-> But then how do you get back to struct nvidia_smmu given just a pointer
-> to struct arm_smmu_device?
+> [0] https://lkml.org/lkml/2020/4/30/519
 
-Ah yes of course that is what I was missing. I wondered what was going
-on here. So I think we should add a nice comment in the above function
-of why we are copying this and cannot simply store the pointer.
+It's the more modern thing which covers everything simple-card does and
+more, I'd expect new development to go into that rather than
+simple-card.
 
-Cheers
-Jon
+--9/GiYV45wF7IL3Iq
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-nvpublic
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl77WwMACgkQJNaLcl1U
+h9BoOgf8CqlyK9s07Hb+/KSOYbf63ZpZ3dwuHoWv8+gtnKh+DZIH3KN07uHzVHXw
+q3NUE8wJkGfYijU49aUjB5lRw4KNjXtAUMUHNAKlzmjQM+cxlEj6nZOGWAFrHyYo
+0rzPMLRbmsHTp9dcKdr7c/AXqYB8vgW+aYo6j76+W7fNvgW3thQllyW9ZKkvzQmz
+7TePVknBmz5ov6rTQSau7p314ZBcJEYL74ANMr0LxKKe5TSv/xHLQM9WeEDdkMUE
+kELoYHwZrWvOFUfy1nCl+uPqvUr+ciJD5gW5+PQvKnV0nAaVA2jW0RE3KMWKRu/S
+PZJLfFNr7vFTIsIU0YMidjDYelIA0A==
+=8bSR
+-----END PGP SIGNATURE-----
+
+--9/GiYV45wF7IL3Iq--
