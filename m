@@ -2,104 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75C10210539
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 09:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D26B7210587
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 09:55:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728336AbgGAHnK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 Jul 2020 03:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43610 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728322AbgGAHnF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 Jul 2020 03:43:05 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58608C061755;
-        Wed,  1 Jul 2020 00:43:04 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id t25so21186773lji.12;
-        Wed, 01 Jul 2020 00:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vapTfDZ2f1tAvfpKmc+ZWDOZuBAyLK5G5gnKE1dsXng=;
-        b=p2+CyBm3hryTHrZxURLXskWjQ/8tBPFEijkMuW7RW0ZeOWlUihpvWBa1f0/goGST4d
-         /eeRaDMtMkY6I2Yx+CUMG1HaF9YPolELljK8KUxLZqnvpGxescuIgYoYrMsBENXKMnoN
-         +DttfWVwAzh/o1j2XVIRrM8DxvRCnZAuO9a092SPAT4IztiLlF13xo+iHk1prupsrHi+
-         I2YLTgUM4mUfmsN+P66YuZb6qJc/dN7fZvl0DbCHQHJEq1RujEWdiZ+xRmn1/nbTGcco
-         8vdwMsb3m4SHR2tOaLylWAj9buhyOyS/jhoe7ZTXGZfFZ38GdmLpeWaZ4uiKw7RsqeyU
-         BeMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vapTfDZ2f1tAvfpKmc+ZWDOZuBAyLK5G5gnKE1dsXng=;
-        b=M1RgUuc1/xPaGXm6eVEsRa2BrYe/VmDjyew0U+uExWVyutbW7UerQ+OFx51CT5ztIw
-         FYmRIFcCgZxFcJygnIUEbjDfLPdWwR1e1+LHipLhTKmeQE9sBNXw4SVglH75333BWSkJ
-         ak/Ot+ToYVLBJFRDZYKBy5f/9wYa78M2yUqOTmSIKmgWmK89trAnEOQ1+sEMqkmYvjtE
-         H2KAc75qf95M87o25NhQ3yPIVtgWcMjxIttXFOfwnkSMOaIaXga08ppdyOcZYZOBD/KJ
-         z5+N++Pfb0PJyJnEB2ACelbYQ3tLafFzZ/fiqV/gYsGi53VmJygrG6mV2IbARMKvIhcR
-         8S7w==
-X-Gm-Message-State: AOAM530Qcy9H/ZhLjfDbfRIjzZOWJ2obf7FsFnxyMYnYw11WthmLBND1
-        ZJzVn5tQ2xrL4/LfMOrYBsg=
-X-Google-Smtp-Source: ABdhPJzQnoAy8VMG2guQ6rxw3JWQlodP3SToyfFNxeaRO3AZp9mee0BT7uQeSlEZTyyS++KM44v1lA==
-X-Received: by 2002:a05:651c:1057:: with SMTP id x23mr11651351ljm.116.1593589382903;
-        Wed, 01 Jul 2020 00:43:02 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id e10sm1520881ljb.118.2020.07.01.00.43.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2020 00:43:02 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1728409AbgGAHz7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 Jul 2020 03:55:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60252 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728392AbgGAHz6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 Jul 2020 03:55:58 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48544556;
+        Wed,  1 Jul 2020 09:55:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1593590156;
+        bh=SBS3cYIeUtLrgvHJfEpKTIWd7IrgonFBNo28g+dS7hg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=l7jruMLb0PL0NIdRMEPeknmr8nmPonICdPvRXE1BVOJ8LkdpsZ10TInTtRLkUPcD4
+         cHt0Z6PkyOb4+3MIT4odXNkITMHPXguWRi1aWX3YWodACAeFflwNIOyFNnxwVqRDL3
+         +GSb8tQVMUG5XsCnVqFznh48pbno9RA2oYfeIutg=
+Date:   Wed, 1 Jul 2020 10:55:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Frank Rowand <frowand.list@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 2/2] drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
-Date:   Wed,  1 Jul 2020 10:42:32 +0300
-Message-Id: <20200701074232.13632-3-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200701074232.13632-1-digetx@gmail.com>
+Subject: Re: [PATCH v10 1/2] of_graph: add of_graph_is_present()
+Message-ID: <20200701075552.GJ5963@pendragon.ideasonboard.com>
 References: <20200701074232.13632-1-digetx@gmail.com>
+ <20200701074232.13632-2-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200701074232.13632-2-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-When graph isn't defined in a device-tree, the of_graph_get_remote_node()
-prints a noisy error message, telling that port node is not found. This is
-undesirable behaviour in our case because absence of a panel/bridge graph
-is a valid case. Let's check the graph's presence in a device-tree before
-proceeding with parsing of the graph.
+Hi Dmitry,
 
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/drm_of.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index b50b44e76279..fdb05fbf72a0 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -246,6 +246,15 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 	if (panel)
- 		*panel = NULL;
- 
-+	/*
-+	 * of_graph_get_remote_node() produces a noisy error message if port
-+	 * node isn't found and the absence of the port is a legit case here,
-+	 * so at first we silently check whether graph presents in the
-+	 * device-tree node.
-+	 */
-+	if (!of_graph_is_present(np))
-+		return -ENODEV;
-+
- 	remote = of_graph_get_remote_node(np, port, endpoint);
- 	if (!remote)
- 		return -ENODEV;
+On Wed, Jul 01, 2020 at 10:42:31AM +0300, Dmitry Osipenko wrote:
+> In some cases it's very useful to silently check whether port node exists
+> at all in a device-tree before proceeding with parsing the graph. The DRM
+> bridges code is one example of such case where absence of a graph in a
+> device-tree is a legit condition.
+> 
+> This patch adds of_graph_is_present() which returns true if given
+> device-tree node contains OF graph port.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/of/property.c    | 23 +++++++++++++++++++++++
+>  include/linux/of_graph.h |  6 ++++++
+>  2 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 6a5760f0d6cd..fed7229d9d9f 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -29,6 +29,29 @@
+>  
+>  #include "of_private.h"
+>  
+> +/**
+> + * of_graph_is_present() - check graph's presence
+> + * @node: pointer to device_node containing graph port
+> + *
+> + * Return: True if @node has a port or ports (with a port) sub-node,
+> + * false otherwise.
+> + */
+> +bool of_graph_is_present(const struct device_node *node)
+> +{
+> +	struct device_node *ports, *port;
+> +
+> +	ports = of_get_child_by_name(node, "ports");
+> +	if (ports)
+> +		node = ports;
+> +
+> +	port = of_get_child_by_name(node, "port");
+> +	of_node_put(ports);
+> +	of_node_put(port);
+> +
+> +	return !!port;
+> +}
+> +EXPORT_SYMBOL(of_graph_is_present);
+> +
+>  /**
+>   * of_property_count_elems_of_size - Count the number of elements in a property
+>   *
+> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> index 01038a6aade0..4d7756087b6b 100644
+> --- a/include/linux/of_graph.h
+> +++ b/include/linux/of_graph.h
+> @@ -38,6 +38,7 @@ struct of_endpoint {
+>  	     child = of_graph_get_next_endpoint(parent, child))
+>  
+>  #ifdef CONFIG_OF
+> +bool of_graph_is_present(const struct device_node *node);
+>  int of_graph_parse_endpoint(const struct device_node *node,
+>  				struct of_endpoint *endpoint);
+>  int of_graph_get_endpoint_count(const struct device_node *np);
+> @@ -56,6 +57,11 @@ struct device_node *of_graph_get_remote_node(const struct device_node *node,
+>  					     u32 port, u32 endpoint);
+>  #else
+>  
+> +static inline bool of_graph_is_present(const struct device_node *node)
+> +{
+> +	return false;
+> +}
+> +
+>  static inline int of_graph_parse_endpoint(const struct device_node *node,
+>  					struct of_endpoint *endpoint)
+>  {
+
 -- 
-2.26.0
+Regards,
 
+Laurent Pinchart
