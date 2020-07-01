@@ -2,112 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 641DC21082B
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 11:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A47A2109B9
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 12:53:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729260AbgGAJcA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 Jul 2020 05:32:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbgGAJcA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 Jul 2020 05:32:00 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF4BDC061755;
-        Wed,  1 Jul 2020 02:31:59 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id o4so13198257lfi.7;
-        Wed, 01 Jul 2020 02:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+d2SRZpUuZWr1PMsXvidGGiJQELrujV0Qtt40StTl9g=;
-        b=LPMgxzjfikH+ekjnDGlTo5HiuTopob0mrOhZ1T/TKzKtXLxS0g4zBNmRe4QQhLRWCL
-         1okLKn+Jds1VZfA9DHmyLb+y/xGtwpQBIO1ZdlkPvO9N8WeoZMnfxvq3clumZ9GHv0Q0
-         aFO8jZ+cnyzkNl2SohOvL8XiWK5dCOphinB6XKDqGxlAIn1M7x7e6vHghvsHVFjsPAQL
-         b8SqBPJiyUBnXFq4723+bDoYT32KRtFpH3swa+46WMWAEGUMygpGz0oJc09WUQJzfhKr
-         QnIXNL234ZMfeU4c+si47EQIseg4quCNPhwJ/zonjU15pu7rYi1rD+0yIPDR+3rxechB
-         6/AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+d2SRZpUuZWr1PMsXvidGGiJQELrujV0Qtt40StTl9g=;
-        b=dIcz8fF2JOTOS/t12dA+6VaXxZcoIsRX7ie4TOVxHBgOaLrnKGYB8zIMYMO39iZ6QR
-         fR2EYN7Fr3W+Ww090C0LrPHHHxF7vHAsmqFk3h6/wDylrmWGf0Bz9GlIhIrOio/BrR73
-         zuzfnzXzRiCyczDAXOISOHkLuNZ65NJKEpBC4xNdwX4EYHWZ9xVk+gDzqznhrLes3L59
-         C0gqBtSEbzP0uKlN4dyHhkqYhbcn1CjbJQcxa+KxnLhtR/TWWlDjfR9vi94mUfXYpBvR
-         IBhRZizCdbdGAcc4UTSIgdn+CsTjLxtHk1AaMcOql8ZnA8q3J83nBkXthn5ICbtsvX2P
-         Av9A==
-X-Gm-Message-State: AOAM530NkUFwr+bClU12xiyv8T3Ovzolv9NUdh3VaAQC9K6I4beDcgwp
-        h5tLo2JEPmxvQQD+CldbTc/iZeFjS9A=
-X-Google-Smtp-Source: ABdhPJwN/668XQNGZmBOPiKhnbVfqe8RSFARvz44SINyM2X+GeJXU84pm9ni1lENZx3wdjXS8lutaw==
-X-Received: by 2002:a05:6512:49d:: with SMTP id v29mr14700624lfq.134.1593595918072;
-        Wed, 01 Jul 2020 02:31:58 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id m11sm1621386ljj.122.2020.07.01.02.31.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jul 2020 02:31:57 -0700 (PDT)
-Subject: Re: [PATCH v10 0/2] Silence missing-graph error for DRM bridges
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200701074232.13632-1-digetx@gmail.com>
- <20200701090240.GA22218@ravnborg.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f4d50b9f-06e8-b6f7-ea5c-7a71f27ae953@gmail.com>
-Date:   Wed, 1 Jul 2020 12:31:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1730127AbgGAKxN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 Jul 2020 06:53:13 -0400
+Received: from foss.arm.com ([217.140.110.172]:57020 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729892AbgGAKxN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 1 Jul 2020 06:53:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B597030E;
+        Wed,  1 Jul 2020 03:53:12 -0700 (PDT)
+Received: from [10.57.21.32] (unknown [10.57.21.32])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB9483F73C;
+        Wed,  1 Jul 2020 03:53:08 -0700 (PDT)
+Subject: Re: [PATCH v3 00/34] iommu: Move iommu_group setup to IOMMU core code
+To:     Qian Cai <cai@lca.pw>, Joerg Roedel <joro@8bytes.org>
+Cc:     Heiko Stuebner <heiko@sntech.de>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-tegra@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Drake <drake@endlessm.com>,
+        Will Deacon <will@kernel.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        linux-samsung-soc@vger.kernel.org,
+        iommu@lists.linux-foundation.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+        jonathan.derrick@intel.com, linux-s390@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        virtualization@lists.linux-foundation.org,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        linux-kernel@vger.kernel.org, Kukjin Kim <kgene@kernel.org>
+References: <20200429133712.31431-1-joro@8bytes.org>
+ <20200701004020.GA6221@lca.pw>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <9b0ef27a-f249-a90b-9899-e53b946f83cc@arm.com>
+Date:   Wed, 1 Jul 2020 11:53:07 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200701090240.GA22218@ravnborg.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200701004020.GA6221@lca.pw>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-01.07.2020 12:02, Sam Ravnborg пишет:
-> Hi Dmitry
-> On Wed, Jul 01, 2020 at 10:42:30AM +0300, Dmitry Osipenko wrote:
->> Hi!
->>
->> This small series improves DRM bridges code by silencing a noisy error
->> coming from of-graph code for the device-trees that are missing a
->> display bridge graph.
->>
->>   graph: no port node found in ...
->>
->> One example where this error happens is an older bridge-less DTB used
->> in conjunction with a newer kernel which has a display controller driver
->> that supports DRM bridges.
->>
->> Changelog:
->>
->> v10:- Corrected doc-comment, unbroke the of_graph_get_next_endpoint() and
->>       improved commit's message in the "add of_graph_is_present()" patch.
->>       Thanks to Laurent Pinchart for spotting the problems!
->>
->> v9: - These two patches are factored out from [1] in order to ease applying
->>       of the patches.
->>
->>     - The of_graph_presents() is renamed to of_graph_is_present() like it
->>       was requested by Rob Herring in the review comment to [1].
->>
->>     - Added Rob's r-b.
->>
->>     [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=184102
->>
->> Dmitry Osipenko (2):
->>   of_graph: add of_graph_is_present()
->>   drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+On 2020-07-01 01:40, Qian Cai wrote:
+> Looks like this patchset introduced an use-after-free on arm-smmu-v3.
 > 
-> Thanks for your patience with these - applied to drm-misc-next now.
+> Reproduced using mlx5,
+> 
+> # echo 1 > /sys/class/net/enp11s0f1np1/device/sriov_numvfs
+> # echo 0 > /sys/class/net/enp11s0f1np1/device/sriov_numvfs
+> 
+> The .config,
+> https://github.com/cailca/linux-mm/blob/master/arm64.config
+> 
+> Looking at the free stack,
+> 
+> iommu_release_device->iommu_group_remove_device
+> 
+> was introduced in 07/34 ("iommu: Add probe_device() and release_device()
+> call-backs").
 
-Thanks to you and Laurent!
+Right, iommu_group_remove_device can tear down the group and call 
+->domain_free before the driver has any knowledge of the last device 
+going away via the ->release_device call.
+
+I guess the question is do we simply flip the call order in 
+iommu_release_device() so drivers can easily clean up their internal 
+per-device state first, or do we now want them to be robust against 
+freeing domains with devices still nominally attached?
+
+Robin.
