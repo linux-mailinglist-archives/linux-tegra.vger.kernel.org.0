@@ -2,213 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E61052101F8
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 04:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13FAE210225
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 04:39:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726921AbgGACYD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jun 2020 22:24:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726888AbgGACYC (ORCPT
+        id S1726874AbgGACjr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jun 2020 22:39:47 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52805 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726430AbgGACjq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jun 2020 22:24:02 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3151C03E979;
-        Tue, 30 Jun 2020 19:24:00 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id t25so20499366lji.12;
-        Tue, 30 Jun 2020 19:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=37Z3HYJxY12m2q1zLLMVAo9a4Krobq6zohBrdzALyVQ=;
-        b=qFD+B4QikxOPYBwCWRO9sRvcJ2ylNeF6BprSPGFu5CmB/30cJbPc09FTRF2BC4pN6d
-         qMk0PmA+6quTB3ZITKmCox3cQiCpeQ1BVxZHQWhtHRVbSATljqc3zXQzaV9vDjh0yc5y
-         K4XIHbtjgDPD5W/9k01ErjNXGiaOMwoXrSioPERhYLJOG6RPeAP4IbX72j/cbt0w6/JK
-         DBB6BR1FGiOzc83lxK/Qu4+2NQb4Ry5iao5zlNNiOUcwuq0tQ0i4KheOcf+jSOTjKEhI
-         VcuMYNeZtCUh7Nqm6EIYFMWiWkvGO/RAthl0raQ3TDh9Rb65bDaJml3dEHL6I6oQ25x2
-         m/hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=37Z3HYJxY12m2q1zLLMVAo9a4Krobq6zohBrdzALyVQ=;
-        b=C92xQjOJ6AlXRHKbyg42oBARh8NkjD3rEHDqdmwKWF9JarBORUUgBjt/FOUHn8OX8j
-         8/+JlFqvLVwGpcVN59Fcn+NjQo7hNzkVJg+gJOTqmYKT4mH4S1njoLFfOweNrp/M+ybI
-         5YsLBagIvyDdJWGwVzd4chqEuKoZmXznsE5v2QmxGdYF20pG3YVjFNe5+X+WQiS/gDlh
-         jnRyzf+IrL/cpQWHriB8KBI5c6gK5x91upD6iDVi3hUB93svj51FOrtkTUoTW57hmV1+
-         lswuozHyGBSipMn/DcdqJqaKEHfsNyP564kSWERuMpBckGeOX3NvEoAyNdMLTfdPmeHD
-         wO0A==
-X-Gm-Message-State: AOAM530aa6QWSzEnaI12zrf5blCaEAoacoL02I2i2DtkRFqOV8nJ0iRK
-        dQWX4zWr0v6IRpnye3DSQG8=
-X-Google-Smtp-Source: ABdhPJxo1aYYW2nGVu0mj1YJyPlgU5yUWa8RQdGqU5qZJuAQjK37DvU9T6Hbv4tlibV9uHbzIp8naQ==
-X-Received: by 2002:a2e:81c4:: with SMTP id s4mr8902702ljg.284.1593570239143;
-        Tue, 30 Jun 2020 19:23:59 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id f21sm1303557ljj.121.2020.06.30.19.23.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2020 19:23:58 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v9 4/4] drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
-Date:   Wed,  1 Jul 2020 05:21:28 +0300
-Message-Id: <20200701022128.12968-5-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200701022128.12968-1-digetx@gmail.com>
-References: <20200701022128.12968-1-digetx@gmail.com>
+        Tue, 30 Jun 2020 22:39:46 -0400
+X-UUID: 066125d49a444ee8be5085ac19db7f8d-20200701
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=XoJLKTm3NDdj3w3RtzzMz1926jI4usuO5mIZGP7i8HI=;
+        b=ZULoZaFgfJ7pORj4FtHM8Ges3jP7sY2vvQTNVJBU7YJ8Zwsvvj88ofhU/nz792Uh2xnpkm3/nk6rI6N8df3xiQCsS9TfOjqg1EN5uzQtysiR8vvKrDqcIOffFSLCeSkAoFdFVXIpUeI5Wd3cW0uRKKmip1FyOlBe43DpNI4G7D8=;
+X-UUID: 066125d49a444ee8be5085ac19db7f8d-20200701
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+        (envelope-from <neal.liu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1852284986; Wed, 01 Jul 2020 10:39:42 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 1 Jul 2020 10:39:40 +0800
+Received: from [172.21.77.33] (172.21.77.33) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 1 Jul 2020 10:39:41 +0800
+Message-ID: <1593571181.7383.5.camel@mtkswgap22>
+Subject: Re: [PATCH] cpuidle: change enter_s2idle() prototype
+From:   Neal Liu <neal.liu@mediatek.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC:     Neal Liu <neal.liu@mediatek.com>, Len Brown <lenb@kernel.org>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        <linux-acpi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
+Date:   Wed, 1 Jul 2020 10:39:41 +0800
+In-Reply-To: <9963896.lEaLCsxmBZ@kreacher>
+References: <1593421540-7397-1-git-send-email-neal.liu@mediatek.com>
+         <1593421540-7397-2-git-send-email-neal.liu@mediatek.com>
+         <9963896.lEaLCsxmBZ@kreacher>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Currently Tegra DRM driver manually manages display panel, but this
-management could be moved out into DRM core if we'll wrap panel into
-DRM bridge. This patch wraps RGB panel into a DRM bridge and removes
-manual handling of the panel from the RGB output code.
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/rgb.c | 70 ++++++++++---------------------------
- 1 file changed, 18 insertions(+), 52 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index 9a7024ec96bc..4142a56ca764 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -8,7 +8,6 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge_connector.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "drm.h"
-@@ -86,45 +85,13 @@ static void tegra_dc_write_regs(struct tegra_dc *dc,
- 		tegra_dc_writel(dc, table[i].value, table[i].offset);
- }
- 
--static const struct drm_connector_funcs tegra_rgb_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.detect = tegra_output_connector_detect,
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = tegra_output_connector_destroy,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
--static enum drm_mode_status
--tegra_rgb_connector_mode_valid(struct drm_connector *connector,
--			       struct drm_display_mode *mode)
--{
--	/*
--	 * FIXME: For now, always assume that the mode is okay. There are
--	 * unresolved issues with clk_round_rate(), which doesn't always
--	 * reliably report whether a frequency can be set or not.
--	 */
--	return MODE_OK;
--}
--
--static const struct drm_connector_helper_funcs tegra_rgb_connector_helper_funcs = {
--	.get_modes = tegra_output_connector_get_modes,
--	.mode_valid = tegra_rgb_connector_mode_valid,
--};
--
- static void tegra_rgb_encoder_disable(struct drm_encoder *encoder)
- {
- 	struct tegra_output *output = encoder_to_output(encoder);
- 	struct tegra_rgb *rgb = to_rgb(output);
- 
--	if (output->panel)
--		drm_panel_disable(output->panel);
--
- 	tegra_dc_write_regs(rgb->dc, rgb_disable, ARRAY_SIZE(rgb_disable));
- 	tegra_dc_commit(rgb->dc);
--
--	if (output->panel)
--		drm_panel_unprepare(output->panel);
- }
- 
- static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
-@@ -133,9 +100,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	struct tegra_rgb *rgb = to_rgb(output);
- 	u32 value;
- 
--	if (output->panel)
--		drm_panel_prepare(output->panel);
--
- 	tegra_dc_write_regs(rgb->dc, rgb_enable, ARRAY_SIZE(rgb_enable));
- 
- 	value = DE_SELECT_ACTIVE | DE_CONTROL_NORMAL;
-@@ -157,9 +121,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	tegra_dc_writel(rgb->dc, value, DC_DISP_SHIFT_CLOCK_OPTIONS);
- 
- 	tegra_dc_commit(rgb->dc);
--
--	if (output->panel)
--		drm_panel_enable(output->panel);
- }
- 
- static int
-@@ -278,6 +239,23 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	drm_encoder_helper_add(&output->encoder,
- 			       &tegra_rgb_encoder_helper_funcs);
- 
-+	/*
-+	 * Wrap directly-connected panel into DRM bridge in order to let
-+	 * DRM core to handle panel for us.
-+	 */
-+	if (output->panel) {
-+		output->bridge = devm_drm_panel_bridge_add(output->dev,
-+							   output->panel);
-+		if (IS_ERR(output->bridge)) {
-+			dev_err(output->dev,
-+				"failed to wrap panel into bridge: %pe\n",
-+				output->bridge);
-+			return PTR_ERR(output->bridge);
-+		}
-+
-+		output->panel = NULL;
-+	}
-+
- 	/*
- 	 * Tegra devices that have LVDS panel utilize LVDS encoder bridge
- 	 * for converting up to 28 LCD LVTTL lanes into 5/4 LVDS lanes that
-@@ -292,8 +270,7 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	 * Newer device-trees utilize LVDS encoder bridge, which provides
- 	 * us with a connector and handles the display panel.
- 	 *
--	 * For older device-trees we fall back to our own connector and use
--	 * nvidia,panel phandle.
-+	 * For older device-trees we wrapped panel into the panel-bridge.
- 	 */
- 	if (output->bridge) {
- 		err = drm_bridge_attach(&output->encoder, output->bridge,
-@@ -313,17 +290,6 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 		}
- 
- 		drm_connector_attach_encoder(connector, &output->encoder);
--	} else {
--		drm_connector_init(drm, &output->connector,
--				   &tegra_rgb_connector_funcs,
--				   DRM_MODE_CONNECTOR_LVDS);
--		drm_connector_helper_add(&output->connector,
--					 &tegra_rgb_connector_helper_funcs);
--		output->connector.dpms = DRM_MODE_DPMS_OFF;
--
--		drm_connector_attach_encoder(&output->connector,
--					     &output->encoder);
--		drm_connector_register(&output->connector);
- 	}
- 
- 	err = tegra_output_init(drm, output);
--- 
-2.26.0
+T24gTW9uLCAyMDIwLTA2LTI5IGF0IDE3OjE3ICswMjAwLCBSYWZhZWwgSi4gV3lzb2NraSB3cm90
+ZToNCj4gT24gTW9uZGF5LCBKdW5lIDI5LCAyMDIwIDExOjA1OjQwIEFNIENFU1QgTmVhbCBMaXUg
+d3JvdGU6DQo+ID4gQ29udHJvbCBGbG93IEludGVncml0eShDRkkpIGlzIGEgc2VjdXJpdHkgbWVj
+aGFuaXNtIHRoYXQgZGlzYWxsb3dzDQo+ID4gY2hhbmdlcyB0byB0aGUgb3JpZ2luYWwgY29udHJv
+bCBmbG93IGdyYXBoIG9mIGEgY29tcGlsZWQgYmluYXJ5LA0KPiA+IG1ha2luZyBpdCBzaWduaWZp
+Y2FudGx5IGhhcmRlciB0byBwZXJmb3JtIHN1Y2ggYXR0YWNrcy4NCj4gPiANCj4gPiBpbml0X3N0
+YXRlX25vZGUoKSBhc3NpZ25zIHNhbWUgZnVuY3Rpb24gcG9pbnRlciB0byBpZGxlX3N0YXRlLT5l
+bnRlcg0KPiA+IGFuZCBpZGxlX3N0YXRlLT5lbnRlcl9zMmlkbGUuIFRoaXMgZGVmaW5pdGVseSBj
+YXVzZXMgQ0ZJIGZhaWx1cmUNCj4gPiB3aGVuIGNhbGxpbmcgZWl0aGVyIGVudGVyKCkgb3IgZW50
+ZXJfczJpZGxlKCkuDQo+ID4gDQo+ID4gQWxpZ24gZW50ZXJfczJpZGxlKCkgd2l0aCBlbnRlcigp
+IGZ1bmN0aW9uIHByb3RvdHlwZSB0byBmaXggQ0ZJDQo+ID4gZmFpbHVyZS4NCj4gDQo+IFRoYXQg
+bmVlZHMgdG8gYmUgZG9jdW1lbnRlZCBzb21ld2hlcmUgY2xvc2UgdG8gdGhlIGRlZmluaXRpb24g
+b2YgdGhlDQo+IGNhbGxiYWNrcyBpbiBxdWVzdGlvbi4NCj4gDQo+IE90aGVyd2lzZSBpdCBpcyBj
+b21wbGV0ZWx5IHVuY2xlYXIgd2h5IHRoaXMgaXMgYSBnb29kIGlkZWEuDQo+IA0KDQpUaGUgcHJv
+YmxlbSBpcywgaW5pdF9zdGF0ZV9tb2RlKCkgYXNzaWduIHNhbWUgZnVuY3Rpb24gY2FsbGJhY2sg
+dG8NCmRpZmZlcmVudCBmdW5jdGlvbiBwb2ludGVyIGRlY2xhcmF0aW9ucy4NCg0Kc3RhdGljIGlu
+dCBpbml0X3N0YXRlX25vZGUoc3RydWN0IGNwdWlkbGVfc3RhdGUgKmlkbGVfc3RhdGUsDQogICAg
+ICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkICptYXRjaGVz
+LA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRldmljZV9ub2RlICpzdGF0ZV9u
+b2RlKQ0Kew0KLi4uDQogICAgICAgIGlkbGVfc3RhdGUtPmVudGVyID0gbWF0Y2hfaWQtPmRhdGE7
+DQouLi4NCiAgICAgICAgaWRsZV9zdGF0ZS0+ZW50ZXJfczJpZGxlID0gbWF0Y2hfaWQtPmRhdGE7
+DQp9DQoNCkZ1bmN0aW9uIGRlY2xhcmF0aW9uczoNCg0Kc3RydWN0IGNwdWlkbGVfc3RhdGUgew0K
+Li4uDQogICAgICAgIGludCAoKmVudGVyKSAgICAoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYs
+DQogICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgY3B1aWRsZV9kcml2ZXIgKmRydiwNCiAg
+ICAgICAgICAgICAgICAgICAgICAgIGludCBpbmRleCk7DQoNCiAgICAgICAgdm9pZCAoKmVudGVy
+X3MyaWRsZSkgKHN0cnVjdCBjcHVpZGxlX2RldmljZSAqZGV2LA0KICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgc3RydWN0IGNwdWlkbGVfZHJpdmVyICpkcnYsDQogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBpbnQgaW5kZXgpOw0KfTsNCg0KSW4gdGhpcyBjYXNlLCBlaXRoZXIgZW50
+ZXIoKSBvciBlbnRlcl9zMmlkbGUoKSB3b3VsZCBjYXVzZSBDRkkgY2hlY2sNCmZhaWxlZCBzaW5j
+ZSB0aGV5IHVzZSBzYW1lIGNhbGxlZS4NCg0KV2UgdHJ5IHRvIGFsaWduIGZ1bmN0aW9uIHByb3Rv
+dHlwZSBvZiBlbnRlcigpIHNpbmNlIGl0IG5lZWRzIHJldHVybg0KdmFsdWUgZm9yIHNvbWUgdXNl
+IGNhc2VzLiBUaGUgcmV0dXJuIHZhbHVlIG9mIGVudGVyX3MyaWRsZSgpIGlzIG5vIG5lZWQNCmN1
+cnJlbnRseS4NCg0KDQo+ID4gU2lnbmVkLW9mZi1ieTogTmVhbCBMaXUgPG5lYWwubGl1QG1lZGlh
+dGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9hY3BpL3Byb2Nlc3Nvcl9pZGxlLmMgICB8
+ICAgIDYgKysrKy0tDQo+ID4gIGRyaXZlcnMvY3B1aWRsZS9jcHVpZGxlLXRlZ3JhLmMgfCAgICA4
+ICsrKysrLS0tDQo+ID4gIGRyaXZlcnMvaWRsZS9pbnRlbF9pZGxlLmMgICAgICAgfCAgICA2ICsr
+KystLQ0KPiA+ICBpbmNsdWRlL2xpbnV4L2NwdWlkbGUuaCAgICAgICAgIHwgICAgNiArKystLS0N
+Cj4gPiAgNCBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkN
+Cj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3BpL3Byb2Nlc3Nvcl9pZGxlLmMgYi9k
+cml2ZXJzL2FjcGkvcHJvY2Vzc29yX2lkbGUuYw0KPiA+IGluZGV4IDc1NTM0YzUuLjZmZmI2Yzkg
+MTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9hY3BpL3Byb2Nlc3Nvcl9pZGxlLmMNCj4gPiArKysg
+Yi9kcml2ZXJzL2FjcGkvcHJvY2Vzc29yX2lkbGUuYw0KPiA+IEBAIC02NTUsOCArNjU1LDggQEAg
+c3RhdGljIGludCBhY3BpX2lkbGVfZW50ZXIoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYsDQo+
+ID4gIAlyZXR1cm4gaW5kZXg7DQo+ID4gIH0NCj4gPiAgDQo+ID4gLXN0YXRpYyB2b2lkIGFjcGlf
+aWRsZV9lbnRlcl9zMmlkbGUoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYsDQo+ID4gLQkJCQkg
+ICBzdHJ1Y3QgY3B1aWRsZV9kcml2ZXIgKmRydiwgaW50IGluZGV4KQ0KPiA+ICtzdGF0aWMgaW50
+IGFjcGlfaWRsZV9lbnRlcl9zMmlkbGUoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYsDQo+ID4g
+KwkJCQkgIHN0cnVjdCBjcHVpZGxlX2RyaXZlciAqZHJ2LCBpbnQgaW5kZXgpDQo+ID4gIHsNCj4g
+PiAgCXN0cnVjdCBhY3BpX3Byb2Nlc3Nvcl9jeCAqY3ggPSBwZXJfY3B1KGFjcGlfY3N0YXRlW2lu
+ZGV4XSwgZGV2LT5jcHUpOw0KPiA+ICANCj4gPiBAQCAtNjc0LDYgKzY3NCw4IEBAIHN0YXRpYyB2
+b2lkIGFjcGlfaWRsZV9lbnRlcl9zMmlkbGUoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYsDQo+
+ID4gIAkJfQ0KPiA+ICAJfQ0KPiA+ICAJYWNwaV9pZGxlX2RvX2VudHJ5KGN4KTsNCj4gPiArDQo+
+ID4gKwlyZXR1cm4gMDsNCj4gPiAgfQ0KPiA+ICANCj4gPiAgc3RhdGljIGludCBhY3BpX3Byb2Nl
+c3Nvcl9zZXR1cF9jcHVpZGxlX2N4KHN0cnVjdCBhY3BpX3Byb2Nlc3NvciAqcHIsDQo+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvY3B1aWRsZS9jcHVpZGxlLXRlZ3JhLmMgYi9kcml2ZXJzL2NwdWlk
+bGUvY3B1aWRsZS10ZWdyYS5jDQo+ID4gaW5kZXggMTUwMDQ1OC4uYTEyZmIxNCAxMDA2NDQNCj4g
+PiAtLS0gYS9kcml2ZXJzL2NwdWlkbGUvY3B1aWRsZS10ZWdyYS5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9jcHVpZGxlL2NwdWlkbGUtdGVncmEuYw0KPiA+IEBAIC0yNTMsMTEgKzI1MywxMyBAQCBzdGF0
+aWMgaW50IHRlZ3JhX2NwdWlkbGVfZW50ZXIoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYsDQo+
+ID4gIAlyZXR1cm4gZXJyID8gLTEgOiBpbmRleDsNCj4gPiAgfQ0KPiA+ICANCj4gPiAtc3RhdGlj
+IHZvaWQgdGVncmExMTRfZW50ZXJfczJpZGxlKHN0cnVjdCBjcHVpZGxlX2RldmljZSAqZGV2LA0K
+PiA+IC0JCQkJICBzdHJ1Y3QgY3B1aWRsZV9kcml2ZXIgKmRydiwNCj4gPiAtCQkJCSAgaW50IGlu
+ZGV4KQ0KPiA+ICtzdGF0aWMgaW50IHRlZ3JhMTE0X2VudGVyX3MyaWRsZShzdHJ1Y3QgY3B1aWRs
+ZV9kZXZpY2UgKmRldiwNCj4gPiArCQkJCSBzdHJ1Y3QgY3B1aWRsZV9kcml2ZXIgKmRydiwNCj4g
+PiArCQkJCSBpbnQgaW5kZXgpDQo+ID4gIHsNCj4gPiAgCXRlZ3JhX2NwdWlkbGVfZW50ZXIoZGV2
+LCBkcnYsIGluZGV4KTsNCj4gPiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiAgfQ0KPiA+ICANCj4g
+PiAgLyoNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pZGxlL2ludGVsX2lkbGUuYyBiL2RyaXZl
+cnMvaWRsZS9pbnRlbF9pZGxlLmMNCj4gPiBpbmRleCBmNDQ5NTg0Li5iMTc4ZGEzIDEwMDY0NA0K
+PiA+IC0tLSBhL2RyaXZlcnMvaWRsZS9pbnRlbF9pZGxlLmMNCj4gPiArKysgYi9kcml2ZXJzL2lk
+bGUvaW50ZWxfaWRsZS5jDQo+ID4gQEAgLTE3NSwxMyArMTc1LDE1IEBAIHN0YXRpYyBfX2NwdWlk
+bGUgaW50IGludGVsX2lkbGUoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpkZXYsDQo+ID4gICAqIElu
+dm9rZWQgYXMgYSBzdXNwZW5kLXRvLWlkbGUgY2FsbGJhY2sgcm91dGluZSB3aXRoIGZyb3plbiB1
+c2VyIHNwYWNlLCBmcm96ZW4NCj4gPiAgICogc2NoZWR1bGVyIHRpY2sgYW5kIHN1c3BlbmRlZCBz
+Y2hlZHVsZXIgY2xvY2sgb24gdGhlIHRhcmdldCBDUFUuDQo+ID4gICAqLw0KPiA+IC1zdGF0aWMg
+X19jcHVpZGxlIHZvaWQgaW50ZWxfaWRsZV9zMmlkbGUoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpk
+ZXYsDQo+ID4gLQkJCQkJc3RydWN0IGNwdWlkbGVfZHJpdmVyICpkcnYsIGludCBpbmRleCkNCj4g
+PiArc3RhdGljIF9fY3B1aWRsZSBpbnQgaW50ZWxfaWRsZV9zMmlkbGUoc3RydWN0IGNwdWlkbGVf
+ZGV2aWNlICpkZXYsDQo+ID4gKwkJCQkgICAgICAgc3RydWN0IGNwdWlkbGVfZHJpdmVyICpkcnYs
+IGludCBpbmRleCkNCj4gPiAgew0KPiA+ICAJdW5zaWduZWQgbG9uZyBlYXggPSBmbGcyTVdBSVQo
+ZHJ2LT5zdGF0ZXNbaW5kZXhdLmZsYWdzKTsNCj4gPiAgCXVuc2lnbmVkIGxvbmcgZWN4ID0gMTsg
+LyogYnJlYWsgb24gaW50ZXJydXB0IGZsYWcgKi8NCj4gPiAgDQo+ID4gIAltd2FpdF9pZGxlX3dp
+dGhfaGludHMoZWF4LCBlY3gpOw0KPiA+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICB9DQo+ID4g
+IA0KPiA+ICAvKg0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2NwdWlkbGUuaCBiL2lu
+Y2x1ZGUvbGludXgvY3B1aWRsZS5oDQo+ID4gaW5kZXggZWMyZWY2My4uYmVlMTBjMCAxMDA2NDQN
+Cj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2NwdWlkbGUuaA0KPiA+ICsrKyBiL2luY2x1ZGUvbGlu
+dXgvY3B1aWRsZS5oDQo+ID4gQEAgLTY2LDkgKzY2LDkgQEAgc3RydWN0IGNwdWlkbGVfc3RhdGUg
+ew0KPiA+ICAJICogc3VzcGVuZGVkLCBzbyBpdCBtdXN0IG5vdCByZS1lbmFibGUgaW50ZXJydXB0
+cyBhdCBhbnkgcG9pbnQgKGV2ZW4NCj4gPiAgCSAqIHRlbXBvcmFyaWx5KSBvciBhdHRlbXB0IHRv
+IGNoYW5nZSBzdGF0ZXMgb2YgY2xvY2sgZXZlbnQgZGV2aWNlcy4NCj4gPiAgCSAqLw0KPiA+IC0J
+dm9pZCAoKmVudGVyX3MyaWRsZSkgKHN0cnVjdCBjcHVpZGxlX2RldmljZSAqZGV2LA0KPiA+IC0J
+CQkgICAgICBzdHJ1Y3QgY3B1aWRsZV9kcml2ZXIgKmRydiwNCj4gPiAtCQkJICAgICAgaW50IGlu
+ZGV4KTsNCj4gPiArCWludCAoKmVudGVyX3MyaWRsZSkoc3RydWN0IGNwdWlkbGVfZGV2aWNlICpk
+ZXYsDQo+ID4gKwkJCSAgICBzdHJ1Y3QgY3B1aWRsZV9kcml2ZXIgKmRydiwNCj4gPiArCQkJICAg
+IGludCBpbmRleCk7DQo+ID4gIH07DQo+ID4gIA0KPiA+ICAvKiBJZGxlIFN0YXRlIEZsYWdzICov
+DQo+ID4gLS0gDQo+ID4gMS43LjkuNQ0KPiA+IA0KPiANCj4gDQo+IA0KPiANCg0K
 
