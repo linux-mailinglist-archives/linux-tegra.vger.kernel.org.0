@@ -2,334 +2,172 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EF462111AB
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 19:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19F3D211275
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 Jul 2020 20:18:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729512AbgGARM1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 Jul 2020 13:12:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729328AbgGARM0 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 Jul 2020 13:12:26 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A263C08C5DC
-        for <linux-tegra@vger.kernel.org>; Wed,  1 Jul 2020 10:12:26 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id q5so24876357wru.6
-        for <linux-tegra@vger.kernel.org>; Wed, 01 Jul 2020 10:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:autocrypt:message-id:date
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TRT2eGY8Zk/CLkX+7ZsdwVBPTCAQcwVx/IkeDBQOzgI=;
-        b=bCDrYnK3vveQkkUILpaZmRCO2PcFzRg5W/A5ohrU+isHgm/4xHLrkjtULuqa3cHMoA
-         3UJ3E4PmLHA4KaQ8UK2UqTpbngLq3Rq6p98V1i8JCWi3m7Eh4rrHPy4uRST4Nw/wq5to
-         98ex9A4ChixgpRJsv9WSW2EGCJ3FOBLabYq3fFM5bgPy19TCzF1eqxHeOGWhc/hMQM8l
-         4UDx6ChIsT3gav16Olva68FypMJOmDEpwIZKdvq3h8GTXg5lUKrmpD3cU1B2bWsrXOG5
-         fkONXPsZlAQkImm4fjfnn6nEOhwj7ZR+7D8SwaHE8WGQHSmEDI0kyur0DPa6gltnPoDy
-         /Z0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TRT2eGY8Zk/CLkX+7ZsdwVBPTCAQcwVx/IkeDBQOzgI=;
-        b=DreYUeVMDymvPTT0v+qkUE52pyQnii788DNUPMa9jylFKQtHNQmijze6D5UC4erHrw
-         JWIRU8YtHWuVzmu09nWa5qrngcp0azz0ctrWuMfBjndZy7UoHnV1B0hA1vX+y9zmyfJI
-         MOCF3oaPDjvMhQqWEKOFIZbKbPWvmgMpcO04oyykNrpINd48cHZVDVpAnYZoHKhgyLpA
-         Dlwh4RurdNPFRy3xIYc4V8wOF//R8y07VVuRXbzjkDtJSWn4tkG9DDl4Q0NwvyXdzruX
-         WPYszNtRRtxU9U87gFH9jq7lyxlWkygGm0s6CtlbdeSy57oKXIsbXvZEuq1oASPI/EHs
-         ckgg==
-X-Gm-Message-State: AOAM5310RTRmqlS05fCKvML+f9YLroARtHsuycbBtF403VR22ZrCG5Vy
-        o3Jc+BVNK2SfxJ0H8ao7qt2kyg==
-X-Google-Smtp-Source: ABdhPJynTjslcgmNNSt9bgIBELifCxpvlOLFaN8KibbjzFceYJ3fNw15fpl7lIVDMN2d+A5E2jeIfA==
-X-Received: by 2002:a5d:4986:: with SMTP id r6mr26610285wrq.424.1593623544836;
-        Wed, 01 Jul 2020 10:12:24 -0700 (PDT)
-Received: from [10.44.66.8] ([212.45.67.2])
-        by smtp.googlemail.com with ESMTPSA id w17sm8768090wra.42.2020.07.01.10.12.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jul 2020 10:12:24 -0700 (PDT)
-Subject: Re: [PATCH v4 28/37] memory: tegra: Register as interconnect provider
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
-        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org
-References: <20200609131404.17523-1-digetx@gmail.com>
- <20200609131404.17523-29-digetx@gmail.com>
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <aec831a6-a7ad-6bcc-4e15-c44582f7568e@linaro.org>
-Date:   Wed, 1 Jul 2020 20:12:22 +0300
+        id S1732690AbgGASSc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 Jul 2020 14:18:32 -0400
+Received: from nat-hk.nvidia.com ([203.18.50.4]:33455 "EHLO nat-hk.nvidia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732172AbgGASSb (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 1 Jul 2020 14:18:31 -0400
+Received: from hkpgpgate101.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efcd3730000>; Thu, 02 Jul 2020 02:18:27 +0800
+Received: from HKMAIL103.nvidia.com ([10.18.16.12])
+  by hkpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 01 Jul 2020 11:18:27 -0700
+X-PGP-Universal: processed;
+        by hkpgpgate101.nvidia.com on Wed, 01 Jul 2020 11:18:27 -0700
+Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 Jul
+ 2020 18:18:25 +0000
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
+ by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Wed, 1 Jul 2020 18:18:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PuJmycHzz63HlGHyoWUuLrEL/l19JWk1xUrqodFitxkDMp6QHftEo4n+bP/NvGEriUdj/BOs8GRoh5eMkAUOqYreSCQgfS5daVxHUFy0jdKx/WsCBi03PgAIBMeEoJMJ5c8DlOsoAgrtoaGQJwXRRbqY8IYilDeVlL5fM+8+JPfUJmeupgT3whlUZUKCOwI/CcK3WVSdTKoYYfHTKoYBuhz9/DiJu6dUdcjp8jNfh+a4NwEIZUL2Qtm8pQHyDkIsym/8sj1RQFhe1pMaOl9Vh0y7eSvp2hAtkt/0iYgKZrIXYi94YTs+TZg3QGBc0Exz2xo+zBTHTYq4WuLnyVy77A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R7C3atUq1LuvE2CvWbVGIYDosljQe+RDinSpV3NPLho=;
+ b=g3yrgPq13V/QBZW6mZqIRA/cyC0QJNBG12JG30lGQKewfImCrLl/vkFpzFsDFBylaVI2sw8IGi7FbOvBWfgHU8e8JpfE6cmQ7q8YE7M0j5GSwHh79KScExHZmhrkISsthaxArVcr7WqkPkjbpr9HmuNJe+i/asfFz5SmmPr5FvATiDEStZmRBi0YcqnNNu0DOaP+MaGXRFyy6l9aAHiVe95ppQq0XXJewEaOzmhnZh6pvp5+13BQMiNjqpuIp/KfOgwS0FL3uwGOkluCsHjk7mnkYa4jkNPlcst08dWBXE4q5d94Q8bmQAsbOyau2D8noNED5e7SinRlZhADzVIsyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
+ by BY5PR12MB3652.namprd12.prod.outlook.com (2603:10b6:a03:1a7::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Wed, 1 Jul
+ 2020 18:18:23 +0000
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3131.027; Wed, 1 Jul 2020
+ 18:18:23 +0000
+From:   Krishna Reddy <vdumpa@nvidia.com>
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+CC:     Sachin Nikam <Snikam@nvidia.com>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        "Bryan Huntsman" <bhuntsman@nvidia.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Pritesh Raithatha" <praithatha@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Yu-Huan Hsu <YHsu@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Bitan Biswas <bbiswas@nvidia.com>
+Subject: RE: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for dual
+ ARM MMU-500 usage
+Thread-Topic: [PATCH v8 1/3] iommu/arm-smmu: add NVIDIA implementation for
+ dual ARM MMU-500 usage
+Thread-Index: AQHWTnLtXe5vi7jgbE2pRnyepolCC6jw0WKAgABuEYCAAcm6kA==
+Date:   Wed, 1 Jul 2020 18:18:22 +0000
+Message-ID: <BYAPR12MB2822FC263456303302EF30BEB36C0@BYAPR12MB2822.namprd12.prod.outlook.com>
+References: <20200630001051.12350-1-vdumpa@nvidia.com>
+ <20200630001051.12350-2-vdumpa@nvidia.com>
+ <53bfa5c8-c32d-6fa3-df60-a18ab33ca1c2@nvidia.com>
+ <d59b7220-168c-419f-db16-194307e11065@arm.com>
+In-Reply-To: <d59b7220-168c-419f-db16-194307e11065@arm.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-07-01T18:18:20.8637026Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=6266cff6-bcdc-4161-a25a-ca87c66af69e;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: arm.com; dkim=none (message not signed)
+ header.d=none;arm.com; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [216.228.112.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 100efe29-4fda-44a1-3e86-08d81deb23f3
+x-ms-traffictypediagnostic: BY5PR12MB3652:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB3652C51DFA594249C8A21333B36C0@BY5PR12MB3652.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 04519BA941
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kHm4dL9BROvPVopmwZB+7kCG+V/5Hero35uT0HbZsw5YR1zIM3mgverxV2mORRFtISu+g1VJXz6lNjJgNkVe9KRhwHZiYxCEGqv/7OUAEMxaDMupiiDs+++smsYq23B9lFCb6YKSftSzROL+WxmICCRQF34awf/ZQD+isalMhrcpderasU6Cm4NXYa9QsLrjv7NFWswl1mSsKRzjfbCWrJZNuzXHo782+NoXqInw2VjeardKoNXfOdWHl95LMeBRlvnedhJ7huNNxN5hUpFX+mJ2G7o9VMeS5LAW7Mymj6vpr24Ff16WGMJ0maSNtXjoPpI0GOHtErmnThwW7X1niw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(346002)(396003)(39860400002)(376002)(136003)(66476007)(66446008)(64756008)(66556008)(86362001)(76116006)(66946007)(5660300002)(33656002)(4326008)(6506007)(9686003)(107886003)(71200400001)(55016002)(52536014)(7696005)(186003)(26005)(2906002)(83380400001)(8676002)(8936002)(54906003)(110136005)(478600001)(6636002)(316002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: YoK/60TJfoMRuUaLFY4cZbQKfSjIaVW4Ws5hDfgBmMzeohofFywp6IFXI0AwIXLfXCH6PeD29IuGBIjuZXsDyt8zYE12reY6ra00rytZecH18wbqCR/Sey6863OdNgXFEEw+Bg+mq/pE15tNMxbGO684ZUtQIFz1PQ2M0itTOwY7vi0bn6KOaXhzU9hlI4ckn8C9+25BcU8eCM+fVfEo8AvgtmRwSMShdVXuIxYyCDb166+pcB1Z/OtNX9jXDqaoEXnNZzQF4kuzc3CFa6Ldqe9S4CZnxVp2Tg8flQhrobhP3bEEcYw2mUL7ZBIVxM54On0TLasi7/ARi5dqn7bayxUscXI5Q+AfxAkC4U6djXulZLYzz9WNFKXAuYNMRpaDf6ng2a1ljUu29znGsND7P9yHA2TAjJRheBdwkLQrgENLwquRV+kuRabGacaW7v4hagp9PW6RbfLIs1R4GjqrswibZqx56UZeC8qyAcTxn6l/UJaM8R2fWUis88Yjeoex
 MIME-Version: 1.0
-In-Reply-To: <20200609131404.17523-29-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 100efe29-4fda-44a1-3e86-08d81deb23f3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2020 18:18:22.8360
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4a4MQfWQhcj1+VVHHpXZkPxdSAIKXsp2GUCV0loX/5uoEndD9TWvGdE0uGWKhuy6xSsXPjIDHnJRy6gwKl4+wA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3652
+X-OriginatorOrg: Nvidia.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593627507; bh=R7C3atUq1LuvE2CvWbVGIYDosljQe+RDinSpV3NPLho=;
+        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+         Thread-Index:Date:Message-ID:References:In-Reply-To:
+         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+         authentication-results:x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
+         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam:
+         x-microsoft-antispam-message-info:x-forefront-antispam-report:
+         x-ms-exchange-antispam-messagedata:MIME-Version:
+         X-MS-Exchange-CrossTenant-AuthAs:
+         X-MS-Exchange-CrossTenant-AuthSource:
+         X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-CrossTenant-userprincipalname:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+         Content-Language:Content-Type:Content-Transfer-Encoding;
+        b=V+cHt8euQEyi+PGKFCmqLM40k5OPP4eV5eS9wlYRFUJFHN+zYdMRfiLaFlM3cfAXm
+         gCwdhVLkJQQ+9pAbrBhERV6BV/84XmyK5zLLjVr3Ksvc1Izd6KzuatrmmCK0AuxaNr
+         4pNq1FCTlzOujRojL/h8UNtw8p5fOLK7e1BppfpiX6c3nO0mhacPBCqjpGpJyZyf5c
+         O/AtPCvWuVKfdmcaUbe7QFFXD40IP55VE751rdXeN7UNpOalzlIeONod/sVTzs8F7B
+         K8mt3oDZxvrKwBfL0Vp9ibwbZg3DQjEoyHj5SdZmIcpbuZOhoCk0ZMJU9jyBoUIWik
+         y4DzcigBP4NNw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
-
-Thank you for updating the patches!
-
-On 6/9/20 16:13, Dmitry Osipenko wrote:
-> Now memory controller is a memory interconnection provider. This allows us
-> to use interconnect API in order to change memory configuration.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/tegra/Kconfig |   1 +
->  drivers/memory/tegra/mc.c    | 114 +++++++++++++++++++++++++++++++++++
->  drivers/memory/tegra/mc.h    |   8 +++
->  include/soc/tegra/mc.h       |   3 +
->  4 files changed, 126 insertions(+)
-> 
-> diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
-> index 5bf75b316a2f..7055fdef2c32 100644
-> --- a/drivers/memory/tegra/Kconfig
-> +++ b/drivers/memory/tegra/Kconfig
-> @@ -3,6 +3,7 @@ config TEGRA_MC
->  	bool "NVIDIA Tegra Memory Controller support"
->  	default y
->  	depends on ARCH_TEGRA
-> +	select INTERCONNECT
->  	help
->  	  This driver supports the Memory Controller (MC) hardware found on
->  	  NVIDIA Tegra SoCs.
-> diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-> index 772aa021b5f6..7ef7ac9e103e 100644
-> --- a/drivers/memory/tegra/mc.c
-> +++ b/drivers/memory/tegra/mc.c
-> @@ -594,6 +594,118 @@ static __maybe_unused irqreturn_t tegra20_mc_irq(int irq, void *data)
->  	return IRQ_HANDLED;
->  }
->  
-> +static int tegra_mc_icc_set(struct icc_node *src, struct icc_node *dst)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int tegra_mc_icc_aggregate(struct icc_node *node,
-> +				  u32 tag, u32 avg_bw, u32 peak_bw,
-> +				  u32 *agg_avg, u32 *agg_peak)
-> +{
-> +	*agg_avg = min((u64)avg_bw + (*agg_avg), (u64)U32_MAX);
-> +	*agg_peak = max(*agg_peak, peak_bw);
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Memory Controller (MC) has few Memory Clients that are issuing memory
-> + * bandwidth allocation requests to the MC interconnect provider. The MC
-> + * provider aggregates the requests and then sends the aggregated request
-> + * up to the External Memory Controller (EMC) interconnect provider which
-> + * re-configures hardware interface to External Memory (EMEM) in accordance
-> + * to the required bandwidth. Each MC interconnect node represents an
-> + * individual Memory Client.
-> + *
-> + * Memory interconnect topology:
-> + *
-> + *               +----+
-> + * +--------+    |    |
-> + * | TEXSRD +--->+    |
-> + * +--------+    |    |
-> + *               |    |    +-----+    +------+
-> + *    ...        | MC +--->+ EMC +--->+ EMEM |
-> + *               |    |    +-----+    +------+
-> + * +--------+    |    |
-> + * | DISP.. +--->+    |
-> + * +--------+    |    |
-> + *               +----+
-> + */
-> +static int tegra_mc_interconnect_setup(struct tegra_mc *mc)
-> +{
-> +	struct icc_onecell_data *data;
-> +	struct icc_node *node;
-> +	unsigned int num_nodes;
-> +	unsigned int i;
-> +	int err;
-> +
-> +	/* older device-trees don't have interconnect properties */
-> +	if (!of_find_property(mc->dev->of_node, "#interconnect-cells", NULL))
-> +		return 0;
-> +
-> +	num_nodes = mc->soc->num_clients;
-> +
-> +	data = devm_kzalloc(mc->dev, struct_size(data, nodes, num_nodes),
-> +			    GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	mc->provider.dev = mc->dev;
-> +	mc->provider.set = tegra_mc_icc_set;
-
-Hmm, maybe the core should not require a set() implementation and we can
-just make it optional instead. Then the dummy function would not be needed.
-
-> +	mc->provider.data = data;
-> +	mc->provider.xlate = of_icc_xlate_onecell;
-> +	mc->provider.aggregate = tegra_mc_icc_aggregate;
-> +
-> +	err = icc_provider_add(&mc->provider);
-> +	if (err)
-> +		goto err_msg;
-
-Nit: I am planning to re-organize some of the existing drivers to call
-icc_provider_add() after the topology is populated. Could you please move
-this after the nodes are created and linked.
-
-> +
-> +	/* create Memory Controller node */
-> +	node = icc_node_create(TEGRA_ICC_MC);
-> +	err = PTR_ERR_OR_ZERO(node);
-> +	if (err)
-> +		goto del_provider;
-> +
-> +	node->name = "Memory Controller";
-> +	icc_node_add(node, &mc->provider);
-> +
-> +	/* link Memory Controller to External Memory Controller */
-> +	err = icc_link_create(node, TEGRA_ICC_EMC);
-> +	if (err)
-> +		goto remove_nodes;
-> +
-> +	for (i = 0; i < num_nodes; i++) {
-> +		/* create MC client node */
-> +		node = icc_node_create(mc->soc->clients[i].id);
-> +		err = PTR_ERR_OR_ZERO(node);
-> +		if (err)
-> +			goto remove_nodes;
-> +
-> +		node->name = mc->soc->clients[i].name;
-> +		icc_node_add(node, &mc->provider);
-> +
-> +		/* link Memory Client to Memory Controller */
-> +		err = icc_link_create(node, TEGRA_ICC_MC);
-> +		if (err)
-> +			goto remove_nodes;
-> +
-> +		data->nodes[i] = node;
-> +	}
-> +	data->num_nodes = num_nodes;
-> +
-> +	return 0;
-> +
-> +remove_nodes:
-> +	icc_nodes_remove(&mc->provider);
-> +del_provider:
-> +	icc_provider_del(&mc->provider);
-> +err_msg:
-> +	dev_err(mc->dev, "failed to initialize ICC: %d\n", err);
-> +
-> +	return err;
-> +}
-> +
->  static int tegra_mc_probe(struct platform_device *pdev)
->  {
->  	struct resource *res;
-> @@ -702,6 +814,8 @@ static int tegra_mc_probe(struct platform_device *pdev)
->  		}
->  	}
->  
-> +	tegra_mc_interconnect_setup(mc);
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/memory/tegra/mc.h b/drivers/memory/tegra/mc.h
-> index afa3ba45c9e6..abeb6a2cc36a 100644
-> --- a/drivers/memory/tegra/mc.h
-> +++ b/drivers/memory/tegra/mc.h
-> @@ -115,4 +115,12 @@ extern const struct tegra_mc_soc tegra132_mc_soc;
->  extern const struct tegra_mc_soc tegra210_mc_soc;
->  #endif
->  
-> +/*
-> + * These IDs are for internal use of Tegra's ICC, the values are chosen
-> + * such that they don't conflict with the device-tree ICC node IDs.
-> + */
-> +#define TEGRA_ICC_EMC		1000
-> +#define TEGRA_ICC_EMEM		2000
-> +#define TEGRA_ICC_MC		3000
-> +
->  #endif /* MEMORY_TEGRA_MC_H */
-> diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
-> index 1238e35653d1..71de023f9f47 100644
-> --- a/include/soc/tegra/mc.h
-> +++ b/include/soc/tegra/mc.h
-> @@ -7,6 +7,7 @@
->  #define __SOC_TEGRA_MC_H__
->  
->  #include <linux/err.h>
-> +#include <linux/interconnect-provider.h>
->  #include <linux/reset-controller.h>
->  #include <linux/types.h>
->  
-> @@ -178,6 +179,8 @@ struct tegra_mc {
->  
->  	struct reset_controller_dev reset;
->  
-> +	struct icc_provider provider;
-> +
->  	spinlock_t lock;
->  };
-
-The rest looks good to me!
-
-Thanks,
-Georgi
+Pj4gKyAqIFdoZW4gTGludXgga2VybmVsIHN1cHBvcnRzIG11bHRpcGxlIFNNTVUgZGV2aWNlcywg
+dGhlIFNNTVUgZGV2aWNlIA0KPj4gK3VzZWQgZm9yDQo+PiArICogaXNvY2hvcm5vdXMgSFcgZGV2
+aWNlcyBzaG91bGQgYmUgYWRkZWQgYXMgYSBzZXBhcmF0ZSBBUk0gTU1VLTUwMCANCj4+ICtkZXZp
+Y2UNCj4+ICsgKiBpbiBEVCBhbmQgYmUgcHJvZ3JhbW1lZCBpbmRlcGVuZGVudGx5IGZvciBlZmZp
+Y2llbnQgVExCIGludmFsaWRhdGVzLg0KDQo+SSBkb24ndCB1bmRlcnN0YW5kIHRoZSAiV2hlbiIg
+dGhlcmUgLSB0aGUgZHJpdmVyIGhhcyBhbHdheXMgc3VwcG9ydGVkIG11bHRpcGxlIGluZGVwZW5k
+ZW50IFNNTVVzLCBhbmQgaXQncyBub3Qgc29tZXRoaW5nIHRoYXQgY291bGQgYmUgY29uZmlndXJl
+ZCBvdXQgb3Igb3RoZXJ3aXNlIGRpc2FibGVkLiBQbHVzIEkgcmVhbGx5IGRvbid0IHNlZSB3aHkg
+eW91IHdvdWxkIGV2ZXIgd2FudCB0byBmb3JjZSB1bnJlbGF0ZWQgU01NVXMgdG8gYmUgPnByb2dy
+YW1tZWQgdG9nZXRoZXIgLSBiZXlvbmQgdGhlIFRMQiB0aGluZyBtZW50aW9uZWQgaXQgd291bGQg
+YWxzbyB3YXN0ZSBwcmVjaW91cyBjb250ZXh0IGJhbmsgcmVzb3VyY2VzIGFuZCBtaWdodCBsZWFk
+IHRvIHdlaXJkIGRldmljZSBncm91cGluZyB2aWEgZmFsc2Ugc3RyZWFtIElEIGFsaWFzaW5nLCB3
+aXRoIG5vIG9idmlvdXMgdXBzaWRlIGF0IGFsbC4NCg0KU29ycnksIEkgbWlzc2VkIHRoaXMgY29t
+bWVudC4NCkR1cmluZyB0aGUgaW5pdGlhbCBwYXRjaGVzLCB3aGVuIHRoZSBpb21tdV9vcHMgd2Vy
+ZSBkaWZmZXJlbnQgYmV0d2Vlbiwgc3VwcG9ydCBtdWx0aXBsZSBTTU1VIGRyaXZlcnMgYXQgdGhl
+IHNhbWUgaXMgbm90IHBvc3NpYmxlIGFzIG9uZSBvZiB0aGVtKHRoYXQgZ2V0cyBwcm9iZWQgbGFz
+dCkgb3ZlcndyaXRlcyB0aGUgcGxhdGZvcm0gYnVzIG9wcy4gDQpPbiByZXZpc2l0aW5nIHRoZSBv
+cmlnaW5hbCBpc3N1ZSwgVGhpcyBwcm9ibGVtIGlzIG5vIGxvbmdlciByZWxldmFudC4gQXQgdGhp
+cyBwb2ludCwgSXQgbWFrZXMgbW9yZSBzZW5zZSB0byBqdXN0IGdldCByaWQgb2YgM3JkIGluc3Rh
+bmNlIHByb2dyYW1taW5nIGluIGFybS1zbW11LW52aWRpYS5jIGFuZCBqdXN0IGxpbWl0IGl0IHRv
+IHRoZSBTTU1VIGluc3RhbmNlcyB0aGF0IG5lZWQgaWRlbnRpY2FsIHByb2dyYW1taW5nLg0KDQot
+S1INCg0KDQoNCg==
