@@ -2,92 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED5212128EE
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 18:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEDD8212A9E
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 18:59:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbgGBQFT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Jul 2020 12:05:19 -0400
-Received: from foss.arm.com ([217.140.110.172]:38940 "EHLO foss.arm.com"
+        id S1727054AbgGBQ7Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Jul 2020 12:59:25 -0400
+Received: from mga14.intel.com ([192.55.52.115]:59112 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725915AbgGBQFS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 2 Jul 2020 12:05:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DD53C1FB;
-        Thu,  2 Jul 2020 09:05:17 -0700 (PDT)
-Received: from [10.57.21.32] (unknown [10.57.21.32])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D70973F71E;
-        Thu,  2 Jul 2020 09:05:14 -0700 (PDT)
-Subject: Re: [PATCH v8 2/3] dt-bindings: arm-smmu: Add binding for Tegra194
- SMMU
-To:     Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     "joro@8bytes.org" <joro@8bytes.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Yu-Huan Hsu <YHsu@nvidia.com>,
-        Sachin Nikam <Snikam@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Bryan Huntsman <bhuntsman@nvidia.com>,
-        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
-References: <20200630001051.12350-1-vdumpa@nvidia.com>
- <20200630001051.12350-3-vdumpa@nvidia.com>
- <3e655881-bac4-f083-44ed-cfa0a61298d0@arm.com>
- <BYAPR12MB28222D6ADEBA966AA27FA9ECB36C0@BYAPR12MB2822.namprd12.prod.outlook.com>
- <0d4f46d6-6a4e-bca0-bcf3-0e22a950e57b@nvidia.com>
- <BYAPR12MB282245DD6BB50ECA700AC69EB36C0@BYAPR12MB2822.namprd12.prod.outlook.com>
- <b10673f6-2a01-b9e5-0948-9684ffbe1813@nvidia.com>
- <BYAPR12MB2822EE99210BFA984ECB954AB36C0@BYAPR12MB2822.namprd12.prod.outlook.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <04e35d51-5e65-047d-90ef-a2de901eb15d@arm.com>
-Date:   Thu, 2 Jul 2020 17:05:05 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727038AbgGBQ7Z (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 2 Jul 2020 12:59:25 -0400
+IronPort-SDR: Rf00+y5BkKyhP8lpjlPUZOMI4ioSmLwWHNChYUcIehXPg1G2WfP42HiddYTylw3/jsDj+49ScP
+ tFrLDHN9/+Bw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="146051873"
+X-IronPort-AV: E=Sophos;i="5.75,304,1589266800"; 
+   d="scan'208";a="146051873"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 09:59:24 -0700
+IronPort-SDR: uUNoPoufGcDhF3lI9DepTyS3pbZwmKLRfRKKDU8qbLmkcyhDNzk0RXqZgOc1hoxkiIKrwOAEYA
+ KvSWPxPGwstg==
+X-IronPort-AV: E=Sophos;i="5.75,304,1589266800"; 
+   d="scan'208";a="426014906"
+Received: from nzbastur-mobl1.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.255.231.182])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 09:59:23 -0700
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     alsa-devel@alsa-project.org
+Cc:     tiwai@suse.de, broonie@kernel.org,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 7/8] ASoC: tegra: tegra20_das: remove always-true comparison
+Date:   Thu,  2 Jul 2020 11:59:00 -0500
+Message-Id: <20200702165901.164100-8-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200702165901.164100-1-pierre-louis.bossart@linux.intel.com>
+References: <20200702165901.164100-1-pierre-louis.bossart@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB2822EE99210BFA984ECB954AB36C0@BYAPR12MB2822.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2020-07-01 20:39, Krishna Reddy wrote:
-> On 01/07/2020 20:00, Krishna Reddy wrote:
->>>>>>> +        items:
->>>>>>> +          - enum:
->>>>>>> +              - nvdia,tegra194-smmu
->>>>>>> +          - const: arm,mmu-500
->>>>>
->>>>>> Is the fallback compatible appropriate here? If software treats this as a standard MMU-500 it will only program the first instance (because the second isn't presented as a separate MMU-500) - is there any way that isn't going to blow up?
->>>>>
->>>>> When compatible is set to both nvidia,tegra194-smmu and arm,mmu-500, implementation override ensure that both instances are programmed. Isn't it? I am not sure I follow your comment fully.
->>>
->>>> The problem is, if for some reason someone had a Tegra194, but only set the compatible string to 'arm,mmu-500' it would assume that it was a normal arm,mmu-500 and only one instance would be programmed. We always want at least 2 of the 3 instances >>programmed and so we should only match 'nvidia,tegra194-smmu'. In fact, I think that we also need to update the arm_smmu_of_match table to add 'nvidia,tegra194-smmu' with the data set to &arm_mmu500.
->>>
->>> In that case, new binding "nvidia,smmu-v2" can be added with data set to &arm_mmu500 and enumeration would have nvidia,tegra194-smmu and another variant for next generation SoC in future.
-> 
->> I think you would be better off with nvidia,smmu-500 as smmu-v2 appears to be something different. I see others have a smmu-v2 but I am not sure if that is legacy. We have an smmu-500 and so that would seem more appropriate.
-> 
-> I tried to use the binding synonymous to other vendors.
-> V2 is the architecture version.  MMU-500 is the actual implementation from ARM based on V2 arch.  As we just use the MMU-500 IP as it is, It can be named as nvidia,smmu-500 or similar as well.
+Fix W=1 warning:
 
-Yup, that sounds OK to me if you want a broader compatible to 
-potentially match other future SoCs as well.
+sound/soc//tegra/tegra20_das.c:101:11: warning:
+comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+  101 |  if ((reg >= TEGRA20_DAS_DAP_CTRL_SEL) &&
+      |           ^~
 
-> Others probably having their own implementation based on V2 arch.
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ sound/soc/tegra/tegra20_das.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Exactly - "cavium,smmu-v2" and "qcom,smmu-v2" are their own in-house 
-microarchitectures, not one of Arm's designs, so they don't really have 
-a suitable 'product name' we could have used for the bindings.
+diff --git a/sound/soc/tegra/tegra20_das.c b/sound/soc/tegra/tegra20_das.c
+index 1070b2710d5e..79dba878d854 100644
+--- a/sound/soc/tegra/tegra20_das.c
++++ b/sound/soc/tegra/tegra20_das.c
+@@ -98,8 +98,7 @@ EXPORT_SYMBOL_GPL(tegra20_das_connect_dac_to_dap);
+ 
+ static bool tegra20_das_wr_rd_reg(struct device *dev, unsigned int reg)
+ {
+-	if ((reg >= TEGRA20_DAS_DAP_CTRL_SEL) &&
+-	    (reg <= LAST_REG(DAP_CTRL_SEL)))
++	if (reg <= LAST_REG(DAP_CTRL_SEL))
+ 		return true;
+ 	if ((reg >= TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL) &&
+ 	    (reg <= LAST_REG(DAC_INPUT_DATA_CLK_SEL)))
+-- 
+2.25.1
 
-Robin.
