@@ -2,115 +2,193 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90F9A211AB2
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 05:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27269211AD0
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 06:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726042AbgGBDsS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 Jul 2020 23:48:18 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8291 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbgGBDsR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 Jul 2020 23:48:17 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efd58cd0000>; Wed, 01 Jul 2020 20:47:25 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 01 Jul 2020 20:48:16 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 01 Jul 2020 20:48:16 -0700
-Received: from [10.25.97.252] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 2 Jul
- 2020 03:48:06 +0000
-CC:     <spujar@nvidia.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <robh+dt@kernel.org>, <lgirdwood@gmail.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <digetx@gmail.com>, <alsa-devel@alsa-project.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
-        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
-        <dramesh@nvidia.com>, <atalambedu@nvidia.com>,
-        <nwartikar@nvidia.com>, <swarren@nvidia.com>,
-        <nicoleotsuka@gmail.com>
-Subject: Re: [PATCH v4 15/23] ASoC: soc-core: Identify 'no_pcm' DAI links for
- DPCM
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <1593233625-14961-1-git-send-email-spujar@nvidia.com>
- <1593233625-14961-16-git-send-email-spujar@nvidia.com>
- <87h7utytlx.wl-kuninori.morimoto.gx@renesas.com>
- <9c7871ae-6649-7b0d-4780-c8389c299b04@nvidia.com>
- <87d05ezqlc.wl-kuninori.morimoto.gx@renesas.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <49bac9c1-093c-d353-cef3-c9c3391cc00d@nvidia.com>
-Date:   Thu, 2 Jul 2020 09:18:02 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1725379AbgGBEHL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Jul 2020 00:07:11 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:18383 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgGBEHK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jul 2020 00:07:10 -0400
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200702040706epoutp02c09012e7cd09399e78b86970a938b0be~d0_W1ke262926929269epoutp02K
+        for <linux-tegra@vger.kernel.org>; Thu,  2 Jul 2020 04:07:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200702040706epoutp02c09012e7cd09399e78b86970a938b0be~d0_W1ke262926929269epoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1593662826;
+        bh=nSBloLjBMkhEq6dBnL0Yut7t5IwUXxI09+5uuRC+GYI=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=AnwkEP3HZjzGy38t1rKrQ5Sq4bEi/VXmO+tZcn0w5+L4qn2Y3qoONPfDE5gM5Z1iS
+         6chLBFWVaLxAX0X6AJcz7dZ6+Yp1MKNpUGkRKriyyhG5pebPa4sBBiLn9KGRg42JVw
+         7FtrZtEJ9PV5nFBOAe/DQHd/Y2aBJxQ2fQy3+vRk=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20200702040706epcas1p4ded8bc0a4377b2e65a53400e4c98d717~d0_WUindx2564425644epcas1p4A;
+        Thu,  2 Jul 2020 04:07:06 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.40.158]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 49y4Kz693gzMqYm7; Thu,  2 Jul
+        2020 04:07:03 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+        59.D0.29173.76D5DFE5; Thu,  2 Jul 2020 13:07:03 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+        20200702040703epcas1p3f8b2c6f5a3a9c49ce121659d0de215bd~d0_TY4jwO2343023430epcas1p3c;
+        Thu,  2 Jul 2020 04:07:03 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200702040702epsmtrp1b8419846011fd7e80cd260570f732743~d0_TX5xR50526105261epsmtrp1-;
+        Thu,  2 Jul 2020 04:07:02 +0000 (GMT)
+X-AuditID: b6c32a37-9b7ff700000071f5-9a-5efd5d6783da
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        68.C8.08303.66D5DFE5; Thu,  2 Jul 2020 13:07:02 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200702040702epsmtip24222edcb032c7d2c57cc9c880c4e3847~d0_TGzNf71793117931epsmtip2x;
+        Thu,  2 Jul 2020 04:07:02 +0000 (GMT)
+Subject: Re: [PATCH v4 12/37] PM / devfreq: tegra20: Use MC timings for
+ building OPP table
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>
+Cc:     =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <4ea7fe00-7676-3186-8222-6e0d0eb8ed1f@samsung.com>
+Date:   Thu, 2 Jul 2020 13:18:18 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <87d05ezqlc.wl-kuninori.morimoto.gx@renesas.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20200609131404.17523-13-digetx@gmail.com>
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593661645; bh=Oqf1zdTjnVv4xMqY49vlWn2YQFtjEyzUTTviPf0shsg=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=dgbcAyxkORD4uUkBD9tIkxdAENIWG1QJUhYTAarenLayi6aUtMJzOtPwxqdlX11aH
-         zadPx+3Ks3QUFs89mSsFyx1sNuPJfCReUFPP75q6vJW+qOBg+QxZx48aixd5xqJ0HP
-         NrkRa8ZYVniq52jGPIBJf2+vku+uQc6ZtJp6wxrt6PxWDpw4jns5sINzrMTwUDXZMj
-         gJjX98OC4AmkOxBoWSRJT3mXDfeVcg5WcrP6EKxnJAGNzNN1N3aFZ9EBzgAMEw0qs7
-         2Pyu7ezIf8iHbyz21lsLDl66vCsP4Dpz0pdQMBC5ZVA21HgkbGGP6J6NOihWIsP+3b
-         YW8wiHW+MBBMg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPJsWRmVeSWpSXmKPExsWy7bCmrm567N84g0X/DSzuz2tltHj36Smr
+        xfwj51gtVn98zGhx5et7NovpezexWbTMWsRicbbpDbvF5V1z2Cw+9x5htOj8MovN4uIpV4vb
+        jSvYLCatncpo0br3CLvFv2sbWSx+7prH4iDo8f5GK7vHzll32T0unfvD7LFpVSebx51re9g8
+        7ncfZ/LobX7H5tG3ZRWjx+dNcgGcUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6hpYW
+        5koKeYm5qbZKLj4Bum6ZOUC/KCmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIKLAv0
+        ihNzi0vz0vWS83OtDA0MjEyBChOyM2Y072EqeCBYMXf2OqYGxql8XYycHBICJhJHzjxi6mLk
+        4hAS2MEo0by/lRHC+cQo0b7vEZTzmVFi9totjDAtly+8YIZI7GKUmPZuCjtIQkjgPaPEh/MF
+        ILawQIzEpO4ZLCBFIgJHmCVWdx4HG8UscJlR4mzbFzaQKjYBLYn9L26A2fwCihJXfzwGW8Er
+        YCexunULK4jNIqAi0fD8EtgGUYEwiZPbWqBqBCVOznzCAmJzCphLrN+yGMxmFhCXuPVkPhOE
+        LS+x/e0csFMlBNo5JU6vP8MK8YOLxNxpV5khbGGJV8e3sEPYUhIv+9ug7GqJlSePsEE0dzBK
+        bNl/AarZWGL/0slAGziANmhKrN+lDxFWlNj5ey4jxGI+iXdfe1hBSiQEeCU62oQgSpQlLj+4
+        ywRhS0osbu9km8CoNAvJO7OQvDALyQuzEJYtYGRZxSiWWlCcm55abFhgjBzfmxjBKV3LfAfj
+        tLcf9A4xMnEwHmKU4GBWEuE9bfArTog3JbGyKrUoP76oNCe1+BCjKTCAJzJLiSbnA7NKXkm8
+        oamRsbGxhYmhmamhoZI4r6/VhTghgfTEktTs1NSC1CKYPiYOTqkGJk8T1qV9QYZ+fMpX4lPz
+        1kTXzjSbs+bv3ynn87l5N/Qu1jVUv2TXO/N3wMR9W1wKXcw/ejw+0Hw+uvulrc2/tAoR57zN
+        7z+FV7xVNQ/wV6qK/CLlL+zXq279ZoJ5q5Th1VMFLPse1fw6s8aL/Wx9ZuK5A6unPt3ZzP6x
+        dNexH4znpSNEl/ic/sG96qn9gvwNj/l+P+9wyhZZZ+x8JYCL8Tjb9oONbWcvxOrHOW2fHeY4
+        IXTHVO4/O7ibSqfrPltZ5/iS/+uaBOaTzWo+Hw693jJt9zaTzZu/uUQZMy85v7f24Gqn55/+
+        uFcaXZz2ZN3Tc5+Z8+8F8/1JTdo0f4/hwbsFnUnO67w59t1Z7LXhKp8SS3FGoqEWc1FxIgBk
+        GHfccgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsWy7bCSvG5a7N84gyMzzS3uz2tltHj36Smr
+        xfwj51gtVn98zGhx5et7NovpezexWbTMWsRicbbpDbvF5V1z2Cw+9x5htOj8MovN4uIpV4vb
+        jSvYLCatncpo0br3CLvFv2sbWSx+7prH4iDo8f5GK7vHzll32T0unfvD7LFpVSebx51re9g8
+        7ncfZ/LobX7H5tG3ZRWjx+dNcgGcUVw2Kak5mWWpRfp2CVwZM5r3MBU8EKyYO3sdUwPjVL4u
+        Rk4OCQETicsXXjB3MXJxCAnsYJS4MbeZDSIhKTHt4lGgBAeQLSxx+HAxSFhI4C2jxI7DoiC2
+        sECMxKTuGSwgvSICx5glNp0+zQTiMAtcBirq/MoGMXUbo8S1X29ZQVrYBLQk9r+4AbaBX0BR
+        4uqPx4wgNq+AncTq1i1gNSwCKhINzy+xg9iiAmESO5c8ZoKoEZQ4OfMJC4jNKWAusX7LYjCb
+        WUBd4s+8S8wQtrjErSfzmSBseYntb+cwT2AUnoWkfRaSlllIWmYhaVnAyLKKUTK1oDg3PbfY
+        sMAoL7Vcrzgxt7g0L10vOT93EyM4trW0djDuWfVB7xAjEwfjIUYJDmYlEd7TBr/ihHhTEiur
+        Uovy44tKc1KLDzFKc7AoifN+nbUwTkggPbEkNTs1tSC1CCbLxMEp1cCkxNAkkT6zc9XpY5I3
+        LAU0WFhFnlvEVesIsn76c3xj5VqVKZu2FUxy+LHOLTeOL0ZOI+3C1kTxinKX3p0/ZmUsCzjK
+        E73/xe6dV6N7XjE9yez9u+N7n+zf1pXrpZufbOoQO7bVTmW9oddH3TWpjSnPl0XZFhZvnhK2
+        /fvUKcHH2+a/aiuQfORX7VhXevj58psla/Vq2J9ckJKbF1ewep3qAt9DMgstOOdJMDK7ng9f
+        25gZZ+lQo8jYNdXOaePFQm4PhZ4dTWl7zzCl5xRs6E76sTg1cXbMhj6Dg1GxG1sP7rUojJX2
+        +60aopcaeP/o1KdGXx/mzw+eH3Iz8rXU0Rd56n7LosR07za8jeYpZVBiKc5INNRiLipOBACK
+        Lp0uXAMAAA==
+X-CMS-MailID: 20200702040703epcas1p3f8b2c6f5a3a9c49ce121659d0de215bd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200609131458epcas1p2c774a0302bcef2c02790c2cb8cad57a0
+References: <20200609131404.17523-1-digetx@gmail.com>
+        <CGME20200609131458epcas1p2c774a0302bcef2c02790c2cb8cad57a0@epcas1p2.samsung.com>
+        <20200609131404.17523-13-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Dmitry,
 
-
-On 7/2/2020 6:22 AM, Kuninori Morimoto wrote:
-> External email: Use caution opening links or attachments
->
->
-> Hi Sameer
->
->>> At least my CPU driver doesn't use component:pcm_construct
->>> but is using DAI:pcm_new for some reasons.
->>> I'm not sure checking DAI:pcm here is enough, or not...
->> OK. If adding DAI:pcm_new above here is not sufficient, then a flag
->> can be used to describe FE component? or is there a better
->> alternative?
-
-> soc_component_is_pcm() is called from simple_dai_link_of_dpcm :: "FE" side.
-
-Yes I had to use this on "FE" side only because I wanted to find a real 
-"FE" in FE<->BE and BE<->BE links. Please have a look at patch [23/23] 
-for the sound DT binding I am using. Basically I want to connect 
-multiple components in a chained fashion (FE <-> BE1 <-> BE2 ... <BEx>). 
-Some of these BEs can be SoC components like resampler/mixer/mux/de-mux 
-etc., the HW I am using has a cross bar which allows me to 
-select/connect BEs in any order and I am trying to have the same 
-flexibility here. Hence I only want to create PCM devices for real "FE" 
-and trying to use simple-card as much as possible. More details about 
-the HW and problems were discussed in [0].
-
-[0] https://lkml.org/lkml/2020/4/30/519
-
-> I wonder component->driver->non_legacy_dai_naming can't work for you ?
-
-I see currently in simple-card driver that, BE<->BE link would be 
-treated as CODEC<->CODEC link if 'non_legacy_dai_naming' flag is set at 
-both ends of BE. Do we need to set this flag for all BE?
-However I am not sure how this will work out for a BE<->BE DPCM DAI link 
-considering the fact that I want to use chain of components and I guess 
-routing map would get complicated. Also going by the flag name it was 
-not meant to differentiate between a FE and BE?
-> Thank you for your help !!
->
-> Best regards
+On 6/9/20 10:13 PM, Dmitry Osipenko wrote:
+> The clk_round_rate() won't be usable for building OPP table once
+> interconnect support will be added to the EMC driver because that CLK API
+> function limits the rounded rate based on the clk rate that is imposed by
+> active clk-users, and thus, the rounding won't work as expected if
+> interconnect will set the minimum EMC clock rate before devfreq driver is
+> loaded. The struct tegra_mc contains memory timings which could be used by
+> the devfreq driver for building up OPP table instead of rounding clock
+> rate, this patch implements this idea.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
-> Kuninori Morimoto
+>  drivers/devfreq/tegra20-devfreq.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
+> index 6469dc69c5e0..bf504ca4dea2 100644
+> --- a/drivers/devfreq/tegra20-devfreq.c
+> +++ b/drivers/devfreq/tegra20-devfreq.c
+> @@ -123,8 +123,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  {
+>  	struct tegra_devfreq *tegra;
+>  	struct tegra_mc *mc;
+> -	unsigned long max_rate;
+> -	unsigned long rate;
+> +	unsigned int i;
+>  	int err;
+>  
+>  	mc = tegra_get_memory_controller();
+> @@ -151,12 +150,17 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  
+>  	tegra->regs = mc->regs;
+>  
+> -	max_rate = clk_round_rate(tegra->emc_clock, ULONG_MAX);
+> -
+> -	for (rate = 0; rate <= max_rate; rate++) {
+> -		rate = clk_round_rate(tegra->emc_clock, rate);
+> +	if (!mc->num_timings) {
 
+Could you explain what is meaning of 'num_timing?
+Also, why add the opp entry in case of mc->num_timings is zero?
+
+> +		err = dev_pm_opp_add(&pdev->dev,
+> +				     clk_get_rate(tegra->emc_clock), 0);
+> +		if (err) {
+> +			dev_err(&pdev->dev, "failed to add OPP: %d\n", err);
+> +			return err;
+> +		}
+> +	}
+>  
+> -		err = dev_pm_opp_add(&pdev->dev, rate, 0);
+> +	for (i = 0; i < mc->num_timings; i++) {
+> +		err = dev_pm_opp_add(&pdev->dev, mc->timings[i].rate, 0);
+>  		if (err) {
+>  			dev_err(&pdev->dev, "failed to add opp: %d\n", err);
+>  			goto remove_opps;
+> 
+
+
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
