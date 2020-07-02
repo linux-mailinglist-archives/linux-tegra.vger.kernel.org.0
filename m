@@ -2,39 +2,37 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4968A211930
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 03:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8A12118D7
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 03:36:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729150AbgGBBcS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 Jul 2020 21:32:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57624 "EHLO mail.kernel.org"
+        id S1729405AbgGBB1O (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 Jul 2020 21:27:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59046 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729147AbgGBB0V (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 1 Jul 2020 21:26:21 -0400
+        id S1729402AbgGBB1O (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 1 Jul 2020 21:27:14 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0345D206BE;
-        Thu,  2 Jul 2020 01:26:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 42CBF2083E;
+        Thu,  2 Jul 2020 01:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593653180;
-        bh=0PE/ZEegeyQ50KVBzDMMsCfxPGXZ/ksQVk9m47noOKU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gCmt7OwR25sH05Id4DW8RQ7YBjM98/ZJaGMAq3yo/ALhxGyqai2DIXzlEhnotqmN5
-         BbHcEJQ8oLIMbP+0vQw13GqBYIXkb0VulqqFDG9aBkBvJ4A992GG3G4RdlnIhMafrh
-         qGUsG3D4biFNQmfdNYIXE0gENZNxzzmW3ApwS++k=
+        s=default; t=1593653234;
+        bh=s8s69X5ToTezidDLsSd20nuocrEgaag3s6dd4Dr//SM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fyAZWfBr4VxMi9OCFwzFNhCrqwt6hyp53PIOCd+4EY5vkB6nsEpN0aBpmqajlufkv
+         BwSsCaBH72TLQG9T3lxOhpF7WPnK/reIF/k87d44Dz9ONTQuqLhfcACW6G1lRTTtbt
+         GYZpPrCV8boH36h7UkFINTJZWYCRfbik0XlGmhTY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thierry Reding <treding@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 04/27] gpu: host1x: Detach driver on unregister
-Date:   Wed,  1 Jul 2020 21:25:52 -0400
-Message-Id: <20200702012615.2701532-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 01/13] gpu: host1x: Detach driver on unregister
+Date:   Wed,  1 Jul 2020 21:27:00 -0400
+Message-Id: <20200702012712.2701986-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702012615.2701532-1-sashal@kernel.org>
-References: <20200702012615.2701532-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -70,11 +68,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 0121fe7a4548d..02f896b50ed07 100644
+index c27858ae05529..6ef89e8a515a9 100644
 --- a/drivers/gpu/host1x/bus.c
 +++ b/drivers/gpu/host1x/bus.c
-@@ -632,8 +632,17 @@ EXPORT_SYMBOL(host1x_driver_register_full);
-  */
+@@ -542,8 +542,17 @@ EXPORT_SYMBOL(host1x_driver_register_full);
+ 
  void host1x_driver_unregister(struct host1x_driver *driver)
  {
 +	struct host1x *host1x;
