@@ -2,166 +2,177 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51912212EB6
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jul 2020 23:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 390F5213079
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jul 2020 02:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbgGBVTw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Jul 2020 17:19:52 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3159 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgGBVTv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jul 2020 17:19:51 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efe4f440000>; Thu, 02 Jul 2020 14:19:00 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 02 Jul 2020 14:19:50 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 02 Jul 2020 14:19:50 -0700
-Received: from [10.2.167.4] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 2 Jul
- 2020 21:19:50 +0000
-Subject: Re: [RFC PATCH v2 00/18] Support for Tegra video capture from
- external sensor
-To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
-        <robh+dt@kernel.org>, <helen.koike@collabora.com>
-CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
- <68d5b863-2ff1-203c-bd30-9ad0dcdf76f7@xs4all.nl>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <f7e82e1a-30db-a7cf-f559-499decc11c44@nvidia.com>
-Date:   Thu, 2 Jul 2020 14:21:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1725937AbgGCAdP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Jul 2020 20:33:15 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:20714 "EHLO
+        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbgGCAdO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jul 2020 20:33:14 -0400
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20200703003310epoutp036c92c5aa398af783e5a4907fa00ba6a7~eFs2bgRIe1563015630epoutp03L
+        for <linux-tegra@vger.kernel.org>; Fri,  3 Jul 2020 00:33:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20200703003310epoutp036c92c5aa398af783e5a4907fa00ba6a7~eFs2bgRIe1563015630epoutp03L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1593736390;
+        bh=WgDPUYOS70hgOg400YBVb5DhaHc/yBFjmgoXoUJmDMw=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=r8p9duiMBKndbOsMEPllv2s58Cu+2nfi05VcJX8bELHBNIh5xaGhiy1AFIktpxo1E
+         3eBYRGrqYol8TvVJAz+qQF2yTW90FrceeeOS3vatEOm1QibV718Kp2gIxmXlVV+kUK
+         /33+DTFnb3PsoVaLo/9ElqMYE4atDOSTWf5aVrRc=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20200703003309epcas1p3caf2fd985ec2c237f1e0bcbf83990f01~eFs18fMzl2651926519epcas1p33;
+        Fri,  3 Jul 2020 00:33:09 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.154]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 49ybXg5G4szMqYkv; Fri,  3 Jul
+        2020 00:33:07 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        4A.4E.18978.3CC7EFE5; Fri,  3 Jul 2020 09:33:07 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200703003307epcas1p20b58f82e8e7e0beb335410cd4b877884~eFsziTrw82396023960epcas1p2Z;
+        Fri,  3 Jul 2020 00:33:07 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200703003307epsmtrp233b13333867cbb0d370434cc05862122~eFszhjaJP0418304183epsmtrp2X;
+        Fri,  3 Jul 2020 00:33:07 +0000 (GMT)
+X-AuditID: b6c32a35-b8298a8000004a22-25-5efe7cc36538
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        EA.CB.08382.3CC7EFE5; Fri,  3 Jul 2020 09:33:07 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200703003307epsmtip285aa2853c809377373831f3619fdd8db~eFszSmAja2432224322epsmtip2Q;
+        Fri,  3 Jul 2020 00:33:07 +0000 (GMT)
+Subject: Re: [PATCH v2] PM / devfreq: tegra: Add Dmitry as a maintainer
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Organization: Samsung Electronics
+Message-ID: <a08f16bc-df90-2199-91c8-f2acfe0f94ad@samsung.com>
+Date:   Fri, 3 Jul 2020 09:44:22 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <68d5b863-2ff1-203c-bd30-9ad0dcdf76f7@xs4all.nl>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <921abb5e-8c12-db8b-b345-fbe49080dc1c@samsung.com>
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593724740; bh=2v3TmEMwjb9chwHNLWyTimKbgFOtDLJfTVDLii03Xv0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=ZqOxxu5fNLPIywaJm0GqC0hXdNA5D/P6yw3Q+5UaTzcycJ1jxyZqA8FYNbK12v3Pj
-         tIlkIfxy4LomRAYJhk9DltNiqdGcxly+jjdWWxdySnp25qRGAevcBiBo72mqL6N9Nd
-         mnUqEhy3KRq+bCcrCALwNTeTOAbtLSLkoUclLPYeplWFOSXe8DWsv5w2n4ph0MyPJ/
-         jntlueEb0OXnZaX6LuDA3VybI9vfPIcYeDIirSw1G27cjcnLqnZuuN9RC6AAZPwBKS
-         1h+LXtGqGjzcgKKcUf/UE/RUY2/HbPlplWw4p6cXzAN2bWSYppwvzZ4Unw/7I78ErK
-         8NdrLlUm7A7OA==
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEJsWRmVeSWpSXmKPExsWy7bCmvu7hmn9xBu/ua1is/viY0aJl1iIW
+        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZnDl9idXi5655LA6cHjtn3WX36G1+x+ax5Wo7
+        i0ffllWMHp83yQWwRmXbZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoq
+        ufgE6Lpl5gAdpKRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpsCzQK07MLS7NS9dL
+        zs+1MjQwMDIFKkzIzli2+QFrwQ7eip/3XzM1ML7j6mLk5JAQMJHoP/6SGcQWEtjBKLHjfGgX
+        IxeQ/YlRYu6N2+wQzjdGiU+3PrHCdKzdto0JIrGXUeLK37+MEM57RomGn1uAWjg4hAXcJfrn
+        24I0sAloSex/cYMNpEZE4A+jxIXbl8AmMQtEShzeuZoJxOYXUJS4+uMxI4jNK2AnMbN3AjuI
+        zSKgIvF68l6wuKhAmMTJbS1QNYISJ2c+YQGxOQXsJc6t/sAEMVNc4taT+VC2vMT2t3OYQRZL
+        CKzkkHj9tJ0J4gUXiTef/zFD2MISr45vYYewpSQ+v9vLBmFXS6w8eYQNormDUWLL/gtQ/xtL
+        7F86mQnkS2YBTYn1u/QhwooSO3/PZYRYzCfx7msPK0iJhACvREebEESJssTlB3ehTpCUWNze
+        yTaBUWkWkndmIXlhFpIXZiEsW8DIsopRLLWgODc9tdiwwBA5tjcxghOrlukOxolvP+gdYmTi
+        YDzEKMHBrCTCm6D6L06INyWxsiq1KD++qDQntfgQoykwgCcyS4km5wNTe15JvKGpkbGxsYWJ
+        oZmpoaGSOK+4zIU4IYH0xJLU7NTUgtQimD4mDk6pBqbz135auy2ZVHHP8Wtw7+Ha9/91Z61r
+        2tI2t2DH5veb98zZ+zR22z9ZxdyEJaVrpBgsXlpP+zyz8sC5z5z7/p9mL8nPbnyzj/Xy29wv
+        +npXD0kE2LrFOxXvFFZcuqrviHaI/Sop/fr9Jz2e7Y+P/sA3ZaGOoCBHf/YScfmzsvuS+N9v
+        6lKvjY1TfpW93n6DXeUUnWlZt4yrXD4c39i1VEF6epRSpmzu84sG20+FNzmkOWsuSI23Ttu5
+        r8V4wWKb2yyhPxWk9j9+sD3b5o74hxnF03d+1y1vcj034+6dRPcnG+efyzBQvvdG3ivaWXu/
+        0FX7W6JHTgovYrkc7Xwp5l3OOY3mcLfKE6s8fr9N27hJiaU4I9FQi7moOBEABYj04TUEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplkeLIzCtJLcpLzFFi42LZdlhJXvdwzb84g33reC1Wf3zMaNEyaxGL
+        xdmmN+wWl3fNYbP43HuE0aLzyyw2i9uNK9gszpy+xGrxc9c8FgdOj52z7rJ79Da/Y/PYcrWd
+        xaNvyypGj8+b5AJYo7hsUlJzMstSi/TtErgylm1+wFqwg7fi5/3XTA2M77i6GDk5JARMJNZu
+        28bUxcjFISSwm1Fi5u8LLBAJSYlpF48ydzFyANnCEocPF0PUvGWUeHnmPCtIXFjAXaJ/vi1I
+        OZuAlsT+FzfYQGpEBBqYJFoXLWMCSTALREr0zN3CBtG8l1Hi/byFzCAJfgFFias/HjOC2LwC
+        dhIzeyewg9gsAioSryfvBYuLCoRJ7FzymAmiRlDi5MwnYMdxCthLnFv9AWqBusSfeZeYIWxx
+        iVtP5kPF5SW2v53DPIFReBaS9llIWmYhaZmFpGUBI8sqRsnUguLc9NxiwwLDvNRyveLE3OLS
+        vHS95PzcTYzgGNPS3MG4fdUHvUOMTByMhxglOJiVRHgTVP/FCfGmJFZWpRblxxeV5qQWH2KU
+        5mBREue9UbgwTkggPbEkNTs1tSC1CCbLxMEp1cBUrbgk5NH3by+fb5g5pT5wkpb0Xu0J11pO
+        Clq9/D3p5MbTWf4d1kWX1RjX39dV5vXgiN9slsWewC8T8b/+r/Anq8cx0iFe3Jsm87sUNS5u
+        YzwQra78wN006MyP0Bds+YumfUuXYt4++2iFqHaBqM6zJY/ain9s79kaFWb6YLv3okrWnM1l
+        3IefnLG5HM/+zodBfm58jJn/a/12sz45F52j4WbCLAEBxm9O6lcuF7dsEPknPu2n8vKtqSf/
+        9r3qZE1/eTqgRfAL2wv/m8dCFJVd6lL5Zk//cX7ftoUJi81vnpDpXCX3y69mhXLDnZbEjc8C
+        bGKqvl2fFlP+8sWjsnCB2OmicxQT3qfcDVv8+YkSS3FGoqEWc1FxIgDb/Ma6IAMAAA==
+X-CMS-MailID: 20200703003307epcas1p20b58f82e8e7e0beb335410cd4b877884
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec
+References: <CGME20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec@epcas1p4.samsung.com>
+        <20200402221723.6064-1-digetx@gmail.com>
+        <921abb5e-8c12-db8b-b345-fbe49080dc1c@samsung.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Dear all,
 
-On 7/2/20 7:08 AM, Hans Verkuil wrote:
-> Hi Sowjanya,
->
-> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
->> This series adds support for video capture from external camera sensor to
->> Tegra video driver.
+On 5/8/20 1:04 PM, Chanwoo Choi wrote:
+> Hi Rafael,
+> 
+> Could you please apply it to linux-pm directly?
+> 
+> I think that it is better to be applied directly
+> for preventing the possible merge conflict of MAINTAINERS file.
+> 
+> Best Regards,
+> Chanwoo Choi
+> 
+> On 4/3/20 7:17 AM, Dmitry Osipenko wrote:
+>> I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
+>> want to help keep them working and evolving in the future.
 >>
->> Jetson TX1 has camera expansion connector and supports custom camera module
->> designed as per TX1 design specification.
+>> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
 >>
->> This series also enables camera capture support for Jetson Nano which has
->> Raspberry PI camera header.
+>> Changelog:
 >>
->> This series is tested with IMX219 camera sensor.
+>> v2: - Addressed review comments made by Chanwoo Choi to v1 by correcting
+>>       git's address, making this patch standalone and adding Rafael Wysocki
+>>       to the list of email recipients.
 >>
->> This series include,
+>>  MAINTAINERS | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
 >>
->> VI I2C related fixes
->> - Camera sensor programming happens through VI I2C which is on host1x bus.
->> - These patches includes device tree and I2C driver fixes for VI I2C.
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 245a96316636..0a694e20ea19 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -10922,6 +10922,15 @@ F:	include/linux/memblock.h
+>>  F:	mm/memblock.c
+>>  F:	Documentation/core-api/boot-time-mm.rst
+>>  
+>> +MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
+>> +M:	Dmitry Osipenko <digetx@gmail.com>
+>> +L:	linux-pm@vger.kernel.org
+>> +L:	linux-tegra@vger.kernel.org
+>> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git
+>> +S:	Maintained
+>> +F:	drivers/devfreq/tegra20-devfreq.c
+>> +F:	drivers/devfreq/tegra30-devfreq.c
+>> +
+>>  MEMORY MANAGEMENT
+>>  M:	Andrew Morton <akpm@linux-foundation.org>
+>>  L:	linux-mm@kvack.org
 >>
->> Tegra video driver updates
->> - TPG Vs Non-TPG based on Kconfig
->> - Support for external sensor video capture based on device graph from DT.
->> - Support for selection ioctl operations
->> - Tegra MIPI CSI pads calibration
->> - CSI T-CLK and T-HS settle time computation based on clock rates.
->>
->> Host1x driver updates
->> - Adds API to allow creating mipi device for specific device node.
->> - Splits MIPI pads calibrate start and waiting for calibration to be done.
->>
->> Device tree updates
->> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson TX1 DT.
->> - Enabled VI and CSI support in Jetson Nano DT.
-> I tested all this with imx219 and imx274. It all looks good. I'll do a last
-> code review on Monday.
->
-> I posted a few imx219 and imx274 patches to fix v4l2-compliance issues (also
-> updated that tool itself since it had a bug).
->
-> There is one remaining compliance failure with the imx274, but that is also
-> due to a bug in the imx274: it's missing a bunch of enum ops and it is doing
-> weird things with the COMPOSE selection. I think that's completely wrong, but
-> I need more time to dig into that.
->
-> Regards,
->
-> 	Hans
-Thanks Hans.
->
->>
->> Delta between patch versions:
->>
->> [v2]:	Includes below changes based on v1 feedback
->> 	- dt-binding document and the driver update for device graph to use
->> 	  separate ports for sink endpoint and source endpoint for csi.
->> 	- Use data-lanes endpoint property for csi.
->> 	- Update tegra_mipi_request() to take device node pointer argument
->> 	  rather than adding extra API.
->> 	- Remove checking for clk pointer before clk_disable.
->>
->>
->> Sowjanya Komatineni (18):
->>    dt-bindings: i2c: tegra: Document Tegra210 VI I2C clocks and
->>      power-domains
->>    arm64: tegra: Add missing clocks and power-domains to Tegra210 VI I2C
->>    i2c: tegra: Don't mark VI I2C as IRQ safe runtime PM
->>    i2c: tegra: Fix the error path in tegra_i2c_runtime_resume
->>    i2c: tegra: Fix runtime resume to re-init VI I2C
->>    i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra210 vi i2c
->>    media: tegra-video: Fix channel format alignment
->>    media: tegra-video: Enable TPG based on kernel config
->>    media: tegra-video: Update format lookup to offset based
->>    dt-bindings: tegra: Update VI and CSI bindings with port info
->>    media: tegra-video: Add support for external sensor capture
->>    media: tegra-video: Add support for selection ioctl ops
->>    gpu: host1x: mipi: Update tegra_mipi_request() to be node based
->>    gpu: host1x: mipi: Split tegra_mipi_calibrate and tegra_mipi_wait
->>    media: tegra-video: Add CSI MIPI pads calibration
->>    media: tegra-video: Compute settle times based on the clock rate
->>    arm64: tegra: jetson-tx1: Add camera supplies
->>    arm64: tegra: Enable Tegra VI CSI support for Jetson Nano
->>
->>   .../display/tegra/nvidia,tegra20-host1x.txt        |  92 ++-
->>   .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  19 +-
->>   arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |  41 ++
->>   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |  10 +
->>   arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +
->>   drivers/gpu/drm/tegra/dsi.c                        |   9 +-
->>   drivers/gpu/host1x/mipi.c                          |  30 +-
->>   drivers/i2c/busses/i2c-tegra.c                     |  39 +-
->>   drivers/staging/media/tegra-video/Kconfig          |   7 +
->>   drivers/staging/media/tegra-video/csi.c            | 245 ++++++-
->>   drivers/staging/media/tegra-video/csi.h            |   8 +
->>   drivers/staging/media/tegra-video/tegra210.c       |  25 +-
->>   drivers/staging/media/tegra-video/vi.c             | 770 +++++++++++++++++++--
->>   drivers/staging/media/tegra-video/vi.h             |  23 +-
->>   drivers/staging/media/tegra-video/video.c          |  23 +-
->>   include/linux/host1x.h                             |   4 +-
->>   16 files changed, 1251 insertions(+), 100 deletions(-)
->>
+> 
+> 
+
+I applied it to devfreq-next branch. Thanks.
+
+
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
