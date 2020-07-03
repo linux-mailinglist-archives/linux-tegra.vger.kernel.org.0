@@ -2,77 +2,262 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B374D213A20
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jul 2020 14:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0F7E213E3B
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jul 2020 19:09:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbgGCMdL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Jul 2020 08:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726108AbgGCMdK (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jul 2020 08:33:10 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6562BC08C5C1
-        for <linux-tegra@vger.kernel.org>; Fri,  3 Jul 2020 05:33:10 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id l12so33995658ejn.10
-        for <linux-tegra@vger.kernel.org>; Fri, 03 Jul 2020 05:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=vO1JhBUVVjDbzs5o7D5U4bbhrQhWb6ACxIC98OLE58I=;
-        b=UQ5CH4vaG/wouRT3lLGqhgyvCO0iGsFjZCXrR7Fx0Tk1fUZmxt8PXRRDMRxp2Re0AM
-         R2mCRB3OiN6zQGjkoJZFMx+x3zXjo3pdr0ryUpNrQ9qJ7V4jEPROvlF0yQbc8uEBXmwe
-         0t3RkorJmld1cG6ELBRU8kY4TPdwSvZw45Ct0Mk5UFP1ZU4kPPhxElh8NyiQbUrtzwcD
-         eEu1+la+DADS74S2g3kE3iCMCM7VE7b6cFOom8PqbGuNwTy5Ki+T5FlUzGeiBVt66Gq/
-         WLCuj3w7H3Wrjj4KJ7bFWjkVdbQajnXI3BiGtAZHKWAQ3tt4C+1qCqg0YYVg68SMLjqf
-         ZG6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=vO1JhBUVVjDbzs5o7D5U4bbhrQhWb6ACxIC98OLE58I=;
-        b=CyvkLabEasxWs41RNnk3BzXpm9rwWZ3V1KDuDTdhvee3HFjH3lsBqH5PkilNI1gddr
-         2OlonLoSuchEN24VuSqZN4anFjXhA6Rqr8ETuYaYTSGfeCG1xijotU+Z6qjko4STeK2M
-         7P1TU0OrRM/tlS0oZjLbHDYyOfxkyyd1qyHB2EvqIcP2bDKUSykNcUR+C/lFpYXxTezq
-         57D1BbxrZWE1G/OD1wad4XMVQsC3zKmzNBtkQbCUoltsBK8COCNOcQ/kFav97V0Zt7D3
-         mHLuodgZDKMIQoDGqzE9fQHBOGfRPuXp42tKxC46+WEQN9IxxG88qTJh0Wn+/qqGwwxV
-         dUWA==
-X-Gm-Message-State: AOAM532ueByh1PhdtnxJ4Y/58TGFH4Wfo1FVsgcZ7SuVBj2zQpKiY4K4
-        CR7JagS4ETKJKH4KiZLBMh0GnYqNhCNIuuyzIac=
-X-Google-Smtp-Source: ABdhPJz6gPLBwHzDmsOW6jumB7vAiI9CTJrAaOZTtKrqEk2kfMVMt87LAWkzQsp6mvJWMF1VFoVmyJ6JI/24vd5tX/k=
-X-Received: by 2002:a17:907:2170:: with SMTP id rl16mr33646572ejb.422.1593779588838;
- Fri, 03 Jul 2020 05:33:08 -0700 (PDT)
+        id S1726904AbgGCRJ4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Jul 2020 13:09:56 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2398 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbgGCRJz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jul 2020 13:09:55 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eff66550001>; Fri, 03 Jul 2020 10:09:42 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 03 Jul 2020 10:09:54 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 03 Jul 2020 10:09:54 -0700
+Received: from [10.2.167.4] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Jul
+ 2020 17:09:53 +0000
+Subject: Re: [RFC PATCH v2 12/18] media: tegra-video: Add support for
+ selection ioctl ops
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <robh+dt@kernel.org>, <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+ <1592358094-23459-13-git-send-email-skomatineni@nvidia.com>
+ <efc84cff-76d5-78a2-e84e-0342459d3756@xs4all.nl>
+ <c82a000a-7766-c933-fd69-24eb4885fc14@nvidia.com>
+ <a95717b6-e2ee-78df-5145-de265805b3d4@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <5db8cc27-d1a6-4cdf-4974-65ccd8328f74@nvidia.com>
+Date:   Fri, 3 Jul 2020 10:12:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-From:   Peter Geis <pgwipeout@gmail.com>
-Date:   Fri, 3 Jul 2020 08:32:57 -0400
-Message-ID: <CAMdYzYo1je6cjSEm4i0pbNYfq1L549--n_SZDq19Xy35_y4Kkw@mail.gmail.com>
-Subject: Chainloading U-Boot from Fastboot on Tegra30
-To:     U-Boot Mailing List <u-boot@lists.denx.de>,
-        linux-tegra@vger.kernel.org
-Cc:     Stephen Warren <swarren@wwwdotorg.org>, sjg@chromium.org,
-        Dmitry Osipenko <digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a95717b6-e2ee-78df-5145-de265805b3d4@xs4all.nl>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593796182; bh=z3ubYMdxm5GM7bjfyrT2sTe7DwgcgLSwUPRS4maOLPk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=ngSp8V3YIr+/iilUNwIAV9bPIzcw7DjZX76OB7kPkMvJhftOu7eFuyGXMe9+LNNJ7
+         Br/hOgL5MUkWj+p+YPtV4e9f5hZW8JiX7qVbIWBzaGDj325k+T9RohnDydRcuA6ISZ
+         Tw+gQlVFx73kifiiBXyTXB6i7uyWAdSfLKP4kxBQ39gpUlYY0jfSyKO2qjp+D1dGzO
+         3Pr3/zsUEk7t5Y0UYTl2kL2snprxXa3rlls1L5q3IayRSv7daIRrvHKa6rENvCRTen
+         IgaLD7ppXt8L2Tw/8nIGdKZrm9hB2QQ8XFu63dgU18ApzOzcyV1mNkk0oy6v4V3/+7
+         /3nQ7zURuyJnA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Good Morning,
 
-I am attempting to expand on the work for chainloading U-Boot on the
-nyan-big in order to chainload U-Boot on the Ouya Tegra30 device from fastboot.
-I have so far been unsuccessful at getting any output from U-Boot
-through this method.
-
-I'm building the cardhu board with tweaks for Ouya's specifications
-similar to my work for the linux kernel.
-I build the image using mkbootimg --kernel u-boot.bin --ramdisk
-/dev/null --output u-boot-android.bin.
-I then fastboot boot u-boot-android.bin.
-
-I've tried tweaking the text base and tried both standard debug and
-low level debug.
-
-Do you think you could give me some insight into where I'm going wrong?
-
-Thank you,
-Peter Geis
+On 7/3/20 1:06 AM, Hans Verkuil wrote:
+> On 02/07/2020 23:20, Sowjanya Komatineni wrote:
+>> On 7/2/20 6:54 AM, Hans Verkuil wrote:
+>>> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
+>>>> This patch adds selection v4l2 ioctl operations to allow configuring
+>>>> a selection rectangle in the sensor through the Tegra video device
+>>>> node.
+>>>>
+>>>> Some sensor drivers supporting crop uses try_crop rectangle from
+>>>> v4l2_subdev_pad_config during try format for computing binning.
+>>>>
+>>>> So with selection ops support, this patch also updates try format
+>>>> to use try crop rectangle either from subdev frame size enumeration
+>>>> or from subdev crop boundary.
+>>>>
+>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>> ---
+>>>>    drivers/staging/media/tegra-video/vi.c | 106 +++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 106 insertions(+)
+>>>>
+>>>> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+>>>> index 506c263..f9eb96b 100644
+>>>> --- a/drivers/staging/media/tegra-video/vi.c
+>>>> +++ b/drivers/staging/media/tegra-video/vi.c
+>>>> @@ -427,6 +427,13 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+>>>>    	struct v4l2_subdev *subdev;
+>>>>    	struct v4l2_subdev_format fmt;
+>>>>    	struct v4l2_subdev_pad_config *pad_cfg;
+>>>> +	struct v4l2_subdev_frame_size_enum fse = {
+>>>> +		.which = V4L2_SUBDEV_FORMAT_TRY,
+>>>> +	};
+>>>> +	struct v4l2_subdev_selection sdsel = {
+>>>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>>>> +		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+>>>> +	};
+>>>>    	int ret;
+>>>>    
+>>>>    	subdev = tegra_channel_get_remote_subdev(chan, true);
+>>>> @@ -449,6 +456,24 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+>>>>    	fmt.which = V4L2_SUBDEV_FORMAT_TRY;
+>>>>    	fmt.pad = 0;
+>>>>    	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
+>>>> +
+>>>> +	/*
+>>>> +	 * Attempt to obtain the format size from subdev.
+>>>> +	 * If not available, try to get crop boundary from subdev.
+>>>> +	 */
+>>>> +	fse.code = fmtinfo->code;
+>>>> +	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, pad_cfg, &fse);
+>>>> +	if (ret) {
+>>>> +		ret = v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel);
+>>>> +		if (ret)
+>>>> +			return -EINVAL;
+>>>> +		pad_cfg->try_crop.width = sdsel.r.width;
+>>>> +		pad_cfg->try_crop.height = sdsel.r.height;
+>>>> +	} else {
+>>>> +		pad_cfg->try_crop.width = fse.max_width;
+>>>> +		pad_cfg->try_crop.height = fse.max_height;
+>>>> +	}
+>>>> +
+>>>>    	ret = v4l2_subdev_call(subdev, pad, set_fmt, pad_cfg, &fmt);
+>>>>    	if (ret < 0)
+>>>>    		return ret;
+>>>> @@ -540,6 +565,85 @@ static int tegra_channel_set_subdev_active_fmt(struct tegra_vi_channel *chan)
+>>>>    	return 0;
+>>>>    }
+>>>>    
+>>>> +static int tegra_channel_g_selection(struct file *file, void *priv,
+>>>> +				     struct v4l2_selection *sel)
+>>>> +{
+>>>> +	struct tegra_vi_channel *chan = video_drvdata(file);
+>>>> +	struct v4l2_subdev *subdev;
+>>>> +	struct v4l2_subdev_format fmt = {
+>>>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>>>> +	};
+>>>> +	struct v4l2_subdev_selection sdsel = {
+>>>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>>>> +		.target = sel->target,
+>>>> +	};
+>>>> +	int ret;
+>>>> +
+>>>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>>>> +		return -ENOTTY;
+>>>> +
+>>>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>>>> +		return -EINVAL;
+>>>> +	/*
+>>>> +	 * Try the get selection operation and fallback to get format if not
+>>>> +	 * implemented.
+>>>> +	 */
+>>>> +	subdev = tegra_channel_get_remote_subdev(chan, true);
+>>>> +	ret = v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel);
+>>>> +	if (!ret)
+>>>> +		sel->r = sdsel.r;
+>>>> +	if (ret != -ENOIOCTLCMD)
+>>>> +		return ret;
+>>>> +
+>>>> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
+>>>> +	if (ret < 0)
+>>>> +		return ret;
+>>>> +
+>>>> +	sel->r.left = 0;
+>>>> +	sel->r.top = 0;
+>>>> +	sel->r.width = fmt.format.width;
+>>>> +	sel->r.height = fmt.format.height;
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static int tegra_channel_s_selection(struct file *file, void *fh,
+>>>> +				     struct v4l2_selection *sel)
+>>>> +{
+>>>> +	struct tegra_vi_channel *chan = video_drvdata(file);
+>>>> +	struct v4l2_subdev *subdev;
+>>>> +	int ret;
+>>>> +	struct v4l2_subdev_selection sdsel = {
+>>>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>>>> +		.target = sel->target,
+>>>> +		.flags = sel->flags,
+>>>> +		.r = sel->r,
+>>>> +	};
+>>>> +
+>>> This function doesn't check if the subdev actually supports set_selection.
+>>> The imx219 is one such driver: it supports get_selection, but not set_selection.
+>>>
+>>> So this code should add these lines to fix the v4l2-compliance fail:
+>>>
+>>>          subdev = tegra_channel_get_remote_subdev(chan, true);
+>>>
+>>>          if (!v4l2_subdev_has_op(subdev, pad, set_selection))
+>>>                  return -ENOTTY;
+>>>
+>> v4l2_subdev_call() does that check and returns -ENOIOCTLCMD when
+>> specified subdev ops does not exist.
+> But that test happens too late. In the v4l2-compliance test it fails in the
+> sel->type test below, so it returns EINVAL instead of ENOTTY.
+>
+>>>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>>>> +		return -ENOTTY;
+> I think this test should come before the v4l2_subdev_has_op test since there
+> is probably no subdev if the TPG is enabled. So:
+>
+> 	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+> 		return -ENOTTY;
+>
+>          subdev = tegra_channel_get_remote_subdev(chan, true);
+>          if (!v4l2_subdev_has_op(subdev, pad, set_selection))
+>                  return -ENOTTY;
+>
+>
+> Regards,
+>
+> 	Hans
+OK Will update in v3. Thanks Hans
+>>>> +
+>>>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (vb2_is_busy(&chan->queue))
+>>>> +		return -EBUSY;
+>>>> +
+>>>> +	subdev = tegra_channel_get_remote_subdev(chan, true);
+>>> And this line can be dropped.
+>>>
+>>> Regards,
+>>>
+>>> 	Hans
+>>>
+>>>> +	ret = v4l2_subdev_call(subdev, pad, set_selection, NULL, &sdsel);
+>>>> +	if (!ret) {
+>>>> +		sel->r = sdsel.r;
+>>>> +		/*
+>>>> +		 * Subdev active format resolution may have changed during
+>>>> +		 * set selection operation. So, update channel format to
+>>>> +		 * the sub-device active format.
+>>>> +		 */
+>>>> +		return tegra_channel_set_subdev_active_fmt(chan);
+>>>> +	}
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>>    static int tegra_channel_enum_input(struct file *file, void *fh,
+>>>>    				    struct v4l2_input *inp)
+>>>>    {
+>>>> @@ -597,6 +701,8 @@ static const struct v4l2_ioctl_ops tegra_channel_ioctl_ops = {
+>>>>    	.vidioc_streamoff		= vb2_ioctl_streamoff,
+>>>>    	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
+>>>>    	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
+>>>> +	.vidioc_g_selection		= tegra_channel_g_selection,
+>>>> +	.vidioc_s_selection		= tegra_channel_s_selection,
+>>>>    };
+>>>>    
+>>>>    /*
+>>>>
