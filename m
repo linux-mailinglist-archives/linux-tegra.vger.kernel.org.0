@@ -2,258 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 657412135C2
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jul 2020 10:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81114213649
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jul 2020 10:21:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726371AbgGCIGU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Jul 2020 04:06:20 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46349 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725891AbgGCIGT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 3 Jul 2020 04:06:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id rGi2j86C1mVFqrGi5j7GWZ; Fri, 03 Jul 2020 10:06:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593763575; bh=b4jvdZMiRl+wQlE8aK7iGvK92VjV3a/6aX4pFQUlAY4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=uqKM0qgkfVWerqlbG6o3xBiv6+lkwTSdn60vng7VtUX2pCKAfz2b12dNbn4UJ5vsi
-         /B3ivaZOlPPDlw+I9/SyuEsyK9WRAdLWaQ+O/4mfNSw49CA0uoFERSqBRcpNXwADUU
-         s2DYzRfN8c1z9hSRV8JWH8szoCVvgtfCFZy0lsDDaQyYSbb2dOQZvHYY4F6HRnA2fm
-         p/knxlfOEA3ND2IsaeHeX87zsidWl/1CprmWYbzWMu5NCm+X+gspdYYjA+/lIH6ipM
-         F2J4TffZHGM6u99C2dz41Z6HQADENLofvftmn1nACb499MaCVYEomW1emX8Y/7ExNv
-         QMNhQ80petZlw==
-Subject: Re: [RFC PATCH v2 12/18] media: tegra-video: Add support for
- selection ioctl ops
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com
-Cc:     digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
- <1592358094-23459-13-git-send-email-skomatineni@nvidia.com>
- <efc84cff-76d5-78a2-e84e-0342459d3756@xs4all.nl>
- <c82a000a-7766-c933-fd69-24eb4885fc14@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a95717b6-e2ee-78df-5145-de265805b3d4@xs4all.nl>
-Date:   Fri, 3 Jul 2020 10:06:09 +0200
+        id S1726157AbgGCIVI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Jul 2020 04:21:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43000 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725915AbgGCIVI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jul 2020 04:21:08 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7EBDC08C5C1;
+        Fri,  3 Jul 2020 01:21:07 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id o4so18004657lfi.7;
+        Fri, 03 Jul 2020 01:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=R3DXWe/7kffwAkZY5CuO0mg5y/MW32bQD7iUuOlWvjA=;
+        b=T7sDBYf2EJVFVlZiG90k4/S+CPDEHBEarBT1uTJkaCGF3HVtF8eOi9CDQ+aHvlqnXQ
+         nm7RzyBvtVL8kBGopKyQfcImX8Srzn4+ay+GPESM+pGPewRmwhZGW7Esvu9t0Sgkwpsx
+         M146OX2cUdY43VYg30eK0+t7ggnx2vSKX/Whu0iArmHpPw0cs//ikzhcDHfOilaSQxFo
+         AelddUCc+K7bnV20ZyBuEleNfdrd0uMKIFovW1IZmLx0TUKtwEQdeNwmJyPrTcoOWY0g
+         orCeliygk/p6edAJVkTfy/39zO4RN0VBcSBCpJtzuq8gZ12vbPF8yYK4EYZQhB8RFW08
+         cIAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=R3DXWe/7kffwAkZY5CuO0mg5y/MW32bQD7iUuOlWvjA=;
+        b=GVLGt8j2HzIQrIKtTj3bSESbXcx2js6JYGuhqDEMeIsDgHGumNfmN23FxiRWqQustW
+         xPHx6dIPU4vrDh262YmR5XmYbHmuAZ+fP9HQ9Z3T0Rv0m0ehtQpnjtDw/sY19uoUHQWj
+         EPu1F+HBYhXR7oUwHGpJbxsWFjQgRYKYV3LNXM39nVqNOrYCk3j817JFu5R4v2mzrjv2
+         9xjG7nIpuP+lIVagYwJSUzw8dYGdkbRzBCRkOGQE586pp3HYhoOJHQ1SNW14U5m7zQy7
+         Qn0aIOwLGAvLFSuxA6n68+Ns598knKARKxq0ePZ25q37IyV9HCA7yxfBc4sZ8Isi0TYm
+         CVhQ==
+X-Gm-Message-State: AOAM533E2LTpR+0ml0DTSDelQXdtTabUaptSxsJLcuVWqLPPzxlpJmv4
+        GjxZOgnlGTX9KXbWSZ3dWko+hpRZ4Z0=
+X-Google-Smtp-Source: ABdhPJwPnozSkJ2XzdKc+tafvTvERFYy06y/KVN/pGEFisb8WeHehrR2cSDS/OOZ4LlJ6y23zfNkPg==
+X-Received: by 2002:a05:6512:203b:: with SMTP id s27mr4115815lfs.158.1593764465014;
+        Fri, 03 Jul 2020 01:21:05 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id 203sm4396573lfh.19.2020.07.03.01.21.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jul 2020 01:21:04 -0700 (PDT)
+Subject: Re: [PATCH v2] PM / devfreq: tegra: Add Dmitry as a maintainer
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <CGME20200402222006epcas1p4027cd509b32ba2d2bdf90e9e84cf4bec@epcas1p4.samsung.com>
+ <20200402221723.6064-1-digetx@gmail.com>
+ <921abb5e-8c12-db8b-b345-fbe49080dc1c@samsung.com>
+ <a08f16bc-df90-2199-91c8-f2acfe0f94ad@samsung.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <33a4df9d-7642-2f64-e073-ef6091f1ca33@gmail.com>
+Date:   Fri, 3 Jul 2020 11:21:03 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <c82a000a-7766-c933-fd69-24eb4885fc14@nvidia.com>
+In-Reply-To: <a08f16bc-df90-2199-91c8-f2acfe0f94ad@samsung.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJibOq/j4tqoc36sc4WrtRfP/A0osTMUl1TNKLANrgu56/SySM9PwU8/7zlFaI92I2Zm+b7yAimCBtoVhEq0JGdG/Qu6rWHiZR2VRfdU8v3TAesoYmCf
- 12+lmuLHRoPvH8otC/RKqgD6o2UUMxNGygKPVInnM34BF/htxuI8rRF6jG8IbW+Y05Ebu5IdKMwEu/FtgiAnQCvhSLMvGxIVTMF01lScqwjNQ/P/elK9XYLK
- DCsRPHwA+4jMO4dF+3QmpcHeAsKsAdN3bjqSYSho3E6zHZYEP9a7V4HEjL2J66sJ/IYpfJD8zVYapSUiU9Si6ArWPuN1OkLmpmzy+07A1MybGJJf5TrZuz4/
- mvSK/CItcwqWHuLoxQDh2IbdL7+Hp52d7L6QTMFWZQoXBXQujIRJckCIgnZDvueyk+AyhjMt8ZGAViX6dB01sBUyIzznC1nEweu7Rw5EkEJmj2UFrhJJfHUN
- 5HtqnX3wzLVieIf0NHPwb0Fdj1ddMehpgkMmA4w0PzD1DLe4Ideui72Y7suyfaEy7GXK0/WwkTTu1C7/wlrLvMwUrQEVIMcxMyc080Eyo6CeFoje9z4iuiHy
- USmgj20dEE+T9RxO/0IEl8dU61xTek0qZACAwgVjimcDDrD4JCV+RfscsZjN3urSkOLgUPAQlyOySgTitx1SJKDV
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 02/07/2020 23:20, Sowjanya Komatineni wrote:
+03.07.2020 03:44, Chanwoo Choi пишет:
+> Dear all,
 > 
-> On 7/2/20 6:54 AM, Hans Verkuil wrote:
->> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
->>> This patch adds selection v4l2 ioctl operations to allow configuring
->>> a selection rectangle in the sensor through the Tegra video device
->>> node.
+> On 5/8/20 1:04 PM, Chanwoo Choi wrote:
+>> Hi Rafael,
+>>
+>> Could you please apply it to linux-pm directly?
+>>
+>> I think that it is better to be applied directly
+>> for preventing the possible merge conflict of MAINTAINERS file.
+>>
+>> Best Regards,
+>> Chanwoo Choi
+>>
+>> On 4/3/20 7:17 AM, Dmitry Osipenko wrote:
+>>> I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
+>>> want to help keep them working and evolving in the future.
 >>>
->>> Some sensor drivers supporting crop uses try_crop rectangle from
->>> v4l2_subdev_pad_config during try format for computing binning.
->>>
->>> So with selection ops support, this patch also updates try format
->>> to use try crop rectangle either from subdev frame size enumeration
->>> or from subdev crop boundary.
->>>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 >>> ---
->>>   drivers/staging/media/tegra-video/vi.c | 106 +++++++++++++++++++++++++++++++++
->>>   1 file changed, 106 insertions(+)
 >>>
->>> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
->>> index 506c263..f9eb96b 100644
->>> --- a/drivers/staging/media/tegra-video/vi.c
->>> +++ b/drivers/staging/media/tegra-video/vi.c
->>> @@ -427,6 +427,13 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->>>   	struct v4l2_subdev *subdev;
->>>   	struct v4l2_subdev_format fmt;
->>>   	struct v4l2_subdev_pad_config *pad_cfg;
->>> +	struct v4l2_subdev_frame_size_enum fse = {
->>> +		.which = V4L2_SUBDEV_FORMAT_TRY,
->>> +	};
->>> +	struct v4l2_subdev_selection sdsel = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +		.target = V4L2_SEL_TGT_CROP_BOUNDS,
->>> +	};
->>>   	int ret;
->>>   
->>>   	subdev = tegra_channel_get_remote_subdev(chan, true);
->>> @@ -449,6 +456,24 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->>>   	fmt.which = V4L2_SUBDEV_FORMAT_TRY;
->>>   	fmt.pad = 0;
->>>   	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
->>> +
->>> +	/*
->>> +	 * Attempt to obtain the format size from subdev.
->>> +	 * If not available, try to get crop boundary from subdev.
->>> +	 */
->>> +	fse.code = fmtinfo->code;
->>> +	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, pad_cfg, &fse);
->>> +	if (ret) {
->>> +		ret = v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel);
->>> +		if (ret)
->>> +			return -EINVAL;
->>> +		pad_cfg->try_crop.width = sdsel.r.width;
->>> +		pad_cfg->try_crop.height = sdsel.r.height;
->>> +	} else {
->>> +		pad_cfg->try_crop.width = fse.max_width;
->>> +		pad_cfg->try_crop.height = fse.max_height;
->>> +	}
->>> +
->>>   	ret = v4l2_subdev_call(subdev, pad, set_fmt, pad_cfg, &fmt);
->>>   	if (ret < 0)
->>>   		return ret;
->>> @@ -540,6 +565,85 @@ static int tegra_channel_set_subdev_active_fmt(struct tegra_vi_channel *chan)
->>>   	return 0;
->>>   }
->>>   
->>> +static int tegra_channel_g_selection(struct file *file, void *priv,
->>> +				     struct v4l2_selection *sel)
->>> +{
->>> +	struct tegra_vi_channel *chan = video_drvdata(file);
->>> +	struct v4l2_subdev *subdev;
->>> +	struct v4l2_subdev_format fmt = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +	};
->>> +	struct v4l2_subdev_selection sdsel = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +		.target = sel->target,
->>> +	};
->>> +	int ret;
->>> +
->>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
->>> +		return -ENOTTY;
->>> +
->>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->>> +		return -EINVAL;
->>> +	/*
->>> +	 * Try the get selection operation and fallback to get format if not
->>> +	 * implemented.
->>> +	 */
->>> +	subdev = tegra_channel_get_remote_subdev(chan, true);
->>> +	ret = v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel);
->>> +	if (!ret)
->>> +		sel->r = sdsel.r;
->>> +	if (ret != -ENOIOCTLCMD)
->>> +		return ret;
->>> +
->>> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
->>> +	if (ret < 0)
->>> +		return ret;
->>> +
->>> +	sel->r.left = 0;
->>> +	sel->r.top = 0;
->>> +	sel->r.width = fmt.format.width;
->>> +	sel->r.height = fmt.format.height;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int tegra_channel_s_selection(struct file *file, void *fh,
->>> +				     struct v4l2_selection *sel)
->>> +{
->>> +	struct tegra_vi_channel *chan = video_drvdata(file);
->>> +	struct v4l2_subdev *subdev;
->>> +	int ret;
->>> +	struct v4l2_subdev_selection sdsel = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +		.target = sel->target,
->>> +		.flags = sel->flags,
->>> +		.r = sel->r,
->>> +	};
->>> +
->> This function doesn't check if the subdev actually supports set_selection.
->> The imx219 is one such driver: it supports get_selection, but not set_selection.
->>
->> So this code should add these lines to fix the v4l2-compliance fail:
->>
->>         subdev = tegra_channel_get_remote_subdev(chan, true);
->>
->>         if (!v4l2_subdev_has_op(subdev, pad, set_selection))
->>                 return -ENOTTY;
->>
-> v4l2_subdev_call() does that check and returns -ENOIOCTLCMD when 
-> specified subdev ops does not exist.
-
-But that test happens too late. In the v4l2-compliance test it fails in the
-sel->type test below, so it returns EINVAL instead of ENOTTY.
-
->>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
->>> +		return -ENOTTY;
-
-I think this test should come before the v4l2_subdev_has_op test since there
-is probably no subdev if the TPG is enabled. So:
-
-	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
-		return -ENOTTY;
-
-        subdev = tegra_channel_get_remote_subdev(chan, true);
-        if (!v4l2_subdev_has_op(subdev, pad, set_selection))
-                return -ENOTTY;
-
-
-Regards,
-
-	Hans
-
->>> +
->>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->>> +		return -EINVAL;
->>> +
->>> +	if (vb2_is_busy(&chan->queue))
->>> +		return -EBUSY;
->>> +
->>> +	subdev = tegra_channel_get_remote_subdev(chan, true);
->> And this line can be dropped.
->>
->> Regards,
->>
->> 	Hans
->>
->>> +	ret = v4l2_subdev_call(subdev, pad, set_selection, NULL, &sdsel);
->>> +	if (!ret) {
->>> +		sel->r = sdsel.r;
->>> +		/*
->>> +		 * Subdev active format resolution may have changed during
->>> +		 * set selection operation. So, update channel format to
->>> +		 * the sub-device active format.
->>> +		 */
->>> +		return tegra_channel_set_subdev_active_fmt(chan);
->>> +	}
->>> +
->>> +	return ret;
->>> +}
->>> +
->>>   static int tegra_channel_enum_input(struct file *file, void *fh,
->>>   				    struct v4l2_input *inp)
->>>   {
->>> @@ -597,6 +701,8 @@ static const struct v4l2_ioctl_ops tegra_channel_ioctl_ops = {
->>>   	.vidioc_streamoff		= vb2_ioctl_streamoff,
->>>   	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
->>>   	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
->>> +	.vidioc_g_selection		= tegra_channel_g_selection,
->>> +	.vidioc_s_selection		= tegra_channel_s_selection,
->>>   };
->>>   
->>>   /*
+>>> Changelog:
 >>>
+>>> v2: - Addressed review comments made by Chanwoo Choi to v1 by correcting
+>>>       git's address, making this patch standalone and adding Rafael Wysocki
+>>>       to the list of email recipients.
+>>>
+>>>  MAINTAINERS | 9 +++++++++
+>>>  1 file changed, 9 insertions(+)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 245a96316636..0a694e20ea19 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -10922,6 +10922,15 @@ F:	include/linux/memblock.h
+>>>  F:	mm/memblock.c
+>>>  F:	Documentation/core-api/boot-time-mm.rst
+>>>  
+>>> +MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
+>>> +M:	Dmitry Osipenko <digetx@gmail.com>
+>>> +L:	linux-pm@vger.kernel.org
+>>> +L:	linux-tegra@vger.kernel.org
+>>> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git
+>>> +S:	Maintained
+>>> +F:	drivers/devfreq/tegra20-devfreq.c
+>>> +F:	drivers/devfreq/tegra30-devfreq.c
+>>> +
+>>>  MEMORY MANAGEMENT
+>>>  M:	Andrew Morton <akpm@linux-foundation.org>
+>>>  L:	linux-mm@kvack.org
+>>>
+>>
+>>
+> 
+> I applied it to devfreq-next branch. Thanks.
+
+Hello, Chanwoo! Thank you very much! :)
 
