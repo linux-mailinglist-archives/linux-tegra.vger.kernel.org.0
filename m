@@ -2,105 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A87F5215A79
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jul 2020 17:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C346A215AA9
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jul 2020 17:24:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729238AbgGFPQc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jul 2020 11:16:32 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8577 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729197AbgGFPQc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jul 2020 11:16:32 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f033fe70000>; Mon, 06 Jul 2020 08:14:47 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 06 Jul 2020 08:16:32 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 06 Jul 2020 08:16:32 -0700
-Received: from [10.26.72.33] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Jul
- 2020 15:16:20 +0000
-Subject: Re: [PATCH 7/8] ASoC: tegra: tegra20_das: remove always-true
- comparison
-To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <alsa-devel@alsa-project.org>
-CC:     <tiwai@suse.de>, <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20200702165901.164100-1-pierre-louis.bossart@linux.intel.com>
- <20200702165901.164100-8-pierre-louis.bossart@linux.intel.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <1a7c7025-7689-54a0-dbc0-00b5c1fcd0f1@nvidia.com>
-Date:   Mon, 6 Jul 2020 16:16:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1729303AbgGFPYl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jul 2020 11:24:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:59795 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729301AbgGFPYl (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jul 2020 11:24:41 -0400
+Received: from mail-qk1-f178.google.com ([209.85.222.178]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1M1YxX-1jtqhB3Oup-0036rS; Mon, 06 Jul 2020 17:24:39 +0200
+Received: by mail-qk1-f178.google.com with SMTP id b4so35074517qkn.11;
+        Mon, 06 Jul 2020 08:24:38 -0700 (PDT)
+X-Gm-Message-State: AOAM5330UEpXtYtNDoXI3w+P6w9NnINufJZHYeIfIUFdJYchByr0+Rpw
+        Og6mHqodTGwheTWKUtOUBPvp6pOGi/7V+ppiD58=
+X-Google-Smtp-Source: ABdhPJx/kQ8tGLZ80uMQBf/V4GcRLK5qTEQ5SfwL2lBdncwT+o1fz7jO0ykG/E9TJYvaujgh9Qc4ADjh9rnT+ZYCKEs=
+X-Received: by 2002:a05:620a:1654:: with SMTP id c20mr40649731qko.138.1594049077399;
+ Mon, 06 Jul 2020 08:24:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200702165901.164100-8-pierre-louis.bossart@linux.intel.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594048487; bh=S3qOsW4jy3ZymnO+RQ9II2XOQKKoroUl5+GuXsnukfU=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=d6OFUJ0pQtg6JQNVFCgkn/XX5QvOjZQA7YGkzOh5jeFI1EEr9d+9uXjmZBMHygc7i
-         +fMiz5QaZP2St9MCr/wjAiDsGA3nMwV9kXM12bX28umi38ousxAkAwYFukFs2+qr9m
-         DCXLZZuViVo6JARF8034PM2zUKb1ihpLn+de3tmDU2jrBRyOr0vEwRg86NdPauItf4
-         lMLsoErnsyCo6EWjSVqqgECpya2Upq1awjOuxQRTSbpVVcDhRZ3bb7a3UXdcX1futz
-         EbIQZhihEllFEKDsBgXLOX++Y4glQJTFP9jMsvK+dVkDw0Ou1BJJiDy1U19xd9q99L
-         6MUUXS/P0jwUQ==
+References: <CA+G9fYvqW-RQxt3kSoNkh5Y2REoe0QQB_dTz_KPzhJzcwiM5OA@mail.gmail.com>
+ <CAK8P3a1Lda8HhsDvDREf-cOgb4RkCgEKK5Q-Zj+UhK8tsAaBLw@mail.gmail.com> <51d6e5bb-3de1-36dc-15a4-c341b23ca8cd@intel.com>
+In-Reply-To: <51d6e5bb-3de1-36dc-15a4-c341b23ca8cd@intel.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 6 Jul 2020 17:24:20 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2LmUVj-yhwxXeCpqdxqJpp0m-q9q9SKQpfh3tFgMXPQA@mail.gmail.com>
+Message-ID: <CAK8P3a2LmUVj-yhwxXeCpqdxqJpp0m-q9q9SKQpfh3tFgMXPQA@mail.gmail.com>
+Subject: Re: [qemu] boot failed: Unable to handle kernel NULL pointer
+ dereference at virtual address 0000000000000000
+To:     Dave Jiang <dave.jiang@intel.com>
+Cc:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        linux-serial@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, Jiri Slaby <jslaby@suse.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>, jirislaby@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        ldewangan@nvidia.com, Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, Qian Cai <cai@lca.pw>,
+        lkft-triage@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:l2TiyyKexT2QsitKsQrJvF7YNB4SJ+BqAFAp52Us8tv4D7mFq0q
+ aLaiiXYwBBDj3UjVOSjR9rw4TzguFVlHg9gPsbBJcaCxMIcOEq2olwC/cwcJUr2EWamxrEO
+ nTuh/tFvS8yeqEP7MfmwHHhTFmg/6d0sjR1rlRCghQnCSdhSVmnMTwqv8l4qcnLA72qv7lN
+ Y+6vKUODqFDTRmTsv/v6w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QDdRKvb6+k4=:NRqLc2O3zBJWrtUw/LZgPS
+ 4lasJqUco858TjH4BesQcKk1/85A3/ny2nUH6U9hGyDylaYEPjtMLg5sq6Gsho2DiILL1uzGl
+ yujyqVal5vEnztENqINXKjg8m7pWdQA82aIm3YJmIc+iuCgwQEU/xe+6hmOs7iAlogLh7BuS5
+ g55F5jFjhghqJcc6rKXO54uHM548nTTk3u1gpBTVy8R9lrSOWkgwoePUZyqOzKuG978AnhCFs
+ kPMRvFLvGUXMdZtYhokRkzyzt3ChIrIHiyBID6WNmXlv427snLomCBUFB42i6RseFKImI4d1X
+ 6UOzMmvIclUplVSVAJZ8nvJfTzZnsVV7V0vafcy/yFSgOrahRzyMWNUFIwhwvlh1UwogYEK8m
+ 7z7HnRUwVwpZtAW9r6CHWKOZPG+UCyOYxstnamM8g/kHCSx3HS5BcEr5Y7rbU90JeSR5vMNcA
+ C/55XbqDvM1nKKxLBCQRGnfxsGBgUye/7h0+2RjQHumoLfqjqQtTt7bDsGwzS/m3M/r+Ey6j2
+ ceuJr3pkn016Lblt7cP1V8NFOamQBLd4Adys/yooyDXFqc6gPo/8aBJok1O9cBKZVFAMDfdKL
+ 3GNXPMpBWh59XHICQ5nSVi3qMmZ1CwgcGxI4THBiHynyA+ALYtzXtzb2A7E6vMYo+Bi2Uix5i
+ s78aSdqMTu0RXW8U/J4c/zlyEkIhW9og8KkSWmbsJtoUMkJSYMm5HP6ncIbZAVq7+y2taP3WD
+ +S9uWG8Xop//gNeJzSBkVhe39jtn3I1gjbZ8ofThZB8Xzol68a7oCBc6kT/pBZu5+oURjWUWZ
+ AJ0C8cvvu/gQXvlxZIKsJWCiyvw4scMhWOR1cI02iON3HKqcilDH9c6LoHLXSlDGbtk3T7kmb
+ SkQBhw5lli5EK9x8AfMynpP0VyOB1Ep2dhIvJ1r23TBDaHh84wO5Cud5fTKbowYlpcW1mBsBw
+ DiPQQhv/bEgBHMi1JcsiYNgLA3DQV2H/Rsz798+3OLt1hmL9b9eap
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Jul 6, 2020 at 5:01 PM Dave Jiang <dave.jiang@intel.com> wrote:
+> On 7/6/2020 5:53 AM, Arnd Bergmann wrote:
+> > On Mon, Jul 6, 2020 at 1:03 PM Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>
+> Arnd,
+> I'm looking at the pl001_dma_probe(), I think we could make it more robust if it
+> uses IS_ERR_OR_NULL(chan) instead of IS_ERR(). Should I send a patch for it? I
+> suppose looking at the comment header for dma_request_chan() it does say return
+> chan ptr or error ptr. Sorry I missed that.
 
-On 02/07/2020 17:59, Pierre-Louis Bossart wrote:
-> Fix W=1 warning:
-> 
-> sound/soc//tegra/tegra20_das.c:101:11: warning:
-> comparison of unsigned expression >= 0 is always true [-Wtype-limits]
->   101 |  if ((reg >= TEGRA20_DAS_DAP_CTRL_SEL) &&
->       |           ^~
-> 
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> ---
->  sound/soc/tegra/tegra20_das.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/tegra/tegra20_das.c b/sound/soc/tegra/tegra20_das.c
-> index 1070b2710d5e..79dba878d854 100644
-> --- a/sound/soc/tegra/tegra20_das.c
-> +++ b/sound/soc/tegra/tegra20_das.c
-> @@ -98,8 +98,7 @@ EXPORT_SYMBOL_GPL(tegra20_das_connect_dac_to_dap);
->  
->  static bool tegra20_das_wr_rd_reg(struct device *dev, unsigned int reg)
->  {
-> -	if ((reg >= TEGRA20_DAS_DAP_CTRL_SEL) &&
-> -	    (reg <= LAST_REG(DAP_CTRL_SEL)))
-> +	if (reg <= LAST_REG(DAP_CTRL_SEL))
->  		return true;
->  	if ((reg >= TEGRA20_DAS_DAC_INPUT_DATA_CLK_SEL) &&
->  	    (reg <= LAST_REG(DAC_INPUT_DATA_CLK_SEL)))
-> 
+No. IS_ERR_OR_NULL() is almost always a mistake. A function should either
+return NULL on error, or it should return an error code, but should not be
+able to return either.
 
-Thanks!
+Have you checked all the other 'return NULL' statements in your patch to
+ensure that they never return error pointers?
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-
-Cheers
-Jon
-
--- 
-nvpublic
+       Arnd
