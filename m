@@ -2,114 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AF7215D4B
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jul 2020 19:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE049215E03
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jul 2020 20:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729716AbgGFRhM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jul 2020 13:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729669AbgGFRhL (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jul 2020 13:37:11 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A867C08C5DF
-        for <linux-tegra@vger.kernel.org>; Mon,  6 Jul 2020 10:37:11 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id e8so12165396ljb.0
-        for <linux-tegra@vger.kernel.org>; Mon, 06 Jul 2020 10:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Sz11DYsL5zwVjqYhEKLPrxOF4tzgDMf1vz98/XjZCxY=;
-        b=tLMYUVfHZtxO9KgWzxxOdD9mlQ3dFXlKr7srKRmLWLyKcglJiohqNiQztHYlHwWNUo
-         iP0ZMLRORAtfja/bxFn0wg13a/z0XXiAoY7sxH9g5CvV5ifmaV+6HUOxwMqyNNBa7OXd
-         Pk33QdLTy8IiiwRldr6OC7wSgyp7WcbNDd5KR/Do8+xNqy7KOuO660gFYGVH1OA3SxJL
-         oqVXNWDxaJEO55b67x+Q5VVrZm/aaObRxxyZ6nahPibVE/3egwpX0Puzu7/MWuFuWzgr
-         XtoIxoCAaZ1i2RBQeSzE6JIqCvmWPnrlM3qNEX5tILBOkQd00yt52r8ovQGzGTUUPPbi
-         nqMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Sz11DYsL5zwVjqYhEKLPrxOF4tzgDMf1vz98/XjZCxY=;
-        b=XGAZj58YFEmjVZ3kcdSefofDp+3e9CXTmfQwtDUg/A1ba91Gig/LsrDvJfgUnwS4D8
-         yVQNDKeDkjINf+w5LDJQ9S0dHNMdeqLWHF/XOgFmpJzt3uqw0Xb8jzlbm/hwAzAWjuTJ
-         RvWwucFiMJ/m6H/VGf0UmRzKnLkzal0Yu0YDHkHQ4TWTIdtxmEXTp+4U5zoDCrFJ6RMg
-         jXfqOtoPxiqGh2SKsUUhPc+1MLZhOTtRk08jTuMz/DwkRmk37PFWcC/EeAvotaoCEZT1
-         8CnaZE0U0vri6ENpXGjArYCNy8tS6vXWT0yQNciUsYTBMjotGD3onvXSJm2yYgF4DcJz
-         4LuA==
-X-Gm-Message-State: AOAM531l7VNHvgzscWPIJKE9sevqZzz69bCcKzPr2AuEctn036shhIGc
-        G+9T8VybUijZyuniputTVU+E/Uhp8wxI6LruRBJ1UA==
-X-Google-Smtp-Source: ABdhPJzFmLIfcVR5FzO4+AEovpNtwMZuiGYvPgfuVk+fhy5MWgeKKsdNiLip/9aWdgIrjSmnfdgotnU2gIr3mk7bFbw=
-X-Received: by 2002:a2e:7401:: with SMTP id p1mr4753087ljc.366.1594057029609;
- Mon, 06 Jul 2020 10:37:09 -0700 (PDT)
+        id S1729651AbgGFSJ0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jul 2020 14:09:26 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4612 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729550AbgGFSJZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jul 2020 14:09:25 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f03689f0000>; Mon, 06 Jul 2020 11:08:32 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 06 Jul 2020 11:09:25 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 06 Jul 2020 11:09:25 -0700
+Received: from [10.26.72.33] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Jul
+ 2020 18:09:20 +0000
+Subject: Re: [PATCH] arm64: tegra: Re-order PCIe aperture mappings
+To:     Vidya Sagar <vidyas@nvidia.com>, <robh+dt@kernel.org>,
+        <treding@nvidia.com>, <thierry.reding@gmail.com>
+CC:     <lorenzo.pieralisi@arm.com>, <amurray@thegoodpenguin.co.uk>,
+        <bhelgaas@google.com>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20200706171454.11316-1-vidyas@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <d7e37f3c-9d4c-a12d-bd29-df12f5ffb26d@nvidia.com>
+Date:   Mon, 6 Jul 2020 19:09:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <CA+G9fYvqW-RQxt3kSoNkh5Y2REoe0QQB_dTz_KPzhJzcwiM5OA@mail.gmail.com>
- <CAK8P3a1Lda8HhsDvDREf-cOgb4RkCgEKK5Q-Zj+UhK8tsAaBLw@mail.gmail.com> <51d6e5bb-3de1-36dc-15a4-c341b23ca8cd@intel.com>
-In-Reply-To: <51d6e5bb-3de1-36dc-15a4-c341b23ca8cd@intel.com>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Mon, 6 Jul 2020 23:06:58 +0530
-Message-ID: <CA+G9fYvEqr8Wdi6vCTyAFT8eq3yL53E+WW4_Tzeea_HMKSOjQA@mail.gmail.com>
-Subject: Re: [qemu] boot failed: Unable to handle kernel NULL pointer
- dereference at virtual address 0000000000000000
-To:     Dave Jiang <dave.jiang@intel.com>, Arnd Bergmann <arnd@arndb.de>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     linux-serial@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>, jirislaby@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        ldewangan@nvidia.com, Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, Qian Cai <cai@lca.pw>,
-        lkft-triage@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200706171454.11316-1-vidyas@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594058912; bh=T8ZsPViLfuGLPzyA2wQu8w+RoLUkmnwNsf817BwziWU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=odNGbTWl99yvu3yH2HSm5JuT/vdKuM9eMXPtaxkZiVaLbokbw5iI/Vbz8QHqntrRY
+         sGwhB2jM0nYTQlwt74zlp83rCo3tbXvGGLtIs50GrP3uXS4JgyTXFngmCva2vud+0a
+         zzdOYv1uVsh/HT6EwaAdxiRqcpP+eUw/imGPpp23NjyiD4rddItR1ovv9CI1ljEWRs
+         V0deuvQMj0ayM+nZ2BAU6Z3RdaVKgBwABs0bBdh3qaKFpHFZRCWWVSr16zIDNIi/05
+         9PMsraBbTTOtADD6U5kn7Q1mqe14m/5T+HALPGQctDxJ0AvZFKTwXkCPxkDmhyQAXf
+         OiwTpYIYEvb+w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-> Arnd,
-> I'm looking at the pl001_dma_probe(), I think we could make it more robust if it
-> uses IS_ERR_OR_NULL(chan) instead of IS_ERR(). Should I send a patch for it? I
-> suppose looking at the comment header for dma_request_chan() it does say return
-> chan ptr or error ptr. Sorry I missed that.
->
->
-> Vinod,
-> It looks like the only fix for dmaengine for the patch is where Arnd pointed out
-> as far as I can tell after auditing it. Let me know how you want to handle this.
-> Thanks!
 
-This proposed fix patch applied on top of linux next ( 20200706 tag )
-and boot test PASS.
+On 06/07/2020 18:14, Vidya Sagar wrote:
+> Re-order Tegra194's PCIe aperture mappings to have IO window moved to
+> 64-bit aperture and have the entire 32-bit aperture used for accessing
+> the configuration space. This makes it to use the entire 32MB of the 32-bit
+> aperture for ECAM purpose while booting through ACPI.
+> 
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 36 ++++++++++++------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> index 4bc187a4eacd..2b378fa06d19 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> @@ -1404,9 +1404,9 @@
+>  		nvidia,aspm-l0s-entrance-latency-us = <3>;
+>  
+>  		bus-range = <0x0 0xff>;
+> -		ranges = <0x81000000 0x0  0x30100000 0x0  0x30100000 0x0 0x00100000   /* downstream I/O (1MB) */
+> -			  0xc3000000 0x12 0x00000000 0x12 0x00000000 0x0 0x30000000   /* prefetchable memory (768MB) */
+> -			  0x82000000 0x0  0x40000000 0x12 0x30000000 0x0 0x10000000>; /* non-prefetchable memory (256MB) */
+> +		ranges = <0xc3000000 0x12 0x00000000 0x12 0x00000000 0x0 0x30000000   /* prefetchable memory (768MB) */
+> +			  0x82000000 0x00 0x40000000 0x12 0x30000000 0x0 0x0fff0000   /* non-prefetchable memory (256MB - 64KB) */
+> +			  0x81000000 0x00 0x00000000 0x12 0x3fff0000 0x0 0x00010000>; /* downstream I/O (64KB) */
+>  	};
+>  
+>  	pcie@14120000 {
+> @@ -1449,9 +1449,9 @@
+>  		nvidia,aspm-l0s-entrance-latency-us = <3>;
+>  
+>  		bus-range = <0x0 0xff>;
+> -		ranges = <0x81000000 0x0  0x32100000 0x0  0x32100000 0x0 0x00100000   /* downstream I/O (1MB) */
+> -			  0xc3000000 0x12 0x40000000 0x12 0x40000000 0x0 0x30000000   /* prefetchable memory (768MB) */
+> -			  0x82000000 0x0  0x40000000 0x12 0x70000000 0x0 0x10000000>; /* non-prefetchable memory (256MB) */
+> +		ranges = <0xc3000000 0x12 0x40000000 0x12 0x40000000 0x0 0x30000000   /* prefetchable memory (768MB) */
+> +			  0x82000000 0x00 0x40000000 0x12 0x70000000 0x0 0x0fff0000   /* non-prefetchable memory (256MB - 64KB) */
+> +			  0x81000000 0x00 0x00000000 0x12 0x7fff0000 0x0 0x00010000>; /* downstream I/O (64KB) */
+>  	};
+>  
+>  	pcie@14140000 {
+> @@ -1494,9 +1494,9 @@
+>  		nvidia,aspm-l0s-entrance-latency-us = <3>;
+>  
+>  		bus-range = <0x0 0xff>;
+> -		ranges = <0x81000000 0x0  0x34100000 0x0  0x34100000 0x0 0x00100000   /* downstream I/O (1MB) */
+> -			  0xc3000000 0x12 0x80000000 0x12 0x80000000 0x0 0x30000000   /* prefetchable memory (768MB) */
+> -			  0x82000000 0x0  0x40000000 0x12 0xb0000000 0x0 0x10000000>; /* non-prefetchable memory (256MB) */
+> +		ranges = <0xc3000000 0x12 0x80000000 0x12 0x80000000 0x0 0x30000000   /* prefetchable memory (768MB) */
+> +			  0x82000000 0x00 0x40000000 0x12 0xb0000000 0x0 0x0fff0000   /* non-prefetchable memory (256MB - 64KB) */
+> +			  0x81000000 0x00 0x00000000 0x12 0xbfff0000 0x0 0x00010000>; /* downstream I/O (64KB) */
+>  	};
+>  
+>  	pcie@14160000 {
+> @@ -1539,9 +1539,9 @@
+>  		nvidia,aspm-l0s-entrance-latency-us = <3>;
+>  
+>  		bus-range = <0x0 0xff>;
+> -		ranges = <0x81000000 0x0  0x36100000 0x0  0x36100000 0x0 0x00100000   /* downstream I/O (1MB) */
+> -			  0xc3000000 0x14 0x00000000 0x14 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
+> -			  0x82000000 0x0  0x40000000 0x17 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
+> +		ranges = <0xc3000000 0x14 0x00000000 0x14 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
+> +			  0x82000000 0x00 0x40000000 0x17 0x40000000 0x0 0xbfff0000   /* non-prefetchable memory (3GB - 64KB) */
+> +			  0x81000000 0x00 0x00000000 0x17 0xffff0000 0x0 0x00010000>; /* downstream I/O (64KB) */
+>  	};
+>  
+>  	pcie@14180000 {
+> @@ -1584,9 +1584,9 @@
+>  		nvidia,aspm-l0s-entrance-latency-us = <3>;
+>  
+>  		bus-range = <0x0 0xff>;
+> -		ranges = <0x81000000 0x0  0x38100000 0x0  0x38100000 0x0 0x00100000   /* downstream I/O (1MB) */
+> -			  0xc3000000 0x18 0x00000000 0x18 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
+> -			  0x82000000 0x0  0x40000000 0x1b 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
+> +		ranges = <0xc3000000 0x18 0x00000000 0x18 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
+> +			  0x82000000 0x00 0x40000000 0x1b 0x40000000 0x0 0xbfff0000   /* non-prefetchable memory (3GB - 64KB) */
+> +			  0x81000000 0x00 0x00000000 0x1b 0xffff0000 0x0 0x00010000>; /* downstream I/O (64KB) */
+>  	};
+>  
+>  	pcie@141a0000 {
+> @@ -1633,9 +1633,9 @@
+>  		nvidia,aspm-l0s-entrance-latency-us = <3>;
+>  
+>  		bus-range = <0x0 0xff>;
+> -		ranges = <0x81000000 0x0  0x3a100000 0x0  0x3a100000 0x0 0x00100000   /* downstream I/O (1MB) */
+> -			  0xc3000000 0x1c 0x00000000 0x1c 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
+> -			  0x82000000 0x0  0x40000000 0x1f 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
+> +		ranges = <0xc3000000 0x1c 0x00000000 0x1c 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
+> +			  0x82000000 0x00 0x40000000 0x1f 0x40000000 0x0 0xbfff0000   /* non-prefetchable memory (3GB - 64KB) */
+> +			  0x81000000 0x00 0x00000000 0x1f 0xffff0000 0x0 0x00010000>; /* downstream I/O (64KB) */
+>  	};
+>  
+>  	pcie_ep@14160000 {
+> 
 
-The reported problem got fixed.
 
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
->
-> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-> index 0d6529eff66f..48e159e83cf5 100644
-> --- a/drivers/dma/dmaengine.c
-> +++ b/drivers/dma/dmaengine.c
-> @@ -852,7 +852,7 @@ struct dma_chan *dma_request_chan(struct device *dev, const
-> char *name)
->          mutex_lock(&dma_list_mutex);
->          if (list_empty(&dma_device_list)) {
->                  mutex_unlock(&dma_list_mutex);
-> -               return NULL;
-> +               return ERR_PTR(-ENODEV);
->          }
->
->          list_for_each_entry_safe(d, _d, &dma_device_list, global_node) {
-
-ref:
-https://lkft.validation.linaro.org/scheduler/job/1542630#L510
+Cheers!
+Jon
 
 -- 
-Linaro LKFT
-https://lkft.linaro.org
+nvpublic
