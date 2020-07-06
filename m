@@ -2,31 +2,31 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7145D21597D
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jul 2020 16:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F68215A28
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jul 2020 17:01:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729202AbgGFOdf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jul 2020 10:33:35 -0400
-Received: from mga07.intel.com ([134.134.136.100]:34007 "EHLO mga07.intel.com"
+        id S1729384AbgGFPBG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jul 2020 11:01:06 -0400
+Received: from mga04.intel.com ([192.55.52.120]:25978 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729193AbgGFOdf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 6 Jul 2020 10:33:35 -0400
-IronPort-SDR: Xoj8gP6u2syheyPUf46rIayDsFCywc/A9d4TxI9lZ8f3Jr2L4faDBTBBs1GMNAlE8BsJVbq8B2
- IOJSY+TZHCJQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9673"; a="212407061"
+        id S1729197AbgGFPBG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 6 Jul 2020 11:01:06 -0400
+IronPort-SDR: hBdLNDZoHhjxPDCwyH6WCLAVB5bXxR1Y/sNDtSdh2IjXxtBZUDqk9EIPqMAPY9ciw2U40F+BIk
+ GR0/uDfn6M+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9673"; a="144931809"
 X-IronPort-AV: E=Sophos;i="5.75,320,1589266800"; 
-   d="scan'208";a="212407061"
+   d="scan'208";a="144931809"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 07:33:34 -0700
-IronPort-SDR: 4xVih37GMQrA5tYVbgJEB/Z2j89ibyPsCEilBwwWFp8RDWsJ5N1XkMI0cfE9l4MFNeWHS3IVJ7
- O8tj4/j7UHUg==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 08:01:05 -0700
+IronPort-SDR: +vpazag5h9NFqzMeig/fARcURoClfchVzLi7o//zaDevGgoHM+ZHjMU0IFuM4npR/dFu61cflc
+ n/xFFyy/gD9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,320,1589266800"; 
-   d="scan'208";a="313977514"
+   d="scan'208";a="313985346"
 Received: from djiang5-mobl1.amr.corp.intel.com (HELO [10.212.168.148]) ([10.212.168.148])
-  by orsmga008.jf.intel.com with ESMTP; 06 Jul 2020 07:33:33 -0700
+  by orsmga008.jf.intel.com with ESMTP; 06 Jul 2020 08:01:04 -0700
 Subject: Re: [qemu] boot failed: Unable to handle kernel NULL pointer
  dereference at virtual address 0000000000000000
 To:     Arnd Bergmann <arnd@arndb.de>,
@@ -45,8 +45,8 @@ Cc:     linux-serial@vger.kernel.org,
 References: <CA+G9fYvqW-RQxt3kSoNkh5Y2REoe0QQB_dTz_KPzhJzcwiM5OA@mail.gmail.com>
  <CAK8P3a1Lda8HhsDvDREf-cOgb4RkCgEKK5Q-Zj+UhK8tsAaBLw@mail.gmail.com>
 From:   Dave Jiang <dave.jiang@intel.com>
-Message-ID: <8c50799e-d0ba-626a-5627-5ff4e5825f6a@intel.com>
-Date:   Mon, 6 Jul 2020 07:33:32 -0700
+Message-ID: <51d6e5bb-3de1-36dc-15a4-c341b23ca8cd@intel.com>
+Date:   Mon, 6 Jul 2020 08:01:03 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -115,6 +115,35 @@ On 7/6/2020 5:53 AM, Arnd Bergmann wrote:
 > checking it for an error value. However it's a NULL pointer, not an
 > error pointer, indicating that there is a bug in the dmaengine driver
 > that you use here, or in the dmaengine core code.
+
+Arnd,
+I'm looking at the pl001_dma_probe(), I think we could make it more robust if it 
+uses IS_ERR_OR_NULL(chan) instead of IS_ERR(). Should I send a patch for it? I 
+suppose looking at the comment header for dma_request_chan() it does say return 
+chan ptr or error ptr. Sorry I missed that.
+
+
+Vinod,
+It looks like the only fix for dmaengine for the patch is where Arnd pointed out 
+as far as I can tell after auditing it. Let me know how you want to handle this. 
+Thanks!
+
+diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
+index 0d6529eff66f..48e159e83cf5 100644
+--- a/drivers/dma/dmaengine.c
++++ b/drivers/dma/dmaengine.c
+@@ -852,7 +852,7 @@ struct dma_chan *dma_request_chan(struct device *dev, const 
+char *name)
+         mutex_lock(&dma_list_mutex);
+         if (list_empty(&dma_device_list)) {
+                 mutex_unlock(&dma_list_mutex);
+-               return NULL;
++               return ERR_PTR(-ENODEV);
+         }
+
+         list_for_each_entry_safe(d, _d, &dma_device_list, global_node) {
+
+
 > 
 > I don't see anything suspicious in dmaengine drivers, but there is a
 > recent series
@@ -144,6 +173,3 @@ On 7/6/2020 5:53 AM, Arnd Bergmann wrote:
 > 
 >       Arnd
 > 
-
-Vinod,
-Do you want a diff fix or a revision of the patch for the fix?
