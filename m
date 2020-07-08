@@ -2,129 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D967219175
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 22:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E3E6219198
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 22:36:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726358AbgGHU1K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jul 2020 16:27:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49226 "EHLO
+        id S1725978AbgGHUgd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jul 2020 16:36:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726318AbgGHU1D (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 16:27:03 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C713C061A0B;
-        Wed,  8 Jul 2020 13:27:03 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id d21so27623439lfb.6;
-        Wed, 08 Jul 2020 13:27:03 -0700 (PDT)
+        with ESMTP id S1725848AbgGHUgd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 16:36:33 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E88FC061A0B;
+        Wed,  8 Jul 2020 13:36:33 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id p1so9389915pls.4;
+        Wed, 08 Jul 2020 13:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=en+sYWSOs29OqJtnXcDwQbwEqF1PhQMH/OzXlTL2Uro=;
-        b=syTZCHAQomVCO1IcAT05atGNhw1dbfmBOmwVCKjzqEzpZ0yC9TrCcsRcouL6w2rCQi
-         5dwv5avADj2LkceEKIhRx5FSnf5JXb2gFb3376P4VM9g1x0l2aipE3XdjfeUMS0SR9k7
-         JS3ll1n2eYfS6Law1HAu2LwUR3GsAZNz0M/iC72IegGk/wI7d+/7ilXQXlERDn+UI0ZJ
-         odtxjNCB8O4EaD+UvX/J++KNa6g7AitZ886DnrV+q71OPnON2pgBUqbnNOkAn/6eIqPW
-         8AY71jmnFDyWRYn45IbUGM0GvpWjVY14yUWCk8YgvLUx87QvzH/x5DMdEj2KdeAdi9D3
-         Ua6A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9rLMHF7RPOkdP8XBfKv5DeFSqMtc69/zKxIruSrtRkg=;
+        b=hop4Z7+hPacoKF2K2a9kPOSfxgM5ZnlHngC8TvhdAUSh0hP5SaGebffZ8vCftXZPLf
+         VNoTIeuMbvbIQfxnN4LajYTG79nIHpHVuyL+Iqp16e9O7fyWJ50vBL9O4wO6g36rpXkC
+         RYhn7fR1ldEaFEiNiOUpwwte+C9dsoCJPtnJQSZ7ffDVyU13JBqY5gDVSkIghL7eDaJq
+         necJ+UXPglOcc9LfjN1bGxdmjjlXrSFLQHkZWsrGSbuOlDQuwA/Tr6k+FrReKtpyAXif
+         yMXzD1y3pyvrESCxLD7Jc1Z2K8H3Lr34VZZHLIKd4SMDTS9qFupaDM+4F4ItAYl5OCaA
+         H7yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=en+sYWSOs29OqJtnXcDwQbwEqF1PhQMH/OzXlTL2Uro=;
-        b=UyXOxATomcmYFwODsKc7eyxTFRzoQpwkwrqos30tV5/CWOFoUKzo7RM2oh8fSfSI+3
-         HuJWPxz0MxRaqDoXAb6h823PMxj6n/DpDNbcyvYqfTUeSJkH8nNkFnAYKmyrmFmZhuPT
-         5sdMQVZwhVIgNtVhDnzB4eJf4wmRf7kyZHDAtp1CUjFKT1+MvJjU8nIBPjHvyKCpRDhH
-         krFOH9oPX/nWnW5ujFSU1PuE4yDJqmITIjLQgdOaawYa380IxvBUABKDOAa/DvBwhMSI
-         qHMk4wefp/y8yhRSD6mT8BYMfA2MohS1Q4f9GeM4GNlNvB4Y2aWz5xEOrW3Eo1Q52jm9
-         ObYw==
-X-Gm-Message-State: AOAM533pfignfwF6tv8sSIwzis2q/B5qvTu2+jJyOYM2ZnJ7cqPuiOwv
-        LTivj4h2amNpmPtLWhUCugM=
-X-Google-Smtp-Source: ABdhPJyHmph+5swDJx845ZRsUtuIVexs7pVope807pOxgxk8VdlOWXNEN60vNWtyj1g1o6YBr2hVWg==
-X-Received: by 2002:a19:c214:: with SMTP id l20mr37504635lfc.56.1594240022084;
-        Wed, 08 Jul 2020 13:27:02 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
-        by smtp.gmail.com with ESMTPSA id e29sm252568lfc.51.2020.07.08.13.27.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 13:27:01 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/6] gpio: max77620: Initialize hardware state of interrupts
-Date:   Wed,  8 Jul 2020 23:23:55 +0300
-Message-Id: <20200708202355.28507-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200708202355.28507-1-digetx@gmail.com>
-References: <20200708202355.28507-1-digetx@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9rLMHF7RPOkdP8XBfKv5DeFSqMtc69/zKxIruSrtRkg=;
+        b=HfCdZ9Z379t7b2Guq4ZrXtZK72RVrXvb3jVBRQShjuC9yaaY2mXhEVWts20zxAJ4p1
+         lGzu7HSPTk+H/z00B0LJ0oU9x29xk63U2HfmZW7YR68cQJ/oSjloDukXfE7zk76nq/lf
+         U3Dp0v/oofsKwJ9CJhH+kP9Tiu/k3ZH+qigcW0MVQvIfgy1W1rAFD5VgPAAKM2EmCxIl
+         3k6mB1Rsew5TR+xdFC7raO+JqT6YC0AQ4GWl+wCkeuPYsZ0WEVpAdh1xRy3Fk7wKX6LO
+         ngHmW0luB/09yOwFssEVJMX1wA6Db6VuwPhq62wJPxEiPIGtQjXMli4nSqoArFIF8oIs
+         atVw==
+X-Gm-Message-State: AOAM533R1ZY3a3okp3dCnE3FqNA/mI3To6vNt/LWL09Ho4yu0+RCZ8vU
+        rf9coq9GpKRTuHx2JJTVNBQ=
+X-Google-Smtp-Source: ABdhPJzemCEI2WFYj68dmrOodtuH49vvXwwDiDf/1BJQPvSdsAAuf3s/BfJtg+3GTR292+GXPwPmXQ==
+X-Received: by 2002:a17:902:c38b:: with SMTP id g11mr5179940plg.340.1594240592678;
+        Wed, 08 Jul 2020 13:36:32 -0700 (PDT)
+Received: from Asurada-Nvidia (searspoint.nvidia.com. [216.228.112.21])
+        by smtp.gmail.com with ESMTPSA id e8sm535878pff.185.2020.07.08.13.36.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 08 Jul 2020 13:36:32 -0700 (PDT)
+Date:   Wed, 8 Jul 2020 13:36:17 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Krishna Reddy <vdumpa@nvidia.com>
+Cc:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+        robh+dt@kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, yhsu@nvidia.com, snikam@nvidia.com,
+        praithatha@nvidia.com, talho@nvidia.com, bbiswas@nvidia.com,
+        mperttunen@nvidia.com, nicolinc@nvidia.com, bhuntsman@nvidia.com
+Subject: Re: [PATCH v10 5/5] iommu/arm-smmu: Add global/context fault
+ implementation hooks
+Message-ID: <20200708203616.GA28080@Asurada-Nvidia>
+References: <20200708050017.31563-1-vdumpa@nvidia.com>
+ <20200708050017.31563-6-vdumpa@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200708050017.31563-6-vdumpa@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I noticed on Nexus 7 that after rebooting from downstream kernel to
-upstream, the GPIO interrupt is triggering non-stop despite interrupts
-being disabled for all of GPIOs. This happens because Nexus 7 uses a
-soft-reboot, meaning that bootloader should take care of resetting
-hardware, but the bootloader doesn't do it well. As a result, GPIO
-interrupt may be left ON at a boot time. Let's mask all GPIO interrupts
-at the driver's initialization time in order to resolve the issue.
+On Tue, Jul 07, 2020 at 10:00:17PM -0700, Krishna Reddy wrote:
+> Add global/context fault hooks to allow vendor specific implementations
+> override default fault interrupt handlers.
+> 
+> Update NVIDIA implementation to override the default global/context fault
+> interrupt handlers and handle interrupts across the two ARM MMU-500s that
+> are programmed identically.
+> 
+> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpio/gpio-max77620.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/drivers/gpio/gpio-max77620.c b/drivers/gpio/gpio-max77620.c
-index 6c516aa7732d..e090979659eb 100644
---- a/drivers/gpio/gpio-max77620.c
-+++ b/drivers/gpio/gpio-max77620.c
-@@ -260,6 +260,30 @@ static int max77620_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
- 	return -ENOTSUPP;
- }
- 
-+static int max77620_gpio_irq_init_hw(struct gpio_chip *gc)
-+{
-+	struct max77620_gpio *gpio = gpiochip_get_data(gc);
-+	unsigned int i;
-+	int err;
-+
-+	/*
-+	 * GPIO interrupts may be left ON after bootloader, hence let's
-+	 * pre-initialize hardware to the expected state by disabling all
-+	 * the interrupts.
-+	 */
-+	for (i = 0; i < MAX77620_GPIO_NR; i++) {
-+		err = regmap_update_bits(gpio->rmap, GPIO_REG_ADDR(i),
-+					 MAX77620_CNFG_GPIO_INT_MASK, 0);
-+		if (err < 0) {
-+			dev_err(gpio->dev,
-+				"failed to disable interrupt: %d\n", err);
-+			return err;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int max77620_gpio_probe(struct platform_device *pdev)
- {
- 	struct max77620_chip *chip =  dev_get_drvdata(pdev->dev.parent);
-@@ -295,6 +319,7 @@ static int max77620_gpio_probe(struct platform_device *pdev)
- 	mgpio->gpio_chip.irq.chip = &max77620_gpio_irqchip;
- 	mgpio->gpio_chip.irq.default_type = IRQ_TYPE_NONE;
- 	mgpio->gpio_chip.irq.handler = handle_edge_irq;
-+	mgpio->gpio_chip.irq.init_hw = max77620_gpio_irq_init_hw,
- 	mgpio->gpio_chip.irq.threaded = true;
- 
- 	platform_set_drvdata(pdev, mgpio);
--- 
-2.26.0
-
+Reviewed-by: Nicolin Chen <nicoleotsuka@gmail.com>
