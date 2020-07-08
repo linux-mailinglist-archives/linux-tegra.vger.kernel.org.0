@@ -2,102 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24CAB21823B
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 10:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F9A22182A9
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 10:40:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726006AbgGHI2C (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jul 2020 04:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727966AbgGHI1y (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 04:27:54 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CF1C08C5DC;
-        Wed,  8 Jul 2020 01:27:53 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id j11so4392949ljo.7;
-        Wed, 08 Jul 2020 01:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZQKJ7Gcwme/d26+LQ1Wsw5gxfvCSqjg+JdK4sM2LYPw=;
-        b=ifSh42uk1ltrAupYkU4/2bRNxklEhIIQRdQ4tq0LR2Z+LgulrQN3QoQANFTLeHzEZt
-         C/4/BkItkMxzHDrcn3rpn0gDv+en0bShckJTWnCgHH6fUK0RE2vLnrU6EIf/BDjF2g7Y
-         QTK3RxeDNE6UKTac+Z8kJiannXfoXcsB8DxgWXw9g40oGXRfMhcI8W22jQJnyLWmE9Ik
-         TwUTTzeQDi29BJaq9UVfPV7y6PM1NWhWsib71/pR7rEJs+xNTTGqJ2+5FTqpdlxJHtVH
-         ozqwqxPeGxRgR3cTUDQLvk5RVcCNSCmhtTtUUwwqwDPXrmVVVaTJe0ju3Lo55pUNI7N0
-         mVew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZQKJ7Gcwme/d26+LQ1Wsw5gxfvCSqjg+JdK4sM2LYPw=;
-        b=ibqG6e+LKCWz8OdZ3mDlT0MulGiXGkBBVlI6WWWr6mWQpGouvV/dzrQK6ggAKux6De
-         QvQKzfUbfP3pA/2kSg/g+VzMAmysNsc9KHLjjJ0P82i1dFdkOLbeBSs2ddHQTp3UhF/t
-         tA3gZwgY0RjtJyvCz1te9uclLubsy6G+A6MoS7fYFJHwV+VgyWxPcwSPcN/vjzbagyQ4
-         QSDmo5EMzjqEZH0kk6CcjER5wllVzmjc5x6eC3CDn/pZ9dsEmNQ6V6M57KzcV1IqnQ7N
-         Da69miqcJ5R9iPJfCzLNmNtSZfdbAKYrnHEmWi+2ire2I8NgQS6WULJLO0o6JdiLLW9m
-         hsLg==
-X-Gm-Message-State: AOAM530p6Av74EV22rsRvlPdPl+zft01yVaKh48t/CL8MANjbQB5aiJC
-        F0AliWtu6oGZmRWDaJTXCTM=
-X-Google-Smtp-Source: ABdhPJyxKOuwzCAeZmbQC45AUlpmAxUlyQhOJVbjrTA6Nysp51PqkESQZMITJXp7GiYRPZhCmoSJMA==
-X-Received: by 2002:a2e:3010:: with SMTP id w16mr31831123ljw.449.1594196872399;
-        Wed, 08 Jul 2020 01:27:52 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
-        by smtp.gmail.com with ESMTPSA id d2sm737555ljg.6.2020.07.08.01.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 01:27:51 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 5/5] gpio: max77620: Move variable declaration
-Date:   Wed,  8 Jul 2020 11:26:34 +0300
-Message-Id: <20200708082634.30191-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200708082634.30191-1-digetx@gmail.com>
-References: <20200708082634.30191-1-digetx@gmail.com>
+        id S1728215AbgGHIkA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jul 2020 04:40:00 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12978 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728121AbgGHIkA (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 04:40:00 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0586530000>; Wed, 08 Jul 2020 01:39:47 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 08 Jul 2020 01:39:59 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 08 Jul 2020 01:39:59 -0700
+Received: from [10.26.73.185] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jul
+ 2020 08:39:57 +0000
+Subject: Re: [PATCH 4.4 00/19] 4.4.230-rc1 review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200707145747.493710555@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <4d2606a1-1a35-31db-3440-11793103e2ec@nvidia.com>
+Date:   Wed, 8 Jul 2020 09:39:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200707145747.493710555@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594197587; bh=yS02Vsb9bWJf3Visd5mCOgiND894kkzAjZsbD0PYZMU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Aat7/UYDFKB5OPXvsGQluUGvBVFPNBPon67NMH0EYMJewXM+DxkWVi6RFbmuhxQY7
+         IDYYQMMscWT6pTTlXTnBQRsA9E0c7pXnCfcUNew3Ub+ZC5/A3A1eW2GMnwQnfjS+dg
+         0Xm3EtIhj76A6ZZiNVKx0DTno3PTF20Pw5jrGeDDwisfP70Kzs5nG1/EhnN9iPeAwe
+         8TTvxheuDk91O7iPUoSj7FldBEzB5Ew1kWijcNruTQPkxQd80tLkk1BvYBCN2E0yg9
+         TYIIldGa7BHEoQ/t1MmdawyJfPZFPTWkxjwgiNpos38T6Y8IdxXR7lnlmxPgOCed1s
+         vcLA/Bz+e01Sw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Let's move the virq variable declaration to a top-level scope just to
-make the code a bit more visually appealing.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpio/gpio-max77620.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On 07/07/2020 16:10, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.230 release.
+> There are 19 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu, 09 Jul 2020 14:57:34 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.230-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-diff --git a/drivers/gpio/gpio-max77620.c b/drivers/gpio/gpio-max77620.c
-index 8d54bc4307c2..6861980da0d8 100644
---- a/drivers/gpio/gpio-max77620.c
-+++ b/drivers/gpio/gpio-max77620.c
-@@ -27,7 +27,7 @@ struct max77620_gpio {
- static irqreturn_t max77620_gpio_irqhandler(int irq, void *data)
- {
- 	struct max77620_gpio *gpio = data;
--	unsigned int value, offset;
-+	unsigned int value, offset, virq;
- 	unsigned long pending;
- 	int err;
- 
-@@ -42,8 +42,6 @@ static irqreturn_t max77620_gpio_irqhandler(int irq, void *data)
- 		return IRQ_NONE;
- 
- 	for_each_set_bit(offset, &pending, MAX77620_GPIO_NR) {
--		unsigned int virq;
--
- 		virq = irq_find_mapping(gpio->gpio_chip.irq.domain, offset);
- 		handle_nested_irq(virq);
- 	}
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    25 tests:	25 pass, 0 fail
+
+Linux version:	4.4.230-rc1-gc19eba6b3434
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
 -- 
-2.26.0
-
+nvpublic
