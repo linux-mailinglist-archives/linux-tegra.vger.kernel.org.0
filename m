@@ -2,79 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11BEB2184CB
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 12:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D257221854E
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 12:54:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgGHKT0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jul 2020 06:19:26 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:35084 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbgGHKTW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 06:19:22 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 068AChKj044749;
-        Wed, 8 Jul 2020 10:19:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=/BlpZ6hzTwlUibKA0cSfCKXBgMHk0GrIHKQ8DTOACvA=;
- b=iS4sCjohEWXxeEpkY7s3DGlC9ZnGvgDWKWmVhYuq2ZNgseFO2AGs/aLTvTmYqbGk5LT4
- Kc1xjBfRDDEDd7ogF9IKB4joLrx0iK8dhx4y/LrrjiyjNP2a6SsHKbOe3vNbdrS3SdNu
- XIfdM/Ufa3DMAuZSOViAl1zqvQR4OMLTkb8N45ZY4fn3AT6CA9tss8Rh1PtyDSyNmz5Q
- iG9k4WC55SuFMywImc15EKmQG7ac+DG2zCLmdnpXVx+zoKesu85fSy2aQrHDQ6/zDDl5
- YgoQEbWEBGs/WYku0EfsSRZ8T3kgJcz3X0AAKFDIL1XTEAzsSO1XeKRCecVMVWxC7Yho cg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 322kv6hfxk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 08 Jul 2020 10:19:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 068AEHhY124906;
-        Wed, 8 Jul 2020 10:19:07 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 3233pypju6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 08 Jul 2020 10:19:07 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 068AJ5uA004732;
-        Wed, 8 Jul 2020 10:19:05 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 08 Jul 2020 03:19:05 -0700
-Date:   Wed, 8 Jul 2020 13:18:58 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     marvin24@gmx.de, gregkh@linuxfoundation.org,
-        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: STAGING - NVIDIA
- COMPLIANT EMBEDDED CONTROLLER INTERFACE (nvec)
-Message-ID: <20200708101858.GL2549@kadam>
-References: <20200708091428.13554-1-grandmaster@al2klimov.de>
+        id S1728239AbgGHKyv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jul 2020 06:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725972AbgGHKyv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 06:54:51 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA9BDC08C5DC;
+        Wed,  8 Jul 2020 03:54:50 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id d21so26594993lfb.6;
+        Wed, 08 Jul 2020 03:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=twagDEp7uXq8z35DJ39Z3HkBCRXMKE29CuddS5Pgx5o=;
+        b=XChWUnKZ+z/Z5z1PK/1divkaicO/LV6npjMADhKRxPYqJytgHgUFLk/KIxgsQFO7Pd
+         oDZ51RnSlis9BPZ5B2AVl6nR3gjYI+WDpp1em5WzYQLxnKHm2b2ZDEaky2Oz+Ft5Nmlw
+         kKSZIb9kUQADUXgvjXOjFfZUjSlgGU4WZ6C2dG2qoFJZe+CTyi0268LStKihiJL0RnPn
+         k8jsFmAw0ypOVa8rHnjMgAiMURDtfZbI8b/gE9yKXUxdiiAZyfU67/0ml/xC3E+ZX7VB
+         PNlCqqSVMJn1BN6/T7BkDpA9o4nEd8eHorO8aB5gjAt0lIVlgpIiDMXouZjwpE3clTrM
+         1BBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=twagDEp7uXq8z35DJ39Z3HkBCRXMKE29CuddS5Pgx5o=;
+        b=uMG9ko2B4i07aBnjm+xl8c/ye71nIDOxt+goDNgxWg+2NL02bFfUYlGKILzOiABMQY
+         t8Tg+sVWlZZBz4xYTyFEHPoFKs7WonIw7ZQNYX95wvZiZ1jj6/QAJets9g+J7d/dK2JI
+         Dy5CLtcsmD5bfnRTZ8/pgYUdSgcpmwJ3OrND8TvyP3RWvmnd0HY0BScbw4w/apfci9x/
+         vNolZAa5SzLuBaX/MxKweMvWqZYhzqX0QozllY6uO6wVR36MWJ1HgZAC8+psFgnEWZ30
+         b0/sc03+sX9Lu1ZwzSdZ6g94xf3tPdV2Yfk5E71/jNedAxtQz9Zeu71jBFVGqXJjrH1q
+         heAg==
+X-Gm-Message-State: AOAM532GdOIVRF98+hZdL1Lgk5/ZtbaLyZfIqvUUVv+HbEU9FCmms67a
+        1iSo11VtOQqjBd+uMRjhZyfNQc6y
+X-Google-Smtp-Source: ABdhPJyn246HkXwL6wJP8gCUOR9MyRwPQIe4JsLfHYYmrLKs5pX1SN7KzP2DXlB+WqQI0GrcHrPZUw==
+X-Received: by 2002:a05:6512:3153:: with SMTP id s19mr23969454lfi.25.1594205689103;
+        Wed, 08 Jul 2020 03:54:49 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
+        by smtp.googlemail.com with ESMTPSA id c14sm9868812lfb.69.2020.07.08.03.54.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jul 2020 03:54:48 -0700 (PDT)
+Subject: Re: [PATCH v1 4/5] gpio: max77620: Don't handle disabled interrupts
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-tegra@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200708082634.30191-1-digetx@gmail.com>
+ <20200708082634.30191-5-digetx@gmail.com>
+ <CAHp75VcqkmywShtOVQhEw3qwbDCHjPKeQDYWxZiq+Cvx2_QCwA@mail.gmail.com>
+ <68df4805-daf9-91c5-d755-53abc8823654@gmail.com>
+ <CAHp75VcEqTJxPj1pETC9eUsZCLwpv8tyZ7EjKvzzJTQ4wfKJyg@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d39caa8f-816c-5d4d-6f54-99baea3e0d5a@gmail.com>
+Date:   Wed, 8 Jul 2020 13:54:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200708091428.13554-1-grandmaster@al2klimov.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9675 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 spamscore=0
- mlxscore=0 mlxlogscore=900 bulkscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2007080074
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9675 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=901 phishscore=0 spamscore=0
- priorityscore=1501 clxscore=1011 impostorscore=0 mlxscore=0 adultscore=0
- cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2007080074
+In-Reply-To: <CAHp75VcEqTJxPj1pETC9eUsZCLwpv8tyZ7EjKvzzJTQ4wfKJyg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-You need to have a subsystem prefix in the subject.
+08.07.2020 13:11, Andy Shevchenko пишет:
+> On Wed, Jul 8, 2020 at 12:19 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>> 08.07.2020 11:46, Andy Shevchenko пишет:
+>>> On Wed, Jul 8, 2020 at 11:29 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> Check whether GPIO IRQ is enabled before proceeding with handling the
+>>>> interrupt request. The interrupt handler now returns IRQ_NONE if none
+>>>> of interrupts were handled, which is usually a sign of a problem.
+>>>
+>>> ...
+>>>
+>>>> -       pending = value;
+>>>> +       pending = value & gpio->irq_enb_mask;
+>>>
+>>>> +       if (!pending)
+>>>> +               return IRQ_NONE;
+>>>
+>>> for_each_set_bit() should take care of it, no?
+>>
+>> Do you mean that the handle_nested_irq() takes care of handling
+>> unrequested interrupts? Actually, looks like it cares. Alright, I'll
+>> drop this patch since it should be unnecessary. Thank you for the comment!
+> 
+> I think it's still good to have reduced IRQs to handle by dropping not
+> enabled ones, my comment was about the case when pending == 0. Sorry
+> if it was unclear.
 
-[PATCH] Staging: nvec: Replace HTTP links with HTTPS
+It should be unnecessary since we now see that the handle_nested_irq()
+checks whether interrupt was requested and if it wasn't, then particular
+GPIO interrupt will be treated as spurious [1]. The pending == 0
+condition is an extreme case, I don't think that there is a need to
+optimize it without any good reason.
 
-regards,
-dan carpenter
+[1] https://elixir.bootlin.com/linux/v5.8-rc3/source/kernel/irq/chip.c#L485
 
+Hence it should be better to drop this patch.
