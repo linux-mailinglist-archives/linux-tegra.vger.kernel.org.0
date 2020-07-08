@@ -2,104 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86D452184B5
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 12:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11BEB2184CB
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 12:19:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728132AbgGHKLW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jul 2020 06:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37952 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725810AbgGHKLV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 06:11:21 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF257C08C5DC;
-        Wed,  8 Jul 2020 03:11:21 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id t11so14904413pfq.11;
-        Wed, 08 Jul 2020 03:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rPRazb9qCXSRnZm9QgcqP0YTzEsZc3ztnMyp1yMzbuY=;
-        b=KRu2i56kxFofVmJHcbOHEL6nw8b+4DUHLWrVc5EbOMskafMQzlBCZoxO0Kx3o8BjVY
-         jTZtwFraVdeHAQe+iEDr1y/coRdGrDoMUALROnsvAdI92im++Gp77g4Zycv14tt2F47C
-         hoifeuoVFPiHphShVoz47q7rDam8Z57gTlAhg3K5Fo3ji6fGLq3Boy4e+LL17+CXjrB0
-         8J5VdSYghx2BKqXMwI6y6F6ZgJFQNv1mI1fUWfHyEtvq8vNAb3SeLgradVd6bwUbvKPi
-         P3BE2taIupLK9mhA68WIcd93xutMtL1XIlqsJEf6SEHQxhdFJLUoi8mnAKT1XLJ4jz9B
-         u9vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rPRazb9qCXSRnZm9QgcqP0YTzEsZc3ztnMyp1yMzbuY=;
-        b=tNHuxgTSjQUZbO6yKsKRKPj72DfomktgPV13SPmwLTV5wJbJQKudK4FyGr7T4MY4EC
-         mqsrhQheBXJ25dU7obDV1dQQ6bq1V5WHVp9ZrXtz/5PjT/YonKMiO/CNXLvXLpu3A6eU
-         l2RCHYHV2OWxpHEQSE81amMevdCkv/pjIAPR/8Hj0f4UdzUO71J343qa85IYG22pi/+L
-         107eF+eqnZhYRggV5pZXNnV4tiXy0kjE6n77avfH+l1nfSIQjRxu1tVY8JTPCQ6SwaI4
-         IDMEMpcAzU8YR77qV3504CLJqcRDhU0HNjaGhS3Fmt7bN6UxCcGP/0LEXig1MR7KUHbA
-         mSFw==
-X-Gm-Message-State: AOAM5330JklbHgy2lmXKwqedZmy4kFBtNSxwRqDC0OEnj3o+JVudeHa2
-        ij07N7ShQjvmz79swUiOVpV85SltoHxPfKnWDSQ=
-X-Google-Smtp-Source: ABdhPJyUVXJPxPXeHen+b3VMmmh/mm+K2hijrxLMTKPLOWmA/xW6anrd9Ixok33JzQj91QULV4muiEXfTWFY6C0qp38=
-X-Received: by 2002:a63:924b:: with SMTP id s11mr47241094pgn.74.1594203079247;
- Wed, 08 Jul 2020 03:11:19 -0700 (PDT)
+        id S1726110AbgGHKT0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jul 2020 06:19:26 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:35084 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725949AbgGHKTW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 06:19:22 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 068AChKj044749;
+        Wed, 8 Jul 2020 10:19:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=/BlpZ6hzTwlUibKA0cSfCKXBgMHk0GrIHKQ8DTOACvA=;
+ b=iS4sCjohEWXxeEpkY7s3DGlC9ZnGvgDWKWmVhYuq2ZNgseFO2AGs/aLTvTmYqbGk5LT4
+ Kc1xjBfRDDEDd7ogF9IKB4joLrx0iK8dhx4y/LrrjiyjNP2a6SsHKbOe3vNbdrS3SdNu
+ XIfdM/Ufa3DMAuZSOViAl1zqvQR4OMLTkb8N45ZY4fn3AT6CA9tss8Rh1PtyDSyNmz5Q
+ iG9k4WC55SuFMywImc15EKmQG7ac+DG2zCLmdnpXVx+zoKesu85fSy2aQrHDQ6/zDDl5
+ YgoQEbWEBGs/WYku0EfsSRZ8T3kgJcz3X0AAKFDIL1XTEAzsSO1XeKRCecVMVWxC7Yho cg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 322kv6hfxk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 08 Jul 2020 10:19:08 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 068AEHhY124906;
+        Wed, 8 Jul 2020 10:19:07 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 3233pypju6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 08 Jul 2020 10:19:07 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 068AJ5uA004732;
+        Wed, 8 Jul 2020 10:19:05 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 08 Jul 2020 03:19:05 -0700
+Date:   Wed, 8 Jul 2020 13:18:58 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     marvin24@gmx.de, gregkh@linuxfoundation.org,
+        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: STAGING - NVIDIA
+ COMPLIANT EMBEDDED CONTROLLER INTERFACE (nvec)
+Message-ID: <20200708101858.GL2549@kadam>
+References: <20200708091428.13554-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-References: <20200708082634.30191-1-digetx@gmail.com> <20200708082634.30191-5-digetx@gmail.com>
- <CAHp75VcqkmywShtOVQhEw3qwbDCHjPKeQDYWxZiq+Cvx2_QCwA@mail.gmail.com> <68df4805-daf9-91c5-d755-53abc8823654@gmail.com>
-In-Reply-To: <68df4805-daf9-91c5-d755-53abc8823654@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Jul 2020 13:11:02 +0300
-Message-ID: <CAHp75VcEqTJxPj1pETC9eUsZCLwpv8tyZ7EjKvzzJTQ4wfKJyg@mail.gmail.com>
-Subject: Re: [PATCH v1 4/5] gpio: max77620: Don't handle disabled interrupts
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-tegra@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200708091428.13554-1-grandmaster@al2klimov.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9675 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=900 bulkscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2007080074
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9675 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=901 phishscore=0 spamscore=0
+ priorityscore=1501 clxscore=1011 impostorscore=0 mlxscore=0 adultscore=0
+ cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2007080074
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 12:19 PM Dmitry Osipenko <digetx@gmail.com> wrote:
-> 08.07.2020 11:46, Andy Shevchenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Wed, Jul 8, 2020 at 11:29 AM Dmitry Osipenko <digetx@gmail.com> wrot=
-e:
-> >>
-> >> Check whether GPIO IRQ is enabled before proceeding with handling the
-> >> interrupt request. The interrupt handler now returns IRQ_NONE if none
-> >> of interrupts were handled, which is usually a sign of a problem.
-> >
-> > ...
-> >
-> >> -       pending =3D value;
-> >> +       pending =3D value & gpio->irq_enb_mask;
-> >
-> >> +       if (!pending)
-> >> +               return IRQ_NONE;
-> >
-> > for_each_set_bit() should take care of it, no?
->
-> Do you mean that the handle_nested_irq() takes care of handling
-> unrequested interrupts? Actually, looks like it cares. Alright, I'll
-> drop this patch since it should be unnecessary. Thank you for the comment=
-!
+You need to have a subsystem prefix in the subject.
 
-I think it's still good to have reduced IRQs to handle by dropping not
-enabled ones, my comment was about the case when pending =3D=3D 0. Sorry
-if it was unclear.
+[PATCH] Staging: nvec: Replace HTTP links with HTTPS
 
-> > (and probably return with IRQ_RETVAL() macro)
-> >
-> >>         for_each_set_bit(offset, &pending, MAX77620_GPIO_NR) {
-> >>                 unsigned int virq;
+regards,
+dan carpenter
 
---=20
-With Best Regards,
-Andy Shevchenko
