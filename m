@@ -2,85 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F08D2182DF
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 10:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55D24218602
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jul 2020 13:22:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727927AbgGHIxk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jul 2020 04:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727903AbgGHIxj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 04:53:39 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ECEAC08C5DC;
-        Wed,  8 Jul 2020 01:53:39 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id o1so11333311plk.1;
-        Wed, 08 Jul 2020 01:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VOj8KMo33FR22/jWCVdCcCGb06O1I/LxQuTqwI48/VM=;
-        b=XVaw/fGyrcXlucPs4sMyJWqR/2tGNDhmci6LOfI7G2KzbfyBiuLIKeM3gt/i/FHfTl
-         UcGL2VCudJBfvOAz0gWIcSHSf8k4L/na8w87HHwtvzKtaiul8V0eRHIFkzQTmRwQXJ1t
-         qagZ8IY5GU2EmHW3bCPmMlKSzPzLtMMxWRdGVHsR8hhYAlRuduo83IaB6cl1CRv3vrpV
-         WmzaO1zzTkd26THfyWZygotRdemT0E1Xk0Kpv4kpvIGCrUoiyVv8ap132a5iT/e7XPQI
-         PoN0RSoRRLf4uboTyl4zzhAX3Gi9sNsGm7NlcJjlMbzOSKgP7xdR7pnfuDvcI2xQvu3T
-         fGkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VOj8KMo33FR22/jWCVdCcCGb06O1I/LxQuTqwI48/VM=;
-        b=k3erQ4J8Hb9fMnC4DAui8e8VoTJUsR7oFJ1zJ691MDxE5mx5w0HF5MFtlRnEDmyFhu
-         gIfNuWZA2QsC8hHmiKMmBHH3zRz1S5T0kMbWuzBox5uyFI/OVInsYmJxqpqBTOH4tQDJ
-         U0iUEM/h0GGDOUwn2v/nwz790gwCjlIch0MXMEou1F+920fmHiL5lNj/DHDdYrzsRk9e
-         uqeluPyrBvrIKn90PgHaExXZ1o0f8eDAQbivSB9SWXm5PH2PmkHBqZLq/Us7pQtMZF90
-         KfzUQGQjqcoe7KsS9OAsFCdvSYh37Iq1/cy8s4WQghKQs/pIyFZLIdl9tjoR6aS0vfmX
-         Gkog==
-X-Gm-Message-State: AOAM532KJkndkBn6LUFIC2gFMDcYhDMT/SL27r+vDRfH6flvBD0+EUJk
-        TYj9h2a7zQ+ClO7d6Lq5rpHGqI7x9UM2iOvfiAE=
-X-Google-Smtp-Source: ABdhPJzAFjNmz79HHfOIHYsJ4VMDby2KumuiiAmBdz+zEaO/KA1y9Ri6f8yoIalH6rKTEGj14uU3CTNqOQmxPn7hMiw=
-X-Received: by 2002:a17:90a:a393:: with SMTP id x19mr8741109pjp.228.1594198419141;
- Wed, 08 Jul 2020 01:53:39 -0700 (PDT)
+        id S1728466AbgGHLW6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jul 2020 07:22:58 -0400
+Received: from mail.elsol.com.pe ([170.231.82.35]:45889 "EHLO
+        mail.elsol.com.pe" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728633AbgGHLW5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jul 2020 07:22:57 -0400
+X-Greylist: delayed 12952 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 07:22:56 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.elsol.com.pe (Postfix) with ESMTP id 93DDA60884A;
+        Wed,  8 Jul 2020 02:18:03 -0500 (-05)
+Received: from mail.elsol.com.pe ([127.0.0.1])
+        by localhost (mail.elsol.com.pe [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id fCZKEGbd_EaW; Wed,  8 Jul 2020 02:18:03 -0500 (-05)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.elsol.com.pe (Postfix) with ESMTP id C451A6087BE;
+        Wed,  8 Jul 2020 02:18:02 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.elsol.com.pe C451A6087BE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elsol.com.pe;
+        s=17F39D2A-FFD0-11E7-BCBF-081969246B0E; t=1594192682;
+        bh=7Y6RtNhSVAIVHdJEU2gHHWYvaP8LRgEAhMNj0EoKaAA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=XWug1rzPB9pgA6PhPTjDwSwW9CuOuYtkaoeJcdLfo81AKHJobyzsoNzzj4CZ+dpEC
+         Cp9QcdvPyunqLov/4aV731WXX4qrC5wSU17C7yXI3Uyi8nGch5mmRjP7VbGzVlVArj
+         FueDnZRs9tBom0RNHRMNY515IAUWXoJZyRYBCjVOh8QOcvX3ldhpi3vtkO8JkNEqI5
+         BsybgWf5jfa1U2rXHKEMoiVtJZKLfEAQFJvqFK/XBVm5GCTM8Ho6lgeIbs2WbzKXO/
+         EcDSkIU3ZdKWe0zY2npZpWLeXGJPT9VHMbtn1sTdVtcWIbauCizHvYQt8CnT6TnNtx
+         yM8xP6j9M7taA==
+X-Virus-Scanned: amavisd-new at elsol.com.pe
+Received: from mail.elsol.com.pe ([127.0.0.1])
+        by localhost (mail.elsol.com.pe [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id lg7wEi8KGTSn; Wed,  8 Jul 2020 02:18:02 -0500 (-05)
+Received: from [10.86.65.172] (unknown [105.8.7.225])
+        by mail.elsol.com.pe (Postfix) with ESMTPSA id DD50B608452;
+        Wed,  8 Jul 2020 02:17:48 -0500 (-05)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20200708082634.30191-1-digetx@gmail.com> <20200708082634.30191-2-digetx@gmail.com>
- <CAHp75VdFVGgKxR+n5TUMuFnWDy_uEmEeG=TvR9s7Xbe=jOdObg@mail.gmail.com>
-In-Reply-To: <CAHp75VdFVGgKxR+n5TUMuFnWDy_uEmEeG=TvR9s7Xbe=jOdObg@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Jul 2020 11:53:22 +0300
-Message-ID: <CAHp75VdTw87aOGqnjS-jukiHcMACG7-gDDhDWP6hikSLWpDebQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] gpio: max77620: Initialize interrupts state
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-tegra@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <dreyes@elsol.com.pe>
+From:   ''Tayeb Souami'' <dreyes@elsol.com.pe>
+Date:   Wed, 08 Jul 2020 09:14:00 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200708071748.DD50B608452@mail.elsol.com.pe>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 11:51 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Jul 8, 2020 at 11:29 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+Lieber Freund,
 
-...
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
+Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
+f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
+il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
+meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
+und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
+ou Tube Seite unten.
 
-> > +       max77620_gpio_initialize(mgpio);
->
-> I guess we have special callback for that, i.e.
-> https://elixir.bootlin.com/linux/v5.8-rc3/C/ident/init_hw.
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
 
-Sorry, here is correct link
 
-https://elixir.bootlin.com/linux/v5.8-rc3/source/include/linux/gpio/driver.h#L212
 
--- 
-With Best Regards,
-Andy Shevchenko
+Das ist dein Spendencode: [TS530342018]
+
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Herr Tayeb Souami
