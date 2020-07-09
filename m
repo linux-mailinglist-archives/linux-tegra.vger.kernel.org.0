@@ -2,72 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B0B6219D95
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 12:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13FD1219E0A
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 12:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbgGIKVM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Jul 2020 06:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36422 "EHLO
+        id S1726374AbgGIKia (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Jul 2020 06:38:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726313AbgGIKVH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 06:21:07 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9917DC061A0B;
-        Thu,  9 Jul 2020 03:21:06 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id e8so1797722ljb.0;
-        Thu, 09 Jul 2020 03:21:06 -0700 (PDT)
+        with ESMTP id S1726298AbgGIKia (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 06:38:30 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB83C061A0B;
+        Thu,  9 Jul 2020 03:38:29 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id y13so854228lfe.9;
+        Thu, 09 Jul 2020 03:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=c9zbMy4AnOQ+/YjAvAYQMgY6gfaeIUEQ7HACG2S9D/s=;
-        b=hizuVQ/IMvHu+9bat6L8+OM/J/X2U8JnX5+jPLQ2ooxwxMWgtYwZpMwXAb79rWIOq6
-         BldLNR1fbtpZnj0Cv2DOI97MWBBdAK+WrBDxSfET4rM/gMqCGKdkuEbla3gM8dMUmoKd
-         7YEzJ4lLgUbRvUFgMhaxV8f2FH5JbWJAxM2IL4q4VFZxSgZEWK8DGVF5iBlHA/qY8xG2
-         nmly/mnpPS9bB7B9FWtH4w420OXMM4wprmGJFkCKRa+RncbUKm8muesVjjsGfXtXNj0V
-         60HE9wXy8vkgsf/uGdD2HT1Zn8ndzAjbTYm5QKuN9WHQxXcR96JWkREH6tiP7i4xY6QF
-         wB+g==
+        bh=b3nvtrFoAaXSkUPmIflmEsQDIojlyJCetyOU5B6Jdkg=;
+        b=AyxM2Hq4isSQgbRSa96E0ZX8J8YHfxYDufGkRFsRULapTaNBLKd7Y4LAd+Bp1rwap5
+         KAYWi72BHe47/GdliDuMBlZNXQu4cHrACIbjX1xBefZ4PQp52W5TR+m+yKbKXZ6XpFlc
+         PGO4yx7gkZITrIudBkMnTGalsgr34guYn2h/z8rMeUBbOFJHHj6y0YF9D7NLHyjhJeVO
+         t1a8cH09ectOXb9XMy24snbB98PRwqnOSCQMbqlVJY8/1R51ULQG/dL4Nub0Sh/Hbonm
+         noYG+JZvCVv5U7lHhd5H5KQGefXecrJX0YkGWWeHqloJK8LqFlEEA2wFO+tbpu9McP1h
+         +ekA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=c9zbMy4AnOQ+/YjAvAYQMgY6gfaeIUEQ7HACG2S9D/s=;
-        b=GuUrFJJFgDm6ZhNKzIjiU4gZxnkW/zY0/zXc+eIF+7RCL3dGTRzbe28TnTGVIbq6OH
-         QMNXF7gGlUScLN2UtmTsPG2/peAVeHmcPSbLKWMxz1wPC51n5KRMiCR48/4O4HYXjINW
-         yvl1xNX6f0sc+JsHialKbFsFbii/QzzIyEbNlpfHiVDVFq5VJ5z8T2Bhs+QHvSyW/xYa
-         D3jstuMDz3eN/Rdv42DOkDf8awdADfTF5KfMqs/BOWXoY7CnYmsT8ZwCSFtDdrKuMZpS
-         +0r/jjjoN7L+uo+DWcNizbmAQm80aDI/NVKBKBuZjfz9q0i/MQO9zLv0B4FQatqNKaGd
-         AI0w==
-X-Gm-Message-State: AOAM533utNKt5hFh4VCrL9ZM/5JJyaPHjjzCtbWMjlavXWLZEFpIg78O
-        Q+r1K7A57QE/H6Nvir7933Xz8NSa
-X-Google-Smtp-Source: ABdhPJzEOnHQiLVmhZQO80nU/P2ObB56X6dD0JicmEvxaE7bMSfuV49lQF1uI5eXRTao+3sPOam8sQ==
-X-Received: by 2002:a2e:3507:: with SMTP id z7mr35704012ljz.389.1594290064759;
-        Thu, 09 Jul 2020 03:21:04 -0700 (PDT)
+        bh=b3nvtrFoAaXSkUPmIflmEsQDIojlyJCetyOU5B6Jdkg=;
+        b=EBiWuuDJ8GtZpk4BD0BYpXY9nCpwWNJtDClUhGvpQ/eRi+7GOVsQwRpQCEdCMwQtn0
+         Lu1a8e/dYd41/RcLx2AJm2fk8C91TDBUPwBnAR172ZlXXepeAm130Innwn6Ek58092AK
+         tsELTtwZpsKDNDOgmd8C1zmi7Vsw71zuB2dXGdezg/1IThk/nLvei2ubF7l63qnEOSWq
+         23TrjMxVs0asYUWMm9nTnrOD2+h+rozfK30R2N3ODv8f7qxb/rMGEpxowfOr+/zBvJfb
+         m7lZ8U4slhcIWOQi/pOgxcrJyrEztwko0keLiHct6MDoRNVLLGac5VmUDjJeRivdFeR+
+         ybOg==
+X-Gm-Message-State: AOAM5337o0iMf0AH7rmIBWf03OId+rJyP3EFRmiEuL8nKA4h13YFkE4z
+        9r2iVoc+8thuaarUQL2CseaZGYif
+X-Google-Smtp-Source: ABdhPJxST9mVM+8Ql63IDWlaUT39N2nUOtf0lOm6EvnbbfgEPInr6qwSWYX1MW0vNetzORgAXD0ycw==
+X-Received: by 2002:a05:6512:52a:: with SMTP id o10mr39253739lfc.137.1594291108065;
+        Thu, 09 Jul 2020 03:38:28 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
-        by smtp.googlemail.com with ESMTPSA id a17sm751016lfo.73.2020.07.09.03.21.03
+        by smtp.googlemail.com with ESMTPSA id s12sm659627ljd.116.2020.07.09.03.38.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2020 03:21:04 -0700 (PDT)
-Subject: Re: [PATCH v2] cpuidle: tegra: Correctly handle result of
- arm_cpuidle_simple_enter()
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20200702001354.27056-1-digetx@gmail.com>
- <4ffff3d8-2d41-3fb2-ed16-c9662d18d261@nvidia.com>
- <3bc2064e-e94d-984c-edab-50b4dc2fd2dd@gmail.com>
- <be99caca-b50a-0e12-29dc-2da0d924af43@nvidia.com>
- <55744bfb-af5e-ed2e-654c-d6de9b26b696@gmail.com>
- <fb6370d9-cae9-15dd-a19b-c3116256b471@nvidia.com>
+        Thu, 09 Jul 2020 03:38:27 -0700 (PDT)
+Subject: Re: [PATCH v3 3/6] gpio: max77620: Don't set of_node
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200708202355.28507-1-digetx@gmail.com>
+ <20200708202355.28507-4-digetx@gmail.com>
+ <CAHp75VejftNuSqdYvd1YE1SdRON6=mQ_iD2dEr4K9D8YGgeRBQ@mail.gmail.com>
+ <675c4691-d372-4fe1-d515-c86fdba2f588@gmail.com>
+ <CAHp75Vd89QpwaGvkpzG+pxnLd8S2guPCARLW5xPwhxXL8ZRfFw@mail.gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <afe84878-495d-0037-eb5a-ce067235ff6f@gmail.com>
-Date:   Thu, 9 Jul 2020 13:21:03 +0300
+Message-ID: <ff7985a4-58be-b466-62c2-abce9ae1c0f0@gmail.com>
+Date:   Thu, 9 Jul 2020 13:38:26 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <fb6370d9-cae9-15dd-a19b-c3116256b471@nvidia.com>
+In-Reply-To: <CAHp75Vd89QpwaGvkpzG+pxnLd8S2guPCARLW5xPwhxXL8ZRfFw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -76,65 +78,45 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.07.2020 12:51, Jon Hunter пишет:
+09.07.2020 12:07, Andy Shevchenko пишет:
+> On Thu, Jul 9, 2020 at 12:44 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>> 08.07.2020 23:57, Andy Shevchenko пишет:
+>>> On Wednesday, July 8, 2020, Dmitry Osipenko <digetx@gmail.com
+>>> <mailto:digetx@gmail.com>> wrote:
 > 
+> ...
 > 
-> On 09/07/2020 10:48, Dmitry Osipenko wrote:
->> 09.07.2020 12:06, Jon Hunter пишет:
->>>
->>> On 08/07/2020 15:32, Dmitry Osipenko wrote:
->>>> 08.07.2020 15:34, Jon Hunter пишет:
->>>>>
->>>>> On 02/07/2020 01:13, Dmitry Osipenko wrote:
->>>>>> The enter() callback of CPUIDLE drivers returns index of the entered idle
->>>>>> state on success or a negative value on failure. The negative value could
->>>>>> any negative value, i.e. it doesn't necessarily needs to be a error code.
->>>>>> That's because CPUIDLE core only cares about the fact of failure and not
->>>>>> about the reason of the enter() failure.
->>>>>>
->>>>>> Like every other enter() callback, the arm_cpuidle_simple_enter() returns
->>>>>> the entered idle-index on success. Unlike some of other drivers, it never
->>>>>> fails. It happened that TEGRA_C1=index=err=0 in the code of cpuidle-tegra
->>>>>> driver, and thus, there is no problem for the cpuidle-tegra driver created
->>>>>> by the typo in the code which assumes that the arm_cpuidle_simple_enter()
->>>>>> returns a error code.
->>>>>>
->>>>>> The arm_cpuidle_simple_enter() also may return a -ENODEV error if CPU_IDLE
->>>>>> is disabled in a kernel's config, but all CPUIDLE drivers are disabled if
->>>>>> CPU_IDLE is disabled, including the cpuidle-tegra driver. So we can't ever
->>>>>> see the error code from arm_cpuidle_simple_enter() today.
->>>>>>
->>>>>> Of course the code may get some changes in the future and then the typo
->>>>>> may transform into a real bug, so let's correct the typo in the code by
->>>>>> making tegra_cpuidle_enter() to directly return the index returned by the
->>>>>> arm_cpuidle_simple_enter().
->>>>>
->>>>> Are you suggesting that arm_cpuidle_simple_enter() could be updated to
->>>>> actually return an error? Sorry it is not clear to me what you are implying.
->>>>
->>>> Hello, Jon!
->>>>
->>>> Yes, I'm saying that *potentially* arm_cpuidle_simple_enter() could be
->>>> updated to actually return error.
->>>
->>>
->>> OK, then I am confused, because after your change, we would now ignore
->>> any error that could be returned in the future. Yes the current code
->>> does not set the variable 'index' correctly, but before we set the value
->>> of 'index' shouldn't we check that the value being returned is not a
->>> negative error code first?
+>>> I gave a second look and I think my suggestion is wrong. Here is an
+>>> interesting propagation of the parent device node to its grand son,
+>>> leaving son’s one untouched. Original code has intentions to do that way.
 >>
->> Could you please clarify what do you mean by "ignore any error"? Do you
->> mean the error message?
+>> The [1] says that gpio_chip.parent should point at the "device providing
+>> the GPIOs".
 > 
-> Yes exactly. We would skip that, which seems a bit odd.
+> Yes, physical device I believe.
+> 
+>> That's the pdev->dev.parent in the case of this driver.
+>> MAX77620 is an MFD PMIC device that has virtual sub-devices like GPIO
+>> controller, PINCTRL and RTC. The MFD is the parent device that provides
+>> the GPIOs [2].
+>>
+>> [1]
+>> https://elixir.bootlin.com/linux/v5.8-rc3/source/include/linux/gpio/driver.h#L276
+>>
+>> [2]
+>> https://elixir.bootlin.com/linux/v5.8-rc3/source/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi#L48
+>>
+>> I think the old code was wrong and this patch is correct, please correct
+>> me if I'm missing something.
+> 
+> Hmm... I have checked through GPIO drivers I have knowledge of / care
+> about and PMIC ones do like you suggested in this patch, the rest
+> (which are instantiated from MFD) take a virtual platform device.
+> 
+> Looking at DT excerpt I think you're rather right than wrong, so I
+> leave it to you and maintainers.
+> Thanks!
 
-Yeah.. well, I was a bit doubtful about the error message, maybe
-arm_cpuidle_simple_enter() could have its own message? :)
+Okay, waiting for the maintainers then :)
 
-But since you're asking about it now, then perhaps it should be better
-and more clear to everyone not to skip the error message.
-
-Alright, I'll prepare the v3.
-
-Thank you for the review!
+Thank you very much for the review!
