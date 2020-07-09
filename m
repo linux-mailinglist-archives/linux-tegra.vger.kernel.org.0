@@ -2,123 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1942B219BA7
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 11:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12736219BAA
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 11:08:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbgGIJGe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Jul 2020 05:06:34 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3945 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbgGIJGe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 05:06:34 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f06ddae0000>; Thu, 09 Jul 2020 02:04:46 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 09 Jul 2020 02:06:34 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 09 Jul 2020 02:06:34 -0700
-Received: from [10.26.72.135] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Jul
- 2020 09:06:32 +0000
-Subject: Re: [PATCH v2] cpuidle: tegra: Correctly handle result of
- arm_cpuidle_simple_enter()
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-CC:     <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-References: <20200702001354.27056-1-digetx@gmail.com>
- <4ffff3d8-2d41-3fb2-ed16-c9662d18d261@nvidia.com>
- <3bc2064e-e94d-984c-edab-50b4dc2fd2dd@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <be99caca-b50a-0e12-29dc-2da0d924af43@nvidia.com>
-Date:   Thu, 9 Jul 2020 10:06:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1726193AbgGIJIB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Jul 2020 05:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53254 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726122AbgGIJIB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 05:08:01 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08FF1C061A0B;
+        Thu,  9 Jul 2020 02:08:01 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id b92so825040pjc.4;
+        Thu, 09 Jul 2020 02:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j3K2X3/RiGy249KpzJwq9E4MvMleCWKUqV6iVngTkS8=;
+        b=SQJbLNgzhdKt01fp9fZPyoHqwU8+UpC+a7O8V/WpWkH1DDIXjYR5B0pHn2nHngRHlN
+         JDA0G4ruUCz6wrkNDFJ/UXDGC/MGMbEKQvNqNMUQtbppd7zxbZ1j3sKY1LDkCVa/sYH4
+         tCL6+mtsYBneYv1EC4wtcBr8Zk81brcr1HUJBuTct2diJ4kI9ZcwfBHsUMGPPGxecnvj
+         xGOUC9XtQglTlZSo7k0PAMc7GVn9PmWxb4wq2TYYuxHwYkBn2Fb620VVwnxuLa5QF6BS
+         o9Z2OfqVrOBg8F9xuQN08N6fs4GOAgCgCRo35vGx4myODcTCjcRXUZunFCdzt+GdGgI1
+         0+sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j3K2X3/RiGy249KpzJwq9E4MvMleCWKUqV6iVngTkS8=;
+        b=otz9GeoB71fI9MyukEnbuVYfY0miIZp03Cp2dgjv5qdLD/U8zrM7S9s6E4+/20ZsB/
+         8CsJJpZBr3tNzeU9rinS+0lfVWg6AoITPmO+g9N+u/CQGjbhgiAsCT9dgLDQqmB7iUJp
+         4fXjISMGxaYFtOX54xF7v2EakRjyGuqx3we6904gP6EnyyOnM+QRtpXGSExxlcL+jMAN
+         Vw05TFQex18KJtodjQgojhf9bbv6DMhB0wYBzWBxledVHfe9Vm24m2u2HdqWl8n/xl5i
+         eJ0GN0EoSTlM7ayvaVWgdaPXxb65/jxJ6AB1wwLfSMpU12Nej5/snTM8gwTkVPEgyHUj
+         1O+g==
+X-Gm-Message-State: AOAM533YWTHKEvlfZfuguMqnuckZPlZNGoDPVVCSKbeodnTfXmsKBmjB
+        RzLOO5OLdDA3NVzrUpCkdXAwF1wT3mCZhOT+VII=
+X-Google-Smtp-Source: ABdhPJwRtV0Jd7qJCGSCXF3A+Ex2/kk91xx8MhsUVXW+KUq9GprPICkkSO6Biphls5J1Y9iAFKqSpeUZLPlRTZx2L+g=
+X-Received: by 2002:a17:90b:3547:: with SMTP id lt7mr13725161pjb.181.1594285680452;
+ Thu, 09 Jul 2020 02:08:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3bc2064e-e94d-984c-edab-50b4dc2fd2dd@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+References: <20200708202355.28507-1-digetx@gmail.com> <20200708202355.28507-4-digetx@gmail.com>
+ <CAHp75VejftNuSqdYvd1YE1SdRON6=mQ_iD2dEr4K9D8YGgeRBQ@mail.gmail.com> <675c4691-d372-4fe1-d515-c86fdba2f588@gmail.com>
+In-Reply-To: <675c4691-d372-4fe1-d515-c86fdba2f588@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 9 Jul 2020 12:07:44 +0300
+Message-ID: <CAHp75Vd89QpwaGvkpzG+pxnLd8S2guPCARLW5xPwhxXL8ZRfFw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] gpio: max77620: Don't set of_node
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594285486; bh=8qisClleseagOjMZhpG3BPg84Jvhtb/1QRMvMnOEW9Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=g+QhVkb1ExcABcfE19R/xeH0NhOQ6DMWOpfRBM21qw6Ucdf6c3VXucHRkZ0L5ACiZ
-         NCyQoPvV1n9rNXge2P3gyUivBb8Vg+GM0Gs/obNKWniXH+nzo9wYhTNLaLlY09k1ey
-         T1vuYDInT/b6gHhJ3F5vOin6HtSDHop/g7MNQFZwtSvzJpLC40tvXbleF8R0UleP3+
-         tsyBPFWwdTOwBh9jqKXZKnRFkdbhQpkhbizc4QVMWKddI5HkhiIphQia1emraQ4n3D
-         HOB3y6XkyM/3qGjPRPjPSZaTXYTKBIeOMf4m0hXIZMOaGBhY+JszxWORNCWRmxDJaQ
-         kzFWGSDBxMeJg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Jul 9, 2020 at 12:44 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+> 08.07.2020 23:57, Andy Shevchenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Wednesday, July 8, 2020, Dmitry Osipenko <digetx@gmail.com
+> > <mailto:digetx@gmail.com>> wrote:
 
-On 08/07/2020 15:32, Dmitry Osipenko wrote:
-> 08.07.2020 15:34, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>
->> On 02/07/2020 01:13, Dmitry Osipenko wrote:
->>> The enter() callback of CPUIDLE drivers returns index of the entered id=
-le
->>> state on success or a negative value on failure. The negative value cou=
-ld
->>> any negative value, i.e. it doesn't necessarily needs to be a error cod=
-e.
->>> That's because CPUIDLE core only cares about the fact of failure and no=
-t
->>> about the reason of the enter() failure.
->>>
->>> Like every other enter() callback, the arm_cpuidle_simple_enter() retur=
-ns
->>> the entered idle-index on success. Unlike some of other drivers, it nev=
-er
->>> fails. It happened that TEGRA_C1=3Dindex=3Derr=3D0 in the code of cpuid=
-le-tegra
->>> driver, and thus, there is no problem for the cpuidle-tegra driver crea=
-ted
->>> by the typo in the code which assumes that the arm_cpuidle_simple_enter=
-()
->>> returns a error code.
->>>
->>> The arm_cpuidle_simple_enter() also may return a -ENODEV error if CPU_I=
-DLE
->>> is disabled in a kernel's config, but all CPUIDLE drivers are disabled =
-if
->>> CPU_IDLE is disabled, including the cpuidle-tegra driver. So we can't e=
-ver
->>> see the error code from arm_cpuidle_simple_enter() today.
->>>
->>> Of course the code may get some changes in the future and then the typo
->>> may transform into a real bug, so let's correct the typo in the code by
->>> making tegra_cpuidle_enter() to directly return the index returned by t=
-he
->>> arm_cpuidle_simple_enter().
->>
->> Are you suggesting that arm_cpuidle_simple_enter() could be updated to
->> actually return an error? Sorry it is not clear to me what you are imply=
-ing.
->=20
-> Hello, Jon!
->=20
-> Yes, I'm saying that *potentially* arm_cpuidle_simple_enter() could be
-> updated to actually return error.
+...
 
+> > I gave a second look and I think my suggestion is wrong. Here is an
+> > interesting propagation of the parent device node to its grand son,
+> > leaving son=E2=80=99s one untouched. Original code has intentions to do=
+ that way.
+>
+> The [1] says that gpio_chip.parent should point at the "device providing
+> the GPIOs".
 
-OK, then I am confused, because after your change, we would now ignore
-any error that could be returned in the future. Yes the current code
-does not set the variable 'index' correctly, but before we set the value
-of 'index' shouldn't we check that the value being returned is not a
-negative error code first?
+Yes, physical device I believe.
 
-Jon
+> That's the pdev->dev.parent in the case of this driver.
+> MAX77620 is an MFD PMIC device that has virtual sub-devices like GPIO
+> controller, PINCTRL and RTC. The MFD is the parent device that provides
+> the GPIOs [2].
+>
+> [1]
+> https://elixir.bootlin.com/linux/v5.8-rc3/source/include/linux/gpio/drive=
+r.h#L276
+>
+> [2]
+> https://elixir.bootlin.com/linux/v5.8-rc3/source/arch/arm64/boot/dts/nvid=
+ia/tegra210-p2180.dtsi#L48
+>
+> I think the old code was wrong and this patch is correct, please correct
+> me if I'm missing something.
+
+Hmm... I have checked through GPIO drivers I have knowledge of / care
+about and PMIC ones do like you suggested in this patch, the rest
+(which are instantiated from MFD) take a virtual platform device.
+
+Looking at DT excerpt I think you're rather right than wrong, so I
+leave it to you and maintainers.
+Thanks!
 
 --=20
-nvpublic
+With Best Regards,
+Andy Shevchenko
