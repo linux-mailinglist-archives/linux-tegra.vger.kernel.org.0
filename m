@@ -2,66 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA37521A582
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 19:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71BAF21A5B1
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 19:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgGIRMp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Jul 2020 13:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
+        id S1727110AbgGIRVG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Jul 2020 13:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728110AbgGIRMo (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 13:12:44 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5821BC08C5CE;
-        Thu,  9 Jul 2020 10:12:44 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id h19so3221664ljg.13;
-        Thu, 09 Jul 2020 10:12:44 -0700 (PDT)
+        with ESMTP id S1727061AbgGIRVG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 13:21:06 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18F80C08C5CE;
+        Thu,  9 Jul 2020 10:21:06 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id t9so1612084lfl.5;
+        Thu, 09 Jul 2020 10:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NUzStD0JlDE1+lpeM+4rnfbYioBhG7w/IUJEkdm0/Vw=;
-        b=DKU3CMKH/guvcv3nfGgGymRWfTw3P7mw/dEdLUiHeq1wNhKqBxXuKQsEOfJgeBRO65
-         5P3Z9zsSVaybXf9pY+SNVzD/Bn5Agev7/tMieza0uUyAfb0mUmpuYhtrrPiINM4z22b/
-         qpV22FW4SilWASZY/MXlAkCh0M9PU+rKHf8sJ/lPS1gOLImiM0Pco6wgFCrBhtOavrvi
-         Iw8TkYAywqEbxa7Ky0Ao1BycccozFxm1bLuyyk66zi0tu9HDsZrW0dHsbTyq+HDUp+5l
-         8SEF2imCZpJuXSCNfbUMMEVFp4Mvl7qqO2GfnqR2HQ0v/ii91XOYgNPEjSHip55D7e/V
-         +aBw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/iVQVSgsf58pbHgZKUWZQ1AACh3hg+wIWQ4vsAiPv2k=;
+        b=oOBwKdidM5tOiSehmim9SjQopmOeNjzRFo/AScTTmCPR+ESbuGzW2Wv1AG226D2g2W
+         +dkDbX7lH32PveACfmvrQDWGCt5DANUif6qhL6i5GEVzez0fNE6yjOtYD3LLklFZFuOQ
+         uf7CiXzUPy4dNScNtqV8i99R2j4UKxdyPuwqBdGJDlcvwdsCVIEV5iP4E+QO/d4vFCgp
+         Q4z20O2gbbqo9Kce4VgbAaroHIDKLHkzFZ0OFjkgJjw0/kPSs3tKuEgDjlEbj8ybP3JO
+         ODD4oP0pdDmtfb7b7G+7zR7j01SNyUyOr3bkDaYZEIbCI5pwZXstLqS/Ii1MuWte7+S9
+         +DOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NUzStD0JlDE1+lpeM+4rnfbYioBhG7w/IUJEkdm0/Vw=;
-        b=ry1eo/AX43/9Z04d/J5XmSYyfYvEm9CNiJvhmCZ2j6yoZ4w0gaJmCYcQWDi0p8De8v
-         lrt54O7ltc0/U8TkmhtXO45IB+hUEDJ9rT/en673kBflRxclMQNeaYQfLAwpLVeJ9MqX
-         XTBugG93eveU5yBbDbRwIIzakFdVRQPkIdV/1Wc6gbmMnUcdxyqS2QMICGEZl+kBvyMG
-         jYw2BnIt14ASAoaz+Ae5E8iypBhMLj6eePFJqGQVNB7hNYB0t9xAEGh1X0YHL4eU+SA/
-         LjI0P95GRbmhK/BWoPaxonfE3UlvwcMEpWdge4sZ27RWaFNtd6g/NuUf9kgDpkhqLyF6
-         xNXQ==
-X-Gm-Message-State: AOAM5309s4U5Bw7jKP1TpsAfs3hhrPuXko/Kjnfi9UXBK4fawYsy9ymz
-        e7iteN31KPZ1XymSKKuUP1g=
-X-Google-Smtp-Source: ABdhPJwaQ99lPcWRXF96Ez8T787FoH+S6jQcqAmeZzmGoAr/zqbL62PN2IiIPwE04RUUCzzIPXNQCQ==
-X-Received: by 2002:a2e:7a03:: with SMTP id v3mr33520604ljc.141.1594314762811;
-        Thu, 09 Jul 2020 10:12:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/iVQVSgsf58pbHgZKUWZQ1AACh3hg+wIWQ4vsAiPv2k=;
+        b=SK3d5d5Xkd+Zjq+OUrOGmynr9kPC46kgG0h8nuKrR4gRQldGnVo6PuYOfXcc6ZcC2g
+         vSGTEncAfktdHOZFIlc0TAzf4XwI6Adiv7jEJoWkBMCyNVELGU9jIoD2EsH7cLoIaera
+         4Itw+sIDApVpa3tuu25zZ73fHbMa7KDR74lWu2OEIXrFTrOsyGeoE+FJ+UOXFCu4I6Dh
+         lqBo8AVde2yadEi3sKETYU9koB/Btlh4sXdwbxKID3StW0yPieVzsLDGtqbrOk2+nYMu
+         KhRx1K+AeCAvfYJpMm6dhVu/tJ/ADoqh/vSuZE4h6hfiJ1x8BUHomE8c6X9fpBG4+vyg
+         pUDA==
+X-Gm-Message-State: AOAM532fJhqCf/zkOmbwRRlfywbSHW6Df9Q/Ye5VlZu3XExRsAUcb6Bc
+        hzaFtTOMavwEaH+J3HymKlA=
+X-Google-Smtp-Source: ABdhPJzcW59Uzj03ql5tpBAj4o8yToe+DepfciZrigCYQ8TxvGtZRFEjAI607q25HTh6r+/NGs6zOA==
+X-Received: by 2002:ac2:5090:: with SMTP id f16mr41751560lfm.86.1594315264523;
+        Thu, 09 Jul 2020 10:21:04 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
-        by smtp.gmail.com with ESMTPSA id y22sm998314ljn.2.2020.07.09.10.12.41
+        by smtp.gmail.com with ESMTPSA id o21sm1148921lfo.2.2020.07.09.10.21.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 10:12:42 -0700 (PDT)
+        Thu, 09 Jul 2020 10:21:03 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 6/6] gpio: max77620: Initialize hardware state of interrupts
-Date:   Thu,  9 Jul 2020 20:12:03 +0300
-Message-Id: <20200709171203.12950-7-digetx@gmail.com>
+Subject: [PATCH v4] clk: tegra: pll: Improve PLLM enable-state detection
+Date:   Thu,  9 Jul 2020 20:20:57 +0300
+Message-Id: <20200709172057.13951-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200709171203.12950-1-digetx@gmail.com>
-References: <20200709171203.12950-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -69,64 +67,68 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I noticed on Nexus 7 that after rebooting from downstream kernel to
-upstream, the GPIO interrupt is triggering non-stop despite interrupts
-being disabled for all of GPIOs. This happens because Nexus 7 uses a
-soft-reboot, meaning that bootloader should take care of resetting
-hardware, but the bootloader doesn't do it well. As a result, GPIO
-interrupt may be left ON at a boot time. Let's mask all GPIO interrupts
-at the driver's initialization time in order to resolve the issue.
+Power Management Controller (PMC) can override the PLLM clock settings,
+including the enable-state. Although PMC could only act as a second level
+gate, meaning that PLLM needs to be enabled by the Clock and Reset
+Controller (CaR) anyways if we want it to be enabled. Hence, when PLLM is
+overridden by PMC, it needs to be enabled by CaR and ungated by PMC in
+order to be functional. Please note that this patch doesn't fix any known
+problem, and thus, it's merely a minor improvement.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Laxman Dewangan <ldewangan@nvidia.com>
+Link: https://lore.kernel.org/linux-arm-kernel/20191210120909.GA2703785@ulmo/T/
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpio/gpio-max77620.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/gpio/gpio-max77620.c b/drivers/gpio/gpio-max77620.c
-index 6c516aa7732d..e090979659eb 100644
---- a/drivers/gpio/gpio-max77620.c
-+++ b/drivers/gpio/gpio-max77620.c
-@@ -260,6 +260,30 @@ static int max77620_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
- 	return -ENOTSUPP;
+Changelog:
+
+v4: - Renamed pllm_pmc_clk_enabled() to pllm_clk_is_gated_by_pmc() as
+      it was suggested by Jon Hunter in the review comment to v3.
+
+v3: - Dropped unintended code change that was accidentally added to v2.
+
+v2: - Added clarifying comment to the code.
+
+    - Prettified the code.
+
+ drivers/clk/tegra/clk-pll.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+index b2d39a66f0fa..ff13b371e176 100644
+--- a/drivers/clk/tegra/clk-pll.c
++++ b/drivers/clk/tegra/clk-pll.c
+@@ -327,16 +327,26 @@ int tegra_pll_wait_for_lock(struct tegra_clk_pll *pll)
+ 	return clk_pll_wait_for_lock(pll);
  }
  
-+static int max77620_gpio_irq_init_hw(struct gpio_chip *gc)
++static bool pllm_clk_is_gated_by_pmc(struct tegra_clk_pll *pll)
 +{
-+	struct max77620_gpio *gpio = gpiochip_get_data(gc);
-+	unsigned int i;
-+	int err;
++	u32 val = readl_relaxed(pll->pmc + PMC_PLLP_WB0_OVERRIDE);
 +
-+	/*
-+	 * GPIO interrupts may be left ON after bootloader, hence let's
-+	 * pre-initialize hardware to the expected state by disabling all
-+	 * the interrupts.
-+	 */
-+	for (i = 0; i < MAX77620_GPIO_NR; i++) {
-+		err = regmap_update_bits(gpio->rmap, GPIO_REG_ADDR(i),
-+					 MAX77620_CNFG_GPIO_INT_MASK, 0);
-+		if (err < 0) {
-+			dev_err(gpio->dev,
-+				"failed to disable interrupt: %d\n", err);
-+			return err;
-+		}
-+	}
-+
-+	return 0;
++	return (val & PMC_PLLP_WB0_OVERRIDE_PLLM_OVERRIDE) &&
++	      !(val & PMC_PLLP_WB0_OVERRIDE_PLLM_ENABLE);
 +}
 +
- static int max77620_gpio_probe(struct platform_device *pdev)
+ static int clk_pll_is_enabled(struct clk_hw *hw)
  {
- 	struct max77620_chip *chip =  dev_get_drvdata(pdev->dev.parent);
-@@ -295,6 +319,7 @@ static int max77620_gpio_probe(struct platform_device *pdev)
- 	mgpio->gpio_chip.irq.chip = &max77620_gpio_irqchip;
- 	mgpio->gpio_chip.irq.default_type = IRQ_TYPE_NONE;
- 	mgpio->gpio_chip.irq.handler = handle_edge_irq;
-+	mgpio->gpio_chip.irq.init_hw = max77620_gpio_irq_init_hw,
- 	mgpio->gpio_chip.irq.threaded = true;
+ 	struct tegra_clk_pll *pll = to_clk_pll(hw);
+ 	u32 val;
  
- 	platform_set_drvdata(pdev, mgpio);
+-	if (pll->params->flags & TEGRA_PLLM) {
+-		val = readl_relaxed(pll->pmc + PMC_PLLP_WB0_OVERRIDE);
+-		if (val & PMC_PLLP_WB0_OVERRIDE_PLLM_OVERRIDE)
+-			return val & PMC_PLLP_WB0_OVERRIDE_PLLM_ENABLE ? 1 : 0;
+-	}
++	/*
++	 * Power Management Controller (PMC) can override the PLLM clock
++	 * settings, including the enable-state. The PLLM is enabled when
++	 * PLLM's CaR state is ON and when PLLM isn't gated by PMC.
++	 */
++	if ((pll->params->flags & TEGRA_PLLM) && pllm_clk_is_gated_by_pmc(pll))
++		return 0;
+ 
+ 	val = pll_readl_base(pll);
+ 
 -- 
 2.26.0
 
