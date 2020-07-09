@@ -2,121 +2,194 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13FD1219E0A
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 12:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 730C0219FDB
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 14:18:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726374AbgGIKia (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Jul 2020 06:38:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbgGIKia (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 06:38:30 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB83C061A0B;
-        Thu,  9 Jul 2020 03:38:29 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id y13so854228lfe.9;
-        Thu, 09 Jul 2020 03:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=b3nvtrFoAaXSkUPmIflmEsQDIojlyJCetyOU5B6Jdkg=;
-        b=AyxM2Hq4isSQgbRSa96E0ZX8J8YHfxYDufGkRFsRULapTaNBLKd7Y4LAd+Bp1rwap5
-         KAYWi72BHe47/GdliDuMBlZNXQu4cHrACIbjX1xBefZ4PQp52W5TR+m+yKbKXZ6XpFlc
-         PGO4yx7gkZITrIudBkMnTGalsgr34guYn2h/z8rMeUBbOFJHHj6y0YF9D7NLHyjhJeVO
-         t1a8cH09ectOXb9XMy24snbB98PRwqnOSCQMbqlVJY8/1R51ULQG/dL4Nub0Sh/Hbonm
-         noYG+JZvCVv5U7lHhd5H5KQGefXecrJX0YkGWWeHqloJK8LqFlEEA2wFO+tbpu9McP1h
-         +ekA==
+        id S1726446AbgGIMS0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Jul 2020 08:18:26 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:43278 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbgGIMS0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 08:18:26 -0400
+Received: by mail-oi1-f194.google.com with SMTP id x83so1671643oif.10;
+        Thu, 09 Jul 2020 05:18:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=b3nvtrFoAaXSkUPmIflmEsQDIojlyJCetyOU5B6Jdkg=;
-        b=EBiWuuDJ8GtZpk4BD0BYpXY9nCpwWNJtDClUhGvpQ/eRi+7GOVsQwRpQCEdCMwQtn0
-         Lu1a8e/dYd41/RcLx2AJm2fk8C91TDBUPwBnAR172ZlXXepeAm130Innwn6Ek58092AK
-         tsELTtwZpsKDNDOgmd8C1zmi7Vsw71zuB2dXGdezg/1IThk/nLvei2ubF7l63qnEOSWq
-         23TrjMxVs0asYUWMm9nTnrOD2+h+rozfK30R2N3ODv8f7qxb/rMGEpxowfOr+/zBvJfb
-         m7lZ8U4slhcIWOQi/pOgxcrJyrEztwko0keLiHct6MDoRNVLLGac5VmUDjJeRivdFeR+
-         ybOg==
-X-Gm-Message-State: AOAM5337o0iMf0AH7rmIBWf03OId+rJyP3EFRmiEuL8nKA4h13YFkE4z
-        9r2iVoc+8thuaarUQL2CseaZGYif
-X-Google-Smtp-Source: ABdhPJxST9mVM+8Ql63IDWlaUT39N2nUOtf0lOm6EvnbbfgEPInr6qwSWYX1MW0vNetzORgAXD0ycw==
-X-Received: by 2002:a05:6512:52a:: with SMTP id o10mr39253739lfc.137.1594291108065;
-        Thu, 09 Jul 2020 03:38:28 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
-        by smtp.googlemail.com with ESMTPSA id s12sm659627ljd.116.2020.07.09.03.38.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2020 03:38:27 -0700 (PDT)
-Subject: Re: [PATCH v3 3/6] gpio: max77620: Don't set of_node
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20200708202355.28507-1-digetx@gmail.com>
- <20200708202355.28507-4-digetx@gmail.com>
- <CAHp75VejftNuSqdYvd1YE1SdRON6=mQ_iD2dEr4K9D8YGgeRBQ@mail.gmail.com>
- <675c4691-d372-4fe1-d515-c86fdba2f588@gmail.com>
- <CAHp75Vd89QpwaGvkpzG+pxnLd8S2guPCARLW5xPwhxXL8ZRfFw@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ff7985a4-58be-b466-62c2-abce9ae1c0f0@gmail.com>
-Date:   Thu, 9 Jul 2020 13:38:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BHVNxL+/4Dut3OSZTR+rYs7XqFLN3i0nnfmN8u7+xOA=;
+        b=HsPvqGX/GQ4OR4PD8qcCtxVGfclDRun1lAmESdkuU5btq7AutoGcvN2+yohnLpnadd
+         tO60+9ABX4LJe7VCGmwf3pMI0Wt1N8tamr/dvrWsGebqc3FP3mb9sonTbgnWOl2SQJlL
+         XrMcCPoWHbBo1ReQEkC5cDiVhkDhg/amdZE7fFBqo6gU3bkQKQ/Af52flG6sJY2c8EI7
+         d8f/IOU/hs3D5OqeNUDtC5WOWMs620lKXhe0IQgsWQZWUMi/uGVUYieMxucFV7xyzYcs
+         EzH+gn1USAQ2/QGft1FL1b4AIs4vs8pz6/nhGibMmQkjTqmyS7KOxkq3mjRBGnsYvNiJ
+         HYeQ==
+X-Gm-Message-State: AOAM532wTK2f2HpwOkCilCgt7dQ/Nsva5wPIK2qVvOttSL6JD3fYtrE9
+        5NR/R1T7hZM+PT3ikdyQUQB0WiT8/B8serd8Okc=
+X-Google-Smtp-Source: ABdhPJxtj1vjB44EgNVrKbINxMf3MLBQQVOimbtqX57PoimFmHD9A3C9Fv4wq87LSAfsDKch7XlhTuenX5e7j0W2xjI=
+X-Received: by 2002:aca:4a89:: with SMTP id x131mr11420648oia.103.1594297104569;
+ Thu, 09 Jul 2020 05:18:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vd89QpwaGvkpzG+pxnLd8S2guPCARLW5xPwhxXL8ZRfFw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1594005196-16327-1-git-send-email-neal.liu@mediatek.com> <1594005196-16327-2-git-send-email-neal.liu@mediatek.com>
+In-Reply-To: <1594005196-16327-2-git-send-email-neal.liu@mediatek.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 9 Jul 2020 14:18:13 +0200
+Message-ID: <CAJZ5v0ihB5AJwSRpjaOnXAmciregzxARL5xfudu1h+=_LXaE_w@mail.gmail.com>
+Subject: Re: [PATCH v2] cpuidle: change enter_s2idle() prototype
+To:     Neal Liu <neal.liu@mediatek.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        lkml <linux-kernel@vger.kernel.org>, wsd_upstream@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.07.2020 12:07, Andy Shevchenko пишет:
-> On Thu, Jul 9, 2020 at 12:44 AM Dmitry Osipenko <digetx@gmail.com> wrote:
->> 08.07.2020 23:57, Andy Shevchenko пишет:
->>> On Wednesday, July 8, 2020, Dmitry Osipenko <digetx@gmail.com
->>> <mailto:digetx@gmail.com>> wrote:
-> 
-> ...
-> 
->>> I gave a second look and I think my suggestion is wrong. Here is an
->>> interesting propagation of the parent device node to its grand son,
->>> leaving son’s one untouched. Original code has intentions to do that way.
->>
->> The [1] says that gpio_chip.parent should point at the "device providing
->> the GPIOs".
-> 
-> Yes, physical device I believe.
-> 
->> That's the pdev->dev.parent in the case of this driver.
->> MAX77620 is an MFD PMIC device that has virtual sub-devices like GPIO
->> controller, PINCTRL and RTC. The MFD is the parent device that provides
->> the GPIOs [2].
->>
->> [1]
->> https://elixir.bootlin.com/linux/v5.8-rc3/source/include/linux/gpio/driver.h#L276
->>
->> [2]
->> https://elixir.bootlin.com/linux/v5.8-rc3/source/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi#L48
->>
->> I think the old code was wrong and this patch is correct, please correct
->> me if I'm missing something.
-> 
-> Hmm... I have checked through GPIO drivers I have knowledge of / care
-> about and PMIC ones do like you suggested in this patch, the rest
-> (which are instantiated from MFD) take a virtual platform device.
-> 
-> Looking at DT excerpt I think you're rather right than wrong, so I
-> leave it to you and maintainers.
-> Thanks!
+On Mon, Jul 6, 2020 at 5:13 AM Neal Liu <neal.liu@mediatek.com> wrote:
+>
+> Control Flow Integrity(CFI) is a security mechanism that disallows
+> changes to the original control flow graph of a compiled binary,
+> making it significantly harder to perform such attacks.
+>
+> init_state_node() assign same function callback to different
+> function pointer declarations.
+>
+> static int init_state_node(struct cpuidle_state *idle_state,
+>                            const struct of_device_id *matches,
+>                            struct device_node *state_node) { ...
+>         idle_state->enter = match_id->data; ...
+>         idle_state->enter_s2idle = match_id->data; }
+>
+> Function declarations:
+>
+> struct cpuidle_state { ...
+>         int (*enter) (struct cpuidle_device *dev,
+>                       struct cpuidle_driver *drv,
+>                       int index);
+>
+>         void (*enter_s2idle) (struct cpuidle_device *dev,
+>                               struct cpuidle_driver *drv,
+>                               int index); };
+>
+> In this case, either enter() or enter_s2idle() would cause CFI check
+> failed since they use same callee.
 
-Okay, waiting for the maintainers then :)
+Can you please explain this in a bit more detail?
 
-Thank you very much for the review!
+As it stands, I don't understand the problem statement enough to apply
+the patch.
+
+> Align function prototype of enter() since it needs return value for
+> some use cases. The return value of enter_s2idle() is no
+> need currently.
+
+So last time I requested you to document why ->enter_s2idle needs to
+return an int in the code, which has not been done.  Please do that.
+
+> Signed-off-by: Neal Liu <neal.liu@mediatek.com>
+> ---
+>  drivers/acpi/processor_idle.c   |    6 ++++--
+>  drivers/cpuidle/cpuidle-tegra.c |    8 +++++---
+>  drivers/idle/intel_idle.c       |    6 ++++--
+>  include/linux/cpuidle.h         |    6 +++---
+>  4 files changed, 16 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/acpi/processor_idle.c b/drivers/acpi/processor_idle.c
+> index 75534c5..6ffb6c9 100644
+> --- a/drivers/acpi/processor_idle.c
+> +++ b/drivers/acpi/processor_idle.c
+> @@ -655,8 +655,8 @@ static int acpi_idle_enter(struct cpuidle_device *dev,
+>         return index;
+>  }
+>
+> -static void acpi_idle_enter_s2idle(struct cpuidle_device *dev,
+> -                                  struct cpuidle_driver *drv, int index)
+> +static int acpi_idle_enter_s2idle(struct cpuidle_device *dev,
+> +                                 struct cpuidle_driver *drv, int index)
+>  {
+>         struct acpi_processor_cx *cx = per_cpu(acpi_cstate[index], dev->cpu);
+>
+> @@ -674,6 +674,8 @@ static void acpi_idle_enter_s2idle(struct cpuidle_device *dev,
+>                 }
+>         }
+>         acpi_idle_do_entry(cx);
+> +
+> +       return 0;
+>  }
+>
+>  static int acpi_processor_setup_cpuidle_cx(struct acpi_processor *pr,
+> diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
+> index 1500458..a12fb14 100644
+> --- a/drivers/cpuidle/cpuidle-tegra.c
+> +++ b/drivers/cpuidle/cpuidle-tegra.c
+> @@ -253,11 +253,13 @@ static int tegra_cpuidle_enter(struct cpuidle_device *dev,
+>         return err ? -1 : index;
+>  }
+>
+> -static void tegra114_enter_s2idle(struct cpuidle_device *dev,
+> -                                 struct cpuidle_driver *drv,
+> -                                 int index)
+> +static int tegra114_enter_s2idle(struct cpuidle_device *dev,
+> +                                struct cpuidle_driver *drv,
+> +                                int index)
+>  {
+>         tegra_cpuidle_enter(dev, drv, index);
+> +
+> +       return 0;
+>  }
+>
+>  /*
+> diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
+> index f449584..b178da3 100644
+> --- a/drivers/idle/intel_idle.c
+> +++ b/drivers/idle/intel_idle.c
+> @@ -175,13 +175,15 @@ static __cpuidle int intel_idle(struct cpuidle_device *dev,
+>   * Invoked as a suspend-to-idle callback routine with frozen user space, frozen
+>   * scheduler tick and suspended scheduler clock on the target CPU.
+>   */
+> -static __cpuidle void intel_idle_s2idle(struct cpuidle_device *dev,
+> -                                       struct cpuidle_driver *drv, int index)
+> +static __cpuidle int intel_idle_s2idle(struct cpuidle_device *dev,
+> +                                      struct cpuidle_driver *drv, int index)
+>  {
+>         unsigned long eax = flg2MWAIT(drv->states[index].flags);
+>         unsigned long ecx = 1; /* break on interrupt flag */
+>
+>         mwait_idle_with_hints(eax, ecx);
+> +
+> +       return 0;
+>  }
+>
+>  /*
+> diff --git a/include/linux/cpuidle.h b/include/linux/cpuidle.h
+> index ec2ef63..bee10c0 100644
+> --- a/include/linux/cpuidle.h
+> +++ b/include/linux/cpuidle.h
+> @@ -66,9 +66,9 @@ struct cpuidle_state {
+>          * suspended, so it must not re-enable interrupts at any point (even
+>          * temporarily) or attempt to change states of clock event devices.
+>          */
+> -       void (*enter_s2idle) (struct cpuidle_device *dev,
+> -                             struct cpuidle_driver *drv,
+> -                             int index);
+> +       int (*enter_s2idle)(struct cpuidle_device *dev,
+> +                           struct cpuidle_driver *drv,
+> +                           int index);
+>  };
+>
+>  /* Idle State Flags */
+> --
+> 1.7.9.5
