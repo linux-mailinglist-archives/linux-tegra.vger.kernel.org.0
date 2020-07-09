@@ -2,106 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3301D219C4C
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 11:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6547C219C90
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jul 2020 11:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbgGIJaG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Jul 2020 05:30:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34990 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726444AbgGIJaG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 9 Jul 2020 05:30:06 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1CB9F20663;
-        Thu,  9 Jul 2020 09:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594287005;
-        bh=ty0qNkQb+mQZVOrqCFXZLCcTcwuD2qX6+r/mjdgtvss=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0XezFJWdt8TX5AKXsCYPtKd4Mbqc6+K1SQGPJCabkV0wgzanLVbsqTJac9JtmblwL
-         fOpdX0CZSwSgr1NRmUEjZPUfVSSoX0j4rzL2HnIz+VKinMU0MCazWveO59bczXTBue
-         vduNcNlN/gFA2/ID6tXitgwC2pbgIDPDRKYIp1ZI=
-Date:   Thu, 9 Jul 2020 11:30:12 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 00/65] 5.4.51-rc1 review
-Message-ID: <20200709093012.GB46127@kroah.com>
-References: <20200707145752.417212219@linuxfoundation.org>
- <6fbcdd30-68d3-e8c5-d762-7b8a8c48d112@nvidia.com>
- <20200708151500.GA710412@kroah.com>
- <14d23282-c871-3f9d-372c-06da693666e1@nvidia.com>
+        id S1726215AbgGIJsv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Jul 2020 05:48:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbgGIJsv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jul 2020 05:48:51 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59896C061A0B;
+        Thu,  9 Jul 2020 02:48:50 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id g139so782857lfd.10;
+        Thu, 09 Jul 2020 02:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=o1KOOfGxx5OBPyQu2rzVGMw+QBwUPbLf1gugF3794NM=;
+        b=c4oOymho1TrBeDcmCQNBQhLoBKzheX/2MWq0P86Rz/AjM+iKgkb+A6/JzGQVvyhFk1
+         BU+5Zb/YNb+ZWK3A7K36ZkVit9N3l0hyEqyr8iifVN2o5OkTzH9GvJXxZHbEpYlpkuIs
+         amtA0nAJXM2cORLNwDpHJ5n8xvzkDpYhAFIJX739B5eeLL6qSdMpB8buqJRgL700fEW7
+         ZvjGimHGi3bw874GMttAxxgsIag41ko5oygMQxUlY1pmMCI+Gl4rrd5W3rR0VwAfglLz
+         /UUATRDg8CuTidMDyKz1cq9y4AEjxbGeNKLC3sqP5C1Av2IXpdz4AWOUORhbqZydZAwD
+         ttAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=o1KOOfGxx5OBPyQu2rzVGMw+QBwUPbLf1gugF3794NM=;
+        b=eAqKQyYPlMXllEHKi4NbYjpG9awcV6X1xYX1IO4byZ/GD9Rl2cwbGWsJHt0QNZwaLt
+         6Aj5m0trk5yBXjwhYjkgToBVJvs9fjqDh3HFgTMcu9xpgR4YEfybSCsCo9zxxJxda88Z
+         Nh9izzqi2ydM0f1EW+g63AdF9Hc3LQdIsOiwnqhAzytfinIbXQJHkdgbHKPqtC86BL/x
+         +0EF2YIc9qSUkl/G9FaIoL/VGg04DYy08ajyD+9jbZsRjvkFjYhAiS+f3j3R8N3R0U6o
+         3O0KPpvrJsbigf4FS4UhtoLdeGvJC66AIrbSXXdGT5PmEQLpY7QxisaqgvvoPK+E50JM
+         QgRw==
+X-Gm-Message-State: AOAM530/0Wyg4BxXK2rGKousuxAFKtaMRrHSbk1HqmYhhVohIC1uk7Vg
+        KFdmsddTu1v8sTyiyKbtaRBVFpts
+X-Google-Smtp-Source: ABdhPJw4/tIoFu5b89x1nLqmW945MGGZnNiar1WkGb0h0pkf8tgj9mGKrzH5BOFMXYKFWPEgyeSFaw==
+X-Received: by 2002:ac2:5443:: with SMTP id d3mr38897569lfn.121.1594288128386;
+        Thu, 09 Jul 2020 02:48:48 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
+        by smtp.googlemail.com with ESMTPSA id 16sm613344ljw.127.2020.07.09.02.48.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2020 02:48:47 -0700 (PDT)
+Subject: Re: [PATCH v2] cpuidle: tegra: Correctly handle result of
+ arm_cpuidle_simple_enter()
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20200702001354.27056-1-digetx@gmail.com>
+ <4ffff3d8-2d41-3fb2-ed16-c9662d18d261@nvidia.com>
+ <3bc2064e-e94d-984c-edab-50b4dc2fd2dd@gmail.com>
+ <be99caca-b50a-0e12-29dc-2da0d924af43@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <55744bfb-af5e-ed2e-654c-d6de9b26b696@gmail.com>
+Date:   Thu, 9 Jul 2020 12:48:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14d23282-c871-3f9d-372c-06da693666e1@nvidia.com>
+In-Reply-To: <be99caca-b50a-0e12-29dc-2da0d924af43@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jul 08, 2020 at 05:58:27PM +0100, Jon Hunter wrote:
+09.07.2020 12:06, Jon Hunter пишет:
 > 
-> On 08/07/2020 16:15, Greg Kroah-Hartman wrote:
-> > On Wed, Jul 08, 2020 at 09:41:33AM +0100, Jon Hunter wrote:
-> >>
-> >> On 07/07/2020 16:16, Greg Kroah-Hartman wrote:
-> >>> This is the start of the stable review cycle for the 5.4.51 release.
-> >>> There are 65 patches in this series, all will be posted as a response
-> >>> to this one.  If anyone has any issues with these being applied, please
-> >>> let me know.
-> >>>
-> >>> Responses should be made by Thu, 09 Jul 2020 14:57:34 +0000.
-> >>> Anything received after that time might be too late.
-> >>>
-> >>> The whole patch series can be found in one patch at:
-> >>> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.51-rc1.gz
-> >>> or in the git tree and branch at:
-> >>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> >>> and the diffstat can be found below.
-> >>>
-> >>> thanks,
-> >>>
-> >>> greg k-h
-> >>
-> >> All tests are passing for Tegra ...
-> >>
-> >> Test results for stable-v5.4:
-> >>     11 builds:	11 pass, 0 fail
-> >>     26 boots:	26 pass, 0 fail
-> >>     56 tests:	56 pass, 0 fail
-> >>
-> >> Linux version:	5.4.51-rc1-g47d410b54275
-> >> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-> >>                 tegra194-p2972-0000, tegra20-ventana,
-> >>                 tegra210-p2371-2180, tegra210-p3450-0000,
-> >>                 tegra30-cardhu-a04
-> > 
-> > Thanks for testing all of these and letting me know.
+> On 08/07/2020 15:32, Dmitry Osipenko wrote:
+>> 08.07.2020 15:34, Jon Hunter пишет:
+>>>
+>>> On 02/07/2020 01:13, Dmitry Osipenko wrote:
+>>>> The enter() callback of CPUIDLE drivers returns index of the entered idle
+>>>> state on success or a negative value on failure. The negative value could
+>>>> any negative value, i.e. it doesn't necessarily needs to be a error code.
+>>>> That's because CPUIDLE core only cares about the fact of failure and not
+>>>> about the reason of the enter() failure.
+>>>>
+>>>> Like every other enter() callback, the arm_cpuidle_simple_enter() returns
+>>>> the entered idle-index on success. Unlike some of other drivers, it never
+>>>> fails. It happened that TEGRA_C1=index=err=0 in the code of cpuidle-tegra
+>>>> driver, and thus, there is no problem for the cpuidle-tegra driver created
+>>>> by the typo in the code which assumes that the arm_cpuidle_simple_enter()
+>>>> returns a error code.
+>>>>
+>>>> The arm_cpuidle_simple_enter() also may return a -ENODEV error if CPU_IDLE
+>>>> is disabled in a kernel's config, but all CPUIDLE drivers are disabled if
+>>>> CPU_IDLE is disabled, including the cpuidle-tegra driver. So we can't ever
+>>>> see the error code from arm_cpuidle_simple_enter() today.
+>>>>
+>>>> Of course the code may get some changes in the future and then the typo
+>>>> may transform into a real bug, so let's correct the typo in the code by
+>>>> making tegra_cpuidle_enter() to directly return the index returned by the
+>>>> arm_cpuidle_simple_enter().
+>>>
+>>> Are you suggesting that arm_cpuidle_simple_enter() could be updated to
+>>> actually return an error? Sorry it is not clear to me what you are implying.
+>>
+>> Hello, Jon!
+>>
+>> Yes, I'm saying that *potentially* arm_cpuidle_simple_enter() could be
+>> updated to actually return error.
 > 
-> No problem. For some reason the v5.7 review email never made it to my
-> inbox AFAICT. Who knows if it will show up tomorrow, but anyway it all
-> looks good to Tegra ...
 > 
-> Test results for stable-v5.7:
->     11 builds:	11 pass, 0 fail
->     26 boots:	26 pass, 0 fail
->     56 tests:	56 pass, 0 fail
-> 
-> Linux version:	5.7.8-rc1-gb371afd12a48
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+> OK, then I am confused, because after your change, we would now ignore
+> any error that could be returned in the future. Yes the current code
+> does not set the variable 'index' correctly, but before we set the value
+> of 'index' shouldn't we check that the value being returned is not a
+> negative error code first?
 
-Oh, nice, I was wondering why you didn't respond for that.
+Could you please clarify what do you mean by "ignore any error"? Do you
+mean the error message?
 
-thanks for letting me know.
+After this patch, the tegra_cpuidle_enter() will directly return the
+index returned by the arm_cpuidle_simple_enter(). I guess this may be
+unclear if you're only looking at the patch and not at the whole code.
 
-greg k-h
+Please see how tegra_cpuidle_enter() looks after applying this patch:
+
+static int tegra_cpuidle_enter(struct cpuidle_device *dev,
+			       struct cpuidle_driver *drv,
+			       int index)
+{
+	unsigned int cpu = cpu_logical_map(dev->cpu);
+	int err = 0;
+
+	index = tegra_cpuidle_adjust_state_index(index, cpu);
+	if (dev->states_usage[index].disable)
+		return -1;
+
+	if (index == TEGRA_C1)
+		index = arm_cpuidle_simple_enter(dev, drv, index);
+	else
+		err = tegra_cpuidle_state_enter(dev, index, cpu);
+
+	if (err && (err != -EINTR || index != TEGRA_CC6))
+		pr_err_once("failed to enter state %d err: %d\n", index, err);
+
+	return err ? -1 : index;
+}
