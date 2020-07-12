@@ -2,87 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AAFB21C894
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2F8421C89C
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728699AbgGLKdx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Jul 2020 06:33:53 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6221 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727777AbgGLKdx (ORCPT
+        id S1727777AbgGLKsr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Jul 2020 06:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbgGLKsp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Jul 2020 06:33:53 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0ae6a20000>; Sun, 12 Jul 2020 03:32:02 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sun, 12 Jul 2020 03:33:53 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sun, 12 Jul 2020 03:33:53 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 12 Jul
- 2020 10:33:52 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 12 Jul 2020 10:33:52 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.26.75.246]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f0ae7100000>; Sun, 12 Jul 2020 03:33:52 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] memory: tegra: Fix KCONFIG variables for Tegra186 and Tegra194
-Date:   Sun, 12 Jul 2020 11:33:47 +0100
-Message-ID: <20200712103347.25070-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        Sun, 12 Jul 2020 06:48:45 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79165C061794
+        for <linux-tegra@vger.kernel.org>; Sun, 12 Jul 2020 03:48:44 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id s9so11266802ljm.11
+        for <linux-tegra@vger.kernel.org>; Sun, 12 Jul 2020 03:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3OF768bWIKlxo6xuo1+u0kpBkyC0jwZ2U+ICdvGz7+I=;
+        b=WFcw+6G2OlPrQtf5lwTfWvjPY0kKHySneb4qw7cFDwvcRx4LkiVcGQaGmzT5fFRQtu
+         OoLeexe55CGdC0nzNS8Wbo/z7bftFuhIEpa8uadlM0QgDrg4aLrdSWonIz7EPKk9TAVM
+         jE/Lo6Dqc/I9BYcF/W/YXjG8m7LzAe3CmVjLruVCeVwYYLCnp+o3c1c+AbRfuYrmH0OZ
+         KG0AiQ/JCSSmuaRXe6+nJ+Z+TvmgjLqpLwA7ZF1ZcoqLN0ECf+a+nsiMlfzLCV2spD4T
+         UfZs1PqVsBhLM0/DJA+jC1Xvq+8UwcGJtPg5o1lENSW0eXbon4XvnoyYEMbQRSdhtBx6
+         pd6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3OF768bWIKlxo6xuo1+u0kpBkyC0jwZ2U+ICdvGz7+I=;
+        b=WcdSXgSt33Xo0lESxU85YztuQtp+hnnKtGNFTLBQ7onIoBfhbqX0yw75y3rN274RHi
+         YWAExoXXxls5IKk8JMjToGlR+MtC6KrfzKK6Ak50JJ4913fvMEKLfy44QL/1Uq0YQ7Pa
+         RD3CGt519HylnhJiRtjZ3tloWpwcgoXl6SaFcm1fxpMa1wvwYRz7HpatOE53AHRINXgM
+         b5UOVIYOILIQGTBJaTYBNy1RL/oZ5cORKyEGsJU4z0u6bZkFcSHBpls3LLcTZEOkv5Yt
+         DJPpQ5QmDDqsR5o5DhefqKHgAAN+gSn/EiIhyoxXZzDPBxrphpQlUDnE3UmonJRMngz5
+         PViA==
+X-Gm-Message-State: AOAM532TcKv7CHPVAw9v8k8qF+YrkY5cotCJxRG4H9VUKobdsEYaHJVb
+        on9gMg3YbXN5oJ3MNoye/gvHMoJL
+X-Google-Smtp-Source: ABdhPJyb3alvy/vaEKCnOmtkmtxvntD3ThS9IAKQm7tAslScKJMMTXLOKtHd7KpGHhhuPHc7+X+RBA==
+X-Received: by 2002:a2e:9c95:: with SMTP id x21mr38585898lji.234.1594550922907;
+        Sun, 12 Jul 2020 03:48:42 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-105.pppoe.mtu-net.ru. [91.79.162.105])
+        by smtp.googlemail.com with ESMTPSA id v10sm3370122ljg.113.2020.07.12.03.48.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jul 2020 03:48:42 -0700 (PDT)
+Subject: Re: [PATCH] ARM: tegra: Enable CPUFREQ userspace governor
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20200712103114.24825-1-jonathanh@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <857e47b0-e226-72b7-3855-f668c49c0739@gmail.com>
+Date:   Sun, 12 Jul 2020 13:48:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594549922; bh=XXLpNASfBPd/iAWcJVC9NU/Ga5s++KsUtoAlq667T9Y=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=T8/XJdb58N3LIRUXURjR1/qNGWJAmdR+ptDsm5er//eEIwGCoNVIHIRuaQVyZpfJE
-         6EGwHSlj0wvmA9v2G25YLyfGDgYRGcEYZZsoyHTAHO2+KJUbE72V/C2Ot7e/hL9+G4
-         Z3FECcRnhUdoRTqluM2DxYTLQbWMC5sGj2cWR9GmP2sbZ86A0iGKUfOX+GlLVyNV7e
-         W6UB2wxXLznaSGCNQh/KitgE7FOF9z12PZ1zxr3aLh5oBIUXiWihlwuD9b1O/EUSI0
-         hRfIIohfmrU3QcHgaz33BSCsQlPLWyLQwBVVl+8lC02egYhw1l6ogb6JXBuYuV2ybG
-         NEWVKdJzqgqBA==
+In-Reply-To: <20200712103114.24825-1-jonathanh@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit a127e690b051 ("memory: tegra: Add support for the Tegra194 memory
-controller") and commit 4e04b88633ae ("memory: tegra: Only include
-support for enabled SoCs") incorrectly added the KCONFIG variables
-CONFIG_ARCH_TEGRA186_SOC and CONFIG_ARCH_TEGRA194_SOC to the Tegra EMC
-driver. These KCONFIG variables do not exist and prevent the EMC driver
-from being probed on Tegra186 and Tegra194. These KCONFIG variable
-names are simply missing one underscore and so fix this by adding the
-necessary underscore to the variable names.
+12.07.2020 13:31, Jon Hunter пишет:
+> Enable the CPUFREQ userspace governor in the tegra_defconfig so that
+> we can test CPUFREQ with the userspace governor with this configuration
+> on 32-bit Tegra devices.
+> 
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> ---
+>  The_Yellow_Theme_24-192.wav      | 0
+>  arch/arm/configs/tegra_defconfig | 1 +
+>  2 files changed, 1 insertion(+)
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/memory/tegra/tegra186-emc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+>  create mode 100644 The_Yellow_Theme_24-192.wav
+> 
+> diff --git a/The_Yellow_Theme_24-192.wav b/The_Yellow_Theme_24-192.wav
+> new file mode 100644
 
-diff --git a/drivers/memory/tegra/tegra186-emc.c b/drivers/memory/tegra/tegra186-emc.c
-index 9333ebe4c918..1d0a12164fe7 100644
---- a/drivers/memory/tegra/tegra186-emc.c
-+++ b/drivers/memory/tegra/tegra186-emc.c
-@@ -268,10 +268,10 @@ static int tegra186_emc_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id tegra186_emc_of_match[] = {
--#if defined(CONFIG_ARCH_TEGRA186_SOC)
-+#if defined(CONFIG_ARCH_TEGRA_186_SOC)
- 	{ .compatible = "nvidia,tegra186-emc" },
- #endif
--#if defined(CONFIG_ARCH_TEGRA194_SOC)
-+#if defined(CONFIG_ARCH_TEGRA_194_SOC)
- 	{ .compatible = "nvidia,tegra194-emc" },
- #endif
- 	{ /* sentinel */ }
--- 
-2.17.1
-
+Hello, Jon! This looks like something unrelated to this patch :)
