@@ -2,93 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8703F21C877
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 133E321C87C
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:25:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728354AbgGLKG6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Jul 2020 06:06:58 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6374 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727777AbgGLKG5 (ORCPT
+        id S1728444AbgGLKZQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Jul 2020 06:25:16 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9228 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727777AbgGLKZP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Jul 2020 06:06:57 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0ae0870000>; Sun, 12 Jul 2020 03:06:01 -0700
+        Sun, 12 Jul 2020 06:25:15 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0ae4fe0000>; Sun, 12 Jul 2020 03:25:02 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 12 Jul 2020 03:06:57 -0700
+  Sun, 12 Jul 2020 03:25:15 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 12 Jul 2020 03:06:57 -0700
+        by hqpgpgate101.nvidia.com on Sun, 12 Jul 2020 03:25:15 -0700
 Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 12 Jul
- 2020 10:06:55 +0000
+ 2020 10:25:15 +0000
 Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 12 Jul 2020 10:06:55 +0000
+ Transport; Sun, 12 Jul 2020 10:25:15 +0000
 Received: from moonraker.nvidia.com (Not Verified[10.26.75.246]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f0ae0be0000>; Sun, 12 Jul 2020 03:06:55 -0700
+        id <B5f0ae50a0000>; Sun, 12 Jul 2020 03:25:14 -0700
 From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 2/2] cpufreq: tegra186: Simplify probe return path
-Date:   Sun, 12 Jul 2020 11:06:45 +0100
-Message-ID: <20200712100645.13927-2-jonathanh@nvidia.com>
+CC:     Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 0/3] arm64: tegra: A few DT updates for Tegra
+Date:   Sun, 12 Jul 2020 11:25:03 +0100
+Message-ID: <20200712102506.23686-1-jonathanh@nvidia.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200712100645.13927-1-jonathanh@nvidia.com>
-References: <20200712100645.13927-1-jonathanh@nvidia.com>
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594548361; bh=nz3cJSjF3NMjq5LmbqTUriy0lkrKQK3j38oB5/xDGQU=;
+        t=1594549502; bh=vT93s6iHbge88d+HGxcJPLAamzNc87M0lYca4EgUgSI=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=BRI7EJNbWMEaprvOwmA+ve/vgPKNWxdyeWYk921IJPDQTqaXCLiEEGqju8ls8fza8
-         uwBsUQEtQBEd6eufardF4yEE1vAOWvdTzYgpDYt+Vd2rM6TweEVVhMMdgQAUm4j4XZ
-         6QyDIc2nWnRyjXoKchlsKcyzT7FzzC1XaEeVrhur0fQ4yrSRi5BeDdTY97Esco0bWG
-         qsjFWeNMScNu64vSO0nmFNYg9qlOSxJ3qWD5N4X1gay53iQM54W74nT7ahpaaKZRVA
-         wWYw7+jrUokoXrUfb+B5/kWBI3a/jKqp318yW0IeNRcvSJ1uIEL708x160n1F+J6f1
-         RYliZWjay2bxQ==
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=dMY0SU3c8dta9hCw99alwaK3Q9+O89aOvkUZrNnmFXnKzLVdvgfQtxxJisEgniM4D
+         /nticV9Z48HDlB62bUFtO8Ayoo+x8+sy14lRr5TkGLDK7OAEcl7NWr32cQcLytj6qH
+         Qo54se6UWxErPQosWdZmCTWNZt73mVsdvk5ra/yYv/xcGJsVf2UOGhfw4TDGzrl1cb
+         +kx2aBKEglUiqH//0xH1FCsQVh8CdcIcGD6SBAmtKd//PBn+b34+Vq89xrMT4M55t2
+         XOgRNG1Qg/G+0Ty9E5DMinIc+mxgvW5aDVQL1EiC9GKHvBbjqikpRLRmJJv8S4voE2
+         bW8e0kw3KGB7Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-We always put the reference to BPMP device on exit of the Tegra186
-CPUFREQ driver and so there is no need to have separate exit paths
-for success and failure. Therefore, simplify the probe return path
-in the Tegra186 CPUFREQ driver by combining the success and failure
-paths.
+This series adds ...
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/cpufreq/tegra186-cpufreq.c | 6 ------
- 1 file changed, 6 deletions(-)
+1. Support for Tegra19 Jetson Xavier NX
+2. Support for the DFLL on Tegra210 Jetson Nano
+3. Fixes VBUS supply for Tegra186 Jetson TX2
 
-diff --git a/drivers/cpufreq/tegra186-cpufreq.c b/drivers/cpufreq/tegra186-cpufreq.c
-index c44190ce3f03..bf8cab357277 100644
---- a/drivers/cpufreq/tegra186-cpufreq.c
-+++ b/drivers/cpufreq/tegra186-cpufreq.c
-@@ -231,15 +231,9 @@ static int tegra186_cpufreq_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	tegra_bpmp_put(bpmp);
--
- 	tegra186_cpufreq_driver.driver_data = data;
- 
- 	err = cpufreq_register_driver(&tegra186_cpufreq_driver);
--	if (err)
--		return err;
--
--	return 0;
- 
- put_bpmp:
- 	tegra_bpmp_put(bpmp);
+Jon Hunter (2):
+  arm64: tegra: Enable DFLL support on Jetson Nano
+  arm64: tegra: Populate VBUS for USB3 on Jetson TX2
+
+Thierry Reding (1):
+  arm64: tegra: Add support for Jetson Xavier NX
+
+ arch/arm64/boot/dts/nvidia/Makefile           |   1 +
+ .../boot/dts/nvidia/tegra186-p2771-0000.dts   |   1 +
+ .../nvidia/tegra194-p3509-0000+p3668-0000.dts | 343 ++++++++++++++++++
+ .../boot/dts/nvidia/tegra194-p3668-0000.dtsi  | 296 +++++++++++++++
+ .../boot/dts/nvidia/tegra210-p3450-0000.dts   |  37 ++
+ 5 files changed, 678 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dts
+ create mode 100644 arch/arm64/boot/dts/nvidia/tegra194-p3668-0000.dtsi
+
 -- 
 2.17.1
 
