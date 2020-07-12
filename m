@@ -2,38 +2,38 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9D0121C880
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B42921C882
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:25:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728580AbgGLKZS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Jul 2020 06:25:18 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6691 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727777AbgGLKZS (ORCPT
+        id S1728644AbgGLKZU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Jul 2020 06:25:20 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9233 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727777AbgGLKZT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Jul 2020 06:25:18 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0ae4d50000>; Sun, 12 Jul 2020 03:24:21 -0700
+        Sun, 12 Jul 2020 06:25:19 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0ae5020001>; Sun, 12 Jul 2020 03:25:06 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sun, 12 Jul 2020 03:25:18 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sun, 12 Jul 2020 03:25:19 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sun, 12 Jul 2020 03:25:18 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 12 Jul
- 2020 10:25:18 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 12 Jul 2020 10:25:18 +0000
+        by hqpgpgate101.nvidia.com on Sun, 12 Jul 2020 03:25:19 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 12 Jul
+ 2020 10:25:19 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sun, 12 Jul 2020 10:25:19 +0000
 Received: from moonraker.nvidia.com (Not Verified[10.26.75.246]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f0ae50c0013>; Sun, 12 Jul 2020 03:25:17 -0700
+        id <B5f0ae50e0003>; Sun, 12 Jul 2020 03:25:18 -0700
 From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 CC:     Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 2/3] arm64: tegra: Enable DFLL support on Jetson Nano
-Date:   Sun, 12 Jul 2020 11:25:05 +0100
-Message-ID: <20200712102506.23686-3-jonathanh@nvidia.com>
+Subject: [PATCH 3/3] arm64: tegra: Populate VBUS for USB3 on Jetson TX2
+Date:   Sun, 12 Jul 2020 11:25:06 +0100
+Message-ID: <20200712102506.23686-4-jonathanh@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200712102506.23686-1-jonathanh@nvidia.com>
 References: <20200712102506.23686-1-jonathanh@nvidia.com>
@@ -41,84 +41,47 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594549461; bh=TzDiRWzYTOCE1gUE1TfyIWopeKtWIS6gv0hEoYmbnbk=;
+        t=1594549506; bh=yCFruHaw69Mabibsg9VDKDYxzywqatQS+8PmlmivtW8=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:X-NVConfidentiality:MIME-Version:
          Content-Type;
-        b=I+r9r045vQXKDGp+iU+hvRlkUd+FVQAAxUzDi4Aa4penXsoh1Fkb+TRJLWOuD5CgU
-         uBm4bEWtZYq81uyFGWc1tqYST+vk/BZwdruJ6m9PmlcCAlACNOJnHpD3s1YxmW+izg
-         aCwxX0uaPpkWGoqAYLnVe5rFroz+HVJOL2KmMBY3Ht7GFzGFq5rNc4snC6jn0C1EH2
-         m9DaOfi1nynxMvewqub/MiEm2gCed/4XXlggEBmTYa+GHAniCaS+tH7qf2NZT19i3j
-         nkh8sw+fG7lO7d4UwwAu3PByENX+w6AWmL38FzWM/rw0Xj9Fxm6niLp8dKbJgqhTWW
-         YJdro0grkL/bw==
+        b=ouYz4kH23cufPUIWzmRCwAqqYgfK2cIMZDblZCPMWneZIZJVB2UkZYEZHLgEAHM/J
+         7P5JQmkuTUkl8ixpPX6JS3Khni5nxGuCnWLhqEDvQJtnG3Bf51r/HDYvpASH23mvgD
+         mPRu/A14qT5dzlj5cjV/GPpBfJj9CeI6vylLLfdtZvIh9S9vTPxxjKaOl0adCpfvy+
+         OJFylu+tK+8IpjOm5FWbboBNW4eXXxG3bRq7xjXpc06KClm4rPrlK8XwXdjVy3XXjI
+         IJbKI38UfyBl1wWegdYsxOFtvAxrzsX6LK9TR3j/tsIb8PqU6h/7Po8o1VC0x8Et2O
+         K74QiEAx53swQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Populate the DFLL node and corresponding PWM pin nodes in order to
-enable CPUFREQ support on the Jetson Nano platform.
+The VBUS for USB3 connector on the Jetson TX2 is connected to the
+vdd_usb1 supply and although this is populated for the USB2 port
+on the USB3 connector it is not populated for the USB3 port and
+causes the following warning to be seen on boot ...
+
+ usb3-0: supply vbus not found, using dummy regulator
+
+Fix this by also adding the VBUS supply to the USB3 port.
 
 Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 9b6346917ea9..2282ea1c6279 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -111,6 +111,22 @@
- 		status = "okay";
- 	};
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+index a70fd4e86840..802b8c52489a 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+@@ -194,6 +194,7 @@
  
-+	pinmux@700008d4 {
-+		dvfs_pwm_active_state: dvfs_pwm_active {
-+			dvfs_pwm_pbb1 {
-+				nvidia,pins = "dvfs_pwm_pbb1";
-+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
-+			};
-+		};
-+
-+		dvfs_pwm_inactive_state: dvfs_pwm_inactive {
-+			dvfs_pwm_pbb1 {
-+				nvidia,pins = "dvfs_pwm_pbb1";
-+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
-+			};
-+		};
-+	};
-+
- 	/* debug port */
- 	serial@70006000 {
- 		status = "okay";
-@@ -584,6 +600,27 @@
- 		hvdd-usb-supply = <&vdd_1v8>;
- 	};
- 
-+	clock@70110000 {
-+		status = "okay";
-+
-+		nvidia,cf = <6>;
-+		nvidia,ci = <0>;
-+		nvidia,cg = <2>;
-+		nvidia,droop-ctrl = <0x00000f00>;
-+		nvidia,force-mode = <1>;
-+		nvidia,sample-rate = <25000>;
-+
-+		nvidia,pwm-min-microvolts = <708000>;
-+		nvidia,pwm-period-nanoseconds = <2500>; /* 2.5us */
-+		nvidia,pwm-to-pmic;
-+		nvidia,pwm-tristate-microvolts = <1000000>;
-+		nvidia,pwm-voltage-step-microvolts = <19200>;
-+
-+		pinctrl-names = "dvfs_pwm_enable", "dvfs_pwm_disable";
-+		pinctrl-0 = <&dvfs_pwm_active_state>;
-+		pinctrl-1 = <&dvfs_pwm_inactive_state>;
-+	};
-+
- 	clk32k_in: clock@0 {
- 		compatible = "fixed-clock";
- 		clock-frequency = <32768>;
+ 			usb3-0 {
+ 				nvidia,usb2-companion = <1>;
++				vbus-supply = <&vdd_usb1>;
+ 				status = "okay";
+ 			};
+ 		};
 -- 
 2.17.1
 
