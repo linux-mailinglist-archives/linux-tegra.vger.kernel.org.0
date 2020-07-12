@@ -2,86 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B42921C882
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5409921C889
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jul 2020 12:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728644AbgGLKZU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Jul 2020 06:25:20 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9233 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727777AbgGLKZT (ORCPT
+        id S1728688AbgGLK2w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Jul 2020 06:28:52 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6759 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727777AbgGLK2w (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Jul 2020 06:25:19 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0ae5020001>; Sun, 12 Jul 2020 03:25:06 -0700
+        Sun, 12 Jul 2020 06:28:52 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0ae5ab0000>; Sun, 12 Jul 2020 03:27:55 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 12 Jul 2020 03:25:19 -0700
+  Sun, 12 Jul 2020 03:28:52 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 12 Jul 2020 03:25:19 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+        by hqpgpgate101.nvidia.com on Sun, 12 Jul 2020 03:28:52 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 12 Jul
- 2020 10:25:19 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 12 Jul 2020 10:25:19 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.26.75.246]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f0ae50e0003>; Sun, 12 Jul 2020 03:25:18 -0700
+ 2020 10:28:47 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sun, 12 Jul 2020 10:28:47 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.75.246]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f0ae5dd0001>; Sun, 12 Jul 2020 03:28:46 -0700
 From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 3/3] arm64: tegra: Populate VBUS for USB3 on Jetson TX2
-Date:   Sun, 12 Jul 2020 11:25:06 +0100
-Message-ID: <20200712102506.23686-4-jonathanh@nvidia.com>
+CC:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, <stable@vger.kernel.org>
+Subject: [PATCH 1/2] usb: tegra: Fix allocation for the FPCI context
+Date:   Sun, 12 Jul 2020 11:28:36 +0100
+Message-ID: <20200712102837.24340-1-jonathanh@nvidia.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200712102506.23686-1-jonathanh@nvidia.com>
-References: <20200712102506.23686-1-jonathanh@nvidia.com>
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594549506; bh=yCFruHaw69Mabibsg9VDKDYxzywqatQS+8PmlmivtW8=;
+        t=1594549675; bh=HueIEpf3LB7+Uj4bZJ8I5wIkAbrkHVxNkCa0Lx8Mdtw=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=ouYz4kH23cufPUIWzmRCwAqqYgfK2cIMZDblZCPMWneZIZJVB2UkZYEZHLgEAHM/J
-         7P5JQmkuTUkl8ixpPX6JS3Khni5nxGuCnWLhqEDvQJtnG3Bf51r/HDYvpASH23mvgD
-         mPRu/A14qT5dzlj5cjV/GPpBfJj9CeI6vylLLfdtZvIh9S9vTPxxjKaOl0adCpfvy+
-         OJFylu+tK+8IpjOm5FWbboBNW4eXXxG3bRq7xjXpc06KClm4rPrlK8XwXdjVy3XXjI
-         IJbKI38UfyBl1wWegdYsxOFtvAxrzsX6LK9TR3j/tsIb8PqU6h/7Po8o1VC0x8Et2O
-         K74QiEAx53swQ==
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=WIFfdiO+ODPanyz/TA8x1jpv4gkh85h07ufOiQcJF1wEDwdwZ78eVa5iLRj/xRHMl
+         8k8pC1Qp/P4ktin+Fb8GDriH9vuj2Pkucwx1OwYqXjDYzvG3qON9cJdb21UFCWPtgH
+         18mdTUgklWL5vGL0hIvJLdgu+ZFuB82DesB5BIBvlpExW6BN1NCX3WaVkQQsP1SMjQ
+         rELeS5o98CRwoYLUK7tnmqoevSvX6Kd1htrYnzXzyiuUbpboPuTUguZOOuLgmxewAD
+         8Q3jvqphgRljoq0jVxujrxMeKY7Ed1b/Yzc44dMk+riqGWUoAilmZb/QG0AXpvTawi
+         mAq2rugrpSKtQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The VBUS for USB3 connector on the Jetson TX2 is connected to the
-vdd_usb1 supply and although this is populated for the USB2 port
-on the USB3 connector it is not populated for the USB3 port and
-causes the following warning to be seen on boot ...
+Commit 5c4e8d3781bc ("usb: host: xhci-tegra: Add support for XUSB
+context save/restore") is using the IPFS 'num_offsets' value when
+allocating memory for FPCI context instead of the FPCI 'num_offsets'.
+We have not observed any specific issues because of this, but could
+cause too much memory or too little memory to be allocated. Fix this
+by using the FPCI 'num_offsets' for allocating the FPCI memory for
+storing the FPCI state.
 
- usb3-0: supply vbus not found, using dummy regulator
+Cc: stable@vger.kernel.org
 
-Fix this by also adding the VBUS supply to the USB3 port.
+Fixes: 5c4e8d3781bc ("usb: host: xhci-tegra: Add support for XUSB context save/restore")
 
 Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/host/xhci-tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index a70fd4e86840..802b8c52489a 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -194,6 +194,7 @@
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index 9ce28ab47f4b..014d79334f50 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -856,7 +856,7 @@ static int tegra_xusb_init_context(struct tegra_xusb *tegra)
+ 	if (!tegra->context.ipfs)
+ 		return -ENOMEM;
  
- 			usb3-0 {
- 				nvidia,usb2-companion = <1>;
-+				vbus-supply = <&vdd_usb1>;
- 				status = "okay";
- 			};
- 		};
+-	tegra->context.fpci = devm_kcalloc(tegra->dev, soc->ipfs.num_offsets,
++	tegra->context.fpci = devm_kcalloc(tegra->dev, soc->fpci.num_offsets,
+ 					   sizeof(u32), GFP_KERNEL);
+ 	if (!tegra->context.fpci)
+ 		return -ENOMEM;
 -- 
 2.17.1
 
