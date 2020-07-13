@@ -2,86 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99ABD21D8AF
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 16:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A477321D8B9
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 16:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729681AbgGMOjM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 10:39:12 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:56962 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729644AbgGMOjM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 10:39:12 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id B186E45549ECF17A744D;
-        Mon, 13 Jul 2020 22:39:09 +0800 (CST)
-Received: from [127.0.0.1] (10.174.186.75) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 13 Jul 2020
- 22:39:01 +0800
-Subject: Re: [PATCH v2 2/2] arm64: tlb: Use the TLBI RANGE feature in arm64
-To:     Jon Hunter <jonathanh@nvidia.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <suzuki.poulose@arm.com>, <maz@kernel.org>,
-        <steven.price@arm.com>, <guohanjun@huawei.com>, <olof@lixom.net>
+        id S1729751AbgGMOli (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jul 2020 10:41:38 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9322 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729689AbgGMOli (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Jul 2020 10:41:38 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0c72320001>; Mon, 13 Jul 2020 07:39:46 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 13 Jul 2020 07:41:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 13 Jul 2020 07:41:38 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jul
+ 2020 14:41:37 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 13 Jul 2020 14:41:37 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.72.101]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f0c72a00000>; Mon, 13 Jul 2020 07:41:37 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
 CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-mm@kvack.org>, <arm@kernel.org>, <xiexiangyou@huawei.com>,
-        <prime.zeng@hisilicon.com>, <zhangshaokun@hisilicon.com>,
-        <kuhn.chenqun@huawei.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200710094420.517-1-yezhenyu2@huawei.com>
- <20200710094420.517-3-yezhenyu2@huawei.com>
- <4040f429-21c8-0825-2ad4-97786c3fe7c1@nvidia.com>
-From:   Zhenyu Ye <yezhenyu2@huawei.com>
-Message-ID: <cee60718-ced2-069f-8dad-48941c6fc09b@huawei.com>
-Date:   Mon, 13 Jul 2020 22:39:00 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        <linux-tegra@vger.kernel.org>, Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [RESEND PATCH] ARM: tegra: Enable CPUFREQ userspace governor
+Date:   Mon, 13 Jul 2020 15:41:34 +0100
+Message-ID: <20200713144134.24444-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <857e47b0-e226-72b7-3855-f668c49c0739@gmail.com>
+References: <857e47b0-e226-72b7-3855-f668c49c0739@gmail.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <4040f429-21c8-0825-2ad4-97786c3fe7c1@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.75]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594651186; bh=mM9gb2It2Ql/4cdC12oeHDABc63hqi9cLyEWULsCK6Q=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=j/lMUKyEhgrF2KDTSAOxPh0RolNsR5LC8fv6K4+cK26t1QdjlXxiLRN/h/koeBWfU
+         qfoqjvJM87D04PVhY2GUQ2otlXxV77ok8hvZs4f80afzykPuOXqEA9Pm9CHcCYWp1p
+         gfcBXOlzkxUCDDv+6/ZjWSs+gwSGyVUglEoDchtoKDUzef7k44Xzif2kHtPu6S1UXs
+         sgPyhScCEqczP09pCEZl8bY1tozvnzmA0KarhS2ScCLe/IXVGz2R+brlseSQFL3ZA8
+         g8C5Mmmw2omk12OOGZvgpZPBlFeCkqNCpuGT17cQW6HMaqsAsMyBlTz+WWDWEzafeC
+         4TgzO44TkwI0w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Jon,
+Enable the CPUFREQ userspace governor in the tegra_defconfig so that
+we can test CPUFREQ with the userspace governor with this configuration
+on 32-bit Tegra devices.
 
-On 2020/7/13 22:27, Jon Hunter wrote:
-> After this change I am seeing the following build errors ...
-> 
-> /tmp/cckzq3FT.s: Assembler messages:
-> /tmp/cckzq3FT.s:854: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:870: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:1095: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:1111: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:1964: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:1980: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:2286: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:2302: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> /tmp/cckzq3FT.s:4833: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> /tmp/cckzq3FT.s:4849: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> /tmp/cckzq3FT.s:5090: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> /tmp/cckzq3FT.s:5106: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> /tmp/cckzq3FT.s:874: Error: attempt to move .org backwards
-> /tmp/cckzq3FT.s:1115: Error: attempt to move .org backwards
-> /tmp/cckzq3FT.s:1984: Error: attempt to move .org backwards
-> /tmp/cckzq3FT.s:2306: Error: attempt to move .org backwards
-> /tmp/cckzq3FT.s:4853: Error: attempt to move .org backwards
-> /tmp/cckzq3FT.s:5110: Error: attempt to move .org backwards
-> scripts/Makefile.build:280: recipe for target 'arch/arm64/mm/hugetlbpage.o' failed
-> make[3]: *** [arch/arm64/mm/hugetlbpage.o] Error 1
-> scripts/Makefile.build:497: recipe for target 'arch/arm64/mm' failed
-> make[2]: *** [arch/arm64/mm] Error 2
-> 
-> Cheers
-> Jon
-> 
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ arch/arm/configs/tegra_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-The code must be built with binutils >= 2.30.
-Maybe I should add  a check on whether binutils supports ARMv8.4-a instructions...
-
-Thanks,
-Zhenyu
+diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+index aa94369bdd0f..f70600bdedd6 100644
+--- a/arch/arm/configs/tegra_defconfig
++++ b/arch/arm/configs/tegra_defconfig
+@@ -23,6 +23,7 @@ CONFIG_ZBOOT_ROM_BSS=0x0
+ CONFIG_KEXEC=y
+ CONFIG_CPU_FREQ=y
+ CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
++CONFIG_CPU_FREQ_GOV_USERSPACE=y
+ CONFIG_CPUFREQ_DT=y
+ CONFIG_CPU_IDLE=y
+ CONFIG_ARM_TEGRA_CPUIDLE=y
+-- 
+2.17.1
 
