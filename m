@@ -2,121 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACB4221DDBA
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 18:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5991421DE6A
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 19:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730624AbgGMQmS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 12:42:18 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:43471 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729751AbgGMQmR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 12:42:17 -0400
-Received: by mail-io1-f65.google.com with SMTP id k23so14145762iom.10;
-        Mon, 13 Jul 2020 09:42:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=95u4XQbiBNEbmUiVqX+fo8bOSxhI7i+gaxCn3lXTzqc=;
-        b=Ki0uiu2WF5elAO9m6oh5urkF4YdhJXVhuAs6vnZIEkE/bjpVpw/MvddAHdv0GfZbho
-         9OUc6KJUuV5hji8Z66oYdcrgWzaWx1x4g3txsCfqU0tVr1fRc5gRRv3Dy+y3qQ9InpNB
-         uX4tD6CLOgvFFHeBM1Q5Y10ZZV5y7H1XJEmM96mWie9+hTYq57ExRoEr/huMXMLAMqf9
-         JyYrzTD//2sxBrZXI5aSz/qDDFG8zrajvHkGTWSgEX29OGN6dQrtHuFUbLrosPNwZDlw
-         hIk4ybwk99nSh9mafPqHPS7Yk5yIV6ZzuTM8kzs0yrpn7zYX6FsT050Fr7/b3l5dfaTj
-         1dFw==
-X-Gm-Message-State: AOAM533pn5he9VOvmcE/t30BLR2HFmk8vzHgNTV/zCwHWv63MhU4cAEg
-        KzN3BCdp2urAmHTUSsOW3A==
-X-Google-Smtp-Source: ABdhPJw6zyKQhU2fGmPHQI3+yP7QiHYYcgQrgUA4qyagqHgLVfTS4YB+9LdplG/eDrMeToQieLohgw==
-X-Received: by 2002:a02:6c07:: with SMTP id w7mr1034168jab.33.1594658536188;
-        Mon, 13 Jul 2020 09:42:16 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id b13sm7889364iof.21.2020.07.13.09.42.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2020 09:42:15 -0700 (PDT)
-Received: (nullmailer pid 359058 invoked by uid 1000);
-        Mon, 13 Jul 2020 16:42:14 -0000
-Date:   Mon, 13 Jul 2020 10:42:14 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, viresh.kumar@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, thierry.reding@gmail.com,
-        mirq-linux@rere.qmqm.pl, devicetree@vger.kernel.org,
-        jonathanh@nvidia.com, talho@nvidia.com, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
-        mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ PATCH v5 1/4] dt-bindings: arm: Add t194
- ccplex compatible and bpmp property
-Message-ID: <20200713164214.GA341271@bogus>
-References: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
- <1594649209-29394-2-git-send-email-sumitg@nvidia.com>
+        id S1729889AbgGMRWF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jul 2020 13:22:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729644AbgGMRWE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Jul 2020 13:22:04 -0400
+Received: from gaia (unknown [95.146.230.158])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96F82206F5;
+        Mon, 13 Jul 2020 17:22:01 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 18:21:59 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Zhenyu Ye <yezhenyu2@huawei.com>, will@kernel.org,
+        suzuki.poulose@arm.com, maz@kernel.org, steven.price@arm.com,
+        guohanjun@huawei.com, olof@lixom.net,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org, arm@kernel.org,
+        xiexiangyou@huawei.com, prime.zeng@hisilicon.com,
+        zhangshaokun@hisilicon.com, kuhn.chenqun@huawei.com,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] arm64: tlb: Use the TLBI RANGE feature in arm64
+Message-ID: <20200713172158.GE15829@gaia>
+References: <20200710094420.517-1-yezhenyu2@huawei.com>
+ <20200710094420.517-3-yezhenyu2@huawei.com>
+ <4040f429-21c8-0825-2ad4-97786c3fe7c1@nvidia.com>
+ <cee60718-ced2-069f-8dad-48941c6fc09b@huawei.com>
+ <7237888d-2168-cd8b-c83d-c8e54871793d@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1594649209-29394-2-git-send-email-sumitg@nvidia.com>
+In-Reply-To: <7237888d-2168-cd8b-c83d-c8e54871793d@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jul 13, 2020 at 07:36:46PM +0530, Sumit Gupta wrote:
-> To do frequency scaling on all CPUs within T194 CPU Complex, we need
-> to query BPMP for data on valid operating points. Document a compatible
-> string under 'cpus' node to represent the CPU Complex for binding drivers
-> like cpufreq which don't have their node or CPU Complex node to bind to.
-> Also, document a property to point to the BPMP device that can be queried
-> for all CPUs.
-
-The cpus.yaml binding documents what's in 'cpu' nodes, not 'cpus' 
-node. AIUI, the latter is what you want. You should do your own schema 
-file here.
-
+On Mon, Jul 13, 2020 at 03:44:16PM +0100, Jon Hunter wrote:
+> On 13/07/2020 15:39, Zhenyu Ye wrote:
+> > On 2020/7/13 22:27, Jon Hunter wrote:
+> >> After this change I am seeing the following build errors ...
+> >>
+> >> /tmp/cckzq3FT.s: Assembler messages:
+> >> /tmp/cckzq3FT.s:854: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:870: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:1095: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:1111: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:1964: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:1980: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:2286: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:2302: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
+> >> /tmp/cckzq3FT.s:4833: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
+> >> /tmp/cckzq3FT.s:4849: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
+> >> /tmp/cckzq3FT.s:5090: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
+> >> /tmp/cckzq3FT.s:5106: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
+> >> /tmp/cckzq3FT.s:874: Error: attempt to move .org backwards
+> >> /tmp/cckzq3FT.s:1115: Error: attempt to move .org backwards
+> >> /tmp/cckzq3FT.s:1984: Error: attempt to move .org backwards
+> >> /tmp/cckzq3FT.s:2306: Error: attempt to move .org backwards
+> >> /tmp/cckzq3FT.s:4853: Error: attempt to move .org backwards
+> >> /tmp/cckzq3FT.s:5110: Error: attempt to move .org backwards
+> >> scripts/Makefile.build:280: recipe for target 'arch/arm64/mm/hugetlbpage.o' failed
+> >> make[3]: *** [arch/arm64/mm/hugetlbpage.o] Error 1
+> >> scripts/Makefile.build:497: recipe for target 'arch/arm64/mm' failed
+> >> make[2]: *** [arch/arm64/mm] Error 2
+> > 
+> > The code must be built with binutils >= 2.30.
+> > Maybe I should add  a check on whether binutils supports ARMv8.4-a instructions...
 > 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  Documentation/devicetree/bindings/arm/cpus.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-> index a018147..9b328e3 100644
-> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
-> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-> @@ -162,6 +162,7 @@ properties:
->        - nvidia,tegra132-denver
->        - nvidia,tegra186-denver
->        - nvidia,tegra194-carmel
-> +      - nvidia,tegra194-ccplex
+> Yes I believe so.
 
-Tegra194 has 2 different CPUs?
+The binutils guys in Arm confirmed that assembling "tlbi rvae1is"
+without -march=armv8.4-a is a bug. When it gets fixed, checking for the
+binutils version is not sufficient without passing -march. I think we
+are better off with a manual encoding of the instruction.
 
->        - qcom,krait
->        - qcom,kryo
->        - qcom,kryo260
-> @@ -255,6 +256,15 @@ properties:
->  
->        where voltage is in V, frequency is in MHz.
->  
-> +  nvidia,bpmp:
-> +    $ref: '/schemas/types.yaml#/definitions/phandle'
-> +    description: |
-> +      Specifies the bpmp node that needs to be queried to get
-> +      operating point data for all CPUs.
-> +
-> +      Optional for systems that have a "compatible"
-> +      property value of "nvidia,tegra194-ccplex".
-> +
->    power-domains:
->      $ref: '/schemas/types.yaml#/definitions/phandle-array'
->      description:
-> @@ -340,6 +350,7 @@ required:
->  
->  dependencies:
->    rockchip,pmu: [enable-method]
-> +  nvidia,bpmp: [compatible]
->  
->  examples:
->    - |
-> -- 
-> 2.7.4
-> 
+-- 
+Catalin
