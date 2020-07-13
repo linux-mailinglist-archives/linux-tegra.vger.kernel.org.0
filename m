@@ -2,86 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA24F21D7DB
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 16:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B5721D7EA
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 16:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730046AbgGMOH2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 10:07:28 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10215 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730014AbgGMOH1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 10:07:27 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0c6a930000>; Mon, 13 Jul 2020 07:07:15 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 13 Jul 2020 07:07:27 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 13 Jul 2020 07:07:27 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jul
- 2020 14:07:24 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 13 Jul 2020 14:07:24 +0000
-Received: from sumitg-l4t.nvidia.com (Not Verified[10.24.37.103]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f0c6a980001>; Mon, 13 Jul 2020 07:07:24 -0700
-From:   Sumit Gupta <sumitg@nvidia.com>
-To:     <rjw@rjwysocki.net>, <viresh.kumar@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
-        <mirq-linux@rere.qmqm.pl>, <devicetree@vger.kernel.org>,
-        <jonathanh@nvidia.com>, <talho@nvidia.com>,
-        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        id S1729849AbgGMOKr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jul 2020 10:10:47 -0400
+Received: from foss.arm.com ([217.140.110.172]:37166 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729776AbgGMOKp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Jul 2020 10:10:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18D3E30E;
+        Mon, 13 Jul 2020 07:10:45 -0700 (PDT)
+Received: from [10.57.62.178] (unknown [10.57.62.178])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA2E43F7BB;
+        Mon, 13 Jul 2020 07:10:40 -0700 (PDT)
+Subject: Re: [PATCH v10 4/5] dt-bindings: arm-smmu: add binding for Tegra194
+ SMMU
+To:     Krishna Reddy <vdumpa@nvidia.com>, Rob Herring <robh@kernel.org>
+Cc:     "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <bbasu@nvidia.com>, <sumitg@nvidia.com>, <mperttunen@nvidia.com>
-Subject: [TEGRA194_CPUFREQ PATCH v5 4/4] soc/tegra: cpufreq: select cpufreq for Tegra194
-Date:   Mon, 13 Jul 2020 19:36:49 +0530
-Message-ID: <1594649209-29394-5-git-send-email-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
-References: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
-X-NVConfidentiality: public
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Yu-Huan Hsu <YHsu@nvidia.com>,
+        Sachin Nikam <Snikam@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Bryan Huntsman <bhuntsman@nvidia.com>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
+References: <20200708050017.31563-1-vdumpa@nvidia.com>
+ <20200708050017.31563-5-vdumpa@nvidia.com> <20200709201348.GA808454@bogus>
+ <BYAPR12MB2822514F93F831507A811EE9B3650@BYAPR12MB2822.namprd12.prod.outlook.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <c2ab2a0d-419d-555f-c124-2cfa1ecb2a81@arm.com>
+Date:   Mon, 13 Jul 2020 15:10:25 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594649235; bh=Z4LE+9mlEefkiZynxc+GIrsCq+qVS4APQRbGTaTqj3U=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=AH6U/mbJ7J8lFPLWMVic8E/ux3ZD78PqUpCWc3JamkEYG57a9wFspQ9xoFdGKPVAQ
-         oRmbjuc1mGh4x9PUb2TYI5K848wQ7iLTq1uHIer5svetZLFlArUay2NmLsqw/Vu1Ig
-         BZmEqSAo3QMINERy2pIYiw4qf7FVwpDje+iF4vAQdQBNS0aq5XMQO8m155GvWXVYbU
-         YygAxSyeVvkOZsvXevkPw49cFZlaqxZNEAkllEihqoEQXf7vOMomeHXClaeir3z6W+
-         MzEn0s9llCyHgwEY8cxN77Dz5s5s+LDD6ZbJvfrd5x1oEtfrKp3lMTGshT9iEq/NID
-         P8CSDBykB8ZLg==
+In-Reply-To: <BYAPR12MB2822514F93F831507A811EE9B3650@BYAPR12MB2822.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Select ARM_TEGRA194_CPUFREQ by default to enable CPU frequency
-scaling support for Tegra194 SOC.
+On 2020-07-10 21:29, Krishna Reddy wrote:
+> Thanks Rob. One question on setting "minItems: ". Please see below.
+> 
+>>> +allOf:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - nvidia,tegra194-smmu
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          minItems: 2
+>>> +          maxItems: 2
+> 
+>> This doesn't work. The main part of the schema already said there's only
+>> 1 reg region. This part is ANDed with that, not an override. You need to add an else clause with 'maxItems: 1' and change the base schema to
+>> {minItems: 1, maxItems: 2}.
+> 
+> As the earlier version of base schema doesn't have "minItems: " set, should it be set to 0 for backward compatibility?  Or can it just be omitted setting in base schema as before?
 
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
- drivers/soc/tegra/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+We've always needed at least 1 "reg" specifier in practice, so I don't 
+think being backwards-compatible with broken DTs is a concern :)
 
-diff --git a/drivers/soc/tegra/Kconfig b/drivers/soc/tegra/Kconfig
-index 2e95809..6955cee 100644
---- a/drivers/soc/tegra/Kconfig
-+++ b/drivers/soc/tegra/Kconfig
-@@ -117,6 +117,7 @@ config ARCH_TEGRA_194_SOC
- 	select TEGRA_HSP_MBOX
- 	select TEGRA_IVC
- 	select SOC_TEGRA_PMC
-+	select ARM_TEGRA194_CPUFREQ
- 	help
- 	  Enable support for the NVIDIA Tegra194 SoC.
- 
--- 
-2.7.4
+Robin.
 
+> 
+> "else" part to set "maxItems: 1" and setting "maxItems: 2" in base schema is clear to me.
+> 
+> 
+> -KR
+> 
