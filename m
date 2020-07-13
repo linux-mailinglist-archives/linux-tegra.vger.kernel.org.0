@@ -2,105 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B25721DD51
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 18:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB4221DDBA
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 18:42:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730219AbgGMQhk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 12:37:40 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6947 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729969AbgGMQhk (ORCPT
+        id S1730624AbgGMQmS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jul 2020 12:42:18 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:43471 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729751AbgGMQmR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 12:37:40 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0c8dc60001>; Mon, 13 Jul 2020 09:37:26 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 13 Jul 2020 09:37:39 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 13 Jul 2020 09:37:39 -0700
-Received: from [10.26.72.101] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jul
- 2020 16:37:38 +0000
-Subject: Re: [PATCH 1/2] cpufreq: tegra186: Fix initial frequency
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20200712100645.13927-1-jonathanh@nvidia.com>
- <20200713032554.cykywnygxln6ukrl@vireshk-i7>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <3d6091f2-6b04-185f-6c23-e39a34b87877@nvidia.com>
-Date:   Mon, 13 Jul 2020 17:37:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 13 Jul 2020 12:42:17 -0400
+Received: by mail-io1-f65.google.com with SMTP id k23so14145762iom.10;
+        Mon, 13 Jul 2020 09:42:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=95u4XQbiBNEbmUiVqX+fo8bOSxhI7i+gaxCn3lXTzqc=;
+        b=Ki0uiu2WF5elAO9m6oh5urkF4YdhJXVhuAs6vnZIEkE/bjpVpw/MvddAHdv0GfZbho
+         9OUc6KJUuV5hji8Z66oYdcrgWzaWx1x4g3txsCfqU0tVr1fRc5gRRv3Dy+y3qQ9InpNB
+         uX4tD6CLOgvFFHeBM1Q5Y10ZZV5y7H1XJEmM96mWie9+hTYq57ExRoEr/huMXMLAMqf9
+         JyYrzTD//2sxBrZXI5aSz/qDDFG8zrajvHkGTWSgEX29OGN6dQrtHuFUbLrosPNwZDlw
+         hIk4ybwk99nSh9mafPqHPS7Yk5yIV6ZzuTM8kzs0yrpn7zYX6FsT050Fr7/b3l5dfaTj
+         1dFw==
+X-Gm-Message-State: AOAM533pn5he9VOvmcE/t30BLR2HFmk8vzHgNTV/zCwHWv63MhU4cAEg
+        KzN3BCdp2urAmHTUSsOW3A==
+X-Google-Smtp-Source: ABdhPJw6zyKQhU2fGmPHQI3+yP7QiHYYcgQrgUA4qyagqHgLVfTS4YB+9LdplG/eDrMeToQieLohgw==
+X-Received: by 2002:a02:6c07:: with SMTP id w7mr1034168jab.33.1594658536188;
+        Mon, 13 Jul 2020 09:42:16 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id b13sm7889364iof.21.2020.07.13.09.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 09:42:15 -0700 (PDT)
+Received: (nullmailer pid 359058 invoked by uid 1000);
+        Mon, 13 Jul 2020 16:42:14 -0000
+Date:   Mon, 13 Jul 2020 10:42:14 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sumit Gupta <sumitg@nvidia.com>
+Cc:     rjw@rjwysocki.net, viresh.kumar@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, thierry.reding@gmail.com,
+        mirq-linux@rere.qmqm.pl, devicetree@vger.kernel.org,
+        jonathanh@nvidia.com, talho@nvidia.com, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
+        mperttunen@nvidia.com
+Subject: Re: [TEGRA194_CPUFREQ PATCH v5 1/4] dt-bindings: arm: Add t194
+ ccplex compatible and bpmp property
+Message-ID: <20200713164214.GA341271@bogus>
+References: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
+ <1594649209-29394-2-git-send-email-sumitg@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200713032554.cykywnygxln6ukrl@vireshk-i7>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594658246; bh=j07fRsUya2Rkr0o3lWYTAHPyUTT7NzlNKWFyMy2w+FU=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=B64PHnnmjFFJzm6tcGsqHpZuxv/g2nvXhUgeOJl2Vbd+GAiwAIHLWiM3cdlBb1DDp
-         s6e9UVM3Vv3e+J2Otc1z73T2hyJcDOxxRhwdenoQqYuzGfXvvmKxiqhtmbgi60tmqp
-         +Yjn6B1jZP2WdTmE2JczxR5P+243Ls+0ZE9lpJG0l+txfFhRFOupM3mpAq0CNmOYSW
-         QR4kLrJPx9Z1LUQW3yiK7Vc9/+lWxMQnLpS5U3tgTIliil8Fx6Gdz3bGQFJddTjzex
-         3epeuegOs+m0eIdtMY3rrT5j6h54uubqQ+cOX7Qs4Q+dXs0HsTXpLaX5c2QR4QDnlc
-         o/w3C6XcmPlkw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1594649209-29394-2-git-send-email-sumitg@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Jul 13, 2020 at 07:36:46PM +0530, Sumit Gupta wrote:
+> To do frequency scaling on all CPUs within T194 CPU Complex, we need
+> to query BPMP for data on valid operating points. Document a compatible
+> string under 'cpus' node to represent the CPU Complex for binding drivers
+> like cpufreq which don't have their node or CPU Complex node to bind to.
+> Also, document a property to point to the BPMP device that can be queried
+> for all CPUs.
 
-On 13/07/2020 04:25, Viresh Kumar wrote:
-> On 12-07-20, 11:06, Jon Hunter wrote:
->> Commit 6cc3d0e9a097 ("cpufreq: tegra186: add
->> CPUFREQ_NEED_INITIAL_FREQ_CHECK flag") fixed CPUFREQ support for
->> Tegra186 but as a consequence the following warnings are now seen on
->> boot ...
->>
->>  cpufreq: cpufreq_online: CPU0: Running at unlisted freq: 0 KHz
->>  cpufreq: cpufreq_online: CPU0: Unlisted initial frequency changed to: 2035200 KHz
->>  cpufreq: cpufreq_online: CPU1: Running at unlisted freq: 0 KHz
->>  cpufreq: cpufreq_online: CPU1: Unlisted initial frequency changed to: 2035200 KHz
->>  cpufreq: cpufreq_online: CPU2: Running at unlisted freq: 0 KHz
->>  cpufreq: cpufreq_online: CPU2: Unlisted initial frequency changed to: 2035200 KHz
->>  cpufreq: cpufreq_online: CPU3: Running at unlisted freq: 0 KHz
->>  cpufreq: cpufreq_online: CPU3: Unlisted initial frequency changed to: 2035200 KHz
->>  cpufreq: cpufreq_online: CPU4: Running at unlisted freq: 0 KHz
->>  cpufreq: cpufreq_online: CPU4: Unlisted initial frequency changed to: 2035200 KHz
->>  cpufreq: cpufreq_online: CPU5: Running at unlisted freq: 0 KHz
->>  cpufreq: cpufreq_online: CPU5: Unlisted initial frequency changed to: 2035200 KHz
->>
->> Although we could fix this by adding a 'get' operator for the Tegra186
->> CPUFREQ driver, there is really little point because the CPUFREQ on
->> Tegra186 is set by writing a value stored in the frequency table to a
->> register and we just need to set the initial frequency.
+The cpus.yaml binding documents what's in 'cpu' nodes, not 'cpus' 
+node. AIUI, the latter is what you want. You should do your own schema 
+file here.
+
 > 
-> The hardware still runs at the frequency requested by cpufreq core here, right ?
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/arm/cpus.yaml | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+> index a018147..9b328e3 100644
+> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+> @@ -162,6 +162,7 @@ properties:
+>        - nvidia,tegra132-denver
+>        - nvidia,tegra186-denver
+>        - nvidia,tegra194-carmel
+> +      - nvidia,tegra194-ccplex
 
-Yes.
+Tegra194 has 2 different CPUs?
 
-> It is better to provide the get() callback as it is also used to show the
-> current frequency in userspace.
-
-I looked at that and I saw that if the get() callback is not provided,
-the current frequency showed by userspace is policy->cur. For this
-device, policy->cur is accurate and so if we added the get() callback we
-essentially just going to return policy->cur. Therefore, given that we
-already know policy->cur, I did not see the point in adding a device
-specific handler to do the same thing.
-
-Cheers
-Jon
-
--- 
-nvpublic
+>        - qcom,krait
+>        - qcom,kryo
+>        - qcom,kryo260
+> @@ -255,6 +256,15 @@ properties:
+>  
+>        where voltage is in V, frequency is in MHz.
+>  
+> +  nvidia,bpmp:
+> +    $ref: '/schemas/types.yaml#/definitions/phandle'
+> +    description: |
+> +      Specifies the bpmp node that needs to be queried to get
+> +      operating point data for all CPUs.
+> +
+> +      Optional for systems that have a "compatible"
+> +      property value of "nvidia,tegra194-ccplex".
+> +
+>    power-domains:
+>      $ref: '/schemas/types.yaml#/definitions/phandle-array'
+>      description:
+> @@ -340,6 +350,7 @@ required:
+>  
+>  dependencies:
+>    rockchip,pmu: [enable-method]
+> +  nvidia,bpmp: [compatible]
+>  
+>  examples:
+>    - |
+> -- 
+> 2.7.4
+> 
