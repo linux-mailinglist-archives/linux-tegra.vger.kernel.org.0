@@ -2,112 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C96921D8D7
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 16:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D1E21D90B
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 16:50:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729918AbgGMOo2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 10:44:28 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9541 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729703AbgGMOo2 (ORCPT
+        id S1730293AbgGMOu2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jul 2020 10:50:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730216AbgGMOt6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 10:44:28 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0c72dc0000>; Mon, 13 Jul 2020 07:42:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 13 Jul 2020 07:44:28 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 13 Jul 2020 07:44:28 -0700
-Received: from [10.26.72.101] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jul
- 2020 14:44:18 +0000
-Subject: Re: [PATCH v2 2/2] arm64: tlb: Use the TLBI RANGE feature in arm64
-To:     Zhenyu Ye <yezhenyu2@huawei.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <suzuki.poulose@arm.com>, <maz@kernel.org>,
-        <steven.price@arm.com>, <guohanjun@huawei.com>, <olof@lixom.net>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-mm@kvack.org>, <arm@kernel.org>, <xiexiangyou@huawei.com>,
-        <prime.zeng@hisilicon.com>, <zhangshaokun@hisilicon.com>,
-        <kuhn.chenqun@huawei.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200710094420.517-1-yezhenyu2@huawei.com>
- <20200710094420.517-3-yezhenyu2@huawei.com>
- <4040f429-21c8-0825-2ad4-97786c3fe7c1@nvidia.com>
- <cee60718-ced2-069f-8dad-48941c6fc09b@huawei.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <7237888d-2168-cd8b-c83d-c8e54871793d@nvidia.com>
-Date:   Mon, 13 Jul 2020 15:44:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 13 Jul 2020 10:49:58 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70AA6C08C5DB
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Jul 2020 07:49:58 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id j4so16864840wrp.10
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Jul 2020 07:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=uKRsk38fGN1JQaMOEwt3q4K2iQCr73XGMAa+Q9xdB5Q=;
+        b=K/YUcN3S/tmWmQag6LOp3T4Wg5FcOqEZ2W68vMLFZnK3d2+l3OM3sJbS1KNAwxvObA
+         yhgx0ONPgbSIqN29/qTMXHszJo+yhnWHubNp4XhN/Y0Oh43t6VCWnvQqZAIET/tQ+0SZ
+         oxMCUDvbWGHGL+WpFqB25XsXSsgB7tBgo/DIAxHg6rK9I+BNgxOjBAkIxXpyV7UNeYB7
+         QwOcvXHkd+2h8aNEugFElcNM4xoYN3H8MAk2A689KKaO9ZPujjAjcGwMPgidWkRfMhjB
+         +V1enrSSdKh7uQfFPqGYlTFLnQadmk+yy8A+RDLqeWd6K64kdG/9w67b0Fu1XZUZfazE
+         kjSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uKRsk38fGN1JQaMOEwt3q4K2iQCr73XGMAa+Q9xdB5Q=;
+        b=WC8w3iIIlAK+u6fIY3Tsk3ofQK+CbMtrQsmiz4yMhWALpyLznh+lFDKSi2bKaMDaiO
+         DgP7pCIfI7AekA5ML/vC1Rx5dNV/smPuJhhXiO5dfd+s2smN2ZPnpSQhKjAOb1ZghNNE
+         CHReTke/DZnFywyhXCNRtpomkLPb09eDfbrcmWo44XZ0deNnP0SM1hjKWo2vtAyGsyVe
+         ezHM022iuWQ08PqRgef6UWhf/Olbq5HPmIiMYGoHV5Zh5vafyebOW3Te/TYt/o93gXli
+         dm6s5W+iEjuUn2iqu2eZxMvYfaVxcGKEPuJ2TYvKZ4T3HXnCO29cjRMRCuY5fWbumIZK
+         uvwA==
+X-Gm-Message-State: AOAM530CZMsDmT07OwzsjTLw8lS3MtLjhtvxI+3pQgO6O//VnYBclcq7
+        xcs4FsiPte/uYl2N8HqgkOhPJA==
+X-Google-Smtp-Source: ABdhPJwYqJX6ZuguLwM5+Ec2ZSKGU8tVwoL3QG+hSSQkxpib9RseQ+txAS/pJjRxq/vdPiCOcH8kxA==
+X-Received: by 2002:adf:f608:: with SMTP id t8mr81988741wrp.308.1594651797153;
+        Mon, 13 Jul 2020 07:49:57 -0700 (PDT)
+Received: from localhost.localdomain ([2.31.163.6])
+        by smtp.gmail.com with ESMTPSA id o29sm26207756wra.5.2020.07.13.07.49.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 07:49:56 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     linus.walleij@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 22/25] pinctrl: tegra: pinctrl-tegra194: Do not initialise field twice
+Date:   Mon, 13 Jul 2020 15:49:27 +0100
+Message-Id: <20200713144930.1034632-23-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200713144930.1034632-1-lee.jones@linaro.org>
+References: <20200713144930.1034632-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <cee60718-ced2-069f-8dad-48941c6fc09b@huawei.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594651356; bh=GMqdGNMQAH4AHg5hTa7waqJrHwyKyA4TXJmzHNKG13w=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=X0D1DS8Q43SgE5F9IDdU432zVIipKfOXH09pQUdZ9nwA/5YJw5NgTcaeOTeDp1MbU
-         ZtFrObX3/F6AItK2Kaz/Jdj5ln5HbEbuqjOpJwaB97qoVpRmi4eRHG0RAgY/w+qBO6
-         O83/VWEQOAHYks9bxeUkSDB0FMoXhXsn4MX9rmJ2TcqXT1xdefUZgAVlGNDLe2vAMI
-         LHblN/7vNqKTDmUaPDmThJlWenrobGwK1npattjHleKBjjVrwIU8LIRTbCPFjgveeQ
-         ljgVMQFJWxJBsbLsK8mvDDjQE2jrZ6uET1MeXoy3Vy2Y3ZM78D81s9qTAwEGsOEGbC
-         E7AzNNZBDWqDw==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Both PIN_PINGROUP_ENTRY_Y() and DRV_PINGROUP_ENTRY_Y() macros are
+called for each of the 2 pin groups defined here, and both of them
+initialise 'drv_reg', causing the compiler to complain.
 
-On 13/07/2020 15:39, Zhenyu Ye wrote:
-> Hi Jon,
-> 
-> On 2020/7/13 22:27, Jon Hunter wrote:
->> After this change I am seeing the following build errors ...
->>
->> /tmp/cckzq3FT.s: Assembler messages:
->> /tmp/cckzq3FT.s:854: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:870: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:1095: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:1111: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:1964: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:1980: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:2286: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:2302: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
->> /tmp/cckzq3FT.s:4833: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
->> /tmp/cckzq3FT.s:4849: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
->> /tmp/cckzq3FT.s:5090: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
->> /tmp/cckzq3FT.s:5106: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
->> /tmp/cckzq3FT.s:874: Error: attempt to move .org backwards
->> /tmp/cckzq3FT.s:1115: Error: attempt to move .org backwards
->> /tmp/cckzq3FT.s:1984: Error: attempt to move .org backwards
->> /tmp/cckzq3FT.s:2306: Error: attempt to move .org backwards
->> /tmp/cckzq3FT.s:4853: Error: attempt to move .org backwards
->> /tmp/cckzq3FT.s:5110: Error: attempt to move .org backwards
->> scripts/Makefile.build:280: recipe for target 'arch/arm64/mm/hugetlbpage.o' failed
->> make[3]: *** [arch/arm64/mm/hugetlbpage.o] Error 1
->> scripts/Makefile.build:497: recipe for target 'arch/arm64/mm' failed
->> make[2]: *** [arch/arm64/mm] Error 2
->>
->> Cheers
->> Jon
->>
-> 
-> The code must be built with binutils >= 2.30.
-> Maybe I should add  a check on whether binutils supports ARMv8.4-a instructions...
+Only initialise 'drv_reg' once.
 
-Yes I believe so.
+Fixes the following W=1 kernel build warning(s):
 
-Cheers
-Jon
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:71:14: warning: initialized field overwritten [-Woverride-init]
+ 71 | .drv_reg = ((r)), | ^
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:105:2: note: in expansion of macro ‘DRV_PINGROUP_ENTRY_Y’
+ 105 | DRV_PINGROUP_ENTRY_Y(0x14004, 12, 5, 20, 5, -1, -1, -1, -1, 0)
+ | ^~~~~~~~~~~~~~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:124:3: note: in expansion of macro ‘drive_pex_l5_clkreq_n_pgg0’
+ 124 | drive_##pg_name, | ^~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:128:2: note: in expansion of macro ‘PINGROUP’
+ 128 | PINGROUP(pex_l5_clkreq_n_pgg0, PE5, RSVD1, RSVD2, RSVD3, 0x14000, 0,
+ | ^~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:71:14: note: (near initialization for ‘tegra194_groups[0].drv_reg’)
+ 71 | .drv_reg = ((r)), | ^
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:105:2: note: in expansion of macro ‘DRV_PINGROUP_ENTRY_Y’
+ 105 | DRV_PINGROUP_ENTRY_Y(0x14004, 12, 5, 20, 5, -1, -1, -1, -1, 0)
+ | ^~~~~~~~~~~~~~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:124:3: note: in expansion of macro ‘drive_pex_l5_clkreq_n_pgg0’
+ 124 | drive_##pg_name, | ^~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:128:2: note: in expansion of macro ‘PINGROUP’
+ 128 | PINGROUP(pex_l5_clkreq_n_pgg0, PE5, RSVD1, RSVD2, RSVD3, 0x14000, 0,
+ | ^~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:71:14: warning: initialized field overwritten [-Woverride-init]
+ 71 | .drv_reg = ((r)), | ^
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:107:2: note: in expansion of macro ‘DRV_PINGROUP_ENTRY_Y’
+ 107 | DRV_PINGROUP_ENTRY_Y(0x1400c, 12, 5, 20, 5, -1, -1, -1, -1, 0)
+ | ^~~~~~~~~~~~~~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:124:3: note: in expansion of macro ‘drive_pex_l5_rst_n_pgg1’
+ 124 | drive_##pg_name, | ^~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:130:2: note: in expansion of macro ‘PINGROUP’
+ 130 | PINGROUP(pex_l5_rst_n_pgg1, PE5, RSVD1, RSVD2, RSVD3, 0x14008, 0,
+ | ^~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:71:14: note: (near initialization for ‘tegra194_groups[1].drv_reg’)
+ 71 | .drv_reg = ((r)), | ^
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:107:2: note: in expansion of macro ‘DRV_PINGROUP_ENTRY_Y’
+ 107 | DRV_PINGROUP_ENTRY_Y(0x1400c, 12, 5, 20, 5, -1, -1, -1, -1, 0)
+ | ^~~~~~~~~~~~~~~~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:124:3: note: in expansion of macro ‘drive_pex_l5_rst_n_pgg1’
+ 124 | drive_##pg_name, | ^~~~~~
+ drivers/pinctrl/tegra/pinctrl-tegra194.c:130:2: note: in expansion of macro ‘PINGROUP’
+ 130 | PINGROUP(pex_l5_rst_n_pgg1, PE5, RSVD1, RSVD2, RSVD3, 0x14008, 0,
+ | ^~~~~~~~
 
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-tegra@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/pinctrl/tegra/pinctrl-tegra194.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra194.c b/drivers/pinctrl/tegra/pinctrl-tegra194.c
+index 2e0b5f7bb095b..c94ba17243c87 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra194.c
++++ b/drivers/pinctrl/tegra/pinctrl-tegra194.c
+@@ -98,7 +98,6 @@ static struct tegra_function tegra194_functions[] = {
+ 		.sfsel_bit = 10,				\
+ 		.schmitt_bit = schmitt_b,			\
+ 		.drvtype_bit = 13,				\
+-		.drv_reg = -1,					\
+ 		.parked_bitmask = 0
+ 
+ #define drive_pex_l5_clkreq_n_pgg0				\
 -- 
-nvpublic
+2.25.1
+
