@@ -2,86 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5991421DE6A
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 19:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF6E21E084
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jul 2020 21:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729889AbgGMRWF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 13:22:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49842 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729644AbgGMRWE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 13:22:04 -0400
-Received: from gaia (unknown [95.146.230.158])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 96F82206F5;
-        Mon, 13 Jul 2020 17:22:01 +0000 (UTC)
-Date:   Mon, 13 Jul 2020 18:21:59 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
+        id S1726852AbgGMTLU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jul 2020 15:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726150AbgGMTLU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Jul 2020 15:11:20 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FDFDC061755
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Jul 2020 12:11:20 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id b9so5920742plx.6
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Jul 2020 12:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=K9bKl04TiecTHi6yQKqCyqcVhVmkhlQgjawYP95KECc=;
+        b=azmxqowhmZE5KngzFQMGOBQ+Tzr0C4orCvrkc8i+1TNQhK4UD5u6WbIXsiaZrinfho
+         YqV3lwuEyPXSAQewrmFlPQgUWmtrHpAPGQS+Ma5LOVe53dlRPc2ez0sRCVCRwdi4UB8g
+         EaMlJ9/1ocA7q3nuR8ZiwzkeMLdEnErKm1N7VQdUOn8z7aDPPilrdUdByHzXkWAK7CKD
+         jo6KVLNXhzRMEInsC6VvUki7cD9sgl43mnJhNXDsKp10UdkqkbAu1vRHi/B4HbOWXKwj
+         YHKVZukc+esKATGUTvUEm2tHVS3v0hE5rJJhW3QYD6tiPRUlNj4hxa3ZCIrAtBJX1HA0
+         vBzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=K9bKl04TiecTHi6yQKqCyqcVhVmkhlQgjawYP95KECc=;
+        b=X/OfBVOB2uz6uFrP/za5ry3Z3X77+xlfqazuAw16Tcucti95a+7ww/IB7iDfPweWNF
+         eL5ztq7hjs1eLezExrMRqvJyMjfpD3yPXXsIbUZW2BUyvhaoZFFQdrfDEEKbQi7aCw7u
+         cPgqm9J8gvju7S7oUd6WbLqQTuB27mqkXcZ06iXPzi8GoosMVCWRgl+xYKjmd+z5Zt28
+         DABbKcdrDPrrCc3NDfOBRvQeqhJsjHXcJE2jRcMxiLp/dHRQTwJv9OUibBRnfa0Ln1Zg
+         2UBetQHj0VCUcVXV7hvLyZ2FjzkUQ4Lw9oOUgd3W66QiEUyeBktXvEGZ4thKXHnK+tBd
+         Jdbw==
+X-Gm-Message-State: AOAM530YhKCMEZZqu+cYq0JteNhM2VDOPnxezvhVH0Airc7IbeFuam5J
+        vl1FjOS2cMO+IypqfAvX5uFfpA==
+X-Google-Smtp-Source: ABdhPJw0rLJdisr5uZlBE8ctgvrHmM+uwk53TpBTBJnI6WzxJkkgGNrd04RLKcWzKeNdyPokvfvd4g==
+X-Received: by 2002:a17:90b:4ac7:: with SMTP id mh7mr914250pjb.158.1594667479834;
+        Mon, 13 Jul 2020 12:11:19 -0700 (PDT)
+Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id j17sm13472951pgn.87.2020.07.13.12.11.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 12:11:19 -0700 (PDT)
+Date:   Mon, 13 Jul 2020 12:09:11 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Zhenyu Ye <yezhenyu2@huawei.com>, will@kernel.org,
-        suzuki.poulose@arm.com, maz@kernel.org, steven.price@arm.com,
-        guohanjun@huawei.com, olof@lixom.net,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org, arm@kernel.org,
-        xiexiangyou@huawei.com, prime.zeng@hisilicon.com,
-        zhangshaokun@hisilicon.com, kuhn.chenqun@huawei.com,
+Cc:     Rishabh Bhatnagar <rishabhb@codeaurora.org>,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tsoni@codeaurora.org, psodagud@codeaurora.org,
+        sidgup@codeaurora.org, elder@ieee.org,
         linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] arm64: tlb: Use the TLBI RANGE feature in arm64
-Message-ID: <20200713172158.GE15829@gaia>
-References: <20200710094420.517-1-yezhenyu2@huawei.com>
- <20200710094420.517-3-yezhenyu2@huawei.com>
- <4040f429-21c8-0825-2ad4-97786c3fe7c1@nvidia.com>
- <cee60718-ced2-069f-8dad-48941c6fc09b@huawei.com>
- <7237888d-2168-cd8b-c83d-c8e54871793d@nvidia.com>
+Subject: Re: [PATCH v6 1/2] remoteproc: qcom: Add per subsystem SSR
+ notification
+Message-ID: <20200713190911.GC388985@builder.lan>
+References: <1592965408-16908-1-git-send-email-rishabhb@codeaurora.org>
+ <1592965408-16908-2-git-send-email-rishabhb@codeaurora.org>
+ <98e3a18e-1491-6f20-6507-d6e6817b76fe@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7237888d-2168-cd8b-c83d-c8e54871793d@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <98e3a18e-1491-6f20-6507-d6e6817b76fe@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jul 13, 2020 at 03:44:16PM +0100, Jon Hunter wrote:
-> On 13/07/2020 15:39, Zhenyu Ye wrote:
-> > On 2020/7/13 22:27, Jon Hunter wrote:
-> >> After this change I am seeing the following build errors ...
-> >>
-> >> /tmp/cckzq3FT.s: Assembler messages:
-> >> /tmp/cckzq3FT.s:854: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:870: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:1095: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:1111: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:1964: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:1980: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:2286: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:2302: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x7'
-> >> /tmp/cckzq3FT.s:4833: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> >> /tmp/cckzq3FT.s:4849: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> >> /tmp/cckzq3FT.s:5090: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> >> /tmp/cckzq3FT.s:5106: Error: unknown or missing operation name at operand 1 -- `tlbi rvae1is,x6'
-> >> /tmp/cckzq3FT.s:874: Error: attempt to move .org backwards
-> >> /tmp/cckzq3FT.s:1115: Error: attempt to move .org backwards
-> >> /tmp/cckzq3FT.s:1984: Error: attempt to move .org backwards
-> >> /tmp/cckzq3FT.s:2306: Error: attempt to move .org backwards
-> >> /tmp/cckzq3FT.s:4853: Error: attempt to move .org backwards
-> >> /tmp/cckzq3FT.s:5110: Error: attempt to move .org backwards
-> >> scripts/Makefile.build:280: recipe for target 'arch/arm64/mm/hugetlbpage.o' failed
-> >> make[3]: *** [arch/arm64/mm/hugetlbpage.o] Error 1
-> >> scripts/Makefile.build:497: recipe for target 'arch/arm64/mm' failed
-> >> make[2]: *** [arch/arm64/mm] Error 2
-> > 
-> > The code must be built with binutils >= 2.30.
-> > Maybe I should add  a check on whether binutils supports ARMv8.4-a instructions...
+On Mon 13 Jul 09:26 PDT 2020, Jon Hunter wrote:
+
 > 
-> Yes I believe so.
+> On 24/06/2020 03:23, Rishabh Bhatnagar wrote:
+> > Currently there is a single notification chain which is called whenever any
+> > remoteproc shuts down. This leads to all the listeners being notified, and
+> > is not an optimal design as kernel drivers might only be interested in
+> > listening to notifications from a particular remoteproc. Create a global
+> > list of remoteproc notification info data structures. This will hold the
+> > name and notifier_list information for a particular remoteproc. The API
+> > to register for notifications will use name argument to retrieve the
+> > notification info data structure and the notifier block will be added to
+> > that data structure's notification chain. Also move from blocking notifier
+> > to srcu notifer based implementation to support dynamic notifier head
+> > creation.
+> > 
+> > Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+> > Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
+> > ---
+> >  drivers/remoteproc/qcom_common.c      | 90 ++++++++++++++++++++++++++++++-----
+> >  drivers/remoteproc/qcom_common.h      |  5 +-
+> >  include/linux/remoteproc/qcom_rproc.h | 20 ++++++--
+> >  3 files changed, 95 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/remoteproc/qcom_common.c b/drivers/remoteproc/qcom_common.c
+> > index 9028cea..7a7384c 100644
+> > --- a/drivers/remoteproc/qcom_common.c
+> > +++ b/drivers/remoteproc/qcom_common.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/module.h>
+> >  #include <linux/notifier.h>
+> >  #include <linux/remoteproc.h>
+> > +#include <linux/remoteproc/qcom_rproc.h>
+> >  #include <linux/rpmsg/qcom_glink.h>
+> >  #include <linux/rpmsg/qcom_smd.h>
+> >  #include <linux/soc/qcom/mdt_loader.h>
+> > @@ -23,7 +24,14 @@
+> >  #define to_smd_subdev(d) container_of(d, struct qcom_rproc_subdev, subdev)
+> >  #define to_ssr_subdev(d) container_of(d, struct qcom_rproc_ssr, subdev)
+> >  
+> > -static BLOCKING_NOTIFIER_HEAD(ssr_notifiers);
+> > +struct qcom_ssr_subsystem {
+> > +	const char *name;
+> > +	struct srcu_notifier_head notifier_list;
+> > +	struct list_head list;
+> > +};
+> > +
+> > +static LIST_HEAD(qcom_ssr_subsystem_list);
+> > +static DEFINE_MUTEX(qcom_ssr_subsys_lock);
+> >  
+> >  static int glink_subdev_start(struct rproc_subdev *subdev)
+> >  {
+> > @@ -189,37 +197,83 @@ void qcom_remove_smd_subdev(struct rproc *rproc, struct qcom_rproc_subdev *smd)
+> >  }
+> >  EXPORT_SYMBOL_GPL(qcom_remove_smd_subdev);
+> >  
+> > +static struct qcom_ssr_subsystem *qcom_ssr_get_subsys(const char *name)
+> > +{
+> > +	struct qcom_ssr_subsystem *info;
+> > +
+> > +	mutex_lock(&qcom_ssr_subsys_lock);
+> > +	/* Match in the global qcom_ssr_subsystem_list with name */
+> > +	list_for_each_entry(info, &qcom_ssr_subsystem_list, list)
+> > +		if (!strcmp(info->name, name))
+> > +			goto out;
+> > +
+> > +	info = kzalloc(sizeof(*info), GFP_KERNEL);
+> > +	if (!info) {
+> > +		info = ERR_PTR(-ENOMEM);
+> > +		goto out;
+> > +	}
+> 
+> 
+> The above appears to be breaking the ARM64 build on the latest -next
+> when building the modules  ...
+>  
+>   CC [M]  drivers/remoteproc/qcom_common.o
+> drivers/remoteproc/qcom_common.c: In function 'qcom_ssr_get_subsys':
+> remoteproc/qcom_common.c:210:9: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+>   info = kzalloc(sizeof(*info), GFP_KERNEL);
+>          ^~~~~~~
+> drivers/remoteproc/qcom_common.c:210:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+>   info = kzalloc(sizeof(*info), GFP_KERNEL);
+> 
 
-The binutils guys in Arm confirmed that assembling "tlbi rvae1is"
-without -march=armv8.4-a is a bug. When it gets fixed, checking for the
-binutils version is not sufficient without passing -march. I think we
-are better off with a manual encoding of the instruction.
+You're right, not sure why the test build completes successfully for
+me...
 
--- 
-Catalin
+I've applied a fix from Kefeng Wang for this, sorry for the disruption.
+
+Regards,
+Bjorn
