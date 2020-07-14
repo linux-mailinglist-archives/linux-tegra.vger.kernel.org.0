@@ -2,117 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF5AD21EBEF
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 10:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54BD721EC3B
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 11:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbgGNIzR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Jul 2020 04:55:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726736AbgGNIzP (ORCPT
+        id S1726722AbgGNJIW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Jul 2020 05:08:22 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19990 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726617AbgGNJIW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:55:15 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463CCC061794;
-        Tue, 14 Jul 2020 01:55:15 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id dp18so20680888ejc.8;
-        Tue, 14 Jul 2020 01:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BYpCX/p81FQOHpa4gqb+UE0SHcspB7H1zWvoCgfKkuU=;
-        b=cAYTZqW8l+uFf2mrwz8ziuGrMu/fOroZuQlZenYADb6Bjbyd7idbvTE3Iozi7BrznA
-         JIEZkDHiyh7tA3LztNUWuoONszuymZTJNtOXrh6er5WWJLUPBFniox7NBz4kPhAD1/tI
-         5rMYD/SP/IHfHFb5zjsPvk4yftUgFDiYGnyCMLeoG0o+BDDVB+wKO069x6/14j2dWSt8
-         sVkWzOi7nh4p3XwtNQhpqtWLi4JfDuf9v0wOU8AoYmkJM9kaH8B6ZMBGoQWJsXiBpfy9
-         6ASZ6gX9BgYdn5ojXMV5Z8QolKqrV7aoVAN4GCqnDAxCe9qNfeQg0euYp37EXLY0e+0Q
-         VJGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BYpCX/p81FQOHpa4gqb+UE0SHcspB7H1zWvoCgfKkuU=;
-        b=nPfFsqrRYocy0Qu/m03LNLUoxZRnvLc6sVjFjCNCbQhcBBfLqaOyYguwO1BJH5cZOx
-         PyJcG1Zmbb96NNTOtomPlDPcsliwDWRHylZi4gFXsKeqqEohSiz7MEe3XBxTvp+AjLc8
-         twb5COJFSNlRTV5V3R4EynUcmckWO7HfSXY7FO22+gIztvwK0pKxGj/zdmzuAsit44XI
-         bAuLMQZ1pCgcpW2cCEPzJM9M34mU3fyQHacWOTvQAO7i3bSrf8JW32yxV33GfzeKmljB
-         NmCobFuA1ZhId8C9h89hZGpruqrLLPjT30wIFnWpn03ZCuiaYhpdPu8sFbUGcV224IlU
-         PBRg==
-X-Gm-Message-State: AOAM533r6XyVH5rLX/Tq8OCG+D+JF0iuxrrrf3jS3fZY4KzUqqIN/PLH
-        Cq/FhcoKRdSgvAGxlmslnms=
-X-Google-Smtp-Source: ABdhPJycnijtvoHofHTPhh5AKxCI5zDgniYWn7cKHiQYJNanzDYohFgfiNCy1BVH50hsgdN4yVaCsw==
-X-Received: by 2002:a17:906:81d2:: with SMTP id e18mr3431938ejx.341.1594716913971;
-        Tue, 14 Jul 2020 01:55:13 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id jo25sm11922404ejb.116.2020.07.14.01.55.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2020 01:55:12 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 10:55:11 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     robh+dt@kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
-        lorenzo.pieralisi@arm.com, amurray@thegoodpenguin.co.uk,
-        bhelgaas@google.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH] arm64: tegra: Re-order PCIe aperture mappings
-Message-ID: <20200714085511.GB141356@ulmo>
-References: <20200706171454.11316-1-vidyas@nvidia.com>
+        Tue, 14 Jul 2020 05:08:22 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0d75950000>; Tue, 14 Jul 2020 02:06:29 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 Jul 2020 02:08:21 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 14 Jul 2020 02:08:21 -0700
+Received: from [10.26.72.103] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jul
+ 2020 09:08:20 +0000
+Subject: Re: [PATCH] ALSA: hda: Enable sync-write operation as default for all
+ controllers
+To:     Takashi Iwai <tiwai@suse.de>
+CC:     <alsa-devel@alsa-project.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200618144051.7415-1-tiwai@suse.de>
+ <8fc9f086-9a34-4287-8f51-6e0ebc34928f@nvidia.com>
+ <s5hy2nmv6qv.wl-tiwai@suse.de>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <6f7a6d27-127d-9242-0638-abaf10e38410@nvidia.com>
+Date:   Tue, 14 Jul 2020 10:08:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5/uDoXvLw7AC5HRs"
-Content-Disposition: inline
-In-Reply-To: <20200706171454.11316-1-vidyas@nvidia.com>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+In-Reply-To: <s5hy2nmv6qv.wl-tiwai@suse.de>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594717589; bh=Vwmt7N6nQCfUL1AHZzyBgLJesLtmD2bFuXlH0D6r7Ts=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=kygR47v1IoMUsYnf/nZy5pnbQILuoPtmgTLX4LXLc5vU2i5MncARkfqjeY7MwIbFP
+         vRta1WLQMsjq1L5oGv0zsUbKT9rer23NyNtoEp0l6Dax2IA+kGInyi9xNmbw6eHePB
+         H56o70A4WDKmFzTVKlkEvtGSiyA0uWkSJyRH+jj98sbX6M/o19OnIpANoHShBHGaAk
+         2L+zY2TtR7l8fR7xoU6TBqYudgbBWtMuf2pj79Aq26K2ivUfYfko+ztFFgqrHKIqok
+         UqcPVN1vm0TxATuh4NWmB8X509JHj6NQfCEFAnR0cqATwfwuCq/fJhwyDHRT2/p8R9
+         UBoNpueTk62uQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---5/uDoXvLw7AC5HRs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 14/07/2020 09:30, Takashi Iwai wrote:
+> On Tue, 14 Jul 2020 10:08:02 +0200,
+> Jon Hunter wrote:
+>>
+>> Hi Takashi,
+>>
+>> On 18/06/2020 15:40, Takashi Iwai wrote:
+>>> In the end we already enabled the sync-write mode for most of HD-audio
+>>> controllers including Intel, and it's no big merit to keep the async
+>>> write mode for the rest.  Let's make it as default and drop the
+>>> superfluous AZX_DCAPS_SYNC_WRITE bit flag.
+>>>
+>>> Also, avoid to set the allow_bus_reset flag, which is a quite unstable
+>>> and hackish behavior that was needed only for some early platforms
+>>> (decades ago).  The straight fallback to the single cmd mode is more
+>>> robust.
+>>>
+>>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+>>
+>>
+>> I have noticed a regression in HDA playback on our Tegra186 Jetson TX2
+>> platform. Bisect is pointing to this patch and reverting this does
+>> appear to fix it. Interestingly, I am not seeing any problems on other
+>> Tegra platforms, however, Tegra186 does have the IOMMU enabled for HDA
+>> which is one different between the other platforms.
+>>
+>> We can take a closer look at this for Tegra, but I am wondering if we
+>> revert this for Tegra for now.
+> 
+> It's a deja vu, we (or someone else in Nvidia?) discussed it in the
+> past?
+> 
+> The patch below should cure the problem temporarily, as it sets the
+> polling mode as default for Tegra.  But it'd be appreciated if you can
+> find the root cause.
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
+> --- a/sound/pci/hda/hda_tegra.c
+> +++ b/sound/pci/hda/hda_tegra.c
+> @@ -394,6 +394,7 @@ static int hda_tegra_create(struct snd_card *card,
+>  	if (err < 0)
+>  		return err;
+>  
+> +	chip->bus.core.polling = 1;
+>  	chip->bus.core.needs_damn_long_delay = 1;
+>  
+>  	err = snd_device_new(card, SNDRV_DEV_LOWLEVEL, chip, &ops);
+> 
 
-On Mon, Jul 06, 2020 at 10:44:54PM +0530, Vidya Sagar wrote:
-> Re-order Tegra194's PCIe aperture mappings to have IO window moved to
-> 64-bit aperture and have the entire 32-bit aperture used for accessing
-> the configuration space. This makes it to use the entire 32MB of the 32-b=
-it
-> aperture for ECAM purpose while booting through ACPI.
->=20
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 36 ++++++++++++------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
+Did you mean ...
 
-I've had to manually apply this because it conflicts with some of the
-cleanups I've been doing to the DTS files. I'll push it out later, so
-it'd be good if you could check that I've applied it correctly.
+diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
+index 0cc5fad1af8a..5637f0129932 100644
+--- a/sound/pci/hda/hda_tegra.c
++++ b/sound/pci/hda/hda_tegra.c
+@@ -443,6 +443,7 @@ static int hda_tegra_create(struct snd_card *card,
+        if (err < 0)
+                return err;
 
-Thanks,
-Thierry
++       chip->bus.core.sync_write = 0;
+        chip->bus.core.needs_damn_long_delay = 1;
+        chip->bus.core.aligned_mmio = 1;
 
---5/uDoXvLw7AC5HRs
-Content-Type: application/pgp-signature; name="signature.asc"
+The above works for me.
 
------BEGIN PGP SIGNATURE-----
+Cheers
+Jon
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8Ncu0ACgkQ3SOs138+
-s6E9+w/+JjZPchwPj6idBmuMBbMOr4W0imsNtOOmtge31wagIjngpHj1pNYFjZ42
-qAgefyMb30w8IWMP8tkKHby4+UOXYE9mb6lqiertUynhPRCQDVu1+o3oWPRnmFd6
-ajnTN7/9ZhXJ83NmYm/h+0Zqk/2mvg6P2DjAdOkw2ioYGmfI9g6gBh6E5ypoC+sV
-Lr5VntibAYLU8+zGjkfg4yyMHHM/ljG4h6F/ybVdfkM0kqomUMkE7TcustiXXosy
-pdwUv53VDf2z1FRs7UbXzZSXY8G7Xo9ZarbUtjpf5+iOr1uys484/PU60qtAY0MC
-gaWp7qRtkYVDjJUNrWKGF8H0P5BNKRPQ8Nd9dyBP/QMhos8e78C6SaWHTbdCJhXr
-FHys9ND/Lvv9lBEq8zG+WvDuhZlbAzjYv0mQ0qn1lDQS45ObJsxnj2Ztg8q91K4W
-gWBmNyiltbRGlSYMFDeWSbvSK7PBNzrg0If3GOh2Ok5nQb3DlxQIBjmnTGeVPrv7
-lS5VjzyLQgxhsoTGURMBLqFICKV5gtNBhMc6FGMzK5QCcjgzdzlP6HeO/feXhYnn
-28gsh8VzOVdIkoyMLZljOp4XsNiQi2sEnG6jGJZjaIB/bt3di/hT0IZkSVt+EjK/
-ilRWmKI08vgWXbM+EnVILaUJDVHN50Zqi41IYhWhyEMaReFdf6s=
-=jJwZ
------END PGP SIGNATURE-----
-
---5/uDoXvLw7AC5HRs--
+-- 
+nvpublic
