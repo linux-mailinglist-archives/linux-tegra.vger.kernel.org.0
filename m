@@ -2,145 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2229E21F2F2
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 15:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1613621F3D2
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 16:23:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbgGNNqd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Jul 2020 09:46:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53358 "EHLO mail.kernel.org"
+        id S1726491AbgGNOW5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Jul 2020 10:22:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48240 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725906AbgGNNqc (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Jul 2020 09:46:32 -0400
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+        id S1726187AbgGNOW5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 14 Jul 2020 10:22:57 -0400
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6EFF722515;
-        Tue, 14 Jul 2020 13:46:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18E2E22365;
+        Tue, 14 Jul 2020 14:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594734391;
-        bh=aE6m+220/YSfMYlMHN697thZzIYExXhOHsKVgiloIHY=;
+        s=default; t=1594736576;
+        bh=rd5OIlYx3b2juzE6QiM4oAmdyVKpLPJAqVO/kNES7eg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rqD/hZ68IomJYl8uX16+l7yW9YzX+Tq+FiQvbQV08s1jVIcwaX7x8lTDCe6rt+ZBa
-         Gt7h2wIwfsxjIzzkzy66cc/pprauO4dBf9+GidwGQEdX0OQkPs6wUEX7e8DAFq394H
-         UCN7Orhrvrip67ZKIteaDpLMLyWo7uSoHhd/Yj58=
-Received: by mail-ot1-f42.google.com with SMTP id 18so13047670otv.6;
-        Tue, 14 Jul 2020 06:46:31 -0700 (PDT)
-X-Gm-Message-State: AOAM5331KhUSLOB8a+0caCit0UpUeMEBW6ClVUcb/1wCRCJ3rSFA3RI9
-        Z2g9tgmZ9hY4DaPxFDUbLm9ZAFUbnQD0kuNnJw==
-X-Google-Smtp-Source: ABdhPJxfSzrolS+34yv9srge0rhF3g9YW0NmHqghsJKkBRg71RVBlCQqSIjESPLKZ4tT8EhTiG7wO/yRMM6L+Rnx8yI=
-X-Received: by 2002:a9d:2646:: with SMTP id a64mr3888709otb.107.1594734390765;
- Tue, 14 Jul 2020 06:46:30 -0700 (PDT)
+        b=PmB0EueNtgPHX2PIZw5HyzxDwaxVRzOwkSePCRZQxkefXAoStuJY3G5ocmAJHX+la
+         yemTL8A5jKBcSxloLAbA443fa5XKv/kgtrnrPv0eGK30vnwYtNcS57d5TYFzXRwpMk
+         4ojoqTORPROKHmG4o+HWInEO4xTKdJmcT20nSsSQ=
+Received: by mail-oi1-f173.google.com with SMTP id l63so14008939oih.13;
+        Tue, 14 Jul 2020 07:22:56 -0700 (PDT)
+X-Gm-Message-State: AOAM5308eTQBeyuzycoIcssq26o1jkt3dr22JRo7TSk4bfUp0IPUyqz8
+        P1SALUiL8rCHP7O1klmvTzdHAneWOv7NZSuGNQ==
+X-Google-Smtp-Source: ABdhPJy6ZkarJ5J32IIpIQEGE/Wjp/cSwpg14EGOzfNSeRzwriu/1T8mkB7ZW+5hPoMCr1+/ya+Nb4Ie4kq7OvbrRc8=
+X-Received: by 2002:aca:bb82:: with SMTP id l124mr3965827oif.106.1594736575478;
+ Tue, 14 Jul 2020 07:22:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
- <1594649209-29394-2-git-send-email-sumitg@nvidia.com> <20200713164214.GA341271@bogus>
- <70a0a8ee-b79a-2a05-5150-2ee0faaf2730@nvidia.com>
-In-Reply-To: <70a0a8ee-b79a-2a05-5150-2ee0faaf2730@nvidia.com>
+References: <20200708050017.31563-1-vdumpa@nvidia.com> <20200708050017.31563-5-vdumpa@nvidia.com>
+ <20200709201348.GA808454@bogus> <BYAPR12MB2822514F93F831507A811EE9B3650@BYAPR12MB2822.namprd12.prod.outlook.com>
+ <c2ab2a0d-419d-555f-c124-2cfa1ecb2a81@arm.com>
+In-Reply-To: <c2ab2a0d-419d-555f-c124-2cfa1ecb2a81@arm.com>
 From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 14 Jul 2020 07:46:11 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL1CuumdT1CZiofEZw9j+3gsir8JwSrZVfcxFxEB=bavQ@mail.gmail.com>
-Message-ID: <CAL_JsqL1CuumdT1CZiofEZw9j+3gsir8JwSrZVfcxFxEB=bavQ@mail.gmail.com>
-Subject: Re: [TEGRA194_CPUFREQ PATCH v5 1/4] dt-bindings: arm: Add t194 ccplex
- compatible and bpmp property
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        devicetree@vger.kernel.org, Jon Hunter <jonathanh@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+Date:   Tue, 14 Jul 2020 08:22:43 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKg4CfGPxf-SzVevCaY0NU63oR+pqSqdV0aG+EaecGbvg@mail.gmail.com>
+Message-ID: <CAL_JsqKg4CfGPxf-SzVevCaY0NU63oR+pqSqdV0aG+EaecGbvg@mail.gmail.com>
+Subject: Re: [PATCH v10 4/5] dt-bindings: arm-smmu: add binding for Tegra194 SMMU
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Krishna Reddy <vdumpa@nvidia.com>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        bbasu@nvidia.com, Mikko Perttunen <mperttunen@nvidia.com>
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Yu-Huan Hsu <YHsu@nvidia.com>,
+        Sachin Nikam <Snikam@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Bryan Huntsman <bhuntsman@nvidia.com>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 5:44 AM Sumit Gupta <sumitg@nvidia.com> wrote:
+On Mon, Jul 13, 2020 at 8:10 AM Robin Murphy <robin.murphy@arm.com> wrote:
 >
->
->
-> > On Mon, Jul 13, 2020 at 07:36:46PM +0530, Sumit Gupta wrote:
-> >> To do frequency scaling on all CPUs within T194 CPU Complex, we need
-> >> to query BPMP for data on valid operating points. Document a compatible
-> >> string under 'cpus' node to represent the CPU Complex for binding drivers
-> >> like cpufreq which don't have their node or CPU Complex node to bind to.
-> >> Also, document a property to point to the BPMP device that can be queried
-> >> for all CPUs.
+> On 2020-07-10 21:29, Krishna Reddy wrote:
+> > Thanks Rob. One question on setting "minItems: ". Please see below.
 > >
-> > The cpus.yaml binding documents what's in 'cpu' nodes, not 'cpus'
-> > node. AIUI, the latter is what you want. You should do your own schema
-> > file here.
+> >>> +allOf:
+> >>> +  - if:
+> >>> +      properties:
+> >>> +        compatible:
+> >>> +          contains:
+> >>> +            enum:
+> >>> +              - nvidia,tegra194-smmu
+> >>> +    then:
+> >>> +      properties:
+> >>> +        reg:
+> >>> +          minItems: 2
+> >>> +          maxItems: 2
 > >
-> Do you mean to change existing file name from 'cpus.yaml' to 'cpu.yaml'
-> and create new 'cpus.yaml' file?
-> I think it's better to incorporate the change in existing 'cpus.yaml'
-> file to keep both cpu@X and cpus node details together. Please suggest.
-
-No, I'm suggesting you create nvidia,tegra194-ccplex.yaml.
-
-
-> >> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> >> ---
-> >>   Documentation/devicetree/bindings/arm/cpus.yaml | 11 +++++++++++
-> >>   1 file changed, 11 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-> >> index a018147..9b328e3 100644
-> >> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
-> >> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-> >> @@ -162,6 +162,7 @@ properties:
-> >>         - nvidia,tegra132-denver
-> >>         - nvidia,tegra186-denver
-> >>         - nvidia,tegra194-carmel
-> >> +      - nvidia,tegra194-ccplex
+> >> This doesn't work. The main part of the schema already said there's only
+> >> 1 reg region. This part is ANDed with that, not an override. You need to add an else clause with 'maxItems: 1' and change the base schema to
+> >> {minItems: 1, maxItems: 2}.
 > >
-> > Tegra194 has 2 different CPUs?
-> >
-> No, T194 SOC has homogeneous architecture with four clusters where each
-> cluster has two symmetric cores. 'nvidia,tegra194-carmel' compatible
-> string represents each cpu. 'nvidia,tegra194-ccplex' string represents
-> the CPU Complex to bind cpufreq driver. The change was done as per
-> discussion [1]
-
-You are adding the compatible string to the cpu@N node compatible.
-
+> > As the earlier version of base schema doesn't have "minItems: " set, should it be set to 0 for backward compatibility?  Or can it just be omitted setting in base schema as before?
 >
-> >>         - qcom,krait
-> >>         - qcom,kryo
-> >>         - qcom,kryo260
-> >> @@ -255,6 +256,15 @@ properties:
-> >>
-> >>         where voltage is in V, frequency is in MHz.
-> >>
-> >> +  nvidia,bpmp:
-> >> +    $ref: '/schemas/types.yaml#/definitions/phandle'
-> >> +    description: |
-> >> +      Specifies the bpmp node that needs to be queried to get
-> >> +      operating point data for all CPUs.
-> >> +
-> >> +      Optional for systems that have a "compatible"
-> >> +      property value of "nvidia,tegra194-ccplex".
-> >> +
-> >>     power-domains:
-> >>       $ref: '/schemas/types.yaml#/definitions/phandle-array'
-> >>       description:
-> >> @@ -340,6 +350,7 @@ required:
-> >>
-> >>   dependencies:
-> >>     rockchip,pmu: [enable-method]
-> >> +  nvidia,bpmp: [compatible]
-> >>
-> >>   examples:
-> >>     - |
-> >> --
-> >> 2.7.4
-> >>
->
-> [1] https://marc.info/?l=linux-arm-kernel&m=158999171528418&w=2
+> We've always needed at least 1 "reg" specifier in practice, so I don't
+> think being backwards-compatible with broken DTs is a concern :)
+
+'minItems: 0' would be a boolean (e.g. "reg;") and I'm not sure that's
+even really valid json-schema. What you'd want here is 'reg' not
+present (i.e. not in 'required').
+
+Rob
