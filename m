@@ -2,117 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3518821E67D
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 05:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E31D221EA00
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 09:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbgGNDqj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jul 2020 23:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726432AbgGNDqj (ORCPT
+        id S1725801AbgGNH0o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Jul 2020 03:26:44 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13527 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbgGNH0o (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jul 2020 23:46:39 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78DE5C061755
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Jul 2020 20:46:39 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id p3so7009795pgh.3
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Jul 2020 20:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DLRiKT8ElQL4w9dBG1pNFf3WLE40Y4LTcfhyA4y89Qg=;
-        b=ErCujttnnbjTupMWYjrWFgnPa1oXUoINHMPQBlPbtAnMaDXkLDbtWq/V+Ugy3P31v9
-         kHcJD5sAtUisZHts9jZ6C+fj3CPgOweMZhm8K2+2q0Fj+/Fd56TdQOK3RIr+J7tXH5Kn
-         gKB75yAzc8Oqp9WaojlhgtbOhjnxnmEbFhWTDVUuSwtfwOt7GYE+12BaMJWdBSP7vcuj
-         aR9AdFjCaS3KhrTLPqNi5bXOojrdm82i532F8H4xOlpfTbEhHU0f3RMS4mQLiPFm6n0Q
-         zfWygUQKn1A0eEK8J3+aLCc/+W//Q2+1tTk9b0nyrfITzsbQZmzlzm43hfb0kPvCRCCq
-         c4Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DLRiKT8ElQL4w9dBG1pNFf3WLE40Y4LTcfhyA4y89Qg=;
-        b=qQJBID9AZDkIU/M3l2H9e7mCJ81beCp+/KqxzfmeFpbTqnNDJ2ODzIj38LZlywyTg8
-         D37IXPHeQggejE78B0PdRobEV+dp4KW3l02ixM7cZ3grDlA+v78RJWnVLzjjH1AIhmYg
-         +7cdWJ5R/df/JltUD7/0iECXcBt6AuVp52mgYKxeR8fJ0K6+glRiuDpPR7SF4cT7PHMg
-         yzXHb/sZ7nv1bR1lMWnE5RRgz3ywzHr31g3BcqIaBHIFPhpaYAjDU7lUX4J1z3/b/88G
-         WVYU10Us6QAhBh49AeyhPU4RYErH4IIKCegObM8ELCfjOWB48cIhYrFDb1Rw79DoVGVt
-         NGUQ==
-X-Gm-Message-State: AOAM532epJ74fD9zAOPK7YE3rWe/dghVDZMCuWu+YkaT/e445j8yzwMB
-        tc/uj5QOaNFnRbr+bojHO55Ssg==
-X-Google-Smtp-Source: ABdhPJyz3cTpIEc3XjTCeTBHIKlPszPqw/k3+779CPTNFynf8xRq8tfMhpGs7ZQRwryAXZEwCm93gg==
-X-Received: by 2002:aa7:98c1:: with SMTP id e1mr2726090pfm.318.1594698398707;
-        Mon, 13 Jul 2020 20:46:38 -0700 (PDT)
-Received: from localhost ([122.172.34.142])
-        by smtp.gmail.com with ESMTPSA id o2sm15692355pfh.160.2020.07.13.20.46.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Jul 2020 20:46:37 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 09:16:35 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+        Tue, 14 Jul 2020 03:26:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0d5dc30000>; Tue, 14 Jul 2020 00:24:51 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 Jul 2020 00:26:43 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 14 Jul 2020 00:26:43 -0700
+Received: from [10.26.72.103] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jul
+ 2020 07:26:42 +0000
 Subject: Re: [PATCH 1/2] cpufreq: tegra186: Fix initial frequency
-Message-ID: <20200714034635.2zdv3wzmftjg2t4a@vireshk-i7>
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20200712100645.13927-1-jonathanh@nvidia.com>
  <20200713032554.cykywnygxln6ukrl@vireshk-i7>
  <3d6091f2-6b04-185f-6c23-e39a34b87877@nvidia.com>
+ <20200714034635.2zdv3wzmftjg2t4a@vireshk-i7>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <aa941c67-1dec-5363-7bd7-5e9d8d324110@nvidia.com>
+Date:   Tue, 14 Jul 2020 08:26:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d6091f2-6b04-185f-6c23-e39a34b87877@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20200714034635.2zdv3wzmftjg2t4a@vireshk-i7>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594711491; bh=tZth7Y/1Zt4r7X56D1QfoSroo5wy+uKCt1xfia33abs=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=cYd9/1x8IOG/7Cbt/2SBVThW3A52KXxB0rGRifWa+q/f1NG4Vl5MRGjv3vcqslarC
+         kZ1TvM16r/bLO8bh3vch4uDH2Dq5/GiCzud04FF94egLOdDh5/UyUhwU5c0QwTq11d
+         lVc0vK1WeATMF4hKm54eJ572bLOcJjrI0Qna/jpVNlS0l7D5Zg82j4h8km0GZODnep
+         w2UNwqhWiEZZjXaps7ldudd+1VjjURM3TT/g3cRjKvQHQZtE+qsWiliG+kMpDiZZ2H
+         CztIWOx58saq5uk1XvM+mvpFNnZAYnJklKcVj/tRjuNk9oisIhdwNySDiqB3v4F3Ts
+         UpKgmip/O2B6w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 13-07-20, 17:37, Jon Hunter wrote:
-> 
-> On 13/07/2020 04:25, Viresh Kumar wrote:
-> > On 12-07-20, 11:06, Jon Hunter wrote:
-> >> Commit 6cc3d0e9a097 ("cpufreq: tegra186: add
-> >> CPUFREQ_NEED_INITIAL_FREQ_CHECK flag") fixed CPUFREQ support for
-> >> Tegra186 but as a consequence the following warnings are now seen on
-> >> boot ...
-> >>
-> >>  cpufreq: cpufreq_online: CPU0: Running at unlisted freq: 0 KHz
-> >>  cpufreq: cpufreq_online: CPU0: Unlisted initial frequency changed to: 2035200 KHz
-> >>  cpufreq: cpufreq_online: CPU1: Running at unlisted freq: 0 KHz
-> >>  cpufreq: cpufreq_online: CPU1: Unlisted initial frequency changed to: 2035200 KHz
-> >>  cpufreq: cpufreq_online: CPU2: Running at unlisted freq: 0 KHz
-> >>  cpufreq: cpufreq_online: CPU2: Unlisted initial frequency changed to: 2035200 KHz
-> >>  cpufreq: cpufreq_online: CPU3: Running at unlisted freq: 0 KHz
-> >>  cpufreq: cpufreq_online: CPU3: Unlisted initial frequency changed to: 2035200 KHz
-> >>  cpufreq: cpufreq_online: CPU4: Running at unlisted freq: 0 KHz
-> >>  cpufreq: cpufreq_online: CPU4: Unlisted initial frequency changed to: 2035200 KHz
-> >>  cpufreq: cpufreq_online: CPU5: Running at unlisted freq: 0 KHz
-> >>  cpufreq: cpufreq_online: CPU5: Unlisted initial frequency changed to: 2035200 KHz
-> >>
-> >> Although we could fix this by adding a 'get' operator for the Tegra186
-> >> CPUFREQ driver, there is really little point because the CPUFREQ on
-> >> Tegra186 is set by writing a value stored in the frequency table to a
-> >> register and we just need to set the initial frequency.
-> > 
-> > The hardware still runs at the frequency requested by cpufreq core here, right ?
-> 
-> Yes.
-> 
-> > It is better to provide the get() callback as it is also used to show the
-> > current frequency in userspace.
-> 
-> I looked at that and I saw that if the get() callback is not provided,
-> the current frequency showed by userspace is policy->cur. For this
-> device, policy->cur is accurate and so if we added the get() callback we
-> essentially just going to return policy->cur. Therefore, given that we
-> already know policy->cur, I did not see the point in adding a device
-> specific handler to do the same thing.
 
-The get() callback is supposed to read the frequency from hardware and
-return it, no cached value here. policy->cur may end up being wrong in
-case there is a bug.
+On 14/07/2020 04:46, Viresh Kumar wrote:
+> On 13-07-20, 17:37, Jon Hunter wrote:
+>>
+>> On 13/07/2020 04:25, Viresh Kumar wrote:
+>>> On 12-07-20, 11:06, Jon Hunter wrote:
+>>>> Commit 6cc3d0e9a097 ("cpufreq: tegra186: add
+>>>> CPUFREQ_NEED_INITIAL_FREQ_CHECK flag") fixed CPUFREQ support for
+>>>> Tegra186 but as a consequence the following warnings are now seen on
+>>>> boot ...
+>>>>
+>>>>  cpufreq: cpufreq_online: CPU0: Running at unlisted freq: 0 KHz
+>>>>  cpufreq: cpufreq_online: CPU0: Unlisted initial frequency changed to: 2035200 KHz
+>>>>  cpufreq: cpufreq_online: CPU1: Running at unlisted freq: 0 KHz
+>>>>  cpufreq: cpufreq_online: CPU1: Unlisted initial frequency changed to: 2035200 KHz
+>>>>  cpufreq: cpufreq_online: CPU2: Running at unlisted freq: 0 KHz
+>>>>  cpufreq: cpufreq_online: CPU2: Unlisted initial frequency changed to: 2035200 KHz
+>>>>  cpufreq: cpufreq_online: CPU3: Running at unlisted freq: 0 KHz
+>>>>  cpufreq: cpufreq_online: CPU3: Unlisted initial frequency changed to: 2035200 KHz
+>>>>  cpufreq: cpufreq_online: CPU4: Running at unlisted freq: 0 KHz
+>>>>  cpufreq: cpufreq_online: CPU4: Unlisted initial frequency changed to: 2035200 KHz
+>>>>  cpufreq: cpufreq_online: CPU5: Running at unlisted freq: 0 KHz
+>>>>  cpufreq: cpufreq_online: CPU5: Unlisted initial frequency changed to: 2035200 KHz
+>>>>
+>>>> Although we could fix this by adding a 'get' operator for the Tegra186
+>>>> CPUFREQ driver, there is really little point because the CPUFREQ on
+>>>> Tegra186 is set by writing a value stored in the frequency table to a
+>>>> register and we just need to set the initial frequency.
+>>>
+>>> The hardware still runs at the frequency requested by cpufreq core here, right ?
+>>
+>> Yes.
+>>
+>>> It is better to provide the get() callback as it is also used to show the
+>>> current frequency in userspace.
+>>
+>> I looked at that and I saw that if the get() callback is not provided,
+>> the current frequency showed by userspace is policy->cur. For this
+>> device, policy->cur is accurate and so if we added the get() callback we
+>> essentially just going to return policy->cur. Therefore, given that we
+>> already know policy->cur, I did not see the point in adding a device
+>> specific handler to do the same thing.
+> 
+> The get() callback is supposed to read the frequency from hardware and
+> return it, no cached value here. policy->cur may end up being wrong in
+> case there is a bug.
+
+OK, I can add a get callback. However, there are a few other drivers
+that set the current frequency in the init() and don't implement a get()
+callback ...
+
+drivers/cpufreq/pasemi-cpufreq.c
+drivers/cpufreq/ppc_cbe_cpufreq.c
+drivers/cpufreq/intel_pstate.c
+
+Jon
 
 -- 
-viresh
+nvpublic
