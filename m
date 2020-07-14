@@ -2,91 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF4E721EA0F
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 09:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FC9A21EAFA
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 10:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726282AbgGNHb4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Jul 2020 03:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgGNHbz (ORCPT
+        id S1725820AbgGNIIG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Jul 2020 04:08:06 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16320 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725793AbgGNIIF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Jul 2020 03:31:55 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8768C061794
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Jul 2020 00:31:55 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id l6so140741plt.7
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Jul 2020 00:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=J3KZkLfKSbC5BZHL1d7yO/DwRivb2bB63Afyu0rAU7c=;
-        b=neWIcuYRVYuNZuF10/O3q7zrFJP1sqCxlXB97WQT2VbL3vvBdpupQ/95yQPa2zdUQu
-         wWarWnCZZcwf31IYFbOm+0q9QrPLM7Y8VaO6OcTrVRqtC3+QFlWdTwLVX7e0vRZwY6C6
-         8gRJ4wKSV1CbCtbXTPTT7XBQRZItRciZ0RyMPlDxmi3EctrZQQPeIYMH7XpPKnCw7z+U
-         uEQI4ZGtjktdxDrhh5dbQEkESc+LhHRT/iFVbo8EXDxc8fzcEQD0tleyYa+uyntfo+Rj
-         0SRP+ixxeCsrRkMY0LSTqJrx/KJemBooUE5Xz5iB+BuNSrY8NVsn1xi7mDHZ/WeLHUAM
-         6J0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=J3KZkLfKSbC5BZHL1d7yO/DwRivb2bB63Afyu0rAU7c=;
-        b=MsiFtmMJgkCF2BOKTzezC6e46UGy9ElblLiJs3KhdhbNnVJ9cT1BQMfm3dd8ajSc8X
-         iyx0bu/JO0dz3tHpiTPiYpLEj6nlsDiOqkGq5zF+RW7vqNh+k5B3w17jibXLuEKwkgwz
-         z+7co2Ukco3SekZuxRivtb/mesB8W8FBuwYSKnBn2BDFERZf5cwLohYxaNN31CQPyzuo
-         Z3RmMh44+4u22vhYO6ZatiWYzB7nmzr8C3LIkyWUD822DXlfns/aG85HWjkJYBsVFByq
-         2EsEAJ1+8p5581l2V4BqhmZp41b+q3n410qkdZP8wNh4Z/yzLpKCv17w3a5Ri++2WlAx
-         CXEg==
-X-Gm-Message-State: AOAM532EXb4ffHlLnD3Cf91TJXCD4ViJLmAKpexDU6yQIEWyf9h5RnzB
-        tOan0KsQ1N9DAmx3K0lMln8oKw==
-X-Google-Smtp-Source: ABdhPJz4Gu9yn7RPaM4tJg1tqh+c8051L0lJfupoplxt4ZQbS1Uj9OmeRr99/0ypRIpDK6J+yF33xw==
-X-Received: by 2002:a17:90b:300d:: with SMTP id hg13mr3447366pjb.212.1594711914895;
-        Tue, 14 Jul 2020 00:31:54 -0700 (PDT)
-Received: from localhost ([122.172.34.142])
-        by smtp.gmail.com with ESMTPSA id g6sm16518336pfr.129.2020.07.14.00.31.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 Jul 2020 00:31:53 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 13:01:52 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] cpufreq: tegra186: Fix initial frequency
-Message-ID: <20200714073152.cof7pdgevcaettm2@vireshk-i7>
-References: <20200712100645.13927-1-jonathanh@nvidia.com>
- <20200713032554.cykywnygxln6ukrl@vireshk-i7>
- <3d6091f2-6b04-185f-6c23-e39a34b87877@nvidia.com>
- <20200714034635.2zdv3wzmftjg2t4a@vireshk-i7>
- <aa941c67-1dec-5363-7bd7-5e9d8d324110@nvidia.com>
+        Tue, 14 Jul 2020 04:08:05 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0d67740000>; Tue, 14 Jul 2020 01:06:12 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 Jul 2020 01:08:05 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 14 Jul 2020 01:08:05 -0700
+Received: from [10.26.72.103] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jul
+ 2020 08:08:03 +0000
+Subject: Re: [PATCH] ALSA: hda: Enable sync-write operation as default for all
+ controllers
+To:     Takashi Iwai <tiwai@suse.de>, <alsa-devel@alsa-project.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200618144051.7415-1-tiwai@suse.de>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <8fc9f086-9a34-4287-8f51-6e0ebc34928f@nvidia.com>
+Date:   Tue, 14 Jul 2020 09:08:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aa941c67-1dec-5363-7bd7-5e9d8d324110@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20200618144051.7415-1-tiwai@suse.de>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594713972; bh=wXjtpt92lXHea/LvRhP9pH3OyC9jJX6GLMwk3vi+S1A=;
+        h=X-PGP-Universal:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=iHgksAVauWoPQ40HWwaxzIuoG0KE3XXZciaiFVy6yU6i2SeECKMnO+9tsSvJij7XU
+         TL3Pqea7hv4Gz4nySMW17yE+hBwrpd2LFGoBmwAbiebOi/9akqiOoLCveH+KML/0Dj
+         y+lvQdOX8+/XwHz3wPB3BiFYSmTfB7WIqWBEt2/hzTFRnZC1+OOWQyf28+EbRCzs9Y
+         AO5/HxbSBoNzhXadqbDDhUX2MILzGnFEVeVdKrlLFpeLmj8Y5xk+h1J4SJg6J54U+g
+         fm1FYy4BspXCcty5BpQ/4Hyg/Xc/R9eLBZsjRmm8LMvcRf+8hyB6Kl+vj7dKyaVIaa
+         rczsxXIwQ5l5A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 14-07-20, 08:26, Jon Hunter wrote:
-> OK, I can add a get callback. However, there are a few other drivers
-> that set the current frequency in the init() and don't implement a get()
-> callback ...
+Hi Takashi,
+
+On 18/06/2020 15:40, Takashi Iwai wrote:
+> In the end we already enabled the sync-write mode for most of HD-audio
+> controllers including Intel, and it's no big merit to keep the async
+> write mode for the rest.  Let's make it as default and drop the
+> superfluous AZX_DCAPS_SYNC_WRITE bit flag.
 > 
-> drivers/cpufreq/pasemi-cpufreq.c
-> drivers/cpufreq/ppc_cbe_cpufreq.c
+> Also, avoid to set the allow_bus_reset flag, which is a quite unstable
+> and hackish behavior that was needed only for some early platforms
+> (decades ago).  The straight fallback to the single cmd mode is more
+> robust.
+> 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-These are quite old and I am not sure why they didn't do it.
 
-> drivers/cpufreq/intel_pstate.c
+I have noticed a regression in HDA playback on our Tegra186 Jetson TX2
+platform. Bisect is pointing to this patch and reverting this does
+appear to fix it. Interestingly, I am not seeing any problems on other
+Tegra platforms, however, Tegra186 does have the IOMMU enabled for HDA
+which is one different between the other platforms.
 
-With intel-pstate driver, the firmware sets the frequency of the CPUs
-and it can be different from what cpufreq core has asked it to. And so
-the kernel normally has no idea of what the frequency a CPU is running
-at.
+We can take a closer look at this for Tegra, but I am wondering if we
+revert this for Tegra for now.
+
+Cheers
+Jon
 
 -- 
-viresh
+nvpublic
