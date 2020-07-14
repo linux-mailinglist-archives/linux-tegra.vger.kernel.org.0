@@ -2,66 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CD3321EB6B
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 10:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF5AD21EBEF
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jul 2020 10:55:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbgGNIcI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Jul 2020 04:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55122 "EHLO
+        id S1726729AbgGNIzR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Jul 2020 04:55:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgGNIcI (ORCPT
+        with ESMTP id S1726736AbgGNIzP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:32:08 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E187BC061755
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Jul 2020 01:32:07 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id p20so20614324ejd.13
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Jul 2020 01:32:07 -0700 (PDT)
+        Tue, 14 Jul 2020 04:55:15 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463CCC061794;
+        Tue, 14 Jul 2020 01:55:15 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id dp18so20680888ejc.8;
+        Tue, 14 Jul 2020 01:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=EKHKh37sykf/7clJqWa8WaluzzsDWQI5DWMmtgZgFv4=;
-        b=gfGALNvCqO5gDZ7YA/7Twy/wMJat7cja6obERaqt4MYU3Q3Vpgl4Zlj2msWzTndt8E
-         j6k8qVFxCc8cSz7AiTikZv/Lg3wm3yAnc5KPXsiObNHUeRKzB65AgMW2Uk9ORUMYOfGa
-         GnAZVtkUjO8WRaeenT7XAQ6FJeZKcNhaM2s7Zo88zMX8ehjAbwqUo4NxIqWMwkULoSSx
-         tFeE7Hs2EHOwmtd4AeCUP8DEH4NIXjduytlKMSxGd0OmHnBcsL18gTlW53GkUD3FrSN/
-         o3yUQMQPUbR0UUcG8Nvozfw5mryv7HJcjVyY+Rl7FLn7wJj5JPgG/3W31i/lWYhC2Dlo
-         WEvQ==
+        bh=BYpCX/p81FQOHpa4gqb+UE0SHcspB7H1zWvoCgfKkuU=;
+        b=cAYTZqW8l+uFf2mrwz8ziuGrMu/fOroZuQlZenYADb6Bjbyd7idbvTE3Iozi7BrznA
+         JIEZkDHiyh7tA3LztNUWuoONszuymZTJNtOXrh6er5WWJLUPBFniox7NBz4kPhAD1/tI
+         5rMYD/SP/IHfHFb5zjsPvk4yftUgFDiYGnyCMLeoG0o+BDDVB+wKO069x6/14j2dWSt8
+         sVkWzOi7nh4p3XwtNQhpqtWLi4JfDuf9v0wOU8AoYmkJM9kaH8B6ZMBGoQWJsXiBpfy9
+         6ASZ6gX9BgYdn5ojXMV5Z8QolKqrV7aoVAN4GCqnDAxCe9qNfeQg0euYp37EXLY0e+0Q
+         VJGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EKHKh37sykf/7clJqWa8WaluzzsDWQI5DWMmtgZgFv4=;
-        b=Jc6BYn0ioVRoAFWd2eNwqRTvMGTf/us/oFs62mIrP7q7uBR5gtlyJniEj+PwPcluHu
-         L+CH2kVLlUpEe7ITwDqbHFmfr+tbrKdEGv2Dx85EKyyA2vailZ8tUSdeIBvhZxBh3sJ8
-         loU9cK6Ub7HpnAha/I0VoFGsI2Fj40aHe7mOBcmvy3D8knSZF6RuBGfgNdgAJRajXapD
-         FK9RqFCcom6JCgMp4/NQGEL7GqWV5ryelWRqbYmekWADN8Wum1MOHvoekEAey/SDpAD2
-         Gn7DkC8yE8bok31AnE4RLmf0cLQD5eM1i/7U4Fg2VZ8allQ+Qpj5S12E7LxSJWPCu5l7
-         aiQA==
-X-Gm-Message-State: AOAM532wLP3z5A6jv6OwGqzEbckvPrDXY+rrWj/kO7G7sjevk+7hkkTF
-        tCIXiVGlWsqftwAO3PLzTfg=
-X-Google-Smtp-Source: ABdhPJzoT8clCwMJIXPwnv+XWZJjnmKOXyjjLxXnxs2fruknDArtszhygGXbtFaYqsDpjgTM08lyOA==
-X-Received: by 2002:a17:906:d217:: with SMTP id w23mr3615185ejz.292.1594715526662;
-        Tue, 14 Jul 2020 01:32:06 -0700 (PDT)
+        bh=BYpCX/p81FQOHpa4gqb+UE0SHcspB7H1zWvoCgfKkuU=;
+        b=nPfFsqrRYocy0Qu/m03LNLUoxZRnvLc6sVjFjCNCbQhcBBfLqaOyYguwO1BJH5cZOx
+         PyJcG1Zmbb96NNTOtomPlDPcsliwDWRHylZi4gFXsKeqqEohSiz7MEe3XBxTvp+AjLc8
+         twb5COJFSNlRTV5V3R4EynUcmckWO7HfSXY7FO22+gIztvwK0pKxGj/zdmzuAsit44XI
+         bAuLMQZ1pCgcpW2cCEPzJM9M34mU3fyQHacWOTvQAO7i3bSrf8JW32yxV33GfzeKmljB
+         NmCobFuA1ZhId8C9h89hZGpruqrLLPjT30wIFnWpn03ZCuiaYhpdPu8sFbUGcV224IlU
+         PBRg==
+X-Gm-Message-State: AOAM533r6XyVH5rLX/Tq8OCG+D+JF0iuxrrrf3jS3fZY4KzUqqIN/PLH
+        Cq/FhcoKRdSgvAGxlmslnms=
+X-Google-Smtp-Source: ABdhPJycnijtvoHofHTPhh5AKxCI5zDgniYWn7cKHiQYJNanzDYohFgfiNCy1BVH50hsgdN4yVaCsw==
+X-Received: by 2002:a17:906:81d2:: with SMTP id e18mr3431938ejx.341.1594716913971;
+        Tue, 14 Jul 2020 01:55:13 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id n9sm14166680edr.46.2020.07.14.01.32.05
+        by smtp.gmail.com with ESMTPSA id jo25sm11922404ejb.116.2020.07.14.01.55.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2020 01:32:05 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 10:32:04 +0200
+        Tue, 14 Jul 2020 01:55:12 -0700 (PDT)
+Date:   Tue, 14 Jul 2020 10:55:11 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [RESEND PATCH] ARM: tegra: Enable CPUFREQ userspace governor
-Message-ID: <20200714083204.GA141356@ulmo>
-References: <857e47b0-e226-72b7-3855-f668c49c0739@gmail.com>
- <20200713144134.24444-1-jonathanh@nvidia.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     robh+dt@kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+        lorenzo.pieralisi@arm.com, amurray@thegoodpenguin.co.uk,
+        bhelgaas@google.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH] arm64: tegra: Re-order PCIe aperture mappings
+Message-ID: <20200714085511.GB141356@ulmo>
+References: <20200706171454.11316-1-vidyas@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+        protocol="application/pgp-signature"; boundary="5/uDoXvLw7AC5HRs"
 Content-Disposition: inline
-In-Reply-To: <20200713144134.24444-1-jonathanh@nvidia.com>
+In-Reply-To: <20200706171454.11316-1-vidyas@nvidia.com>
 User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,43 +71,48 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---k+w/mQv8wyuph6w0
+--5/uDoXvLw7AC5HRs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 13, 2020 at 03:41:34PM +0100, Jon Hunter wrote:
-> Enable the CPUFREQ userspace governor in the tegra_defconfig so that
-> we can test CPUFREQ with the userspace governor with this configuration
-> on 32-bit Tegra devices.
+On Mon, Jul 06, 2020 at 10:44:54PM +0530, Vidya Sagar wrote:
+> Re-order Tegra194's PCIe aperture mappings to have IO window moved to
+> 64-bit aperture and have the entire 32-bit aperture used for accessing
+> the configuration space. This makes it to use the entire 32MB of the 32-b=
+it
+> aperture for ECAM purpose while booting through ACPI.
 >=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
 > ---
->  arch/arm/configs/tegra_defconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 36 ++++++++++++------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
 
-Applied, thanks.
+I've had to manually apply this because it conflicts with some of the
+cleanups I've been doing to the DTS files. I'll push it out later, so
+it'd be good if you could check that I've applied it correctly.
 
+Thanks,
 Thierry
 
---k+w/mQv8wyuph6w0
+--5/uDoXvLw7AC5HRs
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8NbX8ACgkQ3SOs138+
-s6HISg/+JuiFw9nGbsOP/irKv8Vx0dMGLWMDijFAkC0sXWgaR5PUdV4FWNwteZ7X
-ufigQ6FZaWrjvR+o3AnrJ8GmKvJHogiD2vPKyMrODti3d3wbl66AzLhsY0LLvCb9
-+tqYZ4/Pvc2B9Sx6IvseaxUyAyAUwcBdZbEkeRW0UDS6fKaTsSEWKOxohWujgvEA
-zFvCFn/drOtx24D+bD87bNVlEdo9tvBr+U7X6CIsx2AI+a8cV486Ts43u4oZx0OM
-NzLO/UohuyDq946ad7kglhvQ4wBdJWTzxwYRQzjo86bR+v/2qeR+87C3ZVNNB3Eu
-EJ/Xg4ZCxIgZYdhOWC9jD4v3uDFRU6mmEDiehTk88Qu4oDB/gbhw+FL2SX+zfmo1
-y8hq6qI1qf9L9HBs21nm3d6JM4iiyGgNxNXpWKWmTEqOTM0vE+BgO2W+Uqcu9AFf
-k118RdGjNG19vuZO9LgZ+MG3zDPCLH6qAbP1Xmsv/mDWab+4Pb0uUEqjbHa3VeqA
-od+MBm/GRZWyOxmJCnqPdQ7h5Avbr/aB5pvlFF2p85dyAmaYQoon5wkDm+1x7mnr
-gcUex+EFaIdEHgFZor08R3J1ENf9awUYYcc5E0/aKE/kqyEJ5EUlxGCaCg5Yv+m9
-wZnK8uxgqlr44S6GUzqgKuH8eJYdFWCO792kdULuoS6vRk+TfAw=
-=nczi
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8Ncu0ACgkQ3SOs138+
+s6E9+w/+JjZPchwPj6idBmuMBbMOr4W0imsNtOOmtge31wagIjngpHj1pNYFjZ42
+qAgefyMb30w8IWMP8tkKHby4+UOXYE9mb6lqiertUynhPRCQDVu1+o3oWPRnmFd6
+ajnTN7/9ZhXJ83NmYm/h+0Zqk/2mvg6P2DjAdOkw2ioYGmfI9g6gBh6E5ypoC+sV
+Lr5VntibAYLU8+zGjkfg4yyMHHM/ljG4h6F/ybVdfkM0kqomUMkE7TcustiXXosy
+pdwUv53VDf2z1FRs7UbXzZSXY8G7Xo9ZarbUtjpf5+iOr1uys484/PU60qtAY0MC
+gaWp7qRtkYVDjJUNrWKGF8H0P5BNKRPQ8Nd9dyBP/QMhos8e78C6SaWHTbdCJhXr
+FHys9ND/Lvv9lBEq8zG+WvDuhZlbAzjYv0mQ0qn1lDQS45ObJsxnj2Ztg8q91K4W
+gWBmNyiltbRGlSYMFDeWSbvSK7PBNzrg0If3GOh2Ok5nQb3DlxQIBjmnTGeVPrv7
+lS5VjzyLQgxhsoTGURMBLqFICKV5gtNBhMc6FGMzK5QCcjgzdzlP6HeO/feXhYnn
+28gsh8VzOVdIkoyMLZljOp4XsNiQi2sEnG6jGJZjaIB/bt3di/hT0IZkSVt+EjK/
+ilRWmKI08vgWXbM+EnVILaUJDVHN50Zqi41IYhWhyEMaReFdf6s=
+=jJwZ
 -----END PGP SIGNATURE-----
 
---k+w/mQv8wyuph6w0--
+--5/uDoXvLw7AC5HRs--
