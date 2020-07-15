@@ -2,106 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFC802207AD
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jul 2020 10:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 005A722087B
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jul 2020 11:17:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730306AbgGOInv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jul 2020 04:43:51 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8674 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729377AbgGOInu (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jul 2020 04:43:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0ec18c0000>; Wed, 15 Jul 2020 01:42:52 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 15 Jul 2020 01:43:50 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 15 Jul 2020 01:43:50 -0700
-Received: from [10.26.73.219] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jul
- 2020 08:43:44 +0000
-Subject: Re: [PATCH 2/2] usb: tegra: Fix zero length memory allocation
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>
-References: <20200712102837.24340-1-jonathanh@nvidia.com>
- <20200712102837.24340-2-jonathanh@nvidia.com> <20200714093256.GG141356@ulmo>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <9c8ddf99-40fb-547f-81a9-05f0c64c9a5f@nvidia.com>
-Date:   Wed, 15 Jul 2020 09:43:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1730335AbgGOJRa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jul 2020 05:17:30 -0400
+Received: from 8bytes.org ([81.169.241.247]:57566 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729592AbgGOJR3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Jul 2020 05:17:29 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 5C98829A; Wed, 15 Jul 2020 11:17:27 +0200 (CEST)
+Date:   Wed, 15 Jul 2020 11:17:20 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+Cc:     Joerg Roedel <jroedel@suse.de>, Andy Gross <agross@kernel.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Daniel Drake <drake@endlessm.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        jonathan.derrick@intel.com, Jonathan Hunter <jonathanh@nvidia.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        David Rientjes <rientjes@google.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        virtualization@lists.linux-foundation.org,
+        Will Deacon <will@kernel.org>
+Subject: Re: AMD IOMMU + SME + amdgpu regression
+Message-ID: <20200715091720.GV27672@8bytes.org>
+References: <1591915710.rakbpzst8h.none.ref@localhost>
+ <1591915710.rakbpzst8h.none@localhost>
+ <20200622100257.GD31822@suse.de>
+ <1592839701.mxvvths2x9.none@localhost>
 MIME-Version: 1.0
-In-Reply-To: <20200714093256.GG141356@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594802572; bh=3xiQ0vTDOSTESSN096aBDlKYmYjzrdf/LhVyTEamGSc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=nc7TV2jLCSjE3pSrrGfu/3q01u0z0h9PWL0U6XakGVGY4UqrVPyuW4xTolcE0HET4
-         9qp+6VYCgB2I9PqGZaNwqVVNMmtnrC14xan6oxdDMn9q+sx7+8EGXr1cgOFN4KKcdQ
-         vXfNKcIxRyn6hkm/FOHJw2GHkYQ7TVJi3Yfu9cluLqu67f5fkRnbT2NtX7NPw87phJ
-         CXKKVCd8ZVY+UeHBD+bz7iaM7/nPk3s+pVuV3hDpocPthL+c0980bsGJOTmrrUAvqb
-         bhAjyMx2jZvFR8DnFPpDUggd5+451h4klTBbtIZY4hkJxi2knFNDqCJ0orF0ZiUsD+
-         f2UXlqXmCR4ZA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1592839701.mxvvths2x9.none@localhost>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Jun 22, 2020 at 11:30:04AM -0400, Alex Xu (Hello71) wrote:
+> Yes, it works with SME off with dbed452a078 ("dma-pool: decouple 
+> DMA_REMAP from DMA_COHERENT_POOL") applied.
 
-On 14/07/2020 10:32, Thierry Reding wrote:
-> On Sun, Jul 12, 2020 at 11:28:37AM +0100, Jon Hunter wrote:
->> After commit cad064f1bd52 ("devres: handle zero size in devm_kmalloc()")
->> was added system suspend started failing on Tegra186. The kernel log
->> showed that the Tegra XHCI driver was crashing on entry to suspend when
->> attemptin the save the USB context. The problem is caused because we
->> are trying to allocate a zero length array for the IPFS context on
->> Tegra186 and following commit cad064f1bd52 ("devres: handle zero size
->> in devm_kmalloc()") this now causes a NULL pointer deference crash
->> when we try to access the memory. Fix this by only allocating memory
->> for both the IPFS and FPCI contexts when required.
->>
->> Cc: stable@vger.kernel.org
->>
->> Fixes: 5c4e8d3781bc ("usb: host: xhci-tegra: Add support for XUSB context save/restore")
->>
->> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
->> ---
->>  drivers/usb/host/xhci-tegra.c | 22 ++++++++++++++--------
->>  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> Actually it would seem to me that this is no longer a bug after your fix
-> in patch 1. We only ever access tegra->context.ipfs if
-> tegra->soc->ipfs.num_offsets > 0, so the special ZERO_SIZE_PTR case will
-> not actually cause an issue anymore.
-> 
-> The reason why this was crashing was because tegra->context.fpci was
-> allocated with a zero size (because of the bug that you fixed in patch
-> 1) and then that zero-size pointer was dereferenced because the code was
-> correctly checking for tegra->soc->fpci.num_offsets > 0 in the context
-> save and restore.
-> 
-> So I don't think there's a bug here. It's not wrong to allocate a zero-
-> size buffer. It's only a bug to then go and dereference it. Are you
-> still seeing the issue if you leave out this patch and only apply patch
-> 1?
+Okay, I can reproduce the problem on my Ryzen System, and the boot log
+shows various warnings/bugs from the amdgpu driver. I think this should
+be looked at by the AMDGPU folks first, as I didn't really got far
+looking into the GPU drivers code.
 
-Ah yes you are right. OK, we can drop this. I will update the commit
-message to patch 1/1.
+Regards,
 
-Jon
-
--- 
-nvpublic
+	Joerg
