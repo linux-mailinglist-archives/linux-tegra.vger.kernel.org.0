@@ -2,253 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C5EF220CEF
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jul 2020 14:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A733220D15
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jul 2020 14:41:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730872AbgGOMbQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jul 2020 08:31:16 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:9678 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728461AbgGOMbQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jul 2020 08:31:16 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f0ef6d90000>; Wed, 15 Jul 2020 05:30:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 15 Jul 2020 05:31:15 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 15 Jul 2020 05:31:15 -0700
-Received: from [10.24.37.103] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jul
- 2020 12:31:07 +0000
-Subject: Re: [TEGRA194_CPUFREQ PATCH v5 3/4] cpufreq: Add Tegra194 cpufreq
- driver
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-CC:     <rjw@rjwysocki.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
-        <mirq-linux@rere.qmqm.pl>, <devicetree@vger.kernel.org>,
-        <jonathanh@nvidia.com>, <talho@nvidia.com>,
-        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <bbasu@nvidia.com>,
-        <mperttunen@nvidia.com>
-References: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
- <1594649209-29394-4-git-send-email-sumitg@nvidia.com>
- <20200715111631.o46qgajh56pjkwfo@vireshk-i7>
-From:   Sumit Gupta <sumitg@nvidia.com>
-Message-ID: <f2cbe396-6c55-3e22-84b6-fd93db88fab7@nvidia.com>
-Date:   Wed, 15 Jul 2020 18:01:03 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730795AbgGOMj0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jul 2020 08:39:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50008 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730153AbgGOMj0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Jul 2020 08:39:26 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 682D12071B;
+        Wed, 15 Jul 2020 12:39:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594816765;
+        bh=Mm0sOXAApGS6XP4wrEAQonVs/JhhikOUmoPj10egjVk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W71eWUSy8TBUu9FYoHL46wqDxvSanIvgABViG6MBLyv8F3mb2RhaCh1ZmiJRaaCTy
+         8nCFFR6awRTH0qFX1WhtXMknDyGP/uBS0ZsnNlkz7mhvLKvcvv51YigE9pi0fvnyZt
+         ZSjdC3vuPCNlEs/1mG+V6NZPjgXuseQTcLyoDsgU=
+Date:   Wed, 15 Jul 2020 14:39:22 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.7 000/166] 5.7.9-rc1 review
+Message-ID: <20200715123922.GC3134677@kroah.com>
+References: <20200714184115.844176932@linuxfoundation.org>
+ <fc3af2c8-d6ca-0ad1-597e-3bba2292613c@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200715111631.o46qgajh56pjkwfo@vireshk-i7>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594816217; bh=VQDWxbcw8MKnUsRvwe8qTIxaVj+CvfrrW9jG8J1GFd8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=pA2DMnNnByRrm1aSJm2+u4d+QnShXpHPDhLjcDDyZLf1/X3D4evn4++cN6DmExGu8
-         FgN9INQv++2mJzzoeWVMM0QcZjX/GIFnN/8TcK15ZKjHFCKks/SdsHu1KvR0A8afHh
-         LNquFB0OyV8w5HVwanZNEnyIDQUDEyiNy+NgX9UIaeCkml7+nxTg/Q7rZnq4grJtdv
-         aM5AGhzxIrVswIEA4eZhunPnQFWlh9Ryz9KppVW4UzjuY1b4r8KixZmw+ZVPDnKSus
-         lW0mOLR26vlG7axPq9VxWpcvSa37rjsPhIL6a6jLLIn3akMQINVauoZ/tjLptg7H3U
-         8K+IISsoaqQnw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fc3af2c8-d6ca-0ad1-597e-3bba2292613c@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Thank you for the review,
+On Wed, Jul 15, 2020 at 11:50:30AM +0100, Jon Hunter wrote:
+> 
+> On 14/07/2020 19:42, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.7.9 release.
+> > There are 166 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Thu, 16 Jul 2020 18:40:38 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.7.9-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.7.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests are passing for Tegra ...
+> 
+> Test results for stable-v5.7:
+>     11 builds:	11 pass, 0 fail
+>     26 boots:	26 pass, 0 fail
+>     56 tests:	56 pass, 0 fail
+> 
+> Linux version:	5.7.9-rc1-gc2fb28a4b6e4
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra210-p3450-0000,
+>                 tegra30-cardhu-a04
+> 
 
->> Add support for CPU frequency scaling on Tegra194. The frequency
->> of each core can be adjusted by writing a clock divisor value to
->> a MSR on the core. The range of valid divisors is queried from
->> the BPMP.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->> ---
->>   drivers/cpufreq/Kconfig.arm        |   6 +
->>   drivers/cpufreq/Makefile           |   1 +
->>   drivers/cpufreq/tegra194-cpufreq.c | 397 +++++++++++++++++++++++++++++++++++++
->>   3 files changed, 404 insertions(+)
->>   create mode 100644 drivers/cpufreq/tegra194-cpufreq.c
->>
->> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
->> index 15c1a12..f3d8f09 100644
->> --- a/drivers/cpufreq/Kconfig.arm
->> +++ b/drivers/cpufreq/Kconfig.arm
->> @@ -314,6 +314,12 @@ config ARM_TEGRA186_CPUFREQ
->>        help
->>          This adds the CPUFreq driver support for Tegra186 SOCs.
->>
->> +config ARM_TEGRA194_CPUFREQ
->> +     tristate "Tegra194 CPUFreq support"
->> +     depends on ARCH_TEGRA && TEGRA_BPMP
-> 
-> Shouldn't this depend on ARCH_TEGRA_194_SOC instead ? And I asked you
-> to add a default y here itself instead of patch 4/4.
-> 
-Ok.
+Thanks for testing all of these and letting me know.
 
->> +     help
->> +       This adds CPU frequency driver support for Tegra194 SOCs.
->> +
->>   config ARM_TI_CPUFREQ
->>        bool "Texas Instruments CPUFreq support"
->>        depends on ARCH_OMAP2PLUS
->> diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
->> index f6670c4..66b5563 100644
->> --- a/drivers/cpufreq/Makefile
->> +++ b/drivers/cpufreq/Makefile
->> @@ -83,6 +83,7 @@ obj-$(CONFIG_ARM_TANGO_CPUFREQ)             += tango-cpufreq.o
->>   obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)    += tegra20-cpufreq.o
->>   obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)   += tegra124-cpufreq.o
->>   obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)   += tegra186-cpufreq.o
->> +obj-$(CONFIG_ARM_TEGRA194_CPUFREQ)   += tegra194-cpufreq.o
->>   obj-$(CONFIG_ARM_TI_CPUFREQ)         += ti-cpufreq.o
->>   obj-$(CONFIG_ARM_VEXPRESS_SPC_CPUFREQ)       += vexpress-spc-cpufreq.o
->>
->> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
->> +static struct cpufreq_frequency_table *
->> +init_freq_table(struct platform_device *pdev, struct tegra_bpmp *bpmp,
->> +             unsigned int cluster_id)
->> +{
->> +     struct cpufreq_frequency_table *freq_table;
->> +     struct mrq_cpu_ndiv_limits_response resp;
->> +     unsigned int num_freqs, ndiv, delta_ndiv;
->> +     struct mrq_cpu_ndiv_limits_request req;
->> +     struct tegra_bpmp_message msg;
->> +     u16 freq_table_step_size;
->> +     int err, index;
->> +
->> +     memset(&req, 0, sizeof(req));
->> +     req.cluster_id = cluster_id;
->> +
->> +     memset(&msg, 0, sizeof(msg));
->> +     msg.mrq = MRQ_CPU_NDIV_LIMITS;
->> +     msg.tx.data = &req;
->> +     msg.tx.size = sizeof(req);
->> +     msg.rx.data = &resp;
->> +     msg.rx.size = sizeof(resp);
->> +
->> +     err = tegra_bpmp_transfer(bpmp, &msg);
->> +     if (err)
->> +             return ERR_PTR(err);
->> +
->> +     /*
->> +      * Make sure frequency table step is a multiple of mdiv to match
->> +      * vhint table granularity.
->> +      */
->> +     freq_table_step_size = resp.mdiv *
->> +                     DIV_ROUND_UP(CPUFREQ_TBL_STEP_HZ, resp.ref_clk_hz);
->> +
->> +     dev_dbg(&pdev->dev, "cluster %d: frequency table step size: %d\n",
->> +             cluster_id, freq_table_step_size);
->> +
->> +     delta_ndiv = resp.ndiv_max - resp.ndiv_min;
->> +
->> +     if (unlikely(delta_ndiv == 0))
->> +             num_freqs = 1;
->> +     else
->> +             /* We store both ndiv_min and ndiv_max hence the +1 */
->> +             num_freqs = delta_ndiv / freq_table_step_size + 1;
-> 
-> You need {} in the if else blocks here because of the comment here.
-> 
-Ok.
-
->> +
->> +     num_freqs += (delta_ndiv % freq_table_step_size) ? 1 : 0;
->> +
->> +     freq_table = devm_kcalloc(&pdev->dev, num_freqs + 1,
->> +                               sizeof(*freq_table), GFP_KERNEL);
->> +     if (!freq_table)
->> +             return ERR_PTR(-ENOMEM);
->> +
->> +     for (index = 0, ndiv = resp.ndiv_min;
->> +                     ndiv < resp.ndiv_max;
->> +                     index++, ndiv += freq_table_step_size) {
->> +             freq_table[index].driver_data = ndiv;
->> +             freq_table[index].frequency = map_ndiv_to_freq(&resp, ndiv);
->> +     }
->> +
->> +     freq_table[index].driver_data = resp.ndiv_max;
->> +     freq_table[index++].frequency = map_ndiv_to_freq(&resp, resp.ndiv_max);
->> +     freq_table[index].frequency = CPUFREQ_TABLE_END;
->> +
->> +     return freq_table;
->> +}
->> +
->> +static int tegra194_cpufreq_probe(struct platform_device *pdev)
->> +{
->> +     struct tegra194_cpufreq_data *data;
->> +     struct tegra_bpmp *bpmp;
->> +     int err, i;
->> +
->> +     data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
->> +     if (!data)
->> +             return -ENOMEM;
->> +
->> +     data->num_clusters = MAX_CLUSTERS;
->> +     data->tables = devm_kcalloc(&pdev->dev, data->num_clusters,
->> +                                 sizeof(*data->tables), GFP_KERNEL);
->> +     if (!data->tables)
->> +             return -ENOMEM;
->> +
->> +     platform_set_drvdata(pdev, data);
->> +
->> +     bpmp = tegra_bpmp_get(&pdev->dev);
->> +     if (IS_ERR(bpmp))
->> +             return PTR_ERR(bpmp);
->> +
->> +     read_counters_wq = alloc_workqueue("read_counters_wq", __WQ_LEGACY, 1);
->> +     if (!read_counters_wq) {
->> +             dev_err(&pdev->dev, "fail to create_workqueue\n");
->> +             err = -EINVAL;
->> +             goto put_bpmp;
->> +     }
->> +
->> +     for (i = 0; i < data->num_clusters; i++) {
->> +             data->tables[i] = init_freq_table(pdev, bpmp, i);
->> +             if (IS_ERR(data->tables[i])) {
->> +                     err = PTR_ERR(data->tables[i]);
->> +                     goto err_free_res;
->> +             }
->> +     }
->> +
->> +     tegra194_cpufreq_driver.driver_data = data;
->> +
->> +     err = cpufreq_register_driver(&tegra194_cpufreq_driver);
->> +     if (err)
->> +             goto err_free_res;
->> +
->> +     tegra_bpmp_put(bpmp);
->> +
->> +     return err;
-> 
-> rather just do:
-> 
-> if (!err)
->          goto put_bpmp;
-> 
-Sure, will add in next version.
-
->> +
->> +err_free_res:
->> +     tegra194_cpufreq_free_resources();
->> +put_bpmp:
->> +     tegra_bpmp_put(bpmp);
->> +     return err;
->> +}
-> --
-> viresh
-> 
+greg k-h
