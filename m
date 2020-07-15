@@ -2,252 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F571220B9D
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jul 2020 13:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77CE3220BFE
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jul 2020 13:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728411AbgGOLQg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jul 2020 07:16:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49894 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728700AbgGOLQf (ORCPT
+        id S1726648AbgGOLjR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jul 2020 07:39:17 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15656 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725924AbgGOLjR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jul 2020 07:16:35 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46BFDC08C5DD
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Jul 2020 04:16:35 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id g67so2916124pgc.8
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Jul 2020 04:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Al8E5HmATuJ+GiI/GL3GJgZoIv0xq0hJd+rjqtG6u28=;
-        b=Cmd08oWTVw0Awoc8Fml8J+O9ZGWu3GHbpoTMQzmIpXnJ3M0FqILbarAKC80qKeQ3vY
-         vdAlCNIddilloNS8cKdhKPXvfBeU1f//RFbN+wY3YsR9PsvflIm1eUN5mpNdYudM1t1j
-         rYDETtx+aaBL3fP8bklgRBrDu8Skx8OKNF5xkG+LizQSf8sGGmOAIx4iphb/9RCuR2u/
-         AHbK21dFJ5yMu97xivHwEPLnIs/4ng1vb7/JBrdw21wS33TbfLxeKmwSwOsA4C8cNvVB
-         ZcmeaDFb6NCdQ+3GioUaDqAcacMNpTxF97FS6lFKyHAW6M5tF1Nny94FOR77WDVlSd3d
-         nhkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Al8E5HmATuJ+GiI/GL3GJgZoIv0xq0hJd+rjqtG6u28=;
-        b=Zbjse3sQFR5n39IRJ57xneEZBrkUW1yk1opq5pfS18HMzgC7shtc8d+dey+5+XtpB+
-         /SQIKSRwmiHEVVIjOc54xm8gbd8rQzUAgjnQcoOqLUAd23a2qvaVfv7AXFwJlrM+wsWh
-         xqNVPbtVWo4awN1RAWSN1QeRCbDwm5Qc+fCaqxjK8PRoex4HBp4QI+ih/rl8FjUX6Ia9
-         z+bzwWwRN+FH767z2WScFOJZuHJJl+VvS2TRL1DR4jWjn/ejP/UwrLhhg1AcYXUz8/IH
-         jdTos0aYKiIWCZl8Fg8lZTOS4/uYa7vYUE7LfcMHcB9320oqLJDfcd/pvJtC+5ASejXO
-         TnlQ==
-X-Gm-Message-State: AOAM532umkAg8ylTdK5t3Ra2dU2KO9J+JuqkXL9dA+aMH0iLANvuMbmv
-        sFmaABFOLpualpIawvfe4hxvUQ==
-X-Google-Smtp-Source: ABdhPJwYyn51fkcsmGpAYEj+Ce/SdbgTijjhZogOt1iy4T+cQInWGwNY6/4HUVohxJ+skFofTxZPpA==
-X-Received: by 2002:a63:c509:: with SMTP id f9mr7701828pgd.144.1594811794511;
-        Wed, 15 Jul 2020 04:16:34 -0700 (PDT)
-Received: from localhost ([122.172.34.142])
-        by smtp.gmail.com with ESMTPSA id o12sm2053461pfu.188.2020.07.15.04.16.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Jul 2020 04:16:33 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 16:46:31 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, robh+dt@kernel.org,
-        mirq-linux@rere.qmqm.pl, devicetree@vger.kernel.org,
-        jonathanh@nvidia.com, talho@nvidia.com, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
-        mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ PATCH v5 3/4] cpufreq: Add Tegra194 cpufreq
- driver
-Message-ID: <20200715111631.o46qgajh56pjkwfo@vireshk-i7>
-References: <1594649209-29394-1-git-send-email-sumitg@nvidia.com>
- <1594649209-29394-4-git-send-email-sumitg@nvidia.com>
+        Wed, 15 Jul 2020 07:39:17 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f0eea730001>; Wed, 15 Jul 2020 04:37:23 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 15 Jul 2020 04:39:17 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 15 Jul 2020 04:39:17 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jul
+ 2020 11:39:12 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 15 Jul 2020 11:39:12 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.73.219]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f0eeade0000>; Wed, 15 Jul 2020 04:39:11 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, <stable@vger.kernel.org>
+Subject: [PATCH V2] usb: tegra: Fix allocation for the FPCI context
+Date:   Wed, 15 Jul 2020 12:38:42 +0100
+Message-ID: <20200715113842.30680-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200712102837.24340-1-jonathanh@nvidia.com>
+References: <20200712102837.24340-1-jonathanh@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1594649209-29394-4-git-send-email-sumitg@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594813043; bh=uuPzFrd79X6snwWrV1rXcJChGJVyio56NAiQtRIpVMc=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=KMonAL2NbiHVsPl3rkICVkx73w8mC+CLtMefaqfM1KgIRQsRrVud30eixHuu3Zm0c
+         YF5DXh1QC43if5k/v50J6t7ajWSsTt0YEaXxyENBVBSLRIAobeVQU4FNheHuVb9R0R
+         Ay+/3YyQaGcMePqWIvUGnW9YuKZDNvaWBjC/F1ziF5ga3sGJiPjpzODCiRqJv33TRU
+         6KsW+6oeB85vHFI9FRD0Z1gizhPwW6g4hwh+NzsYUQHknuqsSK8eUX9UOEVEIjKrOb
+         uXM1GjDqHQts882dmRP3XnmWs6AJ/Ts1co3nV0WlbuQi9aPjL6KJms8FtLivukX/lf
+         p6rf6QuZ1gMHA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 13-07-20, 19:36, Sumit Gupta wrote:
-> Add support for CPU frequency scaling on Tegra194. The frequency
-> of each core can be adjusted by writing a clock divisor value to
-> a MSR on the core. The range of valid divisors is queried from
-> the BPMP.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/Kconfig.arm        |   6 +
->  drivers/cpufreq/Makefile           |   1 +
->  drivers/cpufreq/tegra194-cpufreq.c | 397 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 404 insertions(+)
->  create mode 100644 drivers/cpufreq/tegra194-cpufreq.c
-> 
-> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
-> index 15c1a12..f3d8f09 100644
-> --- a/drivers/cpufreq/Kconfig.arm
-> +++ b/drivers/cpufreq/Kconfig.arm
-> @@ -314,6 +314,12 @@ config ARM_TEGRA186_CPUFREQ
->  	help
->  	  This adds the CPUFreq driver support for Tegra186 SOCs.
->  
-> +config ARM_TEGRA194_CPUFREQ
-> +	tristate "Tegra194 CPUFreq support"
-> +	depends on ARCH_TEGRA && TEGRA_BPMP
+Commit 5c4e8d3781bc ("usb: host: xhci-tegra: Add support for XUSB
+context save/restore") is using the IPFS 'num_offsets' value when
+allocating memory for FPCI context instead of the FPCI 'num_offsets'.
 
-Shouldn't this depend on ARCH_TEGRA_194_SOC instead ? And I asked you
-to add a default y here itself instead of patch 4/4.
+After commit cad064f1bd52 ("devres: handle zero size in devm_kmalloc()")
+was added system suspend started failing on Tegra186. The kernel log
+showed that the Tegra XHCI driver was crashing on entry to suspend when
+attempting the save the USB context. On Tegra186, the IPFS context has a
+zero length but the FPCI content has a non-zero length, and because of
+the bug in the Tegra XHCI driver we are incorrectly allocating a zero
+length array for the FPCI context. The crash seen on entering suspend
+when we attempt to save the FPCI context and following commit
+cad064f1bd52 ("devres: handle zero size in devm_kmalloc()") this now
+causes a NULL pointer deference when we access the memory. Fix this by
+correcting the amount of memory we are allocating for FPCI contexts.
 
-> +	help
-> +	  This adds CPU frequency driver support for Tegra194 SOCs.
-> +
->  config ARM_TI_CPUFREQ
->  	bool "Texas Instruments CPUFreq support"
->  	depends on ARCH_OMAP2PLUS
-> diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
-> index f6670c4..66b5563 100644
-> --- a/drivers/cpufreq/Makefile
-> +++ b/drivers/cpufreq/Makefile
-> @@ -83,6 +83,7 @@ obj-$(CONFIG_ARM_TANGO_CPUFREQ)		+= tango-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)	+= tegra186-cpufreq.o
-> +obj-$(CONFIG_ARM_TEGRA194_CPUFREQ)	+= tegra194-cpufreq.o
->  obj-$(CONFIG_ARM_TI_CPUFREQ)		+= ti-cpufreq.o
->  obj-$(CONFIG_ARM_VEXPRESS_SPC_CPUFREQ)	+= vexpress-spc-cpufreq.o
->  
-> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
-> +static struct cpufreq_frequency_table *
-> +init_freq_table(struct platform_device *pdev, struct tegra_bpmp *bpmp,
-> +		unsigned int cluster_id)
-> +{
-> +	struct cpufreq_frequency_table *freq_table;
-> +	struct mrq_cpu_ndiv_limits_response resp;
-> +	unsigned int num_freqs, ndiv, delta_ndiv;
-> +	struct mrq_cpu_ndiv_limits_request req;
-> +	struct tegra_bpmp_message msg;
-> +	u16 freq_table_step_size;
-> +	int err, index;
-> +
-> +	memset(&req, 0, sizeof(req));
-> +	req.cluster_id = cluster_id;
-> +
-> +	memset(&msg, 0, sizeof(msg));
-> +	msg.mrq = MRQ_CPU_NDIV_LIMITS;
-> +	msg.tx.data = &req;
-> +	msg.tx.size = sizeof(req);
-> +	msg.rx.data = &resp;
-> +	msg.rx.size = sizeof(resp);
-> +
-> +	err = tegra_bpmp_transfer(bpmp, &msg);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> +	/*
-> +	 * Make sure frequency table step is a multiple of mdiv to match
-> +	 * vhint table granularity.
-> +	 */
-> +	freq_table_step_size = resp.mdiv *
-> +			DIV_ROUND_UP(CPUFREQ_TBL_STEP_HZ, resp.ref_clk_hz);
-> +
-> +	dev_dbg(&pdev->dev, "cluster %d: frequency table step size: %d\n",
-> +		cluster_id, freq_table_step_size);
-> +
-> +	delta_ndiv = resp.ndiv_max - resp.ndiv_min;
-> +
-> +	if (unlikely(delta_ndiv == 0))
-> +		num_freqs = 1;
-> +	else
-> +		/* We store both ndiv_min and ndiv_max hence the +1 */
-> +		num_freqs = delta_ndiv / freq_table_step_size + 1;
+Cc: stable@vger.kernel.org
 
-You need {} in the if else blocks here because of the comment here.
+Fixes: 5c4e8d3781bc ("usb: host: xhci-tegra: Add support for XUSB context save/restore")
 
-> +
-> +	num_freqs += (delta_ndiv % freq_table_step_size) ? 1 : 0;
-> +
-> +	freq_table = devm_kcalloc(&pdev->dev, num_freqs + 1,
-> +				  sizeof(*freq_table), GFP_KERNEL);
-> +	if (!freq_table)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	for (index = 0, ndiv = resp.ndiv_min;
-> +			ndiv < resp.ndiv_max;
-> +			index++, ndiv += freq_table_step_size) {
-> +		freq_table[index].driver_data = ndiv;
-> +		freq_table[index].frequency = map_ndiv_to_freq(&resp, ndiv);
-> +	}
-> +
-> +	freq_table[index].driver_data = resp.ndiv_max;
-> +	freq_table[index++].frequency = map_ndiv_to_freq(&resp, resp.ndiv_max);
-> +	freq_table[index].frequency = CPUFREQ_TABLE_END;
-> +
-> +	return freq_table;
-> +}
-> +
-> +static int tegra194_cpufreq_probe(struct platform_device *pdev)
-> +{
-> +	struct tegra194_cpufreq_data *data;
-> +	struct tegra_bpmp *bpmp;
-> +	int err, i;
-> +
-> +	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->num_clusters = MAX_CLUSTERS;
-> +	data->tables = devm_kcalloc(&pdev->dev, data->num_clusters,
-> +				    sizeof(*data->tables), GFP_KERNEL);
-> +	if (!data->tables)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, data);
-> +
-> +	bpmp = tegra_bpmp_get(&pdev->dev);
-> +	if (IS_ERR(bpmp))
-> +		return PTR_ERR(bpmp);
-> +
-> +	read_counters_wq = alloc_workqueue("read_counters_wq", __WQ_LEGACY, 1);
-> +	if (!read_counters_wq) {
-> +		dev_err(&pdev->dev, "fail to create_workqueue\n");
-> +		err = -EINVAL;
-> +		goto put_bpmp;
-> +	}
-> +
-> +	for (i = 0; i < data->num_clusters; i++) {
-> +		data->tables[i] = init_freq_table(pdev, bpmp, i);
-> +		if (IS_ERR(data->tables[i])) {
-> +			err = PTR_ERR(data->tables[i]);
-> +			goto err_free_res;
-> +		}
-> +	}
-> +
-> +	tegra194_cpufreq_driver.driver_data = data;
-> +
-> +	err = cpufreq_register_driver(&tegra194_cpufreq_driver);
-> +	if (err)
-> +		goto err_free_res;
-> +
-> +	tegra_bpmp_put(bpmp);
-> +
-> +	return err;
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+---
 
-rather just do:
+Changes since V1:
+- Corrected commit message
+- Added Thierry's ACK
 
-if (!err)
-        goto put_bpmp;
+ drivers/usb/host/xhci-tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +
-> +err_free_res:
-> +	tegra194_cpufreq_free_resources();
-> +put_bpmp:
-> +	tegra_bpmp_put(bpmp);
-> +	return err;
-> +}
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index 9ce28ab47f4b..014d79334f50 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -856,7 +856,7 @@ static int tegra_xusb_init_context(struct tegra_xusb *tegra)
+ 	if (!tegra->context.ipfs)
+ 		return -ENOMEM;
+ 
+-	tegra->context.fpci = devm_kcalloc(tegra->dev, soc->ipfs.num_offsets,
++	tegra->context.fpci = devm_kcalloc(tegra->dev, soc->fpci.num_offsets,
+ 					   sizeof(u32), GFP_KERNEL);
+ 	if (!tegra->context.fpci)
+ 		return -ENOMEM;
 -- 
-viresh
+2.17.1
+
