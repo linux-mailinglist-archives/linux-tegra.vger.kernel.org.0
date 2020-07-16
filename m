@@ -2,71 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28ABF2223D6
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 15:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C343E2223F4
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 15:35:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728439AbgGPNZa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jul 2020 09:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37692 "EHLO
+        id S1728579AbgGPNe5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jul 2020 09:34:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726537AbgGPNZa (ORCPT
+        with ESMTP id S1728260AbgGPNe5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jul 2020 09:25:30 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD04BC061755;
-        Thu, 16 Jul 2020 06:25:29 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id b15so4750402edy.7;
-        Thu, 16 Jul 2020 06:25:29 -0700 (PDT)
+        Thu, 16 Jul 2020 09:34:57 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C46C061755;
+        Thu, 16 Jul 2020 06:34:57 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id by13so4756468edb.11;
+        Thu, 16 Jul 2020 06:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=wxDSUON4bNQ6a2DQonZlCF9UZpyQ3jf0SfINVAYmQXU=;
-        b=jF5pPaRocAv8Pi3B4xGhssM0BpOzI3j6YCD/OOsmRsMquFLHOM1HvMCbYCf5zcmu2b
-         cDO0BJoqyYlROSbHTyY44VTdT0oAIKPx24QLOMwQtBa22eje3SsI0cZlCvXTBRv35PDd
-         X0uIf2KbhEbJj18/GVjaBXAw8HNHJ1uMAi83s9oGEzchQgMA9A3B8IyB0fFdFRAgePr0
-         2JjsKAGb3a9ZxYvBmVGPSJgqXOlWVnBKmi23dtc73RFMXyXMJe5fc+sGSm22Ir8+CZGt
-         DIFs10STo/22lI3Faa22k5075FaY4Mt+C9fQR7Mpp42tznRfBunL4lHnQtYLBmYmqU67
-         JZjg==
+        bh=QmxJzAqj8acGvVOZn8jwBv3VA4GKb9FdYZOWeVpHqgY=;
+        b=qCYfE678wmXVOSh7y3NoCzQ2arV7maAlNilVxwIOjNkaW/KZz27JBGkxz5KYAjtyti
+         yZ+3+3MYjQSYlk+PIR3PUpzpZ6zguoyTGDXZVWJsoWxW7OZ3G35U6TQeMW2NeFteiQWl
+         yJ30pS86Y4mGxUW8eMRJ9Wj26dDLY5pcBuz6GkQ6M4syuDJvtL7h2sbOB0aVoGdYxSmb
+         QdhceUSO1r4AMRh8Og08BXpL/Df1N5Xus/w5tsdAjF2pE/2m1xCgZF+GqBazU2MrR3iA
+         Hj2wiFkCqtNimwizzyy1v4xQkjRBxDPmd3XPrnN9AfqclTCahGAm2AVPFhd15Ah3UAxa
+         6g3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wxDSUON4bNQ6a2DQonZlCF9UZpyQ3jf0SfINVAYmQXU=;
-        b=ODaghb9Zuc4006n52xiXOgTHR/1aMk7JpWaJsP5/KM6MsHds2TCFP9QaHmoi+cmGlF
-         AZon0xELbniz8RfoN1kGAHmz1gewq+lA/weCknOQowd6mSI08mFUP4118CKVYroNZUdb
-         tgMCdrQqT+YGrPmXUxTiqTNtXLEryOV2qCQ+8SW7LXM1cbavywq6Ict9Q/F9Mqt7RFMo
-         ZtH9Tag8jfyZSDnAtKAZTnRrjSdnYCeW8d2Jm4uAFugAJY+bJx7FcPLXOBtTUztVNFcL
-         MyE8KejZ+Hfu92Q8QEEOaLZJH7DzW6xeAsbnqIG4lCVGAAsv5dPdppHxTNSEVRiy7Zyu
-         voBQ==
-X-Gm-Message-State: AOAM531ZzG11dllp7J8ED+LTOWS1je/v7afkuTzpyvxn69FG327SNMlB
-        tzq6oXtll/aGL6XEBX3fHXs=
-X-Google-Smtp-Source: ABdhPJzFCwsmj6Poe1kED2sdOGgcqVM/kYiz85OwlXHByRn0j+A8T91V658Sx1AmmSYRuO0HG6FDcQ==
-X-Received: by 2002:a50:8d5a:: with SMTP id t26mr4682313edt.282.1594905928521;
-        Thu, 16 Jul 2020 06:25:28 -0700 (PDT)
+        bh=QmxJzAqj8acGvVOZn8jwBv3VA4GKb9FdYZOWeVpHqgY=;
+        b=jq4iwsYGufe1fCgn2N3lMoJOeNKGedp3edW2gUV/axazIVRx4aN9hIN+GlXg8JACQ+
+         i7897wGUr2USXhE/+MgUle2ux9CgTs1CE1P1X+ss8Atfhhtm2qvV39291lm3aIM7yV8+
+         MGUtZjkpaTLSYPE2AcAuglSiyJgu2l9+eD06KY/YsQ0uDnkpN3ERzWWSoZBBADIXbxwt
+         1zB383ewhcSA/SjofY0QjUdHTD/WacndNrUdcptCYpbUJdmwyNaeFcSHffQayt/bKFyr
+         vzVJdt6H0cx4xUVSnnGgucFepoJJ/fDl27hxKZNshcO2BJKA759h1J4TFePaiRNA13x9
+         Mykw==
+X-Gm-Message-State: AOAM533iDXdVq6kbGAwKO5qG0EZCC06jst/CjL0inH/VANk/iYwpEX/1
+        4xJPdhX4TQTaXjQbWe4xmdw=
+X-Google-Smtp-Source: ABdhPJw0rCFRJeytOYppBCsq/TAXQWqyMPzMyq8a2a4DDMh36NJT34ibY9iByeVFo2LJpEuJ9ecCEw==
+X-Received: by 2002:aa7:cdc2:: with SMTP id h2mr4669366edw.274.1594906495731;
+        Thu, 16 Jul 2020 06:34:55 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id bs18sm5369038edb.38.2020.07.16.06.25.26
+        by smtp.gmail.com with ESMTPSA id z5sm5031303ejw.114.2020.07.16.06.34.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 06:25:26 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 15:25:25 +0200
+        Thu, 16 Jul 2020 06:34:51 -0700 (PDT)
+Date:   Thu, 16 Jul 2020 15:34:50 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
-        digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v3 02/18] arm64: tegra: Add missing clocks and
- power-domains to Tegra210 VI I2C
-Message-ID: <20200716132525.GI535268@ulmo>
-References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
- <1594786855-26506-3-git-send-email-skomatineni@nvidia.com>
+To:     Qinglang Miao <miaoqinglang@huawei.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] gpu: host1x: Convert to DEFINE_SHOW_ATTRIBUTE
+Message-ID: <20200716133450.GJ535268@ulmo>
+References: <20200716090323.13274-1-miaoqinglang@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="J+eNKFoVC4T1DV3f"
+        protocol="application/pgp-signature"; boundary="EVh9lyqKgK19OcEf"
 Content-Disposition: inline
-In-Reply-To: <1594786855-26506-3-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <20200716090323.13274-1-miaoqinglang@huawei.com>
 User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -74,47 +69,45 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---J+eNKFoVC4T1DV3f
+--EVh9lyqKgK19OcEf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2020 at 09:20:39PM -0700, Sowjanya Komatineni wrote:
-> Tegra210 VI I2C is in VE power domain and i2c-vi node should have
-> power-domains property.
+On Thu, Jul 16, 2020 at 05:03:23PM +0800, Qinglang Miao wrote:
+> From: Yongqiang Liu <liuyongqiang13@huawei.com>
 >=20
-> Current Tegra210 i2c-vi device node is missing both VI I2C clocks
-> and power-domains property.
+> Use DEFINE_SHOW_ATTRIBUTE macro to simplify the code.
 >=20
-> This patch adds them.
->=20
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> Signed-off-by: Yongqiang Liu <liuyongqiang13@huawei.com>
 > ---
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/host1x/debug.c | 28 ++++------------------------
+>  1 file changed, 4 insertions(+), 24 deletions(-)
 
-Applied, thanks.
+This doesn't apply. Can you please resend, based on something like
+linux-next?
 
+Thanks,
 Thierry
 
---J+eNKFoVC4T1DV3f
+--EVh9lyqKgK19OcEf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8QVUUACgkQ3SOs138+
-s6F3SA//ZjtMB7xBZ6HBUcP64/WJge+YF7WI2y+H5sKJfBeM0U1C8alR16PQq11z
-F96RGmLb3MXmS7xe1GldWEsybS+L6p0earsr70YTyylfbH/n5Y7O/lGIIyuh+GI4
-uye1Mzg18tuNCdnc2M/b8guscVfhYYpKROQTEUGOipxUmvW+i0s2A323W6glfBEY
-Q2e02KK/6m1wm0YF8I4wwdOBUn0Crel/ojaFeAO/HL21prKj8a+inJPicD2GSn4X
-ADDWtoMfHkOaL5zcr8bC05QFZuSRvIajdKKeuJ5xtVGqrTCuLJR1LOfw0xLH7daV
-eLxTYcBWRJ/bkNBlUpnluibploP+2bVEHTRDQqhpTFMZoGn30hwL67amumDALk/4
-ytsF+tZyXr+ixMzA/iuv76T+GnkFWKm7/qe9bhnNgyV/GooJ26xMOog+m0BUQvbE
-D749ofyu7TlH08Y9vkGjXRztqLoXyisyTnNLHaifoUBoMY7W4xROUSScHIZWc6sI
-PEZlt+9JJt8uT+1GWWdzphv2Fr1OI1FoWQ645E3dM+GhlqTh/4qde0yAM3iA7MdK
-Ihp7UQXIbtiThykIrvMbrSxB0JpIyiXpol9HxXSlyk/HvRqstcc2DgbfDARkPlcb
-H4PXNn4diPdJp9ow+yyqHIsDAx6b9YpTO2YBO2aEMjA3CT1ivzY=
-=gsdR
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8QV3kACgkQ3SOs138+
+s6GieRAAjSgN0wLDgrWyzyjLy54sFADuaoAruNpwMPVnPG89QRmsEboAxzzDdZDD
+/zlTd/PJVCZVKWbIlLkP7Rna+jyUuhamF/BgQujzjbSYk76Gk1KCuhoZw86z8KGG
+Fh23wZ+zX1RP+URwJatUvhZUKKEVaQl8ldHWBQG32bChAJLf2EhOqrIsMA0v0FE7
+CQneC38MD9kT3m/LqV2yWyvGAP0Xy8/n0hqLSyZpPBvGLpZ/D4doXZb1Xs1PTQIp
+kMi+Ia4RKh4VHRxVTDovG9v/3aBY4jX8SqFqZBUM9CMJynezT4+iZtHSx7xxw7Ir
+9a1BO0r/xAMcgq5m4N8RTE5Q07kOCf/Hi4qTP5MQu1E3jYitOUB0AAuyvwFYa074
+NBx0kOJmJq/rL03WZ6RM/euMCQCDwh2e9zJfiXu2eLA8R73bW+kClRv4u7RstsKc
+rwQn3BjuJWY6Y183D6ZnAN7IRwZL/vxFoWvK5LhfnDTbNtHWGmZMvf3Q6FRk9U1r
+jUdSy8Ptc5ozFt2IGWzTePsYp6BCwRMQ0Ja6CpMiw4hMgRJDSHmk5woB8heUY6LK
+O8GbqeQ3vkz96MLjtoUxsdsPEz/Ebkh7GQXOzrQ9QyN+/jAgvE5QfGicXK+HbGrO
+TcTST7suEXl4F+LubMElfG7k87ZvgRTPYaKNBo3tTOKhaX8K9dM=
+=3yVO
 -----END PGP SIGNATURE-----
 
---J+eNKFoVC4T1DV3f--
+--EVh9lyqKgK19OcEf--
