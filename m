@@ -2,127 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED7092225B2
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 694AE222670
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 17:07:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728889AbgGPOdx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jul 2020 10:33:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgGPOdv (ORCPT
+        id S1726963AbgGPPF0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jul 2020 11:05:26 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3294 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725867AbgGPPFZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:33:51 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F07C061755;
-        Thu, 16 Jul 2020 07:33:51 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id d16so4888022edz.12;
-        Thu, 16 Jul 2020 07:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YGCp2APVC4UtHLQu1ncbQQ8xQNK26HTOlJJtmViM0RM=;
-        b=Ku55tpGp4Q1NZye//rZ+dDYbha/NX5x0phnPvAMND1wpOpQhbumYHyk+wB4/hDCkVv
-         3bhqJYWy4QM/FhzTJalo6EGa5XWmCaGjIMcBZnFi+syCQn6QkHGzbvM+OJYYxl2p4/Iv
-         lOm7kyZHFLsfrHiuQRwgwg20eiEpf9n6/BHGinihXxDP/BIFCqkiGxB5U+LOLHHmdBtj
-         Z/nH/bMavZxUagHifY704/n9EnCuJ6JTQs0qS4rgnGzjmWcdBSJZszTKqhXFznAjQVNA
-         0XzWF4fGSVnb41jBTGdsbj6cyOa1f3Tbc6l3kKeT4Ur/QlpVh+FRXi6VIKBggu2rWYDl
-         h4vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YGCp2APVC4UtHLQu1ncbQQ8xQNK26HTOlJJtmViM0RM=;
-        b=cSrzCESJsYtONP763Vm4rKKdUgPUd6wdI2emX2C2hXu596b5bqCyz/n3WJ6hD9vsug
-         DFHKcyRHh5xYhzbi4A4XaaARLkcKbhtRlMBvoeX8hCdvK4YY7vVwE6wnOOn1MQ9G7LHP
-         ghu0BIj0nP0jHbAOAdbsSz0OM0mCsDj3epJ4PXLFym1ck4+IZRGa2KCWzAtPhHsgCY6t
-         HMnBuP2jzc7IvZbl+vqgk3rZ4sY4cl1s1ol0QxJmdnFP0uYPDALSyLRLKAV9f0m8/jwO
-         5i70ix1/6QKkQDswydQs9OhX+rhX2SGy0zg4q3Ul0F3y7iJ/tfcqoclF7yBP1dUB/eXQ
-         991w==
-X-Gm-Message-State: AOAM531hWNe4AHS8xu6JboL6zW0avilsdyOEelYRUqH1wMcP+899/VKo
-        qZWyig/ax23R2F3WdcFp9Z0=
-X-Google-Smtp-Source: ABdhPJwEroVrR5v1BDRHGeZoUvW37zCydzEd4NVRPvNBUEbr1KgHeAyXkxIvEcf2zUnX2B0lyGHz4g==
-X-Received: by 2002:a05:6402:14c1:: with SMTP id f1mr4920406edx.342.1594910030012;
-        Thu, 16 Jul 2020 07:33:50 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id d19sm5270823ejk.47.2020.07.16.07.33.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 07:33:47 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Terje Bergstrom <tbergstrom@nvidia.com>,
-        Debarshi Dutta <ddutta@nvidia.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/2] arm64: tegra: Add the GPU on Tegra194
-Date:   Thu, 16 Jul 2020 16:33:41 +0200
-Message-Id: <20200716143341.545804-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200716143341.545804-1-thierry.reding@gmail.com>
-References: <20200716143341.545804-1-thierry.reding@gmail.com>
+        Thu, 16 Jul 2020 11:05:25 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f106c420000>; Thu, 16 Jul 2020 08:03:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 16 Jul 2020 08:05:25 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 16 Jul 2020 08:05:25 -0700
+Received: from [10.2.55.46] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jul
+ 2020 15:05:25 +0000
+Subject: Re: [PATCH] arm64: tegra: Add the GPU on Tegra194
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, Debarshi Dutta <ddutta@nvidia.com>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200716120138.532906-1-thierry.reding@gmail.com>
+ <3748e071-4d08-8e77-43f6-de37f5a7eb1e@nvidia.com>
+ <20200716131753.GG535268@ulmo>
+X-Nvconfidentiality: public
+From:   Terje Bergstrom <tbergstrom@nvidia.com>
+Message-ID: <4f9cfab5-2a5d-379c-ba17-1aca896b4110@nvidia.com>
+Date:   Thu, 16 Jul 2020 08:05:24 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200716131753.GG535268@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594911810; bh=1m4MBOQmGuqn1yj+3sBKAAhi5L6A2ySqJ2jLxgF5xwo=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Transfer-Encoding:Content-Language;
+        b=CwxJwhU0Ipe0RKk5/SH2IKx9pXuK2dkpXLu3F482UOuHmXnnXrY0TMTK+v0oW15qQ
+         ota/KTCAsCypP0ChUgkBQXumCRBx4+x4Uh4e4/aJ2ccKr+m+djkLJwSSJAkxvk1MkU
+         5faZlJ+p0hRiJpNbrEKOWeLihTEGSx/poMwUOVtqKIAMEmmRPHLWy/THm6ufmEdMYY
+         6yRzGKNDti/vusXJQFv7KSBuuJJ+BncKbus+II4hn7KFJ1yybXHEozXS4mQART0zXw
+         fvIag38Xc2DsXrxqE9P9Yv3OHrCPWOqUcQ4abcnkV0CK4xmu034kTAfI4w6KW1Pzhs
+         r1ExPv7Llxe0A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On 7/16/2020 6:17 AM, Thierry Reding wrote:
+> On Thu, Jul 16, 2020 at 01:59:33PM +0100, Jon Hunter wrote:
+>> I also see that for gv11b we populate 'dma-coherent' and so we should
+>> probably add this as well.
+> Do we know for certain that the GPU is DMA coherent? I've only tested
+> this (with local patches to Nouveau) without dma-coherent, so I have not
+> actually verified that it works without.
+>
+> I vaguely recall reading that there are different apertures for sysmem,
+> one for coherent sysmem and another for non-coherent sysmem. So I'm not
+> sure if dma-coherent here will work without additional code in the
+> driver to ensure that all memory is allocated from the coherent sysmem
+> aperture.
 
-The GPU found on NVIDIA Tegra194 SoCs is a Volta generation GPU called
-GV11B.
+We do have the choices of coherent and non-coherent memory accesses in 
+the iGPU via the two sysmem apertures. But in Tegra194 we're forcing 
+coherency from the memory subsystem side, so all accesses are coherent.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 33 ++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 98c366ab4aab..14da0793be69 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1395,6 +1395,39 @@ sor3: sor@15bc0000 {
- 				nvidia,interface = <3>;
- 			};
- 		};
-+
-+		gpu@17000000 {
-+			compatible = "nvidia,gv11b";
-+			reg = <0x17000000 0x10000000>,
-+			      <0x18000000 0x10000000>;
-+			interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "stall", "nonstall";
-+			clocks = <&bpmp TEGRA194_CLK_GPCCLK>,
-+				 <&bpmp TEGRA194_CLK_GPU_PWR>;
-+			clock-names = "gpu", "pwr";
-+			resets = <&bpmp TEGRA194_RESET_GPU>;
-+			reset-names = "gpu";
-+			status = "disabled";
-+
-+			power-domains = <&bpmp TEGRA194_POWER_DOMAIN_GPU>;
-+			interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVL1R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL1RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL1W &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL2R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL2RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL2W &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL3R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL3RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL3W &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL4R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL4RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL4W &emc>;
-+			interconnect-names = "dma-mem", "read-0-hp", "write-0",
-+					     "read-1", "read-1-hp", "write-1",
-+					     "read-2", "read-2-hp", "write-2",
-+					     "read-3", "read-3-hp", "write-3";
-+		};
- 	};
- 
- 	pcie@14100000 {
--- 
-2.27.0
-
+Terje
