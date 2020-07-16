@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE43222252A
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B236022252B
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728863AbgGPOTU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jul 2020 10:19:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
+        id S1728865AbgGPOTW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jul 2020 10:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728218AbgGPOTU (ORCPT
+        with ESMTP id S1728218AbgGPOTV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:19:20 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DBCC061755
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:19 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id rk21so6747969ejb.2
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:19 -0700 (PDT)
+        Thu, 16 Jul 2020 10:19:21 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A104CC061755
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:21 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id w6so6733614ejq.6
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qRvl4Cg342hduyQ87yrRPUpPC9ZQkFYCJmOo+8OGXrg=;
-        b=BUJOV4iY+mmu4QTHeMLd66xownrZFgCNSV0T33X8eEuaIfkHtuNDzbP5MODjumKhtz
-         iuRxSGzHM+g/evz0AvHiRp+7R+vbjJQOI95MJOEoxaPQaQY6TmIEcxQ7NNd6jbM+CEn1
-         ro8ZgORmpPNewu2cXOJblWHfQ2B8sqDR//YhpFhLXm2JRnP3FYH/S64Ldp3JxEkfuBnY
-         B1MmJfdQjsC5MpOgwIRLIiwOisSq8QQIMGBlXG6p1cmyGg6Sm4tT5WP+g0/W9NBQocqx
-         fpgUDyiCu89Tahgjz8dw2OsqHpEval/L8S35pHTh3HQ8FE96My1ygMQY6TV9USL6xFws
-         AP3g==
+        bh=j9bjPnYHkc1ScxpRo4KaxBbK7+DK+SRAE3wJZb7d3Do=;
+        b=cy8g5b534FiA0iB75cl36AkRrVlXS03zM/Zp3zirVx/LHlYR3vjHPMOxYwe8JLlvOS
+         2c/10IL6QBBG0UC3Bo0TMovR4w1IpcO9YFN5EejG8tGSlZQtIyi6Y4vQOs9ksxmvmVaO
+         CNhfY3mgwvkNCxQs19kPaO9Q/V5gUh5PFWoOQLye/VGWLPPega8/EXsAZdpODgmXDI6n
+         shKmgGbYXGFA9kcZSuOA0XFa3OXj91LmQ82y+q36kFAsVYPPvlNfATQsLLuJN90hnzvO
+         LcyyfzCcwAlIGRT6OHE5XPX8jD4eJ/3KwRxhbV2wcfz7qKq2MCAjYQp3g79cp8YQ3Qhu
+         y8ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qRvl4Cg342hduyQ87yrRPUpPC9ZQkFYCJmOo+8OGXrg=;
-        b=XjfkQh9eTBZalO7B0vbrSVlqtfQW3RY7lP8bvk0f3nITZuxsCPQbUySVA3OzaWlYqV
-         ySkdi7Q9sL7MAXlLJSEWmxkre4NKtQvAWrI0NICO8g0p8wrSOWyPhkg1Z7/Q3gnqvtpj
-         Ih6lSsIlhQDs7uBkeITG4zlxHymq9rU+uHxleM8fBjPegvibPLg8HCimi/pNp2/K4iGq
-         v2kdkci0pOnq8wtKvkT9Y4Mco1FkpDcm6xzbadLUh1wCXhLjjK6/2KRfOXfp1tqQNV0V
-         fpQ+FwR8H+2Ch4HTnYQQqrlfBkwBkgZSlsMrELoXh4K3GBcaazYLDJAEy+yNUxrr+lf1
-         RkHg==
-X-Gm-Message-State: AOAM531SMj86uNcrwhGWfbLIQDe4lOsHrCVudbRcFa/7/VetYyAqEHch
-        L+ubjFWB7RFqgqRrnV+OYGw=
-X-Google-Smtp-Source: ABdhPJyumddGVxVVMPvNRyPqIgX7LqNR8HU5saWv82oSzzEAk+aKg429HNLC+7XNKFs7YeccPxvrgw==
-X-Received: by 2002:a17:906:d286:: with SMTP id ay6mr3967155ejb.400.1594909158460;
-        Thu, 16 Jul 2020 07:19:18 -0700 (PDT)
+        bh=j9bjPnYHkc1ScxpRo4KaxBbK7+DK+SRAE3wJZb7d3Do=;
+        b=J8mp/mRmiCCwjntFV4fm95OwOELYrKwd+OW4RS02CVePlgM3nWyd7UGU/ERtj+4EHY
+         mzqC6Aa2MJcrs22/mOVUj06048T53qlx6lf6c/ChIUvTXSC+IusTGgbi9t7sx5+y9gEm
+         rVlUIRodqPD3M7onxcSsSBlSL9ubJR3HItlmmaxBjhm66RVkoIwvhEUh0qQzBDGDLJ19
+         hHJPViI0oGNgjO3P62/mJULsR9J086tPnI+hkiaoxhpwYCII28j945OmdxzU2BQatcOU
+         BieZGIFmF6OUyspAGC18xJGhUsPGE4mXAlYpOmTG9Ppf5w72OUhPMa7ixnOd93zOuDsV
+         4ORQ==
+X-Gm-Message-State: AOAM530xGT6cfDEjGMv+34XxSqyEhh6vWufAXR8vv/aYedOCnTfA9di7
+        AKsaol8QxvEtzGPbIAqCRgo=
+X-Google-Smtp-Source: ABdhPJzLMSAWmGHA5ZypciHPNCoDxd6qUqzCy2tFP13QKkOCtOi/Kgs/pLVy9hD6BNt8VFYH0VcoQA==
+X-Received: by 2002:a17:907:72c7:: with SMTP id du7mr3352525ejc.248.1594909160409;
+        Thu, 16 Jul 2020 07:19:20 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id z11sm5177398ejx.17.2020.07.16.07.19.17
+        by smtp.gmail.com with ESMTPSA id c18sm5106476eja.59.2020.07.16.07.19.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 07:19:17 -0700 (PDT)
+        Thu, 16 Jul 2020 07:19:19 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 7/9] soc/tegra: fuse: Add Tegra234 support
-Date:   Thu, 16 Jul 2020 16:18:54 +0200
-Message-Id: <20200716141856.544718-8-thierry.reding@gmail.com>
+Subject: [PATCH 8/9] firmware: tegra: Enable BPMP support on Tegra234
+Date:   Thu, 16 Jul 2020 16:18:55 +0200
+Message-Id: <20200716141856.544718-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200716141856.544718-1-thierry.reding@gmail.com>
 References: <20200716141856.544718-1-thierry.reding@gmail.com>
@@ -67,127 +67,62 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Add support for FUSE block found on the Tegra234 SoC, which is largely
-similar to the IP found on previous generations.
+Enable support for the BPMP on Tegra234 to avoid relying on Tegra194
+being enabled to pull in the needed OF device ID table entry.
+
+On simulation platforms the BPMP hasn't booted up yet by the time we
+probe the BPMP driver and the BPMP hasn't had a chance to mark the
+doorbell as ringable by the CCPLEX. This corresponding check in the
+BPMP driver will therefore fail. Work around this by disabling the
+check on simulation platforms.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/soc/tegra/fuse/fuse-tegra.c    |  6 +++++-
- drivers/soc/tegra/fuse/fuse-tegra30.c  | 30 ++++++++++++++++++++++++++
- drivers/soc/tegra/fuse/fuse.h          | 10 ++++++++-
- drivers/soc/tegra/fuse/tegra-apbmisc.c |  1 +
- include/soc/tegra/fuse.h               |  1 +
- 5 files changed, 46 insertions(+), 2 deletions(-)
+ drivers/firmware/tegra/bpmp.c | 3 ++-
+ drivers/mailbox/tegra-hsp.c   | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
-index 7e6b6ee59120..94b60a692b51 100644
---- a/drivers/soc/tegra/fuse/fuse-tegra.c
-+++ b/drivers/soc/tegra/fuse/fuse-tegra.c
-@@ -49,6 +49,9 @@ static struct tegra_fuse *fuse = &(struct tegra_fuse) {
- };
+diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+index 4d93d8925e14..0742a90cb844 100644
+--- a/drivers/firmware/tegra/bpmp.c
++++ b/drivers/firmware/tegra/bpmp.c
+@@ -856,7 +856,8 @@ static const struct tegra_bpmp_soc tegra210_soc = {
  
- static const struct of_device_id tegra_fuse_match[] = {
-+#ifdef CONFIG_ARCH_TEGRA_234_SOC
-+	{ .compatible = "nvidia,tegra234-efuse", .data = &tegra234_fuse_soc },
-+#endif
- #ifdef CONFIG_ARCH_TEGRA_194_SOC
- 	{ .compatible = "nvidia,tegra194-efuse", .data = &tegra194_fuse_soc },
- #endif
-@@ -326,7 +329,8 @@ const struct attribute_group tegra_soc_attr_group = {
- 	.attrs = tegra_soc_attr,
- };
- 
--#ifdef CONFIG_ARCH_TEGRA_194_SOC
-+#if IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC) || \
+ static const struct of_device_id tegra_bpmp_match[] = {
+ #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
+-    IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC)
++    IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC) || \
 +    IS_ENABLED(CONFIG_ARCH_TEGRA_234_SOC)
- static ssize_t platform_show(struct device *dev, struct device_attribute *attr,
- 			     char *buf)
- {
-diff --git a/drivers/soc/tegra/fuse/fuse-tegra30.c b/drivers/soc/tegra/fuse/fuse-tegra30.c
-index 85accef41fa1..9ea7f0168457 100644
---- a/drivers/soc/tegra/fuse/fuse-tegra30.c
-+++ b/drivers/soc/tegra/fuse/fuse-tegra30.c
-@@ -356,3 +356,33 @@ const struct tegra_fuse_soc tegra194_fuse_soc = {
- 	.soc_attr_group = &tegra194_soc_attr_group,
- };
+ 	{ .compatible = "nvidia,tegra186-bpmp", .data = &tegra186_soc },
  #endif
-+
-+#if defined(CONFIG_ARCH_TEGRA_234_SOC)
-+static const struct nvmem_cell_lookup tegra234_fuse_lookups[] = {
-+	{
-+		.nvmem_name = "fuse",
-+		.cell_name = "xusb-pad-calibration",
-+		.dev_id = "3520000.padctl",
-+		.con_id = "calibration",
-+	}, {
-+		.nvmem_name = "fuse",
-+		.cell_name = "xusb-pad-calibration-ext",
-+		.dev_id = "3520000.padctl",
-+		.con_id = "calibration-ext",
-+	},
-+};
-+
-+static const struct tegra_fuse_info tegra234_fuse_info = {
-+	.read = tegra30_fuse_read,
-+	.size = 0x300,
-+	.spare = 0x280,
-+};
-+
-+const struct tegra_fuse_soc tegra234_fuse_soc = {
-+	.init = tegra30_fuse_init,
-+	.info = &tegra234_fuse_info,
-+	.lookups = tegra234_fuse_lookups,
-+	.num_lookups = ARRAY_SIZE(tegra234_fuse_lookups),
-+	.soc_attr_group = &tegra194_soc_attr_group,
-+};
-+#endif
-diff --git a/drivers/soc/tegra/fuse/fuse.h b/drivers/soc/tegra/fuse/fuse.h
-index 9d4fc315a007..e057a58e2060 100644
---- a/drivers/soc/tegra/fuse/fuse.h
-+++ b/drivers/soc/tegra/fuse/fuse.h
-@@ -115,9 +115,17 @@ extern const struct tegra_fuse_soc tegra210_fuse_soc;
- extern const struct tegra_fuse_soc tegra186_fuse_soc;
- #endif
+ #if IS_ENABLED(CONFIG_ARCH_TEGRA_210_SOC)
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index 834b35dc3b13..e07091d71986 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -13,6 +13,8 @@
+ #include <linux/pm.h>
+ #include <linux/slab.h>
  
-+#if IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC) || \
-+    IS_ENABLED(CONFIG_ARCH_TEGRA_234_SOC)
-+extern const struct attribute_group tegra194_soc_attr_group;
-+#endif
++#include <soc/tegra/fuse.h>
 +
- #ifdef CONFIG_ARCH_TEGRA_194_SOC
- extern const struct tegra_fuse_soc tegra194_fuse_soc;
--extern const struct attribute_group tegra194_soc_attr_group;
-+#endif
-+
-+#ifdef CONFIG_ARCH_TEGRA_234_SOC
-+extern const struct tegra_fuse_soc tegra234_fuse_soc;
- #endif
+ #include <dt-bindings/mailbox/tegra186-hsp.h>
  
- #endif
-diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-index be6b7fc169ca..6aeac5ea2d70 100644
---- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
-+++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-@@ -56,6 +56,7 @@ bool tegra_is_silicon(void)
- {
- 	switch (tegra_get_chip_id()) {
- 	case TEGRA194:
-+	case TEGRA234:
- 		if (tegra_get_platform() == 0)
- 			return true;
+ #include "mailbox.h"
+@@ -322,7 +324,12 @@ static int tegra_hsp_doorbell_startup(struct mbox_chan *chan)
+ 	if (!ccplex)
+ 		return -ENODEV;
  
-diff --git a/include/soc/tegra/fuse.h b/include/soc/tegra/fuse.h
-index a9db917a1d06..c702bd2911bc 100644
---- a/include/soc/tegra/fuse.h
-+++ b/include/soc/tegra/fuse.h
-@@ -14,6 +14,7 @@
- #define TEGRA210	0x21
- #define TEGRA186	0x18
- #define TEGRA194	0x19
-+#define TEGRA234	0x23
+-	if (!tegra_hsp_doorbell_can_ring(db))
++	/*
++	 * On simulation platforms the BPMP hasn't had a chance yet to mark
++	 * the doorbell as ringable by the CCPLEX, so we want to skip extra
++	 * checks here.
++	 */
++	if (tegra_is_silicon() && !tegra_hsp_doorbell_can_ring(db))
+ 		return -ENODEV;
  
- #define TEGRA_FUSE_SKU_CALIB_0	0xf0
- #define TEGRA30_FUSE_SATA_CALIB	0x124
+ 	spin_lock_irqsave(&hsp->lock, flags);
 -- 
 2.27.0
 
