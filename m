@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7DA2222525
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E9B2222526
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728856AbgGPOTK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jul 2020 10:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46120 "EHLO
+        id S1728854AbgGPOTN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jul 2020 10:19:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728218AbgGPOTK (ORCPT
+        with ESMTP id S1728218AbgGPOTM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:19:10 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE4E8C061755
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:09 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id a1so4864230edt.10
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:09 -0700 (PDT)
+        Thu, 16 Jul 2020 10:19:12 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A765C061755
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:12 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id f12so6732060eja.9
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Vz4JJf+AvBouSQqckAWdIIBtsrDCHUh+IEqSeYUd6tg=;
-        b=iPuWs0l1qwbk+OirRgwUDdskdbzlCZ0ulnJWzQpRWTOfLGn/egsMkwYK8EYXLCdila
-         bn6bSqZju76nS6ajxQBExXJf0yXSH5UZcBhzrAjPSbQp8CbFfwph7b4CrlHNeKylKVoq
-         4Bfk45g4MLqlevIEvaQxfQWMNMGl246wagzCf1381+RBAy6tH7mAg/cVa0OJOxJKrcSR
-         a+mtOm9jz1YVZGqMNnfRJ4GbnHQpOGQBPMQsdXEIrCo5uBiKMznKSyyhTIMag0lLPz4X
-         7kR44qEzs1pfCM5be11Ao7c8lt9BKydiSWeyrjEC6kAe3/a7tGOoYZ2G066cEnNC9v23
-         yiaw==
+        bh=RaaMz8ttpDHrLSqtbi8GC1r0b/uf3w868/oEJwarDbs=;
+        b=oMraksKtFb0jB45Iecp+NuyHtCDHotY9Gj5o12d5JnbiKcrtRLm26M4a/173wm6LFb
+         gwCvm+6jgUJfUCc2mHkb2Dq/LJkki5xjLYOxUOMVEYT9D1GlvxG3FgciCvf6GRcLirRj
+         hzfHy8eWejfKuthjXO22CeHm5otyC+SPMo/9ttT3+PdrVOrFJfDwEr9LVEKyhDCYUkhG
+         iS4YMSJUwfQIwzExkMg1kKhJjNzY37ZOURyN0S9+Dt90M0SlwZmqLMwOtqeI23szjSBd
+         gdU84O6GvRzWuouZeXchpd2Dwm1hOd8/hXdBEiqeIZSyGXhM6+JgSub/tXZMTUGW9XoI
+         4KZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Vz4JJf+AvBouSQqckAWdIIBtsrDCHUh+IEqSeYUd6tg=;
-        b=MeULaRUtAHaOKlEgPS5DbzTA+xQT+nmgpTKQEHeC/2wkJ34hD8Nr9Ry2lqYV5vLBRH
-         xoJ0yF9MnglNVwVzDiUsQfArK2Ohei5CVzUbq/y04aQXqdbIPcvgT1h4ZVQoVSwG5LN2
-         0wjp7kh8NWqK9OVl72Bj6z87V7zuSjtiX6JNKSqdX4AkdrJ9pDfJ5OKKuobMNNP6lOYz
-         vW0M9aljsLgxHywdy1d1DqwSz9CSk7X/RSBXgSf3nSr23M2RkIPl6RNQFm6X3KCGZpkW
-         E5xQhe/aXmZvWQvL/hY+QUepozRioApU48P1wmRxWQLpK7HfKHWJijokvRMf8OhgLhZC
-         +TSw==
-X-Gm-Message-State: AOAM532ixPit41CHqkNc6TvxpRVTvYdv6lMXjOL6MHxTh1IZA3QmukSS
-        xdHGnfHPvgwNf9n9wAi03sTKI+j6
-X-Google-Smtp-Source: ABdhPJxbVtlYHy7DUffeTg0KSB37ulxN7kuNbi2LOJH6NglYW3XQIsjcVCkmc5s2G7W8X2Ilh55rWA==
-X-Received: by 2002:aa7:c80f:: with SMTP id a15mr4483996edt.299.1594909148443;
-        Thu, 16 Jul 2020 07:19:08 -0700 (PDT)
+        bh=RaaMz8ttpDHrLSqtbi8GC1r0b/uf3w868/oEJwarDbs=;
+        b=V2sm0Z/biKe0PXLZ1AsT95xe0n6HGwt1javpqKBH6SrI5m/Bzrn1010uCNd5VrB3dG
+         0J40sMMLyKBs25pXq7baMPm68F9F37HAaSLCYeoIB0KYFZ8Q1gcKLbEi9CWP3h1JF+Vl
+         b7W1+BJSiYmUGocuvFuqhh+mTsGFg3/TE0zszFVgFrF7Ci9fy/a+YIowLSd88qm9pfjw
+         C9JQtmpRl+z0ASCvDtTk9/Jsh6DfwUPR6qFwoPjbAEoyhRvn0+AAUzbi1CYYv4dO3B9X
+         uPWRFrZn4C+Dh8ZDYeA+bPA6S6HxUEtnBkWnt4zQ1xPecfYw+MxpmZPh1ZHHA44m4574
+         9S2w==
+X-Gm-Message-State: AOAM533cXl+VYtxaS8k6bcqUb0WxcihOt4UQWJV9022+ZWuAJsBINYVI
+        PZ2mb20w5fecoVeNJF1wWDhH4+nD
+X-Google-Smtp-Source: ABdhPJzyxwGsivdxPy+VaPBcCsBZl92WRySUuMw1BFUntwCEVWHuuetm7sHlCPyLTGW1k57E3OFOAw==
+X-Received: by 2002:a17:906:ce51:: with SMTP id se17mr3820587ejb.503.1594909151079;
+        Thu, 16 Jul 2020 07:19:11 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id n2sm5429873edq.73.2020.07.16.07.19.07
+        by smtp.gmail.com with ESMTPSA id m6sm2141179ejn.99.2020.07.16.07.19.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 07:19:07 -0700 (PDT)
+        Thu, 16 Jul 2020 07:19:09 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/9] dt-bindings: fuse: tegra: Document Tegra234 compatible string
-Date:   Thu, 16 Jul 2020 16:18:50 +0200
-Message-Id: <20200716141856.544718-4-thierry.reding@gmail.com>
+Subject: [PATCH 4/9] soc/tegra: fuse: Add Tegra186 and Tegra194 SoC IDs
+Date:   Thu, 16 Jul 2020 16:18:51 +0200
+Message-Id: <20200716141856.544718-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200716141856.544718-1-thierry.reding@gmail.com>
 References: <20200716141856.544718-1-thierry.reding@gmail.com>
@@ -65,28 +65,30 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+From: Sandipan Patra <spatra@nvidia.com>
 
-The Tegra234 FUSE block is very similar to that on prior chips but not
-completely compatible. Document the new compatible string.
+SoC IDs for these generations had never been defined. Do so now.
 
+Signed-off-by: Sandipan Patra <spatra@nvidia.com>
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.txt | 1 +
- 1 file changed, 1 insertion(+)
+ include/soc/tegra/fuse.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.txt b/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.txt
-index 2aaf661c04ee..b76cf42639f1 100644
---- a/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.txt
-+++ b/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.txt
-@@ -7,6 +7,7 @@ Required properties:
-   For Tegra132 must contain "nvidia,tegra132-efuse", "nvidia,tegra124-efuse".
-   For Tegra210 must contain "nvidia,tegra210-efuse". For Tegra186 must contain
-   "nvidia,tegra186-efuse". For Tegra194 must contain "nvidia,tegra194-efuse".
-+  For Tegra234 must conatin "nvidia,tegra234-efuse".
-   Details:
-   nvidia,tegra20-efuse: Tegra20 requires using APB DMA to read the fuse data
- 	due to a hardware bug. Tegra20 also lacks certain information which is
+diff --git a/include/soc/tegra/fuse.h b/include/soc/tegra/fuse.h
+index 252ea20fe4c1..1097feca41ed 100644
+--- a/include/soc/tegra/fuse.h
++++ b/include/soc/tegra/fuse.h
+@@ -12,6 +12,8 @@
+ #define TEGRA124	0x40
+ #define TEGRA132	0x13
+ #define TEGRA210	0x21
++#define TEGRA186	0x18
++#define TEGRA194	0x19
+ 
+ #define TEGRA_FUSE_SKU_CALIB_0	0xf0
+ #define TEGRA30_FUSE_SATA_CALIB	0x124
 -- 
 2.27.0
 
