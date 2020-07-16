@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E9B2222526
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7944F222528
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 16:19:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728854AbgGPOTN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jul 2020 10:19:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46128 "EHLO
+        id S1728525AbgGPOTP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jul 2020 10:19:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728218AbgGPOTM (ORCPT
+        with ESMTP id S1728218AbgGPOTO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:19:12 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A765C061755
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:12 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id f12so6732060eja.9
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:12 -0700 (PDT)
+        Thu, 16 Jul 2020 10:19:14 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648F5C061755
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:14 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id n22so3807263ejy.3
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Jul 2020 07:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RaaMz8ttpDHrLSqtbi8GC1r0b/uf3w868/oEJwarDbs=;
-        b=oMraksKtFb0jB45Iecp+NuyHtCDHotY9Gj5o12d5JnbiKcrtRLm26M4a/173wm6LFb
-         gwCvm+6jgUJfUCc2mHkb2Dq/LJkki5xjLYOxUOMVEYT9D1GlvxG3FgciCvf6GRcLirRj
-         hzfHy8eWejfKuthjXO22CeHm5otyC+SPMo/9ttT3+PdrVOrFJfDwEr9LVEKyhDCYUkhG
-         iS4YMSJUwfQIwzExkMg1kKhJjNzY37ZOURyN0S9+Dt90M0SlwZmqLMwOtqeI23szjSBd
-         gdU84O6GvRzWuouZeXchpd2Dwm1hOd8/hXdBEiqeIZSyGXhM6+JgSub/tXZMTUGW9XoI
-         4KZA==
+        bh=kJRt1d0tuOJa8Fmf2Td5qwrg+gnX4K9VBuBPB08W6pA=;
+        b=TSBmscnHkyQR3/JE6MHEYu70nLn0cylf0xdKyZBn1bptqT6wcFCGhVVcIlCB8hbcDa
+         87S+DPuu6CA+y82kDezba2/cZWCtmll+11ev4CzhHhDCJ1shKu77cPL9IhXFgTT08Mne
+         rHe0H2iezK8thNDE06leZyeVzMgPWwPiCRTDy5WhN4wZBUJ/OdmTkBEMfRz+ecnISF55
+         A3Sjbm+MkDfy8xDewDtigd6kQczqD6GuphZ+3APOj0StIFVcp2jNLwllJZJKi4ToLgZ3
+         qupP5WoGbKRv5Izs8h5YqJ+NITCmnqPGsbXHS89I3Iwi4MsdMY8CyGN4/xbDjlsQRjni
+         8kkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RaaMz8ttpDHrLSqtbi8GC1r0b/uf3w868/oEJwarDbs=;
-        b=V2sm0Z/biKe0PXLZ1AsT95xe0n6HGwt1javpqKBH6SrI5m/Bzrn1010uCNd5VrB3dG
-         0J40sMMLyKBs25pXq7baMPm68F9F37HAaSLCYeoIB0KYFZ8Q1gcKLbEi9CWP3h1JF+Vl
-         b7W1+BJSiYmUGocuvFuqhh+mTsGFg3/TE0zszFVgFrF7Ci9fy/a+YIowLSd88qm9pfjw
-         C9JQtmpRl+z0ASCvDtTk9/Jsh6DfwUPR6qFwoPjbAEoyhRvn0+AAUzbi1CYYv4dO3B9X
-         uPWRFrZn4C+Dh8ZDYeA+bPA6S6HxUEtnBkWnt4zQ1xPecfYw+MxpmZPh1ZHHA44m4574
-         9S2w==
-X-Gm-Message-State: AOAM533cXl+VYtxaS8k6bcqUb0WxcihOt4UQWJV9022+ZWuAJsBINYVI
-        PZ2mb20w5fecoVeNJF1wWDhH4+nD
-X-Google-Smtp-Source: ABdhPJzyxwGsivdxPy+VaPBcCsBZl92WRySUuMw1BFUntwCEVWHuuetm7sHlCPyLTGW1k57E3OFOAw==
-X-Received: by 2002:a17:906:ce51:: with SMTP id se17mr3820587ejb.503.1594909151079;
-        Thu, 16 Jul 2020 07:19:11 -0700 (PDT)
+        bh=kJRt1d0tuOJa8Fmf2Td5qwrg+gnX4K9VBuBPB08W6pA=;
+        b=tRlO/fKtyGfkziCv2l/Jr2ECMDVrzmah5HCoW+iWhTr4wYvmOsdeWhoC/uo7xzepUS
+         ShZlDh6wjj6+0sv+v1zsz2M/MJNi/e0uQzZraMVOtH2wZtxkLqO1TTUTefxgI37ACEnA
+         ZLFGfPJec6OzVmL0wzznCx2hgJC/SrLBMCvpheBrllxT4nl7AnGhl5y1035gUqDmUbCK
+         8CyMf016+yr5lpP8KDjo26YLXILjnETOKZ5oxKrguPbtN9yDAiqnSI7vhMbZVaE3rZki
+         JPEHf9ltQ+y2GDltGd8bHXuGQQ98Ww6SXjmzikaCSOJMm2HkbTerULfjcmm3D4Psoysx
+         rvtw==
+X-Gm-Message-State: AOAM531E4fImz+E9OBPpFG765nyDwLFi34xXUi4gcpPkjq1qPb/Q+8BN
+        eECbJSmM0x6YZQdHLgUpYak=
+X-Google-Smtp-Source: ABdhPJwat+/nqVVdWV013vBqcSn/O3qjSdM5/ozEVK9nSvae2FeNCIy2z7O9aIHd17bK99+doM7ZPw==
+X-Received: by 2002:a17:906:1a54:: with SMTP id j20mr3854851ejf.455.1594909153137;
+        Thu, 16 Jul 2020 07:19:13 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id m6sm2141179ejn.99.2020.07.16.07.19.09
+        by smtp.gmail.com with ESMTPSA id fi29sm5097702ejb.83.2020.07.16.07.19.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 07:19:09 -0700 (PDT)
+        Thu, 16 Jul 2020 07:19:12 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 4/9] soc/tegra: fuse: Add Tegra186 and Tegra194 SoC IDs
-Date:   Thu, 16 Jul 2020 16:18:51 +0200
-Message-Id: <20200716141856.544718-5-thierry.reding@gmail.com>
+Subject: [PATCH 5/9] soc/tegra: fuse: Extract tegra_get_platform()
+Date:   Thu, 16 Jul 2020 16:18:52 +0200
+Message-Id: <20200716141856.544718-6-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200716141856.544718-1-thierry.reding@gmail.com>
 References: <20200716141856.544718-1-thierry.reding@gmail.com>
@@ -65,30 +65,62 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Sandipan Patra <spatra@nvidia.com>
+From: Thierry Reding <treding@nvidia.com>
 
-SoC IDs for these generations had never been defined. Do so now.
+This function extracts the PRE_SI_PLATFORM field from the HIDREV
+register and can be used to determine which platform the kernel runs on
+(silicon, simulation, ...). Note that while only Tegra194 and later
+define this field, it should be safe to call this on prior generations
+as well since this field should read as 0, indicating silicon.
 
-Signed-off-by: Sandipan Patra <spatra@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- include/soc/tegra/fuse.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/soc/tegra/fuse/fuse-tegra.c    | 2 +-
+ drivers/soc/tegra/fuse/tegra-apbmisc.c | 5 +++++
+ include/soc/tegra/fuse.h               | 1 +
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
+index d1f8dd0289e6..7e6b6ee59120 100644
+--- a/drivers/soc/tegra/fuse/fuse-tegra.c
++++ b/drivers/soc/tegra/fuse/fuse-tegra.c
+@@ -336,7 +336,7 @@ static ssize_t platform_show(struct device *dev, struct device_attribute *attr,
+ 	 * platform type is silicon and all other non-zero values indicate
+ 	 * the type of simulation platform is being used.
+ 	 */
+-	return sprintf(buf, "%d\n", (tegra_read_chipid() >> 20) & 0xf);
++	return sprintf(buf, "%d\n", tegra_get_platform());
+ }
+ 
+ static DEVICE_ATTR_RO(platform);
+diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
+index 3cdd69d1bd4d..89f1479b4d0e 100644
+--- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
++++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
+@@ -47,6 +47,11 @@ u8 tegra_get_minor_rev(void)
+ 	return (tegra_read_chipid() >> 16) & 0xf;
+ }
+ 
++u8 tegra_get_platform(void)
++{
++	return (tegra_read_chipid() >> 20) & 0xf;
++}
++
+ u32 tegra_read_straps(void)
+ {
+ 	WARN(!chipid, "Tegra ABP MISC not yet available\n");
 diff --git a/include/soc/tegra/fuse.h b/include/soc/tegra/fuse.h
-index 252ea20fe4c1..1097feca41ed 100644
+index 1097feca41ed..214908fc5581 100644
 --- a/include/soc/tegra/fuse.h
 +++ b/include/soc/tegra/fuse.h
-@@ -12,6 +12,8 @@
- #define TEGRA124	0x40
- #define TEGRA132	0x13
- #define TEGRA210	0x21
-+#define TEGRA186	0x18
-+#define TEGRA194	0x19
+@@ -23,6 +23,7 @@
  
- #define TEGRA_FUSE_SKU_CALIB_0	0xf0
- #define TEGRA30_FUSE_SATA_CALIB	0x124
+ u32 tegra_read_chipid(void);
+ u8 tegra_get_chip_id(void);
++u8 tegra_get_platform(void);
+ 
+ enum tegra_revision {
+ 	TEGRA_REVISION_UNKNOWN = 0,
 -- 
 2.27.0
 
