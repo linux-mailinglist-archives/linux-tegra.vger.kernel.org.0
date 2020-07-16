@@ -2,72 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D396222B95
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 21:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7445222BB5
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jul 2020 21:15:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729489AbgGPTJi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jul 2020 15:09:38 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:47021 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728400AbgGPTJh (ORCPT
+        id S1728788AbgGPTO5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jul 2020 15:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728374AbgGPTO5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jul 2020 15:09:37 -0400
-Received: by mail-io1-f65.google.com with SMTP id a12so7171663ion.13;
-        Thu, 16 Jul 2020 12:09:37 -0700 (PDT)
+        Thu, 16 Jul 2020 15:14:57 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3DD1C061755;
+        Thu, 16 Jul 2020 12:14:56 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id f5so9540728ljj.10;
+        Thu, 16 Jul 2020 12:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=FH1i/9Q7biv+5kd2aHJzTASe8AFgNZkqx6zcZ0CRgAM=;
+        b=Wn7hhFIJBgNHurMYXpcMzkVEpgS+G0L7MmD8J8qk3tCEqcYin8UHdaPxMT5CXRg+S9
+         g83fFCUogHDCB6WOJ4rpJ+8uh1wxnGl0J7FmcabE8rce6HWdqsbzaw0R4/Dowv1tdpJh
+         DIAlQT38AV71ra9Ka/8j1WaHlIv5TEvlzqq9oZTib3fjS8IydzBFRyvELNRZQU9vVPeV
+         /x0xTA6jYir1Q9hW5bTld/jgCm4zngsfN39XIiRD+XNuixgVtIOcfW4aW3DVcKpD+Vcf
+         KmzvDEK+J86k5402o4XaGz7PhPUV1EWfNEK72hUm7msuQgdm0zxDD9bGTq+4PjpsD6rv
+         5M8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WmN0I5jfW0bngGda6eqXsjReLWui8Z/KXRe8dH1gHbE=;
-        b=NtfI65fjrYZsp7P9PHJeVhmj8r5K40inEZuyuSLng/sKCa/y1Xybxe+ehi7tkDwpjl
-         FIFMWE2hGZqnYKQXaJcn4f3ul/HhU3g6Va3yzg2wj5bvUvJHY06JjB2LqYdrOSxZla+i
-         ARK+/cbw2fV0HpXclzXJWinAe0gbZTX8tZ/R071CzJ0273iMMKTVX6idFaJtNE8pwYFU
-         tE4immoRqq1pzFGWS2eD4JzerR+3iYkpcmd++tzMDD5W4WibPcCQG2q4eOKlfUA/sLJe
-         WsDky73fdGuwZq50QsJcFKdUBjAElRbKQgJfiqsFzSkZjCyI+OHNVV5iGyfi1WOjTwr3
-         vBZw==
-X-Gm-Message-State: AOAM5333BGxIljnVq1oOeeLcbBeZ1W+vrZ3QYOGLMGbpVD9itap10eK/
-        HWxwjl3zV2ux8Cuv5CscGQ==
-X-Google-Smtp-Source: ABdhPJz170yVZyP5HHq8yZ4vT1JgTt7Qg8B1Oju34HwKnwbZ5cGMadOJBmV9Tpy+Dj0KutJq5I1K3A==
-X-Received: by 2002:a6b:8b11:: with SMTP id n17mr5857639iod.155.1594926576428;
-        Thu, 16 Jul 2020 12:09:36 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id o64sm3126510ilb.12.2020.07.16.12.09.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 12:09:35 -0700 (PDT)
-Received: (nullmailer pid 2680082 invoked by uid 1000);
-        Thu, 16 Jul 2020 19:09:34 -0000
-Date:   Thu, 16 Jul 2020 13:09:34 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     digetx@gmail.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        gregkh@linuxfoundation.org, sboyd@kernel.org, sakari.ailus@iki.fi,
-        devicetree@vger.kernel.org, helen.koike@collabora.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        robh+dt@kernel.org
-Subject: Re: [RFC PATCH v3 11/18] dt-bindings: tegra: Update VI and CSI
- bindings with port info
-Message-ID: <20200716190934.GA2680032@bogus>
-References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
- <1594786855-26506-12-git-send-email-skomatineni@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FH1i/9Q7biv+5kd2aHJzTASe8AFgNZkqx6zcZ0CRgAM=;
+        b=uKLA6yRgm8fzkGOEwfROln2VXNcnT9krxSdFUu4aMpusmPwlKCq3j2B0NMj3LqkyR1
+         Y64/7klSMjrcbXJDM3w8uKkl86NPAWiI52Ml1fkLRaV9xnXyiq8rsx+8GyCAgvz3KPmr
+         YIhMY6V6JaXc7c9DJKO1tvN2+sWhLlPxzQjXe4ABxow9c8Ul1YWcg1z6PSoQ/31+56Gk
+         OvDAv/JEXvIWhx/E0drfkStjwL9sX8s78baP3MEvYqmVF8ATuneygDM0TZYBWYxNqNZl
+         FuADX8nTzy6ORUnF1lti8vOEnYrtsUtlLT1sRqURbMLNKIm+PaV9o+u4KVmOzMPSx1BZ
+         N6zw==
+X-Gm-Message-State: AOAM531l6Y1lE0iPp+psx40QRea7ByUGwCXcb6ae/VrbnAxKHO9Sshud
+        /5oM+WqtnihKz9+dGF2SOtKgopaS
+X-Google-Smtp-Source: ABdhPJwcYWd14dWMRbo7MCBi1xwO+8IGc1NwY6E8MeiMH3Khln7PDLzj6vFwtTk/KoIlzzJ7hJsiig==
+X-Received: by 2002:a2e:5746:: with SMTP id r6mr2910169ljd.205.1594926894806;
+        Thu, 16 Jul 2020 12:14:54 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id s4sm1357437lfc.71.2020.07.16.12.14.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 12:14:54 -0700 (PDT)
+Subject: Re: [PATCH v4 0/6] Improvements for MAX77620 GPIO driver
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-tegra@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200709171203.12950-1-digetx@gmail.com>
+ <CACRpkdZNLDgsrPRenyvPZD6A+Wvj-P3AJBf5Ke-uY9=R9DyjxQ@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c33c7f0d-cc0d-a9ba-dbd2-587c8cf9e2e8@gmail.com>
+Date:   Thu, 16 Jul 2020 22:14:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1594786855-26506-12-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <CACRpkdZNLDgsrPRenyvPZD6A+Wvj-P3AJBf5Ke-uY9=R9DyjxQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 14 Jul 2020 21:20:48 -0700, Sowjanya Komatineni wrote:
-> Update VI and CSI bindings to add port and endpoint nodes as per
-> media video-interfaces DT binding document.
+16.07.2020 11:52, Linus Walleij пишет:
+> On Thu, Jul 9, 2020 at 7:12 PM Dmitry Osipenko <digetx@gmail.com> wrote:
 > 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  .../display/tegra/nvidia,tegra20-host1x.txt        | 92 +++++++++++++++++++++-
->  1 file changed, 90 insertions(+), 2 deletions(-)
+>> This series addresses a problem that I discovered on Nexus 7 device where
+>> GPIO interrupts may be left enabled after bootloader and the driver isn't
+>> prepared to this. It also makes a small improvements to the code, fixes the
+>> non-released interrupt bug and converts driver to use irqchip template.
+>>
+>> Changelog:
+>>
+>> v4: - Added stable-tag to the patch "Fix missing release of interrupt".
 > 
+> This v4 series applied, thanks a *LOT* for your patient work on this!
 
-Acked-by: Rob Herring <robh@kernel.org>
+Hello, Linus! Thank you for applying the patches!
+
+> I need to fix the USB port on my Nexus 7 so I can test how the
+> mainline support is working these days!
+
+Please notice that this should be a Nexus 7 2012, which is NVIDIA
+Tegra30-based Nexus 7.
+
+The mainline support just starting to emerge for the 2012 model,
+although not much is missed in the upstream. There are couple patches
+currently under review which are necessary for Nexus 7 2012 in order to
+make it ready for everyday use, like a tiny patch for the touchscreen
+support and DRM bridges/panel orientation improvements for the Tegra DRM
+driver. We're pretty close! :)
