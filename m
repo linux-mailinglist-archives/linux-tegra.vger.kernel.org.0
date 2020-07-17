@@ -2,134 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B80223747
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 10:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF327223891
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 11:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgGQIlB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 04:41:01 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17206 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725970AbgGQIlB (ORCPT
+        id S1726046AbgGQJh5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 05:37:57 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55434 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725950AbgGQJh5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 04:41:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f1163e1000a>; Fri, 17 Jul 2020 01:40:01 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 17 Jul 2020 01:41:01 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 01:41:01 -0700
-Received: from [10.26.72.76] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
- 2020 08:40:59 +0000
-Subject: Re: [PATCH v3 2/2] arm64: tegra: Add the GPU on Tegra194
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Terje Bergstrom <tbergstrom@nvidia.com>,
-        Debarshi Dutta <ddutta@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200717083609.557205-1-thierry.reding@gmail.com>
- <20200717083609.557205-2-thierry.reding@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <65d7fa27-9b88-6af5-089f-60e97ecf3f12@nvidia.com>
-Date:   Fri, 17 Jul 2020 09:40:57 +0100
+        Fri, 17 Jul 2020 05:37:57 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 9BB002A508E
+Subject: Re: [RESEND RESEND PATCH] arm/arm64: defconfig: Update configs to use
+ the new CROS_EC options
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Enric Balletbo Serra <eballetbo@gmail.com>
+Cc:     Gwendal Grignou <gwendal@chromium.org>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        Will Deacon <will@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>, Joel Stanley <joel@jms.id.au>,
+        Bastien Nocera <hadess@hadess.net>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Maxime Ripard <maxime@cerno.tech>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        Olof Johansson <olof@lixom.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Lukasz Luba <lukasz.luba@arm.com>
+References: <20200305111047.147355-1-enric.balletbo@collabora.com>
+ <CAFqH_52LhfV9AsnPRZi_ZPsgYX8WrUrKEsV-E7VHOw3ZZtHd-w@mail.gmail.com>
+ <CAK8P3a0ScHe+ErEZr-x4Sj=3Yz7cppKDcemXemvwXMbPh-RVMQ@mail.gmail.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <2c7a9b5f-968b-38a2-3f67-f731a8617e09@collabora.com>
+Date:   Fri, 17 Jul 2020 11:37:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200717083609.557205-2-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAK8P3a0ScHe+ErEZr-x4Sj=3Yz7cppKDcemXemvwXMbPh-RVMQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594975201; bh=OVZl6FSAHz95h6c3WzpADkBXrgveQBNM3vdlEASw5Cc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=CvQPScuQWT8lvjX52yidxnTLe/oRlH+K5lyvbgs1TUJUbOiyq+1lIH+N0jz9resLK
-         qnbZ5hK/Wxu2XVx15D/eTOwaSKwfaUqnQcws34frkyKx1syXRy0lLpidz7C4DESa96
-         401bnwRo/mzhpHZNCgV683kE4CPKr3UPTpDHNFWB6eLuGipZCmLLvSdedtgppI05Gh
-         ksWVxS+j4+DRhIvAWVTfCXb0R1rhpJis3vdzyGHOouKGctEbeu5CmOa34b27W8jI1I
-         idcDPGWT6IBIUfXwLQPB560wGci497leJEw9YOxAOPcL9FlXku4lwL4hys5L2DBu3W
-         LYy80fi9DVaDw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Arnd,
 
-On 17/07/2020 09:36, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+On 17/7/20 8:59, Arnd Bergmann wrote:
+> On Wed, Jul 15, 2020 at 11:31 PM Enric Balletbo Serra
+> <eballetbo@gmail.com> wrote:
+>> Missatge de Enric Balletbo i Serra <enric.balletbo@collabora.com> del
+>> dia dj., 5 de març 2020 a les 12:11:
+>>>
+>>> We refactored the CrOS EC drivers moving part of the code from the MFD
+>>> subsystem to the platform chrome subsystem. During this change we needed
+>>> to rename some config options, so, update the defconfigs accordingly.
+>>>
+>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>> Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+>>> Reviewed-by: Gwendal Grignou <gwendal@chromium.org>
+>>> Tested-by: Gwendal Grignou <gwendal@chromium.org>
+>>> Acked-by: Lee Jones <lee.jones@linaro.org>
+>>> ---
+>>
+>> A gentle ping. I'd like to land this if is possible because that way I
+>> can remove some legacy code in platform/chrome subsystem.
+>>
+>> Thanks,
+>>   Enric
+>>
+>>> Dear all,
+>>>
+>>> This is a resend of a resend patch [3]. In some previous discussions
+>>> maintainers would prefer to have this merged through the arm-soc tree
+>>> but wasn't merged yet and I forget to ping again, hence, sending a new
+>>> resend.
 > 
-> The GPU found on NVIDIA Tegra194 SoCs is a Volta generation GPU called
-> GV11B.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> Changes in v3:
-> - mark the GPU as DMA coherent because that's enforced by the MSS
-> - add FUSE clock which is needed during GPU initialization
-> - enable GPU by default
-> 
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 34 ++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> index 98c366ab4aab..48160f48003a 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> @@ -1395,6 +1395,40 @@ sor3: sor@15bc0000 {
->  				nvidia,interface = <3>;
->  			};
->  		};
-> +
-> +		gpu@17000000 {
-> +			compatible = "nvidia,gv11b";
-> +			reg = <0x17000000 0x10000000>,
-> +			      <0x18000000 0x10000000>;
-> +			interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "stall", "nonstall";
-> +			clocks = <&bpmp TEGRA194_CLK_GPCCLK>,
-> +				 <&bpmp TEGRA194_CLK_GPU_PWR>,
-> +				 <&bpmp TEGRA194_CLK_FUSE>;
-> +			clock-names = "gpu", "pwr", "fuse";
-> +			resets = <&bpmp TEGRA194_RESET_GPU>;
-> +			reset-names = "gpu";
-> +			dma-coherent;
-> +
-> +			power-domains = <&bpmp TEGRA194_POWER_DOMAIN_GPU>;
-> +			interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVL1R &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL1RHP &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL1W &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL2R &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL2RHP &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL2W &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL3R &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL3RHP &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL3W &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL4R &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL4RHP &emc>,
-> +					<&mc TEGRA194_MEMORY_CLIENT_NVL4W &emc>;
-> +			interconnect-names = "dma-mem", "read-0-hp", "write-0",
-> +					     "read-1", "read-1-hp", "write-1",
-> +					     "read-2", "read-2-hp", "write-2",
-> +					     "read-3", "read-3-hp", "write-3";
-> +		};
->  	};
->  
->  	pcie@14100000 {
+> I've merged it into the arm/defconfig branch of the soc tree now.
+> If you have future platform specific changes to the defconfig files,
+> please just add soc@kernel.org to the recipients to get the patch
+> into patchwork.
 > 
 
+Many thanks! I'll take into account this next time.
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-
-Cheers
-Jon
-
--- 
-nvpublic
+>      Arnd
+> 
