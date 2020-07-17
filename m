@@ -2,61 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66F3C22405A
+	by mail.lfdr.de (Postfix) with ESMTP id D335F22405B
 	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 18:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbgGQQNG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 12:13:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60056 "EHLO
+        id S1726811AbgGQQNH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 12:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbgGQQNF (ORCPT
+        with ESMTP id S1726798AbgGQQNH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 12:13:05 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A171EC0619D2
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 09:13:05 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id br7so11435169ejb.5
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 09:13:05 -0700 (PDT)
+        Fri, 17 Jul 2020 12:13:07 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E6CC0619D2
+        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 09:13:06 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id z17so8131240edr.9
+        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 09:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tRun0zJnW3enEzbagVrBVwGAXPlB4kcfikfNUNNNDAQ=;
-        b=Z0Ly8m9ELBi2tmX5DEpN+QuO/1N7ea5paWLIRdxkSaCxgUG0h/jMfzl+pJZNP3WTgI
-         3v0jt4YxY9AaudPOWusk8bqMu5o1gaiVuyHNvbnb5jGsj3uTSxB3nC8GRZuaxLWwjFzV
-         rtDqPNSvu0sad+x3K3u+H4cJ8p0xwLE+fp9rZ/zVq3ADApdshh36/jabqq1e9AYrwZRq
-         6ja9oebHtw0oC4m+1yZkGYxUh11dqZkJOEgSECX5gYi/4Pf9BMMJYeVMffypG+8b9hBV
-         8YJT9sR3adanb+gwGXdek8jVGek/uSvuquAn1KTkjTA4kVhDXQVdMgaW/aZDc76mwx7B
-         VD0g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Q6wQPTgtuBVqC9/lrDF9iatGwKmwcjNiwUtUBaCtoZ4=;
+        b=dZs+61wbmVme0tjhyyW9bvS/4nYn+6ONXqr+HZXwJF9Z7y+Y8B85KBPmK3vtIJSAj1
+         JH7q74E9r0UCAvLT3MNK9nEu0PdH6Og4MvUwF7wQ4W+QuEnSO3jh7NC1VJR2rywdrVdl
+         Ql7IkEKBeET5/uJIIwpG5I9pvxwDg9cLeT6bLuW3+YDHiIysg1cpqQx5j36gpqH71i3G
+         jgHdKQQMcs0cx8qu4+vEVR+5hFqjCis6bmX3mwbDoDZixNry3DGRq1sOM/4x/7l6YTq7
+         Uq+iEXrOapGqaClJciZGhwLJlrr8BYj/eSxU8nAPI2hMpqeTyccB1/Sr/741o3F0o02m
+         AX5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tRun0zJnW3enEzbagVrBVwGAXPlB4kcfikfNUNNNDAQ=;
-        b=MGvO8xPWwfU+r9CgxCikSRLyg4kG8lcrnBcXa7kPt+rLnHF//CdVNYbHD68M8+Ezz2
-         A+71kpsqkmznCw1/xsgdr5/jdqEX4b4SkqAUi8wYmjGClrJzMZkZ5iNeM42XL9S2VxSo
-         S+rI6SunLdjehY3gcRJglH8EPjIuxWJolHc855x5KIbeGpLbrd/Kt6woUU5M29Pdn/kD
-         L3utMv338GLypkyt+kLemH2jTcRI0ePI1E0m9UwojmXPTsXQEi57UPm4HZeDChPyYnx+
-         QCf+n6oDC2qafr3g9F/jLX6l7c/o09hcHMc+QzxP+OroiiLxpcDv/WMM1rfJTDmOFRBI
-         z5gA==
-X-Gm-Message-State: AOAM531hAWFf8R9ElgZfnb6DChtYhS02AR/mQIb610D6WwlWCFQ8Oz3H
-        jjlsA9z7pv7sKcBo35hnTd3czp6S
-X-Google-Smtp-Source: ABdhPJzORx5zjxCvcZOb13Q5Fp9ESAYqkg144nxeu1CB12Wk87oTplKWxkBRAu86BfKWZl7qGJaHyg==
-X-Received: by 2002:a17:906:5657:: with SMTP id v23mr9547977ejr.196.1595002383389;
-        Fri, 17 Jul 2020 09:13:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Q6wQPTgtuBVqC9/lrDF9iatGwKmwcjNiwUtUBaCtoZ4=;
+        b=WtbMS6pK4ATtNQtm/5Ozdi29XqFV9BIYEhoJXNtFvrmKCUwX/knqH/NoZyGxOAQfCQ
+         JRR7aRfPEXRhPde1wXbPoUYjRo95Cz1omTzuTGFrhaIopjDmHv6OLhPVRgL2/q4OuTOw
+         6MGCm7Pi14zIjtyXpqiQ2pfvTFo0oFlQ1DJaFgj39tdxTjLMK5EbY1hQBlUL4Ds6di1H
+         HDxrX7Y56GhUJy3szV8aO1AskfC0aU3OX6W1LnQfVhTqCf1zoZRauw0n4AMOktlFUEVT
+         biWKGgfcMl7Q48z1UwP7iFws3BksfrzNgnV72Kz/zQkw47xCr9F1SYT3xhvfgBrUlBdt
+         STvg==
+X-Gm-Message-State: AOAM533Le59HEfRk4MyunaxmR0wt1WSyU6wotc4nFTcpz0wp/9DNZwCq
+        u2NFqZnuDGDlZikLgHa6OBM=
+X-Google-Smtp-Source: ABdhPJwJ457FKePFD/sGNNy2DaY7qKcHBqTQYANUpAm55vgvHImNqiOzoE1VB8pRbc87RJXaUn4HiQ==
+X-Received: by 2002:a05:6402:17f6:: with SMTP id t22mr10220988edy.141.1595002385407;
+        Fri, 17 Jul 2020 09:13:05 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id x4sm8187889eju.2.2020.07.17.09.13.02
+        by smtp.gmail.com with ESMTPSA id bt26sm8617051edb.17.2020.07.17.09.13.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 09:13:02 -0700 (PDT)
+        Fri, 17 Jul 2020 09:13:04 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 1/7] dt-bindings: Changes for v5.9-rc1
-Date:   Fri, 17 Jul 2020 18:12:54 +0200
-Message-Id: <20200717161300.1661002-1-thierry.reding@gmail.com>
+Subject: [GIT PULL 2/7] firmware: tegra: Changes for v5.9-rc1
+Date:   Fri, 17 Jul 2020 18:12:55 +0200
+Message-Id: <20200717161300.1661002-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200717161300.1661002-1-thierry.reding@gmail.com>
+References: <20200717161300.1661002-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,38 +75,32 @@ The following changes since commit b3a9e3b9622ae10064826dccb4f7a52bd88c7407:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.9-dt-bindings
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.9-firmware
 
-for you to fetch changes up to 9580a3532eee67d9d19de19f62c245655eabaca3:
+for you to fetch changes up to 4e87189912bd2167998d82c95bb68f73185069e2:
 
-  dt-bindings: fuse: tegra: Add missing compatible strings (2020-07-17 16:14:07 +0200)
+  firmware: tegra: Update BPMP ABI (2020-07-14 18:03:45 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-dt-bindings: Changes for v5.9-rc1
+firmware: tegra: Changes for v5.9-rc1
 
-This adds compatible strings for some new devices as well as updates and
-fixes existing bindings.
+This has a few cleanups and the addition of a new mechanism to query
+debug information from the BPMP.
 
 ----------------------------------------------------------------
-Dmitry Osipenko (3):
-      dt-bindings: Add vendor prefix for Acer Inc.
-      dt-bindings: ARM: tegra: Add Acer Iconia Tab A500
-      dt-bindings: ARM: tegra: Add ASUS Google Nexus 7
+Jon Hunter (4):
+      firmware: tegra: Use consistent return variable name
+      firmware: tegra: Prepare for supporting in-band debugfs
+      firmware: tegra: Add support for in-band debug
+      firmware: tegra: Update BPMP ABI
 
-Sowjanya Komatineni (1):
-      dt-bindings: i2c: tegra: Document Tegra210 VI I2C clocks and power-domains
+Timo Alho (1):
+      firmware: tegra: Add return code checks and increase debugfs size
 
-Thierry Reding (3):
-      dt-bindings: tegra: Document Jetson Xavier NX (and devkit)
-      dt-bindings: Add documentation for GV11B GPU
-      dt-bindings: fuse: tegra: Add missing compatible strings
-
- Documentation/devicetree/bindings/arm/tegra.yaml   | 18 ++++++++++++++++
- .../bindings/fuse/nvidia,tegra20-fuse.txt          |  5 +++--
- .../devicetree/bindings/gpu/nvidia,gk20a.txt       | 25 ++++++++++++++++++++++
- .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt | 19 ++++++++++------
- .../devicetree/bindings/vendor-prefixes.yaml       |  2 ++
- 5 files changed, 61 insertions(+), 8 deletions(-)
+ drivers/firmware/tegra/bpmp-debugfs.c | 436 ++++++++++++++--
+ drivers/firmware/tegra/bpmp.c         |   6 +-
+ include/soc/tegra/bpmp-abi.h          | 913 +++++++++++++++++++++++-----------
+ 3 files changed, 1038 insertions(+), 317 deletions(-)
