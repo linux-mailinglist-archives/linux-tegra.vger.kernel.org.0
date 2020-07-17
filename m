@@ -2,107 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A615223BBB
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 14:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 441E9223DFC
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 16:25:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgGQMzm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 08:55:42 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15598 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgGQMzl (ORCPT
+        id S1726198AbgGQOZ3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 10:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726079AbgGQOZ3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 08:55:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f119f910001>; Fri, 17 Jul 2020 05:54:41 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 17 Jul 2020 05:55:40 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 05:55:40 -0700
-Received: from [10.25.99.49] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
- 2020 12:55:21 +0000
-CC:     <spujar@nvidia.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        <perex@perex.cz>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <digetx@gmail.com>,
-        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
-        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
-        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
-        <atalambedu@nvidia.com>, <nwartikar@nvidia.com>,
-        <swarren@nvidia.com>, <nicoleotsuka@gmail.com>
-Subject: Re: Re: Re: Re: [PATCH v4 12/23] ASoC: simple-card: Support DPCM DAI
- link with multiple Codecs
-To:     Mark Brown <broonie@kernel.org>
-References: <874kqu1x70.wl-kuninori.morimoto.gx@renesas.com>
- <1e0cf6d1-bf4e-8808-5390-c8a3b7c7fe7e@nvidia.com>
- <87mu4lz6pt.wl-kuninori.morimoto.gx@renesas.com>
- <1d7888c7-a8cc-e891-01aa-016e31cc9113@nvidia.com>
- <87ftadyrec.wl-kuninori.morimoto.gx@renesas.com>
- <492079e9-4518-78ba-a227-859d31594369@nvidia.com>
- <20200630110100.GH5272@sirena.org.uk>
- <81d106c0-e1c8-a79a-8caf-1f3be0d61f0c@nvidia.com>
- <20200630153220.GL5272@sirena.org.uk>
- <fb286ab7-21f2-43ad-2751-c76b7b6e4cf2@nvidia.com>
- <20200702122605.GE4483@sirena.org.uk>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <6194dad2-040b-c0f2-b269-571a303bbb08@nvidia.com>
-Date:   Fri, 17 Jul 2020 18:25:15 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 17 Jul 2020 10:25:29 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F8AC0619D2;
+        Fri, 17 Jul 2020 07:25:29 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id o18so11040743eje.7;
+        Fri, 17 Jul 2020 07:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mUVdR+ZDJVxSmd7ZbQVSsi764XMpQahMmDvfOF22gQY=;
+        b=e99KnuVGCS6dPPckmUblnQ/Eq5Pt0qMRRfY1ARV29XHavDg6gElhKrIaEDpBLGpuds
+         P5FHLwnwgL07Jn0MnjcLpQ9PvpecGEu96QTkn24/clTC27J7zVna4p0PTDdn1Mx8DXhP
+         t0TXqYHl0sfJBoJibUYV3CdQFO+K2xZuud8PpDxPXaY4lLsgUh+oAkCt8nZ++lqC5qps
+         2zNBx4zcV0160Grno+DH4jd12dqPucjjjo2mZzy3TAsCmc0crUPAuT5mzRaDaGdR/ll+
+         2AunOn2TjQGBbiGS8LS4T2yBBEyswfI6F2qVP3yDg1f5QDVWQDLFKLERr+d8NUhqcsTZ
+         El7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mUVdR+ZDJVxSmd7ZbQVSsi764XMpQahMmDvfOF22gQY=;
+        b=GSgf+iX46pD0y4iEiG3zH9KYe4TM/AUF1LdZNrLB4zoK8Tu7NiITr9Ad0iE29N7slF
+         NfXrlIX6CgWJst3fQGvQTkap8wrmcIC3GhEf3im8rNj5esMtT2MAGMkbsumm8hlcjmxr
+         qJQv4NnSHH/593qKrv0mRNIzbyw1oWTNeee0M3JZjkZZCJoGSnUbLLjfWXk5WzlK/Z3P
+         oz6yZ0pDeuvib2/xdYyjeo90b99LB8MhhzGeuizAqyqV0U4NKxbmXXjQs3u6hqYfd0H2
+         ZLexej7Q+mlwoS1nPw+Xp84FeQsEI3z90CE+1e23aTOzyHvRLvLhIQlsmdVcSv6uSLMX
+         vpZA==
+X-Gm-Message-State: AOAM533ldoEFw7RfENjxrz+Eqhb1uXyuidNAVFt8rsYJ3CPuL1GMSt6g
+        wKR5GOE82MNj18XwhpJBWdc=
+X-Google-Smtp-Source: ABdhPJyu7NsACW41OKjti0Dmecq5SwVTGW26QQC4foUalOjXrZcuCwKG78N9LWqnKSZwGFISKNM07A==
+X-Received: by 2002:a17:906:d286:: with SMTP id ay6mr8804419ejb.400.1594995927698;
+        Fri, 17 Jul 2020 07:25:27 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id p14sm8475984edr.23.2020.07.17.07.25.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2020 07:25:26 -0700 (PDT)
+Date:   Fri, 17 Jul 2020 16:25:24 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     miaoqinglang <miaoqinglang@huawei.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] gpu: host1x: Convert to DEFINE_SHOW_ATTRIBUTE
+Message-ID: <20200717142524.GA1218823@ulmo>
+References: <20200716090323.13274-1-miaoqinglang@huawei.com>
+ <20200716133450.GJ535268@ulmo>
+ <5684dcb3-c5a4-96c1-dd96-c44f5a94938f@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200702122605.GE4483@sirena.org.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594990481; bh=SusogErtypZgY+TzdZS2HFWYqEUTbBJkbKRjGIuYqvc=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=CVhmyGBZcGr+Ew3ideddsTJWWsTullCZJHR3/D8XmLHsiV2Jm+4xp8TaKd7EYMTGF
-         HPDeCCX45FfXcap1FcW+RZ3dJIgpCKzLjSjaj05k/WOj2HQlQBBhVEg2xVMe+xOPIn
-         OQAWAYffwU1bNtxD5KfBoSZE4ILYseTTMS62kK9aSM8iki+oTGPCdj1x+MaHZA+V+B
-         6hIOXD4L76hcGKwGiCgA5e/qpm8fiIPhGoKgnNYJbymhyKMyy3/CoN5FbzDmuidjhW
-         hMVmKQw2wkuZjZvSAp2Vns2E+IY3rwBscDpE3q/BI87S1vc/MbvVvHBle6pUfIOPvy
-         /s/Enp4rdzLoA==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
+Content-Disposition: inline
+In-Reply-To: <5684dcb3-c5a4-96c1-dd96-c44f5a94938f@huawei.com>
+User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mark,
 
+--UugvWAfsgieZRqgk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7/2/2020 5:56 PM, Mark Brown wrote:
-> On Thu, Jul 02, 2020 at 04:06:14PM +0530, Sameer Pujar wrote:
->
->> For the HW I am using, there are no fixed endpoints and I am not sure if it
->> is allowed to have empty endpoints in audio-graph-card. Crossbar/router
->> provides the flexibility to connect the components in any required order.
->> Patch [05/23] exposes required graph and MUX controls for the flexible
->> configurations. Mostly, in DT, I am trying to model the component itself and
->> finally router can help me specify the audio path to interconnect various
->> components. Hence I was trying to understand if it is really necessary to
->> represent the links using audio-graph-card. Kindly help me understand what
->> more it offers. If simple-card works fine, are we allowed to use it?
-> The links in the graph card should be the physical links at the edge of
-> the devices, those must be fixed no matter what.
+On Fri, Jul 17, 2020 at 09:32:21AM +0800, miaoqinglang wrote:
+>=20
+> =E5=9C=A8 2020/7/16 21:34, Thierry Reding =E5=86=99=E9=81=93:
+> > On Thu, Jul 16, 2020 at 05:03:23PM +0800, Qinglang Miao wrote:
+> > > From: Yongqiang Liu <liuyongqiang13@huawei.com>
+> > >=20
+> > > Use DEFINE_SHOW_ATTRIBUTE macro to simplify the code.
+> > >=20
+> > > Signed-off-by: Yongqiang Liu <liuyongqiang13@huawei.com>
+> > > ---
+> > >   drivers/gpu/host1x/debug.c | 28 ++++------------------------
+> > >   1 file changed, 4 insertions(+), 24 deletions(-)
+> > This doesn't apply. Can you please resend, based on something like
+> > linux-next?
+> >=20
+> > Thanks,
+> > Thierry
+> Hi, Thierry
+>=20
+> =C2=A0 Sorry I didn't mention it in commit log, but this patch is based on
+> linux-next where commit <4d4901c6d7> has switched over direct=C2=A0 seq_r=
+ead
+> method calls to seq_read_iter, this is why there's conflict in=C2=A0 your=
+ apply.
+>=20
+> =C2=A0 Do you think I should send a new patch based on 5.8rc?
 
-I used graph-card and could get few things working with it. Based on the 
-feedback so far, I am planning to split the series as suggested and send 
-two series as below.
-[1] Tegra AHUB series and related DT bindings as V5.
-[2] Audio graph card enhancements and related DT bindings for Tegra 
-platforms as V1.
+No need to. I'm about to send out the pull request for v5.9-rc1, so I'll
+just defer this to v5.10 since it doesn't look like it's anything
+urgent.
 
-Thanks,
-Sameer.
+Thierry
 
+--UugvWAfsgieZRqgk
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8RtM8ACgkQ3SOs138+
+s6Hj6g/+MgjmNXDQakxoDHLk0m84f7i97cY0lrI0Z0XFp0ZsuZp4VHLS0Rzd2wt8
+3tb6OLbwu6Q456lBZIw/FKa7i4zJ3bRzV1+dnvZaXPWgVUzSRMEgo6AugBNGQqhy
+eQJH+5NfpN75sWFtXjhA/PscNW1v6oR/QkTKa2kcYFtP5xbSWHxVkdRUK/Xl5s15
+TGaYsskrZehPE8k+6xNH6c0RIpt6ERO1NxnjrapApW3w98IYen1X8ONjILhJhjny
+ZjUJN3WbTaZVo7WtxZWG9G5AMR+5LK8qByRzjf1VoWWpFbiuZaPae/ewRFm8CZeg
+jNS3PYpAuSW9Bv0j5o2EEXUK4LV9gAC8ET140dTMmupSLH73Eu1ML7+Lm0TAGkK0
+MPmJ8jLc0TMTERdA2Jt5s5sNZttMjaABxgPvl2igT+2zVA3yzyE1E3EO5qpyVQSF
+R2AWrcyc9gVdyCElBq5Z39td7OkL4ylG/sboo6xxudgW5gcYo2K2w541CEES9TKm
+JWeo5cf8YiBWcoF6ppg+OkTw61NILMjiMopyrd5ZDSOnwAi/oprOyGT7TfQJqazJ
+y78QPzi3GrAzlZzMovNWNw+7MIIuig0tYtxVMz1i5/uBAE89ngZjN+09a4G14q4z
+0giSD+1Iya4q2w/DBhCIwiyhT53pHp76KrCj/+Xy1+8FUVHUprU=
+=J7AY
+-----END PGP SIGNATURE-----
+
+--UugvWAfsgieZRqgk--
