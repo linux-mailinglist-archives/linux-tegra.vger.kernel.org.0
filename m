@@ -2,90 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6F4224506
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 22:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C68C22451F
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 22:23:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728746AbgGQUPx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 16:15:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726771AbgGQUPw (ORCPT
+        id S1728183AbgGQUXT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 17 Jul 2020 16:23:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:46773 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726771AbgGQUXT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 16:15:52 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92DC1C0619D2;
-        Fri, 17 Jul 2020 13:15:52 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f5so14034830ljj.10;
-        Fri, 17 Jul 2020 13:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pGSWJ5XYOtcYSjTY3+CBpiz/oD76kPsZM5XqQ8FWvSY=;
-        b=BELLA6N91lnpbdhxonBdgZmBUyrDCvC+AJuWnPbHUjorHWWAiYkP/evijphwa/OX1x
-         YeFlbj6YB5jlGA/fsG/t+r03EL6zRuUjHLPrBtgqliVc7Hd9kL4rYdr0C3PditKj8WBy
-         qAIuJOUr1KOxGJ734crwoBgzpRjKccfHFkAk5Dynfw+Bqi8Ae+vDAP1u5zpLn8PloLNy
-         bfobdnrO2RCG5JyFcQeu0iE5lMepTDkksou970p948VIyFmMq8eEzGQFjw933huhS91P
-         g0jg8ne/+S8kSRtZEaAt57hxW3iSdfrAPuIpMlNqmLEo4rd1yJdBj//WhGUt8tp1T2FY
-         GHpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pGSWJ5XYOtcYSjTY3+CBpiz/oD76kPsZM5XqQ8FWvSY=;
-        b=oiaznSb1W9hlYpkz2GFghp8kFqh/7kaqJcN4VDgWX0/Dw9WXOz/JT8Oj0JIX+5expL
-         yK+g2Onz1U+57FF7NukA6wArorPKmxnG2d+z3KLc0Po0G89hq3DjzLPHUK+ayHa4ZlRR
-         t7x6WTu+IuCFYOR1EP5Jo5cfs5gpz3W0AV8GcffGegwY9tW5nYuKJXas3FnlaLDHEqE2
-         zocQiriOL8jmAg2euF6hUn5cEr7pCrzStljBF0w48GFk0yCSqd/KdX9O0o8MDcFGCNeL
-         s3FTltcuuEnMQMPd8L854cGTaGzGgmnrm5e3Zx2F9HX6ia9rjRPGD8XjnR3q8rn9gyDW
-         oXgQ==
-X-Gm-Message-State: AOAM530jMLrFovQA1wp+QDRVcXQkbsP27W9deSuw/n8D8+8nFdKGGDZJ
-        Y5RFixXTn9njYkLQBYkFfswbKHOj
-X-Google-Smtp-Source: ABdhPJzGg/3QGq9nWf3y7/hzCu0T7c59zBG7m6H4CCp7NGUQevFAgTUsL9a8rwWlbc2nt1kxemJEcA==
-X-Received: by 2002:a2e:978d:: with SMTP id y13mr4982584lji.227.1595016950819;
-        Fri, 17 Jul 2020 13:15:50 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
-        by smtp.googlemail.com with ESMTPSA id g142sm2056988lfd.41.2020.07.17.13.15.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jul 2020 13:15:50 -0700 (PDT)
-Subject: Re: [PATCH v4] clk: tegra: pll: Improve PLLM enable-state detection
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200709172057.13951-1-digetx@gmail.com>
- <997361b8-4466-cdf0-beeb-eedcbeb48597@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e713d98b-deab-f0e5-6224-6c1f13a37b46@gmail.com>
-Date:   Fri, 17 Jul 2020 23:15:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 17 Jul 2020 16:23:19 -0400
+Received: from mail-qk1-f177.google.com ([209.85.222.177]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MeTwa-1kWy6D1wdo-00aUGw for <linux-tegra@vger.kernel.org>; Fri, 17 Jul
+ 2020 22:23:17 +0200
+Received: by mail-qk1-f177.google.com with SMTP id 11so485302qkn.2
+        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 13:23:17 -0700 (PDT)
+X-Gm-Message-State: AOAM530d8y0kktGnYEHAQooOVeeUwGHGWttQ5I2wkrmBcKeVGc7SsGUC
+        /qHgPAlvCtbZ4sdnB1B8j+dkvPGXBrzqarF6v4c=
+X-Google-Smtp-Source: ABdhPJxPu2KLH6FekmlVew985LcUBtfP3OaFHddT22RGu0hrBiIaUfr6Iw0Z1pdGmsVIG4lEf+9CUIYLFhCScuvmQ4w=
+X-Received: by 2002:a05:620a:1654:: with SMTP id c20mr10631928qko.138.1595017396321;
+ Fri, 17 Jul 2020 13:23:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <997361b8-4466-cdf0-beeb-eedcbeb48597@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200717161300.1661002-1-thierry.reding@gmail.com>
+ <20200717161300.1661002-6-thierry.reding@gmail.com> <CAK8P3a1niUF7xK_bmz=8NJbRGxs7iFzNnRgRS9H=bXpMqarsWg@mail.gmail.com>
+ <a6f83a03-3a8f-47d0-6770-fe0e2595cde5@gmail.com>
+In-Reply-To: <a6f83a03-3a8f-47d0-6770-fe0e2595cde5@gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 17 Jul 2020 22:23:00 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3nSYfotK=0ZL9XqeMi-v0nqxFZnFKy4OAbvnc9qzN8Xw@mail.gmail.com>
+Message-ID: <CAK8P3a3nSYfotK=0ZL9XqeMi-v0nqxFZnFKy4OAbvnc9qzN8Xw@mail.gmail.com>
+Subject: Re: [GIT PULL 6/7] ARM: tegra: Default configuration changes for v5.9-rc1
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        arm-soc <arm@kernel.org>, SoC Team <soc@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:Nyiq8qLJcv+2PMwD19W6fvAXHBNS6bBb15hhn8pmN8TgZ4GtIXD
+ U7SDcxxc/z7nTMRKLqWX2wnLowHrwybJc2Fr0xpQSVT8xDWPe0aAt/ndZ9R4EcJErcmgX78
+ xt5VIh/1pWO5xxY4SrFki5Z1lru+l9PaD1VYk0Hlv9nw0dyrR/tF1JRqfiVZpH9y5WRTSt5
+ yx7FQ0JmcaexwykmyTCBw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/bikSQbFQDs=:T3Ipp/qLUU7mMPQiAmO3oH
+ /0x66aOHpbcQ2zp/HufLmBDIkRAzGcImgJzk4mxkNQQ+nGO9gfLEm+yIh1tB1vJWGDEMuET4n
+ 5XSvKecGE5F6GQRYlKc5W2ObSj8NW2tloU5S3kSUN67k7JYEOLHGI9ebK2GOxeJi9Th+gsE2S
+ tSwHVwLlHo1Fd2DUvJkzBN++hTHRxrwoWcI8lt0zKJ+yH7a+bUHxze9BbuZPCAr55/83RdiWf
+ OXjc9ZG0dxpMwGiHJ0PQp8rtYNsSQDa4pi3CTeQaJeTho7bS7omaXz9RR9Er2m7AEwxKe+6XE
+ 2c4aOuy1VZL6MdHkaW8chbwCW/xAotIxNd1hjWsrFKvvmco6KaVmCSVtm1nQb+kJftgO+P1ql
+ stYWWnBHF0k3jWkDP10SL62hLeXlFMDvgwAht/8yZt/izx50Z5FLxK7j6+WpAqIBMhB9cJicK
+ Dy4aBwQBluc/UWYlgUpFyQBqINTnzfvyxg3yJate0l8eAR7BaMOZi5XDsGYPpT3481HfsT1iZ
+ ahZQw8PV4oilDh2ml2RrHM8uU46U72oI9OZOdj8ABbyCtfF1HEAUcvIX8WauA8uJgeoP6D/hN
+ oxmippjEOuEbuEi6QpTwaPQSmMn9S3RpjGuTM2iMGPgJ6epsCBbo21hRVcNyjSCTFjiJG/CJn
+ YJOEUGwOQ6zHnmCtOl5NFeenG0u1l5EQBo52WoIpR8L3dv5j+GrN51YMlMz/ydzRpq2iCyyAm
+ ufF1dTp/Niq1k95EbizkWIa/SIKxmPP9hQ20gQlJrTOu9W4eTkk3ynJIRNTC1Lk7NlIoDYocx
+ 15WwzZn4VeXtsmwgv5f3/Q65AmOCq0aELNeG7/WOvZj/oNW9m3hK84BBZgkVSJpBLEfbgWvU6
+ FBLHBdD6zYC9V7iYQ9YW9cacUqePdQROEfeJdm/LHDeJy6F5tGREFrc5iDlJyTC4dbwhTf4Dl
+ rSYwYzFiMhuytEg7eIAchErO7G04ChXW0ZP3qsxd+GonANxO48iH4
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.07.2020 19:55, Jon Hunter пишет:
-...
-> I have tested this on Jetson TK1 using u-boot to verify the behaviour
-> and it does indeed work as described here. I have also ran it through
-> the automated testing we have for Tegra and see no immediate issue.
-> Therefore ...
-> 
-> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
-> 
-> Thanks!
-> Jon
+On Fri, Jul 17, 2020 at 10:13 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+> 17.07.2020 22:24, Arnd Bergmann пишет:
+> > On Fri, Jul 17, 2020 at 6:13 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+> >> ARM: tegra: Default configuration changes for v5.9-rc1
+> >>
+> >> Enables a few new configuration options that are useful on the new Nexus
+> >> 7 and Acer A500 devices, as well as the userspace CPU frequency governor
+> >> that's mainly used for testing.
+> >
+> > I've pulled all the other branches, but I'm a little bit wary about
+> > this one since
+> > Dmitry's patch enables a number of options that would increase the kernel
+> > size, and I see no indication that it has been reviewed by anyone else.
+> >
+> > I think the changes all make sense, but I would prefer to have a wider
+> > audience for that patch and get some Acks. If you like, you can send the
+> > tegra specific changes in a new pull request in the meantime, and then
+> > send the remaining additions to the usual suspects as an RFC, with
+> > Cc:soc@kernel.org, so I can apply it later if everyone is happy enough
+> > with it.
+>
+> Hello, Arnd!
+>
+> But these are already the tegra specific changes. The patch changes
+> tegra_defconfig and not the multi_v7_defconfig.
+>
+> Could you please clarify from whom would you expect to get more Acks if
+> not from the tegra maintainers?
+>
+> In practice nobody uses upstream defconfig as-is, it's only used as
+> initial template. So I'm not sure why tegra-kernel size makes you to
+> worry. Could you please explain?
 
-Awesome, thank you!
+It was a mistake on my end, for some reason I thought you were
+changing the arm64 defconfig, which does not have per-platform
+files.
+
+The patch is good, and I'll pull the branch as soon as I get to it
+(it's a bit late for today).
+
+      Arnd
