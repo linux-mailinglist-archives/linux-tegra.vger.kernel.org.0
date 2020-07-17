@@ -2,117 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF327223891
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 11:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A8212238E2
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 12:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726046AbgGQJh5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 05:37:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55434 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725950AbgGQJh5 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 05:37:57 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 9BB002A508E
-Subject: Re: [RESEND RESEND PATCH] arm/arm64: defconfig: Update configs to use
- the new CROS_EC options
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Enric Balletbo Serra <eballetbo@gmail.com>
-Cc:     Gwendal Grignou <gwendal@chromium.org>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        Will Deacon <will@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>, Joel Stanley <joel@jms.id.au>,
-        Bastien Nocera <hadess@hadess.net>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Maxime Ripard <maxime@cerno.tech>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        Olof Johansson <olof@lixom.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Lukasz Luba <lukasz.luba@arm.com>
-References: <20200305111047.147355-1-enric.balletbo@collabora.com>
- <CAFqH_52LhfV9AsnPRZi_ZPsgYX8WrUrKEsV-E7VHOw3ZZtHd-w@mail.gmail.com>
- <CAK8P3a0ScHe+ErEZr-x4Sj=3Yz7cppKDcemXemvwXMbPh-RVMQ@mail.gmail.com>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <2c7a9b5f-968b-38a2-3f67-f731a8617e09@collabora.com>
-Date:   Fri, 17 Jul 2020 11:37:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726040AbgGQKDp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 06:03:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34414 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725912AbgGQKDo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 17 Jul 2020 06:03:44 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 847C12076A;
+        Fri, 17 Jul 2020 10:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594980224;
+        bh=AjmrtslKmwX/6PMA4+8pzIsPlXZYlwjTJ2i/lkpv7EI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0HOWqPq7Xb6a4IP4VN2D6+4wU2bfE7MkxqiblCPE/mlCsFKsb1nHocBy0S6ckTenx
+         vjcn55OkAGmZtsR2bQgTQ8loJ3UMMFEBNzJglNPAzMuIwrGvp12AJiLpv2XOpkvd2A
+         10Af/T/FlmIlYB+IMR60aNjx+i8kzW7XFA+Q/SmI=
+Date:   Fri, 17 Jul 2020 11:03:38 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Krishna Reddy <vdumpa@nvidia.com>
+Cc:     joro@8bytes.org, robin.murphy@arm.com, robh+dt@kernel.org,
+        treding@nvidia.com, jonathanh@nvidia.com,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, yhsu@nvidia.com, snikam@nvidia.com,
+        praithatha@nvidia.com, talho@nvidia.com, bbiswas@nvidia.com,
+        mperttunen@nvidia.com, nicolinc@nvidia.com, bhuntsman@nvidia.com,
+        nicoleotsuka@gmail.com
+Subject: Re: [PATCH v10 0/5] NVIDIA ARM SMMU Implementation
+Message-ID: <20200717100337.GA8673@willie-the-truck>
+References: <20200708050017.31563-1-vdumpa@nvidia.com>
+ <20200713135020.GD2739@willie-the-truck>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a0ScHe+ErEZr-x4Sj=3Yz7cppKDcemXemvwXMbPh-RVMQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200713135020.GD2739@willie-the-truck>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Arnd,
-
-On 17/7/20 8:59, Arnd Bergmann wrote:
-> On Wed, Jul 15, 2020 at 11:31 PM Enric Balletbo Serra
-> <eballetbo@gmail.com> wrote:
->> Missatge de Enric Balletbo i Serra <enric.balletbo@collabora.com> del
->> dia dj., 5 de març 2020 a les 12:11:
->>>
->>> We refactored the CrOS EC drivers moving part of the code from the MFD
->>> subsystem to the platform chrome subsystem. During this change we needed
->>> to rename some config options, so, update the defconfigs accordingly.
->>>
->>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>> Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
->>> Reviewed-by: Gwendal Grignou <gwendal@chromium.org>
->>> Tested-by: Gwendal Grignou <gwendal@chromium.org>
->>> Acked-by: Lee Jones <lee.jones@linaro.org>
->>> ---
->>
->> A gentle ping. I'd like to land this if is possible because that way I
->> can remove some legacy code in platform/chrome subsystem.
->>
->> Thanks,
->>   Enric
->>
->>> Dear all,
->>>
->>> This is a resend of a resend patch [3]. In some previous discussions
->>> maintainers would prefer to have this merged through the arm-soc tree
->>> but wasn't merged yet and I forget to ping again, hence, sending a new
->>> resend.
+On Mon, Jul 13, 2020 at 02:50:20PM +0100, Will Deacon wrote:
+> On Tue, Jul 07, 2020 at 10:00:12PM -0700, Krishna Reddy wrote:
+> > Changes in v10:
+> > Perform SMMU base ioremap before calling implementation init.
+> > Check for Global faults across both ARM MMU-500s during global interrupt.
+> > Check for context faults across all contexts of both ARM MMU-500s during context fault interrupt.
+> > Add new DT binding nvidia,smmu-500 for NVIDIA implementation.
 > 
-> I've merged it into the arm/defconfig branch of the soc tree now.
-> If you have future platform specific changes to the defconfig files,
-> please just add soc@kernel.org to the recipients to get the patch
-> into patchwork.
+> Please repost based on my SMMU queue, as this doesn't currently apply.
 > 
+> https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=for-joerg/arm-smmu/updates
 
-Many thanks! I'll take into account this next time.
+Any update on this, please? It would be a shame to miss 5.9 now that the
+patches look alright.
 
->      Arnd
-> 
+Will
