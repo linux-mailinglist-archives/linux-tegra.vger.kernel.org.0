@@ -2,71 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 458962244F5
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 22:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7C7D2244FB
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 22:15:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728412AbgGQUNq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 16:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
+        id S1728238AbgGQUO5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 16:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727871AbgGQUNp (ORCPT
+        with ESMTP id S1726771AbgGQUO4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 16:13:45 -0400
+        Fri, 17 Jul 2020 16:14:56 -0400
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4633FC0619D2
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 13:13:45 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id s9so14026600ljm.11
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 13:13:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AF6C0619D2;
+        Fri, 17 Jul 2020 13:14:56 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id q4so14119405lji.2;
+        Fri, 17 Jul 2020 13:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5fhjf/YnStcYM6LxBO8TgF0Hb1Sq+HPJU/Vb5xKn3RU=;
-        b=mxTQ5J76AcJHnoF3Bb/ET/VqzJ6Hqq7faJVzbrhuyIO1In/9+qMSGDVWHciiBT9IV5
-         M1ZGV+MTHovml8KNcuxkMC2A3oQPN9A+d4y5pVWuaWPzOrJJvjpZcksrTiQw6o1Z03Mi
-         cRy+eNgel+lAL2COqfy+PCchVQvZQtYFXb+QvJnvFDOYTqeMJC0vrqb9HCvfzCGjin6z
-         F2wgBafXB42ACCOmJgwCBVcMjelxzDkPDvlWntlLSATiT76Ndd+Cr3+u6DfaXx98lY3d
-         vIpP53B6Oqs6r/7phB9cPgEXPjoqkRNfqNi2BMnRUOdLRLSSC+RpWuToKiAvTHpwUg2f
-         qFCw==
+        bh=FkWVr5zp5BC/cYtB354fZGgMcjVM5l8oIeKEC5H54O8=;
+        b=I8YXBM35hH1s2nXJoK1+VOFw/G3kED5UoxeMOVdBSMzbYvRoB7xrjgniZ743y/0DQ+
+         gRmPH5NJeSL11Wtixy7LpjSo0ZIrciCdcHCzFQrIoRZ+Ar5hi3sm/MsQlDnZkbuhBS5J
+         /fTcm3QddMcLA2PDJd2Xl96Ss6abAZ6xl1YmTE/v6mBZxGjFRk+ZIQAhRXw/Zr6pxnjD
+         vI6tKr2Buo6KCetCoHP2tAgP5ygefnrUcWxU/pOyBNQ1Jx5v82xD5v0jYRumxJY3ZHns
+         YWpf/QLIJvo7XbebIb16XWOyF8ndcZqbVyoTId5pXJJJx9RQPTQGEZFcoOinCc+/h9ux
+         XHMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=5fhjf/YnStcYM6LxBO8TgF0Hb1Sq+HPJU/Vb5xKn3RU=;
-        b=Ns8Dpha2TEDIoIcSNo+th4T+arzSAVGWiIcAnaocAo2Ob68HFBgCUH6bIY2ats9wPq
-         AsGrdRT/qZySS2Euat074Bh+xIPIthEXh36hixOBpwzffIKoTgY2iaVwBnhz2BBDC7Yk
-         Wp9AYecWMUWIib6p0Ebnc6VI4bWR6Y3hlX/x8dXnW0xfrCtUZUBi1+NBIa4KdrBGv79Y
-         cBMtme2Y+RWp9QvFcYozjRwT+WtROhjZ7mMFFcEoaDUJxisO/sPG6JcjRpE26DBooo0/
-         alXlBZsOXzf3iIwLe8de7tLFQKz+yn8wxdZ46hELp1SzQOuYZkpN1x/OpZFw7Xf5sy3y
-         gSww==
-X-Gm-Message-State: AOAM530dajYEYGoCjoIpGjGRbOye2boCerrwbVF6P5eguqrvYArFp1Ns
-        XNkCt7gvNkt6ZgOk2gqfcHk=
-X-Google-Smtp-Source: ABdhPJwzX95J2EkbIGEwORANK1nl3fVzj9yjH1VgTwH+g7x0aRaAjL5rzDnl7fULyYdtOs6dpNzFaQ==
-X-Received: by 2002:a2e:b889:: with SMTP id r9mr5310187ljp.92.1595016823662;
-        Fri, 17 Jul 2020 13:13:43 -0700 (PDT)
+        bh=FkWVr5zp5BC/cYtB354fZGgMcjVM5l8oIeKEC5H54O8=;
+        b=rbIph5+wmsJW3Judoy462er/si7r0YskiNFaPjWoldC1nwgEbLxuYm3Rt3YUaaDLoo
+         RcQrjQgW9Mn5H7CN6xi2PUqACCFVczNwG2V3eZRebrz9ajsSwYu+hB/9F2ce4IyzRt3G
+         Gdhw4OeGRoDAs9zXymx+BFg7CcVdG60RK6dL81UTCxcsx5kDSLJSv8gA5oYQoFzxNEzV
+         kT/8kTof94vjSEjEjhLFvJhCeCHQVHmc0Miypyy+Axm5DJ1GZ9YI9lKEaCQYR7J3JAq6
+         GYqqpKd69J/xYnhlNzjt6O6rSLgaNIfv9UbtCstFl2PyodJkaCLP4hEa9rEUjqqGud+X
+         ZmWg==
+X-Gm-Message-State: AOAM531iq4S6YlPwocn6JhA5IIohzBVIGlevoXg5+CU9O40EtrYzlAJW
+        T7EnS7nj2RfTzLB/PxedkbOsh9vJ
+X-Google-Smtp-Source: ABdhPJyp3rS1I8TlETFWJxyFclpR+MDYEDvhNGj1hflmucIV1aJFhc+30qRGfh5li8IzI6Q2NqjREg==
+X-Received: by 2002:a05:651c:1a7:: with SMTP id c7mr5485739ljn.345.1595016894667;
+        Fri, 17 Jul 2020 13:14:54 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
-        by smtp.googlemail.com with ESMTPSA id h21sm1817583ljk.31.2020.07.17.13.13.42
+        by smtp.googlemail.com with ESMTPSA id r11sm1823788ljc.66.2020.07.17.13.14.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jul 2020 13:13:42 -0700 (PDT)
-Subject: Re: [GIT PULL 6/7] ARM: tegra: Default configuration changes for
- v5.9-rc1
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     arm-soc <arm@kernel.org>, SoC Team <soc@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-References: <20200717161300.1661002-1-thierry.reding@gmail.com>
- <20200717161300.1661002-6-thierry.reding@gmail.com>
- <CAK8P3a1niUF7xK_bmz=8NJbRGxs7iFzNnRgRS9H=bXpMqarsWg@mail.gmail.com>
+        Fri, 17 Jul 2020 13:14:53 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
+ tegra_mipi_calibrate and tegra_mipi_wait
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
+ <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
+ <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
+ <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
+ <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+ <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
+ <4690e682-8495-2327-87c7-c2f06a7a479d@nvidia.com>
+ <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
+ <9b4fbf9d-d651-aa35-c0a6-b8f16aeb0900@gmail.com>
+ <550f1796-67ca-5856-223d-c68360243954@nvidia.com>
+ <ca8f2184-de30-03ec-9caf-e20a22d96a77@nvidia.com>
+ <080b30c7-1dce-dd2f-dd96-40f6e25da4d6@gmail.com>
+ <b125deab-7900-6266-d405-4d7f029089b4@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a6f83a03-3a8f-47d0-6770-fe0e2595cde5@gmail.com>
-Date:   Fri, 17 Jul 2020 23:13:41 +0300
+Message-ID: <ea3d2bb0-bf35-dfdf-ed1f-7656a9558072@gmail.com>
+Date:   Fri, 17 Jul 2020 23:14:52 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a1niUF7xK_bmz=8NJbRGxs7iFzNnRgRS9H=bXpMqarsWg@mail.gmail.com>
+In-Reply-To: <b125deab-7900-6266-d405-4d7f029089b4@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,34 +88,16 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.07.2020 22:24, Arnd Bergmann пишет:
-> On Fri, Jul 17, 2020 at 6:13 PM Thierry Reding <thierry.reding@gmail.com> wrote:
->> ARM: tegra: Default configuration changes for v5.9-rc1
->>
->> Enables a few new configuration options that are useful on the new Nexus
->> 7 and Acer A500 devices, as well as the userspace CPU frequency governor
->> that's mainly used for testing.
+17.07.2020 18:41, Sowjanya Komatineni пишет:
+...
+>> Also, what about the auto-calibration? Isn't it needed to be enabled for
+>> CSI?
+> STARTCAL does one time calibration and with AUTOCAL calibration will be
+> triggered periodically.
 > 
-> I've pulled all the other branches, but I'm a little bit wary about
-> this one since
-> Dmitry's patch enables a number of options that would increase the kernel
-> size, and I see no indication that it has been reviewed by anyone else.
+> For pads PULLUP/PULLDN/TERM impedance calibration, we only need one-time
+> calibration on pads power up.
 > 
-> I think the changes all make sense, but I would prefer to have a wider
-> audience for that patch and get some Acks. If you like, you can send the
-> tegra specific changes in a new pull request in the meantime, and then
-> send the remaining additions to the usual suspects as an RFC, with
-> Cc:soc@kernel.org, so I can apply it later if everyone is happy enough
-> with it.
+> We always use one time pads calibration for CSI.
 
-Hello, Arnd!
-
-But these are already the tegra specific changes. The patch changes
-tegra_defconfig and not the multi_v7_defconfig.
-
-Could you please clarify from whom would you expect to get more Acks if
-not from the tegra maintainers?
-
-In practice nobody uses upstream defconfig as-is, it's only used as
-initial template. So I'm not sure why tegra-kernel size makes you to
-worry. Could you please explain?
+Alright, thank you for the clarification!
