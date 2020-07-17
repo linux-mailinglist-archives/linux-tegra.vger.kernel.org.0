@@ -2,131 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 441E9223DFC
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 16:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77E38223EF8
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 17:00:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726198AbgGQOZ3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 10:25:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43422 "EHLO
+        id S1726944AbgGQPAA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 11:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726079AbgGQOZ3 (ORCPT
+        with ESMTP id S1726998AbgGQO77 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 10:25:29 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F8AC0619D2;
-        Fri, 17 Jul 2020 07:25:29 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id o18so11040743eje.7;
-        Fri, 17 Jul 2020 07:25:29 -0700 (PDT)
+        Fri, 17 Jul 2020 10:59:59 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C51C0619D2;
+        Fri, 17 Jul 2020 07:59:59 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id k17so6240150lfg.3;
+        Fri, 17 Jul 2020 07:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mUVdR+ZDJVxSmd7ZbQVSsi764XMpQahMmDvfOF22gQY=;
-        b=e99KnuVGCS6dPPckmUblnQ/Eq5Pt0qMRRfY1ARV29XHavDg6gElhKrIaEDpBLGpuds
-         P5FHLwnwgL07Jn0MnjcLpQ9PvpecGEu96QTkn24/clTC27J7zVna4p0PTDdn1Mx8DXhP
-         t0TXqYHl0sfJBoJibUYV3CdQFO+K2xZuud8PpDxPXaY4lLsgUh+oAkCt8nZ++lqC5qps
-         2zNBx4zcV0160Grno+DH4jd12dqPucjjjo2mZzy3TAsCmc0crUPAuT5mzRaDaGdR/ll+
-         2AunOn2TjQGBbiGS8LS4T2yBBEyswfI6F2qVP3yDg1f5QDVWQDLFKLERr+d8NUhqcsTZ
-         El7Q==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=AIsBzWloYNimsmc0KYIOUkctLP/uf91NO5ZeFcTqUAc=;
+        b=WlX0FGgFU85j8INNp504Kl83RplOa+9JaoeAAgEOl+Ri1vXBcWmpGf57guccR1cSAj
+         8PfbKMwdkeI2GFlqNvC4zHIUMjWV5rxbCFl+FKROe+wUnvqXYgKugrK9sbaQhSjxE9JZ
+         BnCH6fjmVEd9iDW7e8J/P+2M53XNDOnKM1iqCGY1lfUIFR0v25drbtzcgCCOzCzHo1lk
+         mCC4I9ENAXb4xP60G0tAUU6tvVi39O6xND5yLvvbUvqNOD4dSKlXin2ag81IqSOStDJv
+         IXcHABoG8Ux1FahCEGG4wlHq1BvCQ7WiD72cGg6WJsj+8Z6DL+oEHTDlDJDfVZspzXcJ
+         D8Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mUVdR+ZDJVxSmd7ZbQVSsi764XMpQahMmDvfOF22gQY=;
-        b=GSgf+iX46pD0y4iEiG3zH9KYe4TM/AUF1LdZNrLB4zoK8Tu7NiITr9Ad0iE29N7slF
-         NfXrlIX6CgWJst3fQGvQTkap8wrmcIC3GhEf3im8rNj5esMtT2MAGMkbsumm8hlcjmxr
-         qJQv4NnSHH/593qKrv0mRNIzbyw1oWTNeee0M3JZjkZZCJoGSnUbLLjfWXk5WzlK/Z3P
-         oz6yZ0pDeuvib2/xdYyjeo90b99LB8MhhzGeuizAqyqV0U4NKxbmXXjQs3u6hqYfd0H2
-         ZLexej7Q+mlwoS1nPw+Xp84FeQsEI3z90CE+1e23aTOzyHvRLvLhIQlsmdVcSv6uSLMX
-         vpZA==
-X-Gm-Message-State: AOAM533ldoEFw7RfENjxrz+Eqhb1uXyuidNAVFt8rsYJ3CPuL1GMSt6g
-        wKR5GOE82MNj18XwhpJBWdc=
-X-Google-Smtp-Source: ABdhPJyu7NsACW41OKjti0Dmecq5SwVTGW26QQC4foUalOjXrZcuCwKG78N9LWqnKSZwGFISKNM07A==
-X-Received: by 2002:a17:906:d286:: with SMTP id ay6mr8804419ejb.400.1594995927698;
-        Fri, 17 Jul 2020 07:25:27 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id p14sm8475984edr.23.2020.07.17.07.25.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 07:25:26 -0700 (PDT)
-Date:   Fri, 17 Jul 2020 16:25:24 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     miaoqinglang <miaoqinglang@huawei.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=AIsBzWloYNimsmc0KYIOUkctLP/uf91NO5ZeFcTqUAc=;
+        b=K5fbkf7dyIZhQrcxFo6KPjicWk15IBUccIInijZJ2pBTCb17UN2aB0IWaSiiz812p8
+         zUeYWiB9/dNH3NAosUjFoM/ENDvnjJFb3k6sCj/bNxQc+zqxooEgIo5ZwDls3TxnJpik
+         Q8Py3iTea/xR+5FTllFAjkISwD7IYv5qAQ6/DAzg8mqHnJKvLnfmzPiuSS7XesrTKaT2
+         HWYxfiG7kx2s/HUq81WOoEIte5+nMWOVawz8wHzQgCM4bngGEcauhyST8EytImmv7bck
+         WOW3px1X9yz8uJlIxJcVJum8V2wkqoUA8lAMFM8hdM04m02LIRFpoX2SVr9AUSKu1NOL
+         /e1w==
+X-Gm-Message-State: AOAM532Irk5juE4fRIYUwl48Mb81YsxCn9I2b735Q0q09+4vncrUcv8K
+        C1WvYXOAURjzeIOV0eAi5f+1AgXn
+X-Google-Smtp-Source: ABdhPJxa7d1sHKn11CgpK0Ph/XatNiYFYWQAvAn8F/chdThCJJ9I4yvmQ86DMvope5Tkh9DnrYp+LA==
+X-Received: by 2002:a19:4247:: with SMTP id p68mr4922622lfa.22.1594997997589;
+        Fri, 17 Jul 2020 07:59:57 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id m14sm2279017lfp.18.2020.07.17.07.59.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2020 07:59:56 -0700 (PDT)
+Subject: Re: [PATCH v11 0/4] Panel rotation patches
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Daniel Stone <daniel@fooishbar.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] gpu: host1x: Convert to DEFINE_SHOW_ATTRIBUTE
-Message-ID: <20200717142524.GA1218823@ulmo>
-References: <20200716090323.13274-1-miaoqinglang@huawei.com>
- <20200716133450.GJ535268@ulmo>
- <5684dcb3-c5a4-96c1-dd96-c44f5a94938f@huawei.com>
+References: <20200617231842.30671-1-digetx@gmail.com>
+Message-ID: <848a586a-060c-1244-e057-99f5b56baf09@gmail.com>
+Date:   Fri, 17 Jul 2020 17:59:55 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
-Content-Disposition: inline
-In-Reply-To: <5684dcb3-c5a4-96c1-dd96-c44f5a94938f@huawei.com>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+In-Reply-To: <20200617231842.30671-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+18.06.2020 02:18, Dmitry Osipenko пишет:
+> Hello!
+> 
+> This series adds support for display panel's DT rotation property. It's a
+> continuation of the work that was initially started by Derek Basehore for
+> the panel driver that is used by some Mediatek device [1]. I picked up the
+> Derek's patches and added my t-b and r-b tags to them, I also added
+> rotation support to the panel-lvds and panel-simple drivers.
+> 
+> We need the rotation support for the Nexus 7 tablet device which is pending
+> to become supported by upstream kernel, the device has display panel mounted
+> upside-down and it uses panel-lvds [2].
+> 
+> [1] https://lkml.org/lkml/2020/3/5/1119
+> [2] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200607154327.18589-3-digetx@gmail.com/
+> 
+> Changelog:
+> 
+> v11: - This series is factored out from this patchset [3] because these
+>        patches do not have hard dependency on the Tegra DRM patches and
+>        it should be nicer to review and apply the properly grouped patches.
+> 
+>      - Initially [3] only touched the panel-lvds driver and Emil Velikov
+>        suggested that it will be better to support more panels in the review
+>        comments to [3]. So I included the Derek's patch for the BOE panel
+>        and added rotation support to the panel-simple driver. I tested that
+>        panel-lvds and panel-simple work properly with the rotated panel using
+>        the Opentegra Xorg driver [4] and Wayland Weston [5].
+> 
+>      - The panel-lvds driver now prints a error message if rotation property
+>        fails to be parsed.
+> 
+> [3] https://lore.kernel.org/lkml/20200614200121.14147-1-digetx@gmail.com/
+> [4] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a3959bbe5bc3a3b67e55977093fd5114ca
+> [5] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
+> 
+> Derek Basehore (2):
+>   drm/panel: Add helper for reading DT rotation
+>   drm/panel: Read panel orientation for BOE TV101WUM-NL6
+> 
+> Dmitry Osipenko (2):
+>   drm/panel: lvds: Read panel orientation
+>   drm/panel-simple: Read panel orientation
+> 
+>  drivers/gpu/drm/drm_panel.c                   | 43 +++++++++++++++++++
+>  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    |  6 +++
+>  drivers/gpu/drm/panel/panel-lvds.c            | 10 +++++
+>  drivers/gpu/drm/panel/panel-simple.c          | 11 +++++
+>  include/drm/drm_panel.h                       |  9 ++++
+>  5 files changed, 79 insertions(+)
+> 
 
---UugvWAfsgieZRqgk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jul 17, 2020 at 09:32:21AM +0800, miaoqinglang wrote:
->=20
-> =E5=9C=A8 2020/7/16 21:34, Thierry Reding =E5=86=99=E9=81=93:
-> > On Thu, Jul 16, 2020 at 05:03:23PM +0800, Qinglang Miao wrote:
-> > > From: Yongqiang Liu <liuyongqiang13@huawei.com>
-> > >=20
-> > > Use DEFINE_SHOW_ATTRIBUTE macro to simplify the code.
-> > >=20
-> > > Signed-off-by: Yongqiang Liu <liuyongqiang13@huawei.com>
-> > > ---
-> > >   drivers/gpu/host1x/debug.c | 28 ++++------------------------
-> > >   1 file changed, 4 insertions(+), 24 deletions(-)
-> > This doesn't apply. Can you please resend, based on something like
-> > linux-next?
-> >=20
-> > Thanks,
-> > Thierry
-> Hi, Thierry
->=20
-> =C2=A0 Sorry I didn't mention it in commit log, but this patch is based on
-> linux-next where commit <4d4901c6d7> has switched over direct=C2=A0 seq_r=
-ead
-> method calls to seq_read_iter, this is why there's conflict in=C2=A0 your=
- apply.
->=20
-> =C2=A0 Do you think I should send a new patch based on 5.8rc?
-
-No need to. I'm about to send out the pull request for v5.9-rc1, so I'll
-just defer this to v5.10 since it doesn't look like it's anything
-urgent.
-
-Thierry
-
---UugvWAfsgieZRqgk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8RtM8ACgkQ3SOs138+
-s6Hj6g/+MgjmNXDQakxoDHLk0m84f7i97cY0lrI0Z0XFp0ZsuZp4VHLS0Rzd2wt8
-3tb6OLbwu6Q456lBZIw/FKa7i4zJ3bRzV1+dnvZaXPWgVUzSRMEgo6AugBNGQqhy
-eQJH+5NfpN75sWFtXjhA/PscNW1v6oR/QkTKa2kcYFtP5xbSWHxVkdRUK/Xl5s15
-TGaYsskrZehPE8k+6xNH6c0RIpt6ERO1NxnjrapApW3w98IYen1X8ONjILhJhjny
-ZjUJN3WbTaZVo7WtxZWG9G5AMR+5LK8qByRzjf1VoWWpFbiuZaPae/ewRFm8CZeg
-jNS3PYpAuSW9Bv0j5o2EEXUK4LV9gAC8ET140dTMmupSLH73Eu1ML7+Lm0TAGkK0
-MPmJ8jLc0TMTERdA2Jt5s5sNZttMjaABxgPvl2igT+2zVA3yzyE1E3EO5qpyVQSF
-R2AWrcyc9gVdyCElBq5Z39td7OkL4ylG/sboo6xxudgW5gcYo2K2w541CEES9TKm
-JWeo5cf8YiBWcoF6ppg+OkTw61NILMjiMopyrd5ZDSOnwAi/oprOyGT7TfQJqazJ
-y78QPzi3GrAzlZzMovNWNw+7MIIuig0tYtxVMz1i5/uBAE89ngZjN+09a4G14q4z
-0giSD+1Iya4q2w/DBhCIwiyhT53pHp76KrCj/+Xy1+8FUVHUprU=
-=J7AY
------END PGP SIGNATURE-----
-
---UugvWAfsgieZRqgk--
+Hi! Does anyone have any comments to this patchset? Will be nice if it
+could get into 5.9 :) Thanks in advance!
