@@ -2,136 +2,271 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70127224077
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 18:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4B162240A1
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 18:33:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbgGQQUR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 12:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726351AbgGQQUR (ORCPT
+        id S1726890AbgGQQbX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 12:31:23 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14198 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbgGQQbV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 12:20:17 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF990C0619D2
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 09:20:14 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id b15so8164374edy.7
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jul 2020 09:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=efN2uKFDZXpgLfoJY/eErs8o7zF1deEJZBO5IyFo8NI=;
-        b=obHc5zncS9Emc9zEPipZp4zFxj075sw3gCnd3XWRkjNYU8Or6dIAnATvL9tkWkgI5B
-         Bz9EU30iXOChRiugiFumvfPJj1q4aHv9sY/vZ8zphajYisKV2jlcrRMFJP4MmudCZDcQ
-         xrthHedKJ+6C/K/6UbV00K8B2R2/8NX5aIaITRRcI9R7zgCfLBvU8hu43PVc0xGdBZwN
-         C7OONg4T9CoC9rDfe/qw14VVxd0XSrorcrai9yXbofyIVSy954ByeJ4uDULt8QGaVq4V
-         WVx6uKUjFrNAsX1hqANlAAYXH1tpDD+sqZRXJxdDnCJ9dx0Gt4Ksau/LYGRix5DEhSfS
-         4CFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=efN2uKFDZXpgLfoJY/eErs8o7zF1deEJZBO5IyFo8NI=;
-        b=uIrvezYjHAo2C3Bap3XYK0r3wBXl6MG9q9TOpErooGVREN58bvTS8BVsRc0L4B2zzj
-         A2GsVHRQZSwmiWYpydojAlsYGJ2SLA5ZiywuyF+5tBtMHt+TbWmQ2wABTIg4PyVCcW0V
-         BV37NHk7kA7Rqpduy6AVCI0rqtidb9Umx5XAZSlMLd4fjTjvkMufbwdEuD1tn6zFsSPn
-         5WYD1eMrk0SwbXGz0fVVJCzt2gsAU6MtWE1/u8IpvNVFMFF3kOxaEHlQtKFMZyu1Ebtf
-         eihHCKB67UWL0e8qy3VXgi42qXvZgSzcWviVr0VgwObsgAUafE0ErEdvU7BM5PPtGUPH
-         4iqA==
-X-Gm-Message-State: AOAM533qkz92nXS5QEzZ0gTzbjP3VeNMzJ2jmd8k9x2Vwntp+62o9VBg
-        JHooNsy1vq5viv2F4RCvrky8j4cy
-X-Google-Smtp-Source: ABdhPJwreqcmknRZAA/ayM7AnZu4AwEMQTT7/kF3fAyRxWR/szU6ZexOQo+1mfWqVxlR+9L5TrSH8g==
-X-Received: by 2002:a05:6402:3138:: with SMTP id dd24mr10148075edb.118.1595002813386;
-        Fri, 17 Jul 2020 09:20:13 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id m13sm8248902ejc.1.2020.07.17.09.20.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 09:20:12 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] drm/tegra: Changes for v5.9-rc1
-Date:   Fri, 17 Jul 2020 18:20:11 +0200
-Message-Id: <20200717162011.1661788-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        Fri, 17 Jul 2020 12:31:21 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f11d24c0000>; Fri, 17 Jul 2020 09:31:08 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 17 Jul 2020 09:31:20 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 09:31:20 -0700
+Received: from [10.2.163.115] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
+ 2020 16:31:19 +0000
+Subject: Re: [RFC PATCH v3 00/18] Support for Tegra video capture from
+ external sensor
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <robh+dt@kernel.org>, <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <f03bdb89-df7c-e9e8-1512-d57e5d2332bf@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <d258fb56-14f6-a091-64e9-48294073c696@nvidia.com>
+Date:   Fri, 17 Jul 2020 09:34:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <f03bdb89-df7c-e9e8-1512-d57e5d2332bf@xs4all.nl>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595003468; bh=yHkAbVmveigBgWN5g2qJ6mxal/nHFMai6eEstw6Vm4U=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=jFnPaH3vijuYRfgrxR8CBIGCMTpkBXeiP/agYn44BC0THpWe3sGQEbt28na/8wAog
+         k1v4X+bsCcrt0pKIef+a5VFwfrmbwO7HJ+bchAt+QjhMBsxlbRH2l1F1qYMVmjbxhu
+         XBm/XMyre4BDS1NzCUo3nlsJJjmzcgrmBpeXssGBS4k0lza2F+bPVhoXTOsZx9Eb3M
+         OpKnEBjKM1LExw0yAfTgw5jlwbNBO54ZvG4NGArMke9EVB3zW/YDZZBhPVDlAGg7F/
+         wBJyPovHPVtNS5cwNeYOHE5qZUOFUdgymNQkCrAWomKZIyvYGUhi5mlXiNIG2EKVlG
+         ngj/MwN6jNBAg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dave,
 
-The following changes since commit fce3a51d9b31312aa12ecb72ffabfc4c7b40bdc6:
+On 7/17/20 3:54 AM, Hans Verkuil wrote:
+> Hi Sowjanya,
+>
+> On 15/07/2020 06:20, Sowjanya Komatineni wrote:
+>> This series adds support for video capture from external camera sensor t=
+o
+>> Tegra video driver.
+>>
+>> Jetson TX1 has camera expansion connector and supports custom camera mod=
+ule
+>> designed as per TX1 design specification.
+>>
+>> This series also enables camera capture support for Jetson Nano which ha=
+s
+>> Raspberry PI camera header.
+>>
+>> This series is tested with IMX219 camera sensor.
+>>
+>> This series include,
+>>
+>> VI I2C related fixes
+>> - Camera sensor programming happens through VI I2C which is on host1x bu=
+s.
+>> - These patches includes device tree and I2C driver fixes for VI I2C.
+>>
+>> Tegra video driver updates
+>> - TPG Vs Non-TPG based on Kconfig
+>> - Support for external sensor video capture based on device graph from D=
+T.
+>> - Support for selection ioctl operations
+>> - Tegra MIPI CSI pads calibration
+>> - CSI T-CLK and T-HS settle time computation based on clock rates.
+>>
+>> Host1x driver updates
+>> - Adds API to allow creating mipi device for specific device node.
+>> - Splits MIPI pads calibrate start and waiting for calibration to be don=
+e.
+>>
+>> Device tree updates
+>> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson TX1 D=
+T.
+>> - Enabled VI and CSI support in Jetson Nano DT.
+> I'm doing a bit of stress testing with:
+>
+> while true; do v4l2-ctl --stream-mmap --stream-count=3D1; done
+>
+> and I see that the imx274 has often streaming failures:
+>
+> [  172.025144] IMX274 8-001a: s_stream failed
+> [  179.025192] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 3132 =3D 870 (2 bytes)
+> [  179.033575] IMX274 8-001a: s_stream failed
+> [  226.525378] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 3130 =3D 878 (2 bytes)
+> [  226.533761] IMX274 8-001a: s_stream failed
+> [  227.029325] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 30f6 =3D 107 (2 bytes)
+> [  227.037758] IMX274 8-001a: s_stream failed
+> [  247.025218] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 30f6 =3D 107 (2 bytes)
+> [  247.033658] IMX274 8-001a: s_stream failed
+> [  293.025517] IMX274 8-001a: s_stream failed
+> [  309.024727] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 30e0 =3D 0 (2 bytes)
+> [  309.032969] IMX274 8-001a: s_stream failed
+> [  309.529506] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 30f8 =3D 11d2 (3 bytes)
+> [  309.538103] IMX274 8-001a: imx274_set_frame_length error =3D -121
+> [  309.544102] IMX274 8-001a: imx274_set_frame_interval error =3D -121
+> [  309.550243] IMX274 8-001a: s_stream failed
+> [  314.025561] IMX274 8-001a: s_stream failed
+> [  329.025586] IMX274 8-001a: s_stream failed
+> [  340.529567] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 303a =3D f0c (2 bytes)
+> [  340.538009] IMX274 8-001a: s_stream failed
+> [  347.525627] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 30f6 =3D 107 (2 bytes)
+> [  347.534008] IMX274 8-001a: s_stream failed
+> [  365.033640] IMX274 8-001a: s_stream failed
+> [  437.525788] IMX274 8-001a: imx274_write_mbreg : i2c bulk write failed,=
+ 3038 =3D c (2 bytes)
+> [  437.533997] IMX274 8-001a: s_stream failed
+> [  456.029780] IMX274 8-001a: s_stream failed
+> [  472.025862] IMX274 8-001a: s_stream failed
+> [  498.025861] IMX274 8-001a: s_stream failed
+> [  500.025905] IMX274 8-001a: s_stream failed
+>
+> where v4l2-ctl returns:
+>
+>                  VIDIOC_STREAMON returned -1 (Remote I/O error)
+>
+> I don't see this with the imx219.
+>
+> I also see this occasionally:
+>
+> [Fri Jul 17 12:51:42 2020] video4linux video1: failed to run capture star=
+t kthread: -4
+>
+> Something is not stable here.
+>
+> Regards,
+>
+> 	Hans
 
-  drm/tegra: Add zpos property for cursor planes (2020-06-16 19:03:25 +0200)
+Hi Hans,
 
-are available in the Git repository at:
+Running the same single frame continuous loop for more than 2 hours now=20
+and I don't see any failure.
 
-  ssh://git.freedesktop.org/git/tegra/linux.git tags/drm/tegra/for-5.9-rc1
+Above failure shows i2c bulk writes to IMX274 failure due to which=20
+s_stream also failed.
 
-for you to fetch changes up to 4fba6d22ca9ad28b8871d763b35a4da2e1ca272e:
+Not sure if its due to i2c mux in the path to sensor on your module=20
+causing some issue when there is more i2c write traffic as we are doing=20
+single stream in continuous loop. Also IMX219 does not show on your side=20
+so something specific to IMX274 setup probably.
 
-  drm/tegra: plane: Support 180° rotation (2020-07-17 16:06:17 +0200)
 
-Note that I've supplied the ssh:// URL above as opposed to the git://
-URL that I usually use. The latter has been somewhat spotty for me. Let
-me know if this is causing any issues.
+Regarding kthread_run failure where kthread_run() returned -EINTR during=20
+capture start thread, I always see this happen at the point of stopping=20
+the continuous single stream while loop by pressing ctrl+c after few=20
+loops of execution.
 
-Thanks,
-Thierry
+while true; do v4l2-ctl --stream-mmap --stream-count=3D1; done
 
-----------------------------------------------------------------
-drm/tegra: Changes for v5.9-rc1
+when we stop loop with ctrl+c, v4l2-ctl terminates but loop does not=20
+terminate immediately and probably SIGKILLed=C2=A0 is seen prior to complet=
+e.
 
-This set of patches contains a few preparatory patches to enable video
-capture support from external camera modules. This is a dependency for
-the V4L2 driver patches that will likely be merged in v5.9 or v5.10.
+Using below can help to terminate loop as well when we stop ctrl-c and=20
+with this I don't see any repro of EINTR error from kthread_run when run=20
+in infinite loop.
 
-On top of that there are a couple of fixes across the board as well as
-some improvements.
+while true; do ./v4l2-ctl --stream-mmap --stream-count=3D1 || break; done
 
-From a feature point of view this also adds support for horizontal
-reflection and 180° rotation of planes.
 
-----------------------------------------------------------------
-Dmitry Osipenko (9):
-      gpu: host1x: Optimize BOs usage when firewall is enabled
-      gpu: host1x: Put gather's BO on pinning error
-      gpu: host1x: debug: Fix multiple channels emitting messages simultaneously
-      gpu: host1x: debug: Dump push buffer state
-      drm/tegra: gr3d: Assert reset before power-gating
-      drm/tegra: gr2d: Add tiled PATBASE address register
-      drm/tegra: plane: Rename bottom_up to reflect_y
-      drm/tegra: plane: Support horizontal reflection
-      drm/tegra: plane: Support 180° rotation
 
-Sowjanya Komatineni (3):
-      gpu: host1x: mipi: Update tegra_mipi_request() to be node based
-      gpu: host1x: mipi: Use readl_relaxed_poll_timeout() in tegra_mipi_wait()
-      gpu: host1x: mipi: Split tegra_mipi_calibrate() and tegra_mipi_wait()
-
-Tang Bin (1):
-      drm/tegra: dc: Omit superfluous error message in tegra_dc_probe()
-
-Thierry Reding (1):
-      drm/tegra: sor: Use correct power supply names for HDMI
-
- drivers/gpu/drm/tegra/dc.c       | 50 ++++++++++++++++++++++++++++++----------
- drivers/gpu/drm/tegra/dc.h       |  3 ++-
- drivers/gpu/drm/tegra/dsi.c      |  9 ++++++--
- drivers/gpu/drm/tegra/gr2d.c     |  1 +
- drivers/gpu/drm/tegra/gr2d.h     |  1 +
- drivers/gpu/drm/tegra/gr3d.c     |  2 ++
- drivers/gpu/drm/tegra/plane.c    |  3 ++-
- drivers/gpu/drm/tegra/plane.h    |  3 ++-
- drivers/gpu/drm/tegra/sor.c      |  4 ++--
- drivers/gpu/host1x/debug.c       |  4 ++++
- drivers/gpu/host1x/hw/debug_hw.c |  6 +++++
- drivers/gpu/host1x/job.c         | 27 ++++++++++++++++------
- drivers/gpu/host1x/mipi.c        | 37 ++++++++++++++++-------------
- include/linux/host1x.h           |  4 +++-
- 14 files changed, 111 insertions(+), 43 deletions(-)
+>>
+>> Delta between patch versions:
+>>
+>> [v3]:	Includes v2 feedback
+>> 	- Uses separate helper function for retrieving remote csi subdevice
+>> 	  and source subdevice.
+>> 	- Added check for presence of subdevice ops set/get_selection
+>> 	- dropped vb2_queue_release from driver and using
+>> 	  vb2_video_unregister_device instead of video_unregister_device.
+>> 	- video device register should happen in the last after all video
+>> 	  device related setup is done in the driver. This is being addressed
+>> 	  in below RFC patch. Once proper implementation of this is available
+>> 	  will update Tegra video driver to use split APIs and do all setup
+>> 	  prior to device register. Added this as TODO in the driver.
+>> 	  https://www.spinics.net/lists/linux-media/msg172761.html
+>>
+>> 	Note:
+>> 	Patch-0012 has compilation dependency on
+>> 	https://patchwork.kernel.org/patch/11659521/
+>>
+>>
+>> [v2]:	Includes below changes based on v1 feedback
+>> 	- dt-binding document and the driver update for device graph to use
+>> 	  separate ports for sink endpoint and source endpoint for csi.
+>> 	- Use data-lanes endpoint property for csi.
+>> 	- Update tegra_mipi_request() to take device node pointer argument
+>> 	  rather than adding extra API.
+>> 	- Remove checking for clk pointer before clk_disable.
+>>
+>>
+>> Sowjanya Komatineni (18):
+>>    dt-bindings: i2c: tegra: Document Tegra210 VI I2C clocks and
+>>      power-domains
+>>    arm64: tegra: Add missing clocks and power-domains to Tegra210 VI I2C
+>>    i2c: tegra: Don't mark VI I2C as IRQ safe runtime PM
+>>    i2c: tegra: Remove NULL pointer check before
+>>      clk_enable/disable/prepare/unprepare
+>>    i2c: tegra: Fix the error path in tegra_i2c_runtime_resume
+>>    i2c: tegra: Fix runtime resume to re-init VI I2C
+>>    i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra210 vi i2c
+>>    media: tegra-video: Fix channel format alignment
+>>    media: tegra-video: Enable TPG based on kernel config
+>>    media: tegra-video: Update format lookup to offset based
+>>    dt-bindings: tegra: Update VI and CSI bindings with port info
+>>    media: tegra-video: Add support for external sensor capture
+>>    media: tegra-video: Add support for selection ioctl ops
+>>    gpu: host1x: mipi: Update tegra_mipi_request() to be node based
+>>    gpu: host1x: mipi: Use readl_relaxed_poll_timeout in tegra_mipi_wait
+>>    gpu: host1x: mipi: Split tegra_mipi_calibrate and tegra_mipi_wait
+>>    media: tegra-video: Add CSI MIPI pads calibration
+>>    media: tegra-video: Compute settle times based on the clock rate
+>>
+>>   .../display/tegra/nvidia,tegra20-host1x.txt        |  92 ++-
+>>   .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  19 +-
+>>   arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +
+>>   drivers/gpu/drm/tegra/dsi.c                        |   9 +-
+>>   drivers/gpu/host1x/mipi.c                          |  37 +-
+>>   drivers/i2c/busses/i2c-tegra.c                     | 101 +--
+>>   drivers/staging/media/tegra-video/Kconfig          |   7 +
+>>   drivers/staging/media/tegra-video/csi.c            | 247 ++++++-
+>>   drivers/staging/media/tegra-video/csi.h            |   8 +
+>>   drivers/staging/media/tegra-video/tegra210.c       |  25 +-
+>>   drivers/staging/media/tegra-video/vi.c             | 793 +++++++++++++=
+++++++--
+>>   drivers/staging/media/tegra-video/vi.h             |  25 +-
+>>   drivers/staging/media/tegra-video/video.c          |  23 +-
+>>   include/linux/host1x.h                             |   4 +-
+>>   14 files changed, 1242 insertions(+), 154 deletions(-)
+>>
