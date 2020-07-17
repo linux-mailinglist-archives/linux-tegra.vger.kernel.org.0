@@ -2,133 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50903223732
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 10:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B50F223745
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jul 2020 10:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbgGQIgU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 04:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727853AbgGQIgS (ORCPT
+        id S1726359AbgGQIkg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jul 2020 04:40:36 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:5091 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726293AbgGQIkg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 04:36:18 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24EBC061755;
-        Fri, 17 Jul 2020 01:36:17 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id n26so9943743ejx.0;
-        Fri, 17 Jul 2020 01:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DVLHoeYXUjVm2OkdCazu17iCF0dnNHQdzGYYcSDSF20=;
-        b=QNh1DgPx50z+CQu0pLkqwyDbvGV8m0tw/oXYtt5BZZ99oO4KFFA3vXyIvx/4RFbc65
-         wqrPUfR2oxPb3RiCbvRPno351bT/TsZHpIXQzsoWp2RHn5Sdnu3qoFjnphk3wIkptzDX
-         NcDllh+18SudoW5EeQ+k1HQx8lp2KNw20IhZoluSCHn/jLrn9EctnQDEO4MoNFJvXh06
-         s5sgLmcNQhg4UC8MBbErfR1i/DvIxj2U7YBmM+p9FWf1qd8Y3MzNPpfBVj1kIDLT6hAM
-         voWq812peScU3YdLNKAJiq+/mWs31cYlP9g3zwyqRw8s9i2s6vOFxmk0+nb7Wz23FDbw
-         Pckg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DVLHoeYXUjVm2OkdCazu17iCF0dnNHQdzGYYcSDSF20=;
-        b=CbTKok3Q2woRGdKpd3EqnbWIn9oZx0z3qfq6y2ztLdPQR7r/RgVXmgzsDhKzQvJTyI
-         ebkkX702HLIb0pckghlTGufzNUUnMkkHgfgDR5ftF7ncyEJ1VIVwNxfmIGVavVsm75fn
-         NtsyjqaKc3qQr+OBgaqg0oC4WtTiT0/zj50QjDI53kXVLfpV9xcHIiaZnBECKwspQK81
-         ct7+ITOHa9BZ4BjzM2o8j/FOD2txNt9IwnjuVKBVG0JDq7RwZNowfVVQsu/ZDsXXwmKe
-         2d741cEvYasjpiVYGgDGMpk39XVzA3u6+IPci5owBYub7b5u5C+r0hmieW9Lq0yN7nG6
-         jnsQ==
-X-Gm-Message-State: AOAM531GoVS320tJ6xD58O6YmmT/QitLB+2Ey26SMoyNcIYo6H50JlMy
-        Uxw3ykJ2nX4IOMq/zQaOdAI=
-X-Google-Smtp-Source: ABdhPJyguMDPLfo8wBAPq/cmard434hTf6HR8HnTBDCt3dI3IRLJCiWigoxyWNWWrWwpwrBZTLVI8g==
-X-Received: by 2002:a17:906:4a44:: with SMTP id a4mr5212375ejv.486.1594974976424;
-        Fri, 17 Jul 2020 01:36:16 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id c9sm7641757edv.8.2020.07.17.01.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 01:36:15 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        Fri, 17 Jul 2020 04:40:36 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f1163900000>; Fri, 17 Jul 2020 01:38:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 17 Jul 2020 01:40:36 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 01:40:36 -0700
+Received: from [10.26.72.76] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
+ 2020 08:40:34 +0000
+Subject: Re: [PATCH v3 1/2] dt-bindings: Add documentation for GV11B GPU
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
+CC:     Rob Herring <robh+dt@kernel.org>,
         Terje Bergstrom <tbergstrom@nvidia.com>,
         Debarshi Dutta <ddutta@nvidia.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 2/2] arm64: tegra: Add the GPU on Tegra194
-Date:   Fri, 17 Jul 2020 10:36:09 +0200
-Message-Id: <20200717083609.557205-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200717083609.557205-1-thierry.reding@gmail.com>
+        <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
 References: <20200717083609.557205-1-thierry.reding@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <5b8d0aaa-41c5-e577-df4c-737660be46f4@nvidia.com>
+Date:   Fri, 17 Jul 2020 09:40:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200717083609.557205-1-thierry.reding@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594975120; bh=nQhXKm/WZ+yd5Gs92pLzDYxsTtp2wVWpOK5wR5m00nM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=pRK2H8IZPh0xtbYtj3Q0whinXutiq8XN6RXBNC8tzS7/bY4w7Xc6GsFMWDhR3m2IT
+         tcE53eTqTgoGTfI6ePuo+b1NiY9iXFaQeGpa5gx3VdZoG+QD9R4Nob2dGhphtqNMFH
+         bAPsOrqaq1hRzmHxZxpktG3qpyw97DHC6E+dAuP8Ffw9qaFQcJ6WuZoa4710SGI647
+         Gnf37ecDDROLQndUKT3gMX0R1x62o2Zt/iZnBlHKlhx8ct87ADB8g4ldw5Eltps6Bs
+         XyskjFbd+dhDtXZHDC+NrcVVSj54pkpIV87Vm3qjCMvoWPhOcf9bclTD8Z4mkDkNoE
+         z3WgobHbsEZLw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-The GPU found on NVIDIA Tegra194 SoCs is a Volta generation GPU called
-GV11B.
+On 17/07/2020 09:36, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> The GV11B's device tree bindings are the same as for GP10B, though the
+> GPU is not completely compatible, so all that is needed is a different
+> compatible string.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v3:
+> - document the "fuse" clock which needs to be enabled during the GPU
+>   initialization
+> 
+>  .../devicetree/bindings/gpu/nvidia,gk20a.txt  | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/nvidia,gk20a.txt b/Documentation/devicetree/bindings/gpu/nvidia,gk20a.txt
+> index f32bbba4d3bc..662a3c8a7d29 100644
+> --- a/Documentation/devicetree/bindings/gpu/nvidia,gk20a.txt
+> +++ b/Documentation/devicetree/bindings/gpu/nvidia,gk20a.txt
+> @@ -6,6 +6,7 @@ Required properties:
+>    - nvidia,gk20a
+>    - nvidia,gm20b
+>    - nvidia,gp10b
+> +  - nvidia,gv11b
+>  - reg: Physical base address and length of the controller's registers.
+>    Must contain two entries:
+>    - first entry for bar0
+> @@ -25,6 +26,9 @@ Required properties:
+>  If the compatible string is "nvidia,gm20b", then the following clock
+>  is also required:
+>    - ref
+> +If the compatible string is "nvidia,gv11b", then the following clock is also
+> +required:
+> +  - fuse
+>  - resets: Must contain an entry for each entry in reset-names.
+>    See ../reset/reset.txt for details.
+>  - reset-names: Must include the following entries:
+> @@ -88,3 +92,24 @@ Example for GP10B:
+>  		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_GPU>;
+>  		iommus = <&smmu TEGRA186_SID_GPU>;
+>  	};
+> +
+> +Example for GV11B:
+> +
+> +	gpu@17000000 {
+> +		compatible = "nvidia,gv11b";
+> +		reg = <0x17000000 0x10000000>,
+> +		      <0x18000000 0x10000000>;
+> +		interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
+> +		interrupt-names = "stall", "nonstall";
+> +		clocks = <&bpmp TEGRA194_CLK_GPCCLK>,
+> +			 <&bpmp TEGRA194_CLK_GPU_PWR>,
+> +			 <&bpmp TEGRA194_CLK_FUSE>;
+> +		clock-names = "gpu", "pwr", "fuse";
+> +		resets = <&bpmp TEGRA194_RESET_GPU>;
+> +		reset-names = "gpu";
+> +		dma-coherent;
+> +
+> +		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_GPU>;
+> +		iommus = <&smmu TEGRA194_SID_GPU>;
+> +	};
+> 
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v3:
-- mark the GPU as DMA coherent because that's enforced by the MSS
-- add FUSE clock which is needed during GPU initialization
-- enable GPU by default
 
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 34 ++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 98c366ab4aab..48160f48003a 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1395,6 +1395,40 @@ sor3: sor@15bc0000 {
- 				nvidia,interface = <3>;
- 			};
- 		};
-+
-+		gpu@17000000 {
-+			compatible = "nvidia,gv11b";
-+			reg = <0x17000000 0x10000000>,
-+			      <0x18000000 0x10000000>;
-+			interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "stall", "nonstall";
-+			clocks = <&bpmp TEGRA194_CLK_GPCCLK>,
-+				 <&bpmp TEGRA194_CLK_GPU_PWR>,
-+				 <&bpmp TEGRA194_CLK_FUSE>;
-+			clock-names = "gpu", "pwr", "fuse";
-+			resets = <&bpmp TEGRA194_RESET_GPU>;
-+			reset-names = "gpu";
-+			dma-coherent;
-+
-+			power-domains = <&bpmp TEGRA194_POWER_DOMAIN_GPU>;
-+			interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVL1R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL1RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL1W &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL2R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL2RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL2W &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL3R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL3RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL3W &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL4R &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL4RHP &emc>,
-+					<&mc TEGRA194_MEMORY_CLIENT_NVL4W &emc>;
-+			interconnect-names = "dma-mem", "read-0-hp", "write-0",
-+					     "read-1", "read-1-hp", "write-1",
-+					     "read-2", "read-2-hp", "write-2",
-+					     "read-3", "read-3-hp", "write-3";
-+		};
- 	};
- 
- 	pcie@14100000 {
+Cheers
+Jon
+
 -- 
-2.27.0
-
+nvpublic
