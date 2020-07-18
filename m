@@ -2,223 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C329224A87
-	for <lists+linux-tegra@lfdr.de>; Sat, 18 Jul 2020 12:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C69F224DA8
+	for <lists+linux-tegra@lfdr.de>; Sat, 18 Jul 2020 21:35:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgGRKHP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 18 Jul 2020 06:07:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgGRKHP (ORCPT
+        id S1726798AbgGRTfL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 18 Jul 2020 15:35:11 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16157 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbgGRTfL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 18 Jul 2020 06:07:15 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F05DFC0619D2;
-        Sat, 18 Jul 2020 03:07:14 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id l2so20784458wmf.0;
-        Sat, 18 Jul 2020 03:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TbUgyZeiuM6+BVUIAI4OdILY3CSnWGCM8BoQyFdGMKs=;
-        b=OC0B+1hbj5tnPzu0RoOh98I75oY4HQYUY3L9uBR+BE/JwnGX2voM2S3XIWFKi1AYTN
-         9IIxlMLOmcKJaGS4kCR5soTLRcKvhawmfcBqe5SS9m53rUHpbE8XYTuuZSj4DcSd1SkB
-         6y2AOOnx9xfyfUF0gvR3snn54TyBGVllxY+KvMT0DXfqNl1ie24GeWmbHbebY82vkN/k
-         aocOTxiqyY8uIN2t0SBoKZa9V/azqrxVeEygbUVxCwQn+ZwAxxbj0Gmr4Y4seX6BwULs
-         i3uS5M6FEzjZJMC4/6XYy6s0HujfStbAhS+hpkNl2wh3VJeeixis/OXBYckuikLli8G4
-         O1eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TbUgyZeiuM6+BVUIAI4OdILY3CSnWGCM8BoQyFdGMKs=;
-        b=F788rEwRvDTCgrEkfZojaO03ue8zb/Mo4CFHXh8XnRpXBzsaQclqY3m4FyoGCP33Hw
-         QI2huOvdYd3l38LGErZ3MRbll45xP4yPrnrs9LBmHA+DTZZX5x7OcLI+IYKhnZTjvD3r
-         uwyV/Smjije6CwIgyTo77z//dg8YL56pryhslTzjA842AIX6cwKpF2xCT+fbFaF/mNhF
-         a70WgYu0QB6Kat91f2hu5MZLiI0HrMq7cdjV7cz4wr6UxsK8njGcALDFDJksPaULUd7x
-         fG0Ar0GkvsA+vtMPDryA/TQ4dR2y2t+58CxpIQWs27pD6Hd1rjO6NYsb0XkueR8uVX0a
-         GRQA==
-X-Gm-Message-State: AOAM532iB/N7gLAY+gR6oA/MO84UAsJQdHZD2Q9t6blhXDvwhPXyqtq3
-        n1cWDZJJh9k0NJsVsOYZj/9P76eksYY=
-X-Google-Smtp-Source: ABdhPJxcbaX83DdQaX3e5Oi0V4G5NBOFKyvw4yFH3H3mNbNDinbarEXp3AInlsVTsksLfM00eURSlQ==
-X-Received: by 2002:a7b:c394:: with SMTP id s20mr13753156wmj.31.1595066833465;
-        Sat, 18 Jul 2020 03:07:13 -0700 (PDT)
-Received: from arrakis.kwizart.net (amontpellier-652-1-69-19.w109-210.abo.wanadoo.fr. [109.210.52.19])
-        by smtp.gmail.com with ESMTPSA id a123sm18899653wmd.28.2020.07.18.03.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2020 03:07:12 -0700 (PDT)
-From:   Nicolas Chauvet <kwizart@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        Nicolas Chauvet <kwizart@gmail.com>, stable@vger.kernel.org
-Subject: [PATCH] PCI: tegra: Revert tegra124 raw_violation_fixup
-Date:   Sat, 18 Jul 2020 12:07:10 +0200
-Message-Id: <20200718100710.15398-1-kwizart@gmail.com>
-X-Mailer: git-send-email 2.25.4
+        Sat, 18 Jul 2020 15:35:11 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f134e790000>; Sat, 18 Jul 2020 12:33:13 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sat, 18 Jul 2020 12:35:10 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sat, 18 Jul 2020 12:35:10 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 18 Jul
+ 2020 19:35:06 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sat, 18 Jul 2020 19:35:06 +0000
+Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f134ee90000>; Sat, 18 Jul 2020 12:35:06 -0700
+From:   Krishna Reddy <vdumpa@nvidia.com>
+To:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
+        <robh+dt@kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>
+CC:     <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <yhsu@nvidia.com>,
+        <snikam@nvidia.com>, <praithatha@nvidia.com>, <talho@nvidia.com>,
+        <bbiswas@nvidia.com>, <mperttunen@nvidia.com>,
+        <nicolinc@nvidia.com>, <bhuntsman@nvidia.com>,
+        <nicoleotsuka@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>
+Subject: [PATCH v11 0/5] NVIDIA ARM SMMU Implementation
+Date:   Sat, 18 Jul 2020 12:34:52 -0700
+Message-ID: <20200718193457.30046-1-vdumpa@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595100793; bh=TN+H04oNQO9bZvotrlKTP2TmCq3SKVkosF9GEOPNIJU=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=rO91Ze9GtaOlLYV08m4UPtp1X0ec4qU9039Jn2xYvNAuFgXvKxFibz9eOlaPcXCzn
+         Hie156uusl/owMiO3kHcX+9wuY6QCUWHtAEux9BmuY5tj3WcM7N4GFbFkwMxC6RkcK
+         6sJC1H4wFf7tA1Glo3jsFbzM5I9ovsxHqK7zqMWUzqEkPi6PlAGh4HkeZRvb78NFe5
+         b76j4ROvTUb4cwt7/1NYzIvxkoJAvVsHAQfAhmDS2j5jKYNjBY2VfV+rOKQpjf/J9K
+         C9VJABmlmPgwYTXK0oLhvurERH7nfGzpdj00i+XsjCzV72PrAOqhar4i6PngjWo+Im
+         +aJ3xCgRYJtLw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-As reported in https://bugzilla.kernel.org/206217 , raw_violation_fixup
-is causing more harm than good in some common use-cases.
+Changes in v11:
+Addressed Rob comment on DT binding patch to set min/maxItems of reg proper=
+ty in else part.
+Rebased on top of https://git.kernel.org/pub/scm/linux/kernel/git/will/linu=
+x.git/log/?h=3Dfor-joerg/arm-smmu/updates.
 
-This patch is a partial revert of commit:
- 191cd6fb5d2c ("PCI: tegra: Add SW fixup for RAW violations")
-that was first introduced in 5.3-rc1 kernel. This fix the following
-regression since then.
+Changes in v10:
+Perform SMMU base ioremap before calling implementation init.
+Check for Global faults across both ARM MMU-500s during global interrupt.
+Check for context faults across all contexts of both ARM MMU-500s during co=
+ntext fault interrupt.
+Add new DT binding nvidia,smmu-500 for NVIDIA implementation.
+https://lkml.org/lkml/2020/7/8/57
 
-* Description:
-When both the NIC and MMC are used one can see the following message:
+v9 - https://lkml.org/lkml/2020/6/30/1282
+v8 - https://lkml.org/lkml/2020/6/29/2385
+v7 - https://lkml.org/lkml/2020/6/28/347
+v6 - https://lkml.org/lkml/2020/6/4/1018
+v5 - https://lkml.org/lkml/2020/5/21/1114
+v4 - https://lkml.org/lkml/2019/10/30/1054
+v3 - https://lkml.org/lkml/2019/10/18/1601
+v2 - https://lkml.org/lkml/2019/9/2/980
+v1 - https://lkml.org/lkml/2019/8/29/1588
 
-  NETDEV WATCHDOG: enp1s0 (r8169): transmit queue 0 timed out
 
-and
+Krishna Reddy (5):
+  iommu/arm-smmu: move TLB timeout and spin count macros
+  iommu/arm-smmu: ioremap smmu mmio region before implementation init
+  iommu/arm-smmu: add NVIDIA implementation for ARM MMU-500 usage
+  dt-bindings: arm-smmu: add binding for Tegra194 SMMU
+  iommu/arm-smmu: Add global/context fault implementation hooks
 
-  pcieport 0000:00:02.0: AER: Uncorrected (Non-Fatal) error received: 0000:01:00.0
-  r8169 0000:01:00.0: AER: PCIe Bus Error: severity=Uncorrected (Non-Fatal), type=Transaction Layer, (Requester ID)
-  r8169 0000:01:00.0: AER:   device [10ec:8168] error status/mask=00004000/00400000
-  r8169 0000:01:00.0: AER:    [14] CmpltTO                (First)
-  r8169 0000:01:00.0: AER: can't recover (no error_detected callback)
-  pcieport 0000:00:02.0: AER: device recovery failed
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |  25 +-
+ MAINTAINERS                                   |   2 +
+ drivers/iommu/Makefile                        |   2 +-
+ drivers/iommu/arm-smmu-impl.c                 |   3 +
+ drivers/iommu/arm-smmu-nvidia.c               | 278 ++++++++++++++++++
+ drivers/iommu/arm-smmu.c                      |  29 +-
+ drivers/iommu/arm-smmu.h                      |   6 +
+ 7 files changed, 334 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/iommu/arm-smmu-nvidia.c
 
-After that, the ethernet NIC isn't functional anymore even after
-reloading the r8169 module. After a reboot, this is reproducible by
-copying a large file over the NIC to the MMC.
 
-For some reason this is not reproducible when files are copied to a tmpfs.
-
-* Little background on the fixup, by Manikanta Maddireddy:
-  "In the internal testing with dGPU on Tegra124, CmplTO is reported by
-dGPU. This happened because FIFO queue in AFI(AXI to PCIe) module
-get full by upstream posted writes. Back to back upstream writes
-interleaved with infrequent reads, triggers RAW violation and CmpltTO.
-This is fixed by reducing the posted write credits and by changing
-updateFC timer frequency. These settings are fixed after stress test.
-
-In the current case, RTL NIC is also reporting CmplTO. These settings
-seems to be aggravating the issue instead of fixing it."
-
-Fixes: 191cd6fb5d2c ("PCI: tegra: Add SW fixup for RAW violations")
-Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
-Reviewed-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc: stable@vger.kernel.org
----
-
-v1: first non-RFC version
-    Disable raw_violation_fixup and fully remove unused code and macros
-
-v2: Update the commit message
-
- drivers/pci/controller/pci-tegra.c | 32 ------------------------------
- 1 file changed, 32 deletions(-)
-
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 235b456698fc..b532d5082fb6 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -181,13 +181,6 @@
- 
- #define AFI_PEXBIAS_CTRL_0		0x168
- 
--#define RP_PRIV_XP_DL		0x00000494
--#define  RP_PRIV_XP_DL_GEN2_UPD_FC_TSHOLD	(0x1ff << 1)
--
--#define RP_RX_HDR_LIMIT		0x00000e00
--#define  RP_RX_HDR_LIMIT_PW_MASK	(0xff << 8)
--#define  RP_RX_HDR_LIMIT_PW		(0x0e << 8)
--
- #define RP_ECTL_2_R1	0x00000e84
- #define  RP_ECTL_2_R1_RX_CTLE_1C_MASK		0xffff
- 
-@@ -323,7 +316,6 @@ struct tegra_pcie_soc {
- 	bool program_uphy;
- 	bool update_clamp_threshold;
- 	bool program_deskew_time;
--	bool raw_violation_fixup;
- 	bool update_fc_timer;
- 	bool has_cache_bars;
- 	struct {
-@@ -659,23 +651,6 @@ static void tegra_pcie_apply_sw_fixup(struct tegra_pcie_port *port)
- 		writel(value, port->base + RP_VEND_CTL0);
- 	}
- 
--	/* Fixup for read after write violation. */
--	if (soc->raw_violation_fixup) {
--		value = readl(port->base + RP_RX_HDR_LIMIT);
--		value &= ~RP_RX_HDR_LIMIT_PW_MASK;
--		value |= RP_RX_HDR_LIMIT_PW;
--		writel(value, port->base + RP_RX_HDR_LIMIT);
--
--		value = readl(port->base + RP_PRIV_XP_DL);
--		value |= RP_PRIV_XP_DL_GEN2_UPD_FC_TSHOLD;
--		writel(value, port->base + RP_PRIV_XP_DL);
--
--		value = readl(port->base + RP_VEND_XP);
--		value &= ~RP_VEND_XP_UPDATE_FC_THRESHOLD_MASK;
--		value |= soc->update_fc_threshold;
--		writel(value, port->base + RP_VEND_XP);
--	}
--
- 	if (soc->update_fc_timer) {
- 		value = readl(port->base + RP_VEND_XP);
- 		value &= ~RP_VEND_XP_UPDATE_FC_THRESHOLD_MASK;
-@@ -2416,7 +2391,6 @@ static const struct tegra_pcie_soc tegra20_pcie = {
- 	.program_uphy = true,
- 	.update_clamp_threshold = false,
- 	.program_deskew_time = false,
--	.raw_violation_fixup = false,
- 	.update_fc_timer = false,
- 	.has_cache_bars = true,
- 	.ectl.enable = false,
-@@ -2446,7 +2420,6 @@ static const struct tegra_pcie_soc tegra30_pcie = {
- 	.program_uphy = true,
- 	.update_clamp_threshold = false,
- 	.program_deskew_time = false,
--	.raw_violation_fixup = false,
- 	.update_fc_timer = false,
- 	.has_cache_bars = false,
- 	.ectl.enable = false,
-@@ -2459,8 +2432,6 @@ static const struct tegra_pcie_soc tegra124_pcie = {
- 	.pads_pll_ctl = PADS_PLL_CTL_TEGRA30,
- 	.tx_ref_sel = PADS_PLL_CTL_TXCLKREF_BUF_EN,
- 	.pads_refclk_cfg0 = 0x44ac44ac,
--	/* FC threshold is bit[25:18] */
--	.update_fc_threshold = 0x03fc0000,
- 	.has_pex_clkreq_en = true,
- 	.has_pex_bias_ctrl = true,
- 	.has_intr_prsnt_sense = true,
-@@ -2470,7 +2441,6 @@ static const struct tegra_pcie_soc tegra124_pcie = {
- 	.program_uphy = true,
- 	.update_clamp_threshold = true,
- 	.program_deskew_time = false,
--	.raw_violation_fixup = true,
- 	.update_fc_timer = false,
- 	.has_cache_bars = false,
- 	.ectl.enable = false,
-@@ -2494,7 +2464,6 @@ static const struct tegra_pcie_soc tegra210_pcie = {
- 	.program_uphy = true,
- 	.update_clamp_threshold = true,
- 	.program_deskew_time = true,
--	.raw_violation_fixup = false,
- 	.update_fc_timer = true,
- 	.has_cache_bars = false,
- 	.ectl = {
-@@ -2536,7 +2505,6 @@ static const struct tegra_pcie_soc tegra186_pcie = {
- 	.program_uphy = false,
- 	.update_clamp_threshold = false,
- 	.program_deskew_time = false,
--	.raw_violation_fixup = false,
- 	.update_fc_timer = false,
- 	.has_cache_bars = false,
- 	.ectl.enable = false,
--- 
-2.25.4
+base-commit: 49fbb25030265c660de732513f18275d88ff99d3
+--=20
+2.26.2
 
