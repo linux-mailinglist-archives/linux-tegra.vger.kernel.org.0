@@ -2,171 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22D0D224662
-	for <lists+linux-tegra@lfdr.de>; Sat, 18 Jul 2020 00:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA132249D3
+	for <lists+linux-tegra@lfdr.de>; Sat, 18 Jul 2020 10:29:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbgGQWgi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jul 2020 18:36:38 -0400
-Received: from nat-hk.nvidia.com ([203.18.50.4]:42781 "EHLO nat-hk.nvidia.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726205AbgGQWgi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jul 2020 18:36:38 -0400
-Received: from hkpgpgate101.nvidia.com (Not Verified[10.18.92.9]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f1227f20000>; Sat, 18 Jul 2020 06:36:34 +0800
-Received: from HKMAIL102.nvidia.com ([10.18.16.11])
-  by hkpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 17 Jul 2020 15:36:34 -0700
-X-PGP-Universal: processed;
-        by hkpgpgate101.nvidia.com on Fri, 17 Jul 2020 15:36:34 -0700
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL102.nvidia.com
- (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
- 2020 22:36:29 +0000
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
- by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Fri, 17 Jul 2020 22:36:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OX9zrvKHyh4lW/0GZ31SPDNDvtzFan1i3T5OdskeUeKBj1yzVegK5KYOzjlJX+MPbb8QnMdFAkPvmsmnkTwE4gVTLvznezOofeHyA5r+55OYUBm7tQOeMkLic3AVdkcNcCBk8oPU5AWmM9lhR+umCKDcPetucG2j8+n7GDRhRKSyt0LIhXSfQsXRt3aZAIRqlbNJGnJO8WvmtYEMllLzas3+hpFSbHfVQ5o8fblTc1stpohrPCrJwg+R1zP2Xa5cjX+ypoM7fJVmf9QZ6bqY0DqCbEjlczZGHRcaZG7+xHn+dp/YFWf4DTpCJL6UW44sxCoYD6y4x6IxxSI0sCGSAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UkrYAjYfVKTm/Fz1tRs8wCjeVh9SOkeqD8yWVv7kcp8=;
- b=fErKPcCzp2tTBUbj/LmwxO6yQnENgE87toag3iZ9/nMGHDIc9PI5zi6TQaHJ5JMjA9U3m0YOIaAKtkB1HzvTSld0DgYVdI4//5uwASmJb02rCvQVcieYIIaqhWgxpJQkz425HYxEojDQCtsVo5EnQL+dU9b1NSLp4ixSZlnCYrzyXNqDbnvXJwtXfScY9PEz+C7FM1UH88hblnlOVXYn5hMoBqJ94vTYyR/L9wO7SbrVIjdrJX+FLkrYJ09p2y/oZ8c2nBwGbcrUBkBKdVpensfZVtkdeH4x/VXKG4rpM3/v4a1pHYvUUBlU89nm2fFAVMe7qrEx79bzCU/+aiLqWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
- by BYAPR12MB2821.namprd12.prod.outlook.com (2603:10b6:a03:9b::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Fri, 17 Jul
- 2020 22:36:27 +0000
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3174.029; Fri, 17 Jul 2020
- 22:36:27 +0000
-From:   Krishna Reddy <vdumpa@nvidia.com>
-To:     Will Deacon <will@kernel.org>
-CC:     "joro@8bytes.org" <joro@8bytes.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "Thierry Reding" <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Yu-Huan Hsu <YHsu@nvidia.com>,
-        Sachin Nikam <Snikam@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Bryan Huntsman <bhuntsman@nvidia.com>,
-        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>
-Subject: RE: [PATCH v10 0/5] NVIDIA ARM SMMU Implementation
-Thread-Topic: [PATCH v10 0/5] NVIDIA ARM SMMU Implementation
-Thread-Index: AQHWVOS0Ssba+jgpK0ibL49hlWjwHakFj04AgAYJ/QCAAM/dMA==
-Date:   Fri, 17 Jul 2020 22:36:26 +0000
-Message-ID: <BYAPR12MB282220FED958EED2AA6AA860B37C0@BYAPR12MB2822.namprd12.prod.outlook.com>
-References: <20200708050017.31563-1-vdumpa@nvidia.com>
- <20200713135020.GD2739@willie-the-truck>
- <20200717100337.GA8673@willie-the-truck>
-In-Reply-To: <20200717100337.GA8673@willie-the-truck>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-07-17T22:36:02.8245596Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=a8b4efad-5909-4d32-8ba8-5e4fbc13f4f7;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [71.202.129.3]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1f43ccf2-27ac-475f-82cd-08d82aa1d7c8
-x-ms-traffictypediagnostic: BYAPR12MB2821:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB2821AA084A4E1372D78CE5FDB37C0@BYAPR12MB2821.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VLJkIttkMXZGf96T4bUOiYtNSr+kP/Qs5zMNe04Kltc/5ertyWFunuEAjk89x6U67PoBPwLvuUCuqH0QXd8DqMT9fjiSlj925qtnjiXVnAU9d9WOPNag+BXIVmX4/p4QGmiMo3ajttG4bLljDvma7i1ZrUg6nteyRD6kAd8k+z47voE3MMTZSbmppRFc6FDBuY8KIR9KOC2xOmjrM1CvoNCxh/C3C21AKG2m9UgW7SQn5eQCxH8ovsQ05+3t6AuDHaEx0iasWcGvwqQsyRCeVM17C06+uuPA94+XV9o4i6c3V1JNQdZ/IXMm/H/4F0PI6C2lC3jWOVZU8lkciU8yzGPCiQJ5zeoj3iUjS+55fU6ceXM89VGqi87mxBfT1UifDfyNQaq7f8ajAM+JBVZ9CA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2822.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(76116006)(33656002)(66946007)(66446008)(64756008)(71200400001)(66556008)(66476007)(5660300002)(86362001)(6506007)(7696005)(4326008)(2906002)(52536014)(8936002)(8676002)(4744005)(83380400001)(54906003)(186003)(26005)(316002)(478600001)(7416002)(55016002)(6916009)(9686003)(966005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: jJ5uhKVSRmLjUag+gCG/mb0KPdIlinSiFT46whYv2yVsEInnT4cJjWlbDBFT/p9IZAp10S09KzBcrjAsP/NKTkO3zHPO4xuMNPid1crk3PAA0gHDUKPnVgRTls/fyd3MJpkDQ+OmyX+BLmM6az2qDMO0UDX944tN+d2b9s9ltiYXD5Jo5717xJSkbzG4aEhHn4G73HdJrZMqZ/V8MCu8Lc7VuGxtNbANv4jbbMO82Mkijx01uaMLLFHDS4rIqmHlsnNlhmios9a6xCrcO+QOaruzkyVUpXQMobRfN7GhjIV6zG7G0R6fc66yYPJ0lpFcW7HaeZkRFkQdqpVuLVNmqswhnuliOo8XAoNR2v+Y5vD60f0AsIil1c0k6A/q7KendjohP+c1/vhcl0ibMM9NA92Heu+iro0pcB8TCJPrlwFfkjkO9j0FC8oLiy/KLFVapjaqSGBR8kiFhF57Do5ozwEon2MbbJ21p2OfjLgbFSQ=
+        id S1728045AbgGRI31 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 18 Jul 2020 04:29:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728749AbgGRI31 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 18 Jul 2020 04:29:27 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F41C0619D5
+        for <linux-tegra@vger.kernel.org>; Sat, 18 Jul 2020 01:29:27 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id o13so7801138pgf.0
+        for <linux-tegra@vger.kernel.org>; Sat, 18 Jul 2020 01:29:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dPX5I2zvoaIfMrTJOaEVmZ8AJ80iRBsKVksO1GxJCNo=;
+        b=ZzHLgOEL6rfH/FrYghVSfVEQktV2G0Ir7o5GkPsQTPiSTXfAartacdCWERPApI4F4h
+         z/xNML4mDKErL7wVRlTVtBRcspOz9kDbKiYzv/yyiLNLwgvPEJoSN37amJBWnAxRy9V2
+         9hVGDkdUX8hOdVMJjPWlhR6l8UlkjZKc+fziFbkc/yru2iiCKqBHpaSOUK5RnZW2S/yn
+         Pn8cacEL/2XGSr+kepi8HbhO+UN1PagUSVAQCnGrKN9SjBqwzxGDJoQQDa/+JnKN6Shy
+         o1suzUkzCeetU7bWUPKA6K7RuhGSovE+CT7GHBU6X1HJ4Oh0B0JzqvprdhMf8kXfmmJ2
+         BA5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dPX5I2zvoaIfMrTJOaEVmZ8AJ80iRBsKVksO1GxJCNo=;
+        b=rv22zpW9SnYkFDl1Xx5R7tfcf7RjOr8E2pIU3g9i43ZmZOFabKHczzOnmL5/aG4Xt7
+         VhWcXrIFaN6lkUILkZGaPbJp6HN9WmogtW324ZQtYc3xOSRSEg64M1QjwFgaylQ3PyAp
+         3Cbo72WaeIoH6CVIl14XTAbRdZAMyIhGhzEq27+sjTbB/+VDau+BWTqZUcfuYgGbKs7d
+         itEqJLjgpvE/Gg3EAJmPrvfQMW52HTzI4BQXG2l1JWjlB7kPc1pTrrKJjoNfuuElqWCG
+         xmRjKqcknGLg6cqzbDDnU5G9un0vl5ZnId6A5LI65wG5dWpETqejEvX22Cco8rdNWuEn
+         kZSw==
+X-Gm-Message-State: AOAM5323QRt/EdqUwOvKbzS9x60N1i16ld22qBtnkSf3S3OnN6KDJmxp
+        lKEhEL3C3KzbYntoO45/4zSJyg==
+X-Google-Smtp-Source: ABdhPJxpkjlVoi1K6zt3TxppMxnpJwdAYknEnoLeYjpkZ5qIgAHhN1uKddV4rWohLA2QlS4I+GW9GA==
+X-Received: by 2002:a65:620e:: with SMTP id d14mr11477128pgv.360.1595060966415;
+        Sat, 18 Jul 2020 01:29:26 -0700 (PDT)
+Received: from localhost ([223.190.30.182])
+        by smtp.gmail.com with ESMTPSA id k100sm4874773pjb.57.2020.07.18.01.29.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 18 Jul 2020 01:29:25 -0700 (PDT)
+Date:   Sat, 18 Jul 2020 13:59:14 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Sumit Gupta <sumitg@nvidia.com>, rjw@rjwysocki.net,
+        catalin.marinas@arm.com, will@kernel.org, robh+dt@kernel.org,
+        mirq-linux@rere.qmqm.pl, devicetree@vger.kernel.org,
+        jonathanh@nvidia.com, talho@nvidia.com, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
+        mperttunen@nvidia.com
+Subject: Re: [TEGRA194_CPUFREQ PATCH v6 2/3] arm64: tegra: Add t194 ccplex
+ compatible and bpmp property
+Message-ID: <20200718082914.ecyngrsoir7j5q6y@vireshk-mac-ubuntu>
+References: <1594819885-31016-1-git-send-email-sumitg@nvidia.com>
+ <1594819885-31016-3-git-send-email-sumitg@nvidia.com>
+ <20200716123715.GA535268@ulmo>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f43ccf2-27ac-475f-82cd-08d82aa1d7c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2020 22:36:27.0389
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UTEiFUDXxYcavpU0OcvZE33pvO1K9tTMZdzIGWhlAQSMw0sXbD+cqb6mTnBV/YGfiiMieC3zhKSXTe3m58vGUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2821
-X-OriginatorOrg: Nvidia.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595025394; bh=UkrYAjYfVKTm/Fz1tRs8wCjeVh9SOkeqD8yWVv7kcp8=;
-        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
-         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
-         Thread-Index:Date:Message-ID:References:In-Reply-To:
-         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-         authentication-results:x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
-         x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
-         x-microsoft-antispam:x-microsoft-antispam-message-info:
-         x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
-         MIME-Version:X-MS-Exchange-CrossTenant-AuthAs:
-         X-MS-Exchange-CrossTenant-AuthSource:
-         X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=fWxI/9ONLx4mZ4H1aNPRira/xOuvxRETYb6iW34eOdkfkfehvHAzx6N3eWveNHOOL
-         WdPk3t4teVq9PYER6+b10nQRVJEap9p2vm4LAMhKMO5TlxwaKakdX+20mLRxWNltIG
-         MYDjFNOjfmxwtu5R/FEEWw6K2+hnJD9/dnhM2xfZjvms3WMz1sjDhKPTuNyftBd0SB
-         My3wwjB2njiaaQsYcaXRfbngaU09f0SDjRFuTIz7EXUsumJJgpQtX9B0raIBZX5FIS
-         CIbYUTBDY253vEg2eQtE61FKHZRBEGuomPXpJ9D9HYE78AaWGpyc0v+Gh/vVmPKCAc
-         xp9cAzbXr4jpg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200716123715.GA535268@ulmo>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
->On Mon, Jul 13, 2020 at 02:50:20PM +0100, Will Deacon wrote:
->> On Tue, Jul 07, 2020 at 10:00:12PM -0700, Krishna Reddy wrote:
-> >> Changes in v10:
->> > Perform SMMU base ioremap before calling implementation init.
->> > Check for Global faults across both ARM MMU-500s during global interru=
-pt.
->> > Check for context faults across all contexts of both ARM MMU-500s duri=
-ng context fault interrupt.
-> >> Add new DT binding nvidia,smmu-500 for NVIDIA implementation.
->>
->> Please repost based on my SMMU queue, as this doesn't currently apply.
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=3D
->> for-joerg/arm-smmu/updates
+On 16-07-20, 14:37, Thierry Reding wrote:
+> On Wed, Jul 15, 2020 at 07:01:24PM +0530, Sumit Gupta wrote:
+> > On Tegra194, data on valid operating points for the CPUs needs to be
+> > queried from BPMP. In T194, there is no node representing CPU complex.
+> > So, add compatible string to the 'cpus' node instead of using dummy
+> > node to bind cpufreq driver. Also, add reference to the BPMP instance
+> > for the CPU complex.
+> > 
+> > Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> > ---
+> >  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 ++
+> >  1 file changed, 2 insertions(+)
+> 
+> Looks like the DT bindings are now done so I've applied this for v5.9.
+> 
+> Viresh, are you going to pick up the other patches, or do you want me
+> to pick them up and send you a pull request?
 
->Any update on this, please? It would be a shame to miss 5.9 now that the p=
-atches look alright.
+Applied the other two patches, Thanks.
 
-Thanks for pinging.
-I have been out of the office this week. Just started working on reposting =
-patches.
-
-Will
+-- 
+viresh
