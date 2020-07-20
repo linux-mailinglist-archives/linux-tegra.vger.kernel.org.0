@@ -2,94 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D0A225517
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 02:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93CA3225672
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 06:14:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbgGTAmy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 19 Jul 2020 20:42:54 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:25789 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726589AbgGTAmx (ORCPT
+        id S1726330AbgGTEOO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jul 2020 00:14:14 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19719 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725263AbgGTEON (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 19 Jul 2020 20:42:53 -0400
-X-UUID: 71740d0373c747b1b0a120afd07c9dfc-20200720
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=FypeGE6UvtMXhHWwD1QN+vD00gBfco5M6BU2XwHV0ug=;
-        b=K3gENK/THXUo1RT8srlV/0fDtoKEBTclffO1iFUqfPFxvLOT34mtZqDFvk3Kw2RzDIQVxMM6zLXLRO0gFyBCO/W/293ktmjNVDjPFHuLZlOmxr0RVc6XeXkSSmn1CUb+NUfNWVDpASe5vv9TLSYv92CnfHCd/wDufSLyB2emO3E=;
-X-UUID: 71740d0373c747b1b0a120afd07c9dfc-20200720
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chun-hung.wu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 479400831; Mon, 20 Jul 2020 08:42:46 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 20 Jul 2020 08:42:44 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 20 Jul 2020 08:42:44 +0800
-From:   Chun-Hung Wu <chun-hung.wu@mediatek.com>
-To:     <mirq-linux@rere.qmqm.pl>, Jonathan Hunter <jonathanh@nvidia.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>
-CC:     <kernel-team@android.com>, <linux-kernel@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <wsd_upstream@mediatek.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Chun-Hung Wu <chun-hung.wu@mediatek.com>
-Subject: [PATCH v7 4/4] dt-bindings: mmc: mediatek: Add document for mt6779
-Date:   Mon, 20 Jul 2020 08:42:39 +0800
-Message-ID: <1595205759-5825-5-git-send-email-chun-hung.wu@mediatek.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1595205759-5825-1-git-send-email-chun-hung.wu@mediatek.com>
-References: <1595205759-5825-1-git-send-email-chun-hung.wu@mediatek.com>
+        Mon, 20 Jul 2020 00:14:13 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f1519d70000>; Sun, 19 Jul 2020 21:13:11 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sun, 19 Jul 2020 21:14:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sun, 19 Jul 2020 21:14:12 -0700
+Received: from [10.25.99.163] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Jul
+ 2020 04:14:05 +0000
+CC:     <spujar@nvidia.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>, <lgirdwood@gmail.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
+        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
+        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <atalambedu@nvidia.com>, <nwartikar@nvidia.com>,
+        <swarren@nvidia.com>, <nicoleotsuka@gmail.com>
+Subject: Re: [PATCH 03/10] ASoC: audio-graph: Support Codec with multiple
+ endpoints
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+References: <1595135417-16589-1-git-send-email-spujar@nvidia.com>
+ <1595135417-16589-4-git-send-email-spujar@nvidia.com>
+ <87365n2i2z.wl-kuninori.morimoto.gx@renesas.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <870feaf2-3aa2-dbb8-f883-9b6cfcb36d82@nvidia.com>
+Date:   Mon, 20 Jul 2020 09:44:02 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 2ECAA272D376629C3C5192F90C5E5541A611FE2C2A5196C433CF9380734F83EF2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <87365n2i2z.wl-kuninori.morimoto.gx@renesas.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595218391; bh=nx5lAIYmOjDB4BduiFhtKmLRJSU6RRYMWVlTJDi4E/g=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=TZQQOzD1ItvuulsVlIa1WUJnL2CkhNwOS7poO+6Z3JLe7mfSuyw4hSfeMpFQd21CS
+         JJ3HoVHvh+iE6GRADC1p22/9vIGbMcunNC1+048hYcRz0J22zowoilNrZoxfNXZfd+
+         tbchL+aGMtAZ7Ju8oaNI3XV7rEEdiOiKWRzqk3qyuYSVvvq50KxqfvzHtQ1J62rbiD
+         TWW/BTWpr8Jshg0aNzRe6UvMNcB+VjYF4BrD4WdoD2HgF0cY/xmSfjRqqo2l6DtDrX
+         RwD6efyaI4vgy198gRaVOn68x1Qh4jzZsjGqZs6d4/x8ERbWFQbj8P4rMUiuqasSZi
+         BBgS3IvXcCZJA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-QWRkIGNvbXBhdGlibGUgbm9kZSBmb3IgbXQ2Nzc5IG1tYy4NCg0KU2lnbmVkLW9mZi1ieTogQ2h1
-bi1IdW5nIFd1IDxjaHVuLWh1bmcud3VAbWVkaWF0ZWsuY29tPg0KLS0tDQogRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL21tYy9tdGstc2QudHh0IHwgMSArDQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspDQoNCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvbW1jL210ay1zZC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvbW1jL210ay1zZC50eHQNCmluZGV4IDhhNTMyZjQuLjBjOWNmNmEgMTAwNjQ0DQotLS0g
-YS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbW1jL210ay1zZC50eHQNCisrKyBi
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tbWMvbXRrLXNkLnR4dA0KQEAgLTEy
-LDYgKzEyLDcgQEAgUmVxdWlyZWQgcHJvcGVydGllczoNCiAJIm1lZGlhdGVrLG10ODE3My1tbWMi
-OiBmb3IgbW1jIGhvc3QgaXAgY29tcGF0aWJsZSB3aXRoIG10ODE3Mw0KIAkibWVkaWF0ZWssbXQ4
-MTgzLW1tYyI6IGZvciBtbWMgaG9zdCBpcCBjb21wYXRpYmxlIHdpdGggbXQ4MTgzDQogCSJtZWRp
-YXRlayxtdDg1MTYtbW1jIjogZm9yIG1tYyBob3N0IGlwIGNvbXBhdGlibGUgd2l0aCBtdDg1MTYN
-CisJIm1lZGlhdGVrLG10Njc3OS1tbWMiOiBmb3IgbW1jIGhvc3QgaXAgY29tcGF0aWJsZSB3aXRo
-IG10Njc3OQ0KIAkibWVkaWF0ZWssbXQyNzAxLW1tYyI6IGZvciBtbWMgaG9zdCBpcCBjb21wYXRp
-YmxlIHdpdGggbXQyNzAxDQogCSJtZWRpYXRlayxtdDI3MTItbW1jIjogZm9yIG1tYyBob3N0IGlw
-IGNvbXBhdGlibGUgd2l0aCBtdDI3MTINCiAJIm1lZGlhdGVrLG10NzYyMi1tbWMiOiBmb3IgTVQ3
-NjIyIFNvQw0KLS0gDQoxLjkuMQ0K
+
+
+On 7/20/2020 5:07 AM, Kuninori Morimoto wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> Hi Sameer
+>
+>> If a Codec port has multiple endpoints, only first endpoint gets parsed
+>> and remaining are ignored. This can be fixed by removing 'dup_codec' flag
+>> passed to graph_dai_link_of_dpcm() and thus it loops over all endpoints
+>> of Codec. Similarly graph_count_dpcm() is updated as well.
+>>
+>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+>> ---
+>>   sound/soc/generic/audio-graph-card.c | 28 +++++++++-------------------
+>>   1 file changed, 9 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/sound/soc/generic/audio-graph-card.c b/sound/soc/generic/audio-graph-card.c
+>> index 1e20562..b1903f9 100644
+>> --- a/sound/soc/generic/audio-graph-card.c
+>> +++ b/sound/soc/generic/audio-graph-card.c
+>> @@ -201,8 +201,7 @@ static void graph_parse_mclk_fs(struct device_node *top,
+>>   static int graph_dai_link_of_dpcm(struct asoc_simple_priv *priv,
+>>                                  struct device_node *cpu_ep,
+>>                                  struct device_node *codec_ep,
+>> -                               struct link_info *li,
+>> -                               int dup_codec)
+>> +                               struct link_info *li)
+> This patch breaks DPCM connection which is used for MIXer
+
+Could you please elaborate a bit more as to what is broken with this? 
+The problem I am trying to solve here is to have multiple endpoints for 
+Codec port.
+
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
 
