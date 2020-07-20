@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2998E2270CC
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 23:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E487C22710A
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 23:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728428AbgGTVjU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jul 2020 17:39:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58738 "EHLO mail.kernel.org"
+        id S1728532AbgGTVji (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jul 2020 17:39:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59448 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728242AbgGTVjT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:39:19 -0400
+        id S1728515AbgGTVjg (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:39:36 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4605622D07;
-        Mon, 20 Jul 2020 21:39:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A1D5322BF5;
+        Mon, 20 Jul 2020 21:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281159;
-        bh=iEtFf7QMN19S5dmrOUJonugb+EIs3TYktwEmUKejVvI=;
+        s=default; t=1595281176;
+        bh=9JKDfUhdeddyJ9Fqh2SV91QEs3A3JERW2Zy48paEr1M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VyCXWOadmWW1u6N3vcIAmG/GzMUpHUMWcU9D6sqL3lHOdrgpudS7gD0/laa5l9KuD
-         ZgeYdOeKgj1REt5Wp9CDAorag/GLuPGG9ZxZ8xDzJda0KlLqVfKScpLlDbFdfuCnXm
-         fu6XK4DTzwWG2FCLDezSQutEKnln4RTutYArhCqA=
+        b=NhU1n7ifpEfNuKClFm4Eypgk4YgwtHJN6UTCuwoo3KDQvjiiMhQCw6qMV9DT6sHVY
+         Zea9hyTO/VC9b4X8yW+oglLOVzJALHozaulfGPeasWsTy/r8wwc2K3wIO9PKDGN6yP
+         KR/IkF87KusVLEsDnAF7XSRsoDQful7WLkSSKPdU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
         Jon Hunter <jonathanh@nvidia.com>,
         Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
         dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 03/13] dmaengine: tegra210-adma: Fix runtime PM imbalance on error
-Date:   Mon, 20 Jul 2020 17:39:04 -0400
-Message-Id: <20200720213914.407919-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 3/9] dmaengine: tegra210-adma: Fix runtime PM imbalance on error
+Date:   Mon, 20 Jul 2020 17:39:26 -0400
+Message-Id: <20200720213932.408089-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720213914.407919-1-sashal@kernel.org>
-References: <20200720213914.407919-1-sashal@kernel.org>
+In-Reply-To: <20200720213932.408089-1-sashal@kernel.org>
+References: <20200720213932.408089-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,7 +62,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index 045351f3549c1..86b45198fb962 100644
+index c16c06b3dd2f4..54296e262deab 100644
 --- a/drivers/dma/tegra210-adma.c
 +++ b/drivers/dma/tegra210-adma.c
 @@ -583,6 +583,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
