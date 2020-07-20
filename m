@@ -2,98 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E785A2261DD
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 16:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3D722624C
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 16:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728081AbgGTOUm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jul 2020 10:20:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48426 "EHLO mail.kernel.org"
+        id S1728734AbgGTOih (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jul 2020 10:38:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726870AbgGTOUm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jul 2020 10:20:42 -0400
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725815AbgGTOih (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 Jul 2020 10:38:37 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B577222CAF;
-        Mon, 20 Jul 2020 14:20:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE9EE22482;
+        Mon, 20 Jul 2020 14:38:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595254841;
-        bh=Vib6dxAx8u3DoTSWJXH5KMkq3799ypAVfeuWMkW6Hj8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y+GBWxSjbTxcsL9FTO8DgCDwnf9G9i9jJLGRzjbIbJbnfc/p3SWainC3JOFWzl6Cg
-         tBHe3qPnv2X+MrorxWay6AqVOd7lyzKu4NOxYI1QLVEVp10EF8yFfC7aHWL2x20SU+
-         jiSfuE5OwnT2P+CSRXld82tpVBQxGuMdwC+oFpLE=
-Received: by mail-ot1-f47.google.com with SMTP id h1so12300859otq.12;
-        Mon, 20 Jul 2020 07:20:41 -0700 (PDT)
-X-Gm-Message-State: AOAM533N1r6ZPXPkVmfboR8Lbo6R2gpoE0O4+lPFhHu8hg0iZyGcDa0L
-        yu7T2KBaOSSdMYzWRXbqVP3m3cdWZLGeWm0/Xw==
-X-Google-Smtp-Source: ABdhPJwHTembEjVuQTsjX9Y4lVbdIElrObkCp3VjWe/eZu4PcW+QH4GExQ6U+8YWt1byxEkCF1wg9PXj+VhOMp2l8VE=
-X-Received: by 2002:a9d:46c:: with SMTP id 99mr775393otc.192.1595254841027;
- Mon, 20 Jul 2020 07:20:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <1595134890-16470-1-git-send-email-spujar@nvidia.com> <1595134890-16470-2-git-send-email-spujar@nvidia.com>
-In-Reply-To: <1595134890-16470-2-git-send-email-spujar@nvidia.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 20 Jul 2020 08:20:29 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+HBBLkUY=ODo+TmV_MhO40r9sfB=k1j64j7m67GUoSaQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+HBBLkUY=ODo+TmV_MhO40r9sfB=k1j64j7m67GUoSaQ@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] ASoC: dt-bindings: tegra: Add DT bindings for Tegra210
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        sharadg@nvidia.com, mkumard@nvidia.com, viswanathl@nvidia.com,
-        rlokhande@nvidia.com, dramesh@nvidia.com, atalambedu@nvidia.com,
-        nwartikar@nvidia.com, Stephen Warren <swarren@nvidia.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        s=default; t=1595255916;
+        bh=EcWTvV7FvjC152CSceUX6DbHmfJye4qaDwlHiHugiZU=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=qcIP39hoNUAdVJQvhVryEPqSGKvUM/CCT0Bl6NtT2kHxXjUmV4Y3iqt8KckyulIt2
+         RAIxVA7zlh0CSdmwmNuPVE0vL1qOyord1P2Mu7d56rZlV/0Yh0uXrNR9bD2hfYF8Vf
+         jI34YufHG9n7Ss1g6bJtFQWwZqNGUjmQza3rmFZI=
+Date:   Mon, 20 Jul 2020 15:38:24 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     robh+dt@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+        Sameer Pujar <spujar@nvidia.com>,
+        kuninori.morimoto.gx@renesas.com, tiwai@suse.com
+Cc:     rlokhande@nvidia.com, digetx@gmail.com,
+        linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, swarren@nvidia.com,
+        sharadg@nvidia.com, nicoleotsuka@gmail.com, viswanathl@nvidia.com,
+        nwartikar@nvidia.com, jonathanh@nvidia.com, atalambedu@nvidia.com,
+        mkumard@nvidia.com, dramesh@nvidia.com, alsa-devel@alsa-project.org
+In-Reply-To: <1595134890-16470-1-git-send-email-spujar@nvidia.com>
+References: <1595134890-16470-1-git-send-email-spujar@nvidia.com>
+Subject: Re: [PATCH v5 00/11] Add ASoC AHUB components for Tegra210 and later
+Message-Id: <159525589435.6792.708136378511410418.b4-ty@kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, Jul 18, 2020 at 11:01 PM Sameer Pujar <spujar@nvidia.com> wrote:
->
-> This patch adds YAML schema for DT binding of AHUB and few of its
-> following components. These devices will be registered as ASoC
-> components and binding will be used on Tegra210 and later chips.
->  * ADMAIF
->  * I2S
->  * DMIC
->  * DSPK
-> DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
->         t=1595134894; bh=DX96zRQRNplPikN828HbAfbjGumAn9IgtktrsenKjgk=;
->         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
->          In-Reply-To:References:X-NVConfidentiality:MIME-Version:
->          Content-Type;
->         b=IhfGFjMxsnRHso1Ku2GEGC+mtLCy3AbRKPfgTS56XGqEWquUr/1s8n9tFpriqF7a+
->          tJGrTN9mKhRQGrwdey/AHsMY4Tbm4fKEWxIASgAV/lFPCfgP3BnVjEdHclc7FdBaB0
->          Qvd3zs8HFsgoIzksLrtHNMrUepkeZajn0/XnC7nghGDRim4+6Hauupr5kj/KVlihsS
->          KS1YQ2Zz9TZzLaC5QXALiHj3ATLvBFrmIf6Vj19q7hePt0menTZVzQNy+y3h4xZfLH
->          +OvBCsLgHGGhq+iM9rm64D+S5Op2vCslwq3Q/42TnYZ0vDbD7aA9nTAQzfYeI6HK6b
->          vi7eYbryzCTSg==
->
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> ---
->  .../bindings/sound/nvidia,tegra186-dspk.yaml       |  83 +++++++++++++
->  .../bindings/sound/nvidia,tegra210-admaif.yaml     | 111 +++++++++++++++++
->  .../bindings/sound/nvidia,tegra210-ahub.yaml       | 136 +++++++++++++++++++++
->  .../bindings/sound/nvidia,tegra210-dmic.yaml       |  83 +++++++++++++
->  .../bindings/sound/nvidia,tegra210-i2s.yaml        | 101 +++++++++++++++
->  5 files changed, 514 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
->  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
->  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-ahub.yaml
->  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
->  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
+On Sun, 19 Jul 2020 10:31:19 +0530, Sameer Pujar wrote:
+> Overview
+> ========
+> Audio Processing Engine (APE) comprises of Audio DMA (ADMA) and Audio
+> Hub (AHUB) unit. AHUB is a collection of hardware accelerators for audio
+> pre-processing and post-processing. It also includes a programmable full
+> crossbar for routing audio data across these accelerators.
+> 
+> [...]
 
-Use get_maintainers.pl and send to the correct lists if you want this reviewed.
+Applied to
 
-Rob
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/6] ASoC: dt-bindings: tegra: Add DT bindings for Tegra210
+      commit: 665308c0b44a37339b9b3368f1dd61eb66acde87
+[2/6] ASoC: tegra: Add support for CIF programming
+      commit: 1c3b89fb7e4a78ddcd627e3f218a216e2136ae9b
+[3/6] ASoC: tegra: Add Tegra210 based DMIC driver
+      commit: 8c8ff982e9e2b2eb9255fc393f938915b0ddc127
+[4/6] ASoC: tegra: Add Tegra210 based I2S driver
+      commit: c0bfa98349d1796fe754dfac7f7f505bb60dcd83
+[5/6] ASoC: tegra: Add Tegra210 based AHUB driver
+      commit: 16e1bcc2caf446fa3e1daa040b59fd6f6272a766
+[6/6] ASoC: tegra: Add Tegra186 based DSPK driver
+      commit: 327ef64702668bb754eeea80ce402454d7a1302a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
