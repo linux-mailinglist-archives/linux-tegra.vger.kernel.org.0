@@ -2,95 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66BFD226EF8
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 21:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC8E62271DA
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 23:46:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729690AbgGTTXR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jul 2020 15:23:17 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:41688 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbgGTTXR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jul 2020 15:23:17 -0400
-Received: by mail-io1-f68.google.com with SMTP id p205so18794030iod.8;
-        Mon, 20 Jul 2020 12:23:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EcW34XVMNwPSgRnBgMH5wzY65jiGbMY2EMKCOkIXLW8=;
-        b=HhjAYrYN+ViOa+r5A1X3VP/a559r1O9VrTj0m9/e4YPQFvslxC4QWLctxrtdudL2cM
-         3rHxGFOvAqeprVWf+6SJ5D39alGoGDc48k4qq5zBPTcxtPHaGnLnQ5v3e5Fno9KycI/4
-         DGb8605+EnrU11Bg3fmYSJDbevD9UzsxKonEa3N1D9nMYObUCL1WEKp54qnIKN6qubPp
-         Yw6KHt8xsGn8wyxjv8GaroH/7q78ol/MXffKMuoz/N2hO2GnXl/XPZyJ9lKrfS3wI8hr
-         TdhvgvxoRiSvExVWl1i02eSSE2skgMFcb0HnYDrcZ73fEVlx7kyBf+JBTpJsjx6Z/4BJ
-         HOOw==
-X-Gm-Message-State: AOAM533vPkVNasoh/jTP72Y2/u1SU2dMLxXtk6YoPcxlIZE4dEh92v9m
-        jjP+CuTd/rFlEwq1q7OyPw==
-X-Google-Smtp-Source: ABdhPJz65ED9MYDnMU5Ns3NAnZDXigOQgsr0OxS+BbVEoRiWKSeOFuzrYsYmhOos0feUdhR2SM95Mg==
-X-Received: by 2002:a02:908f:: with SMTP id x15mr26751369jaf.12.1595272996277;
-        Mon, 20 Jul 2020 12:23:16 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id d6sm9305202ioo.9.2020.07.20.12.23.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 12:23:14 -0700 (PDT)
-Received: (nullmailer pid 2854945 invoked by uid 1000);
-        Mon, 20 Jul 2020 19:23:12 -0000
-Date:   Mon, 20 Jul 2020 13:23:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Chun-Hung Wu <chun-hung.wu@mediatek.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        devicetree@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-mmc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Chaotian Jing <chaotian.jing@mediatek.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org, mirq-linux@rere.qmqm.pl,
-        Andy Gross <agross@kernel.org>,
-        Stanley Chu <stanley.chu@mediatek.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com, wsd_upstream@mediatek.com,
-        linux-arm-msm@vger.kernel.org,
-        Mathieu Malaterre <malat@debian.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Pan Bian <bianpan2016@163.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-tegra@vger.kernel.org,
-        Michal Simek <michal.simek@xilinx.com>,
-        Kuohong Wang <kuohong.wang@mediatek.com>,
-        kernel-team@android.com, Allison Randal <allison@lohutok.net>
-Subject: Re: [PATCH v7 4/4] dt-bindings: mmc: mediatek: Add document for
- mt6779
-Message-ID: <20200720192312.GA2854898@bogus>
-References: <1595205759-5825-1-git-send-email-chun-hung.wu@mediatek.com>
- <1595205759-5825-5-git-send-email-chun-hung.wu@mediatek.com>
+        id S1728299AbgGTVpq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jul 2020 17:45:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55300 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726998AbgGTVh1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:37:27 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3EE7022D08;
+        Mon, 20 Jul 2020 21:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595281047;
+        bh=eejwkf5aLP13LBU3eN1eFu50Bc9f75o89K27gI+G6Oo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=0D8U8EmxGuO40Qy0mZaiknZcdlAUCXro8BwQrn8XpUm8wJVB4fHptzm8L2p3rrhKS
+         WGp7oNIAdopMurE5Z+Jsoz23/YCVCNUrlh01ehpUP6FOX1VP6o0VEg9LXxNdUBVX9z
+         gbz+joY22vR6JavgSZUa3U+mZ4ZJ/uBRlVWNOjwA=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 09/40] dmaengine: tegra210-adma: Fix runtime PM imbalance on error
+Date:   Mon, 20 Jul 2020 17:36:44 -0400
+Message-Id: <20200720213715.406997-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200720213715.406997-1-sashal@kernel.org>
+References: <20200720213715.406997-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1595205759-5825-5-git-send-email-chun-hung.wu@mediatek.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 20 Jul 2020 08:42:39 +0800, Chun-Hung Wu wrote:
-> Add compatible node for mt6779 mmc.
-> 
-> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
-> ---
->  Documentation/devicetree/bindings/mmc/mtk-sd.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-Acked-by: Rob Herring <robh@kernel.org>
+[ Upstream commit 5b78fac4b1ba731cf4177fdbc1e3a4661521bcd0 ]
+
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
+
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Link: https://lore.kernel.org/r/20200624064626.19855-1-dinghao.liu@zju.edu.cn
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma/tegra210-adma.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index db58d7e4f9fec..c5fa2ef74abc7 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -658,6 +658,7 @@ static int tegra_adma_alloc_chan_resources(struct dma_chan *dc)
+ 
+ 	ret = pm_runtime_get_sync(tdc2dev(tdc));
+ 	if (ret < 0) {
++		pm_runtime_put_noidle(tdc2dev(tdc));
+ 		free_irq(tdc->irq, tdc);
+ 		return ret;
+ 	}
+@@ -869,8 +870,10 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	ret = pm_runtime_get_sync(&pdev->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_noidle(&pdev->dev);
+ 		goto rpm_disable;
++	}
+ 
+ 	ret = tegra_adma_init(tdma);
+ 	if (ret)
+-- 
+2.25.1
+
