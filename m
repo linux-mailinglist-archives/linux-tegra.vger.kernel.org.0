@@ -2,85 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0652C226D1B
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 19:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66BFD226EF8
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jul 2020 21:24:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729307AbgGTR3E (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jul 2020 13:29:04 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16682 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728324AbgGTR3E (ORCPT
+        id S1729690AbgGTTXR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jul 2020 15:23:17 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:41688 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbgGTTXR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jul 2020 13:29:04 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f15d3e80001>; Mon, 20 Jul 2020 10:27:04 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 20 Jul 2020 10:29:04 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 20 Jul 2020 10:29:04 -0700
-Received: from [10.2.53.86] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Jul
- 2020 17:29:03 +0000
-Subject: Re: [PATCH v2 2/2] arm64: tegra: Add the GPU on Tegra194
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Debarshi Dutta <ddutta@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200716143341.545804-1-thierry.reding@gmail.com>
- <20200716143341.545804-2-thierry.reding@gmail.com>
-X-Nvconfidentiality: public
-From:   Terje Bergstrom <tbergstrom@nvidia.com>
-Message-ID: <de024331-cc7a-42ac-6b03-4ac8eb3af351@nvidia.com>
-Date:   Mon, 20 Jul 2020 10:29:03 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 20 Jul 2020 15:23:17 -0400
+Received: by mail-io1-f68.google.com with SMTP id p205so18794030iod.8;
+        Mon, 20 Jul 2020 12:23:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EcW34XVMNwPSgRnBgMH5wzY65jiGbMY2EMKCOkIXLW8=;
+        b=HhjAYrYN+ViOa+r5A1X3VP/a559r1O9VrTj0m9/e4YPQFvslxC4QWLctxrtdudL2cM
+         3rHxGFOvAqeprVWf+6SJ5D39alGoGDc48k4qq5zBPTcxtPHaGnLnQ5v3e5Fno9KycI/4
+         DGb8605+EnrU11Bg3fmYSJDbevD9UzsxKonEa3N1D9nMYObUCL1WEKp54qnIKN6qubPp
+         Yw6KHt8xsGn8wyxjv8GaroH/7q78ol/MXffKMuoz/N2hO2GnXl/XPZyJ9lKrfS3wI8hr
+         TdhvgvxoRiSvExVWl1i02eSSE2skgMFcb0HnYDrcZ73fEVlx7kyBf+JBTpJsjx6Z/4BJ
+         HOOw==
+X-Gm-Message-State: AOAM533vPkVNasoh/jTP72Y2/u1SU2dMLxXtk6YoPcxlIZE4dEh92v9m
+        jjP+CuTd/rFlEwq1q7OyPw==
+X-Google-Smtp-Source: ABdhPJz65ED9MYDnMU5Ns3NAnZDXigOQgsr0OxS+BbVEoRiWKSeOFuzrYsYmhOos0feUdhR2SM95Mg==
+X-Received: by 2002:a02:908f:: with SMTP id x15mr26751369jaf.12.1595272996277;
+        Mon, 20 Jul 2020 12:23:16 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id d6sm9305202ioo.9.2020.07.20.12.23.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2020 12:23:14 -0700 (PDT)
+Received: (nullmailer pid 2854945 invoked by uid 1000);
+        Mon, 20 Jul 2020 19:23:12 -0000
+Date:   Mon, 20 Jul 2020 13:23:12 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Chun-Hung Wu <chun-hung.wu@mediatek.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        devicetree@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org, mirq-linux@rere.qmqm.pl,
+        Andy Gross <agross@kernel.org>,
+        Stanley Chu <stanley.chu@mediatek.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com, wsd_upstream@mediatek.com,
+        linux-arm-msm@vger.kernel.org,
+        Mathieu Malaterre <malat@debian.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-mediatek@lists.infradead.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Pan Bian <bianpan2016@163.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-tegra@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Kuohong Wang <kuohong.wang@mediatek.com>,
+        kernel-team@android.com, Allison Randal <allison@lohutok.net>
+Subject: Re: [PATCH v7 4/4] dt-bindings: mmc: mediatek: Add document for
+ mt6779
+Message-ID: <20200720192312.GA2854898@bogus>
+References: <1595205759-5825-1-git-send-email-chun-hung.wu@mediatek.com>
+ <1595205759-5825-5-git-send-email-chun-hung.wu@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <20200716143341.545804-2-thierry.reding@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595266024; bh=ac8zO61pbb5tpf5xClufOhOCk2EwcuyOQ6iixGYE1yE=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=ktxiedt9++tvbzE8plmar2iBg/wSKwH8tDjfvLXANC4Q5FHgP6f5RUsFSKxtcGkXx
-         hq3A9gVhAp1miwXjv0rKlhj85j9KF6ihsxZzJucitn7cR/SJljzv8iEyg7zfjiZ7ge
-         2GzG3HRfkYUVm7mefv6NBL9wI8f+UuKNNFska5ikgC0TqIfVDgkFN9y/FU4YrLopgw
-         lodQyB4A6CLZRzX08mNaL3TbIBnoY3noVILnEnN+mnD8VFY6CaXEP0A4q2c449iCER
-         wJebR/fILchznAMK6Ur2LKa5TQ7NLpxB7tztaBq2gc9pZTfGprq8YM4zGNqri6cKM0
-         QyEI1sfIB2Pxg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1595205759-5825-5-git-send-email-chun-hung.wu@mediatek.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 7/16/2020 7:33 AM, Thierry Reding wrote:
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> index 98c366ab4aab..14da0793be69 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> @@ -1395,6 +1395,39 @@ sor3: sor@15bc0000 {
->   				nvidia,interface = <3>;
->   			};
->   		};
-> +
-> +		gpu@17000000 {
-> +			compatible = "nvidia,gv11b";
-> +			reg = <0x17000000 0x10000000>,
-> +			      <0x18000000 0x10000000>;
+On Mon, 20 Jul 2020 08:42:39 +0800, Chun-Hung Wu wrote:
+> Add compatible node for mt6779 mmc.
+> 
+> Signed-off-by: Chun-Hung Wu <chun-hung.wu@mediatek.com>
+> ---
+>  Documentation/devicetree/bindings/mmc/mtk-sd.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Hi,
-
-I noticed a typo here. The sizes of the resources have one zero too 
-many. Should be 0x1000000.
-
-Terje
-
+Acked-by: Rob Herring <robh@kernel.org>
