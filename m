@@ -2,94 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FA7C22833C
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 17:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2EE1228C14
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jul 2020 00:41:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728922AbgGUPLK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Jul 2020 11:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728342AbgGUPLK (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Jul 2020 11:11:10 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9995BC061794
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Jul 2020 08:11:09 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id h28so15567980edz.0
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Jul 2020 08:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LvpJ00dIgYJjMoQw4tlD2nymMkBnkIRMqBQkrZw9b3k=;
-        b=YdX4aV5PEiqsbiaH3Ifbmjo6Y1o0spyp1iVm2qppRxW0wk9CsVVggfrb3JsAaaAfRM
-         exlsQBVLpBtt3/SQoN7fdKjRjRua8ixr9rX4u7Gdr1CfAz4y4nku6lom7U6rdUCu/Z0j
-         5SkwtlYAOSqk86hoiXMqKl7WiPn/QeC36RsYgTdgWYlGAX6vPnfMQshQhlkj7AXMsO5T
-         Lu7x1H2I6MBiAtsZSNHK0K0m1mm0617WetQZYF73SHJlVy67RYPMSfXyEweoKmdpRUD7
-         mGzAxNiQ9bUoUJ5TFV1U6NTBIJ260SGLn5LNfvtHy/YTY160Scg44uJPXib3wtlToSb7
-         856A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LvpJ00dIgYJjMoQw4tlD2nymMkBnkIRMqBQkrZw9b3k=;
-        b=Mo0wjyUDBz33+1Ur/jzvWne6tzps29osO2oy82QJsHjOBI+WjRRBuMJeo6rsUEaxZh
-         0Vf1u20FWE2LLzXPD3qumOJ5jDq3vgElOM0Kynv7ux7sqVQb2S9LS4oXgolq/Mse3ZoS
-         +kUblAyD+3dA4c426u44s9zZDuLTxObvkRo4VuvMczEh8i+yYDxw9t5p5PTUuXN+sl2e
-         mnGbpuLZI0Plq2f7pRh0N6+TAKTK3ojpddIhprvM/Obst2tmRIkhL5eg5tIJlJlmNrH1
-         4I9nw1iEAJMvx3/sebxH1BPZ4ODaRcyLvt9pVBm7GVcqDGjO3QS172mh11ldI7s0HIP6
-         ySaQ==
-X-Gm-Message-State: AOAM532O+2r3JYWZShBas3lBapP9Q1X/KtFvZG6vQZgddCIOzgnEuB9I
-        owSipMzOsZuub3bMnieyaRg=
-X-Google-Smtp-Source: ABdhPJz5b+P9NZo/tS24ow5iUQhIVljCyA9KzOWechudO5xRCTBBF5SlaF5XyvnNy3qFUTeLkbeiUw==
-X-Received: by 2002:a50:d80f:: with SMTP id o15mr26883971edj.156.1595344268377;
-        Tue, 21 Jul 2020 08:11:08 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id d24sm16698362eje.21.2020.07.21.08.11.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 08:11:07 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        =?UTF-8?q?Terje=20Bergstr=C3=B6m?= <tbergstrom@nvidia.com>
-Subject: [PATCH] arm64: tegra: Properly size register regions for GPU on Tegra194
-Date:   Tue, 21 Jul 2020 17:10:55 +0200
-Message-Id: <20200721151055.253644-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        id S1726555AbgGUWlV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Jul 2020 18:41:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36534 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726148AbgGUWlV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 21 Jul 2020 18:41:21 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BC9432073A;
+        Tue, 21 Jul 2020 22:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595371281;
+        bh=BotUQxfjVA9emKtHJ7bK7WZE9k8SVjbJ8o4YzULBYuc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LnjHqe5dFaJAjU1mdmhbOGRtUe+nabCriuQ3qMWXn72psho8i/zd9ytwmpXX+YKMH
+         YaZlT7XLJ2B3bNzZAYwO5QTAIFshoo3WHyBtYoqrrIKkpQlb2jfRsXjmQT6uVQlq4C
+         AOXemd3CRqZxUO8Zia8mhaBEgJGGmhl1tMrTQ7vE=
+Date:   Tue, 21 Jul 2020 23:41:08 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     robh+dt@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+        kuninori.morimoto.gx@renesas.com, tiwai@suse.com,
+        rlokhande@nvidia.com, digetx@gmail.com,
+        linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, swarren@nvidia.com,
+        sharadg@nvidia.com, nicoleotsuka@gmail.com, viswanathl@nvidia.com,
+        nwartikar@nvidia.com, jonathanh@nvidia.com, atalambedu@nvidia.com,
+        mkumard@nvidia.com, dramesh@nvidia.com, alsa-devel@alsa-project.org
+Subject: Re: [PATCH v5 00/11] Add ASoC AHUB components for Tegra210 and later
+Message-ID: <20200721224108.GG4845@sirena.org.uk>
+References: <1595134890-16470-1-git-send-email-spujar@nvidia.com>
+ <159525589435.6792.708136378511410418.b4-ty@kernel.org>
+ <72d45476-7050-187b-19d6-2ddb9b0ba97a@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="YH9Qf6Fh2G5kB/85"
+Content-Disposition: inline
+In-Reply-To: <72d45476-7050-187b-19d6-2ddb9b0ba97a@nvidia.com>
+X-Cookie: I'm also against BODY-SURFING!!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Memory I/O regions for the GV11B found on Tegra194 are 16 MiB rather
-than 256 MiB.
+--YH9Qf6Fh2G5kB/85
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reported-by: Terje Bergström <tbergstrom@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, Jul 21, 2020 at 05:22:35PM +0530, Sameer Pujar wrote:
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 48160f48003a..fc36d683049b 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1398,8 +1398,8 @@ sor3: sor@15bc0000 {
- 
- 		gpu@17000000 {
- 			compatible = "nvidia,gv11b";
--			reg = <0x17000000 0x10000000>,
--			      <0x18000000 0x10000000>;
-+			reg = <0x17000000 0x1000000>,
-+			      <0x18000000 0x1000000>;
- 			interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "stall", "nonstall";
--- 
-2.27.0
+> I see that "[PATCH v5 07/11] ASoC: tegra: Add Tegra210 based ADMAIF driver"
+> is not applied as part of this. I wanted to understand if this is because
+> some more review comments are expected or there are other reasons?
 
+I just hadn't got that far through the patch series yet, looks fine.
+
+--YH9Qf6Fh2G5kB/85
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl8XbwMACgkQJNaLcl1U
+h9DtvQf/e8yERKcTlsxgN756R8KDhLh+qzlkWNW3GPS8vrJKP0kOaysI2CDcHvhS
+Z4dtbFFRCgzRhb+m7k42pnnjZ+kEggR2iBeof1kXKLzBybxcaujyULGvI6jtfYVd
+Nvo3rNBhwseVrVNWgS6HURCkfp2aDTDqnXZIQpXrd/eaPwZMajW5vsgkO4vucjRe
+bVopPMTErkT99QWK5XxSj1ZdOFUdbzqQawZvDF75+gh1ZWDp8M64GSttm96zS/rL
+AiiPPVTv1F8c4nxlotfQQ59P/MyW9G5pBYdon3plnVyqYI08k6bUZYMLcHwiFYLu
+HykGGaZPPnMO3stUy64AKKNZmZBxyA==
+=mT4+
+-----END PGP SIGNATURE-----
+
+--YH9Qf6Fh2G5kB/85--
