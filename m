@@ -2,135 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30BDF2280C6
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 15:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FA7C22833C
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 17:11:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgGUNRM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Jul 2020 09:17:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43098 "EHLO
+        id S1728922AbgGUPLK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Jul 2020 11:11:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726719AbgGUNRL (ORCPT
+        with ESMTP id S1728342AbgGUPLK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Jul 2020 09:17:11 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B9AC061794;
-        Tue, 21 Jul 2020 06:17:11 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id z17so15255076edr.9;
-        Tue, 21 Jul 2020 06:17:11 -0700 (PDT)
+        Tue, 21 Jul 2020 11:11:10 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9995BC061794
+        for <linux-tegra@vger.kernel.org>; Tue, 21 Jul 2020 08:11:09 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id h28so15567980edz.0
+        for <linux-tegra@vger.kernel.org>; Tue, 21 Jul 2020 08:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=89PH6o6sIsfZydCWux7gl3t6nRnroW7UX38O9xXW/Tc=;
-        b=gkT0Q4evUEUG1qzdb03CEAo035TdaBbMR3Ggj6LMf6MmrD5hHCJq59NDw0eZo7Nw2n
-         jALRBDkDRnsseeHSqLxXCMdrSq/7lwvhd/icW2a9svov5c+AxVNjqcyHLpdqFNu2+CON
-         dyT6QGn16cIVXGA1NkuufJsSClWLCLX2UftGbnBASrietd9750SKHbyXOmSqLTgyD5tO
-         CnXcP0UD7XWJzrShtmYB3zTB9fjf1HqtlZf/lZYwCMamcAlIZ+uS6HZ4UutQ2rc7tZn8
-         83HRRqWzs5Npzs1C+HPrhaGzfTbZSCJ26tJ1i6YSGAPkDInmpIv9Q+S6j5vYOlfu/man
-         6ihg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LvpJ00dIgYJjMoQw4tlD2nymMkBnkIRMqBQkrZw9b3k=;
+        b=YdX4aV5PEiqsbiaH3Ifbmjo6Y1o0spyp1iVm2qppRxW0wk9CsVVggfrb3JsAaaAfRM
+         exlsQBVLpBtt3/SQoN7fdKjRjRua8ixr9rX4u7Gdr1CfAz4y4nku6lom7U6rdUCu/Z0j
+         5SkwtlYAOSqk86hoiXMqKl7WiPn/QeC36RsYgTdgWYlGAX6vPnfMQshQhlkj7AXMsO5T
+         Lu7x1H2I6MBiAtsZSNHK0K0m1mm0617WetQZYF73SHJlVy67RYPMSfXyEweoKmdpRUD7
+         mGzAxNiQ9bUoUJ5TFV1U6NTBIJ260SGLn5LNfvtHy/YTY160Scg44uJPXib3wtlToSb7
+         856A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=89PH6o6sIsfZydCWux7gl3t6nRnroW7UX38O9xXW/Tc=;
-        b=hdCf0qaPW9Le7O4M7WAaZxk+U9FYgb3BeSlbmus7ttxlOQHPjAcqcLrMzjzCDVHDsb
-         6yQm0oll0lu3nLps82exyc+OSMF6/s94ua7ExlZd5/uIB0K4g72BeOdAa3oy8LFpesM1
-         G90CXnvjgRPfft5jnJG1G2HFXl7nhpDdz2sm9ITrgkVRyaN69vxZXTg1DiMqIN76ePtP
-         DdCGA0ImJa4LuIrN7gAvlfH75ulxWqL0N634yMzn8Kh4aVVRCSnglW3PPAsw1k1Jd+oI
-         /kKXJBr7/A9nnlwnHSZFTBqJURFKoCSsuBjxO+lrU3yhGH5/j/nd/o/Eakz3eSCwgEgo
-         9YRA==
-X-Gm-Message-State: AOAM5339bEO+RRpTwAyiT6KoibqPM7qSFKorxk/uesOst2Z9cQ+yNyCs
-        X1iIo7meF02JM3Yzy5tjpPA=
-X-Google-Smtp-Source: ABdhPJzvhQncAO+Ogod9ZMtj38UliZWx+k7N33PQxNY92gk2Ft9UZ6yacdP8guYr0aNVOvilu/EoYA==
-X-Received: by 2002:a50:cf43:: with SMTP id d3mr26993046edk.40.1595337430350;
-        Tue, 21 Jul 2020 06:17:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LvpJ00dIgYJjMoQw4tlD2nymMkBnkIRMqBQkrZw9b3k=;
+        b=Mo0wjyUDBz33+1Ur/jzvWne6tzps29osO2oy82QJsHjOBI+WjRRBuMJeo6rsUEaxZh
+         0Vf1u20FWE2LLzXPD3qumOJ5jDq3vgElOM0Kynv7ux7sqVQb2S9LS4oXgolq/Mse3ZoS
+         +kUblAyD+3dA4c426u44s9zZDuLTxObvkRo4VuvMczEh8i+yYDxw9t5p5PTUuXN+sl2e
+         mnGbpuLZI0Plq2f7pRh0N6+TAKTK3ojpddIhprvM/Obst2tmRIkhL5eg5tIJlJlmNrH1
+         4I9nw1iEAJMvx3/sebxH1BPZ4ODaRcyLvt9pVBm7GVcqDGjO3QS172mh11ldI7s0HIP6
+         ySaQ==
+X-Gm-Message-State: AOAM532O+2r3JYWZShBas3lBapP9Q1X/KtFvZG6vQZgddCIOzgnEuB9I
+        owSipMzOsZuub3bMnieyaRg=
+X-Google-Smtp-Source: ABdhPJz5b+P9NZo/tS24ow5iUQhIVljCyA9KzOWechudO5xRCTBBF5SlaF5XyvnNy3qFUTeLkbeiUw==
+X-Received: by 2002:a50:d80f:: with SMTP id o15mr26883971edj.156.1595344268377;
+        Tue, 21 Jul 2020 08:11:08 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id g21sm17267771edu.2.2020.07.21.06.17.08
+        by smtp.gmail.com with ESMTPSA id d24sm16698362eje.21.2020.07.21.08.11.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 06:17:09 -0700 (PDT)
-Date:   Tue, 21 Jul 2020 15:17:08 +0200
+        Tue, 21 Jul 2020 08:11:07 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5.7 000/243] 5.7.10-rc2 review
-Message-ID: <20200721131708.GH44604@ulmo>
-References: <20200720191523.845282610@linuxfoundation.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        =?UTF-8?q?Terje=20Bergstr=C3=B6m?= <tbergstrom@nvidia.com>
+Subject: [PATCH] arm64: tegra: Properly size register regions for GPU on Tegra194
+Date:   Tue, 21 Jul 2020 17:10:55 +0200
+Message-Id: <20200721151055.253644-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mYYhpFXgKVw71fwr"
-Content-Disposition: inline
-In-Reply-To: <20200720191523.845282610@linuxfoundation.org>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---mYYhpFXgKVw71fwr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Memory I/O regions for the GV11B found on Tegra194 are 16 MiB rather
+than 256 MiB.
 
-On Mon, Jul 20, 2020 at 09:16:26PM +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.7.10 release.
-> There are 243 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
->=20
-> Responses should be made by Wed, 22 Jul 2020 19:14:36 +0000.
-> Anything received after that time might be too late.
->=20
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.7.10-=
-rc2.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git=
- linux-5.7.y
-> and the diffstat can be found below.
->=20
-> thanks,
->=20
-> greg k-h
+Reported-by: Terje Bergström <tbergstrom@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-All tests passing for Tegra ...
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 48160f48003a..fc36d683049b 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1398,8 +1398,8 @@ sor3: sor@15bc0000 {
+ 
+ 		gpu@17000000 {
+ 			compatible = "nvidia,gv11b";
+-			reg = <0x17000000 0x10000000>,
+-			      <0x18000000 0x10000000>;
++			reg = <0x17000000 0x1000000>,
++			      <0x18000000 0x1000000>;
+ 			interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
+ 			interrupt-names = "stall", "nonstall";
+-- 
+2.27.0
 
-Test results for stable-v5.7:
-    11 builds:  11 pass, 0 fail
-    26 boots:   26 pass, 0 fail
-    56 tests:   56 pass, 0 fail
-
-Linux version:  5.7.10-rc2-g7d2e5723ce4a
-Boards tested:  tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
-
-Cheers,
-Thierry
-
---mYYhpFXgKVw71fwr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8W6tMACgkQ3SOs138+
-s6F21A/+OmjoI5u3XrXQaGIJYUcB0XPSU30JDeTdhaLVPnZyB9zbz9tQYGc97UU/
-QUHrKBPPqg9VEImgYK3xCb70uW2KGHSn9ug5Oyk33LccgrttQVdkviNoZBoIt5ZD
-K/jLAGXO1tHc2tbzQiV+bEeyB+/n+2HMOIpbdhKAeaXPUMUEAkMiS8djZlyiZYTw
-6b+2Y7Q93qKiswfwWswX3BJzPTEfR4ijQQSv5wEne6MztDrU5Q+CoQj9EKJRgKYD
-y1AX5w7OSiwysGK8c3CUmEf80cIKm+dQOabuiUUmrNKbfrqcg632t6Fj14Ihd4M8
-7vQZpmlMJko4088u2vU5HQk1eieJFVOp7vsgvtk1G/Dngx9BN8DzYkPw62Xp5kvk
-zgtpjNGB7jd31RJzLEfb7gA6F/xw6Zltgw72UNX4yzB0wDtsvNKrGCGTjyeTwJdm
-f/F23r3EjyFionvJrQY0uXlrB4jQhdkweI2r8LIfL2kn/yWKqHGeu3yuf1UQYccn
-EZuDYRIjvhu1NIOfjHPVSW9pNeLh5JZWY6sS+QR6vk47kYDtW5UnwgS8NQ3OkMqf
-BGKjpoyZdZHcnqdZNduX8hdMm707Jx0F6I+Tc8QDnhtitHg/5aNHu3uPR3CCZ0VK
-clcLflckiOMCD48VFiIN8IznbcBwa2Hbv2iYwOiYAFKGkudI6D4=
-=tCj0
------END PGP SIGNATURE-----
-
---mYYhpFXgKVw71fwr--
