@@ -2,129 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9580B227F4E
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 13:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0D42280BA
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 15:15:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbgGULwp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Jul 2020 07:52:45 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14261 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbgGULwp (ORCPT
+        id S1728390AbgGUNOc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Jul 2020 09:14:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42692 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbgGUNOc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Jul 2020 07:52:45 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f16d6950000>; Tue, 21 Jul 2020 04:50:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 21 Jul 2020 04:52:45 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 21 Jul 2020 04:52:45 -0700
-Received: from [10.25.101.238] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Jul
- 2020 11:52:38 +0000
-CC:     <spujar@nvidia.com>, <rlokhande@nvidia.com>, <digetx@gmail.com>,
-        <linux-kernel@vger.kernel.org>, <thierry.reding@gmail.com>,
-        <linux-tegra@vger.kernel.org>, <swarren@nvidia.com>,
-        <sharadg@nvidia.com>, <nicoleotsuka@gmail.com>,
-        <viswanathl@nvidia.com>, <nwartikar@nvidia.com>,
-        <jonathanh@nvidia.com>, <atalambedu@nvidia.com>,
-        <mkumard@nvidia.com>, <dramesh@nvidia.com>,
-        <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v5 00/11] Add ASoC AHUB components for Tegra210 and later
-To:     Mark Brown <broonie@kernel.org>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <kuninori.morimoto.gx@renesas.com>, <tiwai@suse.com>
-References: <1595134890-16470-1-git-send-email-spujar@nvidia.com>
- <159525589435.6792.708136378511410418.b4-ty@kernel.org>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <72d45476-7050-187b-19d6-2ddb9b0ba97a@nvidia.com>
-Date:   Tue, 21 Jul 2020 17:22:35 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 21 Jul 2020 09:14:32 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 110D1C061794;
+        Tue, 21 Jul 2020 06:14:32 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id h28so15270813edz.0;
+        Tue, 21 Jul 2020 06:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qWyarVzCa1uuhNFbtCVqaJTCuBOJPZBJNhnssjGVZPc=;
+        b=VcGOSW/fVQheWp4zSKF0CH9c9pGwPElOO5vNEkueubww6PX8qQm5qE6RQ5Qi3IxVDJ
+         BF1lwAV93lDuEwF/mGoOzDbbLNNGugOkI/L6fLkYmfaaqFULFxyQT/e5s6Pu30Dsg4dw
+         Zr0d8hsTiel9IdrQ8Y3h9yv8GS8QYZu0XUWirFMzhiViZXOAmttiRazXko+YsfXr0OCP
+         xhBaZ8VagviEvCmwV8ASjEJOV1QVDCyoC3o+xnUK1UFhtJ91hyrDLElyoF5g0WemllIU
+         3jKKrzXO859m+bUZSKW+lkxKTDvsSS4K5hGy2UTQy5MfS6shEJ6y7qCVTJx5bqVyM31Y
+         IHCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qWyarVzCa1uuhNFbtCVqaJTCuBOJPZBJNhnssjGVZPc=;
+        b=qcrCd+zFzZPNwd24MMpoke0XSFDBEVNGGDLZP668zvNKGfdSQmseOA5S2T9QxloUjt
+         lZpOqgBZ0PG66suYfR+3eRGr8dNH7QmbRTMH8ux9lSUM4psOYsP/edOJRM0UHHQNhCc+
+         Lc0QlF56zzJ/rydb/liJHXe4pZ2eb8kgAaiAuqDJ+mhnGLnIXU/N8awEaNiTZHxqICGL
+         kugiMHk72+vM0C5zu8ZNFoC5scXQILasPa0hdV5pSKyV1nJ8N5eldNgfv5IBBuFJbohP
+         lQVkGU2EHZT9Zpfh5xKsYJhZm76SgvtJju8OhovwzH+MqSngCMRVku30ipSGxjQyAVXv
+         Bihg==
+X-Gm-Message-State: AOAM533+lrkCiQreCgK5S65QCKhRO31fX21irrsE73iQhQWp1SlXL24u
+        9Tnbeh1mOq+6vq15bBB7ly8=
+X-Google-Smtp-Source: ABdhPJz94pCzoy2F2sabQnicb3+XIiEJPWYWCa3OLQzgGFinaLv+4tVen5VRsBqajjPN/SYY9ovFkw==
+X-Received: by 2002:a05:6402:1bdd:: with SMTP id ch29mr25904929edb.134.1595337270831;
+        Tue, 21 Jul 2020 06:14:30 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id r19sm17162801edp.79.2020.07.21.06.14.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 06:14:29 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 15:14:28 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 4.19 000/133] 4.19.134-rc1 review
+Message-ID: <20200721131428.GE44604@ulmo>
+References: <20200720152803.732195882@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <159525589435.6792.708136378511410418.b4-ty@kernel.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595332245; bh=I7A23ZSDWorRZy3D4VQyChJjvsPD/dJJdKZBL01AyEU=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=hVhAHlWjK0Q60cjDRWNgeIlhcFJpQNO333aYgHZOCCeCWLvH9zsHW+xiu22sRg/+r
-         qUPJTzg/eC+7GHo3Rk4CRbDSJbH6YEtLs3HWNoMgt1OUIf2VMqmt3Uu0Cqmo6xObOq
-         wSjpcCcN6MdKHsyNmMieNBuXOYsb6b0LlvtgWJnr6HbpkCeCATqO68jhhdHX3vuaLe
-         N6oj1m8kCUHNnWymeEArxb4n4QCI1jvYvgvijDHK9U159AFdPRD16FamIsXU/IJeqE
-         nR6IAadACO3JLqykMd70eLNXo08sUtvLtRuwmgKbWE8P+d03Xr3fkELSZ54IEcG+MU
-         s5YfcVms9ZWuA==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="h56sxpGKRmy85csR"
+Content-Disposition: inline
+In-Reply-To: <20200720152803.732195882@linuxfoundation.org>
+User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mark,
 
-On 7/20/2020 8:08 PM, Mark Brown wrote:
-> External email: Use caution opening links or attachments
->
->
-> On Sun, 19 Jul 2020 10:31:19 +0530, Sameer Pujar wrote:
->> Overview
->> ========
->> Audio Processing Engine (APE) comprises of Audio DMA (ADMA) and Audio
->> Hub (AHUB) unit. AHUB is a collection of hardware accelerators for audio
->> pre-processing and post-processing. It also includes a programmable full
->> crossbar for routing audio data across these accelerators.
->>
->> [...]
-> Applied to
->
->     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
->
-> Thanks!
->
-> [1/6] ASoC: dt-bindings: tegra: Add DT bindings for Tegra210
->        commit: 665308c0b44a37339b9b3368f1dd61eb66acde87
-> [2/6] ASoC: tegra: Add support for CIF programming
->        commit: 1c3b89fb7e4a78ddcd627e3f218a216e2136ae9b
-> [3/6] ASoC: tegra: Add Tegra210 based DMIC driver
->        commit: 8c8ff982e9e2b2eb9255fc393f938915b0ddc127
-> [4/6] ASoC: tegra: Add Tegra210 based I2S driver
->        commit: c0bfa98349d1796fe754dfac7f7f505bb60dcd83
-> [5/6] ASoC: tegra: Add Tegra210 based AHUB driver
->        commit: 16e1bcc2caf446fa3e1daa040b59fd6f6272a766
-> [6/6] ASoC: tegra: Add Tegra186 based DSPK driver
->        commit: 327ef64702668bb754eeea80ce402454d7a1302a
+--h56sxpGKRmy85csR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I see that "[PATCH v5 07/11] ASoC: tegra: Add Tegra210 based ADMAIF 
-driver" is not applied as part of this. I wanted to understand if this 
-is because some more review comments are expected or there are other 
-reasons?
+On Mon, Jul 20, 2020 at 05:35:47PM +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.134 release.
+> There are 133 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+>=20
+> Responses should be made by Wed, 22 Jul 2020 15:27:31 +0000.
+> Anything received after that time might be too late.
+>=20
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.13=
+4-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git=
+ linux-4.19.y
+> and the diffstat can be found below.
+>=20
+> thanks,
+>=20
+> greg k-h
 
-Thanks,
-Sameer.
+All tests passing for Tegra ...
 
->
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
->
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
->
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
->
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
->
-> Thanks,
-> Mark
+Test results for stable-v4.19:
+    11 builds:  11 pass, 0 fail
+    22 boots:   22 pass, 0 fail
+    38 tests:   38 pass, 0 fail
 
+Linux version:  4.19.134-rc1-g9d319b54cc24
+Boards tested:  tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers,
+Thierry
+
+--h56sxpGKRmy85csR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8W6jQACgkQ3SOs138+
+s6HZuA//YJM+ABgzrc6euDLcUHvP7nC4HSBdh4Yrlv8L3MFMX4ubp95z1hdxG8b0
+fWGVrrwykQ6NKtiZdVzbj4DpbSQFw9ek3UJa/25cbAad9mKCup5EwbaQrzvGicvY
+Hj4TjhKiij+IOTkUdYzyyJ55nSO2+DB72Lvjb0857aD9OflZpNxQVbtgpn24Tr/X
+hqN1MoM+yTOHZnpddiBKVbMz6dPCH/0D3r173h8GliJJtxpCJaKOCfnyCgk85Y6f
+DOpbxs/Mycr1uxqJMf0hrz2Jh3Bk1T1azc+5+WLdxypNHAYXuIOATsyaw90fM9Sg
+q/ormpZHlWLacFocLMZk+o4uFLnKO7EX630dKc/E1fsWjdCOSaZZnV57p7HTTnvs
++qUGdcf33AiHhweHE07ND3Pj1HAOLLtsElTgcn1spO0WmhYSF5ujrLXVqKUGV1DF
+A789Tw68o9AmYFWYXD/ROYjTanC7KOdhKz5gT+lASG6YQJViVK9bhbAuFPFTM/uj
+fjlDzrnJy56Sk6GNEYVG6Nfdy/IIzG8MSLzaIZP8xO6qOcQUqxl28DL1gTyWLodZ
+v8pWAS3MtOY7+qPpTvVAdFrp9nHvIalUbQjj5ZniQruJTCM3l9ETM5yijjpSo8bj
+Y3ooRR5Dp4GJ6QcZKUOFSImi/aT7+DSsOASLrHCifGpUxCpTMSA=
+=/sPq
+-----END PGP SIGNATURE-----
+
+--h56sxpGKRmy85csR--
