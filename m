@@ -2,127 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80CBD227AA5
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 10:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9580B227F4E
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jul 2020 13:52:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbgGUI3Y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Jul 2020 04:29:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728275AbgGUI3S (ORCPT
+        id S1727043AbgGULwp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Jul 2020 07:52:45 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14261 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbgGULwp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Jul 2020 04:29:18 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8D3C0619DB
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Jul 2020 01:29:18 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id f7so20313671wrw.1
-        for <linux-tegra@vger.kernel.org>; Tue, 21 Jul 2020 01:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BCc9lQHutdqUheCKRkROi161ZNJWwY3EPFExUcfdRiQ=;
-        b=nQZzuMkvsmF8UEWlQ2eMje2ox6IxIQnvVbZvACyM99WUCNYR4mar5iAsEGOMOc1+kZ
-         W47xjV3CaLmGqGyhv+1g8jpHCUH2OllbVfcJnsO2LuTUPFgblr8cB3VkvBPBU0eMoS8C
-         bDpo4AnqD9Ze142VKWzYhpOd238YloVY6mGh99Pj3KHwXg4yPC5MPHjeWWDd2+cLLFE7
-         VWXzcnWEMofCTSbJPcZGPf78ZW/wwbQR3UBjy0EiNgclwxf6YDw2IB5JTQ5l6nd72jFF
-         NzSBCKQA6U6T6hQYX5gxJm4mO0jp49pX79cI2b8LyY7hj/iq16n93wrUPjZMA62YVHHw
-         0F4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BCc9lQHutdqUheCKRkROi161ZNJWwY3EPFExUcfdRiQ=;
-        b=tWvPaET+4jSxulm8m1drTbtPOrWl4yf1NgRantsWVByL0f8ZkDYF5VI4OFxvPN7nGu
-         a9w65hUwqeTrcrd8wHbXOwA0W5qgIKl8KruJZnHVRi0eMbwGl+akjoW6pDT2GQ7KSQ66
-         p5upsqb4vSsFXr/TwqNl4qm2ZKWt50jDhkVxb2/rNEFZc4XjN9MRKT0tgLsJmAHz2Hgm
-         sy6x0cHqteisD/rmcbHobB1GNGOPboLcopsQQF7NQ05Fjk4kvX+XnrMXB3nAeeyMHp/R
-         X0A+MvuiHeFsCLY2cTHTUbqzqZceK6YSC48fi7v/lMQoN11r6N7cjM5GeF1lUamXbyu1
-         1/gQ==
-X-Gm-Message-State: AOAM533/NS9pdct7Z5fhOEX+I3pu6N0rhIfOqLmC9o7uvH8E9aSLeGtV
-        S8l6CPgWagX3zUleFcx4JDCU9w==
-X-Google-Smtp-Source: ABdhPJx7ILZH2KvjvBFVVZB5grxQumhwOHm/i3j36nylWvTrt1yjKSBvidlCH5i8FTEEGeIg8iA/PA==
-X-Received: by 2002:adf:fb06:: with SMTP id c6mr810292wrr.261.1595320156360;
-        Tue, 21 Jul 2020 01:29:16 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:3590:b402:869a:11fc? ([2a01:e34:ed2f:f020:3590:b402:869a:11fc])
-        by smtp.googlemail.com with ESMTPSA id d10sm36006628wrx.66.2020.07.21.01.29.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2020 01:29:15 -0700 (PDT)
-Subject: Re: [PATCH v2] dt-bindings: thermal: Get rid of thermal.txt and
- replace references
-To:     Amit Kucheria <amit.kucheria@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        lukasz.luba@arm.com, Sudeep Holla <sudeep.holla@arm.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Talel Shenhar <talel@amazon.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Marc Gonzalez <marc.w.gonzalez@free.fr>,
-        Mans Rullgard <mans@mansr.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stefan Wahren <wahrenst@gmx.net>
-Cc:     Rob Herring <robh@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <e9aacd33071a00568b67e110fa3bcc4d86d3e1e4.1595245166.git.amit.kucheria@linaro.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <8c7f5c41-746b-f26d-7b3e-4152c17c4812@linaro.org>
-Date:   Tue, 21 Jul 2020 10:29:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+        Tue, 21 Jul 2020 07:52:45 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f16d6950000>; Tue, 21 Jul 2020 04:50:45 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 21 Jul 2020 04:52:45 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 21 Jul 2020 04:52:45 -0700
+Received: from [10.25.101.238] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Jul
+ 2020 11:52:38 +0000
+CC:     <spujar@nvidia.com>, <rlokhande@nvidia.com>, <digetx@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <thierry.reding@gmail.com>,
+        <linux-tegra@vger.kernel.org>, <swarren@nvidia.com>,
+        <sharadg@nvidia.com>, <nicoleotsuka@gmail.com>,
+        <viswanathl@nvidia.com>, <nwartikar@nvidia.com>,
+        <jonathanh@nvidia.com>, <atalambedu@nvidia.com>,
+        <mkumard@nvidia.com>, <dramesh@nvidia.com>,
+        <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v5 00/11] Add ASoC AHUB components for Tegra210 and later
+To:     Mark Brown <broonie@kernel.org>, <robh+dt@kernel.org>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>,
+        <kuninori.morimoto.gx@renesas.com>, <tiwai@suse.com>
+References: <1595134890-16470-1-git-send-email-spujar@nvidia.com>
+ <159525589435.6792.708136378511410418.b4-ty@kernel.org>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <72d45476-7050-187b-19d6-2ddb9b0ba97a@nvidia.com>
+Date:   Tue, 21 Jul 2020 17:22:35 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <e9aacd33071a00568b67e110fa3bcc4d86d3e1e4.1595245166.git.amit.kucheria@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <159525589435.6792.708136378511410418.b4-ty@kernel.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595332245; bh=I7A23ZSDWorRZy3D4VQyChJjvsPD/dJJdKZBL01AyEU=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=hVhAHlWjK0Q60cjDRWNgeIlhcFJpQNO333aYgHZOCCeCWLvH9zsHW+xiu22sRg/+r
+         qUPJTzg/eC+7GHo3Rk4CRbDSJbH6YEtLs3HWNoMgt1OUIf2VMqmt3Uu0Cqmo6xObOq
+         wSjpcCcN6MdKHsyNmMieNBuXOYsb6b0LlvtgWJnr6HbpkCeCATqO68jhhdHX3vuaLe
+         N6oj1m8kCUHNnWymeEArxb4n4QCI1jvYvgvijDHK9U159AFdPRD16FamIsXU/IJeqE
+         nR6IAadACO3JLqykMd70eLNXo08sUtvLtRuwmgKbWE8P+d03Xr3fkELSZ54IEcG+MU
+         s5YfcVms9ZWuA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20/07/2020 13:53, Amit Kucheria wrote:
-> Now that we have yaml bindings for the thermal subsystem, get rid of the
-> old bindings (thermal.txt).
-> 
-> Replace all references to thermal.txt in the Documentation with a link
-> to the appropriate YAML bindings using the following search and replace
-> pattern:
->  - If the reference is specific to the thermal-sensor-cells property,
->  replace with a pointer to thermal-sensor.yaml
->  - If the reference is to the cooling-cells property, replace with a
->  pointer to thermal-cooling-devices.yaml
->  - If the reference is generic thermal bindings, replace with a
->  reference to thermal*.yaml.
-> 
-> Signed-off-by: Amit Kucheria <amit.kucheria@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Hi Mark,
 
-Applied, thanks
+On 7/20/2020 8:08 PM, Mark Brown wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On Sun, 19 Jul 2020 10:31:19 +0530, Sameer Pujar wrote:
+>> Overview
+>> ========
+>> Audio Processing Engine (APE) comprises of Audio DMA (ADMA) and Audio
+>> Hub (AHUB) unit. AHUB is a collection of hardware accelerators for audio
+>> pre-processing and post-processing. It also includes a programmable full
+>> crossbar for routing audio data across these accelerators.
+>>
+>> [...]
+> Applied to
+>
+>     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+>
+> Thanks!
+>
+> [1/6] ASoC: dt-bindings: tegra: Add DT bindings for Tegra210
+>        commit: 665308c0b44a37339b9b3368f1dd61eb66acde87
+> [2/6] ASoC: tegra: Add support for CIF programming
+>        commit: 1c3b89fb7e4a78ddcd627e3f218a216e2136ae9b
+> [3/6] ASoC: tegra: Add Tegra210 based DMIC driver
+>        commit: 8c8ff982e9e2b2eb9255fc393f938915b0ddc127
+> [4/6] ASoC: tegra: Add Tegra210 based I2S driver
+>        commit: c0bfa98349d1796fe754dfac7f7f505bb60dcd83
+> [5/6] ASoC: tegra: Add Tegra210 based AHUB driver
+>        commit: 16e1bcc2caf446fa3e1daa040b59fd6f6272a766
+> [6/6] ASoC: tegra: Add Tegra186 based DSPK driver
+>        commit: 327ef64702668bb754eeea80ce402454d7a1302a
 
+I see that "[PATCH v5 07/11] ASoC: tegra: Add Tegra210 based ADMAIF 
+driver" is not applied as part of this. I wanted to understand if this 
+is because some more review comments are expected or there are other 
+reasons?
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Thanks,
+Sameer.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+>
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+>
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+>
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+>
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+>
+> Thanks,
+> Mark
+
