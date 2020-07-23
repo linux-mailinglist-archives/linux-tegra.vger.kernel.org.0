@@ -2,85 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 933D722B491
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 19:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21FC922B669
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 21:07:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729890AbgGWRPs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 13:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46856 "EHLO
+        id S1728059AbgGWTHe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 15:07:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728867AbgGWRPr (ORCPT
+        with ESMTP id S1726617AbgGWTHc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 13:15:47 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB656C0619E3
-        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 10:15:47 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id d14so6021047qke.13
-        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 10:15:47 -0700 (PDT)
+        Thu, 23 Jul 2020 15:07:32 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A80C0619DC
+        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 12:07:32 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id mn17so3626437pjb.4
+        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 12:07:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JXiuwKSxH1v6t1t/ryYYU7zLgRgpgLMrl8o3usa+ml4=;
-        b=K+SnKxwUrjhMdkKMznvv0/mSZpVVpR59yG77Q31rc69sjsc1uY1h2B4N81OGYgZcS1
-         fsFtjzCQh4qQJSYBpVJxnJiFdI0biFvC+sGyjDB0cDY0hG11MHJBwW2SK2RI7m2/rwyS
-         v1bd5wbArHaOuX4jaoWOMdBC00HeEJmfUwO1k=
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fmy4tO1tW/yB2p+/DBGuPfpuvcNIPQV/6jKnfwUymaM=;
+        b=uJ/LXXd4WW3t/V9uP1pvh2+w7xCfmHmmU2q2MX994uvmdMhyUpnBd6wtTkFWVeSiVn
+         fni2Skynmv78aJ9rstIyOgTssb4uBzBQL6YPmxb5SzQaGZtm2sB0Ln7Qk9r6vt5a/SEE
+         gYzQRW0K8FC5lX9W9+bz+gbIOgybElEHRuMxxBvv7T+TJKJnGfXHkIe/b2UFhfrjNnt8
+         hmvs/pCT8mt2wp6eGsvntxKg2m7zjG9IalAT3RXT7FCW3qu0zRZl84tHISI7JSF/JPwL
+         M06pYkfoNbZamtdmUh5GU20hgxfU9YBtWQ50on6QDjz/h882N3ikL5uKYSp6UNdyl0GU
+         5IDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JXiuwKSxH1v6t1t/ryYYU7zLgRgpgLMrl8o3usa+ml4=;
-        b=UOz6eOq91fovLeLAM0qf81ZUuduyvlfGa3fIi6TWGtEJ6tT8aSkUN/F1ItGAxx9lom
-         RnYz1WjYIZFHyeM1HrncqZn52AgyEjPC8Zk/QylcmsiztBkISvCcfl+/zajAEIDRCaTW
-         8wX4Pobh9lzeVX+p4R9js1IwphvHak5VlkD/NG5X5sg+WYyhtB0gmriWiV/uNIbzaMqq
-         WOP+KvWM2vRUuo/TxicJoEQN5bKzhI3R2zqStdfR6E6PE6gdEZu9v3qy87292B3uktR4
-         rE89Qn9Wc8ITazixXwuk/fmkY+bOyJiK4qFuYl3L4hzREDjf7B7KQgmE0oTs8zO9d9y/
-         2ISw==
-X-Gm-Message-State: AOAM532GGuNHQtKRyeRgBsZga8nhl7+/FH7L9sIrHkJThCxxybnFUTWc
-        9g4OpllW71hLvVmx195UK7mI3agh/KFoLEoTrsUSug==
-X-Google-Smtp-Source: ABdhPJxTfnoxWQUWdTg8raMcFvzXp1cWiOq8kQMMi+BDEmI/sCV1IYxPpZLXjsosKPeDkbkDYTHj+k9jFHSSpLw6ss4=
-X-Received: by 2002:ae9:e857:: with SMTP id a84mr6649837qkg.100.1595524546846;
- Thu, 23 Jul 2020 10:15:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200723073744.13400-1-krzk@kernel.org> <20200723073744.13400-17-krzk@kernel.org>
- <b9519b7f-9cf0-3715-bca9-05905035eada@gmail.com>
-In-Reply-To: <b9519b7f-9cf0-3715-bca9-05905035eada@gmail.com>
-From:   Markus Mayer <mmayer@broadcom.com>
-Date:   Thu, 23 Jul 2020 10:15:36 -0700
-Message-ID: <CAGt4E5v3mbY_S2Q=Tq5ZKSY450weu9kFZ9R3bkJ1=3VPobZGsg@mail.gmail.com>
-Subject: Re: [PATCH 16/23] memory: brcmstb_dpfe: Constify the contents of string
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm@kernel.org, soc@kernel.org,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Roger Quadros <rogerq@ti.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fmy4tO1tW/yB2p+/DBGuPfpuvcNIPQV/6jKnfwUymaM=;
+        b=YvE/XQ4ByTmMZ6TCldLFLyguyLL7QHzHC2Ox6boXujtAKz0rTPXwAMfGVeyFU7attk
+         Hlgle0qM8M+f5kd/b64/psvAKNO7EXFdUSyuAK28RuGFMgSRTNoWd6jpzJgJG2j2fPmO
+         wMj27VFJa9P/w7AyADyUHNGa73xBOO5/PB9IufWCj7IGSOi0wxAEKvcb+QegtrDnpJ+p
+         crEDM8Hvxg7yuq+C/2aS5fEVdTaSGiF/4Ov1xJaUt+UWujpeI0O3iRAXbe+CW2jqoP4t
+         UDjL8+6SFQRPn4XAKsMxj2x4X5bsdYNm748ZT3qZmk3MEwOB1Vdb2R4xo4cfUV4EAyjj
+         tD1Q==
+X-Gm-Message-State: AOAM5321RvItMnTpQ4xiLlmDmdPFvrdgSNJ70Pu9qFoN8PN2AdQ5st06
+        gw8Ax3++ois3Ve2xbffqPjTYTg==
+X-Google-Smtp-Source: ABdhPJyFY8SK2yrpGMIJYPZOm/XbUPFW09vVIwr7j2Oue2l2cEXybEXOCRDyJvKCGSvI32jjRGApEQ==
+X-Received: by 2002:a17:902:22:: with SMTP id 31mr4590106pla.120.1595531251889;
+        Thu, 23 Jul 2020 12:07:31 -0700 (PDT)
+Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+        by smtp.gmail.com with ESMTPSA id h6sm3716298pfo.123.2020.07.23.12.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2020 12:07:31 -0700 (PDT)
+Date:   Thu, 23 Jul 2020 12:07:24 -0700
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Neal Liu <neal.liu@mediatek.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        wsd_upstream <wsd_upstream@mediatek.com>
+Subject: Re: [PATCH v2] cpuidle: change enter_s2idle() prototype
+Message-ID: <20200723190724.GA1339461@google.com>
+References: <1594005196-16327-1-git-send-email-neal.liu@mediatek.com>
+ <1594005196-16327-2-git-send-email-neal.liu@mediatek.com>
+ <CAJZ5v0ihB5AJwSRpjaOnXAmciregzxARL5xfudu1h+=_LXaE_w@mail.gmail.com>
+ <1594350535.4670.13.camel@mtkswgap22>
+ <1595233294.8055.0.camel@mtkswgap22>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1595233294.8055.0.camel@mtkswgap22>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 23 Jul 2020 at 10:11, Florian Fainelli <f.fainelli@gmail.com> wrote:
->
-> On 7/23/20 12:37 AM, Krzysztof Kozlowski wrote:
-> > The string itself can be made const for safety.
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->
-> Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+On Mon, Jul 20, 2020 at 04:21:34PM +0800, Neal Liu wrote:
+> Gentle ping on this patch.
+> 
+> 
+> On Fri, 2020-07-10 at 11:08 +0800, Neal Liu wrote:
+> > On Thu, 2020-07-09 at 14:18 +0200, Rafael J. Wysocki wrote:
+> > > On Mon, Jul 6, 2020 at 5:13 AM Neal Liu <neal.liu@mediatek.com> wrote:
+> > > >
+> > > > Control Flow Integrity(CFI) is a security mechanism that disallows
+> > > > changes to the original control flow graph of a compiled binary,
+> > > > making it significantly harder to perform such attacks.
+> > > >
+> > > > init_state_node() assign same function callback to different
+> > > > function pointer declarations.
+> > > >
+> > > > static int init_state_node(struct cpuidle_state *idle_state,
+> > > >                            const struct of_device_id *matches,
+> > > >                            struct device_node *state_node) { ...
+> > > >         idle_state->enter = match_id->data; ...
+> > > >         idle_state->enter_s2idle = match_id->data; }
+> > > >
+> > > > Function declarations:
+> > > >
+> > > > struct cpuidle_state { ...
+> > > >         int (*enter) (struct cpuidle_device *dev,
+> > > >                       struct cpuidle_driver *drv,
+> > > >                       int index);
+> > > >
+> > > >         void (*enter_s2idle) (struct cpuidle_device *dev,
+> > > >                               struct cpuidle_driver *drv,
+> > > >                               int index); };
+> > > >
+> > > > In this case, either enter() or enter_s2idle() would cause CFI check
+> > > > failed since they use same callee.
+> > > 
+> > > Can you please explain this in a bit more detail?
+> > > 
+> > > As it stands, I don't understand the problem statement enough to apply
+> > > the patch.
+> > > 
+> > 
+> > Okay, Let's me try to explain more details.
+> > Control Flow Integrity(CFI) is a security mechanism that disallows
+> > changes to the original control flow graph of a compiled binary, making
+> > it significantly harder to perform such attacks.
+> > 
+> > There are multiple control flow instructions that could be manipulated
+> > by the attacker and subvert control flow. The target instructions that
+> > use data to determine the actual destination.
+> > - indirect jump
+> > - indirect call
+> > - return
+> > 
+> > In this case, function prototype between caller and callee are mismatch.
+> > Caller: (type A)funcA
+> > Callee: (type A)funcB
+> > Callee: (type C)funcC
+> > 
+> > funcA calls funcB -> no problem
+> > funcA calls funcC -> CFI check failed
+> > 
+> > That's why we try to align function prototype.
+> > Please feel free to feedback if you have any questions.
 
-Acked-by: Markus Mayer <mmayer@broadcom.com>
+I think you should include a better explanation in the commit message.
+Perhaps something like this?
+
+  init_state_node assigns the same callback function to both enter and
+  enter_s2idle despite mismatching function types, which trips indirect
+  call checking with Control-Flow Integrity (CFI).
+
+> > > > Align function prototype of enter() since it needs return value for
+> > > > some use cases. The return value of enter_s2idle() is no
+> > > > need currently.
+> > > 
+> > > So last time I requested you to document why ->enter_s2idle needs to
+> > > return an int in the code, which has not been done.  Please do that.
+
+Rafael, are you happy with the commit message documenting the reason,
+or would you prefer to also add a comment before enter_s2idle?
+
+Sami
