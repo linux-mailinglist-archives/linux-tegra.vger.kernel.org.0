@@ -2,133 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0DD022B26F
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 17:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42AFB22B275
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 17:26:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729583AbgGWPW4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 11:22:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728711AbgGWPW4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 11:22:56 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37DC5C0619DC
-        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 08:22:56 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id l6so2698843plt.7
-        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 08:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aHzoQJgUGIpE9BjMSQwyAvES0B7tP6s7ctsl+J7U1QE=;
-        b=rBxzxaCXIxtCvDsgE9c/RvUvBSHqQTwRAv0vgnMVLkwGyKVDuYgerm8XTzK46Z7GvW
-         OP6B+KrOS0NqEn8E7gkMZG36gefHmleOUbfbD406kGUCbCrsF9BDYYfFMXQQ9BSgOkTW
-         36vvlTI17ZC1CBi+/LpUpOU1crzX89A6b5AgtNmKMvucKZl5PP8eTlAvBFRVBLs3BrcM
-         tEuJXg1zdlE+KTGwQwoimEo+47NLPuYzTGTYVsexvCUZJ1shjKoQL/zTpqT0raGU5HJc
-         72ap5F2vvHuN02VaosshlFp2B5T16Rvn41FVkXRb73P+4B8SpKrj3PHmP3maFYYFRVvY
-         b0WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aHzoQJgUGIpE9BjMSQwyAvES0B7tP6s7ctsl+J7U1QE=;
-        b=I5Zrt0Afes4Hi/H539PMS/wUThy4635yU0x4yWmaQpzSY7vaLVWydgLa9ZE2hZPxTL
-         wohOZh+ZS/HgrvLlyn2bNuKfNmBZ/fPfMO89AX7nNwuPCozQIcT/PPmmW9e1UsLz/xS/
-         s2iioB99gEvwNyazO9TrcnqLpXjtoSbdcjVTVT8wytHschbKcX3MwSKPyujEdxpb4PrF
-         kCzWW7JpdMxB3P5aUCsJqYzcZJtrkFuoRuAnVpARn3v6bL8k3U/mT1dxbudTJxFySiUB
-         1zlWAAl9b3muNq5h2yCwxoW6nCM52dmFlRQCkTd4fwpDY1Tf+fFic6TsXQn+jAMZWaqS
-         C6iQ==
-X-Gm-Message-State: AOAM530JLGFGMOHJXbl6cWi7icG78VrVns82unepjCbd+VyCwn53RHNi
-        xrMYDrBhPrhIM0FF1Us5wIc=
-X-Google-Smtp-Source: ABdhPJzxBOxzuT57VJ9D5Xax9m5kHRDBwoUV4ADGiy1GtEfFPiBcC57hYFE3p7ZjTv1YE+bFEuj7YQ==
-X-Received: by 2002:a17:90a:6d96:: with SMTP id a22mr855185pjk.26.1595517775677;
-        Thu, 23 Jul 2020 08:22:55 -0700 (PDT)
-Received: from localhost.localdomain ([1.186.115.27])
-        by smtp.gmail.com with ESMTPSA id y7sm3235459pgk.93.2020.07.23.08.22.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2020 08:22:54 -0700 (PDT)
-From:   Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
-To:     marvin24@gmx.de, gregkh@linuxfoundation.org, p.zabel@pengutronix.de
-Cc:     Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>,
-        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH] change slave occurence to secondary everywhere
-Date:   Thu, 23 Jul 2020 20:45:13 +0530
-Message-Id: <20200723151511.22193-1-bharadwaj.rohit8@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S1729490AbgGWP0O (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 11:26:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53514 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727996AbgGWP0O (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 23 Jul 2020 11:26:14 -0400
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E3E822B43;
+        Thu, 23 Jul 2020 15:26:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595517973;
+        bh=LVhZXIdkdKrrk3YqkOpZYcc+YEG1SCDuwu0ZS4IUGgM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=e0Q5iPvq0aYhQMQ93Nj0StQPvdQC04wLHBe3X1Txb93hQiAyN2gBdhUJnWxSD1Aiy
+         2KX/vVFZ/CirNgDYbBgwCQVGolScvRDxEh90ajbGlE82PTVGupyi1qunooX9upUKwZ
+         aUXzgixohBJRhgWVYRFrPtwnbl7QTcgOltbXgQL0=
+Received: by mail-ot1-f49.google.com with SMTP id t18so4625914otq.5;
+        Thu, 23 Jul 2020 08:26:13 -0700 (PDT)
+X-Gm-Message-State: AOAM5328sEOhl4Nj03f76bVII3MUeDy91vbUj8Se1dlWZjJMjCfz8/os
+        4aHKBKAEnhuCKQ6zFRNsdTSzkmDQ+XfITzTgOA==
+X-Google-Smtp-Source: ABdhPJwjqGRmo1UpccJeOoC1JymzSWvGPVrWo+4vb2FMRak7++d6g0GGlvyUxomInzkLdL3VTPFVVOlmvL7TW+o7adM=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr4390973otb.107.1595517972599;
+ Thu, 23 Jul 2020 08:26:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200722022514.1283916-1-robh@kernel.org> <20200722022514.1283916-12-robh@kernel.org>
+In-Reply-To: <20200722022514.1283916-12-robh@kernel.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 23 Jul 2020 09:26:01 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+sPaubVERLHaRzjvThk3zDO6zAnRQjGuAMKaVA87Y4HQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+sPaubVERLHaRzjvThk3zDO6zAnRQjGuAMKaVA87Y4HQ@mail.gmail.com>
+Subject: Re: [PATCH 11/19] PCI: Move setting pci_host_bridge.busnr out of host drivers
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Murali Karicheri <m-karicheri2@ti.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Zhu <hongxing.zhu@nxp.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-changed usage of slave (deprecated) to secondary
+On Tue, Jul 21, 2020 at 8:25 PM Rob Herring <robh@kernel.org> wrote:
+>
+> Most host drivers only parse the DT bus range to set the root bus number
+> in pci_host_bridge.busnr. The ones that don't set busnr are buggy in
+> that they ignore what's in DT. Let's set busnr in pci_scan_root_bus_bridge()
+> where we already check for the bus resource and remove setting it in
+> host drivers.
+>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Ryder Lee <ryder.lee@mediatek.com>
+> Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: linux-tegra@vger.kernel.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware-host.c | 4 ----
+>  drivers/pci/controller/dwc/pcie-designware.h      | 1 -
+>  drivers/pci/controller/pci-aardvark.c             | 5 ++---
+>  drivers/pci/controller/pci-host-common.c          | 1 -
+>  drivers/pci/controller/pci-tegra.c                | 4 +---
+>  drivers/pci/controller/pci-v3-semi.c              | 2 --
+>  drivers/pci/controller/pcie-mediatek.c            | 8 +-------
+>  drivers/pci/controller/pcie-rcar-host.c           | 1 -
+>  drivers/pci/probe.c                               | 1 +
+>  9 files changed, 5 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+> index 9e8a9cfc6d3a..fa922cb876a3 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-host.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+> @@ -374,9 +374,6 @@ int dw_pcie_host_init(struct pcie_port *pp)
+>                         pp->cfg0_base = pp->cfg->start;
+>                         pp->cfg1_base = pp->cfg->start + pp->cfg0_size;
+>                         break;
+> -               case IORESOURCE_BUS:
+> -                       pp->busn = win->res;
+> -                       break;
+>                 }
+>         }
+>
 
-Signed-off-by: Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
----
- drivers/staging/nvec/nvec.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index fd2146298b58..9fb44290ed43 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -188,7 +188,6 @@ struct pcie_port {
+>         struct resource         *cfg;
+>         struct resource         *io;
+>         struct resource         *mem;
+> -       struct resource         *busn;
+>         int                     irq;
+>         const struct dw_pcie_host_ops *ops;
+>         int                     msi_irq;
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 360ec0407740..5d7b66719a39 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -718,7 +718,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
- 	return IRQ_HANDLED;
- }
- 
--static void tegra_init_i2c_slave(struct nvec_chip *nvec)
-+static void tegra_init_i2c_secondary(struct nvec_chip *nvec)
- {
- 	u32 val;
- 
-@@ -744,7 +744,7 @@ static void tegra_init_i2c_slave(struct nvec_chip *nvec)
- }
- 
- #ifdef CONFIG_PM_SLEEP
--static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
-+static void nvec_disable_i2c_secondary(struct nvec_chip *nvec)
- {
- 	disable_irq(nvec->irq);
- 	writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
-@@ -784,7 +784,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, nvec);
- 	nvec->dev = dev;
- 
--	if (of_property_read_u32(dev->of_node, "slave-addr", &nvec->i2c_addr)) {
-+	if (of_property_read_u32(dev->of_node, "secondary-addr", &nvec->i2c_addr)) {
- 		dev_err(dev, "no i2c address specified");
- 		return -ENODEV;
- 	}
-@@ -839,7 +839,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
- 	}
- 	disable_irq(nvec->irq);
- 
--	tegra_init_i2c_slave(nvec);
-+	tegra_init_i2c_secondary(nvec);
- 
- 	/* enable event reporting */
- 	nvec_toggle_global_events(nvec, true);
-@@ -913,7 +913,7 @@ static int nvec_suspend(struct device *dev)
- 	if (!err)
- 		nvec_msg_free(nvec, msg);
- 
--	nvec_disable_i2c_slave(nvec);
-+	nvec_disable_i2c_secondary(nvec);
- 
- 	return 0;
- }
-@@ -923,7 +923,7 @@ static int nvec_resume(struct device *dev)
- 	struct nvec_chip *nvec = dev_get_drvdata(dev);
- 
- 	dev_dbg(nvec->dev, "resuming\n");
--	tegra_init_i2c_slave(nvec);
-+	tegra_init_i2c_secondary(nvec);
- 	nvec_toggle_global_events(nvec, true);
- 
- 	return 0;
--- 
-2.25.1
+These 2 hunks should be dropped as they are breaking the Amazon driver.
 
+Lorenzo, do you want to fixup or I can send a fix?
+
+Rob
