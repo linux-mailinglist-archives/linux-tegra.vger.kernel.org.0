@@ -2,132 +2,155 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A13622AC48
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 12:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A65B22ACB1
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 12:39:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgGWKQl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 06:16:41 -0400
-Received: from mail-ej1-f67.google.com ([209.85.218.67]:44577 "EHLO
-        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725846AbgGWKQk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 06:16:40 -0400
-Received: by mail-ej1-f67.google.com with SMTP id ga4so5751437ejb.11;
-        Thu, 23 Jul 2020 03:16:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dnWqbbfyoTOE1v2/nsDrkVQKi2TdYuhkczsrtV9Tj/A=;
-        b=NtC5oSEYS63EEfhdQWLyY0hoLsqGLZMOIcQD3MP1xs6q12+e2JwulyF/k3ABp3031u
-         5qIx5ABNhz4g7yDccFUQvWuxT9a7RfPmj8/d554pnTal6Okd1EgvCrleJIQOKtBAU75u
-         0D8J6qK1IBDlBrSH9nGlP9yse/xZwdm9oyFZqpL6OVfsKkucaEPV7qEXtM2YhPja3kJ/
-         4JHDhqPr6ICy8988bR0cGcqeQBnMgfvNS/QOWOIdlmduskW3bQvA8Kyn1JJBhlav5e+g
-         DQTHchwMn8xMqdhaCJF92814zXagOvNXogyNXrWvFq3D0LVf+T8WxoSV0wpcZGKMgSjA
-         ajGg==
-X-Gm-Message-State: AOAM533XQYVR40CiFN3SNvsxsmKzDHhlokyKBUMf3l3jSafiXSZ1Soc/
-        MGjgDdzz5W19PINoQ1INup8=
-X-Google-Smtp-Source: ABdhPJxFOO+eX3VP5KW+75n2zsTc3LGcB7+QqfGOKNwpQ7g2yIGn/n4uVf5RddsxBNhVVCNRNqRwLw==
-X-Received: by 2002:a17:906:2e83:: with SMTP id o3mr3639213eji.261.1595499398253;
-        Thu, 23 Jul 2020 03:16:38 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.213])
-        by smtp.googlemail.com with ESMTPSA id ah1sm841926ejc.43.2020.07.23.03.16.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Jul 2020 03:16:37 -0700 (PDT)
-Date:   Thu, 23 Jul 2020 12:16:34 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Olof Johansson <olof@lixom.net>, arm-soc <arm@kernel.org>,
-        SoC Team <soc@kernel.org>, Markus Mayer <mmayer@broadcom.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Roger Quadros <rogerq@ti.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        id S1726867AbgGWKjg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 06:39:36 -0400
+Received: from foss.arm.com ([217.140.110.172]:43478 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725911AbgGWKjg (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 23 Jul 2020 06:39:36 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE692D6E;
+        Thu, 23 Jul 2020 03:39:35 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF1D13F66F;
+        Thu, 23 Jul 2020 03:39:31 -0700 (PDT)
+Date:   Thu, 23 Jul 2020 11:39:26 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC..." 
-        <linux-mediatek@lists.infradead.org>,
-        linux-omap <linux-omap@vger.kernel.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 19/23] memory: omap-gpmc: Enclose macro statements in
- do-while
-Message-ID: <20200723101634.GD30472@kozik-lap>
-References: <20200723073744.13400-1-krzk@kernel.org>
- <20200723073744.13400-20-krzk@kernel.org>
- <CAK8P3a3emZd=Tz5JhxevkX3OJMMEn_2Nb+_LQtGZJ9-GWNpd2g@mail.gmail.com>
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Murali Karicheri <m-karicheri2@ti.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Zhu <hongxing.zhu@nxp.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 00/19] PCI: Another round of host clean-ups
+Message-ID: <20200723103926.GA7926@e121166-lin.cambridge.arm.com>
+References: <20200722022514.1283916-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a3emZd=Tz5JhxevkX3OJMMEn_2Nb+_LQtGZJ9-GWNpd2g@mail.gmail.com>
+In-Reply-To: <20200722022514.1283916-1-robh@kernel.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 11:09:40AM +0200, Arnd Bergmann wrote:
-> On Thu, Jul 23, 2020 at 9:39 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >
-> > do-while is a preferred way for complex macros because of safety
-> > reasons.  This fixes checkpatch error:
-> >
-> >     ERROR: Macros starting with if should be enclosed by a do - while
-> >         loop to avoid possible if/else logic defects
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+On Tue, Jul 21, 2020 at 08:24:55PM -0600, Rob Herring wrote:
+> Here's another round PCI host bridge clean-ups. This one aims to
+> reduce the amount of duplication in host probe functions by providing
+> more default initialization of the pci_host_bridge. With the prior
+> clean-ups, it's now possible to alloc and initialize the pci_host_bridge
+> struct from DT in one step.
 > 
-> This is an improvement, but the macro still has other issues that
-> are just as bad as the one you address:
+> Patches 2 and 3 drop some pci_host_bridge init. Patches 4-11 clean-up
+> handling of root bus number and bus ranges. Patches 12 and 13 are cleanups
+> for Cadence driver. Patches 14 and 15 are clean-ups for rCar driver. Patch
+> 16 makes missing non-prefetchable region just a warning instead of an
+> error in order to work with rcar-gen2. Patch 17 converts rcar-gen2 to not
+> use the arm32 specific PCI setup. Patch 18 updates how the DT resource
+> parsing is done for all the controller drivers. Any other new controller
+> drivers will need updating. Patch 19 moves the default IRQ mapping to
+> the bridge init core code.
 > 
-> - Using the # operator to avoid the "" in the invocation seems confusing
-
-I guess it was useful for debugging.
-
-> - it implicitly uses the 'cs' and 't' variables of the calling function instead
->   of passing them as arguments.
-
-Actually another reason to convert it to just a function.
-
-> - it calls 'return -1' in a function that otherwise uses errno-style
->   return codes, so this gets interpreted as EPERM "Operation not
->   permitted".
-
-The users of this macro also do it (gpmc_cs_set_timings()) so this
-wrong practice is consistent with the driver. :)
-
+> This is based on my previous series of clean-ups[1].
 > 
-> I would probably just open-code the entire thing and remove the
-> macro like:
+> Compile tested only. Any testing would be appreciated as I don't have
+> any of this h/w (well, I have a rock960c, but have not gotten PCIe to work
+> on it).
 > 
-> ret = 0;
-> ret |= set_gpmc_timing_reg(cs, GPMC_CS_CONFIG2,  0,  3, 0, t->cs_on,
-> GPMC_CD_FCLK, "cs_on");
-> ret |= set_gpmc_timing_reg(cs, GPMC_CS_CONFIG2,  8,  12, 0,
-> t->cs_rd_off, GPMC_CD_FCLK, "cs_rd_off");
-> ret |= set_gpmc_timing_reg(cs, GPMC_CS_CONFIG2,  16,  20, 0,
-> t->cs_wr_off, GPMC_CD_FCLK, "cs_wr_off);
-> ...
-> if (ret)
->      return -ENXIO;a
-
-I like this approach because it also removes the 'return' from macro
-which is not desired.
-
+> Rob
 > 
-> Of maybe leave the macro, but remove the if/return part and use
-> the "ret |= GPMC_SET_ONE(...)" trick to avoid some of the problems.
+> [1] https://lore.kernel.org/linux-pci/20200522234832.954484-1-robh@kernel.org/
+> 
+> Rob Herring (19):
+>   PCI: versatile: Drop flag PCI_ENABLE_PROC_DOMAINS
+>   PCI: Set default bridge parent device
+>   PCI: Drop unnecessary zeroing of bridge fields
+>   PCI: aardvark: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: designware: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: mobiveil: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: xilinx-nwl: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: xilinx: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: rockchip: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: rcar: Use pci_is_root_bus() to check if bus is root bus
+>   PCI: Move setting pci_host_bridge.busnr out of host drivers
+>   PCI: cadence: Use bridge resources for outbound window setup
+>   PCI: cadence: Remove private bus number and range storage
+>   PCI: rcar: Use devm_pci_alloc_host_bridge()
+>   PCI: rcar: Use struct pci_host_bridge.windows list directly
+>   PCI: of: Reduce missing non-prefetchable memory region to a warning
+>   PCI: rcar-gen2: Convert to use modern host bridge probe functions
+>   PCI: Move DT resource setup into devm_pci_alloc_host_bridge()
+>   PCI: Set bridge map_irq and swizzle_irq to default functions
+> 
+>  .../pci/controller/cadence/pcie-cadence-ep.c  |   6 +-
+>  .../controller/cadence/pcie-cadence-host.c    |  65 +++----
+>  drivers/pci/controller/cadence/pcie-cadence.c |   9 +-
+>  drivers/pci/controller/cadence/pcie-cadence.h |   8 +-
+>  drivers/pci/controller/dwc/pci-imx6.c         |   2 +-
+>  drivers/pci/controller/dwc/pci-keystone.c     |   4 +-
+>  .../pci/controller/dwc/pcie-designware-host.c |  28 +--
+>  drivers/pci/controller/dwc/pcie-designware.h  |   2 -
+>  .../controller/mobiveil/pcie-mobiveil-host.c  |  21 +--
+>  .../pci/controller/mobiveil/pcie-mobiveil.h   |   1 -
+>  drivers/pci/controller/pci-aardvark.c         |  25 +--
+>  drivers/pci/controller/pci-ftpci100.c         |  10 --
+>  drivers/pci/controller/pci-host-common.c      |  17 +-
+>  drivers/pci/controller/pci-loongson.c         |   8 -
+>  drivers/pci/controller/pci-mvebu.c            |   4 -
+>  drivers/pci/controller/pci-rcar-gen2.c        | 162 +++++-------------
+>  drivers/pci/controller/pci-tegra.c            |  10 --
+>  drivers/pci/controller/pci-v3-semi.c          |  12 --
+>  drivers/pci/controller/pci-versatile.c        |  13 +-
+>  drivers/pci/controller/pci-xgene.c            |   9 -
+>  drivers/pci/controller/pcie-altera.c          |  10 --
+>  drivers/pci/controller/pcie-brcmstb.c         |   9 -
+>  drivers/pci/controller/pcie-iproc-platform.c  |  10 +-
+>  drivers/pci/controller/pcie-iproc.c           |   3 -
+>  drivers/pci/controller/pcie-mediatek.c        |  16 --
+>  drivers/pci/controller/pcie-rcar-host.c       |  73 +-------
+>  drivers/pci/controller/pcie-rockchip-host.c   |  24 +--
+>  drivers/pci/controller/pcie-rockchip.h        |   1 -
+>  drivers/pci/controller/pcie-xilinx-nwl.c      |  20 +--
+>  drivers/pci/controller/pcie-xilinx.c          |  22 +--
+>  drivers/pci/of.c                              |  45 +++--
+>  drivers/pci/pci.h                             |   8 +
+>  drivers/pci/probe.c                           |   7 +
+>  include/linux/pci.h                           |  12 --
+>  34 files changed, 160 insertions(+), 516 deletions(-)
 
-I could probably then keep it as a function.  This would be the safest
-and remove most of the problems here.
+Applied to pci/misc with Bjorn's ACK - I had to tweak:
 
-Best regards,
-Krzysztof
+https://patchwork.kernel.org/patch/11677011
 
+Hopefully I have not messed it up.
+
+Thanks,
+Lorenzo
