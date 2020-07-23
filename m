@@ -2,118 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7632822B0E9
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 16:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C605622B201
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 16:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728489AbgGWOBr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 10:01:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45052 "EHLO
+        id S1728853AbgGWO7H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 10:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727111AbgGWOBr (ORCPT
+        with ESMTP id S1728577AbgGWO7G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 10:01:47 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D17D7C0619DC;
-        Thu, 23 Jul 2020 07:01:46 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id d17so6465171ljl.3;
-        Thu, 23 Jul 2020 07:01:46 -0700 (PDT)
+        Thu, 23 Jul 2020 10:59:06 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D908C0619DC
+        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 07:59:06 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id f16so3190591pjt.0
+        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 07:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=B+FgVV5YR7/MuNTExC4S1CyxjBezDRUZkCZGg28GSIk=;
-        b=izVPHRvy9U4OahD09Cp+/GQN7sQMHeSfMtfa16KLHv0SoR9VfBG3NZBcDJVC4cnVww
-         P5Np7KLWIhGaPH8+oVsPqL5ArYuIqPfaHVX1M4wfuHVJXHHx1e1b12WR0o/UGI81nFrW
-         aH4DPBYFThDMLpq7wGU8p7+qE0JFyebMAY5vLQeXB1Mxzd5Y6r2SIbijALqfqWRBEfK9
-         F5v3eFNyVaYrKfU29EimULUv7Ik7KgwywOwmuIgL6sKIQlcJYBlXNa7yOpu/ftnY/z7Y
-         m0F6D+2uDRTpAvMNWHA0pxyNODs1wtmxbwg9BXEAr0sW6kgiPYCYf62XRe7BK21dj2gg
-         s/+g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TYn+YXXcyOqmWgDocw8+U+2dd8XHQMqRU/5NyZcvlOE=;
+        b=VGAFYwsKTuqWCzSgLnpJdzSmbzdNGsyPXc0Ekr6eo1fIbIs9jpeqtJANPQhuaitz+D
+         v3hPP8KPqntkL8itftORDWK1pRn5z3h8PI10+ZHzRvPSwz26ziJI+qtD57A/BhtsYjHy
+         20a2i7jEBepleWsAMIotS6L/Nj02zgf3c74wTdi9BtSKmfNjsyaK9Qy9QDTtbcmbBuS+
+         mXu1HBgu6b5Ynfh+XguFTc8XO+4IpHR6K5RGE/71hC5V1Q4BWYaAm8P50GWd9qtW3w+p
+         zqECxDnyGsHhKYzkYKZgXVhFH6UVov/zYOhvoh9vdaIQeBdf4Li1TQ51AyBAWUQchyWS
+         DIdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=B+FgVV5YR7/MuNTExC4S1CyxjBezDRUZkCZGg28GSIk=;
-        b=s8f1TgxEDCymOqH1x9F6p11qwMO6BtP77FhgrqnLizQBFWMJUuXH7W0sCakCwJVu9W
-         oKaNQzoCpitPoPyMR5vfMGYv6m4q/+t9FdYDk6oGjrREUF3RFKvSp49Vvvhv6Rj4qFpd
-         dcw8O7S7jscSITmz01Y23lic1Bg+8NgZjaikPumOWNWlKpdSghjqRG23pnBrh8vDuGdI
-         Ju5YBi6Fn3HCaL6CMM6kkZpaNhM6muYdoEC9WljCZYUTnvO+NLLj4nbkn61BV9CNnSEX
-         rAhygmk5XRHZLKVucLcQ27hy+BoSvmBb106SF9+pc8x/qDK+pLBMrVon8qQ+QLl7UGl2
-         Xsxw==
-X-Gm-Message-State: AOAM530fNWN9CHug1rIQvB+CPUZF329j7nZw2Ax/dHG6CGWF/05hrpBl
-        MQo/yq3uyJY584Zu50FwN9w=
-X-Google-Smtp-Source: ABdhPJx4NrXo8VV/65GyJsOu4Et0o2kWiyKcdzQDLsb8EKnpILRDPC5R3G9OV9Cpsl0fljq9DS6rrw==
-X-Received: by 2002:a2e:8855:: with SMTP id z21mr2192826ljj.325.1595512905379;
-        Thu, 23 Jul 2020 07:01:45 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-12-16.pppoe.mtu-net.ru. [91.76.12.16])
-        by smtp.googlemail.com with ESMTPSA id z186sm2970938lfa.6.2020.07.23.07.01.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2020 07:01:44 -0700 (PDT)
-Subject: Re: [PATCH 5/7] i2c: tegra: enable second level clock gating
-To:     Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        linux-i2c@vger.kernel.org, thierry.reding@gmail.com
-Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ldewangan@nvidia.com,
-        smohammed@nvidia.com, rgumasta@nvidia.com
-References: <1595506733-10307-1-git-send-email-kyarlagadda@nvidia.com>
- <1595506733-10307-5-git-send-email-kyarlagadda@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1f51823f-09ea-80d5-69dd-7772474a3fb1@gmail.com>
-Date:   Thu, 23 Jul 2020 17:01:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=TYn+YXXcyOqmWgDocw8+U+2dd8XHQMqRU/5NyZcvlOE=;
+        b=IryAo4Mz0P4JbcVtBL3iOKb/DDiK/q1llImBk40L8goQMsX4j1k2ymwQVxXLaHEFcX
+         HThJFUbj3lradAB9/ju4IRmncqzSCkNEAGrPkpPrwstyHRq/GP/5C687YBuCN50722uj
+         lxQuOWwWJvGn5IeJIVZ6NW7DX3OR8F7izotNzdSgVqHXM4SDeiWqQTQ6mRlQGzaDz9Xf
+         DV+B5YM89YXIRz+DtXwaV5ngCgeE3W2WDhWU+cvYrWeVBWAY8CPuqLLAgIjzCi6WwLkG
+         JqZAPEBMRY97iuM+zB1Uq5jyiIYpEMlW+A7BelibtO3kR5XC9Q749ND19JgSdXwpk4+e
+         g83Q==
+X-Gm-Message-State: AOAM532Jz5jRIXeAcznTpOuFfCESgfHnqMpu5iO6SmNA2EEi24imhjto
+        jKhmb1ig4+xAGhE0HW1IS6Y=
+X-Google-Smtp-Source: ABdhPJxfCJyP9hYdnyR8Fig8OPGtGM8KyUUBvOD4O4UZ3PDS3IfCtKDp74b8QDzWy6kBrfzhWfskRQ==
+X-Received: by 2002:a17:90a:cf01:: with SMTP id h1mr782426pju.234.1595516346008;
+        Thu, 23 Jul 2020 07:59:06 -0700 (PDT)
+Received: from localhost.localdomain ([1.186.115.27])
+        by smtp.gmail.com with ESMTPSA id s68sm3193256pjb.38.2020.07.23.07.59.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2020 07:59:05 -0700 (PDT)
+From:   Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
+To:     marvin24@gmx.de, gregkh@linuxfoundation.org, p.zabel@pengutronix.de
+Cc:     Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>,
+        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: [PATCH] change slave occurence to secondary everywhere
+Date:   Thu, 23 Jul 2020 20:28:11 +0530
+Message-Id: <20200723145811.21109-1-bharadwaj.rohit8@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <1595506733-10307-5-git-send-email-kyarlagadda@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.07.2020 15:18, Krishna Yarlagadda пишет:
-> Enable Second Level Clock Gating feature for supported chips.
-> With SLCG enabled, software need not control clocks anymore
-> and leave clocks enabled always on.
+Signed-off-by: Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-What problem is solved by this patch? If there is no real problem, then
-I'm not sure that this is a worthwhile patch. Please explain.
-
-...
-> @@ -1932,7 +1946,8 @@ static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->  	int err = 0;
->  
-> -	i2c_mark_adapter_suspended(&i2c_dev->adapter);
-
-Why i2c_mark_adapter_suspended() is removed?
-
-> +	if (i2c_dev->is_clkon_always)
-> +		clk_disable(i2c_dev->div_clk);
-
-Why clk needs to be disabled on suspend?
-
->  	if (!pm_runtime_status_suspended(dev))
->  		err = tegra_i2c_runtime_suspend(dev);
-> @@ -1968,6 +1983,15 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
->  			return err;
->  	}
->  
-> +	if (i2c_dev->is_clkon_always) {
-> +		err = clk_enable(i2c_dev->div_clk);
-> +		if (err < 0) {
-> +			dev_err(i2c_dev->dev, "clock enable failed %d\n",
-> +				err);
-> +			return err;
-> +		}
-> +	}
-
-Would be nice if it all could be wrapped into
-tegra_i2c_div_clk_enable/disable() helpers.
-
->  	i2c_mark_adapter_resumed(&i2c_dev->adapter);
->  
->  	return 0;
-> 
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 360ec0407740..5d7b66719a39 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -718,7 +718,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void tegra_init_i2c_slave(struct nvec_chip *nvec)
++static void tegra_init_i2c_secondary(struct nvec_chip *nvec)
+ {
+ 	u32 val;
+ 
+@@ -744,7 +744,7 @@ static void tegra_init_i2c_slave(struct nvec_chip *nvec)
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+-static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
++static void nvec_disable_i2c_secondary(struct nvec_chip *nvec)
+ {
+ 	disable_irq(nvec->irq);
+ 	writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
+@@ -784,7 +784,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, nvec);
+ 	nvec->dev = dev;
+ 
+-	if (of_property_read_u32(dev->of_node, "slave-addr", &nvec->i2c_addr)) {
++	if (of_property_read_u32(dev->of_node, "secondary-addr", &nvec->i2c_addr)) {
+ 		dev_err(dev, "no i2c address specified");
+ 		return -ENODEV;
+ 	}
+@@ -839,7 +839,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+ 	}
+ 	disable_irq(nvec->irq);
+ 
+-	tegra_init_i2c_slave(nvec);
++	tegra_init_i2c_secondary(nvec);
+ 
+ 	/* enable event reporting */
+ 	nvec_toggle_global_events(nvec, true);
+@@ -913,7 +913,7 @@ static int nvec_suspend(struct device *dev)
+ 	if (!err)
+ 		nvec_msg_free(nvec, msg);
+ 
+-	nvec_disable_i2c_slave(nvec);
++	nvec_disable_i2c_secondary(nvec);
+ 
+ 	return 0;
+ }
+@@ -923,7 +923,7 @@ static int nvec_resume(struct device *dev)
+ 	struct nvec_chip *nvec = dev_get_drvdata(dev);
+ 
+ 	dev_dbg(nvec->dev, "resuming\n");
+-	tegra_init_i2c_slave(nvec);
++	tegra_init_i2c_secondary(nvec);
+ 	nvec_toggle_global_events(nvec, true);
+ 
+ 	return 0;
+-- 
+2.25.1
 
