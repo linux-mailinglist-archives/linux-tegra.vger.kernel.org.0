@@ -2,41 +2,37 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0559F22AC22
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 12:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB6C522AC41
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 12:14:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728044AbgGWKIT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 06:08:19 -0400
-Received: from mail-ej1-f68.google.com ([209.85.218.68]:38099 "EHLO
-        mail-ej1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727828AbgGWKIT (ORCPT
+        id S1727859AbgGWKOn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 06:14:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:51785 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727769AbgGWKOm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 06:08:19 -0400
-Received: by mail-ej1-f68.google.com with SMTP id br7so5758547ejb.5;
-        Thu, 23 Jul 2020 03:08:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XDRXKhZ8bECB/0hKnCNux0bgmgLiM0R8AAOfy3Lf7I4=;
-        b=caioMgqV5eeMM4Rm0Jt8AH0aAQHRzzaZElsKfRJCPi+ihDEAL3GzFD7FjegRfWd7Ak
-         V7Zea0zEaxHOXlAB7XW09mhhPM6MXSNfJbMujMdHaCkEeg1l5DkGqnEZm0fDKL0UfyKj
-         eNt+4MYSNHRjDqlOl8j4lmKW1fD0slsMW9D7GQ0bSC8kcy0xBFYom58eBz3AWVU3X4V5
-         B52WKrxDStbWKY0ZdAjQKVf/QKSa5ynykqc8DqoQvULUI1UBMQgMXSQG2W50R32mvdfn
-         y8OnU27UvUkpSDLpCpv/3PU5KsgS/0SHhHBPuoaILePWonWGek5HIv3KxKjW6Uq5Aw1g
-         tsKA==
-X-Gm-Message-State: AOAM533gHUr/d0U2bTlFfc47z+RJhPrKf/PdKrMh2/dlg+Yneld19oyc
-        YWRA2oeOGAGdjZ7nLaeQgwk=
-X-Google-Smtp-Source: ABdhPJzgAgG+vnt1QaigoG55Zk1ZcSQLRHkD+NArOZpeGKQIdaJNSffWJFnJuyD3vyPvmz52dwBm7A==
-X-Received: by 2002:a17:906:6852:: with SMTP id a18mr3546617ejs.348.1595498897021;
-        Thu, 23 Jul 2020 03:08:17 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.213])
-        by smtp.googlemail.com with ESMTPSA id d19sm1693779ejk.47.2020.07.23.03.08.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Jul 2020 03:08:16 -0700 (PDT)
-Date:   Thu, 23 Jul 2020 12:08:12 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>
+        Thu, 23 Jul 2020 06:14:42 -0400
+Received: from mail-qk1-f174.google.com ([209.85.222.174]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1Mt7Pt-1kmwye0ZLd-00tXq9; Thu, 23 Jul 2020 12:14:41 +0200
+Received: by mail-qk1-f174.google.com with SMTP id b79so4771078qkg.9;
+        Thu, 23 Jul 2020 03:14:40 -0700 (PDT)
+X-Gm-Message-State: AOAM532fGOpRT19s6+JgcY1n0IXeoxcWCRqivArxt+YM3tT8xje02JEw
+        UPQMc/o0QNubPPfGaOYahyKIeUAHIYkNW+2rrHc=
+X-Google-Smtp-Source: ABdhPJxAf+812MuVjcfu0XwRQWQnRGJhKuMoucN2dt9Q6NE0hzXxWnmvljuMU8/tZW5Ym6SImtgRoUMVG9dICDcl5Bc=
+X-Received: by 2002:a37:9004:: with SMTP id s4mr4264475qkd.286.1595499279844;
+ Thu, 23 Jul 2020 03:14:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200723073744.13400-1-krzk@kernel.org> <CAK8P3a0hcVhBbKCBDSZYXChmPpRVsEi_G6+oj5quC6uUiPeeiA@mail.gmail.com>
+ <20200723095209.GA30472@kozik-lap>
+In-Reply-To: <20200723095209.GA30472@kozik-lap>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 23 Jul 2020 12:14:24 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0g0k6e-STpqPS0S-wajxqS-M3DV+3UD=QFE7e-98J-og@mail.gmail.com>
+Message-ID: <CAK8P3a0g0k6e-STpqPS0S-wajxqS-M3DV+3UD=QFE7e-98J-og@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/23] memory: Cleanup, improve and compile test
+ memory drivers
+To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Olof Johansson <olof@lixom.net>, arm-soc <arm@kernel.org>,
         SoC Team <soc@kernel.org>, Markus Mayer <mmayer@broadcom.com>,
         bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
@@ -57,43 +53,48 @@ Cc:     Olof Johansson <olof@lixom.net>, arm-soc <arm@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 20/23] memory: omap-gpmc: Fix whitespace issue
-Message-ID: <20200723100812.GC30472@kozik-lap>
-References: <20200723073744.13400-1-krzk@kernel.org>
- <20200723073744.13400-21-krzk@kernel.org>
- <CAK8P3a1=WCQ5326Et5RRK7yiOYeHH7uUkQ+T3YPtj2XRh+gkgA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a1=WCQ5326Et5RRK7yiOYeHH7uUkQ+T3YPtj2XRh+gkgA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:mm6ugzMgTFJSARdpDf1u0ah3/h8EqCvIO7cjX34WhdJ2m2VlrOq
+ Kyi/okZpILXsPUhnhgefIsPwcCQeiHl5Ccap+3XaCthEOq0A1KGLTmpoR/npq8DIQzSjE8a
+ EGhIGNvNDQo43D9U7KJRVgwQEfNIoo9So/GO0oyIxYnetsNN+XIUohMZC8LEBjDQgpmkqZe
+ yrSQJfHyqV8El1vgJnC9g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:apjJuQlJE/E=:rzpOGNOjFDsKvOF6lffk82
+ hqB//tv9z5zMKSYKj1FcbTPoDNfIGwq0wyrHUAobD0wnNCKo47RfEnVSILjng0nOHa3LCetOb
+ arwFdnvw1KqlSgA6NZzarq1ymz4Sb8Xe7fxhoGaDsfAeqENQ+LbMpP1vZ2FX6RJdWWvAaOO1v
+ 7TJcz7SVTAWCdxBPxDsD4Zb3aqOvQvLXg1fVm9xtVAkK6IMDgRM24RtNeaa8d5quJl80Sg9nI
+ HCVLuE9j3mnVV6CItrwEr725UnDbeIUZPKPHxi0tMJLMaU/5p+lGilV/gtykaAf8YWdAOQRLA
+ cMh6wFTDmTCo+4l0tA8gUxQX43VSnyCcHHY1q2ZjQfL/pdxAev2jZzfbpCloAR73qVvlHhE1O
+ OzfD2ZNUX/wEpVam9C3NCsH2mTVo+xUa4Py2hMqnpyTjZ0B0PyMZGqwQ4se2v1IRQ21LZbVwX
+ qa5VdAY0NO63oFVqIdN3hkunfU+xl4Kv05NVVEWoKmCihXFpeezTwq///OyxbMVUWwCgA854r
+ WmP5uKgkXZYMtDGAxOJg6hhKX0HkgtI99HIEW0LfB5ofXzWfmgUyJi8hocRf0L1aaYmVSP4ai
+ GQZKX0+/4od/UoxKlYy2GRUPScVYUKaNQzAmxEIWdfRjmtlew/qyU4G5MYnDb6GEJ2MehDHQr
+ /kPNShLTy7HfAFfARpJuYrIgLbOBxpxtkjY+BC1vHROHrV0MtbfM2zectksVteO6o+TSXcgiW
+ uqsSFKWXGV3YcBrjmFmVS+SGPdTtSdiqaFT0OdoOhdc4XkjOkZg1MX4IY6zXf9iP49PnfuHNB
+ wFLYRsZERYkyIkqwMQuGPjbm9x/PHen4pQWhUQuz57GrfIbeoEJxMEmLA5RBJ/lq4ta6OCJSy
+ aoF9wtNFEregcjV14VyFLd2amjL9HTBwJp+BpPLEPsWG93IzVMQOjDwwUhGEjEdlb9Fc75/8t
+ jn6u9nWs7j8/EWRSajAtxLaVeWLKTQk8DkpKaDfK9Cbw3MsIPEQBq
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 11:11:08AM +0200, Arnd Bergmann wrote:
-> On Thu, Jul 23, 2020 at 9:39 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
-> > @@ -1756,7 +1756,7 @@ static int gpmc_calc_common_timings(struct gpmc_timings *gpmc_t,
-> >  /* TODO: remove this function once all peripherals are confirmed to
-> >   * work with generic timing. Simultaneously gpmc_cs_set_timings()
-> >   * has to be modified to handle timings in ps instead of ns
-> > -*/
-> > + */
-> 
-> This still doesn't follow the normal coding style for multi-line comments.
-> 
-> I don't think it's worth fixing, but if you think it should be changed, then
-> make it
-> 
->      /*
->       * mult-line comment
->       * ...
->       */
+On Thu, Jul 23, 2020 at 11:52 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On Thu, Jul 23, 2020 at 11:31:02AM +0200, Arnd Bergmann wrote:
+> > On Thu, Jul 23, 2020 at 9:37 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >
+> > Afterwards you could either send the pull requests to Linus directly,
+> > or send them to the soc team (or to Greg) as well, the way we handle
+> > a couple of other subsystems like drivers/reset and drivers/tee that
+> > usually only have a handful of patches per release.
+>
+> Most of the drivers are for ARM architecture so arm-soc seems like the
+> way to do it.  However BT1_L2_CTL and JZ4780_NEMC are MIPS specific and
+> maybe more would come in the future.  Are you fine taking them as well?
 
-Sure, thanks for feedback.
+Yes, that's not a problem at all. Most other architectures are ramping down
+anyway, both on the maintainership side and on newly supported hardware,
+so we are picking those up where necessary. I also merged a couple of
+drivers for the MIPS based Baikal SoCs recently.
 
-Best regards,
-Krzysztof
-
+     Arnd
