@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 635EA22B48C
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 19:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 933D722B491
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 19:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbgGWRP0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 13:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46794 "EHLO
+        id S1729890AbgGWRPs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 13:15:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726666AbgGWRP0 (ORCPT
+        with ESMTP id S1728867AbgGWRPr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 13:15:26 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED820C0619E3
-        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 10:15:25 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id t11so2911982qvk.1
-        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 10:15:25 -0700 (PDT)
+        Thu, 23 Jul 2020 13:15:47 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB656C0619E3
+        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 10:15:47 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id d14so6021047qke.13
+        for <linux-tegra@vger.kernel.org>; Thu, 23 Jul 2020 10:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uxqgbT1xGWBNU5YbnWHoLn+2QzI4IjiCwjdiIwlOoYI=;
-        b=D2kL3VW7zX669rdE7uTbTlP31fK7ZlJNSMl59TCCOG9B0rGjYvWYAiRRN5pQLhUbNj
-         tH2ym7dLLWpp+iGDXG1Itn/y3VP6eMYC892FZkWwkvWFBoqoXh3IrzCcyqEXVl4yQ2ZW
-         sVsPsE3lC5B9mY1OnExahBLRt5lbo3SXAbi4k=
+        bh=JXiuwKSxH1v6t1t/ryYYU7zLgRgpgLMrl8o3usa+ml4=;
+        b=K+SnKxwUrjhMdkKMznvv0/mSZpVVpR59yG77Q31rc69sjsc1uY1h2B4N81OGYgZcS1
+         fsFtjzCQh4qQJSYBpVJxnJiFdI0biFvC+sGyjDB0cDY0hG11MHJBwW2SK2RI7m2/rwyS
+         v1bd5wbArHaOuX4jaoWOMdBC00HeEJmfUwO1k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uxqgbT1xGWBNU5YbnWHoLn+2QzI4IjiCwjdiIwlOoYI=;
-        b=Swn+dx+IBPoOsviRw0cuY071aJibIF3pOBjfdidbWrDenEa2D6WU5mFZ7Pwzb6dVDt
-         Y6roHzu00mUcdrCeWRSz+8HFH31IkWa+dmy6NqN5F5bKMTFq5EPLFyP/JsaMJ29oml1N
-         +mFZ0pRSTSfP4EJQPQ9jfr2ZXghKL1+/YEQtq+cnD4idmiDBxlkG3lblRQZdt4HEKz5X
-         y+7f9liHPrTkLaFVlsH4f98Q8q5tF2+5KbpSELUitvFbf19/wy/lVx+AGpYTMBBbLqZV
-         1SlyAcOuxxRPMPIt3cETeTFhqFsfRteD1hiFvjdB4/TYMrSQXc6CftfV2lUoF/Kg3Gr3
-         P51Q==
-X-Gm-Message-State: AOAM530Hiu6t4eMNorbMx2CbWgy4m12M7l0DrZA4/tLkKCQWsmn7NbxG
-        ql0xkv2olrTKxJRtNHCL0XNfAD5n2unsMTjPqn8Dog==
-X-Google-Smtp-Source: ABdhPJwLdD2kuuxmaYBIRerlmw2LPR4pPFv4tVkeSMizVI3cJusdEuI0jtB1kimBr9K4sbHmJZt3PpUJDk7hMkWdX3w=
-X-Received: by 2002:a05:6214:851:: with SMTP id dg17mr5838866qvb.235.1595524524901;
- Thu, 23 Jul 2020 10:15:24 -0700 (PDT)
+        bh=JXiuwKSxH1v6t1t/ryYYU7zLgRgpgLMrl8o3usa+ml4=;
+        b=UOz6eOq91fovLeLAM0qf81ZUuduyvlfGa3fIi6TWGtEJ6tT8aSkUN/F1ItGAxx9lom
+         RnYz1WjYIZFHyeM1HrncqZn52AgyEjPC8Zk/QylcmsiztBkISvCcfl+/zajAEIDRCaTW
+         8wX4Pobh9lzeVX+p4R9js1IwphvHak5VlkD/NG5X5sg+WYyhtB0gmriWiV/uNIbzaMqq
+         WOP+KvWM2vRUuo/TxicJoEQN5bKzhI3R2zqStdfR6E6PE6gdEZu9v3qy87292B3uktR4
+         rE89Qn9Wc8ITazixXwuk/fmkY+bOyJiK4qFuYl3L4hzREDjf7B7KQgmE0oTs8zO9d9y/
+         2ISw==
+X-Gm-Message-State: AOAM532GGuNHQtKRyeRgBsZga8nhl7+/FH7L9sIrHkJThCxxybnFUTWc
+        9g4OpllW71hLvVmx195UK7mI3agh/KFoLEoTrsUSug==
+X-Google-Smtp-Source: ABdhPJxTfnoxWQUWdTg8raMcFvzXp1cWiOq8kQMMi+BDEmI/sCV1IYxPpZLXjsosKPeDkbkDYTHj+k9jFHSSpLw6ss4=
+X-Received: by 2002:ae9:e857:: with SMTP id a84mr6649837qkg.100.1595524546846;
+ Thu, 23 Jul 2020 10:15:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200723073744.13400-1-krzk@kernel.org> <20200723073744.13400-18-krzk@kernel.org>
- <e65d4ed3-3c01-acb7-f324-be99201815df@gmail.com>
-In-Reply-To: <e65d4ed3-3c01-acb7-f324-be99201815df@gmail.com>
+References: <20200723073744.13400-1-krzk@kernel.org> <20200723073744.13400-17-krzk@kernel.org>
+ <b9519b7f-9cf0-3715-bca9-05905035eada@gmail.com>
+In-Reply-To: <b9519b7f-9cf0-3715-bca9-05905035eada@gmail.com>
 From:   Markus Mayer <mmayer@broadcom.com>
-Date:   Thu, 23 Jul 2020 10:15:14 -0700
-Message-ID: <CAGt4E5uRzPtgy54VvRMpoWMbFfY6evBSjmd4dfHO+=__fR+3kQ@mail.gmail.com>
-Subject: Re: [PATCH 17/23] memory: brcmstb_dpfe: Remove unneeded braces
+Date:   Thu, 23 Jul 2020 10:15:36 -0700
+Message-ID: <CAGt4E5v3mbY_S2Q=Tq5ZKSY450weu9kFZ9R3bkJ1=3VPobZGsg@mail.gmail.com>
+Subject: Re: [PATCH 16/23] memory: brcmstb_dpfe: Constify the contents of string
 To:     Florian Fainelli <f.fainelli@gmail.com>
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
@@ -77,9 +77,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 On Thu, 23 Jul 2020 at 10:11, Florian Fainelli <f.fainelli@gmail.com> wrote:
 >
 > On 7/23/20 12:37 AM, Krzysztof Kozlowski wrote:
-> > Single statement blocks don't need braces.  Fixes checkpatch warning:
-> >
-> >     WARNING: braces {} are not necessary for single statement blocks
+> > The string itself can be made const for safety.
 > >
 > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 >
