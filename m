@@ -2,98 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8383A22AA6A
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 10:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEBD122AB06
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jul 2020 10:48:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbgGWIOD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jul 2020 04:14:03 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12757 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725858AbgGWIOD (ORCPT
+        id S1726330AbgGWIsj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jul 2020 04:48:39 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:48793 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725858AbgGWIsj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jul 2020 04:14:03 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f1946be0000>; Thu, 23 Jul 2020 01:13:50 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 23 Jul 2020 01:14:02 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 23 Jul 2020 01:14:02 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Jul
- 2020 08:14:02 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 23 Jul 2020 08:14:02 +0000
-Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f1946c70001>; Thu, 23 Jul 2020 01:14:02 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <broonie@kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <tiwai@suse.com>, <geert@linux-m68k.org>, <rdunlap@infradead.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH] ASoC: tegra: Fix build error due to 64-by-32 division
-Date:   Thu, 23 Jul 2020 13:43:31 +0530
-Message-ID: <1595492011-2411-1-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+        Thu, 23 Jul 2020 04:48:39 -0400
+Received: from mail-qt1-f170.google.com ([209.85.160.170]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M26j1-1jw3001ocL-002Vg4; Thu, 23 Jul 2020 10:48:37 +0200
+Received: by mail-qt1-f170.google.com with SMTP id g13so3825819qtv.8;
+        Thu, 23 Jul 2020 01:48:36 -0700 (PDT)
+X-Gm-Message-State: AOAM533aGWhguCG5PSiUop/l0ctsz8XgtQ7xBEJz99U5c+YELmqxVwTi
+        OCiiEKhHVxT0rV84rqz8dUdVW/JwyUosNlAuG7I=
+X-Google-Smtp-Source: ABdhPJxIKTuSteato6jqyke4C3qQizgz+kXKWTXrT7ek9BY4C2QafHHN8TpUaT0zIkV/nhaSrqqklNABRKQujZiGvQw=
+X-Received: by 2002:ac8:4507:: with SMTP id q7mr3191244qtn.142.1595494116048;
+ Thu, 23 Jul 2020 01:48:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595492030; bh=KlXp5Z8io6593lkYe651OoFDsSM02BKTkfmssD6nCRU=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=p2tBy+Agm5pBGRTnZ4+mwBepgTYGpgVQI/lY4R9q4nAqrtu6Qi0EjLiqz36PTtSJ/
-         PUubrApLsVOW99+H8Ob38pgwND9ARSnKD1olmkV+9Gztw8IVyb6a3kFvW+nzof3YVm
-         rsiFJNWFp9HryUA3OTSlWE4fu09PHJ2Ri5x1geGgxC2YtXbiBFFnMx7OVYE/xxNhvK
-         GBW6MVJ44edD5AzIeIspC/65P4BsJ+gx4is49DIdpgS9SFcglwv5Vka/vAd+oUP1XW
-         pByXnEIyJfzRGuqLErt1YWaIMvx0j+agmrDMmpY2b4MHP1pC02+fqNFpebImCL1nSo
-         Oxc2Y8CXTQypA==
+References: <20200723073744.13400-1-krzk@kernel.org> <20200723073744.13400-15-krzk@kernel.org>
+In-Reply-To: <20200723073744.13400-15-krzk@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 23 Jul 2020 10:48:19 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3btGD5oqmPXJk=UOmA=wuUxn-vOOO982uAjuRcE3crVg@mail.gmail.com>
+Message-ID: <CAK8P3a3btGD5oqmPXJk=UOmA=wuUxn-vOOO982uAjuRcE3crVg@mail.gmail.com>
+Subject: Re: [PATCH 14/23] memory: ti-emif-pm: Fix cast to iomem pointer
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Olof Johansson <olof@lixom.net>, arm-soc <arm@kernel.org>,
+        SoC Team <soc@kernel.org>, Markus Mayer <mmayer@broadcom.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Roger Quadros <rogerq@ti.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:/K8Y20hLrBrDKyuJdCUFgVwsjFFbohfIk0S0FkDYk1TJEh+70RC
+ F3/IHpQF9wuJdL5gIpCKDKB+BriZzmSaBFvpMLSZmDRQ6yZ3RZ0eZ28mEL/IRYCb7EnJSxp
+ sgW7+2FKBixJjPbTi6bbVvG5q7mptTl4JVozHQDgGpZ7zoU2i0hlpU6hJK2nHuIehMr+3iL
+ eQ7KWAF4YE/LssGsmFWHg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:I32rgHI3Xik=:4MvWuDot9zVhp4EQvz+jJe
+ 5meCbLxb9kLH7prDZrmrMwr0HEtCtMlXfBCfZuVuaf7qx4vQGwv7dy1nFLwTlkuYi3EmUIek6
+ mIK8NSl97BC87oFUrDqjSda/1usafxiJFHuPS3rwzJ6QgllTL+E0DxU4d9yNx90T46je3zqDG
+ f263diTyFSsWJPa63g6t3Hg5hg088MUUj3RyyTndISQuG7Z+psKjcIGB8gQnMxsRSvOROEeuR
+ GJKNE0Xazf0pJzGXvz6DGxYSPl29G34e3eOKUjhs4dxtvTdwPra/Lzek+469bL5UaJJuNpLFK
+ GCA307vC/NG78jKO6xsqPc/DInDWwap76duVrNPoCJVkRjevpF3L4Kecxzo3SQr9+Z7TjFbrZ
+ ChgJEuLQ4FVVVv15b+y3xhzy5IpRZaanK6/2FydeUiISXvNL641kqoeBtq1xB9nkPThJoQ5Bf
+ MpAVoGkkb8y+hi5nKbg7T1GDd1YrFvn3GPzVZmwfwWjubPxSQlSBxovjhebbpDyLYsmEru7UQ
+ //Qa5DZsFAB7D1/4teDLZL2MFAU/guEv+O46yx7LbnASOFoq32o2Q/c3dPM5JXbaXo3qCVtFt
+ +U5jcUUhWN1D/qLwuatLBFFlvfPrlhQ2tR4iIvE7WGOwQtfUJea7PmY0J0pevCA16jM2WPF23
+ wjr4rWioIGKw8B7ZsrcPVFjLa76sAT2NtHZjBvKbuqJD6h9mOA9uJPvpMNelwGafcvtFDfy/F
+ XD/OOB1u0ziDP4WJYfMNyTqc60MLMo83sn87OSB35CnBSAQi4BULj/+c2DYQhpTFX3iGvZpYy
+ zxmVizTCQ5UQqPIB0x+IShYWyWzUHlocFUMiB2UPOCsJAulABuKhy8EnHudMuNedo3h0FaO
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Build errors are seen on 32-bit platforms because of a plain 64-by-32
-division. For example, following build erros were reported.
+On Thu, Jul 23, 2020 at 9:39 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> Cast pointer to iomem memory properly to fix sparse warning:
+>
+>     drivers/memory/ti-emif-pm.c:251:38: warning: incorrect type in argument 1 (different address spaces)
+>     drivers/memory/ti-emif-pm.c:251:38:    expected void const volatile [noderef] __iomem *addr
+>     drivers/memory/ti-emif-pm.c:251:38:    got void *
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  drivers/memory/ti-emif-pm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/memory/ti-emif-pm.c b/drivers/memory/ti-emif-pm.c
+> index 9c90f815ad3a..6c747c1e98cb 100644
+> --- a/drivers/memory/ti-emif-pm.c
+> +++ b/drivers/memory/ti-emif-pm.c
+> @@ -248,7 +248,7 @@ MODULE_DEVICE_TABLE(of, ti_emif_of_match);
+>  static int ti_emif_resume(struct device *dev)
+>  {
+>         unsigned long tmp =
+> -                       __raw_readl((void *)emif_instance->ti_emif_sram_virt);
+> +                       __raw_readl((void __iomem *)emif_instance->ti_emif_sram_virt);
+>
 
-"ERROR: modpost: "__udivdi3" [sound/soc/tegra/snd-soc-tegra210-dmic.ko]
- undefined!"
-"ERROR: modpost: "__divdi3" [sound/soc/tegra/snd-soc-tegra210-dmic.ko]
- undefined!"
+Maybe this shouldn't even be __raw_readl(), but instead READ_ONCE()?
 
-This can be fixed by using div_u64() helper from 'math64.h' header.
+The other accesses in this file don't use MMIO wrappers either but just treat
+it as a pointer. The effect would be the same though.
 
-Fixes: 8c8ff982e9e2 ("ASoC: tegra: Add Tegra210 based DMIC driver")
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- sound/soc/tegra/tegra210_dmic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/tegra/tegra210_dmic.c b/sound/soc/tegra/tegra210_dmic.c
-index ff6fd65..d682414 100644
---- a/sound/soc/tegra/tegra210_dmic.c
-+++ b/sound/soc/tegra/tegra210_dmic.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/clk.h>
- #include <linux/device.h>
-+#include <linux/math64.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
-@@ -129,7 +130,7 @@ static int tegra210_dmic_hw_params(struct snd_pcm_substream *substream,
- 	 * Boost Gain Volume control has 100x factor.
- 	 */
- 	if (dmic->boost_gain)
--		gain_q23 = (gain_q23 * dmic->boost_gain) / 100;
-+		gain_q23 = div_u64(gain_q23 * dmic->boost_gain, 100);
- 
- 	regmap_write(dmic->regmap, TEGRA210_DMIC_LP_FILTER_GAIN,
- 		     (unsigned int)gain_q23);
--- 
-2.7.4
-
+      Arnd
