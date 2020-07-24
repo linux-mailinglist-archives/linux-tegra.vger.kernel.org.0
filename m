@@ -2,89 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50C7422C762
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jul 2020 16:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00AE922C783
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jul 2020 16:12:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726764AbgGXOJw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 24 Jul 2020 10:09:52 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:34569 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726366AbgGXOJw (ORCPT
+        id S1726381AbgGXOML (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Jul 2020 10:12:11 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:50494 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726366AbgGXOMK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Jul 2020 10:09:52 -0400
-Received: by mail-wm1-f66.google.com with SMTP id g10so8681297wmc.1;
-        Fri, 24 Jul 2020 07:09:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=MFZnPQ4CSgoYpNdbp9qv3P2bsVqa9A4NUrenC+UIBjE=;
-        b=MDJvaLnjH4D9lyGU9GXKH8GZZoBDCs40hCrZAUpzUlfeysqi/XCNL+IRGz1zzaLppt
-         iWyre8ACCOPlZQfz4cKa6JkJ1q3MzdGNv6ON/e0ru/rlPhBA0FhKDX1S8hOGDyvILnaI
-         70EJP3dm7IsHWCQV3nxPkfWuNFjx2uzc2c7yn0CRnSpcTjf25DF4TCIGrmVOkxEq3UVv
-         UeLpgXa+PmIl1T5QvCwVY/I63aFLnHKj1Af7Qfrh6K2pwVHcizytIjXuZOWUxWZjrf5t
-         cHBw2DHm79GUKzWJT18Gom/h128K+Bb6tLvLrSsZqQczrrNYVOMuK8bP+S6iCEC2V/tN
-         G4pw==
-X-Gm-Message-State: AOAM533RMv8fd/srBHm9ZesG2GyrwKTdYi2KlWKn/MUbloGGKTf551Q8
-        l8Kiyjr6nEHt4hSwjUJFbeU=
-X-Google-Smtp-Source: ABdhPJxhDIHHNprIfr5jTTC4+LEgNsGYWxkjN3HfyODAjUnEqQ0fZsCbDmYOnt/yMZ0aD3Uq66R6NQ==
-X-Received: by 2002:a1c:7d81:: with SMTP id y123mr6347917wmc.87.1595599790123;
-        Fri, 24 Jul 2020 07:09:50 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.213])
-        by smtp.googlemail.com with ESMTPSA id c7sm1522358wrq.58.2020.07.24.07.09.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 24 Jul 2020 07:09:49 -0700 (PDT)
-Date:   Fri, 24 Jul 2020 16:09:45 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Markus Mayer <mmayer@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Roger Quadros <rogerq@ti.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v2 03/29] memory: omap-gpmc: Include <linux/sizes.h> for
- SZ_16M
-Message-ID: <20200724140945.GA14851@kozik-lap>
-References: <20200724074038.5597-1-krzk@kernel.org>
- <20200724074038.5597-4-krzk@kernel.org>
+        Fri, 24 Jul 2020 10:12:10 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06OE6a4O040064;
+        Fri, 24 Jul 2020 14:12:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=luNOSejEoIgK8S6y4yOxUCk+a6tKCZ0mVEaQYImWMHY=;
+ b=rbVKa7CBc8VYmUVAj0KwBMJCTF6LaHSNDivpKaVAK3LVYZNiMm6Bd7oac/9rQ7O7X0tP
+ 4bT9TA/zEs+k8+koYvGNxjiYG+UuMO2EFF5591PBbypGCIvRlDmjJwzLNsZgHagAFGvz
+ 6oq7tep6ZOuMZPW9kRPpzFqIKoCw5MANP+9jyniZOXUrcSlJMhNZGn2cBkOOz0PjUaWO
+ 2fF1ZpxqSbvlEpoTDJpWuYEgtqMYUURaoS9hkBOnhvM0rlu25Wv3E5rDpDNhR99EFO0y
+ cPowH7T7e4NPDb83ZyLSo/Y7/PgexX1dzHS0blbVhxgd8p8v2EWp83Zdi0qGifHtE3rS jg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 32brgrybr0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 24 Jul 2020 14:12:01 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06OE4OHC178469;
+        Fri, 24 Jul 2020 14:10:01 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 32fswsjhc1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 Jul 2020 14:10:01 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06OE9w0H003704;
+        Fri, 24 Jul 2020 14:09:59 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 24 Jul 2020 14:09:54 +0000
+Date:   Fri, 24 Jul 2020 17:09:47 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
+Cc:     marvin24@gmx.de, gregkh@linuxfoundation.org,
+        p.zabel@pengutronix.de, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, ac100@lists.launchpad.net
+Subject: Re: [PATCH v3] staging: nvec: change usage of slave to secondary
+Message-ID: <20200724140947.GW2549@kadam>
+References: <20200723151511.22193-1-bharadwaj.rohit8@gmail.com>
+ <20200724043633.7755-1-bharadwaj.rohit8@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <20200724074038.5597-4-krzk@kernel.org>
+In-Reply-To: <20200724043633.7755-1-bharadwaj.rohit8@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9691 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007240108
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9691 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 clxscore=1015 mlxlogscore=999
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007240108
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 09:40:12AM +0200, Krzysztof Kozlowski wrote:
-> The driver uses SZ_16M which is defined in include/linux/sizes.h.  On
-> ARM it was pulled by other headers but its inclusion is necessary for
-> compile testing on other architectures.
-> 
-> This fixes build error when compile testing on i386 architecture:
-> 
->     drivers/memory/omap-gpmc.c: In function ‘gpmc_cs_remap’:
->     drivers/memory/omap-gpmc.c:961:12: error: ‘SZ_16M’ undeclared (first use in this function)
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  drivers/memory/omap-gpmc.c | 1 +
+On Fri, Jul 24, 2020 at 10:06:34AM +0530, Rohit K Bharadwaj wrote:
+> @@ -784,7 +784,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+>  	platform_set_drvdata(pdev, nvec);
+>  	nvec->dev = dev;
+>  
+> -	if (of_property_read_u32(dev->of_node, "slave-addr", &nvec->i2c_addr)) {
+> +	if (of_property_read_u32(dev->of_node, "secondary-addr", &nvec->i2c_addr)) {
 
-Applied (and part of pull request to arm-soc).
+Sorry, I should have looked for v3 at the start to reply to it.  This
+line will break the driver.
 
-Best regards,
-Krzysztof
+regards,
+dan carpenter
+
