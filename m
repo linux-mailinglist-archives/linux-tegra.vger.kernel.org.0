@@ -2,63 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 588A02313AC
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jul 2020 22:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F94D231B22
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jul 2020 10:22:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbgG1UNL convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Tue, 28 Jul 2020 16:13:11 -0400
-Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:59500
-        "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728355AbgG1UNL (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jul 2020 16:13:11 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id D72E1438ABC;
-        Tue, 28 Jul 2020 06:01:31 -0500 (CDT)
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 0-4D9Kq6Febn; Tue, 28 Jul 2020 06:01:31 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 77F54478E24;
-        Tue, 28 Jul 2020 04:04:39 -0500 (CDT)
-X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id zqv7ZdZU6Vwc; Tue, 28 Jul 2020 04:04:39 -0500 (CDT)
-Received: from [10.85.108.11] (unknown [105.8.2.12])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id AEC9C429C14;
-        Tue, 28 Jul 2020 03:31:59 -0500 (CDT)
-Content-Type: text/plain; charset="utf-8"
+        id S1726536AbgG2IWn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jul 2020 04:22:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43668 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726336AbgG2IWn (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 29 Jul 2020 04:22:43 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4ACBF206D4;
+        Wed, 29 Jul 2020 08:22:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596010962;
+        bh=tXBTHxTrjeaNwrHl2lRRCFNppBO0POfp8G+RESBPgJY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bIkKMDlaa7WxgaW2wIu//ShNYA/4V7B5gwp0Ee7bcdsIdJSemX1QsL9K7fREnvb2K
+         K0BYLhBaeMIYFn1doeRvjDiy6xRNNDv38eTpgvcL/f7kdMNcJOM0q2atptu5oSt9+3
+         inWXhBIL/XX7YGLtUeC91qf7fBG6oEqQ8uOZAE20=
+Date:   Wed, 29 Jul 2020 10:22:34 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thierry Reding <treding@nvidia.com>
+Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
+        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
+        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
+        stable@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 5.7 000/179] 5.7.11-rc1 review
+Message-ID: <20200729082234.GD529870@kroah.com>
+References: <20200727134932.659499757@linuxfoundation.org>
+ <8bd52f5eab274431925b82ee9c5f13c5@HQMAIL105.nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <aguayenergia@tlalpan.gob.mx>
-From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
-Date:   Tue, 28 Jul 2020 10:36:17 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200728083159.AEC9C429C14@correo.tlalpan.gob.mx>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8bd52f5eab274431925b82ee9c5f13c5@HQMAIL105.nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Lieber Freund,
+On Mon, Jul 27, 2020 at 02:47:09PM +0000, Thierry Reding wrote:
+> On Mon, 27 Jul 2020 16:02:55 +0200, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.7.11 release.
+> > There are 179 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Wed, 29 Jul 2020 13:48:51 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.7.11-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.7.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests passing for Tegra ...
+> 
+> Test results for stable-v5.7:
+>     11 builds:	11 pass, 0 fail
+>     26 boots:	26 pass, 0 fail
+>     56 tests:	56 pass, 0 fail
+> 
+> Linux version:	5.7.11-rc1-g5e6331d4c49c
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra210-p3450-0000,
+>                 tegra30-cardhu-a04
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+Thanks for testing all of these and letting me know.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
-
-
-Das ist dein Spendencode: [TS530342018]
-
-
-Antworten Sie mit dem SPENDE-CODE an diese
-
-E-Mail:Tayebsouam.spende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
+greg k-h
