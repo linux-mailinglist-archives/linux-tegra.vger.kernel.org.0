@@ -2,130 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8125A23A9D2
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Aug 2020 17:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB2D23AD7F
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Aug 2020 21:44:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726807AbgHCPoj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Aug 2020 11:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbgHCPoj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Aug 2020 11:44:39 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8831C06174A
-        for <linux-tegra@vger.kernel.org>; Mon,  3 Aug 2020 08:44:38 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id kq25so26161847ejb.3
-        for <linux-tegra@vger.kernel.org>; Mon, 03 Aug 2020 08:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uOUmxzFjtudAhNpjbzREY4sDxgmwHJI1wxIvlAzjnhE=;
-        b=ZV/WCD78BXhPA79TFfrl2aT9W9XQ98LCuKFrw0ZgVgVnIQCY0WM0PkLhO6X0prx1EW
-         xPC6xjzJ/93Cy/z4IoAXasnGyCR7ZRIKa8ou8lyWjZTt8vdv++KUtAVhTfPeJ5o5j7tU
-         JfJdliWrRgjfZqhVSVjDF9GHp3Y+NRT4/aPUXhjWCq+Hpd98Ye2oZ0UxAcjZroZ2ggOj
-         jkou3e5CH8myDy/33Jmk0U7khwcQdFgj2ZWaujaZiIpGrg06dBYbV5OQLvDuRQHoqY32
-         JwkzDv4Lbk05kWlcsK88UDSt2mVLJ6+U6ZU8euhSyTHs4dmUOl3aNseIK/FSl5Ks5xKG
-         r03A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uOUmxzFjtudAhNpjbzREY4sDxgmwHJI1wxIvlAzjnhE=;
-        b=LxMM9uRXvrMXhBEOo5pSzKE9Yb8kFg3EDd6skrLQrhWPq+v8tKRt3MhE87p2/jd9CU
-         dkG5d7ynHIV/ZjmHy9YBy1RO/4Ij73YFg8RaYgqlTwaRiPRE2rZcJIRmt0OynKi7Vyiw
-         fYMvMU+ngt7rGHnS1DQ1vXd7apS5YsV7Dl03XJsl9c1rUOM6UwS2RAHvXf5sY/XXW5uY
-         kHOETtMdAAkGxJorrSzo7VOUJWyQpOxPDaCz/6vkEMfSTarxTi9uQQtgUGhgJ6opjpUA
-         Adrzu3pQsrRgIRjx5xlpe7fwIyeQcOjB1Pu7S8bGLlK21yAiZ8gHOia1FfQXA8laIOS2
-         7ylA==
-X-Gm-Message-State: AOAM533kQRueyzl7Of1bSwtGuFQBNDjpQy/N0gqufOEQx+PXwxlxjHw7
-        obbHI4oLNf9qaRjCvxEJPGw=
-X-Google-Smtp-Source: ABdhPJw720CisbrHV4ftJDwg335w42GLrr4ME/UasIo+a6/RmkNmiXyT2x7sJA8aJNaFVrgQyyMtvw==
-X-Received: by 2002:a17:907:398:: with SMTP id ss24mr1150949ejb.311.1596469477697;
-        Mon, 03 Aug 2020 08:44:37 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id q19sm16445860ejo.93.2020.08.03.08.44.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 08:44:36 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Ashish Singhal <ashishsingha@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: tegra: Add ID EEPROMs on Jetson AGX Xavier
-Date:   Mon,  3 Aug 2020 17:44:30 +0200
-Message-Id: <20200803154430.734683-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        id S1728583AbgHCToe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Aug 2020 15:44:34 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18156 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728539AbgHCTod (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Aug 2020 15:44:33 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f2868bf0000>; Mon, 03 Aug 2020 12:42:55 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 03 Aug 2020 12:44:32 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 03 Aug 2020 12:44:32 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 3 Aug
+ 2020 19:44:27 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 3 Aug 2020 19:44:27 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.167.221]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f28691a0001>; Mon, 03 Aug 2020 12:44:26 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <robh+dt@kernel.org>
+CC:     <skomatineni@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>
+Subject: [PATCH v1 0/6] Fix timeout clock used by hardware data timeout
+Date:   Mon, 3 Aug 2020 12:44:17 -0700
+Message-ID: <1596483863-22153-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1596483775; bh=DGWxMyHwN4Pwyxz1yo3QTWOM2FBrW8pQbRNaJBSqU7Y=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=e6wSO29e4b3+ovgHvWaZGV/R83n0KjMEN+BhSduyfB04Ddiy/sg2ABUTed8ZMdO8N
+         wgpSwv+yEcvkXQAwT/V446KYrEyVrLEiw5/zqj8eAIMMV6jz0M3tf5sAFATgbr42QI
+         I0TpPDNpjNEoMmIc3753EvdF6atOwfv+B2G2PC/5RZ5ethhi0ifWJq2xMLJ0nGvCm3
+         ijcSotzcaktL5jj8QEg2XLLiWMqkvBOZQZgnaPB6hUVIPnPBiiw5TFxbzGBDwdq7kg
+         pyLvNZBi9XgoBfUbnH5IhHCfrANb27WW8VSRdU0X3Ex9NUVZxPzafkRmBh5cXYJiOd
+         /uxB8C1ja+yRw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Tegra210/Tegra186/Tegra194 has incorrectly enabled
+SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK from the beginning of their support.
 
-The P2888 processor module contains an EEPROM that provides means of
-identifying the module. The P2822 carrier board contains the same EEPROM
-with information identifying the carrier board. Both of them ar accessed
-via the GEN_I2C1 bus.
+Tegra210 and later SDMMC hardware default uses sdmmc_legacy_tm (TMCLK)
+all the time for hardware data timeout instead of SDCLK and this TMCLK
+need to be kept enabled by Tegra sdmmc driver.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi    | 15 +++++++++++++++
- .../arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 13 +++++++++++++
- 2 files changed, 28 insertions(+)
+This series includes patches to fix this for Tegra210/Tegra186/Tegra194.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index 4c005b811233..0ea0bd83cb8e 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -57,6 +57,21 @@ serial@3110000 {
- 			status = "okay";
- 		};
- 
-+		i2c@3160000 {
-+			status = "okay";
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c02";
-+				reg = <0x50>;
-+
-+				vcc-supply = <&vdd_1v8ls>;
-+				address-width = <8>;
-+				pagesize = <8>;
-+				size = <256>;
-+				read-only;
-+			};
-+		};
-+
- 		/* SDMMC1 (SD/MMC) */
- 		mmc@3400000 {
- 			cd-gpios = <&gpio TEGRA194_MAIN_GPIO(A, 0) GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index 90b6ea5467fa..4d8a0e10250f 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -23,6 +23,19 @@ interrupt-controller@2a40000 {
- 			};
- 		};
- 
-+		i2c@3160000 {
-+			eeprom@56 {
-+				compatible = "atmel,24c02";
-+				reg = <0x56>;
-+
-+				vcc-supply = <&vdd_1v8ls>;
-+				address-width = <8>;
-+				pagesize = <8>;
-+				size = <256>;
-+				read-only;
-+			};
-+		};
-+
- 		ddc: i2c@31c0000 {
- 			status = "okay";
- 		};
+These patches need to be manually backported for 4.9, 4.14, 4.19, 5.4
+
+Will send patches to backport separately once these patches are ack'd.
+
+Sowjanya Komatineni (6):
+  sdhci: tegra: Remove SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK for Tegra210
+  sdhci: tegra: Remove SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK for Tegra186
+  arm64: tegra: Add missing timeout clock to Tegra210 SDMMC
+  arm64: tegra: Add missing timeout clock to Tegra186 SDMMC nodes
+  arm64: tegra: Add missing timeout clock to Tegra194 SDMMC nodes
+  sdhci: tegra: Add missing TMCLK for data timeout
+
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 20 +++++++++------
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 15 ++++++-----
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi | 20 +++++++++------
+ drivers/mmc/host/sdhci-tegra.c           | 43 ++++++++++++++++++++++++++++++--
+ 4 files changed, 74 insertions(+), 24 deletions(-)
+
 -- 
-2.27.0
+2.7.4
 
