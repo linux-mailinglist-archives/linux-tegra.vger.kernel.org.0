@@ -2,156 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED55E23B42C
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Aug 2020 06:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1840E23B461
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Aug 2020 07:25:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729786AbgHDE3u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Aug 2020 00:29:50 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9710 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727999AbgHDE3b (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Aug 2020 00:29:31 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f28e3c80001>; Mon, 03 Aug 2020 21:27:53 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 03 Aug 2020 21:29:30 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 03 Aug 2020 21:29:30 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Aug
- 2020 04:29:29 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 4 Aug 2020 04:29:29 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.167.221]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f28e4280005>; Mon, 03 Aug 2020 21:29:29 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <robh+dt@kernel.org>
-CC:     <skomatineni@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>
-Subject: [PATCH v2 6/6] sdhci: tegra: Add missing TMCLK for data timeout
-Date:   Mon, 3 Aug 2020 21:29:23 -0700
-Message-ID: <1596515363-27235-7-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596515363-27235-1-git-send-email-skomatineni@nvidia.com>
-References: <1596515363-27235-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        id S1727064AbgHDFZP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Aug 2020 01:25:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726797AbgHDFZO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Aug 2020 01:25:14 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA64C061756
+        for <linux-tegra@vger.kernel.org>; Mon,  3 Aug 2020 22:25:14 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id j19so21462965pgm.11
+        for <linux-tegra@vger.kernel.org>; Mon, 03 Aug 2020 22:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VyvJTV65QYrZba9SIfzf3Qah/NqVWDrTLrkNojuqHV0=;
+        b=SafJSNqu2HzopBQNzSMzXgtQyoN95IoHlxuM48onRYrNr0jx5X5Yx4nbz7n1qxZTaz
+         BBLmwCHy6ILOfFAj4CVMMmylSVMacwrWKkcJQHwIk7vN5K3c9K4FBhLNWH2UDK0qjPuR
+         YGUpqI6YFRmyyfYhhfJDeZht6Y+jZjY7iT5DkLaaNJe5xOHeoArcGLnKyrwUVYgWgrzO
+         j1kh4lVdzME9oNVocVV+RTxxFppvbtEuHgVfDLkCKZT8qhtbHe7/vfLu2r0h/KLji4uj
+         RI5P+HSeGJFYjBdWLInTEPaOTXwpLsJZ2dkncuYuY/PF5XAQYjUlZEzY0oCevMx0Arni
+         uAoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VyvJTV65QYrZba9SIfzf3Qah/NqVWDrTLrkNojuqHV0=;
+        b=iJlj/xNLJf5Kg4OpDyKT9l/XXCKQCHdqfKuCy7VXuliCfQbQ90Aw/PMve7szJawLtT
+         dzbQDFgo1DePS4cD1ml2/hY0fRTWDwZAM5gB9i01eUce5gs4qfUh2jtdNLKYNV9VpC5y
+         sfzXQd9Bu+veZCbFSCdo8oKnx/fARUOQU7ktiZzWJ3NUWQpghXyaIaYVuLQFOIF49zqr
+         rjZY7hUdHEDLWlYf2NQU2NbKVgUtnWJIeTrBstt8phDUysrK35pevMl5Goata2nQ2kil
+         kvryEV5pB7Y41lnf8eF5cSJa3OqkZaOK6RRgKZKc3Wh9TWTBfdrOyOGaJmuXRwqSZE4s
+         tKQQ==
+X-Gm-Message-State: AOAM5307MjCrdxFtD3B5oJ7qG3I67rxgPrwokL+rShWP9i7OOWRHEFgf
+        f5dV9IlksqmxwDevAgrlxcRfuA==
+X-Google-Smtp-Source: ABdhPJzQBa7GAz/BaRtEtdELU/h9ZsuAAyasELfzNQnsQprm5zGlYxyfDe3Uz3t1K1kJ/+YPjsWlhg==
+X-Received: by 2002:a63:5d11:: with SMTP id r17mr17546649pgb.146.1596518713836;
+        Mon, 03 Aug 2020 22:25:13 -0700 (PDT)
+Received: from localhost ([122.162.244.227])
+        by smtp.gmail.com with ESMTPSA id v11sm19518479pgs.22.2020.08.03.22.25.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 03 Aug 2020 22:25:12 -0700 (PDT)
+Date:   Tue, 4 Aug 2020 10:55:09 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] cpufreq: tegra186: Fix initial frequency
+Message-ID: <20200804052509.24en7voy2bg6vdbc@vireshk-mac-ubuntu>
+References: <20200712100645.13927-1-jonathanh@nvidia.com>
+ <20200713032554.cykywnygxln6ukrl@vireshk-i7>
+ <3d6091f2-6b04-185f-6c23-e39a34b87877@nvidia.com>
+ <20200714034635.2zdv3wzmftjg2t4a@vireshk-i7>
+ <8c6d3c32-c142-3981-3a52-6560e885f4c9@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596515273; bh=r6u0HMf6o4jPz5Nwr4/5GJuqlW/cC/VMT34/Nxbq+OY=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=qT3j1GngoQhOEm0eg8syrfDVFk+k2WTrcxtTBbfa16DrnWvS0VUuuYrsBNVqbOWcf
-         S2b5wueGc2EET20lSsiMDEdczbXiCQFQo/3jESjqtDiX/WwPHnehitnnzGZIm0We2r
-         qjq/byxS1Q0sNHCYa7nd4KthXM7Vik4JTTiliz7ZhbNCn+O2CPc6IU7+pmUv6FnPsP
-         VY8BLEuV70i1L1Ym+J6hkcgdYwbs/6fL2LAmoRFCKEOaSPlcMksW0+yoMq94BKDoLG
-         6ADLg+1Bopc2UgDHmYJvS4iBX8DifYnTVlfSU+XCPNnH3nLMujKrPFMCSo+iR4c8sM
-         cYmXzDzIFMRQg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8c6d3c32-c142-3981-3a52-6560e885f4c9@nvidia.com>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-commit b5a84ecf025a ("mmc: tegra: Add Tegra210 support")
+On 31-07-20, 13:14, Jon Hunter wrote:
+> I have been doing some more testing on Tegra, I noticed that when
+> reading the current CPU frequency via the sysfs scaling_cur_freq entry,
+> this always returns the cached value (at least for Tegra). Looking at
+> the implementation of scaling_cur_freq I see ...
+> 
+> static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
+> {
+>         ssize_t ret; 
+>         unsigned int freq;
+> 
+>         freq = arch_freq_get_on_cpu(policy->cpu);
+>         if (freq)
+>                 ret = sprintf(buf, "%u\n", freq);
+>         else if (cpufreq_driver && cpufreq_driver->setpolicy &&
+>                         cpufreq_driver->get)
+>                 ret = sprintf(buf, "%u\n", cpufreq_driver->get(policy->cpu));
+>         else
+>                 ret = sprintf(buf, "%u\n", policy->cur);
+>         return ret; 
+> }
+> 
+> The various Tegra CPU frequency drivers do not implement the
+> set_policy callback and hence why we always get the cached value. I
+> see the following commit added this and before it simply return the
+> cached value ...
+> 
+> commit c034b02e213d271b98c45c4a7b54af8f69aaac1e
+> Author: Dirk Brandewie <dirk.j.brandewie@intel.com>
+> Date:   Mon Oct 13 08:37:40 2014 -0700
+> 
+>     cpufreq: expose scaling_cur_freq sysfs file for set_policy() drivers
+> 
+> Is this intentional? 
 
-Tegra210 and later has a separate sdmmc_legacy_tm (TMCLK) used by Tegra
-SDMMC hawdware for data timeout to achive better timeout than using
-SDCLK and using TMCLK is recommended.
+Yes, it is.
 
-USE_TMCLK_FOR_DATA_TIMEOUT bit in Tegra SDMMC register
-SDHCI_TEGRA_VENDOR_SYS_SW_CTRL can be used to choose either TMCLK or
-SDCLK for data timeout.
+There are two sysfs files to read the current frequency.
 
-Default USE_TMCLK_FOR_DATA_TIMEOUT bit is set to 1 and TMCLK is used
-for data timeout by Tegra SDMMC hardware and having TMCLK not enabled
-is not recommended.
+- scaling_cur_freq: as you noticed it returns cached value unless it is for
+  setpolicy drivers in whose case cpufreq core doesn't control the frequency and
+  so doesn't cache any values.
 
-So, this patch fixes it.
+- cpuinfo_cur_freq: This will return the value as read from hardware using
+  ->get() callback.
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- drivers/mmc/host/sdhci-tegra.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
-
-diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-index 31ed321..c0b9405 100644
---- a/drivers/mmc/host/sdhci-tegra.c
-+++ b/drivers/mmc/host/sdhci-tegra.c
-@@ -140,6 +140,7 @@ struct sdhci_tegra_autocal_offsets {
- struct sdhci_tegra {
- 	const struct sdhci_tegra_soc_data *soc_data;
- 	struct gpio_desc *power_gpio;
-+	struct clk *tmclk;
- 	bool ddr_signaling;
- 	bool pad_calib_required;
- 	bool pad_control_available;
-@@ -1611,6 +1612,44 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- 		goto err_power_req;
- 	}
- 
-+	/*
-+	 * Tegra210 has a separate SDMMC_LEGACY_TM clock used for host
-+	 * timeout clock and SW can choose TMCLK or SDCLK for hardware
-+	 * data timeout through the bit USE_TMCLK_FOR_DATA_TIMEOUT of
-+	 * the register SDHCI_TEGRA_VENDOR_SYS_SW_CTRL.
-+	 *
-+	 * USE_TMCLK_FOR_DATA_TIMEOUT bit default is set to 1 and SDMMC uses
-+	 * 12Mhz TMCLK which is advertised in host capability register.
-+	 * With TMCLK of 12Mhz provides maximum data timeout period that can
-+	 * be achieved is 11s better than using SDCLK for data timeout.
-+	 *
-+	 * So, TMCLK is set to 12Mhz and kept enabled all the time on SoC's
-+	 * supporting SDR104 mode and when not using SDCLK for data timeout.
-+	 */
-+
-+	if ((soc_data->nvquirks & NVQUIRK_ENABLE_SDR104) &&
-+	    !(soc_data->pdata->quirks & SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK)) {
-+		clk = devm_clk_get(&pdev->dev, "tmclk");
-+		if (IS_ERR(clk)) {
-+			rc = PTR_ERR(clk);
-+			if (rc == -EPROBE_DEFER)
-+				goto err_power_req;
-+
-+			dev_warn(&pdev->dev, "failed to get tmclk: %d\n", rc);
-+			clk = NULL;
-+		}
-+
-+		clk_set_rate(clk, 12000000);
-+		rc = clk_prepare_enable(clk);
-+		if (rc) {
-+			dev_err(&pdev->dev,
-+				"failed to enable tmclk: %d\n", rc);
-+			goto err_power_req;
-+		}
-+
-+		tegra_host->tmclk = clk;
-+	}
-+
- 	clk = devm_clk_get(mmc_dev(host->mmc), NULL);
- 	if (IS_ERR(clk)) {
- 		rc = PTR_ERR(clk);
-@@ -1654,6 +1693,7 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- err_rst_get:
- 	clk_disable_unprepare(pltfm_host->clk);
- err_clk_get:
-+	clk_disable_unprepare(tegra_host->tmclk);
- err_power_req:
- err_parse_dt:
- 	sdhci_pltfm_free(pdev);
-@@ -1671,6 +1711,7 @@ static int sdhci_tegra_remove(struct platform_device *pdev)
- 	reset_control_assert(tegra_host->rst);
- 	usleep_range(2000, 4000);
- 	clk_disable_unprepare(pltfm_host->clk);
-+	clk_disable_unprepare(tegra_host->tmclk);
- 
- 	sdhci_pltfm_free(pdev);
- 
 -- 
-2.7.4
-
+viresh
