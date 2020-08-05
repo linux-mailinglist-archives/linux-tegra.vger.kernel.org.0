@@ -2,81 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5E723C8CA
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Aug 2020 11:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3735623C8CD
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Aug 2020 11:14:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728410AbgHEJMf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Aug 2020 05:12:35 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:7657 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728431AbgHEJLl (ORCPT
+        id S1728380AbgHEJMg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Aug 2020 05:12:36 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8669 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728437AbgHEJLl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Aug 2020 05:11:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f2a77660000>; Wed, 05 Aug 2020 02:09:58 -0700
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f2a779a0000>; Wed, 05 Aug 2020 02:10:50 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 05 Aug 2020 02:11:37 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 05 Aug 2020 02:11:40 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 05 Aug 2020 02:11:37 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Aug
- 2020 09:11:37 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 5 Aug 2020 09:11:37 +0000
+        by hqpgpgate102.nvidia.com on Wed, 05 Aug 2020 02:11:40 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Aug
+ 2020 09:11:40 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 5 Aug 2020 09:11:39 +0000
 Received: from mkumard.nvidia.com (Not Verified[10.24.34.162]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f2a77c60001>; Wed, 05 Aug 2020 02:11:36 -0700
+        id <B5f2a77c90001>; Wed, 05 Aug 2020 02:11:39 -0700
 From:   Mohan Kumar <mkumard@nvidia.com>
 To:     <tiwai@suse.com>, <perex@perex.cz>
 CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
         <treding@nvidia.com>, <jonathanh@nvidia.com>, <spujar@nvidia.com>,
         Mohan Kumar <mkumard@nvidia.com>
-Subject: [PATCH 1/3] ASoC: hda/tegra: Set buffer alignment to 128 bytes
-Date:   Wed, 5 Aug 2020 14:41:14 +0530
-Message-ID: <20200805091116.2314-2-mkumard@nvidia.com>
+Subject: [PATCH 2/3] ALSA: hda: Add behaviour flag for dma stop delay
+Date:   Wed, 5 Aug 2020 14:41:15 +0530
+Message-ID: <20200805091116.2314-3-mkumard@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200805091116.2314-1-mkumard@nvidia.com>
 References: <20200805091116.2314-1-mkumard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596618598; bh=xr6uX8YmavJUmyTOqAj79akwf/8Wmbfu9U6LVTS7h30=;
+        t=1596618651; bh=QLQa3HPgpMXlrNU8auTJWV6It11YYRpHfIV3i5lWL0w=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:MIME-Version:Content-Type;
-        b=Cal4YxOwEbhS7LEPXB4zqIvTQzwc+1bRn4iRQZ/QIDnZ4jg3GsC0Xwb2FUlY9wLgD
-         wYeO1icn8IPzSYDgDaiSTXCncyy8ldYGx/La02fRG8enZhTyAqFypgzA3p759KH20o
-         4X8khA/jEWQAhuwv62+S+VP356jpQvFfHD7C71U50ULer+M16/M8lFBhMiLFbbE59M
-         5rTf3y+OoKIJxNZ25A30bvwde9wHi2jNBIxdMifxzh5Ve2/Rph9J3kuyakqodrPwv6
-         HG/hn2gq5utF5DAOL6CPGrCc0JUAxClL4KTfC4/0v5CSX0eYgxRsNvl1lER5ehHzRD
-         tLNYfHiDmeoXQ==
+        b=l+zjdVaRctQu6Q/Ngsw+CZUQ20tPUzcDQr/TFoEegJYfm/uwSk2wktT7g/VC9zJ6n
+         6NGouZlhJm32TbOrt2MnVCJFbztMSjVXMbjK03oWLu6jzZUUvxwKM4+ZfuIF6uZP93
+         QzXuAS5R1m5BFAbf6xcs/aQiKMBLTTbkzgTNq3JoiYUMC0hcQc4IbqgW59E0791PKg
+         X+8NiH4WtH46dta3HIZ7anH8Z3sISiIdWyyNdKSB6O/SbPA9tfSP7taqLv8FRrZhEL
+         Ji645ECbTws+8gQCe6OI7hfGn8f1J/2k2Y+N6o6rBXNR7m4OGGSluy/sPHZK02m1Tw
+         X7oBlTRHq2P2Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Set  chip->align_buffer_size to 1 for Tegra platforms to make the buffer
-alignment to be multiple of 128 bytes. This fix is applied as gstreamer
-alsasink gets stuck with the default buffer-time and latency-time
-parameters with 4 byte buffer alignment.
+Behaviour flag dma_stop_delay is added as a new member in hdac_bus
+structure to avoid memory decode error incase DMA RUN bit is not
+disabled in the given timeout from snd_hdac_stream_sync function and
+followed by stream reset which results in memory decode error between
+reset set and clear operation.
 
 Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
 ---
- sound/pci/hda/hda_tegra.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/sound/hdaudio.h | 2 ++
+ sound/hda/hdac_stream.c | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index 5637f0129932..ecf98eb9df36 100644
---- a/sound/pci/hda/hda_tegra.c
-+++ b/sound/pci/hda/hda_tegra.c
-@@ -333,6 +333,8 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
- 	gcap = azx_readw(chip, GCAP);
- 	dev_dbg(card->dev, "chipset global capabilities = 0x%x\n", gcap);
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index c1f78d9a6e47..cf77c6b83016 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -347,6 +347,8 @@ struct hdac_bus {
  
-+	chip->align_buffer_size = 1;
+ 	int bdl_pos_adj;		/* BDL position adjustment */
+ 
++	unsigned int dma_stop_delay;
 +
- 	/* read number of streams from GCAP register instead of using
- 	 * hardcoded value
- 	 */
+ 	/* locks */
+ 	spinlock_t reg_lock;
+ 	struct mutex cmd_mutex;
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index a38a2af1654f..abe7a1b16fe1 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -150,9 +150,12 @@ void snd_hdac_stream_reset(struct hdac_stream *azx_dev)
+ {
+ 	unsigned char val;
+ 	int timeout;
++	int dma_run_state;
+ 
+ 	snd_hdac_stream_clear(azx_dev);
+ 
++	dma_run_state = snd_hdac_stream_readb(azx_dev, SD_CTL) & SD_CTL_DMA_START;
++
+ 	snd_hdac_stream_updateb(azx_dev, SD_CTL, 0, SD_CTL_STREAM_RESET);
+ 	udelay(3);
+ 	timeout = 300;
+@@ -162,6 +165,10 @@ void snd_hdac_stream_reset(struct hdac_stream *azx_dev)
+ 		if (val)
+ 			break;
+ 	} while (--timeout);
++
++	if (azx_dev->bus->dma_stop_delay && dma_run_state)
++		udelay(azx_dev->bus->dma_stop_delay);
++
+ 	val &= ~SD_CTL_STREAM_RESET;
+ 	snd_hdac_stream_writeb(azx_dev, SD_CTL, val);
+ 	udelay(3);
 -- 
 2.17.1
 
