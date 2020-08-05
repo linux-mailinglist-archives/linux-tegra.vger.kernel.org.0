@@ -2,72 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E62223C993
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Aug 2020 11:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDA4E23C999
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Aug 2020 11:54:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727941AbgHEJxv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Aug 2020 05:53:51 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2454 "EHLO
+        id S1728030AbgHEJy1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Aug 2020 05:54:27 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2457 "EHLO
         hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727982AbgHEJwx (ORCPT
+        with ESMTP id S1728021AbgHEJwx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Aug 2020 05:52:53 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f2a815f0000>; Wed, 05 Aug 2020 02:52:31 -0700
+        id <B5f2a81620000>; Wed, 05 Aug 2020 02:52:34 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 05 Aug 2020 02:52:45 -0700
+  Wed, 05 Aug 2020 02:52:47 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 05 Aug 2020 02:52:45 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Aug
- 2020 09:52:45 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 5 Aug 2020 09:52:44 +0000
+        by hqpgpgate101.nvidia.com on Wed, 05 Aug 2020 02:52:47 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Aug
+ 2020 09:52:47 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 5 Aug 2020 09:52:47 +0000
 Received: from mkumard.nvidia.com (Not Verified[10.24.34.162]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f2a816a0000>; Wed, 05 Aug 2020 02:52:44 -0700
+        id <B5f2a816d0002>; Wed, 05 Aug 2020 02:52:47 -0700
 From:   Mohan Kumar <mkumard@nvidia.com>
 To:     <tiwai@suse.com>, <perex@perex.cz>
 CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
         <treding@nvidia.com>, <jonathanh@nvidia.com>, <spujar@nvidia.com>,
         Mohan Kumar <mkumard@nvidia.com>
-Subject: [PATCH v2 0/3]  Tegra Specific fixes
-Date:   Wed, 5 Aug 2020 15:22:18 +0530
-Message-ID: <20200805095221.5476-1-mkumard@nvidia.com>
+Subject: [PATCH v2 1/3] ASoC: hda/tegra: Set buffer alignment to 128 bytes
+Date:   Wed, 5 Aug 2020 15:22:19 +0530
+Message-ID: <20200805095221.5476-2-mkumard@nvidia.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200805095221.5476-1-mkumard@nvidia.com>
+References: <20200805095221.5476-1-mkumard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596621151; bh=n1dlz8iyQVQn9u37McbzKI0W09GdeF2ZXWm7kj2D8ro=;
+        t=1596621154; bh=xr6uX8YmavJUmyTOqAj79akwf/8Wmbfu9U6LVTS7h30=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=BWBMWt6QVMLMuh32CQv7EbgOGFYLt4B1kJkv4Q2FjTIqnRzzSczyZt51aN0DmDSUG
-         W00eF6NWgZc4saNzaisPb8Lx/k7wsfXRUw6zDcunG2jTPLThr/hBmWiHj8Q8ZOLOiX
-         SEpA0QeeFRYq6GWyI0aNR3+3O+iJF90IgwuU9IPxSxNRsT7QihuaXdKuXSoKSpz0co
-         QrS92fAO+DLM3SQSwaI/jTG5Umc/uY77DjaEYnR7eWjsUHWqAlLZzYZExDXEQcjCFg
-         PKEln59tCG4H/vRBp2C0Bj/FSYPX9c+CSbTVAXUXw79wwtmMofbUPXq/udTPZr2aor
-         fvgTSksTu8scA==
+         In-Reply-To:References:MIME-Version:Content-Type;
+        b=csCHbZ8GcUPsUmU0/JI96BctaukWgpSlHHuJu3ZI60pZheaWCgHIVVCOL7Cv+Qu3s
+         QjHzSoNl0IkYCmKuU4btbRX3YHxsxh8jt/Q9zdyFO9MH7xmNWk4OWZp5eVZpNyC3fY
+         6gA06yXiT720b1Fq/+JuVa+WUkQjO9EEdmkmxCcN8IzJQAH1sd4iwgUo7M6f0MTSeu
+         GePLTFdNM3UEjVGhxpqKt8kWzaAHIT1dh17GPK3d9gRG18+zgcDbJXmdbbm2NVg0Fw
+         AV0YpYbYewFqSYPkTzCNSGcUgOLWbF0uAgYycDjz9w8r37kcCCWpaoxD2GjLUqW/EL
+         n5If7atWjmFQw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This series proposes following fixes to Tegra HDA driver.
-* Align the buffer to 128 bytes for Tegra.
-* Add new behavior flag dma_stop_delay in hdac_bus structure.
-* Add 100us as dma stop delay for Tegra.
+Set  chip->align_buffer_size to 1 for Tegra platforms to make the buffer
+alignment to be multiple of 128 bytes. This fix is applied as gstreamer
+alsasink gets stuck with the default buffer-time and latency-time
+parameters with 4 byte buffer alignment.
 
+Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
+---
+ sound/pci/hda/hda_tegra.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Mohan Kumar (3):
-  ASoC: hda/tegra: Set buffer alignment to 128 bytes
-  ALSA: hda: Add dma stop delay variable
-  ALSA: hda/tegra: Add 100us dma stop delay
-
- include/sound/hdaudio.h   | 3 +++
- sound/hda/hdac_stream.c   | 7 +++++++
- sound/pci/hda/hda_tegra.c | 3 +++
- 3 files changed, 13 insertions(+)
-
+diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
+index 5637f0129932..ecf98eb9df36 100644
+--- a/sound/pci/hda/hda_tegra.c
++++ b/sound/pci/hda/hda_tegra.c
+@@ -333,6 +333,8 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
+ 	gcap = azx_readw(chip, GCAP);
+ 	dev_dbg(card->dev, "chipset global capabilities = 0x%x\n", gcap);
+ 
++	chip->align_buffer_size = 1;
++
+ 	/* read number of streams from GCAP register instead of using
+ 	 * hardcoded value
+ 	 */
 -- 
 2.17.1
 
