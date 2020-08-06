@@ -2,58 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 453DD23DD5B
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A6923DD3B
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729291AbgHFRIp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45806 "EHLO
+        id S1730060AbgHFRGo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730055AbgHFRGW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:22 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763B7C00859C
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:41:16 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a26so25027453ejc.2
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:41:16 -0700 (PDT)
+        with ESMTP id S1730039AbgHFRGM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:12 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C040AC0005BE
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:41:17 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id kq25so37856919ejb.3
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U9JFUlne6UShAIBq+wr4Ss8u4VT71HCKJztGyBLDXlg=;
-        b=OVZIj/DUfpgTyO862vHyEBW8kjHpaT9Qlj8c8iQzpI7DtxZNyAT4plE0daDybYXCRw
-         F6ZOmszoCafv8KRqdXZuImtAYCPO92S0wvMvcHdfPheB3RcsiU13Z1jrBeQwPLLYecdP
-         /fsLIK8xN1Sl1ZiUCogPVOXo7xyHcqmI1borOQ0o/IVRH8pCZfIcJffGoPST0TduCpUQ
-         7kFR8MkJclTg5AN1cFxITtTuZPWhUQ61ps475kygGzjf8sqWNB3kqWVuldhB3es44UU0
-         fGYpXrn6hkclZP/CZLWmsQhKhvdeIE92im0NufCVSwqSHTIDYz5znpdkFZfet5OL8HQ5
-         zMlg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=sQUBzqRn+ojYtqrJvGioQLo2eJbHTBHdMZpb/t+FuXk=;
+        b=FIR49fctoQ/DnjLIibCA7thl/tMrSUIqCWAxIxYfxoxiB/6QupHhLHqd917iylQDrX
+         x8y7ov7IIyJa2iBc3eeOpT87X98ReCAGewqsdOz6I/c2s1V5Npiv2zmw4eDbmQx4VcGO
+         41TIifx7wBaoX4CJiXBdabcPqSQPjld36e1GsGj3pOqrhI/01bpEVISngfCAo93dsNhi
+         N/u2S6Q/hXa3gm5toKWMdk/bFfFW4OhKrlIX3iZ28wI+rqgC2Vbz3SlZfGUflAr7WDO4
+         Fydzun71kz2szfpBZ3Sgr5W4aw4Sx2dcM6TtOH8tVFtDedefPIiFStQPi6aBSGrThN3G
+         WpZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U9JFUlne6UShAIBq+wr4Ss8u4VT71HCKJztGyBLDXlg=;
-        b=VJKtkEU17KPGFqFWf6YHXwZxN3OiXhgPw4YwiwtSCVrPynic2L6SvXb0afJQIrdD+v
-         eValASVCXYcQbRFUFb0LGDnZgyZVJshGzHafEKKcXTbVcJK0W4BjKmagx47xC5fW3OYo
-         QmN0s49+axKEpJQKvJLyYkaNcTCDXpic2ulaT6YoBQ3Z/N0o75Yiih8qBfXRE2tm5jBU
-         ld6SsXKUeKZCe3YSgfelv+NG78BCUmnGL9f1mxwjoPmqTqE+/s/14qV39cWr1Afh/CJT
-         7ke0w/SOR7aCaKUeWULxt1dkhtiBjUaV2lXOMRg4hiCTiOoYnZfudSYfp13oxRiBztYq
-         bQJQ==
-X-Gm-Message-State: AOAM532Mw60mCkkprngbnJqUCd3zzxv9hEyQQibnnmUyjdT/s35d+5BT
-        1e3XVr6wuUeFwRjnKHTYbpw=
-X-Google-Smtp-Source: ABdhPJxeyVSz8XkU8s1bmhltAitpfa+ugqEMRMNH0+PTeopDwYxgbZabfXsHoELyfyWbIJUiMpX2pg==
-X-Received: by 2002:a17:906:743:: with SMTP id z3mr4890114ejb.216.1596728473779;
-        Thu, 06 Aug 2020 08:41:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=sQUBzqRn+ojYtqrJvGioQLo2eJbHTBHdMZpb/t+FuXk=;
+        b=YM0OIzjxPF0u5QmJ5yHpXGxwUopT3TUT27PJbftzybvVrAAPKitUpncgpRZuRpEN8y
+         YlndeYG6GNDbVy4XzuAAWzjomY1H7gc/QpcLIlZ7bAT9xeAavwWtOp8GCykGE5xA795K
+         toX4aATFYmcYWIDNDK54uhz8kDvlB9uK9w4tIcUMen/eY6rco74Qt7pbEe7sRl7Xs343
+         FB9b5HNhEE4XCo4qWDlSZKIBMbgRFkz0xG7CvuCX0S99PShTyklx4anli74l4Jx0x6ru
+         ixJeIMr5O2tKz8WS7ZjQZl3rY5F0Zu4vahrRkK8x1I3EVLXoPqcoUaqP5eMpXbBy2OvI
+         I6fw==
+X-Gm-Message-State: AOAM532mvHxuYL5tNe/cFNJFJse7vz8yZej72R++v3hp7iP9NO1vZdqD
+        1kg0hG9ccZW9HgVzIiLy9sU=
+X-Google-Smtp-Source: ABdhPJyO21fAnsVlMWWY+aqLyrBvqxsl1wlQctMcmYTuiX3eWPdMpR2SbM5rNjl/kd5ikn/YvcoLzg==
+X-Received: by 2002:a17:906:3c43:: with SMTP id i3mr5182318ejg.133.1596728475719;
+        Thu, 06 Aug 2020 08:41:15 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id n5sm4022637eja.105.2020.08.06.08.41.12
+        by smtp.gmail.com with ESMTPSA id z10sm3943519eje.122.2020.08.06.08.41.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 08:41:12 -0700 (PDT)
+        Thu, 06 Aug 2020 08:41:14 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 1/4] arm64: tegra: Wire up pinctrl states for all DPAUX controllers
-Date:   Thu,  6 Aug 2020 17:41:08 +0200
-Message-Id: <20200806154111.3917284-1-thierry.reding@gmail.com>
+Subject: [PATCH 2/4] arm64: tegra: Add VBUS supply for micro USB port on Jetson Nano
+Date:   Thu,  6 Aug 2020 17:41:09 +0200
+Message-Id: <20200806154111.3917284-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200806154111.3917284-1-thierry.reding@gmail.com>
+References: <20200806154111.3917284-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -63,71 +65,43 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-All four DPAUX controllers on Tegra194 control the pin configuration of
-their companion I2C controllers. Wire up all the pinctrl states for the
-I2C controllers so that their pins can be correctly muxed when needed.
+The VBUS supply for the micro USB port on Jetson Nano is derived from
+the main system supply and always on. Describe in nevertheless to fix
+warnings during boot.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 1ddf9cb6dbce..94c65ca8345a 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -346,6 +346,9 @@ dp_aux_ch1_i2c: i2c@3190000 {
- 			clock-names = "div-clk";
- 			resets = <&bpmp TEGRA194_RESET_I2C4>;
- 			reset-names = "i2c";
-+			pinctrl-0 = <&state_dpaux1_i2c>;
-+			pinctrl-1 = <&state_dpaux1_off>;
-+			pinctrl-names = "i2c", "off";
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+index 195a43e2356b..d34338b63c90 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+@@ -541,6 +541,8 @@ usb2-0 {
+ 				mode = "peripheral";
+ 				usb-role-switch;
  
-@@ -360,10 +363,14 @@ dp_aux_ch0_i2c: i2c@31b0000 {
- 			clock-names = "div-clk";
- 			resets = <&bpmp TEGRA194_RESET_I2C6>;
- 			reset-names = "i2c";
-+			pinctrl-0 = <&state_dpaux0_i2c>;
-+			pinctrl-1 = <&state_dpaux0_off>;
-+			pinctrl-names = "i2c", "off";
- 			status = "disabled";
- 		};
++				vbus-supply = <&vdd_5v0_usb>;
++
+ 				connector {
+ 					compatible = "gpio-usb-b-connector",
+ 						     "usb-b-connector";
+@@ -843,4 +845,14 @@ avdd_io_edp_1v05: regulator@7 {
  
--		gen7_i2c: i2c@31c0000 {
-+		/* shares pads with dpaux2 */
-+		dp_aux_ch2_i2c: i2c@31c0000 {
- 			compatible = "nvidia,tegra194-i2c";
- 			reg = <0x031c0000 0x10000>;
- 			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
-@@ -373,10 +380,14 @@ gen7_i2c: i2c@31c0000 {
- 			clock-names = "div-clk";
- 			resets = <&bpmp TEGRA194_RESET_I2C7>;
- 			reset-names = "i2c";
-+			pinctrl-0 = <&state_dpaux2_i2c>;
-+			pinctrl-1 = <&state_dpaux2_off>;
-+			pinctrl-names = "i2c", "off";
- 			status = "disabled";
- 		};
- 
--		gen9_i2c: i2c@31e0000 {
-+		/* shares pads with dpaux3 */
-+		dp_aux_ch3_i2c: i2c@31e0000 {
- 			compatible = "nvidia,tegra194-i2c";
- 			reg = <0x031e0000 0x10000>;
- 			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-@@ -386,6 +397,9 @@ gen9_i2c: i2c@31e0000 {
- 			clock-names = "div-clk";
- 			resets = <&bpmp TEGRA194_RESET_I2C9>;
- 			reset-names = "i2c";
-+			pinctrl-0 = <&state_dpaux3_i2c>;
-+			pinctrl-1 = <&state_dpaux3_off>;
-+			pinctrl-names = "i2c", "off";
- 			status = "disabled";
- 		};
- 
+ 		vin-supply = <&avdd_1v05_pll>;
+ 	};
++
++	vdd_5v0_usb: regulator@8 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VDD_5V_USB";
++		regulator-min-microvolt = <50000000>;
++		regulator-max-microvolt = <50000000>;
++
++		vin-supply = <&vdd_5v0_sys>;
++	};
+ };
 -- 
 2.27.0
 
