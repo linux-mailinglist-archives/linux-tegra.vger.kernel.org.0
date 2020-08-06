@@ -2,84 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E26D23DD9A
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7F223DE36
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730074AbgHFRLr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46486 "EHLO
+        id S1729009AbgHFRXc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:23:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730222AbgHFRKJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:10:09 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1CC1C00022F;
-        Thu,  6 Aug 2020 08:41:56 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id q76so10119076wme.4;
-        Thu, 06 Aug 2020 08:41:56 -0700 (PDT)
+        with ESMTP id S1729799AbgHFRFG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:05:06 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7139EC08E835;
+        Thu,  6 Aug 2020 06:46:28 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id c15so8840938lfi.3;
+        Thu, 06 Aug 2020 06:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VZnlZHi2pNVM/YMIfXvf/UHbjwYhQmIPewxedOf93xI=;
+        b=obXR+Nn3YxEJAFYj9GjuuDHfWohVA8Ko2EZOZhRZLysgDkBB/zbNM9sFGHsyIalrV4
+         nhWnw+C8JYCh/hhgGGIK+A5QVPoC1u2W0DMy+tbkWLsBhKev24yAyy/CXHDYX/0qelNI
+         H6YkD+SM7NZszlsAWXR0/CDbstrY4mr0yoePvmsFTURovar9kWBpSeOCu85MkyANy7Q6
+         X4JL+qn9lAkd1xlNmY8vQw+M3hRVSK0hzPO5pygND0gWt0pA/NN4wVcb9XGxq5RBRpYe
+         JTk404spywnd3PhejTaIe4KjNw4tEZhg2KJpTx5y2qHI6RDSdq4QOTyX16Kdx2IGoBvo
+         VChg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ql3hGTHje/p2vwNn/ID8F5Qa5Fp/I/jz2QjpfkMIy8A=;
-        b=oC4hbreq4JtGHYgQwcx9rp3aBj+50DSOmOh6Ez8Vl0e8HjTwFxzE7VrHXRzx5RPj7U
-         uH7wAPDseF369+ksel4ChAXjM9jrO6nLssTlYd5D3GF/Z7wsAl/gUByCxijkeDOjiIIx
-         Db/WBxH1j5nnv1/MBF5XL3uNeiDnXGBdit8NWcbsFyhyb9vv+JgpiSgcQKau34GTiHZf
-         +LXUCWjsqA5vsRC7ruhLbL0aEeYA746QFFV0yhsgKMsY/wMIWvJBI0QzdTbW0XhB0BZ9
-         yAykGnf17kSMKPLy+a3FWZaSBFnjt1RXi1BsMaT6PCOVKhmjRG/fwqtA3reG55K5xHvK
-         6iEg==
-X-Gm-Message-State: AOAM531RS+nv6LDU7T/7S2Pa3pOyAw7vlG+RaNayz3XT/HNZPK0iYX9B
-        FFUOEreaqUQS18KHOkCPIgZlhka6Zgk=
-X-Google-Smtp-Source: ABdhPJwzlHcAKonDnHK5hxlbdBjEHnGGkz382M78Jit2tSdVdrilgnAIiKjPkcJpf0NZhdrkpvAnyA==
-X-Received: by 2002:a05:600c:4112:: with SMTP id j18mr7692068wmi.187.1596720810126;
-        Thu, 06 Aug 2020 06:33:30 -0700 (PDT)
-Received: from pi3 ([194.230.155.117])
-        by smtp.googlemail.com with ESMTPSA id f124sm6322725wmf.7.2020.08.06.06.33.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 06:33:27 -0700 (PDT)
-Date:   Thu, 6 Aug 2020 15:33:25 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Chanwoo Choi <cw00.choi@samsung.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] rtc: max77686: Fix wake-ups for max77620
-Message-ID: <20200806133325.GA7685@pi3>
-References: <20200806125431.699339-1-jonathanh@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VZnlZHi2pNVM/YMIfXvf/UHbjwYhQmIPewxedOf93xI=;
+        b=tagaIIRLTt86ZBnBqxL3EzA8poZDsNq1p8gZniw42b//dzB1EnGM2vXudxtyv6Kyvx
+         yvKseGSwmx74kpcgcnsyi06EVjQBa2q45jEfF861Dum6KEK/Y5CGgzATUo7R+phsY1Ev
+         /zF70lW2ufQFP4Y4BO0eeAuIdVQYj6e16YKEipjBVedxM+1OFx5ySmUlIuSvDsibao4I
+         jAdBcf7rPcIAJZTp6xvW2KzwBRkFhYhyvddQtWDcBhlo65eBiTZTmpID0jx54ilP6wXb
+         9tZfOH1Znq6vXKSg2ZyUQAvEVJHG1UvlJaxigwUNDejzi3l3gItK33wWhqhDS3/GYKUr
+         DKNg==
+X-Gm-Message-State: AOAM531EdD8H/9ojGlu3d0RoFXiU+9BxYCphRcMy3YRZpl4ls2ZKoG5i
+        jm011Wmdb8Qbup8XcevxWnw0KwJi
+X-Google-Smtp-Source: ABdhPJw4moAXUF/I/3kTkOQE43bGzwcBxEGZxvffHv+O3d1addRnPEos3MVbxYnblMoeVEBo8DGHhg==
+X-Received: by 2002:a19:4f01:: with SMTP id d1mr3959771lfb.159.1596721576594;
+        Thu, 06 Aug 2020 06:46:16 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id z18sm2402757lja.55.2020.08.06.06.46.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 06:46:15 -0700 (PDT)
+Subject: Re: [Patch v2 2/4] dmaengine: tegra: Add Tegra GPC DMA driver
+To:     Rajesh Gumasta <rgumasta@nvidia.com>, ldewangan@nvidia.com,
+        jonathanh@nvidia.com, vkoul@kernel.org, dan.j.williams@intel.com,
+        thierry.reding@gmail.com, p.zabel@pengutronix.de,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kyarlagadda@nvidia.com, Pavan Kunapuli <pkunapuli@nvidia.com>
+References: <1596699006-9934-1-git-send-email-rgumasta@nvidia.com>
+ <1596699006-9934-3-git-send-email-rgumasta@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <bc7d0d9d-ac7f-b720-64f5-63e0c76e6786@gmail.com>
+Date:   Thu, 6 Aug 2020 16:46:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <1596699006-9934-3-git-send-email-rgumasta@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200806125431.699339-1-jonathanh@nvidia.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 01:54:31PM +0100, Jon Hunter wrote:
-> Following commit d8f090dbeafd ("rtc: max77686: Do not allow interrupt to
-> fire before system resume"), RTC wake-ups stopped working on Jetson TX2
-> and Jetson Xavier platforms. The Jetson TX2 uses the max77620 PMIC and
-> the Jetson Xavier uses max20024 PMIC. Both of these PMICs have the same
-> max77620 RTC controller.
-> 
-> For the max77620 RTC, the variable 'rtc_irq_from_platform' is defined as
-> true in the max77686 driver and because of this the IRQ passed to the
-> max77686 driver for RTC is the PMIC IRQ and not the parent. Hence,
-> following commit d8f090dbeafd ("rtc: max77686: Do not allow interrupt to
-> fire before system resume"), for the max77620 the RTC IRQ within the
-> PMIC is now getting disabled on entry to suspend and unable to wake the
-> system up. Fix this by only disabling interrupts on entry to suspend
-> in the max77686 RTC driver, if the interrupt is the parent interrupt.
-> 
-> Fixes: d8f090dbeafd ("rtc: max77686: Do not allow interrupt to fire before system resume")
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  drivers/rtc/rtc-max77686.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+06.08.2020 10:30, Rajesh Gumasta пишет:
+...
+> +/*
+> + * Save and restore csr and channel register on pm_suspend
+> + * and pm_resume respectively
+> + */
+> +static int __maybe_unused tegra_dma_pm_suspend(struct device *dev)
+> +{
+> +	struct tegra_dma *tdma = dev_get_drvdata(dev);
+> +	int i;
+> +
+> +	for (i = 0; i < tdma->chip_data->nr_channels; i++) {
+> +		struct tegra_dma_channel *tdc = &tdma->channels[i];
+> +		struct tegra_dma_channel_regs *ch_reg = &tdc->channel_reg;
+> +
+> +		ch_reg->csr = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSR);
+> +		ch_reg->src_ptr = tdc_read(tdc, TEGRA_GPCDMA_CHAN_SRC_PTR);
+> +		ch_reg->dst_ptr = tdc_read(tdc, TEGRA_GPCDMA_CHAN_DST_PTR);
+> +		ch_reg->high_addr_ptr = tdc_read(tdc,
+> +						 TEGRA_GPCDMA_CHAN_HIGH_ADDR_PTR);
+> +		ch_reg->mc_seq = tdc_read(tdc, TEGRA_GPCDMA_CHAN_MCSEQ);
+> +		ch_reg->mmio_seq = tdc_read(tdc, TEGRA_GPCDMA_CHAN_MMIOSEQ);
+> +		ch_reg->wcount = tdc_read(tdc, TEGRA_GPCDMA_CHAN_WCOUNT);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused tegra_dma_pm_resume(struct device *dev)
+> +{
+> +	struct tegra_dma *tdma = dev_get_drvdata(dev);
+> +	int i;
+> +
+> +	for (i = 0; i < tdma->chip_data->nr_channels; i++) {
+> +		struct tegra_dma_channel *tdc = &tdma->channels[i];
+> +		struct tegra_dma_channel_regs *ch_reg = &tdc->channel_reg;
+> +
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_WCOUNT, ch_reg->wcount);
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_DST_PTR, ch_reg->dst_ptr);
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_SRC_PTR, ch_reg->src_ptr);
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_HIGH_ADDR_PTR,
+> +			  ch_reg->high_addr_ptr);
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_MMIOSEQ, ch_reg->mmio_seq);
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_MCSEQ, ch_reg->mc_seq);
+> +		tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSR,
+> +			  (ch_reg->csr & ~TEGRA_GPCDMA_CSR_ENB));
+> +	}
+> +	return 0;
+> +}
+> +
+> +static const struct __maybe_unused dev_pm_ops tegra_dma_dev_pm_ops = {
+> +	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(tegra_dma_pm_suspend, tegra_dma_pm_resume)
+> +};
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
-
-Best regards,
-Krzysztof
+Please explain why this is needed. All DMA should be stopped (not
+paused) on system's suspend, shouldn't it?
