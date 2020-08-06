@@ -2,227 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFED723DF82
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2EE623DFF2
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730524AbgHFRsg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:48:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40830 "EHLO
+        id S1728022AbgHFRzl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728851AbgHFQfR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:35:17 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F89CC002162;
-        Thu,  6 Aug 2020 09:04:22 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id b18so4400185edv.10;
-        Thu, 06 Aug 2020 09:04:22 -0700 (PDT)
+        with ESMTP id S1728037AbgHFQ2v (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:28:51 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AEEC002172;
+        Thu,  6 Aug 2020 09:13:44 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id d2so20782820lfj.1;
+        Thu, 06 Aug 2020 09:13:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kZTh0PB6PtKkLmDSXAVhkUVZ2z542iKjjb2bge0x2uk=;
-        b=pg3dkv4MzAI4Vu5ecucgFGw78gwbzmI6iFNufzUy2Y9bX4U+MpEOvwWztz/Kr7NOpu
-         xtpjEUtJroaxQvp3Wyi5+D8C4VEfvJb0UTXMBshW76X9ox4sp+KuoPobM/0tJMW+COjX
-         2cJ1jHU9SESSA77GtlVxxauA1toSZHcaEfJ6sf77ihymwZ5ecD+W6fsyN3RmpnIG8J0l
-         Fxyy7FGyHYIgGv8YnfUIjgUOln56C/xs9Laon1VIVux7pkSZn8LFx/IjZH6HYhnPdxNA
-         973wA7+KuPyRFjtGEzITS2phpbPrIme1DqwooH+sCogjL/f5fPbY3voQvcDopdAYr425
-         +QcQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=MmVura5RdAnpr7fQMyfSzUsj8YChs1506fdeSTUofBA=;
+        b=cKtgqXyMnWAhAXx07h6MqHavPWnX+8vXN9E3//RSzZrZbRq/c5xK4c3KEh+FuEAUsr
+         sUmOhnTKG4o6G4tAlFBd34n2g7jgUAJ1pmlPWRXqeq4RIO6bYlb6uIIIVHUBGrlr3yCB
+         JVWuF90zqMAtaVrlgRDv2u5AOYCVWSTnQL7HKFCIDDRZT7ZgmLEg2YBkdE1/Yan5LJA9
+         vB2G/v8lSG5MgS23J6HzSe+XRoEjUSb/yAfBGuuXZd2PWH2glivmm7E7VVcQoPGzzShk
+         rl5AFSHzVbyAhRAzcIbLDbrT7vhF1A2E07b/dz7NNT4hVAy5scVNkcaYqKTo05qb/ELK
+         dm8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=kZTh0PB6PtKkLmDSXAVhkUVZ2z542iKjjb2bge0x2uk=;
-        b=o90kZ3ov1bFQzhUM8ur2e35doBjJ/W4u88XjzteS1r2H2BqR/QYV7+5j20w9ik5rzs
-         NkReO0Pr8dyUs4BBqw3tQ0PjjwmwDxcXczsPHd+AmzxBq1Xgw0ScU/4BCm3xz6NQVEda
-         VAJPwYXKYaTwpR/k6/MGjX/Tbw0+hmmGvhWStSihUqoLWNAuaudx4tHe8wywTTLgnnBa
-         FKuEtr4lN6gmrN0D4kwu3Ki6rkyEvz2THivVAV5rs0CEL0YUu/fCm/nGm2ilXJbJW7+i
-         DJI0OWWNLd98/iEEdS/aAURI4NmUMmqg/60vAkFcVosQWTwumMgtN3q8YF/Gr3sbhdZK
-         5LeA==
-X-Gm-Message-State: AOAM532wfsx2CTsAI11VqPWreCVCXaCHJLmJEdUGUIKeNn9qIYfAd5b3
-        TQ8OZvrsmU4PPx4eIrhLBKA=
-X-Google-Smtp-Source: ABdhPJzSfarPrINxyfBxN7O8FB+1XmqNpoBkjHDOIgn+Hcw4GEthMJtAUMIwNZblwph/Ue9nS5ik0g==
-X-Received: by 2002:a50:ba84:: with SMTP id x4mr4954155ede.282.1596729860361;
-        Thu, 06 Aug 2020 09:04:20 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id bx22sm4051834ejc.18.2020.08.06.09.04.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 09:04:18 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 1/3] usb: gadget: tegra-xudc: Use consistent spelling and formatting
-Date:   Thu,  6 Aug 2020 18:04:15 +0200
-Message-Id: <20200806160417.3937056-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        bh=MmVura5RdAnpr7fQMyfSzUsj8YChs1506fdeSTUofBA=;
+        b=dMBv2BeMaxnRGmLhCxVasCTfvwSld5znC5C8FDaVmlgmvqfDUol9nNlwlPYW95siXE
+         tJLaoRVyXXdL5P3EkyU5ncKOzERw/2qd7znz60wdTLXLk90BFke7Qkf+qds5kCRXFg0l
+         BvR5UTc5jQ8LoGr994BJGRSUIaROy3DwGPsFf41s8MTsxmkuRnonBBC8WdvHQqgCNX17
+         QAkQ8o6RL6kks9eT6u+Z1ZWIVVrlz7jQEnD8GSLMmRj8sobOMLYscc14eBaltNS2eZgG
+         d4catp8WQ8wEda9NjoA5/OZNK37Bv+KniZ+j457qKK31XMxZDPwgO7hYWEtScT04HpUT
+         QNFQ==
+X-Gm-Message-State: AOAM533ovDejqT8diYMVSPhxp+Ja4nCKn2Bqw4+ITS7Av5OJyRdede7e
+        a92hX05cmLP+rVYIUI2NXJFgifpC
+X-Google-Smtp-Source: ABdhPJxyQ5DUwhm0mMp316XsoDHXatr2AKM4d69hS19HNWsjohoDpk8gx0kZj8bJ5qSAUfPGeLHkvw==
+X-Received: by 2002:a19:c68b:: with SMTP id w133mr4214252lff.189.1596730420623;
+        Thu, 06 Aug 2020 09:13:40 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id d13sm2905531lfl.89.2020.08.06.09.13.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 09:13:39 -0700 (PDT)
+Subject: Re: [PATCH v8 08/10] gpu: host1x: mipi: Keep MIPI clock enabled till
+ calibration is done
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
+ <1596469346-937-9-git-send-email-skomatineni@nvidia.com>
+ <20200805134600.GA3351349@ulmo>
+ <103efe31-1abc-54f2-6004-490d7bb1b61a@gmail.com>
+ <dcd58ae7-58ed-11d1-0e10-7f522b651b30@gmail.com>
+ <addb92e5-7c7a-6fba-117d-c7880b2d4597@nvidia.com>
+ <ed80bf2f-213f-286a-59b2-fc85e4181b3d@gmail.com>
+ <6eede805-80fd-016f-22f8-b6d25f6587af@nvidia.com>
+ <1c12e40e-de7f-0599-a941-82760b4c7668@gmail.com>
+ <9ef0b875-e826-43e2-207e-168d2081ff6a@nvidia.com>
+ <4689cfe9-e7c4-48bf-217f-3a31b59b8bda@nvidia.com>
+ <0e78c5ca-c529-1e98-891d-30351c9aae81@gmail.com>
+ <b2098a68-d02f-b406-fc57-56e3ff5d8d1a@nvidia.com>
+ <309e3b66-9288-91ef-71b4-be73eacbbd62@nvidia.com>
+ <fde2431a-0585-ac32-ac25-73e198aaa948@nvidia.com>
+ <4025a458-fa78-924d-c84f-166f82df0f8e@gmail.com>
+ <4f15d655-3d62-cf9f-82da-eae379d60fa6@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9deaee09-c422-5694-7c19-d85354b9b703@gmail.com>
+Date:   Thu, 6 Aug 2020 19:13:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <4f15d655-3d62-cf9f-82da-eae379d60fa6@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+06.08.2020 18:59, Sowjanya Komatineni пишет:
+..
+> We cant use active status check for specific pads under calibration.
+> This is common bit for all pads.
 
-Make sure to use consistent spelling and formatting in error messages.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 36 ++++++++++++++---------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index d6ff68c06911..ec43081f15bd 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -705,11 +705,11 @@ static void tegra_xudc_device_mode_on(struct tegra_xudc *xudc)
- 
- 	err = phy_power_on(xudc->curr_utmi_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "utmi power on failed %d\n", err);
-+		dev_err(xudc->dev, "UTMI power on failed: %d\n", err);
- 
- 	err = phy_power_on(xudc->curr_usb3_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "usb3 phy power on failed %d\n", err);
-+		dev_err(xudc->dev, "USB3 PHY power on failed: %d\n", err);
- 
- 	dev_dbg(xudc->dev, "device mode on\n");
- 
-@@ -759,11 +759,11 @@ static void tegra_xudc_device_mode_off(struct tegra_xudc *xudc)
- 
- 	err = phy_power_off(xudc->curr_utmi_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "utmi_phy power off failed %d\n", err);
-+		dev_err(xudc->dev, "UTMI PHY power off failed: %d\n", err);
- 
- 	err = phy_power_off(xudc->curr_usb3_phy);
- 	if (err < 0)
--		dev_err(xudc->dev, "usb3_phy power off failed %d\n", err);
-+		dev_err(xudc->dev, "USB3 PHY power off failed: %d\n", err);
- 
- 	pm_runtime_put(xudc->dev);
- }
-@@ -1539,7 +1539,7 @@ static int __tegra_xudc_ep_set_halt(struct tegra_xudc_ep *ep, bool halt)
- 		return -EINVAL;
- 
- 	if (usb_endpoint_xfer_isoc(ep->desc)) {
--		dev_err(xudc->dev, "can't halt isoc EP\n");
-+		dev_err(xudc->dev, "can't halt isochronous EP\n");
- 		return -ENOTSUPP;
- 	}
- 
-@@ -1788,7 +1788,7 @@ static int __tegra_xudc_ep_enable(struct tegra_xudc_ep *ep,
- 
- 	if (usb_endpoint_xfer_isoc(desc)) {
- 		if (xudc->nr_isoch_eps > XUDC_MAX_ISOCH_EPS) {
--			dev_err(xudc->dev, "too many isoch endpoints\n");
-+			dev_err(xudc->dev, "too many isochronous endpoints\n");
- 			return -EBUSY;
- 		}
- 		xudc->nr_isoch_eps++;
-@@ -3509,7 +3509,7 @@ static int tegra_xudc_phy_get(struct tegra_xudc *xudc)
- 		if (IS_ERR(xudc->utmi_phy[i])) {
- 			err = PTR_ERR(xudc->utmi_phy[i]);
- 			if (err != -EPROBE_DEFER)
--				dev_err(xudc->dev, "failed to get usb2-%d phy: %d\n",
-+				dev_err(xudc->dev, "failed to get usb2-%d PHY: %d\n",
- 					i, err);
- 
- 			goto clean_up;
-@@ -3539,12 +3539,12 @@ static int tegra_xudc_phy_get(struct tegra_xudc *xudc)
- 		if (IS_ERR(xudc->usb3_phy[i])) {
- 			err = PTR_ERR(xudc->usb3_phy[i]);
- 			if (err != -EPROBE_DEFER)
--				dev_err(xudc->dev, "failed to get usb3-%d phy: %d\n",
-+				dev_err(xudc->dev, "failed to get usb3-%d PHY: %d\n",
- 					usb3, err);
- 
- 			goto clean_up;
- 		} else if (xudc->usb3_phy[i])
--			dev_dbg(xudc->dev, "usb3_phy-%d registered", usb3);
-+			dev_dbg(xudc->dev, "usb3-%d PHY registered", usb3);
- 	}
- 
- 	return err;
-@@ -3577,13 +3577,13 @@ static int tegra_xudc_phy_init(struct tegra_xudc *xudc)
- 	for (i = 0; i < xudc->soc->num_phys; i++) {
- 		err = phy_init(xudc->utmi_phy[i]);
- 		if (err < 0) {
--			dev_err(xudc->dev, "utmi phy init failed: %d\n", err);
-+			dev_err(xudc->dev, "UTMI PHY #%u initialization failed: %d\n", i, err);
- 			goto exit_phy;
- 		}
- 
- 		err = phy_init(xudc->usb3_phy[i]);
- 		if (err < 0) {
--			dev_err(xudc->dev, "usb3 phy init failed: %d\n", err);
-+			dev_err(xudc->dev, "USB3 PHY #%u initialization failed: %d\n", i, err);
- 			goto exit_phy;
- 		}
- 	}
-@@ -3696,14 +3696,14 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 								"dev");
- 	if (IS_ERR(xudc->genpd_dev_device)) {
- 		err = PTR_ERR(xudc->genpd_dev_device);
--		dev_err(dev, "failed to get dev pm-domain: %d\n", err);
-+		dev_err(dev, "failed to get device power domain: %d\n", err);
- 		return err;
- 	}
- 
- 	xudc->genpd_dev_ss = dev_pm_domain_attach_by_name(dev, "ss");
- 	if (IS_ERR(xudc->genpd_dev_ss)) {
- 		err = PTR_ERR(xudc->genpd_dev_ss);
--		dev_err(dev, "failed to get superspeed pm-domain: %d\n", err);
-+		dev_err(dev, "failed to get SuperSpeed power domain: %d\n", err);
- 		return err;
- 	}
- 
-@@ -3711,7 +3711,7 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 					       DL_FLAG_PM_RUNTIME |
- 					       DL_FLAG_STATELESS);
- 	if (!xudc->genpd_dl_device) {
--		dev_err(dev, "adding usb device device link failed!\n");
-+		dev_err(dev, "failed to add USB device link\n");
- 		return -ENODEV;
- 	}
- 
-@@ -3719,7 +3719,7 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 					     DL_FLAG_PM_RUNTIME |
- 					     DL_FLAG_STATELESS);
- 	if (!xudc->genpd_dl_ss) {
--		dev_err(dev, "adding superspeed device link failed!\n");
-+		dev_err(dev, "failed to add SuperSpeed device link\n");
- 		return -ENODEV;
- 	}
- 
-@@ -3783,7 +3783,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 	err = devm_clk_bulk_get(&pdev->dev, xudc->soc->num_clks,
- 				      xudc->clks);
- 	if (err) {
--		dev_err(xudc->dev, "failed to request clks %d\n", err);
-+		dev_err(xudc->dev, "failed to request clocks: %d\n", err);
- 		return err;
- 	}
- 
-@@ -3798,7 +3798,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 	err = devm_regulator_bulk_get(&pdev->dev, xudc->soc->num_supplies,
- 				      xudc->supplies);
- 	if (err) {
--		dev_err(xudc->dev, "failed to request regulators %d\n", err);
-+		dev_err(xudc->dev, "failed to request regulators: %d\n", err);
- 		return err;
- 	}
- 
-@@ -3808,7 +3808,7 @@ static int tegra_xudc_probe(struct platform_device *pdev)
- 
- 	err = regulator_bulk_enable(xudc->soc->num_supplies, xudc->supplies);
- 	if (err) {
--		dev_err(xudc->dev, "failed to enable regulators %d\n", err);
-+		dev_err(xudc->dev, "failed to enable regulators: %d\n", err);
- 		goto put_padctl;
- 	}
- 
--- 
-2.27.0
-
+I'm not sure why this is a problem.
