@@ -2,35 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E99223DC68
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 18:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F5F23DE41
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729593AbgHFQvp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 12:51:45 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4118 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729247AbgHFQvM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:51:12 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f2c34cd0000>; Thu, 06 Aug 2020 09:50:21 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 06 Aug 2020 09:51:11 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 06 Aug 2020 09:51:11 -0700
-Received: from [10.2.172.190] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Aug
- 2020 16:51:10 +0000
+        id S1729200AbgHFRYE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:24:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729517AbgHFREq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:04:46 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66610C034623;
+        Thu,  6 Aug 2020 06:32:25 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id x24so8792812lfe.11;
+        Thu, 06 Aug 2020 06:32:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LZxvFQGifO+67iYKjeLuydYAgFkWMKjwGTRkNaAuRmA=;
+        b=WUFT7XZ6WlGDd8EaFKldHEkscNGOKMwPso2gE4g0kMoDMtrhul6ymRofEzEiWmgRsq
+         Ka68NNykTmXUo+gX944jueoFOnF8+CCcQ/JoVMB+UI5LOfXim3dkjWg8BQvN29RWNN7w
+         QYmnXQOLo9rm53R6MlNAvUb5mLLZZgxf0IcqvsOmsg9X+sBXPKNjKxSBaT7/6d9fMAPU
+         Qc8g7y7+sQGW/kQr9gbxaO/x25VC1UvUEQLYYHZDXQ7cQPK24fSO0ucJKZeiZs7fhq/u
+         JrPPwqu3xrE7kwq3DnK5EXHeHPAktkwcIu3ePAZXv6TO+W282wFLa/B+jQbRI+8zuSHL
+         9Ywg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=LZxvFQGifO+67iYKjeLuydYAgFkWMKjwGTRkNaAuRmA=;
+        b=VMgyrvABh6bQli/5LaDEDfl8KvY20yKpzSNZ3+9s2jSQi9WZx/GfffNFnT7P9RBxx0
+         9108b0uxF7Cl3hyiwbLE66VAekOjCIhGRuLOoW0QV/GhgaxIlnJdYFnu8WzqNq7kZaRp
+         u9CT91Ne7J+LXF98OcuplQENkRtBZTenBOVs4l1DxPb9WxAZqrtQWth+NGPwgY8E5Yt+
+         lxtQRHSSH//rt7Nf02MxyU8h8s1jLbu8jriOTr2XwPaZfl8dhGPHNTMGV+C6RI/Ztpgr
+         2r4tf51yfWeOUQcPs+B2z7JdBp4buLHM55cMUW5Osta4+iSK0HAnLIA9rzPVdXxXFcZJ
+         rQHg==
+X-Gm-Message-State: AOAM531uuXU/piZPq693vttir9VWBhJdlK4CGE62JPx6iOQJ9nar6Rs3
+        rgdZVXfQHV8aonhY9aNcNggIVTs2
+X-Google-Smtp-Source: ABdhPJxNWwksICqD/uuo/XKUFPyGL1DYzGZiOXNL9vJy0Ic/lvuGHHKkvbseSJ8PTHofY2GlvQOcsA==
+X-Received: by 2002:ac2:4d31:: with SMTP id h17mr3834171lfk.144.1596720736814;
+        Thu, 06 Aug 2020 06:32:16 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id h14sm2387225ljb.53.2020.08.06.06.32.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 06:32:14 -0700 (PDT)
 Subject: Re: [PATCH v8 08/10] gpu: host1x: mipi: Keep MIPI clock enabled till
  calibration is done
-To:     Dmitry Osipenko <digetx@gmail.com>,
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>
-CC:     <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
-        <helen.koike@collabora.com>, <gregkh@linuxfoundation.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
+ <1596469346-937-9-git-send-email-skomatineni@nvidia.com>
  <20200805134600.GA3351349@ulmo>
  <103efe31-1abc-54f2-6004-490d7bb1b61a@gmail.com>
  <dcd58ae7-58ed-11d1-0e10-7f522b651b30@gmail.com>
@@ -44,67 +72,96 @@ References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
  <b2098a68-d02f-b406-fc57-56e3ff5d8d1a@nvidia.com>
  <309e3b66-9288-91ef-71b4-be73eacbbd62@nvidia.com>
  <fde2431a-0585-ac32-ac25-73e198aaa948@nvidia.com>
- <4025a458-fa78-924d-c84f-166f82df0f8e@gmail.com>
- <4f15d655-3d62-cf9f-82da-eae379d60fa6@nvidia.com>
- <b5612e93-f1c4-4762-baa1-5d85eb1edbe1@gmail.com>
- <412f8c53-1aca-db31-99a1-a0ecb2081ca5@nvidia.com>
- <04413bc8-8d89-7e57-9b34-84bb11ecb008@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <60c38774-05d6-2825-bec5-be5eee9c3dea@nvidia.com>
-Date:   Thu, 6 Aug 2020 09:51:12 -0700
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <4025a458-fa78-924d-c84f-166f82df0f8e@gmail.com>
+Date:   Thu, 6 Aug 2020 16:32:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <04413bc8-8d89-7e57-9b34-84bb11ecb008@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <fde2431a-0585-ac32-ac25-73e198aaa948@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596732621; bh=jxf5qoZrAj9URSn6k3q12ygKmhPO93pb1oZSR7YNgBo=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=hrgQXlLLYX1tvXU8WgTmMPKkkvgfHIokcrsmyF8UCj8N7IqaVdLjRkkRioRUtXJux
-         sSNwTWH7LztC6mnqUD8Fat+LduSpL3aqNxkXOr46Dko8VcGbxjqD1zn0KSUzGhqi2c
-         GBv8/tlcV1RgGHDHHUF+FLgCQNpYb7zDd2WkpUdO6mBniDYv8ebEOXucSYKXs7WQnd
-         08rbyM3lRaPjiDLhpPShPJFuSDU2ar2VORlC49HVtxMB/SdhdsYyPTCzHYRqBrv1Ly
-         jhLjLhtN6TjVlYCoLRVReDcAYWdjluOGU6rBktjLIIN1+nzqVCBJa7ntJ7ld9n5SkT
-         T10ygZjDKiA8w==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 8/6/20 9:45 AM, Dmitry Osipenko wrote:
-> 06.08.2020 19:41, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->>> What about to add 72us delay to the end of start_calibration() in order
->>> to ensure that FSM is finished before LP-11?
->> Why we should add 72uS in start_calibration() when can use same
->> finish_calibration() for both pass/fail cases?
+06.08.2020 03:47, Sowjanya Komatineni пишет:
+> 
+> On 8/5/20 11:06 AM, Sowjanya Komatineni wrote:
 >>
->> Only timing loose we see is in case of failure we still wait for 250ms
->> and as this is failing case I hope should be ok.
+>> On 8/5/20 10:46 AM, Sowjanya Komatineni wrote:
+>>>
+>>> On 8/5/20 10:34 AM, Dmitry Osipenko wrote:
+>>>> 05.08.2020 20:29, Sowjanya Komatineni пишет:
+>>>> ...
+>>>>> UART_FST_MIPI_CAL is the clock used for calibration logic which is FSM
+>>>>> that goes thru sequence codes and when done waits for pads to be in
+>>>>> LP-11 to apply results.
+>>>>>
+>>>>> MIPI_CLK is controller gate clock which is also need to be kept
+>>>>> enabled
+>>>>> as incase if it sees LP-11 it updates registers so its recommended to
+>>>>> have this clock enabled.
+>>>>>
+>>>>> We can cancel_calibration() in CSI only when csi/sensor stream on
+>>>>> fails
+>>>>> and in which case there will be no LP-11 so we can unconditionally
+>>>>> disable MIPI_CLK.
+>>>>>
+>>>> There is no guarantee that the fail comes before the LP-11. For
+>>>> example,
+>>>> some odd camera driver may have a complicated enable sequence which may
+>>>> fail after enabling the hardware streaming.
+>>>
+>>> MIPI_CLK to keep enable is for calibration logic to update results,
+>>> but like I said calibration logic uses UART_FST_MIPI_CAL clock. So
+>>> even in case if fail happens from sensor after having pads in LP-11
+>>> then, calibration logic will still be running but result update will
+>>> not happen with clock disabled. But HW will not stuck as this is
+>>> confirmed from HW designer.
 >>
-> You said that calibration settings are applied to pads on LP-11, but if
-> LP-11 happens before FSM is finished, then what values will be applied
-> if any?
+>> If LP-11 happens from sensor stream (followed by fail) and by that
+>> time if calibration FSM is done and if calibration logic sees LP-11
+>> then results will be applied to pads.
+>>
+>> We did start of calibration before CSI stream so by the time we do
+>> sensor stream enable, calibration logic might have done with FSM and
+>> waiting for LP-11
+>>
+>> Also if we see any special case, we always can use
+>> finish_calibration() instead of cancel_calibration() as well.
 
-No calibration logic will check for LP-11 only after finishing=20
-calibration sequence codes.
+Why not to do it right now?
 
-After that if it sees LP-11, it will apply results to pads and DONE bit=20
-will then be set to 1 indication pad results update.
+Then the code could look like this:
 
-Unfortunately like I said we don't have status indication for=20
-calibrating finished before waiting for LP-11.
+src_subdev = tegra_channel_get_remote_source_subdev(chan);
+ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
+err = tegra_mipi_finish_calibration(csi_chan->mipi);
 
-ACTIVE bit is common for all PADS. If multiple 6 streams are happening=20
-in parallel, ACTIVE will be 1 as long as its calibrating any of the pads=20
-and its not for individual pads.
+if (ret < 0 && ret != -ENOIOCTLCMD)
+	goto err_disable_csi_stream;
 
+if (err < 0)
+	dev_warn(csi_chan->csi->dev,
+		 "MIPI calibration failed: %d\n", err);
+
+>> finish_calibration() has extra 250ms wait time polling done bit and we
+>> can ignore its return code during fail pathway.
+>>
+> Confirmed from HW designer, calibration FSM to finish takes worst case
+> 72uS so by the time it gets to sensor stream it will be done its
+> sequence and will be waiting for DONE bit.
+> 
+> So disabling MIPI CAL clock on sensor stream fails is safe.
+
+
+72us is quite a lot of time, what will happen if LP-11 happens before
+FSM finished calibration?
+
+Maybe the finish_calibration() needs to split into two parts:
+
+ 1. wait for CAL_STATUS_ACTIVE before enabling sensor
+ 2. wait for CAL_STATUS_DONE after enabling sensor
