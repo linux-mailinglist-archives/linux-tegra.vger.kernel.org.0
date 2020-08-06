@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A6923DD3B
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F242B23DD61
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730060AbgHFRGo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45058 "EHLO
+        id S1730050AbgHFRIs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730039AbgHFRGM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:12 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C040AC0005BE
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:41:17 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id kq25so37856919ejb.3
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:41:17 -0700 (PDT)
+        with ESMTP id S1730016AbgHFRGQ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:16 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E038C00057F
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:41:19 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id m22so7714247eje.10
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sQUBzqRn+ojYtqrJvGioQLo2eJbHTBHdMZpb/t+FuXk=;
-        b=FIR49fctoQ/DnjLIibCA7thl/tMrSUIqCWAxIxYfxoxiB/6QupHhLHqd917iylQDrX
-         x8y7ov7IIyJa2iBc3eeOpT87X98ReCAGewqsdOz6I/c2s1V5Npiv2zmw4eDbmQx4VcGO
-         41TIifx7wBaoX4CJiXBdabcPqSQPjld36e1GsGj3pOqrhI/01bpEVISngfCAo93dsNhi
-         N/u2S6Q/hXa3gm5toKWMdk/bFfFW4OhKrlIX3iZ28wI+rqgC2Vbz3SlZfGUflAr7WDO4
-         Fydzun71kz2szfpBZ3Sgr5W4aw4Sx2dcM6TtOH8tVFtDedefPIiFStQPi6aBSGrThN3G
-         WpZQ==
+        bh=12jhmJExYZYp9PffxB6AUFotiLesRg+aMbEViAsDwgE=;
+        b=TWY/jWWUJz7PWYY3FJ2ln8hhi1M4S9gOoFIb65cr+POuvXc8XsgNZoCjlGRKqtw1MG
+         7BF150U4W+cc7J9620qG7jH4EO7Ujm7a/dzabiFFWON/3ZpHypxv84niJlgztlC5dXfj
+         nLE89Sowy6lP5FqnZ4U++yd5W37YpbzE4sOpcupQb036PY/CuQ68j+GPwiBfIW8+4Dyh
+         yF/Qm2sz9FrGyceZkN6l5LkxwfGZj+R9ExPeIgeStb6xF2O5uyuE7k4ENfBcc7g2NRYF
+         A+OezxwkmWaR91v+/6Bv0txdOgkgDQELlvdrckt7I6Jlo82Z3DBuraGku47DWwbnYYpm
+         aGfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sQUBzqRn+ojYtqrJvGioQLo2eJbHTBHdMZpb/t+FuXk=;
-        b=YM0OIzjxPF0u5QmJ5yHpXGxwUopT3TUT27PJbftzybvVrAAPKitUpncgpRZuRpEN8y
-         YlndeYG6GNDbVy4XzuAAWzjomY1H7gc/QpcLIlZ7bAT9xeAavwWtOp8GCykGE5xA795K
-         toX4aATFYmcYWIDNDK54uhz8kDvlB9uK9w4tIcUMen/eY6rco74Qt7pbEe7sRl7Xs343
-         FB9b5HNhEE4XCo4qWDlSZKIBMbgRFkz0xG7CvuCX0S99PShTyklx4anli74l4Jx0x6ru
-         ixJeIMr5O2tKz8WS7ZjQZl3rY5F0Zu4vahrRkK8x1I3EVLXoPqcoUaqP5eMpXbBy2OvI
-         I6fw==
-X-Gm-Message-State: AOAM532mvHxuYL5tNe/cFNJFJse7vz8yZej72R++v3hp7iP9NO1vZdqD
-        1kg0hG9ccZW9HgVzIiLy9sU=
-X-Google-Smtp-Source: ABdhPJyO21fAnsVlMWWY+aqLyrBvqxsl1wlQctMcmYTuiX3eWPdMpR2SbM5rNjl/kd5ikn/YvcoLzg==
-X-Received: by 2002:a17:906:3c43:: with SMTP id i3mr5182318ejg.133.1596728475719;
-        Thu, 06 Aug 2020 08:41:15 -0700 (PDT)
+        bh=12jhmJExYZYp9PffxB6AUFotiLesRg+aMbEViAsDwgE=;
+        b=ugAtPVDjI3NXeNsFaKYiLu2RZ0jRe4SxiaWJCVn79+2fUEWje2o6aSGQ3Qw9MDZHNL
+         6aI090EtjbQjHjl+0ZzxEPUf6ZyWZkqtfVh/AVaD02X2MIFOiziy/7N6MHyN1nIsp5nq
+         bPfRBoS5r9W7/4VfA+41IWRmeRRc5d77Qt1SwAlNvv2JB44QBuudp5hgOyUozSBhKoyq
+         bBNTnwYR8OrAQA6PDCsbB58TltmCpFfsmqQe131RGkoAvrm/AsbwrXUv0bdiwaGVyKa2
+         H6GtbxumDKVSidc45vwmIi1tVi69Fbz/+tQmexGVVi4LLuh+i65EQOrxXLOC8YitIPcv
+         NuKQ==
+X-Gm-Message-State: AOAM532mdM4jLtESvZgirC4CLq2x+siw87PnWrH9e4C1F4wzKFRh3Ml1
+        kUnoL04D79tlSu0znftgKTg=
+X-Google-Smtp-Source: ABdhPJwVkL7N64Wl+V/KxY4iFWG6G7nKH0ZRPfwr2NA7d2jC4HFwVQXcAr0WLxlnc3yBPvUgo+hdtg==
+X-Received: by 2002:a17:906:a413:: with SMTP id l19mr5077078ejz.15.1596728478086;
+        Thu, 06 Aug 2020 08:41:18 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id z10sm3943519eje.122.2020.08.06.08.41.14
+        by smtp.gmail.com with ESMTPSA id bc10sm3719621edb.5.2020.08.06.08.41.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 08:41:14 -0700 (PDT)
+        Thu, 06 Aug 2020 08:41:16 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 2/4] arm64: tegra: Add VBUS supply for micro USB port on Jetson Nano
-Date:   Thu,  6 Aug 2020 17:41:09 +0200
-Message-Id: <20200806154111.3917284-2-thierry.reding@gmail.com>
+Subject: [PATCH 3/4] arm64: tegra: Disable SD card write-protection on Jetson Nano
+Date:   Thu,  6 Aug 2020 17:41:10 +0200
+Message-Id: <20200806154111.3917284-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200806154111.3917284-1-thierry.reding@gmail.com>
 References: <20200806154111.3917284-1-thierry.reding@gmail.com>
@@ -65,43 +65,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The VBUS supply for the micro USB port on Jetson Nano is derived from
-the main system supply and always on. Describe in nevertheless to fix
-warnings during boot.
+There is no GPIO hooked up to the write-protection pin of the SD slot.
+Make sure to describe this properly in device tree to avoid errors or
+warnings being emitted by the operating system.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 195a43e2356b..d34338b63c90 100644
+index d34338b63c90..c55716c336c1 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
 +++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -541,6 +541,8 @@ usb2-0 {
- 				mode = "peripheral";
- 				usb-role-switch;
+@@ -576,6 +576,7 @@ mmc@700b0000 {
+ 		bus-width = <4>;
  
-+				vbus-supply = <&vdd_5v0_usb>;
-+
- 				connector {
- 					compatible = "gpio-usb-b-connector",
- 						     "usb-b-connector";
-@@ -843,4 +845,14 @@ avdd_io_edp_1v05: regulator@7 {
+ 		cd-gpios = <&gpio TEGRA_GPIO(Z, 1) GPIO_ACTIVE_LOW>;
++		disable-wp;
  
- 		vin-supply = <&avdd_1v05_pll>;
- 	};
-+
-+	vdd_5v0_usb: regulator@8 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "VDD_5V_USB";
-+		regulator-min-microvolt = <50000000>;
-+		regulator-max-microvolt = <50000000>;
-+
-+		vin-supply = <&vdd_5v0_sys>;
-+	};
- };
+ 		vqmmc-supply = <&vddio_sdmmc>;
+ 		vmmc-supply = <&vdd_3v3_sd>;
 -- 
 2.27.0
 
