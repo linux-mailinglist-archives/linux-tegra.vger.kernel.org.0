@@ -2,95 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D8C823DE4D
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 453DD23DD5B
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:09:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728959AbgHFRYY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44926 "EHLO
+        id S1729291AbgHFRIp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:08:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729929AbgHFREn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:04:43 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A516C03460C;
-        Thu,  6 Aug 2020 07:22:50 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 185so41736659ljj.7;
-        Thu, 06 Aug 2020 07:22:50 -0700 (PDT)
+        with ESMTP id S1730055AbgHFRGW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:22 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763B7C00859C
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:41:16 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a26so25027453ejc.2
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XByk4zQLeWdVJ99jAPoK52EaFY9Nq96sXFd7ZxTXSZs=;
-        b=T0JlCXRlEg1AKCwQb1Q6HbT/3xfXPI1KwN7z3+S4H2XdoJf5sckRXpOd32Vj99hdZL
-         37mV132mg68iZ3zO5YvGKQBpF4ZmLRSkbzl9rdYzDZZDGFw8O8b+S0Uq9Vq50z6pIVR+
-         7zD4im9G8SYACEta3zEIjft/lAZB1aTVdYmJ+L3Y0S34NidBHYZ7yh9ee/J2ye9CgA3P
-         /lJ5WIpzDneUNMyM1VHVqjwIAPrL0Pxab33D5KBqnh67nkkXTXcLe+46/lNeUrb+LrsA
-         5VQFpXLPhIINuM8eV5bGVSYNijh7laO+zCxpNisCSy8HwtoQkSIowyDIIujk9DMonPW4
-         gdow==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U9JFUlne6UShAIBq+wr4Ss8u4VT71HCKJztGyBLDXlg=;
+        b=OVZIj/DUfpgTyO862vHyEBW8kjHpaT9Qlj8c8iQzpI7DtxZNyAT4plE0daDybYXCRw
+         F6ZOmszoCafv8KRqdXZuImtAYCPO92S0wvMvcHdfPheB3RcsiU13Z1jrBeQwPLLYecdP
+         /fsLIK8xN1Sl1ZiUCogPVOXo7xyHcqmI1borOQ0o/IVRH8pCZfIcJffGoPST0TduCpUQ
+         7kFR8MkJclTg5AN1cFxITtTuZPWhUQ61ps475kygGzjf8sqWNB3kqWVuldhB3es44UU0
+         fGYpXrn6hkclZP/CZLWmsQhKhvdeIE92im0NufCVSwqSHTIDYz5znpdkFZfet5OL8HQ5
+         zMlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XByk4zQLeWdVJ99jAPoK52EaFY9Nq96sXFd7ZxTXSZs=;
-        b=LsiPdCSSIGezBLwLMm67zLU5h4j/XH/3HNXICixllh2bQwJih88B/4+HMoie+FYAat
-         kPjz35npSDaoyd0v+njcqFdK7FXP4c/n/piP7hjvYU/R8/003cKpo6CPdP0m3MBa4hT5
-         IXQd23k6FVopVTHZLxo/1OmVhuq+qhgrEJ05UxYUjsLpR6gLwEwX48wqfZkmsl2H9dlz
-         2O8v++SH54T/V18McZQLjyYb57U+QAWH7vMGywHMTFPypa0MRncRtStop/lNR7EzBY+5
-         41HU8jmRsd9FL4PjGSZmCpLdwlCLpLD2bZ2Mjmh3dTBlcw/twNkkXB2NRhbc0gAYTXqd
-         CS6Q==
-X-Gm-Message-State: AOAM532aEAxUGSRASymmXM040IztMx4Ikt5XrnZEAokGqrhrYKUTAvvN
-        dbfjGgo1untPtR7UEDivDrA=
-X-Google-Smtp-Source: ABdhPJxA2Tkfxwf/RHpIug+GOl8r/RwGGUhTAJxYzx5jCzoXQ539huOTFz7Djjq2XQjHvs9c2QBk/Q==
-X-Received: by 2002:a2e:3c03:: with SMTP id j3mr3998129lja.397.1596723767006;
-        Thu, 06 Aug 2020 07:22:47 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
-        by smtp.googlemail.com with ESMTPSA id h17sm2479535ljj.118.2020.08.06.07.22.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 07:22:45 -0700 (PDT)
-Subject: Re: [Patch v2 2/4] dmaengine: tegra: Add Tegra GPC DMA driver
-To:     Rajesh Gumasta <rgumasta@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc:     Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        Pavan Kunapuli <pkunapuli@nvidia.com>
-References: <1596699006-9934-1-git-send-email-rgumasta@nvidia.com>
- <1596699006-9934-3-git-send-email-rgumasta@nvidia.com>
- <bc7d0d9d-ac7f-b720-64f5-63e0c76e6786@gmail.com>
- <CH2PR12MB41350E273B36463F9B372A52A2480@CH2PR12MB4135.namprd12.prod.outlook.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8fa139f2-685e-9e19-df55-bc7f84ec9a4c@gmail.com>
-Date:   Thu, 6 Aug 2020 17:22:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=U9JFUlne6UShAIBq+wr4Ss8u4VT71HCKJztGyBLDXlg=;
+        b=VJKtkEU17KPGFqFWf6YHXwZxN3OiXhgPw4YwiwtSCVrPynic2L6SvXb0afJQIrdD+v
+         eValASVCXYcQbRFUFb0LGDnZgyZVJshGzHafEKKcXTbVcJK0W4BjKmagx47xC5fW3OYo
+         QmN0s49+axKEpJQKvJLyYkaNcTCDXpic2ulaT6YoBQ3Z/N0o75Yiih8qBfXRE2tm5jBU
+         ld6SsXKUeKZCe3YSgfelv+NG78BCUmnGL9f1mxwjoPmqTqE+/s/14qV39cWr1Afh/CJT
+         7ke0w/SOR7aCaKUeWULxt1dkhtiBjUaV2lXOMRg4hiCTiOoYnZfudSYfp13oxRiBztYq
+         bQJQ==
+X-Gm-Message-State: AOAM532Mw60mCkkprngbnJqUCd3zzxv9hEyQQibnnmUyjdT/s35d+5BT
+        1e3XVr6wuUeFwRjnKHTYbpw=
+X-Google-Smtp-Source: ABdhPJxeyVSz8XkU8s1bmhltAitpfa+ugqEMRMNH0+PTeopDwYxgbZabfXsHoELyfyWbIJUiMpX2pg==
+X-Received: by 2002:a17:906:743:: with SMTP id z3mr4890114ejb.216.1596728473779;
+        Thu, 06 Aug 2020 08:41:13 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id n5sm4022637eja.105.2020.08.06.08.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 08:41:12 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: [PATCH 1/4] arm64: tegra: Wire up pinctrl states for all DPAUX controllers
+Date:   Thu,  6 Aug 2020 17:41:08 +0200
+Message-Id: <20200806154111.3917284-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CH2PR12MB41350E273B36463F9B372A52A2480@CH2PR12MB4135.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.08.2020 16:56, Rajesh Gumasta пишет:
-...
->>> +static const struct __maybe_unused dev_pm_ops
->> tegra_dma_dev_pm_ops = {
->>> +     SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(tegra_dma_pm_suspend,
->>> +tegra_dma_pm_resume) };
->>
->> Please explain why this is needed. All DMA should be stopped (not
->> paused) on system's suspend, shouldn't it?
-> I have rechecked with HW verification team and they confirmed that after suspend, csr and channel registers will get reset hence on resume we need to restore back.
-> Also GPCDMA does not support power gate as a unit.
+From: Thierry Reding <treding@nvidia.com>
 
-But all registers are re-programmed on starting a DMA transfer, hence
-why do you need to save-restore them on suspend-resume?
+All four DPAUX controllers on Tegra194 control the pin configuration of
+their companion I2C controllers. Wire up all the pinctrl states for the
+I2C controllers so that their pins can be correctly muxed when needed.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 1ddf9cb6dbce..94c65ca8345a 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -346,6 +346,9 @@ dp_aux_ch1_i2c: i2c@3190000 {
+ 			clock-names = "div-clk";
+ 			resets = <&bpmp TEGRA194_RESET_I2C4>;
+ 			reset-names = "i2c";
++			pinctrl-0 = <&state_dpaux1_i2c>;
++			pinctrl-1 = <&state_dpaux1_off>;
++			pinctrl-names = "i2c", "off";
+ 			status = "disabled";
+ 		};
+ 
+@@ -360,10 +363,14 @@ dp_aux_ch0_i2c: i2c@31b0000 {
+ 			clock-names = "div-clk";
+ 			resets = <&bpmp TEGRA194_RESET_I2C6>;
+ 			reset-names = "i2c";
++			pinctrl-0 = <&state_dpaux0_i2c>;
++			pinctrl-1 = <&state_dpaux0_off>;
++			pinctrl-names = "i2c", "off";
+ 			status = "disabled";
+ 		};
+ 
+-		gen7_i2c: i2c@31c0000 {
++		/* shares pads with dpaux2 */
++		dp_aux_ch2_i2c: i2c@31c0000 {
+ 			compatible = "nvidia,tegra194-i2c";
+ 			reg = <0x031c0000 0x10000>;
+ 			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+@@ -373,10 +380,14 @@ gen7_i2c: i2c@31c0000 {
+ 			clock-names = "div-clk";
+ 			resets = <&bpmp TEGRA194_RESET_I2C7>;
+ 			reset-names = "i2c";
++			pinctrl-0 = <&state_dpaux2_i2c>;
++			pinctrl-1 = <&state_dpaux2_off>;
++			pinctrl-names = "i2c", "off";
+ 			status = "disabled";
+ 		};
+ 
+-		gen9_i2c: i2c@31e0000 {
++		/* shares pads with dpaux3 */
++		dp_aux_ch3_i2c: i2c@31e0000 {
+ 			compatible = "nvidia,tegra194-i2c";
+ 			reg = <0x031e0000 0x10000>;
+ 			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+@@ -386,6 +397,9 @@ gen9_i2c: i2c@31e0000 {
+ 			clock-names = "div-clk";
+ 			resets = <&bpmp TEGRA194_RESET_I2C9>;
+ 			reset-names = "i2c";
++			pinctrl-0 = <&state_dpaux3_i2c>;
++			pinctrl-1 = <&state_dpaux3_off>;
++			pinctrl-names = "i2c", "off";
+ 			status = "disabled";
+ 		};
+ 
+-- 
+2.27.0
+
