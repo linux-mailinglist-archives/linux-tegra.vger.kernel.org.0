@@ -2,198 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0262A23D75A
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 09:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B16423DB90
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 18:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbgHFHbc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 03:31:32 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19127 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727829AbgHFHah (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 03:30:37 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f2bb1390000>; Thu, 06 Aug 2020 00:28:57 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 06 Aug 2020 00:30:37 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 06 Aug 2020 00:30:37 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Aug
- 2020 07:30:35 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 6 Aug 2020 07:30:35 +0000
-Received: from rgumasta-linux.nvidia.com (Not Verified[10.19.66.108]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f2bb1970001>; Thu, 06 Aug 2020 00:30:34 -0700
-From:   Rajesh Gumasta <rgumasta@nvidia.com>
-To:     <ldewangan@nvidia.com>, <jonathanh@nvidia.com>, <vkoul@kernel.org>,
-        <dan.j.williams@intel.com>, <thierry.reding@gmail.com>,
-        <p.zabel@pengutronix.de>, <dmaengine@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <kyarlagadda@nvidia.com>, <rgumasta@nvidia.com>
-Subject: [Patch v2 4/4] arm64: tegra: Add GPCDMA node in dt
-Date:   Thu, 6 Aug 2020 13:00:06 +0530
-Message-ID: <1596699006-9934-5-git-send-email-rgumasta@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596699006-9934-1-git-send-email-rgumasta@nvidia.com>
-References: <1596699006-9934-1-git-send-email-rgumasta@nvidia.com>
-X-NVConfidentiality: public
+        id S1728037AbgHFQSm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 12:18:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726799AbgHFQRX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:17:23 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21368C0F26C6
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:47:36 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id di22so28323888edb.12
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nLq3/R3B/Bs7i1xyWXouD50ckZ3IdU6H73XFc0RzNqU=;
+        b=r7IVeb5V3rQ7PjXDc5E09ALkqa3y28KDU1C+uk6A9EOwxpSael7R1V78JihJThNKbc
+         fGZuY1dUVCGKkMTWemiMcapVQ03l9R/nAG2W2MmZpQdF7bdcO2mu5FvLRwtPWT7bTuOw
+         3yDUYuOSRgOtllBZfztbYUKBoOexBTfk+txrM3W9LaaBJCOUyeO2gftMfNALAmqfO8md
+         3Oq9piRTEckH1pUbojbW/u7WD1SwCN5puNLRAzuSe6y2SG9aHC3OQi3+OMOXDqKUnAft
+         6km7Z0OAsNLJUi9EL9oYhtl0YLiWP3hvqXhL6665Jesju2IePu3LZfEXP2sQHmPwtZRU
+         NAmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nLq3/R3B/Bs7i1xyWXouD50ckZ3IdU6H73XFc0RzNqU=;
+        b=SbAzgZS65pChl5CfCEI/cD92GfK/5tOu4WD336gCtNFRf9iF/ZkZBBFbOc0ffYNZnB
+         Hjk1uURlcPe801FaGgZax+TcHOB39I0bHe7m4W5E7LWnQG+u0JKKeqk7PcLlsF3WN3sJ
+         evaO3EqHevcLCgjbyL1dlcpRj2IH0t5z/IaxfuB4zixAC6Q0ZIHNdf0r1IdAmMXVB4iS
+         /YB7Nygb1pns//hCqkGamlsitSVF0TI5xSVTLK1IZHe4oMBAAYXhQ7aNrpwVwfmraiIS
+         mV1UrqN31H4AcUGzrM148PVipuR5dAczJD1FX1YenkyHIqClmIsgzQp2hqiST1Z/iqX3
+         BKkA==
+X-Gm-Message-State: AOAM5336DHJqOwNULt6xVh/dWmtoKoUNHszt8ZAFtFjYlzCEl9AEabKi
+        ZfxLcbro+wyoUeS3VwRLcSA=
+X-Google-Smtp-Source: ABdhPJz+QIzxLt9aaDspcJbe9CqTN90TYeRKWfqHikZphwICsiTy8nTYschoDetBTLUSxzk5kwA4Nw==
+X-Received: by 2002:a05:6402:308e:: with SMTP id de14mr4573955edb.344.1596728854859;
+        Thu, 06 Aug 2020 08:47:34 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id qp16sm4064854ejb.89.2020.08.06.08.47.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 08:47:32 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] drm/tegra: Properly reference count the DDC I2C adapter
+Date:   Thu,  6 Aug 2020 17:47:31 +0200
+Message-Id: <20200806154731.3935679-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596698937; bh=tc/XzjGQyzMqGlRhGZ2uP3xW0f0gkcCZd8iJhKBcbso=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=P7SeteD/QGAjy+rbn2b6p2uoyBqw5wmePGRGMbyMxhZ5ekn6hLdDX/LtLLxlQYEST
-         kuf9ws+x6Om5IHJTfb3BMuOD/dvnHxVx9MLkoHK4KOUJKsxVbTIniWF01Nh9PNfkZc
-         URIxXDD86tMaCDdmg9+hZClmFRe7FaZKwnvpXsiN7nzy+lC1zhyAQRqh/ESGqlgmlA
-         KCRbkdNUmOjDQBbZw5l9/H1TsAv0RHrtibPj6XH8JQBPfgUvL58N7XqQpyKUQIli3k
-         C9fwYTfJ1u8Dt9ZzoS+GgDcM7eaVCqv6SXVZJ73Xuga3CHn7lMqpLFL4z/kg81szVX
-         5pnB8XAS6+b1w==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add device tree node for GPCDMA controller on Tegra186 target
-and Tegra194 target.
+From: Thierry Reding <treding@nvidia.com>
 
-Signed-off-by: Rajesh Gumasta <rgumasta@nvidia.com>
+Use the of_get_i2c_adapter_by_node(), which is similar to the existing
+call to of_find_i2c_adapter_by_node() except that it also takes a
+reference to the owner module of the I2C adapter. In order to properly
+balance this out, call i2c_put_adapter() to release the reference to the
+I2C adapter and its owner module.
+
+For the special case where the DDC comes from the DPAUX, care must be
+taken to perform the same steps (i.e. get_device() and module_get()) so
+that the reference counts are all balanced.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi |  4 +++
- arch/arm64/boot/dts/nvidia/tegra186.dtsi       | 46 ++++++++++++++++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi       | 44 ++++++++++++++++++++++++
- 3 files changed, 94 insertions(+)
+ drivers/gpu/drm/tegra/output.c | 4 ++--
+ drivers/gpu/drm/tegra/sor.c    | 7 ++++++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi b/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
-index 2fcaa2e..56ed8d8 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
-@@ -54,6 +54,10 @@
- 		};
- 	};
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index e36e5e7c2f69..03382550f7d9 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -112,7 +112,7 @@ int tegra_output_probe(struct tegra_output *output)
  
-+	dma@2600000 {
-+		status = "okay";
-+	};
-+
- 	memory-controller@2c00000 {
- 		status = "okay";
- 	};
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 58100fb..91bb17e 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -70,6 +70,52 @@
- 		snps,rxpbl = <8>;
- 	};
+ 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
+ 	if (ddc) {
+-		output->ddc = of_find_i2c_adapter_by_node(ddc);
++		output->ddc = of_get_i2c_adapter_by_node(ddc);
+ 		if (!output->ddc) {
+ 			err = -EPROBE_DEFER;
+ 			of_node_put(ddc);
+@@ -173,7 +173,7 @@ void tegra_output_remove(struct tegra_output *output)
+ 		free_irq(output->hpd_irq, output);
  
-+	gpcdma: dma@2600000 {
-+			compatible = "nvidia,tegra186-gpcdma";
-+			reg = <0x0 0x2600000 0x0 0x210000>;
-+			resets = <&bpmp TEGRA186_RESET_GPCDMA>;
-+			reset-names = "gpcdma";
-+			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
-+			#dma-cells = <1>;
-+			iommus = <&smmu TEGRA186_SID_GPCDMA_0>;
-+			dma-coherent;
-+			nvidia,start-dma-channel-index = <1>;
-+			dma-channels = <31>;
-+			status = "disabled";
-+		};
-+
- 	aconnect {
- 		compatible = "nvidia,tegra186-aconnect",
- 			     "nvidia,tegra210-aconnect";
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 4bc187a..0bd67bd 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -68,6 +68,50 @@
- 			snps,rxpbl = <8>;
- 		};
+ 	if (output->ddc)
+-		put_device(&output->ddc->dev);
++		i2c_put_adapter(output->ddc);
+ }
  
-+	gpcdma: dma@2600000 {
-+			compatible = "nvidia,tegra194-gpcdma";
-+			reg = <0x0 0x2600000 0x0 0x210000>;
-+			resets = <&bpmp TEGRA194_RESET_GPCDMA>;
-+			reset-names = "gpcdma";
-+			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
-+			#dma-cells = <1>;
-+			nvidia,start-dma-channel-index = <1>;
-+			dma-channels = <31>;
-+			status = "disabled";
-+		};
-+
- 		aconnect@2900000 {
- 			compatible = "nvidia,tegra194-aconnect",
- 				     "nvidia,tegra210-aconnect";
+ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 45b5258c77a2..e88a17c2937f 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3728,7 +3728,12 @@ static int tegra_sor_probe(struct platform_device *pdev)
+ 		if (!sor->aux)
+ 			return -EPROBE_DEFER;
+ 
+-		sor->output.ddc = &sor->aux->ddc;
++		if (get_device(&sor->aux->ddc.dev)) {
++			if (try_module_get(sor->aux->ddc.owner))
++				sor->output.ddc = &sor->aux->ddc;
++			else
++				put_device(&sor->aux->ddc.dev);
++		}
+ 	}
+ 
+ 	if (!sor->aux) {
 -- 
-2.7.4
+2.27.0
 
