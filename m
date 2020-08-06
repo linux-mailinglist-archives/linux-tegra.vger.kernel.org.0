@@ -2,80 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D95D23DF27
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6726823E00B
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:59:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730246AbgHFRir (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:38:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55136 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729797AbgHFRbn (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 6 Aug 2020 13:31:43 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 621EE22CA1;
-        Thu,  6 Aug 2020 11:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596712210;
-        bh=hyKCuLswWkb/pY/lN2LjImaCtKgtFYObNfTpDJ2/zkM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RtMFGzIXm57iKoTgFoTBzTxWGVox3PRRAiGOpTXtY4P/Bxt0p2P6vuSkSk/2vgrb1
-         Ja7PCDZk42sHtYzSg+eRrScR13RTx6L3aoSkj8Vtl5UE3V4RSR8zhsKQZr/7s35QkR
-         pxNrWLGoO0MIUOUfDZUaQl/vPrwTY8pOs3SamKUc=
-Date:   Thu, 6 Aug 2020 09:05:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5.7 0/7] 5.7.14-rc2 review
-Message-ID: <20200806070552.GD2582961@kroah.com>
-References: <20200805195916.183355405@linuxfoundation.org>
- <fb74b2c119a047e2933b5d375f0fe703@HQMAIL101.nvidia.com>
+        id S1728048AbgHFR7V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:59:21 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3127 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726899AbgHFR7V (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:59:21 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f2bfd290001>; Thu, 06 Aug 2020 05:52:57 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 06 Aug 2020 05:54:37 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 06 Aug 2020 05:54:37 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Aug
+ 2020 12:54:36 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 6 Aug 2020 12:54:36 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.73.183]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f2bfd890000>; Thu, 06 Aug 2020 05:54:35 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] rtc: max77686: Fix wake-ups for max77620
+Date:   Thu, 6 Aug 2020 13:54:31 +0100
+Message-ID: <20200806125431.699339-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb74b2c119a047e2933b5d375f0fe703@HQMAIL101.nvidia.com>
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1596718377; bh=HvOnCueSYaWkbR/lK4/JjyTNelcuLb3sqOohz8d9Wgk=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=iZKuG+9V2GSEnYBHLIuTX7/GI49h/PYN0JI+D19w3Am19SRs+06evOrkm2BwvJTmB
+         63QhahVCwdlvttes8rLWKGxClzNgn1p4i7ERyhRkPEhC2otKCwhf5LgtaTrI6FxQJJ
+         Mt7Ks9g0zVfCwYaSP7HdlEHc4YH5thy3JZYInIMw3uLEnDeIkxtBCxYPS8ZT4j+LUI
+         Qv6Iwu3/QiPhcYYuiDhxFrg4PNAD4CUSjpcTU+W0VX6BQWKHVBJDT5NxLqjWdUnCbN
+         zoIW0LVGJ0rfQPun9qoBJxIz9dMwXrYYWSkhzPBqAkzLJvq1LocSJpwqx+dqeXMKEE
+         Q8bA+ypgsh4wg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 06:24:28AM +0000, Jon Hunter wrote:
-> On Wed, 05 Aug 2020 21:59:33 +0200, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.7.14 release.
-> > There are 7 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri, 07 Aug 2020 19:59:06 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.7.14-rc2.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.7.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests passing for Tegra ...
-> 
-> Test results for stable-v5.7:
->     11 builds:	11 pass, 0 fail
->     26 boots:	26 pass, 0 fail
->     56 tests:	56 pass, 0 fail
-> 
-> Linux version:	5.7.14-rc2-g0ceaad177e51
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+Following commit d8f090dbeafd ("rtc: max77686: Do not allow interrupt to
+fire before system resume"), RTC wake-ups stopped working on Jetson TX2
+and Jetson Xavier platforms. The Jetson TX2 uses the max77620 PMIC and
+the Jetson Xavier uses max20024 PMIC. Both of these PMICs have the same
+max77620 RTC controller.
 
-Thanks so much for testing all of these and letting me know.
+For the max77620 RTC, the variable 'rtc_irq_from_platform' is defined as
+true in the max77686 driver and because of this the IRQ passed to the
+max77686 driver for RTC is the PMIC IRQ and not the parent. Hence,
+following commit d8f090dbeafd ("rtc: max77686: Do not allow interrupt to
+fire before system resume"), for the max77620 the RTC IRQ within the
+PMIC is now getting disabled on entry to suspend and unable to wake the
+system up. Fix this by only disabling interrupts on entry to suspend
+in the max77686 RTC driver, if the interrupt is the parent interrupt.
 
-greg k-h
+Fixes: d8f090dbeafd ("rtc: max77686: Do not allow interrupt to fire before =
+system resume")
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/rtc/rtc-max77686.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/rtc/rtc-max77686.c b/drivers/rtc/rtc-max77686.c
+index 645de5af707b..d51cc12114cb 100644
+--- a/drivers/rtc/rtc-max77686.c
++++ b/drivers/rtc/rtc-max77686.c
+@@ -815,13 +815,15 @@ static int max77686_rtc_suspend(struct device *dev)
+ 	}
+=20
+ 	/*
+-	 * Main IRQ (not virtual) must be disabled during suspend because if it
+-	 * happens while suspended it will be handled before resuming I2C.
++	 * If the main IRQ (not virtual) is the parent IRQ, then it must be
++	 * disabled during suspend because if it happens while suspended it
++	 * will be handled before resuming I2C.
+ 	 *
+ 	 * Since Main IRQ is shared, all its users should disable it to be sure
+ 	 * it won't fire while one of them is still suspended.
+ 	 */
+-	disable_irq(info->rtc_irq);
++	if (!info->drv_data->rtc_irq_from_platform)
++		disable_irq(info->rtc_irq);
+=20
+ 	return ret;
+ }
+@@ -830,7 +832,8 @@ static int max77686_rtc_resume(struct device *dev)
+ {
+ 	struct max77686_rtc_info *info =3D dev_get_drvdata(dev);
+=20
+-	enable_irq(info->rtc_irq);
++	if (!info->drv_data->rtc_irq_from_platform)
++		enable_irq(info->rtc_irq);
+=20
+ 	if (device_may_wakeup(dev)) {
+ 		struct max77686_rtc_info *info =3D dev_get_drvdata(dev);
+--=20
+2.25.1
+
