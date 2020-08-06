@@ -2,91 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BBDC23DCD5
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 18:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FF9423DD0B
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 18:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729552AbgHFQ45 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 12:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41646 "EHLO
+        id S1728970AbgHFQ7c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 12:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728977AbgHFQkm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:40:42 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0215AC0A8921;
-        Thu,  6 Aug 2020 08:02:44 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id g6so39491697ljn.11;
-        Thu, 06 Aug 2020 08:02:44 -0700 (PDT)
+        with ESMTP id S1729000AbgHFQkk (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:40:40 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283EBC00215F;
+        Thu,  6 Aug 2020 09:02:55 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id v22so24751828edy.0;
+        Thu, 06 Aug 2020 09:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FRLGrXmYURDQT4jjHt8eSTzOHaMGuqVLG4OQ53qtVbI=;
-        b=mK2TApaeMLPwdu9HF70ojxwm7ZUs+w6NO+TI8LWnPh5C3NwdrLHKA2lX59OHagNj2m
-         L4BIeBalExOwh/f5brHD8SHCoZ0gnvaM9zkdfNQMb4uxcELZIKE5+jAe4cHBc/+H1HPf
-         jcGwM5VhjTh130aLISlmqIA3FUZjYPloD1eK+wOXB8D4hoJO1i2H/IC7Ays5VUF4P+OU
-         NZUVr8CQRz1voy64aSsE7xbR65Qflo+gbspbFU+UGY/xHa2Cn3Mh1WC9OLUbcdBlW0PO
-         +MRkZemi79hgawLxMTBnfJu8vFvRT1JnQEo5Cy3CT7MlbPTkvf43Lg3719N6MMVb3bZA
-         RmTA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CECQrTdPbGjVPX2RCRIk8am23VvwhZ+qTSo0hSxBl3o=;
+        b=Z1PLwnz5/fx/Z6dzRP3Qg8AStjfCJB6bxY4Q5BbC/Wgxs6E3gpE97VG8FbsJpxuY2M
+         zVCfl8kTqJRQXVsI3XcAbbohpxUXhB2pQ7arkm8ajmV6xCaMGQ7S+gD+MhJ034iLfQf9
+         MqVmtVLiytju3ZSHmh5wEFSn7QcM67A+xj5w+xe0sZe42IwZZjUIy0jto/NFTWpOQJZn
+         ndREU01ar4OvfUT0osHmTkDB3zXoCxiNdboAkApDBwcsJbBBjCYTjIPm0oFlIsJZiPYz
+         kz6HqUpuaFjwe/lhWxNOpTSoOyhVVNjQ3Jx0FU8vg/cVAzvmJUj8jEXNpYz68nzZhXQQ
+         qOBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FRLGrXmYURDQT4jjHt8eSTzOHaMGuqVLG4OQ53qtVbI=;
-        b=b2DTxJ30uy29QhQokRlu3a1E54bgyrz4FJ6cv6eg2jQNm+tqa4rxV9eedi16GUecog
-         SnKKNBwsG6xjq1SdT+BJv0UxUlxd/MlpOTN0ekUHKjCQj4oVpiNMlrUi4C6Fi7FAhQg9
-         UCd/KxAUZJsCEBz1bNBPQH+lpK5ph1XsfKiHYnHRokvt7dW7svayh5ttNZsCtdApau02
-         Qf7PX2ZcDPoF1xWA6J6BdeEqjoU6ebrRhgDNOOAufc5SBJvnybLaNjn2Zk0LXnV12nYP
-         E1isLGwq01K+LYo6wD7c7Jdam9bEP/F4UXaXF60mI/y46UjWzTfta4gNlZdFO5T3pALF
-         Yb7w==
-X-Gm-Message-State: AOAM531hGP+yCjgdSrJpnCuE5r8HsPmX752JMEDfuDgVWRTxk4PNoRCG
-        boJ06fxaI89jjiEFrUXgaHY=
-X-Google-Smtp-Source: ABdhPJxmVntrfJXbx7gn5IV414m2Z4GaYwG1UUTqxROn64w7h7pvKoG/QJ1Z9+LJ7Bd1189Ir9ocbg==
-X-Received: by 2002:a05:651c:2007:: with SMTP id s7mr3839916ljo.74.1596726156822;
-        Thu, 06 Aug 2020 08:02:36 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
-        by smtp.googlemail.com with ESMTPSA id 132sm2842862lfo.16.2020.08.06.08.02.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 08:02:35 -0700 (PDT)
-Subject: Re: [Patch v2 2/4] dmaengine: tegra: Add Tegra GPC DMA driver
-To:     Rajesh Gumasta <rgumasta@nvidia.com>, ldewangan@nvidia.com,
-        jonathanh@nvidia.com, vkoul@kernel.org, dan.j.williams@intel.com,
-        thierry.reding@gmail.com, p.zabel@pengutronix.de,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kyarlagadda@nvidia.com, Pavan Kunapuli <pkunapuli@nvidia.com>
-References: <1596699006-9934-1-git-send-email-rgumasta@nvidia.com>
- <1596699006-9934-3-git-send-email-rgumasta@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <67b9821a-1820-5089-445b-0d1b4f4ee996@gmail.com>
-Date:   Thu, 6 Aug 2020 18:02:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CECQrTdPbGjVPX2RCRIk8am23VvwhZ+qTSo0hSxBl3o=;
+        b=HBCbEhqRFfnYDLTioCYQ/yRIbj/fME6zlxKeKBuxxIkh8anpNciiNIUNdvrp9rr6T9
+         +BMWLsp6864ET5jKZAmk4bcMxG+tgUiAd2bIXNe9NyZjMcs/6MsjkYgSgW0gzoYLdlk7
+         yUaGsCLENbLPa9QZE9IFqS57A98gmERqwNNXnqdb1w414KKDerUfVwgo1fnVp8TZblnt
+         4cizhUHKTv0HbxLQxqyhYr099WyCtl8sS+f+UUJvsnkhWZekybGApVvkZxPvENxJtKSw
+         80tIq6z5r6Bb9CJE9qBb2du5HJGx9dfwmzDr2QE7c5PP5fRcU/kBIJaEJh2FGPX0FVvi
+         SIYA==
+X-Gm-Message-State: AOAM531pZA0ujs3RHll8khEMbBl8UgCx77ASJ7IaHlk+hJyaCDt2Z2FU
+        PtDE0GMa/0161y8KNKiPUOA=
+X-Google-Smtp-Source: ABdhPJyjP6Tg6vGResi/PT4q25in8ESFmnFaAbhMRGP9vNUEC8yre8RyUHGTeEb31y1gXCLySX9zDQ==
+X-Received: by 2002:a50:d908:: with SMTP id t8mr4558574edj.373.1596729773914;
+        Thu, 06 Aug 2020 09:02:53 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id a16sm4011063ejy.78.2020.08.06.09.02.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 09:02:52 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 2/2] usb: common: usb-conn-gpio: Print error on failure to get VBUS
+Date:   Thu,  6 Aug 2020 18:02:48 +0200
+Message-Id: <20200806160248.3936771-2-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200806160248.3936771-1-thierry.reding@gmail.com>
+References: <20200806160248.3936771-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1596699006-9934-3-git-send-email-rgumasta@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.08.2020 10:30, Rajesh Gumasta пишет:
-> +static int tegra_dma_program_sid(struct tegra_dma_channel *tdc,
-> +				 int chan, int stream_id)
-> +{
-> +	unsigned int reg_val =  tdc_read(tdc, TEGRA_GPCDMA_CHAN_MCSEQ);
-> +
-> +	reg_val &= ~(TEGRA_GPCDMA_MCSEQ_STREAM_ID_MASK <<
-> +					TEGRA_GPCDMA_MCSEQ_STREAM_ID0_SHIFT);
-> +	reg_val &= ~(TEGRA_GPCDMA_MCSEQ_STREAM_ID_MASK <<
-> +					TEGRA_GPCDMA_MCSEQ_STREAM_ID1_SHIFT);
-> +
-> +	reg_val |= (stream_id << TEGRA_GPCDMA_MCSEQ_STREAM_ID0_SHIFT);
-> +	reg_val |= (stream_id << TEGRA_GPCDMA_MCSEQ_STREAM_ID1_SHIFT);
+From: Thierry Reding <treding@nvidia.com>
 
-Have you seen my comment to v1 about FIELD_GET/FIELD_PREP?
+The exact error that happened trying to get the VBUS supply can be
+useful to troubleshoot what's going on.
 
-If you disagree with something, then you should answer with a rationale
-and not silently ignore review comments.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/usb/common/usb-conn-gpio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index c5b516d327c7..6c4e3a19f42c 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -206,7 +206,7 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 
+ 	if (IS_ERR(info->vbus)) {
+ 		if (PTR_ERR(info->vbus) != -EPROBE_DEFER)
+-			dev_err(dev, "failed to get vbus\n");
++			dev_err(dev, "failed to get vbus: %ld\n", PTR_ERR(info->vbus));
+ 		return PTR_ERR(info->vbus);
+ 	}
+ 
+-- 
+2.27.0
+
