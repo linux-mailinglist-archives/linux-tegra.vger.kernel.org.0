@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B16423DB90
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 18:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9268423DB9C
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 18:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728037AbgHFQSm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 12:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37636 "EHLO
+        id S1727045AbgHFQ01 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 12:26:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726799AbgHFQRX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:17:23 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21368C0F26C6
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:47:36 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id di22so28323888edb.12
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:47:36 -0700 (PDT)
+        with ESMTP id S1725812AbgHFQTs (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 12:19:48 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43FF1C00215E;
+        Thu,  6 Aug 2020 09:02:52 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id i6so9906415edy.5;
+        Thu, 06 Aug 2020 09:02:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=nLq3/R3B/Bs7i1xyWXouD50ckZ3IdU6H73XFc0RzNqU=;
-        b=r7IVeb5V3rQ7PjXDc5E09ALkqa3y28KDU1C+uk6A9EOwxpSael7R1V78JihJThNKbc
-         fGZuY1dUVCGKkMTWemiMcapVQ03l9R/nAG2W2MmZpQdF7bdcO2mu5FvLRwtPWT7bTuOw
-         3yDUYuOSRgOtllBZfztbYUKBoOexBTfk+txrM3W9LaaBJCOUyeO2gftMfNALAmqfO8md
-         3Oq9piRTEckH1pUbojbW/u7WD1SwCN5puNLRAzuSe6y2SG9aHC3OQi3+OMOXDqKUnAft
-         6km7Z0OAsNLJUi9EL9oYhtl0YLiWP3hvqXhL6665Jesju2IePu3LZfEXP2sQHmPwtZRU
-         NAmw==
+        bh=FNqcBw7gbdcsYAj3BqhT8zH10stbn01zoIqVBzt1ndI=;
+        b=aIUKmjtcRfg+2LmyFEYG1ZKfDaRGWTeFidf5qZnIa7woOEXLSv/NhvJ5ESpOQxO4IZ
+         9MEWqCc2LNCyqR9X9i10xzsTV7daNAESKymqsWecuAPz37090vufVngrd8fK579IWdVu
+         sibVIPxcQBqxrlx8FlQVx6IPGHSUgp7YPR1tdGSoj2P8qEOirB78nkmGpX00tvC1axQt
+         61EuuGL6Iu+W3cjKrZp8FbM7+hbENEgBBj9RDWxQa0xsMiQFAk95ZSPxn0GXr91S+Irj
+         xwZDTz2R/ktqBExnTB1qryOICMOHGyUt81jv7bNAsQxX2azKJloO4Rak1vP3AaDU7i4m
+         OyXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=nLq3/R3B/Bs7i1xyWXouD50ckZ3IdU6H73XFc0RzNqU=;
-        b=SbAzgZS65pChl5CfCEI/cD92GfK/5tOu4WD336gCtNFRf9iF/ZkZBBFbOc0ffYNZnB
-         Hjk1uURlcPe801FaGgZax+TcHOB39I0bHe7m4W5E7LWnQG+u0JKKeqk7PcLlsF3WN3sJ
-         evaO3EqHevcLCgjbyL1dlcpRj2IH0t5z/IaxfuB4zixAC6Q0ZIHNdf0r1IdAmMXVB4iS
-         /YB7Nygb1pns//hCqkGamlsitSVF0TI5xSVTLK1IZHe4oMBAAYXhQ7aNrpwVwfmraiIS
-         mV1UrqN31H4AcUGzrM148PVipuR5dAczJD1FX1YenkyHIqClmIsgzQp2hqiST1Z/iqX3
-         BKkA==
-X-Gm-Message-State: AOAM5336DHJqOwNULt6xVh/dWmtoKoUNHszt8ZAFtFjYlzCEl9AEabKi
-        ZfxLcbro+wyoUeS3VwRLcSA=
-X-Google-Smtp-Source: ABdhPJz+QIzxLt9aaDspcJbe9CqTN90TYeRKWfqHikZphwICsiTy8nTYschoDetBTLUSxzk5kwA4Nw==
-X-Received: by 2002:a05:6402:308e:: with SMTP id de14mr4573955edb.344.1596728854859;
-        Thu, 06 Aug 2020 08:47:34 -0700 (PDT)
+        bh=FNqcBw7gbdcsYAj3BqhT8zH10stbn01zoIqVBzt1ndI=;
+        b=SBMMBBa1OKdGYvwRWadiEPx40GloMmjD83YYQduCio1EJZmtI8wBAvrWVW2tqK36ov
+         hT0BiCJf2LDqBPxytjHzVZnRhz6QkTFdSH71asSrp6wyfvdaTORJKodJfEQTdF6bv6/F
+         dbubRM86QrbPyd5+lm1JthJ2GFdeEAd5O3GeKD8DIgnXOeKF4glG3/eRC+eOV0ppPKmI
+         yLJD8BTyDOg14a5+ei9GBILRAZGMqbBj5hktq5knKpHxsPk07QGjgd3GvAkXTwfPJzTO
+         taF+hKn+Z0OPvKKauseBR2yfP+NQkTF0dg0IW8ERdBANZklJI0OTdbdvLDD1Pq0NWpGj
+         fX6A==
+X-Gm-Message-State: AOAM530W/NCdQvAGf0w5pB7i9hXEpqsybMiaBfmJfnLui6Hx/9lLu7bc
+        wOWTw7ShLESpBtd6W6AAEmRSs0xu
+X-Google-Smtp-Source: ABdhPJxwDwLDDqIGo1x+XgU/Gsphj/4xYfmbRbh1sLk+5KU7qOFlfnLdw9q6QsJUuM2roZoidr6Nmg==
+X-Received: by 2002:a05:6402:30a5:: with SMTP id df5mr4700529edb.18.1596729771005;
+        Thu, 06 Aug 2020 09:02:51 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id qp16sm4064854ejb.89.2020.08.06.08.47.32
+        by smtp.gmail.com with ESMTPSA id z5sm4005075ejm.111.2020.08.06.09.02.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 08:47:32 -0700 (PDT)
+        Thu, 06 Aug 2020 09:02:49 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] drm/tegra: Properly reference count the DDC I2C adapter
-Date:   Thu,  6 Aug 2020 17:47:31 +0200
-Message-Id: <20200806154731.3935679-1-thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 1/2] usb: common: usb-conn-gpio: Make VBUS supply optional
+Date:   Thu,  6 Aug 2020 18:02:47 +0200
+Message-Id: <20200806160248.3936771-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,62 +63,91 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Use the of_get_i2c_adapter_by_node(), which is similar to the existing
-call to of_find_i2c_adapter_by_node() except that it also takes a
-reference to the owner module of the I2C adapter. In order to properly
-balance this out, call i2c_put_adapter() to release the reference to the
-I2C adapter and its owner module.
-
-For the special case where the DDC comes from the DPAUX, care must be
-taken to perform the same steps (i.e. get_device() and module_get()) so
-that the reference counts are all balanced.
+If the connector is the child of a USB port and that USB port already
+has a VBUS supply attached to it, it would be redundant to require the
+connector to have a VBUS supply. In this case, allow the VBUS supply to
+be optional.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/output.c | 4 ++--
- drivers/gpu/drm/tegra/sor.c    | 7 ++++++-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ drivers/usb/common/usb-conn-gpio.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index e36e5e7c2f69..03382550f7d9 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -112,7 +112,7 @@ int tegra_output_probe(struct tegra_output *output)
- 
- 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
- 	if (ddc) {
--		output->ddc = of_find_i2c_adapter_by_node(ddc);
-+		output->ddc = of_get_i2c_adapter_by_node(ddc);
- 		if (!output->ddc) {
- 			err = -EPROBE_DEFER;
- 			of_node_put(ddc);
-@@ -173,7 +173,7 @@ void tegra_output_remove(struct tegra_output *output)
- 		free_irq(output->hpd_irq, output);
- 
- 	if (output->ddc)
--		put_device(&output->ddc->dev);
-+		i2c_put_adapter(output->ddc);
- }
- 
- int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 45b5258c77a2..e88a17c2937f 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3728,7 +3728,12 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 		if (!sor->aux)
- 			return -EPROBE_DEFER;
- 
--		sor->output.ddc = &sor->aux->ddc;
-+		if (get_device(&sor->aux->ddc.dev)) {
-+			if (try_module_get(sor->aux->ddc.owner))
-+				sor->output.ddc = &sor->aux->ddc;
-+			else
-+				put_device(&sor->aux->ddc.dev);
-+		}
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index 7b3a21360d7c..c5b516d327c7 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -91,14 +91,14 @@ static void usb_conn_detect_cable(struct work_struct *work)
+ 		return;
  	}
  
- 	if (!sor->aux) {
+-	if (info->last_role == USB_ROLE_HOST)
++	if (info->last_role == USB_ROLE_HOST && info->vbus)
+ 		regulator_disable(info->vbus);
+ 
+ 	ret = usb_role_switch_set_role(info->role_sw, role);
+ 	if (ret)
+ 		dev_err(info->dev, "failed to set role: %d\n", ret);
+ 
+-	if (role == USB_ROLE_HOST) {
++	if (role == USB_ROLE_HOST && info->vbus) {
+ 		ret = regulator_enable(info->vbus);
+ 		if (ret)
+ 			dev_err(info->dev, "enable vbus regulator failed\n");
+@@ -106,8 +106,9 @@ static void usb_conn_detect_cable(struct work_struct *work)
+ 
+ 	info->last_role = role;
+ 
+-	dev_dbg(info->dev, "vbus regulator is %s\n",
+-		regulator_is_enabled(info->vbus) ? "enabled" : "disabled");
++	if (info->vbus)
++		dev_dbg(info->dev, "vbus regulator is %s\n",
++			regulator_is_enabled(info->vbus) ? "enabled" : "disabled");
+ 
+ 	power_supply_changed(info->charger);
+ }
+@@ -156,6 +157,7 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 	struct power_supply_config cfg = {
+ 		.of_node = dev->of_node,
+ 	};
++	bool need_vbus = true;
+ 	int ret = 0;
+ 
+ 	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
+@@ -185,7 +187,23 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 
+ 	INIT_DELAYED_WORK(&info->dw_det, usb_conn_detect_cable);
+ 
+-	info->vbus = devm_regulator_get(dev, "vbus");
++	/*
++	 * If the USB connector is a child of a USB port and that port already provides the VBUS
++	 * supply, there's no need for the USB connector to provide it again.
++	 */
++	if (dev->parent && dev->parent->of_node) {
++		if (of_find_property(dev->parent->of_node, "vbus-supply", NULL))
++			need_vbus = false;
++	}
++
++	if (!need_vbus) {
++		info->vbus = devm_regulator_get_optional(dev, "vbus");
++		if (PTR_ERR(info->vbus) == -ENODEV)
++			info->vbus = NULL;
++	} else {
++		info->vbus = devm_regulator_get(dev, "vbus");
++	}
++
+ 	if (IS_ERR(info->vbus)) {
+ 		if (PTR_ERR(info->vbus) != -EPROBE_DEFER)
+ 			dev_err(dev, "failed to get vbus\n");
+@@ -266,7 +284,7 @@ static int usb_conn_remove(struct platform_device *pdev)
+ 
+ 	cancel_delayed_work_sync(&info->dw_det);
+ 
+-	if (info->last_role == USB_ROLE_HOST)
++	if (info->last_role == USB_ROLE_HOST && info->vbus)
+ 		regulator_disable(info->vbus);
+ 
+ 	usb_role_switch_put(info->role_sw);
 -- 
 2.27.0
 
