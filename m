@@ -2,60 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B58F723DD5C
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 147EF23DD42
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Aug 2020 19:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729717AbgHFRIp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Aug 2020 13:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S1730071AbgHFRHC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Aug 2020 13:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730051AbgHFRGV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:21 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78872C000384
-        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:41:21 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id i26so32157687edv.4
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:41:21 -0700 (PDT)
+        with ESMTP id S1728975AbgHFRGk (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Aug 2020 13:06:40 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1445C0D9419
+        for <linux-tegra@vger.kernel.org>; Thu,  6 Aug 2020 08:42:48 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id qc22so36027777ejb.4
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Aug 2020 08:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gGFtKaxSRLcBJrXrSKuT5gcGccZy60brObCwIGGtaO8=;
-        b=CzAZ6GdEMPduCQRZpB2RmrNL/aPQmAucOR1IbGT/rdXUhfonhlrw9Yyhb5VglWTryF
-         5VDgNO0w3YiqjvNrMEKVMmqdIIqRpj81kByPTBMuVwAxx1p9WpjmtO5p1rD1Htob68AD
-         C/wRJjTmcT/aHeuVonU+2Bfq67AScG0tt0aGqbN78tW9PMd0zpTh3oBaD3jdXccRF+sA
-         vVINR7JKX8Zi9RunPreq9ui2Rdoo3SKW8XrOQ7xIOIkhT77ytsuiXLpJgRVD82KqrBMR
-         4/Dq1jjNdd9sTcbYuiscRhOzM6c9/TE2cKBsfRxYcWJOL+9IJj7j+d0P7PxB1n7gwvN8
-         i3cw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XFcClscJS4TxPRCGlprREAg6mwZmwfJwsz8vYdc5Kfo=;
+        b=O7wcRa6HvK9LHDwJimUJKuxn2RXnp7BXl0Hcu1cwEBz/DdywDQYNg55+HKFggrZtum
+         zDApmY37orzfz+AHYNKFbV06UD8wBLux06SZ49r94apPHzDsblZXbujLqMfhZBGgxeSB
+         Yi0m9JMB8ZvbAve+igkhnQ5yHVPAwusQX3QjXMidiOUF4TQxw5V+TwcfQSJZY3qQVhys
+         QjmYO8seZO4Uk7W5zfxuwFxg51lpfX3IzwXyp+eCQ3/j4cQVz9L1JWki3TrzBZgiWxTy
+         B8JWuSq+uPA4wuKMoBMG/qlQN9NXKW9ElJYlHQjjhr6h0wsQXA6/73ZecnyNT+hR4cyM
+         qOjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gGFtKaxSRLcBJrXrSKuT5gcGccZy60brObCwIGGtaO8=;
-        b=i8HcJNhRU4zdVRvapdl6IqcRWwr8Ql/UC4PSrrdbLL3U0T5FDn81sy0LNCcgdK5Vhc
-         20zd9ams2MsUiNJZZeFMHrER5QMmqE8K2rtM62ErS/QYke2jfYJCk6+SZdDkgDEbCKVI
-         Nsf6FCjwpE0a0K75fUETHIMCa4xaBVHeOxxL1b5FmK0m42oTYOO+5sJ58s8ecyvnlDMu
-         7USA1HbURovN9096/n7zYimrePPOTMWnv0Ver6WeJnQuaDi8qBk7oahOkofynV5FAmva
-         sRyt9QfPSUUmDSPKkftXxrdu2e6Cbh+mEEVhucZlkiy8mTBeiASJIsYETEwWhxHTvs7O
-         AX/w==
-X-Gm-Message-State: AOAM532Xj+K7jS/uDOcn6r1tmuNYTCxplT/hWwS6bzttO4z4wuTboQNf
-        RmaxpoK9b7ycgVBW6xjXOuY=
-X-Google-Smtp-Source: ABdhPJwLviEWksIrCxmqouHOmHK+7GnS5TDxsM5VYn/bHcF5CpczkMp/s8V5gqriDRofNG+osRChVQ==
-X-Received: by 2002:a05:6402:847:: with SMTP id b7mr4776884edz.39.1596728480270;
-        Thu, 06 Aug 2020 08:41:20 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XFcClscJS4TxPRCGlprREAg6mwZmwfJwsz8vYdc5Kfo=;
+        b=T5pZEj3mZzjTo9w42inA07tKzFnWw+xp0rKcBFRfKx1uSYYrEKPdRT9yoOdWaHhC8d
+         31LJJPz4hTYYNhAO/xFDRsyhlQqbP/NKTSSmBF+WY+18RrqNc8B7Q1t4vTdniy1ENpJM
+         NNALBR8EQMCsJKGObOFVDA5TGOwjFr9jnINEdnh8yrv8sHvhCIId0XA3IPOScHrqQoBm
+         rqNwhgBStwFLCzSsGsEAyEoNrl0RYZ4Lzm6jWsm4T0iyZNwudCcGnku+Y1tiY13gAZfM
+         LCtzcpFAMX+DogY5I6gvGQOVOIsAFWdJNWUIUQug2SUC6EutleX1wsDFahjGa9WXfQuf
+         5glA==
+X-Gm-Message-State: AOAM531UqprdqTcB3wCrW6ziXwoFZT2K+UBOhfjgOkNUaw5Gh1QKxpQf
+        ZW0Ix0IgPbU5YPRUbSzI77M=
+X-Google-Smtp-Source: ABdhPJyY/DhXpibGe/toWZh36aEQOD4ZOVZ5hafHnKi5RIZFuKx7C8vPXAUaf4Ag4OzrT50eFwP17A==
+X-Received: by 2002:a17:906:5812:: with SMTP id m18mr5066860ejq.66.1596728567712;
+        Thu, 06 Aug 2020 08:42:47 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id fx15sm4060140ejb.1.2020.08.06.08.41.18
+        by smtp.gmail.com with ESMTPSA id q21sm3862238ejr.75.2020.08.06.08.42.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 08:41:19 -0700 (PDT)
+        Thu, 06 Aug 2020 08:42:46 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 4/4] arm64: tegra: Describe display controller outputs for Tegra210
-Date:   Thu,  6 Aug 2020 17:41:11 +0200
-Message-Id: <20200806154111.3917284-4-thierry.reding@gmail.com>
+Subject: [PATCH] arm64: tegra: Use valid PWM period for VDD_GPU on Tegra210
+Date:   Thu,  6 Aug 2020 17:42:45 +0200
+Message-Id: <20200806154245.3930633-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200806154111.3917284-1-thierry.reding@gmail.com>
-References: <20200806154111.3917284-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -65,67 +63,43 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Both display controllers can drive both DSI and both SOR outputs on
-Tegra210. Describe this in device tree so that the operating system
-doesn't have to guess.
+The PWM on Tegra210 can run at a maximum frequency of 48 MHz and cannot
+reach the minimum period is 5334 ns. The currently configured period of
+4880 ns is not within the valid range, so set it to 8000 ns. This value
+was taken from the downstream DTS files and seems to work fine.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi     | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index 829f786af133..27d4e3f134ca 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -194,6 +194,7 @@ dc@54200000 {
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+index 6a4b50aaa25d..85ee7e6b71ac 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+@@ -337,7 +337,7 @@ psci {
  
- 			iommus = <&mc TEGRA_SWGROUP_DC>;
+ 	vdd_gpu: regulator@100 {
+ 		compatible = "pwm-regulator";
+-		pwms = <&pwm 1 4880>;
++		pwms = <&pwm 1 8000>;
+ 		regulator-name = "VDD_GPU";
+ 		regulator-min-microvolt = <710000>;
+ 		regulator-max-microvolt = <1320000>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+index 2282ea1c6279..195a43e2356b 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+@@ -818,7 +818,7 @@ vdd_cpu: regulator@5 {
  
-+			nvidia,outputs = <&dsia &dsib &sor0 &sor1>;
- 			nvidia,head = <0>;
- 		};
+ 	vdd_gpu: regulator@6 {
+ 		compatible = "pwm-regulator";
+-		pwms = <&pwm 1 4880>;
++		pwms = <&pwm 1 8000>;
  
-@@ -208,10 +209,11 @@ dc@54240000 {
- 
- 			iommus = <&mc TEGRA_SWGROUP_DCB>;
- 
-+			nvidia,outputs = <&dsia &dsib &sor0 &sor1>;
- 			nvidia,head = <1>;
- 		};
- 
--		dsi@54300000 {
-+		dsia: dsi@54300000 {
- 			compatible = "nvidia,tegra210-dsi";
- 			reg = <0x0 0x54300000 0x0 0x00040000>;
- 			clocks = <&tegra_car TEGRA210_CLK_DSIA>,
-@@ -248,7 +250,7 @@ nvjpg@54380000 {
- 			status = "disabled";
- 		};
- 
--		dsi@54400000 {
-+		dsib: dsi@54400000 {
- 			compatible = "nvidia,tegra210-dsi";
- 			reg = <0x0 0x54400000 0x0 0x00040000>;
- 			clocks = <&tegra_car TEGRA210_CLK_DSIB>,
-@@ -284,7 +286,7 @@ tsec@54500000 {
- 			status = "disabled";
- 		};
- 
--		sor@54540000 {
-+		sor0: sor@54540000 {
- 			compatible = "nvidia,tegra210-sor";
- 			reg = <0x0 0x54540000 0x0 0x00040000>;
- 			interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-@@ -304,7 +306,7 @@ sor@54540000 {
- 			status = "disabled";
- 		};
- 
--		sor@54580000 {
-+		sor1: sor@54580000 {
- 			compatible = "nvidia,tegra210-sor1";
- 			reg = <0x0 0x54580000 0x0 0x00040000>;
- 			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
+ 		regulator-name = "VDD_GPU";
+ 		regulator-min-microvolt = <710000>;
 -- 
 2.27.0
 
