@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1796A240F43
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Aug 2020 21:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF7E9240F07
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Aug 2020 21:17:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729799AbgHJTNg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Aug 2020 15:13:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44662 "EHLO mail.kernel.org"
+        id S1729960AbgHJTOI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Aug 2020 15:14:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45958 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729789AbgHJTNe (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:13:34 -0400
+        id S1729264AbgHJTOH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 10 Aug 2020 15:14:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C7747207FF;
-        Mon, 10 Aug 2020 19:13:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1524B22BED;
+        Mon, 10 Aug 2020 19:14:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086813;
-        bh=cUwC9Yi8xFwUR3ud0kfob6ueTPMUW+ozY7s6/mmjJgY=;
+        s=default; t=1597086847;
+        bh=h4djccU8SRHv5HAmTc/Lbs8dPuas84jJHHnm4Ggawq4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2vwv5lweNtmV5eQVVoUF4WCxbV3szyEtX8zpnEiSUBu8z3uNzRz0o+BUEN1nRRSZm
-         vcdMyPDU7BDXS4Aj0W5qCTdGBuJfXfw+lnUG6XQW9kiwfsETsHKfGlI4b8pRFeUVvP
-         KFEvWbUqSJ/wbFqySLLK4f03Tn+mU+CQta6FZS9w=
+        b=jF7TTUIKK9qajq2WX43m9/ty/UDvfxTJRvR8zRarVP5IZ/q9CxQrS3xXM19egwydb
+         1uYN0nczMDCwd0FUJB+RqctfdBzFxZLJhwJX0V6EKiTYOraJ+RM67GqUxCaM1QayRK
+         26Gys+hBdhfMa31iUiymI/zsXhckLlUY/hWrUd74=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 23/31] gpu: host1x: debug: Fix multiple channels emitting messages simultaneously
-Date:   Mon, 10 Aug 2020 15:12:51 -0400
-Message-Id: <20200810191259.3794858-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 15/22] gpu: host1x: debug: Fix multiple channels emitting messages simultaneously
+Date:   Mon, 10 Aug 2020 15:13:37 -0400
+Message-Id: <20200810191345.3795166-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191259.3794858-1-sashal@kernel.org>
-References: <20200810191259.3794858-1-sashal@kernel.org>
+In-Reply-To: <20200810191345.3795166-1-sashal@kernel.org>
+References: <20200810191345.3795166-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,7 +62,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
-index 329e4a3d8ae7b..6c9ad4533999c 100644
+index 2aae0e63214c2..0b8c23c399c2a 100644
 --- a/drivers/gpu/host1x/debug.c
 +++ b/drivers/gpu/host1x/debug.c
 @@ -25,6 +25,8 @@
@@ -74,7 +74,7 @@ index 329e4a3d8ae7b..6c9ad4533999c 100644
  unsigned int host1x_debug_trace_cmdbuf;
  
  static pid_t host1x_debug_force_timeout_pid;
-@@ -61,12 +63,14 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
+@@ -49,12 +51,14 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
  	struct output *o = data;
  
  	mutex_lock(&ch->cdma.lock);
