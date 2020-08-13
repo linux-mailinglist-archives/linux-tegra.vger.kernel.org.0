@@ -2,121 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CD182431B3
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Aug 2020 02:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CDE2243601
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Aug 2020 10:36:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgHMAYh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 12 Aug 2020 20:24:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbgHMAYg (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 12 Aug 2020 20:24:36 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FE2C061383;
-        Wed, 12 Aug 2020 17:24:36 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f26so4224681ljc.8;
-        Wed, 12 Aug 2020 17:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gwuRbsafJP8ISlOi3BJD/DTlryrf3+Ufz6ONoYmN8Cg=;
-        b=janc2rzCfPrV3szeglM91wrUIIoUk9PShPbTLwHqSIHsKnHYEY4E2zwkaBvWhdNQ1W
-         RxJPNvamviy/AodULq33Viu2RLg9nzCPbc48oLVaj5mq3RBJMkbrznWBEL2xnpQNSpk1
-         wWn+Yi7GYI5aFH9O47e+F9q6EyQuod1aasrvcAmoiXKrte0ezU3iJk6kr6lO9QZPlYlt
-         dYAQR41fk/ey32YPQHO3kwWN98bx0MglrPwugRZXQtof5HcKmA+icIJJY09aIQvHZk+k
-         RAPm/WQtE6yqqvdWo0EIXvG627ugM+PF7uz0f4Jh0ZnEV45TCygVHJJRfbBOcfTvKxDH
-         VWug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gwuRbsafJP8ISlOi3BJD/DTlryrf3+Ufz6ONoYmN8Cg=;
-        b=ev8QL4JMCBNwxrS2sEr30NbTyshQHsYWFm1ZHIbwRfZZ1cQ2NeGCmvXG28cWJ6X6Kz
-         XbevgfaXUJs+CvRjEy1qal3VFBMZIBVWcIaZeEvP/GYmmvOKivjpcUBPiy+k9cS7iJ5+
-         8CBmvIc9F7GuPd57l7afeL9L7568g5S3m1+OiJrNuV5BArF7Gp4vmX90m6IjXGeqP9OB
-         KeGXg7XLTwjuD/ORogawgZz5IdD1TWeAxRYNuMDCSR36LyrznIPeACcT3JD6y1kurnVn
-         cS+etNmw/2SP66pbM7lEee1R9elAdrm59NLoubyeRX1AcFmX7LY4Y50sG8D4W90m6rKh
-         3yuA==
-X-Gm-Message-State: AOAM530DSXb+asLHbmLA8F7WWznMSe409/a88e8L1iAmjN4BCPH2ISSR
-        FDM757eNT1Qv3z5h4ZNGhbk=
-X-Google-Smtp-Source: ABdhPJxn2xxQ3JGiSMdj5N3uj42Xe67P8W0+f37cwmSXORwfJX2X+7icfK82tq8Cxi9aiB6OAp4wdg==
-X-Received: by 2002:a05:651c:505:: with SMTP id o5mr769785ljp.306.1597278274140;
-        Wed, 12 Aug 2020 17:24:34 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id h6sm810501lfc.84.2020.08.12.17.24.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2020 17:24:33 -0700 (PDT)
-Subject: Re: Request to pick up couple NVIDIA Tegra ASoC patches into 5.7
- kernel
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     Stable <stable@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Erik Faye-Lund <kusmabite@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        alsa-devel@alsa-project.org
-References: <2db6e1ef-5cea-d479-8a7a-8f336313cb1d@gmail.com>
- <20200813000800.GM2975990@sasha-vm>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4991edb7-011d-2dc4-e684-797b6504a122@gmail.com>
-Date:   Thu, 13 Aug 2020 03:24:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726609AbgHMIgx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Aug 2020 04:36:53 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58510 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726048AbgHMIgx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 13 Aug 2020 04:36:53 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 66D85AF99;
+        Thu, 13 Aug 2020 08:37:13 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        airlied@linux.ie, daniel@ffwll.ch, linux@armlinux.org.uk,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+        inki.dae@samsung.com, jy0922.shim@samsung.com,
+        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+        kgene@kernel.org, krzk@kernel.org, patrik.r.jakobsson@gmail.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, chunkuang.hu@kernel.org,
+        p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+        robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+        tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com,
+        heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+        oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+        laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+        sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+        tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+        andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com,
+        xinhui.pan@amd.com, aaron.liu@amd.com, nirmoy.das@amd.com,
+        chris@chris-wilson.co.uk, matthew.auld@intel.com,
+        abdiel.janulgue@linux.intel.com, tvrtko.ursulin@linux.intel.com,
+        andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
+        emil.velikov@collabora.com
+Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        etnaviv@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/20] Convert all remaining drivers to GEM object functions
+Date:   Thu, 13 Aug 2020 10:36:24 +0200
+Message-Id: <20200813083644.31711-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200813000800.GM2975990@sasha-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.08.2020 03:08, Sasha Levin пишет:
-> On Wed, Aug 12, 2020 at 10:14:34PM +0300, Dmitry Osipenko wrote:
->> Hello, stable-kernel maintainers!
->>
->> Could you please cherry-pick these commits into the v5.7.x kernel?
->>
->> commit 0de6db30ef79b391cedd749801a49c485d2daf4b
->> Author: Sowjanya Komatineni <skomatineni@nvidia.com>
->> Date:   Mon Jan 13 23:24:17 2020 -0800
->>
->>    ASoC: tegra: Use device managed resource APIs to get the clock
->>
->> commit 1e4e0bf136aa4b4aa59c1e6af19844bd6d807794
->> Author: Sowjanya Komatineni <skomatineni@nvidia.com>
->> Date:   Mon Jan 13 23:24:23 2020 -0800
->>
->>    ASoC: tegra: Add audio mclk parent configuration
->>
->> commit ff5d18cb04f4ecccbcf05b7f83ab6df2a0d95c16
->> Author: Sowjanya Komatineni <skomatineni@nvidia.com>
->> Date:   Mon Jan 13 23:24:24 2020 -0800
->>
->>    ASoC: tegra: Enable audio mclk during tegra_asoc_utils_init()
->>
->> It will fix a huge warnings splat during of kernel boot on NVIDIA Tegra
->> SoCs. For some reason these patches haven't made into 5.7 when it was
->> released and several people complained about the warnings. Thanks in
->> advance!
-> 
-> They never made it in because they don't have a stable tag, a fixes tag,
-> or do they sound like they fix a problem :)
-> 
-> Do you have a reference to the issue at hand here?
+The GEM and PRIME related callbacks in struct drm_driver are deprecated in
+favor of GEM object functions in struct drm_gem_object_funcs. This patchset
+converts the remaining drivers to object functions and removes most of the
+obsolete interfaces.
 
-https://lore.kernel.org/lkml/64b70163-05be-e4f9-2dbc-5088ac2a3af9@nvidia.com/
+Patches #1 to #18 convert DRM drivers to GEM object functions, one by one.
+Each patch moves existing callbacks from struct drm_driver to an instance
+of struct drm_gem_object_funcs, and sets these funcs when the GEM object is
+initialized. The expection is .gem_prime_mmap. There are different ways of
+how drivers implement the callback, and moving it to GEM object functions
+requires a closer review for each.
 
-> Either way, 5.7 is alive for only about 1 or 2 weeks, is anyone still
-> stuck on 5.7?
-> 
+Patch #19 converts xlnx to CMA helper macros. There's no apparent reason
+why the driver does the GEM setup on it's own. Using CMA helper macros
+adds GEM object functions implicitly.
 
-I didn't know that 5.7 is about to die, let's not bother with it then.
-Thanks!
+With most of the GEM and PRIME moved to GEM object functions, related code
+in struct drm_driver and in the DRM core/helpers is being removed by patch
+#20.
+
+Further testing is welcome. I tested the drivers for which I have HW
+available, which are gma500, i915, nouveau, radeon and vc4. The console,
+Weston and Xorg apparently work with the patches applied.
+
+Thomas Zimmermann (20):
+  drm/amdgpu: Introduce GEM object functions
+  drm/armada: Introduce GEM object functions
+  drm/etnaviv: Introduce GEM object functions
+  drm/exynos: Introduce GEM object functions
+  drm/gma500: Introduce GEM object functions
+  drm/i915: Introduce GEM object functions
+  drm/mediatek: Introduce GEM object functions
+  drm/msm: Introduce GEM object funcs
+  drm/nouveau: Introduce GEM object functions
+  drm/omapdrm: Introduce GEM object functions
+  drm/pl111: Introduce GEM object functions
+  drm/radeon: Introduce GEM object functions
+  drm/rockchip: Convert to drm_gem_object_funcs
+  drm/tegra: Introduce GEM object functions
+  drm/vc4: Introduce GEM object functions
+  drm/vgem: Introduce GEM object functions
+  drm/vkms: Introduce GEM object functions
+  drm/xen: Introduce GEM object functions
+  drm/xlnx: Initialize DRM driver instance with CMA helper macro
+  drm: Remove obsolete GEM and PRIME callbacks from struct drm_driver
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 12 +++
+ drivers/gpu/drm/armada/armada_drv.c           |  3 -
+ drivers/gpu/drm/armada/armada_gem.c           | 12 ++-
+ drivers/gpu/drm/armada/armada_gem.h           |  2 -
+ drivers/gpu/drm/drm_gem.c                     | 35 ++------
+ drivers/gpu/drm/drm_gem_cma_helper.c          |  6 +-
+ drivers/gpu/drm/drm_prime.c                   | 17 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 13 ---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |  1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         | 19 ++++-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       | 10 ---
+ drivers/gpu/drm/exynos/exynos_drm_gem.c       | 15 ++++
+ drivers/gpu/drm/gma500/framebuffer.c          |  2 +
+ drivers/gpu/drm/gma500/gem.c                  | 18 +++-
+ drivers/gpu/drm/gma500/gem.h                  |  3 +
+ drivers/gpu/drm/gma500/psb_drv.c              |  9 --
+ drivers/gpu/drm/gma500/psb_drv.h              |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  9 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 10 ++-
+ drivers/gpu/drm/i915/i915_drv.h               |  1 +
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  3 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 --
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        | 11 +++
+ drivers/gpu/drm/msm/msm_drv.c                 | 13 ---
+ drivers/gpu/drm/msm/msm_drv.h                 |  1 -
+ drivers/gpu/drm/msm/msm_gem.c                 | 19 ++++-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  9 --
+ drivers/gpu/drm/nouveau/nouveau_gem.c         | 13 +++
+ drivers/gpu/drm/nouveau/nouveau_gem.h         |  2 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c       |  2 +
+ drivers/gpu/drm/omapdrm/omap_drv.c            |  9 --
+ drivers/gpu/drm/omapdrm/omap_gem.c            | 16 +++-
+ drivers/gpu/drm/omapdrm/omap_gem.h            |  1 -
+ drivers/gpu/drm/pl111/pl111_drv.c             | 28 +++++-
+ drivers/gpu/drm/radeon/radeon_drv.c           | 23 +----
+ drivers/gpu/drm/radeon/radeon_object.c        | 26 ++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  5 --
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   | 10 +++
+ drivers/gpu/drm/tegra/drm.c                   |  4 -
+ drivers/gpu/drm/tegra/gem.c                   |  8 ++
+ drivers/gpu/drm/vc4/vc4_bo.c                  | 21 ++++-
+ drivers/gpu/drm/vc4/vc4_drv.c                 | 12 ---
+ drivers/gpu/drm/vc4/vc4_drv.h                 |  1 -
+ drivers/gpu/drm/vgem/vgem_drv.c               | 21 +++--
+ drivers/gpu/drm/vkms/vkms_drv.c               |  8 --
+ drivers/gpu/drm/vkms/vkms_gem.c               | 13 +++
+ drivers/gpu/drm/xen/xen_drm_front.c           | 12 +--
+ drivers/gpu/drm/xen/xen_drm_front.h           |  2 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       | 15 ++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           | 14 +--
+ include/drm/drm_drv.h                         | 85 +------------------
+ 52 files changed, 311 insertions(+), 306 deletions(-)
+
+--
+2.28.0
+
