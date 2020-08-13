@@ -2,123 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 601052440F7
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Aug 2020 23:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 201EE244127
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Aug 2020 00:16:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbgHMV4h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Aug 2020 17:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbgHMV4f (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Aug 2020 17:56:35 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0D3C061757;
-        Thu, 13 Aug 2020 14:56:35 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id b11so3812034lfe.10;
-        Thu, 13 Aug 2020 14:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WTkK39BlZkedB5Vph2dghueoQAO2WsRm0+GwhySEKyY=;
-        b=l0O3VVSf0dYKebIDxndlR/t/F2RLrn/zKRoOGjnGLxMx8bnX2hwymf1eZQsqys6tsD
-         AsqopKdS0kfkrtQsAu82vdMzBGR7Cv0BTspPLjqarhzMSjriKXQoCPn9Hojsj+ytQ3jR
-         iyAadB948zlIFHN0on94OvcSNqH4IWuy/TTGVrSqFfpKiDgvaib5VeB6jlEpnBuKP9o/
-         KnLLArRk61U3HdFvPqziKxw2auZnkr5X6uFnZ64CT6gIDUGmg/i6YePcFCKJm47YecUs
-         d/d2pOtRMdxHjlnZ/39/byJJz8bpiOjzw+YNWkB9KO44utPF6KV1sr5UHMz9z9phIVuI
-         wyWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WTkK39BlZkedB5Vph2dghueoQAO2WsRm0+GwhySEKyY=;
-        b=GWFS0V83VaAKrAhW/ztTUL5x6u+b+ZNctBlWs+QV9+KEtwLgZgG/LoKIGnrZd4VotS
-         6kKHXQxHz0NIbChW/jJYHk18B46+wEno8cZKnY0fGt5OGazQb9seFYwXBggMmDlM/909
-         j8g1YL4hKopPygYDPxpEi4emlBkox0tiHJfKYOoTwEGjBPx7l7luoNgMkXwWT7yH5hGQ
-         e9sXnHoQGDJQ3h+VBG2mf6g9B8tooFCFE4B6WaVXfssSAeLBZ/1cVCWnu10ymswUyKF4
-         45mOEfLYxcspMN0eGIROnJm/Je0lkHaQSejbPIqFYyxQqcHFsLIXEUMjS31seXauLUql
-         vCTA==
-X-Gm-Message-State: AOAM5302cX1hqpdEnzNcgbIo8zg9geavmXYAK0xdH1leRIWjKmn4iyBO
-        o07zkWSHae/Kq/MyFneMRd4=
-X-Google-Smtp-Source: ABdhPJwpXkbGHsxGhgR7mAcufwuWAY7AnTmGU57eUQgfeST1zhEUCzFswSyjx17Cd53DZIZBQEiSTg==
-X-Received: by 2002:a19:418a:: with SMTP id o132mr3214359lfa.63.1597355794110;
-        Thu, 13 Aug 2020 14:56:34 -0700 (PDT)
-Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id z20sm1349977ljk.97.2020.08.13.14.56.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2020 14:56:33 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Daniel Stone <daniel@fooishbar.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v12 4/4] drm/panel-simple: Read panel orientation
-Date:   Fri, 14 Aug 2020 00:56:09 +0300
-Message-Id: <20200813215609.28643-5-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200813215609.28643-1-digetx@gmail.com>
-References: <20200813215609.28643-1-digetx@gmail.com>
+        id S1726533AbgHMWQk convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Thu, 13 Aug 2020 18:16:40 -0400
+Received: from [186.47.21.114] ([186.47.21.114]:59016 "EHLO mail.hmvi.gob.ec"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726384AbgHMWQk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 13 Aug 2020 18:16:40 -0400
+X-Greylist: delayed 12348 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Aug 2020 18:16:39 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hmvi.gob.ec (Postfix) with ESMTP id 83886C032CFEB;
+        Thu, 13 Aug 2020 12:24:48 -0500 (-05)
+Received: from mail.hmvi.gob.ec ([127.0.0.1])
+        by localhost (mail.hmvi.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ISnhoWtYqBnx; Thu, 13 Aug 2020 12:24:48 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hmvi.gob.ec (Postfix) with ESMTP id 3308DC03637DD;
+        Thu, 13 Aug 2020 12:07:38 -0500 (-05)
+X-Virus-Scanned: amavisd-new at hmvi.gob.ec
+Received: from mail.hmvi.gob.ec ([127.0.0.1])
+        by localhost (mail.hmvi.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id PYpCi0A0MjQB; Thu, 13 Aug 2020 12:07:38 -0500 (-05)
+Received: from [10.73.80.190] (unknown [105.8.3.183])
+        by mail.hmvi.gob.ec (Postfix) with ESMTPSA id 0945BC03536C1;
+        Thu, 13 Aug 2020 11:56:41 -0500 (-05)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <danny.puetate@mail.hmvi.gob.ec>
+From:   ''Tayeb Souami'' <danny.puetate@mail.hmvi.gob.ec>
+Date:   Thu, 13 Aug 2020 18:56:20 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200813165642.0945BC03536C1@mail.hmvi.gob.ec>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The panel orientation needs to parsed from a device-tree and assigned to
-the panel's connector in order to make orientation property available to
-userspace. That's what this patch does for the panel-simple driver.
+Lieber Freund,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika,
+der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich
+an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre
+E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines
+Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und
+Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die
+Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden,
+um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite
+unten.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index cb6550d37e85..6e3e99a30d85 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -112,6 +112,8 @@ struct panel_simple {
- 	struct gpio_desc *hpd_gpio;
- 
- 	struct drm_display_mode override_mode;
-+
-+	enum drm_panel_orientation orientation;
- };
- 
- static inline struct panel_simple *to_panel_simple(struct drm_panel *panel)
-@@ -371,6 +373,9 @@ static int panel_simple_get_modes(struct drm_panel *panel,
- 	/* add hard-coded panel modes */
- 	num += panel_simple_get_non_edid_modes(p, connector);
- 
-+	/* set up connector's "panel orientation" property */
-+	drm_connector_set_panel_orientation(connector, p->orientation);
-+
- 	return num;
- }
- 
-@@ -530,6 +535,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		return err;
- 	}
- 
-+	err = of_drm_get_panel_orientation(dev->of_node, &panel->orientation);
-+	if (err) {
-+		dev_err(dev, "failed to parse rotation property: %d\n", err);
-+		return err;
-+	}
-+
- 	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
- 	if (ddc) {
- 		panel->ddc = of_find_i2c_adapter_by_node(ddc);
--- 
-2.27.0
 
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+
+
+Das ist dein Spendencode: [TS530342018]
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+
+Grüße
+
+Herr Tayeb Souami
