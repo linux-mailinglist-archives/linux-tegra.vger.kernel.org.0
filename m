@@ -2,207 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC87243B1A
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Aug 2020 15:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 882E62440AB
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Aug 2020 23:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbgHMN5k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Aug 2020 09:57:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43800 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726053AbgHMN5k (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Aug 2020 09:57:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 3F49EB18A;
-        Thu, 13 Aug 2020 13:57:59 +0000 (UTC)
-Subject: Re: [PATCH 19/20] drm/xlnx: Initialize DRM driver instance with CMA
- helper macro
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     hamohammed.sa@gmail.com, airlied@linux.ie,
-        nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        michal.simek@xilinx.com, thierry.reding@gmail.com, krzk@kernel.org,
-        sam@ravnborg.org, emil.velikov@collabora.com,
-        abdiel.janulgue@linux.intel.com, linux-samsung-soc@vger.kernel.org,
-        jy0922.shim@samsung.com, oleksandr_andrushchenko@epam.com,
-        tomi.valkeinen@ti.com, linux-tegra@vger.kernel.org,
-        linux@armlinux.org.uk, jonathanh@nvidia.com,
-        linux-rockchip@lists.infradead.org, kgene@kernel.org,
-        bskeggs@redhat.com, xen-devel@lists.xenproject.org,
-        intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
-        chunkuang.hu@kernel.org, andi.shyti@intel.com,
-        linux-arm-msm@vger.kernel.org, marek.olsak@amd.com,
-        tianci.yin@amd.com, etnaviv@lists.freedesktop.org,
-        hdegoede@redhat.com, linux-mediatek@lists.infradead.org,
-        rodrigo.vivi@intel.com, matthias.bgg@gmail.com, evan.quan@amd.com,
-        sean@poorly.run, linux-arm-kernel@lists.infradead.org,
-        tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
-        chris@chris-wilson.co.uk, hyun.kwon@xilinx.com,
-        rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
-        Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
-        hjc@rock-chips.com, miaoqinglang@huawei.com,
-        kyungmin.park@samsung.com, nirmoy.das@amd.com,
-        alexander.deucher@amd.com, Hawking.Zhang@amd.com,
-        freedreno@lists.freedesktop.org, christian.koenig@amd.com
-References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-20-tzimmermann@suse.de>
- <20200813133605.GJ6057@pendragon.ideasonboard.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a8e39798-9812-e325-255a-e6536cb32339@suse.de>
-Date:   Thu, 13 Aug 2020 15:57:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726529AbgHMVec (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Aug 2020 17:34:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgHMVeb (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 13 Aug 2020 17:34:31 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648A3C061757;
+        Thu, 13 Aug 2020 14:34:31 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id m22so7788931ljj.5;
+        Thu, 13 Aug 2020 14:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IThCDjeYxkkM18VbuagJbEDKwOsjCUD5KwOfUA5QrWc=;
+        b=L0Vgyqpru8kmueUsI4cVMqp6htGxBMqzWsqUuXQPNeZvPK2y2MuDiHPu7qelLmRmJK
+         cRLvokXPeEs+Pfbmq9vu/zr+xclqXoYNjOW9fYWfk8QFVFr1fQv8YHM3lUv2VI7vkuj1
+         Dwc4gvPB9j9wy9nknQao6OgKHG4wTJjzIm/8qL3pvBRgBIYqPdRu1Bt3Er7id/8frVh5
+         nPSlN9IzzY/2Rsx18Kp72B/98RCIh1+du2sII5gzZAqO39vsRo5Pre3ANx0dWIemEFU1
+         znZNYXeLliGeOzNQCt7tK2jmIUKvykrEaOEmAd9mGcfJ3/L/9wEXlkUYam/C5UbztUgc
+         AoOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IThCDjeYxkkM18VbuagJbEDKwOsjCUD5KwOfUA5QrWc=;
+        b=qUGyPZI5VfvZt0p0MZvVXIOjeZTO/KL00rYjQNbKjJUcwFOlqcbUYkp+irRh8jbzE+
+         Cd/Zigocw9EwvEJeq5wMLGyQQ1Li9hEf/eknefQ/WLEAbV5pphuIWa7Rt7DpnrDbMVFM
+         QeQwZQO5XZmExhXE7OQ+/Y22OhKf4PiHTr/5aO3tggoN0zbTYOpUIGf4EuSB30jc5JYE
+         NskWsF9+s5J50H17JxXVlLKy1BvgcL9pHA0NavaOTIvXoes71AICy98X80g6U1ci161c
+         97snsOyZxhwN7Xf5V5+YWtOoiukH/Z6/BHDHAeVyNAp83sWMnQL8kQPboECN+cMJfH9s
+         zcaw==
+X-Gm-Message-State: AOAM530kYap4jnrACXaMXuCkn4H44psHmsJWjBy0xhrKKv5HKGupgtsy
+        Iqd+Wkm3vM8D/4APxrfKUok=
+X-Google-Smtp-Source: ABdhPJy7yIGjPYA4/SOFJxhPGBV9c3CsJJwXuYU/XrKIbhdrF8Hoz43SP8lvuUwkYMhr8W94+XKQFw==
+X-Received: by 2002:a2e:92d0:: with SMTP id k16mr2736517ljh.70.1597354469716;
+        Thu, 13 Aug 2020 14:34:29 -0700 (PDT)
+Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.gmail.com with ESMTPSA id j2sm1345309ljb.98.2020.08.13.14.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2020 14:34:29 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Sebastian Reichel <sre@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Heidelberg <david@ixit.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "Bruce E . Robertson" <bruce.e.robertson@intel.com>
+Cc:     linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Jonghwa Lee <jonghwa3.lee@samsung.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Vinay Simha BN <simhavcs@gmail.com>,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v3 00/10] Summit SMB3xx driver & device-tree
+Date:   Fri, 14 Aug 2020 00:33:59 +0300
+Message-Id: <20200813213409.24222-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200813133605.GJ6057@pendragon.ideasonboard.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6"
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6
-Content-Type: multipart/mixed; boundary="Orz2ZqpSWnksEfl2yo6RF3aBwExLujGG6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
- thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- emil.velikov@collabora.com, abdiel.janulgue@linux.intel.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
- linux-tegra@vger.kernel.org, linux@armlinux.org.uk, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
- linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
- etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
- linux-mediatek@lists.infradead.org, rodrigo.vivi@intel.com,
- matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
- linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
- amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
- hyun.kwon@xilinx.com, rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
- Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
- hjc@rock-chips.com, miaoqinglang@huawei.com, kyungmin.park@samsung.com,
- nirmoy.das@amd.com, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
- freedreno@lists.freedesktop.org, christian.koenig@amd.com
-Message-ID: <a8e39798-9812-e325-255a-e6536cb32339@suse.de>
-Subject: Re: [PATCH 19/20] drm/xlnx: Initialize DRM driver instance with CMA
- helper macro
-References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-20-tzimmermann@suse.de>
- <20200813133605.GJ6057@pendragon.ideasonboard.com>
-In-Reply-To: <20200813133605.GJ6057@pendragon.ideasonboard.com>
+We gathered existing patches, fixed and improved what we could and
+final result is an working charging driver with device-tree support
+for Nexus 7.
 
---Orz2ZqpSWnksEfl2yo6RF3aBwExLujGG6
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+At this moment charging works with:
+ - Nexus 7 2012 (grouper and tilapia)
+ - Nexus 7 2013 (flo and deb)
+ - ... and there are more devices equipped with these chargers.
 
-Hi
+Changelog:
 
-Am 13.08.20 um 15:36 schrieb Laurent Pinchart:
-> Hi Thomas,
->=20
-> Thank you for the patch.
->=20
-> On Thu, Aug 13, 2020 at 10:36:43AM +0200, Thomas Zimmermann wrote:
->> The xlnx driver uses CMA helpers with default callback functions.
->> Initialize the driver structure with the rsp CMA helper macro. The
->> driver is being converted to use GEM object functions as part of
->> this change.
->>
->> Two callbacks, .dumb_destroy and .gem_prime_import, were initialized
->> to their default implementations, so they are just kept empty now.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 14 +-------------
->>  1 file changed, 1 insertion(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xln=
-x/zynqmp_dpsub.c
->> index 26328c76305b..058044dcc062 100644
->> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->> @@ -80,19 +80,7 @@ static struct drm_driver zynqmp_dpsub_drm_driver =3D=
- {
->>  	.driver_features		=3D DRIVER_MODESET | DRIVER_GEM |
->>  					  DRIVER_ATOMIC,
->> =20
->> -	.prime_handle_to_fd		=3D drm_gem_prime_handle_to_fd,
->> -	.prime_fd_to_handle		=3D drm_gem_prime_fd_to_handle,
->> -	.gem_prime_export		=3D drm_gem_prime_export,
->> -	.gem_prime_import		=3D drm_gem_prime_import,
->> -	.gem_prime_get_sg_table		=3D drm_gem_cma_prime_get_sg_table,
->> -	.gem_prime_import_sg_table	=3D drm_gem_cma_prime_import_sg_table,
->> -	.gem_prime_vmap			=3D drm_gem_cma_prime_vmap,
->> -	.gem_prime_vunmap		=3D drm_gem_cma_prime_vunmap,
->> -	.gem_prime_mmap			=3D drm_gem_cma_prime_mmap,
->> -	.gem_free_object_unlocked	=3D drm_gem_cma_free_object,
->> -	.gem_vm_ops			=3D &drm_gem_cma_vm_ops,
->> -	.dumb_create			=3D zynqmp_dpsub_dumb_create,
->> -	.dumb_destroy			=3D drm_gem_dumb_destroy,
->> +	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_creat=
-e),
->=20
-> The only effective change here is
->=20
-> -	.gem_prime_import_sg_table	=3D drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_mmap			=3D drm_gem_cma_prime_mmap,
-> +	.gem_prime_import_sg_table	=3D drm_gem_cma_prime_import_sg_table_vmap=
-,
-> +	.gem_prime_mmap			=3D drm_gem_prime_mmap,
->=20
-> The change is significant, and I have a hard time following the code to=
+v3: - The uint32 type now isn't specified for standard units in the SMB
+      DT binding because standard units already have a type.
+      Thanks to Rob Herring for the suggestion!
 
-> verify that it's correct, or if it's an undesired side effect. If it's
-> correct, could the change be mentioned in the commit message, with at
-> least a brief explanation of why this is correct, and what the
-> consequences here ?
+    - The battery binding changes are rebased on top of the new battery.yaml
 
-I think this is a mistake that I didn't notice. Thanks for spotting it.
-Initializing the driver structure
-DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE should fix it. I'll change this
-for the patch's next revision.
+    - The new battery temperature DT properties now have shorter names
+      and use <min max> format. Thanks to Rob Herring for the suggestion!
 
-Best regards
-Thomas
+    - Added new patch that adds SMB charger node to the new Nexus 7 2012
+      device-tree which has been merged into v5.9 kernel.
 
->=20
->> =20
->>  	.fops				=3D &zynqmp_dpsub_drm_fops,
->> =20
->=20
+v2: - Addressed v1 review comments from Rob Herring and Sebastian Reichel
+      by moving out common battery properties from the charger node into the
+      battery-cell node.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+    - power_supply_register() of the SMB driver converted to resource-managed
+      API variant.
 
+    - Improved DT property names of the SMB binding by making them to follow
+      the generic power-supply naming scheme (-microvolts at the end, etc).
 
---Orz2ZqpSWnksEfl2yo6RF3aBwExLujGG6--
+David Heidelberg (7):
+  dt-bindings: power: supply: Add device-tree binding for Summit SMB3xx
+  power: supply: smb347-charger: Use resource-managed API
+  power: supply: smb347-charger: Implement device-tree support
+  power: supply: smb347-charger: Support SMB345 and SMB358
+  power: supply: smb347-charger: Remove virtual smb347-battery
+  ARM: dts: qcom: apq8064-nexus7: Add SMB345 battery charger
+  ARM: tegra: nexus7: Add SMB347 battery charger
 
---tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Dmitry Osipenko (3):
+  dt-bindings: battery: Add temperature properties
+  power: supply: Support battery temperature device-tree properties
+  power: supply: smb347-charger: Replace mutex with IRQ disable/enable
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/power/supply/battery.yaml        |  24 +
+ .../power/supply/summit,smb347-charger.yaml   | 152 +++++
+ .../boot/dts/qcom-apq8064-asus-nexus7-flo.dts |  24 +
+ .../tegra30-asus-nexus7-grouper-common.dtsi   |  24 +-
+ drivers/power/supply/Kconfig                  |   6 +-
+ drivers/power/supply/power_supply_core.c      |  19 +
+ drivers/power/supply/smb347-charger.c         | 565 +++++++++---------
+ .../dt-bindings/power/summit,smb347-charger.h |  19 +
+ include/linux/power_supply.h                  |   6 +
+ 9 files changed, 568 insertions(+), 271 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
+ create mode 100644 include/dt-bindings/power/summit,smb347-charger.h
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl81RswUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPfqAgAoOYcX5UFEbejKi/wGBq3HxlV2lCp
-5M6+u8OsIfDWcmroBE+YK419eRwDbsNeDSbzHs7GVQ7SOEeltGdgRpf7QuaUgupn
-VJmuMSjAwqbV0l5nyd5DD0Tr2Z/QOxaLAguvxUcSTOdYWAuqLwTo6X5+butu86YB
-tEBhKOk6Vzm8C5KA3Loy27We59QzBmDHJ+cdzEhsM1AG0SPJ5sePjMiKFMM3Mo4u
-8+HQ3wVLzYAQVhK7Q8bUM/6yIv+AQaAfoNtG3zPI7q9FKKKMbBbTVQV0YeZUKC4T
-kIHdnG+dlK834qYxJmlxWwcU8XjHoiAbQYJDfpmjeYw++Xz1MePDB6MG2g==
-=PGhi
------END PGP SIGNATURE-----
+-- 
+2.27.0
 
---tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6--
