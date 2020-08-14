@@ -2,82 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A335224488C
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Aug 2020 13:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9BF1244936
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Aug 2020 13:48:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727828AbgHNLAK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Aug 2020 07:00:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727074AbgHNLAJ (ORCPT
+        id S1726603AbgHNLsj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 14 Aug 2020 07:48:39 -0400
+Received: from mail.munisurquillo.gob.pe ([190.187.155.157]:58898 "EHLO
+        mail.munisurquillo.gob.pe" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726576AbgHNLsh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Aug 2020 07:00:09 -0400
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8A7C061384
-        for <linux-tegra@vger.kernel.org>; Fri, 14 Aug 2020 04:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-        Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=YP0DmDDXRMajgdF+3ZbtNv5wrRmW65V8N8OdjpKYDpE=; b=leGqr0E227Y9gJV+vDo/BWkfo7
-        rz4vKGwN9qXGehZO/Ma4IW3cq7rhcE8me2UiAal0enFAuij6tnxqgzY0bpzkTjg86chSB3Op39OFG
-        hQXpz8+wn2NjEcXlsv6rcKI4IQFOpKJerRvp2H8z5P5VrLnGOMg+ZyjwSlMlciXuRjK8h7wPBswVq
-        CH8jY9cFjEV8XV/gG++ReJiCs2ooh+wnx/7dlR0EMnkk9/m3TwrqJU7kKH37qf54Fl1GLrX0YHviU
-        Hcx+g3MdwY/6QrCLzdtx6e5AHtcK7dg//fCycTfxw9TFtU8+/+LDQkd111ylgrqdxpta/DvqpiC36
-        LY5L250w==;
-Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65] helo=[192.168.1.10])
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1k6XRF-0002xP-Gn; Fri, 14 Aug 2020 13:59:57 +0300
-To:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media@vger.kernel.org, john.stultz@linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Role of DMA Heaps vs GEM in allocation
-Message-ID: <57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi>
-Date:   Fri, 14 Aug 2020 13:59:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Fri, 14 Aug 2020 07:48:37 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.munisurquillo.gob.pe (Postfix) with ESMTP id 39E45405251A2;
+        Fri, 14 Aug 2020 02:01:51 -0500 (-05)
+Received: from mail.munisurquillo.gob.pe ([127.0.0.1])
+        by localhost (mail.munisurquillo.gob.pe [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id X-HJNGGCjD25; Fri, 14 Aug 2020 02:01:51 -0500 (-05)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.munisurquillo.gob.pe (Postfix) with ESMTP id E7BE7404F98CA;
+        Fri, 14 Aug 2020 02:01:50 -0500 (-05)
+X-Virus-Scanned: amavisd-new at munisurquillo.gob.pe
+Received: from mail.munisurquillo.gob.pe ([127.0.0.1])
+        by localhost (mail.munisurquillo.gob.pe [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Z9vNKzLnZ5Lq; Fri, 14 Aug 2020 02:01:50 -0500 (-05)
+Received: from [10.54.17.114] (unknown [105.4.7.153])
+        by mail.munisurquillo.gob.pe (Postfix) with ESMTPSA id 0DA1440518DE0;
+        Fri, 14 Aug 2020 02:01:40 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 84.250.171.65
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <lu.marin@munisurquillo.gob.pe>
+From:   ''charles jackson'' <lu.marin@munisurquillo.gob.pe>
+Date:   Fri, 14 Aug 2020 09:01:31 +0200
+Reply-To: charlesjacksonjr001@gmail.com
+Message-Id: <20200814070141.0DA1440518DE0@mail.munisurquillo.gob.pe>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+Hallo
 
-I'm currently working on a new UAPI for Host1x/TegraDRM (see first draft 
-in thread "[RFC] Host1x/TegraDRM UAPI"[1]). One question that has come 
-up is regarding the buffer allocation mechanism. Traditionally, DRM 
-drivers provide custom GEM allocation IOCTLs. However, we now have DMA 
-Heaps, which would be sufficient for TegraDRM's needs, so we could skip 
-implementing any GEM IOCTLs in the TegraDRM UAPI, and rely on importing 
-DMA-BUFs. This would mean less code on TegraDRM's side.
+Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Amerika, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der Hilfsgelder für das Corona-Virus.
 
-However, one complication with using DMA Heaps is that it only provides 
-DMA-BUF FDs, so it is possible that a user application could run out of 
-free file descriptors if it is not adjusting its soft FD limit. This 
-would especially be a problem for existing applications that might have 
-worked with the traditional GEM model and didn't need to adjust their FD 
-limits, but would then fail in some situations with the increased FD 
-usage of DMA-BUF FDs.
+Dies ist Ihr Spendencode: [CJ530342019]
 
-My question is then: what is the role of DMA Heaps? If it is to be used 
-as a central allocator, should the FD issue be left to the application, 
-or addressed somehow? Should it be considered a potential alternative 
-for GEM allocations?
+www.youtube.com/watch?v=BSr8myiLPMQ
 
-Thanks,
-Mikko
+Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
 
-[1] https://www.spinics.net/lists/dri-devel/msg262021.html
+charlesjacksonjr001@gmail.com
+
+Ich hoffe, dass Sie und Ihre Familie dies durchkommen
+
+
+Herr Charles Jackson
