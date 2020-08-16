@@ -2,111 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2280A244F4B
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Aug 2020 22:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 265E8245827
+	for <lists+linux-tegra@lfdr.de>; Sun, 16 Aug 2020 16:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbgHNUxP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Aug 2020 16:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40794 "EHLO
+        id S1726737AbgHPOcM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 16 Aug 2020 10:32:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbgHNUxO (ORCPT
+        with ESMTP id S1729612AbgHPOb0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Aug 2020 16:53:14 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D0DC061385
-        for <linux-tegra@vger.kernel.org>; Fri, 14 Aug 2020 13:53:14 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id x24so8646214otp.3
-        for <linux-tegra@vger.kernel.org>; Fri, 14 Aug 2020 13:53:14 -0700 (PDT)
+        Sun, 16 Aug 2020 10:31:26 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27853C0612EF
+        for <linux-tegra@vger.kernel.org>; Sun, 16 Aug 2020 07:28:39 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 184so11882487wmb.0
+        for <linux-tegra@vger.kernel.org>; Sun, 16 Aug 2020 07:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EmoVjC08YrxpXeWbeOpcQEKNWTvOXbJjlLJ0uSesYA8=;
-        b=aolCttJ37bqd+sgnF8A6XpmoeOLLkQCaKN3q+rb6g/rNhwhvcwL1iJBBNMcr8FvOfE
-         WvjYAxIkVM0S7MriwGD//PHIXegNQsl0mZdCDmcuyyj9GY/T/5dpF1CzJkELHMgmMq6Y
-         xu5L/CJRA0PXVhPH4en0+FFYYIwJ69kgrhcADp1qYUt7JGFpe8y1JikeiSySX4zjbbuN
-         bv9nceABe3dfOSgPwiE3n1I+sabLGkd/b9VUWUsOU8OdDoEVkMwIumwFS93KiM+iyF4f
-         5/dQyIjRafdbdS6dtGp0E3WOIK2F04eDLoBDhrem3egJOhAp3xsk0Cf5cGJenTeX2d/B
-         5/YA==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
+         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
+         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
+         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
+         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
+         yMKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EmoVjC08YrxpXeWbeOpcQEKNWTvOXbJjlLJ0uSesYA8=;
-        b=uXO3C0IhzCw70EVAyaJyb+wHl1s4scSeQbIUylOSQikWTiOwqvCGRz34dsiXP6Q2Q/
-         9QDEuG+o6TjusCWO2Ee6FKmpqOgcP0qn68dWFgTmfeW7fN90WEMlf9mcuPCgyvqfRklw
-         Ncy9dffHTHiMblSSZQp4ikJNe9fX+L6/r2Wictjob17SYcpIP06N57V1dl19mb5ljchg
-         /cOw77ylmpTPnhj2tkK0PG64pUk24PjCfTRV4o+s1KLwI0ULtI9uLROAoFBK49/4LRmY
-         EOvwKjUTzUZ0enRC8Abc0xn+eDU3onOAJu2zod9JrnkwofwmpFA4nSnNHJtvKXt1MSZ8
-         6+ZQ==
-X-Gm-Message-State: AOAM532c7GOAXUpJBiOv4Y7Iz90OIKG3FX9c7Jy5+yMOe7uaoChXx0TL
-        TnXc6svltUc5S2SLsJtIsCoe6aCx91XM+FbBmB/1IQ==
-X-Google-Smtp-Source: ABdhPJzsqsQPx8m5cz69J30RINmCdTOYqlYH4FYXz03eP3WaZBw/2J7kDm1DTz/fu92cpDUoOnTmUK3xjLtz3YQKStQ=
-X-Received: by 2002:a05:6830:237b:: with SMTP id r27mr3123949oth.352.1597438393874;
- Fri, 14 Aug 2020 13:53:13 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=MvYsnpIg6fJ9Trv5pSkSNtXDb114sTVchB6meSW5nNAy095JzJwFlxWG0y9K4uVP5z
+         qQAbR1nk9e+0ijv9+7LIYPvH4YmePzedwuwDjGaBsWny0tujjsvamtGqYsLqJyfFRoBo
+         WHsfR9vv51ChuStqdEOQln7prPLymnm+l5daQ5rNj/Jr/iIZPy+6Hlez3oYy4dK7YslK
+         J15WSUtazPnq+QB5nOxUpKWnlCNBs+gPbH10kBTyiHSmgdsg4Gnj/DfiF9W1nndyNOnI
+         /fkz6ryu0Cn8YNBwtYpiiOqgy0iYeL3jKJ7QWaqb6ITYybNspkloyCGtCObLN8NupEUV
+         tPNw==
+X-Gm-Message-State: AOAM5310Oqp7FpyRWQ7WLHyU3QVnJduwpcJGXmeUBIpMY8ugPBsZYPft
+        Zr/c995IpkvwieAaUkqzH6H/cvM14UyoizIZKSR8u4OiAqs=
+X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
+X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
+ Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi>
-In-Reply-To: <57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Fri, 14 Aug 2020 13:53:02 -0700
-Message-ID: <CALAqxLX4J4bykRis3=Q2Q54Fe1o7A7nFH3Yfjbi-kNXOQPrQpw@mail.gmail.com>
-Subject: Re: Role of DMA Heaps vs GEM in allocation
-To:     Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
+ -0700 (PDT)
+Reply-To: sctnld11170@tlen.pl
+From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
+Date:   Sun, 16 Aug 2020 07:28:30 -0700
+Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
+Subject: Hello, Please
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 3:59 AM Mikko Perttunen <cyndis@kapsi.fi> wrote:
->
-> I'm currently working on a new UAPI for Host1x/TegraDRM (see first draft
-> in thread "[RFC] Host1x/TegraDRM UAPI"[1]). One question that has come
-> up is regarding the buffer allocation mechanism. Traditionally, DRM
-> drivers provide custom GEM allocation IOCTLs. However, we now have DMA
-> Heaps, which would be sufficient for TegraDRM's needs, so we could skip
-> implementing any GEM IOCTLs in the TegraDRM UAPI, and rely on importing
-> DMA-BUFs. This would mean less code on TegraDRM's side.
->
-> However, one complication with using DMA Heaps is that it only provides
-> DMA-BUF FDs, so it is possible that a user application could run out of
-> free file descriptors if it is not adjusting its soft FD limit. This
-> would especially be a problem for existing applications that might have
-> worked with the traditional GEM model and didn't need to adjust their FD
-> limits, but would then fail in some situations with the increased FD
-> usage of DMA-BUF FDs.
+--=20
+Dear Friend,
 
-I'm not sure exactly if this would help, but I am working on some
-exploratory tweaks to DMA BUF Heaps so that there could be an
-in-kernel accessor that returns a struct dma_buf instead of a fd.
+I'm Mr. Scott Donald a Successful businessMan dealing with
+Exportation, I got your mail contact through search to let you know my
+intension and my Ugly Situation Am a dying Man here in Los Angeles
+California Hospital Bed in (USA), I Lost my Wife and my only Daughter
+for Covid-19 and I also have a problem in my Health and I can die
+anytime I Know,
 
-This is motivated as some folks want to use DMA BUF Heaps (if I
-understand your approach) in a similar fashion, where the driver wants
-to generate a DMA BUF but doesn't want to create their own DMA BUF
-exporter which would duplicate one of the DMA BUF Heaps.
+I have a project that I am about to hand over to you. and I already
+instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
+of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
+able you
+to give 50% of this fund to Charitable Home in your State and take 50%
+don't think otherwise and why would anybody send someone you barely
+know to help you deliver a message, help me do this for the happiness
+of my soul and for God to mercy me and my Family and give Us a good
+place.
 
-I'm a little mixed on this as part of the reason DMA BUF Heaps exists
-as a userland interface is because its userland which knows the path
-that a buffer will take, so userland is in the best position to
-understand what type of buffer it needs to allocate. It seems to me
-that drivers should instead import a buffer provided to them from
-userland to fill, rather than allocating a buffer from a heap they
-choose (which may constraint later use of that buffer). But, I also
-grant that drivers implementing their own DMA BUF exporters that
-duplicate existing code is silly, so having in-kernel allocation
-interfaces may be reasonable.
+please, do as I said there was someone from your State that I deeply
+love so very very much and I miss her so badly I have no means to
+reach any Charitable Home there. that is why I go for a personal
+search of the Country and State and I got your mail contact through
+search to let you know my Bitterness and please, help me is getting
+Dark I ask my Doctor to help me keep you notice failure for me to
+reach you in person Your urgent Response, here is my Doctor Whats-app
+Number for urgent notice +13019692737
 
-However, the efforts are also somewhat blocked on having a public
-in-kernel user of such an interface, so they are basically only
-exploratory at the moment. So if you have an in-kernel user interested
-in something like this, I'd be glad to get further input.
+Hope To Hear From You. I'm sending this email to you for the second
+time yet no response from you.
 
-This probably doesn't help answer your question wrt to GEM, and I'd
-defer to Daniel there. :)
+My Regards.
 
-thanks
--john
+Mr. Scott Donald
+CEO
