@@ -2,97 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 265E8245827
-	for <lists+linux-tegra@lfdr.de>; Sun, 16 Aug 2020 16:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A7D424584B
+	for <lists+linux-tegra@lfdr.de>; Sun, 16 Aug 2020 17:17:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbgHPOcM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 16 Aug 2020 10:32:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729612AbgHPOb0 (ORCPT
+        id S1727973AbgHPPR5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 16 Aug 2020 11:17:57 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:60368 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726407AbgHPPR4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 16 Aug 2020 10:31:26 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27853C0612EF
-        for <linux-tegra@vger.kernel.org>; Sun, 16 Aug 2020 07:28:39 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 184so11882487wmb.0
-        for <linux-tegra@vger.kernel.org>; Sun, 16 Aug 2020 07:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
-         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
-         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
-         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
-         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
-         yMKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=MvYsnpIg6fJ9Trv5pSkSNtXDb114sTVchB6meSW5nNAy095JzJwFlxWG0y9K4uVP5z
-         qQAbR1nk9e+0ijv9+7LIYPvH4YmePzedwuwDjGaBsWny0tujjsvamtGqYsLqJyfFRoBo
-         WHsfR9vv51ChuStqdEOQln7prPLymnm+l5daQ5rNj/Jr/iIZPy+6Hlez3oYy4dK7YslK
-         J15WSUtazPnq+QB5nOxUpKWnlCNBs+gPbH10kBTyiHSmgdsg4Gnj/DfiF9W1nndyNOnI
-         /fkz6ryu0Cn8YNBwtYpiiOqgy0iYeL3jKJ7QWaqb6ITYybNspkloyCGtCObLN8NupEUV
-         tPNw==
-X-Gm-Message-State: AOAM5310Oqp7FpyRWQ7WLHyU3QVnJduwpcJGXmeUBIpMY8ugPBsZYPft
-        Zr/c995IpkvwieAaUkqzH6H/cvM14UyoizIZKSR8u4OiAqs=
-X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
-X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
- Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
+        Sun, 16 Aug 2020 11:17:56 -0400
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id E3D388050E;
+        Sun, 16 Aug 2020 17:17:50 +0200 (CEST)
+Date:   Sun, 16 Aug 2020 17:17:49 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Derek Basehore <dbasehore@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v12 0/4] Panel rotation patches
+Message-ID: <20200816151749.GA1394979@ravnborg.org>
+References: <20200813215609.28643-1-digetx@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
- -0700 (PDT)
-Reply-To: sctnld11170@tlen.pl
-From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
-Date:   Sun, 16 Aug 2020 07:28:30 -0700
-Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
-Subject: Hello, Please
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200813215609.28643-1-digetx@gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
+        a=8w4ccKQgAAAA:20 a=e5mUnYsNAAAA:8 a=TCdPBaVuNUQlGkixCqMA:9
+        a=CjuIK1q_8ugA:10 a=W4TVW4IDbPiebHqcZpNg:22 a=AjGcO6oz07-iQ99wixmX:22
+        a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=20
-Dear Friend,
+Hi Dmitry
 
-I'm Mr. Scott Donald a Successful businessMan dealing with
-Exportation, I got your mail contact through search to let you know my
-intension and my Ugly Situation Am a dying Man here in Los Angeles
-California Hospital Bed in (USA), I Lost my Wife and my only Daughter
-for Covid-19 and I also have a problem in my Health and I can die
-anytime I Know,
+On Fri, Aug 14, 2020 at 12:56:05AM +0300, Dmitry Osipenko wrote:
+> Hello!
+> 
+> This series adds support for display panel's DT rotation property. It's a
+> continuation of the work that was initially started by Derek Basehore for
+> the panel driver that is used by some Mediatek device [1]. I picked up the
+> Derek's patches and added my t-b and r-b tags to them, I also added
+> rotation support to the panel-lvds and panel-simple drivers.
+> 
+> We need the rotation support for the Nexus 7 tablet device which is now
+> supported by the upstream kernel, the device has display panel mounted
+> upside-down and it uses panel-lvds [2].
+> 
+> [1] https://lkml.org/lkml/2020/3/5/1119
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi?#n1036
+> 
+> Changelog:
+> 
+> v12: - No code changes. The v11 missed v5.9 release, re-sending patches
+>        for the v5.10 kernel. Please review and apply patches to linux-next,
+>        thanks in advance!
+> 
+> v11: - This series is factored out from this patchset [3] because these
+>        patches do not have hard dependency on the Tegra DRM patches and
+>        it should be nicer to review and apply the properly grouped patches.
+> 
+>      - Initially [3] only touched the panel-lvds driver and Emil Velikov
+>        suggested that it will be better to support more panels in the review
+>        comments to [3]. So I included the Derek's patch for the BOE panel
+>        and added rotation support to the panel-simple driver. I tested that
+>        panel-lvds and panel-simple work properly with the rotated panel using
+>        the Opentegra Xorg driver [4] and Wayland Weston [5].
+> 
+>      - The panel-lvds driver now prints a error message if rotation property
+>        fails to be parsed.
+> 
+> [3] https://lore.kernel.org/lkml/20200614200121.14147-1-digetx@gmail.com/
+> [4] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a3959bbe5bc3a3b67e55977093fd5114ca
+> [5] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
+> 
+> Derek Basehore (2):
+>   drm/panel: Add helper for reading DT rotation
+>   drm/panel: Read panel orientation for BOE TV101WUM-NL6
+> 
+> Dmitry Osipenko (2):
+>   drm/panel: lvds: Read panel orientation
+>   drm/panel-simple: Read panel orientation
 
-I have a project that I am about to hand over to you. and I already
-instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
-of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
-able you
-to give 50% of this fund to Charitable Home in your State and take 50%
-don't think otherwise and why would anybody send someone you barely
-know to help you deliver a message, help me do this for the happiness
-of my soul and for God to mercy me and my Family and give Us a good
-place.
+Thanks for your persistence with these patches.
+While applying I made a few updates:
+- fixed two trivial checkpatch warnings
+- small update to kernel-doc for the new function, to better match
+  surrounding wording
+- added error message to panel-boe-tv101wum-nl6.c when failed to get
+  orientation
+- use same wording in all error messages and use "orientation" and not
+  rotation as this matches the called function
+ 
+	Sam
 
-please, do as I said there was someone from your State that I deeply
-love so very very much and I miss her so badly I have no means to
-reach any Charitable Home there. that is why I go for a personal
-search of the Country and State and I got your mail contact through
-search to let you know my Bitterness and please, help me is getting
-Dark I ask my Doctor to help me keep you notice failure for me to
-reach you in person Your urgent Response, here is my Doctor Whats-app
-Number for urgent notice +13019692737
-
-Hope To Hear From You. I'm sending this email to you for the second
-time yet no response from you.
-
-My Regards.
-
-Mr. Scott Donald
-CEO
+> 
+>  drivers/gpu/drm/drm_panel.c                   | 43 +++++++++++++++++++
+>  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    |  6 +++
+>  drivers/gpu/drm/panel/panel-lvds.c            | 10 +++++
+>  drivers/gpu/drm/panel/panel-simple.c          | 11 +++++
+>  include/drm/drm_panel.h                       |  9 ++++
+>  5 files changed, 79 insertions(+)
+> 
+> -- 
+> 2.27.0
