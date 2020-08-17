@@ -2,111 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93715245F9B
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Aug 2020 10:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2C7824717A
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Aug 2020 20:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbgHQIXg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Aug 2020 04:23:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727112AbgHQIXd (ORCPT
+        id S2390754AbgHQS2G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Aug 2020 14:28:06 -0400
+Received: from mail-ej1-f42.google.com ([209.85.218.42]:46672 "EHLO
+        mail-ej1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390989AbgHQS1n (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Aug 2020 04:23:33 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF21C061388;
-        Mon, 17 Aug 2020 01:23:32 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id t6so7345693pjr.0;
-        Mon, 17 Aug 2020 01:23:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=8m7i7NFD9jtK5LLWJqp7H8mCeAZp9HPWo5wwi/RHp1g=;
-        b=shhgpJ08JxORr1lpKJUfn3rchd09xpy5GGqJOy+g9NZHI2yF93ITXi9gFGnHqql9PN
-         IIqTRGM+YqPsbWPrgC9E5xcKRbIjXdKqoLaeQRRLy+BgZ0VlNpUtYLYotj9zO/XVLva2
-         +Tllzxp32+qQBUXckBM4g+opSCRbBgFt5ss7ET0g7omdzkYjanAgDryppqe6/vD/LI6c
-         6wkO4DAHsGqPFCf/eJ8A+MkhjsJ3eYHTsE7LczIFRuKKANtSFih6SHGz/cqeYpOIT9Jl
-         HxCJg00kHcNEYxKHr7oEq3LU6Jw+8qU4B+UYcCRUEaTTnfKB2ZJEdkXfVIujaTMUF+yw
-         YWqw==
+        Mon, 17 Aug 2020 14:27:43 -0400
+Received: by mail-ej1-f42.google.com with SMTP id p24so18905820ejf.13;
+        Mon, 17 Aug 2020 11:27:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=8m7i7NFD9jtK5LLWJqp7H8mCeAZp9HPWo5wwi/RHp1g=;
-        b=exEjeocWw7iRLAma61FpooRQ9KNDQYKjya0Yq5kKYeFCXLM3neP0W6MgXoaDOrPCGx
-         X04TDGBmmCZY3jTpU4iw8+08O1TS7Rg+/SvhGClXDHpQefS+BMSaNiP1HjCi9n6lwlRA
-         cJMwOTKTQsmr8dgAcS5jmRqnWqNlZW1pzgSGtZCPK+eSIZNfJNCNkUQ3gd4c3ArqEY52
-         jB5PBxsNSROGo6uijfWgAIqCYCyXWTf9pzoQ63ZCkGnkQvodz+jdkN3a0UDcQ5jaW2J+
-         JnEigUphB3tcXwHd7KwtOaQ+AwgELc929xeAQ1mqRyNVCyOKx0n10/ASxpigMLM3roFV
-         l8TQ==
-X-Gm-Message-State: AOAM533Pquo9Q+MkL3fh+rTxNkEADHwH46DiYSnXTilCuXwysn6vBIae
-        MSYCgCzMJduTg53PMF5cKZY=
-X-Google-Smtp-Source: ABdhPJwa4r12zdeyzw2uMxlu/O5WMxHHX7aUf3vUQzREnZb/8WCIoQnzmvYJMcX5iK2KOq5isJHTnA==
-X-Received: by 2002:a17:902:5991:: with SMTP id p17mr10568056pli.78.1597652612472;
-        Mon, 17 Aug 2020 01:23:32 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.202.98])
-        by smtp.gmail.com with ESMTPSA id d93sm16735334pjk.44.2020.08.17.01.23.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 01:23:32 -0700 (PDT)
-From:   Allen Pais <allen.lkml@gmail.com>
-To:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, ast@kernel.org,
-        daniel@iogearbox.net, kafai@fb.com, songliubraving@fb.com,
-        yhs@fb.com, andriin@fb.com, john.fastabend@gmail.com,
-        kpsingh@chromium.org, baohua@kernel.org, mripard@kernel.org,
-        wens@csie.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        michal.simek@xilinx.com, matthias.bgg@gmail.com
-Cc:     keescook@chromium.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Allen Pais <allen.lkml@gmail.com>
-Subject: [PATCH 35/35] dma: k3-udma: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 17 Aug 2020 13:47:26 +0530
-Message-Id: <20200817081726.20213-36-allen.lkml@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200817081726.20213-1-allen.lkml@gmail.com>
-References: <20200817081726.20213-1-allen.lkml@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=In/lRzRecPXlJCsCXOUKVII8Zjza+KgDgAZ3qlg6NBY=;
+        b=BiNY0ojzti9yNUev2nTtLyzk6JZBBxmgIw+89KBTyFJPtrX4kouSN9kpSTK7LkIxw2
+         j9Pz/Kg8ccOg85UkfG1JklsNWKqwEDcH9s8+uPDlQJOZHK167K1pIqFzxB2EIaHNnu/7
+         Izz4hP5YEr1K9D+smmSYDxyTr1LGSLPOCTNxeCT0GSo8fk8BhNySaDqd11UjPliaEV+W
+         W4NvxcEExhA5BhevjU8msrwXKn20Fqx8SARrPe//BecWqABRKi3H5j+Dru1/PmLoX+kN
+         dSYZGIbBYfxJJYyNJPxhrShNpqExYZzTAA/3lu70IktG29rcgmR3OSnN9XkFPUqMdKKr
+         xmxg==
+X-Gm-Message-State: AOAM530o9Q1Rio42tofLoq3ofktyTaDx9pf01Fb89irFHehNi0hx584A
+        lUqKIcjqFLpdj7UPrbvfa+g=
+X-Google-Smtp-Source: ABdhPJzlp7hrM7e8yK6q4U5Xo1UPtQg4hALTTyDbMtxYuqmsunf77TyReaLSnblPdWrAoapQvk48kw==
+X-Received: by 2002:a17:906:54d3:: with SMTP id c19mr17313272ejp.408.1597688861304;
+        Mon, 17 Aug 2020 11:27:41 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.216])
+        by smtp.googlemail.com with ESMTPSA id p12sm13037482edt.27.2020.08.17.11.27.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 17 Aug 2020 11:27:40 -0700 (PDT)
+Date:   Mon, 17 Aug 2020 20:27:36 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Markus Mayer <mmayer@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Roger Quadros <rogerq@ti.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [RFT v2 01/29] memory: omap-gpmc: Remove unneeded
+ asm/mach-types.h inclusion
+Message-ID: <20200817182736.GA3464@kozik-lap>
+References: <20200724074038.5597-1-krzk@kernel.org>
+ <20200724074038.5597-2-krzk@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200724074038.5597-2-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-In preparation for unconditionally passing the
-struct tasklet_struct pointer to all tasklet
-callbacks, switch to using the new tasklet_setup()
-and from_tasklet() to pass the tasklet pointer explicitly.
+On Fri, Jul 24, 2020 at 09:40:10AM +0200, Krzysztof Kozlowski wrote:
+> The driver does not use macros from asm/mach-types.h (neither MACH_TYPE
+> nor machine_is_xxx()).  Removal of this include allows compile testing
+> on non-ARM architectures which lack this header.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  drivers/memory/omap-gpmc.c | 2 --
 
-Signed-off-by: Allen Pais <allen.lkml@gmail.com>
----
- drivers/dma/ti/k3-udma.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Applied to drivers/memory tree.
 
-diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
-index c14e6cb105cd..59cd8770334c 100644
---- a/drivers/dma/ti/k3-udma.c
-+++ b/drivers/dma/ti/k3-udma.c
-@@ -2914,9 +2914,9 @@ static void udma_desc_pre_callback(struct virt_dma_chan *vc,
-  * This tasklet handles the completion of a DMA descriptor by
-  * calling its callback and freeing it.
-  */
--static void udma_vchan_complete(unsigned long arg)
-+static void udma_vchan_complete(struct tasklet_struct *t)
- {
--	struct virt_dma_chan *vc = (struct virt_dma_chan *)arg;
-+	struct virt_dma_chan *vc = from_tasklet(vc, t, task);
- 	struct virt_dma_desc *vd, *_vd;
- 	struct dmaengine_desc_callback cb;
- 	LIST_HEAD(head);
-@@ -3649,8 +3649,7 @@ static int udma_probe(struct platform_device *pdev)
- 
- 		vchan_init(&uc->vc, &ud->ddev);
- 		/* Use custom vchan completion handling */
--		tasklet_init(&uc->vc.task, udma_vchan_complete,
--			     (unsigned long)&uc->vc);
-+		tasklet_setup(&uc->vc.task, udma_vchan_complete);
- 		init_completion(&uc->teardown_completed);
- 		INIT_DELAYED_WORK(&uc->tx_drain.work, udma_check_tx_completion);
- 	}
--- 
-2.17.1
+Best regards,
+Krzysztof
 
