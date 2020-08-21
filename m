@@ -2,161 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 022A624CC70
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Aug 2020 05:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02D0224CD36
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Aug 2020 07:22:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727808AbgHUD5A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Aug 2020 23:57:00 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:37259 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727807AbgHUD46 (ORCPT
+        id S1726075AbgHUFWO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Aug 2020 01:22:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbgHUFWN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Aug 2020 23:56:58 -0400
-Received: by mail-io1-f65.google.com with SMTP id b16so485080ioj.4;
-        Thu, 20 Aug 2020 20:56:57 -0700 (PDT)
+        Fri, 21 Aug 2020 01:22:13 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F5C5C061386
+        for <linux-tegra@vger.kernel.org>; Thu, 20 Aug 2020 22:22:13 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id q93so448558pjq.0
+        for <linux-tegra@vger.kernel.org>; Thu, 20 Aug 2020 22:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gJPbQJM9jJ86fcPi19ptKXRC2I1mbN7SAmvcRcwLux0=;
+        b=GUWTB/OPy3T59+AQh2JxbbvVrkeifOpDos6Tl7NzF8Gqy4ZMTHKMc47U7wH+wDn0/T
+         llxnOfpSBGYj9LpPZ0bz+BC3OI3nD/k22wBJhUeiE4dwfBQrzkz8M4U8LmuoWl4vH8ZF
+         R0OxWA0qHvfuazjTQG/R2CVQFoGbUcsOFO/JaBZkqMCvkuyg+dxADzhkum0aZUPaTxkU
+         9pILLtAuLcx06h/ekAAhFuJNM3KWrZX8ZFrQWOVZ0aWjGGUzjn4PurNzxFeFB4weYjWa
+         y5S5gdxtPgeJNJ0vWLbCFLt7Fek3naJjcLIaYC2EZJJDqI/KVNlkyDLSiN8flRgjwSZt
+         21LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9/YPThWKebuepD09jEOhLOS7SrW7ksPYY3UHELax/QU=;
-        b=d1qJeTUtDUyEYXJ3St92Tp8URiCGPgf3NhXE1psc1WG8XNZ3+0ROmkjWxRWxvK6q+k
-         CXrM9hd4k1dBXUncHhPPB3d5eodNKy+Cmv525A1aQLEsi80uNX+VYDEdsRCv8dqNcfxw
-         03WM6RRhPF7qmxUXR9E3Q6/FaDVaSBP3vjNIA6iwB4WfLVLWU0pKZEdqliLfMzr5AyO1
-         4IHe5pfca+oky+T4pF1Q6X7e2rmZc0/3KEeVviaX91b3sxw9JVREhUeQb8VCJLqc6otW
-         UhUHJQTarVqTKz4CRV/ZOAnmqzL4f/74U8Ra0qFR2RHywspbKOEPbiWtZbWA/TP9gt4n
-         rmGQ==
-X-Gm-Message-State: AOAM532qxeNRuBBheL2y3JpwvtMEup2brvdSUpkMWVzc2/cgJxwIMbde
-        D+rPMjifHHikTQq1HOGTRA==
-X-Google-Smtp-Source: ABdhPJwTwqsPsKVkMoMEXHOo2cKMWdbZxZdy/oInmh65Y7ywfHBijNwvFaSB2WL1YEbhA5nsNJVKOg==
-X-Received: by 2002:a05:6638:1690:: with SMTP id f16mr859543jat.91.1597982216882;
-        Thu, 20 Aug 2020 20:56:56 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.249])
-        by smtp.googlemail.com with ESMTPSA id 79sm413923ilc.9.2020.08.20.20.56.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 20:56:56 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     linux-pci@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Binghui Wang <wangbinghui@hisilicon.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dilip Kota <eswara.kota@linux.intel.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Jesper Nilsson <jesper.nilsson@axis.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Jonathan Chocron <jonnyc@amazon.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Murali Karicheri <m-karicheri2@ti.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Pratyush Anand <pratyush.anand@gmail.com>,
-        Richard Zhu <hongxing.zhu@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Stanimir Varbanov <svarbanov@mm-sol.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Xiaowei Song <songxiaowei@hisilicon.com>,
-        Yue Wang <yue.wang@Amlogic.com>, Marc Zyngier <maz@kernel.org>,
-        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 40/40] PCI: dwc: Use DBI accessors
-Date:   Thu, 20 Aug 2020 21:54:20 -0600
-Message-Id: <20200821035420.380495-41-robh@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821035420.380495-1-robh@kernel.org>
-References: <20200821035420.380495-1-robh@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gJPbQJM9jJ86fcPi19ptKXRC2I1mbN7SAmvcRcwLux0=;
+        b=W3GGsz/i5HTCJIxCruRwFWKPLNP6VAh39dyq924D9dlBM1A8paBlfvTTXw+WlL+wyP
+         CSqZqKty/2b+f+e8cGIpt7aClGWt/GI6zGHVSyyyfb/II2BySCLzdZgzJn+eiN+y0xK/
+         aMxEl8jk8L+jB8LJ6rNHblwVSwHJo35NJchOPUIrkbKAyLCl0/qjbinSOogak4pVespl
+         uLI1+SEp3dYvt+5ToXQPRl/+pQ1rglbMKbgey8NbalZvWS6y8vyrzJbqLjwrABM+61mv
+         tgnykpx/so6a7jmoEpxnvPCtEHiHMM1hSjn+j7XaosPGeR4+MvBYXichuGNSiLJ1MNJ4
+         +PVQ==
+X-Gm-Message-State: AOAM533ERVnVPtlj3OObCGJozUfdiHoljaXK/tOQYsb/lDJcg7Y6pXaH
+        wRKgVfXo0XVo69IL4B8pRhKDRg==
+X-Google-Smtp-Source: ABdhPJxbHY56srGn6G5rqtXaD33bgNntHBcb5EblCKiLBWgFl5HHCNv12wCAR5ncDzWqdj65SHLbDQ==
+X-Received: by 2002:a17:90a:6d96:: with SMTP id a22mr1070139pjk.165.1597987332523;
+        Thu, 20 Aug 2020 22:22:12 -0700 (PDT)
+Received: from localhost ([122.172.43.13])
+        by smtp.gmail.com with ESMTPSA id s67sm940535pfs.117.2020.08.20.22.22.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 20 Aug 2020 22:22:11 -0700 (PDT)
+Date:   Fri, 21 Aug 2020 10:52:09 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     rjw@rjwysocki.net, Sudeep Holla <sudeep.holla@arm.com>
+Cc:     Sumit Gupta <sumitg@nvidia.com>, catalin.marinas@arm.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bbasu@nvidia.com, wangkefeng.wang@huawei.com
+Subject: Re: [Patch] cpufreq: replace cpu_logical_map with read_cpuid_mpir
+Message-ID: <20200821052209.efturkzs2kp4nbcn@vireshk-i7>
+References: <1597174997-22505-1-git-send-email-sumitg@nvidia.com>
+ <20200820053945.xlwtpkvbt4o23flk@vireshk-i7>
+ <20200820123711.GA19989@bogus>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200820123711.GA19989@bogus>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Convert the remaining cases of register accesses using dbi_base rather
-than dw_pcie_(read|write)[bwl]_dbi accessors.
+On 20-08-20, 13:37, Sudeep Holla wrote:
+> On Thu, Aug 20, 2020 at 11:09:45AM +0530, Viresh Kumar wrote:
+> > On 12-08-20, 01:13, Sumit Gupta wrote:
+> > > Commit eaecca9e7710 ("arm64: Fix __cpu_logical_map undefined issue")
+> > > fixes the issue with building tegra194 cpufreq driver as module. But
+> > > the fix might cause problem while supporting physical cpu hotplug[1].
+> > > 
+> > > This patch fixes the original problem by avoiding use of cpu_logical_map().
+> > > Instead calling read_cpuid_mpidr() to get MPIDR on target cpu.
+> > > 
+> > > [1] https://lore.kernel.org/linux-arm-kernel/20200724131059.GB6521@bogus/
+> > > 
+> > > Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+> > > Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> > > ---
+> > >  drivers/cpufreq/tegra194-cpufreq.c | 10 +++++++---
+> > >  1 file changed, 7 insertions(+), 3 deletions(-)
+> > 
+> > Applied. Thanks.
+> 
+> Just to confirm, is this going as a fix ? We want to drop exporting
+> cpu_logical_map in v5.9 so this needs to go as fix. I missed it earlier,
+> actually,
+> 
+> Fixes: df320f89359c ("cpufreq: Add Tegra194 cpufreq driver")
+> is appropriate here so that we can drop export symbol which was part of
+> Commit eaecca9e7710 ("arm64: Fix __cpu_logical_map undefined issue")
+> as a workaround to  fix the build.
 
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Pratyush Anand <pratyush.anand@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-tegra@vger.kernel.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/pci/controller/dwc/pcie-spear13xx.c |  8 ++++----
- drivers/pci/controller/dwc/pcie-tegra194.c  | 10 ++++------
- 2 files changed, 8 insertions(+), 10 deletions(-)
+Okay.
 
-diff --git a/drivers/pci/controller/dwc/pcie-spear13xx.c b/drivers/pci/controller/dwc/pcie-spear13xx.c
-index 0d8d0fe87f27..e348225f651f 100644
---- a/drivers/pci/controller/dwc/pcie-spear13xx.c
-+++ b/drivers/pci/controller/dwc/pcie-spear13xx.c
-@@ -86,12 +86,12 @@ static int spear13xx_pcie_establish_link(struct spear13xx_pcie *spear13xx_pcie)
- 	 * default value in capability register is 512 bytes. So force
- 	 * it to 128 here.
- 	 */
--	dw_pcie_read(pci->dbi_base + exp_cap_off + PCI_EXP_DEVCTL, 2, &val);
-+	val = dw_pcie_readw_dbi(pci, exp_cap_off + PCI_EXP_DEVCTL);
- 	val &= ~PCI_EXP_DEVCTL_READRQ;
--	dw_pcie_write(pci->dbi_base + exp_cap_off + PCI_EXP_DEVCTL, 2, val);
-+	dw_pcie_writew_dbi(pci, exp_cap_off + PCI_EXP_DEVCTL, val);
- 
--	dw_pcie_write(pci->dbi_base + PCI_VENDOR_ID, 2, 0x104A);
--	dw_pcie_write(pci->dbi_base + PCI_DEVICE_ID, 2, 0xCD80);
-+	dw_pcie_writew_dbi(pci, PCI_VENDOR_ID, 0x104A);
-+	dw_pcie_writew_dbi(pci, PCI_DEVICE_ID, 0xCD80);
- 
- 	/* enable ltssm */
- 	writel(DEVICE_TYPE_RC | (1 << MISCTRL_EN_ID)
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 1560c449757d..aa511ec0d800 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -816,26 +816,24 @@ static void config_gen3_gen4_eq_presets(struct tegra_pcie_dw *pcie)
- 
- 	/* Program init preset */
- 	for (i = 0; i < pcie->num_lanes; i++) {
--		dw_pcie_read(pci->dbi_base + CAP_SPCIE_CAP_OFF
--				 + (i * 2), 2, &val);
-+		val = dw_pcie_readw_dbi(pci, CAP_SPCIE_CAP_OFF + (i * 2));
- 		val &= ~CAP_SPCIE_CAP_OFF_DSP_TX_PRESET0_MASK;
- 		val |= GEN3_GEN4_EQ_PRESET_INIT;
- 		val &= ~CAP_SPCIE_CAP_OFF_USP_TX_PRESET0_MASK;
- 		val |= (GEN3_GEN4_EQ_PRESET_INIT <<
- 			   CAP_SPCIE_CAP_OFF_USP_TX_PRESET0_SHIFT);
--		dw_pcie_write(pci->dbi_base + CAP_SPCIE_CAP_OFF
--				 + (i * 2), 2, val);
-+		dw_pcie_writew_dbi(pci, CAP_SPCIE_CAP_OFF + (i * 2), val);
- 
- 		offset = dw_pcie_find_ext_capability(pci,
- 						     PCI_EXT_CAP_ID_PL_16GT) +
- 				PCI_PL_16GT_LE_CTRL;
--		dw_pcie_read(pci->dbi_base + offset + i, 1, &val);
-+		val = dw_pcie_readb_dbi(pci, offset + i);
- 		val &= ~PCI_PL_16GT_LE_CTRL_DSP_TX_PRESET_MASK;
- 		val |= GEN3_GEN4_EQ_PRESET_INIT;
- 		val &= ~PCI_PL_16GT_LE_CTRL_USP_TX_PRESET_MASK;
- 		val |= (GEN3_GEN4_EQ_PRESET_INIT <<
- 			PCI_PL_16GT_LE_CTRL_USP_TX_PRESET_SHIFT);
--		dw_pcie_write(pci->dbi_base + offset + i, 1, val);
-+		dw_pcie_writeb_dbi(pci, offset + i, val);
- 	}
- 
- 	val = dw_pcie_readl_dbi(pci, GEN3_RELATED_OFF);
+Rafael: Please pick this patch directly for next rc with 
+
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+
 -- 
-2.25.1
-
+viresh
