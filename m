@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0898324DD5A
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Aug 2020 19:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EE3A24DD0A
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Aug 2020 19:11:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728107AbgHURPq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Aug 2020 13:15:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50096 "EHLO mail.kernel.org"
+        id S1728174AbgHURLH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Aug 2020 13:11:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50170 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727990AbgHUQQj (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:16:39 -0400
+        id S1728173AbgHUQRO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:17:14 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2B6F022B40;
-        Fri, 21 Aug 2020 16:16:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B29FE22B40;
+        Fri, 21 Aug 2020 16:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026598;
-        bh=RirBJnGWSx+8SfHSLXWiXEKeGrvmh1KYf16yHJ8Ti0g=;
+        s=default; t=1598026633;
+        bh=Zr0rNtHcW9RuHn2tfuAXqac+LKY+ORnkgNnF0ZsMDDw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jTDnqjpxdJYKYjsYya5niGhwnt7DWj+o7R7oB0b56pcJdiZ+jbEgq02MMZ0uI3djd
-         R+sQerjWV7M0lVF11wpyjJKXrpH6mDLO9+WoxTIHw5tJ0miANuei9eTB1f0d0eemqF
-         TB8QEVZsGyX9KdrFccVpZqjPDGNg64zwLOyrxM3M=
+        b=tQbFRcMrcvmvsZmzuteMmu8zNsMs25lDpOgGGCPLcROWaU7lhwRtmi45ViE43knF9
+         R0g4aB85plhlpjZ0WyT4ZAKywOJcYCTztipvZHhQoaTkOgzic78iGDsM82Wsr30E3u
+         NBtWPbZeQbznHqqgCL5D2luuq5/CMirOLFuJ+bwU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 42/61] gpu: host1x: Put gather's BO on pinning error
-Date:   Fri, 21 Aug 2020 12:15:26 -0400
-Message-Id: <20200821161545.347622-42-sashal@kernel.org>
+Cc:     Qiushi Wu <wu000273@umn.edu>, Jon Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, alsa-devel@alsa-project.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 07/48] ASoC: tegra: Fix reference count leaks.
+Date:   Fri, 21 Aug 2020 12:16:23 -0400
+Message-Id: <20200821161704.348164-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161545.347622-1-sashal@kernel.org>
-References: <20200821161545.347622-1-sashal@kernel.org>
+In-Reply-To: <20200821161704.348164-1-sashal@kernel.org>
+References: <20200821161704.348164-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,93 +44,56 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+From: Qiushi Wu <wu000273@umn.edu>
 
-[ Upstream commit fd323e9ef0a19112c0c85b85afc4848c0518174b ]
+[ Upstream commit deca195383a6085be62cb453079e03e04d618d6e ]
 
-This patch fixes gather's BO refcounting on a pinning error. Gather's BO
-won't be leaked now if something goes wrong.
+Calling pm_runtime_get_sync increments the counter even in case of
+failure, causing incorrect ref count if pm_runtime_put is not called in
+error handling paths. Call pm_runtime_put if pm_runtime_get_sync fails.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Link: https://lore.kernel.org/r/20200613204422.24484-1-wu000273@umn.edu
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/host1x/job.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ sound/soc/tegra/tegra30_ahub.c | 4 +++-
+ sound/soc/tegra/tegra30_i2s.c  | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-index a10643aa89aa5..2ac5a99406d98 100644
---- a/drivers/gpu/host1x/job.c
-+++ b/drivers/gpu/host1x/job.c
-@@ -102,6 +102,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- {
- 	struct host1x_client *client = job->client;
- 	struct device *dev = client->dev;
-+	struct host1x_job_gather *g;
- 	struct iommu_domain *domain;
- 	unsigned int i;
- 	int err;
-@@ -184,7 +185,6 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 	}
+diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
+index 635eacbd28d47..156e3b9d613c6 100644
+--- a/sound/soc/tegra/tegra30_ahub.c
++++ b/sound/soc/tegra/tegra30_ahub.c
+@@ -643,8 +643,10 @@ static int tegra30_ahub_resume(struct device *dev)
+ 	int ret;
  
- 	for (i = 0; i < job->num_gathers; i++) {
--		struct host1x_job_gather *g = &job->gathers[i];
- 		size_t gather_size = 0;
- 		struct scatterlist *sg;
- 		struct sg_table *sgt;
-@@ -194,6 +194,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 		dma_addr_t *phys;
- 		unsigned int j;
+ 	ret = pm_runtime_get_sync(dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put(dev);
+ 		return ret;
++	}
+ 	ret = regcache_sync(ahub->regmap_ahub);
+ 	ret |= regcache_sync(ahub->regmap_apbif);
+ 	pm_runtime_put(dev);
+diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+index e6d548fa980b6..8894b7c16a01a 100644
+--- a/sound/soc/tegra/tegra30_i2s.c
++++ b/sound/soc/tegra/tegra30_i2s.c
+@@ -538,8 +538,10 @@ static int tegra30_i2s_resume(struct device *dev)
+ 	int ret;
  
-+		g = &job->gathers[i];
- 		g->bo = host1x_bo_get(g->bo);
- 		if (!g->bo) {
- 			err = -EINVAL;
-@@ -213,7 +214,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 		sgt = host1x_bo_pin(host->dev, g->bo, phys);
- 		if (IS_ERR(sgt)) {
- 			err = PTR_ERR(sgt);
--			goto unpin;
-+			goto put;
- 		}
+ 	ret = pm_runtime_get_sync(dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put(dev);
+ 		return ret;
++	}
+ 	ret = regcache_sync(i2s->regmap);
+ 	pm_runtime_put(dev);
  
- 		if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) && host->domain) {
-@@ -226,7 +227,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 					   host->iova_end >> shift, true);
- 			if (!alloc) {
- 				err = -ENOMEM;
--				goto unpin;
-+				goto put;
- 			}
- 
- 			err = iommu_map_sg(host->domain,
-@@ -235,7 +236,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 			if (err == 0) {
- 				__free_iova(&host->iova, alloc);
- 				err = -EINVAL;
--				goto unpin;
-+				goto put;
- 			}
- 
- 			job->unpins[job->num_unpins].size = gather_size;
-@@ -245,7 +246,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 					 DMA_TO_DEVICE);
- 			if (!err) {
- 				err = -ENOMEM;
--				goto unpin;
-+				goto put;
- 			}
- 
- 			job->unpins[job->num_unpins].dir = DMA_TO_DEVICE;
-@@ -263,6 +264,8 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 
- 	return 0;
- 
-+put:
-+	host1x_bo_put(g->bo);
- unpin:
- 	host1x_job_unpin(job);
- 	return err;
 -- 
 2.25.1
 
