@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE3A24DD0A
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Aug 2020 19:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8375B24DC87
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Aug 2020 19:04:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728174AbgHURLH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Aug 2020 13:11:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50170 "EHLO mail.kernel.org"
+        id S1728779AbgHUREY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Aug 2020 13:04:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728173AbgHUQRO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:17:14 -0400
+        id S1727087AbgHUQSy (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:18:54 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B29FE22B40;
-        Fri, 21 Aug 2020 16:17:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18D0C22CA0;
+        Fri, 21 Aug 2020 16:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026633;
-        bh=Zr0rNtHcW9RuHn2tfuAXqac+LKY+ORnkgNnF0ZsMDDw=;
+        s=default; t=1598026693;
+        bh=ySY7r+XvByWG/h02YkSpizvqYnRnOEsqEYmyDA8cBmk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tQbFRcMrcvmvsZmzuteMmu8zNsMs25lDpOgGGCPLcROWaU7lhwRtmi45ViE43knF9
-         R0g4aB85plhlpjZ0WyT4ZAKywOJcYCTztipvZHhQoaTkOgzic78iGDsM82Wsr30E3u
-         NBtWPbZeQbznHqqgCL5D2luuq5/CMirOLFuJ+bwU=
+        b=Fn38HLXnmjse0s8SeiKmcQBQ/sZAKUQeZqkztCPAtbQkI4F3G4bdPpVbxiQI0n3eK
+         D6+8u39kL4t1p8T3dvuLornndIKYPrAjPRV+S26/BoSHKsIgW0e3Ix1pLgMO00wUma
+         sO9pmsLS3w4yZHQeTNmJQXDohV6zuYMOh7B1rlpA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Qiushi Wu <wu000273@umn.edu>, Jon Hunter <jonathanh@nvidia.com>,
         Mark Brown <broonie@kernel.org>,
         Sasha Levin <sashal@kernel.org>, alsa-devel@alsa-project.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 07/48] ASoC: tegra: Fix reference count leaks.
-Date:   Fri, 21 Aug 2020 12:16:23 -0400
-Message-Id: <20200821161704.348164-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 04/38] ASoC: tegra: Fix reference count leaks.
+Date:   Fri, 21 Aug 2020 12:17:33 -0400
+Message-Id: <20200821161807.348600-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161704.348164-1-sashal@kernel.org>
-References: <20200821161704.348164-1-sashal@kernel.org>
+In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
+References: <20200821161807.348600-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
-index 635eacbd28d47..156e3b9d613c6 100644
+index 43679aeeb12be..88e838ac937dc 100644
 --- a/sound/soc/tegra/tegra30_ahub.c
 +++ b/sound/soc/tegra/tegra30_ahub.c
-@@ -643,8 +643,10 @@ static int tegra30_ahub_resume(struct device *dev)
+@@ -655,8 +655,10 @@ static int tegra30_ahub_resume(struct device *dev)
  	int ret;
  
  	ret = pm_runtime_get_sync(dev);
@@ -79,10 +79,10 @@ index 635eacbd28d47..156e3b9d613c6 100644
  	ret |= regcache_sync(ahub->regmap_apbif);
  	pm_runtime_put(dev);
 diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index e6d548fa980b6..8894b7c16a01a 100644
+index 0b176ea24914b..bf155c5092f06 100644
 --- a/sound/soc/tegra/tegra30_i2s.c
 +++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -538,8 +538,10 @@ static int tegra30_i2s_resume(struct device *dev)
+@@ -551,8 +551,10 @@ static int tegra30_i2s_resume(struct device *dev)
  	int ret;
  
  	ret = pm_runtime_get_sync(dev);
