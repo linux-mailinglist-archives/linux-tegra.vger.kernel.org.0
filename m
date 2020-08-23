@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3486A24EDB4
-	for <lists+linux-tegra@lfdr.de>; Sun, 23 Aug 2020 16:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABD1724EDB1
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Aug 2020 16:48:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgHWOsb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Aug 2020 10:48:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39472 "EHLO
+        id S1725887AbgHWOs2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Aug 2020 10:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726977AbgHWOs0 (ORCPT
+        with ESMTP id S1726727AbgHWOs0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Sun, 23 Aug 2020 10:48:26 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0CAFC061755
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2316C061574
         for <linux-tegra@vger.kernel.org>; Sun, 23 Aug 2020 07:48:24 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id w25so6768296ljo.12
+Received: by mail-lj1-x242.google.com with SMTP id w14so6804705ljj.4
         for <linux-tegra@vger.kernel.org>; Sun, 23 Aug 2020 07:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dEKne00OAFphAUih2I6Xo+Iuh2ECXbjANMXk4TXpw4A=;
-        b=d8HS6Sm7cBHN5XF6NWWOieL4blMWhC5/a8Jyrc2uZaxkVoo/gClum38GeXS2O3lwcy
-         UMQNehPszdQ5LbR9tMMMWGQDuuhF1XzoCr3YD+FMNMhvlrKnPr+oSZKBXPhhpjuPk1rn
-         L2tbst1q7bX8L3vSZiLplGlOE8iScNjP7zlRAcWsK8TV2VnnH1N0Ej7kF+eWfQtZp3hF
-         auBIgRsjVcBS0SYd4rBXAWN4FcclpM+Q26Wc9IZp+315jeJUsmFCzAer2OLPhoIcRZIX
-         dG5VQV/HqEDJKahpILZ1MRZa1Ie3tHiu2Qp7razFbdC2NPCauD8CpF5xAp0b/3ofSezY
-         5ExQ==
+        bh=EaBvL32tcEigONyE/qxDU3km7C5iOhDt/gYUThD/Lio=;
+        b=tZOVHl6oyCjSkI+ZX62nzeeCQtygQXQshViI2itFlf/SZmKu3cqYAj9cligMieeIXJ
+         SnmrTBnc2Fe+CXXHUWmuOEQYr7nsK4Pw+3HWklFF2xNPHWwYzJTt6f1DIVlZIhviIIyO
+         XgY85aoXL4RMpbomKKp5LgeL2tukGsOxpqJn5hcD/5kGbo6QBhqhR1xotYcADs2fu0iI
+         2RAC81i33e+uLOVQft8qauuQ99kxSH2kmyLX6xOWieyjktuXewsJH/p1qT+xSQ0cSpUz
+         nCywoyxQax1/p9gylnJViJ2KuIKvyt5spqE0qu2sg3YkXrMKXZtHG8nENr4rWJcNq/di
+         tofQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dEKne00OAFphAUih2I6Xo+Iuh2ECXbjANMXk4TXpw4A=;
-        b=tgyhkf2tIQX9UmEmn4H6FlAYPpoPX6OZHMComwa6XDwx5Ued+5XEki3+k+kNQo2p9m
-         a9mycNBPggfd2SRIjGJ5+0TcM2qJf/FTN+PJVcMz+Wqa485T/a7l/pxoB7Ve9xGr1jPm
-         DJfJqP32Eh1Y1iNmklghLCWgWuVmiT1/hYVgOeuHIV5HsLbl/DTXnlgkdcVd9hOr9NHO
-         zvSN5MMpsMurHb+e8KwjzqhCXT+R/aRzFlFytyfcHuwo4e4O0Jhx1itvvwrmzMOO6RBs
-         Q0Na+Qn/mrS3DJiTqeKf3ASY1KZ1WDq89V7N2gnhahz8pXbDkLOiNU7CUH6/qr6LCCh1
-         +oQw==
-X-Gm-Message-State: AOAM533iK1SXoTLxSc/pv6ZwDVMIw+9l89GyY+A7bX/1CVc6Z3UwvyEy
-        in/xPEIRYPB2212VZi+k/60=
-X-Google-Smtp-Source: ABdhPJx6RFvWKbNV/DMaJcu9tbWH86hRTp1irwtQXEi8x7VsrlXHedkFKwGqLXKD6TXbUB4liSwZFg==
-X-Received: by 2002:a2e:b0da:: with SMTP id g26mr801449ljl.264.1598194102465;
-        Sun, 23 Aug 2020 07:48:22 -0700 (PDT)
+        bh=EaBvL32tcEigONyE/qxDU3km7C5iOhDt/gYUThD/Lio=;
+        b=YcE2sUNm7e+mD8ma2ddMQtoFql/iari3YUNMLa846l8C7Y37oFzL17SglmC4SnF+fk
+         g37QbIQ71Qa5PBvA9h37cPYHKa7caI+VZYxXCZtoesh0WUQAtmmp427JGM+N61CKvMBp
+         4hS6aFxtOT0KuPdBJ1+tqRQiLaVtC7BmfZzswBtvCyoVkoM7uBNFqYZbm94OQEYY04E8
+         BxJN6YiTVdeorPgomt9WvDY6SeRByZoROYT8MOgrOjJgWrpbe1I19rorfvhOweRIARJL
+         UvnFOQs+ZeegM+qlKzkGyCdZk0mJWcghLLfdC2IXhG3MRA6J70tdjZpCDFCY6d5vo+Ws
+         qGdA==
+X-Gm-Message-State: AOAM531SnEbfvOKaQ99WAtluonJN5wJbEI3x3jS/lLrezDg+LTAKH2DQ
+        tZPS+DicL9E3c2EOW3f1KFs=
+X-Google-Smtp-Source: ABdhPJw4J7ZgjAsfgrQjbAgKioGCC4b8+7kkKemlFfSK5p2WfS7epgRP6urS9ZbWUle5D+7ivshvoA==
+X-Received: by 2002:a05:651c:1390:: with SMTP id k16mr701924ljb.176.1598194103350;
+        Sun, 23 Aug 2020 07:48:23 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id l24sm1635560ljb.43.2020.08.23.07.48.21
+        by smtp.gmail.com with ESMTPSA id l24sm1635560ljb.43.2020.08.23.07.48.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 23 Aug 2020 07:48:22 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     Wright Feng <Wright.Feng@cypress.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 2/4] ARM: tegra: acer-a500: Set WiFi MMC clock rate to 50MHz
-Date:   Sun, 23 Aug 2020 17:47:23 +0300
-Message-Id: <20200823144725.28299-3-digetx@gmail.com>
+Subject: [PATCH v1 3/4] ARM: tegra: acer-a500: Use PLLC for WiFi MMC clk parent
+Date:   Sun, 23 Aug 2020 17:47:24 +0300
+Message-Id: <20200823144725.28299-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200823144725.28299-1-digetx@gmail.com>
 References: <20200823144725.28299-1-digetx@gmail.com>
@@ -65,29 +65,33 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Previously 50MHz clock rate didn't work because of the wrong PINCTRL
-configuration used for SDIO pins. Now the PINCTRL config is corrected
-and the MMC clock rate could be bumped safely to 50MHz, increasing WiFi
-TX throughput by 20 Mbit/s and allowing to hit the maximum 40 Mbit/s.
+The default parent for all MMCs is PLLP, which is running at 216MHz on
+Tegra20 and 50MHz clock can't be derived from PLLP. The maximum SDIO
+clock rate is 50MHz, but this rate isn't achievable using PLLP.
+
+Let's switch the WiFi MMC clk parent to PLLC in order to get true 50MHz.
+This patch doesn't fix any problems, it's just a minor improvement.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 8b4912db0d20..b89e9398f681 100644
+index b89e9398f681..ab3c378e5519 100644
 --- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
 +++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -744,7 +744,7 @@ mmc@c8000000 {
+@@ -744,6 +744,10 @@ mmc@c8000000 {
  		#address-cells = <1>;
  		#size-cells = <0>;
  
--		max-frequency = <25000000>;
-+		max-frequency = <50000000>;
++		assigned-clocks = <&tegra_car TEGRA20_CLK_SDMMC1>;
++		assigned-clock-parents = <&tegra_car TEGRA20_CLK_PLL_C>;
++		assigned-clock-rates = <50000000>;
++
+ 		max-frequency = <50000000>;
  		keep-power-in-suspend;
  		bus-width = <4>;
- 		non-removable;
 -- 
 2.27.0
 
