@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5831424EDB2
-	for <lists+linux-tegra@lfdr.de>; Sun, 23 Aug 2020 16:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3486A24EDB4
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Aug 2020 16:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbgHWOs2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Aug 2020 10:48:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39464 "EHLO
+        id S1726332AbgHWOsb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Aug 2020 10:48:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbgHWOs0 (ORCPT
+        with ESMTP id S1726977AbgHWOs0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Sun, 23 Aug 2020 10:48:26 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95FFC061575
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0CAFC061755
         for <linux-tegra@vger.kernel.org>; Sun, 23 Aug 2020 07:48:24 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id f26so6788985ljc.8
+Received: by mail-lj1-x244.google.com with SMTP id w25so6768296ljo.12
         for <linux-tegra@vger.kernel.org>; Sun, 23 Aug 2020 07:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6ONtABTiYfSUQ8clPgMZc79cCbsGkPneBjqfhKzy+e4=;
-        b=Pj1w9/QBZQsA7AF/9pj4P+zBruYXFa4sbwc0wuQc+Hm6VuK5h6zfSff+wAdWNErcDn
-         C0H59a8RcnGy6/CYqNdoLpaRGUmx6/qtTt39vfT6ICg0BOv3PdSvt2styDplLojzOA7S
-         Gy2S8Y4hK81emFdpSLx2rHnlHeWxKuPVA+iPgNTEudFEBBkprTirATyHryx8RwXDVvv1
-         1xlozrpEjaZUf9NBKuL1sAqFGBAUk5083fHL5kS9XaEJxqTM0tGAEJm5TeucfCPxOrZW
-         Z7QSlOQZc4aU6sKIhKMVyAbqOIjC8eSKhKKRvKe7yvEwp8nB1+VtHsXyzC4nvGxZk7Nr
-         wjtw==
+        bh=dEKne00OAFphAUih2I6Xo+Iuh2ECXbjANMXk4TXpw4A=;
+        b=d8HS6Sm7cBHN5XF6NWWOieL4blMWhC5/a8Jyrc2uZaxkVoo/gClum38GeXS2O3lwcy
+         UMQNehPszdQ5LbR9tMMMWGQDuuhF1XzoCr3YD+FMNMhvlrKnPr+oSZKBXPhhpjuPk1rn
+         L2tbst1q7bX8L3vSZiLplGlOE8iScNjP7zlRAcWsK8TV2VnnH1N0Ej7kF+eWfQtZp3hF
+         auBIgRsjVcBS0SYd4rBXAWN4FcclpM+Q26Wc9IZp+315jeJUsmFCzAer2OLPhoIcRZIX
+         dG5VQV/HqEDJKahpILZ1MRZa1Ie3tHiu2Qp7razFbdC2NPCauD8CpF5xAp0b/3ofSezY
+         5ExQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6ONtABTiYfSUQ8clPgMZc79cCbsGkPneBjqfhKzy+e4=;
-        b=LGLqArnjiPTjm84sTAz/Lca7E+LN+PhCqefgP79CNJJuefjXyjTNTRf8AGqu1Io7ZK
-         Bk79qJLIdycmapiWfzcNTHbqPVdIgJFiNQauES9qnUcL2j+leGoGw4pIvJ9fNtkUbzbR
-         8pWt1X7+z9t49BBwdxLFT0inkQy/vOxgt3c8zbQGpIBH2DOOjfk/A3L+LVY0R5MOTyuq
-         94m66ihGdg4s8uhooeB/FuyHgysDMOmasEXSaVH2X33DNNsWXQ/VjeqUzzQCb7kRsPoP
-         G6T5C6TMNrP/YVXTZ+PpcZaq2tlu/pJ3M5CPCJTUPjY1hyDP9z6siNh40ibeagHOgjHJ
-         vhkw==
-X-Gm-Message-State: AOAM530wwIQpLHCe0Rv79aWNQrHIDiOGqomqf90QDVk9agb2rCj7CMot
-        qFSYaDnYfqSsLJGqiWLCmKI=
-X-Google-Smtp-Source: ABdhPJyzfoQa/yopBPURQRAkLl8zX6X38WQdMY6/B8ZXBFtmaCRYyyNxY6tTi1QFOz6zi03YY1regw==
-X-Received: by 2002:a2e:3019:: with SMTP id w25mr687626ljw.291.1598194101591;
-        Sun, 23 Aug 2020 07:48:21 -0700 (PDT)
+        bh=dEKne00OAFphAUih2I6Xo+Iuh2ECXbjANMXk4TXpw4A=;
+        b=tgyhkf2tIQX9UmEmn4H6FlAYPpoPX6OZHMComwa6XDwx5Ued+5XEki3+k+kNQo2p9m
+         a9mycNBPggfd2SRIjGJ5+0TcM2qJf/FTN+PJVcMz+Wqa485T/a7l/pxoB7Ve9xGr1jPm
+         DJfJqP32Eh1Y1iNmklghLCWgWuVmiT1/hYVgOeuHIV5HsLbl/DTXnlgkdcVd9hOr9NHO
+         zvSN5MMpsMurHb+e8KwjzqhCXT+R/aRzFlFytyfcHuwo4e4O0Jhx1itvvwrmzMOO6RBs
+         Q0Na+Qn/mrS3DJiTqeKf3ASY1KZ1WDq89V7N2gnhahz8pXbDkLOiNU7CUH6/qr6LCCh1
+         +oQw==
+X-Gm-Message-State: AOAM533iK1SXoTLxSc/pv6ZwDVMIw+9l89GyY+A7bX/1CVc6Z3UwvyEy
+        in/xPEIRYPB2212VZi+k/60=
+X-Google-Smtp-Source: ABdhPJx6RFvWKbNV/DMaJcu9tbWH86hRTp1irwtQXEi8x7VsrlXHedkFKwGqLXKD6TXbUB4liSwZFg==
+X-Received: by 2002:a2e:b0da:: with SMTP id g26mr801449ljl.264.1598194102465;
+        Sun, 23 Aug 2020 07:48:22 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id l24sm1635560ljb.43.2020.08.23.07.48.20
+        by smtp.gmail.com with ESMTPSA id l24sm1635560ljb.43.2020.08.23.07.48.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 07:48:21 -0700 (PDT)
+        Sun, 23 Aug 2020 07:48:22 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     Wright Feng <Wright.Feng@cypress.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 1/4] ARM: tegra: acer-a500: Correct PINCTRL configuration
-Date:   Sun, 23 Aug 2020 17:47:22 +0300
-Message-Id: <20200823144725.28299-2-digetx@gmail.com>
+Subject: [PATCH v1 2/4] ARM: tegra: acer-a500: Set WiFi MMC clock rate to 50MHz
+Date:   Sun, 23 Aug 2020 17:47:23 +0300
+Message-Id: <20200823144725.28299-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200823144725.28299-1-digetx@gmail.com>
 References: <20200823144725.28299-1-digetx@gmail.com>
@@ -65,50 +65,29 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The low-power-mode drive was set to DIV_4 for some of PINCTRL groups,
-while these groups should use DIV_1. This patch fixes the wrong PINCTRL
-configurations and adds a full drive-setup for the changed configs, just
-for completeness since the added values match the default configuration.
-
-Now WiFi SDIO communication works properly using legacy signaling mode if
-SDIO BUS clocked at 50MHz, which is a maximum SDIO clock rate on Tegra20.
+Previously 50MHz clock rate didn't work because of the wrong PINCTRL
+configuration used for SDIO pins. Now the PINCTRL config is corrected
+and the MMC clock rate could be bumped safely to 50MHz, increasing WiFi
+TX throughput by 20 Mbit/s and allowing to hit the maximum 40 Mbit/s.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index f92712e4bd34..8b4912db0d20 100644
+index 8b4912db0d20..b89e9398f681 100644
 --- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
 +++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -314,16 +314,24 @@ drive_ddc {
- 				nvidia,pins = "drive_ddc",
- 						"drive_vi1",
- 						"drive_sdio1";
-+				nvidia,pull-up-strength = <31>;
-+				nvidia,pull-down-strength = <31>;
- 				nvidia,schmitt = <TEGRA_PIN_ENABLE>;
--				nvidia,low-power-mode = <TEGRA_PIN_LP_DRIVE_DIV_4>;
-+				nvidia,high-speed-mode = <TEGRA_PIN_DISABLE>;
-+				nvidia,low-power-mode = <TEGRA_PIN_LP_DRIVE_DIV_1>;
-+				nvidia,slew-rate-rising = <TEGRA_PIN_SLEW_RATE_SLOWEST>;
-+				nvidia,slew-rate-falling = <TEGRA_PIN_SLEW_RATE_SLOWEST>;
- 			};
- 			drive_dbg {
- 				nvidia,pins = "drive_dbg",
- 						"drive_vi2",
- 						"drive_at1",
- 						"drive_ao1";
-+				nvidia,pull-up-strength = <31>;
-+				nvidia,pull-down-strength = <31>;
- 				nvidia,schmitt = <TEGRA_PIN_ENABLE>;
--				nvidia,low-power-mode = <TEGRA_PIN_LP_DRIVE_DIV_4>;
-+				nvidia,high-speed-mode = <TEGRA_PIN_DISABLE>;
-+				nvidia,low-power-mode = <TEGRA_PIN_LP_DRIVE_DIV_1>;
- 				nvidia,slew-rate-rising = <TEGRA_PIN_SLEW_RATE_FASTEST>;
- 				nvidia,slew-rate-falling = <TEGRA_PIN_SLEW_RATE_FASTEST>;
- 			};
+@@ -744,7 +744,7 @@ mmc@c8000000 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+-		max-frequency = <25000000>;
++		max-frequency = <50000000>;
+ 		keep-power-in-suspend;
+ 		bus-width = <4>;
+ 		non-removable;
 -- 
 2.27.0
 
