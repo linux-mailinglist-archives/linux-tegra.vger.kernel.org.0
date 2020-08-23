@@ -2,68 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E1A24ED88
-	for <lists+linux-tegra@lfdr.de>; Sun, 23 Aug 2020 16:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F5AC24ED9D
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Aug 2020 16:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbgHWOKZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Aug 2020 10:10:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33564 "EHLO
+        id S1726303AbgHWOWj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Aug 2020 10:22:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbgHWOKI (ORCPT
+        with ESMTP id S1725996AbgHWOWi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 Aug 2020 10:10:08 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89BCC0613ED;
-        Sun, 23 Aug 2020 07:10:07 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f26so6725602ljc.8;
-        Sun, 23 Aug 2020 07:10:07 -0700 (PDT)
+        Sun, 23 Aug 2020 10:22:38 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEC3BC061573;
+        Sun, 23 Aug 2020 07:22:37 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id 185so6756695ljj.7;
+        Sun, 23 Aug 2020 07:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=35wLUHHiL0jcYl7dr+ydbL6W/M+IENF1DgF9AQYM8t8=;
-        b=ViEZr59xlFFxHAnvxlgRZc5ssiXQT0tzUGBTDv4KYhMnBX4cL3HYXEhKeV4X6q53mZ
-         Gsa/A5B34Coz+f9z5jB8hRMsbh4soP1UUqGjvUzx5WX4pYY38a2jEqINeekxEGxNq737
-         ssRpEZ+FRFKBIbZ+lG7mUfRcSB+fFprInOdoEa+iUzJC1+WxIrnKAYPYLi93IZM9Bgsa
-         n7TEZLWkHPo0eLDn4nv5HqsPKHh207111jOcsknhv2FJ/+MutqkNnR1I7GHpVXtTozHS
-         2k2u5b9QlNVmBvtMMVzbXmWDlpolC4Omgsu+gPNiv7uQ1CoK04RG7d1TMg/gOeQneZ7Y
-         kJqw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cpCT819jIZRApX9D520kYS6bFmlnpJPpxZjN4lrXVfs=;
+        b=AKOdxg9x4WPMYdcVBFb6mbCTAht38QZGhsXUdTJkxxM1nl1W0PkY/anI72vrMwXbaI
+         ou7kHmCFWXkygBGapGdKCmTdbNTMEyiWMBtOxxsWbaKw2yACIoX1z17ez2bBC/HqQ2EG
+         5addTlyUg5G9vohHbfBMtLeJriLNqoMMlprdqUtXvZ0vEXMBqQq5FELMWGOYPn6KX487
+         R83z83bnvJGWte06RSYwY4vX5cFb6FCVYrlwjWKgCjzLlI6VzTDvFJjqZIdaUn9gJBEB
+         56t+5W7vJK6+ShRCQzNCQ2FN2j2qfcgKS9krwdX70YrDsIDbiHAC5gGmxhE/QgvzNzCo
+         eYzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=35wLUHHiL0jcYl7dr+ydbL6W/M+IENF1DgF9AQYM8t8=;
-        b=TTxZehyuqs65e1M+axUL//z7yukLfnQkzsJ7DrQQrasBUC/fFCbbsu2NSrKsJ4b8nZ
-         2qmd1rkGpekQN/QYkgjMw3949T7VnbpMWznhBjCnVCLGHWtKUJ++HywlT4H2AZJnHOLa
-         vaJpNXKbWHqYPvFEUqAmJRCVGZ5tNhhBAUv3eQ7vja0Mw0Dl4vnTQcQejBkEw2OJv2cq
-         uNZ2UKS1pPE6f34xhXcmA46e1YsmABJjJXRFOTKIudwLsNp4ofLRL63WUvFXcX0mEMOT
-         QXxLscGder8cCHhTMKCvzusrAyvXFy0qHDhevo3jXMgbEFm4j7kwsyR87i22+PRmz3Rm
-         hn/A==
-X-Gm-Message-State: AOAM531BfQkNz1DfAiwfdamGYeM9+VwLVTLmLo86ik7hQUak+r09Lz6V
-        rkg3F8PCNttHq3oWq9eTYEQ=
-X-Google-Smtp-Source: ABdhPJzU2EqrkTFmH1289oQBf1AS7N5fRURLGWkSQCB7ihkYlFD87c3JcUWU8O9Fzhze9kCZLws/Lg==
-X-Received: by 2002:a2e:9557:: with SMTP id t23mr676484ljh.85.1598191806202;
-        Sun, 23 Aug 2020 07:10:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cpCT819jIZRApX9D520kYS6bFmlnpJPpxZjN4lrXVfs=;
+        b=ZoXJihx59V0HAFqtJEDimaNSwEoOrlCO6cn4TwLSYNZHD1NlXDrKvJYaBV/Ip1E74S
+         OVWn+eLYtL5PvVjtbfgVy+QzZwYEZZ931sfAjJ2kVZTFgWiKHWcrI5KdXZB9ywsDJk22
+         eZZ8JWw+1SNSnxD0LcxgvVhh43ZG1JKWKDA14/Vu50UAuOyjeFHNZshfCzotcf3k+wcc
+         WU31WfWq8P+7QRUfYMKBDo5ONamdaPpVWY/DXDwoEy4otBc6c1AVpoZ9t0I7XtF6qEYe
+         UDX8uMn+V8dvDtO8VJT82ydMjGxnLbsuQlR8TwQJh1hL3+aZodrCGSBARvt5i356RGIr
+         nJxQ==
+X-Gm-Message-State: AOAM5303QXBQxllRafkMrNJ+gXyMsiaLsiqbgvYJI52HeggorEIo2qKN
+        HJTBdMyLWuYeJOgFswhDNmIz7Dx+zxA=
+X-Google-Smtp-Source: ABdhPJxGj++OCovG9IFWIJGZ6F5MA3xQetTwTZaV29FbQT5OaF+P2/Fkq2Y8x3gtSk0LOz9fiFZHWw==
+X-Received: by 2002:a2e:8e94:: with SMTP id z20mr762846ljk.367.1598192556375;
+        Sun, 23 Aug 2020 07:22:36 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id b17sm1641342ljp.9.2020.08.23.07.10.05
+        by smtp.gmail.com with ESMTPSA id 1sm1627876ljr.6.2020.08.23.07.22.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 07:10:05 -0700 (PDT)
+        Sun, 23 Aug 2020 07:22:35 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 6/6] ARM: tegra: acer-a500: Add Embedded Controller
-Date:   Sun, 23 Aug 2020 17:08:46 +0300
-Message-Id: <20200823140846.19299-7-digetx@gmail.com>
+To:     Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        Kalle Valo <kvalo@codeaurora.org>
+Cc:     linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1] brcmfmac: increase F2 watermark for BCM4329
+Date:   Sun, 23 Aug 2020 17:20:04 +0300
+Message-Id: <20200823142004.21990-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200823140846.19299-1-digetx@gmail.com>
-References: <20200823140846.19299-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -71,51 +70,29 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds device-tree node for the Embedded Controller which is
-found on the Picasso board. The Embedded Controller itself is ENE KB930,
-it provides functions like battery-gauge/LED/GPIO/etc and it uses firmware
-that is specifically customized for the Acer A500 device.
+This patch fixes SDHCI CRC errors during of RX throughput testing on
+BCM4329 chip if SDIO BUS is clocked above 25MHz. In particular the
+checksum problem is observed on NVIDIA Tegra20 SoCs. The good watermark
+value is borrowed from downstream BCMDHD driver and it's the same as the
+value used for the BCM4339 chip, hence let's re-use it for BCM4329.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 2d683c9a1a5d..f92712e4bd34 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -502,6 +502,16 @@ panel_ddc: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
-+			embedded-controller@58 {
-+				compatible = "acer,a500-iconia-ec", "ene,kb930";
-+				reg = <0x58>;
-+
-+				system-power-controller;
-+
-+				monitored-battery = <&bat1010>;
-+				power-supplies = <&mains>;
-+			};
- 		};
- 	};
- 
-@@ -780,6 +790,13 @@ backlight: backlight {
- 		default-brightness-level = <20>;
- 	};
- 
-+	bat1010: battery-2s1p {
-+		compatible = "simple-battery";
-+		charge-full-design-microamp-hours = <3260000>;
-+		energy-full-design-microwatt-hours = <24000000>;
-+		operating-range-celsius = <0 40>;
-+	};
-+
- 	/* PMIC has a built-in 32KHz oscillator which is used by PMC */
- 	clk32k_in: clock@0 {
- 		compatible = "fixed-clock";
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
+index 3c07d1bbe1c6..ac3ee93a2378 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
+@@ -4278,6 +4278,7 @@ static void brcmf_sdio_firmware_callback(struct device *dev, int err,
+ 			brcmf_sdiod_writeb(sdiod, SBSDIO_FUNC1_MESBUSYCTRL,
+ 					   CY_43012_MESBUSYCTRL, &err);
+ 			break;
++		case SDIO_DEVICE_ID_BROADCOM_4329:
+ 		case SDIO_DEVICE_ID_BROADCOM_4339:
+ 			brcmf_dbg(INFO, "set F2 watermark to 0x%x*4 bytes for 4339\n",
+ 				  CY_4339_F2_WATERMARK);
 -- 
 2.27.0
 
