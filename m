@@ -2,96 +2,168 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C8AD2526EA
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Aug 2020 08:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3848625285A
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Aug 2020 09:19:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726069AbgHZGeT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Aug 2020 02:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41436 "EHLO
+        id S1726818AbgHZHTg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 26 Aug 2020 03:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725786AbgHZGeT (ORCPT
+        with ESMTP id S1726716AbgHZHTf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Aug 2020 02:34:19 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8AD2C061574;
-        Tue, 25 Aug 2020 23:34:18 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id m22so1023548ljj.5;
-        Tue, 25 Aug 2020 23:34:18 -0700 (PDT)
+        Wed, 26 Aug 2020 03:19:35 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A52CC061574;
+        Wed, 26 Aug 2020 00:19:35 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id g1so590809pgm.9;
+        Wed, 26 Aug 2020 00:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lgWQaoUOmck1zKDSkfP/KU2pBuaR71IA8RK6LfmWfiU=;
-        b=BStScc7SEeJUXWtFIaOczGlfItuM9LUgot65Loa+CmcdSSPsyajCEedCUQudaWZm9z
-         2TzbozcX2s/U8pizJdFJ+iQHlu/IhWgEvwKuCgyC/MTXQeXCEY9o8LLux0T3CdD3AtA7
-         tn14pPv210JrLNqMSWzcgvPTGInmDCtX8eZLXqXRf084qdVH4xCMb2EOnB8WKBLC3VRG
-         FRkDG01aQbahppWVUqjzkW/AhJzBAulb4Z/WFkm+l3/BZX4cpFEVGo6mwDXX/OOz+YAe
-         ACwf6a462wehrJUZoFH9LB6jP6Fab5BbOOGEV3pyp5UTLFeayZmjFIssirme/7grvq3y
-         Rxlw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qWLQ09H4pd8WgMgtgz12mw5W3VvW3dhG530iJhOXSE0=;
+        b=OXa+dODJtUqYwtqpQ7ayh7hD2+7v70th2/273W1+fTk2MmqVr26N7l3YZK+gVNeD/0
+         VJQGWHjYBPCccKWZ5YVAYwN/9y4ZFAyd6xLhPT4v16Qzl8uLtYEwJYFtwS+IV2T+uYRT
+         o696chC8iVjFQ0LJSsUiv6kscF9IHSXTtAA+LZaM69XQXkCOHKmEW0qVuTAVoGDTw8rI
+         sKBmyMC1a5Rt7wlCJz+Qs7XI8L/DKlv4IH8jFR3MVib6BMPkEUCTjfEyquqWtlz1cbbZ
+         Ja4CpU7sVeu/8jGj2Wbeme+jeEiCa6g/jBznhIWVa5JLTjmtiBQR2a5mNhXgh2O5GvYc
+         AUBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lgWQaoUOmck1zKDSkfP/KU2pBuaR71IA8RK6LfmWfiU=;
-        b=Qfm57taGOyea3w6577o3CZYagCbbZPg7ZpnDklL5R5Qzlbm3vgQe+d3o2X8I1tyZLu
-         VuwZrNrTW/YmJpSz4wgh865BCqs2KeUKcEyK3JMnHUAH7XUAbHb2H/TZFxgWBcUIr2Ud
-         4nt+4bi9KC/WXeF86G0uvRtrva8I5rq/DuX9KtOa38i//Khmi3d8CFHccMZnPve0tcu0
-         yq/ieTMW/G72sAvNBVbIbcrQbZUdU+GvjXUaUZXhYPmPoFs57FclcLN9PlJdj6eA+H36
-         rcC8SdFmsD6oREuwbyLgPglDHf1bZfIw4utuux17/bvvUYFrE5c+/aGyuvg5HV8F5dHF
-         0rNg==
-X-Gm-Message-State: AOAM532Orx5Jx7Nj660Uso8BzBA3nvzMFHBmfuT1F0VvTeeV/7UZoTJ0
-        gT0ZRD1SICELQvpbjmI3mKstGHgyTpE=
-X-Google-Smtp-Source: ABdhPJzPxuktg7pPrBXmouq95t70LJMDgatsUj53Twb1MRVQoKDhxeCz9r165MKz6Y5g35tPP6YkBw==
-X-Received: by 2002:a05:651c:88:: with SMTP id 8mr6808046ljq.277.1598423656911;
-        Tue, 25 Aug 2020 23:34:16 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id q5sm315641lfn.92.2020.08.25.23.34.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2020 23:34:16 -0700 (PDT)
-Subject: Re: [PATCH v1 2/6] power: supply: Add battery gauge driver for Acer
- Iconia Tab A500
-To:     Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=qWLQ09H4pd8WgMgtgz12mw5W3VvW3dhG530iJhOXSE0=;
+        b=tn+9w6CiRtMbIpuveuhC37fUCmmj1OsAanDCA47jAXzMVjiucwRaMjaTvsBGfcybK+
+         yoOj75a2cOquqBqvq/uz4w/+tzckBbwLb8YMyDxqHg9oZlfd14XNJt6BSYl/+jZhcpya
+         0rMs7CuhMpL/+arKhc/AuOtqc4YrwsIdR80m/+9HUNa27vlF0E359c3wOsAVfMGLimdM
+         NgkvtubXDzck0wmcJMxlH5SmwdRUNXkxHNO/PS4CstmdSszhGwC2LINijFOJ88OnuoHq
+         57WJ8YltyWRjrAjoY02nq6/P0EC+Jigx+TPeorzauZsOtdbOtfAd1Z4tClXGhbylFzSU
+         ex8Q==
+X-Gm-Message-State: AOAM530NZR5Vps1S6xayj6En9fye9BMp8pHcu8XLjFnCuBtidwKixSRa
+        fHTF7uDBUKB1RKDBbVOmHps=
+X-Google-Smtp-Source: ABdhPJzu+RfzmpakKaJ6ICWRJIIn4iAY6rm05Qjiy2cIfh8eZg7ri+t6ytJ/DqHxJh9T+iOIaATKGQ==
+X-Received: by 2002:a62:1c86:: with SMTP id c128mr11084787pfc.78.1598426374880;
+        Wed, 26 Aug 2020 00:19:34 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.19])
+        by smtp.gmail.com with ESMTPSA id mw8sm1125465pjb.47.2020.08.26.00.19.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 00:19:33 -0700 (PDT)
+From:   Joel Stanley <joel@jms.id.au>
+To:     Andrew Jeffery <andrew@aj.id.au>, Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+        James Hartley <james.hartley@sondrel.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lubomir Rintel <lkundrak@v3.sk>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200823140846.19299-1-digetx@gmail.com>
- <20200823140846.19299-3-digetx@gmail.com>
- <20200824140718.apoavlny6hlkm2ql@earth.universe>
- <31ec6865-4a33-bde8-73a6-20c188ec2ee7@gmail.com>
- <20200824213859.6o3q5i2kvtk44lqi@earth.universe>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <bc5e828c-67ce-0c9e-e8e7-19a532145cfa@gmail.com>
-Date:   Wed, 26 Aug 2020 09:34:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tony Lindgren <tony@atomide.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, stable@vger.kernel.org
+Subject: [PATCH] ARM: config: aspeed: Fix selection of media drivers
+Date:   Wed, 26 Aug 2020 16:49:16 +0930
+Message-Id: <20200826071916.3081953-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200824213859.6o3q5i2kvtk44lqi@earth.universe>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.08.2020 00:38, Sebastian Reichel пишет:
-> Hi,
-...
->> Hello, Sebastian! The battery isn't hot-swappable on A500, but it also
->> should be okay to always re-read the serialno. I'll consider removing
->> the caching in the v2, thanks.
-> 
-> I assumed it would be hot-swappable because of a500_battery_get_presence().
-> If it's not hot-swappable, the caching is fine.
+In the 5.7 merge window the media kconfig was restructued. For most
+platforms these changes set CONFIG_MEDIA_SUPPORT_FILTER=y which keeps
+unwanted drivers disabled.
 
-The battery could be disconnected from the motherboard, but this
-requires to have device disassembled.
+The exception is if a config sets EMBEDDED or EXPERT (see b0cd4fb27665).
+In that case the filter is set to =n, causing a bunch of DVB tuner drivers
+(MEDIA_TUNER_*) to be accidentally enabled. This was noticed as it blew
+out the build time for the Aspeed defconfigs.
 
-Okay, I'll keep the caching.
+Enabling the filter means the Aspeed config also needs to set
+CONFIG_MEDIA_PLATFORM_SUPPORT=y in order to have the CONFIG_VIDEO_ASPEED
+driver enabled.
 
-Thanks!
+Fixes: 06b93644f4d1 ("media: Kconfig: add an option to filter in/out platform drivers")
+Fixes: b0cd4fb27665 ("media: Kconfig: on !EMBEDDED && !EXPERT, enable driver filtering")
+Cc: stable@vger.kernel.org
+CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+
+Another solution would be to revert b0cd4fb27665 ("media: Kconfig: on
+!EMBEDDED && !EXPERT, enable driver filtering"). I assume this was done
+to be helpful, but in practice it has enabled the TUNER drivers (and
+others) for the following configs that didn't have them before:
+
+$ git grep -lE "(CONFIG_EXPERT|CONFIG_EMBEDDED)"  arch/*/configs/ | xargs grep -l MEDIA_SUPPORT
+arch/arm/configs/aspeed_g4_defconfig
+arch/arm/configs/aspeed_g5_defconfig
+arch/arm/configs/at91_dt_defconfig
+arch/arm/configs/bcm2835_defconfig
+arch/arm/configs/davinci_all_defconfig
+arch/arm/configs/ezx_defconfig
+arch/arm/configs/imote2_defconfig
+arch/arm/configs/imx_v4_v5_defconfig
+arch/arm/configs/imx_v6_v7_defconfig
+arch/arm/configs/milbeaut_m10v_defconfig
+arch/arm/configs/multi_v7_defconfig
+arch/arm/configs/omap2plus_defconfig
+arch/arm/configs/pxa_defconfig
+arch/arm/configs/qcom_defconfig
+arch/arm/configs/sama5_defconfig
+arch/arm/configs/tegra_defconfig
+arch/mips/configs/ci20_defconfig
+arch/mips/configs/lemote2f_defconfig
+arch/mips/configs/loongson3_defconfig
+arch/mips/configs/pistachio_defconfig
+
+I've cc'd the maintainers of these defconfigs so they are aware.
+
+---
+ arch/arm/configs/aspeed_g4_defconfig | 3 ++-
+ arch/arm/configs/aspeed_g5_defconfig | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/configs/aspeed_g4_defconfig b/arch/arm/configs/aspeed_g4_defconfig
+index 303f75a3baec..58d293b63581 100644
+--- a/arch/arm/configs/aspeed_g4_defconfig
++++ b/arch/arm/configs/aspeed_g4_defconfig
+@@ -160,7 +160,8 @@ CONFIG_SENSORS_TMP421=y
+ CONFIG_SENSORS_W83773G=y
+ CONFIG_WATCHDOG_SYSFS=y
+ CONFIG_MEDIA_SUPPORT=y
+-CONFIG_MEDIA_CAMERA_SUPPORT=y
++CONFIG_MEDIA_SUPPORT_FILTER=y
++CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_VIDEO_ASPEED=y
+ CONFIG_DRM=y
+diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+index b0d056d49abe..cc2449ed6e6d 100644
+--- a/arch/arm/configs/aspeed_g5_defconfig
++++ b/arch/arm/configs/aspeed_g5_defconfig
+@@ -175,7 +175,8 @@ CONFIG_SENSORS_TMP421=y
+ CONFIG_SENSORS_W83773G=y
+ CONFIG_WATCHDOG_SYSFS=y
+ CONFIG_MEDIA_SUPPORT=y
+-CONFIG_MEDIA_CAMERA_SUPPORT=y
++CONFIG_MEDIA_SUPPORT_FILTER=y
++CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_VIDEO_ASPEED=y
+ CONFIG_DRM=y
+-- 
+2.28.0
+
