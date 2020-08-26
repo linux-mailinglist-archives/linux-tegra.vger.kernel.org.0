@@ -2,175 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 381B0253718
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Aug 2020 20:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9BAF2538BA
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Aug 2020 22:05:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727944AbgHZS1g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Aug 2020 14:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727950AbgHZS0y (ORCPT
+        id S1726851AbgHZUFf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 26 Aug 2020 16:05:35 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15640 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726609AbgHZUFe (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:26:54 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B2EC061574;
-        Wed, 26 Aug 2020 11:26:53 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id x7so2834378wro.3;
-        Wed, 26 Aug 2020 11:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Bu4pOYOLpF8hHIWAO8QllDzn4fIcc5GK3Fq1pOjr02M=;
-        b=aATDp49DrNEi4o+dQ3aZilAVzYRQBAblxtl0UNdBGXKSmVRdFgpISE1zQyc7cNSsZ9
-         lW/EYpEmbA0Lu3HCV4gTg4WJlfsP9Ucv3zSATOZO1HiWK3Xl7zEtjeqoNbC6i1Ns4mAR
-         ZRq0r3vG4sM3xbUlDy8LPAizO4V/iBIepvQgRwBNTOXvKWuZklWHI7dz6KPp6mM5pW+8
-         e4/LtEjr5E3izgeXPBOlpPbB1jJpfchAVzL6KSrkYYKPwTjqCaTuOMWV4ujlyA488gay
-         4N7boVhG1b57UDIcUR6HQBrmSeSXAtmip16JCAoNV2oOOh9NdAZhe34FxbbIB/ucho4E
-         KVLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bu4pOYOLpF8hHIWAO8QllDzn4fIcc5GK3Fq1pOjr02M=;
-        b=KMT3IIu+WYoS+2TjRhO2ASZGjQ1stICBN3bZz98cCXy0H5V67NQ9cx/0nOnoyDSFVm
-         S655VKHuuHugwYv6oXlhqHAByKuf6g8UUnhlBQmzjyGbF3hJ/p9JJiExDo0bf89WiDag
-         Yw5NLd7sb68w9XhQfUPMfGr3ncvRTfx3eVfjw4pny56QIvH94z20taUQz/EJbMEsCnEy
-         t/Qfid7r+pKyeJ2ANjAVh1hW+yv5SwPj48uzAGJQvi5wfZ8LO7JxQeJeKHI0UjO7imNr
-         2Yw4eaRjV4a9cQKGwYJGQX6/6mThq332GBJ7q2XvoHCqi/SSbPRKTHUEBKP71pyjOUZP
-         N+vA==
-X-Gm-Message-State: AOAM531uRpkhojzPLxSEH8WtuRUSROfEwKZQb6eE1hYseE3DBJtR+792
-        tOnaQh44sFPlvNC7RGw8S0tBJn/ndQxIGB5CSpc=
-X-Google-Smtp-Source: ABdhPJw6XRhfFzc0ep7oxhqIsPm6hA1ZYk5Rt4Z7Rf4kNW/IcW2BOalXNQMof7JDtDOsechyJwXMAwWd0bJeEtpmfUE=
-X-Received: by 2002:a5d:6085:: with SMTP id w5mr16385547wrt.362.1598466412249;
- Wed, 26 Aug 2020 11:26:52 -0700 (PDT)
+        Wed, 26 Aug 2020 16:05:34 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f46c0800000>; Wed, 26 Aug 2020 13:05:20 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 26 Aug 2020 13:05:34 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 26 Aug 2020 13:05:34 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 26 Aug
+ 2020 20:05:31 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 26 Aug 2020 20:05:31 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.174.186]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f46c08a0001>; Wed, 26 Aug 2020 13:05:31 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <robh+dt@kernel.org>
+CC:     <skomatineni@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: [PATCH v5 0/7] Fix timeout clock used by hardware data timeout
+Date:   Wed, 26 Aug 2020 13:05:07 -0700
+Message-ID: <1598472314-30235-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20191221150402.13868-1-murphyt7@tcd.ie> <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
- <20200529124523.GA11817@infradead.org> <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
- <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com> <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
- <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com> <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
-In-Reply-To: <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Wed, 26 Aug 2020 14:26:40 -0400
-Message-ID: <CADnq5_PRuPtpzR-pCgXARRXVaC0vO=HdcGUkGQr7sDqUmq7G_Q@mail.gmail.com>
-Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
-To:     Tom Murphy <murphyt7@tcd.ie>
-Cc:     Logan Gunthorpe <logang@deltatee.com>, kvm@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-s390@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        linux-mediatek@lists.infradead.org,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:VIRTIO CORE, NET..." 
-        <virtualization@lists.linux-foundation.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1598472320; bh=OdHdRc/UaKnVvZSMHA9sLxAncOLEzYZlr2zxYS7NCA8=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=sAdcDtKkrSV7v71/ylV5CdddbSsNGcdWUtD93tmrrU8I6vAzTN8ABnIMcY2RfqVzO
+         APeQBIJ564TncDxfV852Dy9g1tvAQURmvfcHfeEn3XjnNuTUEsQzfAx4102501Q/JS
+         MLejpnY9Dd885BSoSZvP+1nREqNop/ENTV7T0QYf4knbeNYK9AlEmqITZvucBEk55q
+         RyGGydmX8japWg2pX3H16C8xSTBBtFhZ6HuF0lhS+E0/ezimf/U/MITo2nLFVKZ+JV
+         G+zmIxhlMsovytOJitiQjiedRhQ/tiBgMIcC6lY/CCbb8a0RtgitpbJO3Z6NPSqu27
+         xKmS6XlQwNOfg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 2:56 AM Tom Murphy <murphyt7@tcd.ie> wrote:
->
-> Hi Logan/All,
->
-> I have added a check for the sg_dma_len == 0 :
-> """
->  } __sgt_iter(struct scatterlist *sgl, bool dma) {
->         struct sgt_iter s = { .sgp = sgl };
->
-> +       if (sgl && sg_dma_len(sgl) == 0)
-> +           s.sgp = NULL;
->
->         if (s.sgp) {
->             .....
-> """
-> at location [1].
-> but it doens't fix the problem.
->
-> You're right though, this change does need to be made, this code
-> doesn't handle pages of sg_dma_len(sg) == 0 correctly
-> So my guess is that we have more bugs in other parts of the i915
-> driver (or there is a problem with my "sg_dma_len == 0" fix above).
-> I have been trying to spot where else the code might be buggy but I
-> haven't had any luck so far.
->
-> I'm doing a microconfernce (at LPC 2020) this wednesdays [1] on this
-> if you're interested in attending.
-> I'm hoping I can chat about it with a few people and find how can
-> reproduce and fix this issues. I don't have any more time I can give
-> to this unfortunately and it would be a shame for the work to go to
-> waste.
->
-> [0] https://github.com/torvalds/linux/blob/d012a7190fc1fd72ed48911e77ca97ba4521bccd/drivers/gpu/drm/i915/i915_scatterlist.h#L28
-> [1] https://linuxplumbersconf.org/event/7/contributions/846/
->
-> On Fri, 29 May 2020 at 22:21, Logan Gunthorpe <logang@deltatee.com> wrote:
-> >
-> >
-> >
-> > On 2020-05-29 3:11 p.m., Marek Szyprowski wrote:
-> > > Patches are pending:
-> > > https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
-> >
-> > Cool, nice! Though, I still don't think that fixes the issue in
-> > i915_scatterlist.h given it still ignores sg_dma_len() and strictly
-> > relies on sg_next()/sg_is_last() to stop iterating -- and I suspect this
-> > is the bug that got in Tom's way.
-> >
-> > >> However, as Robin pointed out, there are other ugly tricks like stopping
-> > >> iterating through the SGL when sg_dma_len() is zero. For example, the
-> > >> AMD driver appears to use drm_prime_sg_to_page_addr_arrays() which does
-> > >> this trick and thus likely isn't buggy (otherwise, I'd expect someone to
-> > >> have complained by now seeing AMD has already switched to IOMMU-DMA.
+Tegra210/Tegra186/Tegra194 has incorrectly enabled
+SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK from the beginning of their support.
 
-We ran into the same issue with amdgpu and radeon when the AMD IOMMU
-driver was converted and had to fix it as well.  The relevant fixes
-were:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=42e67b479eab6d26459b80b4867298232b0435e7
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0199172f933342d8b1011aae2054a695c25726f4
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=47f7826c520ecd92ffbffe59ecaa2fe61e42ec70
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c0f83d164fb8f3a2b7bc379a6c1e27d1123a9eab
+Tegra210 and later SDMMC hardware default uses sdmmc_legacy_tm (TMCLK)
+all the time for hardware data timeout instead of SDCLK and this TMCLK
+need to be kept enabled by Tegra sdmmc driver.
 
-Alex
+This series includes patches to fix this for Tegra210/Tegra186/Tegra194.
 
-> > >
-> > > I'm not sure that this is a trick. Stopping at zero sg_dma_len() was
-> > > somewhere documented.
-> >
-> > Well whatever you want to call it, it is ugly to have some drivers doing
-> > one thing with the returned value and others assuming there's an extra
-> > zero at the end. It just causes confusion for people reading/copying the
-> > code. It would be better if they are all consistent. However, I concede
-> > stopping at zero should not be broken, presently.
-> >
-> > Logan
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+These patches need to be manually backported for 4.9, 4.14 and 4.19.
+
+Will send patches to backport separately once these patches are ack'd.
+
+Delta between patch versions:
+[v5]:	Include below changes based on v4 feedback
+	- updated dt-binding doc to be more clear
+	- updated Tegra sdhci driver to retrieve sdhci and tmclk clocks
+	  based on no. of clocks in sdhci device node as old device trees
+	  do not use sdhci clock name and this allows proper clock retrival
+	  irrespective of sdhci and tmclk clocks order in device tree.	  
+	- Added separate quirk for identifying SoC's supporting separate
+	  timeout clock to be more clear.
+
+[v4]:	Include additional dt-binding patch
+
+[v3]:	Same as v2 with fixes tag
+
+[v2]:	Includes minor fix
+	- Patch-0006: parentheses around operand of '!'
+
+Sowjanya Komatineni (7):
+  sdhci: tegra: Remove SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK for Tegra210
+  sdhci: tegra: Remove SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK for Tegra186
+  dt-bindings: mmc: tegra: Add tmclk for Tegra210 and later
+  arm64: tegra: Add missing timeout clock to Tegra210 SDMMC
+  arm64: tegra: Add missing timeout clock to Tegra186 SDMMC nodes
+  arm64: tegra: Add missing timeout clock to Tegra194 SDMMC nodes
+  sdhci: tegra: Add missing TMCLK for data timeout
+
+ .../bindings/mmc/nvidia,tegra20-sdhci.txt          | 32 +++++++-
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           | 20 +++--
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 15 ++--
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           | 20 +++--
+ drivers/mmc/host/sdhci-tegra.c                     | 91 +++++++++++++++++++---
+ 5 files changed, 143 insertions(+), 35 deletions(-)
+
+-- 
+2.7.4
+
