@@ -2,111 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E856253D6B
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Aug 2020 08:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 210D0253D79
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Aug 2020 08:07:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgH0GGC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Aug 2020 02:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35486 "EHLO
+        id S1726299AbgH0GHn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Aug 2020 02:07:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727099AbgH0GGB (ORCPT
+        with ESMTP id S1726157AbgH0GHm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Aug 2020 02:06:01 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B67E5C061247;
-        Wed, 26 Aug 2020 23:06:00 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id i10so5088547ljn.2;
-        Wed, 26 Aug 2020 23:06:00 -0700 (PDT)
+        Thu, 27 Aug 2020 02:07:42 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38F28C061249;
+        Wed, 26 Aug 2020 23:07:42 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id i14so2276528lfl.12;
+        Wed, 26 Aug 2020 23:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WKk6KWPNkMHUCww/FbErLxUYYQtEUh3n/PTtmJB/IIQ=;
-        b=qLQ1i7wDv9Q3Xaxm3HkxgYB7iVc8sv2O42p4VD+k9wlAuWC3GcWW1tNXitXj3Z/Z8J
-         LD4FG7R+IhHjNW6ryE+cQg5ynJQa1Ptl3jDD2TGOGmu4TFD7wrDI9SxFi1pN6g42aMtO
-         LJKXRFRdeXciiZYHQKqPZxeh8ankvU95AW/bznMKHir8JNe0moVMAK+LWaSP17dxyp7n
-         IsJUpueYCn42JrF000SSmEXeXlkO9Yr5A1Y4Jdnq5WgIA7VULEy8fA2IsHcW/qMbqgY/
-         7zzLR8JSNoSGXv/p+1Vtiv6mWbynRcPPOY2HfGkX4D1GwFx62b4zp2oLkWUrcvAxokDC
-         NLKw==
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=hmc6+AVmLvdvLf4AWknXtDxmdplb2vMzVZzZc7Kg5z4=;
+        b=H2jA0oE+Ihn1WFLUhVm7op19MAw8Wy8UcsbgxCHfj8FbzYmDfURkbsShZwBuaeOu0p
+         KNl+J1XgJDeBSK4+JEPXMKRRkZf3U93brXbm01l1pNqh0/WbAJugp4jXJwozU5jFeHEd
+         UpBiRdTOjCH2v2IqC64BZVRiJbiyt0KKXUQSZFlzU81n9sJTnHpOFeVi5xVwIFY7lwlG
+         /fhOpMicIRxEmO6c9yW30olvvApi7ymwQk7nq0x9DU+zCIzzFkQWY6uJauyO0HlEivB4
+         p2i5XLxBkjg7w7eM++ccT0E4TkFQeq8Kv55XvqgHhTcFXMzbtXP3t4ExhCDc3R4zvIFa
+         S3MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WKk6KWPNkMHUCww/FbErLxUYYQtEUh3n/PTtmJB/IIQ=;
-        b=V2ahx8Gu879552bFOuxvWm4wrCLeeFte0kQQCjqi3Ft1pZdX3aeW2N7fYYX/h+PABH
-         mD6jFg9lfmaZQMIxvnHXbwCOlS/sERxJWeayc7KXP1J8atTlWuLJ7D+Cgiv22GrrG521
-         Jf/yZDHRZPQPt4BWF3bxaxaQjcFqVrH1e020NNvLpTl8gz0yabP7kiIqA1+QfnnQ9qwz
-         aCHG5zBvkRNqdpRYiZPjAdOaraFDRZ+BTUNcH5tAWEENNzC7jji0ERw+fz8weYjvGsvS
-         /BSm68R22E3JJx4C9CwrvNdshD2VJ+aBxcJXj7bYB8zeFNmIXBRqMJ7kib3FhIVPZwHF
-         lJEA==
-X-Gm-Message-State: AOAM532oDTV2M5VCldaH5MRCVhxUYeteZwygWl4fTj+9qSgHY/jEoXXE
-        mkUJ7JObJ2geVcaXeiu3UrY=
-X-Google-Smtp-Source: ABdhPJzrTQlLzdl6fvs+KJ8nM6o4Pq1n7ukkS0FV/jYFLwOfmV5xlKCDf2GJF4pBmm4Evv0Fhq0aXQ==
-X-Received: by 2002:a2e:98d5:: with SMTP id s21mr8116414ljj.59.1598508359172;
-        Wed, 26 Aug 2020 23:05:59 -0700 (PDT)
-Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id z7sm255295lfc.59.2020.08.26.23.05.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 23:05:58 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Arend van Spriel <arend.vanspriel@broadcom.com>,
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=hmc6+AVmLvdvLf4AWknXtDxmdplb2vMzVZzZc7Kg5z4=;
+        b=lv8FRr6ZRiymq06nTwRhmjDBQLvZ3sXgzdUIHB3YWWgJs+yg5P1+N/BZNrYYDj+RlJ
+         bJF5pbuYp/+cpBytJtuZ1hJmCwyRxL0qUp83ehjW5Eyt+itA+NR1Lgknir9gGRpLEfZk
+         vV1igYZZILBlaL+rTUNMO6IwDk+D5gG98YYs5OfsoBBVpRaORgUFe6AAyYECLy9rCMQK
+         41hLxnzWoM46c57w5c42pNVdPmVUM03+DkLdsBogmQ9ynFCEe2Z4gImETub0cIxBlouJ
+         j2qEyqCXOIz08QQXs5oGdULiw1h2B+EdrLfXiN66dIieIHHvpR/8c+QLJqsUq6v4qKHp
+         tmbQ==
+X-Gm-Message-State: AOAM530N7ZwOKwg07LsTCjijaATH17kCLFSCyX5K6x0WyfLWRwsTQif7
+        XOYUaaVJYbOyARiMnX95buJ2goBKQ58=
+X-Google-Smtp-Source: ABdhPJxfP3/WeM+nNrONYy5RkpF1jXFUKZ0YL60JfgugUzDtPXTFWQ+3Ddys9O4LVjZ4wtKt5X7Rsw==
+X-Received: by 2002:a19:e07:: with SMTP id 7mr8964725lfo.6.1598508459278;
+        Wed, 26 Aug 2020 23:07:39 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id b29sm255876lfq.69.2020.08.26.23.07.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Aug 2020 23:07:38 -0700 (PDT)
+To:     Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
         Franky Lin <franky.lin@broadcom.com>,
         Hante Meuleman <hante.meuleman@broadcom.com>,
         Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
         Wright Feng <wright.feng@cypress.com>,
-        Kalle Valo <kvalo@codeaurora.org>
-Cc:     linux-wireless@vger.kernel.org,
+        brcm80211-dev-list@cypress.com,
         brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211-dev-list@cypress.com, netdev@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] brcmfmac: set F2 SDIO block size to 128 bytes for BCM4329
-Date:   Thu, 27 Aug 2020 09:04:41 +0300
-Message-Id: <20200827060441.15487-5-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200827060441.15487-1-digetx@gmail.com>
-References: <20200827060441.15487-1-digetx@gmail.com>
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Subject: Broadcom WiFi SDIO performance regression after commit "mmc: sdhci:
+ Remove finish_tasklet"
+Message-ID: <5cf1af89-6026-09ad-7f20-82e19ad49fa1@gmail.com>
+Date:   Thu, 27 Aug 2020 09:07:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Setting F2 block size to 128 bytes for BCM4329 allows to significantly
-improve RX throughput on NVIDIA Tegra20. Before this change the throughput
-was capped to 30 Mbit/s on Tegra, now throughput is at 40 Mbit/s, which is
-a maximum throughput for the BCM4329 chip. The F2 block size is borrowed
-from the downstream BCMDHD driver. The comment in the BCMDHD driver says
-that 128B improves throughput and turns out that it works for the brcmfmac
-as well.
+Hello!
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c | 4 ++++
- 1 file changed, 4 insertions(+)
+I was debugging WiFi performance problems on Acer A500 tablet device
+that has BCM4329 WiFi chip which is connected to NVIDIA Terga20 SoC via
+SDIO and found that the following commit causes a solid 5-10 Mbit/s of
+WiFi throughput regression after 5.2 kernel:
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-index 0dc4de2fa9f6..318bd00bf94f 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-@@ -45,6 +45,7 @@
- #define SDIO_FUNC2_BLOCKSIZE		512
- #define SDIO_4373_FUNC2_BLOCKSIZE	256
- #define SDIO_435X_FUNC2_BLOCKSIZE	256
-+#define SDIO_4329_FUNC2_BLOCKSIZE	128
- /* Maximum milliseconds to wait for F2 to come up */
- #define SDIO_WAIT_F2RDY	3000
- 
-@@ -920,6 +921,9 @@ int brcmf_sdiod_probe(struct brcmf_sdio_dev *sdiodev)
- 	case SDIO_DEVICE_ID_BROADCOM_4356:
- 		f2_blksz = SDIO_435X_FUNC2_BLOCKSIZE;
- 		break;
-+	case SDIO_DEVICE_ID_BROADCOM_4329:
-+		f2_blksz = SDIO_4329_FUNC2_BLOCKSIZE;
-+		break;
- 	default:
- 		break;
- 	}
--- 
-2.27.0
+commit c07a48c2651965e84d35cf193dfc0e5f7892d612
+Author: Adrian Hunter <adrian.hunter@intel.com>
+Date:   Fri Apr 5 15:40:20 2019 +0300
 
+    mmc: sdhci: Remove finish_tasklet
+
+    Remove finish_tasklet. Requests that require DMA-unmapping or
+sdhci_reset
+    are completed either in the IRQ thread or a workqueue if the
+completion is
+    not initiated by the IRQ.
+
+Reverting the offending commit on top of recent linux-next resolves the
+problem.
+
+Ulf / Adrian, do you have any ideas what could be done in regards to
+restoring the SDIO performance? Should we just revert the offending commit?
