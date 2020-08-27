@@ -2,250 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92307253C3A
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Aug 2020 05:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25460253D76
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Aug 2020 08:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727776AbgH0Duh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Aug 2020 23:50:37 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18255 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727769AbgH0Dug (ORCPT
+        id S1726967AbgH0GF6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Aug 2020 02:05:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726098AbgH0GF5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Aug 2020 23:50:36 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f472d7e0000>; Wed, 26 Aug 2020 20:50:22 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 26 Aug 2020 20:50:36 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 26 Aug 2020 20:50:36 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 27 Aug
- 2020 03:50:30 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 27 Aug 2020 03:50:30 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.174.186]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f472d860000>; Wed, 26 Aug 2020 20:50:30 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <adrian.hunter@intel.com>, <ulf.hansson@linaro.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <robh+dt@kernel.org>
-CC:     <skomatineni@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: [PATCH v6 7/7] sdhci: tegra: Add missing TMCLK for data timeout
-Date:   Wed, 26 Aug 2020 20:50:01 -0700
-Message-ID: <1598500201-5987-8-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1598500201-5987-1-git-send-email-skomatineni@nvidia.com>
-References: <1598500201-5987-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Thu, 27 Aug 2020 02:05:57 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA218C061247;
+        Wed, 26 Aug 2020 23:05:56 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id g6so5041811ljn.11;
+        Wed, 26 Aug 2020 23:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QrZ0fUUzpXVOWSAGCDeCT9RjODjg2DLDcxcKB9h7i2g=;
+        b=K9ivd9KQnV9NUYRz8mj5X/cPijNctJe6sv2ndwZaKFwf0Tsk3F2GnSMlC6iGviaXSF
+         v7Ri/8hM100UNGhr4TkCyuZ1PA7cSr+R78KEqYV6Khs1uIpPCKVr5c2bpbC8QZ9Xqa+M
+         ZtMwzFnuSQ3M8i/XA2fzItK2MLoztr+m7y4/nbcdq7/OkDXrcBlnUUO3OsfGBSJK3Mii
+         kICHQOxaksptI84o8wd/Cmfh+thlvCwhNmZRe6wEZIs/wqrO9cTTZA95hxQ/XKmSoUu7
+         SAvHBTwbjFhMRzbE/1w5Hf2DS0XCf793zRCgMnxgPWvTZN0tEesSZiLVzN9k6sID3IJK
+         OYTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QrZ0fUUzpXVOWSAGCDeCT9RjODjg2DLDcxcKB9h7i2g=;
+        b=R4q7nMMaohWMIuXT6WL1rYJTAp+npLR52M4YlG+rO8txjf5FzuUQXPbcBiWdnjZdEB
+         WE4/fpjwUbl1haa7R7Iqpv6sCT/lqrLKxUZWlkUrddg77GwJtZ7p3qyFI/dEU7bXpNqR
+         4sTujBH3W0H3MhNt2wcDxNmueLZvbdw8P8RRGIgY5TM9tj6zsBwio66PU4Lhb5M+uG9b
+         s7J4NWrqEQN1OQOus9Kegmav+atxj+ToVKRVcK8kRvDq49oot0cZfsOHhdEdkT1tlG4Y
+         YMJ0t6TFImZA/JmBZWt4GUTJX6HYFrSYOBueTjParJIsHqmbuVB2vvZYl9g4elD5oZ8N
+         B81g==
+X-Gm-Message-State: AOAM530ZAXbSImYSO9r0tZyW3bVIfQw5cj+Kjy3zwyoOonD5ahGH16l+
+        +yF6rPBAF8wRo7/Hd1nYHG4=
+X-Google-Smtp-Source: ABdhPJzJdF5HeE/tNfW3u5lrITEF7kT3nKactdsTfmEV5/+TXuNOvl7upSmRQf/KlcJqowbEX1TUMg==
+X-Received: by 2002:a05:651c:88:: with SMTP id 8mr9355110ljq.277.1598508355389;
+        Wed, 26 Aug 2020 23:05:55 -0700 (PDT)
+Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.gmail.com with ESMTPSA id z7sm255295lfc.59.2020.08.26.23.05.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 23:05:54 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        Kalle Valo <kvalo@codeaurora.org>
+Cc:     linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] Fixes and improvements for brcmfmac driver
+Date:   Thu, 27 Aug 2020 09:04:37 +0300
+Message-Id: <20200827060441.15487-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1598500222; bh=fU0W0lQH6TUHqegrUenmFQDw6Q7G+5MGgzZQlaMJ8cQ=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Ekxk9qz7fgTNb0Q4mkGAUCs7Pv9TrIfAhtcWx/P/eylz+5jroq+p0qt9hKgG08S88
-         ntQQhuUQxXRkBA9GRsHLhQHKoSu7oho3XgMF2WbJcRprXNBrWSF23UFHM11XCjpfKt
-         sdedBR8LkAuPhh5V0pyB1BcHA6Vnu4TnUiDGuh8eaZZa4uCa6i9y0w2K0tNceHqMRW
-         mpKzh+Fv2nY+R+BreDDS64GL+U10SUStM0QKuLu1kGI0+dJofFPVlznXYryHkurUZJ
-         1FKPbQdyFf1+ETgh808C0uccWw3KNs3fQFJJWjVcv8DtIuXsMKZYxH/l3y6UGtR4p4
-         hkk+QJOx2+QWQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-commit b5a84ecf025a ("mmc: tegra: Add Tegra210 support")
+Hello!
 
-Tegra210 and later has a separate sdmmc_legacy_tm (TMCLK) used by Tegra
-SDMMC hawdware for data timeout to achive better timeout than using
-SDCLK and using TMCLK is recommended.
+Recently I was debugging WiFi performance problems on Acer A500 tablet
+device that got upstreamed recently. This is an older Android device from
+2011-2012 that is powered by NVIDIA Tegra20 SoC and it has BCM4329 chip
+that provides WiFi (SDIO) and Bluetooth (UART). I noticed that WiFi
+throughput on a recent Linux kernel wasn't as great as it could be in
+comparison to older 3.18 kernel that is uses downstream BCMDHD driver
+and this series fixes a major part of the problems that I found.
 
-USE_TMCLK_FOR_DATA_TIMEOUT bit in Tegra SDMMC register
-SDHCI_TEGRA_VENDOR_SYS_SW_CTRL can be used to choose either TMCLK or
-SDCLK for data timeout.
+Found problems:
 
-Default USE_TMCLK_FOR_DATA_TIMEOUT bit is set to 1 and TMCLK is used
-for data timeout by Tegra SDMMC hardware and having TMCLK not enabled
-is not recommended.
+1. The WiFi SDIO pinmux configuration had a bug in Acer A500 device-tree
+   and MMC refused to work if it was clocked above 25MHz and legacy
+   signaling mode was used. After fixing the bug, WiFi SDIO works perfectly
+   well at 50MHz and this increases TX throughput by 5-10 Mbit/s. I already
+   sent out patches that fix this bug to the Tegra ML.
 
-So, this patch adds quirk NVQUIRK_HAS_TMCLK for SoC having separate
-timeout clock and keeps TMCLK enabled all the time.
+2. There are occasional SDHCI CRC errors if SDIO is clocked above 25Mhz.
+   The "increase F2 watermark" patch fixes this problem.
 
-Fixes: b5a84ecf025a ("mmc: tegra: Add Tegra210 support")
-Cc: stable <stable@vger.kernel.org> # 5.4
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Adrian Hunter <adrian.hunter@intel.com>
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- drivers/mmc/host/sdhci-tegra.c | 90 ++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 82 insertions(+), 8 deletions(-)
+3. WiFi TX throughput is lower by 10 Mbit/s than it should be using 512B
+   for maximum F2 SDIO block size. Reducing block size to 128B fixes this
+   problem. The "set F2 SDIO block size to 128 bytes" patch addresses this
+   issue. The exact reason why 128B is more efficient than 512B is unknown,
+   this optimization is borrowed from the BCMDHD driver.
 
-diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-index 31ed321..f69ca8d 100644
---- a/drivers/mmc/host/sdhci-tegra.c
-+++ b/drivers/mmc/host/sdhci-tegra.c
-@@ -13,6 +13,7 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/of.h>
-+#include <linux/of_clk.h>
- #include <linux/of_device.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/regulator/consumer.h>
-@@ -110,6 +111,12 @@
- #define NVQUIRK_DIS_CARD_CLK_CONFIG_TAP			BIT(8)
- #define NVQUIRK_CQHCI_DCMD_R1B_CMD_TIMING		BIT(9)
- 
-+/*
-+ * NVQUIRK_HAS_TMCLK is for SoC's having separate timeout clock for Tegra
-+ * SDMMC hardware data timeout.
-+ */
-+#define NVQUIRK_HAS_TMCLK				BIT(10)
-+
- /* SDMMC CQE Base Address for Tegra Host Ver 4.1 and Higher */
- #define SDHCI_TEGRA_CQE_BASE_ADDR			0xF000
- 
-@@ -140,6 +147,7 @@ struct sdhci_tegra_autocal_offsets {
- struct sdhci_tegra {
- 	const struct sdhci_tegra_soc_data *soc_data;
- 	struct gpio_desc *power_gpio;
-+	struct clk *tmclk;
- 	bool ddr_signaling;
- 	bool pad_calib_required;
- 	bool pad_control_available;
-@@ -1433,7 +1441,8 @@ static const struct sdhci_tegra_soc_data soc_data_tegra210 = {
- 		    NVQUIRK_HAS_PADCALIB |
- 		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
- 		    NVQUIRK_ENABLE_SDR50 |
--		    NVQUIRK_ENABLE_SDR104,
-+		    NVQUIRK_ENABLE_SDR104 |
-+		    NVQUIRK_HAS_TMCLK,
- 	.min_tap_delay = 106,
- 	.max_tap_delay = 185,
- };
-@@ -1471,6 +1480,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra186 = {
- 		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
- 		    NVQUIRK_ENABLE_SDR50 |
- 		    NVQUIRK_ENABLE_SDR104 |
-+		    NVQUIRK_HAS_TMCLK |
- 		    NVQUIRK_CQHCI_DCMD_R1B_CMD_TIMING,
- 	.min_tap_delay = 84,
- 	.max_tap_delay = 136,
-@@ -1483,7 +1493,8 @@ static const struct sdhci_tegra_soc_data soc_data_tegra194 = {
- 		    NVQUIRK_HAS_PADCALIB |
- 		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
- 		    NVQUIRK_ENABLE_SDR50 |
--		    NVQUIRK_ENABLE_SDR104,
-+		    NVQUIRK_ENABLE_SDR104 |
-+		    NVQUIRK_HAS_TMCLK,
- 	.min_tap_delay = 96,
- 	.max_tap_delay = 139,
- };
-@@ -1611,15 +1622,76 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- 		goto err_power_req;
- 	}
- 
--	clk = devm_clk_get(mmc_dev(host->mmc), NULL);
--	if (IS_ERR(clk)) {
--		rc = PTR_ERR(clk);
-+	/*
-+	 * Tegra210 and later has separate SDMMC_LEGACY_TM clock used for
-+	 * hardware data timeout clock and SW can choose TMCLK or SDCLK for
-+	 * hardware data timeout through the bit USE_TMCLK_FOR_DATA_TIMEOUT
-+	 * of the register SDHCI_TEGRA_VENDOR_SYS_SW_CTRL.
-+	 *
-+	 * USE_TMCLK_FOR_DATA_TIMEOUT bit default is set to 1 and SDMMC uses
-+	 * 12Mhz TMCLK which is advertised in host capability register.
-+	 * With TMCLK of 12Mhz provides maximum data timeout period that can
-+	 * be achieved is 11s better than using SDCLK for data timeout.
-+	 *
-+	 * So, TMCLK is set to 12Mhz and kept enabled all the time on SoC's
-+	 * supporting separate TMCLK.
-+	 *
-+	 * Old device tree has single sdhci clock. So with addition of TMCLK,
-+	 * retrieving sdhci clock by "sdhci" clock name based on number of
-+	 * clocks in sdhci device node.
-+	 */
-+
-+	if (of_clk_get_parent_count(pdev->dev.of_node) == 1) {
-+		if (soc_data->nvquirks & NVQUIRK_HAS_TMCLK)
-+			dev_warn(&pdev->dev,
-+				 "missing tmclk in the device tree\n");
-+
-+		clk = devm_clk_get(&pdev->dev, NULL);
-+		if (IS_ERR(clk)) {
-+			rc = PTR_ERR(clk);
- 
--		if (rc != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "failed to get clock: %d\n", rc);
-+			if (rc != -EPROBE_DEFER)
-+				dev_err(&pdev->dev,
-+					"failed to get sdhci clock: %d\n", rc);
- 
--		goto err_clk_get;
-+			goto err_power_req;
-+		}
-+	} else {
-+		if (soc_data->nvquirks & NVQUIRK_HAS_TMCLK) {
-+			clk = devm_clk_get(&pdev->dev, "tmclk");
-+			if (IS_ERR(clk)) {
-+				rc = PTR_ERR(clk);
-+				if (rc == -EPROBE_DEFER)
-+					goto err_power_req;
-+
-+				dev_warn(&pdev->dev,
-+					 "failed to get tmclk: %d\n", rc);
-+				clk = NULL;
-+			}
-+
-+			clk_set_rate(clk, 12000000);
-+			rc = clk_prepare_enable(clk);
-+			if (rc) {
-+				dev_err(&pdev->dev,
-+					"failed to enable tmclk: %d\n", rc);
-+				goto err_power_req;
-+			}
-+
-+			tegra_host->tmclk = clk;
-+		}
-+
-+		clk = devm_clk_get(&pdev->dev, "sdhci");
-+		if (IS_ERR(clk)) {
-+			rc = PTR_ERR(clk);
-+
-+			if (rc != -EPROBE_DEFER)
-+				dev_err(&pdev->dev,
-+					"failed to get sdhci clock: %d\n", rc);
-+
-+			goto err_clk_get;
-+		}
- 	}
-+
- 	clk_prepare_enable(clk);
- 	pltfm_host->clk = clk;
- 
-@@ -1654,6 +1726,7 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- err_rst_get:
- 	clk_disable_unprepare(pltfm_host->clk);
- err_clk_get:
-+	clk_disable_unprepare(tegra_host->tmclk);
- err_power_req:
- err_parse_dt:
- 	sdhci_pltfm_free(pdev);
-@@ -1671,6 +1744,7 @@ static int sdhci_tegra_remove(struct platform_device *pdev)
- 	reset_control_assert(tegra_host->rst);
- 	usleep_range(2000, 4000);
- 	clk_disable_unprepare(pltfm_host->clk);
-+	clk_disable_unprepare(tegra_host->tmclk);
- 
- 	sdhci_pltfm_free(pdev);
- 
+4. While I was bisecting upstream kernel, I found that WiFi RX/TX throughput
+   dropped by 5-10 Mbit/s after 5.2 kernel and reverting the following commit
+   from linux-next resolves the problem:
+
+   commit c07a48c2651965e84d35cf193dfc0e5f7892d612
+   Author: Adrian Hunter <adrian.hunter@intel.com>
+   Date:   Fri Apr 5 15:40:20 2019 +0300
+
+       mmc: sdhci: Remove finish_tasklet
+
+   I'll send a separate email for discussing this problem.
+
+After fixing all the above problems, I'm now getting a solid 40 Mbit/s
+up/down on Acer A500 on a recent linux-next in comparison to 15 Mbit/s
+that I was getting before the fixes.
+
+Big thanks to Wright Feng who helped me to find and fix some of the problems!
+
+Changelog:
+
+v2: - Added "drop chip id from debug messages" as was requested by
+      Arend Van Spriel in the review comment to v1 of the "increase F2
+      watermark" patch.
+
+    - Added patches that remove unnecessary "fallthrough" comments and
+      change F2 SDIO block size to 128 bytes for BCM4329.
+
+Dmitry Osipenko (4):
+  brcmfmac: increase F2 watermark for BCM4329
+  brcmfmac: drop unnecessary "fallthrough" comments
+  brcmfmac: drop chip id from debug messages
+  brcmfmac: set F2 SDIO block size to 128 bytes for BCM4329
+
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c | 6 ++++--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c   | 7 +++----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
 -- 
-2.7.4
+2.27.0
 
