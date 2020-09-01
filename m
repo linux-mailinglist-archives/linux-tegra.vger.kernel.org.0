@@ -2,100 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBAD42593E8
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Sep 2020 17:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A65582596F2
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Sep 2020 18:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729968AbgIAPdC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Sep 2020 11:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54580 "EHLO
+        id S1731295AbgIAQI4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Sep 2020 12:08:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729209AbgIAPc4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Sep 2020 11:32:56 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7BF6C061244;
-        Tue,  1 Sep 2020 08:32:54 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id d11so2241288ejt.13;
-        Tue, 01 Sep 2020 08:32:54 -0700 (PDT)
+        with ESMTP id S1729790AbgIAQIu (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Sep 2020 12:08:50 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB476C061244;
+        Tue,  1 Sep 2020 09:08:48 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id k13so743871plk.13;
+        Tue, 01 Sep 2020 09:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zEPKP0AU97R+PVYnTVD02jf9E8X+9qMRm9ouiwdoWWA=;
-        b=InCwqcJTR/4A4+EuZFsM5xaKx0nFq9NH/7wDwaCpNHNzYmfW1s67o66afdrgjeT+42
-         3/IBsOzuQmvbcTIMqzeilMo8jynJopsDvJ04YORoFPrNoteMPeOR9CGnYRn5sTCTx/F8
-         MExLqETfRiiBnfdt5p4S8Fw+UhsQjMtDLGVO+SktivIJKL0jgOtiulaSQfPNJxhuvalA
-         YnMxjXkFrVLYsf7Q9rHbGANzrB4pQCOFOXTTolGhIm/OgJ1H1t2modzQdKwRXUsADB8L
-         Wr95PT8IW7Kyqe+GrX2iD2azK1Ul6M6Ln7WgHWIYOkYGFRrhvMpSiRjMe9w0F1HwAjjO
-         5qzQ==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=XCC1MeRo0BRoasyj+5VGbw00gjoW3R7USmRQ2Ubh6Bk=;
+        b=gGijq2cvjjnFqOBtVFVOUecKydlvZdUDmdEShkPQtQDERDF4peXrJgChqPs84f9ckP
+         b9dFKbatiQXXJdwfBqjlgmu2mdiy6xjOhtUqfe0G/V909ePxhCpK9gRe5baQbfZehm7W
+         zWVz+4iD1vAJFTJh9wRVk6cSj8CpV5DUfj4HOSOZl3tCOZN/4hdQVnjor8LnrINRnw6x
+         TVVTz1PQ4v6wLqrpKv66juerPGmzJKRbdWniVq+0xnmFe3KXd9X3SA51YaCvc+0b4PAx
+         9XqDu2Bg+nZ/EGO3CsDwVmCW9HcbyX07tAn62Vbkq6VX4JguDhyqh4E8aziGpxBusjyN
+         xTxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=zEPKP0AU97R+PVYnTVD02jf9E8X+9qMRm9ouiwdoWWA=;
-        b=kZZAjUtuN3hiPdfltUcr+jhnrz7c9rru5yMEq/CkI9aBm/ETez84EH3hV1B78K5P7L
-         hNmGrJSHJ5IWuxDnUZQfaEPySWbcOwFUhahKgCeHLV/pbdTdosT0dhbnN1YfuCqO0dzc
-         iPOvOI7WM/A19xKHKPCspaPpluPkBiUabwFLCWWVb06ZBUUNgVhy/7Dx7Ju8GP3kNUaA
-         Pt0XvSw/Mp/rm2gKvnuDO9QKteP66lw5hvCUTUEIh76d8jMRMY8378JiysKz2wdaz8Fd
-         BYHMvMGbdRy6TAA/Uez3CT9nV1OyhEST03ttXC1lJTpyHbNiA34oKyeRtqCxxOXza5yA
-         k22g==
-X-Gm-Message-State: AOAM5312YM/x/KVL6Su0HEVLMkmVlAUpCOSazQK4PIdtRtPsaThSHihn
-        RPsOkzFPKcz36DsW5eZOFaE=
-X-Google-Smtp-Source: ABdhPJx8pgbFxwX4+nQIkeKINcUC4+itTbYvBBHcPVcN6ZtaYmSEFVcT5J21t8xvkFqrlVQX3t3VOg==
-X-Received: by 2002:a17:907:9c3:: with SMTP id bx3mr2005039ejc.164.1598974373583;
-        Tue, 01 Sep 2020 08:32:53 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id r23sm1371455edt.57.2020.09.01.08.32.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2020 08:32:52 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        bh=XCC1MeRo0BRoasyj+5VGbw00gjoW3R7USmRQ2Ubh6Bk=;
+        b=Df2nzwe+1BRnFVVmM3RVPPKa//CTXqDAKP0FZ1/PK5Go15Y1BcEKwJ7W6FxU1U92CF
+         vdKnrjUbFflF1PdWPr2VnnFbpLmvu9xJLkD2omFI3SZr84XODZvH4onuXudKnzivBFGR
+         ZycAA2ait93F4wkCCtq4T1WJmCIn606BqLKM0oFmUSY3ZFwx6Q1+2OB/wFCiwHgKNOwU
+         i368DMgJw4T1SrhlTvCYr/C7vpbGfoJZ0NEt6LLoxVLsxpt3zmKosHB7wY4ZHG/VoJqN
+         7CEA7vIDayzBnPDbOeb+qb42n8RzKLjhy/8Eyn025hdaR1ortkKsfOK4yrkyhpxTF1YP
+         UJTw==
+X-Gm-Message-State: AOAM530jWnYYQdQ7ueSWXrao4gBVsxVCykcm7ZrQedKN01KgoLNrKXvf
+        wPgwqcakCPgS9RMe1K4qP8dheCzVih4=
+X-Google-Smtp-Source: ABdhPJzMJlB1p6o9YUqwWsudQKNUJlMRUAuSiBfxFfepp8AQHGZU1/+/y1JGrTe2lZw+V7k8QgJFng==
+X-Received: by 2002:a17:90b:4a07:: with SMTP id kk7mr2316459pjb.125.1598976527418;
+        Tue, 01 Sep 2020 09:08:47 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
+        by smtp.gmail.com with ESMTPSA id d15sm2497723pfr.143.2020.09.01.09.08.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2020 09:08:46 -0700 (PDT)
+Subject: Re: [PATCH 04/11] spi: bcm2835: Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matias Zuniga <matias.nicolas.zc@gmail.com>
-Subject: [PATCH] memory: tegra: Remove GPU from DRM IOMMU group
-Date:   Tue,  1 Sep 2020 17:32:48 +0200
-Message-Id: <20200901153248.1831263-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Mark Brown <broonie@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Masahisa Kojima <masahisa.kojima@linaro.org>,
+        Jassi Brar <jaswinder.singh@linaro.org>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org
+References: <20200901152713.18629-1-krzk@kernel.org>
+ <20200901152713.18629-4-krzk@kernel.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <2fefe978-c91c-7c87-e342-32287c674a8f@gmail.com>
+Date:   Tue, 1 Sep 2020 09:08:43 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200901152713.18629-4-krzk@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Commit 63a613fdb16c ("memory: tegra: Add gr2d and gr3d to DRM IOMMU
-group") added the GPU to the DRM IOMMU group, which doesn't make any
-sense. This causes problems when Nouveau tries to attach to the SMMU
-and causes it to fall back to using the DMA API.
 
-Remove the GPU from the DRM groups to restore the old behaviour. The
-GPU should always have its own IOMMU domain to make sure it can map
-buffers into contiguous chunks (for big page support) without getting
-in the way of mappings from the DRM group.
+On 9/1/2020 8:27 AM, Krzysztof Kozlowski wrote:
+> Common pattern of handling deferred probe can be simplified with
+> dev_err_probe().  Less code and the error value gets printed.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Fixes: 63a613fdb16c ("memory: tegra: Add gr2d and gr3d to DRM IOMMU group")
-Reported-by: Matias Zuniga <matias.nicolas.zc@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/memory/tegra/tegra124.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/memory/tegra/tegra124.c b/drivers/memory/tegra/tegra124.c
-index 493b5dc3a4b3..0cede24479bf 100644
---- a/drivers/memory/tegra/tegra124.c
-+++ b/drivers/memory/tegra/tegra124.c
-@@ -957,7 +957,6 @@ static const struct tegra_smmu_swgroup tegra124_swgroups[] = {
- static const unsigned int tegra124_group_drm[] = {
- 	TEGRA_SWGROUP_DC,
- 	TEGRA_SWGROUP_DCB,
--	TEGRA_SWGROUP_GPU,
- 	TEGRA_SWGROUP_VIC,
- };
- 
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.28.0
-
+Florian
