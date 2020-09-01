@@ -2,51 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45EBA259C44
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Sep 2020 19:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0DAC259ECB
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Sep 2020 20:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732544AbgIARN2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Sep 2020 13:13:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41980 "EHLO
+        id S1731468AbgIAS4k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Sep 2020 14:56:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729664AbgIARNU (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Sep 2020 13:13:20 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D702CC061244;
-        Tue,  1 Sep 2020 10:13:19 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id t23so2478444ljc.3;
-        Tue, 01 Sep 2020 10:13:19 -0700 (PDT)
+        with ESMTP id S1731566AbgIAS4Z (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Sep 2020 14:56:25 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11949C061244;
+        Tue,  1 Sep 2020 11:56:25 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id y2so1379503lfy.10;
+        Tue, 01 Sep 2020 11:56:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3kru/vXmr5CdV8GPE7Nxa8VE3jBFKfjYIQykf9k91YA=;
-        b=l84FgiKAtD5+Ha0Covd8cFFEjrFJl6FaJFKH/zfknuXvESg44OAWDLkyFg3UXPT+/W
-         6CdI4iQUESWd7MDCSXbdR2QZUnb9XeSqMBdvsJi5a3XLBr6aMY0QnZBw9tpkhoGNxRIP
-         oBLcL3uXI2bV0wagms2VVRP3uIcm5+aPA+YNTxYBk0gf2kUKNGDNrRGDoJSb5Y1Un+6g
-         QmOVAUoNsQ6fT2bT2DK4cX7dhen9Dtl3DJV2/67gzLiPpjDsrbvN96uZGXEU+rfy0ahF
-         HSPfZFFuPJh5JWiKVKhcgo0EnGbnJg732EMIP33DYlDmukQCfYMNXpOvtKgoo16lZeUH
-         zuUA==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=G85PUm7a3EZzS/FYnNEVI0eznDTH8pPJcc+osLm7WqY=;
+        b=tVRoeQwB/gWeuJVETgIoI6uDSLBu9Oi18EgggfK6uMO6UdxaRljqsV964YZWadqrUD
+         gnqR/AUlD1T/UL2fXjhcB4us5pytm/ub02fZv4t79xOsyGD7v2OKOonJB1hxTlohcn/b
+         3SL21pqUtnNXQs4+7+oouQ2Ppzio4eXKbbvGhuujsuUCRBRioI75eRg/okkBcUhbEPXT
+         Wb1CQfA3E//DU2JpFZteOvIezkrUmhiGht8sT2mEGv4iAMtCcwm76LuMvZO0fb6Dv1V/
+         jScuFD/qzzG4zSH31l/chlaXN3QgEuoeBbsGZBYjbVRN9Hxo17lJ2aY1WoAw1VrY0L6M
+         GiBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=3kru/vXmr5CdV8GPE7Nxa8VE3jBFKfjYIQykf9k91YA=;
-        b=UJ2BrZ/uXo4u9wy2lFVXtsbEgMsBNT+px3xHESL8mzFsBzzho54uYZjUKkrN10YMRR
-         rnlJYvT4WmSAMc0vPKoF3luJiX9pQqRuLdB6gHej9I3M0SS4O4BMd223I8sA5qUfbri7
-         TxuJ/+QYJZrAYoVgaYxnyV+Q66yBXzqRxv2w6Kbncm4fjM3vZ8a2IFKje++ay+mu70Om
-         E1yj6Tt9+gzpSQpG+Ey58LJOH6jLh5eGj5T5b/fVwB6mrS9s4rqDfyzCGo1ZEW5nN6kI
-         8prpY6hkkwmHXltivjhln7oBDKeN0blJ0gfj0vxvmxbv17n5O/n7VQ9Z9aI+FaO2l3Cz
-         M7JQ==
-X-Gm-Message-State: AOAM5330jjea40dx6PzU1nvcjXfLQh4PGwvK/etmH3WEDinFuqWjU6tX
-        gv1WLG4r7AAQVeiw5Zl9Hco=
-X-Google-Smtp-Source: ABdhPJyTBeZBHi28hVErfPFczRQ31FuTSKFV/K2tDXxd0Gd8X0UOmLI9YMHe0qConm3UAnJw6aTsHg==
-X-Received: by 2002:a2e:7210:: with SMTP id n16mr1187428ljc.262.1598980398199;
-        Tue, 01 Sep 2020 10:13:18 -0700 (PDT)
-Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id s127sm384512lja.119.2020.09.01.10.13.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2020 10:13:17 -0700 (PDT)
+        bh=G85PUm7a3EZzS/FYnNEVI0eznDTH8pPJcc+osLm7WqY=;
+        b=RJC9J7ogCFEv8GMgyeZ913sFscxuqelQjVKtRHYo7YittwUVmNRKCUHOLaTF0kceu4
+         2zkitXYaZAkCBEOUeP0OWJyGibM7zyy+pgONjKXTxtYyKIBSan3sg+jkuQp6WTQNFACZ
+         KSuOO4K2BycPLDK4KopZedM5JD+qgOO5EbznYJwc6s5y9xzGPUjRI3eHJbodumxQ4/hT
+         Gz6KSxB7FN5vx65OMvAueSsFYBXeJWvyhtbDTnlD4JXUEQrEoWlp9zWXtk4cg/Aepvlc
+         IHZ/T3e4ADzPyUyMBw1o5rjAdU///D+OyWm4V01k+ouTR799bxUaO2oMC8ESsuSxFWxc
+         HFUQ==
+X-Gm-Message-State: AOAM531un6BGW7OgJTJR0Zrf+tORPIASHZGJwMBu+/XD0edyn/JsVYdL
+        4tL4CsBpH7rsIUXkYKCtA1Bhn7es1X8=
+X-Google-Smtp-Source: ABdhPJytkMxC+QnEFyPCwOzPuvfcWYWQYoBFmyrc6f5aTlvzcgsyU7pjMfTvbqXAGKvX8ZR5PgQIPg==
+X-Received: by 2002:a19:447:: with SMTP id 68mr1387400lfe.26.1598986583325;
+        Tue, 01 Sep 2020 11:56:23 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id 10sm468433lfq.64.2020.09.01.11.56.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2020 11:56:22 -0700 (PDT)
+Subject: Re: [PATCH v4] iommu/tegra-smmu: Add locking around mapping
+ operations
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Joerg Roedel <joro@8bytes.org>,
@@ -54,210 +57,36 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Krishna Reddy <vdumpa@nvidia.com>
 Cc:     iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4] iommu/tegra-smmu: Add locking around mapping operations
-Date:   Tue,  1 Sep 2020 20:13:05 +0300
-Message-Id: <20200901171305.6929-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
+References: <20200901171305.6929-1-digetx@gmail.com>
+Message-ID: <2d38fcab-bc7a-2986-ff39-9403164914e4@gmail.com>
+Date:   Tue, 1 Sep 2020 21:56:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200901171305.6929-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The mapping operations of the Tegra SMMU driver are subjected to a race
-condition issues because SMMU Address Space isn't allocated and freed
-atomically, while it should be. This patch makes the mapping operations
-atomic, it fixes an accidentally released Host1x Address Space problem
-which happens while running multiple graphics tests in parallel on
-Tegra30, i.e. by having multiple threads racing with each other in the
-Host1x's submission and completion code paths, performing IOVA mappings
-and unmappings in parallel.
+01.09.2020 20:13, Dmitry Osipenko пишет:
+...
+> +	/*
+> +	 * In order to prevent exhaustion of the atomic memory pool, we
+> +	 * allocate page in a sleeping context if GFP flags permit. Hence
+> +	 * spinlock needs to be unlocked and re-locked after allocation.
+> +	 */
+> +	if (!(gfp & GFP_NOWAIT))
+> +		spin_unlock_irqrestore(&as->lock, *flags);
+> +
+> +	page = alloc_page(gfp | __GFP_DMA | __GFP_ZERO);
+> +
+> +	if (!(gfp & GFP_NOWAIT))
+> +		spin_lock_irqsave(&as->lock, *flags);
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
-
-Changelog:
-
-v4: - Returned to use spinlock, but now using a smarter allocation
-      logic that performs allocation in a sleeping context whenever
-      possible.
-
-    - Removed the stable tag because patch isn't portable as-is
-      since the arguments of map/unmap() callbacks changed recently.
-      Perhaps we could just ignore older kernels for now. It will be
-      possible to fix older kernels with a custom patch if will be needed.
-
-v3: - No changes. Resending for visibility.
-
-v2: - Now using mutex instead of spinlock.
-
-    - The _locked postfix is replaced with the underscores prefix.
-
- drivers/iommu/tegra-smmu.c | 95 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 84 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 124c8848ab7e..b5914356b878 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -12,6 +12,7 @@
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/spinlock.h>
- #include <linux/dma-mapping.h>
- 
- #include <soc/tegra/ahb.h>
-@@ -49,6 +50,7 @@ struct tegra_smmu_as {
- 	struct iommu_domain domain;
- 	struct tegra_smmu *smmu;
- 	unsigned int use_count;
-+	spinlock_t lock;
- 	u32 *count;
- 	struct page **pts;
- 	struct page *pd;
-@@ -308,6 +310,8 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 		return NULL;
- 	}
- 
-+	spin_lock_init(&as->lock);
-+
- 	/* setup aperture */
- 	as->domain.geometry.aperture_start = 0;
- 	as->domain.geometry.aperture_end = 0xffffffff;
-@@ -569,19 +573,14 @@ static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
- }
- 
- static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
--		       dma_addr_t *dmap)
-+		       dma_addr_t *dmap, struct page *page)
- {
- 	unsigned int pde = iova_pd_index(iova);
- 	struct tegra_smmu *smmu = as->smmu;
- 
- 	if (!as->pts[pde]) {
--		struct page *page;
- 		dma_addr_t dma;
- 
--		page = alloc_page(GFP_KERNEL | __GFP_DMA | __GFP_ZERO);
--		if (!page)
--			return NULL;
--
- 		dma = dma_map_page(smmu->dev, page, 0, SMMU_SIZE_PT,
- 				   DMA_TO_DEVICE);
- 		if (dma_mapping_error(smmu->dev, dma)) {
-@@ -655,15 +654,61 @@ static void tegra_smmu_set_pte(struct tegra_smmu_as *as, unsigned long iova,
- 	smmu_flush(smmu);
- }
- 
--static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
--			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
-+static struct page *as_get_pde_page(struct tegra_smmu_as *as,
-+				    unsigned long iova, gfp_t gfp,
-+				    unsigned long *flags)
-+{
-+	unsigned int pde = iova_pd_index(iova);
-+	struct page *page = as->pts[pde];
-+
-+	/* at first check whether allocation needs to be done at all */
-+	if (page)
-+		return page;
-+
-+	/*
-+	 * In order to prevent exhaustion of the atomic memory pool, we
-+	 * allocate page in a sleeping context if GFP flags permit. Hence
-+	 * spinlock needs to be unlocked and re-locked after allocation.
-+	 */
-+	if (!(gfp & GFP_NOWAIT))
-+		spin_unlock_irqrestore(&as->lock, *flags);
-+
-+	page = alloc_page(gfp | __GFP_DMA | __GFP_ZERO);
-+
-+	if (!(gfp & GFP_NOWAIT))
-+		spin_lock_irqsave(&as->lock, *flags);
-+
-+	/*
-+	 * In a case of blocking allocation, a concurrent mapping may win
-+	 * the PDE allocation. In this case the allocated page isn't needed
-+	 * if allocation succeeded and the allocation failure isn't fatal.
-+	 */
-+	if (as->pts[pde]) {
-+		if (page)
-+			__free_page(page);
-+
-+		page = as->pts[pde];
-+	}
-+
-+	return page;
-+}
-+
-+static int
-+__tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
-+		 phys_addr_t paddr, size_t size, int prot, gfp_t gfp,
-+		 unsigned long *flags)
- {
- 	struct tegra_smmu_as *as = to_smmu_as(domain);
- 	dma_addr_t pte_dma;
-+	struct page *page;
- 	u32 pte_attrs;
- 	u32 *pte;
- 
--	pte = as_get_pte(as, iova, &pte_dma);
-+	page = as_get_pde_page(as, iova, gfp, flags);
-+	if (!page)
-+		return -ENOMEM;
-+
-+	pte = as_get_pte(as, iova, &pte_dma, page);
- 	if (!pte)
- 		return -ENOMEM;
- 
-@@ -685,8 +730,9 @@ static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
- 	return 0;
- }
- 
--static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
--			       size_t size, struct iommu_iotlb_gather *gather)
-+static size_t
-+__tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
-+		   size_t size, struct iommu_iotlb_gather *gather)
- {
- 	struct tegra_smmu_as *as = to_smmu_as(domain);
- 	dma_addr_t pte_dma;
-@@ -702,6 +748,33 @@ static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
- 	return size;
- }
- 
-+static int tegra_smmu_map(struct iommu_domain *domain, unsigned long iova,
-+			  phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
-+{
-+	struct tegra_smmu_as *as = to_smmu_as(domain);
-+	unsigned long flags;
-+	int ret;
-+
-+	spin_lock_irqsave(&as->lock, flags);
-+	ret = __tegra_smmu_map(domain, iova, paddr, size, prot, gfp, &flags);
-+	spin_unlock_irqrestore(&as->lock, flags);
-+
-+	return ret;
-+}
-+
-+static size_t tegra_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
-+			       size_t size, struct iommu_iotlb_gather *gather)
-+{
-+	struct tegra_smmu_as *as = to_smmu_as(domain);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&as->lock, flags);
-+	size = __tegra_smmu_unmap(domain, iova, size, gather);
-+	spin_unlock_irqrestore(&as->lock, flags);
-+
-+	return size;
-+}
-+
- static phys_addr_t tegra_smmu_iova_to_phys(struct iommu_domain *domain,
- 					   dma_addr_t iova)
- {
--- 
-2.27.0
-
+I realized that GFP_NOWAIT is a wrong flag to check here once I saw
+warnings about sleeping in atomic context. Apparently __GFP_ATOMIC
+should be used instead, I'll make v5.
