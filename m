@@ -2,96 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64092259959
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Sep 2020 18:39:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DFA7259B28
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Sep 2020 18:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730496AbgIAQig (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Sep 2020 12:38:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57276 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730401AbgIAP2p (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 1 Sep 2020 11:28:45 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.106])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 16CD620FC3;
-        Tue,  1 Sep 2020 15:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598974125;
-        bh=/XJaGl06CsjTQv2yh1KyHC+7ktek0ZuAsx836iRegvw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n2mdRPDrNq2pVxukr4c3iPl+YkyyHJaWmRW5Jvz8KNAR0gjpv3Svn6cs3odcRB3wg
-         aRgXXOz0vV5ybQhyPw+p1EPa2Mq2mUsHfU3DKmGbzsjwiSC4oNC4xZ4tUsD30dQyNo
-         IIgfBbfOVuEEqmw46QROFHdgplBU7IGDhhHrHy7I=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Mark Brown <broonie@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Masahisa Kojima <masahisa.kojima@linaro.org>,
-        Jassi Brar <jaswinder.singh@linaro.org>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 11/11] spi: tegra20: Simplify with dev_err_probe()
-Date:   Tue,  1 Sep 2020 17:27:13 +0200
-Message-Id: <20200901152713.18629-11-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200901152713.18629-1-krzk@kernel.org>
-References: <20200901152713.18629-1-krzk@kernel.org>
+        id S1729829AbgIAQ63 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Sep 2020 12:58:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729681AbgIAQ54 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Sep 2020 12:57:56 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A3DC061244;
+        Tue,  1 Sep 2020 09:57:55 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id r13so2425655ljm.0;
+        Tue, 01 Sep 2020 09:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fLX5J20+fA4410d7uA+LwglBCTxFJG7EYBTgn15oCgQ=;
+        b=lJHiAw/ipnb9qghfOnZr7yNwUUoq5LxZ9Kbk8xp5SQ7UyP2mBuTCNUaDjcpV0cX3jc
+         hDDcYQpqUtb6H+p7z93EWF9by0zOFnAT99VMnubt6SixxOLDzjKizqBlmeXEi16XO6wt
+         FlnmJ3gdOuGNI4l+QWmPTQgzhWR43Rm8jghVHciIOB6E4VXDvqTYhRNyVEfNff+gf34m
+         9TQIvbLO5XkuDFwAjjwCpGxH3GYJxGoLR7gjDVXZpr28f8tnkVF8txcdrHMgmDfOPnPt
+         X7xrjc92zbKpLtv8802fOv6XUnBwAZ4X6zxwyks4ERzjLsD1TnbttHua0NQBB2IP9u1F
+         Tv4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fLX5J20+fA4410d7uA+LwglBCTxFJG7EYBTgn15oCgQ=;
+        b=RqrG8yBCvsLyZYgwUj0dfLXwgYeqy1Yg6OxQguxtW1lT90i9RBrslFis9wgFU9bAox
+         wiza/GLPDP0XpFVgVQZgzp/+tGsMcEFf9dh9f/Oaj/0tfAEu3rNblpkO7QQXfgBE6tPx
+         6akUdVybXYrQDKXFzF4HCrF+ydbd+cLvK49v+brups1pahom98vbnq8UoJgVvAa3QjZh
+         J863y6EG3C442VJTDTj2RNagrooUJ8Z79nj//V9+jt7QKWHSRT8c4+WeQjgWSrpjf4Gi
+         deXM6QUaHY2PfOam7pG1af/fAcDGqHv5eGRPpt6RShojIIlzzgaeigRrHH1JmltVUH5E
+         Fo1g==
+X-Gm-Message-State: AOAM532W7vaqggTk480Ji2uJF3K0VoCNQOWH+puaxwqZy/9um1EHEcoA
+        vnE80zguZhPc+XVm/iJHPKk=
+X-Google-Smtp-Source: ABdhPJxZJE2aBF4ceMoFtqVOqM6n27rzp7Z3S4vNx4JoTv4gqCZKDM7k4RmbSy+BkC9WeotC0mHyUg==
+X-Received: by 2002:a2e:9e43:: with SMTP id g3mr1046893ljk.122.1598979474275;
+        Tue, 01 Sep 2020 09:57:54 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id t5sm378771ljg.111.2020.09.01.09.57.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2020 09:57:53 -0700 (PDT)
+Subject: Re: [PATCH] memory: tegra: Remove GPU from DRM IOMMU group
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matias Zuniga <matias.nicolas.zc@gmail.com>
+References: <20200901153248.1831263-1-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <09d7d396-fcb6-634c-f9d4-9c8ac34c7e71@gmail.com>
+Date:   Tue, 1 Sep 2020 19:57:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200901153248.1831263-1-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Common pattern of handling deferred probe can be simplified with
-dev_err_probe().  Less code and the error value gets printed.
+01.09.2020 18:32, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Commit 63a613fdb16c ("memory: tegra: Add gr2d and gr3d to DRM IOMMU
+> group") added the GPU to the DRM IOMMU group, which doesn't make any
+> sense. This causes problems when Nouveau tries to attach to the SMMU
+> and causes it to fall back to using the DMA API.
+> 
+> Remove the GPU from the DRM groups to restore the old behaviour. The
+> GPU should always have its own IOMMU domain to make sure it can map
+> buffers into contiguous chunks (for big page support) without getting
+> in the way of mappings from the DRM group.
+> 
+> Fixes: 63a613fdb16c ("memory: tegra: Add gr2d and gr3d to DRM IOMMU group")
+> Reported-by: Matias Zuniga <matias.nicolas.zc@gmail.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/memory/tegra/tegra124.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/memory/tegra/tegra124.c b/drivers/memory/tegra/tegra124.c
+> index 493b5dc3a4b3..0cede24479bf 100644
+> --- a/drivers/memory/tegra/tegra124.c
+> +++ b/drivers/memory/tegra/tegra124.c
+> @@ -957,7 +957,6 @@ static const struct tegra_smmu_swgroup tegra124_swgroups[] = {
+>  static const unsigned int tegra124_group_drm[] = {
+>  	TEGRA_SWGROUP_DC,
+>  	TEGRA_SWGROUP_DCB,
+> -	TEGRA_SWGROUP_GPU,
+>  	TEGRA_SWGROUP_VIC,
+>  };
+>  
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/spi/spi-tegra20-slink.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Technically a stable tag is needed for this patch, but I guess the bot
+will recognize that this patch is useful for older kernels.
 
-diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
-index a07b72e9c344..a0810765d4e5 100644
---- a/drivers/spi/spi-tegra20-slink.c
-+++ b/drivers/spi/spi-tegra20-slink.c
-@@ -600,13 +600,9 @@ static int tegra_slink_init_dma_param(struct tegra_slink_data *tspi,
- 	struct dma_slave_config dma_sconfig;
- 
- 	dma_chan = dma_request_chan(tspi->dev, dma_to_memory ? "rx" : "tx");
--	if (IS_ERR(dma_chan)) {
--		ret = PTR_ERR(dma_chan);
--		if (ret != -EPROBE_DEFER)
--			dev_err(tspi->dev,
--				"Dma channel is not available: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(dma_chan))
-+		return dev_err_probe(tspi->dev, PTR_ERR(dma_chan),
-+				     "Dma channel is not available\n");
- 
- 	dma_buf = dma_alloc_coherent(tspi->dev, tspi->dma_buf_size,
- 				&dma_phys, GFP_KERNEL);
--- 
-2.17.1
+Otherwise looks good!
 
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
