@@ -2,78 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D89E725AEF7
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Sep 2020 17:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19ED925B4A5
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Sep 2020 21:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728160AbgIBP3H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Sep 2020 11:29:07 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:38019 "EHLO
-        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728203AbgIBPZB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Sep 2020 11:25:01 -0400
-Received: by mail-ej1-f65.google.com with SMTP id i22so7224882eja.5;
-        Wed, 02 Sep 2020 08:24:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UJ9n3qNyQuhj+fGUbdBaOi3y34ToqX2Hqy8tvCxMKDc=;
-        b=aayEh8vHYH20+ZN3NOKRxM2dZV6ssb7c3Svw9X2XWJWQdvkp+/nFtwyYr/TiKho8Fq
-         5iHvKw3wKHrXC6M0eunkOMSYFqkme8UYdfbEu2AsQUHPcbDDe8gxwYHpjNKnQo9HyqPY
-         uMmx2B2THSFlZVhne5ievMn3DvmbmKV9A9BC3j6lK+iMINgwMdVnblJa0XQrRR5Gn/RM
-         nLnCpXgsawmkjJOO/iTTQRxcjwseSca8reVChYFrt80Q1NuyLj5QfIwUT8IcXaCd4mqE
-         4Y7eEyiOLVIYBlORw+0dC2QiozoS1DoGQRUHHv1JwfxycVVPCw/szNsfNcLQSrehVwFF
-         +n/Q==
-X-Gm-Message-State: AOAM530AD0R+NBlIdJ/0lTP+bULPIqfMvL27NoW6mxZyIJJYBD1lasn0
-        t2UNyvdbdwielsQvE5+ox8o=
-X-Google-Smtp-Source: ABdhPJzjhRcIR1+NH6ZKBA2pU0EGtyRmfrLlAfcMCCO9MAZmByfyWzB2zLsG84k0q9hqBs2oA8ECLg==
-X-Received: by 2002:a17:906:26d9:: with SMTP id u25mr569271ejc.318.1599060298987;
-        Wed, 02 Sep 2020 08:24:58 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.106])
-        by smtp.googlemail.com with ESMTPSA id bc18sm4270609edb.66.2020.09.02.08.24.57
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 02 Sep 2020 08:24:58 -0700 (PDT)
-Date:   Wed, 2 Sep 2020 17:24:55 +0200
+        id S1726312AbgIBTp2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Sep 2020 15:45:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53528 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbgIBTp1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 2 Sep 2020 15:45:27 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.106])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C98D20773;
+        Wed,  2 Sep 2020 19:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599075435;
+        bh=+D+HnNz+VrpzF30cgOx0/44g3rIEaRFahWzOaAq0owE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=1SQS24JOeFsx1iasRvSrQ65PxPvLq6dmxeYcepsSK8GUZGbyMelZlNIuhySqBfDi1
+         bZnWylzcAirhjbBZDld4bG3srPaamgSu01Z9UN63UVkQ+oyD8xxZqDnIHmEKgpQ6sm
+         zRt4WFNvhEsJP72JojS+Lha8JOjX4CQ66Zr6jp9Y=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matias Zuniga <matias.nicolas.zc@gmail.com>
-Subject: Re: [PATCH] memory: tegra: Remove GPU from DRM IOMMU group
-Message-ID: <20200902152455.GC19659@kozik-lap>
-References: <20200901153248.1831263-1-thierry.reding@gmail.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 00/11] mmc: Minor cleanups and compile test
+Date:   Wed,  2 Sep 2020 21:36:47 +0200
+Message-Id: <20200902193658.20539-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200901153248.1831263-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Sep 01, 2020 at 05:32:48PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Commit 63a613fdb16c ("memory: tegra: Add gr2d and gr3d to DRM IOMMU
-> group") added the GPU to the DRM IOMMU group, which doesn't make any
-> sense. This causes problems when Nouveau tries to attach to the SMMU
-> and causes it to fall back to using the DMA API.
-> 
-> Remove the GPU from the DRM groups to restore the old behaviour. The
-> GPU should always have its own IOMMU domain to make sure it can map
-> buffers into contiguous chunks (for big page support) without getting
-> in the way of mappings from the DRM group.
-> 
-> Fixes: 63a613fdb16c ("memory: tegra: Add gr2d and gr3d to DRM IOMMU group")
-> Reported-by: Matias Zuniga <matias.nicolas.zc@gmail.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/memory/tegra/tegra124.c | 1 -
+Hi,
 
-Thanks, applied.
+Set of minor cleanups.  Patches requiring more attention:
+ - 6/11: Testing and review would be appreciated,
+ - 11/11: I build tested multiple architectures but not all and
+   definitely no all possible configs. This one could sit on the lists
+   for few days so 0-day would try it.
 
 Best regards,
 Krzysztof
+
+Krzysztof Kozlowski (11):
+  mmc: bcm2835: Simplify with dev_err_probe()
+  mmc: davinci: Simplify with dev_err_probe()
+  mmc: dw_mmc-zx: Simplify with dev_err_probe()
+  mmc: jz4740: Simplify with dev_err_probe()
+  mmc: meson: Simplify with dev_err_probe()
+  mmc: sdhci-brcmstb: Simplify with optional clock and dev_err_probe()
+  mmc: sdhci-of-arasan: Simplify with dev_err_probe()
+  mmc: sdhci-tegra: Simplify with dev_err_probe()
+  mmc: dw_mmc: Simplify with dev_err_probe()
+  mmc: sdhci-of-sparx5: Use proper printk format for dma_addr_t
+  mmc: host: Enable compile testing of multiple drivers
+
+ drivers/mmc/host/Kconfig           | 42 ++++++++++++++++--------------
+ drivers/mmc/host/bcm2835.c         |  4 +--
+ drivers/mmc/host/davinci_mmc.c     |  5 ++--
+ drivers/mmc/host/dw_mmc-zx.c       | 11 +++-----
+ drivers/mmc/host/dw_mmc.c          |  9 +++----
+ drivers/mmc/host/jz4740_mmc.c      |  5 ++--
+ drivers/mmc/host/meson-gx-mmc.c    | 16 ++++--------
+ drivers/mmc/host/sdhci-brcmstb.c   | 12 ++++-----
+ drivers/mmc/host/sdhci-of-arasan.c |  7 +++--
+ drivers/mmc/host/sdhci-of-sparx5.c |  4 +--
+ drivers/mmc/host/sdhci-tegra.c     |  7 ++---
+ 11 files changed, 51 insertions(+), 71 deletions(-)
+
+-- 
+2.17.1
 
