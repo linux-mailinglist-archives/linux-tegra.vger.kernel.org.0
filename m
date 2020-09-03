@@ -2,145 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE4E425C4A2
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 17:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 019B925C407
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 17:02:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729496AbgICPNO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Sep 2020 11:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39208 "EHLO
+        id S1728913AbgICPCt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Sep 2020 11:02:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728687AbgICLsk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 07:48:40 -0400
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F6AC061245
-        for <linux-tegra@vger.kernel.org>; Thu,  3 Sep 2020 04:47:59 -0700 (PDT)
-Received: by mail-ua1-x943.google.com with SMTP id f16so477100ual.11
-        for <linux-tegra@vger.kernel.org>; Thu, 03 Sep 2020 04:47:59 -0700 (PDT)
+        with ESMTP id S1728927AbgICN66 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 09:58:58 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE529C061A17;
+        Thu,  3 Sep 2020 06:44:42 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id k25so3729746ljg.9;
+        Thu, 03 Sep 2020 06:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lF+Kc4r9sUDwFZ8bE5xtVYQtO57AZ59ErxR5WiW/3Dw=;
-        b=SgES9OtTIMOLLR9GP0CgnxjBl8QnwGm0lnbEOFW3YZ4Umcbth07htLKrbtjPzoJrQN
-         riHsXXueEfeQzGreBEqhUgL7qnCZ622H+IqZXNhqcioGKpE1EXPctfh1eMVAndcV4Bhb
-         XyHMcTpFpYx8azbD9Jamf1pRcJZZD6V4M+4Rf4ds2nfXvcRcOuYB6EDeBvisP8w90yBY
-         drtgRLbuUdVF7V4BNcf3684BR1CPveOvuE1JSePdKmugPHvpeRaojJUAE5IutFeKrTzS
-         d32RKGZD2865aakLJfYtpDwq7Nb1hvCzLXd2UiG0wjnuPQaIQSzu2jdLcHapaRGIeRrw
-         Spdw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LLcfLa3jT9VCX7RwE0dDUcAeziaCYPyIo1qnxZ7SIOw=;
+        b=GkmzOxWiAOcSoEKeOaq7PHvTvKu0i0MK1dDNNjyPgwybZgb2UXACJiPvcc2jz0oyzk
+         0lcYO2+V2fy36TNsxrXdx/5px2LKO6+5q2+Rm8WVBpzfxw04qQJ+OCscZYg84bWU1fz7
+         ldaYQ8xsy6RqXXHtvLyQG1Az2juEdwWD7D+neZp7oMkN4CJ1ADEpdwnlXLwRVD1JhIui
+         Go4ZKcXXtPGvXRlvtmC1kOCSHiG3CU2UY00/6+Nnw1wWqOl5yH2vbNIPOSmKgkbdc2Nd
+         mSDZj8hHj2AQOYiPRF9l8VL+kQGYx4QUt4kXmGAHhlIXoTcpiKXwezhKY0CVtHBFVrpW
+         M82g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lF+Kc4r9sUDwFZ8bE5xtVYQtO57AZ59ErxR5WiW/3Dw=;
-        b=gBPQ2e8MDtH5xqCkUX/xSqyNNa14OmzerqRlwNGWtI8OgkGlTO/WuFWrSDuWc/Qe0d
-         6V2qQG5lsmGPz/l5UPAGMgWWnclwgvWg/slelQdceIt8aJ1nYYTBCjjR10BB9bZika7p
-         GGSMuoNgi8ShgJt7gmpQ6NbC7O6gPmvhQQqyVfm3PDWIlTgOQ31sWLPtavTMTnhcr3Iv
-         rx0CTpM5kSEgTWcmsxAWKbmvlQlV2v1rx5VUjGs/OVzTuwu9cHjDZZaVD/LXZY2/+BTZ
-         BdqKKR5RnAP/V1IR8RJ+jqFx6tO4t7a63xCX5zvOCVVrJRzeuZaWbnFHj26azmo67Fsn
-         uqgA==
-X-Gm-Message-State: AOAM5337kSRKQyvBDdrJLbVbeUHTFXpxrBCOWEmfXPItWus/DyVBqWdx
-        XEl8DydZ/Ms3GCR0qlxVlq54M+9PE7GxM5f1N9VW5w==
-X-Google-Smtp-Source: ABdhPJw60X++tc8veDsSpQLnhcJtb/sfDLdknN30k3JsTHwZA+kgY04b4+NZKXDv5kVrAmvgSCiWFjVFdoodQnu3vjE=
-X-Received: by 2002:ab0:5e43:: with SMTP id a3mr726376uah.19.1599133678563;
- Thu, 03 Sep 2020 04:47:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200902193658.20539-1-krzk@kernel.org> <20200902193658.20539-5-krzk@kernel.org>
- <4RW2GQ.J2DD55HCZMCH2@crapouillou.net>
-In-Reply-To: <4RW2GQ.J2DD55HCZMCH2@crapouillou.net>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 3 Sep 2020 13:47:22 +0200
-Message-ID: <CAPDyKFoXacPnq5Kv5QEvHjhQz+PN1jAzdGA=TR+e+MwB90Hafw@mail.gmail.com>
-Subject: Re: [PATCH 04/11] mmc: jz4740: Simplify with dev_err_probe()
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=LLcfLa3jT9VCX7RwE0dDUcAeziaCYPyIo1qnxZ7SIOw=;
+        b=c5zi5/wquh/NjMKVUvIL6kOkNFtHpqXHx/ff1KoN/l4wdzH2dK2OURVp9UKu2OtsK1
+         PHFToQOj20x87PZSinKU2MFyjj6phBPBlLGBhMt1sbhOMVIBXAD7QAjX+TFzgWI68zjP
+         0I/5MT6jD5EvuiJbe3m/TtCP9JLMNMdySF+fm7ChYYDdSyWR2mOiX2bAXk2xL9SN/+rt
+         d6PoV75YaDLV8M6I0HgbxoUiUmnd27JuaVN84XljusIgoELUieb94bOPuuJW1BFaJDOd
+         fzILjKnd6GBSfx0LzL2CmI1CECR1j1ICPLGliWIyntycxQOu5vg8sAPFbEx5zeT4jnu1
+         2ctw==
+X-Gm-Message-State: AOAM533Kgc3tn0cSVU1ELyyVp+7U3DWdEJuhpPpGZY9EyVtq7QdCMxf2
+        ZzB+loVxv0uACzqnFflNHjiU//TKWOA=
+X-Google-Smtp-Source: ABdhPJxGmrB2gV5oToqqcL2Lc1GBuuGegYSbf4toI7NGmoFajWRCUk17/vK/Z5QBgbrJ2TEEcYanWw==
+X-Received: by 2002:a2e:b81a:: with SMTP id u26mr1422295ljo.241.1599140680897;
+        Thu, 03 Sep 2020 06:44:40 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id y17sm630318ljc.18.2020.09.03.06.44.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2020 06:44:40 -0700 (PDT)
+Subject: Re: [PATCH v3 03/22] i2c: tegra: Clean up messages in the code
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rpi-kernel@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200903005300.7894-1-digetx@gmail.com>
+ <20200903005300.7894-4-digetx@gmail.com>
+ <CAHp75VfFZ2bgEqS7cbTfYzxtXk3T5VaoJpum5aiNMpfvhfbuqw@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2b6d99a0-0913-6c55-7c13-8a2a1524488d@gmail.com>
+Date:   Thu, 3 Sep 2020 16:44:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAHp75VfFZ2bgEqS7cbTfYzxtXk3T5VaoJpum5aiNMpfvhfbuqw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 3 Sep 2020 at 12:50, Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Hi Krzysztof,
->
-> Le mer. 2 sept. 2020 =C3=A0 21:36, Krzysztof Kozlowski <krzk@kernel.org> =
-a
-> =C3=A9crit :
-> > Common pattern of handling deferred probe can be simplified with
-> > dev_err_probe().  Less code and the error value gets printed.
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > ---
-> >  drivers/mmc/host/jz4740_mmc.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/mmc/host/jz4740_mmc.c
-> > b/drivers/mmc/host/jz4740_mmc.c
-> > index 81d71010b474..0c5b52b53303 100644
-> > --- a/drivers/mmc/host/jz4740_mmc.c
-> > +++ b/drivers/mmc/host/jz4740_mmc.c
-> > @@ -991,9 +991,8 @@ static int jz4740_mmc_probe(struct
-> > platform_device* pdev)
-> >
-> >       ret =3D mmc_of_parse(mmc);
-> >       if (ret) {
-> > -             if (ret !=3D -EPROBE_DEFER)
-> > -                     dev_err(&pdev->dev,
-> > -                             "could not parse device properties: %d\n"=
-, ret);
-> > +             dev_err_probe(&pdev->dev, ret,
-> > +                           "could not parse device properties\n");
->
-> I think you can put that on one line.
+03.09.2020 14:06, Andy Shevchenko пишет:
+> On Thu, Sep 3, 2020 at 3:53 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> This patch unifies style of all messages in the driver by starting them
+>> with a lowercase letter and using consistent capitalization and wording
+>> for all messages.
+> 
+> I didn't look at the rest (yet) but this series has a patch ordering issue.
+> Why do we first do some little, non-critical clean ups?
+> 
+> The preferred way is to arrange like:
+>  - fixes that may be backported
+>  - fixes that are likely not going to be backported
+>  - features
+>  - cleanups
+> 
+> In its turn cleanups go by severity:
+>  - code affected ones (and maybe logical changers)
+>  - ...
+>  - commentary / indentation fixes
+> 
 
-I can amend the patch when I rebase my branch next week, no need for a rese=
-nd.
+That's a good suggestion! All patches in this version are ordered by the
+time they were created ans since none of these patches should be
+worthwhile to backport (IMO) and because majority of patches do minor
+changes, it appeared to me that it should be okay as-is.
 
->
-> With that said:
-> Reviewed-by: Paul Cercueil <paul@crapouillou.net>
-
-And I add your tag as well, thanks!
-
-Kind regards
-Uffe
-
->
-> Cheers,
-> -Paul
->
-> >               goto err_free_host;
-> >       }
-> >
-> > --
-> > 2.17.1
-> >
->
->
+I agree that it should be worthwhile to reorder the patches now, after
+the series grew up a tad in regards to amount of patches. I'll change
+the order in the next version, thanks!
