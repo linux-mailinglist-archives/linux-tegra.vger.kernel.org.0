@@ -2,106 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A7425BF62
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 12:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D20325C016
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 13:22:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgICKuP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Sep 2020 06:50:15 -0400
-Received: from crapouillou.net ([89.234.176.41]:49158 "EHLO crapouillou.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725984AbgICKuM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 3 Sep 2020 06:50:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1599130208; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YXg3aqgmFb8tKfR4TEoiu32nZCgBWfcl5v4Q44mU658=;
-        b=aL+sHYDogDi8odA19gwRz4rweOeF1jr+yCLbpS1gEROe3fA7E/jfDC5BeFmJAUnF5eryIC
-        IdxX7nQpGG7VkZGyAzxbp9xwe0eFQFIBK58dVNueyRCjIxt/lOYFswheujnU2UtA4nuHiz
-        Erg60GWs/LhPy2ysrTXzXyDxGTvSHyo=
-Date:   Thu, 03 Sep 2020 12:49:52 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 04/11] mmc: jz4740: Simplify with dev_err_probe()
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org
-Message-Id: <4RW2GQ.J2DD55HCZMCH2@crapouillou.net>
-In-Reply-To: <20200902193658.20539-5-krzk@kernel.org>
-References: <20200902193658.20539-1-krzk@kernel.org>
-        <20200902193658.20539-5-krzk@kernel.org>
+        id S1728387AbgICLWZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Sep 2020 07:22:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728344AbgICLHg (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 07:07:36 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EFE5C06125C;
+        Thu,  3 Sep 2020 04:07:07 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id 17so2036396pfw.9;
+        Thu, 03 Sep 2020 04:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eaRhsZ5TWpfGSPdWSz1VTVO/mX4t+F5UcIQtgVoahy0=;
+        b=pOAISEGLGapqlDNpjEyrYBaAWWHCLZskiXqlh+HTkbAlUtPGW03AZqfOZ3hYuFyLbk
+         lVD/q/IhrFnVi8CGt4+6D+XTK0NJl39HWm95D36dIPjI28fEOhMxhzxAT7rHsQQPAZrt
+         smLXj7Pyz+w2tOkyJGqF/AcVBPEadWdkY3CFpTjA4+Fqi6lTgJ/diuVMUl9wZ1mPKrPo
+         e3lplG7jjPGbp/idOhPr16vxd7cMzWkeIanwZSbiZ8hUgXr+M92KcbYeOuq18bU9M/A6
+         j/sR/JAP8mfnkqspbu7n6oanpUB387x/uLQJ8eq//8xolL9L/CEXsshXX91FvOmzdlQi
+         Iqzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eaRhsZ5TWpfGSPdWSz1VTVO/mX4t+F5UcIQtgVoahy0=;
+        b=kRXRzaoRUuwZmCRJ8VZaAGZV0pexjtmnIeY/YRoE6Fmy6X3t8H7B27BZ4R377bg84j
+         WJt7p6q0dAAVa1sDrRDoEvdTUo8PnonwWaocEaKaK9JQHPl3l9ooC4QJSb9tYIWFq1Rh
+         tDVA5dQu2BovPG0ZqHj/TG4+l+gx3l1in0qnJaT/JyGDpoy+Ge4YafL+LCbH6pEvM/Ke
+         fRi5DDlS6dOs2aB5PnxR9cv6BrWZ4bAjwQqgSRutsLY8hOfeHVmnF0qLgyWkQnbO5Bqv
+         22YE4Is01+JK9942PzSoEdIJ0Zu+t/dXRBPXtXB9NOGxcmXX66LhCRH3xPI4AQ44iB5v
+         m2KA==
+X-Gm-Message-State: AOAM533sBkYheN4TYSGJBIZ0HwUJfjYRbhyg/QNwbNDk0G6vBckvrhw7
+        /voV8x6rz7xHQp8GycjD03xkxYocUUBpAFo375s=
+X-Google-Smtp-Source: ABdhPJwuGc2+bCg2ErG6/q6jf3bKJSgb0rbju4qg8koUw0SNPYEPIhl4iKY40gX8AZ3+BDdHmV3pB+52drdFpLjXWtA=
+X-Received: by 2002:a17:902:ea86:: with SMTP id x6mr3360111plb.131.1599131226890;
+ Thu, 03 Sep 2020 04:07:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20200903005300.7894-1-digetx@gmail.com> <20200903005300.7894-4-digetx@gmail.com>
+In-Reply-To: <20200903005300.7894-4-digetx@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 3 Sep 2020 14:06:49 +0300
+Message-ID: <CAHp75VfFZ2bgEqS7cbTfYzxtXk3T5VaoJpum5aiNMpfvhfbuqw@mail.gmail.com>
+Subject: Re: [PATCH v3 03/22] i2c: tegra: Clean up messages in the code
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Krzysztof,
+On Thu, Sep 3, 2020 at 3:53 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> This patch unifies style of all messages in the driver by starting them
+> with a lowercase letter and using consistent capitalization and wording
+> for all messages.
 
-Le mer. 2 sept. 2020 =E0 21:36, Krzysztof Kozlowski <krzk@kernel.org> a=20
-=E9crit :
-> Common pattern of handling deferred probe can be simplified with
-> dev_err_probe().  Less code and the error value gets printed.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  drivers/mmc/host/jz4740_mmc.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/mmc/host/jz4740_mmc.c=20
-> b/drivers/mmc/host/jz4740_mmc.c
-> index 81d71010b474..0c5b52b53303 100644
-> --- a/drivers/mmc/host/jz4740_mmc.c
-> +++ b/drivers/mmc/host/jz4740_mmc.c
-> @@ -991,9 +991,8 @@ static int jz4740_mmc_probe(struct=20
-> platform_device* pdev)
->=20
->  	ret =3D mmc_of_parse(mmc);
->  	if (ret) {
-> -		if (ret !=3D -EPROBE_DEFER)
-> -			dev_err(&pdev->dev,
-> -				"could not parse device properties: %d\n", ret);
-> +		dev_err_probe(&pdev->dev, ret,
-> +			      "could not parse device properties\n");
+I didn't look at the rest (yet) but this series has a patch ordering issue.
+Why do we first do some little, non-critical clean ups?
 
-I think you can put that on one line.
+The preferred way is to arrange like:
+ - fixes that may be backported
+ - fixes that are likely not going to be backported
+ - features
+ - cleanups
 
-With that said:
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+In its turn cleanups go by severity:
+ - code affected ones (and maybe logical changers)
+ - ...
+ - commentary / indentation fixes
 
-Cheers,
--Paul
-
->  		goto err_free_host;
->  	}
->=20
-> --
-> 2.17.1
->=20
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
