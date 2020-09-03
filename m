@@ -2,46 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B6F25BA31
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 07:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FA1925BC80
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 10:12:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725943AbgICFjO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Thu, 3 Sep 2020 01:39:14 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43331 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbgICFjN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 01:39:13 -0400
-Received: by mail-wr1-f68.google.com with SMTP id k15so1688051wrn.10;
-        Wed, 02 Sep 2020 22:39:11 -0700 (PDT)
+        id S1728148AbgICIMB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Sep 2020 04:12:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728868AbgICIK2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 04:10:28 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A08C061246
+        for <linux-tegra@vger.kernel.org>; Thu,  3 Sep 2020 01:10:27 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id y15so618134uan.9
+        for <linux-tegra@vger.kernel.org>; Thu, 03 Sep 2020 01:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LrOjlA1x52Sx3PNdexN+2X/ozkPpzSng8Vccaxs54Zw=;
+        b=LNj9s0VDa9drWeLKU2VtX/B9wbQgZmQkc6JpKMfK3e9C+15ObehWeink4X7oCMDirp
+         WPafqIvq9t4fj1FDRMiaapi9ohjzXf41O7a5YaafCVZPvVQ9M2pyoTOBkhB2a+84EXOK
+         AiANcRalw5n97ufIUIOei9DTEGLrtbKe/WatzVK99QTXRF7K/qYw86pIst4ltUDzOJQd
+         Gn04+W0cxdaZGW5nD0qXPij/7pKctDdjpM60SGN4pobi5xXjPsFhZ71Edv4qO8JPESdz
+         B5NaqGd/yzgyFw8wRa5dCrYP9Mm74fIRm4/AmfvKAjITRKgEyNhX9nL3RBTyIQ0ByLE0
+         bmzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=cjA1SpxFdTarFmkqi5x6o7EpaRfJ1ZdEWfLV8+qCoTw=;
-        b=V+e64THtvZwl6wLV93JIn1EdEkTh1VPnryR3TOQEGt4WzvLsbO6inJ2oX8a++/xoEy
-         mNQLte6fMa4OOU0yWQ63y+L1FGV7ADlhiy5IVpoQwAH4fnxrF7P4WtilxOOF3w9erxSa
-         wb7CZa03p4kCv8k/jgSTo6BB2cRFhEpYY17BoIUUuFVyCBzAiqLRmwSHhiOabh82891e
-         0mWvMOuaBv0okUxmvrllL7oOPA+yYpMbIENJv+3XtNsjL/WkRPs4FPv88ZEVxWibEDI3
-         WykMIli6GsR1VRkmAGvI0oyvmfm++ufZ4+oG93qhxnIE8Ucbr/Kwfb/go5swpALo48bY
-         sM0g==
-X-Gm-Message-State: AOAM530qPh+JIhfbPsfh7QeR38Otae1sa9q18ODD68wMuSLigSOH/cwK
-        Ar2kRi1Z7nUdfdKu3lhc/yg=
-X-Google-Smtp-Source: ABdhPJzzxouJj0AiVAoYVXd6GYxpjH3humJ0K6tdJJ+HM3g/hLmKJVkO4jJwfiALZiApJbZ3FqXwiw==
-X-Received: by 2002:a5d:540a:: with SMTP id g10mr377991wrv.138.1599111550768;
-        Wed, 02 Sep 2020 22:39:10 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.106])
-        by smtp.googlemail.com with ESMTPSA id q8sm2590564wrx.79.2020.09.02.22.39.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 02 Sep 2020 22:39:09 -0700 (PDT)
-Date:   Thu, 3 Sep 2020 07:39:05 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     =?utf-8?B?TWljaGHFgsKgTWlyb3PFgmF3?= <mirq-linux@rere.qmqm.pl>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LrOjlA1x52Sx3PNdexN+2X/ozkPpzSng8Vccaxs54Zw=;
+        b=dOPHrXR3X5J6APqGOZt5JX6QKiYOk90/3fZFjwSKZtvK8th3oqynbczubAt5u0d++q
+         CNJV+WQACx2k490EUiPPlZEOC6DIABa2O6pP0vfL15gOPqIg/AKUvQ5evR3IJyHeaFgA
+         oCb6bvTssE3o3zV55UzUlVbb9Cp1vU4ZmMCuj5dPQIPEqxJ2z1CGFd5BS0z420jkSO0h
+         TVeSPnd5nPwubroBnhzWDEJXUGhZMn/eE2AKJbgLh9/9LUMvcxyJo9NIjCzPoP7/PpUh
+         ChkGor2hJCnqHNhXLcQrUkSYtyev0ta6V+4yJo7Db5Z9dYZJVPGKDinst0wdaCvkPCGh
+         QF+g==
+X-Gm-Message-State: AOAM530IPk5d6QcOkz/ON5MsmUTWgXjBrb8sqmQdvSE01DGbslAfkGEq
+        nJPSHUWtaifl3pPDqhbMQaLv1qi0QSMK3bAf2/ddtA==
+X-Google-Smtp-Source: ABdhPJw7qVTiuZksAFcWPUutKJ0zYg2tpTJGwRa2BumR3h5BzwPXYQoKG7VAuSHc8ImsX3M25x7A+yZZGSSWhcaYqhE=
+X-Received: by 2002:ab0:6f91:: with SMTP id f17mr357139uav.129.1599120626145;
+ Thu, 03 Sep 2020 01:10:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200902193658.20539-1-krzk@kernel.org>
+In-Reply-To: <20200902193658.20539-1-krzk@kernel.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 3 Sep 2020 10:09:49 +0200
+Message-ID: <CAPDyKFqBS-ws6fkirDQL8EEqh9At88K2vrG5fc8K5_JiXsmfyg@mail.gmail.com>
+Subject: Re: [PATCH 00/11] mmc: Minor cleanups and compile test
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
         Ray Jui <rjui@broadcom.com>,
         Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
         Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
         Jaehoon Chung <jh80.chung@samsung.com>,
         Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
@@ -58,53 +71,63 @@ Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
         Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 11/11] mmc: host: Enable compile testing of multiple
- drivers
-Message-ID: <20200903053905.GA14577@kozik-lap>
-References: <20200902193658.20539-1-krzk@kernel.org>
- <20200902193658.20539-12-krzk@kernel.org>
- <20200902213227.GE1624@qmqm.qmqm.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <20200902213227.GE1624@qmqm.qmqm.pl>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Arnd Bergmann <arnd@arndb.de>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rpi-kernel@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Sep 02, 2020 at 11:32:27PM +0200, Michał Mirosław wrote:
-> On Wed, Sep 02, 2020 at 09:36:58PM +0200, Krzysztof Kozlowski wrote:
-> > Multiple MMC host controller driver can be compile tested as they do not
-> > depend on architecture specific headers.
-> [...]
-> > --- a/drivers/mmc/host/Kconfig
-> > +++ b/drivers/mmc/host/Kconfig
-> > @@ -178,7 +178,7 @@ config MMC_SDHCI_OF_AT91
-> [...]
-> >  config MMC_MESON_GX
-> >  	tristate "Amlogic S905/GX*/AXG SD/MMC Host Controller support"
-> > -	depends on ARCH_MESON && MMC
-> > +	depends on MMC
-> > +	depends on ARCH_MESON|| COMPILE_TEST
-> [...]
-> >  config MMC_MOXART
-> >  	tristate "MOXART SD/MMC Host Controller support"
-> > -	depends on ARCH_MOXART && MMC
-> > +	depends on MMC
-> > +	depends on ARCH_MOXART || COMPILE_TEST
-> [...]
-> 
-> You can drop 'MMC' from depends as the whole tree is under 'if MMC' already.
+On Wed, 2 Sep 2020 at 21:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> Hi,
+>
+> Set of minor cleanups.  Patches requiring more attention:
+>  - 6/11: Testing and review would be appreciated,
+>  - 11/11: I build tested multiple architectures but not all and
+>    definitely no all possible configs. This one could sit on the lists
+>    for few days so 0-day would try it.
+>
+> Best regards,
+> Krzysztof
+>
+> Krzysztof Kozlowski (11):
+>   mmc: bcm2835: Simplify with dev_err_probe()
+>   mmc: davinci: Simplify with dev_err_probe()
+>   mmc: dw_mmc-zx: Simplify with dev_err_probe()
+>   mmc: jz4740: Simplify with dev_err_probe()
+>   mmc: meson: Simplify with dev_err_probe()
+>   mmc: sdhci-brcmstb: Simplify with optional clock and dev_err_probe()
+>   mmc: sdhci-of-arasan: Simplify with dev_err_probe()
+>   mmc: sdhci-tegra: Simplify with dev_err_probe()
+>   mmc: dw_mmc: Simplify with dev_err_probe()
+>   mmc: sdhci-of-sparx5: Use proper printk format for dma_addr_t
+>   mmc: host: Enable compile testing of multiple drivers
+>
+>  drivers/mmc/host/Kconfig           | 42 ++++++++++++++++--------------
+>  drivers/mmc/host/bcm2835.c         |  4 +--
+>  drivers/mmc/host/davinci_mmc.c     |  5 ++--
+>  drivers/mmc/host/dw_mmc-zx.c       | 11 +++-----
+>  drivers/mmc/host/dw_mmc.c          |  9 +++----
+>  drivers/mmc/host/jz4740_mmc.c      |  5 ++--
+>  drivers/mmc/host/meson-gx-mmc.c    | 16 ++++--------
+>  drivers/mmc/host/sdhci-brcmstb.c   | 12 ++++-----
+>  drivers/mmc/host/sdhci-of-arasan.c |  7 +++--
+>  drivers/mmc/host/sdhci-of-sparx5.c |  4 +--
+>  drivers/mmc/host/sdhci-tegra.c     |  7 ++---
+>  11 files changed, 51 insertions(+), 71 deletions(-)
+>
+> --
+> 2.17.1
+>
 
-Right, thanks for feedback.
+Series applied for next, except 11, thanks!
 
-Best regards,
-Krzysztof
-
+Kind regards
+Uffe
