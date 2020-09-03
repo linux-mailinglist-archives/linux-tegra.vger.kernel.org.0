@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2160B25C015
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 13:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9DCF25C213
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Sep 2020 15:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbgICLVu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Sep 2020 07:21:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33562 "EHLO
+        id S1729041AbgICN6w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Sep 2020 09:58:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728330AbgICLLX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 07:11:23 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE974C061247;
-        Thu,  3 Sep 2020 04:11:22 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id e33so1876952pgm.0;
-        Thu, 03 Sep 2020 04:11:22 -0700 (PDT)
+        with ESMTP id S1728927AbgICN5y (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Sep 2020 09:57:54 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44E46C0610E4;
+        Thu,  3 Sep 2020 06:54:53 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id y4so3790261ljk.8;
+        Thu, 03 Sep 2020 06:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=AobGiMqA/cDFWY4Oywceftiem4qTQGg8aRmvx/rxcd0=;
-        b=BVbRyPosrveWpQahdCcvHTRppfLuXeS3v+eTlwJFCAoPh3ntC5bQROHsHpugizKvdt
-         cgiVCHDYUMP2nZhqAJQ2AwdrW5nAlLjnuHxc0fJ6bI++ZNnXBR9M7kwi0c/EFdYcLE+n
-         eVS/idRookFVOKqrMSubmrwXX78cnmETb/5mzEytvnmtbeZzrYWW+Aof+CdKtOeYg4ki
-         m2Dz1IqrkAekl4/M1WuGF3G3YiD6iY+szu8L1BWFHDoGJb2sDSQa7rtzf+UN3Kb9eIev
-         Fa5y4hisZyBqoUEwy/vvxR/G5zL2YREMY+GOHwV8bLPX6rZJIL3zlR84yfhExQPYVKKT
-         HrrA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vZF87zSk1oleEIGJMMtf9vb52AVAs8bIBPfRdsKpf5Q=;
+        b=qbBhVlVNvPmvqPx5v6F58TSakj6W9nFXHWjRE5NqtqVKAmw1K0JWbEqfA+/gd42S91
+         JXUVEaLb+Qfzk7NxCRl2cx+HjSOJu+vak0Cgh8OfdcWhhjCfgpekxBq+wRNMHQePEi8h
+         8ZwypTxHgr1tfi6Dy39W4aPoapfsvFO4PJ0dcdZlUCshhuNTCxFoTIg7Lzc//2PyTOnp
+         FKi1mTlOqecL8AFYe1fwhDp/o3pRJoPSjqrIwn/ymFoeklQRoHTQIyLu4Bql28tB2alb
+         MOodx4J/fpQLZWLDd97dtmOxL9uEb556nMBT5Yw8dgDd/R56+juVdP5ltP/5ASdyHBwT
+         ej6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AobGiMqA/cDFWY4Oywceftiem4qTQGg8aRmvx/rxcd0=;
-        b=Q811y2WVOb0yIp1iubyTRyVHQ1D6FbE+OGeS6vqu0uXbFm6aJtV/buwIcR82eeE2JH
-         IJ7EbFurxD06k2fq6RbtaCQMNV8spElpzFkFs5RAAVXNKXOzCa4m1gY6oeH0KdRKJB7X
-         X8raWCZT0MxV/MllHyUIKmhRqsd6AE4AzxI7TdkA6elRfUAJwpceBOryXMD4j0ctco1q
-         pNZjP2VDmmvBP3Ihmc6JQ5U57TZ6banpWJF2zTWKs0UwBDxrcwIGsw0Tj5XqkY1MIhJG
-         JSSoQzU/7kKBZ8mb4G7uU4WGtH6OJum40F2c+fWHUeYaPwVSIc8pNn6R6uAnqIZl96e2
-         2Afg==
-X-Gm-Message-State: AOAM530KhF0tAEjHUgJFulOCHzWGO/JfrBwD/ph0v53QtPBMNDZ9h8Sw
-        A+xSMF18uj7zQljsiyytUYcECn5Y38pxrHsRGqQ=
-X-Google-Smtp-Source: ABdhPJxPIuRSAkooAyor+9Sgh8QhWpV5z/djl4ilpRF9DBd6NzbYPrgG14FAx4hP0rBWt6RkZN7TL/RDa5wxsr+Fh7g=
-X-Received: by 2002:a17:902:56a:: with SMTP id 97mr3453206plf.130.1599131482530;
- Thu, 03 Sep 2020 04:11:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200903005300.7894-1-digetx@gmail.com> <20200903005300.7894-6-digetx@gmail.com>
-In-Reply-To: <20200903005300.7894-6-digetx@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 3 Sep 2020 14:11:03 +0300
-Message-ID: <CAHp75VefJMxAoGxN8muTxLUJ=bwcMyjzX4uEGvYdckE6xYJvjw@mail.gmail.com>
-Subject: Re: [PATCH v3 05/22] i2c: tegra: Use reset_control_reset()
-To:     Dmitry Osipenko <digetx@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vZF87zSk1oleEIGJMMtf9vb52AVAs8bIBPfRdsKpf5Q=;
+        b=raicgMClrd22+iH5Mo574nTj558eGHzEYvzAxyY4okrOAbUVwmf65ToIQTLtSop8e1
+         NAI61/2JM7o5U/c2rG/rI9uE//49LrZcN0xvKuKopzrO6+URUVmhKYS12/X2pD8aYSkq
+         r1wcJxs/ev5OPFCDK3IfxQrSrb9qu5WrvpcCWxqC5rnujpt88WB4UunhIRj0bnHbxmEv
+         OvNmjVMgVT+b07JLgvRgA1mrLSf3K0ikoJTTlqAuDXzitnwanFfL9Q0sKVdQASLFoX9Q
+         WaKsvWqqPwMIU2CpGhunX17GYP8psBMowLXdCGLhjx1LPCu049PnBDNHgafDuuTEfqNF
+         eQYA==
+X-Gm-Message-State: AOAM533mKuVPbLRmP5evj1nC/N9t31HGX89RgAuA+Ol2qiSxeE+5E/uq
+        tXUZkzq/mhlii8lWcKYRoTwrqhlfpG0=
+X-Google-Smtp-Source: ABdhPJxttIN1R0lpLrPnWhXTqIN++Y7J5bfgO+/vIsXA2S2Frc33+/pts+ZC/vmRHdqA6RYrchDvSA==
+X-Received: by 2002:a2e:911:: with SMTP id 17mr1452833ljj.207.1599141291562;
+        Thu, 03 Sep 2020 06:54:51 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id t16sm637505ljo.27.2020.09.03.06.54.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2020 06:54:50 -0700 (PDT)
+Subject: Re: [PATCH v3 04/22] i2c: tegra: Don't ignore tegra_i2c_flush_fifos()
+ error
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Laxman Dewangan <ldewangan@nvidia.com>,
@@ -59,30 +59,32 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         linux-i2c <linux-i2c@vger.kernel.org>,
         linux-tegra@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20200903005300.7894-1-digetx@gmail.com>
+ <20200903005300.7894-5-digetx@gmail.com>
+ <CAHp75Vf9P9L1uM+he63D5H+-V3Zwv3jRiKTrXmtB4Sxuk9SC9A@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <60b6b0c7-48fe-4cfa-2408-17b2182e1cc2@gmail.com>
+Date:   Thu, 3 Sep 2020 16:54:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAHp75Vf9P9L1uM+he63D5H+-V3Zwv3jRiKTrXmtB4Sxuk9SC9A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Sep 3, 2020 at 3:53 AM Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> Use a single reset_control_reset() instead of assert/deasset couple in
-> order to make code cleaner a tad.
+03.09.2020 14:09, Andy Shevchenko пишет:
+> On Thu, Sep 3, 2020 at 3:53 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> The tegra_i2c_flush_fifos() may fail and transfer should be aborted in
+>> this case.
+> 
+> Sounds like a fix. To add to previous comment, fixes that are likely
+> to be backported should have Fixes: tags.
 
-> Note that the reset_control_reset()
-> uses 1 microsecond delay instead of 2 that was used previously, but this
-> shouldn't matter.
-
-What datasheet says about this delay?
-
-> In addition don't ignore potential error of the reset.
->
-> Reviewed-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+I'll reword the commit title and message in order to make it not to
+sound like this is a bug fix. Thanks!
