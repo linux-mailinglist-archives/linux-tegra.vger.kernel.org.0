@@ -2,65 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB8125E979
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Sep 2020 19:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8700A25EADC
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Sep 2020 22:47:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728323AbgIERkF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 5 Sep 2020 13:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55920 "EHLO
+        id S1729039AbgIEUrM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 5 Sep 2020 16:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727875AbgIERkF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Sep 2020 13:40:05 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6BEC061244;
-        Sat,  5 Sep 2020 10:40:04 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id w186so9460726qkd.1;
-        Sat, 05 Sep 2020 10:40:04 -0700 (PDT)
+        with ESMTP id S1728323AbgIEUmb (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Sep 2020 16:42:31 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B23C061244;
+        Sat,  5 Sep 2020 13:42:28 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id z19so5615096lfr.4;
+        Sat, 05 Sep 2020 13:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=FT2fvVKVJcJnfLDFKoXi+lvCScvW2jBOGcN2i14P3/w=;
-        b=Lqo5n7TLIXEQT9AIIOV6WKKDMeUGoeymIrJPgzDqEihOzktfTzcXMnsRmVEYsWA2nx
-         0x67Xb4gDgNUhUXll3kfmiH664UdPCJCOE3/Kvd2nf3jwQoUBu0IAuBcF834kTjOUera
-         4X+XyenrjgprjwH3oMQw3Zrng+AV4CoGWYc7no8t2PCmSMi0frEJ0eIiYuNU8p4Dwi65
-         T87P5wUrBoDf37JalrZl6IHhxwxrWzGrqlMyCp+8+Th2ZhLbV+lvRWSFI4hdyqszvKE8
-         YzQEZQEkfb4XF7OOV/fPTnn1i/4ACEPDBHFrMAc4xKljsUOBQypQyc+YThs/USlZJiCS
-         Teeg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l/2Yi9oA04Gn2zXLl91qyD7H5oBjTtrtpwfVnvjh2FA=;
+        b=kedm53ZIacgGuBr6hF16jt18gyFz9AyEc0Ys4PpdlkPLHe01gvzOALH3YtUprh45p6
+         fDdu40+bixZyanjgKCnqjgBAfWG664a5Ct73wMsrbktvDDbAxr8QX4FeN/rPAR8UoTkM
+         74XmpefXordV8xoobxDAntA8LGCXzSNCNtDQp2wgR57WgQ2b57K4PTvpFe4thuE7PXcX
+         FgNBSdG4niDOpWmlRQNw+LbF/oaERoqObX4ixMEY8C1t8mDy2e/QprbeqB6lNtswkeNn
+         fGWEMsrhyuJU4HTaxPlkc0MTO90zmbPcV/1eEw5xDdL1tiekmyDq4YZGO3lR5dIWYB+g
+         sXJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=FT2fvVKVJcJnfLDFKoXi+lvCScvW2jBOGcN2i14P3/w=;
-        b=F8FEYyDMlDFc/jiTL2ehm5m41l+5xAg7eiHgrCjgqn1ILcZqDTQC202UPoQDWIIaqn
-         xCEDCTLUBgnfbMyVzQSG1tPD0B8uYq8SLN/uzbra6I8ysewdiYaQE/M5blF4OAKKp7C2
-         vrpfaamqZTQ2E3R3ZHifG4+dM/jnfXfy1YJHawrkAleciJ2x7js3OMYUbAPMXbORiIHP
-         t1+9tEOD503QfIZskZga8BFmcYnW+u+thgOekdBSuaHHuUsMWQPygC2aywcF76E4+u0E
-         2jCbH35sZ47fqXrzLP825bBKGoRTVa7jDzwz3KraG2VVjEIhkGxu9sAAtFS08Qi/U99t
-         fH2Q==
-X-Gm-Message-State: AOAM5316cGKgJtZJeNxsSD2xkCH8oGE0WtfgJ5z1HWEgL9kInBZ3rM8j
-        z1iee12VdCptpheb4EVgMqyg4pu9pEWJRw==
-X-Google-Smtp-Source: ABdhPJyYbr4n/cq8l1/LRCoE4oFaV5Fky5lEJ/Xnlo5eIuO5doXVJSqYvaY4d3wwM2J2vldeL9hF2g==
-X-Received: by 2002:a37:9f4e:: with SMTP id i75mr12417322qke.180.1599327600705;
-        Sat, 05 Sep 2020 10:40:00 -0700 (PDT)
-Received: from ?IPv6:2800:270:c:c::1000? ([2800:270:c:c::1000])
-        by smtp.gmail.com with ESMTPSA id z37sm7665883qtz.67.2020.09.05.10.39.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2020 10:40:00 -0700 (PDT)
-To:     linux-tegra@vger.kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   =?UTF-8?B?TWF0w61hcyBaw7rDsWlnYQ==?= <matias.nicolas.zc@gmail.com>
-Subject: [xhci-tegra] Kernel 5.7 regression - tegra124-nyan
-Message-ID: <eb0e8cd1-8f6c-f1df-fe15-6e23572b7655@gmail.com>
-Date:   Sat, 5 Sep 2020 13:39:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l/2Yi9oA04Gn2zXLl91qyD7H5oBjTtrtpwfVnvjh2FA=;
+        b=cAB1Isp1pbNATw91j4BzMr+UvCWQbe5HcpClSErr6S6dQL0wE7OihAnpMSRfDJ0nKA
+         YRixl0FgD3vkAsOX6YK58QrSj1EjYDPg4ZCNKDmwnVNztynpJWpeUiU+LFP7rOs1Ot47
+         K6OkdegTLq3ShXOgnxSuraEuzz5bpu/anFgiYxkEyDUArkSpfypwh/8T+Z/dE1DJtSps
+         KDyNyfds9kNm9jl40EZetWj5xkwq1zANqmoSmgvBi+Y6u5Pfdn8alWiMBf+TBrhDIqgo
+         6G/tVwUNQ3AajNZlnnZc2px9d/B+fdjbDWuht4jBecULmQrAqAY/q8DXC5JE1p5CQ483
+         66iw==
+X-Gm-Message-State: AOAM532krWW7pxyiDOo00e8mCCYJhxGDhUGxTvOLaYuDk10doJgecpzs
+        MaKUnyWMtuqHND4lsVtTifVYPHKLGn8=
+X-Google-Smtp-Source: ABdhPJyakU5Ph9sxkfrNWT7+VQ+knnK/r6Y/uEC5lTQ5dWbgCvH+UGdn7KiwspRoPeTlo2aJLIBHyw==
+X-Received: by 2002:a19:f510:: with SMTP id j16mr6635793lfb.169.1599338545035;
+        Sat, 05 Sep 2020 13:42:25 -0700 (PDT)
+Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.gmail.com with ESMTPSA id e17sm1677763ljn.18.2020.09.05.13.42.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2020 13:42:24 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/31] Improvements for Tegra I2C driver
+Date:   Sat,  5 Sep 2020 23:41:20 +0300
+Message-Id: <20200905204151.25343-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -68,22 +70,117 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 Hello!
 
-Since kernel 5.7 (specifically commits 
-f67213cee2b35fe169a723746b7f37debf20fa29) the xhci-tegra driver fails to 
-initialize the USB ports of tegra124-nyan devices with the message 
-"usb-role-switch not found for otg".
+This series performs refactoring of the Tegra I2C driver code and hardens
+the atomic-transfer mode.
 
-The named commit, which adds usb-role-switch support, effectively broke 
-all device trees with "otg" or "peripheral" modes that do not include 
-the "usb-role-switch" property.
+Changelog:
 
-Given that the otg port of nyan devices is just a type A connector, I 
-can patch the device tree to use the "host" mode and it works fine, but 
-since it seems to be an otg port internally, maybe it's better to add 
-the usb-role-switch property with a "connector" subnode.
-However, I don't know if other devices are affected, so I think the 
-driver should be "fixed" to work again with DTs without usb-role-switch.
+v4: - Reordered patches in the fixes/features/cleanups order like it was
+      suggested by Andy Shevchenko.
 
-Cheers,
-Matías Zúñiga
+    - Now using clk-bulk API, which was suggested by Andy Shevchenko.
+
+    - Reworked "Make tegra_i2c_flush_fifos() usable in atomic transfer"
+      patch to use iopoll API, which was suggested by Andy Shevchenko.
+
+    - Separated "Clean up probe function" into several smaller patches.
+
+    - Squashed "Add missing newline before returns" patch into
+      "Clean up whitespaces, newlines and indentation".
+
+    - The "Drop '_timeout' from wait/poll function names" is renamed to
+      "Rename wait/poll functions".
+
+    - The "Use reset_control_reset()" is changed to not fail tegra_i2c_init(),
+      but only emit warning. This should be more friendly behaviour in oppose
+      to having a non-bootable machine if reset-control fails.
+
+    - New patches:
+
+        i2c: tegra: Remove error message used for devm_request_irq() failure
+        i2c: tegra: Use devm_platform_get_and_ioremap_resource()
+        i2c: tegra: Use platform_get_irq()
+        i2c: tegra: Use clk-bulk helpers
+        i2c: tegra: Remove bogus barrier()
+        i2c: tegra: Factor out register polling into separate function
+        i2c: tegra: Consolidate error handling in tegra_i2c_xfer_msg()
+        i2c: tegra: Clean up and improve comments
+        i2c: tegra: Rename couple "ret" variables to "err"
+
+v3: - Optimized "Make tegra_i2c_flush_fifos() usable in atomic transfer"
+      patch by pre-checking FIFO state before starting to poll using
+      ktime API, which may be expensive under some circumstances.
+
+    - The "Clean up messages in the code" patch now makes all messages
+      to use proper capitalization of abbreviations. Thanks to Andy Shevchenko
+      and Michał Mirosław for the suggestion.
+
+    - The "Remove unnecessary whitespaces and newlines" patch is transformed
+      into "Clean up whitespaces and newlines", it now also adds missing
+      newlines and spaces.
+
+    - Reworked the "Clean up probe function" patch in accordance to
+      suggestion from Michał Mirosław by factoring out only parts of
+      the code that make error unwinding cleaner.
+
+    - Added r-b from Michał Mirosław.
+
+    - Added more patches:
+
+        i2c: tegra: Reorder location of functions in the code
+        i2c: tegra: Factor out packet header setup from tegra_i2c_xfer_msg()
+        i2c: tegra: Remove "dma" variable
+        i2c: tegra: Initialization div-clk rate unconditionally
+        i2c: tegra: Remove i2c_dev.clk_divisor_non_hs_mode member
+
+v2: - Cleaned more messages in the "Clean up messages in the code" patch.
+
+    - The error code of reset_control_reset() is checked now.
+
+    - Added these new patches to clean up couple more things:
+
+        i2c: tegra: Check errors for both positive and negative values
+        i2c: tegra: Improve coding style of tegra_i2c_wait_for_config_load()
+        i2c: tegra: Remove unnecessary whitespaces and newlines
+        i2c: tegra: Rename variable in tegra_i2c_issue_bus_clear()
+        i2c: tegra: Improve driver module description
+
+Dmitry Osipenko (31):
+  i2c: tegra: Make tegra_i2c_flush_fifos() usable in atomic transfer
+  i2c: tegra: Handle potential error of tegra_i2c_flush_fifos()
+  i2c: tegra: Initialization div-clk rate unconditionally
+  i2c: tegra: Remove i2c_dev.clk_divisor_non_hs_mode member
+  i2c: tegra: Runtime PM always available on Tegra
+  i2c: tegra: Remove error message used for devm_request_irq() failure
+  i2c: tegra: Use reset_control_reset()
+  i2c: tegra: Use devm_platform_get_and_ioremap_resource()
+  i2c: tegra: Use platform_get_irq()
+  i2c: tegra: Use clk-bulk helpers
+  i2c: tegra: Factor out runtime PM and hardware initialization
+  i2c: tegra: Move out all device-tree parsing into tegra_i2c_parse_dt()
+  i2c: tegra: Clean up probe function
+  i2c: tegra: Remove likely/unlikely from the code
+  i2c: tegra: Remove bogus barrier()
+  i2c: tegra: Remove "dma" variable from tegra_i2c_xfer_msg()
+  i2c: tegra: Improve formatting of function variables
+  i2c: tegra: Improve coding style of tegra_i2c_wait_for_config_load()
+  i2c: tegra: Rename wait/poll functions
+  i2c: tegra: Rename variable in tegra_i2c_issue_bus_clear()
+  i2c: tegra: Factor out error recovery from tegra_i2c_xfer_msg()
+  i2c: tegra: Factor out packet header setup from tegra_i2c_xfer_msg()
+  i2c: tegra: Factor out register polling into separate function
+  i2c: tegra: Reorder location of functions in the code
+  i2c: tegra: Check errors for both positive and negative values
+  i2c: tegra: Consolidate error handling in tegra_i2c_xfer_msg()
+  i2c: tegra: Clean up printk messages
+  i2c: tegra: Clean up whitespaces, newlines and indentation
+  i2c: tegra: Improve driver module description
+  i2c: tegra: Clean up and improve comments
+  i2c: tegra: Rename couple "ret" variables to "err"
+
+ drivers/i2c/busses/i2c-tegra.c | 1272 +++++++++++++++-----------------
+ 1 file changed, 612 insertions(+), 660 deletions(-)
+
+-- 
+2.27.0
 
