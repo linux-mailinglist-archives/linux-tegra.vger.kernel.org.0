@@ -2,250 +2,161 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C3B625E00C
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Sep 2020 18:44:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B04C25E6FB
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Sep 2020 12:36:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbgIDQny (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Sep 2020 12:43:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36422 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726441AbgIDQnt (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 4 Sep 2020 12:43:49 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.106])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 808062074D;
-        Fri,  4 Sep 2020 16:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599237828;
-        bh=M0F0NujsJbA6VRAoiFk6VohTncRpdlqvI+V+EXO6eTI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YNhuRd9bPGkZy4dXcqM4wKBiNUbzE9fZg+ZWuG0rftUJ+tr0tNSNpYkBZTA38LTUr
-         C2BCBXN88B/3wM5OaP8T8RT99NAHiaGDVfp8omRAWmcls7cWRlAVAhuHexZ1jV1ODZ
-         D3tvHvz+KgvITSlGuGrAtkaCNFw9z57g2bkJBSCk=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Manuel Lauss <manuel.lauss@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Prabu Thangamuthu <prabu.t@synopsys.com>,
-        Manjunath M B <manjumb@synopsys.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@axis.com
-Cc:     =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v2 2/2] mmc: host: Enable compile testing of multiple drivers
-Date:   Fri,  4 Sep 2020 18:43:15 +0200
-Message-Id: <20200904164315.24618-2-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200904164315.24618-1-krzk@kernel.org>
-References: <20200904164315.24618-1-krzk@kernel.org>
+        id S1728381AbgIEKgO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 5 Sep 2020 06:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728392AbgIEKgJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Sep 2020 06:36:09 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D478DC061263
+        for <linux-tegra@vger.kernel.org>; Sat,  5 Sep 2020 03:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=GL7/Qfpql25Njk17chMypUW1y52LzwxHyj9gF+a0l7c=; b=K3we7NpP+JKWWtc2ERT00mGsBw
+        aOIj5Z4hc+5dmehRhqtfV0HVv5H1jy4qVvoRqyJpBKlfGo5B6v43v0ehlOSo+WfHhuYfzbXgvciO0
+        DNKOIa2Wx6YqNs4GLnBSYsvgyKwuxzSXkSV8qYQRL+ur4+JnfC3l8/L9p3c86AQgHfJXgIFo8xMmt
+        4evz6km5x8uCbuR7jC0OnTbR/157farH9RsBdTjw+oAqrnH4QijFG8EGE2UMnpZDKVhHYZ+hfFf5q
+        3sMYSJk/lglHB3VpgvoYhhRrWD+5OUczxh9eMsmXIv8mzSqvtgmyC2q7EQ+tUEMTqI/5/Xi9qwEJm
+        s6jjCR5g==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <mperttunen@nvidia.com>)
+        id 1kEVXw-0003SS-BW; Sat, 05 Sep 2020 13:35:48 +0300
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
+        airlied@linux.ie, daniel@ffwll.ch
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        talho@nvidia.com, bhuntsman@nvidia.com,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [RFC PATCH v2 00/17] Host1x/TegraDRM UAPI
+Date:   Sat,  5 Sep 2020 13:34:03 +0300
+Message-Id: <20200905103420.3021852-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Multiple MMC host controller driver can be compile tested as they do not
-depend on architecture specific headers.
+Hi all,
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+here's a second revision of the Host1x/TegraDRM UAPI proposal,
+hopefully with most issues from v1 resolved, and also with
+an implementation. There are still open issues with the
+implementation:
 
----
+* Relocs are now handled on TegraDRM side instead of Host1x,
+  so the firewall is not aware of them, causing submission
+  failure where the firewall is enabled. Proposed solution
+  is to move the firewall to TegraDRM side, but this hasn't
+  been done yet.
+* For the new UAPI, syncpoint recovery on job timeout is
+  disabled. What this means is that upon job timeout,
+  all further jobs using that syncpoint are cancelled,
+  and the syncpoint is marked unusable until it is freed.
+  However, there is currently a race between the timeout
+  handler and job submission, where submission can observe
+  the syncpoint in non-locked state and yet the job
+  cancellations won't cancel the new job.
+* Waiting for DMA reservation fences is not implemented yet.
+* I have only tested on Tegra186.
 
-Changes since v1:
-1. Add COMMON_CLK dependency to MESON_GX to fix errors like:
-   ERROR: modpost: "devm_clk_register" [drivers/mmc/host/meson-gx-mmc.ko] undefined!
----
- drivers/mmc/host/Kconfig | 41 +++++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 19 deletions(-)
+The series consists of three parts:
 
-diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-index eea01fde0591..93db789cf8ec 100644
---- a/drivers/mmc/host/Kconfig
-+++ b/drivers/mmc/host/Kconfig
-@@ -178,7 +178,7 @@ config MMC_SDHCI_OF_AT91
- config MMC_SDHCI_OF_ESDHC
- 	tristate "SDHCI OF support for the Freescale eSDHC controller"
- 	depends on MMC_SDHCI_PLTFM
--	depends on PPC || ARCH_MXC || ARCH_LAYERSCAPE
-+	depends on PPC || ARCH_MXC || ARCH_LAYERSCAPE || COMPILE_TEST
- 	select MMC_SDHCI_IO_ACCESSORS
- 	select FSL_GUTS
- 	help
-@@ -216,7 +216,7 @@ config MMC_SDHCI_OF_DWCMSHC
- config MMC_SDHCI_OF_SPARX5
- 	tristate "SDHCI OF support for the MCHP Sparx5 SoC"
- 	depends on MMC_SDHCI_PLTFM
--	depends on ARCH_SPARX5
-+	depends on ARCH_SPARX5 || COMPILE_TEST
- 	help
- 	  This selects the Secure Digital Host Controller Interface (SDHCI)
- 	  found in the MCHP Sparx5 SoC.
-@@ -238,7 +238,7 @@ config MMC_SDHCI_CADENCE
- 
- config MMC_SDHCI_CNS3XXX
- 	tristate "SDHCI support on the Cavium Networks CNS3xxx SoC"
--	depends on ARCH_CNS3XXX
-+	depends on ARCH_CNS3XXX || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	help
- 	  This selects the SDHCI support for CNS3xxx System-on-Chip devices.
-@@ -262,7 +262,7 @@ config MMC_SDHCI_ESDHC_MCF
- 
- config MMC_SDHCI_ESDHC_IMX
- 	tristate "SDHCI support for the Freescale eSDHC/uSDHC i.MX controller"
--	depends on ARCH_MXC
-+	depends on ARCH_MXC || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	select MMC_CQHCI
-@@ -276,7 +276,7 @@ config MMC_SDHCI_ESDHC_IMX
- 
- config MMC_SDHCI_DOVE
- 	tristate "SDHCI support on Marvell's Dove SoC"
--	depends on ARCH_DOVE || MACH_DOVE
-+	depends on ARCH_DOVE || MACH_DOVE || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	help
-@@ -289,7 +289,7 @@ config MMC_SDHCI_DOVE
- 
- config MMC_SDHCI_TEGRA
- 	tristate "SDHCI platform support for the Tegra SD/MMC Controller"
--	depends on ARCH_TEGRA
-+	depends on ARCH_TEGRA || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	select MMC_CQHCI
-@@ -301,7 +301,8 @@ config MMC_SDHCI_TEGRA
- 
- config MMC_SDHCI_S3C
- 	tristate "SDHCI support on Samsung S3C SoC"
--	depends on MMC_SDHCI && (PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS)
-+	depends on MMC_SDHCI
-+	depends on PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
- 	help
- 	  This selects the Secure Digital Host Controller Interface (SDHCI)
- 	  often referrered to as the HSMMC block in some of the Samsung S3C
-@@ -313,7 +314,7 @@ config MMC_SDHCI_S3C
- 
- config MMC_SDHCI_SIRF
- 	tristate "SDHCI support on CSR SiRFprimaII and SiRFmarco SoCs"
--	depends on ARCH_SIRF
-+	depends on ARCH_SIRF || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	help
-@@ -351,7 +352,8 @@ config MMC_SDHCI_PXAV2
- 
- config MMC_SDHCI_SPEAR
- 	tristate "SDHCI support on ST SPEAr platform"
--	depends on MMC_SDHCI && PLAT_SPEAR
-+	depends on MMC_SDHCI
-+	depends on PLAT_SPEAR || COMPILE_TEST
- 	depends on OF
- 	help
- 	  This selects the Secure Digital Host Controller Interface (SDHCI)
-@@ -374,7 +376,7 @@ config MMC_SDHCI_S3C_DMA
- 
- config MMC_SDHCI_BCM_KONA
- 	tristate "SDHCI support on Broadcom KONA platform"
--	depends on ARCH_BCM_MOBILE
-+	depends on ARCH_BCM_MOBILE || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	help
- 	  This selects the Broadcom Kona Secure Digital Host Controller
-@@ -422,7 +424,8 @@ config MMC_SDHCI_IPROC
- 
- config MMC_MESON_GX
- 	tristate "Amlogic S905/GX*/AXG SD/MMC Host Controller support"
--	depends on ARCH_MESON
-+	depends on ARCH_MESON || COMPILE_TEST
-+	depends on COMMON_CLK
- 	help
- 	  This selects support for the Amlogic SD/MMC Host Controller
- 	  found on the S905/GX*/AXG family of SoCs.  This controller is
-@@ -458,7 +461,7 @@ config MMC_MESON_MX_SDIO
- 
- config MMC_MOXART
- 	tristate "MOXART SD/MMC Host Controller support"
--	depends on ARCH_MOXART
-+	depends on ARCH_MOXART || COMPILE_TEST
- 	help
- 	  This selects support for the MOXART SD/MMC Host Controller.
- 	  MOXA provides one multi-functional card reader which can
-@@ -467,7 +470,7 @@ config MMC_MOXART
- 
- config MMC_SDHCI_ST
- 	tristate "SDHCI support on STMicroelectronics SoC"
--	depends on ARCH_STI || FSP2
-+	depends on ARCH_STI || FSP2 || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	help
-@@ -587,7 +590,7 @@ config MMC_TIFM_SD
- 
- config MMC_MVSDIO
- 	tristate "Marvell MMC/SD/SDIO host driver"
--	depends on PLAT_ORION
-+	depends on PLAT_ORION || (COMPILE_TEST && ARM)
- 	depends on OF
- 	help
- 	  This selects the Marvell SDIO host driver.
-@@ -599,7 +602,7 @@ config MMC_MVSDIO
- 
- config MMC_DAVINCI
- 	tristate "TI DAVINCI Multimedia Card Interface support"
--	depends on ARCH_DAVINCI
-+	depends on ARCH_DAVINCI || COMPILE_TEST
- 	help
- 	  This selects the TI DAVINCI Multimedia card Interface.
- 	  If you have an DAVINCI board with a Multimedia Card slot,
-@@ -628,7 +631,7 @@ config MMC_SPI
- 
- config MMC_S3C
- 	tristate "Samsung S3C SD/MMC Card Interface support"
--	depends on ARCH_S3C24XX
-+	depends on ARCH_S3C24XX || COMPILE_TEST
- 	depends on S3C24XX_DMAC
- 	help
- 	  This selects a driver for the MCI interface found in
-@@ -681,7 +684,7 @@ config MMC_SDRICOH_CS
- 
- config MMC_SDHCI_SPRD
- 	tristate "Spreadtrum SDIO host Controller"
--	depends on ARCH_SPRD
-+	depends on ARCH_SPRD || COMPILE_TEST
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	select MMC_HSQ
-@@ -698,7 +701,7 @@ config MMC_TMIO_CORE
- 
- config MMC_TMIO
- 	tristate "Toshiba Mobile IO Controller (TMIO) MMC/SD function support"
--	depends on MFD_TMIO || MFD_ASIC3
-+	depends on MFD_TMIO || MFD_ASIC3 || COMPILE_TEST
- 	select MMC_TMIO_CORE
- 	help
- 	  This provides support for the SD/MMC cell found in TC6393XB,
-@@ -971,7 +974,7 @@ config MMC_REALTEK_USB
- 
- config MMC_SUNXI
- 	tristate "Allwinner sunxi SD/MMC Host Controller support"
--	depends on ARCH_SUNXI
-+	depends on ARCH_SUNXI || COMPILE_TEST
- 	help
- 	  This selects support for the SD/MMC Host Controller on
- 	  Allwinner sunxi SoCs.
+* The first part contains some fixes and improvements to
+  the Host1x driver of more general nature,
+* The second part adds the Host1x side UAPI, as well as
+  Host1x-side changes needed for the new TegraDRM UAPI,
+* The third part adds the new TegraDRM UAPI.
+
+I have written some tests to test the new interface,
+see https://github.com/cyndis/uapi-test. Porting of proper
+userspace (e.g. opentegra, vdpau-tegra) will come once
+there is some degree of conclusion on the UAPI definition.
+
+The series can be also found in
+https://github.com/cyndis/linux/commits/work/host1x-uapi.
+
+Older versions:
+v1: https://www.spinics.net/lists/linux-tegra/msg51000.html
+
+Thank you,
+Mikko
+
+Mikko Perttunen (17):
+  gpu: host1x: Use different lock classes for each client
+  gpu: host1x: Allow syncpoints without associated client
+  gpu: host1x: Show number of pending waiters in debugfs
+  gpu: host1x: Remove cancelled waiters immediately
+  gpu: host1x: Use HW-equivalent syncpoint expiration check
+  gpu: host1x: Cleanup and refcounting for syncpoints
+  gpu: host1x: Introduce UAPI header
+  gpu: host1x: Implement /dev/host1x device node
+  gpu: host1x: DMA fences and userspace fence creation
+  WIP: gpu: host1x: Add no-recovery mode
+  gpu: host1x: Add job release callback
+  gpu: host1x: Add support for syncpoint waits in CDMA pushbuffer
+  gpu: host1x: Reset max value when freeing a syncpoint
+  drm/tegra: Add new UAPI to header
+  drm/tegra: Add power_on/power_off engine callbacks
+  drm/tegra: Allocate per-engine channel in core code
+  WIP: drm/tegra: Implement new UAPI
+
+ drivers/gpu/drm/tegra/Makefile      |   2 +
+ drivers/gpu/drm/tegra/dc.c          |   4 +-
+ drivers/gpu/drm/tegra/drm.c         |  75 ++-
+ drivers/gpu/drm/tegra/drm.h         |  20 +-
+ drivers/gpu/drm/tegra/gr2d.c        |   4 +-
+ drivers/gpu/drm/tegra/gr3d.c        |   4 +-
+ drivers/gpu/drm/tegra/uapi.h        |  59 +++
+ drivers/gpu/drm/tegra/uapi/submit.c | 687 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/uapi/uapi.c   | 328 +++++++++++++
+ drivers/gpu/drm/tegra/vic.c         | 131 +++---
+ drivers/gpu/host1x/Makefile         |   2 +
+ drivers/gpu/host1x/bus.c            |   7 +-
+ drivers/gpu/host1x/cdma.c           |  53 ++-
+ drivers/gpu/host1x/debug.c          |  14 +-
+ drivers/gpu/host1x/dev.c            |   9 +
+ drivers/gpu/host1x/dev.h            |  10 +-
+ drivers/gpu/host1x/fence.c          | 207 +++++++++
+ drivers/gpu/host1x/fence.h          |  15 +
+ drivers/gpu/host1x/hw/cdma_hw.c     |   2 +-
+ drivers/gpu/host1x/hw/channel_hw.c  |  67 ++-
+ drivers/gpu/host1x/hw/debug_hw.c    |  11 +-
+ drivers/gpu/host1x/intr.c           |  23 +-
+ drivers/gpu/host1x/intr.h           |   2 +
+ drivers/gpu/host1x/job.c            |  79 +++-
+ drivers/gpu/host1x/job.h            |  14 +
+ drivers/gpu/host1x/syncpt.c         | 137 +++---
+ drivers/gpu/host1x/syncpt.h         |  21 +-
+ drivers/gpu/host1x/uapi.c           | 381 +++++++++++++++
+ drivers/gpu/host1x/uapi.h           |  22 +
+ include/linux/host1x.h              |  40 +-
+ include/uapi/drm/tegra_drm.h        | 431 +++++++++++++++--
+ include/uapi/linux/host1x.h         | 134 ++++++
+ 32 files changed, 2718 insertions(+), 277 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/uapi.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/submit.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/uapi.c
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
+ create mode 100644 drivers/gpu/host1x/uapi.c
+ create mode 100644 drivers/gpu/host1x/uapi.h
+ create mode 100644 include/uapi/linux/host1x.h
+
 -- 
-2.17.1
+2.28.0
 
