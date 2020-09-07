@@ -2,90 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2914E26012D
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Sep 2020 19:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 742B726051A
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Sep 2020 21:29:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730708AbgIGQdq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Sep 2020 12:33:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47182 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730698AbgIGQdm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 7 Sep 2020 12:33:42 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C5E4B21775;
-        Mon,  7 Sep 2020 16:33:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599496421;
-        bh=MCpL6LB8MUB026Zf8apGOuhcoKAPd/ZbuWwOu9lqhaA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rsr8nJSIb17YoHf/31lr9FfQf9QK7kjeXaSv83if5t6+Zodp3OIdownI1wALBM1H/
-         7sBK7rhW9iiC9vOZQi+BHgdHl4Ob+S85elSMpcFhLvGUj1Kz4uCQUy52Ao9nvUYPg2
-         iSfblXKcc6EoFklzK25BUVA8EFVw8h0UjGuYGGOA=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
-        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 09/43] ALSA: hda/tegra: Program WAKEEN register for Tegra
-Date:   Mon,  7 Sep 2020 12:32:55 -0400
-Message-Id: <20200907163329.1280888-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907163329.1280888-1-sashal@kernel.org>
-References: <20200907163329.1280888-1-sashal@kernel.org>
+        id S1728622AbgIGT3b (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Sep 2020 15:29:31 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:7488 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726458AbgIGT3a (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Sep 2020 15:29:30 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f568a0c0001>; Mon, 07 Sep 2020 12:29:16 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 07 Sep 2020 12:29:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 07 Sep 2020 12:29:30 -0700
+Received: from [10.26.73.157] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 7 Sep
+ 2020 19:29:29 +0000
+Subject: Re: [PATCH 1/9] dt-bindings: tegra: Add Tegra234 VDK compatible
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200716141856.544718-1-thierry.reding@gmail.com>
+ <20200716141856.544718-2-thierry.reding@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <9ecdb496-6fee-a912-7c5e-0cb78fe2d080@nvidia.com>
+Date:   Mon, 7 Sep 2020 20:29:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200716141856.544718-2-thierry.reding@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1599506956; bh=sZpVOm9hSkZooOxIUMe4mTtom44DdERMr6sWtI7wAig=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=SfPTNLRf0ZISp/k7ka5lsm9MW4uAIAZ/MofvSlhhSZyO7VBg7T04jSZ4HnaLb7N4g
+         AYiL1u6NNImtyp37gZfAZDjUy8pfmd5D1Mttn/VOfD74beysOXD8aOHy5tMpEmhKOa
+         WmV4acrzyw17rXgdQoPQ86kll17wMNPxXj0ey1BIaVxusloFh3xtpxr5eqgAlLRsVZ
+         6CZ6qCDsZhDFJatSS0yJekmUSzUvQbJQQskGYyQaLztUA/k/I5gBkyH+3zqA16pSZ+
+         wvB/rdWdIwiWTEQXv5KTj3SamrMmYXoJfUgFElTA+eEUDpph5AC1sEZ+4qjYDxUHxQ
+         MrUrU3mkyka/w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Mohan Kumar <mkumard@nvidia.com>
 
-[ Upstream commit 23d63a31d9f44d7daeac0d1fb65c6a73c70e5216 ]
+On 16/07/2020 15:18, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> The NVIDIA Tegra234 VDK is a simulation platform for the Orin SoC. It
+> supports a subset of the peripherals that will be available in the final
+> chip and serves as a bootstrapping platform.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/arm/tegra.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
+> index 53845db64df1..5c781e6d8878 100644
+> --- a/Documentation/devicetree/bindings/arm/tegra.yaml
+> +++ b/Documentation/devicetree/bindings/arm/tegra.yaml
+> @@ -109,3 +109,7 @@ properties:
+>          items:
+>            - const: nvidia,p3509-0000+p3668-0000
+>            - const: nvidia,tegra194
+> +      - items:
+> +          - enum:
+> +              - nvidia,tegra234-vdk
+> +          - const: nvidia,tegra234
+> 
 
-The WAKEEN bits are used to indicate which bits in the
-STATESTS register may cause wake event during the codec
-state change request. Configure the WAKEEN register for
-the Tegra to detect the wake events.
 
-Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
-Acked-by: Sameer Pujar <spujar@nvidia.com>
-Link: https://lore.kernel.org/r/20200825052415.20626-3-mkumard@nvidia.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/pci/hda/hda_tegra.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index e5191584638ab..e378cb33c69df 100644
---- a/sound/pci/hda/hda_tegra.c
-+++ b/sound/pci/hda/hda_tegra.c
-@@ -169,6 +169,10 @@ static int __maybe_unused hda_tegra_runtime_suspend(struct device *dev)
- 	struct hdac_bus *bus = azx_bus(chip);
- 
- 	if (chip && chip->running) {
-+		/* enable controller wake up event */
-+		azx_writew(chip, WAKEEN, azx_readw(chip, WAKEEN) |
-+			   STATESTS_INT_MASK);
-+
- 		azx_stop_chip(chip);
- 		synchronize_irq(bus->irq);
- 		azx_enter_link_reset(chip);
-@@ -191,6 +195,9 @@ static int __maybe_unused hda_tegra_runtime_resume(struct device *dev)
- 	if (chip && chip->running) {
- 		hda_tegra_init(hda);
- 		azx_init_chip(chip, 1);
-+		/* disable controller wake up event*/
-+		azx_writew(chip, WAKEEN, azx_readw(chip, WAKEEN) &
-+			   ~STATESTS_INT_MASK);
- 	}
- 
- 	return 0;
+Cheers
+Jon
+
 -- 
-2.25.1
-
+nvpublic
