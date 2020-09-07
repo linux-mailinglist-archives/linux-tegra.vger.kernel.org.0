@@ -2,38 +2,38 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDBFE2601B6
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Sep 2020 19:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2914E26012D
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Sep 2020 19:01:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730241AbgIGRLy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Sep 2020 13:11:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46524 "EHLO mail.kernel.org"
+        id S1730708AbgIGQdq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Sep 2020 12:33:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729857AbgIGQck (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 7 Sep 2020 12:32:40 -0400
+        id S1730698AbgIGQdm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 7 Sep 2020 12:33:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75109218AC;
-        Mon,  7 Sep 2020 16:32:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C5E4B21775;
+        Mon,  7 Sep 2020 16:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599496356;
-        bh=58wy6+NLVtxqoBa6LJfUWGbvwTcc7WuVJSuHWnbCVhw=;
+        s=default; t=1599496421;
+        bh=MCpL6LB8MUB026Zf8apGOuhcoKAPd/ZbuWwOu9lqhaA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZBkz5tndOsWLCklhjnhiTod6ZxxExhjS93XnIfCyTVxinlIyhE/prn1lPJHLSz/v3
-         kuJOemtdwWbRVM58SOpTm2g9SBei63fN/RdF/cbm8xK1SK5lVAo9AXoaASEwWT3szT
-         i20sabq0HjAfE/lhydlUNgBNvMTDpVv36t2QO3LI=
+        b=rsr8nJSIb17YoHf/31lr9FfQf9QK7kjeXaSv83if5t6+Zodp3OIdownI1wALBM1H/
+         7sBK7rhW9iiC9vOZQi+BHgdHl4Ob+S85elSMpcFhLvGUj1Kz4uCQUy52Ao9nvUYPg2
+         iSfblXKcc6EoFklzK25BUVA8EFVw8h0UjGuYGGOA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
         Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
         alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 12/53] ALSA: hda/tegra: Program WAKEEN register for Tegra
-Date:   Mon,  7 Sep 2020 12:31:38 -0400
-Message-Id: <20200907163220.1280412-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/43] ALSA: hda/tegra: Program WAKEEN register for Tegra
+Date:   Mon,  7 Sep 2020 12:32:55 -0400
+Message-Id: <20200907163329.1280888-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907163220.1280412-1-sashal@kernel.org>
-References: <20200907163220.1280412-1-sashal@kernel.org>
+In-Reply-To: <20200907163329.1280888-1-sashal@kernel.org>
+References: <20200907163329.1280888-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,11 +62,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index 0cc5fad1af8a9..ae40ca3f29837 100644
+index e5191584638ab..e378cb33c69df 100644
 --- a/sound/pci/hda/hda_tegra.c
 +++ b/sound/pci/hda/hda_tegra.c
-@@ -179,6 +179,10 @@ static int __maybe_unused hda_tegra_runtime_suspend(struct device *dev)
- 	struct hda_tegra *hda = container_of(chip, struct hda_tegra, chip);
+@@ -169,6 +169,10 @@ static int __maybe_unused hda_tegra_runtime_suspend(struct device *dev)
+ 	struct hdac_bus *bus = azx_bus(chip);
  
  	if (chip && chip->running) {
 +		/* enable controller wake up event */
@@ -74,9 +74,9 @@ index 0cc5fad1af8a9..ae40ca3f29837 100644
 +			   STATESTS_INT_MASK);
 +
  		azx_stop_chip(chip);
+ 		synchronize_irq(bus->irq);
  		azx_enter_link_reset(chip);
- 	}
-@@ -200,6 +204,9 @@ static int __maybe_unused hda_tegra_runtime_resume(struct device *dev)
+@@ -191,6 +195,9 @@ static int __maybe_unused hda_tegra_runtime_resume(struct device *dev)
  	if (chip && chip->running) {
  		hda_tegra_init(hda);
  		azx_init_chip(chip, 1);
