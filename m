@@ -2,72 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C04F9261E1C
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Sep 2020 21:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA1A32620B4
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Sep 2020 22:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731981AbgIHTrZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Sep 2020 15:47:25 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:41278 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732466AbgIHTqZ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Sep 2020 15:46:25 -0400
-Received: by mail-il1-f195.google.com with SMTP id w8so64366ilj.8;
-        Tue, 08 Sep 2020 12:46:24 -0700 (PDT)
+        id S1730170AbgIHUOo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 8 Sep 2020 16:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729971AbgIHPLL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Sep 2020 11:11:11 -0400
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FDF0C0068C6
+        for <linux-tegra@vger.kernel.org>; Tue,  8 Sep 2020 08:01:41 -0700 (PDT)
+Received: by mail-qv1-xf44.google.com with SMTP id q10so2197143qvs.1
+        for <linux-tegra@vger.kernel.org>; Tue, 08 Sep 2020 08:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=jX/oUhvQ6rppkjSjuwDLk72A8u6aXMfjXLIcv0mZ0V8=;
+        b=jQQ5gfR5VPftZ/qA/pYe9P4cnnvCC08gGQlp52hJt8TvBXCO3N6mrOR4UBBItazpUT
+         /2cyb9Bfr+9oKphd7lc0Bs6usHeOch98OONEvpJR2h9i27auGv/AXdOlRV5xmtaoplVv
+         NANIMgstLgl/+KXFk8cidXAN2OGw3Rk4ozWr2+PJf2xeunGgicFqhMdm1hk+lgSkzH9x
+         qVU4CfYB5fZ/ex6igd/Cq5KuCtcFG3A7Z2KzdAlU+yZ5SPARuBoUROG327hJ1LihEXt+
+         n5MVgmKytjD6Jbbi4qTOwv74DiRN0no+qrzUHWRSAK88J1pWOGly7JaMSDxINtniNE66
+         +y2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mxfloW/du0FtuXMc7fb1vC2lzA6jvn4y8s0XgOBsOH8=;
-        b=joOjemVdVg0rGYRBaxijCTLyXC1ABGQPRe2gGbBUAEeW+XdFTLbfsLdUrHUAMbqeHa
-         oANjBrc104blQkYAqloN0iea2d/qzIolkNLff/850DXgQqsWxBWc4IJltjG8eJtdFJnr
-         r2ujezMXMyzaIX2441IwVKZADWUpknZb1nzX/FhKUZ0kEZC21ZfwsqXhNAZ56z87SRrf
-         5OLc3+muMIirACPQfYHEIdXptd7YkCBrlMP4TZCLmd7LK2Be+aSPMy0bk7Qorm6r2Qvi
-         5lUIYdMA+4HtZpjmgLTkKZIoKjZ3g2jSrCUyoYwbz2XC5w5vz81wSDG4aJAPtwFXX5Z+
-         t2kQ==
-X-Gm-Message-State: AOAM531BCW2pmni1AlM7C/nchenW/oiYV+XC2M3LTPBLTN4NkzS9kRmQ
-        PCLP2GLl9vlSj2/KfFoyBw==
-X-Google-Smtp-Source: ABdhPJwfXlbhewMkiRkSXUg2HnOofi1QqFbxJeOtWC0GyonQWdvBxG98pU6ZFKLbPgzI9eeJYtTL3A==
-X-Received: by 2002:a92:6b04:: with SMTP id g4mr376411ilc.192.1599594384637;
-        Tue, 08 Sep 2020 12:46:24 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id t10sm135379iog.49.2020.09.08.12.46.22
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=jX/oUhvQ6rppkjSjuwDLk72A8u6aXMfjXLIcv0mZ0V8=;
+        b=PLQOEd0X5yVAw3xzyagX+aJBv8auMibi5mTj9+2x7gPzf8S/fYRGJRs9TkDBqxFmh7
+         8s0SqaM19HzwEiY/tqMFO3EHWNOd0jJ+UgaifDeEpCBU4TpoITSYD35iqWAK4z7vMgRu
+         1sFNyMQ6Gt/vL1RrvokEvWbColgUjvhBx3SjG7Io0+tGiQ5HCI/dKLofcqJgl6kjCUtF
+         Kj73bxUEoM1T7VrDiMxNps1isXZXF52JL1pm/7Mv6fPRlErgFDHH/radzqsUjTpazivt
+         wdFSCiU6TDdZBrY/DGeFBQYP0Ocj2nFAGucNrJE7UH4HdsYcc654cPH5rnS+UmU7dEct
+         YQJg==
+X-Gm-Message-State: AOAM5331dZKhV0Q2TQai7U3UUR+Q26x3BrNQXefyjZZxWqJqzGeqRWvn
+        wVCwVUBKzPfPGQaUoKcwpT+0ZSoj+qRFgBlJ
+X-Google-Smtp-Source: ABdhPJx2y+5MfUQS/16k7eYrnjKuVFUZ2TqaIy/qV9W7ZzDIdCw+l28rRM8gaZ5RlPifTDhRUlHnCw==
+X-Received: by 2002:a0c:b2d4:: with SMTP id d20mr483674qvf.1.1599577299563;
+        Tue, 08 Sep 2020 08:01:39 -0700 (PDT)
+Received: from Master-WinVM.sparksnet ([2601:153:900:7730:1418:cbe9:1543:1190])
+        by smtp.gmail.com with ESMTPSA id o72sm14034704qka.113.2020.09.08.08.01.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 12:46:24 -0700 (PDT)
-Received: (nullmailer pid 788543 invoked by uid 1000);
-        Tue, 08 Sep 2020 19:46:22 -0000
-Date:   Tue, 8 Sep 2020 13:46:22 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        linux-leds@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
+        Tue, 08 Sep 2020 08:01:38 -0700 (PDT)
+From:   Peter Geis <pgwipeout@gmail.com>
+To:     linux-tegra@vger.kernel.org
+Cc:     Nagarjuna Kristam <nkristam@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH v3 1/5] dt-bindings: mfd: Add ENE KB930 Embedded
- Controller binding
-Message-ID: <20200908194622.GA788479@bogus>
-References: <20200906195103.1347-1-digetx@gmail.com>
- <20200906195103.1347-2-digetx@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200906195103.1347-2-digetx@gmail.com>
+        Matias Zuniga <matias.nicolas.zc@gmail.com>,
+        JC Kuo <jckuo@nvidia.com>, Peter Geis <pgwipeout@gmail.com>
+Subject: [PATCH] phy: tegra: xusb: fix xusb backwards compatibility
+Date:   Tue,  8 Sep 2020 11:01:24 -0400
+Message-Id: <20200908150124.31336-1-pgwipeout@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, 06 Sep 2020 22:50:59 +0300, Dmitry Osipenko wrote:
-> Add binding document for the ENE KB930 Embedded Controller.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  .../devicetree/bindings/mfd/ene-kb930.yaml    | 66 +++++++++++++++++++
->  1 file changed, 66 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
-> 
+Prior to implementing role switch support, all enabled ports enumerated
+as host devices.
+With role switch support enabled, device trees with otg ports which have
+not been updated with usb-role-switch support now bail out during
+enumeration.
+This disables all xhci ports tied to the affected phy.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Retain backwards compatibility by forcing host mode on otg ports which
+are missing the usb-role-switch flag.
+Disable ports explicitly defined as peripheral mode that are missing the
+usb-role-switch flag.
+
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+Reported-by: Matias Zuniga <matias.nicolas.zc@gmail.com>
+
+Fixes: e8f7d2f409a1 ("phy: tegra: xusb: Add usb-phy support")
+---
+ drivers/phy/tegra/xusb.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+index de4a46fe1763..c36dce13e0c6 100644
+--- a/drivers/phy/tegra/xusb.c
++++ b/drivers/phy/tegra/xusb.c
+@@ -734,10 +734,12 @@ static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
+ 			err = tegra_xusb_setup_usb_role_switch(port);
+ 			if (err < 0)
+ 				return err;
++		} else if (usb2->mode == USB_DR_MODE_PERIPHERAL) {
++			dev_err(&port->dev, "mandatory usb-role-switch not found for %s mode, disabling port\n", modes[usb2->mode]);
++			usb2->mode = USB_DR_MODE_UNKNOWN;
+ 		} else {
+-			dev_err(&port->dev, "usb-role-switch not found for %s mode",
+-				modes[usb2->mode]);
+-			return -EINVAL;
++			dev_warn(&port->dev, "usb-role-switch not found for %s mode, forcing host\n", modes[usb2->mode]);
++			usb2->mode = USB_DR_MODE_HOST;
+ 		}
+ 	}
+ 
+-- 
+2.17.1
+
