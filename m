@@ -2,81 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E31DB2629B2
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Sep 2020 10:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96B15262A07
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Sep 2020 10:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729135AbgIIILh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 9 Sep 2020 04:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35834 "EHLO
+        id S1725826AbgIIITg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 9 Sep 2020 04:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728971AbgIIILf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Sep 2020 04:11:35 -0400
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40FDBC061573
-        for <linux-tegra@vger.kernel.org>; Wed,  9 Sep 2020 01:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=vUmzQQRqobyqrwRy6tA9315+Sg0mrSxJ+NZ1ELHv0yw=; b=bApV+Th1hY1NtsLvxwyxdqL/6P
-        ynSUl0SGVwP0UMbQjlZCs6BOzPSWH7BxKjynlDJZZ/qqrLIsOs0autVqBzwco5JeBWN2/W2lVeu15
-        5OiDTK14y5KuBp+vD1O7dJNcUTj3AqHvbndOAPQhstn8Deu3R4A+KlgaPeFDU8v80/3DuwJP5S9+Y
-        zGjWCplxS1fGUPFLh+dhC9/450rOv/azlVZDI2IEQHeYRJV+y98RoDQR3qZzWLFIVOJ25Ec1NdyHx
-        56EcSLOHpaakBmAOI1juGBNElt3rmvszpX/GpdbBZ1StMANTFZpV0vAsB9OIzGXlM1I3sSp1LD6nh
-        K873YhyA==;
-Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65] helo=[192.168.1.10])
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1kFvCW-0002rO-3c; Wed, 09 Sep 2020 11:11:32 +0300
-Subject: Re: [RFC PATCH v2 15/17] drm/tegra: Add power_on/power_off engine
- callbacks
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
-        daniel@ffwll.ch
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        talho@nvidia.com, bhuntsman@nvidia.com
-References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-16-mperttunen@nvidia.com>
- <2ddaf2ef-e232-7d44-0b08-e190f20297b2@gmail.com>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <1b6676a2-0de9-e2ef-61ce-ce8e5ad83e1a@kapsi.fi>
-Date:   Wed, 9 Sep 2020 11:11:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        with ESMTP id S1725877AbgIIITd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Sep 2020 04:19:33 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421A7C0613ED
+        for <linux-tegra@vger.kernel.org>; Wed,  9 Sep 2020 01:19:30 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id z22so2259879ejl.7
+        for <linux-tegra@vger.kernel.org>; Wed, 09 Sep 2020 01:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1pXeIVny4SCjQpHOWRmhg1e5D0Af+TbFGDr+gvAazg8=;
+        b=BzvSFaQJLJILAdbXFT5uKFET8GO6bhTFU1aGXOdyFeuKWcsNprgoucxgyYron9HPfk
+         HZ97W1WAJu2i1eDwe14xs0xptM1CRb0niUmbUMgS/GaowyFio56M3+/7vkgyS/mZ9TA+
+         pkreEdffWjXtuxoj2tazieSNZxqOVRvmruuzY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1pXeIVny4SCjQpHOWRmhg1e5D0Af+TbFGDr+gvAazg8=;
+        b=DmhnVWO/d0AUunJ4E1DfQTUPxGWHbsXgsk7MtEAe7D17rGmCKxbEpUf11S8wpz1SGJ
+         UduQAgxMB1tRChR/3SKSbr7iS9/Gv4mj6br44DivVON5CwWrN5CJCaC8o9iflrOiRIxf
+         6y7JlqmVRvYKU/G0q77SugRgha3rzjstgjNHOuHEOaAZEAz5q/et8TCEIEfZkCJ5KgXc
+         GSP7D3iJBWTbrlWdXsuDPZkK5flmCuosZD5eE+4U/jbbWEvVpfiHSKOeuP9uuAHanem+
+         JtyT9vH+c68fW5s1uDq2IYkC72mnSU0FT4BP8n7mJVfidXjQ+ykgS5FTPcSOaneA5wy8
+         aYRw==
+X-Gm-Message-State: AOAM5302CokUG2laoOkn/LLXcTwe57fhrJciXWMJQLm/nAmQ/ICvPKTN
+        5aypJpMGj+pA8OQl/AFCIPvys6UIf/gWDd7x8Tmfww==
+X-Google-Smtp-Source: ABdhPJzvfIij7YO4hihFiSb4hxA+NHJOifz4cTebwv29YbC+ZXbvBjLWdaVioZkEamOkVZ0ebFwb4JDa7iEPkbmLQ3o=
+X-Received: by 2002:a17:906:f150:: with SMTP id gw16mr2384862ejb.528.1599639568574;
+ Wed, 09 Sep 2020 01:19:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2ddaf2ef-e232-7d44-0b08-e190f20297b2@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 84.250.171.65
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <20191112110330.179649-1-pihsun@chromium.org> <20191112110330.179649-5-pihsun@chromium.org>
+ <2abf8fdd-7b7c-73b0-beea-9c9ac56869dc@gmail.com> <CA+G9fYt9AujG6gyfeV5AaAv0EgggUfGT1jow8DJjVfetVWV3EA@mail.gmail.com>
+ <CAJKOXPeV9zCg4v0kBfToGdJSxswbKtT16LVYADALpYRHqWXBOg@mail.gmail.com> <ab35a9c7-1b33-dc75-8520-ee072ff1309f@nvidia.com>
+In-Reply-To: <ab35a9c7-1b33-dc75-8520-ee072ff1309f@nvidia.com>
+From:   Pi-Hsun Shih <pihsun@chromium.org>
+Date:   Wed, 9 Sep 2020 16:18:52 +0800
+Message-ID: <CANdKZ0eGTqxkcdgyAR6ay4yJNy74v5SqAOh96u+v4WzbZRf32Q@mail.gmail.com>
+Subject: Re: [PATCH v21 4/4] arm64: dts: mt8183: add scp node
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Eddie Huang <eddie.huang@mediatek.com>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Erin Lo <erin.lo@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        lkft-triage@lists.linaro.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 9/9/20 3:16 AM, Dmitry Osipenko wrote:
-> 05.09.2020 13:34, Mikko Perttunen пишет:
-> ...
->> +static int vic_power_on(struct tegra_drm_client *client)
->> +{
->> +	struct vic *vic = to_vic(client);
->> +
->> +	return pm_runtime_get_sync(vic->dev);
-> 
-> Please keep in mind that RPM needs to be put in a case of error.
-> 
-> Maybe it would be better if driver-core could take care of
-> resuming/suspending client's RPM instead of putting that burden on each
-> client individually?
-> 
+On Wed, Sep 9, 2020 at 3:37 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+>
+>
+> On 02/09/2020 17:23, Krzysztof Kozlowski wrote:
+> > On Wed, 2 Sep 2020 at 16:45, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+> >>
+> >> On Thu, 27 Aug 2020 at 15:44, Matthias Brugger <matthias.bgg@gmail.com> wrote:
+> >>>
+> >>>
+> >>>
+> >>> On 12/11/2019 12:03, Pi-Hsun Shih wrote:
+> >>>> From: Eddie Huang <eddie.huang@mediatek.com>
+> >>>>
+> >>>> Add scp node to mt8183 and mt8183-evb
+> >>>>
+> >>>> Signed-off-by: Erin Lo <erin.lo@mediatek.com>
+> >>>> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+> >>>> Signed-off-by: Eddie Huang <eddie.huang@mediatek.com>
+> >>>
+> >>> Sorry I somehow oversaw this. Next time please don't doubt to ping me.
+> >>>
+> >>> Bjorn, do I understand correctly that you don't send emails to the list
+> >>> informing of the inclusion of a patch/series in your tree?
+> >>>
+> >>> Anyway applied now to v5.9-next/dts64 :)
+> >>
+> >> arm64 build dtbs failed on linux next 20200902.
+> >
+> > I just hit it as well... I wish the kernel was built after applying
+> > patches... it would make the next a better place.
+>
+>
+> Any update on this? It is still broken as of next-20200908.
+>
+> Jon
+>
 
-Good point, we should be able to just make RPM calls from the core code. 
-I'll change it so (and fix the refcounting).
+I just sent https://lore.kernel.org/patchwork/patch/1303034/ which
+should fix this.
 
-Mikko
+The build failure is because another patch for the mt8183-kukui.dtsi
+(cd894e274b74 "arm64: dts: mt8183: Add krane-sku176 board") that was
+merged after this patch is submitted to list is missing the
+scp_mem_reserved field. Sorry for that.
+
+
+> --
+> nvpublic
