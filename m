@@ -2,92 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A40732627B3
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Sep 2020 09:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A06432628FF
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Sep 2020 09:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728015AbgIIHEA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 9 Sep 2020 03:04:00 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2851 "EHLO
+        id S1730023AbgIIHiI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 9 Sep 2020 03:38:08 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:10239 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729005AbgIIHDt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Sep 2020 03:03:49 -0400
+        with ESMTP id S1729161AbgIIHh3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Sep 2020 03:37:29 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f587dc70001>; Wed, 09 Sep 2020 00:01:27 -0700
+        id <B5f5885b20000>; Wed, 09 Sep 2020 00:35:14 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 09 Sep 2020 00:03:42 -0700
+  Wed, 09 Sep 2020 00:37:29 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 09 Sep 2020 00:03:42 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
- 2020 07:03:41 +0000
-Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 9 Sep 2020 07:03:41 +0000
+        by hqpgpgate101.nvidia.com on Wed, 09 Sep 2020 00:37:29 -0700
+Received: from [10.26.73.157] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
+ 2020 07:37:20 +0000
+Subject: Re: [PATCH v21 4/4] arm64: dts: mt8183: add scp node
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Eddie Huang <eddie.huang@mediatek.com>
+CC:     Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Erin Lo <erin.lo@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        <lkft-triage@lists.linaro.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191112110330.179649-1-pihsun@chromium.org>
+ <20191112110330.179649-5-pihsun@chromium.org>
+ <2abf8fdd-7b7c-73b0-beea-9c9ac56869dc@gmail.com>
+ <CA+G9fYt9AujG6gyfeV5AaAv0EgggUfGT1jow8DJjVfetVWV3EA@mail.gmail.com>
+ <CAJKOXPeV9zCg4v0kBfToGdJSxswbKtT16LVYADALpYRHqWXBOg@mail.gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.8 000/186] 5.8.8-rc1 review
-In-Reply-To: <20200908152241.646390211@linuxfoundation.org>
-References: <20200908152241.646390211@linuxfoundation.org>
-X-NVConfidentiality: public
+Message-ID: <ab35a9c7-1b33-dc75-8520-ee072ff1309f@nvidia.com>
+Date:   Wed, 9 Sep 2020 08:37:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Message-ID: <71fefa0c8e26421ba1ae3619108bf836@HQMAIL105.nvidia.com>
-Date:   Wed, 9 Sep 2020 07:03:41 +0000
+In-Reply-To: <CAJKOXPeV9zCg4v0kBfToGdJSxswbKtT16LVYADALpYRHqWXBOg@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1599634887; bh=zC54vULAtgX8EJTD6PPnmlQJz+t1V8c63W5123IYcOw=;
-        h=X-PGP-Universal:From:To:CC:Subject:In-Reply-To:References:
-         X-NVConfidentiality:MIME-Version:Message-ID:Date:Content-Type:
+        t=1599636914; bh=NRptkkFmJKN48wrOiQ7yrq/L1r5kklHTYRCDYEWsDB0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=cdo1oMPWQ0Xz/ER6+SIdfdOHo07EDnJ4QOONCw7qiHu0PRYNozcTDFqNcAmHAHblr
-         vEubzPZOrPCYiYT664YgZplayJxdwmmaTiPjKskIMk1EwbGrfiEVinpDaQb59yriW8
-         3HrspfFEWoy7JR/0fBpVoACI7M6G4UWA/rygcMxdCAEgwucRxQ8buDdieJBgNuvr19
-         a3Hh1al3XRABm+auVEj9fVrdOhsPEb+Iq5jrfa3lLieGKodAKvima/z1IoyEROYd0a
-         f39xe8EvKjM3v1L8kcUaLHeaLaiKtweHLiDKECQKFZjU/1QTtA62yYHFNY+gGLfyJN
-         iGR36AiKUF5jA==
+        b=jnn3trhAfxkws/mo/0eN55qV+nx5mQCk/pzThZ7D2nd/qaWddSQWnqyb6QeJGMpgd
+         q+ta3oSTu4mKCzOXtKbCT+ePy2xLNuB+QIegT9kfNP7SdOmszsOeiPMITVh8PvImwM
+         uaI9owjP8fyXn3hIFiGWlL+Sl9jFS3VJaa8dgz+P/It2afJV5nEPu5t1YSi4Snj2mD
+         3wzmX4o6aTDAH9n1gPe+1Hof32T3WbGJSykqx+hgO0G4T5b+JXcXDBdjQzOjCjtxto
+         WrlnKWqoNxTwhOHsw6zOQByisStAh2vTJIG64NDH/SdxmrvVoYVkZZLYT2r9J/oxoc
+         B22SYp58s553g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 08 Sep 2020 17:22:22 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.8.8 release.
-> There are 186 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Thu, 10 Sep 2020 15:21:57 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.8.8-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.8.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
 
-All tests passing for Tegra ...
+On 02/09/2020 17:23, Krzysztof Kozlowski wrote:
+> On Wed, 2 Sep 2020 at 16:45, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>>
+>> On Thu, 27 Aug 2020 at 15:44, Matthias Brugger <matthias.bgg@gmail.com> wrote:
+>>>
+>>>
+>>>
+>>> On 12/11/2019 12:03, Pi-Hsun Shih wrote:
+>>>> From: Eddie Huang <eddie.huang@mediatek.com>
+>>>>
+>>>> Add scp node to mt8183 and mt8183-evb
+>>>>
+>>>> Signed-off-by: Erin Lo <erin.lo@mediatek.com>
+>>>> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+>>>> Signed-off-by: Eddie Huang <eddie.huang@mediatek.com>
+>>>
+>>> Sorry I somehow oversaw this. Next time please don't doubt to ping me.
+>>>
+>>> Bjorn, do I understand correctly that you don't send emails to the list
+>>> informing of the inclusion of a patch/series in your tree?
+>>>
+>>> Anyway applied now to v5.9-next/dts64 :)
+>>
+>> arm64 build dtbs failed on linux next 20200902.
+> 
+> I just hit it as well... I wish the kernel was built after applying
+> patches... it would make the next a better place.
 
-Test results for stable-v5.8:
-    14 builds:	14 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    60 tests:	60 pass, 0 fail
 
-Linux version:	5.8.8-rc1-g456fe9607f8f
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
-
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Any update on this? It is still broken as of next-20200908.
 
 Jon
+
+-- 
+nvpublic
