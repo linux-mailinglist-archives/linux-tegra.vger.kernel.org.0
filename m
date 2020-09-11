@@ -2,136 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06761265904
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Sep 2020 08:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1E4A265A5C
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Sep 2020 09:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725536AbgIKGAr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Sep 2020 02:00:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725468AbgIKGAr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Sep 2020 02:00:47 -0400
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3315221E5;
-        Fri, 11 Sep 2020 06:00:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599804046;
-        bh=WESK6UKUjRSkP/TKSKzcEG4kxiuhjNV3m+bUJP3+ZXk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LC7DGZ8rQekxgJUgL7zxJ0LSh8Y/78j+NhruI5QfUcNvg1Qnnm5Qz3wO0/okaaFUA
-         WVguyWmjY1UBQ9GxUMisqY9kXRKh70rJ39UFlNetdPSqcs6RJ0mLNogVJ4Op3PRi+h
-         kmmKZWyIKgr1QkKcWDHBRWULkVuo4+FNDgWkBwkM=
-Received: by mail-ed1-f50.google.com with SMTP id g4so8768450edk.0;
-        Thu, 10 Sep 2020 23:00:45 -0700 (PDT)
-X-Gm-Message-State: AOAM532K56wgC580HP5gHKHNUMIZAb1K5Fp9G7cHX0cde1ITsE5oZQqe
-        8Hhegfvdk2kMKVYmfjuCFrkjgVHpY+PH1wVNihg=
-X-Google-Smtp-Source: ABdhPJymE4+rHgjSFNYuvs+iwJGMjk8bYNxuRzgTr6WbXwAWTZAX5N+hRh1+ebmhCBeiPPYGzNLG50rUvrXYcNeA9YU=
-X-Received: by 2002:a05:6402:515:: with SMTP id m21mr346459edv.348.1599804044455;
- Thu, 10 Sep 2020 23:00:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200902193658.20539-1-krzk@kernel.org> <CAPDyKFqBS-ws6fkirDQL8EEqh9At88K2vrG5fc8K5_JiXsmfyg@mail.gmail.com>
- <CAL_Jsq+ajm5aiAJfQdS2+2DO1ynBDHWha_7TsA4u-2qwd87y6g@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+ajm5aiAJfQdS2+2DO1ynBDHWha_7TsA4u-2qwd87y6g@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Fri, 11 Sep 2020 08:00:32 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPf8cNDGaXGkYpgc-LEEPSoF2JxwzQp7fwVQB3kLJWNKXw@mail.gmail.com>
-Message-ID: <CAJKOXPf8cNDGaXGkYpgc-LEEPSoF2JxwzQp7fwVQB3kLJWNKXw@mail.gmail.com>
-Subject: Re: [PATCH 00/11] mmc: Minor cleanups and compile test
-To:     Rob Herring <robh@kernel.org>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+        id S1725550AbgIKHTJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Sep 2020 03:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725535AbgIKHS7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 11 Sep 2020 03:18:59 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE840C061573;
+        Fri, 11 Sep 2020 00:18:58 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id q4so1273056pjh.5;
+        Fri, 11 Sep 2020 00:18:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=OyHRsDWTwMRTyzulbmLLOJZ2mID3gfkA/ty0RlUCJDw=;
+        b=pVitylsmiIGpR7HJJYY+nmTP75Y8dGdivC+iP1craDz+Dt7dNeAW33YhMpCfl/ALzH
+         X1NKkc2of3AFerdp6Vp03RAftGPfK/b8FaAqXj6TKEK+xyv+sH1HJxnhwBtECw9YS8sh
+         5zddi9kzFe5Rq/mV03md5v8erurxvNYOSvbO9IxeCweylCYSOLw9tkUxnmFF0zYAo7Xn
+         lc0eEJIdLYqpX7XBzlMpPli3iE3tOxG3wtFeTWQGgn4si6Nhe9iTnBG98nw++YXXGrSn
+         4ndsfHUHjtYIiiho94cByNpq+7dqBuj1PH5FAuQdDMwdMItO4BgRQjcVLrBZ9D0bcFrc
+         W+RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=OyHRsDWTwMRTyzulbmLLOJZ2mID3gfkA/ty0RlUCJDw=;
+        b=Rr6/P/76+XqyRhZhZvNQHl4Cly78hr4gXrfOpS3BDUpFmlbvPLjjw2KHCbkE9XQF+/
+         trzwCxr+mlKzBjsvRhWkfYxX4rM9nrMuIZnPf1OVPG+xYr6KEtM6J/ZcS4W37oSmgxEs
+         oens+sj6tUvj/wZcj5ckBlZd7TNlliJzLwhXatlJ20N1oGgE4V6Yx7X2sh4z5m7a9WuE
+         /xOoY12iQSLD8kuOVteZ5xt5WTve4UmXSJXAbOLUW3w5qtgxgV8y7s5jy9Vu0wv3LKsc
+         h54CYT9Pqhkc9jkwoGJDJzu7DhIltNKEL1kmpyHw+fZX8XaUDjN6menJawQFGaIfo6cJ
+         /3fw==
+X-Gm-Message-State: AOAM5327L9NrGXz8QQQdvDckx7tXCM+nDpW4q+yanEsxU7ZYEowoDgJ6
+        09+Uk/EknJKcubUPce/c/0g=
+X-Google-Smtp-Source: ABdhPJxpn9KKgWHFYtD1mbU4KfkmnA+nP3POOmf8qz3WmWNf6rhS2ojWFubv5+VmZDNXVESJrncxQQ==
+X-Received: by 2002:a17:90b:80a:: with SMTP id bk10mr997358pjb.53.1599808738474;
+        Fri, 11 Sep 2020 00:18:58 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id 131sm1264692pfc.20.2020.09.11.00.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2020 00:18:58 -0700 (PDT)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     joro@8bytes.org, thierry.reding@gmail.com
+Cc:     linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, jonathanh@nvidia.com,
+        vdumpa@nvidia.com
+Subject: [PATCH 0/3] iommu/tegra-smmu: Some small fixes
+Date:   Fri, 11 Sep 2020 00:16:40 -0700
+Message-Id: <20200911071643.17212-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 11 Sep 2020 at 00:55, Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Sep 3, 2020 at 2:40 AM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> >
-> > On Wed, 2 Sep 2020 at 21:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > Set of minor cleanups.  Patches requiring more attention:
-> > >  - 6/11: Testing and review would be appreciated,
-> > >  - 11/11: I build tested multiple architectures but not all and
-> > >    definitely no all possible configs. This one could sit on the lists
-> > >    for few days so 0-day would try it.
-> > >
-> > > Best regards,
-> > > Krzysztof
-> > >
-> > > Krzysztof Kozlowski (11):
-> > >   mmc: bcm2835: Simplify with dev_err_probe()
-> > >   mmc: davinci: Simplify with dev_err_probe()
-> > >   mmc: dw_mmc-zx: Simplify with dev_err_probe()
-> > >   mmc: jz4740: Simplify with dev_err_probe()
-> > >   mmc: meson: Simplify with dev_err_probe()
-> > >   mmc: sdhci-brcmstb: Simplify with optional clock and dev_err_probe()
-> > >   mmc: sdhci-of-arasan: Simplify with dev_err_probe()
-> > >   mmc: sdhci-tegra: Simplify with dev_err_probe()
-> > >   mmc: dw_mmc: Simplify with dev_err_probe()
-> > >   mmc: sdhci-of-sparx5: Use proper printk format for dma_addr_t
-> > >   mmc: host: Enable compile testing of multiple drivers
-> > >
-> > >  drivers/mmc/host/Kconfig           | 42 ++++++++++++++++--------------
-> > >  drivers/mmc/host/bcm2835.c         |  4 +--
-> > >  drivers/mmc/host/davinci_mmc.c     |  5 ++--
-> > >  drivers/mmc/host/dw_mmc-zx.c       | 11 +++-----
-> > >  drivers/mmc/host/dw_mmc.c          |  9 +++----
-> > >  drivers/mmc/host/jz4740_mmc.c      |  5 ++--
-> > >  drivers/mmc/host/meson-gx-mmc.c    | 16 ++++--------
-> > >  drivers/mmc/host/sdhci-brcmstb.c   | 12 ++++-----
-> > >  drivers/mmc/host/sdhci-of-arasan.c |  7 +++--
-> > >  drivers/mmc/host/sdhci-of-sparx5.c |  4 +--
-> > >  drivers/mmc/host/sdhci-tegra.c     |  7 ++---
-> > >  11 files changed, 51 insertions(+), 71 deletions(-)
-> > >
-> > > --
-> > > 2.17.1
-> > >
-> >
-> > Series applied for next, except 11, thanks!
->
-> I see there's a bunch of these already, but I think we can do better
-> here than dev_err_probe. We have _optional variants for the case not
-> getting a resource is not an error. So the called functions like
-> devm_clk_get can print an error. We already have this for
-> platform_get_irq along with a coccinelle script to fix cases. I have a
-> WIP branch[1] doing this.
+These are a series of small fixes for tegra-smmu driver.
+They might not be critial bugs as current mainline does
+not enable a lot of clients, but be nicer to have since
+we are going to enable the DMA domain for other clients
+in the near future.
 
-That's quite good idea.
+Nicolin Chen (3):
+  iommu/tegra-smmu: Do not use PAGE_SHIFT and PAGE_MASK
+  iommu/tegra-smmu: Fix iova->phys translation
+  iommu/tegra-smmu: Allow to group clients in same swgroup
 
-Best regards,
-Krzysztof
+ drivers/iommu/tegra-smmu.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
