@@ -2,29 +2,29 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 540B72665B4
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Sep 2020 19:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 704492667C2
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Sep 2020 19:50:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726162AbgIKRLr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Sep 2020 13:11:47 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9872 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgIKRLh (ORCPT
+        id S1725884AbgIKRut (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Sep 2020 13:50:49 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3737 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725794AbgIKRus (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Sep 2020 13:11:37 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f5bafbb0001>; Fri, 11 Sep 2020 10:11:23 -0700
+        Fri, 11 Sep 2020 13:50:48 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f5bb86e0000>; Fri, 11 Sep 2020 10:48:30 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 11 Sep 2020 10:11:36 -0700
+  Fri, 11 Sep 2020 10:50:47 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 11 Sep 2020 10:11:36 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Sep
- 2020 17:11:36 +0000
-Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 11 Sep 2020 17:11:36 +0000
+        by hqpgpgate101.nvidia.com on Fri, 11 Sep 2020 10:50:47 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Sep
+ 2020 17:50:47 +0000
+Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 11 Sep 2020 17:50:47 +0000
 From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -32,44 +32,44 @@ CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
         <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
         <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 0/8] 5.4.65-rc1 review
-In-Reply-To: <20200911125420.580564179@linuxfoundation.org>
-References: <20200911125420.580564179@linuxfoundation.org>
+Subject: Re: [PATCH 4.4 00/62] 4.4.236-rc1 review
+In-Reply-To: <20200911122502.395450276@linuxfoundation.org>
+References: <20200911122502.395450276@linuxfoundation.org>
 X-NVConfidentiality: public
 MIME-Version: 1.0
-Message-ID: <aad46e076b944248b9ae0fd0a76b01fc@HQMAIL101.nvidia.com>
-Date:   Fri, 11 Sep 2020 17:11:36 +0000
+Message-ID: <9f0be9d83b9d44e88f8379affbac4a9a@HQMAIL105.nvidia.com>
+Date:   Fri, 11 Sep 2020 17:50:47 +0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1599844283; bh=ZW2wwrVSvn3faxJla8OsGA67v2eZH2zHi/jQPf06bGI=;
+        t=1599846510; bh=BslJYPZzUg86HAXWjDNXQKu7KFUuWGMnZqvTJ3jYD1c=;
         h=X-PGP-Universal:From:To:CC:Subject:In-Reply-To:References:
          X-NVConfidentiality:MIME-Version:Message-ID:Date:Content-Type:
          Content-Transfer-Encoding;
-        b=nP+DAhcLjFfPhlFzNypzaJPGuxGdUCkzA0njlb7+RddFn35n07VO1toLwcguCWpee
-         wzzzk2vNhIR4L7P/9YaTFYbARa23txMfqYLGM/c2zv6iwFPrQdBI1qexOvPLugL0za
-         w+bmIPQUayZ4aqDQkZKf7/6DYVIkQgPDSRwtBMPgI9xyFRXsHV/wbLFn4NZoQh3Q80
-         YzReA2L5q/LhVVgZtRrhGH3l5wh2MRGLsxu3cYya7dEXUF0QA4E/Ma4B4VujQ4ogCW
-         8YIeA7YqUyyhTILRkRS7U2pCR5Jqztd0JcYQStqz1tBeknuPLPPrWfNf+KjDhO4UuX
-         Chksvds2scEBg==
+        b=r36s50BjvpeL5XVK6jGrzGb1PEFKPwgkyprCbtwDHWEU+PZhCJTIvzcfvLrQAtvvM
+         v0AO/U4/yCnK/AbLI2WYcMfx8+hTqW+aAg6saB4KaRftPj9JLlDlUc1cuLx77NxhAy
+         lW6n33MSKaJQfXuxXSKN/hW9tcrOINi2CofJZ5MvPKMHURV+1NxTZw92qgfpVDdZ5M
+         YvXbKOluQuotKp/fWBoEIUVOASvjT8ScnTMQbfVU0fD4BIb9c61MZf3nP7SX2+kUR/
+         hdBcPhJRPyujmth02h+hj8T8VeS6G/gk6uveHb0vhaANOP2fXdKA9WKxM2vKwowaB3
+         /gUaQzDcWbGRQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 11 Sep 2020 14:54:38 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.4.65 release.
-> There are 8 patches in this series, all will be posted as a response
+On Fri, 11 Sep 2020 14:45:43 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.236 release.
+> There are 62 patches in this series, all will be posted as a response
 > to this one.  If anyone has any issues with these being applied, please
 > let me know.
 > 
-> Responses should be made by Sun, 13 Sep 2020 12:54:10 +0000.
+> Responses should be made by Sun, 13 Sep 2020 12:24:42 +0000.
 > Anything received after that time might be too late.
 > 
 > The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.65-rc1.gz
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.236-rc1.gz
 > or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
 > and the diffstat can be found below.
 > 
 > thanks,
@@ -78,15 +78,13 @@ On Fri, 11 Sep 2020 14:54:38 +0200, Greg Kroah-Hartman wrote:
 
 All tests passing for Tegra ...
 
-Test results for stable-v5.4:
-    14 builds:	14 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    56 tests:	56 pass, 0 fail
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    28 tests:	28 pass, 0 fail
 
-Linux version:	5.4.65-rc1-gcdcf7cd54ebd
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
+Linux version:	4.4.236-rc1-g5a444641713b
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
                 tegra30-cardhu-a04
 
 Tested-by: Jon Hunter <jonathanh@nvidia.com>
