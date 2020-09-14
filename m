@@ -2,160 +2,250 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4EBB268530
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Sep 2020 08:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C83362689FD
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Sep 2020 13:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbgING5C (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Sep 2020 02:57:02 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:18990 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgING45 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Sep 2020 02:56:57 -0400
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200914065655epoutp01384eab809fc657a30cd1d71828e90ec5~0lBv8LT9U2912029120epoutp01C
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Sep 2020 06:56:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200914065655epoutp01384eab809fc657a30cd1d71828e90ec5~0lBv8LT9U2912029120epoutp01C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1600066615;
-        bh=C4XSZmER5MiWAkWbGr3v851kfh36ZagoIZlAAYNfoi8=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=dDM5dzCM/tU6Z7wFrOzwgje3QdEWHiwQLjix4eE1MJwZmVlj9/jhBKiOqpL/lmrX2
-         sp8Ao1JvB5GblylEhnHmlSSJ9iVwEo1L9IPslz/8qpFh89wcOAGYh+gu+xeuWkKvZn
-         Y2/weDxpNbcb7IWmaaZTEFpDih59oC8MzrG99Oes=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200914065654epcas1p203ecdacb14b31928006da737a9880b32~0lBvWwKM40577705777epcas1p2g;
-        Mon, 14 Sep 2020 06:56:54 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.153]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 4Bqcbm37TRzMqYkl; Mon, 14 Sep
-        2020 06:56:52 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
-        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
-        D1.F3.20696.3341F5F5; Mon, 14 Sep 2020 15:56:52 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200914065651epcas1p22e28d708d21874eca2cb84db41c976ac~0lBsKuUlt0084800848epcas1p2H;
-        Mon, 14 Sep 2020 06:56:51 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200914065651epsmtrp115b6fc19ae0a4c2c4d19ce1d9cfcb7c5~0lBsJSWzS2839628396epsmtrp1g;
-        Mon, 14 Sep 2020 06:56:51 +0000 (GMT)
-X-AuditID: b6c32a39-47198a80000050d8-54-5f5f14331f17
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        CC.B4.08303.3341F5F5; Mon, 14 Sep 2020 15:56:51 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200914065651epsmtip2f48e276ad838e02f9bba22738298e477~0lBr2HCLy2271522715epsmtip28;
-        Mon, 14 Sep 2020 06:56:51 +0000 (GMT)
-Subject: Re: [PATCH] PM / devfreq: tegra30: disable clock on error in probe
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Dmitry Osipenko <digetx@gmail.com>
-Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <2ceb045a-ebac-58d7-0250-4ea39d711ce8@samsung.com>
-Date:   Mon, 14 Sep 2020 16:09:02 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
-        Thunderbird/59.0
+        id S1726012AbgINL0u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Sep 2020 07:26:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43012 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725989AbgINLZ1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 14 Sep 2020 07:25:27 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0FE30B11E;
+        Mon, 14 Sep 2020 11:25:41 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com, daniel@ffwll.ch,
+        airlied@linux.ie, sam@ravnborg.org, mark.cave-ayland@ilande.co.uk,
+        kraxel@redhat.com, davem@davemloft.net,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+        christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
+        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
+        m.szyprowski@samsung.com, kyungmin.park@samsung.com,
+        tfiga@chromium.org, mchehab@kernel.org, chris@chris-wilson.co.uk,
+        matthew.auld@intel.com, thomas.hellstrom@intel.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, etnaviv@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        sparclinux@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 1/3] dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
+Date:   Mon, 14 Sep 2020 13:25:19 +0200
+Message-Id: <20200914112521.1327-2-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200914112521.1327-1-tzimmermann@suse.de>
+References: <20200914112521.1327-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200908072557.GC294938@mwanda>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEJsWRmVeSWpSXmKPExsWy7bCmga6JSHy8wfWbjBav/01nsVj98TGj
-        RcusRSwWW29JW5xtesNu8bn3CKNF55dZbBa3G1ewWfzcNY/FgdNj56y77B69ze/YPD4+vcXi
-        0bdlFaPH501yAaxR2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkou
-        PgG6bpk5QPcoKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgosC/SKE3OLS/PS9ZLz
-        c60MDQyMTIEKE7Izju78w1gwg6tiwYzvjA2MKzi6GDk5JARMJG4susDSxcjFISSwg1Hi5db9
-        TBDOJ0aJO5s2QjmfGSWm/5jPBNMy5ddhZojELkaJH+cmsUE47xklbr44CVYlLOAt8fvBL9Yu
-        Rg4OEYEgiYZfgiA1zALtTBLT29+xgtSwCWhJ7H9xgw3E5hdQlLj64zEjiM0rYCfx99o0ZhCb
-        RUBVYtuDT2BxUYEwiZPbWqBqBCVOznzCAmJzCuhKzN9+gh3EZhYQl7j1BOJSZgF5ie1v54Bd
-        KiGwlEPi98H97BAvuEg8uvED6h1hiVfHt0DFpSRe9rdB2dUSK08eYYNo7mCU2LL/AitEwlhi
-        /9LJTCCfMQtoSqzfpQ8RVpTY+XsuI8RiPol3X3vAnpcQ4JXoaBOCKFGWuPzgLtRaSYnF7Z1s
-        ExiVZiF5ZxaSF2YheWEWwrIFjCyrGMVSC4pz01OLDQtMkaN7EyM4sWpZ7mCc/vaD3iFGJg7G
-        Q4wSHMxKIryuKbHxQrwpiZVVqUX58UWlOanFhxhNgQE8kVlKNDkfmNrzSuINTY2MjY0tTAzN
-        TA0NlcR5H95SiBcSSE8sSc1OTS1ILYLpY+LglGpgYt6kfnd2QOOp+J1bZM4rLFm44GNMRDAP
-        0+yVGj/dzewOvf4lOX/b1akPMysmWQROlwnysuXcI/JE+OAkU93FQu4pv3RvstRuW/5sd9OP
-        ffWTYpldMyzsXTeKzNq31/iR5LXNy1RX5dseXK/C1vC6ds7HrIsf2I5dW3mhIY/3u1XAhw9a
-        7+9ONkvcujJUVyx1wdvgkLU/HDMmZ3KsE3YW+f0lstWilkOtVZr3gnC/8fe4tNxXB15fzhK6
-        t4Bvp/0r6+lbVBcJeEfd8kn/cPlM8kWjaDYb7S4p519Ri6blLHz+TEvzzvYyXY0zVZ5Zq47w
-        aGxfsVTnbcXHpSdP8XkslFTdvHpTxbMc0wuuUQWup5RYijMSDbWYi4oTAe+wp741BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJXtdYJD7e4PgXMYvX/6azWKz++JjR
-        omXWIhaLrbekLc42vWG3+Nx7hNGi88ssNovbjSvYLH7umsfiwOmxc9Zddo/e5ndsHh+f3mLx
-        6NuyitHj8ya5ANYoLpuU1JzMstQifbsEroyjO/8wFszgqlgw4ztjA+MKji5GTg4JAROJKb8O
-        M3cxcnEICexglHi49SwrREJSYtrFo0AJDiBbWOLw4WKImreMEktWvQKrERbwlvj94BeYLSIQ
-        JPHg2RJmEJtZoJNJ4vgZO4iGBkaJNxuawBJsAloS+1/cYAOx+QUUJa7+eMwIYvMK2En8vTYN
-        rIZFQFVi24NPYHFRgTCJnUseM0HUCEqcnPmEBcTmFNCVmL/9BDvEMnWJP/MuQS0Wl7j1ZD4T
-        hC0vsf3tHOYJjMKzkLTPQtIyC0nLLCQtCxhZVjFKphYU56bnFhsWGOWllusVJ+YWl+al6yXn
-        525iBEeYltYOxj2rPugdYmTiYDzEKMHBrCTC65oSGy/Em5JYWZValB9fVJqTWnyIUZqDRUmc
-        9+ushXFCAumJJanZqakFqUUwWSYOTqkGJu2kOQ6ZiZeiA9xUDsskLmN6336Tx7s19WhrZc/H
-        lxvSZm8N+/Ew67PQ3n1/hPU217SlH8njehEXe7HA6dMFl9P3BFInXrGM5JO7wjJrwublb3sK
-        OULep0TvFNu0PebqUmbHyrLpbjEf2nLnt8zoYZflTM3NKp/7Oz06tcJb+Ijrxl2MK8taKx+H
-        vzlVd3nP7/2dE7+nPuWd53dTiE3pWU9EgIo2d6rbqeln17Bsuf1sxxufltcy/J/vl3Sc3RT0
-        4cmlXn2/Pa+Oq7z5+VN6+o61r87P/p8V6hqUGtdyzlxx9q4m50Ut/C1Ldh4vPfueeVqYOvOE
-        BfdlXoY8/9X19YXcuRU7ep59nXKbN2+XNIcSS3FGoqEWc1FxIgB8r3SxHwMAAA==
-X-CMS-MailID: 20200914065651epcas1p22e28d708d21874eca2cb84db41c976ac
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200908072627epcas1p41f2c8c2730d42bd8935a40b0ab8122f7
-References: <CGME20200908072627epcas1p41f2c8c2730d42bd8935a40b0ab8122f7@epcas1p4.samsung.com>
-        <20200908072557.GC294938@mwanda>
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+The new type struct dma_buf_map represents a mapping of dma-buf memory
+into kernel space. It contains a flag, is_iomem, that signals users to
+access the mapped memory with I/O operations instead of regular loads
+and stores.
 
-On 9/8/20 4:25 PM, Dan Carpenter wrote:
-> This error path needs to call clk_disable_unprepare().
-> 
-> Fixes: 7296443b900e ("PM / devfreq: tegra30: Handle possible round-rate error")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index e94a27804c20..dedd39de7367 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -836,7 +836,8 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  	rate = clk_round_rate(tegra->emc_clock, ULONG_MAX);
->  	if (rate < 0) {
->  		dev_err(&pdev->dev, "Failed to round clock rate: %ld\n", rate);
-> -		return rate;
-> +		err = rate;
-> +		goto disable_clk;
->  	}
->  
->  	tegra->max_freq = rate / KHZ;
-> @@ -897,6 +898,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  	dev_pm_opp_remove_all_dynamic(&pdev->dev);
->  
->  	reset_control_reset(tegra->reset);
-> +disable_clk:
->  	clk_disable_unprepare(tegra->clock);
+It was assumed that DMA buffer memory can be accessed with regular load
+and store operations. Some architectures, such as sparc64, require the
+use of I/O operations to access dma-map buffers that are located in I/O
+memory. Providing struct dma_buf_map allows drivers to implement this.
+This was specifically a problem when refreshing the grahpics framebuffer
+on such systems. [Link 1]
 
-Is it doesn't need to reset with reset_contrl_reset()?
+As the first step, struct dma_buf stores an instance of struct dma_buf_map
+internally. Afterwards, dma-buf's vmap and vunmap interfaces are be
+converted. Finally, affected drivers can be fixed.
 
->  
->  	return err;
-> 
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
+---
+ Documentation/driver-api/dma-buf.rst |  3 +
+ drivers/dma-buf/dma-buf.c            | 14 ++---
+ include/linux/dma-buf-map.h          | 87 ++++++++++++++++++++++++++++
+ include/linux/dma-buf.h              |  3 +-
+ 4 files changed, 99 insertions(+), 8 deletions(-)
+ create mode 100644 include/linux/dma-buf-map.h
 
-
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 13ea0cc0a3fa..3244c600a9a1 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -115,6 +115,9 @@ Kernel Functions and Structures Reference
+ .. kernel-doc:: include/linux/dma-buf.h
+    :internal:
+ 
++.. kernel-doc:: include/linux/dma-buf-map.h
++   :internal:
++
+ Reservation Objects
+ -------------------
+ 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 58564d82a3a2..5e849ca241a0 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1207,12 +1207,12 @@ void *dma_buf_vmap(struct dma_buf *dmabuf)
+ 	mutex_lock(&dmabuf->lock);
+ 	if (dmabuf->vmapping_counter) {
+ 		dmabuf->vmapping_counter++;
+-		BUG_ON(!dmabuf->vmap_ptr);
+-		ptr = dmabuf->vmap_ptr;
++		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
++		ptr = dmabuf->vmap_ptr.vaddr;
+ 		goto out_unlock;
+ 	}
+ 
+-	BUG_ON(dmabuf->vmap_ptr);
++	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+ 
+ 	ptr = dmabuf->ops->vmap(dmabuf);
+ 	if (WARN_ON_ONCE(IS_ERR(ptr)))
+@@ -1220,7 +1220,7 @@ void *dma_buf_vmap(struct dma_buf *dmabuf)
+ 	if (!ptr)
+ 		goto out_unlock;
+ 
+-	dmabuf->vmap_ptr = ptr;
++	dmabuf->vmap_ptr.vaddr = ptr;
+ 	dmabuf->vmapping_counter = 1;
+ 
+ out_unlock:
+@@ -1239,15 +1239,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
+ 	if (WARN_ON(!dmabuf))
+ 		return;
+ 
+-	BUG_ON(!dmabuf->vmap_ptr);
++	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+ 	BUG_ON(dmabuf->vmapping_counter == 0);
+-	BUG_ON(dmabuf->vmap_ptr != vaddr);
++	BUG_ON(!dma_buf_map_is_vaddr(&dmabuf->vmap_ptr, vaddr));
+ 
+ 	mutex_lock(&dmabuf->lock);
+ 	if (--dmabuf->vmapping_counter == 0) {
+ 		if (dmabuf->ops->vunmap)
+ 			dmabuf->ops->vunmap(dmabuf, vaddr);
+-		dmabuf->vmap_ptr = NULL;
++		dma_buf_map_clear(&dmabuf->vmap_ptr);
+ 	}
+ 	mutex_unlock(&dmabuf->lock);
+ }
+diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
+new file mode 100644
+index 000000000000..d4b1bb3cc4b0
+--- /dev/null
++++ b/include/linux/dma-buf-map.h
+@@ -0,0 +1,87 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Pointer to dma-buf-mapped memory, plus helpers.
++ */
++
++#ifndef __DMA_BUF_MAP_H__
++#define __DMA_BUF_MAP_H__
++
++#include <linux/io.h>
++
++/**
++ * struct dma_buf_map - Pointer to vmap'ed dma-buf memory.
++ * @vaddr_iomem:	The buffer's address if in I/O memory
++ * @vaddr:		The buffer's address if in system memory
++ * @is_iomem:		True if the dma-buf memory is located in I/O
++ *			memory, or false otherwise.
++ *
++ * Calling dma-buf's vmap operation returns a pointer to the buffer.
++ * Depending on the location of the buffer, users may have to access it
++ * with I/O operations or memory load/store operations. struct dma_buf_map
++ * stores the buffer address and a flag that signals the required access.
++ */
++struct dma_buf_map {
++	union {
++		void __iomem *vaddr_iomem;
++		void *vaddr;
++	};
++	bool is_iomem;
++};
++
++/* API transition helper */
++static inline bool dma_buf_map_is_vaddr(const struct dma_buf_map *map, const void *vaddr)
++{
++	return !map->is_iomem && (map->vaddr == vaddr);
++}
++
++/**
++ * dma_buf_map_is_null - Tests for a dma-buf mapping to be NULL
++ * @map:	The dma-buf mapping structure
++ *
++ * Depending on the state of struct dma_buf_map.is_iomem, tests if the
++ * mapping is NULL.
++ *
++ * Returns:
++ * True if the mapping is NULL, or false otherwise.
++ */
++static inline bool dma_buf_map_is_null(const struct dma_buf_map *map)
++{
++	if (map->is_iomem)
++		return map->vaddr_iomem == NULL;
++	return map->vaddr == NULL;
++}
++
++/**
++ * dma_buf_map_is_set - Tests is the dma-buf mapping has been set
++ * @map:	The dma-buf mapping structure
++ *
++ * Depending on the state of struct dma_buf_map.is_iomem, tests if the
++ * mapping has been set.
++ *
++ * Returns:
++ * True if the mapping is been set, or false otherwise.
++ */
++static inline bool dma_buf_map_is_set(const struct dma_buf_map *map)
++{
++	return !dma_buf_map_is_null(map);
++}
++
++/**
++ * dma_buf_map_clear - Clears a dma-buf mapping structure
++ * @map:	The dma-buf mapping structure
++ *
++ * Clears all fields to zero; including struct dma_buf_map.is_iomem. So
++ * mapping structures that were set to point to I/O memory are reset for
++ * system memory. Pointers are cleared to NULL. This is the default.
++ */
++static inline void dma_buf_map_clear(struct dma_buf_map *map)
++{
++	if (map->is_iomem) {
++		map->vaddr_iomem = NULL;
++		map->is_iomem = false;
++	} else {
++		map->vaddr = NULL;
++	}
++}
++
++#endif /* __DMA_BUF_MAP_H__ */
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 957b398d30e5..fcc2ddfb6d18 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -13,6 +13,7 @@
+ #ifndef __DMA_BUF_H__
+ #define __DMA_BUF_H__
+ 
++#include <linux/dma-buf-map.h>
+ #include <linux/file.h>
+ #include <linux/err.h>
+ #include <linux/scatterlist.h>
+@@ -309,7 +310,7 @@ struct dma_buf {
+ 	const struct dma_buf_ops *ops;
+ 	struct mutex lock;
+ 	unsigned vmapping_counter;
+-	void *vmap_ptr;
++	struct dma_buf_map vmap_ptr;
+ 	const char *exp_name;
+ 	const char *name;
+ 	spinlock_t name_lock;
 -- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+2.28.0
+
