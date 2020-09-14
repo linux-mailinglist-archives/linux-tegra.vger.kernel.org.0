@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC7E4268C57
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Sep 2020 15:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C4AD268C53
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Sep 2020 15:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgINNiz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Sep 2020 09:38:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58072 "EHLO
+        id S1726477AbgINNil (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Sep 2020 09:38:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726770AbgINNht (ORCPT
+        with ESMTP id S1726772AbgINNhw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Sep 2020 09:37:49 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EF3CC06178B
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Sep 2020 06:37:49 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id d4so42776wmd.5
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Sep 2020 06:37:49 -0700 (PDT)
+        Mon, 14 Sep 2020 09:37:52 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B3CC06178C
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Sep 2020 06:37:51 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id j2so18787097wrx.7
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Sep 2020 06:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IQU/5no96PfQVnDWZvRJxAMbJR8IojKL6s+SB7SMMPA=;
-        b=qsB3JFiIIoFf7VC8hVaXdeCovxGLCxGQg1BEyDwsmkE3arg1wdOseM/lHAUg/8AHKr
-         XYsHwN83c2aRlXOYPOL1VTUiBthFV/G7Bu3am4WoDdh/5H5IuS5dVZzlIpr2ljgkAUgR
-         mKf5Sg58OsROwQK0upk9kXy0Z2I48SyXsOTTDJPeDAjEu3TcxOzGla5TIEZjKtS1fIRR
-         HxCVYGkuFtDY25bAHum/TNJA3SsdDvyAS0yCBfJJVhXsj7qo3dzVOKQX8b9yvCC/Iiz4
-         mPLkRvqZRCIALSiWch28L3aJ7C1m7TKwSdPL1+OlwiW+FOfvezFMt8DDKwS/F9aXDhNz
-         PZfw==
+        bh=JiAbE/SJFaiXXWha+UZiz5ngLuS7vuLVdaMJTivRPyQ=;
+        b=vFq1f6SKOxtpuKxNma+7ZA9kDXv2zGVkGU9v9NUmImjiKTQeM/2i3e0oTmeVt/DY6w
+         tgv1Cx56ozRP1TV9Gzlxb12Mpwf6bVRCXJLQQ3zah/nXpAILn+H/HklrAZtRC1zNOSXT
+         hZcDsubA6BWg8/Oef67y/vmHzS3XmbgaY7QSBMu01oBGi5jH5l8gpDkRwETb4VTVXjha
+         q2UlYokEpJtwGYhuKm3a6uqsnwRNvKcsTpr24JoHW8MYjWbnMHicviAIBXfdWJpTu9ZR
+         5jmJs3VbdGAmNmGqYTMsr4eJhd4Is+6XVh4O9Ab3gDtftBYU7SKDZol7RNTOsA9e9AT5
+         kqOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IQU/5no96PfQVnDWZvRJxAMbJR8IojKL6s+SB7SMMPA=;
-        b=f2TZvSMOwjF5iJ02tKMjivYaN1iWiqcWA+r26BqpCNDPrLu97gsyu2gd8qCWn3ntZI
-         lXXdDQG4kh/wJEBoSVGDyZ6zCeRedUzBrfyR6Xl7ui86TbGHlJevgqrgaSIjJV8SGKrh
-         fd1X4zc7GUawaqgURy7tZutuRPeXvk05UfULk7FQhDhlmIIH1i6BI+0PuNyu1is5egM/
-         2zwp1EDSO9qdRthLqJ28ygf6MOWgrMssz6LOx0morcuS6sLHgWwcejvtpMYCA1zkL74j
-         fXVimbCZl9hEI/TYHPwRJOTpgL90JofFxE5TgpyAOAjHb5967SBe2iBJJo4j8/Or0S0S
-         jKoQ==
-X-Gm-Message-State: AOAM532Ax7QGmUfaj7tKeAK0N8eym7vquoaIdc1PslpFQC4Y+cOZp83x
-        SXgANReK6r+QxTlmx79osmc=
-X-Google-Smtp-Source: ABdhPJxUEX0WLu+PFr4OTIX+EKQA+38Lw22k6baJmQmrmSYGblVP/nmpkKauqOZfWY5MlD/zipYzXQ==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr3385229wms.77.1600090668150;
-        Mon, 14 Sep 2020 06:37:48 -0700 (PDT)
+        bh=JiAbE/SJFaiXXWha+UZiz5ngLuS7vuLVdaMJTivRPyQ=;
+        b=BONTVJaCXB0d0DKYN5uMuBR6otZXYkBk1cujhF0GMLZgIsFyKX1x/CdZx6NEShgOOJ
+         JLTu++Bry1/HlObDBnxweLa8hNB5W0oI1KWIZnAovwl6rYr6pnrUyJNOpKCt/OOhCOED
+         osw/feG8p9uLvnCRR5oJ3WURK6QprLw+zbL0wN8+b7a/1tX1oJphCD3See9jKxZVHipr
+         oCX7ZCQd5kW2jpao2XqmKWEktbPsb3GohEadXx0JoCLm4tmHQ2lopuYMO+PquktSPbxU
+         /ihXE9oQsqwc/5D4mwS6jJCuhsGYwAJv8W5CaS5QXn9DbVvxSnJ2CGRbWJCuuY9Belkl
+         h/jg==
+X-Gm-Message-State: AOAM53288ufkYp9VQCDdmq6xPYWYtGzNWkEZUm4nBnougvSWPb0dUKYm
+        6i5/GWD+JweA/LyMGsqsjSQ=
+X-Google-Smtp-Source: ABdhPJw87PMqYf884sc9nCWQvnZpNiQyODT4J/UycBGllM2p5oMrTfGriEh/cMu4n58JpyTmFfW65w==
+X-Received: by 2002:adf:f3c6:: with SMTP id g6mr17355339wrp.340.1600090669198;
+        Mon, 14 Sep 2020 06:37:49 -0700 (PDT)
 Received: from arrakis.kwizart.net (lfbn-nic-1-212-171.w2-15.abo.wanadoo.fr. [2.15.59.171])
-        by smtp.gmail.com with ESMTPSA id a11sm18532488wmm.18.2020.09.14.06.37.42
+        by smtp.gmail.com with ESMTPSA id a11sm18532488wmm.18.2020.09.14.06.37.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 06:37:43 -0700 (PDT)
+        Mon, 14 Sep 2020 06:37:48 -0700 (PDT)
 From:   Nicolas Chauvet <kwizart@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH 2/4] ARM: tegra: Add missing hot temperatures to tegra124 thermal-zones
-Date:   Mon, 14 Sep 2020 15:37:37 +0200
-Message-Id: <20200914133739.60020-3-kwizart@gmail.com>
+Subject: [PATCH 3/4] arm64: tegra: Add missing hot temperatures to tegra132 thermal-zones
+Date:   Mon, 14 Sep 2020 15:37:38 +0200
+Message-Id: <20200914133739.60020-4-kwizart@gmail.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200914133739.60020-1-kwizart@gmail.com>
 References: <20200914133739.60020-1-kwizart@gmail.com>
@@ -77,18 +77,18 @@ Adding them will clear the messages.
 
 Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
 ---
- arch/arm/boot/dts/tegra124.dtsi | 10 ++++++++++
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi | 10 ++++++++++
  1 file changed, 10 insertions(+)
 
-diff --git a/arch/arm/boot/dts/tegra124.dtsi b/arch/arm/boot/dts/tegra124.dtsi
-index a0fa5821a232..c71d597ace01 100644
---- a/arch/arm/boot/dts/tegra124.dtsi
-+++ b/arch/arm/boot/dts/tegra124.dtsi
-@@ -1248,6 +1248,11 @@ mem-shutdown-trip {
- 					hysteresis = <0>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra132.dtsi b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
+index e40281510c0c..cd913e59ba26 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra132.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
+@@ -925,6 +925,11 @@ mem_shutdown_trip {
+ 					hysteresis = <1000>;
  					type = "critical";
  				};
-+				mem-throttle-trip {
++				mem_throttle_trip {
 +					temperature = <99000>;
 +					hysteresis = <1000>;
 +					type = "hot";
@@ -96,11 +96,11 @@ index a0fa5821a232..c71d597ace01 100644
  			};
  
  			cooling-maps {
-@@ -1299,6 +1304,11 @@ pllx-shutdown-trip {
- 					hysteresis = <0>;
+@@ -975,6 +980,11 @@ pllx_shutdown_trip {
+ 					hysteresis = <1000>;
  					type = "critical";
  				};
-+				pllx-throttle-trip {
++				pllx_throttle_trip {
 +					temperature = <99000>;
 +					hysteresis = <1000>;
 +					type = "hot";
