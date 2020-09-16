@@ -2,191 +2,206 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F164526B829
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 02:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C4C26BA0F
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 04:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbgIPAhf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Sep 2020 20:37:35 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11893 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726446AbgIONYC (ORCPT
+        id S1726269AbgIPCZc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Sep 2020 22:25:32 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:62449 "EHLO
+        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726281AbgIPCZb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Sep 2020 09:24:02 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f60bec80004>; Tue, 15 Sep 2020 06:16:56 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 15 Sep 2020 06:17:43 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 15 Sep 2020 06:17:43 -0700
-Received: from [10.26.74.242] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Sep
- 2020 13:17:42 +0000
-Subject: Re: [PATCH 9/9] arm64: tegra: Initial Tegra234 VDK support
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200716141856.544718-1-thierry.reding@gmail.com>
- <20200716141856.544718-10-thierry.reding@gmail.com>
- <3c2f4e9c-28af-d5dc-1daa-40744da32898@nvidia.com>
- <20200915124427.GC3496938@ulmo>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <69859635-da61-acb8-82d4-3dbc6fd7fc10@nvidia.com>
-Date:   Tue, 15 Sep 2020 14:17:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 15 Sep 2020 22:25:31 -0400
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20200916022524epoutp03d7f5b09eaed7c2900c58a2dbda5924da~1InQCdEt_2410124101epoutp03h
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 02:25:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20200916022524epoutp03d7f5b09eaed7c2900c58a2dbda5924da~1InQCdEt_2410124101epoutp03h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1600223124;
+        bh=DgSbnlkhPXweofxhNtRa//REujvuzOp6oxSaxCZxs90=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=Q0u7ccqrSmCt2teaaa3jk6lmHKBpYe6MowF+DuQxAIBsi8V7ZkH6nV5XHIJIexQuC
+         5+2AXlWLDeUt8sQ3c+wIbg0zfA8mT6kWzXDeV6Vl2ZMVMFyJ7bKyy1vk3uV+3eMGzl
+         M3atoCFlscpaAtS4ewmUaLBneW2QYwIUmOR8VlTY=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20200916022523epcas1p4324233a9576127a6ae282012d45440ab~1InPT_xzw2647326473epcas1p4P;
+        Wed, 16 Sep 2020 02:25:23 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.154]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4BrkTZ33GyzMqYkb; Wed, 16 Sep
+        2020 02:25:22 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        46.DD.18978.E87716F5; Wed, 16 Sep 2020 11:25:18 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+        20200916022517epcas1p49afb776853192263d022df4b9e688396~1InJ32iVY1367113671epcas1p4M;
+        Wed, 16 Sep 2020 02:25:17 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200916022517epsmtrp26544f9005f6422e4b0f96ad3150181d1~1InJ2CB2x2139321393epsmtrp2h;
+        Wed, 16 Sep 2020 02:25:17 +0000 (GMT)
+X-AuditID: b6c32a35-5edff70000004a22-2e-5f61778e38a1
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        39.99.08382.D87716F5; Wed, 16 Sep 2020 11:25:17 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200916022517epsmtip22e61fb78cd374e55f9f707a431902a07~1InJczQx70634006340epsmtip2p;
+        Wed, 16 Sep 2020 02:25:17 +0000 (GMT)
+Subject: Re: [PATCH] PM / devfreq: tegra30: disable clock on error in probe
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <bccb08ef-7e48-0cc7-08b5-7177b84a5763@samsung.com>
+Date:   Wed, 16 Sep 2020 11:38:13 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20200915124427.GC3496938@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <5aac4d59-5e06-25a6-3de1-6a5a586b9e34@gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1600175816; bh=wQ0FBtmKb890miK9IKO3NY2XodAPS5XDbIvdFurIXg0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=czu4g7ZHERkifSXV44RscIxPqpw/xh/hKUXY6tuaFCn1blid5Zu6YR0tyqIyUKiZZ
-         8WNC80EYEOHnd2DWsC+YGnaQ1rOBeDfQX+/JiYpdDi569apTQuyHrLbC5NVg2xn2HZ
-         sds3Cqp/mvysKfnUhnzovA2ZUznyZhpxN7VegHBre7yEVB8ls63N3UUT+5ISzoy92m
-         fU7MC2DaJ8dhxwabzWYyC6XMwbeQqtopBJ9ibUd31F6apgOP5nev/YK6o5/QTasTAh
-         NfuEBCyDplLdVduWt8avJAc3hv5Op6y3cMiugmnpIuOV21s42qzRr16fe4TslPPX0D
-         uOn/EITb+TT0w==
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPJsWRmVeSWpSXmKPExsWy7bCmgW5feWK8wZIZkhav/01nsVj98TGj
+        RcusRSwWW29JW5xtesNu8bn3CKNF55dZbBa3G1ewWfzcNY/FgdNj56y77B69ze/YPD4+vcXi
+        0bdlFaPH501yAaxR2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkou
+        PgG6bpk5QPcoKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgosC/SKE3OLS/PS9ZLz
+        c60MDQyMTIEKE7IzNr5PKuiQrLj5ailLA+MfkS5GTg4JAROJtXs/sXUxcnEICexglDgzu4sJ
+        wvnEKPHy1SxGkCohgW+MEv1Py2A6zv//xw5RtJdR4kf3IyaIoveMEg83cYDYwgLeEr8f/GIF
+        sUUEgiR2fZ7JDNLALNDOJDG9/R1Ygk1AS2L/ixtsIDa/gKLE1R+PwbbxCthJ7F/whx3EZhFQ
+        lfi/dCILiC0qECZxclsLVI2gxMmZT8DinAK2Eo1TP4DNYRYQl7j1ZD4ThC0v0bx1NthiCYGl
+        HBIne94BFXEAOS4SO+amQnwjLPHq+BZ2CFtK4vO7vWwQdrXEypNH2CB6Oxgltuy/wAqRMJbY
+        v3QyE8gcZgFNifW79CHCihI7f89lhNjLJ/Huaw8rxCpeiY42IYgSZYnLD+4yQdiSEovbO9km
+        MCrNQvLNLCQfzELywSyEZQsYWVYxiqUWFOempxYbFhgix/UmRnBK1TLdwTjx7Qe9Q4xMHIyH
+        GCU4mJVEeA80xscL8aYkVlalFuXHF5XmpBYfYjQFhu9EZinR5HxgUs8riTc0NTI2NrYwMTQz
+        NTRUEud9eEshXkggPbEkNTs1tSC1CKaPiYNTqoFJZkOIkom1ic22h2u29wtMf/Lh2zuxm3Lu
+        P6eyfDh5v27D4wlH69c+ydgjl/LMfOHBoK6vMm+ehS6/lDTpbdiUFFvNgsMcS89/vKyxatPn
+        pyl6/G/iuzt2PPq9MPJm/tybHpynj12K1O1b6O7cVBjwYtb8Szb5DYmivGe2i+3WncoqfSbz
+        YaGowodj/Z6vtTfPW/a+QM+vblHDw7c8R5aKnvVc1HX054m21XPsNlW3HmHh7Aien8jTrnmR
+        y2XmbcW9z64/f6/N+UVNv+Xq8xfnFhzZfGdS/+obV85YCExSnCv+uLDf9Me8sxNm3T77Q2bG
+        mvIMZrMHn2OnuU1bVXf7/UdZ2dnJE/6oT1/TOpXT/Z20EktxRqKhFnNRcSIApe4tMDIEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmkeLIzCtJLcpLzFFi42LZdlhJXre3PDHeYON9KYvX/6azWKz++JjR
+        omXWIhaLrbekLc42vWG3+Nx7hNGi88ssNovbjSvYLH7umsfiwOmxc9Zddo/e5ndsHh+f3mLx
+        6NuyitHj8ya5ANYoLpuU1JzMstQifbsEroyN75MKOiQrbr5aytLA+Eeki5GTQ0LAROL8/3/s
+        XYxcHEICuxklzs3pYYdISEpMu3iUuYuRA8gWljh8uBii5i2jxPbWtcwgNcIC3hK/H/xiBbFF
+        BIIkTm1+ywhiMwt0MkkcP2MH0dDKLLF08WWwBjYBLYn9L26wgdj8AooSV388BmvgFbCT2L/g
+        D9hiFgFVif9LJ7KA2KICYRI7lzxmgqgRlDg58wlYnFPAVqJx6gc2iGXqEn/mXWKGsMUlbj2Z
+        zwRhy0s0b53NPIFReBaS9llIWmYhaZmFpGUBI8sqRsnUguLc9NxiwwLDvNRyveLE3OLSvHS9
+        5PzcTYzg+NLS3MG4fdUHvUOMTByMhxglOJiVRHgPNMbHC/GmJFZWpRblxxeV5qQWH2KU5mBR
+        Eue9UbgwTkggPbEkNTs1tSC1CCbLxMEp1cDEus92peVvmeqQ24kpAr/frCo1ujwjgUt9yuse
+        o6Nukl+ZOfgLf3Zv3Rm4TLNyl0j28kWv9tjbfMiTuFEZmr1rc4H3sySGc3eNWV5ka010ORmg
+        HZXOrnTTwP5a82l7DcUit0vZone3ZM/gOa4ycesVjYsu55XLN0Que6yj7i5X3DKntvSliVN2
+        oW+MmJ3+xonJClJX3yzSfaP4mG+Zyr277lHKPTqhuacqt1zScbDsKC2bmOF8hDuJY3tX/QFG
+        u4tPqnu0X815/rCA/9vXew+2XZi/nPP3eT0+vQSOnECzSYY3j2o94bm3907kx99FE2fevDmD
+        lV9n2dpF9qpRcR6qU4t/9u0viy7boafX8UCJpTgj0VCLuag4EQBOCKveHgMAAA==
+X-CMS-MailID: 20200916022517epcas1p49afb776853192263d022df4b9e688396
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200908072627epcas1p41f2c8c2730d42bd8935a40b0ab8122f7
+References: <CGME20200908072627epcas1p41f2c8c2730d42bd8935a40b0ab8122f7@epcas1p4.samsung.com>
+        <20200908072557.GC294938@mwanda>
+        <2ceb045a-ebac-58d7-0250-4ea39d711ce8@samsung.com>
+        <44560522-f04e-ade5-2e02-9df56a6f79ba@gmail.com>
+        <e45c8ffc-ea24-1178-7bfa-62ca6bedbb3b@samsung.com>
+        <2573cd77-1175-d194-7bfc-24d28b276846@samsung.com>
+        <5aac4d59-5e06-25a6-3de1-6a5a586b9e34@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-
-On 15/09/2020 13:44, Thierry Reding wrote:
-> On Mon, Sep 07, 2020 at 08:46:48PM +0100, Jon Hunter wrote:
->>
->> On 16/07/2020 15:18, Thierry Reding wrote:
->>> From: Thierry Reding <treding@nvidia.com>
+On 9/16/20 2:01 AM, Dmitry Osipenko wrote:
+> 15.09.2020 05:13, Chanwoo Choi пишет:
+>> On 9/15/20 11:00 AM, Chanwoo Choi wrote:
+>>> Hi Dmitry,
 >>>
->>> The NVIDIA Tegra234 VDK is a simulation platform for the Orin SoC. It
->>> supports a subset of the peripherals that will be available in the final
->>> chip and serves as a bootstrapping platform.
+>>> On 9/14/20 10:56 PM, Dmitry Osipenko wrote:
+>>>> 14.09.2020 10:09, Chanwoo Choi пишет:
+>>>>> Hi,
+>>>>>
+>>>>> On 9/8/20 4:25 PM, Dan Carpenter wrote:
+>>>>>> This error path needs to call clk_disable_unprepare().
+>>>>>>
+>>>>>> Fixes: 7296443b900e ("PM / devfreq: tegra30: Handle possible round-rate error")
+>>>>>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+>>>>>> ---
+>>>>>> ---
+>>>>>>  drivers/devfreq/tegra30-devfreq.c | 4 +++-
+>>>>>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+>>>>>> index e94a27804c20..dedd39de7367 100644
+>>>>>> --- a/drivers/devfreq/tegra30-devfreq.c
+>>>>>> +++ b/drivers/devfreq/tegra30-devfreq.c
+>>>>>> @@ -836,7 +836,8 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>>>>>>  	rate = clk_round_rate(tegra->emc_clock, ULONG_MAX);
+>>>>>>  	if (rate < 0) {
+>>>>>>  		dev_err(&pdev->dev, "Failed to round clock rate: %ld\n", rate);
+>>>>>> -		return rate;
+>>>>>> +		err = rate;
+>>>>>> +		goto disable_clk;
+>>>>>>  	}
+>>>>>>  
+>>>>>>  	tegra->max_freq = rate / KHZ;
+>>>>>> @@ -897,6 +898,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>>>>>>  	dev_pm_opp_remove_all_dynamic(&pdev->dev);
+>>>>>>  
+>>>>>>  	reset_control_reset(tegra->reset);
+>>>>>> +disable_clk:
+>>>>>>  	clk_disable_unprepare(tegra->clock);
+>>>>>
+>>>>> Is it doesn't need to reset with reset_contrl_reset()?
+>>>>
+>>>> Hello, Chanwoo!
+>>>>
+>>>> It's reset just before the clk_round_rate() invocation, hence there
+>>>> shouldn't be a need to reset it second time.
 >>>
->>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>> ---
->>>  arch/arm64/boot/dts/nvidia/Makefile           |   1 +
->>>  .../boot/dts/nvidia/tegra234-sim-vdk.dts      |  40 ++++
->>>  arch/arm64/boot/dts/nvidia/tegra234.dtsi      | 191 ++++++++++++++++++
->>>  drivers/soc/tegra/Kconfig                     |  10 +
->>>  include/dt-bindings/clock/tegra234-clock.h    |  14 ++
->>>  include/dt-bindings/reset/tegra234-reset.h    |  10 +
->>>  6 files changed, 266 insertions(+)
->>>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
->>>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra234.dtsi
->>>  create mode 100644 include/dt-bindings/clock/tegra234-clock.h
->>>  create mode 100644 include/dt-bindings/reset/tegra234-reset.h
->>>
->>> diff --git a/arch/arm64/boot/dts/nvidia/Makefile b/arch/arm64/boot/dts/nvidia/Makefile
->>> index 2273fc5db19c..9296d12d11e9 100644
->>> --- a/arch/arm64/boot/dts/nvidia/Makefile
->>> +++ b/arch/arm64/boot/dts/nvidia/Makefile
->>> @@ -9,3 +9,4 @@ dtb-$(CONFIG_ARCH_TEGRA_210_SOC) += tegra210-p2894-0050-a08.dtb
->>>  dtb-$(CONFIG_ARCH_TEGRA_186_SOC) += tegra186-p2771-0000.dtb
->>>  dtb-$(CONFIG_ARCH_TEGRA_194_SOC) += tegra194-p2972-0000.dtb
->>>  dtb-$(CONFIG_ARCH_TEGRA_194_SOC) += tegra194-p3509-0000+p3668-0000.dtb
->>> +dtb-$(CONFIG_ARCH_TEGRA_234_SOC) += tegra234-sim-vdk.dtb
->>> diff --git a/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts b/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
->>> new file mode 100644
->>> index 000000000000..f6e6a24829af
->>> --- /dev/null
->>> +++ b/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
->>> @@ -0,0 +1,40 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +/dts-v1/;
->>> +
->>> +#include "tegra234.dtsi"
->>> +
->>> +/ {
->>> +	model = "NVIDIA Tegra234 VDK";
->>> +	compatible = "nvidia,tegra234-vdk", "nvidia,tegra234";
->>> +
->>> +	aliases {
->>> +		sdhci3 = "/cbb@0/sdhci@3460000";
->>> +		serial0 = &uarta;
->>> +	};
->>> +
->>> +	chosen {
->>> +		bootargs = "console=ttyS0,115200n8 earlycon=uart8250,mmio32,0x03100000";
->>> +		stdout-path = "serial0:115200n8";
->>> +	};
->>> +
->>> +	cbb@0 {
->>> +		serial@3100000 {
->>> +			status = "okay";
->>> +		};
->>> +
->>> +		sdhci@3460000 {
->>> +			status = "okay";
->>> +			bus-width = <8>;
->>> +			non-removable;
->>> +			only-1-8-v;
->>> +		};
->>> +
->>> +		rtc@c2a0000 {
->>> +			status = "okay";
->>> +		};
->>> +
->>> +		pmc@c360000 {
->>> +			nvidia,invert-interrupt;
->>> +		};
->>> +	};
->>> +};
->>> diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
->>> new file mode 100644
->>> index 000000000000..3509687441a1
->>> --- /dev/null
->>> +++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
->>> @@ -0,0 +1,191 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +
->>> +#include <dt-bindings/clock/tegra234-clock.h>
->>> +#include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +#include <dt-bindings/mailbox/tegra186-hsp.h>
->>> +#include <dt-bindings/reset/tegra234-reset.h>
->>> +
->>> +/ {
->>> +	compatible = "nvidia,tegra234";
->>> +	interrupt-parent = <&gic>;
->>> +	#address-cells = <2>;
->>> +	#size-cells = <2>;
->>> +
->>> +	bus@0 {
->>> +		compatible = "simple-bus";
->>> +		#address-cells = <1>;
->>> +		#size-cells = <1>;
->>> +
->>> +		ranges = <0x0 0x0 0x0 0x40000000>;
->>> +
->>> +		misc@100000 {
->>> +			compatible = "nvidia,tegra234-misc";
->>> +			reg = <0x00100000 0xf000>,
->>> +			      <0x0010f000 0x1000>;
->>> +			status = "okay";
->>> +		};
->>
->>
->> Is there meant to be a fallback option here, because I don't see
->> anything to match the above compatible string?
+>>> Do you mean that reset is deasserted automatically
+>>> when invoke clk_round_rate() on tegra?
 > 
-> I've got the below patch in my tree that's meant to add that code, but
-> it's in the wrong order in my local branch, so it didn't make it into
-> this subset. I'll reorder the patches to include the APBMISC support
-> patch in this series.
+> I only mean that the tegra30-devfreq driver deasserts the reset before
+> the clk_round_rate():
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/devfreq/tegra30-devfreq.c?h=v5.9-rc5#n834
+> 
+>>> If tree, I think that 'reset_control_reset(tegra->reset)' invocation
+>>
+>> I'm sorry for my typo. s/tree/true.
+>>
+>>> is not needed on 'remove_opp:' goto. Because already reset deassertion
+>>> is invoked by clk_round_rate(), it seems that doesn't need to invoke
+>>> anymore during exception case.
+>>>
+>>> Actually, it is not clear in my case.
+> 
+> The reset_control_reset() in the error path of the driver probe function
+> is placed that way to make the tear-down order match the driver removal
+> order. Perhaps the reset could be moved before the remove_opp, but this
+> change won't make any real difference, hence it already should be good
+> as-is.
+> 
+> 
 
-OK, I think that the same also applies to efuse, pmc, rtc and bpmp-shmem
-from looking at this patch.
+I have one more question.
+When failed to enable clock on line829[1],
+does it need any reset_control invocation?
+In this case on line829, just return without any restoration 
+about reset control.
 
-Jon
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/devfreq/tegra30-devfreq.c?h=v5.9-rc5#n829
 
 -- 
-nvpublic
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
