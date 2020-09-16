@@ -2,296 +2,218 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F041926C61D
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 19:34:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA6E26C750
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 20:23:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727114AbgIPReZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Sep 2020 13:34:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36646 "EHLO mx2.suse.de"
+        id S1727990AbgIPSXt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Sep 2020 14:23:49 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38076 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727086AbgIPRdo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:33:44 -0400
+        id S1727882AbgIPSXs (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 16 Sep 2020 14:23:48 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AB2DDAC85;
-        Wed, 16 Sep 2020 13:13:13 +0000 (UTC)
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     airlied@linux.ie, mark.cave-ayland@ilande.co.uk,
-        dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
-        thierry.reding@gmail.com, kraxel@redhat.com,
-        sparclinux@vger.kernel.org, sam@ravnborg.org,
-        m.szyprowski@samsung.com, jonathanh@nvidia.com,
-        matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
-        linux-media@vger.kernel.org, pawel@osciak.com,
-        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
-        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
-        mchehab@kernel.org, tfiga@chromium.org, kyungmin.park@samsung.com,
-        davem@davemloft.net
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
- <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
- <20200916122405.GQ438822@phenom.ffwll.local>
- <53743f37-4142-c076-296f-bfcba0840121@amd.com>
+        by mx2.suse.de (Postfix) with ESMTP id 3CCD4B28A;
+        Wed, 16 Sep 2020 10:36:48 +0000 (UTC)
+Subject: Re: [PATCH v2 04/21] drm/exynos: Introduce GEM object functions
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     hamohammed.sa@gmail.com, airlied@linux.ie,
+        nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        michal.simek@xilinx.com, thierry.reding@gmail.com, krzk@kernel.org,
+        sam@ravnborg.org, emil.velikov@collabora.com,
+        linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+        oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
+        linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
+        jonathanh@nvidia.com, linux-rockchip@lists.infradead.org,
+        kgene@kernel.org, bskeggs@redhat.com,
+        xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
+        intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
+        chunkuang.hu@kernel.org, andi.shyti@intel.com,
+        linux-arm-msm@vger.kernel.org, marek.olsak@amd.com,
+        tianci.yin@amd.com, etnaviv@lists.freedesktop.org,
+        hdegoede@redhat.com, linux-mediatek@lists.infradead.org,
+        rodrigo.vivi@intel.com, matthias.bgg@gmail.com, evan.quan@amd.com,
+        sean@poorly.run, linux-arm-kernel@lists.infradead.org,
+        tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
+        laurent.pinchart@ideasonboard.com, hyun.kwon@xilinx.com,
+        rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
+        Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
+        hjc@rock-chips.com, chris@chris-wilson.co.uk,
+        kyungmin.park@samsung.com, nirmoy.das@amd.com,
+        alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+        freedreno@lists.freedesktop.org, christian.koenig@amd.com
+References: <20200915145958.19993-1-tzimmermann@suse.de>
+ <20200915145958.19993-5-tzimmermann@suse.de>
+ <20200916100318.GF438822@phenom.ffwll.local>
 From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e5bc20e5-b2ce-27f1-58eb-67512354db7b@suse.de>
-Date:   Wed, 16 Sep 2020 15:12:54 +0200
+Message-ID: <fb1f5992-1642-5751-5672-486b89442e1c@suse.de>
+Date:   Wed, 16 Sep 2020 12:36:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <53743f37-4142-c076-296f-bfcba0840121@amd.com>
+In-Reply-To: <20200916100318.GF438822@phenom.ffwll.local>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA"
+ boundary="VLzf65jApKkRavuxi39QvnC87GfNF3zix"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA
-Content-Type: multipart/mixed; boundary="4dKgBnEqtU7ClYPh4sxp2EbLPUNEl4i1i";
+--VLzf65jApKkRavuxi39QvnC87GfNF3zix
+Content-Type: multipart/mixed; boundary="dt3SkYl9e3y1MIK8AYjuI2mtP7GQiTevE";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, mark.cave-ayland@ilande.co.uk,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- thierry.reding@gmail.com, kraxel@redhat.com, sparclinux@vger.kernel.org,
- sam@ravnborg.org, m.szyprowski@samsung.com, jonathanh@nvidia.com,
- matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
- linux-media@vger.kernel.org, pawel@osciak.com,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
- rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
- tfiga@chromium.org, kyungmin.park@samsung.com, davem@davemloft.net
-Message-ID: <e5bc20e5-b2ce-27f1-58eb-67512354db7b@suse.de>
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
- <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
- <20200916122405.GQ438822@phenom.ffwll.local>
- <53743f37-4142-c076-296f-bfcba0840121@amd.com>
-In-Reply-To: <53743f37-4142-c076-296f-bfcba0840121@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+ emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
+ jy0922.shim@samsung.com, oleksandr_andrushchenko@epam.com,
+ tomi.valkeinen@ti.com, linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
+ jonathanh@nvidia.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
+ bskeggs@redhat.com, xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
+ intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
+ chunkuang.hu@kernel.org, andi.shyti@intel.com,
+ linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
+ etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, rodrigo.vivi@intel.com,
+ matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
+ amd-gfx@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ hyun.kwon@xilinx.com, rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
+ Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
+ hjc@rock-chips.com, chris@chris-wilson.co.uk, kyungmin.park@samsung.com,
+ nirmoy.das@amd.com, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com
+Message-ID: <fb1f5992-1642-5751-5672-486b89442e1c@suse.de>
+Subject: Re: [PATCH v2 04/21] drm/exynos: Introduce GEM object functions
+References: <20200915145958.19993-1-tzimmermann@suse.de>
+ <20200915145958.19993-5-tzimmermann@suse.de>
+ <20200916100318.GF438822@phenom.ffwll.local>
+In-Reply-To: <20200916100318.GF438822@phenom.ffwll.local>
 
---4dKgBnEqtU7ClYPh4sxp2EbLPUNEl4i1i
+--dt3SkYl9e3y1MIK8AYjuI2mtP7GQiTevE
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 16.09.20 um 14:59 schrieb Christian K=C3=B6nig:
-> Am 16.09.20 um 14:24 schrieb Daniel Vetter:
->> On Wed, Sep 16, 2020 at 12:48:20PM +0200, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 16.09.20 um 11:37 schrieb Daniel Vetter:
->>>> On Mon, Sep 14, 2020 at 01:25:18PM +0200, Thomas Zimmermann wrote:
->>>>> Dma-buf provides vmap() and vunmap() for retrieving and releasing
->>>>> mappings
->>>>> of dma-buf memory in kernel address space. The functions operate
->>>>> with plain
->>>>> addresses and the assumption is that the memory can be accessed
->>>>> with load
->>>>> and store operations. This is not the case on some architectures
->>>>> (e.g.,
->>>>> sparc64) where I/O memory can only be accessed with dedicated
->>>>> instructions.
->>>>>
->>>>> This patchset introduces struct dma_buf_map, which contains the
->>>>> address of
->>>>> a buffer and a flag that tells whether system- or I/O-memory
->>>>> instructions
->>>>> are required.
->>>>>
->>>>> Some background: updating the DRM framebuffer console on sparc64
->>>>> makes the
->>>>> kernel panic. This is because the framebuffer memory cannot be
->>>>> accessed with
->>>>> system-memory instructions. We currently employ a workaround in DRM=
- to
->>>>> address this specific problem. [1]
->>>>>
->>>>> To resolve the problem, we'd like to address it at the most common
->>>>> point,
->>>>> which is the dma-buf framework. The dma-buf mapping ideally knows
->>>>> if I/O
->>>>> instructions are required and exports this information to it's
->>>>> users. The
->>>>> new structure struct dma_buf_map stores the buffer address and a
->>>>> flag that
->>>>> signals I/O memory. Affected users of the buffer (e.g., drivers,
->>>>> frameworks)
->>>>> can then access the memory accordingly.
->>>>>
->>>>> This patchset only introduces struct dma_buf_map, and updates
->>>>> struct dma_buf
->>>>> and it's interfaces. Further patches can update dma-buf users. For
->>>>> example,
->>>>> there's a prototype patchset for DRM that fixes the framebuffer
->>>>> problem. [2]
->>>>>
->>>>> Further work: TTM, one of DRM's memory managers, already exports an=
-
->>>>> is_iomem flag of its own. It could later be switched over to
->>>>> exporting struct
->>>>> dma_buf_map, thus simplifying some code. Several DRM drivers expect=
-
->>>>> their
->>>>> fbdev console to operate on I/O memory. These could possibly be
->>>>> switched over
->>>>> to the generic fbdev emulation, as soon as the generic code uses
->>>>> struct
->>>>> dma_buf_map.
->>>>>
->>>>> [1]
->>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flore.kernel.org%2Fdri-devel%2F20200725191012.GA434957%40ravnborg.org%2F&=
-amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C04e3cc3e03ae40f1fa0f08d=
-85a3b6a68%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637358558524732385=
-&amp;sdata=3DwTmFuB95GhKUU%2F2Q91V0%2BtzAu4%2BEe3VBUcriBy3jx2g%3D&amp;res=
-erved=3D0
->>>>>
->>>>> [2]
->>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flore.kernel.org%2Fdri-devel%2F20200806085239.4606-1-tzimmermann%40suse.d=
-e%2F&amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C04e3cc3e03ae40f1fa=
-0f08d85a3b6a68%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6373585585247=
-32385&amp;sdata=3DL4rBHmegO63b%2FiTQdTyH158KNxAZwSuJCQOaFszo5L0%3D&amp;re=
-served=3D0
->>>>>
->>>> lgtm, imo ready to convert the follow-up patches over to this. But I=
-
->>>> think
->>>> would be good to get at least some ack from the ttm side for the
->>>> overall
->>>> plan.
->>> Yup, it would be nice if TTM could had out these types automatically.=
-
->>> Then all TTM-based drivers would automatically support it.
->>>
->>>> Also, I think we should put all the various helpers (writel/readl,
->>>> memset,
->>>> memcpy, whatever else) into the dma-buf-map.h helper, so that most c=
-ode
->>>> using this can just treat it as an abstract pointer type and never l=
-ook
->>>> underneath it.
->>> We have some framebuffer helpers that rely on pointer arithmetic, so
->>> we'd need that too. No big deal wrt code, but I was worried about the=
-
->>> overhead. If a loop goes over framebuffer memory, there's an if/else
->>> branch for each access to the memory buffer.
->> If we make all the helpers static inline, then the compiler should be
->> able
->> to see that dma_buf_map.is_iomem is always the same, and produced real=
-ly
->> optimized code for it by pulling that check out from all the loops.
+Am 16.09.20 um 12:03 schrieb Daniel Vetter:
+> On Tue, Sep 15, 2020 at 04:59:41PM +0200, Thomas Zimmermann wrote:
+>> GEM object functions deprecate several similar callback interfaces in
+>> struct drm_driver. This patch replaces the per-driver callbacks with
+>> per-instance callbacks in exynos. The only exception is gem_prime_mmap=
+,
+>> which is non-trivial to convert.
 >>
->> So should only result in somewhat verbose code of having to call
->> dma_buf_map pointer arthimetic helpers, but not in bad generated code.=
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/exynos/exynos_drm_drv.c | 10 ----------
+>>  drivers/gpu/drm/exynos/exynos_drm_gem.c | 15 +++++++++++++++
+>>  2 files changed, 15 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm=
+/exynos/exynos_drm_drv.c
+>> index dbd80f1e4c78..fe46680ca208 100644
+>> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+>> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+>> @@ -75,11 +75,6 @@ static void exynos_drm_postclose(struct drm_device =
+*dev, struct drm_file *file)
+>>  	file->driver_priv =3D NULL;
+>>  }
+>> =20
+>> -static const struct vm_operations_struct exynos_drm_gem_vm_ops =3D {
+>> -	.open =3D drm_gem_vm_open,
+>> -	.close =3D drm_gem_vm_close,
+>> -};
+>> -
+>>  static const struct drm_ioctl_desc exynos_ioctls[] =3D {
+>>  	DRM_IOCTL_DEF_DRV(EXYNOS_GEM_CREATE, exynos_drm_gem_create_ioctl,
+>>  			DRM_RENDER_ALLOW),
+>> @@ -124,16 +119,11 @@ static struct drm_driver exynos_drm_driver =3D {=
 
->> Still worth double-checking I think, since e.g. on x86 the generated c=
-ode
->> should be the same for both cases (but maybe the compiler doesn't see
->> through the inline asm to realize that, so we might end up with 2
->> copies).
+>>  	.open			=3D exynos_drm_open,
+>>  	.lastclose		=3D drm_fb_helper_lastclose,
+>>  	.postclose		=3D exynos_drm_postclose,
+>> -	.gem_free_object_unlocked =3D exynos_drm_gem_free_object,
+>> -	.gem_vm_ops		=3D &exynos_drm_gem_vm_ops,
+>>  	.dumb_create		=3D exynos_drm_gem_dumb_create,
+>>  	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
+>>  	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
+>>  	.gem_prime_import	=3D exynos_drm_gem_prime_import,
+>> -	.gem_prime_get_sg_table	=3D exynos_drm_gem_prime_get_sg_table,
+>>  	.gem_prime_import_sg_table	=3D exynos_drm_gem_prime_import_sg_table,=
+
+>> -	.gem_prime_vmap		=3D exynos_drm_gem_prime_vmap,
+>> -	.gem_prime_vunmap	=3D exynos_drm_gem_prime_vunmap,
+>>  	.gem_prime_mmap		=3D exynos_drm_gem_prime_mmap,
+>>  	.ioctls			=3D exynos_ioctls,
+>>  	.num_ioctls		=3D ARRAY_SIZE(exynos_ioctls),
+>> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm=
+/exynos/exynos_drm_gem.c
+>> index efa476858db5..69a5cf28b4ae 100644
+>> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
+>> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+>> @@ -129,6 +129,19 @@ void exynos_drm_gem_destroy(struct exynos_drm_gem=
+ *exynos_gem)
+>>  	kfree(exynos_gem);
+>>  }
+>> =20
+>> +static const struct vm_operations_struct exynos_drm_gem_vm_ops =3D {
+>> +	.open =3D drm_gem_vm_open,
+>> +	.close =3D drm_gem_vm_close,
+>> +};
 >=20
-> Can we have that even independent of DMA-buf? We have essentially the
-> same problem in TTM and the code around that is a complete mess if you
-> ask me.
+> Hm moving the drm_gem_cma_vm_ops into drm_gem.h or so and maybe calling=
 
-I already put this into dma-buf because it's at the intersection of all
-the affected modules. For non-dma-buf pointers (say in framebuffer
-damage handling), the idea is to initialize struct dma_buf_map by hand
-and use this.
+> them drm_gem_simple_ops or so would remove a pile of these. But perhaps=
+ a
+> quick follow up series.
 
-Where would you want to put it?
+Good idea. Several interfaces use the term 'default' in their name, so
+something like drm_gem_default_vm_ops seems appropriate.
+
+BTW is there a reason why we have file operations like
+DEFINE_DRM_GEM_CMA_FOPS() in each module? It seems like this could also
+be provided by the rsp memory-manager library.
 
 Best regards
 Thomas
 
 >=20
-> Christian.
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 >=20
->> -Daniel
->>
->>
->>> Best regards
->>> Thomas
->>>
->>>> -Daniel
->>>>
->>>>> Thomas Zimmermann (3):
->>>>> =C2=A0=C2=A0 dma-buf: Add struct dma-buf-map for storing struct
->>>>> dma_buf.vaddr_ptr
->>>>> =C2=A0=C2=A0 dma-buf: Use struct dma_buf_map in dma_buf_vmap() inte=
-rfaces
->>>>> =C2=A0=C2=A0 dma-buf: Use struct dma_buf_map in dma_buf_vunmap() in=
-terfaces
->>>>>
->>>>> =C2=A0 Documentation/driver-api/dma-buf.rst=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
->>>>> =C2=A0 drivers/dma-buf/dma-buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 40 +++---
->>>>> =C2=A0 drivers/gpu/drm/drm_gem_cma_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++-
->>>>> =C2=A0 drivers/gpu/drm/drm_gem_shmem_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 17 ++-
->>>>> =C2=A0 drivers/gpu/drm/drm_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 14 +-
->>>>> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c=C2=A0=C2=A0 |=C2=
-=A0 13 +-
->>>>> =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c=C2=A0=C2=A0=C2=A0=
- |=C2=A0 13 +-
->>>>> =C2=A0 .../drm/i915/gem/selftests/i915_gem_dmabuf.c=C2=A0 |=C2=A0 1=
-8 ++-
->>>>> =C2=A0 drivers/gpu/drm/tegra/gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 23 ++--
->>>>> =C2=A0 .../common/videobuf2/videobuf2-dma-contig.c=C2=A0=C2=A0 |=C2=
-=A0 17 ++-
->>>>> =C2=A0 .../media/common/videobuf2/videobuf2-dma-sg.c |=C2=A0 19 ++-=
-
->>>>> =C2=A0 .../common/videobuf2/videobuf2-vmalloc.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 21 ++-
->>>>> =C2=A0 include/drm/drm_prime.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
->>>>> =C2=A0 include/linux/dma-buf-map.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 126
->>>>> ++++++++++++++++++
->>>>> =C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 11 +-
->>>>> =C2=A0 15 files changed, 274 insertions(+), 82 deletions(-)
->>>>> =C2=A0 create mode 100644 include/linux/dma-buf-map.h
->>>>>
->>>>> --=20
->>>>> 2.28.0
->>>>>
->>> --=C2=A0
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>> (HRB 36809, AG N=C3=BCrnberg)
->>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>
->>
->>
+>> +
+>> +static const struct drm_gem_object_funcs exynos_drm_gem_object_funcs =
+=3D {
+>> +	.free =3D exynos_drm_gem_free_object,
+>> +	.get_sg_table =3D exynos_drm_gem_prime_get_sg_table,
+>> +	.vmap =3D exynos_drm_gem_prime_vmap,
+>> +	.vunmap	=3D exynos_drm_gem_prime_vunmap,
+>> +	.vm_ops =3D &exynos_drm_gem_vm_ops,
+>> +};
+>> +
+>>  static struct exynos_drm_gem *exynos_drm_gem_init(struct drm_device *=
+dev,
+>>  						  unsigned long size)
+>>  {
+>> @@ -143,6 +156,8 @@ static struct exynos_drm_gem *exynos_drm_gem_init(=
+struct drm_device *dev,
+>>  	exynos_gem->size =3D size;
+>>  	obj =3D &exynos_gem->base;
+>> =20
+>> +	obj->funcs =3D &exynos_drm_gem_object_funcs;
+>> +
+>>  	ret =3D drm_gem_object_init(dev, obj, size);
+>>  	if (ret < 0) {
+>>  		DRM_DEV_ERROR(dev->dev, "failed to initialize gem object\n");
+>> --=20
+>> 2.28.0
 >>
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 --=20
 Thomas Zimmermann
@@ -302,23 +224,23 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---4dKgBnEqtU7ClYPh4sxp2EbLPUNEl4i1i--
+--dt3SkYl9e3y1MIK8AYjuI2mtP7GQiTevE--
 
---0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA
+--VLzf65jApKkRavuxi39QvnC87GfNF3zix
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9iD1YUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPqdAf/SAg5vR+VFpziVn7zNPHLhG1cH/8g
-0fJB6+sQmlXaZ0yOCGkAhFTiau5wI1x4qwUzU1FTvmWXbYfEjj+i9D02OK4PV0rI
-mKYUY+HDsTwugi1rnu3aBIfTyLd4YaWJfruXiZQ5GWn38rOQ17a2xb4xr7+ZCBqd
-cs+jX+Vy2s3H163IH3b3fBgSbo9PCQXEZZTgD1QH2sbzmJpiH7MBMvqM0gJXS/wQ
-a1b8bGftkjhX1OE0I664OJplM2VOFn8UCZ9Tw0oeXk8pUWWtZN7T6U6pKe4esAo9
-yZ6/ezT5ex0FsFFonJJ2afOXQIJk7NiaXzeOg8HKj53cO4Df6G2fZVcWoQ==
-=Q1x6
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9h6qwUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPl9Qf+KR96aoWYf20LvHA3GnV4zrCawiec
+y2yduL2GYhWPOf4GMfY2D+iMsP8w0W7E25g5LPHA+Vqz5D02rDOi3daO0DrNPmW6
+693QU4qPhbQzK7Y+2jWAjMeuNnkrX+LMllUvQ1+QfapihbnvGqu9aNH3BpXfjOgt
+BoqBHPnc6jc6BCC9knI+JDmxfv+mxrkN3TVEWw78TRR8W9HubgJK3Qx5yFPb76jL
+BTd4moKQlMWspChoyM+/682BI3I/vaGbC7dL6ABTxoYc5Ub2PxY3RtaKnNPfCcpq
+dvopHHQ1YJ3wOj988DPHGprg6T0jK2zsR3M9rja76IOs/Y3rh1LWAWk2LA==
+=Gxfw
 -----END PGP SIGNATURE-----
 
---0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA--
+--VLzf65jApKkRavuxi39QvnC87GfNF3zix--
