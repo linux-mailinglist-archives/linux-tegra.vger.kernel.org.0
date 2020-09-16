@@ -2,104 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E8EF26CD95
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 23:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1287B26CE85
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 00:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgIPVBv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Sep 2020 17:01:51 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3555 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbgIPQaX (ORCPT
+        id S1726564AbgIPWSK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Sep 2020 18:18:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726538AbgIPWR5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Sep 2020 12:30:23 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f621e260000>; Wed, 16 Sep 2020 07:16:06 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 16 Sep 2020 07:16:49 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 16 Sep 2020 07:16:49 -0700
-Received: from [10.26.74.242] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 16 Sep
- 2020 14:16:37 +0000
-Subject: Re: [PATCH v3 08/16] irqchip/gic: Configure SGIs as standard
- interrupts
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Marc Zyngier <maz@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Sumit Garg <sumit.garg@linaro.org>, <kernel-team@android.com>,
-        "Florian Fainelli" <f.fainelli@gmail.com>,
-        Russell King <linux@arm.linux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "'Linux Samsung SOC'" <linux-samsung-soc@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Valentin Schneider <Valentin.Schneider@arm.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200901144324.1071694-1-maz@kernel.org>
- <20200901144324.1071694-9-maz@kernel.org>
- <CGME20200914130601eucas1p23ce276d168dee37909b22c75499e68da@eucas1p2.samsung.com>
- <a917082d-4bfd-a6fd-db88-36e75f5f5921@samsung.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <933bc43e-3cd7-10ec-b9ec-58afaa619fb7@nvidia.com>
-Date:   Wed, 16 Sep 2020 15:16:35 +0100
+        Wed, 16 Sep 2020 18:17:57 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5708AC0611C0
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 14:38:00 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id u4so160086ljd.10
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 14:38:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=K5mbCSIAeWAEdWVtEp7XKprNFHQC1dqRIziOBIZxb+s=;
+        b=gJluukteUSfBTWl31n7U4/oMgRD2+ycm1sKw/nkvTQralJ4g2wpvpNhH+mFqX29A09
+         fOm/xRxdQFqOy4SKOoPer0QWrIDlfeXJp9Jhs1M/esIU535eVsdK0sUuvRzeK3GN7b/1
+         C4cJC6t0Sf0aCB3SrpT1E5r0Kap3ucKcOqnwvJAV9J7CvpXa7bNU+HyZyWCitpbu5AWz
+         MbLL8occtIofkn22FV9kAzSaxVyTwS93zxEA3UjiquJcmFXky9UzrvepMCftCm16sKwT
+         56eNE6DsaQP6Wp+QUg/q3d7nnvdemYzt+x4bq8ziHmqpAjxlNcBLxLrgaCHn8WMuU9tn
+         OhzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=K5mbCSIAeWAEdWVtEp7XKprNFHQC1dqRIziOBIZxb+s=;
+        b=EcnK2GTJSp1eZKDGH4m1R0mf7Q1G2W9j/cw8qUf0OCUmzjcsOy6va8SpqrFaScTque
+         EnjcXyoZGvEWtoA58yG1TiEvKyqej2vpzKXlaT/AcC41sQG4QmWgee3XO9Ps1mkQePt8
+         62yIAdsxcLj7bf1dbAkhVv7PDkeJnMCPTfbHEldWzudKfOvMksoggqj6+SP7JHVG3tD5
+         fvecQh57Xbyqf4U9xovB40P4CqaMhIy9ogJLc+cGB7yOIqs02SkxdZGnzFwd3SDxbndt
+         o5qtTI1shsvoS9XS1SHomUuCX0Su97ejPPX1zR4PHdxiSUjeYS+OSLL9Q/3xC5rO7mNE
+         AuTA==
+X-Gm-Message-State: AOAM533gZxGb04JF4zIcZ1TnpUmjZekKo6HWejX6F74S3TzrJRhZBx7k
+        ShjItN8wJRi5cgt62mpZiig=
+X-Google-Smtp-Source: ABdhPJxfYjUE55ilmwcVrsIzLhvX5guab3MxK0ccCNYyITCitPGVUFoDjChTwa5szdpVCGaDN1nfHg==
+X-Received: by 2002:a2e:3208:: with SMTP id y8mr9684682ljy.216.1600292278806;
+        Wed, 16 Sep 2020 14:37:58 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id i12sm5103657lfi.48.2020.09.16.14.37.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2020 14:37:58 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 13/17] gpu: host1x: Reset max value when freeing a
+ syncpoint
+To:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
+        daniel@ffwll.ch
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        talho@nvidia.com, bhuntsman@nvidia.com
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <20200905103420.3021852-14-mperttunen@nvidia.com>
+ <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
+ <0d12991e-3599-c5bf-11e5-78031f0f8088@kapsi.fi>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <343e4518-e132-6ea8-6169-0685f000b89c@gmail.com>
+Date:   Thu, 17 Sep 2020 00:37:57 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <a917082d-4bfd-a6fd-db88-36e75f5f5921@samsung.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <0d12991e-3599-c5bf-11e5-78031f0f8088@kapsi.fi>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1600265766; bh=pV8Al2EsECbYDuX4UchdWHAopEeJoNVCwOOj35gvWvM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=h4M5AySzWoSIHgOXxW6Cn6jFLbFFw8EwZnKcPIVJxTt3lSUrVD8nJr9GNzVJRZw5V
-         mImZhD/RoS7WwjvahDfKgHkYaIXfp+ftoL0pqJHgDB+z5tAdDFpFx9bA/x6JlhfK07
-         SLOGZitVugJy7yKYTZsjbw1FujpcWOlBOZraOptc4MQLn05uQ3SocrToJ8Savf0KM4
-         SnNPc4LrFohTkfjRPSVWjsWMZh0carNG4uAOHRtzY/JiNFmLJdERbfdH1kEdnhq6Cv
-         tBNxAb5MW8py5l5lQvAPjoT6utASZ4p7GrGoOsMgMNbtZa/YXT9RYgS2d2jEzajJb+
-         5CnyNusDsNCYg==
-Sender: linux-tegra-owner@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Marc,
-
-On 14/09/2020 14:06, Marek Szyprowski wrote:
-> Hi Marc,
-> 
-> On 01.09.2020 16:43, Marc Zyngier wrote:
->> Change the way we deal with GIC SGIs by turning them into proper
->> IRQs, and calling into the arch code to register the interrupt range
->> instead of a callback.
+16.09.2020 23:43, Mikko Perttunen пишет:
+...
+>> Please note that the sync point state actually needs to be completely
+>> reset at the sync point request-time because both downstream fastboot
+>> and upstream u-boot [1] are needlessly enabling display VBLANK interrupt
+>> that continuously increments sync point #26 during of kernel boot until
+>> display controller is reset.
 >>
->> Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
->> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> This patch landed in linux next-20200914 as commit ac063232d4b0 
-> ("irqchip/gic: Configure SGIs as standard interrupts"). Sadly it breaks 
-> booting of all Samsung Exynos 4210/4412 based boards (dual/quad ARM 
-> Cortex A9 based). Here are the last lines from the bootlog:
+>> [1]
+>> https://github.com/u-boot/u-boot/blob/master/drivers/video/tegra.c#L155
+>>
+>> Hence once sync point #26 is requested, it will have a dirty state. So
+>> far this doesn't have any visible effect because sync points aren't used
+>> much.
+>>
+> 
+> Maybe we can instead reserve syncpoints that might be used by the boot
+> chain, and only allow allocating them once the display driver has acked
+> that the syncpoint will no longer be incremented? That way if the
+> display driver is disabled for some reason we'll still be fine.
 
-I am observing the same thing on several Tegra boards (both arm and
-arm64). Bisect is pointing to this commit. Reverting this alone does not
-appear to be enough to fix the issue.
+sounds good
 
-Cheers
-Jon
+> Looking at the downstream driver, it (still, on new chips..) reserves
+> the following syncpoints:
+> 
+> - 10 (AVP)
+> - 22 (3D)
+> - 26 (VBLANK0)
+> - 27 (VBLANK1)
+> 
+> and says that this applies to T20, T30, T114 and T148.
+> 
+> I suppose if you haven't observed this happening to other syncpoints
+> than 26, then reserving 26 would probably be enough.
 
--- 
-nvpublic
+I only saw SP 26 being used by the DC, but perhaps that may vary from
+device to device and SP 27 could actually be used in a wild as well.
+
+I think the AVP SP should only relate to the AVP-firmware that upstream
+doesn't support, so we can ignore its reservation.
+
+I've no idea what may use the 3D SP.
