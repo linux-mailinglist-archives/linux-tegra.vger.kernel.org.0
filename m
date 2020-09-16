@@ -2,148 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0279B26C602
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 19:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6707326C5C3
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 19:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727134AbgIPR3c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Sep 2020 13:29:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727106AbgIPR3L (ORCPT
+        id S1726808AbgIPRTl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Sep 2020 13:19:41 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:9776 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbgIPRNx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:29:11 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D079AC02C29D;
-        Wed, 16 Sep 2020 09:09:06 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id v23so6451953ljd.1;
-        Wed, 16 Sep 2020 09:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WU8kkRrE3jlr7jbbJ1vMZoztyKQSB8TKep3W2+Nhdpo=;
-        b=PX7zxOa0V1P+T5PQE8MemGbm8QD2DVms2wDVKL0zvIl654L3hn4IH9ImISDHPhiUWx
-         BLk3uerGbG/Cu2WECtitLX5tZZYQKw3GN4pYJvktzAaSEFy2rjZ9L+bBA+MjWJH1F9Pi
-         uU750U2N7VA4ZXpPre+5W7l1Hw0xSQJA6+zZ31HZQ0EFegsM7WqaZrCq9QSIr/E2H2nR
-         SgKr1UhwmwJq57nEy5CrwC6fUeShqN2u2jOMgRC5gKOCdvD2z6cNaTumY1duObWGvYm7
-         A32s+XjKK9tDlVKTOjrnjYuiWzyviQLKEAoET98SqTVV3MBctGHXYFgAY9nvxk/jQQxg
-         pu0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WU8kkRrE3jlr7jbbJ1vMZoztyKQSB8TKep3W2+Nhdpo=;
-        b=YEGqkzzZgHbVAZzs2jZKHZeGETO9yRu2YyG5N1FmRr/5+gMVTz2QGHa1XDoL+maXl3
-         mYHksa8uwNt0hQSSHukORmNDZFi9GsGYTqfer304GNGubBOQLkXQWK87GLlogmB0d03u
-         1Ji726eaQdQC7Eon1widUmLfDAd5fylBbZ3GzxNOAGvknDMF5OSbbEMkqCDf2OaF4RHy
-         UlS9l8phKCBbCq9fKM5c3Z97Oo4AXMEAptBT8iUkt/fI9fhjZ/IQE9d6dQuDu5Ord7uJ
-         4i2vAN+JA/ahbXjyCVeyvQExWUUrxrxsh+Rv5maThO7I588jZD4KJY4eU7zRIW/RxuAu
-         ixNg==
-X-Gm-Message-State: AOAM533O0CzlDhGb4IdI5MU09ar5OOaRb0dnvfzeOMGk9Ta2NFo7BZ7r
-        PjseKq7DnUMsJVnLg9qR3iqvcB0Q9zg=
-X-Google-Smtp-Source: ABdhPJwgUpIjt1JfZmr2hIDAqmuETyFK5I1BMqLPpG/JmuzJbZgHaxUG0ETD48tl/QDqV3qD5CzHdQ==
-X-Received: by 2002:a2e:9116:: with SMTP id m22mr8286871ljg.387.1600272544856;
-        Wed, 16 Sep 2020 09:09:04 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id l82sm5051890lfd.58.2020.09.16.09.09.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2020 09:09:03 -0700 (PDT)
-Subject: Re: [PATCH 1/3] ARM: tegra: Add device-tree for Ouya
-To:     Peter Geis <pgwipeout@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Bob Ham <rah@settrans.net>,
-        Leonardo Bras <leobras.c@gmail.com>,
-        Michael Brougham <jusplainmike@gmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200916122247.534374-1-pgwipeout@gmail.com>
- <20200916122247.534374-2-pgwipeout@gmail.com>
- <3cdcb877-e4c7-aab8-b7f9-0c88f2247d03@gmail.com>
- <CAMdYzYrKHBrh47PMrj=TP_FPttFOkRO2J_wrDr7oEyBNnyexAA@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c92a457d-9829-99ce-8d7c-29fe5395728c@gmail.com>
-Date:   Wed, 16 Sep 2020 19:09:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 16 Sep 2020 13:13:53 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f6247100003>; Wed, 16 Sep 2020 10:10:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 16 Sep 2020 10:11:23 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 16 Sep 2020 10:11:23 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 16 Sep
+ 2020 17:11:23 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 16 Sep 2020 17:11:23 +0000
+Received: from sumitg-l4t.nvidia.com (Not Verified[10.24.37.103]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f6247380001>; Wed, 16 Sep 2020 10:11:22 -0700
+From:   Sumit Gupta <sumitg@nvidia.com>
+To:     <viresh.kumar@linaro.org>, <rjw@rjwysocki.net>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <ksitaraman@nvidia.com>, <bbasu@nvidia.com>, <sumitg@nvidia.com>
+Subject: [Patch 0/2] Tegra194 cpufreq driver misc changes
+Date:   Wed, 16 Sep 2020 22:41:15 +0530
+Message-ID: <1600276277-7290-1-git-send-email-sumitg@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <CAMdYzYrKHBrh47PMrj=TP_FPttFOkRO2J_wrDr7oEyBNnyexAA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1600276240; bh=KDmFmHnbdZXAGP959ydQrI6k+UcmrVJXDgccwkGxf2w=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=qzXvQkx1mCXjNKRPbX5yO4g9llcmu8dnti/bkRB0zY6arVj3jC0NkByCmhCWtsb7O
+         0AvBBwmNRBTMMOBEA9KeEy18O8Jmhn6BgalyGvnNvHM6H2PoevDq4mqHKtMYbYZ0Rr
+         FC971T/KVyNkfiwWPxE2Ctg1gB6f0S7GakjIqzsa+b01bZek4894bbB6gr0vRMqRoO
+         UzD9/VviDAjccFfASJJQNbkgdm7bvyog1pFFCtZ57hYQFnoGP3QMSNmabEdbjTFu19
+         6jGdMYSZpABIlxTrXASYoMeZ6AIo437aZobV8C5SYG2V+3kjHphk/o6CjUSVasgb08
+         UaVA+8o2JOk/Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.09.2020 17:57, Peter Geis пишет:
-> On Wed, Sep 16, 2020 at 10:17 AM Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 16.09.2020 15:22, Peter Geis пишет:
->>> The Ouya was the sole device produced by Ouya Inc in 2013.
->>> It was a game console originally running Android 5 on top of Linux 3.1.10.
->>>
->>> This patch adds the device tree supporting the Ouya.
->>> It has been tested on the original variant with Samsung ram.
->>>
->>> Signed-off-by: Peter Geis <pgwipeout@gmail.com>
->>> ---
->>>  arch/arm/boot/dts/Makefile         |    3 +-
->>>  arch/arm/boot/dts/tegra30-ouya.dts | 4498 ++++++++++++++++++++++++++++
->>>  2 files changed, 4500 insertions(+), 1 deletion(-)
->>>  create mode 100644 arch/arm/boot/dts/tegra30-ouya.dts
->>
->> Hello, Peter! Very nice work!
-> 
-> Thanks!
-> 
->>
->> Could you please clarify how many variants of the board exist?
-> 
-> It is unknown how many exist in reality.
-> At least three RAM variants are supported in the downstream kernel,
-> Samsung, Hynix M, and Hynix A.
-> Two variants in storage capacity, the original had 8GB eMMC while the
-> new variant had 16GB eMMC.
-> 
->>
->> What are the differences between the variants?
-> 
-> Aside from the RAM and storage changes there should be no functional
-> differences.
-> It is unknown at which point the RAM changes were cut in with the eMMC change.
-> 
->>
->> Is this device-tree suitable for all variants?
-> 
-> This device tree should support all variants, but I haven't been able
-> to locate anyone with the newer variants who can test it yet.
-> 
->>
->> How user could determine the board's variant?
-> 
-> On upstream:
-> The tegra emc driver will output the RAM code detected in the kernel log:
-> tegra30-emc 7000f400.memory-controller: got 6 timings for RAM code 0
-> (min 25MHz max 800MHz)
-> The mmc-core will output the storage capacity in the kernel log:
-> mmcblk1: mmc1:0001 MMC08G 7.19 GiB
-> 
-> On downstream:
-> The ram variant is output in the kernel log:
-> DDR Strap Pin AD4: 0
-> DDR Strap Pin AD5: 0
-> Init DFS table for Samsung DDR
-> The mmc-core outputs the storage capacity in the kernel log:
-> mmcblk0: mmc0:0001 MMC08G 7.18 GiB
-> 
+This patch set has below two changes:
+1) get consistent cpuinfo_cur_freq value from freq_table.
+2) Fix unlisted boot freq warning by setting closest ndiv value
+   from freq_table if the boot frequency gets filtered while
+   creating freq_table in kernel.
 
-I was thinking that maybe it could be necessary to separate the DT per
-board variant, like we did it for Nexus 7, but it shouldn't be needed
-given yours answer.
+Sumit Gupta (2):
+  cpufreq: tegra194: get consistent cpuinfo_cur_freq
+  cpufreq: tegra194: Fix unlisted boot freq warning
 
-So far looks good to me!
+ drivers/cpufreq/tegra194-cpufreq.c | 182 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 167 insertions(+), 15 deletions(-)
+
+-- 
+2.7.4
+
