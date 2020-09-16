@@ -2,120 +2,174 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07D0626CC71
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 22:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A06B126CD8F
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 23:01:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgIPUor (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Sep 2020 16:44:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35010 "EHLO
+        id S1726498AbgIPVBY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Sep 2020 17:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728570AbgIPUoF (ORCPT
+        with ESMTP id S1726446AbgIPQaY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Sep 2020 16:44:05 -0400
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831C9C06174A
-        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 13:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sIMG4wWgY9okM8dfYXX6a9fUcsqWrWVJbPz4x4HHJm8=; b=v06gt/0ITtgVyOORAA8OCjcobZ
-        U6DZ/nHwBSr3nK6SB1EFgrdnKbYQermRBF1XgsK11dR9Rmf51lF+9VWYH7mW7a//Ms1sHIh9s3RRW
-        cmnwCvO4kBUzUQ6/eBBgG4PgnTliG7PHmi0Nymqmz0e3quHU5acqrxXKURh/HVoxhp/hmscmueGtQ
-        7ETry/C2W2cfFTT93fu2cnY5YxCcJSCPpRB/Xn1yiz+S9SjZGzUr10JkxEmBIU6WmaIq5CmWclWtz
-        oNtzY/569M809ClABtxn1l/pe2qoCp9lWzHFAFKZtA5z8nJL9wO2Rm2mg7m9ozMB26GXALBsEt3bt
-        kNsZ7oPw==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=[192.168.1.10])
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1kIeHX-00047O-FZ; Wed, 16 Sep 2020 23:43:59 +0300
-Subject: Re: [RFC PATCH v2 13/17] gpu: host1x: Reset max value when freeing a
- syncpoint
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
-        daniel@ffwll.ch
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        talho@nvidia.com, bhuntsman@nvidia.com
-References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-14-mperttunen@nvidia.com>
- <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <0d12991e-3599-c5bf-11e5-78031f0f8088@kapsi.fi>
-Date:   Wed, 16 Sep 2020 23:43:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Wed, 16 Sep 2020 12:30:24 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F621C0698D1
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 04:35:20 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id d4so2420918wmd.5
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 04:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DdTA+P9lRhC68qI4dpVtWpzlyCIniGzxdHE1O+Q7zUU=;
+        b=VZm53vKzP2cW6qF7XV0KSRt5PPELHpk07zG//Mxa2CBTIBDdZdST/S+s0rdEQKVsZW
+         gTZ1OWjoGqV/1N91UgOzFqec1vf3PElY/ngrFrKXGmjuOOcYrYiRpj5tf2Kdv9HG27Xk
+         tCQbqYKzbNGq1n8DixVR/dUuMsm1DSxiACKH4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DdTA+P9lRhC68qI4dpVtWpzlyCIniGzxdHE1O+Q7zUU=;
+        b=B7JK46tli/E+R1YMduwyKXmanIhaKwOZoQxwMp+FA0D+V3lixxGQco4ddveDLuANSM
+         V9rO03gnz9WI8U8K/CxCVF2DeJSHJmPKySokIubnGgZzKgL70vfFgiK0wtuPmVm45WpD
+         ke5yKRSEYwRAJSohWLKX4RF3JEaRKq2POA3Cpzt+bfHuDqO9MeF+STL/WRqH2H7KAIOd
+         seVl9cZc7Inf/+rKsdIXFF2SjN6SnowZdLVrGRP3GZUrv6hf1IFPG9dOJTbyghmvPeYj
+         ZqEwHzVA7rkbGYTV7tEArMUR5h4KJoXvAiRz64Il7HOjwKfRda7U3lzgEKdykbTb773P
+         Ldsg==
+X-Gm-Message-State: AOAM530YgskY6gn6ewuuHPjVbbv36pV91/aUGP6PbtEu4JeW0kUrOAR3
+        uGYNs+dPHPxq95aXUNFPXUtFNA==
+X-Google-Smtp-Source: ABdhPJylkcOBbGgEGGZKZhaBAwyH9kqk9RFSGhRv17hk61GEhNulx96NJ9Vhx8cdjXcbwhCg7LMEDQ==
+X-Received: by 2002:a05:600c:2109:: with SMTP id u9mr3990398wml.147.1600256118887;
+        Wed, 16 Sep 2020 04:35:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id g14sm4163583wrv.25.2020.09.16.04.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 04:35:18 -0700 (PDT)
+Date:   Wed, 16 Sep 2020 13:35:14 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        airlied@linux.ie, daniel@ffwll.ch, linux@armlinux.org.uk,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+        inki.dae@samsung.com, jy0922.shim@samsung.com,
+        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+        kgene@kernel.org, krzk@kernel.org, patrik.r.jakobsson@gmail.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, chunkuang.hu@kernel.org,
+        p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+        robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+        tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com,
+        heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+        oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+        laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+        sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+        tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+        andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com,
+        xinhui.pan@amd.com, aaron.liu@amd.com, nirmoy.das@amd.com,
+        chris@chris-wilson.co.uk, matthew.auld@intel.com,
+        tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com,
+        sam@ravnborg.org, miaoqinglang@huawei.com,
+        emil.velikov@collabora.com, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 07/21] drm/mediatek: Introduce GEM object functions
+Message-ID: <20200916113514.GK438822@phenom.ffwll.local>
+References: <20200915145958.19993-1-tzimmermann@suse.de>
+ <20200915145958.19993-8-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200915145958.19993-8-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 9/16/20 10:44 PM, Dmitry Osipenko wrote:
-> 05.09.2020 13:34, Mikko Perttunen пишет:
->> With job recovery becoming optional, syncpoints may have a mismatch
->> between their value and max value when freed. As such, when freeing,
->> set the max value to the current value of the syncpoint so that it
->> is in a sane state for the next user.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->>   drivers/gpu/host1x/syncpt.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
->> index 2fad8b2a55cc..82ecb4ac387e 100644
->> --- a/drivers/gpu/host1x/syncpt.c
->> +++ b/drivers/gpu/host1x/syncpt.c
->> @@ -385,6 +385,7 @@ static void syncpt_release(struct kref *ref)
->>   {
->>   	struct host1x_syncpt *sp = container_of(ref, struct host1x_syncpt, ref);
->>   
->> +	atomic_set(&sp->max_val, host1x_syncpt_read_min(sp));
->>   	sp->locked = false;
->>   
->>   	mutex_lock(&sp->host->syncpt_mutex);
->>
+On Tue, Sep 15, 2020 at 04:59:44PM +0200, Thomas Zimmermann wrote:
+> GEM object functions deprecate several similar callback interfaces in
+> struct drm_driver. This patch replaces the per-driver callbacks with
+> per-instance callbacks in mediatek. The only exception is gem_prime_mmap,
+> which is non-trivial to convert.
 > 
-> Please note that the sync point state actually needs to be completely
-> reset at the sync point request-time because both downstream fastboot
-> and upstream u-boot [1] are needlessly enabling display VBLANK interrupt
-> that continuously increments sync point #26 during of kernel boot until
-> display controller is reset.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  5 -----
+>  drivers/gpu/drm/mediatek/mtk_drm_gem.c | 11 +++++++++++
+>  2 files changed, 11 insertions(+), 5 deletions(-)
 > 
-> [1] https://github.com/u-boot/u-boot/blob/master/drivers/video/tegra.c#L155
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 040a8f393fe2..2f8d0043fca7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -301,18 +301,13 @@ struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
+>  static struct drm_driver mtk_drm_driver = {
+>  	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+>  
+> -	.gem_free_object_unlocked = mtk_drm_gem_free_object,
+> -	.gem_vm_ops = &drm_gem_cma_vm_ops,
+>  	.dumb_create = mtk_drm_gem_dumb_create,
+>  
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+>  	.gem_prime_import = mtk_drm_gem_prime_import,
+> -	.gem_prime_get_sg_table = mtk_gem_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = mtk_gem_prime_import_sg_table,
+>  	.gem_prime_mmap = mtk_drm_gem_mmap_buf,
+> -	.gem_prime_vmap = mtk_drm_gem_prime_vmap,
+> -	.gem_prime_vunmap = mtk_drm_gem_prime_vunmap,
+>  	.fops = &mtk_drm_fops,
+>  
+>  	.name = DRIVER_NAME,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> index 6190cc3b7b0d..591b90410e4a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> @@ -8,11 +8,20 @@
+>  #include <drm/drm.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_gem.h>
+> +#include <drm/drm_gem_cma_helper.h>
+>  #include <drm/drm_prime.h>
+>  
+>  #include "mtk_drm_drv.h"
+>  #include "mtk_drm_gem.h"
+>  
+> +static const struct drm_gem_object_funcs mtk_drm_gem_object_funcs = {
+> +	.free = mtk_drm_gem_free_object,
+> +	.get_sg_table = mtk_gem_prime_get_sg_table,
+> +	.vmap = mtk_drm_gem_prime_vmap,
+> +	.vunmap = mtk_drm_gem_prime_vunmap,
+> +	.vm_ops = &drm_gem_cma_vm_ops,
+> +};
+> +
+>  static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
+>  						unsigned long size)
+>  {
+> @@ -25,6 +34,8 @@ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
+>  	if (!mtk_gem_obj)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +	mtk_gem_obj->base.funcs = &mtk_drm_gem_object_funcs;
+> +
+>  	ret = drm_gem_object_init(dev, &mtk_gem_obj->base, size);
+>  	if (ret < 0) {
+>  		DRM_ERROR("failed to initialize gem object\n");
+> -- 
+> 2.28.0
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > 
-> Hence once sync point #26 is requested, it will have a dirty state. So
-> far this doesn't have any visible effect because sync points aren't used
-> much.
-> 
 
-Maybe we can instead reserve syncpoints that might be used by the boot 
-chain, and only allow allocating them once the display driver has acked 
-that the syncpoint will no longer be incremented? That way if the 
-display driver is disabled for some reason we'll still be fine.
-
-Looking at the downstream driver, it (still, on new chips..) reserves 
-the following syncpoints:
-
-- 10 (AVP)
-- 22 (3D)
-- 26 (VBLANK0)
-- 27 (VBLANK1)
-
-and says that this applies to T20, T30, T114 and T148.
-
-I suppose if you haven't observed this happening to other syncpoints 
-than 26, then reserving 26 would probably be enough.
-
-Mikko
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
