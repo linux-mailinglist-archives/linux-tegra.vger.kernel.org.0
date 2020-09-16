@@ -2,47 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C367726C964
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 21:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1363B26C9D1
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 21:28:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbgIPTId (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Sep 2020 15:08:33 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11662 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727384AbgIPTI1 (ORCPT
+        id S1727208AbgIPT2j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Sep 2020 15:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728132AbgIPT0r (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Sep 2020 15:08:27 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f6262500001>; Wed, 16 Sep 2020 12:06:57 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 16 Sep 2020 12:08:24 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 16 Sep 2020 12:08:24 -0700
-Received: from [10.26.74.242] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 16 Sep
- 2020 19:08:14 +0000
+        Wed, 16 Sep 2020 15:26:47 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F14C06174A
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 12:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=g+cGRsItI8plFrm1ENJsm5T9BsZ3PevnipkmNmYaEic=; b=nsqiln7dC94KM3EbOP3WwRNekM
+        Zsn+t9m8xOpw26pB49IeRez35DrfsyTv1kF4bnBFO2sBKc88VNx6bcQTDjQnJqJrg5dHSYa7ytfRv
+        FEs8DrOUHD+Kf8bengp0S9LQhwbKDLjG38VLdCljqmqdM2p+eOcVr1Act2eLrSQz+rZvQmp8vBrcI
+        Jp0f4na136iojZcXquXOe3ins/7/1ScMqyqP/Cxp2jGXa4EBn+jPSwZ9K51c5tsd1c5g3PBuk9kQq
+        FPDKT3Capk4vfmSSek0w6Mqg8Gb1YiXaxfLS5DR4AGp+NOzQPdBkcYlvFn6/bo9oQ6regJwB2EGSo
+        vlH51i5A==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1kId4W-0008Fg-46; Wed, 16 Sep 2020 22:26:28 +0300
 Subject: Re: [PATCH v3 08/16] irqchip/gic: Configure SGIs as standard
  interrupts
-To:     Marc Zyngier <maz@kernel.org>
-CC:     Sumit Garg <sumit.garg@linaro.org>, <kernel-team@android.com>,
-        "Florian Fainelli" <f.fainelli@gmail.com>,
+To:     Jon Hunter <jonathanh@nvidia.com>, Marc Zyngier <maz@kernel.org>
+Cc:     Sumit Garg <sumit.garg@linaro.org>, linus.walleij@linaro.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
         Russell King <linux@arm.linux.org.uk>,
         Jason Cooper <jason@lakedaemon.net>,
         Saravana Kannan <saravanak@google.com>,
         Andrew Lunn <andrew@lunn.ch>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        <linus.walleij@linaro.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        <linux-kernel@vger.kernel.org>,
-        "Krzysztof Kozlowski" <krzk@kernel.org>,
-        Valentin Schneider <Valentin.Schneider@arm.com>,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Will Deacon <will@kernel.org>,
         'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>,
         linux-tegra <linux-tegra@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Will Deacon" <will@kernel.org>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        <linux-arm-kernel@lists.infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>, kernel-team@android.com,
+        Valentin Schneider <Valentin.Schneider@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
         Marek Szyprowski <m.szyprowski@samsung.com>
 References: <20200901144324.1071694-1-maz@kernel.org>
  <20200901144324.1071694-9-maz@kernel.org>
@@ -54,67 +63,37 @@ References: <20200901144324.1071694-1-maz@kernel.org>
  <a6c7bbc91c5b23baa44f3abe35eb61c9@kernel.org>
  <d6dddab0-47aa-ddf2-959b-85493b8da52d@nvidia.com>
  <13c096832bd923f956ddd7db7e337857@kernel.org>
- <5c2ec2bf156f27f2f1cde54611a98923@kernel.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <fdf8605d-22ea-0832-625e-749291d88b8c@nvidia.com>
-Date:   Wed, 16 Sep 2020 20:08:12 +0100
+ <02bb9262-221a-b2cf-4471-dd3a46b442e7@nvidia.com>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <63815f37-6a82-27c2-10e9-2649b2c864a0@kapsi.fi>
+Date:   Wed, 16 Sep 2020 22:26:14 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <5c2ec2bf156f27f2f1cde54611a98923@kernel.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <02bb9262-221a-b2cf-4471-dd3a46b442e7@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1600283217; bh=r0H0jedd/uhuvnqLBjAgmRLE9Ie1+Xeyuy2zOoYREEc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Akgvk03cLtJ2sCI7EynFQPFruJe6WTFuVooa/py9K7DeLTv09BaVfueSTE2OtyZ8Z
-         qPQb5DMPru8Mpjmrp165mW/6p3kfAd6CCkyPDncY3og8RD8AgyuBsYb8tiPfj8nOvP
-         jE8EjJvoQXyXwITJXL462NGIJvf05C6UpCRYDzTFh/9f13hRkPFcutLMkNTMhbVZ+N
-         YBmpqUaZBJNL32aF76+VUSkoxsiAcOxi7WSotdBV4j5EmoOthZuk3ukgQHw6ItRjwn
-         LMMSlTC0n+s0PBO5Q/eNwGc4mM9ZBVQF7FpYGXrsqrFCfTCxU8qT6VBECQ+LPbCbnF
-         EfQCSMEbhbgfQ==
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Not sure which boards this issue is happening on, but looking at my 
+hobby kernel's git history (from a couple of years ago, memory is a bit 
+hazy), the commit labeled "Add support for TX2" adds code to drop from 
+EL2 to EL1 at boot.
 
-On 16/09/2020 17:28, Marc Zyngier wrote:
+Mikko
 
-...
-
-> Make it that instead:
->=20
-> =C2=A0static void gic_eoimode1_eoi_irq(struct irq_data *d)
-> =C2=A0{
-> +=C2=A0=C2=A0=C2=A0 u32 hwirq =3D gic_irq(d);
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0 /* Do not deactivate an IRQ forwarded to a vcpu.=
- */
-> =C2=A0=C2=A0=C2=A0=C2=A0 if (irqd_is_forwarded_to_vcpu(d))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->=20
-> -=C2=A0=C2=A0=C2=A0 writel_relaxed(gic_irq(d), gic_cpu_base(d) + GIC_CPU_=
-DEACTIVATE);
-> +=C2=A0=C2=A0=C2=A0 if (hwirq < 16)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hwirq =3D this_cpu_read(sgi_i=
-ntid);
-> +
-> +=C2=A0=C2=A0=C2=A0 writel_relaxed(hwirq, gic_cpu_base(d) + GIC_CPU_DEACT=
-IVATE);
-> =C2=A0}
-
-
-Unfortunately, still does not boot :-(
-
-Jon
-
---=20
-nvpublic
+On 9/16/20 10:06 PM, Jon Hunter wrote:
+> On 16/09/2020 17:22, Marc Zyngier wrote:
+>> Do you boot form EL2?
+> 
+> Not that I am aware of. There is no hypervisor that we are using.
+> 
+> Jon
+> 
