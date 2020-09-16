@@ -2,192 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5061426CC9C
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 22:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07D0626CC71
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Sep 2020 22:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727555AbgIPUq6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Sep 2020 16:46:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55590 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726690AbgIPRBX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:01:23 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F302C221F0;
-        Wed, 16 Sep 2020 16:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600273724;
-        bh=mpAdHBdSMzoCqVev8/I8QdC32AN7Gx99N6kNTPpTi1I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CjSGKgXW5qBH1DXUCssLzes7A7cgOMvTlufIoLz4NbatyTTkMh1yUDCPD5r+qetlO
-         zinL0stoWd+oPuyeALmQUdPeLRKCBwN2UXzHdMMXHMV7gN1j/yg8uiIlTPnc+W5TcW
-         efEBhn5RSsxA2FClxpq5U0Sg26f3OoT9u6TXrY7w=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <maz@kernel.org>)
-        id 1kIaIU-00CNjN-2H; Wed, 16 Sep 2020 17:28:42 +0100
+        id S1726831AbgIPUor (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Sep 2020 16:44:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728570AbgIPUoF (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 16 Sep 2020 16:44:05 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831C9C06174A
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Sep 2020 13:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=sIMG4wWgY9okM8dfYXX6a9fUcsqWrWVJbPz4x4HHJm8=; b=v06gt/0ITtgVyOORAA8OCjcobZ
+        U6DZ/nHwBSr3nK6SB1EFgrdnKbYQermRBF1XgsK11dR9Rmf51lF+9VWYH7mW7a//Ms1sHIh9s3RRW
+        cmnwCvO4kBUzUQ6/eBBgG4PgnTliG7PHmi0Nymqmz0e3quHU5acqrxXKURh/HVoxhp/hmscmueGtQ
+        7ETry/C2W2cfFTT93fu2cnY5YxCcJSCPpRB/Xn1yiz+S9SjZGzUr10JkxEmBIU6WmaIq5CmWclWtz
+        oNtzY/569M809ClABtxn1l/pe2qoCp9lWzHFAFKZtA5z8nJL9wO2Rm2mg7m9ozMB26GXALBsEt3bt
+        kNsZ7oPw==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1kIeHX-00047O-FZ; Wed, 16 Sep 2020 23:43:59 +0300
+Subject: Re: [RFC PATCH v2 13/17] gpu: host1x: Reset max value when freeing a
+ syncpoint
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
+        daniel@ffwll.ch
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        talho@nvidia.com, bhuntsman@nvidia.com
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <20200905103420.3021852-14-mperttunen@nvidia.com>
+ <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <0d12991e-3599-c5bf-11e5-78031f0f8088@kapsi.fi>
+Date:   Wed, 16 Sep 2020 23:43:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+In-Reply-To: <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Date:   Wed, 16 Sep 2020 17:28:42 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Sumit Garg <sumit.garg@linaro.org>, linus.walleij@linaro.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Russell King <linux@arm.linux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, kernel-team@android.com,
-        Valentin Schneider <Valentin.Schneider@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v3 08/16] irqchip/gic: Configure SGIs as standard
- interrupts
-In-Reply-To: <13c096832bd923f956ddd7db7e337857@kernel.org>
-References: <20200901144324.1071694-1-maz@kernel.org>
- <20200901144324.1071694-9-maz@kernel.org>
- <CGME20200914130601eucas1p23ce276d168dee37909b22c75499e68da@eucas1p2.samsung.com>
- <a917082d-4bfd-a6fd-db88-36e75f5f5921@samsung.com>
- <933bc43e-3cd7-10ec-b9ec-58afaa619fb7@nvidia.com>
- <3378cd07b92e87a24f1db75f708424ee@kernel.org>
- <dcf812d9-2409-bcae-1925-e21740c2932e@nvidia.com>
- <a6c7bbc91c5b23baa44f3abe35eb61c9@kernel.org>
- <d6dddab0-47aa-ddf2-959b-85493b8da52d@nvidia.com>
- <13c096832bd923f956ddd7db7e337857@kernel.org>
-User-Agent: Roundcube Webmail/1.4.8
-Message-ID: <5c2ec2bf156f27f2f1cde54611a98923@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: jonathanh@nvidia.com, sumit.garg@linaro.org, linus.walleij@linaro.org, f.fainelli@gmail.com, linux@arm.linux.org.uk, jason@lakedaemon.net, saravanak@google.com, andrew@lunn.ch, catalin.marinas@arm.com, gregory.clement@bootlin.com, b.zolnierkie@samsung.com, linux-kernel@vger.kernel.org, krzk@kernel.org, will@kernel.org, linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org, tglx@linutronix.de, kernel-team@android.com, Valentin.Schneider@arm.com, linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2020-09-16 17:22, Marc Zyngier wrote:
-> On 2020-09-16 16:58, Jon Hunter wrote:
->> On 16/09/2020 16:55, Marc Zyngier wrote:
->>> On 2020-09-16 16:46, Jon Hunter wrote:
->>>> On 16/09/2020 16:10, Marc Zyngier wrote:
->>>>> Hi Jon,
->>>>> 
->>>>> +Linus, who is facing a similar issue.
->>>>> 
->>>>> On 2020-09-16 15:16, Jon Hunter wrote:
->>>>>> Hi Marc,
->>>>>> 
->>>>>> On 14/09/2020 14:06, Marek Szyprowski wrote:
->>>>>>> Hi Marc,
->>>>>>> 
->>>>>>> On 01.09.2020 16:43, Marc Zyngier wrote:
->>>>>>>> Change the way we deal with GIC SGIs by turning them into proper
->>>>>>>> IRQs, and calling into the arch code to register the interrupt 
->>>>>>>> range
->>>>>>>> instead of a callback.
->>>>>>>> 
->>>>>>>> Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
->>>>>>>> Signed-off-by: Marc Zyngier <maz@kernel.org>
->>>>>>> This patch landed in linux next-20200914 as commit ac063232d4b0
->>>>>>> ("irqchip/gic: Configure SGIs as standard interrupts"). Sadly it
->>>>>>> breaks
->>>>>>> booting of all Samsung Exynos 4210/4412 based boards (dual/quad 
->>>>>>> ARM
->>>>>>> Cortex A9 based). Here are the last lines from the bootlog:
->>>>>> 
->>>>>> I am observing the same thing on several Tegra boards (both arm 
->>>>>> and
->>>>>> arm64). Bisect is pointing to this commit. Reverting this alone 
->>>>>> does
->>>>>> not
->>>>>> appear to be enough to fix the issue.
->>>>> 
->>>>> Right, I am just massively by the GICv3 spec, and failed to 
->>>>> remember
->>>>> that ye olde GIC exposes the source CPU in AIR *and* wants it back,
->>>>> while
->>>>> newer GICs deal with that transparently.
->>>>> 
->>>>> Can you try the patch below and let me know?
->>>> 
->>>> Yes will do.
->>>> 
->>>>> @@ -365,14 +354,13 @@ static void __exception_irq_entry
->>>>> gic_handle_irq(struct pt_regs *regs)
->>>>>              smp_rmb();
->>>>> 
->>>>>              /*
->>>>> -             * Samsung's funky GIC encodes the source CPU in
->>>>> -             * GICC_IAR, leading to the deactivation to fail if
->>>>> -             * not written back as is to GICC_EOI.  Stash the
->>>>> -             * INTID away for gic_eoi_irq() to write back.
->>>>> -             * This only works because we don't nest SGIs...
->>>>> +             * The GIC encodes the source CPU in GICC_IAR,
->>>>> +             * leading to the deactivation to fail if not
->>>>> +             * written back as is to GICC_EOI.  Stash the INTID
->>>>> +             * away for gic_eoi_irq() to write back.  This only
->>>>> +             * works because we don't nest SGIs...
->>>>>               */
->>>>> -            if (is_frankengic())
->>>>> -                set_sgi_intid(irqstat);
->>>>> +            this_cpu_write(sgi_intid, intid);
->>>> 
->>>> I assume that it should be irqstat here and not intid?
->>> 
->>> Indeed. As you can tell, I haven't even tried to compile it, sorry 
->>> about
->>> that.
->> 
->> No worries, I got the gist. However, even with this change, it still
->> does not boot :-(
+On 9/16/20 10:44 PM, Dmitry Osipenko wrote:
+> 05.09.2020 13:34, Mikko Perttunen пишет:
+>> With job recovery becoming optional, syncpoints may have a mismatch
+>> between their value and max value when freed. As such, when freeing,
+>> set the max value to the current value of the syncpoint so that it
+>> is in a sane state for the next user.
+>>
+>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>> ---
+>>   drivers/gpu/host1x/syncpt.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
+>> index 2fad8b2a55cc..82ecb4ac387e 100644
+>> --- a/drivers/gpu/host1x/syncpt.c
+>> +++ b/drivers/gpu/host1x/syncpt.c
+>> @@ -385,6 +385,7 @@ static void syncpt_release(struct kref *ref)
+>>   {
+>>   	struct host1x_syncpt *sp = container_of(ref, struct host1x_syncpt, ref);
+>>   
+>> +	atomic_set(&sp->max_val, host1x_syncpt_read_min(sp));
+>>   	sp->locked = false;
+>>   
+>>   	mutex_lock(&sp->host->syncpt_mutex);
+>>
 > 
-> Do you boot form EL2? If so, you'd also need this:
+> Please note that the sync point state actually needs to be completely
+> reset at the sync point request-time because both downstream fastboot
+> and upstream u-boot [1] are needlessly enabling display VBLANK interrupt
+> that continuously increments sync point #26 during of kernel boot until
+> display controller is reset.
 > 
->  static void gic_eoimode1_eoi_irq(struct irq_data *d)
->  {
-> +	u32 hwirq = gic_irq(d);
-> +
->  	/* Do not deactivate an IRQ forwarded to a vcpu. */
->  	if (irqd_is_forwarded_to_vcpu(d))
->  		return;
+> [1] https://github.com/u-boot/u-boot/blob/master/drivers/video/tegra.c#L155
 > 
-> +	if (hwirq < 16)
-> +		hwirq = this_cpu_read(sgi_intid);
-> +
->  	writel_relaxed(gic_irq(d), gic_cpu_base(d) + GIC_CPU_DEACTIVATE);
->  }
+> Hence once sync point #26 is requested, it will have a dirty state. So
+> far this doesn't have any visible effect because sync points aren't used
+> much.
+> 
 
-Make it that instead:
+Maybe we can instead reserve syncpoints that might be used by the boot 
+chain, and only allow allocating them once the display driver has acked 
+that the syncpoint will no longer be incremented? That way if the 
+display driver is disabled for some reason we'll still be fine.
 
-  static void gic_eoimode1_eoi_irq(struct irq_data *d)
-  {
-+	u32 hwirq = gic_irq(d);
-+
-  	/* Do not deactivate an IRQ forwarded to a vcpu. */
-  	if (irqd_is_forwarded_to_vcpu(d))
-  		return;
+Looking at the downstream driver, it (still, on new chips..) reserves 
+the following syncpoints:
 
--	writel_relaxed(gic_irq(d), gic_cpu_base(d) + GIC_CPU_DEACTIVATE);
-+	if (hwirq < 16)
-+		hwirq = this_cpu_read(sgi_intid);
-+
-+	writel_relaxed(hwirq, gic_cpu_base(d) + GIC_CPU_DEACTIVATE);
-  }
+- 10 (AVP)
+- 22 (3D)
+- 26 (VBLANK0)
+- 27 (VBLANK1)
 
+and says that this applies to T20, T30, T114 and T148.
 
-         M.
--- 
-Jazz is not dead. It just smells funny...
+I suppose if you haven't observed this happening to other syncpoints 
+than 26, then reserving 26 would probably be enough.
+
+Mikko
