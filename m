@@ -2,144 +2,177 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3007526DA34
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 13:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD1926DA47
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 13:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726756AbgIQLbJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Sep 2020 07:31:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
+        id S1726636AbgIQLbv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Sep 2020 07:31:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726780AbgIQL3S (ORCPT
+        with ESMTP id S1726505AbgIQLbc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Sep 2020 07:29:18 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7178C06178A;
-        Thu, 17 Sep 2020 04:28:56 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id w5so1659452wrp.8;
-        Thu, 17 Sep 2020 04:28:56 -0700 (PDT)
+        Thu, 17 Sep 2020 07:31:32 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CBBC061788;
+        Thu, 17 Sep 2020 04:31:31 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id s13so1610286wmh.4;
+        Thu, 17 Sep 2020 04:31:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wne0WJCLcc/dHJqUUWNQM1s/g9SNjKh5aju9qPMBUW8=;
-        b=VSwh2l8gAbo53bBx4GPf+Gjs18L3S4Z6B5S1Hmz6tmVktSAkX3F+QB1r4qkIxSXqeO
-         ltVIPAvO45+AYv7+nlcdDXXoKBxcAKPyByp5f3aeMrQPtTv1sQ4L1cX7XLVz0jne+j1L
-         3YdJMAI4L/y/Fm2ArsNRagzRRhVMKPYXxVZ50YapBnBmQ+g6yCvbrQZg7h7WFxg2zOGV
-         t1AflVS5BgbKRIoeMVjY1sXY6Kkp4ancO4HUbls75chwV+6u3pjFmUuDEVP0/ATpnivN
-         c0aXqx4fg5nmSqhfVkXOEtpgY7jXNxsxd5Y+yMpqFBz0XSHHgKEXy1PW1z/p0LnJsOPx
-         NUEA==
+         :content-disposition:in-reply-to;
+        bh=QoGoJWGY9uvsPbK1VFldPakdj/95886EaH4XmF5Nmig=;
+        b=WT+tCnqscdjnhBzx4pey4qfrs3TpF1Xktu7jt8T8cQSP0yZJdX3KoYHPdWspzIugsq
+         6HSKY9VJKgsdLw89cCYxqdbs7Vt7/k4/jK9LtTE+4i9XvfXW1Lr/Fm+fEnngxxWPD5dx
+         hAgvu8wEl2ImGMZ/Vxi1axcUTWC/C1hcCZmRCP+VMlQrWSEcu/Hqzj+fuVKA2INfBjX3
+         /zcARTJCVi7gGPGSYovxguWtsuZzPwF6TsPs2IH9t/Kp5k3R+t/9fCDbL8cqbYXRyKxo
+         iHGdqfCt+o61f/ixQfUMrk5tyRoSS69zCZaqGiTmJsGllEHi/xlz25EYavgN+6zZY8AL
+         WM8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wne0WJCLcc/dHJqUUWNQM1s/g9SNjKh5aju9qPMBUW8=;
-        b=N69E3tka3wpouN85eAE80Lql/8V1Y9pFM88Qtr5wVWS0a7ye707Q5aIwW+noXoJjNG
-         D1bipn33oD7lBuqNgntyE+aWVzFpHD2A/ld9vQS5BxocNzpqcGop0e47fYmT1KRtuZPm
-         ntPnnIJI1nW2THc1H+AYg9kf3v2T3H1U+RfZB6dmtZOpeRDz2kNMrfYnb463lezUw5Ac
-         5PjbDXuJm2rbBCqLraDYYTFw5IhlZYgJqvQEv5LYpSUtZ3G8ec8hiTLreON2B6nZjgkJ
-         Xnm6sphGl6ADPSA88MR64NTHKHWT4CBh8ss1ENzh7BpM++DWMm1veZtEk06umUPX2sfk
-         k+xw==
-X-Gm-Message-State: AOAM530fvcrgfzHb7gEOSHB4hyc6jzEY3gQlvh6tUGZPrs8kyu2I60EP
-        +2Xg9EiAgbeqiU6sdcoln8c=
-X-Google-Smtp-Source: ABdhPJzi1wu5FbjTXyo9AO8Z7R3NKsiJOwCYGMUL6Ey8CGEfcApubXdovS3Sw7b2DJArIaXqCRZbZA==
-X-Received: by 2002:adf:9c93:: with SMTP id d19mr32416170wre.275.1600342135633;
-        Thu, 17 Sep 2020 04:28:55 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id v9sm43239177wrv.35.2020.09.17.04.28.53
+         :mime-version:content-disposition:in-reply-to;
+        bh=QoGoJWGY9uvsPbK1VFldPakdj/95886EaH4XmF5Nmig=;
+        b=aqjDBpusXuNQUj7CV+AkN9pQhHXDrkvYezt/YCQfSCm3JbRvtEAsOK6MmDn7TGscnd
+         pM3DULz9ei+usiI0HQIgf/SnTZQnpCXeocXi3Ra1rmUwriJXZRaX8NFR2Sh5BAFHetcc
+         LDFzexaVOpRFVXadVab6h3gfYDRn93FLG5GQ+BsUROm0m4kp6BT8hvHC/OoKbraFfi/1
+         eV9q4bo/Iwz4eduj2WAy30OZDiw2YQ/xrcAxEOQJwix7ad4KxmHZunuMi7RqdFi4pMHq
+         g/YIE+MXtBn7/znatiKyxN0lcdNmrnx8iPigDoa0t/q85MHqaF6LelCQtl30T5WCGaGW
+         j/uQ==
+X-Gm-Message-State: AOAM532rw2w2svcJsxjGy+a3a/LHq2P7waiaLVBHBzPTdvraUoSlbpid
+        YiIDvbOUqcFwRxAxrIRO/fs=
+X-Google-Smtp-Source: ABdhPJyuZcp+AqRLPz3yJIfvdwNUATarIMvgIK7I09VrN4WEXhLqSMqZyvaS1A1ZqiWgJrdIoQA/Hg==
+X-Received: by 2002:a1c:96:: with SMTP id 144mr9601334wma.84.1600342290200;
+        Thu, 17 Sep 2020 04:31:30 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+        by smtp.gmail.com with ESMTPSA id 11sm10489240wmi.14.2020.09.17.04.31.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 04:28:54 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 13:28:52 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 08/34] i2c: tegra: Remove error message used for
- devm_request_irq() failure
-Message-ID: <20200917112852.GT3515672@ulmo>
-References: <20200908224006.25636-1-digetx@gmail.com>
- <20200908224006.25636-9-digetx@gmail.com>
+        Thu, 17 Sep 2020 04:31:29 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 08:31:20 -0300
+From:   Melissa Wen <melissa.srw@gmail.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        airlied@linux.ie, daniel@ffwll.ch, linux@armlinux.org.uk,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+        inki.dae@samsung.com, jy0922.shim@samsung.com,
+        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+        kgene@kernel.org, krzk@kernel.org, patrik.r.jakobsson@gmail.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, chunkuang.hu@kernel.org,
+        p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+        robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+        tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com,
+        heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+        oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+        laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+        sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+        tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+        andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com,
+        xinhui.pan@amd.com, aaron.liu@amd.com, nirmoy.das@amd.com,
+        chris@chris-wilson.co.uk, matthew.auld@intel.com,
+        tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com,
+        sam@ravnborg.org, miaoqinglang@huawei.com,
+        emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 18/21] drm/vkms: Introduce GEM object functions
+Message-ID: <20200917113120.dtz7yxvdg7xdgbx5@smtp.gmail.com>
+References: <20200915145958.19993-1-tzimmermann@suse.de>
+ <20200915145958.19993-19-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="BfbbJsf3thGkpLcA"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200908224006.25636-9-digetx@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <20200915145958.19993-19-tzimmermann@suse.de>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Thomas,
 
---BfbbJsf3thGkpLcA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 09/15, Thomas Zimmermann wrote:
+> GEM object functions deprecate several similar callback interfaces in
+> struct drm_driver. This patch replaces the per-driver callbacks with
+> per-instance callbacks in vkms.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-On Wed, Sep 09, 2020 at 01:39:40AM +0300, Dmitry Osipenko wrote:
-> The error message prints number of vIRQ, which isn't a useful information.
-> In practice devm_request_irq() never fails, hence let's remove the bogus
-> message in order to make code cleaner.
->=20
-> Reviewed-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Thanks! Looks fine.
+
+Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
+
 > ---
->  drivers/i2c/busses/i2c-tegra.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-
-I think I have seen this fail occasionally when something's wrong in the
-IRQ code, or when we are not properly configuring the IRQ in device tree
-for example.
-
-So I'd prefer if this error message stayed here. I agree that it's not a
-terribly useful error message, so perhaps adding the error code to it
-would make it more helpful?
-
-Thierry
-
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegr=
-a.c
-> index a52c72135390..b813c0976c10 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -1807,10 +1807,8 @@ static int tegra_i2c_probe(struct platform_device =
-*pdev)
-> =20
->  	ret =3D devm_request_irq(&pdev->dev, i2c_dev->irq, tegra_i2c_isr,
->  			       IRQF_NO_SUSPEND, dev_name(&pdev->dev), i2c_dev);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "Failed to request irq %i\n", i2c_dev->irq);
-> +	if (ret)
->  		goto release_dma;
-> -	}
-> =20
->  	i2c_set_adapdata(&i2c_dev->adapter, i2c_dev);
->  	i2c_dev->adapter.owner =3D THIS_MODULE;
-> --=20
-> 2.27.0
->=20
-
---BfbbJsf3thGkpLcA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9jSHQACgkQ3SOs138+
-s6EQPA//cqgGscSVoB4ZSvrGlXMpsipFhAxmGfMpIBFMhGW5Z+JioIHFc6CsVQ5z
-9byRZoytT7bhvC7arnWk4lsVAT/xtf6/hmyJzSITsctOF4MqLztkwklqKmOAONwX
-xFmR+uU9L61VgxBZ6KU7fUrj9Rl/isHoJ+3diNtRU3fwym2SurMgfC84hemKw9n9
-KhijIbzztf4jMkdyKwNPCHp8XWgDLPpsS8/j6WC37iNfQ+ZRZjM9q+JOMq75q85q
-WDMup12UU/OZpo1DlH5TwJAMoMDCyl4+RFgdLbumf7Da4jvXn7ppzRzBQZScYZ6L
-0xR0lbv8+MJv7hfHh3TJuL/TqXG+H/D+Pb4Jc/8p1+ZFgKTPCO26ghCpGqZfGReJ
-uPcEjoKuADFKrAiU6NEpJPyCOSDg7TQXRkvnYOQF61g6WOK1WZVWO+pUTxpoSNXk
-2Yi2laFNbgAfw/M4oe6U9Z5tSi1Vsdbej9T6L4wUjnKd2YW55ynWSY3/pkcbRGP0
-Exvd/OUVGFf8TRWVfwlA6qr6l+0/IXUpMMYphEEXWuxt//rklJW19Gv1RF2EBE1m
-aGX756Yuyt+kfoeAyAm3edbJkCEezMFV66KoptEQMtDE+n298Psegivavumlcol4
-/HxKi4BZC4Wba4iW/9UM20AqTbDN+K9K0BoiuJ+2g91gwL9ssYw=
-=LsIW
------END PGP SIGNATURE-----
-
---BfbbJsf3thGkpLcA--
+>  drivers/gpu/drm/vkms/vkms_drv.c |  8 --------
+>  drivers/gpu/drm/vkms/vkms_gem.c | 13 +++++++++++++
+>  2 files changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index cb0b6230c22c..726801ab44d4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -51,12 +51,6 @@ static const struct file_operations vkms_driver_fops = {
+>  	.release	= drm_release,
+>  };
+>  
+> -static const struct vm_operations_struct vkms_gem_vm_ops = {
+> -	.fault = vkms_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> -};
+> -
+>  static void vkms_release(struct drm_device *dev)
+>  {
+>  	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
+> @@ -98,8 +92,6 @@ static struct drm_driver vkms_driver = {
+>  	.release		= vkms_release,
+>  	.fops			= &vkms_driver_fops,
+>  	.dumb_create		= vkms_dumb_create,
+> -	.gem_vm_ops		= &vkms_gem_vm_ops,
+> -	.gem_free_object_unlocked = vkms_gem_free_object,
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+>  	.gem_prime_import_sg_table = vkms_prime_import_sg_table,
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
+> index a017fc59905e..19a0e260a4df 100644
+> --- a/drivers/gpu/drm/vkms/vkms_gem.c
+> +++ b/drivers/gpu/drm/vkms/vkms_gem.c
+> @@ -7,6 +7,17 @@
+>  
+>  #include "vkms_drv.h"
+>  
+> +static const struct vm_operations_struct vkms_gem_vm_ops = {
+> +	.fault = vkms_gem_fault,
+> +	.open = drm_gem_vm_open,
+> +	.close = drm_gem_vm_close,
+> +};
+> +
+> +static const struct drm_gem_object_funcs vkms_gem_object_funcs = {
+> +	.free = vkms_gem_free_object,
+> +	.vm_ops = &vkms_gem_vm_ops,
+> +};
+> +
+>  static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
+>  						 u64 size)
+>  {
+> @@ -17,6 +28,8 @@ static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
+>  	if (!obj)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +	obj->gem.funcs = &vkms_gem_object_funcs;
+> +
+>  	size = roundup(size, PAGE_SIZE);
+>  	ret = drm_gem_object_init(dev, &obj->gem, size);
+>  	if (ret) {
+> -- 
+> 2.28.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
