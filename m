@@ -2,184 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 374A026E575
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 21:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7A2D26E5B6
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 21:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbgIQQMu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Sep 2020 12:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727999AbgIQPOi (ORCPT
+        id S1726769AbgIQT4C (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Sep 2020 15:56:02 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:12254 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727757AbgIQOyn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Sep 2020 11:14:38 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5FEC061756;
-        Thu, 17 Sep 2020 07:01:59 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id w2so2092781wmi.1;
-        Thu, 17 Sep 2020 07:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lBUrIOfg3+mq8ad85tbb7EImBFZIDC/tVRBXQ4hE1ik=;
-        b=DNZiBZAKqypMSqQJoyD2IPrVpqiI3ikdcnRtqSUtglPbT/8APSdwaP78S9dCceWhaB
-         CUFzh+i3SYFxQjgJQYQXA+eAyv74bC7KPueFL/Gfi5sPNtWoyu6oeH0LQkpIWYJSX21y
-         rV7VkyxfFYten7MOhzm3Bz7i04GYai5m0PJD8/+pat7mIsmnFKD4UKKCCUMZ01zZFTbO
-         PKJYwiwHEuO6KO353OHy/LaLG0eDM48NEvTlWgc4GQY7VXvipXO0S4rEEhbCyvprEr3R
-         BIuNCJjy1NTGULEvR1fAoX12DfpViAnvzecyOpIl9S6AtbE1NSwC4GsSGoUx0L019NSL
-         oeQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lBUrIOfg3+mq8ad85tbb7EImBFZIDC/tVRBXQ4hE1ik=;
-        b=I8sXVyuXDfOS/Rn1LuibbXR68vspATS4+Zh1GbkfPl2Gn6w302/lot/OqZjeDBDF5H
-         ElcZV/6Cn7RztN8iNEQf5PK+5fplnB2BdGEo/qLigK9Yb+eQfRHqnw6oFiaR+WkMEN1L
-         itIE4fqC8w8mySJM1BnhawzGtVyiuMbxt0dA76CeqH3wFk9qPLCjri9XAjdV1/z2xgY2
-         5tR3Mri56IC/Ab9bi8fEBdye5sHpwV0WQLD9U259wtgN8dpHVm0NFpnk1dcbfAcAwjHs
-         cfpqkq2p6x+Fn55YXewLEx1iOZaFd3tzADg1WWiNATH7Bhafh9BE2v72diRUJur7+ynE
-         cCjA==
-X-Gm-Message-State: AOAM533L5ZhWz/j+rsdJn97szolaosxqsdBYCXCiYS6DwoPLayV101Qz
-        /SZvBkDLejY0S2Xw0PAwDVo=
-X-Google-Smtp-Source: ABdhPJwVFsi9VyC5N2zDyjQYYSf7iQdzkgcW/plJduCk7Y3eMkitDq4/6m+bqkSKVjF1esIZWne4iA==
-X-Received: by 2002:a1c:ba0b:: with SMTP id k11mr10119624wmf.20.1600351318328;
-        Thu, 17 Sep 2020 07:01:58 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
-        by smtp.gmail.com with ESMTPSA id z14sm37316830wrh.14.2020.09.17.07.01.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 07:01:57 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 11:01:48 -0300
-From:   Melissa Wen <melissa.srw@gmail.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     alexander.deucher@amd.com, christian.koenig@amd.com,
-        airlied@linux.ie, daniel@ffwll.ch, linux@armlinux.org.uk,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        l.stach@pengutronix.de, christian.gmeiner@gmail.com,
-        inki.dae@samsung.com, jy0922.shim@samsung.com,
-        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
-        kgene@kernel.org, krzk@kernel.org, patrik.r.jakobsson@gmail.com,
-        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-        rodrigo.vivi@intel.com, chunkuang.hu@kernel.org,
-        p.zabel@pengutronix.de, matthias.bgg@gmail.com,
-        robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
-        tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com,
-        heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
-        oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
-        laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
-        sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
-        tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
-        andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com,
-        xinhui.pan@amd.com, aaron.liu@amd.com, nirmoy.das@amd.com,
-        chris@chris-wilson.co.uk, matthew.auld@intel.com,
-        tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com,
-        sam@ravnborg.org, miaoqinglang@huawei.com,
-        emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 16/21] drm/vgem: Introduce GEM object functions
-Message-ID: <20200917140148.orpdihcctrr5upxg@smtp.gmail.com>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-17-tzimmermann@suse.de>
+        Thu, 17 Sep 2020 10:54:43 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f6378080002>; Thu, 17 Sep 2020 07:51:52 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 17 Sep 2020 07:53:21 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 17 Sep 2020 07:53:21 -0700
+Received: from [10.26.74.242] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 17 Sep
+ 2020 14:53:09 +0000
+Subject: Re: [PATCH v3 08/16] irqchip/gic: Configure SGIs as standard
+ interrupts
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Marc Zyngier <maz@kernel.org>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Sumit Garg" <sumit.garg@linaro.org>, <kernel-team@android.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Russell King <linux@arm.linux.org.uk>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Saravana Kannan <saravanak@google.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Gregory Clement" <gregory.clement@bootlin.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Linux Samsung SOC" <linux-samsung-soc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Valentin Schneider <Valentin.Schneider@arm.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200901144324.1071694-1-maz@kernel.org>
+ <20200901144324.1071694-9-maz@kernel.org>
+ <CGME20200914130601eucas1p23ce276d168dee37909b22c75499e68da@eucas1p2.samsung.com>
+ <a917082d-4bfd-a6fd-db88-36e75f5f5921@samsung.com>
+ <933bc43e-3cd7-10ec-b9ec-58afaa619fb7@nvidia.com>
+ <3378cd07b92e87a24f1db75f708424ee@kernel.org>
+ <CACRpkdYvqQUJaReD1yNTwiHhaZpQ9h5Z9DgdqbKkCexnM7cWNw@mail.gmail.com>
+ <049d62ac7de32590cb170714b47fb87d@kernel.org>
+ <a88528cd-eb76-367a-77d6-7ae20bd28304@nvidia.com>
+ <81cb16323baa1c81e7bc1e8156fa47b8@kernel.org>
+ <e317b2fe-52e3-8ce7-ba77-43d2708d660f@nvidia.com>
+ <4645f636-e7cc-6983-a3b7-897c20ec5096@samsung.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <ace68d00-f005-fee3-1f01-44522c180462@nvidia.com>
+Date:   Thu, 17 Sep 2020 15:53:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-17-tzimmermann@suse.de>
+In-Reply-To: <4645f636-e7cc-6983-a3b7-897c20ec5096@samsung.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1600354312; bh=JvhskCgRRc+by6CEI8mCU2/vrU7nc17FP3zO033b9jg=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=gWnvu/cyb8ETmuvHuS85SQkDc0iD+QnmQ5xmwjvHmr7dpAdvG02eZggPEx5xq/yoP
+         CI5kwWAviTU0lE/2QCaSTE11nna/qI+/b3O6W3MbI/qwTb85w6eSkd/FS/AYlGZlkX
+         vryYTr3aT7GFbksMsJhg5hzivJg7dYFo1M3u1L9AIMK8Et0FD7ZFaUBFy2k95BJX8G
+         qPlt+zqWvWw5XGuSVI1cCZYZdE6IPn1Gl5uxFqRAcbu3FzDmUKwE1tmzvRqcAmjXF8
+         EvqYNfFv6Dz5H36qrqeFxgUJlsrN7AN5pfv28L4H/48v0MKDddNjA3BCXdV+p36qQa
+         869zQF2HOlTow==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thomas,
 
-On 09/15, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in vgem. The only exception is gem_prime_mmap,
-> which is non-trivial to convert.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On 17/09/2020 09:54, Marek Szyprowski wrote:
+> Hi Jon,
+>=20
+> On 17.09.2020 10:49, Jon Hunter wrote:
+>> On 17/09/2020 09:45, Marc Zyngier wrote:
+>>> On 2020-09-17 08:54, Jon Hunter wrote:
+>>>> On 17/09/2020 08:50, Marc Zyngier wrote:
+>>>>> On 2020-09-17 08:40, Linus Walleij wrote:
+>>>>>> On Wed, Sep 16, 2020 at 5:11 PM Marc Zyngier <maz@kernel.org> wrote:
+>>>>>>
+>>>>>>> Can you try the patch below and let me know?
+>>>>>> I tried this patch and now Ux500 WORKS. So this patch is definitely
+>>>>>> something you should apply.
+>>>>>>
+>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (is_f=
+rankengic())
+>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_sgi_intid(irqstat);
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 this_cpu=
+_write(sgi_intid, intid);
+>>>>>> This needs changing to irqstat to compile as pointed out by Jon.
+>>>>>>
+>>>>>> With that:
+>>>>>> Tested-by: Linus Walleij <linus.walleij@linaro.org>
+>>>>> Thanks a lot for that.
+>>>>>
+>>>>> Still need to understand why some of Jon's systems are left unbootabl=
+e,
+>>>>> despite having similar GIC implementations (Tegra194 and Tegra210 use
+>>>>> the same GIC-400, and yet only one of the two boots correctly...).
+>>>> So far, I have only tested this patch on Tegra20. Let me try the other
+>>>> failing boards this morning and see if those still fail.
+>>> Tegra20 (if I remember well) is a dual A9 with the same GIC implementat=
+ion
+>>> as Ux500, hence requiring the source CPU bits to be written back. So th=
+is
+>>> patch should have cured it, but didn't...
+>>>
+>>> /me puzzled.
+>> Me too. Maybe there just happens to be something else also going wrong
+>> in next. I am doing a bit more testing to see if applying the fix
+>> directly on top of this change fixes it to try and eliminate anything
+>> else in -next.
+>>
+>> Linus, what -next are you testing on? I am using next-20200916.
+>=20
+> next-20200916 completely broken on ARM and ARM64. Please check=20
+> next-20200915 + the mentioned fix or just check=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log=
+/?h=3Dirq/ipi-as-irq
 
-Thanks here again.
+OK, I have confirmed that on Tegra20 and Tegra30, that next-20200915 +
+Marc's fix boots fine.
 
-This drv file is little tumultuous to me.
-I mean, I took a while to sort functions in my head.
+Tegra186 and Tegra194 are not booting, but I am wondering if this is yet
+another issue that is not related. I have not actually bisected on these
+boards, but I am now bisecting on Tegra186 to confirm.
 
-However, finally, I got it, and the change looks good.
+Jon
 
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
-
-> ---
->  drivers/gpu/drm/vgem/vgem_drv.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index cb884c890065..fa54a6d1403d 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -50,6 +50,8 @@
->  #define DRIVER_MAJOR	1
->  #define DRIVER_MINOR	0
->  
-> +static const struct drm_gem_object_funcs vgem_gem_object_funcs;
-> +
->  static struct vgem_device {
->  	struct drm_device drm;
->  	struct platform_device *platform;
-> @@ -167,6 +169,8 @@ static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
->  	if (!obj)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	obj->base.funcs = &vgem_gem_object_funcs;
-> +
->  	ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
->  	if (ret) {
->  		kfree(obj);
-> @@ -401,12 +405,20 @@ static int vgem_prime_mmap(struct drm_gem_object *obj,
->  	return 0;
->  }
->  
-> +static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
-> +	.free = vgem_gem_free_object,
-> +	.pin = vgem_prime_pin,
-> +	.unpin = vgem_prime_unpin,
-> +	.get_sg_table = vgem_prime_get_sg_table,
-> +	.vmap = vgem_prime_vmap,
-> +	.vunmap = vgem_prime_vunmap,
-> +	.vm_ops = &vgem_gem_vm_ops,
-> +};
-> +
->  static struct drm_driver vgem_driver = {
->  	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
->  	.open				= vgem_open,
->  	.postclose			= vgem_postclose,
-> -	.gem_free_object_unlocked	= vgem_gem_free_object,
-> -	.gem_vm_ops			= &vgem_gem_vm_ops,
->  	.ioctls				= vgem_ioctls,
->  	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
->  	.fops				= &vgem_driver_fops,
-> @@ -415,13 +427,8 @@ static struct drm_driver vgem_driver = {
->  
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_prime_pin = vgem_prime_pin,
-> -	.gem_prime_unpin = vgem_prime_unpin,
->  	.gem_prime_import = vgem_prime_import,
->  	.gem_prime_import_sg_table = vgem_prime_import_sg_table,
-> -	.gem_prime_get_sg_table = vgem_prime_get_sg_table,
-> -	.gem_prime_vmap = vgem_prime_vmap,
-> -	.gem_prime_vunmap = vgem_prime_vunmap,
->  	.gem_prime_mmap = vgem_prime_mmap,
->  
->  	.name	= DRIVER_NAME,
-> -- 
-> 2.28.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+--=20
+nvpublic
