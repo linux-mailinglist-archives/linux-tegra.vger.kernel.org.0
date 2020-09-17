@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74CDB26D869
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 12:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24ABD26D86B
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Sep 2020 12:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbgIQKIK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Sep 2020 06:08:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
+        id S1726362AbgIQKIM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Sep 2020 06:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbgIQKII (ORCPT
+        with ESMTP id S1726360AbgIQKIL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Sep 2020 06:08:08 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A399BC061756
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Sep 2020 03:08:07 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id q9so1391246wmj.2
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Sep 2020 03:08:07 -0700 (PDT)
+        Thu, 17 Sep 2020 06:08:11 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D50C06174A
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Sep 2020 03:08:11 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id b79so1426626wmb.4
+        for <linux-tegra@vger.kernel.org>; Thu, 17 Sep 2020 03:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yzDyavo/0wiA7VQrCMlOltEtuSoQo9iwyahPJsjM92k=;
-        b=m7s6VX7xOas41kCUouVjr3Jdn/xj0WF/hKRRfyCWiUMICpFiJJa+8ijnSB+4kEKloy
-         8SWUHylrmSRp5SgSMY8/XJ0BozUYpAURXBudEle64gb0Ta27rCsUAdCm0X/dGnS9hfU7
-         TQCWHd1mwPZkO1sVghd+JE0QKkRV0IBxxvNXlVitccALv6sHrA/xLOBnbmtdDEaDi6VJ
-         lb2IW8zuxFIxzYreyeM4a34v5AcwEFEU3d0xxLg/Ou6g+9CGGnztkwx1nh/wuviJjzki
-         Kg9+ygOgQneWKyrznLcfLVX8PsQrTtl3l0Zmmt4/A3JPiuc6a3g9qAtuR2HmbVYi9+dP
-         U2Ww==
+        bh=kwIhMiKwFA9UbevhkK+ZQGnCqGV++rJhNBk/vocGlqk=;
+        b=AG4HHZYh/lS4KCl8vF1CBlBPRAA3wg00sNAGurd/cshinKyzmKEZ27FWrgLivznShB
+         yIliV7lRx5ws/J2OenlKgdZ8DxmCknQEdNm9e6ewfJctiAuZ96LQjHhA8MOzAfWCvGlj
+         XaZDlJkfQTo763Y63mQ6KdB0YP8OBmeEJVOZTSpieUV7QRLzDv8RULZ7eDDxrOclaEtn
+         O48rRt6MC5OjtX8hInBDBESe4UDfp+Lt+z5sdvymnzn1tzIOPnlRcNEBz+kDGbNN+ycn
+         daGRi57nlLxN9Dc3+Df6GxHQpVYLy5hPP++VmJI9sn8ybHnqPlu7JxVrBJu2ybnPahd8
+         Bvsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yzDyavo/0wiA7VQrCMlOltEtuSoQo9iwyahPJsjM92k=;
-        b=Ez/A0Mcg6XUI+W3lsni98otKiFE749FvHB/NQdPw9OoaUNAlkjPbrQcR3RWQEyLfdX
-         VD1TLleUcqZyRY9Pgtmh6Mc3SIpTL15mWsIYa0kOCOIfnr/85e7FMcBcrqY5PoHn3SYQ
-         xqcpsB9npt9nLcprLMY14N52tQZm/hPKYeIKSDRPJibnEIU3u31tC96vutbFKc9pGLTF
-         Hf9vTnU9HWZ84Vd9aU09ZJiye3cU325wL0HorXMGeWNs5pSY98WkH7hPjEL3FivGqpEm
-         8L5jyTqdcDzlbFu7XJ543gItSo68r/aJ/1FBmm/q3HwNo6s9f0PxJARm43CZQIIBT6+r
-         rhqQ==
-X-Gm-Message-State: AOAM5310NPVkayKJb6FH7ZazQyBR24vT7tO3dvY8nJlKb+xbuDIayasA
-        B+Wrmvnxw9bas02aEvL7iCU=
-X-Google-Smtp-Source: ABdhPJxIPhicBdr+i37QjporTqES3j0nrKfVtYBEXn8glNNlpDpOM4mfFrfljFgacQsDSyEk1cN4GA==
-X-Received: by 2002:a7b:c44b:: with SMTP id l11mr9012514wmi.52.1600337286341;
-        Thu, 17 Sep 2020 03:08:06 -0700 (PDT)
+        bh=kwIhMiKwFA9UbevhkK+ZQGnCqGV++rJhNBk/vocGlqk=;
+        b=nptaRAVXNx6JiUo2uyWMt9zX8MVjxIb6Rsei64zha4tM2jYf8tnxgKsOmeXPHgbSWJ
+         0SN74+S4t30ig/p+wzvkjXVTcHCdKmwtC4GSOaYG7Qoo96wLi7bznBMbMzAO6yfB1ZOs
+         dhyeekWr7vQF+HXcGxJVivRVeH+ykHAdYPCasF/z/zNq3UxlptTIHRCI4jFs2KCoEhfv
+         BNEW1JjoHFokY6C7FXHR0PqmenJCeYQqKeczDwkIrDhfrM4waPjCbKCWgnOfgTiRm5VF
+         t2jeD9ii+G44/2y5JfpAGP9wm9M2q1Il2CR30VjQk5P6k/o0t+NvkaMqbn51ZF8Oq6I7
+         tBgA==
+X-Gm-Message-State: AOAM531GbWkfFe3fqs5BN6GbmpgdHIhfD9pI8e9417kAcsTGM57TJ9fU
+        dJAz+Iukt/mttso+F9o0hVY=
+X-Google-Smtp-Source: ABdhPJxGNXnzvTSiOWew8AxmTOG7GJ/ghclcyySs/R7BA+KwOjDkYDpgQT+sVAAg1uGKeNGRLWECpg==
+X-Received: by 2002:a7b:c1c3:: with SMTP id a3mr9976780wmj.68.1600337289049;
+        Thu, 17 Sep 2020 03:08:09 -0700 (PDT)
 Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id c16sm8826084wrx.31.2020.09.17.03.08.05
+        by smtp.gmail.com with ESMTPSA id i11sm38591935wre.32.2020.09.17.03.08.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 03:08:05 -0700 (PDT)
+        Thu, 17 Sep 2020 03:08:08 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 03/14] dt-bindings: misc: tegra186-misc: Add Tegra234 support
-Date:   Thu, 17 Sep 2020 12:07:41 +0200
-Message-Id: <20200917100752.3516153-4-thierry.reding@gmail.com>
+Subject: [PATCH v2 04/14] dt-bindings: tegra: Add Tegra234 VDK compatible
+Date:   Thu, 17 Sep 2020 12:07:42 +0200
+Message-Id: <20200917100752.3516153-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200917100752.3516153-1-thierry.reding@gmail.com>
 References: <20200917100752.3516153-1-thierry.reding@gmail.com>
@@ -66,27 +66,28 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The MISC block found on Tegra234 is mostly similar to the one on
-Tegra194 but supports slightly different register sets that make
-it incompatible.
+The NVIDIA Tegra234 VDK is a simulation platform for the Orin SoC. It
+supports a subset of the peripherals that will be available in the final
+chip and serves as a bootstrapping platform.
 
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- Documentation/devicetree/bindings/misc/nvidia,tegra186-misc.txt | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/arm/tegra.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/misc/nvidia,tegra186-misc.txt b/Documentation/devicetree/bindings/misc/nvidia,tegra186-misc.txt
-index 111dfac70ea7..43d777ed8316 100644
---- a/Documentation/devicetree/bindings/misc/nvidia,tegra186-misc.txt
-+++ b/Documentation/devicetree/bindings/misc/nvidia,tegra186-misc.txt
-@@ -7,6 +7,7 @@ Required properties:
- - compatible: Must be:
-   - Tegra186: "nvidia,tegra186-misc"
-   - Tegra194: "nvidia,tegra194-misc"
-+  - Tegra234: "nvidia,tegra234-misc"
- - reg: Should contain 2 entries: The first entry gives the physical address
-        and length of the register region which contains revision and debug
-        features. The second entry specifies the physical address and length
+diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
+index e0b3debaee9e..85006ca503a7 100644
+--- a/Documentation/devicetree/bindings/arm/tegra.yaml
++++ b/Documentation/devicetree/bindings/arm/tegra.yaml
+@@ -119,3 +119,7 @@ properties:
+         items:
+           - const: nvidia,p3509-0000+p3668-0000
+           - const: nvidia,tegra194
++      - items:
++          - enum:
++              - nvidia,tegra234-vdk
++          - const: nvidia,tegra234
 -- 
 2.28.0
 
