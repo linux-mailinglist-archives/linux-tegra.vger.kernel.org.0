@@ -2,37 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5285D26EE98
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Sep 2020 04:29:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF9026EE48
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Sep 2020 04:27:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729350AbgIRC3a (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Sep 2020 22:29:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43810 "EHLO mail.kernel.org"
+        id S1728996AbgIRC1K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Sep 2020 22:27:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45040 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729173AbgIRCPH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:15:07 -0400
+        id S1729291AbgIRCPu (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:15:50 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 61130239A1;
-        Fri, 18 Sep 2020 02:15:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 41BBE239D0;
+        Fri, 18 Sep 2020 02:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600395303;
-        bh=z6WH/dxbI5lzFkCLiIYwfprIJLDsUsAMekmZzPTs7iQ=;
+        s=default; t=1600395348;
+        bh=rj7yRVaJIwSD5WJDYwBMe73pX5P8cizRUn1JdT5yIl8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vAttXVLKoCfIomZQHtNBjVhqAGB2cRNHSRugASytujjbCh0bLNIVNFurzK5gSxvbQ
-         lyjqFgakh1DhMyUexqaEptrwkra+hrKBYa5LIqsYnrQOKDLq6DjYw9shQGxNEwfxSg
-         AeRxvhqeuIaX+h1/EEI7FtoeDpbe780ffU6pHfzI=
+        b=xCVEuYSVhcuzAWW9z0Ihpc9hkN3u6Bdo/HGYf6CtNnXSiNKeQVAbZy/Z40WKE7JqQ
+         K2xQkB6atriPv7mQPWKJ4qCDJFuQeKbSdst4Rc2ZY3jM4gaZc9Mvor1tyvczXLtbfi
+         57dg99SjQRH9r7rXzLhoxIQB4shgh6ME16bQzcto=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 06/90] PM / devfreq: tegra30: Fix integer overflow on CPU's freq max out
-Date:   Thu, 17 Sep 2020 22:13:31 -0400
-Message-Id: <20200918021455.2067301-6-sashal@kernel.org>
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 43/90] dmaengine: tegra-apb: Prevent race conditions on channel's freeing
+Date:   Thu, 17 Sep 2020 22:14:08 -0400
+Message-Id: <20200918021455.2067301-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918021455.2067301-1-sashal@kernel.org>
 References: <20200918021455.2067301-1-sashal@kernel.org>
@@ -46,43 +45,35 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Dmitry Osipenko <digetx@gmail.com>
 
-[ Upstream commit 53b4b2aeee26f42cde5ff2a16dd0d8590c51a55a ]
+[ Upstream commit 8e84172e372bdca20c305d92d51d33640d2da431 ]
 
-There is another kHz-conversion bug in the code, resulting in integer
-overflow. Although, this time the resulting value is 4294966296 and it's
-close to ULONG_MAX, which is okay in this case.
+It's incorrect to check the channel's "busy" state without taking a lock.
+That shouldn't cause any real troubles, nevertheless it's always better
+not to have any race conditions in the code.
 
-Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
-Tested-by: Peter Geis <pgwipeout@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Chanwoo Choi <cw00.choi@samsung.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Link: https://lore.kernel.org/r/20200209163356.6439-5-digetx@gmail.com
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/devfreq/tegra-devfreq.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/dma/tegra20-apb-dma.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/devfreq/tegra-devfreq.c b/drivers/devfreq/tegra-devfreq.c
-index fe9dce0245bf0..a20267d93f8a4 100644
---- a/drivers/devfreq/tegra-devfreq.c
-+++ b/drivers/devfreq/tegra-devfreq.c
-@@ -79,6 +79,8 @@
+diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+index 4eaf92b2b8868..909739426f78c 100644
+--- a/drivers/dma/tegra20-apb-dma.c
++++ b/drivers/dma/tegra20-apb-dma.c
+@@ -1208,8 +1208,7 @@ static void tegra_dma_free_chan_resources(struct dma_chan *dc)
  
- #define KHZ							1000
+ 	dev_dbg(tdc2dev(tdc), "Freeing channel %d\n", tdc->id);
  
-+#define KHZ_MAX						(ULONG_MAX / KHZ)
-+
- /* Assume that the bus is saturated if the utilization is 25% */
- #define BUS_SATURATION_RATIO					25
+-	if (tdc->busy)
+-		tegra_dma_terminate_all(dc);
++	tegra_dma_terminate_all(dc);
  
-@@ -179,7 +181,7 @@ struct tegra_actmon_emc_ratio {
- };
- 
- static struct tegra_actmon_emc_ratio actmon_emc_ratios[] = {
--	{ 1400000, ULONG_MAX },
-+	{ 1400000,    KHZ_MAX },
- 	{ 1200000,    750000 },
- 	{ 1100000,    600000 },
- 	{ 1000000,    500000 },
+ 	spin_lock_irqsave(&tdc->lock, flags);
+ 	list_splice_init(&tdc->pending_sg_req, &sg_req_list);
 -- 
 2.25.1
 
