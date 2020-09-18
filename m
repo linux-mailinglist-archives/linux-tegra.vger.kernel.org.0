@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 914FE26EFC1
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Sep 2020 04:38:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A56EB26F476
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Sep 2020 05:14:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730112AbgIRCiA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Sep 2020 22:38:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38814 "EHLO mail.kernel.org"
+        id S1726746AbgIRDOj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Sep 2020 23:14:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45808 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727309AbgIRCMa (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:12:30 -0400
+        id S1726479AbgIRCBo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:01:44 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E51022395C;
-        Fri, 18 Sep 2020 02:12:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B79A1235FA;
+        Fri, 18 Sep 2020 02:01:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600395149;
-        bh=Kvg4TYtCRyYFiO+X6QdpTQiPvFHaswMRec8XtHXSmN8=;
+        s=default; t=1600394503;
+        bh=olcSovhd3mqxcStuyRQwJpR7Kpxz7YoVX9eWDOiAVEc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LFbE9k+i2w563HolCNKfu72VmXle8l0O+rtlkxEEnY4ifvDUSA/pwLACXrOdyoVCM
-         +gR0g1JOpQtKoO0aSCHqcIXAetZ2IBuwU6SwkbquTUaLfmkZfi/pZ0/rc868rR1fyt
-         6XuGxEorVZcF6uT30OSWf9Eghh/XGRVd60bA5mrI=
+        b=GcnlEkM9DpS3aOEsWMtitzrrdI6LnJVjEZ62LzECo7UGaW21gPspj7tKkFKBjJFLp
+         CwsbihE6feT12eXerKTnUKI915QnYq7NIcsy+7tjSOZj2afnTa+dR1h9+0LSmOo08b
+         G7SXprcM3Tvmlwm0xoyVY7a6N7LSUVTzBqIhe69c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
@@ -30,12 +30,12 @@ Cc:     Dmitry Osipenko <digetx@gmail.com>,
         Peter Geis <pgwipeout@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-pm@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 008/127] PM / devfreq: tegra30: Fix integer overflow on CPU's freq max out
-Date:   Thu, 17 Sep 2020 22:10:21 -0400
-Message-Id: <20200918021220.2066485-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 027/330] PM / devfreq: tegra30: Fix integer overflow on CPU's freq max out
+Date:   Thu, 17 Sep 2020 21:56:07 -0400
+Message-Id: <20200918020110.2063155-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918021220.2066485-1-sashal@kernel.org>
-References: <20200918021220.2066485-1-sashal@kernel.org>
+In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
+References: <20200918020110.2063155-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,14 +58,14 @@ Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Chanwoo Choi <cw00.choi@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/devfreq/tegra-devfreq.c | 4 +++-
+ drivers/devfreq/tegra30-devfreq.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/devfreq/tegra-devfreq.c b/drivers/devfreq/tegra-devfreq.c
-index 6627a7dce95c4..f6a2dd6b188fa 100644
---- a/drivers/devfreq/tegra-devfreq.c
-+++ b/drivers/devfreq/tegra-devfreq.c
-@@ -79,6 +79,8 @@
+diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+index a6ba75f4106d8..e273011c83fbd 100644
+--- a/drivers/devfreq/tegra30-devfreq.c
++++ b/drivers/devfreq/tegra30-devfreq.c
+@@ -68,6 +68,8 @@
  
  #define KHZ							1000
  
@@ -74,7 +74,7 @@ index 6627a7dce95c4..f6a2dd6b188fa 100644
  /* Assume that the bus is saturated if the utilization is 25% */
  #define BUS_SATURATION_RATIO					25
  
-@@ -179,7 +181,7 @@ struct tegra_actmon_emc_ratio {
+@@ -169,7 +171,7 @@ struct tegra_actmon_emc_ratio {
  };
  
  static struct tegra_actmon_emc_ratio actmon_emc_ratios[] = {
