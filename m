@@ -2,87 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB50527348B
-	for <lists+linux-tegra@lfdr.de>; Mon, 21 Sep 2020 23:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E31527364A
+	for <lists+linux-tegra@lfdr.de>; Tue, 22 Sep 2020 01:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726702AbgIUVBA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 21 Sep 2020 17:01:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36070 "EHLO mail.kernel.org"
+        id S1728829AbgIUXLd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 21 Sep 2020 19:11:33 -0400
+Received: from mail.rusoil.net ([188.128.114.25]:57383 "EHLO mail.rusoil.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726471AbgIUVA7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 21 Sep 2020 17:00:59 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69A3A207BC;
-        Mon, 21 Sep 2020 21:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600722059;
-        bh=QTSjmgKEpHfqPNdXGiSsDM8vEUtCR/VOxnF+n7VVrLk=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=SnN/ULS3NF2I6Eg0HYkCPCbOnpqNGZpgFaVImSVJeeUdtS+YtA241P1ZSfGaK3SLd
-         egmsm4Ve5JzIPMN1hqRO6QbGIdy4eejS3qnninJy9Ft4D0QP0nIrmMuhFwi+s/ACw2
-         nymsWC52qpuTEtsbjts2KxybPTe4655pmUFQTmFU=
-Content-Type: text/plain; charset="utf-8"
+        id S1726457AbgIUXLb (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 21 Sep 2020 19:11:31 -0400
+X-Greylist: delayed 374 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 19:11:22 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 3CFBD40D5B;
+        Tue, 22 Sep 2020 04:08:14 +0500 (YEKT)
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id EV4tl_rVLSS7; Tue, 22 Sep 2020 04:08:13 +0500 (YEKT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 2C0DD40CEA;
+        Tue, 22 Sep 2020 04:08:13 +0500 (YEKT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rusoil.net 2C0DD40CEA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rusoil.net;
+        s=maildkim; t=1600729693;
+        bh=6R3BgBYiA7fkqGiiNDuwPskBnpH9JXyNAW/l3ZEA+wY=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=Vnjy6nBVnSTcINEW6kER3ugTxQ4KBYKS36YiGFr6YA3B4INc+KiGVhbak8MS9Qjs4
+         d1hbAool1vpcT5tqzIahdEndE3qiAPgBOX6jsmCcvHSMZhz19GFDJ1aQySn107enqY
+         lwxWqbZRY2a+BQ8VxoJh3Rpje7MgA+/fhr9SupmU=
+X-Virus-Scanned: amavisd-new at mail.rusoil.net
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id K7O08Fi_YWVd; Tue, 22 Sep 2020 04:08:12 +0500 (YEKT)
+Received: from mail.rusoil.net (mail.rusoil.net [172.16.7.34])
+        by mail.rusoil.net (Postfix) with ESMTP id 6147940C07;
+        Tue, 22 Sep 2020 04:08:10 +0500 (YEKT)
+Date:   Tue, 22 Sep 2020 04:08:09 +0500 (YEKT)
+From:   Blue Oak Mortgage and Loans <em@rusoil.net>
+Reply-To: Blue Oak Mortgage and Loans <info@bluelmtg.net>
+Message-ID: <2020026523.907101.1600729689731.JavaMail.zimbra@rusoil.net>
+Subject: Wir finanzieren Projekte und Unternehmen
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200921121842.GQ3950626@ulmo>
-References: <20200921121628.3954746-1-thierry.reding@gmail.com> <20200921121842.GQ3950626@ulmo>
-Subject: Re: [GIT PULL] clk: tegra: Changes for v5.10-rc1
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Date:   Mon, 21 Sep 2020 14:00:58 -0700
-Message-ID: <160072205823.4188128.2973025738875931354@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+X-Originating-IP: [192.210.183.69]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF79 (Win)/8.8.12_GA_3794)
+Thread-Index: IhGK+mMcCqn+S/Et9t28g8ApaUDaLg==
+Thread-Topic: Wir finanzieren Projekte und Unternehmen
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Quoting Thierry Reding (2020-09-21 05:18:42)
-> On Mon, Sep 21, 2020 at 02:16:28PM +0200, Thierry Reding wrote:
-> > Hi Mike, Stephen,
-> >=20
-> > The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80=
-bbf5:
-> >=20
-> >   Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
-> >=20
-> > are available in the Git repository at:
-> >=20
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/fo=
-r-5.10-clk
-> >=20
-> > for you to fetch changes up to 2f878d04218c8b26f6d0ab26955ca6b03848a1ad:
-> >=20
-> >   clk: tegra: Fix missing prototype for tegra210_clk_register_emc() (20=
-20-09-21 14:09:10 +0200)
-> >=20
-> > Thanks,
-> > Thierry
-> >=20
-> > ----------------------------------------------------------------
-> > clk: tegra: Changes for v5.10-rc1
-> >=20
-> > This is a set of small fixes for the Tegra clock driver.
-> >=20
-> > ----------------------------------------------------------------
-> > Thierry Reding (3):
-> >       clk: tegra: Capitalization fixes
-> >       clk: tegra: Always program PLL_E when enabled
-> >       clk: tegra: Fix missing prototype for tegra210_clk_register_emc()
-> >=20
-> >  drivers/clk/tegra/clk-pll.c          | 7 ++-----
-> >  drivers/clk/tegra/clk-tegra210-emc.c | 2 ++
-> >  2 files changed, 4 insertions(+), 5 deletions(-)
->=20
-> I just realized after sending this out that this is all really tiny and
-> minor fixes, so perhaps it makes sense to even apply this for v5.9?
->=20
 
-Is something critical? If so then it's OK to merge for v5.9, otherwise
-I'd rather let it cook in -next for a while. Being small doesn't really
-make a difference here. What matters is that it fixes some critical
-problem, preferably introduced this merge window but if it's annoying
-enough that rule can be broken.
+
+Dies ist ein Newsletter von Blue Oak Mortgage and Loans. Bitte melden Sie s=
+ich ab, wenn Sie keine E-Mail mehr von uns erhalten m=C3=B6chten.
+
+
+Eine kurze Einf=C3=BChrung.
+
+Wir sind ein f=C3=BChrendes Finanzierungsunternehmen in Europa. Wir finanzi=
+eren Startups / etablierte Unternehmen, finanzieren Gro=C3=9Fprojekte (Bau,=
+ Landwirtschaft, Immobilien und dergleichen) zu einem niedrigen Zinssatz vo=
+n 2% pro Jahr.
+
+
+Darlehensverfahren
+
+1. Sie m=C3=BCssen das Online-Bewerbungsformular ausf=C3=BCllen und eine or=
+dnungsgem=C3=A4=C3=9F unterschriebene Kopie an uns zur=C3=BCcksenden.
+
+2. M=C3=B6glicherweise m=C3=BCssen Sie Finanzdokumente als unterst=C3=BCtze=
+nden Nachweis f=C3=BCr die F=C3=A4higkeit zur R=C3=BCckzahlung von Krediten=
+ vorlegen.
+
+3. Wenn Ihr Darlehen genehmigt wurde, m=C3=BCssen Sie eine Versicherungsgar=
+antie f=C3=BCr die Darlehenssicherheit vorlegen. Wir empfehlen eine Versich=
+erungsgesellschaft. Sie sind allein verantwortlich f=C3=BCr die Zahlung und=
+ den Erwerb der Anleihe, die als Sicherheit dienen. Die H=C3=B6he der Anlei=
+he h=C3=A4ngt von Ihrem Darlehensbetrag ab. Die Versicherungsgesellschaft w=
+ird Sie durch den Prozess f=C3=BChren. (F=C3=BCr Gro=C3=9Fprojekte)
+
+4. Ihr =C3=9Cberweisungsprozess wird eingeleitet, sobald die Versicherungsa=
+nleihe =C3=BCberpr=C3=BCft wurde. Ihr Darlehensr=C3=BCckzahlungsplan wird i=
+m NC-Darlehensvertragsformular aufgef=C3=BChrt.
+
+Wenn die Bedingungen Sie beruhigen, k=C3=B6nnen Sie uns =C3=BCber die Whats=
+App-Nummer / E-Mail kontaktieren und auch unsere Website besuchen, um weite=
+re Informationen zu erhalten. Wir freuen uns darauf, von Ihnen zu h=C3=B6re=
+n.
+
+WhatsApp: + 90-552-365-3483
+E-Mail: info@bluelmtg.net
