@@ -2,110 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98B47275466
-	for <lists+linux-tegra@lfdr.de>; Wed, 23 Sep 2020 11:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F09275566
+	for <lists+linux-tegra@lfdr.de>; Wed, 23 Sep 2020 12:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbgIWJX2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 23 Sep 2020 05:23:28 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13240 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgIWJX2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 23 Sep 2020 05:23:28 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f6b13b10002>; Wed, 23 Sep 2020 02:21:53 -0700
-Received: from [10.26.74.254] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 23 Sep
- 2020 09:23:26 +0000
-Subject: Re: [PATCH V2 0/5] Add support for custom names for AT24 EEPROMs
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-References: <20200916094952.458003-1-jonathanh@nvidia.com>
- <CAMpxmJX6OxS-dxcK8whCm-Ups6Uts1iYE8bux_wAGeBPXihYBA@mail.gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <c8bd52a5-2f80-2183-11bf-f7f531be2a56@nvidia.com>
-Date:   Wed, 23 Sep 2020 10:23:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726338AbgIWKRF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 23 Sep 2020 06:17:05 -0400
+Received: from hermes.cta.br ([161.24.235.5]:52384 "EHLO hermes.cta.br"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726332AbgIWKRF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 23 Sep 2020 06:17:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by hermes.cta.br (Postfix) with ESMTP id 53FD1170207C;
+        Wed, 23 Sep 2020 02:22:44 -0300 (-03)
+Received: from hermes.cta.br ([127.0.0.1])
+        by localhost (hermes.cta.br [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 1wyl-EW7tWu9; Wed, 23 Sep 2020 02:22:43 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by hermes.cta.br (Postfix) with ESMTP id 2F5AA1549A17;
+        Wed, 23 Sep 2020 01:37:06 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 hermes.cta.br 2F5AA1549A17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cta.br;
+        s=50824260-A46F-11E8-B5E3-16F5207DEC71; t=1600835826;
+        bh=PEgy+RpcsckcVXxslQn6d+tc//P81+6V7lvSU9dRFp0=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=dYw2PAvfB0YT9TMG6QuSyRcjQMF+dSNTGuzYK9KIO81lohFc2blvAQg6N5l0ajQlQ
+         UuhTuzU76GqNTVunXUmwSrBASF09f6wnswEN2YNX/aNIaiVrN5hqEk42/JBFAF0Uqm
+         pt//Y+SUnQEcuHWwkuFJqTz4qonDWA2kjz2paktzHaXnljjB6zeHXCyDJV666VrH/6
+         JJQTvdplGj8kHDLhSJ1CF3r+C7FiJ2ozbwnXh4yZw9JZAAMJymrLSKBijDnFSuuspw
+         Iyd5j2BLnZxrfV7SwqBFK5n2HCcaVnNrOXVTJRS7G/0lfVwAkHuZe8RGl0fshQE+tq
+         zg49CQaTjNNBQ==
+X-Virus-Scanned: amavisd-new at cta.br
+Received: from hermes.cta.br ([127.0.0.1])
+        by localhost (hermes.cta.br [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 15UEldItT5nw; Wed, 23 Sep 2020 01:37:05 -0300 (-03)
+Received: from [10.120.212.214] (unknown [105.12.3.179])
+        by hermes.cta.br (Postfix) with ESMTPSA id 123A116E81C3;
+        Wed, 23 Sep 2020 01:18:50 -0300 (-03)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-In-Reply-To: <CAMpxmJX6OxS-dxcK8whCm-Ups6Uts1iYE8bux_wAGeBPXihYBA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1600852913; bh=9tn65bkkY70YMWVjeAuBAkcP9eGmaq3E0Ud6x7JNbDM=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=irajoaE9RYbmc3jeKLDjjG8BGENVRqAuONIPqXagWEZ0uWKthZmbwR9DuLJFWXet2
-         5OXWRvJxpAcs2WgqKNkLp5dcNRlRsAB2TMi8SrnRXf95OXWjwUMVdNGMgK8FY5gDNR
-         3sMzFD/PJdAzsgk6DG7ZaBgqDKdf0pq3syQ40PtCTIDNtVou6Ht4hTpGy3LyIiVtla
-         JV+d0oufRc4HoLfs0QSFyXebxK0RfH0ZJjV3r1RUV2yinQM7KkfMHSSqL2VkyxlD4b
-         e9IPUMTnIf4N/UtO+MUGeIyCStYmX/dUacGjhJ7bKEv/5wsaeRNq2PJc+5GcNqOjm5
-         b98eIajGZvJoQ==
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: spende von 2,000,000 euro
+To:     Recipients <scco@cta.br>
+From:   ''Tayeb souami'' <scco@cta.br>
+Date:   Wed, 23 Sep 2020 06:21:10 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200923041851.123A116E81C3@hermes.cta.br>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hallo mein lieber Freund
+                                  Mein Name ist Tayeb Souami aus New Jersey=
+ in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro=
+ gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an f=FC=
+nf gl=FCckliche Personen zu spenden, und Sie wurden als einer der Beg=FCnst=
+igten ausgew=E4hlt. Bitte klicken Sie auf diesen Link, um mehr =FCber meine=
+n Gewinn zu erfahren.
 
-On 23/09/2020 10:15, Bartosz Golaszewski wrote:
-> On Wed, Sep 16, 2020 at 11:50 AM Jon Hunter <jonathanh@nvidia.com> wrote:
->>
->> For platforms that have multiple boards and hence have multiple EEPROMs
->> for identifying the different boards, it is useful to label the EEPROMs
->> in device-tree so that they can be easily identified. For example, MAC
->> address information is stored in the EEPROM on the processor module for
->> some Jetson platforms which is not only required by the kernel but the
->> bootloader as well. So having a simple way to identify the EEPROM is
->> needed.
->>
->> Changes since V1:
->> - By default initialise the nvmem_config.id as NVMEM_DEVID_AUTO and not
->>   NVMEM_DEVID_NONE
->> - Dropped the 'maxItems' from the dt-binding doc.
->>
->> Jon Hunter (5):
->>   misc: eeprom: at24: Initialise AT24 NVMEM ID field
->>   dt-bindings: eeprom: at24: Add label property for AT24
->>   misc: eeprom: at24: Support custom device names for AT24 EEPROMs
->>   arm64: tegra: Add label properties for EEPROMs
->>   arm64: tegra: Populate EEPROMs for Jetson Xavier NX
->>
->>  .../devicetree/bindings/eeprom/at24.yaml      |  3 +++
->>  .../boot/dts/nvidia/tegra186-p2771-0000.dts   |  1 +
->>  .../arm64/boot/dts/nvidia/tegra186-p3310.dtsi |  1 +
->>  .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  1 +
->>  .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  1 +
->>  .../nvidia/tegra194-p3509-0000+p3668-0000.dts | 14 ++++++++++++
->>  .../boot/dts/nvidia/tegra194-p3668-0000.dtsi  | 16 ++++++++++++++
->>  .../arm64/boot/dts/nvidia/tegra210-p2180.dtsi |  1 +
->>  .../boot/dts/nvidia/tegra210-p2371-2180.dts   |  1 +
->>  .../boot/dts/nvidia/tegra210-p3450-0000.dts   |  2 ++
->>  drivers/misc/eeprom/at24.c                    | 22 ++++++++++++++++++-
->>  11 files changed, 62 insertions(+), 1 deletion(-)
->>
->> --
->> 2.25.1
->>
-> 
-> Just FYI: I'm fine with the at24 part. I can take them through my tree
-> for v5.10. Who is taking the DTS patches for tegra? Thierry? I can
-> provide you with an immutable branch if that's fine. I can't just ack
-> the at24 patches because they conflict with what I already have in my
-> tree for v5.10.
 
-Thanks. Yes Thierry is picking up the DTS patches.
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
 
-Cheers
-Jon
+Bitte kontaktieren Sie mich =FCber diese E-Mail: Tayebsouam.spende@gmail.com
 
--- 
-nvpublic
+
+Ich hoffe, Sie und Ihre Familie gl=FCcklich zu machen.
+
+Gr=FC=DFe
+Herr Tayeb Souami
