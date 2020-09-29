@@ -2,89 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C2D527C527
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Sep 2020 13:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A696127C677
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Sep 2020 13:45:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729393AbgI2Lb4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Sep 2020 07:31:56 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:33330 "EHLO huawei.com"
+        id S1730054AbgI2Lpb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Sep 2020 07:45:31 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:14776 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729465AbgI2L3t (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Sep 2020 07:29:49 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id D3D948DCFE26822F7923;
-        Tue, 29 Sep 2020 19:29:47 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 29 Sep 2020 19:29:41 +0800
-From:   Qinglang Miao <miaoqinglang@huawei.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Qinglang Miao <miaoqinglang@huawei.com>
-Subject: [PATCH -next] ASoC: tegra: trimslice.c: use devm_snd_soc_register_card()
-Date:   Tue, 29 Sep 2020 19:29:39 +0800
-Message-ID: <20200929112939.47661-1-miaoqinglang@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        id S1730681AbgI2LpS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 29 Sep 2020 07:45:18 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id DB96EF3FBE7670F74CDA;
+        Tue, 29 Sep 2020 19:45:14 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Tue, 29 Sep 2020
+ 19:45:05 +0800
+From:   Wang ShaoBo <bobo.shaobowang@huawei.com>
+CC:     <weiyongjun1@huawei.com>, <huawei.libin@huawei.com>,
+        <cj.chengjian@huawei.com>, <thierry.reding@gmail.com>,
+        <treding@nvidia.com>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] soc/tegra: fuse: Fix build with Tegra234 configuration
+Date:   Tue, 29 Sep 2020 19:43:25 +0800
+Message-ID: <20200929114325.3909556-1-bobo.shaobowang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Using devm_snd_soc_register_card() can make the code
-shorter and cleaner.
+If only Tegra234 support is enabled, the tegra30_fuse_read() and
+tegra30_fuse_init() function are not declared and cause a build failure.
 
-Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+drivers/soc/tegra/fuse/fuse-tegra30.c:376:10: error: ‘tegra30_fuse_read’
+ undeclared here (not in a function); did you mean ‘tegra_fuse_readl’?
+  .read = tegra30_fuse_read,
+          ^~~~~~~~~~~~~~~~~
+          tegra_fuse_readl
+drivers/soc/tegra/fuse/fuse-tegra30.c:382:10: error: ‘tegra30_fuse_init’
+ undeclared here (not in a function); did you mean ‘tegra30_fuse_read’?
+  .init = tegra30_fuse_init,
+          ^~~~~~~~~~~~~~~~~
+          tegra30_fuse_read
+
+Signed-off-by: Wang ShaoBo <bobo.shaobowang@huawei.com>
 ---
- sound/soc/tegra/trimslice.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/soc/tegra/fuse/fuse-tegra30.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/tegra/trimslice.c b/sound/soc/tegra/trimslice.c
-index cdb386d6e..baae4cce7 100644
---- a/sound/soc/tegra/trimslice.c
-+++ b/sound/soc/tegra/trimslice.c
-@@ -143,7 +143,7 @@ static int tegra_snd_trimslice_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	ret = snd_soc_register_card(card);
-+	ret = devm_snd_soc_register_card(&pdev->dev, card);
- 	if (ret) {
- 		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n",
- 			ret);
-@@ -153,15 +153,6 @@ static int tegra_snd_trimslice_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int tegra_snd_trimslice_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
--
--	snd_soc_unregister_card(card);
--
--	return 0;
--}
--
- static const struct of_device_id trimslice_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-trimslice", },
- 	{},
-@@ -174,7 +165,6 @@ static struct platform_driver tegra_snd_trimslice_driver = {
- 		.of_match_table = trimslice_of_match,
- 	},
- 	.probe = tegra_snd_trimslice_probe,
--	.remove = tegra_snd_trimslice_remove,
- };
- module_platform_driver(tegra_snd_trimslice_driver);
- 
+diff --git a/drivers/soc/tegra/fuse/fuse-tegra30.c b/drivers/soc/tegra/fuse/fuse-tegra30.c
+index 9ea7f0168457..c1aa7815bd6e 100644
+--- a/drivers/soc/tegra/fuse/fuse-tegra30.c
++++ b/drivers/soc/tegra/fuse/fuse-tegra30.c
+@@ -37,7 +37,8 @@
+     defined(CONFIG_ARCH_TEGRA_132_SOC) || \
+     defined(CONFIG_ARCH_TEGRA_210_SOC) || \
+     defined(CONFIG_ARCH_TEGRA_186_SOC) || \
+-    defined(CONFIG_ARCH_TEGRA_194_SOC)
++    defined(CONFIG_ARCH_TEGRA_194_SOC) || \
++    defined(CONFIG_ARCH_TEGRA_234_SOC)
+ static u32 tegra30_fuse_read_early(struct tegra_fuse *fuse, unsigned int offset)
+ {
+ 	if (WARN_ON(!fuse->base))
 -- 
-2.23.0
+2.25.1
 
