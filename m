@@ -2,73 +2,46 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A696127C677
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Sep 2020 13:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D9DE27CE26
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Sep 2020 14:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730054AbgI2Lpb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Sep 2020 07:45:31 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:14776 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730681AbgI2LpS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Sep 2020 07:45:18 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id DB96EF3FBE7670F74CDA;
-        Tue, 29 Sep 2020 19:45:14 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Tue, 29 Sep 2020
- 19:45:05 +0800
-From:   Wang ShaoBo <bobo.shaobowang@huawei.com>
-CC:     <weiyongjun1@huawei.com>, <huawei.libin@huawei.com>,
-        <cj.chengjian@huawei.com>, <thierry.reding@gmail.com>,
-        <treding@nvidia.com>, <jonathanh@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] soc/tegra: fuse: Fix build with Tegra234 configuration
-Date:   Tue, 29 Sep 2020 19:43:25 +0800
-Message-ID: <20200929114325.3909556-1-bobo.shaobowang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        id S1728409AbgI2Mye convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Tue, 29 Sep 2020 08:54:34 -0400
+Received: from mail.furshetcrimea.ru ([193.27.243.220]:53910 "EHLO
+        furshetcrimea.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725497AbgI2Mye (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 29 Sep 2020 08:54:34 -0400
+X-Greylist: delayed 8403 seconds by postgrey-1.27 at vger.kernel.org; Tue, 29 Sep 2020 08:54:33 EDT
+Received: from [197.229.134.14] (account info@furshetcrimea.ru HELO DESKTOP-QGQ2KFU.wifi)
+  by furshetcrimea.ru (CommuniGate Pro SMTP 6.1.10)
+  with ESMTPA id 20230328; Tue, 29 Sep 2020 13:26:12 +0300
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Apply For Your Business Loans
+To:     Recipients <info@furshetcrimea.ru>
+From:   "Loan" <info@furshetcrimea.ru>
+Date:   Tue, 29 Sep 2020 06:10:03 -0400
+Reply-To: manuelfrancoball33@gmail.com
+Message-ID: <auto-000020230328@furshetcrimea.ru>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If only Tegra234 support is enabled, the tegra30_fuse_read() and
-tegra30_fuse_init() function are not declared and cause a build failure.
+Our Financial Loan Grant scheme is Handled by the NAT-WEST BANK( NATIONAL WESTMINSTER BANK INTERNATIONAL.)
+apply  Now !!!
+For Offer of over $3000- $30million or your countries currency, funding support for Loan from National West-minister Bank." For more information, Contact us via email: manuelfrancoball33@gmail.com  with the following details Below
+Name:
+Amount:
+Duration:
+Country:
+Phone Number:
+Email:
 
-drivers/soc/tegra/fuse/fuse-tegra30.c:376:10: error: ‘tegra30_fuse_read’
- undeclared here (not in a function); did you mean ‘tegra_fuse_readl’?
-  .read = tegra30_fuse_read,
-          ^~~~~~~~~~~~~~~~~
-          tegra_fuse_readl
-drivers/soc/tegra/fuse/fuse-tegra30.c:382:10: error: ‘tegra30_fuse_init’
- undeclared here (not in a function); did you mean ‘tegra30_fuse_read’?
-  .init = tegra30_fuse_init,
-          ^~~~~~~~~~~~~~~~~
-          tegra30_fuse_read
-
-Signed-off-by: Wang ShaoBo <bobo.shaobowang@huawei.com>
----
- drivers/soc/tegra/fuse/fuse-tegra30.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/soc/tegra/fuse/fuse-tegra30.c b/drivers/soc/tegra/fuse/fuse-tegra30.c
-index 9ea7f0168457..c1aa7815bd6e 100644
---- a/drivers/soc/tegra/fuse/fuse-tegra30.c
-+++ b/drivers/soc/tegra/fuse/fuse-tegra30.c
-@@ -37,7 +37,8 @@
-     defined(CONFIG_ARCH_TEGRA_132_SOC) || \
-     defined(CONFIG_ARCH_TEGRA_210_SOC) || \
-     defined(CONFIG_ARCH_TEGRA_186_SOC) || \
--    defined(CONFIG_ARCH_TEGRA_194_SOC)
-+    defined(CONFIG_ARCH_TEGRA_194_SOC) || \
-+    defined(CONFIG_ARCH_TEGRA_234_SOC)
- static u32 tegra30_fuse_read_early(struct tegra_fuse *fuse, unsigned int offset)
- {
- 	if (WARN_ON(!fuse->base))
--- 
-2.25.1
-
+Best Regards.
+Mr. Manuel Franco
+Finance Director
+NOTE:
+All responses should be forwarded to: manuelfrancoball33@gmail.com
