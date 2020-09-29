@@ -2,179 +2,203 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 138C227BCF8
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Sep 2020 08:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E48B27C0B5
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Sep 2020 11:14:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726064AbgI2GTE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Sep 2020 02:19:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
+        id S1727854AbgI2JOw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Sep 2020 05:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725829AbgI2GS6 (ORCPT
+        with ESMTP id S1727650AbgI2JOv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Sep 2020 02:18:58 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55A9C061755;
-        Mon, 28 Sep 2020 23:18:56 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id n14so3500164pff.6;
-        Mon, 28 Sep 2020 23:18:56 -0700 (PDT)
+        Tue, 29 Sep 2020 05:14:51 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E2BC061755
+        for <linux-tegra@vger.kernel.org>; Tue, 29 Sep 2020 02:14:49 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id c18so4476256wrm.9
+        for <linux-tegra@vger.kernel.org>; Tue, 29 Sep 2020 02:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=29m/WsHiomvftKkO4f2zYzL4z5u90lYqkPGhVYhCT8U=;
-        b=sVYpadvLpMkkS4bEQ5e+A0z4ogXLC9YYnwmfGfHRrpyAPO+mNVYXnMFl122QKDJrGw
-         vZnh8RsrTvECTSeKFo4A7mw6sqtceZx8oaZCQBIwbd4Lcxyo1hjJBp5zNtGJdMvODtjF
-         2ScsoySk8y7L8dRABssQfFCxoNMnAoExuJEDmO+ROF+FRWWqn/ow40tkunGEVITa8ps8
-         78YcrW2lIg0EFPMRKzaTKD+ESKNbtQkcoIr9CjC2MT4drf4E4dPQaNrKrb0Chi6OqUKD
-         WTPYTD8DAmOd9WUmvd4oWbPugRTIbMrLQfgI+C4jkqzeavExEsJiLryMVMuvTOLBfsYh
-         siGQ==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=nL1RJ1CBsQM4FRjSLIq4hF2LWibhorMGgFGx7FERzoU=;
+        b=gdHdOjUtbzxqgqGnhYkIQLu0EJiUF0CxOiu4yUaVxxsB4Y1RcTXJZcQOXBz5fuywkl
+         3wLF7s89+6APQbGCO/in/zuRexI7frcXl+jlrQB4dr5Rj/Ic/VLtFtQncOVf2Pof5qEi
+         AuckYtsq3x9uMOT/b5FP7SeE6uEKI90YGf5II=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=29m/WsHiomvftKkO4f2zYzL4z5u90lYqkPGhVYhCT8U=;
-        b=lrtTNV/k3rrXjA7zkSF+rcQojDGOqtH27C2YKiMqyNTsPMOHoFMmBrG8RPQ7PnIGaa
-         vNndgxdEtLOKyt9F5twe++HHTkyGknzSSpfiEcA1HwHahj9HJOc1hO+6QM+Esa3xD1HT
-         XbP3CSySJvUPNTa0zQWHV0KyBn7oxeJ6j7cg6I9bRkqbvDGwn47mGGxVlwDFBz31+3cd
-         5P57OopKFtbAySRIsZ5rPBZ6vlvJOKAp7FBCXiOIR2LgKd8eH8ZSKdsfA8DGZVq+UwYC
-         lBbdp7lKv0Lhsimy3BFut4R3XPTQvEca+xUHJcT+gAk5W6Y2MymcIcXKBx9sW6UXf7mQ
-         zI8g==
-X-Gm-Message-State: AOAM530J+SNR4mhzpOi4dBWbzDwwX6JO5J7hmzjs3LHfIPwcYUwpaqG+
-        9bGvK720Mhhzs5RRbiy77l4=
-X-Google-Smtp-Source: ABdhPJz+ApO82+RbI3i9Xh25kUhL/M7Ed9+Bj/ABhHgIZjjh2iEQew+S6GYvefeS5GMP8D36tTkgZA==
-X-Received: by 2002:a63:1a05:: with SMTP id a5mr2163913pga.145.1601360336284;
-        Mon, 28 Sep 2020 23:18:56 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id cf7sm3280562pjb.52.2020.09.28.23.18.55
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nL1RJ1CBsQM4FRjSLIq4hF2LWibhorMGgFGx7FERzoU=;
+        b=dw4Sjq6vHkuB55TcP4oFCopNYbs40h8GWjGy12VGYk05IyDfLBeLUGsvT7DqsRHWmU
+         Lab1pVgjbD4m+Cnm3j5YrwzkKhruOvoMacit6sOQkVl4qUYrfGb1K/FxQNZPEz8rszq/
+         oR9i/7olapwITA1q02BQeGhuaaUtCOZi6YP50lWeHRvkq1TtWPu5V0M5gvmqKgXelI7T
+         Mme9TNq/tjSwZYZ4dtIAGno+vFfU9W/G+TeyGSm6yOM75Yc3FS8pKLliZ0/RLAIisMX+
+         0a9435/Dcs8Qkcs24Qudq2CEje6vmOWlsoVkcCP8ZkqaeTIIxM179OoZV5Q2KtsJ3Wu+
+         yyHQ==
+X-Gm-Message-State: AOAM532WJvNKm4Q3Bef0jlkKg5Qh7TDoE300DC9eEFa0X+bNOwKEpa0/
+        wiahMHVnyzEoDvu6VVRkgmD0sA==
+X-Google-Smtp-Source: ABdhPJzUpk5sRYoMWrtr0UlpR9ORIRx/KJD45hyn02zRFIKDUXFqG2Is9+7QHPaCNhxuEtvE05yF9A==
+X-Received: by 2002:a5d:470e:: with SMTP id y14mr3112131wrq.354.1601370888619;
+        Tue, 29 Sep 2020 02:14:48 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id l126sm4669148wmf.39.2020.09.29.02.14.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 23:18:55 -0700 (PDT)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     thierry.reding@gmail.com, joro@8bytes.org
-Cc:     vdumpa@nvidia.com, jonathanh@nvidia.com, digetx@gmail.com,
-        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, hch@infradead.org
-Subject: [PATCH v4 2/2] iommu/tegra-smmu: Expand mutex protection range
-Date:   Mon, 28 Sep 2020 23:13:25 -0700
-Message-Id: <20200929061325.10197-3-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200929061325.10197-1-nicoleotsuka@gmail.com>
-References: <20200929061325.10197-1-nicoleotsuka@gmail.com>
+        Tue, 29 Sep 2020 02:14:47 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 11:14:45 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-doc@vger.kernel.org,
+        airlied@linux.ie, dri-devel@lists.freedesktop.org,
+        thierry.reding@gmail.com, kraxel@redhat.com, afd@ti.com,
+        m.szyprowski@samsung.com, arnd@arndb.de, corbet@lwn.net,
+        jonathanh@nvidia.com, matthew.auld@intel.com,
+        linux+etnaviv@armlinux.org.uk, labbott@redhat.com,
+        linux-media@vger.kernel.org, pawel@osciak.com,
+        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
+        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        lmark@codeaurora.org, tfiga@chromium.org,
+        kyungmin.park@samsung.com, robin.murphy@arm.com
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+Message-ID: <20200929091445.GI438822@phenom.ffwll.local>
+References: <20200925115601.23955-1-tzimmermann@suse.de>
+ <20200926071334.GA42915@ravnborg.org>
+ <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
+ <20200927191605.GA237178@ravnborg.org>
+ <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
+ <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
+ <49c4dcec-cd69-510a-9781-e8fa5fb669f9@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <49c4dcec-cd69-510a-9781-e8fa5fb669f9@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This is used to protect potential race condition at use_count.
-since probes of client drivers, calling attach_dev(), may run
-concurrently.
+On Mon, Sep 28, 2020 at 01:22:13PM +0200, Christian König wrote:
+> Am 28.09.20 um 09:37 schrieb Thomas Zimmermann:
+> > Hi
+> > 
+> > Am 28.09.20 um 08:50 schrieb Christian König:
+> > > Am 27.09.20 um 21:16 schrieb Sam Ravnborg:
+> > > > Hi Thomas.
+> > > > 
+> > > > > > struct simap {
+> > > > > >          union {
+> > > > > >                  void __iomem *vaddr_iomem;
+> > > > > >                  void *vaddr;
+> > > > > >          };
+> > > > > >          bool is_iomem;
+> > > > > > };
+> > > > > > 
+> > > > > > Where simap is a shorthand for system_iomem_map
+> > > > > > And it could al be stuffed into a include/linux/simap.h file.
+> > > > > > 
+> > > > > > Not totally sold on the simap name - but wanted to come up with
+> > > > > > something.
+> > > > > Yes. Others, myself included, have suggested to use a name that does not
+> > > > > imply a connection to the dma-buf framework, but no one has come up with
+> > > > >    a good name.
+> > > > > 
+> > > > > I strongly dislike simap, as it's entirely non-obvious what it does.
+> > > > > dma-buf-map is not actually wrong. The structures represents the mapping
+> > > > > of a dma-able buffer in most cases.
+> > > > > 
+> > > > > > With this approach users do not have to pull in dma-buf to use it and
+> > > > > > users will not confuse that this is only for dma-buf usage.
+> > > > > There's no need to enable dma-buf. It's all in the header file without
+> > > > > dependencies on dma-buf. It's really just the name.
+> > > > > 
+> > > > > But there's something else to take into account. The whole issue here is
+> > > > > that the buffer is disconnected from its originating driver, so we don't
+> > > > > know which kind of memory ops we have to use. Thinking about it, I
+> > > > > realized that no one else seemed to have this problem until now.
+> > > > > Otherwise there would be a solution already. So maybe the dma-buf
+> > > > > framework *is* the native use case for this data structure.
+> > > > We have at least:
+> > > > linux/fb.h:
+> > > >      union {
+> > > >          char __iomem *screen_base;      /* Virtual address */
+> > > >          char *screen_buffer;
+> > > >      };
+> > > > 
+> > > > Which solve more or less the same problem.
+> > I thought this was for convenience. The important is_iomem bit is missing.
+> > 
+> > > I also already noted that in TTM we have exactly the same problem and a
+> > > whole bunch of helpers to allow operations on those pointers.
+> > How do you call this within TTM?
+> 
+> ttm_bus_placement, but I really don't like that name.
+> 
+> > 
+> > The data structure represents a pointer to either system or I/O memory,
+> > but not necessatrily device memory. It contains raw data. That would
+> > give something like
+> > 
+> >    struct databuf_map
+> >    struct databuf_ptr
+> >    struct dbuf_map
+> >    struct dbuf_ptr
+> > 
+> > My favorite would be dbuf_ptr. It's short and the API names would make
+> > sense: dbuf_ptr_clear() for clearing, dbuf_ptr_set_vaddr() to set an
+> > address, dbuf_ptr_incr() to increment, etc. Also, the _ptr indicates
+> > that it's a single address; not an offset with length.
+> 
+> Puh, no idea. All of that doesn't sound like it 100% hits the underlying
+> meaning of the structure.
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
+Imo first let's merge this and then second with more users we might come
+up with a better name. And cocci is fairly good at large-scale rename, to
+the point where we manged to rename struct fence to struct dma_fence.
 
-Changelog
-v3->v4:
- * Fixed typo "Expend" => "Expand"
-v2->v3:
- * Renamed label "err_unlock" to "unlock"
-v1->v2:
- * N/A
+Also this entire thread here imo shows that we haven't yet figured out the
+perfect name anyway, and I don't think it's worth it to hold this up
+because of this bikeshed :-)
 
- drivers/iommu/tegra-smmu.c | 34 +++++++++++++++++++++-------------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+Cheers, Daniel
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index ec4c9dafff95..6a3ecc334481 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -256,26 +256,19 @@ static int tegra_smmu_alloc_asid(struct tegra_smmu *smmu, unsigned int *idp)
- {
- 	unsigned long id;
- 
--	mutex_lock(&smmu->lock);
--
- 	id = find_first_zero_bit(smmu->asids, smmu->soc->num_asids);
--	if (id >= smmu->soc->num_asids) {
--		mutex_unlock(&smmu->lock);
-+	if (id >= smmu->soc->num_asids)
- 		return -ENOSPC;
--	}
- 
- 	set_bit(id, smmu->asids);
- 	*idp = id;
- 
--	mutex_unlock(&smmu->lock);
- 	return 0;
- }
- 
- static void tegra_smmu_free_asid(struct tegra_smmu *smmu, unsigned int id)
- {
--	mutex_lock(&smmu->lock);
- 	clear_bit(id, smmu->asids);
--	mutex_unlock(&smmu->lock);
- }
- 
- static bool tegra_smmu_capable(enum iommu_cap cap)
-@@ -420,17 +413,21 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
- 				 struct tegra_smmu_as *as)
- {
- 	u32 value;
--	int err;
-+	int err = 0;
-+
-+	mutex_lock(&smmu->lock);
- 
- 	if (as->use_count > 0) {
- 		as->use_count++;
--		return 0;
-+		goto unlock;
- 	}
- 
- 	as->pd_dma = dma_map_page(smmu->dev, as->pd, 0, SMMU_SIZE_PD,
- 				  DMA_TO_DEVICE);
--	if (dma_mapping_error(smmu->dev, as->pd_dma))
--		return -ENOMEM;
-+	if (dma_mapping_error(smmu->dev, as->pd_dma)) {
-+		err = -ENOMEM;
-+		goto unlock;
-+	}
- 
- 	/* We can't handle 64-bit DMA addresses */
- 	if (!smmu_dma_addr_valid(smmu, as->pd_dma)) {
-@@ -453,24 +450,35 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
- 	as->smmu = smmu;
- 	as->use_count++;
- 
-+	mutex_unlock(&smmu->lock);
-+
- 	return 0;
- 
- err_unmap:
- 	dma_unmap_page(smmu->dev, as->pd_dma, SMMU_SIZE_PD, DMA_TO_DEVICE);
-+unlock:
-+	mutex_unlock(&smmu->lock);
-+
- 	return err;
- }
- 
- static void tegra_smmu_as_unprepare(struct tegra_smmu *smmu,
- 				    struct tegra_smmu_as *as)
- {
--	if (--as->use_count > 0)
-+	mutex_lock(&smmu->lock);
-+
-+	if (--as->use_count > 0) {
-+		mutex_unlock(&smmu->lock);
- 		return;
-+	}
- 
- 	tegra_smmu_free_asid(smmu, as->id);
- 
- 	dma_unmap_page(smmu->dev, as->pd_dma, SMMU_SIZE_PD, DMA_TO_DEVICE);
- 
- 	as->smmu = NULL;
-+
-+	mutex_unlock(&smmu->lock);
- }
- 
- static int tegra_smmu_attach_dev(struct iommu_domain *domain,
+> 
+> Christian.
+> 
+> > 
+> > Best regards
+> > Thomas
+> > 
+> > > Christian.
+> > > 
+> > > > > Anyway, if a better name than dma-buf-map comes in, I'm willing to
+> > > > > rename the thing. Otherwise I intend to merge the patchset by the end of
+> > > > > the week.
+> > > > Well, the main thing is that I think this shoud be moved away from
+> > > > dma-buf. But if indeed dma-buf is the only relevant user in drm then
+> > > > I am totally fine with the current naming.
+> > > > 
+> > > > One alternative named that popped up in my head: struct sys_io_map {}
+> > > > But again, if this is kept in dma-buf then I am fine with the current
+> > > > naming.
+> > > > 
+> > > > In other words, if you continue to think this is mostly a dma-buf
+> > > > thing all three patches are:
+> > > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> > > > 
+> > > >      Sam
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
