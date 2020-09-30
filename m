@@ -2,73 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7864A27DEAC
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 05:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 182F527DFE9
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 07:10:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729874AbgI3DAF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Sep 2020 23:00:05 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17439 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729446AbgI3DAE (ORCPT
+        id S1725440AbgI3FKF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Sep 2020 01:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbgI3FKE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Sep 2020 23:00:04 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f73f4810003>; Tue, 29 Sep 2020 19:59:13 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
- 2020 03:00:03 +0000
-Received: from skomatineni-linux.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Wed, 30 Sep 2020 03:00:03 +0000
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-Subject: [PATCH v1 2/2] media: tegra-video: Allow building driver with COMPILE_TEST
-Date:   Tue, 29 Sep 2020 20:02:38 -0700
-Message-ID: <1601434958-29305-3-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1601434958-29305-1-git-send-email-skomatineni@nvidia.com>
-References: <1601434958-29305-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Wed, 30 Sep 2020 01:10:04 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B6FC061755;
+        Tue, 29 Sep 2020 22:10:03 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id u8so581063lff.1;
+        Tue, 29 Sep 2020 22:10:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=cEH+zGuhb7boZPnK+5qwlskD7dzNXbs2N7hqt0FYXtI=;
+        b=JEKFiD9IhMc0d2BR62xEDLkwxPUNZ5O5AdjXzgRfQBoaNRDPyAaOzVSksh5qzthbOn
+         cYaL2EEnInhh9d9qCI/VzTHM1UAFrtLeelC6pPjdHatdMhlXKjkbIwO7k0//RsZkRsjS
+         423U++/3789kQEX1LWZcA5NE/DgIeZJI+acgQJ9GYvKAG4XiCcvjr/EDmHXnhenbvhwx
+         tuH8F9P/YTm19nRrmsNVTDY6ylX+zAyu5FzeFSHMQ0xbRSvwdp3IfcWatk/brX3Rh49h
+         ptCq5FurX26gGHPZHjo9Rvr1ERKApIQju9F9KmmigUZ9gY3kmkYyPPHkqXtglU0jw/ww
+         +Fsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=cEH+zGuhb7boZPnK+5qwlskD7dzNXbs2N7hqt0FYXtI=;
+        b=WjX9P8Z0UwYDVMSCc7211iHSboENiwIpjR6AqZ7acdesEvUohqEc43a9LITZ/5d2N6
+         URZvI1vKDtzntx0bmT3HrWNAa/Sg7Nn2x9XaNpniRc9rnozsj3CgI3+R2BPuL2DWazFm
+         b9/MpjAtgZRHDa42DSU4FCFOXeSE0+wPWREkRBYvtvE6YjE/bccLNspa1IQlVR7VyaPZ
+         Kkr4v6JjCWK3bvA9Nwr4jKolEMApqODKIskris1pdNbx26VFwwFJ4kP0dTfTIGjQgPoW
+         SYx7L2twQXiV5VPyfNYBaO8O6g4DLgtCex0BE3Xuf8dCOrCcESq77XFOOHt2QRlC2uwH
+         msZw==
+X-Gm-Message-State: AOAM532cI/Swnz8r4ar17ONqjtIXPfPbFxa/rlEr8/2EecFPDAVhNR4t
+        eo3KGY3Q+QgfOxnmu9EghmVqqxZYkO8=
+X-Google-Smtp-Source: ABdhPJyOrfcyT8AJjKsE9UZTICu54D13qTLp0F9P1YPzBCvcB7eAm/HnfeYg1e2/Xa+QzTIeCRVeNA==
+X-Received: by 2002:a19:8bc2:: with SMTP id n185mr211884lfd.211.1601442601966;
+        Tue, 29 Sep 2020 22:10:01 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id v196sm54763lfa.96.2020.09.29.22.10.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Sep 2020 22:10:00 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] iommu/tegra-smmu: Add PCI support
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, thierry.reding@gmail.com,
+        joro@8bytes.org, krzk@kernel.org
+Cc:     vdumpa@nvidia.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org
+References: <20200930003013.31289-1-nicoleotsuka@gmail.com>
+ <20200930003013.31289-4-nicoleotsuka@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <27b155ec-97ab-98f6-7b48-3fded875d5cc@gmail.com>
+Date:   Wed, 30 Sep 2020 08:10:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601434753; bh=RD5IGLamIRzBFGWZGbcF8S5HN/ZOzfAoz/rvE33ZEiI=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:X-NVConfidentiality:MIME-Version:Content-Type;
-        b=WIWKKm0s6GXpJRZe/4Qvza4W+59HdSWQhxqc/0bXuQ3D5ZCjh6R5KL9hvHy5kmsK8
-         zyXdAKffuBFPnTSDtD7j/BAcoEWa3lv0K8a/4hOAWjzq3h9AEKXJY89JAHdyjDJhsS
-         YPkiytclfN4h/DNLGs9HjgaVctAyx8xGcxUkWIvNlyFzTJT9Fqmq81yBdpdm1vGoOZ
-         qeSEkEqpHXo+uHG8MwW7rhnu0PwB+u14+uO8JOwc2WGjS8h7CufCOxdj+F6wMYfdVe
-         2hd2KoapNOKiaCbaB0qaPYuC+muoigzzsuXDOprEf80vqtGw32jbNswbwPCJ6th0D9
-         oAnq4ky6+Hv8Q==
+In-Reply-To: <20200930003013.31289-4-nicoleotsuka@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds COMPILE_TEST option to Kconfig to allow building
-it with COMPILE_TEST option.
+30.09.2020 03:30, Nicolin Chen пишет:
+...
+> +#ifdef CONFIG_PCI
+> +	if (!iommu_present(&pci_bus_type)) {
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- drivers/staging/media/tegra-video/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
-index 1f35da4..3e03ddd 100644
---- a/drivers/staging/media/tegra-video/Kconfig
-+++ b/drivers/staging/media/tegra-video/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config VIDEO_TEGRA
- 	tristate "NVIDIA Tegra VI driver"
--	depends on TEGRA_HOST1X
-+	depends on TEGRA_HOST1X || COMPILE_TEST
- 	depends on VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEOBUF2_DMA_CONTIG
--- 
-2.7.4
-
+Could you please explain why this check is needed?
