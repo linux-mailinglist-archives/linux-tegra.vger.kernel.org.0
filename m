@@ -2,119 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF6227E27C
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 09:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A6CE27E29F
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 09:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbgI3HVy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Sep 2020 03:21:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49806 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725440AbgI3HVy (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Sep 2020 03:21:54 -0400
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2ABBC207F7;
-        Wed, 30 Sep 2020 07:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601450513;
-        bh=4a1eMMEYAX2Q7JPaPum/diACL5G6etmpf/ER/kUFzFc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Czho7HwzyRF7Mi48JpASgGht5fus9HLOx2UtQvXNOkPDnaSEBx+TWZ+wFvlgJs1iu
-         Cgi7EgdS10NBr4lKOTxku/InGl1nIa4iKqgOvtLqu/FoZroJZiDCeS+7+qA7K2a+h/
-         p9Hyi7SAimqApMkz3cieHJAvh6ankpC/7KaoolxY=
-Received: by mail-ej1-f52.google.com with SMTP id qp15so370386ejb.3;
-        Wed, 30 Sep 2020 00:21:53 -0700 (PDT)
-X-Gm-Message-State: AOAM533HeHQfMPbPdoaD8ZC7tA/tZ/TG1xHAv1vmMfEA7bgSSp0vCc7u
-        XscH7/eOLJeQ3Bo1jdujIK5rNvZEs8T/i7s0Eoc=
-X-Google-Smtp-Source: ABdhPJyETPcYXIqZ2N+Xzy7w6ZTbtg26NVcWQiK3ImgKAugFHBNnmA6vP/uftFY/WRGJMfqhGWRbK3gSMphJ2OgouGE=
-X-Received: by 2002:a17:906:1984:: with SMTP id g4mr1410359ejd.119.1601450511650;
- Wed, 30 Sep 2020 00:21:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200930003013.31289-1-nicoleotsuka@gmail.com> <20200930003013.31289-2-nicoleotsuka@gmail.com>
-In-Reply-To: <20200930003013.31289-2-nicoleotsuka@gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Wed, 30 Sep 2020 09:21:39 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPeye7b0j1oB21JmBwc277_1RYWQ0SC0Otf+F62HK=sjjA@mail.gmail.com>
-Message-ID: <CAJKOXPeye7b0j1oB21JmBwc277_1RYWQ0SC0Otf+F62HK=sjjA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] memory: tegra: Add helper function tegra_get_memory_controller
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
+        id S1725777AbgI3HbR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Sep 2020 03:31:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53244 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725535AbgI3HbQ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 30 Sep 2020 03:31:16 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64CA5C061755;
+        Wed, 30 Sep 2020 00:31:15 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id j7so487664plk.11;
+        Wed, 30 Sep 2020 00:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=bwOTOwH4axl9LqPJmEo0RmLkZED4KKjttxbY58nlHVU=;
+        b=ekxIJCZIESz5WSSsGf4/UfvtntXZpRaljNG8C88ia6EAPRAFmIhV+DTBBhuzHywGcI
+         lbwQCkdhE6oB6NBNUaVy3F3Fnx/iYQUvqnQYXRFhlJS3fqeJgTaa/GtmBG7rO4c7qszV
+         ZXpwT9F7D059JXWsKS3rDyxvB2rqeCltH1/ULMohSMyocoZHBajSxiR4ekNysVM6UPwh
+         TA/U6o7KL3qJYlmtBK1ZkhoBJG1r4nnMmmR9R4Jg+myiIZWWn94ydCcZiPGTSzyFPtLG
+         UwAuh4bPvS4FBkpwpACWcOWzD+NcR6Zfv3QwY8D/9XXbOD0nqYfhspMf6Z1sLQXqvh/x
+         k7CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=bwOTOwH4axl9LqPJmEo0RmLkZED4KKjttxbY58nlHVU=;
+        b=ljfQKp2D5iKqXHM93H01V81VkhRlalspGClJwSKPSAp+hKzG/pfZFRLv7Xw2e8+GMR
+         QeIHogek2h0fNS/kbrmykDGbAdqCLIOT/wG78Lv21lWr/M+JAAxA+oDzu48agWdQ8TXZ
+         zPDE0mQ6YVprX0tN6wN4X45n4DM/S8OWa42nkayaI7Hzsf1Y2+P8uer37oc+luFNgrC6
+         oHOyW7sRUMaE7IoGXGJszwgJoDmrIWJTDmy7G2E48FnLuK7teI1BGh80yYTB6+wzVKJv
+         X1B0gKop2pVlHT/n8Fe9t52Y06+QfdiAgy4ifkYsKC1RuLZQld7zMMCnhPZv5/4hX+Qj
+         qcCg==
+X-Gm-Message-State: AOAM5302ZTF8M25iv5e8/x2XGxPXK50Vo7MjKu3V3J8QPmOnFF9R5H93
+        ItG7H1XW+VdMxRzVKuLS9TA=
+X-Google-Smtp-Source: ABdhPJwXuia3lh7dWuGxNLtu/8GKrMOmIAmVZsKyyiPZgKjMbUATljSUXVN3+rgD+15l0PNAx7d6mw==
+X-Received: by 2002:a17:90b:93:: with SMTP id bb19mr1410705pjb.162.1601451074777;
+        Wed, 30 Sep 2020 00:31:14 -0700 (PDT)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id y16sm1370254pfb.154.2020.09.30.00.31.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 30 Sep 2020 00:31:14 -0700 (PDT)
+Date:   Wed, 30 Sep 2020 00:25:43 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     thierry.reding@gmail.com, joro@8bytes.org, digetx@gmail.com,
         vdumpa@nvidia.com, jonathanh@nvidia.com,
         linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 1/3] memory: tegra: Add helper function
+ tegra_get_memory_controller
+Message-ID: <20200930072542.GC13876@Asurada-Nvidia>
+References: <20200930003013.31289-1-nicoleotsuka@gmail.com>
+ <20200930003013.31289-2-nicoleotsuka@gmail.com>
+ <CAJKOXPeye7b0j1oB21JmBwc277_1RYWQ0SC0Otf+F62HK=sjjA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJKOXPeye7b0j1oB21JmBwc277_1RYWQ0SC0Otf+F62HK=sjjA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 30 Sep 2020 at 02:35, Nicolin Chen <nicoleotsuka@gmail.com> wrote:
->
-> This can be used by both tegra-smmu and tegra20-devfreq drivers.
->
-> Suggested-by: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
->
-> Changelog
-> v1->v2
->  * N/A
->
->  drivers/memory/tegra/mc.c | 23 +++++++++++++++++++++++
->  include/soc/tegra/mc.h    |  1 +
->  2 files changed, 24 insertions(+)
->
-> diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-> index ec8403557ed4..09352ad66dcc 100644
-> --- a/drivers/memory/tegra/mc.c
-> +++ b/drivers/memory/tegra/mc.c
-> @@ -42,6 +42,29 @@ static const struct of_device_id tegra_mc_of_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, tegra_mc_of_match);
+Hi Krzysztof,
 
-> +struct tegra_mc *tegra_get_memory_controller(void)
-> +{
+On Wed, Sep 30, 2020 at 09:21:39AM +0200, Krzysztof Kozlowski wrote:
+> On Wed, 30 Sep 2020 at 02:35, Nicolin Chen <nicoleotsuka@gmail.com> wrote:
+> >
+> > This can be used by both tegra-smmu and tegra20-devfreq drivers.
+> >
+> > Suggested-by: Dmitry Osipenko <digetx@gmail.com>
+> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> > ---
+> >
+> > Changelog
+> > v1->v2
+> >  * N/A
+> >
+> >  drivers/memory/tegra/mc.c | 23 +++++++++++++++++++++++
+> >  include/soc/tegra/mc.h    |  1 +
+> >  2 files changed, 24 insertions(+)
+> >
+> > diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
+> > index ec8403557ed4..09352ad66dcc 100644
+> > --- a/drivers/memory/tegra/mc.c
+> > +++ b/drivers/memory/tegra/mc.c
+> > @@ -42,6 +42,29 @@ static const struct of_device_id tegra_mc_of_match[] = {
+> >  };
+> >  MODULE_DEVICE_TABLE(of, tegra_mc_of_match);
+> 
+> > +struct tegra_mc *tegra_get_memory_controller(void)
+> > +{
+> 
+> Add kerneldoc and mention dropping of reference to the device after use.
 
-Add kerneldoc and mention dropping of reference to the device after use.
+I am abort to use Dmitry's devm_ one in my next version:
+https://github.com/grate-driver/linux/commit/2105e7664063772d72fefe9696bdab0b688b9de2
 
-Best regards,
-Krzysztof
+Could I just skip the kerneldoc part? Otherwise, would you please
+tell me which kerneldoc file I should update?
 
-> +       struct platform_device *pdev;
-> +       struct device_node *np;
-> +       struct tegra_mc *mc;
-> +
-> +       np = of_find_matching_node_and_match(NULL, tegra_mc_of_match, NULL);
-> +       if (!np)
-> +               return ERR_PTR(-ENOENT);
-> +
-> +       pdev = of_find_device_by_node(np);
-> +       of_node_put(np);
-> +       if (!pdev)
-> +               return ERR_PTR(-ENODEV);
-> +
-> +       mc = platform_get_drvdata(pdev);
-> +       if (!mc)
-> +               return ERR_PTR(-EPROBE_DEFER);
-> +
-> +       return mc;
-> +}
-> +EXPORT_SYMBOL_GPL(tegra_get_memory_controller);
-> +
->  static int tegra_mc_block_dma_common(struct tegra_mc *mc,
->                                      const struct tegra_mc_reset *rst)
->  {
-> diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
-> index 1238e35653d1..c72718fd589f 100644
-> --- a/include/soc/tegra/mc.h
-> +++ b/include/soc/tegra/mc.h
-> @@ -183,5 +183,6 @@ struct tegra_mc {
->
->  int tegra_mc_write_emem_configuration(struct tegra_mc *mc, unsigned long rate);
->  unsigned int tegra_mc_get_emem_device_count(struct tegra_mc *mc);
-> +struct tegra_mc *tegra_get_memory_controller(void);
->
->  #endif /* __SOC_TEGRA_MC_H__ */
-> --
-> 2.17.1
->
+Thanks
