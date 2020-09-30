@@ -2,70 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F0327EC06
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 17:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CCBE27EC5C
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 17:22:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730236AbgI3PNf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Sep 2020 11:13:35 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:9476 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728663AbgI3PNS (ORCPT
+        id S1730882AbgI3PWr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Sep 2020 11:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725872AbgI3PWk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:13:18 -0400
-IronPort-SDR: nSLQ961igttQQFDXguzwLhOQoqV+OJ5/NRMVroTHD56kizVKBIwc+0oNmhIPNQ7mW+MVfcf2t8
- WxdYs3LjqCQtwOSv6urZPipKWzS4gY17MNrim2daIZghZ/O9narY7GoH73mbsFHgrk8SBC7vhl
- o5IYmM4M+fud6s+lD4eJm7WwCMXOH2TpGouXvMf9IEMRi7j+lv8ezbHSIva8sLIWe3KWiAx/KF
- yi5BOyvZFW8qoTX4cn/lmqGfwiCdghoO1trO9rxWiEgPRr0xBcV7UPSshp5i2sNjaxx/tBfwO7
- ENQ=
-X-IronPort-AV: E=Sophos;i="5.77,322,1596528000"; 
-   d="scan'208";a="53484685"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 30 Sep 2020 07:13:16 -0800
-IronPort-SDR: AhD9Pi2PvHyXGBdiXvnDQJCnZU0KZeP70Ol0MF3R+NbwGTd4NGhvoTiCkEETjpslS11JaScN5l
- d8qGYNkmdEsw/Z7Hu3ii5bJK6FNdHq1oz5I0NZHrkKOBqMVb1WWvVTaWUtDZcsd63bMdkDxfN9
- rmvBDbowvTb7IsP3UO/kG6Ue97WMoaKDblImtA9qHJS1FRtnbidWAz2ykAb01irAKznV596fUC
- KZRypC5kGLkjOpMJ6mS9dy+rF56GFt0nGk+jqM6oMaLQhvlLvksajJ13dzdA5pO384zezuhvSJ
- Yos=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <digetx@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <andrew_gabbasov@mentor.com>,
-        <jiada_wang@mentor.com>
-Subject: [PATCH v3 3/3] ARM: tegra: add mXT1386 compatible
-Date:   Thu, 1 Oct 2020 00:12:59 +0900
-Message-ID: <20200930151259.18119-4-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200930151259.18119-1-jiada_wang@mentor.com>
-References: <20200930151259.18119-1-jiada_wang@mentor.com>
+        Wed, 30 Sep 2020 11:22:40 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C62C061755;
+        Wed, 30 Sep 2020 08:22:40 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id q8so2637900lfb.6;
+        Wed, 30 Sep 2020 08:22:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xiKtvmX9hgv/pe1MEDHvp0vtG2v3tm61VnhmZJEUzgA=;
+        b=O6vRBFSX3jndnk1it+JCHmJDlt2UGbZJFM87KbD//vjyUO1Gqd0QsDWolxBbJHJVWv
+         dZxGx1d9loJYYkjmYRnGpN0pgd16yXmWJMitqoOwFHEzyrJhYla9YZamUHwWEsq0kMCo
+         siv4g9jHw5HwSkYLM9WkQtI3hSFax0w4eQikWB1vEsEy1ctY6uUzfKa62jB7bSQw29oK
+         Za3gTE1EgEUQGY5vFqL9fL1fZT87rrVdqXIn4xiWzylKISR+o7Kh3qND/bISNxZsDUd0
+         bpBzEqub5VTzDLy9xKdkSHU/6iIMjSQyMtrg0QCcC9u90kgcwAYgcNhZeE7jygyXK/kn
+         5v1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xiKtvmX9hgv/pe1MEDHvp0vtG2v3tm61VnhmZJEUzgA=;
+        b=ragWH/rYeV8Rq36sI3cGTWc/AFB6tCkjUJkk237WZDQ2JoW0sXRaOZcLfe5fyUHOu9
+         9zld/EmjcfO+JY0s1nAH3XX5fx7hOLKuOpkdXeXaYTeGdkdnr2sfK0HYpSUGD4NYzxv6
+         JY2Mg9acWA3asQfF1nSwBC+ih2zLa1jpaHMz/vkew07T8sKb0MvoQpyP3PHTn03apTGb
+         QmrjbYFeizb4YeFX0iWKd1kVNXLejn4FhjMDI1G5HN+y+qJuWVNmmNBuy/WXwaPaqS87
+         PdvuzNGZ/4RHC2z5NGtyDX2H/cpU1AAuTfcLfpJXTiGHS+HzAV+XtcNS15+uH3NsSRtU
+         OSpg==
+X-Gm-Message-State: AOAM531Gs+n+/Gn5hkcpK5FgpSZRRWDSx+Pyr7uBMAiZoI/f2Dx6X9nb
+        4r8DBzTUyEIuZlA3M5aRXdAfrLWg3Fk=
+X-Google-Smtp-Source: ABdhPJxnHzVE51GwnQB935ZA5ZgN3Z3BCeImMKqCMFWf3vkc7rfyplw5W15mZV5ZQcbbs8opUY+h9w==
+X-Received: by 2002:ac2:4352:: with SMTP id o18mr972224lfl.496.1601479358712;
+        Wed, 30 Sep 2020 08:22:38 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id 80sm226170lff.61.2020.09.30.08.22.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2020 08:22:38 -0700 (PDT)
+Subject: Re: [PATCH v3 1/3] memory: tegra: Add
+ devm_tegra_get_memory_controller()
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Nicolin Chen <nicoleotsuka@gmail.com>, thierry.reding@gmail.com,
+        joro@8bytes.org, vdumpa@nvidia.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200930084258.25493-1-nicoleotsuka@gmail.com>
+ <20200930084258.25493-2-nicoleotsuka@gmail.com>
+ <f9712d4c-8497-ca84-0d8a-d33eb6abc513@gmail.com>
+ <CAJKOXPfbCRDY7TUZ4HXphrd6boWYEKb_DMOxth3ucPTB2UCUtw@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <257958e0-8359-4296-9653-ba821b39d813@gmail.com>
+Date:   Wed, 30 Sep 2020 18:22:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAJKOXPfbCRDY7TUZ4HXphrd6boWYEKb_DMOxth3ucPTB2UCUtw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add mXT1386 compatible for "touchscreen@4c".
+30.09.2020 17:45, Krzysztof Kozlowski пишет:
+> On Wed, 30 Sep 2020 at 16:41, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> ...
+>>> +struct tegra_mc *devm_tegra_get_memory_controller(struct device *dev)
+>>> +{
+>>> +     struct platform_device *pdev;
+>>> +     struct device_node *np;
+>>> +     struct tegra_mc *mc;
+>>> +     int err;
+>>> +
+>>> +     np = of_find_matching_node_and_match(NULL, tegra_mc_of_match, NULL);
+>>> +     if (!np)
+>>> +             return ERR_PTR(-ENOENT);
+>>> +
+>>> +     pdev = of_find_device_by_node(np);
+>>> +     of_node_put(np);
+>>> +     if (!pdev)
+>>> +             return ERR_PTR(-ENODEV);
+>>> +
+>>> +     mc = platform_get_drvdata(pdev);
+>>> +     if (!mc) {
+>>> +             put_device(mc->dev);
+>>
+>> This should be put_device(&pdev->dev). Please always be careful while
+>> copying someones else code :)
+> 
+> Good catch. I guess devm_add_action_or_reset() would also work... or
+> running Smatch on new code. Smatch should point it out.
 
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The devm_add_action_or_reset() shouldn't help much in this particular
+case because it's too early for the devm_add_action here.
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 2d683c9a1a5d..a9eed5f6973b 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -428,7 +428,7 @@
- 		};
- 
- 		touchscreen@4c {
--			compatible = "atmel,maxtouch";
-+			compatible = "atmel,mxt1386", "atmel,maxtouch";
- 			reg = <0x4c>;
- 
- 			atmel,cfg_name = "maxtouch-acer-iconia-tab-a500.cfg";
--- 
-2.17.1
+Having an explicit put_device() in all error code paths also helps with
+improving readability of the code a tad, IMO.
 
+Smatch indeed should catch this bug, but Smatch usually isn't a part of
+the developers workflow. More often Smatch is a part of maintainers
+workflow, hence such problems usually are getting caught before patches
+are applied.
