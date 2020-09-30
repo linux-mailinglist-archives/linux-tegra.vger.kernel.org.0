@@ -2,85 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2855A27E085
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 07:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F22CF27E08D
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 07:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725809AbgI3Fj4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Sep 2020 01:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S1725320AbgI3FpE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Sep 2020 01:45:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725320AbgI3Fj4 (ORCPT
+        with ESMTP id S1725306AbgI3FpE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Sep 2020 01:39:56 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33CECC061755;
-        Tue, 29 Sep 2020 22:39:56 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id bb1so326650plb.2;
-        Tue, 29 Sep 2020 22:39:56 -0700 (PDT)
+        Wed, 30 Sep 2020 01:45:04 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52648C061755;
+        Tue, 29 Sep 2020 22:45:02 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id q123so426828pfb.0;
+        Tue, 29 Sep 2020 22:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=Sfmy7ZZk8UYvhy6RI4/Gpi21fRi4lNKb0jBd0kAjjJg=;
-        b=nBLomMXfzt25vf2Sp3AqO31imNEOWbZcgTQPPOCYTE8aOFY3RPAHFBcs2UwqO3CJzD
-         47WXkMWRUsgzBxptzv0S/eO2EoljUV58BKgQ241e/Ey66Zf4bh9VUBy8TchAtu8UMcfh
-         tmUkh6/qvB436J9VJBOolQu89lFV7v1BB3kZ0pjbiV/2NN4MRAl45WaaBygyCdNt7zxD
-         xzafK1VUznndfBPTehWmGfPoR6WVZiZVoKz/uw9VwNQYsQybSvnavFU6gLvWbDfImHC8
-         D+mWmzNOFwaF9QvHktr+deKI9kFNYy9JlmrR7p2TAf7ft60cXbMEwtK0762FndRKX7zC
-         bqFg==
+        bh=tRdqtpZuO9VlHAKM9EV6SLp/Vc7sBfzATqlbagqH/RQ=;
+        b=mhrFErRMevyjT/bOEjjKelhWvNvAibIO1NgK0kCrxYY+Mn3CjdF4KMDtEEDICHufYJ
+         Isu/HtYsFFcMc4QN1gBhecO1xetvZjTKys1XgJJlJq3zo4KPCCuGaV8cAd1FNamDl+wY
+         ahthsSaCvfl6NdlCGZdmASnLmzu7u3Nb9Djg3MHIrSLOE71AzHUDEBRmDBr2va3+Es+V
+         wXuE07ZdqzPw74kWYqE5KGH6pB/S88RNm26zGXfF1mW/LW/rrq6dNEoOIPGa0Oy+QkyV
+         5jPMjKSJsGaa+B5QtFtho1CFwb17QELUQUNv7/AdcPzOoqbkP81ffLIzS4P3rnUNfnOR
+         B3DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=Sfmy7ZZk8UYvhy6RI4/Gpi21fRi4lNKb0jBd0kAjjJg=;
-        b=SxsuK2zOQFZT2X7y4Ktqb3sx719jSJEPJJv8sBSrlZNfWbm/GBbso6Aw32XH4d+9ve
-         QWImIAvps0P6cndExtNnZ7q30+j8CgUH5WQ6HDsspjcfAFuRFcpoZw5mNCbo5rSA01uP
-         1GRBZxi8bv5O6Ak1S6eBIDFQr6S8f94g1ZSlxXdFJfahZ5mi5roh0KhMCrVm3P3wIvVK
-         Dyoq4cKdohgL5yZDVRsOJAn6hbkG0gyUMXGjIRYiy2Le1UOD5EpfEhEtv9Zbdy/xYztw
-         78Rtqcfl3isEVkSFvey5AmoP0n0Ym1UF9hjiVpQAshMYmPOF9hEdgfz2Y4Hg5nBp0EKU
-         MM6g==
-X-Gm-Message-State: AOAM530fHyza36qR/HgmxmlXR5fBtJD1cylJuACkZGf4zzBgsMwi5bwt
-        AE2IAHw07i2D1WkrCPgVGI4=
-X-Google-Smtp-Source: ABdhPJyyhjRdMS6ldpAFpjKqaSpdHHXAmWHoyYuuQf3hOBabEmtv2ZkvYbkAJONPEBqd4PWKJ+HmiQ==
-X-Received: by 2002:a17:90a:1f43:: with SMTP id y3mr1055313pjy.28.1601444395688;
-        Tue, 29 Sep 2020 22:39:55 -0700 (PDT)
+        bh=tRdqtpZuO9VlHAKM9EV6SLp/Vc7sBfzATqlbagqH/RQ=;
+        b=e81wl/Kw/p2fmszxmxykZqvuYkIO0G9KnwkBtoDuGDyYFNa7myZdsL935YDOn8QVef
+         WowVPiXHcIybkAFkWw7naJy0y7swnbq6kD/ZIfDz6BJGY6K6v+XqwqtpVOQ3QfdrqAXT
+         ptFY0Es4QanIC7iUgqiLBJMCWzdyljTJ3gS8hSNd7wNfU8qqAhQU0KVOMIS6IFb1etEe
+         hi5XzM8Xs69e+qGYEmlccgLyRXCuxxItRap90I8MXBmgQdv6Qtpg9jV51N6EBa3wXdhI
+         Y0x9KY1tOQywk5pDPs8UrnW6EgfzRzxZXQQTyJMPsrwOJgrml80BSJf2eh7RSnWipqyL
+         Vc6w==
+X-Gm-Message-State: AOAM531lSXTYuRp0FWe26pbCu1ZmBlGeV3lw951vffEZRdVxraKntvnM
+        Ik7ScyIK5zFKqEIF9QiyK38=
+X-Google-Smtp-Source: ABdhPJxXrv4hwyUUnyZdUCFlV5myhX0PXPJKHvHr4ZoQqkPu2YBnDMM4+FKYJP/Iw+xdaZPedJXj/A==
+X-Received: by 2002:a63:3448:: with SMTP id b69mr902755pga.269.1601444701732;
+        Tue, 29 Sep 2020 22:45:01 -0700 (PDT)
 Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id o11sm687625pgq.36.2020.09.29.22.39.55
+        by smtp.gmail.com with ESMTPSA id 123sm650855pgd.83.2020.09.29.22.45.01
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 29 Sep 2020 22:39:55 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 22:34:25 -0700
+        Tue, 29 Sep 2020 22:45:01 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 22:39:31 -0700
 From:   Nicolin Chen <nicoleotsuka@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     thierry.reding@gmail.com, joro@8bytes.org, krzk@kernel.org,
         vdumpa@nvidia.com, jonathanh@nvidia.com,
         linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] iommu/tegra-smmu: Add PCI support
-Message-ID: <20200930053425.GC31821@Asurada-Nvidia>
+Subject: Re: [PATCH v2 2/3] iommu/tegra-smmu: Rework .probe_device and
+ .attach_dev
+Message-ID: <20200930053930.GD31821@Asurada-Nvidia>
 References: <20200930003013.31289-1-nicoleotsuka@gmail.com>
- <20200930003013.31289-4-nicoleotsuka@gmail.com>
- <5a91f07c-bc27-7607-915c-e98a7a0c4b24@gmail.com>
+ <20200930003013.31289-3-nicoleotsuka@gmail.com>
+ <03710107-b6ad-5256-4550-09c610d0fded@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5a91f07c-bc27-7607-915c-e98a7a0c4b24@gmail.com>
+In-Reply-To: <03710107-b6ad-5256-4550-09c610d0fded@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 08:10:35AM +0300, Dmitry Osipenko wrote:
+On Wed, Sep 30, 2020 at 08:24:02AM +0300, Dmitry Osipenko wrote:
 > 30.09.2020 03:30, Nicolin Chen пишет:
-> >  void tegra_smmu_remove(struct tegra_smmu *smmu)
-> >  {
-> > +	bus_set_iommu(&platform_bus_type, NULL);
+> > +	/*
+> > +	 * IOMMU core allows -ENODEV return to carry on. So bypass any call
+> > +	 * from bus_set_iommu() during tegra_smmu_probe(), as a device will
+> > +	 * call in again via of_iommu_configure when fwspec is prepared.
+> > +	 */
+> > +	if (!mc->smmu || !fwspec || fwspec->ops != &tegra_smmu_ops)
+> >  		return ERR_PTR(-ENODEV);
 > 
-> Why only platform_bus? Is this really needed at all?
+> The !mc->smmu can't be true.
 
-I see qcom_iommu.c file set to NULL in remove(), Probably should
-have added pci_bus_type too though.
-
-Or are you sure that there's no need at all?
+Are you sure? I have removed the "mc->smmu = smmu" in probe() with
+this change. So the only time "mc->smmu == !NULL" is after probe()
+of SMMU driver is returned. As my comments says, tegra_smmu_probe()
+calls in this function via bus_set_iommu(), so mc->smmu can be NULL
+in this case.
