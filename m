@@ -2,68 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B040127EB74
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 16:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD86B27EC20
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Sep 2020 17:16:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730107AbgI3OxX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Sep 2020 10:53:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
+        id S1728916AbgI3PP1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Sep 2020 11:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727426AbgI3OxX (ORCPT
+        with ESMTP id S1728480AbgI3PPL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Sep 2020 10:53:23 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 223AAC061755;
-        Wed, 30 Sep 2020 07:53:23 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id y2so2488656lfy.10;
-        Wed, 30 Sep 2020 07:53:23 -0700 (PDT)
+        Wed, 30 Sep 2020 11:15:11 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C00C061755;
+        Wed, 30 Sep 2020 08:15:10 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id v23so1921405ljd.1;
+        Wed, 30 Sep 2020 08:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cBiTt8w7J1gPwC7ywtmeoqJg6ORKtAlvgvECsQBVk8Y=;
-        b=NlfsUy9vpCET0GRm9FHJO2K/tAdRODKdiVwSRuXxY9aIjSk+P8E07sDuQVrncTqOnk
-         yLjQa9f5zZJW2Nk4T5FeI3xtvXvJ7rQIcZomW13YTDrlbCI7+8bsuN7mZtjKZmTAGyYY
-         /Q1FJt8d8rf6BEmJv4D80BLFeYGO/xAmZknESkR7Wcqxb+WN+o+/CNZWuuMaum+aCRrR
-         QOslN4pcvCFOoqD1cAVMYMGaSSNRbqlVG2Y6+DD0IHlHzvxHGjkqVVFzf0DEER3fpn8U
-         rfvtz8l/CGQ9/FprYEoB5e572iLGsyDWdUS0IIR3dbX5PpLjuS6JmWotz77EBJTnKwN5
-         wR4w==
+        bh=jw4xUwJEw3PBdXJ5pKldJCzPzGe94a2UdzCi5f8tbUA=;
+        b=YFJ0lf8QP0Q8nhVCwx9JJ+oihFfCYDo1Wzs9JVlPOKiCPw3NwvecDKw8eiYEVxwBrF
+         ac7nmF8Cxbl4CecpkPDMKfur68yFEkbMR3iZqKcOYtQb6w3cLTVemZTme8OaV6ktMa5E
+         dwrHPbSBABbVwzDyFJmADESi5yP8mFl19fW12ButrUFw20GRWsD6BsfDFavhWIlkU+vr
+         2lRQJYAkAbRigzWOItphQQSpkb7uQ8841vo2PjUCGB2A170L47qDi0u7zj69utDCTJnQ
+         UGYdVm+qQOWoD8y2dMPHLPWqZW8nnzQFvBf7hIHXABx33j7cNMXHSyJkHYTcsSfQ4QOl
+         qXKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=cBiTt8w7J1gPwC7ywtmeoqJg6ORKtAlvgvECsQBVk8Y=;
-        b=WUGSAqSd1aK6ZXC2c9mflWgu4Atx+Wvo01o/OZIYxMwo/5vFDHns4dy4QGQHJVXzoe
-         ct3v1pv2+aci1J3ppla3KQJ/Vz6ufGtNa8ZlIKpeEAwJ+Rxo2lPL/jeBN5eUeUerK8Gl
-         DBvMT9ibt/22beVsLCI50MHDdL4pCN8DGmz6wbe8jnt1oUPPrOQ28DohaTFq619ofFwD
-         oTrFkol6TJF1dPZz+dDCzE6OOaIseBgXLWyQuJ2WJSKBnNr26ucZmbwzDBTPJvdVhDvY
-         TG8UCDExFLgG1eHpOcUc3W8bYLMH13PeSlaZ67TptvoQDo+BOkadkKJrrMRn9h3VYAiQ
-         AmgA==
-X-Gm-Message-State: AOAM533Rs5s5CaaHMYX5uySNlvjntlLyFEM9RORHsj0plS8c690WVGYM
-        uw9LVOqbNEw35MFZz28+B8/KF7nWP6E=
-X-Google-Smtp-Source: ABdhPJxlcOW6WbGbdJT6g8UnmJSwMo6kLgrWGSydiTS1ApgR68IHgbXhqhZlSVyJZKmuJWr/2QUsYQ==
-X-Received: by 2002:a05:6512:36cd:: with SMTP id e13mr1088472lfs.165.1601477601361;
-        Wed, 30 Sep 2020 07:53:21 -0700 (PDT)
+        bh=jw4xUwJEw3PBdXJ5pKldJCzPzGe94a2UdzCi5f8tbUA=;
+        b=qvnAweD+kCoYkTDjpeBXL3L7W2lMjOY379HQ/eNm4lffWiuqPEcUHC4zdHdmfxLLqI
+         7FJtQ9FLqcKdSCLjFFMlJyz8i/ig+6BgUvBf8LLTdnY3Ot49DcuvFWJVZyOrg7t8DTaF
+         s7oe6UDPQUy0EXWwrFHWps5Z6j1S2ThVhmBniBRZyMwJougqywzuYvBd/jztgX8VXEDF
+         ay0lQHeqzu4aD/vOmSlec2GhJ1LumoS9tehrsSY8EiEiyrx1b6KAQ2lzuLN8TidHpg1Z
+         cKsGUaQUBg+OdBfO4gOXTElkeoZAuivQtk3Mlgk1dJQx/eA2UyFA0ygjZlBi1BhRoRYS
+         8XOA==
+X-Gm-Message-State: AOAM533AjklMuG4OJh8PjVF+qsq+YfLnqw8GfmHlTjwD7s7TJvSy7riE
+        OT46X2piwWTG852JAbqHISZAM/sGOZ4=
+X-Google-Smtp-Source: ABdhPJxdKp0HTLF54QUNCDS/RfutzAYTnKkUdZ+hvKfjD8MXi3huuEOAUhUKVfxoX4xcVoirspXW6A==
+X-Received: by 2002:a05:6512:370e:: with SMTP id z14mr1115113lfr.80.1601478585016;
+        Wed, 30 Sep 2020 08:09:45 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id j3sm218964lfb.185.2020.09.30.07.53.20
+        by smtp.googlemail.com with ESMTPSA id l8sm223130lfc.124.2020.09.30.08.09.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Sep 2020 07:53:20 -0700 (PDT)
-Subject: Re: [PATCH v3 3/3] iommu/tegra-smmu: Add PCI support
+        Wed, 30 Sep 2020 08:09:44 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] iommu/tegra-smmu: Rework .probe_device and
+ .attach_dev
 To:     Nicolin Chen <nicoleotsuka@gmail.com>, thierry.reding@gmail.com,
         joro@8bytes.org, krzk@kernel.org
 Cc:     vdumpa@nvidia.com, jonathanh@nvidia.com,
         linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org
 References: <20200930084258.25493-1-nicoleotsuka@gmail.com>
- <20200930084258.25493-4-nicoleotsuka@gmail.com>
+ <20200930084258.25493-3-nicoleotsuka@gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0a308ee8-abf7-97e4-9814-2156ee56fe8b@gmail.com>
-Date:   Wed, 30 Sep 2020 17:53:20 +0300
+Message-ID: <30808bd3-a546-e981-00ff-34c07ee1a678@gmail.com>
+Date:   Wed, 30 Sep 2020 18:09:43 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200930084258.25493-4-nicoleotsuka@gmail.com>
+In-Reply-To: <20200930084258.25493-3-nicoleotsuka@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,14 +73,35 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 ...
-> +#ifdef CONFIG_PCI
-> +	if (!iommu_present(&pci_bus_type)) {
+>  static int tegra_smmu_attach_dev(struct iommu_domain *domain,
+>  				 struct device *dev)
+>  {
+> +	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+>  	struct tegra_smmu *smmu = dev_iommu_priv_get(dev);
+>  	struct tegra_smmu_as *as = to_smmu_as(domain);
+> -	struct device_node *np = dev->of_node;
+> -	struct of_phandle_args args;
+>  	unsigned int index = 0;
+>  	int err = 0;
+>  
+> -	while (!of_parse_phandle_with_args(np, "iommus", "#iommu-cells", index,
+> -					   &args)) {
+> -		unsigned int swgroup = args.args[0];
+> -
+> -		if (args.np != smmu->dev->of_node) {
+> -			of_node_put(args.np);
+> -			continue;
+> -		}
+> -
+> -		of_node_put(args.np);
+> +	if (!fwspec || fwspec->ops != &tegra_smmu_ops)
+> +		return -ENOENT;
 
+In previous reply you said that these fwspec checks are borrowed from
+the arm-smmu driver, but I'm now looking at what other drivers do and I
+don't see them having this check.
 
-In the previous reply you said that you're borrowing this check from the
-arm-smmu driver, but arm-smmu also has a similar check for
-platform_bus_type, while Tegra SMMU driver doesn't have it. Hence I'm
-objecting the necessity of having this check.
+Hence I'm objecting the need to have this check here. You either should
+give a rational to having the check or it should be removed.
 
-Please give a rationale for having this check in the code. And please
-note that cargo cult isn't a rationale to me.
+Please never blindly copy foreign code, you should always double-check it.
