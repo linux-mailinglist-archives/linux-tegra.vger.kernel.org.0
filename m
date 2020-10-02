@@ -2,117 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EBC8281A8A
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Oct 2020 20:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 300A8281A63
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Oct 2020 20:04:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388457AbgJBSHe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Oct 2020 14:07:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60324 "EHLO
+        id S1726813AbgJBSEK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Oct 2020 14:04:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388434AbgJBSHT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Oct 2020 14:07:19 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2110C0613D0;
-        Fri,  2 Oct 2020 11:07:18 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id d6so1798602pfn.9;
-        Fri, 02 Oct 2020 11:07:18 -0700 (PDT)
+        with ESMTP id S1726017AbgJBSEK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Oct 2020 14:04:10 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E41C0613D0;
+        Fri,  2 Oct 2020 11:04:09 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id a15so1916643ljk.2;
+        Fri, 02 Oct 2020 11:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=cHB2ONyPEQ+hUFSnX/RB0VzFUTqL11Ck81Mmlx+r/fY=;
-        b=Tq+gq5OnXvNMUAl2zf6HnNrtA1GLxIi1XebvYnfd0sMr7QvZGaiJ7Sy+shakp9ukxb
-         249fbNJzmfkkMcKh+/0AfTYGMGcZ24dFmyAs/6f7NvvSTpmHD13DzxWLAU4XyflMUutZ
-         dAjlyvgTQhKyZj1fOfFRQ6aFtaiBRnbAU/F1Fxm2VNoyQEeAT5j3Z+R+6/kAiYtvtXmY
-         fjJpl6ivQVi6X5ZpdKVMJXwZxEJwOqrg+wXG4KVN3iIt49FfU+RDUDTebdha0KB1wv59
-         8Fhleur1VBPauW5vQND30B02L7N2xCg4BMxgOarAl59jmL5F6PDkUFMiijKqVYW10Ir9
-         Dk/Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=X7scSAYBn2RRuTNSpT50v9O4203tRjoSiVCg2al9x3c=;
+        b=PqToHEGu23DgdZ2llKdlNz3ZnXVa4N0F9hZj5tE+Lt9BmBznCQkbGKrS+3ZAgwLiTQ
+         z8Uepf2oXiTPK0szzztUkNBiXYQboC/0JTR2l9O9/KyKai1XQMrckYjXo4IQd6opxd08
+         F1IZ9UqH/nIj4+Ptb8ZZ8YFHe+qbysgZ0dNBltffrONxrJslUIzC0WZC3PfETDkWQrIO
+         8VnHOrzPW4KW7u6iz7VDoOv1mv1bQBAkGSG+81ZufuwpY4TaTbTb+EJhMZBKW46palov
+         zip602g9OLFY8lu/hMb6VfhDvn59v8ykZvs85RXKhC373rvz0oyi8KoIz1zHU903VQqt
+         NBPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=cHB2ONyPEQ+hUFSnX/RB0VzFUTqL11Ck81Mmlx+r/fY=;
-        b=WMpz8zLVWGw1mlgXBkg2oeK+euMkZagAPXdMSWoRizZoCwiraWPhOYk6lyKF2N/8/F
-         oQny585YBjMADWkmy4YCiTU2RN/7NJuX/o77P5s8e1lNhyZFH+vIa5I7/+esLgwgsSn2
-         Lo2KdbNBRiQhwDhaJOvDIPVipqGzp64MFSe9mQgkk3dNgZdcl8yIefNwrLRUYlH8WuZ1
-         6SwOlRqUxiVxtgCip9ZgtyM3uapDb1NOAMa/9SOVJ8ax/mHZsHGIKFOEEAew+r+Y9p81
-         aovsgL/ITK0iM9hD8NIQ14jITI3WI8JaASQfdZuYdMPQ/DM3u6ipCBrmIZdRvjZDAeDa
-         8hFA==
-X-Gm-Message-State: AOAM532sI9xH6i641XZPbmpB6RT82YYAoDFd/3B5NsKZ9/bnfZZWKyic
-        YNcswib/VQYXdI/dSl22USaimCnXKNA=
-X-Google-Smtp-Source: ABdhPJxhwDTHQiAIBv0FymF3yt7MLVFij1pPJlTvaKlkRricxll4p3ShOfVY68QWxxDdNnThmi93Rw==
-X-Received: by 2002:a63:474b:: with SMTP id w11mr3313390pgk.376.1601662038313;
-        Fri, 02 Oct 2020 11:07:18 -0700 (PDT)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id f18sm2818497pfe.153.2020.10.02.11.07.17
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 02 Oct 2020 11:07:17 -0700 (PDT)
-Date:   Fri, 2 Oct 2020 11:01:21 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=X7scSAYBn2RRuTNSpT50v9O4203tRjoSiVCg2al9x3c=;
+        b=pJQY7CHw8aX3IcmKWjboS/doZI9mmWONKztCaLbLky0WhALNxavkQmLKbYJ0xbggbJ
+         Osf95mtjYpQv6LCgoc0XsZzFdW8e3t9RKBDe+UAhfnzWA2RhQeV4qQ4s5lnXRofDkoJx
+         QsaKrSyIm79cWuVxgfANShepZ1V9CIvNyjq0zkho1xJVW6JVj9xRX8FZrbKp5eXLiFda
+         HWi9z95htWYZ5TyCmyTrFE3tUfxD/ukiHl8Ihk6rDakTT3p2FxftNOqxW0UQH9Haxhv8
+         taUmO/hlwUq/fHWbILrc0HYkdMXiKk466ajHjz8yukdJMy6vikYpBiVrvVWo+rTYCF23
+         cb0Q==
+X-Gm-Message-State: AOAM530tRUPey1lDp7dGmb5iqkXAexOOOJvmXiUt3sHFu2cUPw6vH09x
+        6tFOPwt+PInc5MY+flKtq5NpOvcye0Q=
+X-Google-Smtp-Source: ABdhPJzMyBnyO4z0Vl+YiIYyNkKiOVb7lX/eB2stEZmEd3qHRupKVS8BM81+BfaTwu0T6e9Cub4tUw==
+X-Received: by 2002:a2e:91c5:: with SMTP id u5mr1087333ljg.278.1601661847827;
+        Fri, 02 Oct 2020 11:04:07 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-91-252.nat.spd-mgts.ru. [109.252.91.252])
+        by smtp.googlemail.com with ESMTPSA id c22sm454850lff.202.2020.10.02.11.04.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2020 11:04:06 -0700 (PDT)
+Subject: Re: [PATCH v4 3/3] iommu/tegra-smmu: Add PCI support
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
 Cc:     thierry.reding@gmail.com, joro@8bytes.org, vdumpa@nvidia.com,
         jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
         iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] iommu/tegra-smmu: Rework tegra_smmu_probe_device()
-Message-ID: <20201002180120.GB29706@Asurada-Nvidia>
 References: <20201002060807.32138-1-nicoleotsuka@gmail.com>
- <20201002060807.32138-3-nicoleotsuka@gmail.com>
- <070a13b2-cde2-ab9e-7ee0-8fb71fb64d5d@gmail.com>
+ <20201002060807.32138-4-nicoleotsuka@gmail.com>
+ <eba0d5ff-dfb2-7c17-50c2-5709c506f62e@gmail.com>
+ <20201002174532.GA29706@Asurada-Nvidia>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <6e4e3cb8-a71b-40b4-7ab6-b3f0d2ec6e0c@gmail.com>
+Date:   Fri, 2 Oct 2020 21:04:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201002174532.GA29706@Asurada-Nvidia>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <070a13b2-cde2-ab9e-7ee0-8fb71fb64d5d@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Oct 02, 2020 at 05:23:14PM +0300, Dmitry Osipenko wrote:
-> 02.10.2020 09:08, Nicolin Chen пишет:
-> >  static struct iommu_device *tegra_smmu_probe_device(struct device *dev)
-> >  {
-> > -	struct device_node *np = dev->of_node;
-> > -	struct tegra_smmu *smmu = NULL;
-> > -	struct of_phandle_args args;
-> > -	unsigned int index = 0;
-> > -	int err;
-> > -
-> > -	while (of_parse_phandle_with_args(np, "iommus", "#iommu-cells", index,
-> > -					  &args) == 0) {
-> > -		smmu = tegra_smmu_find(args.np);
-> > -		if (smmu) {
-> > -			err = tegra_smmu_configure(smmu, dev, &args);
-> > -			of_node_put(args.np);
-> > -
-> > -			if (err < 0)
-> > -				return ERR_PTR(err);
-> > -
-> > -			/*
-> > -			 * Only a single IOMMU master interface is currently
-> > -			 * supported by the Linux kernel, so abort after the
-> > -			 * first match.
-> > -			 */
-> > -			dev_iommu_priv_set(dev, smmu);
-> > -
-> > -			break;
-> > -		}
-> > -
-> > -		of_node_put(args.np);
-> > -		index++;
-> > -	}
-> > +	struct tegra_smmu *smmu = dev_iommu_priv_get(dev);
-> >  
-> >  	if (!smmu)
-> >  		return ERR_PTR(-ENODEV);
+02.10.2020 20:45, Nicolin Chen пишет:
+> On Fri, Oct 02, 2020 at 05:35:24PM +0300, Dmitry Osipenko wrote:
+>> 02.10.2020 09:08, Nicolin Chen пишет:
+>>> @@ -865,7 +866,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
+>>>  	group->smmu = smmu;
+>>>  	group->soc = soc;
+>>>  
+>>> -	group->group = iommu_group_alloc();
+>>> +	if (dev_is_pci(dev))
+>>> +		group->group = pci_device_group(dev);
+>>> +	else
+>>> +		group->group = generic_device_group(dev);
+>>> +
+>>>  	if (IS_ERR(group->group)) {
+>>>  		devm_kfree(smmu->dev, group);
+>>>  		mutex_unlock(&smmu->lock);
+>>> @@ -1069,22 +1074,32 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
+>>>  	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
+>>>  
+>>>  	err = iommu_device_register(&smmu->iommu);
+>>> -	if (err) {
+>>> -		iommu_device_sysfs_remove(&smmu->iommu);
+>>> -		return ERR_PTR(err);
+>>> -	}
+>>> +	if (err)
+>>> +		goto err_sysfs;
+>>>  
+>>>  	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
+>>> -	if (err < 0) {
+>>> -		iommu_device_unregister(&smmu->iommu);
+>>> -		iommu_device_sysfs_remove(&smmu->iommu);
+>>> -		return ERR_PTR(err);
+>>> -	}
+>>> +	if (err < 0)
+>>> +		goto err_unregister;
+>>> +
+>>> +#ifdef CONFIG_PCI
+>>> +	err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
+>>> +	if (err < 0)
+>>> +		goto err_bus_set;
+>>> +#endif
+>>>  
+>>>  	if (IS_ENABLED(CONFIG_DEBUG_FS))
+>>>  		tegra_smmu_debugfs_init(smmu);
+>>>  
+>>>  	return smmu;
+>>> +
+>>> +err_bus_set: __maybe_unused;
+>>
+>> __maybe_unused?
 > 
-> The !smmu can't ever be true now, isn't it? Then please remove it.
+> In order to mute a build warning when CONFIG_PCI=n...
+> 
 
-How can you be so sure? Have you read my commit message? The whole
-point of removing the hack in tegra_smmu_probe() is to return the
-ERR_PTR(-ENODEV) here. The bus_set_iommu() will call this function
-when mc->smmu is not assigned it, as it's assigned after we return
-tegra_smmu_probe() while bus_set_iommu() is still in the middle of
-the tegra_smmu_probe().
+okay
