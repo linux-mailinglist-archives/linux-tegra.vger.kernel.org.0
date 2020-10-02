@@ -2,88 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37FD8281B52
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Oct 2020 21:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91A63281B79
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Oct 2020 21:21:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbgJBTE1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Oct 2020 15:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbgJBTE1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Oct 2020 15:04:27 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8B1C0613D0;
-        Fri,  2 Oct 2020 12:04:27 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id g9so886214pgh.8;
-        Fri, 02 Oct 2020 12:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=P+YN1+j9AcMeYdrHjvyUyp0Y8mUcp4uTDvnGR4jOXXw=;
-        b=kPDScr82ObdoVpL06WIvb/UVXmtzy8RRtcrUgaVoE/9qZTd68X9234Ax+7LMQ4rZwV
-         3ItQ30Q3UFoBXHEBfKGf9pyM6iW9/O2sifFRMSM7Bar85mu6BZw9FhUwdigDGst3N121
-         qRUDA7ETxRvive11BH9AnnsdecfieCXSVEv7KoQ8psUk8V3yVJnIFY3Pa1WFSQB9z/v4
-         aFQS16r99S68qmdQHfZ6BZPZjc8EWI1CRE6qt2qB+MvyqfB2WgUyENIzTETZjvLnL0D5
-         jFkzVc155c7/A3tyWJEB3PlcEbqgB5nGUUbqeR+papC7N89JUfgFb2HF6+v+GQbVpQMG
-         mLyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=P+YN1+j9AcMeYdrHjvyUyp0Y8mUcp4uTDvnGR4jOXXw=;
-        b=c8BRUar65YxfI9p8OlBdlcsHOOyuldrDqDyNCdCnnDx6RcXeaXvlyrU9LEOFFzgr7E
-         sg51tlIIQziFr4WTD8288Qd7SuQPpze0iRWZ7FId6y5U95zWdhbTf4/v5oIqoxhRkVM/
-         3U95sHQ0+b8cOfjYa/IpiIU6xEQYglK/8hMPbVt07TDYYJjTfVYFtekzhBR31gQ1v5Fk
-         vrTwzQreBbMe7sKbAO8BM195oIDLKZkr+2uf6BF8PI/hvn3X3NWj7XX4/zi+T1CwloO2
-         Uo+y90oyUdbkj/UAUCy4tWaTLqS9OaL6MDJlIKB1pE0RL3TMcVfVgY/y/9YFVTMQidJw
-         E+Uw==
-X-Gm-Message-State: AOAM533ZKlyITSoEqiRG2g1ACk6qWvxBnpYUdNMkThDtLjRYitm/ls6i
-        6M52auFkv26AvR6iMAVd5to=
-X-Google-Smtp-Source: ABdhPJylX4Gzl/ZMkPa0axOcv1L7yEJWJKIfmZPUt1XuvTIlkh4ZFxrBch9Z32g1BupPmhQeds5owA==
-X-Received: by 2002:a63:1e5a:: with SMTP id p26mr2094494pgm.85.1601665467025;
-        Fri, 02 Oct 2020 12:04:27 -0700 (PDT)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id t3sm2370181pgm.42.2020.10.02.12.04.26
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 02 Oct 2020 12:04:26 -0700 (PDT)
-Date:   Fri, 2 Oct 2020 11:58:29 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     thierry.reding@gmail.com, joro@8bytes.org, vdumpa@nvidia.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] iommu/tegra-smmu: Rework tegra_smmu_probe_device()
-Message-ID: <20201002185828.GC29706@Asurada-Nvidia>
-References: <20201002060807.32138-1-nicoleotsuka@gmail.com>
- <20201002060807.32138-3-nicoleotsuka@gmail.com>
- <5542b314-f414-1e83-8cf6-2bf22a41ae9c@gmail.com>
+        id S2387602AbgJBTVm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 2 Oct 2020 15:21:42 -0400
+Received: from mx.metalurgs.lv ([81.198.125.103]:64928 "EHLO mx.metalurgs.lv"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387712AbgJBTVm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 2 Oct 2020 15:21:42 -0400
+X-Greylist: delayed 413 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 15:21:42 EDT
+Received: from mx.metalurgs.lv (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 353B2629E0
+        for <linux-tegra@vger.kernel.org>; Fri,  2 Oct 2020 22:14:48 +0300 (EEST)
+Received: from kas30pipe.localhost (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 1B04A626DB
+        for <linux-tegra@vger.kernel.org>; Fri,  2 Oct 2020 22:14:48 +0300 (EEST)
+Received: by mx.metalurgs.lv (Postfix, from userid 1005)
+        id 8C32C62AE9; Fri,  2 Oct 2020 22:14:46 +0300 (EEST)
+Received: from [100.64.1.74] (unknown [190.15.125.50])
+        (Authenticated sender: admin)
+        by mx.metalurgs.lv (Postfix) with ESMTPA id 0A37261E32;
+        Fri,  2 Oct 2020 22:14:39 +0300 (EEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5542b314-f414-1e83-8cf6-2bf22a41ae9c@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Description: Mail message body
+To:     Recipients <financialcapability6@gmail.com>
+From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
+Date:   Fri, 02 Oct 2020 16:14:33 -0300
+Reply-To: binmurrah@gmail.com
+X-SpamTest-Envelope-From: financialcapability6@gmail.com
+X-SpamTest-Group-ID: 00000000
+X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
+X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
+X-SpamTest-Info: {DATE: unreal year}
+X-SpamTest-Method: none
+X-SpamTest-Rate: 55
+X-SpamTest-Status: Not detected
+X-SpamTest-Status-Extended: not_detected
+X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
+Message-ID: <20201002191446.8C32C62AE9@mx.metalurgs.lv>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+Subject: Low Rate Loan.
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20140401 #7726142, check: 20201002 notchecked
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Oct 02, 2020 at 06:02:18PM +0300, Dmitry Osipenko wrote:
-> 02.10.2020 09:08, Nicolin Chen пишет:
-> >  static int tegra_smmu_of_xlate(struct device *dev,
-> >  			       struct of_phandle_args *args)
-> >  {
-> > +	struct platform_device *iommu_pdev = of_find_device_by_node(args->np);
-> > +	struct tegra_mc *mc = platform_get_drvdata(iommu_pdev);
-> >  	u32 id = args->args[0];
-> >  
-> > +	of_node_put(args->np);
-> 
-> of_find_device_by_node() takes device reference and not the np
-> reference. This is a bug, please remove of_node_put().
+Hello Dear,
 
-Looks like so. Replacing it with put_device(&iommu_pdev->dev);
+We are Investment Company offering Corporate and Personal
+Loan at 3% Interest Rate for a duration of 10Years.
 
-Thanks
+We also pay 1% commission to brokers, who introduce project
+owners for finance or other opportunities.
+
+Please get back to me if you are interested for more
+details.
+
+Yours faithfully,
+Hashim Bin 
