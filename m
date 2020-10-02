@@ -2,151 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3C8F280D59
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Oct 2020 08:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA6E6280F3D
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Oct 2020 10:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726060AbgJBGPA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Oct 2020 02:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725948AbgJBGO7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Oct 2020 02:14:59 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34847C0613E2;
-        Thu,  1 Oct 2020 23:14:59 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id t14so150902pgl.10;
-        Thu, 01 Oct 2020 23:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=qXGNqQhVeWRXwkLxWO9NE32gvOp7FRxlv449PGRmjRE=;
-        b=tbbxizGzyYFtEdkzs4ZhGsQfqdyil04FfDQWafr5IUghUdQh1JrSMv80UBgF91tLlp
-         YGiRUA4QV07rT+oo8zMtVYMVCJo9PPrLeW8x5gBQ9QywFffChttS7ZPYxNwqVu+Sineh
-         N4SeBNSIIls3mN8gckW/ay1r6YJMUcquuc/w1Jr4rBkbYXwLKZ0/RTcjyMLHLGr3Ysl9
-         k5rfK6gUwA+Ga34MSF/28ccCyGYD2k92trgOT7MQbKEa+RJQVI5tCQwjvFOEZ2/bVSC1
-         PUKkESd2Ul5A5a15HZ5iT/Ocn7/zM6mBmYeoex7E8rlhODvXEaM69BpF7xKQaAphm+T7
-         yzdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=qXGNqQhVeWRXwkLxWO9NE32gvOp7FRxlv449PGRmjRE=;
-        b=pfaHEhXHVMoA5k1gr8wB7kdRo5X/9wmjXmbnp7HvASaIL4eswZkqeD2ZC+YV/H+ZIf
-         67C0mjg0eC+Z7RRTj/Fz7Dq6yMmPAQqq1GAcxtxss54Z53G3h8hRZqr8n5dTyhYjj8UN
-         HzeGYHAaRsk72S6WfzYiek8LsA5gmbeT4k4uFfLpuX4pse0KxQWmw+mgLdhB+F5y4lJA
-         jSjImDuTjnIvqQSzw9CSk7kFz7JEGDKndwOJp8/IiIJqV3DlgeXtmETS8Bn7YtJ1tA/t
-         nVaIvDyZA32rRYsBiwSLwvq/DkIdl0Yw0aVGbx2iBM4P9v96X+EeiHLVInAvazAhGb02
-         w2TQ==
-X-Gm-Message-State: AOAM530O/WFiBdTxd5rs93aaKZJjm9WrJWx+uNTotQyb0+j55/WhcZat
-        l6RQwCd6OplGU1OxBc6MHDFeXODhlB0=
-X-Google-Smtp-Source: ABdhPJx7kP/IGJVxHPL9VMKDuHXuk9JMWkPkvbYeBcoIWDrtVw6kM5DcsnrPAnjzWnhKGye+xjddow==
-X-Received: by 2002:a63:24c2:: with SMTP id k185mr611501pgk.421.1601619298768;
-        Thu, 01 Oct 2020 23:14:58 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id x4sm577429pfm.86.2020.10.01.23.14.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 23:14:58 -0700 (PDT)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     thierry.reding@gmail.com, joro@8bytes.org, digetx@gmail.com
-Cc:     vdumpa@nvidia.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 3/3] iommu/tegra-smmu: Add PCI support
-Date:   Thu,  1 Oct 2020 23:08:07 -0700
-Message-Id: <20201002060807.32138-4-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201002060807.32138-1-nicoleotsuka@gmail.com>
-References: <20201002060807.32138-1-nicoleotsuka@gmail.com>
+        id S1726229AbgJBIvA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Oct 2020 04:51:00 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9998 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725993AbgJBIu7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Oct 2020 04:50:59 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f76e98c0000>; Fri, 02 Oct 2020 01:49:16 -0700
+Received: from [10.25.97.216] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 2 Oct
+ 2020 08:50:50 +0000
+Subject: Re: [PATCH v3 01/13] ASoC: soc-core: Fix component name_prefix
+ parsing
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+CC:     <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh+dt@kernel.org>,
+        <kuninori.morimoto.gx@renesas.com>,
+        <pierre-louis.bossart@linux.intel.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <alsa-devel@alsa-project.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
+        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
+        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <atalambedu@nvidia.com>, <nwartikar@nvidia.com>,
+        <swarren@nvidia.com>, <nicoleotsuka@gmail.com>
+References: <1601573587-15288-1-git-send-email-spujar@nvidia.com>
+ <1601573587-15288-2-git-send-email-spujar@nvidia.com>
+ <20201001185308.GC23339@qmqm.qmqm.pl>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <a63c8898-540c-f89b-8997-27d6385cb2c3@nvidia.com>
+Date:   Fri, 2 Oct 2020 14:20:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201001185308.GC23339@qmqm.qmqm.pl>
+Content-Type: text/plain; charset="iso-8859-2"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601628556; bh=BI4fp6pD/W2VIRJQVhnrK4iPbG7U8OWA4NPdWAoCl4I=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language:X-Originating-IP:X-ClientProxiedBy;
+        b=GKeHIFRBa0MxGfztlF548b8USZc5XGny2A7IUep8pOfpw2vGOX46cC9Ajb167YL1Q
+         b5DEJ5hTAB7ZH27nNMNvtdG+IKgiJV4y3d1UKqaRV9Lb4//rXSx6JrHZHVtKmD+wWk
+         eqyG/IzxhUrWUAi7RPWzxbPWfvOYPYfvZCpZpcAE7qAJ9GroRgorLmjl7E6/rFxiLx
+         MZRWLuUPagxloUc9yhKBi7Qu+xxDPax+fCeyA+GsvmRxE4p64qTdXJUS5KetSs4yEG
+         c3g8wKTvKSxgLfUF+gMF0uYkz4UEDFtf3kCyzq5yWYV0HVRJIwbmxFvqNnNmOtimAT
+         wB0CsooB6zk/A==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch simply adds support for PCI devices.
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
+>> The "prefix" can be defined in DAI link node or it can be specified as
+>> part of the component node itself. Currently "sound-name-prefix" defined
+>> in a component is not taking effect. Actually the property is not gettin=
+g
+>> parsed. It can be fixed by parsing "sound-name-prefix" property whenever
+>> "prefix" is missing in DAI link Codec node.
+> [...]
+>> --- a/sound/soc/soc-core.c
+>> +++ b/sound/soc/soc-core.c
+>> @@ -1124,7 +1124,8 @@ static void soc_set_name_prefix(struct snd_soc_car=
+d *card,
+>>        for (i =3D 0; i < card->num_configs; i++) {
+>>                struct snd_soc_codec_conf *map =3D &card->codec_conf[i];
+>>
+>> -             if (snd_soc_is_matching_component(&map->dlc, component)) {
+>> +             if (snd_soc_is_matching_component(&map->dlc, component) &&
+>> +                 map->name_prefix) {
+>>                        component->name_prefix =3D map->name_prefix;
+>>                        return;
+>>                }
+> Hi,
+>
+> It is not obvious how the patch fixes the problem described. I guess now
+> map->name_prefix is NULL on some level and overrides prefix found earlier=
+?
+>
+> Best Regards,
+> Micha=B3 Miros=B3aw
 
-Changelog
-v3->v4
- * Dropped !iommu_present() check
- * Added CONFIG_PCI check in the exit path
-v2->v3
- * Replaced ternary conditional operator with if-else in .device_group()
- * Dropped change in tegra_smmu_remove()
-v1->v2
- * Added error-out labels in tegra_smmu_probe()
- * Dropped pci_request_acs() since IOMMU core would call it.
-
- drivers/iommu/tegra-smmu.c | 37 +++++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 02d02b0c55c4..b701a7b55e84 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -865,7 +866,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
--	group->group = iommu_group_alloc();
-+	if (dev_is_pci(dev))
-+		group->group = pci_device_group(dev);
-+	else
-+		group->group = generic_device_group(dev);
-+
- 	if (IS_ERR(group->group)) {
- 		devm_kfree(smmu->dev, group);
- 		mutex_unlock(&smmu->lock);
-@@ -1069,22 +1074,32 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
- 	err = iommu_device_register(&smmu->iommu);
--	if (err) {
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err)
-+		goto err_sysfs;
- 
- 	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
--	if (err < 0) {
--		iommu_device_unregister(&smmu->iommu);
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err < 0)
-+		goto err_unregister;
-+
-+#ifdef CONFIG_PCI
-+	err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
-+	if (err < 0)
-+		goto err_bus_set;
-+#endif
- 
- 	if (IS_ENABLED(CONFIG_DEBUG_FS))
- 		tegra_smmu_debugfs_init(smmu);
- 
- 	return smmu;
-+
-+err_bus_set: __maybe_unused;
-+	bus_set_iommu(&platform_bus_type, NULL);
-+err_unregister:
-+	iommu_device_unregister(&smmu->iommu);
-+err_sysfs:
-+	iommu_device_sysfs_remove(&smmu->iommu);
-+
-+	return ERR_PTR(err);
- }
- 
- void tegra_smmu_remove(struct tegra_smmu *smmu)
--- 
-2.17.1
-
+If map->name_prefix is NULL (which is the prefix defined for Codec DAI=20
+component in a DAI link), then go ahead and check if "sound-name-prefix"=20
+is provided under component device node itself.
