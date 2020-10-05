@@ -2,135 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD24283B94
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Oct 2020 17:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54048283DBC
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Oct 2020 19:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbgJEPrs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Oct 2020 11:47:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbgJEPrr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Oct 2020 11:47:47 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E6FC0613CE;
-        Mon,  5 Oct 2020 08:47:45 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id h24so6112051ejg.9;
-        Mon, 05 Oct 2020 08:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=uVzdx4iW64L/8P8eovtAWrQeLX5Ntc+hO2LaVKxCA1w=;
-        b=hbc5KDiN4sN5G4Gg2xtDlkggQYAeyH3Her6sik0q4Ic4/9XpzvHG7poli0zqObN2ay
-         um/mWzmsEXqD62RgeMKBN+9qFe8+gV0ydnGqHcDNVrHVbzjBaQu6svIS9T9w8ox3fBpv
-         mWGkXnMwtaXxHTKdYdJHsRFNnfZEzwoPiylodW8xFjUfgVzi/hmbIm3rK3GG2PMLhVSs
-         R/sazrclt3+XF5UyKvZn4+oNdlNMfh1OnQgHHdu6bjo0IV9hGWhAHmjzkgnCHJ8tHvrs
-         cbJB47VF+4I3qYLWQF3bp6XMaGnLnaVHaGOkzmvzppyiqqunT3w7sKtQiNmugGZkw0bP
-         dPIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uVzdx4iW64L/8P8eovtAWrQeLX5Ntc+hO2LaVKxCA1w=;
-        b=p0Lp+Eu+/fE7MxiN6h//p380Lt5fXqgoFXu6bx0oIC0stlzVTLmR8ROLt3pPEK18QT
-         DKqup1haTCH/7CxaIp3c4FoBUpJW4fg4RAjWJeAOxgyGVRqduXGO01LMAFKqYRfD1ltu
-         GceioyXB0Gxc8hZLj/omd5v47NkjvRfdE+Aeiq3WO+6xmIJxJCasbRLjSD8hLzxKjhWA
-         63O6iEbs3DMZHxJosjCzjWRv0lDhuIgZIze+wkwyAZDk644eVjTpZZOdYncEPBKCph/3
-         +TBPifbD5RQHKk4t7fEgknzaxdcAjEY83Uzxz2bX1yBruLuDUgAgOWz3zz6wzm+ARt9G
-         5ZhA==
-X-Gm-Message-State: AOAM530DSoy4R47kOHX4n13Xh51Mi/hZXMvawBZINBHJPm0cSkSK/X9N
-        2KHn/eLgrO/YZg80PK4bMl4=
-X-Google-Smtp-Source: ABdhPJxJ2YMuyZGMQSK47z00GJx06vbge++4EgwuyMPmupiJuuZvE0wwM+WhtQhaRuD0C8xDOiI4Hg==
-X-Received: by 2002:a17:906:5247:: with SMTP id y7mr292007ejm.503.1601912864439;
-        Mon, 05 Oct 2020 08:47:44 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id c8sm42753ejp.30.2020.10.05.08.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 08:47:43 -0700 (PDT)
-Date:   Mon, 5 Oct 2020 17:47:42 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Peter Geis <pgwipeout@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Bob Ham <rah@settrans.net>,
-        Leonardo Bras <leobras.c@gmail.com>,
-        Michael Brougham <jusplainmike@gmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Support NVIDIA Tegra-based Ouya game console
-Message-ID: <20201005154742.GC628746@ulmo>
-References: <20201004133114.845230-1-pgwipeout@gmail.com>
+        id S1727915AbgJERuo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Oct 2020 13:50:44 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19199 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbgJERuo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Oct 2020 13:50:44 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f7b5cbc0004>; Mon, 05 Oct 2020 10:49:49 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 5 Oct
+ 2020 17:50:42 +0000
+Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 5 Oct 2020 17:50:42 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <pavel@denx.de>, <stable@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.19 00/38] 4.19.150-rc1 review
+In-Reply-To: <20201005142108.650363140@linuxfoundation.org>
+References: <20201005142108.650363140@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="E/DnYTRukya0zdZ1"
-Content-Disposition: inline
-In-Reply-To: <20201004133114.845230-1-pgwipeout@gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+Message-ID: <e9f40ba74330420da5c98d23028a637f@HQMAIL101.nvidia.com>
+Date:   Mon, 5 Oct 2020 17:50:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601920190; bh=4ivQjfu379rfIHjGypK103vz+32DsQW6CBwO3N7zP5w=;
+        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
+         Date;
+        b=sDxiKn07I70CW9H5IoI3f5zDjU37DkQtwnI8cNL/Dc4X9DQJpc875/SggEWBFJVy/
+         K9H4rDWGg2oV6II3OUPxq3uRw5w+BRXdS8nVxrK34JifN0AIHy0+1XJp7/EppFbavI
+         RgqR2asnTSdsnbbmj0r8hfzF0LSgFv4+lv56LtgoAT2UGHxZR3eePROaOzM1tr6Hrf
+         SLRWyVfbl6585Og1IJWk4EQo9fRoKoDS5NCrnEf8m7VqQPa+SbUduwX5IFDLDqYqW6
+         qabWk6vr08BrU6E2BYOi+YuNaZJ/r8CRKtefGTaIrsGw5rkejOxQzyt/zDSoNosK6q
+         TADtSbBO/atMg==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, 05 Oct 2020 17:26:17 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.150 release.
+> There are 38 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed, 07 Oct 2020 14:20:55 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.150-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
---E/DnYTRukya0zdZ1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+All tests passing for Tegra ...
 
-On Sun, Oct 04, 2020 at 01:31:11PM +0000, Peter Geis wrote:
-> Good Day,
->=20
-> This series introduces upstream kernel support for the Ouya game console =
-device. Please review and apply. Thank you in advance.
->=20
-> Changelog:
-> v3: - Reorder aliases per Dmitry Osipenko's review.
->     - Add sdio clocks per Dmitry Osipenko's review.
->     - Add missing ti sleep bits per Dmitry Osipenko's review.
->     - Enable lp1 sleep mode.
->     - Fix bluetooth comment and add missing power supplies.
->=20
-> v2: - Update pmic and clock handles per Rob Herring's review.
->     - Add acks from Rob Herring to patch 2 and 3.
->=20
-> Peter Geis (3):
->   ARM: tegra: Add device-tree for Ouya
->   dt-bindings: Add vendor prefix for Ouya Inc.
->   dt-bindings: ARM: tegra: Add Ouya game console
->=20
->  .../devicetree/bindings/arm/tegra.yaml        |    3 +
->  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
->  arch/arm/boot/dts/Makefile                    |    3 +-
->  arch/arm/boot/dts/tegra30-ouya.dts            | 4511 +++++++++++++++++
->  4 files changed, 4518 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm/boot/dts/tegra30-ouya.dts
+Test results for stable-v4.19:
+    15 builds:	15 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    38 tests:	38 pass, 0 fail
 
-This looks good to me and I see that Dmitry is happy with it. I'll make
-a mental note to apply it after the merge window closes.
+Linux version:	4.19.150-rc1-g204463e611dc
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-Thanks,
-Thierry
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
---E/DnYTRukya0zdZ1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl97QB0ACgkQ3SOs138+
-s6EFEw/+K4KzjvNDPMR+5dTRN9MEJ4KjDsLvb06WkHnrDB6sopAoMMgGW8g/Jdf7
-TJZlUz0HcYnuAdwfETulI1PL5R2InsZL+cIyKy0o/naiUw6Y94SJhV/cufh2KkKK
-aUXsFJw/9OR6f7l/olzXYvRTmh2+Qv9xlo7RJdMZnqSYcp/ZfRYw+530f/20VySS
-06ib8XLpwLyeVWOlUv3+8CGg8YHaPAaXNlCpEkLULLd8ZYDCnJfRlVsN8G1bJxOY
-qxaZkKSReTggvajwvi6P/pAPtiGRaOJfGjVlGiPSzoIvgSBFQnsEZkolydg0FzqA
-1QOvPhjdW9HbiBtUGpEtFCiZySMBq/V/sEmKIreeZnlLkNSUTTirydJDOo8NsvNb
-6BDAIfO2REUEJ8gmk2VvplBg18VVr3muzuKYRFDFpIgSB8dILjjCL4+LrtslsEKQ
-UBuPceLCTTkwl6+ntzIV4ODtJfx2qRFTSVDZpRmemK1GdC6K+rIaQJqDViN/Vvyd
-6ooJ+KcxbhkBYcE1QGhiImwovoz8APsOJqq4SPE4pJdK61UPkAzGf2Vemszs+8pk
-wJikQzHqDn0JJPZO7xR6Vcp5fHeMTFqz1YtoFXh2lZmo0LsbwJ7TN70804YIF9Ax
-3VWwoFmTiJ21y39PxCZxEczrBap8jsPbT7EViYD5tMz8sKhfuJc=
-=cAxQ
------END PGP SIGNATURE-----
-
---E/DnYTRukya0zdZ1--
+Jon
