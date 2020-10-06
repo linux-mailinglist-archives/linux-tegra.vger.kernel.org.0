@@ -2,102 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0806D2846BD
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Oct 2020 09:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B22D4284A2C
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Oct 2020 12:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726849AbgJFHFa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Oct 2020 03:05:30 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:53620 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbgJFHF3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Oct 2020 03:05:29 -0400
-Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 01F3D3A743D;
-        Tue,  6 Oct 2020 07:04:20 +0000 (UTC)
-X-Originating-IP: 90.65.88.165
-Received: from localhost (lfbn-lyo-1-1908-165.w90-65.abo.wanadoo.fr [90.65.88.165])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id BAF111BF203;
-        Tue,  6 Oct 2020 07:03:57 +0000 (UTC)
-Date:   Tue, 6 Oct 2020 09:03:57 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Peter Geis <pgwipeout@gmail.com>
-Cc:     a.zummo@towertech.it, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        len.brown@intel.com, pavel@ucw.cz,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [Question] rtc wake behavior and sysfs
-Message-ID: <20201006070357.GF2804081@piout.net>
-References: <CAMdYzYrYdDYF_Y_TwQ65u=Ymu2_8Rs9KWm_TfXcaPGTwucT=jg@mail.gmail.com>
- <20201005222953.GD2804081@piout.net>
- <CAMdYzYpHxD4qSCM=-jhj0byBpoPv0LqBuCpkYH=QCX0NrvEAtA@mail.gmail.com>
+        id S1725943AbgJFKLo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Oct 2020 06:11:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56780 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725891AbgJFKLo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 6 Oct 2020 06:11:44 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5018A2068E;
+        Tue,  6 Oct 2020 10:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601979103;
+        bh=KdBab2rVcqL7Xh3txawY1tJaeOZK5A8lg9puSwqNKjc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Lzqko109S/s/wLdQew56BmInwGcqWmj62XNt/hTrrgrCmwW7FtUV9RraydlyQw7JH
+         /fi+AE1r4wi+sGNKfB9h56wyeLtwbU+W6kf/hnGridtX+BImvV4SrI1QDAYUo10RSd
+         WFoYPdkaT2P4pzaoY8qj69QlXE23iIuWf16JAR3k=
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <maz@kernel.org>)
+        id 1kPjwb-0002Qo-8J; Tue, 06 Oct 2020 11:11:41 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Venkat Reddy Talla <vreddytalla@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>, kernel-team@android.com
+Subject: [PATCH v2 0/4] soc/tegra: Prevent the PMC driver from corrupting interrupt routing
+Date:   Tue,  6 Oct 2020 11:11:33 +0100
+Message-Id: <20201006101137.1393797-1-maz@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMdYzYpHxD4qSCM=-jhj0byBpoPv0LqBuCpkYH=QCX0NrvEAtA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com, skomatineni@nvidia.com, vreddytalla@nvidia.com, tglx@linutronix.de, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 05/10/2020 21:47:01-0400, Peter Geis wrote:
-> On Mon, Oct 5, 2020 at 6:29 PM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
-> >
-> > On 05/10/2020 09:13:08-0400, Peter Geis wrote:
-> > > Good Morning,
-> > >
-> > > While testing suspend to ram on the Ouya, I encountered an interesting
-> > > issue with the rtc-tps65910 driver.
-> > > Attempting to use rtc-wake on the default configuration returned:
-> > > rtcwake: /dev/rtc0 not enabled for wakeup events
-> > > This is due to:
-> > > eb5eba4ef722 drivers/rtc/rtc-tps65910.c: enable/disable wake in suspend/resume
-> > > This commit changed this driver's behavior to not enable wakeup by
-> > > default, but enables it when entering sleep mode.
-> > > This seems to be odd behavior to me.
-> > > Looking at a few other rtc drivers show they simply enable themselves
-> > > as wakeup sources by default.
-> > >
-> > > I also found the sysfs entries are at /sys/devices/ ..
-> > > /tps65910-rtc/power but are missing at /sys/class/rtc/rtc0/power/
-> > >
-> > > I have two questions.
-> > >  - Should the sysfs wakeup entries be missing at /sys/class/rtc/rtc0/power/ ?
-> >
-> > I would be in /sys/class/rtc/rtc0/device/power
-> >
-> > >  - Shouldn't a rtc be enabled as a wakeup source by default?
-> > >
-> >
-> > The short answer is no, the reason being that not all RTCs are connected
-> > to an IRQ or a pin that can wakeup or start the platform. What should be
-> > done is enabling wakeup only when interrupts are available or the
-> > wakeup-source property is in the rtc device tree node.
-> 
-> Thank you for your explanation.
-> 
-> So it would seem we have two issues.
-> - The sysfs wakeup entries are not populating in
-> /sys/class/rtc/rtc0/power when they are populating in
-> /sys/devices/<..>/tps65910-rtc/power.
+This is a respin of the initial version posted at [1] (the cover
+letter describes the rational for doing this).
 
-I think the rationale here is that the rtc device is not the wakeup
-device but the underlying one is hence why it is in
-/sys/class/rtc/rtc0/device/power and not in /sys/class/rtc/rtc0/power/.
+Jon, Thierry: I haven't applied your TB tags as the series has changed
+significantly. Please let me know if they are still valid.
 
-> - The wakeup-source property is not being applied to the tps65910-rtc
-> sub-device when it is applied in the tps65910 devicetree node.
-> 
-> Should wakeup-source handling be the tps65910-rtc driver's
-> responsibility, or is that a limitation of the driver core that needs
-> to be fixed?
+If everybody is OK with this, I'll stick it in irq/irqchip-next.
 
-For now, parsing this property is left to the individual drivers.
-You'll have to implement it for the tps65910 and so you can get it from
-the parent node if necessary.
+* From v1:
+  - Moved the hierarchy trimming part to its own patch, living in
+    irqdomain.c
+  - Reduced the PMC irqchip patch to the bare minimal in order to
+    reduce the risk of merge conflicts
+
+[1] https://lore.kernel.org/r/20201005111443.1390096-1-maz@kernel.org
+
+Marc Zyngier (4):
+  genirq/irqdomain: Allow partial trimming of irq_data hierarchy
+  gpio: tegra186: Allow optional irq parent callbacks
+  soc/tegra: pmc: Allow optional irq parent callbacks
+  soc/tegra: pmc: Don't create fake interrupt hierarchy levels
+
+ drivers/gpio/gpio-tegra186.c | 15 +++++-
+ drivers/soc/tegra/pmc.c      | 89 +++++++++++++++---------------------
+ include/linux/irqdomain.h    |  3 ++
+ kernel/irq/irqdomain.c       | 56 +++++++++++++++++++++--
+ 4 files changed, 103 insertions(+), 60 deletions(-)
 
 -- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.28.0
+
