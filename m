@@ -2,172 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D79F284A28
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Oct 2020 12:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 250A2284BC1
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Oct 2020 14:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbgJFKLt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Oct 2020 06:11:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56890 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726075AbgJFKLr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 6 Oct 2020 06:11:47 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B5C720853;
-        Tue,  6 Oct 2020 10:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601979105;
-        bh=NZTkrPpxbTDeDFNsq+Knp0WH5R+1R2cA6tjzcVY1/Q4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MYS5d7ZawOe+3ULT5X5XidlD8VszR2DErwp/aKKhu7W7D2oCwp6lobXIieS1SR6du
-         y1fzxanDXg3z3Fs0AUYP/EBVUGNskChbN+rfKYtHdKFwLf3TFYq/cx/NDSN+XX4/Tg
-         5BStCE33dPGQAylLJOfsZYTWQSHbEfKkhmvInoX4=
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
-        by disco-boy.misterjones.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <maz@kernel.org>)
-        id 1kPjwe-0002Qo-0u; Tue, 06 Oct 2020 11:11:44 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1726499AbgJFMj5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Oct 2020 08:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726362AbgJFMj4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Oct 2020 08:39:56 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CB4C061755;
+        Tue,  6 Oct 2020 05:39:56 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id i5so367984edr.5;
+        Tue, 06 Oct 2020 05:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PDfjNNuI8ntPGAI87RSMywylXAzVcUt7MXvjlFqM91Q=;
+        b=hbUZ41dDHeSJJ1OpfyoiOxv14aL1baBaXpNOm0OWS/pY+RKg6VeYeHAK45rNFNO0PN
+         VmOoztHUfQo7oz6PfLM81R1WybntMdsWHzRoqbvTAadLfuIiW7yo+qUqV3lb2qcpx/yf
+         TddGLsKlgvLHnzktKgxAkBcueCsMPNr0S7WoE1HC74/RQKVcCO+JFwTcsWWJbjZ5/bzS
+         TlhlnWxRPJzmBt2vifDFL5Mpso47zmSjVXcVB2yAE/5WrRGzq3cowKymFS427MnDprTq
+         hf2NwjTypMwN9dyUfuLKM2Ih9i+AREPiVRwmv8i4JSl1SQy1NInHeUZYlrFTOTd4SprT
+         ijFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PDfjNNuI8ntPGAI87RSMywylXAzVcUt7MXvjlFqM91Q=;
+        b=tPxoIcchBxXupTZetHsMH3rB8vLPwqf0EdXvu6nHIQzd+v49q9F+UhO+/NK8mlHFK/
+         qdL/gQANm4I/Y/Ysu3bKT/SFI1DADsJHt6aNeR+0ovylexDFD9CRty/Cuog/ciSkh+/w
+         5Opu1XlNhjZgyKxLVuye0ndKjuOHPjxmh8JZZlRd1dbgso8KHts0whfY3CtkDQYaU9ai
+         yI4tMLc/D9OREPJZ4FYm1XJvsqGf6InKnsHJ1UNBCHMsBCwxK21ErqzpwKcVxLyk5wzg
+         ydI4zc3Dvawz86vwbUQzWEA4pKYqp1gWJOxqjYB0wesJSv+V5jPhMjSe4EuZ2jna9gZP
+         WKgA==
+X-Gm-Message-State: AOAM530SyqrX6oeX2Yx33LTy0bYwodEq+8RjddjrNc2tSrIfuuKu+i1n
+        tXlQSWGMa1CWbQObKf2eM1avSRkZ9lo=
+X-Google-Smtp-Source: ABdhPJxK3ZxagNcu+hHEkHxPDu92CO2yjszW+SvKx1HIN4XtNALCQ0STGkdQSXejAqzk8Bwd+fYrWw==
+X-Received: by 2002:a05:6402:18d:: with SMTP id r13mr5073298edv.267.1601987995071;
+        Tue, 06 Oct 2020 05:39:55 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id r27sm2301228edx.33.2020.10.06.05.39.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 05:39:53 -0700 (PDT)
+Date:   Tue, 6 Oct 2020 14:39:49 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Dmitry Osipenko <digetx@gmail.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Venkat Reddy Talla <vreddytalla@nvidia.com>,
         Thomas Gleixner <tglx@linutronix.de>, kernel-team@android.com
-Subject: [PATCH v2 4/4] soc/tegra: pmc: Don't create fake interrupt hierarchy levels
-Date:   Tue,  6 Oct 2020 11:11:37 +0100
-Message-Id: <20201006101137.1393797-5-maz@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201006101137.1393797-1-maz@kernel.org>
+Subject: Re: [PATCH v2 0/4] soc/tegra: Prevent the PMC driver from corrupting
+ interrupt routing
+Message-ID: <20201006123949.GA1888126@ulmo>
 References: <20201006101137.1393797-1-maz@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com, skomatineni@nvidia.com, vreddytalla@nvidia.com, tglx@linutronix.de, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="J/dobhs11T7y2rNN"
+Content-Disposition: inline
+In-Reply-To: <20201006101137.1393797-1-maz@kernel.org>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra PMC driver does ungodly things with the interrupt hierarchy,
-repeatedly corrupting it by pulling hwirq numbers out of thin air,
-overriding existing IRQ mappings and changing the handling flow
-of unsuspecting users.
 
-All of this is done in the name of preserving the interrupt hierarchy
-even when these levels do not exist in the HW. Together with the use
-of proper IRQs for IPIs, this leads to an unbootable system as the
-rescheduling IPI gets repeatedly repurposed for random drivers...
+--J/dobhs11T7y2rNN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Instead, let's trim the hierarchy yo the level that actually makes
-sense for the HW, and not any deeper. This avoids having unnecessary
-callbacks, overriding mappings, and otherwise keeps the hierarchy sane.
+On Tue, Oct 06, 2020 at 11:11:33AM +0100, Marc Zyngier wrote:
+> This is a respin of the initial version posted at [1] (the cover
+> letter describes the rational for doing this).
+>=20
+> Jon, Thierry: I haven't applied your TB tags as the series has changed
+> significantly. Please let me know if they are still valid.
+>=20
+> If everybody is OK with this, I'll stick it in irq/irqchip-next.
 
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/soc/tegra/pmc.c | 53 ++++-------------------------------------
- 1 file changed, 4 insertions(+), 49 deletions(-)
+Looks good to me, still booting fine and waking up from suspend via wake-
+events, albeit still with the unrelated issues:
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index b39536c68f45..eed500e4b7b6 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1989,45 +1989,14 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
- 			err = irq_domain_set_hwirq_and_chip(domain, virq,
- 							    event->id,
- 							    &pmc->irq, pmc);
--
--			/*
--			 * GPIOs don't have an equivalent interrupt in the
--			 * parent controller (GIC). However some code, such
--			 * as the one in irq_get_irqchip_state(), require a
--			 * valid IRQ chip to be set. Make sure that's the
--			 * case by passing NULL here, which will install a
--			 * dummy IRQ chip for the interrupt in the parent
--			 * domain.
--			 */
--			if (domain->parent)
--				irq_domain_set_hwirq_and_chip(domain->parent,
--							      virq, 0, NULL,
--							      NULL);
--
-+			if (!err)
-+				err = irq_domain_trim_hierarchy(virq, domain->parent);
- 			break;
- 		}
- 	}
- 
--	/*
--	 * For interrupts that don't have associated wake events, assign a
--	 * dummy hardware IRQ number. This is used in the ->irq_set_type()
--	 * and ->irq_set_wake() callbacks to return early for these IRQs.
--	 */
--	if (i == soc->num_wake_events) {
--		err = irq_domain_set_hwirq_and_chip(domain, virq, ULONG_MAX,
--						    &pmc->irq, pmc);
--
--		/*
--		 * Interrupts without a wake event don't have a corresponding
--		 * interrupt in the parent controller (GIC). Pass NULL for the
--		 * chip here, which causes a dummy IRQ chip to be installed
--		 * for the interrupt in the parent domain, to make this
--		 * explicit.
--		 */
--		if (domain->parent)
--			irq_domain_set_hwirq_and_chip(domain->parent, virq, 0,
--						      NULL, NULL);
--	}
-+	if (i == soc->num_wake_events)
-+		err = irq_domain_trim_hierarchy(virq, domain);
- 
- 	return err;
- }
-@@ -2043,9 +2012,6 @@ static int tegra210_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
- 	unsigned int offset, bit;
- 	u32 value;
- 
--	if (data->hwirq == ULONG_MAX)
--		return 0;
--
- 	offset = data->hwirq / 32;
- 	bit = data->hwirq % 32;
- 
-@@ -2080,9 +2046,6 @@ static int tegra210_pmc_irq_set_type(struct irq_data *data, unsigned int type)
- 	unsigned int offset, bit;
- 	u32 value;
- 
--	if (data->hwirq == ULONG_MAX)
--		return 0;
--
- 	offset = data->hwirq / 32;
- 	bit = data->hwirq % 32;
- 
-@@ -2123,10 +2086,6 @@ static int tegra186_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
- 	unsigned int offset, bit;
- 	u32 value;
- 
--	/* nothing to do if there's no associated wake event */
--	if (WARN_ON(data->hwirq == ULONG_MAX))
--		return 0;
--
- 	offset = data->hwirq / 32;
- 	bit = data->hwirq % 32;
- 
-@@ -2154,10 +2113,6 @@ static int tegra186_pmc_irq_set_type(struct irq_data *data, unsigned int type)
- 	struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
- 	u32 value;
- 
--	/* nothing to do if there's no associated wake event */
--	if (data->hwirq == ULONG_MAX)
--		return 0;
--
- 	value = readl(pmc->wake + WAKE_AOWAKE_CNTRL(data->hwirq));
- 
- 	switch (type) {
--- 
-2.28.0
+Tested-by: Thierry Reding <treding@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
 
+--J/dobhs11T7y2rNN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl98ZYcACgkQ3SOs138+
+s6GTMw//cIY//y1C9HqaPcgfu3lg0bX29BmpzKpeELWhURu0S9JfLpRLmYY/R+z5
+2lV+/2nRXdGTMwn2hhVDjmZz9CyUSlzr2jb0yaBDS9XvcxAaiW5dEDs7HmCsiZaM
+ZVpGH9BGCW0cIBPpCwnVVPK3Z0r01PWZuZHE/T6X0jZA5F0pKcdeaQxad/Cphpt7
+L26lzSxNewNks7e20Nb8h+aTc2gv+IiHZzIck9Pfk2ikG/9pLRq8T2HVCyA4BPmq
+0tTyINmmyKUJaYvElj9S47GIueTJ7PKalpjH3nujYp28YGuSZPVVjbhFMEuFcBYm
+gZj4lbzOAORGqv6ezbxTqQxC2UAaOi5Faxuy03t9JaMyhKmuer9/9AUAvE/+kGA4
+4jsvkpxfUXOFOpsVjGcfYgpblrDBeuTitIIyNG2Ux9SYrZTFK5O2GKp1bE8ZABmU
+dHbOFymNESXcdV6YVNzxSo5So7YpAVKQivUM7bt9BgTeFXyJzUhmDo0DaW19KKNN
+m/Y35jUUkaO1QymewTDQzub4ik6f4Mvvt3G1hBlT+G8kZKdpH54VuHJBVzg7biIT
+pkczprNwvu5T5KlgVgz4hcJW/GxkEh3ZzvxJV56hSMpVpQaztAaNYTDPFtPZSBM5
+3DHE0utiDveEsJFsMAIOWRefdEayzlgg7UfxEwFu1M3XbRn+yEk=
+=PK80
+-----END PGP SIGNATURE-----
+
+--J/dobhs11T7y2rNN--
