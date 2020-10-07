@@ -2,79 +2,153 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F15D2863C6
-	for <lists+linux-tegra@lfdr.de>; Wed,  7 Oct 2020 18:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1220D286594
+	for <lists+linux-tegra@lfdr.de>; Wed,  7 Oct 2020 19:17:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727739AbgJGQYE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 7 Oct 2020 12:24:04 -0400
-Received: from sonic306-2.consmr.mail.bf2.yahoo.com ([74.6.132.41]:37778 "EHLO
-        sonic306-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728258AbgJGQYD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 7 Oct 2020 12:24:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602087842; bh=PxMwWzXvs+dqOoH0/FHvFmQpYH2JguaCUHYAVLLmaiw=; h=Date:From:Reply-To:Subject:References:From:Subject; b=eiQQQuX/rrX6ZT9/VRDEmAoRMkZXXCn6genpAmf164q1fe7kzwgBfiEbjDYZRSjDvLljqQotAWdAumCOdex/jPpXW3QjxwBVjGGDA8gpmYVY8qEewYDxJDLosv28CQHlPzlcchtrCXgRFhUREoZuJaXQncoiETAQ2Pn3OGYAFp8hXe2vkCsj9hAc7zhUf7OsqodtaEk0oEgeO0Gi+ZN+361hzZncSxyto7LnL2RdGyfyKVgL3BP+04teN4WUqbDOo0px0JkO02yaEQsjAGDM23I47kZ3pu31FMd8FA/3nDpGYSR49a7hwsOAECteb6924pu6Mn6RoLkVlPJofQ+ufg==
-X-YMail-OSG: feUT5fcVM1m0XnIR9bcE27UXJ4pCR9Pr2V4Ie69qDymM.Er0hLPI8IkfFraGwy6
- 0PwjrcxWldQ9kuQOXZM0T1mUz_gsmBqvOCHBvkfd3J66H11XZXK5_r1knDi6LMpR8C3SiPyq5iD7
- tUk_Msr_qMIUnD4orO0n_o9PWYaVxob6exox9E_b1KGkpOMfO96KlMbcaIuAvqXD3ZA3vUfgCqNZ
- 6DwTEXsiV4usLXRfE.p6ZbvCCRHcsK1rtXJHSiinCrWHbN8sJwN7O6VU1rEmkJ_tfDQllwVhTnJm
- l1n5VoF5YMDfT2hN.GlYkITJd4lUgHAPufybo.8bURoTdjRYjlEjddd5ng.YoQ0Rh0mTCHPtoypw
- gO3oCNpIXMMsqxbidSa182JtsTUrd._WgIVWduQaiAMf_0ITGsEDCz7Ecy8lsadHMt_PNaIOpKHA
- _lZJnlk.zTF6_SJX3rFF9uKEU.7mgiw7ctDd27W634YubQ1sLA6mgSvLVGWDbSl7JhpS4McnTRrm
- 8wsdyDmRDgpp9BVMMYI0VnT.pM3U7giJjOVkbXVIH9yGGiP6MqpszP.5znSC_fFwBTKFn0ZIgm9E
- uhXeRHvdXSv6ve61rqMrohth998WocPAmhg9VcmZe.jjQOSX_cDaoYThUJcQO6Kgo1tNOZXcjs21
- Kgs.FmG5dFQ1xUG6UuKTRBzLDX4MYsrqN6sFtJrcwsyl1MVTyv.RkRZsOCoR.qr8hdfiuZa_7Nsw
- S.K8nzay2UnN_uVMRR4GDpyidTY6bMtntLjweVPIMkvMsgyziTUGKgWSYtPlnyLZY3E2J4H6SswC
- 1TxskJsMxApaEuoHbajd.9u6wAWPesYZRakD0iVQG4Z6Kx4IcOlQLTmMla49biKQndKj4ctBWOTt
- 1Isi1TxGFgUPRs4NThgQ6qcdELCJ5KyyU9u9FjRHERP5a4kB76LpwuI55aojJPHk4RsSnSzTrnXR
- wg4BcWzA9XY6Wad9Viy4OEXzfjZf8trhF7XvcWdN8G5ucrlundnNX6fi9gtJrqHP21acnNR718xx
- cW1R8qGIlgc5.4HdEtPb1RuYQ4dm4PLZRPnDbGCyB9CZCL_6ABqvwhBZXurL.yKhGpScu24_DijZ
- kYNLRzpXK8IoF3FJYpVP0mZAABzptNmNhUZDv.URF73k4aW1rICtChVJztbry9I_JN93mC3IGnqZ
- 6FmL8z6IlWbAPCZ2YNBAX0xsmIWLaV1EDzn7nXHjSoBP0Fx2mmUwrMC9Zrq6MbVk.f6EIkcI5vdq
- PUbx4c0k1.ZajDye8Km3LQtpz7IDPuzcAqTDWamXp_q8zsky6ZCffV0vJfCR78CTANfxE58u8hro
- XxUkFBuzta92kjdgDPE8VnPm9Z38AjfhyEWSQsqXdH5ZYmkiQrcC3_ktVaYovf8SbMHdv27Gb1K9
- PzZPkdRdlx0g09pmNBWRYkETElMq_OXcu4.f9PQ8G
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Wed, 7 Oct 2020 16:24:02 +0000
-Date:   Wed, 7 Oct 2020 16:23:57 +0000 (UTC)
-From:   Marilyn Robert <fredodinga22@gmail.com>
-Reply-To: marilyobert@gmail.com
-Message-ID: <1873493109.151916.1602087837662@mail.yahoo.com>
-Subject: =?UTF-8?B?0J3QsNGY0LzQuNC70LAg0LrQsNGYINCz0L7RgdC/0L7QtNCw0YDQvtGC?=
+        id S1726707AbgJGRRW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 7 Oct 2020 13:17:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727773AbgJGRRW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Oct 2020 13:17:22 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51558C0613D6
+        for <linux-tegra@vger.kernel.org>; Wed,  7 Oct 2020 10:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=OWB9oYJ2lEQmBgcL+D6Ju904VEv0gloYK4r0Btw4ZHM=; b=iEdwn1VrQzzfvW3PIJ7jz0Qirc
+        goaYVJ5ZzZowUcKlIeXZksb0pEnU4qgaSlCywzOHYqW4ExgpXMuhFtu74Yedi+0jUDX9KiklH9LEC
+        OROKshvGZjGnN5b72ItCI8AV0H814Q4nG2GMbnGLHKbVpXf52DJtRYTrMyVaX2LlEbjXE8+nEU1JC
+        qExN1/AOtEl1zPKrqX/uCzpnmp5bDm645RRm6R6G8hifQAr4pt4Bv7ffDbryU9wXFuqO8S0mCDwF8
+        HOO9RAibV3mpmIZMZAU8BJe/3czsSYsRfuGjZrHYfYp0hm9/kjDJe8++itjKVPvelHPluZhpSOHIl
+        nNYpUNUA==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <mperttunen@nvidia.com>)
+        id 1kQD3z-0006P9-G3; Wed, 07 Oct 2020 20:17:15 +0300
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
+        airlied@linux.ie, daniel@ffwll.ch
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        talho@nvidia.com, bhuntsman@nvidia.com,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH v3 00/20] Host1x/TegraDRM UAPI
+Date:   Wed,  7 Oct 2020 20:12:18 +0300
+Message-Id: <20201007171238.1795964-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-References: <1873493109.151916.1602087837662.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-DQoNCtCd0LDRmNC80LjQu9CwINC60LDRmCDQs9C+0YHQv9C+0LTQsNGA0L7Rgg0KDQrQiNCw0YEg
-0YHRg9C8IDY4LdCz0L7QtNC40YjQvdCwINC20LXQvdCwLCDQutC+0ZjQsCDRgdGC0YDQsNC00LAg
-0L7QtCDQv9GA0L7QtNC+0LvQttC10L0g0LrQsNGA0YbQuNC90L7QvCDQvdCwINC00L7RmNC60LAs
-INC+0LQg0YHQuNGC0LUg0LzQtdC00LjRhtC40L3RgdC60Lgg0LjQvdC00LjQutCw0YbQuNC4LCDQ
-vNC+0ZjQsNGC0LAg0YHQvtGB0YLQvtGY0LHQsCDQvdCw0LLQuNGB0YLQuNC90LAg0YHQtSDQstC7
-0L7RiNC4INC4INC+0YfQuNCz0LvQtdC00L3QviDQtSDQtNC10LrQsCDQvNC+0LbQtdCx0Lgg0L3Q
-tdC80LAg0LTQsCDQttC40LLQtdCw0Lwg0L/QvtCy0LXRnNC1INC+0LQg0YjQtdGB0YIg0LzQtdGB
-0LXRhtC4INC60LDQutC+INGA0LXQt9GD0LvRgtCw0YIg0L3QsCDQsdGA0LfQuNC+0YIg0YDQsNGB
-0YIg0Lgg0LHQvtC70LrQsNGC0LAg0YjRgtC+INGB0LUg0ZjQsNCy0YPQstCwINC60LDRmCDQvdC1
-0LAuINCc0L7RmNC+0YIg0YHQvtC/0YDRg9CzINC/0L7Rh9C40L3QsCDQvdC10LrQvtC70LrRgyDQ
-s9C+0LTQuNC90Lgg0L3QsNC90LDQt9Cw0LQg0Lgg0L3QsNGI0LjRgtC1INC00L7Qu9Cz0Lgg0LPQ
-vtC00LjQvdC4INCx0YDQsNC6INC90LUg0LHQtdCwINCx0LvQsNCz0L7RgdC70L7QstC10L3QuCDR
-gdC+INC90LjRgtGDINC10LTQvdC+INC00LXRgtC1LCDQv9C+INC90LXQs9C+0LLQsNGC0LAg0YHQ
-vNGA0YIg0LPQviDQvdCw0YHQu9C10LTQuNCyINGG0LXQu9C+0YLQviDQvdC10LPQvtCy0L4g0LHQ
-vtCz0LDRgtGB0YLQstC+Lg0KDQrQlNC+0LDRk9Cw0Lwg0LrQsNGYINCy0LDRgSDQvtGC0LrQsNC6
-0L4g0YHQtSDQv9C+0LzQvtC70LjQsiDQt9CwINGC0L7QsCwg0L/QvtC00LPQvtGC0LLQtdC9INGB
-0YPQvCDQtNCwINC00L7QvdC40YDQsNC8INGB0YPQvNCwINC+0LQgMiwgMzAwLCAwMDAg0LXQstGA
-0LAg0LfQsCDQv9C+0LzQvtGIINC90LAg0YHQuNGA0L7QvNCw0YjQvdC40YLQtSwg0YHQuNGA0L7Q
-vNCw0YjQvdC40YLQtSDQuCDQv9C+0LzQsNC70LrRgyDQv9GA0LjQstC40LvQtdCz0LjRgNCw0L3Q
-uNGC0LUg0LzQtdGT0YMg0LLQsNGI0LjRgtC1INGB0L7QsdGA0LDQvdC40ZjQsCAvINC+0L/RiNGC
-0LXRgdGC0LLQvi4g0JfQsNCx0LXQu9C10LbQtdGC0LUg0LTQtdC60LAg0L7QstC+0Zgg0YTQvtC9
-0LQg0LUg0LTQtdC/0L7QvdC40YDQsNC9INCy0L4g0LHQsNC90LrQsCDQutCw0LTQtSDRiNGC0L4g
-0YDQsNCx0L7RgtC10YjQtSDQvNC+0ZjQvtGCINGB0L7Qv9GA0YPQsy4gQXBwcmVjaWF0ZdC1INGG
-0LXQvdCw0Lwg0LDQutC+INC+0LHRgNC90LXRgtC1INCy0L3QuNC80LDQvdC40LUg0L3QsCDQvNC+
-0LXRgtC+INCx0LDRgNCw0ZrQtSDQt9CwINC/0YDQvtC/0LDQs9C40YDQsNGa0LUg0L3QsCDQvNCw
-0YHQsNC20LDRgtCwINC90LAg0LrRgNCw0LvRgdGC0LLQvtGC0L4sINGc0LUg0LLQuCDQtNCw0LTQ
-sNC8INC/0L7QstC10ZzQtSDQtNC10YLQsNC70Lgg0LfQsCDRgtC+0LAg0LrQsNC60L4g0LTQsCDQ
-v9C+0YHRgtCw0L/QuNGC0LUuDQoNCtCR0LvQsNCz0L7QtNCw0YDQsNC8DQrQky3Rk9CwINCc0LXR
-gNC40LvQuNC9INCg0L7QsdC10YDRgg==
+Hi all,
+
+here's the third revision of the Host1x/TegraDRM UAPI proposal.
+The open issues from RFCv2 should be resolved now, so I'm
+dropping the RFC tag. The series is still only tested with Tegra186
+so I'm hoping for people with devices with other chips to test this
+out.
+
+The test suite[1] has been updated for the changes in this revision,
+and also includes tests for the newly added DMA reservation support.
+If there are no further issues with the UAPI definition, I'll
+look at porting other userspace next - hoping for some help with that
+as well since most of it is for chips I don't have easy access to.
+
+The series can be also found in
+https://github.com/cyndis/linux/commits/work/host1x-uapi-v3.
+
+Older versions:
+v1: https://www.spinics.net/lists/linux-tegra/msg51000.html
+v2: https://www.spinics.net/lists/linux-tegra/msg53061.html
+
+Thank you,
+Mikko
+
+[1] https://github.com/cyndis/uapi-test
+
+Mikko Perttunen (20):
+  gpu: host1x: Use different lock classes for each client
+  gpu: host1x: Allow syncpoints without associated client
+  gpu: host1x: Show number of pending waiters in debugfs
+  gpu: host1x: Remove cancelled waiters immediately
+  gpu: host1x: Use HW-equivalent syncpoint expiration check
+  gpu: host1x: Cleanup and refcounting for syncpoints
+  gpu: host1x: Introduce UAPI header
+  gpu: host1x: Implement /dev/host1x device node
+  gpu: host1x: DMA fences and userspace fence creation
+  gpu: host1x: Add no-recovery mode
+  gpu: host1x: Add job release callback
+  gpu: host1x: Add support for syncpoint waits in CDMA pushbuffer
+  gpu: host1x: Reset max value when freeing a syncpoint
+  gpu: host1x: Reserve VBLANK syncpoints at initialization
+  drm/tegra: Add new UAPI to header
+  drm/tegra: Boot VIC during runtime PM resume
+  drm/tegra: Set resv fields when importing/exporting GEMs
+  drm/tegra: Allocate per-engine channel in core code
+  drm/tegra: Implement new UAPI
+  drm/tegra: Add job firewall
+
+ drivers/gpu/drm/tegra/Makefile         |   4 +
+ drivers/gpu/drm/tegra/dc.c             |  10 +-
+ drivers/gpu/drm/tegra/drm.c            |  75 ++-
+ drivers/gpu/drm/tegra/drm.h            |   9 +
+ drivers/gpu/drm/tegra/gem.c            |   2 +
+ drivers/gpu/drm/tegra/gr2d.c           |   4 +-
+ drivers/gpu/drm/tegra/gr3d.c           |   4 +-
+ drivers/gpu/drm/tegra/uapi.h           |  63 +++
+ drivers/gpu/drm/tegra/uapi/firewall.c  | 197 +++++++
+ drivers/gpu/drm/tegra/uapi/gather_bo.c |  86 ++++
+ drivers/gpu/drm/tegra/uapi/gather_bo.h |  22 +
+ drivers/gpu/drm/tegra/uapi/submit.c    | 679 +++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/uapi/submit.h    |  20 +
+ drivers/gpu/drm/tegra/uapi/uapi.c      | 326 ++++++++++++
+ drivers/gpu/drm/tegra/vic.c            | 118 ++---
+ drivers/gpu/host1x/Makefile            |   2 +
+ drivers/gpu/host1x/bus.c               |   7 +-
+ drivers/gpu/host1x/cdma.c              |  69 ++-
+ drivers/gpu/host1x/debug.c             |  14 +-
+ drivers/gpu/host1x/dev.c               |  15 +
+ drivers/gpu/host1x/dev.h               |  16 +-
+ drivers/gpu/host1x/fence.c             | 207 ++++++++
+ drivers/gpu/host1x/fence.h             |  13 +
+ drivers/gpu/host1x/hw/cdma_hw.c        |   2 +-
+ drivers/gpu/host1x/hw/channel_hw.c     |  63 ++-
+ drivers/gpu/host1x/hw/debug_hw.c       |  11 +-
+ drivers/gpu/host1x/intr.c              |  23 +-
+ drivers/gpu/host1x/intr.h              |   2 +
+ drivers/gpu/host1x/job.c               |  79 ++-
+ drivers/gpu/host1x/job.h               |  14 +
+ drivers/gpu/host1x/syncpt.c            | 185 ++++---
+ drivers/gpu/host1x/syncpt.h            |  16 +-
+ drivers/gpu/host1x/uapi.c              | 382 ++++++++++++++
+ drivers/gpu/host1x/uapi.h              |  22 +
+ include/linux/host1x.h                 |  47 +-
+ include/uapi/drm/tegra_drm.h           | 420 ++++++++++++++-
+ include/uapi/linux/host1x.h            | 134 +++++
+ 37 files changed, 3076 insertions(+), 286 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/uapi.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/firewall.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/submit.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/submit.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/uapi.c
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
+ create mode 100644 drivers/gpu/host1x/uapi.c
+ create mode 100644 drivers/gpu/host1x/uapi.h
+ create mode 100644 include/uapi/linux/host1x.h
+
+-- 
+2.28.0
+
