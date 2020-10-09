@@ -2,159 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9DF288ED1
-	for <lists+linux-tegra@lfdr.de>; Fri,  9 Oct 2020 18:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF17328921C
+	for <lists+linux-tegra@lfdr.de>; Fri,  9 Oct 2020 21:44:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389755AbgJIQ04 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 9 Oct 2020 12:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389674AbgJIQ04 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 9 Oct 2020 12:26:56 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9699C0613D6;
-        Fri,  9 Oct 2020 09:26:55 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id 144so7296254pfb.4;
-        Fri, 09 Oct 2020 09:26:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=e2ontlidD6EdZ8raA0hQEJD/T47JB7SGf8j+YCwQsds=;
-        b=frsXM0EU7dTqXI6MRRBIjk/BetJeA6yGcDp1wrrbIzpbobYXcBVkP1q18NIRbGzH7A
-         3zE2Kf/Z2uYteZhZ7xk4d4yi3871gVqbwDCA0VPOGQdgMsBMu1zIxry/+ESB5oJk2BpX
-         S9V4wGfcmuy//G6+Bqh42zDjcwfV0ktBJJN+f9OJFzybFvexTCdESXSeEdMxqUJ5B9d9
-         RZTF6pq2TSP/5Z7HXCrFeghiDzos0cRst+9K4pVGaYD02WXahq5gOgiHJvOT4JRFkBdZ
-         Ut1ERXygUKRXMjMHw0rmRtSUUT8zNAh61UVzLrw7iPBNTZu2D3rdwOWoXFuzOGKmJLVp
-         rrBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=e2ontlidD6EdZ8raA0hQEJD/T47JB7SGf8j+YCwQsds=;
-        b=n+7Okf7bqrXKylb0MCLwqViEdxfGDF+YNH2bo3hvyEPeFtzIeRxemXRUDwIUPrGF3h
-         e4wdUbA6LnOe6ZEhgEywxd924cRbbRRhA8q5pm7EidR5UVrGtkBhEHZM/6rQOwAkK+Cq
-         uBjl1nZIr9LtRiKUTsnYGZVzwQmeYlpS91MvHh7OQvn2iJsTRC4CJkIaz4zsduz55aZS
-         487sbTIltEKqyUzl4F4CKd/9tdPMczXjcqD83iThsmSHk/1FvItA3QhDuxtIHZJEuHte
-         tlKShRLLHkAMD/HYoCJ0s7dKOpSbWP/YPUwzBuAI6NHiWLnOeR6hA1QhQ7CZAYHsrXC9
-         qRMA==
-X-Gm-Message-State: AOAM533og3RcCpSIsI64SCCit0+F3Q/szVSrLryg9bls1CmQIqR8iCM8
-        0CVzm8b7HLXy+W1aJ/Kkm/k=
-X-Google-Smtp-Source: ABdhPJz4W1TQO+OAe1kcSo/OeZxeY2bAfv8aXkkP9TODAbIqPSTwEtOHPYjBpy4gf6v9To5giAGqog==
-X-Received: by 2002:a63:29c8:: with SMTP id p191mr3990445pgp.45.1602260815458;
-        Fri, 09 Oct 2020 09:26:55 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id q24sm9591229pgb.12.2020.10.09.09.26.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 09:26:55 -0700 (PDT)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     thierry.reding@gmail.com, joro@8bytes.org, digetx@gmail.com
-Cc:     vdumpa@nvidia.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v7 3/3] iommu/tegra-smmu: Add PCI support
-Date:   Fri,  9 Oct 2020 09:19:36 -0700
-Message-Id: <20201009161936.23122-4-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201009161936.23122-1-nicoleotsuka@gmail.com>
-References: <20201009161936.23122-1-nicoleotsuka@gmail.com>
+        id S1731589AbgJIToH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 9 Oct 2020 15:44:07 -0400
+Received: from mail.csu.ru ([195.54.14.68]:42732 "HELO mail.csu.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with SMTP
+        id S1732706AbgJIToH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 9 Oct 2020 15:44:07 -0400
+X-Greylist: delayed 609 seconds by postgrey-1.27 at vger.kernel.org; Fri, 09 Oct 2020 15:43:56 EDT
+Received: from webmail.csu.ru (webmail.csu.ru [195.54.14.80])
+        (Authenticated sender: gmu)
+        by mail.csu.ru (Postfix) with ESMTPA id 9FF00146B91;
+        Sat, 10 Oct 2020 00:32:12 +0500 (+05)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.csu.ru 9FF00146B91
+Received: from 156.146.59.22
+        (SquirrelMail authenticated user gmu)
+        by webmail.csu.ru with HTTP;
+        Sat, 10 Oct 2020 00:32:15 +0500
+Message-ID: <db5dd452944afb1001b7ae0cac80aa88.squirrel@webmail.csu.ru>
+Date:   Sat, 10 Oct 2020 00:32:15 +0500
+Subject: Vorschlag
+From:   "Yi Huiman" <info@bsu.de>
+Reply-To: info@huiman.cf
+User-Agent: SquirrelMail/1.4.22
+MIME-Version: 1.0
+Content-Type: text/plain;charset=iso-8859-1
+X-Priority: 3 (Normal)
+Importance: Normal
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 159051 [Oct 09 2020]
+X-KLMS-AntiSpam-Version: 5.9.11.0
+X-KLMS-AntiSpam-Envelope-From: info@bsu.de
+X-KLMS-AntiSpam-Auth: dmarc=none header.from=bsu.de;spf=none smtp.mailfrom=bsu.de;dkim=none
+X-KLMS-AntiSpam-Rate: 70
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Info: LuaCore: 381 381 faef97d3f9d8f5dd6a9feadc50ba5b34b9486c58, {rep_avail}, {Tracking_content_type, plain}, {Prob_reply_not_match_from}, {Prob_to_header_missing}, {Prob_Reply_to_without_To}, {Tracking_susp_macro_from_formal}, 127.0.0.199:7.1.2;webmail.csu.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;huiman.cf:7.1.1;195.54.14.80:7.1.2;bsu.de:7.1.1, ApMailHostAddress: 195.54.14.80
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2020/10/09 16:54:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2020/10/09 00:29:00 #15463494
+X-KLMS-AntiVirus-Status: Clean, skipped
+Content-Transfer-Encoding: 8BIT
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch simply adds support for PCI devices.
-
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
-
-Changelog
-v6->v7
- * Renamed goto labels, suggested by Thierry.
-v5->v6
- * Added Dmitry's Reviewed-by and Tested-by.
-v4->v5
- * Added Dmitry's Reviewed-by
-v3->v4
- * Dropped !iommu_present() check
- * Added CONFIG_PCI check in the exit path
-v2->v3
- * Replaced ternary conditional operator with if-else in .device_group()
- * Dropped change in tegra_smmu_remove()
-v1->v2
- * Added error-out labels in tegra_smmu_probe()
- * Dropped pci_request_acs() since IOMMU core would call it.
-
- drivers/iommu/tegra-smmu.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index be29f5977145..2941d6459076 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -865,7 +866,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
--	group->group = iommu_group_alloc();
-+	if (dev_is_pci(dev))
-+		group->group = pci_device_group(dev);
-+	else
-+		group->group = generic_device_group(dev);
-+
- 	if (IS_ERR(group->group)) {
- 		devm_kfree(smmu->dev, group);
- 		mutex_unlock(&smmu->lock);
-@@ -1075,22 +1080,32 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
- 	err = iommu_device_register(&smmu->iommu);
--	if (err) {
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err)
-+		goto remove_sysfs;
- 
- 	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
--	if (err < 0) {
--		iommu_device_unregister(&smmu->iommu);
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err < 0)
-+		goto unregister;
-+
-+#ifdef CONFIG_PCI
-+	err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
-+	if (err < 0)
-+		goto unset_platform_bus;
-+#endif
- 
- 	if (IS_ENABLED(CONFIG_DEBUG_FS))
- 		tegra_smmu_debugfs_init(smmu);
- 
- 	return smmu;
-+
-+unset_platform_bus: __maybe_unused;
-+	bus_set_iommu(&platform_bus_type, NULL);
-+unregister:
-+	iommu_device_unregister(&smmu->iommu);
-+remove_sysfs:
-+	iommu_device_sysfs_remove(&smmu->iommu);
-+
-+	return ERR_PTR(err);
- }
- 
- void tegra_smmu_remove(struct tegra_smmu *smmu)
--- 
-2.17.1
+ich habe ein Geschäft Vorschlag für dich.
 
