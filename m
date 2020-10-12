@@ -2,24 +2,24 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B1A228BFAA
-	for <lists+linux-tegra@lfdr.de>; Mon, 12 Oct 2020 20:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4230628BFAE
+	for <lists+linux-tegra@lfdr.de>; Mon, 12 Oct 2020 20:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730674AbgJLS1e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 12 Oct 2020 14:27:34 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:7067 "EHLO
+        id S2387583AbgJLS1s (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 12 Oct 2020 14:27:48 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:7119 "EHLO
         hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726636AbgJLS1d (ORCPT
+        with ESMTP id S1726636AbgJLS1s (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 12 Oct 2020 14:27:33 -0400
+        Mon, 12 Oct 2020 14:27:48 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f84a0090000>; Mon, 12 Oct 2020 11:27:21 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 12 Oct
- 2020 18:27:33 +0000
+        id <B5f84a0170000>; Mon, 12 Oct 2020 11:27:35 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 12 Oct
+ 2020 18:27:47 +0000
 Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 12 Oct 2020 18:27:33 +0000
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 12 Oct 2020 18:27:47 +0000
 From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -28,33 +28,33 @@ CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
         <pavel@denx.de>, <stable@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.4 00/39] 4.4.239-rc1 review
-In-Reply-To: <20201012132628.130632267@linuxfoundation.org>
-References: <20201012132628.130632267@linuxfoundation.org>
+Subject: Re: [PATCH 4.19 00/49] 4.19.151-rc1 review
+In-Reply-To: <20201012132629.469542486@linuxfoundation.org>
+References: <20201012132629.469542486@linuxfoundation.org>
 X-NVConfidentiality: public
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Message-ID: <d839ba5b54404ac483d9e2b0b1e8da36@HQMAIL101.nvidia.com>
-Date:   Mon, 12 Oct 2020 18:27:33 +0000
+Message-ID: <2c309f30ccd449d7836b6e8582b75197@HQMAIL105.nvidia.com>
+Date:   Mon, 12 Oct 2020 18:27:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1602527241; bh=jwygHflDFho+TZBCetQR5o7CsOpYEh7ivNOz6C/HnFk=;
+        t=1602527255; bh=UnBl9Eg2eYGZq0T555D2QrH7At8JfpRrUOSbLqdC4GY=;
         h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
          Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
          Date;
-        b=OPv6LFj8IdqMbKMetCK55sCkqvDCL9Y4Fj8xraXvT3reh3GjV+0lnJPZ341I7+hhZ
-         U147k/hPiFoSwFebiOT58BEDzsTa5Zir4zd5NIMWtd6SJBITnxed1GYRjnombOGdUf
-         7iS/Rj3K3t5Fi0ThtigSBucOfrPv8FJDl/8ZhPjO+g1dmPSKlArm3qHneJjVu2GbgL
-         YxlLIwZxsYKwXBBNh8UxFXAofBDNIYAv4XddGqKIiRrN/suqVDLJrXJ89/5Ad2YeKe
-         Ag6CSngrgcImZ3dLM3/yQ4Owc9Ss1caqfOK+R+sc8yxa3aQ/U0Y8ZG5aL+p6hm5P9q
-         a933S/+piaPnw==
+        b=BwnqDmkwuyMEKlcJu30QLLO5kUSWVjs0zfrvytX1YJivok2lgwkATS2J4Lm7ByIi4
+         d7Dp87jImOfmg+E7820T229o0MCJhCXS9blAJSDGMG5wHlw/3pj/rAbl8+cSoH+r85
+         TxdUSFzOqZ0JUggNmIKO14I8DdJnrt0zgNUzLNdCDZIx6KVUKmP9K12unTns6eJR5w
+         l/ds1dtOVn4uIbTSvpxfT3SF2syN01zZQEsJFyx20osIomx3t+V7bFeyzpqjoGAQx9
+         P8jALK5BXW9iX7BDm7GCRbWbQUW2nhHfYcxhYWY5mQ1mQ89j3aWD8HnkBB6IAcgzf4
+         E9PvbqnJTg58Q==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 12 Oct 2020 15:26:30 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.4.239 release.
-> There are 39 patches in this series, all will be posted as a response
+On Mon, 12 Oct 2020 15:26:46 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.151 release.
+> There are 49 patches in this series, all will be posted as a response
 > to this one.  If anyone has any issues with these being applied, please
 > let me know.
 > 
@@ -62,9 +62,9 @@ On Mon, 12 Oct 2020 15:26:30 +0200, Greg Kroah-Hartman wrote:
 > Anything received after that time might be too late.
 > 
 > The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.239-rc1.gz
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.151-rc1.gz
 > or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
 > and the diffstat can be found below.
 > 
 > thanks,
@@ -73,14 +73,15 @@ On Mon, 12 Oct 2020 15:26:30 +0200, Greg Kroah-Hartman wrote:
 
 All tests passing for Tegra ...
 
-Test results for stable-v4.4:
-    6 builds:	6 pass, 0 fail
-    12 boots:	12 pass, 0 fail
-    28 tests:	28 pass, 0 fail
+Test results for stable-v4.19:
+    15 builds:	15 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    38 tests:	38 pass, 0 fail
 
-Linux version:	4.4.239-rc1-g36437aaa5512
-Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
-                tegra30-cardhu-a04
+Linux version:	4.19.151-rc1-g7457eed4b647
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
 Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
