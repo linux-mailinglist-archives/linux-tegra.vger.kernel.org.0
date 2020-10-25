@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B988F2984C2
-	for <lists+linux-tegra@lfdr.de>; Sun, 25 Oct 2020 23:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E16F32984BC
+	for <lists+linux-tegra@lfdr.de>; Sun, 25 Oct 2020 23:39:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1420244AbgJYWkq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 25 Oct 2020 18:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38396 "EHLO
+        id S1420241AbgJYWju (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 25 Oct 2020 18:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1420177AbgJYWjo (ORCPT
+        with ESMTP id S2392172AbgJYWjp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 25 Oct 2020 18:39:44 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DFD4C0613CE
-        for <linux-tegra@vger.kernel.org>; Sun, 25 Oct 2020 15:39:44 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id h6so9438022lfj.3
-        for <linux-tegra@vger.kernel.org>; Sun, 25 Oct 2020 15:39:44 -0700 (PDT)
+        Sun, 25 Oct 2020 18:39:45 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A6A6C061755
+        for <linux-tegra@vger.kernel.org>; Sun, 25 Oct 2020 15:39:45 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id a7so9426341lfk.9
+        for <linux-tegra@vger.kernel.org>; Sun, 25 Oct 2020 15:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/kftxjSXDqKAh3RCNvkPc5vzqLKoISP/BM3HFWQ3z9I=;
-        b=lqp3WS0zPak1QrRE7TwGIDWgkqePSSMQaxKpKXY/DtyzpPcL6yWFgYWkGXdtEg9YaB
-         axsStG2ecYJ2iuxLTMmnYba4f7GsY/ZW1zUVVzJl/XDJcX04994/hXe8Efc5gzQKJ/HN
-         x9yrG0GTvvnPKSBgyDrVINECKJ8mKv00xCxQAODZ0YPP66R3SjC+RiCH80pdk7nTVMZE
-         HpD23hQhYLbHEbASfVpnTcLxvq9hT/dZ8xdTco5pgiwVWgHhrxrM5PzdShR+fsorVeMW
-         wvzHUOZH0t5YVB4rm3l7WVB+9GD8yMUamTiEzJP5TwbWsUMtY/t4IvwJpNaiha6Q+llz
-         oWEg==
+        bh=KhvSSd9j9+TOfmC9KN7OzPwUsgYOpVFogeAEL+Nnw6Q=;
+        b=UWHyex5SaWc55kJis+QVMg33d8THg248O3ADbVCgf39LeQUVBC58QaimMlJTu/I3HC
+         g22spgmBlZbrR/sJeUiY7DiUfqTSN79Q2R+Tmtu0Tdh7epNNlNCuuJHAPmNWUOlY7t7j
+         Ofvt7pN3B/m/ARRrqy/O6FXX4ucnnror6lawY0GaKolT/v6yTSLj9cZa7gDIHD3VjLWj
+         u4X+mRrq8/p9K0GLqZb+tjRSpFE9sh/j8tH9PskPF8t/GrKac2HZBCgs45Re+86Uyv4H
+         0BTcdQ73gT6nXaizyaZckyC0bGuwrRQxoKWOLOHl/KEAFF5ylaeQSmHeY5q8oVzRVaVK
+         tZ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/kftxjSXDqKAh3RCNvkPc5vzqLKoISP/BM3HFWQ3z9I=;
-        b=TcqgfSj7QLlJL6n8Tbl8ODECdFc3Em5L7+CZ0X8ULnvd47Vs90fR6fQ+ZDFkirsut3
-         0h4dSgHtbgKCGCj6XJ1Km0tNJdBPqKg7QRFo5O6WBBiYQWqpbHRtGE2rjAXE1OBxHycB
-         1PoHU9Yq4ZWx/R69kj84oqdB1mVdrke956Bq0DUqmMdy9oahLmq5cFAjpwnFLtOH2EUe
-         5ZXqxsHI46y4eKQPwHhIHyLl/W6PjwMR57pnGklMAAJPlbahwCoGtTrkQvZ1ioSpZj/c
-         Ffmb9VlcFM3RiNe11ZZ6E8/cNELhnkTQOjUDPdHIUi7XtYIJuz9ogTRQQLM2+wtGiNYc
-         GkiQ==
-X-Gm-Message-State: AOAM530ffTgPvb5OHol4YyUFgMfrQ8qFEUGctnywgUVmDQaBqyDqCjvu
-        u5iV5/1oVC9PCPWKh1WPGJsOpwyWzGE=
-X-Google-Smtp-Source: ABdhPJzWt2eFxFhlfB89klHO+LCVFu4UrOC282E88DOl82t8udp9SObe/b8fccgdZlP7iCpSHoWf7Q==
-X-Received: by 2002:ac2:5e6c:: with SMTP id a12mr4496399lfr.568.1603665582928;
-        Sun, 25 Oct 2020 15:39:42 -0700 (PDT)
+        bh=KhvSSd9j9+TOfmC9KN7OzPwUsgYOpVFogeAEL+Nnw6Q=;
+        b=YrVQCyzyRZ8SQBqq/CRDjS/nQT+8+/wz/UxXwhBXWk/DaBKxV1hVtLpC7RvqbCIDUn
+         OrMDwJodbkSU1RTLGBKXbaURYSjbk5351Sxa0EiyVwhL8JyfaXhhm/p95Mqc2zIGozUQ
+         F6dktqDvy8ztjN01z28CFqO/2+XHDZLTrDAzo0EFMHSUmrZbJZ0aqiMVloPs5HHj6X+n
+         l9/mlcD1/mhyuKARrwhvoi3AguVpi3x/gxNeTQkxRmHlPz8Pw/GIeQzU9XCGWgkxCVAF
+         jw15mkXOyl4e+udzHYGzrJiJ4URJrtItPcekA37rE+wsgUIN/MmsRAibMW1sED3p5dbj
+         d8Xg==
+X-Gm-Message-State: AOAM533sFKSOCh7txihKNco7Pm++ltwfeHV7UwEfkGyyMwCKrIwdu7/e
+        GoL4QjhVT8XahrVnr1uMCbs=
+X-Google-Smtp-Source: ABdhPJx5ZthHI3OrvnIO5Ij6Og2ticQqxwNFiG4obk2G/YBa4tqnBDeimFfEbLSDGxzFvdtnR3T2cA==
+X-Received: by 2002:a19:2302:: with SMTP id j2mr3722435lfj.78.1603665583714;
+        Sun, 25 Oct 2020 15:39:43 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru. [109.252.193.186])
-        by smtp.gmail.com with ESMTPSA id f15sm855957lfk.186.2020.10.25.15.39.42
+        by smtp.gmail.com with ESMTPSA id f15sm855957lfk.186.2020.10.25.15.39.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 15:39:42 -0700 (PDT)
+        Sun, 25 Oct 2020 15:39:43 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH v1 2/6] ARM: tegra: acer-a500: Add power-supply to lvds-encoder node
-Date:   Mon, 26 Oct 2020 01:38:47 +0300
-Message-Id: <20201025223851.6984-3-digetx@gmail.com>
+Subject: [PATCH v1 3/6] ARM: tegra: nexus7: Correct thermal zone names
+Date:   Mon, 26 Oct 2020 01:38:48 +0300
+Message-Id: <20201025223851.6984-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201025223851.6984-1-digetx@gmail.com>
 References: <20201025223851.6984-1-digetx@gmail.com>
@@ -64,26 +64,35 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The lvds-encoder binding now supports power-supply property, let's specify
-it in the device-tree for completeness.
+Rename thermal zones in order fix dt_binding_check warning telling that
+names do not match the expected pattern.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 372cc1b17eaf..dd6fb134ee39 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -907,6 +907,7 @@ lvds-encoder {
- 		compatible = "ti,sn75lvds83", "lvds-encoder";
+diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+index 88ca03f57b3b..fa6bbec7cbc4 100644
+--- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
++++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+@@ -1240,14 +1240,14 @@ sound {
+ 	};
  
- 		powerdown-gpios = <&gpio TEGRA_GPIO(B, 2) GPIO_ACTIVE_LOW>;
-+		power-supply = <&vdd_3v3_sys>;
+ 	thermal-zones {
+-		nct72-local {
++		skin-thermal {
+ 			polling-delay-passive = <1000>; /* milliseconds */
+ 			polling-delay = <0>; /* milliseconds */
  
- 		ports {
- 			#address-cells = <1>;
+ 			thermal-sensors = <&nct72 0>;
+ 		};
+ 
+-		nct72-remote {
++		cpu-thermal {
+ 			polling-delay-passive = <1000>; /* milliseconds */
+ 			polling-delay = <5000>; /* milliseconds */
+ 
 -- 
 2.27.0
 
