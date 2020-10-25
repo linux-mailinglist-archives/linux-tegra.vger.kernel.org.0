@@ -2,127 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D28232984BF
-	for <lists+linux-tegra@lfdr.de>; Sun, 25 Oct 2020 23:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7222984C6
+	for <lists+linux-tegra@lfdr.de>; Sun, 25 Oct 2020 23:42:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731833AbgJYWjy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 25 Oct 2020 18:39:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
+        id S1420337AbgJYWmY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 25 Oct 2020 18:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1420210AbgJYWjs (ORCPT
+        with ESMTP id S1420334AbgJYWmX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 25 Oct 2020 18:39:48 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4048C0613CE
-        for <linux-tegra@vger.kernel.org>; Sun, 25 Oct 2020 15:39:47 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id c21so7766471ljj.0
-        for <linux-tegra@vger.kernel.org>; Sun, 25 Oct 2020 15:39:47 -0700 (PDT)
+        Sun, 25 Oct 2020 18:42:23 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785C7C061755;
+        Sun, 25 Oct 2020 15:42:23 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id y16so7768902ljk.1;
+        Sun, 25 Oct 2020 15:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WcZrfCFx5B/EypZjcK/Qk5DAcn6hfZKCRPVRuxnzPfM=;
-        b=pWliyEWUE7fXIUgMlPsfheiN0HG4G08A2xl75C/qEsN8oEdb3kPNzHFXbPmjAHb3Mk
-         roUge63K8t/5a5Ryiti6BWWkPRcJq0lK5c5tlmuyY7O6hwpSH0rEFWadtngiDL9lE1lu
-         /mPV6/poy47R6xe1QZaGC5BIYgisPV1fezF1uHUdH6glbxWNmq/g7kd905OxPp5UmkDT
-         ysPbzm7ucMOUaCYh8ZLsh/Qwkjlv3evOrpylh9qd5HbxyltbsrnOBj470tHmx9G3PYYE
-         JlhIFfD9BJBmERTWN6heHnaM38U35Yde1k/SW/WQ2mS49gH9jlHw3xiuGTSPrkOHRcyX
-         ouwQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V/owtm7CKL7aXeAomkI0+DszZCxQFPYFDuDBIRrRH/U=;
+        b=nmjzbHbBiymbyAdZ9y16ECopOtAhsBxwH3sstAI9BqTJ2qGz4hTeopEmj5otITQXaK
+         3pu9xRpCDD0FL2IN9SrVZr6UtdbBvPbK08OgwOAGP2Ubp9sqwFk9KAdfiGIp69cjWhVA
+         hzEknW5b80kp6j739bOWPl7NDPv1yZDuUUXZkgEyZ5LZ0U38K5tNoKBTCX/rJvtd3iqw
+         nqIetuLDDxDh4v7DpZvQwr8upo64QuZMbQijJ8fKtaosVwWi5DuPYBsm87UoG+XgihMr
+         yKfwArtme5WKCXYJnVYJZMjVJVGKJ7pjPUwMOjYM2sXhnnNtcn0wK1tnGK3nPz2mHqDC
+         KuHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WcZrfCFx5B/EypZjcK/Qk5DAcn6hfZKCRPVRuxnzPfM=;
-        b=DtktioC4gfcsgMVhtE10rbe7DQ2MjOf7yOfmQ3B8czPQlNUlbz+9vQVBh3l/J3hInJ
-         scyO8gB2NN9FyV+ppzzAcp/n3n6FJgfIA4Qae29mM1zsg8wKqcWVG6AEaRr2csDD55AG
-         iPL9/i3Q70Tol9XCXgaTJbsOGFBWeNMkz8CDR8rLX19cicZo1QM3kN88gqFcttukWS0f
-         +rW6Znz6M0rMjzT3lMrQRiBdbDHOmPvK+w37oebKvTXhR0QQF7S/FxDfwps/1pG3MnKN
-         Ql0vQTOxzDtg3Z7deMWVwtGDpzEyFhqFqrJ2ksqJGO+JuzTj50UqXgEQ6tXzWIjWPPxn
-         0ccQ==
-X-Gm-Message-State: AOAM532P96p3rF4sQNnkczpDQGjphCq5QQCoFOjYOyS0t1LWmfjVvw3Q
-        o090jXrTCQzS0DUNbibAMWM=
-X-Google-Smtp-Source: ABdhPJwXkQYvQ9mq+gujhyHZysbNxWlsp9O9gHcKZ3r2eHOv2v1Y/3hSVrvVODTDsoLzyrDWvgThZQ==
-X-Received: by 2002:a2e:a49a:: with SMTP id h26mr2525582lji.464.1603665586266;
-        Sun, 25 Oct 2020 15:39:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V/owtm7CKL7aXeAomkI0+DszZCxQFPYFDuDBIRrRH/U=;
+        b=UlxZNin69gQT934FDNSvBLTXLlbB/s0N5ilfcLYSnD8vCPVGy4Lp6Sch7WfqdmI1KD
+         iNMPb97Wn78GDdS4+Y8za6mh/ioI/C3ueVuT0dcZoS0lmSII79SFfIE6b+TZCPa6Phsb
+         QfQyjJ8cTKpcMDmDuss2UzAVVuVjxtHElKJiOHqSvU0BNkIFAG+W/Jloh5LGgCG3aF0y
+         wKILAm2JMUAG8R9X2WnQu69HF6dBJMkjVHDAyCBv3seb+oWDR4UVbGewNTJY+m4Z7y3P
+         5psHfEUWIF0EjM1wzv3juR/S7fg0key5W+i6PmaOeMnSSCjaaM1JnQPfuHtepusfDaAS
+         FGoQ==
+X-Gm-Message-State: AOAM531YAfsvr0Ll7ws6yzLfx7w7aDJfJuV7MLV0QI6bVeu8pSj8KbsP
+        Jvrt+yh0jQc1wrVqh/J49Js=
+X-Google-Smtp-Source: ABdhPJy979kPb7xmaWdqVdvrVukWTGOgZ34wsKFY2mm6Y2SnOmUQhksAixqTM9XZ+aBw5ZKSvfDOhA==
+X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr4241146lji.26.1603665742036;
+        Sun, 25 Oct 2020 15:42:22 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru. [109.252.193.186])
-        by smtp.gmail.com with ESMTPSA id f15sm855957lfk.186.2020.10.25.15.39.45
+        by smtp.gmail.com with ESMTPSA id e73sm855959lfd.199.2020.10.25.15.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 15:39:45 -0700 (PDT)
+        Sun, 25 Oct 2020 15:42:21 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH v1 6/6] ARM: tegra: nexus7: Rename gpio-hog nodes
-Date:   Mon, 26 Oct 2020 01:38:51 +0300
-Message-Id: <20201025223851.6984-7-digetx@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nicolas Chauvet <kwizart@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] clk: tegra: Fix duplicated SE clock entry
+Date:   Mon, 26 Oct 2020 01:42:12 +0300
+Message-Id: <20201025224212.7790-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201025223851.6984-1-digetx@gmail.com>
-References: <20201025223851.6984-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Devicetree schema now requires gpio-hog nodes to have a certain naming
-pattern, like a -hog suffix. This patch fixes dtbs_check warnings about
-the names.
+The periph_clks[] array contains duplicated entry for Security Engine
+clock which was meant to be defined for T210, but it wasn't added
+properly. This patch corrects the T210 SE entry and fixes the following
+error message on T114/T124: "Tegra clk 127: register failed with -17".
 
+Fixes: dc37fec48314 ("clk: tegra: periph: Add new periph clks and muxes for Tegra210")
+Tested-by Nicolas Chauvet <kwizart@gmail.com>
+Reported-by Nicolas Chauvet <kwizart@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi     | 4 ++--
- arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi | 2 +-
- arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi            | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/clk/tegra/clk-id.h           | 1 +
+ drivers/clk/tegra/clk-tegra-periph.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-index f8a531350998..8def1d2e34f9 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-@@ -75,7 +75,7 @@ lcd_output: endpoint {
- 	};
- 
- 	gpio@6000d000 {
--		init-mode {
-+		init-mode-hog {
- 			gpio-hog;
- 			gpios =	<TEGRA_GPIO(DD, 7) GPIO_ACTIVE_HIGH>,
- 				<TEGRA_GPIO(CC, 6) GPIO_ACTIVE_HIGH>,
-@@ -83,7 +83,7 @@ init-mode {
- 			output-low;
- 		};
- 
--		init-low-power-mode {
-+		init-low-power-mode-hog {
- 			gpio-hog;
- 			gpios = <TEGRA_GPIO(I, 6) GPIO_ACTIVE_HIGH>;
- 			input;
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi
-index b25b3fa90ac6..17b6682ffce8 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi
-@@ -29,7 +29,7 @@ gpio4 {
- 				};
- 			};
- 
--			cpu-pwr-req {
-+			cpu-pwr-req-hog {
- 				gpio-hog;
- 				gpios = <6 GPIO_ACTIVE_HIGH>;
- 				input;
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-index e3da89f1941a..a681ad51fddd 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-@@ -23,7 +23,7 @@ panel-timing {
- 	};
- 
- 	gpio@6000d000 {
--		init-mode-3g {
-+		init-mode-3g-hog {
- 			gpio-hog;
- 			gpios =	<TEGRA_GPIO(D, 2) GPIO_ACTIVE_HIGH>,
- 				<TEGRA_GPIO(C, 6) GPIO_ACTIVE_HIGH>,
+diff --git a/drivers/clk/tegra/clk-id.h b/drivers/clk/tegra/clk-id.h
+index ff7da2d3e94d..24413812ec5b 100644
+--- a/drivers/clk/tegra/clk-id.h
++++ b/drivers/clk/tegra/clk-id.h
+@@ -227,6 +227,7 @@ enum clk_id {
+ 	tegra_clk_sdmmc4,
+ 	tegra_clk_sdmmc4_8,
+ 	tegra_clk_se,
++	tegra_clk_se_10,
+ 	tegra_clk_soc_therm,
+ 	tegra_clk_soc_therm_8,
+ 	tegra_clk_sor0,
+diff --git a/drivers/clk/tegra/clk-tegra-periph.c b/drivers/clk/tegra/clk-tegra-periph.c
+index 2b2a3b81c16b..60cc34f90cb9 100644
+--- a/drivers/clk/tegra/clk-tegra-periph.c
++++ b/drivers/clk/tegra/clk-tegra-periph.c
+@@ -630,7 +630,7 @@ static struct tegra_periph_init_data periph_clks[] = {
+ 	INT8("host1x", mux_pllm_pllc2_c_c3_pllp_plla, CLK_SOURCE_HOST1X, 28, 0, tegra_clk_host1x_8),
+ 	INT8("host1x", mux_pllc4_out1_pllc_pllc4_out2_pllp_clkm_plla_pllc4_out0, CLK_SOURCE_HOST1X, 28, 0, tegra_clk_host1x_9),
+ 	INT8("se", mux_pllp_pllc2_c_c3_pllm_clkm, CLK_SOURCE_SE, 127, TEGRA_PERIPH_ON_APB, tegra_clk_se),
+-	INT8("se", mux_pllp_pllc2_c_c3_clkm, CLK_SOURCE_SE, 127, TEGRA_PERIPH_ON_APB, tegra_clk_se),
++	INT8("se", mux_pllp_pllc2_c_c3_clkm, CLK_SOURCE_SE, 127, TEGRA_PERIPH_ON_APB, tegra_clk_se_10),
+ 	INT8("2d", mux_pllm_pllc2_c_c3_pllp_plla, CLK_SOURCE_2D, 21, 0, tegra_clk_gr2d_8),
+ 	INT8("3d", mux_pllm_pllc2_c_c3_pllp_plla, CLK_SOURCE_3D, 24, 0, tegra_clk_gr3d_8),
+ 	INT8("vic03", mux_pllm_pllc_pllp_plla_pllc2_c3_clkm, CLK_SOURCE_VIC03, 178, 0, tegra_clk_vic03),
 -- 
 2.27.0
 
