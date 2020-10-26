@@ -2,116 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 826B52984D6
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Oct 2020 00:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E69D29856A
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Oct 2020 02:48:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1420367AbgJYXCI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 25 Oct 2020 19:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1420347AbgJYXCF (ORCPT
+        id S1419622AbgJZBsk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 25 Oct 2020 21:48:40 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:22771 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1418612AbgJZBsj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 25 Oct 2020 19:02:05 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51C0C0613D0;
-        Sun, 25 Oct 2020 16:02:04 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id a7so9461161lfk.9;
-        Sun, 25 Oct 2020 16:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=A4jvJLNRl5Rus88Pe6yoUdqX7U2UtFHR9HWnEH2FGao=;
-        b=bWrAJRoIe/SdHvtJParQapNN61WM14ZwkxmpzYOvQ7MalOvTC+zvfOrTEv8WSeNwYR
-         VgXbvPWi0s0pgdb4HucRveayHco8KLJy7mnsprPZIpz+c0jSVjVAE1XVwQ4fs2iYlVW3
-         qfrqYozy46t+mtqBHdTE7a6KesxD7d1oa6Y63IpKsZ5detb7nm64cufHRMEqIXdW3Qpk
-         iFmZtCO5+2o2j1Q7dUUGZzxN+byOyzpdePKInBdkHyLnK6IhzFY3JT6SlwDi3juYIock
-         yVheL8zYPL6dfz7+9jvCRKqYB4jqJB+FlGPLLo62QSb94y/6sahEkKqONnPjueuhUJOd
-         wO8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=A4jvJLNRl5Rus88Pe6yoUdqX7U2UtFHR9HWnEH2FGao=;
-        b=BvQ3JBiclmTDxGKR7pzhGRSVS2usPlVcr6MzJdHB3MSKUNQXA/UEdhQdsHhIMI0odt
-         BQqvbCEkApJCBQSNTXz+h9hSmVPUrVsRQkq5tWoIaPfvLqWlvHZZRUO6rXMK30tZyw1O
-         7fr2h5oxcd/Ri/OKLUYtOYVTCdhm5QZe7hvocnp5fARHTL0kaDPNtV2mPXk1MZldyod5
-         TF6uNlfTSCuJWuoDdfTJPRuDH2YuRY+WmO/5I99ZtHY4B2SJxTQKzCkAGuejKRKmL1LY
-         2WIlSV78b93Y2GGqwxskzkBFSYeGjffMSu8zx81bYpXQXxsuev6tlu7m+GyWHPVlMATx
-         3Zlw==
-X-Gm-Message-State: AOAM533AAbD++Uan4njKcccd9F8n5hXZ7QFoU8Jtb3XzNmeyTnf4AjuS
-        7NZNGAAICQyuQtqZsn9RKys=
-X-Google-Smtp-Source: ABdhPJzFShGHnktOW5DkqTmDfBkPbAip5YSz6AMw9q3iufpT4y7RXw7iavuJlF/CT9O9q2/zxq48EA==
-X-Received: by 2002:a05:6512:313c:: with SMTP id p28mr3742790lfd.310.1603666923476;
-        Sun, 25 Oct 2020 16:02:03 -0700 (PDT)
-Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru. [109.252.193.186])
-        by smtp.gmail.com with ESMTPSA id j16sm949619ljh.48.2020.10.25.16.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 16:02:03 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dan Murphy <dmurphy@ti.com>, Sebastian Reichel <sre@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v4 4/4] ARM: tegra: acer-a500: Add Embedded Controller
-Date:   Mon, 26 Oct 2020 02:01:53 +0300
-Message-Id: <20201025230153.11729-5-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201025230153.11729-1-digetx@gmail.com>
-References: <20201025230153.11729-1-digetx@gmail.com>
+        Sun, 25 Oct 2020 21:48:39 -0400
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20201026014836epoutp020d9f6fe880e6b774ed306d2a7a7972ad~BZ6i4IHrW2962929629epoutp02N
+        for <linux-tegra@vger.kernel.org>; Mon, 26 Oct 2020 01:48:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20201026014836epoutp020d9f6fe880e6b774ed306d2a7a7972ad~BZ6i4IHrW2962929629epoutp02N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1603676916;
+        bh=37PnDkF5xPnXJofZfiHzZMGGvdWBOs4q7GwZvJLA/sg=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=Fj1f4Df/+DDZdNhwcSPmU4OOpPjj1cYA5McPqrv1pd8x6UncCLed6ASIqRAapnNP0
+         Wb9OMdUp8pLJYneQ+cBl05ZrLS9fU/gKLVpz84HvReUvgc6XafBLJTuxrGwEUSUaYM
+         ni4EShWMqr1KDgaeWGz+X3Pr1MgykB0WoGXhiDJA=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20201026014836epcas1p38144d3db17e8f9b63f6dab1f72e20c2a~BZ6iZWjPx3049830498epcas1p3m;
+        Mon, 26 Oct 2020 01:48:36 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.40.158]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4CKHmf4wVczMqYm9; Mon, 26 Oct
+        2020 01:48:34 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+        7C.94.09582.2FA269F5; Mon, 26 Oct 2020 10:48:34 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20201026014834epcas1p29d483b8c2aa3d7d7f3a62f0937d3b825~BZ6ghavLZ0717507175epcas1p2f;
+        Mon, 26 Oct 2020 01:48:34 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20201026014834epsmtrp22db458c732a0742ee7eded9e318128a6~BZ6ggpvpy3006630066epsmtrp2d;
+        Mon, 26 Oct 2020 01:48:34 +0000 (GMT)
+X-AuditID: b6c32a37-8afff7000000256e-ae-5f962af2c391
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        DB.6C.08604.2FA269F5; Mon, 26 Oct 2020 10:48:34 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20201026014833epsmtip20007a16e5de1e388492d733fec49ab01~BZ6gQJKa-1996219962epsmtip2h;
+        Mon, 26 Oct 2020 01:48:33 +0000 (GMT)
+Subject: Re: [PATCH v5 2/2] PM / devfreq: Add governor attribute flag for
+ specifc sysfs nodes
+To:     Dmitry Osipenko <digetx@gmail.com>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Cc:     lukasz.luba@arm.com, enric.balletbo@collabora.com,
+        hl@rock-chips.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        abel.vesa@nxp.com, k.konieczny@samsung.com,
+        b.zolnierkie@samsung.com, chanwoo@kernel.org,
+        myungjoo.ham@samsung.com, kyungmin.park@samsung.com
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <8bd3c09d-a55d-318c-afc6-88a2215110e1@samsung.com>
+Date:   Mon, 26 Oct 2020 11:02:23 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
+In-Reply-To: <53199cd1-772c-f30e-4f74-93572d6875cb@gmail.com>
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxbVRjGc3ovl3YRuRQYZzCB3TmWwYBeSunFUdSMYMNAMURF/rBe6ZUS
+        Slt7QRzTBDayURzbmrmCtVI2ZK5Q5VNSCrOmQydGEwHBzQ2pDpUwLBsf23RibHu3yH+/vO/z
+        nuc854OPCCewaH65porRa2g1gW1Bhy7tSU1eSTQpRE7bLur85JeA6mvtCaKMV35Aqe7bNwBl
+        v+YG1L3ebxCqwXwOpdpXWoOo7w4vBVNTTgtGrTaPAcqwZsaos4cbgqlr9Rcw6i9nG/pUqNze
+        Zgdyx+xHQD5sng2W93cZMHnzES8m7/M6ePINswuVnxjsAvLV/thCQUlFloqhlYw+ntGUapXl
+        mjIZcaBIsV8hyRCRyWQmJSXiNXQlIyNy8guTc8vVvghE/Ju0utpXKqRZlkjNztJrq6uYeJWW
+        rZIRjE6p1mXqUli6kq3WlKWUaiufIEWiNIlP+GqF6sfh48G6q+hbd0ZtoA5cR5qAgA/xdOg2
+        H+M1gS18Ie4AcMnhwvwNIb4CYMNkAcd3AHzXoH448OnvAwg3cBHAm78sBHGiZQDPXT7k53Bc
+        Ae0Dl1A/R+DvwLEJD+YfQPBmHjSNdvL8DQxPhK6FKwG3UHwHnL53A/g5BM+Gfabzge2h+C44
+        +5sloI/EX4TjQw0PNGFw/P35gIEAl0Gj9XSAETwK/jRv5XEcB4989sGDmGt82GrRNgG+j3Pg
+        TEsYVw6Hi5cHgzmOhqveixjHh6BtfCywZ4g3Ajjo+j6Ia4ihq/M0z78Ogu+BPc5UrrwDDt//
+        EHC2j0Lv+vEgzioENh4VcpKdcMozy+N4G+w4ZsBOAcK8KYx5UwDzpgDm/83aAdoFtjI6trKM
+        YUmdePNV94PA206UOoDpz1spbsDjAzeAfISICLFsP6MQhijpg7WMXqvQV6sZ1g0kvuM1ItGR
+        pVrf59BUKUhJmlgsptLJDAlJElEh/yQ1KoR4GV3FVDCMjtE/nOPxBdF1vKN/6OYRd7rh74PP
+        hHkslqGn52oX6x7rHlXpBJ6MHlOESHz/donaa3jOSF+NLL15duZk9Ccxqn/ze4tK2mua897L
+        Tv96rn4gX/W64YuGvutJd8PQnesn9N7tv1IeMu3ZbcWLxpFTwy/HJNTaOpbpC2/DKU1NUpa1
+        O7wtedoIBQn7p/bujk1GbXmyuI5e6dK3WNTEz9PL9tjXbJMZpDFO5Hxy8kBj3uPKhRE8/42X
+        1gsK1tSdhVZpZFSPc0SUIbv1yt2afcVFz6+2mGbMIG7fxy3p2q+yqfGc3bm5Zxb3SutnqfUI
+        2Fi88cjcC1YiVLIwuqHXKUFEzdbPYxL0yx42k0BZFU0mInqW/g8aauaTZAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPIsWRmVeSWpSXmKPExsWy7bCSvO4nrWnxBlPXMFssu3SU0WLjjPWs
+        FhNvXGGxWP3xMaPFmtuHGC1+bDjFbNEyaxGLxYJPM1gtzja9Ybe4vGsOm8Xn3iOMFp1fZrFZ
+        LGxqYbe43biCzeLnrnksDvwea+atYfTYcXcJo8fOWXfZPTat6mTz6G1+x+ax8d0OJo+/s/az
+        ePRtWcXo8XmTXABnFJdNSmpOZllqkb5dAlfG9Z097AU3WSq+7VnJ2MB4h7mLkZNDQsBEYt2z
+        zUA2F4eQwG5GiW+T5rNBJCQlpl08CpTgALKFJQ4fLoaoecsosXXyG7AaYYF4iTWbD7OA2CIC
+        tRKvVk9nBSliFuhlkujatZcVJCEk8I5R4sXVEBCbTUBLYv+LG2DN/AKKEld/PGYEsXkF7CQ2
+        TlsGdhGLgKrE3adzmEBsUYEwiZ1LHjNB1AhKnJz5BGwZp4CtxMT5k8FsZgF1iT/zLjFD2OIS
+        t57MZ4Kw5SWat85mnsAoPAtJ+ywkLbOQtMxC0rKAkWUVo2RqQXFuem6xYYFhXmq5XnFibnFp
+        Xrpecn7uJkZwHGtp7mDcvuqD3iFGJg7GQ4wSHMxKIrxzZKbGC/GmJFZWpRblxxeV5qQWH2KU
+        5mBREue9UbgwTkggPbEkNTs1tSC1CCbLxMEp1cCUc+Cz2LZDf9aFBdxQYDPZ/+noE3m2//si
+        7c1vCx2bye7yMtMrPW3VMY3zBj/dF0x+f/lJJss538VsPyOf16YuSQruvG3BY33qmdoy7o4L
+        J1Z33pAwL/vXuMZwXd0cDQFD+fkPra9+fm5gtbn43g6bxyXvwvfofFyootBW//uMhfKHRfdn
+        fH/VqlYaOTvFNkzb98/mLStfmwYypzDUC/L/47KvZdn8lcPuXEWK84PYTWmhtlqvftVUrJdy
+        YCha/OBzi0urFNe6ki8PLNeLRpjzy1w9seloU6fwyy15x2bpfPU3C/L9NfPIHZXqxUf3Rzxf
+        5u4zw1z3x8GjbaffxBxnZS93e59/6s8U7rTewyuuK7EUZyQaajEXFScCALfjQbJSAwAA
+X-CMS-MailID: 20201026014834epcas1p29d483b8c2aa3d7d7f3a62f0937d3b825
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201023101247epcas1p14b14dc1be24842daac1dc7bd229d4570
+References: <20201023102632.740-1-cw00.choi@samsung.com>
+        <CGME20201023101247epcas1p14b14dc1be24842daac1dc7bd229d4570@epcas1p1.samsung.com>
+        <20201023102632.740-3-cw00.choi@samsung.com>
+        <53199cd1-772c-f30e-4f74-93572d6875cb@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds device-tree node for the Embedded Controller which is
-found on the Picasso board. The Embedded Controller itself is ENE KB930,
-it provides functions like battery-gauge/LED/GPIO/etc and it uses firmware
-that is specifically customized for the Acer A500 device.
+On 10/26/20 1:30 AM, Dmitry Osipenko wrote:
+> 23.10.2020 13:26, Chanwoo Choi пишет:
+>> @@ -909,6 +915,8 @@ struct devfreq *devfreq_add_device(struct device *dev,
+>>  		goto err_init;
+>>  	}
+>>  
+>> +	create_sysfs_files(devfreq, governor);
+>> +
+>>  	devfreq->governor = governor;
+>>  	err = devfreq->governor->event_handler(devfreq, DEVFREQ_GOV_START,
+>>  						NULL);
+> 
+> Shouldn't sysfs be created *after* GOV_START? This is inconsistent with
+> governor_store().
+> 
+> 
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Good point. Thanks for the review. I'll edit it.
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index f5c1591c8ea8..480a2221bf58 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -512,6 +512,16 @@ panel_ddc: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
-+			embedded-controller@58 {
-+				compatible = "acer,a500-iconia-ec", "ene,kb930";
-+				reg = <0x58>;
-+
-+				system-power-controller;
-+
-+				monitored-battery = <&bat1010>;
-+				power-supplies = <&mains>;
-+			};
- 		};
- 	};
- 
-@@ -794,6 +804,13 @@ backlight: backlight {
- 		default-brightness-level = <20>;
- 	};
- 
-+	bat1010: battery-2s1p {
-+		compatible = "simple-battery";
-+		charge-full-design-microamp-hours = <3260000>;
-+		energy-full-design-microwatt-hours = <24000000>;
-+		operating-range-celsius = <0 40>;
-+	};
-+
- 	/* PMIC has a built-in 32KHz oscillator which is used by PMC */
- 	clk32k_in: clock@0 {
- 		compatible = "fixed-clock";
 -- 
-2.27.0
-
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
