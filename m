@@ -2,92 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CD6F29CB8F
-	for <lists+linux-tegra@lfdr.de>; Tue, 27 Oct 2020 22:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 738D229CD2A
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 02:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S374521AbgJ0Vwm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 27 Oct 2020 17:52:42 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46836 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2902336AbgJ0Vwl (ORCPT
+        id S1726160AbgJ1Bih (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 27 Oct 2020 21:38:37 -0400
+Received: from mail-pl1-f171.google.com ([209.85.214.171]:37694 "EHLO
+        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1833047AbgJ0XmA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 27 Oct 2020 17:52:41 -0400
-Received: by mail-lj1-f195.google.com with SMTP id 2so3437882ljj.13;
-        Tue, 27 Oct 2020 14:52:39 -0700 (PDT)
+        Tue, 27 Oct 2020 19:42:00 -0400
+Received: by mail-pl1-f171.google.com with SMTP id b12so1591957plr.4;
+        Tue, 27 Oct 2020 16:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EOfn+rTY41ZPk98ImlWCzM2uVjjLkgWeTbnbpRiwx94=;
-        b=B4QspCpfrLoBxm8nbt/nY6Vc6pvrNIWz0XoyVAv6U5qDKlIhEpSOmL5MULuDcdRz4J
-         NdVU97JPLEFFINpxs1bR7kXaAKKRc5t1LCYjmSEpeV3k25tRxIfa+w5hulTco0XoPAL5
-         NuYRujrqdYbq/2dROB5gt/BTZEUgllml+clfdS5r0UrbBpE1TBOBE+/PavDPL2xwqXQC
-         X3UQBo8IKouDxrYKv17oC5H+7ff5WfzODsT8VtCHUrF6PnvPf8QBTXbyxtNZxLCHJioF
-         z5+/59liqD8IS9SzzLvJrOgdyLJ3wnvNbwVfCnJVNKk24nRT7n3gjTF0PfTy6hhJpJeE
-         /YcA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ynb4UQ8S1YR6TC4mLp5F2oEOuOqDNBlQqTE5eCrKodc=;
+        b=QmsCsK07u1upUbKJ3/TVXCAA5ErdQLGEprK56zQVS78qOs6fuMZO8dB2hSooDymuvH
+         QQvEBLdQnq7nLkw8qMMBixCn+LGcOfw6UVdZ8ZbisziWHnvnAvOxxBS9NWEq+a/paunx
+         zao030fDM06whyc9X0UYCvio2c5jp5CISQ+vufb/1Pc2xDF1rzmK9azx4wkknNMlYpE9
+         Tv46zGXZLlbfVd26hOQE0q8HTqZqlk9QVHHlJADESDhpPEo+WfuO3SZ+s4DbPwIPPIoT
+         hmkWl2QaSCvHFQLQakhtno44YEw6wwQzlfq3yynA9eKS3WT94kfUxlrDu/JXAWU+Uy4L
+         ox6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EOfn+rTY41ZPk98ImlWCzM2uVjjLkgWeTbnbpRiwx94=;
-        b=gaNuYylAcbUkjyS2Zztvxv351HMaLvo1yTeBHmjOJojSB+4cD95r6bFbrAqTN9bgFY
-         J1xtPZ2TTmwvMqZbaOEipVz36C2o76Fsc6XJIg4YNkdgSB9vn7mvYVXBkNzz0WlUE1Ut
-         z4/VZjpXYvheBwJrgjjnvhy9h2BLjjeOR/SXEtSlbZ21Q1e0Q7QWQR0bGG4GlNlxnrMi
-         YUsoruxdjl9SVhZjdqP+N7eKsHy5pTBv/5JyP9avxgeVd2mLh/5KfiDvvkdq8ckVexdm
-         3De2tGah4SbDhbCRF3XOKMidqMvzMa2duv0+IrNUI4Eez64RUo1G3kqyG9zoodnU6e+L
-         yuJg==
-X-Gm-Message-State: AOAM530Z3fhEcSBKEWndZ53RHz0F4BiSnKxn95Vusw0y+eqXa3RXCr35
-        cFKKeKOCIj6710yJQ1EEWWo=
-X-Google-Smtp-Source: ABdhPJxqwwB2L+NAENWqofO9hI5lVEPJjt9KYwjz/a5RXKvfYnoEDFODsN2229mWTIkaTH7zqrcUAw==
-X-Received: by 2002:a2e:8985:: with SMTP id c5mr2100186lji.406.1603835559052;
-        Tue, 27 Oct 2020 14:52:39 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-186.dynamic.spd-mgts.ru. [109.252.193.186])
-        by smtp.googlemail.com with ESMTPSA id v16sm303423lfq.68.2020.10.27.14.52.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2020 14:52:38 -0700 (PDT)
-Subject: Re: [PATCH v3 0/3] implement I2C retries for mXT1368
-To:     "Wang, Jiada" <jiada_wang@mentor.com>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     nick@shmanahar.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        erosca@de.adit-jv.com, andrew_gabbasov@mentor.com
-References: <20200930151259.18119-1-jiada_wang@mentor.com>
- <653c24a4-704a-4d65-2622-49c55a82c901@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <082b9b1c-5f89-7deb-728b-3de4339ac131@gmail.com>
-Date:   Wed, 28 Oct 2020 00:52:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ynb4UQ8S1YR6TC4mLp5F2oEOuOqDNBlQqTE5eCrKodc=;
+        b=GONUGVkg+yPqtyOGqNCG7+MWKMSWn8MYuA3h07HNryN2LQNT1XUVzjzzX4AZVOCXAx
+         rlrZRXGbYsJHp+Ini4+xah8xreH04SczDeESM+hE28uFjS2mUl7v12yCF0Xoc9CmMdIl
+         wQugmt9b+lik/EdJ7f/6TSqadfZkTg+rwUxGhv7kxmAxlLD+6yJg/w5lX0+p56NWODDE
+         0d3giUg0L7yejLb8qH6WyuKxGyb2gAtmuPbHzqaS7eFj0bwGVxI2DVLENYqBYYXvKpxw
+         e8Cn81cFsUWKD3r7MiTK6orrRk7x9dGjc3RSuoOsvwaAraqwDl4MTcwAflxWzADHM79S
+         GZXA==
+X-Gm-Message-State: AOAM533SIa3ayEKjVnxE56t51taZaScOv15NsG/7JV08LxX2ObKda4Pc
+        iQNgyk+fqVavsBqotykXFfY=
+X-Google-Smtp-Source: ABdhPJwdwQHo//JriAxA7x8WfTyAO0lWa0ziQHni2MECXRmOiEtEMumUopTUXnhVTudDEelMvXOc4w==
+X-Received: by 2002:a17:90a:498d:: with SMTP id d13mr4301628pjh.86.1603842119240;
+        Tue, 27 Oct 2020 16:41:59 -0700 (PDT)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id n1sm3208872pgl.31.2020.10.27.16.41.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 27 Oct 2020 16:41:59 -0700 (PDT)
+Date:   Tue, 27 Oct 2020 16:31:32 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>, robh+dt@kernel.org,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] dt-bindings: memory: tegra: Add missing swgroups
+Message-ID: <20201027233132.GA11164@Asurada-Nvidia>
+References: <20201008003746.25659-1-nicoleotsuka@gmail.com>
+ <20201008003746.25659-5-nicoleotsuka@gmail.com>
+ <20201009122110.GD458338@ulmo>
+ <20201009155218.GA4469@Asurada-Nvidia>
+ <20201026201758.GD248919@kozik-lap>
+ <20201027125506.GA1822510@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <653c24a4-704a-4d65-2622-49c55a82c901@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201027125506.GA1822510@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-21.10.2020 04:14, Wang, Jiada пишет:
-> Hello Dmitry and all
-> 
-> Kind reminder on this patch-set
+On Tue, Oct 27, 2020 at 01:55:06PM +0100, Thierry Reding wrote:
 
-Hello Jiada,
+> This does indeed look correct, based on what registers exist for these.
+> It'd be good to know how Nicolin expects these to be used, since these
+> are currently not listed in device tree. There's certainly some like
 
-Thinking a bit more about these patches, I'm coming back to the variant
-with the atmel,wakeup-method property. There are three possible wake-up
-variants for mXT1368:
+Judging from our downstream code, I don't actually expect all of
+them will be used, except some being used yet not got upstream.
 
-  - NONE
-  - GPIO
-  - I2C-SCL
+> TSEC or NVDEC that we don't support (yet) upstream, but things like DC1
+> and HC1 already have equivalents that we use, so I'm not sure how we'll
+> integrate these new ones.
 
-and this series covers only the I2C-SCL.
-
-I was also skimming through datasheets of other maxtouch touchscreens
-and noticed that the retries aren't unique to mXT1368. For example
-mXT3432 controller also needs exactly the same retrying logic.
-
-Hence I think it should be better if we could generalize the
-wakeup-method in the device-tree. What do you think?
+Downstream code groups those equivalents swgroups, so I think we
+can do similarly using tegra_smmu_group_soc like the existing one
+for display, if any of them gets upstream someday.
