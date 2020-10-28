@@ -2,94 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 974FC29D5E1
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 23:09:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D32529D961
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 23:54:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730335AbgJ1WJc convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 28 Oct 2020 18:09:32 -0400
-Received: from mail-lf1-f50.google.com ([209.85.167.50]:32804 "EHLO
-        mail-lf1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728604AbgJ1WJ3 (ORCPT
+        id S2389724AbgJ1Wyu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 18:54:50 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16472 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733260AbgJ1Wyq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:09:29 -0400
-Received: by mail-lf1-f50.google.com with SMTP id l2so814986lfk.0;
-        Wed, 28 Oct 2020 15:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=vP95c5G5AiWt8jFAMoFHGwxXSql0kCQrJ9xpkPgq6gg=;
-        b=HUEdEcL9oWOFN5GZBxdIaZuS75HZc1SpYh+XPYjnnLFtT7U0bcCPzpa2vlhwDxDdgk
-         yvYmhzdZIGzCPDQKugnJKn3R6erxAIXZYB6L5asjmhG+CNN3o8TOjW+DK110SCBYvO94
-         Thd+bpYWL74XjThcUosC0busfnRzkPQC+MmY97PSEALfA758uf2gLrKzegXjCSZbvZKL
-         NI2/QBv5TVO2dB3fn0j8dZuoTkBLj5rE1VI1e3Kf6UDmj3dBUyhbM8JfOl3jY7YWVotv
-         SI9tuug6nOZPt+NM8OhLG6cVNwMHV452ldJaNOcksWdHTvSwVTS1VZInkVyrTQI8AkIy
-         P2Gg==
-X-Gm-Message-State: AOAM5334bepW508TC6pThlk8737l4d4hm0IKTe5aplq3YlflMwF8IDXg
-        FOMUWXzU1pDtlsM3JnuAXfN8th22ngJeOQ==
-X-Google-Smtp-Source: ABdhPJyHdwuuiwRcW53qYzu6ELBzFaASak8bZZ7cUJm7qaJ+2lCiPhJEUbxJ3cDKZqX83Q9tfRG3aQ==
-X-Received: by 2002:a05:6402:134c:: with SMTP id y12mr460552edw.344.1603913305471;
-        Wed, 28 Oct 2020 12:28:25 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.184])
-        by smtp.googlemail.com with ESMTPSA id p1sm261722ejd.33.2020.10.28.12.28.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 12:28:23 -0700 (PDT)
-Date:   Wed, 28 Oct 2020 20:28:21 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 41/52] memory: tegra124-emc: Use
- devm_platform_ioremap_resource()
-Message-ID: <20201028192821.GB170285@kozik-lap>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-42-digetx@gmail.com>
- <20201027102707.GC17089@kozik-lap>
- <d79e4972-acf9-f889-50b8-f0829a0e8e08@gmail.com>
+        Wed, 28 Oct 2020 18:54:46 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f9964a70001>; Wed, 28 Oct 2020 05:31:35 -0700
+Received: from [10.26.45.122] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 12:31:30 +0000
+Subject: Re: [PATCH V2] cpufreq: tegra186: Fix initial frequency
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+CC:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200824145907.331899-1-jonathanh@nvidia.com>
+ <20200825055003.qfsuktsv7cyouxei@vireshk-i7>
+ <09ac354e-a55b-5300-12ae-3f24c8f8b193@nvidia.com>
+ <20201016040700.wzfegk7hmabxgpff@vireshk-i7>
+ <9c37db70-9406-8005-3478-dc4a5e94c566@nvidia.com>
+ <c6ab92fe-e5ea-4568-6457-7a28c8496114@nvidia.com>
+ <20201028041152.733tkghz4vnqz2io@vireshk-i7>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <382ba642-dbea-c36a-0c71-6e91ccb7b775@nvidia.com>
+Date:   Wed, 28 Oct 2020 12:31:28 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <d79e4972-acf9-f889-50b8-f0829a0e8e08@gmail.com>
+In-Reply-To: <20201028041152.733tkghz4vnqz2io@vireshk-i7>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603888295; bh=WzzOaEYzIzsUI3cCl2d2uX4B6nM/EI/XkOk1VFdax78=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=Qitm16SUB86mjL+1uY8ctmLnjoeRyRtQ7q3QyhEocvw1dN2ObM8q4aqz+9Wky2kl2
+         DGwT+i5qqMWzB+LlDtkjFxwn86PfWN2tk8GCtyx8yRqIza+j6Ki4f1mZoUHZ2oqVtU
+         x2LcYeP1AG1x9lByZlAfYdpzuFaaivHUwVnj4cOlsSZwrlHFiTCBI5fBNiIJleIOdc
+         XbUZRui/wbJ7eqK2khGoaqy3E3bQYUQZl7jBVF/2km4aH5xemVDJAhcqA5barRBTHd
+         N6DB/GSWllOm6FooPVtMx5+qlPA7WyIs1G6TSjKtsWR3wjGWAwOYZn5L00Qk9/WeIf
+         PUFmVIB3jarYw==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 11:30:31PM +0300, Dmitry Osipenko wrote:
-> 27.10.2020 13:27, Krzysztof Kozlowski пишет:
-> > On Mon, Oct 26, 2020 at 01:17:24AM +0300, Dmitry Osipenko wrote:
-> >> Use devm_platform_ioremap_resource() helper which makes code a bit
-> >> cleaner.
-> > 
-> > Such cleanups (and few other in this patchset) should be at beginning of
-> > patchset or even as part of a separate one.  I think there is not much
-> > stopping anyone from applying these... except that you put them in the
-> > middle of big dependency.
+
+
+On 28/10/2020 04:11, Viresh Kumar wrote:
+> On 26-10-20, 12:57, Jon Hunter wrote:
+>> Thinking about this some more, what are your thoughts on making the
+>> following change? 
+>>
+>> Basically, if the driver sets the CPUFREQ_NEED_INITIAL_FREQ_CHECK,
 > 
-> Some of these cleanup patches can't be applied separately without a need
-> to make a rebase. I think it should be more preferred to have all the
-> patches within a single series.
+> This flag only means that the platform would like the core to check
+> the currently programmed frequency and get it in sync with the table.
+
+Yes exactly.
+
+>> then I wonder if we should not fail if the frequency return by
+>>> get() is not known.
 > 
-> I'll try to reorder the patches in v7 if this will ease the review, thanks.
+> When do we fail if the frequency isn't known ? That's the case where
+> we try to set it to one from the table.
 
-If feasible, that would be good. Thanks.
+Currently, if the frequency is not known, we fail right before we do the
+initial frequency check [0].
 
-Best regards,
-Krzysztof
+> But (looking at your change), ->get() can't really return 0. We depend
+> on it to get us the exact frequency the hardware is programmed at
+> instead of reading a cached value in the software.
 
+Actually it can and it does currently. Note in tegra186_cpufreq_get()
+the variable 'freq' is initialised to 0, and if no match is found, then
+it returns 0. This is what happens currently on some Tegra186 boards.
+
+>>> This would fix the problem I see on Tegra186
+>> where the initial boot frequency may not be in the frequency table.
+> 
+> With current mainline, what's the problem you see now ? Sorry I missed
+> track of it a bit :)
+
+No problem, this has been an on-going saga now for sometime.
+
+Cheers
+Jon
+
+[0]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/cpufreq/cpufreq.c#n1429
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/cpufreq/tegra186-cpufreq.c#n95
+
+-- 
+nvpublic
