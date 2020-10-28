@@ -2,131 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D5C29DC79
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 01:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7306529DC31
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 01:22:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388285AbgJ1WdU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 28 Oct 2020 18:33:20 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39519 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388260AbgJ1WdT (ORCPT
+        id S2388932AbgJ2AWN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 20:22:13 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1416 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388928AbgJ1WiG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:33:19 -0400
-Received: by mail-wr1-f67.google.com with SMTP id y12so734421wrp.6;
-        Wed, 28 Oct 2020 15:33:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9qMkACaxgBFGgp14/y74BYPbOoZe+yAscejmhiaaiHI=;
-        b=ToJRGbqWsOr5Tp0L0JDERd4/O/4KaV7gpvowMalTqutn+Bl3QeJ+jhBEUCj+LLX4mr
-         o+9MsOQjVNEg8bjb3mjmtVi8oNoODDyWg1j9QrlRJ/wlYdJpLzm/6h6Ki0R8XkqaIEK5
-         POxWy7Alag9mk20LJQRniaaJMfEWf2PwxaOEY/mdxe4COvcR0cYfRnp8MQRlQ4+3uBCZ
-         LfIcLmFUmIkhX6k9v7GHsdNn6wrPnskjbaabj1Ag0iJhLq7UB588yhqqWiSDBflG+46g
-         KWygY9/3GJwrxQMuFPFq+BrFgWSCFHCLqzZIfe3Y6Dya6M1AnOwMbM7PQpY9koYA0JOz
-         K4Iw==
-X-Gm-Message-State: AOAM531s2Bx6kOk3O7V0ebu9O1rxbrtdhouUSSYezSUQvzs5KNCwMIMy
-        4QPlg2QV2jHE/FZMijIzJhgPQTBjpimaSg==
-X-Google-Smtp-Source: ABdhPJzFsqaQeMhmEXSs9UrGO3Kmxrx9OhwqKP85Emfcv2bhHljDeQGLFfXI3feKDEwi+e1eh+cN1w==
-X-Received: by 2002:a50:d987:: with SMTP id w7mr441293edj.113.1603913252990;
-        Wed, 28 Oct 2020 12:27:32 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.184])
-        by smtp.googlemail.com with ESMTPSA id y14sm205006edo.69.2020.10.28.12.27.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 12:27:31 -0700 (PDT)
-Date:   Wed, 28 Oct 2020 20:27:29 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 13/52] dt-bindings: memory: tegra124: emc: Document
- new interconnect property
-Message-ID: <20201028192729.GA170285@kozik-lap>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-14-digetx@gmail.com>
- <20201027102506.GB17089@kozik-lap>
- <f38984b6-d53f-a43d-0387-e787b3c1924d@gmail.com>
- <20201027194833.GE140636@kozik-lap>
- <0a7aeebf-c5ab-13ea-3927-fa39512afd87@gmail.com>
+        Wed, 28 Oct 2020 18:38:06 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f99c6540000>; Wed, 28 Oct 2020 12:28:20 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 19:28:14 +0000
+Received: from jonathanh-vm-01.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 28 Oct 2020 19:28:13 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.4 000/112] 4.4.241-rc1 review
+In-Reply-To: <20201027134900.532249571@linuxfoundation.org>
+References: <20201027134900.532249571@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <0a7aeebf-c5ab-13ea-3927-fa39512afd87@gmail.com>
+Message-ID: <9ed8282dad0e4d2a8584c7f945df05d6@HQMAIL107.nvidia.com>
+Date:   Wed, 28 Oct 2020 19:28:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603913300; bh=gAZ5V/I4BBHhmGZ3N8pIk1htc5MMgW9nFziEoxfx9Lw=;
+        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
+         Date;
+        b=BJvj4eC/IEBG2DVyRslPcwaTbYmpFB5ukxToC/n40BDEYfVP/QDJdMZ0QxKjqnkZU
+         zpUCMZlZNBneo9/PutyR4drbmyHlIjlcgPTg/e00ewD+k3o9Oa87i50I1Jyh2u91EL
+         VbVVCQ01YOUIJfwPxlME1SBkZtq3V5d1U/l+P49UJ9qRm2s43MUtEnotj8OchPzmLB
+         /slsrxjfDmudIU8vq81zE6haZOtKRa+qgIM5WGRvEAcRzjl8ThoCXo+cG0w3mXX16L
+         MprVttWFsOHkyMS1Sm7QwWQwmhSBz7/KTKeJKT/nLIZch94S5wFOpeFbaSSWrpUqEn
+         xUGFibgdfJ8Vg==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 11:16:29PM +0300, Dmitry Osipenko wrote:
-> 27.10.2020 22:48, Krzysztof Kozlowski пишет:
-> > On Tue, Oct 27, 2020 at 10:19:28PM +0300, Dmitry Osipenko wrote:
-> >> 27.10.2020 13:25, Krzysztof Kozlowski пишет:
-> >>> On Mon, Oct 26, 2020 at 01:16:56AM +0300, Dmitry Osipenko wrote:
-> >>>> External memory controller is interconnected with memory controller and
-> >>>> with external memory. Document new interconnect property which turns
-> >>>> External Memory Controller into interconnect provider.
-> >>>>
-> >>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >>>> ---
-> >>>>  .../bindings/memory-controllers/nvidia,tegra124-emc.yaml   | 7 +++++++
-> >>>>  1 file changed, 7 insertions(+)
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-> >>>> index 278549f9e051..ac00832ceac1 100644
-> >>>> --- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-> >>>> @@ -29,6 +29,9 @@ properties:
-> >>>>      items:
-> >>>>        - const: emc
-> >>>>  
-> >>>> +  "#interconnect-cells":
-> >>>> +    const: 0
-> >>>> +
-> >>>>    nvidia,memory-controller:
-> >>>>      $ref: /schemas/types.yaml#/definitions/phandle
-> >>>>      description:
-> >>>> @@ -327,6 +330,7 @@ required:
-> >>>>    - clocks
-> >>>>    - clock-names
-> >>>>    - nvidia,memory-controller
-> >>>> +  - "#interconnect-cells"
-> >>>
-> >>> Another required property, what about all existing users of this binding?
-> >>
-> >> EMC/devfreq drivers check presence of the new properties and ask users
-> >> to upgrade the DT. The kernel will continue to work fine using older
-> >> DTBs, but devfreq driver won't load.
-> > 
-> > If the devfreq was working fine before (with these older DTBs and older
-> > kernel) then you break the feature.
-> > 
-> > If devfreq was not working or was not stable enough, then nothing is
-> > broken so such change is accepted.
-> > 
-> > Which one is then?
+On Tue, 27 Oct 2020 14:48:30 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.241 release.
+> There are 112 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Definitely the latter. The current devfreq works okay'ish, but we rely
-> on hardware to recover from temporal FIFO underflows and it's a
-> user-visible problem which this series addresses.
+> Responses should be made by Thu, 29 Oct 2020 13:48:36 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.241-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-I understand. Fine with me, thanks for explanation.
+All tests passing for Tegra ...
 
-Best regards,
-Krzysztof
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    25 tests:	25 pass, 0 fail
 
+Linux version:	4.4.241-rc1-gb3d9b0c29dc8
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
