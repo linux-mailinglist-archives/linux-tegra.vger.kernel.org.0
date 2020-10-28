@@ -2,83 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A2229D3FD
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 22:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBBC29D4CD
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 22:54:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbgJ1VdT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Oct 2020 17:33:19 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:43971 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725979AbgJ1VdP (ORCPT
+        id S1728295AbgJ1VwS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 17:52:18 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12039 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728025AbgJ1VwR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:33:15 -0400
-Received: by mail-yb1-f194.google.com with SMTP id d15so392233ybl.10;
-        Wed, 28 Oct 2020 14:33:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nlJqqXXAH1t+pt7s0ccAWf7pcAID62bNuJtmD6PRncE=;
-        b=A7uIJO5L/ESrMYJbIAs9pb4sjGPenFSovbWB7VHfAvMfAIYeBaTKmHhpoxBwVkao6G
-         7ikFU4GeOWYFdRLu5QJgJ7j5BnuDaEhn2wF6/Umk+TzrMgr3iRFVAj5yVAK3bJF/OPyd
-         nx7VU9oVCTpBuZ6zkZkhdWSW8VxCCWdcUz/4SGJnW7qJkK268XjNZI11MTCeoF63nXhu
-         nFVn9sw8ju458ocL62tqP7W8oIs0EGCdj0G5FZm24I59fXqLwFlO6JN4ij6UucI9rc7D
-         /hYQ1LhMH+JAbs4rwLJ1a++kNa79XtCykIfGsF2o8Z2Fmf8glqWZGvTzrQZJlqPC6uaO
-         uY0g==
-X-Gm-Message-State: AOAM53215hzBxxfAMkozQo7OEYPqC9IiNvHTu7m2z9JVxiNCcOpkCNLP
-        tHFgvk8YAbZ3ugJMx/13Hl75J6ALjg==
-X-Google-Smtp-Source: ABdhPJy5UQJsgQmDLtE/+RjvN2Lhxh8sG17+hq4U7TOgu5yrnYqg9JmwYnTRx0VJDOZqz6UR5e+hJA==
-X-Received: by 2002:a9d:172f:: with SMTP id i47mr5804523ota.74.1603898986343;
-        Wed, 28 Oct 2020 08:29:46 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h6sm2714750oia.51.2020.10.28.08.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 08:29:45 -0700 (PDT)
-Received: (nullmailer pid 4059166 invoked by uid 1000);
-        Wed, 28 Oct 2020 15:29:44 -0000
-Date:   Wed, 28 Oct 2020 10:29:44 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Viresh Kumar <vireshk@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v6 11/52] dt-bindings: memory: tegra30: emc: Document OPP
- table and voltage regulator
-Message-ID: <20201028152944.GA4059076@bogus>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-12-digetx@gmail.com>
+        Wed, 28 Oct 2020 17:52:17 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f99c68b0000>; Wed, 28 Oct 2020 12:29:15 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 19:29:35 +0000
+Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 28 Oct 2020 19:29:35 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.9 000/139] 4.9.241-rc1 review
+In-Reply-To: <20201027134902.130312227@linuxfoundation.org>
+References: <20201027134902.130312227@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201025221735.3062-12-digetx@gmail.com>
+Message-ID: <7b2a57a88c414dc9ad768677907e3671@HQMAIL105.nvidia.com>
+Date:   Wed, 28 Oct 2020 19:29:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603913355; bh=zuBOEKOIxBOIo5Ntq95iJAzkvIxei5tK6Nbd0DUMBIw=;
+        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
+         Date;
+        b=hN3ABikBDBSLcVco779pyOCf3b65Bhtpam9nqWTZgpt9V5/FAl7Z1Uo3+5BKdAVxs
+         xEal52trBbMilYQJv7+uuCrwvvvJ999hhKay+9GrxJpbGPQC/i4YBuZ+woylkZnqRe
+         TCju3TVatcLh7UIFIaiR/q4lmPcyTCeYCcvr246azfYX9kFsV84Xh+U7T0tzG1svIW
+         iZiiBOJXjVw/67vvZ3YzYMlH0xsGhPHoLbCctCVpNZ+sJR7id9s5ZzRVr8Ba2077YZ
+         uZrW1SfEJ3WDzR3hKPmNCeMxvsBXTiwYWlySSuQRIblKDtVdkngbwgSy2fOTYAmS+H
+         PJPg7s2yH8Rdg==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 26 Oct 2020 01:16:54 +0300, Dmitry Osipenko wrote:
-> Document new OPP table and voltage regulator properties which are needed
-> for supporting dynamic voltage-frequency scaling of the memory controller.
-> Some boards may have a fixed core voltage regulator, hence it's optional
-> because frequency scaling still may be desired.
+On Tue, 27 Oct 2020 14:48:14 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.9.241 release.
+> There are 139 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  .../memory-controllers/nvidia,tegra30-emc.yaml       | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> Responses should be made by Thu, 29 Oct 2020 13:48:36 +0000.
+> Anything received after that time might be too late.
 > 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.241-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+All tests passing for Tegra ...
+
+Test results for stable-v4.9:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    30 tests:	30 pass, 0 fail
+
+Linux version:	4.9.241-rc1-g97bfc73b33b5
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
