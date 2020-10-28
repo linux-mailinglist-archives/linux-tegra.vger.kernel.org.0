@@ -2,96 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9459029DC2D
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 01:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AADCE29DBFA
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 01:18:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390771AbgJ2AWN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Oct 2020 20:22:13 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1414 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388930AbgJ1WiG (ORCPT
+        id S2389214AbgJ1Wq1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 18:46:27 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:39256 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389132AbgJ1Wq1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:38:06 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f9937530001>; Wed, 28 Oct 2020 02:18:11 -0700
-Received: from [10.2.171.164] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
- 2020 09:18:01 +0000
-Subject: Re: [PATCH v4 10/16] dt-bindings: phy: tegra-xusb: Add nvidia,pmc
- prop
-To:     Rob Herring <robh@kernel.org>, <thierry.reding@gmail.com>
-CC:     <gregkh@linuxfoundation.org>, <jonathanh@nvidia.com>,
-        <kishon@ti.com>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>
-References: <20201016130726.1378666-1-jckuo@nvidia.com>
- <20201016130726.1378666-11-jckuo@nvidia.com> <20201019214046.GA3645734@bogus>
-X-Nvconfidentiality: public
-From:   JC Kuo <jckuo@nvidia.com>
-Message-ID: <4d190cc1-d01d-9064-0b28-ed7f48858ebd@nvidia.com>
-Date:   Wed, 28 Oct 2020 17:18:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 28 Oct 2020 18:46:27 -0400
+Received: by mail-oi1-f194.google.com with SMTP id u127so1276251oib.6;
+        Wed, 28 Oct 2020 15:46:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6CzfvnivIEtvj6xKXXqKUjstXdtKoBRAAdit4qN1a2I=;
+        b=TANWwb/Q46eeKQrzUUvsUW5/Wyh401T0N3Ntu7e77muax5MRoSgOhHEBA0pxzS9dK+
+         YhOWRsp9ghpY+8RBoSbmjcH9f6/LzX4qJa4hneI/YR/QR9t+lY1xVwnyBtQdAXejK1mQ
+         xBy7RKYl1DOCSgyjkAtN/1GmzUqOyWpAI5AgtN0lBnjQQn0gkpBoWhv/Nt95NnDhXiCL
+         efpEqCcKQk2JdIz1LtIlNDRIVBsDEy2KPrqC8/OSkEtapnvijPHo1VVF8Q1HaxSMA4iQ
+         DK0eLANuK9KE9qKD5dGfvKLiQTpeQ6sdvkVyaiFFRI/PTBl4jB5fzC5CxNK4abL7LxBR
+         koKQ==
+X-Gm-Message-State: AOAM532/h0OyBvvQbMknI0Q6wEKR1pLREOjUZR32K8jYYPWE3akwYCBA
+        t1Jollp86F+8rzW+BFnelSDDRI0X7A==
+X-Google-Smtp-Source: ABdhPJxE9oU+7OVIoCWc40SC7yS+EHHKpQBId3YfoudCOvuyyuURrzX+lBd6EBrH1r3aDJcLC8qKgw==
+X-Received: by 2002:aca:bfc2:: with SMTP id p185mr5868175oif.60.1603899057838;
+        Wed, 28 Oct 2020 08:30:57 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id h14sm2078172otl.0.2020.10.28.08.30.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 08:30:57 -0700 (PDT)
+Received: (nullmailer pid 4060952 invoked by uid 1000);
+        Wed, 28 Oct 2020 15:30:56 -0000
+Date:   Wed, 28 Oct 2020 10:30:56 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        dri-devel@lists.freedesktop.org, Viresh Kumar <vireshk@kernel.org>,
+        linux-tegra@vger.kernel.org,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>, linux-pm@vger.kernel.org,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v6 15/52] dt-bindings: tegra30-actmon: Document OPP and
+ interconnect properties
+Message-ID: <20201028153056.GA4060899@bogus>
+References: <20201025221735.3062-1-digetx@gmail.com>
+ <20201025221735.3062-16-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201019214046.GA3645734@bogus>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1603876691; bh=Uicj8tp9XPp1EuN3JiOQD2NdkQG03jiexELbBTYXEFQ=;
-        h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=lCmm40q1pu/ss7empc91Sutt+HYjjOzzxXrZuqa59DIk+5YYJRBGBEU/rGxyI0PqZ
-         zlRqu9mMCv72cKIjAgLv2524f3MbhSAMJG73Bj3CGt7Bdddc2YINS8Rw5WtY3IXQ9D
-         1lAyChykD8CarsLI3vVHxCN70Fkf5DpVZifL017dGi1uBBOEcLxAbReMXAl2Xy+A7m
-         BOhOYGLtGGVTMzpek8DZ+qtGmpPKPWTEZyNSXv+TPVjF7yVeTMT52o/kVJQmFHh936
-         9E3gyu+qopP8HWSF1fXuTGG76wpdHxqdo7yaItJPAmeyOvpWh4wP1vE8hxyWLj91s5
-         zbFQogP8F0/Ow==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201025221735.3062-16-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/20/20 5:40 AM, Rob Herring wrote:
-> On Fri, Oct 16, 2020 at 09:07:20PM +0800, JC Kuo wrote:
->> This commit describes the "nvidia,pmc" property for Tegra210 tegra-xusb
->> PHY driver. It is a phandle and specifier referring to the Tegra210
->> pmc@7000e400 node.
->>
->> Signed-off-by: JC Kuo <jckuo@nvidia.com>
->> ---
->> v4:
->>    new change to document "nvidia,pmc" prop
->>
->>  .../devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt      | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
->> index 38c5fa21f435..ea559baeb546 100644
->> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
->> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
->> @@ -54,6 +54,7 @@ For Tegra210:
->>  - avdd-pll-uerefe-supply: PLLE reference PLL power supply. Must supply 1.05 V.
->>  - dvdd-pex-pll-supply: PCIe/USB3 PLL power supply. Must supply 1.05 V.
->>  - hvdd-pex-pll-e-supply: High-voltage PLLE power supply. Must supply 1.8 V.
->> +- nvidia,pmc: phandle and specifier referring to the Tegra210 pmc@7000e400 node.
+On Mon, 26 Oct 2020 01:16:58 +0300, Dmitry Osipenko wrote:
+> Document EMC DFS OPP table and interconnect paths that will be used
+> for scaling of system's memory bandwidth based on memory utilization
+> statistics. Previously ACTMON was supposed to drive EMC clock rate
+> directly, but now it should do it using interconnect framework in order
+> to support shared voltage scaling in addition to the frequency scaling.
 > 
-> 'Tegra210 pmc@7000e400' is kind of specific. Going to update this for 
-> every address and chip?
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../arm/tegra/nvidia,tegra30-actmon.txt       | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > 
-> If there's only one PMC, you can just find the compatible PMC node. Then 
-> you don't need a DT update.
-> 
-> Rob
-> 
-Hi Rob,
-Thanks for your review and suggestion. Yes, there is only one PMC node. You mean
-I can retrieve the PMC node with the following code and if do do DT update is
-not required, right?
 
-	np = of_find_compatible_node(NULL, NULL, "nvidia,tegra210-pmc");
-
-JC
+Reviewed-by: Rob Herring <robh@kernel.org>
