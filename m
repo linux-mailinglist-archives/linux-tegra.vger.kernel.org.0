@@ -2,81 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD8D29D98C
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 23:56:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89AB229D962
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 23:54:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389789AbgJ1Wz7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Oct 2020 18:55:59 -0400
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:35095 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389664AbgJ1Wx3 (ORCPT
+        id S2389716AbgJ1Wyu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 18:54:50 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16473 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389711AbgJ1Wyq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:53:29 -0400
-Received: by mail-oo1-f66.google.com with SMTP id n16so284666ooj.2;
-        Wed, 28 Oct 2020 15:53:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Z8qRO5fdt5NREdYFOvySAdOEhiWbrwmj4h+0kAQzcnw=;
-        b=jr7aYC4G57UCx1wz5KzVb62CyX+HTf9ssaVUqQNR9goooEQas0KlupcDB1NjtjoX3y
-         cZwA5swuYm7fC4ViEXbITJkdW2wRjfnvJPul1oAHGjrm//EEbIenMzRw1ZFeUpDyjx93
-         uP63t5uBfNknYx3ahBf5h0dxyf47O8iR6xrBz+8fuN++ui9azMWVR9kbrYIbvMKDknpV
-         8LJM5QSRr55LD53dMzLXda/lXqODG2y0OC0eMXnJGj0Hi5qCEOVvE0gsSWZ/GimQG3E4
-         P0tPBaXuOL98ueFG1NUZOScmQgOmkrvHW6nVP72DAeAOWMN9I9pDAl3ioj481qfj//kf
-         GsmQ==
-X-Gm-Message-State: AOAM532F3BonZpO5NHt+QDJC8A6oVkKpN3AOPU/JjDeBEEtgt8CJwxtK
-        DB1woXCt2+PWQ9TwRbdnchq5GQ4SQw==
-X-Google-Smtp-Source: ABdhPJz4rAItM9Tjr+B041aWkQLcJ4P9I8LjHRMJj9yAlwEt4a/QxGWhvpDv4Tv7mKuo7b3lREU2dg==
-X-Received: by 2002:a05:6830:144b:: with SMTP id w11mr5358743otp.82.1603899076759;
-        Wed, 28 Oct 2020 08:31:16 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 105sm2094205otf.52.2020.10.28.08.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 08:31:15 -0700 (PDT)
-Received: (nullmailer pid 4061457 invoked by uid 1000);
-        Wed, 28 Oct 2020 15:31:14 -0000
-Date:   Wed, 28 Oct 2020 10:31:14 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        linux-kernel@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 19/52] dt-bindings: memory: tegra124: Add memory
- client IDs
-Message-ID: <20201028153114.GA4061412@bogus>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-20-digetx@gmail.com>
+        Wed, 28 Oct 2020 18:54:46 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f99c6a20000>; Wed, 28 Oct 2020 12:29:38 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 19:29:34 +0000
+Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 28 Oct 2020 19:29:34 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.19 000/264] 4.19.153-rc1 review
+In-Reply-To: <20201027135430.632029009@linuxfoundation.org>
+References: <20201027135430.632029009@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201025221735.3062-20-digetx@gmail.com>
+Message-ID: <4df1955a86a94ebfb6ef8451bf75f57f@HQMAIL105.nvidia.com>
+Date:   Wed, 28 Oct 2020 19:29:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603913378; bh=C3GTybsBopaTeKN6PjLOFYbGJ2BKk9Lvc0uvQ3b5/8c=;
+        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
+         Date;
+        b=h/RpJarZf55+iT0V6NeVpKpg0RQ7KIHxI+Xbu0Gn/qv80Cb3C0IZQhzCtp61sol3A
+         AeQm6TdXizIPs9TOeQo96MW/tYd59cKJq8KVXdXEpkX0H/PBAJJXW/5C79LMiLY+Mp
+         0wRhh5uwIDJWoGW3jlGA4LYmv8raEmuNv0ALMLF+yquP649ErcP5Qe26iId2dKH80r
+         Oth3aL1SLZCzwbdEuztfrOuege5jFcCNUJ89+XvDgF6+S7OAa0LLlRTpzu0diKOsAp
+         zcbV7gqZzLikvXat6hZPFqYcJIj6SOzjlrmqrmXDDNRsEwt2sJ7iocvVY0EDZk9aup
+         2sQvYVo1Tk7qA==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 26 Oct 2020 01:17:02 +0300, Dmitry Osipenko wrote:
-> Each memory client have a unique hardware ID, this patch adds these IDs.
+On Tue, 27 Oct 2020 14:50:58 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.153 release.
+> There are 264 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  include/dt-bindings/memory/tegra124-mc.h | 68 ++++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
+> Responses should be made by Thu, 29 Oct 2020 13:53:47 +0000.
+> Anything received after that time might be too late.
 > 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.153-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+All tests passing for Tegra ...
+
+Test results for stable-v4.19:
+    15 builds:	15 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    38 tests:	38 pass, 0 fail
+
+Linux version:	4.19.153-rc1-g8919185062d4
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
