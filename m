@@ -2,97 +2,176 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D1929DF0D
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 01:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8761E29DFC8
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 02:04:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403865AbgJ2A67 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Oct 2020 20:58:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731592AbgJ2A66 (ORCPT
+        id S2404123AbgJ2BE3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 21:04:29 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40036 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729465AbgJ1WGQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 20:58:58 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F65CC0613CF;
-        Wed, 28 Oct 2020 17:58:58 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id y14so900103pfp.13;
-        Wed, 28 Oct 2020 17:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=QXZW3YRniP2oFz8GgSPBsCUD7y+Lc+Kxo6AM/U3WDKg=;
-        b=aD2Q4zyGY7pl2vRzW3Lqto70bdEXz+rEqmitWIloR2NIklBwD1IqzezdsDGc/m/uOt
-         AUx7OLTMusO/FlXpctRhC2xZZ0KyXAMpMjkOWUOz38Xz8mMSLmzuk4JrkEFoClgdFD8r
-         9uyFPaoLx/4F+dWqyoMqsLAsHWRvx6LuMJqUXAo1No2MxUOwYvE4DXiYO5zVoi5WEVV6
-         aGytRsoGuXYjFkAPKcnXhKNmf2woEdPWqn3YjhVVJLLf6V63Oxgf3QzQfX/BdTicjvcL
-         qPXSO++B2LGlW3IxRzb/Zm2bsobLGM8HskDLOzyjBUE9QFTvQKn2tWm+buVYy+aL1KmB
-         9hSg==
+        Wed, 28 Oct 2020 18:06:16 -0400
+Received: by mail-oi1-f196.google.com with SMTP id m128so1173923oig.7;
+        Wed, 28 Oct 2020 15:06:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=QXZW3YRniP2oFz8GgSPBsCUD7y+Lc+Kxo6AM/U3WDKg=;
-        b=TCrLBhvgO63COvG7UFMAZ8QseLazNNzBj7C9UpusHirk6RSgl61DdNK9n34UK8qVfv
-         2ry26YVvGXcyNUhN5TWdEXfoFktq3YDlhdiZivq/E+zkdB6CdOIeC+j5b8Tabro9sl6u
-         ru7pppOjLW59ML9p5AK/lqH2M9tS/aT9lguuLGGcDUXWA+nebo4tWhuraWMnORAiDOUy
-         bEs2GH8TeNg80Wx5htPzJzKY5Cw+WhJU/AT0r6e39tESW9j2Jk49TkytuTU+r8hkHdpN
-         JS/gjAp0fXF17327DEd+9l+QUyGOEG5nZl2tEVQGAj75tK4uD8gTXoP2bINEjnKmeBVx
-         C02w==
-X-Gm-Message-State: AOAM533jvndUxifZ9Ec6Pmrq3qXse7YnyVIMOnRl4UGuHjeZ64QE0b27
-        P3w0iqII90tIDT9u+1Tj7vc=
-X-Google-Smtp-Source: ABdhPJwHYHtZDoWjTOFCCY0oE5fBhRiAfCMsITm7seMXgOmTo6kV1tReuWLw058ICrVo9olQUusKUw==
-X-Received: by 2002:a17:90a:c48:: with SMTP id u8mr1526949pje.121.1603933137689;
-        Wed, 28 Oct 2020 17:58:57 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id d145sm819343pfd.136.2020.10.28.17.58.56
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=C6fODSQ4vr9/XMdY27bSNaiMwe4c2CZ3zY9crW4kgXQ=;
+        b=giofxv4nCdl9rEPf+VGNNkX/x9gpPIykurn5Pf4IcN2WjrYVxfn1KX65CLar3kDq+l
+         JVFeh1R9YyeWGlOLnqrB3FvqSytHgt4Hy5QWPVg7Y0lOSOD7xpyTo3818mnuwV+aqExj
+         CStrD/ZQGl6A/ZIhJKEmkKEfVfFSc/ahn5CXXgGGoBwgYIaxYMWYD4XxUH/K7D0sxPcF
+         tfUNMRc+xYB04T7Te2JnbDxCLmMM1aqEsruUTWvHe3Yn2GW9Vbf+25FAIZmmwlBFISdj
+         sHOgAnLHK2DUT9T0Z+VUjFim/5G+HHGGU4V6pvqoUJFQ+NuELBJGnpC00JfxqGk2jf2T
+         LyXQ==
+X-Gm-Message-State: AOAM530DQLZc5aVEDcKQhDgmX6hqUlTxwtxQuH2EKEROsAxjOOwU/BFK
+        fTSaXS9+Q75pOYRLB6EofCstx1bRqQ==
+X-Google-Smtp-Source: ABdhPJzrQ/sPPiQh1XWKgR+EAUUZ9HS2ocEuKqdVfGw3aS3RICzkEg8FJnv6OaOSMDEQcXRlXFSJlA==
+X-Received: by 2002:a05:6808:198:: with SMTP id w24mr5539933oic.69.1603898917913;
+        Wed, 28 Oct 2020 08:28:37 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s20sm307873oof.39.2020.10.28.08.28.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 17:58:57 -0700 (PDT)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     jonathanh@nvidia.com, thierry.reding@gmail.com, sboyd@kernel.org,
-        mturquette@baylibre.com, pgaikwad@nvidia.com,
-        pdeschrijver@nvidia.com
-Cc:     stable@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH] clk: tegra: Do not return 0 on failure
-Date:   Wed, 28 Oct 2020 17:48:20 -0700
-Message-Id: <20201029004820.9062-1-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 28 Oct 2020 08:28:37 -0700 (PDT)
+Received: (nullmailer pid 4057539 invoked by uid 1000);
+        Wed, 28 Oct 2020 15:28:35 -0000
+Date:   Wed, 28 Oct 2020 10:28:35 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 08/52] dt-bindings: memory: tegra20: emc: Document
+ mfd-simple compatible and statistics sub-device
+Message-ID: <20201028152835.GB4051913@bogus>
+References: <20201025221735.3062-1-digetx@gmail.com>
+ <20201025221735.3062-9-digetx@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201025221735.3062-9-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Return values from read_dt_param() will be either TRUE (1) or
-FALSE (0), while dfll_fetch_pwm_params() returns 0 on success
-or an ERR code on failure.
+On Mon, Oct 26, 2020 at 01:16:51AM +0300, Dmitry Osipenko wrote:
+> External Memory Controller can gather various hardware statistics that
+> are intended to be used for debugging purposes and for dynamic frequency
+> scaling of memory bus.
+> 
+> Document the new mfd-simple compatible and EMC statistics sub-device.
 
-So this patch fixes the bug of returning 0 on failure.
+It's simple-mfd.
 
-Fixes: 36541f0499fe ("clk: tegra: dfll: support PWM regulator control")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
- drivers/clk/tegra/clk-dfll.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That should only be used if the child has no dependencies on the parent 
+node (and driver).
 
-diff --git a/drivers/clk/tegra/clk-dfll.c b/drivers/clk/tegra/clk-dfll.c
-index cfbaa90c7adb..a5f526bb0483 100644
---- a/drivers/clk/tegra/clk-dfll.c
-+++ b/drivers/clk/tegra/clk-dfll.c
-@@ -1856,13 +1856,13 @@ static int dfll_fetch_pwm_params(struct tegra_dfll *td)
- 			    &td->reg_init_uV);
- 	if (!ret) {
- 		dev_err(td->dev, "couldn't get initialized voltage\n");
--		return ret;
-+		return -EINVAL;
- 	}
- 
- 	ret = read_dt_param(td, "nvidia,pwm-period-nanoseconds", &pwm_period);
- 	if (!ret) {
- 		dev_err(td->dev, "couldn't get PWM period\n");
--		return ret;
-+		return -EINVAL;
- 	}
- 	td->pwm_rate = (NSEC_PER_SEC / pwm_period) * (MAX_DFLL_VOLTAGES - 1);
- 
--- 
-2.17.1
-
+> The subdev contains EMC DFS OPP table and interconnect paths to be used
+> for dynamic scaling of system's memory bandwidth based on EMC utilization
+> statistics.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../memory-controllers/nvidia,tegra20-emc.txt | 43 +++++++++++++++++--
+>  1 file changed, 40 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+> index 8d09b228ac42..382aabcd6952 100644
+> --- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+> @@ -4,7 +4,7 @@ Properties:
+>  - name : Should be emc
+>  - #address-cells : Should be 1
+>  - #size-cells : Should be 0
+> -- compatible : Should contain "nvidia,tegra20-emc".
+> +- compatible : Should contain "nvidia,tegra20-emc" and "simple-mfd".
+>  - reg : Offset and length of the register set for the device
+>  - nvidia,use-ram-code : If present, the sub-nodes will be addressed
+>    and chosen using the ramcode board selector. If omitted, only one
+> @@ -17,7 +17,8 @@ Properties:
+>  - core-supply: Phandle of voltage regulator of the SoC "core" power domain.
+>  - operating-points-v2: See ../bindings/opp/opp.txt for details.
+>  
+> -Child device nodes describe the memory settings for different configurations and clock rates.
+> +Child device nodes describe the memory settings for different configurations and clock rates,
+> +as well as EMC activity statistics collection sub-device.
+>  
+>  Example:
+>  
+> @@ -31,17 +32,34 @@ Example:
+>  		...
+>  	};
+>  
+> +	emc_bw_dfs_opp_table: emc_opp_table1 {
+> +		compatible = "operating-points-v2";
+> +
+> +		opp@36000000 {
+> +			opp-hz = /bits/ 64 <36000000>;
+> +			opp-peak-kBps = <144000>;
+> +		};
+> +		...
+> +	};
+> +
+>  	memory-controller@7000f400 {
+>  		#address-cells = < 1 >;
+>  		#size-cells = < 0 >;
+>  		#interconnect-cells = < 0 >;
+> -		compatible = "nvidia,tegra20-emc";
+> +		compatible = "nvidia,tegra20-emc", "simple-mfd";
+>  		reg = <0x7000f400 0x400>;
+>  		interrupts = <0 78 0x04>;
+>  		clocks = <&tegra_car TEGRA20_CLK_EMC>;
+>  		nvidia,memory-controller = <&mc>;
+>  		core-supply = <&core_vdd_reg>;
+>  		operating-points-v2 = <&emc_icc_dvfs_opp_table>;
+> +
+> +		emc-stats {
+> +			compatible = "nvidia,tegra20-emc-statistics";
+> +			operating-points-v2 = <&emc_bw_dfs_opp_table>;
+> +			interconnects = <&mc TEGRA20_MC_MPCORER &emc>;
+> +			interconnect-names = "cpu";
+> +		};
+>  	}
+>  
+>  
+> @@ -120,3 +138,22 @@ Properties:
+>  						 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+>  						 0 0 0 0 >;
+>  		};
+> +
+> +
+> +
+> +Embedded Memory Controller statistics gathering sub-device
+> +
+> +EMC statistics subdev gathers information about hardware utilization
+> +which is intended to be used for debugging purposes and for dynamic
+> +frequency scaling based on the collected stats.
+> +
+> +Properties:
+> +- name : Should be emc-stats.
+> +- compatible : Should contain "nvidia,tegra20-emc-statistics".
+> +- operating-points-v2: See ../bindings/opp/opp.txt for details.
+> +- interconnects: Should contain entries for memory clients sitting on
+> +                 MC->EMC memory interconnect path.
+> +- interconnect-names: Should include name of the interconnect path for each
+> +                      interconnect entry. Consult TRM documentation for
+> +                      information about available memory clients, see MEMORY
+> +                      CONTROLLER section.
+> -- 
+> 2.27.0
+> 
