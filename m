@@ -2,86 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89AB229D962
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 23:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF6A229D92D
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Oct 2020 23:48:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389716AbgJ1Wyu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Oct 2020 18:54:50 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16473 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389711AbgJ1Wyq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:54:46 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f99c6a20000>; Wed, 28 Oct 2020 12:29:38 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
- 2020 19:29:34 +0000
-Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 28 Oct 2020 19:29:34 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.19 000/264] 4.19.153-rc1 review
-In-Reply-To: <20201027135430.632029009@linuxfoundation.org>
-References: <20201027135430.632029009@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        id S2389430AbgJ1WsN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Oct 2020 18:48:13 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:62331 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733008AbgJ1WsK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:48:10 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CM3d21XGFzB1;
+        Wed, 28 Oct 2020 23:48:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1603925287; bh=yHK8V58DLeNnIRye/EkDqjDsAYo8KqTDWpngbFEDW2k=;
+        h=Date:From:Subject:To:Cc:From;
+        b=VPOzHvI4U7ef/1rEvqJRf3fdux2eJp826q9PAo1J5O4m8KX4mWV3CbinyLpt0lbAx
+         Aqy+5jb0yrYvfAf4an6M8ikqvpy3hUJd7PZoQPGBI73Xh83MDgnDK9EZ4kbOOZJwJ/
+         66VYSJozuKlfx1s87uEIgUJ+xBfDe8XgRn3t4+jPs0eWHVHew3Z3f9HOgKGCp7wU7V
+         fMKFrmwSDoCKCMsb5j6odRdgilmk4q5zrxuby5LVgUNBGwWNXKGhGUyfdX4Hr4Ek7I
+         JdJCzqEv8Sg8RTbXRESIf2Y9nAci4V04cRNsSBT2jxDiFqBhQomGUK4p5pb9VOMR3A
+         TNKgvEJCIpTdA==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at mail
+Date:   Wed, 28 Oct 2020 23:48:05 +0100
+Message-Id: <8756eb5aac561173aa222c9cb64dd314ab1b1f9b.1603925200.git.mirq-linux@rere.qmqm.pl>
+From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Subject: [PATCH v3 1/2] ASoC: tegra20-spdif: remove "default m"
 MIME-Version: 1.0
-Message-ID: <4df1955a86a94ebfb6ef8451bf75f57f@HQMAIL105.nvidia.com>
-Date:   Wed, 28 Oct 2020 19:29:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1603913378; bh=C3GTybsBopaTeKN6PjLOFYbGJ2BKk9Lvc0uvQ3b5/8c=;
-        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
-         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
-         Date;
-        b=h/RpJarZf55+iT0V6NeVpKpg0RQ7KIHxI+Xbu0Gn/qv80Cb3C0IZQhzCtp61sol3A
-         AeQm6TdXizIPs9TOeQo96MW/tYd59cKJq8KVXdXEpkX0H/PBAJJXW/5C79LMiLY+Mp
-         0wRhh5uwIDJWoGW3jlGA4LYmv8raEmuNv0ALMLF+yquP649ErcP5Qe26iId2dKH80r
-         Oth3aL1SLZCzwbdEuztfrOuege5jFcCNUJ89+XvDgF6+S7OAa0LLlRTpzu0diKOsAp
-         zcbV7gqZzLikvXat6hZPFqYcJIj6SOzjlrmqrmXDDNRsEwt2sJ7iocvVY0EDZk9aup
-         2sQvYVo1Tk7qA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Stephen Warren <swarren@nvidia.com>
+Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 27 Oct 2020 14:50:58 +0100, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.19.153 release.
-> There are 264 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Thu, 29 Oct 2020 13:53:47 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.153-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+Make tegra20-spdif default to N as all other drivers do.
 
-All tests passing for Tegra ...
+Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Fixes: 774fec338bfc ("ASoC: Tegra: Implement SPDIF CPU DAI")
+---
+v3: split-off the defconfig changes
+v2: add the symbol to defconfig as suggested by Thierry Reding
+---
+ sound/soc/tegra/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-Test results for stable-v4.19:
-    15 builds:	15 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
+diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
+index 3d91bd3e59cd..a62cc87551ac 100644
+--- a/sound/soc/tegra/Kconfig
++++ b/sound/soc/tegra/Kconfig
+@@ -39,7 +39,6 @@ config SND_SOC_TEGRA20_I2S
+ config SND_SOC_TEGRA20_SPDIF
+ 	tristate "Tegra20 SPDIF interface"
+ 	depends on SND_SOC_TEGRA
+-	default m
+ 	help
+ 	  Say Y or M if you want to add support for the Tegra20 SPDIF interface.
+ 	  You will also need to select the individual machine drivers to support
+-- 
+2.20.1
 
-Linux version:	4.19.153-rc1-g8919185062d4
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-
-Jon
