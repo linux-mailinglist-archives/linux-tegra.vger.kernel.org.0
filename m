@@ -2,193 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91D4129E454
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 08:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDA1929E4DC
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 08:49:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729548AbgJ2Hhk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Oct 2020 03:37:40 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11928 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729538AbgJ2Hh2 (ORCPT
+        id S1730309AbgJ2HsT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Oct 2020 03:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58548 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732205AbgJ2HoM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Oct 2020 03:37:28 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f9a50d70000>; Wed, 28 Oct 2020 22:19:19 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 29 Oct
- 2020 05:19:08 +0000
-Received: from vidyas-desktop.nvidia.com (172.20.13.39) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Thu, 29 Oct 2020 05:19:04 +0000
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <lorenzo.pieralisi@arm.com>, <robh+dt@kernel.org>,
-        <bhelgaas@google.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <amanharitsh123@gmail.com>,
-        <dinghao.liu@zju.edu.cn>, <kw@linux.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
-Subject: [PATCH V2 4/4] PCI: tegra: Handle error conditions properly
-Date:   Thu, 29 Oct 2020 10:48:39 +0530
-Message-ID: <20201029051839.11245-5-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201029051839.11245-1-vidyas@nvidia.com>
-References: <20201029051839.11245-1-vidyas@nvidia.com>
-X-NVConfidentiality: public
+        Thu, 29 Oct 2020 03:44:12 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75162C0613CF;
+        Thu, 29 Oct 2020 00:44:11 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id w65so1659588pfd.3;
+        Thu, 29 Oct 2020 00:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ESVv+pY5jSD1d+HDXCLrZGsW+m8ltnbCHyHJOCs8m+I=;
+        b=QXaJtgDUeYsx+AcGbv7NKaPCw/bNzWl7kGcmJ8UeBrLmEBrptvJTXdbPEdNcUqcjvS
+         T9pUt8/HfBrbFIKq4OyEgYw6ozuCyIOATOKkehoUZPuZGvf6s6b4G80OhfbdlgCzmh8D
+         7H3+BJFK+iK+v7/NKL6FUSbsJT6cGSzQ20a2NtQju6a40ATQ65huUbx76b+EmuzKG1//
+         m0BZ+AYHX8/4e3HzYF0QIYp+pF/gDOSi3gU+oXDpHgv1Cha/xPY3eXzwhlqFnf0YTBeS
+         nSlPC7+zT6IZJhLUiWJ5uODsK8PKb/XgShs/rfyHug0//TfXmQe++1QQWuVNm223KBsI
+         WGFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ESVv+pY5jSD1d+HDXCLrZGsW+m8ltnbCHyHJOCs8m+I=;
+        b=D+WJM38rXTiivTICdmaQWhaBxpSFZOTARcdyPRAQQ8S6ioXEu+h/1XXBgUf+h/uhlS
+         uv2EW3IW2fnQgXWtoKQH7DwMiO8sLYioK/5z6LO481Bdl2KAX+Kekd4bXVFQD4tHdcaA
+         FIBy7gwCMX8GfEMrJwFPda1voUVtV8Xy1ya5VjoNh/GXdorP4bxQlbLsmv3HWSajGvA0
+         /2za9e5h7LP7Ttj4iaPl9Zzyx3MrQ3GPb06D0ZEdrFmC0Ca6eyqucrGdlZxp/MWYgOFK
+         X4cH6ITZQq5crhRMH+UM5eAKvuYAzclniFc3bkM7QDcCQ9lCVU+t9xYHEVnod2G3kyLW
+         6lIA==
+X-Gm-Message-State: AOAM532S3xPvkYb4GG06oN72wPsaA7pOoC6eY26QXwtuN970CxJAgSDg
+        B02LCAr6DW7iP5yV+Nc5aeU=
+X-Google-Smtp-Source: ABdhPJzfU3gWLWZn9sHRpVXg6rAqMMuzgyKIAJpqJHIJWbB6Z1zMoTjgOJ8HqL/1lFSZ4IlWTLfSpg==
+X-Received: by 2002:a63:b819:: with SMTP id p25mr3005032pge.282.1603957451120;
+        Thu, 29 Oct 2020 00:44:11 -0700 (PDT)
+Received: from localhost ([2409:8a28:3c42:6840:9efc:e8ff:fef2:1cdc])
+        by smtp.gmail.com with ESMTPSA id nm11sm1920467pjb.24.2020.10.29.00.44.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 00:44:10 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        alsa-devel@alsa-project.org (moderated list:SOUND - SOC LAYER / DYNAMIC
+        AUDIO POWER MANAGEM...),
+        linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 09/25] ASoC: tegra: remove unnecessary CONFIG_PM_SLEEP
+Date:   Thu, 29 Oct 2020 15:42:45 +0800
+Message-Id: <20201029074301.226644-9-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201029074301.226644-1-coiby.xu@gmail.com>
+References: <20201029074301.226644-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1603948759; bh=NEbt0hTlr9FUk+W+954xruMCeKF+pBJtNq7Cw6/Tdcs=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:X-NVConfidentiality:MIME-Version:Content-Type;
-        b=OUkurXLEsSJsPBkN0O9M+pCVWtpG74QWrnKaq7tJXi5MyZut1qyVm6oQF+cNlZnvv
-         n6xMkeSl2SNFUaF+FjMkEUthtR1Ab9wt4oaJJhdHXWfF2h7Fp4/71Tg4mrDBsz+2U2
-         5ghu79vNgPFkWZbiG3LueW8AEzXVNOQqoCcjVxD3KzfW1TS0CEXqZlMXv4lACFvw5O
-         rL3yep6avF8FkHV3va6uUJzK44FikyUm6j3wKMhREq1JCM6cGk9CC5pnMy/vS2MAF8
-         M3WH/bHgfsEcIQauwD3YUI1+k7TDgTWwIxioeQgsr3WpT0wtKpMs+vX5m04Q3dFzaG
-         Zfg48w3LJYX0Q==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Currently the driver checks for error value of different APIs during the
-uninitialization sequence. It just returns from there if there is any error
-observed for one of those calls. Comparatively it is better to continue the
-uninitialization sequence irrespective of whether some of them are
-returning error. That way, it is more closer to complete uninitialization.
-It also adds checking return value for error for a cleaner exit path.
+SET_SYSTEM_SLEEP_PM_OPS has already took good care of CONFIG_PM_CONFIG.
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
-V2:
-* None
+ sound/soc/tegra/tegra30_ahub.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/pci/controller/dwc/pcie-tegra194.c | 45 ++++++++++------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 253d91033bc3..8c08998b9ce1 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -1422,43 +1422,32 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
+diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
+index 156e3b9d613c..9fc22d5e9f6e 100644
+--- a/sound/soc/tegra/tegra30_ahub.c
++++ b/sound/soc/tegra/tegra30_ahub.c
+@@ -629,7 +629,6 @@ static int tegra30_ahub_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_PM_SLEEP
+ static int tegra30_ahub_suspend(struct device *dev)
+ {
+ 	regcache_mark_dirty(ahub->regmap_ahub);
+@@ -653,7 +652,6 @@ static int tegra30_ahub_resume(struct device *dev)
+ 
  	return ret;
  }
+-#endif
  
--static int __deinit_controller(struct tegra_pcie_dw *pcie)
-+static void tegra_pcie_unconfig_controller(struct tegra_pcie_dw *pcie)
- {
- 	int ret;
- 
- 	ret = reset_control_assert(pcie->core_rst);
--	if (ret) {
--		dev_err(pcie->dev, "Failed to assert \"core\" reset: %d\n",
--			ret);
--		return ret;
--	}
-+	if (ret)
-+		dev_err(pcie->dev, "Failed to assert \"core\" reset: %d\n", ret);
- 
- 	tegra_pcie_disable_phy(pcie);
- 
- 	ret = reset_control_assert(pcie->core_apb_rst);
--	if (ret) {
-+	if (ret)
- 		dev_err(pcie->dev, "Failed to assert APB reset: %d\n", ret);
--		return ret;
--	}
- 
- 	clk_disable_unprepare(pcie->core_clk);
- 
- 	ret = regulator_disable(pcie->pex_ctl_supply);
--	if (ret) {
-+	if (ret)
- 		dev_err(pcie->dev, "Failed to disable regulator: %d\n", ret);
--		return ret;
--	}
- 
- 	tegra_pcie_disable_slot_regulators(pcie);
- 
- 	ret = tegra_pcie_bpmp_set_ctrl_state(pcie, false);
--	if (ret) {
-+	if (ret)
- 		dev_err(pcie->dev, "Failed to disable controller %d: %d\n",
- 			pcie->cid, ret);
--		return ret;
--	}
--
--	return ret;
- }
- 
- static int tegra_pcie_init_controller(struct tegra_pcie_dw *pcie)
-@@ -1482,7 +1471,8 @@ static int tegra_pcie_init_controller(struct tegra_pcie_dw *pcie)
- 	return 0;
- 
- fail_host_init:
--	return __deinit_controller(pcie);
-+	tegra_pcie_unconfig_controller(pcie);
-+	return ret;
- }
- 
- static int tegra_pcie_try_link_l2(struct tegra_pcie_dw *pcie)
-@@ -1551,13 +1541,12 @@ static void tegra_pcie_dw_pme_turnoff(struct tegra_pcie_dw *pcie)
- 	appl_writel(pcie, data, APPL_PINMUX);
- }
- 
--static int tegra_pcie_deinit_controller(struct tegra_pcie_dw *pcie)
-+static void tegra_pcie_deinit_controller(struct tegra_pcie_dw *pcie)
- {
- 	tegra_pcie_downstream_dev_to_D0(pcie);
- 	dw_pcie_host_deinit(&pcie->pci.pp);
- 	tegra_pcie_dw_pme_turnoff(pcie);
--
--	return __deinit_controller(pcie);
-+	tegra_pcie_unconfig_controller(pcie);
- }
- 
- static int tegra_pcie_config_rp(struct tegra_pcie_dw *pcie)
-@@ -1590,7 +1579,11 @@ static int tegra_pcie_config_rp(struct tegra_pcie_dw *pcie)
- 		goto fail_pm_get_sync;
- 	}
- 
--	tegra_pcie_init_controller(pcie);
-+	ret = tegra_pcie_init_controller(pcie);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize controller: %d\n", ret);
-+		goto fail_pm_get_sync;
-+	}
- 
- 	pcie->link_state = tegra_pcie_dw_link_up(&pcie->pci);
- 	if (!pcie->link_state) {
-@@ -2238,8 +2231,9 @@ static int tegra_pcie_dw_suspend_noirq(struct device *dev)
- 					       PORT_LOGIC_MSI_CTRL_INT_0_EN);
- 	tegra_pcie_downstream_dev_to_D0(pcie);
- 	tegra_pcie_dw_pme_turnoff(pcie);
-+	tegra_pcie_unconfig_controller(pcie);
- 
--	return __deinit_controller(pcie);
-+	return 0;
- }
- 
- static int tegra_pcie_dw_resume_noirq(struct device *dev)
-@@ -2267,7 +2261,8 @@ static int tegra_pcie_dw_resume_noirq(struct device *dev)
- 	return 0;
- 
- fail_host_init:
--	return __deinit_controller(pcie);
-+	tegra_pcie_unconfig_controller(pcie);
-+	return ret;
- }
- 
- static int tegra_pcie_dw_resume_early(struct device *dev)
-@@ -2305,7 +2300,7 @@ static void tegra_pcie_dw_shutdown(struct platform_device *pdev)
- 		disable_irq(pcie->pci.pp.msi_irq);
- 
- 	tegra_pcie_dw_pme_turnoff(pcie);
--	__deinit_controller(pcie);
-+	tegra_pcie_unconfig_controller(pcie);
- }
- 
- static const struct tegra_pcie_dw_of_data tegra_pcie_dw_rc_of_data = {
+ static const struct dev_pm_ops tegra30_ahub_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(tegra30_ahub_runtime_suspend,
 -- 
-2.17.1
+2.28.0
 
