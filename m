@@ -2,101 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 895CC29E4B7
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 08:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C036829E694
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Oct 2020 09:40:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727352AbgJ2Hpi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Oct 2020 03:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732734AbgJ2HoQ (ORCPT
+        id S1726448AbgJ2Ij6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Oct 2020 04:39:58 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18654 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729258AbgJ2Iiy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Oct 2020 03:44:16 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A99C0613CF;
-        Thu, 29 Oct 2020 00:44:16 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id w65so1659757pfd.3;
-        Thu, 29 Oct 2020 00:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=n4P04Jz1B6kfqdzGvKKnIFdWyM97aAtPxWHOKKsnz2Y=;
-        b=SwP+WbU5kj9ZjusDCDsz3ZrX0Ik+OmEpx2GDCA69DDTslUYaPNIdgDmcJRuoboL1yo
-         7+BWeUfR73uuYwyux3tYrR+5De4Twxwtf/dAo5zq5r8vFGd/mFs6zZ0Hw9oWv/qmnkYe
-         MD78lkd92G/nc/9d7C4t+HvIqaehcdB42mLPPau6x/IQ8yMg72uJWTIg7o/KrVnR22UP
-         v018yQvxEL7kiqfjn28Nmz9WTFHYmuC134PWZ7UoHEQNVEkGHRhsSRFP7bqciw0nUdbW
-         3WYoR7wd2Yu6su1PLbIx+T+71nLe2xsGURJQfrslhaMysBSLJaYsEqN4w/i00Dnybaer
-         UOwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n4P04Jz1B6kfqdzGvKKnIFdWyM97aAtPxWHOKKsnz2Y=;
-        b=piiVLg+kZE4D0gzrOdld5I3p2pv2UYXtbOqJSszMlJlKu+qQne1On+D27YHrEEVqjl
-         zAM50oOi8ka+I4vHGjSWuyPzZ2SG6SHYDWVqgQfPf70C2CYsGds+MA/RZiN6J2N+H0Gr
-         H8ObgqBjTPKF/AiXMEdt3bxjmQ2dzqdJuwgCjj+tMJJ05B/LNbBjJ+vGuXeMxcsyYjpy
-         ocDVNRpgBTLcRKewBq7M3p1kjQOox9g1md2s2hoekWrAVdY+C7wjEvJ0Q8NdIMuHqCbl
-         TzaMDwE/AS7lcgAx5prdAgj7YVCPpV9aiGYkiaf9hUJwSU9dN4pHP3/3RmLms0Vp2dGE
-         bXaA==
-X-Gm-Message-State: AOAM531YFvOLTH4rXIdZm1R1h2b79aP4o+2aSPgq+gnQ27AOPQwGAOnj
-        llHXh8uPFuqWIS/S9pbv6Yg=
-X-Google-Smtp-Source: ABdhPJzg83GKBxj/nfpn2Awb2i2RRcM4xIGJAMQ0oCHK8V1W4pzXTmHcNuYFDx78raqWaXw7CRWDeg==
-X-Received: by 2002:a17:90a:4684:: with SMTP id z4mr2976899pjf.97.1603957455791;
-        Thu, 29 Oct 2020 00:44:15 -0700 (PDT)
-Received: from localhost ([2409:8a28:3c42:6840:9efc:e8ff:fef2:1cdc])
-        by smtp.gmail.com with ESMTPSA id i17sm1827132pfa.183.2020.10.29.00.44.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 00:44:15 -0700 (PDT)
-From:   Coiby Xu <coiby.xu@gmail.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        alsa-devel@alsa-project.org (moderated list:SOUND - SOC LAYER / DYNAMIC
-        AUDIO POWER MANAGEM...),
-        linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 10/25] ASoC: tegra: remove unnecessary CONFIG_PM_SLEEP
-Date:   Thu, 29 Oct 2020 15:42:46 +0800
-Message-Id: <20201029074301.226644-10-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201029074301.226644-1-coiby.xu@gmail.com>
-References: <20201029074301.226644-1-coiby.xu@gmail.com>
+        Thu, 29 Oct 2020 04:38:54 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f9a50c00000>; Wed, 28 Oct 2020 22:18:56 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 29 Oct
+ 2020 05:18:52 +0000
+Received: from vidyas-desktop.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Thu, 29 Oct 2020 05:18:48 +0000
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <lorenzo.pieralisi@arm.com>, <robh+dt@kernel.org>,
+        <bhelgaas@google.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <amanharitsh123@gmail.com>,
+        <dinghao.liu@zju.edu.cn>, <kw@linux.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH V2 1/4] PCI: tegra: Fix ASPM-L1SS advertisement disable code
+Date:   Thu, 29 Oct 2020 10:48:36 +0530
+Message-ID: <20201029051839.11245-2-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201029051839.11245-1-vidyas@nvidia.com>
+References: <20201029051839.11245-1-vidyas@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603948736; bh=u7cA/MfQqfQQ5BTRPJ65zvlJ3WLKc3dByk1zTUQnz+4=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+         References:X-NVConfidentiality:MIME-Version:Content-Type;
+        b=V+XmfIxFFMsLu58xOYbj/GwsDc2aN9ykBp5XEAMX77Oe4jAfscmM1gO17Z24l5+TU
+         f5MsiY53H7LT9mQl8sL9qfboUSzd3V8qZxBS5hj3Brk4XpQgOsACv1dsxw2Xb7hwqN
+         k9HM5bZAOgeZkFTgWxz6JP65Xr7lBgGDTC/DyjLM4GPR1bvxNoJln1ML6PoSAMpADc
+         ehM9zLTa8c5aTlE+WVlEkxpzcAWl96yPBm1+nsBZdPOvSqJ+55KmPSYzlKa0W4dS+N
+         DOzdUIQze27m/wuuydNk1EVNz6mzkVOee6YDQdycNwFwCqT/CLGjq9T/rT1tXxpYlE
+         f1OU8BjCoRa9g==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-SET_SYSTEM_SLEEP_PM_OPS has already took good care of CONFIG_PM_CONFIG.
+If the absence of CLKREQ# signal is indicated by the absence of
+"supports-clkreq" in the device-tree node, current driver is disabling
+the advertisement of ASPM-L1 Sub-States *before* the ASPM-L1 Sub-States
+offset is correctly initialized. Since default value of the ASPM-L1SS
+offset is zero, this is causing the Vendor-ID wrongly programmed to 0x10d2
+instead of Nvidia's 0x10de thereby the quirks applicable for Tegra194 are
+not being applied. This patch fixes this issue by refactoring the
+code that disables the ASPM-L1SS advertisement.
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+Fixes: 56e15a238d92 ("PCI: tegra: Add Tegra194 PCIe support")
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
 ---
- sound/soc/tegra/tegra30_i2s.c | 2 --
- 1 file changed, 2 deletions(-)
+V2:
+* None
 
-diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index db5a8587bfa4..df55b90c3cf4 100644
---- a/sound/soc/tegra/tegra30_i2s.c
-+++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -551,7 +551,6 @@ static int tegra30_i2s_platform_remove(struct platform_device *pdev)
- 	return 0;
- }
+ drivers/pci/controller/dwc/pcie-tegra194.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index aa511ec0d800..b172b1d49713 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -896,6 +896,12 @@ static void tegra_pcie_prepare_host(struct pcie_port *pp)
  
--#ifdef CONFIG_PM_SLEEP
- static int tegra30_i2s_suspend(struct device *dev)
- {
- 	struct tegra30_i2s *i2s = dev_get_drvdata(dev);
-@@ -576,7 +575,6 @@ static int tegra30_i2s_resume(struct device *dev)
+ 	init_host_aspm(pcie);
  
++	/* Disable ASPM-L1SS advertisement if there is no CLKREQ routing */
++	if (!pcie->supports_clkreq) {
++		disable_aspm_l11(pcie);
++		disable_aspm_l12(pcie);
++	}
++
+ 	val = dw_pcie_readl_dbi(pci, GEN3_RELATED_OFF);
+ 	val &= ~GEN3_RELATED_OFF_GEN3_ZRXDC_NONCOMPL;
+ 	dw_pcie_writel_dbi(pci, GEN3_RELATED_OFF, val);
+@@ -1400,12 +1406,6 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
+ 	pcie->pcie_cap_base = dw_pcie_find_capability(&pcie->pci,
+ 						      PCI_CAP_ID_EXP);
+ 
+-	/* Disable ASPM-L1SS advertisement as there is no CLKREQ routing */
+-	if (!pcie->supports_clkreq) {
+-		disable_aspm_l11(pcie);
+-		disable_aspm_l12(pcie);
+-	}
+-
  	return ret;
- }
--#endif
  
- static const struct dev_pm_ops tegra30_i2s_pm_ops = {
- 	SET_RUNTIME_PM_OPS(tegra30_i2s_runtime_suspend,
+ fail_phy:
 -- 
-2.28.0
+2.17.1
 
