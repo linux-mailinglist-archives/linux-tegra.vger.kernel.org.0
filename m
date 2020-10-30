@@ -2,93 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19FEF2A073A
-	for <lists+linux-tegra@lfdr.de>; Fri, 30 Oct 2020 14:58:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 132142A08E3
+	for <lists+linux-tegra@lfdr.de>; Fri, 30 Oct 2020 16:01:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbgJ3N62 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 30 Oct 2020 09:58:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725939AbgJ3N62 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 30 Oct 2020 09:58:28 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E4F552072C;
-        Fri, 30 Oct 2020 13:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604066307;
-        bh=adyPaigieWINvpIzCWk3XM6mFalffwbDJrfjZBicvkY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LssxqxVewnCDY1JEzRLqdoHAD1GDS9d+ghDN2JRk2WfI6f/FIMqucTLWc5iK/D4Fh
-         WtJeaq9SSuBGjWSDn8+lWrYhq62u/c4wjuWuA+oUCLUawzURUyth1ybsuhHMLm84UE
-         UdHPJSJoRMUSKI1Cu7f/aPlNv/fDDPevgVAYG61c=
-Date:   Fri, 30 Oct 2020 13:58:20 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     lgirdwood@gmail.com, robh+dt@kernel.org,
-        kuninori.morimoto.gx@renesas.com,
-        pierre-louis.bossart@linux.intel.com, perex@perex.cz,
-        tiwai@suse.com, p.zabel@pengutronix.de, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
-        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
-        dramesh@nvidia.com, atalambedu@nvidia.com, nwartikar@nvidia.com,
-        swarren@nvidia.com, nicoleotsuka@gmail.com
-Subject: Re: [PATCH v4 00/15] Audio graph card updates and usage with
- Tegra210 audio
-Message-ID: <20201030135820.GD4405@sirena.org.uk>
-References: <1602859382-19505-1-git-send-email-spujar@nvidia.com>
- <c98d63a7-f311-a94f-abcc-1c5a87ba8025@nvidia.com>
+        id S1726613AbgJ3PBK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 30 Oct 2020 11:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726943AbgJ3PAa (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 30 Oct 2020 11:00:30 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CB8C0613AD
+        for <linux-tegra@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id 184so8262434lfd.6
+        for <linux-tegra@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
+         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
+         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
+         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
+         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
+         Sb9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=DDpk3ELyqTAy3QX8hIPSAc/Wp0i7QUyxk7weKqdiXdx2UL63Q0QMQVXp0mL9hbmdQK
+         d/kmKHitRQwr+vB6kr7NM5e0j2XzKCXv+yR1W64hfa418RrYqmRVGQns/rJoY5SMF7bL
+         61equ+Uz4LACNAwLUoQsOgyC6jcReMa53h8vLt0Zh7+EQHPhMxZURkTl1z3UXE/JVMSr
+         remeU0qRKklooKwQhYuRa/9XiEHPzCwTzli8cNM1qYs7zIZX8iOsJ78H5KrM/4pXC7VB
+         oxYoh3ueOFa8hmOLzUJaNqlFHzpZ2iICx0Y0lw1CHQsNsse2uHJTpIxdP1CW3VOLDu86
+         T3Wg==
+X-Gm-Message-State: AOAM530RqvNyknN9uQeQ5uzKdfrXdzE/sSNlqgBzFXf3lnWLTVTk1NsC
+        PDcPn9J+Hxk2RsWNGNXZzq3Rt8H2g95v4bHLL6ZaoEHR9w==
+X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
+X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
+ Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rqzD5py0kzyFAOWN"
-Content-Disposition: inline
-In-Reply-To: <c98d63a7-f311-a94f-abcc-1c5a87ba8025@nvidia.com>
-X-Cookie: Blow it out your ear.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
+ -0700 (PDT)
+Reply-To: li.anable85@gmail.com
+From:   Liliane Abel <k.griest04@gmail.com>
+Date:   Fri, 30 Oct 2020 15:59:34 +0100
+Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Dearest
 
---rqzD5py0kzyFAOWN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Greeting my dear, I am Liliane Abel by name, The only daughter of late
+Mr.Benson Abel. My father is one of the top Politician in our country
+and my mother is a farmers and cocoa merchant when they were both
+alive. After the death of my mother, long ago, my father was
+controlling their business until he was poisoned by his business
+associates which he suffered and died.
 
-On Fri, Oct 30, 2020 at 12:04:50PM +0530, Sameer Pujar wrote:
-> Hi Mark, Morimoto-san,
-
-> > Sameer Pujar (15):
-> >    ASoC: soc-core: Fix component name_prefix parsing
-> >    ASoC: soc-pcm: Get all BEs along DAPM path
-> >    ASoC: audio-graph: Use of_node and DAI for DPCM DAI link names
-> >    ASoC: audio-graph: Identify 'no_pcm' DAI links for DPCM
-> >    ASoC: audio-graph: Support empty Codec endpoint
-> >    ASoC: audio-graph: Expose new members for asoc_simple_priv
-> >    ASoC: audio-graph: Expose helpers from audio graph
-
-> Would you suggest to keep above in a separate series and thus not blocked by
-> below doc updates? If so do I need to resend above in a next revision or if
-> these are good to be picked up?
-
-It's probably better to split things up given that the dependencies for
-the last bit are on another series.
-
---rqzD5py0kzyFAOWN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+cG/sACgkQJNaLcl1U
-h9CSfAf/X5PzOOD5Jon1mVsaFPbij6n6esmY9LRtfZ4vDDwLZec683WNghZ/F/R6
-GxeVN81r0vv+6uhh6f4TaTD0+/XU0nc8aXQBgXs/6DHNALqX5b6GWaiCQRioYP6W
-QCD4gpybdIGuWvb2ONWsApLC9ciddNTZvNFeM5RprZQloeMjYUKGiQJ+tzUrTfrs
-Qce0dpEqTMk/37BF9z9fDqOPwScX4a0529QSD7zbAaSDKe4Pfcnad45MnjYprNZk
-Eaf9QiHtxpfvpqrIHvuIhPMgdOWGSsaZKbdQx6p7QLoftcJdFKD6sXjfUuKntPzY
-BY7H6q9Z+nxCOCm3uRkD3YIGXPefqw==
-=mqrB
------END PGP SIGNATURE-----
-
---rqzD5py0kzyFAOWN--
+Before the death of my father, He told me about (two million five
+hundred thousand united states dollars) which he deposited in the bank
+in Lome-Togo, It was the money he intended to transfer overseas for
+investment before he was poisoned. He also instructed me that I should
+seek for foreign partners in any country of my choice who will assist
+me transfer this money in overseas account where the money will be
+wisely invested.
+I am seeking for your kind assistance in the following ways:  (1) to
+provide a safe bank account into where the money will be transferred
+for investment. (2) To serve as a guardian of this fund since I am a
+girl of 19 years old. (3) To make arrangement for me to come over to
+your country to further my education. This is my reason for writing to
+you. Please if you are willing to assist me I will offer you 25% of
+the total money. Reply if  you are interested
+Best regards.
+Liliane Abel.
