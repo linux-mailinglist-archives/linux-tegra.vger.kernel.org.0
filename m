@@ -2,83 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 132142A08E3
-	for <lists+linux-tegra@lfdr.de>; Fri, 30 Oct 2020 16:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CE72A0D71
+	for <lists+linux-tegra@lfdr.de>; Fri, 30 Oct 2020 19:32:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbgJ3PBK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 30 Oct 2020 11:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726943AbgJ3PAa (ORCPT
+        id S1726077AbgJ3Sc7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 30 Oct 2020 14:32:59 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:39274 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727159AbgJ3Sc6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:00:30 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CB8C0613AD
-        for <linux-tegra@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id 184so8262434lfd.6
-        for <linux-tegra@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
-         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
-         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
-         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
-         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
-         Sb9g==
+        Fri, 30 Oct 2020 14:32:58 -0400
+Received: by mail-ot1-f66.google.com with SMTP id z16so1243124otq.6;
+        Fri, 30 Oct 2020 11:32:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=DDpk3ELyqTAy3QX8hIPSAc/Wp0i7QUyxk7weKqdiXdx2UL63Q0QMQVXp0mL9hbmdQK
-         d/kmKHitRQwr+vB6kr7NM5e0j2XzKCXv+yR1W64hfa418RrYqmRVGQns/rJoY5SMF7bL
-         61equ+Uz4LACNAwLUoQsOgyC6jcReMa53h8vLt0Zh7+EQHPhMxZURkTl1z3UXE/JVMSr
-         remeU0qRKklooKwQhYuRa/9XiEHPzCwTzli8cNM1qYs7zIZX8iOsJ78H5KrM/4pXC7VB
-         oxYoh3ueOFa8hmOLzUJaNqlFHzpZ2iICx0Y0lw1CHQsNsse2uHJTpIxdP1CW3VOLDu86
-         T3Wg==
-X-Gm-Message-State: AOAM530RqvNyknN9uQeQ5uzKdfrXdzE/sSNlqgBzFXf3lnWLTVTk1NsC
-        PDcPn9J+Hxk2RsWNGNXZzq3Rt8H2g95v4bHLL6ZaoEHR9w==
-X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
-X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
- Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=U11U1RUcXJQMVTzn4DAQFEhylkdQvUKwt78eo7W7jVI=;
+        b=CChnYa7ay8Edl5BXAL6DeaFawt2YwH85MshKc2TTcZhdZdZYg9VYxtFY+PnCJRbY2A
+         oufEzXsPm8o/MFQONrWpO/BhFC3BnlkLHhW/XSELJSzkdI/13ZvQCwjKVODRvaQoJhg0
+         +88we/St3XurhwdejHwwKKHk7m7oVoS6C4UfgUnGyVa7GRQiC3dkb88LjMUqPKam9U3g
+         uSQhrcBo7/RrdKz1iaOIIkwzWLzcDKTAGtxbFg39muL6zJHChbeL09Ko3MRfu/3K92He
+         eSeHsmz2Dv+Y9EiK8ZaKrtQa9RbGbZqqa31b0+oGh8AePMmL18IQTHtJWB92BN8T563K
+         MBbg==
+X-Gm-Message-State: AOAM533Plz2cSIlXT8JPuAuC1Fdn8U/2fzBOGoED6c6JeiPM3tGyC7+g
+        /KCCVnk+AS5cRwJspFCOBg==
+X-Google-Smtp-Source: ABdhPJydLUAT3cGVwlYDKmLSTYmAxhTmAahEfuKb37pqdf9FFUjUpuAye1WCcA8uXXxsDHaC/qDyow==
+X-Received: by 2002:a05:6830:1089:: with SMTP id y9mr248688oto.191.1604082778089;
+        Fri, 30 Oct 2020 11:32:58 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u22sm1485907oor.13.2020.10.30.11.32.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 11:32:57 -0700 (PDT)
+Received: (nullmailer pid 4112164 invoked by uid 1000);
+        Fri, 30 Oct 2020 18:32:56 -0000
+Date:   Fri, 30 Oct 2020 13:32:56 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     kyarlagadda@nvidia.com, kthota@nvidia.com,
+        lorenzo.pieralisi@arm.com, linux-kernel@vger.kernel.org,
+        mmaddireddy@nvidia.com, linux-tegra@vger.kernel.org,
+        robh+dt@kernel.org, sagar.tv@gmail.com,
+        amurray@thegoodpenguin.co.uk, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, jckuo@nvidia.com, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: Fix entry name for I/O High Voltage
+ property
+Message-ID: <20201030183256.GA4112134@bogus>
+References: <20201026063902.14744-1-vidyas@nvidia.com>
 MIME-Version: 1.0
-Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
- -0700 (PDT)
-Reply-To: li.anable85@gmail.com
-From:   Liliane Abel <k.griest04@gmail.com>
-Date:   Fri, 30 Oct 2020 15:59:34 +0100
-Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026063902.14744-1-vidyas@nvidia.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dearest
+On Mon, 26 Oct 2020 12:09:01 +0530, Vidya Sagar wrote:
+> Correct the name of the I/O High Voltage Property from
+> 'nvidia,io-high-voltage' to 'nvidia,io-hv'.
+> 
+> Fixes: 2585a584f844 ("pinctrl: Add Tegra194 pinctrl DT bindings")
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+>  .../devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.txt      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Greeting my dear, I am Liliane Abel by name, The only daughter of late
-Mr.Benson Abel. My father is one of the top Politician in our country
-and my mother is a farmers and cocoa merchant when they were both
-alive. After the death of my mother, long ago, my father was
-controlling their business until he was poisoned by his business
-associates which he suffered and died.
-
-Before the death of my father, He told me about (two million five
-hundred thousand united states dollars) which he deposited in the bank
-in Lome-Togo, It was the money he intended to transfer overseas for
-investment before he was poisoned. He also instructed me that I should
-seek for foreign partners in any country of my choice who will assist
-me transfer this money in overseas account where the money will be
-wisely invested.
-I am seeking for your kind assistance in the following ways:  (1) to
-provide a safe bank account into where the money will be transferred
-for investment. (2) To serve as a guardian of this fund since I am a
-girl of 19 years old. (3) To make arrangement for me to come over to
-your country to further my education. This is my reason for writing to
-you. Please if you are willing to assist me I will offer you 25% of
-the total money. Reply if  you are interested
-Best regards.
-Liliane Abel.
+Acked-by: Rob Herring <robh@kernel.org>
