@@ -2,87 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1C42A12F0
-	for <lists+linux-tegra@lfdr.de>; Sat, 31 Oct 2020 03:39:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 545ED2A1551
+	for <lists+linux-tegra@lfdr.de>; Sat, 31 Oct 2020 11:50:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbgJaCjM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 30 Oct 2020 22:39:12 -0400
-Received: from server.msgroupspa.com ([185.149.113.111]:35286 "EHLO
-        server.msgroupspa.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725536AbgJaCjI (ORCPT
+        id S1726736AbgJaKuK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 31 Oct 2020 06:50:10 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:6717 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbgJaKuK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 30 Oct 2020 22:39:08 -0400
-X-Greylist: delayed 66465 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 22:38:58 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=msgroupspa.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=gOeEglh1DIJatPKqyvOsPs4e0Zw8Lzg9wwjnNfQdiM8=; b=nK3IDYT+DT+afspoRk1vnh030x
-        JBANriWCpwGFqkJTHXsxgXz4zPu7XOm+ROYW+1LhSp6Xws1Wm9Gxv0Soi++3fpbt9358vEM1Vilpv
-        5xlCNIs/Y8Yak5vs3SvhE9OTE/TC6Vf04ze0iphAaRgUliWRhAsWS8s68bwFyUv4tdChHxOH/JwR2
-        Vv+jWIv637j1UH3aZ6QLvXZrjdEmRucUTVxZtH4VnCDjrc4XZi9EwE5rzVsYDmyiNG+eYB+1QY+/8
-        bPWWeacOm9DyYRD9g3bLyiVv0uincEH4/sdJ6fuUSabQfGsi095GX6rsmNCONVo4/rhE4INecsjOZ
-        9QdrBN4A==;
-Received: from [::1] (port=55352 helo=server.msgroupspa.com)
-        by server.msgroupspa.com with esmtpa (Exim 4.93)
-        (envelope-from <no-reply@msgroupspa.com>)
-        id 1kYPRU-0006Ky-OT; Fri, 30 Oct 2020 16:07:24 +0800
+        Sat, 31 Oct 2020 06:50:10 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CNbYB1KMSzkcrd;
+        Sat, 31 Oct 2020 18:50:06 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Sat, 31 Oct 2020
+ 18:49:58 +0800
+From:   Yu Kuai <yukuai3@huawei.com>
+To:     <krzk@kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
+        <tomeu.vizoso@collabora.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <yukuai3@huawei.com>, <yi.zhang@huawei.com>
+Subject: [PATCH] memory: tegra: add missing put_devcie() call in tegra_emc_probe()
+Date:   Sat, 31 Oct 2020 18:53:55 +0800
+Message-ID: <20201031105355.2303794-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Date:   Fri, 30 Oct 2020 16:07:24 +0800
-From:   "Mr. John Galvan" <no-reply@msgroupspa.com>
-To:     undisclosed-recipients:;
-Subject: Hello/Hallo
-Reply-To: galvan.johnny@outlook.com
-User-Agent: Roundcube Webmail/1.4.8
-Message-ID: <8970d4ac30f8022b0ae628d9b69a2d43@msgroupspa.com>
-X-Sender: no-reply@msgroupspa.com
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server.msgroupspa.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - msgroupspa.com
-X-Get-Message-Sender-Via: server.msgroupspa.com: authenticated_id: no-reply@msgroupspa.com
-X-Authenticated-Sender: server.msgroupspa.com: no-reply@msgroupspa.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.127.227]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+if of_find_device_by_node() succeed, tegra_emc_probe() doesn't have a
+corresponding put_device(). Thus add jump target to fix the exception
+handling for this function implementation.
 
+Fixes: 73a7f0a90641("memory: tegra: Add EMC (external memory controller) driver")
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+---
+ drivers/memory/tegra/tegra124-emc.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/memory/tegra/tegra124-emc.c b/drivers/memory/tegra/tegra124-emc.c
+index 76ace42a688a..831dfca0804c 100644
+--- a/drivers/memory/tegra/tegra124-emc.c
++++ b/drivers/memory/tegra/tegra124-emc.c
+@@ -1207,8 +1207,10 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 		return -ENOENT;
+ 
+ 	emc->mc = platform_get_drvdata(mc);
+-	if (!emc->mc)
+-		return -EPROBE_DEFER;
++	if (!emc->mc) {
++		err = -EPROBE_DEFER;
++		goto put_device;
++	}
+ 
+ 	ram_code = tegra_read_ram_code();
+ 
+@@ -1217,25 +1219,27 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 		dev_err(&pdev->dev,
+ 			"no memory timings for RAM code %u found in DT\n",
+ 			ram_code);
+-		return -ENOENT;
++		err = -ENOENT;
++		goto put_device;
+ 	}
+ 
+ 	err = tegra_emc_load_timings_from_dt(emc, np);
+ 	of_node_put(np);
+ 	if (err)
+-		return err;
++		goto put_device;
+ 
+ 	if (emc->num_timings == 0) {
+ 		dev_err(&pdev->dev,
+ 			"no memory timings for RAM code %u registered\n",
+ 			ram_code);
+-		return -ENOENT;
++		err = -ENOENT;
++		goto put_device;
+ 	}
+ 
+ 	err = emc_init(emc);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "EMC initialization failed: %d\n", err);
+-		return err;
++		goto put_device;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, emc);
+@@ -1244,6 +1248,9 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 		emc_debugfs_init(&pdev->dev, emc);
+ 
+ 	return 0;
++put_device:
++	put_device(&mc->dev);
++	return err;
+ };
+ 
+ static struct platform_driver tegra_emc_driver = {
 -- 
-Sir/Madam,
+2.25.4
 
-I have access to very vital information that can be used to move a huge 
-amount of money. I have done my homework very well and I have the 
-machineries in place to get it done since I am still in active service. 
-If it was possible for me to do it alone I would not have bothered 
-contacting you. Ultimately I need an honest foreigner to play an 
-important role in the completion of this business transaction. Send 
-responds to this email: galvan.johnny@outlook.com
-
-Regards,
-John Galvan
-
----------------------------------------------------------------
-
-Sir / Madam,
-
-Ich habe Zugang zu sehr wichtigen Informationen, mit denen ich eine 
-große Menge Geld bewegen kann. Ich habe meine Hausaufgaben sehr gut 
-gemacht und ich habe die Maschinen, um sie zu erledigen, da ich immer 
-noch im aktiven Dienst bin. Wenn es mir möglich gewesen wäre, es alleine 
-zu tun, hätte ich mich nicht darum gekümmert, Sie zu kontaktieren. 
-Letztendlich brauche ich einen ehrlichen Ausländer, der eine wichtige 
-Rolle beim Abschluss dieses Geschäftsvorgangs spielt. Senden Sie 
-Antworten auf diese E-Mail: galvan.johnny@outlook.com
-
-Grüße,
-John Galvan
