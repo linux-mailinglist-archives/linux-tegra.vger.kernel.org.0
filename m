@@ -2,58 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2202E2A6625
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7462A6626
 	for <lists+linux-tegra@lfdr.de>; Wed,  4 Nov 2020 15:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730074AbgKDONJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S1730196AbgKDONJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Wed, 4 Nov 2020 09:13:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42194 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729946AbgKDONI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Nov 2020 09:13:08 -0500
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61333C0613D3
-        for <linux-tegra@vger.kernel.org>; Wed,  4 Nov 2020 06:13:08 -0800 (PST)
-Received: by mail-lj1-x241.google.com with SMTP id 23so23079596ljv.7
-        for <linux-tegra@vger.kernel.org>; Wed, 04 Nov 2020 06:13:08 -0800 (PST)
+        with ESMTP id S1729946AbgKDONJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Nov 2020 09:13:09 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49077C0613D3
+        for <linux-tegra@vger.kernel.org>; Wed,  4 Nov 2020 06:13:09 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id l10so2119236lji.4
+        for <linux-tegra@vger.kernel.org>; Wed, 04 Nov 2020 06:13:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=812JiusyFQ9WrzswHWJkwLDoaqtOd7JdwlMOTUFbkWc=;
-        b=HPBytRltVM9mgvrpEM/ysWt9If/SXR3Tg24Tx0iZtNUScbCVbLVLXMqr4ch5d89cgs
-         zaYBjNHJWwtavUmKV7wDvJyMegReBiBjgzERhfPHnKcT7HfYfJMjunzkZGZRnAdpHdPl
-         GeWjoe1kV2Wni9sNb6+8hXbcq+adSfpyUiZ1pdv3sRbj50Ww3EBcxEYqIkuHEB9aCVm+
-         3jPhaH60cwuqT2TGdOg/BSuE1CBgT/jMEKYcWLXbSBd78msUqZZdVWghkg3YSgtI3MSk
-         AoCR3RaAHtYXlMdGtZfuWyv93tKoTjJNhQMW27+bqHp9TTjXn042Q13dXT9CYVwjTl9j
-         DKqA==
+        bh=iYCpk74oX9C0MAqSjufDggsq2XnN2OkNsDVinMU9G0k=;
+        b=FSNdABzwe7UEHqj+cJ1NUo4IPqSOpurDN/yPZS3JzPomXPG0mGS344KwdgeAMyF6r5
+         lwQJQX4ChkUWtpOpfKTOfQOrBmqTgHV3WqOwFCupThR502F2zNq37ja7Sai3BXz1vXAr
+         i9uEJBwWYMxASYN+lx7OL40S8i69tMzXsEtbMmu5IchnErS0mn7/bRlUkrUMSWmnhcad
+         8QnM74lsgXReBBZE0LLp+cb0HNdqmEw49vybcX0ZE2lXm9Wsc4AKtcf6K4IHHzWxdf9n
+         YcRfuZsQ9oE/ea+CvdvFUbAodp0RZYg4x74S88jsFeQstfOvpXMZxGF9UjVelvWoeFBD
+         TuaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=812JiusyFQ9WrzswHWJkwLDoaqtOd7JdwlMOTUFbkWc=;
-        b=raAp3dt4UMhC0Cc0wboIcmWSm0z8Fd5h49ib0tvO9e5EBfvtCuXW4cxniHXB8juFZF
-         B0lPYZzBgpG8M72y41PE0HSu1YQoo2ctMmeKauM+qaxq3sfEn9iGkFQ6wn/JM17ISKyW
-         traRaVA270itN3XEsbMnjT8NlI4k3f+EKRoLXyXsdThZEukXpF8JbDGNDELdO1syJG44
-         nm60ORqp8tZWOD/ioplOQv2nfqXPerpdVmOLjaPD89beeUvhPVFR/sBJblzOQKccakVp
-         aGFHvG/Er9WXSDZlys+UFMsbSseadC59wc/lfkjbix7GEFmZPhzs6oU4yS4rpoSkHKrx
-         LYRw==
-X-Gm-Message-State: AOAM530XksxP4da8D+bHjoSGPMuHl28oQHA45gR2AUbAVpDliU8/4WZE
-        3z/hRQOCDWU1UOmsM8ZQ/K0=
-X-Google-Smtp-Source: ABdhPJwhfwIfdA3jvWMtHDmP4W8goz4d9sPM08et6aUTi8KTk43QtpLyUt4bkrV8G7ggUirX+V7kXQ==
-X-Received: by 2002:a05:651c:30c:: with SMTP id a12mr10352564ljp.230.1604499186940;
-        Wed, 04 Nov 2020 06:13:06 -0800 (PST)
+        bh=iYCpk74oX9C0MAqSjufDggsq2XnN2OkNsDVinMU9G0k=;
+        b=JMACQhUGGnhBoCpgljLIj1qllWUywCsppeTXngEHOXtBjJ25X0qYdpJrOqZ2hckWUO
+         x2yqerelDXxl2/hn2kwCaruTuqAtFmq9bZCuEERKzvj3Cq+n50RMwWj5tl/ih/j+4EZ7
+         rwI5KkrrA9Pobdp8SVt8jsLfbHyM9o5MyVSmlrvQntB7bVg0ZhTNpctg48HoXp7I6aAj
+         YSKIheJSWuy8ExKigQPlasAkNNSGaAXI80M3NfiMsNjwUuOq8p4GLUAKh8x+hI4KQm0l
+         gidT3ZQP8m6/kmrpmnI75YZ66vwj+sZ/snFzERTfTf1ELgdo2qSPi2OCRIeJMMWP7Ybo
+         DoJg==
+X-Gm-Message-State: AOAM532dLQGT5B257EqkKadfNo/fKR3WYr1BBF2rG19RhflS09M5pz5w
+        3DUy0Y19g4R4sCTdjjE9+z8zXnhlucU=
+X-Google-Smtp-Source: ABdhPJzdnP37KXvq7e2AJUwXlwGexfIDUqNpuHwBrCVxGzNXDUAgfkXHki88vXrE1dfJItrAOM3fNA==
+X-Received: by 2002:a2e:b61a:: with SMTP id r26mr11114674ljn.166.1604499187827;
+        Wed, 04 Nov 2020 06:13:07 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru. [109.252.192.83])
-        by smtp.gmail.com with ESMTPSA id z10sm411853lfi.76.2020.11.04.06.13.06
+        by smtp.gmail.com with ESMTPSA id z10sm411853lfi.76.2020.11.04.06.13.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 06:13:06 -0800 (PST)
+        Wed, 04 Nov 2020 06:13:07 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH v2 6/8] ARM: tegra: nexus7: Rename gpio-hog nodes
-Date:   Wed,  4 Nov 2020 17:12:49 +0300
-Message-Id: <20201104141251.25834-7-digetx@gmail.com>
+Subject: [PATCH v2 7/8] ARM: tegra: nexus7: Set video decoder clock rate to 408MHz
+Date:   Wed,  4 Nov 2020 17:12:50 +0300
+Message-Id: <20201104141251.25834-8-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104141251.25834-1-digetx@gmail.com>
 References: <20201104141251.25834-1-digetx@gmail.com>
@@ -63,65 +63,28 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Devicetree schema now requires gpio-hog nodes to have a certain naming
-pattern, like a -hog suffix. This patch fixes dtbs_check warnings about
-the names.
+The default 600MHz is technically unsupported on Nexus 7. Assign VDE clock
+to 408MHz, which is supported by all hardware versions.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi     | 4 ++--
- arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi | 2 +-
- arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi            | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-index c2b1229f0d83..7fe584d69f5d 100644
+index 7fe584d69f5d..fb5b33f1bcd8 100644
 --- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
 +++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-@@ -91,7 +91,7 @@ dc@54240000 {
+@@ -107,6 +107,9 @@ init-low-power-mode-hog {
  	};
  
- 	gpio@6000d000 {
--		init-mode {
-+		init-mode-hog {
- 			gpio-hog;
- 			gpios =	<TEGRA_GPIO(DD, 7) GPIO_ACTIVE_HIGH>,
- 				<TEGRA_GPIO(CC, 6) GPIO_ACTIVE_HIGH>,
-@@ -99,7 +99,7 @@ init-mode {
- 			output-low;
- 		};
- 
--		init-low-power-mode {
-+		init-low-power-mode-hog {
- 			gpio-hog;
- 			gpios = <TEGRA_GPIO(I, 6) GPIO_ACTIVE_HIGH>;
- 			input;
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi
-index b25b3fa90ac6..17b6682ffce8 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-maxim-pmic.dtsi
-@@ -29,7 +29,7 @@ gpio4 {
- 				};
- 			};
- 
--			cpu-pwr-req {
-+			cpu-pwr-req-hog {
- 				gpio-hog;
- 				gpios = <6 GPIO_ACTIVE_HIGH>;
- 				input;
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-index e3da89f1941a..a681ad51fddd 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-@@ -23,7 +23,7 @@ panel-timing {
+ 	vde@6001a000 {
++		assigned-clocks = <&tegra_car TEGRA30_CLK_VDE>;
++		assigned-clock-parents = <&tegra_car TEGRA30_CLK_PLL_P>;
++		assigned-clock-rates = <408000000>;
+ 		core-supply = <&vdd_core>;
  	};
  
- 	gpio@6000d000 {
--		init-mode-3g {
-+		init-mode-3g-hog {
- 			gpio-hog;
- 			gpios =	<TEGRA_GPIO(D, 2) GPIO_ACTIVE_HIGH>,
- 				<TEGRA_GPIO(C, 6) GPIO_ACTIVE_HIGH>,
 -- 
 2.27.0
 
