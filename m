@@ -2,114 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C03DA2ACA79
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Nov 2020 02:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2962ACB71
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Nov 2020 04:00:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729633AbgKJB3d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Nov 2020 20:29:33 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:7475 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727311AbgKJB3d (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Nov 2020 20:29:33 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CVVdf3Sz6zhj1s;
-        Tue, 10 Nov 2020 09:29:26 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Tue, 10 Nov 2020
- 09:29:25 +0800
-From:   Yu Kuai <yukuai3@huawei.com>
-To:     <krzk@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
-        <tomeu.vizoso@collabora.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <yukuai3@huawei.com>, <yi.zhang@huawei.com>,
-        <zhangxiaoxu5@huawei.com>
-Subject: [PATCH V3] memory: tegra: add missing put_device() call in error path of tegra_emc_probe()
-Date:   Tue, 10 Nov 2020 09:33:11 +0800
-Message-ID: <20201110013311.2499003-1-yukuai3@huawei.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201109164154.GA211123@kozik-lap>
-References: <20201109164154.GA211123@kozik-lap>
+        id S1729975AbgKJDAw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 9 Nov 2020 22:00:52 -0500
+Received: from smtprelay0240.hostedemail.com ([216.40.44.240]:39336 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729243AbgKJDAv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 9 Nov 2020 22:00:51 -0500
+X-Greylist: delayed 517 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 22:00:51 EST
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave06.hostedemail.com (Postfix) with ESMTP id E3D6C812416B;
+        Tue, 10 Nov 2020 02:52:18 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id F008012CB;
+        Tue, 10 Nov 2020 02:52:13 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:982:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2559:2562:2693:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:4321:4605:5007:6117:6119:6742:6743:7652:7875:7903:8660:10004:10400:10848:11232:11658:11783:11914:12043:12048:12297:12679:12740:12895:13019:13069:13148:13230:13311:13357:13439:13894:14181:14659:14721:21080:21451:21627:21939:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: ink22_1714ef1272f1
+X-Filterd-Recvd-Size: 2439
+Received: from [192.168.0.160] (cpe-72-134-80-165.natsow.res.rr.com [72.134.80.165])
+        (Authenticated sender: joe@perches.com)
+        by omf07.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 10 Nov 2020 02:52:09 +0000 (UTC)
+Message-ID: <3c39c363690d0b46069afddc3ad09213011e5cd4.camel@perches.com>
+Subject: Re: Subject: [RFC] clang tooling cleanups
+From:   Joe Perches <joe@perches.com>
+To:     trix@redhat.com, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, cocci <cocci@systeme.lip6.fr>
+Cc:     linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
+        qat-linux@intel.com, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org,
+        linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Date:   Mon, 09 Nov 2020 18:52:08 -0800
+In-Reply-To: <20201027164255.1573301-1-trix@redhat.com>
+References: <20201027164255.1573301-1-trix@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The reference to device obtained with of_find_device_by_node() should
-be dropped. Thus add jump target to fix the exception handling for this
-function implementation.
+On Tue, 2020-10-27 at 09:42 -0700, trix@redhat.com wrote:
+> This rfc will describe
+> An upcoming treewide cleanup.
+> How clang tooling was used to programatically do the clean up.
+> Solicit opinions on how to generally use clang tooling.
+> 
+> The clang warning -Wextra-semi-stmt produces about 10k warnings.
+> Reviewing these, a subset of semicolon after a switch looks safe to
+> fix all the time.  An example problem
+> 
+> void foo(int a) {
+>      switch(a) {
+>      	       case 1:
+> 	       ...
+>      }; <--- extra semicolon
+> }
+> 
+> Treewide, there are about 100 problems in 50 files for x86_64 allyesconfig.
+> These fixes will be the upcoming cleanup.
 
-Fixes: 73a7f0a90641("memory: tegra: Add EMC (external memory controller) driver")
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
- drivers/memory/tegra/tegra124-emc.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+coccinelle already does some of these.
 
-diff --git a/drivers/memory/tegra/tegra124-emc.c b/drivers/memory/tegra/tegra124-emc.c
-index 76ace42a688a..7d58a0e0a177 100644
---- a/drivers/memory/tegra/tegra124-emc.c
-+++ b/drivers/memory/tegra/tegra124-emc.c
-@@ -1207,8 +1207,10 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 		return -ENOENT;
- 
- 	emc->mc = platform_get_drvdata(mc);
--	if (!emc->mc)
--		return -EPROBE_DEFER;
-+	if (!emc->mc) {
-+		err = -EPROBE_DEFER;
-+		goto put_device;
-+	}
- 
- 	ram_code = tegra_read_ram_code();
- 
-@@ -1217,25 +1219,27 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 		dev_err(&pdev->dev,
- 			"no memory timings for RAM code %u found in DT\n",
- 			ram_code);
--		return -ENOENT;
-+		err = -ENOENT;
-+		goto put_device;
- 	}
- 
- 	err = tegra_emc_load_timings_from_dt(emc, np);
- 	of_node_put(np);
- 	if (err)
--		return err;
-+		goto put_device;
- 
- 	if (emc->num_timings == 0) {
- 		dev_err(&pdev->dev,
- 			"no memory timings for RAM code %u registered\n",
- 			ram_code);
--		return -ENOENT;
-+		err = -ENOENT;
-+		goto put_device;
- 	}
- 
- 	err = emc_init(emc);
- 	if (err) {
- 		dev_err(&pdev->dev, "EMC initialization failed: %d\n", err);
--		return err;
-+		goto put_device;
- 	}
- 
- 	platform_set_drvdata(pdev, emc);
-@@ -1244,6 +1248,11 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 		emc_debugfs_init(&pdev->dev, emc);
- 
- 	return 0;
-+
-+put_device:
-+	put_device(&mc->dev);
-+
-+	return err;
- };
- 
- static struct platform_driver tegra_emc_driver = {
--- 
-2.25.4
+For instance: scripts/coccinelle/misc/semicolon.cocci
+
+Perhaps some tool coordination can be done here as
+coccinelle/checkpatch/clang/Lindent call all be used
+to do some facet or another of these cleanup issues.
+
+
 
