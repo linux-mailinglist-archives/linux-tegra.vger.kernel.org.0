@@ -2,156 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57A612AF9D0
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Nov 2020 21:32:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FC32AFD68
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Nov 2020 02:56:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbgKKUcA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Nov 2020 15:32:00 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12148 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgKKUb7 (ORCPT
+        id S1725928AbgKLBbA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Nov 2020 20:31:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbgKKWma (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Nov 2020 15:31:59 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fac4a390000>; Wed, 11 Nov 2020 12:31:54 -0800
-Received: from [10.26.72.124] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Nov
- 2020 20:31:56 +0000
-Subject: Re: [PATCH] ARM: tegra: Populate OPP table for Tegra20 Ventana
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20201111103847.152721-1-jonathanh@nvidia.com>
- <7e40cd3e-7c34-c9a9-bf00-ba7d507a2d6b@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <5409bbb4-d3f9-ccc9-ac3e-6344975bd58e@nvidia.com>
-Date:   Wed, 11 Nov 2020 20:31:54 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <7e40cd3e-7c34-c9a9-bf00-ba7d507a2d6b@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1605126714; bh=9ANYYF/RxveGkqEmqPgH2v4yk5gp3dxoJ5KwqVgeNXk=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=QRdEF8pyuNFSyj2A/dP5cEdifzrb47G+YbmVyV9ebe3BPshIkrNQ8q/QMbJk/Bjs/
-         7ye0VNn8nwekRC6yCNvm/Ts7VlJSfHQ/prp/CVZzgiAvDfnw/qonBCe652kVFw5xuD
-         xFMXCBmtAApNt+RDL45VBoEiOk/sW0gD9sSsRou1B3I3/c4jOJQo1uyvcIgiHzTYr6
-         5nOE6PjtSSKYECrL1a0GfVqwx8Rymfi/AsB2g0JaPcIVuu8fBs4F7aWvG5eAAZwFmk
-         xbGXV4+YkDh9o2XlzF7tOQIxPZ1U8ogcURs4NdwOarQjLi0UenVuRnCmmNmbZaZKQs
-         2ILS1OgganO5g==
+        Wed, 11 Nov 2020 17:42:30 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00647C061A4E;
+        Wed, 11 Nov 2020 14:34:42 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id i7so2435092pgh.6;
+        Wed, 11 Nov 2020 14:34:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=cuZKalXwEVA3pcPeo63NU6Thuz7moWllpwq60etHaxg=;
+        b=hhkHVHjIgEHs18DPdbHWDlcMPi/y7Baje+dH/qZ011g/UVcLjyMlfBf+5g7K0/PyzW
+         ofMV4kdwvPDK4LSCV+GiGQBvYfe4okuL3sxwKOjYhCgajiTkr5EBuWphqyJPLgFakwId
+         hhUSiI92+rtLkdBgE3E4G5WyJZINImObasRhY+TrZVZNE+g776/3srMm11jC+nLCsgpE
+         38Dy4cErsFi8cxVGaAVBJnEqQ+SToi3jNKy5Y26Y8fXvCYCIxtVoMkIjcsX2jSXWJUuv
+         UKHX3mdCKaWm6Rda/iIgkMUHZRB+lj7pl7GqZmh6ghUls+CAB3Gng5gY6WNEWLSPe5zg
+         70sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=cuZKalXwEVA3pcPeo63NU6Thuz7moWllpwq60etHaxg=;
+        b=Nj75sjeXFIqPU/2WQXvD0M4upBimNdrGbrjqqE0+Q430xZ2DUsFPSU0KY4nXD4GZ4e
+         +0W6GvQqrDhUEq1sJloeLAowGRqn7nc5hGzkrHq6SV6sEggx2NbWaw0vpGBOvOOaQFWG
+         mtux4WmI4lsRv1y0f2TpiNarkdUHnKIzfMDnH2B6Pii8ddAtCoIKh/SKJVyK62OYmB2p
+         wnoIDtqb7aDtvAhFDXn4yZSBVGyvr6ohZv20tV0Fo5EwvRt0iL0yjgk1HcNfEazFT+95
+         awVmDmX5jqAfbHf6/lEAZ9IhJOoNWST/rilHyIQFuIMvXH4U2eGTKz1pJcUMUH4OzKEP
+         rvuA==
+X-Gm-Message-State: AOAM532APD+mG8W7kIgvvcFe5IO+z1/HHiNnYMtHsBDmUnRkprqHiE/y
+        Pq8VwFHqhS/GxtVs3RmYcYBUAcQAXb63jA==
+X-Google-Smtp-Source: ABdhPJznXmXA2BGQCR2EjZAQvuohnoaFEGtA7gjXHo/FYBtU8gu6erlpcPJ69H+q5vmKqTZ6v/Rd9w==
+X-Received: by 2002:aa7:92c3:0:b029:163:d2d6:8db1 with SMTP id k3-20020aa792c30000b0290163d2d68db1mr25303121pfa.17.1605134082430;
+        Wed, 11 Nov 2020 14:34:42 -0800 (PST)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id a20sm3605096pff.118.2020.11.11.14.34.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2020 14:34:41 -0800 (PST)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     thierry.reding@gmail.com, joro@8bytes.org
+Cc:     linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org, jonathanh@nvidia.com,
+        vdumpa@nvidia.com
+Subject: [PATCH RESEND 0/5] iommu/tegra-smmu: Some pending reviewed changes
+Date:   Wed, 11 Nov 2020 14:21:24 -0800
+Message-Id: <20201111222129.15736-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This is a merged set of resend for previously two series of patches
+that were reviewed/acked a month ago yet have not got applied.
 
-On 11/11/2020 13:47, Dmitry Osipenko wrote:
-> 11.11.2020 13:38, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> Commit 9ce274630495 ("cpufreq: tegra20: Use generic cpufreq-dt driver
->> (Tegra30 supported now)") update the Tegra20 CPUFREQ driver to use the
->> generic CPUFREQ device-tree driver. Since this change CPUFREQ support
->> on the Tegra20 Ventana platform has been broken because the necessary
->> device-tree nodes with the operating point information are not populated
->> for this platform. Fix this by updating device-tree for Venata to
->> include the operating point informration for Tegra20.
->>
->> Fixes: 9ce274630495 ("cpufreq: tegra20: Use generic cpufreq-dt driver (T=
-egra30 supported now)")
->> Cc: stable@vger.kernel.org
->>
->> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
->> ---
->>  arch/arm/boot/dts/tegra20-ventana.dts | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/t=
-egra20-ventana.dts
->> index b158771ac0b7..055334ae3d28 100644
->> --- a/arch/arm/boot/dts/tegra20-ventana.dts
->> +++ b/arch/arm/boot/dts/tegra20-ventana.dts
->> @@ -3,6 +3,7 @@
->> =20
->>  #include <dt-bindings/input/input.h>
->>  #include "tegra20.dtsi"
->> +#include "tegra20-cpu-opp.dtsi"
->> =20
->>  / {
->>  	model =3D "NVIDIA Tegra20 Ventana evaluation board";
->> @@ -592,6 +593,16 @@ clk32k_in: clock@0 {
->>  		#clock-cells =3D <0>;
->>  	};
->> =20
->> +	cpus {
->> +		cpu0: cpu@0 {
->> +			operating-points-v2 =3D <&cpu0_opp_table>;
->> +		};
->> +
->> +		cpu@1 {
->> +			operating-points-v2 =3D <&cpu0_opp_table>;
->> +		};
->> +	};
->> +
->>  	gpio-keys {
->>  		compatible =3D "gpio-keys";
->> =20
->>
->=20
-> This could be wrong to do because CPU voltage is fixed to 1000mV in
-> Ventana's DT, are you sure that higher clock rates don't require higher
-> voltages? What is the CPU process ID and SoC speedo ID on Ventana?
+Series-1: https://lkml.org/lkml/2020/9/29/73
+"[PATCH v4 0/2] iommu/tegra-smmu: Two followup changes"
 
-I see this in the bootlog ...
+Series-2: https://lkml.org/lkml/2020/10/9/808
+"[PATCH v7 0/3] iommu/tegra-smmu: Add PCI support"
 
-[    2.797684] tegra20-cpufreq tegra20-cpufreq: hardware version 0x2 0x2
+Nicolin Chen (5):
+  iommu/tegra-smmu: Unwrap tegra_smmu_group_get
+  iommu/tegra-smmu: Expand mutex protection range
+  iommu/tegra-smmu: Use fwspec in tegra_smmu_(de)attach_dev
+  iommu/tegra-smmu: Rework tegra_smmu_probe_device()
+  iommu/tegra-smmu: Add PCI support
 
-> You could easily hook up CPU voltage scaling, please see acer-500 DT and
-> patch [1] for examples of how to set up regulators in DT. But then it
-> shouldn't be a stable patch.
+ drivers/iommu/tegra-smmu.c | 240 ++++++++++++++-----------------------
+ 1 file changed, 88 insertions(+), 152 deletions(-)
 
-According to the Ventana design guide the CPU voltage range is 0.8-1.0V
-and so it appears to be set to the max. The CPUFREQ test is reporting
-the following ...
+-- 
+2.17.1
 
-cpu: cpufreq: - CPU#0:
-cpu: cpufreq:   - supported governors:
-cpu: cpufreq:     - ondemand *
-cpu: cpufreq:     - performance
-cpu: cpufreq:     - schedutil
-cpu: cpufreq:   - supported rates:
-cpu: cpufreq:     -  216000
-cpu: cpufreq:     -  312000
-cpu: cpufreq:     -  456000
-cpu: cpufreq:     -  608000
-cpu: cpufreq:     -  760000
-cpu: cpufreq:     -  816000
-cpu: cpufreq:     -  912000
-cpu: cpufreq:     - 1000000 *
-cpu: cpufreq: - CPU#1:
-cpu: cpufreq:   - supported governors:
-cpu: cpufreq:     - ondemand *
-cpu: cpufreq:     - performance
-cpu: cpufreq:     - schedutil
-cpu: cpufreq:   - supported rates:
-cpu: cpufreq:     -  216000
-cpu: cpufreq:     -  312000
-cpu: cpufreq:     -  456000
-cpu: cpufreq:     -  608000
-cpu: cpufreq:     -  760000
-cpu: cpufreq:     -  816000
-cpu: cpufreq:     -  912000
-cpu: cpufreq:     - 1000000 *
-
-Cheers
-Jon
-
---=20
-nvpublic
