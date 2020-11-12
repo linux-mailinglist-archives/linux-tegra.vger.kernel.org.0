@@ -2,109 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D5082B11B7
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Nov 2020 23:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 933582B1217
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Nov 2020 23:49:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727928AbgKLWhH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Nov 2020 17:37:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
+        id S1726846AbgKLWth (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Nov 2020 17:49:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727798AbgKLWhG (ORCPT
+        with ESMTP id S1726759AbgKLWth (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Nov 2020 17:37:06 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F348C0613D1;
-        Thu, 12 Nov 2020 14:37:05 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id i6so10952069lfd.1;
-        Thu, 12 Nov 2020 14:37:05 -0800 (PST)
+        Thu, 12 Nov 2020 17:49:37 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A382C0613D1;
+        Thu, 12 Nov 2020 14:49:37 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id u19so4714909lfr.7;
+        Thu, 12 Nov 2020 14:49:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0qni2M87D+g89wV73PaUfeJOYq05vtoVkWdsLrYHeyg=;
-        b=kdYppoKFHiS9XKa3FhxlKioia9DpxhoAMnLvX3xxwUDyqIiDJ3HHl3IBW6p/6Hppgr
-         R1rrlU57Zy6cPF2EoCyeH+Vj7DtGbdUur/qeOJ5iivsuZWhBfoFYLANqy8A0ZN/hIbOC
-         hzMjgk+HOAKRJgwRKfqTFbsQQCm6O1j9Mk2vhjV5UCip2XhLqD1SR0a/iBKgVIIdZ89E
-         BYwaMCRnu8T3dfsnrarFGvnrKog6t/XXpNu/IZPXfANecW0enI19tvf+dIatOgQDZ7OK
-         TcsqlEJ0qKXLVGEQoZ/auOTRSu/cyJMRmB++w+tQm6Fjk+QGvmxT/rVGMvqP4kLUagKK
-         crgg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JRRndN9/UEYEu3XOF4YS3nhu9zqLn65PBOWVgCTZnIE=;
+        b=JsLA4C9Vc4ei9b7IMzUQkm97p+fdH8lzlCwNFNdB8JW6I/k1o4PJaprSUTuR22Dj/L
+         tV26fqARhKHX8M86SxqR2wWfet0lZaKj59VPs+aqeGzvhoWCfcWUtwA+KZu84T6L0Gs+
+         B9QX8oSzx4RK6LPogfy0RjH9E/jCqgBNVXTHK3kScLmEcHu61cWB0AmdzlLJ/ag2xzb7
+         4yOuW6CrVg/qQKh3CqTHuL9/kYsL38jnynMSVkVTvdLTISM+o6H2oYKO85kZMlCwZTHZ
+         /RBrfrfd5fRSKLJhwopiYigIGxsKF4S8ITHQ9X8zm1v2wQxWax/B4CvHbzFQzLIZeYOx
+         l+SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0qni2M87D+g89wV73PaUfeJOYq05vtoVkWdsLrYHeyg=;
-        b=i9XT3DeEn66paWC21p/Q3Gn6OaYwiUeZDLeDkq4gp80c+OiqiSH1x8apchsO36co4V
-         YrUBWleQKWu6XRXSQJVELSkrXgiSb/mfK7L7+HF/XGGd2KK9Da/OOmEs82FuZiaaZOGm
-         R7WPsNhYUP1HHt836BXp/e2lbNN96jwWuLeUtWr7JLoUQHrCf5Qb48h0hXumwumRqoiF
-         sPwfBykQbRi6gKUCxnt+KIY/kg2hlJkF0Ujnwh1FcTISE1yT32e0YfeMnf1EIkOWo50W
-         g0TzPHnNKR7jITX6kUQK3782Ab5YNoGleZ1d9dlNd14iArN8W54zJm9F7nFqVB9vwSdS
-         mi+A==
-X-Gm-Message-State: AOAM532BgxESa2gbLJlSoya9/baP8ZMcnk8nAdOil512Y8H3nYBGtSRI
-        Av8f1zNOupkXjPx7wKecXIBeQd4XOtk=
-X-Google-Smtp-Source: ABdhPJz14sMvD+lHcp3Whn12ApfHxx9o6IGlXRIpcfSRQR0C4MBfRBbzrGgqZKxBnQTJLRiZ9wpHOA==
-X-Received: by 2002:a05:6512:3312:: with SMTP id k18mr654537lfe.403.1605220623351;
-        Thu, 12 Nov 2020 14:37:03 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
-        by smtp.googlemail.com with ESMTPSA id 1sm981505lfi.263.2020.11.12.14.37.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2020 14:37:02 -0800 (PST)
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
- <20201110203257.GC5957@sirena.org.uk>
- <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
- <20201111115534.GA4847@sirena.org.uk>
- <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
- <20201112171600.GD4742@sirena.org.uk>
- <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
- <20201112200123.GF4742@sirena.org.uk>
+        bh=JRRndN9/UEYEu3XOF4YS3nhu9zqLn65PBOWVgCTZnIE=;
+        b=pDXVFC4yUPWwp2trdKAZTSQ7CLhATUHXg41k9NRGfWt7vDjl5p2bB4sOUU+y1yrB5l
+         yEF4I0jyWITjm91WspGuKltP1mq7K8w3Rak4qYcvdf8jfvQICX3xyE7OPDMMZeb4iJ6l
+         L2G/3aa3+iKEv1KjFk//n7Hr622VfpP+QvmY2Nme7dLuiSgYDRahBenUr8JDQW1PTRaX
+         y/P2hqjX3NGISu8WaUc5dsoEMIdio6ERYBN7yS6BZYx/CQ549ROsw6U+GFNwjmGPBTp5
+         Vk6dqft3bJYpOMJXDj4OBS7uO9NpnnfEeNemyy2D1F+Low078zMiYtn413kcl+LB8STy
+         9jzA==
+X-Gm-Message-State: AOAM5324DTWFSqNykjK7rr9bq+TpPav88QU4Q/dMkhAp8Nm+saV8cgGM
+        R/fDa3Iumdqo5B9SymZP5Ug=
+X-Google-Smtp-Source: ABdhPJzqMHciZtLA09dlBKKcc8/W6mwRKVJimZ7efGgp43lQlr3Z1CkeXygF1oL9zW64dwTQyzUagA==
+X-Received: by 2002:a19:e08:: with SMTP id 8mr581771lfo.441.1605221375534;
+        Thu, 12 Nov 2020 14:49:35 -0800 (PST)
+Received: from localhost.localdomain (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.gmail.com with ESMTPSA id z187sm1006536lfc.126.2020.11.12.14.49.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 14:49:34 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
-Date:   Fri, 13 Nov 2020 01:37:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dan Murphy <dmurphy@ti.com>, Sebastian Reichel <sre@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/4] Introduce Embedded Controller driver for Acer A500
+Date:   Fri, 13 Nov 2020 01:49:19 +0300
+Message-Id: <20201112224923.4028-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201112200123.GF4742@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-12.11.2020 23:01, Mark Brown пишет:
->> But it's not allowed to change voltage of a dummy regulator, is it
->> intentional?
-> Of course not, we can't know if the requested new voltage is valid - the
-> driver would have to have explict support for handling situations where
-> it's not possible to change the voltage (which it can detect through
-> enumerating the values it wants to set at startup).
-> 
-> [Requesting the same supply multiple times]
+This series adds support for the Embedded Controller which is found on
+Acer Iconia Tab A500 (Android tablet device).
 
-But how driver is supposed to recognize that it's a dummy or buggy
-regulator if it rejects all voltages?
+The Embedded Controller is ENE KB930 and it's running firmware customized
+for the A500. The firmware interface may be reused by some other sibling
+Acer tablets, although none of those tablets are supported in upstream yet.
+
+Changelog:
+
+v6: - Fixed dtschema-checker warning about a wrong indentation, reported
+      by kernel bot for v5.
+
+v5: - No changes. Re-sending again in order to check whether dtschema-bot
+      warning is resolved now, which didn't happen in v4 because bot used
+      older 5.9 kernel code base instead of 5.10.
+
+v4: - No code changes. Added r-b from Rob Herring and Sebastian Reichel.
+      Re-sending for 5.11.
+
+    - The v3 of LED driver was applied by Pavel Machek and already presents
+      in v5.10 kernel.
+
+v3: - Rebased on a recent linux-next. Fixed new merge conflict and dropped
+      "regmap: Use flexible sleep" patch because it's already applied.
+
+v2: - Factored out KB930 device-tree binding into a separate file, like it
+      was suggested by Lubomir Rintel.
+
+    - Switched to use regmap API like it was suggested by Lubomir Rintel.
+
+    - Added patch "regmap: Use flexible sleep" which allows not to hog
+      CPU while LED is switching state.
+
+    - Corrected MODULE_LICENSE to use "GPL" in all patches.
+
+    - Corrected MFD driver Kconfig entry like it was suggested by
+      Lubomir Rintel, it now depends on I2C.
+
+    - Switched to use I2C probe_new() in the MFD driver.
+
+    - Renamed the global pm_off variable, like it was suggested by
+      Lubomir Rintel and Lee Jones.
+
+    - Dropped serial number from the battery driver because I realized
+      that it's not a battery serial, but a device serial.
+
+    - Battery driver now uses dev_err_probe(), like it was suggested by
+      Sebastian Reichel.
+
+    - Dropped legacy LED_ON usage from the LED driver and renamed the
+      LEDs, like it was suggested by Pavel Machek. I also checked whether
+      LED-name customization via device-tree could be needed by other
+      potentially compatible devices and it shouldn't be needed, anyways it
+      won't be difficult to extend the code even if I'm wrong.
+
+
+Dmitry Osipenko (4):
+  dt-bindings: mfd: Add ENE KB930 Embedded Controller binding
+  mfd: Add driver for Embedded Controller found on Acer Iconia Tab A500
+  power: supply: Add battery gauge driver for Acer Iconia Tab A500
+  ARM: tegra: acer-a500: Add Embedded Controller
+
+ .../devicetree/bindings/mfd/ene-kb930.yaml    |  65 ++++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  17 +
+ drivers/mfd/Kconfig                           |  12 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/acer-ec-a500.c                    | 203 ++++++++++++
+ drivers/power/supply/Kconfig                  |   6 +
+ drivers/power/supply/Makefile                 |   1 +
+ drivers/power/supply/acer_a500_battery.c      | 297 ++++++++++++++++++
+ 8 files changed, 602 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+ create mode 100644 drivers/mfd/acer-ec-a500.c
+ create mode 100644 drivers/power/supply/acer_a500_battery.c
+
+-- 
+2.29.2
+
