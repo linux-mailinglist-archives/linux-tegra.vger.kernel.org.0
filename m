@@ -2,142 +2,171 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3564F2AFBF4
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Nov 2020 02:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2148F2B0320
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Nov 2020 11:51:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgKLBbB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Nov 2020 20:31:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
+        id S1727147AbgKLKv0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Nov 2020 05:51:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725996AbgKKWnF (ORCPT
+        with ESMTP id S1726776AbgKLKvZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Nov 2020 17:43:05 -0500
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDAB5C061A54;
-        Wed, 11 Nov 2020 14:34:48 -0800 (PST)
-Received: by mail-pg1-x542.google.com with SMTP id w4so2399025pgg.13;
-        Wed, 11 Nov 2020 14:34:48 -0800 (PST)
+        Thu, 12 Nov 2020 05:51:25 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3A1C0613D1;
+        Thu, 12 Nov 2020 02:51:25 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id l10so5557701lji.4;
+        Thu, 12 Nov 2020 02:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/zDY1txU9YKSfZBMxX5zBFPuLz5WqGhiHVEhwalxC/s=;
-        b=UlwsqDqzWFZ79M8Fw7RxcklsuwDjf5UXKrNC47sCENdlujbBC5k1ybowNyIA9Y92Uo
-         C5icN7prkQNh9nmAUXG5Si8jtnFMMEW/4NO3oKYESc+Bzu9yJcNqLlY+x6wt7nEEZbHt
-         HnphqJEFV7i1TerWRZD0IdyY8l0Jzl2qnJIaELzwIph9k9oJ/Iu/MsDm+qoHZKMEzV7c
-         ATxMqHuNf1+JiRGfNmf5gLio6+YsfwndcOc0n/Jwfm1U3HjURlEpB8YPJxSYYxh6BC1D
-         QXW/+KckNB/eGCnK68Pel26Hk1y1Pvq1bIzKeJ5KqKwiqkmFA8nXFrcSHzvrYkj+vA9l
-         QDnw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ko0Hen9xgaMvsVz22vy0N1Bw1MmjjCfm//RLZdh5Ix8=;
+        b=LPh4+MZNokEWonIni3ZCTu6odNHux9zEsd4ClN9OceJOADqpT2H0Xz7Rp+iD7yOivi
+         3MKl/vtsXpB9dqAR8HFyp11eNrmPkJ6CNfjRC4ftuMgL/czjicmgi0SGguihWckbiO09
+         1SOkAYTFUbWiajY2p1UjfWC3vg0VvvSQuYvERAdh9DqFR96PU9L+yElqLUJPTm/GVjDW
+         I6V9XIQYZHORg9datYkQ8BNKweLUxWH3gjbLmBVYDIXjCEzXD09TwKXIqumrWbvkd98W
+         z4yvE4J5SHGxs9sBaG+GfK5fcQDxSzBsqvUlrt9AypnTC0GECcfPHQrf2EjldFc56VZw
+         abMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=/zDY1txU9YKSfZBMxX5zBFPuLz5WqGhiHVEhwalxC/s=;
-        b=ajNKNMc2SpZ6gOd7GXFf6X9d7M6x5pV+slBMOjaDdabmW3u5G8TMgo8qOROUVb5bKl
-         tzgFCG+CyyVRBzVwQy3TepZju7ZwtQAuMY2nhcH21aWwkSBT+6+3eFhfga+uS4rqBAYC
-         i/jj1bNBnsfk5cvRNMtWWu5DJQAasDs7cRwHwUjhOYnAqZ5eLnlU5Ba0mZRO26llHkyy
-         A6iq0+Xm4IEfShnVgW1O+ObNbw3lIQN+uhS/KKqvv3W0PBAB8ekPpxV//JwIOkz8yTVa
-         S9z6etmBzKtVqZ4chT0380F/45AVdS+4yovfvvfB//5Aq3s3EgPXL38bb3fL30QgJ7im
-         bW4A==
-X-Gm-Message-State: AOAM532py7NMjRs8rycpRxxaycCfxNz8vaM99seXG6Vl3YjKPvfskQEY
-        SAnZWgfxGBR5PDiumQR6b28=
-X-Google-Smtp-Source: ABdhPJxd9Q9AnaCOoG+ZhCtsAd/jU8tGhe/KqjdM2axh75mPJwCkLVtJyOJYzZwYVRBhIToy4m9pDA==
-X-Received: by 2002:a17:90a:f00a:: with SMTP id bt10mr5693143pjb.91.1605134088440;
-        Wed, 11 Nov 2020 14:34:48 -0800 (PST)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id a20sm3605096pff.118.2020.11.11.14.34.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 14:34:47 -0800 (PST)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     thierry.reding@gmail.com, joro@8bytes.org
-Cc:     linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-tegra@vger.kernel.org, jonathanh@nvidia.com,
-        vdumpa@nvidia.com
-Subject: [PATCH RESEND 5/5] iommu/tegra-smmu: Add PCI support
-Date:   Wed, 11 Nov 2020 14:21:29 -0800
-Message-Id: <20201111222129.15736-6-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201111222129.15736-1-nicoleotsuka@gmail.com>
-References: <20201111222129.15736-1-nicoleotsuka@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ko0Hen9xgaMvsVz22vy0N1Bw1MmjjCfm//RLZdh5Ix8=;
+        b=rnTWHeGy6/kyjW324nMLvPuV7bm4nlfDuciroDuKcaO4Ie3kkXUNTxbOCaYTRfI+GQ
+         3lc+hDxIOMcrnUK19Vi0PvltLi7/dEpQFsfJuW3o9HaukvYmkYVEreq5fm0ShKxb6ZL0
+         UHRN1FH4XnOuYokCwerRNJLbuAbE5bjRDipWDZ3ffIpy5pXl74GNwNKDCdUZOeGFh9RU
+         oWFxMpj726R6nKihQFh0wxKeUtRakV5lYOap8ovnnFw4YDP9j43vsaIdKPH6C/3YKAIF
+         /0jseCMr+96yjO5CCaHGRCOVtNMQlBgcXR3ZmalQbdMp6y4ta6oSo4M19GkKqFmsZ8sP
+         z3Nw==
+X-Gm-Message-State: AOAM533g/cfrTnQ2QFezF2lTUJgg1aj5jqZfxC5psfoLH0BUEQ15Vujp
+        lMKjUhuHQJoMGC9TFMIaCzQqH4p9Ji8=
+X-Google-Smtp-Source: ABdhPJx5jh8tGHEuJkyGBvzo+p6Dj1SKhoFVTyWjBdyt/XAQJ8z7s9E0l5okKEl+Ehy5UU5etZocEw==
+X-Received: by 2002:a2e:7a18:: with SMTP id v24mr6174698ljc.224.1605178283664;
+        Thu, 12 Nov 2020 02:51:23 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.googlemail.com with ESMTPSA id b13sm504831ljf.107.2020.11.12.02.51.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2020 02:51:22 -0800 (PST)
+Subject: Re: [PATCH] ARM: tegra: Populate OPP table for Tegra20 Ventana
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20201111103847.152721-1-jonathanh@nvidia.com>
+ <7e40cd3e-7c34-c9a9-bf00-ba7d507a2d6b@gmail.com>
+ <5409bbb4-d3f9-ccc9-ac3e-6344975bd58e@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <acadbf40-5dea-eee1-b05e-ad788df56bf7@gmail.com>
+Date:   Thu, 12 Nov 2020 13:51:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
+MIME-Version: 1.0
+In-Reply-To: <5409bbb4-d3f9-ccc9-ac3e-6344975bd58e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch simply adds support for PCI devices.
+11.11.2020 23:31, Jon Hunter пишет:
+> 
+> On 11/11/2020 13:47, Dmitry Osipenko wrote:
+>> 11.11.2020 13:38, Jon Hunter пишет:
+>>> Commit 9ce274630495 ("cpufreq: tegra20: Use generic cpufreq-dt driver
+>>> (Tegra30 supported now)") update the Tegra20 CPUFREQ driver to use the
+>>> generic CPUFREQ device-tree driver. Since this change CPUFREQ support
+>>> on the Tegra20 Ventana platform has been broken because the necessary
+>>> device-tree nodes with the operating point information are not populated
+>>> for this platform. Fix this by updating device-tree for Venata to
+>>> include the operating point informration for Tegra20.
+>>>
+>>> Fixes: 9ce274630495 ("cpufreq: tegra20: Use generic cpufreq-dt driver (Tegra30 supported now)")
+>>> Cc: stable@vger.kernel.org
+>>>
+>>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+>>> ---
+>>>  arch/arm/boot/dts/tegra20-ventana.dts | 11 +++++++++++
+>>>  1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
+>>> index b158771ac0b7..055334ae3d28 100644
+>>> --- a/arch/arm/boot/dts/tegra20-ventana.dts
+>>> +++ b/arch/arm/boot/dts/tegra20-ventana.dts
+>>> @@ -3,6 +3,7 @@
+>>>  
+>>>  #include <dt-bindings/input/input.h>
+>>>  #include "tegra20.dtsi"
+>>> +#include "tegra20-cpu-opp.dtsi"
+>>>  
+>>>  / {
+>>>  	model = "NVIDIA Tegra20 Ventana evaluation board";
+>>> @@ -592,6 +593,16 @@ clk32k_in: clock@0 {
+>>>  		#clock-cells = <0>;
+>>>  	};
+>>>  
+>>> +	cpus {
+>>> +		cpu0: cpu@0 {
+>>> +			operating-points-v2 = <&cpu0_opp_table>;
+>>> +		};
+>>> +
+>>> +		cpu@1 {
+>>> +			operating-points-v2 = <&cpu0_opp_table>;
+>>> +		};
+>>> +	};
+>>> +
+>>>  	gpio-keys {
+>>>  		compatible = "gpio-keys";
+>>>  
+>>>
+>>
+>> This could be wrong to do because CPU voltage is fixed to 1000mV in
+>> Ventana's DT, are you sure that higher clock rates don't require higher
+>> voltages? What is the CPU process ID and SoC speedo ID on Ventana?
+> 
+> I see this in the bootlog ...
+> 
+> [    2.797684] tegra20-cpufreq tegra20-cpufreq: hardware version 0x2 0x2
+> 
+>> You could easily hook up CPU voltage scaling, please see acer-500 DT and
+>> patch [1] for examples of how to set up regulators in DT. But then it
+>> shouldn't be a stable patch.
+> 
+> According to the Ventana design guide the CPU voltage range is 0.8-1.0V
+> and so it appears to be set to the max. The CPUFREQ test is reporting
+> the following ...
+> 
+> cpu: cpufreq: - CPU#0:
+> cpu: cpufreq:   - supported governors:
+> cpu: cpufreq:     - ondemand *
+> cpu: cpufreq:     - performance
+> cpu: cpufreq:     - schedutil
+> cpu: cpufreq:   - supported rates:
+> cpu: cpufreq:     -  216000
+> cpu: cpufreq:     -  312000
+> cpu: cpufreq:     -  456000
+> cpu: cpufreq:     -  608000
+> cpu: cpufreq:     -  760000
+> cpu: cpufreq:     -  816000
+> cpu: cpufreq:     -  912000
+> cpu: cpufreq:     - 1000000 *
+> cpu: cpufreq: - CPU#1:
+> cpu: cpufreq:   - supported governors:
+> cpu: cpufreq:     - ondemand *
+> cpu: cpufreq:     - performance
+> cpu: cpufreq:     - schedutil
+> cpu: cpufreq:   - supported rates:
+> cpu: cpufreq:     -  216000
+> cpu: cpufreq:     -  312000
+> cpu: cpufreq:     -  456000
+> cpu: cpufreq:     -  608000
+> cpu: cpufreq:     -  760000
+> cpu: cpufreq:     -  816000
+> cpu: cpufreq:     -  912000
+> cpu: cpufreq:     - 1000000 *
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
- drivers/iommu/tegra-smmu.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index f45ed43cf8db..4a3f095a1c26 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -865,7 +866,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
--	group->group = iommu_group_alloc();
-+	if (dev_is_pci(dev))
-+		group->group = pci_device_group(dev);
-+	else
-+		group->group = generic_device_group(dev);
-+
- 	if (IS_ERR(group->group)) {
- 		devm_kfree(smmu->dev, group);
- 		mutex_unlock(&smmu->lock);
-@@ -1075,22 +1080,32 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
- 	err = iommu_device_register(&smmu->iommu);
--	if (err) {
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err)
-+		goto remove_sysfs;
- 
- 	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
--	if (err < 0) {
--		iommu_device_unregister(&smmu->iommu);
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err < 0)
-+		goto unregister;
-+
-+#ifdef CONFIG_PCI
-+	err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
-+	if (err < 0)
-+		goto unset_platform_bus;
-+#endif
- 
- 	if (IS_ENABLED(CONFIG_DEBUG_FS))
- 		tegra_smmu_debugfs_init(smmu);
- 
- 	return smmu;
-+
-+unset_platform_bus: __maybe_unused;
-+	bus_set_iommu(&platform_bus_type, NULL);
-+unregister:
-+	iommu_device_unregister(&smmu->iommu);
-+remove_sysfs:
-+	iommu_device_sysfs_remove(&smmu->iommu);
-+
-+	return ERR_PTR(err);
- }
- 
- void tegra_smmu_remove(struct tegra_smmu *smmu)
--- 
-2.17.1
-
+If you don't see a message in KMSG saying "bringing vdd_cpu to
+1000000uV", then should be good.
