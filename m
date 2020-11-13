@@ -2,197 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 025562B249E
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Nov 2020 20:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8BB2B2501
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Nov 2020 20:58:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726338AbgKMTg7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Nov 2020 14:36:59 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17905 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgKMTg6 (ORCPT
+        id S1726081AbgKMT6F (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Nov 2020 14:58:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725966AbgKMT6E (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Nov 2020 14:36:58 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5faee0620000>; Fri, 13 Nov 2020 11:37:06 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 13 Nov
- 2020 19:36:57 +0000
-Received: from skomatineni-linux.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Fri, 13 Nov 2020 19:36:57 +0000
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <robh+dt@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 6/6] ata: ahci_tegra: Add AHCI support for Tegra186
-Date:   Fri, 13 Nov 2020 11:36:58 -0800
-Message-ID: <1605296218-2510-7-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1605296218-2510-1-git-send-email-skomatineni@nvidia.com>
-References: <1605296218-2510-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Fri, 13 Nov 2020 14:58:04 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AFDC0613D1;
+        Fri, 13 Nov 2020 11:58:04 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id s13so10648334wmh.4;
+        Fri, 13 Nov 2020 11:58:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8c6mMpG4fnCBautALH+i7qd41/YW/Zc3tdgyeWKN91Y=;
+        b=qOMaLT3sPXbB2u1hfkyvVHBra9HtNjqMehFd8gzGjHmVdWCumUA/51H3M5AY3zKQbt
+         dHFMVm1NzGYEzv1WfBJiLCFNMCLOtsegSX/R6Do/TL1AtF0vcgo2O9wS0lcFHZa3I/Nt
+         qUItEjStg5dy8nKIbI6vfccV/VaSM9ZqXrCOkmNF/m+AGvFDtsqUhSLMc3BaEl8+38sx
+         8EiXDQ8/Ag5eKgS+8jK7dZA4DsJC/S1pXORM6AZTN7vfB0wB7PyIycEH44z0dlH0hQy0
+         T5LnoE3pVCz56WWhcS5ek/JKwbR2BNW3d+kun2oWv2nc6TWx9wAWHBhLPIXb6NqADpD8
+         PalA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8c6mMpG4fnCBautALH+i7qd41/YW/Zc3tdgyeWKN91Y=;
+        b=aZgTvYXI8MxIhZpTAY+TPcdwSKJS2vRaK4TdjNkFGOlo6RMi9jeEl+7pqQWOPiVVjw
+         k+t6GRrlUBBA1ZDvf+kUdZoVTBQVQ7CSPsif82Qu2nd2ahmrNoQI3N3NQ6MPAU0o3m1Q
+         waTMPrf2UDO7K4V0JbMy95f+CyxpI/ZVfwQxLzLQHnfHKk2/0dT8K7dHzksyV+vBDV2r
+         oHQKHBUZqCUKanM96xeAMpgS+EwNpXKFmvwFEDCwEWxCjMaX4Thys0JDTNKxoAjkWqSe
+         qOsRQlLZBOqTxSZepMfnmkKTn4elyWEjeAltRfiYkTpdfMv389PTYjoOw+pIdB0YbHGh
+         /Wyw==
+X-Gm-Message-State: AOAM531hU0s54H5THyW7zbwJVVJQqTGrs8XX6YDCfbu23hCSuFfv36kA
+        GPYA0Wb4xFB9m+Ge11T9W2o=
+X-Google-Smtp-Source: ABdhPJzTIeUrzp8QTQMGW/fiMOcZSBNlKHo0ivjYCSoGFdMAZh3sZe8rEZFd5iiI5Ko7R8bElcwjwA==
+X-Received: by 2002:a1c:658b:: with SMTP id z133mr3979879wmb.1.1605297482861;
+        Fri, 13 Nov 2020 11:58:02 -0800 (PST)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id q12sm12521744wmc.45.2020.11.13.11.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2020 11:58:01 -0800 (PST)
+Date:   Fri, 13 Nov 2020 20:57:57 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: Re: [RFC PATCH] mmc: sdhci: tegra: fix wrong unit with busy_timeout
+Message-ID: <20201113195757.GB1416567@ulmo>
+References: <20201113125354.3507-1-wsa+renesas@sang-engineering.com>
+ <20201113163846.GF1408970@ulmo>
+ <728ad4ee-c5a2-65a6-c037-689bc77acbdf@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1605296226; bh=bqvYhM4gfczmD1UkOCBSQi6kCpayixLg2a8u43aYS8U=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:X-NVConfidentiality:MIME-Version:Content-Type;
-        b=aZ+jQqCxEUboM6XMeiPKoCEOuxVDCK2qK9ZYY91Lrurh0i8Qk0zZIAJxChDhmABuY
-         wXBWGDaWuVwKxEiDZ0UekIUuRxAGfImLtrueFb2MR4UYmvyNsO8N87GzOz+lnWO+95
-         LF+Ei/Mco1X34nwfxN/Mj/pRrRPKWW7Ia8BQn3TXA6w/X4QD74xCSDqcR1twyThBoT
-         ZsHikWXhsfPzIMAv70mHNK6O/KpY/3MSKw73UKsFTBung5xXQAhJUMK+Fl5aiQY0iP
-         Nhk8KOJS5nkhYkoOjf8IQB/xLVfhiB1vB+cWhHCLaTAFPlY30MGEq8KEmW5AaGH7go
-         imu80vOPrKDzg==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="1UWUbFP1cBYEclgG"
+Content-Disposition: inline
+In-Reply-To: <728ad4ee-c5a2-65a6-c037-689bc77acbdf@nvidia.com>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds support for AHCI-compliant Serial ATA controller
-on Tegra186 SoC.
 
-Tegra186 does not have sata-oob reset.
-Tegra186 SATA_NVOOB register filed COMMA_CNT position and width are
-different compared to Tegra210 and prior.
+--1UWUbFP1cBYEclgG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So, this patch adds a flag has_sata_oob_rst and tegra_ahci_regs to
-SoC specific strcuture tegra_ahci_soc and updated their implementation
-accordingly.
+On Fri, Nov 13, 2020 at 10:34:27AM -0800, Sowjanya Komatineni wrote:
+>=20
+> On 11/13/20 8:38 AM, Thierry Reding wrote:
+> > On Fri, Nov 13, 2020 at 01:53:30PM +0100, Wolfram Sang wrote:
+> > > 'busy_timeout' is in msecs, not in jiffies. Use the correct factor.
+> > >=20
+> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > ---
+> > >=20
+> > > Not tested. Found by code investigation about 'busy_timeout'. A quick
+> > > grep showed no other problematic code within the MMC host drivers.
+> > >=20
+> > >   drivers/mmc/host/sdhci-tegra.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > Sowjanya, can you take a look at this?
+> >=20
+> > Thierry
+>=20
+> Thanks Wolfram.
+>=20
+> Right cmd busy_timeout is in msec and we have to enable ERASE_TIMEOUT_LIM=
+IT
+> bit for more than 11s busy operations.
+>=20
+> So it should be MSEC_PER_SEC.
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- drivers/ata/ahci_tegra.c | 60 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 47 insertions(+), 13 deletions(-)
+Great, thanks!
 
-diff --git a/drivers/ata/ahci_tegra.c b/drivers/ata/ahci_tegra.c
-index cb55ebc1..56612af 100644
---- a/drivers/ata/ahci_tegra.c
-+++ b/drivers/ata/ahci_tegra.c
-@@ -59,8 +59,6 @@
- #define T_SATA0_CFG_PHY_1_PAD_PLL_IDDQ_EN		BIT(22)
- 
- #define T_SATA0_NVOOB                                   0x114
--#define T_SATA0_NVOOB_COMMA_CNT_MASK                    (0xff << 16)
--#define T_SATA0_NVOOB_COMMA_CNT                         (0x07 << 16)
- #define T_SATA0_NVOOB_SQUELCH_FILTER_MODE_MASK          (0x3 << 24)
- #define T_SATA0_NVOOB_SQUELCH_FILTER_MODE               (0x1 << 24)
- #define T_SATA0_NVOOB_SQUELCH_FILTER_LENGTH_MASK        (0x3 << 26)
-@@ -154,11 +152,18 @@ struct tegra_ahci_ops {
- 	int (*init)(struct ahci_host_priv *hpriv);
- };
- 
-+struct tegra_ahci_regs {
-+	unsigned int nvoob_comma_cnt_mask;
-+	unsigned int nvoob_comma_cnt_val;
-+};
-+
- struct tegra_ahci_soc {
- 	const char *const		*supply_names;
- 	u32				num_supplies;
- 	bool				supports_devslp;
-+	bool				has_sata_oob_rst;
- 	const struct tegra_ahci_ops	*ops;
-+	const struct tegra_ahci_regs	*regs;
- };
- 
- struct tegra_ahci_priv {
-@@ -240,11 +245,13 @@ static int tegra_ahci_power_on(struct ahci_host_priv *hpriv)
- 	if (ret)
- 		return ret;
- 
--	ret = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_SATA,
--						tegra->sata_clk,
--						tegra->sata_rst);
--	if (ret)
--		goto disable_regulators;
-+	if (!tegra->pdev->dev.pm_domain) {
-+		ret = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_SATA,
-+							tegra->sata_clk,
-+							tegra->sata_rst);
-+		if (ret)
-+			goto disable_regulators;
-+	}
- 
- 	reset_control_assert(tegra->sata_oob_rst);
- 	reset_control_assert(tegra->sata_cold_rst);
-@@ -330,10 +337,10 @@ static int tegra_ahci_controller_init(struct ahci_host_priv *hpriv)
- 	writel(val, tegra->sata_regs + SCFG_OFFSET + T_SATA_CFG_PHY_0);
- 
- 	val = readl(tegra->sata_regs + SCFG_OFFSET + T_SATA0_NVOOB);
--	val &= ~(T_SATA0_NVOOB_COMMA_CNT_MASK |
-+	val &= ~(tegra->soc->regs->nvoob_comma_cnt_mask |
- 		 T_SATA0_NVOOB_SQUELCH_FILTER_LENGTH_MASK |
- 		 T_SATA0_NVOOB_SQUELCH_FILTER_MODE_MASK);
--	val |= (T_SATA0_NVOOB_COMMA_CNT |
-+	val |= (tegra->soc->regs->nvoob_comma_cnt_val |
- 		T_SATA0_NVOOB_SQUELCH_FILTER_LENGTH |
- 		T_SATA0_NVOOB_SQUELCH_FILTER_MODE);
- 	writel(val, tegra->sata_regs + SCFG_OFFSET + T_SATA0_NVOOB);
-@@ -449,15 +456,35 @@ static const struct tegra_ahci_ops tegra124_ahci_ops = {
- 	.init = tegra124_ahci_init,
- };
- 
-+static const struct tegra_ahci_regs tegra124_ahci_regs = {
-+	.nvoob_comma_cnt_mask = GENMASK(30, 28),
-+	.nvoob_comma_cnt_val = (7 << 28),
-+};
-+
- static const struct tegra_ahci_soc tegra124_ahci_soc = {
- 	.supply_names = tegra124_supply_names,
- 	.num_supplies = ARRAY_SIZE(tegra124_supply_names),
- 	.supports_devslp = false,
-+	.has_sata_oob_rst = true,
- 	.ops = &tegra124_ahci_ops,
-+	.regs = &tegra124_ahci_regs,
- };
- 
- static const struct tegra_ahci_soc tegra210_ahci_soc = {
- 	.supports_devslp = false,
-+	.has_sata_oob_rst = true,
-+	.regs = &tegra124_ahci_regs,
-+};
-+
-+static const struct tegra_ahci_regs tegra186_ahci_regs = {
-+	.nvoob_comma_cnt_mask = GENMASK(23, 16),
-+	.nvoob_comma_cnt_val = (7 << 16),
-+};
-+
-+static const struct tegra_ahci_soc tegra186_ahci_soc = {
-+	.supports_devslp = false,
-+	.has_sata_oob_rst = false,
-+	.regs = &tegra186_ahci_regs,
- };
- 
- static const struct of_device_id tegra_ahci_of_match[] = {
-@@ -469,6 +496,10 @@ static const struct of_device_id tegra_ahci_of_match[] = {
- 		.compatible = "nvidia,tegra210-ahci",
- 		.data = &tegra210_ahci_soc
- 	},
-+	{
-+		.compatible = "nvidia,tegra186-ahci",
-+		.data = &tegra186_ahci_soc
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, tegra_ahci_of_match);
-@@ -518,10 +549,13 @@ static int tegra_ahci_probe(struct platform_device *pdev)
- 		return PTR_ERR(tegra->sata_rst);
- 	}
- 
--	tegra->sata_oob_rst = devm_reset_control_get(&pdev->dev, "sata-oob");
--	if (IS_ERR(tegra->sata_oob_rst)) {
--		dev_err(&pdev->dev, "Failed to get sata-oob reset\n");
--		return PTR_ERR(tegra->sata_oob_rst);
-+	if (tegra->soc->has_sata_oob_rst) {
-+		tegra->sata_oob_rst = devm_reset_control_get(&pdev->dev,
-+							     "sata-oob");
-+		if (IS_ERR(tegra->sata_oob_rst)) {
-+			dev_err(&pdev->dev, "Failed to get sata-oob reset\n");
-+			return PTR_ERR(tegra->sata_oob_rst);
-+		}
- 	}
- 
- 	tegra->sata_cold_rst = devm_reset_control_get(&pdev->dev, "sata-cold");
--- 
-2.7.4
+Acked-by: Thierry Reding <treding@nvidia.com>
 
+And perhaps also:
+
+Fixes: 5e958e4aacf4 ("sdhci: tegra: Implement Tegra specific set_timeout ca=
+llback")
+
+Not sure it's worth adding the latter because this has been in Linux
+since 5.7 and I haven't heard of any issues.
+
+Thierry
+
+--1UWUbFP1cBYEclgG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+u5TgACgkQ3SOs138+
+s6HXMA//VXVxIyrI9iRrAK3c3nz8EIcLCCavStR6XWdl1/M3jucv5G4/AExsT/ru
+O3Px/g9BfgsA4P85LrOp6vj04+LTzsB41Pw4vN7glMndoLFs7uW9dqdCnqU8SL3X
+tKxy/bo82QU1te3fQpYkuG1ztVnAf8cPs+bgN7iOhObTPhG0w+rq2Px0yJIYzZaL
+6dX3QHevM4/SI5RbjIS3Y12jMC8uWsqKw2NsFGOJp0UYxjnvNP5sIBMqx+1IX9i/
+piIoKedC+dJbZ5BAZ70nIottNY5xA/TshSJ67QD0EkEpbWAbj8HZrtY7iQE8UnP5
+DZdurWDKq/+Ej+SferNO+FhN4gAhuQQJR3UTiEEwb66CfSvfyBHqi3UnluQUlDaJ
+h9ind4KS9tQsvtKslN2IvchBcDrvOoCt7NRK01CBafWBZFxfLyaC6OYynq6etWUn
++4XeIC298Yd1PX4ckJymopcwjylncp+fDPR5OLx5lUu4ZJeV3QdEZ9bpIguVrlo9
+HcogO1JdqNe/LGHV/HpaDpthigQC6/1E5h9sllSkDb6oIth9EI3J2UgXPQvvGlyF
+/uBfa/R1c0yd1sIrCg1DUwNJy+GxhR5RC58K9cLjGd6Pj7lxeB03V1IM8WIb+rdi
+Z4A/DndhJsnQgVcjWeQBN5MCSjys0RtszRMOUVQiAMOxPsMhVIM=
+=YtkN
+-----END PGP SIGNATURE-----
+
+--1UWUbFP1cBYEclgG--
