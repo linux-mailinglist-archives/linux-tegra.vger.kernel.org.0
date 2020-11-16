@@ -2,146 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D39E2B50A0
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Nov 2020 20:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 882002B517D
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Nov 2020 20:50:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbgKPTQh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Nov 2020 14:16:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
+        id S1730162AbgKPTsh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Nov 2020 14:48:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725379AbgKPTQh (ORCPT
+        with ESMTP id S1726156AbgKPTsg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Nov 2020 14:16:37 -0500
+        Mon, 16 Nov 2020 14:48:36 -0500
 Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD868C0613CF
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Nov 2020 11:16:35 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id y16so21437302ljh.0
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Nov 2020 11:16:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4A0C0613CF;
+        Mon, 16 Nov 2020 11:48:36 -0800 (PST)
+Received: by mail-lj1-x242.google.com with SMTP id o24so21505655ljj.6;
+        Mon, 16 Nov 2020 11:48:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kvaxviO7BiQzvISqbhoHjHqNzxDUY0/V0uMNpsyJv20=;
-        b=j00ser3ImM8d0ZanCDxGUmu7L6Q61EdycCzhqxwQoO7vUMTBjOF8tBNwwekdZAiy3K
-         LLMG3K3DVdy9DTn4dqcp0T20y5kwgXKCb1S+j1sEIiZxicAX4YP3vLxqnw4FFXtQTQhw
-         dc+UAUcF44A/C2pmIC/uOmU8JifIKoWLxALjHBjhF9S/47NjNgbdVgNP6Q2EZmHSBG/7
-         KokZznXjrnbkxq4M8P50lsoqgheI+Hy7Tzl68M/rq7d92nINJOEwQXRFuK3NsHqVABix
-         3IShHXEbrZ/ZVo+wgEw+aLN5nts5L6pUONrRUgp5yZXE5pUjwvFlE0jWKowE8Eg/WJQN
-         wuvg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kk7qn8x4pb8QvY94Ose3MchmOrRHIg4B+dgYdR+rLis=;
+        b=IyEmGN46uxQzV9DaknZb5x4mPIaNNZ8c4Lveyr+w6oJWq4TpvrX6UcZQGVcX2tFQKh
+         EY8hORk9xCO0LLT/zQh3IVa7RqXENiDUMuq6iO40WZsGycA/HUqTQ8dxW9BFR3aAcOo4
+         zD1tRP3oA4izmC3VEzdCsYHMjLKtQjiiAXZ0p2wrJJHVU8xRfdSV2iizG6BjK5V7aKQd
+         nTDiguLBwr3x6KPHMAU8afF6oVxNcaO+bFYXoZzoC9z5Rrdx5e2wXa56zGi+SE8DFRBR
+         QHYm0RmR/ghPl/Lb2ZhJoBTdhthONDeVhw0TrOBGhiBP5q1gxz5Tt44hlZB1SPRfWeF3
+         Jb9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kvaxviO7BiQzvISqbhoHjHqNzxDUY0/V0uMNpsyJv20=;
-        b=En7sttPwu97Zj8rHEWfCX28C3JaXRdZGRyehlgE61FKGziPy8rs9E18JAjj//vKjii
-         v9hiv2Cov9VD/iqvqj8vJMj+xDTwT91dLRHlBPwRaR9WTYZJOWi9qa6IcLLU52+LzlW1
-         7QCDfd2YfXjx+htnqToDRd+7PDjIhY9B1MNCQ/ZWJNFzmVcDQsEo9FtBnh0LjC88n3sU
-         HTp3LHllH9xler5yy9GWG2NG87S4EDJBHu6w3+WuE1npo2232PuoAVJM1/XWNTFcfC+U
-         3onIyAIMCugS6lD+Gpo/KtUe3eBqw4znGY7ndGb9iXNfcxKBLtjHN7au87RURFi/BtKa
-         6DEA==
-X-Gm-Message-State: AOAM533T/LxEfV8fGopRR3u/FncDYlInqsakSvYuuvpDUGkdca5NWuaR
-        dfTxgNQsE0gMYumjKEcC78H5G73xxhE=
-X-Google-Smtp-Source: ABdhPJzTpJBjm2JOYoOdCvkVPAA44FURpTStYMu481jUHdt3L/5HeRUKKJXU8qcAARMSo1aj7d+sgQ==
-X-Received: by 2002:a2e:91d6:: with SMTP id u22mr325935ljg.206.1605554193917;
-        Mon, 16 Nov 2020 11:16:33 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
-        by smtp.googlemail.com with ESMTPSA id l17sm2862053lfc.221.2020.11.16.11.16.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2020 11:16:33 -0800 (PST)
-Subject: Re: [PATCH v1] soc/tegra: fuse: Drop Kconfig dependency on
- TEGRA20_APB_DMA
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-        linux-tegra@vger.kernel.org
-References: <20200923003421.4561-1-digetx@gmail.com>
- <20201116132005.GD2224373@ulmo>
- <4699e7eb-ac82-4666-9bca-7692d5441b3f@gmail.com>
- <20201116164947.GB2584498@ulmo>
+        bh=kk7qn8x4pb8QvY94Ose3MchmOrRHIg4B+dgYdR+rLis=;
+        b=m1yUJV8GqBz/ANJ5nN+913YjOGhM+IiutYaayaL0nzMKC1H2rZUxsOUzhv4b/qsFEZ
+         HhDEepUl/lxUP9dGfx0VfxdrhyPSdVjbUhmoYxnjv5O9/2FpPfwjDT+iP+MeIm84ovtP
+         TdzirpZDz1Wf3Be6pe+5qPFO8xHMHcnmb1vwReiN4l353pnlsbDey86wnh9HltQEFiH+
+         2QVf5om09tTKSr9yhk9P4pzUzHCbeRNTgmxZl/O1oYhWYGWrHG2ZVsDRs2pPZgCRTklW
+         EywCUOe9Zzyw5jEWFZWvdrfewBOdgP7GhtjNT03l4rN0jrttelR93v2oWGTOp/R/yH++
+         lsQg==
+X-Gm-Message-State: AOAM5332dhSsAuiK4iUf2laHGDm+Uei7bOWh6qF3QMX/zyEL0hlfN5YK
+        TElmb0EJ5dgoqGSwCmjlRzU=
+X-Google-Smtp-Source: ABdhPJzIzS3xHE6Jv4dmOYyDlUj0oHjh6PP/ui3/2L7pYz3L1FSKZpvG8omKw3Ja/UrEg5qiyeVS7Q==
+X-Received: by 2002:a2e:a17c:: with SMTP id u28mr375005ljl.453.1605556113523;
+        Mon, 16 Nov 2020 11:48:33 -0800 (PST)
+Received: from localhost.localdomain (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.gmail.com with ESMTPSA id n5sm2864286lfb.306.2020.11.16.11.48.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2020 11:48:32 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9a3705d0-43ba-73b8-3195-176e7aa5c718@gmail.com>
-Date:   Mon, 16 Nov 2020 22:16:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dan Murphy <dmurphy@ti.com>, Sebastian Reichel <sre@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/4] Introduce Embedded Controller driver for Acer A500
+Date:   Mon, 16 Nov 2020 22:48:23 +0300
+Message-Id: <20201116194827.28947-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201116164947.GB2584498@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.11.2020 19:49, Thierry Reding пишет:
-> On Mon, Nov 16, 2020 at 04:48:39PM +0300, Dmitry Osipenko wrote:
->> 16.11.2020 16:20, Thierry Reding пишет:
->>> On Wed, Sep 23, 2020 at 03:34:21AM +0300, Dmitry Osipenko wrote:
->>>> The DMA subsystem could be entirely disabled in Kconfig and then the
->>>> TEGRA20_APB_DMA option isn't available too. Hence kernel configuration
->>>> fails if DMADEVICES Kconfig option is disabled due to the unsatisfiable
->>>> dependency.
->>>>
->>>> The FUSE driver isn't a critical driver and currently it only provides
->>>> NVMEM interface to userspace which isn't known to be widely used, and
->>>> thus, it's fine if FUSE driver fails to load.
->>>
->>> This isn't entirely accurate. The FUSE driver also provides SKU specific
->>> information via tegra_sku_info and exposes some of the FUSE registers to
->>> other drivers, such as the calibration data for XUSB.
->>
->> The SKU data is read out only once during early boot and the DMA is not
->> used for this. The FUSE platform driver exists separately from the early
->> FUSE code.
-> 
-> True, but the commit message isn't entirely accurate as-is, because on
-> later Tegra SoCs the driver does a bit more than that. So if you don't
-> mind I'll reword this to be a little more accurate if I end up deciding
-> to apply it.
+This series adds support for the Embedded Controller which is found on
+Acer Iconia Tab A500 (Android tablet device).
 
-Please feel free to edit it as yo wish.
+The Embedded Controller is ENE KB930 and it's running firmware customized
+for the A500. The firmware interface may be reused by some other sibling
+Acer tablets, although none of those tablets are supported in upstream yet.
 
->>> The APB DMA is really only needed to work around an issue on Tegra20, so
->>> perhaps this really is okay. On the other hand, could we not just change
->>> the dependency to something like
->>>
->>> 	select DMADEVICES if ARCH_TEGRA_2x_SOC
->>> 	select TEGRA20_APB_DMA if ARCH_TEGRA_2x_SOC
->>>
->>> to fix the Kconfig issue but keep the explicit documentation of this
->>> dependency?
->>
->> On Tegra20, the APB DMA is used only for by NVMEM which is exposed via
->> sysfs. If DMA is disabled, then NVMEM isn't registered because
->> tegra20_fuse_probe() returns -EPROBE_DEFER.
-> 
-> Again, true. But -EPROBE_DEFER is a silent error, so if somebody indeed
-> has DMADEVICES disabled and TEGRA20_APB_DMA is not available, then they
-> will not get FUSE support and they are going to struggle to find out why
-> that's not working.
-> 
->> Hence there is no real need to enforce the extra dependencies. It's
->> always better to allow minimizing the build dependencies whenever
->> possible, IMO, and it's possible to do it in this case.
-> 
-> I don't entirely agree with this. Dependencies (and especially selects)
-> are used to pull in driver and/or features that are generally considered
-> useful. In this particular case, TEGRA20_APB_DMA is needed for the FUSE
-> driver to work correctly on Tegra20. Whether FUSE support on Tegra20 is
-> useful or not isn't quite relevant at this point.
-> 
-> There's also a balance as to what makes sense and what doesn't. APB DMA
-> is a useful feature in itself and disabling it is very much discouraged
-> because there are plenty of other drivers that can make use of it. That
-> is also the reason why we enable it in the default configuration. So I
-> don't consider a select on a symbol that's enabled by default an extra
-> dependency. Instead it's more of an explicit statement that you really
-> do want this enabled if you want that driver to work.
-> 
-> And like I said, if we don't have this and the driver will fail to probe
-> because of -EPROBE_DEFER, the user is going to have a very difficult
-> time of finding out why exactly that's happening. We're not even
-> emitting an error for this, so there's no way of knowing, even if they
-> enable driver debugging, /why/ the FUSE driver isn't working.
+Changelog:
 
-Recent kernels have /sys/kernel/debug/devices_deferred.
+v7: - Improved MFD Kconfig entry by adding explicit dependency on OF and
+      by rewording the help message, matching it to the other MFD drivers.
+
+    - Improved comments in the code by removing unnecessary comments, adding
+      necessary and rewording some others.
+
+    - Added expressive defines for the command opcodes.
+
+    - Fixed alphabet order of the MFD driver includes.
+
+    - Removed unnecessary size checks which are already done by regmap core.
+
+    - Renamed 'rmap' variable to 'regmap'.
+
+v6: - Fixed dtschema-checker warning about a wrong indentation, reported
+      by kernel bot for v5.
+
+v5: - No changes. Re-sending again in order to check whether dtschema-bot
+      warning is resolved now, which didn't happen in v4 because bot used
+      older 5.9 kernel code base instead of 5.10.
+
+v4: - No code changes. Added r-b from Rob Herring and Sebastian Reichel.
+      Re-sending for 5.11.
+
+    - The v3 of LED driver was applied by Pavel Machek and already presents
+      in v5.10 kernel.
+
+v3: - Rebased on a recent linux-next. Fixed new merge conflict and dropped
+      "regmap: Use flexible sleep" patch because it's already applied.
+
+v2: - Factored out KB930 device-tree binding into a separate file, like it
+      was suggested by Lubomir Rintel.
+
+    - Switched to use regmap API like it was suggested by Lubomir Rintel.
+
+    - Added patch "regmap: Use flexible sleep" which allows not to hog
+      CPU while LED is switching state.
+
+    - Corrected MODULE_LICENSE to use "GPL" in all patches.
+
+    - Corrected MFD driver Kconfig entry like it was suggested by
+      Lubomir Rintel, it now depends on I2C.
+
+    - Switched to use I2C probe_new() in the MFD driver.
+
+    - Renamed the global pm_off variable, like it was suggested by
+      Lubomir Rintel and Lee Jones.
+
+    - Dropped serial number from the battery driver because I realized
+      that it's not a battery serial, but a device serial.
+
+    - Battery driver now uses dev_err_probe(), like it was suggested by
+      Sebastian Reichel.
+
+    - Dropped legacy LED_ON usage from the LED driver and renamed the
+      LEDs, like it was suggested by Pavel Machek. I also checked whether
+      LED-name customization via device-tree could be needed by other
+      potentially compatible devices and it shouldn't be needed, anyways it
+      won't be difficult to extend the code even if I'm wrong.
+
+
+Dmitry Osipenko (4):
+  dt-bindings: mfd: Add ENE KB930 Embedded Controller binding
+  mfd: Add driver for Embedded Controller found on Acer Iconia Tab A500
+  power: supply: Add battery gauge driver for Acer Iconia Tab A500
+  ARM: tegra: acer-a500: Add Embedded Controller
+
+ .../devicetree/bindings/mfd/ene-kb930.yaml    |  65 ++++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  17 +
+ drivers/mfd/Kconfig                           |  11 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/acer-ec-a500.c                    | 202 ++++++++++++
+ drivers/power/supply/Kconfig                  |   6 +
+ drivers/power/supply/Makefile                 |   1 +
+ drivers/power/supply/acer_a500_battery.c      | 297 ++++++++++++++++++
+ 8 files changed, 600 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+ create mode 100644 drivers/mfd/acer-ec-a500.c
+ create mode 100644 drivers/power/supply/acer_a500_battery.c
+
+-- 
+2.29.2
+
