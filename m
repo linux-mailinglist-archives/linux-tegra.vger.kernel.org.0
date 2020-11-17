@@ -2,96 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0CE22B5D05
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Nov 2020 11:37:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10CC42B5E65
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Nov 2020 12:34:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbgKQKhf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 Nov 2020 05:37:35 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:47049 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbgKQKhf (ORCPT
+        id S1728015AbgKQLb4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Nov 2020 06:31:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728006AbgKQLb4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 Nov 2020 05:37:35 -0500
-Received: by mail-ot1-f65.google.com with SMTP id g19so18885614otp.13;
-        Tue, 17 Nov 2020 02:37:34 -0800 (PST)
+        Tue, 17 Nov 2020 06:31:56 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00005C0613CF
+        for <linux-tegra@vger.kernel.org>; Tue, 17 Nov 2020 03:31:55 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id f18so15906221pgi.8
+        for <linux-tegra@vger.kernel.org>; Tue, 17 Nov 2020 03:31:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=fsB7lv+/h+1fgfExMz2bzDSqudbc480q4ftyl5At32g=;
+        b=eebA5c8B9WGIekIEJpUnd4rBdm9G3L4hwLlic8KmKVzt9hJ+mxh8NkUtqyD6xahBvM
+         1UZA5ywsD98EvN3IaauWj1mgYZnzchBx6dLG8d3vRc8mrGiyVvmy6JtDxrp2ARPFfHfQ
+         2pLGSsjKVQ21qp3hLAirm6/UMuA+Jv/jDs32Xoboch4/EVF6VO/bE4eqFS018VgM6WxU
+         3Q2VOmpINHOQ7//iBQV54RYZScEPA2cYV88m5Dpy0RRBcE7u2owzsXsTc07ZLKIiKTZI
+         pHLRJk6wnRGn57X/TspQUvzkOe2d3hzc3E3k/jQHP58GX9TYG3T4eGZCq/4fJFPIcuo5
+         ZxDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xlpCdbdwdgiAHLJ6o3j80s/A4tWrQRJFEA4CoHh+SMQ=;
-        b=lWyeL40SYRWaaQ0rOX80mEl3n9CH4mVMQvaiDT7zG5c0wplXgelM9COEIWiR9qJrKo
-         4M5cIRRya2nuOj+rkr7dfitxQPhdWpw2c1MwrYlQDzSz61Ky/WHsK9IqNUNhOAXSIrgx
-         yqFLckwLPSoXMsDpxViraJgvMlp0aKdmwMsvTQU30xLeQL8A9XSQpgAqLlwmJXOIJY8g
-         t+ODtM71CDdfJc6gOvwdzuwKvrQ/VzyDo8OYLn8zzxLxh2SYpQw2QZ62ASw9PbWgHIvc
-         1PZJyGkEv2LspiMc/aevZygaax2gbb6j0t4I+nqQvcbLCiUPR8yaBumgapxTr6j3QeK0
-         FcJw==
-X-Gm-Message-State: AOAM5305487CT7c845SG/CcdHTjzb225hmEiEjoxmFvF/DnCXSZ+xxpm
-        8yPM9WwnDBW6toRIf1Q5gFhTzCSWcFzd6p75wxI=
-X-Google-Smtp-Source: ABdhPJwdmx7r6I5zj8jodkYho7XnaytzF+QMp1QBc/itOa9ld+ji3I3oUftzlTM4p0M68kkeI24eiE8vpMn7CYfNO3c=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr2362156oti.107.1605609454288;
- Tue, 17 Nov 2020 02:37:34 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=fsB7lv+/h+1fgfExMz2bzDSqudbc480q4ftyl5At32g=;
+        b=O+mv3ZMdN0+qj9Wt+ggxfA/eha5DwVpBxJrbcuTccc99nNbU7G5EUC0cyNSEskjTk7
+         tKGUCy0GtC2+kOWowKO00nBfXH6gCxWWEKhCOQO+MxrwUaAMAT5seIMJjkm48hVUpSOq
+         P72gFiVPg74tqF40sKl1sbFHTmnJuM1RjpOwnF0cl2m+SuKQyMGF6GHSI6xmOjtKk28s
+         Btn/2N3jpcrM213kP1AJeLaexW+CkgezCW06xkIQPZiFdY2ZzTxLpAo5xReuJQVzTUK3
+         9YXoZY71Z8UqE/7vPX/GYbSdIMJyQFiSgicaEI28xL4aq5MUzA/BL8UiOeiX6KjpBxfJ
+         lp6A==
+X-Gm-Message-State: AOAM5320OwhqkabMyYGCPqH3i1RFCKulPZ4UGqZ//SMIfJ2z+aIe9YeX
+        4kGCpa+Hh/p20kqHeH8QYds1Hmpw+04zAAZh9is=
+X-Google-Smtp-Source: ABdhPJw/VuHnrR1bSzocXp4Es8v2NxW8MpTfArqx++Jkd2tvFR13ZFhHdGJBN+FgsdqHQZGIM/9lBiGtlmyYPlxYku4=
+X-Received: by 2002:a63:c843:: with SMTP id l3mr878493pgi.202.1605612715509;
+ Tue, 17 Nov 2020 03:31:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117103123.3938-1-chunfeng.yun@mediatek.com>
-In-Reply-To: <20201117103123.3938-1-chunfeng.yun@mediatek.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Nov 2020 11:37:23 +0100
-Message-ID: <CAMuHMdXVXqj9k4FMFH5aiqKwNrWocJpjahYKA8k2e3Z2ji2hvQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: arm: add additionalProperties
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-unisoc@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-mediatek@lists.infradead.org
+Received: by 2002:a17:90b:3890:0:0:0:0 with HTTP; Tue, 17 Nov 2020 03:31:55
+ -0800 (PST)
+Reply-To: georgemike7030@gmail.com
+From:   george mike <missdonnahistory@gmail.com>
+Date:   Tue, 17 Nov 2020 12:31:55 +0100
+Message-ID: <CACROPfF3uDaSQkDhWxgatjQJ7pUzM2gh1cCf1qjeY+7jfX4-jg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Chunfeng,
+Hallo
 
-On Tue, Nov 17, 2020 at 11:32 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
-> Add an explicit "additionalProperties: true" to avoid
-> dt_binding_check error caused by:
-> 'additionalProperties' is a required property
->
-> This will not change function, due to additionalProperties
-> is true by default.
->
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Mein Name ist George Mike. Ich bin von Beruf Rechtsanwalt. Ich m=C3=B6chte
+Ihnen anbieten
+der n=C3=A4chste Verwandte meines Klienten. Sie erben die Summe von (8,5
+Millionen US-Dollar)
+Dollar, die mein Kunde vor seinem Tod auf der Bank gelassen hat.
 
-Thanks for your patch!
+Mein Kunde ist ein Staatsb=C3=BCrger Ihres Landes, der mit seiner Frau bei
+einem Autounfall ums Leben gekommen ist
+und einziger Sohn. Ich habe Anspruch auf 50% des Gesamtfonds, 50% darauf
+sein f=C3=BCr dich.
+Bitte kontaktieren Sie meine private E-Mail hier f=C3=BCr weitere
+Informationen: georgemike7030@gmail.com
 
-> --- a/Documentation/devicetree/bindings/arm/actions.yaml
-> +++ b/Documentation/devicetree/bindings/arm/actions.yaml
-> @@ -49,3 +49,5 @@ properties:
->            - enum:
->                - ucrobotics,bubblegum-96 # uCRobotics Bubblegum-96
->            - const: actions,s900
-> +
-> +additionalProperties: true
-
-Looks very similar to commit 62298364bd489b06 ("dt-bindings: Explicitly
-allow additional properties in board/SoC schemas") in v5.10-rc2?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Vielen Dank im Voraus,
+Mr. George Mike,
