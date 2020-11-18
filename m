@@ -2,24 +2,24 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2ED2B77FE
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Nov 2020 09:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF962B7808
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Nov 2020 09:07:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726948AbgKRIGi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Nov 2020 03:06:38 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12838 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726938AbgKRIGi (ORCPT
+        id S1727109AbgKRIGo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Nov 2020 03:06:44 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12005 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726935AbgKRIGm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Nov 2020 03:06:38 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fb4d6120000>; Wed, 18 Nov 2020 00:06:42 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Nov
- 2020 08:06:37 +0000
+        Wed, 18 Nov 2020 03:06:42 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fb4d6070000>; Wed, 18 Nov 2020 00:06:31 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Nov
+ 2020 08:06:40 +0000
 Received: from audio.nvidia.com (172.20.13.39) by mail.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Wed, 18 Nov 2020 08:06:34 +0000
+ Transport; Wed, 18 Nov 2020 08:06:38 +0000
 From:   Sameer Pujar <spujar@nvidia.com>
 To:     <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
         <broonie@kernel.org>
@@ -27,61 +27,183 @@ CC:     <jonathanh@nvidia.com>, <sharadg@nvidia.com>,
         <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
         Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH 1/3] arm64: tegra: Fix Tegra194 HDA {clock,reset}-names ordering
-Date:   Wed, 18 Nov 2020 13:36:20 +0530
-Message-ID: <1605686782-29469-2-git-send-email-spujar@nvidia.com>
+Subject: [PATCH 2/3] dt-bindings: tegra: Convert HDA doc to json-schema
+Date:   Wed, 18 Nov 2020 13:36:21 +0530
+Message-ID: <1605686782-29469-3-git-send-email-spujar@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1605686782-29469-1-git-send-email-spujar@nvidia.com>
 References: <1605686782-29469-1-git-send-email-spujar@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1605686802; bh=5+i2Us2XoqokmBo59PMW/PDmxf9BY2baahXD2ObGdOo=;
+        t=1605686791; bh=aoJcYwi5/UenP9bLitxom4hRAg/DI2I1tYEOVWyMeuY=;
         h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
          References:MIME-Version:Content-Type;
-        b=jz8pZt0UlfYGjujrBtGkxBbEEcPt2tA0RLOS2IHsfP/36DUM6itDIISeaDpiIzZsh
-         iu/cO1UCMBYgPXkdaTeE8kAzSLDa27GzJ9irjBiifR+l4F+JDE7BZx+PysUkEuUb6V
-         D3IuoCnrKUdTjYQVQVSeT+haQRs1DZ/8goBTHAXESWt1Ah4fftSIESeGWA/zd523Gt
-         wYno5mAUsUSavI1nT4XCHDp94INKCLXNx6wePDJsfvYdD4k6MCmUU3n9O2ZfAXUqCq
-         KWoIz0BZ7m5T+59uJJMn34UVST/JrcTSCYCRQUTdUha53kKOftv26annTWuPp5xhqN
-         7RNwPa6LtAS0A==
+        b=mY8ZItWGAP8elYufCNd5Da4m3C0jLMu3TUT4NZZ5gFwbs69X2J6nsxOaDAkCDHZet
+         t0XkD16DGDNCoQ9JLY9QRff4VAkLekBCyEg247QccWeqG/jGu9BLtzuOJuZp8Wauwl
+         OHwKJCQ2U6j9plHPXuYjCv5PqNQIey0lA0ziJxvpgsslAlsO65lK8cGLhd6s2eb6x4
+         uA4ypVrUvviaIvL7+m5xx5445OKu9rOdVQlDi3AcIRMceORHDW3Q1YUsYASraTzKu4
+         PJrMAvvEyN+4TSTeQRG7xC5ptVDzT/Eaex2fFq05v1SZHqYOqvL1Qg0KFcJ147qi38
+         BdL2BFMv+l/Uw==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-As per the HDA binding doc reorder {clock,reset}-names entries for
-Tegra194. This also serves as a preparation for converting existing
-binding doc to json-schema.
+Convert Tegra HDA doc to YAML format.
 
 Signed-off-by: Sameer Pujar <spujar@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../bindings/sound/nvidia,tegra30-hda.txt          | 35 --------
+ .../bindings/sound/nvidia,tegra30-hda.yaml         | 98 ++++++++++++++++++++++
+ 2 files changed, 98 insertions(+), 35 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 6946fb2..e3cab26 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -782,13 +782,13 @@
- 			reg = <0x3510000 0x10000>;
- 			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&bpmp TEGRA194_CLK_HDA>,
--				 <&bpmp TEGRA194_CLK_HDA2CODEC_2X>,
--				 <&bpmp TEGRA194_CLK_HDA2HDMICODEC>;
--			clock-names = "hda", "hda2codec_2x", "hda2hdmi";
-+				 <&bpmp TEGRA194_CLK_HDA2HDMICODEC>,
-+				 <&bpmp TEGRA194_CLK_HDA2CODEC_2X>;
-+			clock-names = "hda", "hda2hdmi", "hda2codec_2x";
- 			resets = <&bpmp TEGRA194_RESET_HDA>,
--				 <&bpmp TEGRA194_RESET_HDA2CODEC_2X>,
--				 <&bpmp TEGRA194_RESET_HDA2HDMICODEC>;
--			reset-names = "hda", "hda2codec_2x", "hda2hdmi";
-+				 <&bpmp TEGRA194_RESET_HDA2HDMICODEC>,
-+				 <&bpmp TEGRA194_RESET_HDA2CODEC_2X>;
-+			reset-names = "hda", "hda2hdmi", "hda2codec_2x";
- 			power-domains = <&bpmp TEGRA194_POWER_DOMAIN_DISP>;
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_HDAR &emc>,
- 					<&mc TEGRA194_MEMORY_CLIENT_HDAW &emc>;
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.txt
+deleted file mode 100644
+index 21cd310..0000000
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.txt
++++ /dev/null
+@@ -1,35 +0,0 @@
+-NVIDIA Tegra30 HDA controller
+-
+-Required properties:
+-- compatible : For Tegra30, must contain "nvidia,tegra30-hda".  Otherwise,
+-  must contain '"nvidia,<chip>-hda", "nvidia,tegra30-hda"', where <chip> is
+-  tegra114, tegra124, or tegra132.
+-- reg : Should contain the HDA registers location and length.
+-- interrupts : The interrupt from the HDA controller.
+-- clocks : Must contain an entry for each required entry in clock-names.
+-  See ../clocks/clock-bindings.txt for details.
+-- clock-names : Must include the following entries: hda, hda2hdmi, hda2codec_2x
+-- resets : Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names : Must include the following entries: hda, hda2hdmi, hda2codec_2x
+-
+-Optional properties:
+-- nvidia,model : The user-visible name of this sound complex. Since the property
+-  is optional, legacy boards can use default name provided in hda driver.
+-
+-Example:
+-
+-hda@70030000 {
+-	compatible = "nvidia,tegra124-hda", "nvidia,tegra30-hda";
+-	reg = <0x0 0x70030000 0x0 0x10000>;
+-	interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>;
+-	clocks = <&tegra_car TEGRA124_CLK_HDA>,
+-		 <&tegra_car TEGRA124_CLK_HDA2HDMI>,
+-		 <&tegra_car TEGRA124_CLK_HDA2CODEC_2X>;
+-	clock-names = "hda", "hda2hdmi", "hda2codec_2x";
+-	resets = <&tegra_car 125>, /* hda */
+-		 <&tegra_car 128>, /* hda2hdmi */
+-		 <&tegra_car 111>; /* hda2codec_2x */
+-	reset-names = "hda", "hda2hdmi", "hda2codec_2x";
+-	nvidia,model = "jetson-tk1-hda";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
+new file mode 100644
+index 0000000..3059bc3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra HDA controller
++
++description: |
++  The High Definition Audio (HDA) block provides a serial interface to
++  audio codec. It supports multiple input and output streams.
++
++maintainers:
++  - Thierry Reding <treding@nvidia.com>
++  - Jon Hunter <jonathanh@nvidia.com>
++
++properties:
++  $nodename:
++    pattern: "^hda@[0-9a-f]*$"
++
++  compatible:
++    oneOf:
++      - const: nvidia,tegra30-hda
++      - items:
++          - enum:
++              - nvidia,tegra194-hda
++              - nvidia,tegra186-hda
++              - nvidia,tegra210-hda
++              - nvidia,tegra124-hda
++          - const: nvidia,tegra30-hda
++      - items:
++          - const: nvidia,tegra132-hda
++          - const: nvidia,tegra124-hda
++          - const: nvidia,tegra30-hda
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    description: The interrupt from the HDA controller
++    maxItems: 1
++
++  clocks:
++    maxItems: 3
++
++  clock-names:
++    maxItems: 3
++    items:
++      - const: hda
++      - const: hda2hdmi
++      - const: hda2codec_2x
++
++  resets:
++    maxItems: 3
++
++  reset-names:
++    maxItems: 3
++    items:
++      - const: hda
++      - const: hda2hdmi
++      - const: hda2codec_2x
++
++  nvidia,model:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      The user-visible name of this sound complex. If this property is
++      not specified then boards can use default name provided in hda driver.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include<dt-bindings/clock/tegra124-car-common.h>
++    #include<dt-bindings/interrupt-controller/arm-gic.h>
++
++    hda@70030000 {
++        compatible = "nvidia,tegra124-hda", "nvidia,tegra30-hda";
++        reg = <0x70030000 0x10000>;
++        interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&tegra_car TEGRA124_CLK_HDA>,
++                 <&tegra_car TEGRA124_CLK_HDA2HDMI>,
++                 <&tegra_car TEGRA124_CLK_HDA2CODEC_2X>;
++        clock-names = "hda", "hda2hdmi", "hda2codec_2x";
++        resets = <&tegra_car 125>, /* hda */
++                 <&tegra_car 128>, /* hda2hdmi */
++                 <&tegra_car 111>; /* hda2codec_2x */
++        reset-names = "hda", "hda2hdmi", "hda2codec_2x";
++        nvidia,model = "jetson-tk1-hda";
++    };
++
++...
 -- 
 2.7.4
 
