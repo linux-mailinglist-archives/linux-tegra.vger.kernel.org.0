@@ -2,24 +2,24 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 680F02BB107
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Nov 2020 17:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF852BB10B
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Nov 2020 17:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730227AbgKTQ4f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Nov 2020 11:56:35 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17060 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730226AbgKTQ4f (ORCPT
+        id S1730228AbgKTQ4g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Nov 2020 11:56:36 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4082 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730229AbgKTQ4f (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Fri, 20 Nov 2020 11:56:35 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fb7f5470000>; Fri, 20 Nov 2020 08:56:39 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fb7f5380000>; Fri, 20 Nov 2020 08:56:24 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Nov
- 2020 16:56:34 +0000
-Received: from jonathanh-vm-01.nvidia.com (172.20.13.39) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 20 Nov 2020 16:56:34 +0000
+ 2020 16:56:35 +0000
+Received: from jonathanh-vm-01.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 20 Nov 2020 16:56:35 +0000
 From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -27,33 +27,33 @@ CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
         <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
         <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.9 00/14] 5.9.10-rc1 review
-In-Reply-To: <20201120104541.168007611@linuxfoundation.org>
-References: <20201120104541.168007611@linuxfoundation.org>
+Subject: Re: [PATCH 4.14 00/17] 4.14.208-rc1 review
+In-Reply-To: <20201120104540.414709708@linuxfoundation.org>
+References: <20201120104540.414709708@linuxfoundation.org>
 X-NVConfidentiality: public
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Message-ID: <4308b4d79929454a8efd424f43f3b8e3@HQMAIL109.nvidia.com>
-Date:   Fri, 20 Nov 2020 16:56:34 +0000
+Message-ID: <909b2963ba634f4e9ace1060d98a6808@HQMAIL101.nvidia.com>
+Date:   Fri, 20 Nov 2020 16:56:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1605891399; bh=7cOm+V8ry5xbsdXhw15sawOn35crijmvahWqIwZSbts=;
+        t=1605891384; bh=dXRff4dLtS399zyrPfHSC9fkTnhupePTY8NpG1omBzw=;
         h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
          Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
          Date;
-        b=QY/VjLtEn8DITMf5lkcNGUWcU5SOJnijP0QzBHGyS6NvWxlQyg/3+Arx0TkSnGgQP
-         zsbVpsUdEwVg6OSJ79rI2Ya0s+QJtB6Vr+eyST0WnE+SFy3+TBLc3uyXszDGlQwoOF
-         TNPkPcCIBPjcEhG3o6IM21n9PxWLKXVc1nddK1iIb3Bv3lphFNeU4za8DJ6k/RMctS
-         XmSyAGWQPCDfMuof5oyxuoTU0FK6B2WWp1YVWH2nc30wvgjXypETpw5pRp2XjM7FMi
-         dPpxznDHrUSKeUpeXCxwjTBhwkeiePveusmV8e4QKRx6keIpeQGPUxW9KUF/OQwyL+
-         laz58np8GZzPQ==
+        b=O2dOjoVJD2NxI4mma/E32Mqq4mmH7GQqRGPRPjbeleDfgy9HvonuMxy6BtyskXYh4
+         UZlByDe6x1EtVOY34fv/avswB0XCsAGXgfqgItyRB3eMmZU1j4nFnzWqoHv7vRKSgG
+         UlGJ7qltQaiuqnlPWGv56KkAbfOn1eT+S1NZ8eeF5amAEvRZJytFQiQlerm3DhiB2j
+         5DjZQyefOC2/U3m01lWfnYl+MO+D0jF5nHf7BWe5I5ZrTo5/a3lH0wdGg0rrvZTnKt
+         Kt+rMdbXuLynjYDALyUYR8obDg18kUoWea/OVJJb1H/k5+ZlAKnqckULTq0Xp2Pt8m
+         SFvhrjMMoQhHg==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 20 Nov 2020 12:03:38 +0100, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.9.10 release.
-> There are 14 patches in this series, all will be posted as a response
+On Fri, 20 Nov 2020 12:03:11 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.14.208 release.
+> There are 17 patches in this series, all will be posted as a response
 > to this one.  If anyone has any issues with these being applied, please
 > let me know.
 > 
@@ -61,9 +61,9 @@ On Fri, 20 Nov 2020 12:03:38 +0100, Greg Kroah-Hartman wrote:
 > Anything received after that time might be too late.
 > 
 > The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.9.10-rc1.gz
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.208-rc1.gz
 > or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.9.y
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
 > and the diffstat can be found below.
 > 
 > thanks,
@@ -72,16 +72,14 @@ On Fri, 20 Nov 2020 12:03:38 +0100, Greg Kroah-Hartman wrote:
 
 All tests passing for Tegra ...
 
-Test results for stable-v5.9:
-    15 builds:	15 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    64 tests:	64 pass, 0 fail
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    10 boots:	10 pass, 0 fail
+    16 tests:	16 pass, 0 fail
 
-Linux version:	5.9.10-rc1-g861b379f0883
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+Linux version:	4.14.208-rc1-g6334af4e5069
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
 Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
