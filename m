@@ -2,73 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A71F52BC542
-	for <lists+linux-tegra@lfdr.de>; Sun, 22 Nov 2020 12:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00FBD2BFB1D
+	for <lists+linux-tegra@lfdr.de>; Sun, 22 Nov 2020 22:53:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727382AbgKVLHQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 22 Nov 2020 06:07:16 -0500
-Received: from mail-ej1-f67.google.com ([209.85.218.67]:43646 "EHLO
-        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727360AbgKVLHP (ORCPT
+        id S1726293AbgKVVxt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Nov 2020 16:53:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34356 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726198AbgKVVxs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 22 Nov 2020 06:07:15 -0500
-Received: by mail-ej1-f67.google.com with SMTP id k27so19188186ejs.10;
-        Sun, 22 Nov 2020 03:07:13 -0800 (PST)
+        Sun, 22 Nov 2020 16:53:48 -0500
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5F7C0613CF;
+        Sun, 22 Nov 2020 13:53:47 -0800 (PST)
+Received: by mail-ed1-x543.google.com with SMTP id m16so15158015edr.3;
+        Sun, 22 Nov 2020 13:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:sender:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
+        b=SlAYhAdIbzCHynCy6QeP5m9ayJCPH8UHqzrbiN4R3iD4AR878fpUGAmdF+ojlnLvKo
+         P3f/fZzaW/eTFyswhBYo9G8cRvxtEaLMrirCwHyXFe7SbBqNK+yVOOarjKbhcPiSa7c3
+         UndwWFlMaHR3xbxys9eo9CKcoaqElx1jzxZ1zl3f/dSfJjw64G15c7yh5Zkq0LR89ob7
+         0H6Kxz7zDX7wmWnNrj3dNnGMrbXvqV2hXV6ef4kACKEf+05hhij3aQoNyPWkhVBagC2j
+         ZtEcDJ0LzSc43WdAePHjDemoA2F0/gvKKZYia3qALxS45t0DHR65YBq3SoEAVOtL9aKS
+         T46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7nL5vldHVk+TCSj72rQnEoC/jas4L51w1DvQQNmn4zA=;
-        b=Oq845lR0VjIaynXJbjQw2jTQjAWprzXK16LOptkVDcOpXN2rD0WLJYEMZczkkBdgOY
-         ZvnN2NAggDFyX4aKXuKtQQOL7d//FDy+u4O3w+i3+NbU1S34vmMmI9ebV9FmZezHPOzL
-         A3Vn72iBvINPlxbRnI0pQB/ExMgJOYaM69XVu3jg6mHzlE4VEPG7HmFiTNC8A5f3j0fQ
-         L6hKgOtYfSDMHjJVYtKyDKtO/waCU3QsGreeRvJz0BHYcwNr8NJYsPWYWR2+6DOeX7cC
-         o1a4nVB/7qqIl4fHI4z+jNrYO4KGi9mZmEgupKD4yh7BfaWCK5QrPXFAmhnRPXoI8oc+
-         JJVg==
-X-Gm-Message-State: AOAM530Z74T8/dte77SXhtJuR3PgMIZG7iHNknaIZca9Gbav4bL6soXG
-        UNn8EDPC0t2pqYaWuARQe8uNWH+68cs=
-X-Google-Smtp-Source: ABdhPJzqsQLj9qbzj7FFuDuHTc+bpHEFaIDlnY5oK0pfsSNMjB8U6JC2O5gSJa2FOkPMaOY2Z8VUPg==
-X-Received: by 2002:a17:906:5cb:: with SMTP id t11mr12849903ejt.295.1606043233154;
-        Sun, 22 Nov 2020 03:07:13 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id q15sm3446644edt.95.2020.11.22.03.07.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2020 03:07:11 -0800 (PST)
-Date:   Sun, 22 Nov 2020 12:07:10 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     thierry.reding@gmail.com, robh+dt@kernel.org, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] memory: tegra: Complete tegra210_swgroups
-Message-ID: <20201122110710.GA5415@kozik-lap>
-References: <20201008003746.25659-1-nicoleotsuka@gmail.com>
- <20201008003746.25659-6-nicoleotsuka@gmail.com>
+        h=x-gm-message-state:message-id:sender:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
+        b=GpisF7uMeMvPwthgfgp2WKKA3sI+5z8nC7ixWQ94hQmplZea21aItgX6w90Exn5W1b
+         zAzF2M/u+kMXVfHm2j0iYYM47Rr+o8jsdh8gbhmv8DdRk+pJmatSisNDBpI/o6OGtHjD
+         oxxlWHbjjX47RTS/Gs14CLLc7qBgLvt6oIb2XrmPkoGY43emxvzlHsTF+X6uNKHhbIxj
+         f1hesH+PVxlLRp8YqCGOXeRtBLOsN6JNdCD/Q6XIfVIH2+q5A/3rKAzAdlkBamOTb3qg
+         LlQcu3nS5se1+f5cOCJAE/o2Bil0XPD95rs0ldQFFRfbwWe1Edfwm97CzrU+cn5zrluS
+         NwDg==
+X-Gm-Message-State: AOAM531PsIat9dTYdnh5B3uGkVoAD9ofstGT8hysx8MD9wTqIsMaOWhW
+        /B6fkAhVP53YTi4jFTel3tJu7LHhXVg=
+X-Google-Smtp-Source: ABdhPJwPODVrwNAIAFhUrAsPaupI8c1RJWdjdBmOT2U9ND6szAfVtJzr7nZbLaXuiQMfbcPrcNi0JQ==
+X-Received: by 2002:a50:9fc1:: with SMTP id c59mr42301614edf.59.1606082025814;
+        Sun, 22 Nov 2020 13:53:45 -0800 (PST)
+Received: from [192.168.43.48] ([197.210.35.67])
+        by smtp.gmail.com with ESMTPSA id i19sm3978482ejz.71.2020.11.22.13.53.40
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Sun, 22 Nov 2020 13:53:45 -0800 (PST)
+Message-ID: <5fbadde9.1c69fb81.9b3f2.1049@mx.google.com>
+Sender: Lena Torres <ad482289@gmail.com>
+From:   Adelina Zeuki <anglicaramose@gmail.com>
+X-Google-Original-From: "Adelina Zeuki" <  adelinazeuki@gmail.comm >
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201008003746.25659-6-nicoleotsuka@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Hello !!
+To:     Recipients <adelinazeuki@gmail.comm>
+Date:   Sun, 22 Nov 2020 21:53:34 +0000
+Reply-To: adelinazeuki@gmail.com
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 05:37:46PM -0700, Nicolin Chen wrote:
-> According to Tegra X1 TRM, there are missing swgroups in the
-> tegra210_swgroups list. So this patch adds them to the list.
-> 
-> Note that the TEGRA_SWGROUP_GPU (in list) should be actually
-> TEGRA_SWGROUP_GPUB (in TRM), yet TEGRA_SWGROUP_GPU (in TRM)
-> is not being used -- only TEGRA_SWGROUP_GPUB (in TRM) is. So
-> this patch does not add TEGRA_SWGROUP_GPU (in TRM) and keeps
-> TEGRA_SWGROUP_GPU (in list) as it is.
-> 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
->  drivers/memory/tegra/tegra210.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+Hi dear,
 
-Thanks, applied.
-
-Best regards,
-Krzysztof
-
+Can i talk with you ?
