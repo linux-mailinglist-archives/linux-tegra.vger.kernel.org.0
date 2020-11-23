@@ -2,48 +2,233 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C58102C141F
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Nov 2020 20:10:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E7BE2C1424
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Nov 2020 20:10:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729393AbgKWS7i convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Mon, 23 Nov 2020 13:59:38 -0500
-Received: from sw73-70-41.adsl.seed.net.tw ([203.73.70.41]:45983 "EHLO
-        oa.trendtek.com.tw" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1730754AbgKWS7i (ORCPT
+        id S2390518AbgKWTBi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Nov 2020 14:01:38 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4091 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730868AbgKWTBe (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Nov 2020 13:59:38 -0500
-Received: from [156.96.44.214] ([156.96.44.214])
-        (authenticated bits=0)
-        by oa.trendtek.com.tw (8.13.8/8.13.1) with ESMTP id 0AACHNf7002650
-        for <linux-tegra@vger.kernel.org>; Tue, 10 Nov 2020 20:17:38 +0800
-Message-Id: <202011101217.0AACHNf7002650@oa.trendtek.com.tw>
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 23 Nov 2020 14:01:34 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fbc07110000>; Mon, 23 Nov 2020 11:01:37 -0800
+Received: from [10.2.49.186] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Nov
+ 2020 19:01:32 +0000
+Subject: Re: [PATCH v2 3/6] dt-bindings: ata: tegra: Convert binding
+ documentation to YAML
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        <devicetree@vger.kernel.org>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <1605296218-2510-1-git-send-email-skomatineni@nvidia.com>
+ <1605296218-2510-4-git-send-email-skomatineni@nvidia.com>
+ <CAL_JsqKkGmRwsv48xdX7xMSEaTSqdEnWuy0E19eohBxJKMywJg@mail.gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <0a6e99c8-9149-8756-3511-d4cb1814d3c6@nvidia.com>
+Date:   Mon, 23 Nov 2020 11:01:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Corporate and Personal Loan+
-To:     linux-tegra@vger.kernel.org
-From:   "Investment  Corporate" <financialcapability6@gmail.com>
-Date:   Tue, 10 Nov 2020 04:17:34 -0800
-Reply-To: hmurrah39@gmail.com
+In-Reply-To: <CAL_JsqKkGmRwsv48xdX7xMSEaTSqdEnWuy0E19eohBxJKMywJg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1606158097; bh=cQOOEZHk9E7IMSrqdkSjQAynq19K5cTIYzc1PC5TT/4=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language:X-Originating-IP:X-ClientProxiedBy;
+        b=TKk4/A8pGOgG08SCtA6LrP5Mt8p0MR+F6vDXfAuCDGOsdINHQQ4kkyDKoehi2cybL
+         Amccb+8ZWdjsKIKS5ciDyerdCOaZ0Ss/C9r0MUtiIChI4x+NdzgPibAodfBqdlBbDv
+         M6l6S1zXToRJOIIe9A+ivRnrUxtJEb5A9tZnE2PNv6kPxt3gvPpWbQCd11hRzHxeSZ
+         Djc6ICGbRwX7oy+v4Lbaxatyae4JaYLhu3bpvEzOCuQgR6kJ0pPoczoqlII2p9s7WN
+         fWfHvENmhK5lCnqoTFzwXS4byuIn8PDbTQdBQWVx39KIRtJs6L7zi9qLa1LoHIn0G2
+         zRP812XO6DkpA==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello linux-tegra@vger.kernel.org
 
+On 11/20/20 12:17 PM, Rob Herring wrote:
+> On Fri, Nov 13, 2020 at 1:36 PM Sowjanya Komatineni
+> <skomatineni@nvidia.com> wrote:
+>> This patch converts text based dt-binding document to YAML based
+>> dt-binding document.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   .../devicetree/bindings/ata/nvidia,tegra-ahci.yaml | 137 +++++++++++++++++++++
+>>   .../bindings/ata/nvidia,tegra124-ahci.txt          |  44 -------
+>>   2 files changed, 137 insertions(+), 44 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml
+>>   delete mode 100644 Documentation/devicetree/bindings/ata/nvidia,tegra124-ahci.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml b/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml
+>> new file mode 100644
+>> index 0000000..dbbe460
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml
+>> @@ -0,0 +1,137 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/ata/nvidia,tegra-ahci.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Tegra AHCI SATA Controller
+>> +
+>> +maintainers:
+>> +  - Thierry Reding <thierry.reding@gmail.com>
+>> +  - Jonathan Hunter <jonathanh@nvidia.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - nvidia,tegra124-ahci
+>> +      - nvidia,tegra132-ahci
+>> +      - nvidia,tegra210-ahci
+>> +
+>> +  reg:
+>> +    minItems: 2
+>> +    maxItems: 3
+>> +    items:
+>> +      - description: AHCI registers
+>> +      - description: SATA configuration and IPFS registers
+>> +      - description: SATA AUX registers
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: sata
+>> +      - const: sata-oob
+>> +
+>> +  clocks:
+>> +    maxItems: 2
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: sata
+>> +      - const: sata-cold
+>> +      - const: sata-oob
+>> +
+>> +  resets:
+>> +    maxItems: 3
+>> +
+>> +  phy-names:
+>> +    items:
+>> +      - const: sata-0
+>> +
+>> +  phys:
+>> +    maxItems: 1
+>> +
+>> +  hvdd-supply:
+>> +    description: SATA HVDD regulator supply.
+>> +
+>> +  vddio-supply:
+>> +    description: SATA VDDIO regulator supply.
+>> +
+>> +  avdd-supply:
+>> +    description: SATA AVDD regulator supply.
+>> +
+>> +  target-5v-supply:
+>> +    description: SATA 5V power regulator supply.
+>> +
+>> +  target-12v-supply:
+>> +    description: SATA 12V power regulator supply.
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - clock-names
+>> +  - clocks
+>> +  - reset-names
+>> +  - resets
+>> +
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - nvidia,tegra124-ahci
+>> +              - nvidia,tegra132-ahci
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          maxItems: 2
+>> +        reset-names:
+>> +          minItems: 3
+>> +        resets:
+>> +          minItems: 3
+>> +      required:
+>> +        - phys
+>> +        - phy-names
+>> +        - hvdd-supply
+>> +        - vddio-supply
+>> +        - avdd-supply
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - nvidia,tegra210-ahci
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          minItems: 3
+>> +        reset-names:
+>> +          minItems: 3
+>> +        resets:
+>> +          minItems: 3
+>> +
+>> +additionalProperties: true
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/tegra210-car.h>
+>> +    #include <dt-bindings/reset/tegra210-car.h>
+>> +
+>> +    sata@70020000 {
+>> +            compatible = "nvidia,tegra210-ahci";
+>> +            reg = <0x0 0x70027000 0x0 0x00002000>, /* AHCI */
+>> +                  <0x0 0x70020000 0x0 0x00007000>, /* SATA */
+>> +                  <0x0 0x70001100 0x0 0x00010000>; /* SATA AUX */
+> The default sizes are 1 cell for address and size, so this will give
+> you warnings. You either need to adjust the entries here or add a
+> parent node setting the sizes to 2 cells.
 
-We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+Thanks Rob.
 
+tegra210.dtsi already has address and size set to 2 cells in parent node 
+of sata.
 
-We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+Do you mean to add parent node and address and size cells set to 2 in 
+this yaml example as well?
 
-
-Please get back to me if you are interested for more
-
-details.
-
-
-Yours faithfully,
-
-Hashim Murrah
+>
+>> +            interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
+> The error is because you need the include files for these defines.
+Will add header file for interrupts in yaml example.
+>
+>> +            clocks = <&tegra_car TEGRA210_CLK_SATA>,
+>> +                     <&tegra_car TEGRA210_CLK_SATA_OOB>;
+>> +            clock-names = "sata", "sata-oob";
+>> +            resets = <&tegra_car 124>,
+>> +                     <&tegra_car 129>,
+>> +                     <&tegra_car 123>;
+>> +            reset-names = "sata", "sata-cold", "sata-oob";
+>> +    };
