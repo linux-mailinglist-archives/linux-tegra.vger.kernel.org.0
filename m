@@ -2,70 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29DB82C36A1
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Nov 2020 03:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 370132C3D0E
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Nov 2020 10:56:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726128AbgKYCPC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Nov 2020 21:15:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37946 "EHLO mail.kernel.org"
+        id S1726114AbgKYJzP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Nov 2020 04:55:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725287AbgKYCPC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Nov 2020 21:15:02 -0500
-Received: from kernel.org (unknown [104.132.1.79])
+        id S1725837AbgKYJzP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 25 Nov 2020 04:55:15 -0500
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94D0F2075A;
-        Wed, 25 Nov 2020 02:15:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9A026206B7;
+        Wed, 25 Nov 2020 09:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606270501;
-        bh=aNkhkC1HJ7u96zWRmzOGh8EchI0HxA2iC0PeVNtialg=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Sif6kaXiKXeLp9f1dpVGuPEfTIqowSCmv2+Y2D2pBINKvoP6CIB4i25cyHbfV2KjJ
-         rfMK1FXJTbFlUJey6olmPA/faigziofQh6dsn19wbbt+OZlRHzl9UA1Tl9DHCOw0tx
-         ThS53v0hCjqCOj1kTHc1ZxxtpGMimCmByQJyvaNw=
-Content-Type: text/plain; charset="utf-8"
+        s=default; t=1606298115;
+        bh=re7AA/JYRI8haIErRYirxD5qBBNucRha2mgCCLcEBdw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uau/cOV8xuxLqlAHyOwuhgXQj5gfAd69Ye96ug6M5hYeQd+3qxXFa51WdbVyB9rXi
+         WfIth7NR1+dXktcByKqTBwpvQzIg5ovQr4UjreFibvMs5l41P+SANO1kJnPqLen/+R
+         6LXv7rCZZ3lE/HBDUr+L4LC6Z/qeenih8S8MxBP8=
+Date:   Wed, 25 Nov 2020 09:55:10 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>, joro@8bytes.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+        jonathanh@nvidia.com
+Subject: Re: [PATCH RESEND 0/5] iommu/tegra-smmu: Some pending reviewed
+ changes
+Message-ID: <20201125095509.GB15052@willie-the-truck>
+References: <20201111222129.15736-1-nicoleotsuka@gmail.com>
+ <20201124212100.GA32108@Asurada-Nvidia>
+ <68237d7c-12f7-3053-2e79-75b7e95f0af3@gmail.com>
+ <20201124231215.GA32405@Asurada-Nvidia>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b362195a-665d-5e1d-4c6e-26cbc2459777@gmail.com>
-References: <20201104134810.21026-1-digetx@gmail.com> <160538861846.60232.2236874455363048014@swboyd.mtv.corp.google.com> <b362195a-665d-5e1d-4c6e-26cbc2459777@gmail.com>
-Subject: Re: [PATCH v1] clk: tegra30: Use 300MHz for video decoder by default
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Date:   Tue, 24 Nov 2020 18:15:00 -0800
-Message-ID: <160627050023.2717324.14379148787162509458@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201124231215.GA32405@Asurada-Nvidia>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Quoting Dmitry Osipenko (2020-11-15 06:10:04)
-> 15.11.2020 00:16, Stephen Boyd =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > Quoting Dmitry Osipenko (2020-11-04 05:48:10)
-> >> The 600MHz is a too high clock rate for some SoC versions for the video
-> >> decoder hardware and this may cause stability issues. Use 300MHz for t=
-he
-> >> video decoder by default, which is supported by all hardware versions.
-> >>
-> >> Fixes: ed1a2459e20c ("clk: tegra: Add Tegra20/30 EMC clock implementat=
-ion")
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >=20
-> > Should this go to clk-fixes? Thierry?
-> >=20
->=20
-> Either way should be good. The fix isn't critical because 600MHz seems
-> to be working okay on unsupported hardware.
->=20
-> Potentially this could vary depending on a board, but then I don't think
-> that there are actively-supported boards which would notice this change.
->=20
+On Tue, Nov 24, 2020 at 03:12:16PM -0800, Nicolin Chen wrote:
+> On Wed, Nov 25, 2020 at 02:05:14AM +0300, Dmitry Osipenko wrote:
+> > 25.11.2020 00:21, Nicolin Chen пишет:
+> > > These five patches were acked by Thierry and acked-n-tested by
+> > > Dmitry a while ago. Would it be possible for you to apply them?
+> > > 
+> > > Thanks!
+> > 
+> > You probably should try to ping Will Deacon.
+> > 
+> > https://lkml.org/lkml/2020/11/17/243
+> 
+> Thank you, Dmitry.
+> --
+> 
+> Will, would it be possible for you to take these changes?
+> 
+> I sent them on Nov 11 to the following lists:
+> linux-kernel@vger.kernel.org
+> iommu@lists.linux-foundation.org
+> 
+> If you need me to resend it again by adding you in To line,
+> please kindly let me know.
 
-Ok sounds like Thierry can pick it up.
+Weird, this ended up in my spam. If you wouldn't mind resending with me
+on To: then please do that. Then I know I'm looking at the correct version.
+
+Thanks,
+
+Will
