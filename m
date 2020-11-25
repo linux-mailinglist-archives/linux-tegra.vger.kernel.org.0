@@ -2,69 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FB882C4786
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Nov 2020 19:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E7CD2C4823
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Nov 2020 20:23:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731343AbgKYSZz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Nov 2020 13:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730456AbgKYSZz (ORCPT
+        id S1727149AbgKYTWr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Nov 2020 14:22:47 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4121 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbgKYTWr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Nov 2020 13:25:55 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAD05C0613D4;
-        Wed, 25 Nov 2020 10:25:54 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id 10so2826397wml.2;
-        Wed, 25 Nov 2020 10:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=MT4M9SX2NqdNuOObXhIV8Gtkw+yoDX+gRyJnh+feBwM=;
-        b=ss0slRaCEcg04L5McqQ8F8T4WHGh8NzPh+tM5wNUnwFiJ3yo5rNmUmsPRtU36ETdlP
-         QKPX6TyHKN1x9VF1ojZZGGld+5bDZBboMR1oWnCempz88PDWybq8cBmHC8+jGUCNJt1T
-         Z99W2ClZS5tbbYWc1FFMEDpKSRsxppSUyETi5kkyVbkUaO5Dt8pxfuae3oxDCwMX1Xb/
-         y77AsonYUcK23skt4nDwij2xmsJqL22J//RKTvblsY+um1v/73QU+pxcs339EG/WK6dM
-         m1XjjT6Ed3zVZIkaX+DV0Ouwoe2hvGOpQTix+v0vf9D/Js8u7FS/lGDbg+XTMlz1yVI3
-         an6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=MT4M9SX2NqdNuOObXhIV8Gtkw+yoDX+gRyJnh+feBwM=;
-        b=abun8CKJoWLj8aYc1yXpqSk173odq3+lHuBUyZeQRq6V3+tcCR2gGACDWBuQL27Cep
-         tZaU1sP8vzYvzkOfgc4/c1LayLfG63Icy/W3ZRWDyzBWV089DrcuPOBvmRaBEkqT6i4+
-         RRJ2UNk/qSIabm7SX2uha2CjoGOtSc0bhRZCFG+35EHG84ZFpjDoMQ7qQimx3cd9sMIY
-         d2CDmXQ7bSNx8snMZNbereqrmwd34xdam1JXMQIAfvGTG84pf7ri2VkwlBmIJxl61kM+
-         F6VAZOFuBYYXBKTW9u2pzKc/tDIdTZvm8aJChidiBfPVQoKZVvYSl+7B0YiaG8fVA66u
-         iCmQ==
-X-Gm-Message-State: AOAM533y9TGvj09aiHxOuN/HTNi/tV3c4ojWYsPT91feUAjmpqtTgOC5
-        COHMkkQPus24ldt8JbUyew8=
-X-Google-Smtp-Source: ABdhPJxCOWy7Fbjdk2tNypiBX9CvzpFpmeZGY8A9wNkYzcfuh+VnkIc9qYk/8GFiakQj6tEvc6h7yQ==
-X-Received: by 2002:a1c:a344:: with SMTP id m65mr5424662wme.77.1606328753525;
-        Wed, 25 Nov 2020 10:25:53 -0800 (PST)
-Received: from [192.168.1.152] ([102.64.149.89])
-        by smtp.gmail.com with ESMTPSA id x13sm5329634wmj.48.2020.11.25.10.25.49
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Wed, 25 Nov 2020 10:25:53 -0800 (PST)
-Message-ID: <5fbea1b1.1c69fb81.8c60.ba1c@mx.google.com>
-From:   "Dailborh R." <risonnah.001@gmail.com>
-X-Google-Original-From: Dailborh R.
-Content-Type: text/plain; charset="iso-8859-1"
+        Wed, 25 Nov 2020 14:22:47 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fbeaf060000>; Wed, 25 Nov 2020 11:22:46 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 25 Nov
+ 2020 19:22:45 +0000
+Received: from vidyas-desktop.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Wed, 25 Nov 2020 19:22:41 +0000
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <lorenzo.pieralisi@arm.com>, <robh@kernel.org>,
+        <bhelgaas@google.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <jingoohan1@gmail.com>, <kw@linux.com>,
+        <gregkh@linuxfoundation.org>
+CC:     <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH] PCI: tegra: Move "dbi" accesses to post common DWC initialization
+Date:   Thu, 26 Nov 2020 00:52:34 +0530
+Message-ID: <20201125192234.2270-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Please reply to me
-To:     Recipients <Dailborh@vger.kernel.org>
-Date:   Wed, 25 Nov 2020 18:25:39 +0000
-Reply-To: dailrrob.83@gmail.com
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1606332166; bh=qhn+7M1gOz4JIgwvQxocnYwYlqiPE1tJKqV+lUO0Fdo=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+         MIME-Version:Content-Type;
+        b=BiPFh2BUh4Hm2eGT6PQ60R3brNRko5HBVgeQDVx/BTXNCgjHlyEXdIGBCkE9hLO0z
+         Hm8sZLxYzyVEv8UV3yhOHrLVewkjBSL6EL7kOEkEO2jEaB6Vsv2l6x1ZjSG/ZKpkwE
+         wX7jIeWj8lk7+G7t0QCO73QzJex9Aq/gVNBg9DVYTz6bxX2TnhPv0qWj+efbriTXl+
+         U+XnC6JIdyYNMwTAzYyNbczHoTYP/bTwh1MSVwzigz5q/292KrQA8N5m1yfSqAwvbF
+         6vfSwCmxqftGjp75Uk53Sw3dqsM48HxnFwR5yJHz/4jkAOjCUydp997TLF7tiSclUs
+         Q2UqaNXKPlK/Q==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I'm Dailborh R. from US. I picked interest in you and I would like to know
-more about you and establish relationship with you. i will wait for
-your response. thank you.
+commit a0fd361db8e5 ("PCI: dwc: Move "dbi", "dbi2", and "addr_space"
+resource setup into common code") moved the code that sets up dbi_base
+to DWC common code thereby creating a requirement to not access the "dbi"
+region before calling common DWC initialization code. But, Tegra194
+already had some code that programs some of the "dbi" registers resulting
+in system crash. This patch addresses that issue by refactoring the code
+to have accesses to the "dbi" region only after common DWC initialization.
+
+Fixes: a0fd361db8e5 ("PCI: dwc: Move "dbi", "dbi2", and "addr_space" resource setup into common code")
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+---
+ drivers/pci/controller/dwc/pcie-tegra194.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index ac2225175087..648e731bccfa 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -859,6 +859,16 @@ static void tegra_pcie_prepare_host(struct pcie_port *pp)
+ 	struct tegra_pcie_dw *pcie = to_tegra_pcie(pci);
+ 	u32 val;
+ 
++	if (!pcie->pcie_cap_base)
++		pcie->pcie_cap_base = dw_pcie_find_capability(&pcie->pci,
++							      PCI_CAP_ID_EXP);
++
++	/* Disable ASPM-L1SS advertisement if there is no CLKREQ routing */
++	if (!pcie->supports_clkreq) {
++		disable_aspm_l11(pcie);
++		disable_aspm_l12(pcie);
++	}
++
+ 	val = dw_pcie_readl_dbi(pci, PCI_IO_BASE);
+ 	val &= ~(IO_BASE_IO_DECODE | IO_BASE_IO_DECODE_BIT8);
+ 	dw_pcie_writel_dbi(pci, PCI_IO_BASE, val);
+@@ -1389,15 +1399,6 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
+ 
+ 	reset_control_deassert(pcie->core_rst);
+ 
+-	pcie->pcie_cap_base = dw_pcie_find_capability(&pcie->pci,
+-						      PCI_CAP_ID_EXP);
+-
+-	/* Disable ASPM-L1SS advertisement as there is no CLKREQ routing */
+-	if (!pcie->supports_clkreq) {
+-		disable_aspm_l11(pcie);
+-		disable_aspm_l12(pcie);
+-	}
+-
+ 	return ret;
+ 
+ fail_phy:
+-- 
+2.17.1
 
