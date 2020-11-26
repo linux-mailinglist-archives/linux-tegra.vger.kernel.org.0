@@ -2,117 +2,185 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 348672C531D
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Nov 2020 12:35:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F03002C584A
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Nov 2020 16:33:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389407AbgKZLfF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 Nov 2020 06:35:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38884 "EHLO
+        id S2391370AbgKZPbQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Nov 2020 10:31:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389343AbgKZLfF (ORCPT
+        with ESMTP id S2391368AbgKZPbP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 Nov 2020 06:35:05 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED34C0613D4;
-        Thu, 26 Nov 2020 03:35:03 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id z7so1789046wrn.3;
-        Thu, 26 Nov 2020 03:35:03 -0800 (PST)
+        Thu, 26 Nov 2020 10:31:15 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BCF7C0613D4;
+        Thu, 26 Nov 2020 07:31:15 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id m6so2551634wrg.7;
+        Thu, 26 Nov 2020 07:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Z19SPR6q6e8Z9xOoOmzg+BC0gL5sGSxj/oGtziiuYnk=;
-        b=l7Izq4ml+1f2ymIxiuDN4cgzVb9JASeqNvJpmeMOUNV2iqF147AgiaO+5sD/7fs55V
-         SrfZsFc+tpUi+BVtQ0zKRjH2WTPSPahCAYsdbfQ3hy1ZuGuEB2HSiDoQRo2GG997o2BB
-         AMoMixXRvuksK99nWzp8/WbDQFOk5V6EIQclCUhtzzPdslHswGP9EaBjxicPJZdrZyuT
-         garek/Te++SZZO3lDs074Et1dWpNLEdQRUaQ5QujE6mxeuAxawHjSm5gdPUZl8N6I9SW
-         mWIlkxMrGmGlcaSdJLG2mjRwW9sSDqQdjtqQR32E6gtRDXTRPjZF5kA/E2YK8PTTbaEz
-         X75g==
+        bh=33G2Aw3cGR8fTdmd4bVmmACQpGg8i7XaRf6DP/2Dh78=;
+        b=AUL+bBJ6+TTNvTF+WPlDhIWJ4eIPV0Z6KrcKw3WROMEB1ZzOjiR8zsJYJkckbx6ZH6
+         GidcFOEa6f7yCyl362OmqDy2ODXEWyhpWcOfyVpt941+Mqc1jqOztOKITujqRC/lIeSH
+         0H+Xi2poObhhMyWz5k24rx//wOUvGPLArrNrb0LAp/Lz/jxP2SPFUwQ6y3Q5/ywwRg0o
+         8jCwtJOZhGqehpgDEf7CSztkw3glxvZ0O3uK/GFQfaRCfgQlCwxDBgYUKgFkgeSu3vVN
+         kZM+umkM4pYgo/sS+E+0ACnhKR5R0HWRfP2r1NGWaaC25PlxqFSxK2e/jh7mPvBKuxY1
+         eX8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Z19SPR6q6e8Z9xOoOmzg+BC0gL5sGSxj/oGtziiuYnk=;
-        b=dD6vY9/7xOJiyG2TOTOg69gFRdVufM3Saa+hAqhr4FN/9TCSnUhMpaqWkOW+US2KFN
-         q5hQLjlrheJK9v+H/ts3ZcklUQZa8tN5rqdqJ6yAZIgo1AXWt22PGoYjbwNz99YH00WL
-         WAeCIHqUGIssslf7Tb5+MUXFasfmFjS6+beS2zYyj1954BvE8meslTirYQCEQGrh1xgn
-         qzIKcmNfWeFN4eOidil33rBbxgctr8DBmWWKxwu2yvOXDjAuiAqPliDpINjqhPsxbYAK
-         7N5zhSulM1/nWNutF3WD5kChyTZZKl7kBtKniHtf7FddKF6pbwZ7gNNhs+tE/AmEiZf+
-         Imbg==
-X-Gm-Message-State: AOAM5312hv2GaYk8gcI8lD+kiH22y6OKyIZgtvL0tQepBMbYgV8Ckour
-        P5gFEIUxe8QjZvrIU9OJDeQ=
-X-Google-Smtp-Source: ABdhPJwZXHg4ZJWcakRzIulaHmsv4hAGkYwZ41zkrRjyhjdWAfGZONYO6etLS0xyYGoR8ShgdGLHFQ==
-X-Received: by 2002:adf:e544:: with SMTP id z4mr3401462wrm.83.1606390502518;
-        Thu, 26 Nov 2020 03:35:02 -0800 (PST)
+        bh=33G2Aw3cGR8fTdmd4bVmmACQpGg8i7XaRf6DP/2Dh78=;
+        b=scXEhjYAMQw652jNo50rf26S8/RnDygDBaL5buNANhgESw7qmfW8g93yJPCC8k9/AY
+         tNaCoGqd4HiRfgP1DyuCiw4Quo/pflMslRK2tf3e5ZP/9/iWXqwHQhQ1QVVDR7jjfWAS
+         Fny4HyTLNIZO/tzjzDlwgb/yj/f1ZhGYCwSR14jPfPrfut76NeU6uZmpe3nMYx86+qRp
+         svkSk/QeYXqUSS6dkU7NhrT30T8ipuB25YsIcOmNdE/KKTLjYgZ2v1duDDcNdElO3j4u
+         /HXsvjhfgl5rl59ntBkugD8ZjcS5YO9W1w90F/ORGnhLI/Iqkjsos1BSJ95J0yDluWuD
+         MF4Q==
+X-Gm-Message-State: AOAM53242+WPb5pEphxT4OIxToNxOHgRdjVHRlwKjc2T66pIXjkK7cYX
+        5NeJu2k5dY2e75y1oc9neNZYRAQw0F4=
+X-Google-Smtp-Source: ABdhPJx7eDLOL3dQjC1CQ45Mb8OE6ssDTX0Ve4IPHbTS77oNWkrSC2ZMgLVcmPPRG6yIkJNswknW2Q==
+X-Received: by 2002:a5d:510d:: with SMTP id s13mr4494577wrt.380.1606404674237;
+        Thu, 26 Nov 2020 07:31:14 -0800 (PST)
 Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id 2sm10188934wrq.87.2020.11.26.03.35.00
+        by smtp.gmail.com with ESMTPSA id f18sm9410313wru.42.2020.11.26.07.31.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2020 03:35:01 -0800 (PST)
-Date:   Thu, 26 Nov 2020 12:34:59 +0100
+        Thu, 26 Nov 2020 07:31:12 -0800 (PST)
+Date:   Thu, 26 Nov 2020 16:31:11 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     lorenzo.pieralisi@arm.com, robh+dt@kernel.org, bhelgaas@google.com,
-        jonathanh@nvidia.com, amanharitsh123@gmail.com,
-        dinghao.liu@zju.edu.cn, kw@linux.com, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V4 6/6] PCI: tegra: Disable LTSSM during L2 entry
-Message-ID: <X7+S4zQhxaS8tAcd@ulmo>
-References: <20201109171937.28326-1-vidyas@nvidia.com>
- <20201109171937.28326-7-vidyas@nvidia.com>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     kishon@ti.com, vkoul@kernel.org, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, nkristam@nvidia.com
+Subject: Re: [PATCH v1] phy: tegra: xusb: Fix usb_phy device driver field
+Message-ID: <X7/KP/rnFkw329TY@ulmo>
+References: <20201117083803.185209-1-jckuo@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="DJczW5l7OJTAN39l"
+        protocol="application/pgp-signature"; boundary="WN6ltYL4TufsTCLD"
 Content-Disposition: inline
-In-Reply-To: <20201109171937.28326-7-vidyas@nvidia.com>
+In-Reply-To: <20201117083803.185209-1-jckuo@nvidia.com>
 User-Agent: Mutt/2.0.2 (d9268908) (2020-11-20)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---DJczW5l7OJTAN39l
+--WN6ltYL4TufsTCLD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 09, 2020 at 10:49:37PM +0530, Vidya Sagar wrote:
-> PCIe cards like Marvell SATA controller and some of the Samsung NVMe
-> drives don't support taking the link to L2 state. When the link doesn't
-> go to L2 state, Tegra194 requires the LTSSM to be disabled to allow PHY
-> to start the next link up process cleanly during suspend/resume sequence.
-> Failing to disable LTSSM results in the PCIe link not coming up in the
-> next resume cycle.
+On Tue, Nov 17, 2020 at 04:38:03PM +0800, JC Kuo wrote:
+> In commit "phy: tegra: xusb: Add usb-phy support", an OTG capable PHY
+> device, such as phy-usb2.0 device of Jetson-TX1 platform, will be
+> bound to the tegra-xusb-padctl driver by the following line in
+> tegra_xusb_setup_usb_role_switch().
 >=20
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> 	port->usb_phy.dev->driver =3D port->padctl->dev->driver;
+>=20
+> With this, dev_pm_ops set of tegra-xusb-padctl driver will be invoked
+> for the OTG capable PHY incorrectly as below logs show.
+>=20
+> This commit fixes the issue by assigning an empty driver to it.
+>=20
+> [  153.451108] tegra-xusb-padctl phy-usb2.0: > tegra_xusb_padctl_suspend_=
+noirq(dev=3Dffff000080917000)
+> [  153.460353] tegra-xusb-padctl phy-usb2.0:   driver: ffff8000114453e0 (=
+tegra_xusb_padctl_driver)
+> [  153.469245] tegra-xusb-padctl phy-usb2.0:   padctl: ffff0000829f6480
+> [  153.475772] tegra-xusb-padctl phy-usb2.0:     soc: ef7bdd7fffffffff (0=
+xef7bdd7fffffffff)
+> [  153.484061] Unable to handle kernel paging request at virtual address =
+007bdd800000004f
+> [  153.492132] Mem abort info:
+> [  153.495083]   ESR =3D 0x96000004
+> [  153.498308]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> [  153.503771]   SET =3D 0, FnV =3D 0
+> [  153.506979]   EA =3D 0, S1PTW =3D 0
+> [  153.510260] Data abort info:
+> [  153.513200]   ISV =3D 0, ISS =3D 0x00000004
+> [  153.517181]   CM =3D 0, WnR =3D 0
+> [  153.520302] [007bdd800000004f] address between user and kernel address=
+ ranges
+> [  153.527600] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> [  153.533231] Modules linked in: nouveau panel_simple tegra_video(C) teg=
+ra_drm drm_ttm_helper videobuf2_dma_contig ttm videobuf2_memops cec videobu=
+f2_v4l2 videobuf2_common drm_kms_helper v4l2_fwnode videodev drm mc snd_hda=
+_codec_hdmi cdc_ether usbnet snd_hda_tegra r8152 crct10dif_ce snd_hda_codec=
+ snd_hda_core tegra_xudc host1x lp855x_bl at24 ip_tables x_tables ipv6
+> [  153.566417] CPU: 0 PID: 300 Comm: systemd-sleep Tainted: G         C  =
+      5.10.0-rc3-next-20201113-00019-g5c064d5372b0-dirty #624
+> [  153.578283] Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+> [  153.584281] pstate: 40000005 (nZcv daif -PAN -UAO -TCO BTYPE=3D--)
+> [  153.590381] pc : tegra_xusb_padctl_suspend_noirq+0x88/0x100
+> [  153.596016] lr : tegra_xusb_padctl_suspend_noirq+0x80/0x100
+> [  153.601632] sp : ffff8000120dbb60
+> [  153.604999] x29: ffff8000120dbb60 x28: ffff000080a1df00
+> [  153.610430] x27: 0000000000000002 x26: ffff8000106f8540
+> [  153.615858] x25: ffff8000113ac4a4 x24: ffff80001148c198
+> [  153.621277] x23: ffff800010c4538c x22: 0000000000000002
+> [  153.626692] x21: ffff800010ccde80 x20: ffff0000829f6480
+> [  153.632107] x19: ffff000080917000 x18: 0000000000000030
+> [  153.637521] x17: 0000000000000000 x16: 0000000000000000
+> [  153.642933] x15: ffff000080a1e380 x14: 74636461702d6273
+> [  153.648346] x13: ffff8000113ad058 x12: 0000000000000f39
+> [  153.653759] x11: 0000000000000513 x10: ffff800011405058
+> [  153.659176] x9 : 00000000fffff000 x8 : ffff8000113ad058
+> [  153.664590] x7 : ffff800011405058 x6 : 0000000000000000
+> [  153.670002] x5 : 0000000000000000 x4 : ffff0000fe908bc0
+> [  153.675414] x3 : ffff0000fe910228 x2 : 162ef67e0581e700
+> [  153.680826] x1 : 162ef67e0581e700 x0 : ef7bdd7fffffffff
+> [  153.686241] Call trace:
+> [  153.688769]  tegra_xusb_padctl_suspend_noirq+0x88/0x100
+> [  153.694077]  __device_suspend_noirq+0x68/0x1cc
+> [  153.698594]  dpm_noirq_suspend_devices+0x10c/0x1d0
+> [  153.703456]  dpm_suspend_noirq+0x28/0xa0
+> [  153.707461]  suspend_devices_and_enter+0x234/0x4bc
+> [  153.712314]  pm_suspend+0x1e4/0x270
+> [  153.715868]  state_store+0x8c/0x110
+> [  153.719440]  kobj_attr_store+0x1c/0x30
+> [  153.723259]  sysfs_kf_write+0x4c/0x7c
+> [  153.726981]  kernfs_fop_write+0x124/0x240
+> [  153.731065]  vfs_write+0xe4/0x204
+> [  153.734449]  ksys_write+0x6c/0x100
+> [  153.737925]  __arm64_sys_write+0x20/0x30
+> [  153.741931]  el0_svc_common.constprop.0+0x78/0x1a0
+> [  153.746789]  do_el0_svc+0x24/0x90
+> [  153.750181]  el0_sync_handler+0x254/0x260
+> [  153.754251]  el0_sync+0x174/0x180
+> [  153.757663] Code: aa0303e2 94000f64 f9405680 b40000e0 (f9402803)
+> [  153.763826] ---[ end trace 81543a3394cb409d ]---
+>=20
+> Fixes: e8f7d2f409a1 ("phy: tegra: xusb: Add usb-phy support")
+>=20
+> Signed-off-by: JC Kuo <jckuo@nvidia.com>
 > ---
-> V4:
-> * New patch in this series
->=20
->  drivers/pci/controller/dwc/pcie-tegra194.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  drivers/phy/tegra/xusb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tested-by: Thierry Reding <treding@nvidia.com>
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---DJczW5l7OJTAN39l
+--WN6ltYL4TufsTCLD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+/kuMACgkQ3SOs138+
-s6FZFRAAoKuhItsnD+04VnXQVd9OUoqSlKDlETyOKeRM2QXoffIKz2Ls9oK8hjCq
-ff8dclM/AMZYYklT/Qg3VQrU2Duq2VDapMXyswUernO5cTSk62tciOF/pPc+BuBA
-ZRSs9swDi5O4LhcCmWpMYaP+fx3ZqexPczpVc/GYOMZYF/mGr0U8grZpONmCeX0K
-x1uc85AWb5ClCkBpe/MVxNlfCoiMJW8hIG7SndaJUxLxS+ggAVpARW8IcSGqyS0z
-9OwyB/II4sb3bHBFXlg2g/g4wO43i8XQTO/ufGrBRnvTRCGWDu1GSIvDdKvU6udV
-9MkNKXRROJMLK5d5VXLn5xHR8sDX0RhGv2zjJT/UF8fn9xoJewsLJbemogI1O0j9
-1nFOwGyWgQ+wPvbLtHSY2J2VjI3mVB8oraNpAlN9o47wScKKHMOGKfVDL+UA4LBx
-mRGH9XlLdx3blfmN0w6X5bMTupyEtHsOx7mKxugos7fv1+z9QQbR+zEuoSV3U6av
-jU6aHu0uxUL0jVgFJkg+Wjut+XAXGbZekpy6HL6vF4I0tABqSNM5np59J79qzUEm
-n1SLWEJgu3YlFfAvMicDHo1Sglo3V49By4gNG7rRUY2eGQBi7M4CAezg6Zrx9s7A
-BCyoqf/xl0zQJYHTVrSRmGvrnP1QUAtDa4k6ptHBIafpc0j6H5A=
-=p4tA
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+/yjwACgkQ3SOs138+
+s6FarQ/+KLMzGhRAJyRksGyp5J4x7FtZ2ncbxEyy5Ckgbxo61m6El35NaXHt3GX2
+ydIbmgBxtiP13+BYIc2GmvPltA54TeVR7SgRtJhU0gM6ZgRqrGt/ECRwaYQitWFq
+51SercayKWitTB0darPan4evzo4JqJZl/hSjotNnR9HyqkanysSyzOPYSBmxnRR6
+nXuSEh9OZVi8zYWwUIyibZa5vWxzLc7ocCQin9G0hAYwgvjYg4pW2Jz6zA63UDxu
+U+oLdfFC6zALZSaDKEqCsGIoIa6IMQT/C6rLjLXKqTPeBCmw4lALfOMfSN4HPYTG
+9iX7vCipTeA+hf/Ozw3Nz1S29QGs2P1f9Iy45Dt79snTuvL2LwDmheSpbubj9Ui+
+ChkNVfAwRLWsAcaBUvvf8E5N3O13pXyfgaEfU/bH2QMuLCw0fgVGkTb4Y11XcM6c
+9R/hldT3Np79+jrXGOtSsLbBNkwV3AkDYNtX+uScHCmRcy1YvR39dAi7NJkAu1W1
+QG8GeIdDV0FyhRb15AXu3NTOGrnzdnoQ+vGxTZJ4AcjroFScGaNqb/xv35CKD4nj
+HR+53WGZYVPSt6xCHSzcwYl7EjatTRDrMW0R3VEh/YvPIkgx894VuYwWbSPUQWkZ
+m9eY2S/MVO+iLb2/Zw7+bhsED0ABWLIgQ4qy+nPjJD0kdLFtkMQ=
+=ufTC
 -----END PGP SIGNATURE-----
 
---DJczW5l7OJTAN39l--
+--WN6ltYL4TufsTCLD--
