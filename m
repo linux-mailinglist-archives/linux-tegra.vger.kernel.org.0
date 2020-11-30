@@ -2,97 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 180A42C6DF6
-	for <lists+linux-tegra@lfdr.de>; Sat, 28 Nov 2020 01:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B41F2C8024
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Nov 2020 09:39:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731360AbgK0UCm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Nov 2020 15:02:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730858AbgK0UCJ (ORCPT
+        id S1727533AbgK3Ihb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Nov 2020 03:37:31 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37358 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727258AbgK3Iha (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Nov 2020 15:02:09 -0500
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D95C0613D4
-        for <linux-tegra@vger.kernel.org>; Fri, 27 Nov 2020 12:02:07 -0800 (PST)
-Received: by mail-qk1-x743.google.com with SMTP id u4so5324266qkk.10
-        for <linux-tegra@vger.kernel.org>; Fri, 27 Nov 2020 12:02:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1ierPRC6nwVyKGRAu13wlHhtdFpPWvdfztnJfDJ7P5k=;
-        b=adbqpcz5StDJ/7sO/HcY1M3HeMCEvOKMopLbVzYqvr8DuTWDtHShOF67zz36MzfRe5
-         t2aw+JoCucITUY95bg7pxzutUXuirVT7EIV1WSoNZJA8nX0f4ygJDjDSXZOno8k5oW9D
-         Jtzz8fHYqIdERRz0fdicANbA0w+BB5I2DT8iLJHqCbH/GFukUqxFcflyfdbsDCOAdQV9
-         GRF90brf6GcD3FLGpUrkZKjOij9tKDrcYyOCXgUHHAiE758b1xe9HcumZ3DM90lRUIze
-         thaBqw68ZvsOttceqe05DlRwkvsns99ccVfe+vX7jl8L9EL9bAUgtABQKXNeZLtyCdWM
-         kY+Q==
+        Mon, 30 Nov 2020 03:37:30 -0500
+Received: by mail-wm1-f68.google.com with SMTP id h21so23528782wmb.2;
+        Mon, 30 Nov 2020 00:37:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1ierPRC6nwVyKGRAu13wlHhtdFpPWvdfztnJfDJ7P5k=;
-        b=DK0pNwupWRFjmY+CzX83nfZ9adj3SKF4/3EKAVINKyer+AnKrL2+AKpUmSnRGYXQL9
-         GuqfJ82PwdxsYVAkVX+pXBebSgeeRIA0DcCBnIfQFL1RuTwghRhbgRj6d9HqgyZdI6Wz
-         Au1OBUKFda5yZ/e62Rhnp3Sjtbimunbb1jEriErye1SXn5xDrBm50voVdBd3uDUGDEJz
-         e6hLfYAqIN89EQ85btqJykUnRBEMkwN0feUJ4fqKJizLjBoMpl6HO6uLzw+Kx3evUNnS
-         XDzDHcgv1QFqGFfdbvisZ0QAuR3O9QVgq+SGNMSpWC4WkJj8O1PgrXKGf39jwHr0qVpU
-         z0hg==
-X-Gm-Message-State: AOAM531aYI2AW0KaXQGdNNKev8EZBida2+8hnyBJPtCb0gO/iZiWceJm
-        U2LOPotrCXAD25MA4KYy2hy0QZgOg/RsjQ==
-X-Google-Smtp-Source: ABdhPJznECkXi93FlMhXalnZlb/UXYwv6ULAkbiD9RS2tuU0uifzOGhIVCoLfGu8PYCsroy/uCS/hA==
-X-Received: by 2002:a05:620a:11a4:: with SMTP id c4mr10377463qkk.8.1606507326586;
-        Fri, 27 Nov 2020 12:02:06 -0800 (PST)
-Received: from rockpro64.sparksnet ([2601:153:900:7730::20])
-        by smtp.gmail.com with ESMTPSA id i203sm6684736qke.49.2020.11.27.12.02.05
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hGLe4cToDIvo4HB3a/5ZfuG6qTk6bfRGM4GcipNY+6Q=;
+        b=k4LE2unixW68NAWpykc9oTelX+Hjqghw7abbqz9Iwr1rwVgDtfgyss8c788RxodOeh
+         5h6ldUCUXu8NKQ7SxOqD2qj3o4iAy82Of4SSe68ydkHyscDjZh9OhuX4jIxYIK7N4pth
+         E4BxaTuQe3WGPxct7R2tzv2tCPrm/kyotkwv7dh1SAZPaUcgGPbjHAcJkPeU2M2zWZXh
+         DC9KV7CE6iAXIxAmMAc0KN3gUJPhAHjWNgZlMMYKfM1DYHL0XKW6rNiR9JCIqBhf4w/C
+         0tTHDQbwRfEvpN3JfJxSYrUYh+tQOJu2RzYWvDz0z2gNN7KMg1JEWiZk8ps1kTBo5lqp
+         V9sA==
+X-Gm-Message-State: AOAM530463+3yOcmD1E2iG5/GlD/TYcPmMOoLrwpKgjJKtwflw+Co8v5
+        D9/I3PTr+JT8mAJcDbjUFhc=
+X-Google-Smtp-Source: ABdhPJyIIikaJAewDDxbe7eDP7AKT83BXDJQ2y9y2Mtw+U8S4nGzCPJAQAG2vZ+ozkayNtJFvTW3gQ==
+X-Received: by 2002:a05:600c:58e:: with SMTP id o14mr22175684wmd.47.1606725408530;
+        Mon, 30 Nov 2020 00:36:48 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id r1sm26179377wra.97.2020.11.30.00.36.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 12:02:06 -0800 (PST)
-From:   Peter Geis <pgwipeout@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, Peter Geis <pgwipeout@gmail.com>,
-        Matt Merhar <mattmerhar@protonmail.com>
-Subject: [PATCH] ARM: tegra: fix emmc on specific bootloaders
-Date:   Fri, 27 Nov 2020 20:01:46 +0000
-Message-Id: <20201127200146.25625-1-pgwipeout@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 30 Nov 2020 00:36:47 -0800 (PST)
+Date:   Mon, 30 Nov 2020 09:36:46 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Chanwoo Choi <cw00.choi@samsung.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v10 00/19] Introduce memory interconnect for NVIDIA Tegra
+ SoCs
+Message-ID: <20201130083646.GA6711@kozik-lap>
+References: <CGME20201123003254epcas1p1763e1ce693d7cb8e2f20d521e701ad5f@epcas1p1.samsung.com>
+ <20201123002723.28463-1-digetx@gmail.com>
+ <d12880ba-6780-cfee-7667-3723fcad9f3a@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d12880ba-6780-cfee-7667-3723fcad9f3a@samsung.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Ouya fails to detect the emmc module when booting from specific bootloaders.
-Fastboot and hard-kexec bootloaders have observed failures while u-boot does not have this issue.
-It was discovered that if the sdmmc4 alternate configuration clock pin is input disabled the issue manifests.
-Ouya uses sdmmc4 in the primary pin configuration so it is unknown why this occurs.
-It is likely related to the other emmc limitations we have on Ouya.
+On Mon, Nov 30, 2020 at 05:44:39PM +0900, Chanwoo Choi wrote:
+> Hi Dmitry,
+> 
+> The v5.10-rc6 was released from linus git tree.
+> Generally, I will send the pull-quest about devfreq to linux-pm.git maintainer
+> after releasing the v5.1-rc7 for the integration test on linux-pm.git.
+> 
+> The icc patches in this patch have not yet merged. If these patches
+> are not merged before v5.10-rc7, Maybe, I'll apply the devfreq patches
+> for v5.12-rc1.
 
-For now, fix it by enabling input on cam_mclk_pcc0.
+None of the patches here are going to be merged to Linus' in the current
+cycle. They will only go to the next so if there is dependency,
+everything will be broken and non-bisectable.
 
-Fixes: d7195ac5c9c5 ("ARM: tegra: Add device-tree for Ouya")
-Signed-off-by: Peter Geis <pgwipeout@gmail.com>
-Reported-by: Matt Merhar <mattmerhar@protonmail.com>
-Tested-by: Matt Merhar <mattmerhar@protonmail.com>
----
- arch/arm/boot/dts/tegra30-ouya.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+However no such dependencies or merging requirements were mention in the
+cover letter.
 
-diff --git a/arch/arm/boot/dts/tegra30-ouya.dts b/arch/arm/boot/dts/tegra30-ouya.dts
-index 74da1360d297..0368b3b816ef 100644
---- a/arch/arm/boot/dts/tegra30-ouya.dts
-+++ b/arch/arm/boot/dts/tegra30-ouya.dts
-@@ -4352,8 +4352,8 @@ cam_mclk_pcc0 {
- 		nvidia,pins = "cam_mclk_pcc0";
- 		nvidia,function = "vi_alt3";
- 		nvidia,pull = <TEGRA_PIN_PULL_NONE>;
--		nvidia,tristate = <TEGRA_PIN_ENABLE>;
--		nvidia,enable-input = <TEGRA_PIN_DISABLE>;
-+		nvidia,tristate = <TEGRA_PIN_DISABLE>;
-+		nvidia,enable-input = <TEGRA_PIN_ENABLE>;
- 	};
- 	pcc1 {
- 		nvidia,pins = "pcc1";
--- 
-2.25.1
+Best regards,
+Krzysztof
 
