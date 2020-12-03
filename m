@@ -2,125 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B4BE2CDD34
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Dec 2020 19:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ADD02CDE2A
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Dec 2020 20:00:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728893AbgLCSS3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Dec 2020 13:18:29 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33047 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726443AbgLCSS2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Dec 2020 13:18:28 -0500
-Received: by mail-ot1-f68.google.com with SMTP id b18so2674185ots.0;
-        Thu, 03 Dec 2020 10:18:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aNOzNwHkOuGXa7Fh+2VeICnOxC6RLTqC8+Fsh7pbYpc=;
-        b=B54bQ7wQTclSsqMy240SK/TtJfK0nPoRMY/LwoFzOoc2GE+dxlW35rkRMz+Ha6FPbK
-         oFs5EuYqg+0Wt98ZGw95Xowi3To7JzhlxNdQeD2zs4+C0rsPNfhHm1MkMzRcnZlcNk9P
-         O4cNuG3/+x5GHlFNEAR8fNg8kIc3pbkEeh0JSmo4LfGJzb50auj+J0Z+DzGPM9FIWtHT
-         LMIWYUl/dNhx1z5nBoiECk4i0zsNDDUxAWvb+HYG462ZCbiah3lLFLNsaUm8C3UGIF1f
-         yxV9KF+m21BfJwKCvWxTA8wiPypgCE7bw0u/jgYnH61NGnrDJp/1h6PkvUImbv3NRkiE
-         e59A==
-X-Gm-Message-State: AOAM531CzQZ5Bw+1otAso2BqqqDf/vH9TK/0FynsMrl0ESv3KDR9zA0Y
-        DMtI5+8jYh3YN39I/dnp6vpnOArt2/I8LaznR+U=
-X-Google-Smtp-Source: ABdhPJwqemI0nHjABZ8DB7T9ID8g6r75bCjCbsZsgEY3dEVpaIf5c1RYqBLsK8j8uDjbk+vtzho1oSX9qn3XWGdKszQ=
-X-Received: by 2002:a05:6830:2385:: with SMTP id l5mr342208ots.321.1607019461761;
- Thu, 03 Dec 2020 10:17:41 -0800 (PST)
+        id S1727309AbgLCTAo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Dec 2020 14:00:44 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19125 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727010AbgLCTAo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Dec 2020 14:00:44 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fc935b30008>; Thu, 03 Dec 2020 11:00:03 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Dec
+ 2020 19:00:00 +0000
+Received: from skomatineni-linux.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Thu, 3 Dec 2020 18:59:59 +0000
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>
+CC:     <bparrot@ti.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 00/13] tegra-video: Add support for capturing from HDMI-to-CSI bridge
+Date:   Thu, 3 Dec 2020 10:59:49 -0800
+Message-ID: <1607022002-26575-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20201203175756.1405564-1-thierry.reding@gmail.com>
-In-Reply-To: <20201203175756.1405564-1-thierry.reding@gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 3 Dec 2020 19:17:30 +0100
-Message-ID: <CAJZ5v0g_FC6Pikrvk2PK=XMvAwqjaNOcYXHYS6eqv6Zc0JgqNQ@mail.gmail.com>
-Subject: Re: [PATCH] driver core: Reorder devices on successful probe
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Saravana Kannan <saravanak@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607022003; bh=jY8Zlq4FoiBPbmHJITN+zE+SOrzIlCzgHph0zo6yb4A=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+         MIME-Version:Content-Type;
+        b=nLsr6NYcKctwUlBuM2L0NmRx/gQPsSJeMlUhiUPvpuOBaKJvWSH7cGCR3FtQnh9co
+         lCzusKT4s19M/6gJz/GEu0U0cWA0g5ta70JSH8wTepG4W+lmxIko/0yOBWfO/1vyaj
+         AMsIw1ibEVxH6lItHUBRrvNHYVu8I1BCMI9Uvc5hpwjEcOnQr3KUA8x8V0oCDhxUjK
+         LhRURrIjGTGt9+4mi6hYgUO1J5wuVNL4L7fCGh00liB6GZjkcTfFAoMTtSN+t1d2W6
+         /Vq1XlUWK1umZUGi/sDAyTJeIuJ2/xfl/Dhj0i2yxnSnbXxF++gpOEUsJWCwvyaP4f
+         sX5ooMF6BHs6w==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Dec 3, 2020 at 6:58 PM Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> Device drivers usually depend on the fact that the devices that they
-> control are suspended in the same order that they were probed in. In
-> most cases this is already guaranteed via deferred probe.
->
-> However, there's one case where this can still break: if a device is
-> instantiated before a dependency (for example if it appears before the
-> dependency in device tree) but gets probed only after the dependency is
-> probed. Instantiation order would cause the dependency to get probed
-> later, in which case probe of the original device would be deferred and
-> the suspend/resume queue would get reordered properly. However, if the
-> dependency is provided by a built-in driver and the device depending on
-> that driver is controlled by a loadable module, which may only get
-> loaded after the root filesystem has become available, we can be faced
-> with a situation where the probe order ends up being different from the
-> suspend/resume order.
->
-> One example where this happens is on Tegra186, where the ACONNECT is
-> listed very early in device tree (sorted by unit-address) and depends on
-> BPMP (listed very late because it has no unit-address) for power domains
-> and clocks/resets. If the ACONNECT driver is built-in, there is no
-> problem because it will be probed before BPMP, causing a probe deferral
-> and that in turn reorders the suspend/resume queue. However, if built as
-> a module, it will end up being probed after BPMP, and therefore not
-> result in a probe deferral, and therefore the suspend/resume queue will
-> stay in the instantiation order. This in turn causes problems because
-> ACONNECT will be resumed before BPMP, which will result in a hang
-> because the ACONNECT's power domain cannot be powered on as long as the
-> BPMP is still suspended.
->
-> Fix this by always reordering devices on successful probe. This ensures
-> that the suspend/resume queue is always in probe order and hence meets
-> the natural expectations of drivers vs. their dependencies.
->
-> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+This series includes below changes to allow capturing from HDMI-to-CSI bridges.
+- Add DV timing, EDID and log status V4L2 IOCTLs
+- Subscribe V4L2_EVENT_SOURCE_CHANGE
+- Implement V4L2 device notify callback to report queue error on source change
+  during active streaming.
+- Add support for NV16 V4L2 Pixel format.
+- Add x8 capture by multiple ports gang up for 4K captures from HDMI-to-CSI
+  bridges.
 
-Saravana had submitted a very similar patch (I don't have a pointer to
-that one though) and I was against it at that time due to
-overhead-related concerns.  There still are some, but maybe that
-doesn't matter in practice.
+Note: These patches are tested with TC358840 HDMI-to-CSI bridge.
 
-Also, I kind of expect this to blow up somewhere, but since I have no
-examples ready from the top of my head, I think let's try and see, so:
+This series also include below fixes
+- Allow format change for subdevs that don't have crop support.
+- Correct V4L2 Pixel format for RGB888_1X24
+- Enable VI pixel transform for YUV and RGB formats.
 
-Acked-by: Rafael. J. Wysocki <rafael@kernel.org>
+Delta between patch versions:
+[v3]:	Includes below changes based on v2 feedback
+	- Correct V4L2 pixel formats for RGB and YUV.
+	- Sets V4L2_IN_CAP_DV_TIMINGS capability for v4l2 input.
+	- Updates V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8 and uses
+	  data-lanes property of Tegra CSI device graph endpoint
+	  for 8 lanes.
+	- Added V4L2 custom control V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY
+	  for HDMI-to-CSI bridge debug purposes.
 
-> ---
->  drivers/base/dd.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 148e81969e04..cfc079e738bb 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -370,6 +370,13 @@ static void driver_bound(struct device *dev)
->
->         device_pm_check_callbacks(dev);
->
-> +       /*
-> +        * Reorder successfully probed devices to the end of the device list.
-> +        * This ensures that suspend/resume order matches probe order, which
-> +        * is usually what drivers rely on.
-> +        */
-> +       device_pm_move_to_tail(dev);
-> +
->         /*
->          * Make sure the device is no longer in one of the deferred lists and
->          * kick off retrying all pending devices
-> --
-> 2.29.2
->
+[v2]:	v1 + additional patch for x8 capture support
+
+
+Sowjanya Komatineni (13):
+  media: tegra-video: Use zero crop settings if subdev has no
+    get_selection
+  media: tegra-video: Enable VI pixel transform for YUV and RGB formats
+  media: tegra-video: Fix V4L2 pixel format RGB and YUV
+  media: tegra-video: Add support for V4L2_PIX_FMT_NV16
+  media: tegra-video: Add DV timing support
+  media: tegra-video: Add support for EDID ioctl ops
+  media: tegra-video: Add support for VIDIOC_LOG_STATUS ioctl
+  media: tegra-video: Add support for V4L2_EVENT_SOURCE_CHANGE
+  media: tegra-video: Implement V4L2 device notify callback
+  media: v4l2-fwnode: Update V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8
+  dt-bindings: tegra: Update csi data-lanes to maximum 8 lanes
+  media: tegra-video: Add support for x8 captures with gang ports
+  media: tegra-video: Add custom V4L2 control
+    V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY
+
+ .../display/tegra/nvidia,tegra20-host1x.txt        |   4 +-
+ drivers/media/platform/ti-vpe/cal-camerarx.c       |   2 +-
+ drivers/staging/media/tegra-video/csi.c            |  35 ++-
+ drivers/staging/media/tegra-video/csi.h            |  14 +-
+ drivers/staging/media/tegra-video/tegra210.c       | 340 ++++++++++++++-------
+ drivers/staging/media/tegra-video/vi.c             | 338 +++++++++++++++++---
+ drivers/staging/media/tegra-video/vi.h             |  23 +-
+ drivers/staging/media/tegra-video/video.c          |  18 ++
+ include/media/v4l2-fwnode.h                        |   2 +-
+ 9 files changed, 615 insertions(+), 161 deletions(-)
+
+-- 
+2.7.4
+
