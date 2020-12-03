@@ -2,109 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 425A32CD7BA
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Dec 2020 14:36:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A502CD956
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Dec 2020 15:40:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437216AbgLCNgW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Dec 2020 08:36:22 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1789 "EHLO
+        id S2389211AbgLCOho (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Dec 2020 09:37:44 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8678 "EHLO
         hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437207AbgLCNgV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Dec 2020 08:36:21 -0500
+        with ESMTP id S2389202AbgLCOhn (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Dec 2020 09:37:43 -0500
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fc8e9ad0000>; Thu, 03 Dec 2020 05:35:41 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+        id <B5fc8f80f0000>; Thu, 03 Dec 2020 06:37:03 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Dec
- 2020 13:35:36 +0000
-Received: from vidyas-desktop.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Thu, 3 Dec 2020 13:35:33 +0000
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <lorenzo.pieralisi@arm.com>, <robh+dt@kernel.org>,
-        <bhelgaas@google.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <amanharitsh123@gmail.com>,
-        <dinghao.liu@zju.edu.cn>, <kw@linux.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
-Subject: [PATCH V5 5/5] PCI: tegra: Disable LTSSM during L2 entry
-Date:   Thu, 3 Dec 2020 19:04:51 +0530
-Message-ID: <20201203133451.17716-6-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201203133451.17716-1-vidyas@nvidia.com>
-References: <20201203133451.17716-1-vidyas@nvidia.com>
-X-NVConfidentiality: public
+ 2020 14:37:03 +0000
+Received: from audio.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Thu, 3 Dec 2020 14:37:00 +0000
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
+        <broonie@kernel.org>
+CC:     <jonathanh@nvidia.com>, <sharadg@nvidia.com>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>
+Subject: [RESEND PATCH 0/2] Convert Tegra HDA doc to json-schema
+Date:   Thu, 3 Dec 2020 20:06:40 +0530
+Message-ID: <1607006202-4078-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1607002541; bh=FzOTD9Je2Yb9E4ZN56eudlZMA2FxlWvUtl9VQXv+GOA=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:X-NVConfidentiality:MIME-Version:Content-Type;
-        b=HGh5gkIBOrXR5PJjElyACgO0DgKyFHJsX5F54nDbKrnXRswivgXyxNsUCb/mCokBc
-         ZET/9ku76GNr5W2VN+OeFF2yQQkGGJdYHzpdbKqiiIDtHbZXuvIIZRbZdAV2qku0VE
-         krk+vDrsd20yMJCSqHTj5mD5Hfa5GPFvOIk9qZUL2ZYlJr2V+z0gB4pVM4qBexjgJ0
-         JIVJelMgGza+DuctzTGnKGD/QUIyVdA64Uo+EmHFZbG1L5khatmk3sphVbJFztazpT
-         6Vq8AnSzROH98OmQQQqhigtXyLQFrt9wRvp+W3Wuo36Q79QLYO1FUJiZtKAJ2Sza9l
-         h/uISq3u4FWTQ==
+        t=1607006223; bh=oBVH1GkkdSd+6h69hwkZ2XZAHlPV4pT2Qs/l/nDYx3U=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+         Content-Type;
+        b=Lbr6OUW0wGesY0teHTXCdQB4XLfzLF45rs1G+FsTO3K4/WHVIoDcITzJJNPAnwMf/
+         K9RtU+Y4j5kKW2eKChMWYnRQG2Awgav8ftJWOIuLnObj/9rUGjNM21k8gfhATvG2O3
+         3Wbd7Vo0E+3qg+2hud5n421+vK18ju1SayNIN20j3wdW7ebqDuKZ7R/SyAtC52ooK2
+         ARiKTR+49EQsu/vQJ0c5IpCo/P0ZlGdlO/JmVJq/zhen5IydbO4459zHxojABLOalq
+         QHQ4XbBMFMRwGGcjN32y3AJohqKDkUm3c9LpFIxawOX7qsklGulUNFWpyBywEKmL9h
+         TXLvAQP7su81w==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-PCIe cards like Marvell SATA controller and some of the Samsung NVMe
-drives don't support taking the link to L2 state. When the link doesn't
-go to L2 state, Tegra194 requires the LTSSM to be disabled to allow PHY
-to start the next link up process cleanly during suspend/resume sequence.
-Failing to disable LTSSM results in the PCIe link not coming up in the
-next resume cycle.
+Convert Tegra HDA doc to YAML format. Ran binding validation checks to
+ensure there are no warnings/errors for HDA.
 
-Tested-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
----
-V5:
-* Added Tested-by and Acked-by from Thierry Reding
+Patch "arm64: tegra: Fix Tegra194 HDA {clock,reset}-names ordering" is
+already merged and hence not included here.
 
-V4:
-* New patch in this series
+Sameer Pujar (2):
+  dt-bindings: tegra: Convert HDA doc to json-schema
+  dt-bindings: tegra: Add missing HDA properties
 
- drivers/pci/controller/dwc/pcie-tegra194.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ .../bindings/sound/nvidia,tegra30-hda.txt          |  35 -------
+ .../bindings/sound/nvidia,tegra30-hda.yaml         | 112 +++++++++++++++++++++
+ 2 files changed, 112 insertions(+), 35 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
 
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index f4109d71f20b..5597b2a49598 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -1506,6 +1506,14 @@ static void tegra_pcie_dw_pme_turnoff(struct tegra_pcie_dw *pcie)
- 		data &= ~APPL_PINMUX_PEX_RST;
- 		appl_writel(pcie, data, APPL_PINMUX);
- 
-+		/*
-+		 * Some cards do not go to detect state even after de-asserting
-+		 * PERST#. So, de-assert LTSSM to bring link to detect state.
-+		 */
-+		data = readl(pcie->appl_base + APPL_CTRL);
-+		data &= ~APPL_CTRL_LTSSM_EN;
-+		writel(data, pcie->appl_base + APPL_CTRL);
-+
- 		err = readl_poll_timeout_atomic(pcie->appl_base + APPL_DEBUG,
- 						data,
- 						((data &
-@@ -1513,14 +1521,8 @@ static void tegra_pcie_dw_pme_turnoff(struct tegra_pcie_dw *pcie)
- 						APPL_DEBUG_LTSSM_STATE_SHIFT) ==
- 						LTSSM_STATE_PRE_DETECT,
- 						1, LTSSM_TIMEOUT);
--		if (err) {
-+		if (err)
- 			dev_info(pcie->dev, "Link didn't go to detect state\n");
--		} else {
--			/* Disable LTSSM after link is in detect state */
--			data = appl_readl(pcie, APPL_CTRL);
--			data &= ~APPL_CTRL_LTSSM_EN;
--			appl_writel(pcie, data, APPL_CTRL);
--		}
- 	}
- 	/*
- 	 * DBI registers may not be accessible after this as PLL-E would be
 -- 
-2.17.1
+2.7.4
 
