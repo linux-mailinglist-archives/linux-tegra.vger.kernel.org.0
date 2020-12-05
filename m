@@ -2,185 +2,163 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 708452CFC49
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Dec 2020 18:40:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22E212CFCC3
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Dec 2020 19:51:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727238AbgLERjx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 5 Dec 2020 12:39:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34116 "EHLO
+        id S1728276AbgLESTV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Sat, 5 Dec 2020 13:19:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbgLERic (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Dec 2020 12:38:32 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 838CBC094270
-        for <linux-tegra@vger.kernel.org>; Sat,  5 Dec 2020 09:12:54 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id q13so12096226lfr.10
-        for <linux-tegra@vger.kernel.org>; Sat, 05 Dec 2020 09:12:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mxdC9nJ3E8UgLvs3Rk9lCytw5k8wmjBa4iF3dwQ+Rt4=;
-        b=sHK3k8AdCX6k4jiRY6SdoiiARh2Zojtn832+mXeJ0+ISh9pUUjMpkCuFFfaNYYM2Af
-         qyzhEmxNaXqeRXtsVHpYi+mSQqzbqjnTMK1BnWij1R7l+fAuk9LCDMqFwG2BZK9mPItX
-         AZcJ7Mc9a5EYpaXbyoxZeT6dd6h3FFLqRycuh40c1iPF9/6E1p7nyP2RSpamNpd2dUaY
-         RmfdzuVIaLDHdkbIGuhM8Fw1NQiEf3r9WOcJGJe2e4k7ysH5+YXPylXelFet7SAn4VAH
-         +GEQRXVItSkJug/v1RnpvsxyD04y99sgVPJALAGyxu4FWHy6vlP1ZKgy9JbeN9ldKlcK
-         hZZQ==
+        with ESMTP id S1726230AbgLESSU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Dec 2020 13:18:20 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C13FC0613D1;
+        Sat,  5 Dec 2020 10:11:09 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id y19so106117lfa.13;
+        Sat, 05 Dec 2020 10:11:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mxdC9nJ3E8UgLvs3Rk9lCytw5k8wmjBa4iF3dwQ+Rt4=;
-        b=D1UasxjtkxUpZjFaRzip5OrikT5XqIvx+Klk0hlNCYWX4ff+0lPchHDtN+MVbFiifv
-         gfv4asQGm3nhjHwI0lOpHSy6N8YofSfluDT4pQcR46jeKrNayCffIJh2az4qtkoE2ttF
-         HY+aMV5KDN7xDLjZp/VYcLWefqJYJtP6aFoVDPWMWZksMb0O0Dr7viY3nBDGJTrWfbca
-         tIeK/S9npP8RCT/gvo8kfrBVeMEzCKnOfuaxGFAvl5E9nl6V79EYn41etGibZFptS5xg
-         nO5vgMe66owviFkSljPgZFWANf4m8m/k1n0WITl7BQJoD2uq2dJ8GrqAVFGe1lufJuK+
-         g8Xw==
-X-Gm-Message-State: AOAM533j401KgKFuka6z5MlmcCx2w8sdmPH2pyb6eFco0WpZOV7iWOKZ
-        462V/1y9cAc+RQdCnQuOHxhTkMkC6KJlRaFV2W9MCg==
-X-Google-Smtp-Source: ABdhPJwHyBZ83Wft1RikDbPvXssq7kSbQwSzdhcpRDcjx19c6pe0HapIIBpSbImoJIVYmIj/THSx9nQyFBYoAl2g8Vw=
-X-Received: by 2002:ac2:530b:: with SMTP id c11mr5092734lfh.185.1607188372824;
- Sat, 05 Dec 2020 09:12:52 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=uKWCtmFWH2D6PgdPDqZ6SwqxYHLfJimrQ5ADIJZYjvM=;
+        b=bXFp09I66lb1RWbMF8/53Taud/7q2BNevsH1z5RzuwlvxP10zIPE3Wyh6joGUrQ5Vu
+         b9wKPDkfrzRe9iw6wtXxw4Bfms40wohZHEHfoDY3SeqnhlhPuperT/DrKyfJ05arZy0R
+         FKQowNsx/wVBNXpUqjsHFssUyFPDZdSdYoPfI6xRFQLkqlJB/PkYsehdRg/D2DdzThR9
+         I57DXzIOgkeBg+00dbb6jEWD17b5K0cNQGOmQacTylocJvMELGWvW86ZyZDv1IS9jg3l
+         lPnpkG1HS49RcR5wRBGG279jsCr79/ceSGuOiphGjQuDJeLkNWfijgUp56BVDf0rmXd5
+         OqtQ==
+X-Gm-Message-State: AOAM530thbLaG2xTk5CGHdJHKeZ1rgNnr7UXUfo5eU0MF15R1pDLemKx
+        Dv3i0eEAhR1qxoLuECp03gF3c6AGQIFZKA==
+X-Google-Smtp-Source: ABdhPJxIyKieWZJ9VxW5tLvdRrottnwtiJyqsBd6MJRYZ1ZeKbA2NYxoVKNProO+IDV8ruhVa4XFdw==
+X-Received: by 2002:a17:906:4a47:: with SMTP id a7mr11831799ejv.345.1607176366602;
+        Sat, 05 Dec 2020 05:52:46 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id l19sm5584565edq.14.2020.12.05.05.52.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Dec 2020 05:52:44 -0800 (PST)
+Date:   Sat, 5 Dec 2020 14:52:42 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v10 17/19] ARM: tegra: Add EMC OPP properties to Tegra20
+ device-trees
+Message-ID: <20201205135242.GA1978@kozik-lap>
+References: <20201123002723.28463-1-digetx@gmail.com>
+ <20201123002723.28463-18-digetx@gmail.com>
+ <60657f5e-bd30-094e-f8df-6ba69e0d6a3e@nvidia.com>
+ <1ed05baf-3a01-3a2b-cd79-98b356c846cf@gmail.com>
+ <X8pbz2FsuJ5XGXCi@ulmo>
 MIME-Version: 1.0
-References: <20201203152311.5272-1-carver4lio@163.com> <a5bc444ec40a2248009d0894fda61b822d030235.camel@redhat.com>
- <CGME20201204160751eucas1p13cc7aad8c68dd2a495c4bbf422c4228c@eucas1p1.samsung.com>
- <adc36428-05eb-f885-9394-080cc805818f@samsung.com> <3d709122-0364-5bca-9247-3f212096b389@nvidia.com>
- <CADYN=9+nE=n4cXb6gDKmQqfkn97HoFShKGSpqVise=XR-aGtVw@mail.gmail.com>
-In-Reply-To: <CADYN=9+nE=n4cXb6gDKmQqfkn97HoFShKGSpqVise=XR-aGtVw@mail.gmail.com>
-From:   Anders Roxell <anders.roxell@linaro.org>
-Date:   Sat, 5 Dec 2020 18:12:42 +0100
-Message-ID: <CADYN=9KDbLq5Xbvr-ZtbF2ZMEjatLab8wqzN1hTijGWnddD8-A@mail.gmail.com>
-Subject: Re: [PATCH] mm/memblock:use a more appropriate order calculation when
- free memblock pages
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Qian Cai <qcai@redhat.com>, carver4lio@163.com,
-        rppt@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hailong Liu <liu.hailong6@zte.com.cn>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <X8pbz2FsuJ5XGXCi@ulmo>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, 5 Dec 2020 at 18:09, Anders Roxell <anders.roxell@linaro.org> wrote:
->
-> On Fri, 4 Dec 2020 at 18:44, Jon Hunter <jonathanh@nvidia.com> wrote:
-> >
-> >
-> > On 04/12/2020 16:07, Marek Szyprowski wrote:
-> > > Hi All,
-> > >
-> > > On 04.12.2020 14:42, Qian Cai wrote:
-> > >> On Thu, 2020-12-03 at 23:23 +0800, carver4lio@163.com wrote:
-> > >>> From: Hailong Liu <liu.hailong6@zte.com.cn>
-> > >>>
-> > >>> When system in the booting stage, pages span from [start, end] of a memblock
-> > >>> are freed to buddy in a order as large as possible (less than MAX_ORDER) at
-> > >>> first, then decrease gradually to a proper order(less than end) in a loop.
-> > >>>
-> > >>> However, *min(MAX_ORDER - 1UL, __ffs(start))* can not get the largest order
-> > >>> in some cases.
-> > >>> Instead, *__ffs(end - start)* may be more appropriate and meaningful.
-> > >>>
-> > >>> Signed-off-by: Hailong Liu <liu.hailong6@zte.com.cn>
-> > >> Reverting this commit on the top of today's linux-next fixed boot crashes on
-> > >> multiple NUMA systems.
-> > >
-> > > I confirm. Reverting commit 4df001639c84 ("mm/memblock: use a more
-> > > appropriate order calculation when free memblock pages") on top of linux
-> > > next-20201204 fixed booting of my ARM32bit test systems.
-> >
-> >
-> > FWIW, I also confirm that this is causing several 32-bit Tegra platforms
-> > to crash on boot and reverting this fixes the problem.
->
-> I had the same experience on an arm64 system.
+On Fri, Dec 04, 2020 at 04:54:55PM +0100, Thierry Reding wrote:
+> On Tue, Dec 01, 2020 at 01:57:44AM +0300, Dmitry Osipenko wrote:
+> > 01.12.2020 00:17, Jon Hunter пишет:
+> > > Hi Dmitry,
+> > > 
+> > > On 23/11/2020 00:27, Dmitry Osipenko wrote:
+> > >> Add EMC OPP DVFS tables and update board device-trees by removing
+> > >> unsupported OPPs.
+> > >>
+> > >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> > > This change is generating the following warning on Tegra20 Ventana
+> > > and prevents the EMC from probing ...
+> > > 
+> > > [    2.485711] tegra20-emc 7000f400.memory-controller: device-tree doesn't have memory timings
+> > > [    2.499386] tegra20-emc 7000f400.memory-controller: 32bit DRAM bus
+> > > [    2.505810] ------------[ cut here ]------------
+> > > [    2.510511] WARNING: CPU: 0 PID: 1 at /local/workdir/tegra/mlt-linux_next/kernel/drivers/opp/of.c:875 _of_add_opp_table_v2+0x598/0x61c
+> > > [    2.529746] Modules linked in:
+> > > [    2.540140] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.10.0-rc5-next-20201130 #1
+> > > [    2.554606] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
+> > > [    2.560892] [<c011136c>] (unwind_backtrace) from [<c010bb60>] (show_stack+0x10/0x14)
+> > > [    2.568640] [<c010bb60>] (show_stack) from [<c0bcee54>] (dump_stack+0xc8/0xdc)
+> > > [    2.575866] [<c0bcee54>] (dump_stack) from [<c01235dc>] (__warn+0x104/0x108)
+> > > [    2.582912] [<c01235dc>] (__warn) from [<c0123690>] (warn_slowpath_fmt+0xb0/0xb8)
+> > > [    2.590397] [<c0123690>] (warn_slowpath_fmt) from [<c0825ad0>] (_of_add_opp_table_v2+0x598/0x61c)
+> > > [    2.599269] [<c0825ad0>] (_of_add_opp_table_v2) from [<c0825b90>] (dev_pm_opp_of_add_table+0x3c/0x1a0)
+> > > [    2.608582] [<c0825b90>] (dev_pm_opp_of_add_table) from [<c087b774>] (tegra_emc_probe+0x478/0x940)
+> > > [    2.617548] [<c087b774>] (tegra_emc_probe) from [<c0654398>] (platform_drv_probe+0x48/0x98)
+> > > [    2.625899] [<c0654398>] (platform_drv_probe) from [<c0652238>] (really_probe+0x218/0x3b8)
+> > > [    2.634162] [<c0652238>] (really_probe) from [<c0652540>] (driver_probe_device+0x5c/0xb4)
+> > > [    2.642338] [<c0652540>] (driver_probe_device) from [<c0652740>] (device_driver_attach+0x58/0x60)
+> > > [    2.651208] [<c0652740>] (device_driver_attach) from [<c06527c8>] (__driver_attach+0x80/0xbc)
+> > > [    2.659730] [<c06527c8>] (__driver_attach) from [<c0650610>] (bus_for_each_dev+0x74/0xb4)
+> > > [    2.667905] [<c0650610>] (bus_for_each_dev) from [<c06515f8>] (bus_add_driver+0x164/0x1e8)
+> > > [    2.676168] [<c06515f8>] (bus_add_driver) from [<c06532a8>] (driver_register+0x7c/0x114)
+> > > [    2.684259] [<c06532a8>] (driver_register) from [<c0102208>] (do_one_initcall+0x54/0x2b0)
+> > > [    2.692441] [<c0102208>] (do_one_initcall) from [<c10010cc>] (kernel_init_freeable+0x1a4/0x1f4)
+> > > [    2.701145] [<c10010cc>] (kernel_init_freeable) from [<c0bd4510>] (kernel_init+0x8/0x118)
+> > > [    2.709321] [<c0bd4510>] (kernel_init) from [<c01001b0>] (ret_from_fork+0x14/0x24)
+> > > [    2.716885] Exception stack(0xc1501fb0 to 0xc1501ff8)
+> > > [    2.721933] 1fa0:                                     00000000 00000000 00000000 00000000
+> > > [    2.730106] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> > > [    2.738278] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> > > [    2.751940] ---[ end trace 61e3b76deca27ef3 ]---
+> > > 
+> > > 
+> > > Cheers
+> > > Jon
+> > > 
+> > 
+> > Hello Jon,
+> > 
+> > That is harmless and expected to happen because the patch "memory:
+> > tegra20: Support hardware versioning and clean up OPP table
+> > initialization" isn't applied yet, while Thierry already applied the DT
+> > patches from this v10.
+> 
+> Hmm... that's new. Since when are device tree additions expected to
+> cause these kinds of splats?
 
-This is the log that I see:
+It looks rather as inaccurate message, but except the message itself,
+no functionality was lost.
 
-[    0.000000][    T0] percpu: Embedded 507 pages/cpu s2036568 r8192
-d31912 u2076672
-[    0.000000][    T0] Detected VIPT I-cache on CPU0
-[    0.000000][    T0] CPU features: detected: ARM erratum 845719
-[    0.000000][    T0] CPU features: GIC system register CPU interface
-present but disabled by higher exception level
-[    0.000000][    T0] CPU features: kernel page table isolation
-forced OFF by kpti command line option
-[    0.000000][    T0] Built 1 zonelists, mobility grouping on.  Total
-pages: 516096
-[    0.000000][    T0] Policy zone: DMA
-[    0.000000][    T0] Kernel command line: root=/dev/root
-rootfstype=9p rootflags=trans=virtio console=ttyAMA0,38400n8
-earlycon=pl011,0x9000000 initcall_debug softlockup_panic=0
-security=none kpti=no
-[    0.000000][    T0] Dentry cache hash table entries: 262144 (order:
-9, 2097152 bytes, linear)
-[    0.000000][    T0] Inode-cache hash table entries: 131072 (order:
-8, 1048576 bytes, linear)
-[    0.000000][    T0] mem auto-init: stack:off, heap alloc:on, heap free:on
-[    0.000000][    T0] mem auto-init: clearing system memory may take
-some time...
-[    0.000000][    T0] page:(____ptrval____) refcount:0 mapcount:0
-mapping:0000000000000000 index:0x0 pfn:0x40010
-[    0.000000][    T0] flags: 0x1fffe0000000000()
-[    0.000000][    T0] raw: 01fffe0000000000 fffffc0000000408
-fffffc0000000408 0000000000000000
-[    0.000000][    T0] raw: 0000000000000000 0000000000000000
-00000000ffffffff 0000000000000000
-[    0.000000][    T0] page dumped because: VM_BUG_ON_PAGE(pfn & ((1
-<< order) - 1))
-[    0.000000][    T0] ------------[ cut here ]------------
-[    0.000000][    T0] kernel BUG at mm/page_alloc.c:1015!
-[    0.000000][    T0] Internal error: Oops - BUG: 0 [#1] PREEMPT SMP
-[    0.000000][    T0] Modules linked in:
-[    0.000000][    T0] CPU: 0 PID: 0 Comm: swapper Not tainted
-5.10.0-rc6-next-20201204-00010-g7f8e9106f747-dirty #1
-[    0.000000][    T0] Hardware name: linux,dummy-virt (DT)
-[    0.000000][    T0] pstate: 40400085 (nZcv daIf +PAN -UAO -TCO BTYPE=--)
-[    0.000000][    T0] pc : __free_one_page+0x14c/0x700
-[    0.000000][    T0] lr : __free_one_page+0x14c/0x700
-[    0.000000][    T0] sp : ffff800013fd7c10
-[    0.000000][    T0] x29: ffff800013fd7c10 x28: 0000000000000000
-[    0.000000][    T0] x27: 0000000000000200 x26: 0000000000000001
-[    0.000000][    T0] x25: 0000000000000000 x24: 0000000000000009
-[    0.000000][    T0] x23: ffff00007dbfbd40 x22: fffffc0000000400
-[    0.000000][    T0] x21: 0000000000040010 x20: 0000000000000009
-[    0.000000][    T0] x19: 00000000000001ff x18: 0000000000000000
-[    0.000000][    T0] x17: 0000000000000000 x16: 0000000000000000
-[    0.000000][    T0] x15: 0000000000000000 x14: 0000000000000000
-[    0.000000][    T0] x13: 0000000000000000 x12: ffff70000281852d
-[    0.000000][    T0] x11: 1ffff0000281852c x10: ffff70000281852c
-[    0.000000][    T0] x9 : dfff800000000000 x8 : ffff8000140c2960
-[    0.000000][    T0] x7 : 0000000000000001 x6 : 00008ffffd7e7ad4
-[    0.000000][    T0] x5 : 0000000000000000 x4 : 0000000000000000
-[    0.000000][    T0] x3 : ffff80001400ab00 x2 : 0000000000000000
-[    0.000000][    T0] x1 : 0000000000000000 x0 : 0000000000000000
-[    0.000000][    T0] Call trace:
-[    0.000000][    T0]  __free_one_page+0x14c/0x700
-[    0.000000][    T0]  free_one_page+0xf0/0x120
-[    0.000000][    T0]  __free_pages_ok+0x720/0x780
-[    0.000000][    T0]  __free_pages_core+0x240/0x280
-[    0.000000][    T0]  memblock_free_pages+0x40/0x50
-[    0.000000][    T0]  free_low_memory_core_early+0x230/0x2f0
-[    0.000000][    T0]  memblock_free_all+0x28/0x58
-[    0.000000][    T0]  mem_init+0xf0/0x10c
-[    0.000000][    T0]  mm_init+0xb4/0xe8
-[    0.000000][    T0]  start_kernel+0x1e0/0x520
-[    0.000000][    T0] Code: 913a8021 aa1603e0 91030021 97fe7ec6 (d4210000)
-[    0.000000][    T0] random: get_random_bytes called from
-oops_exit+0x50/0xa0 with crng_init=0
-[    0.000000][    T0] ---[ end trace 0000000000000000 ]---
-[    0.000000][    T0] Kernel panic - not syncing: Oops - BUG: Fatal exception
-[    0.000000][    T0] ---[ end Kernel panic - not syncing: Oops -
-BUG: Fatal exception ]---
+> Anyway, I did apply these because I had seen at least some of the memory
+> controller driver patches appear in linux-next and hence had assumed
+> that the whole series had gone in, not realizing there was anything left
+> to do.
+> 
+> Krzysztof, what's your schedule for the memory controller tree? My
+> recollection is that this will feed into ARM SoC, so if the -rc6 dead-
+> line applies like it does for platforms, then I may need to revert the
+> DT patch that causes this so that we don't have to drag this along
+> through all of the release cycle. If there's still time for you to send
+> that PR, perhaps we can get the remainder of the Tegra interconnect
+> series merged for v5.11 as well?
 
-Cheers,
-Anders
+I was waiting for last acks from Rob and you and actually planned to
+merge everything this week (weekend at the latest). Indeed it slightly
+slipped away... the v11 was reposted late.
+
+It could still make till v5.11, if I send the PR now (still around 3
+weeks before merge window).
+
+However I saw now your comments for the patch 4/10 from v11. I'll take
+patches 1-3 for now.
+
+Best regards,
+Krzysztof
+
