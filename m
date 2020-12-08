@@ -2,54 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 136132D1F6C
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Dec 2020 01:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40E9B2D2198
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Dec 2020 04:55:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728922AbgLHAvm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Dec 2020 19:51:42 -0500
-Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:35013 "EHLO
-        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbgLHAvk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Dec 2020 19:51:40 -0500
-X-Greylist: delayed 16991 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Dec 2020 19:51:35 EST
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
-        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id DE24F1A606F;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
-        by postfix.imss71 (Postfix) with ESMTP id BC3D8382029;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
-        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id 426EA83825B;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
+        id S1726055AbgLHDzf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Dec 2020 22:55:35 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6817 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725853AbgLHDzf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Dec 2020 22:55:35 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fcef90e0004>; Mon, 07 Dec 2020 19:54:54 -0800
+Received: from [10.25.96.159] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 8 Dec
+ 2020 03:54:51 +0000
+Subject: Re: Re: [PATCH v6 0/6] Tegra210 audio graph card
+To:     Mark Brown <broonie@kernel.org>
+CC:     <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <sharadg@nvidia.com>, <jonathanh@nvidia.com>,
+        <kuninori.morimoto.gx@renesas.com>, <linux-tegra@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <1606413823-19885-1-git-send-email-spujar@nvidia.com>
+ <160683107678.35139.14772386553150233276.b4-ty@kernel.org>
+ <a3541d83-1f2e-c60f-05f8-4fdd8c8f4175@nvidia.com>
+ <20201207123131.GB5694@sirena.org.uk>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <14d2a6cc-9ca6-f6dd-ae83-6fc75d5361eb@nvidia.com>
+Date:   Tue, 8 Dec 2020 09:24:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Message-ID: <20201207190926.000057A2.0664@hyogo-dai.ac.jp>
-Date:   Tue, 08 Dec 2020 04:09:26 +0900
-From:   "Raymond " <hozumi@hyogo-dai.ac.jp>
-To:     <infocarferw1@aim.com>
-Reply-To: <infocarfer@aim.com>
-Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
-         Kuo Fung I have Important Matter to Discuss with you concerning
-         my late client. Died without a NEXT OF KIN. Send me your private
-         email for full details information.
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20201207123131.GB5694@sirena.org.uk>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MAILER: Active! mail
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
-X-TM-AS-Result: No--2.951-5.0-31-10
-X-imss-scan-details: No--2.951-5.0-31-10
-X-TM-AS-User-Approved-Sender: No
-X-TMASE-MatchedRID: X41QhRrT5f5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce6P0
-        clhHAFPyJA6GJqxAEzL554DD9nXlqqPFjJEFr+olfeZdJ1XsoriOub3SYcq1hJf7eAx/Ae/AbQo
-        eraIcZBRw7u01FqNA2K1Ia4IbeAdLm9ukrtqhno/rIUidklntLAP5zT0d393cymsk/wUE4hoZaR
-        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
-        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
+Content-Language: en-GB
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607399694; bh=57K2arrOkrJycwF/NemnQ2nVOm/DzL8o8jMnlSRtwvI=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language:X-Originating-IP:X-ClientProxiedBy;
+        b=SqDXS5tEn21GY7pYzotCi6w+Aay3/ODcWDWFr9ajMXtspjiBxj905ymiwC6mZrh07
+         U0PAJio4KsGhKpaiSAqSJ1A4M6dTRq2Oo02szHGWVkXWfm/pY1V31R/vWic5h+mayT
+         07v/9KAx1px26e3tLqMYdRkHWwbrsnDPHXzLV9HR50dB8hLFOz2cif/2F+HDZpsIyH
+         R4WjVNtpBnusnLuIXG9K0GufcDjVph3MrOwy3L950iysmgvu53VtHxH3tQpjpHO5YZ
+         pmrc8tGM9N98rtARkuHAa8Dd0f9vec7Gks10E8QYs6HKpc5sRiwnR6zpiwomm4Wdn8
+         3Oc2KaL66t1LA==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-email:kraymond75@aol.com
 
+>>> [1/3] ASoC: dt-bindings: tegra: Add graph bindings
+>>>         (no commit info)
+>>> [2/3] ASoC: dt-bindings: tegra: Add json-schema for Tegra audio graph card
+>>>         (no commit info)
+>>> [3/3] ASoC: tegra: Add audio graph based card driver
+>>>         (no commit info)
+>> I don't see above patches in linux-next yet. Should I wait some more time
+>> for this to appear?
+> No, this was sent by a b4 bug - notice the "no commit info" there, they
+> weren't applied.
 
-
+Oh I see! I guess review would be still pending then.
