@@ -2,81 +2,161 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACCAB2D4B7A
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Dec 2020 21:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 251AD2D4BED
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Dec 2020 21:32:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728018AbgLIUSA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 9 Dec 2020 15:18:00 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:38429 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388162AbgLIURy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Dec 2020 15:17:54 -0500
-Received: by mail-ot1-f68.google.com with SMTP id b62so2667366otc.5;
-        Wed, 09 Dec 2020 12:17:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LQJE8H8jL0GuVk4uta0YS9al3HMoyg6NYYR824t9oo4=;
-        b=jaDVgY2oWTSQLJ3u6gU3QzSK7j42Y/xCyhSthGMvye4FS9CKjoNdShiFaN9Hq5v+4E
-         t9G7iJlzgIJcjxrZO6DMOhhJqzoSz7EFO92aT18qhkLGKlspFVq0sG1jWPOpTUd+pLdM
-         YgbY2F84Cs8gTQh9cXt2lAZo9KGo5JBRrftjwEkZsihvboEp/LCafZ+puinvynnA7xPh
-         1q+L6jPSj0QeJ5VttgGI9wR/V2lEvhbUdmPa/9i5ouDsT1Y8WOGTuSnjTjU3pYNfUejB
-         qxkpSHB3/19q8Ztb8ce1scQu+J8nwdCA8EMyhEMb0RFsvcO2ESHmuL3tvmCdLZ4DcQJo
-         PSgQ==
-X-Gm-Message-State: AOAM530N5i5Ge1woNF8vFaCeDumnMGaQzIeOd/JE/WXTsFaq3g2XSrdD
-        9UFvW71XqXU8Q0OhnoOrpA==
-X-Google-Smtp-Source: ABdhPJzdsQhV4dln150sXm2W8SFoCWPsrRVllQ2LeGuEnPn5uQhzfTQIRRsvSJDo1MvP2BtF8BbYew==
-X-Received: by 2002:a05:6830:3151:: with SMTP id c17mr3317872ots.336.1607545032918;
-        Wed, 09 Dec 2020 12:17:12 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 11sm595360otg.34.2020.12.09.12.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 12:17:12 -0800 (PST)
-Received: (nullmailer pid 869734 invoked by uid 1000);
-        Wed, 09 Dec 2020 20:17:09 -0000
-Date:   Wed, 9 Dec 2020 14:17:09 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
-        devicetree@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-tegra@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-pm@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        dri-devel@lists.freedesktop.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>, linux-kernel@vger.kernel.org,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v11 01/10] dt-bindings: memory: tegra20: emc: Document
- opp-supported-hw property
-Message-ID: <20201209201709.GA869677@robh.at.kernel.org>
-References: <20201203192439.16177-1-digetx@gmail.com>
- <20201203192439.16177-2-digetx@gmail.com>
+        id S2387699AbgLIU2k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 9 Dec 2020 15:28:40 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4239 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728450AbgLIU2k (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Dec 2020 15:28:40 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fd133500001>; Wed, 09 Dec 2020 12:28:00 -0800
+Received: from [10.2.90.244] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Dec
+ 2020 20:27:59 +0000
+Subject: Re: [PATCH v1 2/7] dt-bindings: spi: Add Tegra QSPI device tree
+ binding
+To:     Rob Herring <robh@kernel.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <broonie@kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <1606857168-5839-1-git-send-email-skomatineni@nvidia.com>
+ <1606857168-5839-3-git-send-email-skomatineni@nvidia.com>
+ <20201209172643.GA638607@robh.at.kernel.org>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <1a9f0391-321d-2463-827b-284bba38e07d@nvidia.com>
+Date:   Wed, 9 Dec 2020 12:28:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201203192439.16177-2-digetx@gmail.com>
+In-Reply-To: <20201209172643.GA638607@robh.at.kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607545680; bh=a+YYFPeNAX9ceupGi7mBDJuGY63SjjffyHHchHc5KX8=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language:X-Originating-IP:X-ClientProxiedBy;
+        b=hua9Xkyt6+aiMEOH4HBXf5O9Vzj41eAyftRgSv8h23S9VNLzYbbuJGRDFgu5AgdQX
+         VTHR3xS6dby6Obx+AHJItteN5Smb+i2FQbJ+Xr/65Pb7F6zG8Jm1tNtefH2HLn9cQ5
+         EzcNR3j23l0mttyWY7DdKVlbxQukTtgOXUanIuQtsjF4ReJtX9GwaKBsMhuYLo2Lga
+         FoXaBb7c3+Uwqp/xfuTVxuapPJyh4NC5jdkfQAocs8CSK49yQ4nqMBUD4ESmu5FLYa
+         zCL3YJxIUzhu0aAa3AJLLSVwrkLotacjz8R/jQ8jdiGHKKdItkomFdcSuXVjG0Qykx
+         D9a8UI5P2THIA==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 03 Dec 2020 22:24:30 +0300, Dmitry Osipenko wrote:
-> Document opp-supported-hw property, which is not strictly necessary to
-> have on Tegra20, but it's very convenient to have because all other SoC
-> core devices will use hardware versioning, and thus, it's good to maintain
-> the consistency.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  .../bindings/memory-controllers/nvidia,tegra20-emc.txt      | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
 
-Acked-by: Rob Herring <robh@kernel.org>
+On 12/9/20 9:26 AM, Rob Herring wrote:
+> On Tue, Dec 01, 2020 at 01:12:43PM -0800, Sowjanya Komatineni wrote:
+>> This patch adds YAML based device tree binding document for Tegra
+>> QSPI driver.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   .../devicetree/bindings/spi/nvidia,tegra-qspi.yaml | 77 ++++++++++++++++++++++
+>>   1 file changed, 77 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/spi/nvidia,tegra-qspi.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra-qspi.yaml b/Documentation/devicetree/bindings/spi/nvidia,tegra-qspi.yaml
+>> new file mode 100644
+>> index 0000000..038a085
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/spi/nvidia,tegra-qspi.yaml
+>> @@ -0,0 +1,77 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/spi/nvidia,tegra-qspi.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Tegra Quad SPI Controller
+>> +
+>> +maintainers:
+>> +  - Thierry Reding <thierry.reding@gmail.com>
+>> +  - Jonathan Hunter <jonathanh@nvidia.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - nvidia,tegra210-qspi
+>> +      - nvidia,tegra186-qspi
+>> +      - nvidia,tegra194-qspi
+>> +
+>> +  reg:
+>> +    items:
+>> +      - description: QSPI registers
+> Just 'maxItems: 1'
+>
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: qspi
+> Kind of a pointless name.
+Thanks Rob for feedback. Do you mean to change name something like 
+qspi-clk instead of qspi?
+>
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  reset-names:
+>> +    minItems: 1
+>> +    items:
+>> +      - const: qspi
+> Same here.
+>
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  dmas:
+>> +    maxItems: 2
+>> +
+>> +  dma-names:
+>> +    items:
+>> +      - const: rx
+>> +      - const: tx
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - clock-names
+>> +  - clocks
+>> +  - reset-names
+>> +  - resets
+>> +
+>> +additionalProperties: true
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/tegra210-car.h>
+>> +    #include <dt-bindings/reset/tegra210-car.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +    spi@70410000 {
+>> +            compatible = "nvidia,tegra210-qspi";
+>> +            reg = <0x70410000 0x1000>;
+>> +            interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+>> +            clocks = <&tegra_car TEGRA210_CLK_QSPI>;
+>> +            clock-names = "qspi";
+>> +            resets = <&tegra_car 211>;
+>> +            reset-names = "qspi";
+>> +            dmas = <&apbdma 5>, <&apbdma 5>;
+>> +            dma-names = "rx", "tx";
+>> +    };
+>> -- 
+>> 2.7.4
+>>
