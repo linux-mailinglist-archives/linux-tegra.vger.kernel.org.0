@@ -2,76 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9EB2D7870
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Dec 2020 16:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF9E2D7BE4
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Dec 2020 18:04:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436917AbgLKPAZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Dec 2020 10:00:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58332 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406445AbgLKO7g (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Dec 2020 09:59:36 -0500
-Date:   Fri, 11 Dec 2020 15:23:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1607696551;
-        bh=iYTNuqr7BxsqNih90HgmmoD1eN6twbxAv/TFeWrlry4=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wM3zXNCet9abuHqGKLYsRmdlcispTx23/oCgpTlM7sqvoEdouleS5yDxEXf/GR7b2
-         Jd1b7vpPm6RhONbZABJP+OqNXGx6lI14VJmLiKO9VVQS9FV/gJ5zn/SNKXfehkn/Y8
-         PnOJ+ZB8KliowOGrSuwYlQ+g9wvnQ3UtieWBSvkg=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, pavel@denx.de,
-        stable@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5.9 00/75] 5.9.14-rc1 review
-Message-ID: <X9OA63ldYHLqqOIY@kroah.com>
-References: <20201210142606.074509102@linuxfoundation.org>
- <11690fcb20d24c01825bddeb0676b471@HQMAIL107.nvidia.com>
+        id S2404060AbgLKRCd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Dec 2020 12:02:33 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3604 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390497AbgLKRC0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 11 Dec 2020 12:02:26 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fd3a5eb0000>; Fri, 11 Dec 2020 09:01:31 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Dec
+ 2020 17:01:31 +0000
+Received: from skomatineni-linux.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Fri, 11 Dec 2020 17:01:30 +0000
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <broonie@kernel.org>, <robh+dt@kernel.org>, <lukas@wunner.de>
+CC:     <skomatineni@nvidia.com>, <linux-spi@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Subject: [PATCH v2 0/9] Add Tegra Quad SPI driver
+Date:   Fri, 11 Dec 2020 09:01:17 -0800
+Message-ID: <1607706088-1437-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11690fcb20d24c01825bddeb0676b471@HQMAIL107.nvidia.com>
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607706091; bh=qxWgn0xGVTwA1ZG1YQ30zYnjg689u8RpYxCpROZ+R+0=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+         MIME-Version:Content-Type;
+        b=DzJXy5GTZt7zMgehvkY5MPH/QneJQWHHlTT/atv7RA1IX8iXrh6dY3Azq4RksnNZx
+         oQCPvuUfh8uAogXml4OASNyJjwZR6OUsUcZcELtZ+08xYnlyfBbyF7feD4HonrgKCw
+         HNzOxpE+OydLsI6+q+ngYcYwZntcXm2+Cn2FK2vsEnz4dWPxvHIdilfWOsRfBXbozl
+         Ted8o6OHuHnrgOSSdGO0wIlS1700WaTSaDODEsv57ucrhwwOmwbkjycl0n7BSsdxjZ
+         rsaBZps6C32ayvTztkK5I282cTuO1MWAfZ+6DrKGjnusthOJ+ucHwJjVPJ2YPzs66F
+         ZQrgy8jMv+jQQ==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 09:04:52PM +0000, Jon Hunter wrote:
-> On Thu, 10 Dec 2020 15:26:25 +0100, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.9.14 release.
-> > There are 75 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sat, 12 Dec 2020 14:25:47 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.9.14-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.9.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests passing for Tegra ...
-> 
-> Test results for stable-v5.9:
->     15 builds:	15 pass, 0 fail
->     26 boots:	26 pass, 0 fail
->     64 tests:	64 pass, 0 fail
-> 
-> Linux version:	5.9.14-rc1-g81beabff31a7
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
-> 
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
+This series adds Tegra210, Tegra186, and Tegra194 Quad SPI driver and
+enables Quad SPI on Jetson Nano and Jetson Xavier NX.
 
-Thanks for testing them all!
+QSPI controller is available on Tegra210, Tegra186 and Tegra194.
 
-greg k-h
+Tegra186 and Tegra194 has additional feature of combined sequence mode
+where command, address and data can all be transferred in a single transfer.
+
+Combined sequence mode is useful with DMA mode transfer.
+
+This series does not have combined sequence mode feature as Tegra186/Tegra194
+GPCDMA driver is not upstreamed yet.
+
+This series includes
+- dt-binding document
+- QSPI driver for Tegra210/Tegra186/Tegra194
+- Enables QSPI on Jetson Nano and Jetson Xavier NX.
+
+Delta between patch versions:
+[v2]:	below v1 feedback
+	- Added SPI_MASTER_USES_HW_DUMMY_CYCLES flag for controllers supporting
+	  hardware dummy cycles and skips dummy bytes transfer from software for
+	  these controllers.
+	- Updated dt-binding doc with tx/rx tap delay properties.
+	- Added qspi_out clock to dt-binding doc which will be used later with
+	  ddr mode support.
+	- All other v1 feedback on some cleanup.
+
+
+Sowjanya Komatineni (9):
+  dt-bindings: clock: tegra: Add clock ID TEGRA210_CLK_QSPI_PM
+  dt-bindings: spi: Add Tegra Quad SPI device tree binding
+  MAINTAINERS: Add Tegra Quad SPI driver section
+  spi: tegra210-quad: Add support for Tegra210 QSPI controller
+  spi: spi-mem: Allow masters to transfer dummy cycles directly by
+    hardware
+  spi: tegra210-quad: Add support for hardware dummy cycles
+  arm64: tegra: Enable QSPI on Jetson Nano
+  arm64: tegra: Add QSPI nodes on Tegra194
+  arm64: tegra: Enable QSPI on Jetson Xavier NX
+
+ .../bindings/spi/nvidia,tegra210-quad.yaml         |  130 ++
+ MAINTAINERS                                        |    8 +
+ .../dts/nvidia/tegra194-p3509-0000+p3668-0000.dts  |   12 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           |   24 +
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |   12 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |    5 +-
+ drivers/spi/Kconfig                                |    9 +
+ drivers/spi/Makefile                               |    1 +
+ drivers/spi/spi-mem.c                              |   18 +-
+ drivers/spi/spi-tegra210-quad.c                    | 1407 ++++++++++++++++++++
+ include/dt-bindings/clock/tegra210-car.h           |    2 +-
+ include/linux/spi/spi.h                            |    8 +
+ 12 files changed, 1626 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
+ create mode 100644 drivers/spi/spi-tegra210-quad.c
+
+-- 
+2.7.4
+
