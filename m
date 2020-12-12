@@ -2,82 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FEEF2D8657
-	for <lists+linux-tegra@lfdr.de>; Sat, 12 Dec 2020 13:07:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 417852D87FC
+	for <lists+linux-tegra@lfdr.de>; Sat, 12 Dec 2020 17:25:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438786AbgLLMGw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 12 Dec 2020 07:06:52 -0500
-Received: from bmailout2.hostsharing.net ([83.223.78.240]:52445 "EHLO
-        bmailout2.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390904AbgLLMGv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 12 Dec 2020 07:06:51 -0500
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-        by bmailout2.hostsharing.net (Postfix) with ESMTPS id A8B682800A287;
-        Sat, 12 Dec 2020 13:05:48 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 2758D110C0; Sat, 12 Dec 2020 13:06:08 +0100 (CET)
-Date:   Sat, 12 Dec 2020 13:06:08 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
-        bbrezillon@kernel.org, p.yadav@ti.com, tudor.ambarus@microchip.com,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/9] spi: tegra210-quad: Add support for Tegra210 QSPI
- controller
-Message-ID: <20201212120608.GA24303@wunner.de>
-References: <1607721363-8879-1-git-send-email-skomatineni@nvidia.com>
- <1607721363-8879-5-git-send-email-skomatineni@nvidia.com>
+        id S2390685AbgLLQYM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 12 Dec 2020 11:24:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59552 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2439469AbgLLQKi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 12 Dec 2020 11:10:38 -0500
+From:   Sasha Levin <sashal@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Deepak R Varma <mh12gx2825@gmail.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 1/9] drm/tegra: replace idr_init() by idr_init_base()
+Date:   Sat, 12 Dec 2020 11:08:40 -0500
+Message-Id: <20201212160848.2335307-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1607721363-8879-5-git-send-email-skomatineni@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 01:15:58PM -0800, Sowjanya Komatineni wrote:
-> Tegra SoC has a Quad SPI controller starting from Tegra210.
+From: Deepak R Varma <mh12gx2825@gmail.com>
 
-The probe/remove hooks LGTM now.  Just two tiny nits that caught my eye:
+[ Upstream commit 41f71629b4c432f8dd47d70ace813be5f79d4d75 ]
 
+idr_init() uses base 0 which is an invalid identifier for this driver.
+The new function idr_init_base allows IDR to set the ID lookup from
+base 1. This avoids all lookups that otherwise starts from 0 since
+0 is always unused.
 
-> +	master = devm_spi_alloc_master(&pdev->dev, sizeof(*tqspi));
-> +	if (!master) {
-> +		dev_err(&pdev->dev, "failed to allocate spi_master\n");
-> +		return -ENOMEM;
-> +	}
+References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
 
-The memory allocater already emits an error message if it can't satisfy
-a request.  Emitting an additional message here isn't really necessary.
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/tegra/drm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index a2bd5876c6335..00808a3d67832 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -242,7 +242,7 @@ static int tegra_drm_open(struct drm_device *drm, struct drm_file *filp)
+ 	if (!fpriv)
+ 		return -ENOMEM;
+ 
+-	idr_init(&fpriv->contexts);
++	idr_init_base(&fpriv->contexts, 1);
+ 	mutex_init(&fpriv->lock);
+ 	filp->driver_priv = fpriv;
+ 
+-- 
+2.27.0
 
-> +exit_free_irq:
-> +	free_irq(qspi_irq, tqspi);
-> +exit_pm_disable:
-> +	pm_runtime_disable(&pdev->dev);
-> +	tegra_qspi_deinit_dma(tqspi);
-> +	return ret;
-> +}
-> +
-> +static int tegra_qspi_remove(struct platform_device *pdev)
-> +{
-> +	struct spi_master *master = platform_get_drvdata(pdev);
-> +	struct tegra_qspi *tqspi = spi_master_get_devdata(master);
-> +
-> +	spi_unregister_master(master);
-> +	free_irq(tqspi->irq, tqspi);
-> +	tegra_qspi_deinit_dma(tqspi);
-> +	pm_runtime_disable(&pdev->dev);
-
-The order of tegra_qspi_deinit_dma() and pm_runtime_disable() is
-reversed in the remove hook vis-a-vis the probe error path.
-It's nicer to use the same order as in the probe error path.
-
-Thanks,
-
-Lukas
