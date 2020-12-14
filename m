@@ -2,52 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F362D2D9BD6
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Dec 2020 17:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 939A62D9C94
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Dec 2020 17:26:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440056AbgLNQFm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Dec 2020 11:05:42 -0500
-Received: from server.kenspensetc.com ([185.148.128.76]:48008 "EHLO
-        server.kenspensetc.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439358AbgLNQFj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Dec 2020 11:05:39 -0500
-Received: from localhost ([127.0.0.1]:47936 helo=server.kenspensetc.com)
-        by server.kenspensetc.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <sender@ridecals.com>)
-        id 1knLn0-00029V-6J; Thu, 10 Dec 2020 08:15:22 -0500
-Received: from [70.32.0.46] ([70.32.0.46]) by ridecals.com (Horde Framework)
- with HTTPS; Thu, 10 Dec 2020 08:15:22 -0500
-Date:   Thu, 10 Dec 2020 08:15:22 -0500
-Message-ID: <20201210081522.Horde.GEA1j18D53oi4VTUxYWD_87@ridecals.com>
-From:   Russell Branting <sender@ridecals.com>
-Subject: Vital
-Reply-to: Goodagent01@gmail.com
-User-Agent: Horde Application Framework 5
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+        id S2440260AbgLNQYM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Dec 2020 11:24:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58892 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2440213AbgLNQYG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 14 Dec 2020 11:24:06 -0500
+Date:   Mon, 14 Dec 2020 16:23:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607963005;
+        bh=AHdANBBLNTJw739m69nu1X9LxbPWyebOEdf8x8REzLI=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m1I79GixJahrYdFPYjFIKqA6vALsyqCralLCJyWM3v6O2BYsc1VFHeMksKIlOzQLU
+         YhMKPRo+bElsRWMKtQ1OPne74/xQcD1lcX+VmsN4xJgKJlrK7TVJj3Vh+EezydIA9K
+         KYOhdXt20eceahFYp0oXWXCH7VWCFkrTtYjI/4NQBuMccz89J0v/39AlBCcQnx7fVR
+         exIwIVX83Eslw0S0KIdZDhLgOmBKnpW3LZMym1/AboPHHfSQ3CXybnaHAIkhwZwCOH
+         cnJdQt61NdwWjRveDyv6Zb+bFqR0WKdaMXYgL5m9QdRa4/oDeA4ieR+Hv6culExWqn
+         /zUfKSRFNqEsA==
+From:   Mark Brown <broonie@kernel.org>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
+        lukas@wunner.de, bbrezillon@kernel.org, p.yadav@ti.com,
+        tudor.ambarus@microchip.com, linux-spi@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 5/9] spi: spi-mem: Allow masters to transfer dummy
+ cycles directly by hardware
+Message-ID: <20201214162315.GA4880@sirena.org.uk>
+References: <1607721363-8879-1-git-send-email-skomatineni@nvidia.com>
+ <1607721363-8879-6-git-send-email-skomatineni@nvidia.com>
+ <20201212115715.31a8d755@collabora.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
 Content-Disposition: inline
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server.kenspensetc.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - ridecals.com
-X-Get-Message-Sender-Via: server.kenspensetc.com: authenticated_id: sender9@ridecals.com
-X-Authenticated-Sender: server.kenspensetc.com: sender9@ridecals.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20201212115715.31a8d755@collabora.com>
+X-Cookie: Everything you know is wrong!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-I am instructed to inform you of your appointment as the next of kin  
-to your deceased relative estate. Kindly indicate your acceptance by  
-reconfirming your Full Name, Address & Phone Number for immediate  
-processing of the funds release to your control OR the deceased  
-deposited funds will be declared unclaimed.
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Sat, Dec 12, 2020 at 11:57:15AM +0100, Boris Brezillon wrote:
+> Sowjanya Komatineni <skomatineni@nvidia.com> wrote:
 
+> > This patch adds a flag SPI_MASTER_USES_HW_DUMMY_CYCLES for the controllers
+> > that support transfer of dummy cycles by the hardware directly.
+
+> Hm, not sure this is a good idea. I mean, if we expect regular SPI
+> devices to use this feature, then why not, but if it's just for
+> spi-mem, I'd recommend implementing a driver-specific exec_op() instead
+> of using the default one.
+
+I *have* seen other high speed devices which had padding bits in the
+transfer (see regmap's pad_bits feature), I think that corresponds to
+flash dummy bits but haven't checked that the hardware support lines up.
+I'm not sure it's ever been seen as something that we particularly
+needed to speed up with hardware offload though.
+
+> If we go for those core changes, we should at least add a
+> ctrl->max_dummy_cycles field so the core can fallback to regular writes
+> when the number of dummy cycles in the spi_mem_op exceeds what the
+> controller can do.
+
+That seems sensible if there's a risk of controllers being too limited,
+which knowing hardware seems likely.
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/XkXIACgkQJNaLcl1U
+h9CBsAf/XWrzX5DEizCXgE7T1DvfpDtH0jdGsooRqjRftlV5KVN61c4clryl717B
+ix3GAXx57e3OO/JyWtBuKeLChLsyvDcz4CWnr8AMTmHcxYO1KTlqS9GEEs4EEFIO
+lXBiuZ/9yb2/HJSdJTg0w+mudFvH3B2gsVDZ1C5Waupm+HdqPSP1xilOs1owTVpa
+0fNhf99+NIryvBNeGI4vt9okktA+fnhh0u2VjSXQwyyw4woVVrp+Zv5cn1KSx7cX
+DLP9ciLZBUUWoVX5Vh+IIL0k9un1kKBmAjtUgjdTGYyg0yPdJn+sEvHdnifN0wxP
+Pywb4/N/I3lzBeJah5fx5DH0AZ+GyA==
+=GioU
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
