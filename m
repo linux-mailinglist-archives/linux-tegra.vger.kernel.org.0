@@ -2,104 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EFB72DE292
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Dec 2020 13:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E37912DE380
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Dec 2020 14:52:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727369AbgLRMMv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 18 Dec 2020 07:12:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38928 "EHLO
+        id S1726195AbgLRNwS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 18 Dec 2020 08:52:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727292AbgLRMMu (ORCPT
+        with ESMTP id S1725885AbgLRNwR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 18 Dec 2020 07:12:50 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B553C0611CD;
-        Fri, 18 Dec 2020 04:11:38 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id a12so4847418lfl.6;
-        Fri, 18 Dec 2020 04:11:38 -0800 (PST)
+        Fri, 18 Dec 2020 08:52:17 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25989C0617A7;
+        Fri, 18 Dec 2020 05:51:37 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id h205so5601449lfd.5;
+        Fri, 18 Dec 2020 05:51:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=22N71TOJJRsiKxj6+XQsBhRvzAjQjWt/Iu+dBnGRxH0=;
-        b=J/UaP99asbmOYK0//7qxaEO7f550S5iDYoVmGrkWhA4ELYzw/E9dBWgyBAZutyy52S
-         A2RJNaDUlx62bew8p8M+xUdQseky/P9KchU4xQaR18tBIlYM3uiIeEpqaoyZkDwoBl97
-         dtKVjelhw3DGwr3Ei9cpPqsK/Zlgq0GJ7tD0hLV9O7JdvyqQTPuwFfDbZIkwvL1k6mDh
-         8YD6XiCWplevZFURMb4jqGGwpwQ6HDkcFuk4tbrO8rvSkf3z6w4X7FrRHt0ksbG++7l9
-         6hbPKwEcJcEDHNLyUedRNuJnISKT1nNZ9h+aZGc/HL0Y2iFI9qqLDgjkLB7y5ELHC56i
-         Aa+Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ud+ydgJ9az3Hiu3dG94tCj+AH/qmY9t585UF2V6T/f4=;
+        b=YU3/c4y3sS1EheZWjrflGG0HpXjJJh+/DPVIl2CatwZ1345AQ4Ps9XE9KOttvWkWfB
+         peJI/hYVrD79Qiu/52g+nyfaJH2iQHi9fESs9e7PSVrJLQHc07zXPCiP3ITLCpVWAREv
+         qwx9cAfmpQTao8nPDvEfblvcaXemydgisPKlrfX9PihSCkXKt7/1dRn16B8ThPctm/CV
+         ZH9TO87G8fCVtoY3YnsNGa1q53+i9enUSbke6lKkziiXHDIDgowFL/nbnOhxBRVQBjvP
+         JCPfR7HU53ThAtkHaJ4/gZyc3fVHY+CWI8lg+84lqNnatqsSbuTO6NpiZ7ccnulU64Z/
+         2C0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=22N71TOJJRsiKxj6+XQsBhRvzAjQjWt/Iu+dBnGRxH0=;
-        b=CxH/lB5Aut8wPLdRbPTfP8sfcX9X7nVGyPqmRAB6iiDQULGbiZ4drTSCU/il5nEVyj
-         +GrEEAcWVsorGr5sJ8LSavz5D+sckFyTgS+H5F90X62kBbC3smbpZmtCNeKXlrTXY/3K
-         9Ax7p479w+g/O8FGWSNfjMmjU1iGjRHiW8ANhLGR9szd2Voe8zNRKqLu1Ya3vn6Rl9Zq
-         rnG8l7HJr5q3MB/lgyXF2vokgTpEiKoWhd9P0+inkuiMzEYT+X0EEAhnjR6CmuVMSc7P
-         0AU1LQ/Qv6Ny5pu65NPzTIX3gkIHhnZBCroZORNULAxhhpOv/q7iJBWjMCb4wahflGou
-         ibMA==
-X-Gm-Message-State: AOAM532WnwDrE5JIa5iIEkFcUbaxG9sV3FjOI2IkC+WCGAevDt5YtwFy
-        T32drEy8UTAL54fSpW2D/To=
-X-Google-Smtp-Source: ABdhPJxt1ewFhBfxe1e5QGJ1G/2gZw2CQubl6mT/Cj18NcCjxskQ17NKEL7BIOQXg9TXCchLjSg03w==
-X-Received: by 2002:a2e:6a04:: with SMTP id f4mr1754791ljc.255.1608293497031;
-        Fri, 18 Dec 2020 04:11:37 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id i9sm1036472ljn.18.2020.12.18.04.11.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 04:11:36 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ud+ydgJ9az3Hiu3dG94tCj+AH/qmY9t585UF2V6T/f4=;
+        b=lRDInVLcDNe+Hdd52RtIPM9wOfU2EG64lMYcYCK7tM4w+mFZoyo1w3KWDxk3DFmmE3
+         53X/qJSyYzWPyOKhfhDT9G/jtXFccQsReJESSL6T0ZWFwccJAPtKcqzeeeOLTBgQ6Vg8
+         S5sI12Rxxendj0lAPx9ZXJOXHXFNVe7snLJmiwFMTg0zOxIFE+yXy52lDKqBYNGWEvy4
+         oNTPj9UNk1pZsG3Xlu0dzkx6z2wUxtr6oqiGlE5p8K81C2bXfiARed9yK8jO2OiY4tAR
+         Eka6XFOMWV6B0rq4xYLwQ3GfWqNcyjHsKzUc6NCFgkh5UMRkmJwswllYTrByNT9+GnEo
+         nX0w==
+X-Gm-Message-State: AOAM531knDPYfEq9aFiDCXD4/nW3cwY31qgZ9GG8xt/G/J1G/w8/CVzC
+        BWkRwC6ZUCdej8JefMFf0Apt3tfNZyw=
+X-Google-Smtp-Source: ABdhPJwlBZ8Blm2A+JOtuSZuYrjATZyxdK51+2jHdPBCMrrfUZ3Pxpve0dGkaB8ZmDWkCYbAToxNUg==
+X-Received: by 2002:a2e:b896:: with SMTP id r22mr1801148ljp.442.1608299495548;
+        Fri, 18 Dec 2020 05:51:35 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id i10sm934975lfd.202.2020.12.18.05.51.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Dec 2020 05:51:34 -0800 (PST)
+Subject: Re: [PATCH v2 00/48] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Felipe Balbi <balbi@kernel.org>,
-        Matt Merhar <mattmerhar@protonmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
         Nicolas Chauvet <kwizart@gmail.com>,
-        Peter Geis <pgwipeout@gmail.com>, Ion Agorria <ion@agorria.com>
-Cc:     linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 9/9] ARM: tegra_defconfig: Enable USB_CHIPIDEA_HOST and remove USB_EHCI_TEGRA
-Date:   Fri, 18 Dec 2020 15:02:46 +0300
-Message-Id: <20201218120246.7759-10-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201218120246.7759-1-digetx@gmail.com>
-References: <20201218120246.7759-1-digetx@gmail.com>
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201218071455.vdeozvvnmkjtrejt@vireshk-i7>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c0976db7-ae66-740c-d95f-501d81c99fa0@gmail.com>
+Date:   Fri, 18 Dec 2020 16:51:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
+In-Reply-To: <20201218071455.vdeozvvnmkjtrejt@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The ehci-tegra driver was superseded by the generic ChipIdea USB driver,
-update the tegra's defconfig accordingly.
+18.12.2020 10:14, Viresh Kumar пишет:
+> On 17-12-20, 21:05, Dmitry Osipenko wrote:
+>> Introduce core voltage scaling for NVIDIA Tegra20/30 SoCs, which reduces
+>> power consumption and heating of the Tegra chips. Tegra SoC has multiple
+>> hardware units which belong to a core power domain of the SoC and share
+>> the core voltage. The voltage must be selected in accordance to a minimum
+>> requirement of every core hardware unit.
+> 
+> Please submit the OPP changes separately (alone), it will never get
+> merged this way. Send fixes at the top, any features you want later in
+> the series. It is fine for you to base your series of patches which
+> are under review, you just need to mention that in your cover letter
+> for your platform's patchset.
+> 
 
-Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Alright, although I haven't pretended that v2 patches should be merged
+right away since they are fundamentally different from v1, and thus, all
+patches need to be reviewed first.
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 74739a52a8ad..ae0709265493 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -237,12 +237,13 @@ CONFIG_USB=y
- CONFIG_USB_XHCI_HCD=y
- CONFIG_USB_XHCI_TEGRA=y
- CONFIG_USB_EHCI_HCD=y
--CONFIG_USB_EHCI_TEGRA=y
- CONFIG_USB_ACM=y
- CONFIG_USB_WDM=y
- CONFIG_USB_STORAGE=y
- CONFIG_USB_CHIPIDEA=y
- CONFIG_USB_CHIPIDEA_UDC=y
-+CONFIG_USB_CHIPIDEA_HOST=y
-+CONFIG_USB_CHIPIDEA_TEGRA=y
- CONFIG_USB_GADGET=y
- CONFIG_MMC=y
- CONFIG_MMC_BLOCK_MINORS=16
--- 
-2.29.2
-
+If the current OPP changes look good to you, then please give yours r-b
+to the patches. Thanks in advance!
