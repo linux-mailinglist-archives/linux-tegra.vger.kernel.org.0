@@ -2,55 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E28FF2E07E2
-	for <lists+linux-tegra@lfdr.de>; Tue, 22 Dec 2020 10:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0159B2E0EA9
+	for <lists+linux-tegra@lfdr.de>; Tue, 22 Dec 2020 20:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbgLVJQr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Dec 2020 04:16:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48048 "EHLO
+        id S1726921AbgLVTPU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 22 Dec 2020 14:15:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726513AbgLVJQl (ORCPT
+        with ESMTP id S1725953AbgLVTPT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Dec 2020 04:16:41 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A67C061793
-        for <linux-tegra@vger.kernel.org>; Tue, 22 Dec 2020 01:16:00 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id x1so2413318pgh.12
-        for <linux-tegra@vger.kernel.org>; Tue, 22 Dec 2020 01:16:00 -0800 (PST)
+        Tue, 22 Dec 2020 14:15:19 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE0FC0613D3;
+        Tue, 22 Dec 2020 11:14:38 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id h205so34504600lfd.5;
+        Tue, 22 Dec 2020 11:14:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=l8QALzA4i8zX7B1di+fsQ9pXz5BTZwpSgw/mRJC9G3I=;
-        b=iNpi5UGBLQA73+p7sshoUk2MKXQ6+B7bN+nLc+PLyRS7Qzc6JQHE5LPyrHGQxOzXY1
-         uOtxbpfxB2whAININqJ4SNPQdP/iqcNVaDMTfpwi6jlirHg+TpXFAk8EUfaM+f2LThpO
-         ITwA/t+QLxo/gtfFoU6Y1t6N7t+IeYiN4NQyBRuiWeJo1VWI5Wqkou8CGRhI3Ddi6WMb
-         hnbtCuE/ASxcgiGOFPqWP03O9KQV73qnkGAu5hCruEh7I3wNKYJN03dx+O01l7K/zD/k
-         7cuSdAfi+Fx9eHduQ+ALtP2fw1WpzfC4YnQ/pZ7skehvj4ca2ag34R983WJCOmU+lJGf
-         g+CQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XzA+IxTqOiwjX/OrglCXeb/ESpno+XzmysujmIzCZFM=;
+        b=h6Un3O0GRIs20IfATLi+caPIyTbxDAcApXIG4ly+tb+Ff/AsSFUMzbqRg8x3QcB6R+
+         /lifUSEyU9TWfJc8mLHdB9d8Y9qRGestdhGRPway3GOSGQ8cuy0pUSKXN4e5DxzEnKwD
+         fYR1YIf05Ra2zD+xV/OtVJhAAejE7qDSsealn/k6wRndcA+Kr9Qd5G4O+fFM4ffhZQx5
+         iWL+fsem7uxnvLNF9sQvi3DoxjBI8dadxS+frkf0ytoCPFY3u7CLr3wTEKUDK5cvpLd6
+         ZVfYRe9qC4R3pywKEw8dY8c5wQiJMnxeiGLjUsFSzmvoCygv4r2QJhnbSecDGxF5TC88
+         NxkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=l8QALzA4i8zX7B1di+fsQ9pXz5BTZwpSgw/mRJC9G3I=;
-        b=ftCMh5EuYeufieBST6n8TNXethW9D2+m4qcd0qbOC6gDpEmkA3+r+/jLnLA/ILaj82
-         oirpSuSBp4zjoBGuReBsnSvJ7At+hM/Ail8k1SmfV41Qb1dgyIAMe7mEgIcZlP9tJe0Y
-         2qJxukVVxum9e4rbvqlJn44MVgHdZJvpsMWQybOMWdXMOE8p8p405U4AttW5UmH1PRnG
-         aVBBEzoiAjsCRXSu6CNgmOZaO2xPMxfBm8jM3wr8gww8j0JA2+NZ5rqmtqWbkAORULNj
-         tRona+ZM7HGTA3XRT+ZO2srkJFjRYVPbVcBtU9XEATRFZ3sactXfXpMJMK90oHXGGr87
-         HZag==
-X-Gm-Message-State: AOAM531LJMmM3WJdKLKq1E4x9HCOHF//6nXJafzLlbZKPDib9BJTaJgF
-        8rSLZKEirVVmpfuV43KfIhyOkg==
-X-Google-Smtp-Source: ABdhPJzoRmGGLI8WVPnxM7oud4VBQbrA5PgTbrGlwdy+hH6OXaJYRZjRb0UVH5lYi+efCVdlFZN7eA==
-X-Received: by 2002:a62:1d0a:0:b029:1a9:8b33:a1bf with SMTP id d10-20020a621d0a0000b02901a98b33a1bfmr19012878pfd.32.1608628560561;
-        Tue, 22 Dec 2020 01:16:00 -0800 (PST)
-Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id t9sm13088468pgh.41.2020.12.22.01.15.59
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 Dec 2020 01:15:59 -0800 (PST)
-Date:   Tue, 22 Dec 2020 14:45:58 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XzA+IxTqOiwjX/OrglCXeb/ESpno+XzmysujmIzCZFM=;
+        b=mxRyKaHhw8JLtrsmCztk+L2LgV2k5I1RawRq6ffS17EYZ8AzTVYLhUumcfkmpqoYSI
+         z1rU6J4r8CI8ZXPJ/ZRlQLn7fFpTZWuXA+22KhyZN0890I2MCGjP1KfQ4WkzHJiUXcGs
+         IACHg8wVGbpVGg7S8N6qePHEkKVeLtRwud2HNPa35eKs+ENp7eANZRmiI8XDcUyeHJf0
+         DHKhxOgLRE6ahG5IE0xv6By9LMj4dcd4269NfqN3afMy+Nsz0WCAsepylWv/oyFHf53i
+         JwvEaoBkRbzYPPns5DKGwOvazy6wgJt2juNod9xVJtMMQv06b/Anr1h/VcYL1BwlfdXj
+         6IkQ==
+X-Gm-Message-State: AOAM530UVhNoqLklICcRvPD7DytYECgJKnKZhO999HXc8VVW9EPSWTeX
+        9brciDyNgx7ir3baqG1p5/DqKHXetT0=
+X-Google-Smtp-Source: ABdhPJx7qPXV3sur6eNMVZg5jfo2nbqg0IGWfAP0Kv+mCCycwkuquOyLrOc/kJVZYxAbFZWEAV5uLg==
+X-Received: by 2002:a2e:a366:: with SMTP id i6mr10568406ljn.427.1608664477207;
+        Tue, 22 Dec 2020 11:14:37 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id h23sm3018460ljh.115.2020.12.22.11.14.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Dec 2020 11:14:36 -0800 (PST)
+Subject: Re: [PATCH v2 00/48] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+To:     Viresh Kumar <viresh.kumar@linaro.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Mark Brown <broonie@kernel.org>,
@@ -71,34 +72,39 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 00/48] Introduce core voltage scaling for NVIDIA
- Tegra20/30 SoCs
-Message-ID: <20201222091558.mhqf4oytviwc6b3h@vireshk-i7>
 References: <20201217180638.22748-1-digetx@gmail.com>
  <20201218071455.vdeozvvnmkjtrejt@vireshk-i7>
  <c0976db7-ae66-740c-d95f-501d81c99fa0@gmail.com>
+ <20201222091558.mhqf4oytviwc6b3h@vireshk-i7>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <6281108a-5d76-bf6e-13ea-e27808c829b9@gmail.com>
+Date:   Tue, 22 Dec 2020 22:14:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c0976db7-ae66-740c-d95f-501d81c99fa0@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20201222091558.mhqf4oytviwc6b3h@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 18-12-20, 16:51, Dmitry Osipenko wrote:
-> Alright, although I haven't pretended that v2 patches should be merged
-> right away since they are fundamentally different from v1, and thus, all
-> patches need to be reviewed first.
+22.12.2020 12:15, Viresh Kumar пишет:
+> On 18-12-20, 16:51, Dmitry Osipenko wrote:
+>> Alright, although I haven't pretended that v2 patches should be merged
+>> right away since they are fundamentally different from v1, and thus, all
+>> patches need to be reviewed first.
+> 
+> I agree. I have done some basic review for the stuff.
 
-I agree. I have done some basic review for the stuff.
+Thank you for the review.
 
-> If the current OPP changes look good to you, then please give yours r-b
-> to the patches. Thanks in advance!
+>> If the current OPP changes look good to you, then please give yours r-b
+>> to the patches. Thanks in advance!
+> 
+> r-b-y isn't required as they will go through my tree itself. So if everyone is
+> happy with the idea, please submit the patches separately (fixes, improvements,
+> devm_*, etc).
 
-r-b-y isn't required as they will go through my tree itself. So if everyone is
-happy with the idea, please submit the patches separately (fixes, improvements,
-devm_*, etc).
-
--- 
-viresh
+okay
