@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87CAE2E13B4
-	for <lists+linux-tegra@lfdr.de>; Wed, 23 Dec 2020 03:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A14D2E168B
+	for <lists+linux-tegra@lfdr.de>; Wed, 23 Dec 2020 04:10:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729022AbgLWCdd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Dec 2020 21:33:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52234 "EHLO mail.kernel.org"
+        id S1728834AbgLWCUA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 22 Dec 2020 21:20:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45428 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730403AbgLWCZK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:25:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E8AE22285;
-        Wed, 23 Dec 2020 02:24:54 +0000 (UTC)
+        id S1728819AbgLWCT7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:19:59 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4EE61225AB;
+        Wed, 23 Dec 2020 02:19:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690295;
-        bh=LFPNS1AsxzYl6KvbGpsDsMJTi8DK61Ijpwo7Hclcj/0=;
+        s=k20201202; t=1608689984;
+        bh=ESDOidCTiUNEdcaAW0GLG4M5bunsCs4flgEgwwblDRw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p6S6GvHEJh5RYKe0HmiDE2e/yt9CdMquU2m7b6bnQInW+sUeB/+Y0ykTq1m5S7kTX
-         puFSg2pzm0TaG+wxM8u1D44f36gl5W75q+BeP0/S4H7ih4ixe5vLaBP37guYOEujRI
-         MDmaVfIBxC/2rme3LrqRc7nxxf95+wOGlollF1GzkxrZAY85mL//hQ2jD06PJ2TnxY
-         6/0och6HSTkVg69KRxd/sJCO17QNzchZpibGh51/uwPyRFNJXXe4w/Aby06/K67csv
-         qV40csNd5D0xUtGYPTguKJcev/Zn+PYV/hAzVZmfJWuOxKf0NawgNceVaU+xXcUB/0
-         khsPMiWnQep7g==
+        b=RELys2dV+q8QbeesCyVNdtS9T1Oz8WYv1vHG9NUFlTXR8zuknyLGWdJjSLXgBvOcu
+         SRSxbVc30KKaEpW2Tf+MeZ2SI7XnM3UzgiV8Pxv/kPJX0THRnF3fc/dLLEWUYcCn4M
+         8jceQyGKkqjiJI6Cjw7zcA6gyJdVBR+sEDZCXaqCgm5x5gWD5bZAuzI5gvnvmyYhuM
+         wWwDWV9AcN+TO1GI8XbZszhOBv6R7JD0+Cb0fq2u1yZ9bNyFJC8gzs6zR2MzC7PwQ/
+         VPtAvMk3dyQdYIEMeqczsLuIXGko7gjeEStH3BM4rLuIHo7lggl88xAtuF0Z6kHc9h
+         5rVB47Rdf0+Tw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nicolin Chen <nicoleotsuka@gmail.com>,
@@ -30,12 +30,12 @@ Cc:     Nicolin Chen <nicoleotsuka@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: [PATCH AUTOSEL 4.9 31/48] iommu/tegra-smmu: Expand mutex protection range
-Date:   Tue, 22 Dec 2020 21:23:59 -0500
-Message-Id: <20201223022417.2794032-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 070/130] iommu/tegra-smmu: Expand mutex protection range
+Date:   Tue, 22 Dec 2020 21:17:13 -0500
+Message-Id: <20201223021813.2791612-70-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022417.2794032-1-sashal@kernel.org>
-References: <20201223022417.2794032-1-sashal@kernel.org>
+In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
+References: <20201223021813.2791612-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,10 +64,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 21 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 04cec050e42bf..ae796342717a6 100644
+index dd486233e2828..41be3e2202971 100644
 --- a/drivers/iommu/tegra-smmu.c
 +++ b/drivers/iommu/tegra-smmu.c
-@@ -241,26 +241,19 @@ static int tegra_smmu_alloc_asid(struct tegra_smmu *smmu, unsigned int *idp)
+@@ -247,26 +247,19 @@ static int tegra_smmu_alloc_asid(struct tegra_smmu *smmu, unsigned int *idp)
  {
  	unsigned long id;
  
@@ -95,7 +95,7 @@ index 04cec050e42bf..ae796342717a6 100644
  }
  
  static bool tegra_smmu_capable(enum iommu_cap cap)
-@@ -395,17 +388,21 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
+@@ -404,17 +397,21 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
  				 struct tegra_smmu_as *as)
  {
  	u32 value;
@@ -121,7 +121,7 @@ index 04cec050e42bf..ae796342717a6 100644
  
  	/* We can't handle 64-bit DMA addresses */
  	if (!smmu_dma_addr_valid(smmu, as->pd_dma)) {
-@@ -428,24 +425,35 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
+@@ -437,24 +434,35 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
  	as->smmu = smmu;
  	as->use_count++;
  
