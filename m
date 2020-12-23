@@ -2,80 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFBE42E1690
-	for <lists+linux-tegra@lfdr.de>; Wed, 23 Dec 2020 04:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE3022E180D
+	for <lists+linux-tegra@lfdr.de>; Wed, 23 Dec 2020 05:20:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731309AbgLWC7u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Dec 2020 21:59:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45510 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728852AbgLWCUE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:20:04 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E9B0E2256F;
-        Wed, 23 Dec 2020 02:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608689986;
-        bh=yJRRFSfrUWMNVGR1aJmIOLD3je5SKkACdB7S9UENrAY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VKhmnEyDOztZt/Rg7KiZFnGCfsrQbG6iVVa5f1bPJVHHCQa0vdRww6RP/gj8y/dg1
-         SHlsTYOFg7z+AHXoYuK6qiAw241Fp5dVzhboctoB2iHI6N8GVNm6A+sBR9i3ZKKjOK
-         EwkNfsmrYxpxMlX0gJ3sKDbxLEEh20BAF7dPA+mgUinWvebTphDrYuOLnjAZqaUQUz
-         9f5u83+nPBc+//qmoCFmLj8GQ05JrLngrCOeQQaDhy2YWY3ebg6XAhRbLk6TLTz0lS
-         Y1zybisAG4LTUlKdDGQULisaWnrQGHG2S8ZOAfcS/34ro23TqTVyuYSr74hy90BKC4
-         kmOcW4DnNfsyw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marc Zyngier <maz@kernel.org>, Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 072/130] arm64: tegra: Fix GIC400 missing GICH/GICV register regions
-Date:   Tue, 22 Dec 2020 21:17:15 -0500
-Message-Id: <20201223021813.2791612-72-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
-References: <20201223021813.2791612-1-sashal@kernel.org>
+        id S1726825AbgLWEUS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 22 Dec 2020 23:20:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726288AbgLWEUS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 22 Dec 2020 23:20:18 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9F1C061793
+        for <linux-tegra@vger.kernel.org>; Tue, 22 Dec 2020 20:19:38 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id d2so9646684pfq.5
+        for <linux-tegra@vger.kernel.org>; Tue, 22 Dec 2020 20:19:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=26Fr+AtJaqoWMCq9NSUD8XDm547WXau8kIa+Po3ijaQ=;
+        b=sT3RPi0cmSySv3TpxqXakwSZd4+TeVAbgUtHRhhkr9zD2oKndQhh3nAF2ZWRKFEwst
+         fxL85ZuUBFNAQ5onTZ3nMEdhsWGrllkYRYl1tGbri1cjmNeEdBXqoR00oFAdZlinf2sG
+         i3trnl1FImHrkHWsQjqfYqktVg5C0p9hGp3zMs/4X0+liPYJ7Fj35h7EVOzzqMQQ4BmP
+         NoOLT9BhfddUa5brM8O18Y39e3dDinW3tOqST333s6BHhsMhvIuY7sARBYQPtJaNRvta
+         GBJlJv49y/k+55A3aNfm4MsUIuzj/qy5vzUrSvfzWGdcTkTePTwKJsgOch7YgnJiucC7
+         W3zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=26Fr+AtJaqoWMCq9NSUD8XDm547WXau8kIa+Po3ijaQ=;
+        b=NA+bEdJ+QI9l8KUruNi1QNY07mx0huNmEk7RhraYkacbqF107nCvKD77nyeOssXjgi
+         DoXUvRby60/lKrcmHcBIVkq6MgujFxmzcIAncVci9FOQYw7LPxR4MORy8JjhPgSM72YG
+         MOx1t4aVG6r3VZkzfl+t+nGljGWWqNcu8HKAOw3tYbKzseNl7C3qGh0iFhODm5/Txt8B
+         DjMtAr2wITDrbswCU3JzeCbX3EYuU4LTS2g8lIThiPhLEXLGaxIxOqrUojYsA72foxBU
+         ArfbRt4aZVEomiL13lGUcPoO0i3EcX+Ndks1KlNuAayBDT8vZMnaoD+hF20CMUmBPKNn
+         1khA==
+X-Gm-Message-State: AOAM530fcf1ms4S+SGjRbGtjphtG2ttX2Yfwxr7Xue7wHNZP3l1xTmYi
+        gn0KyUWQlqJj9R5zdFq70JiQkw==
+X-Google-Smtp-Source: ABdhPJz3XTw78JGZT3bqt2E1D4SaVZTnIQudWjGvtEJkaUATY8WvaXe+1UR/zVBvhFKdu72MF7n3JA==
+X-Received: by 2002:a63:c205:: with SMTP id b5mr310031pgd.281.1608697177622;
+        Tue, 22 Dec 2020 20:19:37 -0800 (PST)
+Received: from localhost ([122.172.20.109])
+        by smtp.gmail.com with ESMTPSA id j23sm2918258pgj.34.2020.12.22.20.19.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 Dec 2020 20:19:36 -0800 (PST)
+Date:   Wed, 23 Dec 2020 09:49:31 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 11/48] opp: Add dev_pm_opp_find_level_ceil()
+Message-ID: <20201223041931.klnppy4fu3sdgtsz@vireshk-i7>
+References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201217180638.22748-12-digetx@gmail.com>
+ <20201222064253.x7vsurh7q5k7qzb5@vireshk-i7>
+ <fd7b9f42-d0a7-45eb-2a17-d46779011c58@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <fd7b9f42-d0a7-45eb-2a17-d46779011c58@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Marc Zyngier <maz@kernel.org>
+On 22-12-20, 22:15, Dmitry Osipenko wrote:
+> 22.12.2020 09:42, Viresh Kumar пишет:
+> > On 17-12-20, 21:06, Dmitry Osipenko wrote:
+> >> Add a ceil version of the dev_pm_opp_find_level(). It's handy to have if
+> >> levels don't start from 0 in OPP table and zero usually means a minimal
+> >> level.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> > 
+> > Why doesn't the exact version work for you here ?
+> > 
+> 
+> The exact version won't find OPP for level=0 if levels don't start with
+> 0, where 0 means that minimal level is desired.
 
-[ Upstream commit 776a3c04da9fa144241476f4a0d263899d6cad26 ]
+Right, but why do you need to send 0 for your platform ?
 
-GIC400 has full support for virtualization, and yet the tegra186
-DT doesn't expose the GICH/GICV regions (despite exposing the
-maintenance interrupt that only makes sense for virtualization).
-
-Add the missing regions, based on the hunch that the HW doesn't
-use the CPU build-in interfaces, but instead the external ones
-provided by the GIC. KVM's virtual GIC now works with this change.
-
-Signed-off-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 9abf0cb1dd67f..f72c97fe4afc8 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -569,7 +569,9 @@ gic: interrupt-controller@3881000 {
- 		#interrupt-cells = <3>;
- 		interrupt-controller;
- 		reg = <0x0 0x03881000 0x0 0x1000>,
--		      <0x0 0x03882000 0x0 0x2000>;
-+		      <0x0 0x03882000 0x0 0x2000>,
-+		      <0x0 0x03884000 0x0 0x2000>,
-+		      <0x0 0x03886000 0x0 0x2000>;
- 		interrupts = <GIC_PPI 9
- 			(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
- 		interrupt-parent = <&gic>;
 -- 
-2.27.0
-
+viresh
