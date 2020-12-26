@@ -2,130 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2FDC2E2962
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Dec 2020 02:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5F6E2E2E75
+	for <lists+linux-tegra@lfdr.de>; Sat, 26 Dec 2020 16:08:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729147AbgLYBVn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Dec 2020 20:21:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729109AbgLYBVk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Dec 2020 20:21:40 -0500
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B5FAC061757;
-        Thu, 24 Dec 2020 17:21:00 -0800 (PST)
-Received: by mail-qv1-xf2f.google.com with SMTP id s6so1807030qvn.6;
-        Thu, 24 Dec 2020 17:21:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZaO4eapAX6YcgJ1V86x/6Z20q4JeFpmENkNZ+Vh17YY=;
-        b=VaT/v3w7fIQwr4+nVx3FsfDl6sKjC+xegP3RJ5aJvK2cB6iqn22/Dyc/o6WByT7IMX
-         9J5q1AOse3dJO7cN+i2XYBmjnq+cksvabKySclkdaJbH4TMqOwjxPWvAkK95835uzpBk
-         kbZ/CCKTXsIMvhyEcJTKJQIHIEdsitddgiaZ/qVCX1zBMIsOV1R7jrb3bT5tuIZO2rrD
-         O2q/azdZcystt+XcuDNCoftIjo0y5/G4tqyVbcF6dpugV/TvbnZctQggiQMrzIuhZoV4
-         BLOyT0Tsg2m+aYBYfSzuvrgjmV9M1l8ObtKZ6n4jyVejzpjwQdUuvgp6zZzW7TnSHyPc
-         KhbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZaO4eapAX6YcgJ1V86x/6Z20q4JeFpmENkNZ+Vh17YY=;
-        b=VdfHAu/UR707NjVg3hQHXtsh3XW8h8708nt0kbzQo6zSxP5uDptx4p5OzLY4LvcYuJ
-         8AUQDwKNYmYryj9BB9n7eQTRtdlJ12J2jZtR3Cod2DJ5k+bwP9E9QoW+CN9LWmLwI6i7
-         zxnIkKE+FTL2Gpm2SA4Q4JnBVZfuHlA8VwomD4zgUMm0CxXC8nvIgQcgudzBH6Zkpjqj
-         isMFCCwcHYPxjOhmxNOWVjEn5uwn876pkqJ81h3t8ZwvPyt8IbvQOc8elIDrVc/zfrLe
-         DsU0TU3kV4Fa02zKBocLXUOB5d7gNCWxTBIvuc6L+hG8GdDTXduYjmm4p83rI6vb+aiS
-         F1Vg==
-X-Gm-Message-State: AOAM532Yi0J1Y87rKWYcAgwkgOfF8fzWcgdWZR32RuuV1u2ww9UnL2JV
-        jcPZv3+mknQfLrusv5++8yA=
-X-Google-Smtp-Source: ABdhPJyYpB3bNPAkvnqr+S9zrV/ifONY2HfJ9E0hXD7pAU/LgUB43e0WkZWZz0Pddacjq23iySU+TA==
-X-Received: by 2002:a0c:ca13:: with SMTP id c19mr25994106qvk.21.1608859259481;
-        Thu, 24 Dec 2020 17:20:59 -0800 (PST)
-Received: from rockpro64.hsd1.md.comcast.net ([2601:153:900:7730::20])
-        by smtp.gmail.com with ESMTPSA id x47sm17583505qtb.86.2020.12.24.17.20.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Dec 2020 17:20:59 -0800 (PST)
-From:   Peter Geis <pgwipeout@gmail.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Sameer Pujar <spujar@nvidia.com>,
-        Mohan Kumar <mkumard@nvidia.com>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        Peter Geis <pgwipeout@gmail.com>, Ion Agorria <ion@agorria.com>
-Subject: [PATCH 2/2] ALSA: hda/tegra: fix tegra-hda on tegra30 soc
-Date:   Fri, 25 Dec 2020 01:20:26 +0000
-Message-Id: <20201225012025.507803-3-pgwipeout@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201225012025.507803-1-pgwipeout@gmail.com>
-References: <20201225012025.507803-1-pgwipeout@gmail.com>
+        id S1726293AbgLZPID (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 26 Dec 2020 10:08:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32840 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726139AbgLZPIC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 26 Dec 2020 10:08:02 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 75250207CC;
+        Sat, 26 Dec 2020 15:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1608995242;
+        bh=kUSGDulYXrnnzc0VMAVtcl+A2eZOjjt43/HS9ZCQgDk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=a5DPY1PjgU1To8OnguSZKicw8MRn2Ev0Q4S8bhxGap4cRJqawLGV2Ph2075PWKyBG
+         tqocEkPTBSoLYlzF2y/ao3Ugqduc+jtKIKLeBu1bCNmtUcGug2slWyNx7R85gdF+PH
+         0lEQ/lwwCAYz7vljXwGS+/3kGVdaOal3+viOY/6o=
+Date:   Sat, 26 Dec 2020 16:07:19 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
+        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
+        lkft-triage@lists.linaro.org, pavel@denx.de,
+        stable@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 5.10 00/40] 5.10.3-rc1 review
+Message-ID: <X+dRp49IvCtHeDGf@kroah.com>
+References: <20201223150515.553836647@linuxfoundation.org>
+ <796530b145704445910cea10f27a4267@HQMAIL111.nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <796530b145704445910cea10f27a4267@HQMAIL111.nvidia.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Currently hda on tegra30 fails to open a stream with an input/output error.
-This is similar to the issue referenced in [1].
+On Wed, Dec 23, 2020 at 07:26:38PM +0000, Jon Hunter wrote:
+> On Wed, 23 Dec 2020 16:33:01 +0100, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.10.3 release.
+> > There are 40 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Fri, 25 Dec 2020 15:05:02 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.3-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests passing for Tegra ...
+> 
+> Test results for stable-v5.10:
+>     12 builds:	12 pass, 0 fail
+>     26 boots:	26 pass, 0 fail
+>     64 tests:	64 pass, 0 fail
+> 
+> Linux version:	5.10.3-rc1-ga5ba578b5228
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra210-p3450-0000,
+>                 tegra30-cardhu-a04
+> 
+> Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-For example:
-speaker-test -Dhw:0,3 -c 2
+Thanks for testing and letting me know.
 
-speaker-test 1.2.2
-
-Playback device is hw:0,3
-Stream parameters are 48000Hz, S16_LE, 2 channels
-Using 16 octaves of pink noise
-Rate set to 48000Hz (requested 48000Hz)
-Buffer size range from 64 to 16384
-Period size range from 32 to 8192
-Using max buffer size 16384
-Periods = 4
-was set period_size = 4096
-was set buffer_size = 16384
- 0 - Front Left
-Write error: -5,Input/output error
-xrun_recovery failed: -5,Input/output error
-Transfer failed: Input/output error
-
-[1] states "Due to a legacy HW design problem", implying the issue applies to all previous tegra-hda devices.
-The tegra-hda device was introduced in tegra30 but only utilized in tegra124 until now.
-For this reason it is unknown when this issue first manifested.
-
-Applying the fix in [1] universally resolves this issue on tegra30.
-Tested on the Ouya game console and the tf201 tablet.
-
-[1] 60019d8c650d ("ALSA: hda/tegra: workaround playback failure on Tegra194")
-
-Signed-off-by: Peter Geis <pgwipeout@gmail.com>
-Tested-by: Ion Agorria <ion@agorria.com>
----
- sound/pci/hda/hda_tegra.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index 70164d1428d4..f8d61e677a09 100644
---- a/sound/pci/hda/hda_tegra.c
-+++ b/sound/pci/hda/hda_tegra.c
-@@ -388,8 +388,7 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
- 	 * in powers of 2, next available ratio is 16 which can be
- 	 * used as a limiting factor here.
- 	 */
--	if (of_device_is_compatible(np, "nvidia,tegra194-hda"))
--		chip->bus.core.sdo_limit = 16;
-+	chip->bus.core.sdo_limit = 16;
- 
- 	/* codec detection */
- 	if (!bus->codec_mask) {
--- 
-2.25.1
-
+greg k-h
