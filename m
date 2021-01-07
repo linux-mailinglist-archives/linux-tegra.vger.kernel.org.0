@@ -2,136 +2,159 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2A3D2ECD5A
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Jan 2021 10:53:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B96132ED3FF
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Jan 2021 17:13:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727149AbhAGJxV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 Jan 2021 04:53:21 -0500
-Received: from mga09.intel.com ([134.134.136.24]:47845 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727137AbhAGJxV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 7 Jan 2021 04:53:21 -0500
-IronPort-SDR: QyFwKKnWZlSjLNZ6OK0V4I2BGiiagZQqhR2dp0L/Spk7fJUx1JhKYIrAdOl0HjCkRPgHRYSfs2
- GFgbfVRhYAzg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9856"; a="177554814"
-X-IronPort-AV: E=Sophos;i="5.79,329,1602572400"; 
-   d="scan'208";a="177554814"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 01:51:26 -0800
-IronPort-SDR: 6h3NZBaV5ofb/YMPh9Zl9+usdoMQSVv5IFbnGIJLs5PPCRemLpoZ+CEAdjcd2WWtOVk5GYHda9
- tDOuB1AKyjWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,329,1602572400"; 
-   d="scan'208";a="343844806"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Jan 2021 01:51:24 -0800
-Subject: Re: [PATCH] xhci: tegra: Delay for disabling LFPS detector
-To:     JC Kuo <jckuo@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, robh@kernel.org,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-        nkristam@nvidia.com
-References: <20201218164234.128762-1-jckuo@nvidia.com>
- <X9zelLu26bcQd7bs@kroah.com>
- <d508a7f9-da00-99a3-cf87-d1234efb10c9@nvidia.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
- 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 fiD/
-Message-ID: <5e1d3cfb-790e-0c26-1300-98f64377f4ad@linux.intel.com>
-Date:   Thu, 7 Jan 2021 11:53:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <d508a7f9-da00-99a3-cf87-d1234efb10c9@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1725835AbhAGQLB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Jan 2021 11:11:01 -0500
+Received: from mailout1.samsung.com ([203.254.224.24]:39051 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728273AbhAGQK7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Jan 2021 11:10:59 -0500
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210107161015epoutp01cf2c71859c0e2e798e687951730fda3a~X-wtI5HCn0770207702epoutp01O
+        for <linux-tegra@vger.kernel.org>; Thu,  7 Jan 2021 16:10:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210107161015epoutp01cf2c71859c0e2e798e687951730fda3a~X-wtI5HCn0770207702epoutp01O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1610035815;
+        bh=uuUvWOFqJZQ4hJc1/kGBf9qGITSHyVmlvTN7W+i4GGQ=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=HDmdlUbiAxkyhsVVVOzJkpfav/vFluy2dLEZwbMJFU1cCqRIC5m5DBEGqIOD6EC55
+         Xik7xls4Bs0TOt58n02crUVNZsJ98BbSrFEDa80WYHoZCgCWmDs+Gvu0+M37msuzo3
+         kJMgATkI65tUoAAmqZyqplkZdPY0bBmrbkRwNZGU=
+Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20210107161014epcas5p3a2ef0cd705917e2d00a00c68e47cb19f~X-wsH93jX1863018630epcas5p3w;
+        Thu,  7 Jan 2021 16:10:14 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        C8.0C.50652.66237FF5; Fri,  8 Jan 2021 01:10:14 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+        20210107152945epcas5p158e88c757a44e98f4e9a898d3ff5f87c~X-NVo2Ho21966319663epcas5p1k;
+        Thu,  7 Jan 2021 15:29:45 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20210107152945epsmtrp24d37acc3040721520f4db4480a46e8d9~X-NVn20W_0276302763epsmtrp2-;
+        Thu,  7 Jan 2021 15:29:45 +0000 (GMT)
+X-AuditID: b6c32a4a-6c9ff7000000c5dc-f8-5ff732660aad
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        9C.1A.08745.9E827FF5; Fri,  8 Jan 2021 00:29:45 +0900 (KST)
+Received: from ubuntu.sa.corp.samsungelectronics.net (unknown
+        [107.108.83.125]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20210107152943epsmtip204376ee473fbe0e1a3bab56a121d1785~X-NUMRDCG2046620466epsmtip2L;
+        Thu,  7 Jan 2021 15:29:43 +0000 (GMT)
+From:   Shradha Todi <shradha.t@samsung.com>
+To:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Cc:     pankaj.dubey@samsung.com, sriram.dash@samsung.com,
+        niyas.ahmed@samsung.com, p.rajanbabu@samsung.com,
+        l.mehra@samsung.com, hari.tv@samsung.com,
+        Shradha Todi <shradha.t@samsung.com>
+Subject: [PATCH v7 0/5] Add support to handle ZRX-DC Compliant PHYs
+Date:   Thu,  7 Jan 2021 20:58:38 +0530
+Message-Id: <1610033323-10560-1-git-send-email-shradha.t@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsWy7bCmhm6a0fd4g5u/FC0+TlvJZHHn+Q1G
+        i8u75rBZnJ13nM2i88ssNosnUx6xWhzdGGyxaOsXdovew7UWN9azO3B59G1ZxejxeZNcAFMU
+        l01Kak5mWWqRvl0CV8aknbEFn4QqzvYcZ2pg/M/XxcjJISFgItHbPIENxBYS2M0osXKZWBcj
+        F5D9iVFi9q3DLBCJz4wSe2+WdjFygDW8O8sOEd7FKLGvhwmivoVJYsGSv2AJNgEticavXcwg
+        tohAlMTM7a2sIDYzyIJV79NAbGEBZ4l1WyaCLWYRUJV4N+sWE4jNK+Aq0fR4BSPEcXISN891
+        MoMskBBYxy7x5tU3FoiEi8SH29ugioQlXh3fwg5hS0l8freXDcLOl5h64SkLxNEVEst76iDC
+        9hIHrswBCzMLaEqs36UPEZaVmHpqHRPEmXwSvb+fMEHEeSV2zIOxlSW+/N0DdYGkxLxjl1kh
+        bA+Jaa0TWCFhEiuxY/5i5gmMsrMQNixgZFzFKJlaUJybnlpsWmCUl1quV5yYW1yal66XnJ+7
+        iREc6VpeOxgfPvigd4iRiYPxEKMEB7OSCK/FsS/xQrwpiZVVqUX58UWlOanFhxilOViUxHl3
+        GDyIFxJITyxJzU5NLUgtgskycXBKNTCtbdz/yf+5zOnppvYX15j/3ca622/+Pa33/7t9NV+v
+        mOBT/kQj6MJGbsGr0aIpdRynHzv6bxWRz1CRPt7EcPTMg6upXZ22p7ceZ6ye7MgQ0XCw5kLt
+        j6s7rpw4+rkyTnEC07aVFm0pu17nz4l+EOL5x61FzO6Cw8UXcQ95VqV9/3gk/9z5uekfds77
+        P/mWvP6vo97nv6jOlZFqfdXvsb646lOU99x9jn8cahd+5ZuWUKhbW6JRc2r1yY1JTnobRc37
+        g0Xt+Q+3d0ZFL4ppSKvc8jR/S9Or+2zTZz1Rzcjxfa7C06FVdaJ1W4jxJaE7HcsW2d31vzSh
+        fWa8DOcvM1XtMzu23ph+MEj/GG/I4dilSizFGYmGWsxFxYkANE/LYGMDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNJMWRmVeSWpSXmKPExsWy7bCSvO5Lje/xBjtn81l8nLaSyeLO8xuM
+        Fpd3zWGzODvvOJtF55dZbBZPpjxitTi6Mdhi0dYv7Ba9h2stbqxnd+Dy6NuyitHj8ya5AKYo
+        LpuU1JzMstQifbsEroxJO2MLPglVnO05ztTA+J+vi5GDQ0LAROLdWfYuRi4OIYEdjBLbjzYw
+        dzFyAsUlJT5fXMcEYQtLrPz3HKqoiUni4ME3rCAJNgEticavXWANIgIxEuv/3WQFKWIWOMwo
+        seL8QrBuYQFniXVbJrKB2CwCqhLvZt0Ci/MKuEo0PV7BCLFBTuLmuU7mCYw8CxgZVjFKphYU
+        56bnFhsWGOWllusVJ+YWl+al6yXn525iBIePltYOxj2rPugdYmTiYDzEKMHBrCTCa3HsS7wQ
+        b0piZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OFBNITS1KzU1MLUotgskwcnFINTMKpqVLHnNtm
+        fPI+fbRKqEvUfo7wjpvVi3neOP5beezZ34RLpflH1Zty2/dcFGnlWOXQ/d1oy5/C/nscZR99
+        xd0XCUm5bfdY71TzrLjppqhca9edp9p++5LKVumy/lwza/9vlQnpQRrqmqLz7t66lrv4wrE8
+        I+55C7bpZDxZUTyJb5nS0hhhRqZVZcwL65jmtLWL9BssWnbt+ZV73KKTZ8zY1Ms5a3V/abT2
+        vrZ/Re/miS2dE3qt4Vz7ngOWImtUDh9ZfXyXxMreO/WVk8pCcjt97B+UFk7bx5/xRUZy1uFI
+        mzWvio27jj5mqWC9Vrj7yherAK/GNWri2YcXX1vDZHU09mXvo0wl8Tt1EqePsCmxFGckGmox
+        FxUnAgA5VS2yjgIAAA==
+X-CMS-MailID: 20210107152945epcas5p158e88c757a44e98f4e9a898d3ff5f87c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210107152945epcas5p158e88c757a44e98f4e9a898d3ff5f87c
+References: <CGME20210107152945epcas5p158e88c757a44e98f4e9a898d3ff5f87c@epcas5p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 6.1.2021 8.05, JC Kuo wrote:
-> On 12/19/20 12:53 AM, Greg KH wrote:
->> On Sat, Dec 19, 2020 at 12:42:34AM +0800, JC Kuo wrote:
->>> Occasionally, we are seeing some SuperSpeed devices resumes right after
->>> being directed to U3. This commits add 500us delay to ensure LFPS
->>> detector is disabled before sending ACK to firmware.
->>>
->>> [   16.099363] tegra-xusb 70090000.usb: entering ELPG
->>> [   16.104343] tegra-xusb 70090000.usb: 2-1 isn't suspended: 0x0c001203
->>> [   16.114576] tegra-xusb 70090000.usb: not all ports suspended: -16
->>> [   16.120789] tegra-xusb 70090000.usb: entering ELPG failed
->>>
->>> Signed-off-by: JC Kuo <jckuo@nvidia.com>
->>> ---
->>>  drivers/usb/host/xhci-tegra.c | 6 ++++++
->>>  1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
->>> index 934be1686352..20cdc11f7dc6 100644
->>> --- a/drivers/usb/host/xhci-tegra.c
->>> +++ b/drivers/usb/host/xhci-tegra.c
->>> @@ -623,6 +623,12 @@ static void tegra_xusb_mbox_handle(struct tegra_xusb *tegra,
->>>  								     enable);
->>>  			if (err < 0)
->>>  				break;
->>> +
->>> +			/*
->>> +			 * wait 500us for LFPS detector to be disabled before sending ACK
->>> +			 */
->>> +			if (!enable)
->>> +				usleep_range(500, 1000);
->>
->> Where does the magic 500us come from?  How can we "know" this is long
->> enough?
-> 
-> Hi Greg,
-> The register write passes through a few flop stages of 32KHz clock domain. Our
-> ASIC designer reviewed RTL and suggests 500us delay. It has also been verified
-> thoroughly.
-> 
+According the PCI Express base specification when PHY does not meet ZRX-DC
+specification, after every 100ms timeout the link should transition to
+recovery state when the link is in low power states. 
 
-Could you add that comment to the commit message? I can pick it up then.
-Should this go to stable as well?
+Ports that meet the ZRX-DC specification for 2.5 GT/s while in the L1.Idle
+state and are therefore not required to implement the 100 ms timeout and
+transition to Recovery should avoid implementing it, since it will reduce
+the power savings expected from the L1 state.
 
-Thanks
--Mathias
+DesignWare controller provides GEN3_ZRXDC_NONCOMPL field in
+GEN3_RELATED_OFF to specify about ZRX-DC compliant PHY.
+
+We need to get the PHY property in controller driver. So, we are proposing
+a new method phy_property_present() in the phy driver.
+
+PCIe controller platform drivers should populate the phy_zrxdc_compliant
+flag, which will be used by generic DesignWare driver.
+
+pci->phy_zrxdc_compliant = phy_property_present(xxxx_ctrl->phy, "phy-zrxdc-compliant");
+
+Patchset v2 can be found at:
+- 1/2: https://lkml.org/lkml/2019/11/11/672
+- 2/2: https://lkml.org/lkml/2019/10/28/285
+
+Changes w.r.t v2:
+- Addressed review comments
+- Rebased on latest linus/master
+
+Changes w.r.t v3:
+- Added linux-pci@xxxxxxxxxxxxxxx as pointed by Gustavo, Sorry for annoying.
+
+Changes w.r.t v4:
+- Addressed review comments from Andrew Murray
+- Rebased on latest linus/master
+
+Changes w.r.t v5:
+- Added check for NULL pointer
+
+Changes w.r.t v6:
+- Rebased on latest linus/master
+- Used this feature in nvidia tegra files
+
+Pankaj Dubey (3):
+  phy: core: add phy_property_present method
+  PCI: dwc: add support to handle ZRX-DC Compliant PHYs
+  PCI: tegra: Remove platform driver support for ZRX-DC compliant PHY
+
+Shradha Todi (2):
+  dt-bindings: PHY: P2U: Add binding for ZRX-DC PHY property
+  arm64: tegra: Add support for ZRX DC PHY property
+
+ .../devicetree/bindings/phy/phy-tegra194-p2u.txt     |  4 ++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi             | 20 ++++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-designware.c         |  6 ++++++
+ drivers/pci/controller/dwc/pcie-designware.h         |  4 ++++
+ drivers/pci/controller/dwc/pcie-tegra194.c           | 17 ++++++++---------
+ drivers/phy/phy-core.c                               | 20 ++++++++++++++++++++
+ include/linux/phy/phy.h                              |  6 ++++++
+ 7 files changed, 68 insertions(+), 9 deletions(-)
+
+-- 
+2.7.4
+
