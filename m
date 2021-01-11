@@ -2,18 +2,18 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D262F12F0
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 Jan 2021 14:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B97C2F12F3
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 Jan 2021 14:03:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727863AbhAKNBw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 Jan 2021 08:01:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46874 "EHLO
+        id S1728850AbhAKNBx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 Jan 2021 08:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728849AbhAKNBv (ORCPT
+        with ESMTP id S1728844AbhAKNBv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Mon, 11 Jan 2021 08:01:51 -0500
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB68C0617A9
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E9BC0617A7
         for <linux-tegra@vger.kernel.org>; Mon, 11 Jan 2021 05:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
          s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -21,26 +21,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=Oi1QdUUWwjYZL2Zf/QHR0OpFobVbcjZqAoPAx8g/oL4=; b=HMnjlaGyYeLZtEeEKUlKN9e/cs
-        YK6+/OJLS5urwP9bXFdZinxgGBAY1TQJgdjkvjbp85Dmfa137FV62r2HL4Zc6l5vdLXd6MXfpayT+
-        7FTTjcto1q7cOAoMmdlsYRkr4IANP1jrnyKp8rdCRGguDWO4QqSApS5jX4SNu+O2DSoZH+XBrkDYx
-        bUzWcxh8iuf3jDW97Lklp9BG3X6DJEmVN8Po3t0+EM6zJSXfdmwqbsqQcXuhg1pRdDaq+3u3mMsZG
-        a5xW8KgtfccI4q1sxJzG3C95mBM1uuN5y8gDX+s7oPSxRg+fIE8cr7WXa5X2OoUCmDBaGGAs0L1Cd
-        GYGOIgEQ==;
+        bh=7U2ixRKbqOHuyXz+R/GqYFGI2wziELxmuUDNoNmPT0M=; b=LMNSD/9ChaAK9Qjj8YMjy3EEJN
+        IiANlYlF7S+AXNbyRH7pmzTStcyNgFlTpXLNIxtx12pFNVFizx93me7TkYeCi+f4woSe1muPiF/zE
+        3ZcK38aoRsmYzouL42rCB7TimMVVIp14sPKtzdHI8NW4RtxtSL/FdOeOtjVSw0c0EkUjmS0DMWnzs
+        /QsT90w85VvZslXcLZWKvRqbd4ePVzkl7oMXeHy7dU0veUlmXPN+kwS/oY31H82Ce5ENYRGFcvHo9
+        g8SYCX2uS9ldT7fd9VoXom3RH1NB+JzsNCJT4+3lDklZGGNKIiPFCQ6QlZyuQo913SAzpekpUBk5O
+        ETEyaKWA==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
         by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.89)
         (envelope-from <mperttunen@nvidia.com>)
-        id 1kywo6-0002tl-AR; Mon, 11 Jan 2021 15:00:26 +0200
+        id 1kywo6-0002tl-Ce; Mon, 11 Jan 2021 15:00:26 +0200
 From:   Mikko Perttunen <mperttunen@nvidia.com>
 To:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
         airlied@linux.ie, daniel@ffwll.ch
 Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
         talho@nvidia.com, bhuntsman@nvidia.com,
         Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v5 02/21] gpu: host1x: Allow syncpoints without associated client
-Date:   Mon, 11 Jan 2021 15:00:00 +0200
-Message-Id: <20210111130019.3515669-3-mperttunen@nvidia.com>
+Subject: [PATCH v5 03/21] gpu: host1x: Show number of pending waiters in debugfs
+Date:   Mon, 11 Jan 2021 15:00:01 +0200
+Message-Id: <20210111130019.3515669-4-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
@@ -53,122 +53,50 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Syncpoints don't need to be associated with any client,
-so remove the property, and expose host1x_syncpt_alloc.
-This will allow allocating syncpoints without prior knowledge
-of the engine that it will be used with.
+Show the number of pending waiters in the debugfs status file.
+This is useful for testing to verify that waiters do not leak
+or accumulate incorrectly.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
-v3:
-* Clean up host1x_syncpt_alloc signature to allow specifying
-  a name for the syncpoint.
-* Export the function.
----
- drivers/gpu/host1x/syncpt.c | 22 ++++++++++------------
- drivers/gpu/host1x/syncpt.h |  1 -
- include/linux/host1x.h      |  3 +++
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/host1x/debug.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index fce7892d5137..5982fdf64e1c 100644
---- a/drivers/gpu/host1x/syncpt.c
-+++ b/drivers/gpu/host1x/syncpt.c
-@@ -42,13 +42,13 @@ static void host1x_syncpt_base_free(struct host1x_syncpt_base *base)
- 		base->requested = false;
- }
+diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
+index 1b4997bda1c7..8a14880c61bb 100644
+--- a/drivers/gpu/host1x/debug.c
++++ b/drivers/gpu/host1x/debug.c
+@@ -69,6 +69,7 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
  
--static struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
--						 struct host1x_client *client,
--						 unsigned long flags)
-+struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
-+					  unsigned long flags,
-+					  const char *name)
+ static void show_syncpts(struct host1x *m, struct output *o)
  {
- 	struct host1x_syncpt *sp = host->syncpt;
-+	char *full_name;
++	struct list_head *pos;
  	unsigned int i;
--	char *name;
  
- 	mutex_lock(&host->syncpt_mutex);
+ 	host1x_debug_output(o, "---- syncpts ----\n");
+@@ -76,12 +77,19 @@ static void show_syncpts(struct host1x *m, struct output *o)
+ 	for (i = 0; i < host1x_syncpt_nb_pts(m); i++) {
+ 		u32 max = host1x_syncpt_read_max(m->syncpt + i);
+ 		u32 min = host1x_syncpt_load(m->syncpt + i);
++		unsigned int waiters = 0;
  
-@@ -64,13 +64,11 @@ static struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
- 			goto unlock;
+-		if (!min && !max)
++		spin_lock(&m->syncpt[i].intr.lock);
++		list_for_each(pos, &m->syncpt[i].intr.wait_head)
++			waiters++;
++		spin_unlock(&m->syncpt[i].intr.lock);
++
++		if (!min && !max && !waiters)
+ 			continue;
+ 
+-		host1x_debug_output(o, "id %u (%s) min %d max %d\n",
+-				    i, m->syncpt[i].name, min, max);
++		host1x_debug_output(o,
++				    "id %u (%s) min %d max %d (%d waiters)\n",
++				    i, m->syncpt[i].name, min, max, waiters);
  	}
  
--	name = kasprintf(GFP_KERNEL, "%02u-%s", sp->id,
--			 client ? dev_name(client->dev) : NULL);
--	if (!name)
-+	full_name = kasprintf(GFP_KERNEL, "%u-%s", sp->id, name);
-+	if (!full_name)
- 		goto free_base;
- 
--	sp->client = client;
--	sp->name = name;
-+	sp->name = full_name;
- 
- 	if (flags & HOST1X_SYNCPT_CLIENT_MANAGED)
- 		sp->client_managed = true;
-@@ -87,6 +85,7 @@ static struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
- 	mutex_unlock(&host->syncpt_mutex);
- 	return NULL;
- }
-+EXPORT_SYMBOL(host1x_syncpt_alloc);
- 
- /**
-  * host1x_syncpt_id() - retrieve syncpoint ID
-@@ -401,7 +400,7 @@ int host1x_syncpt_init(struct host1x *host)
- 	host1x_hw_syncpt_enable_protection(host);
- 
- 	/* Allocate sync point to use for clearing waits for expired fences */
--	host->nop_sp = host1x_syncpt_alloc(host, NULL, 0);
-+	host->nop_sp = host1x_syncpt_alloc(host, 0, "reserved-nop");
- 	if (!host->nop_sp)
- 		return -ENOMEM;
- 
-@@ -423,7 +422,7 @@ struct host1x_syncpt *host1x_syncpt_request(struct host1x_client *client,
- {
- 	struct host1x *host = dev_get_drvdata(client->host->parent);
- 
--	return host1x_syncpt_alloc(host, client, flags);
-+	return host1x_syncpt_alloc(host, flags, dev_name(client->dev));
- }
- EXPORT_SYMBOL(host1x_syncpt_request);
- 
-@@ -447,7 +446,6 @@ void host1x_syncpt_free(struct host1x_syncpt *sp)
- 	host1x_syncpt_base_free(sp->base);
- 	kfree(sp->name);
- 	sp->base = NULL;
--	sp->client = NULL;
- 	sp->name = NULL;
- 	sp->client_managed = false;
- 
-diff --git a/drivers/gpu/host1x/syncpt.h b/drivers/gpu/host1x/syncpt.h
-index 8e1d04dacaa0..3aa6b25b1b9c 100644
---- a/drivers/gpu/host1x/syncpt.h
-+++ b/drivers/gpu/host1x/syncpt.h
-@@ -33,7 +33,6 @@ struct host1x_syncpt {
- 	const char *name;
- 	bool client_managed;
- 	struct host1x *host;
--	struct host1x_client *client;
- 	struct host1x_syncpt_base *base;
- 
- 	/* interrupt data */
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 9eb77c87a83b..7137ce0e35d4 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -154,6 +154,9 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
- struct host1x_syncpt *host1x_syncpt_request(struct host1x_client *client,
- 					    unsigned long flags);
- void host1x_syncpt_free(struct host1x_syncpt *sp);
-+struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
-+					  unsigned long flags,
-+					  const char *name);
- 
- struct host1x_syncpt_base *host1x_syncpt_get_base(struct host1x_syncpt *sp);
- u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
+ 	for (i = 0; i < host1x_syncpt_nb_bases(m); i++) {
 -- 
 2.30.0
 
