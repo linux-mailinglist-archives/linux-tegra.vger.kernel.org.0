@@ -2,18 +2,18 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B97C2F12F3
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 Jan 2021 14:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5101D2F12D8
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 Jan 2021 14:01:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728850AbhAKNBx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 Jan 2021 08:01:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46872 "EHLO
+        id S1725917AbhAKNBL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 Jan 2021 08:01:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728844AbhAKNBv (ORCPT
+        with ESMTP id S1727525AbhAKNBK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 Jan 2021 08:01:51 -0500
+        Mon, 11 Jan 2021 08:01:10 -0500
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E9BC0617A7
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B93C06179F
         for <linux-tegra@vger.kernel.org>; Mon, 11 Jan 2021 05:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
          s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -21,26 +21,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=7U2ixRKbqOHuyXz+R/GqYFGI2wziELxmuUDNoNmPT0M=; b=LMNSD/9ChaAK9Qjj8YMjy3EEJN
-        IiANlYlF7S+AXNbyRH7pmzTStcyNgFlTpXLNIxtx12pFNVFizx93me7TkYeCi+f4woSe1muPiF/zE
-        3ZcK38aoRsmYzouL42rCB7TimMVVIp14sPKtzdHI8NW4RtxtSL/FdOeOtjVSw0c0EkUjmS0DMWnzs
-        /QsT90w85VvZslXcLZWKvRqbd4ePVzkl7oMXeHy7dU0veUlmXPN+kwS/oY31H82Ce5ENYRGFcvHo9
-        g8SYCX2uS9ldT7fd9VoXom3RH1NB+JzsNCJT4+3lDklZGGNKIiPFCQ6QlZyuQo913SAzpekpUBk5O
-        ETEyaKWA==;
+        bh=U4LMapHebtqQLMY7HEgN7zFM2ivBVZziq+5m4D+W0WE=; b=astueCCDkN5AJ4VghQUXJtxvJ9
+        CtOoLIj44JkIBsIM10T7e3PuVwJS15ZN1S8ZDc9u/Su2IFeWs8qrU3RttJGEimd6EcelOGOoATvR8
+        km9FwagT7Pail0kEJ7XfhKviLTkwzt4x8LMcb42L7JWckfEfoP1haOYPadz/IVh7mRmo6Ym1w+ViQ
+        dn6/OTbHuviBx0OVdDnGlRs11nX7O9ocnEIqcUS+qFzKA2lvCIWcINyOVIbVRvJViuRb0/dHKO78/
+        QGEU1GvdHmNRyVnzBTgHbBNS8T7QPKLyTwlB4McwwOZH4nCep6aQwWKj9SQEymRok+7P7GwZVDI0Q
+        TQ9RCVbw==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
         by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.89)
         (envelope-from <mperttunen@nvidia.com>)
-        id 1kywo6-0002tl-Ce; Mon, 11 Jan 2021 15:00:26 +0200
+        id 1kywo6-0002tl-F5; Mon, 11 Jan 2021 15:00:26 +0200
 From:   Mikko Perttunen <mperttunen@nvidia.com>
 To:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
         airlied@linux.ie, daniel@ffwll.ch
 Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
         talho@nvidia.com, bhuntsman@nvidia.com,
         Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v5 03/21] gpu: host1x: Show number of pending waiters in debugfs
-Date:   Mon, 11 Jan 2021 15:00:01 +0200
-Message-Id: <20210111130019.3515669-4-mperttunen@nvidia.com>
+Subject: [PATCH v5 04/21] gpu: host1x: Remove cancelled waiters immediately
+Date:   Mon, 11 Jan 2021 15:00:02 +0200
+Message-Id: <20210111130019.3515669-5-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
@@ -53,50 +53,92 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Show the number of pending waiters in the debugfs status file.
-This is useful for testing to verify that waiters do not leak
-or accumulate incorrectly.
+Before this patch, cancelled waiters would only be cleaned up
+once their threshold value was reached. Make host1x_intr_put_ref
+process the cancellation immediately to fix this.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/host1x/debug.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+v5:
+* Add parameter to flush, i.e. wait for all pending waiters to
+  complete before returning. The reason this is not always true
+  is that the pending waiter might be the place that is calling
+  the put_ref.
+---
+ drivers/gpu/host1x/intr.c   | 23 +++++++++++++++++------
+ drivers/gpu/host1x/intr.h   |  4 +++-
+ drivers/gpu/host1x/syncpt.c |  2 +-
+ 3 files changed, 21 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
-index 1b4997bda1c7..8a14880c61bb 100644
---- a/drivers/gpu/host1x/debug.c
-+++ b/drivers/gpu/host1x/debug.c
-@@ -69,6 +69,7 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
+diff --git a/drivers/gpu/host1x/intr.c b/drivers/gpu/host1x/intr.c
+index 9245add23b5d..70e1096a4fe9 100644
+--- a/drivers/gpu/host1x/intr.c
++++ b/drivers/gpu/host1x/intr.c
+@@ -242,18 +242,29 @@ int host1x_intr_add_action(struct host1x *host, struct host1x_syncpt *syncpt,
+ 	return 0;
+ }
  
- static void show_syncpts(struct host1x *m, struct output *o)
+-void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref)
++void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref,
++			 bool flush)
  {
-+	struct list_head *pos;
- 	unsigned int i;
+ 	struct host1x_waitlist *waiter = ref;
+ 	struct host1x_syncpt *syncpt;
  
- 	host1x_debug_output(o, "---- syncpts ----\n");
-@@ -76,12 +77,19 @@ static void show_syncpts(struct host1x *m, struct output *o)
- 	for (i = 0; i < host1x_syncpt_nb_pts(m); i++) {
- 		u32 max = host1x_syncpt_read_max(m->syncpt + i);
- 		u32 min = host1x_syncpt_load(m->syncpt + i);
-+		unsigned int waiters = 0;
+-	while (atomic_cmpxchg(&waiter->state, WLS_PENDING, WLS_CANCELLED) ==
+-	       WLS_REMOVED)
+-		schedule();
++	atomic_cmpxchg(&waiter->state, WLS_PENDING, WLS_CANCELLED);
  
--		if (!min && !max)
-+		spin_lock(&m->syncpt[i].intr.lock);
-+		list_for_each(pos, &m->syncpt[i].intr.wait_head)
-+			waiters++;
-+		spin_unlock(&m->syncpt[i].intr.lock);
+ 	syncpt = host->syncpt + id;
+-	(void)process_wait_list(host, syncpt,
+-				host1x_syncpt_load(host->syncpt + id));
 +
-+		if (!min && !max && !waiters)
- 			continue;
++	spin_lock(&syncpt->intr.lock);
++	if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) ==
++	    WLS_CANCELLED) {
++		list_del(&waiter->list);
++		kref_put(&waiter->refcount, waiter_release);
++	}
++	spin_unlock(&syncpt->intr.lock);
++
++	if (flush) {
++		/* Wait until any concurrently executing handler has finished. */
++		while (atomic_read(&waiter->state) != WLS_HANDLED)
++			cpu_relax();
++	}
  
--		host1x_debug_output(o, "id %u (%s) min %d max %d\n",
--				    i, m->syncpt[i].name, min, max);
-+		host1x_debug_output(o,
-+				    "id %u (%s) min %d max %d (%d waiters)\n",
-+				    i, m->syncpt[i].name, min, max, waiters);
+ 	kref_put(&waiter->refcount, waiter_release);
+ }
+diff --git a/drivers/gpu/host1x/intr.h b/drivers/gpu/host1x/intr.h
+index aac38194398f..6ea55e615e3a 100644
+--- a/drivers/gpu/host1x/intr.h
++++ b/drivers/gpu/host1x/intr.h
+@@ -74,8 +74,10 @@ int host1x_intr_add_action(struct host1x *host, struct host1x_syncpt *syncpt,
+  * Unreference an action submitted to host1x_intr_add_action().
+  * You must call this if you passed non-NULL as ref.
+  * @ref the ref returned from host1x_intr_add_action()
++ * @flush wait until any pending handlers have completed before returning.
+  */
+-void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref);
++void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref,
++			 bool flush);
+ 
+ /* Initialize host1x sync point interrupt */
+ int host1x_intr_init(struct host1x *host, unsigned int irq_sync);
+diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
+index 5982fdf64e1c..e48b4595cf53 100644
+--- a/drivers/gpu/host1x/syncpt.c
++++ b/drivers/gpu/host1x/syncpt.c
+@@ -293,7 +293,7 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
+ 		}
  	}
  
- 	for (i = 0; i < host1x_syncpt_nb_bases(m); i++) {
+-	host1x_intr_put_ref(sp->host, sp->id, ref);
++	host1x_intr_put_ref(sp->host, sp->id, ref, true);
+ 
+ done:
+ 	return err;
 -- 
 2.30.0
 
