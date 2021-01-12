@@ -2,122 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C13B02F2F07
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 Jan 2021 13:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66FF52F2F4D
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Jan 2021 13:47:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387421AbhALM3G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 12 Jan 2021 07:29:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39074 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387402AbhALM3C (ORCPT
+        id S2388105AbhALMqU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Tue, 12 Jan 2021 07:46:20 -0500
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:43784 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387974AbhALMqU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 12 Jan 2021 07:29:02 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB8A1C0617A3;
-        Tue, 12 Jan 2021 04:28:07 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id s26so3065837lfc.8;
-        Tue, 12 Jan 2021 04:28:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wTODOoNbSP003teN2HbiZ67THaMvfBqoh1T7AigGesM=;
-        b=MkM1SmX2tQGEd699u150DJJahuzMFkuK+/oNuyFMXXs1vZvLWPTrhEkZi9ybFL7atq
-         rUs/c/qHqO1B/NU3WL+qzwU0YOGWI6zTKYUJig5rLDxigHiGvEdZy6XNHj40GMa1W15M
-         MxKQqf0NUKoNXTGtZb7NttWknyWo0GZfHrX4hiLKDNqt4v78YDn4KtVMuRWjBc5/pjwV
-         +tjDNKf2ZwSEC70fAzuYds23NQW6FVvxz+puRl8PCCFqr4FAiUh+iZgJ2MWdNb2hDsI1
-         Ke5tzdkOLFDo7HgfYxauoh0Bx3hwOdOxaWSHOM8T+6f+kmul6NS0aP7FmUhLnGHkJoAH
-         RPgw==
+        Tue, 12 Jan 2021 07:46:20 -0500
+Received: by mail-ot1-f45.google.com with SMTP id q25so2082511otn.10;
+        Tue, 12 Jan 2021 04:46:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wTODOoNbSP003teN2HbiZ67THaMvfBqoh1T7AigGesM=;
-        b=cD1f3xJB2L2f2/O17vxgpOf+mZHJWUi5o6AyK7DJcQi5l0o2BFgXkxLWzdUI+Ymo8R
-         f7jG1TeLcn9OBzncBY2IryK72arSq/VqHB9z63oDPUjbWnkkUlQU0UTpC8gfcp4acDjW
-         lteuT26IMX+R67uUV6Vw8lVKu66b0Qi3xV6SMtyuTz7xZEnAoApI5+PwETDAkTgh1Rup
-         K4xvdUnRzO9FSezCMetEaNOnRSPrcaCapyUBHktp6KToC+MSnJBeIieYSYd20bXfIuXG
-         bZNEpPmyeTt6M5T3sOtJGHMpyomANXKxq4a59Rd13jKaSpCwsvFN0wMRIBV8x4yMCQSj
-         cjjQ==
-X-Gm-Message-State: AOAM533lgCrMJXBc+sCeQd36jVP6i9B3rdpPy5FpcDEKLAk9zP2llHsu
-        VkiZ+gHAsA48rIZarw072ZA=
-X-Google-Smtp-Source: ABdhPJzj3YbPJOeNcrKbSIFW7s1BHejjXQ9q3hJpus2D0+aHPuooh0tnKw8GRpy3wbY5sch4Saa+Rg==
-X-Received: by 2002:a19:5050:: with SMTP id z16mr1995389lfj.48.1610454486525;
-        Tue, 12 Jan 2021 04:28:06 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id c3sm330136ljk.88.2021.01.12.04.28.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 04:28:06 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] MAINTAINERS: Hand Tegra clk driver to Jon and Thierry
-Date:   Tue, 12 Jan 2021 15:27:24 +0300
-Message-Id: <20210112122724.1712-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112122724.1712-1-digetx@gmail.com>
-References: <20210112122724.1712-1-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=EFOSSjP2fTd1K6RGm8lMh2K690UVe2NBQkQwH5LWtVE=;
+        b=p51g4VnsBc0vJcrt93uyuSmVjBE/sxcuboKWaGe77/BJgtIimlu6aiZkk8G972lnMH
+         D8zZFwzWuCbS71U3rdIk64TrPfHG8XFu3SfO6V/XQSHCXpE8C22rww2HuWGBIx86Pbj7
+         G2R7yMCXbo23vF93s+Y6a1QXDyv5Sbev5lClTNM/HhtDsKqXRmYpnPUfC5hv9IA5RlGF
+         jJ0fC8JKmwJH21plPHe3pRQOMQ6ClXwTCOVSOLY17awOGxFBu11+FCP00K35fr2puhdo
+         tF0VQaQ+EPb0KlAcSlcVc2RbWBt2G2oOKoW3Nq1nkFYleieVkn7yUvxHfOS2jdu55Nzg
+         urJA==
+X-Gm-Message-State: AOAM53263x6SEFHgyZSZ78dgEnIlxjx/bQfwLMVWQnd2PYk7V3nPc/yX
+        AnwGfYmE94jeZG6AKLpFP8W9SsbgBUCpf5yGk1mpJKJn
+X-Google-Smtp-Source: ABdhPJyawNLYHpp3fs0HwK16+5LDEjwKVxHsqC5aggXbKqlM6e3ARb7zgK9iSZn6Zl/iLEr4qIO18zAKTIzYogi+Fb0=
+X-Received: by 2002:a9d:208a:: with SMTP id x10mr2572558ota.260.1610455537788;
+ Tue, 12 Jan 2021 04:45:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201201213019.1558738-1-furquan@google.com> <e77e0569-568a-f7fb-9f0d-e64943b467f0@gmail.com>
+In-Reply-To: <e77e0569-568a-f7fb-9f0d-e64943b467f0@gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 12 Jan 2021 13:45:25 +0100
+Message-ID: <CAJZ5v0jhniqG43F6hCqXdxQiQZRc67GdkdP0BXcRut=P7k7BVQ@mail.gmail.com>
+Subject: Re: [PATCH] drivers: core: Detach device from power domain on shutdown
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Furquan Shaikh <furquan@google.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Peter and Prashant aren't actively maintaining Tegra clock driver anymore.
-Jonathan and Thierry will pick up maintaining of the driver from now on.
+On Tue, Jan 12, 2021 at 10:55 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 02.12.2020 00:30, Furquan Shaikh пишет:
+> > When the system is powered off or rebooted, devices are not detached
+> > from their PM domain. This results in ACPI PM not being invoked and
+> > hence PowerResouce _OFF method not being invoked for any of the
+> > devices. Because the ACPI power resources are not turned off in case
+> > of poweroff and reboot, it violates the power sequencing requirements
+> > which impacts the reliability of the devices over the lifetime of the
+> > platform. This is currently observed on all Chromebooks using ACPI.
+> >
+> > In order to solve the above problem, this change detaches a device
+> > from its PM domain whenever it is shutdown. This action is basically
+> > analogous to ->remove() from driver model perspective. Detaching the
+> > device from its PM domain ensures that the ACPI PM gets a chance to
+> > turn off the power resources for the device thus complying with its
+> > power sequencing requirements.
+> >
+> > Signed-off-by: Furquan Shaikh <furquan@google.com>
+> > ---
+> >  drivers/base/core.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/base/core.c b/drivers/base/core.c
+> > index d661ada1518f..5823f1d719e1 100644
+> > --- a/drivers/base/core.c
+> > +++ b/drivers/base/core.c
+> > @@ -23,6 +23,7 @@
+> >  #include <linux/of_device.h>
+> >  #include <linux/genhd.h>
+> >  #include <linux/mutex.h>
+> > +#include <linux/pm_domain.h>
+> >  #include <linux/pm_runtime.h>
+> >  #include <linux/netdevice.h>
+> >  #include <linux/sched/signal.h>
+> > @@ -4057,6 +4058,8 @@ void device_shutdown(void)
+> >                       dev->driver->shutdown(dev);
+> >               }
+> >
+> > +             dev_pm_domain_detach(dev, true);
+> > +
+> >               device_unlock(dev);
+> >               if (parent)
+> >                       device_unlock(parent);
+> >
+>
+> This patch broke system shutdown on NVIDIA Tegra using today's
+> linux-next because power domain can't be turned off until device drivers
+> handed control over device resets to the power domain of Power
+> Management controller on Tegra. This patch introduced the wrong
+> behaviour, apparently it should be made specific to ACPI only.
+>
+> Please fix, thanks in advance.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- CREDITS     | 6 ++++++
- MAINTAINERS | 4 ++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/CREDITS b/CREDITS
-index 090ed4b004a5..aa4ac5810afc 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -1246,6 +1246,10 @@ S: 12 Shraga Raphaeli
- S: Petah-Tikva, 4906418
- S: Israel
- 
-+N: Prashant Gaikwad
-+E: pgaikwad@nvidia.com
-+D: Maintained NVIDIA Tegra clock driver
-+
- N: Kumar Gala
- E: galak@kernel.crashing.org
- D: Embedded PowerPC 6xx/7xx/74xx/82xx/83xx/85xx support
-@@ -3374,7 +3378,9 @@ E:
- D: Macintosh IDE Driver
- 
- N: Peter De Schrijver
-+E: pdeschrijver@nvidia.com
- E: stud11@cc4.kuleuven.ac.be
-+D: Maintained NVIDIA Tegra clock driver
- D: Mitsumi CD-ROM driver patches March version
- S: Molenbaan 29
- S: B2240 Zandhoven
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ad9abb42f852..b2132b2e00d9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17525,8 +17525,8 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git
- N:	[^a-z]tegra
- 
- TEGRA CLOCK DRIVER
--M:	Peter De Schrijver <pdeschrijver@nvidia.com>
--M:	Prashant Gaikwad <pgaikwad@nvidia.com>
-+M:	Jonathan Hunter <jonathanh@nvidia.com>
-+M:	Thierry Reding <thierry.reding@gmail.com>
- S:	Supported
- F:	drivers/clk/tegra/
- 
--- 
-2.29.2
-
+OK, so Greg please drop it.
