@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDF4F2F9DEA
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jan 2021 12:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 000522F9E0F
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jan 2021 12:26:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390138AbhARLTD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Jan 2021 06:19:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
+        id S2388301AbhARLZo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Jan 2021 06:25:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390135AbhARLSv (ORCPT
+        with ESMTP id S2390006AbhARLTX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:18:51 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4A9C061575
-        for <linux-tegra@vger.kernel.org>; Mon, 18 Jan 2021 03:18:09 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id p18so10707631pgm.11
-        for <linux-tegra@vger.kernel.org>; Mon, 18 Jan 2021 03:18:09 -0800 (PST)
+        Mon, 18 Jan 2021 06:19:23 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3C30C061757
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Jan 2021 03:18:43 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id i63so2937247pfg.7
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Jan 2021 03:18:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=vCOkqFp410/php68wIRNQR6nVYYVNeZ2EZUFKVUPxHE=;
-        b=ezT0GZsmJBLOfurM03WOn2TH3aLnuBejXUqCkZ+NK5SRGAz2JKR3x1O6idpx8Lcj1y
-         0DLHQbq74VYLZHUDI9nLk3/HEtEDabFAT9XCZqQZCnLGcktr5ymGPSkqescO+8q0zxz6
-         4t09QgDxM2HTQpk1L0jpwMc2iy8lqttqsoH8Lb2Rv0jVDXX7GtOeKpbHmgvhHGqaRlZu
-         t45b4ndPwrUdB0XBDGk9eQl0K22WmC7Pd1KzoZXyUrQ04URjcKde2N/Hz6kgLB61T82T
-         FQDHpgyT3kty8uiNwyuKBJZREsN/LtS86t+ZwNiEh0mPOGk+8zEXwq656s41toAB97Ce
-         kG9Q==
+        bh=qvWPaK3zACYwIkc6wMItqXNn6sO7dnS45mVY/rO0wb0=;
+        b=On+AGOoEh+vrvNR4PL/b9h96zYscCTTVrm8slAGdicARLvnclK58tesyumvLoZLClv
+         wDI8JMKNLji0qERfh2x/PTtmqPpUQdwDd+7eXZUW+Z/LrUXXwzAVCvM6jUmdRKWCZUbp
+         FLSnjGF4+E4eke5WMEeq+IHv/TlYS7mQDgce4YOPTdorJNtroxBatLCZlnu+uj5iZLdy
+         T4nvosofdsItOBVovNntgQm0UlXZaQcsRx7l4+ru9odmCGJFYhzme/jNwxp+V5ZRCRhg
+         Sr/FtfetP9dHsVDmgGOATeV8zTeXiSlRLZg/ZiaaQj2tgTmiJJL4Bv7qDxZEcdamgW79
+         j2Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vCOkqFp410/php68wIRNQR6nVYYVNeZ2EZUFKVUPxHE=;
-        b=o4TwuVf8w3LnP8YAifFBuA9+F8euR61HA2Vdb1B5j1xpyMv4+jUGFYY4nlfRFo/z+I
-         IJEXe/rbe7c0JjZyBzhsUtUCzvgnzfctrE31g/mszv7DzWLiBC9SWdD5DKwVX/ONijrL
-         W6NgMT4iMog9qZMH61JJ/T4/K5cd+/zTeLWcdG3bIU3VUh6KzRZoJOTsH8DdzCS1YzIg
-         8nrBfB/UPyec/18C46qigT041ZPwF2aNt58hHSYNp1FBOGEr5EK+hHTwGxAIEbNX0qxs
-         GuFbFrgmyQyVTi0vadkj5AyCyt33+B+Di0eqDpjeDQG/v17oTJVcxFNP5wveVaJYsT9v
-         NsvA==
-X-Gm-Message-State: AOAM530ydkEs2ACQuDSRnxFDTunXrV1VhlK33P4EDYUzt7yDz+5NZLll
-        pwuHeV46Vy3rPZETKwieAGl2eg==
-X-Google-Smtp-Source: ABdhPJyhitKtN+Jw9TBHJr0LGjKjQtmfdaFk9RpKz7yIieZEnFiC+GNt+YuNqD4+blf9WjeEIS9HtQ==
-X-Received: by 2002:a62:2e47:0:b029:1b7:840e:edc7 with SMTP id u68-20020a622e470000b02901b7840eedc7mr4547464pfu.52.1610968688492;
-        Mon, 18 Jan 2021 03:18:08 -0800 (PST)
+        bh=qvWPaK3zACYwIkc6wMItqXNn6sO7dnS45mVY/rO0wb0=;
+        b=gVcTBA7KvRAzqge4BBEEyWmGPsd0AizTDCtAf7M3i9YAUVx1+VKTOMk8G56wT33tzf
+         1ApuHxYJObjYZ5bnc6KTnxam1+BMOHCArsscQToFupgdGmcBeKJWvjA2678U76L2J+Qo
+         Ri0/RXttiJsD44a6uwsnPWFIea5mFMM34rftSd6pd82pBq8CR/chYxFIG0nfQT4vpqgn
+         HFRRB8nfUlOMwJpEAUpG+nSzBi9iDrW4/Qjj/vf69KQbOUdFprGEtw/KGhk3m0c4sZJL
+         l6SU3h0RcwnVS5FX1ttC5mDAfs+5OZTCu2j3q7oSlibKA1DjZkhl0es01pKJBXUHWeA3
+         Bm7w==
+X-Gm-Message-State: AOAM533apIPL9Tk6xbgAW8wSATnUTbA8dFTK4XNTfZNRqU/bW80a+Rxg
+        tuqaLSoxMofS3p2CKIkOcQYVeA==
+X-Google-Smtp-Source: ABdhPJwo5yg6tKKDdr5GIxiIymn6AT5Faoi4uAlwTfJz4xEassHz2Y0wmw92k4JDGpp61RuD93yZXw==
+X-Received: by 2002:a05:6a00:884:b029:1b4:440f:bce7 with SMTP id q4-20020a056a000884b02901b4440fbce7mr14580002pfj.20.1610968723322;
+        Mon, 18 Jan 2021 03:18:43 -0800 (PST)
 Received: from localhost ([122.172.59.240])
-        by smtp.gmail.com with ESMTPSA id bv21sm16763805pjb.1.2021.01.18.03.18.07
+        by smtp.gmail.com with ESMTPSA id 22sm16423434pjw.19.2021.01.18.03.18.42
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jan 2021 03:18:07 -0800 (PST)
-Date:   Mon, 18 Jan 2021 16:48:05 +0530
+        Mon, 18 Jan 2021 03:18:42 -0800 (PST)
+Date:   Mon, 18 Jan 2021 16:48:40 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
@@ -67,53 +67,50 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 11/12] opp: Handle missing OPP table in
- dev_pm_opp_xlate_performance_state()
-Message-ID: <20210118111805.ex5sou3ya2kpue4w@vireshk-i7>
+Subject: Re: [PATCH v3 12/12] opp: Print OPP level in debug message of
+ _opp_add_static_v2()
+Message-ID: <20210118111840.gvan3fb2t7jo3xz5@vireshk-i7>
 References: <20210118005524.27787-1-digetx@gmail.com>
- <20210118005524.27787-12-digetx@gmail.com>
+ <20210118005524.27787-13-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210118005524.27787-12-digetx@gmail.com>
+In-Reply-To: <20210118005524.27787-13-digetx@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 On 18-01-21, 03:55, Dmitry Osipenko wrote:
-> NVIDIA Tegra SoCs have a power domains topology such that child domains
-> only clamp a power rail, while parent domain controls shared performance
-> state of the multiple child domains. In this case child's domain doesn't
-> need to have OPP table. Hence we want to allow children power domains to
-> pass performance state to the parent domain if child's domain doesn't have
-> OPP table.
-> 
-> The dev_pm_opp_xlate_performance_state() gets src_table=NULL if a child
-> power domain doesn't have OPP table and in this case we should pass the
-> performance state to the parent domain.
+> Print OPP level in debug message of _opp_add_static_v2(). This helps to
+> chase GENPD bugs.
 > 
 > Tested-by: Peter Geis <pgwipeout@gmail.com>
 > Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 > Tested-by: Matt Merhar <mattmerhar@protonmail.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/opp/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/opp/of.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 7726c4c40b53..ca8c6acc29f4 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -2419,7 +2419,7 @@ int dev_pm_opp_xlate_performance_state(struct opp_table *src_table,
->  	 * and so none of them have the "required-opps" property set. Return the
->  	 * pstate of the src_table as it is in such cases.
->  	 */
-> -	if (!src_table->required_opp_count)
-> +	if (!src_table || !src_table->required_opp_count)
->  		return pstate;
+> diff --git a/drivers/opp/of.c b/drivers/opp/of.c
+> index 63b16cdba5ea..758730d070da 100644
+> --- a/drivers/opp/of.c
+> +++ b/drivers/opp/of.c
+> @@ -822,10 +822,11 @@ static struct dev_pm_opp *_opp_add_static_v2(struct opp_table *opp_table,
+>  	if (new_opp->clock_latency_ns > opp_table->clock_latency_ns_max)
+>  		opp_table->clock_latency_ns_max = new_opp->clock_latency_ns;
 >  
->  	for (i = 0; i < src_table->required_opp_count; i++) {
+> -	pr_debug("%s: turbo:%d rate:%lu uv:%lu uvmin:%lu uvmax:%lu latency:%lu\n",
+> +	pr_debug("%s: turbo:%d rate:%lu uv:%lu uvmin:%lu uvmax:%lu latency:%lu level:%u\n",
+>  		 __func__, new_opp->turbo, new_opp->rate,
+>  		 new_opp->supplies[0].u_volt, new_opp->supplies[0].u_volt_min,
+> -		 new_opp->supplies[0].u_volt_max, new_opp->clock_latency_ns);
+> +		 new_opp->supplies[0].u_volt_max, new_opp->clock_latency_ns,
+> +		 new_opp->level);
+>  
+>  	/*
+>  	 * Notify the changes in the availability of the operable
 
 Applied. Thanks.
 
