@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B4752F96F9
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jan 2021 01:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E44352F9722
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Jan 2021 02:06:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730486AbhARA5N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 17 Jan 2021 19:57:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49058 "EHLO
+        id S1730625AbhARBF0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 17 Jan 2021 20:05:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730408AbhARA5C (ORCPT
+        with ESMTP id S1730435AbhARA5E (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 17 Jan 2021 19:57:02 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01CA0C0613D3;
+        Sun, 17 Jan 2021 19:57:04 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09141C0613D6;
+        Sun, 17 Jan 2021 16:55:43 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id 23so21606921lfg.10;
         Sun, 17 Jan 2021 16:55:42 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id h205so21609486lfd.5;
-        Sun, 17 Jan 2021 16:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jRak0qcqqausNC3NGuy0ldW/i7K4KUMaot2CO2ZPoQ0=;
-        b=lOxmMs0fqu7dVZvkuoJjfriNTe8c/8xjGC1MS5KGI8dd4cb0OrYRLx0sZjDokLaOWk
-         E4s0TG8ODa8TPN1+rsTxxprtHy/M8ooXQkh5JmJsGOb8VOCXXqckAH/p7LitYoewVb+Y
-         05rXkUK7UAp2oftsYc5nP8GTb2ReEPPiNo8hg3NlAUKdwzrnFuhbmB4wARYhPJGWCFtE
-         iHV1mxMs2m58FJkEHlZ25o8EoAfIgDIPAn76ubde5oNoBXu7tQNL3eS1SqMLVpJyKULg
-         abugoTWTn4ftiS8cL3k0oNcF4RpH237b68fd9bHokhWKtHy0+6tujondOQ3NmaeXOAg0
-         Ge3A==
+        bh=d8BYKrVjCHK2ATkUn9Bn3mODsj1VGuehzu+tpszr3yE=;
+        b=RVZ6+QUecC4p1baC6nkw1UzPNHHeQQMMmFiEOBBXGz1hfh/BWaj0eD2AY+hfFcsBM2
+         uzfzOk/00N+NJataeb92ZCWAbHC9a5wJ/4sj3KsMyFKIptEEhSQOjv36HLUjsw6mw9uE
+         gadSVo7rh9cuTbwNPKOnZR78leJuri0vgA8F2N0n8lWhFC7rF1kMv4d7uvmYpQyDoNFe
+         mtsfXXNkXwmh4WIvmWmgBio0u4vr/awNFzT5P6Rd1Xly6GAyVTN5y9NiA9Y5HB7Wv/Z7
+         +L0PgnjEnuVhZWwlPG8N+hIJfAGlv4lCGmZU0qHyaE8taXV9HofVPrueJr0HbgMEGMwV
+         w4Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jRak0qcqqausNC3NGuy0ldW/i7K4KUMaot2CO2ZPoQ0=;
-        b=SCNqfdANDpsZFSyyZ31cx3Dixl9INlkCqbFPh6CKCGOKy+S5ma9XuLGY/tqOT1UyuE
-         DauHiXdAIPqFtk900QQkqyue3PwAgzlO9TtFaA4gMf+UqyWNnkk1c2vlcVp02JAir3/Z
-         2QwwpS//Ed7Ch0/nACYKZ+irG5HQIdewrdhWYIc7ocBIP6T2jnTuIQ6p1b+6XH/UYl+0
-         UpNs59/yJ0i1ihuHk1AW4eXQb6GbAZIepSXHjyKaq+kuBcsk2F6gdeaM8vQWdrJXa4Ur
-         KC7zdoFQesLkM+ICN8QsZVo/TqjSOKDKduYPeeB83MJkceNRcEwGrMqg+ScUV/vfKJ0D
-         LbsA==
-X-Gm-Message-State: AOAM530ln5pG3WwIJ/JWAre8l8KIGbEbnC7CVQCB6XwHfRj3pPJGUmnp
-        maGzyIbcHIBwogYwBkQSF3U=
-X-Google-Smtp-Source: ABdhPJywi9C7D5cjHUIqLpL2/PD7TA/ggulSm5IBkDuPAlvT/JZ2mdGO2c8E6bK6smkdYH7D6qg2CA==
-X-Received: by 2002:a05:6512:68d:: with SMTP id t13mr8416239lfe.472.1610931340575;
-        Sun, 17 Jan 2021 16:55:40 -0800 (PST)
+        bh=d8BYKrVjCHK2ATkUn9Bn3mODsj1VGuehzu+tpszr3yE=;
+        b=Wp9kBDnjlDJbvMbZPJMEQ+acij6uGOL/T+QQooRm+oZrIa9P2VzFnBqNhl94f3Oc6s
+         cZlfyVT8t6VKdtL4GJY9gSIyH/JTwTHaqElMrBRPFIAfcYIq2WHbKm4GJB6kRQcK5fHM
+         Cdt5tewCLQir4a2NDIqpEqQ8el7HOsRuH7kCgflE+JlO2xeoBoyEEDLZRJgtbg+ztFIl
+         gW5gLacmMtmjiqO5GOgvOMyk0S0jb70wJYrGNdaEUOHS4qujxWJSbUafyql8+B+kXs+I
+         Bu6MnM+Px1qK/IfIAavFg7D9MoA3clSMA13MCdcMQ0dmXAqKhDnLHAGqebfFfaMlW/XV
+         dhFg==
+X-Gm-Message-State: AOAM5303NvpmrDAV0+qui1/8HKuXRKfB14ScLhKOl3RIsrobcdCpNjZG
+        uitN17zjBXOJCsrs6aZU0bM=
+X-Google-Smtp-Source: ABdhPJxkBnLKRUA5i2l0ufZhrcFnHI8gJ0IfG7hUjISt1Y5rErImhyYEtzRaG3xwQVMO5IZkDjePMA==
+X-Received: by 2002:a19:6901:: with SMTP id e1mr9465665lfc.461.1610931341578;
+        Sun, 17 Jan 2021 16:55:41 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id m24sm1484553ljj.62.2021.01.17.16.55.39
+        by smtp.gmail.com with ESMTPSA id m24sm1484553ljj.62.2021.01.17.16.55.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jan 2021 16:55:40 -0800 (PST)
+        Sun, 17 Jan 2021 16:55:41 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -65,9 +65,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>
 Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-pm@vger.kernel.org
-Subject: [PATCH v3 06/12] opp: Add dev_pm_opp_find_level_ceil()
-Date:   Mon, 18 Jan 2021 03:55:18 +0300
-Message-Id: <20210118005524.27787-7-digetx@gmail.com>
+Subject: [PATCH v3 07/12] opp: Add dev_pm_opp_get_required_pstate()
+Date:   Mon, 18 Jan 2021 03:55:19 +0300
+Message-Id: <20210118005524.27787-8-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210118005524.27787-1-digetx@gmail.com>
 References: <20210118005524.27787-1-digetx@gmail.com>
@@ -77,105 +77,79 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add a ceil version of the dev_pm_opp_find_level(). It's handy to have if
-levels don't start from 0 in OPP table and zero usually means a minimal
-level.
+Add dev_pm_opp_get_required_pstate() which allows OPP users to retrieve
+required performance state of a given OPP.
 
 Tested-by: Peter Geis <pgwipeout@gmail.com>
 Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 Tested-by: Matt Merhar <mattmerhar@protonmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 49 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/pm_opp.h |  8 +++++++
- 2 files changed, 57 insertions(+)
+ drivers/opp/core.c     | 22 ++++++++++++++++++++++
+ include/linux/pm_opp.h | 10 ++++++++++
+ 2 files changed, 32 insertions(+)
 
 diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 341484d58e6c..df0969002555 100644
+index df0969002555..fde2ec00ab0e 100644
 --- a/drivers/opp/core.c
 +++ b/drivers/opp/core.c
-@@ -449,6 +449,55 @@ struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
+@@ -145,6 +145,28 @@ unsigned int dev_pm_opp_get_level(struct dev_pm_opp *opp)
  }
- EXPORT_SYMBOL_GPL(dev_pm_opp_find_level_exact);
+ EXPORT_SYMBOL_GPL(dev_pm_opp_get_level);
  
 +/**
-+ * dev_pm_opp_find_level_ceil() - search for an rounded up level
-+ * @dev:		device for which we do this operation
-+ * @level:		level to search for
++ * dev_pm_opp_get_required_pstate() - Gets the required performance state
++ *                                    corresponding to an available opp
++ * @opp:	opp for which performance state has to be returned for
++ * @index:	index of the required opp
 + *
-+ * Return: Searches for rounded up match in the opp table and returns pointer
-+ * to the  matching opp if found, else returns ERR_PTR in case of error and
-+ * should be handled using IS_ERR. Error return values can be:
-+ * EINVAL:	for bad pointer
-+ * ERANGE:	no match found for search
-+ * ENODEV:	if device not found in list of registered devices
-+ *
-+ * The callers are required to call dev_pm_opp_put() for the returned OPP after
-+ * use.
++ * Return: performance state read from device tree corresponding to the
++ * required opp, else return 0.
 + */
-+struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
-+					      unsigned int *level)
++unsigned int dev_pm_opp_get_required_pstate(struct dev_pm_opp *opp,
++					    unsigned int index)
 +{
-+	struct opp_table *opp_table;
-+	struct dev_pm_opp *temp_opp, *opp = ERR_PTR(-ERANGE);
-+
-+	opp_table = _find_opp_table(dev);
-+	if (IS_ERR(opp_table)) {
-+		int r = PTR_ERR(opp_table);
-+
-+		dev_err(dev, "%s: OPP table not found (%d)\n", __func__, r);
-+		return ERR_PTR(r);
++	if (IS_ERR_OR_NULL(opp) || !opp->available ||
++	    index >= opp->opp_table->required_opp_count) {
++		pr_err("%s: Invalid parameters\n", __func__);
++		return 0;
 +	}
 +
-+	mutex_lock(&opp_table->lock);
-+
-+	list_for_each_entry(temp_opp, &opp_table->opp_list, node) {
-+		if (temp_opp->available && temp_opp->level >= *level) {
-+			opp = temp_opp;
-+			*level = opp->level;
-+
-+			/* Increment the reference count of OPP */
-+			dev_pm_opp_get(opp);
-+			break;
-+		}
-+	}
-+
-+	mutex_unlock(&opp_table->lock);
-+	dev_pm_opp_put_opp_table(opp_table);
-+
-+	return opp;
++	return opp->required_opps[index]->pstate;
 +}
-+EXPORT_SYMBOL_GPL(dev_pm_opp_find_level_ceil);
++EXPORT_SYMBOL_GPL(dev_pm_opp_get_required_pstate);
 +
- static noinline struct dev_pm_opp *_find_freq_ceil(struct opp_table *opp_table,
- 						   unsigned long *freq)
- {
+ /**
+  * dev_pm_opp_is_turbo() - Returns if opp is turbo OPP or not
+  * @opp: opp for which turbo mode is being verified
 diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index f344be844bde..b7dc993487c7 100644
+index b7dc993487c7..e072148ae0e1 100644
 --- a/include/linux/pm_opp.h
 +++ b/include/linux/pm_opp.h
-@@ -111,6 +111,8 @@ struct dev_pm_opp *dev_pm_opp_find_freq_exact(struct device *dev,
- 					      bool available);
- struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
- 					       unsigned int level);
-+struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
-+					      unsigned int *level);
+@@ -98,6 +98,9 @@ unsigned long dev_pm_opp_get_freq(struct dev_pm_opp *opp);
  
- struct dev_pm_opp *dev_pm_opp_find_freq_floor(struct device *dev,
- 					      unsigned long *freq);
-@@ -234,6 +236,12 @@ static inline struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
- 	return ERR_PTR(-ENOTSUPP);
+ unsigned int dev_pm_opp_get_level(struct dev_pm_opp *opp);
+ 
++unsigned int dev_pm_opp_get_required_pstate(struct dev_pm_opp *opp,
++					    unsigned int index);
++
+ bool dev_pm_opp_is_turbo(struct dev_pm_opp *opp);
+ 
+ int dev_pm_opp_get_opp_count(struct device *dev);
+@@ -194,6 +197,13 @@ static inline unsigned int dev_pm_opp_get_level(struct dev_pm_opp *opp)
+ 	return 0;
  }
  
-+static inline struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
-+					unsigned int *level)
++static inline
++unsigned int dev_pm_opp_get_required_pstate(struct dev_pm_opp *opp,
++					    unsigned int index)
 +{
-+	return ERR_PTR(-ENOTSUPP);
++	return 0;
 +}
 +
- static inline struct dev_pm_opp *dev_pm_opp_find_freq_floor(struct device *dev,
- 					unsigned long *freq)
+ static inline bool dev_pm_opp_is_turbo(struct dev_pm_opp *opp)
  {
+ 	return false;
 -- 
 2.29.2
 
