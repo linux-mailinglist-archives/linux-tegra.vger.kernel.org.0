@@ -2,160 +2,205 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE58F2FC201
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 22:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E09412FC391
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 23:36:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729219AbhASVLH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 16:11:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52192 "EHLO
+        id S1726199AbhASRn4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 12:43:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730917AbhASSsn (ORCPT
+        with ESMTP id S1733305AbhASPFC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 13:48:43 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF499C061574
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 10:47:50 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id x6so16993261ybr.1
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 10:47:50 -0800 (PST)
+        Tue, 19 Jan 2021 10:05:02 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392B7C061793;
+        Tue, 19 Jan 2021 07:01:45 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id n8so13444455ljg.3;
+        Tue, 19 Jan 2021 07:01:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qbBb2z3wvLGYTO+ldEKir4YWRAxMBcx6I27778gF5Xs=;
-        b=VkIoZxm1URRRWxudAbS2nI/fxGZ6GztlJEv0aVWMFVv+0sWdHokVTwAPNPhN5/vfQk
-         14CK+51gc7yo2MH1XVhCHyeN3/zezbPlXpmtTEmEtfo3LYRelzFWIB/tEZtowqEzY3qz
-         eQjDHt+0C6gI4JoeJ/mYDIGLKqqknMqOwLOFTFBNEfCR3bo4ZaZsBfkdLTW1Kco54rDo
-         UsEEog+uddoV4/FUP3oYVcSebAh89g2Cg6uHMvbLbx3k1LKuJYnyc5AbQKE/wdUx9Slo
-         EhEYN01+mV3TPLwWW0NAQ2FH5LiAhkaHBhHoOzZ3C/w7TwNAvrjWBUWXV8jgWVMO1Y/G
-         UA/w==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=agax0qDZZ1HTQS1TRVOBs2nRNybT0RGhbGz+ScANHiY=;
+        b=JbAT8eo1xsybV+5hUgnBoKDnIyhXzO26OssnYp4d+Bqbr6dHfuvBOHSXhgUE45IV0W
+         0hILwOTKO1qg3pOedRgyr0xt20F0AuShvFYVsAp/89AAEcbIQZcT2TpXPRy1nao8udp5
+         0ef/WG3NxVBApxwyYBzpXfBGB3MQxwybajFVzMq6Yoo2K19J5pJ7CG7TSjeESrNdv7Qd
+         tDEARrBqsuG8b5Ieq9QU8A3S+98P+aBrV7aSRbsEZ6ujvWL6hZwg9UC/bFKip1KkKTZR
+         S6d8CLF75LOnpTUlRTCyq+al3uFvMFoZlpddvKupknzNRFjtz+P3OGsoAF4RsQMS9ClV
+         PcZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qbBb2z3wvLGYTO+ldEKir4YWRAxMBcx6I27778gF5Xs=;
-        b=O9RnOUhcRaYCHr7aqJPogT84LbVR5iA4Orj1mcBTluD07zTbNt56YQmw+QSMF48cBl
-         6xgW0Gr/9AoZIUfHWheqjVALWKzq1Ai9LsXJutDHyamI5E98yB9/ZkVOxNZNbnF+il6W
-         l3NwzD5YUJoAWbhMzXiHef4M2qS3Bvxb1x+1VEeJK2KT2g7AuSPBBm8UQC30goXInjxg
-         Mts9JD32OWgfv7Qlq7P2NLIHxrZ2/0yy1XOukyc5m2Zfo5wIdapxiS8Emyi6FAXqEhfG
-         J4KGkQLWJf6Q5v/9E4ceftlGKDv7uP3srLBGBfCIaiekxq2onUf9iM2nsW8+v9IOXVNM
-         Vn0A==
-X-Gm-Message-State: AOAM5325EnNoisG3v2dA3J5e+FCIKZpIvmjt9wnoVrvP5JX/Wy9WCb1Z
-        5DC6t1/qgSOeAFkeWoObRLDZEhOeUTxEOIMjNNV1VA==
-X-Google-Smtp-Source: ABdhPJwMEZUL/cpMRRzTRn9Eb+L3/pE4Y7I4NUEiGKRffpli7tbbMgrH43UvkSA1XJBKTvA8v5JFk5GblUU3+1OONqQ=
-X-Received: by 2002:a25:c343:: with SMTP id t64mr7758543ybf.228.1611082069882;
- Tue, 19 Jan 2021 10:47:49 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=agax0qDZZ1HTQS1TRVOBs2nRNybT0RGhbGz+ScANHiY=;
+        b=nbfr9N55eS/oyp10YRhWu5YP8YnRXPL0Dl6I3lJkF7idfKKFDEpGvx9V3PiwbtEhiy
+         PGct1m7cCopPK8mygyuhk20Vm124zNi7no/XBoE6be4Vf6tb91CBl0T2uml+aeitezDQ
+         aLKN9u4m6QLKtvKLhp0Mvi8Z6TIKgOZ0hFHKe98RyO+ljjK98uyoUNT1/zCx73OwDfvV
+         d8d2L0YbEYdXrIGHvMbzGsP0APy3Y1WCv8uhgC1SMdENzZHEBkORtbsI+T2NlTRGU0to
+         fTsNTLcuhcfzz3eO0qqi/wQpfmoc/vzm1CTlrmS1Z8tqBmspuCzpZ0At5J7Kda66n+EO
+         XhMA==
+X-Gm-Message-State: AOAM5338k1qb35ty+B3uNwd42mtADPNLUdBWZUo13tGzfzTTKpXzoGW2
+        N22dsI6BuLWulnpuU+7/LMruBcSnlG0=
+X-Google-Smtp-Source: ABdhPJwtRUF5RuzhWYimF2pqSoi13VxtUrCsr9Z0WThi1C56EGUdSDCFPxs7fhBTdWvUicVJeputxw==
+X-Received: by 2002:a2e:988d:: with SMTP id b13mr415555ljj.176.1611068503203;
+        Tue, 19 Jan 2021 07:01:43 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id a10sm2308462lfs.18.2021.01.19.07.01.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jan 2021 07:01:42 -0800 (PST)
+Subject: Re: [PATCH v1] cpufreq: tegra20: Use resource-managed API
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Yangtao Li <tiny.windzz@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210117231825.28256-1-digetx@gmail.com>
+ <20210118063910.on4vgbllfmsduezo@vireshk-i7>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <09f93579-9de0-d541-1331-e2b45518c270@gmail.com>
+Date:   Tue, 19 Jan 2021 18:01:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-References: <20210115210159.3090203-1-saravanak@google.com>
- <CACRpkdYrzaFuWkbTe7Fmos4Bk4Ojt6wbqayDjyrS7sf98P-Rbg@mail.gmail.com>
- <CAGETcx9t3R-k0ttiaBUqcveqnXMX75xuTcKPSo9J6WJOfgSP8w@mail.gmail.com>
- <CAMuHMdUN7+O28Xz5rkPwR2RuSA+o_E2VcWsz_9+kzy4=0Jnb1g@mail.gmail.com>
- <CACRpkdZqSm-xfo8a8aFUe-Mbaw9tM+OmCAF3KWjOVDfC=oWj+Q@mail.gmail.com>
- <CAGETcx-Vp0BpYbpPjwsmOv0q5ba1mJvfsPEZ9Oi2Rmx67udu7A@mail.gmail.com>
- <CAMuHMdUc+RCK=t02QhtWRekoYCx2pHnMyaTYiC0=SxKQVrqDHQ@mail.gmail.com>
- <CAGETcx_Ud+UJcdWkCH-WzEGjH4voRBoO++np7ARSi5Gnh51jYg@mail.gmail.com> <CAMuHMdUe6W5ABO-WntCRFXnusacY=2HNiahXN-9ts-Nsf847uQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUe6W5ABO-WntCRFXnusacY=2HNiahXN-9ts-Nsf847uQ@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 19 Jan 2021 10:47:13 -0800
-Message-ID: <CAGETcx9i7QWOhpS8-qgBaDQiYcgze_AMgE2d00qAyDkBzcZ-qA@mail.gmail.com>
-Subject: Re: [PATCH v1] of: property: Add fw_devlink support for "gpio" and
- "gpios" binding
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210118063910.on4vgbllfmsduezo@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 10:33 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Tue, Jan 19, 2021 at 7:19 PM Saravana Kannan <saravanak@google.com> wrote:
-> > On Tue, Jan 19, 2021 at 10:10 AM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Tue, Jan 19, 2021 at 6:54 PM Saravana Kannan <saravanak@google.com> wrote:
-> > > > On Tue, Jan 19, 2021 at 2:20 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > > > > On Tue, Jan 19, 2021 at 9:50 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > > Can we pull this into driver-core-next please? It fixes issues on some
-> > > > > > > boards with fw_devlink=on.
-> > > > > >
-> > > > > > On r8a77951-salvator-xs.dts, it introduces one more failure:
-> > > > > >
-> > > > > >     OF: /soc/i2c@e66d8000/gpio@20/pcie-sata-switch-hog: could not get
-> > > > > > #gpio-cells for /cpus/cpu@102
-> > > >
-> > > > Geert,
-> > > >
-> > > > One good thing is that it's noticing this being weird and ignoring it
-> > > > in your particular board. I *think* it interprets the "7" as a phandle
-> > > > and that's cpu@102 and realizes it's not a gpio-controller. For at
-> > > > least in your case, it's a safe failure.
-> > >
-> > > While 7 is the GPIO index, relative to the current GPIO controller,
-> > > represented by the parent device node.
-> > >
-> > > > > > Seems like it doesn't parse gpios properties in GPIO hogs correctly.
-> > > > >
-> > > > > Could it be that the code assumes no self-referencing phandles?
-> > > > > (Just guessing...)
-> > > >
-> > > > Ok I tried to understand what gpio-hogs means. It's not fully clear to
-> > > > me. But it looks like if a gpio-controller has a gpio-hog, then it
-> > > > doesn't have/need gpio-cells? Is that right?
-> > >
-> > > A GPIO hog is a way to fix (strap) a GPIO line to a specific value.
-> > > Usually this is done to enable a piece of hardware on a board, or
-> > > control a mux.
-> > >
-> > > The controller still needs gpio-cells.
-> > >
-> > > > So if a gpio-controller has a gpio-hog, can it ever be referred to by
-> > > > another consumer in DT using blah-gpios = ...? If so, I don't see any
-> > > > obvious code that's handling the missing gpio-cells in this case.
-> > >
-> > > Yes it can.
-> > >
-> > > > Long story short, please help me understand gpio-hog in the context of
-> > > > finding dependencies in DT.
-> > >
-> > > The hog references a GPIO on the current controller.  As this is always
-> > > the parent device node, the hog's gpios properties lack the phandle.
-> > >
-> > > E.g. a normal reference to the first GPIO of gpio5 looks like:
-> > >
-> > >     gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
-> > >
-> > > A hog on the first GPIO of gpio5 would be a subnode of gpio5,
-> > > and would just use:
-> > >
-> > >     gpios = <0 GPIO_ACTIVE_LOW>;
-> > >
-> > > instead.
-> > >
-> > > Hope this helps.
-> >
-> > I'm still not sure if I've understood this fully, but does this just
-> > boil down to:
-> > Don't parse [name-]gpio[s] to find dependencies if the node has
-> > gpio-hog property?
->
-> Indeed. You can just ignore all nodes with a gpio-hog property, as they're
-> always handled by their parent.
+18.01.2021 09:39, Viresh Kumar пишет:
+> On 18-01-21, 02:18, Dmitry Osipenko wrote:
+>> Switch cpufreq-tegra20 driver to use resource-managed API.
+>> This removes the need to get opp_table pointer using
+>> dev_pm_opp_get_opp_table() in order to release OPP table that
+>> was requested by dev_pm_opp_set_supported_hw(), making the code
+>> a bit more straightforward.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/cpufreq/tegra20-cpufreq.c | 45 +++++++++++++++----------------
+>>  1 file changed, 22 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/cpufreq/tegra20-cpufreq.c b/drivers/cpufreq/tegra20-cpufreq.c
+>> index 8c893043953e..e8db3d75be25 100644
+>> --- a/drivers/cpufreq/tegra20-cpufreq.c
+>> +++ b/drivers/cpufreq/tegra20-cpufreq.c
+>> @@ -32,6 +32,16 @@ static bool cpu0_node_has_opp_v2_prop(void)
+>>  	return ret;
+>>  }
+>>  
+>> +static void tegra20_cpufreq_put_supported_hw(void *opp_table)
+>> +{
+>> +	dev_pm_opp_put_supported_hw(opp_table);
+>> +}
+>> +
+>> +static void tegra20_cpufreq_dt_unregister(void *cpufreq_dt)
+>> +{
+>> +	platform_device_unregister(cpufreq_dt);
+>> +}
+>> +
+>>  static int tegra20_cpufreq_probe(struct platform_device *pdev)
+>>  {
+>>  	struct platform_device *cpufreq_dt;
+>> @@ -68,42 +78,31 @@ static int tegra20_cpufreq_probe(struct platform_device *pdev)
+>>  		return err;
+>>  	}
+>>  
+>> +	err = devm_add_action_or_reset(&pdev->dev,
+>> +				       tegra20_cpufreq_put_supported_hw,
+>> +				       opp_table);
+>> +	if (err)
+>> +		return err;
+>> +
+>>  	cpufreq_dt = platform_device_register_simple("cpufreq-dt", -1, NULL, 0);
+>>  	err = PTR_ERR_OR_ZERO(cpufreq_dt);
+>>  	if (err) {
+>>  		dev_err(&pdev->dev,
+>>  			"failed to create cpufreq-dt device: %d\n", err);
+>> -		goto err_put_supported_hw;
+>> +		return err;
+>>  	}
+>>  
+>> -	platform_set_drvdata(pdev, cpufreq_dt);
+>> -
+>> -	return 0;
+>> -
+>> -err_put_supported_hw:
+>> -	dev_pm_opp_put_supported_hw(opp_table);
+>> -
+>> -	return err;
+>> -}
+>> -
+>> -static int tegra20_cpufreq_remove(struct platform_device *pdev)
+>> -{
+>> -	struct platform_device *cpufreq_dt;
+>> -	struct opp_table *opp_table;
+>> -
+>> -	cpufreq_dt = platform_get_drvdata(pdev);
+>> -	platform_device_unregister(cpufreq_dt);
+>> -
+>> -	opp_table = dev_pm_opp_get_opp_table(get_cpu_device(0));
+>> -	dev_pm_opp_put_supported_hw(opp_table);
+>> -	dev_pm_opp_put_opp_table(opp_table);
+>> +	err = devm_add_action_or_reset(&pdev->dev,
+>> +				       tegra20_cpufreq_dt_unregister,
+>> +				       cpufreq_dt);
+>> +	if (err)
+>> +		return err;
+>>  
+>>  	return 0;
+>>  }
+>>  
+>>  static struct platform_driver tegra20_cpufreq_driver = {
+>>  	.probe		= tegra20_cpufreq_probe,
+>> -	.remove		= tegra20_cpufreq_remove,
+>>  	.driver		= {
+>>  		.name	= "tegra20-cpufreq",
+>>  	},
+> 
+> Applied. Thanks.
+> 
+> Though please remember to update this to use the devm_ variant when it comes
+> out.
 
-Ok, I'll send out an updated patch later (next week probably). Or
-maybe we can merge this now and I can fix up gpio-hog handling later
-since I'd need to do it anyway for the name-gpios stuff anyway? Or
-will those never be combined with gpio-hog?
+The regular devm_opp_* helpers won't be usable for CPUFreq drivers because OPP is applied to the CPU device and not the device of the CPUFreq driver.
 
--Saravana
+But maybe we could support such cases by the helpers?
+
+I CC'd Yangtao Li.
+
+For example we could do this:
+
+diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+index ca8c6acc29f4..e2eb0f9cf46c 100644
+--- a/drivers/opp/core.c
++++ b/drivers/opp/core.c
+@@ -1771,7 +1771,8 @@ static void devm_pm_opp_supported_hw_release(void *data)
+ 
+ /**
+  * devm_pm_opp_set_supported_hw() - Set supported platforms
+- * @dev: Device for which supported-hw has to be set.
++ * @dev: Device which manages allocated resources.
++ * @opp_dev: Device for which supported-hw has to be set.
+  * @versions: Array of hierarchy of versions to match.
+  * @count: Number of elements in the array.
+  *
+@@ -1783,13 +1784,14 @@ static void devm_pm_opp_supported_hw_release(void *data)
+  * The opp_table structure will be freed after the device is destroyed.
+  */
+ struct opp_table *devm_pm_opp_set_supported_hw(struct device *dev,
++					       struct device *opp_dev,
+ 					       const u32 *versions,
+ 					       unsigned int count)
+ {
+ 	struct opp_table *opp_table;
+ 	int err;
+ 
+-	opp_table = dev_pm_opp_set_supported_hw(dev, versions, count);
++	opp_table = dev_pm_opp_set_supported_hw(opp_dev, versions, count);
+ 	if (IS_ERR(opp_table))
+ 		return opp_table;
