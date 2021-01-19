@@ -2,131 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14BE82FBDB3
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 18:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 917AE2FBDBC
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 18:35:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389743AbhASRcU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 12:32:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35536 "EHLO
+        id S2391209AbhASRcr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 12:32:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389055AbhASRcR (ORCPT
+        with ESMTP id S2391136AbhASRci (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 12:32:17 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C64DEC061573;
-        Tue, 19 Jan 2021 09:31:36 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id v15so16892180wrx.4;
-        Tue, 19 Jan 2021 09:31:36 -0800 (PST)
+        Tue, 19 Jan 2021 12:32:38 -0500
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BB1C061574
+        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 09:31:57 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id f11so22843103ljm.8
+        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 09:31:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HwQ7smaLEtNvkmHMibo6rkKhwmggDii6CwKV9YcaQnM=;
-        b=IQmb4F/D5RBk6+m5NZjGrzszyICYFm3hX1JxmI8UdhMIMDZeQEXBFednR40AuIdARb
-         EeQFYSp4xZ8Zve02t4kECcH/sq++nVOFbnyA0S78HX2RV/CDoSgrgCUerHg0XT0ZIVkE
-         P0H0JZ4boXtuohUDusTMg2EKr856w99cTwFiAUsXtaiI/17ZGpH0E5Mk4KzQ42EYwPDz
-         Da4kgr8w1qe5lLRdSr/Db8dqBprQ0txJ0XirsNHDBhZZN9tIYphKIxfG23b/dXBDAEoM
-         R+PSc+VEqeC1qZK7Hw0U/285dGEiOoh29sZvrFz7yJTcQ2v6rlXty4k6lzFHPQrGTGBx
-         6zRQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zPc1wezNWEcHbXD9oWjhEsUhtkAJ8GQjtaN8U14txbA=;
+        b=n3RPvpZP3zlOrWdFtVWA9NI+nXuoYLnvS88ihv3mbVSJIgHIOIfFwwwwXW2WHL1WEq
+         FWdBg71nY16Y8SKOoK6O+gtbwC1fn8KJk9H7ZI6VRXeBKwg3yzqzktW7jhjGldjCoMWp
+         gHrQVVko0HhFiMeICpp2+95E5YurOAoffvxcPM6SireRf4e3IoG2NE3E1QvgPT79qjBC
+         RauaRhDZHxGdY/ildwvQDm+/JYvd4CquABWRaELvZKTG1TjGbARemVV/uDql9vOE7Yzd
+         ll0LyFiE6EyGn1VjFvsJxYHMHWtFCVp/+hJm1MfhQHP38S0FJMtEkeDlQ0u8Klf/xX5t
+         AtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HwQ7smaLEtNvkmHMibo6rkKhwmggDii6CwKV9YcaQnM=;
-        b=bpVQ9yVe5j0oJiJzZpJzp26QWwpgPo+WE43YcjGW9qZopbTUWzWxD6PWePzgSOFPzw
-         R0TBpiGe9o1VoeEeEyvISkE5k7L3KH3+XA6nS7V9mWZQ8QqgpHjIX57aJJDANWGr3JJT
-         0CASra5vMOERjLpNgCmQkhgjIbDzSEntsco2gmWHGUBoTrsqaCxt38MWcpfsWSUgtq46
-         B7AbFBMf7l9Ldb08s+bEJLDKCysdO6YQW5Hwh2zGxf8fUnKMrXVRiD0mLfuC3uMExxsx
-         93SBsIFXfLgf9F2BS2fpcyg57C/cHAmMmuyvUJYpj75mTYEudNBN6QdPQtqnNuyiew6V
-         pU8A==
-X-Gm-Message-State: AOAM533HlwSjDntMRrv2CM7AzY+23Y1fdpCIXu2Q3JSOzVPzNk12xP+G
-        k0oFURJj78m6r/VWwaBxAUI=
-X-Google-Smtp-Source: ABdhPJz/Yv8ulkqJ/Azr75tKpCRQi/tbKsDErcdUxVGeaQAEyMzhpnuXiq5NprvTliL5gASyclaHqg==
-X-Received: by 2002:a5d:498a:: with SMTP id r10mr5377519wrq.238.1611077495584;
-        Tue, 19 Jan 2021 09:31:35 -0800 (PST)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id g14sm5805612wru.45.2021.01.19.09.31.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 09:31:34 -0800 (PST)
-Date:   Tue, 19 Jan 2021 18:31:33 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zPc1wezNWEcHbXD9oWjhEsUhtkAJ8GQjtaN8U14txbA=;
+        b=COcAjJKjCKrFIUJ61MRKanLX1wCKOxKxRGYip/fcIk1fwFhknXJaktfKaBagk7onzU
+         zmCsqW1pPWQxPZOWH5FWL0E+S6cY8u1kNyfue9zZ4MNUkktq7JPX6BF6IQtqAvZsIRZc
+         C1N3+bcc8E9ymJcaZKedZwh890XhjyHPr+eRvLVgWRNlHwyhYz4ufWpioCxI/rxo6hzL
+         K59nEdHTP4ZREjE1JJSpQeO7jOACrjWD/sIhuTrUNubhzAb7Gh1o4YSLU3+PboOHw0JO
+         TI/dFJaNIFxF42fqrqAAgleSpz/UVhOuwe7UrORy1D3Sd4/HKw4V0vOTYvjOzXEnDoE8
+         8C/Q==
+X-Gm-Message-State: AOAM530GVYrW1DVP+Bp3PyqsFx/M3WyDfp7MGOYz4oIVYty6d3t8Qa7h
+        kVzaSlzjmaZojnuIGJmFcpS0gnDNzF8=
+X-Google-Smtp-Source: ABdhPJxVS0j5/MI25PJkxVP8K7yTl+RZjNhXGQKjXGsiLr7LGPq/MtHFV0tu2bsJRJpHefJMmPUFyA==
+X-Received: by 2002:a2e:888e:: with SMTP id k14mr2387140lji.285.1611077515503;
+        Tue, 19 Jan 2021 09:31:55 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id l3sm2326933lfd.119.2021.01.19.09.31.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jan 2021 09:31:55 -0800 (PST)
+Subject: Re: [PATCH v1] ARM: tegra: Don't enable unused PLLs on resume from
+ suspend
+To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Sameer Pujar <spujar@nvidia.com>,
         Peter Geis <pgwipeout@gmail.com>,
         Nicolas Chauvet <kwizart@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/5] ALSA: hda/tegra: Use clk_bulk helpers
-Message-ID: <YAcXddCDkWYIIqsK@ulmo>
-References: <20210112125834.21545-1-digetx@gmail.com>
- <20210112125834.21545-2-digetx@gmail.com>
- <YAGzJM7BJqLV0xxY@ulmo>
- <b84c6d9f-e113-e249-cd76-248e2cd646ff@gmail.com>
+        Matt Merhar <mattmerhar@protonmail.com>,
+        linux-tegra@vger.kernel.org
+References: <20210112135031.3196-1-digetx@gmail.com> <YAcV5WX+VPfq5y1y@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <208897f1-6ee2-dcea-4234-fcb9d957fab9@gmail.com>
+Date:   Tue, 19 Jan 2021 20:31:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="af5QIX/cdXc7DM/N"
-Content-Disposition: inline
-In-Reply-To: <b84c6d9f-e113-e249-cd76-248e2cd646ff@gmail.com>
-User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
+In-Reply-To: <YAcV5WX+VPfq5y1y@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+19.01.2021 20:24, Thierry Reding пишет:
+> On Tue, Jan 12, 2021 at 04:50:31PM +0300, Dmitry Osipenko wrote:
+>> PLLC and PLLM are usually disabled on system suspend because all devices
+>> which use these PLLs are either suspended or switched away to other clock
+>> source. Don't enable unused PLLs on resume from suspend by keeping track
+>> of the enable-state of the PLLs across suspend-resume.
+>>
+>> Tested-by: Peter Geis <pgwipeout@gmail.com>
+>> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+>> Tested-by: Matt Merhar <mattmerhar@protonmail.com>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  arch/arm/mach-tegra/sleep-tegra20.S | 38 ++++++++++--
+>>  arch/arm/mach-tegra/sleep-tegra30.S | 94 +++++++++++++++++++++++------
+>>  2 files changed, 108 insertions(+), 24 deletions(-)
+> 
+> For future patches with this many tested-bys, can you collect a bit of
+> information about where these were tested? That'd be a good way to get a
+> better understanding of the coverage and a good way to collect a bit of
+> information about what devices are being used.
+> 
+> I've seen a pattern like this used sometimes:
+> 
+> 	Tested-by: Name <email> # Board that was tested on
+> 
+> So perhaps we can adopt this for these cases?
+> 
+> Applied, thanks.
 
---af5QIX/cdXc7DM/N
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Okay, for this patch it should be:
 
-On Mon, Jan 18, 2021 at 02:31:35AM +0300, Dmitry Osipenko wrote:
-> 15.01.2021 18:22, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
-> >>  static int hda_tegra_first_init(struct azx *chip, struct platform_dev=
-ice *pdev)
-> >>  {
-> >>  	struct hda_tegra *hda =3D container_of(chip, struct hda_tegra, chip);
-> >> @@ -495,7 +441,11 @@ static int hda_tegra_probe(struct platform_device=
- *pdev)
-> >>  		return err;
-> >>  	}
-> >> =20
-> >> -	err =3D hda_tegra_init_clk(hda);
-> >> +	hda->clocks[hda->nclocks++].id =3D "hda";
-> >> +	hda->clocks[hda->nclocks++].id =3D "hda2hdmi";
-> >> +	hda->clocks[hda->nclocks++].id =3D "hda2codec_2x";
-> >=20
-> > Originally the code did this in this order: "hda", "hda2codec_2x" and
-> > "hda2hdmi". I don't expect the exact order to be very relevant, but was
-> > there any particular reason to change it?
->=20
-> The reason was "to make code look nicer". This was a conscious decision
-> since indeed the clocks order shouldn't matter for this driver.
-
-Yeah, it's probably fine. In case this ends up causing trouble after all
-we can always change the order back.
-
-Thierry
-
---af5QIX/cdXc7DM/N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAHF3UACgkQ3SOs138+
-s6GPyQ/+Lynszet/5a+5cGwVUEi6sgRIdNW4xJL79sg5+ldGPV0VGBVLEEuX/vVJ
-E+rhv53SOczraDUeSuu399geLmdy3uJdAvouUn40VWvxQbaBe5TJSGcHwQAzHT2u
-3g/wzUk0nOqboYsTE79Tf7tn/+EGIGDT4hO9UI4zIe482GQ7WRtnHZIs8SncxcvQ
-yGUWgjE8U8hOKYs8Nq7zJEaslAuyYHwjjzEmpQ7DLZg3L9jEYnhZccIEuFgct338
-ki6J52wF4xaMP+a+Rwr2eteorNqc3SZp74J3s2Q/xD5dAhTDc2VQHnwZEaSxovNn
-5MgvYv46TWH3MOEFGuOBPOepT72wsK2q2pnYd4a6ov5wyJVe3aOY6b/DUYj5VZEH
-NkmgUZYxObxFZox2EXoAvSmR331w4heRqcuq54lSw5XdIOMMTxLrwkv0GNRvM1WN
-owkkxWQY9PTvCJn/FICmMXuj9jhotup+294pIeDwo88u6IYuwsuknm5N4tMF4RDc
-3YE4Rb2ptq05hVmbPGJbDbGn9qDXPDgEQ8Qe+ZfgTPCF27FAvarNgJs4WGoF4wYN
-aX14+yMHW191WsnpTlpKpJXnZvy9z6/SzmXPSzeMhthBByDmIk8JGbqyingJlFAS
-ZRHssj6TpRts8RcQJu6FvoANQyqgEvJvgGhVDBvdgOcd4bN8Gmc=
-=t2N3
------END PGP SIGNATURE-----
-
---af5QIX/cdXc7DM/N--
+Tested-by: Peter Geis <pgwipeout@gmail.com> # T30 Ouya
+Tested-by: Nicolas Chauvet <kwizart@gmail.com> # T20 PAZ00 and T124 TK1
+Tested-by: Matt Merhar <mattmerhar@protonmail.com> # T30 Ouya
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com> # T20 A500 and T30 Nexus7
