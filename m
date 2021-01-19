@@ -2,66 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B52D12FC37A
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 23:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D2F2FC402
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 23:48:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728679AbhASWaK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 17:30:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43664 "EHLO
+        id S1727145AbhASWr5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 17:47:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728588AbhASWaE (ORCPT
+        with ESMTP id S1730492AbhASWnc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 17:30:04 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D322C061573
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 14:29:23 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id o13so31418767lfr.3
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 14:29:23 -0800 (PST)
+        Tue, 19 Jan 2021 17:43:32 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAAE8C0613D3;
+        Tue, 19 Jan 2021 14:42:24 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id q12so4412265lfo.12;
+        Tue, 19 Jan 2021 14:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gfvPC/OfKQm0WszlW9GmFgoRPlhvY5JQwFhmkr33QEU=;
-        b=unTeKrUukHB5UZKIoMHXWV8M64KMF9whvxZj2rVA6Pc1Xb36Px1QwvNiNbWDtYpP0r
-         kG5kXcmfxyreOzHq7FfaGS29fxNW4ke+ZORKc8Xp9playYKllEabVdYasAkJ9r5pD0KQ
-         2dw3L4LsuH+OaRp1P6F8cOIvsZ/y89sXc282os/Je7Xhu45ffxYjEJRbsIZpGOF/yCgn
-         0mGCjXusmPbF0aJsiRjlzx9RIlFRYMqtukLRcei35D5GoN/TsFQ+DvSgTZ1JPc0JYohO
-         BFkvQpdZpFXsnVV4EnwhshJTlTYdviEKeTq7IAFNha4VEKzPTOuALKYuYQ4k9Nq6IETZ
-         fjug==
+        bh=4FAVuEzyRp33QgNJC2sLGYQyuO7SkVh4EMA2cmMf8z0=;
+        b=UBQUdYzF32jztJAmgtez/FprmJ8X0TXJ0WtSiUSgJpqAKEYXd3uQ2Ec/u9cJZTo9LW
+         +4lwmRm6ox96NSq3/zULuyfrDnyK27AsOC1eiw4Njt3TNGhMi14FcaoZCgt1jf0BQprH
+         4wUwdf/XEqHAIy0/Civ1NFxaHNOEbAGogqehnAlnfa2ki3N9f/Q6CXwu46MuWimSt1Nk
+         3nzBwDSUeSAKram1+nBn4gl88L8vDtM3LPJ/593P7tOsEuKxbjdHqxjXYkK0CGGbNLeL
+         Pl5jpaFGEXMFv1wbx8FvfWwoDnIo2xSH9lmWHNP2QbqhYJpXybp71bupzekDrzo/U4AN
+         LnSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=gfvPC/OfKQm0WszlW9GmFgoRPlhvY5JQwFhmkr33QEU=;
-        b=gQLCKB8aPY6a955n26isrkVBKpbJJciRfiTO+Wfvug0TIX6jf1TsJI7YUCPEaRMSpV
-         O57oRAu8/hNRhfeoRYsDu6BW/vV3JkSFBEZybPJKL4H/QKlq5fT9u3+zKa3VwexHOP8T
-         sKiCtxdaFgLfUq8/juW8uzAskYuf0PA37Ivf//egevRd4Gjc0CE0sPev3ho/SAfQ9SA/
-         zaiH3HJ61K41/qHIBbKFYckJQcD+QUlF5JkCrQ6AAk7AuSAuXQbsKHyqZ8ZnJcCER+6/
-         4rNoPSSqaY2lMMkeam3vJB5NJTsOnm2P3K6Xgq0YZJeNsqq6vAODebkOrZGQoZbo5Wl+
-         RubA==
-X-Gm-Message-State: AOAM532XFHwJ1QfVDXEXfHCEnjTh+YpNbrdwzXW42cwiW4CAb0h7Hf1l
-        Bo+ucCNIFQUwiJRUqTrdBjE=
-X-Google-Smtp-Source: ABdhPJyx8x7gu4P7oE5KAk6xg8xDr54N8Q3FAZ6Nqz2UM8VtBwHDr478AaY6OY4v8pgus3J7jsMpYQ==
-X-Received: by 2002:ac2:418e:: with SMTP id z14mr2883646lfh.126.1611095362069;
-        Tue, 19 Jan 2021 14:29:22 -0800 (PST)
+        bh=4FAVuEzyRp33QgNJC2sLGYQyuO7SkVh4EMA2cmMf8z0=;
+        b=AuUg0uz9sPVfh2wOAZFBJkxQUqnyHCwHjLhk1qVohVTOfiDOHJNN9Sg2KIhlm61Imu
+         5v5TmWT7uxr3XYJPJHlH1RvLVrMfGq8jkxEvVYNMOFxhgAu3YiJW/cTIfOzaSLH7QbZP
+         tqlvJBW7fWik/qg/7NQgMZVlKgv+FTV4+jE4coRWx0GTGbOuqfNAqFrha4JYaaZo7Pk3
+         dzkTn/dIVUi0aO9XirEfwfvBJei+vht7jmqi9fsMNbn3Hu8hit/u9oMIhlSMwBzfl39Z
+         RBbwM531nSuNQqpGUWNb67WsrtgueTLnDLpfvZ/bLzKT2PLcYZTnenkrXn01W28DGHkU
+         chrg==
+X-Gm-Message-State: AOAM530bMmIYhjsQnMgca80kJdogiBfYV3Ty42ftC9GJRJj1chzdSafE
+        z8BYIY1gJfppg6Ru2XVEKlBXk4e/gRE=
+X-Google-Smtp-Source: ABdhPJxLpVyjT6uMHVILZtHrMIRn5rj9qHDAfA6ZumXfDZcl1uREg7HzAvGpQcHpB6f0bCmpVKSdjw==
+X-Received: by 2002:a19:c3cb:: with SMTP id t194mr2650206lff.599.1611096143107;
+        Tue, 19 Jan 2021 14:42:23 -0800 (PST)
 Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id r81sm12698lff.215.2021.01.19.14.29.21
+        by smtp.googlemail.com with ESMTPSA id e9sm15344lfc.253.2021.01.19.14.42.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jan 2021 14:29:21 -0800 (PST)
-Subject: Re: [PATCH v5 00/21] Host1x/TegraDRM UAPI
-To:     Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        talho@nvidia.com, bhuntsman@nvidia.com
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+        Tue, 19 Jan 2021 14:42:22 -0800 (PST)
+Subject: Re: [PATCH v3 04/12] opp: Add dev_pm_opp_sync_regulators()
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org
+References: <20210118005524.27787-1-digetx@gmail.com>
+ <20210118005524.27787-5-digetx@gmail.com>
+ <20210118082013.32y5tndlbw4xrdgc@vireshk-i7>
+ <4acde958-91c1-bbcb-6e20-2d90cf0e57d3@gmail.com>
+ <20210119045827.2645gk6vabubehuh@vireshk-i7>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <da085c38-4ac1-19dd-7706-caf323c969d2@gmail.com>
-Date:   Wed, 20 Jan 2021 01:29:20 +0300
+Message-ID: <436f873a-2f79-51f0-31f3-b1f38b406004@gmail.com>
+Date:   Wed, 20 Jan 2021 01:42:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
+In-Reply-To: <20210119045827.2645gk6vabubehuh@vireshk-i7>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -69,201 +86,40 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-11.01.2021 15:59, Mikko Perttunen пишет:
-> Hi all,
+19.01.2021 07:58, Viresh Kumar пишет:
+> On 18-01-21, 21:35, Dmitry Osipenko wrote:
+>> 18.01.2021 11:20, Viresh Kumar пишет:
+>>>> +int dev_pm_opp_sync_regulators(struct device *dev)
+>>>> +{
+>>>> +	struct opp_table *opp_table;
+>>>> +	struct regulator *reg;
+>>>> +	int i, ret = 0;
+>>>> +
+>>>> +	/* Device may not have OPP table */
+>>>> +	opp_table = _find_opp_table(dev);
+>>>> +	if (IS_ERR(opp_table))
+>>>> +		return 0;
+>>>> +
+>>>> +	/* Regulator may not be required for the device */
+>>>> +	if (!opp_table->regulators)
+>>>> +		goto put_table;
+>>>> +
+>>>> +	mutex_lock(&opp_table->lock);
+>>> What exactly do you need this lock for ?
+>>
+>> It is needed for protecting simultaneous invocations of
+>> dev_pm_opp_sync_regulators() and dev_pm_opp_set_voltage().
+>>
+>> The sync_regulators() should be invoked only after completion of the
+>> set_voltage() in a case of Tegra power domain driver since potentially
+>> both could be running in parallel. For example device driver may be
+>> changing performance state in a work thread, while PM domain state is
+>> syncing.
 > 
-> here's the fifth revision of the Host1x/TegraDRM UAPI proposal,
-> containing primarily small bug fixes. It has also been
-> rebased on top of recent linux-next.
-> 
-> vaapi-tegra-driver has been updated to support the new UAPI
-> as well as Tegra186:
-> 
->   https://github.com/cyndis/vaapi-tegra-driver
-> 
-> The `putsurface` program has been tested to work.
-> 
-> The test suite for the new UAPI is available at
-> https://github.com/cyndis/uapi-test
-> 
-> The series can be also found in
-> https://github.com/cyndis/linux/commits/work/host1x-uapi-v5.
-> 
-> Older versions:
-> v1: https://www.spinics.net/lists/linux-tegra/msg51000.html
-> v2: https://www.spinics.net/lists/linux-tegra/msg53061.html
-> v3: https://www.spinics.net/lists/linux-tegra/msg54370.html
-> v4: https://www.spinics.net/lists/dri-devel/msg279897.html
-> 
-> Thank you,
-> Mikko
+> I think just checking the 'enabled' flag should be enough here (you may need a
+> lock for it though, but the lock should cover only the area it is supposed to
+> cover and nothing else.
 
-The basic support for the v5 UAPI is added now to the Opentegra driver.
- In overall UAPI works, but there are couple things that we need to
-improve, I'll focus on them here.
-
-Problems
-========
-
-1. The channel map/unmap API needs some more thought.
-
-The main problem is a difficulty to track liveness of BOs and mappings.
- The kernel driver refs BO for each mapping and userspace needs to track
-both BO and its mappings together, it's too easy to make mistake and
-leak BOs without noticing.
-
-2. Host1x sync point UAPI should not be used for tracking DRM jobs.  I
-remember we discussed this previously, but this pops up again and I
-don't remember where we ended previously.
-
-This creates unnecessary complexity for userspace.  Userspace needs to
-go through a lot of chores just to get a sync point and then to manage
-it for the jobs.
-
-Nothing stops two different channels to reuse a single sync point and
-use it for a job, fixing this will only add more complexity to the
-kernel driver instead of removing it.
-
-3. The signalling of DMA fences doesn't work properly in v5 apparently
-because of the host1x waiter bug.  I see that sync point interrupt
-happens, but waiter callback isn't invoked.
-
-4. The sync_file API is not very suitable for DRM purposes because of
--EMFILE "Too many open files", which I saw while was running x11perf.
-It also adds complexity to userspace, instead of removing it.  This
-approach not suitable for DRM scheduler as well.
-
-5. Sync points have a dirty hardware state when allocated / requested.
-The special sync point reservation is meaningless in this case.
-
-6. I found that the need to chop cmdstream into gathers is a bit
-cumbersome for userspace of older SoCs which don't have h/w firewall.
-Can we support option where all commands are collected into a single
-dedicated cmdstream for a job?
-
-Possible solutions for the above problems
-=========================================
-
-1. Stop to use concept of "channels". Switch to DRM context-only.
-
-Each DRM context should get access to all engines once DRM context is
-created.  Think of it like "when DRM context is opened, it opens a
-channel for each engine".
-
-Then each DRM context will get one instance of mapping per-engine for
-each BO.
-
-enum tegra_engine {
-	TEGRA_GR2D,
-	TEGRA_GR3D,
-	TEGRA_VIC,
-	...
-	NUM_ENGINES
-};
-
-struct tegra_bo_mapping {
-	dma_addr_t ioaddr;
-	...
-};
-
-struct tegra_bo {
-	...
-	struct tegra_bo_mapping *hw_maps[NUM_ENGINES];
-};
-
-Instead of DRM_IOCTL_TEGRA_CHANNEL_MAP we should have
-DRM_IOCTL_TEGRA_GEM_MAP_TO_ENGINE, which will create a BO mapping for a
-specified h/w engine.
-
-Once BO is closed, all its mappings should be closed too.  This way
-userspace doesn't need to track both BOs and mappings.
-
-Everything that userspace needs to do is:
-
-	1) Open DRM context
-	2) Create GEM
-	3) Map GEM to required hardware engines
-	4) Submit job that uses GEM handle
-	5) Close GEM
-
-If GEM wasn't mapped prior to the job's submission, then job will fail
-because kernel driver won't resolve the IO mapping of the GEM.
-
-2. We will probably need a dedicated drm_tegra_submit_cmd for sync point
-increments.  The job's sync point will be allocated dynamically when job
-is submitted.  We will need a fag for the sync_incr and wait_syncpt
-commands, saying "it's a job's sync point increment/wait"
-
-3. We should use dma-fence API directly and waiter-shim should be
-removed.  It's great that you're already working on this.
-
-4. Sync file shouldn't be needed for the part of DRM API which doesn't
-interact with external non-DRM devices.  We should use DRM syncobj for
-everything related to DRM, it's a superior API over sync file, it's
-suitable for DRM scheduler.
-
-5. The hardware state of sync points should be reset when sync point is
-requested, not when host1x driver is initialized.
-
-6. We will need to allocate a host1x BO for a job's cmdstream and add a
-restart command to the end of the job's stream.  CDMA will jump into the
-job's stream from push buffer.
-
-We could add a flag for that to drm_tegra_submit_cmd_gather, saying that
-gather should be inlined into job's main cmdstream.
-
-This will remove a need to have a large push buffer that will easily
-overflow, it's a real problem and upstream driver even has a bug where
-it locks up on overflow.
-
-How it will look from CDMA perspective:
-
-PUSHBUF |
----------
-...     |      | JOB   |
-        |      ---------       | JOB GATHER |
-RESTART	------> CMD    |       --------------
-        |      |GATHER -------> DATA        |
-... <---------- RESTART|       |            |
-        |      |       |
-
-
-What's missing
-==============
-
-1. Explicit and implicit fencing isn't there yet, we need to support DRM
-scheduler for that.
-
-2. The "wait" command probably should be taught to take a syncobj handle
-in order to populate it with a dma-fence by kernel driver once job is
-submitted.  This will give us intermediate fences of a job and allow
-utilize the syncobj features like "wait until job is submitted to h/w
-before starting to wait for timeout", which will be needed by userspace
-when DRM scheduler will be supported.
-
-Miscellaneous
-=============
-
-1. Please don't forget to bump driver version.  This is important for
-userspace.
-
-2. Please use a proper kernel coding style, use checkpatch.
-
-   # git format-patch -v5 ...
-   # ./scripts/checkpatch.pl --strict v5*
-
-3. Kernel driver needs a rich error messages for each error condition
-and it should dump submitted job when firewall fails.  It's very tedious
-to re-add it all each time when something doesn't work.
-
-4. Previously firewall was using the client's class if is_valid_class
-wasn't specified in tegra_drm_client_ops, you changed it and now
-firewall fails for GR3D because it doesn't have the is_valid_class() set
-in the driver.  See [1].
-
-5. The CDMA class should be restored to the class of a previous gather
-after the wait command in submit_gathers() and not to the class of the
-client.  GR2D supports multiple classes.  See [1].
-
-[1]
-https://github.com/grate-driver/linux/commit/024cba369c9c0e2762e9890068ff9944cb10c44f
+I'll remove the locks from these OPP patches and move them to the PD
+driver. It should be the best option right now since OPP API isn't
+entirely thread-safe, making it thread-safe should be a separate topic.
