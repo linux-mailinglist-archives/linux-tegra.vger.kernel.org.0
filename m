@@ -2,210 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48E452FBDC4
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 18:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83A0E2FBDCE
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 18:37:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389382AbhASRfR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 12:35:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36168 "EHLO
+        id S1729991AbhASRgg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 12:36:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387620AbhASRfP (ORCPT
+        with ESMTP id S2390678AbhASRgO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 12:35:15 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974A6C061573;
-        Tue, 19 Jan 2021 09:34:34 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id 143so22577739qke.10;
-        Tue, 19 Jan 2021 09:34:34 -0800 (PST)
+        Tue, 19 Jan 2021 12:36:14 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B992C061573;
+        Tue, 19 Jan 2021 09:35:34 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id b26so30250867lff.9;
+        Tue, 19 Jan 2021 09:35:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=p8tNnzd4y2KJS/reGqJBwxz1GlmlM3VOZcIG7Ld49os=;
-        b=UURw0+UWpe4aBZNtUILUdnwTTMO1z8WUJzSWZTGPjiftc+oGCvSwte9YNL490jXhJF
-         ZMnFHWbUZvKenzQacEy16CV4FbJg46GhIqUCnIO0yYn9wMYUJGFlVcXLubVyORs4HKsP
-         mLqAhRyj5m8cezm5qBLezA//8tM/X71+wPf+pPCQpUBxJMijzB/j9uhLLPT79r0c1QTS
-         Gt3nRfyb3gZvePzLJUZYU1ZIDIsP1+lCmEYFlB69v48s30WDoXChwvgMl2R1vd22NIIy
-         v7UVbFSGJenO3HurJUww+WAwho2Q23TYuIC2HUknAjJdreqZSa91bxJgEBzKIZcMgk6R
-         2eOw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gMgwlQyoUBPXZTnesEHGejV06vBVQO6z3YHE6lnNlA8=;
+        b=m+odlVeeIwd/iWZY8EUBSSPZ50JljTtjRALJNl0uHJMiKBXYWqjk4lJ6bFvC7AGKpE
+         v0VEwo2A6coM1VA8JK2EHOGtkV3IHKEcS1wn80qXqyPMNdrZ4bE/BVSyLbcxH9StLAfp
+         pvdTLnBHUiIJeXCknyBw7jsOGAI785JXb80ogKdmck8sKGe1//yzh/KxkmYmgxx2fCWN
+         UtaQfCRWmq4fW9RAHebWgJ8cSQjMHJsKNUozQGppsS9vMP6vLtcZwIZ32ou0MBOjfDqk
+         Tnaej0vhE6USsm+HD2b7DKIaECKqr6xMolVX/VKcD94bEq6kKtIyhLMcHPb+fk9XjtUK
+         MJHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=p8tNnzd4y2KJS/reGqJBwxz1GlmlM3VOZcIG7Ld49os=;
-        b=JnTFkuA2sJU1HQSPW/RwOMn2M9J1t9TX/J8ys0aG4JFwR8kPmcMhP7Dfnf0eIUwNix
-         EhKh+s8q5K4CR1mGw0NEE3eCKNJURM0we7u+kSJjni5x77S/yAmL0bSZV4twgZse2Npg
-         dzANyNic6dlXffwP9QRaKzOCyd138xaKD2Gb8qxvzRvy9AyiwkIagi8yMB036WO0Siex
-         6Iy3IDmgxiU5GtZDx6+rRjXO0yDwBGrcP21/Ngm4K2nIbWJltDiNp3GYRQRScskIaQO1
-         UYBx6l2SfRNYngE46N4wx4+60YqMxUbkj8BVqVjSwCY8tmvpu+OZ9iyWsMMEstuygHWW
-         5CZw==
-X-Gm-Message-State: AOAM533fjzysptvgTjGqt5x6wxDFG65QRVIb6et0AgOybX6Hp3B/6o4h
-        wI6FwT9xX8SnTCINO9rRZQI6iqLHw5U=
-X-Google-Smtp-Source: ABdhPJxnBhaCimzZgQX62uN2ZXLlnTeBj4V52zrzuS8102pthkDV0hPys/7gF47J3dljrPwAm+Gz6Q==
-X-Received: by 2002:a37:a110:: with SMTP id k16mr5462338qke.320.1611077673854;
-        Tue, 19 Jan 2021 09:34:33 -0800 (PST)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id k141sm13376514qke.38.2021.01.19.09.34.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 09:34:32 -0800 (PST)
-Date:   Tue, 19 Jan 2021 18:34:30 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Sameer Pujar <spujar@nvidia.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gMgwlQyoUBPXZTnesEHGejV06vBVQO6z3YHE6lnNlA8=;
+        b=BrmrovHAMrS8cjXZ8Fh2tUf4vAm8skvZCCGaKAcCCwpp3g8IR44qbpzsgbV8V5tdHa
+         vxTh2Pcn6I0aUMOfBwTjpFcKgodiaQoji/BfFMFzoHP2M73hPLbvNH3zUvGionNX3z4P
+         8HTOlCqkHYVflXMN6CE594basEPofZZMy+JH4rM1M/agKkMT8Vs1nXiuD9xNDXGxyy6g
+         sg2lrHIZHp2CUqaaQCBhc2fuaUbWbSvDeWKceMcAt7SYz7eJaYgDQVhGdTwiqCWhoeBO
+         4siRlVhlRqbPfnVzl+nIwunjKqDTNf1JZ85yGvSKS1HvewAGFbhsK103cl56sC5yVtAn
+         PJfg==
+X-Gm-Message-State: AOAM532nOw19k4VC462to9NpIF8hBPjE+n8TO3+xGMG1MIg4bVO97o4G
+        VQm1n+9g764Z4LrqfU5kPxEN2bsx7Wo=
+X-Google-Smtp-Source: ABdhPJypJleEMjoXlixlan9dKgAjCS8aG2pk0Q8rneBgP9GZa6qxN8L9BOUsK7BSpV2xNESqpMFvUA==
+X-Received: by 2002:a05:6512:368d:: with SMTP id d13mr2162278lfs.414.1611077732803;
+        Tue, 19 Jan 2021 09:35:32 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id f5sm2031874lft.218.2021.01.19.09.35.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jan 2021 09:35:32 -0800 (PST)
+Subject: Re: [PATCH v3 00/12] OPP API fixes and improvements
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         Peter Geis <pgwipeout@gmail.com>,
         Nicolas Chauvet <kwizart@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 5/5] ASoC: tegra: ahub: Reset hardware properly
-Message-ID: <YAcYJpb/Zf7IKZp5@ulmo>
-References: <20210112125834.21545-1-digetx@gmail.com>
- <20210112125834.21545-6-digetx@gmail.com>
- <YAG4aFADwo7dh/oR@ulmo>
- <c2f3d149-0781-3d0a-1d68-f6820386e84d@gmail.com>
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org
+References: <20210118005524.27787-1-digetx@gmail.com>
+ <20210118114613.fzq7nkrdfm53upkr@vireshk-i7>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1d17901f-6341-d278-f517-33d9c7aadf42@gmail.com>
+Date:   Tue, 19 Jan 2021 20:35:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="gssaDyI1tNRHdKsC"
-Content-Disposition: inline
-In-Reply-To: <c2f3d149-0781-3d0a-1d68-f6820386e84d@gmail.com>
-User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
+In-Reply-To: <20210118114613.fzq7nkrdfm53upkr@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+18.01.2021 14:46, Viresh Kumar пишет:
+> On 18-01-21, 03:55, Dmitry Osipenko wrote:
+>> Hi,
+>>
+>> This series fixes problems and adds features to OPP API that are required
+>> for implementation of a power domain driver for NVIDIA Tegra SoCs.
+>>
+>> It is a continuation of [1], where Viresh Kumar asked to factor OPP
+>> patches into a separate series. I factored out the patches into this
+>> series, addressed the previous review comments and re-based patches
+>> on top of [2], which replaced some of my patches that added resource-managed
+>> helpers.
+>>
+>> [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=221130
+>> [2] https://lore.kernel.org/linux-pm/20210101165507.19486-1-tiny.windzz@gmail.com/
+> 
+> Hi Dmitry,
+> 
+> I have applied 9 out of 12 patches already. Thanks.
+> 
 
---gssaDyI1tNRHdKsC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jan 18, 2021 at 03:02:38AM +0300, Dmitry Osipenko wrote:
-> 15.01.2021 18:44, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, Jan 12, 2021 at 03:58:34PM +0300, Dmitry Osipenko wrote:
-> >> Assert hardware reset before clocks are enabled and then de-assert it
-> >> after clocks are enabled. This brings hardware into a predictable state
-> >> and removes relying on implicit de-assertion of resets which is done by
-> >> the clk driver.
-> >>
-> >> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> >> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >>  sound/soc/tegra/tegra30_ahub.c | 33 ++++++++++++++++-----------------
-> >>  sound/soc/tegra/tegra30_ahub.h |  1 +
-> >>  2 files changed, 17 insertions(+), 17 deletions(-)
-> >>
-> >> diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_=
-ahub.c
-> >> index 4dbb58f7ea36..246cf6a373a1 100644
-> >> --- a/sound/soc/tegra/tegra30_ahub.c
-> >> +++ b/sound/soc/tegra/tegra30_ahub.c
-> >> @@ -65,10 +65,20 @@ static int tegra30_ahub_runtime_resume(struct devi=
-ce *dev)
-> >>  {
-> >>  	int ret;
-> >> =20
-> >> +	ret =3D reset_control_assert(ahub->reset);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >>  	ret =3D clk_bulk_prepare_enable(ahub->nclocks, ahub->clocks);
-> >>  	if (ret)
-> >>  		return ret;
-> >> =20
-> >> +	ret =3D reset_control_reset(ahub->reset);
-> >> +	if (ret) {
-> >> +		clk_bulk_disable_unprepare(ahub->nclocks, ahub->clocks);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >>  	regcache_cache_only(ahub->regmap_apbif, false);
-> >>  	regcache_cache_only(ahub->regmap_ahub, false);
-> >> =20
-> >> @@ -462,7 +472,6 @@ static int tegra30_ahub_probe(struct platform_devi=
-ce *pdev)
-> >>  {
-> >>  	const struct of_device_id *match;
-> >>  	const struct tegra30_ahub_soc_data *soc_data;
-> >> -	struct reset_control *rst;
-> >>  	struct resource *res0;
-> >>  	void __iomem *regs_apbif, *regs_ahub;
-> >>  	int ret =3D 0;
-> >> @@ -475,22 +484,6 @@ static int tegra30_ahub_probe(struct platform_dev=
-ice *pdev)
-> >>  		return -EINVAL;
-> >>  	soc_data =3D match->data;
-> >> =20
-> >> -	/*
-> >> -	 * The AHUB hosts a register bus: the "configlink". For this to
-> >> -	 * operate correctly, all devices on this bus must be out of reset.
-> >> -	 * Ensure that here.
-> >> -	 */
-> >> -	rst =3D of_reset_control_array_get_exclusive(pdev->dev.of_node);
-> >> -	if (IS_ERR(rst)) {
-> >> -		dev_err(&pdev->dev, "Can't get reset: %p\n", rst);
-> >> -		return PTR_ERR(rst);
-> >> -	}
-> >> -
-> >> -	ret =3D reset_control_deassert(rst);
-> >> -	reset_control_put(rst);
-> >> -	if (ret)
-> >> -		return ret;
-> >> -
-> >>  	ahub =3D devm_kzalloc(&pdev->dev, sizeof(struct tegra30_ahub),
-> >>  			    GFP_KERNEL);
-> >>  	if (!ahub)
-> >> @@ -507,6 +500,12 @@ static int tegra30_ahub_probe(struct platform_dev=
-ice *pdev)
-> >>  	if (ret)
-> >>  		return ret;
-> >> =20
-> >> +	ahub->reset =3D devm_reset_control_array_get_exclusive(&pdev->dev);
-> >> +	if (IS_ERR(ahub->reset)) {
-> >> +		dev_err(&pdev->dev, "Can't get reset: %p\n", ahub->reset);
-> >=20
-> > I didn't notice that the prior patch already introduced this, but I'd
-> > prefer for this to either be %pe so that the symbolic error name is
-> > printed, or %ld with PTR_ERR(ahub->reset) to format this in a more
-> > standard way that can be more easily grepped for and parsed.
->=20
-> This is already fixed in v2. Good catch anyways, thanks.
->=20
-> > It also seems like the prior patch that converts this to use
-> > of_reset_control_array_get_exclusive() is a bit pointless now. Why not
-> > just move to this directly instead?
->=20
-> These are two independent changes. The previous patch fixed the missing
-> resets, this patch changes the hardware initialization logic.
-
-But moving to devm_reset_control_array_get_exclusive() isn't really part
-of the hardware initialization logic change, right? So it's not strictly
-related to the rest of this patch.
-
-Anyway, I don't feel strongly about it being part of this patch, so feel
-free to keep it here.
-
-Thierry
-
---gssaDyI1tNRHdKsC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAHGCYACgkQ3SOs138+
-s6E2pw//fpPwc7rRFuwtI+fpGYhR9bkSJGAsW8c13WeGUXpmIBG24DNPTMa5Dwjr
-dunxgN+tl4MRPvegW2vqWIDy/Gasxcp1eCryiYSal2W3UsDSb3B8DO/6zo4l0jUF
-XjLRslsDLVlXPvtiKLTeIAV6xbWmvjXvYLv0kZ6KrPj61PmSdejglDq+WqhG+mZu
-qYodRgqRCByrfjVhR1pvTtARbSZl+iQLsb9RhomzsB/bJUITiIu6+/ZVi+r/i6aR
-xj7mUu9YKkTmpVVi4Wv480Tuq2+u5sZc569FA6utPWAEelPdiFpDJrEjz6eq9Ouj
-ImjgMqZwFsERkJaAb35BU1eXn+VlylLjn8L+pzfGj2zW3TLrQ++Be7UY3iftlhrD
-qYssfr1rQmElNd1UuCWDDF5fyp1T423mxupboWmrai4iIAe+aUmgXlZZfHQaaI60
-5I4niaNihm9R4ZzBlkGvS7p93/dmSHY5MMAyTDMLrGXzt076MGcWezBk6P/jAW+m
-/hwWBXaRnf1E1v0BYX89P8pHUIr07LhmeYTu8IJGTna0IiLexmDrzh1U7gnw/MUk
-SbRFMYKCm4x5P3DSk9AnKo7R4yWavYohy9GMFVCQA48HLKAukKWLiDc1ayalNPf/
-Cb7exez/22oxAeTG+OWRH26o41R727BtXkl+SCP0tLj6X9urpQw=
-=ejHG
------END PGP SIGNATURE-----
-
---gssaDyI1tNRHdKsC--
+Thanks, I checked that everything is applied properly using today's
+linux-next.
