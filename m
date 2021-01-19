@@ -2,151 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C9CA2FC24C
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 22:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 408E62FC24E
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 22:30:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728420AbhASSob (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 13:44:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40642 "EHLO
+        id S1728491AbhASSoi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 13:44:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392086AbhASRzg (ORCPT
+        with ESMTP id S1727366AbhASR4o (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 12:55:36 -0500
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D00C061793;
-        Tue, 19 Jan 2021 09:48:26 -0800 (PST)
-Received: by mail-qk1-x736.google.com with SMTP id d14so22629164qkc.13;
-        Tue, 19 Jan 2021 09:48:26 -0800 (PST)
+        Tue, 19 Jan 2021 12:56:44 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29903C061575;
+        Tue, 19 Jan 2021 09:52:17 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id a9so17150006wrt.5;
+        Tue, 19 Jan 2021 09:52:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=f4E5ZdTb/c/05OV3aNGXqZyr3BVid89a31XNJo/J7Bs=;
-        b=B8bu++PF7PnHYPfUMUd8fXSpBcwFZt4PIJSmxKCtkivGyFeZUSzGzJX8RuymkJB/gb
-         fzbJeesBRuAacv3kFIZscSHswavMV/sVoWOcdPHv5BvPZM5oSRoMsCMJ91+jquM0atbd
-         UzjpOp9hK65Ai2DqY/LxfaTNOKoc/8NwJAhsmzzI42OZr0kzrZgl44Q6m8STPkavVKRi
-         /uu5KbbJZQueqYyuBAQjtOCtz5NRLvUEO5oxVGHDJT9R4UQQfNEYaS6xbccucFt3nDn7
-         kpqTzzo+aGL9m/XeWkMDPfOddGvAi75m8bTt15d5kO/bwd9tfZdbXVR/D161pQp08rOd
-         FXFw==
+        bh=gv2/PYi0aGKQQV3NNP+/AyoxHWeD+l2D8Mb5mG065rw=;
+        b=GhBc/yO1LHVTuTVTXwGDUXKyzz4etrMMp1ydZI8UHSghb6SEaJcOCeDhdkAAzVyWN4
+         QUt4wTw5jkO3Hl2eLGCLR+BOp6WgI/L4ndLuUSjbcuN07ggE+AFOiDlVPI46v6vsDuVn
+         d2bG102Kn38muF7oTAuFWOsXhey7HD94nOxqzzc3j0IzZS40VkgvSXRqun36+ynwh998
+         X4dwXtCRYI0XJQd/V06Nr1aG2iFa68dPQnVqoeLRS1KiXpF/Y9djKje6RoWZ175x4Dq0
+         RPLH8jEjmYSia3t/tboWBRcypnnOlvRx4+fIKLDNmg8NPiq+WcrTNj56dOLsKVR8sYYr
+         RWhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=f4E5ZdTb/c/05OV3aNGXqZyr3BVid89a31XNJo/J7Bs=;
-        b=h3ivrifVVYroMaWQUqX5ig2i3x0Mi4oV+Q+sFDTnn7ouoLgdbvYmLVH6qwm/Wd9s4l
-         GnyR1L/UZZXjw+IUp9tWa/FpWuMl23jipqU4ryHGUTIb2cek7McvdeWsQdzTSsYDJCC5
-         WJRecDxAOgSIrLqKmw1pXUdupwYICzLsRGhhdWJX+Bl8aOiFaHaChIVl9jCFmmjXa1Ei
-         RadYh42FVe7DfBnFApWYygVmAYL0h9G2V99uY2imVz4NX5Tq/3Gykp53rDh2S4vm3v8a
-         6qhcXoUmqEcTJbTTcCQVcKcsZgvO2VjNIbpk2Lm5gH6vjExExxWegqcZX8Yqup35Lq04
-         +K0Q==
-X-Gm-Message-State: AOAM5317JNvbj5tbd/JgTloWZ2rRnvBeTHPaHVgeyaX3oHU/Hyuodv9m
-        IrhLsp7SSsWSzcTqEQDlQxw=
-X-Google-Smtp-Source: ABdhPJzw8/RPKTyYutvWvfbgQUaf6yTfXT1jpFSgNSofmVVW0znNTQ7HAicj2KhgFkPFPHoeHINwAg==
-X-Received: by 2002:a37:9dd3:: with SMTP id g202mr5578423qke.488.1611078505338;
-        Tue, 19 Jan 2021 09:48:25 -0800 (PST)
+        bh=gv2/PYi0aGKQQV3NNP+/AyoxHWeD+l2D8Mb5mG065rw=;
+        b=qc1y+yYRodUWfRmfD474PJWkVsuF+ygWvllOACb23FzEneqY9mtoccyLqlcWQvYiwr
+         PnKisGX+vN+HTMBsE7CMxMgTA+OkLs7VM7FXHhYzDsfe0NEQ7TPL7cGyKm4Im2ktYOXQ
+         ITCvBPgN4Nrn4/ef811iU00M5Z0qvC5uyzwdtzTzfUehv3ZApTCLOdu+On00GoVOff6q
+         OmgcFE+JVl1SBo1Hj5ityNGhPWh+68XZkLDsROSemtuYaszBOZQtGwToQsptuBL9Vytf
+         z1AvLfYYPbvLuP118L44sm2uD3iasweQBDYqkV/ZFlm+9xn1nAt/SDVU37v/2a7D6Ptf
+         oFEQ==
+X-Gm-Message-State: AOAM533StAIV9zgpeqtzCCyeHzJ1beI5WYV94rW2R09WzyNxVEcQxLj8
+        7jxPXyvqUtvEnUaEdVi6kYw=
+X-Google-Smtp-Source: ABdhPJxX0AQATCNwY8eoPUgbi2+2Ojnis18eOEeKrXe62tsmFQ1QzsEebCNWAjyVAjfVrnz+VEJzYQ==
+X-Received: by 2002:adf:b343:: with SMTP id k3mr5423195wrd.202.1611078735895;
+        Tue, 19 Jan 2021 09:52:15 -0800 (PST)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id o5sm12769923qti.47.2021.01.19.09.48.23
+        by smtp.gmail.com with ESMTPSA id k131sm5817605wmb.37.2021.01.19.09.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 09:48:23 -0800 (PST)
-Date:   Tue, 19 Jan 2021 18:48:21 +0100
+        Tue, 19 Jan 2021 09:52:14 -0800 (PST)
+Date:   Tue, 19 Jan 2021 18:52:13 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        linux-hardening@vger.kernel.org,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH] gcc-plugins: simplify GCC plugin-dev capability test
-Message-ID: <YAcbZRViwlAwl62q@ulmo>
-References: <20201203125700.161354-1-masahiroy@kernel.org>
- <b9b17126-9af5-2f73-526e-91bb9fd27f71@samsung.com>
- <CAK7LNART2qQBY7Vc8rhMiXS_Fwty7qpWjwwfPrUegTb-gjy6sA@mail.gmail.com>
- <9f959875-1a30-b1a1-b626-3805e24a6df3@samsung.com>
- <e5b06d9a-9b24-2440-e0c2-8bf7095eccd9@nvidia.com>
- <25030057-86b1-5619-25fd-acfa0728b850@samsung.com>
- <4ab4f62f-8b37-01e1-f81c-270155b13a51@nvidia.com>
- <7e691a61-bf4b-0594-8d6d-36d62a5def0b@nvidia.com>
- <CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@mail.gmail.com>
- <95ce88c6-59bd-55b9-9299-51fa20aeb95c@nvidia.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] of: property: Add fw_devlink support for "gpio" and
+ "gpios" binding
+Message-ID: <YAccTde7got3jeXf@ulmo>
+References: <20210115210159.3090203-1-saravanak@google.com>
+ <CACRpkdYrzaFuWkbTe7Fmos4Bk4Ojt6wbqayDjyrS7sf98P-Rbg@mail.gmail.com>
+ <CAGETcx9t3R-k0ttiaBUqcveqnXMX75xuTcKPSo9J6WJOfgSP8w@mail.gmail.com>
+ <CAMuHMdUN7+O28Xz5rkPwR2RuSA+o_E2VcWsz_9+kzy4=0Jnb1g@mail.gmail.com>
+ <CACRpkdZqSm-xfo8a8aFUe-Mbaw9tM+OmCAF3KWjOVDfC=oWj+Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7rm5qQeEd3jZvY1U"
+        protocol="application/pgp-signature"; boundary="4S7UTJVfLVdubIqD"
 Content-Disposition: inline
-In-Reply-To: <95ce88c6-59bd-55b9-9299-51fa20aeb95c@nvidia.com>
+In-Reply-To: <CACRpkdZqSm-xfo8a8aFUe-Mbaw9tM+OmCAF3KWjOVDfC=oWj+Q@mail.gmail.com>
 User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---7rm5qQeEd3jZvY1U
+--4S7UTJVfLVdubIqD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 18, 2020 at 08:33:37PM +0000, Jon Hunter wrote:
+On Tue, Jan 19, 2021 at 11:20:24AM +0100, Linus Walleij wrote:
+> On Tue, Jan 19, 2021 at 9:50 AM Geert Uytterhoeven <geert@linux-m68k.org>=
+ wrote:
 >=20
-> On 18/12/2020 17:54, Linus Torvalds wrote:
-> > On Fri, Dec 18, 2020 at 7:33 AM Jon Hunter <jonathanh@nvidia.com> wrote:
-> >>
-> >> However, if you are saying that this is a problem/bug with our builder=
-s,
-> >> then of course we will have to get this fixed.
-> >=20
-> > This seems to be a package dependency problem with the gcc plugins -
-> > they clearly want libgmp, but apparently the package hasn't specified
-> > that dependency.
-> >=20
-> > If this turns out to be a big problem, I guess we can't simplify the
-> > plugin check after all.
-> >=20
-> > We historically just disabled gcc-plugins if that header didn't build,
-> > which obviously meant that it "worked" for people, but it also means
-> > that clearly the coverage can't have been as good as it could/should
-> > be.
-> >=20
-> > So if it's as simple as just installing the GNU multiprecision
-> > libraries ("gmp-devel" on most rpm-based systems, "libgmp-dev" on most
-> > debian systems), then I think that's the right thing to do. You'll get
-> > a working build again, and equally importantly, your build servers
-> > will actually do a better job of covering the different build options.
+> > > Can we pull this into driver-core-next please? It fixes issues on some
+> > > boards with fw_devlink=3Don.
+> >
+> > On r8a77951-salvator-xs.dts, it introduces one more failure:
+> >
+> >     OF: /soc/i2c@e66d8000/gpio@20/pcie-sata-switch-hog: could not get
+> > #gpio-cells for /cpus/cpu@102
+> >
+> > Seems like it doesn't parse gpios properties in GPIO hogs correctly.
 >=20
->=20
-> Thanks. I have reported this issue to the team that administers the
-> builders. So hopefully, they will install the necessary packages for us
-> now.
+> Could it be that the code assumes no self-referencing phandles?
+> (Just guessing...)
 
-Just to close the loop on this, the builders now have libgmp-dev and
-libmpc-dev packages installed and the builds are passing without the
-workaround we had used.
+Well, since this is scanning the DT and creating device links between
+producers and consumers, there's really no point in handling self-
+references, so I think that's fine.
+
+However, what this probably should do is skip the node if it's marked
+as a GPIO hog to avoid the error message.
 
 Thierry
 
---7rm5qQeEd3jZvY1U
+--4S7UTJVfLVdubIqD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAHG2IACgkQ3SOs138+
-s6Ht2xAAu0L1jit8d2ZxSzQyJH8jOz7gwm9N2twAnmXa51SkLH7/ZUnt7hkbnjcd
-M3XS33eXTd60Aj0IFpMwhUfzDRWmXVlIbhTfotdWp6655KxbThC513SdvEMQiTlO
-/bn97HxU/azt3xe7pGYEhyyx0UruX/jtYnC35gE5zqzujM3uVcvqh8q0O62dcKGM
-gZi5U0OYYpMXRTJRIWKAD/+ytrfJyWNvFFcO8SVoLg+cKtZ0S6Q4Xt5wNgHGFemL
-gRDqQZFrJDUCFBysQR1lN/9AUw/f0EmNmvqjc6HG3hTdwA18sOq0rpHdynaNa0RM
-vjKI+qQ8kkCBhZl4ZqC9KD7GEwxuspESTInrD3YQx9fcZwhCq9JDjE6y9KHwalbW
-C1JHgMr6ZL/vNC7/Q7CyALUzyaZBXU5eJgL9dN3SpCCjEzvUJmHaWaTe9CFGGYVx
-D9QRNgjhpkBweaF2+J9K3infuyFEZmg8/7JyuYW2QbZ9/iS7/pzw9wzw8OEZiSin
-txGU4UeWnSq7Fxmc5yaip4aTGGn8Rgv36MA8dQB8GQb2Ipvx5iJaBJuQGT5W4zPI
-7gQkWpWk8QUuXBFng3cj0+5kCR6tZao7J/at06iOyAtbpIYPekA956dTBUysW/qM
-108q895PsmRm7+jvd9ATrCUH7/sWlswwZOGHHjfM3tFNMg6GlUk=
-=bF1k
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAHHE0ACgkQ3SOs138+
+s6F+kA//YmrTT+fOYS55Tu/6/1d1bj/H3eNnWHUSmFjxSkxHGsrNo1kmo/M9CxWI
+yVfJQnPzTyh1Jwa2Sf9eXhDGm7PxuPDAofQ+Gz3I2udCy21DOY5/5vHsJBS6LeTo
+rGvrfDnTZd3XR20W9nhLu56s89u/d8qQxVfdn2vNCddnod1BLml4lvaEKY2BHWRY
+6OQ6PPS4pVluDZT/QoI4p8gL9HUFdjtot9lOuIVxnFNmBDCHdwF4kIICMhRGOqOH
+eBDfZZfOy9y4rc8lUXTbD90RHH/HDQfAuUZ8IDE98/dln21qIllgR6KzmNZ1x8F8
+aUM27NW+4zz8Lmqb6uICeMYwHNIZm/V5xH0ZVHSUgbjvhSDH3iMm5C5LGJMLoYx3
+VygOLrTzkReXOUqT2IpHQiHkt0qKki89VzfzFzvLppH8FAq2rlSKLtwEL5MPldpS
+IMafATlayMSQfsdbxfaBUAd3g6MHsB3jbpXt6Q63aCRODWYWAyQSxJQMSftbnoHe
+gDCrmEMARa+Ei3o+oRC3TUVwaLB/smx9Vp7GBtfUfME6azOBWbpBZjyaNoy6RzKq
+aq25VhumEuRlWitkCDoF2/i6hhGCqoKNymV3YLUrpAMfeNHFL9kHEAWFxhCPvEm9
++l+nkM7CbSdZDqmA5tb6qcJeVTIE7dsi/BYAtIxr6YKlo2nONJk=
+=uguw
 -----END PGP SIGNATURE-----
 
---7rm5qQeEd3jZvY1U--
+--4S7UTJVfLVdubIqD--
