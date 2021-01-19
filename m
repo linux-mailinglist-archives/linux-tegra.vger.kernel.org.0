@@ -2,96 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F8682FBAA6
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 16:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05C292FBD5B
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 18:18:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727816AbhASO6h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 09:58:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34514 "EHLO
+        id S1731586AbhASRQx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 12:16:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389470AbhASNGB (ORCPT
+        with ESMTP id S2387730AbhASRQf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 08:06:01 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 522FAC061794
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 04:52:27 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id ke15so20633566ejc.12
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 04:52:27 -0800 (PST)
+        Tue, 19 Jan 2021 12:16:35 -0500
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E62EC061573;
+        Tue, 19 Jan 2021 09:15:55 -0800 (PST)
+Received: by mail-qk1-x72d.google.com with SMTP id v126so22514781qkd.11;
+        Tue, 19 Jan 2021 09:15:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WV7L1kLG3PoCgk5eDaz8gy8bMq/uXgxIVF8+lUQIh+E=;
-        b=Fbr4JousLcIgupU6L4I4sRgEF2ysF3165R5itAIgMgql588a8GffAZ00hqTa+ijhfR
-         0rVRhi2n+rJcr05S2hx8nJ9vMMV8IAzJxE+sT0If4SdOzNi0CMeT4et9miUzGv58J6OF
-         yA6TSQ7kt/+966V1m+kr3FbErQa2sXvQrAFoaFiNHyS1exMJbXOwDxFRZvlZo9Kzm/w5
-         2VrQtIjsyQyap84garcGuTLtDHrmjDNh2rAPdmAQZ5E0vbf3Dr2ryBOSB+YaNO4RopzN
-         Ep18nnaGA+EH+SbRLGNNyMvnU4Byr0SD3gR4yNS5OSRiIXH1LhOqNThnVm/tmSX8OIGf
-         +JsA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=/Wq4qZjE/3PIn7FnaG2ZyC5WlhiHEngk1+PS8fgItLE=;
+        b=JFx2kpR6qED4GlcB1JBdL5pzb/N3debM49RiAn3r7cD6kOxykr8h2jV+oZtcfVmtDv
+         bl/NyyyYuuaeH/1X5rZ+hzMOFCj1R3DC5fRote5OwHhGCh+6sXR0tLGauMdV/2ZMJLZg
+         XlM1/CS1QvD/r1jDrwt/QRyvGdBkp4eXu44ypOEoLpwsKKgZyxZyDWzI/GdmzIdyvml4
+         3sU6NxKqDlAJvEfceK2wGe/Tp1i+BKjl6vt2y8i+IXD0z8Se2skSl36xrWsLyr65k6Z4
+         h4uVH0458HyM/qP9HCFsQJseKhbIEkeuBIILcLiE1SJGlfIjGkqHkazxbKE775/8sZZ+
+         wj/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WV7L1kLG3PoCgk5eDaz8gy8bMq/uXgxIVF8+lUQIh+E=;
-        b=HzLARQN2vSCvt7NAOj/KB5VJ7nWYrBr3PgLzl6ig8pBqSL/KEtqEpCeQpK5zIRH/PT
-         KSALrxW+rgaS+EEUgPQMl8z4qNhqBPxRBNEoIpp/GG26lgoJ/GWvZjWXt8Ut0sZSS+It
-         ZV3WOwSdP99uvrS+5kYUeynC4HXGBb1bquKFXH2k5Kyt7gdcDiGa796aWj5w/9yRnmy0
-         3E4BDhpgzRqSDnc4/sv2SB20N3ft81wHSwYPWegSdHuXGD4TWPSl3LoXSGlyznkYlnx+
-         5tnVeiG6GumrPpTpzuERARSF7a+R8g8QIP5AI4zPaWB17FRdgCrrsRW1n8cEtF4sHsP5
-         T7rQ==
-X-Gm-Message-State: AOAM530yZ3HgFrZS6dw1rSRbmEFG4FGE/MjZ4qpvQOPVxHgAxIAG2bp+
-        q4YN2Js/pouS+5Hr1ko7DadnId6przQL4iFX64LpRQ==
-X-Google-Smtp-Source: ABdhPJxj94GeoRvmRcNkG4fxqmwo3FAvPSVL//ar3j3bj5XUxEOe5nuWJPJXxe26I/H+MUK2msEH5GdPZDqYavFd7H8=
-X-Received: by 2002:a17:906:1c4b:: with SMTP id l11mr2933957ejg.155.1611060746123;
- Tue, 19 Jan 2021 04:52:26 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=/Wq4qZjE/3PIn7FnaG2ZyC5WlhiHEngk1+PS8fgItLE=;
+        b=K9jbTilpQDcr0W5ZTOPHalY4IPpkbCBirZlyvgzZV1KfntJtMul61U2M35v9snN2av
+         CqYVaRIJcgyQGbSc0nT74RkrwWSSLL64fStPqQ75sV0HnDq0iWtrEAD/FLzRlHXKGsIs
+         dD7eQfQHKxjr1apKqYUHD8wEHzc5S5NipNsBID7iy/6p8+Gkcu26wUKjwYJnP7KAimdU
+         87eT1HPGBOPYUI2bdIbnD1nlrFJoRn9St5L4gbh7T0SlkVnMAfUct9GshaVXRFz+Dy27
+         6XhNjp90tiUjJ4cwerAeUjW9kz6E8XZWLUd6eymxBegdyTSWJVxb6NagyrHpX8i0xP/Y
+         WMbw==
+X-Gm-Message-State: AOAM530M56Om7A7i0k8vFbJyaDJSaeTFMzzRcZQV+VcU+ZrIXFjpIeO5
+        ba9bilxS+CNPVNco9aMeDBmR/d/67Uw=
+X-Google-Smtp-Source: ABdhPJycqx06CLHOtr8yYwKPAeyRnNsWmzo5DsVRoLEFQGnY+lx39eEbN/524ikbpYu5IHC3qNi4Kw==
+X-Received: by 2002:a05:620a:12ed:: with SMTP id f13mr5362033qkl.497.1611076554637;
+        Tue, 19 Jan 2021 09:15:54 -0800 (PST)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id k64sm13500696qkc.110.2021.01.19.09.15.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 09:15:53 -0800 (PST)
+Date:   Tue, 19 Jan 2021 18:15:51 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     broonie@kernel.org, robh+dt@kernel.org, jonathanh@nvidia.com,
+        kuninori.morimoto.gx@renesas.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com
+Subject: Re: [RESEND PATCH v6 5/6] arm64: tegra: Audio graph header for
+ Tegra210
+Message-ID: <YAcTxxyogVgfN1uw@ulmo>
+References: <1611048496-24650-1-git-send-email-spujar@nvidia.com>
+ <1611048496-24650-6-git-send-email-spujar@nvidia.com>
 MIME-Version: 1.0
-References: <20210112133010.21397-1-digetx@gmail.com> <20210112133010.21397-2-digetx@gmail.com>
-In-Reply-To: <20210112133010.21397-2-digetx@gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Tue, 19 Jan 2021 13:52:15 +0100
-Message-ID: <CAMpxmJWo4Qd1b7rxW_BLax7X=_NGrWY=-Ec9zphV3rngG=J=xQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] gpio: tegra: Add dependency on GPIOLIB_IRQCHIP
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="V/me9ht3Hy4FdSi0"
+Content-Disposition: inline
+In-Reply-To: <1611048496-24650-6-git-send-email-spujar@nvidia.com>
+User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 2:30 PM Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> Add dependency on GPIOLIB_IRQCHIP in order to fix driver compilation.
->
-> Fixes: efcdca286eef ("gpio: tegra: Convert to gpio_irq_chip")
-> Reported-by: Matt Merhar <mattmerhar@protonmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+
+--V/me9ht3Hy4FdSi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 19, 2021 at 02:58:15PM +0530, Sameer Pujar wrote:
+> Expose a header which describes DT bindings required to use audio-graph
+> based sound card. All Tegra210 based platforms can include this header
+> and add platform specific information. Currently, from SoC point of view,
+> all links are exposed for ADMAIF, AHUB, I2S and DMIC components.
+>=20
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
->  drivers/gpio/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> index 75f6c37620ea..0cd1f91e4a19 100644
-> --- a/drivers/gpio/Kconfig
-> +++ b/drivers/gpio/Kconfig
-> @@ -597,6 +597,7 @@ config GPIO_TEGRA
->         default ARCH_TEGRA
->         depends on ARCH_TEGRA || COMPILE_TEST
->         depends on OF_GPIO
-> +       select GPIOLIB_IRQCHIP
->         help
->           Say yes here to support GPIO pins on NVIDIA Tegra SoCs.
->
-> --
-> 2.29.2
->
+>  .../boot/dts/nvidia/tegra210-audio-graph.dtsi      | 153 +++++++++++++++=
+++++++
+>  1 file changed, 153 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra210-audio-graph.dtsi
 
-Applied, thanks!
+I prefer keeping everything in tegra210.dtsi, but I can do that merge
+when I apply, after the DT bindings have been acked, so no need to
+resend just because of that.
 
-Bartosz
+Thierry
+
+--V/me9ht3Hy4FdSi0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAHE8QACgkQ3SOs138+
+s6HyRRAAr5aaieN+iwicZO0lllDEMbxrMSPQLW5lRPP/IsqHcVcSaInc2Xuoyeks
+Q36vwKPpeHV4mWLwAPgunERnusPLI705z88oTVJnV1mXMiduyW2yfyBHdd6tpMZS
+KX2rPHf1AoiBrvh170nem+ZCxjfqcMR4+YL58JjIpyXaPbfJ2qwnOuBDFKLU2uiS
+yG3k6wyYsBBJWsS41rOya4dqNi+YpzGaQ7IE7r5YP3R0Or9RiEhwjE8xgXiLPVhM
+YilIjWyv3Csc9yPsliO1WCriNboKL+BgClNQ4YELltr+mYbsSZwIzqXrApRwXJP3
+6tuZA67Cmhmk9ghCxI2dljX+fkEks5lEIVpChT4GmF6vSbfF0kp8Sc+sIiGtkCRH
+wx+30v+iqYLXN407FCL5gqiqzZPfIeAAKJ1pv7vDL+p4kqdiFHF0UTCvZoZKG4R5
+FCsmesbdBCk8VjgfoHG2oFZ764r7uMdhrO1sTOryYEzqaUpEPh4dfHGye8OM9vYd
+JvvEtllWM2nNLQ32sSKbvYZaRLVpqP3njGXp8qvTZ+TGkYDpTuHqYI2jpQmciq5f
+gYN6k2z12Za8D82/QzEDwtgyLYayRmbFFIuaX7+eAjQBYSH6j2nEgwY4aOAUyXZF
+Zmuw02HfH1lGSwdKNvQ60ynTniWrIfqxSlUVZQ9emj56wlkz8WE=
+=if1e
+-----END PGP SIGNATURE-----
+
+--V/me9ht3Hy4FdSi0--
