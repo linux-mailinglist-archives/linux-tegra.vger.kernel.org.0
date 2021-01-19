@@ -2,116 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB8CF2FB827
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 15:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 646A92FB828
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Jan 2021 15:29:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392208AbhASMDB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 07:03:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50342 "EHLO
+        id S2392211AbhASMDF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 07:03:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbhASJ4D (ORCPT
+        with ESMTP id S2390420AbhASKVS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 04:56:03 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E85AC061574
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 01:55:15 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id md11so11474507pjb.0
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 01:55:15 -0800 (PST)
+        Tue, 19 Jan 2021 05:21:18 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A93EC061573
+        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 02:20:37 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id b10so21273361ljp.6
+        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 02:20:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=xAqXt2hrMnUwGHY4K/vXVEtDT5xO+PqICWyHvp6jNI4=;
-        b=yLyMj40c8dpxG49080WIa+e1h0pdwJbbPb6WrmW/NlllBflJkMeezxlqx/j4D5Eu+f
-         UVjn8MO4sm0KngRQxbChnQghGE8x7cuFzzgtIWVDa4mwXm+TnRc3LgZNKRDKwjDIWqk/
-         xd1U0afI3Wfh4S7IEVlwnL6i/FE6p/oj8XtHRhcJDpvC45IRYws7FU6ZBKyBFqPyed4U
-         MoieLszFLBCu2JWPzofsc8lwyRT7UFSDBPMDaoTmg4iGU+VoBu3jjofvFwH1C2en01Mf
-         UePfcVcZW4+RGC2J74FvKjBsbvFQ0mWIWrfMWdyEpT6tW6pjxGN2/N1X2RjaVTPIu+SA
-         92aw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/YQBcNBC489WaN9UL5/YpWA5NrXZnL3lkrVKWyyBDD8=;
+        b=Oij/nf57252NbWgQ6kxq3HlQvHsxTgCrtEu4ieKonr/XWhrR0+nBWWDAotFFTGtxjQ
+         PargBwuTuhLGCG/yiKNdqVHxFQldBmWQH/LQ86clXlRWzWrA02XWtWzJMu4u+7d6JZsv
+         qi4eQxMpbhH6tRxa0hi28WEi3Mt6cvqWntB8evriedqCtUndhRNIgoG8sOPqJYKEdTZD
+         Yv9LL+w+02Da0OAgpsIR0q6hkMXz/3EY3PLj5txy2rJdwdNEL46v0RpYxb2WQWWZMx5W
+         Ksh1lHnsDqaQlQ7nGOIWU4krN4ohVHo1UxKlw8N+7YrmcQuc4N0xkYEaFiHfErNwvLXa
+         5JSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xAqXt2hrMnUwGHY4K/vXVEtDT5xO+PqICWyHvp6jNI4=;
-        b=TWMwQLuw0xv1z6oWYBxgLEHr3x+tCpAZbQTVt7BIHH8E9T8PYfwhNtu7eboHyoPHvp
-         45W/iOCOJMlMR4Dx2rZL66vd9wZoY7Zi48aK5aAURqv1e1uXIz5L4t9cFR7EbRz9BJiY
-         kXKLToxEwSmdKx8NQ+a7Lfwxm/sXZwLhHSvS1m1CkSlSsMCHvW4yT2pUsJ34P5DpHqB/
-         mJuFES3maGeUjgAairmNako1AgDMNuH4RC3x3JAxG5mf6NtQWqrVySMUkJj9r0NHVusL
-         GzNaz88uWtxPHM4kqLLAaaH/lKlzdK8pdsIbm4rvszxlh1HHy9tkNtLOLK5fl8etck2v
-         TOQg==
-X-Gm-Message-State: AOAM530GrWYXQSXV1UbX9l5tEEzfvymO4MAQjBh2YkcWuAlzMZlLdrsr
-        JfxosV0+poJau+5jbt/SDwR0NQ==
-X-Google-Smtp-Source: ABdhPJzzA9SrNQFl+F6LdDy36vNrtNXWt6cwOvgIfknJpkBo8QX65rmWDW606+FJKruuIfh0mqyekA==
-X-Received: by 2002:a17:90a:fa84:: with SMTP id cu4mr4536724pjb.0.1611050114175;
-        Tue, 19 Jan 2021 01:55:14 -0800 (PST)
-Received: from localhost ([122.172.59.240])
-        by smtp.gmail.com with ESMTPSA id q9sm18869325pgb.82.2021.01.19.01.55.12
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jan 2021 01:55:13 -0800 (PST)
-Date:   Tue, 19 Jan 2021 15:25:11 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH v3 1/3] PM: domains: Make set_performance_state()
- callback optional
-Message-ID: <20210119095511.s3xntwwq4g65dcoa@vireshk-i7>
-References: <20210118011330.4145-1-digetx@gmail.com>
- <20210118011330.4145-2-digetx@gmail.com>
- <20210118072855.anncyl6z3e5uznvd@vireshk-i7>
- <CAPDyKFquCGUSTvcCpmN0vm1eGEz9B_hYSNm7wojhgwuXT=jkEQ@mail.gmail.com>
- <20210118110506.linvsoca7jbl42iq@vireshk-i7>
- <CAPDyKFr7SD_A9sKD2+90XfjP09T+PCLE=8qvn=M-yPEPXvBhsg@mail.gmail.com>
- <20210119034428.qgjjlvti6sirsnzy@vireshk-i7>
- <CAPDyKFp3OpV5qgfB_EGf=fyCR5b0b0zntbsXAJJsWbJX09gF6A@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/YQBcNBC489WaN9UL5/YpWA5NrXZnL3lkrVKWyyBDD8=;
+        b=XaPL+gS/PEK3Pebj4ckzfeAV/0l9yhjq/Vh3hl4RvJQedp9vMQXwdPk8lKWnBal3xA
+         r8Dx6+hRGTyL8ExXBXv/5QHUDqUO4kz48w9XQBPbZx7v7jT0RUck9y8jJR/RJ8NR6UDd
+         yXG5XAtz8fwSkLAYoQzLQ8IKD13EDWNtFTlbugqxneCL/2DEIEvBM6aywG4TltJtZj5S
+         mw5vPnUnlDcVyhD2x6tzBtqfewr4jsSW53q2ZKfMlEd/SW4rXzQMbOPKW1BeXNA2c+qn
+         yzJztmRTamuv4qi3aNFpEpSq4JiIhDMBpaxROBZmDykWdzK+e6IcFj4bvXIaFqsgSPnB
+         VcYg==
+X-Gm-Message-State: AOAM530mdwHAP1PDhzV2vteOBbNQw0lnQ9KefK5R1xhTI/nXjhfjvlRR
+        aLtOIyGojunGnjGDHCvxVPnv+a33/FCloOVnQgOL0w==
+X-Google-Smtp-Source: ABdhPJz+4QRX7HKw9VEHd12Gtrjk667fN0JyF+01zaf0EbwqwdJ7Fe2bT7F5OqK9k2gnHfNTKGTAUF79v7Zl3/MIby4=
+X-Received: by 2002:a05:651c:205b:: with SMTP id t27mr1594135ljo.368.1611051635989;
+ Tue, 19 Jan 2021 02:20:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFp3OpV5qgfB_EGf=fyCR5b0b0zntbsXAJJsWbJX09gF6A@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210115210159.3090203-1-saravanak@google.com>
+ <CACRpkdYrzaFuWkbTe7Fmos4Bk4Ojt6wbqayDjyrS7sf98P-Rbg@mail.gmail.com>
+ <CAGETcx9t3R-k0ttiaBUqcveqnXMX75xuTcKPSo9J6WJOfgSP8w@mail.gmail.com> <CAMuHMdUN7+O28Xz5rkPwR2RuSA+o_E2VcWsz_9+kzy4=0Jnb1g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUN7+O28Xz5rkPwR2RuSA+o_E2VcWsz_9+kzy4=0Jnb1g@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 19 Jan 2021 11:20:24 +0100
+Message-ID: <CACRpkdZqSm-xfo8a8aFUe-Mbaw9tM+OmCAF3KWjOVDfC=oWj+Q@mail.gmail.com>
+Subject: Re: [PATCH v1] of: property: Add fw_devlink support for "gpio" and
+ "gpios" binding
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Saravana Kannan <saravanak@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 19-01-21, 10:52, Ulf Hansson wrote:
-> That would work if the topology is built from top to bottom, but I
-> don't think we can rely on that.
-> 
-> For example, when a domain A is added as a child to domain B, domain B
-> doesn't have a parent yet (and the "can-handle-pstates" don't get set
-> for neither domain A or domain B). Next, domain B is added as child
-> domain to domain C. Domain C has the "can-handle-pstates" set, which
-> means domain B gets the "can-handle-pstates" set as well. This means
-> domain A, will not have "can-handle-pstates" set, while it probably
-> should have.
+On Tue, Jan 19, 2021 at 9:50 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Okay, I missed that part.
+> > Can we pull this into driver-core-next please? It fixes issues on some
+> > boards with fw_devlink=on.
+>
+> On r8a77951-salvator-xs.dts, it introduces one more failure:
+>
+>     OF: /soc/i2c@e66d8000/gpio@20/pcie-sata-switch-hog: could not get
+> #gpio-cells for /cpus/cpu@102
+>
+> Seems like it doesn't parse gpios properties in GPIO hogs correctly.
 
-> >
-> > > So, maybe we should simply just stick to the existing code, forcing
-> > > the parent to have a ->set_performance() callback assigned if
-> > > propagation should continue?
-> >
-> > I think it would be better to fix the issue even if we aren't fully optimized
-> > and making the change to make sure we keep propagating is rather important.
-> 
-> Alright, let's continue with Dmitry's patches and discuss this further
-> when v4 is out, as he seems to have it almost ready.
+Could it be that the code assumes no self-referencing phandles?
+(Just guessing...)
 
-Right.
-
--- 
-viresh
+Yours,
+Linus Walleij
