@@ -2,139 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA63B2FCBFD
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 08:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A79EF2FCC58
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 09:09:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728653AbhATHrW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Jan 2021 02:47:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        id S1730305AbhATIHh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Jan 2021 03:07:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726218AbhATHrL (ORCPT
+        with ESMTP id S1730517AbhATIGG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Jan 2021 02:47:11 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6ADC0613CF
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 23:46:30 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id k132so11473863ybf.2
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Jan 2021 23:46:30 -0800 (PST)
+        Wed, 20 Jan 2021 03:06:06 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEBCDC061575
+        for <linux-tegra@vger.kernel.org>; Wed, 20 Jan 2021 00:05:25 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id p80so27314111ybg.10
+        for <linux-tegra@vger.kernel.org>; Wed, 20 Jan 2021 00:05:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2I7rI5GjEUa1LLS76qVO2YXGGEG72Ek4zDDQZ5QMYgg=;
-        b=vMdbhKGjPnV/6BvG4c8Bvey4dQqb09nuR+r8kuPnpEhiNJa4rUT+5ct46DvukfOiQn
-         +mpDvVtExlO3gMymMvWfppMJDgxKW/+4RiWOns+R3xGXTN/1EvYOo64mp5KIQau8fFzv
-         qD+jxS0AxbLyNHbrGAWWs8Y+jDD2bm3be+UFddcxMoMMb+JexIaX0q60bc3t2wIM6zph
-         agDX4OYfH9MD2duSCVOZkA+3o0ygY0IO4FmglUmAzDJ10zOdQ3jDjaovTkuOcksRooEH
-         ZOIhgWSC0QGpCttkjjMSTXKd4vfJTInvR9Ph8xX2+pb0Vl445V5fRbDAHgvgak0A4D46
-         yPlA==
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=byXc9pQI7vMYVbE49N9U/uHw5G1avW8TqGJiGbgNU14=;
+        b=Fwx8k3030gn0USKf9qO1Eh5HsjG3PitR+SvtNXAARBRbqK1dbYZ0E21ItKu+wV8X5P
+         10vEPiKx0dm8gtIlaN1XUyqLvN2zLcAJH3e5Xm4a0KHFNHhA2yZ/iUCHtxuEC68nZrJX
+         /GgGYZ/6Nxa5Y3LPuuKPKOldR6fMjOTgFFV6KzMMUJAZ+Yt5MGP7OCUoTQbKrHvflmnr
+         Aj1odJhDhnm63/c2hdGESokrhaL9VYxu7w4NHMfigxAzW5FLVHsdyfe3Fbfc0fX3UKEk
+         5CAkvDF4+AmSUUwBaASJZts9OVrG6WOncmoHn+FelV6F6OgV/51LkSzopYOe3Pb2nlIV
+         jLcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2I7rI5GjEUa1LLS76qVO2YXGGEG72Ek4zDDQZ5QMYgg=;
-        b=p6agWQyTlOaBmlvflBv4vznJT6EKrpRQRgyk4Z0pU+hZXGrZfh6am1r2oPc8Pi0jv2
-         BAYQ+9itZotECrwZLXVJNRbIVSYCYzb35rqJnjm+hRxbrE5F9D1W8beVd3tWcuKOqyhc
-         Fa1cPYFSqYIrZ3yA8xOOhXNvU7V8v2zECovg/zpiqfpTNHxzwitSQqKfoQrNauuW9d2L
-         WJo1yeWIiKD3pTA6OOzhGr1EwmsoHTX9P742QVLROmNoyvcqZ/qDmMFaWYpnIAiiB0LP
-         FfgOx0HNY1tB9x3GCPNpZaubSAPQQ6poGvGpI35EVhpLYeNJP7z0bufDI2xCOtkOXDwv
-         +Umw==
-X-Gm-Message-State: AOAM532/mB3OCWsaxHdlS298RxZJbJCEPbw3QmbVwm+kYynCfZvTY5NY
-        bh5P0KccyXHZmcFwJnokRnXWbTWFx8ZB6mBtXkamLg==
-X-Google-Smtp-Source: ABdhPJwpmKi2+dpWZocyWr8KvJ8s9tQQA9oc+J+oMTZwVYMBU1GdDE0K7i4l6NIjYGA3kESWmM0Yk5FvSzBwl0vBuqc=
-X-Received: by 2002:a25:c343:: with SMTP id t64mr11504051ybf.228.1611128789791;
- Tue, 19 Jan 2021 23:46:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20210120073310.427462-1-saravanak@google.com>
-In-Reply-To: <20210120073310.427462-1-saravanak@google.com>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=byXc9pQI7vMYVbE49N9U/uHw5G1avW8TqGJiGbgNU14=;
+        b=f2C5rDlXezdPyK6K7buwfeRu1ItAiy/mejoKQfiy5j8FmlPEhaBJ63WGHmC7x+0G4h
+         M/m0EUoZy5HKrCG7zZah1BLJFNbV1iA+hg0l5ZwHIYkq6fkln3kHn3L+ePgI29dfJaLo
+         bqmLndqlCTVR2IkaJuwZkFjqF0MdCFu8IHN/gS3YGGgxq+QgHOOdcxSWMuCkT5Mb1Nsv
+         DfGXS9JFk+2tGGZ/ddvXpJjV7KJkcG9x5JBSzGe1T8TG8Pu1pDhMeBoLLgYyeuOHGTF4
+         mpxjVMHX3RZUTls9GQkap10bZqBKLge57NmJ0HLnM5NtyWiArGAzP0nIJV7/4oPU9c3E
+         ScsQ==
+X-Gm-Message-State: AOAM531EZFzP24puwP4YhFu5dCcsgyr8SY6sM8nCUgpB1sxcHpRUaP2E
+        zAuUecVsMAA91NgdlK6G+gmtxDJEoGP5KHM=
+X-Google-Smtp-Source: ABdhPJyvlDYBk408bidV2X60WKYG8MbXAvvDC1Be7kc6bCfpGeJDmIrGoyIDF0l5x2Hw1S7cMzr+rxE5EWY6LAM=
+Sender: "saravanak via sendgmr" <saravanak@saravanak.san.corp.google.com>
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:7220:84ff:fe09:fedc])
+ (user=saravanak job=sendgmr) by 2002:a25:45c3:: with SMTP id
+ s186mr4746557yba.435.1611129925136; Wed, 20 Jan 2021 00:05:25 -0800 (PST)
+Date:   Wed, 20 Jan 2021 00:05:19 -0800
+Message-Id: <20210120080522.471120-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH v1 0/2] of: property: Add fw_devlink support for more props
 From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 19 Jan 2021 23:45:53 -0800
-Message-ID: <CAGETcx_pUxH9gUUigsC7pFgtC_Ppw7gzcvHdSqZO0YtUvb3fcg@mail.gmail.com>
-Subject: Re: [PATCH v2] of: property: Add fw_devlink support for "gpio" and
- "gpios" binding
 To:     Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Saravana Kannan <saravanak@google.com>
-Cc:     linux-tegra <linux-tegra@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Saravana Kannan <saravanak@google.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Jon Hunter <jonathanh@nvidia.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+        Marc Zyngier <maz@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 11:33 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> To provide backward compatibility for boards that use deprecated DT
-> bindings, we need to add fw_devlink support for "gpio" and "gpios".
->
-> Cc: linux-tegra <linux-tegra@vger.kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Fixes: e590474768f1 ("driver core: Set fw_devlink=on by default")
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
-> Greg/Rob,
->
-> I think it's better for this to go into driver-core-next because this
-> fixed fw_devlink=on change that's queued for 5.12-rcX.
->
-> -Saravana
->
->  drivers/of/property.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 5f9eed79a8aa..0b256ce9d7d5 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -1271,6 +1271,24 @@ static struct device_node *parse_iommu_maps(struct device_node *np,
->         return of_parse_phandle(np, prop_name, (index * 4) + 1);
->  }
->
-> +static struct device_node *parse_gpio_compat(struct device_node *np,
-> +                                            const char *prop_name, int index)
-> +{
-> +       struct of_phandle_args sup_args;
-> +
-> +       if (strcmp(prop_name, "gpio") && strcmp(prop_name, "gpios"))
-> +               return NULL;
-> +
-> +       if (of_find_property(np, "gpio-hog", NULL))
-> +               return NULL;
-> +
-> +       if (of_parse_phandle_with_args(np, prop_name, "#gpio-cells", index,
-> +                                      &sup_args))
-> +               return NULL;
-> +
-> +       return sup_args.np;
-> +}
-> +
->  static const struct supplier_bindings of_supplier_bindings[] = {
->         { .parse_prop = parse_clocks, },
->         { .parse_prop = parse_interconnects, },
-> @@ -1296,6 +1314,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
->         { .parse_prop = parse_pinctrl6, },
->         { .parse_prop = parse_pinctrl7, },
->         { .parse_prop = parse_pinctrl8, },
-> +       { .parse_prop = parse_gpio_compat, },
->         { .parse_prop = parse_regulators, },
->         { .parse_prop = parse_gpio, },
->         { .parse_prop = parse_gpios, },
-> --
-> 2.30.0.284.gd98b1dd5eaa7-goog
->
+This series combines two patches [1] [2] that'd conflict.
 
-Please ignore this patch. I'm going to make this part of a series I'll
-be sending out.
+Rob/Greg,
+
+I think this should go into driver-core-next since Patch 1/2 fixes
+issues caused by a patch in driver-core-next.
+
+Patch 2/2 also touches the same locations. So, combining both into a
+series.
+
+Marc,
+
+I'll add support for interrupt-map separately. It'll probably need to be
+its own series because it'll need some refactor. I don't want to block
+Patch 2/2 on that.
 
 -Saravana
+
+[1] - https://lore.kernel.org/lkml/20210115210159.3090203-1-saravanak@google.com/
+[2] - https://lore.kernel.org/lkml/20201218210750.3455872-1-saravanak@google.com/
+
+Individual -> Series:
+Patch 1/2: Addressed Geert's gpio-hog problem with gpio[s] property
+Patch 2/2: Switched to using of_irq_find_parent()
+
+Saravana Kannan (2):
+  of: property: Add fw_devlink support for "gpio" and "gpios" binding
+  of: property: Add fw_devlink support for interrupts
+
+ drivers/of/property.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
+
