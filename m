@@ -2,177 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F4292FC5E7
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 01:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 720282FC60F
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 01:48:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729436AbhATAdf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 19:33:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42252 "EHLO
+        id S1729420AbhATArP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 19:47:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729240AbhATAd1 (ORCPT
+        with ESMTP id S1729070AbhATArM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 19:33:27 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0536C0613D6;
-        Tue, 19 Jan 2021 16:32:09 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id x23so24003347lji.7;
-        Tue, 19 Jan 2021 16:32:09 -0800 (PST)
+        Tue, 19 Jan 2021 19:47:12 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FCC7C061757;
+        Tue, 19 Jan 2021 16:46:14 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id q8so178647lfm.10;
+        Tue, 19 Jan 2021 16:46:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aatWsRJD4mwUOaOb6poYIVDK+GvKkMOS2h0/TSRhmb0=;
-        b=eHPJ/J8Uzbq6l2zEzSk8SetHfqX7mqZvfIEH0BjDbmZIW83RnqwvLiLu0P4xVhc74P
-         n/FZ3EEBQvOiM6rTQNNcFNlHU5xfwr4g5zi35IbOvGK3H/HUOTEXhspu29+yQ16Hug5e
-         KsQsarAwaPpJ5ZPvUZAjRd40vZW/7K6W0OmpDFAXLl4piU8aE6saqZcJDs1wK5x9ZxvL
-         ZhvklnhnUCngfD3iXYw0uZfKCY8gvWzqs17AOYJyzNBNDg42lnpdYRWXITb63XHDS759
-         unZ6PGyCy8c7p+KoFdh/7ucwXQ1+wR60NkZ2vTObxKTmj182bJsf3k8ptzDnhxWNPIzc
-         B9/Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+yTAnXtjPrGxO02YmxJ6XSfUB2dhdEl68apWpq9Pbuk=;
+        b=aWR9uj6s3zndMEFoZ0kLGAmhuCaTsnAHptSyzcafSG7fqIryWI9a5yiM/dJtg7cQ31
+         xBuT1njrtSKCDJUwwVbAM2PunBKhKs/LSzcG2bV3C5PKxh5sZ2pMdNKFXtT11CXBXTQc
+         95xFXZCtrb0KGKUpfj2P3YJXOyHL9aSDk7y715K94Mkv/aCxnUwZR+pkgLrvbP63yZ4a
+         tvYyVQr4BuxHVXuPEO+soQnt9V+9ZXse1vcmQ9YKTou5lId/bjyqGWdoAvog9pRNWIWf
+         P7nGzwbSjXFPbF9maU7JyKVY5oMqYdEo7YspHvXT/4qdjqEeUmnkxEVgIdaVWZjfr9Bs
+         bNYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aatWsRJD4mwUOaOb6poYIVDK+GvKkMOS2h0/TSRhmb0=;
-        b=YSi/JARfVKSMY8glZQJh3zXROlaD21OoK0DpYVmlkZAynNnQVgtMirlfpX9NXIU5GR
-         TjQBXi39RCit4ezYtIY219SJUMADNAdZjI5Xw9QABsrIIrQa33bzIthvty0EMmWXEauB
-         BARSDrahK2X8jjhiVZTCV1bXURPjb/QdlIseOK4j98wX0sXf6Eb+SUwsHs5LfzVfIEg9
-         PJ9nBW8S1Egi2GkMmGB9gj8DzoD2boT0DbHDMQwEQHnKh3xxmUjlDn1GWEM3z18kjGWu
-         /kOKJfz7oew18dcEhEMZ+gLt/LAfH9GLHc7gMDQJpPLZ2FHqTstEn+yWZxNdDH6PjJKB
-         jwpg==
-X-Gm-Message-State: AOAM5338tdDqOzpprFSHTyXD05FU3yuRxPCzrv94+Owb6b1kx+ceQJJp
-        Y3Bk3ktAcgaCKZqD9z3Tmqw=
-X-Google-Smtp-Source: ABdhPJwKsRA1CF0WCIsSHBi3hk6qkZb3hrjO0ONfS+GEn6OeMZnsK/EjuMgSHZYjHMbVLZKl2MxAhg==
-X-Received: by 2002:a05:651c:112c:: with SMTP id e12mr3096600ljo.66.1611102728442;
-        Tue, 19 Jan 2021 16:32:08 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+yTAnXtjPrGxO02YmxJ6XSfUB2dhdEl68apWpq9Pbuk=;
+        b=mKglqnXoEdfVnkP8iWm5KxLzPmWRmmRQBzFZy1lF75hlCKQgy+oKRdkqEl3zOpDvfo
+         mFIPGYZ8MLoODaxoDw8SUmXKlEzQiLs5mg17wEVuvTskYmqfLjuYM/jU+7Zx8Q+EcAAX
+         vU8yLAGB+71kwT0DLGXxpV7cE+wLQKm35fOVxuH/15eMr379gEJLhSTROMoW6j34AKMf
+         HnqZCbUT0kUV3S2GJLVasnoow9W9yvIC9Q97hSSMIslFYyP3lpXdJTskSTvzLw5wHy7c
+         C9kkqnX+Mrs7J3n/lAHbxBFT1ovKQwPZXj5Pja5FY6AzmhdWKvT0i0ZMQo8FHphvKKNY
+         LUVw==
+X-Gm-Message-State: AOAM532ajCvapBTfGnrskUkXUztnXUbudQyiWzae5CwIliETVELsbaVT
+        Ibr4LNVTZqXFLf2fZ7IrklE=
+X-Google-Smtp-Source: ABdhPJy8eIsMtMERKkZrAhe3XZuLfuFDeOMsJR2MapSRDZs82HYp5fV158YEgPkRzK0K5NOueIL+tA==
+X-Received: by 2002:a19:ee09:: with SMTP id g9mr995874lfb.272.1611103572917;
+        Tue, 19 Jan 2021 16:46:12 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id s27sm17710ljd.25.2021.01.19.16.32.07
+        by smtp.gmail.com with ESMTPSA id v23sm21046ljg.97.2021.01.19.16.46.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 16:32:08 -0800 (PST)
+        Tue, 19 Jan 2021 16:46:12 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Sameer Pujar <spujar@nvidia.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Matt Merhar <mattmerhar@protonmail.com>,
-        Jaroslav Kysela <perex@perex.cz>
-Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/6] ASoC: tegra: ahub: Reset hardware properly
-Date:   Wed, 20 Jan 2021 03:31:54 +0300
-Message-Id: <20210120003154.26749-7-digetx@gmail.com>
+Subject: [PATCH v1] gpio: tegra: Fix irq_set_affinity
+Date:   Wed, 20 Jan 2021 03:45:48 +0300
+Message-Id: <20210120004548.31692-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210120003154.26749-1-digetx@gmail.com>
-References: <20210120003154.26749-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Assert hardware resets before clocks are enabled and then de-assert them
-after clocks are enabled. This brings hardware into a predictable state.
+The irq_set_affinity callback should not be set if parent IRQ domain
+doesn't present because gpio-tegra driver callback fails in this case,
+causing a noisy error messages on system suspend:
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30 audio works
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30 boot-tested
-Tested-by: Dmitry Osipenko <digetx@gmail.com> # Nexus7 T30 audio works
-Tested-by: Nicolas Chauvet <kwizart@gmail.com> # TK1 boot-tested
+ Disabling non-boot CPUs ...
+ IRQ 26: no longer affine to CPU1
+ IRQ128: set affinity failed(-22).
+ IRQ130: set affinity failed(-22).
+ IRQ131: set affinity failed(-22).
+ IRQ 27: no longer affine to CPU2
+ IRQ128: set affinity failed(-22).
+ IRQ130: set affinity failed(-22).
+ IRQ131: set affinity failed(-22).
+ IRQ 28: no longer affine to CPU3
+ IRQ128: set affinity failed(-22).
+ IRQ130: set affinity failed(-22).
+ IRQ131: set affinity failed(-22).
+ Entering suspend state LP1
+
+Hence just don't specify the irq_set_affinity callback if parent PMC
+IRQ domain is missing. Tegra isn't capable of setting affinity per GPIO,
+affinity could be set only per GPIO bank, thus there is nothing to do
+for gpio-tegra in regards to CPU affinity without the parent IRQ domain.
+
+Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
+Fixes: efcdca286eef ("gpio: tegra: Convert to gpio_irq_chip")
+Reported-by: Matt Merhar <mattmerhar@protonmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- sound/soc/tegra/tegra30_ahub.c | 36 ++++++++++++++++++++++++++++++----
- sound/soc/tegra/tegra30_ahub.h |  1 +
- 2 files changed, 33 insertions(+), 4 deletions(-)
+ drivers/gpio/gpio-tegra.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
-index 12ca8e3ca4f6..9ef05ca4f6c4 100644
---- a/sound/soc/tegra/tegra30_ahub.c
-+++ b/sound/soc/tegra/tegra30_ahub.c
-@@ -65,14 +65,39 @@ static int tegra30_ahub_runtime_resume(struct device *dev)
- {
- 	int ret;
+diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
+index 6c79e9d2f932..9a43129313fa 100644
+--- a/drivers/gpio/gpio-tegra.c
++++ b/drivers/gpio/gpio-tegra.c
+@@ -701,7 +701,6 @@ static int tegra_gpio_probe(struct platform_device *pdev)
+ #ifdef CONFIG_PM_SLEEP
+ 	tgi->ic.irq_set_wake		= tegra_gpio_irq_set_wake;
+ #endif
+-	tgi->ic.irq_set_affinity	= tegra_gpio_irq_set_affinity;
+ 	tgi->ic.irq_request_resources	= tegra_gpio_irq_request_resources;
+ 	tgi->ic.irq_release_resources	= tegra_gpio_irq_release_resources;
  
-+	ret = reset_control_assert(ahub->reset);
-+	if (ret)
-+		return ret;
-+
- 	ret = clk_bulk_prepare_enable(ahub->nclocks, ahub->clocks);
- 	if (ret)
- 		return ret;
+@@ -754,6 +753,8 @@ static int tegra_gpio_probe(struct platform_device *pdev)
  
-+	usleep_range(10, 100);
+ 		if (!irq->parent_domain)
+ 			return -EPROBE_DEFER;
 +
-+	ret = reset_control_deassert(ahub->reset);
-+	if (ret)
-+		goto disable_clocks;
-+
- 	regcache_cache_only(ahub->regmap_apbif, false);
- 	regcache_cache_only(ahub->regmap_ahub, false);
-+	regcache_mark_dirty(ahub->regmap_apbif);
-+	regcache_mark_dirty(ahub->regmap_ahub);
-+
-+	ret = regcache_sync(ahub->regmap_apbif);
-+	if (ret)
-+		goto disable_clocks;
-+
-+	ret = regcache_sync(ahub->regmap_ahub);
-+	if (ret)
-+		goto disable_clocks;
- 
- 	return 0;
-+
-+disable_clocks:
-+	clk_bulk_disable_unprepare(ahub->nclocks, ahub->clocks);
-+
-+	return ret;
- }
- 
- int tegra30_ahub_allocate_rx_fifo(enum tegra30_ahub_rxcif *rxcif,
-@@ -519,7 +544,6 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
- 	/*
- 	 * The AHUB hosts a register bus: the "configlink". For this to
- 	 * operate correctly, all devices on this bus must be out of reset.
--	 * Ensure that here.
- 	 */
- 	for (i = 0; i < ARRAY_SIZE(configlink_mods); i++) {
- 		if (!(configlink_mods[i].mod_list_mask &
-@@ -535,10 +559,8 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
- 			return ret;
- 		}
- 
--		ret = reset_control_deassert(rst);
-+		/* just check presence of the reset control in DT */
- 		reset_control_put(rst);
--		if (ret)
--			return ret;
++		tgi->ic.irq_set_affinity = tegra_gpio_irq_set_affinity;
  	}
  
- 	ahub = devm_kzalloc(&pdev->dev, sizeof(struct tegra30_ahub),
-@@ -557,6 +579,12 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	ahub->reset = devm_reset_control_array_get_exclusive(&pdev->dev);
-+	if (IS_ERR(ahub->reset)) {
-+		dev_err(&pdev->dev, "Can't get resets: %pe\n", ahub->reset);
-+		return PTR_ERR(ahub->reset);
-+	}
-+
- 	res0 = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	regs_apbif = devm_ioremap_resource(&pdev->dev, res0);
- 	if (IS_ERR(regs_apbif))
-diff --git a/sound/soc/tegra/tegra30_ahub.h b/sound/soc/tegra/tegra30_ahub.h
-index 01480d7dc940..3b85244f87f1 100644
---- a/sound/soc/tegra/tegra30_ahub.h
-+++ b/sound/soc/tegra/tegra30_ahub.h
-@@ -511,6 +511,7 @@ struct tegra30_ahub_soc_data {
- struct tegra30_ahub {
- 	const struct tegra30_ahub_soc_data *soc_data;
- 	struct device *dev;
-+	struct reset_control *reset;
- 	struct clk_bulk_data clocks[2];
- 	unsigned int nclocks;
- 	resource_size_t apbif_addr;
+ 	tgi->regs = devm_platform_ioremap_resource(pdev, 0);
 -- 
 2.29.2
 
