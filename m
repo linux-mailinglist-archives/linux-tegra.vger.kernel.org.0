@@ -2,111 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F842FC750
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 03:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9158A2FC97F
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 04:54:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730692AbhATB7X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 20:59:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59246 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731384AbhATBvf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:51:35 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668A6C061573;
-        Tue, 19 Jan 2021 17:50:55 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id o17so31971874lfg.4;
-        Tue, 19 Jan 2021 17:50:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=g0Z7h9bg+7HGu4fSvr9LvhKp90jXWDcL2gI3AJjDonI=;
-        b=PGIrOj1nZpTfvp1DDH1UrdhWcj3jN6bLf6XpM4jn5v3JiETzTYfZDPItRCvaY/rg88
-         lhUy7AhJP0BxI2N+tH8VMhTx+wPZBpkcRwQwxZrMocxr0BOFE6rGt00BFUDkRzMQranR
-         17lAqB+KTkOzDB2HrXel9dH5V+TxaRuDefQEeJylk6l+YirRWKDHV5q/Pa/3X3JqeutF
-         f+rq+QFxtNIO7WowD4aA+S+YnZd0GDLjOMbU4hEVSD0V44SNwBUTXCfhhj9QWEiUIQkf
-         wxgarM/uet9zKlGWXvi3A45DtPuniC9rrvzF9CdAzrZnvjI0dYm/jGpg13OoCeJ0ovXJ
-         6sAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=g0Z7h9bg+7HGu4fSvr9LvhKp90jXWDcL2gI3AJjDonI=;
-        b=epRMZLaWIeMQcOQCU3h0o7Qzj1HN8Kxe9140nOUKrxTFF/XTC1W6ITJ/ZeiREgg7in
-         4HFzo5u9n3S0NAQ+VbbyNjokbgLQfh5SiXBMAkeJ876ETLlmvEE9MrFpwrQzzySJOx22
-         2SUtGUNaHdtHnnhXhzwBxAQynh2a0WihPbIzM5iYf4pCIAK0bJWwZvzuuLD5ZeY8JEcp
-         uGxReU49UxMp/1+E5xMWREKOSbRaFt9twuuGdJLRH7TXPKEZi7v9jmwpcXGdssY3vG3+
-         DBO8IXOu+gxYJTDgESVFDfKZ9TAAs39BI9S5cepMnrtAf2zGCFKRTxvoCedpbwROKCzf
-         Naxg==
-X-Gm-Message-State: AOAM532hqMSlzyRIfPp9oAC0q5sX/CQXRN6epiERzI+raFmXDwiT6Enc
-        lBDON5g0dweR+2eVEz6+F3U=
-X-Google-Smtp-Source: ABdhPJy0omEijItkCZZccB/DnERd8KPObDC8xwSGkB6x6hDvMCy3ohbpgdf7F9lGgntW5kFJjO07VA==
-X-Received: by 2002:ac2:504e:: with SMTP id a14mr2832014lfm.285.1611107453983;
-        Tue, 19 Jan 2021 17:50:53 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id o14sm56163lfi.92.2021.01.19.17.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 17:50:53 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matt Merhar <mattmerhar@protonmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v4 0/3] GENPD API improvements
-Date:   Wed, 20 Jan 2021 04:50:07 +0300
-Message-Id: <20210120015010.14191-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        id S1729379AbhATC23 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 21:28:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46600 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729804AbhATB1r (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 Jan 2021 20:27:47 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A9912332B;
+        Wed, 20 Jan 2021 01:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611105987;
+        bh=nNAHqXNlik6Lp82foU7Am+8xOHXb3VK7DiEQfGKesrc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PUvMxfwZAUvNUP5vM9uOP5vsjUqo4JDbhpSyYV92yp6c60eV/k9E4pHYbu+0VeXFc
+         O1Uvxl7ve+30nkE0EcMzkjzHfYf3wWvT1NtLk2Y1V5JyybE1PHZqOsWP5Mu9COtjRy
+         fg5GCdIF0/+p2yhiWEE7I5GnDkkOOCB1XOT/NdqqaTbDAMm1tBgExcIVE8Y4e9pXid
+         gYpr6RuWfn/JOyT3LJCobWimEiGU3mI+DZxEWQ+8oOtgZlDFkwr1K8oewLJplDFqvM
+         rLeDiUsb1RjsJuRT+eGoedxI4A27goYDIQvyQLMxT+uWLoj3X571tELf3X4gZRQ63M
+         t+xOy7dwyCK7w==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Peter Geis <pgwipeout@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Ion Agorria <ion@agorria.com>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 19/45] clk: tegra30: Add hda clock default rates to clock driver
+Date:   Tue, 19 Jan 2021 20:25:36 -0500
+Message-Id: <20210120012602.769683-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
+References: <20210120012602.769683-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+From: Peter Geis <pgwipeout@gmail.com>
 
-This is a continuation of [1], where Ulf Hansson suggested to factor out
-GENPD patches into a separate series. This series is a prerequisite for
-the power domain driver of NVIDIA Tegra SoCs.
+[ Upstream commit f4eccc7fea203cfb35205891eced1ab51836f362 ]
 
-[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=221130
+Current implementation defaults the hda clocks to clk_m. This causes hda
+to run too slow to operate correctly. Fix this by defaulting to pll_p and
+setting the frequency to the correct rate.
 
-Changelog:
+This matches upstream t124 and downstream t30.
 
-v4: - Updated the "Make set_performance_state() callback optional" patch.
-      Now the case where one of intermediate domains doesn't implement
-      the set_performance_state() callback is handled properly, thanks
-      to Viresh and Ulf for catching this drawback and suggesting the fix.
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Tested-by: Ion Agorria <ion@agorria.com>
+Acked-by: Sameer Pujar <spujar@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+Link: https://lore.kernel.org/r/20210108135913.2421585-2-pgwipeout@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clk/tegra/clk-tegra30.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-    - Added more r-bs from Ulf Hansson and Viresh Kumar.
-
-v3: - Added r-b from Ulf Hansson.
-
-    - Added new patch "Make of_genpd_add_subdomain() to return -EPROBE_DEFER",
-      which was suggested by Ulf Hansson.
-
-    - Improved "Add "performance" column to debug summary" patch by
-      correcting the formatting of debug output, which had a superfluous
-      whitespace.
-
-Dmitry Osipenko (3):
-  PM: domains: Make set_performance_state() callback optional
-  PM: domains: Make of_genpd_add_subdomain() to return -EPROBE_DEFER
-  PM: domains: Add "performance" column to debug summary
-
- drivers/base/power/domain.c | 54 +++++++++++++++++++++++--------------
- 1 file changed, 34 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
+index 37244a7e68c22..9cf249c344d9e 100644
+--- a/drivers/clk/tegra/clk-tegra30.c
++++ b/drivers/clk/tegra/clk-tegra30.c
+@@ -1256,6 +1256,8 @@ static struct tegra_clk_init_table init_table[] __initdata = {
+ 	{ TEGRA30_CLK_I2S3_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
+ 	{ TEGRA30_CLK_I2S4_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
+ 	{ TEGRA30_CLK_VIMCLK_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
++	{ TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
++	{ TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 48000000, 0 },
+ 	/* must be the last entry */
+ 	{ TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
+ };
 -- 
-2.29.2
+2.27.0
 
