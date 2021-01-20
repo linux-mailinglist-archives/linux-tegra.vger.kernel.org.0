@@ -2,124 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 461152FD877
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 19:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77D302FDBD6
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 22:27:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733290AbhATRhV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Jan 2021 12:37:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36742 "EHLO
+        id S1732690AbhATVZe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Jan 2021 16:25:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732001AbhATRgC (ORCPT
+        with ESMTP id S1729585AbhATVYv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Jan 2021 12:36:02 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E17C2C0613C1;
-        Wed, 20 Jan 2021 09:35:21 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id g10so5510936wrx.1;
-        Wed, 20 Jan 2021 09:35:21 -0800 (PST)
+        Wed, 20 Jan 2021 16:24:51 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDEC4C061575;
+        Wed, 20 Jan 2021 13:13:51 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id h205so36039386lfd.5;
+        Wed, 20 Jan 2021 13:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bgWbillt2EgWWG5wuhiDZDSvtc6oP4uvK/bDe7atus4=;
-        b=m/DQCZTCFDAKAA47Fqyr754WPbDeIlXyeMyJc5X1hFhVDLxtVxK9YanCcfypvzCVTm
-         f4oeRquI2HYah+oWSPGB44coBCY0pbzUGmiVjq3BoIZ5eRH7vPNGqWFa/++/wlUF9sog
-         vVUpbF0+aUvcbCf7q80COT84GSMUolRI9fk5M0uMlbX6aVemVh27ksTZuJy813zMym6i
-         8HndGkfMoxwVk0a/wGLhj5fbZJRz3EajFrz7YXvXOZJTPR8a9Cfo1iYoqIE95k3TYdoS
-         a+rbQYxnPf3dIIvpdkjdkO4X4zRPfgqLtnNZQK2K5ZCD16ZIYj/RMO831ok5u+jVJjz9
-         g4Wg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HM+kPSLxbcGuQtpmn+lHuIBs3kdjxoFtz28EJXxS7zg=;
+        b=Rsgpal3kAkbYt71GPypPxgpyohAY5taJJXOGXEjvFATzhq46V+v4nnelJQdHN/dTgu
+         J+wV/xKYGCbgmocmBF057xhuQXaXpzWijWXDEnG/szu6WH02JItR1kHpxmq3gmGsDdso
+         k/b97i87l3qrTyB3WAa51fnxUj8nAdDNUlBvhbYxiSUjbiIVmUOazQw65xJhKtdtlMjV
+         YyUcvEXbDTjacpSG+PI6iFL7HKdWVQu1AextIJZIGAEriMBpg4yUce3WtqHN2OZWSbqh
+         uXpRkYl7i9o3BOBUiqO4z8OhDw3tvvQOgiXwVYItUx4I/bMYLSGzP//diRg6h2eGy19z
+         mnng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bgWbillt2EgWWG5wuhiDZDSvtc6oP4uvK/bDe7atus4=;
-        b=pMkZHZIZbCZlrmsrS143XMv1/nfw8qtTk3DFN4pjLizPuYuTsewdyhYD2tKn5Q1rLc
-         04iP0BVNqrN/GzyX+QK/UdNZ10RrtMD6WuNdlNGrAO8gc6U8GHV5foyCxkBC3AyQBnqc
-         lL/FKP0Y2+UhB1ECBlXhbjkV8E0wxG3psK9fY5da0qyy9dbzmzMoLrlcY5/8NiZRQ8oQ
-         03LkTeIq2G4hpdj8x3eblZzrJJlGn40d+tWnqj2NU8IhPHM/RgwhJ4DM+T5ij5bvkFEo
-         XYMwawF5GUS8yUhC0aH6S8WM7O2LCcyG8H9//aLi8AldZ51Wnvt4TYLjGfgR1UGJ34f4
-         /ziw==
-X-Gm-Message-State: AOAM533QalzsIlaknlFzyfvRmGhFGJBwqPCtKnh9YqKdV8r8YOFmnBAX
-        3Eyj23PidBA7wDbvIiDEO7I=
-X-Google-Smtp-Source: ABdhPJzByxqsWOE3ecma2d/q4MjvAdPab8HfLtylXkpN1r5aMzK5sHc1+rLNxK0T60IIARVKjx0OjA==
-X-Received: by 2002:adf:e547:: with SMTP id z7mr10021098wrm.283.1611164120662;
-        Wed, 20 Jan 2021 09:35:20 -0800 (PST)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id r16sm5306760wrx.36.2021.01.20.09.35.18
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HM+kPSLxbcGuQtpmn+lHuIBs3kdjxoFtz28EJXxS7zg=;
+        b=hu1G8/cyFlZEodtF29Ho0+mQDp14/ZCsmQ/2do4sSmfP2fxfuSDe1b+Ncgc0JJLMv2
+         x3ZJocXmEnBEY8YcnCghqSq7TUhPqQio0L7ICwQd0uJiK7lw94dkDQhFVaXgA1hM3e1I
+         a7ZnEzrLjDg+nfumQWVHRJBzu/U4N3wB1mqqKAMXODBPQv2N2VeQJE6RwUwn+zDq0c/E
+         okYZU2cZYJrni6Ew8FHIDlNHZtjAHnB5KpWQrCjIcmN5HcP6oopRWP1xL7DhM5TLLWDt
+         HJy19c20ILiTEHqntYq2Xzl9m/rgAl0mnYIgOgbRudpWqhbrouHw/UBO0wejQ0Nep9UO
+         RjRQ==
+X-Gm-Message-State: AOAM532QWaEeyZOhe2OoS4sW05vKQDBgsp8WyikWwNj7FDbBM9HKjhyt
+        FcnOFnG7dj60IMTqXP9wbUvvBcLcxME=
+X-Google-Smtp-Source: ABdhPJwppQdoc95LhQkyhFMdU8KkEKCLWzXUoEZZ7CBVaMSh53NI2hFNeLQ2hmtxHzN+Vojv+KrKYw==
+X-Received: by 2002:ac2:58f2:: with SMTP id v18mr4915989lfo.623.1611177230404;
+        Wed, 20 Jan 2021 13:13:50 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.gmail.com with ESMTPSA id 196sm298131lfj.219.2021.01.20.13.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 09:35:19 -0800 (PST)
-Date:   Wed, 20 Jan 2021 18:35:18 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     gregkh@linuxfoundation.org, robh@kernel.org, jonathanh@nvidia.com,
-        kishon@ti.com, mturquette@baylibre.com, sboyd@kernel.org,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        nkristam@nvidia.com, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v7 08/14] arm64: tegra210: XUSB PADCTL add "nvidia,pmc"
- prop
-Message-ID: <YAhp1tzeVszKFAXt@ulmo>
-References: <20210120073414.69208-1-jckuo@nvidia.com>
- <20210120073414.69208-9-jckuo@nvidia.com>
+        Wed, 20 Jan 2021 13:13:49 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matt Merhar <mattmerhar@protonmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v5 0/3] GENPD API improvements
+Date:   Thu, 21 Jan 2021 00:12:29 +0300
+Message-Id: <20210120211232.17299-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="18V6D7czgfXzXs7x"
-Content-Disposition: inline
-In-Reply-To: <20210120073414.69208-9-jckuo@nvidia.com>
-User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi,
 
---18V6D7czgfXzXs7x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series is a prerequisite for the power domain driver of NVIDIA Tegra
+SoCs [1]. It extends the GENPD core with a better support of performance
+states and eases linking of child/parent PDs for the PD drivers.
 
-On Wed, Jan 20, 2021 at 03:34:08PM +0800, JC Kuo wrote:
-> PMC driver provides USB sleepwalk registers access to XUSB PADCTL
-> driver. This commit adds a "nvidia,pmc" property which points to
-> PMC node to XUSB PADCTL device node.
->=20
-> Signed-off-by: JC Kuo <jckuo@nvidia.com>
-> ---
-> v7:
->    no change
-> v6:
->    no change
-> v5:
->    no change
-> v4:
->    no change
-> v3:
->    no change
->=20
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 1 +
->  1 file changed, 1 insertion(+)
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=221130
 
-Applied, thanks.
+Changelog:
 
-Thierry
+v5: - Renamed genpd_xlate_performance_state() and its arguments like it
+      was requested by Ulf Hansson and Viresh Kumar in a v4 review.
 
---18V6D7czgfXzXs7x
-Content-Type: application/pgp-signature; name="signature.asc"
+    - Added r-b from Ulf Hansson to "Make set_performance_state() callback
+      optional" patch.
 
------BEGIN PGP SIGNATURE-----
+v4: - Updated the "Make set_performance_state() callback optional" patch.
+      Now the case where one of intermediate domains doesn't implement
+      the set_performance_state() callback is handled properly, thanks
+      to Viresh and Ulf for catching this drawback and suggesting the fix.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAIadUACgkQ3SOs138+
-s6EDMRAAvfRgeCYikIL6BAwhM+SJloxBij+bHJARe9b4wi6pnROzxtFyJqUvo/cB
-g19sC695KcooGStaivQiO9I7P/oFiss+DW2X7p0gz/3QvOO9JCsjpw6rT87qi6d/
-ssfTnZ+vjiJg2YA+xvIomS9x6VTknLB4yNf0gN++hr/qkLUBviIg1WLwEKQ2TA4q
-42rT2OoJC1IXx+BJ7w6O1N+bu4RFRva2jv2E6dOrTFdgeP4WR6D3gvgoHfeqGYJ+
-HXtn/3j4X2DrTnUwAXkZ3EPBSTW/KxjUKKmUkZLkxILSZDFzQ2wIVH1DUEGIqQYn
-GN52PjCca4A7FYY0coZIEiW48lthCybbVu21NPs+C/qqBTwuyEBOZULvPfDeVJQa
-5b9K3RsL1M4z00iSTueUa/Q0aiiGcAoOoeOZIbdH+4E9AteeboFfO0NB+qmudQxi
-fpR0JJtEbov1KiE2xJG0McHesgUfWbqdcfyN9U2FNcEzNhppyDhdj1OfTiJ/frRy
-L8ryBXnTZ2aufYjDyJe7ShDJElIbssSBI4ETs48Zc9zYlejUuth8H4aNgNS7pCe1
-ihtyG2TegmRT2IgZDEvYn3CrPGElfcDaRBMBYaM0869tTa1Has8+SVIPxWO51UWK
-YZkkTPNo9qYFrMwP2E/EwyiImIxLsDeBQh8RTEUG0ED9CQgd/9M=
-=zY9/
------END PGP SIGNATURE-----
+    - Added more r-bs from Ulf Hansson and Viresh Kumar.
 
---18V6D7czgfXzXs7x--
+v3: - Added r-b from Ulf Hansson.
+
+    - Added new patch "Make of_genpd_add_subdomain() to return -EPROBE_DEFER",
+      which was suggested by Ulf Hansson.
+
+    - Improved "Add "performance" column to debug summary" patch by
+      correcting the formatting of debug output, which had a superfluous
+      whitespace.
+
+
+Dmitry Osipenko (3):
+  PM: domains: Make set_performance_state() callback optional
+  PM: domains: Make of_genpd_add_subdomain() to return -EPROBE_DEFER
+  PM: domains: Add "performance" column to debug summary
+
+ drivers/base/power/domain.c | 54 +++++++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 20 deletions(-)
+
+-- 
+2.29.2
+
