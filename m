@@ -2,111 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D22622FD512
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 17:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2184D2FD717
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 18:33:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391049AbhATQCZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Jan 2021 11:02:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44738 "EHLO
+        id S1726920AbhATRdM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Jan 2021 12:33:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730476AbhATQCH (ORCPT
+        with ESMTP id S1727513AbhATRZC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Jan 2021 11:02:07 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB3BC061575;
-        Wed, 20 Jan 2021 08:01:26 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id j3so6978679ljb.9;
-        Wed, 20 Jan 2021 08:01:26 -0800 (PST)
+        Wed, 20 Jan 2021 12:25:02 -0500
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B50AC0613CF;
+        Wed, 20 Jan 2021 09:24:22 -0800 (PST)
+Received: by mail-qt1-x833.google.com with SMTP id o18so7138691qtp.10;
+        Wed, 20 Jan 2021 09:24:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3vLouel+HcUHHsPlMzqt3dQ9xZtrUWZy628SJkSoWOA=;
-        b=So3BD8K3remfQXHH4nf3lm2QXaIQO4LrSFWPfSDvDdczajiT1zZjM+X6Pyp7oVzACX
-         DQUhSNJKGaVBpUrEqB2a/mHhoP+IRYbbfm6S1exUM7PYOdO46swf9U2vYc08fUMud/Om
-         KNU09pGDtuJ5Vrzf8SK12hTxQWfkm/uNAwh3DapnBcYJxtZFkfX9+19cfAiUdqMhHp16
-         Qh5kUbWPdBWb+x6KeA5VyA2mjFhWlxuF9ELdk4uBa2909R4NP4kq2b6Y9+Ktn17HGRJk
-         Pd0gmvlCI6tzooR9HKEBx0LTif4oRiwF3FqvYNnvRW5pmoLQjfOeSrfixFQbqTUF4UZU
-         rZxA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=QHGxCrtWj1JMWVn1PV7IKwxKRhoQXxqNmdVqNw1canw=;
+        b=kjr59o3afGGwKSLLD1PXHcn1hlF0tuSLZI5cRO/0CPg/reKzx+ZnIxdKMIoq2J+FHM
+         9H+fl80XPaa2NncZMusZBaWdm7bqn0C0OqmBloVCw6Fw3TwTC104Y3GzEXs/YowhZb/t
+         XXIC+nPehiSyGikka/bpWVKbNJCsL9P3+Jr6ajcsCsD/0AEspMmSuAVe6aUA1avVglub
+         qMupdhxnPZuBLTKZi89dP51m4sj4gYeA/OzY35S3ISWWRJQWrW6FiUrMfZgboy1/lq49
+         AB7tKAiO5pSZyg2haypmAtrvkuiQeN5qtjgcIOkSxUttPKWtYL4EO9FDdidD1G3Mf+OG
+         Qzlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3vLouel+HcUHHsPlMzqt3dQ9xZtrUWZy628SJkSoWOA=;
-        b=UTOeU5qYDz3R35LRrEBADg1p+452zxxkoAt4eGs1YhpPj762W8Hm+q8hTWwVwtV/ew
-         r+QjyGc2e2mLbJeVP08doYs6hCrYmRaBR+ADw7OwTHpZ6ePij++pw/25cBSX7JGe5Hpd
-         Kppmdy2Ldf3iFiaBNH+xpjqeCRbcOfJ9/SkcEbOEyNxgUVLTCtV91hgvTAN3vzh+UYrz
-         7M4PgIa8KvK0ln+RMGDZlEUP+KDehr2sx1ikBpwedrd7GJjBiKZB0ws+3kiIkGxlb6Wo
-         Ha757KxulQ8VEQRt2fE+lJPjoj1FNr9gAqtCzLrEf9a5KS4vTgqQKs8B6z1Y4D+ErAgQ
-         wu+w==
-X-Gm-Message-State: AOAM531tHcXA1f0pohs9aErPwznhhlvpz6cg8/TJtyKIerPY47QzHNQH
-        aPk7mxrZWzPapOnM+NWwRxMli8ei9yE=
-X-Google-Smtp-Source: ABdhPJxufcMcdT1icHlQjBl7jPyg+FoY9nCNToNRuMAX2IYS0ZUuPjE9ss2lk3IaPlt5ucol79aNfw==
-X-Received: by 2002:a2e:a310:: with SMTP id l16mr4849551lje.142.1611158484855;
-        Wed, 20 Jan 2021 08:01:24 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id i14sm234976lfo.189.2021.01.20.08.01.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jan 2021 08:01:24 -0800 (PST)
-Subject: Re: [PATCH 00/31] Introduce devm_pm_opp_* API
-To:     Yangtao Li <tiny.windzz@gmail.com>, myungjoo.ham@samsung.com,
-        kyungmin.park@samsung.com, cw00.choi@samsung.com, krzk@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
-        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
-        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
-        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        lukasz.luba@arm.com, adrian.hunter@intel.com,
-        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
-        sboyd@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, rjw@rjwysocki.net, jcrouse@codeaurora.org,
-        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
-        marijn.suijten@somainline.org, gustavoars@kernel.org,
-        emil.velikov@collabora.com, jonathan@marek.ca,
-        akhilpo@codeaurora.org, smasetty@codeaurora.org,
-        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
-        tanmay@codeaurora.org, ddavenport@chromium.org,
-        jsanka@codeaurora.org, rnayak@codeaurora.org,
-        tongtiangen@huawei.com, miaoqinglang@huawei.com,
-        khsieh@codeaurora.org, abhinavk@codeaurora.org,
-        chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
-        mka@chromium.org, harigovi@codeaurora.org,
-        rikard.falkeborn@gmail.com, natechancellor@gmail.com,
-        georgi.djakov@linaro.org, akashast@codeaurora.org,
-        parashar@codeaurora.org, dianders@chromium.org
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
-References: <20210101165507.19486-1-tiny.windzz@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <6bd6730c-6f4e-df93-65cd-93fa4785a8d8@gmail.com>
-Date:   Wed, 20 Jan 2021 19:01:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QHGxCrtWj1JMWVn1PV7IKwxKRhoQXxqNmdVqNw1canw=;
+        b=naaUDVgD2UtmOkpwK5FQp4GxArzvviugsJFo4VhAkKitfopGxT4G78uEPKzw13h0R1
+         gXNSkex5zzFWu2H9HLe9G11j9fvXA4ijI2FuKwdKQqSEcxIJyvOogq6H4M9+VAj+6nZw
+         JWCG2T9bAkjKFA65nYxk5GB5yo5QYF6zPv9M06RkAVDpdU4OYs45eNhjZEfW5xKgkAmM
+         pA0AdlxJFhR1Wu704USZkwleceNJV1PnE7zvjhNJjTlTME6Qb3a2sP8YY/JTZT8G7CnS
+         +oMhQjLTljW3shkSD0TeTvL8i91PpYGsK1rbHTtq6ZwKLkBEE5tx64L6ye31hd55g7eU
+         i6Ew==
+X-Gm-Message-State: AOAM532gtA+43PVizGVjlHXOjMa0kNkqdYP0lqPCfOPBGSDyWAbaPOyu
+        JZBu2FjB3VXz0f9hNkXN+CU=
+X-Google-Smtp-Source: ABdhPJzWRcWqEGULd33QwmIEXWdCtG/rHx79bLVCT6LWLGrMzLGo3dVLazphPv2N5hr5DPJ4Bm07DA==
+X-Received: by 2002:a05:622a:90:: with SMTP id o16mr5255432qtw.49.1611163461791;
+        Wed, 20 Jan 2021 09:24:21 -0800 (PST)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id h26sm1553183qtq.18.2021.01.20.09.24.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jan 2021 09:24:19 -0800 (PST)
+Date:   Wed, 20 Jan 2021 18:24:17 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>, kernel-team@android.com
+Subject: Re: [PATCH v1 1/2] of: property: Add fw_devlink support for "gpio"
+ and "gpios" binding
+Message-ID: <YAhnQbORCTJM+FLI@ulmo>
+References: <20210120080522.471120-1-saravanak@google.com>
+ <20210120080522.471120-2-saravanak@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20210101165507.19486-1-tiny.windzz@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pCZppSPUrQdyYjcn"
+Content-Disposition: inline
+In-Reply-To: <20210120080522.471120-2-saravanak@google.com>
+User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-01.01.2021 19:54, Yangtao Li пишет:
-> Hi,
-> 
-> This patchset add devm_pm_opp_set_clkname, devm_pm_opp_put_clkname,
-> devm_pm_opp_set_regulators, devm_pm_opp_put_regulators,
-> devm_pm_opp_set_supported_hw, devm_pm_opp_of_add_table and
-> devm_pm_opp_register_notifier.
 
-Hello Yangtao,
+--pCZppSPUrQdyYjcn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your effort, looking forward to v2!
+On Wed, Jan 20, 2021 at 12:05:20AM -0800, Saravana Kannan wrote:
+> To provide backward compatibility for boards that use deprecated DT
+> bindings, we need to add fw_devlink support for "gpio" and "gpios".
+>=20
+> Cc: linux-tegra <linux-tegra@vger.kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Fixes: e590474768f1 ("driver core: Set fw_devlink=3Don by default")
+> Tested-by: Jon Hunter <jonathanh@nvidia.com>
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+>  drivers/of/property.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+
+Reviewed-by: Thierry Reding <treding@nvidia.com>
+
+--pCZppSPUrQdyYjcn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAIZz8ACgkQ3SOs138+
+s6H8Fw//exdiPxcZEHUstRkaLWDGfkyaqoNUjcXBm4sI/X6+A+X8vRU6oxxj2jzK
+x3XgbzhjLkp442DZtMlOgS5yYlkxAWoKyyleroeCE1CS7Jcfl7EeL3dp4ggflRjg
+mb3/zLG4VYvsIX/859RpnOW8APr9d1/AcRQPvuPX9+7TdO6u2n+HVp4A3bgvhQvo
+hpdazA/S5Jp2UsoQuc8DQGu89QV47TCjrztorp6js5Creh+OX7cc6/BPAv7s2SIB
+9Dr+cVIXhVwkruq6cBNS77J6ZunRyeNNzyhlAYPtBqSNMAMH2PBwal5iOCMoY9YH
+9f+4jTIGnakEKA+eWkeSfRmt/9BqpPEbk7W+ACskXupq9dB+/Dtp2sU1JvZDIwFX
+NCvQaRSmXSRObs3YlJplauQ5uNmG5zvWg8y6es9s9lMRUVJkZHJl7sBSO751B3Qb
+RXb5P5Ip8n0pMppl8SHAt2E9ayBcz7ZvJwC1+dNtRUM3K/ShDCicfnbO1Y/Tvy/l
+sL1IaCqGrQfT7A02LpVSBVxBFvXEGxreSI3XmET3UOx0jtwcSYIFrnpMKpNKB1Y+
+gUCGfUdvZRdqazUhYiEbgK6GRdOpfVFuxxSbvU7ia7gU2wjP6AwideiLRkUkGNge
+S3P13nua5DiZtx+D1g9zg3zqmAQTJPaiYAi6BADk+eQH8oz6XeE=
+=NGtr
+-----END PGP SIGNATURE-----
+
+--pCZppSPUrQdyYjcn--
