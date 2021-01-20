@@ -2,270 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC17E2FC668
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 02:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87B2C2FC6C2
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Jan 2021 02:29:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727409AbhATBYz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Jan 2021 20:24:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725968AbhATBYx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:24:53 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED56C0613CF;
-        Tue, 19 Jan 2021 17:24:13 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id q8so279618lfm.10;
-        Tue, 19 Jan 2021 17:24:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vOBlnVG2mbipegIz2h2sKNzx6kmvDT8PSag/nFDKqZQ=;
-        b=pJ28pxWDj6u3K/XIN/GhvqSg+e2ZsUwCWfShWLbVYW57AKjhRNy9PxZ1bOEgBV/HHC
-         Xx+W//CGWyL+9tzr7NpqngwXp8mdi5ZnkzzAH4uZBLQEF8dOc4ATwM2tjN1V4cQpj3eQ
-         5o3TRCl7BwrkuHQux9O8tcQOcy1OPvlDuK2g+VRD4/+M1AQcUrx9ePeAqo6yqsD+mLtr
-         LKEBNcIKboWhOIoTuDG6fIn+Il+fnwMOU7BfxhKS1CWfnA3EAp+qajZr8WHX3vbLmYHT
-         FNZlklAsu89O+9sGBVw3YrDW3WWsE+Kh2niZFvZ+Db1IeBaHBaTi5wzbvmDPpMTRB8Pu
-         zq+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vOBlnVG2mbipegIz2h2sKNzx6kmvDT8PSag/nFDKqZQ=;
-        b=eg+WERzSi7kmMQmEVjkM4hfPa7cVcDF5E6rTHtUTIF83C/QzlOP/bREXWF0UZpK327
-         qsGANkZj5HbKwUeV8LjDI5SW1ley19uxGUKJXO0JjgsCfRz8eFtgIy24Ag6kEqjxz+xO
-         5zRxdtDRyjcwSGh8b6Y2YkE00K1nmN2+FUtsX75q4O8DNjLR0dc5kRu2TOO/9dc/v3V9
-         kcxtznCNsfrtJ90WX3w7ZgZi549tD9PLFBEuUa1DRn0mIEV++G0TgkqhYyMV7OC/YG+e
-         2vcdJk6VoUf0cfT2RNgPpf1Sg3PJtKf+zgeZvOrhEFdJ0E6hsXilkAIM0RsjBIUN5VTB
-         bMOA==
-X-Gm-Message-State: AOAM533vSSqsvFDBMABpl2fCRmImeVsJ6YrTXApXvp3o6eXsJccHHRh4
-        CfZr9QXolgVkmlXilCj9JEk=
-X-Google-Smtp-Source: ABdhPJwMIWXpSzN7ZM5SnODQK2C9knx5sGoyDBoAwTTSYr+c/MdJaNT+jNhK/Hu1sZVllxRoI8f4bw==
-X-Received: by 2002:ac2:4a6f:: with SMTP id q15mr3257974lfp.301.1611105851851;
-        Tue, 19 Jan 2021 17:24:11 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id c8sm28416lja.80.2021.01.19.17.24.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 17:24:11 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Matt Merhar <mattmerhar@protonmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/5] soc/tegra: pmc: Ensure that clock rates aren't too high
-Date:   Wed, 20 Jan 2021 04:23:55 +0300
-Message-Id: <20210120012357.11038-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210120012357.11038-1-digetx@gmail.com>
-References: <20210120012357.11038-1-digetx@gmail.com>
+        id S1727937AbhATB23 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Jan 2021 20:28:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729978AbhATB2N (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 Jan 2021 20:28:13 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D069A23330;
+        Wed, 20 Jan 2021 01:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611105988;
+        bh=wYXBU36vIOmvDdKuwLMo2YmG9nlb8T9LIa/JdrEhOfw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ENhBnytOJQz8q4c/t4fyNNyYZAtCI96Cv2beV+Lwyfk+m6vSiocVTglemNAMUWQQ6
+         J1eOF9pZ3dOadO+Yj/+RPUFGy/nU7zO6veyWNyCAuIiACQhKwTIZ27UqK+W09fhDtb
+         dOOS/lzBbvvj3/dy5uxd8K6COXOupr3CgbCW2E8O1XWQwjzQVmcxZldQ5csyIaPM54
+         Bmd9TANPJP2RBJphEQ6w514BgUKfuhD360RpffgFw4PedddrBvnp50FDYHlm9sClPG
+         7zKr9LY1eu2YaeZY9F9d4y3QLeEMEriyIqEik7854QuDQ1F2zF0o0AWK9rn0l9MAww
+         AoLsI3tc3eWJA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Peter Geis <pgwipeout@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Ion Agorria <ion@agorria.com>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 20/45] ALSA: hda/tegra: fix tegra-hda on tegra30 soc
+Date:   Tue, 19 Jan 2021 20:25:37 -0500
+Message-Id: <20210120012602.769683-20-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
+References: <20210120012602.769683-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Switch all clocks of a power domain to a safe rate which is suitable
-for all possible voltages in order to ensure that hardware constraints
-aren't violated when power domain state toggles.
+From: Peter Geis <pgwipeout@gmail.com>
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
-[this patch was also boot-tested on some other T20/30/114 devices]
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+[ Upstream commit 615d435400435876ac68c1de37e9526a9164eaec ]
+
+Currently hda on tegra30 fails to open a stream with an input/output error.
+
+For example:
+speaker-test -Dhw:0,3 -c 2
+
+speaker-test 1.2.2
+
+Playback device is hw:0,3
+Stream parameters are 48000Hz, S16_LE, 2 channels
+Using 16 octaves of pink noise
+Rate set to 48000Hz (requested 48000Hz)
+Buffer size range from 64 to 16384
+Period size range from 32 to 8192
+Using max buffer size 16384
+Periods = 4
+was set period_size = 4096
+was set buffer_size = 16384
+ 0 - Front Left
+Write error: -5,Input/output error
+xrun_recovery failed: -5,Input/output error
+Transfer failed: Input/output error
+
+The tegra-hda device was introduced in tegra30 but only utilized in
+tegra124 until recent chips. Tegra210/186 work only due to a hardware
+change. For this reason it is unknown when this issue first manifested.
+Discussions with the hardware team show this applies to all current tegra
+chips. It has been resolved in the tegra234, which does not have hda
+support at this time.
+
+The explanation from the hardware team is this:
+Below is the striping formula referenced from HD audio spec.
+   { ((num_channels * bits_per_sample) / number of SDOs) >= 8 }
+
+The current issue is seen because Tegra HW has a problem with boundary
+condition (= 8) for striping. The reason why it is not seen on
+Tegra210/Tegra186 is because it uses max 2SDO lines. Max SDO lines is
+read from GCAP register.
+
+For the given stream (channels = 2, bps = 16);
+ratio = (channels * bps) / NSDO = 32 / NSDO;
+
+On Tegra30,      ratio = 32/4 = 8  (FAIL)
+On Tegra210/186, ratio = 32/2 = 16 (PASS)
+On Tegra194,     ratio = 32/4 = 8  (FAIL) ==> Earlier workaround was
+applied for it
+
+If Tegra210/186 is forced to use 4SDO, it fails there as well. So the
+behavior is consistent across all these chips.
+
+Applying the fix in [1] universally resolves this issue on tegra30-hda.
+Tested on the Ouya game console and the tf201 tablet.
+
+[1] commit 60019d8c650d ("ALSA: hda/tegra: workaround playback failure on
+Tegra194")
+
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Tested-by: Ion Agorria <ion@agorria.com>
+Reviewed-by: Sameer Pujar <spujar@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+Link: https://lore.kernel.org/r/20210108135913.2421585-3-pgwipeout@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/soc/tegra/pmc.c | 92 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 90 insertions(+), 2 deletions(-)
+ sound/pci/hda/hda_tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index f970b615ee27..a87645fac735 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -237,6 +237,7 @@ struct tegra_powergate {
- 	unsigned int id;
- 	struct clk **clks;
- 	unsigned int num_clks;
-+	unsigned long *clk_rates;
- 	struct reset_control *reset;
- };
+diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
+index 70164d1428d40..361cf2041911a 100644
+--- a/sound/pci/hda/hda_tegra.c
++++ b/sound/pci/hda/hda_tegra.c
+@@ -388,7 +388,7 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
+ 	 * in powers of 2, next available ratio is 16 which can be
+ 	 * used as a limiting factor here.
+ 	 */
+-	if (of_device_is_compatible(np, "nvidia,tegra194-hda"))
++	if (of_device_is_compatible(np, "nvidia,tegra30-hda"))
+ 		chip->bus.core.sdo_limit = 16;
  
-@@ -641,6 +642,57 @@ static int __tegra_powergate_remove_clamping(struct tegra_pmc *pmc,
- 	return 0;
- }
- 
-+static int tegra_powergate_prepare_clocks(struct tegra_powergate *pg)
-+{
-+	unsigned long safe_rate = 100 * 1000 * 1000;
-+	unsigned int i;
-+	int err;
-+
-+	for (i = 0; i < pg->num_clks; i++) {
-+		pg->clk_rates[i] = clk_get_rate(pg->clks[i]);
-+
-+		if (!pg->clk_rates[i]) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
-+		if (pg->clk_rates[i] <= safe_rate)
-+			continue;
-+
-+		/*
-+		 * We don't know whether voltage state is okay for the
-+		 * current clock rate, hence it's better to temporally
-+		 * switch clock to a safe rate which is suitable for
-+		 * all voltages, before enabling the clock.
-+		 */
-+		err = clk_set_rate(pg->clks[i], safe_rate);
-+		if (err)
-+			goto out;
-+	}
-+
-+	return 0;
-+
-+out:
-+	while (i--)
-+		clk_set_rate(pg->clks[i], pg->clk_rates[i]);
-+
-+	return err;
-+}
-+
-+static int tegra_powergate_unprepare_clocks(struct tegra_powergate *pg)
-+{
-+	unsigned int i;
-+	int err;
-+
-+	for (i = 0; i < pg->num_clks; i++) {
-+		err = clk_set_rate(pg->clks[i], pg->clk_rates[i]);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
- static void tegra_powergate_disable_clocks(struct tegra_powergate *pg)
- {
- 	unsigned int i;
-@@ -691,10 +743,14 @@ static int tegra_powergate_power_up(struct tegra_powergate *pg,
- 
- 	usleep_range(10, 20);
- 
--	err = tegra_powergate_enable_clocks(pg);
-+	err = tegra_powergate_prepare_clocks(pg);
- 	if (err)
- 		goto powergate_off;
- 
-+	err = tegra_powergate_enable_clocks(pg);
-+	if (err)
-+		goto unprepare_clks;
-+
- 	usleep_range(10, 20);
- 
- 	err = __tegra_powergate_remove_clamping(pg->pmc, pg->id);
-@@ -717,12 +773,19 @@ static int tegra_powergate_power_up(struct tegra_powergate *pg,
- 	if (disable_clocks)
- 		tegra_powergate_disable_clocks(pg);
- 
-+	err = tegra_powergate_unprepare_clocks(pg);
-+	if (err)
-+		return err;
-+
- 	return 0;
- 
- disable_clks:
- 	tegra_powergate_disable_clocks(pg);
- 	usleep_range(10, 20);
- 
-+unprepare_clks:
-+	tegra_powergate_unprepare_clocks(pg);
-+
- powergate_off:
- 	tegra_powergate_set(pg->pmc, pg->id, false);
- 
-@@ -733,10 +796,14 @@ static int tegra_powergate_power_down(struct tegra_powergate *pg)
- {
- 	int err;
- 
--	err = tegra_powergate_enable_clocks(pg);
-+	err = tegra_powergate_prepare_clocks(pg);
- 	if (err)
- 		return err;
- 
-+	err = tegra_powergate_enable_clocks(pg);
-+	if (err)
-+		goto unprepare_clks;
-+
- 	usleep_range(10, 20);
- 
- 	err = reset_control_assert(pg->reset);
-@@ -753,6 +820,10 @@ static int tegra_powergate_power_down(struct tegra_powergate *pg)
- 	if (err)
- 		goto assert_resets;
- 
-+	err = tegra_powergate_unprepare_clocks(pg);
-+	if (err)
-+		return err;
-+
- 	return 0;
- 
- assert_resets:
-@@ -764,6 +835,9 @@ static int tegra_powergate_power_down(struct tegra_powergate *pg)
- disable_clks:
- 	tegra_powergate_disable_clocks(pg);
- 
-+unprepare_clks:
-+	tegra_powergate_unprepare_clocks(pg);
-+
- 	return err;
- }
- 
-@@ -881,6 +955,12 @@ int tegra_powergate_sequence_power_up(unsigned int id, struct clk *clk,
- 	if (!pg)
- 		return -ENOMEM;
- 
-+	pg->clk_rates = kzalloc(sizeof(*pg->clk_rates), GFP_KERNEL);
-+	if (!pg->clk_rates) {
-+		kfree(pg->clks);
-+		return -ENOMEM;
-+	}
-+
- 	pg->id = id;
- 	pg->clks = &clk;
- 	pg->num_clks = 1;
-@@ -892,6 +972,7 @@ int tegra_powergate_sequence_power_up(unsigned int id, struct clk *clk,
- 		dev_err(pmc->dev, "failed to turn on partition %d: %d\n", id,
- 			err);
- 
-+	kfree(pg->clk_rates);
- 	kfree(pg);
- 
- 	return err;
-@@ -1042,6 +1123,12 @@ static int tegra_powergate_of_get_clks(struct tegra_powergate *pg,
- 	if (!pg->clks)
- 		return -ENOMEM;
- 
-+	pg->clk_rates = kcalloc(count, sizeof(*pg->clk_rates), GFP_KERNEL);
-+	if (!pg->clk_rates) {
-+		kfree(pg->clks);
-+		return -ENOMEM;
-+	}
-+
- 	for (i = 0; i < count; i++) {
- 		pg->clks[i] = of_clk_get(np, i);
- 		if (IS_ERR(pg->clks[i])) {
-@@ -1058,6 +1145,7 @@ static int tegra_powergate_of_get_clks(struct tegra_powergate *pg,
- 	while (i--)
- 		clk_put(pg->clks[i]);
- 
-+	kfree(pg->clk_rates);
- 	kfree(pg->clks);
- 
- 	return err;
+ 	/* codec detection */
 -- 
-2.29.2
+2.27.0
 
