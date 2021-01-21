@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80A712FF50C
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 20:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17FAF2FF503
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 20:48:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbhAUSrh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 13:47:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46998 "EHLO
+        id S1726306AbhAUSsD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Jan 2021 13:48:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727635AbhAUS0A (ORCPT
+        with ESMTP id S1727461AbhAUS0A (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Thu, 21 Jan 2021 13:26:00 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA324C061797;
-        Thu, 21 Jan 2021 10:23:31 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id q8so3856851lfm.10;
-        Thu, 21 Jan 2021 10:23:31 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D95C0617A7;
+        Thu, 21 Jan 2021 10:23:32 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id b10so3612334ljp.6;
+        Thu, 21 Jan 2021 10:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qXZh7vyQ2J2UJfaf/gy0esqvLP8/x2DgurRZz5ydknM=;
-        b=B1WnslMyVrxWMuOGS2ylENr8VsLJ5E/6MrPGSDvWp2tl+RGRxKd1SkHUwojuHsjv7S
-         iV1QUgFUWDae2Br6D/yC3ZDvZ81u5fxq1HhfCpAV9g/OcKyFLx11qHoD5Nj8WFQirFXt
-         K0zvZ2jelh454RFzkfCAOwv0niChY4VPXbG0ogSghdBu0WfmNKFKn57QKKfGf2jxDVTV
-         DNxmON+/2843y1CTkebOzWKFFiw2S5r+4LT4Rk8CsBKV6+QeaUwaYni13x8nPJxGzJIy
-         FaVkJiD10jEFBJvtCaNCuNf9lVqvQgZm+tNCahwpscPMPrDu1Hb2P6WKgg34VF9WPmun
-         BvKg==
+        bh=ypUw/eWje7JsdwKcZj2L6qITXPb045n6mG7TDpv0Hp8=;
+        b=VJ5cpDa6ymZFADGC3BvTIm4C0OIPela2+17LdYMT0XTuXlPTrsFn9NRuTBeK3rIMxv
+         ssNqrqZkSZX8JGna9RiEdwSL/Dj8Krfwmv/EtRRaGhyx6R9tnd7vgUaQKe7AyK9kZUMx
+         P0SeImwnhlUL9/uCpdAl3pJxsfW7OWHzHb/MkecnsNG3U1skOzG8zFUojqWv0GTzDJOh
+         mYFBjuv8M8cgYD78zk6X3dIdX4gLadzzJ6YA4yY17XDC4bBxCx+RtG21ORzBESzLNyn+
+         YJak+3Um2aZSsOWKSxA+yyx+x3hvM/EsWDmRugOL11Y8B5wJH2/QUBkTkqxMIBHLIRl/
+         59ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qXZh7vyQ2J2UJfaf/gy0esqvLP8/x2DgurRZz5ydknM=;
-        b=qHcl7b8jMqgG8B127fn9bgjeB17wqs2t2Zui4JSLMCGw1MZ5XjyIlcS4KSWzcoZz6Z
-         f7U9tNma/xPq7TQ/gyrb6cWymQQmOr6PdBnwjg/Qq4rtRmZFqOZ+0LxGKAgZzmJK4tls
-         zfzxsg6YiSN4WcPAVLuq153mlwLz4XGIrt/K92Hupbq1KcvmFDWDh6F1WHmntMQv5DNZ
-         yDmNcQfXg3hRFIqwINDyCxih6tCE6ILZMo+WhYk2FpNTz9rOWbs++jWAfnFF1jf1vZ+5
-         PdFAf7/sQgQD6xIYUq6T0QJYVPs3Cz7FZ/worYRB8FQFHOP0PDc9w8gV8vE1l0UFyNBx
-         NEUA==
-X-Gm-Message-State: AOAM532mMNZgKFNpYRsa4XZKr32/jsldg/VyoKtdOcyaob5kdo1ZdUiU
-        3Rvw95dIPRGHYYfOfnDnaAU=
-X-Google-Smtp-Source: ABdhPJzkHjyfygys1XpqzR0zHpDxBxW5NYowsVNXHxzy9IN5Mz1VCOlHbh3/IQ0WVzcuyoE5f4dTUA==
-X-Received: by 2002:a05:6512:330d:: with SMTP id k13mr16088lfe.173.1611253410281;
-        Thu, 21 Jan 2021 10:23:30 -0800 (PST)
+        bh=ypUw/eWje7JsdwKcZj2L6qITXPb045n6mG7TDpv0Hp8=;
+        b=NjelTF8CyfdKVs41hbFw7ycdcY+ue3+Ad7/P/YfdNBtDeEJVPUFB0nX8cXujdHEytf
+         pxgaqib6KVWxLq+4BlRXRyg1jS8oYsyWvrvBEcc/r3sSVuuKazY3DYqXBn065YUli7vN
+         qu/SO+UtVH0PjXGr1bfKPSY7Uq9NyV9UMB8qN1hcM5NNWQcUegq3m4lDQpEeErZQSQu7
+         MiTU2eygS7UoukOQzO9Uw9L9k5O9raU1TKxlrkKHSAq2Qnnp9hLlsUcMGYA/BdpfF2ku
+         MhHwALe9r3Opfc1iYst6SE57LyLRNSo+K0YdU+wG0zRZiNeefasMS2Fwhag1IAp2YvSg
+         3o1A==
+X-Gm-Message-State: AOAM532ltaQKgSivHJDucBQg76zPByJwverVIDbz9uv57gJ1LKG4/ws7
+        VzEXpsoflwRq2KiiUl3B5Dw=
+X-Google-Smtp-Source: ABdhPJxll1cE4U5ITMzQderkVtHw2DiYoF/Tc1kDf3xYNpvzocmqQZXs+dkzhWvWqVAXVeYIs9TS4w==
+X-Received: by 2002:a2e:580b:: with SMTP id m11mr313021ljb.426.1611253411067;
+        Thu, 21 Jan 2021 10:23:31 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.29
+        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:23:29 -0800 (PST)
+        Thu, 21 Jan 2021 10:23:30 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +56,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 10/13] ARM: tegra: nexus7: Specify all CPU cores as cooling devices
-Date:   Thu, 21 Jan 2021 21:23:05 +0300
-Message-Id: <20210121182308.16080-11-digetx@gmail.com>
+Subject: [PATCH v1 11/13] ARM: tegra: ouya: Specify all CPU cores as cooling devices
+Date:   Thu, 21 Jan 2021 21:23:06 +0300
+Message-Id: <20210121182308.16080-12-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210121182308.16080-1-digetx@gmail.com>
 References: <20210121182308.16080-1-digetx@gmail.com>
@@ -76,46 +76,49 @@ CPU1, the cooling device mapping will fail.
 
 Hence specify all CPU cores as a cooling devices in the device-tree.
 
+Tested-by: Peter Geis <pgwipeout@gmail.com>
+Tested-by: Matt Merhar <mattmerhar@protonmail.com>
 Suggested-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../dts/tegra30-asus-nexus7-grouper-common.dtsi    | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/tegra30-ouya.dts | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-index ac1c1a63eb0e..dc773b1bf8ee 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-@@ -1056,19 +1056,22 @@ cpu0: cpu@0 {
+diff --git a/arch/arm/boot/dts/tegra30-ouya.dts b/arch/arm/boot/dts/tegra30-ouya.dts
+index 8f66b16a786f..faeccc301368 100644
+--- a/arch/arm/boot/dts/tegra30-ouya.dts
++++ b/arch/arm/boot/dts/tegra30-ouya.dts
+@@ -392,19 +392,23 @@ cpu0: cpu@0 {
+ 			cpu-supply = <&vdd_cpu>;
  			#cooling-cells = <2>;
  		};
- 
 -		cpu@1 {
++
 +		cpu1: cpu@1 {
- 			cpu-supply = <&vdd_cpu>;
  			operating-points-v2 = <&cpu0_opp_table>;
+ 			cpu-supply = <&vdd_cpu>;
 +			#cooling-cells = <2>;
  		};
  
 -		cpu@2 {
 +		cpu2: cpu@2 {
- 			cpu-supply = <&vdd_cpu>;
  			operating-points-v2 = <&cpu0_opp_table>;
+ 			cpu-supply = <&vdd_cpu>;
 +			#cooling-cells = <2>;
  		};
  
 -		cpu@3 {
 +		cpu3: cpu@3 {
- 			cpu-supply = <&vdd_cpu>;
  			operating-points-v2 = <&cpu0_opp_table>;
+ 			cpu-supply = <&vdd_cpu>;
 +			#cooling-cells = <2>;
  		};
  	};
  
-@@ -1281,7 +1284,10 @@ trip1: cpu-crit {
- 			cooling-maps {
- 				map0 {
- 					trip = <&trip0>;
+@@ -456,7 +460,10 @@ map0 {
+ 				};
+ 				map1 {
+ 					trip = <&cpu_alert1>;
 -					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
 +							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
