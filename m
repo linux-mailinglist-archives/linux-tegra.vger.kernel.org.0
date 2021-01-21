@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3EF12FF326
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 19:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 177C72FF34D
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 19:39:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728565AbhAUS1K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 13:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46962 "EHLO
+        id S1728255AbhAUS0l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Jan 2021 13:26:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727050AbhAUSYo (ORCPT
+        with ESMTP id S1725922AbhAUSYD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:24:44 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707E5C06178A;
-        Thu, 21 Jan 2021 10:23:27 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id n11so3611059lji.5;
-        Thu, 21 Jan 2021 10:23:27 -0800 (PST)
+        Thu, 21 Jan 2021 13:24:03 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D1BC061756;
+        Thu, 21 Jan 2021 10:23:23 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id f17so3580088ljg.12;
+        Thu, 21 Jan 2021 10:23:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4j3lRDRGM4I1dDuBpFWs7Ys2Csw3GokfMe1B1dm/1hQ=;
-        b=Ka0pXB6RSESuSmexHJ2hM6LHB+tBOWkIMFui+tT+hw7q+9bQw5DTDDKSvt4j2k5D8I
-         vEmAebasd56b4D82N3Ufy1CGpl4rAjwRMKnapkWcFalW2HzobcJ8Rd/c+MSFi3Ctc2fa
-         oRopLIIPMQqBy5C/APVN/T+AKvMf61dWDlQ+ZiMj+IHCHU2w5AEB6NjqJuOdZBrsDBhE
-         V99/bSDza9Wa0XeVGLzCEx/GoT+ImFhNGUg7tFVS/7AO8BuiY5dbDC6TMIMVZH72lgLb
-         YphZsEqF4YhFrWKmqf9DxcO21roZOWxHNXUElg6aRc2eIA7vrGkMxAUjPDOqdweylgsm
-         HncA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=89jyxgrDe0DSWtjs78T4nIeRsMhc0aN5cKbJ7Tw17og=;
+        b=QOqIRxf35ewhvn04s/0Q8tI+a3salB7qTTJacThdp+mC1GkhmWRNGOH8E6WL+ELxtU
+         i+p5XHaNIGUB9GJ39aD3Y09cIjbBkW306T3WMoJb85kwVrudEMci7s1nEVhPiISv5tvn
+         Mu1fyMF0EckKFtj6mTiQQTLaSiKciaYN+m7cYrKkb2nXy2bMCzeoEkfE4OrcFlysqeDX
+         6Bhcnej/Au67DV6Mv/gQPkYRkN9C/BB0IVjrK5jIwehOO2tykKdpA1kk+34FSQuW3xhL
+         7F4/vpuaXt2XFIYgwrsfIDVA3CFZVodS+nZwlMwMg76vmzeuGsE3/tV+WZ7/J2Obc7ng
+         er2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4j3lRDRGM4I1dDuBpFWs7Ys2Csw3GokfMe1B1dm/1hQ=;
-        b=WqzfVLdHwaSDglD5k3MKbblkoHUkJ1ahNJuITzJqSA53LbW9YeAaHm+I03H8mQU6wQ
-         ZZCd7YsCKOznJSgnbJKhhL9l4gIfgkVznlhUDAJoZXgLaPF+E2aTuuuzZp6JPcARmfdL
-         OxaOGDHerZ6o537mXz44oc0gA7etXMc2AHCVHfdN0AqV1nmXMyoVHcvSWPprTbtBNlpu
-         hPKEAU5O574/ZbiShv8ApTgZU0XiHloXlK9Epg6xtBRWMmJ5n/Wd0DxikNxvcXg3A2cq
-         D8rdrfu85VdoJI6ccQato312QmFg4wDECIer5r9/HRcVhgUYXeO0p9+g5EvfYdX0R5ig
-         AKow==
-X-Gm-Message-State: AOAM531Rd1A6l0l8Mi0NPvGFIwIQw+jLgZn1TTkOsUC+RS5fLEv8E68Q
-        8Cmrff8x36rH/tHgX3rOJ68=
-X-Google-Smtp-Source: ABdhPJww+jYvFRZ8Zoas4Bi7AS/tRPfF2ykwDQpdYi2jrjjYIHra2r5lp9cMJRh9geGwoZUN3n10Lw==
-X-Received: by 2002:a2e:86d2:: with SMTP id n18mr304658ljj.398.1611253406043;
-        Thu, 21 Jan 2021 10:23:26 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=89jyxgrDe0DSWtjs78T4nIeRsMhc0aN5cKbJ7Tw17og=;
+        b=MsXGXGbDW033rYNQfLN4S5oTSfe54oJbvILfxgtxALGDfl1KWWeTTxFtE0Xcg3w/yI
+         5+eCckRb3a2M5xFwh1VxkoUPBLI2r82IcWuXYcwk+/ox2g4xn/LIQbqIpd3e8hSAXnXz
+         UsjGWnPBTYqduv5lrTLaNptowVUsORDtoUfO3E9H4SPD4+LxMLH7aT05or5Rmmd5r/Ns
+         DljqzxmCDO238LQE7pcVGwmPJqB9B1Q258EmBRU7F05IMPld9AVCh6INNHi51GJtHBtE
+         ws7/KXmrFs/cF0Frl7nm2nMAt1sjSCyLd053a23H/aUgGfvys1eyVSkmxjdar/zNeMFt
+         cP/Q==
+X-Gm-Message-State: AOAM531A2XCG08iia6w7TQuuwcADPXnG3CpFf/5GZiz2jLmuwv1BuJl4
+        UGwtFuHwW2769kOqEdwZsMA=
+X-Google-Smtp-Source: ABdhPJw2L+nKF9lHc5i/UyGsLbd1a1XalDqdXEEinha48a25+KYOzqkvd67l4r1tDRA4mOZ7a5zI2g==
+X-Received: by 2002:a2e:9192:: with SMTP id f18mr289786ljg.487.1611253401649;
+        Thu, 21 Jan 2021 10:23:21 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.25
+        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:23:25 -0800 (PST)
+        Thu, 21 Jan 2021 10:23:20 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,67 +56,61 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 05/13] ARM: tegra: paz00: Enable full voltage scaling ranges for CPU and Core domains
-Date:   Thu, 21 Jan 2021 21:23:00 +0300
-Message-Id: <20210121182308.16080-6-digetx@gmail.com>
+Subject: [PATCH v1 00/13] NVIDIA Tegra ARM32 device-tree improvements
+Date:   Thu, 21 Jan 2021 21:22:55 +0300
+Message-Id: <20210121182308.16080-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210121182308.16080-1-digetx@gmail.com>
-References: <20210121182308.16080-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable full voltage scaling ranges for CPU and Core power domains.
+Hi,
 
-Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-paz00.dts | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+This series is partially factored out from [1] since the DT patches
+could be applied separately. In addition I added couple more new
+patches and implemented suggestion given by Daniel Lezcano to [1],
+see "Specify all CPU cores as cooling devices" patches.
 
-diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
-index 7e49112cd9a1..940a9f31cd86 100644
---- a/arch/arm/boot/dts/tegra20-paz00.dts
-+++ b/arch/arm/boot/dts/tegra20-paz00.dts
-@@ -387,10 +387,10 @@ sys_reg: sys {
- 
- 				core_vdd_reg: sm0 {
- 					regulator-name = "+1.2vs_sm0,vdd_core";
--					regulator-min-microvolt = <1200000>;
--					regulator-max-microvolt = <1225000>;
-+					regulator-min-microvolt = <950000>;
-+					regulator-max-microvolt = <1300000>;
- 					regulator-coupled-with = <&rtc_vdd_reg &cpu_vdd_reg>;
--					regulator-coupled-max-spread = <170000 450000>;
-+					regulator-coupled-max-spread = <170000 550000>;
- 					regulator-always-on;
- 
- 					nvidia,tegra-core-regulator;
-@@ -401,7 +401,7 @@ cpu_vdd_reg: sm1 {
- 					regulator-min-microvolt = <750000>;
- 					regulator-max-microvolt = <1100000>;
- 					regulator-coupled-with = <&core_vdd_reg &rtc_vdd_reg>;
--					regulator-coupled-max-spread = <450000 450000>;
-+					regulator-coupled-max-spread = <550000 550000>;
- 					regulator-always-on;
- 
- 					nvidia,tegra-cpu-regulator;
-@@ -425,10 +425,10 @@ ldo1 {
- 
- 				rtc_vdd_reg: ldo2 {
- 					regulator-name = "+1.2vs_ldo2,vdd_rtc";
--					regulator-min-microvolt = <1200000>;
--					regulator-max-microvolt = <1225000>;
-+					regulator-min-microvolt = <950000>;
-+					regulator-max-microvolt = <1300000>;
- 					regulator-coupled-with = <&core_vdd_reg &cpu_vdd_reg>;
--					regulator-coupled-max-spread = <170000 450000>;
-+					regulator-coupled-max-spread = <170000 550000>;
- 					regulator-always-on;
- 
- 					nvidia,tegra-rtc-regulator;
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=221130
+
+Please note that this patchset enables voltage scaling for a few boards,
+but currently voltage scaling is limited in kernel by the regulator coupler
+drivers, so it's safe to change the device-trees. Voltage scaling will
+be fully unlocked once [1] will be merged.
+
+Dmitry Osipenko (13):
+  ARM: tegra: ventana: Support CPU and Core voltage scaling
+  ARM: tegra: ventana: Support CPU thermal throttling
+  ARM: tegra: cardhu: Support CPU frequency and voltage scaling on all
+    board variants
+  ARM: tegra: cardhu: Support CPU thermal throttling
+  ARM: tegra: paz00: Enable full voltage scaling ranges for CPU and Core
+    domains
+  ARM: tegra: acer-a500: Enable core voltage scaling
+  ARM: tegra: acer-a500: Reduce thermal throttling hysteresis to 0.2C
+  ARM: tegra: acer-a500: Specify all CPU cores as cooling devices
+  ARM: tegra: acer-a500: Rename avdd to vdda of touchscreen node
+  ARM: tegra: nexus7: Specify all CPU cores as cooling devices
+  ARM: tegra: ouya: Specify all CPU cores as cooling devices
+  ARM: tegra: Specify CPU suspend OPP in device-tree
+  ARM: tegra: Specify memory suspend OPP in device-tree
+
+ .../boot/dts/tegra124-peripherals-opp.dtsi    |  5 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 14 ++--
+ arch/arm/boot/dts/tegra20-cpu-opp.dtsi        |  2 +
+ arch/arm/boot/dts/tegra20-paz00.dts           | 14 ++--
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  1 +
+ arch/arm/boot/dts/tegra20-ventana.dts         | 78 ++++++++++++++---
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 14 +++-
+ arch/arm/boot/dts/tegra30-cardhu-a04.dts      | 48 -----------
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         | 83 ++++++++++++++++++-
+ arch/arm/boot/dts/tegra30-cpu-opp.dtsi        |  3 +
+ arch/arm/boot/dts/tegra30-ouya.dts            | 15 +++-
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi |  3 +
+ 12 files changed, 196 insertions(+), 84 deletions(-)
+
 -- 
 2.29.2
 
