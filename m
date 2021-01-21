@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C43722FF379
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 19:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B97B92FF384
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 19:50:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725771AbhAUSrK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 13:47:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46960 "EHLO
+        id S1726324AbhAUSsH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Jan 2021 13:48:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727060AbhAUSYo (ORCPT
+        with ESMTP id S1727466AbhAUS0A (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:24:44 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6126C061788;
-        Thu, 21 Jan 2021 10:23:26 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id v67so3901009lfa.0;
-        Thu, 21 Jan 2021 10:23:26 -0800 (PST)
+        Thu, 21 Jan 2021 13:26:00 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355CDC06178C;
+        Thu, 21 Jan 2021 10:23:29 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id m22so3877692lfg.5;
+        Thu, 21 Jan 2021 10:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=duV5ElGdUvTbPkj+FhR7c1zjwfK1d0OalqOFUHgKQr0=;
-        b=r/CC0X1jGoqINR7+o2WdiOctMesKYe2g6G+QN9mzziRijj74Tc1B0f+L+df5FeU0oH
-         T74vyMzo0ZeqcVCvggSZY/2nRULlon7HcI/q+9l/d7LnqnnkkSH0lpHyFOhfo3RF7qKl
-         8hGZxP1dE5Q7kTvpkWhd+rKsxhH9aYSkAe9ex4PWdhjzDWB+t35FMtHALIcGg/BIUMo4
-         uoWBFT3+MD6f9IMACNY4bRz84hOYSGt+TL1Pyjp8Tg+cpRIGUwCeZ3gagAzxlwdoaGMq
-         CMWbtuUf3Q+1m+ufsNItjrfSs2Aa4HTIW4AiySJngZeG2ykqIV99pGLICf5yQbYpSYXK
-         KH8g==
+        bh=o+6Qr9g4GUhZQovcGPL0QQ9GPJLut7iCnnUkdOOvXTs=;
+        b=LKSG5HyJfv+CRE2WARL/dTEnMBsuHMPSYjspr/jwJdGYcK+PHbE2gmUUdGKufEYZrc
+         5QctPpyjUXlbxgks/XoJLk6gi7vtonVv/x6eim6WFZagZuQDKnI/8SC43tXDwZQYWptl
+         Glj0QaPpFrTx4+B2wNGz0BK0ZKzPKCdk2bU1dPV6eiW37Ue8Bd1Kz3ZWfKWoXsRZrPig
+         FAuu0p0dVu6+iA1RHtBJCPqDDMzbd6k4xT9Nt0NuYqyKLbgRE2IYEQ0ogITMlIGCVSGK
+         goiz+KLH7igTlXBStRa43dqKBkemDe8FaUHsG+mKlo8DyC6WkaIeemPVjaibmDy6nX7d
+         50gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=duV5ElGdUvTbPkj+FhR7c1zjwfK1d0OalqOFUHgKQr0=;
-        b=GDDF9y2gDrO1gI9DXRGdxIl2snqr2zi9ZxAGoPvm+NS3qtGjj2LTvzyGFIevZ3phsE
-         w+2heIWB4txDp/4nd+/WIIVI4/HQ3vBpOdBTkwKHSfaLf+jJCVpSNtpy9kSDH1BM7DcM
-         6p4jJy5iFjk4ia6oeiV4xbus56aTPjx3EXtd6+/Kw1yu/UI3bQNdH5VR0h22SnR+XkdO
-         Gzfzk6Vdf8wsbxTGoYTNq1Z0kbZ9wMZSLG6/ZJ90ErEFahXZhjNcRvE6Dck6DWZbfxcO
-         gPoDY/i03+QLO2I62Uny2Y0SjSVTbvGQAfKd8awftK2BkIrZ+l5ZNWRkaziL30z3lIfO
-         XiZA==
-X-Gm-Message-State: AOAM530ifDGapcndKwgSsJn/eI1ifXhKAdzZ0XIz4EMxqOnrtZ6qiaHo
-        ooEQ+FgmjOvEuLlsH1PhsOQ=
-X-Google-Smtp-Source: ABdhPJzto8tgpwPfJ1V/D7VzNo7V1Dok9ZmYTjobOr5fMKlAzQ+9npsM/2RMylAcOQZBHtJTSaT70g==
-X-Received: by 2002:a05:6512:2356:: with SMTP id p22mr214326lfu.3.1611253405201;
-        Thu, 21 Jan 2021 10:23:25 -0800 (PST)
+        bh=o+6Qr9g4GUhZQovcGPL0QQ9GPJLut7iCnnUkdOOvXTs=;
+        b=J/sVO6EO86dIbteR0DKwc6MzFRYgE7e21HvoueDe3vc7BlSyM6qYYgVPNIBxLkgSIP
+         Ngaqli8GcLuxz2AcRxYuiwP3YQBizTH2v1HtqliUCXIkG1Bi/7khkuKLQF8h09sn8H2v
+         gcnxXjbQF1uY+xVQjT5x/61lOuu5czlGAAsANBvvK4OCdvGSlR+WL74aD/00dlsPayGn
+         U97lynBY3I+TCl403NNHbsE97X39ZnzFWVkR+pL/STifYdvNjtd63ty/8gXMr3Me1QP2
+         yjO3Smuh1u7siPIiDXBlvv7N7oQSy1E7a5AixvRJXqTzFVIOh6pL7nOOe4amYwoSzzM2
+         be3g==
+X-Gm-Message-State: AOAM5320eZ7HqTvvaJ0u2/nBmtRRW8EP4TNmn6iphJwiG9vAAlcKf2Ss
+        bwYqM34Bxuq/bSe3ek8sezc=
+X-Google-Smtp-Source: ABdhPJzHJv0Wq+Y78TWtoUAd7eukg1lEtqLwT82rLSQ1dF/iRsvB8HaBJwyCxoJdMvWBxB6maw/EGw==
+X-Received: by 2002:a05:6512:2242:: with SMTP id i2mr211459lfu.573.1611253407792;
+        Thu, 21 Jan 2021 10:23:27 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.24
+        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:23:24 -0800 (PST)
+        Thu, 21 Jan 2021 10:23:27 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +56,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 04/13] ARM: tegra: cardhu: Support CPU thermal throttling
-Date:   Thu, 21 Jan 2021 21:22:59 +0300
-Message-Id: <20210121182308.16080-5-digetx@gmail.com>
+Subject: [PATCH v1 07/13] ARM: tegra: acer-a500: Reduce thermal throttling hysteresis to 0.2C
+Date:   Thu, 21 Jan 2021 21:23:02 +0300
+Message-Id: <20210121182308.16080-8-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210121182308.16080-1-digetx@gmail.com>
 References: <20210121182308.16080-1-digetx@gmail.com>
@@ -68,106 +68,27 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable CPU thermal throttling on Tegra30 Cardhu board.
+The 2C hysteresis is a bit too high, although CPU never gets hot on A500.
+Nevertheless, let's reduce thermal throttling hysteresis to 0.2C, which is
+a much more reasonable value.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30-cardhu.dtsi | 43 ++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-cardhu.dtsi b/arch/arm/boot/dts/tegra30-cardhu.dtsi
-index 309538bdcd66..2dff14b87f3e 100644
---- a/arch/arm/boot/dts/tegra30-cardhu.dtsi
-+++ b/arch/arm/boot/dts/tegra30-cardhu.dtsi
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/thermal/thermal.h>
- #include "tegra30.dtsi"
- #include "tegra30-cpu-opp.dtsi"
- #include "tegra30-cpu-opp-microvolt.dtsi"
-@@ -342,12 +343,13 @@ ldo8_reg: ldo8 {
- 			};
- 		};
- 
--		temperature-sensor@4c {
-+		nct1008: temperature-sensor@4c {
- 			compatible = "onnn,nct1008";
- 			reg = <0x4c>;
- 			vcc-supply = <&sys_3v3_reg>;
- 			interrupt-parent = <&gpio>;
- 			interrupts = <TEGRA_GPIO(CC, 2) IRQ_TYPE_LEVEL_LOW>;
-+			#thermal-sensor-cells = <1>;
- 		};
- 
- 		vdd_core: tps62361@60 {
-@@ -441,21 +443,25 @@ cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vddctrl_reg>;
- 			operating-points-v2 = <&cpu0_opp_table>;
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu1: cpu@1 {
- 			cpu-supply = <&vddctrl_reg>;
- 			operating-points-v2 = <&cpu0_opp_table>;
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu2: cpu@2 {
- 			cpu-supply = <&vddctrl_reg>;
- 			operating-points-v2 = <&cpu0_opp_table>;
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu3: cpu@3 {
- 			cpu-supply = <&vddctrl_reg>;
- 			operating-points-v2 = <&cpu0_opp_table>;
-+			#cooling-cells = <2>;
- 		};
- 	};
- 
-@@ -638,6 +644,41 @@ sound {
- 					 <&tegra_car TEGRA30_CLK_EXTERN1>;
- 	};
- 
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <1000>; /* milliseconds */
-+			polling-delay = <5000>; /* milliseconds */
-+
-+			thermal-sensors = <&nct1008 1>;
-+
-+			trips {
-+				trip0: cpu-alert0 {
-+					/* throttle at 57C until temperature drops to 56.8C */
-+					temperature = <57000>;
+diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+index 8531abf329c6..64a303cc5395 100644
+--- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
++++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+@@ -1058,7 +1058,7 @@ trips {
+ 				trip0: cpu-alert0 {
+ 					/* start throttling at 50C */
+ 					temperature = <50000>;
+-					hysteresis = <3000>;
 +					hysteresis = <200>;
-+					type = "passive";
-+				};
-+
-+				trip1: cpu-crit {
-+					/* shut down at 60C */
-+					temperature = <60000>;
-+					hysteresis = <2000>;
-+					type = "critical";
-+				};
-+			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&trip0>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
+ 					type = "passive";
+ 				};
  
 -- 
 2.29.2
