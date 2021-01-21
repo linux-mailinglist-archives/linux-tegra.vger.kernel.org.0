@@ -2,116 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A602FE932
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 12:48:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3CC32FEB3E
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 14:14:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbhAULro (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 06:47:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39686 "EHLO
+        id S1731690AbhAUNNF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Jan 2021 08:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729997AbhAULVU (ORCPT
+        with ESMTP id S1731652AbhAUNMR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Jan 2021 06:21:20 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F35FC061575
-        for <linux-tegra@vger.kernel.org>; Thu, 21 Jan 2021 03:20:03 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id n7so1173761pgg.2
-        for <linux-tegra@vger.kernel.org>; Thu, 21 Jan 2021 03:20:03 -0800 (PST)
+        Thu, 21 Jan 2021 08:12:17 -0500
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AECC3C0613CF
+        for <linux-tegra@vger.kernel.org>; Thu, 21 Jan 2021 05:11:36 -0800 (PST)
+Received: by mail-lf1-x132.google.com with SMTP id b26so2406158lff.9
+        for <linux-tegra@vger.kernel.org>; Thu, 21 Jan 2021 05:11:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UlV9SkLktbmadacAKGgdNG9Y2QsM6fa71yNEW4spCec=;
-        b=dV21di/SIMnV6UG3syoEA4dXCTmipisQDkMW2ufldO2KP0jSQItvJ3YkLtmXk/+JhE
-         7hmZ57fpHjt97X8PR5gXKmU1bgQz8d9clCagTI0XMnZpqP7mbO2Zh9iAagmu72olXVXj
-         CpvgynAYjmFNlOtru+P+SYxpt+iir3lFG9dv6lysvnZP2hLf/APuNd8AjgmKHKz2BNET
-         Q/B3hhhnbz+8xj6PhO4etIkonSNJevSre91l8KyekoUNJ+w0l4BvS0UDAMyBit0BFHnd
-         2TjKMVh5o1fOz3r3E2jv7XYpty6AqtiuILOhk63BTwf28a0P+EHbNvdsGS3BPWyxJAU3
-         Rplg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5SfYgMEZhXd25eYi6qDsESTLBn/H15YeTrdDgpcnnLg=;
+        b=XqZam54V6WNMaJGpQ/zvStXdECi0C+QtAqbDl16uTP8QioYtk1POCI5rq4ekLBZUIz
+         kqDKzYSX8IHExWGey4zMVWfm90PVJegAsI9pSoEhlbTENGMDh6pSp4b5tlefIzBvwoB7
+         swLIZazE6kk/8MNF4dLmLSJIrM8sHNzVLmNYgrRKEF5y/duOdwPTw5jSGwqDUcPL2yOW
+         /3gI2Ht6mM2RpqVZMAsGhxcMSW0j4+Drz600DkSUVF++LOFmjgQVLj7ePlqSQPMe6O5m
+         RCXQMtC2csH8UIsDZyKtdZkpiiK+RX3uZ5/KpaVAust1eNvovi0wfgU+mm2jEKTPOJXO
+         r0IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UlV9SkLktbmadacAKGgdNG9Y2QsM6fa71yNEW4spCec=;
-        b=BTpL6fEU2nUcKMw67a/Dsh+FFMH9lfdlBPVAVovqk5pfZSLuobkXfJ9jgZDhJXcI5E
-         FCnVFCWxkBfl1mqlU4CEIhYI6qylwyD6L3NVfr1GITvQWTXcIA2QjEeckvct9EVlLY4L
-         1+UCu3zWAu9Zm8vPAPVqkM0GCQVVeyk1Gv6jokGiLsU/uUS1bv8uCWW32gD9bm0qOoRA
-         0ayRM5MO6mNGDuPTkAPha1E0QxMGdVWxLVwtxeBLFRYOOpS/pIYEi1f1HnfbyG52Xm5I
-         va4l3xWzS1wX+m3Sk4O1nCymKX+RgAVELXgRMP+zNJjg/vhqwWVZh7Oisqi2dr3prxfV
-         JONw==
-X-Gm-Message-State: AOAM5302xK+aDwExy6kn8YXfux3fNKPANFsqCT8OjOAsETtedQ7CXr5Q
-        uLwMZCQkj6aX5UeYZ67pi9XkPg==
-X-Google-Smtp-Source: ABdhPJyWSSNOh5sgHtD8hlBg7objnemuBrANhZgMxnAG9UmzBJYI+f5LE6kZ+jLn7AkBm1SA7BUzng==
-X-Received: by 2002:a63:455c:: with SMTP id u28mr506335pgk.142.1611228002718;
-        Thu, 21 Jan 2021 03:20:02 -0800 (PST)
-Received: from localhost ([122.172.59.240])
-        by smtp.gmail.com with ESMTPSA id gk2sm5831650pjb.6.2021.01.21.03.20.01
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 Jan 2021 03:20:01 -0800 (PST)
-Date:   Thu, 21 Jan 2021 16:50:00 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 05/12] opp: Add dev_pm_opp_set_voltage()
-Message-ID: <20210121112000.rn6uvfsmgy2wyxwh@vireshk-i7>
-References: <20210118005524.27787-1-digetx@gmail.com>
- <20210118005524.27787-6-digetx@gmail.com>
- <20210118095256.tr2qgnrmokkc6ngf@vireshk-i7>
- <a48dca91-4264-e153-cefa-ccbcca1b1d9d@gmail.com>
- <16c7e096-5efd-2d0c-a2ac-c11133c29c30@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5SfYgMEZhXd25eYi6qDsESTLBn/H15YeTrdDgpcnnLg=;
+        b=JeBdEdcOJxZ3WK5KdQQZyKgDzWxltPqedpQyERn4K/7GhqOGT8p7B9Vz9papSiYhP0
+         kJHionRB9SDZ26TDo7wnUa45QbXq19LdzeDdpA+Lp2/Ewr12aTVpJcHrCsle5c8D3jzf
+         48YkNHzFKKm1geDKjLSX3BXm9UE7BR4cVzMM69RkAGO9k90Vrc/+qbvbTKu+ynGD2y69
+         aFMDhZQ4UhclMjN+4OmXd5fQjasFVsDmzT4g3JgSa4SYgjkU/wiA2nF2kOLOEpBxE3Bx
+         /GTH7EeZZ2U+45xKhu9mWjmiCjZgvzyBT/PUKBqNkvPkjPkzmulsx4pqJYTSyZfw5CpP
+         DCgQ==
+X-Gm-Message-State: AOAM531mdXWra5G13/MXxCCefyGlqrH3hnl2HhK/XzgAVqRY2nGPXI6K
+        /FTLyfGoZneHlgxWyJOlaFSLXULpjy/au6xGK9Z4ig==
+X-Google-Smtp-Source: ABdhPJwFTZwp0woXY9zVcoMioOYsSx1rGdrNSXqJ/is4tl/LS3ywlrqFOWHMdDa3yy6WG1BJ0UNlQtoKVhMMhIRbxeI=
+X-Received: by 2002:ac2:5597:: with SMTP id v23mr6289121lfg.649.1611234695050;
+ Thu, 21 Jan 2021 05:11:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <16c7e096-5efd-2d0c-a2ac-c11133c29c30@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210120080522.471120-1-saravanak@google.com> <20210120080522.471120-2-saravanak@google.com>
+In-Reply-To: <20210120080522.471120-2-saravanak@google.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 21 Jan 2021 14:11:24 +0100
+Message-ID: <CACRpkdbEC6duR=fJQD_Nw9o=HW0DEe2_Ks3SYCgJmkOjzKz3Jg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] of: property: Add fw_devlink support for "gpio"
+ and "gpios" binding
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 21-01-21, 00:57, Dmitry Osipenko wrote:
-> 18.01.2021 22:14, Dmitry Osipenko пишет:
-> > Sounds like it could be a lot of code moving and some extra complexity
-> > will be added to the code. If nobody will ever need the universal
-> > dev_pm_opp_set_opp(), then it could become a wasted effort. I'd choose
-> > the easiest path, i.e. to defer the dev_pm_opp_set_opp() implementation
-> > until somebody will really need it.
-> > 
-> > But if it looks to you that it won't be a too much effort, then I'll
-> > appreciate if you could type the patch.
+On Wed, Jan 20, 2021 at 9:05 AM Saravana Kannan <saravanak@google.com> wrote:
 
-Yes.
- 
-> Let's start with dev_pm_opp_set_voltage() for now. It shouldn't be a
-> problem at all to upgrade it to dev_pm_opp_set_opp() later on.
-> 
-> I'll make a v4 with the dev_pm_opp_set_voltage(), please let me know if
-> you have objections or more suggestions!
+> To provide backward compatibility for boards that use deprecated DT
+> bindings, we need to add fw_devlink support for "gpio" and "gpios".
 
-Sorry about this, I have been working on this stuff for last 2 days. I
-didn't reply earlier as I thought I would be able to finish this
-earlier. Once you see the patches you will see it was a significant
-change :)
+You do some more stuff in the patch so describe that too.
+Especially the check for hogs and #gpio-cells.
+Describe why you do that. Maybe even with a comment in
+the code because I don't think everyone will understand.
 
-I have cc'd you to the relevant patches now. Please see if they work
-fine for you or not.
+> +       if (strcmp(prop_name, "gpio") && strcmp(prop_name, "gpios"))
+> +               return NULL;
 
--- 
-viresh
+This part is easy to understand.
+
+> +       if (of_find_property(np, "gpio-hog", NULL))
+> +               return NULL;
+> +
+> +       if (of_parse_phandle_with_args(np, prop_name, "#gpio-cells", index,
+> +                                      &sup_args))
+> +               return NULL;
+
+This part is hard to understand. Insert comments and tell the reader
+of the code what is going on and why.
+
+Yours,
+Linus Walleij
