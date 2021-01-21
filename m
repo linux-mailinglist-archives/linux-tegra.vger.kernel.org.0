@@ -2,118 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0A772FF423
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 20:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 026C92FF3C5
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 20:06:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727019AbhAUTQ4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 14:16:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57816 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727145AbhAUTOy (ORCPT
+        id S1726412AbhAUTFz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Thu, 21 Jan 2021 14:05:55 -0500
+Received: from mail-oi1-f177.google.com ([209.85.167.177]:33065 "EHLO
+        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725878AbhAUTFG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Jan 2021 14:14:54 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADD59C061793;
-        Thu, 21 Jan 2021 11:00:37 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id v184so2432105wma.1;
-        Thu, 21 Jan 2021 11:00:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=K17Qb/xqJhqemGjS6kTuTL7FFWSJ4l9BP89RSwHWF5E=;
-        b=ZScCF4q9ohNh1JUkk8uuqWZ8Rq8ZDBqMV4uqim51MRtN3L7wr3V5GXWe1UNAYrx2NG
-         iWmT1UHRYeligQF9mMqPe9M53d9xPFG+//3VSwFpP4c2jf02Tv0o2JT7Z77Ob6k/ykDl
-         /heJDcYuDSC6yzwfzCc1eVsvo5h1hSd/2Un1NJqGuFWtatvhU+lFIBXs7Ulcn0JXeX//
-         9I2T7wSnyah9yUWZ2VAynfXdFz7BuCXj4C3O6T68Imgxg+RsTItetkWotjLgDXLVdm2z
-         vFrD41N369dEkQA3Yr+piTujNErzQyvocyaqaaEF8aNpbkhXT4+uKZUGT9ZnHBVTXFOQ
-         MRYg==
+        Thu, 21 Jan 2021 14:05:06 -0500
+Received: by mail-oi1-f177.google.com with SMTP id d203so3331160oia.0;
+        Thu, 21 Jan 2021 11:04:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=K17Qb/xqJhqemGjS6kTuTL7FFWSJ4l9BP89RSwHWF5E=;
-        b=jYv93uVUG/y3eXH7ekRhiA0vtJudxGRRqFkNaoJanzATpgIYPpigVOmujRhI0DYuEk
-         FSuXpD+S9HwEK3SqBiCuYipHiaOruQoB2zuZmKCkfVNaQQod1CLm/SXHDX/Bx1hxzJg1
-         x7/3VenQPu9sdVdBucixdU0kk6fsG3w4n48tGdW7HJwiAWMd7RnBqM8HZm739bYXbF1N
-         2RAacJxNX8oEnnR9gX15wGh92H/JND+8f3XATg3ps3NTEYjQRIJnrD32GKn3RWVo5NPZ
-         gICLcfg84i0UUucBulOaWOPwKiBo1wvmbspeBiwbVPMnS3Mk57ClUNWni+PyXRrCxj8H
-         +zcg==
-X-Gm-Message-State: AOAM530C9HLOf6luCp0Ob9B5vu5AbKVa1I7vW/lc2Z0JPdEgjrfR9b75
-        OefuWbarNE5BrWTjRv7nht4=
-X-Google-Smtp-Source: ABdhPJyJGoMAuEiKqmzk71DvSTnpg4Ui3V10hF5b8vzzCod0tNFv3UIb4yOZgcvqdflnJZPOlpC9wg==
-X-Received: by 2002:a05:600c:21d8:: with SMTP id x24mr699705wmj.27.1611255636500;
-        Thu, 21 Jan 2021 11:00:36 -0800 (PST)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id p9sm8673767wrj.11.2021.01.21.11.00.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 11:00:35 -0800 (PST)
-Date:   Thu, 21 Jan 2021 20:00:34 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     broonie@kernel.org, robh+dt@kernel.org, jonathanh@nvidia.com,
-        kuninori.morimoto.gx@renesas.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sharadg@nvidia.com
-Subject: Re: [RESEND PATCH v6 6/6] arm64: tegra: Audio graph sound card for
- Jetson Nano and TX1
-Message-ID: <YAnPUsg7cNJQKqfO@ulmo>
-References: <1611048496-24650-1-git-send-email-spujar@nvidia.com>
- <1611048496-24650-7-git-send-email-spujar@nvidia.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sxUFDSeoZEWN4aDqisZF6mUVpomTtmiF7YK6hytZxWc=;
+        b=qWa+uEpZ5yso8/rb0urhOsLhosKvFHOxVghxZirLSf+NyVU4lUnkz+0Yyi2/8WqwMJ
+         dDo+yvXqyPP80ZaCbcWyLdrh5wr2FQ2rITEfsh2lpxAjUY2DtDfYORfcO5iPIthS5FOK
+         6CMlt/IbsL7hSM674dbayLLexoq+gSxD6NaM/8SDYEoPv/YxiIBf9AtQF5w3+AQyez/p
+         CjuEWz102L451pDCZ7Cm+fR2jpkbxq72MdadmemvrWPAMyIwm7iuwZX3NSlZR3BXg3OB
+         Nw00zR7EHZnVSGcVPA6ai1iHN3xwKm/vDAqkcycFWCPUVUcX9Joqk67V9mSOcaUsUuSl
+         UjOA==
+X-Gm-Message-State: AOAM530b/i4To4Gq0pyUDiYB713k8FTP3OmJLgw4eFvLo5I6Xh4ijxWT
+        jahMtwKDx6Bxj5id4GbBwrZRa/5kWiKgKs70aH4=
+X-Google-Smtp-Source: ABdhPJwFYOx7GKzTGGbTxgqjm5rCY/53kLF3X/JTRr/LaAc8hfo2mXKv0cD2IHyeZkf+1CBzz3/fcbRitQ3sr4ri09g=
+X-Received: by 2002:aca:308a:: with SMTP id w132mr703472oiw.69.1611255814671;
+ Thu, 21 Jan 2021 11:03:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="51vTQSaQmQ9+ueZw"
-Content-Disposition: inline
-In-Reply-To: <1611048496-24650-7-git-send-email-spujar@nvidia.com>
-User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
+References: <20201111021131.822867-1-ndesaulniers@google.com> <031790d7-ee26-f919-9338-b135e9b94635@nvidia.com>
+In-Reply-To: <031790d7-ee26-f919-9338-b135e9b94635@nvidia.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 21 Jan 2021 20:03:23 +0100
+Message-ID: <CAJZ5v0it3KfdNo7kwq-7__C+Kvr4Eo7x8-3rBi09B5rHfNv-hQ@mail.gmail.com>
+Subject: Re: [PATCH] ACPICA: fix -Wfallthrough
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Robert Moore <robert.moore@intel.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        clang-built-linux@googlegroups.com, Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Jan 21, 2021 at 11:08 AM Jon Hunter <jonathanh@nvidia.com> wrote:
+>
+>
+> On 11/11/2020 02:11, Nick Desaulniers wrote:
+> > The "fallthrough" pseudo-keyword was added as a portable way to denote
+> > intentional fallthrough. This code seemed to be using a mix of
+> > fallthrough comments that GCC recognizes, and some kind of lint marker.
+> > I'm guessing that linter hasn't been run in a while from the mixed use
+> > of the marker vs comments.
+> >
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+>
+> I know this is not the exact version that was merged, I can't find it on
+> the list, but looks like the version that was merged [0],
 
---51vTQSaQmQ9+ueZw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It would be this patch:
 
-On Tue, Jan 19, 2021 at 02:58:16PM +0530, Sameer Pujar wrote:
-> Enable support for audio-graph based sound card on Jetson-Nano and
-> Jetson-TX1. Depending on the platform, required I/O interfaces are
-> enabled.
->=20
->  * Jetson-Nano: Enable I2S3, I2S4, DMIC1 and DMIC2.
->  * Jetson-TX1: Enable all I2S and DMIC interfaces.
->=20
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts | 262 +++++++++++++++=
-++++++
->  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 146 ++++++++++++
->  2 files changed, 408 insertions(+)
+https://patchwork.kernel.org/project/linux-acpi/patch/20210115184826.2250-4-erik.kaneda@intel.com/
 
-Applied, thanks.
+Nick, Erik?
 
-Thierry
-
---51vTQSaQmQ9+ueZw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAJz1IACgkQ3SOs138+
-s6GsMRAAsajRy5WFgKN+ktn2lL5UogXSyqcI2/4odHZspdTjh48LGWAWZZ2BkJO3
-0FBPJmcg9irGgzc1L0mKH2SKLbs0owGIh24jpuf51T3SAzygOXh/K6wIy/mMBz1F
-ViRWHtM866kzXyAizKanXmXnVP75VyquwO6TNgMhsldEm0CqjA2kcsWZZ+KCFsc3
-mlMFUfGgzxjScgjhVXTrSBa8jx5FmaFEIRMwFRfuU1eZxV4oVWocWPS4fM7nkFNg
-1FEvwGr3MZGmR4VZ8VUUyoiCHIIXD0A+o1X2+2iLpau9bgh9LASrj7mWHA62eRWa
-ji18iCYrdsv3+ac82Yhbnot+0mCMajIlP8qL75HPpjSavjIiAOaJ2ifYdWmzNbcd
-Ep/Ot1GkXnyMhSZwL8vp6TOvDq8uoLDwdMjNilA8BXwDq8V7QZvz5fVT9EV7oPY1
-Q7eoiypjrsfmDbw1niP9uNKcCIDh1Boj9FqxKi9Unq/blcbKqXbo8zb/ANGAwIau
-Ds8bpCy4zQOFCXnmDw1BReWQbryUZp4TsSQ18gskEIo4U8/Tg2JDJzqJbmN6LuQ1
-Y4VzhHq0JBzr5oBlTJU1f7d+v3Bcfxtwm8LMYrUqQYkEZidO+794fC6077Dai/r8
-KcDiIFitTxSTqogQLN45ISY/a3MtNGRhDLBZcf6Sdd6yoJa+IfQ=
-=ceXN
------END PGP SIGNATURE-----
-
---51vTQSaQmQ9+ueZw--
+> is causing build errors with older toolchains (GCC v6) ...
+>
+> /dvs/git/dirty/git-master_l4t-upstream/kernel/drivers/acpi/acpica/dscontrol.c: In function ‘acpi_ds_exec_begin_control_op’:
+> /dvs/git/dirty/git-master_l4t-upstream/kernel/drivers/acpi/acpica/dscontrol.c:65:3: error: ‘ACPI_FALLTHROUGH’ undeclared (first use in this function)
+>    ACPI_FALLTHROUGH;
+>    ^~~~~~~~~~~~~~~~
+> /dvs/git/dirty/git-master_l4t-upstream/kernel/drivers/acpi/acpica/dscontrol.c:65:3: note: each undeclared identifier is reported only once for each function it appears in
+> /dvs/git/dirty/git-master_l4t-upstream/kernel/scripts/Makefile.build:287: recipe for target 'drivers/acpi/acpica/dscontrol.o' failed
+>
+> Cheers
+> Jon
+>
+> [0] https://github.com/acpica/acpica/commit/4b9135f5
+>
+> --
+> nvpublic
