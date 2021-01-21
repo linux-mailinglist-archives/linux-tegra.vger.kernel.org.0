@@ -2,113 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A97552FF3E5
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 20:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 183A32FF42F
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 20:20:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726218AbhAUTKY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 14:10:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56728 "EHLO
+        id S1726427AbhAUTTI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Jan 2021 14:19:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726942AbhAUTJz (ORCPT
+        with ESMTP id S1726943AbhAUTJy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Jan 2021 14:09:55 -0500
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C8FC06178B;
-        Thu, 21 Jan 2021 10:59:37 -0800 (PST)
-Received: by mail-qk1-x72b.google.com with SMTP id z11so2724533qkj.7;
-        Thu, 21 Jan 2021 10:59:37 -0800 (PST)
+        Thu, 21 Jan 2021 14:09:54 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA31EC06178C;
+        Thu, 21 Jan 2021 11:00:19 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id c128so2423112wme.2;
+        Thu, 21 Jan 2021 11:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=RDTUmyi6TX1dMW73o3akqz8xuDPvL4pb5fyygLXF4I8=;
-        b=qhXcdVQsNa91XXCzLVDPU/KqxOxUQZkfZtbeQrwUU4IlsbysGk6QJ+Q3vOXbR9dmGl
-         r9jKgAaSXICozJbVVlFl0Qye8z7BCSKijeJM1ijBLLjv0vcbalesCtsDnUwoFXf90rPq
-         6+jgC6lftZJ2ESX97wnAn+KAARFJbSNugo9OHNnkP7rIaAscP84QXuvGsYe1G6eEM8XZ
-         DEDEql0vKSNM5ktuSfDfROgZbzSax7OQnCbuctNmmYeTZOy0KDyfVOC7PMrESzXHEdM/
-         1rtpIVkXx3jhDr+pSt4jN3gnXS+SwLQSEScht/y+OnRi3jqfmH1VjqVllnE4glJZeCIz
-         jiPg==
+        bh=d/ziHaJ/3CRX+7Ak8L6tc/6XTy9kd0cfBe4hNikwO/c=;
+        b=AoVItIzETjxlFlcIaNNnp30X8ff2ER7nSIMY/AvIZ2B2/uFpej8ETL7uEvOaAkfbVV
+         xHuYDlnUevhdF9zBT5pXI11pKCwQoAnq5XHhIJFBtcPGf9SG0nsWuYrpmPmUFwgHya+N
+         B/OTLb9xCcfViUiALg0skecxp4H+NE7uhwf5H0gtfZkp5rBj4Ts2yymTagIErt/bAGCy
+         OpeQuqHj3DewMioI7mM2iRYLVWnM5TuYGRD7k8oHr67uWiR6AiohOO2/TlOZmAO9T3CD
+         xbfzUrH8q82nxOMgd4fC44JltYsnjVTopVA/k/DxPWEUnY4auWMIoraSw7SyoGXlvA0i
+         QvXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RDTUmyi6TX1dMW73o3akqz8xuDPvL4pb5fyygLXF4I8=;
-        b=AfbOfDoK7aNb4gc6wzSdwXu4xAfJ7KGUNXfo3+izhJ8iT+iEYLSc3Bq2G1jqdGQgva
-         7Lkq+2S5317Mcp8ZENare8anhguQPese4LQSZEINDFj1WzKIWnDmCOzKToXFSAeXWiys
-         dO+aRylsgm09UuSBuMYdtc8c9gCdFWx2lul2taaXdOx85rDKXJYBEQfMsYF566vUEajO
-         ZLNiYtFDeD1Ijns2P1ZwB2gCUNZCXO1zxOKb8FC4wBaOUUNyI1G3ZsK7/qSWLZ/7+1Oe
-         CcfYRP5a2/tQcGfnNueIW91xD6vluMoixG8I8FcTyhgWllulOoMK5N5GSy97wsz70zzN
-         WexQ==
-X-Gm-Message-State: AOAM530Q5vCg3hEx5CsxvdZeyiZkG8pBoP4qtzePtCGekEJD+ouZ6BeP
-        L07xAiOfKOKCvCcbjX5uKf8=
-X-Google-Smtp-Source: ABdhPJwohk2DIFAJlac5ohtlYAVxOFCDRj/GRbEUUa3RQ01XDV7/9jInryHqvORzkYAcKk6YUf52KA==
-X-Received: by 2002:a05:620a:1206:: with SMTP id u6mr1183789qkj.209.1611255576713;
-        Thu, 21 Jan 2021 10:59:36 -0800 (PST)
+        bh=d/ziHaJ/3CRX+7Ak8L6tc/6XTy9kd0cfBe4hNikwO/c=;
+        b=sUwjbcvU3aJzZ8hecxJIiZ4MKQ1h/roAfmWlHzzGgZ8R8CfSRrAsTqEZAQ0rUqy4wz
+         8gHADxB6Cdujt+IoaaITZqIPk8hfNdog0lRUY9pnwG1yqCpFwOIl2kFULbwygx2XrFUN
+         5k9yUokrd2YTC7RZ0tCOiRGem9arEEEGIZWrNoj4h2zSN8AuApxbUlQJxAd3ttOcvg9n
+         4hAZ0jO92o6Ulxh2NFmb0Q7DayhNiMqd6nIobLjk7apKg5BpcSS0QHSWnyIoTdwm9o/p
+         S4cKRH95jdHalUXo1Bvl6B085U9Fxb79C0r1bzB0eM+mvYPWkAlF2bphs79uOwXN1pru
+         NQ6g==
+X-Gm-Message-State: AOAM532i2+EqGwqYar8kWsv9bsWY6HcBuP8W6cgafHhk0+53IK0peTNj
+        KkWeIucjnHxp0QuuYJCGimA=
+X-Google-Smtp-Source: ABdhPJxgZ/IjwFq4Y/En1Jx4MO2W/E1hS4TJTyXYAdVydizAYJvZO0e/z5E1QRunLxKU368UllRi1Q==
+X-Received: by 2002:a05:600c:4ed3:: with SMTP id g19mr674158wmq.95.1611255618587;
+        Thu, 21 Jan 2021 11:00:18 -0800 (PST)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id 196sm2961883qkl.4.2021.01.21.10.59.35
+        by smtp.gmail.com with ESMTPSA id w4sm8901051wmc.13.2021.01.21.11.00.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:59:35 -0800 (PST)
-Date:   Thu, 21 Jan 2021 19:59:33 +0100
+        Thu, 21 Jan 2021 11:00:17 -0800 (PST)
+Date:   Thu, 21 Jan 2021 20:00:16 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Sameer Pujar <spujar@nvidia.com>
 Cc:     broonie@kernel.org, robh+dt@kernel.org, jonathanh@nvidia.com,
         kuninori.morimoto.gx@renesas.com, alsa-devel@alsa-project.org,
         devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org, sharadg@nvidia.com
-Subject: Re: [RESEND PATCH v6 4/6] arm64: defconfig: Enable Tegra audio graph
- card driver
-Message-ID: <YAnPFV6WBDmJR7uU@ulmo>
+Subject: Re: [RESEND PATCH v6 5/6] arm64: tegra: Audio graph header for
+ Tegra210
+Message-ID: <YAnPQO2BZKxnvnZU@ulmo>
 References: <1611048496-24650-1-git-send-email-spujar@nvidia.com>
- <1611048496-24650-5-git-send-email-spujar@nvidia.com>
+ <1611048496-24650-6-git-send-email-spujar@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="UNXIJuGPFxobgmD3"
+        protocol="application/pgp-signature"; boundary="mqXVJD2aWFFDAbPm"
 Content-Disposition: inline
-In-Reply-To: <1611048496-24650-5-git-send-email-spujar@nvidia.com>
+In-Reply-To: <1611048496-24650-6-git-send-email-spujar@nvidia.com>
 User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---UNXIJuGPFxobgmD3
+--mqXVJD2aWFFDAbPm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 19, 2021 at 02:58:14PM +0530, Sameer Pujar wrote:
-> This commit enables Tegra audio graph card driver which is based on
-> the generic audio-graph card driver. This is intended to be used
-> on platforms based on Tegra210 and later chips.
+On Tue, Jan 19, 2021 at 02:58:15PM +0530, Sameer Pujar wrote:
+> Expose a header which describes DT bindings required to use audio-graph
+> based sound card. All Tegra210 based platforms can include this header
+> and add platform specific information. Currently, from SoC point of view,
+> all links are exposed for ADMAIF, AHUB, I2S and DMIC components.
 >=20
 > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
 > Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  .../boot/dts/nvidia/tegra210-audio-graph.dtsi      | 153 +++++++++++++++=
+++++++
+>  1 file changed, 153 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/nvidia/tegra210-audio-graph.dtsi
 
 Applied, thanks.
 
 Thierry
 
---UNXIJuGPFxobgmD3
+--mqXVJD2aWFFDAbPm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAJzxUACgkQ3SOs138+
-s6HJ3Q/+L0jCt+mm47rX9vykjTeqtyF8JyoUyIhqNIhYPtlqgW/Em7qfuq/lZ2M2
-dZysuBm51BUIZXN1mVZwBVXpvv7lbITPA2lbBaIA85hFvVThA2/wKrEC6GlEIiCx
-boRAWs3lDqFzU6sha+t6BIizmePN3rWMkvuJeuLCK6F4xov819o1NGRlG/uJJ4B4
-d6Q4CpGVvJDCU0h3raq+bXKRoXgzOUUX9xuCT6ZLzmQ2hRzuLi5M7pKm6TGGTxTw
-2ySGWiOaOouDqKErnq7KqOBEKHAdjfeelmU0gHMCBziO4fKG/Tcj1mv+8P/pg/HS
-TZSQRY7ExONu2W7UQB5SHxvFU/TLpnS15UF1+r426KkdPueCqQRdeDc5se8YzVuc
-VadOQGvEaOArxddyyyFSeWL7NFFVLG7ZB9B11hvsx71XGOFMJ3BNBEP8kwrr+thl
-azMw+U0JAu8Hikbd9UoqTl8xoRg3ihKJKmS1ilXPmnsx7ztHx1BhGojMW2bv8S4l
-Lf3VzmI9yGu/AbQ4wCB1WZShVr5nx36TpbZzorg72cBJx7zXjkNFadGpjfdRYnwb
-SXFuwnQIXngaAoRVlFH5MGRcY2klZRHU1DPdnm2FxH1F8DewCK6AfF0aWHGmrXHp
-RgsS7NHpckY8lQ3acKsx53I0B9XV8nYxNhtB291SLwkTP9Y5Je0=
-=n94E
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAJz0AACgkQ3SOs138+
+s6FQ+xAAh5sFlbnqM8oTZQFjZluJrD7PLbFf2es+YGmrReDA5xAJXmlq1AhaaGiq
+bjsm9rKGYbE7TYu9kfoNBpx5p4zKChGqstucZAoKuMfrcJlgyyD+s7oj0OVVIyjz
+TRHfCZFcvZfjK3IaR1Ik5u8ZzkfKvPsaSOeGQuUoMnlyCoEuMJk/PhbwDF2F7f72
+ZKH8qDRbXwy8AtibLAG8zqs68RLnh87WgRktXpd/DcHHmWrGM8Gy3/tdCAL/p3Fa
+YX5kt/DhyzCcQAo6QH47QCXtwopLo/0tL60MuYgCYbnf0nAsov32w2x+aV2GvN7l
+8FHdCfLFIDuQOuyoJgD5cpURS3ydWyWN2FdPOEqEak2kkS14DXePs9/aWr7Nmr1W
+ChlUDh2aw9VgmOsp3EGQO3YzcCYu4RQnBaEUw9sGukEy6uZ853Cqa2S+euBou9rY
+R9KjuQh4f6eeKuYxJ3vOdoooYi7nlphIejc94o19wnNu7riAy0XopLjcPyTVYypz
+vLsHgMhnSsOcb7Zwc5W1DRxL5gGU90dOSChBnNCTsxeiIYRbmK1YXeBNy7gtbI0R
+7Yhj5yvd+sSbfTzJNZvrg5rdh3QHXZpMICGJW0SQXmyovDLwTkNpy5Tc6YltOOv6
++F873C2UDSoeGnbRz2wFvpaX/lZI1mbhD5EyyZe7txKRP6eYHTo=
+=74uA
 -----END PGP SIGNATURE-----
 
---UNXIJuGPFxobgmD3--
+--mqXVJD2aWFFDAbPm--
