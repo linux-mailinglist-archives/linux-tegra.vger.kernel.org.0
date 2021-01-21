@@ -2,165 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EB992FF37A
-	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 19:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BECE62FF33C
+	for <lists+linux-tegra@lfdr.de>; Thu, 21 Jan 2021 19:34:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726037AbhAUSrP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 21 Jan 2021 13:47:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47006 "EHLO
+        id S1729213AbhAUSdz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 21 Jan 2021 13:33:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727569AbhAUS0A (ORCPT
+        with ESMTP id S1729324AbhAUSbL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:26:00 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CE63C0617AA;
-        Thu, 21 Jan 2021 10:23:34 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id h7so3885079lfc.6;
-        Thu, 21 Jan 2021 10:23:34 -0800 (PST)
+        Thu, 21 Jan 2021 13:31:11 -0500
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D4AC0613D6
+        for <linux-tegra@vger.kernel.org>; Thu, 21 Jan 2021 10:30:30 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id z1so2988828ybr.4
+        for <linux-tegra@vger.kernel.org>; Thu, 21 Jan 2021 10:30:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=//LXOze+13I5z/FYLaqJrmRyfxqFIxZ8QuJGcysQP04=;
-        b=ILNk7kZOFLktb1B+0n3AOelwsojeupbuz1w+mYzPTPthZ//GML5v/JApFJiV+uiDxt
-         oMe6TooMGKi318/YGOnAyxUWGY2wuNVuvMpV6SQP/2llovUKTT8FkvhyNezuwaqsMo3n
-         bz3W5mOHtshtQFqyPtoxpxYzTkQa14+csY5uCcbe1o3241aBU5d86kvl+h7/w7TvLB0I
-         3XUtwb9aJIxDDpxYm0xcnFg0F+cuC/ZxJCOUoa6pLW7f/BwYBniYyq9UY+O7eBaa8NhV
-         QQYWT6ByEBMdy3ihrzxKbpTmqCmJXqT/tU7UK9kIa3y2DEnUXmTru/vU9FHci92L4mUx
-         Vhvg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZMx/E/2jxeFQ/OIv6Rd62p8bKvIIXSarZZ/uxbDSpwY=;
+        b=pB8CSuCQ1t5NAIwfgQPsRbm4+N0eqdS2xb3sYibQkm9BQS2mwqlUtyPpO6iLIpNvTf
+         ka2NAi+p0KSBwruk+USrd4lKF2udHHqkPF0ROeViCgN+c39XCGmlkVQrEnBDBBfQb1Rg
+         jP8JiSiRCC6E5j7+BBHU/UFYNf7FaNMZNfB0EbDL8QQf4rIGpMEWlKackhI+O0PYy7/V
+         Wk0AsR7mxPL1ZgKcB7pW6DIXFGPDn2CG7XE3S4u+4mHhCA7Xy7EQC+JAgzutVdOnplRI
+         joaAAbzHTBkH+075AARQ5Rv/iJXt2YomkRDsTnU502319R63zcWAh7Zb47O8SRgVGtv+
+         Oelg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=//LXOze+13I5z/FYLaqJrmRyfxqFIxZ8QuJGcysQP04=;
-        b=iCzINsXpk+funlVgJy5KMzDTCmT3QqZ4+zriHPWr5v/qnPpY7U8Zq0TWke0gowQxM4
-         1x62tFr1upHYfnFhTZsptn18TN8fxGzIVL3hqXCHsoQGs22kMgNAHkRfBi8EhClvJAFq
-         BjkmHJ1xOFmI4B4Jf/38sWJvAGEzB/prpgEJtwf26DlWwLgs+BvX+JTsU3eJRpaEbAJv
-         rwBjoneaNAQVNXJN6FNMt6a73pKJTRAKgM57BsxFGkpQu1BByPUzEKwnUoEMrbXWVbvx
-         N6lSQaVGV0MFyBtargFK7li0JsS+8xKqjMwyoqTHu8EkKC/CPydE1swxJ6PaBH1Pwcbq
-         pnFA==
-X-Gm-Message-State: AOAM533yqGTBmpoulZWg/3qxC9uqFekqCwKnEkhy0Hi+qeKz38KMkL9T
-        C1eYfUXsQeAAU5et+T724SxEPyyCeVY=
-X-Google-Smtp-Source: ABdhPJwP2zhd2mBJVn1OszotEVigAHiIMyTmGFkiuhpZDca0PwKDhWShHQeS7sGQ2Ed6a+0juBWusA==
-X-Received: by 2002:a19:4801:: with SMTP id v1mr228337lfa.628.1611253412729;
-        Thu, 21 Jan 2021 10:23:32 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id f186sm600537lfd.289.2021.01.21.10.23.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:23:32 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Peter Geis <pgwipeout@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 13/13] ARM: tegra: Specify memory suspend OPP in device-tree
-Date:   Thu, 21 Jan 2021 21:23:08 +0300
-Message-Id: <20210121182308.16080-14-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210121182308.16080-1-digetx@gmail.com>
-References: <20210121182308.16080-1-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZMx/E/2jxeFQ/OIv6Rd62p8bKvIIXSarZZ/uxbDSpwY=;
+        b=aqG1jRoph6tMW6UrQKA3r8FXHSMMFdoOVEzIz1r5zMXO6SHiobIgyIaVrDoJ1uOJ4e
+         NESo3ylBhDjnEsjqQ2CQvR7aKyBQQ8CHnUzojUJOXbXK7eKGgktVC1KRXgDmXL9LZoqz
+         FdbCLh5MvvQIgauLgLn26fzwLJuGnOpqFfMLFNjWvBEm4yBjY8LNGPw5zMv9XW7uWh6y
+         0XXjC7/vx6TMFic6Zoe76Z7HNbNpGYi3eM+6FLvam62FIj0XKFG9tNE6wzl1TgwFm3r3
+         CIqQhhhdDWAOAhmF5S/fOpd9hOADpHjR/MrXnDDOXw8jJet/QtbaAqSvM4B8BxuOke4R
+         Fx6w==
+X-Gm-Message-State: AOAM53097Nw513GDEulF4ruFj4aj4N4p882F3K9QGoDkh9LDZPx9RcOE
+        KnaBcAaA6vG5AHvt/u/pfU0BMzTBInjTtV+DklXkziFZn+U=
+X-Google-Smtp-Source: ABdhPJwnZpmvD+AZqcXVdjUOu32h6NtnBg2N1jGh81MiZd0VG0aCJtfW7+8+aKL/Muz7mdDJKzVA4r+78/0mqdECUOs=
+X-Received: by 2002:a25:dfcb:: with SMTP id w194mr883475ybg.346.1611253829911;
+ Thu, 21 Jan 2021 10:30:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210120080522.471120-1-saravanak@google.com> <20210120080522.471120-2-saravanak@google.com>
+ <CACRpkdbEC6duR=fJQD_Nw9o=HW0DEe2_Ks3SYCgJmkOjzKz3Jg@mail.gmail.com>
+In-Reply-To: <CACRpkdbEC6duR=fJQD_Nw9o=HW0DEe2_Ks3SYCgJmkOjzKz3Jg@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Thu, 21 Jan 2021 10:29:54 -0800
+Message-ID: <CAGETcx9HFtnuA=XDdbXOq+HEEkbtpQ7J7Nz4uTWhoswZbHpsfw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] of: property: Add fw_devlink support for "gpio"
+ and "gpios" binding
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Specify memory suspend OPP in a device-tree, just for consistency.
-Now memory will always suspend on the same frequency.
+On Thu, Jan 21, 2021 at 5:11 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Wed, Jan 20, 2021 at 9:05 AM Saravana Kannan <saravanak@google.com> wrote:
+>
+> > To provide backward compatibility for boards that use deprecated DT
+> > bindings, we need to add fw_devlink support for "gpio" and "gpios".
+>
+> You do some more stuff in the patch so describe that too.
+> Especially the check for hogs and #gpio-cells.
+> Describe why you do that. Maybe even with a comment in
+> the code because I don't think everyone will understand.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra124-peripherals-opp.dtsi | 5 +++++
- arch/arm/boot/dts/tegra20-peripherals-opp.dtsi  | 1 +
- arch/arm/boot/dts/tegra30-peripherals-opp.dtsi  | 3 +++
- 3 files changed, 9 insertions(+)
+Ack
 
-diff --git a/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
-index 49d9420a3289..781ac8601030 100644
---- a/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
-@@ -128,24 +128,28 @@ opp@204000000,800 {
- 			opp-microvolt = <800000 800000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0003>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,950 {
- 			opp-microvolt = <950000 950000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0008>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,1050 {
- 			opp-microvolt = <1050000 1050000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0010>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,1110 {
- 			opp-microvolt = <1110000 1110000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0004>;
-+			opp-suspend;
- 		};
- 
- 		opp@264000000,800 {
-@@ -360,6 +364,7 @@ opp@204000000 {
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x001F>;
- 			opp-peak-kBps = <3264000>;
-+			opp-suspend;
- 		};
- 
- 		opp@264000000 {
-diff --git a/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
-index b84afecea154..ef3ad2e5f270 100644
---- a/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
-@@ -68,6 +68,7 @@ opp@216000000 {
- 			opp-microvolt = <1000000 1000000 1300000>;
- 			opp-hz = /bits/ 64 <216000000>;
- 			opp-supported-hw = <0x000F>;
-+			opp-suspend;
- 		};
- 
- 		opp@300000000 {
-diff --git a/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-index cbe84d25e726..2c9780319725 100644
---- a/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-@@ -128,12 +128,14 @@ opp@204000000,1000 {
- 			opp-microvolt = <1000000 1000000 1350000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0007>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,1250 {
- 			opp-microvolt = <1250000 1250000 1350000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0008>;
-+			opp-suspend;
- 		};
- 
- 		opp@333500000,1000 {
-@@ -312,6 +314,7 @@ opp@204000000 {
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x000F>;
- 			opp-peak-kBps = <1632000>;
-+			opp-suspend;
- 		};
- 
- 		opp@333500000 {
--- 
-2.29.2
+>
+> > +       if (strcmp(prop_name, "gpio") && strcmp(prop_name, "gpios"))
+> > +               return NULL;
+>
+> This part is easy to understand.
+>
+> > +       if (of_find_property(np, "gpio-hog", NULL))
+> > +               return NULL;
+> > +
+> > +       if (of_parse_phandle_with_args(np, prop_name, "#gpio-cells", index,
+> > +                                      &sup_args))
+> > +               return NULL;
+>
+> This part is hard to understand. Insert comments and tell the reader
+> of the code what is going on and why.
 
+I assume the "hard to understand" part is the gpio-hog part? Because
+the last line is pretty straightforward -- it's returning the index-th
+phandle. Also, it's a copy-paste from the DEFINE_SIMPLE_PROP macro.
+
+
+-Saravana
