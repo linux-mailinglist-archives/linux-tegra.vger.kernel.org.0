@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3420F300DBF
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2CAB300DBD
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:30:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731103AbhAVUal (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 15:30:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44862 "EHLO
+        id S1730300AbhAVUaE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Jan 2021 15:30:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729915AbhAVU2l (ORCPT
+        with ESMTP id S1730951AbhAVU2d (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 15:28:41 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 682A4C0611BE;
-        Fri, 22 Jan 2021 12:25:09 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id p21so4204630lfu.11;
-        Fri, 22 Jan 2021 12:25:09 -0800 (PST)
+        Fri, 22 Jan 2021 15:28:33 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2375C061A2A;
+        Fri, 22 Jan 2021 12:25:13 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id p13so8006024ljg.2;
+        Fri, 22 Jan 2021 12:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jr+FVUJQePudpvhgS8HkVhJONS+IB09AlY+GXEewA/U=;
-        b=sRS2Ll95Wh0tOQzMXYxP030iheOICZFocnowEOXpJ/dOOijK6GUWUAxJgSAjcJEemr
-         jBcypUR1Cj4LGeKeEDRpjCJBtDj+D/EEis+gvEf3P9Cr4n/X2YTKwuxrpwD00EmAvoxI
-         eUErV1yiIDuIckLcFtk8By6RT8HVX785y9rn6jt5E/3EY6LvnUZ8SvmnwgcwmPSTpy4h
-         U5pFrbJHN+3RHXfcgDipEj+3NpRNIKNkcWQ8xqaLTsWQffCHdA066253304JC+MTnRFn
-         XbMBN4hjkTEei1usON8PweqjGrPHrp+8PkIjZ40Bl9ws1N2hqEXqzRIzyKPRK50mKIt9
-         Z3IA==
+        bh=1TFMrxk5Y5fLNqfPH2xbYxuuOS1BGXZk2VnJngWDMz8=;
+        b=hzSyci+eKM6pyZG49FekHP4eXQf4qwAIgTuLB7SgmakRtiYP13pZ5WG1RrGqracF62
+         3fSXqlNByfhnBQ07JJSEFsoVTbhc8nKxPXlSZCIwAN4nvXsW8fa/Ju13rNqk2qhQ0RBN
+         vO7BVXdkFVw/oUZ+JGS/2hrBJW1B3GJs87eZjFZWhsBV3ZouS7JssPjqO434Vc5R0VWx
+         YFdmePuZ7rGieuzth8MbS4Ocvwq1SgRI4rcjijRGlpGUTUY4x7eKYKSEpadkaE1pxlL+
+         v/njw8scrDwd8YXJ0UQ8tD9IB2ScvLonaQb97S6IpzLLQfNZkJJrLn2msJaT9NmNVgCl
+         w4AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jr+FVUJQePudpvhgS8HkVhJONS+IB09AlY+GXEewA/U=;
-        b=Y8WZ5HJ0BUhNZa8NsouK2irOEeM0Ej6q3MpvgX5HoVi2aB3nXcL5KR38jBBC5Oycqv
-         41dcHQ+AgCSQbrxAGsbr1O1IfcH3omUoTWZMsgugUoMHVjILaLxwdTZFg4zlNqo0W3Gx
-         8typxYQq9+tkEqXcLPgyijlbNUCCDHTshAMKFLqX6tlaUmRd7HZw/wHW05iB1Y7//FcS
-         eQ7hXHtflwliolhE+Wqqn5c1ua37L5I88UZY+drW7tM7aHBUP6XY/NAth0HwMpYloxvl
-         XGBSCLWFDswf5h2VvWAn2awIYQ+HZM6CUUnWvRl+0422IvQ7aBzsFl8NBSELIA1PppO/
-         awUw==
-X-Gm-Message-State: AOAM531+2vVJPkJkeLBXWDbGBCOo/H6XHMRssx6/yMDVWFsKSdRgrcYf
-        J/R2iEQs88/Kq3vFsa5oZO0=
-X-Google-Smtp-Source: ABdhPJwfNvpT+v6TG/N83XsL+ckmbPI6XKXVjBQl8UIDtvYxpe9OwzbLlKemeSKjRLa4T9Kgyycchg==
-X-Received: by 2002:a19:e95:: with SMTP id 143mr2509527lfo.420.1611347107997;
-        Fri, 22 Jan 2021 12:25:07 -0800 (PST)
+        bh=1TFMrxk5Y5fLNqfPH2xbYxuuOS1BGXZk2VnJngWDMz8=;
+        b=SOLUUiswr8UyLMjHC2iSoG1UOx023C0J5yGg4IR35+nFVuN449wd+hrPTa7RVU2Q8E
+         zbyjWdxNHetld0hvpPco0Jk9A9LGrczGUcrRc8L3ZQS1NKdh15VvuJfAMmp0023gvwFC
+         01v4La6ZxDj/2F1OgLv1sjPZUfZOnORTeEahC4m98qZNNbKz+wGsnhF2WlJbcrOFT00y
+         OCQ5mRGCrXYjS8AwT/1rr6KIO6jOXXxjIS1/r2aKVi2PeReWF7Y7KRO1BWyFiV0KEsRc
+         RoYkY0cpxnMPchc0ZGhJ/4bRUJ6lsGt81gS7jvm9xpENwiLdDoTDOqkB64TzNgWvgBxI
+         r9Pw==
+X-Gm-Message-State: AOAM5306HjNyrrP2k0OvuLPrOjkzRlFTkYOcDcM/aEhIooqoQluFCc3l
+        IscKtpBDf0ge2CorufgraVI=
+X-Google-Smtp-Source: ABdhPJwWA7/q42+Vf+Y6LuE0qMvTBmqfwXN/Qs5MFnCIyTcOlrBi9SB2uFT7INgMFfmUPwg9rRV9AA==
+X-Received: by 2002:a2e:b00a:: with SMTP id y10mr935181ljk.92.1611347112372;
+        Fri, 22 Jan 2021 12:25:12 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.07
+        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:25:07 -0800 (PST)
+        Fri, 22 Jan 2021 12:25:11 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +56,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/13] ARM: tegra: ventana: Support CPU and Core voltage scaling
-Date:   Fri, 22 Jan 2021 23:24:45 +0300
-Message-Id: <20210122202457.13326-2-digetx@gmail.com>
+Subject: [PATCH v2 06/13] ARM: tegra: acer-a500: Enable core voltage scaling
+Date:   Fri, 22 Jan 2021 23:24:50 +0300
+Message-Id: <20210122202457.13326-7-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210122202457.13326-1-digetx@gmail.com>
 References: <20210122202457.13326-1-digetx@gmail.com>
@@ -68,93 +68,35 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Support CPU and Core voltage scaling on Tegra20 Ventana board.
+Allow lower core voltages on Acer A500.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-ventana.dts | 37 ++++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 9 deletions(-)
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
-index 055334ae3d28..02b94ed722d0 100644
---- a/arch/arm/boot/dts/tegra20-ventana.dts
-+++ b/arch/arm/boot/dts/tegra20-ventana.dts
-@@ -4,6 +4,7 @@
- #include <dt-bindings/input/input.h>
- #include "tegra20.dtsi"
- #include "tegra20-cpu-opp.dtsi"
-+#include "tegra20-cpu-opp-microvolt.dtsi"
+diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+index d3b99535d755..719da992fdaf 100644
+--- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
++++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+@@ -575,7 +575,7 @@ sys_reg: sys {
  
- / {
- 	model = "NVIDIA Tegra20 Ventana evaluation board";
-@@ -420,18 +421,28 @@ sys_reg: sys {
- 					regulator-always-on;
- 				};
- 
--				sm0 {
-+				vdd_core: sm0 {
+ 				vdd_core: sm0 {
  					regulator-name = "vdd_sm0,vdd_core";
 -					regulator-min-microvolt = <1200000>;
--					regulator-max-microvolt = <1200000>;
 +					regulator-min-microvolt = <950000>;
-+					regulator-max-microvolt = <1300000>;
-+					regulator-coupled-with = <&rtc_vdd &vdd_cpu>;
-+					regulator-coupled-max-spread = <170000 550000>;
- 					regulator-always-on;
-+					regulator-boot-on;
-+
-+					nvidia,tegra-core-regulator;
- 				};
+ 					regulator-max-microvolt = <1300000>;
+ 					regulator-coupled-with = <&rtc_vdd &vdd_cpu>;
+ 					regulator-coupled-max-spread = <170000 550000>;
+@@ -616,7 +616,7 @@ ldo1 {
  
--				sm1 {
-+				vdd_cpu: sm1 {
- 					regulator-name = "vdd_sm1,vdd_cpu";
--					regulator-min-microvolt = <1000000>;
--					regulator-max-microvolt = <1000000>;
-+					regulator-min-microvolt = <750000>;
-+					regulator-max-microvolt = <1125000>;
-+					regulator-coupled-with = <&vdd_core &rtc_vdd>;
-+					regulator-coupled-max-spread = <550000 550000>;
- 					regulator-always-on;
-+					regulator-boot-on;
-+
-+					nvidia,tegra-cpu-regulator;
- 				};
- 
- 				sm2_reg: sm2 {
-@@ -450,10 +461,16 @@ ldo1 {
- 					regulator-always-on;
- 				};
- 
--				ldo2 {
-+				rtc_vdd: ldo2 {
+ 				rtc_vdd: ldo2 {
  					regulator-name = "vdd_ldo2,vdd_rtc";
 -					regulator-min-microvolt = <1200000>;
--					regulator-max-microvolt = <1200000>;
 +					regulator-min-microvolt = <950000>;
-+					regulator-max-microvolt = <1300000>;
-+					regulator-coupled-with = <&vdd_core &vdd_cpu>;
-+					regulator-coupled-max-spread = <170000 550000>;
-+					regulator-always-on;
-+					regulator-boot-on;
-+
-+					nvidia,tegra-rtc-regulator;
- 				};
- 
- 				ldo3 {
-@@ -595,10 +612,12 @@ clk32k_in: clock@0 {
- 
- 	cpus {
- 		cpu0: cpu@0 {
-+			cpu-supply = <&vdd_cpu>;
- 			operating-points-v2 = <&cpu0_opp_table>;
- 		};
- 
- 		cpu@1 {
-+			cpu-supply = <&vdd_cpu>;
- 			operating-points-v2 = <&cpu0_opp_table>;
- 		};
- 	};
+ 					regulator-max-microvolt = <1300000>;
+ 					regulator-coupled-with = <&vdd_core &vdd_cpu>;
+ 					regulator-coupled-max-spread = <170000 550000>;
 -- 
 2.29.2
 
