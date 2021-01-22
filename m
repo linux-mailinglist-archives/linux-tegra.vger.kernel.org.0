@@ -2,97 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C69300394
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 13:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E84CC300468
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 14:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbhAVM7Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 07:59:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727066AbhAVM7T (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 07:59:19 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC6FC0613D6
-        for <linux-tegra@vger.kernel.org>; Fri, 22 Jan 2021 04:58:36 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id b10so6403826ljp.6
-        for <linux-tegra@vger.kernel.org>; Fri, 22 Jan 2021 04:58:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4seuth170OHrpzcvrGxWNmFx5FHFxq8P84afz/6Z5Xo=;
-        b=HDnNK/PLHiVdfRkWV5yeyxOxcoyCn24hwPU4U5xCPwq9vE8u2n7RaykoB9INj9iET2
-         qUuiJw/ezJMAYKqwQ7h8IxlVNfZwDGlZZF6GpSe26TrDgk/w6HvHpeAWDxUbbe+E/xty
-         IP3BH3yzs6HK2qPiedEnoeSTrLmR1CdeJX7crvwKs2nTNUQGoeTHl0catxZTLfTkXsVO
-         Pda4DDu/6DrlmZtvXnU1vRjCKW/8QMLlU7aoEzt2FFKEwyeRxBe3+Eec4bzCujuiac+y
-         R0N+yTNXq7d2rzCjwGs9Ed3mh/bpNkyn7x+uz4CdUJEgwTkIsaF0BiCl9WNM0uZmSfN/
-         Popw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4seuth170OHrpzcvrGxWNmFx5FHFxq8P84afz/6Z5Xo=;
-        b=IHLu4s6daOjrzVf1bA3f3xdt+s2WQAZkwlHy7d2LRlRbQY5TMAI9OJlbizpJGWjhHU
-         rMIirqhoGMAj3V0CHOtwb0dkOf0ckAlwF10/VHMlnc12iFvkDtFpc2rITZPurNraKXHG
-         SW89ViPOlsPiBQ6WOhR1ndQukydpARnUIfZOLP3SPRbuw/IMrPJc+upkeeQCmJGE/MY3
-         6AKLdguIWOvOqNtKeEoojKGzFMP7IJ/x1M9Gkp3x4kE/cplHmO7GtiL0VoNpiinbTe3F
-         RuVGtBVPNTyZIf42UYqIb18/GWGFZ+pRuHYbtiYKkOb0a+6ITYkG0dENoBuMQkbkPJZr
-         3Xeg==
-X-Gm-Message-State: AOAM530jvWzxEIwcUIQi5rLLdvQr8N8Jw4uiNNQbT+6Q1NLmbsFwalWA
-        bwZzkhX/ngXFLw2pBAsRamvwnVp65WY9+XQIpnycDg==
-X-Google-Smtp-Source: ABdhPJzj59F+7XmvRLWmVdxewFMrw4mj2TMxm/ZMG2OB+xID5A+BKHAHHzn8FfIafN2lCelvrEVeOCnbUajF+SnUnUI=
-X-Received: by 2002:a05:651c:205b:: with SMTP id t27mr218754ljo.368.1611320314554;
- Fri, 22 Jan 2021 04:58:34 -0800 (PST)
+        id S1727293AbhAVNmL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Jan 2021 08:42:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727022AbhAVNmF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 22 Jan 2021 08:42:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ECCDE22D57;
+        Fri, 22 Jan 2021 13:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611322885;
+        bh=uRveXDcfxZmK4ilRFphjSYXStiklAbSlb3DQDpxluoo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WS+EGM0voDSCxSFWOijVB7qD/FPsEBHFrJpkIKV5L3lTroDzH8moaB0II0APUNa7s
+         olsTay6R8WkHr0rtFMS5viiEDcA5QAGRRgcvb/szHC1iBpMLs/dYaCkbip/Cak/bF4
+         E3gbgVUQFj9M4DWd9+t1OkFpXmZ6gVYUXfickxYJqlFPpjZamHW4HLtUaDwYh+O5Tp
+         +UCtHiPu4qW/VPOlInvtFBfQliHTg/np6Mg7RH0Osib0Jk8BsdeXei7ahotAOFppgY
+         vWYcykxQPzDlGVKr48bCX4mucpKBAhCYiODWrhgw+aJ5wHxPjaQOstiGGm37f+ETX9
+         5FdYQXAjGlDRw==
+Date:   Fri, 22 Jan 2021 13:40:45 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3] regulator: Make regulator_sync_voltage() usable by
+ coupled regulators
+Message-ID: <20210122134045.GD6391@sirena.org.uk>
+References: <20210121221649.23155-1-digetx@gmail.com>
 MIME-Version: 1.0
-References: <20210121225712.1118239-1-saravanak@google.com> <20210121225712.1118239-2-saravanak@google.com>
-In-Reply-To: <20210121225712.1118239-2-saravanak@google.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 22 Jan 2021 13:58:23 +0100
-Message-ID: <CACRpkdbR+W_prw-ONbU90q2hYrm9vTvFUDXHCvtDcbdZ8UwXsg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] of: property: Add fw_devlink support for "gpio"
- and "gpios" binding
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Rob Herring <robh@kernel.org>,
-        Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="BRE3mIcgqKzpedwo"
+Content-Disposition: inline
+In-Reply-To: <20210121221649.23155-1-digetx@gmail.com>
+X-Cookie: 98% lean.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 11:57 PM Saravana Kannan <saravanak@google.com> wrote:
 
-> To provide backward compatibility for boards that use deprecated DT
-> bindings, we need to add fw_devlink support for "gpio" and "gpios".
->
-> We also need to ignore these properties on nodes with "gpio-hog"
-> property because their gpio[s] are all supplied by the parent node.
->
-> Cc: linux-tegra <linux-tegra@vger.kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Fixes: e590474768f1 ("driver core: Set fw_devlink=on by default")
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Thierry Reding <treding@nvidia.com>
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
+--BRE3mIcgqKzpedwo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On Fri, Jan 22, 2021 at 01:16:49AM +0300, Dmitry Osipenko wrote:
 
-Yours,
-Linus Walleij
+> +	/* balance only if there are regulators coupled */
+> +	if (rdev->coupling_desc.n_coupled > 1) {
+> +		ret =3D regulator_balance_voltage(rdev, PM_SUSPEND_ON);
+> +		goto out;
+> +	}
+> +
+>  	ret =3D _regulator_do_set_voltage(rdev, min_uV, max_uV);
+> =20
+>  out:
+
+This would be clearer written as an if/else rather than using the goto.
+
+--BRE3mIcgqKzpedwo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmAK1d0ACgkQJNaLcl1U
+h9D2Cwf/edp4snhbGeYNf/cwzdXMyAlr5LnPCCmGSWkyQgt6Uy0HwLkMKEFMx6E9
+LxS/ZXSOGtGbor3xcaxsec4Ay5pcn1xf2lktEVBFrZo5Texua2c0vsvtMhB+1Cna
+IK35sNbSrqTRSz2Uz/av4KYYMrbnnFgLLZFqUPvKXjXPZOtF3l8LhjfeObQkGJrj
+ndPBc0rjsWrGy9AGkSIVV4ClmiVQx5qNrUwoFrOJStMzwCWQHJzGUvYibxqQG2Yn
+0K3ttPOGIQJjsCJsJEomZgwztBD+0QKzLlkrtzESngcQYo+KMhUV4pNEDQ4YSpcO
+yBZ1i4D4w39ABx3mIpYbB2zB20wy/w==
+=zCrx
+-----END PGP SIGNATURE-----
+
+--BRE3mIcgqKzpedwo--
