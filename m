@@ -2,130 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABC88300DE3
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF450300F79
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 22:59:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729582AbhAVUjq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 15:39:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44348 "EHLO
+        id S1730697AbhAVV6i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Jan 2021 16:58:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729513AbhAVU2h (ORCPT
+        with ESMTP id S1730913AbhAVUIb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 15:28:37 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5CEC061A32;
-        Fri, 22 Jan 2021 12:25:18 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id v24so9302318lfr.7;
-        Fri, 22 Jan 2021 12:25:18 -0800 (PST)
+        Fri, 22 Jan 2021 15:08:31 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9159C06174A;
+        Fri, 22 Jan 2021 12:07:50 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id a8so9227602lfi.8;
+        Fri, 22 Jan 2021 12:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Vf+9cpXQr7hrQ9itCdssJG4n/IaJKoI9Dc3YxNuM01M=;
-        b=rZhKs2D1aJb6qS9R0QataRsQ7sS+OdEH+9WL0gktBo7+NhXq+G23tXZjrvrZlxc9/d
-         hk6Vh9RJj+Twi7eEftJdeHYw7wDGmlXjtrZM3AjEI8FlSMOvBX4C+QaIhtYoDJ5d+8hI
-         irLNKKREskJDGYk5/y179JgvOyBC4ltQNVwo6fMwXYqzOVmQdCISXJ2xMJRFlRy9HBYd
-         zPtfR0UXBMqVepZV1uwabIMnXZWLHQ4TLtezhJ7ZeySKJcVnzVivNwheQm4ixzxJAO+9
-         2vhu5xrKn8cLfNUJcPB/qGAg9kkwxkOrRRuqJyGsL69h/7OiEPWUYrdjK8cWOv2+uRKf
-         ioeg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hh/SElQhpazfhLNsM2pfo+ND9UxMdLTk8ICaiFOA8oo=;
+        b=kw+Nn1ocjUoHyDWrvc943QBL0+WO2rixQyuoDLdIZqfZChRixaK9EavU/IXYeE3mtx
+         67xL8qtHAal7goK8OxGbJ8NDQZFQwhnQm4ucUTuQrK3seC3ysPD1kCdUGompYE1lN41I
+         S8NZh5k/YgpSDdBPx/ZA5tYpPpl+4zuEW0DIkZ51OR8tn2ZvF7AmMfpRZo0wQEhr7e8M
+         mhzEIh8cqbWcBjUgVlakfwKk7qg5ihEzCh5e+MTd1yyQVzi/olYQJQ7F7eDsWm447DAF
+         h0x0ZyFCqfdJV6okuJLAgmjBLQz6VunAf7iHicjIkM5sNVYOrOTe/fZqVjXplXxAN6yf
+         7N1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Vf+9cpXQr7hrQ9itCdssJG4n/IaJKoI9Dc3YxNuM01M=;
-        b=mRNe0e2FzZIVc3Cerd0WFQOQPmkF0u68UAAJOEXmYcgIp7HpXexVU7y9uRJ/2wD+o6
-         sssqcPiyuucjjF+p6ARB6rSQrRp/TOohU6cj+KQC8x/92Pcc0v5sNHJZz49Mgi+PVAED
-         1VEagSvB/qvXXr5MQCtLnH98ulz0fnxvr8nvOHOk8N7MhvmB+FkdiPH7XWq97BMQFPJV
-         V0Il9OcJcKbQE0EcGEc4syt+N15JBA3hXQ2sgKx212WRs1+AAi2uzh/w8IwrKd+eP3o+
-         Sb2MA+gEVV1LNT61nzAcB/WMis/Gy7iN7ioOiW+4l4ffPOVxMnraytiIrCctCgqUEvlR
-         /GFg==
-X-Gm-Message-State: AOAM533OV/WJepHS6Ps/w0C7IBVtCdvyxhyNrP01rdUBJJlbGpVupeMJ
-        u1Tm8bUDPRaot0poOIUblJ4=
-X-Google-Smtp-Source: ABdhPJykCDty2zqk1aBZxpt2wxSSi/saD5Nytv29FpkyleNYXHFb4/rolIueJiL+/457y4v9HQI96A==
-X-Received: by 2002:ac2:5ccb:: with SMTP id f11mr790981lfq.410.1611347117428;
-        Fri, 22 Jan 2021 12:25:17 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hh/SElQhpazfhLNsM2pfo+ND9UxMdLTk8ICaiFOA8oo=;
+        b=OLcynLez1/NalByLT9i3aSkBAiEYNAOX0kl8Pv/SAv4GNFUWRvJHjmoYwN7ecfT4KI
+         u/t59heHyYwjAqgt0Eg2WO8oQzhC3b1CcflevRx0wq8kln/ZRputm854TUqz0n+L76r9
+         GSAH9MO4o3WXSGJVs5t4zm8nFP9Ob8ydN7FdA8dz5QJ+HBDxiBlxqumkXU5/P7XZthKB
+         2afdNOk0l97Bw6AmLYiJ98nzyVQv8CfrrzjmmqKEY+R15czMLfBYQ+0RGMJswWdEZy9J
+         f0u1qBhgrPsnqe0Qxc80ppWhPDpVsQJKhWMtwi8qbZ/dr2jf7oYuevz/zHTGWt5//5sp
+         QZfg==
+X-Gm-Message-State: AOAM530NkVDVH+Pfn9c2uLcvTtSE5AqBLZRfMRDp3Qp+3coAg1fPCwGX
+        10QgW519YSconUEL0RnbaO9aDCtfg2A=
+X-Google-Smtp-Source: ABdhPJxsjwDjQKJCIYQKEu3vze9yfAtPHtRA28cKiQyCwFgRZe0Gd3Ux9hP3tBGwzJb36EHsIqUesA==
+X-Received: by 2002:a05:6512:312b:: with SMTP id p11mr131881lfd.446.1611346069420;
+        Fri, 22 Jan 2021 12:07:49 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.16
+        by smtp.gmail.com with ESMTPSA id u6sm994589lfk.127.2021.01.22.12.07.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:25:17 -0800 (PST)
+        Fri, 22 Jan 2021 12:07:48 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Peter Geis <pgwipeout@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/13] ARM: tegra: Specify CPU suspend OPP in device-tree
-Date:   Fri, 22 Jan 2021 23:24:56 +0300
-Message-Id: <20210122202457.13326-13-digetx@gmail.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jiada Wang <jiada_wang@mentor.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/3] Support wakeup methods of Atmel maXTouch controllers
+Date:   Fri, 22 Jan 2021 23:06:56 +0300
+Message-Id: <20210122200659.7404-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210122202457.13326-1-digetx@gmail.com>
-References: <20210122202457.13326-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Specify CPU suspend OPP in a device-tree, just for consistency. Now CPU
-will always suspend on the same frequency.
+Some Atmel maXTouch controllers, like mXT1386 and mXT3432S1 for example,
+have a WAKE line that needs to be asserted in order to wake controller
+from a deep sleep, otherwise it will be unusable. This series implements
+support for the wakeup methods in accordance to the mXT1386 datasheet [1],
+see page 29 (chapter "5.8 WAKE Line").
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-cpu-opp.dtsi | 2 ++
- arch/arm/boot/dts/tegra30-cpu-opp.dtsi | 3 +++
- 2 files changed, 5 insertions(+)
+The mXT1386 is a widely used controller found on many older Android tablet
+devices. Touchscreen on Acer A500 tablet now works properly after this
+series.
 
-diff --git a/arch/arm/boot/dts/tegra20-cpu-opp.dtsi b/arch/arm/boot/dts/tegra20-cpu-opp.dtsi
-index 702a635e88e7..135de316383b 100644
---- a/arch/arm/boot/dts/tegra20-cpu-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra20-cpu-opp.dtsi
-@@ -9,12 +9,14 @@ opp@216000000,750 {
- 			clock-latency-ns = <400000>;
- 			opp-supported-hw = <0x0F 0x0003>;
- 			opp-hz = /bits/ 64 <216000000>;
-+			opp-suspend;
- 		};
- 
- 		opp@216000000,800 {
- 			clock-latency-ns = <400000>;
- 			opp-supported-hw = <0x0F 0x0004>;
- 			opp-hz = /bits/ 64 <216000000>;
-+			opp-suspend;
- 		};
- 
- 		opp@312000000,750 {
-diff --git a/arch/arm/boot/dts/tegra30-cpu-opp.dtsi b/arch/arm/boot/dts/tegra30-cpu-opp.dtsi
-index 0f7135006d19..72f2fe26cc0e 100644
---- a/arch/arm/boot/dts/tegra30-cpu-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra30-cpu-opp.dtsi
-@@ -45,18 +45,21 @@ opp@204000000,800 {
- 			clock-latency-ns = <100000>;
- 			opp-supported-hw = <0x1F 0x31FE>;
- 			opp-hz = /bits/ 64 <204000000>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,850 {
- 			clock-latency-ns = <100000>;
- 			opp-supported-hw = <0x1F 0x0C01>;
- 			opp-hz = /bits/ 64 <204000000>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,912 {
- 			clock-latency-ns = <100000>;
- 			opp-supported-hw = <0x1F 0x0200>;
- 			opp-hz = /bits/ 64 <204000000>;
-+			opp-suspend;
- 		};
- 
- 		opp@312000000,850 {
+This patchset is a continuation of the work originally started by
+Jiada Wang [2].
+
+[1] https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
+[2] https://patchwork.kernel.org/project/linux-input/list/?series=357875
+
+Changelog:
+
+v4: - Improved commit message of the DT binding patch. No code changes.
+
+v3: - Added "default: 0" to the atmel,wakeup-method property in the binding.
+
+    - Added r-b from Linus Walleij to the binding patch.
+
+    - The wake-GPIO is now toggled on touchscreen's start/stop in order to
+      allow it to sleep during suspend. Suggested by Linus Walleij.
+
+v2: - Fixed copy-paste bug in the code.
+
+Dmitry Osipenko (3):
+  dt-bindings: input: atmel_mxt_ts: Document atmel,wakeup-method and
+    WAKE line GPIO
+  Input: atmel_mxt_ts - support wakeup methods
+  ARM: tegra: acer-a500: Add atmel,wakeup-method property
+
+ .../bindings/input/atmel,maxtouch.yaml        | 29 +++++++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  3 +
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 78 +++++++++++++++++++
+ include/dt-bindings/input/atmel-maxtouch.h    | 10 +++
+ 4 files changed, 120 insertions(+)
+ create mode 100644 include/dt-bindings/input/atmel-maxtouch.h
+
 -- 
 2.29.2
 
