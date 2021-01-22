@@ -2,55 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9A48300D8A
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3420F300DBF
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:30:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731004AbhAVUQe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 15:16:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
+        id S1731103AbhAVUal (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Jan 2021 15:30:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729708AbhAVUPE (ORCPT
+        with ESMTP id S1729915AbhAVU2l (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 15:15:04 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 403D6C0613D6;
-        Fri, 22 Jan 2021 12:14:20 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id h7so9267065lfc.6;
-        Fri, 22 Jan 2021 12:14:20 -0800 (PST)
+        Fri, 22 Jan 2021 15:28:41 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 682A4C0611BE;
+        Fri, 22 Jan 2021 12:25:09 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id p21so4204630lfu.11;
+        Fri, 22 Jan 2021 12:25:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uPvrecLhutANoFhrJF5kdvYp/ZtstK48/BH0rVdtLfE=;
-        b=EBLn/UWUHjVmLQEp16UWv5aK29f2TR3+rJHv3fbS9Q7HL6YEYXaMspoqBALND5fULf
-         +x7uxOg4fw47j9ZWZjXRbTSymQW6Mj6gMe+44yza2a+pVSnZXb/QuLbpsmQgskHBSO1K
-         CT7f1+cdMwxsEJkBPiSt7yM4H6hJhYG+8FKNzp1klQg/saCOy8/EnIQFYfw7s3fC0+Xf
-         IEdTF7nIlsxJAxoFBboIanl2Vilgj7h0wfU/aaGeMmbilMjlxZKci4Gx3/EAStGow2QH
-         I7SmCFPTtcFmsa8jd5v1JQ1/a2JR9bOPyG+6IOGMBTzNvtrnmQCe17etmXARDCtLNXZt
-         QYmg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jr+FVUJQePudpvhgS8HkVhJONS+IB09AlY+GXEewA/U=;
+        b=sRS2Ll95Wh0tOQzMXYxP030iheOICZFocnowEOXpJ/dOOijK6GUWUAxJgSAjcJEemr
+         jBcypUR1Cj4LGeKeEDRpjCJBtDj+D/EEis+gvEf3P9Cr4n/X2YTKwuxrpwD00EmAvoxI
+         eUErV1yiIDuIckLcFtk8By6RT8HVX785y9rn6jt5E/3EY6LvnUZ8SvmnwgcwmPSTpy4h
+         U5pFrbJHN+3RHXfcgDipEj+3NpRNIKNkcWQ8xqaLTsWQffCHdA066253304JC+MTnRFn
+         XbMBN4hjkTEei1usON8PweqjGrPHrp+8PkIjZ40Bl9ws1N2hqEXqzRIzyKPRK50mKIt9
+         Z3IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uPvrecLhutANoFhrJF5kdvYp/ZtstK48/BH0rVdtLfE=;
-        b=cUW1U5XvF/dmFms9c0AInW2xaXpjZ/6AANzGxdBnH8j1Fcmi3PTigwJtYtm2Ab24kQ
-         x8crwFkt8bxL91KWlI/abvNxX7jlcjA4CeIk8pJSW3aysQ6VoDuXmo68Gkwzevv5y8iS
-         HJTpzJIqTQt7pJlEBGgWS18tNgI0EbAEV60C0PNNEC2Amb0jybQOdPl3fZDmqwKkADRC
-         qM/a04QxdcZWkjIn8dEfMRJpbxKxRqt7mBR0+c9W5wqUHYgoLt5+pUDz2J9AJq3GO86k
-         tI3pkSiDkotyJA4EgRJMKxz6QL9sx8BVkwNPum3rvnAOS1KvaRlMCVZo1XmzYEY5qd/1
-         0gPA==
-X-Gm-Message-State: AOAM532mS7Ks0qnMHBlUv2opMWH38qHCMrWlUGNjAO7+X+gKBgYrmaXa
-        YDy3LwGeigwlnGVWrhxZ/FneIpzmbMI=
-X-Google-Smtp-Source: ABdhPJwZY2QT7KGOIxlx/NoP7q6pG0N3KDri2NcoCa4R7BXgWRKgh0uyXR2CDylK0Tk0owv7pf9eFA==
-X-Received: by 2002:ac2:4c28:: with SMTP id u8mr28772lfq.56.1611346458664;
-        Fri, 22 Jan 2021 12:14:18 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id p22sm992078lfe.187.2021.01.22.12.14.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 12:14:18 -0800 (PST)
-Subject: Re: [PATCH v1 09/13] ARM: tegra: acer-a500: Rename avdd to vdda of
- touchscreen node
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jr+FVUJQePudpvhgS8HkVhJONS+IB09AlY+GXEewA/U=;
+        b=Y8WZ5HJ0BUhNZa8NsouK2irOEeM0Ej6q3MpvgX5HoVi2aB3nXcL5KR38jBBC5Oycqv
+         41dcHQ+AgCSQbrxAGsbr1O1IfcH3omUoTWZMsgugUoMHVjILaLxwdTZFg4zlNqo0W3Gx
+         8typxYQq9+tkEqXcLPgyijlbNUCCDHTshAMKFLqX6tlaUmRd7HZw/wHW05iB1Y7//FcS
+         eQ7hXHtflwliolhE+Wqqn5c1ua37L5I88UZY+drW7tM7aHBUP6XY/NAth0HwMpYloxvl
+         XGBSCLWFDswf5h2VvWAn2awIYQ+HZM6CUUnWvRl+0422IvQ7aBzsFl8NBSELIA1PppO/
+         awUw==
+X-Gm-Message-State: AOAM531+2vVJPkJkeLBXWDbGBCOo/H6XHMRssx6/yMDVWFsKSdRgrcYf
+        J/R2iEQs88/Kq3vFsa5oZO0=
+X-Google-Smtp-Source: ABdhPJwfNvpT+v6TG/N83XsL+ckmbPI6XKXVjBQl8UIDtvYxpe9OwzbLlKemeSKjRLa4T9Kgyycchg==
+X-Received: by 2002:a19:e95:: with SMTP id 143mr2509527lfo.420.1611347107997;
+        Fri, 22 Jan 2021 12:25:07 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jan 2021 12:25:07 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -59,45 +56,105 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210121182308.16080-1-digetx@gmail.com>
- <20210121182308.16080-10-digetx@gmail.com>
-Message-ID: <a85c8647-69f4-aa50-a66b-ab87ed8091d8@gmail.com>
-Date:   Fri, 22 Jan 2021 23:14:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Subject: [PATCH v2 01/13] ARM: tegra: ventana: Support CPU and Core voltage scaling
+Date:   Fri, 22 Jan 2021 23:24:45 +0300
+Message-Id: <20210122202457.13326-2-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210122202457.13326-1-digetx@gmail.com>
+References: <20210122202457.13326-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210121182308.16080-10-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-21.01.2021 21:23, Dmitry Osipenko пишет:
-> Rename avdd supply to vdda of the touchscreen node. The old supply name
-> was incorrect.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-> index 8a98e4a9d994..d852527db707 100644
-> --- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-> +++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-> @@ -449,7 +449,7 @@ touchscreen@4c {
->  
->  			reset-gpios = <&gpio TEGRA_GPIO(Q, 7) GPIO_ACTIVE_LOW>;
->  
-> -			avdd-supply = <&vdd_3v3_sys>;
-> +			vdda-supply = <&vdd_3v3_sys>;
->  			vdd-supply  = <&vdd_3v3_sys>;
->  
->  			atmel,wakeup-method = <ATMEL_MXT_WAKEUP_I2C_SCL>;
-> 
+Support CPU and Core voltage scaling on Tegra20 Ventana board.
 
-This patch should have a merge conflict as I see now, since
-atmel,wakeup-method isn't upstreamed yet. I'll rebase patches in a more
-correct order and will make a v2.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ arch/arm/boot/dts/tegra20-ventana.dts | 37 ++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
+index 055334ae3d28..02b94ed722d0 100644
+--- a/arch/arm/boot/dts/tegra20-ventana.dts
++++ b/arch/arm/boot/dts/tegra20-ventana.dts
+@@ -4,6 +4,7 @@
+ #include <dt-bindings/input/input.h>
+ #include "tegra20.dtsi"
+ #include "tegra20-cpu-opp.dtsi"
++#include "tegra20-cpu-opp-microvolt.dtsi"
+ 
+ / {
+ 	model = "NVIDIA Tegra20 Ventana evaluation board";
+@@ -420,18 +421,28 @@ sys_reg: sys {
+ 					regulator-always-on;
+ 				};
+ 
+-				sm0 {
++				vdd_core: sm0 {
+ 					regulator-name = "vdd_sm0,vdd_core";
+-					regulator-min-microvolt = <1200000>;
+-					regulator-max-microvolt = <1200000>;
++					regulator-min-microvolt = <950000>;
++					regulator-max-microvolt = <1300000>;
++					regulator-coupled-with = <&rtc_vdd &vdd_cpu>;
++					regulator-coupled-max-spread = <170000 550000>;
+ 					regulator-always-on;
++					regulator-boot-on;
++
++					nvidia,tegra-core-regulator;
+ 				};
+ 
+-				sm1 {
++				vdd_cpu: sm1 {
+ 					regulator-name = "vdd_sm1,vdd_cpu";
+-					regulator-min-microvolt = <1000000>;
+-					regulator-max-microvolt = <1000000>;
++					regulator-min-microvolt = <750000>;
++					regulator-max-microvolt = <1125000>;
++					regulator-coupled-with = <&vdd_core &rtc_vdd>;
++					regulator-coupled-max-spread = <550000 550000>;
+ 					regulator-always-on;
++					regulator-boot-on;
++
++					nvidia,tegra-cpu-regulator;
+ 				};
+ 
+ 				sm2_reg: sm2 {
+@@ -450,10 +461,16 @@ ldo1 {
+ 					regulator-always-on;
+ 				};
+ 
+-				ldo2 {
++				rtc_vdd: ldo2 {
+ 					regulator-name = "vdd_ldo2,vdd_rtc";
+-					regulator-min-microvolt = <1200000>;
+-					regulator-max-microvolt = <1200000>;
++					regulator-min-microvolt = <950000>;
++					regulator-max-microvolt = <1300000>;
++					regulator-coupled-with = <&vdd_core &vdd_cpu>;
++					regulator-coupled-max-spread = <170000 550000>;
++					regulator-always-on;
++					regulator-boot-on;
++
++					nvidia,tegra-rtc-regulator;
+ 				};
+ 
+ 				ldo3 {
+@@ -595,10 +612,12 @@ clk32k_in: clock@0 {
+ 
+ 	cpus {
+ 		cpu0: cpu@0 {
++			cpu-supply = <&vdd_cpu>;
+ 			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu@1 {
++			cpu-supply = <&vdd_cpu>;
+ 			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 	};
+-- 
+2.29.2
+
