@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83DC6300DBE
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C33D300E11
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:49:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731078AbhAVUab (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 15:30:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
+        id S1729196AbhAVUtW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Jan 2021 15:49:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729835AbhAVU2l (ORCPT
+        with ESMTP id S1730161AbhAVU2P (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 15:28:41 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFB8C0610D6;
-        Fri, 22 Jan 2021 12:25:19 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id a8so9290130lfi.8;
-        Fri, 22 Jan 2021 12:25:19 -0800 (PST)
+        Fri, 22 Jan 2021 15:28:15 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8149AC0611BD;
+        Fri, 22 Jan 2021 12:25:08 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id i17so8010479ljn.1;
+        Fri, 22 Jan 2021 12:25:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=//LXOze+13I5z/FYLaqJrmRyfxqFIxZ8QuJGcysQP04=;
-        b=QH2nxiVAuaWaepDmlyhR3xKmfNxLqg0rxryCq/fjLgCRcWrPdjpzTiR1lFpB2tbwv9
-         4NBcGWtADFhnfNQk+6Hw1wvpxUGOslb02wfXGuQhWPlj6iLf31TG41XarLbqOcSLQTCQ
-         0bI0zcHUjqn342lJspC7xMBtHeEwT5MH4iAUR5z/co+/93zynfYxq+GPSI3m9RnGT/7Z
-         19EpN0mY2rYYcxQrGvfbLkXGCGlvZThPxeL95dZjI6L3Wfb9UgQlJ4X7SXsrz9trWU79
-         /HDIYKm/War4NJtAghjHSimedWa9+pEXZWix+YOHdiiYzH+oHYRYNcXl3Bs+dJnV5Udx
-         sK3Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nNNjzOh5LEYNsraOgURM0WTcIUGPz5juJNaVys9vt0E=;
+        b=TrxY0Ho2ODW4EhFQGeRk/IUZJQHdyZhiljCL8eFdvByRDIv7oiIFq7Hs0eW88A14EY
+         5YQdk42gwLdmKeNIogoYnzkCGwUFjX3P+JrI2dCoieNuB/hcFDSbnBmkR+jHOreXHiKb
+         W3VroD9t7LUoZJdWdDQSaBi4WJWrUOB/ufZFlBde9s3cvG+wkCIImfd+HffLxx7n8UkH
+         f9J2mQ0c4xYPcZQ8wBHIkfT5FS9/lAxtP/iQ0e5LTPZOOQf9YJnLk57W2HpJKF04FBUg
+         FtDOlQPAF7yx+4EgneHjV+tQTtK2gGpBmPzk0RiIHNpKHx1zy2qqSgBcskCw23a9ot9n
+         neJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=//LXOze+13I5z/FYLaqJrmRyfxqFIxZ8QuJGcysQP04=;
-        b=ZzxApmDykS12LnFQK4PNbwQtHy8QaL04LxOdUeY0eVtWoHlufIysMBUUOBEEVfHLKg
-         +GpTjccvWMAl//6NiGGKRpk2PYqLnYlXaPDGRfxHAMBJHT9UcBdJtoe831VsnWCLq+pp
-         qq798ApLonxXdhMK7EYBnvbDQa/nP+HM/AMNKbF/macQ8XnArYibXs4WYy4l2XR3PoKv
-         FnF2NxM86+vF48BpwjaAckURPYtxda+/J+WRkbRhtBZkbTlidewzl6ZEjck3sCDTmdJI
-         KybbaX3AyGx+IuhJdxyN2YuVFeASh/0adtn34Q2bDBw+y0aI/CUC0h0ZFWXnofAKpyEY
-         kpbw==
-X-Gm-Message-State: AOAM530RjVgfGHM1tH8iOFEwo9WzDQztSt5WdRSc8TGJW+XchyA6oz28
-        g20tlrpKoX+sGbL3XkxZLPc=
-X-Google-Smtp-Source: ABdhPJw13bCU+GDJ3KE2bHLfqp3aTevnPYFa8SRlyU9bn82mS6DAp3XHe0oE6KJ1zl/dXi529Njzzw==
-X-Received: by 2002:ac2:568b:: with SMTP id 11mr120884lfr.8.1611347118262;
-        Fri, 22 Jan 2021 12:25:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nNNjzOh5LEYNsraOgURM0WTcIUGPz5juJNaVys9vt0E=;
+        b=d3uGrnsVzwtIvhogQ5ss4jNuztFwitbDas/uFfxzNwJUxrPSsBhoC6MYtmTHUbjKI1
+         uCt5DDhwiPqCW8T2HXcOTo5ZpFQnH5aiIGFXw0w1lebZr5v66rZB3apc87zPtgewu5TE
+         POEcRpUIiRyukatXdxIdq9ZI8lw8KFgkjR/B8fas0m0LU1diJzrPvg2AqV4NRxcbXmku
+         +nofc0jF65L/Q2t5WYJ6/1tLpc6Cv1f3GLuIiXMG3blV1gaV9lcz4UqL99Z494UDWLyM
+         WNvVF09HS7mhRSQ2NgquHpnZrxY7vQ8mwPJOCRDv7VPmzZ2b+dLOn5g6gsOAxFZ4e3Yw
+         3vxQ==
+X-Gm-Message-State: AOAM530ftQkJvKAU8ggNysx0X4ROS6t4URzwkOI4YrI1kColtC5A9IVO
+        XR6j5yAYZuw63QzHbTtdvLg=
+X-Google-Smtp-Source: ABdhPJy+A6VltDcwNVfOFrktSBqHuRdwS6aUmzaO0DIC3gsMbmRujwuHoqVfpuM6NaI0O5V21SiLew==
+X-Received: by 2002:a2e:910b:: with SMTP id m11mr23047ljg.499.1611347107079;
+        Fri, 22 Jan 2021 12:25:07 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.17
+        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:25:17 -0800 (PST)
+        Fri, 22 Jan 2021 12:25:06 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,111 +56,71 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/13] ARM: tegra: Specify memory suspend OPP in device-tree
-Date:   Fri, 22 Jan 2021 23:24:57 +0300
-Message-Id: <20210122202457.13326-14-digetx@gmail.com>
+Subject: [PATCH v2 00/13] NVIDIA Tegra ARM32 device-tree improvements
+Date:   Fri, 22 Jan 2021 23:24:44 +0300
+Message-Id: <20210122202457.13326-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210122202457.13326-1-digetx@gmail.com>
-References: <20210122202457.13326-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Specify memory suspend OPP in a device-tree, just for consistency.
-Now memory will always suspend on the same frequency.
+Hi,
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra124-peripherals-opp.dtsi | 5 +++++
- arch/arm/boot/dts/tegra20-peripherals-opp.dtsi  | 1 +
- arch/arm/boot/dts/tegra30-peripherals-opp.dtsi  | 3 +++
- 3 files changed, 9 insertions(+)
+This series is partially factored out from [1] since the DT patches
+could be applied separately. In addition I added couple more new
+patches and implemented suggestion given by Daniel Lezcano to [1],
+see "Specify all CPU cores as cooling devices" patches.
 
-diff --git a/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
-index 49d9420a3289..781ac8601030 100644
---- a/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
-@@ -128,24 +128,28 @@ opp@204000000,800 {
- 			opp-microvolt = <800000 800000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0003>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,950 {
- 			opp-microvolt = <950000 950000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0008>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,1050 {
- 			opp-microvolt = <1050000 1050000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0010>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,1110 {
- 			opp-microvolt = <1110000 1110000 1150000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0004>;
-+			opp-suspend;
- 		};
- 
- 		opp@264000000,800 {
-@@ -360,6 +364,7 @@ opp@204000000 {
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x001F>;
- 			opp-peak-kBps = <3264000>;
-+			opp-suspend;
- 		};
- 
- 		opp@264000000 {
-diff --git a/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
-index b84afecea154..ef3ad2e5f270 100644
---- a/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
-@@ -68,6 +68,7 @@ opp@216000000 {
- 			opp-microvolt = <1000000 1000000 1300000>;
- 			opp-hz = /bits/ 64 <216000000>;
- 			opp-supported-hw = <0x000F>;
-+			opp-suspend;
- 		};
- 
- 		opp@300000000 {
-diff --git a/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-index cbe84d25e726..2c9780319725 100644
---- a/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-+++ b/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-@@ -128,12 +128,14 @@ opp@204000000,1000 {
- 			opp-microvolt = <1000000 1000000 1350000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0007>;
-+			opp-suspend;
- 		};
- 
- 		opp@204000000,1250 {
- 			opp-microvolt = <1250000 1250000 1350000>;
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x0008>;
-+			opp-suspend;
- 		};
- 
- 		opp@333500000,1000 {
-@@ -312,6 +314,7 @@ opp@204000000 {
- 			opp-hz = /bits/ 64 <204000000>;
- 			opp-supported-hw = <0x000F>;
- 			opp-peak-kBps = <1632000>;
-+			opp-suspend;
- 		};
- 
- 		opp@333500000 {
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=221130
+
+Please note that this patchset enables voltage scaling for a few boards,
+but currently voltage scaling is limited in kernel by the regulator coupler
+drivers, so it's safe to change the device-trees. Voltage scaling will
+be fully unlocked once [1] will be merged.
+
+Changelog:
+
+v2: - The "acer-a500: Rename avdd to vdda of touchscreen node" patch
+      now shouldn't have merge conflicts with the upstream kernel since
+      v1 was based on a patch that adds a new atmel,wakeup-method property,
+      which is not supported by upstream yet.
+
+    - Fixed unwrapped commit description in the "cardhu: Support CPU
+      frequency and voltage" patch.
+
+Dmitry Osipenko (13):
+  ARM: tegra: ventana: Support CPU and Core voltage scaling
+  ARM: tegra: ventana: Support CPU thermal throttling
+  ARM: tegra: cardhu: Support CPU frequency and voltage scaling on all
+    board variants
+  ARM: tegra: cardhu: Support CPU thermal throttling
+  ARM: tegra: paz00: Enable full voltage scaling ranges for CPU and Core
+    domains
+  ARM: tegra: acer-a500: Enable core voltage scaling
+  ARM: tegra: acer-a500: Reduce thermal throttling hysteresis to 0.2C
+  ARM: tegra: acer-a500: Specify all CPU cores as cooling devices
+  ARM: tegra: acer-a500: Rename avdd to vdda of touchscreen node
+  ARM: tegra: nexus7: Specify all CPU cores as cooling devices
+  ARM: tegra: ouya: Specify all CPU cores as cooling devices
+  ARM: tegra: Specify CPU suspend OPP in device-tree
+  ARM: tegra: Specify memory suspend OPP in device-tree
+
+ .../boot/dts/tegra124-peripherals-opp.dtsi    |  5 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 14 ++--
+ arch/arm/boot/dts/tegra20-cpu-opp.dtsi        |  2 +
+ arch/arm/boot/dts/tegra20-paz00.dts           | 14 ++--
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  1 +
+ arch/arm/boot/dts/tegra20-ventana.dts         | 78 ++++++++++++++---
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 14 +++-
+ arch/arm/boot/dts/tegra30-cardhu-a04.dts      | 48 -----------
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         | 83 ++++++++++++++++++-
+ arch/arm/boot/dts/tegra30-cpu-opp.dtsi        |  3 +
+ arch/arm/boot/dts/tegra30-ouya.dts            | 15 +++-
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi |  3 +
+ 12 files changed, 196 insertions(+), 84 deletions(-)
+
 -- 
 2.29.2
 
