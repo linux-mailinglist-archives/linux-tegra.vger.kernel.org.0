@@ -2,97 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FB07300F85
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 23:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8F633010D9
+	for <lists+linux-tegra@lfdr.de>; Sat, 23 Jan 2021 00:20:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730019AbhAVV7a (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 16:59:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729576AbhAVV6z (ORCPT
+        id S1728365AbhAVXUl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 22 Jan 2021 18:20:41 -0500
+Received: from mail-wr1-f42.google.com ([209.85.221.42]:44615 "EHLO
+        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728236AbhAVXUg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 16:58:55 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20FE8C06174A;
-        Fri, 22 Jan 2021 13:58:15 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id u11so8182962ljo.13;
-        Fri, 22 Jan 2021 13:58:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XmVwcl5zov3KR+vEhZu6TM/lbJHaayiWVAvDfTYcGJg=;
-        b=Jfp3zu+DNoQBWUPlvlhJpjwwkHiJMuyg/x3E1zTiq7E5c8b9N2+Ekj/UynidTve9k9
-         qBWVzvzk46qU3mXkydK9Dza/CR0p/CXE0y9LGZsfkM+yT+jFqoNZGvn4sE4d0O+i62uZ
-         M0+A//Nm1Zx/ow9vdUMnD+DdDfM1RljSFLKQ4fo+faBPmid02wsTVMLQqOJ+uM9X3y7E
-         rkSPBQEftvA+TwjjpayNpITUpotZaqIKuCp+KBMPBlJpc7Hv9J+Sgyx5VEd13xUd5Owa
-         PNfYTEqtQpM5VhmqBPiE2cU7KkBlvvVwxssAcVSTdXUxOLO1WsKyxo2yCSR8jMEHpqex
-         jYWQ==
+        Fri, 22 Jan 2021 18:20:36 -0500
+Received: by mail-wr1-f42.google.com with SMTP id d16so5917369wro.11;
+        Fri, 22 Jan 2021 15:20:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XmVwcl5zov3KR+vEhZu6TM/lbJHaayiWVAvDfTYcGJg=;
-        b=HOyTJt6rzt869CHAqMdZtOjtFHpUK8NWyBBRUvyGlLk1miFfe1hNuCdrAFVnXqeduL
-         B6dp+s+kVBFl3F0hxhhLjwAcbyFkzgb8EHrYy1xYciV28ExMvmeztUc2y+miRHS36o+4
-         irBZ2xMjCWQb4kEVag3X8V+S3uVMVEBs3Qd6S4rDrW00SRP12uOEfgDPOt5eqm2BNPju
-         lJVoYMGK/gZQcJyRO2wvm0I3lHF7d+snDqHYF5V0Ozmvh4Xo+VvwohJvQwW5J33IVP1S
-         48PsW+87EjlwFRGrrFNj5l+2Ea0MKdX8tL8Z4Y9AAK3zAJyUiO3JAca3+RO9MrmociD6
-         fClQ==
-X-Gm-Message-State: AOAM532wnCb6/dk9V0r7n/3SGh3wSwS0G/BMYsDaOSi6NAlesjhBJkxo
-        jAqlNx/9B16zwaDaShb2ZdU3iqfEua4=
-X-Google-Smtp-Source: ABdhPJzL0Qff0MnWj81jjM+rLajUyTVkI7773FXMWioYjSYTCDNefT6rCEUD5xq63TjsiKXX8t52Zg==
-X-Received: by 2002:a2e:9d8b:: with SMTP id c11mr209129ljj.470.1611352693430;
-        Fri, 22 Jan 2021 13:58:13 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id t2sm484560lfk.28.2021.01.22.13.58.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 13:58:12 -0800 (PST)
-Subject: Re: [PATCH v1] memory: tegra: Check whether reset is already asserted
-To:     Krzysztof Kozlowski <krzk@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=MOvI7mYKXT9PCD0Z4zY1t63wved2jlUYxuWT8ZQLYcI=;
+        b=DPZDYfN4GEcNBjwg2yqpsY0NvJoxfogAPTJxWzkVYVUtkWoZTU8vmKoVxYqCtCh3g4
+         Iumg8d2+qEbUXXrWXCFThFAho6blIUprpSMQjkVPcxify85jlLZjN0SGBS5zotlPUd8m
+         4glREQTFAZ7rflaAz2pbfNilqNS8/C0r/lOjcbNhtJV6+8CyUKGYuld5SxMb1uTD78dF
+         +3psvLqnA/1UnABexGVIKK/KJ2UrG0FOnc5yrewCvHJ55po29ICdInh++xeTY1ocX+zV
+         caaERLWxza2ptSMwUvFTqWuq0c2wR+gLelJbBTHlXSBCwiAZtSvDuVkJVWVWN9Rs9sgf
+         VHxQ==
+X-Gm-Message-State: AOAM5320FDp1GSRUl3QqOkamLB6v0klBq9vkwKPX32pRFxue/EkeIbMU
+        z9nioQ1dqHty6pnMd4E3bpI=
+X-Google-Smtp-Source: ABdhPJyJdiEEYQhlsNZjc9NNHN/p9Y9xMjWGbin0H3nSt8NfCiqHxmUGH4pFakDZdejaDpQbYc7ang==
+X-Received: by 2002:adf:9e47:: with SMTP id v7mr6518473wre.185.1611357592872;
+        Fri, 22 Jan 2021 15:19:52 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id d5sm11535245wrs.21.2021.01.22.15.19.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jan 2021 15:19:51 -0800 (PST)
+Date:   Sat, 23 Jan 2021 00:19:50 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Peter Geis <pgwipeout@gmail.com>,
         Nicolas Chauvet <kwizart@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] memory: tegra: Check whether reset is already asserted
+Message-ID: <20210122231950.znm7s3zukn63q46m@kozik-lap>
 References: <20210119235210.13006-1-digetx@gmail.com>
  <20210122214005.bfsznpaga2rhl3ow@kozik-lap>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <20cc8401-1934-6e4f-8e66-3216b86681fa@gmail.com>
-Date:   Sat, 23 Jan 2021 00:58:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+ <20cc8401-1934-6e4f-8e66-3216b86681fa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210122214005.bfsznpaga2rhl3ow@kozik-lap>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20cc8401-1934-6e4f-8e66-3216b86681fa@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.01.2021 00:40, Krzysztof Kozlowski пишет:
-> On Wed, Jan 20, 2021 at 02:52:10AM +0300, Dmitry Osipenko wrote:
->> Check whether memory client reset is already asserted in order to prevent
->> DMA-flush error on trying to re-assert an already asserted reset.
->>
->> This becomes a problem once PMC GENPD is enabled to use memory resets
->> since GENPD will get a error and fail to toggle power domain. PMC GENPDs
->> can't be toggled safely without holding memory reset on Tegra and we're
->> about to fix this.
->>
->> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
->> Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
+On Sat, Jan 23, 2021 at 12:58:12AM +0300, Dmitry Osipenko wrote:
+> 23.01.2021 00:40, Krzysztof Kozlowski пишет:
+> > On Wed, Jan 20, 2021 at 02:52:10AM +0300, Dmitry Osipenko wrote:
+> >> Check whether memory client reset is already asserted in order to prevent
+> >> DMA-flush error on trying to re-assert an already asserted reset.
+> >>
+> >> This becomes a problem once PMC GENPD is enabled to use memory resets
+> >> since GENPD will get a error and fail to toggle power domain. PMC GENPDs
+> >> can't be toggled safely without holding memory reset on Tegra and we're
+> >> about to fix this.
+> >>
+> >> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+> >> Tested-by: Dmitry Osipenko <digetx@gmail.com> # A500 T20 and Nexus7 T30
+> > 
+> > Don't add your own Tested-by. Author has to test it.  However this is a
+> > v1 and already three other people added tests. Where are the emails?
 > 
-> Don't add your own Tested-by. Author has to test it.  However this is a
-> v1 and already three other people added tests. Where are the emails?
+> The test results were given on #tegra irc.
+> 
+> Author doesn't have to test, from time to time I'm helping people who
+> can't make a patch with fixing obvious bugs for the h/w that I don't
+> have access to.
 
-The test results were given on #tegra irc.
+By default, author's patches are assumed to be tested, otherwise we
+would be putting own Tested-by in most of the cases (ideally: in all).
+Just because you do not see author's Tested-by everywhere it does not
+mean that author did not test it...
 
-Author doesn't have to test, from time to time I'm helping people who
-can't make a patch with fixing obvious bugs for the h/w that I don't
-have access to.
+Testing is also a requirement:
+https://elixir.bootlin.com/linux/latest/source/Documentation/process/5.Posting.rst#L35
 
-Anyways, I'll make v2 with myself removed if you prefer that, thanks.
+Therefore if your non-trivial patches are not tested, please also
+mention it with RFT or after '---'.
+
+> 
+> Anyways, I'll make v2 with myself removed if you prefer that, thanks.
+
+I applied it without your tested-by. If the tested platform is anyhow
+relevant, just mention it in the commit msg.
+
+Best regards,
+Krzysztof
+
