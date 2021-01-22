@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79776300DDE
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 647C2300DE6
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Jan 2021 21:40:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728491AbhAVUix (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Jan 2021 15:38:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44928 "EHLO
+        id S1727354AbhAVUj4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Jan 2021 15:39:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730251AbhAVU26 (ORCPT
+        with ESMTP id S1729335AbhAVU2g (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Jan 2021 15:28:58 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BB4C061A2D;
-        Fri, 22 Jan 2021 12:25:15 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id q8so9275018lfm.10;
-        Fri, 22 Jan 2021 12:25:15 -0800 (PST)
+        Fri, 22 Jan 2021 15:28:36 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30894C061A30;
+        Fri, 22 Jan 2021 12:25:17 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id v24so9302221lfr.7;
+        Fri, 22 Jan 2021 12:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b+B62XwmqyZC9IlWhkday5kt92nQ4ggX2fs7NsJsHQ4=;
-        b=bdeuCrJoFfd6ftO0JUtHn/oDKORKTCIY7nWts8KPCxl88M8YdVK83XxGerJTMzOy+c
-         dqdcUSpSjrkLWO5KGEZmn+H4uC44XMuHPrf6bXm6UfloGJIns5p2ZyOpyz4pjDYIRWAA
-         PLHFp0AoOgXpS/sAsngmIvtnX4N3yuxXOEHwndpPHpwNbV9khJvjVugTYwsEQJEfH3Xn
-         vjie1JpRQbPQQOCnEK+XDVtMGN7fosjDI9T8fh42kkOmuE+dEc7uudDA0mUTZBdq2QZe
-         olB8fN14asu+2MNCaI/2klpczsWK7z6drPJ8ZBxXoWXyh1j6eK3+4ZwxTSFgMY0pawVW
-         ot6A==
+        bh=qXZh7vyQ2J2UJfaf/gy0esqvLP8/x2DgurRZz5ydknM=;
+        b=h3Qiv1RPOU4S+M0qPeisfaWdOfnJopTJ7b9eINAfPcNwpdqlN//YiGfGhN60o1RX46
+         p5H35f/Oq6T3VGRf2EG0nYAw9vXUVf0P3Yrqh+k19OCJBRBo0w9qc4mVdmmHoTaKS4An
+         Tf5gNmMJudVjribBkExEt1fqkG0ARzAEDutzAUICq7laoGA002P0NZHCvR/S0pgCF/8H
+         qQkBCy8OZQfaH3DtWonPomLK5ei9ZrMK8T+YUEBj0Mg/VGoUlBziuBVs9hB3ATQycoyR
+         IlkB8rZbVZYF/H6Yx0RnPlz45zvauzmhJTBuQ0prArhiPN0voGieKC9RTrtrC3nn9U4m
+         Kwdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b+B62XwmqyZC9IlWhkday5kt92nQ4ggX2fs7NsJsHQ4=;
-        b=K/2wYlVjPPE85HP1Gc+kbJGUfLkqZ/9wlMkXI3VxEMeLdbeAqUymgaSyAxZVRYHmJr
-         aTkaMeJn79jf+8KVxz0CHJpUoxZNvjWx9LyTMVDGgLtTnRrhV6ABLhnTInMZWTvaaAEJ
-         DkFvBuD2sbUPLBCxQxApcN2/fUyj1sLjKYdql295Pjsh4M5bIBGE8aGk3so8mb97vlx+
-         5RyeTuqh5uZJrr3zJpcIaT8Id+JIHPiJR47lDcfSjQLjm4A0U4Q9FZXytJsPCU16Xmvp
-         TJwM6lejFTO3aN2W71iq1jLv3FznqJRO70KyzTJAxbb5P77T4NVWILvr5AAwao94mIu7
-         xv1w==
-X-Gm-Message-State: AOAM533gNB4ldK1r7P02VAYpeMbmwATcSW0SUiR/560CH09qlBFZdpBr
-        unqFiC0bkJKl0S3ShDIsSHI=
-X-Google-Smtp-Source: ABdhPJzpj12bRLw+RDc1CuLIC+XHz5tl6xSiTeXsCC2ZzcOYFBzuBXukQKJYwoTmoSdDhqhR7fGU5A==
-X-Received: by 2002:a05:6512:2251:: with SMTP id i17mr2821668lfu.566.1611347114065;
-        Fri, 22 Jan 2021 12:25:14 -0800 (PST)
+        bh=qXZh7vyQ2J2UJfaf/gy0esqvLP8/x2DgurRZz5ydknM=;
+        b=ap0RtN7CgyC8fa1yGAbR+5sD7MSH8iFx6r+eZf4tW+8dJJ4lt8iU/xhjqZj5NCcpn0
+         0QKSnn7fhy+Hf3bms/YgZNhLzCjMHjk/DpxVejYeqZQLqZk1d5S/a+svSp2E7qE0CP57
+         BFXnL+P6kpsep2Jmb78Oe+7wa0luQZDI7paDbslA7VtsW3PV4ygeDa49gJDpKZad9fRQ
+         vohYZ5qxckZ5cYAmaoNcqPpmmXI+5GKWwyp/nNW/2Z9OZNzzB7TfwaxlZU+Rxr8FBUMq
+         y9wtfAPLOZgdIyFVGjLIrdrNhBO0skzjXfk0ysVtNqHRilabwhkSLaxc39xqlqZVduXb
+         3R8A==
+X-Gm-Message-State: AOAM530wmF7GXuO0UHTUlR231ppdJlh260bDGnmbGL7/1iI9OdOUjKSL
+        sPCWJ3nXrAULa00VhVfd4OA=
+X-Google-Smtp-Source: ABdhPJxkYY+cqu8fJ6Y1dXWx1aqcootYYNFBOyg/oDG2fjtURE3U3f4mlJLIHRK9qWO7cKMnBLPzQA==
+X-Received: by 2002:a19:ac45:: with SMTP id r5mr480438lfc.305.1611347115728;
+        Fri, 22 Jan 2021 12:25:15 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.13
+        by smtp.gmail.com with ESMTPSA id q5sm996921lfr.172.2021.01.22.12.25.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:25:13 -0800 (PST)
+        Fri, 22 Jan 2021 12:25:15 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +56,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>,
         Peter Geis <pgwipeout@gmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 08/13] ARM: tegra: acer-a500: Specify all CPU cores as cooling devices
-Date:   Fri, 22 Jan 2021 23:24:52 +0300
-Message-Id: <20210122202457.13326-9-digetx@gmail.com>
+Subject: [PATCH v2 10/13] ARM: tegra: nexus7: Specify all CPU cores as cooling devices
+Date:   Fri, 22 Jan 2021 23:24:54 +0300
+Message-Id: <20210122202457.13326-11-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210122202457.13326-1-digetx@gmail.com>
 References: <20210122202457.13326-1-digetx@gmail.com>
@@ -79,14 +79,14 @@ Hence specify all CPU cores as a cooling devices in the device-tree.
 Suggested-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../dts/tegra30-asus-nexus7-grouper-common.dtsi    | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 0d228e2dd158..4dcec18b677b 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -838,9 +838,10 @@ cpu0: cpu@0 {
+diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+index ac1c1a63eb0e..dc773b1bf8ee 100644
+--- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
++++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+@@ -1056,19 +1056,22 @@ cpu0: cpu@0 {
  			#cooling-cells = <2>;
  		};
  
@@ -96,15 +96,31 @@ index 0d228e2dd158..4dcec18b677b 100644
  			operating-points-v2 = <&cpu0_opp_table>;
 +			#cooling-cells = <2>;
  		};
+ 
+-		cpu@2 {
++		cpu2: cpu@2 {
+ 			cpu-supply = <&vdd_cpu>;
+ 			operating-points-v2 = <&cpu0_opp_table>;
++			#cooling-cells = <2>;
+ 		};
+ 
+-		cpu@3 {
++		cpu3: cpu@3 {
+ 			cpu-supply = <&vdd_cpu>;
+ 			operating-points-v2 = <&cpu0_opp_table>;
++			#cooling-cells = <2>;
+ 		};
  	};
  
-@@ -1070,7 +1071,8 @@ trip1: cpu-crit {
+@@ -1281,7 +1284,10 @@ trip1: cpu-crit {
  			cooling-maps {
  				map0 {
  					trip = <&trip0>;
 -					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
  				};
  			};
  		};
