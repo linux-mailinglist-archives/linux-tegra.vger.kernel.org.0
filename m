@@ -2,56 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D33230300B
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 00:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92FC2303238
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 03:54:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbhAYXW7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Jan 2021 18:22:59 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:58927 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732528AbhAYXWv (ORCPT
+        id S1729071AbhAYOKn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Jan 2021 09:10:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729258AbhAYOIr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Jan 2021 18:22:51 -0500
-X-Originating-IP: 86.202.109.140
-Received: from localhost (lfbn-lyo-1-13-140.w86-202.abo.wanadoo.fr [86.202.109.140])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id C37C11C0002;
-        Mon, 25 Jan 2021 23:21:52 +0000 (UTC)
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter Geis <pgwipeout@gmail.com>,
+        Mon, 25 Jan 2021 09:08:47 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AD4C061786;
+        Mon, 25 Jan 2021 06:08:06 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id a12so9774706lfb.1;
+        Mon, 25 Jan 2021 06:08:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=b70UYa8YIK0x9xv+9vYo/yu767VIPloSWRaqTr4Le5U=;
+        b=p2aWeLNxieT8woVT0Tl/UIXog/WUBwAaE+KXDvN3pVh7Tl9ZVAD+1/JiZX0bHE311l
+         WIS0Fc0dUG8GqfDKDPHM62E60VTzNwJvhZ46CsjqN/rZm3IzD0xVx2BxdNdl70xehQFp
+         n+8ebZ0qkSe5mVX0/BRW+bf4RGo5bVjD8r2D8v/1iYWgFcc5Zb+cfEz5VjMIzRNnwn+t
+         0klFZfxePE4Yjx+zVVUFn1w+f5UJmTS05THBybzYt7h7+SNQ8mK7pDQgsyS0O2QdG4vM
+         Spg8PBxWdArWbSyOxtTrtP1cUfqxJXuzbdVcJ81elQ7hGOsQ2WoVpl3Z2vZIob0F1fff
+         bWEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=b70UYa8YIK0x9xv+9vYo/yu767VIPloSWRaqTr4Le5U=;
+        b=ajqKU+lOY5i/Ac0LOz0bkepiDPCkU8gTRJLNAeUAq9y4MAYeiS7OKwzqkqr03hlJDU
+         Uul0VwaoCXtZsKn8EySqBVNxTm8rcqNI8Y8bOvdfo7UjV0rSIM3Yxg9ylbORtbeg6v8O
+         slmFxILim/TtO8Jt4HMxwbJ8ZSn2omJpPhUXn/fU+akKFGBqjqVFNhxRnHyaGu93QYdR
+         kfRLkpT6SeMb6nxO8DB7Ba0p/tLyZPTZAwRMGlHT4AI1VcmoKAFZtIA9/N/qxaPPcLhd
+         eJLcKcSBntMaawGj1RX9inCWLFu8g+7gpVhaChnyXhnmGv4nKEQuc8F6qgUPRtdlYU7j
+         dqWg==
+X-Gm-Message-State: AOAM531pVhliHwqr8Gz26EC0TIDVJx+3Vb2qscyNySlP6sfX7NPFmedJ
+        oRJyplZU9ixMfCCtdn/a9DLAGI2U9Bc=
+X-Google-Smtp-Source: ABdhPJxCtwtWXYO91eo6tYXFDoyFBpADb2MoH9I5qV4pNcyLmcqhJSYYTq9inWLbmT/uD6Wo9qmcmw==
+X-Received: by 2002:a19:c1c9:: with SMTP id r192mr351166lff.578.1611583684824;
+        Mon, 25 Jan 2021 06:08:04 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id u18sm298271ljl.57.2021.01.25.06.08.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Jan 2021 06:08:04 -0800 (PST)
+Subject: Re: [PATCH v1 0/3] Support building gpio-tegra driver as loadable
+ module
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 1/2] rtc: tps65910: Support wakeup-source property
-Date:   Tue, 26 Jan 2021 00:21:52 +0100
-Message-Id: <161161690471.1967860.10533898900926612948.b4-ty@bootlin.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210120211603.18555-1-digetx@gmail.com>
-References: <20210120211603.18555-1-digetx@gmail.com>
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20210122185543.16554-1-digetx@gmail.com>
+ <CACRpkdZTyBuz240iYuvi91k3dLKKXX=4DNxFEBP7mSNB58XtDw@mail.gmail.com>
+ <24d46928-8c57-acba-f9cf-49afbe4c983c@gmail.com>
+ <CACRpkdaR9+mxXXjRADG4+qaGiqgwVRPcCAo-5nZwXXASYfs9+g@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b6075dec-c019-3701-4d3d-d3327aef17d7@gmail.com>
+Date:   Mon, 25 Jan 2021 17:08:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CACRpkdaR9+mxXXjRADG4+qaGiqgwVRPcCAo-5nZwXXASYfs9+g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 21 Jan 2021 00:16:02 +0300, Dmitry Osipenko wrote:
-> TPS65910 is a PMIC MFD device and RTC is one of its functions. The
-> wakeup-source DT property is specified for the parent MFD device and we
-> need to use this property for the RTC in order to allow to use RTC alarm
-> for waking up system from suspend by default, instead of requiring user
-> to enable wakeup manually via sysfs.
+25.01.2021 01:46, Linus Walleij пишет:
+> On Sun, Jan 24, 2021 at 12:56 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>> 24.01.2021 01:50, Linus Walleij пишет:
+>>> On Fri, Jan 22, 2021 at 7:59 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>
+>>>> This small series adds modularization support to the gpio-tegra driver,
+>>>> i.e. driver now could be built as a loadable kernel module.
+>>>>
+>>>> Dmitry Osipenko (3):
+>>>>   gpio: tegra: Use debugfs_create_devm_seqfile()
+>>>>   gpio: tegra: Clean up whitespaces in tegra_gpio_driver
+>>>>   gpio: tegra: Support building driver as a loadable module
+>>>
+>>> As these three patches clearly make the kernel look better after
+>>> than before:
+>>> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>>>
+>>> However when we are doing this I would strongly encourage you
+>>> to also make a patch implementing remove() so you can insmod
+>>> rmmod the module at runtime.
+>>
+>> The remove() is optional for drivers, it doesn't prevent the rmmod.
+> 
+> Aha you mean all resources are managed (devm_*) so that
+> rmmod/insmod works fine with this driver?
 
-Applied, thanks!
+yes
 
-[1/2] rtc: tps65910: Support wakeup-source property
-      commit: 454ba154a62c8806e82a3581c5233a5176cd7dd7
+> OK then! :) the work is finished.
 
-Best regards,
--- 
-Alexandre Belloni <alexandre.belloni@bootlin.com>
+The work on the modularization indeed should be finished, thanks.
