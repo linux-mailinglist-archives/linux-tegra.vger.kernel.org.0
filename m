@@ -2,183 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54960304846
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 20:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 676BD304844
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 20:23:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727202AbhAZFqU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 Jan 2021 00:46:20 -0500
-Received: from mga02.intel.com ([134.134.136.20]:47122 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727837AbhAYMLv (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Jan 2021 07:11:51 -0500
-IronPort-SDR: fqz5a1tn3qhlMUlkY76XwQXck4G6XKSaQOGwObuDQINO2RFZplUNFUZ0mza3zGyUSkwAAvW5Ko
- mN5FdGqLc2gg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="166812576"
-X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; 
-   d="scan'208";a="166812576"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 03:52:51 -0800
-IronPort-SDR: 48DaYsnvHv+gYU3iB0lIM7aytVWrCoDavD2mjf0kyTM07tuyUD4vfRcB0epq/cCvtOYMGfxoLJ
- ZQzg2k7suibA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; 
-   d="scan'208";a="472167193"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by fmsmga001.fm.intel.com with SMTP; 25 Jan 2021 03:52:39 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Mon, 25 Jan 2021 13:52:38 +0200
-Date:   Mon, 25 Jan 2021 13:52:38 +0200
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Philippe Cornu <philippe.cornu@st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        linux-tegra@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-mediatek@lists.infradead.org,
-        Russell King <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        id S1726592AbhAZFqg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Jan 2021 00:46:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730208AbhAYPmM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 25 Jan 2021 10:42:12 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C795C0611BC;
+        Mon, 25 Jan 2021 07:27:33 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id v67so18347799lfa.0;
+        Mon, 25 Jan 2021 07:27:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UoWqLYFxEb3nF4ce0Tbsv2hSrI7OApPalzEh2y4l+cg=;
+        b=apX8fpQRgXrDIIQdjhUlTMXanMxM8vUDXIXSQxsrotsPIpCU3fVl8nY1YSQaDejIuV
+         dMgju/qSlputc6pRNtgKBzQxzNpw4j9gADNtjJHru12juCIpeM8mif1GHz2d0r/2k16o
+         aSR7B67E5usnCWLnTai1SHUwssmY+SFCBsktn2XmcUibTdzawm4AHdcZ/mq1ZYxmQwvb
+         qfUNzewXuyTQMasbbW02FnhTG71BJB5ta2ayJHvm+eYvOxS8NSUQKUikYW+vBWlcNs1a
+         fUKPSWRLzYwNO2Q7MVbX90QA18Fe7TsS8XixZVhjR7DOjzoEljVqH9PhXu06e64suN7K
+         HTnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UoWqLYFxEb3nF4ce0Tbsv2hSrI7OApPalzEh2y4l+cg=;
+        b=ggfRmOi77Yyc9zwHYRL9QaMiHTFruu+L0f/ZYz5TTk6te4RGs4r1HTKO9/6U8hYx2k
+         R2sNaKrkjw2wfg+GGk/bNdpxR2+dNUDMWEUMAndAdjseDbGFJncDtUxVzHwgdWOJQQPe
+         NjO2Jph5ik4IJOKJYF9gyufRCOv+enegKtaSAaaw5ojnA+Y8maxF71gYymcL3u0P3Vzz
+         nni+eu40feiDXsZb7W12Z68p1SYn82yrPsFnYEtQpfMqJcVYp1qBuA0wl9Xm3kg24JnR
+         XBjPCxi9VISJUy/HLlrccw/kh3olR0XkVP9FCTU2HnF4HhN6mWkYLXjyBGRGC0kegF3G
+         /tDw==
+X-Gm-Message-State: AOAM531xYLKVWwhu2QXVJ+fjzm+fnLavjU9YfykFlmcaep1JWzcMPMuA
+        dm46jDu+AVRkXkPAjl01HXsSZQ+C9BE=
+X-Google-Smtp-Source: ABdhPJzDcoM6wlnR4aq1O5cH1RDetElITIqHpJu7IarP73ywYIe7RT+4sbqdWBMZvwGLKk3tZuJ6Fg==
+X-Received: by 2002:a19:d83:: with SMTP id 125mr460486lfn.651.1611588451591;
+        Mon, 25 Jan 2021 07:27:31 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id x2sm1928237ljd.63.2021.01.25.07.27.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Jan 2021 07:27:31 -0800 (PST)
+Subject: Re: [PATCH v3 2/6] ALSA: hda/tegra: Reset hardware
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-arm-msm@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
-        linux-mips@vger.kernel.org,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-amlogic@lists.infradead.org, freedreno@lists.freedesktop.org,
-        Sean Paul <sean@poorly.run>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org,
-        Vincent Abriou <vincent.abriou@st.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH v2 08/11] drm: Rename plane->state variables in atomic
- update and disable
-Message-ID: <YA6xBuECFjzjY7gG@intel.com>
-References: <20210121163537.1466118-1-maxime@cerno.tech>
- <20210121163537.1466118-8-maxime@cerno.tech>
- <YArBy2DKdCct5cYW@intel.com>
- <20210125105218.kv63vjbxz5b35hdo@gilmour>
+        Sameer Pujar <spujar@nvidia.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210120003154.26749-1-digetx@gmail.com>
+ <20210120003154.26749-3-digetx@gmail.com> <s5h35yp3uzn.wl-tiwai@suse.de>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7535a927-5246-4ccf-63fe-f8ded9eb6c52@gmail.com>
+Date:   Mon, 25 Jan 2021 18:27:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <s5h35yp3uzn.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210125105218.kv63vjbxz5b35hdo@gilmour>
-X-Patchwork-Hint: comment
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 11:52:18AM +0100, Maxime Ripard wrote:
-> Hi Ville,
+25.01.2021 18:18, Takashi Iwai Ð¿Ð¸ÑˆÐµÑ‚:
+> On Wed, 20 Jan 2021 01:31:50 +0100,
+> Dmitry Osipenko wrote:
+>>
+>> Reset hardware on RPM-resume in order to bring it into a predictable
+>> state.
+>>
+>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30 audio works
+>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30 boot-tested
+>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # TK1 boot-tested
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > 
-> On Fri, Jan 22, 2021 at 02:15:07PM +0200, Ville Syrjälä wrote:
-> > On Thu, Jan 21, 2021 at 05:35:33PM +0100, Maxime Ripard wrote:
-> > > Some drivers are storing the plane->state pointer in atomic_update and
-> > > atomic_disable in a variable simply called state, while the state passed
-> > > as an argument is called old_state.
-> > > 
-> > > In order to ease subsequent reworks and to avoid confusing or
-> > > inconsistent names, let's rename those variables to new_state.
-> > > 
-> > > This was done using the following coccinelle script, plus some manual
-> > > changes for mtk and tegra.
-> > > 
-> > > @ plane_atomic_func @
-> > > identifier helpers;
-> > > identifier func;
-> > > @@
-> > > 
-> > > (
-> > >  static const struct drm_plane_helper_funcs helpers = {
-> > >  	...,
-> > >  	.atomic_disable = func,
-> > > 	...,
-> > >  };
-> > > |
-> > >  static const struct drm_plane_helper_funcs helpers = {
-> > >  	...,
-> > >  	.atomic_update = func,
-> > > 	...,
-> > >  };
-> > > )
-> > > 
-> > > @ moves_new_state_old_state @
-> > > identifier plane_atomic_func.func;
-> > > identifier plane;
-> > > symbol old_state;
-> > > symbol state;
-> > > @@
-> > > 
-> > >  func(struct drm_plane *plane, struct drm_plane_state *old_state)
-> > >  {
-> > >  	...
-> > > -	struct drm_plane_state *state = plane->state;
-> > > +	struct drm_plane_state *new_state = plane->state;
-> > > 	...
-> > >  }
-> > > 
-> > > @ depends on moves_new_state_old_state @
-> > > identifier plane_atomic_func.func;
-> > > identifier plane;
-> > > identifier old_state;
-> > > symbol state;
-> > > @@
-> > > 
-> > >  func(struct drm_plane *plane, struct drm_plane_state *old_state)
-> > >  {
-> > >  	<...
-> > > -	state
-> > > +	new_state
-> > > 	...>
-> > 
-> > Was going to say that this migh eat something else, but I guess
-> > the dependency prevents that?
+> Currently we have neither dependency nor reverse-selection of
+> CONFIG_RESET_CONTROLLER.  It wouldn't be a problem for builds, but
+> you'll get a runtime error from
+> devm_reset_control_array_get_exclusive() always when
+> CONFIG_RESET_CONTROLLER=n.
 > 
-> Yeah, the dependency takes care of this
-> 
-> > Another way to avoid that I suppose would be to declare 'state'
-> > as
-> > symbol moves_new_state_old_state.state;
-> > 
-> > That would probably make the intent a bit more obvious, even with
-> > the dependency. Or does a dependency somehow automagically imply
-> > that?
-> 
-> I'm not sure if it does, but it's a symbol here not an identifier or an
-> expression, so here moves_new_state_old_state.state would always resolve
-> to state (and only state) anyway
+> I guess it must be a corner case, but just to be sure.
 
-Hm. Right. OK, cocci bits look good to me. Variable naming
-bikeshed I'll leave to others :)
+The CONFIG_RESET_CONTROLLER=y at least for ARM32 Tegra builds.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+https://elixir.bootlin.com/linux/v5.11-rc5/source/arch/arm/mach-tegra/Kconfig#L15
 
--- 
-Ville Syrjälä
-Intel
+Not sure about ARM64.
