@@ -2,87 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A05A2303DE9
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 13:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D69F303E3D
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 14:12:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392421AbhAZM6g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 Jan 2021 07:58:36 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6704 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728772AbhAZM6a (ORCPT
+        id S1727304AbhAZNMB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Jan 2021 08:12:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391913AbhAZMrw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 26 Jan 2021 07:58:30 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B601011850000>; Tue, 26 Jan 2021 04:56:37 -0800
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 Jan
- 2021 12:56:37 +0000
-Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 26 Jan 2021 12:56:37 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 00/87] 5.4.93-rc3 review
-In-Reply-To: <20210126111748.320806573@linuxfoundation.org>
-References: <20210126111748.320806573@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        Tue, 26 Jan 2021 07:47:52 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71BD9C0698D2
+        for <linux-tegra@vger.kernel.org>; Tue, 26 Jan 2021 04:45:54 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id e15so2664874wme.0
+        for <linux-tegra@vger.kernel.org>; Tue, 26 Jan 2021 04:45:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=N8T1u34dorC88muTgROvb30sAlojxHjcjn3S8eWKchI=;
+        b=oMD6xl4SFT0eTU53M3uPErJ4+nTXkWKXmdZubrAueDfO34/ooNIHmfH7T8dREJUgm1
+         OlkGDp/8inaEAuBHE+132rS8QA22d841x8psc4+RlNgkNEDarvxXe47YPeV3ZfW+HANT
+         YCCbXQAyAanjmvkhnvi5ks2A8p0MW5er65CsVWB8lysY23+FhQjF3lSI8N21KSNspYuF
+         IHM/o+AKe4GzK5us1spd0tVVMCypmikMFco+py/5KcYlhwi670zXSjinTjHjU34mUK3a
+         ovNcky78HGkVG8r6Tat6mr0Kiy4zkp3Em916tKSp+5On/sB3u38Gns489lMoZxC1GJ9k
+         lw/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=N8T1u34dorC88muTgROvb30sAlojxHjcjn3S8eWKchI=;
+        b=pEsSeHIRjwY+WFTAA7CONeuSL4LZ9KgQQPtYdj4WDDVgBgKOeLachWRsYz+yPBuTyh
+         SHAJKW7GM+d94o8VxIt7rkXSVPxz8aOAG6I7/OFERMr0dAauvJWmeITIYHfbTPcAa88S
+         OzEHrqxK/CKB4eMJy44JquC59WJK/vLTg3K4dvNUgiTKpLGDlQzwi1vkmwDVJxsR0mU+
+         pYdfmmsGsIgieuLhjrZHFBM7Dr7SxpUxG+gDnW9C06h7aEsBTdbz8io+a6vP9sO013GH
+         YJBUnQfZ8eFJmWtNXxvh99RVyUGXku9gWdYb/BLIygw/UOV0yODT8LnZhhE6AWAtUiN+
+         Hfkg==
+X-Gm-Message-State: AOAM531eKRuFttKH7XUjUU6F4HylzAnEh7EtcTmi4klWvn/L41HcDXcs
+        m45vdCD//1QePLQBmdDFptv4aQ==
+X-Google-Smtp-Source: ABdhPJwQJjhHhz6+8aVdRCxnSCzGI7zL38pJJEIEPZSfK1LrkdeGVtS3fjzmGZYKF25DJn0g2cu2Dg==
+X-Received: by 2002:a1c:b78b:: with SMTP id h133mr4566691wmf.151.1611665153187;
+        Tue, 26 Jan 2021 04:45:53 -0800 (PST)
+Received: from dell.default ([91.110.221.188])
+        by smtp.gmail.com with ESMTPSA id i131sm3263073wmi.25.2021.01.26.04.45.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jan 2021 04:45:52 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 07/21] clk: tegra: clk-tegra30: Remove unused variable 'reg'
+Date:   Tue, 26 Jan 2021 12:45:26 +0000
+Message-Id: <20210126124540.3320214-8-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210126124540.3320214-1-lee.jones@linaro.org>
+References: <20210126124540.3320214-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Message-ID: <5d19171556ee4ce0b200619816c33b50@HQMAIL111.nvidia.com>
-Date:   Tue, 26 Jan 2021 12:56:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1611665797; bh=YKqiQju3M4VkPwOkvzZI6P+anZS5e2jrMxMnBN9Ae+8=;
-        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
-         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
-         Date;
-        b=akYhW1ceDREzX+HVulUs2cQm7oo7qntP384AlRzNosSoZgxtt1yehDeDiSPbjJE4w
-         0rG9F/yBJQcjG0ERiBs5yDfRwGnGm4Ihfzo1uQqWGHTxuGXoeWN1vgCdlEAA01GQWw
-         b01thWinkC6gSTPaI1yp4Zr8rsxRqPoecdoqrJOvJdw38M7wWUkjxmg9z026AqxsNG
-         OEsg0z7TxlXY9nIC+GR43guVsH5jqAFDjacYCua+e6sx58eAIDvg9odQ5FQgUqT+i9
-         bR62IujImIGa4SVHIXMiAY/jf26734r0VI2qjAt9bHEKLC488vqq1zcMvjDwA16Hb6
-         5dsD0+44mQCGw==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 26 Jan 2021 12:22:10 +0100, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.4.93 release.
-> There are 87 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Thu, 28 Jan 2021 11:17:31 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.93-rc3.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+Fixes the following W=1 kernel build warning(s):
 
-All tests passing for Tegra ...
+ drivers/clk/tegra/clk-tegra30.c: In function ‘tegra30_enable_cpu_clock’:
+ drivers/clk/tegra/clk-tegra30.c:1107:15: warning: variable ‘reg’ set but not used [-Wunused-but-set-variable]
 
-Test results for stable-v5.4:
-    12 builds:	12 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    57 tests:	57 pass, 0 fail
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc: Prashant Gaikwad <pgaikwad@nvidia.com>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/clk/tegra/clk-tegra30.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Linux version:	5.4.93-rc3-ga2ea77508efe
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
+index 9cf249c344d9e..16dbf83d2f62a 100644
+--- a/drivers/clk/tegra/clk-tegra30.c
++++ b/drivers/clk/tegra/clk-tegra30.c
+@@ -1104,12 +1104,9 @@ static void tegra30_cpu_out_of_reset(u32 cpu)
+ 
+ static void tegra30_enable_cpu_clock(u32 cpu)
+ {
+-	unsigned int reg;
+-
+ 	writel(CPU_CLOCK(cpu),
+ 	       clk_base + TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
+-	reg = readl(clk_base +
+-		    TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
++	readl(clk_base + TEGRA30_CLK_RST_CONTROLLER_CLK_CPU_CMPLX_CLR);
+ }
+ 
+ static void tegra30_disable_cpu_clock(u32 cpu)
+-- 
+2.25.1
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-
-Jon
