@@ -2,87 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91186303E0B
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 14:06:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11CA5303EDA
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Jan 2021 14:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390044AbhAZNFN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 Jan 2021 08:05:13 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6740 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392513AbhAZM7G (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 26 Jan 2021 07:59:06 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B601011940000>; Tue, 26 Jan 2021 04:56:52 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 Jan
- 2021 12:56:52 +0000
-Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 26 Jan 2021 12:56:52 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.10 000/203] 5.10.11-rc2 review
-In-Reply-To: <20210126094313.589480033@linuxfoundation.org>
-References: <20210126094313.589480033@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        id S2404634AbhAZNf5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Jan 2021 08:35:57 -0500
+Received: from mga06.intel.com ([134.134.136.31]:48273 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392005AbhAZN0n (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 26 Jan 2021 08:26:43 -0500
+IronPort-SDR: Ksr2gGZ7dn03b/85c1HgNMlPduJ5NJC4EiCDNMkUNQVcrdHtToYzTjEMhgvdUx+T9+FNarGHaf
+ N+TpHz0X3cag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="241429103"
+X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
+   d="scan'208";a="241429103"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 05:24:53 -0800
+IronPort-SDR: g4Zswe3qz4zMid/EyEG5xz4WWhFPriWd/t2t5KrG0ShP0j9WNEEJayXNCJQTEkRkM2/IHRNzgx
+ zk+bb8SSGplQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
+   d="scan'208";a="369103591"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by orsmga002.jf.intel.com with SMTP; 26 Jan 2021 05:24:36 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 26 Jan 2021 15:24:35 +0200
+Date:   Tue, 26 Jan 2021 15:24:35 +0200
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        linux-tegra@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Marek Vasut <marex@denx.de>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        linux-rockchip@lists.infradead.org,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        freedreno@lists.freedesktop.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-msm@vger.kernel.org,
+        Philippe Cornu <philippe.cornu@st.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        virtualization@lists.linux-foundation.org,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Alison Wang <alison.wang@nxp.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-mediatek@lists.infradead
+Subject: Re: [PATCH v2 10/11] drm: Use state helper instead of the plane
+ state pointer
+Message-ID: <YBAYE4YH4bgURmuf@intel.com>
+References: <20210121163537.1466118-1-maxime@cerno.tech>
+ <20210121163537.1466118-10-maxime@cerno.tech>
 MIME-Version: 1.0
-Message-ID: <bf085f01d1eb42c6948fa25a6a70c15d@HQMAIL107.nvidia.com>
-Date:   Tue, 26 Jan 2021 12:56:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1611665812; bh=aau67H83Algiw12WE2wiSp6/AeLyih2nD4lWpo9xiKg=;
-        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
-         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
-         Date;
-        b=MDniaaTdHxMToTOh9qpBepyd+gSJqfrjTTLsY1aHbd5q3OmRT5kVp3aTZM6DQeGJL
-         xP7SlLUCbouebqGZK5dw9vSLGaslk/7FEZMQQzL7quVw97k6Z+kwdwSEtCB56NLjjz
-         umOBs8z/LwaFc+Ygvw7JyY9BVitCZOKFS9wHbu7ax0eTiUBdUZcxuGMMUSuhU6aLcY
-         Y3ksCqxxisvZf0Vzi4uIWuusyvnENMQ2rL71ROXBqA2DybcJ1yIeVsZAv/Uy3rU7NI
-         ssvFDng3CvBpEB2w0v8+i03b0FptQiXxkYbEZB8LnqSX99I43bfYSxXmXoqYFNlRrI
-         o4p/3J4BXzaaQ==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210121163537.1466118-10-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 26 Jan 2021 11:03:12 +0100, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.10.11 release.
-> There are 203 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On Thu, Jan 21, 2021 at 05:35:35PM +0100, Maxime Ripard wrote:
+> Many drivers reference the plane->state pointer in order to get the
+> current plane state in their atomic_update or atomic_disable hooks,
+> which would be the new plane state in the global atomic state since
+> _swap_state happened when those hooks are run.
 > 
-> Responses should be made by Thu, 28 Jan 2021 09:42:40 +0000.
-> Anything received after that time might be too late.
+> Use the drm_atomic_get_new_plane_state helper to get that state to make it
+> more obvious.
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.11-rc2.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
-> and the diffstat can be found below.
+> This was made using the coccinelle script below:
 > 
-> thanks,
+> @ plane_atomic_func @
+> identifier helpers;
+> identifier func;
+> @@
 > 
-> greg k-h
+> (
+>  static const struct drm_plane_helper_funcs helpers = {
+>  	...,
+>  	.atomic_disable = func,
+> 	...,
+>  };
+> |
+>  static const struct drm_plane_helper_funcs helpers = {
+>  	...,
+>  	.atomic_update = func,
+> 	...,
+>  };
+> )
+> 
+> @ adds_new_state @
+> identifier plane_atomic_func.func;
+> identifier plane, state;
+> identifier new_state;
+> @@
+> 
+>  func(struct drm_plane *plane, struct drm_atomic_state *state)
+>  {
+>  	...
+> -	struct drm_plane_state *new_state = plane->state;
+> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+> 	...
+>  }
+> 
+> @ include depends on adds_new_state @
+> @@
+> 
+>  #include <drm/drm_atomic.h>
+> 
+> @ no_include depends on !include && adds_new_state @
+> @@
+> 
+> + #include <drm/drm_atomic.h>
+>   #include <drm/...>
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-All tests passing for Tegra ...
+Looks great.
 
-Test results for stable-v5.10:
-    12 builds:	12 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    65 tests:	65 pass, 0 fail
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Linux version:	5.10.11-rc2-g460ab443f340
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
-
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-
-Jon
+-- 
+Ville Syrjälä
+Intel
