@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D506309E59
-	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 20:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 654B2309E5F
+	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 20:47:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbhAaTqv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 31 Jan 2021 14:46:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40918 "EHLO
+        id S231436AbhAaTrS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 31 Jan 2021 14:47:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230194AbhAaTmV (ORCPT
+        with ESMTP id S231158AbhAaTgN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 31 Jan 2021 14:42:21 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7DDC0617AA;
-        Sun, 31 Jan 2021 09:32:17 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id b145so3217395pfb.4;
-        Sun, 31 Jan 2021 09:32:17 -0800 (PST)
+        Sun, 31 Jan 2021 14:36:13 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B42BC0617AB;
+        Sun, 31 Jan 2021 09:32:27 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id s23so9152003pgh.11;
+        Sun, 31 Jan 2021 09:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9mx9QDkqfNUwWdACyM2Fn2TS+NlXzO5XMeT4wvvF4yM=;
-        b=FKhRyOzoZSbBuvWwr0fTJ+iFeZN7JT2FPX2669eIzdGFo5UYBxWO2lMckA9wnehLTS
-         xHmrEWENAHskb5BhFX6J42HLdCsFefK2aEtxG+yPckdGw3BsDu96v/DESQiAw56isE0b
-         92NLHHC68hguqKz0GvB+ulD4I9TKRUFtGwmpjbUEFBrTaIf3OgckiVwzJ4/ROpw8BSoX
-         oNKalg6R33IaEWts0MFGrxDLnL3XZx2GMYqee70sRg1dd1sE0JdHazOda1TasbNt87tJ
-         kfglu74r09XJiZR8kMAJf+x7dJ636t7EoxwawooqaIZ/J1affyE1+5moWGYYW8MxlYCO
-         LFZQ==
+        bh=KL4ClHuz/7I8c1v93iqBuHCJ0LGBrBIt4lTt0h3HcoY=;
+        b=N/B6V8BD5XiYvAupdqW1vbawkg3gyLvdAlZeMM0bF/xLOQGjMnDlOWSSkBZFul0+f5
+         EP7QtNlUMFjALXak6Sx5W/LhQa8wUdSw2zzV814nawqfyffFp/qzHxk5oFDD6LvxhwNC
+         KuSBJKr5QRBMUi8quKx2XQA6OahBrMn1fCrb+5AzTrcXPfhieGh3yelskc/1ShXYudWm
+         mpfa/YeCPiJGRU9Fvc+eAnLd7rkgNuPbq8cbM6hchVCZYs055YHO2nTXx4SybPNyHmhE
+         hc5ykRlg+XSnQtHL/8NcEqkoeVrLLMWUj9I0NvDGNSv5BuvZUymDt0LKcmlBYwPKVwHe
+         gUBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9mx9QDkqfNUwWdACyM2Fn2TS+NlXzO5XMeT4wvvF4yM=;
-        b=GMqBBOI/ry/26SaQkpjrI8HPYrEQA4nXp4z47OB6knDXyP6j9a0KbiP6pPkV7KlhN8
-         WE1AxWk2ZoyAAikSAa99Axoq2yEacqWhZzmgmjzD7zjR1+pC6RDeL0xl1ErDtScU7w1P
-         bLGmTeSXyfj/+gI86fKpcktuN143g5TdFa8bCwS65m7mLTx4xjiYkhf4/e+EoaIdhhLd
-         1FETHtyRa/ZYo3Ium6reRfZgMXRRVI5Y2HjIqNTM2tSuF/EvlBnQl66TyaQYOmBgJ6Rk
-         vJbkU2dVThz//WaNMSvmARpViV7+YYm6YF0Aa38PWLRTzHs0uLEV8/l703xDvs9kiz4a
-         /wpA==
-X-Gm-Message-State: AOAM533t3Oq30JbCXIiD4fidr8wthLDH8y4TIp3RPg+CGkZUpDd+6HNc
-        ZPBcP/lE4+yC9uGobZ9/gx4=
-X-Google-Smtp-Source: ABdhPJy0FOOeBvw8A30nFmOClcs73UGIMxJUMDIk2k6K7lguT0DTnIX/42iZkIg0q78K2sAG9Txfpw==
-X-Received: by 2002:a63:c43:: with SMTP id 3mr13088289pgm.250.1612114337079;
-        Sun, 31 Jan 2021 09:32:17 -0800 (PST)
+        bh=KL4ClHuz/7I8c1v93iqBuHCJ0LGBrBIt4lTt0h3HcoY=;
+        b=F8nnL0DcHgpS5flvK+RApQICLKbLwraXysv0TWS5P4CFBHJpGXCO9a5ZpCcgQSxGJY
+         GnSfwI8sn2Cwpsa26DDHj7vL0i8XlRSBEDO9NZDQxoNUdTlodn57k+9uQao0T1DlNff5
+         KaTcLIz2+IWn9/lnRIC1NqAzrjUgrQ3U6zUwd8fSWtXeT8cPMGdLu2UwsQtv/MT8N+r6
+         +AGMEJESTDoSQ/dis6sWqEZfRyYSxpgCfLY0XQvf4/w6OrVU3WQpk6ExK5WwZ6nwQAlP
+         VT5lpUaaJHXZ5A7chKq41uiBQfBlYymX02KHuz23raJipW5vK+HAbHiRxp9qdG61eurJ
+         o0ew==
+X-Gm-Message-State: AOAM532IWy0Rr5kXxbS+AUSxHKYFHR7Z/RDkYC7JBFNcMgIAqdlp6iRl
+        HtjbD3STyl7YldoLyybQjSAe8Xi5YB91oQ==
+X-Google-Smtp-Source: ABdhPJzABChOsNRDUCRWU+Gq8jzbKzxAgBkonx70PABubyLmysiQb+CwOj4WPPSnTZHh1di8jIFoFQ==
+X-Received: by 2002:a62:aa0a:0:b029:1c2:1baa:eaea with SMTP id e10-20020a62aa0a0000b02901c21baaeaeamr12833472pff.52.1612114347133;
+        Sun, 31 Jan 2021 09:32:27 -0800 (PST)
 Received: from localhost ([2402:3a80:11ea:e144:a2a4:c5ff:fe20:7222])
-        by smtp.gmail.com with ESMTPSA id y11sm14165281pfn.85.2021.01.31.09.32.15
+        by smtp.gmail.com with ESMTPSA id b24sm1597174pjp.12.2021.01.31.09.32.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 09:32:16 -0800 (PST)
+        Sun, 31 Jan 2021 09:32:26 -0800 (PST)
 From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
 To:     devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
@@ -71,17 +71,17 @@ Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         Teddy Wang <teddy.wang@siliconmotion.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Andrew Morton <akpm@linux-foundation.org>,
-        William Cohen <wcohen@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Mike Rapoport <rppt@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Robert Richter <rric@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        William Cohen <wcohen@redhat.com>,
         greybus-dev@lists.linaro.org, ac100@lists.launchpad.net,
         linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 07/13] staging: olpc_dcon: Switch from strlcpy to strscpy
-Date:   Sun, 31 Jan 2021 22:58:28 +0530
-Message-Id: <20210131172838.146706-8-memxor@gmail.com>
+Subject: [PATCH 08/13] staging: rtl8188eu: Switch from strlcpy to strscpy
+Date:   Sun, 31 Jan 2021 22:58:29 +0530
+Message-Id: <20210131172838.146706-9-memxor@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210131172838.146706-1-memxor@gmail.com>
 References: <20210131172838.146706-1-memxor@gmail.com>
@@ -101,22 +101,22 @@ This silences the related checkpatch warnings from:
 
 Signed-off-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 ---
- drivers/staging/olpc_dcon/olpc_dcon.c | 2 +-
+ drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
-index e7281212d..6d8e9a481 100644
---- a/drivers/staging/olpc_dcon/olpc_dcon.c
-+++ b/drivers/staging/olpc_dcon/olpc_dcon.c
-@@ -576,7 +576,7 @@ static struct notifier_block dcon_panic_nb = {
+diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+index 6f42f13a7..bf22f130d 100644
+--- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+@@ -1865,7 +1865,7 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
+ 		goto exit;
+ 	}
  
- static int dcon_detect(struct i2c_client *client, struct i2c_board_info *info)
- {
--	strlcpy(info->type, "olpc_dcon", I2C_NAME_SIZE);
-+	strscpy(info->type, "olpc_dcon", I2C_NAME_SIZE);
+-	strlcpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
++	strscpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
  
- 	return 0;
- }
+ 	if (pext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY)
+ 		param->u.crypt.set_tx = 1;
 -- 
 2.29.2
 
