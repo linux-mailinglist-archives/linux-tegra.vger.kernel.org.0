@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAAB9309E56
-	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 20:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F98309E5B
+	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 20:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231410AbhAaTqq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 31 Jan 2021 14:46:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39960 "EHLO
+        id S231453AbhAaTrO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 31 Jan 2021 14:47:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231177AbhAaTgi (ORCPT
+        with ESMTP id S231273AbhAaTmV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 31 Jan 2021 14:36:38 -0500
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD631C061351;
-        Sun, 31 Jan 2021 09:32:38 -0800 (PST)
-Received: by mail-pj1-x1043.google.com with SMTP id e9so9558225pjj.0;
-        Sun, 31 Jan 2021 09:32:38 -0800 (PST)
+        Sun, 31 Jan 2021 14:42:21 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3448C061352;
+        Sun, 31 Jan 2021 09:32:48 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id o7so10446409pgl.1;
+        Sun, 31 Jan 2021 09:32:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UATS+ZdWIHunyokeUQ2KzApxYEhPMU9QywnIQp+k1xo=;
-        b=b9PXwhx5E5wwbmXTP1RC5Fki7Zw2VLqiM/m2UxK1wU8m1BcPsvMcbEoZKi8Jo/UQfo
-         row6SlwsGQ4BvNwDVIFQKQ/exYO3s1SXu5odFHUWe5KJyKgB3MdlNG4erlIsz0qCCsKl
-         mWVsToJ0LPw8Jz4M7lkZxQtrfefC0w4E9v94Z8g+fQoBFJWMp5LIJg7kn1zkr+a/kmIX
-         OS6IXKIRgJ0Z6rRVCw55ShwQemSUKLOnG27rkeZv06XzlINdBPCLpuk0AsGiO8EDQq7t
-         DNrGOEj9pmVX5fRmfrorZSbIo7rwnLgXNjJrVAgsXk6dQZJErelCE7Teavl1RfklKb3o
-         Zo8Q==
+        bh=mo0+brrhGMjJednSGVa7WEJAUXKYi42r2CVW4s4Y5xs=;
+        b=QAkz1tON5iYvjkr2NHcgpozTGPVoPfYRL4IL0BfDh3zUuFMq5MAc0McwM/O6fZxYTx
+         4Ox6Wp+bygqNnDl+e1e+XZOK8Cn9ZXwWO0yGKqt7AY0w64FQcDxXGdKMjfqfYY7Wcpir
+         qTdPyjnOjGe/hr+t+2gSz6alaE01d7BUa4KwH6+1ZGajL0RoAVzxsrJ7L//OQWb7U5ZR
+         IbbUp31V3HHVm0+gA4trWkKa4jjz7KCsKnILVQNDMBRNjT/IX6/jth0aCQIM44Vn5WBE
+         ZLCisAIdk8IokOJ7qhqv32Rof2XzRSOSCJ00916W7BF1hKgKTiADIs5mFPy+JeqHJ5vu
+         Bgbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UATS+ZdWIHunyokeUQ2KzApxYEhPMU9QywnIQp+k1xo=;
-        b=A0pOAKhqQsqOjgR643+zlIVwS+H0qSS8zV26Bs5+T2pkUeJu85gxbp/u1O1fY+dSmq
-         FDPhFyRqulkKmgItPIm5ZqWguqw9qaFn0v6U2x7Cb4DhvOeHmAFAxAj1vyudaO1RjfWw
-         FX0NDJUnjYn5DPO1Uw1ZzsABGelYFx1OrKtr0Ln/0GokKdbxHE912LAtfWfC6vJp4dNh
-         JGdK1QlLhUZO/WiB9us7CVOGegB7ZGbmQ+hg6Tntar3nlyxF/oHMeMD7pUC2cY6UXd2o
-         zyK/u904DLO/REU70isnkmX8/WGZIz07QQyUlBoZUfRNVun5yZM86uUY3POA6gMVdFFl
-         1ktw==
-X-Gm-Message-State: AOAM531YJ1W0kDTcmDHtxI5yig1XvLEIcKehi2uJsUe9AHT5cwyjNzSb
-        XxAwAVS4cqNULvF3sv2bj1A=
-X-Google-Smtp-Source: ABdhPJxtoGANsdEpKKge2o/29AN1E8VfPfLdlwcKVddQbVKTDT3+km65hFEkM3txwdasUFD8QbEDvQ==
-X-Received: by 2002:a17:90a:778b:: with SMTP id v11mr13218923pjk.61.1612114358345;
-        Sun, 31 Jan 2021 09:32:38 -0800 (PST)
+        bh=mo0+brrhGMjJednSGVa7WEJAUXKYi42r2CVW4s4Y5xs=;
+        b=pW2ipEAa4c8OurKAbOCgtN1Mb4pyztYn+VTxFzsD72SyrKamXgergW3fCLPWCziMH+
+         a4ES/B+13QbcN07miSwX75Mb6+Wm8sZTqbhEzVjB2JYMG9P9lkEekhRmTYQoLuQzZqsd
+         UF1BDb80FtzpFLHr0VYK9b+flT+YYoyD3wF9GTNUvlfFfT4S+fe/APLjLRkAKt86H6Wd
+         odGU53jRI4dXNous3OiifSaH2Cskfkr8pHlzNJcOj5iQ4qdgNcGveo34Xv3z/nzVc1nn
+         6sejdOzDVz7UtubxyZ2Zk7xOGPhI8EvaNrBEufgv+BsDvKtwwMB2/wynsV2qT5uYwBMP
+         In4Q==
+X-Gm-Message-State: AOAM530YnUuVLLwAAozQXQOtAvRbY3E15p8DWbuaxWmdRVuypCN3of7f
+        3U+WTgUX7ONO7fO1RSzHFaM=
+X-Google-Smtp-Source: ABdhPJwcxoFrwI/FRC06emoEJxOlhapapq3uXAbaNvZgMSxCrsCYsYe4eF797A5mhxRg8Rzkb7s87g==
+X-Received: by 2002:a62:ae0c:0:b029:1bc:a0b9:f0aa with SMTP id q12-20020a62ae0c0000b02901bca0b9f0aamr12613811pff.78.1612114368491;
+        Sun, 31 Jan 2021 09:32:48 -0800 (PST)
 Received: from localhost ([2402:3a80:11ea:e144:a2a4:c5ff:fe20:7222])
-        by smtp.gmail.com with ESMTPSA id y16sm15492888pfb.83.2021.01.31.09.32.37
+        by smtp.gmail.com with ESMTPSA id f71sm14799711pfa.138.2021.01.31.09.32.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 09:32:37 -0800 (PST)
+        Sun, 31 Jan 2021 09:32:47 -0800 (PST)
 From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
 To:     devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
@@ -72,16 +72,16 @@ Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Andrew Morton <akpm@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
+        William Cohen <wcohen@redhat.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Mike Rapoport <rppt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Robert Richter <rric@kernel.org>,
-        William Cohen <wcohen@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         greybus-dev@lists.linaro.org, ac100@lists.launchpad.net,
         linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 09/13] staging: rtl8192e: Switch from strlcpy to strscpy
-Date:   Sun, 31 Jan 2021 22:58:30 +0530
-Message-Id: <20210131172838.146706-10-memxor@gmail.com>
+Subject: [PATCH 10/13] staging: rtl8192u: Switch from strlcpy to strscpy
+Date:   Sun, 31 Jan 2021 22:58:31 +0530
+Message-Id: <20210131172838.146706-11-memxor@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210131172838.146706-1-memxor@gmail.com>
 References: <20210131172838.146706-1-memxor@gmail.com>
@@ -101,26 +101,22 @@ This silences the related checkpatch warnings from:
 
 Signed-off-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.c
-index 6ae7a67e7..f4f7b74c8 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.c
-@@ -18,9 +18,9 @@ static void _rtl92e_ethtool_get_drvinfo(struct net_device *dev,
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.c
+index f434a26cd..afa92ddfa 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.c
+@@ -484,7 +484,7 @@ int ieee80211_wx_get_name(struct ieee80211_device *ieee,
+ 			     struct iw_request_info *info,
+ 			     union iwreq_data *wrqu, char *extra)
  {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	strlcpy(info->driver, DRV_NAME, sizeof(info->driver));
--	strlcpy(info->version, DRV_VERSION, sizeof(info->version));
--	strlcpy(info->bus_info, pci_name(priv->pdev), sizeof(info->bus_info));
-+	strscpy(info->driver, DRV_NAME, sizeof(info->driver));
-+	strscpy(info->version, DRV_VERSION, sizeof(info->version));
-+	strscpy(info->bus_info, pci_name(priv->pdev), sizeof(info->bus_info));
- }
- 
- static u32 _rtl92e_ethtool_get_link(struct net_device *dev)
+-	strlcpy(wrqu->name, "802.11", IFNAMSIZ);
++	strscpy(wrqu->name, "802.11", IFNAMSIZ);
+ 	if (ieee->modulation & IEEE80211_CCK_MODULATION) {
+ 		strlcat(wrqu->name, "b", IFNAMSIZ);
+ 		if (ieee->modulation & IEEE80211_OFDM_MODULATION)
 -- 
 2.29.2
 
