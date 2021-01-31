@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DA15309EC7
-	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 21:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC005309EB6
+	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 21:12:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232184AbhAaUNf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 31 Jan 2021 15:13:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39668 "EHLO
+        id S231183AbhAaTpu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 31 Jan 2021 14:45:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231124AbhAaTft (ORCPT
+        with ESMTP id S231163AbhAaTgN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 31 Jan 2021 14:35:49 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0475FC0617A9;
-        Sun, 31 Jan 2021 09:32:08 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id y10so4411481plk.7;
-        Sun, 31 Jan 2021 09:32:08 -0800 (PST)
+        Sun, 31 Jan 2021 14:36:13 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C192C061353;
+        Sun, 31 Jan 2021 09:32:59 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id e19so9999246pfh.6;
+        Sun, 31 Jan 2021 09:32:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8z7T30JwVaWaq0MDWkzbLRl1Zk2i9+kaaFA/9JES7Xs=;
-        b=Uoqbq4QkgIl9VP9kliAkYuDQm21xB+XmNDU1AxMz1RJf8ufeaxxdJyfbPtuk5Ue9Sy
-         MsdwlBDkuXGbADiWX3vmEvafdwHpDVKRSJ9NoYmEi915UYcqRWEQPKMo+cP6rmBvv8bF
-         qkIqPu6ztvPeb9ysJJLiyUFmRIrZVzyr9cs/x02p9cSb4Pt62moPq/QSkjFuqmHJ/4V6
-         E2opHNxR9Ga44NNvcciGBBq2C025jSGE+TkcgPUq2BZ1KJf5K5IlNq0oVQnrPipGjDLr
-         XRzLuQtPzaP5fBIV1iwtCKI5ZRISbgq/zvxGOm4x9XsH6BxWulI21PlLJsi/m4HS2xyG
-         1Q6Q==
+        bh=gKI25e/jJLfDV6Kg+PuHK7AdOezrhXeGKxAKRdL5O5c=;
+        b=NZcWTveJhv5rbkJbLgSmHjwf6GQe9APQLUr0ywzyJM8YOZdKLDVjpOlWiqUVM3EYNh
+         kVuCCm5wXBU2CzBpOGGvpr1BpC2rqWrQeI06JQ+SETI199L8+FYBQKp89qv5dG75eYTW
+         KWNOwfxDvOcvULC3hmRatn9Q4lf1Cq3pLf8Qx4umAZfUd4mAYHqrmX4Go7rUJOSRRkJY
+         AsFOhMO81LuYJHC3r4erHnmawkginx2aVB88AKq463Zgz7HOHICH1Nj2Ej16T3V73iQ7
+         2EiZ8RG+u8M76R39DPXF34+0sdMtwNcnubNW+xTw/tY6N2wafaytjUKh5roXYOGeEtUq
+         rINA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8z7T30JwVaWaq0MDWkzbLRl1Zk2i9+kaaFA/9JES7Xs=;
-        b=sIPB65a505mtAz2pweoDMnJJ0aDeRQcVfOnkeXojixCpqDP4BbPHS/fl2XBK/pfjDp
-         CzfdV01RreRZk7iohA4gWNrp+FaK3HgyEkd7I1I85drvT0YGZTfUaoHg2mboC5+2qKVD
-         ujRM9W5wP4K7gUfXBCnUAcJxlJmOuWc+o6SX3ZYqFI5OkwbfJUsEZq7Y5AJrp6qbwyqq
-         vJMIWGHbuGQzwRwgIfSHgQvqbL0M2J3QpylcRbdmQK6PWSwnMuMsRG97b92omaimYMcX
-         VKvWO1xuGQyTjBLeWQ+ffMbcyMDDlLnsCVA8i1c8ib9TXJ0ZzEEIk7ji1ldc6Qodaul0
-         b+Ew==
-X-Gm-Message-State: AOAM5339L+ZwrsX+I2DGRCpO91y3GnyeSkEvfakEJb1HpJRjGz23DHAX
-        Mz0bBJtKYLu9q8hQrqltuKM=
-X-Google-Smtp-Source: ABdhPJxlrmQpiP0t2W7sFWGvxmRHJQ1EXLzsFuG1+Bm3Y/OPuczoXDBzhNcDmo58qBTT9cFSwqvRTw==
-X-Received: by 2002:a17:902:eacb:b029:e1:2de4:72b6 with SMTP id p11-20020a170902eacbb02900e12de472b6mr8975072pld.17.1612114327515;
-        Sun, 31 Jan 2021 09:32:07 -0800 (PST)
+        bh=gKI25e/jJLfDV6Kg+PuHK7AdOezrhXeGKxAKRdL5O5c=;
+        b=tt1iT9orJLG3nCuFds1StDkvkG7joNJC81YQB51fg0hfMTjyy7LiKVs1s5jju/rWaP
+         +XFCDu9y1LRwn2aWSRiyGdmHCBYDYwbUrj9JNnPIUcJYmuPB55Pb5rY281Ge5qWH8gyn
+         cKyz9w9g7Rh7KmsnuNwZyF5upk79KlaxIKO5wZOKaE5XPDLEsAAi4oxe66pTmJRt7A6d
+         wUQkgsHT/0FFUoXrJM9oEGzhbGW3ZYFRAHTvdzuheYd8T66jkSDJ78H3e3+JJJj+1OpW
+         S7nCfIZ6wFoU8frb1xfhHvac86nmPLupBRuu5IIfeT6RSyCSRFFVIm4gTevJP+Pw/DfG
+         dyxQ==
+X-Gm-Message-State: AOAM532zyWTNhl2jKTt38Q3wqXnVPaaDfKFBp4W98gOd+cQ3aAo/jLmQ
+        AOm+boO60LE2yN0oZ07AB/M=
+X-Google-Smtp-Source: ABdhPJxJdjPPIgHhUA+gd6c590Us77Rv3SAo0M63OGyZ3eELnR08dADDz7f1OMchhqa7A2U6TYf6aw==
+X-Received: by 2002:a62:7b8a:0:b029:1bb:4a06:bb57 with SMTP id w132-20020a627b8a0000b02901bb4a06bb57mr12418121pfc.47.1612114378549;
+        Sun, 31 Jan 2021 09:32:58 -0800 (PST)
 Received: from localhost ([2402:3a80:11ea:e144:a2a4:c5ff:fe20:7222])
-        by smtp.gmail.com with ESMTPSA id 76sm14898291pfz.174.2021.01.31.09.32.06
+        by smtp.gmail.com with ESMTPSA id a141sm15124191pfa.189.2021.01.31.09.32.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 09:32:06 -0800 (PST)
+        Sun, 31 Jan 2021 09:32:58 -0800 (PST)
 From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
 To:     devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
@@ -71,17 +71,17 @@ Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         Teddy Wang <teddy.wang@siliconmotion.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Andrew Morton <akpm@linux-foundation.org>,
-        William Cohen <wcohen@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Mike Rapoport <rppt@kernel.org>,
         Robert Richter <rric@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
+        William Cohen <wcohen@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         greybus-dev@lists.linaro.org, ac100@lists.launchpad.net,
         linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 06/13] staging: octeon: Switch from strlcpy to strscpy
-Date:   Sun, 31 Jan 2021 22:58:27 +0530
-Message-Id: <20210131172838.146706-7-memxor@gmail.com>
+Subject: [PATCH 11/13] staging: rtl8712: Switch from strlcpy to strscpy
+Date:   Sun, 31 Jan 2021 22:58:32 +0530
+Message-Id: <20210131172838.146706-12-memxor@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210131172838.146706-1-memxor@gmail.com>
 References: <20210131172838.146706-1-memxor@gmail.com>
@@ -101,26 +101,22 @@ This silences the related checkpatch warnings from:
 
 Signed-off-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 ---
- drivers/staging/octeon/ethernet-mdio.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/octeon/ethernet-mdio.c b/drivers/staging/octeon/ethernet-mdio.c
-index 0bf545849..1bb91a904 100644
---- a/drivers/staging/octeon/ethernet-mdio.c
-+++ b/drivers/staging/octeon/ethernet-mdio.c
-@@ -21,9 +21,9 @@
- static void cvm_oct_get_drvinfo(struct net_device *dev,
- 				struct ethtool_drvinfo *info)
- {
--	strlcpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
--	strlcpy(info->version, UTS_RELEASE, sizeof(info->version));
--	strlcpy(info->bus_info, "Builtin", sizeof(info->bus_info));
-+	strscpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
-+	strscpy(info->version, UTS_RELEASE, sizeof(info->version));
-+	strscpy(info->bus_info, "Builtin", sizeof(info->bus_info));
- }
- 
- static int cvm_oct_nway_reset(struct net_device *dev)
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+index cbaa7a489..81de5a9e6 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+@@ -1784,7 +1784,7 @@ static int r871x_wx_set_enc_ext(struct net_device *dev,
+ 		return -ENOMEM;
+ 	param->cmd = IEEE_CMD_SET_ENCRYPTION;
+ 	eth_broadcast_addr(param->sta_addr);
+-	strlcpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
++	strscpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+ 	if (pext->ext_flags & IW_ENCODE_EXT_GROUP_KEY)
+ 		param->u.crypt.set_tx = 0;
+ 	if (pext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY)
 -- 
 2.29.2
 
