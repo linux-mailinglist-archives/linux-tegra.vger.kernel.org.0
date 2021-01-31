@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC005309EB6
-	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 21:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB5A309EA6
+	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 21:09:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231183AbhAaTpu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 31 Jan 2021 14:45:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40196 "EHLO
+        id S231209AbhAaUIh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 31 Jan 2021 15:08:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231163AbhAaTgN (ORCPT
+        with ESMTP id S231356AbhAaTqL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 31 Jan 2021 14:36:13 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C192C061353;
-        Sun, 31 Jan 2021 09:32:59 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id e19so9999246pfh.6;
-        Sun, 31 Jan 2021 09:32:59 -0800 (PST)
+        Sun, 31 Jan 2021 14:46:11 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D85EC061356;
+        Sun, 31 Jan 2021 09:33:20 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id z21so10432182pgj.4;
+        Sun, 31 Jan 2021 09:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gKI25e/jJLfDV6Kg+PuHK7AdOezrhXeGKxAKRdL5O5c=;
-        b=NZcWTveJhv5rbkJbLgSmHjwf6GQe9APQLUr0ywzyJM8YOZdKLDVjpOlWiqUVM3EYNh
-         kVuCCm5wXBU2CzBpOGGvpr1BpC2rqWrQeI06JQ+SETI199L8+FYBQKp89qv5dG75eYTW
-         KWNOwfxDvOcvULC3hmRatn9Q4lf1Cq3pLf8Qx4umAZfUd4mAYHqrmX4Go7rUJOSRRkJY
-         AsFOhMO81LuYJHC3r4erHnmawkginx2aVB88AKq463Zgz7HOHICH1Nj2Ej16T3V73iQ7
-         2EiZ8RG+u8M76R39DPXF34+0sdMtwNcnubNW+xTw/tY6N2wafaytjUKh5roXYOGeEtUq
-         rINA==
+        bh=/kqzKgRXAJuYCJnf9qlqUQ95/4dPlUVexaDClNJu+4o=;
+        b=dHvdkQ1j42EiilplhPDB6FhMNUf5ZXLmE/uzaLLqe0OXGT7dcsL7G95zRkDlrlN3f1
+         G4VK+txzHPVHWBdH+epzhHSC4vYX0Z0BDgeYkEH9gD5gAKiz3BMn90itchE/OWGv655N
+         RnNX45jveBHIdz6Fia3lJ78SR2RYjmNXMAigH9Dzg9BXMITx1Ryj4fX0PbvtDtkeLpVZ
+         a5D0q47TCAvw/H026XC55s4TCK+VjLVyeCBSC5BgXVQc+TdNfm53TXhmt+I9LlK0RpID
+         aS7aVxf0F9rW0fwPiByzapSFkmDfZibac4dt7sZgbjdUU1JP+ihY7/HwC6Fple5Hk0Ts
+         /DAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gKI25e/jJLfDV6Kg+PuHK7AdOezrhXeGKxAKRdL5O5c=;
-        b=tt1iT9orJLG3nCuFds1StDkvkG7joNJC81YQB51fg0hfMTjyy7LiKVs1s5jju/rWaP
-         +XFCDu9y1LRwn2aWSRiyGdmHCBYDYwbUrj9JNnPIUcJYmuPB55Pb5rY281Ge5qWH8gyn
-         cKyz9w9g7Rh7KmsnuNwZyF5upk79KlaxIKO5wZOKaE5XPDLEsAAi4oxe66pTmJRt7A6d
-         wUQkgsHT/0FFUoXrJM9oEGzhbGW3ZYFRAHTvdzuheYd8T66jkSDJ78H3e3+JJJj+1OpW
-         S7nCfIZ6wFoU8frb1xfhHvac86nmPLupBRuu5IIfeT6RSyCSRFFVIm4gTevJP+Pw/DfG
-         dyxQ==
-X-Gm-Message-State: AOAM532zyWTNhl2jKTt38Q3wqXnVPaaDfKFBp4W98gOd+cQ3aAo/jLmQ
-        AOm+boO60LE2yN0oZ07AB/M=
-X-Google-Smtp-Source: ABdhPJxJdjPPIgHhUA+gd6c590Us77Rv3SAo0M63OGyZ3eELnR08dADDz7f1OMchhqa7A2U6TYf6aw==
-X-Received: by 2002:a62:7b8a:0:b029:1bb:4a06:bb57 with SMTP id w132-20020a627b8a0000b02901bb4a06bb57mr12418121pfc.47.1612114378549;
-        Sun, 31 Jan 2021 09:32:58 -0800 (PST)
+        bh=/kqzKgRXAJuYCJnf9qlqUQ95/4dPlUVexaDClNJu+4o=;
+        b=n+4iMnw7jSKwxOTl278WoKWQVbZSAT2qEUfGrkZqQG4n0478a4XMZ7Tq9Zrdr+Lp/E
+         hrz/TMF1ITWByAjbZg5diw6Jz+SUovrzq/3WrB3Ovqgfx760qC/ZwP++1UuLDAADE46H
+         Q+QMdUhFP35BWzJEjympsSwHhOmVDySIDiMBscJ98LoWoNU3XPf5lqXZK7ERzKZFM7H5
+         li8jEwbKP1NIOPGbwisYvv66rz4T1H5THWZdrGaY8p9vG82v7i1413Tue7AOEaz1aJ4r
+         cWUDSYHVDusV/2q2bOGysIcouNXSGAgNd1GcvnpMe7BZdbtfx8+K8OyDn+eLeMPggy9W
+         uiDw==
+X-Gm-Message-State: AOAM5300JMIC4zAIAmCytc21L7ADjtiCrIZKC7hNVoF8jYN0jCtUA+db
+        AhjwfNDd/SfXc+IagYmiGo4=
+X-Google-Smtp-Source: ABdhPJys/KIIkqbArr3BBk6zxyfIuIi9uPQFd4sUr7ipe/WtqEH4D4K7cPU/+BVgCni/eif1aK0rvQ==
+X-Received: by 2002:a62:774a:0:b029:1be:ca30:53ad with SMTP id s71-20020a62774a0000b02901beca3053admr12869186pfc.42.1612114399971;
+        Sun, 31 Jan 2021 09:33:19 -0800 (PST)
 Received: from localhost ([2402:3a80:11ea:e144:a2a4:c5ff:fe20:7222])
-        by smtp.gmail.com with ESMTPSA id a141sm15124191pfa.189.2021.01.31.09.32.57
+        by smtp.gmail.com with ESMTPSA id 72sm14944814pfw.170.2021.01.31.09.33.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 09:32:58 -0800 (PST)
+        Sun, 31 Jan 2021 09:33:19 -0800 (PST)
 From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
 To:     devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
@@ -69,19 +69,19 @@ Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
         Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
         Teddy Wang <teddy.wang@siliconmotion.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Robert Richter <rric@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
         Thomas Gleixner <tglx@linutronix.de>,
-        William Cohen <wcohen@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
         Mike Rapoport <rppt@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        William Cohen <wcohen@redhat.com>,
+        Robert Richter <rric@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         greybus-dev@lists.linaro.org, ac100@lists.launchpad.net,
         linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 11/13] staging: rtl8712: Switch from strlcpy to strscpy
-Date:   Sun, 31 Jan 2021 22:58:32 +0530
-Message-Id: <20210131172838.146706-12-memxor@gmail.com>
+Subject: [PATCH 13/13] staging: wimax: Switch from strlcpy to strscpy
+Date:   Sun, 31 Jan 2021 22:58:34 +0530
+Message-Id: <20210131172838.146706-14-memxor@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210131172838.146706-1-memxor@gmail.com>
 References: <20210131172838.146706-1-memxor@gmail.com>
@@ -101,22 +101,44 @@ This silences the related checkpatch warnings from:
 
 Signed-off-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 ---
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/wimax/i2400m/netdev.c | 6 +++---
+ drivers/staging/wimax/i2400m/usb.c    | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-index cbaa7a489..81de5a9e6 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -1784,7 +1784,7 @@ static int r871x_wx_set_enc_ext(struct net_device *dev,
- 		return -ENOMEM;
- 	param->cmd = IEEE_CMD_SET_ENCRYPTION;
- 	eth_broadcast_addr(param->sta_addr);
--	strlcpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
-+	strscpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
- 	if (pext->ext_flags & IW_ENCODE_EXT_GROUP_KEY)
- 		param->u.crypt.set_tx = 0;
- 	if (pext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY)
+diff --git a/drivers/staging/wimax/i2400m/netdev.c b/drivers/staging/wimax/i2400m/netdev.c
+index 8339d600e..cd06eaf75 100644
+--- a/drivers/staging/wimax/i2400m/netdev.c
++++ b/drivers/staging/wimax/i2400m/netdev.c
+@@ -561,11 +561,11 @@ static void i2400m_get_drvinfo(struct net_device *net_dev,
+ {
+ 	struct i2400m *i2400m = net_dev_to_i2400m(net_dev);
+ 
+-	strlcpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
+-	strlcpy(info->fw_version, i2400m->fw_name ? : "",
++	strscpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
++	strscpy(info->fw_version, i2400m->fw_name ? : "",
+ 		sizeof(info->fw_version));
+ 	if (net_dev->dev.parent)
+-		strlcpy(info->bus_info, dev_name(net_dev->dev.parent),
++		strscpy(info->bus_info, dev_name(net_dev->dev.parent),
+ 			sizeof(info->bus_info));
+ }
+ 
+diff --git a/drivers/staging/wimax/i2400m/usb.c b/drivers/staging/wimax/i2400m/usb.c
+index f250d03ce..481b1ccde 100644
+--- a/drivers/staging/wimax/i2400m/usb.c
++++ b/drivers/staging/wimax/i2400m/usb.c
+@@ -333,8 +333,8 @@ static void i2400mu_get_drvinfo(struct net_device *net_dev,
+ 	struct i2400mu *i2400mu = container_of(i2400m, struct i2400mu, i2400m);
+ 	struct usb_device *udev = i2400mu->usb_dev;
+ 
+-	strlcpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
+-	strlcpy(info->fw_version, i2400m->fw_name ? : "",
++	strscpy(info->driver, KBUILD_MODNAME, sizeof(info->driver));
++	strscpy(info->fw_version, i2400m->fw_name ? : "",
+ 		sizeof(info->fw_version));
+ 	usb_make_path(udev, info->bus_info, sizeof(info->bus_info));
+ }
 -- 
 2.29.2
 
