@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5194A309E52
-	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 20:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D506309E59
+	for <lists+linux-tegra@lfdr.de>; Sun, 31 Jan 2021 20:47:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231187AbhAaTib (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 31 Jan 2021 14:38:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
+        id S231420AbhAaTqv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 31 Jan 2021 14:46:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbhAaTfS (ORCPT
+        with ESMTP id S230194AbhAaTmV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 31 Jan 2021 14:35:18 -0500
+        Sun, 31 Jan 2021 14:42:21 -0500
 Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36A8C06178B;
-        Sun, 31 Jan 2021 09:30:52 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id f63so9988311pfa.13;
-        Sun, 31 Jan 2021 09:30:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7DDC0617AA;
+        Sun, 31 Jan 2021 09:32:17 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id b145so3217395pfb.4;
+        Sun, 31 Jan 2021 09:32:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K5wzP23ErPEWymRBo16kOdWR6OMTJk3Dg5mRlDwF45M=;
-        b=MA1P6sSe/tvl/xNGth0UQ3xw0mCwCUwKzcYbnFlZk0VMO+WcNO/or5FYh85/OjO847
-         RVBv/3AuUzEDlVQFFgp/xqZMRzwlcQ0nqYDhhAgzyxfCxGkgJA87Y0GCg6sRHXBr9e/+
-         Cgfay9/8nQ25MYannxKkNbiR0vR23vpNIaXauQEjW92KZrSzX8kZQ0/J6ESMsVCtvTJq
-         vHxC5a8dszDULQE7vsP2mrdLFmuV8EDcHBQx+HYYcSAY+X1sXMunI2ugIOMl3AZfvDgx
-         v7udoYY8R5ztskYwCnNl5UEtuA/DORxTzUuvMQi390UsIa9OYI5+LqDNyG8Xw715Y2US
-         CvkQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9mx9QDkqfNUwWdACyM2Fn2TS+NlXzO5XMeT4wvvF4yM=;
+        b=FKhRyOzoZSbBuvWwr0fTJ+iFeZN7JT2FPX2669eIzdGFo5UYBxWO2lMckA9wnehLTS
+         xHmrEWENAHskb5BhFX6J42HLdCsFefK2aEtxG+yPckdGw3BsDu96v/DESQiAw56isE0b
+         92NLHHC68hguqKz0GvB+ulD4I9TKRUFtGwmpjbUEFBrTaIf3OgckiVwzJ4/ROpw8BSoX
+         oNKalg6R33IaEWts0MFGrxDLnL3XZx2GMYqee70sRg1dd1sE0JdHazOda1TasbNt87tJ
+         kfglu74r09XJiZR8kMAJf+x7dJ636t7EoxwawooqaIZ/J1affyE1+5moWGYYW8MxlYCO
+         LFZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K5wzP23ErPEWymRBo16kOdWR6OMTJk3Dg5mRlDwF45M=;
-        b=Mjkw1JII6a2jXFFzAZPkgp+XQnjnZUcwr1/+Erp73KXws3maNj9enp920sv/OV22nL
-         G0PLBwD7xV93RbEsIV6Shw77ZdnW3hQ2REaAVNuqy8rkL+9oJGjdLAWMd0eZQPRjcWG/
-         DQ0R+KLLS5wZybqeMrdch534wc5dd0cnx9EDgxA151Ft1oha+pUvoX9kr7Yx8IWDK0Rf
-         xOa5aR2sn5W9QijM/qEAVWtT4Rx7iFr1khhwv5KCP9Jz0/gZVFb+cm4/tV3nMOwU9NTs
-         g9G9cqw3rU24nbQ+DwdN7sS9HcWCSzIXONmmHTlNi421/xL42s3X5rdU+owzruHSn/eP
-         TNVQ==
-X-Gm-Message-State: AOAM533oxqRgdhGO3aqdLv31YGZ7qgaKfAMJVuWg6g7PTzVeAmoLBcgP
-        K0RpSXYjgt/Lc0Wp1biov5A=
-X-Google-Smtp-Source: ABdhPJxqAvDMo/qrnNX2hVoJHZiC2bLwNfcChMrdrFwGXf+D/Pv16veh3L2vYHbiTMOhsalbhu1+dg==
-X-Received: by 2002:a63:ec09:: with SMTP id j9mr4194282pgh.179.1612114252401;
-        Sun, 31 Jan 2021 09:30:52 -0800 (PST)
-Received: from localhost ([2402:3a80:11ea:e144:19dc:4c7b:99d8:200e])
-        by smtp.gmail.com with ESMTPSA id w7sm4751206pjv.24.2021.01.31.09.30.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9mx9QDkqfNUwWdACyM2Fn2TS+NlXzO5XMeT4wvvF4yM=;
+        b=GMqBBOI/ry/26SaQkpjrI8HPYrEQA4nXp4z47OB6knDXyP6j9a0KbiP6pPkV7KlhN8
+         WE1AxWk2ZoyAAikSAa99Axoq2yEacqWhZzmgmjzD7zjR1+pC6RDeL0xl1ErDtScU7w1P
+         bLGmTeSXyfj/+gI86fKpcktuN143g5TdFa8bCwS65m7mLTx4xjiYkhf4/e+EoaIdhhLd
+         1FETHtyRa/ZYo3Ium6reRfZgMXRRVI5Y2HjIqNTM2tSuF/EvlBnQl66TyaQYOmBgJ6Rk
+         vJbkU2dVThz//WaNMSvmARpViV7+YYm6YF0Aa38PWLRTzHs0uLEV8/l703xDvs9kiz4a
+         /wpA==
+X-Gm-Message-State: AOAM533t3Oq30JbCXIiD4fidr8wthLDH8y4TIp3RPg+CGkZUpDd+6HNc
+        ZPBcP/lE4+yC9uGobZ9/gx4=
+X-Google-Smtp-Source: ABdhPJy0FOOeBvw8A30nFmOClcs73UGIMxJUMDIk2k6K7lguT0DTnIX/42iZkIg0q78K2sAG9Txfpw==
+X-Received: by 2002:a63:c43:: with SMTP id 3mr13088289pgm.250.1612114337079;
+        Sun, 31 Jan 2021 09:32:17 -0800 (PST)
+Received: from localhost ([2402:3a80:11ea:e144:a2a4:c5ff:fe20:7222])
+        by smtp.gmail.com with ESMTPSA id y11sm14165281pfn.85.2021.01.31.09.32.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 09:30:51 -0800 (PST)
+        Sun, 31 Jan 2021 09:32:16 -0800 (PST)
 From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
 To:     devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org
@@ -71,86 +71,52 @@ Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         Teddy Wang <teddy.wang@siliconmotion.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
         William Cohen <wcohen@redhat.com>,
         Mike Rapoport <rppt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         Robert Richter <rric@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Al Viro <viro@zeniv.linux.org.uk>,
         greybus-dev@lists.linaro.org, ac100@lists.launchpad.net,
         linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 00/13] Convert all users of strlcpy to strscpy
-Date:   Sun, 31 Jan 2021 22:58:21 +0530
-Message-Id: <20210131172838.146706-1-memxor@gmail.com>
+Subject: [PATCH 07/13] staging: olpc_dcon: Switch from strlcpy to strscpy
+Date:   Sun, 31 Jan 2021 22:58:28 +0530
+Message-Id: <20210131172838.146706-8-memxor@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210131172838.146706-1-memxor@gmail.com>
+References: <20210131172838.146706-1-memxor@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This series converts all existing users of strlcpy in drivers/staging to use
-strscpy instead.
-
-strlcpy is marked as deprecated in Documentation/process/deprecated.rst, and
-there is no functional difference when the caller expects truncation (when not
-checking the return value). strscpy is relatively better as it also avoids
-scanning the whole source string.
+strlcpy is marked as deprecated in Documentation/process/deprecated.rst,
+and there is no functional difference when the caller expects truncation
+(when not checking the return value). strscpy is relatively better as it
+also avoids scanning the whole source string.
 
 This silences the related checkpatch warnings from:
 5dbdb2d87c29 ("checkpatch: prefer strscpy to strlcpy")
 
-The conversions were performed in two steps:
+Signed-off-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+---
+ drivers/staging/olpc_dcon/olpc_dcon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-1. The following coccinelle script was used to identify and replace call sites
-that expect truncation.
-
-$ spatch --sp-file strscpy.cocci --include-headers --dir --in-place drivers/staging
-
-@strscpy@
-expression dest, src, size;
-@@
--strlcpy(dest, src, size);
-+strscpy(dest, src, size);
-
-2. Each individual automated conversion was rechecked manually for correctness.
-
-Kumar Kartikeya Dwivedi (13):
-  staging: comedi: Switch from strlcpy to strscpy
-  staging: greybus: Switch from strlcpy to strscpy
-  staging: fsl-dpaa2: Switch from strlcpy to strscpy
-  staging: most: Switch from strlcpy to strscpy
-  staging: nvec: Switch from strlcpy to strscpy
-  staging: octeon: Switch from strlcpy to strscpy
-  staging: olpc_dcon: Switch from strlcpy to strscpy
-  staging: rtl8188eu: Switch from strlcpy to strscpy
-  staging: rtl8192e: Switch from strlcpy to strscpy
-  staging: rtl8192u: Switch from strlcpy to strscpy
-  staging: rtl8712: Switch from strlcpy to strscpy
-  staging: sm750fb: Switch from strlcpy to strscpy
-  staging: wimax: Switch from strlcpy to strscpy
-
- drivers/staging/comedi/comedi_fops.c                      | 4 ++--
- drivers/staging/fsl-dpaa2/ethsw/ethsw-ethtool.c           | 6 +++---
- drivers/staging/greybus/audio_helper.c                    | 2 +-
- drivers/staging/greybus/audio_module.c                    | 2 +-
- drivers/staging/greybus/audio_topology.c                  | 6 +++---
- drivers/staging/greybus/power_supply.c                    | 2 +-
- drivers/staging/greybus/spilib.c                          | 4 ++--
- drivers/staging/most/sound/sound.c                        | 2 +-
- drivers/staging/most/video/video.c                        | 6 +++---
- drivers/staging/nvec/nvec_ps2.c                           | 4 ++--
- drivers/staging/octeon/ethernet-mdio.c                    | 6 +++---
- drivers/staging/olpc_dcon/olpc_dcon.c                     | 2 +-
- drivers/staging/rtl8188eu/os_dep/ioctl_linux.c            | 2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.c           | 6 +++---
- drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.c | 2 +-
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c             | 2 +-
- drivers/staging/sm750fb/sm750.c                           | 2 +-
- drivers/staging/wimax/i2400m/netdev.c                     | 6 +++---
- drivers/staging/wimax/i2400m/usb.c                        | 4 ++--
- 19 files changed, 35 insertions(+), 35 deletions(-)
-
+diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
+index e7281212d..6d8e9a481 100644
+--- a/drivers/staging/olpc_dcon/olpc_dcon.c
++++ b/drivers/staging/olpc_dcon/olpc_dcon.c
+@@ -576,7 +576,7 @@ static struct notifier_block dcon_panic_nb = {
+ 
+ static int dcon_detect(struct i2c_client *client, struct i2c_board_info *info)
+ {
+-	strlcpy(info->type, "olpc_dcon", I2C_NAME_SIZE);
++	strscpy(info->type, "olpc_dcon", I2C_NAME_SIZE);
+ 
+ 	return 0;
+ }
 -- 
 2.29.2
 
