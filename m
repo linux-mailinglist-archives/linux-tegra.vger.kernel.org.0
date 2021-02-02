@@ -2,110 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADE5E30C6F2
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Feb 2021 18:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A61C630C851
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Feb 2021 18:49:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237175AbhBBREg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Feb 2021 12:04:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38608 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237143AbhBBRCR (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Feb 2021 12:02:17 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 920B464E08;
-        Tue,  2 Feb 2021 17:01:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612285297;
-        bh=2fSQyZ1WwQMOhHMDn+OXb0hQdFVNjom2QI2jlsjZH+c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hBnSneqPCbcn4MDYUjXnlwCTeaC/3qf7ky/i9cIkSa2sLWIm9llZQeOlDCOjtvew1
-         uz+qMMCmkOpFnamO0juf94Lm4quU+vhWHoOJ4r6CN3z0A9RrRFcovtAzWXWLjOPqh0
-         /s7VHQmP61+1iinWR+nN07sVuP4nyxEq3daoUQ7POdgIfTUx4CSspCN2l5Y6NGBK2V
-         UrCOLGGlKA/HXW4Uetqk4wuZ1jB/jDisIp4trWiXLXzK+RjF4SLQt2SZ+9kIW11J6C
-         GV1moa9zw0lW5M1oI0yfkzkQTJjPNP+yQbkt8H/OcdFjZt0Mg1eChqehOsqmnvetYf
-         n4bVXEPOsApRg==
-Date:   Tue, 2 Feb 2021 17:00:49 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Ion Agorria <AG0RRIA@yahoo.com>,
+        id S237888AbhBBRsA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Feb 2021 12:48:00 -0500
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:45119 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237849AbhBBRpm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Feb 2021 12:45:42 -0500
+Received: by mail-ot1-f45.google.com with SMTP id n42so20625703ota.12;
+        Tue, 02 Feb 2021 09:45:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=dXcV2lusAKjpXaSjnWl/fIkigGZVjdMH0wGYu3s5F9U=;
+        b=rEWf50QU9nJKa9FiBZqL558aMY84huNuzE7Xo4Mh1cOQi6tKdzXwPOuBF/gVNBsTzu
+         Fv6y7eKK93cJ6KQe7xzgLP3sIbBWZXifO5xHFtSiO0hIRLkZY32bU5244isZdzQWLHJn
+         GoqIWzfJBSjY4do1ryn05Xj+oLK9wpIYiU6lFDXUZHCEEcPx3G9uQBEaONlgU1UNCG9Q
+         ZmH6XNrE2ptnpihGu8UZMpBsmoOiAOd0UTyn6lWmRuqHSou3jGNgnU5XTTkWCm7eZdk0
+         2FODmQ3MWgq/Slhqk3jNEBpmwf1SKWqOSIjB+ZxoB8z5U/Tb6e8+IZbcnNdM58bku7i3
+         St/A==
+X-Gm-Message-State: AOAM531I5qDEF8RrqSpSpuyrQH6ZlqFKFap8qtgEktvnIzvYDqSbFH3E
+        rU22CIVvuM4Jholl0+MhPg==
+X-Google-Smtp-Source: ABdhPJwFA1zAuUMqn+6HziXpCsNLVDtNJm8XRkxO4ss2xfBlEqm8gKWEdsb6buTK11ZNUr94TWTkaQ==
+X-Received: by 2002:a9d:6c9a:: with SMTP id c26mr15987302otr.96.1612287900437;
+        Tue, 02 Feb 2021 09:45:00 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a71sm4919072oob.48.2021.02.02.09.44.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 09:44:59 -0800 (PST)
+Received: (nullmailer pid 3887348 invoked by uid 1000);
+        Tue, 02 Feb 2021 17:44:55 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Andy Gross <agross@kernel.org>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Stephen Warren <swarren@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-samsung-soc@vger.kernel.org,
+        Kevin Hilman <khilman@baylibre.com>,
+        devicetree@vger.kernel.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-arm-kernel@axis.com, Richard Zhu <hongxing.zhu@nxp.com>,
+        linux-arm-msm@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        Ion Agorria <ion@agorria.com>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ASoC: tegra: Add RT5631 machine driver
-Message-ID: <20210202170049.GE5154@sirena.org.uk>
-References: <20210131184101.651486-1-AG0RRIA@yahoo.com>
- <20210131184101.651486-3-AG0RRIA@yahoo.com>
- <7f4eb8f7-215e-ab3d-fcef-9243037cf246@nvidia.com>
- <8d0bc6f3-45ce-565d-d80f-b50fb75e7c55@gmail.com>
- <51571ec9-780b-ba71-c81d-dd01ebcefbb8@nvidia.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GxcwvYAGnODwn7V8"
-Content-Disposition: inline
-In-Reply-To: <51571ec9-780b-ba71-c81d-dd01ebcefbb8@nvidia.com>
-X-Cookie: Only God can make random selections.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-pci@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-omap@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+        linux-tegra@vger.kernel.org, Jonathan Chocron <jonnyc@amazon.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <706e684f571e142362d7be74eb1dcee2c8558052.1612271903.git.mchehab+huawei@kernel.org>
+References: <cover.1612271903.git.mchehab+huawei@kernel.org> <706e684f571e142362d7be74eb1dcee2c8558052.1612271903.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 01/13] doc: bindings: pci: designware-pcie.txt: convert it to yaml
+Date:   Tue, 02 Feb 2021 11:44:54 -0600
+Message-Id: <1612287895.001149.3887347.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, 02 Feb 2021 14:29:46 +0100, Mauro Carvalho Chehab wrote:
+> Convert the file into a DT schema.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../bindings/pci/amlogic,meson-pcie.txt       |   4 +-
+>  .../bindings/pci/axis,artpec6-pcie.txt        |   2 +-
+>  .../bindings/pci/designware-pcie.txt          |  77 ----------
+>  .../bindings/pci/fsl,imx6q-pcie.txt           |   2 +-
+>  .../bindings/pci/hisilicon-histb-pcie.txt     |   2 +-
+>  .../bindings/pci/hisilicon-pcie.txt           |   2 +-
+>  .../devicetree/bindings/pci/kirin-pcie.txt    |   2 +-
+>  .../bindings/pci/layerscape-pci.txt           |   2 +-
+>  .../bindings/pci/nvidia,tegra194-pcie.txt     |   4 +-
+>  .../devicetree/bindings/pci/pci-armada8k.txt  |   2 +-
+>  .../devicetree/bindings/pci/pci-keystone.txt  |  10 +-
+>  .../devicetree/bindings/pci/pcie-al.txt       |   2 +-
+>  .../devicetree/bindings/pci/qcom,pcie.txt     |  14 +-
+>  .../bindings/pci/samsung,exynos-pcie.yaml     |   2 +-
+>  .../devicetree/bindings/pci/snps,pcie.yaml    | 139 ++++++++++++++++++
+>  .../pci/socionext,uniphier-pcie-ep.yaml       |   2 +-
+>  .../devicetree/bindings/pci/ti-pci.txt        |   4 +-
+>  .../devicetree/bindings/pci/uniphier-pcie.txt |   2 +-
+>  MAINTAINERS                                   |   2 +-
+>  19 files changed, 169 insertions(+), 107 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pci/designware-pcie.txt
+>  create mode 100644 Documentation/devicetree/bindings/pci/snps,pcie.yaml
+> 
 
---GxcwvYAGnODwn7V8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+My bot found errors running 'make dt_binding_check' on your patch:
 
-On Tue, Feb 02, 2021 at 04:24:31PM +0000, Jon Hunter wrote:
-> On 02/02/2021 15:25, Dmitry Osipenko wrote:
+yamllint warnings/errors:
 
-> > These codecs require individual configurations and those
-> > "../codecs/rt5631.h" and  "../codecs/rt5677.h" aren't compatible at a
-> > quick glance.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,pcie.yaml: properties:snps,enable-cdm-check: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+	Additional properties are not allowed ('$ref' was unexpected)
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,pcie.yaml: properties:snps,enable-cdm-check: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+	'/schemas/types.yaml#definitions/flag' does not match 'types.yaml#/definitions/'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,pcie.yaml: ignoring, error in schema: properties: snps,enable-cdm-check
+warning: no schema found in file: ./Documentation/devicetree/bindings/pci/snps,pcie.yaml
 
-> Right but not all of that is needed. What is actually needed from the
-> header files?
+See https://patchwork.ozlabs.org/patch/1434686
 
-Right, and if it's just a case of having a different hw_params() or
-something then the majority of the driver could be shared with just a
-few bits being handled differently.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-> > The tegra_rt5677 also uses outdated GPIO API and etc. Hence the new
-> > driver should be a better base anyways.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-> Sounds like a good time to update it :-)
+pip3 install dtschema --upgrade
 
-Yeah.
+Please check and re-submit.
 
-> > Overall it shouldn't worth time and effort trying to squeeze these
-> > drivers into a single one, IMO.
-
-> Not sure I agree when these drivers appear to be 90% the same.
-
-It's certainly worth considering - given that it's the same silicon
-vendor working with the same SoC vendor's reference designs it seems
-likely that things will look pretty similar at the system integration
-level.  It's possible that it's more trouble than it's worth but it'd be
-good to have a more concrete understanding of why.
-
---GxcwvYAGnODwn7V8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmAZhUAACgkQJNaLcl1U
-h9Br/AgAhxDJhXD92Ou/rbXrbVCd+giU1RLOL08mfRERugF5Ne5z4JmWhbHxgh17
-iNAtHsuofQ+vFiHBD+gyGdKDpcJPI1PBoVFmU480078igsYqvZnPaZ6zwdhoRKOf
-D9Sp1czdSfnNiIR+Ug8y5yjnsTUt/c4qCfjZWa/vvGuw8VQ6hALooYvAnkrZoFZi
-VEKHvYgNgUOqRnIOqdPg5NVqX0dEndIpIQcN+3kV5Yu0xwdi9EFv2dSXp29kye8w
-PPdeIP3YTwr9g/AuTKRuSABzvWjVIacsMBfN1osWjX4PflCz96f0lBtqvhJi4qEV
-4OE3cy3Aen4lJJXG13rcFEESBokpzA==
-=6RSX
------END PGP SIGNATURE-----
-
---GxcwvYAGnODwn7V8--
