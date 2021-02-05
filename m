@@ -2,67 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C927310348
-	for <lists+linux-tegra@lfdr.de>; Fri,  5 Feb 2021 04:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F3C31047B
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Feb 2021 06:24:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbhBEDJy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Feb 2021 22:09:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48632 "EHLO
+        id S230161AbhBEFYY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 5 Feb 2021 00:24:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbhBEDJw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Feb 2021 22:09:52 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA89C0617A7;
-        Thu,  4 Feb 2021 19:08:43 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id g10so6020589wrx.1;
-        Thu, 04 Feb 2021 19:08:43 -0800 (PST)
+        with ESMTP id S229586AbhBEFYY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 5 Feb 2021 00:24:24 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F04C0613D6;
+        Thu,  4 Feb 2021 21:23:43 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id j11so2965166plt.11;
+        Thu, 04 Feb 2021 21:23:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:sender:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=hqf55dXwvcYwwL4sAkoYuOM6RPu6wxeec88n5sMRYiY=;
-        b=pQw1eYLSdTjZvZOdl5Cr4//Nr8eiEDw9Q2r5puuK9/fs8HR+SpI2v81B2bI/LyejfM
-         2JdjglncTUiZsvdsFPQ8KDuhkwkXoGq00ZFn7V20FbzvfRwQIrPSC1Ovu1CJn2HbT7s/
-         z9v3HtLkw2wrotlB+2/YXOH1RMnLOTdyDlQVn3xhNvzEYqSrPkNAmV1jeAr2YOJtJMwF
-         APP7Zvi0xmR5ZjxceEIEGO//K199AFUPYNo6lNU46fkbP9NVrobFA6ExkFnRlZNRK5Aq
-         E3ofGoeLajcBOgBNw+evKlDAbj/h7EDjZOGullekQuqh3el3+Tv7zGmEBWsDIGXprSSy
-         HSAw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sfENSTnpSvaaqxS0nyqOketbMxXz6Eoy2Sb6irXF6Ww=;
+        b=QpQYF0aU1rxGPUixZZamHAnkD9B21kAa/09eNDGJnYGTxHOwckNTo4aBK1egPOlLmX
+         e0wnjFUq1j9MS7x0pL36qJgiPJkky+XwmQUktHLLKR5cK/xHJPcFn1wg2TX4xme62YhI
+         5hUvGsm0OkVNrpLD+SjuQDoIxeqLnknV0MvGRAh8P7C8PbwJ7UQ2KHPhlCCmc0c7oIlE
+         xmITs7GqMtTsaK4xAqdD1/pjml3GifmzQ9YfvFyBgy/0+Bc/VVCGmPxIuYcwM0i37udy
+         HgyqdUwwERQoWIM1/F2rLg8Uq3ugCUJGMDm3vq5xp9eQepnhIY7aZlu5vnTiWQcXHV/O
+         3Ung==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:sender:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=hqf55dXwvcYwwL4sAkoYuOM6RPu6wxeec88n5sMRYiY=;
-        b=L3cdcsWRU7lYP0MvTfpH583+4oLUP2EBUZkLfXvJodl+fkxujZWC84vWwT1lNadKQN
-         83+GzffFy7ffySR9zV6kb45iBA3haZowXZzOIrp4sYIRq13AeGQ7JI6KRXEBAc2lRYeB
-         ZwUDg809/xjFTeBcgQRlo0BQQuNKoCG4hGc49xYZW7XcaLC88DrhJuSykw7RMFlyLNMa
-         WuVsjCfcvuwo1B6jwZvD6HLVORMIC26Qizt/3J/OKU1sXUrVK5Rg8/Kn1K8Xko6eS1v2
-         eFGGnJsZFV+PhRqrN6FAJQwDsxvWvfEfK8qlNWNRtMaYd0yI/vEEG6y+iVQfbh667zYS
-         U2LQ==
-X-Gm-Message-State: AOAM532C/e+7xc4MyAkv+anaVvwYzpzqSjRGDfmfHCia2XMIWpt+2dnp
-        3owvIpQd2Dnrc6rV//0xHTX5R/6DLxiOJQ==
-X-Google-Smtp-Source: ABdhPJypl7QfYrU8WT7a/sif0ddtG8fqAufMQ3cGVz0BrcCU9NLHB/GELTK9e37VHKCxGnApj+/dlw==
-X-Received: by 2002:adf:f183:: with SMTP id h3mr2550860wro.30.1612494522287;
-        Thu, 04 Feb 2021 19:08:42 -0800 (PST)
-Received: from [192.168.1.6] ([154.124.28.35])
-        by smtp.gmail.com with ESMTPSA id n9sm10836813wrq.41.2021.02.04.19.08.39
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Thu, 04 Feb 2021 19:08:41 -0800 (PST)
-Message-ID: <601cb6b9.1c69fb81.5ea54.2eaf@mx.google.com>
-Sender: Skylar Anderson <barr.markimmbayie@gmail.com>
-From:   calantha camara <sgt.andersonskylar0@gmail.com>
-X-Google-Original-From: calantha camara
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sfENSTnpSvaaqxS0nyqOketbMxXz6Eoy2Sb6irXF6Ww=;
+        b=EpBbQtU0A+jMeHKIG2fcuqOhCxIfoxnSPcq8ZHU/1SJxPBi+KW6cpQzEcsccIkhEn8
+         GhIe2lphiY0tXPRXZqbPIg+rU5krfcqBaHtiOfLJrBOVsWIzTQ8seAAvaVY/A/flPf4O
+         KtpQyZPkx4jywWni3u2OppPbD0qx6/pi83N/i9Jg1w7vcwFqCbjJ92ShXK2Vv+rNy96n
+         f8vqItKllG1+qfOM2mPnlTaLv7jWYN8mLfC3/Q7nIHT2OMkypYxH5HEpk/J/TWYCXvnJ
+         XX/++pNTl/RfMUAwfXa1Mz1mJ8S9zakXwJfUHpGqSJykh7SkfyhDKr3hdeHU9Zjw4Sak
+         JY5g==
+X-Gm-Message-State: AOAM532hxYvbUX7qdHLWwo8aF1tpDnTpcvWSXFg2AZUFkM5srEp/y3Vk
+        qb+bvvCpWTdUjLN8f1zrxaM=
+X-Google-Smtp-Source: ABdhPJyCHSZ3KR2xex3trBm5CIiMra/bpXGjzKbC+RDrfpbh/w8A2mGfeQjgetzChiucOyaDkDioyg==
+X-Received: by 2002:a17:902:d886:b029:e1:7784:4db5 with SMTP id b6-20020a170902d886b02900e177844db5mr2612899plz.72.1612502623404;
+        Thu, 04 Feb 2021 21:23:43 -0800 (PST)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id z184sm4470833pfz.157.2021.02.04.21.23.42
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 04 Feb 2021 21:23:42 -0800 (PST)
+Date:   Thu, 4 Feb 2021 21:24:23 -0800
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>
+Cc:     will@kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        jonathanh@nvidia.com, vdumpa@nvidia.com, thierry.reding@gmail.com,
+        joro@8bytes.org, kernel@collabora.com,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "kernelci-results@groups.io" <kernelci-results@groups.io>
+Subject: Re: [PATCH RESEND v2 4/5] iommu/tegra-smmu: Rework
+ tegra_smmu_probe_device()
+Message-ID: <20210205052422.GA11329@Asurada-Nvidia>
+References: <20201125101013.14953-1-nicoleotsuka@gmail.com>
+ <20201125101013.14953-5-nicoleotsuka@gmail.com>
+ <46a96cf9-91cc-2ad4-702a-e95ba7200375@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: hi dear
-To:     Recipients <calantha@vger.kernel.org>
-Date:   Fri, 05 Feb 2021 03:08:34 +0000
-Reply-To: calanthac20@gmail.com
-X-Mailer: cdcaafe51be8cdb99a1c85906066cad3d0e60e273541515a58395093a7c4e1f0eefb01d7fc4e6278706e9fb8c4dad093c3263345202970888b6b4d817f9e998c032e7d59
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <46a96cf9-91cc-2ad4-702a-e95ba7200375@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-do you speak Eglish
+Hi Guillaume,
+
+On Thu, Feb 04, 2021 at 11:10:15AM +0000, Guillaume Tucker wrote:
+> Hi Nicolin,
+> 
+> A regression was detected by kernelci.org in IGT's drm_read tests
+> on mainline, it was first seen on 17th December 2020.  You can
+> find some details here:
+> 
+>   https://kernelci.org/test/case/id/600b82dc1e3208f123d3dffc/
+
+Thanks for reporting the issue. We did test on Tegra210 and Tegra30
+yet not on Tegra124. I am wondering what could go wrong...
+
+> Please let us know if you need any help debugging this issue or
+> to try a fix on this platform.
+
+Yes, I don't have any Tegra124 platform to run. It'd be very nice
+if you can run some debugging patch (I can provide you) and a fix
+after I root cause the issue.
+
+Thanks
+Nicolin
