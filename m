@@ -2,82 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3CCD311D7F
-	for <lists+linux-tegra@lfdr.de>; Sat,  6 Feb 2021 14:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B55311E0B
+	for <lists+linux-tegra@lfdr.de>; Sat,  6 Feb 2021 15:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbhBFNlA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 6 Feb 2021 08:41:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39460 "EHLO
+        id S229531AbhBFOzr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 6 Feb 2021 09:55:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbhBFNlA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 6 Feb 2021 08:41:00 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42AABC06174A;
-        Sat,  6 Feb 2021 05:40:19 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: gtucker)
-        with ESMTPSA id BC0CA1F41177
-Subject: Re: [PATCH RESEND v2 4/5] iommu/tegra-smmu: Rework
- tegra_smmu_probe_device()
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     will@kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-        jonathanh@nvidia.com, vdumpa@nvidia.com, thierry.reding@gmail.com,
-        joro@8bytes.org, kernel@collabora.com,
-        Dmitry Osipenko <digetx@gmail.com>,
-        "kernelci-results@groups.io" <kernelci-results@groups.io>
-References: <20201125101013.14953-1-nicoleotsuka@gmail.com>
- <20201125101013.14953-5-nicoleotsuka@gmail.com>
- <46a96cf9-91cc-2ad4-702a-e95ba7200375@collabora.com>
- <20210205052422.GA11329@Asurada-Nvidia>
- <20210205094556.GA32677@Asurada-Nvidia>
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-Message-ID: <f45c94b4-2949-4eac-5944-85d43a8afef5@collabora.com>
-Date:   Sat, 6 Feb 2021 13:40:13 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        with ESMTP id S229727AbhBFOzj (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 6 Feb 2021 09:55:39 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DB1C061756
+        for <linux-tegra@vger.kernel.org>; Sat,  6 Feb 2021 06:54:59 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id f14so17628747ejc.8
+        for <linux-tegra@vger.kernel.org>; Sat, 06 Feb 2021 06:54:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
+        b=MeFFAMytM1pG4T2BQDZK+L1QtpcyH8r4JIW71Uns7nAYlPcjrgAgHT2Cop/lVL6ytq
+         3wjaClW4qPujUVkv6M/ms+rRtnJi9rqPrvV6ppAGDPxi5FXyrUkG5vb+De7s9kOVIK2f
+         3dYJmY/PRfv8w39Xi33Skd4jWCjFF4j3YOmJm/bKNwFkjQnE/I7KLVdCu0LNhWKsaS3s
+         k8DiMK67z4X6kM6sNAnl67A/Xyi1k3YO/2AlMT7AU5eC7CrO+NHtrJGCnlRX9eeeC8j7
+         kM2B6b1Yd8ILsgqY/Tjf66QQmEJU6oP0YdbtVFMWDSIcnyI/6AZVODL/rFNXLC1HZ8+e
+         42mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
+        b=BYWWSGyFp0jQYvwEkqu95wjhkeOetxoKFeWoqUgNq5R8WS8caM+0+j9Vc1aWt2Jdip
+         HEguJYVL4Sa/KXfoBxhculXQg8zUJa1lqZaLPgvI4x7GcMtslNhVkymp8xtvTiTvgqmc
+         KCcu0vVAMn6OVdazhLDzVxBcD+C1xczNaooyP88qzsjrbU0OzeWFEHaDKl6f97qClfpq
+         U12fQ0RE5Zs1nVJtinWivNiYFR4+0S/Eq7f4gQ7BZaWphJkJxxin0jPq/ZB8XW1jLkdK
+         Xxy1uhjQDn3xE2vwOhcjOORzwkUPd7A/eWUScZTSta+JyUCWw4CtdUGHmJXiM7g9BaQ1
+         8u2g==
+X-Gm-Message-State: AOAM5303i70m34AVHFeKHRWHbMXH/k9aSbrakG8keV58J+3bFl5utFYB
+        JC3xqS8R0DskC4TUFr8xC+rOX92f1eK21qPQdKs=
+X-Google-Smtp-Source: ABdhPJyKhoOaEy1r8BQEbmyk53jaAx7KpWCwbqJ433GRfVWGu+52ZKwJ+BssMCDMIbOS6aQf+Z7Y5WxuHfytUMuBGCk=
+X-Received: by 2002:a17:906:442:: with SMTP id e2mr9320467eja.9.1612623298464;
+ Sat, 06 Feb 2021 06:54:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205094556.GA32677@Asurada-Nvidia>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a17:906:25d0:0:0:0:0 with HTTP; Sat, 6 Feb 2021 06:54:58
+ -0800 (PST)
+Reply-To: lawyer.nba@gmail.com
+From:   Barrister Daven Bango <stephennbada9@gmail.com>
+Date:   Sat, 6 Feb 2021 15:54:58 +0100
+Message-ID: <CAGSHw-CrfPYW9fuyL0eaS1suwaaFMNx8eOoHdA129x1Eq7EpNw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 05/02/2021 09:45, Nicolin Chen wrote:
-> Hi Guillaume,
-> 
-> On Thu, Feb 04, 2021 at 09:24:23PM -0800, Nicolin Chen wrote:
->>> Please let us know if you need any help debugging this issue or
->>> to try a fix on this platform.
->>
->> Yes, I don't have any Tegra124 platform to run. It'd be very nice
->> if you can run some debugging patch (I can provide you) and a fix
->> after I root cause the issue.
-> 
-> Would it be possible for you to run with the given debugging patch?
-> 
-> It'd be nicer if I can get both logs of the vanilla kernel (failing)
-> and the commit-reverted version (passing), each applying this patch.
+--=20
+Korisnik fonda =C4=8Destitanja, Va=C5=A1a sredstva za naknadu od 850.000,00
+ameri=C4=8Dkih dolara odobrila je Me=C4=91unarodna monetarna organizacija (=
+MMF)
+u suradnji s (FBI) nakon mnogo istraga. =C4=8Cekamo da se obratimo za
+dodatne informacije
 
-Sure, I've run 3 jobs:
-
-* v5.11-rc6 as a reference, to see the original issue:
-  https://lava.collabora.co.uk/scheduler/job/3187848
-
-* + your debug patch:
-  https://lava.collabora.co.uk/scheduler/job/3187849
-
-* + the "breaking" commit reverted, passing the tests:
-  https://lava.collabora.co.uk/scheduler/job/3187851
-
-
-You can see the history of the test branch I'm using here, with
-the 3 revisions mentioned above:
-
-  https://gitlab.collabora.com/gtucker/linux/-/commits/linux-5.11-rc6-nyan-big-drm-read/
-
-
-Hope that helps,
-Guillaume
+Advokat: Daven Bango
+Telefon: +22891667276
+(URED MMF-a LOME TOGO)
