@@ -2,87 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16AE2312565
-	for <lists+linux-tegra@lfdr.de>; Sun,  7 Feb 2021 16:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7CA931266F
+	for <lists+linux-tegra@lfdr.de>; Sun,  7 Feb 2021 18:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbhBGPey (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 7 Feb 2021 10:34:54 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11643 "EHLO
+        id S229638AbhBGRhs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 7 Feb 2021 12:37:48 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3579 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbhBGPex (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Feb 2021 10:34:53 -0500
+        with ESMTP id S229491AbhBGRhs (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Feb 2021 12:37:48 -0500
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B602008750000>; Sun, 07 Feb 2021 07:34:13 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 7 Feb
- 2021 15:34:12 +0000
-Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 7 Feb 2021 15:34:12 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <jonathanh@nvidia.com>, <stable@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 00/32] 5.4.96-rc1 review
-In-Reply-To: <20210205140652.348864025@linuxfoundation.org>
-References: <20210205140652.348864025@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        id <B602025430001>; Sun, 07 Feb 2021 09:37:07 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 7 Feb
+ 2021 17:37:07 +0000
+Received: from audio.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Sun, 7 Feb 2021 17:37:04 +0000
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <broonie@kernel.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <kuninori.morimoto.gx@renesas.com>, <alsa-devel@alsa-project.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH v3 0/2] Rename audio graph export functions
+Date:   Sun, 7 Feb 2021 23:06:56 +0530
+Message-ID: <1612719418-5858-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Message-ID: <2699e9cd68374fb7bc22ab96aaf26d89@HQMAIL109.nvidia.com>
-Date:   Sun, 7 Feb 2021 15:34:12 +0000
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1612712053; bh=npWIfBbKzewW0MVjvW38z3rsrVwXbPEf2Sxl8P8y1mI=;
-        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
-         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
-         Date;
-        b=J9JK+HtiN2fjlQYFzxQqm+IcVfI15wdr0mtD5J8BO2vH9vYDhLYJzgLQBVLBu9xUG
-         JamFr2LbVxtNrr2MBeEvAAaWTEklnorLiQi0h3zzMd0q/cwh3PbaNt28Uep/YuL5yA
-         3W61yF+efatARznW8eV6NWQPTmiyWARSKB2LQPb8K3QrgvasbannoIH4EHhkb/aeIW
-         dvLOI51oynCryw8b627VkPTFIyEBoHqUNOXFMbBvAga9V9+mJXJp2NEloTozQJm35r
-         iMvNogqHFgqrHEOdJ8jTzl5ynZSNuokknopg8yJ+L8VYxfj2pLZXIXxU2kAw9VoooY
-         yzQzPoS5XR8vQ==
+        t=1612719428; bh=deN95pb8Y3cHc6wmhcWRIoGtDMyX/fLvfA0avxA1/b8=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+         Content-Type;
+        b=E9JcHcTglrcb0zclaZ33P9n9+ZQomA3uoelUZIpVb0YHnWuFcEgiSL33QcDOycrYk
+         t5iwQ3cKUWn9Ew355Yl9C4qUd0f7hIcsX574cEwh+YNCfSVQkCq+oZEFpysFWcD9ef
+         g+W7ryBpoOPHZe/QATiB6Tkr7xaci/wuTLl9oV5Fsinp8cfHODx8vdyEAcgGDfZdSj
+         CJYKKpxvq0xNe1vEnlVUGuQCAcKkO8ElItuymV0ADbV2HqDDBfVoW5V1PaRZ0nJ1RT
+         sr3Fw7IAqS9DyM/Z/lWyRZzMrub/pTOW48nHqvcXUxvunRDh2qLSFia50XgT/M5X9V
+         1c0Mxsd4xTHAQ==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 05 Feb 2021 15:07:15 +0100, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.4.96 release.
-> There are 32 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sun, 07 Feb 2021 14:06:42 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.96-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+This series renames exported functions from audio graph for a better
+global visibility. In doing so update the references in audio graph
+and Tegra audio graph card drivers.
 
-All tests passing for Tegra ...
 
-Test results for stable-v5.4:
-    12 builds:	12 pass, 0 fail
-    26 boots:	26 pass, 0 fail
-    57 tests:	57 pass, 0 fail
+Changelog
+=========
 
-Linux version:	5.4.96-rc1-gda7c9d56bab5
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+v2 -> v3:
+---------
+ [Patch v3 1/2]:
+   - Squashed "patch v2 1/3" and "patch v2 2/3". Updated commit message
+     accordingly.
+   - Add "Acked-by" tag from Morimoto-san.
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+ [Patch v3 2/2]:
+   - Add "Acked-by" tag from Morimoto-san.
 
-Jon
+v1 -> v2:
+---------
+ [Patch v2 1/3]:
+   - Rename graph_parse_of() to audio_graph_parse_of() and
+     graph_card_probe() to audio_graph_card_probe() as well.
+
+   - Update above references in audio graph driver.
+
+ [Patch v2 2/3]: New patch
+   - Update references for audio_graph_parse_of() and
+     audio_graph_card_probe() in Tegra graph driver.
+
+   - Add "Depends-on" tag
+
+ [Patch v2 3/3]:
+   - Update commit message to add "Depends-on" tag.
+
+Sameer Pujar (2):
+  ASoC: audio-graph: Rename functions needed for export
+  ASoC: tegra: Add driver remove() callback
+
+ include/sound/graph_card.h               |  6 ++++--
+ sound/soc/generic/audio-graph-card.c     | 17 +++++++++--------
+ sound/soc/tegra/tegra_audio_graph_card.c |  9 +++++----
+ 3 files changed, 18 insertions(+), 14 deletions(-)
+
+-- 
+2.7.4
+
