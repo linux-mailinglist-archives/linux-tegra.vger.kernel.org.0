@@ -2,78 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0599B31328E
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 Feb 2021 13:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 044CC3139E1
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Feb 2021 17:43:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231404AbhBHMlK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 Feb 2021 07:41:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49350 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231996AbhBHMkK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 8 Feb 2021 07:40:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CF1464E7E;
-        Mon,  8 Feb 2021 12:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612787970;
-        bh=8pLDrf/AeZOIez/HX1MNFZLMmTZuKOF7ggdyqS1IatM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ezONN6xeMQy71/KvSw1R9GRiDOrA1kQ8hvxT97x1Kt1u699jgfx1HApD/G6/AwV1V
-         U27UHtTZHuKutJjWU/JJ2WpbU7zzNM12CjnVtWtd/zhA4y0jt3LewBldzC7lIRYc7+
-         tEG4ZlVUFr0GGZo3Tr69uFK3BcXPlEC0AomJ2hTQ=
-Date:   Mon, 8 Feb 2021 13:39:27 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, pavel@denx.de,
-        stable@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5.10 00/57] 5.10.14-rc1 review
-Message-ID: <YCEw/8pqE5WhG97g@kroah.com>
-References: <20210205140655.982616732@linuxfoundation.org>
- <361dc1da83e64a4d89e5c81487890f4e@HQMAIL101.nvidia.com>
+        id S233528AbhBHQnE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 8 Feb 2021 11:43:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43254 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234589AbhBHQm6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 8 Feb 2021 11:42:58 -0500
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED00FC061794;
+        Mon,  8 Feb 2021 08:41:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=zsMyB8iB5UFqB7I23yLfnPURCPkNxas5AAE7y5zKVNk=; b=0KBKndFzSldu2iADE2qOcDWoAu
+        fI//NkZoWtROK5JPXUNq1Hrz73Ua6/4jCPrvxg5ZN/DgAfcxuEY5bSjcmscNbY3J76I3vYQaKnBi4
+        vYvCv3mMoQeIqJClK6IYUmCRbtxSdNpVz8LBIsrNeN0TBi/oqZ79zQpzRV2549g2zC2RmNK5cXBvb
+        AG3wqRxCgvCHq26ugQI8HxKKF4PV48dJwEiyx7fWF6vr6rngXmlt/PI1jNztMDJsj0v5oasRwFmY1
+        PPModuGvc/3gxr7RPlJ/IyRk/NZY8+4AR5dzrTV96MsiNjCMgn64YCk1Ec57UaOXyEHcxKOwNiXw2
+        XoCsD83w==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <mperttunen@nvidia.com>)
+        id 1l99as-0000Cr-G2; Mon, 08 Feb 2021 18:40:58 +0200
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+        will@kernel.org, robh+dt@kernel.org, frowand.list@gmail.com,
+        robin.murphy@arm.com
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [RFC PATCH 0/8] Host1x context isolation support
+Date:   Mon,  8 Feb 2021 18:38:40 +0200
+Message-Id: <20210208163848.2504291-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <361dc1da83e64a4d89e5c81487890f4e@HQMAIL101.nvidia.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Feb 07, 2021 at 01:26:20PM +0000, Jon Hunter wrote:
-> On Fri, 05 Feb 2021 15:06:26 +0100, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.10.14 release.
-> > There are 57 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sun, 07 Feb 2021 14:06:42 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.14-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests passing for Tegra ...
-> 
-> Test results for stable-v5.10:
->     12 builds:	12 pass, 0 fail
->     26 boots:	26 pass, 0 fail
->     65 tests:	65 pass, 0 fail
-> 
-> Linux version:	5.10.14-rc1-g58d18d6d116a
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
-> 
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Hi all,
 
-Thanks for testing them all and letting me know.
+this series adds support for Host1x 'context isolation'. Since
+when programming engines through Host1x, userspace can program in
+any addresses it wants, we need some way to isolate the engines'
+memory spaces. Traditionally this has either been done imperfectly
+with a single shared IOMMU domain, or by copying and verifying the
+programming command stream at submit time (Host1x firewall).
 
-greg k-h
+Since Tegra186 there is a privileged (only usable by kernel)
+Host1x opcode that allows setting the stream ID sent by the engine
+to the SMMU. So, by allocating a number of context banks and stream
+IDs for this purpose, and using this opcode at the beginning of
+each job, we can implement isolation. Due to the limited number of
+context banks only each process gets its own context, and not
+each channel.
+
+This feature also allows sharing engines among multiple VMs when
+used with Host1x's hardware virtualization support - up to 8 VMs
+can be configured with a subset of allowed stream IDs, enforced
+at hardware level.
+
+To implement this, this series adds a new host1x context bus, which
+will contain the 'struct device's corresponding to each context
+bank / stream ID, changes to device tree and SMMU code to allow
+registering the devices and using the bus, as well as the Host1x
+stream ID programming code and support in TegraDRM.
+
+The series is based on v5 of the "Host1x/TegraDRM UAPI" series,
+which still hasn't quite settled. Also, I haven't updated the
+device tree bindings (or converted them to YAML) yet, so this
+is RFC for now.
+
+Thanks!
+
+Mikko
+
+Mikko Perttunen (8):
+  of/device: Allow specifying a custom iommu_spec to of_dma_configure
+  gpu: host1x: Add context bus
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  iommu/arm-smmu: Attach to host1x context device bus
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: Support context isolation
+  drm/tegra: vic: Implement get_streamid_offset
+
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi  |   9 ++
+ drivers/gpu/Makefile                      |   3 +-
+ drivers/gpu/drm/tegra/drm.h               |   1 +
+ drivers/gpu/drm/tegra/uapi.h              |   1 +
+ drivers/gpu/drm/tegra/uapi/submit.c       |  13 ++
+ drivers/gpu/drm/tegra/uapi/uapi.c         |  34 ++++-
+ drivers/gpu/drm/tegra/vic.c               |  38 +++++
+ drivers/gpu/host1x/Kconfig                |   5 +
+ drivers/gpu/host1x/Makefile               |   2 +
+ drivers/gpu/host1x/context.c              | 161 ++++++++++++++++++++++
+ drivers/gpu/host1x/context.h              |  27 ++++
+ drivers/gpu/host1x/context_bus.c          |  31 +++++
+ drivers/gpu/host1x/dev.c                  |  12 +-
+ drivers/gpu/host1x/dev.h                  |   2 +
+ drivers/gpu/host1x/hw/channel_hw.c        |  52 ++++++-
+ drivers/gpu/host1x/hw/host1x06_hardware.h |  10 ++
+ drivers/gpu/host1x/hw/host1x07_hardware.h |  10 ++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c     |  13 ++
+ drivers/iommu/of_iommu.c                  |  12 +-
+ drivers/of/device.c                       |   9 +-
+ include/linux/host1x.h                    |  21 +++
+ include/linux/host1x_context_bus.h        |  15 ++
+ include/linux/of_device.h                 |  34 ++++-
+ include/linux/of_iommu.h                  |   6 +-
+ 24 files changed, 495 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+ create mode 100644 drivers/gpu/host1x/context_bus.c
+ create mode 100644 include/linux/host1x_context_bus.h
+
+-- 
+2.30.0
+
