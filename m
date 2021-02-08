@@ -2,67 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDBF0312E77
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 Feb 2021 11:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0599B31328E
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Feb 2021 13:41:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231858AbhBHKCB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 Feb 2021 05:02:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbhBHJ51 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 8 Feb 2021 04:57:27 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 521C6C03547A
-        for <linux-tegra@vger.kernel.org>; Mon,  8 Feb 2021 01:46:48 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id nm1so7949217pjb.3
-        for <linux-tegra@vger.kernel.org>; Mon, 08 Feb 2021 01:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7Z/JdX0RhrlgqchmamXWMY47TIIKUp5Zm0+e0J1lMs=;
-        b=Ky1giLXIhrehOc8aY2MQm/k2Y3UC3JSFGtKwBNIXX45tRpEb8JWb/ZvgyPVmXaPxqm
-         BAfNBaVcFrd55k9ZigtT6qUpKWWCJJapaxnIePeZdIIqg9OqGDW18kZQ0WYsvb09kp0t
-         l41AMsZCpszFb3Lfzy9oZl+JV2IUXThohx8em3i1teF4LIduvuluNP8WwXhhLqXoFiRN
-         LHpmMsllRIbplSnvl1eRMPy+GjG8GP1k3aUPGN+mPhbXo4G1v1SuQ5XzmQOicNY7HN2B
-         82M2H3OVdu+6rrSjfmI47pyfalTe4A+FxptPdT7ufXuumx0vhHzH5DyPKFPetdL1yHiU
-         DA0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z7Z/JdX0RhrlgqchmamXWMY47TIIKUp5Zm0+e0J1lMs=;
-        b=oEVF1esgXHn4UcNTO+xbWBtJuxlPpn6xyPPKpLwsM1KhD6ShM7vymKWNtbMSWwHRx2
-         yNOxYR+oxgIaYK/QChbxSI2xMSxfsHOakPd6ZZS6Ji7xIIU46vQnD/0/io3oHq2JDqsT
-         nQKL0fyq5Avnlp9E6Zf6E8MVrdkE0PVbw6wPN/6kAnvjPotbdSIfIJAiPqNSszAzavKb
-         hyAuBxZMBiSY+zd6onm4UYhHXU5GGofaVaMpLF6tCwv7xg6dZjveqa/FCrSyK+0lW7NL
-         P4aMSM5zWhCi2iYV79Bs699cMQyLVQNh3oAGR/QZNZRV22fqVUrquv+8S6JvKSIFjqs0
-         B1Og==
-X-Gm-Message-State: AOAM531I8t94Cf3fKnqvjgFnIu98e/xgdLKBi5MlT+1usSH/9umyErII
-        J/H4JNvI2vNFsP1f9GChrtwPEQ/CdLZlpYt5uMYSwbs6m4w=
-X-Google-Smtp-Source: ABdhPJzS/+5EfBXyljDSscIrnRAbE864WGXvJDPpbdbonA7hX/0y1YXXbB+dNUNOxdkEf+4lt6BP3yVHsw+Nkh7xgyE=
-X-Received: by 2002:a17:902:988e:b029:e1:2c5b:321c with SMTP id
- s14-20020a170902988eb02900e12c5b321cmr15666317plp.54.1612777607820; Mon, 08
- Feb 2021 01:46:47 -0800 (PST)
+        id S231404AbhBHMlK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 8 Feb 2021 07:41:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49350 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231996AbhBHMkK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 8 Feb 2021 07:40:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CF1464E7E;
+        Mon,  8 Feb 2021 12:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1612787970;
+        bh=8pLDrf/AeZOIez/HX1MNFZLMmTZuKOF7ggdyqS1IatM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ezONN6xeMQy71/KvSw1R9GRiDOrA1kQ8hvxT97x1Kt1u699jgfx1HApD/G6/AwV1V
+         U27UHtTZHuKutJjWU/JJ2WpbU7zzNM12CjnVtWtd/zhA4y0jt3LewBldzC7lIRYc7+
+         tEG4ZlVUFr0GGZo3Tr69uFK3BcXPlEC0AomJ2hTQ=
+Date:   Mon, 8 Feb 2021 13:39:27 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
+        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
+        lkft-triage@lists.linaro.org, pavel@denx.de,
+        stable@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 5.10 00/57] 5.10.14-rc1 review
+Message-ID: <YCEw/8pqE5WhG97g@kroah.com>
+References: <20210205140655.982616732@linuxfoundation.org>
+ <361dc1da83e64a4d89e5c81487890f4e@HQMAIL101.nvidia.com>
 MIME-Version: 1.0
-Received: by 2002:a17:90a:5d0a:0:0:0:0 with HTTP; Mon, 8 Feb 2021 01:46:47
- -0800 (PST)
-Reply-To: richadtomm@qq.com
-From:   "Mr.Richard Thomas" <tommiirrrch@gmail.com>
-Date:   Mon, 8 Feb 2021 01:46:47 -0800
-Message-ID: <CAGbSTZNCbyUb_AKpr0YcwpYhAU-4fxYUb=tru4zpMs3O=qFGGA@mail.gmail.com>
-Subject: Re Thanks.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <361dc1da83e64a4d89e5c81487890f4e@HQMAIL101.nvidia.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dear Friend,
-I will be pleased if you can allow me to invest $104M Dollars in
-Estate Management,in your company or any area you best that will be
-of good profit to both of us
+On Sun, Feb 07, 2021 at 01:26:20PM +0000, Jon Hunter wrote:
+> On Fri, 05 Feb 2021 15:06:26 +0100, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.10.14 release.
+> > There are 57 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Sun, 07 Feb 2021 14:06:42 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.14-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests passing for Tegra ...
+> 
+> Test results for stable-v5.10:
+>     12 builds:	12 pass, 0 fail
+>     26 boots:	26 pass, 0 fail
+>     65 tests:	65 pass, 0 fail
+> 
+> Linux version:	5.10.14-rc1-g58d18d6d116a
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra210-p3450-0000,
+>                 tegra30-cardhu-a04
+> 
+> Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-Please do well to respond including your information for more details.
+Thanks for testing them all and letting me know.
 
-Thanks.
-Mr.Richard Thomas
+greg k-h
