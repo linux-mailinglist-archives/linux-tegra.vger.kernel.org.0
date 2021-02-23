@@ -2,60 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 796CE322A13
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Feb 2021 13:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D2AA322BA6
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Feb 2021 14:48:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232478AbhBWL5o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Feb 2021 06:57:44 -0500
-Received: from mail.jvpinto.com ([65.49.11.60]:54491 "EHLO mail.JVPinto.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232501AbhBWLyb (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Feb 2021 06:54:31 -0500
-Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
- RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 23 Feb 2021 03:52:35 -0800
-Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
- Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Tue, 23 Feb 2021
- 03:52:20 -0800
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <johnpinto@jvpinto.com>
-Subject: Hello okay
-Date:   Tue, 23 Feb 2021 11:52:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
+        id S231650AbhBWNsH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Feb 2021 08:48:07 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14225 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230019AbhBWNsG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Feb 2021 08:48:06 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B6035076c0000>; Tue, 23 Feb 2021 05:47:26 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 23 Feb
+ 2021 13:47:24 +0000
+Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
+ Transport; Tue, 23 Feb 2021 13:47:24 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <stable@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.4 00/35] 4.4.258-rc1 review
+In-Reply-To: <20210222121013.581198717@linuxfoundation.org>
+References: <20210222121013.581198717@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <933f089f49b04946b97b7d0f2a305064@RW-EXC1.JVPinto.com>
-To:     Undisclosed recipients:;
+MIME-Version: 1.0
+Message-ID: <f43082ca10384b2083a3b513e7288c04@HQMAIL109.nvidia.com>
+Date:   Tue, 23 Feb 2021 13:47:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614088046; bh=nrBAZMYNzqyO17MOlU/WegmhAzwoM+rhm5lRKWFLP5g=;
+        h=From:To:CC:Subject:In-Reply-To:References:X-NVConfidentiality:
+         Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:
+         Date;
+        b=QDeSzpngBSIearGoGI+OQ18vdglU+irO4lB38CoRyCYj83jpM0rrg195KL30GwS6c
+         fOMz8nqYufkl4ofgBju+uXwfmtcEhAVhMYABdz2uyu7zJv6PewHSWYCVmMiX8u/Uew
+         MsGASjI2IktjrBcQts5kqai0Mm+AxHO9AxtvVTX+wEkIS53+mRCVHU1mWtz3n7X1j5
+         4XJ77emeoAJEpO2cNtVoP1p+Ui7wZBbZs3mdMVaJB8a6nBNx9ZabhihMRqPqVXSUIG
+         msflt1APUrp6gtja6d3xPYRh6+JaiGy2hOApjDjbE5bfa2MWyRyJbttAO7OSSG/Ijb
+         irHtSvYhiufZQ==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
+On Mon, 22 Feb 2021 13:35:56 +0100, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.258 release.
+> There are 35 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed, 24 Feb 2021 12:07:46 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.258-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+All tests passing for Tegra ...
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    28 tests:	28 pass, 0 fail
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+Linux version:	4.4.258-rc1-gd947b6dcd5fc
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
-Regards,
-Ms. Reem.
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
