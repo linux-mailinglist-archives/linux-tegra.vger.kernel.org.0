@@ -2,100 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6B132B214
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EDD932B238
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:48:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377470AbhCCDbG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Mar 2021 22:31:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60450 "EHLO
+        id S1377861AbhCCDbN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Mar 2021 22:31:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350101AbhCBLyB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 06:54:01 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A1DC0617AA;
-        Tue,  2 Mar 2021 03:51:46 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id k9so10901744lfo.12;
-        Tue, 02 Mar 2021 03:51:46 -0800 (PST)
+        with ESMTP id S1443607AbhCBMLm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 07:11:42 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F44C061756;
+        Tue,  2 Mar 2021 04:11:02 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id v9so13119156lfa.1;
+        Tue, 02 Mar 2021 04:11:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Aptp5NmMT0c2/gtpHM3jND6fOADz+c+cCW4tHwby9/0=;
-        b=CX7XQ3GoFscwZMGxuAprdkK2a4Ju5XArGZ24+JTaHoSZbDUMIX3tylUM85HR+lIYwy
-         7EZLUdpKL34vby84vZXUo4i7EGGsd/Iq66dzQZNVvqPW3FTYpJFpRe3mrz+DKuSLzirC
-         bEO+uBMbnnDiWPe42HL2721BLautywGKFN/DIqogn1BrjQmKG5VLYUXmEB7KKhkOhTeN
-         Lp9n6BksMGi27Vei5UegQzsmt/OFS1A0gdbrarFEYhTm8jgAY5vTXf9Q6NpkeOlfs6RA
-         umCVj6yOSH4emp6nwUDu4zrEJGXWWZXH1+I+AaBNY6JpYIHxTnRXj05wadUrjWLaAgnw
-         ZgOQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EjvRzx4UI7KkW1vLn6idWaWGlY8WUMkCaEebmJcQing=;
+        b=r/ytU08viF+buERIKb/p5tAcs9b/DHa2JzGWLccFt9GZbFjAAphw1Hb9srvPA6ukoR
+         j5Jqr6YG8S6uI/f7LFvPK/yLLMUfK5BlFshqLfv0Ha9gy5R0W8wwR0Uz2a9hGuvtjmqt
+         uiaziwwrcbfAx6elYH+sSPX8cfC1U/d9uj1b6m1zzzX9VWwCLKTEAeEXm2aw5F0Z3fEW
+         GtIIFtH5xsise09P3RhgIgM1Dj50rmH0QCX31GJmOZ0Qv0O8/o5Olo+IkzcivfP3Omzg
+         lnTZYg0qS/B7oTHpFYkkyQ4FrQCdG3ObpEqOw2d7iqIALnuLoaNv8Mry6WQAg5SVmCua
+         Q0EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Aptp5NmMT0c2/gtpHM3jND6fOADz+c+cCW4tHwby9/0=;
-        b=ZsMZHFr3yQhmPzdbxzHEJZvEWh7DB5CVF7bDmRaYllKxl852GX8pntlp+hm9nth9tH
-         PzLdjOhLLlncflCAQC7UYbaOGvd0bGW94FSvhrSCuEcOl/4KhUhgb8efDdwxq4ocdKoC
-         kPDsQJcBlWMcl7kKYaBzKl7HBRtsRUi5IxysC0i+FQQ1+y9ZjCe+CbTUgHvTuWcZ2Gum
-         kqnFtSsMXEMS33GRoglMWfrXdArx2RhrNU+TCKC8MiE3UskK+4T6KlThzfXN9ED3uErk
-         J2mvkzjGWKNtvchRPNuvpRHmLaQ1Op46sM6Y7p2Bq+Oe4ijtfwWjAa090V7gm6fFQasi
-         pgJA==
-X-Gm-Message-State: AOAM53101k1kGkzj5Qbb65R2M0qZxwIg+Jxf0dw+TO8Rf/TaTJVMqb7q
-        jj4Isoo9PdZs3tG8i7VvwIk=
-X-Google-Smtp-Source: ABdhPJwUa/fs69l5VobYIqUc2szq+QvQXNGsM9mxk1A52i95jEswLEFCVUXMJqqtPYq9V8LLFOrgFA==
-X-Received: by 2002:a19:c3c3:: with SMTP id t186mr11924940lff.596.1614685904824;
-        Tue, 02 Mar 2021 03:51:44 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EjvRzx4UI7KkW1vLn6idWaWGlY8WUMkCaEebmJcQing=;
+        b=NpV53MEMOzLgdYmf9JqAKURe8iGB3yLoxImkxZDvKgfN//4jGq0zd3noOu3NGv37B8
+         zGTerPdKbHsqX5vaw2J6bLXRDXfXAv4abVc5RKDb6lzyrfGslQKCDDSm/u4cJXtSc+hn
+         dTLlZ3z1fZh1Mb8lcMPQTRFVDWX6+8Vl3D1eOuRamvUnUgb4VUtbV6awstuH/qjBZ5ya
+         NPmgQuF0l4+V+21P7xnRcJ92YlBwBaSqF9seINHbrwMkIlHVDlRXuX82M9/7xRuTyHvK
+         FxWn1bAjdft7XN9iM242+pmHH47j4ybrmti8x1xauw5FxgqIqRPze0EwaWm20zuJM953
+         wYRw==
+X-Gm-Message-State: AOAM5310is130stWQtWPCVTZ1tuvLSZyfrNNWSpopW3z5rwCm6sA8cWJ
+        mGD+Htaf02f8LHrCOXQu3e8=
+X-Google-Smtp-Source: ABdhPJzEvMgpSyRtmnITirgGOPwM+bjt7Ti4xJ5ayf1s0K4KvQvgjfZLgDTATpfjiXz1DOFW4Zm1+g==
+X-Received: by 2002:a19:e12:: with SMTP id 18mr411703lfo.296.1614687060596;
+        Tue, 02 Mar 2021 04:11:00 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
-        by smtp.gmail.com with ESMTPSA id f4sm2720151lja.69.2021.03.02.03.51.44
+        by smtp.gmail.com with ESMTPSA id d21sm835097ljo.55.2021.03.02.04.10.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 03:51:44 -0800 (PST)
+        Tue, 02 Mar 2021 04:11:00 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/6] clk: tegra: Don't allow zero clock rate for PLLs
-Date:   Tue,  2 Mar 2021 14:51:17 +0300
-Message-Id: <20210302115117.9375-7-digetx@gmail.com>
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/14] NVIDIA Tegra ARM32 device-tree improvements
+Date:   Tue,  2 Mar 2021 15:09:49 +0300
+Message-Id: <20210302121003.15058-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210302115117.9375-1-digetx@gmail.com>
-References: <20210302115117.9375-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Zero clock rate doesn't make sense for PLLs and tegra-clk driver enters
-into infinite loop on trying to calculate PLL parameters for zero rate.
-Make code to error out if requested rate is zero.
+Hi,
 
-Originally this trouble was found by Robert Yang while he was trying to
-bring up upstream kernel on Samsung Galaxy Tab, which happened due to a
-bug in Tegra DRM driver that erroneously sets PLL rate to zero. This
-issues came over again recently during of kernel bring up on ASUS TF700T.
+This series is partially factored out from [1] since the DT patches
+could be applied separately. In addition I added couple more new
+patches and implemented suggestion given by Daniel Lezcano to [1],
+see "Specify all CPU cores as cooling devices" patches.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/clk/tegra/clk-pll.c | 3 +++
- 1 file changed, 3 insertions(+)
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=221130
 
-diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
-index d709ecb7d8d7..af7d4941042e 100644
---- a/drivers/clk/tegra/clk-pll.c
-+++ b/drivers/clk/tegra/clk-pll.c
-@@ -558,6 +558,9 @@ static int _calc_rate(struct clk_hw *hw, struct tegra_clk_pll_freq_table *cfg,
- 	u32 p_div = 0;
- 	int ret;
- 
-+	if (!rate)
-+		return -EINVAL;
-+
- 	switch (parent_rate) {
- 	case 12000000:
- 	case 26000000:
+Please note that this patchset enables voltage scaling for a few boards,
+but currently voltage scaling is limited in kernel by the regulator coupler
+drivers, so it's safe to change the device-trees. Voltage scaling will
+be fully unlocked once [1] will be merged.
+
+Changelog:
+
+v3: - Added new "Specify tps65911 as wakeup source" patch, which previously
+      was a part of series that added wakeup-source support to TPS65911 RTC
+      driver [1]. The RTC series was partially applied, excluding the DT
+      patch.
+
+      [1] https://lore.kernel.org/linux-rtc/20210120211603.18555-1-digetx@gmail.com/
+
+v2: - The "acer-a500: Rename avdd to vdda of touchscreen node" patch
+      now shouldn't have merge conflicts with the upstream kernel since
+      v1 was based on a patch that adds a new atmel,wakeup-method property,
+      which is not supported by upstream yet.
+
+    - Fixed unwrapped commit description in the "cardhu: Support CPU
+      frequency and voltage" patch.
+
+Dmitry Osipenko (14):
+  ARM: tegra: ventana: Support CPU and Core voltage scaling
+  ARM: tegra: ventana: Support CPU thermal throttling
+  ARM: tegra: cardhu: Support CPU frequency and voltage scaling on all
+    board variants
+  ARM: tegra: cardhu: Support CPU thermal throttling
+  ARM: tegra: paz00: Enable full voltage scaling ranges for CPU and Core
+    domains
+  ARM: tegra: acer-a500: Enable core voltage scaling
+  ARM: tegra: acer-a500: Reduce thermal throttling hysteresis to 0.2C
+  ARM: tegra: acer-a500: Specify all CPU cores as cooling devices
+  ARM: tegra: acer-a500: Rename avdd to vdda of touchscreen node
+  ARM: tegra: nexus7: Specify all CPU cores as cooling devices
+  ARM: tegra: ouya: Specify all CPU cores as cooling devices
+  ARM: tegra: Specify CPU suspend OPP in device-tree
+  ARM: tegra: Specify memory suspend OPP in device-tree
+  ARM: tegra: Specify tps65911 as wakeup source
+
+ .../boot/dts/tegra124-peripherals-opp.dtsi    |  5 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 14 ++--
+ arch/arm/boot/dts/tegra20-cpu-opp.dtsi        |  2 +
+ arch/arm/boot/dts/tegra20-paz00.dts           | 14 ++--
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  1 +
+ arch/arm/boot/dts/tegra20-ventana.dts         | 78 ++++++++++++++---
+ arch/arm/boot/dts/tegra30-apalis.dtsi         |  1 +
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 14 +++-
+ .../tegra30-asus-nexus7-grouper-ti-pmic.dtsi  |  1 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |  1 +
+ arch/arm/boot/dts/tegra30-cardhu-a04.dts      | 48 -----------
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         | 84 ++++++++++++++++++-
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |  1 +
+ arch/arm/boot/dts/tegra30-cpu-opp.dtsi        |  3 +
+ arch/arm/boot/dts/tegra30-ouya.dts            | 16 +++-
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi |  3 +
+ 16 files changed, 202 insertions(+), 84 deletions(-)
+
 -- 
 2.29.2
 
