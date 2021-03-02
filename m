@@ -2,47 +2,47 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 082A132B270
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D28FF32B283
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:48:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378358AbhCCDbe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Mar 2021 22:31:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42678 "EHLO
+        id S1378839AbhCCDbj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Mar 2021 22:31:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1446903AbhCBMlb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 07:41:31 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96E7C061223;
+        with ESMTP id S1447183AbhCBMvH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 07:51:07 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CDEC061222;
         Tue,  2 Mar 2021 04:25:16 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id v5so30926640lft.13;
+Received: by mail-lf1-x136.google.com with SMTP id u4so30994447lfs.0;
         Tue, 02 Mar 2021 04:25:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GkOVEuqEzM8HV8JCIxdc0385FIpKAwOwjnAdDLgSkBA=;
-        b=h0C17QdkNV9NKbXK+aLjm/l7bf5T4ust0SbrXhEmeHxpgWN/x1DlRjxbeEggoCIGrY
-         Ij0dfyl9JEbh1kP4afkQExV4+cBdkmma2ubhX0HNhXT9G1qtbidUgiomXsk5Mi1RMlXA
-         IqH5O4L07wX5LIITUsxFaLSIxuilwNFIqV1HXLerxxtTRcTd/2/ADMtNIwu8U6zx/PZe
-         Si2/r6S7H800V/iYIGMIfnhn4ep1LhW5xAU0QbHdAmbvFm+3+Cnhl3SjLChFqTzm7Uhm
-         6lXxKJM6gUxu4eTFYFYBXFwvWeeqOZgudxY4AX3yyWZix3veFzTlpJHQGgNlBpiPEPLN
-         TCdw==
+        bh=ksrOcQH9Z4oWD/WAExssWru55oblOBFoV4Ung+svFCc=;
+        b=haPOGS/kYytNHfPIwA2jULTwn4IzIIvn/y6rnNxfGYUsw55Bzz0wCuuTfGXxeKSu7x
+         KmsTD5tKm6nN4sdbDqsoF2bTgm4GUP/FhUmx8D2NUaP4aN//maQsL+c9dR0irz3ahZ2w
+         TkDmgwReAryrMO8wrJfWVfU/+NMKeg6HoRsWpFF4x7xMAM1Uf5mxjblhzPgfHet8RSSI
+         nx/V+Rczh5Nos0KP7o5PLsUGx0dj1B5wCxpNID3zCRRpSwMPpN41vTCsHToeX3iMP2dk
+         RQaNz3BfXhUAyEWA6DBKKQoBgsx+z9jlO8JwY1k3oNc6OeyFmJybOi24q9msVir5vSX9
+         Q58A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GkOVEuqEzM8HV8JCIxdc0385FIpKAwOwjnAdDLgSkBA=;
-        b=aqC1NonLdcbxBdG4YniPJZYJfGRSffu0E1EHdmmoTvk0M0epgBazl/lC8d9Yd+MBNs
-         kJNT7jIIHv8RuMlUShIDTMb0kpuuSFXooSk7DUYFTMxM0V+fWek843cNQ8nS14Z0+qZf
-         OkPpTXrg4e2UvuKH53fIv3F+vYOoBTZ7hLLCxYaJDt3UiTFh2FDjacKjDvU4c+TUD8Qg
-         xpEEuImZFAi20uf1+HQI9I+UKrbV2aAfgb99TJEykFsfhfb/oOtpt9hn44wpphG1fXoV
-         1bIMz9zwdt/X5j3XqLpTmmRUzRf2aRUR6YEKzd4xLi/OSEdykeHDgS59XKkZ/RhqW/62
-         5iyw==
-X-Gm-Message-State: AOAM531r6kUgVDv6h8rlwKn8mjprhrOez1VfV5U/+FL4Cp46FgR8ZWix
-        BAUHhQUH0+ud8ESdc8hdbuA=
-X-Google-Smtp-Source: ABdhPJzYlMZhJ2eDivkbUiIJ2QVFH8VMZAf87JModWaLSeBbwL0iV3wHXT6snV8QbONPJwfvYBfc7A==
-X-Received: by 2002:a05:6512:3693:: with SMTP id d19mr11867014lfs.118.1614687914542;
-        Tue, 02 Mar 2021 04:25:14 -0800 (PST)
+        bh=ksrOcQH9Z4oWD/WAExssWru55oblOBFoV4Ung+svFCc=;
+        b=POWp8N2jXX5JnjD/nGrlK5cqAtBAZ9raubtPA8JDyDjmralE4aP7oYoPET3TGZNhoy
+         qEE03mD1m1ayYrmuqZJOv+k2frGU8CXWIcn5SvwhThtzwCzFsvY/d3CDJ4I8UUeJHvcu
+         H8o7Jj0drjchaUdE4ONpeIwJJ/P1nbcM3uMxa8SPCRA3fYk1wK8M6TPaFqWvlAAj9SRo
+         I+2fHmUYgMYD2K5jGVhg48/zL8JVAZXikPx0CBuqi8g41nQOPIMLCXfmM06otX5FSIkN
+         JMtmL3TyAOf3nLopp9pjPgVLN+KAy9idjZEhdXTSCtRaf9cvSVmFEYbdseoeRfN9om9d
+         SQIg==
+X-Gm-Message-State: AOAM531ywCOjhyHoiaJIdatGVGmZzNx+fYMc9Yfme/KsdFZeG2zB9VEi
+        qlilTIPlXe/lQZHJ+neVJIY=
+X-Google-Smtp-Source: ABdhPJx7YLT8ZCdypQfvLQ72adtoeWRVWEq/B4hutEu9VF+xIaMU+t5KMNGkqfyVDcvBrvFCEuq18A==
+X-Received: by 2002:a19:c3c3:: with SMTP id t186mr11990721lff.596.1614687915143;
+        Tue, 02 Mar 2021 04:25:15 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
         by smtp.gmail.com with ESMTPSA id u4sm2602126lfs.61.2021.03.02.04.25.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -53,9 +53,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Peter Geis <pgwipeout@gmail.com>,
         Matt Merhar <mattmerhar@protonmail.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4/5] soc/tegra: pmc: Print out domain name when reset fails to acquire
-Date:   Tue,  2 Mar 2021 15:25:01 +0300
-Message-Id: <20210302122502.20874-5-digetx@gmail.com>
+Subject: [PATCH v4 5/5] soc/tegra: pmc: Rate-limit error message about failed to acquire of reset
+Date:   Tue,  2 Mar 2021 15:25:02 +0300
+Message-Id: <20210302122502.20874-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210302122502.20874-1-digetx@gmail.com>
 References: <20210302122502.20874-1-digetx@gmail.com>
@@ -65,28 +65,28 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Print out domain name when reset fails to acquire for debugging purposes
-and to make formatting of GENPD errors consistent in the driver.
+PMC domain could be easily bombarded with the enable requests if there is
+a problem in regards to acquiring reset control of a domain and kernel
+log will be flooded with the error message in this case. Hence rate-limit
+the message in order to prevent missing other important messages.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/soc/tegra/pmc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index a87645fac735..bf29ea22480a 100644
+index bf29ea22480a..84ab27d85d92 100644
 --- a/drivers/soc/tegra/pmc.c
 +++ b/drivers/soc/tegra/pmc.c
-@@ -868,7 +868,8 @@ static int tegra_genpd_power_off(struct generic_pm_domain *domain)
+@@ -868,8 +868,8 @@ static int tegra_genpd_power_off(struct generic_pm_domain *domain)
  
  	err = reset_control_acquire(pg->reset);
  	if (err < 0) {
--		pr_err("failed to acquire resets: %d\n", err);
-+		dev_err(dev, "failed to acquire resets for PM domain %s: %d\n",
-+			pg->genpd.name, err);
+-		dev_err(dev, "failed to acquire resets for PM domain %s: %d\n",
+-			pg->genpd.name, err);
++		dev_err_ratelimited(dev, "failed to acquire resets for PM domain %s: %d\n",
++				    pg->genpd.name, err);
  		return err;
  	}
  
