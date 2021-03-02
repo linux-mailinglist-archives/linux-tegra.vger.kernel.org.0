@@ -2,82 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 282B532B18B
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76FA132B195
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:46:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352176AbhCCD2h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Mar 2021 22:28:37 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13759 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1838106AbhCBJ2P (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 04:28:15 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B603e05070000>; Tue, 02 Mar 2021 01:27:35 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
- 2021 09:27:34 +0000
-Received: from moonraker.nvidia.com (172.20.145.6) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 2 Mar 2021 09:27:32 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-CC:     <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] ASoC: soc-core: Prevent warning if no DMI table is present
-Date:   Tue, 2 Mar 2021 09:27:12 +0000
-Message-ID: <20210302092712.310705-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+        id S1352243AbhCCD3w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Mar 2021 22:29:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1577819AbhCBJzX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 04:55:23 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F99C061788;
+        Tue,  2 Mar 2021 01:54:41 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id y12so10217385ljj.12;
+        Tue, 02 Mar 2021 01:54:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IjEBUk2Yo9yzSMN/siG4OfzfOZCC1KPOlvofjcM1PCE=;
+        b=NP3M9/Gjok7e32SgvQIhO7aPojvZStlELiulysU+JGJtAuSlCHa0wuWsVFGyxWyjJs
+         fUnuL3LOabTm5yS09LXxWtAzAGfCK8RXkD19r4vOYeNHMvODZBl3zlMfWfI6/wuRUhvK
+         oRZJgriugXl2EfdbL9pO3weJzIMd7Z69Y911OJYc37L32A3WHbAaa2Vd8nimmWceYyXv
+         vpDcfnBkn7Scd5O9Y2rpCdRUJoPgpmOGUy6TZFa126NtiJ2fYmPEasO3slG2Wub71Q0F
+         W7lrIUYRdFtP2BKuD5JKAneX+22O8Wzxd7AzcTf4cki2Kn/0Geqj2nP303AH86PXfQxT
+         G9iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IjEBUk2Yo9yzSMN/siG4OfzfOZCC1KPOlvofjcM1PCE=;
+        b=mzAPtkf+ykwdIYnHq9lAIFWE9omUp99bxn2ZXB8vwOlbUU7a89wFEIi9qsgpCnBPSA
+         6e5WY069miuf0T1P0uZLFFQvvqIF4uXoyw/UZuvVXwDlT9OL6bcmAqIGgH0NagCLaMEc
+         H+qbqyxCeBuwfb8mCx3ttMX1DgRFZ1/0MyYwlGERaoEsALESUNyj14WkIMJaYUQF74ru
+         e5HJ7gucRKRKALGzuN/dn8vo9KRuKFbzFPBtpuB5HrrIvYVc2pKQzAcfQfUuFrwA5E8P
+         UIp2U3iwEHOn/4dftGpRHbR2zTSjqiv6hOVg/YSel72x20+/w+1YTFgcH0cc5C0NhZIL
+         /utw==
+X-Gm-Message-State: AOAM5311i5eGBwn0DQHWx7fg0sqbWNiWLprj99Jv0UAIrRkebXSgxS0e
+        HXaDmVhW9MbLIYSdmw+fxNPzblvtL0U=
+X-Google-Smtp-Source: ABdhPJyDEQEayqTWPWdpFEkalUr46xUob9kwVIHASWllkKN4v22CYf9cnzvyUvLT0WOwLeJdNciTEg==
+X-Received: by 2002:a2e:998d:: with SMTP id w13mr5673321lji.424.1614678880404;
+        Tue, 02 Mar 2021 01:54:40 -0800 (PST)
+Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
+        by smtp.gmail.com with ESMTPSA id y16sm2783451ljg.83.2021.03.02.01.54.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 01:54:39 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Anton Bambura <jenneron@protonmail.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH RESEND v2 1/2] cpuidle: tegra: Fix C7 idling state on Tegra114
+Date:   Tue,  2 Mar 2021 12:54:04 +0300
+Message-Id: <20210302095405.28453-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614677255; bh=zevSqHxMC5QGrkWCFYq/EsEdVzaCU5yAoPM8ypRlfpc=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-         X-NVConfidentiality:Content-Transfer-Encoding:Content-Type;
-        b=PwzcV7EQg1C4LN4dDshBu7voQLeGRdGDb6knwc3i0aY7pbulXizZEPzlimEwg7Auz
-         VyCtp7G0k4NgkqvA8LdSckC+FiRgJZzf8v6n+GdryuQo+zooc5z/05b0HG1WeM2Zv6
-         KWxbt/lVD4psbsSinv2GrJHw/PxDccMzTpgyDAvK62w1jsa7YlXbA8cpkPYV+ArgPS
-         DHZrLuhn1zkEGvAATCWeTk2ZoG6WA+JiFp1SfBhig/pn9squbzWLKsuAT8KzkqjJ5S
-         Y3vu4l5jGPPFoaJpzyAStdtikSWK7J5ZLpepSTbc+4XwxN/Pny1TRaCIXB+8HoS9Jo
-         wmxINcR98iacw==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Many systems do not provide a DMI table and on these systems a warning,
-such as the following, is printed on boot ...
+Trusted Foundation firmware doesn't implement the do_idle call and in
+this case suspending should fall back to the common suspend path. In order
+to fix this issue we will unconditionally set the NOFLUSH_L2 mode via
+firmware call, which is a NO-OP on Tegra30/124, and then proceed to the
+C7 idling, like it was done by the older Tegra114 cpuidle driver.
 
- WARNING KERN tegra-audio-graph-card sound: ASoC: no DMI vendor name!
-
-If DMI support is enabled in the kernel, there is no simple way to
-detect if a DMI table is table or not. Note that the variable
-'dmi_available' is not exported and so cannot be used by kernel modules.
-It could be possible to have every ASoC sound card driver set the long
-name to avoid the above message, but it might be intentional for the
-long name, that we fall back to using the sound card name. Therefore,
-make this a debug print by default to avoid the warning.
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Fixes: 14e086baca50 ("cpuidle: tegra: Squash Tegra114 driver into the common driver")
+Cc: stable@vger.kernel.org # 5.7+
+Reported-by: Anton Bambura <jenneron@protonmail.com> # TF701 T114
+Tested-by: Anton Bambura <jenneron@protonmail.com> # TF701 T114
+Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- sound/soc/soc-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index f6d4e99b590c..f1189e7c1fcc 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1576,7 +1576,7 @@ int snd_soc_set_dmi_name(struct snd_soc_card *card, c=
-onst char *flavour)
- 	/* make up dmi long name as: vendor-product-version-board */
- 	vendor =3D dmi_get_system_info(DMI_BOARD_VENDOR);
- 	if (!vendor || !is_dmi_valid(vendor)) {
--		dev_warn(card->dev, "ASoC: no DMI vendor name!\n");
-+		dev_dbg(card->dev, "ASoC: no DMI vendor name!\n");
- 		return 0;
- 	}
-=20
---=20
-2.25.1
+Changelog:
+
+v2: - No changes. V1 got no attention, hence re-sending.
+
+ drivers/cpuidle/cpuidle-tegra.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
+index 191966dc8d02..29c5e83500d3 100644
+--- a/drivers/cpuidle/cpuidle-tegra.c
++++ b/drivers/cpuidle/cpuidle-tegra.c
+@@ -135,13 +135,13 @@ static int tegra_cpuidle_c7_enter(void)
+ {
+ 	int err;
+ 
+-	if (tegra_cpuidle_using_firmware()) {
+-		err = call_firmware_op(prepare_idle, TF_PM_MODE_LP2_NOFLUSH_L2);
+-		if (err)
+-			return err;
++	err = call_firmware_op(prepare_idle, TF_PM_MODE_LP2_NOFLUSH_L2);
++	if (err && err != -ENOSYS)
++		return err;
+ 
+-		return call_firmware_op(do_idle, 0);
+-	}
++	err = call_firmware_op(do_idle, 0);
++	if (err != -ENOSYS)
++		return err;
+ 
+ 	return cpu_suspend(0, tegra30_pm_secondary_cpu_suspend);
+ }
+-- 
+2.29.2
 
