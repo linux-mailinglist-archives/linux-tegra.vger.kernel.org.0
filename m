@@ -2,146 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 033F132B1E2
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 706F232B20B
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Mar 2021 04:48:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352278AbhCCDas (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Mar 2021 22:30:48 -0500
-Received: from foss.arm.com ([217.140.110.172]:49078 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1838377AbhCBKgK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Mar 2021 05:36:10 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8851AED1;
-        Tue,  2 Mar 2021 02:35:24 -0800 (PST)
-Received: from [10.57.48.219] (unknown [10.57.48.219])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25EFF3F73C;
-        Tue,  2 Mar 2021 02:35:20 -0800 (PST)
-Subject: Re: Aw: Re: Re: [PATCH 09/13] PCI: mediatek: Advertise lack of MSI
- handling
-To:     Frank Wunderlich <frank-w@public-files.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Chuanjia Liu <chuanjia.liu@mediatek.com>
-Cc:     linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Will Deacon <will@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Michal Simek <michal.simek@xilinx.com>,
+        id S1377427AbhCCDbF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Mar 2021 22:31:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1383531AbhCBLgM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Mar 2021 06:36:12 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3503C061788;
+        Tue,  2 Mar 2021 03:22:05 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id e7so30726912lft.2;
+        Tue, 02 Mar 2021 03:22:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UXsyTscw9zuLBva4U3+AGU7LQRHCPXqRCSzHFPwdbsg=;
+        b=MZO0fEml85aBPb+L0zZijvlr73xZelJgEhc1czmKIkPN1WA/Ao2bmG2eEpQn9/5Cnv
+         5gmNhukOhWRqrabru5ZLRuQIe19Ppw7xvec8e8WVtDNcFX2YXjsaC2KTFuDBS9V1HR8A
+         q2i1pBwu3M4Yx/RPucxQRLZb8JTWF/n+Sj3BAiypZKcIHbe/VxT6ElkveIjI5YIc+/Sq
+         95ldH1eekOw0jmoqo6CncpYd7lOJmwl+A2aFdkIzc4avBbz6tjukMFbxvrmgqU6g6YQp
+         p+7yRGMFPKujcTuilLJVt6o0YRGvr4xgMdYCwR/jU1wQP+aK3vfpkWUCxmjOo2tTyiVN
+         SMNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UXsyTscw9zuLBva4U3+AGU7LQRHCPXqRCSzHFPwdbsg=;
+        b=co4w4BK+tYPc7i3YlJwE5NmG0xa5CB9QDnaZtAyI5azSdmPpUxAk2mxj7wgVeusHhU
+         weg+DDy2gXh6+7a/kXcj+PGfES1fP+5iz5+JwtnBFp6z+K0W65t8rPfnew3ZBInvirPR
+         dMNfjyc0z516kdqQFLxSDFCG7yZ2cU9+RbLuSK9F4Q/AAKHZql4X7kUadAxsSucIQ2gm
+         VM5B6JB6fVeXoqoELrEbMZAfQmmqOjE3hQRwGd+nbtjSQrRB9npAtFqIfp0ve1D2As+B
+         j74y8wQwfozRpa6s7E0mhUAkLsQWa7zw2WeBFo+6nXRtzdSXGz3my7A+uMr2qT+V2RPn
+         upkA==
+X-Gm-Message-State: AOAM5335Xi1MJEgz0cV360dSZPFFZyvRS+uZ46tBujSRQkYXB4AWLvW9
+        HaDY8HHwUZmdnkBc5TIpnCo=
+X-Google-Smtp-Source: ABdhPJxRymJixfSpthjYFtxI7AlxBgvrcbqGsXaXA/6qsfInz7jYNSYRX1M8a7spc/pgycwZXoi9BQ==
+X-Received: by 2002:a05:6512:2356:: with SMTP id p22mr11522329lfu.3.1614684124467;
+        Tue, 02 Mar 2021 03:22:04 -0800 (PST)
+Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
+        by smtp.gmail.com with ESMTPSA id w7sm2691078lft.0.2021.03.02.03.22.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 03:22:03 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20210225151023.3642391-1-maz@kernel.org>
- <20210225151023.3642391-10-maz@kernel.org>
- <trinity-b7e2cf18-f0e6-4d88-8a80-de6758b5a91f-1614595396771@3c-app-gmx-bap67>
- <b7721e2ff751cc9565a662cb713819e3@kernel.org>
- <trinity-9fa6d24e-f9de-4741-bf44-86f6197b174d-1614600961297@3c-app-gmx-bap67>
- <5afd1d656299d87c43bdf31b8ced2d5f@kernel.org>
- <trinity-e6593a34-3e03-4154-a03c-f3aed01e33bf-1614607598428@3c-app-gmx-bap67>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8b9c013a-b5d5-9b19-f28a-4af543e47fff@arm.com>
-Date:   Tue, 2 Mar 2021 10:35:14 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Fertser <fercerpav@gmail.com>
+Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/5] Add missing reset controls to NVIDIA Tegra ASoC drivers
+Date:   Tue,  2 Mar 2021 14:21:18 +0300
+Message-Id: <20210302112123.24161-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <trinity-e6593a34-3e03-4154-a03c-f3aed01e33bf-1614607598428@3c-app-gmx-bap67>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2021-03-01 14:06, Frank Wunderlich wrote:
->> Gesendet: Montag, 01. März 2021 um 14:31 Uhr
->> Von: "Marc Zyngier" <maz@kernel.org>
->>
->> Frank,
->>
->>>>> i guess it's a bug in ath10k driver or my r64 board (it is a v1.1
->>>>> which has missing capacitors on tx lines).
->>>>
->>>> No, this definitely looks like a bug in the MTK PCIe driver,
->>>> where the mutex is either not properly initialised, corrupted,
->>>> or the wrong pointer is passed.
->>>
->>> but why does it happen only with the ath10k-card and not the mt7612 in
->>> same slot?
->>
->> Does mt7612 use MSI? What we have here is a bogus mutex in the
->> MTK PCIe driver, and the only way not to get there would be
->> to avoid using MSIs.
-> 
-> i guess this card/its driver does not use MSI. Did not found anything in "datasheet" [1] or driver [2] about msi
+Hi,
 
-FWIW, no need to guess - `lspci -v` (as root) should tell you whether 
-the card has MSI (and/or MSI-X) capability, and whether it is enabled if so.
+This series adds missing hardware reset controls to I2S and AC97 drivers.
+Currently drivers happen to work properly because reset is implicitly
+deasserted by tegra-clk driver, but clk driver shouldn't touch the resets
+and we need to fix it because this breaks other Tegra drivers. Previously
+we fixed the resets of the AHUB and HDMI codec drivers, but turned out
+that we missed the I2C and AC97 drivers.
 
-Robin.
+Thanks to Paul Fertser for testing the pending clk patches and finding
+that audio got broken on Tegra20 AC100 netbook because of the missing I2S
+reset.
 
->>>
->>>> This r64 machine is supposed to have working MSIs, right?
->>>
->>> imho mt7622 have working MSI
->>>
->>>> Do you get the same issue without this series?
->>>
->>> tested 5.11.0 [1] without this series (but with your/thomas' patch
->>> from discussion about my old patch) and got same trace. so this series
->>> does not break anything here.
->>
->> Can you retest without any additional patch on top of 5.11?
->> These two patches only affect platforms that do *not* have MSIs at all.
-> 
-> i can revert these 2, but still need patches for mt7622 pcie-support [3]...btw. i see that i miss these in 5.11-main...do not see traceback with them (have firmware not installed...)
-> 
-> root@bpi-r64:~# dmesg | grep ath
-> [    6.450765] ath10k_pci 0000:01:00.0: assign IRQ: got 146
-> [    6.661752] ath10k_pci 0000:01:00.0: enabling device (0000 -> 0002)
-> [    6.697811] ath10k_pci 0000:01:00.0: enabling bus mastering
-> [    6.721293] ath10k_pci 0000:01:00.0: pci irq msi oper_irq_mode 2 irq_mode 0 r
-> eset_mode 0
-> [    6.921030] ath10k_pci 0000:01:00.0: Failed to find firmware-N.bin (N between
->   2 and 6) from ath10k/QCA988X/hw2.0: -2
-> [    6.931698] ath10k_pci 0000:01:00.0: could not fetch firmware files (-2)
-> [    6.940417] ath10k_pci 0000:01:00.0: could not probe fw (-2)
-> 
-> so traceback was caused by missing changes in mtk pcie-driver not yet upstream, added Chuanjia Liu
-> 
->>>
->>>>> Tried with an mt7612e, this seems to work without any errors.
->>>>>
->>>>> so for mt7622/mt7623
->>>>>
->>>>> Tested-by: Frank Wunderlich <frank-w@public-files.de>
->>>>
->>>> We definitely need to understand the above.
->>>
->>> there is a hardware-bug which may cause this...afair i saw this with
->>> the card in r64 with earlier Kernel-versions where other cards work
->>> (like the mt7612e).
->>
->> I don't think a HW bug affecting PCI would cause what we are seeing
->> here, unless it results in memory corruption.
-> 
-> 
-> [1] https://www.asiarf.com/shop/wifi-wlan/wifi_mini_pcie/ws2433-wifi-11ac-mini-pcie-module-manufacturer/
-> [2] grep -Rni 'msi' drivers/net/wireless/mediatek/mt76/mt76x2/
-> [3] https://patchwork.kernel.org/project/linux-mediatek/list/?series=372885
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+Dmitry Osipenko (5):
+  reset: Allow devm_reset_control_array_get() to get resets in a
+    released state
+  reset: Add devm_reset_control_array_get_exclusive_released()
+  ASoC: tegra20: ac97: Add reset control
+  ASoC: tegra20: i2s: Add reset control
+  ASoC: tegra30: i2s: Add reset control
+
+ drivers/reset/core.c           |  8 ++++++--
+ include/linux/reset.h          | 20 +++++++++++++------
+ sound/soc/tegra/tegra20_ac97.c | 21 ++++++++++++++++++++
+ sound/soc/tegra/tegra20_ac97.h |  1 +
+ sound/soc/tegra/tegra20_i2s.c  | 31 +++++++++++++++++++++++++++++
+ sound/soc/tegra/tegra20_i2s.h  |  1 +
+ sound/soc/tegra/tegra30_ahub.c | 14 ++++++++++---
+ sound/soc/tegra/tegra30_i2s.c  | 36 +++++++++++++++++++++++++++++++++-
+ sound/soc/tegra/tegra30_i2s.h  |  1 +
+ 9 files changed, 121 insertions(+), 12 deletions(-)
+
+-- 
+2.29.2
+
