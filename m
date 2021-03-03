@@ -2,135 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C415032C307
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Mar 2021 01:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 181F732C25C
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Mar 2021 01:04:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbhCCX7u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Mar 2021 18:59:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1843026AbhCCKYe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Mar 2021 05:24:34 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF722C08EB2F;
-        Wed,  3 Mar 2021 01:47:31 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id z11so36037157lfb.9;
-        Wed, 03 Mar 2021 01:47:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5LbPB3SpTXsri4vi58yOUepQCtx4lRVynCRCrXYDWhk=;
-        b=iBM34Nq5+BjX+uL4bxGvM1OldEbB8bsiriV6mA0YdKunWfydVZxt3BQE8NZkBQ5A4l
-         MUsL+8TPfqMlgKLk7mtcz6iLPwP4DQlmmmwqCUTpSXLeTBGsvA9iynKHaNeS8lGv2d1t
-         I1zQlao/FYaW2hTwuANkJNvihvwp00XYtwjwfTPrY0YoVYwPCQIbyhe6P3IGSU5dHAyE
-         MziklxFAWZqwEgtjlr0FiyJywx5DJYw5vhS1HGoAeZdCjtIxS10kyKaYtxQA+Iy7zZy+
-         Qs+IZqqznZE8DF3EPcwZBbA9pQEbo9htOdISZ3cn/DsR3sX+9vRSkSDQ9ZNcMkMHjvoX
-         WVLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5LbPB3SpTXsri4vi58yOUepQCtx4lRVynCRCrXYDWhk=;
-        b=USBlfKwU/b6Mu6n7gqkafkVKs0UFlfD/YFSZphwqW/kvQ5ZALInasutI7kFeZN3O0a
-         2NCwZz/gIntHqe3vfmTp0SlOos6EASAmB1ls4hSsUIyF+Voht+IGtvPD4BmcFD6U1OUd
-         a+YZORZNJwgMYpXZPSf/eiurE/DtNFjdf9UERVWPHRvVUNXQqhAAzBj4oLuVrEepZC6+
-         6DgqXtYicvUtCVUAEPA+cwJtEmLJR++1sWI8x3sutxqQzNyg4KsPYgEDRvpgR/77veVy
-         yPmY61XZSgZB+Z8Uv65gvCWFKF4g8ASKgbOszz+LYEsOv+gQS+jgBUmY0NNxnvfgqzMo
-         mDBA==
-X-Gm-Message-State: AOAM531WAroJgiPvPkzWoaVlRy4GXUgg6klccgcG4kUOf8gW1ahGrFBu
-        zc0y7bCGfkss1gOWMa6iBLHL9OlUGsw=
-X-Google-Smtp-Source: ABdhPJy0ChQDSEQFEFYwJAY/lp6QPtMzorgpdnThkpJMvj+mgwIDqI2VfCm7n5De5jouxa1PQd6U1Q==
-X-Received: by 2002:a19:8197:: with SMTP id c145mr14892915lfd.655.1614764849889;
-        Wed, 03 Mar 2021 01:47:29 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
-        by smtp.googlemail.com with ESMTPSA id k8sm2920796lfg.41.2021.03.03.01.47.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 01:47:29 -0800 (PST)
-Subject: Re: [PATCH] iommu/tegra-smmu: Fix mc errors on tegra124-nyan
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     joro@8bytes.org, thierry.reding@gmail.com, will@kernel.org,
-        guillaume.tucker@collabora.com, vdumpa@nvidia.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-References: <20210218220702.1962-1-nicoleotsuka@gmail.com>
- <9d6445c0-9574-1650-e327-32b11716f87e@gmail.com>
- <20210223021343.GA6539@Asurada-Nvidia>
- <79bb1248-497f-8adf-663b-74448bea3849@gmail.com>
- <20210225062742.GA13353@Asurada-Nvidia>
- <ee0f40f4-dffe-2987-5d4b-c5896f27ec24@gmail.com>
- <20210302230856.GA22992@Asurada-Nvidia>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4a407ad8-33cb-94e9-398a-78fa65178e08@gmail.com>
-Date:   Wed, 3 Mar 2021 12:47:28 +0300
+        id S233992AbhCCX7x (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Mar 2021 18:59:53 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16409 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234938AbhCCLvw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Mar 2021 06:51:52 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B603f78240001>; Wed, 03 Mar 2021 03:51:00 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 3 Mar
+ 2021 11:51:00 +0000
+Received: from [10.26.49.13] (172.20.145.6) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 3 Mar 2021
+ 11:50:58 +0000
+Subject: Re: [PATCH] ASoC: soc-core: Prevent warning if no DMI table is
+ present
+To:     Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
+CC:     <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        "Liam Girdwood" <lgirdwood@gmail.com>,
+        <linux-kernel@vger.kernel.org>
+References: <20210302092712.310705-1-jonathanh@nvidia.com>
+ <20210302124913.GC4522@sirena.org.uk> <s5hr1kxeah4.wl-tiwai@suse.de>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <806466c4-4ef2-f4ba-3609-81b862810185@nvidia.com>
+Date:   Wed, 3 Mar 2021 11:50:56 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210302230856.GA22992@Asurada-Nvidia>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <s5hr1kxeah4.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614772260; bh=1AMVTuLDPdQruFXHSdhzo4SnKHhmVWXwXkkJpkM8YqE=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=aCzLDb7c2b3EmDwbw4yNcqOD0hSqFwNbIJIYrjf05IWPN5G/awnzNJUVdtSYFvU+3
+         vgtOdOdL1MZxMxxglgcrUrdvoPn17q5bgxrkofNX8OrRWr92nteIhiyCUmixMxNX2C
+         9cOYnu4mDd9POGHWj8gTLuIqfnwrpJb4WIShyqIzKjuQ26Kn/vszdjokcT3ZGrkM7F
+         pga93684vDYKLw172v1UDsjM95syon9ibY2FE8DZR37NAAX3+GmI12vhccuM74GT9w
+         BVL79B85Grq0G+s3YemvY6o9kd86dJsJhhmTQ7Fzu4a2PbAilflqNj57MHBMOkz9LZ
+         h5/4m6J8NwLaQ==
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.03.2021 02:08, Nicolin Chen пишет:
-> On Sat, Feb 27, 2021 at 12:59:17PM +0300, Dmitry Osipenko wrote:
->> 25.02.2021 09:27, Nicolin Chen пишет:
->> ...
->>>> The partially revert should be okay, but it's not clear to me what makes
->>>> difference for T124 since I don't see that problem on T30, which also
->>>> has active display at a boot time.
->>>
->>> Hmm..do you see ->attach_dev() is called from host1x_client_iommu_attach
->>> or from of_dma_configure_id/arch_setup_dma_ops?
->>>
+
+On 02/03/2021 17:23, Takashi Iwai wrote:
+> On Tue, 02 Mar 2021 13:49:13 +0100,
+> Mark Brown wrote:
 >>
->> I applied yours debug-patch, please see dmesg.txt attached to the email.
->> Seems probe-defer of the tegra-dc driver prevents the implicit
->> tegra_smmu_attach_dev, so it happens to work by accident.
+>> On Tue, Mar 02, 2021 at 09:27:12AM +0000, Jon Hunter wrote:
+>>> Many systems do not provide a DMI table and on these systems a warning,
+>>> such as the following, is printed on boot ...
+>>>
+>>>  WARNING KERN tegra-audio-graph-card sound: ASoC: no DMI vendor name!
+>>>
+>>> If DMI support is enabled in the kernel, there is no simple way to
+>>> detect if a DMI table is table or not. Note that the variable
+>>> 'dmi_available' is not exported and so cannot be used by kernel modules.
+>>
+>> We could fix that, or provide an accessor function?  Or only warn if
+>> we're on an ACPI system (which we can check from a module).  This really
+>> does feel like something we should be warning about on systems that are
+>> supposed to have DMI information available as standard.
 > 
->> [    0.327826] tegra-dc 54200000.dc: -------tegra_smmu_of_xlate: id 1
->> [    0.328641] [<c052ec75>] (tegra_smmu_of_xlate) from [<c052e591>] (of_iommu_xlate+0x51/0x70)
->> [    0.328740] [<c052e591>] (of_iommu_xlate) from [<c052e6d7>] (of_iommu_configure+0x127/0x150)
->> [    0.328896] [<c052e6d7>] (of_iommu_configure) from [<c073f697>] (of_dma_configure_id+0x1fb/0x2ec)
->> [    0.329060] [<c073f697>] (of_dma_configure_id) from [<c059743f>] (really_probe+0x7b/0x2a0)
->> [    0.331438] tegra-dc 54200000.dc: --------tegra_smmu_probe_device, 822
->> [    0.332234] [<c052ebed>] (tegra_smmu_probe_device) from [<c052bd6d>] (__iommu_probe_device+0x35/0x1c4)
->> [    0.332391] [<c052bd6d>] (__iommu_probe_device) from [<c052c3cd>] (iommu_probe_device+0x19/0xec)
->> [    0.332545] [<c052c3cd>] (iommu_probe_device) from [<c052e6ab>] (of_iommu_configure+0xfb/0x150)
->> [    0.332701] [<c052e6ab>] (of_iommu_configure) from [<c073f697>] (of_dma_configure_id+0x1fb/0x2ec)
->> [    0.332804] [<c073f697>] (of_dma_configure_id) from [<c059743f>] (really_probe+0x7b/0x2a0)
->> [    0.335202] tegra-dc 54200000.dc: ---------iommu_group_get_for_dev, 1572
->> [    0.335292] tegra-dc 54200000.dc: ---------tegra_smmu_device_group, 862
->> [    0.335474] tegra-dc 54200000.dc: ---------tegra_smmu_device_group, 909: 1: drm
->> [    0.335566] tegra-dc 54200000.dc: ---------iommu_group_get_for_dev, 1574
->> [    0.335718] tegra-dc 54200000.dc: ---------iommu_group_add_device, 858
->> [    0.335862] tegra-dc 54200000.dc: Adding to iommu group 1
->> [    0.335955] tegra-dc 54200000.dc: ---------iommu_alloc_default_domain, 1543: type 3
->> [    0.336101] iommu: ------iommu_group_alloc_default_domain: platform, (null), drm
->> [    0.336187] ---------tegra_smmu_domain_alloc, 284: type 3
->  [    0.336968] [<c0a0ff45>] (tegra_smmu_domain_alloc) from [<c0a0f87b>] (iommu_group_alloc_default_domain+0x4b/0xfa)
->> [    0.337127] [<c0a0f87b>] (iommu_group_alloc_default_domain) from [<c052c41d>] (iommu_probe_device+0x69/0xec)
->> [    0.337285] [<c052c41d>] (iommu_probe_device) from [<c052e6ab>] (of_iommu_configure+0xfb/0x150)
->> [    0.337441] [<c052e6ab>] (of_iommu_configure) from [<c073f697>] (of_dma_configure_id+0x1fb/0x2ec)
->> [    0.337599] [<c073f697>] (of_dma_configure_id) from [<c059743f>] (really_probe+0x7b/0x2a0)
->> [    0.339913] tegra-dc 54200000.dc: ---------iommu_probe_device, 272
->> [    0.348144] tegra-dc 54200000.dc: failed to probe RGB output: -517
+> I had the same feeling when I took a look at the patch, but later
+> changed mind, since the error will pop up also if a system has an
+> unmatured BIOS with some bogus vendor DMI string, too.  That is, users
+> of such a machine gets always an error message although this isn't any
+> serious problem unless you need a dedicated UCM profile (which can't
+> be used on such a system in anyway).
 > 
-> Hmm..not sure where this EPROBE_DEFER comes from.
+> So, I agree that exporting dmi_avilable could improve the situation a
+> bit, but the error level needs still reconsideration.
 
-DC driver on Nexus 7 depends on LVDS bridge and display panel, which
-cause the probe defer.
 
-> But you are right,
-> as of_dma_configure_id() returns because of that so it didn't run to
-> arch_setup_dma_ops() call, which allocates an UNMANAGED iommu domain
-> and attaches DC to it on Tegra124.
-> 
-> By the way, anyone can accept this change? It doesn't feel right to
-> leave a regression in the newer release...
-> 
+Thanks for the feedback. Yes it is probably better if we have a specific
+test. I will send out a V2 for review.
 
-I think Thierry should give ack.
+Thanks
+Jon
+
+-- 
+nvpublic
