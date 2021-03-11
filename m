@@ -2,166 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 511F53375B8
-	for <lists+linux-tegra@lfdr.de>; Thu, 11 Mar 2021 15:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A57803376B3
+	for <lists+linux-tegra@lfdr.de>; Thu, 11 Mar 2021 16:17:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233530AbhCKOaS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Mar 2021 09:30:18 -0500
-Received: from mail-bn8nam08on2057.outbound.protection.outlook.com ([40.107.100.57]:18017
-        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233882AbhCKOaL (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Mar 2021 09:30:11 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ADmAWSJhVuPMqwallmZBWUm6doWDX62Q8CWnnoyRXfz1WSGwoto7YQaHCLSkeG8VScZQtJeCU+IkynrpC8mxv40arUd1MPSkdOP/n+5g8nFQoHYPcFloRbY9gS/8mtEWcmzjpQjJTWwyY2gGtZdOy8Xp4jyGymdPXjG6uuPvzVqdVGeiZYdnwSJcx/iGPXxMD+ZJuo2RcOouL+Dq3vGzMlsuG0G3MY7nHYDTcb8PZozuJadubb11/WgzJIqk2Wme1oOXMRgzMkRmhVc8J87pYdaDiZsEZHZwvW00XUNyESHBoU4tWThFj8WD9OCqEktfkTvJ7/YCQG/7gc0JSlD2Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JRGOKDT+07Q+fR+VGqpEQfHVgYbicxDHj6uaVDi5pnM=;
- b=CUQpZDPMAw6Sqo2/OD4PQoFoa9vI8XAMUrXkbKGxy70NDvDct0YwxmWBfTu7Ka8oTGrVgPcEpVJ5R42CxqUYXITR2M+UZcPbqJw1IYp4j+7aSVl1qnfrVBkHv/W7llpw0/WyOdDBY+UGG7PTHKS7N2bAMnPBL0mOcfRC0HNfHbeYSCkJ5MYmB9ogKvG/xynrBQ5FKBJs9Ds247th0nnljioJhJSY9KCdSKzuYR+Op72/FTyD5FkMDHo1gtxZ3HR3tpBir/cOh9sjd6SackRAKwi/WnovG4hLOEH2H/NR3n5PL0EHCBCpgvCSd6gqJ9A6Om7AEQTjuGKhZ5r+rwXzfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JRGOKDT+07Q+fR+VGqpEQfHVgYbicxDHj6uaVDi5pnM=;
- b=d6jSJ7GjqTn2QFJMYhhNrY7lCp2C/uD/DDqynWYCfhROlNs2Da0/9cGC4e/Q5oobk5lEQGRE8F+MGMDSrNvZomGw5DCZGhjL7Ggl0Kr3XmjQRirAYryUIQarVcW/Ajm7l14IUW4ovsC+bTXOQlHN9Gx+44q8vQRjvMTnoQChUfmrMmd3VJdtrR9R8m8iyyb7cVNRkPEHxK8c235OSznZJ7gNCf3eGcHw3oNdlRkIkHF0bIKmp8Qdnhbb4BPMluD3xQGrlGVbNRcbUP/mbgWgqbvL9fDS43qF7s0SK9CeCKVoXxvAb3rXSOhjtyCinY8xCCldMT5hLH1QumE+/jZadA==
-Received: from MW4PR03CA0342.namprd03.prod.outlook.com (2603:10b6:303:dc::17)
- by BYAPR12MB3045.namprd12.prod.outlook.com (2603:10b6:a03:ac::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.30; Thu, 11 Mar
- 2021 14:30:06 +0000
-Received: from CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:dc:cafe::52) by MW4PR03CA0342.outlook.office365.com
- (2603:10b6:303:dc::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Thu, 11 Mar 2021 14:30:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT052.mail.protection.outlook.com (10.13.174.225) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3933.31 via Frontend Transport; Thu, 11 Mar 2021 14:30:06 +0000
-Received: from [10.25.96.88] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 11 Mar
- 2021 14:30:02 +0000
-Subject: Re: [PATCH 1/3] ASoC: simple-card-utils: Fix device module clock
-To:     Michael Walle <michael@walle.cc>
-CC:     <alsa-devel@alsa-project.org>, <broonie@kernel.org>,
-        <devicetree@vger.kernel.org>, <jonathanh@nvidia.com>,
-        <kuninori.morimoto.gx@renesas.com>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <robh@kernel.org>,
-        <sharadg@nvidia.com>, <thierry.reding@gmail.com>
-References: <1612939421-19900-2-git-send-email-spujar@nvidia.com>
- <20210309144156.18887-1-michael@walle.cc>
- <e8b80188-978c-29fa-b5d4-9788a9f2282f@nvidia.com>
- <611ed3362dee3b3b7c7a80edfe763fd0@walle.cc>
- <ca540fb6-2ea7-90b0-66ad-097e99b6e585@nvidia.com>
- <eb26f8e0a4c99d0c9de9d92612102718@walle.cc>
- <fa654e7a-80cc-7ae8-15c6-780e7fa29bb1@nvidia.com>
- <cadc59f29bbb2e0d02235d4c10cb7f4d@walle.cc>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <36c37df5-dffb-9168-d92f-4b3e482602fa@nvidia.com>
-Date:   Thu, 11 Mar 2021 19:59:59 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S234005AbhCKPRV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Mar 2021 10:17:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234042AbhCKPRA (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 11 Mar 2021 10:17:00 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BE3C061574;
+        Thu, 11 Mar 2021 07:16:59 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id r3so32170938lfc.13;
+        Thu, 11 Mar 2021 07:16:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n+CWL2eeNTaEvB0jQuPhLTAbsCLd3NsiBreGGzW2cpY=;
+        b=uFfeVaXxKPI9mw9nMGWki7PhnUs62kQ+YxvX/xZCj2dbVar9p8vsGMdubO4u5mo7/4
+         PfOf2ABVcmPPS579y0y04F/+wm98/+H4D3BErvV/XKqzJJtrZQ5CWBE2MoSBOeEayhlP
+         In/ZGkV2cvvEP13xLNC1n5Ofs5PWh9mxR1r2qzUWuzP5iqo8qZUNpYQkm+o+CLMYhzLU
+         AoOKaTncy/x42DyLS7rKnWhDwb7VZ+814LQ1B8scCe9y0nLEdk5uBPSKjgUf88wt1TpO
+         KV11g9CzUyf9ngaqMlaSm1VAgTLS41LUTvDBSNczf9Z593jByI7sAXWS6hP8Zj7BzwbM
+         4M7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n+CWL2eeNTaEvB0jQuPhLTAbsCLd3NsiBreGGzW2cpY=;
+        b=KLMuB4n1MNwb5oBXYrYORECp+Q0e+CAi1P1hPdXbwjwPJzNYv2I+utTAFe84Lk9i7u
+         lQyNiglpuV16MQQ3fbWQr86DwZ+RjaCgGkwwpaSxMXXJYm3RrBBw8e8EaXoPFjtTngut
+         YZvaGcY8MwEyJCeQVux2EmGupXce3ejosHT2SXOVSVmqBo/Br8QLBU4FbtemT7r3DRSh
+         qTzAlCkmlIMT3doZoW1fgQfNBAR/hEkOOwN8+vrRTcK+lHLferyRJORmGKyCRiN1SBjm
+         6k3zfwpFuppTO9b+W8Fd1G7DWiCapHl8ITYdxvH1+RWwWjqDts0gNt+0bmGZrm/EtLNl
+         dWMw==
+X-Gm-Message-State: AOAM531ZxzKgv1FPg2Hq4qpmt6DpWcu29N9L3Bs7T9+Myul7SClz4PnO
+        wSeHDHg6fZu1Bmq+EPiqaatzd1SUfOU=
+X-Google-Smtp-Source: ABdhPJxSFPmw78X8rhBkudz4LZD992grPPJ+eluRXMRkArcbOBDeZxExkTV0P8S1FLdgnfKZo3LOaA==
+X-Received: by 2002:a19:e08:: with SMTP id 8mr2476210lfo.199.1615475818193;
+        Thu, 11 Mar 2021 07:16:58 -0800 (PST)
+Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
+        by smtp.gmail.com with ESMTPSA id m24sm923138lfq.184.2021.03.11.07.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 07:16:57 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Fertser <fercerpav@gmail.com>
+Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] Add missing reset controls to NVIDIA Tegra ASoC drivers
+Date:   Thu, 11 Mar 2021 18:15:49 +0300
+Message-Id: <20210311151554.23982-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <cadc59f29bbb2e0d02235d4c10cb7f4d@walle.cc>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: df94c9ed-03ae-4ea2-e490-08d8e49a2ab1
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3045:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3045F02587DC979CF5DE62A5A7909@BYAPR12MB3045.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gbwdNGeuNBraUQgM07PCAQ2wc2eqyXKn59iRnLIx/J1wBavNZtvDEovVNt9KPB4Jrzm6xP1cTce1JVXmUvdPjAGz23vJRL6QFjQwZ9pEqb5a7NB1pIc3T5dj8UtIPw9w3MSI3h9SsA3lYusVJchkwW0dauQbYiOo19hCQwTHKPUiipssIrGoI/bim5tqyji5Aw9c3VYbWf2M158sax/1mpdGEWCF59lhBCKGXpxYyA7zGjsb+lJwcpdZrdLQNeFsnIKcmrAc1MQ9huLLYIjZ3EUz4axQyjJ0NoS+O2Olq98MvkSKEak53hvZ7JIDvE5BO9oBu8+yC7ABZuo1WEF0yDlj1fgkfgxsCbEnzF6MBWXJaCGjSw5UJy58tNMQGaYcZxTzgtA3nK8q/1Tu6PV6bOJRZ5CGm7Oebkitk85tPYk2DTARCNrjMufl7bpEUcnR5fdZov1jYXukhlXC8lygxDZs2Xw+/4eSml8eQpmQmldqpgkQN3fyZjnA1sw1DwSQJndSolWW2stgE1yV0LdR6KpZBDTp1qnvro7Jaw2ty0mEohdnrzHhXEh2BLJNGa+aYp/MI+gNs0ljfBSXibNkLgAuCG1mZoPFKO54bflxTmX3b12vDCozk5DUDCtq+9lLYUOp5JMvOWTiCtGbXBzFiyGobSOp3RYaWriNoPqT3OdjMswodHo5NIyIDK389S6gj4HRlFGolqSYd1boyGRmB7oigRiGohHr7pMVowK/8KnHsvWPZ0P9j7Kdb0zJQR+5gpyQnusjDZbWiMKkkbASx4B7iFKBZ0OXab6Rq/iSDH8=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(39860400002)(376002)(346002)(396003)(46966006)(36840700001)(70586007)(70206006)(6916009)(83380400001)(53546011)(966005)(36906005)(36756003)(2906002)(16526019)(6666004)(31686004)(5660300002)(186003)(16576012)(478600001)(47076005)(426003)(336012)(82310400003)(8676002)(2616005)(54906003)(31696002)(7636003)(8936002)(26005)(34070700002)(4326008)(36860700001)(356005)(82740400003)(316002)(86362001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2021 14:30:06.4123
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: df94c9ed-03ae-4ea2-e490-08d8e49a2ab1
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3045
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi,
 
+This series adds missing hardware reset controls to I2S and AC97 drivers.
+Currently drivers happen to work properly because reset is implicitly
+deasserted by tegra-clk driver, but clk driver shouldn't touch the resets
+and we need to fix it because this breaks other Tegra drivers. Previously
+we fixed the resets of the AHUB and HDMI codec drivers, but turned out
+that we missed the I2C and AC97 drivers.
 
-On 3/11/2021 4:46 PM, Michael Walle wrote:
-> Am 2021-03-11 12:05, schrieb Sameer Pujar:
->
->> It would work and initially I had similar patch, see [0] and related
->> series. Suggestion is to always use "clocks" property with devices
->> only.
->
-> I see. But again, I don't think it is correct to change the clock of
-> the codec by default. What happens if this is for example a
-> compatible = "fixed-clock"?
+Thanks to Paul Fertser for testing the pending clk patches and finding
+that audio got broken on Tegra20 AC100 netbook because of the missing I2S
+reset.
 
-The codec rate won't be changed unless a corresponding "*mclk-fs" is 
-provided.
+Changelog:
 
->
-> As you pointed out in the referred thread [0]. simple-audio-card has
-> that clock and judging from the code it is exactly for this reason:
-> to either change/enable it or not.
->
+v2: - After some more testing I found that I2S control logic doesn't require
+      I2S clock to be enabled for resetting. Hence it's fine to have I2S to
+      be reset by parent AHUB driver, so I dropped "tegra30: i2s: Add reset
+      control" patch.
 
+    - While I was double-checking resets on Tegra30, I found that that
+      Tegra30 I2S driver has a broken runtime PM which doesn't restore
+      hardware state on resume and it's lost after AHUB RPM-resume.
+      Thus, added this new patch "tegra30: i2s: Restore hardware state
+      on runtime PM resume".
 
-> With this patch you'll switch that to "always change it". Therefore,
-> shouldn't there be a dt flag to indicate wheter simple-audio-card/graph
-> should be in charge of the codecs clock input?
+    - Added new patches which switch AHUB driver to use reset-bulk API.
+      I took the RFC patch from Philipp Zabel, fixed it and added
+      devm_reset_control_bulk_optional_get_exclusive_released() that
+      will be useful for further Tegra GPU patches. This is a minor
+      improvement which makes code cleaner.
 
-As mentioned above, it does not change always. Requires "*mclk-fs" to do so.
+Dmitry Osipenko (4):
+  ASoC: tegra20: ac97: Add reset control
+  ASoC: tegra20: i2s: Add reset control
+  ASoC: tegra30: i2s: Restore hardware state on runtime PM resume
+  ASoC: tegra: ahub: Switch to use reset-bulk API
 
-May be below could be a possible alternative?
-- Re-order if-else of clock parsing.
+Philipp Zabel (1):
+  reset: Add reset_control_bulk API
 
-    if (!of_property_read_u32(node, "system-clock-frequency", &val)) {
-        // Since you are fixing rate already via "assigned-clocks" this 
-may be a duplication. OR
-        // "assigned-clocks" can be parsed to understand if a fixed rate 
-is expected.
+ drivers/reset/core.c           | 215 +++++++++++++++++++++++++
+ include/linux/reset.h          | 279 +++++++++++++++++++++++++++++++++
+ sound/soc/tegra/tegra20_ac97.c |  21 +++
+ sound/soc/tegra/tegra20_ac97.h |   1 +
+ sound/soc/tegra/tegra20_i2s.c  |  31 ++++
+ sound/soc/tegra/tegra20_i2s.h  |   1 +
+ sound/soc/tegra/tegra30_ahub.c | 104 +++++-------
+ sound/soc/tegra/tegra30_ahub.h |   5 +-
+ sound/soc/tegra/tegra30_i2s.c  |  41 ++---
+ 9 files changed, 600 insertions(+), 98 deletions(-)
 
-        simple_dai->sysclk = val;
-    } else {
-        // fetch MCLK clock from device and setup sysclk
-        // a. If "*mclk-fs" is given and "clocks" is found, the rate 
-would be updated.
-        // b. If "*mclk-fs" is not mentioned and "clocks" is found, then 
-simple-card utils won't touch rate. It will just do clock enable/disable.
-    }
-
->
-> And its fetching just the first clock, doesn't it? What happens if a
-> codec has two clock inputs?
-
-Yes, it would have been more descriptive if it were specifically looking 
-for clock "mclk". I think the original assumption was codec takes one 
-input clock (MCLK) and uses it for sysclk.
-
->
-> -michael
->
-> [0]
-> https://patchwork.kernel.org/project/alsa-devel/patch/1611944866-29373-4-git-send-email-spujar@nvidia.com/ 
->
+-- 
+2.29.2
 
