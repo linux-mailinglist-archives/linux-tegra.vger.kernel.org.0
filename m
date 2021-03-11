@@ -2,288 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07A4A3376B9
-	for <lists+linux-tegra@lfdr.de>; Thu, 11 Mar 2021 16:17:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 554C333784E
+	for <lists+linux-tegra@lfdr.de>; Thu, 11 Mar 2021 16:44:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234059AbhCKPRY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Mar 2021 10:17:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234055AbhCKPRD (ORCPT
+        id S234205AbhCKPnb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Mar 2021 10:43:31 -0500
+Received: from ssl.serverraum.org ([176.9.125.105]:44403 "EHLO
+        ssl.serverraum.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234164AbhCKPnX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Mar 2021 10:17:03 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C36C061760;
-        Thu, 11 Mar 2021 07:17:03 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id f16so2605602ljm.1;
-        Thu, 11 Mar 2021 07:17:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KFH1WQ55n2o2H6XVeSwGtTqtJ0JVSPd2X/kO35Iu2VI=;
-        b=UDBlQOo0VHuBWQvz7qb5TRIEFjZSUTGJX4ib8y2FFVO4qqp0rOjQQ7+kS7wzvmI0bW
-         M5toL29Iv+a3TDrQmKObPT9sE6ZoCW2RV9sFYqQl55y7pDFRxUQHKe96PHH4n1SWFka9
-         VQO86dINekEbGOh3fnI79PXP9hNiZXiRp4Trv3phpZtbwn1l+QTRxSEW/h4iQAuqd9YU
-         96ydk0HNI35S+PkhPFhVnmCweJWvoRDYflvssGhCIoRbWEMN0S4yMz2aMAVUqNvMSQlT
-         Mt1uPEngr3+Ba7WdTLJ3tpSmWxCxNtcw+RS1/eyY9YefrqCLj2dtwV4Uwl2vrMGnCXXn
-         Vu4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KFH1WQ55n2o2H6XVeSwGtTqtJ0JVSPd2X/kO35Iu2VI=;
-        b=e4umUHBrOr3DTFkbOol6g6GxmcqxtATZ8uqqOi2DBKEMus/nwH/w997TavFwb6ohPO
-         zqVrjG0V4w6e0irP9+rpe12a/cPBYnBHvIfXsqn60Sva43or+LX7ZMafv1H0FOwzd/np
-         aWMrAs5JA1vOUC3RKWj35VJ2s20YJvNE3FsdGro6sht+/nxlsbEhdcAiPH0dEjO9dM0K
-         NjDfmjeAMChG728qUOKAZasODfkC+dfOCkCVaU5vO3NdNVCFS18BMewO8lG1l6Fd9TVN
-         ma0KCEIphLk5iKG3adfDWoo2uta3oYWkODIZ0AJLOSaSPq/ja+e1UW5XYopWaPafLf4k
-         Ka8A==
-X-Gm-Message-State: AOAM530/bNQnq218zRISODy0jJFSxIJYMs+k5Qk1WvM5Qcva2HdSVoBg
-        /cyOz/8P3oJwsTWj/5kgEqQ=
-X-Google-Smtp-Source: ABdhPJxOKm/YqUC61DpNZ2SEmcZxsIjoGKR76Kk7YgVANQIN4qWFQoo9dB1XipoxHFS1Kh13U9Dj6A==
-X-Received: by 2002:a2e:8e75:: with SMTP id t21mr5176930ljk.216.1615475821883;
-        Thu, 11 Mar 2021 07:17:01 -0800 (PST)
-Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
-        by smtp.gmail.com with ESMTPSA id m24sm923138lfq.184.2021.03.11.07.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 07:17:01 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Fertser <fercerpav@gmail.com>
-Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] ASoC: tegra: ahub: Switch to use reset-bulk API
-Date:   Thu, 11 Mar 2021 18:15:54 +0300
-Message-Id: <20210311151554.23982-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210311151554.23982-1-digetx@gmail.com>
-References: <20210311151554.23982-1-digetx@gmail.com>
+        Thu, 11 Mar 2021 10:43:23 -0500
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id 087662224F;
+        Thu, 11 Mar 2021 16:43:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+        t=1615477401;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4E0kyLx6eQ/C8Z24BR6u+cUJgT5ViA0Q6ynIRgxXQaI=;
+        b=nnoOY3nXiQJXY8eEdfWGXbBl1vxhlLuSRABQDNnG6ui/zHZ4x4l5ZNOTqAsqXIPw9r71Gp
+        HbfoE5F8JnPsuuxQRRXUbfiJqKYeyD/8mvAsN/8U5LkacOYrb7DYnXDuPOPk9cqqRaceKw
+        go9v4YCh+yPGVVecKnUprx6wNaRkI7k=
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+Date:   Thu, 11 Mar 2021 16:43:20 +0100
+From:   Michael Walle <michael@walle.cc>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     alsa-devel@alsa-project.org, broonie@kernel.org,
+        devicetree@vger.kernel.org, jonathanh@nvidia.com,
+        kuninori.morimoto.gx@renesas.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, robh@kernel.org, sharadg@nvidia.com,
+        thierry.reding@gmail.com
+Subject: Re: [PATCH 1/3] ASoC: simple-card-utils: Fix device module clock
+In-Reply-To: <36c37df5-dffb-9168-d92f-4b3e482602fa@nvidia.com>
+References: <1612939421-19900-2-git-send-email-spujar@nvidia.com>
+ <20210309144156.18887-1-michael@walle.cc>
+ <e8b80188-978c-29fa-b5d4-9788a9f2282f@nvidia.com>
+ <611ed3362dee3b3b7c7a80edfe763fd0@walle.cc>
+ <ca540fb6-2ea7-90b0-66ad-097e99b6e585@nvidia.com>
+ <eb26f8e0a4c99d0c9de9d92612102718@walle.cc>
+ <fa654e7a-80cc-7ae8-15c6-780e7fa29bb1@nvidia.com>
+ <cadc59f29bbb2e0d02235d4c10cb7f4d@walle.cc>
+ <36c37df5-dffb-9168-d92f-4b3e482602fa@nvidia.com>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <d4947632a8b3ebefff7fb6751d05a9bd@walle.cc>
+X-Sender: michael@walle.cc
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Switch to use reset-bulk API in order to make code cleaner.
+Am 2021-03-11 15:29, schrieb Sameer Pujar:
+> On 3/11/2021 4:46 PM, Michael Walle wrote:
+>> Am 2021-03-11 12:05, schrieb Sameer Pujar:
+>> 
+>>> It would work and initially I had similar patch, see [0] and related
+>>> series. Suggestion is to always use "clocks" property with devices
+>>> only.
+>> 
+>> I see. But again, I don't think it is correct to change the clock of
+>> the codec by default. What happens if this is for example a
+>> compatible = "fixed-clock"?
+> 
+> The codec rate won't be changed unless a corresponding "*mclk-fs" is 
+> provided.
+> 
+>> 
+>> As you pointed out in the referred thread [0]. simple-audio-card has
+>> that clock and judging from the code it is exactly for this reason:
+>> to either change/enable it or not.
+>> 
+> 
+> 
+>> With this patch you'll switch that to "always change it". Therefore,
+>> shouldn't there be a dt flag to indicate wheter 
+>> simple-audio-card/graph
+>> should be in charge of the codecs clock input?
+> 
+> As mentioned above, it does not change always. Requires "*mclk-fs" to 
+> do so.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- sound/soc/tegra/tegra30_ahub.c | 104 ++++++++++++---------------------
- sound/soc/tegra/tegra30_ahub.h |   5 +-
- sound/soc/tegra/tegra30_i2s.c  |   1 +
- 3 files changed, 40 insertions(+), 70 deletions(-)
+As mentioned earlier, this is changing the sysclk, too. And I'd guess
+most codecs need a fixed factor for the sysclk, thus if the codec 
+supports
+generating its own sysclk by a PLL it will need this factor, too.
 
-diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
-index 9ef05ca4f6c4..d24c26f4960d 100644
---- a/sound/soc/tegra/tegra30_ahub.c
-+++ b/sound/soc/tegra/tegra30_ahub.c
-@@ -65,7 +65,7 @@ static int tegra30_ahub_runtime_resume(struct device *dev)
- {
- 	int ret;
- 
--	ret = reset_control_assert(ahub->reset);
-+	ret = reset_control_bulk_assert(ahub->nresets, ahub->resets);
- 	if (ret)
- 		return ret;
- 
-@@ -75,7 +75,7 @@ static int tegra30_ahub_runtime_resume(struct device *dev)
- 
- 	usleep_range(10, 100);
- 
--	ret = reset_control_deassert(ahub->reset);
-+	ret = reset_control_bulk_deassert(ahub->nresets, ahub->resets);
- 	if (ret)
- 		goto disable_clocks;
- 
-@@ -339,41 +339,28 @@ int tegra30_ahub_unset_rx_cif_source(enum tegra30_ahub_rxcif rxcif)
- }
- EXPORT_SYMBOL_GPL(tegra30_ahub_unset_rx_cif_source);
- 
--#define MOD_LIST_MASK_TEGRA30	BIT(0)
--#define MOD_LIST_MASK_TEGRA114	BIT(1)
--#define MOD_LIST_MASK_TEGRA124	BIT(2)
--
--#define MOD_LIST_MASK_TEGRA30_OR_LATER \
--		(MOD_LIST_MASK_TEGRA30 | MOD_LIST_MASK_TEGRA114 | \
--			MOD_LIST_MASK_TEGRA124)
--#define MOD_LIST_MASK_TEGRA114_OR_LATER \
--		(MOD_LIST_MASK_TEGRA114 | MOD_LIST_MASK_TEGRA124)
--
--static const struct {
--	const char *rst_name;
--	u32 mod_list_mask;
--} configlink_mods[] = {
--	{ "d_audio", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "apbif", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "i2s0", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "i2s1", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "i2s2", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "i2s3", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "i2s4", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "dam0", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "dam1", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "dam2", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "spdif", MOD_LIST_MASK_TEGRA30_OR_LATER },
--	{ "amx", MOD_LIST_MASK_TEGRA114_OR_LATER },
--	{ "adx", MOD_LIST_MASK_TEGRA114_OR_LATER },
--	{ "amx1", MOD_LIST_MASK_TEGRA124 },
--	{ "adx1", MOD_LIST_MASK_TEGRA124 },
--	{ "afc0", MOD_LIST_MASK_TEGRA124 },
--	{ "afc1", MOD_LIST_MASK_TEGRA124 },
--	{ "afc2", MOD_LIST_MASK_TEGRA124 },
--	{ "afc3", MOD_LIST_MASK_TEGRA124 },
--	{ "afc4", MOD_LIST_MASK_TEGRA124 },
--	{ "afc5", MOD_LIST_MASK_TEGRA124 },
-+static const struct reset_control_bulk_data tegra30_ahub_resets_data[] = {
-+	{ "d_audio" },
-+	{ "apbif" },
-+	{ "i2s0" },
-+	{ "i2s1" },
-+	{ "i2s2" },
-+	{ "i2s3" },
-+	{ "i2s4" },
-+	{ "dam0" },
-+	{ "dam1" },
-+	{ "dam2" },
-+	{ "spdif" },
-+	{ "amx" }, /* Tegra114+ */
-+	{ "adx" }, /* Tegra114+ */
-+	{ "amx1" }, /* Tegra124 */
-+	{ "adx1" }, /* Tegra124 */
-+	{ "afc0" }, /* Tegra124 */
-+	{ "afc1" }, /* Tegra124 */
-+	{ "afc2" }, /* Tegra124 */
-+	{ "afc3" }, /* Tegra124 */
-+	{ "afc4" }, /* Tegra124 */
-+	{ "afc5" }, /* Tegra124 */
- };
- 
- #define LAST_REG(name) \
-@@ -502,17 +489,17 @@ static const struct regmap_config tegra30_ahub_ahub_regmap_config = {
- };
- 
- static struct tegra30_ahub_soc_data soc_data_tegra30 = {
--	.mod_list_mask = MOD_LIST_MASK_TEGRA30,
-+	.num_resets = 11,
- 	.set_audio_cif = tegra30_ahub_set_cif,
- };
- 
- static struct tegra30_ahub_soc_data soc_data_tegra114 = {
--	.mod_list_mask = MOD_LIST_MASK_TEGRA114,
-+	.num_resets = 13,
- 	.set_audio_cif = tegra30_ahub_set_cif,
- };
- 
- static struct tegra30_ahub_soc_data soc_data_tegra124 = {
--	.mod_list_mask = MOD_LIST_MASK_TEGRA124,
-+	.num_resets = 21,
- 	.set_audio_cif = tegra124_ahub_set_cif,
- };
- 
-@@ -527,8 +514,6 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
- 	const struct tegra30_ahub_soc_data *soc_data;
--	struct reset_control *rst;
--	int i;
- 	struct resource *res0;
- 	void __iomem *regs_apbif, *regs_ahub;
- 	int ret = 0;
-@@ -541,34 +526,16 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	soc_data = match->data;
- 
--	/*
--	 * The AHUB hosts a register bus: the "configlink". For this to
--	 * operate correctly, all devices on this bus must be out of reset.
--	 */
--	for (i = 0; i < ARRAY_SIZE(configlink_mods); i++) {
--		if (!(configlink_mods[i].mod_list_mask &
--					soc_data->mod_list_mask))
--			continue;
--
--		rst = reset_control_get_exclusive(&pdev->dev,
--						  configlink_mods[i].rst_name);
--		if (IS_ERR(rst)) {
--			dev_err(&pdev->dev, "Can't get reset %s\n",
--				configlink_mods[i].rst_name);
--			ret = PTR_ERR(rst);
--			return ret;
--		}
--
--		/* just check presence of the reset control in DT */
--		reset_control_put(rst);
--	}
--
- 	ahub = devm_kzalloc(&pdev->dev, sizeof(struct tegra30_ahub),
- 			    GFP_KERNEL);
- 	if (!ahub)
- 		return -ENOMEM;
- 	dev_set_drvdata(&pdev->dev, ahub);
- 
-+	BUILD_BUG_ON(sizeof(ahub->resets) != sizeof(tegra30_ahub_resets_data));
-+	memcpy(ahub->resets, tegra30_ahub_resets_data, sizeof(ahub->resets));
-+
-+	ahub->nresets = soc_data->num_resets;
- 	ahub->soc_data = soc_data;
- 	ahub->dev = &pdev->dev;
- 
-@@ -579,10 +546,11 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	ahub->reset = devm_reset_control_array_get_exclusive(&pdev->dev);
--	if (IS_ERR(ahub->reset)) {
--		dev_err(&pdev->dev, "Can't get resets: %pe\n", ahub->reset);
--		return PTR_ERR(ahub->reset);
-+	ret = devm_reset_control_bulk_get_exclusive(&pdev->dev, ahub->nresets,
-+						    ahub->resets);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Can't get resets: %d\n", ret);
-+		return ret;
- 	}
- 
- 	res0 = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-diff --git a/sound/soc/tegra/tegra30_ahub.h b/sound/soc/tegra/tegra30_ahub.h
-index 3b85244f87f1..c9eaf4ec8f6e 100644
---- a/sound/soc/tegra/tegra30_ahub.h
-+++ b/sound/soc/tegra/tegra30_ahub.h
-@@ -491,7 +491,7 @@ void tegra124_ahub_set_cif(struct regmap *regmap, unsigned int reg,
- 			   struct tegra30_ahub_cif_conf *conf);
- 
- struct tegra30_ahub_soc_data {
--	u32 mod_list_mask;
-+	unsigned int num_resets;
- 	void (*set_audio_cif)(struct regmap *regmap,
- 			      unsigned int reg,
- 			      struct tegra30_ahub_cif_conf *conf);
-@@ -511,7 +511,8 @@ struct tegra30_ahub_soc_data {
- struct tegra30_ahub {
- 	const struct tegra30_ahub_soc_data *soc_data;
- 	struct device *dev;
--	struct reset_control *reset;
-+	struct reset_control_bulk_data resets[21];
-+	unsigned int nresets;
- 	struct clk_bulk_data clocks[2];
- 	unsigned int nclocks;
- 	resource_size_t apbif_addr;
-diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index 3d22c1be6f3d..614b67be1dd9 100644
---- a/sound/soc/tegra/tegra30_i2s.c
-+++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -23,6 +23,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-+#include <linux/reset.h>
- #include <linux/slab.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
--- 
-2.29.2
+Which is also defined in the binding:
 
+   system-clock-frequency:
+     description: |
+       If a clock is specified and a multiplication factor is given with
+       mclk-fs, the clock will be set to the calculated mclk frequency
+       when the stream starts.
+
+
+> May be below could be a possible alternative?
+> - Re-order if-else of clock parsing.
+> 
+>    if (!of_property_read_u32(node, "system-clock-frequency", &val)) {
+>        // Since you are fixing rate already via "assigned-clocks" this
+> may be a duplication. OR
+
+exactly. and also need a device tree change (also for older kernels)
+on my side.
+
+This could be a last resort, yes. But I'd rather see a flag which
+indicates whether the simple-audio-card should control the (first)
+clock of the codec or not. Because until now, this wasn't the case.
+And I don't know if this was an oversight or on purpose. Kuninori would
+need to comment on that. And with the "we change mclk by default", we
+break codecs with automatic sysclk generation.
+
+>        // "assigned-clocks" can be parsed to understand if a fixed
+> rate is expected.
+
+Sounds like a hack to me. Esp. its doing the same as its already
+doing right now. That is a "sysfreq = clk_get_rate(codec)".
+
+>        simple_dai->sysclk = val;
+>    } else {
+>        // fetch MCLK clock from device and setup sysclk
+>        // a. If "*mclk-fs" is given and "clocks" is found, the rate
+> would be updated.
+>        // b. If "*mclk-fs" is not mentioned and "clocks" is found,
+> then simple-card utils won't touch rate. It will just do clock
+> enable/disable.
+
+mclk-fs is also a factor for the sysclk, thus it is also needed
+if there is no mclk (or a fixed mclk).
+
+I don't think you can deduce whether you can change the codecs
+first clock with the current information :(
+
+>    }
+> 
+>> 
+>> And its fetching just the first clock, doesn't it? What happens if a
+>> codec has two clock inputs?
+> 
+> Yes, it would have been more descriptive if it were specifically
+> looking for clock "mclk". I think the original assumption was codec
+> takes one input clock (MCLK) and uses it for sysclk.
+
+Yeah, I've just noticed that the clk_get_rate() also only works
+for the first clock of the codec.
+
+-michael
