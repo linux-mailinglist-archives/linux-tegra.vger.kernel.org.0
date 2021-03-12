@@ -2,96 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA6A33830B
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Mar 2021 02:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B29338533
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Mar 2021 06:28:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230175AbhCLBLt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Mar 2021 20:11:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56928 "EHLO
+        id S230168AbhCLF1d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Mar 2021 00:27:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbhCLBLt (ORCPT
+        with ESMTP id S230317AbhCLF1C (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Mar 2021 20:11:49 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DA1C061574;
-        Thu, 11 Mar 2021 17:11:48 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id kr3-20020a17090b4903b02900c096fc01deso10242947pjb.4;
-        Thu, 11 Mar 2021 17:11:48 -0800 (PST)
+        Fri, 12 Mar 2021 00:27:02 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B03F1C061574
+        for <linux-tegra@vger.kernel.org>; Thu, 11 Mar 2021 21:27:02 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id y67so1088411pfb.2
+        for <linux-tegra@vger.kernel.org>; Thu, 11 Mar 2021 21:27:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=16+EGqIhvzNXbdawWsI24XgIQiUgZzzrwVqWt5tsI6Q=;
-        b=k9/V8e9h7lxJGy3+MvDbuIN+ZYqSyUG2tRF5AcbhR75EaTsDgVFbTPeXzQFoCt5Y0z
-         maWum4fpgZCnxzMCM1UnW6bV7Mc2dki6/0AEPh09DM69U4ozafluPUirqWTSkR3qG5ZL
-         TSs0o2z4duN4aAcf3R0oLBDNGwGZ6IBeAhMoS8/4GEYwtyNOWYRgduR3Ucky7rCRJaQS
-         Xd54+6SIcYHnOWuWSRZt5t6f4pxRxV0n12IFfwY3Or+u6tch+nNOSe8ZrKzL38zFBgs5
-         F6esRhGL1FrhBS8hrao32eJDPriSrnDFQBn2dPFJML18s58L0JOwcbt0p9QzSH/54iOD
-         y+PQ==
+         :content-disposition:in-reply-to:user-agent;
+        bh=J5fqwubZg87avI0rRtQwN+SXtjOKj2+8RaJp62TnkpA=;
+        b=mf2lohOPVRGidobqklbZjn3Xnmn4GilOSAPz/Es4rZMVhvRFW16qKSvJwGxacizmDM
+         tT+ibJwyDMj0dZ0QwtMsGsshtI9JpOBj3AoJvLaAxuhaZ4HL6tkdafRXi5HPx8aFNxZ7
+         4/jSQSqTdf3ieXs01o99B+bOnXCH2Vj1q5a3kEifOFtvDASGY1G+OFDLlWG+R79T9q7h
+         sdjbwjQxL/4vjj48pT1ohmJzSy1nFnAXg+AW9fFrnh+JpHsKDI6C6jrmli1PwCO/6P9O
+         ggAmfg1YDpRtAAdzDL+kVupEn08FqGF4jO3q4TaMYNg5dJBZY8ewfS1R7G6SA7fUhvy0
+         ssOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=16+EGqIhvzNXbdawWsI24XgIQiUgZzzrwVqWt5tsI6Q=;
-        b=AHmNyGG106SHGQVAbRjYufYD3KR7/w6MBJi8+1Wu5kTy+I9M8c7I+avYKyDcz90WbQ
-         EdiHcyV4CjMclX9zoT5XQU6yAYONs8NmdwGZP7orgHsroW3z6w3Wo4pvq50PPQq3l18M
-         5USafL0C3cUFULQmZmaagh5pFjBNUlZE8tgOXht/sxgqzIDTiebUQzA3fS0w8q8Hh5D8
-         WYwAvzcYANCwgoyOU3L+XimGDKHmTxP+9TDz9Z6lxKYaalxYRfB06tkSyfF27HsZFaCL
-         pJ5Jm2eOFdAgQnS7d0aB3DexQ2DaowvVbHymEX9Feqdk87E9RPIRS4LgDcsdL5tf6puK
-         +PSw==
-X-Gm-Message-State: AOAM531oiDhfngZCyEugyZTc62uD0xLr7V7kCS4f/BF1TGxVjckR/wXP
-        cFJbvoqBYIQHp/Vfr4sTS8A=
-X-Google-Smtp-Source: ABdhPJzra0SHtLriT5uJdvG596fUt/NZvuBX6OT9xr5DxY7UWyuTAm+swZOTYPYO+BHr8ri+MLVl2Q==
-X-Received: by 2002:a17:90a:f82:: with SMTP id 2mr11837097pjz.196.1615511508531;
-        Thu, 11 Mar 2021 17:11:48 -0800 (PST)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id y7sm268087pja.25.2021.03.11.17.11.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 11 Mar 2021 17:11:48 -0800 (PST)
-Date:   Thu, 11 Mar 2021 17:09:33 -0800
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=J5fqwubZg87avI0rRtQwN+SXtjOKj2+8RaJp62TnkpA=;
+        b=gF9pY8qTY6W4e5vpUYmubDu3u8qsY34K7d9fw7KBU7VRyfZ7efTGAxaKCQvE6TOcWQ
+         NbfXO4UvpWJCVahgOukQ0a8Eyc3vyd4cJx+3c0hADbIKx28Qc2vjVZz8vm2i7yhh0vZJ
+         Qs8833Mnmpx9xwZ1vPeBXDVqTgqBDy2nKn3jMvXoKJfTu/GexWQlQlHJdafrMoSpKcxL
+         9ZZb3hOkChGPB9ULbIuNUzuNSzlJZcFG1Cj8hCWsfb5TJmS9IW/etuQna3QWuuT+MzJe
+         zZsXOso2K8GHpWcOtgVb+/ro/C0sn/X5zP51LouDLmQfkQfY5x9aZmNy+Vlff76H4Xz0
+         dyNw==
+X-Gm-Message-State: AOAM5322a52N+I2xdOgiJY+UcRxsFENdQW4gkDbLD9ek1j0nJThwcDHa
+        DuJ4zREUQkM6IqJhdCIsXLBezA==
+X-Google-Smtp-Source: ABdhPJxSydG1zZQdQJipt4kFNAl189iLlI7sOzPMgqns7aTDEbaSzTwo9QPnHQ8GgoEZNmcDOq5YJA==
+X-Received: by 2002:a62:84c3:0:b029:1f5:8dbf:4e89 with SMTP id k186-20020a6284c30000b02901f58dbf4e89mr10615120pfd.49.1615526821953;
+        Thu, 11 Mar 2021 21:27:01 -0800 (PST)
+Received: from localhost ([122.171.124.15])
+        by smtp.gmail.com with ESMTPSA id a144sm4185197pfd.200.2021.03.11.21.27.00
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 11 Mar 2021 21:27:01 -0800 (PST)
+Date:   Fri, 12 Mar 2021 10:56:59 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     joro@8bytes.org, thierry.reding@gmail.com, will@kernel.org,
-        vdumpa@nvidia.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iommu/tegra-smmu: Add pagetable mappings to debugfs
-Message-ID: <20210312010932.GB29926@Asurada-Nvidia>
-References: <20210310033614.16772-1-nicoleotsuka@gmail.com>
- <abcedfa6-fbad-b34d-fba1-d3a778fbf5b4@gmail.com>
+Cc:     Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 05/14] opp: Add devres wrapper for
+ dev_pm_opp_register_notifier
+Message-ID: <20210312052659.uih7ikjdnkc5kl4j@vireshk-i7>
+References: <20210311192105.14998-1-digetx@gmail.com>
+ <20210311192105.14998-6-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abcedfa6-fbad-b34d-fba1-d3a778fbf5b4@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210311192105.14998-6-digetx@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 05:04:06PM +0300, Dmitry Osipenko wrote:
-> 10.03.2021 06:36, Nicolin Chen пишет:
-> ...
-> > +static int tegra_smmu_mappings_show(struct seq_file *s, void *data)
-> > +{
-> > +	struct tegra_smmu_group_debug *group_debug = s->private;
-> > +	const struct tegra_smmu_swgroup *group;
-> > +	struct tegra_smmu_as *as;
-> > +	struct tegra_smmu *smmu;
-> > +	int pd_index, pt_index;
+On 11-03-21, 22:20, Dmitry Osipenko wrote:
+> From: Yangtao Li <tiny.windzz@gmail.com>
 > 
-> > +DEFINE_SHOW_ATTRIBUTE(tegra_smmu_mappings);
-> > +
-> >  static void tegra_smmu_debugfs_init(struct tegra_smmu *smmu)
-> >  {
-> > +	const struct tegra_smmu_soc *soc = smmu->soc;
-> > +	struct tegra_smmu_group_debug *group_debug;
-> > +	struct device *dev = smmu->dev;
-> > +	struct dentry *d;
-> > +	int i;
+> Add devres wrapper for dev_pm_opp_register_notifier() to simplify driver
+> code.
 > 
-> You should use unsigned types for everything that isn't signed.
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/opp/core.c     | 38 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/pm_opp.h |  6 ++++++
+>  2 files changed, 44 insertions(+)
 
-Okay. Will fix. Thanks!
+As I said in the previous version, I am not sure if we need this patch
+at all. This has only one user.
+
+-- 
+viresh
