@@ -2,129 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 049AB338137
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Mar 2021 00:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1425433830A
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Mar 2021 02:12:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbhCKXPh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Mar 2021 18:15:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60020 "EHLO
+        id S229938AbhCLBLt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Mar 2021 20:11:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231234AbhCKXPd (ORCPT
+        with ESMTP id S229633AbhCLBLX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Mar 2021 18:15:33 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A986C061574;
-        Thu, 11 Mar 2021 15:15:32 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id n11-20020a05600c4f8bb029010e5cf86347so3757200wmq.1;
-        Thu, 11 Mar 2021 15:15:31 -0800 (PST)
+        Thu, 11 Mar 2021 20:11:23 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14625C061574;
+        Thu, 11 Mar 2021 17:11:23 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id a188so746486pfb.4;
+        Thu, 11 Mar 2021 17:11:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=71fxTItf1AgeFQSKsbzR7kraZTpHLUDyfFhnrJaGwrw=;
-        b=uu6E6nC4/zN4upjsUSqJiiaqAa7h7mCnViSwz/8iM729ShQLcS8Vx2o/6NVAqAQuZ0
-         d+b/6iSxl7VikLNWT06+IS59xNF3uTyOfFL4NC+a7BkmaW07ei4eGnDc9GBn99vzsUyU
-         /iiVKRk6m9XDeqJxQZpeo1UTU2pePj4HDoEX0YCpDnjg5eF8lTlLg+dUzEyv9l5tQic4
-         wbTuxK/ztAH29YEQGBs6FcPZKJqsgFTJXtEsobac+3e+CaYupjY7fnUOgOCghjmuupqI
-         y+DP3bulX704gnYL8OmLSZ1HsIyjGVlN2RH+oFa7huc5d3edy/u9PyJq7BB9FN9P7CZh
-         613A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=len8ZpvjuLF/FJGoc7IvEqOQjvRf/2jHb7o5ovnWmEI=;
+        b=VisY3iSkscvWgpDn9InykUTNJSqpd+5PEB9RDK8qU/cV5JXrhZLQgvTHV80u4OMogQ
+         iYJNEdilkcSrlBWmsYTdKmiEWzQBOK3oSjNE/XeUjyeRuzhGnPdZCSUOHcUlNgJZCp8B
+         tTU1eqKkMltcOC10Vlef5D2k4gRwypgSIlV+mRQMdWM0V9MzHIOcWZf2bOt1y9Z8mlcH
+         M4gz+KkX/8UEJILzgjAO7o9Wo8uN8eQS+KFopw3brYhT4SVr9ZvWXs8FtETolyqmoJyv
+         Ysl6PLbcUzG/Mquczw24TwSDsIrjjenhQtU5ROzsp+uuYNYKcQBdobaJ5uS3BNo05K1i
+         4+zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=71fxTItf1AgeFQSKsbzR7kraZTpHLUDyfFhnrJaGwrw=;
-        b=dfPtJYzyOhnC0kMgr4E0j3wBuAswZ29F4Hf2zVIfby4Yhv04T+v5M1uWMXhGN27fCR
-         YUD5MqfcbnXML6HVG+INpCaLVmGStwvbJ5yzaPx7tD3Dj4bbchJBojfExfPOCbzk0GZL
-         Iupyc1KWxphAH5Z8hIblxXre25u5kjnddIUSH5TogHU9Dbt5xdCKOo4S5AC5aOuIRpZF
-         g+Y3Kky7ClynR9ArgF8ZzWba8hx/OWoKRfJMXJFp5z82S6JuGWA6+pDe+JlpmYwE/1Jb
-         L1AkNjOu3fQE7PfZB29GMQzsDYyfimprPyFuxu/J5MKXmN6tEoW0H5evNeGhUdfOirVz
-         wxiA==
-X-Gm-Message-State: AOAM532Y0N8TStAebraqJ2p61UqUw/flsaCLj5k3+ReJRNzqpfrp9C1R
-        L3feiz7Lprz3vi6KYaUo3CY=
-X-Google-Smtp-Source: ABdhPJwE95EGQstZlkbfzbOnaIDxZzbh7wAuT5AJWDSf9qYPFZA4csf0zLMGekB4DJSl4V+V1/6WMw==
-X-Received: by 2002:a7b:c195:: with SMTP id y21mr10255440wmi.178.1615504530799;
-        Thu, 11 Mar 2021 15:15:30 -0800 (PST)
-Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
-        by smtp.gmail.com with ESMTPSA id j203sm263918wmj.40.2021.03.11.15.15.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 15:15:30 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Paul Fertser <fercerpav@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/6] soc/tegra: pmc: Link children power domains to the parent domain
-Date:   Fri, 12 Mar 2021 02:12:08 +0300
-Message-Id: <20210311231208.18180-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210311231208.18180-1-digetx@gmail.com>
-References: <20210311231208.18180-1-digetx@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=len8ZpvjuLF/FJGoc7IvEqOQjvRf/2jHb7o5ovnWmEI=;
+        b=XCEP58d2FTcoi5f2MMbuXRuX0yakInFBBSjniZW2r/F82LUw2DER1aExWDJxPo9hVN
+         kPCQYS14hhtvA/DZBkDS3/sh3ipIAIYuRYYMM+3AuxQLIbcts6vGsNYkKJAsoCuJcF+O
+         khFOUhz3mbddyve2H9EWYKddRA8AWWZH+RS2MYpwrK29TBSjc04Cik0rAxR+Wx3E4kA3
+         4UtFb4BmGXnyCQ0PagQTqhN+ch9IRwtk+zxbzTfcyU0sqzZrEuTHwYXwWqT8Ew4L2oSs
+         5w8ludWn2iCiYqMvOpbZLOOPShnj6Agl48Hh+oSIf8k9AIoPPJTSIA/TRZ6RlsvVU5FM
+         nd2w==
+X-Gm-Message-State: AOAM530SQCK0x6jAA6ofL+aFB3iBk+hife5UVjg5aKs59OVZZ2CJreaV
+        A1sjvi8D5+y6D97xDLGwsoo=
+X-Google-Smtp-Source: ABdhPJx81FiGrnhRgApowT9b1Q87JlXpg2kXtZZjr3VUxxMP549Ef3hYqOaKF0CQbxNxYSArH25++w==
+X-Received: by 2002:a63:5b0e:: with SMTP id p14mr9364010pgb.110.1615511482601;
+        Thu, 11 Mar 2021 17:11:22 -0800 (PST)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id iq6sm272746pjb.31.2021.03.11.17.11.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Mar 2021 17:11:22 -0800 (PST)
+Date:   Thu, 11 Mar 2021 17:09:05 -0800
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     joro@8bytes.org, thierry.reding@gmail.com, will@kernel.org,
+        guillaume.tucker@collabora.com, vdumpa@nvidia.com,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iommu/tegra-smmu: Fix mc errors on tegra124-nyan
+Message-ID: <20210312010905.GA29926@Asurada-Nvidia>
+References: <20210218220702.1962-1-nicoleotsuka@gmail.com>
+ <a8a7a0af-895f-9d79-410d-5dd03ebbd6dd@gmail.com>
+ <7714f272-3862-84ac-306d-86363a1c4880@gmail.com>
+ <20210310221707.GB10431@Asurada-Nvidia>
+ <8c2f5d94-8835-9994-21aa-660df29d383c@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <8c2f5d94-8835-9994-21aa-660df29d383c@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Core domain is a parent of PMC power domains, hence PMC domains
-should be set up as a sub-domains of the parent (Core) domain if
-"power-domains" phandle presents in a device-tree node of PMC domain.
+On Thu, Mar 11, 2021 at 03:06:25PM +0300, Dmitry Osipenko wrote:
+> 11.03.2021 01:17, Nicolin Chen пишет:
+> > On Wed, Mar 10, 2021 at 11:22:57PM +0300, Dmitry Osipenko wrote:
+> >> 10.03.2021 22:13, Dmitry Osipenko пишет:
+> >>> I found that this patch introduced a serious regression on Tegra30 using
+> >>> today's linux-next. Tegra30 has two 3d h/w blocks connected in SLI and
+> >>> only one of the blocks is now attached to IOMMU domain, meaning that GPU
+> >>> is unusable now. All 3d, 2d and display devices share the same "DRM"
+> >>> group on Tegra30.
+> >>>
+> >>> Nicolin, please let me know if have any suggestions. I may take a closer
+> >>> look a day later, for now I'll just revert this patch locally. Thanks in
+> >>> advance.
+> >>>
+> >>
+> >> Actually, this was easy to fix:
+> >>
+> >> diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+> >> index 97eb62f667d2..639d5ceab60b 100644
+> >> --- a/drivers/iommu/tegra-smmu.c
+> >> +++ b/drivers/iommu/tegra-smmu.c
+> >> @@ -853,8 +853,6 @@ static struct iommu_device
+> >> *tegra_smmu_probe_device(struct device *dev)
+> >>
+> >>  			if (err < 0)
+> >>  				return ERR_PTR(err);
+> >> -
+> >> -			break;
+> > 
+> > Hmm..I don't understand why this "break" causes problems on Tegra30.
+> > The older versions that used _find()+configure() had it also, e.g.:
+> > https://elixir.bootlin.com/linux/v5.9.16/source/drivers/iommu/tegra-smmu.c#L760
+> > 
+> > Dmitry, do you have any idea?
+> > 
+> 
+> The older variant of tegra_smmu_attach_dev() didn't use fwspec [1], that
+> makes the difference. In other words, the older variant of
+> tegra_smmu_probe_device() was already buggy, but the bug was masked by
+> the tegra_smmu_attach_dev() that didn't use the fwspec.
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v5.10.22/source/drivers/iommu/tegra-smmu.c#L476
 
-This allows to propagate GENPD performance changes to the parent Core
-domain if performance change is applied to a PMC domain.
+Hmm...would you mind submitting a fix from your side? I think it'd
+be more appropriate to do so, as you can definitely write a better
+commit message than I can for this bug.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/soc/tegra/pmc.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 84ab27d85d92..ba8407819397 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1283,6 +1283,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- static int tegra_powergate_init(struct tegra_pmc *pmc,
- 				struct device_node *parent)
- {
-+	struct of_phandle_args child_args, parent_args;
- 	struct device_node *np, *child;
- 	int err = 0;
- 
-@@ -1296,6 +1297,21 @@ static int tegra_powergate_init(struct tegra_pmc *pmc,
- 			of_node_put(child);
- 			break;
- 		}
-+
-+		if (of_parse_phandle_with_args(child, "power-domains",
-+					       "#power-domain-cells",
-+					       0, &parent_args))
-+			continue;
-+
-+		child_args.np = child;
-+		child_args.args_count = 0;
-+
-+		err = of_genpd_add_subdomain(&parent_args, &child_args);
-+		of_node_put(parent_args.np);
-+		if (err) {
-+			of_node_put(child);
-+			break;
-+		}
- 	}
- 
- 	of_node_put(np);
--- 
-2.29.2
-
+Thanks!
