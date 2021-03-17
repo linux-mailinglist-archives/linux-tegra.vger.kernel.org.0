@@ -2,155 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0C7833F8A2
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Mar 2021 20:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E75033F942
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Mar 2021 20:32:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232952AbhCQTAY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Mar 2021 15:00:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
+        id S233260AbhCQTbk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Mar 2021 15:31:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232207AbhCQS7w (ORCPT
+        with ESMTP id S233112AbhCQTbY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Mar 2021 14:59:52 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C838C06175F;
-        Wed, 17 Mar 2021 11:59:52 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id j11so538429lfg.12;
-        Wed, 17 Mar 2021 11:59:52 -0700 (PDT)
+        Wed, 17 Mar 2021 15:31:24 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E18AC06174A;
+        Wed, 17 Mar 2021 12:31:23 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id m12so683381lfq.10;
+        Wed, 17 Mar 2021 12:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ipiAo/zFdoxmHMg8AWua2BzcAdGe0Ogzj6yRlLPPOUs=;
-        b=MBV2/gBuCp22XDC4MSSlbszycii4D8No5J2A00NeO5JKUedUUhV4zpkLgBdEdas1a2
-         YkdIFxAmIDKNTahutCnF5VTg5BImlyHK0pdqQ4Q0GXMOwGZpTr1UXcXrnHPf5DUs7AZX
-         waXojytC63LEku8cZI6y27ZJocD21wl7xOHhB3YFmyvIutTw87datXAsn7TjQuIQzntv
-         qqTbqLo2LIN8ouoyGwi2e8/+gyxSIIlFfJLJjqEiQPg7vSl6PaqM/xUbXm5GmRVrTQ2G
-         eWBbVvaL2ndcmyvP+0u3T/psk25gughRt0zoW6qtCd5xjT8AStjrc5nIpEQDmkYInfuB
-         1Kyg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=73TjCXjVrkI58MW+Nim3q1ayD1X0BXNWSG6Q1INh2NQ=;
+        b=e/lOgyIE+jGT4cotYrNiAE+c+4C5ZYHt4ordarHogFxS99/5oUnB5b+XfsWV8VOqYn
+         FGlbzgIwQzzjKCh+tI8FEEBeRUAuibv7OQGwBxUo6aYA9CEKROF75qKqIXqOVzQJ6tST
+         LslAhdhuc1Rx71KCa1Fp6mEi6z/r72alvwzNd+EnKJTcR0w6QTKjveelq5j/ydwryZZI
+         7kznsPz6GXVXIWpF/0ao4nl4wAwQaiPy5L6LT0EtqdEAfU8TTD3KONmpozF8UhnAD1Uw
+         Ly45v+dsIxB8at6hf5TBcR+gEG5Df50ObdCYKkG2mQE+w1hVv8tO1xmSzio+tUtivB0W
+         b++Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ipiAo/zFdoxmHMg8AWua2BzcAdGe0Ogzj6yRlLPPOUs=;
-        b=PXfckNZD4r3duVVzs0jUD+rkiQekVpBaqFg1vKbIJqnCJfzJmPG+qU91J+3NdwIj7W
-         LYfKKinvdCcOU6e9MnyeLioR02zSPReZT5K0KmBCX+D5JT/ySbXy9lfWLNhBs1Kkp54w
-         Ku5TRdqFHqa8j4x7imM524ygyLicyIYP26frv4gp1AckzJ5GzRQ6DAUdqC2E94zo/8Ww
-         Du/Fdl12bUp/pNw+J56/xKEkmkEPKIi3mSH8Fk/X1QNsbXhjDgCc3AcJI1djPPMCXo4F
-         Q4eRrQRtqlRQ7lhMF61m+tUGji3TUzFoBeb3xgY3adfsuqTfqKXbW8akNQauZsk0+Ej/
-         Tfig==
-X-Gm-Message-State: AOAM530wycLKgWyaFtZefIHtWWEUJI8QCJvKAyeNiiS2M3YsLQ3qmm24
-        3DIWKnMGySiw729WOuWfzwo=
-X-Google-Smtp-Source: ABdhPJxXALK2JGzXVYySDferkWlXhCtMFtiONzK9B5d8m/64YAwpuNTpNgtzX+4FRNigIGo7/QEhQA==
-X-Received: by 2002:ac2:465c:: with SMTP id s28mr3108039lfo.135.1616007591063;
-        Wed, 17 Mar 2021 11:59:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=73TjCXjVrkI58MW+Nim3q1ayD1X0BXNWSG6Q1INh2NQ=;
+        b=GeZiO+zCz/4uuT00aX5G8P6jL62zgLfqwkJKpRjWu9W1B+QCv0Sm76MAeqc1HDJhQp
+         lNmVfS+Z9LfpKhpOpy/IUa2zhcBEv5XZGbQ1MdNu6hj61ANCOJftNPrqDj9n37sEh3sn
+         yq6CeqxMqQu0qLy7wpGqktRe4ExXcBhpMfJNkiUeKbI83BckEUu1cfu2j8DtfErmDPuB
+         1wni9eQ2vFKHk9ibcYWAhnuuGkC5pBf3Hi1j5Hb+qthNIl6g04baE/pwJWpBqYu3YAsr
+         YkUmrjUfMkBtsiFrQqYNKcJYWowbw1AVqBZnXsq5RKCteJXzBa3u+ylSOrPf4WREEYaU
+         a38Q==
+X-Gm-Message-State: AOAM532kV70/wHnu7a+NkWM8EW2t/iK6MRmdnLzzQ6gFtrLgutWTQTos
+        uedK/F4V+OXE3/khX8UHzt0=
+X-Google-Smtp-Source: ABdhPJw570vvk63jmImjLYg9KSlx1saOpjJ0148MYcR6pgOd66+xlrMJNj57vGDtjOEU62JLasEjIA==
+X-Received: by 2002:ac2:5c0a:: with SMTP id r10mr3013997lfp.47.1616009482197;
+        Wed, 17 Mar 2021 12:31:22 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
-        by smtp.gmail.com with ESMTPSA id b28sm3442482lfo.219.2021.03.17.11.59.50
+        by smtp.gmail.com with ESMTPSA id q24sm3623098lji.40.2021.03.17.12.31.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Mar 2021 11:59:50 -0700 (PDT)
+        Wed, 17 Mar 2021 12:31:21 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v16 2/2] drm/tegra: dc: Extend debug stats with total number of events
-Date:   Wed, 17 Mar 2021 21:57:34 +0300
-Message-Id: <20210317185734.14661-3-digetx@gmail.com>
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v5 0/7] Couple improvements for Tegra clk driver
+Date:   Wed, 17 Mar 2021 22:29:59 +0300
+Message-Id: <20210317193006.29633-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210317185734.14661-1-digetx@gmail.com>
-References: <20210317185734.14661-1-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-It's useful to know the total number of underflow events and currently
-the debug stats are getting reset each time CRTC is being disabled. Let's
-account the overall number of events that doesn't get a reset.
+This series fixes couple minor standalone problems of the Tegra clk
+driver.
 
-Reviewed-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/dc.c | 10 ++++++++++
- drivers/gpu/drm/tegra/dc.h |  5 +++++
- 2 files changed, 15 insertions(+)
+Changelog:
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 96e3a27dc98d..0ecf7027085d 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1551,6 +1551,11 @@ static int tegra_dc_show_stats(struct seq_file *s, void *data)
- 	seq_printf(s, "underflow: %lu\n", dc->stats.underflow);
- 	seq_printf(s, "overflow: %lu\n", dc->stats.overflow);
- 
-+	seq_printf(s, "frames total: %lu\n", dc->stats.frames_total);
-+	seq_printf(s, "vblank total: %lu\n", dc->stats.vblank_total);
-+	seq_printf(s, "underflow total: %lu\n", dc->stats.underflow_total);
-+	seq_printf(s, "overflow total: %lu\n", dc->stats.overflow_total);
-+
- 	return 0;
- }
- 
-@@ -2325,6 +2330,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): frame end\n", __func__);
- 		*/
-+		dc->stats.frames_total++;
- 		dc->stats.frames++;
- 	}
- 
-@@ -2333,6 +2339,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		dev_dbg(dc->dev, "%s(): vertical blank\n", __func__);
- 		*/
- 		drm_crtc_handle_vblank(&dc->base);
-+		dc->stats.vblank_total++;
- 		dc->stats.vblank++;
- 	}
- 
-@@ -2340,6 +2347,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): underflow\n", __func__);
- 		*/
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-@@ -2347,11 +2355,13 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): overflow\n", __func__);
- 		*/
-+		dc->stats.overflow_total++;
- 		dc->stats.overflow++;
- 	}
- 
- 	if (status & HEAD_UF_INT) {
- 		dev_dbg_ratelimited(dc->dev, "%s(): head underflow\n", __func__);
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
-index 69d4cca2e58c..ad8d51a55a00 100644
---- a/drivers/gpu/drm/tegra/dc.h
-+++ b/drivers/gpu/drm/tegra/dc.h
-@@ -48,6 +48,11 @@ struct tegra_dc_stats {
- 	unsigned long vblank;
- 	unsigned long underflow;
- 	unsigned long overflow;
-+
-+	unsigned long frames_total;
-+	unsigned long vblank_total;
-+	unsigned long underflow_total;
-+	unsigned long overflow_total;
- };
- 
- struct tegra_windowgroup_soc {
+v5: - Corrected example in the schema binding to silence dt_binding_check
+      warning.
+
+    - The Tegra124 binding is factored out into standalone binding since
+      Tegra124 has properties that aren't used by other SoCs and I couldn't
+      figure out how to make them conditional in schema.
+
+v4: - Added new patch that converts DT bindings to schema.
+
+v3: - Added acks from Thierry Reding that he gave to v2.
+
+    - Added new patch "clk: tegra: Don't allow zero clock rate for PLLs".
+
+v2: - Added these new patches:
+
+      clk: tegra: Halve SCLK rate on Tegra20
+      MAINTAINERS: Hand Tegra clk driver to Jon and Thierry
+
+v1: - Collected clk patches into a single series.
+
+Dmitry Osipenko (7):
+  clk: tegra30: Use 300MHz for video decoder by default
+  clk: tegra: Fix refcounting of gate clocks
+  clk: tegra: Ensure that PLLU configuration is applied properly
+  clk: tegra: Halve SCLK rate on Tegra20
+  MAINTAINERS: Hand Tegra clk driver to Jon and Thierry
+  clk: tegra: Don't allow zero clock rate for PLLs
+  dt-bindings: clock: tegra: Convert to schema
+
+ CREDITS                                       |   6 +
+ .../bindings/clock/nvidia,tegra114-car.txt    |  63 ----------
+ .../bindings/clock/nvidia,tegra124-car.txt    | 107 ----------------
+ .../bindings/clock/nvidia,tegra124-car.yaml   | 115 ++++++++++++++++++
+ .../bindings/clock/nvidia,tegra20-car.txt     |  63 ----------
+ .../bindings/clock/nvidia,tegra20-car.yaml    |  69 +++++++++++
+ .../bindings/clock/nvidia,tegra210-car.txt    |  56 ---------
+ .../bindings/clock/nvidia,tegra30-car.txt     |  63 ----------
+ MAINTAINERS                                   |   4 +-
+ drivers/clk/tegra/clk-periph-gate.c           |  72 +++++++----
+ drivers/clk/tegra/clk-periph.c                |  11 ++
+ drivers/clk/tegra/clk-pll.c                   |  12 +-
+ drivers/clk/tegra/clk-tegra20.c               |   6 +-
+ drivers/clk/tegra/clk-tegra30.c               |   2 +-
+ 14 files changed, 261 insertions(+), 388 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra114-car.txt
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra124-car.txt
+ create mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra124-car.yaml
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra20-car.txt
+ create mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra210-car.txt
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra30-car.txt
+
 -- 
 2.30.2
 
