@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D3F340D12
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Mar 2021 19:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E01FC340D23
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Mar 2021 19:36:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232601AbhCRSeH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Mar 2021 14:34:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42208 "EHLO mail.kernel.org"
+        id S232556AbhCRSgP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Mar 2021 14:36:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43006 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232590AbhCRSdk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Mar 2021 14:33:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AC65364F2A;
-        Thu, 18 Mar 2021 18:33:39 +0000 (UTC)
+        id S232476AbhCRSgP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 18 Mar 2021 14:36:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D5F464F1F;
+        Thu, 18 Mar 2021 18:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616092420;
+        s=k20201202; t=1616092574;
         bh=O4+Jms1dbCSgB1akhHdOQ5yf5A0hiTEh3B7Z20RU4GA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mp9qwm36j8JjKrggI16f+0NZFcgL2RVkdYrSYy9fpFo/marvn7rlk6VdbQ8gtXa9Q
-         9iMFlR8zQGYKbMTFkKEAMEtv4+QnFBYyVH1r5pOdjWf8N84DQCGv1ZjF2qFXeg50yF
-         a5FZ85dpUUGP7Wjy/fUjRSjkDyq/BrLvEAPpWwu4IsYsj4m1GzL0Ecx/1/LmZM0WKw
-         oTnae5tPPui4kGLeab3bqhCdWsz1Ms8dnsOjjyYX2+w6xv2TtYotss+QiIRlK1zLsO
-         JhyldCBQBgVxZW2mwud7FXUBuvSdrFE62I8z0JRpFkLUAqSE8lt0iYk0RXJBIxzqoj
-         Tqmzke6y7bqSQ==
+        b=EwFbcCby8rFgHBAO1ZtPs9Wnhpm7vsF3MFKf/vfHQIldsIE9BmzqOB2NKrDlpX6Xl
+         jC448ZaRf4/ZjmobdFfST2YSWOh4Hl+md5bD9XL1cWlwSr00OoJQwcrFygu+MFqm11
+         v1wkQGWCrjTcK0PsdJ8K4jKH6sKnZ3Jf8QS/IfPqo2Zg8lDcILpUoK2an6pMXaHSOL
+         PrXjYtb+vwg17dCtVjSQpaZLvlfnlXLRnS/s6Yx4JZMU6wL1DlOVa08C2FhTZOD/Wx
+         jO+G+CY8TgZQV2ncBGKJKhQmopF2V91VYCHdhwM/O+6uik7Gr+SS8mj0hGZ4eND2Kc
+         RB9wuiHjeIPvg==
 From:   Mark Brown <broonie@kernel.org>
 To:     Jaroslav Kysela <perex@perex.cz>,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -35,7 +35,7 @@ Cc:     Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
         devicetree@vger.kernel.org
 Subject: Re: [PATCH v5 00/17] Fix reset controls and RPM of NVIDIA Tegra ASoC drivers
-Date:   Thu, 18 Mar 2021 18:33:28 +0000
+Date:   Thu, 18 Mar 2021 18:36:02 +0000
 Message-Id: <161609213718.41838.12060094271609265312.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210314154459.15375-1-digetx@gmail.com>
