@@ -2,114 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D043344F33
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Mar 2021 19:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23A51344F8D
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Mar 2021 20:02:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbhCVSyI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Mar 2021 14:54:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231724AbhCVSxo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Mar 2021 14:53:44 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3B71661990;
-        Mon, 22 Mar 2021 18:53:44 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1lOPZV-0038p5-VO; Mon, 22 Mar 2021 18:46:38 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     Frank Wunderlich <frank-w@public-files.de>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v2 15/15] PCI: Refactor HT advertising of NO_MSI flag
-Date:   Mon, 22 Mar 2021 18:46:14 +0000
-Message-Id: <20210322184614.802565-16-maz@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210322184614.802565-1-maz@kernel.org>
-References: <20210322184614.802565-1-maz@kernel.org>
+        id S231965AbhCVTCN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Mar 2021 15:02:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52018 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231651AbhCVTB5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 22 Mar 2021 15:01:57 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1C2EC061574;
+        Mon, 22 Mar 2021 12:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=PqoPQc7AEbXzxG+B43ywR2urtRwkAdqziap8FsINiiw=; b=T5o7ES6g3Ork9494taW79YM0vQ
+        +MwQRAgET2k0h/fxYTOnpSHbnb6URBkZKxIKQmZwaDPTQq/O7IdgX3h+P2xyjwHhZvqbAd1IkbA1Q
+        zehS28DJ0O0OCvat3eH9+rG77JyfTUNvonpawrERyMs/TcT0YKc2U0WYR+ABRThm8S6nSsqncj++e
+        6098FLosAWKIBmTrc2d8BjQvEglwXn8mVOG4imQKq+tRShHAoCRlmmHqUYCasZvZg7oQCssm/JHQ2
+        t/F7evobp0G9MY0qgct47DXHdJ/w1wE2JAJLjRLVfKpu7iLt6N9ZBtn6TO7kT11EIMdVSGgxpo7z1
+        y/DEc4CA==;
+Received: from [2601:1c0:6280:3f0::3ba4]
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lOPni-008wtt-MT; Mon, 22 Mar 2021 19:01:32 +0000
+Subject: Re: [PATCH] thermal: Fix a typo in the file soctherm.c
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rui.zhang@intel.com,
+        daniel.lezcano@linaro.org, amitk@kernel.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        p.zabel@pengutronix.de, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210305015320.7614-1-unixbhaskar@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <176c4f5c-44d2-f29b-49fe-dd4bcec36f7e@infradead.org>
+Date:   Mon, 22 Mar 2021 12:01:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, mikelley@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+In-Reply-To: <20210305015320.7614-1-unixbhaskar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The few quirks that deal with NO_MSI tend to be copy-paste heavy.
-Refactor them so that the hierarchy of conditions is slightly
-cleaner.
+On 3/4/21 5:53 PM, Bhaskar Chowdhury wrote:
+> 
+> s/calibaration/calibration/
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/pci/quirks.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 653660e3ba9e..972bb0f9f994 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -2585,10 +2585,8 @@ static int msi_ht_cap_enabled(struct pci_dev *dev)
- /* Check the HyperTransport MSI mapping to know whether MSI is enabled or not */
- static void quirk_msi_ht_cap(struct pci_dev *dev)
- {
--	if (dev->subordinate && !msi_ht_cap_enabled(dev)) {
--		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
--		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
--	}
-+	if (!msi_ht_cap_enabled(dev))
-+		quirk_disable_msi(dev);
- }
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_SERVERWORKS, PCI_DEVICE_ID_SERVERWORKS_HT2000_PCIE,
- 			quirk_msi_ht_cap);
-@@ -2601,9 +2599,6 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
- {
- 	struct pci_dev *pdev;
- 
--	if (!dev->subordinate)
--		return;
--
- 	/*
- 	 * Check HT MSI cap on this chipset and the root one.  A single one
- 	 * having MSI is enough to be sure that MSI is supported.
-@@ -2611,10 +2606,8 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
- 	pdev = pci_get_slot(dev->bus, 0);
- 	if (!pdev)
- 		return;
--	if (!msi_ht_cap_enabled(dev) && !msi_ht_cap_enabled(pdev)) {
--		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
--		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
--	}
-+	if (!msi_ht_cap_enabled(pdev))
-+		quirk_msi_ht_cap(dev);
- 	pci_dev_put(pdev);
- }
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, PCI_DEVICE_ID_NVIDIA_CK804_PCIE,
+> ---
+>  drivers/thermal/tegra/soctherm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
+> index 66e0639da4bf..8b8fbd49679b 100644
+> --- a/drivers/thermal/tegra/soctherm.c
+> +++ b/drivers/thermal/tegra/soctherm.c
+> @@ -2195,7 +2195,7 @@ static int tegra_soctherm_probe(struct platform_device *pdev)
+>  	if (err)
+>  		return err;
+> 
+> -	/* calculate tsensor calibaration data */
+> +	/* calculate tsensor calibration data */
+>  	for (i = 0; i < soc->num_tsensors; ++i) {
+>  		err = tegra_calc_tsensor_calib(&soc->tsensors[i],
+>  					       &shared_calib,
+> --
+
+
 -- 
-2.29.2
+~Randy
 
