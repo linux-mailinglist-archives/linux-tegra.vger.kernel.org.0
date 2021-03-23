@@ -2,76 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CED4346674
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Mar 2021 18:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B185F34670C
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Mar 2021 18:58:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230227AbhCWRdN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Mar 2021 13:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60834 "EHLO
+        id S230253AbhCWR6P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Mar 2021 13:58:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbhCWRcx (ORCPT
+        with ESMTP id S231483AbhCWR5q (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Mar 2021 13:32:53 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6DEC061574
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 10:32:53 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id f3so19499071lfu.5
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 10:32:53 -0700 (PDT)
+        Tue, 23 Mar 2021 13:57:46 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF16DC061574
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 10:57:44 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id u10so26815079lju.7
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 10:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fQt6xCmMqTbZa/RTqpTUck38Lk7jAmjj8bDIroCl9cY=;
-        b=iKDKEABbhNUa0T1Pv7XQXNOm5HZy9Pwyhj5F3vHzHGTzl75hhZL8Df/7H1qyg3jaeB
-         6LxKIXxa4+CKk4uVIObaNimrGISoiG8KAWOMmmoWROirht+FHkRbpmOs4mGn1GV4h5t2
-         4v6HW0dCzJfL6PFe1amo1oul7Z9q+s++KyaEmuoiXBzbZEmSKk6mHlLzXqDDEj65p2Ae
-         sZIshdo5hj+B6kV30U1e0JO2MYFQrdda0jiuZvnAuX45jA5GTBYu12K7t3CbxCh8w7pR
-         UzxyCqRtrwo4EIJJP2Lg/zU9sc3PpHWBmTEQwlxajt4KZ5uhP3Bt0Ypxme+C4HEJmE7+
-         yf5Q==
+        bh=XLxTdLFQwwFdrnajKUv88Hjw3uCEQcJZ82QDErheT38=;
+        b=vKLRoS37YEt73kxWpvOi12Ya1/JLN6HWmCTEYDGadUSpMiUfwkpR6cplisdJ5G0gOB
+         IW2OFKz4c7uu/GWBwGamyUND6VBQSnPcCyGdSRq79trM1LuhP89ZbViMD3DN/8o0iBl4
+         a5AIcWsEHnQRJHS2rlOikrg5Khn48nCjP5T9fdrZYDwEm7TzIcUzixeLdYIUxZoFICf7
+         U8zXpkcd/Q5bagOJuaHTt4ptBjyX6u2Q7Z1EQY13biJz1WcujjhoOAFDNV8+nfRRmtki
+         0i4mShKW3h6222+1zZqSwLStrzf9KH8CtCAirHFn6D8y21Bf3k6rO3HY/jgkYFYFs/Uu
+         UAnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=fQt6xCmMqTbZa/RTqpTUck38Lk7jAmjj8bDIroCl9cY=;
-        b=UXm3XU5iZVLueJDzjTFU/eWvQYGxMbkk5nujOyiwPVCOw1Hm9qETsI92HZyz0TbIPs
-         sLlI+VN55htR7ykOzJyWvmqy0jgtUE2FWUSDb/bbjiBm3uv1NeLeCQhy5cIoigDBEP7o
-         un3sVyIc3UKCuyimC7pYTQqNvZm9Cw/M+r3mmYj9UjIg03bndhKBPKy3NVVCp4srYSPy
-         qDiRAwlCbo/Qs4AyZAa5WrORU61ZimR4ZJ0ouwIvrQ9g+O09xp5Eic0KUqsB2bv1lCOF
-         Rv1MlvpswrmlMAbY0IPQU17IN2Nud2hG4oPTCbFR5NUKaqI/doH7XF1GiYUYqXeVhCEy
-         nbGQ==
-X-Gm-Message-State: AOAM5332NUw2FAMt43c2H1Nt1WwL2jgWb1/JbFUavqHXmXR1N3tBrbtR
-        G9CRYxAzilRpBLNdasI5yiU=
-X-Google-Smtp-Source: ABdhPJwH6K3S4OE4JZag5tWk0lBSLFj34jgsxu40rASVwxlzsESceA1Rbwo6zW8Vb+GfbzbbZn9DQQ==
-X-Received: by 2002:a19:ee13:: with SMTP id g19mr3168533lfb.657.1616520771923;
-        Tue, 23 Mar 2021 10:32:51 -0700 (PDT)
+        bh=XLxTdLFQwwFdrnajKUv88Hjw3uCEQcJZ82QDErheT38=;
+        b=CXkGLxlwDKufBCmL8xGMRAQ7fW5hhwxB2ah4O7NKgp928aRhOxwo/MjLg+jlDLuAdf
+         PaERwvUnacmuPPaHU5Kh7oTnd5wSsTy4fApTMYx1NwJJrvhl37aWu+0WXyE63MrBs/Hl
+         rEbFYzGjfR7pNDzZXb3VirMpHDH9Bc+GydKAZO1Za5J760MNlVyCTQivDnil9UXdmVM0
+         bkpwqdBiHWUdUvOJBGEv2h3ATVBi8imEnzIFNroEnaZKwUasWC+SlC5xmFPTnvZQRES/
+         6nHHIQPMLDrpyy4CsEyeZ7LaMA2JrCbmVljJDugAmGtcvsrHLFBhCiFomp6n/puj28HI
+         gU1A==
+X-Gm-Message-State: AOAM533ay3K++3HNpIRFzv9gJYvz/kt/RcPE0XxzvmDa1//2eL6U3b1b
+        lX3oZ6wDTsQve3h1UrjXCASIndwK1dA=
+X-Google-Smtp-Source: ABdhPJwK3fQlVVk9I27uIymCqYnIErWow5dboq0PHU9jO11WR0Dp3DjLysQJxJifOlmFND5GyNc3xg==
+X-Received: by 2002:a2e:140e:: with SMTP id u14mr3924997ljd.413.1616522263119;
+        Tue, 23 Mar 2021 10:57:43 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru. [109.252.193.60])
-        by smtp.googlemail.com with ESMTPSA id f23sm1914441lfc.283.2021.03.23.10.32.51
+        by smtp.googlemail.com with ESMTPSA id t13sm1917433lfq.66.2021.03.23.10.57.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Mar 2021 10:32:51 -0700 (PDT)
-Subject: Re: [PATCH v5 15/21] drm/tegra: Add new UAPI to header
+        Tue, 23 Mar 2021 10:57:42 -0700 (PDT)
+Subject: Re: [PATCH 4/9] drm/tegra: dc: Implement hardware cursor on Tegra186
+ and later
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Mikko Perttunen <mperttunen@nvidia.com>, jonathanh@nvidia.com,
-        airlied@linux.ie, daniel@ffwll.ch, linux-tegra@vger.kernel.org,
-        talho@nvidia.com, bhuntsman@nvidia.com,
-        dri-devel@lists.freedesktop.org
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-16-mperttunen@nvidia.com>
- <a0fdac0d-88cf-6eda-6611-fca951253060@gmail.com>
- <cc746d91-e6b2-53d8-17ff-59cbc8bb522f@kapsi.fi>
- <a51f7552-cec6-efe1-25dd-76422ef7a3e4@gmail.com>
- <d76c465a-7f07-88c4-0dc3-4be3cb212fcf@kapsi.fi>
- <YFnfYsfYaKfSGhon@orome.fritz.box>
- <0cc2ec5c-f8aa-ed45-92b6-32f9eadbdc5a@gmail.com>
- <YFoa57HBFpDu119Y@orome.fritz.box>
+Cc:     David Airlie <airlied@linux.ie>, James Jones <jajones@nvidia.com>,
+        dri-devel@lists.freedesktop.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-tegra@vger.kernel.org
+References: <20210323155437.513497-1-thierry.reding@gmail.com>
+ <20210323155437.513497-5-thierry.reding@gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c0c21556-1f98-4137-b9a0-568ef3a8c8ac@gmail.com>
-Date:   Tue, 23 Mar 2021 20:32:50 +0300
+Message-ID: <454aea05-ee94-5789-2cab-513342cf7614@gmail.com>
+Date:   Tue, 23 Mar 2021 20:57:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YFoa57HBFpDu119Y@orome.fritz.box>
+In-Reply-To: <20210323155437.513497-5-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -79,83 +72,25 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.03.2021 19:44, Thierry Reding пишет:
-> On Tue, Mar 23, 2021 at 05:00:30PM +0300, Dmitry Osipenko wrote:
->> 23.03.2021 15:30, Thierry Reding пишет:
->>> On Thu, Jan 14, 2021 at 12:34:22PM +0200, Mikko Perttunen wrote:
->>>> On 1/14/21 10:36 AM, Dmitry Osipenko wrote:
->>>>> 13.01.2021 21:56, Mikko Perttunen пишет:
->>>>>> On 1/13/21 8:14 PM, Dmitry Osipenko wrote:
->>>>>>> 11.01.2021 16:00, Mikko Perttunen пишет:
->>>>>>>> +struct drm_tegra_submit_buf {
->>>>>>>> +    /**
->>>>>>>> +     * @mapping_id: [in]
->>>>>>>> +     *
->>>>>>>> +     * Identifier of the mapping to use in the submission.
->>>>>>>> +     */
->>>>>>>> +    __u32 mapping_id;
->>>>>>>
->>>>>>> I'm now in process of trying out the UAPI using grate drivers and this
->>>>>>> becomes the first obstacle.
->>>>>>>
->>>>>>> Looks like this is not going to work well for older Tegra SoCs, in
->>>>>>> particular for T20, which has a small GART.
->>>>>>>
->>>>>>> Given that the usefulness of the partial mapping feature is very
->>>>>>> questionable until it will be proven with a real userspace, we should
->>>>>>> start with a dynamic mappings that are done at a time of job submission.
->>>>>>>
->>>>>>> DRM already should have everything necessary for creating and managing
->>>>>>> caches of mappings, grate kernel driver has been using drm_mm_scan for a
->>>>>>> long time now for that.
->>>>>>>
->>>>>>> It should be fine to support the static mapping feature, but it should
->>>>>>> be done separately with the drm_mm integration, IMO.
->>>>>>>
->>>>>>> What do think?
->>>>>>>
->>>>>>
->>>>>> Can you elaborate on the requirements to be able to use GART? Are there
->>>>>> any other reasons this would not work on older chips?
->>>>>
->>>>> We have all DRM devices in a single address space on T30+, hence having
->>>>> duplicated mappings for each device should be a bit wasteful.
->>>>
->>>> I guess this should be pretty easy to change to only keep one mapping per
->>>> GEM object.
->>>
->>> The important point here is the semantics: this IOCTL establishes a
->>> mapping for a given GEM object on a given channel. If the underlying
->>> implementation is such that the mapping doesn't fit into the GART, then
->>> that's an implementation detail that the driver needs to take care of.
->>> Similarly, if multiple devices share a single address space, that's
->>> something the driver already knows and can take advantage of by simply
->>> reusing an existing mapping if one already exists. In both cases the
->>> semantics would be correctly implemented and that's really all that
->>> matters.
->>>
->>> Overall this interface seems sound from a high-level point of view and
->>> allows these mappings to be properly created even for the cases we have
->>> where each channel may have a separate address space. It may not be the
->>> optimal interface for all use-cases or any one individual case, but the
->>> very nature of these interfaces is to abstract away certain differences
->>> in order to provide a unified interface to a common programming model.
->>> So there will always be certain tradeoffs.
->>
->> For now this IOCTL isn't useful from a userspace perspective of older
->> SoCs and I'll need to add a lot of code that won't do anything useful
->> just to conform to the specific needs of the newer SoCs. Trying to unify
->> everything into a single API doesn't sound like a good idea at this
->> point and I already suggested to Mikko to try out variant with a
->> separated per-SoC code paths in the next version, then the mappings
->> could be handled separately by the T186+ paths.
-> 
-> I'm not sure I understand what you're saying. Obviously the underlying
-> implementation of this might have to differ depending on SoC generation.
-> But it sounds like you're suggesting having different UAPIs depending on
-> SoC generation.
+23.03.2021 18:54, Thierry Reding пишет:
+> @@ -920,15 +934,42 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+>  	value = tegra_dc_readl(dc, DC_DISP_BLEND_CURSOR_CONTROL);
+>  	value &= ~CURSOR_DST_BLEND_MASK;
+>  	value &= ~CURSOR_SRC_BLEND_MASK;
+> -	value |= CURSOR_MODE_NORMAL;
+> +
+> +	if (dc->soc->has_nvdisplay)
+> +		value &= ~CURSOR_COMPOSITION_MODE_XOR;
+> +	else
+> +		value |= CURSOR_MODE_NORMAL;
+> +
+>  	value |= CURSOR_DST_BLEND_NEG_K1_TIMES_SRC;
+>  	value |= CURSOR_SRC_BLEND_K1_TIMES_SRC;
+>  	value |= CURSOR_ALPHA;
+>  	tegra_dc_writel(dc, value, DC_DISP_BLEND_CURSOR_CONTROL);
+>  
+> +	/* nvdisplay relies on software for clipping */
+> +	if (dc->soc->has_nvdisplay) {
 
-I suggested that this IOCTL shouldn't be mandatory for older SoCs, which
-we should to have anyways for preserving the older UAPI. Yes, this makes
-UAPI different and I want to see how it will look like in the next
-version since the current variant was sub-optimal.
+But coordinates already should be clipped by
+drm_atomic_helper_check_plane_state().
