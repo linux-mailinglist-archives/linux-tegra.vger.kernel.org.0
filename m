@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC42C3463B4
+	by mail.lfdr.de (Postfix) with ESMTP id D29643463B5
 	for <lists+linux-tegra@lfdr.de>; Tue, 23 Mar 2021 16:55:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232508AbhCWPyk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S232803AbhCWPyk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Tue, 23 Mar 2021 11:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232803AbhCWPyX (ORCPT
+        with ESMTP id S232806AbhCWPy0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Mar 2021 11:54:23 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D71C061574
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:22 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id b7so27940047ejv.1
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:22 -0700 (PDT)
+        Tue, 23 Mar 2021 11:54:26 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3FDC061574
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:25 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id ce10so27917558ejb.6
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VOUSgKbb+tmQ6BrVeKX3GQ/KKdKuR8BaRfZ6V+0QOT4=;
-        b=PdNm6zM8dkCzDqL3k4NIqcGauz36a1hvKs0EcVaQqVfRO0r6OkTXUIfiKm6c3R+N/4
-         4QCL/TJjW/ehjsj2A2AMSeiIZOdB5BBeMjAD9emf5rKD0wVzJ+c5eA2GgFA9gkBT/kcs
-         OuXGZXe3Mv41RX4IvKbaS5A6fhF9FBILwUy7eaGELt2wVjchs7JkHOYQ0RkYHqF3LKDK
-         +hWG7RUnqVx+lPk5/yU0GxVniXz0Taz3ysubj8DuDgLE6t8ekF/o/thMPGswLts4rsjy
-         yMGj2qfd9Fz+RDVawAP0aD0lwUL4U93SjjT8/hc8uZ+GrkprwAfpIO7FLsm+NTcQ1Rzc
-         QCqA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ttCD6uCX5tFeOHJNIPofy4nwJsMNY2bP8hvgcMSOHFU=;
+        b=Teog51hXf+U5LdhrN1Q17doEvCKL84mSY7vWRBetExH5CXL+TG0Z2l/cKWD8lBZh5m
+         y/Z9WYcKeW+pMDBc0UR5uduNY7e7RdcDRV9/40hq7DHVZXHeGMMQuaVVxuUK+HfEjt/p
+         qOipRFboiB4Yq69jLCaTeN4uGLt98hxz2gtPETXydBz7jePyWzBNJs4y3FP/EMQXPUXZ
+         zf/OkAVlVK/2QTxnAwswtMpfYf4eNGiKBjl0LREXafjOVOPrGWJVQxl4eovl2U9OWNeS
+         CxRBAYafhW53CnsOP2NJLl2UYeNs8WRxNFU6UYncPdE8srfBCvsfljmpUqSQ1ZhAiG23
+         GiHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VOUSgKbb+tmQ6BrVeKX3GQ/KKdKuR8BaRfZ6V+0QOT4=;
-        b=FXpSTQNsjU09p3I4Lo7QWDAsCArzb/9jcI+aXxj4U5FUmmSq9H6vS9LY+W/ItSJ6x4
-         ek26gHFbEpVY6eHVOUKGBchmViSHhUikecU/Jdi3HqESqN4T6IxbwNwvEmSDgdBlvEFr
-         SnP+7t0RLV5c9cwHIgFpf4WJ6fToCeCpvawSwnWPxvwkSU929rtBdK17LWbx7lwa8ONp
-         G7M2dC60LYESGioD0DJCdd28LAFwr8ZBvaV9PMWghEN8Tm9uqcLP5xWXRCxKif6AT1ex
-         NrqSDI1pBZay6pQ+JGNdVxXB5uzPJUft2Ctc3ryj1O+8/DWXzMA+3eb6/U1A53bf2DEO
-         OLXA==
-X-Gm-Message-State: AOAM530pFZm83kw7uvg//FijdcWiCJj4k5s7dbqguznaBmenrzfHVJKJ
-        Y6HKGs1RBJ936kta+zXMCLM=
-X-Google-Smtp-Source: ABdhPJzue6N2LpPyzl3guDAdUNcg5kxuK19d7aYM/Y2bGxBU8KIujBuzZgBTweoetJBGMtGtvXH4tA==
-X-Received: by 2002:a17:906:c45a:: with SMTP id ck26mr5468014ejb.125.1616514861376;
-        Tue, 23 Mar 2021 08:54:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ttCD6uCX5tFeOHJNIPofy4nwJsMNY2bP8hvgcMSOHFU=;
+        b=ocxShWVXbZxR3DxTgp09LN6zL5RW+LrGwAz0A9a38xKo8v8T/tcKF4xBpAV+xEX5jy
+         AQZARewD/HcIVEyF04VtGVozRyOA3ASMdkxdIGI+BJwkgM95pNxHTidY4d3NpDqoMbYB
+         U6xrqETHXqW6/6hjx/snVJ5FYbEcbtoWTu2udpRvN4GK+XRx/NGbXiNTCHn9M3a4HmJc
+         zD//y7ovcCc5sV3aYdih9X442o8cjWK6Fpc0pChg0Z0IwlY14I6Cwu23pDC1QZH6CtKy
+         acDMJl8L6Jm9qYDzX8Yl3kVoIA+uzkE5ltWo9tJPwbjwwnq3Cba1S6BIofni0LBIalwO
+         obWg==
+X-Gm-Message-State: AOAM533z+rs9CGHnKeVmCIGSd9hcErECDuJ/5i4L+O9LYukKlfG0AcXm
+        30dXfSndrJzlkqy42Nhynp4=
+X-Google-Smtp-Source: ABdhPJxEkR+OjzJB2FpCESzwpXM5NSRSJPKHgeSFb5twIZw/J5vwiPJQQLzHJZTeEJNL6mWGDWLsOw==
+X-Received: by 2002:a17:906:a1c8:: with SMTP id bx8mr5406071ejb.381.1616514863951;
+        Tue, 23 Mar 2021 08:54:23 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id r17sm11535164ejz.109.2021.03.23.08.54.20
+        by smtp.gmail.com with ESMTPSA id g7sm6973977ejw.51.2021.03.23.08.54.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 08:54:20 -0700 (PDT)
+        Tue, 23 Mar 2021 08:54:22 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -56,10 +56,12 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         James Jones <jajones@nvidia.com>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 0/9] drm/tegra: Various improvements
-Date:   Tue, 23 Mar 2021 16:54:28 +0100
-Message-Id: <20210323155437.513497-1-thierry.reding@gmail.com>
+Subject: [PATCH 1/9] drm/fourcc: Add macro to check for the modifier vendor
+Date:   Tue, 23 Mar 2021 16:54:29 +0100
+Message-Id: <20210323155437.513497-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210323155437.513497-1-thierry.reding@gmail.com>
+References: <20210323155437.513497-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -68,50 +70,28 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi,
+This is useful for checking at runtime whether a given modifier is from
+a specific vendor so that any vendor-specific parsing can be done.
 
-this fixes a couple of oddities like slightly off DMA masks and add
-support for hardware cursors on newer chips as well as support for the
-sector layout bit in NVIDIA framebuffer modifiers.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ include/uapi/drm/drm_fourcc.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The first patch in this set is a small helper that I think might be
-useful to other drivers eventually, but if it isn't it's easily
-something I can carry in the Tegra driver. It'd be great to get an
-Acked-by on it from one of the drm-misc maintainers so that I can take
-it through the Tegra tree.
-
-James, I've added you on Cc on this one because it makes use of the
-extended framebuffer modifiers that you introduced a while back to
-support the sector layout mux on Tegra194. It'd be great to get your
-thoughts on this just so this is used as expected.
-
-Thanks,
-Thierry
-
-Thierry Reding (9):
-  drm/fourcc: Add macro to check for the modifier vendor
-  drm/tegra: dc: Inherit DMA mask
-  drm/tegra: dc: Parameterize maximum resolution
-  drm/tegra: dc: Implement hardware cursor on Tegra186 and later
-  drm/tegra: fb: Add diagnostics for framebuffer modifiers
-  drm/tegra: gem: Add a clarifying comment
-  gpu: host1x: Add early init and late exit callbacks
-  drm/tegra: Count number of display controllers at runtime
-  drm/tegra: Support sector layout on Tegra194
-
- drivers/gpu/drm/tegra/dc.c    | 104 +++++++++++++++++++++++++++++++---
- drivers/gpu/drm/tegra/dc.h    |   6 ++
- drivers/gpu/drm/tegra/drm.c   |  13 ++++-
- drivers/gpu/drm/tegra/drm.h   |   5 ++
- drivers/gpu/drm/tegra/fb.c    |  10 ++++
- drivers/gpu/drm/tegra/gem.h   |   6 ++
- drivers/gpu/drm/tegra/hub.c   |  41 +++++++++++++-
- drivers/gpu/drm/tegra/plane.c |  32 +++++++++++
- drivers/gpu/host1x/bus.c      |  31 ++++++++++
- include/linux/host1x.h        |   2 +
- include/uapi/drm/drm_fourcc.h |   3 +
- 11 files changed, 240 insertions(+), 13 deletions(-)
-
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index f76de49c768f..567fd4566e08 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -366,6 +366,9 @@ extern "C" {
+ 
+ #define DRM_FORMAT_RESERVED	      ((1ULL << 56) - 1)
+ 
++#define fourcc_mod_is_vendor(modifier, vendor) \
++	((((modifier) >> 56) & 0xff) == DRM_FORMAT_MOD_VENDOR_## vendor)
++
+ #define fourcc_mod_code(vendor, val) \
+ 	((((__u64)DRM_FORMAT_MOD_VENDOR_## vendor) << 56) | ((val) & 0x00ffffffffffffffULL))
+ 
 -- 
 2.30.2
 
