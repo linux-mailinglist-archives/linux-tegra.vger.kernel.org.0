@@ -2,88 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB67734622C
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Mar 2021 16:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC42C3463B4
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Mar 2021 16:55:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232342AbhCWPAq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Mar 2021 11:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
+        id S232508AbhCWPyk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Mar 2021 11:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232328AbhCWPAi (ORCPT
+        with ESMTP id S232803AbhCWPyX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Mar 2021 11:00:38 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B080C061574
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:00:37 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id w37so27069657lfu.13
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:00:37 -0700 (PDT)
+        Tue, 23 Mar 2021 11:54:23 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D71C061574
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:22 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id b7so27940047ejv.1
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=60EfMvM37qn0EhwNos9h/7fWqDVyOdNY4qBVAv1lRe0=;
-        b=QugGOQXZYpg+gt9e/l75epoiRg+Y8Yph2FPX5l88o3OA7/aDJENvxzxRYgfD5HDefi
-         6NnZv4lfoadqlbxFfHD5AN3058f0VzY9Uu4McLJvJvPN1cE1UEE/7K1ELMrJVHucEC9+
-         0QRgCXZm7AG1giJmTYo8U/BRXlXgfVe1+YQwdS01AD1RbG53B4SJGX1lz0pDgnDZkyiF
-         wEpFKn0z8/WcPg9cWrimuOKC6zWxjOQgREvz6hQ2lIR41tc55LooXB5atgLRL3aEl023
-         ZfDhCTXRIZmqHC3Ljy46SMsHgbKjESsC3yY0MykSELhvcprAPRoD7IoXuz1fuMTcp6xR
-         3EPw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VOUSgKbb+tmQ6BrVeKX3GQ/KKdKuR8BaRfZ6V+0QOT4=;
+        b=PdNm6zM8dkCzDqL3k4NIqcGauz36a1hvKs0EcVaQqVfRO0r6OkTXUIfiKm6c3R+N/4
+         4QCL/TJjW/ehjsj2A2AMSeiIZOdB5BBeMjAD9emf5rKD0wVzJ+c5eA2GgFA9gkBT/kcs
+         OuXGZXe3Mv41RX4IvKbaS5A6fhF9FBILwUy7eaGELt2wVjchs7JkHOYQ0RkYHqF3LKDK
+         +hWG7RUnqVx+lPk5/yU0GxVniXz0Taz3ysubj8DuDgLE6t8ekF/o/thMPGswLts4rsjy
+         yMGj2qfd9Fz+RDVawAP0aD0lwUL4U93SjjT8/hc8uZ+GrkprwAfpIO7FLsm+NTcQ1Rzc
+         QCqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=60EfMvM37qn0EhwNos9h/7fWqDVyOdNY4qBVAv1lRe0=;
-        b=GuuIDvi5ClVOV00K4pDTjyy9OyibHGY9a36ZCxVc9WsR5D4McNDTfAaWEg+0ZqSXIX
-         2JanTf2MpZSfhOiNnv4li55VofWS9w+z5K8LWVtt7n5DvPz+zxIpHlhGyqgZNgiWr73M
-         IaD3mSMy85I8ZvrwSHWpKNTTShcXQwFhxgR0l4G9Zi4vSXhTXlbVT7hLDyxsKA3CNHGI
-         hhppfZDB1bookSm3ZtyFFqdBibkQKInZPt820o1Kg+wOXXoSs42Irp+KqX7b0lA5Pskn
-         s0JMaYBK6gKp61FlAa1gJGIE0AebfwxrsqEmdGBc7sy6bogHjKKOOlNecfOPMfUz5cTK
-         PA/g==
-X-Gm-Message-State: AOAM531IY/4Ka/z729KjEUDg4uE8gzWXQBAaUFK+545P9Vi0hGRXrkXJ
-        HvjuwCvTir1ytaiHkIcCXSQ=
-X-Google-Smtp-Source: ABdhPJyGBDep2PCcbA1WpB8VpiD3oIAD3OKKWLAGjP2y9Kat5HAthvWKJdyXuIYa01srFVx9vX4ZJA==
-X-Received: by 2002:a19:3850:: with SMTP id d16mr2916590lfj.473.1616511635688;
-        Tue, 23 Mar 2021 08:00:35 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru. [109.252.193.60])
-        by smtp.googlemail.com with ESMTPSA id a26sm2290151ljm.107.2021.03.23.08.00.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Mar 2021 08:00:35 -0700 (PDT)
-Subject: Re: [PATCH v5 19/21] drm/tegra: Implement new UAPI
-To:     Mikko Perttunen <cyndis@kapsi.fi>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Cc:     jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch,
-        linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        talho@nvidia.com, bhuntsman@nvidia.com
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-20-mperttunen@nvidia.com>
- <YFnsQNiLg/5I/qKA@orome.fritz.box>
- <494e3858-5b29-0b44-f2eb-7a7cc16ff325@kapsi.fi>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2c557b45-f78c-5f49-7f9f-e84edacd4a08@gmail.com>
-Date:   Tue, 23 Mar 2021 18:00:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        bh=VOUSgKbb+tmQ6BrVeKX3GQ/KKdKuR8BaRfZ6V+0QOT4=;
+        b=FXpSTQNsjU09p3I4Lo7QWDAsCArzb/9jcI+aXxj4U5FUmmSq9H6vS9LY+W/ItSJ6x4
+         ek26gHFbEpVY6eHVOUKGBchmViSHhUikecU/Jdi3HqESqN4T6IxbwNwvEmSDgdBlvEFr
+         SnP+7t0RLV5c9cwHIgFpf4WJ6fToCeCpvawSwnWPxvwkSU929rtBdK17LWbx7lwa8ONp
+         G7M2dC60LYESGioD0DJCdd28LAFwr8ZBvaV9PMWghEN8Tm9uqcLP5xWXRCxKif6AT1ex
+         NrqSDI1pBZay6pQ+JGNdVxXB5uzPJUft2Ctc3ryj1O+8/DWXzMA+3eb6/U1A53bf2DEO
+         OLXA==
+X-Gm-Message-State: AOAM530pFZm83kw7uvg//FijdcWiCJj4k5s7dbqguznaBmenrzfHVJKJ
+        Y6HKGs1RBJ936kta+zXMCLM=
+X-Google-Smtp-Source: ABdhPJzue6N2LpPyzl3guDAdUNcg5kxuK19d7aYM/Y2bGxBU8KIujBuzZgBTweoetJBGMtGtvXH4tA==
+X-Received: by 2002:a17:906:c45a:: with SMTP id ck26mr5468014ejb.125.1616514861376;
+        Tue, 23 Mar 2021 08:54:21 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id r17sm11535164ejz.109.2021.03.23.08.54.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 08:54:20 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        James Jones <jajones@nvidia.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 0/9] drm/tegra: Various improvements
+Date:   Tue, 23 Mar 2021 16:54:28 +0100
+Message-Id: <20210323155437.513497-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <494e3858-5b29-0b44-f2eb-7a7cc16ff325@kapsi.fi>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.03.2021 17:43, Mikko Perttunen пишет:
->>
->> FWIW, I would've been fine with stashing all of this into drm.c as well
->> since the rest of the UAPI is in that already. The churn in this patch
->> is reasonably small, but it would've been even less if this was just all
->> in drm.c.
-> 
-> I think we shouldn't have the uapi in drm.c -- it just makes the file a
-> bit of a dumping ground. I think drm.c should have the code that relates
-> to initialization and initial registration with DRM.
+From: Thierry Reding <treding@nvidia.com>
 
-+1 drm.c is already very unmanageable / difficult to follow, it
-absolutely must be split up.
+Hi,
+
+this fixes a couple of oddities like slightly off DMA masks and add
+support for hardware cursors on newer chips as well as support for the
+sector layout bit in NVIDIA framebuffer modifiers.
+
+The first patch in this set is a small helper that I think might be
+useful to other drivers eventually, but if it isn't it's easily
+something I can carry in the Tegra driver. It'd be great to get an
+Acked-by on it from one of the drm-misc maintainers so that I can take
+it through the Tegra tree.
+
+James, I've added you on Cc on this one because it makes use of the
+extended framebuffer modifiers that you introduced a while back to
+support the sector layout mux on Tegra194. It'd be great to get your
+thoughts on this just so this is used as expected.
+
+Thanks,
+Thierry
+
+Thierry Reding (9):
+  drm/fourcc: Add macro to check for the modifier vendor
+  drm/tegra: dc: Inherit DMA mask
+  drm/tegra: dc: Parameterize maximum resolution
+  drm/tegra: dc: Implement hardware cursor on Tegra186 and later
+  drm/tegra: fb: Add diagnostics for framebuffer modifiers
+  drm/tegra: gem: Add a clarifying comment
+  gpu: host1x: Add early init and late exit callbacks
+  drm/tegra: Count number of display controllers at runtime
+  drm/tegra: Support sector layout on Tegra194
+
+ drivers/gpu/drm/tegra/dc.c    | 104 +++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/tegra/dc.h    |   6 ++
+ drivers/gpu/drm/tegra/drm.c   |  13 ++++-
+ drivers/gpu/drm/tegra/drm.h   |   5 ++
+ drivers/gpu/drm/tegra/fb.c    |  10 ++++
+ drivers/gpu/drm/tegra/gem.h   |   6 ++
+ drivers/gpu/drm/tegra/hub.c   |  41 +++++++++++++-
+ drivers/gpu/drm/tegra/plane.c |  32 +++++++++++
+ drivers/gpu/host1x/bus.c      |  31 ++++++++++
+ include/linux/host1x.h        |   2 +
+ include/uapi/drm/drm_fourcc.h |   3 +
+ 11 files changed, 240 insertions(+), 13 deletions(-)
+
+-- 
+2.30.2
+
