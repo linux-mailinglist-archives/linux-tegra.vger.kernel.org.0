@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7140E3463B1
+	by mail.lfdr.de (Postfix) with ESMTP id BDFF33463B3
 	for <lists+linux-tegra@lfdr.de>; Tue, 23 Mar 2021 16:55:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232819AbhCWPyk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Mar 2021 11:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39098 "EHLO
+        id S232823AbhCWPyl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Mar 2021 11:54:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232823AbhCWPyb (ORCPT
+        with ESMTP id S232830AbhCWPyd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Mar 2021 11:54:31 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CBE6C061574
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:30 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id u5so27928381ejn.8
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:30 -0700 (PDT)
+        Tue, 23 Mar 2021 11:54:33 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC78C061574
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:32 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id kt15so18439624ejb.12
+        for <linux-tegra@vger.kernel.org>; Tue, 23 Mar 2021 08:54:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fz0pj9ppHMWd8qVO1GW/JKUv14EpoMWJ6NeYk++JZEA=;
-        b=FNJVsHPBJpHg9N+6WL9bsnAxgfRAwzvvyV8W6upUxk4EibvlS2qEta0TI6K9dnTBsk
-         WprbN53jE5BFzLmE27On/7yDMYd50an73oPrjXXUGlvfp9/MOkuNzLCfsuoqRceh3/N9
-         EKQWOsGh5wjkJHLsf6VBuDi4Wy0Ro1ZbNovLb4e/HkM9uDec9P8eLUI1FYgWpPzHwEQD
-         /NbFXR6yGFtYs/7Sn1gBCyGP0znXModNAJA6gbvL7fMnOlkJsy7EEVkEGObolcQbcQd3
-         wkAXV66WnJWvIWd1jlTSlLNv8rLTo9KSqNon76XIEN9/5h3AZ8AsaDq7T2yDyAiEl/8V
-         N7Bw==
+        bh=70K9kjsbo/1i6Slzcj1yYSLIt8mASpZL8dGDcRzh0Ik=;
+        b=nJLarwD4oPtgCbyP0lSZN5xDM8JkJ+kRCf+V635taW9CJW9xyMzFnREUvxmxVuasmV
+         e2PRRJAMINKWlotnxFDMtSU4pCpqXgi0NS/v5w6+ZJSpf0lMsE3FmR7eHGZkbZUB5Dts
+         JEjw0z2DIyoezuBTvzVa3UvOpvl8x1kPIN8okiP3tf7aGZkGguOInP+RGWjM5fxs7175
+         snlocXPLqo9d9p+FSPUln2z/iPHFbVkY8rMkxZ8GjN5+kPnMkg77TBAyMqKGDqGEgbzf
+         aA2kIN2AAfftM3/jThdN3gMzQaUfVOIglV1XE+J+1Q3DqkxheSDR4kjv77IONcWRelPD
+         CkGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fz0pj9ppHMWd8qVO1GW/JKUv14EpoMWJ6NeYk++JZEA=;
-        b=uD1cH37sxl1Hn/vQsC23ebUjnQFH++VFg+HHddvSmLVXpvnu4DSn1wJ51bnorkiL+O
-         8ZlAV6ciNBau1zzk/s06B2126RjMQa5Bt2MJ+C0F5SiDTmpMO18MHTgrrHBw6ceXj+m8
-         tuvNbBvByjHphgayUHUlWownSOrUrKKpkdfsszGLB9b5/S9Uvlft5B46zEbNwJq0nPTK
-         2zoi/tV2JwOmZ3XiAKpKWlkpmt2W2YcnVaW9fwTpC2HChEqcpsU1sFbn+QPG4DdtYd3m
-         3cTt2lfMMBbBKptMLodClApDhh2L4+WJeIkDUFbTCHATw6o+idajWYC0iiSwnrJ1YoEo
-         t84Q==
-X-Gm-Message-State: AOAM5302shY9d6YM9sLEWv7GqccFAf8XVmfHQ/n7RiCG+/AIuZszMm/K
-        7hftyHq+Dxb90gQObjU+E5Q=
-X-Google-Smtp-Source: ABdhPJwmgm9LvISuNY9MMJA04AO7jA2DJ5Luc8Ef1wNCoOxHm9cUdrksw6lemE+3pPWbBitTNmK8iw==
-X-Received: by 2002:a17:906:f56:: with SMTP id h22mr5654838ejj.494.1616514869097;
-        Tue, 23 Mar 2021 08:54:29 -0700 (PDT)
+        bh=70K9kjsbo/1i6Slzcj1yYSLIt8mASpZL8dGDcRzh0Ik=;
+        b=p0YFmVcMJe3eANKszeN3AcvzGvvMQRoOihfgOM3TmFi/XtCncN8wEWIKaA41lA8Fch
+         81aJb1MBhrL7NivEozfgD5LskOwUxwQ4ujkXsoBFDQ3rEL8DsOKMcPkL/G/aYy6O1w3c
+         XmwLRORMS5NvsR1n+FyXqR6CxpqQFVoea8Dao+OEB0fmWF/DnwrDIyRkoNmw+L8ARwVt
+         7yk0lIoRN1p9NBprG2ST22HyyQvzUtfZGFM4Ll7ICvKbX3B5KqAxfdnq+UY4+c6y9aCp
+         I/zMeuHmkknq6IBFfkkJmhYUKT7tGQd9oCSNKz1sPcn+Oml8NSwq3pErIuVKdxuZKA84
+         vf6g==
+X-Gm-Message-State: AOAM532Mgkos873y5wX86xHvPqhC5pB7oAP6SeDlpI3A4UsTMO+GaMJA
+        QBYqtijZv/nWT+2zNzIccRs=
+X-Google-Smtp-Source: ABdhPJzTKukWTcEzkZ2Q6Rl27C/DLbej184vQL4L32XCIgYd71WZQjEyH4m/FBuqUnVrxhjdxcCqog==
+X-Received: by 2002:a17:906:b2d6:: with SMTP id cf22mr5515453ejb.321.1616514871587;
+        Tue, 23 Mar 2021 08:54:31 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id n26sm13024993eds.22.2021.03.23.08.54.27
+        by smtp.gmail.com with ESMTPSA id u13sm11560894ejn.59.2021.03.23.08.54.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 08:54:28 -0700 (PDT)
+        Tue, 23 Mar 2021 08:54:30 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -56,9 +56,9 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         James Jones <jajones@nvidia.com>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 3/9] drm/tegra: dc: Parameterize maximum resolution
-Date:   Tue, 23 Mar 2021 16:54:31 +0100
-Message-Id: <20210323155437.513497-4-thierry.reding@gmail.com>
+Subject: [PATCH 4/9] drm/tegra: dc: Implement hardware cursor on Tegra186 and later
+Date:   Tue, 23 Mar 2021 16:54:32 +0100
+Message-Id: <20210323155437.513497-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210323155437.513497-1-thierry.reding@gmail.com>
 References: <20210323155437.513497-1-thierry.reding@gmail.com>
@@ -70,76 +70,158 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Tegra186 and later support a higher maximum resolution than earlier
-chips, so make sure to reflect that in the mode configuration.
+The hardware cursor on Tegra186 differs slightly from the implementation
+on older SoC generations. In particular the new implementation relies on
+software for clipping the cursor against the screen. Fortunately, atomic
+KMS already computes clipped coordinates for (cursor) planes, so this is
+trivial to implement.
+
+The format supported by the hardware cursor is also slightly different.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dc.c  |  6 ++++++
- drivers/gpu/drm/tegra/drm.c | 13 ++++++++++---
- drivers/gpu/drm/tegra/drm.h |  1 +
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tegra/dc.c | 62 +++++++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/tegra/dc.h |  5 +++
+ 2 files changed, 59 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 5737a0c4dc9f..1886ef1fcda7 100644
+index 1886ef1fcda7..4262fd9b9a15 100644
 --- a/drivers/gpu/drm/tegra/dc.c
 +++ b/drivers/gpu/drm/tegra/dc.c
-@@ -2117,6 +2117,12 @@ static int tegra_dc_init(struct host1x_client *client)
- 	if (dc->soc->pitch_align > tegra->pitch_align)
- 		tegra->pitch_align = dc->soc->pitch_align;
+@@ -832,10 +832,14 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
+ 	return &plane->base;
+ }
  
-+	/* track maximum resolution */
-+	if (dc->soc->has_nvdisplay)
-+		drm->mode_config.max_width = drm->mode_config.max_height = 16384;
-+	else
-+		drm->mode_config.max_width = drm->mode_config.max_height = 4096;
+-static const u32 tegra_cursor_plane_formats[] = {
++static const u32 tegra_legacy_cursor_plane_formats[] = {
+ 	DRM_FORMAT_RGBA8888,
+ };
+ 
++static const u32 tegra_cursor_plane_formats[] = {
++	DRM_FORMAT_ARGB8888,
++};
 +
- 	err = tegra_dc_rgb_init(drm, dc);
- 	if (err < 0 && err != -ENODEV) {
- 		dev_err(dc->dev, "failed to initialize RGB output: %d\n", err);
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 6015913fef83..bbc504763bd4 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1144,9 +1144,8 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ static int tegra_cursor_atomic_check(struct drm_plane *plane,
+ 				     struct drm_atomic_state *state)
+ {
+@@ -875,12 +879,22 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+ 									   plane);
+ 	struct tegra_plane_state *tegra_plane_state = to_tegra_plane_state(new_state);
+ 	struct tegra_dc *dc = to_tegra_dc(new_state->crtc);
+-	u32 value = CURSOR_CLIP_DISPLAY;
++	struct tegra_drm *tegra = plane->dev->dev_private;
++	u64 dma_mask = *dc->dev->dma_mask;
++	unsigned int x, y;
++	u32 value = 0;
  
- 	drm->mode_config.min_width = 0;
- 	drm->mode_config.min_height = 0;
--
--	drm->mode_config.max_width = 4096;
--	drm->mode_config.max_height = 4096;
-+	drm->mode_config.max_width = 0;
-+	drm->mode_config.max_height = 0;
- 
- 	drm->mode_config.allow_fb_modifiers = true;
- 
-@@ -1165,6 +1164,14 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 	if (err < 0)
- 		goto fbdev;
+ 	/* rien ne va plus */
+ 	if (!new_state->crtc || !new_state->fb)
+ 		return;
  
 +	/*
-+	 * Now that all display controller have been initialized, the maximum
-+	 * supported resolution is known and the bitmask for horizontal and
-+	 * vertical bitfields can be computed.
++	 * Legacy display supports hardware clipping of the cursor, but
++	 * nvdisplay relies on software to clip the cursor to the screen.
 +	 */
-+	tegra->hmask = drm->mode_config.max_width - 1;
-+	tegra->vmask = drm->mode_config.max_height - 1;
++	if (!dc->soc->has_nvdisplay)
++		value |= CURSOR_CLIP_DISPLAY;
 +
- 	if (tegra->use_explicit_iommu) {
- 		u64 carveout_start, carveout_end, gem_start, gem_end;
- 		u64 dma_mask = dma_get_mask(&dev->dev);
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index 1af57c2016eb..34fbcd6abf2f 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -54,6 +54,7 @@ struct tegra_drm {
- 	struct tegra_fbdev *fbdev;
+ 	switch (new_state->crtc_w) {
+ 	case 32:
+ 		value |= CURSOR_SIZE_32x32;
+@@ -908,7 +922,7 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+ 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_START_ADDR);
+ 
+ #ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
+-	value = (tegra_plane_state->iova[0] >> 32) & 0x3;
++	value = (tegra_plane_state->iova[0] >> 32) & (dma_mask >> 32);
+ 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_START_ADDR_HI);
  #endif
  
-+	unsigned int hmask, vmask;
- 	unsigned int pitch_align;
+@@ -920,15 +934,42 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+ 	value = tegra_dc_readl(dc, DC_DISP_BLEND_CURSOR_CONTROL);
+ 	value &= ~CURSOR_DST_BLEND_MASK;
+ 	value &= ~CURSOR_SRC_BLEND_MASK;
+-	value |= CURSOR_MODE_NORMAL;
++
++	if (dc->soc->has_nvdisplay)
++		value &= ~CURSOR_COMPOSITION_MODE_XOR;
++	else
++		value |= CURSOR_MODE_NORMAL;
++
+ 	value |= CURSOR_DST_BLEND_NEG_K1_TIMES_SRC;
+ 	value |= CURSOR_SRC_BLEND_K1_TIMES_SRC;
+ 	value |= CURSOR_ALPHA;
+ 	tegra_dc_writel(dc, value, DC_DISP_BLEND_CURSOR_CONTROL);
  
- 	struct tegra_display_hub *hub;
++	/* nvdisplay relies on software for clipping */
++	if (dc->soc->has_nvdisplay) {
++		unsigned int i, j, w, h;
++
++		x = new_state->dst.x1;
++		y = new_state->dst.y1;
++
++		i = new_state->src.x1 >> 16;
++		j = new_state->src.y1 >> 16;
++
++		value = ((j & tegra->vmask) << 16) | (i & tegra->hmask);
++		tegra_dc_writel(dc, value, DC_DISP_PCALC_HEAD_SET_CROPPED_POINT_IN_CURSOR);
++
++		w = (new_state->src.x2 - new_state->src.x1) >> 16;
++		h = (new_state->src.y2 - new_state->src.y1) >> 16;
++
++		value = ((h & tegra->vmask) << 16) | (w & tegra->hmask);
++		tegra_dc_writel(dc, value, DC_DISP_PCALC_HEAD_SET_CROPPED_SIZE_IN_CURSOR);
++	} else {
++		x = new_state->crtc_x;
++		y = new_state->crtc_y;
++	}
++
+ 	/* position the cursor */
+-	value = (new_state->crtc_y & 0x3fff) << 16 |
+-		(new_state->crtc_x & 0x3fff);
++	value = ((y & tegra->vmask) << 16) | (x & tegra->hmask);
+ 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_POSITION);
+ }
+ 
+@@ -982,8 +1023,13 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+ 	plane->index = 6;
+ 	plane->dc = dc;
+ 
+-	num_formats = ARRAY_SIZE(tegra_cursor_plane_formats);
+-	formats = tegra_cursor_plane_formats;
++	if (!dc->soc->has_nvdisplay) {
++		num_formats = ARRAY_SIZE(tegra_legacy_cursor_plane_formats);
++		formats = tegra_legacy_cursor_plane_formats;
++	} else {
++		num_formats = ARRAY_SIZE(tegra_cursor_plane_formats);
++		formats = tegra_cursor_plane_formats;
++	}
+ 
+ 	err = drm_universal_plane_init(drm, &plane->base, possible_crtcs,
+ 				       &tegra_plane_funcs, formats,
+diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
+index 051d03dcb9b0..21074cd2ce5e 100644
+--- a/drivers/gpu/drm/tegra/dc.h
++++ b/drivers/gpu/drm/tegra/dc.h
+@@ -511,6 +511,8 @@ int tegra_dc_rgb_exit(struct tegra_dc *dc);
+ 
+ #define DC_DISP_CURSOR_START_ADDR_HI		0x4ec
+ #define DC_DISP_BLEND_CURSOR_CONTROL		0x4f1
++#define CURSOR_COMPOSITION_MODE_BLEND		(0 << 25)
++#define CURSOR_COMPOSITION_MODE_XOR		(1 << 25)
+ #define CURSOR_MODE_LEGACY			(0 << 24)
+ #define CURSOR_MODE_NORMAL			(1 << 24)
+ #define CURSOR_DST_BLEND_ZERO			(0 << 16)
+@@ -705,6 +707,9 @@ int tegra_dc_rgb_exit(struct tegra_dc *dc);
+ #define PROTOCOL_MASK (0xf << 8)
+ #define PROTOCOL_SINGLE_TMDS_A (0x1 << 8)
+ 
++#define DC_DISP_PCALC_HEAD_SET_CROPPED_POINT_IN_CURSOR	0x442
++#define DC_DISP_PCALC_HEAD_SET_CROPPED_SIZE_IN_CURSOR	0x446
++
+ #define DC_WIN_CORE_WINDOWGROUP_SET_CONTROL	0x702
+ #define OWNER_MASK (0xf << 0)
+ #define OWNER(x) (((x) & 0xf) << 0)
 -- 
 2.30.2
 
