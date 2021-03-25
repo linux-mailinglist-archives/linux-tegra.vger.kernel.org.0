@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E71A93492A7
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Mar 2021 14:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C043A3492AA
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Mar 2021 14:04:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbhCYNDx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 25 Mar 2021 09:03:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60466 "EHLO
+        id S230247AbhCYND4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 25 Mar 2021 09:03:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230377AbhCYNDe (ORCPT
+        with ESMTP id S230406AbhCYNDi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 25 Mar 2021 09:03:34 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9DAC06174A
-        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:34 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id g25so1158743wmh.0
-        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:34 -0700 (PDT)
+        Thu, 25 Mar 2021 09:03:38 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D488C06174A
+        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:38 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id m20-20020a7bcb940000b029010cab7e5a9fso3053245wmi.3
+        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sKlX6lxFZZDQx81KHxlBAuS3KXxxabdkg7deqsQD9E8=;
-        b=Q6MDJba0++Cqa2FqTPpBKYmteCnTmb4Qj0MNVThccjPAfe15l8jJHB4MfP1IhSBvAd
-         oPEObUu5jLZZMLijGS4X/S5BqL4OxtVllLkwGG7MM5SSHYYAqBQDawvPV3OwbScjr0Yn
-         AVBqjKfgS7IuniJewPzzMgK/pm2odVCKwZdFXnZj8vDDMMcvHsej5IMPLgju9BC4Cr4r
-         tc0smQFkTOhHAusLixUPjzS1lfptjzJwjKpxOZoiSpR0QlE4ayuY9Jz4ZARnDHX184jH
-         ebhG9llOkxRw6sMsZsgTQBSTdGl8G9vKOOZthtsvQFvC7IfdHGnQgTVhmojD2fU2dJUT
-         xlsw==
+        bh=t7X2GpeVAQTwaWmJIXgCOprGMJUs+fHxOldIInNR7C4=;
+        b=ditqyyApwpDUxItLfBmACbDfKsq2ugMGl3n2IuO9zqv+6bJ1L9hnPv6Fjqck4JK8uH
+         pc13cPz8pqL18QiPc0/9G2EfkpafjXhCJfENVv+GBpvM6LossmsdOe1V8tgiktAxTuym
+         erdCO/bZLCnVXqil+KZzVWJfx1RXbqowbOTHW9YQUCs3RjMglbAJE/IbYvCsZd46kzH4
+         Cl/gJrJG5S80T/rAjjCMIkxeWRo6aEyLuzKcneT9HGLOln0tWSQKl5NXcGo0Ij6T345o
+         fJ0KGLroJ4T+k4PCrJ3q4CotsaInUEzuYD9hTVejuWeYq0MTxhGINmSWmSL9EijHP5ZL
+         q3WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sKlX6lxFZZDQx81KHxlBAuS3KXxxabdkg7deqsQD9E8=;
-        b=QSqhBk4w0QIYCPVVvNZXRCnZ95ke8yQwMySNsjaBeZ8fyNad0mhUCA/D6xmmr6CxNN
-         MXsK6lSuCEnTebzvj7ubR38JVHhsi4cT97+vgKnZpokpg33NHkCfuHrH9+Ta/IovZG0H
-         CWNXKK+e32iUHTKKekNUSoh3uuVw4KeYZ09cIiJCPDFnW6fTbY9AxmqqNW1XV/exmKjc
-         MiWKv5ULH7nri2Jy7pPZfM2C5RVWiuS4abokjKKwCGkPqCSS00c7zAAdQ/bzMd38d6ea
-         LYFuBExaFgQ9nRkhHkhgGoxvSzEL+zsGRq3CKCvslhFhP61Y2djOv2C8kfThz8M9Nwa0
-         4AGw==
-X-Gm-Message-State: AOAM530c0uLkyy+1Gu0OslTHrpuMYDvK22zPdS+7GAFhJlyqiqF7OpkJ
-        6EjWP4Dqa9B8EDCW4LusBnjX0YnHJhM=
-X-Google-Smtp-Source: ABdhPJzB3TMNW+Kkz/jNUXXcFJCRi95WiLM+uNOvGfihjgYU+d8eM8S/suCmJcW+aLLKKTBKPIBLwg==
-X-Received: by 2002:a05:600c:198c:: with SMTP id t12mr7822026wmq.183.1616677412792;
-        Thu, 25 Mar 2021 06:03:32 -0700 (PDT)
+        bh=t7X2GpeVAQTwaWmJIXgCOprGMJUs+fHxOldIInNR7C4=;
+        b=BfnPhgjLvpS0Nlz1f0KpXI4BIJ9+p4SjoUgDNXPa69+SuZI7if8CMPw0Y01x3Kb37L
+         GONLGgS48/heAMJx+RDm6pgtehRJBir7mRkrFGA7Ijtbyz+jcCm2N8EQ4UyAyr9EmSNB
+         GnDc0sjPJ/x9sL0SzC935RGOIhWlyQgG4TLaEUDyFg6VrNMk0+HfqXrFwcGG1q4Hro2X
+         PHUzHlLJDANSHXbF0JU9j8irZVMRPV0TcRDGBfHPubaocRAdgAbyoj34WcNQRqI3A9c1
+         d730F4tHZ4eoG6ZUoIl85DV/yZf3eMtFHBp3tMldso+/ViGET/D5y/i7U65Ry4kltcfb
+         1pKw==
+X-Gm-Message-State: AOAM532m52seEJZNizd7+jdkRS1bSLRV4SyjVvxzB15feJAwXMAnEcHB
+        ZPjEOka1R0jEkfGYqebAAHI=
+X-Google-Smtp-Source: ABdhPJykjubPhrd+aJHeZrbaADCVdsfZrEwKLL9/dZC5ZHubIgnBOHVOQai7Uptd7XQ/CH85srzGrA==
+X-Received: by 2002:a1c:3d8a:: with SMTP id k132mr7759885wma.71.1616677415510;
+        Thu, 25 Mar 2021 06:03:35 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id h13sm5678667wmq.29.2021.03.25.06.03.31
+        by smtp.gmail.com with ESMTPSA id o7sm7803676wrs.16.2021.03.25.06.03.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 06:03:31 -0700 (PDT)
+        Thu, 25 Mar 2021 06:03:34 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Will Deacon <will@kernel.org>,
@@ -59,9 +59,9 @@ Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Krishna Reddy <vdumpa@nvidia.com>, linux-tegra@vger.kernel.org,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 4/9] iommu/arm-smmu: Implement ->probe_finalize()
-Date:   Thu, 25 Mar 2021 14:03:27 +0100
-Message-Id: <20210325130332.778208-5-thierry.reding@gmail.com>
+Subject: [PATCH 5/9] iommu/arm-smmu: tegra: Detect number of instances at runtime
+Date:   Thu, 25 Mar 2021 14:03:28 +0100
+Message-Id: <20210325130332.778208-6-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210325130332.778208-1-thierry.reding@gmail.com>
 References: <20210325130332.778208-1-thierry.reding@gmail.com>
@@ -73,63 +73,157 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Implement a ->probe_finalize() callback that can be used by vendor
-implementations to perform extra programming necessary after devices
-have been attached to the SMMU.
+Parse the reg property in device tree and detect the number of instances
+represented by a device tree node. This is subsequently needed in order
+to support single-instance SMMUs with the Tegra implementation because
+additional programming is needed to properly configure the SID override
+registers in the memory controller.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 17 +++++++++++++++++
- drivers/iommu/arm/arm-smmu/arm-smmu.h |  1 +
- 2 files changed, 18 insertions(+)
+ drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c | 49 ++++++++++++++------
+ 1 file changed, 34 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index d8c6bfde6a61..4589e76543a8 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -1447,6 +1447,22 @@ static void arm_smmu_release_device(struct device *dev)
- 	iommu_fwspec_free(dev);
- }
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+index 29117444e5a0..5b1170b028f0 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+@@ -20,13 +20,19 @@
+  * The third instance usage is through standard arm-smmu driver itself and
+  * is out of scope of this implementation.
+  */
+-#define NUM_SMMU_INSTANCES 2
++#define MAX_SMMU_INSTANCES 2
  
-+static void arm_smmu_probe_finalize(struct device *dev)
-+{
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-+	struct arm_smmu_master_cfg *cfg;
-+	struct arm_smmu_device *smmu;
-+
-+	if (!fwspec || fwspec->ops != &arm_smmu_ops)
-+		return;
-+
-+	cfg = dev_iommu_priv_get(dev);
-+	smmu = cfg->smmu;
-+
-+	if (smmu->impl->probe_finalize)
-+		smmu->impl->probe_finalize(smmu, dev);
-+}
-+
- static struct iommu_group *arm_smmu_device_group(struct device *dev)
- {
- 	struct arm_smmu_master_cfg *cfg = dev_iommu_priv_get(dev);
-@@ -1630,6 +1646,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.iova_to_phys		= arm_smmu_iova_to_phys,
- 	.probe_device		= arm_smmu_probe_device,
- 	.release_device		= arm_smmu_release_device,
-+	.probe_finalize		= arm_smmu_probe_finalize,
- 	.device_group		= arm_smmu_device_group,
- 	.domain_get_attr	= arm_smmu_domain_get_attr,
- 	.domain_set_attr	= arm_smmu_domain_set_attr,
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index d2a2d1bc58ba..6779db30cebb 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -439,6 +439,7 @@ struct arm_smmu_impl {
- 				  struct device *dev, int start);
- 	void (*write_s2cr)(struct arm_smmu_device *smmu, int idx);
- 	void (*write_sctlr)(struct arm_smmu_device *smmu, int idx, u32 reg);
-+	void (*probe_finalize)(struct arm_smmu_device *smmu, struct device *dev);
+ struct nvidia_smmu {
+-	struct arm_smmu_device	smmu;
+-	void __iomem		*bases[NUM_SMMU_INSTANCES];
++	struct arm_smmu_device smmu;
++	void __iomem *bases[MAX_SMMU_INSTANCES];
++	unsigned int num_instances;
  };
  
- #define INVALID_SMENDX			-1
++static inline struct nvidia_smmu *to_nvidia_smmu(struct arm_smmu_device *smmu)
++{
++	return container_of(smmu, struct nvidia_smmu, smmu);
++}
++
+ static inline void __iomem *nvidia_smmu_page(struct arm_smmu_device *smmu,
+ 					     unsigned int inst, int page)
+ {
+@@ -47,9 +53,10 @@ static u32 nvidia_smmu_read_reg(struct arm_smmu_device *smmu,
+ static void nvidia_smmu_write_reg(struct arm_smmu_device *smmu,
+ 				  int page, int offset, u32 val)
+ {
++	struct nvidia_smmu *nvidia = to_nvidia_smmu(smmu);
+ 	unsigned int i;
+ 
+-	for (i = 0; i < NUM_SMMU_INSTANCES; i++) {
++	for (i = 0; i < nvidia->num_instances; i++) {
+ 		void __iomem *reg = nvidia_smmu_page(smmu, i, page) + offset;
+ 
+ 		writel_relaxed(val, reg);
+@@ -67,9 +74,10 @@ static u64 nvidia_smmu_read_reg64(struct arm_smmu_device *smmu,
+ static void nvidia_smmu_write_reg64(struct arm_smmu_device *smmu,
+ 				    int page, int offset, u64 val)
+ {
++	struct nvidia_smmu *nvidia = to_nvidia_smmu(smmu);
+ 	unsigned int i;
+ 
+-	for (i = 0; i < NUM_SMMU_INSTANCES; i++) {
++	for (i = 0; i < nvidia->num_instances; i++) {
+ 		void __iomem *reg = nvidia_smmu_page(smmu, i, page) + offset;
+ 
+ 		writeq_relaxed(val, reg);
+@@ -79,6 +87,7 @@ static void nvidia_smmu_write_reg64(struct arm_smmu_device *smmu,
+ static void nvidia_smmu_tlb_sync(struct arm_smmu_device *smmu, int page,
+ 				 int sync, int status)
+ {
++	struct nvidia_smmu *nvidia = to_nvidia_smmu(smmu);
+ 	unsigned int delay;
+ 
+ 	arm_smmu_writel(smmu, page, sync, 0);
+@@ -90,7 +99,7 @@ static void nvidia_smmu_tlb_sync(struct arm_smmu_device *smmu, int page,
+ 			u32 val = 0;
+ 			unsigned int i;
+ 
+-			for (i = 0; i < NUM_SMMU_INSTANCES; i++) {
++			for (i = 0; i < nvidia->num_instances; i++) {
+ 				void __iomem *reg;
+ 
+ 				reg = nvidia_smmu_page(smmu, i, page) + status;
+@@ -112,9 +121,10 @@ static void nvidia_smmu_tlb_sync(struct arm_smmu_device *smmu, int page,
+ 
+ static int nvidia_smmu_reset(struct arm_smmu_device *smmu)
+ {
++	struct nvidia_smmu *nvidia = to_nvidia_smmu(smmu);
+ 	unsigned int i;
+ 
+-	for (i = 0; i < NUM_SMMU_INSTANCES; i++) {
++	for (i = 0; i < nvidia->num_instances; i++) {
+ 		u32 val;
+ 		void __iomem *reg = nvidia_smmu_page(smmu, i, ARM_SMMU_GR0) +
+ 				    ARM_SMMU_GR0_sGFSR;
+@@ -157,8 +167,9 @@ static irqreturn_t nvidia_smmu_global_fault(int irq, void *dev)
+ 	unsigned int inst;
+ 	irqreturn_t ret = IRQ_NONE;
+ 	struct arm_smmu_device *smmu = dev;
++	struct nvidia_smmu *nvidia = to_nvidia_smmu(smmu);
+ 
+-	for (inst = 0; inst < NUM_SMMU_INSTANCES; inst++) {
++	for (inst = 0; inst < nvidia->num_instances; inst++) {
+ 		irqreturn_t irq_ret;
+ 
+ 		irq_ret = nvidia_smmu_global_fault_inst(irq, smmu, inst);
+@@ -202,11 +213,13 @@ static irqreturn_t nvidia_smmu_context_fault(int irq, void *dev)
+ 	struct arm_smmu_device *smmu;
+ 	struct iommu_domain *domain = dev;
+ 	struct arm_smmu_domain *smmu_domain;
++	struct nvidia_smmu *nvidia;
+ 
+ 	smmu_domain = container_of(domain, struct arm_smmu_domain, domain);
+ 	smmu = smmu_domain->smmu;
++	nvidia = to_nvidia_smmu(smmu);
+ 
+-	for (inst = 0; inst < NUM_SMMU_INSTANCES; inst++) {
++	for (inst = 0; inst < nvidia->num_instances; inst++) {
+ 		irqreturn_t irq_ret;
+ 
+ 		/*
+@@ -241,6 +254,7 @@ struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
+ 	struct device *dev = smmu->dev;
+ 	struct nvidia_smmu *nvidia_smmu;
+ 	struct platform_device *pdev = to_platform_device(dev);
++	unsigned int i;
+ 
+ 	nvidia_smmu = devm_krealloc(dev, smmu, sizeof(*nvidia_smmu), GFP_KERNEL);
+ 	if (!nvidia_smmu)
+@@ -248,14 +262,19 @@ struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
+ 
+ 	/* Instance 0 is ioremapped by arm-smmu.c. */
+ 	nvidia_smmu->bases[0] = smmu->base;
++	nvidia_smmu->num_instances++;
++
++	for (i = 1; i < MAX_SMMU_INSTANCES; i++) {
++		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
++		if (!res)
++			break;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	if (!res)
+-		return ERR_PTR(-ENODEV);
++		nvidia_smmu->bases[i] = devm_ioremap_resource(dev, res);
++		if (IS_ERR(nvidia_smmu->bases[i]))
++			return ERR_CAST(nvidia_smmu->bases[i]);
+ 
+-	nvidia_smmu->bases[1] = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(nvidia_smmu->bases[1]))
+-		return ERR_CAST(nvidia_smmu->bases[1]);
++		nvidia_smmu->num_instances++;
++	}
+ 
+ 	nvidia_smmu->smmu.impl = &nvidia_smmu_impl;
+ 
 -- 
 2.30.2
 
