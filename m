@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23DFB3492A8
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Mar 2021 14:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93CB63492AC
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Mar 2021 14:04:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbhCYND7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S230298AbhCYND7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Thu, 25 Mar 2021 09:03:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60506 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230415AbhCYNDn (ORCPT
+        with ESMTP id S230096AbhCYNDq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 25 Mar 2021 09:03:43 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CC7C06174A
-        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:43 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id b9so2189245wrt.8
-        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:43 -0700 (PDT)
+        Thu, 25 Mar 2021 09:03:46 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E6BC06174A
+        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:46 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id j9so477680wrx.12
+        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p2ZJr/xZleVG5vuo3vPYmm91QfUd+NNqHlfpozdoe+o=;
-        b=b9p+BJqLAOyKGwz7BGORFcfWe1SnBSJN57Ur8/KUGDQzC3zjC10qVEmkQIY25Xp2ob
-         8RQVaEeuDH80SZerjHOE5/pI+x2LRzXJeLACnZUbmy/6FRAlbHNplEupgC5twlNMKXyY
-         tRzjdQmWL45AdOo8WdVHb4/5qurahs/c+eg4dDvHyzR+0VPCVstYh5vUJ7LkDLCbBBG9
-         57ULubjRi1M1H410LaBhghrAYwHCxDaHAEeekrXarO7YD7Y7ivN9dYVqLxpmJ/LX0DAz
-         DulYEq9U+9/ahB0aKcr7SaZQ+yeiEPW7FFsA/v6nrxKrh6UoJgcTDePDaNdIcDEqn5t8
-         ZnlQ==
+        bh=soDQPERcrxQizYmqdP8N6MWaU4yIdYvo3zzWt15BZzE=;
+        b=Yz7sN/FBKYsKSIUZt9s/LRF3RLppTSjBQmvvybhJ72OxUeMV3voK7qqhFK3s7qhtGV
+         vBmE3cpmnGk3Buy4gOFCBwq+ZqaMi8wT5GdS9Sby/n1uGSnXMoWsR7BjRIP8xahEhmxi
+         7scm5D+Q3fKaIkcA05yI5QEfTTtnF/ao13t/4UdJaNzRSafrw82SPefU5mW2Vn35b31A
+         axK0xh0xldW9j75n3DLwwIEyO9gtIgd7fh5rg8MuLLp1zuoa/H5f0sGsIMqOa2CbHudt
+         OjvYaQZ+zKZ8BGTzV3SYUel+1lIWYIw9AXgKJNbeGb3VpsW9Ec0eZOSg4LY2g9nZwuJ4
+         JCtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p2ZJr/xZleVG5vuo3vPYmm91QfUd+NNqHlfpozdoe+o=;
-        b=gv0HL/orJ0+SiWkrKK77OeqIjlxo8EiqDNvfi5KxjfIzMIX/Lu0dAmeiGTlhzO3mG6
-         kOJ/TEfNfMa0GV3pempNJd5Zq7pwce8igt/y7sbL1qytyrYO+lx8Bh3OIpEnb8u7GoR7
-         gCc1XDPancusVp2CV1RUxGpiMozfXBq6CjMogsXRQFOIz/HXPXn+U/6kDnH6jr5YlIoC
-         23WgLElq65N/lhECtUyLUnF1TLhIKvO4y8lXl1SLxHVvgAkV26nnmxHxzNl0H2FB5z0F
-         LXTvnKjhEZpv8I0pWPwTiFAAQJx9ZX4CKASUWKzh2Azrjd7mRsz+c7QdTBoJle8ProFj
-         de/g==
-X-Gm-Message-State: AOAM530HRcSXSk7ArWcnKuhqN92FPEYPRjBSu1bJ9kk3Z5ILFlE2jDLq
-        kARL1IRfgH7E/DlsesHkkdI=
-X-Google-Smtp-Source: ABdhPJwKeFtKFkBOdAh9H/ZHiBxwBkM7hwaJ4gXK8GulNDMTzhjAj/zMDpSNpAbmeOVWuqx3NWDIbQ==
-X-Received: by 2002:a5d:591a:: with SMTP id v26mr8835899wrd.172.1616677421814;
-        Thu, 25 Mar 2021 06:03:41 -0700 (PDT)
+        bh=soDQPERcrxQizYmqdP8N6MWaU4yIdYvo3zzWt15BZzE=;
+        b=kB5OGwegABSggEhbd+FagNOTAIizhg5Hc9HlhfLoy0pZoc7T1Ptcwrm5ysAsYGBUaV
+         D1ceqLoCLeJecdfF45JPsV3IgV0nPxB+XivJ3TNa82HYgr7qUzB8gLbP9lqi0oHzmfrf
+         ph6PoA27MNkhcQD+Pf38/7D+ayYafoopCU0ENzOUNoiI+3DeU1k4emLfzcqYwk8TqFGK
+         5sHKqga5cqb1GyD1y4ZUqd0ZzgW2ZCYy2bIllQ0AZcB18WO1+4ax1rmqUvMwtDO8RMuK
+         LtNwCYk9aYvuIB3hpn0hwyTSW4anU8bfePlt8EF4C0tdiNZlJP0pcKcdxVXB2sj5K2OG
+         ZD5A==
+X-Gm-Message-State: AOAM530tyzCJ6rT182FH7dDecB7PJeynZqK/PycwPVh+S2Yc5M0o7UsK
+        1Nmg0Yx5d1Ir7hQePk9t7V8=
+X-Google-Smtp-Source: ABdhPJwIdcfztl0HN1bHqneYRtw+MqoKgp1xBJX4Q+4Px6g8uIOonnw8AMlOhYIbAOuwqNsqpoT77g==
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr9166505wrw.235.1616677425265;
+        Thu, 25 Mar 2021 06:03:45 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id f22sm6187595wmc.33.2021.03.25.06.03.40
+        by smtp.gmail.com with ESMTPSA id b12sm7530911wrf.39.2021.03.25.06.03.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 06:03:40 -0700 (PDT)
+        Thu, 25 Mar 2021 06:03:44 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Will Deacon <will@kernel.org>,
@@ -59,9 +59,9 @@ Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Krishna Reddy <vdumpa@nvidia.com>, linux-tegra@vger.kernel.org,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 7/9] iommu/arm-smmu: Use Tegra implementation on Tegra186
-Date:   Thu, 25 Mar 2021 14:03:30 +0100
-Message-Id: <20210325130332.778208-8-thierry.reding@gmail.com>
+Subject: [PATCH 8/9] arm64: tegra: Hook up memory controller to SMMU on Tegra186
+Date:   Thu, 25 Mar 2021 14:03:31 +0100
+Message-Id: <20210325130332.778208-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210325130332.778208-1-thierry.reding@gmail.com>
 References: <20210325130332.778208-1-thierry.reding@gmail.com>
@@ -73,30 +73,31 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Tegra186 requires the same SID override programming as Tegra194 in order
-to seamlessly transition from the firmware framebuffer to the Linux
-framebuffer, so the Tegra implementation needs to be used on Tegra186
-devices as well.
+On Tegra186 and later, the memory controller needs to be programmed in
+coordination with any of the ARM SMMU instances to configure the stream
+ID used for each memory client.
+
+To support this, add a phandle reference to the memory controller to the
+SMMU device tree node.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index 136872e77195..9f465e146799 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -211,7 +211,8 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
- 	if (of_property_read_bool(np, "calxeda,smmu-secure-config-access"))
- 		smmu->impl = &calxeda_impl;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index 9f75bbf00cf7..e9fdf9e18d37 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1152,6 +1152,8 @@ smmu: iommu@12000000 {
+ 		stream-match-mask = <0x7f80>;
+ 		#global-interrupts = <1>;
+ 		#iommu-cells = <1>;
++
++		nvidia,memory-controller = <&mc>;
+ 	};
  
--	if (of_device_is_compatible(np, "nvidia,tegra194-smmu"))
-+	if (of_device_is_compatible(np, "nvidia,tegra194-smmu") ||
-+	    of_device_is_compatible(np, "nvidia,tegra186-smmu"))
- 		return nvidia_smmu_impl_init(smmu);
- 
- 	smmu = qcom_smmu_impl_init(smmu);
+ 	host1x@13e00000 {
 -- 
 2.30.2
 
