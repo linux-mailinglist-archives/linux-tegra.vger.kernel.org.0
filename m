@@ -2,238 +2,218 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A5B3492AB
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Mar 2021 14:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4972A349381
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Mar 2021 15:00:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbhCYNEA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 25 Mar 2021 09:04:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60530 "EHLO
+        id S230436AbhCYOA0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 25 Mar 2021 10:00:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230417AbhCYNDt (ORCPT
+        with ESMTP id S230078AbhCYN7z (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 25 Mar 2021 09:03:49 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15ABBC06174A
-        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:49 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id x16so2205410wrn.4
-        for <linux-tegra@vger.kernel.org>; Thu, 25 Mar 2021 06:03:49 -0700 (PDT)
+        Thu, 25 Mar 2021 09:59:55 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A8CC06174A;
+        Thu, 25 Mar 2021 06:59:54 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id b9so2374802wrt.8;
+        Thu, 25 Mar 2021 06:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HWrTtgh451XNTYUh7MYwf0jtrS/IRGKbgAcQpXTVRtA=;
-        b=aeZ4EqkUQVIkENKtka9ksMtF3Wt9X/9vBfnSl1ufHd5OxLLz9SOkLtW2pqsdFTd28G
-         bpHv4gBuM9tQ02U3yJh3ZmOfcXQ2rycEv/7zRYHJEtgpSYbyPLOC0t6u3VfJEXnEy8O8
-         vvKTdVhDp+BGSIEtr1/eTI/GUSMhTjmKttGGYD2B9N5KjRIRc5jl7ZVVPhtw3Q+UfXh7
-         qH8GJDbUb+cMh8XPxRavbO9nglVPCQfFxA0K4iDFe1BxR5nq7Ak0FCv8h6LQReUnumhl
-         K1cp5apsIwmyoBL9MT+tmgk3bJDoksmefeFxvCj2x9DWyv2MORW78zO0KnAQ4TH8nJ3l
-         3P0w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=YjKGZLlCtyQB82qBJtWELpC41+tYuhv7momCoRL5qT4=;
+        b=S9QtyGwQo+41p9iAUrEHgPuF5EeA74lOYUAjf/ANbIvv2otJllwZLx2i1p9TllU0Ur
+         x+AusAq9YqdSZKsOcgxdDprpG4xdADmTL1Ia22nnW6k/3gMTGF0mO7R4sC1Jd/qYIx+k
+         3lhA4vhe0KKwFk+RchlCTO1aEfHMGNjWzBI8jTHi5ZgXugU48aHtIsB/07Le7GOuPeXb
+         xrFW2s9K20C2U1bta6TTjSuzlzWBq8quRX7FNcGRw+GEZvDqTyZputNiB8aqxOR2qTjA
+         ti0zugtzA6KsxJyjbd0wgOGWj+rIO0s7kBz/S9CQBmU/5zpdELOhu9j97XYm1j/DxQZt
+         LFFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HWrTtgh451XNTYUh7MYwf0jtrS/IRGKbgAcQpXTVRtA=;
-        b=QWaP41PwNRvi11bamnWaaKRHwtghEUoPYJYBFErpduJaFGdkTZgfRzKwr4519B4ZWk
-         J+FLYRM6ig9sLYIYXR+5/sIL4kRL1U7u7u+rFEjleGKB6l2qt0RljVmNRT5uMQcfkaYR
-         QQ6mPkjVY/6NMYqnShPqPciOQFIxM8vxRJMVIosbDca9lK2SUdHlGvCI7TPMTSSfQN8h
-         wL8dMIJPZ/QqlPTbTbKVvMCDb0zlxl9pcgi93RSbnFsC/fdg3wBb49rdNodNhdyIkYeh
-         WQRy2kIbAmPSy+SPDR1JNyHEach1fNKeiq+K7zZrM8q7mRMmhl0Ace2xSAc/Lz+bXVFr
-         l4qg==
-X-Gm-Message-State: AOAM533JqVOrHrWaHURn2F9JDSe6aidQAGiGWfsIIu6ofzpO5xEI7LHc
-        FgPTflmuJgK3jYPK2wbJdDQ=
-X-Google-Smtp-Source: ABdhPJwQF6addbpB1WFubIFn2+aMaPvU+1BziyVFj8h2qaPjRSiM/Oi4tqMd670pNzH8iPgp3VNrIw==
-X-Received: by 2002:adf:9261:: with SMTP id 88mr8602996wrj.270.1616677427840;
-        Thu, 25 Mar 2021 06:03:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YjKGZLlCtyQB82qBJtWELpC41+tYuhv7momCoRL5qT4=;
+        b=ln3YIpTbB+CLvNoONwbj5upr8CePNCo3fJyrdoNwrgYzX/asZDI8MtXpvk9hxgNktJ
+         jg8Yz3pKWbMEMObqC5EIFrPWoYaeLYC2w5VpeZEfzPXgjlL51+nIcG51ssWJoYXfUDpo
+         1sYGmH2SxixJTP2qGW/K6Dnt158cnp6ixAkK9WLowX0Fjk6t4JPGv+Gwdxsg8t9DK9wn
+         yx4wCbrW8qUCm5a7eKxNQHXO9iN29+8UzOeUY/q9fiXjSu+8YXDGpdp2cY2MWhnomNKI
+         Gv50c/h0t8iRaQm+EDWY4neXYg265cTBBTOCnaOnyYRM1eGROVbcXxokAGuT0I9YNPdQ
+         JQNQ==
+X-Gm-Message-State: AOAM531W65SE2afYaGQL+7/1Fpe5iopDiz/i8LmfTqGWaW2CP2HnSAik
+        QrtOtVpbNAQfd2BMBEzK3gOO/7e3Yp4=
+X-Google-Smtp-Source: ABdhPJwHcUox/5A2lYu1bIefKlEe74vU5Oa15/sCjCff49J5IazfdbhZcgKGFfqI9+beoH1y40UsIQ==
+X-Received: by 2002:adf:a703:: with SMTP id c3mr9360689wrd.72.1616680792847;
+        Thu, 25 Mar 2021 06:59:52 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id m11sm7865904wri.44.2021.03.25.06.03.46
+        by smtp.gmail.com with ESMTPSA id x25sm7110649wmj.14.2021.03.25.06.59.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 06:03:46 -0700 (PDT)
+        Thu, 25 Mar 2021 06:59:50 -0700 (PDT)
+Date:   Thu, 25 Mar 2021 15:00:12 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Krishna Reddy <vdumpa@nvidia.com>, linux-tegra@vger.kernel.org,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 9/9] arm64: tegra: Enable SMMU support on Tegra194
-Date:   Thu, 25 Mar 2021 14:03:32 +0100
-Message-Id: <20210325130332.778208-10-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210325130332.778208-1-thierry.reding@gmail.com>
-References: <20210325130332.778208-1-thierry.reding@gmail.com>
+To:     Vinod Koul <vkoul@kernel.org>, JC Kuo <jckuo@nvidia.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Greg KH <gregkh@linuxfoundation.org>, mturquette@baylibre.com,
+        sboyd@kernel.org, robh@kernel.org, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        nkristam@nvidia.com, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v7 00/14] Tegra XHCI controller ELPG support
+Message-ID: <YFyXbNXSVSBGqp9i@orome.fritz.box>
+References: <20210120073414.69208-1-jckuo@nvidia.com>
+ <YB1vGTt0ufzsYBgo@ulmo>
+ <YB1wxazg/QpRSJz6@kroah.com>
+ <YFszBH1JJmjJmjn2@orome.fritz.box>
+ <YFs/VBZvZo6mBJqz@orome.fritz.box>
+ <YFwqdNkkcrTRxSkP@vkoul-mobl.Dlink>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="dai2fAX/B7TMT3mf"
+Content-Disposition: inline
+In-Reply-To: <YFwqdNkkcrTRxSkP@vkoul-mobl.Dlink>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Add the device tree node for the dual-SMMU found on Tegra194 and hook up
-peripherals such as host1x, BPMP, HDA, SDMMC, EQOS and VIC.
+--dai2fAX/B7TMT3mf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 86 ++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+On Thu, Mar 25, 2021 at 11:45:16AM +0530, Vinod Koul wrote:
+> On 24-03-21, 14:32, Thierry Reding wrote:
+> > On Wed, Mar 24, 2021 at 01:39:32PM +0100, Thierry Reding wrote:
+> > > On Fri, Feb 05, 2021 at 05:22:29PM +0100, Greg KH wrote:
+> > > > On Fri, Feb 05, 2021 at 05:15:21PM +0100, Thierry Reding wrote:
+> > > > > On Wed, Jan 20, 2021 at 03:34:00PM +0800, JC Kuo wrote:
+> > > > > > Tegra XHCI controler can be placed in ELPG (Engine Level PowerG=
+ated)
+> > > > > > state for power saving when all of the connected USB devices ar=
+e in
+> > > > > > suspended state. This patch series includes clk, phy and pmc ch=
+anges
+> > > > > > that are required for properly place controller in ELPG and bri=
+ng
+> > > > > > controller out of ELPG.
+> > > > > >=20
+> > > > > > JC Kuo (14):
+> > > > > >   clk: tegra: Add PLLE HW power sequencer control
+> > > > > >   clk: tegra: Don't enable PLLE HW sequencer at init
+> > > > > >   phy: tegra: xusb: Move usb3 port init for Tegra210
+> > > > > >   phy: tegra: xusb: Rearrange UPHY init on Tegra210
+> > > > > >   phy: tegra: xusb: Add Tegra210 lane_iddq operation
+> > > > > >   phy: tegra: xusb: Add sleepwalk and suspend/resume
+> > > > > >   soc/tegra: pmc: Provide USB sleepwalk register map
+> > > > > >   arm64: tegra210: XUSB PADCTL add "nvidia,pmc" prop
+> > > > > >   dt-bindings: phy: tegra-xusb: Add nvidia,pmc prop
+> > > > > >   phy: tegra: xusb: Add wake/sleepwalk for Tegra210
+> > > > > >   phy: tegra: xusb: Tegra210 host mode VBUS control
+> > > > > >   phy: tegra: xusb: Add wake/sleepwalk for Tegra186
+> > > > > >   usb: host: xhci-tegra: Unlink power domain devices
+> > > > > >   xhci: tegra: Enable ELPG for runtime/system PM
+> > > > > >=20
+> > > > > >  .../phy/nvidia,tegra124-xusb-padctl.txt       |    1 +
+> > > > > >  arch/arm64/boot/dts/nvidia/tegra210.dtsi      |    1 +
+> > > > > >  drivers/clk/tegra/clk-pll.c                   |   12 -
+> > > > > >  drivers/clk/tegra/clk-tegra210.c              |   53 +-
+> > > > > >  drivers/phy/tegra/xusb-tegra186.c             |  558 ++++-
+> > > > > >  drivers/phy/tegra/xusb-tegra210.c             | 1889 +++++++++=
+++++----
+> > > > > >  drivers/phy/tegra/xusb.c                      |   92 +-
+> > > > > >  drivers/phy/tegra/xusb.h                      |   22 +-
+> > > > > >  drivers/soc/tegra/pmc.c                       |   94 +
+> > > > > >  drivers/usb/host/xhci-tegra.c                 |  613 ++++--
+> > > > > >  include/linux/clk/tegra.h                     |    4 +-
+> > > > > >  include/linux/phy/tegra/xusb.h                |   10 +-
+> > > > > >  12 files changed, 2784 insertions(+), 565 deletions(-)
+> > > > > >=20
+> > > > > > v5 "phy: tegra: xusb: tegra210: Do not reset UPHY PLL" is moved
+> > > > > > into v6 "phy: tegra: xusb: Rearrange UPHY init on Tegra210"
+> > > > >=20
+> > > > > Mike, Stephen,
+> > > > >=20
+> > > > > could you guys take a look at the two clk patches here and give an
+> > > > > Acked-by? There's build-time dependencies throughout the series, =
+so it'd
+> > > > > be good if they can all go through either the PHY or USB trees.
+> > > > >=20
+> > > > > Kishon, Greg,
+> > > > >=20
+> > > > > any comments on these patches? Unfortunately, the USB patches in =
+this
+> > > > > series have a build-time dependency on the PHY patches, so this s=
+hould
+> > > > > all go through one tree. Since this all culminates in the XHCI dr=
+iver,
+> > > > > merging this through the USB tree might be best, provided that Ki=
+shon
+> > > > > provides his Acked-by on the PHY patches.
+> > > > >=20
+> > > > > Alternatively, I can create a set of branches with the correct
+> > > > > dependencies and send out pull requests for the three subsystems =
+if
+> > > > > that's preferrable.
+> > > >=20
+> > > > I have no objection for the usb patches to go through your tree as =
+they
+> > > > are hardware-specific.
+> > >=20
+> > > Kishon,
+> > >=20
+> > > I haven't heard back from you on this yet. We missed v5.12 but I'd li=
+ke
+> > > to get this into v5.13 since it's the last missing piece to get suspe=
+nd
+> > > and resume working properly on a number of boards.
+> > >=20
+> > > Are you okay if I take this through the Tegra tree to satisfy the
+> > > interdependencies between clk, PHY and USB patches? I've already got
+> > > Acked-by's from the clock and USB maintainers.
+> > >=20
+> > > I want to tentatively take this into linux-next to give it a bit of s=
+oak
+> > > time before the ARM SoC -rc6 cut-off. Please let me know if you'd pre=
+fer
+> > > to apply these to your tree so I can back them out of the Tegra tree
+> > > again.
+> >=20
+> > Also adding Vinod for visibility and in case Kishon's too busy.
+>=20
+> Yes please CC me on all things phy (MAINTAINERS should have told you so)
+>=20
+> If you can resend me and cc linux-phy@lists.infradead.org, I would take
+> a look. FWIW since this goes thru Greg, the window closes earlier than
+> merge window
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 9449156fae39..3c1231a9ff62 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -62,6 +62,7 @@ ethernet@2490000 {
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_EQOSR &emc>,
- 					<&mc TEGRA194_MEMORY_CLIENT_EQOSW &emc>;
- 			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA194_SID_EQOS>;
- 			status = "disabled";
- 
- 			snps,write-requests = <1>;
-@@ -733,6 +734,7 @@ sdmmc1: mmc@3400000 {
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_SDMMCRA &emc>,
- 					<&mc TEGRA194_MEMORY_CLIENT_SDMMCWA &emc>;
- 			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA194_SID_SDMMC1>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout =
- 									<0x07>;
- 			nvidia,pad-autocal-pull-down-offset-3v3-timeout =
-@@ -759,6 +761,7 @@ sdmmc3: mmc@3440000 {
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_SDMMCR &emc>,
- 					<&mc TEGRA194_MEMORY_CLIENT_SDMMCW &emc>;
- 			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA194_SID_SDMMC3>;
- 			nvidia,pad-autocal-pull-up-offset-1v8 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-1v8 = <0x7a>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout = <0x07>;
-@@ -790,6 +793,7 @@ sdmmc4: mmc@3460000 {
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_SDMMCRAB &emc>,
- 					<&mc TEGRA194_MEMORY_CLIENT_SDMMCWAB &emc>;
- 			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA194_SID_SDMMC4>;
- 			nvidia,pad-autocal-pull-up-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-up-offset-1v8-timeout = <0x0a>;
-@@ -821,6 +825,7 @@ hda@3510000 {
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_HDAR &emc>,
- 					<&mc TEGRA194_MEMORY_CLIENT_HDAW &emc>;
- 			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA194_SID_HDA>;
- 			status = "disabled";
- 		};
- 
-@@ -1300,6 +1305,84 @@ pmc: pmc@c360000 {
- 			interrupt-controller;
- 		};
- 
-+		smmu: iommu@12000000 {
-+			compatible = "nvidia,tegra194-smmu", "arm,mmu-500";
-+			reg = <0x12000000 0x800000>,
-+			      <0x11000000 0x800000>;
-+			interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
-+			stream-match-mask = <0x7f80>;
-+			#global-interrupts = <2>;
-+			#iommu-cells = <1>;
-+
-+			nvidia,memory-controller = <&mc>;
-+			status = "okay";
-+		};
-+
- 		host1x@13e00000 {
- 			compatible = "nvidia,tegra194-host1x";
- 			reg = <0x13e00000 0x10000>,
-@@ -1319,6 +1402,7 @@ host1x@13e00000 {
- 			ranges = <0x15000000 0x15000000 0x01000000>;
- 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_HOST1XDMAR &emc>;
- 			interconnect-names = "dma-mem";
-+			iommus = <&smmu TEGRA194_SID_HOST1X>;
- 
- 			display-hub@15200000 {
- 				compatible = "nvidia,tegra194-display";
-@@ -1430,6 +1514,7 @@ vic@15340000 {
- 				interconnects = <&mc TEGRA194_MEMORY_CLIENT_VICSRD &emc>,
- 						<&mc TEGRA194_MEMORY_CLIENT_VICSWR &emc>;
- 				interconnect-names = "dma-mem", "write";
-+				iommus = <&smmu TEGRA194_SID_VIC>;
- 			};
- 
- 			dpaux0: dpaux@155c0000 {
-@@ -2136,6 +2221,7 @@ bpmp: bpmp {
- 				<&mc TEGRA194_MEMORY_CLIENT_BPMPDMAR &emc>,
- 				<&mc TEGRA194_MEMORY_CLIENT_BPMPDMAW &emc>;
- 		interconnect-names = "read", "write", "dma-mem", "dma-write";
-+		iommus = <&smmu TEGRA194_SID_BPMP>;
- 
- 		bpmp_i2c: i2c {
- 			compatible = "nvidia,tegra186-bpmp-i2c";
--- 
-2.30.2
+Greg already agreed that it might be best to take this through the Tegra
+tree because there's a bunch of dependencies. For Tegra the patches go
+through ARM SoC and that usually means I have to send pull requests by
+-rc6.
 
+JC, do you have time to resend this batch this week? If not I can do it,
+too.
+
+Thierry
+
+--dai2fAX/B7TMT3mf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBcl2kACgkQ3SOs138+
+s6FJpRAAh/KdrFYeA+5w0LDmn1v40Lbh3XKBhiRlvmtkwquVdcVyNFT0ZVZQUvA5
+bG5Ruvj3YbKufmVGXx5f9Sz2QnfSg+A4x7snLN2NYgCxx/ENsQvvLsnTJwKhFghK
+NaqBfZ9kiZtmZjFjobzMTqu75saE78+KyuA3uahrKrpxKMhSqqrZ5opdN4k3Q5iQ
+QLcul4xFNiJ9Yn93S9lc0I5f+Hm4GL5SMR0oOsPVHoUL5g1YWj4y/MqpZ8gh0HkR
+ABuQp0K788del+g1JdJjnMsBG7fQpYBvIAobuBYgnM7a//bLmvSbHM/oGDD7aV3h
+vIZhAaC2iaSSQTwB1B+K2rqlcI9t9qww3lphbAKALGeOKGBh1I7XCFHjSVVMcWVE
+ZLMRgn4xqIQVomUKTF6tS6Jz+iwuYKpVBQDDo2wJVItTusYfFHM3iUJ0eZgrFBfz
+J3JUPhSBWlHU6q6cBlZ90xOipZYseRt1ADunGKhVMfTi+20zxLMiRgRRHXndJ6K/
+yQZr4VVHAo+YivfDUGN52vl0OVoe/tBVNNPB4XgYzD0T+Fo+Dfc3ERi30Vj9OWcs
+AwScJAB5xi5lahkz4ADe6cY9VngQWOsYHewk7OHgE1JCENVTOyBRggyYb8ldl4rv
+a0CHLOsjWBm8OR0w/HujDZhCEWbMe3kLQYky40A/jk3iAQHtecM=
+=5lML
+-----END PGP SIGNATURE-----
+
+--dai2fAX/B7TMT3mf--
