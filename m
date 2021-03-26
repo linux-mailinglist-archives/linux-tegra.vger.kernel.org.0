@@ -2,60 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB53134ADCE
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 18:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FF0F34ADCB
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 18:47:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbhCZRqk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Mar 2021 13:46:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37956 "EHLO
+        id S230114AbhCZRql (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Mar 2021 13:46:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbhCZRqZ (ORCPT
+        with ESMTP id S230165AbhCZRq0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 13:46:25 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC155C0613AA;
-        Fri, 26 Mar 2021 10:46:24 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id hq27so9631178ejc.9;
-        Fri, 26 Mar 2021 10:46:24 -0700 (PDT)
+        Fri, 26 Mar 2021 13:46:26 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA261C0613AA;
+        Fri, 26 Mar 2021 10:46:25 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id kt15so9617795ejb.12;
+        Fri, 26 Mar 2021 10:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qal3Pg1eWeJfJHjI4KXNgexM9zHNRBmG/njreZMtivI=;
-        b=QuJ2bza2cq/NuzvNeZdfoYoxXlhoBwWSNLhaxQyJ3zbEZvnrczUAS++e4dPna1b9WD
-         38h4nzoTHXm4pS13j3vIfJg3e33jKmMZ0htnSQHDrH4EUGX7Ue4Yls/wOInlumHDuuYN
-         s3pRGBm3SreiEN4wAMrQE6hxYRfH9bDGls/kQaMteGCmgtZ2f5gHH31OakDq1Agm25VI
-         9Qo2rsB0QdWkaZeTKrBOFr5xUGlBCdPeASaOv7KnAjqXuRdTU/gOqsp/b58j/6p44DqN
-         dAAGU+U2NFzYoqNv7U9C5dB0TrWZPrWSaFxaWV96PCyk1DZhKuQhoHqfQ6JqtQvhE/H3
-         1SdA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZyjQstMKafy6ZwlXwntaGGf+iH65jXnP8mReHmdqy2E=;
+        b=jUkZ+LOx2Gq2dQqZLh3YIvYxddazHkVum2LmF2SdWir1o4PzXe80EgweIITASHvm20
+         zoDHkFGqgdPr5nOFc/NooAIcP0LaToJ3067cVCQXKLhn/2WA8WNYBeuJWF0WgdgMKeqB
+         05AOxAOaKcE3HwnmWhzcJeXUfSE70ZA18NUcAs0zdgTJD5JH7ejqvsGUsHj4sUGOvJdF
+         8efF3pIfIFvtqEIFR7mw41akhOx4egxtUQxS/vU2d7g7aXOmdqWU5D4YBdGA48ocYlBL
+         tayGtAgaDCeD1DCiaVtBf/97TrMgNfnmPH2T/9esEc+7a9Ima7sv0opD6mB9ewDGIGWD
+         ldnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qal3Pg1eWeJfJHjI4KXNgexM9zHNRBmG/njreZMtivI=;
-        b=nRUoPIeNBgcO37nJcfqBgB8SARkXoT9dgnbqUlwppqqgm0hMwC0X948Wfe/QT8ug4q
-         WtaxFloTYca0nH4iOSR+4/Y6qgsNFeBcTCTpwjPX8mZbFk+fPcl6t8UO+mAS79NZPnGf
-         4cLbvJR4DqegfZhJQlI15ETQVetETUGjXfWbBT5BU55+fxalb0nTLKDkEfXAhj0+GG30
-         2OkBZ4pGky18FyfrJtAjZjnCWpADrMk/P0XSOwPS2HKOO4ZQ8kgb24pe5/8DrZ7tdzgw
-         ELs7OOclsCRHJhmIi/ny5x6VF6rWUcJeUMbkszFwNBpagxecAlbbGtjBwVVjNU3H81my
-         8kfQ==
-X-Gm-Message-State: AOAM531UYxBOzouaQkUw06rlA71oI3FmxMB2fkdJ+qx5t2wQxhfpjQ2u
-        XRI4BhSsJtqw9UJO2twnuarv1R6/x24=
-X-Google-Smtp-Source: ABdhPJxqT5OFRIxUqeWkIzvSsn82iH4FejB56xDxIhAQDRV5unck8+ctoyB85StdMvG7O8XxXdO6mA==
-X-Received: by 2002:a17:906:7d7:: with SMTP id m23mr16950005ejc.205.1616780782802;
-        Fri, 26 Mar 2021 10:46:22 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZyjQstMKafy6ZwlXwntaGGf+iH65jXnP8mReHmdqy2E=;
+        b=jYke8JSN2NuPQFVfUbf83L0D76ZpiJ9G0oNYp5QjqZN4M0FTQpJYTrnZ6L/V+pyCaD
+         j405QMwo0kFchhZqG4KR/1pqwY872djKb+T/9iIlMDYMVFY0upsU7TsEU2HGT1EsMP70
+         YMA+sYt+mp37lMOghm4L89QEMWjtOXdO03UKx+rEL6qzp+3mPk5/Wz5ivMjLkFzXQMoK
+         C7/EQ6JK0ayYxboDrc8jYI/wSu9n48mHtJibZufW9CJ1wXGpfin0o+90sGocT+PRS/NN
+         JPS/bTr0lCv33cdmUsZGheiKOJN0xV+Uflla5RZX7NUk3to0wqn8GogJCoDwV+mQ20IF
+         Sk/A==
+X-Gm-Message-State: AOAM533Qx3IKzLZYBbJVTdxSaoYa6rb+xbnXUtLRe/XMPzMf/SqNrBB1
+        tLpPqRslFvp2VAbGHpiu61g=
+X-Google-Smtp-Source: ABdhPJy072vjxQqYj8rALJYaBGBQNxPiaJtMHAfrBmbsK5H4jZ186ALJeUkJQ0hzNrKkge9PmEZeHg==
+X-Received: by 2002:a17:906:aed6:: with SMTP id me22mr16940903ejb.146.1616780784680;
+        Fri, 26 Mar 2021 10:46:24 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id t14sm4098559ejc.121.2021.03.26.10.46.21
+        by smtp.gmail.com with ESMTPSA id v24sm4141978ejw.17.2021.03.26.10.46.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 10:46:21 -0700 (PDT)
+        Fri, 26 Mar 2021 10:46:23 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH 0/3] arm64: tegra: Add earlycon support on Tegra194
-Date:   Fri, 26 Mar 2021 18:46:38 +0100
-Message-Id: <20210326174641.1612738-1-thierry.reding@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: serial: tegra-tcu: Convert to json-schema
+Date:   Fri, 26 Mar 2021 18:46:39 +0100
+Message-Id: <20210326174641.1612738-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210326174641.1612738-1-thierry.reding@gmail.com>
+References: <20210326174641.1612738-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -64,53 +66,119 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi Rob,
+Convert the Tegra TCU device tree bindings to json-schema.
 
-I've been looking at adding support for earlycon on Tegra194 which uses
-the "combined UART" as console. This isn't a real device but rather is
-composed of two mailboxes that are used to communicate with a processor
-that multiplexes multiple data streams before they are sent over the HW
-UART.
-
-It's possible to make this work by passing earlycon with extra options
-that select the TCU and pass a TX mailbox address, but I'd prefer if we
-could also make this work without any options and instead infer the TX
-mailbox address to use from /chosen/stdout-path. I can make that work
-with the regular OF_EARLYCON_DECLARE and just a bit of additional code
-to write data to the TX mailbox if I change the device tree node to take
-a "reg" property. This set of patches implements those changes (there's
-a separate patch to the tegra-tcu driver that adds OF_EARLYCON_DECLARE
-and a bit of code, but it's not directly relevant to this discussion).
-
-Given that this isn't a real device and the address in the "reg"
-property is also a subset of the mailbox device that will take over for
-the real console later on, I'm wondering if this is acceptable, even if
-it is bending the rules a tiny bit.
-
-The only other alternative I could think of would be to obtain the node
-offset to the TCU node (either by passing it to the earlycon ->setup()
-callback, or looking it up manually) and then parsing the mboxes
-property and find the TX mailbox provider and then compute the TX
-mailbox address. But that all seems very involved for something that we
-can make work out of the box by simply adding this "reg" property, even
-if it may not be strictly correct.
-
-What do you think?
-
-Thierry
-
-Thierry Reding (3):
-  dt-bindings: serial: tegra-tcu: Convert to json-schema
-  dt-bindings: serial: tegra-tcu: Document "reg" property
-  arm64: tegra: Add "reg" property for TCU on Tegra194
-
- .../bindings/serial/nvidia,tegra194-tcu.txt   | 35 -----------
- .../bindings/serial/nvidia,tegra194-tcu.yaml  | 60 +++++++++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  4 +-
- 3 files changed, 63 insertions(+), 36 deletions(-)
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ .../bindings/serial/nvidia,tegra194-tcu.txt   | 35 ------------
+ .../bindings/serial/nvidia,tegra194-tcu.yaml  | 56 +++++++++++++++++++
+ 2 files changed, 56 insertions(+), 35 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.txt
  create mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
 
+diff --git a/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.txt b/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.txt
+deleted file mode 100644
+index 085a8591accd..000000000000
+--- a/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.txt
++++ /dev/null
+@@ -1,35 +0,0 @@
+-NVIDIA Tegra Combined UART (TCU)
+-
+-The TCU is a system for sharing a hardware UART instance among multiple
+-systems within the Tegra SoC. It is implemented through a mailbox-
+-based protocol where each "virtual UART" has a pair of mailboxes, one
+-for transmitting and one for receiving, that is used to communicate
+-with the hardware implementing the TCU.
+-
+-Required properties:
+-- name : Should be tcu
+-- compatible
+-    Array of strings
+-    One of:
+-    - "nvidia,tegra194-tcu"
+-- mbox-names:
+-    "rx" - Mailbox for receiving data from hardware UART
+-    "tx" - Mailbox for transmitting data to hardware UART
+-- mboxes: Mailboxes corresponding to the mbox-names.
+-
+-This node is a mailbox consumer. See the following files for details of
+-the mailbox subsystem, and the specifiers implemented by the relevant
+-provider(s):
+-
+-- .../mailbox/mailbox.txt
+-- .../mailbox/nvidia,tegra186-hsp.txt
+-
+-Example bindings:
+------------------
+-
+-tcu: tcu {
+-	compatible = "nvidia,tegra194-tcu";
+-	mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_SM 0>,
+-	         <&hsp_aon TEGRA_HSP_MBOX_TYPE_SM 1>;
+-	mbox-names = "rx", "tx";
+-};
+diff --git a/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml b/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
+new file mode 100644
+index 000000000000..0a321658ccb5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
+@@ -0,0 +1,56 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/serial/nvidia,tegra194-tcu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra Combined UART (TCU)
++
++maintainers:
++  - Thierry Reding <thierry.reding@gmail.com>
++  - Jonathan Hunter <jonathanh@nvidia.com>
++
++description:
++  The TCU is a system for sharing a hardware UART instance among multiple
++  systems within the Tegra SoC. It is implemented through a mailbox-
++  based protocol where each "virtual UART" has a pair of mailboxes, one
++  for transmitting and one for receiving, that is used to communicate
++  with the hardware implementing the TCU.
++
++properties:
++  $nodename:
++    pattern: "^tcu(@.*)?$"
++
++  compatible:
++    const: nvidia,tegra194-tcu
++
++  mbox-names:
++    items:
++      - const: rx
++      - const: tx
++
++  mboxes:
++    description: |
++      List of phandles to mailbox channels used for receiving and
++      transmitting data from and to the hardware UART.
++    items:
++      - description: mailbox for receiving data from hardware UART
++      - description: mailbox for transmitting data to hardware UART
++
++required:
++  - compatible
++  - mbox-names
++  - mboxes
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/mailbox/tegra186-hsp.h>
++
++    tcu: tcu {
++        compatible = "nvidia,tegra194-tcu";
++        mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_SM 0>,
++                 <&hsp_aon TEGRA_HSP_MBOX_TYPE_SM 1>;
++        mbox-names = "rx", "tx";
++    };
 -- 
 2.30.2
 
