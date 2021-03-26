@@ -2,100 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 251F434ADC9
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 18:47:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9452E34AEA6
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 19:32:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbhCZRql (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Mar 2021 13:46:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37982 "EHLO
+        id S229933AbhCZScM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Mar 2021 14:32:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230213AbhCZRqa (ORCPT
+        with ESMTP id S230139AbhCZSbs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 13:46:30 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE687C0613AA;
-        Fri, 26 Mar 2021 10:46:29 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id b7so9669178ejv.1;
-        Fri, 26 Mar 2021 10:46:29 -0700 (PDT)
+        Fri, 26 Mar 2021 14:31:48 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C252C0613AA
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 11:31:48 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id f16so8532017ljm.1
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 11:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eOMEIN65UO+Tayc9sPJ9YykHycySwb6Ld2gDH5Hp8rk=;
-        b=Xn8fLclcrAVzoto0VmknyvWmlLVVOayhgI1T8PBpqPJrb+rIO6yMS/6rY4Tm2FnR47
-         frFMsD1LQDLIdBYvHyOYmRMFtvCODQYnCuIsi3CkkuVN7e3S+Gm8VQw4s1ohWk7KAxCm
-         gW9TuptGYjtczTdIDslvnIOSUz6YGIhUSErZUNb8kVSycROksxOaB1lNfgVig/nJ5Q5D
-         HoUdo1fd8mp2nYvjN6NSY3tJOZH+ZlRCYMcF5E4hN7twgYzLbES6eKdHaKAL4jMtZUhf
-         0TvkNO1k3wJIzKYTVSxZLThC1H/xWaCr5g/pyiHgWc/Tih5mrhw9eA1qf33lILfJBTiP
-         QyQQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=b2f3xr/E6w81sQbdXcFGqRZ/LRTr2HKluT/8xyuicEY=;
+        b=anBDIsvJQaiW+vBb4EedAzxD90CO27pMMbFt18tJUd3w/p4gpHowiPFYUQylyz5e0j
+         FPcsf62mER1pt3M/jRHlMADhkkwLva/gUotioijOddK5duFIBfFXIXGBPcCLy+5Uqi3X
+         FhNYGSArDtm3UV1sl83S+7qo+2sc4IBzYipF+dEM1q/Rq4pzBaJJgLITcuFb0sgXMVQa
+         BpV55ITkYQpN6Txbpw0DvCGQxdoNKcaPbVk4ZeG6znhLnvczGQg39DJBdY12WJSUznmX
+         6dDZ8f70loqHAoWh4tuepJQ+igWmvKW5+2YE6zDvXokj3MDtmmFK49zPeyZKqvcxiUes
+         Bs0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eOMEIN65UO+Tayc9sPJ9YykHycySwb6Ld2gDH5Hp8rk=;
-        b=El2VYPw91ylvqrukxLheo0MkUz1gj1jKKvWs3vHvzOUxgRhE/b23b16672E+tBYMdU
-         mawdmh88xC0ELcUl77gRqi6L+VgpUg9vJWt9i2ktYG3EEhLrriNtaP1hruu02mBO0A4r
-         FUvxtSKo7PbOb8PYFdrIMFFC0Befw3HFNyjDUuIo9Xe9cUnlVg0kgZQCdS33i/At6sgx
-         Bknkd3AjE92qVmH1TZ2k9pqKoForm4g1ZULJNy3rF27ZLM29DKW3yJHoC2b+ufoU2TM2
-         Y/nSYFAIvDmNY9OJ+1dkSENVVSv3tFM0+jWCg7ty+JZwqnx7/pR4wq4cHmbj0Mq/NAQx
-         Z5Bg==
-X-Gm-Message-State: AOAM530gpFfkdee/MuSeeEgjS80cwTt6HAeaCa/IGZE5ePFN2m2uyS02
-        Fjr4pJRjnO4yXU8peFy37ZuBHWYw0+k=
-X-Google-Smtp-Source: ABdhPJxl++TTE7mxycXhsUN5y2xAPUJJA2WukfhEdiMsNQhSZGQqLoD60kP06lVzl+8HKNCszVCrsw==
-X-Received: by 2002:a17:906:1c41:: with SMTP id l1mr16564561ejg.299.1616780788572;
-        Fri, 26 Mar 2021 10:46:28 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id gr16sm4167831ejb.44.2021.03.26.10.46.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 10:46:27 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 3/3] arm64: tegra: Add "reg" property for TCU on Tegra194
-Date:   Fri, 26 Mar 2021 18:46:41 +0100
-Message-Id: <20210326174641.1612738-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210326174641.1612738-1-thierry.reding@gmail.com>
-References: <20210326174641.1612738-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=b2f3xr/E6w81sQbdXcFGqRZ/LRTr2HKluT/8xyuicEY=;
+        b=II6C9z3pymLzQwci8TranBgbZ4Jw6zFtRBtfLqI3xMNbEsGd4RFcYnvE/WdzmlDAkY
+         vXbyjjkS1c1/7kvwrMfPscF7um3eQPcVwulFRqND1iIoD995IzJ6Eefr6FrIvGzJP23D
+         He3R7CVPbjNwzObHKBvIXhTmYg3es4ixe1jJz7ObkLsojgR3yefJBVblIPNmqmYHW1+n
+         DAqEuzjxcacIELvgS+o9RZBf6msmWQtHk69UUcoYnLIRCh7YnRAHYf0gau3SGX04r1G0
+         byrEzJBobjRHZ09RayxzQDQbQYEArIzKBXCJGf+xLwAsjm61KrkMAqupFkpDX/YLrdnI
+         CEMQ==
+X-Gm-Message-State: AOAM532zoXQnpTjA04NYdLBlcBdI9vY1800dYZ+ngd2deKSNElh78Gk9
+        Ebc9M7DNH2PX7jBDW61KDoA=
+X-Google-Smtp-Source: ABdhPJy289DCEIf8dD3WRBerWrKHG0ziMy/geZZWJ162h8jJ8f6SvLDejcO0WbSIVaEU2VOrnuVTnw==
+X-Received: by 2002:a2e:b814:: with SMTP id u20mr9662743ljo.370.1616783506900;
+        Fri, 26 Mar 2021 11:31:46 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-60.dynamic.spd-mgts.ru. [109.252.193.60])
+        by smtp.googlemail.com with ESMTPSA id g9sm938729lfc.258.2021.03.26.11.31.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Mar 2021 11:31:46 -0700 (PDT)
+Subject: Re: [PATCH v5 01/21] gpu: host1x: Use different lock classes for each
+ client
+To:     Mikko Perttunen <cyndis@kapsi.fi>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch,
+        linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        talho@nvidia.com, bhuntsman@nvidia.com
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <20210111130019.3515669-2-mperttunen@nvidia.com>
+ <YFitsk3I2l7IBnLR@orome.fritz.box>
+ <6615105f-ccf1-7833-512c-090817c47952@gmail.com>
+ <645366c2-c500-efcc-f44c-b933f6f470c4@nvidia.com>
+ <0fb1b458-66bb-c9d8-04c7-174165b39811@kapsi.fi>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <222f5544-6710-c931-5992-7ac11e440042@gmail.com>
+Date:   Fri, 26 Mar 2021 21:31:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <0fb1b458-66bb-c9d8-04c7-174165b39811@kapsi.fi>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+26.03.2021 17:54, Mikko Perttunen пишет:
+> 
+> Lockdep doesn't seem to be liking dev_name() for the name, and I think
+> allocating a string for this purpose seems a bit overkill, so I'll keep
+> the lock name as is if there are no objections.
 
-Technically the TCU doesn't have any registers but works with two
-mailboxes that serve as RX and TX FIFOs. However, if used as early
-console via /chosen/stdout-path, the earlycon code will want to use
-the "reg" property to initialize the I/O memory base address that
-will in turn be used to access the TX FIFO.
-
-Add the "reg" property to the TCU device tree node to make earlycon
-support work out of the box.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index db68d53f5de0..f9fc481f90c7 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -2537,8 +2537,10 @@ sound {
- 		assigned-clock-rates = <258000000>;
- 	};
- 
--	tcu: tcu {
-+	tcu: tcu@c168000 {
- 		compatible = "nvidia,tegra194-tcu";
-+		/* TX mailbox for use with earlycon */
-+		reg = <0x0 0x0c168000 0x0 0x4>;
- 		mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_SM TEGRA_HSP_SM_RX(0)>,
- 		         <&hsp_aon TEGRA_HSP_MBOX_TYPE_SM TEGRA_HSP_SM_TX(1)>;
- 		mbox-names = "rx", "tx";
--- 
-2.30.2
-
+What does "liking" mean?
