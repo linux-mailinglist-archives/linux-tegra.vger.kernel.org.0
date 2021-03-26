@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 276B034ADCA
+	by mail.lfdr.de (Postfix) with ESMTP id 251F434ADC9
 	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 18:47:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbhCZRql (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S230223AbhCZRql (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Fri, 26 Mar 2021 13:46:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbhCZRq2 (ORCPT
+        with ESMTP id S230213AbhCZRqa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 13:46:28 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B90C0613AA;
-        Fri, 26 Mar 2021 10:46:27 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id l18so7236265edc.9;
-        Fri, 26 Mar 2021 10:46:27 -0700 (PDT)
+        Fri, 26 Mar 2021 13:46:30 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE687C0613AA;
+        Fri, 26 Mar 2021 10:46:29 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id b7so9669178ejv.1;
+        Fri, 26 Mar 2021 10:46:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=os+9/VMYzB1H1UbPnrF9rJA6nq0Q0gyQyXCcPqKK+BM=;
-        b=hQ6DJEUWcpjnL3RpkG3UWrQAqrQUQDtso9X9yzDBTUCprQuGqGrjZ9Zv5oKn79891h
-         ZUeZgBWGoVOm4N0D2swBM4hDtzaTynhl2fcc6fHnqijYOcG4hMnq1Wany0dPxQXyMetp
-         LcDNMIRWNBQvDWoaw9kgryxpFJkIfSWU29NuNqS66A1Dctnp/QD9/ewmdrBznd/YFC6R
-         uhvgQ7l7/HZGs7ZBU+3OZHo+cdJLJ2n6Q0qKfPHY+qsbrtWYmCpaCh6A94ebUBdMKuiV
-         BzEcD0ZYZfCnJcKBGEzfsR7c8tSKtTxXY/tYannPhVxALvr6NtSeTlTSa+nBIXuo1fH8
-         pVeg==
+        bh=eOMEIN65UO+Tayc9sPJ9YykHycySwb6Ld2gDH5Hp8rk=;
+        b=Xn8fLclcrAVzoto0VmknyvWmlLVVOayhgI1T8PBpqPJrb+rIO6yMS/6rY4Tm2FnR47
+         frFMsD1LQDLIdBYvHyOYmRMFtvCODQYnCuIsi3CkkuVN7e3S+Gm8VQw4s1ohWk7KAxCm
+         gW9TuptGYjtczTdIDslvnIOSUz6YGIhUSErZUNb8kVSycROksxOaB1lNfgVig/nJ5Q5D
+         HoUdo1fd8mp2nYvjN6NSY3tJOZH+ZlRCYMcF5E4hN7twgYzLbES6eKdHaKAL4jMtZUhf
+         0TvkNO1k3wJIzKYTVSxZLThC1H/xWaCr5g/pyiHgWc/Tih5mrhw9eA1qf33lILfJBTiP
+         QyQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=os+9/VMYzB1H1UbPnrF9rJA6nq0Q0gyQyXCcPqKK+BM=;
-        b=aAvRGA4baef2YFmrInv7v/DK7eeIWoN7kNHjJS9zD8/4MOBKRfFwALrRP8/iBSzbI1
-         r4Xiq0MQVJsGSojGuJWTgBD4S0DRyEja/JKUX0yLxmwbWntOuI6FGMivoMyZ6OXGlo7N
-         UyvThWsnvjY3pY98lvzo4i3aCxFsh5T1nz7N6e+SPrf+Oc326/JO/M+id6PU9acbiO/J
-         +Y7VD4Fu63Nb6l1tHLtAC0uM8C1MlJBv29yY2QoiJI8GJT70qJQtOggwi9J6Fvp80F7P
-         Tp0TMlpoctt26EotvNHq1YX7VCMolJhfE+NyU/R1uoljRWKNw/QBZgz0nADM61Haxgj9
-         p+Rg==
-X-Gm-Message-State: AOAM533rFL7KIFUaE9Bz2FmHdGWmQNUsJHT3zKoVJH5hxaDnFAc0TziB
-        oIs2Cocggh3wqTZMb+A3B2w=
-X-Google-Smtp-Source: ABdhPJz3x7m+Qw8lw5Enn9ElN8emgSzOZE7JCPzU460kI0Vo27IaZu+GzbdQU/YFytrBXETKl7C6dQ==
-X-Received: by 2002:a05:6402:5255:: with SMTP id t21mr16672315edd.91.1616780786607;
-        Fri, 26 Mar 2021 10:46:26 -0700 (PDT)
+        bh=eOMEIN65UO+Tayc9sPJ9YykHycySwb6Ld2gDH5Hp8rk=;
+        b=El2VYPw91ylvqrukxLheo0MkUz1gj1jKKvWs3vHvzOUxgRhE/b23b16672E+tBYMdU
+         mawdmh88xC0ELcUl77gRqi6L+VgpUg9vJWt9i2ktYG3EEhLrriNtaP1hruu02mBO0A4r
+         FUvxtSKo7PbOb8PYFdrIMFFC0Befw3HFNyjDUuIo9Xe9cUnlVg0kgZQCdS33i/At6sgx
+         Bknkd3AjE92qVmH1TZ2k9pqKoForm4g1ZULJNy3rF27ZLM29DKW3yJHoC2b+ufoU2TM2
+         Y/nSYFAIvDmNY9OJ+1dkSENVVSv3tFM0+jWCg7ty+JZwqnx7/pR4wq4cHmbj0Mq/NAQx
+         Z5Bg==
+X-Gm-Message-State: AOAM530gpFfkdee/MuSeeEgjS80cwTt6HAeaCa/IGZE5ePFN2m2uyS02
+        Fjr4pJRjnO4yXU8peFy37ZuBHWYw0+k=
+X-Google-Smtp-Source: ABdhPJxl++TTE7mxycXhsUN5y2xAPUJJA2WukfhEdiMsNQhSZGQqLoD60kP06lVzl+8HKNCszVCrsw==
+X-Received: by 2002:a17:906:1c41:: with SMTP id l1mr16564561ejg.299.1616780788572;
+        Fri, 26 Mar 2021 10:46:28 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id q19sm4078401ejy.50.2021.03.26.10.46.25
+        by smtp.gmail.com with ESMTPSA id gr16sm4167831ejb.44.2021.03.26.10.46.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 10:46:25 -0700 (PDT)
+        Fri, 26 Mar 2021 10:46:27 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH 2/3] dt-bindings: serial: tegra-tcu: Document "reg" property
-Date:   Fri, 26 Mar 2021 18:46:40 +0100
-Message-Id: <20210326174641.1612738-3-thierry.reding@gmail.com>
+Subject: [PATCH 3/3] arm64: tegra: Add "reg" property for TCU on Tegra194
+Date:   Fri, 26 Mar 2021 18:46:41 +0100
+Message-Id: <20210326174641.1612738-4-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210326174641.1612738-1-thierry.reding@gmail.com>
 References: <20210326174641.1612738-1-thierry.reding@gmail.com>
@@ -66,39 +66,36 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-In order to support early console support with the Tegra TCU, add an
-optional "reg" property that points to the TX mailbox.
+Technically the TCU doesn't have any registers but works with two
+mailboxes that serve as RX and TX FIFOs. However, if used as early
+console via /chosen/stdout-path, the earlycon code will want to use
+the "reg" property to initialize the I/O memory base address that
+will in turn be used to access the TX FIFO.
+
+Add the "reg" property to the TCU device tree node to make earlycon
+support work out of the box.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- .../devicetree/bindings/serial/nvidia,tegra194-tcu.yaml     | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml b/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
-index 0a321658ccb5..8c9ed7cfaa52 100644
---- a/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
-+++ b/Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
-@@ -24,6 +24,9 @@ properties:
-   compatible:
-     const: nvidia,tegra194-tcu
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index db68d53f5de0..f9fc481f90c7 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -2537,8 +2537,10 @@ sound {
+ 		assigned-clock-rates = <258000000>;
+ 	};
  
-+  reg:
-+    maxItems: 1
-+
-   mbox-names:
-     items:
-       - const: rx
-@@ -48,8 +51,9 @@ examples:
-   - |
-     #include <dt-bindings/mailbox/tegra186-hsp.h>
- 
--    tcu: tcu {
-+    tcu: tcu@c168000 {
-         compatible = "nvidia,tegra194-tcu";
-+        reg = <0x0c168000 0x4>;
-         mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_SM 0>,
-                  <&hsp_aon TEGRA_HSP_MBOX_TYPE_SM 1>;
-         mbox-names = "rx", "tx";
+-	tcu: tcu {
++	tcu: tcu@c168000 {
+ 		compatible = "nvidia,tegra194-tcu";
++		/* TX mailbox for use with earlycon */
++		reg = <0x0 0x0c168000 0x0 0x4>;
+ 		mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_SM TEGRA_HSP_SM_RX(0)>,
+ 		         <&hsp_aon TEGRA_HSP_MBOX_TYPE_SM TEGRA_HSP_SM_TX(1)>;
+ 		mbox-names = "rx", "tx";
 -- 
 2.30.2
 
