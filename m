@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 660AA34AA8A
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 15:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D5234AA89
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 15:52:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230264AbhCZOwH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Mar 2021 10:52:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
+        id S230272AbhCZOwI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Mar 2021 10:52:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230100AbhCZOvs (ORCPT
+        with ESMTP id S230046AbhCZOvu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 10:51:48 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DC3C0613AA
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:48 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id e18so5921935wrt.6
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:48 -0700 (PDT)
+        Fri, 26 Mar 2021 10:51:50 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675A7C0613AA
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:50 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id k8so5934513wrc.3
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ReoCKHRk0Yzv54SDAezUoYwx+obEQfebobD2IUY1RHo=;
-        b=iEK6+aZlJrXx8XjCJnAXlLR4InbGYUVx2dt2D4tb6J2ipv7Uq6hWX4QXYtZ/qXIdHT
-         kIYC3R9TlP7L7v4kPpu/1xGzTac4zByImZwVADMw/eHuCr7PIHlWwZ5+Ho5sEM+nuzSI
-         l80ke7Vy7X508jjRY1XAJc0SD6123/gqEo8RgzMsQHAY6akz+z7GH6FHkJ/s0J6RHUEe
-         cMfQLWCpRB1NDb9OmS+wO/vZOGxIcjq1ipUrh6e1tvLO4aklf0uDWcr2dvi//XBkXHNi
-         cWMDvkNT0wZCtHWTNApmN/g0za0pqaAkQFc+GhSziGhj1MhbYSMuMWefrOEsr5f6afLa
-         OsWA==
+        bh=3U/NAbihKjPec78yWr69VR7pI5Ujcbfohjar0SwT5eo=;
+        b=AaLyS3Qergrq9129uVi7KloKnhBed8aEvtOSdu1Uwcx6cGMumwd1dkZqNRXHBVlZUe
+         VMzUFkNborSwg7jJFBFwxlQj7cK60QVHVTXdvWJPaol29w/e/x0SuEhkCvcwSkU+M6OP
+         Qa/p/iG3A1Itl+nJkFmVN+i52C3BMpcrE6MzPrjGWvnTYbdP+Db0aA99zbOr1ZwwVI5D
+         hBWlwd93u1hldS2DuQ/Ad8gNf/GBPh0RpwxnVvbQnX7Qg/S7WUx97sYApn+xraGDW/Af
+         a8SxC8s6k38SDRzPqdoEI0cqKcJMLxps2692fgCk1xOHzDNLWJI/19zHIfLLAI+AuyBY
+         PWoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ReoCKHRk0Yzv54SDAezUoYwx+obEQfebobD2IUY1RHo=;
-        b=gHrDmTyRL56uIxFMVNSBVWNevk7Rr325pOAOSn5hHk6aTSDdBTVrRARm6KOCpLefYC
-         iGeNgVlK6lFVYHydCtzvJRXoaP2VtPzMOC5WHQ+QN3bP7rhtNKAQvUSclamT3xEgYk9A
-         Ke7jesnn0F8dvKdwRdYwWgfMhTzn2VJq2d+efnvFkPObzd3Y7V3pSA5CZj+6XCQ5GJt7
-         ova4SRGD6Hy1L2gXhYAW7YkA5XEcqLSu7X0H7zCsEDA0Apgf87doyxH8tX5JL/ycptw+
-         RPyInln4skcpvnympmzIDfLp/o1eiHSg5riSleeUKUk/q/oxljddUT7AaBNM913z0ab3
-         7Gow==
-X-Gm-Message-State: AOAM531/O3Eh8LAsF3A/9UBMK2Ryqa/uGDdzZEMfOhQj+9Hdaz7QtHAU
-        kr7O6d4waxtpQmVIgjO6hfU=
-X-Google-Smtp-Source: ABdhPJwlfUjZQv3XsgfKDmclqEDIXzXXcqW+GBTKFrjaojuEtGrfrq6RFk8w1RFXCoMn9hgvOf9zlg==
-X-Received: by 2002:adf:a59a:: with SMTP id g26mr14938857wrc.271.1616770307017;
-        Fri, 26 Mar 2021 07:51:47 -0700 (PDT)
+        bh=3U/NAbihKjPec78yWr69VR7pI5Ujcbfohjar0SwT5eo=;
+        b=YkF/zSyQO5urWTF7t/xeUHQ142lzIq50yhnUeb6Ggtp3pKGHTtagOINzZW5iOh4xDl
+         f+M6PpGnV5UwKEbwcRV1m8cFeyEy6Z621xe2NAMamzasCZxiyzEj+Ah+Tr0RvVmbWdft
+         d8WH8QKZ27SRyZhectv8RcizP1CBNSKCIhmHszcmm9zgHGeYltKaZ9Hg4GbC5gfOr7Ko
+         CjRWG6uSEI4f54fecA+TyizA5rFejMfuV6hRRe92WU9Sw9nAK1RfP1y5W8kCxYdeWHnq
+         egqv1Dydbs59OT64Hg7e0DcOauQzK42+DfUWPof318ftunBiAMj1R7pxaeIrkGUTkbL/
+         7tXA==
+X-Gm-Message-State: AOAM532+4jxYIPlEuOxiSkxrWyB3w934EdT2EAh0mYxQQNCT9EZAzH81
+        /rqcGlHMu6rASg5bPoOZ+Og=
+X-Google-Smtp-Source: ABdhPJyNOUsrKleJ3gngSpSoJQRwShk1gTga+j6VbqpxGeASJGdgTyuCBEMJgqLpqvGYd3jBCmSZNA==
+X-Received: by 2002:adf:8562:: with SMTP id 89mr15015871wrh.101.1616770309209;
+        Fri, 26 Mar 2021 07:51:49 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id j123sm10902561wmb.1.2021.03.26.07.51.44
+        by smtp.gmail.com with ESMTPSA id g5sm13622621wrq.30.2021.03.26.07.51.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 07:51:45 -0700 (PDT)
+        Fri, 26 Mar 2021 07:51:48 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -58,9 +58,9 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Dmitry Osipenko <digetx@gmail.com>,
         Simon Ser <contact@emersion.fr>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 07/10] drm/tegra: gem: Add a clarifying comment
-Date:   Fri, 26 Mar 2021 15:51:36 +0100
-Message-Id: <20210326145139.467072-8-thierry.reding@gmail.com>
+Subject: [PATCH v2 08/10] gpu: host1x: Add early init and late exit callbacks
+Date:   Fri, 26 Mar 2021 15:51:37 +0100
+Message-Id: <20210326145139.467072-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210326145139.467072-1-thierry.reding@gmail.com>
 References: <20210326145139.467072-1-thierry.reding@gmail.com>
@@ -72,33 +72,88 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Clarify when a fixed IOV address can be used and when a buffer has to
-be mapped before the IOVA can be used.
+These callbacks can be used by client drivers to run code during early
+init and during late exit. Early init callbacks are run prior to the
+regular init callbacks while late exit callbacks run after the regular
+exit callbacks.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/plane.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/host1x/bus.c | 31 +++++++++++++++++++++++++++++++
+ include/linux/host1x.h   |  2 ++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-index 19e8847a164b..793da5d675d2 100644
---- a/drivers/gpu/drm/tegra/plane.c
-+++ b/drivers/gpu/drm/tegra/plane.c
-@@ -119,6 +119,14 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
- 		dma_addr_t phys_addr, *phys;
- 		struct sg_table *sgt;
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index 4c18874f7c4a..c9077cfbfef9 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -196,6 +196,17 @@ int host1x_device_init(struct host1x_device *device)
  
-+		/*
-+		 * If we're not attached to a domain, we already stored the
-+		 * physical address when the buffer was allocated. If we're
-+		 * part of a group that's shared between all display
-+		 * controllers, we've also already mapped the framebuffer
-+		 * through the SMMU. In both cases we can short-circuit the
-+		 * code below and retrieve the stored IOV address.
-+		 */
- 		if (!domain || dc->client.group)
- 			phys = &phys_addr;
- 		else
+ 	mutex_lock(&device->clients_lock);
+ 
++	list_for_each_entry(client, &device->clients, list) {
++		if (client->ops && client->ops->early_init) {
++			err = client->ops->early_init(client);
++			if (err < 0) {
++				dev_err(&device->dev, "failed to early initialize %s: %d\n",
++					dev_name(client->dev), err);
++				goto teardown_late;
++			}
++		}
++	}
++
+ 	list_for_each_entry(client, &device->clients, list) {
+ 		if (client->ops && client->ops->init) {
+ 			err = client->ops->init(client);
+@@ -217,6 +228,14 @@ int host1x_device_init(struct host1x_device *device)
+ 		if (client->ops->exit)
+ 			client->ops->exit(client);
+ 
++	/* reset client to end of list for late teardown */
++	client = list_entry(&device->clients, struct host1x_client, list);
++
++teardown_late:
++	list_for_each_entry_continue_reverse(client, &device->clients, list)
++		if (client->ops->late_exit)
++			client->ops->late_exit(client);
++
+ 	mutex_unlock(&device->clients_lock);
+ 	return err;
+ }
+@@ -251,6 +270,18 @@ int host1x_device_exit(struct host1x_device *device)
+ 		}
+ 	}
+ 
++	list_for_each_entry_reverse(client, &device->clients, list) {
++		if (client->ops && client->ops->late_exit) {
++			err = client->ops->late_exit(client);
++			if (err < 0) {
++				dev_err(&device->dev, "failed to late cleanup %s: %d\n",
++					dev_name(client->dev), err);
++				mutex_unlock(&device->clients_lock);
++				return err;
++			}
++		}
++	}
++
+ 	mutex_unlock(&device->clients_lock);
+ 
+ 	return 0;
+diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+index 5890f91dd286..74970681ecdb 100644
+--- a/include/linux/host1x.h
++++ b/include/linux/host1x.h
+@@ -31,8 +31,10 @@ u64 host1x_get_dma_mask(struct host1x *host1x);
+  * @resume: host1x client resume code
+  */
+ struct host1x_client_ops {
++	int (*early_init)(struct host1x_client *client);
+ 	int (*init)(struct host1x_client *client);
+ 	int (*exit)(struct host1x_client *client);
++	int (*late_exit)(struct host1x_client *client);
+ 	int (*suspend)(struct host1x_client *client);
+ 	int (*resume)(struct host1x_client *client);
+ };
 -- 
 2.30.2
 
