@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9D5234AA89
+	by mail.lfdr.de (Postfix) with ESMTP id 9E89534AA88
 	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 15:52:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbhCZOwI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S230046AbhCZOwI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Fri, 26 Mar 2021 10:52:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56352 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbhCZOvu (ORCPT
+        with ESMTP id S230083AbhCZOvx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 10:51:50 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675A7C0613AA
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:50 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id k8so5934513wrc.3
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:50 -0700 (PDT)
+        Fri, 26 Mar 2021 10:51:53 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB78C0613AA
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:53 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so5069732wml.2
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3U/NAbihKjPec78yWr69VR7pI5Ujcbfohjar0SwT5eo=;
-        b=AaLyS3Qergrq9129uVi7KloKnhBed8aEvtOSdu1Uwcx6cGMumwd1dkZqNRXHBVlZUe
-         VMzUFkNborSwg7jJFBFwxlQj7cK60QVHVTXdvWJPaol29w/e/x0SuEhkCvcwSkU+M6OP
-         Qa/p/iG3A1Itl+nJkFmVN+i52C3BMpcrE6MzPrjGWvnTYbdP+Db0aA99zbOr1ZwwVI5D
-         hBWlwd93u1hldS2DuQ/Ad8gNf/GBPh0RpwxnVvbQnX7Qg/S7WUx97sYApn+xraGDW/Af
-         a8SxC8s6k38SDRzPqdoEI0cqKcJMLxps2692fgCk1xOHzDNLWJI/19zHIfLLAI+AuyBY
-         PWoA==
+        bh=6fn6UM6Nh/EXUxmXhSBxOyP31iyXGR/4D1U+rCif0l4=;
+        b=Eg6shYcrFmlsqdM+MPA8GmwZHsnjgYUKzhnwPO+aYirf6URfUO5p8sqxBGFSCYA5X6
+         ijPHv7zJwlMfu41PHsGAUs8CqmGKbt6G6XA5tvNCHW152JbyhS2fxtIF9IiAPbbzmA8S
+         wMW89mrmyn7mw9gZCPI4LgIhlqbuiGhsAMkJyEM6MUSi80qc0zV8UbrHtllGcyyaFrLq
+         JaKYrP2Z6QxyfR9edSfv60ekGKtqDmpAB6REG2D+3oxlmXExRRh6QtAT7WKNk8jLIIwY
+         nuxvBWyFXjyJk7yILLSvsA8J4MExCna/JSb74IGpLb0j+qjsrrrQYMk0ZLhhNdJ+GS7N
+         Miug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3U/NAbihKjPec78yWr69VR7pI5Ujcbfohjar0SwT5eo=;
-        b=YkF/zSyQO5urWTF7t/xeUHQ142lzIq50yhnUeb6Ggtp3pKGHTtagOINzZW5iOh4xDl
-         f+M6PpGnV5UwKEbwcRV1m8cFeyEy6Z621xe2NAMamzasCZxiyzEj+Ah+Tr0RvVmbWdft
-         d8WH8QKZ27SRyZhectv8RcizP1CBNSKCIhmHszcmm9zgHGeYltKaZ9Hg4GbC5gfOr7Ko
-         CjRWG6uSEI4f54fecA+TyizA5rFejMfuV6hRRe92WU9Sw9nAK1RfP1y5W8kCxYdeWHnq
-         egqv1Dydbs59OT64Hg7e0DcOauQzK42+DfUWPof318ftunBiAMj1R7pxaeIrkGUTkbL/
-         7tXA==
-X-Gm-Message-State: AOAM532+4jxYIPlEuOxiSkxrWyB3w934EdT2EAh0mYxQQNCT9EZAzH81
-        /rqcGlHMu6rASg5bPoOZ+Og=
-X-Google-Smtp-Source: ABdhPJyNOUsrKleJ3gngSpSoJQRwShk1gTga+j6VbqpxGeASJGdgTyuCBEMJgqLpqvGYd3jBCmSZNA==
-X-Received: by 2002:adf:8562:: with SMTP id 89mr15015871wrh.101.1616770309209;
-        Fri, 26 Mar 2021 07:51:49 -0700 (PDT)
+        bh=6fn6UM6Nh/EXUxmXhSBxOyP31iyXGR/4D1U+rCif0l4=;
+        b=EmlslZrEfV7BCOX9WvubecSfoecBkiHNiAAYwIkjV1Ncs+3lY8c3NRwaKe4veuUP8M
+         N6KX0LWStZuYQAOINkLiT+e0YNUmyPS8MoCk5+QU7TWiXz4CTzTdLTpKPstn17Kf1Oe9
+         o9AdC4PK5Exx+B/TrMGXsFvGynbCwpc6toRJdVvufY70CmUVg4G+7K/zejemjIHwZaUI
+         5bcabxC1FnnWOxzrAJXEjRqqslKIdsy1xP6PGNmRmeCGMiRJ/amkK3Im1R/+yU4/SCQX
+         CfA1kwgMFJv5cmUEa/Jzq0WyJKZ8b36n0o689bKsghd484n9WSAuBL+WP2t7jkdKmaA3
+         NsbA==
+X-Gm-Message-State: AOAM532nlWcUPpHd5Y5ZcQwiLrvpGy+NyDwkH21BBZxoKxRCaOe/Ghpy
+        4E8PTTmxQ1Whddc9uWYJbJQ=
+X-Google-Smtp-Source: ABdhPJzwH9mxCZM1pnbGD+hQ+dJrkZcDheDCapm6XbTF8/sBCyy6SnrcN6DkEP6bFPpyd1oRH3/LBQ==
+X-Received: by 2002:a1c:a74b:: with SMTP id q72mr13292847wme.158.1616770312023;
+        Fri, 26 Mar 2021 07:51:52 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id g5sm13622621wrq.30.2021.03.26.07.51.48
+        by smtp.gmail.com with ESMTPSA id u2sm13245309wrp.12.2021.03.26.07.51.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 07:51:48 -0700 (PDT)
+        Fri, 26 Mar 2021 07:51:50 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -58,9 +58,9 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Dmitry Osipenko <digetx@gmail.com>,
         Simon Ser <contact@emersion.fr>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 08/10] gpu: host1x: Add early init and late exit callbacks
-Date:   Fri, 26 Mar 2021 15:51:37 +0100
-Message-Id: <20210326145139.467072-9-thierry.reding@gmail.com>
+Subject: [PATCH v2 09/10] drm/tegra: Count number of display controllers at runtime
+Date:   Fri, 26 Mar 2021 15:51:38 +0100
+Message-Id: <20210326145139.467072-10-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210326145139.467072-1-thierry.reding@gmail.com>
 References: <20210326145139.467072-1-thierry.reding@gmail.com>
@@ -72,88 +72,103 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-These callbacks can be used by client drivers to run code during early
-init and during late exit. Early init callbacks are run prior to the
-regular init callbacks while late exit callbacks run after the regular
-exit callbacks.
+In order to be able to attach planes to all possible display controllers
+the exact number of CRTCs must be known. Keep track of the number of the
+display controllers that register during initialization.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/host1x/bus.c | 31 +++++++++++++++++++++++++++++++
- include/linux/host1x.h   |  2 ++
- 2 files changed, 33 insertions(+)
+ drivers/gpu/drm/tegra/dc.c  | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/tegra/drm.h |  1 +
+ drivers/gpu/drm/tegra/hub.c |  6 ++++--
+ 3 files changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 4c18874f7c4a..c9077cfbfef9 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -196,6 +196,17 @@ int host1x_device_init(struct host1x_device *device)
- 
- 	mutex_lock(&device->clients_lock);
- 
-+	list_for_each_entry(client, &device->clients, list) {
-+		if (client->ops && client->ops->early_init) {
-+			err = client->ops->early_init(client);
-+			if (err < 0) {
-+				dev_err(&device->dev, "failed to early initialize %s: %d\n",
-+					dev_name(client->dev), err);
-+				goto teardown_late;
-+			}
-+		}
-+	}
-+
- 	list_for_each_entry(client, &device->clients, list) {
- 		if (client->ops && client->ops->init) {
- 			err = client->ops->init(client);
-@@ -217,6 +228,14 @@ int host1x_device_init(struct host1x_device *device)
- 		if (client->ops->exit)
- 			client->ops->exit(client);
- 
-+	/* reset client to end of list for late teardown */
-+	client = list_entry(&device->clients, struct host1x_client, list);
-+
-+teardown_late:
-+	list_for_each_entry_continue_reverse(client, &device->clients, list)
-+		if (client->ops->late_exit)
-+			client->ops->late_exit(client);
-+
- 	mutex_unlock(&device->clients_lock);
- 	return err;
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 7758d64822ae..0c51f0bb17a9 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -2078,6 +2078,16 @@ static bool tegra_dc_has_window_groups(struct tegra_dc *dc)
+ 	return false;
  }
-@@ -251,6 +270,18 @@ int host1x_device_exit(struct host1x_device *device)
- 		}
- 	}
  
-+	list_for_each_entry_reverse(client, &device->clients, list) {
-+		if (client->ops && client->ops->late_exit) {
-+			err = client->ops->late_exit(client);
-+			if (err < 0) {
-+				dev_err(&device->dev, "failed to late cleanup %s: %d\n",
-+					dev_name(client->dev), err);
-+				mutex_unlock(&device->clients_lock);
-+				return err;
-+			}
-+		}
-+	}
++static int tegra_dc_early_init(struct host1x_client *client)
++{
++	struct drm_device *drm = dev_get_drvdata(client->host);
++	struct tegra_drm *tegra = drm->dev_private;
 +
- 	mutex_unlock(&device->clients_lock);
- 
++	tegra->num_crtcs++;
++
++	return 0;
++}
++
+ static int tegra_dc_init(struct host1x_client *client)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(client->host);
+@@ -2226,6 +2236,16 @@ static int tegra_dc_exit(struct host1x_client *client)
  	return 0;
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 5890f91dd286..74970681ecdb 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -31,8 +31,10 @@ u64 host1x_get_dma_mask(struct host1x *host1x);
-  * @resume: host1x client resume code
-  */
- struct host1x_client_ops {
-+	int (*early_init)(struct host1x_client *client);
- 	int (*init)(struct host1x_client *client);
- 	int (*exit)(struct host1x_client *client);
-+	int (*late_exit)(struct host1x_client *client);
- 	int (*suspend)(struct host1x_client *client);
- 	int (*resume)(struct host1x_client *client);
+ }
+ 
++static int tegra_dc_late_exit(struct host1x_client *client)
++{
++	struct drm_device *drm = dev_get_drvdata(client->host);
++	struct tegra_drm *tegra = drm->dev_private;
++
++	tegra->num_crtcs--;
++
++	return 0;
++}
++
+ static int tegra_dc_runtime_suspend(struct host1x_client *client)
+ {
+ 	struct tegra_dc *dc = host1x_client_to_dc(client);
+@@ -2290,8 +2310,10 @@ static int tegra_dc_runtime_resume(struct host1x_client *client)
+ }
+ 
+ static const struct host1x_client_ops dc_client_ops = {
++	.early_init = tegra_dc_early_init,
+ 	.init = tegra_dc_init,
+ 	.exit = tegra_dc_exit,
++	.late_exit = tegra_dc_late_exit,
+ 	.suspend = tegra_dc_runtime_suspend,
+ 	.resume = tegra_dc_runtime_resume,
  };
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 34fbcd6abf2f..9a089b93da24 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -56,6 +56,7 @@ struct tegra_drm {
+ 
+ 	unsigned int hmask, vmask;
+ 	unsigned int pitch_align;
++	unsigned int num_crtcs;
+ 
+ 	struct tegra_display_hub *hub;
+ };
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index 617240032c37..500c9d37e654 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -562,9 +562,8 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
+ 	struct tegra_drm *tegra = drm->dev_private;
+ 	struct tegra_display_hub *hub = tegra->hub;
+-	/* planes can be assigned to arbitrary CRTCs */
+-	unsigned int possible_crtcs = 0x7;
+ 	struct tegra_shared_plane *plane;
++	unsigned int possible_crtcs;
+ 	unsigned int num_formats;
+ 	const u64 *modifiers;
+ 	struct drm_plane *p;
+@@ -583,6 +582,9 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 
+ 	p = &plane->base.base;
+ 
++	/* planes can be assigned to arbitrary CRTCs */
++	possible_crtcs = BIT(tegra->num_crtcs) - 1;
++
+ 	num_formats = ARRAY_SIZE(tegra_shared_plane_formats);
+ 	formats = tegra_shared_plane_formats;
+ 	modifiers = tegra_shared_plane_modifiers;
 -- 
 2.30.2
 
