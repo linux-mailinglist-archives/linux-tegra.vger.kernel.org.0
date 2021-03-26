@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E014134AA7D
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 15:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F2AB34AA84
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 15:52:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbhCZOvc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Mar 2021 10:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56252 "EHLO
+        id S230188AbhCZOwF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Mar 2021 10:52:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbhCZOv0 (ORCPT
+        with ESMTP id S230170AbhCZOv3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 10:51:26 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31120C0613AA
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:26 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 12so3122569wmf.5
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:26 -0700 (PDT)
+        Fri, 26 Mar 2021 10:51:29 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537C4C0613AA
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:28 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id m20-20020a7bcb940000b029010cab7e5a9fso5059769wmi.3
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 07:51:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1jY8mwnQnAeWLndXGjoVPFOh3LwZ9LMn1afxTK8ioYU=;
-        b=cYq7anr9I5TabG+pA/dIDgs1ukMI/RJ5lyFqfgAVps2FCdtEjfXm1GStbQpi2qXjZS
-         ySsNNfwQApaE20yjFGrODOhPG5agByHc+eadWqk55iEZNZ5wh6XJ7JXXLuI6xEMzortj
-         pcL/O+JETN9SYJgQEbFVXB4K/C2RD0THr8R6PrhRdvLC8X9nZochrfTc3mCZxoXbc4hh
-         mr9ABiBh66SO58+xocwUbq00OB1hPqf5fS6FOYwRjFWdC+TkZRNIDdb5sC9+Buv7byF7
-         al3ZanAVPb/V6B6jdB+U7FyyNrQqFuJwnc2xTQSwtoIJviE8Y1JeB2u7wIqVunNRVfzk
-         QyqQ==
+        bh=dexBEjYiMkS4XXfyY7Y63BCfCtQuPvt6wAmmNMM9uiU=;
+        b=sy0LpR6CO/+hGOGtblTJwkDRNfJ0OIYrkXpVb7gzm3NNWD+WbbNHcwjYquArjfkiLp
+         3pqD/CIluuv2EH803a7w+8Zpruec3tTOpAo2v9DrUADG0Q1vvvb6t5KkdWBVl4aszjOs
+         8WuiMFf8IJtBqfs2rjLhZBYeUQfTVeyUxvSLw2XQ/Q8x3QoT1c5Zb0O/zTD2e59YE3b8
+         vRYwATWOzwE/06IhBA/Zbcvh1dmygCiWgw5r3tqYHhKd2DJ2O1zNkA77pygVOqb6CQMf
+         Bbhaw4FCKRLPrklpt3UaeOBU5OtLlHNLwHuUVla0NBptfyCpPdwIetjAufT1nb2/0A4/
+         wBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1jY8mwnQnAeWLndXGjoVPFOh3LwZ9LMn1afxTK8ioYU=;
-        b=i4h7usGy7Dedg0eexDh8LTR+zcC4kl/uj5/HcYfZn06Ga5E4i7E8MMJoH/kNlkTa7A
-         NZGd1IuTIwKJtsOKBZq1uI6Vw5BdcY2u3xLSCMb8TEdJd77sqAy0Ye037dHp5uS2zmGP
-         TpmTLVMc8pFYXLDbxwiCdpHIpcrhe9dRG4YqwkXH0hQPh4ZIODV0yHJqK5h4xRHJNBXr
-         8iipYUdTimna1tUM3w2Ur8Ez8t2kOEOuHMORf/D6IBd1qQEXKTIynB9w25Ct60fyUcaF
-         0RlgHe0sS8QFbClTBGXeAvxgG8Mk7S0oMGhBUqQ++WRYMK8gXnlMI1C3+Qt4h6r31UJX
-         j0IQ==
-X-Gm-Message-State: AOAM5333c/00E5Q5erof9Wn8RUfC9en5P4RU2S58MKg5jfRWY1fJr76z
-        3xMBAXNDACoXjdT4ZMKlHiU=
-X-Google-Smtp-Source: ABdhPJwLGnx999mXR/dfcnAYVGLYaE5B2HwvvEGVFtaZgHK51cReNLWGwGqZh/E9awvbrmVp/RyPdQ==
-X-Received: by 2002:a05:600c:290b:: with SMTP id i11mr13888176wmd.129.1616770284982;
-        Fri, 26 Mar 2021 07:51:24 -0700 (PDT)
+        bh=dexBEjYiMkS4XXfyY7Y63BCfCtQuPvt6wAmmNMM9uiU=;
+        b=OYmExo6A2oF5rVGmXx422tSX/UBUnl/cJ2UYxjIrKvLXJRkZyZClMa5Cu5vJb+xQBq
+         ypgTl4iFRFg55th3wGbntxM6frWUXSHXQ08ftMjTv2nzkeCj8rCvvfcZib32iSGtuha7
+         OJ5bsd2DqnIgb6n7t4VDYIoB3ezg9UtmTQD8aHasNUrnfEajpTdTvDbxFj7J+jVI7ALb
+         kWM/Z2sTWH0lY9EPQTxE+FTop8ACBR2y1Iss++Cpr9ygEhQRIekpQwJqOn8BpBYKJMkz
+         DKEPwug+ZqGBqoV6K4LBmZgzwZHa3ModtDft+2lK9ow6QcaKF5qHE5mrMxxmzZmpPfHn
+         22BQ==
+X-Gm-Message-State: AOAM530saaQdtL/K2DodHteH7rAzeLTeyjLu17IVSu0LKQTVTpoToHL1
+        CH5d4SSKNR+EDbKGOvaDr5U=
+X-Google-Smtp-Source: ABdhPJyAMzgOJyXp6zRFVElVkH/XLVwQcbL0T9qq9DXloPusNrJUNrrxtee7Loh7WIWQCUuT5ehcaQ==
+X-Received: by 2002:a7b:c083:: with SMTP id r3mr13414453wmh.177.1616770287127;
+        Fri, 26 Mar 2021 07:51:27 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id m11sm13001228wrz.40.2021.03.26.07.51.23
+        by smtp.gmail.com with ESMTPSA id r16sm8022566wrx.75.2021.03.26.07.51.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 07:51:24 -0700 (PDT)
+        Fri, 26 Mar 2021 07:51:26 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -58,9 +58,9 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Dmitry Osipenko <digetx@gmail.com>,
         Simon Ser <contact@emersion.fr>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 01/10] drm/fourcc: Add macros to determine the modifier vendor
-Date:   Fri, 26 Mar 2021 15:51:30 +0100
-Message-Id: <20210326145139.467072-2-thierry.reding@gmail.com>
+Subject: [PATCH v2 02/10] drm/arm: malidp: Use fourcc_mod_is_vendor() helper
+Date:   Fri, 26 Mar 2021 15:51:31 +0100
+Message-Id: <20210326145139.467072-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210326145139.467072-1-thierry.reding@gmail.com>
 References: <20210326145139.467072-1-thierry.reding@gmail.com>
@@ -72,35 +72,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-When working with framebuffer modifiers, it can be useful to extract the
-vendor identifier or check a modifier against a given vendor identifier.
-Add one macro that extracts the vendor identifier and a helper to check
-a modifier against a given vendor identifier.
-
-v2: add macro to extract vendor ID from modifier (Simon)
+Rather than open-coding the vendor extraction operation, use the newly
+introduced helper macro.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- include/uapi/drm/drm_fourcc.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/arm/malidp_planes.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index f76de49c768f..64f01bc2624c 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -366,6 +366,12 @@ extern "C" {
+diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
+index ddbba67f0283..cd218883cff8 100644
+--- a/drivers/gpu/drm/arm/malidp_planes.c
++++ b/drivers/gpu/drm/arm/malidp_planes.c
+@@ -165,7 +165,7 @@ bool malidp_format_mod_supported(struct drm_device *drm,
+ 		return !malidp_hw_format_is_afbc_only(format);
+ 	}
  
- #define DRM_FORMAT_RESERVED	      ((1ULL << 56) - 1)
- 
-+#define fourcc_mod_get_vendor(modifier) \
-+	(((modifier) >> 56) & 0xff)
-+
-+#define fourcc_mod_is_vendor(modifier, vendor) \
-+	(fourcc_mod_get_vendor(modifier) == DRM_FORMAT_MOD_VENDOR_## vendor)
-+
- #define fourcc_mod_code(vendor, val) \
- 	((((__u64)DRM_FORMAT_MOD_VENDOR_## vendor) << 56) | ((val) & 0x00ffffffffffffffULL))
- 
+-	if ((modifier >> 56) != DRM_FORMAT_MOD_VENDOR_ARM) {
++	if (!fourcc_mod_is_vendor(modifier, ARM)) {
+ 		DRM_ERROR("Unknown modifier (not Arm)\n");
+ 		return false;
+ 	}
 -- 
 2.30.2
 
