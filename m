@@ -2,126 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2369034ACED
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 17:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB53134ADCE
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Mar 2021 18:47:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhCZQ4B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Mar 2021 12:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55218 "EHLO
+        id S230106AbhCZRqk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Mar 2021 13:46:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbhCZQz7 (ORCPT
+        with ESMTP id S230076AbhCZRqZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Mar 2021 12:55:59 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB674C0613AA
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 09:55:58 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id f26so8143745ljp.8
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Mar 2021 09:55:58 -0700 (PDT)
+        Fri, 26 Mar 2021 13:46:25 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC155C0613AA;
+        Fri, 26 Mar 2021 10:46:24 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id hq27so9631178ejc.9;
+        Fri, 26 Mar 2021 10:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lhyOjxCs+l3MNv905gvs5Nsa/THv4syTxxBwZP4KE3k=;
-        b=s1LmS7BwlxUC5fYMpsY/r5C0k4N6uMyMEUBhMb17FwH4VuESuMHAMS+KHxbscsX19N
-         i4xsWCLrCi+OI7Bid2JBoFbyPFGc5h2P8lh2A6GVQqGP+zv95VqHmvO07Iv5aehTID9i
-         7W2rceZ6u8ep51Mhbji64UpFRI8zxu2QDAzy/tG/dsVL179EvspQNrqNe1GrZ0ghrYQl
-         hckCvtWHouLxJS+QsUL4MuFUAGgy4ATUv2Oo3Cta5KdURJ53AVSf5pQzVWfMpxztFCrI
-         YzEqH2ajthweRg/ivIiA0k2nJIHYXGGTEafm6/a7Plbe75862iA6ctEzGlRzDmslkQ9R
-         PnOg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qal3Pg1eWeJfJHjI4KXNgexM9zHNRBmG/njreZMtivI=;
+        b=QuJ2bza2cq/NuzvNeZdfoYoxXlhoBwWSNLhaxQyJ3zbEZvnrczUAS++e4dPna1b9WD
+         38h4nzoTHXm4pS13j3vIfJg3e33jKmMZ0htnSQHDrH4EUGX7Ue4Yls/wOInlumHDuuYN
+         s3pRGBm3SreiEN4wAMrQE6hxYRfH9bDGls/kQaMteGCmgtZ2f5gHH31OakDq1Agm25VI
+         9Qo2rsB0QdWkaZeTKrBOFr5xUGlBCdPeASaOv7KnAjqXuRdTU/gOqsp/b58j/6p44DqN
+         dAAGU+U2NFzYoqNv7U9C5dB0TrWZPrWSaFxaWV96PCyk1DZhKuQhoHqfQ6JqtQvhE/H3
+         1SdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=lhyOjxCs+l3MNv905gvs5Nsa/THv4syTxxBwZP4KE3k=;
-        b=YPKrKbolhH98v3hqIBUlEXrXdo2rBxt6563r+ZHyxAoAkrZU6VgjfsYgyomPzOdcE2
-         jdS1JrrazfcmLb45vPEAIAZbEFpuqg2Xhohf/BQt8nuC0WkZHrjTduO3uOAWEa/vq1IG
-         0NjneRafeU20IJA3XTqEMhv7wm9m0/Bh60kYmIPx+SLfC8xgP3RWDyhZxnPYOoO9BDXH
-         GPhNWXD8vZ0XFBLVEfVuGgAH/I5APpGTZsFEhxA5uZn/N/PEwmKEidwQAghB45THXDI1
-         f5A5BvNIhDsx4CTL8S+N7kLSVtLhGijDvn3g8/0xPtd50MzEckZwfSyfIeBVZAKbDm6+
-         fvCw==
-X-Gm-Message-State: AOAM533dFLiJXj1WLtzRIf//6VvMNAf4rvQ5KOvq0TDlw9ZMAlpQmd6D
-        wVxWdotmPHvNLSkTqdQi5Os=
-X-Google-Smtp-Source: ABdhPJxK3x5g1sh4ng3XERSxCJLJcMj4mSTpotrlnRxwSesJwLiNTIVymxaoExRzGAnlMWjU9yZeMQ==
-X-Received: by 2002:a2e:8e36:: with SMTP id r22mr9826222ljk.427.1616777757503;
-        Fri, 26 Mar 2021 09:55:57 -0700 (PDT)
-Received: from ?IPv6:2a00:1370:814d:99a9:a10:76ff:fe69:21b6? ([2a00:1370:814d:99a9:a10:76ff:fe69:21b6])
-        by smtp.googlemail.com with ESMTPSA id x13sm1232656ljj.4.2021.03.26.09.55.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Mar 2021 09:55:57 -0700 (PDT)
-Subject: Re: [PATCH 0/9] arm64: tegra: Prevent early SMMU faults
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        iommu@lists.linux-foundation.org,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20210325130332.778208-1-thierry.reding@gmail.com>
- <197876d1-0046-f673-5d3e-818d1002542b@gmail.com>
- <YF4NQPee+/Qi6zVd@orome.fritz.box>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9f1a8455-f7a6-1f66-f36c-032abacf71f5@gmail.com>
-Date:   Fri, 26 Mar 2021 19:55:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        bh=Qal3Pg1eWeJfJHjI4KXNgexM9zHNRBmG/njreZMtivI=;
+        b=nRUoPIeNBgcO37nJcfqBgB8SARkXoT9dgnbqUlwppqqgm0hMwC0X948Wfe/QT8ug4q
+         WtaxFloTYca0nH4iOSR+4/Y6qgsNFeBcTCTpwjPX8mZbFk+fPcl6t8UO+mAS79NZPnGf
+         4cLbvJR4DqegfZhJQlI15ETQVetETUGjXfWbBT5BU55+fxalb0nTLKDkEfXAhj0+GG30
+         2OkBZ4pGky18FyfrJtAjZjnCWpADrMk/P0XSOwPS2HKOO4ZQ8kgb24pe5/8DrZ7tdzgw
+         ELs7OOclsCRHJhmIi/ny5x6VF6rWUcJeUMbkszFwNBpagxecAlbbGtjBwVVjNU3H81my
+         8kfQ==
+X-Gm-Message-State: AOAM531UYxBOzouaQkUw06rlA71oI3FmxMB2fkdJ+qx5t2wQxhfpjQ2u
+        XRI4BhSsJtqw9UJO2twnuarv1R6/x24=
+X-Google-Smtp-Source: ABdhPJxqT5OFRIxUqeWkIzvSsn82iH4FejB56xDxIhAQDRV5unck8+ctoyB85StdMvG7O8XxXdO6mA==
+X-Received: by 2002:a17:906:7d7:: with SMTP id m23mr16950005ejc.205.1616780782802;
+        Fri, 26 Mar 2021 10:46:22 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id t14sm4098559ejc.121.2021.03.26.10.46.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 10:46:21 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 0/3] arm64: tegra: Add earlycon support on Tegra194
+Date:   Fri, 26 Mar 2021 18:46:38 +0100
+Message-Id: <20210326174641.1612738-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YF4NQPee+/Qi6zVd@orome.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-26.03.2021 19:35, Thierry Reding пишет:
-> On Fri, Mar 26, 2021 at 06:29:28PM +0300, Dmitry Osipenko wrote:
->> 25.03.2021 16:03, Thierry Reding пишет:
->>> From: Thierry Reding <treding@nvidia.com>
->>>
->>> Hi,
->>>
->>> this is a set of patches that is the result of earlier discussions
->>> regarding early identity mappings that are needed to avoid SMMU faults
->>> during early boot.
->>>
->>> The goal here is to avoid early identity mappings altogether and instead
->>> postpone the need for the identity mappings to when devices are attached
->>> to the SMMU. This works by making the SMMU driver coordinate with the
->>> memory controller driver on when to start enforcing SMMU translations.
->>> This makes Tegra behave in a more standard way and pushes the code to
->>> deal with the Tegra-specific programming into the NVIDIA SMMU
->>> implementation.
->>
->> It is an interesting idea which inspired me to try to apply a somewhat similar thing to Tegra SMMU driver by holding the SMMU ASID enable-bit until display driver allows to toggle it. This means that we will need an extra small tegra-specific SMMU API function, but it should be okay.
->>
->> I typed a patch and seems it's working good, I'll prepare a proper patch if you like it.
-> 
-> That would actually be working around the problem that this patch was
-> supposed to prepare for. The reason for this current patch series is to
-> make sure SMMU translation isn't enabled until a device has actually
-> been attached to the SMMU. Once it has been attached, the assumption is
-> that any identity mappings will have been created.
-> 
-> One Tegra SMMU that shouldn't be a problem because translations aren't
-> enabled until device attach time. So in other words this patch set is to
-> get Tegra186 and later to parity with earlier chips from this point of
-> view.
-> 
-> I think the problem that you're trying to work around is better solved
-> by establishing these identity mappings. I do have patches to implement
-> this for Tegra210 and earlier, though they may require additional work
-> if you have bootloaders that don't use standard DT bindings for passing
-> information about the framebuffer to the kernel.
+From: Thierry Reding <treding@nvidia.com>
 
-I'm not sure what else reasonable could be done without upgrading to a
-very specific version of firmware, which definitely isn't a variant for
-older devices which have a wild variety of bootloaders, customized
-use-cases and etc.
+Hi Rob,
 
-We could add a kludge that I'm suggesting as a universal fallback
-solution, it should work well for all cases that I care about.
+I've been looking at adding support for earlycon on Tegra194 which uses
+the "combined UART" as console. This isn't a real device but rather is
+composed of two mailboxes that are used to communicate with a processor
+that multiplexes multiple data streams before they are sent over the HW
+UART.
 
-So we could have the variant with identity mappings, and if mapping
-isn't provided, then fall back to the kludge.
+It's possible to make this work by passing earlycon with extra options
+that select the TCU and pass a TX mailbox address, but I'd prefer if we
+could also make this work without any options and instead infer the TX
+mailbox address to use from /chosen/stdout-path. I can make that work
+with the regular OF_EARLYCON_DECLARE and just a bit of additional code
+to write data to the TX mailbox if I change the device tree node to take
+a "reg" property. This set of patches implements those changes (there's
+a separate patch to the tegra-tcu driver that adds OF_EARLYCON_DECLARE
+and a bit of code, but it's not directly relevant to this discussion).
+
+Given that this isn't a real device and the address in the "reg"
+property is also a subset of the mailbox device that will take over for
+the real console later on, I'm wondering if this is acceptable, even if
+it is bending the rules a tiny bit.
+
+The only other alternative I could think of would be to obtain the node
+offset to the TCU node (either by passing it to the earlycon ->setup()
+callback, or looking it up manually) and then parsing the mboxes
+property and find the TX mailbox provider and then compute the TX
+mailbox address. But that all seems very involved for something that we
+can make work out of the box by simply adding this "reg" property, even
+if it may not be strictly correct.
+
+What do you think?
+
+Thierry
+
+Thierry Reding (3):
+  dt-bindings: serial: tegra-tcu: Convert to json-schema
+  dt-bindings: serial: tegra-tcu: Document "reg" property
+  arm64: tegra: Add "reg" property for TCU on Tegra194
+
+ .../bindings/serial/nvidia,tegra194-tcu.txt   | 35 -----------
+ .../bindings/serial/nvidia,tegra194-tcu.yaml  | 60 +++++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  4 +-
+ 3 files changed, 63 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.txt
+ create mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
+
+-- 
+2.30.2
+
