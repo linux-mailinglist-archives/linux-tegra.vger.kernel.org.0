@@ -2,80 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C0B134B956
-	for <lists+linux-tegra@lfdr.de>; Sat, 27 Mar 2021 21:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FD234B976
+	for <lists+linux-tegra@lfdr.de>; Sat, 27 Mar 2021 22:24:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbhC0UeQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 27 Mar 2021 16:34:16 -0400
-Received: from mail-ot1-f44.google.com ([209.85.210.44]:40463 "EHLO
-        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbhC0UeE (ORCPT
+        id S230459AbhC0VXr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Mar 2021 17:23:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230139AbhC0VX1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 27 Mar 2021 16:34:04 -0400
-Received: by mail-ot1-f44.google.com with SMTP id w31-20020a9d36220000b02901f2cbfc9743so8539455otb.7;
-        Sat, 27 Mar 2021 13:34:03 -0700 (PDT)
+        Sat, 27 Mar 2021 17:23:27 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530ACC0613B2;
+        Sat, 27 Mar 2021 14:23:26 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id u10so11459889lju.7;
+        Sat, 27 Mar 2021 14:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CcEJAWSSbm1JFhZGxEz23WyOc/TBORSZzsvbfWv5DLY=;
+        b=AabR7NKqnV94dlIxy7Cvkm3DeMPQuh/7+QCCpNfFcRcNca7BPA1u25mkcm/c9MROgM
+         MC1Zofh4H+BfQA3IwRwNUehnTJlufyHNX9Lx3pwJlIVNysC127DT/jh+txxrATVOhXVN
+         OVQHJTsbQkVPW8BZgSRKSteE6Tp0Cfi9NqTkpk5GA+TeVvBLUBVFIP8JpGqqavDtEvdZ
+         UF/3Bzk/kYypbrnLaAq9h9roHnUmt2qsBW/pw/WpEg2ZXEpsjupDSFHcOMb7N0CGtWvb
+         W10/c8DrHl2AI8gl23svnsAVaDEBpuK2LUwpusjmi/dtjAUXQiqCRFtxxmyrPkP8Uf8v
+         uOKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UQr/YqDsL+N492tX6ZjUqsg1uzoT4TgP24HOhBmQEDc=;
-        b=oYgSwWR67448JSls+1HW11JwnJa6fP6y+XDmoEU2jm0KRA9K2TMKLsuD5ZdVYZjfSA
-         KnndGXkiZJE6nP+f5GW9EN+D1/UR/qqkMrCcWKPvAQBc2QiNBbcdeDLkdsJD/jdnZcvG
-         0r15sm/om7xQmY5GSj/Mlaxr0z6ZeuO5r4FTNc+UYe9Cu/sPkXWvwE7TliTydx4DDGYo
-         76IPUxfFQaEMCbCwG8qNG+CjACxpkGNGCLeHSTHfDlOIVxrnrHlGWkkXgeFnA7pSPf+h
-         x/XR124tQrLOuEfba8R83Guoi9LC4dwA2CwaAqo3MN940P1ebQ4BFW3FXW7l72K127u7
-         9bNA==
-X-Gm-Message-State: AOAM53386/vYn+sG92YF515H7D0KlCQUIK8NWNvjYiWqcVlsNq5fgvvc
-        rQV4ynWZMoSOCTgMN20Fwg==
-X-Google-Smtp-Source: ABdhPJxnwkzW4ynrK8b9s45ZSbG6Op+W2lZ+P3SHBvp8SxMAvx7JmrZb6yxUP07j651JgD22SDKGxA==
-X-Received: by 2002:a9d:663:: with SMTP id 90mr14934121otn.311.1616877243571;
-        Sat, 27 Mar 2021 13:34:03 -0700 (PDT)
-Received: from localhost.localdomain ([172.58.99.41])
-        by smtp.googlemail.com with ESMTPSA id t19sm3121198otm.40.2021.03.27.13.34.00
+        bh=CcEJAWSSbm1JFhZGxEz23WyOc/TBORSZzsvbfWv5DLY=;
+        b=K0i6SllZQgj/xlTiT+mK9G+jmY9VQokyS/6APhcrJQpF9n1HvWEZ03aRqePl5bzwgO
+         eVMT99GPdGX669vaoBc2CxVCAqo1kJjY/Vl94C0AHOoGNy3/u+iEmCqMYV0TEsBemBXt
+         5Btyv+ycwo7Zu+RgBUkpG3jUfD9+monCbOWHhoapIaWwswVa0Hw6D0CgYYSuxxUDrY2B
+         a76AkZ1ZILQu/a06gkUNVtYxW8qQ3EF9Tuu47BSlFUjhpsodZ4tdVE2sVHxiatvV0rOF
+         VLAYXzmLbSt9iiRV5KfiimCpF6FeB3zDveom4oMMdrN+BWZaJaczNFVr1oWU8S++GIES
+         KXAw==
+X-Gm-Message-State: AOAM531YbdEwyqG1z9SaJ4GVyktgk7/jJdaJKj8upjDkaaclKPbEd812
+        BlrYOLtcqgV10EXRcV5c0tE=
+X-Google-Smtp-Source: ABdhPJxpQ3Of1eoPUnXix8BBxFRIDdLBWyCclKcGE77GaNOdUoR3o1oKl/ywO6Wr4S2nCgnb8tzLtg==
+X-Received: by 2002:a2e:96c3:: with SMTP id d3mr13574659ljj.284.1616880203815;
+        Sat, 27 Mar 2021 14:23:23 -0700 (PDT)
+Received: from localhost.localdomain (109-252-193-66.dynamic.spd-mgts.ru. [109.252.193.66])
+        by smtp.gmail.com with ESMTPSA id x7sm1300626lfe.182.2021.03.27.14.23.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 13:34:02 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sat, 27 Mar 2021 14:23:23 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Jens Axboe <axboe@kernel.dk>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] spi: dt-bindings: nvidia,tegra210-quad: Use documented compatible "jedec,spi-nor" in example
-Date:   Sat, 27 Mar 2021 15:33:57 -0500
-Message-Id: <20210327203357.552794-1-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>
+Subject: [PATCH v1 0/3] Support EFI partition on NVIDIA Tegra devices
+Date:   Sun, 28 Mar 2021 00:20:57 +0300
+Message-Id: <20210327212100.3834-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The 'spi-nor' compatible used in the example is not documented. Use the
-documented 'jedec,spi-nor' compatible instead.
+Hi,
 
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-spi@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series adds support for gpt_sector=<sector> kernel parameter used
+specifically by Android devices that are based on NVIDIA Tegra SoCs.
+This parameter is supplied by downstream bootloader, it tells the
+number of a sector where EFI entry is located on EMMC storage.
 
-diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-index 35a8045b2c70..53627c6e2ae3 100644
---- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-+++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-@@ -106,7 +106,7 @@ examples:
-             dma-names = "rx", "tx";
- 
-             flash@0 {
--                    compatible = "spi-nor";
-+                    compatible = "jedec,spi-nor";
-                     reg = <0>;
-                     spi-max-frequency = <104000000>;
-                     spi-tx-bus-width = <2>;
+A year ago we tried to upstream the support of gpt_sector and then the
+support of NVIDIA's proprietary partition table, which was suggested by
+Christoph Hellwig, but that effort didn't get enough attention.
+
+Now, a year later, we have more Tegra devices running mainline kernel
+and the situation hasn't changed, we still need to support the quirks
+needed for accessing internal EMMC storage of the Tegra devices.  This
+time I'm trying to get back to variant with supporting the gpt_sector
+parameter, but in a way which doesn't disturb anything other than the
+EMMC of NVIDIA Tegra devices, which previously was suggested by
+Christoph Hellwig as well.
+
+Dmitry Osipenko (3):
+  mmc: core: Add raw_boot_mult field to mmc_ext_csd
+  mmc: block: Add mmc_bdev_to_card() helper
+  partitions/efi: Support gpt_sector parameter needed by NVIDIA Tegra
+    devices
+
+ block/partitions/Kconfig   |   8 +++
+ block/partitions/Makefile  |   1 +
+ block/partitions/check.h   |   2 +
+ block/partitions/core.c    |   3 ++
+ block/partitions/efi.c     |  18 +++++++
+ block/partitions/tegra.c   | 108 +++++++++++++++++++++++++++++++++++++
+ drivers/mmc/core/block.c   |  15 ++++++
+ drivers/mmc/core/mmc.c     |   2 +
+ include/linux/mmc/blkdev.h |  13 +++++
+ include/linux/mmc/card.h   |   1 +
+ 10 files changed, 171 insertions(+)
+ create mode 100644 block/partitions/tegra.c
+ create mode 100644 include/linux/mmc/blkdev.h
+
 -- 
-2.27.0
+2.30.2
 
