@@ -2,79 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B29534EA59
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 16:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECEF634EBBE
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 17:13:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230243AbhC3OYJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Mar 2021 10:24:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48270 "EHLO mail.kernel.org"
+        id S232392AbhC3PMZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Mar 2021 11:12:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59616 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231623AbhC3OXh (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Mar 2021 10:23:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 23933619C8;
-        Tue, 30 Mar 2021 14:23:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617114217;
-        bh=5M2yquBBhiLOCTGF5f2g2d6BfrScvdQstqJq4iBUW4k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SlmOX/BM7xUXgpNG4rww+7aN+rGDiGfKqmW77POT8KkwCl8Ed0VgKMjbJN9R/R6WU
-         O2IdwUQv359wKtHBCbibVKep0hhbo8BQmWA0k0FT2o3GJCPXdxFKzEhP/1Ya8KjsVH
-         hp1rQJTnVneQiCGsdOztaNgsmHDXUTmIc4SGRKEGlRT8QPE4xLyjR/vCdp3Mgcx0wB
-         tGP2D+KjRdClVoPj7owA9ni94LwLNRG1otLVWflae8UrpAkcVWB/moIYQUpKNhgJnH
-         DpMa76lfSpqOBcSqLVyfq4kzm71bje1RcRJioH4t5fo459FAtilVx5Yax3jOcmICGP
-         e6Ut/cmcWb62g==
-Date:   Tue, 30 Mar 2021 19:53:32 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        JC Kuo <jckuo@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v8 06/13] phy: tegra: xusb: Add sleepwalk and
- suspend/resume
-Message-ID: <YGM0ZOroZolJ9zEC@vkoul-mobl.Dlink>
-References: <20210325164057.793954-1-thierry.reding@gmail.com>
- <20210325164057.793954-7-thierry.reding@gmail.com>
+        id S231655AbhC3PLx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:11:53 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35B3B619CD;
+        Tue, 30 Mar 2021 15:11:52 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lRG22-004i6i-4k; Tue, 30 Mar 2021 16:11:50 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Bharat Kumar Gogada <bharatku@xilinx.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
+Subject: [PATCH v3 00/14] PCI/MSI: Getting rid of msi_controller, and other cleanups
+Date:   Tue, 30 Mar 2021 16:11:31 +0100
+Message-Id: <20210330151145.997953-1-maz@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210325164057.793954-7-thierry.reding@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, mikelley@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, bharatku@xilinx.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 25-03-21, 17:40, Thierry Reding wrote:
-> From: JC Kuo <jckuo@nvidia.com>
-> 
-> This commit adds sleepwalk/wake and suspend/resume interfaces
-> to Tegra XUSB PHY driver.
-> 
-> Tegra XUSB host controller driver makes use of sleepwalk functions
-> to enable/disable sleepwalk circuit which is in always-on partition
-> and can respond to USB resume signals when controller is not powered.
-> Sleepwalk can be enabled/disabled for any USB UPHY individually.
-> 
->   - tegra_xusb_padctl_enable_phy_sleepwalk()
->   - tegra_xusb_padctl_disable_phy_sleepwalk()
-> 
-> Tegra XUSB host controller driver makes use of wake functions to
-> enable/disable/query wake circuit which is in always-on partition
-> can wake system up when USB resume happens.
-> Wake circuit can be enabled/disabled for any USB PHY individually.
-> 
->   - tegra_xusb_padctl_enable_phy_wake()
->   - tegra_xusb_padctl_disable_phy_wake()
->   - tegra_xusb_padctl_remote_wake_detected()
-> 
-> This commit also adds two system suspend stubs that can be used to
-> save and restore XUSB PADCTL context during system suspend and
-> resume.
->   - tegra_xusb_padctl_suspend_noirq()
->   - tegra_xusb_padctl_resume_noirq()
+This is a respin of the series described at [1].
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+* From v2 [2]:
+  - Fixed the Xilinx driver, thanks to Bharat for testing it
+  - Dropped the no_msi attribute, and solely rely on msi_domain, which
+    has the same effect for the only platform that was using it.
+  - Fixed compilation on architectures that do not select the generic
+    MSI support
+
+* From v1:
+  - Extracted the changes dealing with the MSI capture address
+    for rcar and xilinx and moved them to separate patches
+  - Changed the rcar code to cope with c4e0fec2f7ee ("PCI: rcar: Always
+    allocate MSI addresses in 32bit space")
+  - Fixed rcar resume code
+  - Reworked commit messages
+  - Rebased onto v5.12-rc4
+  - Collected Acks, and TBs, with thanks.
+
+[1] https://lore.kernel.org/r/20210225151023.3642391-1-maz@kernel.org
+[2] https://lore.kernel.org/r/20210322184614.802565-1-maz@kernel.org
+
+Marc Zyngier (13):
+  PCI: tegra: Convert to MSI domains
+  PCI: rcar: Don't allocate extra memory for the MSI capture address
+  PCI: rcar: Convert to MSI domains
+  PCI: xilinx: Don't allocate extra memory for the MSI capture address
+  PCI: xilinx: Convert to MSI domains
+  PCI: hv: Drop msi_controller structure
+  PCI/MSI: Drop use of msi_controller from core code
+  PCI/MSI: Kill msi_controller structure
+  PCI/MSI: Kill default_teardown_msi_irqs()
+  PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
+  PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI
+    domains
+  PCI/MSI: Document the various ways of ending up with NO_MSI
+  PCI: Refactor HT advertising of NO_MSI flag
+
+Thomas Gleixner (1):
+  PCI: mediatek: Advertise lack of built-in MSI handling
+
+ drivers/pci/controller/Kconfig           |   4 +-
+ drivers/pci/controller/pci-host-common.c |   1 +
+ drivers/pci/controller/pci-hyperv.c      |   4 -
+ drivers/pci/controller/pci-tegra.c       | 343 ++++++++++++----------
+ drivers/pci/controller/pcie-mediatek.c   |   4 +
+ drivers/pci/controller/pcie-rcar-host.c  | 356 +++++++++++------------
+ drivers/pci/controller/pcie-xilinx.c     | 246 +++++++---------
+ drivers/pci/msi.c                        |  45 +--
+ drivers/pci/probe.c                      |   4 +-
+ drivers/pci/quirks.c                     |  15 +-
+ include/linux/msi.h                      |  17 +-
+ include/linux/pci.h                      |   3 +-
+ 12 files changed, 484 insertions(+), 558 deletions(-)
 
 -- 
-~Vinod
+2.29.2
+
