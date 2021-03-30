@@ -2,53 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4560934EC6D
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 17:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE8DC34EC89
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 17:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbhC3P3e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Mar 2021 11:29:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58542 "EHLO
+        id S232429AbhC3Pcs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Mar 2021 11:32:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231636AbhC3P3Y (ORCPT
+        with ESMTP id S231532AbhC3PcX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:29:24 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF19C061574;
-        Tue, 30 Mar 2021 08:29:23 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id b14so24396030lfv.8;
-        Tue, 30 Mar 2021 08:29:23 -0700 (PDT)
+        Tue, 30 Mar 2021 11:32:23 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEF7C061574;
+        Tue, 30 Mar 2021 08:32:23 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id i26so24360738lfl.1;
+        Tue, 30 Mar 2021 08:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OSsJ/4+KgnHiu5gezRczsING3scAbDi33DDKOpy2Q28=;
-        b=dOTBZNhnDGa7nDdY5+QtDDh48H+hcfPpTnDpCUbV/Fpi47iVCM5+kQe7Bd5hH+8/oh
-         nVvlCz204RTDlF9lWgnzhBSFr4oOYA3ONB75zwe5dISLTRY9o/3Xdwjjm87GEtIMNrXw
-         tpYBDG4VZEfS7dTli+6+2dVQ3mw5TtZ70CqIdNpKO6Z8juq5BYmDNgC0SWI3pXzFSBLC
-         GgLdRqe2dp/BQ/W4SRNGzUVmKVdyxKw/SBg3pKbK6AYdKAH4nPbHD/Fan4vP/1u8za5C
-         UpEXUraQAXOwOZmTT9xPq5QG0vcQAF9aSPbbrTQZ0XrPki/5KB41lwM8EHtz0Mk+N4Ps
-         LW6g==
+        bh=c2IZxiP/PHTUNylXu7cGThAF7WUnRTJb00OUl3ALDOE=;
+        b=V2WsCB9e+V4zvZcDi+ZiIVqL966DXzs5U1s6M1jZTGaLKgvlC4B/LL1fIdX3obzY5W
+         v4v0f+gQGfhvbjdqAgdmMnbQZf+8dKGXGlHa/ka+pQ9QgXqrDExWLpyiw6e0GiOzcEh1
+         ME0gJCTG+4vRvTSzZEqoq4l0W7gHBxSg6pzf9fGVt0bl6Du0r4Xy7mOpqtxDuOLN5TUz
+         ImgQ48ySQElZD0rVxrIn7Otmrceu+MzNz46m+b94mRa/tPr8IBXnOam6VeBNOV7M/tXl
+         SrqaffD19nG6GxBYX/ayZMP6/B3irEi+NYyWYvORNr5IXiKuGFIlXqdXf0eW1QZc3Bj4
+         GDuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=OSsJ/4+KgnHiu5gezRczsING3scAbDi33DDKOpy2Q28=;
-        b=L3iztkydrbC/sX5EgfoCVtjTWzZNG/wZpFR//sbOz5loQ2RF5uyNLvC0TzP3S6z38S
-         L++OgQHi8mB9hIMQyo0DoOpTcXfn2OEz9hh28/NTabPktTULJf2mbDTqrlcojcyCfnDc
-         cOAD6JIJxPN7d1OSj1PuY7pYm0HXSq+YRaiCovWquzasc9KpkE7//uQKlbobhXwNpm4e
-         +UmHbA0Gj4vmo9epYwseN2nGIEuq6QK9NDXbkmevXZUtJ6n2o2ztVCld5nsiAVgrUggQ
-         oY3pZ8e3m6bwG6LhHBGV54Mvvdo121z6WeYizxKd9xD8w1+T6dwEYMegj3sSzlDrJJWW
-         qvng==
-X-Gm-Message-State: AOAM532/5WY4F8gapYq52/qFefKaojG/qzb/OKXAaehPlSoYaDt6+sCw
-        xDa+QOGPcrvOTS6FP3OyeC9Unit7krs=
-X-Google-Smtp-Source: ABdhPJyKCU1iIoyVTxHNos8jN66if7O3aIGQJzgxIM5LJMHGkYFrvzuq6bdiWgUgY2yvRdMUYeADPg==
-X-Received: by 2002:ac2:41d4:: with SMTP id d20mr19473965lfi.213.1617118162380;
-        Tue, 30 Mar 2021 08:29:22 -0700 (PDT)
+        bh=c2IZxiP/PHTUNylXu7cGThAF7WUnRTJb00OUl3ALDOE=;
+        b=WcXJ+ABgCbuU25VTcENvVpyVq5KS9trgMne+AIkYKskk32tFumSvT9J8gXeJq4avSu
+         qhqf8UV79eBMHYP+zHyTAPCA3jOcoXq2Acer4eDyRCPN27bb4hxOusxxk6x1V/hZYby8
+         d53CVgl+xKYCX7mu2I+htcamQTjHX4rFBXsKJoCbc2p0ZEkDps95GwnQCJvw73GF0BqW
+         0QgYy9AXZh4vRII1f7X9TedtigFjdmGDxYbqOZZHVFZLsIzlbyt4/HxJLZVAGrVaQOS6
+         PCYhUU/j14U6nPvZ3N6DD4PzXTDTJTjWImwatNnhBU4VyczqB9dvD8SekvbSJMh6+lIq
+         VywQ==
+X-Gm-Message-State: AOAM532R1zYxEOk7K2Rbhi4sSV7q83BDbVc9xQCpx5HksdWCCCGDNOv8
+        UG7BIoO76taZWvTeU+h1tDe2ZQvfuks=
+X-Google-Smtp-Source: ABdhPJzl+nrn7AEc/akvrf/8yMHU22UkGVLpS22NsjqkyIingW81F7l/JaMXP09VghP8+TQqhk8mfQ==
+X-Received: by 2002:ac2:4c29:: with SMTP id u9mr16310671lfq.164.1617118341879;
+        Tue, 30 Mar 2021 08:32:21 -0700 (PDT)
 Received: from ?IPv6:2a00:1370:814d:b259:a10:76ff:fe69:21b6? ([2a00:1370:814d:b259:a10:76ff:fe69:21b6])
-        by smtp.googlemail.com with ESMTPSA id z7sm2743362ljo.64.2021.03.30.08.29.21
+        by smtp.googlemail.com with ESMTPSA id j22sm225899lfh.31.2021.03.30.08.32.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Mar 2021 08:29:22 -0700 (PDT)
+        Tue, 30 Mar 2021 08:32:21 -0700 (PDT)
 Subject: Re: [PATCH v1 5/6] dt-bindings: memory: tegra20: emc: Convert to
  schema
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
@@ -61,8 +61,8 @@ References: <20210329194602.17049-1-digetx@gmail.com>
  <20210329194602.17049-6-digetx@gmail.com>
  <7e45375c-3e24-4fc1-5776-190db32681e5@canonical.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <989c3c70-3f0c-abff-ed07-c2dea3b66a2d@gmail.com>
-Date:   Tue, 30 Mar 2021 18:29:21 +0300
+Message-ID: <2ded3a2d-6487-6e6d-d211-0cae45f4f948@gmail.com>
+Date:   Tue, 30 Mar 2021 18:32:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
@@ -75,16 +75,20 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 30.03.2021 11:48, Krzysztof Kozlowski пишет:
->> +  power-domains:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +  nvidia,use-ram-code:
+>> +    type: boolean
 >> +    description:
->> +      Phandle of the SoC "core" power domain.
-> I think the core checks the type, so you only need to limit max items.
+>> +      If present, the emc-tables@ sub-nodes will be addressed.
+>> +
+>> +patternProperties:
+>> +  "^emc-table@[0-9]+$":
+> This might not be easy but you should add constraints when emc-table and
+> emc-tables are expected. The schema should check if proper node is used
+> depending on "nvidia,use-ram-code".
 > 
 
-It's a bit confusing that both variants work and it's not apparent what
-variant is better.
+I'm afraid this is not doable. If you have an example how to do this,
+please share it with me.
 
-I actually used the max items limit initially and then changed it to
-$ref phandle because it appeared to me that it's a better choice. I'll
-switch back to the limit in v2, thanks.
+I see that there is a "dependencies:", but it doesn't work with the
+patterns, IIUC.
