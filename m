@@ -2,115 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D54FA34EC34
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 17:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A65634EC4D
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 17:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbhC3PYO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Mar 2021 11:24:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232141AbhC3PXo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:23:44 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 475E661957;
-        Tue, 30 Mar 2021 15:23:44 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1lRG2G-004i6i-Jk; Tue, 30 Mar 2021 16:12:04 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     Frank Wunderlich <frank-w@public-files.de>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
+        id S232249AbhC3P0V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Mar 2021 11:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232414AbhC3PZy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:25:54 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211B5C061574;
+        Tue, 30 Mar 2021 08:25:54 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id g8so24383215lfv.12;
+        Tue, 30 Mar 2021 08:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=K9oKxgqvv2xwBau1Hqc1C0nc0W0/3k1X3AJJxJXNHlw=;
+        b=riZgh56pSBWEI2KlhVFzOKqtIakRUv2TiK+4mA4ddeHBQWM17GSYZ8RcReJ267vN6V
+         UoaQUVVb4KjKKNazm1oCpcaFaEQ9ifXInEW6OYJrz8QRVhiNIB18hWTc91WauH4ug6kT
+         utS0lRG20DY4HgcQrqk9WYA8i6TIutOQMoXU167fROrUIzUtvN019aaNkSwbOnVFavsW
+         0AxbrZPUqYPQJYbxlKB1c/pdoKAmxkiMmbYmLNqpd4G06n/pvMfXLsLRO+fieNwBQwgK
+         a//sg2JYTPpE1+fZlcDRKF4twphtGhxru2sIQnpu4mIgzQ7mJHZdCBBGt9jJzBvWsUId
+         WZWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=K9oKxgqvv2xwBau1Hqc1C0nc0W0/3k1X3AJJxJXNHlw=;
+        b=LjNW4xBbnfKpi4giDkCVw+c9MO3kbiATpUbs7vaf0ksFhJLeojgWFROLYQ9oG7L2od
+         /+Fqos3RZV9GdiIFZig6lDeK0xc6FKEB/H7dzGP6zHLDFRbc/1CClPJz/9MOVFNyVils
+         o4wCH8SSMyGKGhB4rUDdwVVwWhHdoI6Lf4c6bQXVYC3Voe8egrKg1FNJyUAMXckfYGI2
+         PTon2h1O9YxEUkJUhJw3b5XvM7GHNOPiVCAizVTzdsW3I8+HvUiH1yzARYqBxCiq4zd0
+         BoJPdDPI3fzlBLUKQ9GJllSyxwk8OCvbfjA5ztnimTW4lNRllxg3qoNFyYhbuV5Xj4im
+         ZmXw==
+X-Gm-Message-State: AOAM533Yus32Fz43hJF3N45FYwgYf+un2qWOf+s5cZcaJ8B5hkOj3XR8
+        Y2TRis/HdM+vRO+Ctgwqz5lXWRsjL7w=
+X-Google-Smtp-Source: ABdhPJxCUFN6zd35wS+i0XgOlbBP3JG3hD1SrZ/qjhEk4br+UaZhUqcu0/+HyiFLlOP0eUATWhPtxQ==
+X-Received: by 2002:a19:c3ca:: with SMTP id t193mr20087984lff.331.1617117952541;
+        Tue, 30 Mar 2021 08:25:52 -0700 (PDT)
+Received: from ?IPv6:2a00:1370:814d:b259:a10:76ff:fe69:21b6? ([2a00:1370:814d:b259:a10:76ff:fe69:21b6])
+        by smtp.googlemail.com with ESMTPSA id c12sm2199353lfb.284.2021.03.30.08.25.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Mar 2021 08:25:52 -0700 (PDT)
+Subject: Re: [PATCH v1 4/6] dt-bindings: memory: tegra20: mc: Convert to
+ schema
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Bharat Kumar Gogada <bharatku@xilinx.com>,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v3 14/14] PCI: Refactor HT advertising of NO_MSI flag
-Date:   Tue, 30 Mar 2021 16:11:45 +0100
-Message-Id: <20210330151145.997953-15-maz@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
-References: <20210330151145.997953-1-maz@kernel.org>
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20210329194602.17049-1-digetx@gmail.com>
+ <20210329194602.17049-5-digetx@gmail.com>
+ <01daabba-9023-8d78-9386-99b974d46faf@canonical.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b638a15f-c824-0b00-bc9a-25759512b7db@gmail.com>
+Date:   Tue, 30 Mar 2021 18:25:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <01daabba-9023-8d78-9386-99b974d46faf@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, mikelley@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, bharatku@xilinx.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The few quirks that deal with NO_MSI tend to be copy-paste heavy.
-Refactor them so that the hierarchy of conditions is slightly
-cleaner.
+30.03.2021 11:37, Krzysztof Kozlowski пишет:
+>> +properties:
+>> +  compatible:
+>> +    const: nvidia,tegra20-mc-gart
+>> +
+>> +  reg:
+>> +    minItems: 1
+>> +    maxItems: 2
+> I think you always need two regs, don't you? If so, then better to use
+> "description" like in
+> Documentation/devicetree/bindings/example-schema.yaml to describe which
+> set is for which range/purpose.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/pci/quirks.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+I did this because the original example from the txt binding was failing
+with:
 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 653660e3ba9e..972bb0f9f994 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -2585,10 +2585,8 @@ static int msi_ht_cap_enabled(struct pci_dev *dev)
- /* Check the HyperTransport MSI mapping to know whether MSI is enabled or not */
- static void quirk_msi_ht_cap(struct pci_dev *dev)
- {
--	if (dev->subordinate && !msi_ht_cap_enabled(dev)) {
--		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
--		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
--	}
-+	if (!msi_ht_cap_enabled(dev))
-+		quirk_disable_msi(dev);
- }
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_SERVERWORKS, PCI_DEVICE_ID_SERVERWORKS_HT2000_PCIE,
- 			quirk_msi_ht_cap);
-@@ -2601,9 +2599,6 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
- {
- 	struct pci_dev *pdev;
- 
--	if (!dev->subordinate)
--		return;
--
- 	/*
- 	 * Check HT MSI cap on this chipset and the root one.  A single one
- 	 * having MSI is enough to be sure that MSI is supported.
-@@ -2611,10 +2606,8 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
- 	pdev = pci_get_slot(dev->bus, 0);
- 	if (!pdev)
- 		return;
--	if (!msi_ht_cap_enabled(dev) && !msi_ht_cap_enabled(pdev)) {
--		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
--		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
--	}
-+	if (!msi_ht_cap_enabled(pdev))
-+		quirk_msi_ht_cap(dev);
- 	pci_dev_put(pdev);
- }
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, PCI_DEVICE_ID_NVIDIA_CK804_PCIE,
--- 
-2.29.2
+Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.example.dt.yaml:
+memory-controller@7000f000: reg: [[1879109632, 1024, 1476395008,
+33554432]] is too short
 
+But then I just corrected the example and forgot to change the reg
+entry. I'll fix it in v2, thanks.
