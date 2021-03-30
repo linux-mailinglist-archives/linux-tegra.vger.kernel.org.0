@@ -2,67 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE83634F2DA
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 23:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3646334F2DC
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Mar 2021 23:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232636AbhC3VMi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S232558AbhC3VMi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Tue, 30 Mar 2021 17:12:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48280 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232558AbhC3VMO (ORCPT
+        with ESMTP id S232560AbhC3VMX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Mar 2021 17:12:14 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 000BAC061574
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Mar 2021 14:12:13 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id n138so25906001lfa.3
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Mar 2021 14:12:13 -0700 (PDT)
+        Tue, 30 Mar 2021 17:12:23 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE66C061574
+        for <linux-tegra@vger.kernel.org>; Tue, 30 Mar 2021 14:12:22 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id s17so21450587ljc.5
+        for <linux-tegra@vger.kernel.org>; Tue, 30 Mar 2021 14:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Dm71ZieA9ZB7ge1ol10am2Znew0nDw7ySgXhHMyKoWw=;
-        b=P7FwY80scTh+AZuDelUQ2acmWIswjipAe8pTO/H2dqmCQspsjq74SbRQV0V6zPD5ke
-         V3kgpBRJt3/+Kc1v2tRTZDMUtDTD2GmpM/QjFXnnvkvjiyYzaPVrGSPmZoORTtrDOCH9
-         +f6HBQTQ/LBJ8YXVN9fluLfTdJLioIg0Fw2h6yEM1vLOE4aWDsnfdltqxyyhix5SEAdZ
-         OmW0zLVAS4i+rgaM4SaD6GlIpNFtD2GaOwa5Vxs0Ha01P90ooyKRNZLHCJjvZvH0SwHr
-         wFHbp0n9oCi3ffJckC0DwwJNZshrl5z0Ka94WQ/f6OS9TMuiQV/9m/jWuw8bANyR6dPC
-         BJwg==
+        bh=txu5B3L7eP4j1N+cIql31D7dSawJ91f2aT78Kr4BqJo=;
+        b=WoSJr6x1WghvNNJvOK+/G4gU9L6G25yzlwxCHbTdAnjh/grTv28MleTfUTuvApL1Kk
+         l7e2p4TeoThi6NZSLvqqgXGWHRnRxniAlPOnhJH4kibG9S6de5iaVUXFhx6PpvoDDpZ+
+         aDKzYYZvascaVa01OzxEoWfZQkmAwKSDSC19X3eMM2jZcw++M3sSwd13hwbCgb+ZdImg
+         Mjt731XJ9TJrcF8QGt3tCuVT/GWixmMPmtIsq+dBYOyZOrmUt5ghXt1g+ebXAzDbSQvK
+         uPSrMSp5JhlaMcylAOU/jU8mu3ian4eiSg+3GPbzPdPFvP4+dYY5FkvfkaCAXskFLQ1H
+         GLig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Dm71ZieA9ZB7ge1ol10am2Znew0nDw7ySgXhHMyKoWw=;
-        b=pts7YXpbug2EPL3XJ0+2dhQVCLFAsm1sK+tDFA0kFbCMLtfrZCwnDllIz9vzy0Q+iM
-         AtHpq1kdWLJkhJN/Dpk3XsdqoxaXeyfwqUYixP9PHBuUeTT39TCuZya6426aLd+HxAo7
-         Sj5fVsoRGSGKwEraRzwnehLYJltmldkHA+0cWID16DSfQbGmGTQW4Y0w1O+c0obLKKHd
-         h9IUaS7Fe4DqDSPeMTzJOg23MuFQj6xRAov4RvhzFuBr+mLxxKo+btWGI+Xmd69kuO7c
-         uGExClAqa8ZIRARRGEC935DkvqWrkbppvd05+jF9YsV0WU4k1KGCLiV0s0u0T5Wtu4Fp
-         Af0A==
-X-Gm-Message-State: AOAM533ZtzyyFC9RXf/JVD5xJ1HnCCyTDIFsrW3mSemvH7VnUxExRUbe
-        oz6avIC//DH90pb8S5iuwrE=
-X-Google-Smtp-Source: ABdhPJwsyeB5bJNOdZS1Hb5dmfPxDSLYKAprsDi3pNdEkKJdc7WQaCda6Sr1xo57jfEbsZkk8JQiFw==
-X-Received: by 2002:a05:6512:38d0:: with SMTP id p16mr57132lft.208.1617138732563;
-        Tue, 30 Mar 2021 14:12:12 -0700 (PDT)
+        bh=txu5B3L7eP4j1N+cIql31D7dSawJ91f2aT78Kr4BqJo=;
+        b=cIvlybiO0gt2GiU5KsJDuUNi9HIR+lTE9uchc03q2bzBOFFQ1R6DO1eMUDIYTXGWxe
+         jRVNcb2mtLTDZ7ezkgkY9IQuNi5Po1KJQWSy4Sa9S9BE4wlr/ftRgwiwr2ittWwamWqE
+         9vxbuacGGa1LjDQKbwd0Y4TtEYlIvKf2db9w+QlhLlcxumW48hXmJ3fXPVC10mT0yHVJ
+         jOu8bXqSStTrbBmw7iA6OPIe6gwqMBMQaOv25JXyLHeHCKebD2Wr1LejTaHuG7bfGrUf
+         +ALCfL+0tJUOWnuNDnyoaZZOAeNEADaz7s3iJg7NCwZu0lkyDlApsEINo1uU9kA5rKaC
+         sZFQ==
+X-Gm-Message-State: AOAM531Wu+fJWJ64v+5sN1Twh7Lw8lEbQeUBs9uoskFFm/vPGAu3EhTa
+        nEWkIjJhsBpK5oro8JNv1ls=
+X-Google-Smtp-Source: ABdhPJw8qo2aRrzetMrR0iXScpsd9j7WHeMPS5ueABHKr08dQHrWy9prL/yRc6Zn//UEXUEg6AliaQ==
+X-Received: by 2002:a2e:9bd0:: with SMTP id w16mr58429ljj.465.1617138741316;
+        Tue, 30 Mar 2021 14:12:21 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-193-98.dynamic.spd-mgts.ru. [109.252.193.98])
-        by smtp.googlemail.com with ESMTPSA id j8sm2924589lji.8.2021.03.30.14.12.12
+        by smtp.googlemail.com with ESMTPSA id f17sm2748lfh.21.2021.03.30.14.12.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Mar 2021 14:12:12 -0700 (PDT)
-Subject: Re: [PATCH v6 05/10] gpu: host1x: Use HW-equivalent syncpoint
- expiration check
+        Tue, 30 Mar 2021 14:12:21 -0700 (PDT)
+Subject: Re: [PATCH v6 03/10] gpu: host1x: Show number of pending waiters in
+ debugfs
 To:     Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
         jonathanh@nvidia.com
 Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 References: <20210329133836.2115236-1-mperttunen@nvidia.com>
- <20210329133836.2115236-6-mperttunen@nvidia.com>
+ <20210329133836.2115236-4-mperttunen@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <61e24311-7b61-64af-e7ee-61e5aa776bab@gmail.com>
-Date:   Wed, 31 Mar 2021 00:12:11 +0300
+Message-ID: <ecc00d79-6963-c18b-36df-c8c57e2824ea@gmail.com>
+Date:   Wed, 31 Mar 2021 00:12:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210329133836.2115236-6-mperttunen@nvidia.com>
+In-Reply-To: <20210329133836.2115236-4-mperttunen@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,88 +71,50 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 29.03.2021 16:38, Mikko Perttunen пишет:
-> Make syncpoint expiration checks always use the same logic used by
-> the hardware. This ensures that there are no race conditions that
-> could occur because of the hardware triggering a syncpoint interrupt
-> and then the driver disagreeing.
-> 
-> One situation where this could occur is if a job incremented a
-> syncpoint too many times -- then the hardware would trigger an
-> interrupt, but the driver would assume that a syncpoint value
-> greater than the syncpoint's max value is in the future, and not
-> clean up the job.
+> Show the number of pending waiters in the debugfs status file.
+> This is useful for testing to verify that waiters do not leak
+> or accumulate incorrectly.
 > 
 > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  drivers/gpu/host1x/syncpt.c | 51 ++-----------------------------------
->  1 file changed, 2 insertions(+), 49 deletions(-)
+>  drivers/gpu/host1x/debug.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-> index f061dfd5bbc7..8da4bbce8b9d 100644
-> --- a/drivers/gpu/host1x/syncpt.c
-> +++ b/drivers/gpu/host1x/syncpt.c
-> @@ -321,59 +321,12 @@ EXPORT_SYMBOL(host1x_syncpt_wait);
->  bool host1x_syncpt_is_expired(struct host1x_syncpt *sp, u32 thresh)
+> diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
+> index 1b4997bda1c7..8a14880c61bb 100644
+> --- a/drivers/gpu/host1x/debug.c
+> +++ b/drivers/gpu/host1x/debug.c
+> @@ -69,6 +69,7 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
+>  
+>  static void show_syncpts(struct host1x *m, struct output *o)
 >  {
->  	u32 current_val;
-> -	u32 future_val;
+> +	struct list_head *pos;
+>  	unsigned int i;
 >  
->  	smp_rmb();
+>  	host1x_debug_output(o, "---- syncpts ----\n");
+> @@ -76,12 +77,19 @@ static void show_syncpts(struct host1x *m, struct output *o)
+>  	for (i = 0; i < host1x_syncpt_nb_pts(m); i++) {
+>  		u32 max = host1x_syncpt_read_max(m->syncpt + i);
+>  		u32 min = host1x_syncpt_load(m->syncpt + i);
+> +		unsigned int waiters = 0;
 >  
->  	current_val = (u32)atomic_read(&sp->min_val);
-> -	future_val = (u32)atomic_read(&sp->max_val);
-> -
-> -	/* Note the use of unsigned arithmetic here (mod 1<<32).
-> -	 *
-> -	 * c = current_val = min_val	= the current value of the syncpoint.
-> -	 * t = thresh			= the value we are checking
-> -	 * f = future_val  = max_val	= the value c will reach when all
-> -	 *				  outstanding increments have completed.
-> -	 *
-> -	 * Note that c always chases f until it reaches f.
-> -	 *
-> -	 * Dtf = (f - t)
-> -	 * Dtc = (c - t)
-> -	 *
-> -	 *  Consider all cases:
-> -	 *
-> -	 *	A) .....c..t..f.....	Dtf < Dtc	need to wait
-> -	 *	B) .....c.....f..t..	Dtf > Dtc	expired
-> -	 *	C) ..t..c.....f.....	Dtf > Dtc	expired	   (Dct very large)
-> -	 *
-> -	 *  Any case where f==c: always expired (for any t).	Dtf == Dcf
-> -	 *  Any case where t==c: always expired (for any f).	Dtf >= Dtc (because Dtc==0)
-> -	 *  Any case where t==f!=c: always wait.		Dtf <  Dtc (because Dtf==0,
-> -	 *							Dtc!=0)
-> -	 *
-> -	 *  Other cases:
-> -	 *
-> -	 *	A) .....t..f..c.....	Dtf < Dtc	need to wait
-> -	 *	A) .....f..c..t.....	Dtf < Dtc	need to wait
-> -	 *	A) .....f..t..c.....	Dtf > Dtc	expired
-> -	 *
-> -	 *   So:
-> -	 *	   Dtf >= Dtc implies EXPIRED	(return true)
-> -	 *	   Dtf <  Dtc implies WAIT	(return false)
-> -	 *
-> -	 * Note: If t is expired then we *cannot* wait on it. We would wait
-> -	 * forever (hang the system).
-> -	 *
-> -	 * Note: do NOT get clever and remove the -thresh from both sides. It
-> -	 * is NOT the same.
-> -	 *
-> -	 * If future valueis zero, we have a client managed sync point. In that
-> -	 * case we do a direct comparison.
-> -	 */
-> -	if (!host1x_syncpt_client_managed(sp))
-> -		return future_val - thresh >= current_val - thresh;
-> -	else
-> -		return (s32)(current_val - thresh) >= 0;
+> -		if (!min && !max)
+> +		spin_lock(&m->syncpt[i].intr.lock);
+> +		list_for_each(pos, &m->syncpt[i].intr.wait_head)
+> +			waiters++;
+> +		spin_unlock(&m->syncpt[i].intr.lock);
 > +
-> +	return ((current_val - thresh) & 0x80000000U) == 0U;
->  }
+> +		if (!min && !max && !waiters)
+>  			continue;
 >  
->  int host1x_syncpt_init(struct host1x *host)
+> -		host1x_debug_output(o, "id %u (%s) min %d max %d\n",
+> -				    i, m->syncpt[i].name, min, max);
+> +		host1x_debug_output(o,
+> +				    "id %u (%s) min %d max %d (%d waiters)\n",
+> +				    i, m->syncpt[i].name, min, max, waiters);
+>  	}
+>  
+>  	for (i = 0; i < host1x_syncpt_nb_bases(m); i++) {
 > 
 
 Tested-by: Dmitry Osipenko <digetx@gmail.com>
