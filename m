@@ -2,114 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3223135022A
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Mar 2021 16:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E16B83502DD
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Mar 2021 17:00:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236062AbhCaO2G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 31 Mar 2021 10:28:06 -0400
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:40827 "EHLO
-        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235951AbhCaO2A (ORCPT
+        id S236166AbhCaPAA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 31 Mar 2021 11:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235987AbhCaO7p (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 31 Mar 2021 10:28:00 -0400
-Received: by mail-ot1-f52.google.com with SMTP id w31-20020a9d36220000b02901f2cbfc9743so19081306otb.7;
-        Wed, 31 Mar 2021 07:28:00 -0700 (PDT)
+        Wed, 31 Mar 2021 10:59:45 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3FE0C061574;
+        Wed, 31 Mar 2021 07:59:42 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id n138so29620012lfa.3;
+        Wed, 31 Mar 2021 07:59:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PsO89NOx80DUPq/uoqBfqzP3oyAMU/I135Iw3m4lDgM=;
+        b=l0hxprmLlYVfUUB4XOawxL21b7Mnqt1Tj5hOz4aCWZLoGkiocEAY3EIbRMDvZB9T0S
+         LTtsIBrykLpWKN3iH4v609s/WtQ5u8VwXQuMInZbGKj5yv0aMplLf5K4faExnwIZFsAj
+         YB0z5KfNXg8JhfB2EeAS1E3rTM0R5/LjbBAJs1wswgbgRduHlHVa1h7GU3drNZbWpGHC
+         65krI08iZU4q6rtsxYNDSeYVaok/9r7N34HAdda6kv1uMDImA91t5lkbLeLr+PSxH4Wr
+         JzYr2kpPpBwvYSZZAGTLF7kqsDy3BVtjfDWpLKacEufrqZnky01B00N7KFc58xxcxe/a
+         IgOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=a5L9Gfl5bF9CWxUCr8sVjvHZWCe8RrXgbQdGFig1nYs=;
-        b=IZkJCgd74DfkKmCuO1NJUr4ju9yJqO72gePDRAHWDarScho1v1ad0rpqB9iMp9Q6UA
-         B9cIMIGNwf4v2HLuEu4ApAjx7obeoCd6n21MzeksFs8JLawMwbZnPJkGT/mVb9J//2nk
-         ydu3nbpHSw0Xafo4sx2vDM16wz+IbpQNuBBExq2nhgKDrufjhqUNx/H4ztGiYP7MujF3
-         Wnxd49HrosbxNpTkbIG7aZWWMcQvcTv1CJgCvgWENQ/IKHMtIBr+MRob+Hrxs90HHZQX
-         FWM6QKDWq2DJvzjIS9mjn/htuyuAKnoJ6derEaRdpMVT6b/OMNtIGhRhUIyHhkkWj/Dz
-         aY8w==
-X-Gm-Message-State: AOAM532mrnBLpRit1qfVv8KNeNv+yKKu4D15kU7D2Ke8+7k9Fw5BxXbx
-        pTkB5jr2W1m0z9326CUJlupZCAToPg==
-X-Google-Smtp-Source: ABdhPJyOs4V5V3Q3Hn8BauTqhypFGiAuWczQrsYjG6DCb8QtcbtJDsu+mU39XCkUHElkU3lAcJXO9g==
-X-Received: by 2002:a9d:68d7:: with SMTP id i23mr3005001oto.133.1617200879927;
-        Wed, 31 Mar 2021 07:27:59 -0700 (PDT)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.googlemail.com with ESMTPSA id v136sm451146oie.15.2021.03.31.07.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 07:27:56 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PsO89NOx80DUPq/uoqBfqzP3oyAMU/I135Iw3m4lDgM=;
+        b=s7oNq8ec18htY2PL7noR4eitDqW953lm1c7KlMvzP6oKGHmfw+ReIh1Xt0gmVHCV3q
+         /Cs1ALNoC13eIgL2RSQhF9oZDOAjcpyoDRcG+VKxy7dumaLnZiV/yq5ZZeue/+d/fWo7
+         vpBnnQj8env1vhJhY+ZTJFKx2fRzNdd6f9jZCZgL1ltfMzXpT0HEEcU/Byjw0sjAbhnM
+         FF7rXxIVQoY+gy1fAUMwMlEHkvVVIZvU5a2JGdOLyWwjKLQ/aZaGwkNYt7DWD9x6EIsK
+         pdtZUJ9dq0ghTLYnIyAdqGO3aejg/FhU9+Hsys8mx49c3NSj5ZIEi38B+S/LJgbjdcl5
+         tbGw==
+X-Gm-Message-State: AOAM531mLSlGwcaShmMRCpyHsnGz7bEIz4cgE+plYViMMx1Fape9GOfE
+        S1vksTQbvk7xCV5HXU9dQsXvIaswud25lg==
+X-Google-Smtp-Source: ABdhPJx8es0d3p6vHRKIE2PW9CFQRyDk59ibGGL5NkPTZv7S9RNLZEkG8zAX1hwSptm5jyU2pU63Aw==
+X-Received: by 2002:ac2:58cf:: with SMTP id u15mr2423994lfo.397.1617202781069;
+        Wed, 31 Mar 2021 07:59:41 -0700 (PDT)
+Received: from ?IPv6:2a00:1370:814d:c71f:a10:76ff:fe69:21b6? ([2a00:1370:814d:c71f:a10:76ff:fe69:21b6])
+        by smtp.googlemail.com with ESMTPSA id f20sm262375ljn.123.2021.03.31.07.59.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Mar 2021 07:59:40 -0700 (PDT)
+Subject: Re: [PATCH v2 5/6] dt-bindings: memory: tegra20: emc: Convert to
+ schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Sameer Pujar <spujar@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 3/3] ASoC: dt-bindings: socionext: Use audio-graph-port schema
-Date:   Wed, 31 Mar 2021 09:27:48 -0500
-Message-Id: <20210331142748.2163272-4-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210331142748.2163272-1-robh@kernel.org>
-References: <20210331142748.2163272-1-robh@kernel.org>
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210330230445.26619-1-digetx@gmail.com>
+ <20210330230445.26619-6-digetx@gmail.com>
+ <1617198059.590387.2074856.nullmailer@robh.at.kernel.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b4f7c7fb-1332-8490-fb4f-293fd357338e@gmail.com>
+Date:   Wed, 31 Mar 2021 17:59:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <1617198059.590387.2074856.nullmailer@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Convert the Socionext audio schemas to use audio-graph-port.yaml schema
-for 'port' nodes.
+31.03.2021 16:40, Rob Herring пишет:
+> On Wed, 31 Mar 2021 02:04:44 +0300, Dmitry Osipenko wrote:
+>> Convert Tegra20 External Memory Controller binding to schema.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  .../memory-controllers/nvidia,tegra20-emc.txt | 130 --------
+>>  .../nvidia,tegra20-emc.yaml                   | 294 ++++++++++++++++++
+>>  2 files changed, 294 insertions(+), 130 deletions(-)
+>>  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+>>  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
+>>
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.example.dts:33.26-55.15: Warning (unit_address_vs_reg): /example-0/external-memory-controller@7000f400/emc-tables@0: node has a unit name, but no reg or ranges property
+> 
+> See https://patchwork.ozlabs.org/patch/1460288
+> 
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit.
+> 
 
-The number and numbering of port nodes should be documented, but is not.
-Leave a FIXME here so others don't copy.
-
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/sound/socionext,uniphier-aio.yaml | 8 +++-----
- .../bindings/sound/socionext,uniphier-evea.yaml           | 8 +++-----
- 2 files changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/socionext,uniphier-aio.yaml b/Documentation/devicetree/bindings/sound/socionext,uniphier-aio.yaml
-index 4987eb91f2ab..55ae198220f4 100644
---- a/Documentation/devicetree/bindings/sound/socionext,uniphier-aio.yaml
-+++ b/Documentation/devicetree/bindings/sound/socionext,uniphier-aio.yaml
-@@ -46,11 +46,9 @@ properties:
- 
- patternProperties:
-   "^port@[0-9]$":
--    type: object
--    properties:
--      endpoint: true
--    required:
--      - endpoint
-+    description: FIXME, Need to define what each port is.
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
- 
- additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/sound/socionext,uniphier-evea.yaml b/Documentation/devicetree/bindings/sound/socionext,uniphier-evea.yaml
-index 228168f685cf..48ddfcbbcbae 100644
---- a/Documentation/devicetree/bindings/sound/socionext,uniphier-evea.yaml
-+++ b/Documentation/devicetree/bindings/sound/socionext,uniphier-evea.yaml
-@@ -40,11 +40,9 @@ properties:
- 
- patternProperties:
-   "^port@[0-9]$":
--    type: object
--    properties:
--      endpoint: true
--    required:
--      - endpoint
-+    description: FIXME, Need to define what each port is.
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
- 
- additionalProperties: false
- 
--- 
-2.27.0
-
+FYI, I'm aware about this warning and I think it's fine to skip it in
+the case of this binding. The dtbs_check doesn't bother with that warning.
