@@ -2,110 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3246D351963
-	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 20:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7593C351E4B
+	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 20:53:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235461AbhDARxG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 1 Apr 2021 13:53:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236841AbhDARre (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:47:34 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4846FC0319D7
-        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:08 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id h10so2786346edt.13
-        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KFyIg8syNYPFzhmphZGsN0/P5BjL76RGwMywZZQhQ6c=;
-        b=nvTC5y589Fz/gj87Pv5YA9OmIoYiI3vwoAOpWITntQYOll/KEaz8X20wO9hoVRcw4E
-         chE8IvLnNqOcIC+3TaSeWXe3FXsM7JOmQTtn+/q74qyh73IlvDC2rItOxKi76eRm0R5J
-         uczD62U9ZYoncx4VbDAWzo7Bk4XfQn8RSFWfY9wgqXWLytg3h69vztqRHUsgs/UamSEW
-         fFeNsREl325yllSCy9MMzuv4eYJXvsikbgegvtSeAnicVNDrSgkyVTBVWTNv3WYmvCQc
-         w3ZbV0OzLDnv/enXIqlfLqmfMVvmK+ut14Vq1RL/jnVz2SYCiIvRrrUdBIqpBC74CZYG
-         krtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KFyIg8syNYPFzhmphZGsN0/P5BjL76RGwMywZZQhQ6c=;
-        b=ruWZrTu1+vUTwUPIuYilnRmn41974mH4ZNC8JWjcopjhP1vj6mWZb35jdSsGBdsIfX
-         4bCVJteFSVugjnigIfHjKX68UGZOlWTev4bpC6PX9dO8V6q8WD9/jU0zybrEOxMExWOO
-         RQ9SGKQHo6zc27r2kEqBamKkZo79td0uq11g4dT0dYgpk2fLMYEmfvK4ZkFo0Trk+eEe
-         njh83AxCzUPrRR9irNytJr1Jyx7a3/SRNPqmeNV02u2QQ5nDWbcSsWfHymbhFD0wWMcZ
-         5tB1q5w+XqdiioitnRZqHwoYWxjMgfJmJZhtnkFPedipaNR1U+SvxPCyj+66E2sz7Pxf
-         l45g==
-X-Gm-Message-State: AOAM5309hGkEdK4rt9vlHl6YIwOTM8Jtqgpgi+qIeG9WbHOgmKmHwmkl
-        sEB2mKAip6/9uzo1U/L44C0=
-X-Google-Smtp-Source: ABdhPJzHLEVoJiG2OIvfg61ZJ+n48ibWJdHJA6V35LhUTvqh/mUPrd8q/IsIyh5iDD/AyxbRLrbR3A==
-X-Received: by 2002:aa7:c1d5:: with SMTP id d21mr10816258edp.167.1617297967004;
-        Thu, 01 Apr 2021 10:26:07 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id hb19sm3045144ejb.11.2021.04.01.10.26.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 10:26:05 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     arm@kernel.org, soc@kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        id S237088AbhDASiA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 1 Apr 2021 14:38:00 -0400
+Received: from foss.arm.com ([217.140.110.172]:46726 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240340AbhDASaH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:30:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4AD3D6E;
+        Thu,  1 Apr 2021 04:27:53 -0700 (PDT)
+Received: from e123427-lin.arm.com (unknown [10.57.56.129])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D3193F694;
+        Thu,  1 Apr 2021 04:27:49 -0700 (PDT)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>, Marc Zyngier <maz@kernel.org>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>, linux-pci@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bharat Kumar Gogada <bharatku@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        linux-hyperv@vger.kernel.org, Will Deacon <will@kernel.org>,
+        kernel-team@android.com, Michael Kelley <mikelley@microsoft.com>,
+        linux-kernel@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 5/5] arm64: tegra: Device tree fixes for v5.12-rc6
-Date:   Thu,  1 Apr 2021 19:26:22 +0200
-Message-Id: <20210401172622.3352990-5-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210401172622.3352990-1-thierry.reding@gmail.com>
-References: <20210401172622.3352990-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v3 00/14] PCI/MSI: Getting rid of msi_controller, and other cleanups
+Date:   Thu,  1 Apr 2021 12:27:42 +0100
+Message-Id: <161727636757.32506.11592578621890085687.b4-ty@arm.com>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
+References: <20210330151145.997953-1-maz@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi ARM SoC maintainers,
+On Tue, 30 Mar 2021 16:11:31 +0100, Marc Zyngier wrote:
+> This is a respin of the series described at [1].
+> 
+> * From v2 [2]:
+>   - Fixed the Xilinx driver, thanks to Bharat for testing it
+>   - Dropped the no_msi attribute, and solely rely on msi_domain, which
+>     has the same effect for the only platform that was using it.
+>   - Fixed compilation on architectures that do not select the generic
+>     MSI support
+> 
+> [...]
 
-The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
+I have applied it to pci/msi and should be moved into -next shortly
+for further testing/visibility, thanks a lot for putting it together.
 
-  Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-arm64-dt
-
-for you to fetch changes up to 405fa9e9d8664e830982c5fbcb70f9ba8656bafc:
-
-  arm64: tegra: Move clocks from RT5658 endpoint to device node (2021-03-25 14:04:49 +0100)
+[01/14] PCI: tegra: Convert to MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/973a28677e
+[02/14] PCI: rcar: Don't allocate extra memory for the MSI capture address
+        https://git.kernel.org/lpieralisi/pci/c/c244dc15dc
+[03/14] PCI: rcar: Convert to MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/516286287d
+[04/14] PCI: xilinx: Don't allocate extra memory for the MSI capture address
+        https://git.kernel.org/lpieralisi/pci/c/cc8cf90738
+[05/14] PCI: xilinx: Convert to MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/b66873599e
+[06/14] PCI: hv: Drop msi_controller structure
+        https://git.kernel.org/lpieralisi/pci/c/65b131816a
+[07/14] PCI/MSI: Drop use of msi_controller from core code
+        https://git.kernel.org/lpieralisi/pci/c/54729d2a7a
+[08/14] PCI/MSI: Kill msi_controller structure
+        https://git.kernel.org/lpieralisi/pci/c/27278a3fac
+[09/14] PCI/MSI: Kill default_teardown_msi_irqs()
+        https://git.kernel.org/lpieralisi/pci/c/f68f571db9
+[10/14] PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/419150a4ff
+[11/14] PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/98be0634c8
+[12/14] PCI: mediatek: Advertise lack of built-in MSI handling
+        https://git.kernel.org/lpieralisi/pci/c/77cbd88c90
+[13/14] PCI/MSI: Document the various ways of ending up with NO_MSI
+        https://git.kernel.org/lpieralisi/pci/c/44ec480daf
+[14/14] PCI: Refactor HT advertising of NO_MSI flag
+        https://git.kernel.org/lpieralisi/pci/c/18d56e5afe
 
 Thanks,
-Thierry
-
-----------------------------------------------------------------
-arm64: tegra: Device tree fixes for v5.12-rc6
-
-This contains a couple of device tree fixes for the v5.12 release cycle.
-These are needed for proper audio support on Jetson AGX Xavier, to boot
-the Jetson Xavier NX from an SD card and to be able to suspend/resume
-the Jetson TX2.
-
-----------------------------------------------------------------
-Jon Hunter (2):
-      arm64: tegra: Set fw_devlink=on for Jetson TX2
-      arm64: tegra: Fix mmc0 alias for Jetson Xavier NX
-
-Sameer Pujar (1):
-      arm64: tegra: Move clocks from RT5658 endpoint to device node
-
-Thierry Reding (1):
-      arm64: tegra: Add unit-address for ACONNECT on Tegra186
-
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts  | 2 +-
- arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi      | 2 +-
- arch/arm64/boot/dts/nvidia/tegra186.dtsi            | 2 +-
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts  | 3 ++-
- arch/arm64/boot/dts/nvidia/tegra194-p3668-0000.dtsi | 4 ++++
- arch/arm64/boot/dts/nvidia/tegra194-p3668-0001.dtsi | 4 ++++
- arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi      | 1 -
- 7 files changed, 13 insertions(+), 5 deletions(-)
+Lorenzo
