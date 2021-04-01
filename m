@@ -2,60 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E027351961
-	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 20:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D09C93519DF
+	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 20:03:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235440AbhDARxF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 1 Apr 2021 13:53:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59564 "EHLO
+        id S236521AbhDAR4q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 1 Apr 2021 13:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236833AbhDARrc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:47:32 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E71FC0319D3
-        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:00 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id dm8so2826890edb.2
-        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:00 -0700 (PDT)
+        with ESMTP id S234536AbhDARw3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:52:29 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30780C0319D5
+        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:04 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id jy13so4036814ejc.2
+        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GMblnBVnulvH6aIz/MT4g7SaDY1kdi5Yx0m1X2b/Wlo=;
-        b=fuyL0AYiFQMbYBbNkrX575nXxWE6ZHj11DzMJQBH1+mP9DtWhaygZLhBkV9LoFQYtm
-         v/LidO0rpF6xO4zfEPbImcjWuftBSNbQ00SH3IG1FYq6YEmW+zvQ4DNId6zsJUBcouBa
-         6Ejrtq33xQpGdjGYwDjuNm7P2btNs552vHU+rnUzGEQIuQ+WM3VJkxEDKvQ2p5E+b+he
-         bT2S37DOn8zPIE5hFB7FapdhrXM+QeEeXnBMs9UcREGhbp/kFQFaQhYnEyOi7suZ9Tfg
-         oloCyMXRhsY+u2PmZQLD9JEzf6Q0a5JBR3J+Ulb9aqsmQgblZ16/1K3+ULsbW8ruaepW
-         3J5A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2Omm+oEQ1soNxmNoKODfBvftl8Wbkbkn+2eacAPkZvY=;
+        b=tsob7xXrkZ7jnS1kyYuhptSfIT3jomtbs2ZL11Wx/MdFuYfvO+yhUBC3PtK5wKv/G1
+         bUHi7XHiZGnuymA9UO6GywV42BrngqwFiLl4mCvIJfYZOiPHZBYYqsPJoYX16rtougkB
+         Mm7zOyWeN7hnRnseW5t0Ez69gyIlMlLGKNHNppjYlfUAyNz5otEm49so0E1HnKmUUJA7
+         ONEzdvUFel2XYMRMsx0PzwEjiG1pVtZExoJNiM0Cu1uirSFQC2OJ735+nTybckScTrf5
+         Pd1sGJwnhKTaUSo1+I3MWEkJCQ1j+pqbxCXGY8MFk+lGUNVyTJVNnJsBwgior98O2OMy
+         mXAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GMblnBVnulvH6aIz/MT4g7SaDY1kdi5Yx0m1X2b/Wlo=;
-        b=aw9LnqZK0Ig3jpsOws6+EdDcsscfsE6EZSlMg8sKolil65pLZz30wOLFarLLxZQiFg
-         KlY6kIj5LRecosJ1vtYR7jg43sLSPgd9aOprr9CZEOT9VW2nDRASYg4jf+WkBPpnWBt7
-         qwh0VO3o5HKJ5X9F7Z9uTSpjNvGSXquH1XNJMRRL0LE2/+2VM6/tfRs7jPXKkzZDu4F2
-         Rvynm443itId5Nf4EbBVw7+7xJ8ydANyzxjc2iHszhVUyCvXV4c3vPkf1EZbOb9SZuNK
-         azX6xex0oVgIh56ud5fm4veMsIBOwcPPZfwfDCngBqMKVbEiQVwTVk59ayQRd5XR2Z8l
-         gWZQ==
-X-Gm-Message-State: AOAM531dtjJe+c4yk/Z13L1MJQXDpgCinm89xDWf+c8Z85KYTaFmLy8C
-        PDG3+lLvLBgGNp1p6+fzfIQb81Xnei8=
-X-Google-Smtp-Source: ABdhPJxl28lLSjZdqRGFy24R1fPXWHpNZxrCKIsIji0q5YfE/004Mvv3PNwnpZSrACN6y3NUIxYsuQ==
-X-Received: by 2002:aa7:de11:: with SMTP id h17mr10860271edv.83.1617297958938;
-        Thu, 01 Apr 2021 10:25:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2Omm+oEQ1soNxmNoKODfBvftl8Wbkbkn+2eacAPkZvY=;
+        b=uRb4/GijljW4bircbT6n+Wk64Zo5tbKVDlAL021V5dcpJ5hYaLYIXPQbMLU2ozWO2D
+         4cLQkdpqVQxPm9PSOwmj3FL1r06hBT1yceUYd+qvncblkuXL+4bhgzvzg3+1mcNewIPG
+         kPIwy2+mzl5njKn9KxUTfG+sQ7jJzpK3S/5MOUONyBOd28VCVKhrPuoZOg14FtC7IRdn
+         m1b9JEObEfyoBlnouiD8KYX2ui+JnvnQv5LKv4zNtU0hIsqcopMEJO5vLwSrbomEksYa
+         gYpnmNOMIAxw1h9fsgNX9cBVWaYyrck/W9dnojy+ihF/1zPPE2Hn9pC2Eg5iSLhRvjKi
+         GUfg==
+X-Gm-Message-State: AOAM531Pnz5B9Zw9y0jnAlhSx+ZFQTInuihFaSrDBO+oGpU7B1XyX2pC
+        ylxhHV1osucFLIQ/OQhZy7s=
+X-Google-Smtp-Source: ABdhPJzqPLheYK+WbmzO01k9KyCjZMQ0LGPYHUZmVfXeAf+8NxLcNxqFDd5AXEIvO+FGNC7oqsS9+g==
+X-Received: by 2002:a17:906:3f87:: with SMTP id b7mr10253092ejj.139.1617297962946;
+        Thu, 01 Apr 2021 10:26:02 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id g20sm3745557edb.7.2021.04.01.10.25.57
+        by smtp.gmail.com with ESMTPSA id c12sm4199808edx.54.2021.04.01.10.26.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 10:25:57 -0700 (PDT)
+        Thu, 01 Apr 2021 10:26:02 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 1/5] dt-bindings: Changes for v5.13-rc1
-Date:   Thu,  1 Apr 2021 19:26:18 +0200
-Message-Id: <20210401172622.3352990-1-thierry.reding@gmail.com>
+Subject: [GIT PULL 3/5] soc/tegra: Changes for v5.13-rc1
+Date:   Thu,  1 Apr 2021 19:26:20 +0200
+Message-Id: <20210401172622.3352990-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210401172622.3352990-1-thierry.reding@gmail.com>
+References: <20210401172622.3352990-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,25 +73,32 @@ The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-dt-bindings
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-soc
 
-for you to fetch changes up to d1e24c46250731204dbf61b5191e4dcf2c2d9391:
+for you to fetch changes up to 366d7c643a8a9db652341e314b33d3fc80595e6c:
 
-  dt-bindings: phy: tegra-xusb: Add nvidia,pmc prop (2021-03-24 14:04:40 +0100)
+  soc/tegra: pmc: Print out domain name when reset fails to acquire (2021-03-26 13:10:25 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-dt-bindings: Changes for v5.13-rc1
+soc/tegra: Changes for v5.13-rc1
 
-One single changes that adds the nvidia,pmc property to the XUSB pad
-controller binding, which will subsequently be used to implement USB
-sleepwalk functionality.
+Contains a couple of fixes to the PMC power domain implementation and
+exports a regmap from PMC needed to implement USB sleepwalk support.
 
 ----------------------------------------------------------------
-JC Kuo (1):
-      dt-bindings: phy: tegra-xusb: Add nvidia,pmc prop
+Dmitry Osipenko (5):
+      soc/tegra: regulators: Fix locking up when voltage-spread is out of range
+      soc/tegra: pmc: Fix imbalanced clock disabling in error code path
+      soc/tegra: pmc: Fix completion of power-gate toggling
+      soc/tegra: pmc: Ensure that clock rates aren't too high
+      soc/tegra: pmc: Print out domain name when reset fails to acquire
 
- Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt | 1 +
- 1 file changed, 1 insertion(+)
+JC Kuo (1):
+      soc/tegra: pmc: Provide USB sleepwalk register map
+
+ drivers/soc/tegra/pmc.c                | 259 ++++++++++++++++++++++++++++++++-
+ drivers/soc/tegra/regulators-tegra30.c |   2 +-
+ 2 files changed, 252 insertions(+), 9 deletions(-)
