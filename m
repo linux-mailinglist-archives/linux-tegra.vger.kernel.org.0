@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D09C93519DF
-	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 20:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3246D351963
+	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 20:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236521AbhDAR4q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 1 Apr 2021 13:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
+        id S235461AbhDARxG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 1 Apr 2021 13:53:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234536AbhDARw3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:52:29 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30780C0319D5
-        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:04 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id jy13so4036814ejc.2
-        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:04 -0700 (PDT)
+        with ESMTP id S236841AbhDARre (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:47:34 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4846FC0319D7
+        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:08 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id h10so2786346edt.13
+        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2Omm+oEQ1soNxmNoKODfBvftl8Wbkbkn+2eacAPkZvY=;
-        b=tsob7xXrkZ7jnS1kyYuhptSfIT3jomtbs2ZL11Wx/MdFuYfvO+yhUBC3PtK5wKv/G1
-         bUHi7XHiZGnuymA9UO6GywV42BrngqwFiLl4mCvIJfYZOiPHZBYYqsPJoYX16rtougkB
-         Mm7zOyWeN7hnRnseW5t0Ez69gyIlMlLGKNHNppjYlfUAyNz5otEm49so0E1HnKmUUJA7
-         ONEzdvUFel2XYMRMsx0PzwEjiG1pVtZExoJNiM0Cu1uirSFQC2OJ735+nTybckScTrf5
-         Pd1sGJwnhKTaUSo1+I3MWEkJCQ1j+pqbxCXGY8MFk+lGUNVyTJVNnJsBwgior98O2OMy
-         mXAQ==
+        bh=KFyIg8syNYPFzhmphZGsN0/P5BjL76RGwMywZZQhQ6c=;
+        b=nvTC5y589Fz/gj87Pv5YA9OmIoYiI3vwoAOpWITntQYOll/KEaz8X20wO9hoVRcw4E
+         chE8IvLnNqOcIC+3TaSeWXe3FXsM7JOmQTtn+/q74qyh73IlvDC2rItOxKi76eRm0R5J
+         uczD62U9ZYoncx4VbDAWzo7Bk4XfQn8RSFWfY9wgqXWLytg3h69vztqRHUsgs/UamSEW
+         fFeNsREl325yllSCy9MMzuv4eYJXvsikbgegvtSeAnicVNDrSgkyVTBVWTNv3WYmvCQc
+         w3ZbV0OzLDnv/enXIqlfLqmfMVvmK+ut14Vq1RL/jnVz2SYCiIvRrrUdBIqpBC74CZYG
+         krtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2Omm+oEQ1soNxmNoKODfBvftl8Wbkbkn+2eacAPkZvY=;
-        b=uRb4/GijljW4bircbT6n+Wk64Zo5tbKVDlAL021V5dcpJ5hYaLYIXPQbMLU2ozWO2D
-         4cLQkdpqVQxPm9PSOwmj3FL1r06hBT1yceUYd+qvncblkuXL+4bhgzvzg3+1mcNewIPG
-         kPIwy2+mzl5njKn9KxUTfG+sQ7jJzpK3S/5MOUONyBOd28VCVKhrPuoZOg14FtC7IRdn
-         m1b9JEObEfyoBlnouiD8KYX2ui+JnvnQv5LKv4zNtU0hIsqcopMEJO5vLwSrbomEksYa
-         gYpnmNOMIAxw1h9fsgNX9cBVWaYyrck/W9dnojy+ihF/1zPPE2Hn9pC2Eg5iSLhRvjKi
-         GUfg==
-X-Gm-Message-State: AOAM531Pnz5B9Zw9y0jnAlhSx+ZFQTInuihFaSrDBO+oGpU7B1XyX2pC
-        ylxhHV1osucFLIQ/OQhZy7s=
-X-Google-Smtp-Source: ABdhPJzqPLheYK+WbmzO01k9KyCjZMQ0LGPYHUZmVfXeAf+8NxLcNxqFDd5AXEIvO+FGNC7oqsS9+g==
-X-Received: by 2002:a17:906:3f87:: with SMTP id b7mr10253092ejj.139.1617297962946;
-        Thu, 01 Apr 2021 10:26:02 -0700 (PDT)
+        bh=KFyIg8syNYPFzhmphZGsN0/P5BjL76RGwMywZZQhQ6c=;
+        b=ruWZrTu1+vUTwUPIuYilnRmn41974mH4ZNC8JWjcopjhP1vj6mWZb35jdSsGBdsIfX
+         4bCVJteFSVugjnigIfHjKX68UGZOlWTev4bpC6PX9dO8V6q8WD9/jU0zybrEOxMExWOO
+         RQ9SGKQHo6zc27r2kEqBamKkZo79td0uq11g4dT0dYgpk2fLMYEmfvK4ZkFo0Trk+eEe
+         njh83AxCzUPrRR9irNytJr1Jyx7a3/SRNPqmeNV02u2QQ5nDWbcSsWfHymbhFD0wWMcZ
+         5tB1q5w+XqdiioitnRZqHwoYWxjMgfJmJZhtnkFPedipaNR1U+SvxPCyj+66E2sz7Pxf
+         l45g==
+X-Gm-Message-State: AOAM5309hGkEdK4rt9vlHl6YIwOTM8Jtqgpgi+qIeG9WbHOgmKmHwmkl
+        sEB2mKAip6/9uzo1U/L44C0=
+X-Google-Smtp-Source: ABdhPJzHLEVoJiG2OIvfg61ZJ+n48ibWJdHJA6V35LhUTvqh/mUPrd8q/IsIyh5iDD/AyxbRLrbR3A==
+X-Received: by 2002:aa7:c1d5:: with SMTP id d21mr10816258edp.167.1617297967004;
+        Thu, 01 Apr 2021 10:26:07 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id c12sm4199808edx.54.2021.04.01.10.26.01
+        by smtp.gmail.com with ESMTPSA id hb19sm3045144ejb.11.2021.04.01.10.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 10:26:02 -0700 (PDT)
+        Thu, 01 Apr 2021 10:26:05 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 3/5] soc/tegra: Changes for v5.13-rc1
-Date:   Thu,  1 Apr 2021 19:26:20 +0200
-Message-Id: <20210401172622.3352990-3-thierry.reding@gmail.com>
+Subject: [GIT PULL 5/5] arm64: tegra: Device tree fixes for v5.12-rc6
+Date:   Thu,  1 Apr 2021 19:26:22 +0200
+Message-Id: <20210401172622.3352990-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210401172622.3352990-1-thierry.reding@gmail.com>
 References: <20210401172622.3352990-1-thierry.reding@gmail.com>
@@ -73,32 +73,39 @@ The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-soc
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-arm64-dt
 
-for you to fetch changes up to 366d7c643a8a9db652341e314b33d3fc80595e6c:
+for you to fetch changes up to 405fa9e9d8664e830982c5fbcb70f9ba8656bafc:
 
-  soc/tegra: pmc: Print out domain name when reset fails to acquire (2021-03-26 13:10:25 +0100)
+  arm64: tegra: Move clocks from RT5658 endpoint to device node (2021-03-25 14:04:49 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-soc/tegra: Changes for v5.13-rc1
+arm64: tegra: Device tree fixes for v5.12-rc6
 
-Contains a couple of fixes to the PMC power domain implementation and
-exports a regmap from PMC needed to implement USB sleepwalk support.
+This contains a couple of device tree fixes for the v5.12 release cycle.
+These are needed for proper audio support on Jetson AGX Xavier, to boot
+the Jetson Xavier NX from an SD card and to be able to suspend/resume
+the Jetson TX2.
 
 ----------------------------------------------------------------
-Dmitry Osipenko (5):
-      soc/tegra: regulators: Fix locking up when voltage-spread is out of range
-      soc/tegra: pmc: Fix imbalanced clock disabling in error code path
-      soc/tegra: pmc: Fix completion of power-gate toggling
-      soc/tegra: pmc: Ensure that clock rates aren't too high
-      soc/tegra: pmc: Print out domain name when reset fails to acquire
+Jon Hunter (2):
+      arm64: tegra: Set fw_devlink=on for Jetson TX2
+      arm64: tegra: Fix mmc0 alias for Jetson Xavier NX
 
-JC Kuo (1):
-      soc/tegra: pmc: Provide USB sleepwalk register map
+Sameer Pujar (1):
+      arm64: tegra: Move clocks from RT5658 endpoint to device node
 
- drivers/soc/tegra/pmc.c                | 259 ++++++++++++++++++++++++++++++++-
- drivers/soc/tegra/regulators-tegra30.c |   2 +-
- 2 files changed, 252 insertions(+), 9 deletions(-)
+Thierry Reding (1):
+      arm64: tegra: Add unit-address for ACONNECT on Tegra186
+
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts  | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi      | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi            | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts  | 3 ++-
+ arch/arm64/boot/dts/nvidia/tegra194-p3668-0000.dtsi | 4 ++++
+ arch/arm64/boot/dts/nvidia/tegra194-p3668-0001.dtsi | 4 ++++
+ arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi      | 1 -
+ 7 files changed, 13 insertions(+), 5 deletions(-)
