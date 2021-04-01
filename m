@@ -2,59 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CBCC3517E3
-	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 19:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE4C3517DB
+	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 19:47:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235570AbhDARm7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 1 Apr 2021 13:42:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
+        id S235540AbhDARmz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 1 Apr 2021 13:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234771AbhDARj6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:39:58 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BB19C0319D4
-        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:02 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id hq27so3993116ejc.9
-        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:02 -0700 (PDT)
+        with ESMTP id S234438AbhDARhf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:37:35 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7FAC0319D6
+        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 10:26:05 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id h13so2816275eds.5
+        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 10:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=REwstNQho+0HF6CmmQ9jvF2oPascfGsNa3A+M63+ZoA=;
-        b=sxlOIJzZWh+CM7b7PEGZxLFNmCHPX6k8wsPuZ6h2RIHxQ0LKn/Lxg1y+Y3CEr8pR1L
-         vyBGPjPtURl7QlifNLXLDJondO6It08jh0ZWcQVaKiQFiZ/U688PazfVCeubkHrMduUi
-         9Kp7t9jF33JvgaMh8/eoiN2GNvhCfsXLfW7OWr/xpSQo8ThPPPqqyk9+Z9YME8uh9ssT
-         vN+W3bpuoF/G0RPRTWrN199/fhPtfcyc8RIOWVgXdd0CFycQU2BjKZKDDdWZ3KOIjLsp
-         GbRm/AyKxmCKL1oOee0YjrY0UOI0N+SEThm6AJHL3Ccr7fBEyLnfb8LqBLBh7xG5GGYp
-         DYcg==
+        bh=g5sLzzLW3ME8Xe8VqYfMyA7U25GpLo2zuKXzOdcoRKY=;
+        b=fMyLwNAl16sg3Najvg/gxxAfWYQYJWo6FFTC5aQ4NfcfFj+7bs47jmjSuh9LRIkX3R
+         83Wk/V5NLiYy/SSpUY228BUxI+Cuet5RWYo2CS4HbVnRpNcROxCdqHLnbhO7KmsZ7vMK
+         C2vNpBJEy4XDGdLXfF0ytJ4uh1iLXWQ5/MoZGg0Ytl4smHYTjx8rrz5hmj0/4TIBGGh2
+         GdexAPTyyywyoZJ6qho1j/h/PBLcOzjZ4NyGAxpPmu6bi2MMDnFntnrnTpgqrV7XSoby
+         w+jE4pouiq8y2g82hqYSDpaDjSU1QJ1qc6dmJFJ4+i/tq6aTnMRPCzTw7TK9GXYNaEj+
+         LoxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=REwstNQho+0HF6CmmQ9jvF2oPascfGsNa3A+M63+ZoA=;
-        b=OBVIbfvmHmKijBH/hOs1Pt0jqeR5weNeji1g+kfWLH3ZGU5VXYg4cMtlU1F8hsD2v0
-         7FoONuJqCCq9i15xYXXqi7Pvm0PRfxn4es4+Q39BQOtD+yxIEnNrb4rQSp/smJavv9Wz
-         MGKM18HbJqZf3lxofsu3KI+BtGxfoMzZNK6qv4yy1gsZooYu/Bcl51ULEU6NxKF8blc6
-         Xlwb0HQZHP0rCAxieM8Eq01hj/GyCaIxxCFhiNzcgz2g6gKaOGHifQJdNQBhp1cAu6nr
-         TMxzq7QQOj9zAlnSemTFiZiIWC+a9iz5IkF7RBkHyTWR0YXRvmveoAXmOBlr/dlwQLoz
-         v0kQ==
-X-Gm-Message-State: AOAM5307rP1MIeZ8fIjne+meO7mDldmpydHlETy3xpf9JBamoMNu5iVA
-        cycAmn/fAoPUzZc5GLxRPXk=
-X-Google-Smtp-Source: ABdhPJxE13Lorh6skVD7dPNFfE3hH5Aow2jkICl6k92P5R+PgadH2/fn/9VFL8Fy9EYLRoXz6Hzn1g==
-X-Received: by 2002:a17:907:629c:: with SMTP id nd28mr10385959ejc.267.1617297960950;
-        Thu, 01 Apr 2021 10:26:00 -0700 (PDT)
+        bh=g5sLzzLW3ME8Xe8VqYfMyA7U25GpLo2zuKXzOdcoRKY=;
+        b=gQRdxuWsadM1UJQnIpozR9u049KtRIHfQSq7hg/4bA0euBQRoTnGVDlTSuHElIonT6
+         66eZI+0NNyZl+EvkVLf4ILVJAVeeAhV/LhpxTBGMEU07zpLjbzBvu2hvPTFjUJtFFL4p
+         pW2LFzisXqDO0AUIYXa6Dl0dT0UjzjJhspwOWs4iKOot+W7WBIfXDhDcWVLx/ljEQMJj
+         6UVIRV0zWFTxwSH+OOqSyN2fq8oH9ixCzmeLC8jiRxg2lO7S9Q/LOS/ly9ulzlQNgiAl
+         i7MPl5gt8IRs191oRc0XzHOcMa1mJvIvQvPfui/QcmidlwRy2jUtdMGGFrI0vAAH7vxE
+         o/VA==
+X-Gm-Message-State: AOAM531aorbJPahG/KoPFhMHUHkMqVJAc/Rz9djANbpwmD+IroyBcSPy
+        YbiDylts1wu3dw8Or6y8LWg=
+X-Google-Smtp-Source: ABdhPJzIO9me1GxZXSNCR7NdpxHXdxcnYyP3uc3QZBz6aEJV0912UIwloUJFSuLMCdCoSAL1UuMEiA==
+X-Received: by 2002:aa7:cf17:: with SMTP id a23mr11495614edy.30.1617297964690;
+        Thu, 01 Apr 2021 10:26:04 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id hd8sm2995528ejc.92.2021.04.01.10.25.59
+        by smtp.gmail.com with ESMTPSA id c17sm4377374edw.32.2021.04.01.10.26.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 10:25:59 -0700 (PDT)
+        Thu, 01 Apr 2021 10:26:03 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 2/5] clk: tegra: Changes for v5.13-rc1
-Date:   Thu,  1 Apr 2021 19:26:19 +0200
-Message-Id: <20210401172622.3352990-2-thierry.reding@gmail.com>
+Subject: [GIT PULL 4/5] ARM: tegra: Device tree changes for v5.13-rc1
+Date:   Thu,  1 Apr 2021 19:26:21 +0200
+Message-Id: <20210401172622.3352990-4-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210401172622.3352990-1-thierry.reding@gmail.com>
 References: <20210401172622.3352990-1-thierry.reding@gmail.com>
@@ -73,27 +73,53 @@ The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-clk
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.13-arm-dt
 
-for you to fetch changes up to 0c7ea2b1c850756140fef03bed0fbaf0957f120a:
+for you to fetch changes up to 3a6c267dd7b8822eb722835b503c5a438cbd3700:
 
-  clk: tegra: Don't enable PLLE HW sequencer at init (2021-03-24 14:02:14 +0100)
+  ARM: tegra: acer-a500: Add atmel,wakeup-method property (2021-03-26 14:21:28 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-clk: tegra: Changes for v5.13-rc1
+ARM: tegra: Device tree changes for v5.13-rc1
 
-This adds PLLE HW sequencer support which is necessary for USB sleepwalk
-functionality.
+This contains a couple of improvements and fixes for various 32-bit
+Tegra-based boards.
 
 ----------------------------------------------------------------
-JC Kuo (2):
-      clk: tegra: Add PLLE HW power sequencer control
-      clk: tegra: Don't enable PLLE HW sequencer at init
+Dmitry Osipenko (15):
+      ARM: tegra: ventana: Support CPU and Core voltage scaling
+      ARM: tegra: ventana: Support CPU thermal throttling
+      ARM: tegra: cardhu: Support CPU frequency and voltage scaling on all board variants
+      ARM: tegra: cardhu: Support CPU thermal throttling
+      ARM: tegra: paz00: Enable full voltage scaling ranges for CPU and Core domains
+      ARM: tegra: acer-a500: Enable core voltage scaling
+      ARM: tegra: acer-a500: Reduce thermal throttling hysteresis to 0.2C
+      ARM: tegra: acer-a500: Specify all CPU cores as cooling devices
+      ARM: tegra: acer-a500: Rename avdd to vdda of touchscreen node
+      ARM: tegra: nexus7: Specify all CPU cores as cooling devices
+      ARM: tegra: ouya: Specify all CPU cores as cooling devices
+      ARM: tegra: Specify CPU suspend OPP in device-tree
+      ARM: tegra: Specify memory suspend OPP in device-tree
+      ARM: tegra: Specify tps65911 as wakeup source
+      ARM: tegra: acer-a500: Add atmel,wakeup-method property
 
- drivers/clk/tegra/clk-pll.c      | 12 ---------
- drivers/clk/tegra/clk-tegra210.c | 53 +++++++++++++++++++++++++++++++++++++++-
- include/linux/clk/tegra.h        |  4 ++-
- 3 files changed, 55 insertions(+), 14 deletions(-)
+ arch/arm/boot/dts/tegra124-peripherals-opp.dtsi    |  5 ++
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts    | 16 +++--
+ arch/arm/boot/dts/tegra20-cpu-opp.dtsi             |  2 +
+ arch/arm/boot/dts/tegra20-paz00.dts                | 14 ++--
+ arch/arm/boot/dts/tegra20-peripherals-opp.dtsi     |  1 +
+ arch/arm/boot/dts/tegra20-ventana.dts              | 78 +++++++++++++++++---
+ arch/arm/boot/dts/tegra30-apalis.dtsi              |  1 +
+ .../dts/tegra30-asus-nexus7-grouper-common.dtsi    | 14 ++--
+ .../dts/tegra30-asus-nexus7-grouper-ti-pmic.dtsi   |  1 +
+ arch/arm/boot/dts/tegra30-beaver.dts               |  1 +
+ arch/arm/boot/dts/tegra30-cardhu-a04.dts           | 48 -------------
+ arch/arm/boot/dts/tegra30-cardhu.dtsi              | 84 ++++++++++++++++++++--
+ arch/arm/boot/dts/tegra30-colibri.dtsi             |  1 +
+ arch/arm/boot/dts/tegra30-cpu-opp.dtsi             |  3 +
+ arch/arm/boot/dts/tegra30-ouya.dts                 | 16 +++--
+ arch/arm/boot/dts/tegra30-peripherals-opp.dtsi     |  3 +
+ 16 files changed, 204 insertions(+), 84 deletions(-)
