@@ -2,176 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6BC3517E0
-	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 19:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A053517D9
+	for <lists+linux-tegra@lfdr.de>; Thu,  1 Apr 2021 19:47:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235581AbhDARm6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 1 Apr 2021 13:42:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        id S235509AbhDARmw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 1 Apr 2021 13:42:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233970AbhDARiu (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:38:50 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935E5C0225B4
-        for <linux-tegra@vger.kernel.org>; Thu,  1 Apr 2021 08:40:42 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id ap14so3598123ejc.0
-        for <linux-tegra@vger.kernel.org>; Thu, 01 Apr 2021 08:40:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sGjuP998sGbpCkvnhSfwleQK/z96z2z32YTuaQtQcg8=;
-        b=DM2EYw7uG0/0c897DXzDswcwOIRUm4RG+G3GJdufCxom7JCnxI5hOsTQwevTvsOx8Z
-         4TwVeY6Zpr6Ud5tgjB4cBDvWv2nWEnysTfjHseXfay+d4NggOB7cUE4nNUhPPYxrraeh
-         4v8NNc7/UR0z0tWZ0jfpjHBlBDPCfRtSkhLYx5QHbRWgIXEvccC7q3aCOZLXvZUyD5cN
-         OMujeCeF6BA+HKDRpb71AktE3vgVzlWsJejZQbYlvNxrm8tRyAE/ccPx2mBD7G8whTqF
-         Ef28YENX7a8AElFFfwROPntmtahmVJjLNsW+uepFNaliOZRQIeE198l6itz8+2IlR+z/
-         2HeA==
+        with ESMTP id S234400AbhDARhJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 1 Apr 2021 13:37:09 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0EFC02FE80;
+        Thu,  1 Apr 2021 08:55:08 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id w70so2276777oie.0;
+        Thu, 01 Apr 2021 08:55:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sGjuP998sGbpCkvnhSfwleQK/z96z2z32YTuaQtQcg8=;
-        b=EVocyAJHWteYsdtAa91elYnjlBNaJduUl/9MWLbfPJkmgLVoZJ8+ZA7xvOVYRezXpG
-         n9pPPk0Qhrhf86PUbz2T7XGHhop9lU3yvk8SBEtESql9TLaBSCeJwxsE6FOlBSn5p3rA
-         G2oe0fZgYtam1V18x5ttesXKZ1hPvh98YIUtdOCzHi4jkZmPlzGNcPTPo4wffjPrYyyp
-         XPmIB1jgRGEu27WcU5Z9ZwVMSqX7VA7Hl4RxxC1b17boYiBP6nn3rZyvdpeFAI6Kf0Oi
-         Oo0r2peeKDAEbSoFvhO9wld9QOJRor0spD58weGfGTW4ivPf4ihnVL1SKhvkUQLm1aOB
-         9VlQ==
-X-Gm-Message-State: AOAM531ttxYzbCBNUQ/435EdUCegJk/ma7fJGC8p14m0PymGU+fWrgCr
-        KLNDxIpx6JpG4pkWaH8qEG8=
-X-Google-Smtp-Source: ABdhPJzvPFLhV2u50rzysciS5TbF+EdLD0d8Cq8ltE0MVSk4bFZe8xOrJbu4MMJNmh3VuaX1KQcLNQ==
-X-Received: by 2002:a17:907:c08:: with SMTP id ga8mr9630888ejc.376.1617291641331;
-        Thu, 01 Apr 2021 08:40:41 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id k12sm3804814edr.60.2021.04.01.08.40.39
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=1kpevatVSVhaXS8GLLw+LPKLyun7RcAFN9H0p54jc7w=;
+        b=GOZqIx3uQajpybFvH1BDFgOlD+nzLZlxIDGxqLoJGsGsIeq9a6lk7m2Ue0nkOCF/e4
+         X/N1PyShc7hw9WwmT16h8Alrv7l8jrL9ugZ6b2oELkN0GJNh0ozsYZLYo3fHlW3WXFyf
+         rDi5Zei4HJvRbD4ft9Gb5r4lmi3QWwvD6DmkXqJLkyqmZ1qYIooEw821q2Dzzykxwace
+         I6F1j5zwe47WsUvXdcpkV5KmWoEGn/ZqtFwuAhYTW/NXORLZ84ldt2BFUWGnZgmOQnAa
+         7SQ9IeWtxc+p5N2pLHrbk9S0pDtzUtjhzg5ygOKhorZW5GQfqRKjNEC1PiCTNqJX2fnc
+         MDcg==
+X-Gm-Message-State: AOAM532c5/PW9EsNp4+CXTlJ1zduLWTpouoJxrP+Rzn98NkVBIakkHlq
+        A2RN4+67zIVJqFjDSjGc6g==
+X-Google-Smtp-Source: ABdhPJzGjaTLASu2lNzytfhG08RmA+2E77SwcrdNkxvqKr8QcIu1kdUyBXhQfz4XBn+CoLynF4zW9w==
+X-Received: by 2002:aca:211a:: with SMTP id 26mr6538978oiz.157.1617292508249;
+        Thu, 01 Apr 2021 08:55:08 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v65sm1125644oib.42.2021.04.01.08.55.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:40:40 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] gpu: host1x: Split up client initalization and registration
-Date:   Thu,  1 Apr 2021 17:41:04 +0200
-Message-Id: <20210401154105.3345412-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 01 Apr 2021 08:55:07 -0700 (PDT)
+Received: (nullmailer pid 501677 invoked by uid 1000);
+        Thu, 01 Apr 2021 15:55:06 -0000
+Date:   Thu, 1 Apr 2021 10:55:06 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] dt-bindings: memory: tegra20: emc: Convert to
+ schema
+Message-ID: <20210401155506.GA498681@robh.at.kernel.org>
+References: <20210330230445.26619-1-digetx@gmail.com>
+ <20210330230445.26619-6-digetx@gmail.com>
+ <1617198059.590387.2074856.nullmailer@robh.at.kernel.org>
+ <b4f7c7fb-1332-8490-fb4f-293fd357338e@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b4f7c7fb-1332-8490-fb4f-293fd357338e@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Wed, Mar 31, 2021 at 05:59:39PM +0300, Dmitry Osipenko wrote:
+> 31.03.2021 16:40, Rob Herring пишет:
+> > On Wed, 31 Mar 2021 02:04:44 +0300, Dmitry Osipenko wrote:
+> >> Convert Tegra20 External Memory Controller binding to schema.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  .../memory-controllers/nvidia,tegra20-emc.txt | 130 --------
+> >>  .../nvidia,tegra20-emc.yaml                   | 294 ++++++++++++++++++
+> >>  2 files changed, 294 insertions(+), 130 deletions(-)
+> >>  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+> >>  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
+> >>
+> > 
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> > 
+> > yamllint warnings/errors:
+> > 
+> > dtschema/dtc warnings/errors:
+> > Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.example.dts:33.26-55.15: Warning (unit_address_vs_reg): /example-0/external-memory-controller@7000f400/emc-tables@0: node has a unit name, but no reg or ranges property
+> > 
+> > See https://patchwork.ozlabs.org/patch/1460288
+> > 
+> > This check can fail if there are any dependencies. The base for a patch
+> > series is generally the most recent rc1.
+> > 
+> > If you already ran 'make dt_binding_check' and didn't see the above
+> > error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> > date:
+> > 
+> > pip3 install dtschema --upgrade
+> > 
+> > Please check and re-submit.
+> > 
+> 
+> FYI, I'm aware about this warning and I think it's fine to skip it in
+> the case of this binding. 
 
-In some cases we may need to initialize the host1x client first before
-registering it. This commit adds a new helper that will do nothing but
-the initialization of the data structure.
+It's not because dt_binding_check should be warning free.
 
-At the same time, the initialization is removed from the registration
-function. Note, however, that for simplicity we explicitly initialize
-the client when the host1x_client_register() function is called, as
-opposed to the low-level __host1x_client_register() function. This
-allows existing callers to remain unchanged.
+> The dtbs_check doesn't bother with that warning.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/host1x/bus.c | 30 ++++++++++++++++++++++++------
- include/linux/host1x.h   | 30 ++++++++++++++++++++++++------
- 2 files changed, 48 insertions(+), 12 deletions(-)
+With W=1 it will. It's off by default because there are too many of 
+these warnings. Patches welcome.
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 46f69c532b6b..218e3718fd68 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -735,6 +735,29 @@ void host1x_driver_unregister(struct host1x_driver *driver)
- }
- EXPORT_SYMBOL(host1x_driver_unregister);
- 
-+/**
-+ * __host1x_client_init() - initialize a host1x client
-+ * @client: host1x client
-+ * @key: lock class key for the client-specific mutex
-+ */
-+void __host1x_client_init(struct host1x_client *client, struct lock_class_key *key)
-+{
-+	INIT_LIST_HEAD(&client->list);
-+	__mutex_init(&client->lock, "host1x client lock", key);
-+	client->usecount = 0;
-+}
-+EXPORT_SYMBOL(__host1x_client_init);
-+
-+/**
-+ * host1x_client_exit() - uninitialize a host1x client
-+ * @client: host1x client
-+ */
-+void host1x_client_exit(struct host1x_client *client)
-+{
-+	mutex_destroy(&client->lock);
-+}
-+EXPORT_SYMBOL(host1x_client_exit);
-+
- /**
-  * __host1x_client_register() - register a host1x client
-  * @client: host1x client
-@@ -747,16 +770,11 @@ EXPORT_SYMBOL(host1x_driver_unregister);
-  * device and call host1x_device_init(), which will in turn call each client's
-  * &host1x_client_ops.init implementation.
-  */
--int __host1x_client_register(struct host1x_client *client,
--			     struct lock_class_key *key)
-+int __host1x_client_register(struct host1x_client *client)
- {
- 	struct host1x *host1x;
- 	int err;
- 
--	INIT_LIST_HEAD(&client->list);
--	__mutex_init(&client->lock, "host1x client lock", key);
--	client->usecount = 0;
--
- 	mutex_lock(&devices_lock);
- 
- 	list_for_each_entry(host1x, &devices, list) {
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index ef13bc69b493..7310ce9c70e0 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -349,12 +349,30 @@ static inline struct host1x_device *to_host1x_device(struct device *dev)
- int host1x_device_init(struct host1x_device *device);
- int host1x_device_exit(struct host1x_device *device);
- 
--int __host1x_client_register(struct host1x_client *client,
--			     struct lock_class_key *key);
--#define host1x_client_register(class) \
--	({ \
--		static struct lock_class_key __key; \
--		__host1x_client_register(class, &__key); \
-+void __host1x_client_init(struct host1x_client *client, struct lock_class_key *key);
-+void host1x_client_exit(struct host1x_client *client);
-+
-+#define host1x_client_init(client)			\
-+	({						\
-+		static struct lock_class_key __key;	\
-+		__host1x_client_init(client, &__key);	\
-+	})
-+
-+int __host1x_client_register(struct host1x_client *client);
-+
-+/*
-+ * Note that this wrapper calls __host1x_client_init() for compatibility
-+ * with existing callers. Callers that want to separately initialize and
-+ * register a host1x client must first initialize using either of the
-+ * __host1x_client_init() or host1x_client_init() functions and then use
-+ * the low-level __host1x_client_register() function to avoid the client
-+ * getting reinitialized.
-+ */
-+#define host1x_client_register(client)			\
-+	({						\
-+		static struct lock_class_key __key;	\
-+		__host1x_client_init(client, &__key);	\
-+		__host1x_client_register(client);	\
- 	})
- 
- int host1x_client_unregister(struct host1x_client *client);
--- 
-2.30.2
-
+Rob
