@@ -2,130 +2,305 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E942361D3C
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Apr 2021 12:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2931D362165
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Apr 2021 15:49:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239784AbhDPJWo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 16 Apr 2021 05:22:44 -0400
-Received: from mail-bn7nam10on2049.outbound.protection.outlook.com ([40.107.92.49]:14688
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        id S243530AbhDPNrx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 16 Apr 2021 09:47:53 -0400
+Received: from mail-mw2nam10on2056.outbound.protection.outlook.com ([40.107.94.56]:16064
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239236AbhDPJWl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 16 Apr 2021 05:22:41 -0400
+        id S235263AbhDPNrw (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 16 Apr 2021 09:47:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mW/79QpUf3++ezqU0e/US4K2GpG0cs7uU9/OJyz39O4JEMnfc9t49Z9zgPfFa33AhmtvKHQ/DpfdZrFud7rhYu3022G8R1QupynQ0mE7rdevmov1oX+1ZiDNiiC5kLSphSN4RN1BKIo78m1evHGDoEw4R8DGkQA5ZTiCe9gK+UqsIh3pgvrLU9yXcOBdGW4joGqsqtx7o1hqSQh5hhQkSR9/WPF5SIgLP5ONrBeYLrBhod6TCmni75rblgHxju8Dw1/QmuT7Uv5+jrg27pJQhhoMlB46glKXDDKko62y5H0oefUHWORm99eAcRkWDG/IVp+r1zCXn1NmX6fMtemIzg==
+ b=mJEOzPzqcmCAohG6lFKzMCfiLRft4LavRlDQX4Ci7/5U4TaBZ1pFZqn0CJizhV799LIxUKnrGfXMT2H0sU/LJL3Cu7Kwi3EEbxHfpysF+dBcZe+ybokob/TSdIuYee1bAMh4CDfGY2/4htP3gf9ZtSwtX/NaIp6KWwCAgrYFmCVYOf0wPU40GzygMYm7GtGwxj/oeVkCI/4qX+7nugkbBlHM7evh815C/YG1BY01dUZUCWvr/7jQj88z7xalgauBjpdtEEFPV0bNdBLNDn15Wv/2o48UQMnSKgg2YSHe0EWHd1bLuwzKjCLIydZ1m0jGDTj+qLptlyFTcs1EL5bFoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Vh1bGCSF1h2ZSH36y2fqrjZ3OJQKybFlnb2BfGLQvI=;
- b=enbY4D2LaeRcDWSwWhJu8yPPYa8ofzZfFCbfnzk7r1u18fjdkpB391KUvq+IfZRgVBNcVpLQedjAsXD+NA5gT0nwoBe9Xho4OiU9sdP2Co2+SivBiUsMSGiWPcZYfKINU47gatzTBgBvMvBKIWvjGoF9eQqAmWK1ZuQJMEeNTCvqH62APpflh4GRzyxkz3KZ1ntUPnaqT3cTG5o46ZAfK7HVCyf5M1GR0Ylm8Z8o+0lCdgTOdWfFRdxNsmuAst7Wsgq8PW1rm0LJPkQSuJbe1Z/8ONwjtZ3l3S/K7Neypszv+pS6inIc99dnBsxjOBkPLgB2AW3mVsi6i9wn+7vBXQ==
+ bh=ymicH8Acfmb4a1UknWog6XQYd7xdS7dMKgxTdNgcKms=;
+ b=GQNSO0dtWUr2Nwh7HTvB/926rgxulw4WQrItb806103Ny0vsfgfke/RAZ4Fk/PCU7WPq207UVvX09fd+k7oN6B8pI4890wgLg8lGdRDks8oLS0ccjm4LfD6Afuogw/gQNSidt5zkbGhEGXjmytHcMvITjOIKT2i7BhdQ9rlR0TGMWz+dfGiBNYlz+5HNyfLXRPxopXuEKOA9HbYqA3Vvu3VfUW8WMsq0E7yGE9UHlDu/5xZH5EYNKERfCS99Xo9lA8GDSeMcjhIRJji8Gfdb1wiqrPtm/NTtofM/7HW41YFvW2HTG7r0LIv6BySTxZnk5VBvcdVU19AWZF+ZEpKvOg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.36) smtp.rcpttodomain=denx.de smtp.mailfrom=nvidia.com;
+ 216.228.112.35) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Vh1bGCSF1h2ZSH36y2fqrjZ3OJQKybFlnb2BfGLQvI=;
- b=slCLOkNZlHkdCY4Mgvbo97/of1cLgvcaAq1YawbpfR5WK1PN76eXDb88wpVYUrB8LEi6oIOTiwtZ6eads0tebIW2nZpmVsEaa/hdtnvay8bqXZbICSZDBY4RRQLdWpKmI6TVfsJzVPn3YcJIG810wBVBCDP0UJH77AE4kguZAI5qBdzrkhQAHJfhif5VJHS5mnv1tRQXm8l0FFqGIoW9UPwMWh98FLcR9ByeWV7zAWFU0SO6bA0FxsIyY5gU7jXufxUEnFjrtszch0P4v49a1ePkdMqq+7tLq4YUR/SyPtz3VbY3X2YOrrFgBg5838jvewvIykFBib7OII6cUuKI8A==
-Received: from DM5PR04CA0068.namprd04.prod.outlook.com (2603:10b6:3:ef::30) by
- SN1PR12MB2480.namprd12.prod.outlook.com (2603:10b6:802:22::21) with Microsoft
+ bh=ymicH8Acfmb4a1UknWog6XQYd7xdS7dMKgxTdNgcKms=;
+ b=srHXCp2Ms4ilwpkh3QnHK2exhQ4dA6DZ0D3uvre/uYT/Jy5cNzEGRz/3UgFuG4H06UdPevSnZbSavtnCLmSwg+31NSeN8heLq2kRXfqdKwqrIwaMz1iImY1jKMPgvUACyXcENUJZLpvkIxucAxiHYK7V5C9Im7cH6ZgtQxVGurUyFixSKD3jkPsv0SuDOB/oByvheryZNSbwPdZ8/OnfdgFx1i+AWGCp4c1E1W/VvczPAxb7wg3Gr/kKBhrgC/VVsv5H/t2r5UwFWrLBfyceuhaOUiDqAQZhUF19lCeH5VDD4CuAv8owQXu4lMxs/IBh/lO1UcyUwClzf3QZ7EDvog==
+Received: from DM3PR03CA0005.namprd03.prod.outlook.com (2603:10b6:0:50::15) by
+ CH2PR12MB4645.namprd12.prod.outlook.com (2603:10b6:610:e::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16; Fri, 16 Apr 2021 09:22:15 +0000
-Received: from DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:ef:cafe::f8) by DM5PR04CA0068.outlook.office365.com
- (2603:10b6:3:ef::30) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.4020.22; Fri, 16 Apr 2021 13:47:26 +0000
+Received: from DM6NAM11FT012.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:0:50:cafe::e2) by DM3PR03CA0005.outlook.office365.com
+ (2603:10b6:0:50::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend
- Transport; Fri, 16 Apr 2021 09:22:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.36)
- smtp.mailfrom=nvidia.com; denx.de; dkim=none (message not signed)
- header.d=none;denx.de; dmarc=pass action=none header.from=nvidia.com;
+ Transport; Fri, 16 Apr 2021 13:47:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.36 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.36; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.36) by
- DM6NAM11FT038.mail.protection.outlook.com (10.13.173.137) with Microsoft SMTP
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ DM6NAM11FT012.mail.protection.outlook.com (10.13.173.109) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4042.16 via Frontend Transport; Fri, 16 Apr 2021 09:22:15 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Apr
- 2021 09:22:14 +0000
-Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
- Transport; Fri, 16 Apr 2021 09:22:14 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
-        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.11 00/23] 5.11.15-rc1 review
-In-Reply-To: <20210415144413.146131392@linuxfoundation.org>
-References: <20210415144413.146131392@linuxfoundation.org>
+ 15.20.4042.16 via Frontend Transport; Fri, 16 Apr 2021 13:47:26 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Apr
+ 2021 13:47:25 +0000
+Received: from vidyas-desktop.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 16 Apr 2021 13:47:22 +0000
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <rjw@rjwysocki.net>, <lenb@kernel.org>,
+        <amurray@thegoodpenguin.co.uk>, <treding@nvidia.com>,
+        <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-acpi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
+        <sagar.tv@gmail.com>
+Subject: [PATCH V4] PCI: Add MCFG quirks for Tegra194 host controllers
+Date:   Fri, 16 Apr 2021 19:15:37 +0530
+Message-ID: <20210416134537.19474-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200110191500.9538-3-vidyas@nvidia.com>
+References: <20200110191500.9538-3-vidyas@nvidia.com>
 X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Message-ID: <70093e721f8348808791220a197cffc1@HQMAIL111.nvidia.com>
-Date:   Fri, 16 Apr 2021 09:22:14 +0000
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd5bee8d-5d3a-4074-2213-08d900b91fcf
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2480:
-X-Microsoft-Antispam-PRVS: <SN1PR12MB248053A786E1CB165B20F7A0D94C9@SN1PR12MB2480.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 11b479b8-ee5c-4ac7-5716-08d900de2bae
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4645:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4645B68240D30D20801185D3B84C9@CH2PR12MB4645.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2D01JIvrnZijY41D804hF1lTV9uQ5sRQQ0fkwb+KC525dUhygHKnt2j0qFrCRew9GINXwVEZ0tSyELOHEH4isw4zTdnLkbLZqZyo3Hp8iNCBH7hM6F3N0IB8gOewW9R5E/9cXIL6wAEhXoOpZAYc0N5dTdoP4Lt2KI2xcMaQl2Y3EYDJm/A8Yz/qGXil20upBYM5bEQedF3Rw1+nglx9ZxmC9WVQlBIa4iCAgINqfYovn1qDQKcE77pBJC96uJOgNUjC0K8+mrlk6m4JpHaY1dxhJLuVwbNHFZE7XzM5d1OixH1DbKms4t627KdvIFwviIPXWLvJzIZhaIzvqcmO52ntpGtF/djPwkFL7H1lwAEOIMDlcsxgVBjYkXf+a/RhToDMeY+y1OH/c2pkJkM+yukMFDoPenrZmThTWvR15Kqnauult+HZOqAuHXZK0owY8r6SzJbtR4Ya2vA5HKGuhWeVw/2x/+ohICYvhWh/AzHnu2PbjCLgbp+1JJxKKl37QPPT+W5uFabCOy3RURy4mPO0LkDPXd1nkse9z9+58V42bo3ilYVVGFAPZYYwwBhnOSNJOnzd7MYxqFBTeUHFUO2EtYeDXzM7q8HfnG4KGRjgxnVt/e0CLgwO+R0KcnZ0O2YsPxNBRlEdbSCF+N62XVNkWW2pACjxqduUv1b2zF8rEz6+TVn1oU0ZyVovYCCUNIbwmSUPIRBSR4T7VKEKn0+EDku7TeEwLPn2RJe4VFA=
-X-Forefront-Antispam-Report: CIP:216.228.112.36;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid05.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(396003)(346002)(39860400002)(376002)(46966006)(36840700001)(426003)(336012)(2906002)(7636003)(54906003)(82310400003)(316002)(70206006)(86362001)(82740400003)(24736004)(5660300002)(108616005)(70586007)(4326008)(36860700001)(36906005)(478600001)(8936002)(8676002)(7416002)(6916009)(26005)(356005)(186003)(47076005)(966005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Tx3Nkqd5hcfQmC3FHxKFwKUocLH413AbOETkQEJbdZO0NiZsrzjH8CAs/9GqL5LDLXhsSYEKmOlDE/XAfIg02n8NFeELIHHMPJveZotw6CARxQ4+aywNq7ytAAXULAD4w2g3NQQA1DMjHjOV+g5O32CQtV/q3kdj6KRv2cuxlIqXxBvCiU/Q95SqPfLbI5hg6COskLpnWKa3Np9vKsaOCvxoZuoOKZI6V66JgEeheJfCOhXLUkqU+Ivzj4HcRvs7ZQPNWfJMiZbnk7VVLWbj2L0odG+OMkwqeXMYMEy+xTkY9Fj5eVxsDLGMKgvmVDIsTIS56MmwHs8BqE9R3cU303MglORBZhIwSM9/RrfMxnZUsAv43DQHFE6U9BFbLHdlQb3LMCucgLe7dFb5oD1HZqZrS2p5nz+mwHr0zQhOV1yoIYMxDsZeOersTGBoSxNYqVgQiR0sH79jo9Y0+WGxwDewBAzXxXxTPgD7MIgbO1oMdtSrtrV/0FmFgJ/cv+Do0wNZNS8E2Uzf6MN9ONfhRBkLR7UzM3zynJSHEZzjfY05yEBxJovqclxas03KGu+ngx5xIZ5fOni+AviwTCM+X3epUl8ip1TVVpJ9dtjVsKhSq3DF/nimbKkrkO8SuZmN+Bgjz3hUst5YYtsRznVKRQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(46966006)(36840700001)(7636003)(83380400001)(82740400003)(478600001)(2616005)(336012)(8936002)(70206006)(47076005)(2906002)(82310400003)(4326008)(186003)(356005)(6636002)(36756003)(36860700001)(6666004)(54906003)(7416002)(110136005)(36906005)(426003)(26005)(316002)(1076003)(8676002)(86362001)(70586007)(7696005)(5660300002);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 09:22:15.1204
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 13:47:26.4221
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd5bee8d-5d3a-4074-2213-08d900b91fcf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11b479b8-ee5c-4ac7-5716-08d900de2bae
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.36];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT012.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2480
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4645
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 15 Apr 2021 16:48:07 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.11.15 release.
-> There are 23 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sat, 17 Apr 2021 14:44:01 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.11.15-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.11.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+The PCIe controller in Tegra194 SoC is not completely ECAM-compliant.
+With the current hardware design limitations in place, ECAM can be enabled
+only for one controller (C5 controller to be precise) with bus numbers
+starting from 160 instead of 0. A different approach is taken to avoid this
+abnormal way of enabling ECAM for just one controller but to enable
+configuration space access for all the other controllers. In this approach,
+ops are added through MCFG quirk mechanism which access the configuration
+spaces by dynamically programming iATU (internal AddressTranslation Unit)
+to generate respective configuration accesses just like the way it is
+done in DesignWare core sub-system.
+This issue is specific to Tegra194 and it would be fixed in the future
+generations of Tegra SoCs.
 
-All tests passing for Tegra ...
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+---
+V4:
+* Addressed Bjorn's review comments
+* Rebased changes on top of Lorenzo's pci/dwc branch
 
-Test results for stable-v5.11:
-    12 builds:	12 pass, 0 fail
-    28 boots:	28 pass, 0 fail
-    70 tests:	70 pass, 0 fail
+V3:
+* Removed MCFG address hardcoding in pci_mcfg.c file
+* Started using 'dbi_base' for accessing root port's own config space
+* and using 'config_base' for accessing config space of downstream hierarchy
 
-Linux version:	5.11.15-rc1-g7825299a896f
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
-                tegra20-ventana, tegra210-p2371-2180,
-                tegra210-p3450-0000, tegra30-cardhu-a04
+V2:
+* Fixed build issues reported by kbuild test bot
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+ drivers/acpi/pci_mcfg.c                    |   7 ++
+ drivers/pci/controller/dwc/Makefile        |   2 +-
+ drivers/pci/controller/dwc/pcie-tegra194.c | 103 +++++++++++++++++++++
+ include/linux/pci-ecam.h                   |   1 +
+ 4 files changed, 112 insertions(+), 1 deletion(-)
 
-Jon
+diff --git a/drivers/acpi/pci_mcfg.c b/drivers/acpi/pci_mcfg.c
+index 95f23acd5b80..53cab975f612 100644
+--- a/drivers/acpi/pci_mcfg.c
++++ b/drivers/acpi/pci_mcfg.c
+@@ -116,6 +116,13 @@ static struct mcfg_fixup mcfg_quirks[] = {
+ 	THUNDER_ECAM_QUIRK(2, 12),
+ 	THUNDER_ECAM_QUIRK(2, 13),
+ 
++	{ "NVIDIA", "TEGRA194", 1, 0, MCFG_BUS_ANY, &tegra194_pcie_ops},
++	{ "NVIDIA", "TEGRA194", 1, 1, MCFG_BUS_ANY, &tegra194_pcie_ops},
++	{ "NVIDIA", "TEGRA194", 1, 2, MCFG_BUS_ANY, &tegra194_pcie_ops},
++	{ "NVIDIA", "TEGRA194", 1, 3, MCFG_BUS_ANY, &tegra194_pcie_ops},
++	{ "NVIDIA", "TEGRA194", 1, 4, MCFG_BUS_ANY, &tegra194_pcie_ops},
++	{ "NVIDIA", "TEGRA194", 1, 5, MCFG_BUS_ANY, &tegra194_pcie_ops},
++
+ #define XGENE_V1_ECAM_MCFG(rev, seg) \
+ 	{"APM   ", "XGENE   ", rev, seg, MCFG_BUS_ANY, \
+ 		&xgene_v1_pcie_ecam_ops }
+diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
+index 625f6aaeb5b8..2da826ef18ac 100644
+--- a/drivers/pci/controller/dwc/Makefile
++++ b/drivers/pci/controller/dwc/Makefile
+@@ -18,7 +18,6 @@ obj-$(CONFIG_PCIE_INTEL_GW) += pcie-intel-gw.o
+ obj-$(CONFIG_PCIE_KIRIN) += pcie-kirin.o
+ obj-$(CONFIG_PCIE_HISI_STB) += pcie-histb.o
+ obj-$(CONFIG_PCI_MESON) += pci-meson.o
+-obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
+ obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
+ obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
+ 
+@@ -35,4 +34,5 @@ obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
+ ifdef CONFIG_PCI
+ obj-$(CONFIG_ARM64) += pcie-al.o
+ obj-$(CONFIG_ARM64) += pcie-hisi.o
++obj-$(CONFIG_ARM64) += pcie-tegra194.o
+ endif
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index 6fa216e52d14..cb38e94a3033 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -22,6 +22,8 @@
+ #include <linux/of_irq.h>
+ #include <linux/of_pci.h>
+ #include <linux/pci.h>
++#include <linux/pci-acpi.h>
++#include <linux/pci-ecam.h>
+ #include <linux/phy/phy.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+@@ -311,6 +313,104 @@ struct tegra_pcie_dw_of_data {
+ 	enum dw_pcie_device_mode mode;
+ };
+ 
++#if defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS)
++struct tegra194_pcie_ecam  {
++	void __iomem *config_base;
++	void __iomem *iatu_base;
++	void __iomem *dbi_base;
++};
++
++static int tegra194_acpi_init(struct pci_config_window *cfg)
++{
++	struct device *dev = cfg->parent;
++	struct tegra194_pcie_ecam *pcie_ecam;
++
++	pcie_ecam = devm_kzalloc(dev, sizeof(*pcie_ecam), GFP_KERNEL);
++	if (!pcie_ecam)
++		return -ENOMEM;
++
++	pcie_ecam->config_base = cfg->win;
++	pcie_ecam->iatu_base = cfg->win + SZ_256K;
++	pcie_ecam->dbi_base = cfg->win + SZ_512K;
++	cfg->priv = pcie_ecam;
++
++	return 0;
++}
++
++static void atu_reg_write(struct tegra194_pcie_ecam *pcie_ecam, int index,
++			  u32 val, u32 reg)
++{
++	u32 offset = PCIE_GET_ATU_OUTB_UNR_REG_OFFSET(index);
++
++	writel(val, pcie_ecam->iatu_base + offset + reg);
++}
++
++static void program_outbound_atu(struct tegra194_pcie_ecam *pcie_ecam,
++				 int index, int type, u64 cpu_addr,
++				 u64 pci_addr, u64 size)
++{
++	atu_reg_write(pcie_ecam, index, lower_32_bits(cpu_addr),
++		      PCIE_ATU_LOWER_BASE);
++	atu_reg_write(pcie_ecam, index, upper_32_bits(cpu_addr),
++		      PCIE_ATU_UPPER_BASE);
++	atu_reg_write(pcie_ecam, index, lower_32_bits(pci_addr),
++		      PCIE_ATU_LOWER_TARGET);
++	atu_reg_write(pcie_ecam, index, lower_32_bits(cpu_addr + size - 1),
++		      PCIE_ATU_LIMIT);
++	atu_reg_write(pcie_ecam, index, upper_32_bits(pci_addr),
++		      PCIE_ATU_UPPER_TARGET);
++	atu_reg_write(pcie_ecam, index, type, PCIE_ATU_CR1);
++	atu_reg_write(pcie_ecam, index, PCIE_ATU_ENABLE, PCIE_ATU_CR2);
++}
++
++static void __iomem *tegra194_map_bus(struct pci_bus *bus,
++				      unsigned int devfn, int where)
++{
++	struct pci_config_window *cfg = bus->sysdata;
++	struct tegra194_pcie_ecam *pcie_ecam = cfg->priv;
++	u32 busdev;
++	int type;
++
++	if (bus->number < cfg->busr.start || bus->number > cfg->busr.end)
++		return NULL;
++
++	if (bus->number == cfg->busr.start) {
++		if (PCI_SLOT(devfn) == 0)
++			return pcie_ecam->dbi_base + where;
++		else
++			return NULL;
++	}
++
++	busdev = PCIE_ATU_BUS(bus->number) | PCIE_ATU_DEV(PCI_SLOT(devfn)) |
++		 PCIE_ATU_FUNC(PCI_FUNC(devfn));
++
++	if (bus->parent->number == cfg->busr.start) {
++		if (PCI_SLOT(devfn) == 0)
++			type = PCIE_ATU_TYPE_CFG0;
++		else
++			return NULL;
++	} else {
++		type = PCIE_ATU_TYPE_CFG1;
++	}
++
++	program_outbound_atu(pcie_ecam, 0, type, cfg->res.start, busdev,
++			     SZ_256K);
++
++	return pcie_ecam->config_base + where;
++}
++
++const struct pci_ecam_ops tegra194_pcie_ops = {
++	.init		= tegra194_acpi_init,
++	.pci_ops	= {
++		.map_bus	= tegra194_map_bus,
++		.read		= pci_generic_config_read,
++		.write		= pci_generic_config_write,
++	}
++};
++#endif /* defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS) */
++
++#ifdef CONFIG_PCIE_TEGRA194
++
+ static inline struct tegra_pcie_dw *to_tegra_pcie(struct dw_pcie *pci)
+ {
+ 	return container_of(pci, struct tegra_pcie_dw, pci);
+@@ -2311,3 +2411,6 @@ MODULE_DEVICE_TABLE(of, tegra_pcie_dw_of_match);
+ MODULE_AUTHOR("Vidya Sagar <vidyas@nvidia.com>");
+ MODULE_DESCRIPTION("NVIDIA PCIe host controller driver");
+ MODULE_LICENSE("GPL v2");
++
++#endif /* CONFIG_PCIE_TEGRA194 */
++
+diff --git a/include/linux/pci-ecam.h b/include/linux/pci-ecam.h
+index 65d3d83015c3..fbdadd4d8377 100644
+--- a/include/linux/pci-ecam.h
++++ b/include/linux/pci-ecam.h
+@@ -85,6 +85,7 @@ extern const struct pci_ecam_ops pci_thunder_ecam_ops; /* Cavium ThunderX 1.x */
+ extern const struct pci_ecam_ops xgene_v1_pcie_ecam_ops; /* APM X-Gene PCIe v1 */
+ extern const struct pci_ecam_ops xgene_v2_pcie_ecam_ops; /* APM X-Gene PCIe v2.x */
+ extern const struct pci_ecam_ops al_pcie_ops;	/* Amazon Annapurna Labs PCIe */
++extern const struct pci_ecam_ops tegra194_pcie_ops; /* Tegra194 PCIe */
+ #endif
+ 
+ #if IS_ENABLED(CONFIG_PCI_HOST_COMMON)
+-- 
+2.17.1
+
