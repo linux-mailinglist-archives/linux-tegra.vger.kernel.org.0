@@ -2,389 +2,260 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7135436214C
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Apr 2021 15:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 335E536226F
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Apr 2021 16:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233976AbhDPNqS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 16 Apr 2021 09:46:18 -0400
-Received: from mail-eopbgr770085.outbound.protection.outlook.com ([40.107.77.85]:40894
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229706AbhDPNqS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 16 Apr 2021 09:46:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iAIcJVMVtashNN0EC2bKhS+ywyw5F6foavX70ujXQk6PX1+wnbDvRZ/JNQFGo51/I2rvq+J2mTMZlD9Z0og3e44kH+WHIZH60rmkT/N1u35quVEcgz5XsCeSsRARxhjJbhlUWLcTNBXe0xFqsXgqsKgmUxBlkFeZp9LhvDz294lBuMTAeEYY7997Wdo1mtocvsNkWnQTt/AEU6orXhUkTvXinmC/4skQrrRemeG9RFsROqz7Gg5fWAhobFWR8rBXtnkTkYlfgU4b3oQaupVMcnmNNtEARB/H1ISWB6xgRzto4DtLuFURZE62R3Kpf4naDU8yMxvWfygEngFz6EQ++g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+/esXgp9JvtqIk8Jjt4cbRjutmgj5ErpXeH1hk6D+4=;
- b=PovO639xugcAGKEC/ESajmkySiQ6rbPRFRlbi0OqiOWrRRTQgNZMph1nJ1Z/o5xWVFcDzry2XhwxPRcgOr5AuXfw3Hk5Ps9AtCNtmDWYrGEWlLL0lUgAwidYMTgzTb3ByY5xBQEyGIOI+nt8PrTP0EnAAKHseAsH6/KCpvFzimiHh5H76pgrbTCWqvS+kfa1tfYtdTbDATyV3qZbVvflSf3IpLFtwAGjqaIl6VWfRrZHDCx2+laevxheOYsX78wXVCgHReSU4AB7CmIXX31zCCvnXWDMlun5CMTbdZrk19o5viUhLj6aT6esuV6Y/+c0fip59ksR5tcnCOucDj/Fsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.32) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+/esXgp9JvtqIk8Jjt4cbRjutmgj5ErpXeH1hk6D+4=;
- b=OPpIhsax6CuUw70o6WA+n2iCgjF0f0438jqJY3RF4VQiM+PAz5Q+i+iupPbbonpWp6Ck7nXw/cloRz78SobyFACHJQ4M0QfSyZuczz3dbte0u3pp7yU/3DaqXMuazp325HqkVB/6sl/AzqE2fH1SomzFNJUK2RTqZQWoJW7rErvm+y2unmL8OPQOWiAtlrcMo1X1VoOSUQO/KZtO1iSy7AAUFnzyCoTMzC3KUJabE8zcrHY15TU5D/910UkrgfEJkb716BwluQCqV6M+ZcU0RFxLZ7sdkOGBO09EvcAq6LNqE5Ez2a7UgTJLj/sgNEF8DQL8UlAipO2f8s+hbzT0GA==
-Received: from DM5PR07CA0084.namprd07.prod.outlook.com (2603:10b6:4:ad::49) by
- DM6PR12MB2665.namprd12.prod.outlook.com (2603:10b6:5:41::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4020.22; Fri, 16 Apr 2021 13:45:51 +0000
-Received: from DM6NAM11FT065.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:ad:cafe::ce) by DM5PR07CA0084.outlook.office365.com
- (2603:10b6:4:ad::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18 via Frontend
- Transport; Fri, 16 Apr 2021 13:45:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.32; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.32) by
- DM6NAM11FT065.mail.protection.outlook.com (10.13.172.109) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4042.16 via Frontend Transport; Fri, 16 Apr 2021 13:45:51 +0000
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Apr
- 2021 06:45:50 -0700
-Received: from [10.25.99.89] (172.20.145.6) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Apr
- 2021 13:45:45 +0000
-Subject: Re: [PATCH V3 2/2] PCI: Add MCFG quirks for Tegra194 host controllers
-To:     Bjorn Helgaas <helgaas@kernel.org>
-CC:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <rjw@rjwysocki.net>, <lenb@kernel.org>, <andrew.murray@arm.com>,
-        <treding@nvidia.com>, <jonathanh@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-acpi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>,
-        <sagar.tv@gmail.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>
-References: <20210305215749.GA1117765@bjorn-Precision-5520>
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <3b9d99cc-fa20-1906-f200-c993a8e4d9c9@nvidia.com>
-Date:   Fri, 16 Apr 2021 19:15:42 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S236105AbhDPOh6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 16 Apr 2021 10:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235483AbhDPOh4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 16 Apr 2021 10:37:56 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C46C061760
+        for <linux-tegra@vger.kernel.org>; Fri, 16 Apr 2021 07:37:31 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id l4so42443092ejc.10
+        for <linux-tegra@vger.kernel.org>; Fri, 16 Apr 2021 07:37:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8GxxDkNQ8xWrJkT9ns8670579onh7Bw+Uvw6ps3Hfzw=;
+        b=sYu24cfTNp3Sk4VoVSTiZqobXGS3o/nl0S6CM7UMymRzJySbfpZpwBn4yOUMeZDO5R
+         TTPZysgH5JwH4gWicDVlSJXvfnJhRa6vSH8N7qnf2cLql+HX6P9eGY8yH05SiJkTTapB
+         cUsa5jSFYsua/vA/qRY+5BCk+jpyp7Bx/plX0fwM/Yavv33fVDc+ZKkJOUdehjEothHN
+         fYbTCXiVvAYkcPlpsALfnFYCAiNnI8LYEyvQX9anXk0VAaVTV2QN40epzPGkkFu/3j8C
+         E7/HouOKLSTw9DWGjH+xF6aSIabcOm+GI/p5GAe1cQxOpvsMQ853+b+kmUjjRUkihTWz
+         a5EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8GxxDkNQ8xWrJkT9ns8670579onh7Bw+Uvw6ps3Hfzw=;
+        b=Jr+Rs7t2KV5M0qk6pXL8BA+8XW0Dxw6YpzMNeX9WukLZaN9eQ/jixNC64Je+Tpg+MP
+         B78akx+p3kKwJmf8lFgRkQx1ifM24vsmjg97pF0O7qk+WqmZApAireIH6nekMABD+3kR
+         IXCie/vOXbl96QeEvy8toZQxO9pxA0Sf76UANliV0UhuZ8/sVkbOgqoDFQA8CP2gFbI2
+         14pKgoQUXNrNMpOsBAa9GUbJqyyb9RJ2gpx5mbCS6QGiBBNjLEI/YVOvm2+n4VVHez6o
+         GZg1Qk5GCujV+9VCnw4z9FvK/K/LSY8y99321+ls/BsQZUrpA0fyLX7lJNhoiwFltzAW
+         O/DQ==
+X-Gm-Message-State: AOAM533dvVx0EaWkVkjn7TuYNEcWpHRqu6/8XcIKhBysE8Ar7XcsR3+F
+        tE6mFJz8VO2Q6hH45KI8pO6RUQ==
+X-Google-Smtp-Source: ABdhPJz9kIi33dwSJ44VTeiCQHZMhDXP4sc0J7Kiq4t3coxWZ1m1x67Zk7mnLNXlBKhO87ldnTNptw==
+X-Received: by 2002:a17:906:1dd3:: with SMTP id v19mr8633955ejh.4.1618583849970;
+        Fri, 16 Apr 2021 07:37:29 -0700 (PDT)
+Received: from dell.default ([91.110.221.215])
+        by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.37.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Apr 2021 07:37:29 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
+        Ajay Kumar <ajaykumar.rs@samsung.com>,
+        Akshu Agarwal <akshua@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Ben Widawsky <ben@bwidawsk.net>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+        freedreno@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jeremy Kolb <jkolb@brandeis.edu>,
+        Jerome Glisse <glisse@freedesktop.org>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kuogee Hsieh <khsieh@codeaurora.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Nirmoy Das <nirmoy.das@amd.com>, nouveau@lists.freedesktop.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Clark <rob.clark@linaro.org>,
+        Rob Clark <robdclark@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Vincent Abriou <vincent.abriou@st.com>
+Subject: [PATCH 00/40] [Set 16] Rid W=1 warnings from GPU!
+Date:   Fri, 16 Apr 2021 15:36:45 +0100
+Message-Id: <20210416143725.2769053-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210305215749.GA1117765@bjorn-Precision-5520>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8208d9d3-ed4f-4adf-1f9b-08d900ddf305
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2665:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB2665981756CC64F15E3B75BCB84C9@DM6PR12MB2665.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RwfL2h60znauFl3A5Ali1BAlPYB6lhvI8X1B+Rs/KZ19qx5K5F+rpkXJ+59LAOv6PvZowOcPKy2BoYTtj/Du+z6F52E1vwuYq3aWmGl5bV5zOJPwI1XrsgkIoKwq5hWo6ALjqGzu+wje8oCCwhweP8ugdr/pTGM0Qqey/gnRb78hSe8ZM++ZFeyYl3xZm6Wm8Kn/DUhC7ueQtPzC6k8MDKT+Nb/KEG04+WbSHqWdsKhbQTWvmlHv85hrELZwUFSL43Pq9BQ1u3Tmwt1I6MC151IaUVVkQXHw3cOPXR1UB7OwP6lBktPWoX1sjq57k+v53+HxL1OfwhgRkiuJEwsqtBsfxYi9RvqC59ejsl7T7AZnmtVNsk8i3wf5gBHBdqWvO+AWL3+XUm+wSfM2KMagrK3wrjjUfiI62cIi2rA45sMOq5YTLLLl//FVm8IK8DIl0H8fADsZwB97Af0EhchGl4xd54VeGN4ikPhsavpHX7dVTGMEniRoRv7PdGwFwn5hCnMXeguODLyAY5MikbySsHSQIbS9tEABwcPeAdrnhlH+IVXXg0e2u2rUlvPYlMh9BcDOhqLoSgqiOppurpiohYVnePTcDNdzLerR95Jea0ppQnXUejQv9vRadGOWbx+OjXPm3/oZaWHYqVNdXWbdYJu4N2P3epGDSaBsrPO38NrOUXRMgIsTn/JzH2GiFyL7
-X-Forefront-Antispam-Report: CIP:216.228.112.32;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid01.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(39860400002)(396003)(346002)(376002)(36840700001)(46966006)(4326008)(36860700001)(7416002)(83380400001)(82740400003)(16576012)(7636003)(2616005)(316002)(86362001)(53546011)(356005)(47076005)(26005)(54906003)(31696002)(5660300002)(6916009)(8676002)(426003)(336012)(36756003)(16526019)(2906002)(82310400003)(478600001)(186003)(70206006)(70586007)(6666004)(8936002)(31686004)(30864003)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 13:45:51.3448
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8208d9d3-ed4f-4adf-1f9b-08d900ddf305
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.32];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT065.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2665
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
+Lee Jones (40):
+  drm/nouveau/nvkm/subdev/bios/init: Demote obvious abuse of kernel-doc
+  drm/nouveau/dispnv50/disp: Remove unused variable 'ret'
+  drm/msm/dp/dp_display: Remove unused variable 'hpd'
+  include: drm: drm_atomic: Make use of 'new_plane_state'
+  drm/nouveau/nvkm/subdev/volt/gk20a: Demote non-conformant kernel-doc
+    headers
+  drm/nouveau/nvkm/engine/gr/gf100: Demote non-conformant kernel-doc
+    header
+  drm/nouveau/nouveau_bo: Remove unused variables 'dev'
+  drm/nouveau/nouveau_display: Remove set but unused variable 'width'
+  drm/nouveau/dispnv04/crtc: Demote non-conforming kernel-doc headers
+  drm/nouveau/dispnv50/disp: Remove unused variable 'ret' from function
+    returning void
+  drm/nouveau/dispnv50/headc57d: Make local function 'headc57d_olut'
+    static
+  drm/nouveau/nv50_display: Remove superfluous prototype for local
+    static functions
+  drm/nouveau/dispnv50/disp: Include header containing our prototypes
+  drm/nouveau/nouveau_ioc32: File headers are not good candidates for
+    kernel-doc
+  drm/nouveau/nouveau_svm: Remove unused variable 'ret' from void
+    function
+  drm/nouveau/nouveau_ioc32: Demote kernel-doc abuse to standard comment
+    block
+  gpu: host1x: bus: Remove superfluous param description 'key'
+  drm/omapdrm/omap_irq: Fix a couple of incorrectly documented functions
+  drm/omapdrm/omap_gem: Properly document omap_gem_dumb_map_offset()
+  drm/xlnx/zynqmp_disp: Fix incorrectly documented enum 'zynqmp_disp_id'
+  drm/xlnx/zynqmp_dp: Fix a little potential doc-rot
+  drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
+  drm/ttm/ttm_bo: Fix incorrectly documented function
+    'ttm_bo_cleanup_refs'
+  drm/scheduler/sched_entity: Fix some function name disparity
+  drm/radeon/radeon_device: Provide function name in kernel-doc header
+  drm/amd/amdgpu/amdgpu_device: Remove unused variable 'r'
+  drm/ttm/ttm_device: Demote kernel-doc abuses
+  drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
+  drm/amd/amdgpu/amdgpu_fence: Provide description for 'sched_score'
+  drm/vgem/vgem_drv: Demote kernel-doc abuse
+  drm/amd/amdgpu/amdgpu_gart: Correct a couple of function names in the
+    docs
+  drm/amd/amdgpu/amdgpu_ttm: Fix incorrectly documented function
+    'amdgpu_ttm_copy_mem_to_mem()'
+  drm/amd/amdgpu/amdgpu_ring: Provide description for 'sched_score'
+  drm/exynos/exynos_drm_fimd: Realign function name with its header
+  drm/amd/amdgpu/amdgpu_cs: Repair some function naming disparity
+  drm/exynos/exynos7_drm_decon: Realign function name with its header
+  drm/panel/panel-sitronix-st7701: Demote kernel-doc format abuse
+  drm/exynos/exynos_drm_ipp: Fix some function name disparity issues
+  drm/sti/sti_hdmi: Provide kernel-doc headers with function names
+  drm/mediatek/mtk_disp_ccorr: Demote less than half-populated struct
+    header
 
-On 3/6/2021 3:27 AM, Bjorn Helgaas wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> [+cc Krzysztof for .bus_shift below]
-> 
-> This is [2/2] but I don't see a [1/2].  Is there something missing?
-> 
-> On Sat, Jan 11, 2020 at 12:45:00AM +0530, Vidya Sagar wrote:
->> The PCIe controller in Tegra194 SoC is not completely ECAM-compliant.
->> With the current hardware design limitations in place, ECAM can be enabled
->> only for one controller (C5 controller to be precise) with bus numbers
->> starting from 160 instead of 0. A different approach is taken to avoid this
->> abnormal way of enabling ECAM for just one controller but to enable
->> configuration space access for all the other controllers. In this approach,
->> ops are added through MCFG quirk mechanism which access the configuration
->> spaces by dynamically programming iATU (internal AddressTranslation Unit)
->> to generate respective configuration accesses just like the way it is
->> done in DesignWare core sub-system.
-> 
-> Is this a published erratum in the device?  The purpose of specs is so
-> we can run existing code on new platforms without having to add quirks
-> like this, so I'm looking for some acknowledgement that this is an
-> issue that will be fixed in future designs.
-Yes. This would be fixed in the following SoC.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c      |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c      |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   2 +-
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_ipp.c       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c           |   3 -
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  10 +-
+ drivers/gpu/drm/nouveau/dispnv50/headc57d.c   |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c          |   4 -
+ drivers/gpu/drm/nouveau/nouveau_display.c     |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_ioc32.c       |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c         |   5 +-
+ drivers/gpu/drm/nouveau/nv50_display.h        |   3 -
+ .../gpu/drm/nouveau/nvkm/engine/gr/gf100.c    |   2 +-
+ .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 204 ++++++------------
+ .../gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c  |   4 +-
+ drivers/gpu/drm/omapdrm/omap_gem.c            |   2 +-
+ drivers/gpu/drm/omapdrm/omap_irq.c            |   4 +-
+ .../drm/panel/panel-raspberrypi-touchscreen.c |   2 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c |   2 +-
+ drivers/gpu/drm/radeon/radeon_device.c        |   3 +-
+ drivers/gpu/drm/scheduler/sched_entity.c      |   6 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                |  18 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |   2 +-
+ drivers/gpu/drm/ttm/ttm_device.c              |   4 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                  |   2 +-
+ drivers/gpu/drm/vgem/vgem_drv.c               |   2 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |   2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
+ drivers/gpu/host1x/bus.c                      |   1 -
+ include/drm/drm_atomic.h                      |   3 +-
+ 37 files changed, 130 insertions(+), 207 deletions(-)
 
-> 
-> Ideally this would be a URL to published errata, and we would include
-> the text or a synopsis here in the commit log.
-> 
->> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
->> Reported-by: kbuild test robot <lkp@intel.com>
-> 
-> What is this "Reported-by" telling me?  Normally this would be a
-> person who could supply more information about a defect we're fixing
-> and might be able to test the fix.
-I'll remove this.
+Cc: Adam Jackson <ajax@redhat.com>
+Cc: Ajay Kumar <ajaykumar.rs@samsung.com>
+Cc: Akshu Agarwal <akshua@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Ben Widawsky <ben@bwidawsk.net>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Eric Anholt <eric@anholt.net>
+Cc: freedreno@lists.freedesktop.org
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jeremy Kolb <jkolb@brandeis.edu>
+Cc: Jerome Glisse <glisse@freedesktop.org>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Kuogee Hsieh <khsieh@codeaurora.org>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Nirmoy Das <nirmoy.das@amd.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Clark <rob.clark@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: Vincent Abriou <vincent.abriou@st.com>
+-- 
+2.27.0
 
-> 
->> ---
->> V3:
->> * Removed MCFG address hardcoding in pci_mcfg.c file
->> * Started using 'dbi_base' for accessing root port's own config space
->> * and using 'config_base' for accessing config space of downstream hierarchy
->>
->> V2:
->> * Fixed build issues reported by kbuild test bot
-> 
-> Ah, I see this is probably where the "Reported-by" came from.  To me,
-> it would make sense to add the tag if the commit *only* fixes the
-> build problem so it's obvious what the robot reported.
-> 
-> But here, the build fix got squashed in before merging, so it's more
-> like a general review comment and I think the robot's response on the
-> mailing list is probably enough.
-> 
->>   drivers/acpi/pci_mcfg.c                    |   7 ++
->>   drivers/pci/controller/dwc/Kconfig         |   3 +-
->>   drivers/pci/controller/dwc/Makefile        |   2 +-
->>   drivers/pci/controller/dwc/pcie-tegra194.c | 102 +++++++++++++++++++++
->>   include/linux/pci-ecam.h                   |   1 +
->>   5 files changed, 113 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/acpi/pci_mcfg.c b/drivers/acpi/pci_mcfg.c
->> index 6b347d9920cc..707181408173 100644
->> --- a/drivers/acpi/pci_mcfg.c
->> +++ b/drivers/acpi/pci_mcfg.c
->> @@ -116,6 +116,13 @@ static struct mcfg_fixup mcfg_quirks[] = {
->>        THUNDER_ECAM_QUIRK(2, 12),
->>        THUNDER_ECAM_QUIRK(2, 13),
->>
->> +     { "NVIDIA", "TEGRA194", 1, 0, MCFG_BUS_ANY, &tegra194_pcie_ops},
->> +     { "NVIDIA", "TEGRA194", 1, 1, MCFG_BUS_ANY, &tegra194_pcie_ops},
->> +     { "NVIDIA", "TEGRA194", 1, 2, MCFG_BUS_ANY, &tegra194_pcie_ops},
->> +     { "NVIDIA", "TEGRA194", 1, 3, MCFG_BUS_ANY, &tegra194_pcie_ops},
->> +     { "NVIDIA", "TEGRA194", 1, 4, MCFG_BUS_ANY, &tegra194_pcie_ops},
->> +     { "NVIDIA", "TEGRA194", 1, 5, MCFG_BUS_ANY, &tegra194_pcie_ops},
->> +
->>   #define XGENE_V1_ECAM_MCFG(rev, seg) \
->>        {"APM   ", "XGENE   ", rev, seg, MCFG_BUS_ANY, \
->>                &xgene_v1_pcie_ecam_ops }
->> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
->> index 0830dfcfa43a..f5b9e75aceed 100644
->> --- a/drivers/pci/controller/dwc/Kconfig
->> +++ b/drivers/pci/controller/dwc/Kconfig
->> @@ -255,7 +255,8 @@ config PCIE_TEGRA194
->>        select PHY_TEGRA194_P2U
->>        help
->>          Say Y here if you want support for DesignWare core based PCIe host
->> -       controller found in NVIDIA Tegra194 SoC.
->> +       controller found in NVIDIA Tegra194 SoC. ACPI platforms with Tegra194
->> +       don't need to enable this.
->>
->>   config PCIE_UNIPHIER
->>        bool "Socionext UniPhier PCIe controllers"
->> diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
->> index 8a637cfcf6e9..76a6c52b8500 100644
->> --- a/drivers/pci/controller/dwc/Makefile
->> +++ b/drivers/pci/controller/dwc/Makefile
->> @@ -17,7 +17,6 @@ obj-$(CONFIG_PCIE_INTEL_GW) += pcie-intel-gw.o
->>   obj-$(CONFIG_PCIE_KIRIN) += pcie-kirin.o
->>   obj-$(CONFIG_PCIE_HISI_STB) += pcie-histb.o
->>   obj-$(CONFIG_PCI_MESON) += pci-meson.o
->> -obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
->>   obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
->>
->>   # The following drivers are for devices that use the generic ACPI
->> @@ -33,4 +32,5 @@ obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
->>   ifdef CONFIG_PCI
->>   obj-$(CONFIG_ARM64) += pcie-al.o
->>   obj-$(CONFIG_ARM64) += pcie-hisi.o
->> +obj-$(CONFIG_ARM64) += pcie-tegra194.o
->>   endif
->> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
->> index cbe95f0ea0ca..660f55caa8be 100644
->> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
->> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
->> @@ -21,6 +21,8 @@
->>   #include <linux/of_irq.h>
->>   #include <linux/of_pci.h>
->>   #include <linux/pci.h>
->> +#include <linux/pci-acpi.h>
->> +#include <linux/pci-ecam.h>
->>   #include <linux/phy/phy.h>
->>   #include <linux/pinctrl/consumer.h>
->>   #include <linux/platform_device.h>
->> @@ -285,6 +287,103 @@ struct tegra_pcie_dw {
->>        struct dentry *debugfs;
->>   };
->>
->> +#if defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS)
->> +struct tegra194_pcie_acpi  {
->> +     void __iomem *config_base;
->> +     void __iomem *iatu_base;
->> +     void __iomem *dbi_base;
->> +};
->> +
->> +static int tegra194_acpi_init(struct pci_config_window *cfg)
->> +{
->> +     struct device *dev = cfg->parent;
->> +     struct tegra194_pcie_acpi *pcie;
-> 
-> "pcie" doesn't seem like the best name for this since everywhere else
-> in this driver, "pcie" is a "struct tegra_pcie_dw *".  Maybe "mcfg"
-> or similar?
-> 
-> With some rename of tegra194_pcie_acpi along the same lines, since it
-> really isn't ACPI-specific.  It's just that the ACPI MCFG table
-> happens to be the way to discover the ECAM address space.
-Understood. I'll take care of it in the next patch.
-
-> 
->> +     pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
->> +     if (!pcie)
->> +             return -ENOMEM;
->> +
->> +     pcie->config_base = cfg->win;
->> +     pcie->iatu_base = cfg->win + SZ_256K;
->> +     pcie->dbi_base = cfg->win + SZ_512K;
->> +     cfg->priv = pcie;
->> +
->> +     return 0;
->> +}
->> +
->> +static inline void atu_reg_write(struct tegra194_pcie_acpi *pcie, int index,
->> +                              u32 val, u32 reg)
-> 
-> "inline" is pointless, I think, since this isn't a performance path
-> and the compiler will probably inline it by itself.
-Ok. I'll remove it in the next patch.
-
-> 
->> +{
->> +     u32 offset = PCIE_GET_ATU_OUTB_UNR_REG_OFFSET(index);
->> +
->> +     writel(val, pcie->iatu_base + offset + reg);
->> +}
->> +
->> +static void program_outbound_atu(struct tegra194_pcie_acpi *pcie, int index,
->> +                              int type, u64 cpu_addr, u64 pci_addr, u64 size)
->> +{
->> +     atu_reg_write(pcie, index, lower_32_bits(cpu_addr),
->> +                   PCIE_ATU_LOWER_BASE);
->> +     atu_reg_write(pcie, index, upper_32_bits(cpu_addr),
->> +                   PCIE_ATU_UPPER_BASE);
->> +     atu_reg_write(pcie, index, lower_32_bits(pci_addr),
->> +                   PCIE_ATU_LOWER_TARGET);
->> +     atu_reg_write(pcie, index, lower_32_bits(cpu_addr + size - 1),
->> +                   PCIE_ATU_LIMIT);
->> +     atu_reg_write(pcie, index, upper_32_bits(pci_addr),
->> +                   PCIE_ATU_UPPER_TARGET);
->> +     atu_reg_write(pcie, index, type, PCIE_ATU_CR1);
->> +     atu_reg_write(pcie, index, PCIE_ATU_ENABLE, PCIE_ATU_CR2);
->> +}
->> +
->> +static void __iomem *tegra194_map_bus(struct pci_bus *bus,
->> +                                   unsigned int devfn, int where)
->> +{
->> +     struct pci_config_window *cfg = bus->sysdata;
->> +     struct tegra194_pcie_acpi *pcie = cfg->priv;
->> +     u32 busdev;
->> +     int type;
->> +
->> +     if (bus->number < cfg->busr.start || bus->number > cfg->busr.end)
->> +             return NULL;
->> +
->> +     if (bus->number == cfg->busr.start) {
->> +             if (PCI_SLOT(devfn) == 0)
->> +                     return pcie->dbi_base + where;
->> +             else
->> +                     return NULL;
->> +     }
->> +
->> +     busdev = PCIE_ATU_BUS(bus->number) | PCIE_ATU_DEV(PCI_SLOT(devfn)) |
->> +              PCIE_ATU_FUNC(PCI_FUNC(devfn));
->> +
->> +     if (bus->parent->number == cfg->busr.start) {
->> +             if (PCI_SLOT(devfn) == 0)
->> +                     type = PCIE_ATU_TYPE_CFG0;
->> +             else
->> +                     return NULL;
->> +     } else {
->> +             type = PCIE_ATU_TYPE_CFG1;
->> +     }
->> +
->> +     program_outbound_atu(pcie, PCIE_ATU_REGION_INDEX0, type,
->> +                          cfg->res.start, busdev, SZ_256K);
-> 
-> I don't see a PCIE_ATU_REGION_INDEX0 definition.  Maybe that's what's
-> in the [1/2] patch?  I guess there's some way to be sure this ATU
-> isn't used for other purposes?
-> 
->> +     return (void __iomem *)(pcie->config_base + where);
-> 
-> Isn't the type correct even without the cast, same as above for
-> "pcie->dbi_base + where"?
-Correct. I'll address it in the next patch.
-
-> 
->> +}
->> +
->> +struct pci_ecam_ops tegra194_pcie_ops = {
->> +     .bus_shift      = 20,
-> 
-> I think e7708f5b10e2 ("PCI: Unify ECAM constants in native PCI Express
-> drivers") means you don't need this .bus_shift.
-Correct. I'll remove this in the next patch.
-
-> 
->> +     .init           = tegra194_acpi_init,
->> +     .pci_ops        = {
->> +             .map_bus        = tegra194_map_bus,
->> +             .read           = pci_generic_config_read,
->> +             .write          = pci_generic_config_write,
->> +     }
->> +};
->> +#endif /* defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS) */
->> +
->> +#ifdef CONFIG_PCIE_TEGRA194
->> +
->>   static inline struct tegra_pcie_dw *to_tegra_pcie(struct dw_pcie *pci)
->>   {
->>        return container_of(pci, struct tegra_pcie_dw, pci);
->> @@ -1728,3 +1827,6 @@ MODULE_DEVICE_TABLE(of, tegra_pcie_dw_of_match);
->>   MODULE_AUTHOR("Vidya Sagar <vidyas@nvidia.com>");
->>   MODULE_DESCRIPTION("NVIDIA PCIe host controller driver");
->>   MODULE_LICENSE("GPL v2");
->> +
->> +#endif /* CONFIG_PCIE_TEGRA194 */
->> +
->> diff --git a/include/linux/pci-ecam.h b/include/linux/pci-ecam.h
->> index a73164c85e78..6156140dcbb6 100644
->> --- a/include/linux/pci-ecam.h
->> +++ b/include/linux/pci-ecam.h
->> @@ -57,6 +57,7 @@ extern struct pci_ecam_ops pci_thunder_ecam_ops; /* Cavium ThunderX 1.x */
->>   extern struct pci_ecam_ops xgene_v1_pcie_ecam_ops; /* APM X-Gene PCIe v1 */
->>   extern struct pci_ecam_ops xgene_v2_pcie_ecam_ops; /* APM X-Gene PCIe v2.x */
->>   extern struct pci_ecam_ops al_pcie_ops; /* Amazon Annapurna Labs PCIe */
->> +extern struct pci_ecam_ops tegra194_pcie_ops; /* Tegra194 PCIe */
->>   #endif
->>
->>   #ifdef CONFIG_PCI_HOST_COMMON
->> --
->> 2.17.1
->>
