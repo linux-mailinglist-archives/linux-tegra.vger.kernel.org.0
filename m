@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ACFB364B6F
-	for <lists+linux-tegra@lfdr.de>; Mon, 19 Apr 2021 22:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5EAD364BB9
+	for <lists+linux-tegra@lfdr.de>; Mon, 19 Apr 2021 22:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242397AbhDSUod (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 19 Apr 2021 16:44:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54078 "EHLO mail.kernel.org"
+        id S242702AbhDSUqN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 19 Apr 2021 16:46:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54916 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242382AbhDSUob (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 19 Apr 2021 16:44:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 87FE7613C9;
-        Mon, 19 Apr 2021 20:44:00 +0000 (UTC)
+        id S242675AbhDSUpQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 19 Apr 2021 16:45:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 979F9613E4;
+        Mon, 19 Apr 2021 20:44:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618865041;
+        s=k20201202; t=1618865075;
         bh=sL2wviUKoZfmwofxZJu5uW934bvydhzmqXTAzeULgFQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WckPTqRuYjvIDyUQCPMw3GEIcuCQnUGD8Ikaj7D3xQYYXTYTzKJ6FzMX74Cqcb0rI
-         iXVjQSOpbAFJNIXfaDPgr2pFOi/AJmozEJWwdL8e7KprS4lqwJNZ+0ciqZWb5/g0HP
-         KDvvsGhWU40cQHeMNcRrIVKCWHtUi8RXKZGRoX0yiJVt3LQwMrzJq083eHwuXMTrWx
-         EBZfR3c3aIxWCJ2mT877yAjrESoXKrF0Z4524FIiiXt0Bm89jUuFYi3O6Nz9oR14vI
-         gpMPUTX1GzSGv81ScjX6lzo2eliwDzDUMDpdry3nZnhLXQBWubb1VG08OpQE23izuV
-         Z6yHdjUjgDzKQ==
+        b=d2XghzsSZPf1s3i1W5kVT+yRyo0BjFRMNB++ZBtoMptB4Tf/vNegcTzhh5vGsRFCz
+         pCihFf4RLK7RtYcXJIcZVmbtsN17uUBDPdBPV59hvii48a1YaoqxZRrtKJiHt8Mq6y
+         nWxbj1cZfiS8c1WggqVkku0knwUKFe6Lh5Xs3ZJrqgc4bV4Ck/JzqpB+7kN3qfyTlg
+         9vhpTfySsN0ZGlB0UZfQNfb6mUJTdwzyB8MBEVSb8QmuDkM/YAs9qLwYpwALVAzKQW
+         t30iCb65sPTv6k0AUP/GngmBJodffe3m+gNqLu78BE/PM5gQANRjTFS5Q/tV0hKK8K
+         KdehBLHp7Wpxw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
         Thierry Reding <treding@nvidia.com>,
         Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
         dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 12/23] dmaengine: tegra20: Fix runtime PM imbalance on error
-Date:   Mon, 19 Apr 2021 16:43:31 -0400
-Message-Id: <20210419204343.6134-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 10/21] dmaengine: tegra20: Fix runtime PM imbalance on error
+Date:   Mon, 19 Apr 2021 16:44:08 -0400
+Message-Id: <20210419204420.6375-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210419204343.6134-1-sashal@kernel.org>
-References: <20210419204343.6134-1-sashal@kernel.org>
+In-Reply-To: <20210419204420.6375-1-sashal@kernel.org>
+References: <20210419204420.6375-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
