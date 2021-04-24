@@ -2,178 +2,309 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24907369C7F
-	for <lists+linux-tegra@lfdr.de>; Sat, 24 Apr 2021 00:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4671E369F49
+	for <lists+linux-tegra@lfdr.de>; Sat, 24 Apr 2021 08:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232500AbhDWWZh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Apr 2021 18:25:37 -0400
-Received: from mail-mw2nam12on2076.outbound.protection.outlook.com ([40.107.244.76]:37737
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232106AbhDWWZg (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Apr 2021 18:25:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dBmQ/44nQQL8SjgMuBcndyKhFTvzR79NtCulsljojcx8nNC0uJ/tsQyXkSt1ETDlWgm08KbgIvJrI+SjyrbZkGuO4JJ0QgY0qENYI5Z7OExUrRVsW4mWN4MzW5zIUTV7Y0dC+n0O8NNjW+5MbbhigLyeZl56Jivf3y/OQ/GSV4uyLVs4mTjkab3rGVYFjEYC4q7CsYpfw8/PZk9vuf35nJBrqmq1mVDNN0ybTEUtclLrbfKmooTKXqJ5N1CJzK/Lr/jmLelQwDvCXUd8ET6+YQeLpS+rK/BhNCYw265ey7ebsmCKo4O/V2pl8satehsk3NG3T5tzya0SviAsFh5nLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=botP2zId/xRiZZDutfnqUDSL1DvGz8+g4qdax7sNVQk=;
- b=T39aYewvGB4ZatN5mFfSAbytSDXNMSmC/eMwche0xG8q0/3nFs/Am+B8Cx2HloCSh1X5/BZSsAHMfcxqJHSgKPwzUBsd+TMtSg3RtFbQp+sVHxcoYuMEsBBB9aJowYNs2JZX/A1GK92F9oRmySwIavTANWHjSVJLt5hQcPOel/4aWmg76Bo6IzBUejm2oA6JL8hzXVzY730Dp7WGP2CaW0GwK4LDLYj47UNPpsDKkJde9xw9Gicng9Uw8shs2Y5WKoHHoDGKo4g3raDtBpB/s/IWWcmDdC9O5pdebmCUu39tWakFPdrb6cZgiYW6of+slAFibXDyGT+siVumwj022g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=botP2zId/xRiZZDutfnqUDSL1DvGz8+g4qdax7sNVQk=;
- b=EEptId7l1njpX+f6/L9Jddel3bz2XGRtzwq03yKcByP9y5hiIjWLzNgb41Dww0U06287WqRoSotY2Mj+28mN03fplYyV8fesu+WfpsZQI5iSIYM3CqcwN9/tZdV3Gk/5lryBhuEGT29/mGOSouHffqyaYdyda5ElUHLmdWsMAWfIW/CXxYKxHRocp2wNGxIKol0oamjNLcqGCv0QaYFblFcvHNpmiKxJ0BFjKO2EmTWIe55YW/120odgmcUeJK0yr3bch7LLx1FEZleRGnfX7l2poHmi3b0pmZCxFxFMu9bYoypeJjknSXLybM5iaxwjgIaHj2bheK1AetQbncbZ8g==
-Received: from DM5PR12CA0003.namprd12.prod.outlook.com (2603:10b6:4:1::13) by
- BYAPR12MB3352.namprd12.prod.outlook.com (2603:10b6:a03:a8::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.22; Fri, 23 Apr 2021 22:24:57 +0000
-Received: from DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:1:cafe::b6) by DM5PR12CA0003.outlook.office365.com
- (2603:10b6:4:1::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend
- Transport; Fri, 23 Apr 2021 22:24:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT021.mail.protection.outlook.com (10.13.173.76) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4065.21 via Frontend Transport; Fri, 23 Apr 2021 22:24:56 +0000
-Received: from [10.2.164.27] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 23 Apr
- 2021 22:24:55 +0000
-Subject: Re: [RFC PATCH 0/4] Support for passing runtime state idle time to
- TF-A
-To:     Lukasz Luba <lukasz.luba@arm.com>
-CC:     <sudeep.holla@arm.com>, <souvik.chakravarty@arm.com>,
-        <thierry.reding@gmail.com>, <mark.rutland@arm.com>,
-        <lorenzo.pieralisi@arm.com>, <daniel.lezcano@linaro.org>,
-        <robh+dt@kernel.org>, <jonathanh@nvidia.com>,
-        <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <1619123448-10138-1-git-send-email-skomatineni@nvidia.com>
- <064341f7-dce3-5ad4-e69b-9568115035c1@arm.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <486856be-1e66-fd77-e306-949b91bcdb1d@nvidia.com>
-Date:   Fri, 23 Apr 2021 15:24:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S237258AbhDXGqo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 24 Apr 2021 02:46:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35870 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234036AbhDXGqW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 071B7614A5;
+        Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619246734;
+        bh=Lnim1TUt677YJWiPrC+8LojehUt72YCS6RwqaKvsxik=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hIffhgY80p5UIxouhMq4zYEYJPZqhghVGH5RoleW5zL7OXHyN/MkccktMHJOI+UiA
+         kkJwJUMKa19h1Bpdz00JMKun/cLmyzErqcxzltDRnnKWnLn/hxVEeoNP8mXQgoOvdg
+         f1JqyaKVSpOKxwZ9BJZnQ4AXJUhN4zguZ6kUaUuzn9GwgkaxYbl0/B75Bo7fxUFVYL
+         CnKxnIWz0C4qKUOdkjzy4usIVUBeQ8AQ2LMW5XqxMK65Vm0kExnClFLr29tEeBZI2a
+         daRG4L2AuCCy4cydWBTFq/Zve1e68Jd2ekj9thR9z6ky4wYhQ4C8VLYdUhweX1/a6t
+         KWpP3mz5w1Sjw==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1laC2k-004Jdj-RZ; Sat, 24 Apr 2021 08:45:30 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Andy Gross <agross@kernel.org>, Benoit Parrot <bparrot@ti.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Todor Tomov <todor.too@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Yong Zhi <yong.zhi@intel.com>, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 00/78] media: use pm_runtime_resume_and_get() instead of pm_runtime_get_sync()
+Date:   Sat, 24 Apr 2021 08:44:10 +0200
+Message-Id: <cover.1619191723.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <064341f7-dce3-5ad4-e69b-9568115035c1@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3512c33c-6dcf-4cd7-b811-08d906a6a029
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3352:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB33525412180C2FA4E7ED3D88C2459@BYAPR12MB3352.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aJCxerfL+Lfub4feEnLM5T1ip5dS8FIjOZtpgVqeN+2r0DsAk+eBzkmDM8WLnP59nrpL1iTLL70E3zWutn21s7hZ3VkHqnMpo8LvtRbXJoQVPt39CcdMqPuiLfgfdWPtfqYFml0cgTeYPt6tU61UlTxKtNn9uxANVZZHWJNN6BZq8fK71VudMPTWH692jqRuLiV4GSOaJTM8hm24ikhRJZFkwcbCr22jUHQ+drVWZfXrHUn9F5ZZBGJdH1E9vVCx616+2+jWkx8t3Rzh4bLXdFh9yJ/SxO01KhIMwJo6KFCNl7z+iqlFryQLDtdSxPABL+GC+4G/OJVghrw4UpQhQfvqClrx90QSHt+JaKEFdLRvCFOgRvIjjWqpewmCdj/xWkZRIlyMqU4qAFj3R6I+vz1fAvk2OpimH20xWcXLngp9GEtNwZrm0SKaj93tXPPq0xLSq2W95/T5gObH5ctIirIWT72rb5bxMfJOF/Bivd5h3Y0/QCCOTl5pw4XnP1DlgItzOPP/nw3mOlXs4uzfQUqs52rHIx0qpDasxBRIUqzqjPtrPZQz9eeKjwgVEmDC7Ea2J/Ne6JKuQnz+9UF3gUVX+7i9hu/uiIEZSOnvrkyhsLbz10aCQTjUQg9+T82ZTwItfZVah51eaavQiQ/9ij4VE0Zk6Fd+wwQirYfOGx71VXdCFy8Ts4bmrg4/p896
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(36840700001)(46966006)(31686004)(47076005)(4326008)(16526019)(478600001)(186003)(8676002)(336012)(6916009)(8936002)(36860700001)(53546011)(36756003)(31696002)(16576012)(7416002)(54906003)(36906005)(26005)(83380400001)(7636003)(316002)(82740400003)(86362001)(356005)(82310400003)(426003)(2906002)(2616005)(70586007)(70206006)(6666004)(5660300002)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 22:24:56.9932
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3512c33c-6dcf-4cd7-b811-08d906a6a029
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3352
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+During the review of the patches from unm.edu, one of the patterns
+I noticed is the amount of patches trying to fix pm_runtime_get_sync()
+calls.
 
-On 4/23/21 1:16 PM, Lukasz Luba wrote:
-> Hi Sowjanya,
->
-> On 4/22/21 9:30 PM, Sowjanya Komatineni wrote:
->> Tegra194 and Tegra186 platforms use separate MCE firmware for CPUs 
->> which is
->> in charge of deciding on state transition based on target state, 
->> state idle
->> time, and some other Tegra CPU core cluster states information.
->>
->> Current PSCI specification don't have function defined for passing 
->> runtime
->> state idle time predicted by governor (based on next events and state 
->> target
->> residency) to ARM trusted firmware.
->
-> Do you have some numbers from experiments showing that these idle
-> governor prediction values, which are passed from kernel to MCE
-> firmware, are making a good 'guess'?
-> How much precision (1us? 1ms?) in the values do you need there?
+On contrary of the common sense that a foo_get() function will
+only increment the usage on success,  pm_runtime_get_sync()
+increments it unconditionally.
 
-it could also be in few ms depending on when next cpu event/activity 
-might happen which is not transparent to MCE firmware.
+Due to that, there are bugs on lots of places, that ended being
+gradually fixed, but, still there are a few places on media where
+this is still broken.
 
->
-> IIRC (probably Rafael's presentations) predicting in the kernel
-> something like CPU idle time residency is not a trivial thing.
->
-> Another idea (depending on DT structure and PSCI bits):
-> Could this be solved differently, but just having a knowledge that if
-> the governor requested some C-state, this means governor 'predicted'
-> an idle residency to be greater that min_residency attached to this
-> C-state?
-> Then, when that request shows up in your FW, you know that it must be at
-> least min_residency because of this C-state id.
-C6 is the only deepest state for Tegra194 Carmel CPU that we support in 
-addition to C1 (WFI) idle state.
+Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+added a new method to does a pm_runtime get, which increments
+the usage count only on success.
 
-MCE firmware gets state crossover thresholds for C1 to C6 transition 
-from TF-A and uses it along with state idle time to decide on C6 state 
-entry based on its background work.
+This series replace all places where the old  pm_runtime_get_sync()
+is called, using  pm_runtime_resume_and_get() instead.
 
-Assuming for now if we use min_residency as state idle time which is 
-static value from DT, then it enters into deepest state C6 always as we 
-use min_residency value we use is always higher than state crossover 
-threshold.
+This should help to avoid future mistakes like that, as people
+tend to use the existing drivers as examples for newer ones.
 
-But MCE firmware is not aware of when next cpu event can happen to 
-predict if next event can take longer than state min_residency time.
+compile-tested only.
 
-Using min residency in such case is very conservative where MCE firmware 
-exits C6 state early where we may not have better power saving.
+Mauro Carvalho Chehab (78):
+  media: atmel: properly get pm_runtime
+  media: marvel-ccic: fix some issues when getting pm_runtime
+  media: mdk-mdp: fix pm_runtime_get_sync() usage count
+  media: rcar_fdp1: fix  usage count
+  media: mdk-mdp: fix pm_runtime_get_sync() usage count
+  media: renesas-ceu: fix pm_runtime_get_sync() usage count
+  media: s5p: fix pm_runtime_get_sync() usage count
+  media: am437x:: fix pm_runtime_get_sync() usage count
+  media: sh_vou: fix pm_runtime_get_sync() usage count
+  media: sti/hva: use pm_runtime_resume_and_get()
+  staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+  staging: media: atomisp_fops: use pm_runtime_resume_and_get()
+  staging: media: hantro_drv: use pm_runtime_resume_and_get()
+  staging: media: imx7-mipi-csis: use pm_runtime_resume_and_get()
+  staging: media: ipu3: use pm_runtime_resume_and_get()
+  staging: media: cedrus_video: use pm_runtime_resume_and_get()
+  staging: media: vde: use pm_runtime_resume_and_get()
+  staging: media: csi: use pm_runtime_resume_and_get()
+  staging: media: vi: use pm_runtime_resume_and_get()
+  media: mtk-vcodec: fix pm_runtime_get_sync() usage count
+  media: s5p-jpeg: fix pm_runtime_get_sync() usage count
+  media: delta-v4l2: fix pm_runtime_get_sync() usage count
+  media: sun8i_rotate: fix pm_runtime_get_sync() usage count
+  media: i2c: ak7375: use pm_runtime_resume_and_get()
+  media: i2c: ccs-core: use pm_runtime_resume_and_get()
+  media: i2c: dw9714: use pm_runtime_resume_and_get()
+  media: i2c: dw9768: use pm_runtime_resume_and_get()
+  media: i2c: dw9807-vcm: use pm_runtime_resume_and_get()
+  media: i2c: hi556: use pm_runtime_resume_and_get()
+  media: i2c: imx214: use pm_runtime_resume_and_get()
+  media: i2c: imx219: use pm_runtime_resume_and_get()
+  media: i2c: imx258: use pm_runtime_resume_and_get()
+  media: i2c: imx274: use pm_runtime_resume_and_get()
+  media: i2c: imx290: use pm_runtime_resume_and_get()
+  media: i2c: imx319: use pm_runtime_resume_and_get()
+  media: i2c: imx334: use pm_runtime_resume_and_get()
+  media: i2c: imx355: use pm_runtime_resume_and_get()
+  media: i2c: mt9m001: use pm_runtime_resume_and_get()
+  media: i2c: ov02a10: use pm_runtime_resume_and_get()
+  media: i2c: ov13858: use pm_runtime_resume_and_get()
+  media: i2c: ov2659: use pm_runtime_resume_and_get()
+  media: i2c: ov2685: use pm_runtime_resume_and_get()
+  media: i2c: ov2740: use pm_runtime_resume_and_get()
+  media: i2c: ov5647: use pm_runtime_resume_and_get()
+  media: i2c: ov5648: use pm_runtime_resume_and_get()
+  media: i2c: ov5670: use pm_runtime_resume_and_get()
+  media: i2c: ov5675: use pm_runtime_resume_and_get()
+  media: i2c: ov5695: use pm_runtime_resume_and_get()
+  media: i2c: ov7740: use pm_runtime_resume_and_get()
+  media: i2c: ov8856: use pm_runtime_resume_and_get()
+  media: i2c: ov8865: use pm_runtime_resume_and_get()
+  media: i2c: ov9734: use pm_runtime_resume_and_get()
+  media: i2c: tvp5150: use pm_runtime_resume_and_get()
+  media: i2c: video-i2c: use pm_runtime_resume_and_get()
+  media: ipu3: use pm_runtime_resume_and_get()
+  media: coda: use pm_runtime_resume_and_get()
+  media: exynos4-is: use pm_runtime_resume_and_get()
+  media: exynos-gsc: use pm_runtime_resume_and_get()
+  media: mtk-jpeg: use pm_runtime_resume_and_get()
+  media: camss-csid: use pm_runtime_resume_and_get()
+  media: camss-csiphy: use pm_runtime_resume_and_get()
+  media: camss-ispif: use pm_runtime_resume_and_get()
+  media: camss-vfe: use pm_runtime_resume_and_get()
+  media: core: use pm_runtime_resume_and_get()
+  media: pm_helpers: use pm_runtime_resume_and_get()
+  media: vdec: use pm_runtime_resume_and_get()
+  media: venc: use pm_runtime_resume_and_get()
+  media: rcar-fcp: use pm_runtime_resume_and_get()
+  media: rcar-vin: use pm_runtime_resume_and_get()
+  media: rga-buf: use pm_runtime_resume_and_get()
+  media: rkisp1-capture: use pm_runtime_resume_and_get()
+  media: s3c-camif: use pm_runtime_resume_and_get()
+  media: s5p-mfc: use pm_runtime_resume_and_get()
+  media: bdisp-v4l2: use pm_runtime_resume_and_get()
+  media: stm32: use pm_runtime_resume_and_get()
+  media: sun4i_v4l2: use pm_runtime_resume_and_get()
+  media: ti-vpe: use pm_runtime_resume_and_get()
+  media: vsp1: use pm_runtime_resume_and_get()
 
-But with MCE firmware being aware of when next event can happen it can 
-use that to stay in C6 state without early exit for better power savings.
+ drivers/media/cec/platform/s5p/s5p_cec.c      |  5 +++-
+ drivers/media/i2c/ak7375.c                    | 10 +------
+ drivers/media/i2c/ccs/ccs-core.c              | 11 ++++----
+ drivers/media/i2c/dw9714.c                    | 10 +------
+ drivers/media/i2c/dw9768.c                    | 10 +------
+ drivers/media/i2c/dw9807-vcm.c                | 10 +------
+ drivers/media/i2c/hi556.c                     |  3 +--
+ drivers/media/i2c/imx214.c                    |  6 ++---
+ drivers/media/i2c/imx219.c                    |  6 ++---
+ drivers/media/i2c/imx258.c                    |  6 ++---
+ drivers/media/i2c/imx274.c                    |  3 +--
+ drivers/media/i2c/imx290.c                    |  6 ++---
+ drivers/media/i2c/imx319.c                    |  6 ++---
+ drivers/media/i2c/imx334.c                    |  5 ++--
+ drivers/media/i2c/imx355.c                    |  6 ++---
+ drivers/media/i2c/mt9m001.c                   |  7 ++---
+ drivers/media/i2c/ov02a10.c                   |  6 ++---
+ drivers/media/i2c/ov13858.c                   |  6 ++---
+ drivers/media/i2c/ov2659.c                    |  6 ++---
+ drivers/media/i2c/ov2685.c                    |  7 +++--
+ drivers/media/i2c/ov2740.c                    |  6 ++---
+ drivers/media/i2c/ov5647.c                    |  9 ++++---
+ drivers/media/i2c/ov5648.c                    |  6 ++---
+ drivers/media/i2c/ov5670.c                    |  6 ++---
+ drivers/media/i2c/ov5675.c                    |  3 +--
+ drivers/media/i2c/ov5695.c                    |  6 ++---
+ drivers/media/i2c/ov7740.c                    |  8 +++---
+ drivers/media/i2c/ov8856.c                    |  3 +--
+ drivers/media/i2c/ov8865.c                    |  6 ++---
+ drivers/media/i2c/ov9734.c                    |  3 +--
+ drivers/media/i2c/tvp5150.c                   | 16 +++---------
+ drivers/media/i2c/video-i2c.c                 | 14 ++++------
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  3 +--
+ drivers/media/platform/am437x/am437x-vpfe.c   | 10 ++++---
+ drivers/media/platform/atmel/atmel-isc-base.c | 26 ++++++++++++++-----
+ drivers/media/platform/atmel/atmel-isi.c      | 19 +++++++++++---
+ drivers/media/platform/coda/coda-common.c     |  2 +-
+ drivers/media/platform/exynos-gsc/gsc-core.c  |  3 +--
+ drivers/media/platform/exynos-gsc/gsc-m2m.c   |  2 +-
+ .../media/platform/exynos4-is/fimc-capture.c  |  6 ++---
+ drivers/media/platform/exynos4-is/fimc-is.c   |  3 ++-
+ .../platform/exynos4-is/fimc-isp-video.c      |  3 +--
+ drivers/media/platform/exynos4-is/fimc-isp.c  |  7 +++--
+ drivers/media/platform/exynos4-is/fimc-lite.c |  5 ++--
+ drivers/media/platform/exynos4-is/fimc-m2m.c  |  2 +-
+ drivers/media/platform/exynos4-is/media-dev.c |  8 +++---
+ drivers/media/platform/exynos4-is/mipi-csis.c |  5 ++--
+ .../media/platform/marvell-ccic/mcam-core.c   |  9 +++++--
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  4 +--
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  6 ++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  4 +--
+ .../media/platform/qcom/camss/camss-csid.c    |  6 ++---
+ .../media/platform/qcom/camss/camss-csiphy.c  |  6 ++---
+ .../media/platform/qcom/camss/camss-ispif.c   |  6 ++---
+ drivers/media/platform/qcom/camss/camss-vfe.c |  5 ++--
+ drivers/media/platform/qcom/venus/core.c      | 19 +++++++-------
+ .../media/platform/qcom/venus/pm_helpers.c    | 10 +++----
+ drivers/media/platform/qcom/venus/vdec.c      |  4 +--
+ drivers/media/platform/qcom/venus/venc.c      |  5 ++--
+ drivers/media/platform/rcar-fcp.c             |  6 ++---
+ drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
+ drivers/media/platform/rcar-vin/rcar-dma.c    |  6 ++---
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |  6 ++---
+ drivers/media/platform/rcar_fdp1.c            | 12 +++++++--
+ drivers/media/platform/renesas-ceu.c          |  5 +++-
+ drivers/media/platform/rockchip/rga/rga-buf.c |  3 +--
+ drivers/media/platform/rockchip/rga/rga.c     |  4 ++-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  3 +--
+ .../media/platform/s3c-camif/camif-capture.c  |  5 ++--
+ drivers/media/platform/s3c-camif/camif-core.c |  5 ++--
+ drivers/media/platform/s5p-jpeg/jpeg-core.c   |  2 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc_pm.c   |  6 ++---
+ drivers/media/platform/sh_vou.c               |  6 ++++-
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c |  7 ++---
+ drivers/media/platform/sti/delta/delta-v4l2.c |  4 +--
+ drivers/media/platform/sti/hva/hva-hw.c       | 17 ++++++------
+ drivers/media/platform/stm32/stm32-dcmi.c     |  5 ++--
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  7 +++--
+ .../sunxi/sun8i-rotate/sun8i_rotate.c         |  2 +-
+ drivers/media/platform/ti-vpe/cal-video.c     |  4 ++-
+ drivers/media/platform/ti-vpe/cal.c           |  8 +++---
+ drivers/media/platform/ti-vpe/vpe.c           |  4 +--
+ drivers/media/platform/vsp1/vsp1_drv.c        |  6 ++---
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  6 ++---
+ drivers/staging/media/hantro/hantro_drv.c     |  2 +-
+ drivers/staging/media/imx/imx7-mipi-csis.c    |  7 +++--
+ drivers/staging/media/ipu3/ipu3.c             |  3 +--
+ drivers/staging/media/rkvdec/rkvdec.c         |  2 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |  6 ++---
+ drivers/staging/media/tegra-vde/vde.c         | 16 +++++++-----
+ drivers/staging/media/tegra-video/csi.c       |  3 +--
+ drivers/staging/media/tegra-video/vi.c        |  3 +--
+ 92 files changed, 270 insertions(+), 322 deletions(-)
 
-> It would depend on number of available states, max_residency, scale
-> that you would choose while assigning values from [0, max_residency]
-> to each state.
-> IIRC there can be many state IDs for idle, so it would depend on
-> number of bits encoding this state, and your needs. Example of
-> linear scale:
-> 4-bits encoding idle state and max predicted residency 10msec,
-> that means 10000us / 16 states = 625us/state.
-> The max_residency might be split differently, using different than
-> linear function, to have some rage more precised.
->
-> Open question is if these idle states must be all represented
-> in DT, or there is a way of describing a 'set of idle states'
-> automatically.
-We only support C6 state through DT as C6 is the only deepest state for 
-Tegra194 carmel CPU. WFI idle state is completely handled by kernel and 
-does not require MCE sequences for entry/exit.
->
-> Regards,
-> Lukasz
+-- 
+2.30.2
+
+
