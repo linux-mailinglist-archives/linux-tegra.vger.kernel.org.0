@@ -2,81 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE5B0369F1E
-	for <lists+linux-tegra@lfdr.de>; Sat, 24 Apr 2021 08:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33E3F369FF8
+	for <lists+linux-tegra@lfdr.de>; Sat, 24 Apr 2021 09:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233641AbhDXGqU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 24 Apr 2021 02:46:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35796 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232753AbhDXGqN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D70361613;
-        Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619246733;
-        bh=ilbYi39Wp/s1IHEjQb8NZRh7PLiRnT42XXdFX8lFSpw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l3foykFZ2MY43Kvt4KtXFCXyQ5CM7jCmtI5mmSAmnJujWdIuFKpWGSgTEvWmv4Lk9
-         1jAphyDs7NXlaxxXBkPlUXd8ocPz9e1qGqQSiEM913QBFPR10AlOekFk4HlqWA5XRK
-         BqUO8MrGp0FhwT4ipn84t0jyjSR+DUzkoYpe9iT+kUJWFUwnBD+H9EPzONRbb9Klh4
-         9L96EDmjk4fMxSaY9e45dOcD9iyuZjnyZ0oLdBpt3oE4qaLi7k3blLU2UBKFVUAvt3
-         2xT/anJ7dSxOTEquLyj/WMs2ES87SIaWdvYiDmp0VqzhzKaZPm/QR359ScUYA5Pah3
-         rrcmik1TPxhzg==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1laC2l-004Jed-Dz; Sat, 24 Apr 2021 08:45:31 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 19/78] staging: media: vi: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:44:29 +0200
-Message-Id: <d15b484f48e09ae9df2abc53c02616dcbdb450c7.1619191723.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
-References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+        id S230471AbhDXH1G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 24 Apr 2021 03:27:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229704AbhDXH1C (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 24 Apr 2021 03:27:02 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909EFC061574;
+        Sat, 24 Apr 2021 00:26:23 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id u25so19786803ljg.7;
+        Sat, 24 Apr 2021 00:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/pJRpObwgC760iXpBExu4yIVJmUUKVTuscTwMhK6LQU=;
+        b=ufNx7c9rAdtARmP9/JGD2i8irzKzBRSUyNH+9fvRN92zRA0OBFhfjptFeAgu+DuB3q
+         yfX+4Igr2ZTDK9BRrc56DlEvUt+BBNnplt01tCzit9YLV863swcxCrDFmUCr2AxIGVcC
+         CA1deu2tXBGXlYmES7M4hHClqef3U0Z9Cc/5ESgmSCPAuPP+bV0Ejsxuz3yVgliRBNhq
+         l5BHr8X0Lv0ae2Tcj/rgHxe19zUdxI6ucYdDvEo2Cgcmnq1RoX2WrGx7Zp+88tFQ+DRS
+         iiC+cWOgjjaQN4BtP4v067DB6fjKQN6kZkQzdUOd2FMGfmB9Pv2H9LF2GfnYd4Oe/pkg
+         jxIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/pJRpObwgC760iXpBExu4yIVJmUUKVTuscTwMhK6LQU=;
+        b=d6mIzzsi8RkTpBJEywPKdCo2+CV99ljHcpQUHqXmvCifvTbPFJj7S13Um8voFdjL6D
+         Dp5f/A7hK80CQNAMkTR+QgdEXn9TC2EoiQKbz4xbhcKxplVH60XrENbuXtKZ7qLe/nSD
+         DLSVpLMeARMPRS6Ftr1lfVjFsFm70iGoGfePM3gd0zwbsk3VRe6wIuy+L7pWbupmXJ1C
+         m321DrGpCE9EurauBgOTh4vmcVAYnHcO+Aa6Ief4CB2isurQRYpiFZlWjC2VkCYIFDKn
+         QGE5WbChpYWBwM+EVZF0AJ8nR9WtYZTLXdIEz+ja5jQPciL/qVUoY4b7Rjv/lGOisNGu
+         PXWA==
+X-Gm-Message-State: AOAM530gigHi1VGReaNYMSCMWpiLSh5rDa83JQ6ALbI+Hc8D+aHyVNxb
+        gjzAS+u0WSU2kB/q1hzH9jj6mmVoluo=
+X-Google-Smtp-Source: ABdhPJx3Cw5Vif+11oahK6V5zTzAwV00Iy/2ZrdiZkutRiszn4jYJ2cW57uWFklKK5dsA9oi5EN2hA==
+X-Received: by 2002:a2e:8054:: with SMTP id p20mr5032381ljg.439.1619249181690;
+        Sat, 24 Apr 2021 00:26:21 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-103.dynamic.spd-mgts.ru. [109.252.193.103])
+        by smtp.googlemail.com with ESMTPSA id t17sm749859ljd.35.2021.04.24.00.26.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Apr 2021 00:26:21 -0700 (PDT)
+Subject: Re: [PATCH v2 0/5] iommu: Support identity mappings of
+ reserved-memory regions
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>, devicetree@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org
+References: <20210423163234.3651547-1-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <869ec3a2-26df-2ce8-bd21-b681d6ef3985@gmail.com>
+Date:   Sat, 24 Apr 2021 10:26:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210423163234.3651547-1-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors.
+23.04.2021 19:32, Thierry Reding пишет:
+> Hi,
+> 
+> this is an updated proposal to solve the problem of passing memory
+> regions that are actively being accessed during boot. The particular
+> use-case that I need this for is when the bootloader has set up the
+> display controller to scan out a boot splash screen. During boot the
+> DMA/IOMMU glue code will attach devices to an IOMMU domain and by
+> doing so enable IOMMU translations. Typically this will be before a
+> device driver has had a chance to either disable the display
+> controller or set up a new framebuffer and map it to the IOMMU.
 
-Use the new API, in order to cleanup the error check logic.
+Hello Thierry,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/tegra-video/vi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Is it always safe to enable SMMU ASID in a middle of a DMA request made
+by a memory client?
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 7a09061cda57..1298740a9c6c 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -297,10 +297,9 @@ static int tegra_channel_start_streaming(struct vb2_queue *vq, u32 count)
- 	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
- 	int ret;
- 
--	ret = pm_runtime_get_sync(chan->vi->dev);
-+	ret = pm_runtime_resume_and_get(chan->vi->dev);
- 	if (ret < 0) {
- 		dev_err(chan->vi->dev, "failed to get runtime PM: %d\n", ret);
--		pm_runtime_put_noidle(chan->vi->dev);
- 		return ret;
- 	}
- 
--- 
-2.30.2
-
+The memory controller supports blocking DMA requests, which we are
+already using for the memory hot-resetting. A block could be needed
+before ASID is toggled. This needs to be clarified.
