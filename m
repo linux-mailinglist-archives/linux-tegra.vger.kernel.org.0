@@ -2,267 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B751136B302
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Apr 2021 14:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64C6636B3C6
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Apr 2021 15:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233196AbhDZMYk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 26 Apr 2021 08:24:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231983AbhDZMYj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 26 Apr 2021 08:24:39 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B7CC061574
-        for <linux-tegra@vger.kernel.org>; Mon, 26 Apr 2021 05:23:56 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id m9so42921273wrx.3
-        for <linux-tegra@vger.kernel.org>; Mon, 26 Apr 2021 05:23:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8swn70jS2igG/qafgPHRcbPgOFVezO2bodI9Xxqjq4Y=;
-        b=n2dCqeqBlAg0pMtEOTGB5EIo/TVLkmAy6hSltDzgtYM6xWf1D4PexXryrMSv7fWcAT
-         86W+f7EkH2ppY3XwKexeRAY41adthczkdab7VJYmWydSgeOdzDLwfZjIZWOcnH7adBds
-         lvKQKwtMwwXEBYmnRvsfF+SMmN4Kw3x9wF7quesDz+678QntYP9hOy4cu+hXdXfEdHMc
-         9nmPmyfl/7IfSJtmEwkoNXu/M0kanjNxCYo6bci24m56Hre4MBQWdSbanNfDD9dLef9L
-         lVFwXAhbDAkBEbDCM5iELotGUMq1Pjy7daQfqaEpYscALTJ1/Qt1bNTDt6zy8HWr8miA
-         L5Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8swn70jS2igG/qafgPHRcbPgOFVezO2bodI9Xxqjq4Y=;
-        b=fDz1NDNm0Uo7QNe0BkGbLZEFmkbXGSiqDdRTRoikaMgaCQGZgpeeiYQC2akpv0/qQ2
-         UiDqwv9GZbVWXvarvgjb19tuYuN/qAFmLGl7cKhuhNmCBC1ziTUnYzsTunWw/25wSDvC
-         pUw7oQ+sZj35nQtntOCDDVtaBlGY5C9B9mBeRoEo8brXmx+0ywdGrc16j4ElZPIjd+an
-         AUX0wDswyuowIBoE89QyKK9S2x40yc5rShkFjnz9pr8EMEMNALuzJzCcbwpFWsaXpzF6
-         MQS/RQ78Ov1NWBmj/wq1+x4wmgeBbM5dzZ4pLvWd/bO61mzRKHfTHtJgo53lM+5Z1Ffr
-         OLjA==
-X-Gm-Message-State: AOAM530ou+HtJqSzopFA2v5EE1iU06DxqRQYbhvUoEHB9wHacCqnGXdY
-        xtt0xJBDm+EW/nVOa4YRbjI=
-X-Google-Smtp-Source: ABdhPJyAAgxwNKwU3lStxhsmsEyrJyTSvAB0OKEg8PdzOwMzxJgVfK5YVC0+XfG86MqA7Z5ETQ0jmQ==
-X-Received: by 2002:a5d:6e06:: with SMTP id h6mr22552762wrz.201.1619439835087;
-        Mon, 26 Apr 2021 05:23:55 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id d14sm10837551wrp.12.2021.04.26.05.23.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 05:23:53 -0700 (PDT)
-Date:   Mon, 26 Apr 2021 14:24:46 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 03/10] memory: tegra: Push suspend/resume into SoC drivers
-Message-ID: <YIaxDk39hjMJ6nxA@orome.fritz.box>
-References: <20210420165237.3523732-1-thierry.reding@gmail.com>
- <20210420165237.3523732-4-thierry.reding@gmail.com>
- <d1626fd2-90e3-7a26-51b8-497a344aee6f@canonical.com>
+        id S233520AbhDZNFX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 26 Apr 2021 09:05:23 -0400
+Received: from mail-eopbgr680063.outbound.protection.outlook.com ([40.107.68.63]:14919
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233378AbhDZNFX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 26 Apr 2021 09:05:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UctLWlQB5wkKvOvEL8ZxleB/nbCia0WfILN90qrwB1uTFA5YEc0qf2z5x5dmnUO4d0f2y7CZ2Bb8jdHKfO6tv2oHo+SftSaEqcrQO/AKyH7rN92fpNhy2y2AsmIzF5qdd9zZx0SraaQ/JXd47gzpQpBIJGrEDmigIIcak3J/31JdSiqV1e+AmJzg40COWQYCihxx0A9mi05+u5p+HAmw/WRHPut8+44EQvQFcpKEpA+BiKn8eJEbeAxWovVfDKTkwovnitQoI2AS3wj8cHAjRUGf6fBspS8QVGxSbpZotBzqCTgG2jgkXB+ceOxoN/eqx1KzLpIG3w02ptCfIB27bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8yeHdbDxRIbWEWB6erBGvdHSASyNLe2T3DiSuscJidE=;
+ b=E7g3AKOe0IhJGnEb52DpK8WcWkbREeYrnmUHR0gCb7pMW0S6D8F7IpgFwQ/NF7u2MHlq4GRTw21F3D5v8SvdKYvWtJOIvzZh3UWiq892ZA+nS0zKMWesj9vmR8eqFXJwgLwmdg/SmQ9wmF3MiykeY+q5df1Jx1J3o7g+zgpYDBroJp9c8Mk1r5AuEZRuGNIgLN7SuQMQXFk2LpqgCje5CP3kCf5tHpr9CcO9rfHTFGdf7b7mG/Ff8eHE7EXeyOUxhOBGakS6vvbNXwAkUmNPi3oE5IZ/3NOPMTOs5Quioe/dEzILCxJoTH+3Hu0QifxwIeFj3/Au5U7gn+w5AL0tCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=denx.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8yeHdbDxRIbWEWB6erBGvdHSASyNLe2T3DiSuscJidE=;
+ b=shJVm5UDUbw+meAFlkOgbkoGngx7I06JuIC57Ka0L+kjmssSb1Spi+SRLzLb7dqklLheirjDdlaTXAOuEuOGRonkCFr/cc3OaDhoQanyGyhTjfe7Jwxiqzar7hZXXPVPecsj3eOyjcJwcpFGyFhZSFjEaQURIzPCYYyMHu7jNLwMAu707IJoWHU5fc7/YF5aaXk6sBpBdSubxE2mnU1AWaPRZrHNzii7Uk8kHj0YAo316jEn9Ji0Lsrvfq3LJxa14nCVrHaDuLSCGsHXvn3j5qahxxXCs0xQNiLqQzOlS4IXN9/Gi1zITM9A9zZIpW89RN2cww8QFFxt3Wac1MdSnQ==
+Received: from DM5PR18CA0093.namprd18.prod.outlook.com (2603:10b6:3:3::31) by
+ CY4PR12MB1494.namprd12.prod.outlook.com (2603:10b6:910:f::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.23; Mon, 26 Apr 2021 13:04:34 +0000
+Received: from DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:3:cafe::71) by DM5PR18CA0093.outlook.office365.com
+ (2603:10b6:3:3::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend
+ Transport; Mon, 26 Apr 2021 13:04:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; denx.de; dkim=none (message not signed)
+ header.d=none;denx.de; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ DM6NAM11FT025.mail.protection.outlook.com (10.13.172.197) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4065.21 via Frontend Transport; Mon, 26 Apr 2021 13:04:32 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 26 Apr
+ 2021 13:04:16 +0000
+Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
+ Transport; Mon, 26 Apr 2021 06:04:16 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.9 00/37] 4.9.268-rc1 review
+In-Reply-To: <20210426072817.245304364@linuxfoundation.org>
+References: <20210426072817.245304364@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="QyCVhmrfZDBfN07X"
-Content-Disposition: inline
-In-Reply-To: <d1626fd2-90e3-7a26-51b8-497a344aee6f@canonical.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
+Message-ID: <34444156891041bdacc0e874f6619edb@HQMAIL109.nvidia.com>
+Date:   Mon, 26 Apr 2021 06:04:16 -0700
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c611f511-4cae-4b65-c943-08d908b3d5c5
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1494:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB14942C5E05FC9940B1900C1ED9429@CY4PR12MB1494.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MM21InPZnkzehxINf8cMEHO5ZdMYB0sUxeeuRbxVqNpiFbDjAepOao4beNuEBtIZqcsTlGHcFF30wY//lZW0YtNoy0HW4o7qDYD6gJS+FtWSCEh2ml7jTZAp2lItUQkbUPAkyHRbVo4qnJSyIBd3Imuo4RjnRNdFaeErTaK32Cupz1oI7cBf7CQneFvomiqLssn9VbVXDuqUXCBb1HzMq6Qj/vpKq1/Qam+yc00TVueHnDigVNdJUVvE82zT3Xxmh6dGx2iSrYwnOzSe7CpYqAutiz/yiH+aRmuuHGYw9WgdIbnRHisT275kqt4HfeHHFz9A4PfM56nKIBnrt/HAKDsZgxSGe9nPZCJvbyBlO78iFB4ARFy6nUDLDkK4vryYwbugF1VWJWhXoZtelO6hRzZzX6dkRGkRs6vWDktU0zIJiJtku5fx+b1aY9f6plkAPqU9oexe16MIowzCU67Huzah78bhMKvPBq+GisCqeJFlmjC8DtHCKBHnfto2YtqW/sCwU8COXV/Cq9doJvG+dnttV+NQtARQ2C6amhlm/7vyMrH9q6qF5It6c/iFvvG62TL8ty5AcBJPQZrwdv3i/mpbSIU2gcQ++TimJ2OPSN4bOHhggOz2qMnbnaEuKsRcDmhIl7wU7lUZJpz0oda6q5rbfjmMOBwNEpHSEo7rJi2cuem8lLu5RObJMTHOGiLJvHhlxN7jnXkWyFW88SyS1VkPAESoOe/zaskqFsQok54=
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(396003)(376002)(136003)(36840700001)(46966006)(5660300002)(356005)(82740400003)(86362001)(24736004)(7636003)(108616005)(26005)(4326008)(186003)(8676002)(6916009)(8936002)(2906002)(47076005)(426003)(54906003)(70586007)(966005)(7416002)(316002)(36906005)(82310400003)(336012)(70206006)(36860700001)(478600001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2021 13:04:32.7103
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c611f511-4cae-4b65-c943-08d908b3d5c5
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1494
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, 26 Apr 2021 09:29:01 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.9.268 release.
+> There are 37 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed, 28 Apr 2021 07:28:08 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.268-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
---QyCVhmrfZDBfN07X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+All tests passing for Tegra ...
 
-On Mon, Apr 26, 2021 at 10:47:11AM +0200, Krzysztof Kozlowski wrote:
-> On 20/04/2021 18:52, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Continuing the scheme of unification, push suspend/resume callbacks into
-> > per-SoC driver so that they can be properly parameterized.
-> >=20
-> > While at it, also move the ->init() callback into the new tegra_mc_ops
-> > structure to keep things clean.
->=20
-> Please split this part. This is just moving pointer from one structure
-> to another, quite small change.
->=20
-> The rest of the patchset is quite different - you now call
-> tegra_mc_suspend() from a per-SoC driver and move the code around.
+Test results for stable-v4.9:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    29 tests:	29 pass, 0 fail
 
-Okay, I think I can split that off into a separate patch.
+Linux version:	4.9.268-rc1-g0f9e08cfadcb
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  drivers/memory/tegra/mc.c       | 24 ++++++++---------------
-> >  drivers/memory/tegra/tegra186.c | 27 ++++++++++++++++++++++----
-> >  drivers/memory/tegra/tegra20.c  | 34 ++++++++++++++++++++++++++++++++-
-> >  include/soc/tegra/mc.h          |  9 +++++++--
-> >  4 files changed, 71 insertions(+), 23 deletions(-)
-> >=20
-> > diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-> > index b7e104bf6614..2b21131d779c 100644
-> > --- a/drivers/memory/tegra/mc.c
-> > +++ b/drivers/memory/tegra/mc.c
-> > @@ -829,8 +829,8 @@ static int tegra_mc_probe(struct platform_device *p=
-dev)
-> > =20
-> >  	mc->debugfs.root =3D debugfs_create_dir("mc", NULL);
-> > =20
-> > -	if (mc->soc->init) {
-> > -		err =3D mc->soc->init(mc);
-> > +	if (mc->soc->ops && mc->soc->ops->init) {
-> > +		err =3D mc->soc->ops->init(mc);
-> >  		if (err < 0)
-> >  			dev_err(&pdev->dev, "failed to initialize SoC driver: %d\n",
-> >  				err);
-> > @@ -867,30 +867,22 @@ static int tegra_mc_probe(struct platform_device =
-*pdev)
-> >  	return 0;
-> >  }
-> > =20
-> > -static int tegra_mc_suspend(struct device *dev)
-> > +static int __maybe_unused tegra_mc_suspend(struct device *dev)
-> >  {
-> >  	struct tegra_mc *mc =3D dev_get_drvdata(dev);
-> > -	int err;
-> > =20
-> > -	if (IS_ENABLED(CONFIG_TEGRA_IOMMU_GART) && mc->gart) {
-> > -		err =3D tegra_gart_suspend(mc->gart);
-> > -		if (err)
-> > -			return err;
-> > -	}
-> > +	if (mc->soc->ops && mc->soc->ops->suspend)
-> > +		return mc->soc->ops->suspend(mc);
-> > =20
-> >  	return 0;
-> >  }
-> > =20
-> > -static int tegra_mc_resume(struct device *dev)
-> > +static int __maybe_unused tegra_mc_resume(struct device *dev)
-> >  {
-> >  	struct tegra_mc *mc =3D dev_get_drvdata(dev);
-> > -	int err;
-> > =20
-> > -	if (IS_ENABLED(CONFIG_TEGRA_IOMMU_GART) && mc->gart) {
-> > -		err =3D tegra_gart_resume(mc->gart);
-> > -		if (err)
-> > -			return err;
-> > -	}
-> > +	if (mc->soc->ops && mc->soc->ops->resume)
-> > +		return mc->soc->ops->resume(mc);
-> > =20
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/teg=
-ra186.c
-> > index 8e77567d1378..9d3fdb609d55 100644
-> > --- a/drivers/memory/tegra/tegra186.c
-> > +++ b/drivers/memory/tegra/tegra186.c
-> > @@ -45,6 +45,17 @@ static void tegra186_mc_program_sid(struct tegra_mc =
-*mc)
-> >  	}
-> >  }
-> > =20
-> > +static int tegra186_mc_resume(struct tegra_mc *mc)
-> > +{
-> > +	tegra186_mc_program_sid(mc);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct tegra_mc_ops tegra186_mc_ops =3D {
-> > +	.resume =3D tegra186_mc_resume,
-> > +};
-> > +
-> >  #if defined(CONFIG_ARCH_TEGRA_186_SOC)
-> >  static const struct tegra_mc_client tegra186_mc_clients[] =3D {
-> >  	{
-> > @@ -701,6 +712,7 @@ static const struct tegra_mc_client tegra186_mc_cli=
-ents[] =3D {
-> >  static const struct tegra_mc_soc tegra186_mc_soc =3D {
-> >  	.num_clients =3D ARRAY_SIZE(tegra186_mc_clients),
-> >  	.clients =3D tegra186_mc_clients,
-> > +	.ops =3D &tegra186_mc_ops,
-> >  };
-> >  #endif
-> > =20
-> > @@ -1909,6 +1921,7 @@ static const struct tegra_mc_client tegra194_mc_c=
-lients[] =3D {
-> >  static const struct tegra_mc_soc tegra194_mc_soc =3D {
-> >  	.num_clients =3D ARRAY_SIZE(tegra194_mc_clients),
-> >  	.clients =3D tegra194_mc_clients,
-> > +	.ops =3D &tegra186_mc_ops,
-> >  };
-> >  #endif
-> > =20
-> > @@ -1961,22 +1974,28 @@ static const struct of_device_id tegra186_mc_of=
-_match[] =3D {
-> >  };
-> >  MODULE_DEVICE_TABLE(of, tegra186_mc_of_match);
-> > =20
-> > -static int __maybe_unused tegra186_mc_suspend(struct device *dev)
-> > +static int __maybe_unused tegra_mc_suspend(struct device *dev)
-> >  {
-> > +	struct tegra_mc *mc =3D dev_get_drvdata(dev);
-> > +
-> > +	if (mc->soc->ops && mc->soc->ops->suspend)
-> > +		return mc->soc->ops->suspend(mc);
-> > +
-> >  	return 0;
-> >  }
-> > =20
-> > -static int __maybe_unused tegra186_mc_resume(struct device *dev)
-> > +static int __maybe_unused tegra_mc_resume(struct device *dev)
-> >  {
-> >  	struct tegra_mc *mc =3D dev_get_drvdata(dev);
-> > =20
-> > -	tegra186_mc_program_sid(mc);
-> > +	if (mc->soc->ops && mc->soc->ops->resume)
-> > +		return mc->soc->ops->resume(mc);
-> > =20
-> >  	return 0;
-> >  }
-> > =20
-> >  static const struct dev_pm_ops tegra186_mc_pm_ops =3D {
-> > -	SET_SYSTEM_SLEEP_PM_OPS(tegra186_mc_suspend, tegra186_mc_resume)
-> > +	SET_SYSTEM_SLEEP_PM_OPS(tegra_mc_suspend, tegra_mc_resume)
->=20
-> What's the benefit here? You basically define your own suspend-resume
-> ops, on top of PM suspend-resume ops... Before it was quite obvious code
-> - the Tegra186 MC driver had very simple suspend/resume which did simple
-> job. Now it feels like trickier code to follow - Tegra186 driver calls
-> it's resume (with the same name as others - another confusion) which is
-> a simple wrapper calling somewhere else (need to jump to assinment of
-> resume()).
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-This confusion is merely temporary. The idea here is to make the
-Tegra186 driver the same as the "legacy" driver in this regard so that
-the unification patch becomes just a removal of this code. If I didn't
-first make this the same, I would've had to push this set of changes
-into the unification patch, making it more difficult to understand.
-
-Thierry
-
---QyCVhmrfZDBfN07X
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmCGsQ4ACgkQ3SOs138+
-s6HBKA/8CInhxbN7i16ucd8J8UklQ/GmGaA2S8RUt/wHUCnR7DZhty0ysl7tSApS
-xlj0D+VLkT21+FLiEaFcyGdOtEVguSHJzfdi0gqpvzLFESSq77Jc1pWpVc2qakYp
-IdhyoHx2ytgwAyThVSG4I0Os2P2Nle+6x+ZvyK/YtFErSIE6iSLLUXs1jinBT9Fi
-0RIpX/j5Rs28XCmO6Gb0+3rJJyPWwXotwMmciobPwjkdpmDi6EsZX1KWNSxZ1LNh
-XhQY6fAS5dWawAWadQCJ+Zy2PGeFUEnpkHKiiZxa1+WvhRmu5jbyX8sZgNSkql97
-HWBrqf6x5mkgEP5GYKhuJGI3x6LzrCHVCYXZvgSLI6yWPsFOY38Z6NaTEpo56/0d
-7DTzICiIQ+uB4QOmbmjmJaWmEEg2v8ltPShBqxekvIXKgrdFxUf6cjfMtyf0FW4Z
-AlqJvzLXhi20IZfZkc7VZZwMz3JaVThSkjnwqdjoxrfTM7x6vedbAw87YZtBnnlY
-KOVR3WLasuPAsbBsG5NI6OPuBtK8EHnO2tLPcoyqXaO/YqpoX8waalZcfRbYxtlj
-+MFjuhuXs8BmAr4KWwdTfwq/XkiaxkPA9LqBueYLSrLmritAAP2sOvjn44SV/LZ3
-aPkvwEl9npIR2mXPyZrIYbwkvemRGO8/Vz4GS211kMK4NmgTfko=
-=SmRg
------END PGP SIGNATURE-----
-
---QyCVhmrfZDBfN07X--
+Jon
