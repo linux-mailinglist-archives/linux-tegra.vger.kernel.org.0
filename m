@@ -2,98 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A90E37920C
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 May 2021 17:05:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD73F3792FE
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 May 2021 17:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233916AbhEJPG6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 May 2021 11:06:58 -0400
-Received: from mga03.intel.com ([134.134.136.65]:18899 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235326AbhEJPFY (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 May 2021 11:05:24 -0400
-IronPort-SDR: 3d5S3Swa/9p9Ugalhr8YwapLF6TJL2CYMzXfJm9s3KELeX4eI2GRlLMRMZUDR0Vs+43a0oG97Y
- u1ObvhnBRwSQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199266347"
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
-   d="scan'208";a="199266347"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 08:04:02 -0700
-IronPort-SDR: IOjie96ZhmgBakkWhU2dJA996iOyKlZJgdodqHtw3Qv0We3mF69WZ562+YavWqrvP7cHA1djcp
- KCtcD6gLXJ3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
-   d="scan'208";a="468259165"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 10 May 2021 08:03:56 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 88ECF1D2; Mon, 10 May 2021 18:04:16 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
-        Joe Perches <joe@perches.com>,
-        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v1 4/4] usb: host: xhci-tegra: Switch to use %ptTs
-Date:   Mon, 10 May 2021 18:04:13 +0300
-Message-Id: <20210510150413.59356-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
-References: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S230248AbhEJPt1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 May 2021 11:49:27 -0400
+Received: from flippiebeckerswealth.xyz ([62.173.147.206]:58940 "EHLO
+        host.flippiebeckerswealth.xyz" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231428AbhEJPt0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 10 May 2021 11:49:26 -0400
+X-Greylist: delayed 3656 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 May 2021 11:49:26 EDT
+Received: from flippiebeckerswealth.xyz (ec2-3-142-218-249.us-east-2.compute.amazonaws.com [3.142.218.249])
+        by host.flippiebeckerswealth.xyz (Postfix) with ESMTPA id 4EF561E01D4
+        for <linux-tegra@vger.kernel.org>; Mon, 10 May 2021 17:06:52 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippiebeckerswealth.xyz 4EF561E01D4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flippiebeckerswealth.xyz; s=default; t=1620655612;
+        bh=Lxx5rGQCX/MQzrwE9epz1Mb5yPYRqDyEupWj6GReobo=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=XUPuuy0qGD3jIu0ZUFv5z58fm0M8GYB4V71xYL6F7lw19NFlNwz/DhDkAVOMDO2B/
+         q0ff3NhjLdBs8fdHU5lT1YAvsVcaeuvrcuEHqsJrouOnlq/LNlJ23zaopotXboOTNb
+         OSHilXC8p8+B+s9m2RFFLkZIq8B1ljxnvHmUTjig=
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippiebeckerswealth.xyz 4EF561E01D4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flippiebeckerswealth.xyz; s=default; t=1620655612;
+        bh=Lxx5rGQCX/MQzrwE9epz1Mb5yPYRqDyEupWj6GReobo=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=XUPuuy0qGD3jIu0ZUFv5z58fm0M8GYB4V71xYL6F7lw19NFlNwz/DhDkAVOMDO2B/
+         q0ff3NhjLdBs8fdHU5lT1YAvsVcaeuvrcuEHqsJrouOnlq/LNlJ23zaopotXboOTNb
+         OSHilXC8p8+B+s9m2RFFLkZIq8B1ljxnvHmUTjig=
+Reply-To: cpavlides@flippiebeckerwealthservices.com
+From:   Chris Pavlides <cpavlides@flippiebeckerswealth.xyz>
+To:     linux-tegra@vger.kernel.org
+Subject: Personal
+Date:   10 May 2021 14:06:51 +0000
+Message-ID: <20210510140651.424F4AA1AC99E95E@flippiebeckerswealth.xyz>
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use %ptTs instead of open coded variant to print contents
-of time64_t type in human readable form.
+Hello there,
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/host/xhci-tegra.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+I hope this message finds you in good spirits especially during=20
+this challenging time of coronavirus pandemic. I hope you and=20
+your family are well and keeping safe. Anyway, I am Chris=20
+Pavlides, a broker working with Flippiebecker Wealth. I got your=20
+contact (along with few other contacts) through an online=20
+business directory and I thought I should contact you to see if=20
+you are interested in this opportunity. I am contacting you=20
+because one of my high profile clients is interested in investing=20
+abroad and has asked me to look for individuals and companies=20
+with interesting business ideas and projects that he can invest=20
+in. He wants to invest a substantial amount of asset abroad.
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index ce97ff054c68..937b78cba89b 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -890,7 +890,6 @@ static int tegra_xusb_load_firmware(struct tegra_xusb *tegra)
- 	struct xhci_op_regs __iomem *op;
- 	unsigned long timeout;
- 	time64_t timestamp;
--	struct tm time;
- 	u64 address;
- 	u32 value;
- 	int err;
-@@ -987,11 +986,8 @@ static int tegra_xusb_load_firmware(struct tegra_xusb *tegra)
- 	}
- 
- 	timestamp = le32_to_cpu(header->fwimg_created_time);
--	time64_to_tm(timestamp, 0, &time);
- 
--	dev_info(dev, "Firmware timestamp: %ld-%02d-%02d %02d:%02d:%02d UTC\n",
--		 time.tm_year + 1900, time.tm_mon + 1, time.tm_mday,
--		 time.tm_hour, time.tm_min, time.tm_sec);
-+	dev_info(dev, "Firmware timestamp: %ptTs UTC\n", &timestamp);
- 
- 	return 0;
- }
--- 
-2.30.2
+Please kindly respond back to this email if you are interested in=20
+this opportunity. Once I receive your response, I will give you=20
+more details and we can plan a strategy that will be beneficial=20
+to all parties.
 
+Best regards
+
+C Pavlides
+Flippiebecker Wealth
