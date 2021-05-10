@@ -2,262 +2,159 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C5B2379A4C
-	for <lists+linux-tegra@lfdr.de>; Tue, 11 May 2021 00:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F5C379A83
+	for <lists+linux-tegra@lfdr.de>; Tue, 11 May 2021 01:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbhEJWl5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 May 2021 18:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33604 "EHLO
+        id S229807AbhEJXSv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 May 2021 19:18:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231451AbhEJWl4 (ORCPT
+        with ESMTP id S229561AbhEJXSu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 May 2021 18:41:56 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B5BC061574;
-        Mon, 10 May 2021 15:40:50 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id z9so25721536lfu.8;
-        Mon, 10 May 2021 15:40:50 -0700 (PDT)
+        Mon, 10 May 2021 19:18:50 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC15C061574;
+        Mon, 10 May 2021 16:17:45 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id c3so25843567lfs.7;
+        Mon, 10 May 2021 16:17:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tdhxEVn/ApgXUS3G+03myNB4Fqv3j3XN+RFKP4M2N/E=;
-        b=RsbL915Fu3Y2xNkXKX9JU3SsNypKl6RXkXtnRiIChU+o0az3SWAmoffX/z3OEfmK8Z
-         NYM9u/Gb8KBF+27QBcAa/Zw9oLnFc2ylp4SQhuOOmKzx7i0RxfwMoJkOMM0oVgP4jJLa
-         zGhTtv4XzugHTA89Yj744v9hRpI7bYGQTpDZMdpBs9GAz4GUqb+9cLlhL1bOhnYt3gcE
-         MOx6mkqks1JqsUfTamjUPQADx5DTkd2fGCjam5iqlNdt2IeW5CEZo2HmqxkOYOZ15aNl
-         CrOmYV9pm32yzDdrXeTF3AxMKTfR0c9i4nmEZ32SHGuD0f6rv3YNVm3VuopOtFCDszDH
-         Te+A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5c45erSURxeCEHSKNhav6B+HVmEo5Q7GZQowAFugOAc=;
+        b=NqZNRuu1HG9xlohcDS6IOK/kb9nJhKJYi3gD5p77/P/JE0OTKVAa0on/9BVLLZ1Tu8
+         KefR1+tstfCQFGq3ozrLTCYuo6kwZvgoAOW4g+rkB1J6qI7cosr0EcPexCVrLpn2/qhD
+         V18w0QYs7m5ujyQqDp9/5xck82JYKz/EpwQgEU1+UiYixVZhHOyNykvns0u3ekP9lqhE
+         qOQMARzMB6qatxWJ/BvWxNYP28tMUZmeHPb6ItCM+a7dRFklUVBq8Foeu2kFXknrEg+q
+         lG7Q+9Ohs73V5wfMoidyplpLYpeCAG3f5/qvQvMeVxHQ4HvRikHR2cS5YBDTB8HAqzzR
+         oGwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tdhxEVn/ApgXUS3G+03myNB4Fqv3j3XN+RFKP4M2N/E=;
-        b=M3P3wAGZYwG3i0jdAUHFaUkucUmTpV8KrQIo9oAna28UKFy6DxKHyU9UU4Pe+oYf7q
-         XADmeVJYtzJRdk9gZz7RmXFyx2mqPETv9AyygGiAVWCySsHM/emFcNruR/pxJT0/jFy2
-         rK1Qnx9G2U7IN59WUoih09BPoEWJ+NBm56HHiIzA8tl1tjdN3PG9nvxxVnmvMBqnNYfo
-         56Vwj2Ww979/Ax6sZ8YpTdgVz9UfLEDa+DG6UY/qFu4iohpoVuidrFe0cuyIlXs4d4i+
-         gqBxzq4vrmkrgM8dfML5RZ9mB0FNVI4sOlS27iYuzgPI83+1OJyWx26aeGx6B4KnXTaE
-         NLrw==
-X-Gm-Message-State: AOAM531StHoh+LmqhQShECZmY0oqeL88Gekxb8UNfqi6Fjb7L2E7+hRf
-        ixG04yJrlpj/yrWUvbuor8I=
-X-Google-Smtp-Source: ABdhPJzz6fepG+GOMZhdHZxCQ+3aYLSrzsog/VZEUaWf70lRQBPXOCIyrLIyWXkrDw6QPJAZS5T4Lg==
-X-Received: by 2002:a05:6512:1388:: with SMTP id p8mr19368721lfa.269.1620686448932;
-        Mon, 10 May 2021 15:40:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5c45erSURxeCEHSKNhav6B+HVmEo5Q7GZQowAFugOAc=;
+        b=Mf3dN8WNq1jn+qtb5gJVJOAJibKgR7AfGSA/GSGcYHjrfZbiyKR0yBCOZ2LRc1l7cV
+         VabPWms1W0OB4zn3H2ucf5UMQzqYz7b7rVi1qgi2XSSjQlTL1ztVad2ZKYjgL8KQBIOb
+         2pZqHBFMmIZbWOp9XB2qUibhc+oj3Soi9lpO4v11aF+5U0X1jBazKd3pdXXumz3ImEvA
+         zLuavSmWVEF/UoGgEtokX4oy/8W0s6axXnoxFBvyMtxs6p8QQuJkbmIc11VktMuizoPB
+         JjIak4wKNyUP1ltuzSfJU9zUFZu4pWlpsVbMc0teRzhrZx2rjfDJ/tzjHqOY2QyrCB74
+         V54g==
+X-Gm-Message-State: AOAM531nh5Vtz6LorEXnD2Dp36+1zqsdADcv686Z/bq2asIQtaXp1mo8
+        MAU3Jwd8hPwMOUVi87spXCs=
+X-Google-Smtp-Source: ABdhPJxqUk7gPLV7h/f4yqGcGnIRgoOIA/snpb+clQSo+qHgKdWdSLWp0V69lNxZV2pw1vDzbbxfEw==
+X-Received: by 2002:ac2:5f5b:: with SMTP id 27mr18580184lfz.571.1620688663420;
+        Mon, 10 May 2021 16:17:43 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-91.dynamic.spd-mgts.ru. [109.252.193.91])
-        by smtp.gmail.com with ESMTPSA id g24sm2780698lja.63.2021.05.10.15.40.48
+        by smtp.gmail.com with ESMTPSA id k8sm2422254lfo.123.2021.05.10.16.17.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 15:40:48 -0700 (PDT)
+        Mon, 10 May 2021 16:17:43 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Andreas Westman Dorcsak <hedmoo@yahoo.com>,
-        Maxim Schwalm <maxim.schwalm@gmail.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        Ihor Didenko <tailormoon@rambler.ru>,
-        Ion Agorria <ion@agorria.com>,
-        Matt Merhar <mattmerhar@protonmail.com>,
-        Peter Geis <pgwipeout@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v1 7/7] ARM: tegra: Add SoC thermal sensor to Tegra30 device-trees
-Date:   Tue, 11 May 2021 01:38:16 +0300
-Message-Id: <20210510223816.18565-8-digetx@gmail.com>
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v7 0/8] Couple improvements for Tegra clk driver
+Date:   Tue, 11 May 2021 02:17:29 +0300
+Message-Id: <20210510231737.30313-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210510223816.18565-1-digetx@gmail.com>
-References: <20210510223816.18565-1-digetx@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add the on-chip SoC thermal sensor to Tegra30 device-trees. Now CPU
-temperature reporting and thermal throttling is available on all Tegra30
-devices universally.
+This series fixes couple minor standalone problems of the Tegra clk
+driver and adds new features.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra30-ouya.dts | 16 +++++
- arch/arm/boot/dts/tegra30.dtsi     | 93 ++++++++++++++++++++++++++++--
- 2 files changed, 105 insertions(+), 4 deletions(-)
+Changelog:
 
-diff --git a/arch/arm/boot/dts/tegra30-ouya.dts b/arch/arm/boot/dts/tegra30-ouya.dts
-index f008653d843b..619a4df3f4cd 100644
---- a/arch/arm/boot/dts/tegra30-ouya.dts
-+++ b/arch/arm/boot/dts/tegra30-ouya.dts
-@@ -469,6 +469,22 @@ map1 {
- 				};
- 			};
- 		};
-+
-+		tsensor-channel0 {
-+			trips {
-+				dvfs-alert {
-+					temperature = <70000>;
-+				};
-+
-+				cpu-div2-throttle {
-+					temperature = <75000>;
-+				};
-+
-+				soc-critical {
-+					temperature = <90000>;
-+				};
-+			};
-+		};
- 	};
- 
- 	vdd_12v_in: vdd_12v_in {
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 576dffdbd0a1..3fe24b6c340d 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -5,6 +5,7 @@
- #include <dt-bindings/pinctrl/pinctrl-tegra.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/soc/tegra-pmc.h>
-+#include <dt-bindings/thermal/thermal.h>
- 
- #include "tegra30-peripherals-opp.dtsi"
- 
-@@ -1155,6 +1156,21 @@ fuse@7000f800 {
- 		reset-names = "fuse";
- 	};
- 
-+	tsensor: tsensor@70014000 {
-+		compatible = "nvidia,tegra30-tsensor";
-+		reg = <0x70014000 0x500>;
-+		interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&tegra_car TEGRA30_CLK_TSENSOR>;
-+		resets = <&tegra_car TEGRA30_CLK_TSENSOR>;
-+
-+		assigned-clocks = <&tegra_car TEGRA30_CLK_TSENSOR>;
-+		assigned-clock-parents = <&tegra_car TEGRA30_CLK_CLK_M>;
-+		assigned-clock-rates = <500000>;
-+
-+		#thermal-sensor-cells = <1>;
-+		#cooling-cells = <2>;
-+	};
-+
- 	hda@70030000 {
- 		compatible = "nvidia,tegra30-hda";
- 		reg = <0x70030000 0x10000>;
-@@ -1417,32 +1433,36 @@ cpus {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
--		cpu@0 {
-+		cpu0: cpu@0 {
- 			device_type = "cpu";
- 			compatible = "arm,cortex-a9";
- 			reg = <0>;
- 			clocks = <&tegra_car TEGRA30_CLK_CCLK_G>;
-+			#cooling-cells = <2>;
- 		};
- 
--		cpu@1 {
-+		cpu1: cpu@1 {
- 			device_type = "cpu";
- 			compatible = "arm,cortex-a9";
- 			reg = <1>;
- 			clocks = <&tegra_car TEGRA30_CLK_CCLK_G>;
-+			#cooling-cells = <2>;
- 		};
- 
--		cpu@2 {
-+		cpu2: cpu@2 {
- 			device_type = "cpu";
- 			compatible = "arm,cortex-a9";
- 			reg = <2>;
- 			clocks = <&tegra_car TEGRA30_CLK_CCLK_G>;
-+			#cooling-cells = <2>;
- 		};
- 
--		cpu@3 {
-+		cpu3: cpu@3 {
- 			device_type = "cpu";
- 			compatible = "arm,cortex-a9";
- 			reg = <3>;
- 			clocks = <&tegra_car TEGRA30_CLK_CCLK_G>;
-+			#cooling-cells = <2>;
- 		};
- 	};
- 
-@@ -1457,4 +1477,69 @@ pmu {
- 				     <&{/cpus/cpu@2}>,
- 				     <&{/cpus/cpu@3}>;
- 	};
-+
-+	thermal-zones {
-+		tsensor-channel0 {
-+			polling-delay-passive = <1000>; /* milliseconds */
-+			polling-delay = <5000>; /* milliseconds */
-+
-+			thermal-sensors = <&tsensor 0>;
-+
-+			trips {
-+				level1_trip: dvfs-alert {
-+					/* throttle at 67C until temperature drops to 66.8C */
-+					temperature = <67000>;
-+					hysteresis = <200>;
-+					type = "passive";
-+				};
-+
-+				level2_trip: cpu-div2-throttle {
-+					/* hardware CPU x2 freq throttle at 70C */
-+					temperature = <70000>;
-+					hysteresis = <200>;
-+					type = "hot";
-+				};
-+
-+				soc-critical {
-+					/* hardware shut down at 80C */
-+					temperature = <80000>;
-+					hysteresis = <2000>;
-+					type = "critical";
-+				};
-+			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&level1_trip>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&actmon THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+
-+				map1 {
-+					trip = <&level2_trip>;
-+					cooling-device = <&tsensor THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+		};
-+
-+		tsensor-channel1 {
-+			status = "disabled";
-+
-+			polling-delay-passive = <1000>; /* milliseconds */
-+			polling-delay = <0>; /* milliseconds */
-+
-+			thermal-sensors = <&tsensor 1>;
-+
-+			trips {
-+				dvfs-alert {
-+					temperature = <80000>;
-+					hysteresis = <200>;
-+					type = "passive";
-+				};
-+			};
-+		};
-+	};
- };
+v7: - Added r-b from Rob Herring to the schema patch which he gave to v6.
+
+    - Dropped the MAINTAINERS-update patch. Previously Peter said on IRC
+      that he doesn't have time on the tegra-clk driver anymore and approved
+      the patch, but then he refused to ack the v6 patch, saying that he
+      is not reading mailing lists. So I don't feel comfortable with that
+      patch. Peter could send it by himself if will be necessary.
+
+    - Added these new patches:
+
+        clk: tegra: cclk: Handle thermal DIV2 CPU frequency throttling
+        clk: tegra: Mark external clocks as not having reset control
+
+      I sent out the new Tegra30 thermal sensor driver and now CPU clock
+      could be throttled by the sensor hardware [1]. The first patch adds
+      support for reporting of the throttled frequency properly.
+
+      [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=243126
+
+      During of debugging sound issues of Asus Transformer devices, I noticed
+      that the external clocks are missing the no-reset flag. The second
+      patch fixes it.
+
+v6: - Made a small improvement and corrected a typo in patch
+      "Fix refcounting of gate clocks" that were spotted by
+      Michał Mirosław.
+
+v5: - Corrected example in the schema binding to silence dt_binding_check
+      warning.
+
+    - The Tegra124 binding is factored out into standalone binding since
+      Tegra124 has properties that aren't used by other SoCs and I couldn't
+      figure out how to make them conditional in schema.
+
+v4: - Added new patch that converts DT bindings to schema.
+
+v3: - Added acks from Thierry Reding that he gave to v2.
+
+    - Added new patch "clk: tegra: Don't allow zero clock rate for PLLs".
+
+v2: - Added these new patches:
+
+      clk: tegra: Halve SCLK rate on Tegra20
+      MAINTAINERS: Hand Tegra clk driver to Jon and Thierry
+
+v1: - Collected clk patches into a single series.
+
+Dmitry Osipenko (8):
+  clk: tegra30: Use 300MHz for video decoder by default
+  clk: tegra: Fix refcounting of gate clocks
+  clk: tegra: Ensure that PLLU configuration is applied properly
+  clk: tegra: Halve SCLK rate on Tegra20
+  clk: tegra: Don't allow zero clock rate for PLLs
+  clk: tegra: cclk: Handle thermal DIV2 CPU frequency throttling
+  clk: tegra: Mark external clocks as not having reset control
+  dt-bindings: clock: tegra: Convert to schema
+
+ .../bindings/clock/nvidia,tegra114-car.txt    |  63 ----------
+ .../bindings/clock/nvidia,tegra124-car.txt    | 107 ----------------
+ .../bindings/clock/nvidia,tegra124-car.yaml   | 115 ++++++++++++++++++
+ .../bindings/clock/nvidia,tegra20-car.txt     |  63 ----------
+ .../bindings/clock/nvidia,tegra20-car.yaml    |  69 +++++++++++
+ .../bindings/clock/nvidia,tegra210-car.txt    |  56 ---------
+ .../bindings/clock/nvidia,tegra30-car.txt     |  63 ----------
+ drivers/clk/tegra/clk-periph-gate.c           |  72 +++++++----
+ drivers/clk/tegra/clk-periph.c                |  11 ++
+ drivers/clk/tegra/clk-pll.c                   |  12 +-
+ drivers/clk/tegra/clk-tegra-periph.c          |   6 +-
+ drivers/clk/tegra/clk-tegra-super-cclk.c      |  16 ++-
+ drivers/clk/tegra/clk-tegra20.c               |   6 +-
+ drivers/clk/tegra/clk-tegra30.c               |   4 +-
+ 14 files changed, 271 insertions(+), 392 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra114-car.txt
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra124-car.txt
+ create mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra124-car.yaml
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra20-car.txt
+ create mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra210-car.txt
+ delete mode 100644 Documentation/devicetree/bindings/clock/nvidia,tegra30-car.txt
+
 -- 
 2.30.2
 
