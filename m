@@ -2,79 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65D1737EE75
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 May 2021 00:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53AAD37ECB4
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 May 2021 00:36:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237806AbhELVnj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 12 May 2021 17:43:39 -0400
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:40570 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385262AbhELUHy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 12 May 2021 16:07:54 -0400
-Received: by mail-ot1-f47.google.com with SMTP id t4-20020a05683014c4b02902ed26dd7a60so11527574otq.7;
-        Wed, 12 May 2021 13:06:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cU36NcYiaevsm5YlhwbHu9nUioXD99KMHMa6mXtBEzU=;
-        b=FTCRDCCJgRMMuV6AE3ub1dMbTxY3upINxTMhfMth5dRSO3WSn7Kc5p9UNS9POAnxq3
-         ptnThgw0bHrk15S7V/zUlMlJAoM81ip2Fy0PEY6+vJx6Kj3imUb46TEB8K4lzordgZr5
-         YE2twd5PrRn8uW0uPN50A2n4GGf//wDVy0Vt2ZsGcdsyMKFFBNb6aFiMET5ABtIn2Deu
-         GHbjsWnGhDtRyb+NQBfQA0R4rTqVAB9ifsaU7M6/R/UWYSZsmIvE3tpe7sYo85p+gn85
-         Y7JQ+z99lLXnTCt46zhKmRJDjjbfOGRXJqgwZOSzgt0C86wwll4ModgeuRUzGqJX2q8F
-         8+JQ==
-X-Gm-Message-State: AOAM532v7Ytx7c3qxdWg6sXKwLaD0VNJPHPwXV0siXb70Zg1N0UznMZ/
-        3N4Mi4/9kviUy3yVLBFjLw==
-X-Google-Smtp-Source: ABdhPJxphN0GtiN334k/QK1IpY2uMD31NqkpC+sYSNf2GEWM4vRsewoEDUE8VzouS6MEFbjCrNHvLA==
-X-Received: by 2002:a05:6830:1e70:: with SMTP id m16mr25022703otr.340.1620850004228;
-        Wed, 12 May 2021 13:06:44 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r19sm229021ooj.5.2021.05.12.13.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 13:06:43 -0700 (PDT)
-Received: (nullmailer pid 2230906 invoked by uid 1000);
-        Tue, 11 May 2021 16:27:11 -0000
-Date:   Tue, 11 May 2021 11:27:11 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v4] dt-bindings: memory: tegra20: emc: Convert to schema
-Message-ID: <20210511162711.GA2230846@robh.at.kernel.org>
-References: <20210510212320.3255-1-digetx@gmail.com>
+        id S239152AbhELT6z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 12 May 2021 15:58:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50162 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1352054AbhELSCZ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 12 May 2021 14:02:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BC9DF61425;
+        Wed, 12 May 2021 18:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620842476;
+        bh=GvCpCU7LOFMdC1La32QjDV/EKg3mqUZvXZcpx4mc1MQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Z7EwsdC6GqjfIXfibX9Mcj/VVVORmeNFBZ+k8ZBcHvg8EZKTzEVPtoEnKNoc3/Md6
+         XQbj2w68+/K+N6AXACZui59k9a8dySN/jxE9RyGnBOLp400FLhyrHJjTcJuFh6cNVt
+         kSJl5eSU5+n/hHoxbSDQyjefMa7NPLqmv6MwOhpZTLjdJxFwQm/xgIztsj/3tHBstZ
+         1mmM+fgZkWGKxtEvqbXcJbxiHXlueenJKE0+C0T/h4bwvaKrMKhBihfuyRkSdYie4l
+         cNLEkzxqBxNukT6pYYl8tmPu6HvK5RiKI03/0KmHJF2GkigEGlp8bfz72AOXmXIJUd
+         cKka4Pp3XOM1g==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Sasha Levin <sashal@kernel.org>, linux-pci@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 08/37] PCI: tegra: Fix runtime PM imbalance in pex_ep_event_pex_rst_deassert()
+Date:   Wed, 12 May 2021 14:00:35 -0400
+Message-Id: <20210512180104.664121-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210512180104.664121-1-sashal@kernel.org>
+References: <20210512180104.664121-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210510212320.3255-1-digetx@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 11 May 2021 00:23:20 +0300, Dmitry Osipenko wrote:
-> Convert Tegra20 External Memory Controller binding to schema.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
-> 
-> Changelog:
-> 
-> v4: - Doesn't have duplicated properties by making use of $defs/$ref,
->       which was suggested by Rob Herring in a review comment to v3.
-> 
-> v3: - Fixed dt_binding_check warning about the missing reg property.
-> 
->     - Became a standalone patch since other v2 patches were applied.
-> 
->  .../memory-controllers/nvidia,tegra20-emc.txt | 130 ----------
->  .../nvidia,tegra20-emc.yaml                   | 230 ++++++++++++++++++
->  2 files changed, 230 insertions(+), 130 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
->  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
-> 
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-Applied, thanks!
+[ Upstream commit 5859c926d1f052ee61b5815b14658875c14f6243 ]
+
+pm_runtime_get_sync() will increase the runtime PM counter
+even it returns an error. Thus a pairing decrement is needed
+to prevent refcount leak. Fix this by replacing this API with
+pm_runtime_resume_and_get(), which will not change the runtime
+PM counter on error.
+
+Link: https://lore.kernel.org/r/20210408072700.15791-1-dinghao.liu@zju.edu.cn
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pci/controller/dwc/pcie-tegra194.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index 6fa216e52d14..0e94190ca4e8 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -1645,7 +1645,7 @@ static void pex_ep_event_pex_rst_deassert(struct tegra_pcie_dw *pcie)
+ 	if (pcie->ep_state == EP_STATE_ENABLED)
+ 		return;
+ 
+-	ret = pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to get runtime sync for PCIe dev: %d\n",
+ 			ret);
+-- 
+2.30.2
+
