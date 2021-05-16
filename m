@@ -2,98 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 975E8382133
-	for <lists+linux-tegra@lfdr.de>; Sun, 16 May 2021 23:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FC5438216A
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 May 2021 00:21:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232302AbhEPVdf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 16 May 2021 17:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39652 "EHLO
+        id S230230AbhEPWWp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 16 May 2021 18:22:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbhEPVde (ORCPT
+        with ESMTP id S230001AbhEPWWo (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 16 May 2021 17:33:34 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50AEAC061573;
-        Sun, 16 May 2021 14:32:18 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id a2so5842248lfc.9;
-        Sun, 16 May 2021 14:32:18 -0700 (PDT)
+        Sun, 16 May 2021 18:22:44 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BE23C061573;
+        Sun, 16 May 2021 15:21:27 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id v8so983288lft.8;
+        Sun, 16 May 2021 15:21:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qVxlDDMwfVQojHS8zLyG8W4OehHVhD+swLOmEmLIWIM=;
-        b=di6gvGCm6hP9aguUGgg03PKOpJHMsrWHZ85KkLBbE9ODuGM3gaRyIP2+aUgB2gvoCt
-         Ijos4JFZbFOdJQycV6dFV3W7VY1xyX0isBC/aehopd/HjM5IUDSw5DhKvRgHsjg+te2W
-         SgV9K+AaPS4oEX/18bOMzACtl0zA7fOuKNbKU91VDKBYZu/qBfqdauJoaiHbA4KUiDDv
-         Mr3E8wNvf71GkHFkUmmHqF6XrTBYfPwWZnpwt3QIW9uwt3WBdZQdS6UJ+naauUPfAnDp
-         /6mdG3QNRgwwRvI+R5QM5QYGg4qqB/jZ/5A1wGI3XPFNHia7SY+PO7LI5OTHRcT7fxfQ
-         McFw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6hDyKCEJ5F5HU0VO9fIusrmFjq59XWmLLJOKxXWrnM8=;
+        b=bV0wxqPoUMCi0MlsefrMnSLYja03+X6cDVysP8KuDNKFEkDt8CgVDyUfCmBPfXm2Vj
+         8eqjF5N4YZTtYBRLtv1yx9VwD79rj1ydsDvB/VjYNchPRUvKFZ3//APmy/1AsXI6ZFDa
+         iwfh3HZ0ckUkPzGY/jEl8DFFiIqMkMFVH+tawYj9d57IaMkfyf5KoLpbOlyPA3pPUcWO
+         +zhbfhv7OMkYXmJuj1Fljs5NO0eSGUB9JoREe4Vd1k2UoIOWTW+lsR8JeFezRXbvMO8l
+         wLoZZNR3iUKs4YuXRBT/TN/CZhvosAXfdt3NZGPlOITZM/480NBS/py63bF7G56NbYmW
+         qHyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=qVxlDDMwfVQojHS8zLyG8W4OehHVhD+swLOmEmLIWIM=;
-        b=Yuqx9tivQfmS23uDaRHSwgCBVf9TAYlEwKr7orz9A0TYpntjUsnwrfPN31Cvw2k0L/
-         1RCaK19RPyYsOQsWwuCFz9eFOoJDeGxv7zzhjQXM7OXSrgIrmrxJdSOWy6L74EGM7+z1
-         vPhTHlQnbOc4jhcLoThL1nqHjN0u9ZGABxyGtO9O93bZzTuff1Gdwr76djuLBpPv1D29
-         Sc3fvxpDfr1CCn7FX/KvSG8qOU+LkbA8XU/1VNavBQx2ITKMJaV+lVwzdqNL7Mzm3A8O
-         yZxmuNOZEkC3xi4yOik7Pdi3avVSSawjojePe7qY3RXFre2l8/tCW+uxo0FpwtURkj/q
-         bzWw==
-X-Gm-Message-State: AOAM531Yqf+y8AiUJVjD7hXHbqPB6BrNy3FZF7N8pFlS8W5avV0M+053
-        j6bf+ZpFO6m2pOqQLDjpQaLDyAuLUfM=
-X-Google-Smtp-Source: ABdhPJyjyzjbPM8KgyvkU+6XZJiE0VuqEVP8TQGPg8ppka3ZJ2R87MzQs6GvxA90HDVvQi8YLLUyww==
-X-Received: by 2002:ac2:51c3:: with SMTP id u3mr40226351lfm.196.1621200736455;
-        Sun, 16 May 2021 14:32:16 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-91.dynamic.spd-mgts.ru. [109.252.193.91])
-        by smtp.googlemail.com with ESMTPSA id v20sm1752104lfd.92.2021.05.16.14.32.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 May 2021 14:32:16 -0700 (PDT)
-Subject: Re: [PATCH v1 0/2] Restore voltages before rebooting of NVIDIA Tegra
- SoCs
+        bh=6hDyKCEJ5F5HU0VO9fIusrmFjq59XWmLLJOKxXWrnM8=;
+        b=YA20m5fZu90LTpR3/ohB/gPSyvIl4FGwSPtsnU+YJh58nWcWBk5lfXeyZvI+Qrkb7F
+         RQAKAexJaBwSVykn9rPHKbGyH+PbFMz04a25Qg0h9I0KZyAnAp94lQsoZ8H88BKef6rA
+         2071SMXS4rwtaZwgir3dcMiazYSyslFE6Ekt+jAWUXv8mmWKHQLTqfDWbaJcfxxydtyw
+         e/ytDZA4okVZg3xW8O5vrOrlEi7IuyVoetBm8O9Ng2crwcVABR06Az0zssQf1s+yjOA6
+         4S6egnlTUB5lV4r6uqTi036hoZglxhVnAvuWdlRB0lx/s0NfaOv80KG9GKEyOsiH/ZcO
+         9Bag==
+X-Gm-Message-State: AOAM530Px6XdyImQp3dntGySCtUmbhJ0+gPu5tiHuzqsWrSeSoZ5/ZTz
+        Tp+2RdvGINIK8+94kpmXbnc=
+X-Google-Smtp-Source: ABdhPJwNJsCfpbtLf5Q2NyWoJ3UhV0NktWobCbPFY0DV1o4FzjKVgJMkiU2Zcd4TKwurCDtp9l+wXw==
+X-Received: by 2002:a05:6512:204:: with SMTP id a4mr17082060lfo.238.1621203686089;
+        Sun, 16 May 2021 15:21:26 -0700 (PDT)
+Received: from localhost.localdomain (109-252-193-91.dynamic.spd-mgts.ru. [109.252.193.91])
+        by smtp.gmail.com with ESMTPSA id q27sm2680275ljm.127.2021.05.16.15.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 15:21:25 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        =?UTF-8?q?Nikola=20Milosavljevi=C4=87?= <mnidza@outlook.com>
+Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        =?UTF-8?Q?Nikola_Milosavljevi=c4=87?= <mnidza@outlook.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20210510220526.11113-1-digetx@gmail.com>
- <20210514213251.GB1969@qmqm.qmqm.pl>
- <5047e49e-fa86-1e9d-a114-cbaf31f5b86b@gmail.com>
-Message-ID: <e0d5fb63-ad3a-2e1d-52f0-9458598d6364@gmail.com>
-Date:   Mon, 17 May 2021 00:32:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Liam Girdwood <lgirdwood@gmail.com>
+Subject: [PATCH v2 0/2] Restore voltages before rebooting of NVIDIA Tegra SoCs
+Date:   Mon, 17 May 2021 01:21:00 +0300
+Message-Id: <20210516222103.28595-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <5047e49e-fa86-1e9d-a114-cbaf31f5b86b@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.05.2021 01:18, Dmitry Osipenko пишет:
-> 15.05.2021 00:32, Michał Mirosław пишет:
->> On Tue, May 11, 2021 at 01:05:24AM +0300, Dmitry Osipenko wrote:
->>> Hi,
->>>
->>> Nikola Milosavljević reported that rebooting wasn't working properly on
->>> Asus Transformer TF101, which is Tegra20-based tablet device.  We found
->>> that TF101 and some other devices have bootloader which doesn't re-initialize
->>> voltages properly on a reboot.  The problem is resolved by ensuring that
->>> SoC voltages are at a levels that are suitable for the rebooting of the
->>> SoC before reboot happens. This series adds reboot handler to the Tegra
->>> regulator couplers, it bumps voltages on the reboot event.
->>
->> Which tree does this series apply to?
-> 
-> It was made on top of linux-next, but it should apply to 5.13 as well.
-> What conflict do you get?
-> 
+Hi,
 
-I see where the problem is, there is no
-tegra_soc_core_domain_state_synced() in upstream yet. I haven't rebased
-patches properly, will be fixed in v2.
+Nikola Milosavljević reported that rebooting wasn't working properly on
+Asus Transformer TF101, which is Tegra20-based tablet device.  We found
+that TF101 and some other devices have bootloader which doesn't re-initialize
+voltages properly on a reboot.  The problem is resolved by ensuring that
+SoC voltages are at a levels that are suitable for the rebooting of the
+SoC before reboot happens. This series adds reboot handler to the Tegra
+regulator couplers, it bumps voltages on the reboot event.
+
+Changelog:
+
+v2: - Added ack from Mark Brown.
+
+    - Rebased patches properly, thanks to Michał Mirosław for noticing
+      this problem.
+
+Dmitry Osipenko (2):
+  regulator: core: Add regulator_sync_voltage_rdev()
+  soc/tegra: regulators: Bump voltages on system reboot
+
+ drivers/regulator/core.c               | 23 ++++++++
+ drivers/soc/tegra/regulators-tegra20.c | 75 ++++++++++++++++++++++++-
+ drivers/soc/tegra/regulators-tegra30.c | 78 +++++++++++++++++++++++++-
+ include/linux/regulator/driver.h       |  1 +
+ 4 files changed, 175 insertions(+), 2 deletions(-)
+
+-- 
+2.30.2
+
