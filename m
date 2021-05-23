@@ -2,119 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B06838DE19
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 May 2021 01:45:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16AFB38DE3A
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 May 2021 01:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbhEWXqe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 May 2021 19:46:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32792 "EHLO
+        id S232060AbhEWX6D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 May 2021 19:58:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232073AbhEWXqc (ORCPT
+        with ESMTP id S232021AbhEWX6C (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 May 2021 19:46:32 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD5F8C06138C;
-        Sun, 23 May 2021 16:45:03 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id t17so14480566ljd.9;
-        Sun, 23 May 2021 16:45:03 -0700 (PDT)
+        Sun, 23 May 2021 19:58:02 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58EA8C061574;
+        Sun, 23 May 2021 16:56:33 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id w15so31199260ljo.10;
+        Sun, 23 May 2021 16:56:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/lnkbAwGfOTfE0faI+z2uEvnE5UMJQap5u4jnvd3/0c=;
-        b=IJA0RuH/sxS2Z+PU8lnm6gg+AWa/osTuuDRLJBja5ZoFA/Rc0S+ZwBtUg3qXdDpVBr
-         5p+HtqqpAvYYWbfD6yEZ2HkFsXyGeAFoM3Wl9wiEFPDWsU6bTX6rmRy/swrN9QMYao+W
-         C8BpL+mkpawvSfh9Phg6zRVSs7ksdmWh7fXp1dpgfKGbWU14aXvvxbkVBMCmgqj2gafh
-         RMzK0def2t0xL+uiy1NFRU5l3USxqw60mG8iasWkM6z4nwwKuUfoynXDTec6T9vh6gun
-         gLMPVmOgMmio00vgbLkh3Nx0ku2iEjnkmi88G7KwNyp/kGhkUQw+WSljXtD7ZJMhu75u
-         U0Rw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WzJLvDAWH/PwIk8Vq+fBiDvMEBtw82x4t9gNcqY6QO4=;
+        b=Y/HFi4/9BIcCFoI35jfyA2sm1lZu0/qF1vAG2lVBwxBCeI3vOtV43u/NMpbaGqrzEo
+         DvDoSAvZ7JjGAXkpHK8bewdKj/P9BFY3OavVrDuZS3y0UR+bG5YAF0HiAU0eV427RPw6
+         7sUIbT8nartBLp6hAtTrJsFOPyHL5Ygn01SHcbWNmtlnlF5DfmwoqyqDPAgR0TSjbHWb
+         Xf2nfSMtHxTFCsAB1LSqOQ1JM5fm0bTcLbalL90WKRvx7geFN+EnK8iInxdVAN3Tqlxx
+         LIwPC6UWEfbaqn4kxtlZX3RfJsgKvCJ6xWLL1dz3Cv6oMWrSZqCM+9xd3yGNB3sqU/YV
+         KJrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/lnkbAwGfOTfE0faI+z2uEvnE5UMJQap5u4jnvd3/0c=;
-        b=XowYkX7t2bkGupzOPuYpmCeoVO2YNKH5AKcNVCkn0K9PZGX+nOfuDbIH6uVrYvOq9X
-         iJcAZpvCR1JQMIZjmc1z9MOKQDlzF5mfHNYsZhC5Dg7EOAB4jmYRA918AMXEzeNQ28yA
-         hnhXdFGB8aYkrQbcNcyYxqnqdHniIgxky0+8DJbfHtwsAiFBdw8Uo019AH3+aT6oYHp+
-         W8O3s+UxZRzn74oT0quGUfyZrxAgG3zp7L4XP0HrLiOjWNt/fX8+wtNzalYJDaQJaGTb
-         1N09bCLaVBarDnj8/tsojByqIu7IgWYFIC+1l/JOTv0V3VDdWSL+k5fY4hg54ae0e+Nt
-         CjXg==
-X-Gm-Message-State: AOAM533VBwhTuxmLuUQRLnOSNnsJieW/ro6rw90ES7pb383qvNulg2oT
-        Phgpk1sA9KKkNwrQ/hDcYnU=
-X-Google-Smtp-Source: ABdhPJzkNA0BZJDWAFB/SC7LMu5UUqSITysCieeLViToB3wz26EiSa2n/a1EqfTgwH9wnsir3JLQbw==
-X-Received: by 2002:a2e:9cc:: with SMTP id 195mr14750317ljj.291.1621813502210;
-        Sun, 23 May 2021 16:45:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WzJLvDAWH/PwIk8Vq+fBiDvMEBtw82x4t9gNcqY6QO4=;
+        b=OTiUJ2OCWx1ZCSZTv/+uWBHvk9tC0jjckD7i5ogSuj9tEj8Y6yu2ImEQYsDxeIRFhw
+         C9/vGTg/aadi4sEkrXU5V45g3NFgoKdKdg/nEGsB5CBJVc9UcEnjo9CxqU/O3r5oTMjR
+         ApD66dgrPR24ZIcBioyVxV7N/b1xl4Wgp6DooIBfRJ+hp/YGnEDpUqwtN6V1XfiW0YrY
+         7IC7SCkSTBRBk8yQcnOekfi2awouSXUgCH4BJ6aVPKFDV8+imUZs/BWipLZbMdLJyKgE
+         FYxPN+M24S9cnFMGH4zu/blCwUC6itheLGMdmXmwC54MVml5z0pLkPXGwiGJW0f/gxh+
+         ubqg==
+X-Gm-Message-State: AOAM532UeuBrXb2OLw0A1TO+h0ZEkGPxUJ1D409Rlg00CCba09fY2hSN
+        SWfm2lEmzmORIZMTnnLj09A=
+X-Google-Smtp-Source: ABdhPJzMcuk4OcI5KUgFWj/cSleIH1yRR056EWtob7rYKFy/m0bGNL86u6ab+p/EYt7WfTTnZxvFsg==
+X-Received: by 2002:a2e:a40a:: with SMTP id p10mr12504531ljn.145.1621814191509;
+        Sun, 23 May 2021 16:56:31 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-110.dynamic.spd-mgts.ru. [109.252.193.110])
-        by smtp.gmail.com with ESMTPSA id u11sm1269054lfg.243.2021.05.23.16.45.01
+        by smtp.gmail.com with ESMTPSA id h4sm1092987lfv.247.2021.05.23.16.56.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 May 2021 16:45:02 -0700 (PDT)
+        Sun, 23 May 2021 16:56:31 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Ion Agorria <ion@agorria.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andreas Westman Dorcsak <hedmoo@yahoo.com>,
+        Maxim Schwalm <maxim.schwalm@gmail.com>,
         Svyatoslav Ryhel <clamor95@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>
-Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] ASoC: tegra: Specify components string for Nexus 7
-Date:   Mon, 24 May 2021 02:44:37 +0300
-Message-Id: <20210523234437.25077-5-digetx@gmail.com>
+        Ihor Didenko <tailormoon@rambler.ru>,
+        Ion Agorria <ion@agorria.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v2 0/7] Add driver for NVIDIA Tegra30 SoC Thermal sensor
+Date:   Mon, 24 May 2021 02:56:13 +0300
+Message-Id: <20210523235620.31538-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210523234437.25077-1-digetx@gmail.com>
-References: <20210523234437.25077-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Specify components string for Nexus 7 using the Intel BayTrail components
-format. This may allow us to create a more generic UCM for RT5640 codec.
+Hi,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- sound/soc/tegra/tegra_asoc_machine.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+This series adds support for the thermal sensor that is found on NVIDIA
+Tegra30 SoC. Sensor monitors temperature and voltage of the SoC, it also
+emits signals to the power management and clock controllers that are
+performing the emergency shut down and the CPU frequency throttling
+when a pre-programmed temperature levels are reached.
 
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index a81f2ebfc00c..87e0a47040a5 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -671,6 +671,24 @@ static const struct tegra_asoc_data tegra_rt5640_data = {
- 	.add_hp_jack = true,
- };
- 
-+/*
-+ * Speaker: Connected to SPO L/R P/N pins, stereo.
-+ * Internal Microphone: Digital, connected to DMIC1_DAT IN2P/N pins.
-+ * Headphones: Connected to HPOL/R pins.
-+ * Headset Microphone: Unconnected.
-+ *
-+ * IF2_DAC/ADC are unpopulated.
-+ */
-+static const struct tegra_asoc_data tegra_rt5640_grouper_data = {
-+	.components = "codec:rt5640 cfg-spk:2 cfg-mic:dmic1 aif:1",
-+	.mclk_rate = tegra_machine_mclk_rate_256,
-+	.card = &snd_soc_tegra_rt5640,
-+	.add_common_dapm_widgets = true,
-+	.add_common_controls = true,
-+	.add_common_snd_ops = true,
-+	.add_hp_jack = true,
-+};
-+
- /* RT5632 machine */
- 
- SND_SOC_DAILINK_DEFS(rt5632_hifi,
-@@ -712,6 +730,7 @@ static const struct of_device_id tegra_machine_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-wm8753", .data = &tegra_wm8753_data },
- 	{ .compatible = "nvidia,tegra-audio-rt5677", .data = &tegra_rt5677_data },
- 	{ .compatible = "nvidia,tegra-audio-rt5640", .data = &tegra_rt5640_data },
-+	{ .compatible = "nvidia,tegra-audio-rt5640-grouper", .data = &tegra_rt5640_grouper_data },
- 	{ .compatible = "nvidia,tegra-audio-alc5632", .data = &tegra_rt5632_data },
- 	{},
- };
+Please note that this series is made on top of ACMTON patches! [1].
+Otherwise tegra30.dtsi will fail to compile.
+
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=243115
+
+Changelog:
+
+v2: - Made a very minor improvement to one error message, it now prints
+      number of channel at which error occurred.
+
+    - Added r-b from Rob Herring to the binding.
+
+Dmitry Osipenko (7):
+  dt-bindings: thermal: Add binding for Tegra30 thermal sensor
+  thermal: thermal_of: Stop zone device before unregistering it
+  thermal/core: Export thermal_cooling_device_stats_update()
+  thermal/drivers/tegra: Add driver for Tegra30 thermal sensor
+  ARM: tegra_defconfig: Enable CONFIG_TEGRA30_TSENSOR
+  ARM: multi_v7_defconfig: Enable CONFIG_TEGRA30_TSENSOR
+  ARM: tegra: Add SoC thermal sensor to Tegra30 device-trees
+
+ .../thermal/nvidia,tegra30-tsensor.yaml       |  78 ++
+ arch/arm/boot/dts/tegra30-ouya.dts            |  16 +
+ arch/arm/boot/dts/tegra30.dtsi                |  93 ++-
+ arch/arm/configs/multi_v7_defconfig           |   1 +
+ arch/arm/configs/tegra_defconfig              |   1 +
+ drivers/thermal/tegra/Kconfig                 |   7 +
+ drivers/thermal/tegra/Makefile                |   1 +
+ drivers/thermal/tegra/tegra30-tsensor.c       | 736 ++++++++++++++++++
+ drivers/thermal/thermal_of.c                  |   3 +
+ drivers/thermal/thermal_sysfs.c               |   1 +
+ 10 files changed, 933 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/thermal/nvidia,tegra30-tsensor.yaml
+ create mode 100644 drivers/thermal/tegra/tegra30-tsensor.c
+
 -- 
 2.30.2
 
