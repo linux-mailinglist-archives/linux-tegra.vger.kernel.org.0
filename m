@@ -2,181 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 725BA3935A5
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 May 2021 20:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA1E93935EB
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 May 2021 21:03:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234553AbhE0S5J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 May 2021 14:57:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235599AbhE0S5H (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 May 2021 14:57:07 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5ACFC061761;
-        Thu, 27 May 2021 11:55:33 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 131so2199270ljj.3;
-        Thu, 27 May 2021 11:55:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5c4GgBUi169adG89RpxfCaKSFuH1lGlp/e1vdo4dVbQ=;
-        b=u0JaQadS2KD5i6ubeKLAsCOGL83jVab5h8Wentq/DU5SSnd/DCToBNeKxO2TZ+ENW2
-         ZCbMezKpZ0j57pq+asjqtBELvUA1Jfxcu7mcJLggq21uYBe7RI0jf1+uUagzkfL+Zld1
-         WZwWx2NwkP3QVoeQTKyLWjoCycspYbyPGdFtAcWS34eyDp50T+8CwMjCvPb7VX2MxGSk
-         kZORXX002No7/tCBU0Gug585UHLc5Fj0tVgV5LHvcqFfO7oYA4CZUpB/wBP5amgNF5yY
-         LEylcnWm4PeELy3maZR9Qb4A9tbBiWVX/1KCi/qof3BlH/P4EpLWGU6/ZeKa76xKlbSY
-         gruw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5c4GgBUi169adG89RpxfCaKSFuH1lGlp/e1vdo4dVbQ=;
-        b=Z3rGpFvwzFyQkLSrvNZCEWofPWDJijRtARFBt4Aj7+jRFkFL4Gqz/v9iRxzrft7RSo
-         laHLREsd40RmLFjDHSmG8p7Udww2WbjwiDEuMZxQ7qXkqMEr6xRTAyBPGpvsJVcVryki
-         ++LZHa7BGIrefPuyw8Xty4DRWmwWwLG7Mz5/duTf310pCBt/qUAcdygLUDc9mDmKIAEU
-         eBoW8v9zgQ3cAQREXEbSOQdo7TmNF8k8N1xYLkEqrGkTurpHtEiIOURMEqwspgox97Jy
-         FuIEyU8fxyqNZYsPHM7XphjFMACIYMn0hML0Z97e/dPXFuM1gHr8C1Mpz5Y5xly/zAUZ
-         lvLA==
-X-Gm-Message-State: AOAM532UjS0MDUdRUU/yrRPUNG3UWqwqK4c7357GlgQUkgKZTxkhvclS
-        WEIAOCQT/brxX3fteiszQv4=
-X-Google-Smtp-Source: ABdhPJwqx1V1zw3mAosyyfQCWAC76ShrYIYJ55r8O8XoxOe2e0RtwuHu+njMQhip7guhaLP6z4YBHg==
-X-Received: by 2002:a2e:9f52:: with SMTP id v18mr3611730ljk.107.1622141732103;
-        Thu, 27 May 2021 11:55:32 -0700 (PDT)
-Received: from localhost.localdomain (46-138-12-55.dynamic.spd-mgts.ru. [46.138.12.55])
-        by smtp.gmail.com with ESMTPSA id p16sm265217lfc.113.2021.05.27.11.55.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 11:55:31 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Ion Agorria <ion@agorria.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>
-Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 3/3] ASoC: tegra: Specify components string for each card
-Date:   Thu, 27 May 2021 21:51:25 +0300
-Message-Id: <20210527185125.18720-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210527185125.18720-1-digetx@gmail.com>
-References: <20210527185125.18720-1-digetx@gmail.com>
+        id S233565AbhE0TFG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 May 2021 15:05:06 -0400
+Received: from mail-bn8nam08on2080.outbound.protection.outlook.com ([40.107.100.80]:4612
+        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229739AbhE0TFF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 27 May 2021 15:05:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bZ2BJEKoIG1o95dnl2MAFmHklD1ZzJv4lg5FpKXVVbT2lPruydvkjeoqhXzqSxzdM1T2+Ayixx30aQ3pGEkPmhUOUDNh4KiLzgM+RRN3ikhG9EXxT6m18H7iNdHJzSYCf0xElFooWTf3XXXET0LFYvt/cO2/eL4uWOt7LBJFdbxyULxU+s72ZmMaKDn1Fq7pOQ23tsFG1IyLZJKuUVMGU4cKl032/5vVwNdFKXrQ5DYdrkR+sViag81AqF1i+UQT4SAUhrtGAqr8CuOPCqepQQjoMHqOFQ/Xd01jdKJlgdk1xvGzIDhoq/YlxnitXaL5gaOl9EemBW1MNfzTcaojGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zT/xz66d8NYSRnHqGj8NVmjqOuvmZfwamUBF249o9qg=;
+ b=WVtq6OfME+qyAOdQYdsL0wF9sqsAhc7594xk4+YZuXM7C1DgXftB0NLWCKD7ogd/1z4cxlma9mDBSYq3DbJrI5WLg87gYEleGbN/37Wr6ffgyU0MnBh/IorHRJB9zcYW/96P/ocFtjoc3TfVk0wNB1vtSZbhXqZlxao5O5TkI6w+lDEd49R6VOtUGEsiWlX4fmLnuJgVTq0t7iI3gocTE2DWrmLZPvZWDOAaTy5JQ4CrUcKWbXZzCLXtPuKFNItujUpTtCpY1tEzL9c/VLTZl67BrsbB82QHRZeio2FdI+IZSbNWLwUyte2IPrpN1WOFsMiNejeoF9dTSF8X/RraIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.36) smtp.rcpttodomain=denx.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zT/xz66d8NYSRnHqGj8NVmjqOuvmZfwamUBF249o9qg=;
+ b=MQeTVjrQkANNpuyR1QphQDy77lxodzQhJWJZYj7Qj+JEmgNFCH9k07OLifh/QuUh4Y3yFQreVo6mD7qGUfoR1gpvdQ+FZuhaQOMLDfwWE46Rpvkg9y7+tiY5B30G22BITgWem12de9RMadtuWnFOqtft/ztlSMTTZWU5IJGk8NwVBm4CaTYolCo0lt+j9fIr8oLYj/4zXhD5YrtigmIpwmSRfyrwDdE7JWJgrL1gf7UNj1qNycRC159zu6V2kN+/tmJHDcNLD9H5qN5RqUBIAB6nQNtrKygYaLWPRaKS168rcfBrW7EA4w8fxLsopcuAhuSi+OPcbBDeazD99MHfNg==
+Received: from DM6PR02CA0114.namprd02.prod.outlook.com (2603:10b6:5:1b4::16)
+ by CH2PR12MB4214.namprd12.prod.outlook.com (2603:10b6:610:aa::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Thu, 27 May
+ 2021 19:03:30 +0000
+Received: from DM6NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1b4:cafe::ca) by DM6PR02CA0114.outlook.office365.com
+ (2603:10b6:5:1b4::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Thu, 27 May 2021 19:03:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.36)
+ smtp.mailfrom=nvidia.com; denx.de; dkim=none (message not signed)
+ header.d=none;denx.de; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.36 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.36; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.36) by
+ DM6NAM11FT029.mail.protection.outlook.com (10.13.173.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 19:03:30 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 May
+ 2021 19:03:18 +0000
+Received: from jonathanh-vm-01.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
+ Transport; Thu, 27 May 2021 19:03:18 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.10 0/9] 5.10.41-rc1 review
+In-Reply-To: <20210527151139.242182390@linuxfoundation.org>
+References: <20210527151139.242182390@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <62494df987eb45c2afd5b4e372c03a6b@HQMAIL105.nvidia.com>
+Date:   Thu, 27 May 2021 19:03:18 +0000
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c34f365e-8a6a-49d6-61c9-08d921421dee
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4214:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4214C56696A83CC8F6F13799D9239@CH2PR12MB4214.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tsA9PDZne2RIt59F9SgmPk5UrRJeA+GZrFqi2d2U/7hj6FYoQNdEqkEJV+ljGtrVJjqQKIeqgntVFCBAFauAufoCiPobtiFx1de6joI90+vsr7Dks2FJPN6rA+z/RSL0AWVGNOf0G9PJ2ZCK6yLHTuiQMf4A/cjmvqfRDTByBk8am7VREsrig4nj+LIDRVGfZd6tSWuIm0SXtgxdVAckct3llRPGlsIFV2pn3HSTpKIqxhJzE+sG0kuzLYNGDwuSYlry/S/a6PZzrXZqcfyBag27H8fev7ev5bhfKnI2Y6Ydt3MjOuEUGTdWIy2nTmZrc02nTXwrz5lilAmcjIz/4gnlifo/lVcvR8NCd48o6hKUwpv+bjm23Pgfp565dSGsiFwlLFNXsgbzxReNFW5+o4CXYe6Gm7xosY39SJpOvRuy88p7g7+PYzbKl2V/l8Bu9oh8B9nXz9tAT+t1VhV7P/6X4EAsDEO+S0F2m9h/h9VcdLv5rPmw0+elICR6t/7zJDvfBVLCoHXzwU+u3lNYgfQfj4RBAD/pM3AqzU4FWWxwhs02ftbBG+d9dY2mHnZnoGSkukQS1T3guao+2910ph1UWnO4zs1b+Ymq6KA7UDz1ZvX31uTmiGG2p6MDWWpCeGLJhntxtl5/R5T4sDRO13oCWnEgkI1/wLQ9GguHw+JzyV+rNbqv4MlTD/HPDyTkVx8KvQPWg5YeOBImSC9bL18hdQniSVRI0WPgeIbImdpBnQ0G3xfaU2Cv6Y7bV0sx9p2OejpgAzPwnwZ5R5YGSA==
+X-Forefront-Antispam-Report: CIP:216.228.112.36;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid05.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(39860400002)(376002)(346002)(396003)(36840700001)(46966006)(4326008)(336012)(36860700001)(8676002)(426003)(82740400003)(356005)(47076005)(70586007)(70206006)(7636003)(108616005)(82310400003)(478600001)(86362001)(5660300002)(966005)(7416002)(186003)(2906002)(26005)(24736004)(6916009)(54906003)(316002)(36906005)(8936002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 19:03:30.2106
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c34f365e-8a6a-49d6-61c9-08d921421dee
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.36];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4214
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Specify components string for each card of each supported device. It's
-a free form string that describes audio hardware configuration. This
-information is useful for ALSA UCM rules. It allows to generalize UCM
-rules, potentially removing a need to add new UCM rule for each device.
+On Thu, 27 May 2021 17:12:52 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.10.41 release.
+> There are 9 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sat, 29 May 2021 15:11:29 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.41-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Acked-by: Jaroslav Kysela <perex@perex.cz>
-Suggested-by: Jaroslav Kysela <perex@perex.cz>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- sound/soc/tegra/tegra_asoc_machine.c | 9 +++++++++
- sound/soc/tegra/tegra_asoc_machine.h | 1 +
- sound/soc/tegra/tegra_wm8903.c       | 1 +
- 3 files changed, 11 insertions(+)
+All tests passing for Tegra ...
 
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index a28ee0d60992..1af70b0873ad 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -371,6 +371,8 @@ int tegra_asoc_machine_probe(struct platform_device *pdev)
- 
- 	if (asoc->add_common_snd_ops)
- 		card->dai_link->ops = &tegra_machine_snd_ops;
-+	if (asoc->components)
-+		card->components = asoc->components;
- 
- 	if (!card->owner)
- 		card->owner = THIS_MODULE;
-@@ -406,6 +408,7 @@ static struct snd_soc_dai_link tegra_wm8753_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_wm8753 = {
-+	.components = "codec:wm8753",
- 	.dai_link = &tegra_wm8753_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -438,6 +441,7 @@ static struct snd_soc_dai_link tegra_wm9712_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_wm9712 = {
-+	.components = "codec:wm9712",
- 	.dai_link = &tegra_wm9712_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -499,6 +503,7 @@ static struct snd_soc_dai_link tegra_sgtl5000_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_sgtl5000 = {
-+	.components = "codec:sgtl5000",
- 	.dai_link = &tegra_sgtl5000_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -541,6 +546,7 @@ static struct snd_soc_dai_link tegra_tlv320aic23_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_trimslice = {
-+	.components = "codec:tlv320aic23",
- 	.dai_link = &tegra_tlv320aic23_dai,
- 	.num_links = 1,
- 	.dapm_widgets = trimslice_dapm_widgets,
-@@ -588,6 +594,7 @@ static struct snd_soc_dai_link tegra_rt5677_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_rt5677 = {
-+	.components = "codec:rt5677",
- 	.dai_link = &tegra_rt5677_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -621,6 +628,7 @@ static struct snd_soc_dai_link tegra_rt5640_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_rt5640 = {
-+	.components = "codec:rt5640",
- 	.dai_link = &tegra_rt5640_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -653,6 +661,7 @@ static struct snd_soc_dai_link tegra_rt5632_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_rt5632 = {
-+	.components = "codec:rt5632",
- 	.dai_link = &tegra_rt5632_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-diff --git a/sound/soc/tegra/tegra_asoc_machine.h b/sound/soc/tegra/tegra_asoc_machine.h
-index c60ac6c393a3..3b337baf132d 100644
---- a/sound/soc/tegra/tegra_asoc_machine.h
-+++ b/sound/soc/tegra/tegra_asoc_machine.h
-@@ -15,6 +15,7 @@ struct snd_soc_pcm_runtime;
- struct tegra_asoc_data {
- 	unsigned int (*mclk_rate)(unsigned int srate);
- 	struct snd_soc_card *card;
-+	const char *components;
- 	unsigned int mclk_id;
- 	bool hp_jack_gpio_active_low;
- 	bool add_common_dapm_widgets;
-diff --git a/sound/soc/tegra/tegra_wm8903.c b/sound/soc/tegra/tegra_wm8903.c
-index 74101d2c7785..5751fb398c1a 100644
---- a/sound/soc/tegra/tegra_wm8903.c
-+++ b/sound/soc/tegra/tegra_wm8903.c
-@@ -129,6 +129,7 @@ static struct snd_soc_dai_link tegra_wm8903_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_wm8903 = {
-+	.components = "codec:wm8903",
- 	.owner = THIS_MODULE,
- 	.dai_link = &tegra_wm8903_dai,
- 	.num_links = 1,
--- 
-2.30.2
+Test results for stable-v5.10:
+    12 builds:	12 pass, 0 fail
+    28 boots:	28 pass, 0 fail
+    70 tests:	70 pass, 0 fail
 
+Linux version:	5.10.41-rc1-gec1cc3ee7be2
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
+                tegra20-ventana, tegra210-p2371-2180,
+                tegra210-p3450-0000, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
