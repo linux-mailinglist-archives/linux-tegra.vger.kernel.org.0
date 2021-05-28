@@ -2,52 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51DE9394663
-	for <lists+linux-tegra@lfdr.de>; Fri, 28 May 2021 19:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC4C939469C
+	for <lists+linux-tegra@lfdr.de>; Fri, 28 May 2021 19:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbhE1RbG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 28 May 2021 13:31:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45538 "EHLO
+        id S229453AbhE1Roa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 28 May 2021 13:44:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbhE1RbD (ORCPT
+        with ESMTP id S229450AbhE1Roa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 28 May 2021 13:31:03 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6041C06174A;
-        Fri, 28 May 2021 10:29:27 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id f30so6440054lfj.1;
-        Fri, 28 May 2021 10:29:27 -0700 (PDT)
+        Fri, 28 May 2021 13:44:30 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541FAC061574;
+        Fri, 28 May 2021 10:42:54 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id q1so6475662lfo.3;
+        Fri, 28 May 2021 10:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8PTBqF9bUZ29TAyNJcHkJi9b+wJ01dNiOO2rZosrHKI=;
-        b=kKvUfGUyQj0Y4a45HhX/bwTlRBscj+LDu+wz1Fmq0n3JPyzgqSEEURNXBi9KJcgdO/
-         9b+fg7cgjIbxjBeTGwiKUZc7yyAQ0Pyffi8asb7iL865qCnQZPJdDX2j3s0RzluaPSn8
-         ovUTVxZzYxQaV+ZHp3rkuIEEhvfH6Lve2sNw3aP91TywP4yjYAKpiaENY8lS742/gFXG
-         s0xpWsZH7v30/VJbNuRRJ1D/KxJGZNGVHK6a3Su1k8aW871P/XWWzy6JQYJkmiexY54t
-         ygBfEBn00KBQSRQTQCSgNK2RS+7ORRz0ceYmnM61Q2Tq11Vj/0vP9ylXcAFB67kDJaTU
-         K1Aw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KI4+CLc3LVUdeiCFpZRQ3yReYzhuigspJBb1+pZncVg=;
+        b=oM14DXMeSFyqHfnSQZF6/HT5X7Rss3NnScX9QUatfLlN3bd0+VHUM0f/2bC9M1SxEY
+         A9dncf9wTPOIjBmPdsyS7C4c25qC2V0gQ7fQ8dNrQATJnvtfOm7k+JnlrujnaxncbJfZ
+         w5OV3aLAE1ikyxHCLZ7XLMgsOarJyoFfIsBhH3nn7m3InshlnPZ2tIB+Oycfg1PN5W+w
+         77YCy5f2hY/wLwHqTqcwHcnLpUUzaIzRTwAgYd35vsCVlLT20wbH+/r4QCinfQqsxnNc
+         IMaQ3cDTydPb6djFkuAuo07dKO4t4QdzbvZdx9X8Ez7XJqgK31aRm0WY4cQqexu41O78
+         vtGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8PTBqF9bUZ29TAyNJcHkJi9b+wJ01dNiOO2rZosrHKI=;
-        b=fO+dYqkY9/VVS4plabDSQdKrcNWo+b+e/iDelB08R0ZJb2eL3smTpYdzzXRabQMuCx
-         lodRtIHD7wrshM5YnfLF7Oa3uhGNOAQfdPpDL4N6foXosaGfrf8DoHPo2h03FEoDBBYI
-         Lksy6J5y4tWIEL7dq5ntSjMj72g3QNUaq3pvZ9Ek0A2XX2fT153CL4JjfcTaw9yIiCpC
-         aS8PRRP4OaH6EjlDFkO89Ak1vRs8vsxigWsd9I2ZlIYJ2UuL0GY9vdAHG8vESE8+twle
-         w+B6IQS01M/rNTI3fMoL3gVZwi3RK8SiZg9NCj87BrrQn3F5FxMchXZ5AqJVBXE+PI17
-         yoDQ==
-X-Gm-Message-State: AOAM53337ZBMJ0/6+jvIGVWe+d0kZcbXzT6yj5aFTLyl9LYxegI4X28x
-        sklc0wd473rCK9rH+Uxl11XSUHoVjGo=
-X-Google-Smtp-Source: ABdhPJxAxDmXB0O4YfFV8hLXuAN1wCO7q1ZbyRUb+4zd9T2gUi96a9lMRwkqBDY6/ITi6id59rXuJA==
-X-Received: by 2002:ac2:5e71:: with SMTP id a17mr4392360lfr.619.1622222966034;
-        Fri, 28 May 2021 10:29:26 -0700 (PDT)
-Received: from localhost.localdomain (46-138-12-55.dynamic.spd-mgts.ru. [46.138.12.55])
-        by smtp.gmail.com with ESMTPSA id x207sm518282lff.234.2021.05.28.10.29.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 10:29:25 -0700 (PDT)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KI4+CLc3LVUdeiCFpZRQ3yReYzhuigspJBb1+pZncVg=;
+        b=O6ClZL38tPe1GfcZUoPPu70wpaRCCDF+UhK66B0Hu7aiYTGK7HQbVp4OjNHDZdNl2X
+         S2SYUwxbqqgCSRB0LE6Tnqr73bRR4VfKMPQBSbL+/fCd/9AZvBDfFNCDPG21kLz3KMMw
+         pM3DBeNXC0FGM3MeY5ADUnFCX4aCNdHudsp/YuaFgG8rzS4vmcr8U2272MmPJd1ABZV4
+         CIc2SZWgGLROX8xuYa8RHWyYUjTzSvGPKb1UiSb1jxsDWn/g/YHm8TbWrgvkUAS40MB2
+         HYludVjyAlu/DfDi+Ea9jsX9tsUXPuhGeqFIBTvNYyqsvkDK17edZWYxl2uXYgnn3OhD
+         2pbg==
+X-Gm-Message-State: AOAM532/0AF0z6Makt70tH0FjzLNLWTRzv7nifbG6Sb5Lyt0QljpoaRr
+        CNfsIza5Aak2BJNaZ7WyuMGdPKSAlJo=
+X-Google-Smtp-Source: ABdhPJxiEtzPDrR5ngSZmiruM65mcClPAqHZWszF1m2W/3v0KJZZPai1jBHELrIdAXfJzJrPHipbRg==
+X-Received: by 2002:ac2:4255:: with SMTP id m21mr6891577lfl.633.1622223772542;
+        Fri, 28 May 2021 10:42:52 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-12-55.dynamic.spd-mgts.ru. [46.138.12.55])
+        by smtp.googlemail.com with ESMTPSA id n5sm521916lft.139.2021.05.28.10.42.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 May 2021 10:42:52 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] ASoC: tegra: Unify ASoC machine drivers
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,103 +60,73 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Liam Girdwood <lgirdwood@gmail.com>
 Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v5 3/3] ASoC: tegra: Specify components string for each card
-Date:   Fri, 28 May 2021 20:28:33 +0300
-Message-Id: <20210528172833.21622-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210528172833.21622-1-digetx@gmail.com>
 References: <20210528172833.21622-1-digetx@gmail.com>
+ <20210528172833.21622-3-digetx@gmail.com>
+Message-ID: <722581fd-a89b-7b69-f0c0-414d732a6c5c@gmail.com>
+Date:   Fri, 28 May 2021 20:42:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210528172833.21622-3-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Specify components string for each card of each supported device. It's
-a free form string that describes audio hardware configuration. This
-information is useful for ALSA UCM rules. It allows to generalize UCM
-rules, potentially removing a need to add new UCM rule for each device.
+28.05.2021 20:28, Dmitry Osipenko пишет:
+> -static int tegra_wm9712_driver_probe(struct platform_device *pdev)
+> -{
+> -	struct device_node *np = pdev->dev.of_node;
+> -	struct snd_soc_card *card = &snd_soc_tegra_wm9712;
+> -	struct tegra_wm9712 *machine;
+> -	int ret;
+> -
+> -	machine = devm_kzalloc(&pdev->dev, sizeof(struct tegra_wm9712),
+> -			       GFP_KERNEL);
+> -	if (!machine)
+> -		return -ENOMEM;
+> -
+> -	card->dev = &pdev->dev;
+> -	snd_soc_card_set_drvdata(card, machine);
+> -
+> -	machine->codec = platform_device_alloc("wm9712-codec", -1);
+> -	if (!machine->codec) {
+> -		dev_err(&pdev->dev, "Can't allocate wm9712 platform device\n");
+> -		return -ENOMEM;
+> -	}
+> -
+> -	ret = platform_device_add(machine->codec);
+> -	if (ret)
+> -		goto codec_put;
+> -
+> -	ret = snd_soc_of_parse_card_name(card, "nvidia,model");
+> -	if (ret)
+> -		goto codec_unregister;
+> -
+> -	ret = snd_soc_of_parse_audio_routing(card, "nvidia,audio-routing");
+> -	if (ret)
+> -		goto codec_unregister;
+> -
+> -	tegra_wm9712_dai.cpus->of_node = of_parse_phandle(np,
+> -				       "nvidia,ac97-controller", 0);
+> -	if (!tegra_wm9712_dai.cpus->of_node) {
+> -		dev_err(&pdev->dev,
+> -			"Property 'nvidia,ac97-controller' missing or invalid\n");
+> -		ret = -EINVAL;
+> -		goto codec_unregister;
+> -	}
+> -
+> -	tegra_wm9712_dai.platforms->of_node = tegra_wm9712_dai.cpus->of_node;
+> -
+> -	ret = tegra_asoc_utils_init(&machine->util_data, &pdev->dev);
+> -	if (ret)
+> -		goto codec_unregister;
+> -
+> -	ret = tegra_asoc_utils_set_ac97_rate(&machine->util_data);
+> -	if (ret)
+> -		goto codec_unregister;
 
-Acked-by: Jaroslav Kysela <perex@perex.cz>
-Suggested-by: Jaroslav Kysela <perex@perex.cz>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- sound/soc/tegra/tegra_asoc_machine.c | 7 +++++++
- sound/soc/tegra/tegra_wm8903.c       | 1 +
- 2 files changed, 8 insertions(+)
-
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index b1fdd33cab17..33b5bb785da5 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -406,6 +406,7 @@ static struct snd_soc_dai_link tegra_wm8753_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_wm8753 = {
-+	.components = "codec:wm8753",
- 	.dai_link = &tegra_wm8753_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -438,6 +439,7 @@ static struct snd_soc_dai_link tegra_wm9712_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_wm9712 = {
-+	.components = "codec:wm9712",
- 	.dai_link = &tegra_wm9712_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -499,6 +501,7 @@ static struct snd_soc_dai_link tegra_sgtl5000_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_sgtl5000 = {
-+	.components = "codec:sgtl5000",
- 	.dai_link = &tegra_sgtl5000_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -541,6 +544,7 @@ static struct snd_soc_dai_link tegra_tlv320aic23_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_trimslice = {
-+	.components = "codec:tlv320aic23",
- 	.dai_link = &tegra_tlv320aic23_dai,
- 	.num_links = 1,
- 	.dapm_widgets = trimslice_dapm_widgets,
-@@ -588,6 +592,7 @@ static struct snd_soc_dai_link tegra_rt5677_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_rt5677 = {
-+	.components = "codec:rt5677",
- 	.dai_link = &tegra_rt5677_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -621,6 +626,7 @@ static struct snd_soc_dai_link tegra_rt5640_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_rt5640 = {
-+	.components = "codec:rt5640",
- 	.dai_link = &tegra_rt5640_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-@@ -653,6 +659,7 @@ static struct snd_soc_dai_link tegra_rt5632_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_rt5632 = {
-+	.components = "codec:rt5632",
- 	.dai_link = &tegra_rt5632_dai,
- 	.num_links = 1,
- 	.fully_routed = true,
-diff --git a/sound/soc/tegra/tegra_wm8903.c b/sound/soc/tegra/tegra_wm8903.c
-index 74101d2c7785..5751fb398c1a 100644
---- a/sound/soc/tegra/tegra_wm8903.c
-+++ b/sound/soc/tegra/tegra_wm8903.c
-@@ -129,6 +129,7 @@ static struct snd_soc_dai_link tegra_wm8903_dai = {
- };
- 
- static struct snd_soc_card snd_soc_tegra_wm8903 = {
-+	.components = "codec:wm8903",
- 	.owner = THIS_MODULE,
- 	.dai_link = &tegra_wm8903_dai,
- 	.num_links = 1,
--- 
-2.30.2
-
+I just noticed that this AC97 clk initialization is gone now for wm9712,
+I'll fix it in v6.
