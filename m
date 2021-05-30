@@ -2,18 +2,18 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F1AC3950DA
-	for <lists+linux-tegra@lfdr.de>; Sun, 30 May 2021 14:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39A1C3950D6
+	for <lists+linux-tegra@lfdr.de>; Sun, 30 May 2021 14:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbhE3MYC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 30 May 2021 08:24:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38374 "EHLO
+        id S229791AbhE3MYB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 30 May 2021 08:24:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbhE3MYB (ORCPT
+        with ESMTP id S229500AbhE3MYB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Sun, 30 May 2021 08:24:01 -0400
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39F77C0613CE
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F06BC06174A
         for <linux-tegra@vger.kernel.org>; Sun, 30 May 2021 05:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
          s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -21,25 +21,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=1OUxTaax0s8lX5//dmwzk3NTHIgHPZjX/BP0AWLYSvQ=; b=m+ov5FFPpnO2GqWOkp0yTVs4zE
-        nylxjYhT0kwDWOpxKOmWbED2tuQQjhX9KdDV6nM8ufEn0nY2XJJsu+yDLW4PjTvttyRIAEecnCJfi
-        N481tpHvqJ2nlwJrpaKoX4bhVAoLB0btAx0rqLrdlE9DpYryKwHH/OIv4C+icKRdndEmeIQ2VJAJX
-        aemWPqCM9A2SCuB0MLbYhB5b94zdGGEmmO33c5n96iXd+EWRxxyXoByJCSDW0B2wtbDrkLTEK33Gw
-        HWg1aFLS+BCGHIDNElINjqYPIHULcFd4QsWKozedoLhrXfQ6DQ5gpEdnOy8le8hx8xQ93oTBXJlfP
-        u9HiVzJg==;
+        bh=iy1qS68oXOvw5T/ZB/nU48e/LSN9dHqfFbnkv2Go6dU=; b=HuaAru4woaHpVRslJHvJRJZMTG
+        u47bAwNhwbOZShpJJoZC2KWywDKYLXvY6MnlxKJB0WLQPOvPmBOel1Yd87eTRQS8+fxz4kBk0OUQg
+        DxTjm5JwcvayFeZzDBbsWFk/Fe22WJYBLyESNnrvesWfLVSXFexEpjKaxliktkBn9UmfZUas0vsDh
+        yK0THpAxljzdmuqwLE3vidfwqtt/8Ib9L8eP6jdWTC5qP2QPxhNqZSQsz7HT+USV9J8fsHhiP7YaH
+        i68ZphqK8cL8BieoXvLeHecHnkBcBNLOIHVW+3zB+L70+A1UCXW74oGc6cZSR4aRvrJTbEP8gKm3m
+        CHgo3WGA==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
         by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.89)
         (envelope-from <mperttunen@nvidia.com>)
-        id 1lnKSQ-000775-4p; Sun, 30 May 2021 15:22:18 +0300
+        id 1lnKSQ-000775-6o; Sun, 30 May 2021 15:22:18 +0300
 From:   Mikko Perttunen <mperttunen@nvidia.com>
 To:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
         airlied@linux.ie, daniel@ffwll.ch
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v6 07/14] drm/tegra: Boot VIC during runtime PM resume
-Date:   Sun, 30 May 2021 15:21:49 +0300
-Message-Id: <20210530122156.3292479-8-mperttunen@nvidia.com>
+Subject: [PATCH v6 08/14] drm/tegra: Allocate per-engine channel in core code
+Date:   Sun, 30 May 2021 15:21:50 +0300
+Message-Id: <20210530122156.3292479-9-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210530122156.3292479-1-mperttunen@nvidia.com>
 References: <20210530122156.3292479-1-mperttunen@nvidia.com>
@@ -52,199 +52,64 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-With the new UAPI implementation, engines are powered on and off
-when there are active jobs, and the core code handles channel
-allocation. To accommodate that, boot the engine as part of
-runtime PM instead of using the open_channel callback, which is
-not used by the new submit path.
+To avoid code duplication, allocate the per-engine shared channel in
+the core code instead. This is the usual channel that all jobs are
+submitted to when MLOCKing is not in use. Once MLOCKs are implemented
+on Host1x side, we can also update this to avoid allocating a shared
+channel when MLOCKs are enabled.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
 v6:
-* Use pm_runtime_resume_and_get
-v3:
-* runtime_get/put is now done directly from submit path, so no
-  callbacks are added
-* Reworded.
+- Reorder fields in drm.h to put core-controlled fields first
 ---
- drivers/gpu/drm/tegra/vic.c | 112 ++++++++++++++++--------------------
- 1 file changed, 51 insertions(+), 61 deletions(-)
+ drivers/gpu/drm/tegra/drm.c | 11 +++++++++++
+ drivers/gpu/drm/tegra/drm.h |  2 ++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 72aea1cc0cfa..35cd9974eea9 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -29,7 +29,6 @@ struct vic_config {
- 
- struct vic {
- 	struct falcon falcon;
--	bool booted;
- 
- 	void __iomem *regs;
- 	struct tegra_drm_client client;
-@@ -52,48 +51,6 @@ static void vic_writel(struct vic *vic, u32 value, unsigned int offset)
- 	writel(value, vic->regs + offset);
- }
- 
--static int vic_runtime_resume(struct device *dev)
--{
--	struct vic *vic = dev_get_drvdata(dev);
--	int err;
--
--	err = clk_prepare_enable(vic->clk);
--	if (err < 0)
--		return err;
--
--	usleep_range(10, 20);
--
--	err = reset_control_deassert(vic->rst);
--	if (err < 0)
--		goto disable;
--
--	usleep_range(10, 20);
--
--	return 0;
--
--disable:
--	clk_disable_unprepare(vic->clk);
--	return err;
--}
--
--static int vic_runtime_suspend(struct device *dev)
--{
--	struct vic *vic = dev_get_drvdata(dev);
--	int err;
--
--	err = reset_control_assert(vic->rst);
--	if (err < 0)
--		return err;
--
--	usleep_range(2000, 4000);
--
--	clk_disable_unprepare(vic->clk);
--
--	vic->booted = false;
--
--	return 0;
--}
--
- static int vic_boot(struct vic *vic)
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index c9a35c1dc970..a27e5a89d676 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -869,6 +869,14 @@ static const struct drm_driver tegra_drm_driver = {
+ int tegra_drm_register_client(struct tegra_drm *tegra,
+ 			      struct tegra_drm_client *client)
  {
- #ifdef CONFIG_IOMMU_API
-@@ -103,9 +60,6 @@ static int vic_boot(struct vic *vic)
- 	void *hdr;
- 	int err = 0;
++	/*
++	 * When MLOCKs are implemented, change to allocate a shared channel
++	 * only when MLOCKs are disabled.
++	 */
++	client->shared_channel = host1x_channel_request(&client->base);
++	if (!client->shared_channel)
++		return -EBUSY;
++
+ 	mutex_lock(&tegra->clients_lock);
+ 	list_add_tail(&client->list, &tegra->clients);
+ 	client->drm = tegra;
+@@ -885,6 +893,9 @@ int tegra_drm_unregister_client(struct tegra_drm *tegra,
+ 	client->drm = NULL;
+ 	mutex_unlock(&tegra->clients_lock);
  
--	if (vic->booted)
--		return 0;
--
- #ifdef CONFIG_IOMMU_API
- 	if (vic->config->supports_sid && spec) {
- 		u32 value;
-@@ -170,8 +124,6 @@ static int vic_boot(struct vic *vic)
- 		return err;
- 	}
- 
--	vic->booted = true;
--
++	if (client->shared_channel)
++		host1x_channel_put(client->shared_channel);
++
  	return 0;
  }
  
-@@ -325,35 +277,74 @@ static int vic_load_firmware(struct vic *vic)
- 	return err;
- }
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index f38de08e0c95..1ec07034727c 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -86,7 +86,9 @@ struct tegra_drm_client {
+ 	struct host1x_client base;
+ 	struct list_head list;
+ 	struct tegra_drm *drm;
++	struct host1x_channel *shared_channel;
  
--static int vic_open_channel(struct tegra_drm_client *client,
--			    struct tegra_drm_context *context)
-+
-+static int vic_runtime_resume(struct device *dev)
- {
--	struct vic *vic = to_vic(client);
-+	struct vic *vic = dev_get_drvdata(dev);
- 	int err;
- 
--	err = pm_runtime_resume_and_get(vic->dev);
-+	err = clk_prepare_enable(vic->clk);
- 	if (err < 0)
- 		return err;
- 
-+	usleep_range(10, 20);
-+
-+	err = reset_control_deassert(vic->rst);
-+	if (err < 0)
-+		goto disable;
-+
-+	usleep_range(10, 20);
-+
- 	err = vic_load_firmware(vic);
- 	if (err < 0)
--		goto rpm_put;
-+		goto assert;
- 
- 	err = vic_boot(vic);
- 	if (err < 0)
--		goto rpm_put;
-+		goto assert;
-+
-+	return 0;
-+
-+assert:
-+	reset_control_assert(vic->rst);
-+disable:
-+	clk_disable_unprepare(vic->clk);
-+	return err;
-+}
-+
-+static int vic_runtime_suspend(struct device *dev)
-+{
-+	struct vic *vic = dev_get_drvdata(dev);
-+	int err;
-+
-+	err = reset_control_assert(vic->rst);
-+	if (err < 0)
-+		return err;
-+
-+	usleep_range(2000, 4000);
-+
-+	clk_disable_unprepare(vic->clk);
-+
-+	return 0;
-+}
-+
-+static int vic_open_channel(struct tegra_drm_client *client,
-+			    struct tegra_drm_context *context)
-+{
-+	struct vic *vic = to_vic(client);
-+	int err;
-+
-+	err = pm_runtime_resume_and_get(vic->dev);
-+	if (err < 0)
-+		return err;
- 
- 	context->channel = host1x_channel_get(vic->channel);
- 	if (!context->channel) {
--		err = -ENOMEM;
--		goto rpm_put;
-+		pm_runtime_put(vic->dev);
-+		return -ENOMEM;
- 	}
- 
- 	return 0;
--
--rpm_put:
--	pm_runtime_put(vic->dev);
--	return err;
- }
- 
- static void vic_close_channel(struct tegra_drm_context *context)
-@@ -361,7 +352,6 @@ static void vic_close_channel(struct tegra_drm_context *context)
- 	struct vic *vic = to_vic(context->client);
- 
- 	host1x_channel_put(context->channel);
--
- 	pm_runtime_put(vic->dev);
- }
- 
++	/* Set by driver */
+ 	unsigned int version;
+ 	const struct tegra_drm_client_ops *ops;
+ };
 -- 
 2.30.1
 
