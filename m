@@ -2,60 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C15DA397995
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Jun 2021 19:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73482397996
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Jun 2021 19:58:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234633AbhFASAC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Jun 2021 14:00:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46102 "EHLO
+        id S234547AbhFASAF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Jun 2021 14:00:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234513AbhFASAC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Jun 2021 14:00:02 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1949C061574
-        for <linux-tegra@vger.kernel.org>; Tue,  1 Jun 2021 10:58:19 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id h24so19145822ejy.2
-        for <linux-tegra@vger.kernel.org>; Tue, 01 Jun 2021 10:58:19 -0700 (PDT)
+        with ESMTP id S234513AbhFASAE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Jun 2021 14:00:04 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD408C061574
+        for <linux-tegra@vger.kernel.org>; Tue,  1 Jun 2021 10:58:21 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id o5so18526957edc.5
+        for <linux-tegra@vger.kernel.org>; Tue, 01 Jun 2021 10:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=D4DTNxk9Yl8qPqUlGFS/qn0d446IjQVbqxu1mMTb7YQ=;
-        b=X3vawT4ImI3UT0ZaZpLVUcK3Fnl5IEFS5DvGqTxGfe/OxMSQOLl36AF1gKaCJGr6MA
-         FyVCylhR6m8JxisOP5m6LZ1F/Ct9vKxP2UUA2RT5H2nBMviE1Fgllee/qldv0Dbxa3w/
-         kwiMJuewRXuIUDTi+pYIvUjMaHvqpFykYblvtEHoHk/mSAwdDjOZDwBOJktAqycslsP7
-         KZHdIW32RnXpzAwfB4FeoMyJ+aEChBEwCCClaTnEJkHVLQEfedKgowCsnz1NzQxOZz7e
-         AO29X//IQ1iim4GQINYqLAWTWA4qEExUGJUDIa2oBcWDD7A0de51Pb913V0ZWvZ5TVAK
-         N9GA==
+        bh=DLUwMZ8cXW+ZV2O4K6QW5w4GpTfuO7LtA/jzPMmwU9s=;
+        b=hJOAqReB8FfgB1TRlVAodrpFCvMlqt6Iex0TdBim/D/iA2V9D5e+v1dKdt0SKUJc1D
+         lSfhIhNZmkX/xwQJWHpbDrNiij+nwBcGPgrRrgwZz2J0ssZDsgHz1kG72/lFlo/mpBvw
+         5OTeUz9DX8vgdHpO+s1oQsBAoRK4O6DckR4LWHTYHsL/v6gFxJIHmHhxDVqq/rIdhiE1
+         N7iUXMaHR9ewT/2aIqzZ9G+Dyez84Jmf2LbeM1s6VLNryCXW4ZwchjdLi98og6bZkoUv
+         yj1YnANwxj2/wxkqebREC1K79VfgTPkNhak1gHxEOafPJeA9FV3V7+BUr/2ZI+Q3zQky
+         35kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=D4DTNxk9Yl8qPqUlGFS/qn0d446IjQVbqxu1mMTb7YQ=;
-        b=nUDmVmAEkWPWKUpodji+iT2iI5c5rwxIDYBLlnC375Tei0cKbJyyezUnmhLrIcgn0j
-         lnRRM7L1N/oi6Ymxostxg65+kPzWvmjmxThBVGFAqwfEDR8OOs4ly0gg7+zMgRICu+oc
-         smcVskT3vmmQ3i8f1f7tRT65Y9PHXNTusOrykLiR1FqMh4cvfiGNfKzlYFTBe4a58s/s
-         dVl01LnkyDcryKZZtlRvfJqODMEZxAMi5DbhDVXkbXf+/ZTZTA0J7okqX4RkpBgeX/8W
-         pssRmYzL+mhHB94H3Td4gV/+BFNGX5pYRbWYCY+iUXLYD+Dd7aHB9pxCc50wxF3l2xh3
-         AQ6Q==
-X-Gm-Message-State: AOAM532Y3D3vzpPynOY1YfDLFYzvxOg3/DvTzkIpJOMAW743uIBjquBc
-        a2uS7V48PoWONZlER2evMUY=
-X-Google-Smtp-Source: ABdhPJyqGGaaSSSRZnYSmzaIoUHM3ZxCO4T20ZrxXj146AE+bKiLopgCLzO0Tsya238FX+EqSaz7Yw==
-X-Received: by 2002:a17:906:755:: with SMTP id z21mr29660812ejb.113.1622570298498;
-        Tue, 01 Jun 2021 10:58:18 -0700 (PDT)
+        bh=DLUwMZ8cXW+ZV2O4K6QW5w4GpTfuO7LtA/jzPMmwU9s=;
+        b=lRZv4+kwzvKmqcn9E8fDvCRiZa05HlEOZ6TcKjibOQKNNK8o6smd4AGNOXm9Z5msaf
+         pTSnRpQ2yMj7hUlhfg6avN7UU5cxbAaPaFimv9M/dZ9eBwGlyIBkkRNpTiP7dDALvzEw
+         EZ5zIxeyIia9Ta4/yKHsMG7pf6D+BcvAf+s5YoZtS/zaXGqKUr54+WijXdrK7XXkBsaP
+         BXiFd6G69eCrrxoT7XPsfY+zQIdG8mfAyl301BXozp1/YlgVtNobLK39YnhmRT1HBEKo
+         ksemM630lvcaYW/SnaweV/c9j7fwuumB0l5u4yWfSt0nuLZZKsVdGrMwnFWTs8H3CvSZ
+         2Ljw==
+X-Gm-Message-State: AOAM532e4A1XV8UZf5Sye662y8kpCaQoVp9Xs5bq4O6zicPwOLkig+8/
+        h4nQXldgpsZO6fzYIB1xPEs=
+X-Google-Smtp-Source: ABdhPJw3cc+g2zdKPxMWIrc7cyytj4noF4TSqAU6vLGqLE+/rPsNDiAYSBqVT+fCQYfl7KymZ220DA==
+X-Received: by 2002:aa7:da94:: with SMTP id q20mr32817336eds.316.1622570300423;
+        Tue, 01 Jun 2021 10:58:20 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id x9sm7840375eje.64.2021.06.01.10.58.16
+        by smtp.gmail.com with ESMTPSA id v23sm935333eds.25.2021.06.01.10.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 10:58:17 -0700 (PDT)
+        Tue, 01 Jun 2021 10:58:19 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Dmitry Osipenko <digetx@gmail.com>,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 03/12] memory: tegra: Introduce struct tegra_mc_ops
-Date:   Tue,  1 Jun 2021 19:59:33 +0200
-Message-Id: <20210601175942.1920588-4-thierry.reding@gmail.com>
+Subject: [PATCH v2 04/12] memory: tegra: Push suspend/resume into SoC drivers
+Date:   Tue,  1 Jun 2021 19:59:34 +0200
+Message-Id: <20210601175942.1920588-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210601175942.1920588-1-thierry.reding@gmail.com>
 References: <20210601175942.1920588-1-thierry.reding@gmail.com>
@@ -67,82 +67,195 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Subsequent patches will introduce further callbacks, so create a new
-struct tegra_mc_ops to collect all of them in a single place. Move the
-existing ->init() callback into the new structure.
+Continuing the scheme of unification, push suspend/resume callbacks into
+per-SoC driver so that they can be properly parameterized.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
 Changes in v2:
-- new patch (suggested by Krzysztof)
+- split ->init callback hunk into separate patch (Krzysztof)
+- use SET_SYSTEM_SLEEP_PM_OPS (Dmitry)
 
- drivers/memory/tegra/mc.c      | 4 ++--
- drivers/memory/tegra/tegra20.c | 6 +++++-
- include/soc/tegra/mc.h         | 7 +++++--
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/memory/tegra/mc.c       | 23 +++++++----------------
+ drivers/memory/tegra/tegra186.c | 27 +++++++++++++++++++++++----
+ drivers/memory/tegra/tegra20.c  | 28 ++++++++++++++++++++++++++++
+ include/soc/tegra/mc.h          |  2 ++
+ 4 files changed, 60 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index b7e104bf6614..559ae1ef5633 100644
+index 559ae1ef5633..a3b7ba33b7f9 100644
 --- a/drivers/memory/tegra/mc.c
 +++ b/drivers/memory/tegra/mc.c
-@@ -829,8 +829,8 @@ static int tegra_mc_probe(struct platform_device *pdev)
- 
- 	mc->debugfs.root = debugfs_create_dir("mc", NULL);
- 
--	if (mc->soc->init) {
--		err = mc->soc->init(mc);
-+	if (mc->soc->ops && mc->soc->ops->init) {
-+		err = mc->soc->ops->init(mc);
- 		if (err < 0)
- 			dev_err(&pdev->dev, "failed to initialize SoC driver: %d\n",
- 				err);
-diff --git a/drivers/memory/tegra/tegra20.c b/drivers/memory/tegra/tegra20.c
-index 2db68a913b7a..3b7b93b96480 100644
---- a/drivers/memory/tegra/tegra20.c
-+++ b/drivers/memory/tegra/tegra20.c
-@@ -687,6 +687,10 @@ static int tegra20_mc_init(struct tegra_mc *mc)
+@@ -867,37 +867,28 @@ static int tegra_mc_probe(struct platform_device *pdev)
  	return 0;
  }
  
-+static const struct tegra_mc_ops tegra20_mc_ops = {
-+	.init = tegra20_mc_init,
+-static int tegra_mc_suspend(struct device *dev)
++static int __maybe_unused tegra_mc_suspend(struct device *dev)
+ {
+ 	struct tegra_mc *mc = dev_get_drvdata(dev);
+-	int err;
+ 
+-	if (IS_ENABLED(CONFIG_TEGRA_IOMMU_GART) && mc->gart) {
+-		err = tegra_gart_suspend(mc->gart);
+-		if (err)
+-			return err;
+-	}
++	if (mc->soc->ops && mc->soc->ops->suspend)
++		return mc->soc->ops->suspend(mc);
+ 
+ 	return 0;
+ }
+ 
+-static int tegra_mc_resume(struct device *dev)
++static int __maybe_unused tegra_mc_resume(struct device *dev)
+ {
+ 	struct tegra_mc *mc = dev_get_drvdata(dev);
+-	int err;
+ 
+-	if (IS_ENABLED(CONFIG_TEGRA_IOMMU_GART) && mc->gart) {
+-		err = tegra_gart_resume(mc->gart);
+-		if (err)
+-			return err;
+-	}
++	if (mc->soc->ops && mc->soc->ops->resume)
++		return mc->soc->ops->resume(mc);
+ 
+ 	return 0;
+ }
+ 
+ static const struct dev_pm_ops tegra_mc_pm_ops = {
+-	.suspend = tegra_mc_suspend,
+-	.resume = tegra_mc_resume,
++	SET_SYSTEM_SLEEP_PM_OPS(tegra_mc_suspend, tegra_mc_resume)
+ };
+ 
+ static struct platform_driver tegra_mc_driver = {
+diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/tegra186.c
+index 8e77567d1378..9d3fdb609d55 100644
+--- a/drivers/memory/tegra/tegra186.c
++++ b/drivers/memory/tegra/tegra186.c
+@@ -45,6 +45,17 @@ static void tegra186_mc_program_sid(struct tegra_mc *mc)
+ 	}
+ }
+ 
++static int tegra186_mc_resume(struct tegra_mc *mc)
++{
++	tegra186_mc_program_sid(mc);
++
++	return 0;
++}
++
++static const struct tegra_mc_ops tegra186_mc_ops = {
++	.resume = tegra186_mc_resume,
 +};
 +
- const struct tegra_mc_soc tegra20_mc_soc = {
- 	.clients = tegra20_mc_clients,
- 	.num_clients = ARRAY_SIZE(tegra20_mc_clients),
-@@ -698,5 +702,5 @@ const struct tegra_mc_soc tegra20_mc_soc = {
- 	.resets = tegra20_mc_resets,
- 	.num_resets = ARRAY_SIZE(tegra20_mc_resets),
- 	.icc_ops = &tegra20_mc_icc_ops,
--	.init = tegra20_mc_init,
-+	.ops = &tegra20_mc_ops,
+ #if defined(CONFIG_ARCH_TEGRA_186_SOC)
+ static const struct tegra_mc_client tegra186_mc_clients[] = {
+ 	{
+@@ -701,6 +712,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
+ static const struct tegra_mc_soc tegra186_mc_soc = {
+ 	.num_clients = ARRAY_SIZE(tegra186_mc_clients),
+ 	.clients = tegra186_mc_clients,
++	.ops = &tegra186_mc_ops,
  };
+ #endif
+ 
+@@ -1909,6 +1921,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
+ static const struct tegra_mc_soc tegra194_mc_soc = {
+ 	.num_clients = ARRAY_SIZE(tegra194_mc_clients),
+ 	.clients = tegra194_mc_clients,
++	.ops = &tegra186_mc_ops,
+ };
+ #endif
+ 
+@@ -1961,22 +1974,28 @@ static const struct of_device_id tegra186_mc_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, tegra186_mc_of_match);
+ 
+-static int __maybe_unused tegra186_mc_suspend(struct device *dev)
++static int __maybe_unused tegra_mc_suspend(struct device *dev)
+ {
++	struct tegra_mc *mc = dev_get_drvdata(dev);
++
++	if (mc->soc->ops && mc->soc->ops->suspend)
++		return mc->soc->ops->suspend(mc);
++
+ 	return 0;
+ }
+ 
+-static int __maybe_unused tegra186_mc_resume(struct device *dev)
++static int __maybe_unused tegra_mc_resume(struct device *dev)
+ {
+ 	struct tegra_mc *mc = dev_get_drvdata(dev);
+ 
+-	tegra186_mc_program_sid(mc);
++	if (mc->soc->ops && mc->soc->ops->resume)
++		return mc->soc->ops->resume(mc);
+ 
+ 	return 0;
+ }
+ 
+ static const struct dev_pm_ops tegra186_mc_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(tegra186_mc_suspend, tegra186_mc_resume)
++	SET_SYSTEM_SLEEP_PM_OPS(tegra_mc_suspend, tegra_mc_resume)
+ };
+ 
+ static struct platform_driver tegra186_mc_driver = {
+diff --git a/drivers/memory/tegra/tegra20.c b/drivers/memory/tegra/tegra20.c
+index 3b7b93b96480..a3335ad20f4d 100644
+--- a/drivers/memory/tegra/tegra20.c
++++ b/drivers/memory/tegra/tegra20.c
+@@ -687,8 +687,36 @@ static int tegra20_mc_init(struct tegra_mc *mc)
+ 	return 0;
+ }
+ 
++static int tegra20_mc_suspend(struct tegra_mc *mc)
++{
++	int err;
++
++	if (IS_ENABLED(CONFIG_TEGRA_IOMMU_GART) && mc->gart) {
++		err = tegra_gart_suspend(mc->gart);
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++
++static int tegra20_mc_resume(struct tegra_mc *mc)
++{
++	int err;
++
++	if (IS_ENABLED(CONFIG_TEGRA_IOMMU_GART) && mc->gart) {
++		err = tegra_gart_resume(mc->gart);
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++
+ static const struct tegra_mc_ops tegra20_mc_ops = {
+ 	.init = tegra20_mc_init,
++	.suspend = tegra20_mc_suspend,
++	.resume = tegra20_mc_resume,
+ };
+ 
+ const struct tegra_mc_soc tegra20_mc_soc = {
 diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
-index 9da4ef52ce30..4f88da907a02 100644
+index 4f88da907a02..7c49f75087c3 100644
 --- a/include/soc/tegra/mc.h
 +++ b/include/soc/tegra/mc.h
-@@ -169,6 +169,10 @@ struct tegra_mc_icc_ops {
- 						void *data);
+@@ -171,6 +171,8 @@ struct tegra_mc_icc_ops {
+ 
+ struct tegra_mc_ops {
+ 	int (*init)(struct tegra_mc *mc);
++	int (*suspend)(struct tegra_mc *mc);
++	int (*resume)(struct tegra_mc *mc);
  };
  
-+struct tegra_mc_ops {
-+	int (*init)(struct tegra_mc *mc);
-+};
-+
  struct tegra_mc_soc {
- 	const struct tegra_mc_client *clients;
- 	unsigned int num_clients;
-@@ -190,8 +194,7 @@ struct tegra_mc_soc {
- 	unsigned int num_resets;
- 
- 	const struct tegra_mc_icc_ops *icc_ops;
--
--	int (*init)(struct tegra_mc *mc);
-+	const struct tegra_mc_ops *ops;
- };
- 
- struct tegra_mc {
 -- 
 2.31.1
 
