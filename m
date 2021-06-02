@@ -2,60 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55964398FFE
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Jun 2021 18:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B69339900A
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Jun 2021 18:33:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbhFBQdj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Jun 2021 12:33:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38600 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbhFBQdj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Jun 2021 12:33:39 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056E1C061756
-        for <linux-tegra@vger.kernel.org>; Wed,  2 Jun 2021 09:31:56 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id b9so4705893ejc.13
-        for <linux-tegra@vger.kernel.org>; Wed, 02 Jun 2021 09:31:55 -0700 (PDT)
+        id S229721AbhFBQe5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Jun 2021 12:34:57 -0400
+Received: from mail-ej1-f54.google.com ([209.85.218.54]:34336 "EHLO
+        mail-ej1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229647AbhFBQe5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Jun 2021 12:34:57 -0400
+Received: by mail-ej1-f54.google.com with SMTP id g8so4817449ejx.1
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Jun 2021 09:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gefiEQ25/wtnYA7/jIQGUuCp98ZeLGm+tIkkYxI0l6Y=;
-        b=pRaN7G0I/csAW3LxD+C93z1WBMChE0yOJv7B9+HtqmWHVgrIvJZHmGN8Ewje0oEAa1
-         wn1868OLUFQ/yaM3g/ywUUXwEYR3jHFQvbrX6HjeBrWOCMTrvB3aLb+300XPWgN3C/Tc
-         mK5Hj5x63Vcge94w2XITPP9vgm4AslEloPytE9Bak+DzZSuI3zG8gQCVonbbvt1/scGY
-         5p6hJmehsg3ndHfOIT1OGXgQK2Rwl+2aQDdqLF3JMGcPSOzBdRuaCkaCTOAX8zttFQtE
-         NRB+Q/xJaxv/7MYC/tU4E21nFuKePToGxsQBDO3Md3XJJmLgpLBhdAa6Cnl6ZLqDPDtb
-         VT1w==
+        bh=ILRhjWXHDOIz8n2CqQFHf36nvoOsxuFLj5IIz7qgLBg=;
+        b=XXWiKJNxNRWDZ2n9C4s6+aa4a7c03/dhrBqpoKV38kcUEwti6j3qeDDJuQF/KyGQl4
+         5RuIuuX1qj+tbzkwzX3x0MjZ+1jgAv2tzk6MXlxpSzSx6lSxZ2C9VnHFh2WNkRmlIc45
+         EAsGkdJi/mCLx/oizOMyd2ifFs9UfPImpOQzZFlkdRctbE93dWOoSW89hJUsLvtQckSX
+         jaj3tjk2z9ETm7zeX9mGU/SUCk4W8CE/I1ZF7rluQA707fIdZinXTjZlJrrBSejuPI0P
+         Bg5UP85ypX49kiMWb+0PidCgPbCK1vm1hsFRoHQIgABPibpe6vS9DM7HqM80urZR88jV
+         CQhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gefiEQ25/wtnYA7/jIQGUuCp98ZeLGm+tIkkYxI0l6Y=;
-        b=sNSAyiKwLbyEsWsLxbOPu5U01NAcSo71iU8JY2G3rwiIN9NxmL0wIVMNWlgm9h76o6
-         rwzEheoX8TWrhI3QrflZiIutqQO+x6BwDbETbC4Eo8fjBLjHxIETBLesNTdBL9oN1Prh
-         1SET2uzIQb9GwcjTg4QoazrCeVpyNHnIJQiz7PTzHcXToq8inbSfc4kY9dCZp3a9EQP7
-         +L/iEYZvy3+SsuN5SV+oMNWDr8uLQO7cliB83I494s2Rg0bpI4lK47acVLAIcAbsiRd3
-         A+cLwih4NWCVE/3Lu8lVMPTee6pvb+MzSEVE7Itk8z/l+7mOhGAERJPBF5HppR87g+Kz
-         ateQ==
-X-Gm-Message-State: AOAM53057MX0iR4/Q6hFAkeJDmYAAiozALyqZr1G73P1twnTr2MoeEfx
-        OmNgFvjkLgfNfWwuPOf1Luk=
-X-Google-Smtp-Source: ABdhPJw+U39hyjeOmD0+TFzsfVSXJYo5w0s3Vt7Bndwcn0bpGk3ZKxcxeOkNp6vNjUVlei2AEMUwfw==
-X-Received: by 2002:a17:906:d97:: with SMTP id m23mr25698289eji.392.1622651514288;
-        Wed, 02 Jun 2021 09:31:54 -0700 (PDT)
+        bh=ILRhjWXHDOIz8n2CqQFHf36nvoOsxuFLj5IIz7qgLBg=;
+        b=m8RGlmRoj6bfjsrut69pLy5LBrP//f3lqx6YvsfhuXS1kJ1GNHEpK5fGU1NXIbC/4E
+         V7yRS7Casu/xWKIvg2PVRHBzDg6Rkr3zgWrsJoxcpr4kbQEj3wFPVNJFlZKsbFpuoXWn
+         LPeOOz4yZo0X+uVD/OgFH4+8FMwrfrel498A1HfGCvv9TVr8VQi0JbxOeGsS89b+2GrY
+         Q+NWc/0a6XWoMfNbN5V25jkDUiTtY6QdWoCXHpp2th7QKDYzdNz8PU+klo5P3Xjt7RoA
+         3wrDtnu7R0qV3Cc0CplPiOXhVNccxHLdtXcr8+MRXVVQ1bvP64aWpz8plmv5IlMCHU8V
+         W0aA==
+X-Gm-Message-State: AOAM530MTvZMo6oaIEC0HiykoGwN9IDMJict/k4l+Etn33mn8M3+JWUI
+        5XFViHvo3eAQk9ZZuSDuAUsLeI1hrXA=
+X-Google-Smtp-Source: ABdhPJz18S+VPKjuEd6lukCudoHGQQu4jEu7Q1fpXTJ7CDO+nfUsp5B+oqqPFJ2mR7ITh9fJQslAKg==
+X-Received: by 2002:a17:907:6288:: with SMTP id nd8mr34737364ejc.223.1622651516980;
+        Wed, 02 Jun 2021 09:31:56 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id gb26sm268187ejc.25.2021.06.02.09.31.53
+        by smtp.gmail.com with ESMTPSA id k21sm236763edo.41.2021.06.02.09.31.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 09:31:53 -0700 (PDT)
+        Wed, 02 Jun 2021 09:31:55 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Dmitry Osipenko <digetx@gmail.com>,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 11/12] memory: tegra: Add memory client IDs to tables
-Date:   Wed,  2 Jun 2021 18:33:01 +0200
-Message-Id: <20210602163302.120041-12-thierry.reding@gmail.com>
+Subject: [PATCH v3 12/12] memory: tegra: Split Tegra194 data into separate file
+Date:   Wed,  2 Jun 2021 18:33:02 +0200
+Message-Id: <20210602163302.120041-13-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210602163302.120041-1-thierry.reding@gmail.com>
 References: <20210602163302.120041-1-thierry.reding@gmail.com>
@@ -67,1658 +64,2778 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The memory client IDs will subsequently be used to program override SIDs
-for the given clients depending on the device tree configuration.
+Keep the directory structure consistent by splitting the Tegra194 data
+into a separate file.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/memory/tegra/tegra186.c | 205 ++++++++++++++++++++++++++++++++
- 1 file changed, 205 insertions(+)
+Changes in v3:
+- drop redundant #ifdef/#endif guards
 
+ drivers/memory/tegra/Makefile   |    2 +-
+ drivers/memory/tegra/mc.h       |    5 +
+ drivers/memory/tegra/tegra186.c | 1349 +-----------------------------
+ drivers/memory/tegra/tegra194.c | 1351 +++++++++++++++++++++++++++++++
+ 4 files changed, 1358 insertions(+), 1349 deletions(-)
+ create mode 100644 drivers/memory/tegra/tegra194.c
+
+diff --git a/drivers/memory/tegra/Makefile b/drivers/memory/tegra/Makefile
+index 1af0fefacdda..c992e87782d2 100644
+--- a/drivers/memory/tegra/Makefile
++++ b/drivers/memory/tegra/Makefile
+@@ -8,7 +8,7 @@ tegra-mc-$(CONFIG_ARCH_TEGRA_124_SOC) += tegra124.o
+ tegra-mc-$(CONFIG_ARCH_TEGRA_132_SOC) += tegra124.o
+ tegra-mc-$(CONFIG_ARCH_TEGRA_210_SOC) += tegra210.o
+ tegra-mc-$(CONFIG_ARCH_TEGRA_186_SOC) += tegra186.o
+-tegra-mc-$(CONFIG_ARCH_TEGRA_194_SOC) += tegra186.o
++tegra-mc-$(CONFIG_ARCH_TEGRA_194_SOC) += tegra186.o tegra194.o
+ 
+ obj-$(CONFIG_TEGRA_MC) += tegra-mc.o
+ 
+diff --git a/drivers/memory/tegra/mc.h b/drivers/memory/tegra/mc.h
+index 24f95e06d18a..1e492989c363 100644
+--- a/drivers/memory/tegra/mc.h
++++ b/drivers/memory/tegra/mc.h
+@@ -146,6 +146,11 @@ int tegra30_mc_probe(struct tegra_mc *mc);
+ extern const struct tegra_mc_ops tegra30_mc_ops;
+ #endif
+ 
++#if defined(CONFIG_ARCH_TEGRA_186_SOC) || \
++    defined(CONFIG_ARCH_TEGRA_194_SOC)
++extern const struct tegra_mc_ops tegra186_mc_ops;
++#endif
++
+ extern const char * const tegra_mc_status_names[32];
+ extern const char * const tegra_mc_error_names[8];
+ 
 diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/tegra186.c
-index 20efbbea587b..2f6ef46c33a4 100644
+index 2f6ef46c33a4..1f87915ccd62 100644
 --- a/drivers/memory/tegra/tegra186.c
 +++ b/drivers/memory/tegra/tegra186.c
-@@ -79,6 +79,7 @@ static const struct tegra_mc_ops tegra186_mc_ops = {
- #if defined(CONFIG_ARCH_TEGRA_186_SOC)
- static const struct tegra_mc_client tegra186_mc_clients[] = {
- 	{
-+		.id = TEGRA186_MEMORY_CLIENT_PTCR,
- 		.name = "ptcr",
- 		.sid = TEGRA186_SID_PASSTHROUGH,
- 		.regs = {
-@@ -88,6 +89,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AFIR,
- 		.name = "afir",
- 		.sid = TEGRA186_SID_AFI,
- 		.regs = {
-@@ -97,6 +99,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_HDAR,
- 		.name = "hdar",
- 		.sid = TEGRA186_SID_HDA,
- 		.regs = {
-@@ -106,6 +109,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_HOST1XDMAR,
- 		.name = "host1xdmar",
- 		.sid = TEGRA186_SID_HOST1X,
- 		.regs = {
-@@ -115,6 +119,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVENCSRD,
- 		.name = "nvencsrd",
- 		.sid = TEGRA186_SID_NVENC,
- 		.regs = {
-@@ -124,6 +129,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SATAR,
- 		.name = "satar",
- 		.sid = TEGRA186_SID_SATA,
- 		.regs = {
-@@ -133,6 +139,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_MPCORER,
- 		.name = "mpcorer",
- 		.sid = TEGRA186_SID_PASSTHROUGH,
- 		.regs = {
-@@ -142,6 +149,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVENCSWR,
- 		.name = "nvencswr",
- 		.sid = TEGRA186_SID_NVENC,
- 		.regs = {
-@@ -151,6 +159,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AFIW,
- 		.name = "afiw",
- 		.sid = TEGRA186_SID_AFI,
- 		.regs = {
-@@ -160,6 +169,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_HDAW,
- 		.name = "hdaw",
- 		.sid = TEGRA186_SID_HDA,
- 		.regs = {
-@@ -169,6 +179,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_MPCOREW,
- 		.name = "mpcorew",
- 		.sid = TEGRA186_SID_PASSTHROUGH,
- 		.regs = {
-@@ -178,6 +189,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SATAW,
- 		.name = "sataw",
- 		.sid = TEGRA186_SID_SATA,
- 		.regs = {
-@@ -187,6 +199,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_ISPRA,
- 		.name = "ispra",
- 		.sid = TEGRA186_SID_ISP,
- 		.regs = {
-@@ -196,6 +209,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_ISPWA,
- 		.name = "ispwa",
- 		.sid = TEGRA186_SID_ISP,
- 		.regs = {
-@@ -205,6 +219,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_ISPWB,
- 		.name = "ispwb",
- 		.sid = TEGRA186_SID_ISP,
- 		.regs = {
-@@ -214,6 +229,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_XUSB_HOSTR,
- 		.name = "xusb_hostr",
- 		.sid = TEGRA186_SID_XUSB_HOST,
- 		.regs = {
-@@ -223,6 +239,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_XUSB_HOSTW,
- 		.name = "xusb_hostw",
- 		.sid = TEGRA186_SID_XUSB_HOST,
- 		.regs = {
-@@ -232,6 +249,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_XUSB_DEVR,
- 		.name = "xusb_devr",
- 		.sid = TEGRA186_SID_XUSB_DEV,
- 		.regs = {
-@@ -241,6 +259,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_XUSB_DEVW,
- 		.name = "xusb_devw",
- 		.sid = TEGRA186_SID_XUSB_DEV,
- 		.regs = {
-@@ -250,6 +269,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_TSECSRD,
- 		.name = "tsecsrd",
- 		.sid = TEGRA186_SID_TSEC,
- 		.regs = {
-@@ -259,6 +279,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_TSECSWR,
- 		.name = "tsecswr",
- 		.sid = TEGRA186_SID_TSEC,
- 		.regs = {
-@@ -268,6 +289,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_GPUSRD,
- 		.name = "gpusrd",
- 		.sid = TEGRA186_SID_GPU,
- 		.regs = {
-@@ -277,6 +299,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_GPUSWR,
- 		.name = "gpuswr",
- 		.sid = TEGRA186_SID_GPU,
- 		.regs = {
-@@ -286,6 +309,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCRA,
- 		.name = "sdmmcra",
- 		.sid = TEGRA186_SID_SDMMC1,
- 		.regs = {
-@@ -295,6 +319,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCRAA,
- 		.name = "sdmmcraa",
- 		.sid = TEGRA186_SID_SDMMC2,
- 		.regs = {
-@@ -304,6 +329,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCR,
- 		.name = "sdmmcr",
- 		.sid = TEGRA186_SID_SDMMC3,
- 		.regs = {
-@@ -313,6 +339,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCRAB,
- 		.name = "sdmmcrab",
- 		.sid = TEGRA186_SID_SDMMC4,
- 		.regs = {
-@@ -322,6 +349,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCWA,
- 		.name = "sdmmcwa",
- 		.sid = TEGRA186_SID_SDMMC1,
- 		.regs = {
-@@ -331,6 +359,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCWAA,
- 		.name = "sdmmcwaa",
- 		.sid = TEGRA186_SID_SDMMC2,
- 		.regs = {
-@@ -340,6 +369,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCW,
- 		.name = "sdmmcw",
- 		.sid = TEGRA186_SID_SDMMC3,
- 		.regs = {
-@@ -349,6 +379,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SDMMCWAB,
- 		.name = "sdmmcwab",
- 		.sid = TEGRA186_SID_SDMMC4,
- 		.regs = {
-@@ -358,6 +389,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_VICSRD,
- 		.name = "vicsrd",
- 		.sid = TEGRA186_SID_VIC,
- 		.regs = {
-@@ -367,6 +399,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_VICSWR,
- 		.name = "vicswr",
- 		.sid = TEGRA186_SID_VIC,
- 		.regs = {
-@@ -376,6 +409,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_VIW,
- 		.name = "viw",
- 		.sid = TEGRA186_SID_VI,
- 		.regs = {
-@@ -385,6 +419,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVDECSRD,
- 		.name = "nvdecsrd",
- 		.sid = TEGRA186_SID_NVDEC,
- 		.regs = {
-@@ -394,6 +429,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVDECSWR,
- 		.name = "nvdecswr",
- 		.sid = TEGRA186_SID_NVDEC,
- 		.regs = {
-@@ -403,6 +439,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_APER,
- 		.name = "aper",
- 		.sid = TEGRA186_SID_APE,
- 		.regs = {
-@@ -412,6 +449,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_APEW,
- 		.name = "apew",
- 		.sid = TEGRA186_SID_APE,
- 		.regs = {
-@@ -421,6 +459,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVJPGSRD,
- 		.name = "nvjpgsrd",
- 		.sid = TEGRA186_SID_NVJPG,
- 		.regs = {
-@@ -430,6 +469,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVJPGSWR,
- 		.name = "nvjpgswr",
- 		.sid = TEGRA186_SID_NVJPG,
- 		.regs = {
-@@ -439,6 +479,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SESRD,
- 		.name = "sesrd",
- 		.sid = TEGRA186_SID_SE,
- 		.regs = {
-@@ -448,6 +489,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SESWR,
- 		.name = "seswr",
- 		.sid = TEGRA186_SID_SE,
- 		.regs = {
-@@ -457,6 +499,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_ETRR,
- 		.name = "etrr",
- 		.sid = TEGRA186_SID_ETR,
- 		.regs = {
-@@ -466,6 +509,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_ETRW,
- 		.name = "etrw",
- 		.sid = TEGRA186_SID_ETR,
- 		.regs = {
-@@ -475,6 +519,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_TSECSRDB,
- 		.name = "tsecsrdb",
- 		.sid = TEGRA186_SID_TSECB,
- 		.regs = {
-@@ -484,6 +529,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_TSECSWRB,
- 		.name = "tsecswrb",
- 		.sid = TEGRA186_SID_TSECB,
- 		.regs = {
-@@ -493,6 +539,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_GPUSRD2,
- 		.name = "gpusrd2",
- 		.sid = TEGRA186_SID_GPU,
- 		.regs = {
-@@ -502,6 +549,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_GPUSWR2,
- 		.name = "gpuswr2",
- 		.sid = TEGRA186_SID_GPU,
- 		.regs = {
-@@ -511,6 +559,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AXISR,
- 		.name = "axisr",
- 		.sid = TEGRA186_SID_GPCDMA_0,
- 		.regs = {
-@@ -520,6 +569,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AXISW,
- 		.name = "axisw",
- 		.sid = TEGRA186_SID_GPCDMA_0,
- 		.regs = {
-@@ -529,6 +579,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_EQOSR,
- 		.name = "eqosr",
- 		.sid = TEGRA186_SID_EQOS,
- 		.regs = {
-@@ -538,6 +589,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_EQOSW,
- 		.name = "eqosw",
- 		.sid = TEGRA186_SID_EQOS,
- 		.regs = {
-@@ -547,6 +599,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_UFSHCR,
- 		.name = "ufshcr",
- 		.sid = TEGRA186_SID_UFSHC,
- 		.regs = {
-@@ -556,6 +609,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_UFSHCW,
- 		.name = "ufshcw",
- 		.sid = TEGRA186_SID_UFSHC,
- 		.regs = {
-@@ -565,6 +619,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVDISPLAYR,
- 		.name = "nvdisplayr",
- 		.sid = TEGRA186_SID_NVDISPLAY,
- 		.regs = {
-@@ -574,6 +629,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_BPMPR,
- 		.name = "bpmpr",
- 		.sid = TEGRA186_SID_BPMP,
- 		.regs = {
-@@ -583,6 +639,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_BPMPW,
- 		.name = "bpmpw",
- 		.sid = TEGRA186_SID_BPMP,
- 		.regs = {
-@@ -592,6 +649,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_BPMPDMAR,
- 		.name = "bpmpdmar",
- 		.sid = TEGRA186_SID_BPMP,
- 		.regs = {
-@@ -601,6 +659,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_BPMPDMAW,
- 		.name = "bpmpdmaw",
- 		.sid = TEGRA186_SID_BPMP,
- 		.regs = {
-@@ -610,6 +669,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AONR,
- 		.name = "aonr",
- 		.sid = TEGRA186_SID_AON,
- 		.regs = {
-@@ -619,6 +679,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AONW,
- 		.name = "aonw",
- 		.sid = TEGRA186_SID_AON,
- 		.regs = {
-@@ -628,6 +689,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AONDMAR,
- 		.name = "aondmar",
- 		.sid = TEGRA186_SID_AON,
- 		.regs = {
-@@ -637,6 +699,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_AONDMAW,
- 		.name = "aondmaw",
- 		.sid = TEGRA186_SID_AON,
- 		.regs = {
-@@ -646,6 +709,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SCER,
- 		.name = "scer",
- 		.sid = TEGRA186_SID_SCE,
- 		.regs = {
-@@ -655,6 +719,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SCEW,
- 		.name = "scew",
- 		.sid = TEGRA186_SID_SCE,
- 		.regs = {
-@@ -664,6 +729,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SCEDMAR,
- 		.name = "scedmar",
- 		.sid = TEGRA186_SID_SCE,
- 		.regs = {
-@@ -673,6 +739,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_SCEDMAW,
- 		.name = "scedmaw",
- 		.sid = TEGRA186_SID_SCE,
- 		.regs = {
-@@ -682,6 +749,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_APEDMAR,
- 		.name = "apedmar",
- 		.sid = TEGRA186_SID_APE,
- 		.regs = {
-@@ -691,6 +759,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_APEDMAW,
- 		.name = "apedmaw",
- 		.sid = TEGRA186_SID_APE,
- 		.regs = {
-@@ -700,6 +769,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVDISPLAYR1,
- 		.name = "nvdisplayr1",
- 		.sid = TEGRA186_SID_NVDISPLAY,
- 		.regs = {
-@@ -709,6 +779,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_VICSRD1,
- 		.name = "vicsrd1",
- 		.sid = TEGRA186_SID_VIC,
- 		.regs = {
-@@ -718,6 +789,7 @@ static const struct tegra_mc_client tegra186_mc_clients[] = {
- 			},
- 		},
- 	}, {
-+		.id = TEGRA186_MEMORY_CLIENT_NVDECSRD1,
- 		.name = "nvdecsrd1",
- 		.sid = TEGRA186_SID_NVDEC,
- 		.regs = {
-@@ -740,6 +812,7 @@ const struct tegra_mc_soc tegra186_mc_soc = {
- #if defined(CONFIG_ARCH_TEGRA_194_SOC)
- static const struct tegra_mc_client tegra194_mc_clients[] = {
- 	{
+@@ -15,10 +15,6 @@
+ #include <dt-bindings/memory/tegra186-mc.h>
+ #endif
+ 
+-#if defined(CONFIG_ARCH_TEGRA_194_SOC)
+-#include <dt-bindings/memory/tegra194-mc.h>
+-#endif
+-
+ static void tegra186_mc_program_sid(struct tegra_mc *mc)
+ {
+ 	unsigned int i;
+@@ -70,7 +66,7 @@ static int tegra186_mc_resume(struct tegra_mc *mc)
+ 	return 0;
+ }
+ 
+-static const struct tegra_mc_ops tegra186_mc_ops = {
++const struct tegra_mc_ops tegra186_mc_ops = {
+ 	.probe = tegra186_mc_probe,
+ 	.remove = tegra186_mc_remove,
+ 	.resume = tegra186_mc_resume,
+@@ -808,1346 +804,3 @@ const struct tegra_mc_soc tegra186_mc_soc = {
+ 	.ops = &tegra186_mc_ops,
+ };
+ #endif
+-
+-#if defined(CONFIG_ARCH_TEGRA_194_SOC)
+-static const struct tegra_mc_client tegra194_mc_clients[] = {
+-	{
+-		.id = TEGRA194_MEMORY_CLIENT_PTCR,
+-		.name = "ptcr",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x000,
+-				.security = 0x004,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU7R,
+-		.name = "miu7r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x008,
+-				.security = 0x00c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU7W,
+-		.name = "miu7w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x010,
+-				.security = 0x014,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_HDAR,
+-		.name = "hdar",
+-		.sid = TEGRA194_SID_HDA,
+-		.regs = {
+-			.sid = {
+-				.override = 0x0a8,
+-				.security = 0x0ac,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_HOST1XDMAR,
+-		.name = "host1xdmar",
+-		.sid = TEGRA194_SID_HOST1X,
+-		.regs = {
+-			.sid = {
+-				.override = 0x0b0,
+-				.security = 0x0b4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVENCSRD,
+-		.name = "nvencsrd",
+-		.sid = TEGRA194_SID_NVENC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x0e0,
+-				.security = 0x0e4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SATAR,
+-		.name = "satar",
+-		.sid = TEGRA194_SID_SATA,
+-		.regs = {
+-			.sid = {
+-				.override = 0x0f8,
+-				.security = 0x0fc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MPCORER,
+-		.name = "mpcorer",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x138,
+-				.security = 0x13c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVENCSWR,
+-		.name = "nvencswr",
+-		.sid = TEGRA194_SID_NVENC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x158,
+-				.security = 0x15c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_HDAW,
+-		.name = "hdaw",
+-		.sid = TEGRA194_SID_HDA,
+-		.regs = {
+-			.sid = {
+-				.override = 0x1a8,
+-				.security = 0x1ac,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MPCOREW,
+-		.name = "mpcorew",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x1c8,
+-				.security = 0x1cc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SATAW,
+-		.name = "sataw",
+-		.sid = TEGRA194_SID_SATA,
+-		.regs = {
+-			.sid = {
+-				.override = 0x1e8,
+-				.security = 0x1ec,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ISPRA,
+-		.name = "ispra",
+-		.sid = TEGRA194_SID_ISP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x220,
+-				.security = 0x224,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ISPFALR,
+-		.name = "ispfalr",
+-		.sid = TEGRA194_SID_ISP_FALCON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x228,
+-				.security = 0x22c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ISPWA,
+-		.name = "ispwa",
+-		.sid = TEGRA194_SID_ISP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x230,
+-				.security = 0x234,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ISPWB,
+-		.name = "ispwb",
+-		.sid = TEGRA194_SID_ISP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x238,
+-				.security = 0x23c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_XUSB_HOSTR,
+-		.name = "xusb_hostr",
+-		.sid = TEGRA194_SID_XUSB_HOST,
+-		.regs = {
+-			.sid = {
+-				.override = 0x250,
+-				.security = 0x254,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_XUSB_HOSTW,
+-		.name = "xusb_hostw",
+-		.sid = TEGRA194_SID_XUSB_HOST,
+-		.regs = {
+-			.sid = {
+-				.override = 0x258,
+-				.security = 0x25c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_XUSB_DEVR,
+-		.name = "xusb_devr",
+-		.sid = TEGRA194_SID_XUSB_DEV,
+-		.regs = {
+-			.sid = {
+-				.override = 0x260,
+-				.security = 0x264,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_XUSB_DEVW,
+-		.name = "xusb_devw",
+-		.sid = TEGRA194_SID_XUSB_DEV,
+-		.regs = {
+-			.sid = {
+-				.override = 0x268,
+-				.security = 0x26c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SDMMCRA,
+-		.name = "sdmmcra",
+-		.sid = TEGRA194_SID_SDMMC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x300,
+-				.security = 0x304,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SDMMCR,
+-		.name = "sdmmcr",
+-		.sid = TEGRA194_SID_SDMMC3,
+-		.regs = {
+-			.sid = {
+-				.override = 0x310,
+-				.security = 0x314,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SDMMCRAB,
+-		.name = "sdmmcrab",
+-		.sid = TEGRA194_SID_SDMMC4,
+-		.regs = {
+-			.sid = {
+-				.override = 0x318,
+-				.security = 0x31c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SDMMCWA,
+-		.name = "sdmmcwa",
+-		.sid = TEGRA194_SID_SDMMC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x320,
+-				.security = 0x324,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SDMMCW,
+-		.name = "sdmmcw",
+-		.sid = TEGRA194_SID_SDMMC3,
+-		.regs = {
+-			.sid = {
+-				.override = 0x330,
+-				.security = 0x334,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SDMMCWAB,
+-		.name = "sdmmcwab",
+-		.sid = TEGRA194_SID_SDMMC4,
+-		.regs = {
+-			.sid = {
+-				.override = 0x338,
+-				.security = 0x33c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_VICSRD,
+-		.name = "vicsrd",
+-		.sid = TEGRA194_SID_VIC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x360,
+-				.security = 0x364,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_VICSWR,
+-		.name = "vicswr",
+-		.sid = TEGRA194_SID_VIC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x368,
+-				.security = 0x36c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_VIW,
+-		.name = "viw",
+-		.sid = TEGRA194_SID_VI,
+-		.regs = {
+-			.sid = {
+-				.override = 0x390,
+-				.security = 0x394,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDECSRD,
+-		.name = "nvdecsrd",
+-		.sid = TEGRA194_SID_NVDEC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x3c0,
+-				.security = 0x3c4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDECSWR,
+-		.name = "nvdecswr",
+-		.sid = TEGRA194_SID_NVDEC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x3c8,
+-				.security = 0x3cc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_APER,
+-		.name = "aper",
+-		.sid = TEGRA194_SID_APE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x3c0,
+-				.security = 0x3c4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_APEW,
+-		.name = "apew",
+-		.sid = TEGRA194_SID_APE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x3d0,
+-				.security = 0x3d4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVJPGSRD,
+-		.name = "nvjpgsrd",
+-		.sid = TEGRA194_SID_NVJPG,
+-		.regs = {
+-			.sid = {
+-				.override = 0x3f0,
+-				.security = 0x3f4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVJPGSWR,
+-		.name = "nvjpgswr",
+-		.sid = TEGRA194_SID_NVJPG,
+-		.regs = {
+-			.sid = {
+-				.override = 0x3f0,
+-				.security = 0x3f4,
+-			},
+-		},
+-	}, {
+-		.name = "axiapr",
+-		.id = TEGRA194_MEMORY_CLIENT_AXIAPR,
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x410,
+-				.security = 0x414,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AXIAPW,
+-		.name = "axiapw",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x418,
+-				.security = 0x41c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ETRR,
+-		.name = "etrr",
+-		.sid = TEGRA194_SID_ETR,
+-		.regs = {
+-			.sid = {
+-				.override = 0x420,
+-				.security = 0x424,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ETRW,
+-		.name = "etrw",
+-		.sid = TEGRA194_SID_ETR,
+-		.regs = {
+-			.sid = {
+-				.override = 0x428,
+-				.security = 0x42c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AXISR,
+-		.name = "axisr",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x460,
+-				.security = 0x464,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AXISW,
+-		.name = "axisw",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x468,
+-				.security = 0x46c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_EQOSR,
+-		.name = "eqosr",
+-		.sid = TEGRA194_SID_EQOS,
+-		.regs = {
+-			.sid = {
+-				.override = 0x470,
+-				.security = 0x474,
+-			},
+-		},
+-	}, {
+-		.name = "eqosw",
+-		.id = TEGRA194_MEMORY_CLIENT_EQOSW,
+-		.sid = TEGRA194_SID_EQOS,
+-		.regs = {
+-			.sid = {
+-				.override = 0x478,
+-				.security = 0x47c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_UFSHCR,
+-		.name = "ufshcr",
+-		.sid = TEGRA194_SID_UFSHC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x480,
+-				.security = 0x484,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_UFSHCW,
+-		.name = "ufshcw",
+-		.sid = TEGRA194_SID_UFSHC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x488,
+-				.security = 0x48c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDISPLAYR,
+-		.name = "nvdisplayr",
+-		.sid = TEGRA194_SID_NVDISPLAY,
+-		.regs = {
+-			.sid = {
+-				.override = 0x490,
+-				.security = 0x494,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_BPMPR,
+-		.name = "bpmpr",
+-		.sid = TEGRA194_SID_BPMP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x498,
+-				.security = 0x49c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_BPMPW,
+-		.name = "bpmpw",
+-		.sid = TEGRA194_SID_BPMP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4a0,
+-				.security = 0x4a4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_BPMPDMAR,
+-		.name = "bpmpdmar",
+-		.sid = TEGRA194_SID_BPMP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4a8,
+-				.security = 0x4ac,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_BPMPDMAW,
+-		.name = "bpmpdmaw",
+-		.sid = TEGRA194_SID_BPMP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4b0,
+-				.security = 0x4b4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AONR,
+-		.name = "aonr",
+-		.sid = TEGRA194_SID_AON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4b8,
+-				.security = 0x4bc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AONW,
+-		.name = "aonw",
+-		.sid = TEGRA194_SID_AON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4c0,
+-				.security = 0x4c4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AONDMAR,
+-		.name = "aondmar",
+-		.sid = TEGRA194_SID_AON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4c8,
+-				.security = 0x4cc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_AONDMAW,
+-		.name = "aondmaw",
+-		.sid = TEGRA194_SID_AON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4d0,
+-				.security = 0x4d4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SCER,
+-		.name = "scer",
+-		.sid = TEGRA194_SID_SCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4d8,
+-				.security = 0x4dc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SCEW,
+-		.name = "scew",
+-		.sid = TEGRA194_SID_SCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4e0,
+-				.security = 0x4e4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SCEDMAR,
+-		.name = "scedmar",
+-		.sid = TEGRA194_SID_SCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4e8,
+-				.security = 0x4ec,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_SCEDMAW,
+-		.name = "scedmaw",
+-		.sid = TEGRA194_SID_SCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4f0,
+-				.security = 0x4f4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_APEDMAR,
+-		.name = "apedmar",
+-		.sid = TEGRA194_SID_APE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x4f8,
+-				.security = 0x4fc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_APEDMAW,
+-		.name = "apedmaw",
+-		.sid = TEGRA194_SID_APE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x500,
+-				.security = 0x504,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDISPLAYR1,
+-		.name = "nvdisplayr1",
+-		.sid = TEGRA194_SID_NVDISPLAY,
+-		.regs = {
+-			.sid = {
+-				.override = 0x508,
+-				.security = 0x50c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_VICSRD1,
+-		.name = "vicsrd1",
+-		.sid = TEGRA194_SID_VIC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x510,
+-				.security = 0x514,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDECSRD1,
+-		.name = "nvdecsrd1",
+-		.sid = TEGRA194_SID_NVDEC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x518,
+-				.security = 0x51c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU0R,
+-		.name = "miu0r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x530,
+-				.security = 0x534,
+-			},
+-		},
+-	}, {
+-		.name = "miu0w",
+-		.id = TEGRA194_MEMORY_CLIENT_MIU0W,
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x538,
+-				.security = 0x53c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU1R,
+-		.name = "miu1r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x540,
+-				.security = 0x544,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU1W,
+-		.name = "miu1w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x548,
+-				.security = 0x54c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU2R,
+-		.name = "miu2r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x570,
+-				.security = 0x574,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU2W,
+-		.name = "miu2w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x578,
+-				.security = 0x57c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU3R,
+-		.name = "miu3r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x580,
+-				.security = 0x584,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU3W,
+-		.name = "miu3w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x588,
+-				.security = 0x58c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU4R,
+-		.name = "miu4r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x590,
+-				.security = 0x594,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU4W,
+-		.name = "miu4w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x598,
+-				.security = 0x59c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DPMUR,
+-		.name = "dpmur",
+-		.sid = TEGRA194_SID_PASSTHROUGH,
+-		.regs = {
+-			.sid = {
+-				.override = 0x598,
+-				.security = 0x59c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_VIFALR,
+-		.name = "vifalr",
+-		.sid = TEGRA194_SID_VI_FALCON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x5e0,
+-				.security = 0x5e4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_VIFALW,
+-		.name = "vifalw",
+-		.sid = TEGRA194_SID_VI_FALCON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x5e8,
+-				.security = 0x5ec,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA0RDA,
+-		.name = "dla0rda",
+-		.sid = TEGRA194_SID_NVDLA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x5f0,
+-				.security = 0x5f4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA0FALRDB,
+-		.name = "dla0falrdb",
+-		.sid = TEGRA194_SID_NVDLA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x5f8,
+-				.security = 0x5fc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA0WRA,
+-		.name = "dla0wra",
+-		.sid = TEGRA194_SID_NVDLA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x600,
+-				.security = 0x604,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA0FALWRB,
+-		.name = "dla0falwrb",
+-		.sid = TEGRA194_SID_NVDLA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x608,
+-				.security = 0x60c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA1RDA,
+-		.name = "dla1rda",
+-		.sid = TEGRA194_SID_NVDLA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x610,
+-				.security = 0x614,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA1FALRDB,
+-		.name = "dla1falrdb",
+-		.sid = TEGRA194_SID_NVDLA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x618,
+-				.security = 0x61c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA1WRA,
+-		.name = "dla1wra",
+-		.sid = TEGRA194_SID_NVDLA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x620,
+-				.security = 0x624,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA1FALWRB,
+-		.name = "dla1falwrb",
+-		.sid = TEGRA194_SID_NVDLA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x628,
+-				.security = 0x62c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0RDA,
+-		.name = "pva0rda",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x630,
+-				.security = 0x634,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0RDB,
+-		.name = "pva0rdb",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x638,
+-				.security = 0x63c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0RDC,
+-		.name = "pva0rdc",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x640,
+-				.security = 0x644,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0WRA,
+-		.name = "pva0wra",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x648,
+-				.security = 0x64c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0WRB,
+-		.name = "pva0wrb",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x650,
+-				.security = 0x654,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0WRC,
+-		.name = "pva0wrc",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x658,
+-				.security = 0x65c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1RDA,
+-		.name = "pva1rda",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x660,
+-				.security = 0x664,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1RDB,
+-		.name = "pva1rdb",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x668,
+-				.security = 0x66c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1RDC,
+-		.name = "pva1rdc",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x670,
+-				.security = 0x674,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1WRA,
+-		.name = "pva1wra",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x678,
+-				.security = 0x67c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1WRB,
+-		.name = "pva1wrb",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x680,
+-				.security = 0x684,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1WRC,
+-		.name = "pva1wrc",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x688,
+-				.security = 0x68c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_RCER,
+-		.name = "rcer",
+-		.sid = TEGRA194_SID_RCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x690,
+-				.security = 0x694,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_RCEW,
+-		.name = "rcew",
+-		.sid = TEGRA194_SID_RCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x698,
+-				.security = 0x69c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_RCEDMAR,
+-		.name = "rcedmar",
+-		.sid = TEGRA194_SID_RCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6a0,
+-				.security = 0x6a4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_RCEDMAW,
+-		.name = "rcedmaw",
+-		.sid = TEGRA194_SID_RCE,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6a8,
+-				.security = 0x6ac,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVENC1SRD,
+-		.name = "nvenc1srd",
+-		.sid = TEGRA194_SID_NVENC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6b0,
+-				.security = 0x6b4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVENC1SWR,
+-		.name = "nvenc1swr",
+-		.sid = TEGRA194_SID_NVENC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6b8,
+-				.security = 0x6bc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE0R,
+-		.name = "pcie0r",
+-		.sid = TEGRA194_SID_PCIE0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6c0,
+-				.security = 0x6c4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE0W,
+-		.name = "pcie0w",
+-		.sid = TEGRA194_SID_PCIE0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6c8,
+-				.security = 0x6cc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE1R,
+-		.name = "pcie1r",
+-		.sid = TEGRA194_SID_PCIE1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6d0,
+-				.security = 0x6d4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE1W,
+-		.name = "pcie1w",
+-		.sid = TEGRA194_SID_PCIE1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6d8,
+-				.security = 0x6dc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE2AR,
+-		.name = "pcie2ar",
+-		.sid = TEGRA194_SID_PCIE2,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6e0,
+-				.security = 0x6e4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE2AW,
+-		.name = "pcie2aw",
+-		.sid = TEGRA194_SID_PCIE2,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6e8,
+-				.security = 0x6ec,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE3R,
+-		.name = "pcie3r",
+-		.sid = TEGRA194_SID_PCIE3,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6f0,
+-				.security = 0x6f4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE3W,
+-		.name = "pcie3w",
+-		.sid = TEGRA194_SID_PCIE3,
+-		.regs = {
+-			.sid = {
+-				.override = 0x6f8,
+-				.security = 0x6fc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE4R,
+-		.name = "pcie4r",
+-		.sid = TEGRA194_SID_PCIE4,
+-		.regs = {
+-			.sid = {
+-				.override = 0x700,
+-				.security = 0x704,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE4W,
+-		.name = "pcie4w",
+-		.sid = TEGRA194_SID_PCIE4,
+-		.regs = {
+-			.sid = {
+-				.override = 0x708,
+-				.security = 0x70c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE5R,
+-		.name = "pcie5r",
+-		.sid = TEGRA194_SID_PCIE5,
+-		.regs = {
+-			.sid = {
+-				.override = 0x710,
+-				.security = 0x714,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE5W,
+-		.name = "pcie5w",
+-		.sid = TEGRA194_SID_PCIE5,
+-		.regs = {
+-			.sid = {
+-				.override = 0x718,
+-				.security = 0x71c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ISPFALW,
+-		.name = "ispfalw",
+-		.sid = TEGRA194_SID_ISP_FALCON,
+-		.regs = {
+-			.sid = {
+-				.override = 0x720,
+-				.security = 0x724,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA0RDA1,
+-		.name = "dla0rda1",
+-		.sid = TEGRA194_SID_NVDLA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x748,
+-				.security = 0x74c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_DLA1RDA1,
+-		.name = "dla1rda1",
+-		.sid = TEGRA194_SID_NVDLA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x750,
+-				.security = 0x754,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0RDA1,
+-		.name = "pva0rda1",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x758,
+-				.security = 0x75c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA0RDB1,
+-		.name = "pva0rdb1",
+-		.sid = TEGRA194_SID_PVA0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x760,
+-				.security = 0x764,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1RDA1,
+-		.name = "pva1rda1",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x768,
+-				.security = 0x76c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PVA1RDB1,
+-		.name = "pva1rdb1",
+-		.sid = TEGRA194_SID_PVA1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x770,
+-				.security = 0x774,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE5R1,
+-		.name = "pcie5r1",
+-		.sid = TEGRA194_SID_PCIE5,
+-		.regs = {
+-			.sid = {
+-				.override = 0x778,
+-				.security = 0x77c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVENCSRD1,
+-		.name = "nvencsrd1",
+-		.sid = TEGRA194_SID_NVENC,
+-		.regs = {
+-			.sid = {
+-				.override = 0x780,
+-				.security = 0x784,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVENC1SRD1,
+-		.name = "nvenc1srd1",
+-		.sid = TEGRA194_SID_NVENC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x788,
+-				.security = 0x78c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_ISPRA1,
+-		.name = "ispra1",
+-		.sid = TEGRA194_SID_ISP,
+-		.regs = {
+-			.sid = {
+-				.override = 0x790,
+-				.security = 0x794,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_PCIE0R1,
+-		.name = "pcie0r1",
+-		.sid = TEGRA194_SID_PCIE0,
+-		.regs = {
+-			.sid = {
+-				.override = 0x798,
+-				.security = 0x79c,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDEC1SRD,
+-		.name = "nvdec1srd",
+-		.sid = TEGRA194_SID_NVDEC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7c8,
+-				.security = 0x7cc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDEC1SRD1,
+-		.name = "nvdec1srd1",
+-		.sid = TEGRA194_SID_NVDEC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7d0,
+-				.security = 0x7d4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_NVDEC1SWR,
+-		.name = "nvdec1swr",
+-		.sid = TEGRA194_SID_NVDEC1,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7d8,
+-				.security = 0x7dc,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU5R,
+-		.name = "miu5r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7e0,
+-				.security = 0x7e4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU5W,
+-		.name = "miu5w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7e8,
+-				.security = 0x7ec,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU6R,
+-		.name = "miu6r",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7f0,
+-				.security = 0x7f4,
+-			},
+-		},
+-	}, {
+-		.id = TEGRA194_MEMORY_CLIENT_MIU6W,
+-		.name = "miu6w",
+-		.sid = TEGRA194_SID_MIU,
+-		.regs = {
+-			.sid = {
+-				.override = 0x7f8,
+-				.security = 0x7fc,
+-			},
+-		},
+-	},
+-};
+-
+-const struct tegra_mc_soc tegra194_mc_soc = {
+-	.num_clients = ARRAY_SIZE(tegra194_mc_clients),
+-	.clients = tegra194_mc_clients,
+-	.num_address_bits = 40,
+-	.ops = &tegra186_mc_ops,
+-};
+-#endif
+diff --git a/drivers/memory/tegra/tegra194.c b/drivers/memory/tegra/tegra194.c
+new file mode 100644
+index 000000000000..cab998b8bd5c
+--- /dev/null
++++ b/drivers/memory/tegra/tegra194.c
+@@ -0,0 +1,1351 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2017-2021 NVIDIA CORPORATION.  All rights reserved.
++ */
++
++#include <soc/tegra/mc.h>
++
++#include <dt-bindings/memory/tegra194-mc.h>
++
++#include "mc.h"
++
++static const struct tegra_mc_client tegra194_mc_clients[] = {
++	{
 +		.id = TEGRA194_MEMORY_CLIENT_PTCR,
- 		.name = "ptcr",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -749,6 +822,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ptcr",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x000,
++				.security = 0x004,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU7R,
- 		.name = "miu7r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -758,6 +832,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu7r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x008,
++				.security = 0x00c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU7W,
- 		.name = "miu7w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -767,6 +842,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu7w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x010,
++				.security = 0x014,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_HDAR,
- 		.name = "hdar",
- 		.sid = TEGRA194_SID_HDA,
- 		.regs = {
-@@ -776,6 +852,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "hdar",
++		.sid = TEGRA194_SID_HDA,
++		.regs = {
++			.sid = {
++				.override = 0x0a8,
++				.security = 0x0ac,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_HOST1XDMAR,
- 		.name = "host1xdmar",
- 		.sid = TEGRA194_SID_HOST1X,
- 		.regs = {
-@@ -785,6 +862,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "host1xdmar",
++		.sid = TEGRA194_SID_HOST1X,
++		.regs = {
++			.sid = {
++				.override = 0x0b0,
++				.security = 0x0b4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVENCSRD,
- 		.name = "nvencsrd",
- 		.sid = TEGRA194_SID_NVENC,
- 		.regs = {
-@@ -794,6 +872,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvencsrd",
++		.sid = TEGRA194_SID_NVENC,
++		.regs = {
++			.sid = {
++				.override = 0x0e0,
++				.security = 0x0e4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SATAR,
- 		.name = "satar",
- 		.sid = TEGRA194_SID_SATA,
- 		.regs = {
-@@ -803,6 +882,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "satar",
++		.sid = TEGRA194_SID_SATA,
++		.regs = {
++			.sid = {
++				.override = 0x0f8,
++				.security = 0x0fc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MPCORER,
- 		.name = "mpcorer",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -812,6 +892,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "mpcorer",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x138,
++				.security = 0x13c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVENCSWR,
- 		.name = "nvencswr",
- 		.sid = TEGRA194_SID_NVENC,
- 		.regs = {
-@@ -821,6 +902,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvencswr",
++		.sid = TEGRA194_SID_NVENC,
++		.regs = {
++			.sid = {
++				.override = 0x158,
++				.security = 0x15c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_HDAW,
- 		.name = "hdaw",
- 		.sid = TEGRA194_SID_HDA,
- 		.regs = {
-@@ -830,6 +912,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "hdaw",
++		.sid = TEGRA194_SID_HDA,
++		.regs = {
++			.sid = {
++				.override = 0x1a8,
++				.security = 0x1ac,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MPCOREW,
- 		.name = "mpcorew",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -839,6 +922,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "mpcorew",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x1c8,
++				.security = 0x1cc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SATAW,
- 		.name = "sataw",
- 		.sid = TEGRA194_SID_SATA,
- 		.regs = {
-@@ -848,6 +932,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sataw",
++		.sid = TEGRA194_SID_SATA,
++		.regs = {
++			.sid = {
++				.override = 0x1e8,
++				.security = 0x1ec,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ISPRA,
- 		.name = "ispra",
- 		.sid = TEGRA194_SID_ISP,
- 		.regs = {
-@@ -857,6 +942,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ispra",
++		.sid = TEGRA194_SID_ISP,
++		.regs = {
++			.sid = {
++				.override = 0x220,
++				.security = 0x224,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ISPFALR,
- 		.name = "ispfalr",
- 		.sid = TEGRA194_SID_ISP_FALCON,
- 		.regs = {
-@@ -866,6 +952,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ispfalr",
++		.sid = TEGRA194_SID_ISP_FALCON,
++		.regs = {
++			.sid = {
++				.override = 0x228,
++				.security = 0x22c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ISPWA,
- 		.name = "ispwa",
- 		.sid = TEGRA194_SID_ISP,
- 		.regs = {
-@@ -875,6 +962,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ispwa",
++		.sid = TEGRA194_SID_ISP,
++		.regs = {
++			.sid = {
++				.override = 0x230,
++				.security = 0x234,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ISPWB,
- 		.name = "ispwb",
- 		.sid = TEGRA194_SID_ISP,
- 		.regs = {
-@@ -884,6 +972,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ispwb",
++		.sid = TEGRA194_SID_ISP,
++		.regs = {
++			.sid = {
++				.override = 0x238,
++				.security = 0x23c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_XUSB_HOSTR,
- 		.name = "xusb_hostr",
- 		.sid = TEGRA194_SID_XUSB_HOST,
- 		.regs = {
-@@ -893,6 +982,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "xusb_hostr",
++		.sid = TEGRA194_SID_XUSB_HOST,
++		.regs = {
++			.sid = {
++				.override = 0x250,
++				.security = 0x254,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_XUSB_HOSTW,
- 		.name = "xusb_hostw",
- 		.sid = TEGRA194_SID_XUSB_HOST,
- 		.regs = {
-@@ -902,6 +992,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "xusb_hostw",
++		.sid = TEGRA194_SID_XUSB_HOST,
++		.regs = {
++			.sid = {
++				.override = 0x258,
++				.security = 0x25c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_XUSB_DEVR,
- 		.name = "xusb_devr",
- 		.sid = TEGRA194_SID_XUSB_DEV,
- 		.regs = {
-@@ -911,6 +1002,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "xusb_devr",
++		.sid = TEGRA194_SID_XUSB_DEV,
++		.regs = {
++			.sid = {
++				.override = 0x260,
++				.security = 0x264,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_XUSB_DEVW,
- 		.name = "xusb_devw",
- 		.sid = TEGRA194_SID_XUSB_DEV,
- 		.regs = {
-@@ -920,6 +1012,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "xusb_devw",
++		.sid = TEGRA194_SID_XUSB_DEV,
++		.regs = {
++			.sid = {
++				.override = 0x268,
++				.security = 0x26c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SDMMCRA,
- 		.name = "sdmmcra",
- 		.sid = TEGRA194_SID_SDMMC1,
- 		.regs = {
-@@ -929,6 +1022,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sdmmcra",
++		.sid = TEGRA194_SID_SDMMC1,
++		.regs = {
++			.sid = {
++				.override = 0x300,
++				.security = 0x304,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SDMMCR,
- 		.name = "sdmmcr",
- 		.sid = TEGRA194_SID_SDMMC3,
- 		.regs = {
-@@ -938,6 +1032,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sdmmcr",
++		.sid = TEGRA194_SID_SDMMC3,
++		.regs = {
++			.sid = {
++				.override = 0x310,
++				.security = 0x314,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SDMMCRAB,
- 		.name = "sdmmcrab",
- 		.sid = TEGRA194_SID_SDMMC4,
- 		.regs = {
-@@ -947,6 +1042,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sdmmcrab",
++		.sid = TEGRA194_SID_SDMMC4,
++		.regs = {
++			.sid = {
++				.override = 0x318,
++				.security = 0x31c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SDMMCWA,
- 		.name = "sdmmcwa",
- 		.sid = TEGRA194_SID_SDMMC1,
- 		.regs = {
-@@ -956,6 +1052,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sdmmcwa",
++		.sid = TEGRA194_SID_SDMMC1,
++		.regs = {
++			.sid = {
++				.override = 0x320,
++				.security = 0x324,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SDMMCW,
- 		.name = "sdmmcw",
- 		.sid = TEGRA194_SID_SDMMC3,
- 		.regs = {
-@@ -965,6 +1062,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sdmmcw",
++		.sid = TEGRA194_SID_SDMMC3,
++		.regs = {
++			.sid = {
++				.override = 0x330,
++				.security = 0x334,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SDMMCWAB,
- 		.name = "sdmmcwab",
- 		.sid = TEGRA194_SID_SDMMC4,
- 		.regs = {
-@@ -974,6 +1072,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "sdmmcwab",
++		.sid = TEGRA194_SID_SDMMC4,
++		.regs = {
++			.sid = {
++				.override = 0x338,
++				.security = 0x33c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_VICSRD,
- 		.name = "vicsrd",
- 		.sid = TEGRA194_SID_VIC,
- 		.regs = {
-@@ -983,6 +1082,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "vicsrd",
++		.sid = TEGRA194_SID_VIC,
++		.regs = {
++			.sid = {
++				.override = 0x360,
++				.security = 0x364,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_VICSWR,
- 		.name = "vicswr",
- 		.sid = TEGRA194_SID_VIC,
- 		.regs = {
-@@ -992,6 +1092,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "vicswr",
++		.sid = TEGRA194_SID_VIC,
++		.regs = {
++			.sid = {
++				.override = 0x368,
++				.security = 0x36c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_VIW,
- 		.name = "viw",
- 		.sid = TEGRA194_SID_VI,
- 		.regs = {
-@@ -1001,6 +1102,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "viw",
++		.sid = TEGRA194_SID_VI,
++		.regs = {
++			.sid = {
++				.override = 0x390,
++				.security = 0x394,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDECSRD,
- 		.name = "nvdecsrd",
- 		.sid = TEGRA194_SID_NVDEC,
- 		.regs = {
-@@ -1010,6 +1112,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdecsrd",
++		.sid = TEGRA194_SID_NVDEC,
++		.regs = {
++			.sid = {
++				.override = 0x3c0,
++				.security = 0x3c4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDECSWR,
- 		.name = "nvdecswr",
- 		.sid = TEGRA194_SID_NVDEC,
- 		.regs = {
-@@ -1019,6 +1122,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdecswr",
++		.sid = TEGRA194_SID_NVDEC,
++		.regs = {
++			.sid = {
++				.override = 0x3c8,
++				.security = 0x3cc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_APER,
- 		.name = "aper",
- 		.sid = TEGRA194_SID_APE,
- 		.regs = {
-@@ -1028,6 +1132,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "aper",
++		.sid = TEGRA194_SID_APE,
++		.regs = {
++			.sid = {
++				.override = 0x3c0,
++				.security = 0x3c4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_APEW,
- 		.name = "apew",
- 		.sid = TEGRA194_SID_APE,
- 		.regs = {
-@@ -1037,6 +1142,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "apew",
++		.sid = TEGRA194_SID_APE,
++		.regs = {
++			.sid = {
++				.override = 0x3d0,
++				.security = 0x3d4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVJPGSRD,
- 		.name = "nvjpgsrd",
- 		.sid = TEGRA194_SID_NVJPG,
- 		.regs = {
-@@ -1046,6 +1152,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvjpgsrd",
++		.sid = TEGRA194_SID_NVJPG,
++		.regs = {
++			.sid = {
++				.override = 0x3f0,
++				.security = 0x3f4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVJPGSWR,
- 		.name = "nvjpgswr",
- 		.sid = TEGRA194_SID_NVJPG,
- 		.regs = {
-@@ -1056,6 +1163,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 		},
- 	}, {
- 		.name = "axiapr",
++		.name = "nvjpgswr",
++		.sid = TEGRA194_SID_NVJPG,
++		.regs = {
++			.sid = {
++				.override = 0x3f0,
++				.security = 0x3f4,
++			},
++		},
++	}, {
++		.name = "axiapr",
 +		.id = TEGRA194_MEMORY_CLIENT_AXIAPR,
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
- 			.sid = {
-@@ -1064,6 +1172,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x410,
++				.security = 0x414,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AXIAPW,
- 		.name = "axiapw",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -1073,6 +1182,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "axiapw",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x418,
++				.security = 0x41c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ETRR,
- 		.name = "etrr",
- 		.sid = TEGRA194_SID_ETR,
- 		.regs = {
-@@ -1082,6 +1192,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "etrr",
++		.sid = TEGRA194_SID_ETR,
++		.regs = {
++			.sid = {
++				.override = 0x420,
++				.security = 0x424,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ETRW,
- 		.name = "etrw",
- 		.sid = TEGRA194_SID_ETR,
- 		.regs = {
-@@ -1091,6 +1202,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "etrw",
++		.sid = TEGRA194_SID_ETR,
++		.regs = {
++			.sid = {
++				.override = 0x428,
++				.security = 0x42c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AXISR,
- 		.name = "axisr",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -1100,6 +1212,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "axisr",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x460,
++				.security = 0x464,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AXISW,
- 		.name = "axisw",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -1109,6 +1222,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "axisw",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x468,
++				.security = 0x46c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_EQOSR,
- 		.name = "eqosr",
- 		.sid = TEGRA194_SID_EQOS,
- 		.regs = {
-@@ -1119,6 +1233,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 		},
- 	}, {
- 		.name = "eqosw",
++		.name = "eqosr",
++		.sid = TEGRA194_SID_EQOS,
++		.regs = {
++			.sid = {
++				.override = 0x470,
++				.security = 0x474,
++			},
++		},
++	}, {
++		.name = "eqosw",
 +		.id = TEGRA194_MEMORY_CLIENT_EQOSW,
- 		.sid = TEGRA194_SID_EQOS,
- 		.regs = {
- 			.sid = {
-@@ -1127,6 +1242,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.sid = TEGRA194_SID_EQOS,
++		.regs = {
++			.sid = {
++				.override = 0x478,
++				.security = 0x47c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_UFSHCR,
- 		.name = "ufshcr",
- 		.sid = TEGRA194_SID_UFSHC,
- 		.regs = {
-@@ -1136,6 +1252,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ufshcr",
++		.sid = TEGRA194_SID_UFSHC,
++		.regs = {
++			.sid = {
++				.override = 0x480,
++				.security = 0x484,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_UFSHCW,
- 		.name = "ufshcw",
- 		.sid = TEGRA194_SID_UFSHC,
- 		.regs = {
-@@ -1145,6 +1262,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ufshcw",
++		.sid = TEGRA194_SID_UFSHC,
++		.regs = {
++			.sid = {
++				.override = 0x488,
++				.security = 0x48c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDISPLAYR,
- 		.name = "nvdisplayr",
- 		.sid = TEGRA194_SID_NVDISPLAY,
- 		.regs = {
-@@ -1154,6 +1272,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdisplayr",
++		.sid = TEGRA194_SID_NVDISPLAY,
++		.regs = {
++			.sid = {
++				.override = 0x490,
++				.security = 0x494,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_BPMPR,
- 		.name = "bpmpr",
- 		.sid = TEGRA194_SID_BPMP,
- 		.regs = {
-@@ -1163,6 +1282,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "bpmpr",
++		.sid = TEGRA194_SID_BPMP,
++		.regs = {
++			.sid = {
++				.override = 0x498,
++				.security = 0x49c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_BPMPW,
- 		.name = "bpmpw",
- 		.sid = TEGRA194_SID_BPMP,
- 		.regs = {
-@@ -1172,6 +1292,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "bpmpw",
++		.sid = TEGRA194_SID_BPMP,
++		.regs = {
++			.sid = {
++				.override = 0x4a0,
++				.security = 0x4a4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_BPMPDMAR,
- 		.name = "bpmpdmar",
- 		.sid = TEGRA194_SID_BPMP,
- 		.regs = {
-@@ -1181,6 +1302,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "bpmpdmar",
++		.sid = TEGRA194_SID_BPMP,
++		.regs = {
++			.sid = {
++				.override = 0x4a8,
++				.security = 0x4ac,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_BPMPDMAW,
- 		.name = "bpmpdmaw",
- 		.sid = TEGRA194_SID_BPMP,
- 		.regs = {
-@@ -1190,6 +1312,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "bpmpdmaw",
++		.sid = TEGRA194_SID_BPMP,
++		.regs = {
++			.sid = {
++				.override = 0x4b0,
++				.security = 0x4b4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AONR,
- 		.name = "aonr",
- 		.sid = TEGRA194_SID_AON,
- 		.regs = {
-@@ -1199,6 +1322,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "aonr",
++		.sid = TEGRA194_SID_AON,
++		.regs = {
++			.sid = {
++				.override = 0x4b8,
++				.security = 0x4bc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AONW,
- 		.name = "aonw",
- 		.sid = TEGRA194_SID_AON,
- 		.regs = {
-@@ -1208,6 +1332,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "aonw",
++		.sid = TEGRA194_SID_AON,
++		.regs = {
++			.sid = {
++				.override = 0x4c0,
++				.security = 0x4c4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AONDMAR,
- 		.name = "aondmar",
- 		.sid = TEGRA194_SID_AON,
- 		.regs = {
-@@ -1217,6 +1342,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "aondmar",
++		.sid = TEGRA194_SID_AON,
++		.regs = {
++			.sid = {
++				.override = 0x4c8,
++				.security = 0x4cc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_AONDMAW,
- 		.name = "aondmaw",
- 		.sid = TEGRA194_SID_AON,
- 		.regs = {
-@@ -1226,6 +1352,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "aondmaw",
++		.sid = TEGRA194_SID_AON,
++		.regs = {
++			.sid = {
++				.override = 0x4d0,
++				.security = 0x4d4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SCER,
- 		.name = "scer",
- 		.sid = TEGRA194_SID_SCE,
- 		.regs = {
-@@ -1235,6 +1362,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "scer",
++		.sid = TEGRA194_SID_SCE,
++		.regs = {
++			.sid = {
++				.override = 0x4d8,
++				.security = 0x4dc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SCEW,
- 		.name = "scew",
- 		.sid = TEGRA194_SID_SCE,
- 		.regs = {
-@@ -1244,6 +1372,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "scew",
++		.sid = TEGRA194_SID_SCE,
++		.regs = {
++			.sid = {
++				.override = 0x4e0,
++				.security = 0x4e4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SCEDMAR,
- 		.name = "scedmar",
- 		.sid = TEGRA194_SID_SCE,
- 		.regs = {
-@@ -1253,6 +1382,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "scedmar",
++		.sid = TEGRA194_SID_SCE,
++		.regs = {
++			.sid = {
++				.override = 0x4e8,
++				.security = 0x4ec,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_SCEDMAW,
- 		.name = "scedmaw",
- 		.sid = TEGRA194_SID_SCE,
- 		.regs = {
-@@ -1262,6 +1392,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "scedmaw",
++		.sid = TEGRA194_SID_SCE,
++		.regs = {
++			.sid = {
++				.override = 0x4f0,
++				.security = 0x4f4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_APEDMAR,
- 		.name = "apedmar",
- 		.sid = TEGRA194_SID_APE,
- 		.regs = {
-@@ -1271,6 +1402,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "apedmar",
++		.sid = TEGRA194_SID_APE,
++		.regs = {
++			.sid = {
++				.override = 0x4f8,
++				.security = 0x4fc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_APEDMAW,
- 		.name = "apedmaw",
- 		.sid = TEGRA194_SID_APE,
- 		.regs = {
-@@ -1280,6 +1412,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "apedmaw",
++		.sid = TEGRA194_SID_APE,
++		.regs = {
++			.sid = {
++				.override = 0x500,
++				.security = 0x504,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDISPLAYR1,
- 		.name = "nvdisplayr1",
- 		.sid = TEGRA194_SID_NVDISPLAY,
- 		.regs = {
-@@ -1289,6 +1422,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdisplayr1",
++		.sid = TEGRA194_SID_NVDISPLAY,
++		.regs = {
++			.sid = {
++				.override = 0x508,
++				.security = 0x50c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_VICSRD1,
- 		.name = "vicsrd1",
- 		.sid = TEGRA194_SID_VIC,
- 		.regs = {
-@@ -1298,6 +1432,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "vicsrd1",
++		.sid = TEGRA194_SID_VIC,
++		.regs = {
++			.sid = {
++				.override = 0x510,
++				.security = 0x514,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDECSRD1,
- 		.name = "nvdecsrd1",
- 		.sid = TEGRA194_SID_NVDEC,
- 		.regs = {
-@@ -1307,6 +1442,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdecsrd1",
++		.sid = TEGRA194_SID_NVDEC,
++		.regs = {
++			.sid = {
++				.override = 0x518,
++				.security = 0x51c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU0R,
- 		.name = "miu0r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1317,6 +1453,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 		},
- 	}, {
- 		.name = "miu0w",
++		.name = "miu0r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x530,
++				.security = 0x534,
++			},
++		},
++	}, {
++		.name = "miu0w",
 +		.id = TEGRA194_MEMORY_CLIENT_MIU0W,
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
- 			.sid = {
-@@ -1325,6 +1462,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x538,
++				.security = 0x53c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU1R,
- 		.name = "miu1r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1334,6 +1472,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu1r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x540,
++				.security = 0x544,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU1W,
- 		.name = "miu1w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1343,6 +1482,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu1w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x548,
++				.security = 0x54c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU2R,
- 		.name = "miu2r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1352,6 +1492,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu2r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x570,
++				.security = 0x574,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU2W,
- 		.name = "miu2w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1361,6 +1502,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu2w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x578,
++				.security = 0x57c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU3R,
- 		.name = "miu3r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1370,6 +1512,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu3r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x580,
++				.security = 0x584,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU3W,
- 		.name = "miu3w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1379,6 +1522,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu3w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x588,
++				.security = 0x58c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU4R,
- 		.name = "miu4r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1388,6 +1532,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu4r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x590,
++				.security = 0x594,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU4W,
- 		.name = "miu4w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1397,6 +1542,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu4w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x598,
++				.security = 0x59c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DPMUR,
- 		.name = "dpmur",
- 		.sid = TEGRA194_SID_PASSTHROUGH,
- 		.regs = {
-@@ -1406,6 +1552,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dpmur",
++		.sid = TEGRA194_SID_PASSTHROUGH,
++		.regs = {
++			.sid = {
++				.override = 0x598,
++				.security = 0x59c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_VIFALR,
- 		.name = "vifalr",
- 		.sid = TEGRA194_SID_VI_FALCON,
- 		.regs = {
-@@ -1415,6 +1562,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "vifalr",
++		.sid = TEGRA194_SID_VI_FALCON,
++		.regs = {
++			.sid = {
++				.override = 0x5e0,
++				.security = 0x5e4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_VIFALW,
- 		.name = "vifalw",
- 		.sid = TEGRA194_SID_VI_FALCON,
- 		.regs = {
-@@ -1424,6 +1572,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "vifalw",
++		.sid = TEGRA194_SID_VI_FALCON,
++		.regs = {
++			.sid = {
++				.override = 0x5e8,
++				.security = 0x5ec,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA0RDA,
- 		.name = "dla0rda",
- 		.sid = TEGRA194_SID_NVDLA0,
- 		.regs = {
-@@ -1433,6 +1582,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla0rda",
++		.sid = TEGRA194_SID_NVDLA0,
++		.regs = {
++			.sid = {
++				.override = 0x5f0,
++				.security = 0x5f4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA0FALRDB,
- 		.name = "dla0falrdb",
- 		.sid = TEGRA194_SID_NVDLA0,
- 		.regs = {
-@@ -1442,6 +1592,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla0falrdb",
++		.sid = TEGRA194_SID_NVDLA0,
++		.regs = {
++			.sid = {
++				.override = 0x5f8,
++				.security = 0x5fc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA0WRA,
- 		.name = "dla0wra",
- 		.sid = TEGRA194_SID_NVDLA0,
- 		.regs = {
-@@ -1451,6 +1602,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla0wra",
++		.sid = TEGRA194_SID_NVDLA0,
++		.regs = {
++			.sid = {
++				.override = 0x600,
++				.security = 0x604,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA0FALWRB,
- 		.name = "dla0falwrb",
- 		.sid = TEGRA194_SID_NVDLA0,
- 		.regs = {
-@@ -1460,6 +1612,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla0falwrb",
++		.sid = TEGRA194_SID_NVDLA0,
++		.regs = {
++			.sid = {
++				.override = 0x608,
++				.security = 0x60c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA1RDA,
- 		.name = "dla1rda",
- 		.sid = TEGRA194_SID_NVDLA1,
- 		.regs = {
-@@ -1469,6 +1622,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla1rda",
++		.sid = TEGRA194_SID_NVDLA1,
++		.regs = {
++			.sid = {
++				.override = 0x610,
++				.security = 0x614,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA1FALRDB,
- 		.name = "dla1falrdb",
- 		.sid = TEGRA194_SID_NVDLA1,
- 		.regs = {
-@@ -1478,6 +1632,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla1falrdb",
++		.sid = TEGRA194_SID_NVDLA1,
++		.regs = {
++			.sid = {
++				.override = 0x618,
++				.security = 0x61c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA1WRA,
- 		.name = "dla1wra",
- 		.sid = TEGRA194_SID_NVDLA1,
- 		.regs = {
-@@ -1487,6 +1642,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla1wra",
++		.sid = TEGRA194_SID_NVDLA1,
++		.regs = {
++			.sid = {
++				.override = 0x620,
++				.security = 0x624,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA1FALWRB,
- 		.name = "dla1falwrb",
- 		.sid = TEGRA194_SID_NVDLA1,
- 		.regs = {
-@@ -1496,6 +1652,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla1falwrb",
++		.sid = TEGRA194_SID_NVDLA1,
++		.regs = {
++			.sid = {
++				.override = 0x628,
++				.security = 0x62c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0RDA,
- 		.name = "pva0rda",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1505,6 +1662,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0rda",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x630,
++				.security = 0x634,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0RDB,
- 		.name = "pva0rdb",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1514,6 +1672,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0rdb",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x638,
++				.security = 0x63c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0RDC,
- 		.name = "pva0rdc",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1523,6 +1682,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0rdc",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x640,
++				.security = 0x644,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0WRA,
- 		.name = "pva0wra",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1532,6 +1692,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0wra",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x648,
++				.security = 0x64c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0WRB,
- 		.name = "pva0wrb",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1541,6 +1702,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0wrb",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x650,
++				.security = 0x654,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0WRC,
- 		.name = "pva0wrc",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1550,6 +1712,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0wrc",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x658,
++				.security = 0x65c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1RDA,
- 		.name = "pva1rda",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1559,6 +1722,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1rda",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x660,
++				.security = 0x664,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1RDB,
- 		.name = "pva1rdb",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1568,6 +1732,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1rdb",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x668,
++				.security = 0x66c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1RDC,
- 		.name = "pva1rdc",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1577,6 +1742,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1rdc",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x670,
++				.security = 0x674,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1WRA,
- 		.name = "pva1wra",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1586,6 +1752,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1wra",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x678,
++				.security = 0x67c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1WRB,
- 		.name = "pva1wrb",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1595,6 +1762,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1wrb",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x680,
++				.security = 0x684,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1WRC,
- 		.name = "pva1wrc",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1604,6 +1772,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1wrc",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x688,
++				.security = 0x68c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_RCER,
- 		.name = "rcer",
- 		.sid = TEGRA194_SID_RCE,
- 		.regs = {
-@@ -1613,6 +1782,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "rcer",
++		.sid = TEGRA194_SID_RCE,
++		.regs = {
++			.sid = {
++				.override = 0x690,
++				.security = 0x694,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_RCEW,
- 		.name = "rcew",
- 		.sid = TEGRA194_SID_RCE,
- 		.regs = {
-@@ -1622,6 +1792,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "rcew",
++		.sid = TEGRA194_SID_RCE,
++		.regs = {
++			.sid = {
++				.override = 0x698,
++				.security = 0x69c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_RCEDMAR,
- 		.name = "rcedmar",
- 		.sid = TEGRA194_SID_RCE,
- 		.regs = {
-@@ -1631,6 +1802,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "rcedmar",
++		.sid = TEGRA194_SID_RCE,
++		.regs = {
++			.sid = {
++				.override = 0x6a0,
++				.security = 0x6a4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_RCEDMAW,
- 		.name = "rcedmaw",
- 		.sid = TEGRA194_SID_RCE,
- 		.regs = {
-@@ -1640,6 +1812,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "rcedmaw",
++		.sid = TEGRA194_SID_RCE,
++		.regs = {
++			.sid = {
++				.override = 0x6a8,
++				.security = 0x6ac,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVENC1SRD,
- 		.name = "nvenc1srd",
- 		.sid = TEGRA194_SID_NVENC1,
- 		.regs = {
-@@ -1649,6 +1822,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvenc1srd",
++		.sid = TEGRA194_SID_NVENC1,
++		.regs = {
++			.sid = {
++				.override = 0x6b0,
++				.security = 0x6b4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVENC1SWR,
- 		.name = "nvenc1swr",
- 		.sid = TEGRA194_SID_NVENC1,
- 		.regs = {
-@@ -1658,6 +1832,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvenc1swr",
++		.sid = TEGRA194_SID_NVENC1,
++		.regs = {
++			.sid = {
++				.override = 0x6b8,
++				.security = 0x6bc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE0R,
- 		.name = "pcie0r",
- 		.sid = TEGRA194_SID_PCIE0,
- 		.regs = {
-@@ -1667,6 +1842,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie0r",
++		.sid = TEGRA194_SID_PCIE0,
++		.regs = {
++			.sid = {
++				.override = 0x6c0,
++				.security = 0x6c4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE0W,
- 		.name = "pcie0w",
- 		.sid = TEGRA194_SID_PCIE0,
- 		.regs = {
-@@ -1676,6 +1852,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie0w",
++		.sid = TEGRA194_SID_PCIE0,
++		.regs = {
++			.sid = {
++				.override = 0x6c8,
++				.security = 0x6cc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE1R,
- 		.name = "pcie1r",
- 		.sid = TEGRA194_SID_PCIE1,
- 		.regs = {
-@@ -1685,6 +1862,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie1r",
++		.sid = TEGRA194_SID_PCIE1,
++		.regs = {
++			.sid = {
++				.override = 0x6d0,
++				.security = 0x6d4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE1W,
- 		.name = "pcie1w",
- 		.sid = TEGRA194_SID_PCIE1,
- 		.regs = {
-@@ -1694,6 +1872,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie1w",
++		.sid = TEGRA194_SID_PCIE1,
++		.regs = {
++			.sid = {
++				.override = 0x6d8,
++				.security = 0x6dc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE2AR,
- 		.name = "pcie2ar",
- 		.sid = TEGRA194_SID_PCIE2,
- 		.regs = {
-@@ -1703,6 +1882,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie2ar",
++		.sid = TEGRA194_SID_PCIE2,
++		.regs = {
++			.sid = {
++				.override = 0x6e0,
++				.security = 0x6e4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE2AW,
- 		.name = "pcie2aw",
- 		.sid = TEGRA194_SID_PCIE2,
- 		.regs = {
-@@ -1712,6 +1892,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie2aw",
++		.sid = TEGRA194_SID_PCIE2,
++		.regs = {
++			.sid = {
++				.override = 0x6e8,
++				.security = 0x6ec,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE3R,
- 		.name = "pcie3r",
- 		.sid = TEGRA194_SID_PCIE3,
- 		.regs = {
-@@ -1721,6 +1902,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie3r",
++		.sid = TEGRA194_SID_PCIE3,
++		.regs = {
++			.sid = {
++				.override = 0x6f0,
++				.security = 0x6f4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE3W,
- 		.name = "pcie3w",
- 		.sid = TEGRA194_SID_PCIE3,
- 		.regs = {
-@@ -1730,6 +1912,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie3w",
++		.sid = TEGRA194_SID_PCIE3,
++		.regs = {
++			.sid = {
++				.override = 0x6f8,
++				.security = 0x6fc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE4R,
- 		.name = "pcie4r",
- 		.sid = TEGRA194_SID_PCIE4,
- 		.regs = {
-@@ -1739,6 +1922,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie4r",
++		.sid = TEGRA194_SID_PCIE4,
++		.regs = {
++			.sid = {
++				.override = 0x700,
++				.security = 0x704,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE4W,
- 		.name = "pcie4w",
- 		.sid = TEGRA194_SID_PCIE4,
- 		.regs = {
-@@ -1748,6 +1932,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie4w",
++		.sid = TEGRA194_SID_PCIE4,
++		.regs = {
++			.sid = {
++				.override = 0x708,
++				.security = 0x70c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE5R,
- 		.name = "pcie5r",
- 		.sid = TEGRA194_SID_PCIE5,
- 		.regs = {
-@@ -1757,6 +1942,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie5r",
++		.sid = TEGRA194_SID_PCIE5,
++		.regs = {
++			.sid = {
++				.override = 0x710,
++				.security = 0x714,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE5W,
- 		.name = "pcie5w",
- 		.sid = TEGRA194_SID_PCIE5,
- 		.regs = {
-@@ -1766,6 +1952,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie5w",
++		.sid = TEGRA194_SID_PCIE5,
++		.regs = {
++			.sid = {
++				.override = 0x718,
++				.security = 0x71c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ISPFALW,
- 		.name = "ispfalw",
- 		.sid = TEGRA194_SID_ISP_FALCON,
- 		.regs = {
-@@ -1775,6 +1962,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ispfalw",
++		.sid = TEGRA194_SID_ISP_FALCON,
++		.regs = {
++			.sid = {
++				.override = 0x720,
++				.security = 0x724,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA0RDA1,
- 		.name = "dla0rda1",
- 		.sid = TEGRA194_SID_NVDLA0,
- 		.regs = {
-@@ -1784,6 +1972,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla0rda1",
++		.sid = TEGRA194_SID_NVDLA0,
++		.regs = {
++			.sid = {
++				.override = 0x748,
++				.security = 0x74c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_DLA1RDA1,
- 		.name = "dla1rda1",
- 		.sid = TEGRA194_SID_NVDLA1,
- 		.regs = {
-@@ -1793,6 +1982,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "dla1rda1",
++		.sid = TEGRA194_SID_NVDLA1,
++		.regs = {
++			.sid = {
++				.override = 0x750,
++				.security = 0x754,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0RDA1,
- 		.name = "pva0rda1",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1802,6 +1992,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0rda1",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x758,
++				.security = 0x75c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA0RDB1,
- 		.name = "pva0rdb1",
- 		.sid = TEGRA194_SID_PVA0,
- 		.regs = {
-@@ -1811,6 +2002,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva0rdb1",
++		.sid = TEGRA194_SID_PVA0,
++		.regs = {
++			.sid = {
++				.override = 0x760,
++				.security = 0x764,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1RDA1,
- 		.name = "pva1rda1",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1820,6 +2012,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1rda1",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x768,
++				.security = 0x76c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PVA1RDB1,
- 		.name = "pva1rdb1",
- 		.sid = TEGRA194_SID_PVA1,
- 		.regs = {
-@@ -1829,6 +2022,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pva1rdb1",
++		.sid = TEGRA194_SID_PVA1,
++		.regs = {
++			.sid = {
++				.override = 0x770,
++				.security = 0x774,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE5R1,
- 		.name = "pcie5r1",
- 		.sid = TEGRA194_SID_PCIE5,
- 		.regs = {
-@@ -1838,6 +2032,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie5r1",
++		.sid = TEGRA194_SID_PCIE5,
++		.regs = {
++			.sid = {
++				.override = 0x778,
++				.security = 0x77c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVENCSRD1,
- 		.name = "nvencsrd1",
- 		.sid = TEGRA194_SID_NVENC,
- 		.regs = {
-@@ -1847,6 +2042,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvencsrd1",
++		.sid = TEGRA194_SID_NVENC,
++		.regs = {
++			.sid = {
++				.override = 0x780,
++				.security = 0x784,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVENC1SRD1,
- 		.name = "nvenc1srd1",
- 		.sid = TEGRA194_SID_NVENC1,
- 		.regs = {
-@@ -1856,6 +2052,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvenc1srd1",
++		.sid = TEGRA194_SID_NVENC1,
++		.regs = {
++			.sid = {
++				.override = 0x788,
++				.security = 0x78c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_ISPRA1,
- 		.name = "ispra1",
- 		.sid = TEGRA194_SID_ISP,
- 		.regs = {
-@@ -1865,6 +2062,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "ispra1",
++		.sid = TEGRA194_SID_ISP,
++		.regs = {
++			.sid = {
++				.override = 0x790,
++				.security = 0x794,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_PCIE0R1,
- 		.name = "pcie0r1",
- 		.sid = TEGRA194_SID_PCIE0,
- 		.regs = {
-@@ -1874,6 +2072,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "pcie0r1",
++		.sid = TEGRA194_SID_PCIE0,
++		.regs = {
++			.sid = {
++				.override = 0x798,
++				.security = 0x79c,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDEC1SRD,
- 		.name = "nvdec1srd",
- 		.sid = TEGRA194_SID_NVDEC1,
- 		.regs = {
-@@ -1883,6 +2082,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdec1srd",
++		.sid = TEGRA194_SID_NVDEC1,
++		.regs = {
++			.sid = {
++				.override = 0x7c8,
++				.security = 0x7cc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDEC1SRD1,
- 		.name = "nvdec1srd1",
- 		.sid = TEGRA194_SID_NVDEC1,
- 		.regs = {
-@@ -1892,6 +2092,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdec1srd1",
++		.sid = TEGRA194_SID_NVDEC1,
++		.regs = {
++			.sid = {
++				.override = 0x7d0,
++				.security = 0x7d4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_NVDEC1SWR,
- 		.name = "nvdec1swr",
- 		.sid = TEGRA194_SID_NVDEC1,
- 		.regs = {
-@@ -1901,6 +2102,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "nvdec1swr",
++		.sid = TEGRA194_SID_NVDEC1,
++		.regs = {
++			.sid = {
++				.override = 0x7d8,
++				.security = 0x7dc,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU5R,
- 		.name = "miu5r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1910,6 +2112,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu5r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x7e0,
++				.security = 0x7e4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU5W,
- 		.name = "miu5w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1919,6 +2122,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu5w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x7e8,
++				.security = 0x7ec,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU6R,
- 		.name = "miu6r",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
-@@ -1928,6 +2132,7 @@ static const struct tegra_mc_client tegra194_mc_clients[] = {
- 			},
- 		},
- 	}, {
++		.name = "miu6r",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x7f0,
++				.security = 0x7f4,
++			},
++		},
++	}, {
 +		.id = TEGRA194_MEMORY_CLIENT_MIU6W,
- 		.name = "miu6w",
- 		.sid = TEGRA194_SID_MIU,
- 		.regs = {
++		.name = "miu6w",
++		.sid = TEGRA194_SID_MIU,
++		.regs = {
++			.sid = {
++				.override = 0x7f8,
++				.security = 0x7fc,
++			},
++		},
++	},
++};
++
++const struct tegra_mc_soc tegra194_mc_soc = {
++	.num_clients = ARRAY_SIZE(tegra194_mc_clients),
++	.clients = tegra194_mc_clients,
++	.num_address_bits = 40,
++	.ops = &tegra186_mc_ops,
++};
 -- 
 2.31.1
 
