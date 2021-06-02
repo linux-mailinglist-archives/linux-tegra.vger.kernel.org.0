@@ -2,60 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1835399000
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Jun 2021 18:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6AA399007
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Jun 2021 18:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbhFBQdt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Jun 2021 12:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbhFBQds (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Jun 2021 12:33:48 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7C7DC061574
-        for <linux-tegra@vger.kernel.org>; Wed,  2 Jun 2021 09:31:48 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a11so4062221ejf.3
-        for <linux-tegra@vger.kernel.org>; Wed, 02 Jun 2021 09:31:48 -0700 (PDT)
+        id S229904AbhFBQee (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Jun 2021 12:34:34 -0400
+Received: from mail-ej1-f41.google.com ([209.85.218.41]:38493 "EHLO
+        mail-ej1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229786AbhFBQed (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Jun 2021 12:34:33 -0400
+Received: by mail-ej1-f41.google.com with SMTP id e18so4773586eje.5
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Jun 2021 09:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xzoX1en182dWNH9Dh4NGdmjOBavoLhwx78B3jKvx1a0=;
-        b=aP0o9Jtevq/ULX3WH+5b8XuVENypXjkb9TVtXkVUXKOSq6L7CzFW8vxfO+CJWvOt+t
-         /h9Xamx0nPLvZlVIfp9jm6OgS/Anzj1FwsrHZ1mklfbL1gsbMBcLNt3MLbDEtPpRa+zS
-         IxUPhA/xGv4Y+mTql1KuIorQDdTVWQouFVg62beX+8tqdi/ccmqKfATFYKAoaseiVWrm
-         t7Q/jXYHxNX9VC2DOgy/+cD1sHhoZalM+bdWXD2BaGtvlYoN/a6ioJV0YX+P9RmhjJKF
-         6APqxm8OaHR4DezuVbLeBWAUg7oim6EUfhNNv9MAMNhJ1UXs1glckLQ+vc6t1rBARoUh
-         g1LQ==
+        bh=xNf9ir9072qhefvj+BE6SK9cCIekf4nldhoj468YdIU=;
+        b=qBCVDfDlDKcSFVatNeIe2J9mM4iw0wawdTnlaxDnW13CSgrWOwx7UNnUyLioGr1A2c
+         RH9/RCUkK12Ck/rDicxjXkHr/LobGyJlibBSyLxJxHlQIo9hYzQEYkP3j/2PoljrQObB
+         vjWdRSa/GF1Ny+7VSOuCbPk6T6m22g8cUApwSl1dLO7Us8EYt3RulBRj9Ic/1WQ2HXPv
+         oTHdB4/db0+J08SGf1Oi+uWYWJanQiwKTG+uqxr0f2LL0eHyzfbs3CaPa/+HIt2paLIB
+         RMQPkV8FE/uP4RgNl6zr1Oh2opE4XOph+Ryspi+msET7aZxKm5YY6+Lxogn35G9YJyE0
+         fHug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xzoX1en182dWNH9Dh4NGdmjOBavoLhwx78B3jKvx1a0=;
-        b=D02csVCWHnom/4Ti7eDWCwe1phHcJbgP0UMPNwKtprXwBlMDE+6J+qaEdLTuUVS6Ly
-         BJPXoTB0CZyWg3Rf3N3lL6gx6XtAe7gwCUrssqGL/z4pIZJMJwkX6XMd2bYrXbN4i+2n
-         aK95IdSz+JOIWUYgHODEGH+Cf8+MP1Gd7DJ5zv9axRdGcG+Gzx7sy79phlK9vnHnfD7A
-         2pvTSopmbSdLl1xyYFChp4ar246Oz3Vr5B9vBPhqRh8SCcQP/7l8YndqRYO6dFAImHYt
-         8vyDVO5PkFHPM/+kcAiv/2BTyNIk9WTW4hPu05FnZaFiqZghHzWeK5gmGYmiFpVNHuI8
-         sXIw==
-X-Gm-Message-State: AOAM533fxjwvuRCl5ijwK6uqJShGaeoIdYuETvqK/dmNrAZto0/SkxX2
-        mwFtmHQ9TA5YgwzoxDEsYEU=
-X-Google-Smtp-Source: ABdhPJwIRjxaEE8KtB6nZLiiVpqw1tYU3Oem8GZrMhJeOESCX10zoJYGjaIpB8VQk2DNibOP37cmfg==
-X-Received: by 2002:a17:906:e44:: with SMTP id q4mr12624843eji.120.1622651507576;
-        Wed, 02 Jun 2021 09:31:47 -0700 (PDT)
+        bh=xNf9ir9072qhefvj+BE6SK9cCIekf4nldhoj468YdIU=;
+        b=XLvxizo9EAAgfwvdJD4LM9a3eyKgXXtkw/rU17gkVJ2TzWpKA6WHM6+To75071yY8R
+         PzHUIs2AnimRiMEO82hbxBsFme/WWz5BXjdPkuIkRRwt6uTff39A/JZlVoY372Lxp4qS
+         I3DshScY2MMs6Yc40egMdK/13jvd3upqHov3lgXOm9cn76V+regdYFG2pTYNbRUdavPy
+         tBE/f6BJj1a29Cq7Jt0iqxePadArHuTh3O3gZMnqFwwPR7c7VOFy/c6SUALyt4K4+YtN
+         zELQBsYH6qQ8L0kVpMJYDwkL2CEqojsv8FIp92fFL2STOuw8z9j6xGjUL0aXFcVTkO70
+         Tuvg==
+X-Gm-Message-State: AOAM533ElCjuvsstm3rlH7YKyxljuRZ2ffs5gMyOVukBul70msPx7SnW
+        24yV5njd3/COxVaS0GXWJng=
+X-Google-Smtp-Source: ABdhPJzO3RMCB+KL0FPO5yzqln+jN74fVjYV5ErSR50MC6sCCzL5wE4S5JIuNuuUqhTi0QGajbJ8rQ==
+X-Received: by 2002:a17:906:158c:: with SMTP id k12mr34862051ejd.274.1622651510096;
+        Wed, 02 Jun 2021 09:31:50 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id d24sm232534edr.95.2021.06.02.09.31.46
+        by smtp.gmail.com with ESMTPSA id br21sm243388ejb.124.2021.06.02.09.31.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 09:31:46 -0700 (PDT)
+        Wed, 02 Jun 2021 09:31:48 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Dmitry Osipenko <digetx@gmail.com>,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 08/12] memory: tegra: Make IRQ support opitonal
-Date:   Wed,  2 Jun 2021 18:32:58 +0200
-Message-Id: <20210602163302.120041-9-thierry.reding@gmail.com>
+Subject: [PATCH v3 09/12] memory: tegra: Only initialize reset controller if available
+Date:   Wed,  2 Jun 2021 18:32:59 +0200
+Message-Id: <20210602163302.120041-10-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210602163302.120041-1-thierry.reding@gmail.com>
 References: <20210602163302.120041-1-thierry.reding@gmail.com>
@@ -67,55 +64,36 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Make IRQ support optional to help unify the Tegra186 memory controller
-driver with this one.
+The memory controller hot resets are implemented in the BPMP on Tegra186
+and later, so there's no need to provide an implementation via the
+memory controller driver. Conditionally register the reset controller
+only if needed.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Changes in v2:
-- new patch
-
- drivers/memory/tegra/mc.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/memory/tegra/mc.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index e6c928633b12..68c6797f2707 100644
+index 68c6797f2707..4aa17bdd6392 100644
 --- a/drivers/memory/tegra/mc.c
 +++ b/drivers/memory/tegra/mc.c
-@@ -750,20 +750,22 @@ static int tegra_mc_probe(struct platform_device *pdev)
- 			return err;
+@@ -768,10 +768,11 @@ static int tegra_mc_probe(struct platform_device *pdev)
+ 		}
  	}
  
--	mc->irq = platform_get_irq(pdev, 0);
--	if (mc->irq < 0)
--		return mc->irq;
-+	if (mc->soc->ops && mc->soc->ops->handle_irq) {
-+		mc->irq = platform_get_irq(pdev, 0);
-+		if (mc->irq < 0)
-+			return mc->irq;
- 
--	WARN(!mc->soc->client_id_mask, "missing client ID mask for this SoC\n");
-+		WARN(!mc->soc->client_id_mask, "missing client ID mask for this SoC\n");
- 
--	mc_writel(mc, mc->soc->intmask, MC_INTMASK);
-+		mc_writel(mc, mc->soc->intmask, MC_INTMASK);
- 
--	err = devm_request_irq(&pdev->dev, mc->irq, mc->soc->ops->handle_irq, 0,
--			       dev_name(&pdev->dev), mc);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to request IRQ#%u: %d\n", mc->irq,
+-	err = tegra_mc_reset_setup(mc);
+-	if (err < 0)
+-		dev_err(&pdev->dev, "failed to register reset controller: %d\n",
 -			err);
--		return err;
-+		err = devm_request_irq(&pdev->dev, mc->irq, mc->soc->ops->handle_irq, 0,
-+				       dev_name(&pdev->dev), mc);
-+		if (err < 0) {
-+			dev_err(&pdev->dev, "failed to request IRQ#%u: %d\n", mc->irq,
-+				err);
-+			return err;
-+		}
- 	}
++	if (mc->soc->reset_ops) {
++		err = tegra_mc_reset_setup(mc);
++		if (err < 0)
++			dev_err(&pdev->dev, "failed to register reset controller: %d\n", err);
++	}
  
- 	err = tegra_mc_reset_setup(mc);
+ 	err = tegra_mc_interconnect_setup(mc);
+ 	if (err < 0)
 -- 
 2.31.1
 
