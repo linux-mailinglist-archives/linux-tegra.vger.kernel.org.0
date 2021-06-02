@@ -2,191 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1200D398D8C
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Jun 2021 16:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1715398FFB
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Jun 2021 18:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230456AbhFBO7x (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Jun 2021 10:59:53 -0400
-Received: from mail-ej1-f53.google.com ([209.85.218.53]:43531 "EHLO
-        mail-ej1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbhFBO7v (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Jun 2021 10:59:51 -0400
-Received: by mail-ej1-f53.google.com with SMTP id ci15so4265101ejc.10
-        for <linux-tegra@vger.kernel.org>; Wed, 02 Jun 2021 07:57:55 -0700 (PDT)
+        id S229626AbhFBQdP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Jun 2021 12:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229583AbhFBQdO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Jun 2021 12:33:14 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32B5C061574
+        for <linux-tegra@vger.kernel.org>; Wed,  2 Jun 2021 09:31:30 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id dg27so3625266edb.12
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Jun 2021 09:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9RLU/826fL0tWIk2PrvJDBE7HJXooGGXs9jpMJCjFmk=;
-        b=QAnEBPM0bz46mcSUJMsqPwBeBOS6PzdZ3pO2u+CwmZ5N8gyzfkZoGFTknvwVHDvBRn
-         fm5DhLt+LvRJmnPK5wyy+BRzxTWm2rVKPg6YBzKd9QWjPbLXroSCUe6zwIx7NU8Q2O3S
-         Z5AJH/z1h2RWrvub9IblT3h7/oyqwxXjdJfwEgHA9D6KbzYsk/pJfFYwsxcPZ+T+DJl5
-         sQ7PFLl9g0moUcxFEBOo5aMS7n+iJMVTklvREVzLi4zSRAVye/RV8nq1F8RkXMgBb5Jm
-         ZOu6m5yMM2Oabson/PLKtvOwyLaKIqzMif6UlBpcA9swXxF1VJHHJb8tLqY6NNdZCTcc
-         85MA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lMvkgT61BB1Do0cZc1nr6/swmO3QfR5Di1uAZP96r9U=;
+        b=T3+J1HEkNbIf5Rs4frnoPky+Ayjh8kytezI+i2AKZnlpkdoXOOurUxOFkK1Ectn8+x
+         fIXeCJtt56FyungkNyv34BcgP0hos9PPIwqyPTSBt/7yYHgH57ydJPzk61JiHXF+tIbv
+         9ive6iF1QOf8iAYyl6gjmyZGwxUHQbqEZdgOUW7IL57PYACb91jWrpRlyx+TM73iRte6
+         Gdg7G8F03n1LapgLO6vTheIbkIiSBBY+eJ+PMn4JnFT+Hgn8zjDsSOLUl/fbd5oaQo51
+         /sY8P7X0qR/h7hJXCiorDPrai3tLJLFcfr9/OTQJkZMWsxKbl+YugGKoU8WsF8WqHOTU
+         3EBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9RLU/826fL0tWIk2PrvJDBE7HJXooGGXs9jpMJCjFmk=;
-        b=cjl5BnWKdWLN1Vnd4HxCEzezhKsk18N2Y2Qg6GDWBUW9gtbxFv/V+ZWntmRUbKv/+/
-         qccvnQbK4S+TwqKgxd9m8cqBZ+gqo2wveZxgm6hkzgQKlJ8AsVrY/b9O090NO8S4PZ20
-         Yjcu8JUY89+IH60KjF+8wLhvmx0IFkJcZbCkYfzWp5OuJFBtLxPcBJuY+5VMu+PgodUo
-         OrnkHOa2WAqspI1r5+R/4Y6lF7zz4hn09Lz6TNkMd59jdYPk2ZEyGTXFK236BR3zKNIR
-         LnkRTeW6H8f85cw1Cu+XeXAPuH4bAgxCSSztxQ2132CJFK7ZZib8zWSzfJNy9sD8jGXi
-         GYlw==
-X-Gm-Message-State: AOAM531+7ZyHeMeS7NS8q10P4IDk9Qz3Xg3rH+An1SDyiQPDGMMxpPq0
-        bq4AcB8/rzXHnCe8LJpJg/I=
-X-Google-Smtp-Source: ABdhPJxcl5AxBDibOdNUu+8zMhKTO7KIau9/v+b2PNTkAe8Cqa/TRnHv5OrqQdQzkXZ12hw5MhrRfA==
-X-Received: by 2002:a17:906:5299:: with SMTP id c25mr19095821ejm.85.1622645814812;
-        Wed, 02 Jun 2021 07:56:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lMvkgT61BB1Do0cZc1nr6/swmO3QfR5Di1uAZP96r9U=;
+        b=PzIpktIbpn61nha5HSZBHKk24/poT0IDvAnmULsQJzRlAobNsHTWOP81Z1zr2gvqbd
+         s0oC/mDEyHz+MJOkwZ/O08wv5R/BI+ET+05rRxbioY4ifPIrNIPeBt+6NNJuJdHpTEDn
+         xkPyD6LmsAEHFKmCUNavcZfRWVFW47tyZQPs/dCoj3sokqlLAUU6q4YJW61NFz5DOxHT
+         OrJdqctfPblL/E5ZmusaiXjUAxBmGkg5qjWJFVSJ+aLsayDonGJW6eWCpAGPr3OuJ0Gg
+         Q0nPA2BYtl5p1KpHe5x2EBAru+o6ukQ0Dx9IO3m2IHlJgBTWrey9DzJDu1cAmKl9/mQV
+         EDeA==
+X-Gm-Message-State: AOAM533NnxAArrjLZZqjTl1n/cDKp2c1/0EIAl/A6BHmGmbb35+WF1up
+        rjq5XrzCexotNvLbJshMu78=
+X-Google-Smtp-Source: ABdhPJz7AiswGSIbLPA2IvpDWWaFMkUIedRPt9qCh043BfkTXnKvGDzOe+woDUOm4FrkwGfv/zyq3Q==
+X-Received: by 2002:a05:6402:4310:: with SMTP id m16mr39487302edc.279.1622651489317;
+        Wed, 02 Jun 2021 09:31:29 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id dk12sm131166ejb.84.2021.06.02.07.56.53
+        by smtp.gmail.com with ESMTPSA id h23sm230032eds.73.2021.06.02.09.31.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 07:56:53 -0700 (PDT)
-Date:   Wed, 2 Jun 2021 16:58:29 +0200
+        Wed, 02 Jun 2021 09:31:28 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Krishna Reddy <vdumpa@nvidia.com>, linux-tegra@vger.kernel.org,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 00/10] arm64: tegra: Prevent early SMMU faults
-Message-ID: <YLeclZlP8l3dMX4o@orome.fritz.box>
-References: <20210420172619.3782831-1-thierry.reding@gmail.com>
- <YLEi2FonP568wYrE@orome.fritz.box>
- <20210601122646.GB27832@willie-the-truck>
- <YLZ3qPC8ofjsGkPi@orome.fritz.box>
- <6826d892-d1ac-e3b1-ebee-68392d11d7c5@canonical.com>
- <8c70f82f-0db9-2312-7fc4-c079899c25a0@canonical.com>
- <YLdGwD0dxfER4USn@orome.fritz.box>
- <e2341ca1-7b6d-cc19-8c43-1ada0b1f5601@canonical.com>
- <20210602114049.GF30593@willie-the-truck>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v3 00/12] memory: tegra: Driver unification
+Date:   Wed,  2 Jun 2021 18:32:50 +0200
+Message-Id: <20210602163302.120041-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="NklhWG4Eau+rgwxG"
-Content-Disposition: inline
-In-Reply-To: <20210602114049.GF30593@willie-the-truck>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---NklhWG4Eau+rgwxG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, Jun 02, 2021 at 12:40:49PM +0100, Will Deacon wrote:
-> On Wed, Jun 02, 2021 at 12:44:58PM +0200, Krzysztof Kozlowski wrote:
-> > On 02/06/2021 10:52, Thierry Reding wrote:
-> > > On Wed, Jun 02, 2021 at 09:35:13AM +0200, Krzysztof Kozlowski wrote:
-> > >> On 02/06/2021 09:33, Krzysztof Kozlowski wrote:
-> > >>> On 01/06/2021 20:08, Thierry Reding wrote:
-> > >>>> On Tue, Jun 01, 2021 at 01:26:46PM +0100, Will Deacon wrote:
-> > >>>>> On Fri, May 28, 2021 at 07:05:28PM +0200, Thierry Reding wrote:
-> > >>>>>> On Tue, Apr 20, 2021 at 07:26:09PM +0200, Thierry Reding wrote:
-> > >>>>>>> From: Thierry Reding <treding@nvidia.com>
-> > >>>>>>>
-> > >>>>> Probably best if I queue 3-6 on a separate branch once you send a=
- v3,
-> > >>>>> then Krzysztof can pull that in if he needs it.
-> > >>>>
-> > >>>> Patch 5 has a build-time dependency on patch 1, so they need to go=
- in
-> > >>>> together. The reason why I suggested Krzysztof pick these up is be=
-cause
-> > >>>> there is a restructuring series that this depends on, which will g=
-o into
-> > >>>> Krzysztof's tree. So in order to pull in 3-6, you'd get a bunch of=
- other
-> > >>>> and mostly unrelated stuff as well.
-> > >>>
-> > >>> I missed that part... what other series are needed for this one? Ex=
-cept
-> > >>> Dmitry's power management set I do not have anything in my sight for
-> > >>> Tegras memory controllers.
-> > >>>
-> > >>> Anyway, I can take the memory bits and provide a stable tag with th=
-ese.
-> > >>> Recently there was quite a lot work around Tegra memory controllers=
-, so
-> > >>> this makes especially sense if new patches appear.
-> > >>
-> > >> OK, I think I have now the patchset you talked about - "memory: tegr=
-a:
-> > >> Driver unification" v2, right?
-> > >=20
-> > > Yes, that's the one. That series is fairly self-contained, but Dmitry=
-'s
-> > > power management set has dependencies that pull in the regulator, clo=
-ck
-> > > and ARM SoC trees.
-> > >=20
-> > > I did a test merge of the driver unification series with a branch that
-> > > has Dmitry's patches and all the dependencies and there are no confli=
-cts
-> > > so that, fortunately, doesn't further complicates things.
-> > >=20
-> > > Do you want me to send you a pull request with Dmitry's memory
-> > > controller changes? You could then apply the unification series on to=
-p,
-> > > which should allow this SMMU series to apply cleanly on top of that.
-> >=20
-> > Makes sense and it looks quite bulletproof for future changes. Let's do
-> > like this. I will apply your patch 1/10 from this v2 on top of it and
-> > driver unification later.
->=20
-> Okey doke. Thierry -- please let me know which patches I can queue. Having
-> the SMMU driver changes in the IOMMU tree really helps in case of conflic=
-ts
-> with other SMMU changes. As I say, I can put stuff on a separate branch f=
-or
-> you if it helps.
+this set of patches converges the feature sets of the pre-Tegra186 and
+the post-Tegra186 memory controller drivers such that newer chips can
+take advantage of some features that were previously only implemented
+on earlier chips.
 
-Given that the SMMU patches have a build-time dependency on the first
-patch in the series, and the series depends on the unification series, I
-think Krzysztof would have to pull the memory controller branch that I
-have with Dmitry's work, apply the unification series on top and then
-take patch 1 of this series on top of that. That's the state that you'd
-have to pull into the SMMU tree to get the right dependencies.
+Note that this looks a bit daunting from a diffstat point of view but
+the bulk of this is in the first two patches that basically shuffle
+around where some of the per-memory-client register definitions are
+located, hence the big number of changed lines.
 
-The SMMU pieces are the leaf of the dependency tree, so technically no
-separate branch is needed, because I don't think anybody would have to
-pull from it. However, a separate branch might make it easier to back
-any of this work out if we have to.
+Changes in v3:
+- remove redundant #ifdef/#endif guards
+- make tegra30_mc_handle_irq() static
 
-Krzysztof, I do plan on sending out a v3 of the unification series to
-address the two cleanups that Dmitry and you have pointed out. After
-that I can send out v3 of this series to fix the ordering issue that
-Krishna had mentioned. After all of those are applied, would you be able
-to provide a stable branch for Will's SMMU tree?
+Changes in v2:
+- split patches up a bit for smaller, logical changes
+- add better documentation for ->probe() callback
+- use SET_SYSTEM_SLEEP_OPS where appropriate
+- include Tegra194 separation patch
+- use prefix for global variables
+- drop commented-out code
 
 Thierry
 
---NklhWG4Eau+rgwxG
-Content-Type: application/pgp-signature; name="signature.asc"
+Thierry Reding (12):
+  memory: tegra: Consolidate register fields
+  memory: tegra: Unify struct tegra_mc across SoC generations
+  memory: tegra: Introduce struct tegra_mc_ops
+  memory: tegra: Push suspend/resume into SoC drivers
+  memory: tegra: Make per-SoC setup more generic
+  memory: tegra: Extract setup code into callback
+  memory: tegra: Parameterize interrupt handler
+  memory: tegra: Make IRQ support opitonal
+  memory: tegra: Only initialize reset controller if available
+  memory: tegra: Unify drivers
+  memory: tegra: Add memory client IDs to tables
+  memory: tegra: Split Tegra194 data into separate file
 
------BEGIN PGP SIGNATURE-----
+ drivers/iommu/tegra-smmu.c      |   16 +-
+ drivers/memory/tegra/Makefile   |    6 +-
+ drivers/memory/tegra/mc.c       |  312 +++---
+ drivers/memory/tegra/mc.h       |   25 +
+ drivers/memory/tegra/tegra114.c | 1245 +++++++++++++-----------
+ drivers/memory/tegra/tegra124.c | 1306 ++++++++++++++-----------
+ drivers/memory/tegra/tegra186.c | 1609 ++++++++-----------------------
+ drivers/memory/tegra/tegra194.c | 1351 ++++++++++++++++++++++++++
+ drivers/memory/tegra/tegra20.c  |  110 ++-
+ drivers/memory/tegra/tegra210.c | 1433 ++++++++++++++-------------
+ drivers/memory/tegra/tegra30.c  | 1292 ++++++++++++++-----------
+ include/soc/tegra/mc.h          |   62 +-
+ 12 files changed, 4976 insertions(+), 3791 deletions(-)
+ create mode 100644 drivers/memory/tegra/tegra194.c
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmC3nJUACgkQ3SOs138+
-s6G5qRAAi9IkZoO8OpHp1SldqyZjWSfQI0mnh9AhIX/kBkbvi378AFhSPNoAH3rG
-pZINISZZIP7WlB/dkV/YQKTiveEHfBgHPxF/i2/ES9SIah6o2BJMKUh7AdpgB+Nk
-oEv3BTH4z12idTkydBdAdzX21I1O41noQnFdNYxhfiO0q5zCSjP+SNaW5CL0H9tW
-VqO3O2nGETEHymcw/2u1oLNHld0ALPUwSiVzB6x32TlTNnusFrgU2SH/ymLeDLgA
-AJ4atRdjjQZPabBymAfzbL6tGSshV7d6Vb7qI6pcEzqEXmgPtcB+CKo8uoSpue6n
-zg3WwdBMtjc4AKSnEQ82kHafaUdW0Cjz0Xp6jeIFJmSYYPNQCF0W3j9sQcQIOQ6e
-/RHB8OGhardOiwZ1QbEz+eQDc1umCPExfm8WCtFi7DxA6mIOkrb2at/fSVVCWbG8
-a9MxLd68bpPuhCWxzgMdjyW3rmCl8S7xLRc0FwjDoxZ2n0XURAwqwWwsIwrUMeUA
-OsvMv+Tq4vmFMV6MEc0kxEnzNsUTXoVL1uPTkwDsxfitb1CqgOxQbnZwOESPhO80
-0rIIAfqoI5QWjiNrNePwlBnwrmZNhTF57wMWm4ELR5bG5CeIYXKCUF2Qf+hjHYEP
-B7GMc1oAkKi978C8VU2hhyIjypSEhqBJRejaIitADr3UdxctPF4=
-=R26M
------END PGP SIGNATURE-----
+-- 
+2.31.1
 
---NklhWG4Eau+rgwxG--
