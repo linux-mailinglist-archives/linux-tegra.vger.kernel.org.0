@@ -2,48 +2,51 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ACB039A625
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Jun 2021 18:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C80C39A612
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Jun 2021 18:45:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbhFCQsA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Jun 2021 12:48:00 -0400
-Received: from mail-ej1-f45.google.com ([209.85.218.45]:34722 "EHLO
-        mail-ej1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbhFCQsA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Jun 2021 12:48:00 -0400
-Received: by mail-ej1-f45.google.com with SMTP id g8so10262106ejx.1
-        for <linux-tegra@vger.kernel.org>; Thu, 03 Jun 2021 09:46:01 -0700 (PDT)
+        id S229888AbhFCQq7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Jun 2021 12:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230054AbhFCQq7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Jun 2021 12:46:59 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801FAC06174A
+        for <linux-tegra@vger.kernel.org>; Thu,  3 Jun 2021 09:45:06 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id dj8so7910615edb.6
+        for <linux-tegra@vger.kernel.org>; Thu, 03 Jun 2021 09:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xzw2TUXY9p93oZxbwZKb0YQTzrG6r+scUnZo7x9ZCuU=;
-        b=BLkLvFdApNPPc1q9dm6SyDGGREAVsuQgmtHybL+4Ju9BI2Ouw4EuFvuzh5TFfljaou
-         rSdJmPTj7DJQs6BwlK35x8RuCodKVxouDgYyVI9FYSHyorPWgQAgDQ5F7HW4EzrXLvu+
-         Ly6zoAVjCiGWNEMseWyo5jTpij6fj2skQMnRL69EqYkc/X/JLUeJkRkI7el1HsVFoMjd
-         cs4MLhUVZrLxR1+BVMQvpMxPU8EZ4DP0ilgpqyQbZohdATLha6u0uQAOzKhnu4JSSKXv
-         1mX+ILdrIkOayYuTPRONvrYaX/zjOaMqqkTo38mjcT3xFuhqtN5YshKcq0viUUS8CG4D
-         bOrg==
+        bh=1qAlE0u1BDdmT3kxaqiAfVPWOKqwZQKr5SI3k0RTYWA=;
+        b=CAhaaFczzsR+qo5Hqs0zvKaqIcB44uJx5EPBVT/eOlIiBQO8Kxrfy9kyLfEQx2VOs7
+         3galmUc2FmgWxY4s+wTVSbEWuWpE7chcjjWgW7G3usHcX9445FW8a+FI4SxKccny40G9
+         q/fTNdBmQFuwoYx+jvtIZ0PiOX9ccEFghofCJ1A553lvVsVk4E/pCiBpbCdtAfC7/WoJ
+         PScqrLCNOHamT8W0H4MR6uoyvJZWtOb0emaiPPYkvaFflu3e5ny9JLMn5eTYgKLpGg/z
+         oxtFgJ2a8IIGrnBOadoSNgfXvSCGi40elWZeTES0IHeWvNw4kZLIqFPAvo+O7Dm5wUqx
+         02fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xzw2TUXY9p93oZxbwZKb0YQTzrG6r+scUnZo7x9ZCuU=;
-        b=KVZbctvdUDm9QLk1OYpXK9OBv+FlxbJx1JP+tF+rILdVB1R/6KGtMQzy8Q9clmMvF4
-         7y0OvTjLqvhUwngSC9erHcElcJB8jvA4q/lR8+/S4+EbOLlTYP8yVwzHHrgdPt/+PV8K
-         xydT6ZWe9UPc4iWCAg2FPE05fI8KQjhNMz4s6A2wckeSyzpT357TR1MJul+eFgFq40AZ
-         GL6VJK2VvVvl2l2qbRe9jFkr/OxOeplx7GFCezy2MRPvjYwPnbjBLYI5J5aT3mrTr1KO
-         GeuDno9qvNFJilwv/48C6XGDxpIYOmPABkMDa9dDraZuV3YrT3GMuh8XFi1g1EO361L3
-         9Zag==
-X-Gm-Message-State: AOAM533Pvau6sME5kvC9JEaztopAt5uvPF+YYZGPYcICxlDE5g7XZyO3
-        CzDN+qnvGsi0usUKyuY7bBQ=
-X-Google-Smtp-Source: ABdhPJxskXVbfgGBiwrxr5agPcu7F5QArOGLc64A8ytnD19xBd4ogTRNhjMOLdBL+Va4ArqBKjwpGw==
-X-Received: by 2002:a17:906:5407:: with SMTP id q7mr302416ejo.158.1622738701180;
-        Thu, 03 Jun 2021 09:45:01 -0700 (PDT)
+        bh=1qAlE0u1BDdmT3kxaqiAfVPWOKqwZQKr5SI3k0RTYWA=;
+        b=q1dpnuUGO1lpdexADSvs0lsdDXl4PTXf7oj4nGVC32S39V1LHPjLm7ALQ25QfvyPA9
+         KI/z5KUd9Ffj6TKxn1us6KAKqwUka9X6ERmhXzt8ANpQ7gdxVBsfbxs1VSxAR0pmfQAt
+         nE9A7F5R/b3or8yB1u5LWN1Dfzy1h4KxN2mfxgGibFAnrho98SqNQKvnTUoUZAqhRLh6
+         r/e874YvyLT8sL8r9R7+yHQMallwm6TbbGxnlIV2CHiH/nNRpvB8tm3KvQdDaEwyJV78
+         m5ZhngSopIjJh4PjTxhk8p3hQsPd7jVD2j8Gm0IdkLAoQ7oMtL2p4j++5/wyCtYVeavr
+         NlpA==
+X-Gm-Message-State: AOAM531UgdO0vp9GkdhqZ7iIBbkT7K3361gTqx/F9gSlVXt0tZ8rhK2n
+        0rJA6BWrkdcnj60p0ZVJBxc=
+X-Google-Smtp-Source: ABdhPJxWxKKXdiAhQmYMpJQg1u2BfcQfDwX6ekk/hR6cNHnyigeCY0LGOj7xl3o81sGLEp2hfKPUoQ==
+X-Received: by 2002:a05:6402:4390:: with SMTP id o16mr390957edc.79.1622738703488;
+        Thu, 03 Jun 2021 09:45:03 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id c19sm2079710edv.36.2021.06.03.09.44.59
+        by smtp.gmail.com with ESMTPSA id zb19sm1720622ejb.120.2021.06.03.09.45.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 09:45:00 -0700 (PDT)
+        Thu, 03 Jun 2021 09:45:02 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Will Deacon <will@kernel.org>,
@@ -55,9 +58,9 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         Krishna Reddy <vdumpa@nvidia.com>, linux-tegra@vger.kernel.org,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 1/9] memory: tegra: Implement SID override programming
-Date:   Thu,  3 Jun 2021 18:46:24 +0200
-Message-Id: <20210603164632.1000458-2-thierry.reding@gmail.com>
+Subject: [PATCH v3 2/9] dt-bindings: arm-smmu: Add Tegra186 compatible string
+Date:   Thu,  3 Jun 2021 18:46:25 +0200
+Message-Id: <20210603164632.1000458-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603164632.1000458-1-thierry.reding@gmail.com>
 References: <20210603164632.1000458-1-thierry.reding@gmail.com>
@@ -69,159 +72,56 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Instead of programming all SID overrides during early boot, perform the
-operation on-demand after the SMMU translations have been set up for a
-device. This reuses data from device tree to match memory clients for a
-device and programs the SID specified in device tree, which corresponds
-to the SID used for the SMMU context banks for the device.
+The ARM SMMU instantiations found on Tegra186 and later need inter-
+operation with the memory controller in order to correctly program
+stream ID overrides.
+
+Furthermore, on Tegra194 multiple instances of the SMMU can gang up
+to achieve higher throughput. In order to do this, they have to be
+programmed identically so that the memory controller can interleave
+memory accesses between them.
+
+Add the Tegra186 compatible string to make sure the interoperation
+with the memory controller can be enabled on that SoC generation.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/memory/tegra/mc.c       |  9 +++++
- drivers/memory/tegra/tegra186.c | 72 +++++++++++++++++++++++++++++++++
- include/soc/tegra/mc.h          |  3 ++
- 3 files changed, 84 insertions(+)
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index 11b83de9361c..3c5aae7abf35 100644
---- a/drivers/memory/tegra/mc.c
-+++ b/drivers/memory/tegra/mc.c
-@@ -97,6 +97,15 @@ struct tegra_mc *devm_tegra_memory_controller_get(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(devm_tegra_memory_controller_get);
- 
-+int tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev)
-+{
-+	if (mc->soc->ops && mc->soc->ops->probe_device)
-+		return mc->soc->ops->probe_device(mc, dev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(tegra_mc_probe_device);
-+
- static int tegra_mc_block_dma_common(struct tegra_mc *mc,
- 				     const struct tegra_mc_reset *rst)
- {
-diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/tegra186.c
-index 1f87915ccd62..e65eac5764d4 100644
---- a/drivers/memory/tegra/tegra186.c
-+++ b/drivers/memory/tegra/tegra186.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/io.h>
-+#include <linux/iommu.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
- #include <linux/of_device.h>
-@@ -15,6 +16,10 @@
- #include <dt-bindings/memory/tegra186-mc.h>
- #endif
- 
-+#define MC_SID_STREAMID_OVERRIDE_MASK GENMASK(7, 0)
-+#define MC_SID_STREAMID_SECURITY_WRITE_ACCESS_DISABLED BIT(16)
-+#define MC_SID_STREAMID_SECURITY_OVERRIDE BIT(8)
-+
- static void tegra186_mc_program_sid(struct tegra_mc *mc)
- {
- 	unsigned int i;
-@@ -66,10 +71,77 @@ static int tegra186_mc_resume(struct tegra_mc *mc)
- 	return 0;
- }
- 
-+static void tegra186_mc_client_sid_override(struct tegra_mc *mc,
-+					    const struct tegra_mc_client *client,
-+					    unsigned int sid)
-+{
-+	u32 value, old;
-+
-+	value = readl(mc->regs + client->regs.sid.security);
-+	if ((value & MC_SID_STREAMID_SECURITY_OVERRIDE) == 0) {
-+		/*
-+		 * If the secure firmware has locked this down the override
-+		 * for this memory client, there's nothing we can do here.
-+		 */
-+		if (value & MC_SID_STREAMID_SECURITY_WRITE_ACCESS_DISABLED)
-+			return;
-+
-+		/*
-+		 * Otherwise, try to set the override itself. Typically the
-+		 * secure firmware will never have set this configuration.
-+		 * Instead, it will either have disabled write access to
-+		 * this field, or it will already have set an explicit
-+		 * override itself.
-+		 */
-+		WARN_ON((value & MC_SID_STREAMID_SECURITY_OVERRIDE) == 0);
-+
-+		value |= MC_SID_STREAMID_SECURITY_OVERRIDE;
-+		writel(value, mc->regs + client->regs.sid.security);
-+	}
-+
-+	value = readl(mc->regs + client->regs.sid.override);
-+	old = value & MC_SID_STREAMID_OVERRIDE_MASK;
-+
-+	if (old != sid) {
-+		dev_dbg(mc->dev, "overriding SID %x for %s with %x\n", old,
-+			client->name, sid);
-+		writel(sid, mc->regs + client->regs.sid.override);
-+	}
-+}
-+
-+static int tegra186_mc_probe_device(struct tegra_mc *mc, struct device *dev)
-+{
-+#if IS_ENABLED(CONFIG_IOMMU_API)
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-+	struct of_phandle_args args;
-+	unsigned int i, index = 0;
-+
-+	while (!of_parse_phandle_with_args(dev->of_node, "interconnects", "#interconnect-cells",
-+					   index, &args)) {
-+		if (args.np == mc->dev->of_node && args.args_count != 0) {
-+			for (i = 0; i < mc->soc->num_clients; i++) {
-+				const struct tegra_mc_client *client = &mc->soc->clients[i];
-+
-+				if (client->id == args.args[0]) {
-+					u32 sid = fwspec->ids[0] & MC_SID_STREAMID_OVERRIDE_MASK;
-+
-+					tegra186_mc_client_sid_override(mc, client, sid);
-+				}
-+			}
-+		}
-+
-+		index++;
-+	}
-+#endif
-+
-+	return 0;
-+}
-+
- const struct tegra_mc_ops tegra186_mc_ops = {
- 	.probe = tegra186_mc_probe,
- 	.remove = tegra186_mc_remove,
- 	.resume = tegra186_mc_resume,
-+	.probe_device = tegra186_mc_probe_device,
- };
- 
- #if defined(CONFIG_ARCH_TEGRA_186_SOC)
-diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
-index 1bd5aed81868..e19c2504a14b 100644
---- a/include/soc/tegra/mc.h
-+++ b/include/soc/tegra/mc.h
-@@ -180,6 +180,7 @@ struct tegra_mc_ops {
- 	int (*suspend)(struct tegra_mc *mc);
- 	int (*resume)(struct tegra_mc *mc);
- 	irqreturn_t (*handle_irq)(int irq, void *data);
-+	int (*probe_device)(struct tegra_mc *mc, struct device *dev);
- };
- 
- struct tegra_mc_soc {
-@@ -244,4 +245,6 @@ devm_tegra_memory_controller_get(struct device *dev)
- }
- #endif
- 
-+int tegra_mc_probe_device(struct tegra_mc *mc, struct device *dev);
-+
- #endif /* __SOC_TEGRA_MC_H__ */
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 9d27aa5111d4..1181b590db71 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -54,8 +54,14 @@ properties:
+           - const: arm,mmu-500
+       - description: NVIDIA SoCs that program two ARM MMU-500s identically
+         items:
++      - description: NVIDIA SoCs that require memory controller interaction
++          and may program multiple ARM MMU-500s identically with the memory
++          controller interleaving translations between multiple instances
++          for improved performance.
++        items:
+           - enum:
+-              - nvidia,tegra194-smmu
++              - const: nvidia,tegra194-smmu
++              - const: nvidia,tegra186-smmu
+           - const: nvidia,smmu-500
+       - items:
+           - const: arm,mmu-500
+@@ -165,10 +171,11 @@ allOf:
+           contains:
+             enum:
+               - nvidia,tegra194-smmu
++              - nvidia,tegra186-smmu
+     then:
+       properties:
+         reg:
+-          minItems: 2
++          minItems: 1
+           maxItems: 2
+     else:
+       properties:
 -- 
 2.31.1
 
