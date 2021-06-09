@@ -2,183 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A65B3A04FC
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Jun 2021 22:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCC453A1042
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Jun 2021 12:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234256AbhFHUNa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Jun 2021 16:13:30 -0400
-Received: from mail-mw2nam12on2082.outbound.protection.outlook.com ([40.107.244.82]:14208
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S238035AbhFIJi7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 9 Jun 2021 05:38:59 -0400
+Received: from mail-dm6nam10on2074.outbound.protection.outlook.com ([40.107.93.74]:10176
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232764AbhFHUN3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 8 Jun 2021 16:13:29 -0400
+        id S238042AbhFIJi6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 9 Jun 2021 05:38:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mRNTk70lh+nI9UCxiRxo7Z6WNe1skMoiFE1VyzbUqAuRnUTq3+UVZDdzxXBIN/NMsKlzZfh1MqK5SrrRsSQQyn8VQO4Z3JTZLsKx38hRYxquE/TcqDCksVUl0ZYRwtNjWwOboBRmXgKr45xZCt+rcGGGqIdvf5K9EyytN1sTVhiCLucB6jHxdNRWzNAosEkTfOZ60GtrP4pdLB1FLQeusDSr2iRg1M1ZRND5PRmy9H0H6nPbpGivKlZ5fTvEHU96ZdR++gsMZzKYCumEM5kuaA2v1gZdZ8XGkZpfpwDXbLATGpdbKfYQScjtuebikaAKyeAKFBB56vlGfZiqrrlTEQ==
+ b=nqHjf7Z6IZtX+5gx9S5mHHnj2o+qowlOyqtGKHsQNmEpw8U5iLpv1X+Gp7b8bwNxfVx8JpCl40I1wD7tZGTKTiQl0Xnech2OqEb4O1q0n3bFv7fLklLH9Mk1NnnZtX3044El8mVBYKK9qkZIwPoLVPQYSPJGiFAoICgmXFxhRKrl8w5cCxOpXDPZ678knBukCekwTnUDQk6rUERTR3pthkrQjd0ngwtww5jlzL90vLWL9KrsO82SMpAD0RMpnhqm4qzVIKgl4sNvfZDlZjDSAsYSsQ4KMSCRU3BlRwaVBLE5I5Q/hCW2zzULY9+I2ZlmTX8QObHxcGb0Xbq7wi7OTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PIVutr/W+6qREm1qtZjViDSWW3q2e7U8yoxh49uqjEY=;
- b=hJhKYt8/cWMWoT9IcUr//BiUdNfVObrkO8K1DOiZupZxFj5MgnoHYAMy0ATAOvXSebSitjIz9jdE9mZOckkl6PnS+RJPcU6Xz4IjH37Cpf5ubBuq88hiDTSC4YUwCb7xx/hlRV70s9MgBONyvLQqKDgelhzcxbhc3nyoRS0zxuW/JH1Yp1COkm8LfRJtKj6mBf9Ew/DmmjEvYGbp8NsKdzpz5Rf8P+g9/Hekc4RAyHxhNWyI1KyNJ6mJR/1JRht8WTXZQ1MwAGfzGkgmqwhPUxOwR/HJwx51huzz0HuQknvza+ilt28D8vOklj/hcrKHaJHKhd3kyuYl4YZueF5X0w==
+ bh=HF09Tk/MIosO0haMuzZYxklghKSCbgbmBW9Nj0Rws64=;
+ b=hKIa1Kj/VLbTxbX0sn75VeW3dgDFV7rGdH+7VRKrXxkg7G/BZ9nSkB7XGwwsjp2w2B/JMrig6RioyVkB+6SbHV4x2P4UgDycbnnY4gk70u8B2WQgJhfTyGc3N0K/mR3XOBtNjMt0ZjoSql0V8bLPpUlM/+QIqmjdTGdze0/2c0Ef/w1/MpzfpKCQfUC3YCgH/cuu/dLAzKiyoM+h3FDlxL89cvPzAXDXaxLOIVvUYa6ZeDoSgk21QcKdscPR5zP1NHvE3w3TtnTYJ6GUY3sCmdoQEMm00Z3svc9TG7gd6eips+GEn4cWhBVE8J8y1dQ1O7TMQqKAXERauZWdXFOzSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ 216.228.112.35) smtp.rcpttodomain=denx.de smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PIVutr/W+6qREm1qtZjViDSWW3q2e7U8yoxh49uqjEY=;
- b=G4dPlL56hgndZcozQcnKPJ/N8sz+eC99RcAnQ9FVml3irpwkPHaAHD4nTk/SBvoGtoSTv6fBemSBekdgTn3HLauMqrKsixIwYOxfpeSBckytCIEH0ucLjuitHqAdCSqDzHniN8K6LuBQNJuL2RYCUxR30akxl9+Gik0oipLREXNvLK/LEtVAYIblZ4BEMPuB2R7JSQV3yR3WYcoXYjS7htkMdz68iLywIxw41g3XBKZ4a6cevmKxIpfl+gLFr/qTdK2Fe8p0Ego2PdJElC9sSyFqNLBFeySCNfbvqhV/3rATg5CSI2GlGrab3bZeiHQ8nVCY6p8MjXpRv+DBPZPVXw==
-Received: from BN6PR17CA0059.namprd17.prod.outlook.com (2603:10b6:405:75::48)
- by CH0PR12MB5156.namprd12.prod.outlook.com (2603:10b6:610:bb::17) with
+ bh=HF09Tk/MIosO0haMuzZYxklghKSCbgbmBW9Nj0Rws64=;
+ b=bZAE8/gm95WwKuw+ULgzOFPJ4sSmbdarrNd/czWydnWbis5b02D5NEr5RN0+ZuQIwVM0XI+t2EwUWozNmmMwNlFOAtzPtOUtiQ8nY+yHZwBNmxjN11WzMbu6Nn6Kp29UW9uOMjvyZF6rNcErLmZGLUmnr2q5ZvgJeMXJ3euOxFjMem4wKNw+QtK1FKkTsouB/UDtYQLeGgoIqF9cfsQRfMepo5G5sSKwP6uNGTAErlUXHxo78n4n/OzbfsVEEipNJdeHDhm4VjDNcmzujlmaIVvoTQkUiWVAWSKyuHe5PGMR0rD/Hnmrmm83mcSjsBjzjnJBWq66gNDB/MzwO9qswg==
+Received: from MW3PR05CA0029.namprd05.prod.outlook.com (2603:10b6:303:2b::34)
+ by CH0PR12MB5266.namprd12.prod.outlook.com (2603:10b6:610:d1::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Tue, 8 Jun
- 2021 20:11:35 +0000
-Received: from BN8NAM11FT006.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:75:cafe::8) by BN6PR17CA0059.outlook.office365.com
- (2603:10b6:405:75::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23 via Frontend
- Transport; Tue, 8 Jun 2021 20:11:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=pass action=none header.from=nvidia.com;
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Wed, 9 Jun
+ 2021 09:34:00 +0000
+Received: from CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2b:cafe::aa) by MW3PR05CA0029.outlook.office365.com
+ (2603:10b6:303:2b::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.9 via Frontend
+ Transport; Wed, 9 Jun 2021 09:34:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; denx.de; dkim=none (message not signed)
+ header.d=none;denx.de; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT006.mail.protection.outlook.com (10.13.177.21) with Microsoft SMTP
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ CO1NAM11FT043.mail.protection.outlook.com (10.13.174.193) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4195.22 via Frontend Transport; Tue, 8 Jun 2021 20:11:34 +0000
-Received: from [10.26.49.10] (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 8 Jun
- 2021 20:11:29 +0000
-Subject: Re: [PATCH V2] PCI: tegra: Fix building Tegra194 PCIe driver
-To:     Vidya Sagar <vidyas@nvidia.com>, Bjorn Helgaas <helgaas@kernel.org>
-CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-References: <20210608130207.GA2597738@bjorn-Precision-5520>
- <754e3546-402c-2a0d-02e8-5d30701f3b94@nvidia.com>
- <9b027609-a2c3-3df0-5e65-1f282f03cc5d@nvidia.com>
+ 15.20.4219.21 via Frontend Transport; Wed, 9 Jun 2021 09:33:59 +0000
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Jun
+ 2021 09:33:56 +0000
+Received: from jonathanh-vm-01.nvidia.com (172.20.187.6) by mail.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
+ Transport; Wed, 9 Jun 2021 09:33:56 +0000
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <303946c4-29a1-4f5b-6a4c-be451ece20fe@nvidia.com>
-Date:   Tue, 8 Jun 2021 21:11:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <9b027609-a2c3-3df0-5e65-1f282f03cc5d@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.14 00/47] 4.14.236-rc1 review
+In-Reply-To: <20210608175930.477274100@linuxfoundation.org>
+References: <20210608175930.477274100@linuxfoundation.org>
+X-NVConfidentiality: public
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Message-ID: <1b572ac42cbf4a6698dbf7314db9b90b@HQMAIL107.nvidia.com>
+Date:   Wed, 9 Jun 2021 09:33:56 +0000
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a6b002e9-9e11-4201-c948-08d92ab99d81
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5156:
-X-Microsoft-Antispam-PRVS: <CH0PR12MB515677D69A9A3CDADDC10BBAD9379@CH0PR12MB5156.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 9c7549e3-b950-4fd7-8af0-08d92b29b615
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5266:
+X-Microsoft-Antispam-PRVS: <CH0PR12MB526606633C71A4BA9BB039DAD9369@CH0PR12MB5266.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sax39P/2WtloKGio0WShMq5XFyF11HEkQNl9tx0PAYZVj1glAq8nohmS21QisKK1sVebRnZ22yl84U6zn7sIJh+Bk5dMu9qJWh1GPoxH1kbbr86o+c8WGGSUVomLQ6isndrpVeCCS6spieEg6WEGB6FT7SaIsR3NZND/lHXREfMA/KGU/z4x7DVj4MXwvNwz2w4wwaDRB7+ni1Pzq4ZGcWNEZU/Dv7WU3mDnk1IVvUfBd8xaq0J70VGjuKqTAO1k6TYHvJ5RP3+7TMWRcvyXJrITseGLaY2mV9w2aqGFfNAeUe2PCYPuIsc1Cj1goPf/7uys77K1UKJQXNVu4gtSlLpSBdRsBxA9oi8sXnayAKU+vWQWVQd8HK5aueheR72a31HmdtpjWsuwHIoLsIJW6F+IlhumiVhB0/eY3IvT48Ee3bodC//cPfPawREbVMQVLTXZnPFhrJYqUoaf4+98+DoUuc7KFQyGVTS0ragPCjU+mKbr1aUaTVSD5GphBlQE7cPRUNQoaLgazL6b63ad6eOJ3I54Ky+Yl/eeU/LvDPKrWJ2JeVN28n77tct0vEndRarViGE8LKLcEF0lQ2jZyv3/kFXNqaZyZvKnAZBHTbJ722jcqYStyPLpMTxpA8uASgecqlTg6XO5KDAdtUEvzrGc1x2bl3F1JBEKuqevTUrcOpL/T6SPvOmty/84VjlA
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(396003)(136003)(376002)(46966006)(36840700001)(316002)(16576012)(110136005)(2906002)(54906003)(86362001)(31686004)(47076005)(82310400003)(36906005)(478600001)(5660300002)(53546011)(36756003)(36860700001)(7636003)(356005)(336012)(186003)(16526019)(8676002)(26005)(82740400003)(4326008)(8936002)(426003)(2616005)(83380400001)(31696002)(70586007)(70206006)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: ZghGl3UWPWKcsgWcjoopV31NRQonsYuFCfE90DjLZNnpzrZ1EAf/OVDmnXWIa3tBJIcB9/wUcDkCI1oWYD+HENKdoYCOEF7ttzPIo0ybmwhi4wXKpCw20Xj3Rdq98Er+AzE95t4SISpbNFPmsw5LNqEYIZyACuXJmK8RFM/4eES0/dfWG/qAFWLcYzX2uFh7IxBVIB5DOUQGQZCYek+2MEe6giP0UxhRWCsNUNGsLWYMusytmJhJHww9BBTLdgesi4Zt41uHlWHdTuwkLUPFQ4m5ARkt/GXmGlti0CD//ag0Tr4pZ9lznKLzGcgRhVd9vavKXMym2WeRI9Bix8ZzC1MvHLFT+BtN/wWQ3qUM2TfsZd8Akz46FKOwPXdgr1wS8OgtrXO3YBJojgbFTQY/6SAlUlMELSOny9omTdLMv7DDkA1sf/MhUldWUzmRujb/WKTCaqtRb+JUfTp+Rz3CP4yPTNl2AkGye6lWZvk2ufoYjGcAAJUrI46UOmAqBYt0Q6db1Z73Nj9m+kx/7TKFiVu6uD5uIZwmK6b9OV47QvneoYWfQeG6tN8ah+pC3VWxP/Utsft1E4E15KhDzvbXB2VlMeci6pG673V22gHXSWOM1qVNGExOsEFJeuz2Ovgt5U+xIjhQnVHGfH34k4gSRXt1UO9Z7+rryg0f7YN+4VSicuqbVV1EhvhfBdRfn1cV9KJPYJnCQshYGIH0D9s+ZWoBtUI6uf7JI9yZh1arBczO1J2wpvC4OxuQ7JLVNeXLIoTfsqAaluygHVJGOfCEyQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid02.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(39860400002)(376002)(396003)(136003)(36840700001)(46966006)(8676002)(426003)(4326008)(8936002)(336012)(316002)(54906003)(36906005)(36860700001)(108616005)(24736004)(7636003)(7416002)(966005)(26005)(186003)(478600001)(2906002)(70206006)(82310400003)(6916009)(86362001)(70586007)(5660300002)(47076005)(82740400003)(356005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 20:11:34.7661
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2021 09:33:59.7584
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6b002e9-9e11-4201-c948-08d92ab99d81
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c7549e3-b950-4fd7-8af0-08d92b29b615
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT006.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5156
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5266
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, 08 Jun 2021 20:26:43 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.14.236 release.
+> There are 47 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu, 10 Jun 2021 17:59:18 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.236-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-On 08/06/2021 19:34, Vidya Sagar wrote:
+All tests passing for Tegra ...
 
-...
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    32 tests:	32 pass, 0 fail
 
->>> What is the purpose of PCIE_TEGRA194_EP (added by c57247f940e8 ("PCI:
->>> tegra: Add support for PCIe endpoint mode in Tegra194") [1])?  I don't
->>> see any reference to it in a makefile or a source file.
->>>
->>> It looks like one can build a single driver that works in either host
->>> or endpoint mode, depending on whether a DT node matches
->>> "nvidia,tegra194-pcie" or "nvidia,tegra194-pcie-ep".
->>>
->>> So I think PCIE_TEGRA194_EP is superfluous and should be removed and
->>> you should have a single tristate Kconfig option.
->>
->> This is a good point.
->>
->> Sagar, any reason for this?
-> Although it is the same driver that works for both HOST mode and EP
-> mode, PCIE_TEGRA194_EP depends on PCI_ENDPOINT whereas the
-> PCIE_TEGRA194_HOST mode doesn't. Similarly the PCIE_TEGRA194_HOST mode
-> depends on PCI_MSI_IRQ_DOMAIN which PCIE_TEGRA194_EP doesn't depend on.
-> It is possible to have end point mode support disabled (at sub-system
-> level) in the system yet pcie-tegra194 can be compiled for the host mode
-> vice-a-versa for the endpoint mode.
-> Hence, appropriate config HOST/EP needs to be selected to make sure that
-> the rest of the dependencies are enabled in the system.
-> Hope I'm able to give the rationale correctly here.
+Linux version:	4.14.236-rc1-g872e045a48f8
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-Yes but should we combine them like this ...
-
-diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
-index 423d35872ce4..206455a9b70d 100644
---- a/drivers/pci/controller/dwc/Kconfig
-+++ b/drivers/pci/controller/dwc/Kconfig
-@@ -254,15 +254,12 @@ config PCI_MESON
-          implement the driver.
- 
- config PCIE_TEGRA194
--       tristate
--
--config PCIE_TEGRA194_HOST
--       tristate "NVIDIA Tegra194 (and later) PCIe controller - Host Mode"
-+       tristate "NVIDIA Tegra194 (and later) PCIe controller"
-        depends on ARCH_TEGRA_194_SOC || COMPILE_TEST
--       depends on PCI_MSI_IRQ_DOMAIN
--       select PCIE_DW_HOST
-+       depends on PCI_MSI_IRQ_DOMAIN || PCI_ENDPOINT
-+       select PCIE_DW_HOST if PCI_MSI_IRQ_DOMAIN
-+       select PCIE_DW_EP if PCI_ENDPOINT
-        select PHY_TEGRA194_P2U
--       select PCIE_TEGRA194
-        help
-          Enables support for the PCIe controller in the NVIDIA Tegra194 SoC to
-          work in host mode. There are two instances of PCIe controllers in
-@@ -271,21 +268,6 @@ config PCIE_TEGRA194_HOST
-          in order to enable device-specific features PCIE_TEGRA194_EP must be
-          selected. This uses the DesignWare core.
- 
--config PCIE_TEGRA194_EP
--       tristate "NVIDIA Tegra194 (and later) PCIe controller - Endpoint Mode"
--       depends on ARCH_TEGRA_194_SOC || COMPILE_TEST
--       depends on PCI_ENDPOINT
--       select PCIE_DW_EP
--       select PHY_TEGRA194_P2U
--       select PCIE_TEGRA194
--       help
--         Enables support for the PCIe controller in the NVIDIA Tegra194 SoC to
--         work in endpoint mode. There are two instances of PCIe controllers in
--         Tegra194. This controller can work either as EP or RC. In order to
--         enable host-specific features PCIE_TEGRA194_HOST must be selected and
--         in order to enable device-specific features PCIE_TEGRA194_EP must be
--         selected. This uses the DesignWare core.
--
-
-Furthermore, I wonder if we should just move the code
-that is required for ACPI into it's own file like
-drivers/pci/controller/dwc/pcie-tegra194-acpi.c?
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
 Jon
-
--- 
-nvpublic
