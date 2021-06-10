@@ -2,457 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4EBB3A249E
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jun 2021 08:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 762D03A24A2
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jun 2021 08:42:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbhFJGnm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 10 Jun 2021 02:43:42 -0400
-Received: from mail-bn8nam08on2068.outbound.protection.outlook.com ([40.107.100.68]:23328
-        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229865AbhFJGnj (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 10 Jun 2021 02:43:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QvPlEFr/usfStpAUm/aHlC4FEMzbYzcS3AUAQTZBeECXyi9br1FgXn5VgNLHua9l1liER0YRkWd6cc3I++ADR0I7Taluw/hABjsTf1NQCgcyFrFNSayLFEul4HlXE8wMt4g1W0puhlPKsybLpWZZJ47iTkMp/n6xsn+miARgwykhSOjjY1KgVLIhYHhk7wm2GaPTiEan17mfEej+/9R+Y4JNMdhJAGpSdi1uH9rhScptkBRfRCiX8KLL0LFhzaYvA+HSeV4Cvd+MNhAncJDdLmbhJMe0D3eZOIWOv1stn333duECoLbsV42sRwfXVb6SpbZJl3qWZqZHjILzclRWNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I6lTNrdtFoQk1wKm9Tvevpmvi/B0dF481In1Q16M0rs=;
- b=O2Oh2cySqYNEiPqptme0RG9r8ANFoShX34rAxyY5RhyaWY01rVZTkLvOJLqs3AKZtYKVmCmtLd5/M7mAFVZs1FMhb0b63/1XQ3d9riUaO2Q0VGH9aD91RJz9MA2fzLVFJs0c6mXdZ3T8kc9le0k4LO5juyt5U+tBu09h+4BqoQf1nwi9FiItX7sBQuXJ677zfPH5cIvrwrV7nqKzlcHj1mEG3Ufal/KQoa633BkxYkdnR2ruKgzvdCm4wf53MNA6N+9wskSgZlt9IrkCEGE7jxcEGf4vF/a1RHjtsqSdB94+GuFXiiqaDcgtZ8DmKaJBJ+LuXTTS9naI063m6oTbAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I6lTNrdtFoQk1wKm9Tvevpmvi/B0dF481In1Q16M0rs=;
- b=QQcflfa6kCT0TAftX4b0Y+Pi2pYJ4Ppfv4a6othw9QkIaWTqg6YTP4GHvhOnl9kYT1dHacaoOh3SntKblBoFXK46pQLw3ajax/KG36/73cX4CW5WIcMqW1QZJPRIxf88a9trjGXEJ2yRgoROQqRdtn3ek0tYCguWlcdqEELkOKVcDPDDGD/vX0EaF16rjYPopZ8RziTpPPhFMgIXT7d0MeaCbecrYA3cKhF/Pipmqlay7Am67Z7rHpAYal+WBIjTsITRY0HiMLC7q48x4gGrPPUqs+ZYGrAdtwnAJxgGZ3n8hGhLdczyX2YXzgBahU9g3Qg38p8UkWPwQ0+SE4rAyw==
-Received: from BN6PR16CA0003.namprd16.prod.outlook.com (2603:10b6:404:f5::13)
- by BYAPR12MB3623.namprd12.prod.outlook.com (2603:10b6:a03:a9::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.27; Thu, 10 Jun
- 2021 06:41:41 +0000
-Received: from BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:f5:cafe::3) by BN6PR16CA0003.outlook.office365.com
- (2603:10b6:404:f5::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend
- Transport; Thu, 10 Jun 2021 06:41:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux.com; dkim=none (message not signed)
- header.d=none;linux.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT008.mail.protection.outlook.com (10.13.177.95) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 06:41:41 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 10 Jun
- 2021 06:41:40 +0000
-Received: from moonraker.nvidia.com (172.20.187.5) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 10 Jun 2021 06:41:38 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Vidya Sagar <vidyas@nvidia.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH V4] PCI: tegra: Fix building Tegra194 PCIe driver
-Date:   Thu, 10 Jun 2021 07:41:34 +0100
-Message-ID: <20210610064134.336781-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+        id S230027AbhFJGoP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 10 Jun 2021 02:44:15 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:39839 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229634AbhFJGoO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 10 Jun 2021 02:44:14 -0400
+Received: from mail-wm1-f71.google.com ([209.85.128.71])
+        by youngberry.canonical.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lrEOQ-00059x-32
+        for linux-tegra@vger.kernel.org; Thu, 10 Jun 2021 06:42:18 +0000
+Received: by mail-wm1-f71.google.com with SMTP id u17-20020a05600c19d1b02901af4c4deac5so2665389wmq.7
+        for <linux-tegra@vger.kernel.org>; Wed, 09 Jun 2021 23:42:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=V7+XL9sJ4avOAFbP8M5lm1xje4LiQLiEskoJgKOFT0w=;
+        b=uAgbfYTSVFl0T8q9X4fi02QLyQ6A2gwA1G+eh/bcofOsP2bL18e9Ju3pdHhzEQz79/
+         28xQIGL9XKK5xZ035CpdIw+aNlu1mxdjRdZvMpLwwOgsjeaBB1yoBNhe0T6SEZjW0r0d
+         TdOLxyLIf8N0bDAJx8KKlMAidB2u9DgRK2dpWGsDpclhKrJi3qTmw/qJEv4gEVJrJ2yL
+         /v5mNjFilEa9ItcZKezY9V+AYuTBvadzRqtEks4ySpc5CaJB2E21M1qIayCXJI9gzp3V
+         pLgMCWH41SR7ziW/iW9RP/5GJekaOjU+YuDTX/7raDr7aZ1TNKkK5tYHT5aSQbJBR8oM
+         975g==
+X-Gm-Message-State: AOAM533DQivFvA90YdeitsO4fWGmXl0s5cYMxTNpd93UgEJv9Jz19e+H
+        J5Cr6G8nT1DQyMymns+K31kuP2dciBnPPnFt5Z1GJ3as3C3mS2Iome0Y8BJmSNvSoco2je0oQIc
+        4+AV8NHgxXAWkCMGctSGMG8wCbaoF+tnkaMkY4lMA
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr3473060wrn.337.1623307337785;
+        Wed, 09 Jun 2021 23:42:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlNhcMYrDVL1IhoA/EKJ232q5LCxiyh5RMHIvdN4gRnzqxkVa6hl0Ki6hS5rAH/xKnsxMs5Q==
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr3473045wrn.337.1623307337644;
+        Wed, 09 Jun 2021 23:42:17 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch. [188.155.177.222])
+        by smtp.gmail.com with ESMTPSA id u18sm1853015wmj.15.2021.06.09.23.42.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jun 2021 23:42:17 -0700 (PDT)
+Subject: Re: [PATCH 1/2] memory: tegra: Add missing dependencies
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210609112806.3565057-1-thierry.reding@gmail.com>
+ <20210609112806.3565057-2-thierry.reding@gmail.com>
+ <0c762772-929e-2eb8-6568-4aa82ea2f9ad@gmail.com>
+ <ee2846c0-9274-0888-90ac-dac72d2ab5fd@canonical.com>
+ <YMDzkyjaMhoJjMzL@orome.fritz.box>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <97fc44f9-30d5-cbcf-431a-fd0c4c7517b7@canonical.com>
+Date:   Thu, 10 Jun 2021 08:42:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-NVConfidentiality: public
+In-Reply-To: <YMDzkyjaMhoJjMzL@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95e4fb02-f953-4ba5-e0ab-08d92bdace5d
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3623:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB36233708F63C95499EE2A9FDD9359@BYAPR12MB3623.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:65;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U+VR5KE7MVcAivnXtU6XrcCCMGfLepaZzgKtFLqv1sKxZDFKiVjJPZbiINN2n1md5JFistS9soSTItn9X7GXgugBlH1QTDSI3vYk/GT4ZIQOtMf0gRntX4g/xb8yeJhaLGrWvsZC0xnOYiDdmK/RXFP5VrasHz8ELQMpgcASE4H1PSZAmtXNsOpCpaiOihW4evbpioSXf7macqzRPWtNEBAso8f1HRL/S9s91kXu+8r0PVEa6oWF0U7r0K4O95Vcs8InSU3ANHjbEGR3YyFNJpR21SJUFMQuGn5+vOwJFcffamiOStb7vQIoy40HbjC/WtOOzzGw9nHZDrlpZmVOjoLQIQV3b8lzHH4l2fuopS+6Qu5hPhV2BvVDB1Q0gS2U1WFg+N9zmx2p4cklEGRoJ9+Qeuh7jNv0P0/BjBRMm/g1e3NJNh5JxEWTRqHxYK9xiE7HwnlEnMDxdx9EtzwbOxstKmLbIoK3Qva6DugYcA5dBzyLRf03dJaLhFyllaGn4US1ABQjQJs08PULQHZV3NZPJL3C7Ze2ccsDKSFd7RLnvbEhkFuyo6V6YPOAll0p09sDo7sz5RQvK+hbpGNoy/tcJhcRG+6nqbd3vVKFYZ4ggv/9IJ27kD2hOMHlvTv0iUBNYS7i7NEDZIXr8QkTt8/TZNqz4tieVVKjnHlac5c=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(346002)(39860400002)(136003)(376002)(36840700001)(46966006)(2616005)(186003)(86362001)(4326008)(70586007)(2906002)(47076005)(478600001)(1076003)(54906003)(26005)(70206006)(6666004)(316002)(36860700001)(30864003)(36906005)(82310400003)(336012)(107886003)(82740400003)(7696005)(8936002)(426003)(36756003)(83380400001)(356005)(110136005)(7636003)(8676002)(5660300002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 06:41:41.2350
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95e4fb02-f953-4ba5-e0ab-08d92bdace5d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3623
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit 7f100744749e ("PCI: tegra: Add Tegra194 MCFG quirks for ECAM
-errata") caused a few build regressions for the Tegra194 PCIe driver
-which are:
+On 09/06/2021 19:00, Thierry Reding wrote:
+> On Wed, Jun 09, 2021 at 03:19:12PM +0200, Krzysztof Kozlowski wrote:
+>> On 09/06/2021 13:58, Dmitry Osipenko wrote:
+>>> 09.06.2021 14:28, Thierry Reding пишет:
+>>>> From: Thierry Reding <treding@nvidia.com>
+>>>>
+>>>> When enabling the COMPILE_TEST Kconfig option, the Tegra memory
+>>>> controller can be built without ARCH_TEGRA being selected. However, the
+>>>> driver implicitly depends on some symbols pulled in via ARCH_TEGRA,
+>>>> which causes the build to break.
+>>>>
+>>>> Add explicit dependencies for OF_EARLY_FLATTREE and OF_RESERVED_MEM to
+>>>> the Tegra MC Kconfig option to make sure they are selected even if
+>>>> ARCH_TEGRA is not.
+>>>>
+>>>> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>>> ---
+>>>>  drivers/memory/tegra/Kconfig | 2 ++
+>>>>  1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
+>>>> index f9bae36c03a3..ecfb071fc4f4 100644
+>>>> --- a/drivers/memory/tegra/Kconfig
+>>>> +++ b/drivers/memory/tegra/Kconfig
+>>>> @@ -48,6 +48,8 @@ config TEGRA124_EMC
+>>>>  config TEGRA210_EMC_TABLE
+>>>>  	bool
+>>>>  	depends on ARCH_TEGRA_210_SOC || COMPILE_TEST
+>>>> +	select OF_EARLY_FLATTREE
+>>>> +	select OF_RESERVED_MEM
+>>>>  
+>>>>  config TEGRA210_EMC
+>>>>  	tristate "NVIDIA Tegra210 External Memory Controller driver"
+>>>>
+>>>
+>>> Will this work if CONFIG_OF is disabled?
+>>
+>> Yeah, good question. That's why I propose "depends on". No issues with
+>> unmet or circular dependencies.
+> 
+> I couldn't find a way to make this work with "depends on" because
+> OF_RESERVED_MEM is not user-visible and the only way to get it enabled
+> is if something also selects OF_EARLY_FLATTREE, which is only ever done
+> at the architecture Kconfig level (and for OF unit testing).
+> 
+> So switching this to a "depends on" causes the TEGRA210_EMC never to get
+> enabled.
 
-1. The Tegra194 PCIe driver can no longer be built as a module. This
-   was caused by removing the Makefile entry to build the pcie-tegra.c
-   based upon the CONFIG_PCIE_TEGRA194 option. Therefore, restore this
-   so that we can build the driver as a module.
-2. 7f100744749e ("PCI: tegra: Add Tegra194 MCFG quirks for ECAM
-   errata") added "#ifdef CONFIG_PCIE_TEGRA194" around the native
-   driver. But if we set CONFIG_PCIE_TEGRA194=m to build the driver as a
-   module, autoconf.h contains "#define CONFIG_PCIE_TEGRA194_MODULE 1"
-   (not "#define CONFIG_PCIE_TEGRA194 1"), so the #ifdef excludes the
-   driver. Given that the ACPI quirk code for Tegra194 is completely
-   independent of the native Tegra194 PCIe driver, move this code into
-   its own file so that it can be built independently and we can remove
-   the "#ifdef CONFIG_PCIE_TEGRA194" in the native driver. Note that
-   given the native Tegra194 PCIe driver is only used with device-tree,
-   this will not cause any conflicts.
-3. The below build warnings to be seen with particular kernel
-   configurations. Fix these by moving these structure definitions to
-   within the necessary guards.
+Right.
 
-  drivers/pci/controller/dwc/pcie-tegra194.c:259:18: warning:
-  	‘event_cntr_data_offset’ defined but not used [-Wunused-const-variable=]
-  drivers/pci/controller/dwc/pcie-tegra194.c:250:18: warning:
-  	‘event_cntr_ctrl_offset’ defined but not used [-Wunused-const-variable=]
-  drivers/pci/controller/dwc/pcie-tegra194.c:243:27: warning:
-  	‘pcie_gen_freq’ defined but not used [-Wunused-const-variable=]
+> 
+> However, with OF disabled, the above causes issues because it can lead
+> to unmet direct dependencies. That, in turn, can be fixed by appending
+> && OF to the COMPILE_TEST branch, which seems like a good enough
+> compromise.
+> 
+> Here's what I have on top of the above patch and that seems to do the
+> trick.
+> 
+> --- >8 ---
+> diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
+> index ecfb071fc4f4..1c553895160c 100644
+> --- a/drivers/memory/tegra/Kconfig
+> +++ b/drivers/memory/tegra/Kconfig
+> @@ -47,13 +47,13 @@ config TEGRA124_EMC
+>  
+>  config TEGRA210_EMC_TABLE
+>  	bool
+> -	depends on ARCH_TEGRA_210_SOC || COMPILE_TEST
+> +	depends on ARCH_TEGRA_210_SOC || (COMPILE_TEST && OF)
+>  	select OF_EARLY_FLATTREE
+>  	select OF_RESERVED_MEM
+>  
+>  config TEGRA210_EMC
+>  	tristate "NVIDIA Tegra210 External Memory Controller driver"
+> -	depends on ARCH_TEGRA_210_SOC || COMPILE_TEST
+> +	depends on ARCH_TEGRA_210_SOC || (COMPILE_TEST && OF)
+>  	select TEGRA210_EMC_TABLE
+>  	help
+>  	  This driver is for the External Memory Controller (EMC) found on
+> --- >8 ---
+> 
+> So in a nutshell this will only get compile-tested if OF is enabled, but
+> then it will select OF_RESERVED_MEM and OF_EARLY_FLATTREE to get the
+> required symbols.
 
-Fixes: 7f100744749e ("PCI: tegra: Add Tegra194 MCFG quirks for ECAM errata")
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
-Changes since V3:
-- Moved ACPI quirk code into separate source file
+Could be also separate "depends on OF", even though it is included in
+ARCH_TEGRA_XXX, but I am fine with this here.
 
-Changes since V2:
-- Update the commit message per Bjorn's feedback
-- Moved the structure definitions within the necessary guards as opposed
-  to wrapping the existing defintions with the appropriate guards.
-
-Changes since V1:
-- Added fixes tag
-- Fixed 'defined but not used' compiler warnings
-
- drivers/pci/controller/dwc/Makefile           |   3 +-
- .../pci/controller/dwc/pcie-tegra194-acpi.c   | 108 ++++++++++++++
- drivers/pci/controller/dwc/pcie-tegra194.c    | 138 +++---------------
- 3 files changed, 128 insertions(+), 121 deletions(-)
- create mode 100644 drivers/pci/controller/dwc/pcie-tegra194-acpi.c
-
-diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
-index eca805c1a023..9e6ce0dc2f53 100644
---- a/drivers/pci/controller/dwc/Makefile
-+++ b/drivers/pci/controller/dwc/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_PCIE_INTEL_GW) += pcie-intel-gw.o
- obj-$(CONFIG_PCIE_KIRIN) += pcie-kirin.o
- obj-$(CONFIG_PCIE_HISI_STB) += pcie-histb.o
- obj-$(CONFIG_PCI_MESON) += pci-meson.o
-+obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
- obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
- obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
- 
-@@ -38,6 +39,6 @@ ifdef CONFIG_ACPI
- ifdef CONFIG_PCI_QUIRKS
- obj-$(CONFIG_ARM64) += pcie-al.o
- obj-$(CONFIG_ARM64) += pcie-hisi.o
--obj-$(CONFIG_ARM64) += pcie-tegra194.o
-+obj-$(CONFIG_ARM64) += pcie-tegra194-acpi.o
- endif
- endif
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194-acpi.c b/drivers/pci/controller/dwc/pcie-tegra194-acpi.c
-new file mode 100644
-index 000000000000..c2de6ed4d86f
---- /dev/null
-+++ b/drivers/pci/controller/dwc/pcie-tegra194-acpi.c
-@@ -0,0 +1,108 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * ACPI quirks for Tegra194 PCIe host controller
-+ *
-+ * Copyright (C) 2021 NVIDIA Corporation.
-+ *
-+ * Author: Vidya Sagar <vidyas@nvidia.com>
-+ */
-+
-+#include <linux/pci.h>
-+#include <linux/pci-acpi.h>
-+#include <linux/pci-ecam.h>
-+
-+#include "pcie-designware.h"
-+
-+struct tegra194_pcie_ecam  {
-+	void __iomem *config_base;
-+	void __iomem *iatu_base;
-+	void __iomem *dbi_base;
-+};
-+
-+static int tegra194_acpi_init(struct pci_config_window *cfg)
-+{
-+	struct device *dev = cfg->parent;
-+	struct tegra194_pcie_ecam *pcie_ecam;
-+
-+	pcie_ecam = devm_kzalloc(dev, sizeof(*pcie_ecam), GFP_KERNEL);
-+	if (!pcie_ecam)
-+		return -ENOMEM;
-+
-+	pcie_ecam->config_base = cfg->win;
-+	pcie_ecam->iatu_base = cfg->win + SZ_256K;
-+	pcie_ecam->dbi_base = cfg->win + SZ_512K;
-+	cfg->priv = pcie_ecam;
-+
-+	return 0;
-+}
-+
-+static void atu_reg_write(struct tegra194_pcie_ecam *pcie_ecam, int index,
-+			  u32 val, u32 reg)
-+{
-+	u32 offset = PCIE_GET_ATU_OUTB_UNR_REG_OFFSET(index);
-+
-+	writel(val, pcie_ecam->iatu_base + offset + reg);
-+}
-+
-+static void program_outbound_atu(struct tegra194_pcie_ecam *pcie_ecam,
-+				 int index, int type, u64 cpu_addr,
-+				 u64 pci_addr, u64 size)
-+{
-+	atu_reg_write(pcie_ecam, index, lower_32_bits(cpu_addr),
-+		      PCIE_ATU_LOWER_BASE);
-+	atu_reg_write(pcie_ecam, index, upper_32_bits(cpu_addr),
-+		      PCIE_ATU_UPPER_BASE);
-+	atu_reg_write(pcie_ecam, index, lower_32_bits(pci_addr),
-+		      PCIE_ATU_LOWER_TARGET);
-+	atu_reg_write(pcie_ecam, index, lower_32_bits(cpu_addr + size - 1),
-+		      PCIE_ATU_LIMIT);
-+	atu_reg_write(pcie_ecam, index, upper_32_bits(pci_addr),
-+		      PCIE_ATU_UPPER_TARGET);
-+	atu_reg_write(pcie_ecam, index, type, PCIE_ATU_CR1);
-+	atu_reg_write(pcie_ecam, index, PCIE_ATU_ENABLE, PCIE_ATU_CR2);
-+}
-+
-+static void __iomem *tegra194_map_bus(struct pci_bus *bus,
-+				      unsigned int devfn, int where)
-+{
-+	struct pci_config_window *cfg = bus->sysdata;
-+	struct tegra194_pcie_ecam *pcie_ecam = cfg->priv;
-+	u32 busdev;
-+	int type;
-+
-+	if (bus->number < cfg->busr.start || bus->number > cfg->busr.end)
-+		return NULL;
-+
-+	if (bus->number == cfg->busr.start) {
-+		if (PCI_SLOT(devfn) == 0)
-+			return pcie_ecam->dbi_base + where;
-+		else
-+			return NULL;
-+	}
-+
-+	busdev = PCIE_ATU_BUS(bus->number) | PCIE_ATU_DEV(PCI_SLOT(devfn)) |
-+		 PCIE_ATU_FUNC(PCI_FUNC(devfn));
-+
-+	if (bus->parent->number == cfg->busr.start) {
-+		if (PCI_SLOT(devfn) == 0)
-+			type = PCIE_ATU_TYPE_CFG0;
-+		else
-+			return NULL;
-+	} else {
-+		type = PCIE_ATU_TYPE_CFG1;
-+	}
-+
-+	program_outbound_atu(pcie_ecam, 0, type, cfg->res.start, busdev,
-+			     SZ_256K);
-+
-+	return pcie_ecam->config_base + where;
-+}
-+
-+const struct pci_ecam_ops tegra194_pcie_ops = {
-+	.init		= tegra194_acpi_init,
-+	.pci_ops	= {
-+		.map_bus	= tegra194_map_bus,
-+		.read		= pci_generic_config_read,
-+		.write		= pci_generic_config_write,
-+	}
-+};
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index b19775ab134e..fa6b12cfc043 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -22,8 +22,6 @@
- #include <linux/of_irq.h>
- #include <linux/of_pci.h>
- #include <linux/pci.h>
--#include <linux/pci-acpi.h>
--#include <linux/pci-ecam.h>
- #include <linux/phy/phy.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
-@@ -247,24 +245,6 @@ static const unsigned int pcie_gen_freq[] = {
- 	GEN4_CORE_CLK_FREQ
- };
- 
--static const u32 event_cntr_ctrl_offset[] = {
--	0x1d8,
--	0x1a8,
--	0x1a8,
--	0x1a8,
--	0x1c4,
--	0x1d8
--};
--
--static const u32 event_cntr_data_offset[] = {
--	0x1dc,
--	0x1ac,
--	0x1ac,
--	0x1ac,
--	0x1c8,
--	0x1dc
--};
--
- struct tegra_pcie_dw {
- 	struct device *dev;
- 	struct resource *appl_res;
-@@ -313,104 +293,6 @@ struct tegra_pcie_dw_of_data {
- 	enum dw_pcie_device_mode mode;
- };
- 
--#if defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS)
--struct tegra194_pcie_ecam  {
--	void __iomem *config_base;
--	void __iomem *iatu_base;
--	void __iomem *dbi_base;
--};
--
--static int tegra194_acpi_init(struct pci_config_window *cfg)
--{
--	struct device *dev = cfg->parent;
--	struct tegra194_pcie_ecam *pcie_ecam;
--
--	pcie_ecam = devm_kzalloc(dev, sizeof(*pcie_ecam), GFP_KERNEL);
--	if (!pcie_ecam)
--		return -ENOMEM;
--
--	pcie_ecam->config_base = cfg->win;
--	pcie_ecam->iatu_base = cfg->win + SZ_256K;
--	pcie_ecam->dbi_base = cfg->win + SZ_512K;
--	cfg->priv = pcie_ecam;
--
--	return 0;
--}
--
--static void atu_reg_write(struct tegra194_pcie_ecam *pcie_ecam, int index,
--			  u32 val, u32 reg)
--{
--	u32 offset = PCIE_GET_ATU_OUTB_UNR_REG_OFFSET(index);
--
--	writel(val, pcie_ecam->iatu_base + offset + reg);
--}
--
--static void program_outbound_atu(struct tegra194_pcie_ecam *pcie_ecam,
--				 int index, int type, u64 cpu_addr,
--				 u64 pci_addr, u64 size)
--{
--	atu_reg_write(pcie_ecam, index, lower_32_bits(cpu_addr),
--		      PCIE_ATU_LOWER_BASE);
--	atu_reg_write(pcie_ecam, index, upper_32_bits(cpu_addr),
--		      PCIE_ATU_UPPER_BASE);
--	atu_reg_write(pcie_ecam, index, lower_32_bits(pci_addr),
--		      PCIE_ATU_LOWER_TARGET);
--	atu_reg_write(pcie_ecam, index, lower_32_bits(cpu_addr + size - 1),
--		      PCIE_ATU_LIMIT);
--	atu_reg_write(pcie_ecam, index, upper_32_bits(pci_addr),
--		      PCIE_ATU_UPPER_TARGET);
--	atu_reg_write(pcie_ecam, index, type, PCIE_ATU_CR1);
--	atu_reg_write(pcie_ecam, index, PCIE_ATU_ENABLE, PCIE_ATU_CR2);
--}
--
--static void __iomem *tegra194_map_bus(struct pci_bus *bus,
--				      unsigned int devfn, int where)
--{
--	struct pci_config_window *cfg = bus->sysdata;
--	struct tegra194_pcie_ecam *pcie_ecam = cfg->priv;
--	u32 busdev;
--	int type;
--
--	if (bus->number < cfg->busr.start || bus->number > cfg->busr.end)
--		return NULL;
--
--	if (bus->number == cfg->busr.start) {
--		if (PCI_SLOT(devfn) == 0)
--			return pcie_ecam->dbi_base + where;
--		else
--			return NULL;
--	}
--
--	busdev = PCIE_ATU_BUS(bus->number) | PCIE_ATU_DEV(PCI_SLOT(devfn)) |
--		 PCIE_ATU_FUNC(PCI_FUNC(devfn));
--
--	if (bus->parent->number == cfg->busr.start) {
--		if (PCI_SLOT(devfn) == 0)
--			type = PCIE_ATU_TYPE_CFG0;
--		else
--			return NULL;
--	} else {
--		type = PCIE_ATU_TYPE_CFG1;
--	}
--
--	program_outbound_atu(pcie_ecam, 0, type, cfg->res.start, busdev,
--			     SZ_256K);
--
--	return pcie_ecam->config_base + where;
--}
--
--const struct pci_ecam_ops tegra194_pcie_ops = {
--	.init		= tegra194_acpi_init,
--	.pci_ops	= {
--		.map_bus	= tegra194_map_bus,
--		.read		= pci_generic_config_read,
--		.write		= pci_generic_config_write,
--	}
--};
--#endif /* defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS) */
--
--#ifdef CONFIG_PCIE_TEGRA194
--
- static inline struct tegra_pcie_dw *to_tegra_pcie(struct dw_pcie *pci)
- {
- 	return container_of(pci, struct tegra_pcie_dw, pci);
-@@ -694,6 +576,24 @@ static struct pci_ops tegra_pci_ops = {
- };
- 
- #if defined(CONFIG_PCIEASPM)
-+static const u32 event_cntr_ctrl_offset[] = {
-+	0x1d8,
-+	0x1a8,
-+	0x1a8,
-+	0x1a8,
-+	0x1c4,
-+	0x1d8
-+};
-+
-+static const u32 event_cntr_data_offset[] = {
-+	0x1dc,
-+	0x1ac,
-+	0x1ac,
-+	0x1ac,
-+	0x1c8,
-+	0x1dc
-+};
-+
- static void disable_aspm_l11(struct tegra_pcie_dw *pcie)
- {
- 	u32 val;
-@@ -2413,5 +2313,3 @@ MODULE_DEVICE_TABLE(of, tegra_pcie_dw_of_match);
- MODULE_AUTHOR("Vidya Sagar <vidyas@nvidia.com>");
- MODULE_DESCRIPTION("NVIDIA PCIe host controller driver");
- MODULE_LICENSE("GPL v2");
--
--#endif /* CONFIG_PCIE_TEGRA194 */
--- 
-2.25.1
-
+Best regards,
+Krzysztof
