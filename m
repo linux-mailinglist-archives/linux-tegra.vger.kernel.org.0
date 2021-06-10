@@ -2,86 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DE613A253B
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jun 2021 09:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C3873A259C
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jun 2021 09:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229792AbhFJHYY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 10 Jun 2021 03:24:24 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40761 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbhFJHYX (ORCPT
+        id S230026AbhFJHlZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 10 Jun 2021 03:41:25 -0400
+Received: from mail.chalver.com.ec ([186.3.12.10]:20505 "EHLO
+        mail.chalver.com.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230001AbhFJHlZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 10 Jun 2021 03:24:23 -0400
-Received: from mail-wm1-f71.google.com ([209.85.128.71])
-        by youngberry.canonical.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lrF1H-00006T-6x
-        for linux-tegra@vger.kernel.org; Thu, 10 Jun 2021 07:22:27 +0000
-Received: by mail-wm1-f71.google.com with SMTP id n21-20020a7bcbd50000b02901a2ee0826aeso3441882wmi.7
-        for <linux-tegra@vger.kernel.org>; Thu, 10 Jun 2021 00:22:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7VadSajW5H4JLmd3wkcDKHmTiiBiDnefV2rMQY04z28=;
-        b=nq299363wr8NPqGHGss02hMBwrWEbXzVK6GV25VOMZyrugHRlJpTp9xwwi4WCGwtnI
-         nJ5nMPalVYSsgfECggjAbdErcd67pxQjO8HXuM5sRS+gBZWzXxSnaWN9KMxJdcdgoyrb
-         34V2pYMJpbVUt4+q/AUqXRKxFw9HSR7Cd993rvjA/pr368U3zswJfP+Tu9PFuxAAGHOh
-         9JOkzMVDZHXsfBtnonJkul67VgN1HsS+95gP+5LA6l+rJw0L/nwu1y5xGsNf+4wYhcTD
-         Bg1uVmoVUFFDL0/lBI6G5wp4T1KX4Zx2d137XuFXWGit/idfmeMZYobPoFDmZXvOQaMh
-         NFVw==
-X-Gm-Message-State: AOAM531mZEJYrQsvAWT9BqwPeYuBDj7GvuQYOCHFSA1dz0YdAQdckyeJ
-        Rg3gJTbbgSYNmalCJaISEOhd+qv7053d/N2ouzc59E+dIPreuLTgWBvY2AyAG9fLi+6XwnLpFEH
-        BI/1LYq7pcLe+xRZurWVUQupfutag5XKZHFJ9Vqkf
-X-Received: by 2002:adf:fc0e:: with SMTP id i14mr3674104wrr.71.1623309745468;
-        Thu, 10 Jun 2021 00:22:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYKqp7/tU/D0jmZXC6cq5GMH3PaAT2LB5mizmzqtiooFKKcoD4gXmpsPoaVVfOWirvKR1XqA==
-X-Received: by 2002:adf:fc0e:: with SMTP id i14mr3674072wrr.71.1623309745252;
-        Thu, 10 Jun 2021 00:22:25 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-177-222.adslplus.ch. [188.155.177.222])
-        by smtp.gmail.com with ESMTPSA id j11sm2024658wmq.4.2021.06.10.00.22.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 00:22:24 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Joseph Lo <josephl@nvidia.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] memory: tegra: Delete dead debugfs checking code
-Date:   Thu, 10 Jun 2021 09:22:16 +0200
-Message-Id: <162330973162.9991.7770026774132794997.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <YMCQDTSyG8UuQoh0@mwanda>
-References: <YMCQDTSyG8UuQoh0@mwanda>
-MIME-Version: 1.0
+        Thu, 10 Jun 2021 03:41:25 -0400
+X-Greylist: delayed 4376 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Jun 2021 03:41:25 EDT
+Received: from mail.chalver.com.ec (localhost.localdomain [127.0.0.1])
+        by mail.chalver.com.ec (Postfix) with ESMTPS id C4B531F2370B;
+        Thu, 10 Jun 2021 00:51:00 -0500 (ECT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.chalver.com.ec (Postfix) with ESMTP id DC4A71F230F8;
+        Thu, 10 Jun 2021 00:33:40 -0500 (ECT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.chalver.com.ec DC4A71F230F8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chalver.com.ec;
+        s=E2A417BC-DDA7-11E6-85F6-38495636B764; t=1623303221;
+        bh=PxMh0SAMbBGlctefOH2OhvTlJNlHw25bONEEE7Ldp0I=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=2RsbQ8+CSBVmuSd7A4ftvufN6LzaxuS4p2SbIm0LNoP4VA+oQGp4yyAlYQI7nQVgF
+         uzY797wuDvyY+NCvQDNwPzT3bJfyAsDNb6Mal7a6BfKleSLYmLnwq//k1SDs/XUB73
+         QamqRF3bvzbNgkqHV9FMFTKTZemSSbm/rr8TxUYmhODwFu3VrrByAOI44/Dql+XqZq
+         2gDiVuSscTMZ0YQyB8FbiDnEhh6+FDW1XF16Vpxw45++7uod7aQ9fisU1fZvL6Gw28
+         GqeDhNVsajREMF9cxRMS561aAJBK1ncisV9x6rC8lAMqlKljBnqU/pIF/fonhbst7W
+         hUscAVChGA2bQ==
+X-Virus-Scanned: amavisd-new at chalver.com.ec
+Received: from mail.chalver.com.ec ([127.0.0.1])
+        by localhost (mail.chalver.com.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id RPzVJ5K1SV2O; Thu, 10 Jun 2021 00:33:40 -0500 (ECT)
+Received: from cris-PC.wifi (unknown [105.9.120.116])
+        by mail.chalver.com.ec (Postfix) with ESMTPSA id F0C961F22B7D;
+        Thu, 10 Jun 2021 00:33:27 -0500 (ECT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <mpaucar@chalver.com.ec>
+From:   ''Tayeb souami'' <mpaucar@chalver.com.ec>
+Date:   Thu, 10 Jun 2021 07:40:37 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20210610053327.F0C961F22B7D@mail.chalver.com.ec>
+X-Laboratorios-Chalver-MailScanner-Information: Please contact the ISP for more information
+X-Laboratorios-Chalver-MailScanner-ID: F0C961F22B7D.A1EFB
+X-Laboratorios-Chalver-MailScanner: Not scanned: please contact your Internet E-Mail Service Provider for details
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 9 Jun 2021 12:55:25 +0300, Dan Carpenter wrote:
-> The debugfs_create_dir() function does not return NULL, it returns error
-> pointers.  But in normal situations like this where the caller is not
-> dereferencing "emc->debugfs.root" then we are not supposed to check the
-> return.  So instead of fixing these checks, we should delete them.
 
-Applied, thanks!
+Lieber Freund,
 
-[1/1] memory: tegra: Delete dead debugfs checking code
-      commit: c7c65703260c88a3e4d7387b2d03023c3625c6d4
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
+Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
+f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
+il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
+meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
+und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
+ou Tube Seite unten.
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+
+
+
+Das ist dein Spendencode: [TS530342018]
+
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Herr Tayeb Souami
