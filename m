@@ -2,104 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 553B23A1CBB
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Jun 2021 20:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA953A24A0
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Jun 2021 08:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229507AbhFISan (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 9 Jun 2021 14:30:43 -0400
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:34548 "EHLO
-        mail-wm1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbhFISan (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Jun 2021 14:30:43 -0400
-Received: by mail-wm1-f53.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso3634603wmc.1
-        for <linux-tegra@vger.kernel.org>; Wed, 09 Jun 2021 11:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nXtC0TTdpsHcuJUUWVG3Np34/AsLwocmzwBcXSxRj/Q=;
-        b=HfJ/RZQysPk9QdXC8tT3qAef2KiC/W+sa6+C3chbhaVnx4s3fINdbcMIx+9/WYp9Ua
-         rSGvTtXkki9nHMB1d7HNACqPqJeHqK2bfGV+19jQTDbP1WsfyIYbktcvzyzDvAU2yXFL
-         ODRmwQ5LfHMJpdwV7NzdRP4uKcVDzxULIXu/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nXtC0TTdpsHcuJUUWVG3Np34/AsLwocmzwBcXSxRj/Q=;
-        b=OfqrO4LM1TjKXQf4E5OOlpNPZJAxzthdn8iJYlolceyZUTpHnWsVPjWHaK3HGYT+jj
-         uzgFApQbU68xynKVU6ZmRo16Acc5VK/R926MeV0SkuwtQdxdRkVHUI0UrmKw1JqgY2F8
-         tD8HtI+nP4psfF3Ry4NjQWMqE0shS6ghDe+Rk7xe4htzzfgKJoRlIL2ZmQI6bv2rHRrd
-         5QvBEt2YkcNQ35QGnW0YD+M7ir+Yh3OSEuPBWclYs92+szioP8ut1hRuX4yTX+9tDUwR
-         eioQqxemyUI/6UCeO8CDILngExYjKHw/HTzPKcfFGwWhCg4xvdzj370q2aT4o+dCEGH+
-         Rxug==
-X-Gm-Message-State: AOAM532HjqhYphspyxqAHfuanXGKvOhTIlR4heRExL4TGIPZEJ7CqPRc
-        TZVIyOW/N693AhMjFKFjdF18Ng==
-X-Google-Smtp-Source: ABdhPJwf5wymTOTx4isyKDiYxTSKvgQu1tFsxGtgpCUiybvhgJ6aZdFSBsjZYd81Y0DX08g0jbU2eg==
-X-Received: by 2002:a7b:c206:: with SMTP id x6mr10873557wmi.26.1623263267661;
-        Wed, 09 Jun 2021 11:27:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s62sm7585504wms.13.2021.06.09.11.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 11:27:47 -0700 (PDT)
-Date:   Wed, 9 Jun 2021 20:27:44 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        James Jones <jajones@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] drm/arm: malidp: Use fourcc_mod_is_vendor()
- helper
-Message-ID: <YMEIIDl3ftlQyWCq@phenom.ffwll.local>
-References: <20210326145139.467072-1-thierry.reding@gmail.com>
- <20210326145139.467072-3-thierry.reding@gmail.com>
+        id S229979AbhFJGoG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 10 Jun 2021 02:44:06 -0400
+Received: from m12-16.163.com ([220.181.12.16]:44166 "EHLO m12-16.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229634AbhFJGoF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 10 Jun 2021 02:44:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=y+e2b
+        PmexqtbrmKw2MH4HI+pB5lEaw8BySK7BAtauXA=; b=E/drF/s30r49VUTPCp8i4
+        4dpIEzzv6Rege3jBXcY0yKs1giE/kICHaEUoUvap/7QO1KQZS4TAn3JsTGrJ0fhL
+        Qz9hhgzsew5UpjSYD2S0UI7vWjtBnAtQplZWjxYosURp/ijkr2XpNIMOkKgfydlK
+        NImjFjMI+fqIfItFYGw0hQ=
+Received: from localhost.localdomain (unknown [218.17.89.92])
+        by smtp12 (Coremail) with SMTP id EMCowACXs0_Hs8FgENRawQ--.34426S2;
+        Thu, 10 Jun 2021 14:40:08 +0800 (CST)
+From:   =?UTF-8?q?=C2=A0Zhongjun=20Tan?= <hbut_tan@163.com>
+To:     thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+        jonathanh@nvidia.com
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tan Zhongjun <tanzhongjun@yulong.com>
+Subject: [PATCH] drm/tegra:Remove superfluous error messages around platform_get_irq()
+Date:   Thu, 10 Jun 2021 14:39:55 +0800
+Message-Id: <20210610063955.1064-1-hbut_tan@163.com>
+X-Mailer: git-send-email 2.30.0.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210326145139.467072-3-thierry.reding@gmail.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EMCowACXs0_Hs8FgENRawQ--.34426S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtrykKFy7tryDZw1furWDtwb_yoWfuFX_Ca
+        4UZrn7Wr4S9r1qvFyDZry3Za42yFn09r48Z3ZrKa4Sy343J3WUG3yUWF18ur4UXw1UGas7
+        X3W8Wr4avrsxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUeC1vDUUUUU==
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: xkex3sxwdqqiywtou0bp/xtbBqBetxl75dLHjvgAAsr
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Mar 26, 2021 at 03:51:31PM +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Rather than open-coding the vendor extraction operation, use the newly
-> introduced helper macro.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+From: Tan Zhongjun <tanzhongjun@yulong.com>
 
-On the first two patches:
+The platform_get_irq() prints error message telling that interrupt is
+missing,hence there is no need to duplicated that message in the
+drivers.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Tan Zhongjun <tanzhongjun@yulong.com>
+---
+ drivers/gpu/drm/tegra/dpaux.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> ---
->  drivers/gpu/drm/arm/malidp_planes.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-> index ddbba67f0283..cd218883cff8 100644
-> --- a/drivers/gpu/drm/arm/malidp_planes.c
-> +++ b/drivers/gpu/drm/arm/malidp_planes.c
-> @@ -165,7 +165,7 @@ bool malidp_format_mod_supported(struct drm_device *drm,
->  		return !malidp_hw_format_is_afbc_only(format);
->  	}
->  
-> -	if ((modifier >> 56) != DRM_FORMAT_MOD_VENDOR_ARM) {
-> +	if (!fourcc_mod_is_vendor(modifier, ARM)) {
->  		DRM_ERROR("Unknown modifier (not Arm)\n");
->  		return false;
->  	}
-> -- 
-> 2.30.2
-> 
-
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index 7d7cc90b6fc9..1f96e416fa08 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -467,10 +467,8 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 		return PTR_ERR(dpaux->regs);
+ 
+ 	dpaux->irq = platform_get_irq(pdev, 0);
+-	if (dpaux->irq < 0) {
+-		dev_err(&pdev->dev, "failed to get IRQ\n");
++	if (dpaux->irq < 0)
+ 		return -ENXIO;
+-	}
+ 
+ 	if (!pdev->dev.pm_domain) {
+ 		dpaux->rst = devm_reset_control_get(&pdev->dev, "dpaux");
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.1
+
+
