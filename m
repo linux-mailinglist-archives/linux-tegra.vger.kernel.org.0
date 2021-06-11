@@ -2,112 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 472F33A46B8
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Jun 2021 18:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1F353A4701
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Jun 2021 18:50:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbhFKQpO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Jun 2021 12:45:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55986 "EHLO
+        id S230356AbhFKQwW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Jun 2021 12:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbhFKQpO (ORCPT
+        with ESMTP id S230344AbhFKQwV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Jun 2021 12:45:14 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E1AC0617AF
-        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:43:15 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso9007593wmh.4
-        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:43:15 -0700 (PDT)
+        Fri, 11 Jun 2021 12:52:21 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4160AC061574
+        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:50:23 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 3-20020a05600c0243b029019f2f9b2b8aso8960542wmj.2
+        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kf0RMu96Wd7ucBmuszu/MWcsjJuodgKxcHrTJqiSFWM=;
-        b=iez4rN3vAMHTJIPw2rqGcFe2ApmgbqvQnn+9CpLUWSibs/OeCbNnSVgv3GGKoghC+S
-         5fsnNSjwi1bTmhqRtGLauAxXQjSmMZfp4tRqkkqQ37aqobJPwb+7wRskwfQhe84H6rxL
-         Qtf+VZL1AnhmTDrki9VdxooGT7kv8tyfT019TSAKELGgfNNpzdZ/WmsphvV1LQ0l6prQ
-         HknaZdlHFXjF7CKEl+8pVYd+CNcAvqAho964qMepsN6pHdfEuTR93zTJ9eRE2/XD8S5P
-         wGN8/wLlXytNZ/6f6hu54LCrttPat0uvRyCpUlIBzLXHE7hIEAvK236UR68r9GCTCcIN
-         bj3A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nVmUib6sDfDxsq9PQu+EpPYJQfq0CrzzM05aiercm/U=;
+        b=KhhZl/b2Ow3W3yc2DcOr0wyxc3rUaJAjd1ueuuU/Y9RCqpWRkC2VDwJ53fipizSte3
+         clfOV8Y+wC38okeLQyYfXvYpCrUBRFvCEIH7nSR5S2zStuRmlOAvT8DxHk6+OJ49eqqF
+         jFSpNLnrf5P/ZIWDbpPhLyDz0dDP35sbQaX08u7ofZs5rXQ/UHgF56FKrV7SPQZ4p+KM
+         pgBwBJ6T/O6EE0Re24ilA31254pb+TmpDMiFmva7JCgbObT5hU7eHmZR1sSL5jXJ8mho
+         fbzCS1Qber1ydUEBmw6vNnV3thhtT4VWRnI82dk+rShSU9PVekwpkifuBjAWYxa6qmzU
+         EjzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kf0RMu96Wd7ucBmuszu/MWcsjJuodgKxcHrTJqiSFWM=;
-        b=fahL5Bu3BRUc5chi8CmuKaTGJMWrbOtvRX3I9A/psuiB0JKrZG5dHmwocO2BXrKP1x
-         bh0uu2HGfzxpT74/Jv7y67Ja8bj8GhXMx4wNpaabWG/oAjjqxMaYjiICNKgf2TUtZQRM
-         1HLZ0kLfq3TNHAAXSYT96z6wSeXLazRq1sB1M97m/Iu69LdaeY77htBJhQjYNPI9KW+L
-         NiZuxFotcckAJS/K+/TsGE2jpNctOeOOElrrQ8/wvu6W80n875jFOSYWsZUzuSP2v5c4
-         6757wAWg5U+mkDTSFQq2uuuYrNFV6YY9QyoptTod3rhORcbkU5GFtkZvdFiFpm2y0xD2
-         tQvw==
-X-Gm-Message-State: AOAM533gDi4zFNo9EI9xQIi4UvtJ9n+4uZ221lXWCDJPTShTom2mX+Qr
-        c7Y8WUx3E2d7SlQZV+cULWo=
-X-Google-Smtp-Source: ABdhPJxrExfJMaXN5MHYDcipIcjUhjeVg0YmkBliymAlsgthJyItoy35E7ZHDiFs7rW8X5omCVe0Vw==
-X-Received: by 2002:a1c:2142:: with SMTP id h63mr4982551wmh.84.1623429794246;
-        Fri, 11 Jun 2021 09:43:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nVmUib6sDfDxsq9PQu+EpPYJQfq0CrzzM05aiercm/U=;
+        b=omUG/TRvBYRkmWuhUNX9Nu9CJJ73T7pfCGvs6B35ub2T7QD7DBkMnv66gKRAsRiOyz
+         lmh/hRYR7x8ZGqMwN8l+VHn4n+3w9BVncBANbbPbxF/1qIUgXfTH4UyL3WWhpTBfWSOQ
+         K5ZB5KySlMoDo9Q5RB/CFK+lm6fb6MPObNoO/CG2zWXcZTEP2hl6tWgVkq3SsxejcjKf
+         6fJr+XEEoQjLrcwN4C1eQa2v2ZwLohLOtxwpV7kA++0IApuvpSVygibp9uj8S90u4/E3
+         FyyO7XOCSjx7kOQmdwkQ+ljNh74UydAgBNIcgP4IKZhxr74QRA/YSlHihqlQO2PTKyyG
+         Y0zw==
+X-Gm-Message-State: AOAM533w85pVLxvBt7qeJS3rpFbBPOrkLk2s8XxiHwcLNLaLwr56rnZ+
+        IAk1VtyGNp3AMHLx0xElRMU=
+X-Google-Smtp-Source: ABdhPJwUq5NIrEyc+uROlerUgrn1IVIULU9QdvwWIINCESl1ccBvHB535Tag9zaAcvORuocModFwlA==
+X-Received: by 2002:a05:600c:430a:: with SMTP id p10mr4956881wme.155.1623430221767;
+        Fri, 11 Jun 2021 09:50:21 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id m132sm6612796wmf.10.2021.06.11.09.43.13
+        by smtp.gmail.com with ESMTPSA id r3sm6307970wmq.8.2021.06.11.09.50.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 09:43:13 -0700 (PDT)
+        Fri, 11 Jun 2021 09:50:21 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     arm@kernel.org, soc@kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 6/6] arm64: tegra: Device tree changes for v5.14-rc1
-Date:   Fri, 11 Jun 2021 18:44:37 +0200
-Message-Id: <20210611164437.3568059-6-thierry.reding@gmail.com>
+To:     Dave Airlie <airlied@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [GIT PULL] drm/tegra: Changes for v5.14-rc1
+Date:   Fri, 11 Jun 2021 18:51:57 +0200
+Message-Id: <20210611165157.3569315-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210611164437.3568059-1-thierry.reding@gmail.com>
-References: <20210611164437.3568059-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi ARM SoC maintainers,
+Hi Dave,
 
-The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
+The following changes since commit 671cc352acd3e2b2832b59787ed8027d9f80ccc9:
 
-  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
+  drm/tegra: Correct DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT (2021-05-31 14:29:44 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.14-arm64-dt
+  ssh://git.freedesktop.org/git/tegra/linux.git tags/drm/tegra/for-5.14-rc1
 
-for you to fetch changes up to c7289b1c8a4e10bbbdb7097a71a90652beb767a1:
+for you to fetch changes up to 46f99eebda08963e24efdacec5c95fc66b90f600:
 
-  arm64: tegra: Enable SMMU support on Tegra194 (2021-06-11 13:33:46 +0200)
+  drm/tegra: Don't call SET_APPLICATION_ID in VIC boot (2021-06-11 18:48:36 +0200)
+
+Note that I've based this on the drm/tegra/for-5.13-rc5 fixes PR that
+I sent out last week for simplicity.
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-arm64: tegra: Device tree changes for v5.14-rc1
+drm/tegra: Changes for v5.14-rc1
 
-Contains changes to consolidate audio card names, adds audio support on
-Jetson Xavier NX and enables SMMU on Tegra194.
+The two major changes here are fixed YUV support as well as scaling on
+Tegra186 and later. This allows Tegra DRM to be used, for example, as a
+video sink for the kmssink gstreamer plugin. The remainder of the
+changes are minor fixes.
 
 ----------------------------------------------------------------
-Jon Hunter (1):
-      arm64: tegra: Add PMU node for Tegra194
+Mikko Perttunen (1):
+      drm/tegra: Don't call SET_APPLICATION_ID in VIC boot
 
-Sameer Pujar (1):
-      arm64: tegra: Audio graph sound card for Jetson Xavier NX
+Tan Zhongjun (1):
+      drm/tegra: Remove superfluous error messages around platform_get_irq()
 
-Thierry Reding (4):
-      arm64: tegra: Consolidate audio card names
-      arm64: tegra: Use correct compatible string for Tegra186 SMMU
-      arm64: tegra: Hook up memory controller to SMMU on Tegra186
-      arm64: tegra: Enable SMMU support on Tegra194
+Thierry Reding (2):
+      drm/tegra: hub: Fix YUV support
+      drm/tegra: hub: Implement basic scaling support
 
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts |   4 +-
- arch/arm64/boot/dts/nvidia/tegra186.dtsi           |   4 +-
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts |   4 +-
- .../arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi | 595 ++++++++++++++++++++-
- arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 100 ++++
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts |   2 +-
- arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   2 +-
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |   4 +-
- 8 files changed, 705 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/tegra/dc.c    |   2 +-
+ drivers/gpu/drm/tegra/dc.h    |  26 ++++++
+ drivers/gpu/drm/tegra/dpaux.c |   4 +-
+ drivers/gpu/drm/tegra/hub.c   | 182 +++++++++++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/tegra/plane.c |  23 +++++-
+ drivers/gpu/drm/tegra/plane.h |   3 +-
+ drivers/gpu/drm/tegra/vic.c   |   2 -
+ drivers/gpu/drm/tegra/vic.h   |   1 -
+ 8 files changed, 223 insertions(+), 20 deletions(-)
