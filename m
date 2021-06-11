@@ -2,57 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D2CD3A46CC
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Jun 2021 18:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472F33A46B8
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Jun 2021 18:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231552AbhFKQql (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Jun 2021 12:46:41 -0400
-Received: from mail-wr1-f48.google.com ([209.85.221.48]:35751 "EHLO
-        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231466AbhFKQq0 (ORCPT
+        id S229584AbhFKQpO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Jun 2021 12:45:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55986 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229638AbhFKQpO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Jun 2021 12:46:26 -0400
-Received: by mail-wr1-f48.google.com with SMTP id m18so6760587wrv.2
-        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:44:12 -0700 (PDT)
+        Fri, 11 Jun 2021 12:45:14 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E1AC0617AF
+        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:43:15 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso9007593wmh.4
+        for <linux-tegra@vger.kernel.org>; Fri, 11 Jun 2021 09:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=V5XYrnY/xVnCPcibAwboKgHCmrwG1kEd9Tte7IqhonY=;
-        b=AT2W/U1lava1Ca/zNFJ6uPGusersVIS6uHclYO2H/J6Qp1tt86eedRIFMioYpe8fqs
-         yrD74cQCB7gTkJ/kRf4Fa2ZDARKHtlWEHK8gvqQBojB2HoPIRlTiyqeoAzLb31bjDOwU
-         2fOqkJjuIv2s32Ktao44dlmqzx8n0MqHplzQKIo52w2TgS1YTFBc7LTxsz44LekNZlk4
-         +/JNa06aUjBU2QjmyFo0UWIdMu4V0iRUcJJZY/duMgkHzvhbWsV1XwULSqhLiHm75T3K
-         cG6DWTBPdfFjw8a2Jkvt7WvEfdmK4GqT3hWfjSP5PZJH7CTxPDGg2tMwz70xIRtgVOGt
-         hLqw==
+        bh=kf0RMu96Wd7ucBmuszu/MWcsjJuodgKxcHrTJqiSFWM=;
+        b=iez4rN3vAMHTJIPw2rqGcFe2ApmgbqvQnn+9CpLUWSibs/OeCbNnSVgv3GGKoghC+S
+         5fsnNSjwi1bTmhqRtGLauAxXQjSmMZfp4tRqkkqQ37aqobJPwb+7wRskwfQhe84H6rxL
+         Qtf+VZL1AnhmTDrki9VdxooGT7kv8tyfT019TSAKELGgfNNpzdZ/WmsphvV1LQ0l6prQ
+         HknaZdlHFXjF7CKEl+8pVYd+CNcAvqAho964qMepsN6pHdfEuTR93zTJ9eRE2/XD8S5P
+         wGN8/wLlXytNZ/6f6hu54LCrttPat0uvRyCpUlIBzLXHE7hIEAvK236UR68r9GCTCcIN
+         bj3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=V5XYrnY/xVnCPcibAwboKgHCmrwG1kEd9Tte7IqhonY=;
-        b=M++R1apIJiELO3WARtRtWGiVXNKb0wJfXzDCJe11XTJOXEgbhnSS/Acx8Q/WpngRMt
-         l0gvGQSbMJhaP/hqdmf+d8ogtRFq04Fi0FvvVH8tzTUlGc17/nMXMAnUpaTw5RVUdJGa
-         ea4VwfkLQJLzMbDsdd8cHUgrRNJQIHhB9PYehrj/Sj1jZlwe1Td973gowZnTbvODMlZB
-         hfcD8ScXvGIVduIsK3q9ZeTMWdNezc86gQPPcjqOJIX4dILslsF2oygEN62N+Z9qFOp9
-         +syNUfhaXAo6jh9Wmychjflod47Sv1Ky/B6aKhf+UjNsw6dLeoOsYLd2vtia89mZ6Xiy
-         +gtA==
-X-Gm-Message-State: AOAM533TRZgB/NXbRMAGLJs420TwNXj38J1640fur6s+lqlMByJkZijt
-        VMHpGUQU6xje0tg/2vF1oLs=
-X-Google-Smtp-Source: ABdhPJxlsbAOLOU1i27Ibi/lz52sIQVKiBthECxJn+E7iF+bsBneHJrvzhZpxGhPpbWTOw5uSu00yw==
-X-Received: by 2002:a5d:64c7:: with SMTP id f7mr5073620wri.36.1623429792242;
-        Fri, 11 Jun 2021 09:43:12 -0700 (PDT)
+        bh=kf0RMu96Wd7ucBmuszu/MWcsjJuodgKxcHrTJqiSFWM=;
+        b=fahL5Bu3BRUc5chi8CmuKaTGJMWrbOtvRX3I9A/psuiB0JKrZG5dHmwocO2BXrKP1x
+         bh0uu2HGfzxpT74/Jv7y67Ja8bj8GhXMx4wNpaabWG/oAjjqxMaYjiICNKgf2TUtZQRM
+         1HLZ0kLfq3TNHAAXSYT96z6wSeXLazRq1sB1M97m/Iu69LdaeY77htBJhQjYNPI9KW+L
+         NiZuxFotcckAJS/K+/TsGE2jpNctOeOOElrrQ8/wvu6W80n875jFOSYWsZUzuSP2v5c4
+         6757wAWg5U+mkDTSFQq2uuuYrNFV6YY9QyoptTod3rhORcbkU5GFtkZvdFiFpm2y0xD2
+         tQvw==
+X-Gm-Message-State: AOAM533gDi4zFNo9EI9xQIi4UvtJ9n+4uZ221lXWCDJPTShTom2mX+Qr
+        c7Y8WUx3E2d7SlQZV+cULWo=
+X-Google-Smtp-Source: ABdhPJxrExfJMaXN5MHYDcipIcjUhjeVg0YmkBliymAlsgthJyItoy35E7ZHDiFs7rW8X5omCVe0Vw==
+X-Received: by 2002:a1c:2142:: with SMTP id h63mr4982551wmh.84.1623429794246;
+        Fri, 11 Jun 2021 09:43:14 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id p5sm8063831wrd.25.2021.06.11.09.43.11
+        by smtp.gmail.com with ESMTPSA id m132sm6612796wmf.10.2021.06.11.09.43.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 09:43:11 -0700 (PDT)
+        Fri, 11 Jun 2021 09:43:13 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 5/6] ARM: tegra: Default configuration changes for v5.14-rc1
-Date:   Fri, 11 Jun 2021 18:44:36 +0200
-Message-Id: <20210611164437.3568059-5-thierry.reding@gmail.com>
+Subject: [GIT PULL 6/6] arm64: tegra: Device tree changes for v5.14-rc1
+Date:   Fri, 11 Jun 2021 18:44:37 +0200
+Message-Id: <20210611164437.3568059-6-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210611164437.3568059-1-thierry.reding@gmail.com>
 References: <20210611164437.3568059-1-thierry.reding@gmail.com>
@@ -71,24 +74,40 @@ The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.14-arm-defconfig
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.14-arm64-dt
 
-for you to fetch changes up to 4302331fdf4440b96dba583384a0e2b759cb13bd:
+for you to fetch changes up to c7289b1c8a4e10bbbdb7097a71a90652beb767a1:
 
-  ARM: tegra_defconfig: Enable CONFIG_DEVFREQ_THERMAL (2021-05-31 11:43:11 +0200)
+  arm64: tegra: Enable SMMU support on Tegra194 (2021-06-11 13:33:46 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-ARM: tegra: Default configuration changes for v5.14-rc1
+arm64: tegra: Device tree changes for v5.14-rc1
 
-Enables the devfreq thermal support to allow using the devfreq device as
-cooling device for the system.
+Contains changes to consolidate audio card names, adds audio support on
+Jetson Xavier NX and enables SMMU on Tegra194.
 
 ----------------------------------------------------------------
-Dmitry Osipenko (1):
-      ARM: tegra_defconfig: Enable CONFIG_DEVFREQ_THERMAL
+Jon Hunter (1):
+      arm64: tegra: Add PMU node for Tegra194
 
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Sameer Pujar (1):
+      arm64: tegra: Audio graph sound card for Jetson Xavier NX
+
+Thierry Reding (4):
+      arm64: tegra: Consolidate audio card names
+      arm64: tegra: Use correct compatible string for Tegra186 SMMU
+      arm64: tegra: Hook up memory controller to SMMU on Tegra186
+      arm64: tegra: Enable SMMU support on Tegra194
+
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts |   4 +-
+ .../arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi | 595 ++++++++++++++++++++-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 100 ++++
+ arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts |   2 +-
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   2 +-
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |   4 +-
+ 8 files changed, 705 insertions(+), 10 deletions(-)
