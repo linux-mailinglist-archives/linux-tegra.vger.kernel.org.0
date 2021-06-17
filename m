@@ -2,161 +2,270 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E3E3AB195
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 12:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7612C3AB1D3
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 13:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbhFQKqW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Jun 2021 06:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232113AbhFQKqV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Jun 2021 06:46:21 -0400
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02460C061574;
-        Thu, 17 Jun 2021 03:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=5ZAjHr2/sRedtNcQxJ9H/2kl/+cFC7b6FXdpx/e4Ong=; b=KfJWApOwyH9DUAo+TUGHAsw0pt
-        CRLQz9ZMbuwYo3Jj1sTPoJN3gRqYFmo++RDRXy4jB868GWdCFKtw76bjwLRH2q7QQ4ZMm+CZr6DLk
-        nxTTW9e6N+ZDrZTHXTpGFVzxqbUzBFieic+dFYRc3/RX6DkT45gJEdx7uQlzfW5WHs4zxKbon82ty
-        T1U3U/MZLY2wYi4st+nNDIQFUCO24mxRx+YwFp1bnlhYkqwj+pOACqkBSIeREYjTS+/SA83Icjbs7
-        u6bfrfxpcvqhbThPhTXUGvRU3QkM87yHKH/tiTCCqPC/HfhHIl0F7UO5I1UZBMmKNgn0tpl2PKvyQ
-        0s1jTBug==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <mperttunen@nvidia.com>)
-        id 1ltpVH-0006tB-Mw; Thu, 17 Jun 2021 13:44:07 +0300
-From:   Mikko Perttunen <mperttunen@nvidia.com>
-To:     catalin.marinas@arm.com, will@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH 2/2] soc: tegra: Add Tegra186 ARI driver
-Date:   Thu, 17 Jun 2021 13:40:53 +0300
-Message-Id: <20210617104053.765434-2-mperttunen@nvidia.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210617104053.765434-1-mperttunen@nvidia.com>
-References: <20210617104053.765434-1-mperttunen@nvidia.com>
+        id S231699AbhFQLCs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Jun 2021 07:02:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50788 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232251AbhFQLCp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 17 Jun 2021 07:02:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 81B67613E2;
+        Thu, 17 Jun 2021 11:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1623927638;
+        bh=IjNco9f9EPzlQJjmK3xgbzrERQA6WBkHjH4qn50cnmw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LeEdVoxCe4TbiMFVCQSfkGnBr8MyV/ot7D6eeatqAMBpPeQPyaag5j8lWQ/drrZWU
+         utYw++QUo/2j5q5wtU/uu51PzR70hhJi7MDm/RPPT3j2NOoYl9beMQ8EKw0G8PeXvg
+         c9O2+cpvEsRd+MYv6Xu/qIQWT4XlFYjUA8m9Ay7M=
+Date:   Thu, 17 Jun 2021 13:00:35 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mikko Perttunen <mperttunen@nvidia.com>
+Cc:     arnd@arndb.de, ykaukab@suse.de, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] misc: sram: Only map reserved areas in Tegra SYSRAM
+Message-ID: <YMsrU81o9hCTNfy7@kroah.com>
+References: <20210617094804.667716-1-mperttunen@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: mperttunen@nvidia.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210617094804.667716-1-mperttunen@nvidia.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add a driver to hook into SError interrupts and print machine check
-status for debugging. Status information is retrieved via SMC. This
-is supported by upstream ARM Trusted Firmware.
+On Thu, Jun 17, 2021 at 12:48:04PM +0300, Mikko Perttunen wrote:
+> On Tegra186 and later, a portion of the SYSRAM may be reserved for use
+> by TZ. Non-TZ memory accesses to this portion, including speculative
+> accesses, trigger SErrors that bring down the system. This does also
+> happen in practice occasionally (due to speculative accesses).
+> 
+> To fix the issue, add a flag to the SRAM driver to only map the
+> device tree-specified reserved areas depending on a flag set
+> based on the compatibility string. This would not affect non-Tegra
+> systems that rely on the entire thing being memory mapped.
+> 
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> ---
+>  drivers/misc/sram.c | 108 +++++++++++++++++++++++++++++++-------------
+>  drivers/misc/sram.h |   9 ++++
+>  2 files changed, 86 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/misc/sram.c b/drivers/misc/sram.c
+> index 93638ae2753a..a27ffb3dbea8 100644
+> --- a/drivers/misc/sram.c
+> +++ b/drivers/misc/sram.c
+> @@ -97,7 +97,24 @@ static int sram_add_partition(struct sram_dev *sram, struct sram_reserve *block,
+>  	struct sram_partition *part = &sram->partition[sram->partitions];
+>  
+>  	mutex_init(&part->lock);
+> -	part->base = sram->virt_base + block->start;
+> +
+> +	if (sram->config->map_only_reserved) {
+> +		void *virt_base;
+> +
+> +		if (sram->no_memory_wc)
+> +			virt_base = devm_ioremap_resource(sram->dev, &block->res);
+> +		else
+> +			virt_base = devm_ioremap_resource_wc(sram->dev, &block->res);
+> +
+> +		if (IS_ERR(virt_base)) {
+> +			dev_err(sram->dev, "could not map SRAM at %pr\n", &block->res);
+> +			return PTR_ERR(virt_base);
+> +		}
+> +
+> +		part->base = virt_base;
+> +	} else {
+> +		part->base = sram->virt_base + block->start;
+> +	}
+>  
+>  	if (block->pool) {
+>  		ret = sram_add_pool(sram, block, start, part);
+> @@ -198,6 +215,7 @@ static int sram_reserve_regions(struct sram_dev *sram, struct resource *res)
+>  
+>  		block->start = child_res.start - res->start;
+>  		block->size = resource_size(&child_res);
+> +		block->res = child_res;
+>  		list_add_tail(&block->list, &reserve_list);
+>  
+>  		if (of_find_property(child, "export", NULL))
+> @@ -295,15 +313,17 @@ static int sram_reserve_regions(struct sram_dev *sram, struct resource *res)
+>  		 */
+>  		cur_size = block->start - cur_start;
+>  
+> -		dev_dbg(sram->dev, "adding chunk 0x%lx-0x%lx\n",
+> -			cur_start, cur_start + cur_size);
+> +		if (sram->pool) {
+> +			dev_dbg(sram->dev, "adding chunk 0x%lx-0x%lx\n",
+> +				cur_start, cur_start + cur_size);
+>  
+> -		ret = gen_pool_add_virt(sram->pool,
+> -				(unsigned long)sram->virt_base + cur_start,
+> -				res->start + cur_start, cur_size, -1);
+> -		if (ret < 0) {
+> -			sram_free_partitions(sram);
+> -			goto err_chunks;
+> +			ret = gen_pool_add_virt(sram->pool,
+> +					(unsigned long)sram->virt_base + cur_start,
+> +					res->start + cur_start, cur_size, -1);
+> +			if (ret < 0) {
+> +				sram_free_partitions(sram);
+> +				goto err_chunks;
+> +			}
+>  		}
+>  
+>  		/* next allocation after this reserved block */
+> @@ -331,40 +351,66 @@ static int atmel_securam_wait(void)
+>  					10000, 500000);
+>  }
+>  
+> +static const struct sram_config default_config = {
+> +};
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/soc/tegra/Makefile       |  1 +
- drivers/soc/tegra/ari-tegra186.c | 78 ++++++++++++++++++++++++++++++++
- 2 files changed, 79 insertions(+)
- create mode 100644 drivers/soc/tegra/ari-tegra186.c
+No need for a "default" config, just do not provide one and then do not
+call it if it is not set.  Much simpler and less code churn.
 
-diff --git a/drivers/soc/tegra/Makefile b/drivers/soc/tegra/Makefile
-index 9c809c1814bd..054e862b63d8 100644
---- a/drivers/soc/tegra/Makefile
-+++ b/drivers/soc/tegra/Makefile
-@@ -7,3 +7,4 @@ obj-$(CONFIG_SOC_TEGRA_PMC) += pmc.o
- obj-$(CONFIG_SOC_TEGRA_POWERGATE_BPMP) += powergate-bpmp.o
- obj-$(CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER) += regulators-tegra20.o
- obj-$(CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER) += regulators-tegra30.o
-+obj-$(CONFIG_ARCH_TEGRA_186_SOC) += ari-tegra186.o
-diff --git a/drivers/soc/tegra/ari-tegra186.c b/drivers/soc/tegra/ari-tegra186.c
-new file mode 100644
-index 000000000000..51b95af1dc78
---- /dev/null
-+++ b/drivers/soc/tegra/ari-tegra186.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
-+ */
-+
-+#include <linux/arm-smccc.h>
-+#include <linux/kernel.h>
-+#include <linux/of.h>
-+
-+#include <asm/traps.h>
-+
-+#define SMC_SIP_INVOKE_MCE			0xc2ffff00
-+#define MCE_SMC_READ_MCA			12
-+
-+#define MCA_ARI_CMD_RD_SERR			1
-+
-+#define MCA_ARI_RW_SUBIDX_STAT			1
-+#define SERR_STATUS_VAL				BIT_ULL(63)
-+
-+#define MCA_ARI_RW_SUBIDX_ADDR			2
-+#define MCA_ARI_RW_SUBIDX_MSC1			3
-+#define MCA_ARI_RW_SUBIDX_MSC2			4
-+
-+static const char * const bank_names[] = {
-+	"SYS:DPMU", "ROC:IOB", "ROC:MCB", "ROC:CCE", "ROC:CQX", "ROC:CTU",
-+};
-+
-+static void read_uncore_mca(u8 cmd, u8 idx, u8 subidx, u8 inst, u64 *data)
-+{
-+	struct arm_smccc_res res;
-+
-+	arm_smccc_smc(SMC_SIP_INVOKE_MCE | MCE_SMC_READ_MCA,
-+		      ((u64)inst << 24) | ((u64)idx << 16) |
-+			      ((u64)subidx << 8) | ((u64)cmd << 0),
-+		      0, 0, 0, 0, 0, 0, &res);
-+
-+	*data = res.a2;
-+}
-+
-+static void tegra186_ari_process_serror(void)
-+{
-+	u64 status;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(bank_names); i++) {
-+		read_uncore_mca(MCA_ARI_CMD_RD_SERR, i, MCA_ARI_RW_SUBIDX_STAT,
-+				0, &status);
-+
-+		if (status & SERR_STATUS_VAL) {
-+			u64 addr, misc1, misc2;
-+
-+			read_uncore_mca(MCA_ARI_CMD_RD_SERR, i,
-+					MCA_ARI_RW_SUBIDX_ADDR, 0, &addr);
-+			read_uncore_mca(MCA_ARI_CMD_RD_SERR, i,
-+					MCA_ARI_RW_SUBIDX_MSC1, 0, &misc1);
-+			read_uncore_mca(MCA_ARI_CMD_RD_SERR, i,
-+					MCA_ARI_RW_SUBIDX_MSC2, 0, &misc2);
-+
-+			pr_crit("Machine Check Error in %s\n"
-+				"  status=0x%llx addr=0x%llx\n"
-+				"  msc1=0x%llx msc2=0x%llx\n",
-+				bank_names[i], status, addr, misc1, misc2);
-+		}
-+	}
-+}
-+
-+static struct serror_hook tegra186_ari_serror_hook = {
-+	.fn = tegra186_ari_process_serror,
-+};
-+
-+static int __init tegra186_ari_init(void)
-+{
-+	if (of_machine_is_compatible("nvidia,tegra186"))
-+		register_serror_hook(&tegra186_ari_serror_hook);
-+
-+	return 0;
-+}
-+early_initcall(tegra186_ari_init);
--- 
-2.30.1
 
+> +
+> +static const struct sram_config atmel_securam_config = {
+> +	.init = atmel_securam_wait
+
+Add a trailing , please.
+
+> +};
+> +
+> +/*
+> + * SYSRAM contains areas that are not accessible by the
+> + * kernel, such as the first 256K that is reserved for TZ.
+> + * Accesses to those areas (including speculative accesses)
+> + * trigger SErrors. As such we must map only the areas of
+> + * SYSRAM specified in the device tree.
+> + */
+> +static const struct sram_config tegra_sysram_config = {
+> +	.map_only_reserved = true,
+> +};
+> +
+>  static const struct of_device_id sram_dt_ids[] = {
+> -	{ .compatible = "mmio-sram" },
+> -	{ .compatible = "atmel,sama5d2-securam", .data = atmel_securam_wait },
+> +	{ .compatible = "mmio-sram", .data = &default_config },
+> +	{ .compatible = "atmel,sama5d2-securam", .data = &atmel_securam_config },
+> +	{ .compatible = "nvidia,tegra186-sysram", .data = &tegra_sysram_config },
+> +	{ .compatible = "nvidia,tegra194-sysram", .data = &tegra_sysram_config },
+>  	{}
+>  };
+>  
+>  static int sram_probe(struct platform_device *pdev)
+>  {
+> +	const struct sram_config *config;
+>  	struct sram_dev *sram;
+>  	int ret;
+>  	struct resource *res;
+> -	int (*init_func)(void);
+> +
+> +	config = of_device_get_match_data(&pdev->dev);
+>  
+>  	sram = devm_kzalloc(&pdev->dev, sizeof(*sram), GFP_KERNEL);
+>  	if (!sram)
+>  		return -ENOMEM;
+>  
+>  	sram->dev = &pdev->dev;
+> +	sram->no_memory_wc = of_property_read_bool(pdev->dev.of_node, "no-memory-wc");
+> +	sram->config = config;
+> +
+> +	if (!config->map_only_reserved) {
+> +		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +		if (sram->no_memory_wc)
+> +			sram->virt_base = devm_ioremap_resource(&pdev->dev, res);
+> +		else
+> +			sram->virt_base = devm_ioremap_resource_wc(&pdev->dev, res);
+> +		if (IS_ERR(sram->virt_base)) {
+> +			dev_err(&pdev->dev, "could not map SRAM registers\n");
+> +			return PTR_ERR(sram->virt_base);
+> +		}
+>  
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	if (of_property_read_bool(pdev->dev.of_node, "no-memory-wc"))
+> -		sram->virt_base = devm_ioremap_resource(&pdev->dev, res);
+> -	else
+> -		sram->virt_base = devm_ioremap_resource_wc(&pdev->dev, res);
+> -	if (IS_ERR(sram->virt_base)) {
+> -		dev_err(&pdev->dev, "could not map SRAM registers\n");
+> -		return PTR_ERR(sram->virt_base);
+> +		sram->pool = devm_gen_pool_create(sram->dev, ilog2(SRAM_GRANULARITY),
+> +						  NUMA_NO_NODE, NULL);
+> +		if (IS_ERR(sram->pool))
+> +			return PTR_ERR(sram->pool);
+>  	}
+>  
+> -	sram->pool = devm_gen_pool_create(sram->dev, ilog2(SRAM_GRANULARITY),
+> -					  NUMA_NO_NODE, NULL);
+> -	if (IS_ERR(sram->pool))
+> -		return PTR_ERR(sram->pool);
+> -
+>  	sram->clk = devm_clk_get(sram->dev, NULL);
+>  	if (IS_ERR(sram->clk))
+>  		sram->clk = NULL;
+> @@ -378,15 +424,15 @@ static int sram_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, sram);
+>  
+> -	init_func = of_device_get_match_data(&pdev->dev);
+> -	if (init_func) {
+> -		ret = init_func();
+> +	if (config->init) {
+> +		ret = config->init();
+>  		if (ret)
+>  			goto err_free_partitions;
+>  	}
+>  
+> -	dev_dbg(sram->dev, "SRAM pool: %zu KiB @ 0x%p\n",
+> -		gen_pool_size(sram->pool) / 1024, sram->virt_base);
+> +	if (sram->pool)
+> +		dev_dbg(sram->dev, "SRAM pool: %zu KiB @ 0x%p\n",
+> +			gen_pool_size(sram->pool) / 1024, sram->virt_base);
+>  
+>  	return 0;
+>  
+> @@ -405,7 +451,7 @@ static int sram_remove(struct platform_device *pdev)
+>  
+>  	sram_free_partitions(sram);
+>  
+> -	if (gen_pool_avail(sram->pool) < gen_pool_size(sram->pool))
+> +	if (sram->pool && gen_pool_avail(sram->pool) < gen_pool_size(sram->pool))
+>  		dev_err(sram->dev, "removed while SRAM allocated\n");
+>  
+>  	if (sram->clk)
+> diff --git a/drivers/misc/sram.h b/drivers/misc/sram.h
+> index 9c1d21ff7347..d2058d8c8f1d 100644
+> --- a/drivers/misc/sram.h
+> +++ b/drivers/misc/sram.h
+> @@ -5,6 +5,11 @@
+>  #ifndef __SRAM_H
+>  #define __SRAM_H
+>  
+> +struct sram_config {
+> +	int (*init)(void);
+> +	bool map_only_reserved;
+> +};
+> +
+>  struct sram_partition {
+>  	void __iomem *base;
+>  
+> @@ -15,8 +20,11 @@ struct sram_partition {
+>  };
+>  
+>  struct sram_dev {
+> +	const struct sram_config *config;
+> +
+>  	struct device *dev;
+>  	void __iomem *virt_base;
+> +	bool no_memory_wc;
+
+What does "wc" here mean?
+
+thanks,
+
+greg k-h
