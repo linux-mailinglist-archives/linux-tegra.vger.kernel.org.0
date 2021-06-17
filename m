@@ -2,92 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65A2A3AAD72
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 09:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 145303AAE29
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 09:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbhFQH01 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Jun 2021 03:26:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbhFQH00 (ORCPT
+        id S230390AbhFQH6l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Jun 2021 03:58:41 -0400
+Received: from [122.15.141.162] ([122.15.141.162]:42940 "EHLO
+        UPCDCDAMX02.upcl.org" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229666AbhFQH6g (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Jun 2021 03:26:26 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4130DC061574;
-        Thu, 17 Jun 2021 00:24:19 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id r198so8716084lff.11;
-        Thu, 17 Jun 2021 00:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RtRECjuHE8VSl/pHqjivxGI8ToSVE21apQFUXU7vdb8=;
-        b=Z1JZqiKZBB7gCeAUgnrr58Sux4Mb1dytkvz39WcLmuJRLa/3NxdxiEkAi7B7iGK7X/
-         s8JbQifq15J0xb5c3kOS67XC6GfX/oR7EW3MR07vHdZbQlovkohPk3X1rRuxIyFUWcAU
-         cLbK13S9WJN/UXXVv7v0ia/gJXUfu1l2FtCvbz5FvQgs1yFTxEcsNBB5BgaZrimsfFFX
-         chz2rH0lBiUnda63qWfizyDL2D/Z6Rw3ipQS0RRJizxYRySvKqWea65Bh/w7PqCpJsoc
-         szyoSREiF5gg+r4p75Qqc0brdYa5xEqtYW7TLtjeTfNDSsMSGb3M6ONhfzQVRe0WPwDb
-         r5Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RtRECjuHE8VSl/pHqjivxGI8ToSVE21apQFUXU7vdb8=;
-        b=ee6mQk3rW18/I8JrsccYyw5lnjcaluGoaKpC5UIeZlYWPGOUSRhSy6yMAYEOvXu4qF
-         PEbC7Q2S9jzNNKcaAIR1jTp9dMgS2o0gp0knUKvK8UIIhDUa/oxVmnyD+POhC9RX4q3l
-         /ktbH/14lvKyscTJ/nD0anaw1gF3lDf+3z5/fd6c1Phj4uSwqG3ISEotkbgovYh/SWAg
-         +yHFAkDG9dATYGusvllZZtIMYarolxS/o/M1YVO+ucDHH2W4HUhnf11pLGyA8getzI6M
-         Znnij1/kColBML5RisMqmEPlBWbGF8WNsK3MFrMGYukMlJjq3t6KGm10QV+mGBK17xw4
-         +ZXw==
-X-Gm-Message-State: AOAM530EVSlRtFswY0Y7Vo07eVYOZGeYfYxMWCLOZmBaiQow9++xT9H8
-        Hd4kH5q+nvy8r0VbmZqiefk=
-X-Google-Smtp-Source: ABdhPJwiWJwBIEAXOcnfax5b9NHW3VV+Ld0Pc9uh1XV/GUCp9Hfb9RK3N+WJ3oHbgd5MU1L91QFkTw==
-X-Received: by 2002:ac2:5547:: with SMTP id l7mr2812424lfk.402.1623914657659;
-        Thu, 17 Jun 2021 00:24:17 -0700 (PDT)
-Received: from localhost.localdomain (94-29-29-31.dynamic.spd-mgts.ru. [94.29.29.31])
-        by smtp.gmail.com with ESMTPSA id d23sm487140lfi.4.2021.06.17.00.24.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 00:24:17 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v1] thermal/drivers/tegra: Correct compile-testing of drivers
-Date:   Thu, 17 Jun 2021 10:24:03 +0300
-Message-Id: <20210617072403.3487-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 17 Jun 2021 03:58:36 -0400
+Received: from UPCDCDAMX02.upcl.org (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EF84AC3EEC;
+        Thu, 17 Jun 2021 12:51:17 +0530 (IST)
+Received: from UPCDCDAMX02.upcl.org (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9D8C1C318F;
+        Thu, 17 Jun 2021 12:50:14 +0530 (IST)
+Received: from User (unknown [210.212.82.37])
+        by UPCDCDAMX02.upcl.org (Postfix) with SMTP;
+        Thu, 17 Jun 2021 12:50:14 +0530 (IST)
+Reply-To: <marielthiago102@gmail.com>
+From:   "Mariel Thiago" <info@infotools.in>
+Subject: Re:: Please contact me it's very urgent.
+Date:   Thu, 17 Jun 2021 07:20:41 -0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20210617072014.9D8C1C318F@UPCDCDAMX02.upcl.org>
+To:     undisclosed-recipients:;
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.1960-8.6.0.1013-26224.006
+X-TM-AS-Result: No-2.497-5.0-31-10
+X-imss-scan-details: No-2.497-5.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.1960-8.6.1013-26224.006
+X-TMASE-Result: 10-2.496900-10.000000
+X-TMASE-MatchedRID: PEpoWB/n4wPoJ7ZHxnJI6/6CJzEkJBKDVOXpHWpii+ddyparHcc9UIhu
+        TvsiBEc/JfjcKHKDDk8K4MBRf7I7puawzjZNF/+9gM4D72plZiep43A0ENmZJqRrhpwKFLjUkZO
+        l7WKIImpu9tOD27u7FNTHX+rg7MGt505jRA97RdWRSAi45KhHyaxczqyf2GA9LHdIgRft8S1QSp
+        LfxZGQcl8vMu11r33KXPP583vQDYF3yrRBFBiPVS2s/H4x5wHg3QfwsVk0UbuGrPnef/I+ej6N5
+        5/6MNSnpdDo0PaPyGFHwD2XNKdI8sVZh7bvPcyg0m3qDro1rgcxP1evyC/00KVBBtW+D6/IR7CD
+        JBvMFOms6dZMAot5Yg==
+X-IMSS-DKIM-White-List: No
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-All Tegra thermal drivers support compile-testing, but the drivers are
-not available for compile-testing because the whole Kconfig meny entry
-depends on ARCH_TEGRA, missing the alternative COMPILE_TEST dependency
-option. Correct the Kconfig entry.
-
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/thermal/tegra/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/thermal/tegra/Kconfig b/drivers/thermal/tegra/Kconfig
-index 019e3a2eb69e..cfa41d87a794 100644
---- a/drivers/thermal/tegra/Kconfig
-+++ b/drivers/thermal/tegra/Kconfig
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- menu "NVIDIA Tegra thermal drivers"
--depends on ARCH_TEGRA
-+depends on ARCH_TEGRA || COMPILE_TEST
- 
- config TEGRA_SOCTHERM
- 	tristate "Tegra SOCTHERM thermal management"
--- 
-2.30.2
-
+ I think I have something huge you might be interested in.
