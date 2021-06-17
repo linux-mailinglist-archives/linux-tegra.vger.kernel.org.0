@@ -2,341 +2,187 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D153AB053
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 11:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F075A3AB0DF
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 12:05:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231446AbhFQJyN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Jun 2021 05:54:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231983AbhFQJyJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Jun 2021 05:54:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E581DC06175F
-        for <linux-tegra@vger.kernel.org>; Thu, 17 Jun 2021 02:52:01 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ltogo-0007QB-1J; Thu, 17 Jun 2021 11:51:58 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ltogn-0005OA-Ms; Thu, 17 Jun 2021 11:51:57 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH v1 6/6] pwm: tegra: unfold legacy callbacks into tegra_pwm_apply()
-Date:   Thu, 17 Jun 2021 11:51:45 +0200
-Message-Id: <20210617095145.163694-7-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210617095145.163694-1-u.kleine-koenig@pengutronix.de>
-References: <20210617095145.163694-1-u.kleine-koenig@pengutronix.de>
+        id S231819AbhFQKHe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Jun 2021 06:07:34 -0400
+Received: from mail-dm6nam11on2045.outbound.protection.outlook.com ([40.107.223.45]:2463
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229901AbhFQKHd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 17 Jun 2021 06:07:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nCSnBdremj+nLcn3ZayYFwYDd0/Br63iwpUcp3s6LkNUhdXOJsMvizqFONs9/DMKUeSh4eg4GvjWjDZrpCG1VQI2oGUuuZ/q1dqTasM4nF4URAgYezNcnuULcRssafLrIPuMXZ7fU0fSd8spbF2jJ/+SHyYGb7YcrErE5qCePAEGBM2HTXPYDPFFQKq4zA2ZQE9phavEAGbUGd34RIJ6M+UR9eIjFXmEYfX6jxTWfk9XdSZLZD53U26dtRaon3HxbqSz9DOK0Pa4+bATCmnIBw2wzLwcqhBFvcHkUw6Z9xJwCBsQYo6GtuJlbk9FfjGF26O9Hi4brmrAQglDixW1yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AvR/MUuGXc54WehSPmrasOmMvjphij/wReQWb98tung=;
+ b=NeBh0yINjWsu63E//JlnMCDAJg7zBQPZ+Sbivr8TorJv/gNKFjOxEegJs7LNih17VbAGPjbZLJTcF5ASyU/UU5iAXUNkImEhK/JkpQOn7YBTJSIdCuQ1cZHFkavs4PG/nZsu3pDLWaXEvTorrcqxv/0103I/m7swONQ+zx/rlS/n/pX5IfMd7ZXdSaQsFTx5RikJIXLBbWiKsPPhIxsJg4CZTAvzs/OHndDRB+VhTAR9Ux6tnl/pAR2uqPbyBhkhHPHqLYeM/KiZ+PdwomXAnu8ltO2QCT1FpeuzBFoOfq0I+EmNT7HTWpBEa/8XCNRZeaZZxWYbbk1S6n2TmO0gzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AvR/MUuGXc54WehSPmrasOmMvjphij/wReQWb98tung=;
+ b=r2SzAluLiJX9E0j2xaFVxX/V847Ut76Lbh1vJgafOLlHb+Lam99e+mnUHkNzJ13txO2oTm8cDNrIX1Yn/8FD3mY5lb9Z9URLXkJUPwkzIClXLd+KsGqxN4h7s+ePQzjwW/QcKRy0riSKKIdwI+Us0Vp/WKuzj4IAc6ikbQbeam14JyHR1dlsYdQGpVH3FX9LcbQmpB/puWcfkAJpym4UsmoNCMnKU0ftDXGoVaXH0zYBORZvGWhnomijscB/Pd88J8xD8lk/WdxKeazzq+ZEPoTCA8/L4ZbOIg7iiGscBHcf+rEj8jcBSoo+vZJkhGwJUppRLkwB7YW6MxrGzdbjUA==
+Received: from MWHPR21CA0040.namprd21.prod.outlook.com (2603:10b6:300:129::26)
+ by BYAPR12MB3287.namprd12.prod.outlook.com (2603:10b6:a03:131::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Thu, 17 Jun
+ 2021 10:05:24 +0000
+Received: from CO1NAM11FT004.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:129:cafe::bd) by MWHPR21CA0040.outlook.office365.com
+ (2603:10b6:300:129::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.0 via Frontend
+ Transport; Thu, 17 Jun 2021 10:05:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ CO1NAM11FT004.mail.protection.outlook.com (10.13.175.89) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 10:05:24 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Jun
+ 2021 10:05:23 +0000
+Received: from kyarlagadda-linux.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Jun 2021 03:05:20 -0700
+From:   Akhil R <akhilrajeev@nvidia.com>
+To:     <akhilrajeev@nvidia.com>, Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+CC:     <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Suresh Mangipudi <smangipudi@nvidia.com>,
+        Krishna Yarlagadda <kyarlagadda@nvidia.com>
+Subject: [PATCH] gpio: tegra186: Add ACPI support
+Date:   Thu, 17 Jun 2021 15:35:51 +0530
+Message-ID: <1623924351-22489-1-git-send-email-akhilrajeev@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=B+FEiLrOZF+HfX0Z+BoLTDKTGG3xOZskrcrqCOOCTWc=; m=Nf0Ktx1vUXNMeabaMeMBKdbyIjLeqXcI9TTSOQJCj/A=; p=O4GfEl4CHw+MBaCJfUEWPsK+3fuouL2g4TZp+cyKI0I=; g=b429bf01b282b90bac2993e0ddec5a2563238ba9
-X-Patch-Sig: m=pgp; i=uwe@kleine-koenig.org; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDLGwAACgkQwfwUeK3K7AlmsAf/SbE RaBWeSzv+53bXDNFwnwflHR5f1wbRVrYdX+/l7Y7/diGtoX+rk/gcl3oAV5saSD12xsW4y4LcPsJ9 K+6DXj+5ZF7sZL2cksTcyqCAXrHYfNCKquwt/G4cWDEtahRFpv16jX1ewkOqkTmpAQZb4G2C1P9D3 kHa2d2w5BWDPtpeGmt24IIWR5u1bmY24H7aqKyydxgLmgPkYATHmsSEVbtkSLXAh6sNmMRItnjjgz lPjtGHzjQZeGSJqnT/Cgxx2zuzcB3W/0kkP/sqFM490Jr8uPSsjDK91itpfnzDGgEKIn3wjwz6YH3 eACscG1d9hrrJjHHiq5YQhzJIvmw1zw==
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22a8c65d-bc49-4d90-ee4b-08d931776cc8
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3287:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB328700AE9818408639F18397C00E9@BYAPR12MB3287.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1051;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZlDT2lRBiVt0fR8V91KDtCePof6ju1S2oN2+wQzmTVmgOLCIemOXFpY7COPaKsPCQyogdJ6jnnX2Z7ZgIGGi5huj5Dy4Y9Y/fCdgXqi+VrOh3zGsCSn4ltyQreUe8hSgbvQLrMiWzs3TwkEhyDleaPVgXpPhTBs3DxZgFkXmQmRiIFyBJKC8AR+zoS/xQAkoIgUiQMSzkgEd4cuv0kfKs7N93N8FjlmTta2z3dxhPsv2yh7ajfl2Mw33WS3Vj6evGrA22F1sklfZE0+fkk1dImPfze20LUGPy3iM+UHsr+Vnm7pmT+xz4RxMaO40NjR0r3zpa7jumx7G68cg6J5W4rpW9PjY9OZu0mUFIGE/7HNmQ0pRe0YqjzA2eJGPkeKOSNqv93RQu6aY46kGGC+Yn94FbgEVI78jcdHG4XE6S8eTbuo0Q3JjpNZSaVIoaQww1BJJrUQdKCx8arkGjecNCTfk3zymWJEkT8fKWfdn8Vnlil5v159xCNM0LepEEpAVtcvsrWyeyqTr2wuK1X7OY9WhdW1wpcvt3EKRAJPqC+/HPJhLXtUbTLOJfEpkt7S0CJ5Ksabw7sktZLZ8MKMNYkQ3p5K+FZ3dsoTY1zrEgqZyZsqssSmQcx5UxdYaXHn7zQ0POtmAOXU8LBs0VEuJmzMM0C2RZ47VRLxldatQOi0=
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid02.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(36840700001)(46966006)(82740400003)(5660300002)(478600001)(70586007)(36756003)(356005)(8936002)(110136005)(47076005)(4326008)(36860700001)(70206006)(7696005)(86362001)(54906003)(2616005)(83380400001)(26005)(7636003)(6666004)(336012)(426003)(8676002)(6636002)(36906005)(316002)(2906002)(186003)(107886003)(82310400003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 10:05:24.4583
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22a8c65d-bc49-4d90-ee4b-08d931776cc8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT004.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3287
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This just puts the implementation of tegra_pwm_disable(),
-tegra_pwm_enable() and tegra_pwm_config() into their only caller.
+From: Akhil Rajeev <akhilrajeev@nvidia.com>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Add ACPI module ID to probe the driver from the ACPI based bootloader
+firmware.
+
+Signed-off-by: Akhil Rajeev <akhilrajeev@nvidia.com>
 ---
- drivers/pwm/pwm-tegra.c | 244 ++++++++++++++++++----------------------
- 1 file changed, 108 insertions(+), 136 deletions(-)
 
-diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
-index 1161c6323e60..e57a43f1b1b2 100644
---- a/drivers/pwm/pwm-tegra.c
-+++ b/drivers/pwm/pwm-tegra.c
-@@ -92,166 +92,138 @@ static inline void pwm_writel(struct tegra_pwm_chip *chip, unsigned int num,
- 	writel(val, chip->regs + (num << 4));
- }
+ drivers/gpio/gpio-tegra186.c | 35 ++++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
+index 1bd9e44..c8051be 100644
+--- a/drivers/gpio/gpio-tegra186.c
++++ b/drivers/gpio/gpio-tegra186.c
+@@ -5,6 +5,7 @@
+  * Author: Thierry Reding <treding@nvidia.com>
+  */
  
--static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
--			    int duty_ns, int period_ns)
-+static int tegra_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   const struct pwm_state *state)
- {
- 	struct tegra_pwm_chip *pc = to_tegra_pwm_chip(chip);
--	unsigned long long c = duty_ns, hz;
--	unsigned long rate, required_clk_rate;
--	u32 val = 0;
- 	int err;
-+	u32 val;
++#include <linux/acpi.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+@@ -620,13 +621,18 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
+ 	if (!gpio)
+ 		return -ENOMEM;
  
--	/*
--	 * Convert from duty_ns / period_ns to a fixed number of duty ticks
--	 * per (1 << PWM_DUTY_WIDTH) cycles and make sure to round to the
--	 * nearest integer during division.
--	 */
--	c *= (1 << PWM_DUTY_WIDTH);
--	c = DIV_ROUND_CLOSEST_ULL(c, period_ns);
-+	if (state->polarity != PWM_POLARITY_INVERSED)
-+		return -EINVAL;
- 
--	val = (u32)c << PWM_DUTY_SHIFT;
-+	if (!state->enabled) {
-+		if (pwm->state.enabled) {
-+			val = pwm_readl(pc, pwm->hwpwm);
-+			val &= ~PWM_ENABLE;
-+			pwm_writel(pc, pwm->hwpwm, val);
-+			clk_disable_unprepare(pc->clk);
-+		}
-+		return 0;
+-	gpio->soc = of_device_get_match_data(&pdev->dev);
++	gpio->soc = device_get_match_data(&pdev->dev);
++	if (has_acpi_companion(&pdev->dev)) {
++		gpio->secure = devm_platform_ioremap_resource(pdev, 0);
++		gpio->base = devm_platform_ioremap_resource(pdev, 1);
++	} else {
++		gpio->secure = devm_platform_ioremap_resource_byname(pdev, "security");
++		gpio->base = devm_platform_ioremap_resource_byname(pdev, "gpio");
 +	}
  
--	/*
--	 *  min period = max clock limit >> PWM_DUTY_WIDTH
--	 */
--	if (period_ns < pc->min_period_ns)
--		return -EINVAL;
-+	if (state->period != pwm->state.period ||
-+	    state->duty_cycle != pwm->state.duty_cycle) {
-+		int period_ns = state->period;
-+		int duty_ns = state->duty_cycle;
-+		unsigned long long c = duty_ns, hz;
-+		unsigned long rate, required_clk_rate;
+-	gpio->secure = devm_platform_ioremap_resource_byname(pdev, "security");
+ 	if (IS_ERR(gpio->secure))
+ 		return PTR_ERR(gpio->secure);
  
--	/*
--	 * Compute the prescaler value for which (1 << PWM_DUTY_WIDTH)
--	 * cycles at the PWM clock rate will take period_ns nanoseconds.
--	 *
--	 * num_channels: If single instance of PWM controller has multiple
--	 * channels (e.g. Tegra210 or older) then it is not possible to
--	 * configure separate clock rates to each of the channels, in such
--	 * case the value stored during probe will be referred.
--	 *
--	 * If every PWM controller instance has one channel respectively, i.e.
--	 * nums_channels == 1 then only the clock rate can be modified
--	 * dynamically (e.g. Tegra186 or Tegra194).
--	 */
--	if (pc->soc->num_channels == 1) {
- 		/*
--		 * Rate is multiplied with 2^PWM_DUTY_WIDTH so that it matches
--		 * with the maximum possible rate that the controller can
--		 * provide. Any further lower value can be derived by setting
--		 * PFM bits[0:12].
--		 *
--		 * required_clk_rate is a reference rate for source clock and
--		 * it is derived based on user requested period. By setting the
--		 * source clock rate as required_clk_rate, PWM controller will
--		 * be able to configure the requested period.
-+		 * Convert from duty_ns / period_ns to a fixed number of duty ticks
-+		 * per (1 << PWM_DUTY_WIDTH) cycles and make sure to round to the
-+		 * nearest integer during division.
- 		 */
--		required_clk_rate =
--			(NSEC_PER_SEC / period_ns) << PWM_DUTY_WIDTH;
-+		c *= (1 << PWM_DUTY_WIDTH);
-+		c = DIV_ROUND_CLOSEST_ULL(c, period_ns);
+-	gpio->base = devm_platform_ioremap_resource_byname(pdev, "gpio");
+ 	if (IS_ERR(gpio->base))
+ 		return PTR_ERR(gpio->base);
  
--		err = clk_set_rate(pc->clk, required_clk_rate);
--		if (err < 0)
-+		val = (u32)c << PWM_DUTY_SHIFT;
-+
-+		/*
-+		 *  min period = max clock limit >> PWM_DUTY_WIDTH
-+		 */
-+		if (period_ns < pc->min_period_ns)
- 			return -EINVAL;
+@@ -690,11 +696,15 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
  
--		/* Store the new rate for further references */
--		pc->clk_rate = clk_get_rate(pc->clk);
--	}
-+		/*
-+		 * Compute the prescaler value for which (1 << PWM_DUTY_WIDTH)
-+		 * cycles at the PWM clock rate will take period_ns nanoseconds.
-+		 *
-+		 * num_channels: If single instance of PWM controller has multiple
-+		 * channels (e.g. Tegra210 or older) then it is not possible to
-+		 * configure separate clock rates to each of the channels, in such
-+		 * case the value stored during probe will be referred.
-+		 *
-+		 * If every PWM controller instance has one channel respectively, i.e.
-+		 * nums_channels == 1 then only the clock rate can be modified
-+		 * dynamically (e.g. Tegra186 or Tegra194).
-+		 */
-+		if (pc->soc->num_channels == 1) {
-+			/*
-+			 * Rate is multiplied with 2^PWM_DUTY_WIDTH so that it matches
-+			 * with the maximum possible rate that the controller can
-+			 * provide. Any further lower value can be derived by setting
-+			 * PFM bits[0:12].
-+			 *
-+			 * required_clk_rate is a reference rate for source clock and
-+			 * it is derived based on user requested period. By setting the
-+			 * source clock rate as required_clk_rate, PWM controller will
-+			 * be able to configure the requested period.
-+			 */
-+			required_clk_rate =
-+				(NSEC_PER_SEC / period_ns) << PWM_DUTY_WIDTH;
-+
-+			err = clk_set_rate(pc->clk, required_clk_rate);
-+			if (err < 0)
-+				return -EINVAL;
-+
-+			/* Store the new rate for further references */
-+			pc->clk_rate = clk_get_rate(pc->clk);
-+		}
-+
-+		rate = pc->clk_rate >> PWM_DUTY_WIDTH;
-+
-+		/* Consider precision in PWM_SCALE_WIDTH rate calculation */
-+		hz = DIV_ROUND_CLOSEST_ULL(100ULL * NSEC_PER_SEC, period_ns);
-+		rate = DIV_ROUND_CLOSEST_ULL(100ULL * rate, hz);
+ 	gpio->gpio.names = (const char * const *)names;
  
--	rate = pc->clk_rate >> PWM_DUTY_WIDTH;
-+		/*
-+		 * Since the actual PWM divider is the register's frequency divider
-+		 * field plus 1, we need to decrement to get the correct value to
-+		 * write to the register.
-+		 */
-+		if (rate > 0)
-+			rate--;
+-	gpio->gpio.of_node = pdev->dev.of_node;
+-	gpio->gpio.of_gpio_n_cells = 2;
+-	gpio->gpio.of_xlate = tegra186_gpio_of_xlate;
  
--	/* Consider precision in PWM_SCALE_WIDTH rate calculation */
--	hz = DIV_ROUND_CLOSEST_ULL(100ULL * NSEC_PER_SEC, period_ns);
--	rate = DIV_ROUND_CLOSEST_ULL(100ULL * rate, hz);
-+		/*
-+		 * Make sure that the rate will fit in the register's frequency
-+		 * divider field.
-+		 */
-+		if (rate >> PWM_SCALE_WIDTH)
-+			return -EINVAL;
- 
--	/*
--	 * Since the actual PWM divider is the register's frequency divider
--	 * field plus 1, we need to decrement to get the correct value to
--	 * write to the register.
--	 */
--	if (rate > 0)
--		rate--;
-+		val |= rate << PWM_SCALE_SHIFT;
- 
--	/*
--	 * Make sure that the rate will fit in the register's frequency
--	 * divider field.
--	 */
--	if (rate >> PWM_SCALE_WIDTH)
--		return -EINVAL;
-+		/*
-+		 * If the PWM channel is disabled, make sure to turn on the clock
-+		 * before writing the register. Otherwise, keep it enabled.
-+		 */
-+		if (!pwm_is_enabled(pwm)) {
-+			err = clk_prepare_enable(pc->clk);
-+			if (err < 0)
-+				return err;
-+		} else
-+			val |= PWM_ENABLE;
- 
--	val |= rate << PWM_SCALE_SHIFT;
-+		pwm_writel(pc, pwm->hwpwm, val);
- 
--	/*
--	 * If the PWM channel is disabled, make sure to turn on the clock
--	 * before writing the register. Otherwise, keep it enabled.
--	 */
--	if (!pwm_is_enabled(pwm)) {
-+		/*
-+		 * If the PWM is not enabled, turn the clock off again to save power.
-+		 */
-+		if (!pwm_is_enabled(pwm))
-+			clk_disable_unprepare(pc->clk);
+-	gpio->intc.name = pdev->dev.of_node->name;
++	if (!has_acpi_companion(&pdev->dev)) {
++		gpio->gpio.of_node = pdev->dev.of_node;
++		gpio->gpio.of_gpio_n_cells = 2;
++		gpio->gpio.of_xlate = tegra186_gpio_of_xlate;
++		gpio->intc.name = pdev->dev.of_node->name;
++	} else {
++		gpio->intc.name = gpio->soc->name;
 +	}
+ 	gpio->intc.irq_ack = tegra186_irq_ack;
+ 	gpio->intc.irq_mask = tegra186_irq_mask;
+ 	gpio->intc.irq_unmask = tegra186_irq_unmask;
+@@ -918,10 +928,21 @@ static const struct of_device_id tegra186_gpio_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, tegra186_gpio_of_match);
+ 
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id tegra186_gpio_acpi_match[] = {
++	{ .id = "NVDA0108", .driver_data = (kernel_ulong_t)&tegra186_main_soc },
++	{ .id = "NVDA0208", .driver_data = (kernel_ulong_t)&tegra186_aon_soc },
++	{ .id = "NVDA0308", .driver_data = (kernel_ulong_t)&tegra194_main_soc },
++	{ .id = "NVDA0408", .driver_data = (kernel_ulong_t)&tegra194_aon_soc },
++};
++MODULE_DEVICE_TABLE(acpi, tegra186_gpio_acpi_match);
++#endif
 +
-+	if (!pwm->state.enabled) {
- 		err = clk_prepare_enable(pc->clk);
- 		if (err < 0)
- 			return err;
--	} else
--		val |= PWM_ENABLE;
--
--	pwm_writel(pc, pwm->hwpwm, val);
--
--	/*
--	 * If the PWM is not enabled, turn the clock off again to save power.
--	 */
--	if (!pwm_is_enabled(pwm))
--		clk_disable_unprepare(pc->clk);
--
--	return 0;
--}
--
--static int tegra_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct tegra_pwm_chip *pc = to_tegra_pwm_chip(chip);
--	int rc = 0;
--	u32 val;
- 
--	rc = clk_prepare_enable(pc->clk);
--	if (rc < 0)
--		return rc;
--
--	val = pwm_readl(pc, pwm->hwpwm);
--	val |= PWM_ENABLE;
--	pwm_writel(pc, pwm->hwpwm, val);
--
--	return 0;
--}
--
--static void tegra_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct tegra_pwm_chip *pc = to_tegra_pwm_chip(chip);
--	u32 val;
--
--	val = pwm_readl(pc, pwm->hwpwm);
--	val &= ~PWM_ENABLE;
--	pwm_writel(pc, pwm->hwpwm, val);
--
--	clk_disable_unprepare(pc->clk);
--}
--
--static int tegra_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
--			   const struct pwm_state *state)
--{
--	int err;
--
--	if (state->polarity != PWM_POLARITY_INVERSED)
--		return -EINVAL;
--
--	if (!state->enabled) {
--		if (pwm->state.enabled)
--			tegra_pwm_disable(chip, pwm);
--		return 0;
--	}
--
--	if (state->period != pwm->state.period ||
--	    state->duty_cycle != pwm->state.duty_cycle) {
--		err = tegra_pwm_config(pwm->chip, pwm, (int)state->duty_cycle,
--				       (int)state->period);
--		if (err)
--			return err;
-+		val = pwm_readl(pc, pwm->hwpwm);
-+		val |= PWM_ENABLE;
-+		pwm_writel(pc, pwm->hwpwm, val);
- 	}
- 
--	if (!pwm->state.enabled)
--		return tegra_pwm_enable(chip, pwm);
--
- 	return 0;
- }
- 
+ static struct platform_driver tegra186_gpio_driver = {
+ 	.driver = {
+ 		.name = "tegra186-gpio",
+ 		.of_match_table = tegra186_gpio_of_match,
++		.acpi_match_table = ACPI_PTR(tegra186_gpio_acpi_match),
+ 	},
+ 	.probe = tegra186_gpio_probe,
+ 	.remove = tegra186_gpio_remove,
 -- 
-2.30.2
+2.7.4
 
