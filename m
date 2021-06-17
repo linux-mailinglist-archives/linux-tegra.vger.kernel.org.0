@@ -2,59 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BAF33AB25A
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 13:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD94B3AB209
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Jun 2021 13:12:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232490AbhFQLTq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Thu, 17 Jun 2021 07:19:46 -0400
-Received: from 6-200-5-45.rpnnetprovedor.com.br ([45.5.200.6]:53271 "EHLO
-        srv01.rpnnetprovedor.com.br" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232484AbhFQLTp (ORCPT
+        id S231398AbhFQLOV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Jun 2021 07:14:21 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:7352 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231501AbhFQLOU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Jun 2021 07:19:45 -0400
-Received: from [84.38.130.143] (helo=IP-130-143.dataclub.eu)
-        by srv01.rpnnetprovedor.com.br with esmtpa (Exim 4.92.2)
-        (envelope-from <robertnellsona@citromail.hu>)
-        id 1ltkuU-0000zD-Bt
-        for linux-tegra@vger.kernel.org; Thu, 17 Jun 2021 02:49:50 -0300
-Content-Type: text/plain; charset="iso-8859-1"
+        Thu, 17 Jun 2021 07:14:20 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G5K6L397xz6yGm;
+        Thu, 17 Jun 2021 19:08:10 +0800 (CST)
+Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 19:12:10 +0800
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 19:12:09 +0800
+From:   Zou Wei <zou_wei@huawei.com>
+To:     <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Zou Wei <zou_wei@huawei.com>
+Subject: [PATCH -next] ASoC: tegra: Fix missing clk_disable_unprepare() on error path
+Date:   Thu, 17 Jun 2021 19:30:39 +0800
+Message-ID: <1623929439-4289-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: CAN YOU INVEST WITH ME?...6
-To:     linux-tegra@vger.kernel.org
-From:   "Mr.  Robert" <robertnellsona@citromail.hu>
-Date:   Thu, 17 Jun 2021 08:49:43 +0300
-Reply-To: robertnellsona@citromail.hu
-Message-Id: <E1ltkuU-0000zD-Bt@srv01.rpnnetprovedor.com.br>
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggemi762-chm.china.huawei.com (10.1.198.148)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Fix the missing clk_disable_unprepare() before return
+from tegra_machine_hw_params() in the error handling case.
 
-ATTENTION; linux-tegra@vger.kernel.org,
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ sound/soc/tegra/tegra_asoc_machine.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-IMPORTANT INVESTMENT INFORMATION
+diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
+index a53aec3..397f326 100644
+--- a/sound/soc/tegra/tegra_asoc_machine.c
++++ b/sound/soc/tegra/tegra_asoc_machine.c
+@@ -306,6 +306,7 @@ static int tegra_machine_hw_params(struct snd_pcm_substream *substream,
+ 
+ 	err = snd_soc_dai_set_sysclk(codec_dai, clk_id, mclk, SND_SOC_CLOCK_IN);
+ 	if (err < 0) {
++		clk_disable_unprepare(machine->clk_cdev1);
+ 		dev_err(card->dev, "codec_dai clock not set: %d\n", err);
+ 		return err;
+ 	}
+@@ -523,8 +524,10 @@ int tegra_asoc_machine_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	err = devm_snd_soc_register_card(dev, card);
+-	if (err)
++	if (err) {
++		clk_disable_unprepare(machine->clk_cdev1);
+ 		return err;
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.6.2
 
-We have a good investment program going on now.
-We have $95m USD for Investment in your Country.
-We use this opportunity to invest you to join the investment program and you will never regret it.
-Please kindly invest with us and you will be receiving monthly income/return/profit every month.
-We can also give you Loan, 
-
-We have: 
-
-1. Short Term Loan, 
-
-2. Medium Term Loan 
-
-3. and Long Term Loan, 
-
-There is no need of collateral security. We will use our company to sign agreement and guarantee on your behalf and our Lawyer will sign on your behalf.
-
-Reply for more detail.
-
-Thank you Sir.
-
-Robert Nellson.
-INVESTMENT MANAGER.
