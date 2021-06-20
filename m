@@ -2,104 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A65573ADEBA
-	for <lists+linux-tegra@lfdr.de>; Sun, 20 Jun 2021 15:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 935403ADF4C
+	for <lists+linux-tegra@lfdr.de>; Sun, 20 Jun 2021 18:12:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbhFTNiO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 20 Jun 2021 09:38:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40328 "EHLO
+        id S230076AbhFTQO7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 20 Jun 2021 12:14:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbhFTNiJ (ORCPT
+        with ESMTP id S229658AbhFTQO6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 20 Jun 2021 09:38:09 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A94DAC061756
-        for <linux-tegra@vger.kernel.org>; Sun, 20 Jun 2021 06:35:56 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id d9so3760676ioo.2
-        for <linux-tegra@vger.kernel.org>; Sun, 20 Jun 2021 06:35:56 -0700 (PDT)
+        Sun, 20 Jun 2021 12:14:58 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8615C061756;
+        Sun, 20 Jun 2021 09:12:45 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id c11so21572726ljd.6;
+        Sun, 20 Jun 2021 09:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=sec9fLKaTeyUvI3U/9cH5uXh5khwaRmiJ3Slq1YZSCexwKlBLvi58L8DBu55CdJDji
-         U+HuEZd9onOgJ+OTF2rj1+rkaNRkmc9mUKozs32zG54utaQ749Tn8dwDfGRCa86Y13h3
-         aTPzQqGcbZM/EAbe2+YYkP8IzEtm7OFmKWqXTdVfNhb2VSah4cfQXUGVQ0X59BkXxqUT
-         4pZGErCa13JdLdCIRor4r89BUHwblkmYb4cwi8/7Nzr0zyCOHjauEmAl4PRZ8S1C6dv6
-         acCJLW1ZaLruky9plyyHKip4E8d31xV8uUpmSHsk2ZsjBfcQBVTL2OilqasULeboqC8n
-         0h/w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VpsZQbazHsnOFFEnzuaE4vlt3ok7dPDDOWme3hF0/CM=;
+        b=qi2lSOnwZCvWfrUq5lo+09c+SzOpRYIxPEAVA0Nhaq5Egm39/arbA6MvYsVUj9goXD
+         OLm3eDPiy7IBiXuJxy1DixjnCCkWR9bUz01BozbMuAkqarNmAGIQEOkC5wxkOwjr2HG3
+         dohiP77s+yWlrLhza2REtQf3JRdt6CwC/qO1m4mm9WrBvqhAN7MVWJ5FXb61z0WOyXTf
+         wiDU6O0myyZvriM50gCkxGsk+fY1dLd5E9sqzYXvO8OeVPl3YJuvzR7eMGkCLb5I7r0i
+         GB0QmE83B+K1WMoX6X1KL+XOZ3o0bb9uv0w5+jXVRgtoqgp24uMuH68e5Tm6KOXUGzYQ
+         cR+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=WhZU+bzTsjOzK1DRrem5Neg1by0aj3eHXRNp9Vk+X2zR5aQBhVxF70NyYuBJIr/Rsy
-         cTvoMfch4eiNsHpgZS5mJsXNThEn092QC180hgg/haNDzK2swuxvszbEynlWEi1WgqYZ
-         EfMe3MbKsZNYb1XAbjBa/bYQi8qbdYwMAkbJ6WL8h6CRtHeHu8D27HZxKBCd/KJYthdU
-         MIaJcEh2T8l8M96aAB/VOZQRlqtnR+NVO8StxeRQMc8BNRbMCIy5Dms4/6zC7o4K5xMF
-         rKeIs+bdcgc1wEKf1k4yC8UkPHk0VNQQHRkCulqPs2czQ3QYCZ9QnkFVUtftj32D6EnV
-         iTHg==
-X-Gm-Message-State: AOAM5328ty43w8W/b7TBFgGJY1N7NsWweDDR6He7N5sHRj8pym99xGxQ
-        0u6SDCMGgsQT/Nu2dpOmfYorFRm+TaV2rpQYXlaIOY5EGVo=
-X-Google-Smtp-Source: ABdhPJwO76FoleXtHusTIesxM2cuIvE9VdIlMyNt5WPTfvQkSUUR8O1MTtP/waIv/m9vsUoacT9Q2gT5SJ41poXCB/Q=
-X-Received: by 2002:a05:6602:1810:: with SMTP id t16mr15654363ioh.48.1624196145888;
- Sun, 20 Jun 2021 06:35:45 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VpsZQbazHsnOFFEnzuaE4vlt3ok7dPDDOWme3hF0/CM=;
+        b=ljCQYWLR61Hft8h9hjQtuw1xKTUuaILQp4p44XDoUAS0sUlt/QcaSqwYow6yjzgGRq
+         8+ILklmM+OSXRE3B4sY/CbwNYmgsI71CG9SLj1Xpmn/L+QP43cqTY8lGbpsgC0QhKOqw
+         YgO3TGFUkekTOaligRhUQ9yy23aFZxGypToXt+6VVKDQIb4C5kXkiyRswlr9Ni55tQF2
+         voFPP48Gq1ckZU63oFIwiVTBOv/g7IRQuw42BgO9VAFH5kaaKqZNhUdHNfB4wMfnR1AK
+         oPQSZUFs27frdxcygTGjWz/qbYJn7JlONJC8Tk/Sh+A24S4GnEXZQ93Yrb879WzvuI21
+         oadA==
+X-Gm-Message-State: AOAM530MzCkq71HLEPzVsG95T4vUedru2S9zsDZTjTRYSgksTMn4QpXZ
+        VBKjzGZPZ0nPHfWaIV1WYdM=
+X-Google-Smtp-Source: ABdhPJxfi52lQCzdjBncO4OLwVhPUM4D/b/iQSOQVD0fmPx8OE2An095F00ZU/rxluUmQKicBmRLbg==
+X-Received: by 2002:a2e:98b:: with SMTP id 133mr17879640ljj.88.1624205562863;
+        Sun, 20 Jun 2021 09:12:42 -0700 (PDT)
+Received: from localhost.localdomain (94-29-29-31.dynamic.spd-mgts.ru. [94.29.29.31])
+        by smtp.gmail.com with ESMTPSA id a21sm1849419ljj.21.2021.06.20.09.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jun 2021 09:12:42 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/2] Support temperature trips by HWMON core and LM90 driver
+Date:   Sun, 20 Jun 2021 19:12:21 +0300
+Message-Id: <20210620161223.16844-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Received: by 2002:a05:6e02:1baf:0:0:0:0 with HTTP; Sun, 20 Jun 2021 06:35:45
- -0700 (PDT)
-Reply-To: sarahkoffi389@yahoo.co.jp
-From:   Sarah Koffi <sarah.koffi101@gmail.com>
-Date:   Sun, 20 Jun 2021 15:35:45 +0200
-Message-ID: <CA+ifgLGSH5KW9J+Z85axgUznJEQcab5mED6rZZnS3OBzXTnaxw@mail.gmail.com>
-Subject: Greetings From Mrs. Sarah Koffi
-To:     sarahkoffi389@yahoo.co.jp
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Greetings From Mrs. Sarah Koffi
+Hi,
 
-I'm contacting you based on your good profiles I read and for a good
-reasons, I am in search of a property to buy in your country as I
-intended to come over to your
-country for investment, Though I have not meet with you before but I
-believe that one has to risk confiding in someone to succeed sometimes
-in life.
+It's typical for embedded devices to use LM90-compatible sensor for
+monitoring of CPU core and skin temperatures. The sensor is often
+used by thermal zone that performs passive cooling and emergency
+shutdown on overheat, hence it's more optimal to use interrupt for
+a faster notification about temperature changes. Thermal framework
+provides set_trips() callback for programming of temperature trips,
+let's support it by HWMON.
 
-My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
-Federal Government of Sudan and he has a personal Oil firm in Bentiu
-Oil zone town and Upper
-Nile city. What I have experience physically, I don't wish to
-experience it again in my life due to the recent civil Ethnic war
-cause by our President Mr. Salva Kiir
-and the rebel leader Mr Riek Machar, I have been Under United Nation
-refuge camp in chad to save my life and that of my little daughter.
+Dmitry Osipenko (2):
+  hwmon: Support set_trips() of thermal device ops
+  hwmon: (lm90) Implement set_trips() callback
 
-Though, I do not know how you will feel to my proposal, but the truth
-is that I sneaked into Chad our neighboring country where I am living
-now as a refugee.
-I escaped with my little daughter when the rebels bust into our house
-and killed my husband as one of the big oil dealers in the country,
-ever since then, I have being on the run.
+ drivers/hwmon/hwmon.c | 12 ++++++++++++
+ drivers/hwmon/lm90.c  | 30 ++++++++++++++++++++++++++++++
+ include/linux/hwmon.h |  9 +++++++++
+ 3 files changed, 51 insertions(+)
 
-I left my country and move to Chad our neighboring country with the
-little ceasefire we had, due to the face to face peace meeting accord
-coordinated by the US Secretary of State, Mr John Kerry and United
-Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
-and the rebel leader Mr Riek Machar to stop this war.
+-- 
+2.30.2
 
-I want to solicit for your partnership with trust to invest the $8
-million dollars deposited by my late husband in Bank because my life
-is no longer safe in our country, since the rebels are looking for the
-families of all the oil business men in the country to kill, saying
-that they are they one that is milking the country dry.
-
-I will offer you 20% of the total fund for your help while I will
-partner with you for the investment in your country.
-If I get your reply.
-
-I will wait to hear from you so as to give you details.With love from
-
- i need you to contact me here sarahkoffi389@yahoo.co.jp
-
-Mrs. Sarah Koffi
