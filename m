@@ -2,75 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DA813ADFE7
-	for <lists+linux-tegra@lfdr.de>; Sun, 20 Jun 2021 21:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87DD83ADFFF
+	for <lists+linux-tegra@lfdr.de>; Sun, 20 Jun 2021 21:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbhFTTZu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 20 Jun 2021 15:25:50 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:52998 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbhFTTZu (ORCPT
+        id S230059AbhFTTdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 20 Jun 2021 15:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230136AbhFTTdt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 20 Jun 2021 15:25:50 -0400
-Received: from mail-ed1-f71.google.com ([209.85.208.71])
-        by youngberry.canonical.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lv32d-00046F-Vd
-        for linux-tegra@vger.kernel.org; Sun, 20 Jun 2021 19:23:36 +0000
-Received: by mail-ed1-f71.google.com with SMTP id p23-20020aa7cc970000b02903948bc39fd5so4740439edt.13
-        for <linux-tegra@vger.kernel.org>; Sun, 20 Jun 2021 12:23:35 -0700 (PDT)
+        Sun, 20 Jun 2021 15:33:49 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174DFC06124A
+        for <linux-tegra@vger.kernel.org>; Sun, 20 Jun 2021 12:31:35 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id h15so7868045lfv.12
+        for <linux-tegra@vger.kernel.org>; Sun, 20 Jun 2021 12:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=a2zlJLb2cHVJ/vhYiwd0h6Ss03bH4wa1SiOeNNr1qqA=;
+        b=bkPS4yFR98020frGZuTqkshvNSWXl0Z6aTQyqDBQOYRNn8mNj5ss4TtiudbSrK7ff/
+         QNZJY25CiO+MAZJaIbw2u0HDwtyse9WT3A0cEIgMb7BhAc5Gi6ayNLOmqZZccWa+fNBh
+         k61qS4LmcyXeqJul4RPlYtrHntUAvOZQNCldFK4euecaucVDQIZPJo6OCRHDFo8n8io6
+         y/wykfU9I/qPBsaSVZvRbHpzbXcDYmsqOM+wVrXUhyO/jptCVxl1LpxYgYbXKqQg0pGJ
+         jrhELtWISoo7lLKraKAHFp1ru6KpHU4ePpKhtD5yFuFfQm9+elaj+smp5+MyUD/KdPaP
+         Ef2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BmZlovYj9V7HeNkUQ5CcyPSAtuKZ8O3DexqZJGr+wKE=;
-        b=QUhcV6wgSMUfzNWjhJ1/NAapOkYEhM9JL3umfEkZ2e/2EdtVc2K4f9FQR7dJdDQ58G
-         VJyOv3gwrjbohXsmsFbzvXjb89pJA86TlYjcPpxCkMQjwKEBRIZEpNyzWl4ORZkYmRqk
-         d/pYnUhg2NFQ5OEf24K9FTQnpwcr70Jf7iNhqmkdlgItntXjPAyP5AP+dGS9/e6XeEXo
-         XmupPA+DkZ/soGlLD5peHNqu2sWdugMFdw5velZL1GQtJlGi+lpJ4F/rMWqDGAZ1dags
-         KLb9mGhQhN+JzG+8zN9Na/uBnoKiTAmysgBYvdEIlnlrnhxDvoc45TE5Xc8kBE+5FUt+
-         c2MQ==
-X-Gm-Message-State: AOAM532qyQdocHUia7SViNDSoOO2boMBFbpbHnfgzSBYUDLf8PdEWRbQ
-        /4v8WoVvyiY01GX2W2ybbMALisPB84EdRD47B1bvCoLN39dkRoBVz5fMpKnnebyF4KYxlj+9OFf
-        d5XRIGfQR/uS/1YCFDmI4Ht4qC+v9l/+Eot3SeHpt
-X-Received: by 2002:aa7:c997:: with SMTP id c23mr2730222edt.42.1624217015737;
-        Sun, 20 Jun 2021 12:23:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEKmBjMwrWngqyo2C63u/7m5RV3LUtyPVC4cbCnhq2yZlx93BaiZjSA6UeNtixI5+0aCWU8g==
-X-Received: by 2002:aa7:c997:: with SMTP id c23mr2730211edt.42.1624217015613;
-        Sun, 20 Jun 2021 12:23:35 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-177-222.adslplus.ch. [188.155.177.222])
-        by smtp.gmail.com with ESMTPSA id gz2sm3863690ejc.32.2021.06.20.12.23.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 12:23:35 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm@kernel.org
-Subject: Re: [PATCH] memory: tegra: Add compile-test stub for tegra_mc_probe_device()
-Date:   Sun, 20 Jun 2021 21:23:33 +0200
-Message-Id: <162421700960.5053.12970820617415249488.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210618111846.1286166-1-thierry.reding@gmail.com>
-References: <20210618111846.1286166-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=a2zlJLb2cHVJ/vhYiwd0h6Ss03bH4wa1SiOeNNr1qqA=;
+        b=GbVnsWCeLVbFpW5lL0fL19s0jPjmzDxtkVf4SA0BVP4Zpfj+evUorZzZVB/9QIeVNM
+         vs/rcTjhaHyNVi+RldEGMeilGMa+xV0Y1xXU5FMZCdQYxln/G+RGLC7/2mNySgMowuhX
+         77cy9g01MqV/UaQlTS6k3W9zcjcIKCLIqA+u4duOFZMqxCDqYw4ysJ0afq5Jpsrn1VH8
+         nHbTtTQWUAACkZaPTdehoFhpG85N+PK9NGx1QYyy8Lc2Rv+L/fsjcrXKwDRsaO2suql4
+         bIfXB4ZheGnxoKTn2YNPZSY4rUrtUCP/wqHM8/vy6Q5rANqt9LYA8ea58igGnUgMMV6x
+         FXtw==
+X-Gm-Message-State: AOAM533Cvzszi9c1Vj+KLGPHy4shgSAWppNhVH1oMWQlUBy8MrUU+vnn
+        Cf1oBwBo33XcdurWEWl+i6GGPnTWsePc5wy9lG0=
+X-Google-Smtp-Source: ABdhPJyRr8xkKh1v74sSXR4glyEviCtgGMwIox16xrJwn4HhjsAH3AQXF/kC87XZ0K1UcvikGGPprpK4pH75Np6p+uM=
+X-Received: by 2002:ac2:499d:: with SMTP id f29mr6724142lfl.602.1624217492479;
+ Sun, 20 Jun 2021 12:31:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: by 2002:aa6:da47:0:b029:fa:6d7d:24c with HTTP; Sun, 20 Jun 2021
+ 12:31:32 -0700 (PDT)
+Reply-To: contactcenter@gnbinvestorsb.com
+From:   Gnb Investors Bank <sandraquntoo@gmail.com>
+Date:   Sun, 20 Jun 2021 22:31:32 +0300
+Message-ID: <CAPu=tC5n-=M7EGJZV++m9omRBkAZZ+M9gcWgQjJkA4Y9N6hVBQ@mail.gmail.com>
+Subject: Brauchen Sie einen Kredit?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 18 Jun 2021 13:18:46 +0200, Thierry Reding wrote:
-> The tegra_mc_probe_device() symbol is only available when the TEGRA_MC
-> Kconfig option is enabled. Provide a stub if that's not the case so that
-> the driver can be compile-tested.
+--=20
+Brauchen Sie einen Kredit? Unsere Bank vergibt Kredite zu einem Zinssatz vo=
+n 2%
 
-Applied, thanks!
+Melden Sie sich f=C3=BCr weitere Informationen bei uns.
 
-[1/1] memory: tegra: Add compile-test stub for tegra_mc_probe_device()
-      commit: 47661ee1821fc3a6b5ae07aac37410d6ccada976
-
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+E-Mail: contactcenter@gnbinvestorsb.com
