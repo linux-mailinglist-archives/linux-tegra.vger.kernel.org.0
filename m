@@ -2,66 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 008553B1E1D
-	for <lists+linux-tegra@lfdr.de>; Wed, 23 Jun 2021 17:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43B883B1E5A
+	for <lists+linux-tegra@lfdr.de>; Wed, 23 Jun 2021 18:09:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231492AbhFWP5B convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 23 Jun 2021 11:57:01 -0400
-Received: from [183.90.58.236] ([183.90.58.236]:51774 "EHLO ns1.zackeruz.tk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231532AbhFWP5B (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 23 Jun 2021 11:57:01 -0400
-Received: from johnlewis.com (unknown [192.168.20.1])
-        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 527E584632D
-        for <linux-tegra@vger.kernel.org>; Wed, 23 Jun 2021 23:54:42 +0800 (+08)
-Reply-To: robert_turner@johnlewis-trading.com,
-          pippawicks.sales@johnlewis-trading.com
-From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
-To:     linux-tegra@vger.kernel.org
-Subject: 6/23/2021 Product Inquiry 
-Date:   23 Jun 2021 15:54:41 +0000
-Message-ID: <20210623094114.8E5F897D8CCD4580@johnlewis.com>
+        id S229970AbhFWQMK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 23 Jun 2021 12:12:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51018 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229933AbhFWQMF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 23 Jun 2021 12:12:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D47F26102A;
+        Wed, 23 Jun 2021 16:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624464587;
+        bh=jsOJ4tViYkaDX1h4CbGlivmMmyPzx1/JuUZmlGIyyZM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=b374ARq/X2aHJ6HY7X6iSCTeVVqfe5TeNpF+lEEN4T3YFAeGiHHBVJ0bKT1Fmvp/v
+         k6SbB+VwtRym4euz3YYCbvuaP8eMG0SctDh+OYyLv8k1OBzhKUi9bGH0PpmOwYOu83
+         +zJVtWRNsWX933HbkKw1Sw70OLcQtTL/693M9AmSnN+YdaXmTdCtt86k0IfPC2YZ3q
+         QxWMlLqjYExZMXO845a/jWapyLPQcWuTbJFJoT6N5Ce/LHNhKiRInjh6j2W2KOWyyr
+         /isdVS2CjsrAFI92cM56GtS0tl0oHHp0DFAFTWL0QIWl/Go3HbPVtMtZHXT5ncOemE
+         gtNCktRaRGEcQ==
+From:   Mark Brown <broonie@kernel.org>
+To:     Yang Yingliang <yangyingliang@huawei.com>,
+        linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org
+Cc:     Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com
+Subject: Re: [PATCH -next 0/4] ASoC: tegra: Use devm_platform_get_and_ioremap_resource()
+Date:   Wed, 23 Jun 2021 17:08:58 +0100
+Message-Id: <162446397757.55213.13647791401168219427.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210618024722.2618842-1-yangyingliang@huawei.com>
+References: <20210618024722.2618842-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dear linux-tegra
+On Fri, 18 Jun 2021 10:47:18 +0800, Yang Yingliang wrote:
+> Use devm_platform_get_and_ioremap_resource() to simplify
+> code.
+> 
+> Yang Yingliang (4):
+>   ASoC: tegra20: i2s: Use devm_platform_get_and_ioremap_resource()
+>   ASoC: tegra20: spdif: Use devm_platform_get_and_ioremap_resource()
+>   ASoC: tegra: tegra210_admaif: Use
+>     devm_platform_get_and_ioremap_resource()
+>   ASoC: tegra30: ahub: Use devm_platform_get_and_ioremap_resource()
+> 
+> [...]
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
+Applied to
 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
+Thanks!
 
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to robert_turner@johnlewis-
-trading.com for us to be able to 
-treat with care and urgency.
+[1/4] ASoC: tegra20: i2s: Use devm_platform_get_and_ioremap_resource()
+      commit: 8ad9e5baa90f76c5125b23419fc458e206371bce
+[2/4] ASoC: tegra20: spdif: Use devm_platform_get_and_ioremap_resource()
+      commit: 8d81f0da47bbea7f4eb6cdae5210c8c3bd8ce50f
+[3/4] ASoC: tegra: tegra210_admaif: Use devm_platform_get_and_ioremap_resource()
+      commit: c29b6382d23c8bea604033f98604b7b1e543b1e7
+[4/4] ASoC: tegra30: ahub: Use devm_platform_get_and_ioremap_resource()
+      commit: fc8344e63e595fa1f2e783aaae0253570cd8eea8
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best Regards
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trading.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
