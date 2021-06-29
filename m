@@ -2,133 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8413B7003
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Jun 2021 11:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A603B706A
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Jun 2021 12:09:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232680AbhF2JVe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Jun 2021 05:21:34 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:6688 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232568AbhF2JVd (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Jun 2021 05:21:33 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15T9IVqg001373;
-        Tue, 29 Jun 2021 11:18:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=X80iUh6QaVW3Kbhqm1Aj0gKrTFwcCwrTAiEMB/p3SAE=;
- b=M/Gpy87EawNbKSyujei9NTa2BHd1JzRtJKVCH/vGpuB6iraaPrj9PBwQUVfPYsXuEi4b
- U89GAVJiC3lC/DeWbQZw4SzKasVUu1BcPrrJ7NZxZM/Smb2odqyFeMS6jULMOgYVGCCC
- 7shI7zTjLrdvIi8p8jGiR0A6FaS4SklEqli6BK9D/Mj3iOJjHrxGKf+6SCFwQH4pwaNm
- FIfKIo1Zm3wn5NTvQkCPDKPrXkwNoscqO+xFO6IthXTt+0IG3S0BxM/PWWed4gkPPOVt
- ebi8/NeZQMSpte6HtHZ0b399eEymWAv+MRO6617GH2iDTs8JEBlA/XIWEgcBFur5uiNf 4w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 39fueahyuj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Jun 2021 11:18:49 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E5679100034;
-        Tue, 29 Jun 2021 11:18:46 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D8BF21BF75;
-        Tue, 29 Jun 2021 11:18:46 +0200 (CEST)
-Received: from lmecxl0951.lme.st.com (10.75.127.49) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 29 Jun
- 2021 11:18:43 +0200
-Subject: Re: [PATCH v4 19/27] drm/stm: Don't set struct drm_device.irq_enabled
-To:     Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
-        <airlied@linux.ie>, <alexander.deucher@amd.com>,
-        <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>,
-        <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
-        <mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
-        <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-        <inki.dae@samsung.com>, <jy0922.shim@samsung.com>,
-        <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>,
-        <krzysztof.kozlowski@canonical.com>, <xinliang.liu@linaro.org>,
-        <tiantao6@hisilicon.com>, <john.stultz@linaro.org>,
-        <kong.kongxinwei@hisilicon.com>, <puck.chen@hisilicon.com>,
-        <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
-        <p.zabel@pengutronix.de>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
-        <festevam@gmail.com>, <linux-imx@nxp.com>,
-        <chunkuang.hu@kernel.org>, <matthias.bgg@gmail.com>,
-        <bskeggs@redhat.com>, <tomba@kernel.org>, <hjc@rock-chips.com>,
-        <heiko@sntech.de>, <philippe.cornu@foss.st.com>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-        <wens@csie.org>, <jernej.skrabec@gmail.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <jyri.sarha@iki.fi>, <emma@anholt.net>,
-        <linux-graphics-maintainer@vmware.com>, <zackr@vmware.com>,
-        <hyun.kwon@xilinx.com>, <laurent.pinchart@ideasonboard.com>,
-        <michal.simek@xilinx.com>, <jani.nikula@linux.intel.com>,
-        <rodrigo.vivi@intel.com>, <linux@armlinux.org.uk>,
-        <kieran.bingham+renesas@ideasonboard.com>,
-        <rodrigosiqueiramelo@gmail.com>, <melissa.srw@gmail.com>,
-        <hamohammed.sa@gmail.com>
-CC:     <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <nouveau@lists.freedesktop.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20210625082222.3845-1-tzimmermann@suse.de>
- <20210625082222.3845-20-tzimmermann@suse.de>
-From:   yannick Fertre <yannick.fertre@foss.st.com>
-Message-ID: <1c946098-bf82-4028-1543-ba9e4f960aa3@foss.st.com>
-Date:   Tue, 29 Jun 2021 11:18:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210625082222.3845-20-tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+        id S232864AbhF2KMH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Jun 2021 06:12:07 -0400
+Received: from mail-bn8nam11on2069.outbound.protection.outlook.com ([40.107.236.69]:40929
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232772AbhF2KMH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 29 Jun 2021 06:12:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m0z5BH6LuQDFxGxKIY9huT6QlnT0otDVyNuRz8O5W3YdOEIrs91K2AwtlfDBecWLGrYBI2YYYjjPW+WxlvY55y2fgfD1cXLK/i7XQZr/LLsg2KAwprvDRd4Kou6mprDFQcN2jJQv5hzuPs37O3cqKL+ue08c3VuoRaK/9mXW/Z4W9LftazJ45L4hG9cj3lv8KKgAErP4rAAib9nffFUnI0OkV0thrZRHL0/rKS8uf9CpkUfyoh/ls+oyOWc3/WWRHFXaCXBMOFshk+UmEzP20IwBqiVT4LxT5dgahBxEE4xXhbPXmY24IyfYc5w275u/JELZPVG7JP6Wp/RNDxWYoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AxDgBoTheiaaqvc231K7VLik5qF45r0csiyUOTWq9so=;
+ b=DbQ9kS4Fkan+VtUg+FWYSLjL2PFlyu3BhoyBxlLtkTVVXgcVyPzUMtA3txYe6Vqha7NBxMfkR8q5JmWdL7RI3QctoM1ijQSO8GlFRgeQU2VvPukTkqAPqYpGPHLg7nJ2V+21kJen0BEDfGyMQNed/1QWwEu6fGk3o7lOaMhSdWTJEeX8f/jwheG8yOXlmz8bwmwPpIjC+NH6Q6oN7R0Ajt0FLQXfFRbYscOsxpisj4h6N+8td8vt8WMDaC59W/mE4WGePP6OIoYQ4aYpSS7T6mXhxNMa1d9I3lI+H7WIqb0InwwM5xR+45+k7mms4ULs51V1PwInXCai6p6Gl0ATZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=kernelci.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AxDgBoTheiaaqvc231K7VLik5qF45r0csiyUOTWq9so=;
+ b=oC+5MUY3SbAz2Hwy4KhzwCGJGAznkQOoyw2Z5nYOGrwHuJIsYXccCZMO/vdkN7CrP7RrvaL0hbiqGYsmn2uXzINrh2BFHc+RLlR15Vc/99cF4dhKzr0XwYKAyJUud3sy2pwZOIZqfORovdqqsz6zm1Ew+gFakUVeud9aAfP7+PPeSGqQhmXYwOmI3DGVontmaEkxmR3U8aOdNrmLuW99oyvhQTVF5hNWMPsB0ca+ZcubsNz23zXqt6k+5H2xcRUjRM05AOB9qfBiDBfojFuqY31bX7H+l9BxdVGSVvuC70z2i0uj4yFbh4nMZRaCK7E3IyXbvLjq7Ouug5Wqd4pB7Q==
+Received: from MWHPR17CA0049.namprd17.prod.outlook.com (2603:10b6:300:93::11)
+ by DM6PR12MB4959.namprd12.prod.outlook.com (2603:10b6:5:208::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Tue, 29 Jun
+ 2021 10:09:39 +0000
+Received: from CO1NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:93:cafe::ff) by MWHPR17CA0049.outlook.office365.com
+ (2603:10b6:300:93::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19 via Frontend
+ Transport; Tue, 29 Jun 2021 10:09:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; kernelci.org; dkim=none (message not signed)
+ header.d=none;kernelci.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ CO1NAM11FT037.mail.protection.outlook.com (10.13.174.91) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Tue, 29 Jun 2021 10:09:38 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 29 Jun
+ 2021 10:09:37 +0000
+Received: from jonathanh-vm-01.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2 via Frontend
+ Transport; Tue, 29 Jun 2021 03:09:36 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Sasha Levin <sashal@kernel.org>
+CC:     Sasha Levin <sashal@kernel.org>, <torvalds@linux-foundation.org>,
+        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
+        <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.9 00/71] 4.9.274-rc1 review
+In-Reply-To: <20210628144003.34260-1-sashal@kernel.org>
+References: <20210628144003.34260-1-sashal@kernel.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.49]
-X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-06-29_05:2021-06-25,2021-06-29 signatures=0
+MIME-Version: 1.0
+Message-ID: <0a7b75e45cfc4035b9d2e608817ee31e@HQMAIL109.nvidia.com>
+Date:   Tue, 29 Jun 2021 03:09:36 -0700
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 798c3c86-b48a-46b5-bcdc-08d93ae60119
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4959:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4959F7001CF7399C615C88BAD9029@DM6PR12MB4959.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NYOAuWZIV0e4kg2wmPkQzxOANHQJIMTBgA9+m8LEwmSclZ8K7is4y5MHNl3XegDoN0MutKfvn+LptpajM/a7GkWrnO4CTBqFD+VRGv77kFymVY18r6fC1bljxDT83i3nL2f/JqauZ7Atsm/P4VJPpufXycPnCf2J9dEjcFdYFRZace/Iv65f6FbrSXaRuvQbCjllwX+AJRQQKxTJdixEwFBGPwG+tbEZs/kmTmxX41iupjQDEU+0U7tGNoCvRnqQSRRBcfkJFuRMOOTLrF3XvuIlrgeb5nOZlz0Od32uOzLXNXijwLHZ6PfWRVKtbsYcGiHRdD5FHamWTRb9zHTyQ7bWrS4Gtpgnb6ZTwzD9od/R4hXaQcqx2DHr4BNr//yJSxK54GMegRukihcYfN7ap+ZSPLbPUKZDlzWOhOKtNld02vCgfloFw2gXmoUvQX1PUcB2bI6gsi/KA4dXAe4ArnVbspyVPwK+EAxvGtuRbE/pKxXMvmsafiaoDl9m65Q1fuUQx/J33a0sohZx9a68v+ZBIace+roigztVYJbA8k0pL2qmHujEwOoqgg3CXijOOw6TfFUg24AuUpQjmBXxIvslwEmIoiY98FX5hip/qwqB2SXGlyggAE9A+awjtgq2U33EB2zhipDbnUVkUJb+DoVhBvSELXhjuCLpq9lc8VlTb6YtRUSHG/8EQiZs916zGMub/qhCzP+Av7yhs4/ibIWSr3vvndVeK8Lrcupaux3CsetD/xVw4tXTt/WnJYifML2HAoYtaFmG/OmAVepoodnurWfQqj/wpBDBDzojMxhMNG7rgnJjp1B+334k36ZfxRG3GSRMd1CVHLord3pBLQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(136003)(39860400002)(346002)(396003)(36840700001)(46966006)(966005)(108616005)(4326008)(86362001)(426003)(82740400003)(24736004)(54906003)(6916009)(356005)(2906002)(26005)(186003)(7636003)(336012)(36860700001)(70586007)(316002)(8936002)(82310400003)(70206006)(478600001)(8676002)(5660300002)(47076005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 10:09:38.3859
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 798c3c86-b48a-46b5-bcdc-08d93ae60119
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4959
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello Thomas,
-thanks for the patch.
-
-Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
-
-Best regards
-
-
-On 6/25/21 10:22 AM, Thomas Zimmermann wrote:
-> The field drm_device.irq_enabled is only used by legacy drivers
-> with userspace modesetting. Don't set it in stm.
+On Mon, 28 Jun 2021 10:38:52 -0400, Sasha Levin wrote:
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->   drivers/gpu/drm/stm/ltdc.c | 3 ---
->   1 file changed, 3 deletions(-)
+> This is the start of the stable review cycle for the 4.9.274 release.
+> There are 71 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 08b71248044d..e9c5a52f041a 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -1339,9 +1339,6 @@ int ltdc_load(struct drm_device *ddev)
->   		goto err;
->   	}
->   
-> -	/* Allow usage of vblank without having to call drm_irq_install */
-> -	ddev->irq_enabled = 1;
-> -
->   	clk_disable_unprepare(ldev->pixel_clk);
->   
->   	pinctrl_pm_select_sleep_state(ddev->dev);
+> Responses should be made by Wed 30 Jun 2021 02:39:51 PM UTC.
+> Anything received after that time might be too late.
 > 
+> The whole patch series can be found in one patch at:
+>         https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/patch/?id=linux-4.9.y&id2=v4.9.273
+> or in the git tree and branch at:
+>         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
+> and the diffstat can be found below.
+> 
+> Thanks,
+> Sasha
+
+All tests passing for Tegra ...
+
+Test results for stable-v4.9:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    32 tests:	32 pass, 0 fail
+
+Linux version:	4.9.274-rc1-ga12e33370009
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
