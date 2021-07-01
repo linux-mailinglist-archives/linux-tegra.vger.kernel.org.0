@@ -2,136 +2,179 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE1083B8C46
-	for <lists+linux-tegra@lfdr.de>; Thu,  1 Jul 2021 04:25:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33A403B8D41
+	for <lists+linux-tegra@lfdr.de>; Thu,  1 Jul 2021 07:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238793AbhGAC1h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Jun 2021 22:27:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238695AbhGAC1Z (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Jun 2021 22:27:25 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0992C061756;
-        Wed, 30 Jun 2021 19:24:54 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id d16so8908492lfn.3;
-        Wed, 30 Jun 2021 19:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+unlqaajKL+UdtGKZaBkJ1mKCovLdUju0d1rygjTQhE=;
-        b=U1f0aL/dsUy1ATWelleHa9rQI5g5jUd+AjxgB+5npU89mZoHOugUN9T8DmQYDgH2Fj
-         kStJ7b9KyuFRYJz2MBMIuUpUM3grAkr54sQTsh9+LRK3pM//wzAes2cyf+7Va/VR018D
-         TSP2lfHHwTbSU0GZuKGAMHgKTYyIIdIIXF9AzaKs/a39+t88PppneFd3Zjf4O79jIqXA
-         liDnW4775e3NagthQAIG2LrcRstkYCOLMWibKxb3BQNuk0RxdVtzqbiF0mgPUkJh+lDb
-         G55QTWZ7bQQahv/H4POlpzSHfCakKQh3ooCbCESlktHCEv1s0FiET4i+LrJduqrGOwad
-         sebw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+unlqaajKL+UdtGKZaBkJ1mKCovLdUju0d1rygjTQhE=;
-        b=naCpQgXejg51j8iIFY+NRL6KEUaL35hc+eS7GxlUTbK+olXJbuKy8D12R4G8ts8IiH
-         UxIZlUa/aUC8TxY+ul8hDxExBYjf4NGMK7J1eh0InzkAL8ub5NwyzunhLI2IqwjzNHvw
-         CRNYYDYkagl4TYw3HnJL1SfAW/UZov0cIMxLFQvJIPhCwyZMMTFr6OlEPZJ65g+/u0zB
-         aC7z0zFIBfnhdEYxEJeqQnQ7I7mCQlS5kObGaTaZ7O2xpDjW7/a2OF3EjUm08yMc4zGt
-         InfvGkMB6P1GOsRIHmyEqRe38hhRxsaq1CoWMIcJUfHJMOFpXieL9GbDEoSfhjqphSI/
-         06Gg==
-X-Gm-Message-State: AOAM531NoHgQw8BxVy0fJz+yJVoEx2+g/KzVvWSHPXV07K+VL2FwNmdB
-        yBWTUkUPYwPoaO//CyWN3So=
-X-Google-Smtp-Source: ABdhPJwRFghxwlHjwBfKGp6n4gvKiwCuXQ94+KGQ/Dq0axXpCaFiWVoPodkv6TpT22lTa+8o/SercQ==
-X-Received: by 2002:a05:6512:1048:: with SMTP id c8mr29229001lfb.480.1625106293053;
-        Wed, 30 Jun 2021 19:24:53 -0700 (PDT)
-Received: from localhost.localdomain (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
-        by smtp.gmail.com with ESMTPSA id v7sm2407262ljn.14.2021.06.30.19.24.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jun 2021 19:24:52 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v1 12/12] ARM: tegra: nexus7: Enable USB OTG mode
-Date:   Thu,  1 Jul 2021 05:24:05 +0300
-Message-Id: <20210701022405.10817-13-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210701022405.10817-1-digetx@gmail.com>
-References: <20210701022405.10817-1-digetx@gmail.com>
+        id S232114AbhGAFD6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 1 Jul 2021 01:03:58 -0400
+Received: from mail-dm6nam10on2040.outbound.protection.outlook.com ([40.107.93.40]:19648
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230293AbhGAFD6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 1 Jul 2021 01:03:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YbKCEWYfFUhbc/xVAOWc69rSwO2AFxdMjf/Pv17BUVW6a4dKcJcrTHhujTXmqQKiuyUZrtvwMaEI+qGlkE061UhoDFkgyO7TgupTAP9GQkqaJZDU9LYMQFesBZSZkPf6TnS0RyX6mRaxJheCqKxaYAyelFG/BcckLiYKyZ4H9zz1/UzxVydi4gYRLtbKtIuhT6SkhmNg/Xnc+tlM/z0lSYfd6E9T+2rY6aI9h1WG6A4Ab2IS01BilpX1Njb0Y0PW8GdIgb7XbNfB7wc0vGqnrwInYJPkdd6F3WzVos1KZZ4Og4DJW7Z1mxcx4n+kIAbwa7h/MVMcJ4hlTwm8vwIDBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=beafX0i79Cn9HYirrUkex7VYNyu+UAyG/Ew9n4/Hnz4=;
+ b=LMtC91/Vgj+7BDgw+bvO4O3FskKvNeAkS9KRh1NZBsM63vqbX9NyO0MlEyZcKJeJdaH+bVKh2pjFZJl7jucmJnO0YrouW4pmPtsJznIoHpfUlcBpuX1h8JNftyC85qMCV/5OxILGZ5WsxrO1iEB0C3tq6njRSDRYNCw5F65uLGEM/GKQec2Lv6QukezRRh/WI5gg3j1UaRwQSIUfNexsiz9tG6C/PZsU8NFhuMyJtuTDbpInMU4AI06BHmZMpOZcpZRh/FleHEsYlpAYhTlQaGdEt5vdOwZpD72s0mFlakb2FKFlvpoLTsZYjJANT/WsQEWS2kNy5ti00PuzcH9YUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.32) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=beafX0i79Cn9HYirrUkex7VYNyu+UAyG/Ew9n4/Hnz4=;
+ b=DzWB24pXO8+dnw82ErdQt2RelMpxxOBo8nXTl5KSqr1AQf2b2JZov8LkhGH6g26FsvwcZ1oETbuYVtB3R98hHrC0aDW4rSM8kgQ3rwlRayUYyYGjPAqEb9lgDIZpjYxihwvvuGiPe+MMYJLscaX59AQq5yyi1vb0gpf5Gy8sKVcYQY30vkOmSkXvD0fYpU8xngIFXgU4Mw6pBe75lRZK4HFkCEKL6GL3kZZjp/uaQXyq50uJp0tlX5Omk13mhWcIA6KQodH2u0D9kVbTNgun32ZcHqQR0zKZOgLdp8Dn3O38eBvZZ3pjaoSVOXzg8ehdRpPKu1Osvq+oN+oHZtQ2tg==
+Received: from DS7PR03CA0246.namprd03.prod.outlook.com (2603:10b6:5:3b3::11)
+ by SJ0PR12MB5504.namprd12.prod.outlook.com (2603:10b6:a03:3ad::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Thu, 1 Jul
+ 2021 05:01:27 +0000
+Received: from DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b3:cafe::ff) by DS7PR03CA0246.outlook.office365.com
+ (2603:10b6:5:3b3::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23 via Frontend
+ Transport; Thu, 1 Jul 2021 05:01:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
+ smtp.mailfrom=nvidia.com; linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ DM6NAM11FT040.mail.protection.outlook.com (10.13.173.133) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4287.22 via Frontend Transport; Thu, 1 Jul 2021 05:01:26 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 30 Jun
+ 2021 22:01:25 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 1 Jul
+ 2021 05:01:25 +0000
+Received: from kyarlagadda-linux.nvidia.com (172.20.187.6) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 30 Jun 2021 22:01:21 -0700
+From:   Akhil R <akhilrajeev@nvidia.com>
+To:     <andy.shevchenko@gmail.com>
+CC:     <akhilrajeev@nvidia.com>, <bgolaszewski@baylibre.com>,
+        <jonathanh@nvidia.com>, <kyarlagadda@nvidia.com>,
+        <ldewangan@nvidia.com>, <linus.walleij@linaro.org>,
+        <linux-gpio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <mperttunen@nvidia.com>,
+        <smangipudi@nvidia.com>, <thierry.reding@gmail.com>
+Subject: [PATCH v4] gpio: tegra186: Add ACPI support
+Date:   Thu, 1 Jul 2021 10:31:12 +0530
+Message-ID: <1625115672-17932-1-git-send-email-akhilrajeev@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAHp75VfB8varyi5j=j8YaysdgofxFU1-xCKLFPrxiYz7KadGfA@mail.gmail.com>
+References: <CAHp75VfB8varyi5j=j8YaysdgofxFU1-xCKLFPrxiYz7KadGfA@mail.gmail.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 57e5e98e-9752-4aa6-9417-08d93c4d47d5
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5504:
+X-Microsoft-Antispam-PRVS: <SJ0PR12MB5504558C184CDA295D6369CEC0009@SJ0PR12MB5504.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dbobosxtJ1TS/edRZkt/G9Mbm/Ot5Xg546Yvr3i64LE5q5iTknmpVVjnoNNVhXnw1l8c7h0XRm7VADZnF0EncXpV5MIQUBMFLAlH7YhZKc6Vz5qJv7uGyMahb8uHP1MYRJvEd+oLUzEfXn3A5Wn7hyxeZxmCI2XEUZpLsielLN+2FUvmbGEPSfd8ZuSHzGlCREAas5MhOLSL9DtyHVKqMdBd5GcU6SH2WMwsCiEs7BzXGrWCVmAdGBxk71fKz4zBWLEccwZWBhfPE+6La177imzthnL/FbYLGy4grVMsUAcoHJFwR1Fzw+0HE/o9hn1z9OcGMn8n4tJMYPlSX8SimdOfpPlj0/kMJWzhUqvNt50vt3y4AAuvgGdiwG1pxWY8U/Nw/mQ2k7RF4BgTdbnpFjx1H4P0BdHldiv8gKazCIufPgDeL7ipq9+1k1QMS3iGOTxEx8NdgreTywIA0cUWS/lb4nTeB9576tt9zTY14mD89x4FXmGaC6rh7i/H3buyje1BxFtr0jT3EHYM4tfxJnZ7++7BNhbAMp+PyTzQmVcxf4e1raGSGIcdefVOEZq1ZZ7ObM4uSsVYTrY34+T7Qe8yplSNjNOKprfnJ8EZigq+EtZnKq/J2Rl+i8EtK82yarj56L9hYgie/H2y+2FCKYFzEge/OzgxEVeXDg8QV/chnvEzt6ak+WU+R57NQCND7tzgU3iaMBHP9QNoJyVgzQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.32;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid01.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(39860400002)(396003)(376002)(136003)(36840700001)(46966006)(4326008)(36756003)(8676002)(316002)(6916009)(8936002)(26005)(47076005)(336012)(70586007)(6666004)(70206006)(2906002)(186003)(36860700001)(54906003)(86362001)(82310400003)(356005)(83380400001)(478600001)(82740400003)(7696005)(426003)(7636003)(5660300002)(2616005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2021 05:01:26.3984
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57e5e98e-9752-4aa6-9417-08d93c4d47d5
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.32];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5504
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Nexus 7 has OTG-cable microUSB port, enable OTG mode. USB peripheral
-devices now can be connected to Nexus 7 using OTG adapter, switching
-USB port into host mode.
+Add ACPI module ID to probe the driver from the ACPI based bootloader
+firmware.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- .../tegra30-asus-nexus7-grouper-common.dtsi   | 25 +++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ drivers/gpio/gpio-tegra186.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-index 8bc552b09672..c341e8971b2f 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-@@ -941,9 +941,29 @@ power_supply: charger@6a {
- 			interrupts = <TEGRA_GPIO(V, 1) IRQ_TYPE_EDGE_BOTH>;
+diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
+index 1bd9e44..e0ba8cd 100644
+--- a/drivers/gpio/gpio-tegra186.c
++++ b/drivers/gpio/gpio-tegra186.c
+@@ -620,15 +620,21 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
+ 	if (!gpio)
+ 		return -ENOMEM;
  
- 			summit,enable-charge-control = <SMB3XX_CHG_ENABLE_PIN_ACTIVE_LOW>;
-+			summit,inok-polarity = <SMB3XX_SYSOK_INOK_ACTIVE_LOW>;
- 			summit,enable-usb-charging;
+-	gpio->soc = of_device_get_match_data(&pdev->dev);
++	gpio->soc = device_get_match_data(&pdev->dev);
  
- 			monitored-battery = <&battery_cell>;
+ 	gpio->secure = devm_platform_ioremap_resource_byname(pdev, "security");
+-	if (IS_ERR(gpio->secure))
+-		return PTR_ERR(gpio->secure);
+-
+ 	gpio->base = devm_platform_ioremap_resource_byname(pdev, "gpio");
+-	if (IS_ERR(gpio->base))
+-		return PTR_ERR(gpio->base);
 +
-+			usb_vbus: usb-vbus {
-+				regulator-name = "usb_vbus";
-+				regulator-min-microvolt = <5000000>;
-+				regulator-max-microvolt = <5000000>;
-+				regulator-min-microamp = <750000>;
-+				regulator-max-microamp = <750000>;
++	if (IS_ERR(gpio->secure) || IS_ERR(gpio->base)) {
++		gpio->secure = devm_platform_ioremap_resource(pdev, 0);
++		gpio->base = devm_platform_ioremap_resource(pdev, 1);
 +
-+				/*
-+				 * SMB347 INOK input pin is connected to PMIC's
-+				 * ACOK output, which is fixed to ACTIVE_LOW as
-+				 * long as battery voltage is in a good range.
-+				 *
-+				 * Active INOK disables SMB347 output, so polarity
-+				 * needs to be toggled when we want to get the
-+				 * output.
-+				 */
-+				summit,needs-inok-toggle;
-+			};
- 		};
- 	};
++		if (IS_ERR(gpio->secure))
++			return PTR_ERR(gpio->secure);
++
++		if (IS_ERR(gpio->base))
++			return PTR_ERR(gpio->base);
++	}
  
-@@ -1017,12 +1037,13 @@ sdmmc4: mmc@78000600 {
- 	usb@7d000000 {
- 		compatible = "nvidia,tegra30-udc";
- 		status = "okay";
--		dr_mode = "peripheral";
-+		dr_mode = "otg";
-+		vbus-supply = <&usb_vbus>;
- 	};
+ 	err = platform_irq_count(pdev);
+ 	if (err < 0)
+@@ -690,11 +696,13 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
  
- 	usb-phy@7d000000 {
- 		status = "okay";
--		dr_mode = "peripheral";
-+		dr_mode = "otg";
- 		nvidia,hssync-start-delay = <0>;
- 		nvidia,xcvr-lsfslew = <2>;
- 		nvidia,xcvr-lsrslew = <2>;
+ 	gpio->gpio.names = (const char * const *)names;
+ 
++#if defined(CONFIG_OF_GPIO)
+ 	gpio->gpio.of_node = pdev->dev.of_node;
+ 	gpio->gpio.of_gpio_n_cells = 2;
+ 	gpio->gpio.of_xlate = tegra186_gpio_of_xlate;
++#endif /* CONFIG_OF_GPIO */
+ 
+-	gpio->intc.name = pdev->dev.of_node->name;
++	gpio->intc.name = dev_name(&pdev->dev);
+ 	gpio->intc.irq_ack = tegra186_irq_ack;
+ 	gpio->intc.irq_mask = tegra186_irq_mask;
+ 	gpio->intc.irq_unmask = tegra186_irq_unmask;
+@@ -918,10 +926,20 @@ static const struct of_device_id tegra186_gpio_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, tegra186_gpio_of_match);
+ 
++static const struct acpi_device_id  tegra186_gpio_acpi_match[] = {
++	{ .id = "NVDA0108", .driver_data = (kernel_ulong_t)&tegra186_main_soc },
++	{ .id = "NVDA0208", .driver_data = (kernel_ulong_t)&tegra186_aon_soc },
++	{ .id = "NVDA0308", .driver_data = (kernel_ulong_t)&tegra194_main_soc },
++	{ .id = "NVDA0408", .driver_data = (kernel_ulong_t)&tegra194_aon_soc },
++	{}
++};
++MODULE_DEVICE_TABLE(acpi, tegra186_gpio_acpi_match);
++
+ static struct platform_driver tegra186_gpio_driver = {
+ 	.driver = {
+ 		.name = "tegra186-gpio",
+ 		.of_match_table = tegra186_gpio_of_match,
++		.acpi_match_table = tegra186_gpio_acpi_match,
+ 	},
+ 	.probe = tegra186_gpio_probe,
+ 	.remove = tegra186_gpio_remove,
 -- 
-2.30.2
+2.7.4
 
