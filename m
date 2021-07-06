@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C30D3BD0E5
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Jul 2021 13:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2E433BD0E4
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Jul 2021 13:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237828AbhGFLh0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Jul 2021 07:37:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35476 "EHLO mail.kernel.org"
+        id S234343AbhGFLh3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Jul 2021 07:37:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47606 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235026AbhGFLZU (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 6 Jul 2021 07:25:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9DEF261376;
-        Tue,  6 Jul 2021 11:19:32 +0000 (UTC)
+        id S237344AbhGFLgG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 6 Jul 2021 07:36:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 72C7A61EFC;
+        Tue,  6 Jul 2021 11:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625570373;
-        bh=J9jzMF9UE8azGOzNI1ZPfuhQllO46jyFP0pJ2whawEw=;
+        s=k20201202; t=1625570822;
+        bh=6fxvkolb4LQvw1c/ZtbEpDhH5Y7OIb8tJ40UCw5uHgw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QXHyM4U3GO3hBeD9Zc4UeC0vHctqZ9rRs4zkQKZHPfg8Y9vioBzDk8y3Zrm7/SPqM
-         rRcTh2zZXWOUcOCmleBedlVqnpGsb4ebEOzydn/NqCcZeLdyAYKnQkrv6p8k5bqMax
-         RE9aENVWlny4OPypUzqwEI/pcyqUakYaumPTbffloMN43/9uZk54JgiZAbWV03nVJQ
-         8dNtBjC2NbmB5MxL67xwcKzAPk1wqROFTOyp8ip3mUqaCqBp9WuTMCsf+3MJ2g5vxU
-         5u/666akigK2f11IZIBjibR/JJlmaW1ysHU9seVGvnK31UFMrh1GgxJVh4dv/qE0OA
-         JOhrzIq/GYsrg==
+        b=LGdC85hFi3TwTH9htvR0ONxn+h0HH6v8LrrmVuRCiSJ5rXlLt/GE9eJ7JQP7XmhdT
+         /kMzpQ4OmsUSOgZsnooqBWReZVE+OuJFHr5IS71nEC3oF+Z6oA5ni8KdmbeLqqLAsl
+         4G4jJNHtsTl0o5a6zUdaH/+kP9qiYDtXG60liE9e1L8O3wKR8xpzWU90F2iQF2xvNT
+         bY6Eb75UozmTVfE8c34NZDSEFOV8o+3PkM0hMeC7EZWKFKs4NRUoTQ4HSya4N2ggNE
+         hfQC7sw6qtBh+BNqhbvWJ7v9KwEqmiz0dbVocVhvABSmqkX7Bw5QK4B4J6VRdbbF4Y
+         YGMOmK3ufav3Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 049/160] clk: tegra: Ensure that PLLU configuration is applied properly
-Date:   Tue,  6 Jul 2021 07:16:35 -0400
-Message-Id: <20210706111827.2060499-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 18/55] clk: tegra: Ensure that PLLU configuration is applied properly
+Date:   Tue,  6 Jul 2021 07:26:01 -0400
+Message-Id: <20210706112638.2065023-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706111827.2060499-1-sashal@kernel.org>
-References: <20210706111827.2060499-1-sashal@kernel.org>
+In-Reply-To: <20210706112638.2065023-1-sashal@kernel.org>
+References: <20210706112638.2065023-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -61,14 +61,14 @@ Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/clk/tegra/clk-pll.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/clk/tegra/clk-pll.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
-index c5cc0a2dac6f..d709ecb7d8d7 100644
+index dc87866233b9..ed3b725ff102 100644
 --- a/drivers/clk/tegra/clk-pll.c
 +++ b/drivers/clk/tegra/clk-pll.c
-@@ -1131,7 +1131,8 @@ static int clk_pllu_enable(struct clk_hw *hw)
+@@ -1091,7 +1091,8 @@ static int clk_pllu_enable(struct clk_hw *hw)
  	if (pll->lock)
  		spin_lock_irqsave(pll->lock, flags);
  
@@ -78,15 +78,7 @@ index c5cc0a2dac6f..d709ecb7d8d7 100644
  
  	ret = clk_pll_wait_for_lock(pll);
  	if (ret < 0)
-@@ -1748,15 +1749,13 @@ static int clk_pllu_tegra114_enable(struct clk_hw *hw)
- 		return -EINVAL;
- 	}
- 
--	if (clk_pll_is_enabled(hw))
--		return 0;
--
- 	input_rate = clk_hw_get_rate(__clk_get_hw(osc));
- 
+@@ -1708,7 +1709,8 @@ static int clk_pllu_tegra114_enable(struct clk_hw *hw)
  	if (pll->lock)
  		spin_lock_irqsave(pll->lock, flags);
  
