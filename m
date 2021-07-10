@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1293C307F
-	for <lists+linux-tegra@lfdr.de>; Sat, 10 Jul 2021 04:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 907503C3149
+	for <lists+linux-tegra@lfdr.de>; Sat, 10 Jul 2021 04:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233445AbhGJCfn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 9 Jul 2021 22:35:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53516 "EHLO mail.kernel.org"
+        id S234101AbhGJClH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 9 Jul 2021 22:41:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235630AbhGJCe5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:34:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 23777613F4;
-        Sat, 10 Jul 2021 02:31:54 +0000 (UTC)
+        id S234915AbhGJCjS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:39:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 18FDA613EE;
+        Sat, 10 Jul 2021 02:35:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625884315;
-        bh=XR3dWfvD9cMKxo2cyYHMTS9Hz+WqHyups7DSJhlqi0c=;
+        s=k20201202; t=1625884508;
+        bh=L97dLeP6erxCCovARaRHBZiyyAeRSD+wLyweSRUnot8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ms1fBD+VqcKNM1xYpUTDBqaVvIhcXFr4GTFPQd8Z5r6rP/OL7kl984339rCnbRf4i
-         EAzq0+cgLt+xAJbyiQoPSGOfFS6JHEK8AewRwPRlIrvorvVswA8Ki1naI9dytaZsKC
-         S+boP/iKao2Sd/gCKQbECXcVArqircWcTmhhtr6Cu8wPTrpznVXGzQaPU3hKT1tSwr
-         qC4JZuk5+8IAFgcvIeUffNQR6fToo0odelURE5FU+/TtZVpt8gsJxD7UlLNIIzMhfi
-         /HtuKuJZ/IwSm36qGdp6oPvDFaVBIRyVhtHYEf76qkbMQ3G7InEAOZBnVC9GGN8hgy
-         ZYsxtXBAJi4fQ==
+        b=UeeNOMWTQMTvWk0JgSxlj6yJyHKsjny+e4Wf+XNMyLIqaT2YCSwiD6iWTQEGK8XtC
+         408GyObvKqc7BQ2OA3nabFWzJdlmTz/5VAk/UFHbY0NQ0WSA7pv8KeZjjwdtmYEyBy
+         8qtrcAXQvQ7OYEHUxYFMO0zyJRhEW30Y5d6HMG3Vf0cBSgPXZzCEkZfR9AR2JAmpHT
+         uVIPa2s7l+5Schlxon6AQFOTe8YOVbHAy4hPbvXCnjAIK1TZUoPq7KvBqUy06ydP3c
+         8vheqkshtgkgApr8Pn6kV94Cv2j6D95gNrIGhMom/zBnWc0sd4UiqGpo0P3aLh39iK
+         21MoiGpA+E+Bw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jiajun Cao <jjcao20@fudan.edu.cn>, Xin Tan <tanxin.ctf@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
         alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 57/63] ALSA: hda: Add IRQ check for platform_get_irq()
-Date:   Fri,  9 Jul 2021 22:27:03 -0400
-Message-Id: <20210710022709.3170675-57-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 34/39] ALSA: hda: Add IRQ check for platform_get_irq()
+Date:   Fri,  9 Jul 2021 22:31:59 -0400
+Message-Id: <20210710023204.3171428-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022709.3170675-1-sashal@kernel.org>
-References: <20210710022709.3170675-1-sashal@kernel.org>
+In-Reply-To: <20210710023204.3171428-1-sashal@kernel.org>
+References: <20210710023204.3171428-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -67,12 +67,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index e378cb33c69d..2971b34c87c1 100644
+index e85fb04ec7be..b567c4bdae00 100644
 --- a/sound/pci/hda/hda_tegra.c
 +++ b/sound/pci/hda/hda_tegra.c
-@@ -292,6 +292,9 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
- 	const char *sname, *drv_name = "tegra-hda";
- 	struct device_node *np = pdev->dev.of_node;
+@@ -363,6 +363,9 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
+ 	unsigned short gcap;
+ 	int irq_id = platform_get_irq(pdev, 0);
  
 +	if (irq_id < 0)
 +		return irq_id;
