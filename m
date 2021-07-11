@@ -2,57 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D97833C3CC4
-	for <lists+linux-tegra@lfdr.de>; Sun, 11 Jul 2021 15:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A13C3C4007
+	for <lists+linux-tegra@lfdr.de>; Mon, 12 Jul 2021 01:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232554AbhGKNPH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Sun, 11 Jul 2021 09:15:07 -0400
-Received: from mail.07d05.mspz7.gob.ec ([186.46.59.139]:60854 "EHLO
-        mail.07d05.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232544AbhGKNPH (ORCPT
+        id S229753AbhGKXrW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 11 Jul 2021 19:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229660AbhGKXrW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 11 Jul 2021 09:15:07 -0400
-X-Greylist: delayed 1773 seconds by postgrey-1.27 at vger.kernel.org; Sun, 11 Jul 2021 09:15:07 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.07d05.mspz7.gob.ec (Postfix) with ESMTP id ED56E1821ECE;
-        Sun, 11 Jul 2021 07:32:52 -0500 (-05)
-Received: from mail.07d05.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.07d05.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id gBrVZxBckKZr; Sun, 11 Jul 2021 07:32:52 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.07d05.mspz7.gob.ec (Postfix) with ESMTP id A008B1821ECA;
-        Sun, 11 Jul 2021 07:32:52 -0500 (-05)
-X-Virus-Scanned: amavisd-new at 07d05.mspz7.gob.ec
-Received: from mail.07d05.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.07d05.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id m9V3-pdOMvd4; Sun, 11 Jul 2021 07:32:52 -0500 (-05)
-Received: from cris-PC.wifi (unknown [105.9.79.139])
-        by mail.07d05.mspz7.gob.ec (Postfix) with ESMTPSA id BA2E01821EBB;
-        Sun, 11 Jul 2021 07:32:44 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
+        Sun, 11 Jul 2021 19:47:22 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4785C0613DD;
+        Sun, 11 Jul 2021 16:44:34 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id a6so16240242qka.4;
+        Sun, 11 Jul 2021 16:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dT2rznG8+FNKAzNmailx5hWz/y69Nu1aZdBmqBWLa+8=;
+        b=uDVO3NRG80yF6HB1qsls7uukms/Tg4hA/pbbUNAVxvSh66dWbZi9dX83Q+UGVxVFsD
+         6YdNP1OHMMxFXtRjrrvLtc2zTKR7+SGfsPf1T+uO5CEkLOlIdTXwNVmpzuOH6DTLatM4
+         D7J8K8WYEByTKCbp5OpjJbMNSD4KqIZJzl1v2HdwQoLAV6meBnshfUvFu09cDBbzW9cW
+         Hj0CTZS9iPJGDhfa2S7Z+okJB67l74dbbRjN0foF6H8sWxYI/IcebiNQ+JEOtpRiwOjO
+         ALA9vfzve+wutpv0CSRG2uUDFgtcRyhnVuuxfwExdxnrlvLlLGjO/8GC1rahZSspS6/8
+         +vfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dT2rznG8+FNKAzNmailx5hWz/y69Nu1aZdBmqBWLa+8=;
+        b=A9e+KX8QI3fjqnNloAYpW5srsLNVW+b+mv8V0DmHkJxdzyjv24SHDKlPDGQnXCzhPg
+         PfWM16IwFNuPTsSEdcutzHZNb2C/C2FlBDDczWU4c/ZKXiesKoMDCnIUIbmuKcewNJhQ
+         ZSmB0XzOcWFrurlRukFnQamnHcNxZv1PHwmHadxaKoTIRpsDJoudJD7im3Q3yFznuKJO
+         ywwi08cqiZnaDp4CD1Brs0IMrF1KY2AnaGyeGhtfpUMB//gg2wr+FVoEfuNd9V8shF6i
+         k4eXymcCdRonwYmKF9IjPPRAlu4eMbLcHUKDJwznj8U+tCYDWLdqOHAbT0PKuTWLB3Sv
+         LETw==
+X-Gm-Message-State: AOAM530MPQicn29bgnwNyNXXEsz5NSTQlhkNIT97712INRLADTDaE49j
+        l1tjPOkOsOdzOZrA9/o9Avc=
+X-Google-Smtp-Source: ABdhPJyK8kSt1AYgWtmz003nSG3PBEgZ2QlEj3nEV/+Yf0KihD7Q93gFt4WlXm6OorhXNJZtshYOuQ==
+X-Received: by 2002:a37:58b:: with SMTP id 133mr8772140qkf.125.1626047072595;
+        Sun, 11 Jul 2021 16:44:32 -0700 (PDT)
+Received: from localhost.localdomain (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
+        by smtp.gmail.com with ESMTPSA id e123sm2146507qkf.103.2021.07.11.16.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jul 2021 16:44:32 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1 00/13] Tegra ARM32 device-tree improvements for 5.15
+Date:   Mon, 12 Jul 2021 02:43:50 +0300
+Message-Id: <20210711234403.24691-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: spende von 2,000,000 euro
-To:     Recipients <maria.coronel@07d05.mspz7.gob.ec>
-From:   ''Tayeb souami'' <maria.coronel@07d05.mspz7.gob.ec>
-Date:   Sun, 11 Jul 2021 14:32:29 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20210711123244.BA2E01821EBB@mail.07d05.mspz7.gob.ec>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hallo mein lieber Freund
-Mein Name ist Tayeb Souami aus New Jersey in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an fünf glückliche Personen zu spenden, und Sie wurden als einer der Begünstigten ausgewählt. Bitte klicken Sie auf diesen Link, um mehr über meinen Gewinn zu erfahren.
+This series:
 
+  - adds SoC thermal sensor node
+  - adds interrupt for LM90 to Ouya, AC100, Nexus 7 and A500 devices
+  - fixes interrupt of LM90 sensor for all boards
+  - removes bogus VBUS regulators from A500 device-tree
+  - improves thermal zones of Nexus 7 and A500 devices based on previous
+    discussion with Daniel Lezcano [1]
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+[1] https://lore.kernel.org/lkml/1abadc69-1dd1-5939-c089-37a84be4781b@linaro.org/
 
-Bitte kontaktieren Sie mich über diese E-Mail:Tayebsouam.spende@gmail.com
+Dmitry Osipenko (13):
+  ARM: tegra: Add SoC thermal sensor to Tegra30 device-trees
+  ARM: tegra: ouya: Add interrupt to temperature sensor node
+  ARM: tegra: paz00: Add interrupt to temperature sensor node
+  ARM: tegra: nexus7: Add interrupt to temperature sensor node
+  ARM: tegra: acer-a500: Add interrupt to temperature sensor node
+  ARM: tegra: nyan: Correct interrupt trigger type of temperature sensor
+  ARM: tegra: apalis: Correct interrupt trigger type of temperature
+    sensor
+  ARM: tegra: cardhu: Correct interrupt trigger type of temperature
+    sensor
+  ARM: tegra: dalmore: Correct interrupt trigger type of temperature
+    sensor
+  ARM: tegra: jetson-tk1: Correct interrupt trigger type of temperature
+    sensor
+  ARM: tegra: acer-a500: Remove bogus USB VBUS regulators
+  ARM: tegra: acer-a500: Improve thermal zones
+  ARM: tegra: nexus7: Improve thermal zones
 
+ arch/arm/boot/dts/tegra114-dalmore.dts        |  2 +-
+ arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi   |  2 +-
+ arch/arm/boot/dts/tegra124-apalis.dtsi        |  2 +-
+ arch/arm/boot/dts/tegra124-jetson-tk1.dts     |  2 +-
+ arch/arm/boot/dts/tegra124-nyan.dtsi          |  2 +-
+ .../boot/dts/tegra20-acer-a500-picasso.dts    | 84 +++++++++++-------
+ arch/arm/boot/dts/tegra20-paz00.dts           |  4 +
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 60 ++++++++++++-
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         |  2 +-
+ arch/arm/boot/dts/tegra30-ouya.dts            | 13 ++-
+ arch/arm/boot/dts/tegra30.dtsi                | 87 ++++++++++++++++++-
+ 11 files changed, 206 insertions(+), 54 deletions(-)
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+-- 
+2.32.0
 
-Grüße
-Herr Tayeb Souami
