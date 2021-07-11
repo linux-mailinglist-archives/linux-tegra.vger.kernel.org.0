@@ -2,99 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58E7C3C3971
-	for <lists+linux-tegra@lfdr.de>; Sun, 11 Jul 2021 01:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D97833C3CC4
+	for <lists+linux-tegra@lfdr.de>; Sun, 11 Jul 2021 15:12:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233887AbhGJX7p (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 10 Jul 2021 19:59:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48432 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233539AbhGJX60 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 10 Jul 2021 19:58:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 49AF56142C;
-        Sat, 10 Jul 2021 23:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625961178;
-        bh=yZiHhf7MDMsrBOm+Rfirza9bKGPc4BGe3mcHCLe6UbU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O94iuvZXk4uGfJb4ZnYK2KI77MeMFWbUF99qGbrmtrmmsVBztDF7Ofz5dtPhRgtTv
-         1qF7N1Sy/YPPLzssFHso6a7Xs/iBIgE6bOzeE5/eNeNCs0D5Hjc/RjiJoECkh4+fuu
-         x78w0IG/eKVLGD0qxqNhS7KIs1JNzZxEthI54q6nU1BaZhlVxVoFQ7Mb9VtYPqenYn
-         xgNs1G8yrCOrimIwtKyu3dpdgZFs/ZLRiCQw1EUULu/PjeV6ugsLcEPd2pbpo+u7sB
-         HC9QxPVZs+Efudjarg82k1VnagyQW2GTueVVck9r23vUBj2L0WDlx+RBJ4X0u/ykhm
-         Hia1D113fPEbQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-pwm@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 13/16] pwm: tegra: Don't modify HW state in .remove callback
-Date:   Sat, 10 Jul 2021 19:52:37 -0400
-Message-Id: <20210710235240.3222618-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710235240.3222618-1-sashal@kernel.org>
-References: <20210710235240.3222618-1-sashal@kernel.org>
+        id S232554AbhGKNPH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Sun, 11 Jul 2021 09:15:07 -0400
+Received: from mail.07d05.mspz7.gob.ec ([186.46.59.139]:60854 "EHLO
+        mail.07d05.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232544AbhGKNPH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 11 Jul 2021 09:15:07 -0400
+X-Greylist: delayed 1773 seconds by postgrey-1.27 at vger.kernel.org; Sun, 11 Jul 2021 09:15:07 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.07d05.mspz7.gob.ec (Postfix) with ESMTP id ED56E1821ECE;
+        Sun, 11 Jul 2021 07:32:52 -0500 (-05)
+Received: from mail.07d05.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.07d05.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id gBrVZxBckKZr; Sun, 11 Jul 2021 07:32:52 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.07d05.mspz7.gob.ec (Postfix) with ESMTP id A008B1821ECA;
+        Sun, 11 Jul 2021 07:32:52 -0500 (-05)
+X-Virus-Scanned: amavisd-new at 07d05.mspz7.gob.ec
+Received: from mail.07d05.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.07d05.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id m9V3-pdOMvd4; Sun, 11 Jul 2021 07:32:52 -0500 (-05)
+Received: from cris-PC.wifi (unknown [105.9.79.139])
+        by mail.07d05.mspz7.gob.ec (Postfix) with ESMTPSA id BA2E01821EBB;
+        Sun, 11 Jul 2021 07:32:44 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: spende von 2,000,000 euro
+To:     Recipients <maria.coronel@07d05.mspz7.gob.ec>
+From:   ''Tayeb souami'' <maria.coronel@07d05.mspz7.gob.ec>
+Date:   Sun, 11 Jul 2021 14:32:29 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20210711123244.BA2E01821EBB@mail.07d05.mspz7.gob.ec>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
+Hallo mein lieber Freund
+Mein Name ist Tayeb Souami aus New Jersey in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an fünf glückliche Personen zu spenden, und Sie wurden als einer der Begünstigten ausgewählt. Bitte klicken Sie auf diesen Link, um mehr über meinen Gewinn zu erfahren.
 
-[ Upstream commit 86f7fa71cd830d18d7ebcaf719dffd5ddfe1acdd ]
 
-A consumer is expected to disable a PWM before calling pwm_put(). And if
-they didn't there is hopefully a good reason (or the consumer needs
-fixing). Also if disabling an enabled PWM was the right thing to do,
-this should better be done in the framework instead of in each low level
-driver.
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
 
-So drop the hardware modification from the .remove() callback.
+Bitte kontaktieren Sie mich über diese E-Mail:Tayebsouam.spende@gmail.com
 
-Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
-Signed-off-by: Thierry Reding <thierry.reding@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/pwm/pwm-tegra.c | 13 -------------
- 1 file changed, 13 deletions(-)
 
-diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
-index 7e8906d6ab7a..d76698ce6472 100644
---- a/drivers/pwm/pwm-tegra.c
-+++ b/drivers/pwm/pwm-tegra.c
-@@ -228,7 +228,6 @@ static int tegra_pwm_probe(struct platform_device *pdev)
- static int tegra_pwm_remove(struct platform_device *pdev)
- {
- 	struct tegra_pwm_chip *pc = platform_get_drvdata(pdev);
--	unsigned int i;
- 	int err;
- 
- 	if (WARN_ON(!pc))
-@@ -238,18 +237,6 @@ static int tegra_pwm_remove(struct platform_device *pdev)
- 	if (err < 0)
- 		return err;
- 
--	for (i = 0; i < pc->chip.npwm; i++) {
--		struct pwm_device *pwm = &pc->chip.pwms[i];
--
--		if (!pwm_is_enabled(pwm))
--			if (clk_prepare_enable(pc->clk) < 0)
--				continue;
--
--		pwm_writel(pc, i, 0);
--
--		clk_disable_unprepare(pc->clk);
--	}
--
- 	reset_control_assert(pc->rst);
- 	clk_disable_unprepare(pc->clk);
- 
--- 
-2.30.2
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
 
+Grüße
+Herr Tayeb Souami
