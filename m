@@ -2,93 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF5233D34A2
-	for <lists+linux-tegra@lfdr.de>; Fri, 23 Jul 2021 08:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A632A3D34F5
+	for <lists+linux-tegra@lfdr.de>; Fri, 23 Jul 2021 09:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233935AbhGWFqy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Jul 2021 01:46:54 -0400
-Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:52404
-        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233835AbhGWFqw (ORCPT
+        id S234104AbhGWGUH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 23 Jul 2021 02:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234089AbhGWGUG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Jul 2021 01:46:52 -0400
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPS id 5A3273F343
-        for <linux-tegra@vger.kernel.org>; Fri, 23 Jul 2021 06:27:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1627021645;
-        bh=BVfxHW5e0txMWNeBpenkIfYlW9+/vHPUxzadxmisj2M=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=ZrnFRL0GfkWrskmb3/CFK89YlQ08WG+8vPLS1bmowGdzTdW+xJAjKbV62gIyv9ho2
-         Mgk4BQj3KGuZj4iCHdGmS3xUc3icnqrnH6daO7n7i/EozYAw6s7n6FNXAsC3dUZiqJ
-         CHn8Dtg+o7/a5415rTycOc92K2V+C3uQQhL6pR3TMB6CBXVMm2igknPfTLaIWPp8gc
-         y0VlRo8N5qa9PlG100s0njrByt24ir2DUkXpzWm3X1/1HZ4Nm7vmb4fO2kAZY5ANFS
-         9seE225FGDn+8nibd1pnXK2LYIQVH602qi76gvqPgb09oBl2fEMisv4Y/Uvy6kQN4W
-         cPKwcmCJqCi0Q==
-Received: by mail-ed1-f71.google.com with SMTP id n10-20020a05640206cab02903a4b3e93e15so233407edy.2
-        for <linux-tegra@vger.kernel.org>; Thu, 22 Jul 2021 23:27:25 -0700 (PDT)
+        Fri, 23 Jul 2021 02:20:06 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B96C061575
+        for <linux-tegra@vger.kernel.org>; Fri, 23 Jul 2021 00:00:40 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id d17so857127qvn.13
+        for <linux-tegra@vger.kernel.org>; Fri, 23 Jul 2021 00:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=MhaWH0xm/odULRUgpRN30Lg5qdDn6Ee/GPJGPBWoxIc=;
+        b=QLwmkR/uPGiVAeJtIK3HnAupBPesQFcgCiQHuKAIEmvu5tLB9nwNFnddyXQNXuk07K
+         r2RUKy9UlrgeRDb1GHHAPQHR3kSXD11xq87YuXYRn03IAEryV0uKUtUGAVBc0yK+UJUU
+         mxch20YpEvP5ZbGyZxaXFrv2tCGCXcLnHrBx66XbrTSrdP1AaHEjmoJmb5HtcPwv+4lH
+         0HaVkGqTqrg+92teDrDZHddepXCuO/QH2rwuoMk14kwLoiqkkECEutzt3HMzeKEOp+H2
+         dpq8+ce2Q3DPedXD6AHizQUJf44wvGCl/CjgNbuL0y5hrPHz7k94cVzdNrmXRUmzJaOw
+         VpKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BVfxHW5e0txMWNeBpenkIfYlW9+/vHPUxzadxmisj2M=;
-        b=HSQJ/CJXyM+EF8smufVIaGrkJVIcQeOtdFzZmEOklSPv27mQ4EHhMw9iCQkYhVe74d
-         SUF6D4PBCq4lr0EZJgUGbM+Z3Sy9L6azITivuvMNYJkW2broncXrzCflt74yPhX8wqG/
-         nUqxL9Cb3hrMZ1kb0ycBt/Jwp5+LNS38/DvFXBKZ0efkCMw8JFUW8Bgt7WKO6TwjHfKS
-         /B4GVSadzUNA8hjjF/5to561iRXx3QBsA0Ur+wGmAUvvNM1ntbui3a0Zl4noGeLe7Sdb
-         wbXqLM2Hq8pspopK9PY/TrWPyJhp+X3wpeVb3/q/m8B7yRpF4kSUiBlyDVFMXPrnqLrF
-         CV6w==
-X-Gm-Message-State: AOAM531GrFyeEOmR2ylQ3Kf7fuMO7lZiMqoqPAN144ztnp8TyVF5wzqt
-        dAtquQ9tdokcFSj9VA0Hc1TJs2OLG/cvdhH+HMkUJ6HBtMXP7ixXWF/mB3LyQAjgNWXjZU7v5VB
-        llp1TGdEkrDNsVmWFDQcLeohz5UYGAzpm+/UZQyB1
-X-Received: by 2002:a05:6402:14c7:: with SMTP id f7mr3836124edx.84.1627021645157;
-        Thu, 22 Jul 2021 23:27:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7YBaLklYdx8pMyrPGwqRyW3BrTXsuwbNayQmX95MvMBycvj7QgE68fkUlanxy0AVX3tZvBw==
-X-Received: by 2002:a05:6402:14c7:: with SMTP id f7mr3836115edx.84.1627021645050;
-        Thu, 22 Jul 2021 23:27:25 -0700 (PDT)
-Received: from localhost.localdomain ([86.32.47.9])
-        by smtp.gmail.com with ESMTPSA id u5sm13449844edv.64.2021.07.22.23.27.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 23:27:24 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-tegra@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] memory: tegra: fix unused-function warning
-Date:   Fri, 23 Jul 2021 08:27:17 +0200
-Message-Id: <162702163037.6229.205743572149857743.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210722090748.1157470-1-arnd@kernel.org>
-References: <20210722090748.1157470-1-arnd@kernel.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=MhaWH0xm/odULRUgpRN30Lg5qdDn6Ee/GPJGPBWoxIc=;
+        b=oQ/rk094TQS4vuk5eXs2O1RwBYJt15A6Zq407JqPxUrclxElHOciI5xgB9whiigiN0
+         UQ6zgtxm1zL/ngSbFS8sx2tk7gUneqGjuTlr6m2Fqlb/GhlubhN/FZOGWjVkqqzMdmxd
+         Dav/mj1A0QXsu+r0WrCTbPwlyehB3pIqDgyCRv0dPa2i25sEylv7L4uSAtcQsS/hgzl7
+         k5cm+eSDj6+Rrtnp2v3xPeY2igIsqFMK3gSSPVI3Ym9JmVRzk+VEcr+NMi60M3jCWE0l
+         CCV2mZ961WCplytU4QHExeHSi2HWzRwCODW1jQPh5YGUvtylGwJ86ayTaV+r2+s9cOaF
+         WQmg==
+X-Gm-Message-State: AOAM533XescqmQhGwo/ewH/xjTB0fVJhhHwsJR/Fk9AKbDGosH1bFY+I
+        44CcELfKVLKD79FXqoNfIlFhPOmddgrAeFtzub0=
+X-Google-Smtp-Source: ABdhPJxSzwh4lh+UrC//AMtErsgXxfP+pAvZtHKdzVdvOq19KIdMgQxFxNNKj3KSFxRD+ZvuC8vZ16B7F9rw0bJo1Oo=
+X-Received: by 2002:a05:6214:242f:: with SMTP id gy15mr3446305qvb.0.1627023639225;
+ Fri, 23 Jul 2021 00:00:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a0c:ecc7:0:0:0:0:0 with HTTP; Fri, 23 Jul 2021 00:00:38
+ -0700 (PDT)
+Reply-To: isabella.ferreira@yandex.com
+From:   "Isabella.Ferreira" <gendavidrodriguez500@gmail.com>
+Date:   Fri, 23 Jul 2021 08:00:38 +0100
+Message-ID: <CAC8P1aj-Gh6WU=s1KBhtu-Yxuqc2oqe5MF+n_X8QQygQ+qW5zA@mail.gmail.com>
+Subject: Greetings,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 22 Jul 2021 11:07:43 +0200, Arnd Bergmann wrote:
-> The tegra186_mc_client_sid_override() is only called from
-> an #ifdef block:
-> 
-> drivers/memory/tegra/tegra186.c:74:13: error: 'tegra186_mc_client_sid_override' defined but not used [-Werror=unused-function]
->    74 | static void tegra186_mc_client_sid_override(struct tegra_mc *mc,
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> [...]
+Greetings,
 
-Applied, thanks!
-
-[1/1] memory: tegra: fix unused-function warning
-      commit: eaf89f1cd38cf7256ab64424fe94014632044d57
+I wonder why you continue neglecting my emails. Please, acknowledge
+the receipt of this message in reference to the subject above as I
+intend to send to you the details of the mail. Sometimes, try to check
+your spam box because most of these correspondences fall out sometimes
+in SPAM folder.
 
 Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Isabella
