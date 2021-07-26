@@ -2,121 +2,143 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D31113D47A1
-	for <lists+linux-tegra@lfdr.de>; Sat, 24 Jul 2021 14:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EAFA3D5383
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Jul 2021 09:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231965AbhGXLsT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 24 Jul 2021 07:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbhGXLsT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 24 Jul 2021 07:48:19 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE7AC061575
-        for <linux-tegra@vger.kernel.org>; Sat, 24 Jul 2021 05:28:50 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id o185so4986189oih.13
-        for <linux-tegra@vger.kernel.org>; Sat, 24 Jul 2021 05:28:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=U4VvcWaphVNh1l3RmthHTr20jGlf4yAd0m8w59yMPkw=;
-        b=stRIZQQrFLsVZYphrrtWOnvVnZ/NSFyjNzNvhF8Gin8/JJm2fm1w9eohjIPpoa/kgi
-         V8O8pIZ3VcNUCxTMGqM6cUhSfWmaeKHIkHJ8BJOpLsdtNXpnw3r3Yl9JU2werGUrHjx0
-         kDipAH+gIumS3vgHNpo+gTvhY8JSj7LGGIiADKjZ8KfE2Emu2i2Te/Cj9i6GfmMTqJyW
-         CHzav9dh8JKGWFiFyQlErNmC8e+sikJ2d3Y42G8Ia9MUwjr9P0XqAyUQXO/9dAik7000
-         iSnK5S54psTQHU+fRMjidzhJmHMbdCV3N0DdUf2mDpbgfZEuKlAgdWqGLaTVrnvTBEU/
-         vZVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=U4VvcWaphVNh1l3RmthHTr20jGlf4yAd0m8w59yMPkw=;
-        b=kc2H9LIaY/m3OfWhssuATR+Me5IaFinGL7Wwpyf6kopID9+TcmpK4Fqp93t44cAsp8
-         ClgRagQDBz/WZslElS97y+oOwV4JkHVbjSJNkCruMKCRNd3mAW4tGd8tjfkV7DZIw3Xg
-         +Rffzs+R2+L4MNKgD6pE4iDySOO0dIRe68/fNV6BHkq14HZ4kEb/5sopgaGQ6zRaMwyG
-         kTm8fzHC50cEW2lh6HkG1rxhXNzuFDQCmsO+OGmxyF9SZTN1FsZPv+6QFrGEPj6zB6O/
-         zdOEz/D15utSXM2BNHHLcbit00UKbcfjKuL+VgztQcXt73xg5eVJ86ovBnaDJajjmb38
-         CUUQ==
-X-Gm-Message-State: AOAM531eXTPe/ASY9GZAgbRMQx7duyvUJkFKahx0TUfCT2A8R/wlU1NO
-        ZAxVil71U0Ns2Yms0u91lw5tc0xvTAmynmXktVs=
-X-Google-Smtp-Source: ABdhPJxmWyLeZWSiZWWp37scUwDbipVaPA3gLoBjzicz4RNPU8AJ8mtVKAbEqqjsk0y798cfHJ44NZdv0rudSUadbkg=
-X-Received: by 2002:aca:2308:: with SMTP id e8mr5726085oie.57.1627129729705;
- Sat, 24 Jul 2021 05:28:49 -0700 (PDT)
+        id S232112AbhGZGVe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 26 Jul 2021 02:21:34 -0400
+Received: from mail-dm6nam12on2068.outbound.protection.outlook.com ([40.107.243.68]:19904
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232064AbhGZGVE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 26 Jul 2021 02:21:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hrd/UxWIh5CfLuytJN3IGzhtiaA+v6WUWLa5MI62XHFV5/NmBP7flypFWKJQVjm9k00yuEw0/XlyV9SDNfEbNNAx0VRdK9ccbV1Ucj6qy1hrQ+AisHXUo07hri75mzZ+tRy5OTIq9lH5v5lwMPamHMEdOIK//U30mkAv44+JjQFM8BwQluWqqAW9jyGGzyTuz0KxSJct8V2VRfh6sdNlAEebOPFGU0cvZ/VcXbkFUTsJ3YEMMf6omRW5A8zrMRMu3uimmdodqMOois78VuYY/8hC5WeeDb5RUGQq9QjuKoKrfwuDs6MYlZRhNqgjpSp7xx1HMv2rAp5YWpPGw/7Gtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ixmw96qEhMyFbWV8BuzLBtqw32Wy6l5DgFsF3MQi0SQ=;
+ b=KpfAGpH+5a0N68bcEtouKMJ2UX9/ESH+F72W6OXMKI+SNYTHMcql2LlvC7ULAFkvJp8MAeaA1GQan08oBzBX3aTzQ5A6KESNN0UI266BuN0bn/23CKpyzmYlreLj8Gnd43RXBxhAQaMbkjKG1jziH2wE3YgedZffNCHrYYA6wK8W7cXseo2h/TbMtWpMIwipQQJKyy6EjSKMU1QN82j9bzLOOhrK3AzcydEw/SFqogHae1ApQ0MipIADZ55heuLyEc1F230zQZb18JUyjfH41LSAFv0dA5vUP2Ws4r8mIi4GPJmkJ9k3CvHeMVD8mNCVvRiuYTnkjVnaOk8w61R55Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ixmw96qEhMyFbWV8BuzLBtqw32Wy6l5DgFsF3MQi0SQ=;
+ b=ZpP5FsI5TfHmfSlY8sFAi9BilNigeoYXrNiizV0oCiz8ZK0wDxwotINP/eZdw5cbdZTywAvy5PSztrDZlklYniiBkouEKyNFeL83iND+r6JtprkVEcHzr9eqoHrMSRhLLViebUrR/2IVozVWFn4ByUApcqu4NolAxhkAk99txdhjzjHn9me6i3CljuIUKQ3vI3b0HjLeTsWFaHy17CLZgTlMlY8JAfwBp6aFYxgJY1cMlLLjof4oWABn1kqltda6SC33NFPd/bQ4jXq9T1i8nxX0n+8cWPmogYEu/a82s7Jm5QJSptENRX59VjS9KY/D88FkNNhGyNxgFVVMxQztvQ==
+Received: from DM3PR11CA0003.namprd11.prod.outlook.com (2603:10b6:0:54::13) by
+ DM6PR12MB4105.namprd12.prod.outlook.com (2603:10b6:5:217::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.29; Mon, 26 Jul 2021 07:01:31 +0000
+Received: from DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:0:54:cafe::ea) by DM3PR11CA0003.outlook.office365.com
+ (2603:10b6:0:54::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26 via Frontend
+ Transport; Mon, 26 Jul 2021 07:01:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; arm.com; dkim=none (message not signed)
+ header.d=none;arm.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT056.mail.protection.outlook.com (10.13.173.99) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4352.24 via Frontend Transport; Mon, 26 Jul 2021 07:01:31 +0000
+Received: from [10.40.204.200] (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 26 Jul
+ 2021 07:01:26 +0000
+Subject: Re: [PATCH V3 0/5] Update pcie-tegra194 driver
+To:     <kw@linux.com>, <helgaas@kernel.org>, <vidyas@nvidia.com>,
+        <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>
+References: <20210623100525.19944-1-omp@nvidia.com>
+From:   Om Prakash Singh <omp@nvidia.com>
+Message-ID: <3e20a33f-fe8a-c3e5-8571-05b671b95e78@nvidia.com>
+Date:   Mon, 26 Jul 2021 12:31:22 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Sender: mrs.kimhongyeoh55@gmail.com
-Received: by 2002:a05:6820:207:0:0:0:0 with HTTP; Sat, 24 Jul 2021 05:28:49
- -0700 (PDT)
-From:   "Mrs. Nadia Emaan" <mrsnadiaemaan50@gmail.com>
-Date:   Sat, 24 Jul 2021 12:28:49 +0000
-X-Google-Sender-Auth: 7X-9OMfopmES-YpYfmQEjy6GC10
-Message-ID: <CAPeJZ8Acmi3KhFMVZimm9bCPwUmts1g04yHTesdPwUyNzcP8JQ@mail.gmail.com>
-Subject: HELLO.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210623100525.19944-1-omp@nvidia.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1a6b62aa-b7b4-43b8-baba-08d950033299
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4105:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4105996F59E871EBBF67C936DAE89@DM6PR12MB4105.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1417;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tGPS8OtNZShqxNLUZQZzK8zJAKKI6gw16XeDgsMg3YtNw+DuEH+QLHizaMJe3fh5qd+lO3I8ttB0Rm9TXJWWz1ByNzbBVH+NHM9JFD7FvM4F+g+lvC99dRpu/hyt+WNoBCCd5FqgrBvRxRzYkSv6M+AHQGPm68lAf3uZAy4PY+FAIOJdyrOnqVtf4CyXnURDyDl1nILiNPPf/LtUXjoa5g1bWOJ0EIfOr1kF4tgPz+QnVliM/sVCtuNjHImuzYFDrgr0zKKJU4r/F4ykkHDPb01AJiEL5W38OHUoTaIVD81rE1f97YT3sjin5WtaMGhGOCpt8vP2O1WxuSEPudWJeq/RddNC4F0vvlVdOZqiqqdlJnGgbpKcWwDM5mw5mXbObNE26ZfQr5ezULNIj0X3n8KlfzR9u+Blu1Drld8t5DbDxlPNPe9zSaJlA1DnwXRLcxFP67ozHzkIBKwxQx3NM3WzG0r0e+4XIaC6Prn6BHWeov34lI5bv4Vc/Og+fealCYc8mnkJWnEiCDK4IbFPFm6lu/apzDZNsd2SphZCm3yVcDIlCP7239LwQvcvWjTonsocCdOZP5uSUc5xoiZHs5AK3CqYXDrCZ4hQiVsOkZ184ogj9Hx3mArQFjphKX4ghbABfo5IuKGskBNhyM2Y3VpmpKsU5RIO2gbgOw2lTqhQ2DmJRDkPGUx6NSCT4GlwrLJghoMnUV9JvraiIj0t8i1pMB0crbs4JB4rvGXfQAwDY7vI2Gb3ycmktzEAH4xRwB/nq4rjCVZM2+Qyar+sA+IqcQEAs1KHL2Tbt2qANKkuc5ewUKIBf6Z57YpQnz+t5lOwPsl0/nFvFIREyDwiboF2uxKhPjf3AY4rP3Rp/sQ=
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(136003)(376002)(346002)(396003)(36840700001)(46966006)(36906005)(5660300002)(70586007)(8936002)(82740400003)(53546011)(47076005)(70206006)(31686004)(54906003)(6666004)(16576012)(4326008)(478600001)(186003)(2616005)(6636002)(966005)(8676002)(86362001)(7636003)(336012)(107886003)(426003)(36860700001)(36756003)(316002)(31696002)(110136005)(15650500001)(356005)(82310400003)(26005)(2906002)(83380400001)(16526019)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2021 07:01:31.2536
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a6b62aa-b7b4-43b8-baba-08d950033299
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4105
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Greetings My Beloved Friend,
+Hi Lorenzo,
+Please consider these patches to review.
 
-I am contacting you through this means because I need your urgent
-assistance and also help me to carry a charity project in your
-country. I found your email address as a true child of God for past
-few days now that I have been praying to know if you are really the
-chosen one for this great charity project, according to God's
-direction, after all prayers I am convinced, and I have decided to
-contact you. Please, i want you use the funds for the Lord's work,
-with confidence, read and respond now.
+Thanks,
+Om
 
 
-My name is Mrs. Emaan Nadia Faroul, a widow, but currently based in West
-Africa since my life with my late husband, who was a businessman in
-this country before dying some years ago. We were married to many
-years without a child. He died after a brief illness that lasted only
-six days and I myself have been suffering from an ovarian cancer
-disease. At this moment I am about to finish the race in this way
-because the disease has reached a very bad stage, without any family
-member and without children. I hope you do not expose or betray this
-trust and I am sure that I am about to trust you for the mutual
-benefit of orphans and the less privileged. I have some funds that I
-inherited from my late husband, the total sum of ($ 12,500,000.00)
-deposited at a bank here in Burkina Faso. After knowing my current
-state of health, I decided to trust you with this fund, believing that
-you will use it in the way I will instruct here.
-
-
-you will use this $12.5 Million for public benefit as follows;
-
-1. Establish An Orphanage Home To Help The Orphanages Children.
-2. Build A Hospital To Help The Poor.
-3. Build A Nursing Home For Elderly People Need Care & Meal.
-
-You will named them after my late husband.Therefore, I need you to
-help me and claim this money and use it for charities, for orphanages
-and provide justice and help to the poor, needy and to promote the
-words of God and the effort to maintain the house of God, according to
-the bible in the book of. Jeremiah 22: 15-16, without minding our
-different religions.
-
-It will be a pleasure to compensate with 40% percent of the total
-money for your effort in handling the transaction, while 60% of the
-money will go to charity project.
-
-All I need from you is sincerity and ability to complete the task of
-God without any failure. It will be my pleasure to see that the bank
-has finally released and transferred the fund to your bank account in
-the country, even before I die here in the hospital, due to my current
-state of health, everything must be processed as soon as possible.
-
-I am waiting for your immediate response, if you are only interested
-in obtaining more details about the transaction and execution of this
-humanitarian project for the glory and honor of God.
-
-Sorry if you received this letter in your spam, is due to recent
-connection/network error here in the country.
-
-Please I am waiting for your urgent reply now.
-
-May God Bless you,
-Mrs. Emaan Nadia Faroul.
+On 6/23/2021 3:35 PM, Om Prakash Singh wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> Update pcie-tegra194 driver with bug fixing and cleanup
+> 
+> Changes from V2->V3
+>    Updated subject line from "PCI: tegra:" to  "PCI: tegra194:"
+> 
+> Changes from V1->V2
+>    PCI: tegra: Fix handling BME_CHGED event
+>          - Update variable naming
+>    PCI: tegra: Fix MSI-X programming
+>          - No change
+>    PCI: tegra: Disable interrupts before entering L2
+>          - Rephrase the commit message
+>    PCI: tegra: Don't allow suspend when Tegra PCIe is in EP mode
+>          - Update return value to -ENOTSUPP.
+>    PCI: tegra: Cleanup unused code
+>          - No Change
+> 
+> V1:
+> http://patchwork.ozlabs.org/project/linux-pci/cover/20210527115246.20509-1-omp@nvidia.com/
+> V2:
+> http://patchwork.ozlabs.org/project/linux-pci/cover/20210606082204.14222-1-omp@nvidia.com/
+> 
+> Om Prakash Singh (5):
+>    PCI: tegra: Fix handling BME_CHGED event
+>    PCI: tegra: Fix MSI-X programming
+>    PCI: tegra: Disable interrupts before entering L2
+>    PCI: tegra: Don't allow suspend when Tegra PCIe is in EP mode
+>    PCI: tegra: Cleanup unused code
+> 
+>   drivers/pci/controller/dwc/pcie-tegra194.c | 36 +++++++++++++---------
+>   1 file changed, 22 insertions(+), 14 deletions(-)
+> 
+> --
+> 2.17.1
+> 
