@@ -2,135 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59DC43DC766
-	for <lists+linux-tegra@lfdr.de>; Sat, 31 Jul 2021 19:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7897E3DC7B3
+	for <lists+linux-tegra@lfdr.de>; Sat, 31 Jul 2021 20:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231536AbhGaRje (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 31 Jul 2021 13:39:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
+        id S229594AbhGaSiF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 31 Jul 2021 14:38:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232091AbhGaRjT (ORCPT
+        with ESMTP id S229475AbhGaSiF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 31 Jul 2021 13:39:19 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC87C0617BD;
-        Sat, 31 Jul 2021 10:39:07 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id m13so24899993lfg.13;
-        Sat, 31 Jul 2021 10:39:07 -0700 (PDT)
+        Sat, 31 Jul 2021 14:38:05 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBAABC0613CF;
+        Sat, 31 Jul 2021 11:37:57 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id l17so17841626ljn.2;
+        Sat, 31 Jul 2021 11:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=y7SaHURNXyUBjsQfPYlKAP5ckfuIlCfIy3J3ukz+tBo=;
-        b=MQujzLlEnO36raJBMAT9fzpDdMWfWGz1uVH0Uu5hA9Xx1PD1KBkSvTCXaTZMVdczJB
-         lPupngVIb+yocPz38kxOOSTCE2JuW4FRTpSclkb/trtdWTNtAjdVZjK51KeNSywI91rZ
-         B2XbRpZVcZqDPgNRmOIIha3gZLsqf/W3CT5mbGXSqXgk98fLFSpdJY+VbOQIi6ZWLwgz
-         hainLQYoyk/fmAg2fjkY90VcNOOYaX4en/B5cB1Pv0qO1Li9IiTIKBDa73v6gSJtlDk4
-         XhSpd2nbbrhi4oQkM5PZVblNumQ//dq2x5BoewCUDF7XgCwaCcRoXbECCg5T+8LWFW4+
-         JhOQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KxFpJWQtK9xa0w5gLWUipHSVysNghEYt1w+9Q+Sruzk=;
+        b=U0XbTqkiexQT8dIpEgS5EPcVLq4FcRc4Pe3geUoKP77s03RswnDuv7Ug0KTudzcBrj
+         Z9XnmrejpP2GwC1m13qZD16Ko5n8yVqhk+vqMUJ6FBKtbFvx96qOOWfz5bhNk89Ozx1c
+         aDCJzwP9HeK6ORID97iIawwu3zfw10GKo6p+E4XKEMhya4Cyg2mmnUIXGFjRTbR0y3lj
+         e4QlTNhOnxuk1uQTku76KVSCj09hNpf4plVP9kiNrPq5Xl0Hqr64gB8aAyQ2raCbw97i
+         fK9VEnSxSvnrmzWqEqn/uFfi9+LKSLs316cv8T4pTiZ2bM/mEYWyUQUxmrcGdC38UPOR
+         8eRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=y7SaHURNXyUBjsQfPYlKAP5ckfuIlCfIy3J3ukz+tBo=;
-        b=X+p2iCkQ4eH2ELzeiK++M37yU8rKL9ZC7peved9rcbUNFPrgztXlmaYKteXsg3EgWP
-         ROkqo64XyQQ+WCQRwQRh7Mw9hziKPfl0xW8JlhvoXZQVJn4EfG42LAkqoODYmtuXcm6/
-         bjkMyqCxvN9qJa3FpJp/LlHkjRc3pX+fz8epmQMjf5T6vAoHb5n0qxddLWL8irSG0AZy
-         fncW6C86nyYkQ2u9rC596oYDLP6WcgG3uFF7O3+4omuR53e5eCVE313MTt9IlHgblSqV
-         eTKQ7Jjc9WEUilbpMfhdElYBrULD1LKL1LMEJ8Sz+SAmrVnDtz/pTRY+y28P65aSbiPz
-         vGdg==
-X-Gm-Message-State: AOAM531sWc7m8e8EMVGH+YhSvQYh0ks1VbwCtrG60oKcpWGy5vVmbTXA
-        VFqhiS6T8a2XX8bGa1XSun8=
-X-Google-Smtp-Source: ABdhPJzUMpYaCzhlyTvF2sPmwQ/o7m7NJzBlbqGXRAIBp7NvEr3VJpCMhBpsb2K0T7fhVbLfBds4Yg==
-X-Received: by 2002:a05:6512:3ca6:: with SMTP id h38mr6292523lfv.94.1627753146135;
-        Sat, 31 Jul 2021 10:39:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KxFpJWQtK9xa0w5gLWUipHSVysNghEYt1w+9Q+Sruzk=;
+        b=docUTVUFI9JVNxOoqcWbVEZYaPHMtoEbyX08IQ0FMmdfO6yVvyWtLjV27cUFA+3HaF
+         jrM2nPxlrA6Tipcr8sS5RE0rA9txbk4lhlaVObsH0NpXK3laBb/jh8UmyflfHjmJ6Gqz
+         6b5SJm+lVnxqc0DryvGy4sgFptxl9CWftiwXfzI4dxkdVdYyCMGypFlGNXvdzSuSE9K8
+         jQJChcZ2EI9ll6y2CXJldsjaXlhBhbU0xPIZRd8aW8zshO5eTgDlTf9LUspIjXiD7dR5
+         s/1fDsCyIddqm54Ot2SDdPtrx+5WkvL4SA50+wlN0A/RJT3nB1EjE+V6ztz2e0KVlFvx
+         UkiQ==
+X-Gm-Message-State: AOAM531qSY3mvxyaNGD9loqoxuUzgMW5rcvjf/Sxsfe5mzNHRVOYl4we
+        R0RHGKMtELgrBexHei64gvo=
+X-Google-Smtp-Source: ABdhPJzbs1TlgquigMiOkPiIVqMR8Kjdsh66zmbC/Zx6ZBeNqvgGg6+gKf9gk751vNjN1/EvzI3rZQ==
+X-Received: by 2002:a2e:9ecd:: with SMTP id h13mr6060906ljk.162.1627756676219;
+        Sat, 31 Jul 2021 11:37:56 -0700 (PDT)
 Received: from localhost.localdomain (94-29-22-96.dynamic.spd-mgts.ru. [94.29.22.96])
-        by smtp.gmail.com with ESMTPSA id s15sm445272lfp.216.2021.07.31.10.39.05
+        by smtp.gmail.com with ESMTPSA id s7sm456396lfg.297.2021.07.31.11.37.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 10:39:05 -0700 (PDT)
+        Sat, 31 Jul 2021 11:37:55 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <treding@nvidia.com>,
+To:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v6 12/12] arm64: tegra132: Add new properties to USB PHY device-tree node
-Date:   Sat, 31 Jul 2021 20:38:42 +0300
-Message-Id: <20210731173842.19643-13-digetx@gmail.com>
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>
+Subject: [PATCH v2 0/3] Support EFI partition on NVIDIA Tegra devices
+Date:   Sat, 31 Jul 2021 21:36:23 +0300
+Message-Id: <20210731183626.18568-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210731173842.19643-1-digetx@gmail.com>
-References: <20210731173842.19643-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add new properties to USB PHYs needed for enabling USB OTG mode.
+This series adds the most minimal EFI partition support for NVIDIA Tegra
+consumer devices, like Android tablets and game consoles, making theirs
+EMMC accessible out-of-the-box using downstream bootloader and mainline
+Linux kernel.  EMMC now works on Acer A500 tablet and Ouya game console
+that are already well supported in mainline and internal storage is the
+only biggest thing left to support.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm64/boot/dts/nvidia/tegra132.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+Changelog:
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra132.dtsi b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-index 9928a87f593a..f79a66226457 100644
---- a/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-@@ -1123,6 +1123,7 @@ phy1: usb-phy@7d000000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d000000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USBD>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1142,6 +1143,7 @@ phy1: usb-phy@7d000000 {
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
- 		nvidia,has-utmi-pad-registers;
-+		nvidia,pmc = <&tegra_pmc 0>;
- 		status = "disabled";
- 	};
- 
-@@ -1162,6 +1164,7 @@ phy2: usb-phy@7d004000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d004000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USB2>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1180,6 +1183,7 @@ phy2: usb-phy@7d004000 {
- 		nvidia,hssquelch-level = <2>;
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
-+		nvidia,pmc = <&tegra_pmc 1>;
- 		status = "disabled";
- 	};
- 
-@@ -1200,6 +1204,7 @@ phy3: usb-phy@7d008000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d008000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USB3>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1218,6 +1223,7 @@ phy3: usb-phy@7d008000 {
- 		nvidia,hssquelch-level = <2>;
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
-+		nvidia,pmc = <&tegra_pmc 2>;
- 		status = "disabled";
- 	};
- 
+v2: - This is continuation of [1] where Davidlohr Bueso suggested that it
+      should be better to avoid supporting in mainline the custom gpt_sector
+      kernel cmdline parameter that downstream Android kernels use.  We can
+      do this for the devices that are already mainlined, so I dropped the
+      cmdline from the v2 and left only the variant with a fixed GPT address.
+
+[1] https://lore.kernel.org/linux-efi/20210327212100.3834-3-digetx@gmail.com/T/
+
+Dmitry Osipenko (3):
+  mmc: core: Add raw_boot_mult field to mmc_ext_csd
+  mmc: block: Add mmc_bdev_to_card() helper
+  partitions/efi: Support NVIDIA Tegra devices
+
+ block/partitions/Kconfig   |  8 ++++
+ block/partitions/Makefile  |  1 +
+ block/partitions/check.h   |  2 +
+ block/partitions/core.c    |  3 ++
+ block/partitions/efi.c     | 18 ++++++++
+ block/partitions/tegra.c   | 86 ++++++++++++++++++++++++++++++++++++++
+ drivers/mmc/core/block.c   | 15 +++++++
+ drivers/mmc/core/mmc.c     |  2 +
+ include/linux/mmc/blkdev.h | 13 ++++++
+ include/linux/mmc/card.h   |  1 +
+ 10 files changed, 149 insertions(+)
+ create mode 100644 block/partitions/tegra.c
+ create mode 100644 include/linux/mmc/blkdev.h
+
 -- 
 2.32.0
 
