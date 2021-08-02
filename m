@@ -2,74 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E213DCF72
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Aug 2021 06:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39CE3DDB1F
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Aug 2021 16:34:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbhHBEYn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Aug 2021 00:24:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43814 "EHLO
+        id S233925AbhHBOeo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Aug 2021 10:34:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231410AbhHBEYm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Aug 2021 00:24:42 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E26C061798
-        for <linux-tegra@vger.kernel.org>; Sun,  1 Aug 2021 21:24:33 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id yk17so21058565ejb.11
-        for <linux-tegra@vger.kernel.org>; Sun, 01 Aug 2021 21:24:33 -0700 (PDT)
+        with ESMTP id S234400AbhHBOei (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Aug 2021 10:34:38 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C4A5C06175F;
+        Mon,  2 Aug 2021 07:34:29 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id j2so21682706wrx.9;
+        Mon, 02 Aug 2021 07:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=JbMtpdZj7sghISs4e5T5yryQDvERMuYalazmdQP0RcA=;
-        b=WDq9P0bY1AsY9kO7VoQiuEkd/+xeN2uAzVka1J/B7YABFMMcv9zsRMDuUzGU3t7LVq
-         x60AdfwMQPfhhBT91CFmxmNgG6fRcK6BFaIDqx+Ms1vLOgOAYNOd4Xbt+10CNKTcRAMK
-         KeTYcmNC0bNtdVd3yLIRxS8Pr5sLxpts2NC88pKkxuGBDjkmUnJislac8lDy7dNnd85N
-         dz7rwNTEXx7I9NqC47E4asccGsO9/P6huztRZkI4lkvRJ5hB7XcOxioVdhTGqNDSXebW
-         Md0Dh2ya6SQXgvhbdFNsJy7D030uG2HCPIxJG2TxztPigkWx+ZXfNLX+hVWs0ri0sCK7
-         k48A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JG8ecXhoC8Ej/py6hyvwqWnXQNEv8TbQr/VbiNiY5Vs=;
+        b=ZFyb3P85dZM/QXDL+mEHAN26/1R1zJUOx3eL/vqP+UTSS5rgUj+vkXhPXnCWAvN668
+         Ip7WF2p3OAt6Xm8NGNI03XsHD9oan571fJ3/NkNdqYcRNwqd05CVIUi/Esq+MqEHy9J5
+         WAIgWeSTD/m39ltM/Y5OJQEVaGhvt7nBw72cBFmqzF+N4bQes5UV4wV/84Cscgm7+4XN
+         IeQ/OD9ZcRzt3CgRVRaq05+LZJxZYiV+5Di9SftK9eFtmu/c/TY+QT00ox+Mjm7D36d9
+         AHi3X3Wy+fgkJLwDpXz/w3fg75vCKNr43sZIHpCgokqoXUX/AynzblhuXT/arwFKy5Z2
+         ivsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=JbMtpdZj7sghISs4e5T5yryQDvERMuYalazmdQP0RcA=;
-        b=H0UQ/5y3wpyDq7fbzMX0MXt3z95PS/GYS0B6t4pZvTIbNqTira1LzQWo5Y6oajuAs+
-         MTPjhNiBS/Hw1QS1pGPpHmYbZJDIlbqfrd1dhOtnP61OsEHnoAyaQUZwDh1+JJXY/ScV
-         ztulzimZ9KV8YgjlPdYlGQJonFwNKC3b7tbT8L7BYA7oIv3banoUlXefvC3yfDy/WuMC
-         g4egik6Lg55adniq1v9jze6fmnVlBUih3CCCzq1ZGc7fObZG7puniPgZukegBH5dXc6+
-         rkrTqC7KadVkXxbhxm++p1GthnCnWrpSiRzoKGVKAzE+wah4NDDVAeX+fcVjwAlOkWfT
-         tkTw==
-X-Gm-Message-State: AOAM533Lft5t+aHLeEvvid6if9lUK9g4k66OpVGq62qJ8Zrrb1vB8rXx
-        6DJuqnM4CEGZh4IMBwS0Jiao9qJL7mY42DOkOyJOG26Zhuj68Q==
-X-Google-Smtp-Source: ABdhPJyge6CE4/3PK9Ai4ltivb6MMxmm7LTQ2s8bjzS0dUrr9KzpIrZxfzN76q9x5Xx6YjpKdH1irFSuudYhIT6knzs=
-X-Received: by 2002:a17:906:3b87:: with SMTP id u7mr13818454ejf.66.1627878272087;
- Sun, 01 Aug 2021 21:24:32 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JG8ecXhoC8Ej/py6hyvwqWnXQNEv8TbQr/VbiNiY5Vs=;
+        b=R4zXuOPmjIPiTQEaj6Rer3e1wm7SdJaBcOGBsOxDBymRlGlMdM71GefWaPNGLASpgJ
+         8KpXoi+w8dSc6FQjC1oEHPJGKnvOo/0GoKfiXmWqsUfw42vAu12RfpvqpXMQ5cVt2G0Z
+         1i37bzr3ZX4vQIieWaur73YxgI85u699DbhE0EODzbII2KV8koQMDHFH6LkUlYo3UwR0
+         ZxFVkzE6T3CNbRAM6vaK+aID5WHB2VetMeXMDSb05MEni5FsTcSyw9KLhuieM9syJMlP
+         BKa87mywU8M40HRR6tSfc0GjOGCahOxvcLWG4jeV9V+fztl1pfv9dVRkyg3ilVgL3ygm
+         o4ow==
+X-Gm-Message-State: AOAM531A81AaQeTL1UyYG/thzZyHpiOwANfX5GiCwMd+gBT361PaAkzA
+        GHmbJXGcTlLM79H1VV5SvUw=
+X-Google-Smtp-Source: ABdhPJzn4tAn4treh3aVKHh6Tm4Nuw3ZkV2gD3VoI7ADP7Kd/tFKLW9aa2wO3iqTJX4uRIB+Eksoig==
+X-Received: by 2002:a05:6000:1366:: with SMTP id q6mr17641077wrz.60.1627914867426;
+        Mon, 02 Aug 2021 07:34:27 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id g11sm4659348wrd.97.2021.08.02.07.34.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Aug 2021 07:34:26 -0700 (PDT)
+Date:   Mon, 2 Aug 2021 16:36:44 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Mark Brown <broonie@kernel.org>, soc@kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2] soc/tegra: Make regulator couplers depend on
+ CONFIG_REGULATOR
+Message-ID: <YQgC/POOrX4t9hUN@orome.fritz.box>
+References: <20210721232616.1935-1-digetx@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a17:907:d0b:0:0:0:0 with HTTP; Sun, 1 Aug 2021 21:24:31
- -0700 (PDT)
-Reply-To: ablahikazabl67@gmail.com
-From:   Abdoulahi Kazim <drwilliamcuthbert@gmail.com>
-Date:   Mon, 2 Aug 2021 05:24:31 +0100
-Message-ID: <CAKwBCXtg5uyf7Jb2AAcE1ghxD-+sCDTGfZ6n10fsvHdbE918iA@mail.gmail.com>
-Subject: More Authentic Information
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/M3eTd4X7b+v6KJy"
+Content-Disposition: inline
+In-Reply-To: <20210721232616.1935-1-digetx@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
--- 
-Dear Partner,
 
-I am soliciting your partnership to relocate $12.5 Million to your
-country for investment on my behalf and you will be entitled to 30% of
-the sum once the transaction is successful made.
+--/M3eTd4X7b+v6KJy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please indicate your genuine interest if you are capable so that i
-will send you the authentic details and documents of the transaction
-in awareness with some of my fellow Directors in the bank.
+On Thu, Jul 22, 2021 at 02:26:16AM +0300, Dmitry Osipenko wrote:
+> The regulator coupler drivers now use regulator-driver API function that
+> isn't available during compile-testing. Make regulator coupler drivers
+> dependent on CONFIG_REGULATOR in Kconfig.
+>=20
+> Fixes: 03978d42ed0d ("soc/tegra: regulators: Bump voltages on system rebo=
+ot")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>=20
+> Changelog:
+>=20
+> v2: - No changes. Re-sending to Arnd Bergmann and soc@kernel.org.
+>=20
+>  drivers/soc/tegra/Kconfig | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
-If you are interested, here is my private Email address:
-(ablahikazabl67@gmail.com)
-For more authentic and legit information.
+Seeing that Arnd hasn't picked this up yet, I've now applied it to the
+Tegra tree and plan to send out a PR for v5.14 later this week.
 
+Thierry
 
-Regards :  Abdoulahi Kazim
+--/M3eTd4X7b+v6KJy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEIAmoACgkQ3SOs138+
+s6EwYw/8C93PUwLlmRxlWx4ljKaUh0VrMk7Vtj/Csbd9n9qHn552gJ/iYQFJQUQP
+jlOk6UQx/7Ydov0fYLbfaIVCvyO3/BzZCbR2hxjTua/DwyTnVDWW1LzHjK8UWnxF
+OXr9gsg7M95UZCQiRkXIyIa/Vw2/N71uPJEsGrULKAvYkPppjig57IcHUt/kgNuo
+BVe4XtCLocyb5dRqDISC/lzuraJN7+3HijN2A0bDuFylqr8pkVIl4umcDbPtpiab
+Kg1rlLhkJgyEiEhkH3mpWaDaY6ngV88eBvbjNa8K/NemFtj+EaNFwMu9lCKQ2dZR
+uXW5GVSW7Dn9O1mJf4tWzhlY+8IQyy79iaoRLh5koTbjtIx2drmfyEvKq064mgeJ
+zCvfm2rV/OiE46NWRVyoyA3vuaFBnIB9OwqNPv3jsabp2AYBtFVyvjoxQN7M09WK
+z5mG0WxKC7WbrBQyAZXttUEba3TYCP5VEg4+MNZwkQWnHeeXuG6eAywPLQ9pjPBz
+Jq8+DRG/gSw9DlHTVvdnC9fBy07JJQoUC4/jrIyLwXsRM12UZCEsG4ZOvPmOOxKy
+eW59yz7DE5pFGNswbVVUm3Rl+NX9uOBfV5h+vpkYGjqBHzmKw5Gjl/kmAIQtScYG
+hmePRpO9EuEka0n2FfAKHP4rL3KNtkx4agaDiV5mwgATYyUzitU=
+=DsWr
+-----END PGP SIGNATURE-----
+
+--/M3eTd4X7b+v6KJy--
