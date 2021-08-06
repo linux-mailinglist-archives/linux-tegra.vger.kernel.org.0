@@ -2,70 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4778C3E2CB6
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Aug 2021 16:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68B433E2FD7
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Aug 2021 21:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240496AbhHFOfB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 6 Aug 2021 10:35:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240141AbhHFOfA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Aug 2021 10:35:00 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5798C0617B9
-        for <linux-tegra@vger.kernel.org>; Fri,  6 Aug 2021 07:34:43 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id i13so9123492ilm.11
-        for <linux-tegra@vger.kernel.org>; Fri, 06 Aug 2021 07:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=WwtirH+AN5QEGc+PsYDg7GPmicCeAO3NPEqhZC74A3+cGIN9TIFUSUQWVdp/dEeJ0X
-         ++0akNbjsW/3xJMMbrUcWsaDb/Yt8FhArvnBGhYYupKONjpXh07T85TTJ6z/R14UeK25
-         VfrKT4PbBRG9FpAA5mPltqAa33Oy6oNBbUHIMXxZ8Pb8DDymDVISOJ0z/+FU283l+PC4
-         CL/S0Mt/1jGAvk934eTBfkPJMYFqxNe9DmuvxRe6nTQgDgkYbQOxTC8k7gZ9Je0QkKHX
-         pj04+ieraICgLCEIDsM+PSxXHeP7MukFzwmFuXJEWjT/gtCn4i9C831/d3PQ2UrLasbD
-         Q6dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=kRmN8/16YVuLjnyUp8nBretT276Zq0/WNX4kanXRsCiitrfpIaNtbEhQKCh14MJOeF
-         3cEUaM+UBS8Wc8VyCV+Fp6/NU21tPW6KAt3ZweldNc+qT7EywC3dge8aXKWNTehpL583
-         sWkl8C3Skw1NRBV1hunh+99wMPhd8hBjLxsHeaR0j1gO0sdUhtA9UEWr4MCtX/QX21Cy
-         uc2x4KPISQ9WAAl/m6JoS5bT4vBLEnzWNDIFiLvndM8x96QEa/tx5GY78x4JPTPqWrLm
-         ZPVcze7s0nF202e8Q0JsppKil8mJzAU8EkxCag0sMd3Jp9zyZk6i4jFWZ5zok9fgV2Ab
-         SQ+A==
-X-Gm-Message-State: AOAM5309Pjd/9q8xcKJU4nsjbk7gI8OsFAS7SORV45EjCOSQZGy96YMV
-        QduladfA9bbPz7TeY09QWublYm5QGOjDu61JL+s=
-X-Google-Smtp-Source: ABdhPJxp5ET5L2YTA3wanMtEqCHLczOyx36yHFnFg6UZI0mLKFWZaADmnk+VVmvj6+SDnpgqRgA+ZQp8fhbmG7dX2Io=
-X-Received: by 2002:a92:d088:: with SMTP id h8mr67865ilh.165.1628260482824;
- Fri, 06 Aug 2021 07:34:42 -0700 (PDT)
+        id S244064AbhHFTsU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 6 Aug 2021 15:48:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36414 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229748AbhHFTsT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 6 Aug 2021 15:48:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A04BC611BF;
+        Fri,  6 Aug 2021 19:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628279283;
+        bh=A6nLSI9mCf6mhp34t8GesHN20NVCy2XtPV0FcrWZoyY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aHwyEPqZQjQqD/Z98svs+HauUDSyCNlqKKe7OApL00K7PMn96Y5CvQItAIjqabxoP
+         Rpai4fhu5SM+A73eQTE2WsjX6lGvA/j8vvWkSTrnZk0O32dSMJm8/OF+L8icGy5Hbs
+         VTKWiw9rTcV3cGa03KcznUgexrj5DcehKjYTue2AVM5w2ce7IoPbpKzSewhwvm7+EI
+         2zjItvepB0O5VzjQZBAo5TM6On8jxJnjCW0EmK2wmdBwjEb7DwD8EA0wl8RXCaNHSq
+         R2FpDJTuj/ppy/Gx1eS8HEBC01HO1Z6vggmytuY8SjKRly9r1zUm2EhSys64w1AdQC
+         AVgei3lb3X/lA==
+Received: by mail-ej1-f51.google.com with SMTP id hw6so16829720ejc.10;
+        Fri, 06 Aug 2021 12:48:03 -0700 (PDT)
+X-Gm-Message-State: AOAM533ZVQzc/77zDBxyqRxnFNBk061GCYZOe6Io2tzxKYU+kneXXgAy
+        4DaNIbnuiZU4R7fZJKU6sf9O8l5yPT3h+a4WqQ==
+X-Google-Smtp-Source: ABdhPJzchWTvDeHq2trbxdxbRY5qp5nwFN4uSbf8D1NAK7KPGhs0/CO4eEDCG1J5SF8SgKAnHxpX2jEhCXIqQcnyhlU=
+X-Received: by 2002:a17:906:8cd:: with SMTP id o13mr11272506eje.341.1628279282121;
+ Fri, 06 Aug 2021 12:48:02 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:6384:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:34:42 -0700 (PDT)
-Reply-To: mrmaxwellwatford@gmail.com
-From:   "Mr.Maxwell Watford" <matinmiller89@gmail.com>
-Date:   Fri, 6 Aug 2021 14:34:42 +0000
-Message-ID: <CABQ=EucNt8T50SyY_xMhf4eA-+FY+vTpH5-ztzQHBLq2ww-40w@mail.gmail.com>
-Subject: i need your reply
-To:     matinmiller89@gmail.com
+References: <cover.1620203062.git.baruch@tkos.co.il> <c15ac1443ec765e32a2801241dcd8e924abc769b.1620203062.git.baruch@tkos.co.il>
+In-Reply-To: <c15ac1443ec765e32a2801241dcd8e924abc769b.1620203062.git.baruch@tkos.co.il>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 6 Aug 2021 13:47:50 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+SBRP4n-0Q9RShxj2Od-EGpBURNUZo8fLnscOY-m7SmA@mail.gmail.com>
+Message-ID: <CAL_Jsq+SBRP4n-0Q9RShxj2Od-EGpBURNUZo8fLnscOY-m7SmA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] PCI: dwc: tegra: move GEN3_RELATED DBI register to
+ common header
+To:     Baruch Siach <baruch@tkos.co.il>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Selvam Sathappan Periakaruppan <speriaka@codeaurora.org>,
+        Kathiravan T <kathirav@codeaurora.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
+        PCI <linux-pci@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Greetings,
+On Wed, May 5, 2021 at 3:18 AM Baruch Siach <baruch@tkos.co.il> wrote:
+>
+> These are common dwc macros that will be used for other platforms.
+>
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.h | 6 ++++++
+>  drivers/pci/controller/dwc/pcie-tegra194.c   | 6 ------
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 
-We are writing to you from Ecowas Finance Controller Office Lome Togo,
-because we have received a file from the Ministry of Finance Lome-
-Togo, concerning an Inherited Fund bearing your name on it, And after
-our verifications, we found out that the funds belong to you.
-
-It has been awarded and I will like to guide you to claim the funds.
-Please contact me at my private email address
-(mrmaxwellwatford@gmail.com) for more information and directive
-
-I am looking forward to your urgent reply,
-Best regards
-Mr Maxwell Watford
+Reviewed-by: Rob Herring <robh@kernel.org>
