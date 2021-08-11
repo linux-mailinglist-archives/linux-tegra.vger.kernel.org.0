@@ -2,70 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C16153E7F88
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Aug 2021 19:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E15E83E8CEC
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Aug 2021 11:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234133AbhHJRks (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Aug 2021 13:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50570 "EHLO
+        id S236622AbhHKJLx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Aug 2021 05:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231772AbhHJRg2 (ORCPT
+        with ESMTP id S236461AbhHKJLx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Aug 2021 13:36:28 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C59C0613A1
-        for <linux-tegra@vger.kernel.org>; Tue, 10 Aug 2021 10:33:36 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id l4so15647807ljq.4
-        for <linux-tegra@vger.kernel.org>; Tue, 10 Aug 2021 10:33:36 -0700 (PDT)
+        Wed, 11 Aug 2021 05:11:53 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56BEC061798
+        for <linux-tegra@vger.kernel.org>; Wed, 11 Aug 2021 02:11:29 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id x9so3459735ljj.2
+        for <linux-tegra@vger.kernel.org>; Wed, 11 Aug 2021 02:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
-        b=BggyEzSIpVznrhWTl8MIRAYEe15KlTxcMGseAQSFa7RDeDzVHxU4eSoETbmExnaLIE
-         zuq8OYsbcAC4TRTZpDVHuqOpZQ9IWzoDnFG9KE9Hgoh5GHNRpLrX7GaTa2Rlpi17Sa+7
-         wynv7o5vGtXcABH0YLjEMHBgYbVN4gwCCmMbmqM96vylTsH+XuSJQxB2T0aZ0px1WpyQ
-         RfAqEbEJWHwau3sZBSpHTPqcKq0lEWF+TZfP6Hoo/gEZtnmpQsbvRYpoOVsYPdrPzr7x
-         t3j+1ErMjanfyKX6UgQnU/AAqtfTm/Qksyzzn7HfgMwEBK6s4oZtKRsuVtciK72GKLQ3
-         6YUg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=45L965AHZgo82l4aN2SrSPr1cis24KkD7elj4CXl2IE=;
+        b=tHkB54ySsHx551ghZG3oiWj9E5OW/jA0gsGikYmUj5abrUVPS1pVfN3YxmEs2Txlur
+         ZUKxCfCNrdIg4aTp9DKXjGgZMeKIi7GQEmtRY7jd6QCzL89NhZceOeCtuySmIX8VXHB0
+         +fwB+P1mzXXtfPraNDkgH0mZOQmFtC97CavMsU6Y7KYupLPgkK2B5BYh77cPr/720/ks
+         CK6XjfVWlCWsRwnBexZGmArWthojlDpRrGh4UTWPSanKqLH2ldait5j3KFIvWCI5ji6d
+         67JYZJ2Xm+uVc0Cv6VHJn5x7tGKGvldtq2Kcfk0d1vuVQbKOsUwkjr5fuAm0fDlrX5yC
+         TbXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
-        b=ZDxdZzOl6Wf62gs3kB4IHFi2z8I2iH2mFtDU8hbxE4qQFcbtVN1QTuP79AA6hlDWWA
-         EmWfXrxr2LjZaqRAogPW+ece3w6tFb5WO3bEnBB4+rcKNI5UuL77cJArWNUQxFYkfpi8
-         KP+49Wd0FD1U0Sg/RmTjkIUtk5nR3unDbemEXifv3SEaL9OhzsXGCr1aZAky5S1vpSDR
-         XEOu9/RuZZwPyCq7HsXTdvpatSJ2aKUxfDmPnoPMjrvq6tvK9TvnWWVQSzPU9mzUoV9P
-         8bQZFYxTIY/pSsuuQoMwusgWZgYIxgPYvuBq+JighkAoVHImnW+RBVVd+K+ARi4tb1X9
-         D9Og==
-X-Gm-Message-State: AOAM5331gtkMLPPSKpNBpeJ3VtQIlVXb13gfgV9+m1XbM+2TgCCdjK6x
-        n+RsvL+GuOwZgpLq/qG9cEG7mTsvv63wIEgwGCU=
-X-Google-Smtp-Source: ABdhPJxJzT1Kb5atT5yD66iaERNxaunOV6XJPdXL1z2OXUo9BKjwXZsRFKaZJQfJZWzQJ7vPYlv2A2MhcLNWOaJIEsQ=
-X-Received: by 2002:a2e:b61c:: with SMTP id r28mr13615658ljn.274.1628616814996;
- Tue, 10 Aug 2021 10:33:34 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=45L965AHZgo82l4aN2SrSPr1cis24KkD7elj4CXl2IE=;
+        b=dio3/7JnqsDjD6g5u6P7VlR4f21F14qXzm+AYwd6yq11MfzPXt/cNXbyZAJ3tMYN73
+         H32jvZm0FdtZJLANifKMWzjmLQkGh8ze7IxtZtBA40p43T2TAHi7YjlyiTw3BkmXqBhJ
+         QP5C9dkuGebJanG/Amy/HZiT/8kTt+sBerman0AEKT8sJDBa0UPBhP4598pm+ppHEvmN
+         WG6+K9UFKUOBS+OGl6T/M+02Dx2tqUZ8A3B8YSdtqj/Rd0d3X26bLZ8psUdxgqXQ7aAb
+         Tg8fm1j2jSuTXL7u3psn3KtYmFeoa73K7FRQ5v+1PvA92qOlcKTADucx7e54ZT9oCMwF
+         oUWg==
+X-Gm-Message-State: AOAM533KIlWaFBXD30cSFH+Hik+7LetWlNlkB+94IhOGPA/Kx4OG7cjd
+        6XyceyPLiOzG8gE4r62VKNmgQ4yKGeg9NSt76Wt//w==
+X-Google-Smtp-Source: ABdhPJzRqUz/cks6mC/kThItyPh6HXSuFGyiXatmiGVouPLRVCOkyePXj7L3M7v54DYVWz6HfqDUb6kTsZt1fLEjXvo=
+X-Received: by 2002:a2e:9e46:: with SMTP id g6mr2650552ljk.326.1628673088252;
+ Wed, 11 Aug 2021 02:11:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac2:5d2e:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 10:33:33
- -0700 (PDT)
-Reply-To: majidmuzaffar8@gmail.com
-From:   Majid Muzaffar <ing.abdullabin.rishid.me@gmail.com>
-Date:   Tue, 10 Aug 2021 20:33:33 +0300
-Message-ID: <CAFsu49W_3bbJbgEKV5RQo3TBRgLduTA-4EwS7hHkwcfSHSRrcg@mail.gmail.com>
-Subject: Proposal
-To:     undisclosed-recipients:;
+References: <20210625235532.19575-1-dipenp@nvidia.com> <20210625235532.19575-10-dipenp@nvidia.com>
+ <CACRpkdaqKJLUdf3NiFHaTgu6buyhMb_D1yKyHF4M=eTQ94pe-g@mail.gmail.com>
+ <b87fa5d8-bef9-9046-9747-d4428ddf58ea@nvidia.com> <20210731061617.GA12414@sol>
+In-Reply-To: <20210731061617.GA12414@sol>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 11 Aug 2021 11:11:17 +0200
+Message-ID: <CACRpkdab=VhSgWOpBQ2rB4AiQF4zXJ_S20A826ZxufJAvN9cWg@mail.gmail.com>
+Subject: Re: [RFC 09/11] tools: gpio: Add new hardware clock type
+To:     Kent Gibson <warthog618@gmail.com>
+Cc:     Dipen Patel <dipenp@nvidia.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Salam alaikum,
+On Sat, Jul 31, 2021 at 8:16 AM Kent Gibson <warthog618@gmail.com> wrote:
+> On Thu, Jul 29, 2021 at 08:17:22PM -0700, Dipen Patel wrote:
+> >
+> > On 6/27/21 4:36 AM, Linus Walleij wrote:
+> > > On Sat, Jun 26, 2021 at 1:48 AM Dipen Patel <dipenp@nvidia.com> wrote:
+> > >
+> > >> gpiolib-cdev is extended to support hardware clock type, this
+> > >> patch reflects that fact.
+> > >>
+> > >> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> > > (...)
+> > >>                 case 'w':
+> > >>                         config.flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME;
+> > >>                         break;
+> > >> +               case 't':
+> > >> +                       config.flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE;
+> > >> +                       break;
+> > > After the checking of the command line options we need a small sanity
+> > > check so we don't try to enable both realtime and hardware clock
+> > > at the same time, we will only be able to request one of them.
+> >
+> > This will any way fail at gpiolib-cdev layer. Do we want to add it here
+> >
+> > as well?
+> >
+>
+> I can't speak for Linus, but I'm fine with it as is as it allows the tool
+> to be used to exercise the sanity check in the kernel.
 
-I am the investment officer of UAE based investment company who are
-ready to fund projects outside UAE, in the form of debt finance. We
-grant loan to both Corporate and private entities at a low interest
-rate of 3% ROI per annum. The terms are very flexible and interesting.
-Kindly revert back if you have projects that needs funding for further
-discussion and negotiation.
+Fair enough, that sounds useful. Go ahead with this as-is.
 
-Thanks
-
-investment officer
+Yours,
+Linus Walleij
