@@ -2,83 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3435C3EA56F
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Aug 2021 15:22:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D39D83EA62B
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Aug 2021 16:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237756AbhHLNWi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Aug 2021 09:22:38 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:49864 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S237519AbhHLNTM (ORCPT
+        id S237830AbhHLOGE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Aug 2021 10:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235893AbhHLOGE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Aug 2021 09:19:12 -0400
-X-UUID: 784ae4dc5f974741b6be19797cfd0f9e-20210812
-X-UUID: 784ae4dc5f974741b6be19797cfd0f9e-20210812
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1053439353; Thu, 12 Aug 2021 21:18:44 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 12 Aug 2021 21:18:43 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 Aug 2021 21:18:42 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Pawel Laszczak <pawell@cadence.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH v2 7/7] usb: gadget: remove unnecessary AND operation when get ep maxp
-Date:   Thu, 12 Aug 2021 21:18:03 +0800
-Message-ID: <1628774283-475-7-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1628774283-475-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1628774283-475-1-git-send-email-chunfeng.yun@mediatek.com>
+        Thu, 12 Aug 2021 10:06:04 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9905CC061756;
+        Thu, 12 Aug 2021 07:05:38 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 6so4591420wme.5;
+        Thu, 12 Aug 2021 07:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gCDjSdGmMmFayqS/w0wcH67gpjms1ttBauqoja6I+GM=;
+        b=T2zV3h5wi4ux23VQLa6j0Mmae1jNVqAE8g1rUN4zn42xmUCrbtDZfGrxb18YEqDFX0
+         +ngapgWCpayR5qpyK/6gBCp+hUKLBBioEB1xDXo7eZ1bJH9mNOitW4x1rI9DrNbfTcsL
+         ZlnM9AjU+B8d5IL8ItB0wcBeGo8iO2SOQt0ejwGwbbe9vhGWNZkWmdpdB1tQoEeRpX+3
+         I8xbPid0R19Ql8ZsB5Bym+r+lTwtbeQHLbx8NsxtRv2/QAKMPL+P5i9pBZ7NxOU7v0yi
+         BvvYZaH3eQdu3cM6K4RPy2oF10N/eIDDiLaCTSc1TKXGbQ5xda938RkAc2c5Sy61mqOm
+         GX9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gCDjSdGmMmFayqS/w0wcH67gpjms1ttBauqoja6I+GM=;
+        b=l6+3SyKilbXlK4uV+EATSZO1RgJQ6jc3jIEH0Jwn1TRfT9jmnIA3DARBSTp09Ljd3b
+         vho2kPlgu/sn0W8wV87s/J+kxx0XNk1ZGT8OUbCgTlWJgGRn9cQDPEN64n26dSxEo3/r
+         K8fUKuH3De3UeY+8xGjDMbLns8N/ektJM6bKQ1gM3TvwzG0jjbpLSiJif8JAD6YjgdT3
+         /RT6OL6terjU0TvLPJ1S8ozUEvgQjIi+fnWJIWNK86C07YT4+EkrRcstaS5tYpPEFUeM
+         R43ru7kPKDLAJQuKv35UuLNDC+kB+T817dINaqTeXx+33m7ZgRBmdRaxK3pTe8dcE3Jw
+         KlHw==
+X-Gm-Message-State: AOAM533Nvjxyd5SO4qpjKWWxsNyr8+PSuRR08iysDmikxGq22LS0Xc81
+        zzzB4inY7JkJB1L5+6KdOTY=
+X-Google-Smtp-Source: ABdhPJz9EMI76kP6P5Vj6wrELsLVExFUAgms1NhbkcsyHnLo9tqBbiA5y5COhe83quSgMBLooq/LmA==
+X-Received: by 2002:a05:600c:1ca7:: with SMTP id k39mr16343721wms.115.1628777137205;
+        Thu, 12 Aug 2021 07:05:37 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id t1sm9776873wma.25.2021.08.12.07.05.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Aug 2021 07:05:35 -0700 (PDT)
+Date:   Thu, 12 Aug 2021 16:05:34 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] firmware: tegra: stop using seq_get_buf
+Message-ID: <YRUqrla4ifUklyQu@orome.fritz.box>
+References: <20210810155439.1813109-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0qiiN2Cz4uGRsY22"
+Content-Disposition: inline
+In-Reply-To: <20210810155439.1813109-1-hch@lst.de>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-usb_endpoint_maxp() already returns actual max packet size, no need
-AND 0x7ff.
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: add acked-by felipe
----
- include/linux/usb/gadget.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--0qiiN2Cz4uGRsY22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75c7538e350a..f181c84310b6 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -491,7 +491,7 @@ extern char *usb_get_gadget_udc_name(void);
-  */
- static inline size_t usb_ep_align(struct usb_ep *ep, size_t len)
- {
--	int max_packet_size = (size_t)usb_endpoint_maxp(ep->desc) & 0x7ff;
-+	int max_packet_size = (size_t)usb_endpoint_maxp(ep->desc);
- 
- 	return round_up(len, max_packet_size);
- }
--- 
-2.18.0
+On Tue, Aug 10, 2021 at 05:54:39PM +0200, Christoph Hellwig wrote:
+> Opencode a copy of mrq_debug_read in bpmp_debug_show so that it
+> can use seq_write directly instead of poking holes into the seq_file
+> abstractions using seq_get_buf.
+>=20
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/firmware/tegra/bpmp-debugfs.c | 58 ++++++++++++++++++++++-----
+>  1 file changed, 47 insertions(+), 11 deletions(-)
 
+Applied, thanks.
+
+Thierry
+
+--0qiiN2Cz4uGRsY22
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEVKqsACgkQ3SOs138+
+s6GNRxAAjDj8BNmeet39DjxT0LACH41W6JaSq8XDFTBl+DdquwBbi2mj8H5K4x/+
+EWl9TomDS/Ex+EcinNQxDLwRuz/j7xpv2TomAOZHKfZVxHVjJmbhuc5cP44wxRUj
+ypA+T7r9gmbyPcvdqU7OZJoyDJevWDVNyJKvtWrsHcriJuzBSRkcxAWJyvAQQV+8
+7cLKn/eUlXcoS3t1If7S58sinL9cM+ZbvVhQDTl0OrWdkoozanZlz32ikObchbJ0
+V/WY8HiBwvnmNbL3YJwosUUPbpWjsWwDHYuciW0FzpcWCIAbpKclPKd22zaZ7DXQ
+o726Q2LJ+H3y3aViyiEFzTK9zTW2s3AcsDErOpGEujLk4wRr/6On3mRp68bfLZBQ
+LBl3zHGWZ9T50g8TiT1G3gqwg273Tlxb/RvVnoJ2rr24z5crCZWI4I9QPoJiliaE
+yCIMUt6u6Ev9H5F7K1OIgiq8NlTNHdWcJ8zhNmg2khwRaeDwafb+9zMCCN5gFW4M
+D/uyAtfUW4Ki4N7aYrcl/omQmm+g09zHdOtDCdwR/E2xyXaXGpU3iBIM3nduRWk+
+6oMBTotYqzcrn9chVnMFaGj6sybGByfZrQ1JurgskU1tElckQ2Hodi2vQHY+WAq9
+s+u0bsR6zdKa89skJUkyj9YCI3iuWu6O+OQOkN214aPKFXNpTMU=
+=tDO2
+-----END PGP SIGNATURE-----
+
+--0qiiN2Cz4uGRsY22--
