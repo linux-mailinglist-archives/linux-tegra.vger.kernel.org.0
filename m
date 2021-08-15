@@ -2,68 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A64323EC50E
-	for <lists+linux-tegra@lfdr.de>; Sat, 14 Aug 2021 22:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B68C3EC7EF
+	for <lists+linux-tegra@lfdr.de>; Sun, 15 Aug 2021 09:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232053AbhHNUdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 14 Aug 2021 16:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44232 "EHLO
+        id S236043AbhHOHZO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 15 Aug 2021 03:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbhHNUdx (ORCPT
+        with ESMTP id S235808AbhHOHZN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 14 Aug 2021 16:33:53 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15477C061764;
-        Sat, 14 Aug 2021 13:33:25 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id r7so18085106wrs.0;
-        Sat, 14 Aug 2021 13:33:25 -0700 (PDT)
+        Sun, 15 Aug 2021 03:25:13 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB89C061764;
+        Sun, 15 Aug 2021 00:24:44 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id gz13-20020a17090b0ecdb0290178c0e0ce8bso16074835pjb.1;
+        Sun, 15 Aug 2021 00:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
-        b=QRGgQjJ0WQvoAsw+M3uAmpLnmAQunT9CIHe0hZvu5UXbhmBBJTMQeI0H1XdKCs1ejh
-         sarHGzvyFtslYnCpDQfYFWGoZWxsu9dwjtX08DVP4rm6nTDlyjbdtN12tx8dZrbaq7Io
-         dV9lRBENYDbGdr6mdYDZhwfKlNkDvhpbs7CzCXIqIPUzP1ux+/G/bN48nYeQI4b88+1P
-         Wn7ksfW7JSZJ8zqfcM+YfuHPLEOeaOzx2y6MtlF8h9+50Fbzz8bdZdNs7wRvF3amf78U
-         PHucCnH5NodQoUGbMnTS2h5cyaeZRK1kUgo2kFPe9JEs3j8eT2eJWSWNrqE5UtaI3NhX
-         jWLw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JJDOH+AsHu2AM+5trq9kiKo9CgyK57KxYI3IwWvbE3M=;
+        b=RKVBuxnf6xQR/pSKO2SpOS4Lo6yWbvzYlN2vrYeM3uoUInGkiTdUEcKTamCVloy6Iu
+         ZA9Exggoimx2UOW0KErLqGMmY0WkwWINOzzwidewuOoNoGSp8vQ+H965y14rWqUP1szV
+         YeHPCkKyFA1Cl9AfjlNiFM2Y66k+g0E5jwTXCdyfpfmn7AZfhiNX69hX4MzurMx1p7UB
+         jO1cDfd2BiMw06dGq0kLS6mxxwXvdMt8BI02AdSUlo/GRsgMQr01g81S7i605nNOB+B3
+         v4euFQpY/eX/sBO6CwpOVDqdKZaccw1UyGOi8jqbIzdgr94kaIeDcnVnsHAcUIs8sjBR
+         qOpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
-        b=fEADDzlcQXsMHpTLPJdV5n6ZgigEw0FFgPDW+BbrQhySiY2yLo1UB01S2lQNpa7dQp
-         bdFCwGmKGRWT51WdJ+vUsjTbufA8V/BneJamtGc7YjJLPHHZY5yChRN6hZ538FQ19wTo
-         L3JjB5S1o08I39O23jDf+zqjmSvD0KNXNtyCsXFJaoIcPdr0zHa6xzn/mY+TtLu/RtKm
-         b7qphIDxGXQaayHEQzwOS4s0RDS99c/nzpaNXY8UCB1DyfA4T9P4yn5SreToaUV4qdLG
-         CJKhuDXIghe+KxVc4hmcZJaagi1f9yBIiL4wPvUdGWrH4yMz0VM163k17OWD34ErcNYq
-         Irtw==
-X-Gm-Message-State: AOAM532dQalsSXLOxWgJIWR1/3+6nHV49+Naj6yweIU3YUVx+TmuPJ1t
-        CgEv1b+MjPhpSqmw078eP+hcfV9Tv2hVwA==
-X-Google-Smtp-Source: ABdhPJyyK54tGZzyHI7JtylMrjcY2SI0qt52Vw/Y3svVo7aCemJRmyNNjLPbWYrOGjKQSSfW74sL1w==
-X-Received: by 2002:a5d:65cc:: with SMTP id e12mr4685335wrw.266.1628973203713;
-        Sat, 14 Aug 2021 13:33:23 -0700 (PDT)
-Received: from [192.168.1.70] ([102.64.221.122])
-        by smtp.gmail.com with ESMTPSA id e17sm5604100wrs.78.2021.08.14.13.33.20
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Sat, 14 Aug 2021 13:33:23 -0700 (PDT)
-Message-ID: <61182893.1c69fb81.4ddf7.f23e@mx.google.com>
-From:   Vanina curth <curtisvani0028@gmail.com>
-X-Google-Original-From: Vanina curth
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JJDOH+AsHu2AM+5trq9kiKo9CgyK57KxYI3IwWvbE3M=;
+        b=PIV9MZmkHIhmC3WEB0FWPiYgNwADZ6j47XWy1ccPHjuvQZfcDDtmeANCevBv5WM9iT
+         xbjVwkPNK4c65loZ48/dMJL7zga3aCPMHXw8QEMmnxYvc+KUNeBIHxQY5a3Sl/8LeYAx
+         8h6FBpEtrIVSgC+cpjM9uTrkC8p8tZhcI1garjshiwY6RHeFDdlpwJ61kFK1MvabfHrE
+         8NbApabNzjgiBqpNV/p4u/xKbwD/gg1dXEfWaJyMlJx1qdyxHIdvXa4myJJMw6K0Pv83
+         83ch/xikHg4mWomCbMEAtQ5KOuRQbRKJdbBPKySXh4P6Fk7r+oa8zJhAdkL6nIKfxbvn
+         wbzQ==
+X-Gm-Message-State: AOAM531KVS9U+5VpVxhjROVgtytaiYhzteY4D/R+z8bb3suxnUUpbrTZ
+        EAERY+kDmLZ6FpsBPS2/AUA=
+X-Google-Smtp-Source: ABdhPJzq7sSAhv3mhPPXmyKVf5x9azgnIMZToYUs9eoJVEO0q/kFfEa3Yd9UMtVPm1x4oAezGGF8aw==
+X-Received: by 2002:a17:90b:14b:: with SMTP id em11mr10845400pjb.125.1629012283879;
+        Sun, 15 Aug 2021 00:24:43 -0700 (PDT)
+Received: from [10.230.32.65] ([192.19.148.250])
+        by smtp.gmail.com with ESMTPSA id 16sm7337825pfu.109.2021.08.15.00.24.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Aug 2021 00:24:43 -0700 (PDT)
+Subject: Re: [PATCH v3 6/7] usb: gadget: bdc: remove unnecessary AND operation
+ when get ep maxp
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     Pawel Laszczak <pawell@cadence.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+References: <1628836253-7432-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1628836253-7432-6-git-send-email-chunfeng.yun@mediatek.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <e191402f-69e1-2fb5-f5e1-6fd73e8b0699@gmail.com>
+Date:   Sun, 15 Aug 2021 09:24:24 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Sir,
-To:     Recipients <Vanina@vger.kernel.org>
-Date:   Sat, 14 Aug 2021 20:33:09 +0000
-Reply-To: curtisvani9008@gmail.com
+In-Reply-To: <1628836253-7432-6-git-send-email-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-How are you? I'm Vanina. I'm interested to know you and I would like to kno=
-w more about you and establish relationship with you. i will wait for your =
-response. thank you.
+
+
+On 8/13/2021 8:30 AM, Chunfeng Yun wrote:
+> usb_endpoint_maxp() already returns actual max packet size, no need
+> to AND 0x7ff.
+> 
+> Acked-by: Felipe Balbi <balbi@kernel.org>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
