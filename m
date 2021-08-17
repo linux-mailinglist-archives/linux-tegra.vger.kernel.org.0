@@ -2,81 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0943EE413
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 04:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA02F3EE414
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 04:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233421AbhHQCCr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S233438AbhHQCCr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Mon, 16 Aug 2021 22:02:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55434 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233394AbhHQCCq (ORCPT
+        with ESMTP id S233394AbhHQCCr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Aug 2021 22:02:46 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C572C061764
+        Mon, 16 Aug 2021 22:02:47 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB46C0613C1
         for <linux-tegra@vger.kernel.org>; Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id r9so28869865lfn.3
+Received: by mail-lf1-x130.google.com with SMTP id i28so11589171lfl.2
         for <linux-tegra@vger.kernel.org>; Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y5ZuXhMpGL5msVn45H7bewBOf3GHABZ4uowOQcIc1Ws=;
-        b=Aumw+GHX0XJrGdGoDrraDp+6mv0Ob0Y0mxmRSD1XjfiAv8dK+HJYTq412kzRQZzv7M
-         j58GPZ163iczCL2dk8ucYqJ59XJ+b14AGoE6O59TiUR/4ddYbpd/cZxEGtq5hk2AMKo3
-         EtjKxNk/QfLOGO/07q1lqdbJbVTaTcSAKK7ydTkuRh/6hmDY5IlvnTxhSILF1p6V9aKE
-         M4eDrlEje7FfPtslh+EwywLICfXCJ0baD1QD3pI3GDfKJVS7uUcE4w+dsVgohVRnyFS5
-         VkRZoX0IKetrVs9vZfIzkyi15lkWYONrNbm2v34gCjU5HBTqNKvzS4kteFeRSKfCOX6K
-         vWqQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LeDUZerYgs0/VRyn6Vbc3mu8D8SEh6Gle5d+UtLhMUo=;
+        b=erVnpZgPdz0Cy7RoxFgipeGYgGcmWFIZirHU2Yk4K7PY6mna1YszI5U80zIgc98RLd
+         vC8K0TfqnJvLWnvy8Soo0VFS6/9k0e8F6tA9qHxnGXUG2ZzQyW7Daag1X1nMMcxudKuF
+         NRoEdf5nrRKOrErz1duotOlt5J6nhWtiHU/+Ps6bQcjhpNMkrlBPnM/Qws7WNzxEWerv
+         xbXemK9jxt+gLLgRdCn3gG0hXFqEj22GSuUXkwnBj/9GdaIgUSz4Mbpl5b+ejDZMFtsX
+         h6kD2adhiS9WizUTw1PkgQT2hFheMzDPjdpQGh8JvWtzpCmWqx4GEBkv9gWC4rajAInn
+         Sp0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y5ZuXhMpGL5msVn45H7bewBOf3GHABZ4uowOQcIc1Ws=;
-        b=HbGAkLa4xt4lKSQXCKNjeI7WH5rTnDE0fooYbJl5K/5Y6Tayd1Qv6haH3C6yPHhewe
-         kZwZviN1vNnXabcbtgn9YaXf3/m77wpj4RsjIxEu8V/kgv7OgrmzmSN9zBsG6U5rFXZk
-         HKBvuVDGFC29QnTCi57UCojHO62eQxqJmo/ILSmWU6QGio7EUlX+WN+q/qJdnqOQr1+G
-         ZvcLTBTMaSO6jhdmCtcnyGOI9aNeHoRT90wf+k8lIwz5oVJ4lsoIoUhKmEc0qK7I4Tla
-         Nz9DxKkMpC8BW/5089nTT5MualHM6VMrnkAbNhMvtfAUxBsyJEL2/hhmDA2AK/x9Rpw7
-         i90A==
-X-Gm-Message-State: AOAM533ZZEWSpql7uS3VBV02ooyHl5pKfUSHIxW6yqGz3FxrAgqxEfKJ
-        FlxL2UzDH1+HLXuenUh55P0=
-X-Google-Smtp-Source: ABdhPJybESbQjTKxFyl1+w7D6SkRS6QDSYZ4mztgQ10m8fpWo0YOWq5IW13UJwyDtlGg6fZd7XOZFg==
-X-Received: by 2002:a19:500e:: with SMTP id e14mr541782lfb.487.1629165732749;
-        Mon, 16 Aug 2021 19:02:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LeDUZerYgs0/VRyn6Vbc3mu8D8SEh6Gle5d+UtLhMUo=;
+        b=rplafQ3Qd6kqbVDNO/epTW9zdNyxivNm4Mpup+4jcxNZYV1fapLiYCnhb5Oc5DP9fR
+         6hvF6Ijsk8ojH/eLhl07Dp9Xgq3qJdOnA+Qi5rnsppdm2jBUIBTIiHxLQNsJ+0FrA8Xb
+         FsY2m+NOysFjtq6VdaahlN69KCaTv4fexbFZl7bQMYEjghxKnzf9QQzUp6NmznXDwEbM
+         QsEAc5ij45WvpxMkiu/jo4d64BUmGM7MvN8tjCzHopwtWUqyLqM7PSP0S8+KQcRlcb/D
+         mjYST/WLYW9+TUGqPdRvGTTf9A8P9HZSkiFI7CxsMi9asiYx/kO77XJLnEg9TIXiRxUG
+         HyGw==
+X-Gm-Message-State: AOAM530f6tk4wU84boYiMxjwswom0KsBy09KS0208TMgZbVV5IVjn/yU
+        11/MKklmrRfSoKwiI9828BQ=
+X-Google-Smtp-Source: ABdhPJzYaXnJVVykD6dXfLHQucjLE9tpup4cVMAKU8bG+LamEsyXCVKCBt2Z/pt9EtUeqkJuA+IC/A==
+X-Received: by 2002:a05:6512:ea4:: with SMTP id bi36mr562765lfb.414.1629165733349;
+        Mon, 16 Aug 2021 19:02:13 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
         by smtp.gmail.com with ESMTPSA id i24sm51729lfc.293.2021.08.16.19.02.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 19:02:12 -0700 (PDT)
+        Mon, 16 Aug 2021 19:02:13 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Mikko Perttunen <cyndis@kapsi.fi>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 0/3] Tegra DRM and Host1x driver fixes
-Date:   Tue, 17 Aug 2021 05:01:50 +0300
-Message-Id: <20210817020153.25378-1-digetx@gmail.com>
+Subject: [PATCH v1 1/3] drm/tegra: dc: Remove unused variables
+Date:   Tue, 17 Aug 2021 05:01:51 +0300
+Message-Id: <20210817020153.25378-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210817020153.25378-1-digetx@gmail.com>
+References: <20210817020153.25378-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Fix troubles introduced by recent commits.
+Remove unused variables from tegra_crtc_update_memory_bandwidth().
 
-Dmitry Osipenko (3):
-  drm/tegra: dc: Remove unused variables
-  drm/tegra: uapi: Fix wrong mapping end address in case of disabled
-    IOMMU
-  gpu/host1x: fence: Make spinlock static
+Fixes: 04d5d5df9df7 ("drm/tegra: dc: Support memory bandwidth management")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c | 3 ---
+ drivers/gpu/drm/tegra/dc.h | 6 ------
+ 2 files changed, 9 deletions(-)
 
- drivers/gpu/drm/tegra/dc.c   | 3 ---
- drivers/gpu/drm/tegra/dc.h   | 6 ------
- drivers/gpu/drm/tegra/uapi.c | 2 +-
- drivers/gpu/host1x/fence.c   | 2 +-
- 4 files changed, 2 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 16c7aabb94d3..a29d64f87563 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -1845,7 +1845,6 @@ tegra_crtc_update_memory_bandwidth(struct drm_crtc *crtc,
+ 				   bool prepare_bandwidth_transition)
+ {
+ 	const struct tegra_plane_state *old_tegra_state, *new_tegra_state;
+-	const struct tegra_dc_state *old_dc_state, *new_dc_state;
+ 	u32 i, new_avg_bw, old_avg_bw, new_peak_bw, old_peak_bw;
+ 	const struct drm_plane_state *old_plane_state;
+ 	const struct drm_crtc_state *old_crtc_state;
+@@ -1858,8 +1857,6 @@ tegra_crtc_update_memory_bandwidth(struct drm_crtc *crtc,
+ 		return;
+ 
+ 	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+-	old_dc_state = to_const_dc_state(old_crtc_state);
+-	new_dc_state = to_const_dc_state(crtc->state);
+ 
+ 	if (!crtc->state->active) {
+ 		if (!old_crtc_state->active)
+diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
+index f0cb691852a1..40378308d527 100644
+--- a/drivers/gpu/drm/tegra/dc.h
++++ b/drivers/gpu/drm/tegra/dc.h
+@@ -35,12 +35,6 @@ static inline struct tegra_dc_state *to_dc_state(struct drm_crtc_state *state)
+ 	return NULL;
+ }
+ 
+-static inline const struct tegra_dc_state *
+-to_const_dc_state(const struct drm_crtc_state *state)
+-{
+-	return to_dc_state((struct drm_crtc_state *)state);
+-}
+-
+ struct tegra_dc_stats {
+ 	unsigned long frames;
+ 	unsigned long vblank;
 -- 
 2.32.0
 
