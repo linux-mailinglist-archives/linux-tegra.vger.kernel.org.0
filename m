@@ -2,91 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 854EA3EE416
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 04:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE1AF3EE5BE
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 06:38:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233470AbhHQCCu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Aug 2021 22:02:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
+        id S234039AbhHQEjN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Aug 2021 00:39:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233523AbhHQCCs (ORCPT
+        with ESMTP id S233861AbhHQEjM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Aug 2021 22:02:48 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A14C0613C1
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Aug 2021 19:02:16 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id c24so38236200lfi.11
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Aug 2021 19:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EHlZUQ8HgfGWcfinu2oIDpWpJRbCk6Twh3QjNslqYr8=;
-        b=fs4uFuIARdGUUvUr5JtczJnktriIqQUMwKz1TctsMb3X59FdX2FyyqpMPnbxuG9mU8
-         CCic+poj7/DHmq8geyAiaUFaJRNrJNX5wmCdWAlsNbmWKQt7noAgNMhzbkfU6aDXHret
-         EL13+/Q00KfmL9OpSOmMIjDOrxKLBx6PuuRA5Hl+K4d1UxSlcI2grgK71XdRkw8vToo4
-         nl11MBwRuReJh8LoGJ2MPD+GEfGoqRFyYEVDTCdNH4W7V85uGjWRaqYEoiYJ3IlNH0q3
-         Mo9YaSS+PkOsUzpKG6UAlpVr7j6Vzj/VGJmLheXFj99c4bPyTAqizk//I0eYcHX+MpC2
-         CVGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EHlZUQ8HgfGWcfinu2oIDpWpJRbCk6Twh3QjNslqYr8=;
-        b=s++w73Ux7KoQN0LXyGtaXMwojYiEpnhGILB3rWE+dLjVJZzRSJ0GaIBfXEdyi2WVAp
-         qnEROPu1kzlmrgGkREOmxGW/KfgyBRWm0rBCdhyuWbuvwXOVtS7oCvrlN+6CW08Nh0c3
-         dDcxJi05sR+h1eMlGCbmUWoyxYR95ugPc1V67nJuTlF2ppU2RK+GH1VScvWROxQEtSZR
-         i28yLvsNEzS/ApZU7hH9RzlS2jCmP+wshruMC18AHJIj9NjtiiFoViqdnJZlJY8jXzfw
-         6c/jK5UvTt13akybEqgotRBpUd3mJiiWnPshzAfREcE4/13hdbJgs8dPPPP4J7lE4Jrm
-         CE3g==
-X-Gm-Message-State: AOAM533/3EUrQqbjt0wxLLMKOu+IMfjDkBfS4lgWN362kyl6VoQClatK
-        i9+Fy1Z1qTi65wfgoD+HMdE=
-X-Google-Smtp-Source: ABdhPJzVZANJW5iSs1X4gKiIvuAT2ZlwwoV9fug2MkAnjpXJYzhlQGYByLpQ6vPcTb80NGpOsNFyzg==
-X-Received: by 2002:a19:e00a:: with SMTP id x10mr615907lfg.536.1629165734488;
-        Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
-Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.gmail.com with ESMTPSA id i24sm51729lfc.293.2021.08.16.19.02.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Tue, 17 Aug 2021 00:39:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE498C061764;
+        Mon, 16 Aug 2021 21:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=nVcIFW/MfFT3fDN43SLJ55OegN0VXbbr3reCnh3K1WQ=; b=j290cV5G5n/uuGFyEBOmHDMz3T
+        ASmdekZQJjW+eGOUbYc6EL3XrYUsDLqAobkqYiz0DsLGu5NeJIP3/Hoa9hWaZqTpuX/FaF5VZFKal
+        4WCtl75VzgXCGYAsSprEsNHW+bKN8mlAVUZOwsZ8nhVXRHvTKUx8WvS2pid6JooBCkheRamG7nNzj
+        95inS94EUu0iT+EBjhr23khXkJBfYWuYKq2g+kY42YIsFNrLAGoQoSJ+s8Q2YTZkmN4yOcV7W61+a
+        CT8DulPdmQTid4e9kx9SVBic/MnyZsJS+EjnCSuB2cAW3MEgKTrpqO1nawPppx2kbQN1umQOj3mPr
+        IhftAN5g==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mFqql-0028Ya-3F; Tue, 17 Aug 2021 04:37:23 +0000
+Date:   Tue, 17 Aug 2021 05:37:19 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v1 3/3] gpu/host1x: fence: Make spinlock static
-Date:   Tue, 17 Aug 2021 05:01:53 +0300
-Message-Id: <20210817020153.25378-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210817020153.25378-1-digetx@gmail.com>
-References: <20210817020153.25378-1-digetx@gmail.com>
+        Micha?? Miros??aw <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>
+Subject: Re: [PATCH v4 2/3] mmc: block: Add mmc_bdev_to_card() helper
+Message-ID: <YRs8/zfrU06No+Qv@infradead.org>
+References: <20210817013643.13061-1-digetx@gmail.com>
+ <20210817013643.13061-3-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210817013643.13061-3-digetx@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The DEFINE_SPINLOCK macro creates a global spinlock symbol that is visible
-to the whole kernel. This is unintended in the code, fix it.
+On Tue, Aug 17, 2021 at 04:36:42AM +0300, Dmitry Osipenko wrote:
+> +	if (bdev->bd_disk->major != MMC_BLOCK_MAJOR)
+> +		return NULL;
 
-Fixes: 687db2207b1b ("gpu: host1x: Add DMA fence implementation")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/host1x/fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-index 6941add95d0f..e49083b0b09e 100644
---- a/drivers/gpu/host1x/fence.c
-+++ b/drivers/gpu/host1x/fence.c
-@@ -15,7 +15,7 @@
- #include "intr.h"
- #include "syncpt.h"
- 
--DEFINE_SPINLOCK(lock);
-+static DEFINE_SPINLOCK(lock);
- 
- struct host1x_syncpt_fence {
- 	struct dma_fence base;
--- 
-2.32.0
-
+The major is a dangerous check as we have all kinds of ways to override
+it.  Please check the block device operations as they must be unique.
