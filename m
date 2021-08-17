@@ -2,179 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CA5D3EE2CF
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 03:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 565083EE3B9
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 03:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238859AbhHQBbl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Aug 2021 21:31:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48116 "EHLO
+        id S235656AbhHQBhg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Aug 2021 21:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237733AbhHQBbQ (ORCPT
+        with ESMTP id S229773AbhHQBhf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Aug 2021 21:31:16 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D4FEC0617AF;
-        Mon, 16 Aug 2021 18:30:43 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id x7so30213719ljn.10;
-        Mon, 16 Aug 2021 18:30:43 -0700 (PDT)
+        Mon, 16 Aug 2021 21:37:35 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF90C061764;
+        Mon, 16 Aug 2021 18:37:03 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id d4so38130866lfk.9;
+        Mon, 16 Aug 2021 18:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iOx0CWJJWTap5wEALtflt5TD5too2w66bm1HP4jwmAM=;
-        b=dreUCBMrVhYah6QEsUyRd1PPgDd5hIy+DesXjyoqwsziCnPgxwHOO3/ccoapjG7aZi
-         gdOB9YWHykn9CBHVoMbolMqh3iE0EhyvsLH+qGOvgVt03Deot8AtFfdcyWSVoXnQ1eVU
-         UwnBkCAe+2Tdsf1MZCRe5vcw/RW+uiM52YnRIY+ENijj5tE+Yemi7r9GgE89BUMAmAUM
-         jsAI1v0kF23+iatkXiKJaiEtA3oBFi0ltiMZfhH9/3bz05xizmamYpTc+zUn/W5V1sbL
-         UBn+LlIxSaB1dLLVkfigh8u7UEPw4trFV1Yo47xqq5JHzpNLRZYYxHJ4WQuJ3EDJfhHi
-         RPhw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y13ssgfr6sKUkeUKlxkE5t/sIHmN7oG9hneGkaoPog4=;
+        b=HTmG7uMHTcKj2CNO6v36hEPhj00NFrlE80NEDH+zHeojdyZkWVuhZQGZEmlNEkvH7g
+         ew1SZpIbNk/bq8iaMwRKJ4v8rhdwFOrZm6RaoPePji0ndGR49VTsJ0UT2P2TvlSgeMhq
+         tXOyB6AATcz9/VTt0yOUotQYEkWUKQbGbG/wuz/+3kwi8gTY73HMpHtZ0XanhQeoS9xA
+         ugXME5zkTuelXZewyXLZ9jGBJSsAqJxxC0mXhV0b9QUtdWxJGxXSd3bKhJmjn8h6V9EQ
+         keOa9wODuQDutNVdQuDqeRwONO5eYpDm46ieeVH9RnvVve/mZErBs47x294li+7Zgnl7
+         jVQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iOx0CWJJWTap5wEALtflt5TD5too2w66bm1HP4jwmAM=;
-        b=L1SG/c5s+JQmQW/PtGogEavn+8e8TIShby16MgMuUj8EC7lFOPSSPVT/O64L049JSG
-         JknfUHDxiayHzqvLO1hq9PZswqMKzDyIYUkXlsmD90QWNkdJBX24B84z3Z5RLUx9UfSA
-         QjlDN5fro+uVIu0ACrF+tJxzKw4pNl6lChNvNHwee0Bd4HZuWIXW+6CiRWbjIubCDBSj
-         2ttIgPbOD9AvpSTTesmHAuaL3YrD68sYgbhjg7N+2jfASjC/htJNGWT0XCTr/UGdASn9
-         P3noOZ973rNFEtKWgqsQgyCUnGyaZoGx+u7eXVP7G/Ey7p7APh6NlmIjmi3Hav8R4bMW
-         PNKw==
-X-Gm-Message-State: AOAM532THN3tTcsfTrrJrMnOiXbeKHglgwKnOYzUl26rD09k8vw6nI25
-        /Kql+neIxnDcWf1C6kispPE=
-X-Google-Smtp-Source: ABdhPJyJWT1KmD0sqd2sSotoMjtfPR5X64L14svV6ntEW3IdWZmW/kCpAtqR9QrK1vxFDyAhpmSYDQ==
-X-Received: by 2002:a05:651c:39c:: with SMTP id e28mr864074ljp.498.1629163841949;
-        Mon, 16 Aug 2021 18:30:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y13ssgfr6sKUkeUKlxkE5t/sIHmN7oG9hneGkaoPog4=;
+        b=a0pKftuHZYpDxlDbBXZfj9/23rUmuF1fxJziCeC6gwF2d99pCPD0ftHVrGP0LlGOm7
+         bpY7wvzS2YHde8B7wKpIAee2JSmMNcCjnzQ4XB9MIi3Q36MmvIP7l19x1JlMqgwwiekd
+         R+VucG6ZrEnXxWz0I+3FoI62Y4LVktR2yvF3bdat6K9diZ9eqGpusjZ3LJM8T1srak4D
+         jCuFBq8yPCt7QL166XjkJU3UcxKysD07eNoieslWmfIh0L8pFe05mXT3s1OYSR8i321y
+         2UPbHjMFv7tFHB12vkmb8s4acLZ+KVXjkQ6y2b7EJZhrt9aeijkoGZkB+tB1BmZIT9Lp
+         t5Kw==
+X-Gm-Message-State: AOAM532Vsc9EeIS7fAg3p12XDOYJy8RSL7782GEN1DQGJWxRtZ4SaM9R
+        F4ig+Wpj/uxb64RKXydcN/w=
+X-Google-Smtp-Source: ABdhPJxRPENKda40qWNOWkQl41qMWmI0e+3KTqYXF5TovPBTtKNHJHlY+Pur3Wdx0urrmcdihJX+aw==
+X-Received: by 2002:ac2:4c2a:: with SMTP id u10mr511478lfq.631.1629164221740;
+        Mon, 16 Aug 2021 18:37:01 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.40
+        by smtp.gmail.com with ESMTPSA id br33sm49699lfb.46.2021.08.16.18.37.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 18:30:41 -0700 (PDT)
+        Mon, 16 Aug 2021 18:37:01 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
         Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: [PATCH v8 34/34] ARM: tegra20/30: Disable unused host1x hardware
-Date:   Tue, 17 Aug 2021 04:27:54 +0300
-Message-Id: <20210817012754.8710-35-digetx@gmail.com>
+        Christoph Hellwig <hch@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>
+Subject: [PATCH v4 0/3] Support EFI partition on NVIDIA Tegra devices
+Date:   Tue, 17 Aug 2021 04:36:40 +0300
+Message-Id: <20210817013643.13061-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
-References: <20210817012754.8710-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-MPE, VI, EPP and ISP were never used and we don't have drivers for them.
-Since these modules are enabled by default in a device-tree, a device is
-created for them, blocking voltage scaling because there is no driver to
-bind, and thus, state of PMC driver is never synced. Disable them.
+This series adds the most minimal EFI partition support for NVIDIA Tegra
+consumer devices, like Android tablets and game consoles, making theirs
+EMMC accessible out-of-the-box using downstream bootloader and mainline
+Linux kernel.  EMMC now works on Acer A500 tablet and Ouya game console
+that are already well supported in mainline and internal storage is the
+only biggest thing left to support.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20.dtsi | 4 ++++
- arch/arm/boot/dts/tegra30.dtsi | 8 ++++++++
- 2 files changed, 12 insertions(+)
+Changelog:
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index 2cb31bdd9eea..32abe559645f 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -59,6 +59,7 @@ mpe@54040000 {
- 			reset-names = "mpe";
- 			operating-points-v2 = <&mpe_dvfs_opp_table>;
- 			power-domains = <&pd_mpe>;
-+			status = "disabled";
- 		};
- 
- 		vi@54080000 {
-@@ -70,6 +71,7 @@ vi@54080000 {
- 			reset-names = "vi";
- 			operating-points-v2 = <&vi_dvfs_opp_table>;
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -81,6 +83,7 @@ epp@540c0000 {
- 			reset-names = "epp";
- 			operating-points-v2 = <&epp_dvfs_opp_table>;
- 			power-domains = <&pd_core>;
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -91,6 +94,7 @@ isp@54100000 {
- 			resets = <&tegra_car 23>;
- 			reset-names = "isp";
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index be6fd700838c..55718e44ca98 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -145,6 +145,8 @@ mpe@54040000 {
- 			power-domains = <&pd_mpe>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_MPE>;
-+
-+			status = "disabled";
- 		};
- 
- 		vi@54080000 {
-@@ -158,6 +160,8 @@ vi@54080000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_VI>;
-+
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -171,6 +175,8 @@ epp@540c0000 {
- 			power-domains = <&pd_heg>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_EPP>;
-+
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -183,6 +189,8 @@ isp@54100000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_ISP>;
-+
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
+v4: - Rebased on top of recent linux-next.
+
+v3: - Removed unnecessary v1 hunk that was left by accident in efi.c of v2.
+
+v2: - This is continuation of [1] where Davidlohr Bueso suggested that it
+      should be better to avoid supporting in mainline the custom gpt_sector
+      kernel cmdline parameter that downstream Android kernels use.  We can
+      do this for the devices that are already mainlined, so I dropped the
+      cmdline from the v2 and left only the variant with a fixed GPT address.
+
+[1] https://lore.kernel.org/linux-efi/20210327212100.3834-3-digetx@gmail.com/T/
+
+Dmitry Osipenko (3):
+  mmc: core: Add raw_boot_mult field to mmc_ext_csd
+  mmc: block: Add mmc_bdev_to_card() helper
+  partitions/efi: Support NVIDIA Tegra devices
+
+ block/partitions/Kconfig   |  8 ++++
+ block/partitions/Makefile  |  1 +
+ block/partitions/check.h   |  2 +
+ block/partitions/core.c    |  3 ++
+ block/partitions/efi.c     |  9 +++++
+ block/partitions/tegra.c   | 75 ++++++++++++++++++++++++++++++++++++++
+ drivers/mmc/core/block.c   | 15 ++++++++
+ drivers/mmc/core/mmc.c     |  2 +
+ include/linux/mmc/blkdev.h | 13 +++++++
+ include/linux/mmc/card.h   |  1 +
+ 10 files changed, 129 insertions(+)
+ create mode 100644 block/partitions/tegra.c
+ create mode 100644 include/linux/mmc/blkdev.h
+
 -- 
 2.32.0
 
