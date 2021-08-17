@@ -2,118 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B8B83EDF24
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Aug 2021 23:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FFFC3EE21A
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Aug 2021 03:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233357AbhHPVPo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Aug 2021 17:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46588 "EHLO
+        id S235929AbhHQB0V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Aug 2021 21:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231750AbhHPVPo (ORCPT
+        with ESMTP id S235650AbhHQB0U (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Aug 2021 17:15:44 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B7CC061764;
-        Mon, 16 Aug 2021 14:15:12 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id c4so5922827plh.7;
-        Mon, 16 Aug 2021 14:15:12 -0700 (PDT)
+        Mon, 16 Aug 2021 21:26:20 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EEFC06179A
+        for <linux-tegra@vger.kernel.org>; Mon, 16 Aug 2021 18:25:48 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id k65so36401065yba.13
+        for <linux-tegra@vger.kernel.org>; Mon, 16 Aug 2021 18:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=g1dC/n65USYYjusFSHlK9vgvBZI+Oht+fJhBix7TCeM=;
-        b=t4xoxQNZT+ddH/5CyxnTOTAsIOrlFK0h8YIrmhdRIIzq6YqwuYzLmD42x5ufOdt2Kh
-         Qjz+yojzhOH+R2Cqvujce8uwq4FQ4yKFuZZ4tWTqbh+Mzm6oOzk485L6ViKdzQRJrK8k
-         vrcOIX6Vi10mJirmOboPGb1aJLkvwNJyPUjquLbdSyOy3w3e/0Sr/kIFfXhu6GFwBqGk
-         B5knjVopEOwgh63nDkMMLz1TrLO+TgsXvnhcM9ZkxQtB7o4pM+A0Q04hKsvcNTLXD6Tr
-         GKVEitBx67K+T66SO1CNCAm61aLGbE6ZsnI2HmOc8bhSzI26WuyNC6Dp/meCt06I+Wfn
-         +FSA==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=iELgCLbQqv5tFsHgMTPz+ef0nc8wwD8GBHZ8BVFl4tE=;
+        b=PPWE12a+tIHVgCAaRkZ+BDhW5jkCA1NX7R8gL+wZdXYFuknkdIHIsM/MccOm+LyS2b
+         oX7EO2ddOAdOyb6jM4D49Rtcbps1iY6wnDxaERT5UmoOvuAH1zmoEGfuQmUMxrnlxLnm
+         tM+ZmUxM7CBZW30GSNyVnfl/CWhB9DMGTDQ+cOkNujBgKmc94HGsHsRvOBVn6spZFL7W
+         /G84NivGGvJ4F3o+3jai9Rep1CCrRjbG95Zt4KDEboJs6jp89MJkcfU/oSvFSKkP9eP9
+         yZyHdbgOj8jRqOfDjTwUI+u/W87LQjPs2iQ8lILXidw/oCX4pSclXNDGaSLSlz/cQET5
+         WEMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=g1dC/n65USYYjusFSHlK9vgvBZI+Oht+fJhBix7TCeM=;
-        b=MAJ34ZXbK4QCx9sc0wEIv40qXsRXY1hucRIQ/blGwhJjMOuvUWMYpFXqYkRcJwNCMc
-         wgZ+wEhcYfh9B+hM0WfNVf1Wt7K1+8SLeNXzgs8gBoRu1+JPexYjt9w7ipYhASMpzUMP
-         rpk5X0tJFxGfEtYRni0PLMxLEuKhyqnaDKcUgMViVh4p7Eikd4XSALp+Fu5lmoDest7t
-         DFyF4GxEy2niOc3rDSKxvvhqx5sUP0e6yFVu8HH+z1cRgCXyOzjtzdIOIA3toHYD6qzS
-         u1krdYq5IrW1LrJKxoOS/DN8yHCQGlLTPmLGEnM/Ll5BLF7KMsNrqFM8VrKyOirdgel0
-         PjHw==
-X-Gm-Message-State: AOAM533Ha00Uaiqxwwiv5KKud1Q1MTgdRPELs/1ehFcfyL1yGTeGmsLa
-        1yVdEmAieY9Ic6qhez5D5jE=
-X-Google-Smtp-Source: ABdhPJxjLEm08f2XZOAIRQkKqH3kneBQs/5LROljNjO6HNA+l0EUm6jIrU0DDbEv3pH+REERz2pRUQ==
-X-Received: by 2002:a17:90a:ee91:: with SMTP id i17mr605327pjz.67.1629148512230;
-        Mon, 16 Aug 2021 14:15:12 -0700 (PDT)
-Received: from xps.yggdrasil ([49.207.137.16])
-        by smtp.gmail.com with ESMTPSA id b12sm103154pff.63.2021.08.16.14.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 14:15:11 -0700 (PDT)
-From:   Aakash Hemadri <aakashhemadri123@gmail.com>
-To:     Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Bjorn Helgaas <bjorn@helgaas.com>
-Subject: [PATCH 2/2] ASoC: tegra30: i2s: Fix incorrect usage of of_device_get_match_data
-Date:   Tue, 17 Aug 2021 02:44:52 +0530
-Message-Id: <4805c7fcd35c8deada63d41cb34d40de80f85a13.1629148177.git.aakashhemadri123@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1629148177.git.aakashhemadri123@gmail.com>
-References: <cover.1629148177.git.aakashhemadri123@gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=iELgCLbQqv5tFsHgMTPz+ef0nc8wwD8GBHZ8BVFl4tE=;
+        b=BSBqrUnur77Es868x7ySruDLmIW4zeLXTxASaGMBvM5vTa9Cwvh/uj4SbHLttEjdX+
+         gC2LtWnN04PsQdMtKTFcpLKz++r44r7U5EeTIdq30+DLHQAJOuUKDy0epkrgUEcFPq8Z
+         JRqcX8tViCBzx5+QAXuS7sWcEAY2coez+rFe8GJQumzGi/+XCl1TbR8pZxiBq0ckmCZe
+         T5SCNeGgA3P01t07o1wRgjhqpcJJWVwb0W3fKdQSQuTNGmKqz3NpPGbweBcUVocZR16y
+         385coQVEnJWbpMSy1H+HA04sirvRtEBHaiUWrHKwU88Gt3CAijWSbkeY0Qu7HRP5mih8
+         5z3Q==
+X-Gm-Message-State: AOAM531YBOi5en9/3CeGlztDfjvdyEUOlQAmwOw+BW3yGDUssmp1gRQm
+        HER5YASGauZpcyy0zgTfKGIXyASQfc2DqeBxSzk=
+X-Google-Smtp-Source: ABdhPJzGw6/+cLFQsN5Q15Z+3GpIxc0OFdZrRDPZpItgTYyIGDDeq2baWAk3rlhlc/76dCF6w+MP8pYq+AomhBoCoGM=
+X-Received: by 2002:a25:ab45:: with SMTP id u63mr1174083ybi.500.1629163547936;
+ Mon, 16 Aug 2021 18:25:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:7000:5e1b:0:0:0:0 with HTTP; Mon, 16 Aug 2021 18:25:47
+ -0700 (PDT)
+Reply-To: charleswjacksonjr94@outlook.com
+From:   "Charles w.jackson" <powellilluminati666@gmail.com>
+Date:   Mon, 16 Aug 2021 18:25:47 -0700
+Message-ID: <CAC=uWm6Ei7qZvc_=9a-2oGVDtPoBGxucnyOLz5Cf4EcE58fi_g@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-const struct of_device_id incorrectly assigned "match->data" using
-    of_device_get_match_data()
+--=20
+Hallo lieber Beg=C3=BCnstigter
 
-Instead assign `const struct tegra30_i2s_soc_data *soc_data` with
-const void *of_device_get_match_data(...)
+Eine Million zweihunderttausend Dollar (1.200.000.000,00 USD) wurden gespen=
+det
+Charles.w.jackson mit einem Power Ball-Jackpot von 344,6 Millionen
+US-Dollar, den er
+in den USA gewonnen. Gehen Sie zur=C3=BCck, um weitere Informationen zu
+Anspr=C3=BCchen zu erhalten:
+charleswjacksonjr94@outlook.com.
 
-Fixes: 356b94a32a75 ("ASoC: tegra30: i2s: Use of_device_get_match_data")
+    Es wurde festgestellt, dass, wenn Sie diese E-Mail in Ihrem Spam
+finden, es bitte wissen
+Es wird durch ein schwaches Netzwerk verursacht, das auf Ihre Antwort warte=
+t
 
-Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
----
- sound/soc/tegra/tegra30_i2s.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index d4c5594efaf1..084a533bf4f2 100644
---- a/sound/soc/tegra/tegra30_i2s.c
-+++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -406,7 +406,7 @@ static const struct of_device_id tegra30_i2s_of_match[] = {
- static int tegra30_i2s_platform_probe(struct platform_device *pdev)
- {
- 	struct tegra30_i2s *i2s;
--	const struct of_device_id *match;
-+	const struct tegra30_i2s_soc_data *soc_data;
- 	u32 cif_ids[2];
- 	void __iomem *regs;
- 	int ret;
-@@ -418,13 +418,13 @@ static int tegra30_i2s_platform_probe(struct platform_device *pdev)
- 	}
- 	dev_set_drvdata(&pdev->dev, i2s);
- 
--	match = of_device_get_match_data(&pdev->dev);
--	if (!match) {
-+	soc_data = of_device_get_match_data(&pdev->dev);
-+	if (!soc_data) {
- 		dev_err(&pdev->dev, "Error: No device match found\n");
- 		ret = -ENODEV;
- 		goto err;
- 	}
--	i2s->soc_data = (struct tegra30_i2s_soc_data *)match->data;
-+	i2s->soc_data = soc_data;
- 
- 	i2s->dai = tegra30_i2s_dai_template;
- 	i2s->dai.name = dev_name(&pdev->dev);
--- 
-2.32.0
-
+Herr Charles.w.jackson.
