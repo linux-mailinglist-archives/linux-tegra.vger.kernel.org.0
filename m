@@ -2,142 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C3EC3EF9F7
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Aug 2021 07:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 467523EFA0C
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Aug 2021 07:27:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237672AbhHRFWK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Aug 2021 01:22:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34138 "EHLO
+        id S237662AbhHRF1e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Aug 2021 01:27:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236055AbhHRFWI (ORCPT
+        with ESMTP id S229768AbhHRF1e (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Aug 2021 01:22:08 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807E1C061764;
-        Tue, 17 Aug 2021 22:21:34 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id h9so2789005ljq.8;
-        Tue, 17 Aug 2021 22:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yOpS1WKSzyXtmkcc56y1iDICg2EoTDsJHsY4fPaSb5w=;
-        b=czCBETSSjNQa96HeR8S2cXF9WItzalDZ+Bims31/WwUHmduqBSoEIrz2EHd1Rplnvm
-         FFwAvQOnG91Y+0pNG7gcjM8fuOK7PmDvtjcps1eXeHj5mFDM7T8Il2gc/dhcMiEnsq3U
-         dYqtv8hjrv5XQwoHcnwTEBGrRK1459O7Zm+K8cjotiTE0HUOwS7EWfdq/k1AdFePe/7T
-         qIjtoVkBbmE3Zl1qSkUzqZv9CvHixrI856MdhPDyYrJSZk10aF2YpSr+G4t557R0fLe2
-         gENb/8qw1Cif5pMMEHqGyMJt9OlS6t5IEPg7dmTF9mJyzzfy4L6tBS3Gp6x5EtTq9Otk
-         Id/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yOpS1WKSzyXtmkcc56y1iDICg2EoTDsJHsY4fPaSb5w=;
-        b=KyTN+66JReUiZ1nBMEpIdN+P9S79uEbMiu3M16czSgFJ05YwvKLskilB2QqFZVk62J
-         prZHpbsfHzIx5e87MhH/gACK7omP8L9NIP7VpxCLK3S0yThlJNzngWHTDQb3DnCwnCBz
-         Q7O+mvHisqBaIz/jNC3sDZqf72kjslbVVJWwiSMBcsS0kRMTbgNLsxcb6A1nloJlzmix
-         5sg5M2+xYysgiBpIxaqfyEu5CONXY3xQlNOp+9ZlD+EaoyKZjnLp/1unMczoaLYZuccj
-         RBb7l3o7A2E7Yliyg4mnTMLSM6KsbrW6LKSWxEjO/NWj5egYPIKIb/UDHDLUB7taJg1K
-         R1+g==
-X-Gm-Message-State: AOAM532uIzrUOlr8c26HbMOuf5JWdSxIDRVwco2Tvnd2Af/8PdpZ5Ji+
-        yuoCMn8yi7o3CporXX1hvtPIyyVZkV4=
-X-Google-Smtp-Source: ABdhPJz2ztpis7OKP5puANjPipNjZh3C0caocgaMorHlmoNO+0jB7HIjn/fYUFG6yGBcOjPS91/Jnw==
-X-Received: by 2002:a2e:8553:: with SMTP id u19mr1498129ljj.158.1629264092744;
-        Tue, 17 Aug 2021 22:21:32 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id d9sm487076ljq.54.2021.08.17.22.21.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Aug 2021 22:21:32 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Wed, 18 Aug 2021 01:27:34 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D93C061764;
+        Tue, 17 Aug 2021 22:27:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=2GcTbDmgLsouPyMEnfVbCOFWhGh+5ywbqcpH6RwhvHw=; b=jmwNoPrus/S5VWKF38A6NujbjY
+        snRuXg4hvUwPJesythGV+EsF7giGTe14R5O6oaStzzcqMKsp1G6OfoePgRjo2JCLNvoLndk6vNObb
+        QrRZwzRwt8SNJivL2OnefjRnqeuaNHFlcCDTFfgWUqEvhroZHZJygJFd7nF69vslPRzZBHtxyD8dx
+        pSVaG7C9TAcnZMgZcrvKWLuD12PCoTw4dwsDNZRyl/aNkNZdwHrczVV4Qe0ufbdOLO8a4oOsGSul+
+        cuDpCl8/lduO3Q+gRr7e4vd8AnDZYNP1Efprz4wjeHZBb9rDYxlF4bkZmhI8vQCYLOEDTi2bQmw7Z
+        9b3pbQxw==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mGE4W-003MwX-9o; Wed, 18 Aug 2021 05:25:17 +0000
+Date:   Wed, 18 Aug 2021 06:25:04 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
+        Micha?? Miros??aw <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
         Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-2-digetx@gmail.com>
- <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
- <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
- <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
-Date:   Wed, 18 Aug 2021 08:21:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>
+Subject: Re: [PATCH v5 5/5] partitions/efi: Support non-standard GPT location
+Message-ID: <YRyZsDAiDX8OEO35@infradead.org>
+References: <20210818005547.14497-1-digetx@gmail.com>
+ <20210818005547.14497-6-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210818045307.4brb6cafkh3adjth@vireshk-i7>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818005547.14497-6-digetx@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.08.2021 07:53, Viresh Kumar пишет:
-> On 18-08-21, 07:37, Dmitry Osipenko wrote:
->> This will set voltage level without having an actively used hardware.
->> Take a 3d driver for example, if you set the rate on probe and
->> rpm-resume will never be called, then the voltage will be set high,
->> while hardware is kept suspended if userspace will never wake it up by
->> executing a 3d job.
+On Wed, Aug 18, 2021 at 03:55:47AM +0300, Dmitry Osipenko wrote:
+> Support looking up GPT at a non-standard location specified by a block
+> device driver.
 > 
-> What exactly are we looking to achieve with this stuff ? Cache the
-> current performance state with genpd (based on the state bootloader's
-> has set) ?
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  block/partitions/efi.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/block/partitions/efi.c b/block/partitions/efi.c
+> index aaa3dc487cb5..b9509f445b3c 100644
+> --- a/block/partitions/efi.c
+> +++ b/block/partitions/efi.c
+> @@ -585,6 +585,8 @@ static int find_valid_gpt(struct parsed_partitions *state, gpt_header **gpt,
+>  	gpt_header *pgpt = NULL, *agpt = NULL;
+>  	gpt_entry *pptes = NULL, *aptes = NULL;
+>  	legacy_mbr *legacymbr;
+> +	struct gendisk *disk = state->disk;
+> +	const struct block_device_operations *fops = disk->fops;
+>  	sector_t total_sectors = get_capacity(state->disk);
+>  	u64 lastlba;
+>  
+> @@ -619,6 +621,17 @@ static int find_valid_gpt(struct parsed_partitions *state, gpt_header **gpt,
+>          if (!good_agpt && force_gpt)
+>                  good_agpt = is_gpt_valid(state, lastlba, &agpt, &aptes);
+>  
+> +	if (!good_agpt && force_gpt && fops->alternative_gpt_sector) {
+> +		struct block_device *bdev = disk->part0;
+> +		sector_t agpt_sector;
+> +		int err;
+> +
+> +		err = fops->alternative_gpt_sector(bdev, &agpt_sector);
 
-Yes, GENPD will cache the perf state across suspend/resume and initially
-cached value is out of sync with h/w.
+Please call the method with the disk as the argument.  I've been moving
+the block layer to generally pass the gendisk whenever we're dealing
+with the whole device, as that makes the intent very clear.
 
-> Or anything else as well ?
-
-Nothing else. But let me clarify it all again.
-
-Initially the performance state of all GENPDs is 0 for all devices.
-
-The clock rate is preinitialized for all devices to a some default rate
-by clk driver, or by bootloader or by assigned-clocks in DT.
-
-When device is rpm-resumed, the resume callback of a device driver
-enables the clock.
-
-Before clock is enabled, the voltage needs to be configured in
-accordance to the clk rate.
-
-So now we have a GENPD with pstate=0 on a first rpm-resume, which
-doesn't match the h/w configuration. Calling dev_pm_opp_sync() sets the
-pstate in accordance to the h/w config.
-
-In a previous v7 I proposed to preset the rpm_pstate of GENPD (perf
-level that is restored before device is rpm-resumed) from PD's
-attach_dev callback, but Ulf didn't like that because it requires to use
-and modify GENPD 'private' variables from a PD driver. We decided that
-will be better to make device drivers to explicitly sync the perf state,
-which I implemented in this v8.
+Also do we really need the force_gpt check?  That is we always require
+the user to pass a command line argument to use this?
