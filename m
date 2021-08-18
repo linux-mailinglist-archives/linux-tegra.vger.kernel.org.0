@@ -2,113 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 523DE3EF9B3
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Aug 2021 06:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E08A3EF9FE
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Aug 2021 07:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbhHRExq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Aug 2021 00:53:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
+        id S236730AbhHRFYP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Aug 2021 01:24:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237577AbhHRExo (ORCPT
+        with ESMTP id S229768AbhHRFYP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Aug 2021 00:53:44 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8E1C0617AD
-        for <linux-tegra@vger.kernel.org>; Tue, 17 Aug 2021 21:53:10 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id y23so980244pgi.7
-        for <linux-tegra@vger.kernel.org>; Tue, 17 Aug 2021 21:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kgo3ZwF8d7W983KtizalzC2ru/H2SpB8LzsDQMLtI5c=;
-        b=X1QQTCYEVSdpcv7LPo5DMu5ThQZHRIN1vUWMb/xPREu32xkehgWsrv/Uo6unkDbF4G
-         AoDyB6fSRBBNuzc/D7jqakJbtjjF5e+sVAqA9zK2BFKOLs/SwJUQpYjA0HGspNF0+msz
-         Uhn8+rb+9Ssd6W+bxIsn3Ox7Kh+/mgbFClTQ0gwAHdQ6KDjWDqoh4HodnaZ5OMyBTCce
-         SeZwC527t8OK35PgyHP2RAMN9FyTt5uTW9EgE8CEyWj3oORLtmuKDR7Uu54Exp/kDsIh
-         ZevMl3yzOgovs9Qq8xVzo0escEqP8KWDhHlK6OTdbyMg2H9X29vdHPjqwD56DIVdFe+l
-         SCcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kgo3ZwF8d7W983KtizalzC2ru/H2SpB8LzsDQMLtI5c=;
-        b=aO6tubnFJGdPLt0yLlNRT8lRAv3cep5gp92LSjIXgcMYUAXzSGw4EtpylnN3WtIKv/
-         dytgNooA0hqgnnrSWSPyLiz16iaQaG5FJ97zR+Oh8WqiBFZYnoABYDSWoHKk1f9Y1Es2
-         Cq6P+BsHu1ilhVrVSd0m+4SHLsz7fzjOzgEC9bz1KBJPtUrCo/qWl6vlvrM2/d0XKZLm
-         1OROF6S7x4F1ULGOqLYuHwRlKT3+zjDhwcQQocFmNw4ODjmzGpiNeCSkJtLpJDl8NG1R
-         0O/lle24F+Pbhxz9okXwfx53aIbUvvbP4ya15t2dEpTITvA0Hq80JYvAtzelhV6fvlHF
-         xg2g==
-X-Gm-Message-State: AOAM5300N1zJ9pDz1BRCasxIaEXByjko84ssGHPUibH/UwLzJ+6Eomer
-        qA9uL51/eNMbJn5f7RIBCp+fKw==
-X-Google-Smtp-Source: ABdhPJzwiLUKe1Kt++F6gvgGbPK1s/bs6166Bxm5seAYHtcHQUq24Xe4cVB15wUgeXiCsrvDZou4sg==
-X-Received: by 2002:aa7:8c14:0:b029:3e0:235a:5d58 with SMTP id c20-20020aa78c140000b02903e0235a5d58mr7255693pfd.57.1629262389909;
-        Tue, 17 Aug 2021 21:53:09 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id fu10sm3555274pjb.8.2021.08.17.21.53.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 21:53:09 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 10:23:07 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
+        Wed, 18 Aug 2021 01:24:15 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09731C061764;
+        Tue, 17 Aug 2021 22:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=j7wnjfg3XGnUoaxd6WvLIghvLlyj31dNMsW6MgXpyAU=; b=SABWEzechneXfKNd5kV/s4sI64
+        e8II4QLox1Qv1ezGUXX5zbXAwK6m2uwK+cL9DYZ1W5WfVqbuWFgGO2e5yOiNNRQW9QdGNKOWTcwo+
+        BiamgsWHTrtlr+7DMM2yxNfB1GEVRfCV2C+6IbCuiBAF9PzNs4RW6/+0KP2Ws4SGtYwmB58vPraMg
+        wLiAQRE7OHO6iOr3l6+KQtwZrrlfizWHt/aBOcK8m3ztdwJT5j1w74Wan8ubQZzFq7RwtSGWmqa8b
+        7LNiwvr/77Pef+QGj80MAv9tASO2DTRniv1B81zak9wU+2pMGwTl/CYdHtztWYKwL1CrqxpB2VM8V
+        S+/OqJ7A==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mGE0O-003Miu-Jl; Wed, 18 Aug 2021 05:21:08 +0000
+Date:   Wed, 18 Aug 2021 06:20:48 +0100
+From:   Christoph Hellwig <hch@infradead.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
+        Micha?? Miros??aw <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
         Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210818045307.4brb6cafkh3adjth@vireshk-i7>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-2-digetx@gmail.com>
- <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
- <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
- <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>
+Subject: Re: [PATCH v5 1/5] block: Add alternative_gpt_sector() operation
+Message-ID: <YRyYsNs10AoPg069@infradead.org>
+References: <20210818005547.14497-1-digetx@gmail.com>
+ <20210818005547.14497-2-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20210818005547.14497-2-digetx@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 18-08-21, 07:37, Dmitry Osipenko wrote:
-> This will set voltage level without having an actively used hardware.
-> Take a 3d driver for example, if you set the rate on probe and
-> rpm-resume will never be called, then the voltage will be set high,
-> while hardware is kept suspended if userspace will never wake it up by
-> executing a 3d job.
+On Wed, Aug 18, 2021 at 03:55:43AM +0300, Dmitry Osipenko wrote:
+> Add alternative_gpt_sector() block device operation which specifies
+> alternative location of a GPT entry. This allows us to support Android
+> devices which have GPT entry at a non-standard location and can't be
+> repartitioned easily.
 
-What exactly are we looking to achieve with this stuff ? Cache the
-current performance state with genpd (based on the state bootloader's
-has set) ?
-
-Or anything else as well ?
-
--- 
-viresh
+Probably worth adding a little comment explaining this rather odd
+operation.
