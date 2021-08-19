@@ -2,235 +2,197 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBBB03F1A04
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Aug 2021 15:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F9743F1A44
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Aug 2021 15:21:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235683AbhHSNIZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Aug 2021 09:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52436 "EHLO
+        id S240005AbhHSNWM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Aug 2021 09:22:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238460AbhHSNIX (ORCPT
+        with ESMTP id S240012AbhHSNWK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Aug 2021 09:08:23 -0400
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37A8FC06179A
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Aug 2021 06:07:47 -0700 (PDT)
-Received: by mail-vs1-xe2e.google.com with SMTP id a20so3994330vsh.4
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Aug 2021 06:07:47 -0700 (PDT)
+        Thu, 19 Aug 2021 09:22:10 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CF2DC061756
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Aug 2021 06:21:34 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id s19so3990223vsl.11
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Aug 2021 06:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1GCKu9c84zINYtTdflsWXKCWXkOZdKhJUWmHuvrkY+4=;
-        b=f+4CRpBzlKKi/DOaSNA/G+hiFrodgB7WwtvP6lDjHBbwMct5xJEnNRIBbwWd50HxVl
-         4zhiGfKdAN1zaQTNFhB6Vi8xqc4j40IY1vsyJhWmkAu9OGW99mwK9tXMUYa730kFsYI4
-         idKdGIien3FkWDSAe9a9bUwucupyJle2LRixnAHVpFbbr4u728pooiABojadky5czPhQ
-         T05rm31+E59u8E8W6WOHoHOIbfDCZtTsEcAVQYXP/NQkrFth/PCbSSe6c7z8JAzoaO1+
-         46BAA+NxWAouT+Gc5X4wCTy1dHtG/pP9SH4vbLZ8x03CSox6/vBN4JfPUqmpPE9U44nl
-         Iiow==
+         :cc;
+        bh=hf1yJDYIDGADSw5A4tH23JVq6j6wfNQ2ElnJXlKhovQ=;
+        b=cXNkUsEngfNONv9xhaw53/XRtaqkqhBK66EA61+iNDvrWHfa7y28Pylj8ZQ0+Rwv/j
+         h0ftvfRWCFxdFMYqLs6ehB9raQ6lFqFpj9yczIf+Nf5CbB1xoSjOy9c0oPWSvd9fiOS7
+         Bmle4ujkj1j82g8qlJiGbcrkmq63313H9DDNnWvne5YF8l2NampiEg/657xVQsznvvdz
+         bC64D0loGf9OlFmy6X51u3SXmhXrxk4sxvFg6EBnNn6MZDEp75/YMLpR5u5TZjLLgvBC
+         26GPB68eUIaw71qGi5455oTaMtSR3GqKuCETlHwGbzv2IAJAWplW8LsZxSW9IGDzODuP
+         36ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1GCKu9c84zINYtTdflsWXKCWXkOZdKhJUWmHuvrkY+4=;
-        b=CVZX2IqMECq+QE6aX320MyWpB0n3eTEwCNderL7iphep6yCnAgGx7He/zoVpe1pUgG
-         YtWgnGUBLuB27XULStkXOB82XzxgdG4nDqReQRezSYelv1zmUInue6pSma4ApnyJK7EY
-         ZOuACptc3lJefd4zuxAjCFrcgCk1qiPs9epECthyk/mM2HNO54wmBcZ0TN8LSKBT+tVj
-         //+kITGNYQjOLSmyReYqYjgbQx+px2WTuqsAv+xjU3B7dVIsWP+mZKLC8UmBATN2iY/T
-         0Rz5LYi9bnC1lvTopNOn8Nt9MjT5iGOZnZYihiv0n9NfmEVFI+s5A8V21Yec4buye/+E
-         56HA==
-X-Gm-Message-State: AOAM5337uGzMXavz0XyHZyQ0O44a0pX3hzxH9ZedcLl5wsCrL6ASHPab
-        QLRWL2zdmWmGqxPyy/gHoBunLkx+S6/Wd2/lE+js2A==
-X-Google-Smtp-Source: ABdhPJyJROokpzMBNet191tDOwD7eE8PakuStZsC4TgI99eWakoC4SNznlH+uH6MVn3jKPVb3Va23L7NrWpzQmbz4ck=
-X-Received: by 2002:a67:3212:: with SMTP id y18mr12074668vsy.19.1629378466059;
- Thu, 19 Aug 2021 06:07:46 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=hf1yJDYIDGADSw5A4tH23JVq6j6wfNQ2ElnJXlKhovQ=;
+        b=mddjBhd/l+40VXbd/IdqluOxLi1DANHeEUm889hY3EtzdTQBWxWaH0pKlTSBzCNJbz
+         aAehoWoh8cuvrzRmD4vzjT5WSOcZeXPM9ZpaWB793i+PrIUZbZTN3nvi36QINsWTSghm
+         q9I9uu4EAl9uKiHGMVsRsMWr6gfYiS49tZHdh4IDIxj3osAL1fn9jyG4HlbokT2P85yE
+         wEoCzRQyHBAWgYm20BShJyYl5UczfCByGC/zH1AccfipwWQHs0qtIAT9+qp/3CRLMtmO
+         U8RfrabX3BPxWY2j4M69CKevMKDUOVA6pmf17QG4mhxETFjAB0J58qYQlIUw6/mmehrV
+         3WCw==
+X-Gm-Message-State: AOAM5307rqexd/ip9W/dpDQVr0lA7CCA/5Xj6q7VeUI3LJadp7l8O/NY
+        Ayozut89r+rG8tvLUn5RFl7qA1dfiTZH00vFR0x3EA==
+X-Google-Smtp-Source: ABdhPJwuuqiFukYJzvrQOxOwpI3rwad1HDjWXxDECbZgyWZWjHPEUwn3rqOes1yZ/d8dHbJKY0dEKgFucV1GTbcf2lM=
+X-Received: by 2002:a67:f6d8:: with SMTP id v24mr12359854vso.48.1629379293738;
+ Thu, 19 Aug 2021 06:21:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210818043131.7klajx6drvvkftoc@vireshk-i7> <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7> <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7> <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <20210818095044.e2ntsm45h5cddk7s@vireshk-i7> <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
- <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
-In-Reply-To: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+References: <20210818005547.14497-1-digetx@gmail.com> <20210818005547.14497-5-digetx@gmail.com>
+ <CAPDyKFqQbe4k-Sem436Fzsr6mbvwZr83VtEaEZTF8oWYoHHQwg@mail.gmail.com> <YR0MrlxFLTpsR628@orome.fritz.box>
+In-Reply-To: <YR0MrlxFLTpsR628@orome.fritz.box>
 From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 19 Aug 2021 15:07:09 +0200
-Message-ID: <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+Date:   Thu, 19 Aug 2021 15:20:57 +0200
+Message-ID: <CAPDyKFpObGwWhnwDKG59wdt6Pr35DodogXbDjzPJGoshMD7piQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] mmc: sdhci-tegra: Implement alternative_gpt_sector()
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>, Jens Axboe <axboe@kernel.dk>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
         Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ion Agorria <AG0RRIA@yahoo.com>,
+        Svyatoslav Ryhel <clamor95@gmail.com>,
         linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
+        linux-block <linux-block@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 18 Aug 2021 at 17:43, Dmitry Osipenko <digetx@gmail.com> wrote:
+On Wed, 18 Aug 2021 at 15:35, Thierry Reding <thierry.reding@gmail.com> wrote:
 >
-> 18.08.2021 13:08, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wr=
-ote:
-> >>
-> >> On 18-08-21, 11:41, Ulf Hansson wrote:
-> >>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> =
-wrote:
-> >>>> What we need here is just configure. So something like this then:
-> >>>>
-> >>>> - genpd->get_performance_state()
-> >>>>   -> dev_pm_opp_get_current_opp() //New API
-> >>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
-> >>>>
-> >>>> This can be done just once from probe() then.
-> >>>
-> >>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion=
-?
-> >>
-> >> The opp core already has a way of finding current OPP, that's what
-> >> Dmitry is trying to use here. It finds it using clk_get_rate(), if
-> >> that is zero, it picks the lowest freq possible.
-> >>
-> >>> I am sure I understand the problem. When a device is getting probed,
-> >>> it needs to consume power, how else can the corresponding driver
-> >>> successfully probe it?
-> >>
-> >> Dmitry can answer that better, but a device doesn't necessarily need
-> >> to consume energy in probe. It can consume bus clock, like APB we
-> >> have, but the more energy consuming stuff can be left disabled until
-> >> the time a user comes up. Probe will just end up registering the
-> >> driver and initializing it.
+> On Wed, Aug 18, 2021 at 11:55:05AM +0200, Ulf Hansson wrote:
+> > On Wed, 18 Aug 2021 at 02:57, Dmitry Osipenko <digetx@gmail.com> wrote:
+> > >
+> > > Tegra20/30/114/124 Android devices place GPT at a non-standard location.
+> > > Implement alternative_gpt_sector() callback of the MMC host ops which
+> > > specifies that GPT location for the partition scanner.
+> > >
+> > > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> > > ---
+> > >  drivers/mmc/host/sdhci-tegra.c | 42 ++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 42 insertions(+)
+> > >
+> > > diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+> > > index 387ce9cdbd7c..24a713689d5b 100644
+> > > --- a/drivers/mmc/host/sdhci-tegra.c
+> > > +++ b/drivers/mmc/host/sdhci-tegra.c
+> > > @@ -116,6 +116,8 @@
+> > >   */
+> > >  #define NVQUIRK_HAS_TMCLK                              BIT(10)
+> > >
+> > > +#define NVQUIRK_HAS_ANDROID_GPT_SECTOR                 BIT(11)
+> > > +
+> > >  /* SDMMC CQE Base Address for Tegra Host Ver 4.1 and Higher */
+> > >  #define SDHCI_TEGRA_CQE_BASE_ADDR                      0xF000
+> > >
+> > > @@ -1361,6 +1363,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra20 = {
+> > >         .pdata = &sdhci_tegra20_pdata,
+> > >         .dma_mask = DMA_BIT_MASK(32),
+> > >         .nvquirks = NVQUIRK_FORCE_SDHCI_SPEC_200 |
+> > > +                   NVQUIRK_HAS_ANDROID_GPT_SECTOR |
+> > >                     NVQUIRK_ENABLE_BLOCK_GAP_DET,
+> > >  };
+> > >
+> > > @@ -1390,6 +1393,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra30 = {
+> > >         .nvquirks = NVQUIRK_ENABLE_SDHCI_SPEC_300 |
+> > >                     NVQUIRK_ENABLE_SDR50 |
+> > >                     NVQUIRK_ENABLE_SDR104 |
+> > > +                   NVQUIRK_HAS_ANDROID_GPT_SECTOR |
+> > >                     NVQUIRK_HAS_PADCALIB,
+> > >  };
+> > >
+> > > @@ -1422,6 +1426,7 @@ static const struct sdhci_pltfm_data sdhci_tegra114_pdata = {
+> > >  static const struct sdhci_tegra_soc_data soc_data_tegra114 = {
+> > >         .pdata = &sdhci_tegra114_pdata,
+> > >         .dma_mask = DMA_BIT_MASK(32),
+> > > +       .nvquirks = NVQUIRK_HAS_ANDROID_GPT_SECTOR,
+> > >  };
+> > >
+> > >  static const struct sdhci_pltfm_data sdhci_tegra124_pdata = {
+> > > @@ -1438,6 +1443,7 @@ static const struct sdhci_pltfm_data sdhci_tegra124_pdata = {
+> > >  static const struct sdhci_tegra_soc_data soc_data_tegra124 = {
+> > >         .pdata = &sdhci_tegra124_pdata,
+> > >         .dma_mask = DMA_BIT_MASK(34),
+> > > +       .nvquirks = NVQUIRK_HAS_ANDROID_GPT_SECTOR,
+> > >  };
+> > >
+> > >  static const struct sdhci_ops tegra210_sdhci_ops = {
+> > > @@ -1590,6 +1596,38 @@ static int sdhci_tegra_add_host(struct sdhci_host *host)
+> > >         return ret;
+> > >  }
+> > >
+> > > +static int sdhci_tegra_alternative_gpt_sector(struct mmc_card *card,
+> > > +                                             sector_t *gpt_sector)
+> > > +{
+> > > +       unsigned int boot_sectors_num;
+> > > +
+> > > +       /* filter out unrelated cards */
+> > > +       if (card->ext_csd.rev < 3 ||
+> > > +           !mmc_card_mmc(card) ||
+> > > +           !mmc_card_is_blockaddr(card) ||
+> > > +            mmc_card_is_removable(card->host))
+> > > +               return -ENOENT;
+> > > +
+> > > +       /*
+> > > +        * eMMC storage has two special boot partitions in addition to the
+> > > +        * main one.  NVIDIA's bootloader linearizes eMMC boot0->boot1->main
+> > > +        * accesses, this means that the partition table addresses are shifted
+> > > +        * by the size of boot partitions.  In accordance with the eMMC
+> > > +        * specification, the boot partition size is calculated as follows:
+> > > +        *
+> > > +        *      boot partition size = 128K byte x BOOT_SIZE_MULT
+> > > +        *
+> > > +        * Calculate number of sectors occupied by the both boot partitions.
+> > > +        */
+> > > +       boot_sectors_num = card->ext_csd.raw_boot_mult * SZ_128K /
+> > > +                          SZ_512 * MMC_NUM_BOOT_PARTITION;
+> > > +
+> > > +       /* Defined by NVIDIA and used by Android devices. */
+> > > +       *gpt_sector = card->ext_csd.sectors - boot_sectors_num - 1;
+> > > +
+> > > +       return 0;
+> > > +}
 > >
-> > That's perfectly fine, as then it's likely that it won't vote for an
-> > OPP, but can postpone that as well.
+> > I suggest you move this code into the mmc core/block layer instead (it
+> > better belongs there).
 > >
-> > Perhaps the problem is rather that the HW may already carry a non-zero
-> > vote made from a bootloader. If the consumer driver tries to clear
-> > that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
-> > still not lead to any updates of the performance state in genpd,
-> > because genpd internally has initialized the performance-state to
-> > zero.
+> > Additionally, let's add a new host cap, MMC_CAP_ALTERNATIVE_GPT, to
+> > let the core know when it should use the code above.
 >
-> We don't need to discover internal SoC devices because we use
-> device-tree on ARM. For most devices power isn't required at a probe
-> time because probe function doesn't touch h/w at all, thus devices are
-> left in suspended state after probe.
->
-> We have three components comprising PM on Tegra:
->
-> 1. Power gate
-> 2. Clock state
-> 3. Voltage state
->
-> GENPD on/off represents the 'power gate'.
->
-> Clock and reset are controlled by device drivers using clk and rst APIs.
->
-> Voltage state is represented by GENPD's performance level.
->
-> GENPD core assumes that at a first rpm-resume of a consumer device, its
-> genpd_performance=3D0. Not true for Tegra because h/w of the device is
-> preconfigured to a non-zero perf level initially, h/w may not support
-> zero level at all.
+> Couldn't a generic "alternative GPT" mean pretty much anything? As far
+> as I know this is very specific to a series of Tegra chips and firmware
+> running on them. On some of these devices you can even replace the OEM
+> firmware by something custom that's less quirky.
 
-I think you may be misunderstanding genpd's behaviour around this, but
-let me elaborate.
+Good point!
 
-In genpd_runtime_resume(), we try to restore the performance state for
-the device that genpd_runtime_suspend() *may* have dropped earlier.
-That means, if genpd_runtime_resume() is called prior
-genpd_runtime_suspend() for the first time, it means that
-genpd_runtime_resume() will *not* restore a performance state, but
-instead just leave the performance state as is for the device (see
-genpd_restore_performance_state()).
-
-In other words, a consumer driver may use the following sequence to
-set an initial performance state for the device during ->probe():
-
-...
-rate =3D clk_get_rate()
-dev_pm_opp_set_rate(rate)
-
-pm_runtime_enable()
-pm_runtime_resume_and_get()
-...
-
-Note that, it's the consumer driver's responsibility to manage device
-specific resources, in its ->runtime_suspend|resume() callbacks.
-Typically that means dealing with clock gating/ungating, for example.
-
-In the other scenario where a consumer driver prefers to *not* call
-pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
-to power on the device to complete probing, then we don't want to vote
-for an OPP at all - and we also want the performance state for the
-device in genpd to be set to zero. Correct?
-
-Is this the main problem you are trying to solve, because I think this
-doesn't work out of the box as of today?
-
-There is another concern though, but perhaps it's not a problem after
-all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
-like clock/regulators. That could certainly be problematic, in
-particular if the device and its genpd have OPP tables associated with
-it and the consumer driver wants to follow the above sequence in
-probe.
-
-Viresh, can you please chime in here and elaborate on some of the
-magic happening behind dev_pm_opp_set_rate() API - is there a problem
-here or not?
+Perhaps naming the cap MMC_CAP_TEGRA_GPT would make this more clear.
 
 >
-> GENPD core assumes that consumer devices can work at any performance
-> level. Not true for Tegra because voltage needs to be set in accordance
-> to the clock rate before clock is enabled, otherwise h/w won't work
-> properly, perhaps clock may be unstable or h/w won't be latching.
+> I'm not aware of anyone else employing this kind of quirk, so I don't
+> want anyone to get any ideas that this is a good thing. Putting it into
+> the core runs the risk of legitimizing this.
 
-Correct. Genpd relies on the callers to use the OPP framework if there
-are constraints like you describe above.
+I certainly don't want to legitimize this. But no matter what, that is
+exactly what we are doing, anyways.
 
-That said, it's not forbidden for a consumer driver to call
-dev_pm_genpd_set_performance_state() directly, but then it better
-knows exactly what it's doing.
-
->
-> Performance level should be set to 0 while device is suspended.
-
-Do you mean system suspend or runtime suspend? Or both?
-
-> Performance level needs to be bumped on rpm-resume of a device in
-> accordance to h/w state before hardware is enabled.
-
-Assuming there was a performance state set for the device when
-genpd_runtime_suspend() was called, genpd_runtime_resume() will
-restore that state according to the sequence you described.
+In summary, I still prefer code to be put in their proper layers, and
+there aren't any host specific things going on here, except for
+parsing a compatible string.
 
 Kind regards
 Uffe
