@@ -2,137 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4697D3F1A3C
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Aug 2021 15:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 715BA3F1A65
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Aug 2021 15:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239993AbhHSNWB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Aug 2021 09:22:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55610 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239300AbhHSNV4 (ORCPT
+        id S239972AbhHSNcd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Aug 2021 09:32:33 -0400
+Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:41934
+        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230136AbhHSNcd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Aug 2021 09:21:56 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC434C061575;
-        Thu, 19 Aug 2021 06:21:19 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id q11so9100891wrr.9;
-        Thu, 19 Aug 2021 06:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=xtcA0Q51Ab2gDUHvKWadMAS32FJIwcbf7uqdag4aFgw=;
-        b=lz3AxdkSOdaxsff8Al6AfTWQciSBbKeqxN29m/KMRbWKXw4/fgyKk+WmJ3QyUOixzN
-         4y+KG309qv8rkghhhHNRjVwzQahlcuEF8Doq0LiHQSzU/UrguSZVcFsLMmJayxgm0ij7
-         DqTbzqfCmAxDcIkhQyStvyWV+ku8uSeeX7dE8YJzyIVUpP80wgthC25SMYweNXtTQxd2
-         jUYpv3DiHYgCuk8SxMaErfJkgf/6GXvet2x/3DRJNApy/VuzLhZHOeod4kvyeZkQA9ku
-         C/I1gCo8fSlZRTkrqgpt1DYoLIzTdJHzUmyJQGy3YGKvzsZRU31V8uTvRHxX3uAQWw49
-         Yagw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xtcA0Q51Ab2gDUHvKWadMAS32FJIwcbf7uqdag4aFgw=;
-        b=ec2arA6UGQuuK+E19eRhCy1Gac+xrs2HZApSdTwzjhj5MUGqZGL1Ni6E11AcdmcfCJ
-         TYYkrsV1isYBUjtgV4OE14tqPCioNuFTfGa3KcZvHlQHEWI2JX9EqRpRSNKchsGUN8uX
-         RlUPmc5/Sb6A2GUa7GcYOWOuxU+XHFAegk/JHArWWatg9q1Nd9V7y1B4heLzBrjrlKgY
-         aH3RzaTmGhbRrvS57IvC3nZaUK9q1vZcQvMe3qSKnp6ArVS4pjUJO3tQuBi6yO8ZmJWo
-         Lpkj3H6xvmrE2cNJFVx53CWxroXdzLIsnwyavfM38jQ2eocqcRZbtypI6CGFfRMe8hrr
-         Ogjg==
-X-Gm-Message-State: AOAM533/8TZ0OcyLCuY4Xv+tYkmPZyqKlK3LH/phdjxpMYYbE4NRVvu/
-        s4E9pz+c1c4cPJ4W2/otOqE=
-X-Google-Smtp-Source: ABdhPJz39Bt2kVM50Mk8FByewEg3lcDVqz/jK/N/qbprIAZwm7opqauve4ARpLRYoIa5SH1Y+OoKXw==
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr3961844wrs.284.1629379278262;
-        Thu, 19 Aug 2021 06:21:18 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id l17sm7319377wmq.44.2021.08.19.06.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 06:21:16 -0700 (PDT)
-Date:   Thu, 19 Aug 2021 15:21:15 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 19/34] pwm: tegra: Add runtime PM and OPP support
-Message-ID: <YR5ay6+r0hJsUbhy@orome.fritz.box>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-20-digetx@gmail.com>
+        Thu, 19 Aug 2021 09:32:33 -0400
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id DA5F23F044;
+        Thu, 19 Aug 2021 13:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1629379915;
+        bh=QNrlCPUm5xY2lORj8En3iXz+Yo+rOOaxovjyl8qzhhU=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+        b=onGuGVPIoYamLAqrNVuuvH/3eeZxDBEYyN/NCvX/e2/oJOmv8l1sTnNRA7+91I8MT
+         PF5kQYDC1wAtggkfg31PFUkPecTEfnz0V6HZG+2V9vrbiqsuy7xICtAZfvW65p7Ym+
+         12lNK7I8Gqa6kVgRjjbwoCKONKGCOBgb42K0k7wRZaNbMkJA+2Px/PUnLedKTxHNxi
+         KSQEp8cY7pK/er4i4aQY9zxqq0ktAqspCX87W0CovthZhY9UHTzUPkjx7X7epACfsm
+         wnO76210RGTt1ZHgHQ381huhBQXFruiagzVz/gTaQuVbcJq3pWjw51PTvRDTu8eyBj
+         IpJqnhl0t1AOQ==
+From:   Colin King <colin.king@canonical.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] memory: tegra: make the array list static const, makes object smaller
+Date:   Thu, 19 Aug 2021 14:31:55 +0100
+Message-Id: <20210819133155.10441-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vMbaQMXyoWqaG8Xh"
-Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-20-digetx@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Colin Ian King <colin.king@canonical.com>
 
---vMbaQMXyoWqaG8Xh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Don't populate the array list on the stack but instead it
+static const. Makes the object code smaller by 110 bytes:
 
-On Tue, Aug 17, 2021 at 04:27:39AM +0300, Dmitry Osipenko wrote:
-> The PWM on Tegra belongs to the core power domain and we're going to
-> enable GENPD support for the core domain. Now PWM must be resumed using
-> runtime PM API in order to initialize the PWM power state. The PWM clock
-> rate must be changed using OPP API that will reconfigure the power domain
-> performance state in accordance to the rate. Add runtime PM and OPP
-> support to the PWM driver.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/pwm/pwm-tegra.c | 104 ++++++++++++++++++++++++++++++++--------
->  1 file changed, 85 insertions(+), 19 deletions(-)
+Before:
+   text    data     bss     dec     hex filename
+  37713   21992      64   59769    e979 .../tegra/tegra210-emc-cc-r21021.o
 
-Can this be safely applied independently of the rest of the series, or
-are there any dependencies on earlier patches?
+After:
+   text    data     bss     dec     hex filename
+  37539   22056      64   59659    e90b .../tegra/tegra210-emc-cc-r21021.o
 
-Thierry
+(gcc version 10.3.0)
 
---vMbaQMXyoWqaG8Xh
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/memory/tegra/tegra210-emc-cc-r21021.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/memory/tegra/tegra210-emc-cc-r21021.c b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
+index 0ebfa8eccf0c..550d6b2dda30 100644
+--- a/drivers/memory/tegra/tegra210-emc-cc-r21021.c
++++ b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
+@@ -478,7 +478,7 @@ static u32 periodic_compensation_handler(struct tegra210_emc *emc, u32 type,
+ static u32 tegra210_emc_r21021_periodic_compensation(struct tegra210_emc *emc)
+ {
+ 	u32 emc_cfg, emc_cfg_o, emc_cfg_update, del, value;
+-	u32 list[] = {
++	static const u32 list[] = {
+ 		EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_0,
+ 		EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_1,
+ 		EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_2,
+-- 
+2.32.0
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEeWskACgkQ3SOs138+
-s6GqkA//VEToPW4lCrJibs4kkno3t/HJrCc3QIgrT3KY7KgdOtg6fmvLz/8Bjja0
-ut1YS/ozbt7FAgaf8YTyKMFOo8dv21DBdpit0bIWZWYvwh6P2SKB3p+1cFVN9jHZ
-lXkRdCUVYqPSGJ2tEHZ6WZBA8KGc198UL3n5PzUQZhh4jRWgfXNLsI2Trp3uwr+T
-9/v/xWmil3wiFAgf8H6GLwZ/M3+O9Q32eq6QI0SZOiE/Lj9mwPdZQXixXgDDk2td
-dU/CQgmygPCYlcpVcwC1gmvzWcQp6Bffa/3xaRR2vIjSSZtjshQ08B01OOM3Wr/G
-qcghnLX0Q3QooNx6alRRv+P1SZXW8u7xcL0HysovbD8IDpOgLBJYXo8IaCHfSlyF
-EVVRXB8gMIQip8taMkL6jRVExNuNFDuIs6i2b/KaP2cd2p1mePZw1kS4vf8NJHX6
-mJFe0u8P5aik2tEnXP4/M9J9+ZtMLxnRTqB3aK+chmG/KUA66hyMjM3DeEnxfIBL
-6YcKjFjKUXVviacmnu+9PDPO4g43XS0M5um6eTtGYkV76kF/KlPYtLuLJG80QIgv
-njHN5UN2AgTwaeSZYbDjZ/ldsO9H0aedYvFSyXUQio9GvHSws9WeJD+FVdXKmODO
-mS+oMleXMvwiTrWNXKoEG5mTYd2GjUZ7mHsN36quci2pc+ZmYSE=
-=0tJv
------END PGP SIGNATURE-----
-
---vMbaQMXyoWqaG8Xh--
