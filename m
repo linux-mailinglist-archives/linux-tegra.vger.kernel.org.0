@@ -2,100 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04DF53F369E
-	for <lists+linux-tegra@lfdr.de>; Sat, 21 Aug 2021 00:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BD773F3866
+	for <lists+linux-tegra@lfdr.de>; Sat, 21 Aug 2021 05:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbhHTWqJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Aug 2021 18:46:09 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:10174 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229451AbhHTWqI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Aug 2021 18:46:08 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4GrxYN3sXXzbS;
-        Sat, 21 Aug 2021 00:45:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1629499528; bh=16gKLJUDkQ7g0JmAzH1SE2EE5CY64jDwYOhZeIxA1g8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Syvwzk2S35gJ9J/aw/QJcRoBqhn1mAPzPbMD2mq1AX5V5c6SAiCMepKd280SNNNse
-         1n07WSjm19aVqG5gSdgWlvndQFAArpNtyWr+RDBSCfmm4dzrv5F5ZkXdRJFhuGfqsJ
-         j7l/atIymYAO8yfHYuUUxdkKSYcrFaI6ZhATveTZwlYCo+YuS/cd2oVFyj9Nj4wFjr
-         qlILDjP0jYwItLUILOP8T9ltfFZM9sGZS46EvQmHX8gywnHnFVGMB5cxv1FTmECSOd
-         9hHt7IPdGX/HcpQ/Pn5zqiR5rlPJPTUSXvEfPV3qJa/+SP47TXa3UVpXAPF6q8Bt8W
-         5S3FJ3PCbGfZQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.2 at mail
-Date:   Sat, 21 Aug 2021 00:45:27 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        id S232295AbhHUDxN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Aug 2021 23:53:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbhHUDxM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 20 Aug 2021 23:53:12 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6EBC061575;
+        Fri, 20 Aug 2021 20:52:33 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id l3so9131491qtk.10;
+        Fri, 20 Aug 2021 20:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sR4E5Sm8LLwOyw9xtSMIJM649G2H66OSbDzhGqNUrlw=;
+        b=nUxGpcWXP0ZRhbiJYoEE4Gs7Sw2fMWrVjFC8tZUsBb5Z4zqToWn8FPieO3UwRGgQPq
+         twEVVvP3yx9u2tJ0gHiIsqjeio9LGtM/2bMwLrG/094joM2NbLFdrA7h8Uqp6yo/YLuR
+         jfDyL3EFKqsF1Qv6QQP2IR1/ad5aY51J4nSNx3N3iaNysSYstec5d9Yuc5BTi6uWob2z
+         tiYSs9aphg0qF6n+jvWYDnyWIf5oINNVv6j86J1heZTZjjAFxY14XdPweeGZdEl7jCcj
+         0h0ZAoqpvpJO/dtsZnEbtnEI6fmTABAvmjM4cuuZ8yhgWWcqSL5WyU1GrzMIn0xZDg0x
+         1q+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sR4E5Sm8LLwOyw9xtSMIJM649G2H66OSbDzhGqNUrlw=;
+        b=GpFfcPV8WQZbqegiyCCLX1V191Y52WCF1ccWFNWrn5U6HkHojtM8rmJkDAlFv7kG+M
+         gVXNHdzwRx6yiMwbyzsKBgBVQXGH8qLAXAPXlLQXO/0+vvYsgqTrCVh9a1VxhI4c+6Xl
+         63bNMw/PaV0B7XawYR8AV4o3ckCKTZPTUU0GrrgolERn9CI2fY9y0YW01gw+d9aPzqpx
+         P4nJ4p9V8WvlVdRr8GFbo6o/dMOnvcGzKWBAilSx9WPv6PgFjXy09l30fed1MDiu2+vV
+         AV/89465ngg6kRJ0YjjgyzQ5HqmXkZNJo1Z6VbeaeMXGWqDUQ0OC0La69qkFgBCLX/s1
+         gGEA==
+X-Gm-Message-State: AOAM533bUNcMEtNaLarzMpeGeB/9GIr5erXu7yhUVD0rBo9UONrvp5Ov
+        w4oRN8AnGULVkDTPOt24AWU=
+X-Google-Smtp-Source: ABdhPJzujUUuwY3in9lxJJAkZV17XKQLf3iKAYUf+FzBBnu0I2O0DK7Tx9Wgs6hDsyJ/EU99nI+05Q==
+X-Received: by 2002:ac8:59c5:: with SMTP id f5mr20284178qtf.50.1629517952794;
+        Fri, 20 Aug 2021 20:52:32 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id 19sm3843616qkf.127.2021.08.20.20.52.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Aug 2021 20:52:32 -0700 (PDT)
+From:   CGEL <cgel.zte@gmail.com>
+X-Google-Original-From: CGEL <jing.yangyang@zte.com.cn>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ion Agorria <AG0RRIA@yahoo.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-efi <linux-efi@vger.kernel.org>
-Subject: Re: [PATCH v6 2/5] partitions/efi: Support non-standard GPT location
-Message-ID: <YSAwh+3xEsutWWLG@qmqm.qmqm.pl>
-References: <20210818221920.3893-1-digetx@gmail.com>
- <20210818221920.3893-3-digetx@gmail.com>
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        jing yangyang <jing.yangyang@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] memory:tegra30-emc: replace DEFINE_SIMPLE_ATTRIBUTE with DEFINE_DEBUGFS_ATTRIBUTE
+Date:   Fri, 20 Aug 2021 20:52:23 -0700
+Message-Id: <20210821035223.28282-1-jing.yangyang@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210818221920.3893-3-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 01:19:17AM +0300, Dmitry Osipenko wrote:
-> Support looking up GPT at a non-standard location specified by a block
-> device driver.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  block/partitions/efi.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/block/partitions/efi.c b/block/partitions/efi.c
-> index aaa3dc487cb5..7ca5c4c374d4 100644
-> --- a/block/partitions/efi.c
-> +++ b/block/partitions/efi.c
-> @@ -585,6 +585,8 @@ static int find_valid_gpt(struct parsed_partitions *state, gpt_header **gpt,
->  	gpt_header *pgpt = NULL, *agpt = NULL;
->  	gpt_entry *pptes = NULL, *aptes = NULL;
->  	legacy_mbr *legacymbr;
-> +	struct gendisk *disk = state->disk;
-> +	const struct block_device_operations *fops = disk->fops;
->  	sector_t total_sectors = get_capacity(state->disk);
->  	u64 lastlba;
->  
-> @@ -619,6 +621,16 @@ static int find_valid_gpt(struct parsed_partitions *state, gpt_header **gpt,
->          if (!good_agpt && force_gpt)
->                  good_agpt = is_gpt_valid(state, lastlba, &agpt, &aptes);
->  
-> +	if (!good_agpt && force_gpt && fops->alternative_gpt_sector) {
-> +		sector_t agpt_sector;
-> +		int err;
-> +
-> +		err = fops->alternative_gpt_sector(disk, &agpt_sector);
-> +		if (!err)
-> +			good_agpt = is_gpt_valid(state, agpt_sector,
-> +						 &agpt, &aptes);
-> +	}
-> +
+From: jing yangyang <jing.yangyang@zte.com.cn>
 
-When alternative_gpt_sector is provided I would expect it to override
-the default, not be a fallback for it. But if someone tries to put
-a broken (decoy, garbage) GPT at a standard place, current ordering
-will prevent overriding it.
+Fix the following coccicheck warning:
+./drivers/memory/tegra/tegra30-emc.c:1322:0-23:WARNING:
+tegra_emc_debug_max_rate_fops should be defined
+with DEFINE_DEBUGFS_ATTRIBUTE
 
-Best Regards
-Micha³ Miros³aw
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
+---
+ drivers/memory/tegra/tegra30-emc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index 7e21a85..80f98d7 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -1289,7 +1289,7 @@ static int tegra_emc_debug_min_rate_set(void *data, u64 rate)
+ 	return 0;
+ }
+ 
+-DEFINE_SIMPLE_ATTRIBUTE(tegra_emc_debug_min_rate_fops,
++DEFINE_DEBUGFS_ATTRIBUTE(tegra_emc_debug_min_rate_fops,
+ 			tegra_emc_debug_min_rate_get,
+ 			tegra_emc_debug_min_rate_set, "%llu\n");
+ 
+@@ -1319,7 +1319,7 @@ static int tegra_emc_debug_max_rate_set(void *data, u64 rate)
+ 	return 0;
+ }
+ 
+-DEFINE_SIMPLE_ATTRIBUTE(tegra_emc_debug_max_rate_fops,
++DEFINE_DEBUGFS_ATTRIBUTE(tegra_emc_debug_max_rate_fops,
+ 			tegra_emc_debug_max_rate_get,
+ 			tegra_emc_debug_max_rate_set, "%llu\n");
+ 
+-- 
+1.8.3.1
+
+
