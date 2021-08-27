@@ -2,115 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C92913F9218
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Aug 2021 03:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4EE3F9274
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Aug 2021 04:42:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243978AbhH0BnB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 Aug 2021 21:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
+        id S231681AbhH0CnD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Aug 2021 22:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243941AbhH0BnB (ORCPT
+        with ESMTP id S244055AbhH0CnD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 Aug 2021 21:43:01 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D4CC061757;
-        Thu, 26 Aug 2021 18:42:13 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id o10so10905374lfr.11;
-        Thu, 26 Aug 2021 18:42:12 -0700 (PDT)
+        Thu, 26 Aug 2021 22:43:03 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADD51C0613C1
+        for <linux-tegra@vger.kernel.org>; Thu, 26 Aug 2021 19:42:14 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id bq28so11213525lfb.7
+        for <linux-tegra@vger.kernel.org>; Thu, 26 Aug 2021 19:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DbfO6q4GXpyBccwxPwmjY0PAuMwlFBkYaU8fNql3Y5I=;
-        b=nuwyVodyulgYm4czoyEH8CnfsucjmsDIbhhVJQubczBBrb+3c5nYUTJDGgP7eLg5Us
-         kqJ9/M6jB4TpQ9CT5jc7nzqqhVHkT5AacFL1o0zzAA+JS48YkQYG5OgGAgVZil0cQGQQ
-         Pi+JxtPcKFIypfqQd5lWX+V6/On+MCjQichjie9DlX1Se2Zt9OsqSHpC6Y2mk47Xobd+
-         kQJBEchshDO/0mPvipGD05R5y3jPixPzjwOUWuklHB4QIt6zkfxW4SCy3Yq5nydl0Hem
-         Ovh6DYw/iTfGvb1mwSEHLKqvtPsto++MecR84ZewEEQ5sySmkeP/s+6kSNhbm5YBJgLl
-         MEnA==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=JcCnNkxtHweN6ApEPCItRB3oqJyAr4ORMY/4f0Zly6Y=;
+        b=QLNNnnSmx5+wwQTd4shmMgVp4iQCPMVXy3nfe1hBzX2owOmPeR+c5qUHq1M8q2jv6d
+         4jga6QhZlH84xJm30uwxLxWA8GnbkrCglYZwqgCyTtM8m+Ku1puRjE1oOKxvkfbZZCMa
+         O3r6ExzcWOfABZ4oc2B9xbDj0mEd+zoil2/U2aEg1K9F7EqkBSHFU8s9GHQxkblWJTz9
+         oPXg6GYRFtRV7w/hThUdnwgsvtpmtc9f6SPj2fObZh21Wr02Ix2fm1tQf8qq2PFS/Syp
+         yyObuAvYhb4bG1Rgui7L1fVFgjUazdsbmM9ziBysaRpD1M5XeM1sAsNOV2Tvi5VmJ92q
+         G+xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DbfO6q4GXpyBccwxPwmjY0PAuMwlFBkYaU8fNql3Y5I=;
-        b=B3WUBA0u6VTc/mqRZTRjmnitswNtgwTTxMNLz/Ot0H5mP3OB72lFfggqsCtcmY+GuG
-         61UQF9BtE3DFx50PxOyR3I9JofgQXIzTYPC69796Vshez2rwgAa6PFitR9WiPFhkVDP6
-         yZqBInC7pUl81erZYuqPAVWR+/CarMPVfWb6OfATr/dEsdZQyIoteUI3FN7IMg4I1B5v
-         8aZrgIrtSl+JCkuSAAs6RsZLFWhQ8VVtuTliqcSbd6i44mLORbmIrKVmsj5azSSJYFqJ
-         TDY8GhO9DNjbQetaPvhn2yxbtetrc+MO6P6DCcJRygV6HL7WvyCDfHGV03BBrF4sweVs
-         asqQ==
-X-Gm-Message-State: AOAM530ZVHWcROcqTcDceBpCOXYf+SYxSA9rm1zjE5IFsTmcL5dUoqAg
-        le1eXlCxJIITorjuiePs6r3fzx7cmqg=
-X-Google-Smtp-Source: ABdhPJwXKANeBz7m7HyS9Ky0XhrHdPodup8uo+ZqGxp0t+fgy4uAdlqcZTBVApfoB+4KYRwK9tSIww==
-X-Received: by 2002:a05:6512:3b14:: with SMTP id f20mr5101489lfv.614.1630028531264;
-        Thu, 26 Aug 2021 18:42:11 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-17-251.dynamic.spd-mgts.ru. [94.29.17.251])
-        by smtp.googlemail.com with ESMTPSA id z11sm515859ljn.114.2021.08.26.18.42.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Aug 2021 18:42:10 -0700 (PDT)
-Subject: Re: [PATCH v9 1/8] opp: Add dev_pm_opp_from_clk_rate()
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org
-References: <20210827013415.24027-1-digetx@gmail.com>
- <20210827013415.24027-2-digetx@gmail.com>
-Message-ID: <73ae8568-cd81-08a8-796b-77b88ffce5e8@gmail.com>
-Date:   Fri, 27 Aug 2021 04:42:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=JcCnNkxtHweN6ApEPCItRB3oqJyAr4ORMY/4f0Zly6Y=;
+        b=Y+SDJjGI3LjW4WMrC3clkB181oGVtCiuRnaZlJYnlbr0wYc425iBsdb005WKrTWhLj
+         Nbs0yDTjDYL8kpWSrz+m0kLV7YqeQ7FGaBIHEqoquYQ1Xdr1SGLf7WweheCCdRjlD0tR
+         Un7kx5syiIJiGqE7ry6iPVAkgGZuucFAvYeYdY+Ag30ZZeX7rjQOwxHxfnsOvEBkqDh5
+         I4/zCBF5js/DxhgLyZBYahIEGau+jR6v8NDp9LttqzTYIbtcbSzRs0L4XcjebjLrwPdO
+         DrFtNsoO3+77vYXk0HtntGxOVPblFBcbq895h50LmlU7/dOrPvX2aGoID5SdwvlRugoR
+         l0Yw==
+X-Gm-Message-State: AOAM531MfGi986A2lErsv7uLZVcfzUKXC4Cl+8cr/DfcPREBxJvcl4um
+        SmzfElnQwa4m1cRTEq1bvJBK/0WFWoIUTvTL3I0=
+X-Google-Smtp-Source: ABdhPJydVOyKGViILBUNcAKTQ50S3WwK/sbNSR0R0/QmDZ+c+BHGnzzyfVZC0Dt/M2l/GHwKRrf625Hm5HSDgL/XIEs=
+X-Received: by 2002:a05:6512:2248:: with SMTP id i8mr5098874lfu.258.1630032132455;
+ Thu, 26 Aug 2021 19:42:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210827013415.24027-2-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a2e:7304:0:0:0:0:0 with HTTP; Thu, 26 Aug 2021 19:42:11
+ -0700 (PDT)
+From:   john williams <jw3340082@gmail.com>
+Date:   Thu, 26 Aug 2021 14:42:11 -1200
+Message-ID: <CAEoBN-hEjVtr=Fwzvh9V+RNbP8HQUvoMTYXkdURigfcSUFcttQ@mail.gmail.com>
+Subject: CONFIRM YOUR DETAILS TO ENABLE US START,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.08.2021 04:34, Dmitry Osipenko пишет:
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 04b4691a8aac..fae5267f5218 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -939,7 +939,8 @@ static int _set_required_opps(struct device *dev,
->  	return ret;
->  }
->  
-> -static void _find_current_opp(struct device *dev, struct opp_table *opp_table)
-> +static struct dev_pm_opp *
-> +_find_current_opp(struct device *dev, struct opp_table *opp_table)
->  {
->  	struct dev_pm_opp *opp = ERR_PTR(-ENODEV);
->  	unsigned long freq;
-> @@ -961,7 +962,7 @@ static void _find_current_opp(struct device *dev, struct opp_table *opp_table)
->  		mutex_unlock(&opp_table->lock);
->  	}
->  
-> -	opp_table->current_opp = opp;
-> +	return opp;
->  }
->  
->  static int _disable_opp_table(struct device *dev, struct opp_table *opp_table)
-> @@ -1003,7 +1004,7 @@ static int _set_opp(struct device *dev, struct opp_table *opp_table,
->  
->  	/* Find the currently set OPP if we don't know already */
->  	if (unlikely(!opp_table->current_opp))
-> -		_find_current_opp(dev, opp_table);
-> +		opp_table->current_opp = _find_current_opp(dev, opp_table);
->  
->  	old_opp = opp_table->current_opp;
->  
-> @@ -2931,3 +2932,38 @@ int dev_pm_opp_sync_regulators(struct device *dev)
->  	return ret;
->  }
+Dear Beneficiary,
 
-Please skip these lines. I missed to remove them during rebase and
-haven't noticed until now.
+Following your pending fund for years and the delay you imposed in
+receiving it,We have called back your fund to this office as directed
+by the Finance Office and we will be paying you directly through the
+BANK OF AMERICA.(BOA) NEW YORK BRANCH AND ALL YOU NEED NOW IS TO
+RE-CONFIRM YOUR BANKING DETAILS FOR THE TRANSFER IMMEDIATELY WITHOUT
+ANY FURTHER DELAY.
+
+NOTE THAT WE WILL PAY ALL THE EXPENSES INVOLVED FOR YOU TO RECEIVE
+THIS FUND AND ALL WE NEED FROM YOU IS YOUR CO-OPERATION.
+
+Send your full details with Banking details to enable us commence the
+transfer process immediately through the BOA BANK IN NEW YORK,USA OR
+DO YOU WANT TO RECEIVE THIS FUND VIA ATM CARD ????????.
+
+John O.Williams.
