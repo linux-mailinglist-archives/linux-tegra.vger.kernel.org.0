@@ -2,110 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35AFC4004B4
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Sep 2021 20:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C517400AC2
+	for <lists+linux-tegra@lfdr.de>; Sat,  4 Sep 2021 13:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350377AbhICSPA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Sep 2021 14:15:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50856 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349959AbhICSO7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 3 Sep 2021 14:14:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B4C160FDC;
-        Fri,  3 Sep 2021 18:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630692839;
-        bh=HV5QwvXd+G5X5BE1dhVVGio0bsaKoGZQ54JzrFuQYv0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Lciq/IIhEguLoSiuOCa3XnH+5hiXq2Wu1ONakJhGocr7FJdzgxKE4kURLzk4xQ4VB
-         Y8/2+KZQSSO3t43Lp8CWIXOzwuPAEnzEp2vJVnsbgEi2aPjZVuwCd+3SZs2hPscwZa
-         XoXam/PdM0Bws8VmCfY0b8smn4vrsTBx72sfmECTcSE63UYe+gyPJmlF86RSY27gNs
-         JUvcpfmIrjM1PBLHsUOdJLZZUhdNMntp/mgpfmeIbB/OjxuPFfJox82Rk4p6LgLOsN
-         WSaPfB8bmkyKOiRk9tMp51gEu3vEPqTurOqCy2h4yWuvBCIdTJxEBp4HWECVcKIKQ4
-         MCQw79usdNxrg==
-Date:   Fri, 3 Sep 2021 19:13:26 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     lgirdwood@gmail.com, robh+dt@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, catalin.marinas@arm.com, will@kernel.org,
-        perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com,
-        sharadg@nvidia.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 06/13] ASoC: tegra: Add Tegra210 based MVC driver
-Message-ID: <20210903181326.GP4932@sirena.org.uk>
-References: <1630056839-6562-1-git-send-email-spujar@nvidia.com>
- <1630056839-6562-7-git-send-email-spujar@nvidia.com>
+        id S234638AbhIDKOD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 4 Sep 2021 06:14:03 -0400
+Received: from mail.repatriados.gov.py ([168.90.176.63]:49324 "EHLO
+        mail.repatriados.gov.py" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234618AbhIDKOB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 4 Sep 2021 06:14:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.repatriados.gov.py (Postfix) with ESMTP id BA04176809;
+        Wed,  1 Sep 2021 03:24:01 -0400 (-04)
+Received: from mail.repatriados.gov.py ([127.0.0.1])
+        by localhost (mail.repatriados.gov.py [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ukxsGxO_Q_AF; Wed,  1 Sep 2021 03:24:00 -0400 (-04)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.repatriados.gov.py (Postfix) with ESMTP id 7AAC36803B;
+        Tue, 31 Aug 2021 23:58:12 -0400 (-04)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.repatriados.gov.py 7AAC36803B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=repatriados.gov.py;
+        s=66AB3A4C-4957-11E8-AF15-073A956E488A; t=1630468692;
+        bh=re+Bi7IjhFEavKutGVOnSLzHkgr9hnVuewhYSbG4AUw=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=h6wfT6L1Mw3ci6P6CjZTenW9xTdKSB5E7kRd3ykBSKCZANCfzVR9gZ9y8Ad+RYV6h
+         tblfk/Zrdjuh/t2bycwqEKfNWfFSvWaZWJ8RycGaTgdZEVliSwvfoQ05rJdKkUs7hI
+         EEsRzQo/eSTItenrf0ym4Ydoc8SX56stB8yGW7lv+27Z79U5HB8kVXr6X2WYYXklEz
+         1gUdomo9U2ZH0+tNvDu4lAbfnp0ubpRhTUtZCqLOX4kCAdWCgtfVQw7z4ABcib2trY
+         2yEAEtObpQtvts0FUEKfG5+OICqx5yvimGjQ2IGJpUlC5DgOf8LzMbxbuxr639lvAp
+         GWarFVmIKBTJw==
+X-Virus-Scanned: amavisd-new at repatriados.gov.py
+Received: from mail.repatriados.gov.py ([127.0.0.1])
+        by localhost (mail.repatriados.gov.py [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KmJ5WjR1nYVr; Tue, 31 Aug 2021 23:58:11 -0400 (-04)
+Received: from cris-PC.www.huaweimobilewifi.com (unknown [105.4.4.195])
+        by mail.repatriados.gov.py (Postfix) with ESMTPSA id 86DF062896;
+        Tue, 31 Aug 2021 21:55:56 -0400 (-04)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NDuspjMMC1Ui5ypn"
-Content-Disposition: inline
-In-Reply-To: <1630056839-6562-7-git-send-email-spujar@nvidia.com>
-X-Cookie: Darth Vader sleeps with a Teddywookie.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Euro?=
+To:     Recipients <mdominguez@repatriados.gov.py>
+From:   ''Charles jackon'' <mdominguez@repatriados.gov.py>
+Date:   Wed, 01 Sep 2021 03:56:30 +0200
+Reply-To: charlesjacksonjr001@gmail.com
+Message-Id: <20210901015557.86DF062896@mail.repatriados.gov.py>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hallo
 
---NDuspjMMC1Ui5ypn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Ameri=
+ka, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen =
+US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der H=
+ilfsgelder f=FCr das Corona-Virus.
 
-On Fri, Aug 27, 2021 at 03:03:52PM +0530, Sameer Pujar wrote:
-> The Master Volume Control (MVC) provides gain or attenuation to a digital
-> signal path. It can be used in input or output signal path for per-stream
-> volume control or it can be used as master volume control. The MVC block
-> has one input and one output. The input digital stream can be mono or
-> multi-channel (up to 7.1 channels) stream. An independent mute control is
-> also included in the MVC block.
+Dies ist Ihr Spendencode: [CJ530342019]
 
-Looks like it's also got a little bit of other DSP in there (a simple
-EQ?).  Not that it really matters.
+www.youtube.com/watch?v=3DBSr8myiLPMQ
 
-> +	if (reg == TEGRA210_MVC_CTRL) {
-> +		u32 val;
-> +		u8 mute_mask;
 
-> +	} else {
-> +		u8 chan = (reg - TEGRA210_MVC_TARGET_VOL) / REG_SIZE;
-> +		s32 val = mvc->volume[chan];
+Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
 
-It's not clear to me why we're using the same callbacks for the volume
-and mute settings - there's no shared code on the read path and only a
-tiny bit on the write path.
+charlesjacksonjr001@gmail.com
 
-> +	err |= regmap_update_bits(mvc->regmap, TEGRA210_MVC_SWITCH,
-> +			TEGRA210_MVC_VOLUME_SWITCH_MASK,
-> +			TEGRA210_MVC_VOLUME_SWITCH_TRIGGER);
-> +
-> +end:
-> +	pm_runtime_put(cmpnt->dev);
-> +	return err;
-> +}
+Ich hoffe, dass Sie und Ihre Familie dies durchkommen
 
-_put() should return 0 if there's no change or 1 for a change.
 
-> +	/* SW reset */
-> +	regmap_write(mvc->regmap, TEGRA210_MVC_SOFT_RESET, 1);
-
-What about all the cached values in the regmap, won't they get out of
-sync?  Especially things like volume and mute, it looks like the mute
-just gets written directly to the regmap and not otherwise saved.
-
---NDuspjMMC1Ui5ypn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEyZcUACgkQJNaLcl1U
-h9AgMggAha/hIL9322l4CAz3Clg/xsZLabDdWCuHA9GA1Ze39XOrtPyBmwNyBOyj
-Re3PVvnBfeCzpGooqKXpTcdKaxiqBnF2ewOPcTLNrG3gnuAYR8X2NDbzFHd6rr3e
-frclpdZMOypNILokwrytDJG1ssscBTapV5KC3xjwQjqSAp2ckVRGgg+5SE++B1BV
-yrZuTVHJtmK3Sk78YYcYizgOndIGAOFHX48tLa81LaiSWUlePraGXtEXa8pzmSN0
-uJkPyzGdiTK4bLBJgC75bOMuy/oI2Q+nsG/K6+grY7VjcuZaS94qsjngFJCdgz4U
-U3mbKcLaeF8Ov8lIpr4tKJn0THvJdw==
-=uPdC
------END PGP SIGNATURE-----
-
---NDuspjMMC1Ui5ypn--
+Herr Charles Jackson
