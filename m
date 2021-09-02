@@ -2,94 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3123FED6E
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Sep 2021 14:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BCF13FEE15
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Sep 2021 14:52:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344113AbhIBMFG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Sep 2021 08:05:06 -0400
-Received: from mail-oi1-f181.google.com ([209.85.167.181]:41582 "EHLO
-        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344084AbhIBMFF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Sep 2021 08:05:05 -0400
-Received: by mail-oi1-f181.google.com with SMTP id 6so2179330oiy.8;
-        Thu, 02 Sep 2021 05:04:06 -0700 (PDT)
+        id S234290AbhIBMxF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Sep 2021 08:53:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54260 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344670AbhIBMxE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Sep 2021 08:53:04 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BDEAC061760
+        for <linux-tegra@vger.kernel.org>; Thu,  2 Sep 2021 05:52:06 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id k5-20020a05600c1c8500b002f76c42214bso1354969wms.3
+        for <linux-tegra@vger.kernel.org>; Thu, 02 Sep 2021 05:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=references:user-agent:from:to:cc:subject:date:in-reply-to
+         :message-id:mime-version;
+        bh=XUQYJFf0VLoed4JNR3bJk8DdGmygiKizVinf3zNZhJo=;
+        b=QTk5hM6cRX7Vag5fBHfIGeza7Gcb1CrOImwXRWX/tUo4pmpjLmUx9zGHyE/mC3pJPT
+         NwPl+3wafeOiVJQqeXPoo/qK3fM6Xdo83WhZEVjwLWn1EK++PdfKrpWF1feAG02UOamx
+         Qvxjnks2r6bbean2ZB3OiwA8WW7OKO0iO0O8MOIAuKLafEcdSNsFNIpKLCPrKrCvhfFL
+         HGcA7Dg/hEBxAdqHLwQkS5DofZuFFMxF70Ikc0MHAFnfd+aIKsRlHW32pk6cSmJoYUwB
+         eUoDkKJwfd0ychlZhdLxmRkOhCUNHYiebn2sBPtQbiE0KLqY21JHwDzfd9fjiCoO3P0G
+         MhUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=1BhybqLO/xSxTonTmG4+ysFiC+EsbInsMivl7h+IPwc=;
-        b=nho1VdkKJjEQmd/v+S/i7QPNFMaXptKMhpwWQsP8DWcQ0kaepjOhWYkswpvA0V0lbe
-         +HHmhgz+j/Q29Hc82XMthnqJq2upQ8n8Yq5Cr4l/UEvL0JPJyAWu3/Iwt1UPs5LotFrv
-         xfjx+RD5fPcqrE8ZKA8k19go6bdeviymhftnllHK2MUCE4fHh0EJ4798NJiTDwfQF5qE
-         grbcPHXI5ZXwSDszV2PBSVY+lXq2fYCdM9As3VsSV6NUjlkXXTn3XF5xmbL08l8U5E5W
-         J3jJHputQDNEMTo09ugIy0Pq2HLcBgPEqyh75xEAUADO0J6us7bn/jSk5CxXTkx6gO9X
-         eooQ==
-X-Gm-Message-State: AOAM533hDF3lW7/vIW/4XFRW1nzYYVLU8dNEJJVBQFTCcOGJUXpTG4hY
-        pE+NIcV2C2CpOtu2CLXFZQ==
-X-Google-Smtp-Source: ABdhPJyfKcFgOUXSmVvN4L+H7e8NArWiAR7hFp+ggaReieLCcYCZmbU/u2j43rfIJCSQEG7HchJk1Q==
-X-Received: by 2002:a54:4105:: with SMTP id l5mr1856524oic.76.1630584246444;
-        Thu, 02 Sep 2021 05:04:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id w1sm301368ott.21.2021.09.02.05.04.05
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+         :in-reply-to:message-id:mime-version;
+        bh=XUQYJFf0VLoed4JNR3bJk8DdGmygiKizVinf3zNZhJo=;
+        b=TGYcd//Blvid2sI7abP8YBsBGB6Oyh9VglX1AGDqLpMm9QDz/H8ojQCOR7xPm1dyTF
+         l1HUN+8ECnonQuvWlhXhfGMdlBpV/qdX5WJyZgwV9QqZWyfpPWhIlULWpSzRFKitwzEy
+         rHqgT1eWzgcycYdp10F2h7utCDHwUQRkiHzUa8a8y+N2kAs1U+1oNywBgqBxBGtR/uKW
+         ue1Ekxh1zwX5MfOOqiza+u7u3JP2xZMkqN1ZRYFO16oqQ1ReCSbwp+5YbP9mkzlB4rNh
+         En2Dd7UNyectPB7re6FCbu4/A0xQL865998rxUY0bBojgWn71fe33pMuNXL3FpexmHKQ
+         Nu4A==
+X-Gm-Message-State: AOAM533Nqi9ZvyPDnQkNpzBT3rxoFCMnRK0K6g5wFM9bYhCf/ZQfwV8a
+        T5JBi1GI+EPe9t8Td07lJW8+bA==
+X-Google-Smtp-Source: ABdhPJzPz9XOAIc35pFuBE/Q9Eg6RqNF24BiJ5nOV48yKD7O45stK/C7AYYFgjow2p8m9xr050S43A==
+X-Received: by 2002:a05:600c:259:: with SMTP id 25mr2997861wmj.82.1630587124128;
+        Thu, 02 Sep 2021 05:52:04 -0700 (PDT)
+Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id n4sm2071215wro.81.2021.09.02.05.52.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Sep 2021 05:04:05 -0700 (PDT)
-Received: (nullmailer pid 685603 invoked by uid 1000);
-        Thu, 02 Sep 2021 12:03:59 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     alsa-devel@alsa-project.org, stephan@gerhold.net,
-        jbrunet@baylibre.com, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, lgirdwood@gmail.com,
-        jonathanh@nvidia.com, broonie@kernel.org,
-        linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
-        robh+dt@kernel.org
-In-Reply-To: <1630562033-13231-2-git-send-email-spujar@nvidia.com>
-References: <1630562033-13231-1-git-send-email-spujar@nvidia.com> <1630562033-13231-2-git-send-email-spujar@nvidia.com>
-Subject: Re: [PATCH v2 1/3] ASoC: Add json-schema documentation for sound-name-prefix
-Date:   Thu, 02 Sep 2021 07:03:59 -0500
-Message-Id: <1630584239.106707.685602.nullmailer@robh.at.kernel.org>
+        Thu, 02 Sep 2021 05:52:03 -0700 (PDT)
+References: <1630562033-13231-1-git-send-email-spujar@nvidia.com>
+User-agent: mu4e 1.6.5; emacs 27.1
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org,
+        lgirdwood@gmail.com, robh+dt@kernel.org, thierry.reding@gmail.com
+Cc:     jonathanh@nvidia.com, stephan@gerhold.net,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Convert name-prefix doc to json-schema
+Date:   Thu, 02 Sep 2021 14:44:12 +0200
+In-reply-to: <1630562033-13231-1-git-send-email-spujar@nvidia.com>
+Message-ID: <1jilzj5edo.fsf@starbuckisacylon.baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 02 Sep 2021 11:23:51 +0530, Sameer Pujar wrote:
-> The 'sound-name-prefix' is used to prepend suitable strings to a
-> component widgets or controls. This is helpful when there are
-> multiple instances of the same component. Add relevant json-schema
-> and is inspired from sound-name-prefix.txt documentation.
-> 
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> ---
+
+On Thu 02 Sep 2021 at 11:23, Sameer Pujar <spujar@nvidia.com> wrote:
+
+> Following are the changes:
+>   - Add json-schema for 'sound-name-prefix' documentation under
+>     'name-perfix.yaml'
+>   - Use schema references wherever needed.
+>   - Remove txt based doc
+>
+>
+> Changelog
+> =========
+>
+> v1 -> v2
+> --------
+>  * Provide top reference to name-prefix.yaml as suggested by Rob
+>    for patch 2/3
+>  * Dropped couple of unreachable email ids from Cc list in commit
+>    message of patch 2/3
+>  * No changes in remaining patches
+>   
+>
+> Sameer Pujar (3):
+>   ASoC: Add json-schema documentation for sound-name-prefix
+>   ASoC: Use schema reference for sound-name-prefix
+>   ASoC: Remove name-prefix.txt
+
+Thanks a lot for this Sameer.
+With the small update required by Rob's bot and the comment on patch #1
+taken care of, you may add:
+
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+
+>
+>  .../devicetree/bindings/sound/name-prefix.txt      | 24 ---------------
 >  .../devicetree/bindings/sound/name-prefix.yaml     | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+>  .../bindings/sound/nvidia,tegra186-dspk.yaml       |  9 ++----
+>  .../bindings/sound/nvidia,tegra210-dmic.yaml       |  9 ++----
+>  .../bindings/sound/nvidia,tegra210-i2s.yaml        |  9 ++----
+>  .../devicetree/bindings/sound/nxp,tfa989x.yaml     |  9 ++----
+>  Documentation/devicetree/bindings/sound/rt5659.txt |  2 +-
+>  .../bindings/sound/simple-audio-mux.yaml           |  9 ++----
+>  8 files changed, 51 insertions(+), 55 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/name-prefix.txt
 >  create mode 100644 Documentation/devicetree/bindings/sound/name-prefix.yaml
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/sound/name-prefix.example.dts:19.28-22.11: Warning (unit_address_vs_reg): /example-0/analog-amplifier@0: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/sound/name-prefix.example.dts:24.28-27.11: Warning (unit_address_vs_reg): /example-0/analog-amplifier@1: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/sound/name-prefix.example.dt.yaml:0:0: /example-0/analog-amplifier@0: failed to match any schema with compatible: ['simple-audio-amplifier']
-Documentation/devicetree/bindings/sound/name-prefix.example.dt.yaml:0:0: /example-0/analog-amplifier@1: failed to match any schema with compatible: ['simple-audio-amplifier']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1523479
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
 
