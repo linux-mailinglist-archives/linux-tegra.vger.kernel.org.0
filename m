@@ -2,149 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 301413FFBF8
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Sep 2021 10:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3DFD3FFC0A
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Sep 2021 10:33:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348322AbhICIbp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Sep 2021 04:31:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40968 "EHLO
+        id S1348353AbhICIdg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Sep 2021 04:33:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348290AbhICIbp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Sep 2021 04:31:45 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73333C061760
-        for <linux-tegra@vger.kernel.org>; Fri,  3 Sep 2021 01:30:45 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id u15so2965317wmj.1
-        for <linux-tegra@vger.kernel.org>; Fri, 03 Sep 2021 01:30:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=references:user-agent:from:to:cc:subject:date:in-reply-to
-         :message-id:mime-version;
-        bh=tSBoI24rmmAo/WWLDhLND6YxNYncWnjj1r5sALynAJ4=;
-        b=K4wGE5iP441yxWa+TAQZ1VZZMZnv6OfvJKWEzE+MCQj7K2oMTS8aHeDQgL7IlCV5+r
-         II5rICDjfU5wlQZmioHZXxoVszg5g1wTZIPmZf+V7KOVQKYfmuoowJ602eTn6HBmdjhR
-         40Z5W0mxAnYB/D/m3H3U18iiaEtRB1XAs6OsSrvD75MTsAFVEgpJuvIWB45lquL4eZPg
-         WHGJylo9CiP3ELxpw7rat1Y5lK4ARxd2H5aZyiP/QOH5s9LmA5oPmoO04VDfHoMMtTxu
-         mwZcDDhHJY/GZrwjRiCTfmJmArcJ97MVfnRwjnpryjB2B5p2fewYpM6VuJPJjmAlvb6U
-         L/FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
-         :in-reply-to:message-id:mime-version;
-        bh=tSBoI24rmmAo/WWLDhLND6YxNYncWnjj1r5sALynAJ4=;
-        b=UnJ1eCyEx1p2s7Y+hyrBvcP1jmQu+1LhitHFr5GbtroP0i8AwojS/0uwlShBgTwm6I
-         fDLIILt8zdRTnqdjgWmT2Ltf6ldZofKcAHcJ5joNZ2eoYn8VseLvXYoi5TvMLj/RVHQY
-         1J6W0QeIHaeDGQsFB4k9LOgG8zNgEuzg0TAnXXfR3r7dMKumI58Na5CNCtHJNim9zdfx
-         UXFyUYMeLBEF2M+dZ1rC/IeWXLzPxAl7lVbFOe3UXa8mf/ui1+1XVv6qgyiekpJ/9sLe
-         0iicFsr9N0L+WJ7vpKMlXAmZ4md2U8c4mD0vA7xOkZc7TqhOy73dsMcjtJ1+ZG4bMPHG
-         jewg==
-X-Gm-Message-State: AOAM530O9Dadry+iB5wrJQ1hVfMZC1OI0Cy1DXC2j/4jt2dYlaWkqWWU
-        D6M/CABvbKAqrRsDqoSdvsGdMA==
-X-Google-Smtp-Source: ABdhPJzIVzeO9objMjNkGGwltqZ/D3PN/vMifRhZaWUZqUx5iRpM6g1pt+vfuZhIf9TYGOJSBH5HPA==
-X-Received: by 2002:a05:600c:4ece:: with SMTP id g14mr2177689wmq.6.1630657843920;
-        Fri, 03 Sep 2021 01:30:43 -0700 (PDT)
-Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id r12sm4323542wrv.96.2021.09.03.01.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 01:30:43 -0700 (PDT)
-References: <1630562033-13231-1-git-send-email-spujar@nvidia.com>
- <1630562033-13231-2-git-send-email-spujar@nvidia.com>
- <1jpmtr5egi.fsf@starbuckisacylon.baylibre.com>
- <YTElQBgwF6xBFH9l@robh.at.kernel.org>
-User-agent: mu4e 1.6.5; emacs 27.1
-From:   Jerome Brunet <jbrunet@baylibre.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org,
-        lgirdwood@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, stephan@gerhold.net,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] ASoC: Add json-schema documentation for
- sound-name-prefix
-Date:   Fri, 03 Sep 2021 10:29:37 +0200
-In-reply-to: <YTElQBgwF6xBFH9l@robh.at.kernel.org>
-Message-ID: <1jk0jyt617.fsf@starbuckisacylon.baylibre.com>
+        with ESMTP id S1348365AbhICIdc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Sep 2021 04:33:32 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2BBFC061760;
+        Fri,  3 Sep 2021 01:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=yIBwTHrxp84ixqgSkq1V60EPaiT6pI6qDFH70zKMtvs=; b=sFZLss2fkyD6vRr5zCodgasiKU
+        HH0TPNjsKtWFFd1Ref+X1eTl/ZJY6AGLSxVuFNTDurnMUeMqZhzAR1kEFaF1ZblTppxjiCdoAq6jl
+        uhyXwa+b/LQwHp73Axdv6DFA0AxzCbWPEz6f5Chqrzjh3dXV3Vbke73SVonNvl7xAe9vnyi3YJZqC
+        uN5jtvvrMZs9VaNTpKA5HVGNOQG/9lNzHsHvHGLk1BoAJ8VZoJL/hLf7q8A98tY/+YzE2JtSXkqT0
+        WwXLCSG7aLdmQdzwMREWO8glhvKnljuninLqRiqR7i1WgGxCciLOeTNRjIIy6xFYfu6q/pQdwAIbn
+        W/Phly2w==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <mperttunen@nvidia.com>)
+        id 1mM4cI-0004xK-P4; Fri, 03 Sep 2021 11:32:06 +0300
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
+        daniel@ffwll.ch, robh+dt@kernel.org
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH v4 0/3] NVIDIA Tegra NVDEC support
+Date:   Fri,  3 Sep 2021 11:31:52 +0300
+Message-Id: <20210903083155.690022-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Here's the v4 of the NVDEC support series, containing two fixes
+compared to v3:
 
-On Thu 02 Sep 2021 at 14:25, Rob Herring <robh@kernel.org> wrote:
+* Fixed incorrect compatibility string in bindings YAML
+* Added dma-coherent markers to Tegra194 device trees.
 
-> On Thu, Sep 02, 2021 at 02:47:27PM +0200, Jerome Brunet wrote:
->> 
->> On Thu 02 Sep 2021 at 11:23, Sameer Pujar <spujar@nvidia.com> wrote:
->> 
->> > The 'sound-name-prefix' is used to prepend suitable strings to a
->> > component widgets or controls. This is helpful when there are
->> > multiple instances of the same component. Add relevant json-schema
->> > and is inspired from sound-name-prefix.txt documentation.
->> >
->> > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
->> > Cc: Jerome Brunet <jbrunet@baylibre.com>
->> > Cc: Rob Herring <robh+dt@kernel.org>
->> > ---
->> >  .../devicetree/bindings/sound/name-prefix.yaml     | 35 ++++++++++++++++++++++
->> >  1 file changed, 35 insertions(+)
->> >  create mode 100644 Documentation/devicetree/bindings/sound/name-prefix.yaml
->> >
->> > diff --git a/Documentation/devicetree/bindings/sound/name-prefix.yaml b/Documentation/devicetree/bindings/sound/name-prefix.yaml
->> > new file mode 100644
->> > index 00000000..b58cc9e
->> > --- /dev/null
->> > +++ b/Documentation/devicetree/bindings/sound/name-prefix.yaml
->> > @@ -0,0 +1,35 @@
->> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> > +%YAML 1.2
->> > +---
->> > +$id: http://devicetree.org/schemas/sound/name-prefix.yaml#
->> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> > +
->> > +title: Component sound name prefix
->> > +
->> > +maintainers:
->> > +  - Jerome Brunet <jbrunet@baylibre.com>
->> 
->> Since this file is referenced using "AllOf", am I going to be listed as
->> maintainer of all the drivers using the property below ? I'm not sure I
->> want that ... :P
->
-> No. That's not how it works. You're maintainer of files that list you as 
-> maintainer.
+NVDEC hardware documentation can be found at
+https://github.com/NVIDIA/open-gpu-doc/tree/master/classes/video
 
-Thanks for clarifying.
-You can ignore my comment then Sameer. 
+and example userspace can be found at
+https://github.com/cyndis/vaapi-tegra-driver
 
->
->> Maybe it would be better to drop the above ?
->> 
->> > +
->> > +properties:
->> > +  sound-name-prefix:
->> > +    $ref: /schemas/types.yaml#/definitions/string
->> > +    description: |
->> > +      Card implementing the routing property define the connection between
->> > +      audio components as list of string pair. Component using the same
->> > +      sink/source names may use this property to prepend the name of their
->> > +      sinks/sources with the provided string.
->> > +
->> > +additionalProperties: true
->> > +
->> > +examples:
->> > +  - |
->> > +    analog-amplifier@0 {
->> > +        compatible = "simple-audio-amplifier";
->> > +        sound-name-prefix = "FRONT";
->> > +    };
->> > +
->> > +    analog-amplifier@1 {
->> > +        compatible = "simple-audio-amplifier";
->> > +        sound-name-prefix = "BACK";
->> > +    };
->> > +
->> > +...
->> 
->> 
+Thanks,
+Mikko
+
+Mikko Perttunen (3):
+  dt-bindings: Add YAML bindings for NVDEC
+  arm64: tegra: Add NVDEC to Tegra186/194 device trees
+  drm/tegra: Add NVDEC driver
+
+ .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 109 ++++
+ MAINTAINERS                                   |   1 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  16 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  38 ++
+ drivers/gpu/drm/tegra/Makefile                |   3 +-
+ drivers/gpu/drm/tegra/drm.c                   |   4 +
+ drivers/gpu/drm/tegra/drm.h                   |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 | 474 ++++++++++++++++++
+ drivers/gpu/host1x/dev.c                      |  18 +
+ include/linux/host1x.h                        |   2 +
+ 10 files changed, 665 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+ create mode 100644 drivers/gpu/drm/tegra/nvdec.c
+
+-- 
+2.32.0
 
