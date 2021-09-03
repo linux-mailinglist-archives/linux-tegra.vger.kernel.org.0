@@ -2,142 +2,210 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB97400374
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Sep 2021 18:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE02E400427
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Sep 2021 19:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350071AbhICQhT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Sep 2021 12:37:19 -0400
-Received: from mail-mw2nam12on2075.outbound.protection.outlook.com ([40.107.244.75]:27233
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1350057AbhICQhT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 3 Sep 2021 12:37:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WQZee4PXNZ0sbD/A8rNPS5Dg8qbTR34eGnBTwmoe9N6RpaY6pp1frA+kJerBloRei+LW2g7R/dqN1ngXbtcDzO9QZOK+fEjuskotebkZjR8xfLyffFrMel0R3NDqFH32R9A4JZR/xg/lx9vvpD/6GFZLc9AUXkXA2xaZAh/pNy4upFypfz2frZGbWdzEk+lL8r/G6yn/5lPA4r2IFMUQxArXPX7Cdw3HBUN+EqlPTB4D5THpm6m2fuWzpxyE04cEfvaFUaq6+5lwSzEWgq38TcdJmFJHMj3YMxH/H+Rwhs+1hELLbXcVm4PSr9QGSUJSkvE90vzOhqgOcgq821cbWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=IqYDkXfxFiPyPl1mKIxBWrw6lLH23mqdxkSJRBoeKAs=;
- b=Vf98XlIT9HeogPIG7W5xmR272ATymWf8Tg6a+Dzohsbt+ZCVil582a2BJB8fytm6U8hJldXioMqbgMZxEuIb2zffwMfglLNVbeevyddXTNpSbGuxX/y3+c/zZOr3Asb0ebGTZtigdv55/44U1GazHrvQETLwOO0vdrKLrchaTD9V2OwAOVm4E1XkAtzPLT8Ei/3L1xHQfo28srfo36VW1uSSDZmDgec1WdhuDfHYkTRbAuIUSwaUrkg9Y5y6HP1tNLH7ayKeAxVD6JoHA/1yC7CtNKVTOA1MdFRHe46YVdMNles9cPsT21ylu7DXIf51tpA6LSADep9ifY3nmALTCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.36) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IqYDkXfxFiPyPl1mKIxBWrw6lLH23mqdxkSJRBoeKAs=;
- b=HHLV4eZGwOege+AA3cUYYMDdCOmtERCbuTgpT7ketai0Rh/TIpr060xuQgtzgZrnI3CE5eS6VDoWKl2IWcq6vSW8FqfDZjXVeLrioYhyXrOaEtWeTrM/qZYocDW9xFttfLnHB7kXwWxi51BMD5YZXx7Wfwg88Vn3tXIgEnRvXL5GXGJhZ/0oSI7zYz/DJZCdAK3p/I3shy4ARTOwx7LigUjKYjnzBkiMu2+6BXqQeiaDb0qV6kTwFaGbOYl0hkNfwrG+8l89P3GtYL2+aXmQ/ksNhKsPdgNl2LChG0dMRlZjce2UkjMaj1kzNGsCvlF69cZJ2nwFiNKwCOBctky30A==
-Received: from BN9PR03CA0389.namprd03.prod.outlook.com (2603:10b6:408:f7::34)
- by CH2PR12MB4261.namprd12.prod.outlook.com (2603:10b6:610:a9::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Fri, 3 Sep
- 2021 16:36:17 +0000
-Received: from BN8NAM11FT053.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:f7:cafe::2) by BN9PR03CA0389.outlook.office365.com
- (2603:10b6:408:f7::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.20 via Frontend
- Transport; Fri, 3 Sep 2021 16:36:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.36)
- smtp.mailfrom=nvidia.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.36 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.36; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.36) by
- BN8NAM11FT053.mail.protection.outlook.com (10.13.177.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4478.19 via Frontend Transport; Fri, 3 Sep 2021 16:36:16 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 3 Sep
- 2021 16:35:35 +0000
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 3 Sep
- 2021 16:35:35 +0000
-Received: from audio.nvidia.com (172.20.187.5) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Fri, 3 Sep 2021 09:35:32 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>
-CC:     <jonathanh@nvidia.com>, <stephan@gerhold.net>,
-        <jbrunet@baylibre.com>, <alsa-devel@alsa-project.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH v3 3/3] ASoC: Remove name-prefix.txt
-Date:   Fri, 3 Sep 2021 22:05:19 +0530
-Message-ID: <1630686919-19495-4-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1630686919-19495-1-git-send-email-spujar@nvidia.com>
-References: <1630686919-19495-1-git-send-email-spujar@nvidia.com>
+        id S1350293AbhICRaV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Sep 2021 13:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350394AbhICRaK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Sep 2021 13:30:10 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3EEC0613C1;
+        Fri,  3 Sep 2021 10:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Pv/OTFLCcCgh6NL0IiQ8EwNC5MSYN96U9rUEB9jsZqY=; b=lwWcwqiANiS6SjADGzKtg6U3IY
+        paU30S6vpMYqkoidBfkMw4YTmgP9rm+FKwywQt9CNDkK3uqnioE5m3hjiFLLOzZ7ceQ70e/3JcK4S
+        fTqFHGRC8jsMLDmo93wntLUmgl6DJ/dLSrheKm3k5wLfd93GVQ1xN37v5KP/DidUX7F0ZhK/+jS8U
+        ADtIfgFNpOeCLAdZAqYo9aGRNgkw9WfqJGwZchdmAIF7gfZisIDztd/xBDkZ6kd3G+k5BHtbXV47u
+        wAlW1xDp8mQsM7UPyG8lCGVfshnFyDQ2Ipi3NhC/UwU74yXaJxWVrLJo86eAv2GMzjy1UOTdX8dSk
+        dwIGjO6Q==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1mMCzs-00071A-J6; Fri, 03 Sep 2021 20:29:00 +0300
+Subject: Re: [PATCH v4 1/3] dt-bindings: Add YAML bindings for NVDEC
+To:     Rob Herring <robh@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
+        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+References: <20210903083155.690022-1-mperttunen@nvidia.com>
+ <20210903083155.690022-2-mperttunen@nvidia.com>
+ <YTJOg1oHJq848ZlE@robh.at.kernel.org>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <36d5b388-0d7f-c500-89b1-c4526849fb56@kapsi.fi>
+Date:   Fri, 3 Sep 2021 20:28:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 768b6e4e-edbd-498e-99c2-08d96ef8f3b4
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4261:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB42614FBB92D928F8383AA3F8A7CF9@CH2PR12MB4261.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XwRcPSs/pLwHusrN+Bf0qMdAu4qOzNwNkS7SNp5KXb0bHpB16ubls716vK0nZbFNIJCLHhyM6nBXNrPADSe3/obhwnCTgreaQnyN137wNhy1Yx2xKEOOExyFLpIzlNXrgX/wdvxLI+mE3yuN43tX/PJIuyBpvo5Nu66IcIMoUpA8et4aT9S2JR9ZHGgPinslWD1e9hqwOQuvtpikOaF9E8GGiZPDsug/Kt5EvXmYO7m1KHRbcU6s4FWNkUUDrOVEABCmFO3zpgY5Xzl/H1XTXOCOtSqRcRCpJn9r/22ikGij+qE1lDj/FDUNO+1D6igMzRN/0QrVJpphAAIQuWExwRK7HC4oBxPHlkSGnI38ZE03S2Zr8zRNDmbdYAFhz4gvS/v6J+Y1aind1sj40VK/DmDAVuNjVa54Pm52RAM5hfMjAO30VC0fPDKh88IicS7tvWMN4N4XYWysHQDSgIoReThKu4cTHbSs2b2zTz/VIfUl/QUhJ7OTw5Jm11sGtUGCrf2e4dkLvj2HDDGLXItgqseH/6yyWFvpd840u6LyClYNlsTBE2PltrQ0Bdf8CwhEVZW/eMHRSQ+cw1UJWlRVzTB06XwdMscobRIQKedguVWNQaxK+d3GQwBeqje0rXQOeoEvhci5dMMHEpwxYVhASvTr3t7OiGgpdLlCXR5ueZHpuPoEoA6Qxm2eWz8rvz3a
-X-Forefront-Antispam-Report: CIP:216.228.112.36;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid05.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(39860400002)(376002)(46966006)(36840700001)(26005)(107886003)(82740400003)(86362001)(426003)(4326008)(7636003)(36860700001)(478600001)(6666004)(336012)(70586007)(70206006)(2616005)(186003)(83380400001)(2906002)(7696005)(82310400003)(47076005)(8676002)(110136005)(316002)(5660300002)(356005)(54906003)(8936002)(7416002)(36756003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2021 16:36:16.3772
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 768b6e4e-edbd-498e-99c2-08d96ef8f3b4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.36];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT053.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4261
+In-Reply-To: <YTJOg1oHJq848ZlE@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Since schema name-prefix.yaml is available and references are updated,
-remove txt based doc.
+On 9/3/21 7:34 PM, Rob Herring wrote:
+> On Fri, Sep 03, 2021 at 11:31:53AM +0300, Mikko Perttunen wrote:
+>> Add YAML device tree bindings for NVDEC, now in a more appropriate
+>> place compared to the old textual Host1x bindings.
+>>
+>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>> ---
+>> v4:
+>> * Fix incorrect compatibility string in 'if' condition
+>> v3:
+>> * Drop host1x bindings
+>> * Change read2 to read-1 in interconnect names
+>> v2:
+>> * Fix issues pointed out in v1
+>> * Add T194 nvidia,instance property
+>> ---
+>>   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 109 ++++++++++++++++++
+>>   MAINTAINERS                                   |   1 +
+>>   2 files changed, 110 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>> new file mode 100644
+>> index 000000000000..33d01c7dc759
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>> @@ -0,0 +1,109 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
+>> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+>> +
+>> +title: Device tree binding for NVIDIA Tegra NVDEC
+>> +
+>> +description: |
+>> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
+>> +  and newer chips. It is located on the Host1x bus and typically
+>> +  programmed through Host1x channels.
+>> +
+>> +maintainers:
+>> +  - Thierry Reding <treding@gmail.com>
+>> +  - Mikko Perttunen <mperttunen@nvidia.com>
+>> +
+>> +properties:
+>> +  $nodename:
+>> +    pattern: "^nvdec@[0-9a-f]*$"
+>> +
+>> +  compatible:
+>> +    enum:
+>> +      - nvidia,tegra210-nvdec
+>> +      - nvidia,tegra186-nvdec
+>> +      - nvidia,tegra194-nvdec
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: nvdec
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: nvdec
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  iommus:
+>> +    maxItems: 1
+>> +
+>> +  interconnects:
+>> +    items:
+>> +      - description: DMA read memory client
+>> +      - description: DMA read 2 memory client
+>> +      - description: DMA write memory client
+>> +
+>> +  interconnect-names:
+>> +    items:
+>> +      - const: dma-mem
+>> +      - const: read-1
+>> +      - const: write
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+>> +  - resets
+>> +  - reset-names
+>> +  - power-domains
+>> +
+>> +if:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        const: nvidia,tegra194-nvdec
+>> +then:
+>> +  properties:
+>> +    nvidia,instance:
+>> +      items:
+>> +        - description: 0 for NVDEC0, or 1 for NVDEC1
+> 
+> I still don't understand what this is needed for. What is the difference
+> between the instances? There must be some reason you care. We should
+> describe that difference, not some made up index.
+> 
+> I'm not suggesting using the base address either. That's fragile too.
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
----
- .../devicetree/bindings/sound/name-prefix.txt      | 24 ----------------------
- 1 file changed, 24 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/name-prefix.txt
+This device is on the Host1x bus. On that bus, each device has an 
+identifier baked into hardware called 'class' that is used when 
+accessing devices through some mechanisms (host1x channels). As such, 
+when probing the device we need to specify the class of the device to 
+the host1x driver so it knows how to talk to it. Those class numbers are 
+fixed so we have hardcoded them in the driver, but now that we have two 
+NVDECs, we need to distinguish between them so that we can specify the 
+correct class for each instance to the host1x driver.
 
-diff --git a/Documentation/devicetree/bindings/sound/name-prefix.txt b/Documentation/devicetree/bindings/sound/name-prefix.txt
-deleted file mode 100644
-index 6457759..00000000
---- a/Documentation/devicetree/bindings/sound/name-prefix.txt
-+++ /dev/null
-@@ -1,24 +0,0 @@
--Name prefix:
--
--Card implementing the routing property define the connection between
--audio components as list of string pair. Component using the same
--sink/source names may use the name prefix property to prepend the
--name of their sinks/sources with the provided string.
--
--Optional name prefix property:
--- sound-name-prefix : string using as prefix for the sink/source names of
--		      the component.
--
--Example: Two instances of the same component.
--
--amp0: analog-amplifier@0 {
--	compatible = "simple-audio-amplifier";
--	enable-gpios = <&gpio GPIOH_3 0>;
--	sound-name-prefix = "FRONT";
--};
--
--amp1: analog-amplifier@1 {
--	compatible = "simple-audio-amplifier";
--	enable-gpios = <&gpio GPIOH_4 0>;
--	sound-name-prefix = "BACK";
--};
--- 
-2.7.4
+> 
+>> +
+>> +additionalProperties: true
+> 
+> 'true' here is not allowed unless the schema is not complete and
+> intended to be included in a complete schema or unconditionally applied
+> (i.e. 'select: true'). This case is neither. As pointed out previously,
+> 'unevaluatedProperties' is what you'd want here.
+> 
+> However, I looked into supporting defining properties in if/then/else
+> schemas as you have done and I don't think we will support that soon.
+> It's problematic because we can't validate the schema under the if/then
+> completely. The reason is properties under if/then schemas don't have to
+> be complete as we expect a top level definition that is complete (e.g.
+> vendor properties must have 'description'). To solve this, we'd have to
+> only apply meta-schema checks if the property doesn't appear at the top
+> level. That's more complicated than I care to implement ATM.
 
+I see two paths here: either keep 'additionalProperties: true' or remove 
+it and have this binding trigger validation failures. Which one do you 
+suggest or is there some third option?
+
+Thanks,
+Mikko
+
+> 
+> Rob
+> 
