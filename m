@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5688405785
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Sep 2021 15:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 897474055D8
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Sep 2021 15:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353147AbhIINgx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Sep 2021 09:36:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57774 "EHLO mail.kernel.org"
+        id S1353430AbhIINOC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Sep 2021 09:14:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42434 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354412AbhIIM47 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:56:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E768F63258;
-        Thu,  9 Sep 2021 11:58:24 +0000 (UTC)
+        id S1357665AbhIINDP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 9 Sep 2021 09:03:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D773F63298;
+        Thu,  9 Sep 2021 11:59:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188705;
-        bh=QkUSZWF79udlGYXr1PSAkxMxyJa+bYoV6bXDGcox3SE=;
+        s=k20201202; t=1631188787;
+        bh=Bi3WETzN51HufuWv6N46T1KgUw5xB/9dbiMDTx5rleY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nWvDEuCLVjlbMN+BKsAtrDAWLHe584WaGS8miKUuOe9180FxeGjh0wPCR3nmUg1nz
-         QpKFWuTH/T7TiXAaTTR3Npn276EXOlPle/aFw3gEyo+w8qTPDg7QNhELLBRRI3x2nv
-         YXGWagUPAjFPgG1HPxrTFsFc9TvsFBOn+jaRQitC0JoxOjizUuvTXt9ebxWe12WnSd
-         IDxdATg2WKrUfNGhtjGHQLkzC8NGzRt37PTPQKbdrriWYj8EojvGmsjpLGeNPddsdj
-         gIhyS4okpiWJ3Y4vwXj21EgpGQMl5LhLEL4gc838Zi3c6dQzgKF8NQ7HG15KH1ro4Q
-         l/LGbIplbfwNw==
+        b=Ivq/RDgDc3jPKr6h2+vl1DZMiIG/N1bglqONB2NYbtkH/7QpbHaPMAln/K5XAlSvh
+         2Q3zn5V/XGn+55lV4Xnuoe2LNxIbL+E7QiiamA98lG2e1J8ZqsboNenYj7S3GwhU5K
+         to5FJnd1+4OHnwkV0xEPMsX3AZjVo1BCpQAUu+KwUvUkdPiKmqd2zNQiYGmWp5VaWT
+         xo3FkLfgyddC+OmGqTIkx/1hgtV45sbMqOxL/A7XjALLxHwZ27raMIHpM05DRKwOkV
+         8lZBAmVQjHjg7s9/t/DfA6E1WNH9oNerDioeCUsnqeHKnLk0RXIQLGquoCpfvTeAFi
+         AEc53AiNsYACw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Andreas Obergschwandtner <andreas.obergschwandtner@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 47/74] ARM: tegra: tamonten: Fix UART pad setting
-Date:   Thu,  9 Sep 2021 07:56:59 -0400
-Message-Id: <20210909115726.149004-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 37/59] ARM: tegra: tamonten: Fix UART pad setting
+Date:   Thu,  9 Sep 2021 07:58:38 -0400
+Message-Id: <20210909115900.149795-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115726.149004-1-sashal@kernel.org>
-References: <20210909115726.149004-1-sashal@kernel.org>
+In-Reply-To: <20210909115900.149795-1-sashal@kernel.org>
+References: <20210909115900.149795-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,7 +58,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/arch/arm/boot/dts/tegra20-tamonten.dtsi b/arch/arm/boot/dts/tegra20-tamonten.dtsi
-index 20137fc578b1..394a6b4dc69d 100644
+index 872046d48709..4d69d67792d1 100644
 --- a/arch/arm/boot/dts/tegra20-tamonten.dtsi
 +++ b/arch/arm/boot/dts/tegra20-tamonten.dtsi
 @@ -185,8 +185,9 @@ conf_ata {
