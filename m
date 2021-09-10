@@ -2,337 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FFB2405E65
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Sep 2021 23:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBE21406A42
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Sep 2021 12:43:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346415AbhIIVCr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Sep 2021 17:02:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50078 "EHLO
+        id S232430AbhIJKoP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Sep 2021 06:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346550AbhIIVCm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Sep 2021 17:02:42 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BE68C061760
-        for <linux-tegra@vger.kernel.org>; Thu,  9 Sep 2021 14:01:32 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id m21-20020a17090a859500b00197688449c4so2432035pjn.0
-        for <linux-tegra@vger.kernel.org>; Thu, 09 Sep 2021 14:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=n006i3IBW2iUEGDiSQzDbT/ZRDF6GTq7cgbwR3bFSGQ=;
-        b=DmLMttWEuMDptT4pkUI7EML70x7xxDpq3k4Bd4QKmj6PYOaerM1g4jawU+xW+E3l4h
-         XqQjq9OjDcHwFNHbf7zAlzTeduNdvCx+dRFawLlvMv1ZcZmDe2d+oYZ8+SdyVwjSvsHz
-         363GXhzw/rR0tjwlk6umJ8aUsmep/ehQge0ds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n006i3IBW2iUEGDiSQzDbT/ZRDF6GTq7cgbwR3bFSGQ=;
-        b=nB74uTmt3BjlW9JN0uymPbX2tUHYQ8VBZcp6oA56FovCvVgzj+t67GeD0UTzXthtNf
-         p2lZ3GqVjMaYRpDej49vcoOhJs7QQRQFCN1yttwGh/+qtyBSaM8XKd/n2guF37ALU/Ue
-         B1no8cLzIjrtm48GsE7hQjqPNGeOVcL33GjoUr3YPt0KZTsbU2zqsPhaWtnPmAgNcSYM
-         2HNX0m2Y9tch1Pm+uR7Dzb87kQX9aS3J1ehZqGqlZrjS9jmd3bjfjime8CWCilqys5bG
-         oatKTw5oSHmAIUVfBk+CS6xPbk2OFheeAAPda3tZDBd59+h5VXP1ZQ5bJ1tJIHELdxq6
-         A6aw==
-X-Gm-Message-State: AOAM531c/kyO2EahMc7siie29gMcg6ORyvlcN9bfb9OmdkMxoaA3aORS
-        HJQwBuFD0UssgvxdfGNzQm19bw==
-X-Google-Smtp-Source: ABdhPJzjG7YLOczzbE3Y9qWt5C8gEnPH762+qg5P1jHWQwBpJiTKvjdTN7Ijd0U5T+C2rUT6AUCZpg==
-X-Received: by 2002:a17:902:c40e:b0:138:e2f9:6c97 with SMTP id k14-20020a170902c40e00b00138e2f96c97mr4522970plk.26.1631221291607;
-        Thu, 09 Sep 2021 14:01:31 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:8da3:b0fb:4261:2c10])
-        by smtp.gmail.com with ESMTPSA id l143sm177069pfd.60.2021.09.09.14.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 14:01:31 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Cc:     devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Linus W <linus.walleij@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
-        Steev Klimaszewski <steev@kali.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Emil Velikov <emil.velikov@collabora.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Lionel Debieve <lionel.debieve@st.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Olivier Moysan <olivier.moysan@st.com>,
-        Olof Johansson <olof@lixom.net>,
-        Otavio Salvador <otavio@ossystems.com.br>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Razvan Stefanescu <razvan.stefanescu@microchip.com>,
-        Robert Richter <rric@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org,
-        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
-Subject: [PATCH v4 05/15] ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
-Date:   Thu,  9 Sep 2021 14:00:21 -0700
-Message-Id: <20210909135838.v4.5.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
-X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
-In-Reply-To: <20210909210032.465570-1-dianders@chromium.org>
-References: <20210909210032.465570-1-dianders@chromium.org>
+        with ESMTP id S232488AbhIJKoN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 10 Sep 2021 06:44:13 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6DD0C061756;
+        Fri, 10 Sep 2021 03:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Yogfv2Yi339SegP6Z35FOnJjy3FmfNyA9OjilfPTuVc=; b=JWmON8IfmlGzcQxv3GOO9/RbTt
+        TBQoHpAQ324oQ5Aj+OMG9ioLMojB3jb+cP4a1uu12Ffbusvx9GDoCieuAPh5HDvVSfF618Ybz72tu
+        4RqmJJ4jOfKVFVEeKFJ4qqKls2+D9lmSeks8SXM+onaHgZxpU52vVsytobBGikx+i+7FZNVPiEGW7
+        lOsfLWKZw6VCYhvEDM+xtOtSS4MsQbLW9zuqZwrOPOEPn8NtrlJGu7TIKAMDa+TNxSCkIv/OjQG0Z
+        FPqCC3U08xfE5vaOpIZlvsbVTDm0ntAw3ZNI/FhqYLeLq5lpWyWN7Bc30bEmgSadzn/D9/UuEjPAx
+        BLVTX9Cg==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <mperttunen@nvidia.com>)
+        id 1mOdzg-00056E-9A; Fri, 10 Sep 2021 13:42:52 +0300
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
+        daniel@ffwll.ch, robh+dt@kernel.org
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH v5 0/3] NVIDIA Tegra NVDEC support
+Date:   Fri, 10 Sep 2021 13:42:44 +0300
+Message-Id: <20210910104247.1206716-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-In the patch ("drm/panel-simple-edp: Split eDP panels out of
-panel-simple") we will split the PANEL_SIMPLE driver in two. By
-default let's give everyone who had the old driver enabled the new
-driver too. If folks want to opt-out of one or the other they always
-can later.
+Here's the v5 of the NVDEC support series, containing the
+following changes:
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
----
+* Changed from nvidia,instance property to nvidia,host1x-class
+  property.
+* Set additionalProperties to false in DT bindings.
+* Added dma-coherent property to DT bindings.
 
-Changes in v4:
-- PANEL_SIMPLE_EDP => PANEL_EDP
-- Reordered config patches to be before code patch
+NVDEC hardware documentation can be found at
+https://github.com/NVIDIA/open-gpu-doc/tree/master/classes/video
 
- arch/arm/configs/at91_dt_defconfig   | 1 +
- arch/arm/configs/exynos_defconfig    | 1 +
- arch/arm/configs/imx_v6_v7_defconfig | 1 +
- arch/arm/configs/lpc32xx_defconfig   | 1 +
- arch/arm/configs/multi_v5_defconfig  | 1 +
- arch/arm/configs/multi_v7_defconfig  | 1 +
- arch/arm/configs/omap2plus_defconfig | 1 +
- arch/arm/configs/qcom_defconfig      | 1 +
- arch/arm/configs/realview_defconfig  | 1 +
- arch/arm/configs/sama5_defconfig     | 1 +
- arch/arm/configs/shmobile_defconfig  | 1 +
- arch/arm/configs/sunxi_defconfig     | 1 +
- arch/arm/configs/tegra_defconfig     | 1 +
- arch/arm/configs/versatile_defconfig | 1 +
- arch/arm/configs/vexpress_defconfig  | 1 +
- 15 files changed, 15 insertions(+)
+and example userspace can be found at
+https://github.com/cyndis/vaapi-tegra-driver
 
-diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
-index b1564e0aa000..a6310c8abcc3 100644
---- a/arch/arm/configs/at91_dt_defconfig
-+++ b/arch/arm/configs/at91_dt_defconfig
-@@ -144,6 +144,7 @@ CONFIG_VIDEO_MT9V032=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_FB_ATMEL=y
- CONFIG_BACKLIGHT_ATMEL_LCDC=y
- CONFIG_BACKLIGHT_PWM=y
-diff --git a/arch/arm/configs/exynos_defconfig b/arch/arm/configs/exynos_defconfig
-index f4e1873912a3..cae09010a799 100644
---- a/arch/arm/configs/exynos_defconfig
-+++ b/arch/arm/configs/exynos_defconfig
-@@ -227,6 +227,7 @@ CONFIG_DRM_EXYNOS_DPI=y
- CONFIG_DRM_EXYNOS_DSI=y
- CONFIG_DRM_EXYNOS_HDMI=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SAMSUNG_LD9040=y
- CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=y
- CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=y
-diff --git a/arch/arm/configs/imx_v6_v7_defconfig b/arch/arm/configs/imx_v6_v7_defconfig
-index 079fcd8d1d11..f46cdc4a0ca8 100644
---- a/arch/arm/configs/imx_v6_v7_defconfig
-+++ b/arch/arm/configs/imx_v6_v7_defconfig
-@@ -280,6 +280,7 @@ CONFIG_DRM=y
- CONFIG_DRM_MSM=y
- CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SEIKO_43WVF1G=y
- CONFIG_DRM_TI_TFP410=y
- CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
-diff --git a/arch/arm/configs/lpc32xx_defconfig b/arch/arm/configs/lpc32xx_defconfig
-index 989bcc84e7fb..6c3e4a141963 100644
---- a/arch/arm/configs/lpc32xx_defconfig
-+++ b/arch/arm/configs/lpc32xx_defconfig
-@@ -108,6 +108,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PL111=y
- CONFIG_FB_MODE_HELPERS=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
-diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi_v5_defconfig
-index 80a3ae02d759..fe8d760256a4 100644
---- a/arch/arm/configs/multi_v5_defconfig
-+++ b/arch/arm/configs/multi_v5_defconfig
-@@ -194,6 +194,7 @@ CONFIG_VIDEO_ATMEL_ISI=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=m
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_ASPEED_GFX=m
- CONFIG_FB_IMX=y
- CONFIG_FB_ATMEL=y
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index d9abaae118dd..610e3453d720 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -699,6 +699,7 @@ CONFIG_DRM_TEGRA=y
- CONFIG_DRM_STM=m
- CONFIG_DRM_STM_DSI=m
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SAMSUNG_LD9040=m
- CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
- CONFIG_DRM_PANEL_RAYDIUM_RM68200=m
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index 2ac2418084ab..d933b787d934 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -511,6 +511,7 @@ CONFIG_OMAP2_DSS_DSI=y
- CONFIG_DRM_TILCDC=m
- CONFIG_DRM_PANEL_DSI_CM=m
- CONFIG_DRM_PANEL_SIMPLE=m
-+CONFIG_DRM_PANEL_EDP=m
- CONFIG_DRM_PANEL_LG_LB035Q02=m
- CONFIG_DRM_PANEL_NEC_NL8048HL11=m
- CONFIG_DRM_PANEL_SHARP_LS037V7DW01=m
-diff --git a/arch/arm/configs/qcom_defconfig b/arch/arm/configs/qcom_defconfig
-index 26353cbfa968..0daa9c0d298e 100644
---- a/arch/arm/configs/qcom_defconfig
-+++ b/arch/arm/configs/qcom_defconfig
-@@ -158,6 +158,7 @@ CONFIG_MEDIA_SUPPORT=y
- CONFIG_DRM=y
- CONFIG_DRM_MSM=m
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_ANALOGIX_ANX78XX=m
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
-diff --git a/arch/arm/configs/realview_defconfig b/arch/arm/configs/realview_defconfig
-index 4c01e313099f..3ef3521c19db 100644
---- a/arch/arm/configs/realview_defconfig
-+++ b/arch/arm/configs/realview_defconfig
-@@ -61,6 +61,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_PL111=y
-diff --git a/arch/arm/configs/sama5_defconfig b/arch/arm/configs/sama5_defconfig
-index 17db3b3e2dd3..fe0d7ccc8fb2 100644
---- a/arch/arm/configs/sama5_defconfig
-+++ b/arch/arm/configs/sama5_defconfig
-@@ -160,6 +160,7 @@ CONFIG_VIDEO_MT9V032=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_LCD_CLASS_DEVICE=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- CONFIG_BACKLIGHT_PWM=y
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index d9a27e4e0914..b772105039f6 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -129,6 +129,7 @@ CONFIG_VIDEO_ML86V7667=y
- CONFIG_DRM=y
- CONFIG_DRM_RCAR_DU=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
- CONFIG_DRM_LVDS_CODEC=y
- CONFIG_DRM_SII902X=y
-diff --git a/arch/arm/configs/sunxi_defconfig b/arch/arm/configs/sunxi_defconfig
-index a60c134c5e04..8ba7935bd039 100644
---- a/arch/arm/configs/sunxi_defconfig
-+++ b/arch/arm/configs/sunxi_defconfig
-@@ -108,6 +108,7 @@ CONFIG_DRM_SUN4I_HDMI_CEC=y
- CONFIG_DRM_SUN8I_DW_HDMI=y
- CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_LIMA=y
- CONFIG_FB_SIMPLE=y
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 3d8d8af9524d..055e35b48706 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -204,6 +204,7 @@ CONFIG_DRM_TEGRA=y
- CONFIG_DRM_TEGRA_STAGING=y
- CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_LVDS_CODEC=y
- # CONFIG_LCD_CLASS_DEVICE is not set
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
-diff --git a/arch/arm/configs/versatile_defconfig b/arch/arm/configs/versatile_defconfig
-index b703f4757021..d06aa64e05a1 100644
---- a/arch/arm/configs/versatile_defconfig
-+++ b/arch/arm/configs/versatile_defconfig
-@@ -57,6 +57,7 @@ CONFIG_GPIO_PL061=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_ARM_VERSATILE=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_PL111=y
-diff --git a/arch/arm/configs/vexpress_defconfig b/arch/arm/configs/vexpress_defconfig
-index b5e246dd23f4..947987730eb7 100644
---- a/arch/arm/configs/vexpress_defconfig
-+++ b/arch/arm/configs/vexpress_defconfig
-@@ -77,6 +77,7 @@ CONFIG_SENSORS_VEXPRESS=y
- CONFIG_REGULATOR_VEXPRESS=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_SII902X=y
- CONFIG_DRM_PL111=y
- CONFIG_FB=y
+Thanks,
+Mikko
+
+Mikko Perttunen (3):
+  dt-bindings: Add YAML bindings for NVDEC
+  arm64: tegra: Add NVDEC to Tegra186/194 device trees
+  drm/tegra: Add NVDEC driver
+
+ .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 104 ++++
+ MAINTAINERS                                   |   1 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  16 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  38 ++
+ drivers/gpu/drm/tegra/Makefile                |   3 +-
+ drivers/gpu/drm/tegra/drm.c                   |   4 +
+ drivers/gpu/drm/tegra/drm.h                   |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 | 464 ++++++++++++++++++
+ drivers/gpu/host1x/dev.c                      |  18 +
+ include/linux/host1x.h                        |   2 +
+ 10 files changed, 650 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+ create mode 100644 drivers/gpu/drm/tegra/nvdec.c
+
 -- 
-2.33.0.309.g3052b89438-goog
+2.32.0
 
