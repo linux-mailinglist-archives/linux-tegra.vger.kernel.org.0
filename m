@@ -2,40 +2,41 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2EE84076D7
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Sep 2021 15:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD672407728
+	for <lists+linux-tegra@lfdr.de>; Sat, 11 Sep 2021 15:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236169AbhIKNNb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 11 Sep 2021 09:13:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36940 "EHLO mail.kernel.org"
+        id S236925AbhIKNPV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 11 Sep 2021 09:15:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39006 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235934AbhIKNNN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 11 Sep 2021 09:13:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 17404611C3;
-        Sat, 11 Sep 2021 13:12:00 +0000 (UTC)
+        id S236211AbhIKNOH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 11 Sep 2021 09:14:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2176961222;
+        Sat, 11 Sep 2021 13:12:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631365920;
-        bh=mv/mgaHOnkOGkztlyC9ZkuUY8ikq0GtV8Y8kFRFjK9Q=;
+        s=k20201202; t=1631365962;
+        bh=u81EWNfIbcVZsD5p+qkJmolKUj1fpHjjnQqbglo2upM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ln+F5Qq6bsKUFO2CZ1TIUztKQ2gPBgKG6nPvAji88Kz2kXTaMjC4Ldiipaxf5o1qo
-         X0kGp1cOTVjcWxjbxI5YKRLO9zgTnFZgXqkiifhJXnukmia+JfxtlqPRAeQ0Sb9dbB
-         okxHMdyDa1JUHrH7RBUjF+SGSCeSgUtTFlfcNvYpQ8FXSWia7edoHQFAaaSnAwbuB7
-         wKnzmBzm+Z53yYdFssRiQp4WgdSZcKiNIQn0HnBkP2+WQOPFyugigo2+R66ARDg1Hm
-         u5OpK9LA9ZLO7o+8S52Z45N7bRMWrOWoemUzwW8AV5DMJpUlsSZ0aNmdVj6NqP02R2
-         O8qJUmgmlf8Dw==
+        b=o0kZPo8/jFpLHy3Ci1TQMOCk2zd+X5zUqulXHR8G29WhESo15t6VM759GyHtH3wix
+         ODcCjq6J0UyKCnSgCxiM5ZOhM3iGibDzifE1MzVQ5b2IUOjN39bqvcgjoCdsmBr5rI
+         ZSut5sXTa7qR9mbqkU+3w4TBxv6LZbJTs9g0iV/6OnDjVTr+NZJiiyyKoXaz8c2aQJ
+         GRZn5RSppOqo/rnkWXDr7MbkuY6/DRZOlavqpvRrTc8cGwK1LBdSq5BmFOOfS2JZs/
+         aw3uT8xLvrwp7zIlVEr/NnPyrEOaQbIwPsuvr+/Z7ELFEfAzMgWl50ui112wyq3ot2
+         i9f3BzvD/p+yQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+Cc:     Om Prakash Singh <omp@nvidia.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Vidya Sagar <vidyas@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 08/32] PCI: tegra: Fix OF node reference leak
-Date:   Sat, 11 Sep 2021 09:11:25 -0400
-Message-Id: <20210911131149.284397-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-pci@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 06/29] PCI: tegra194: Fix handling BME_CHGED event
+Date:   Sat, 11 Sep 2021 09:12:10 -0400
+Message-Id: <20210911131233.284800-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210911131149.284397-1-sashal@kernel.org>
-References: <20210911131149.284397-1-sashal@kernel.org>
+In-Reply-To: <20210911131233.284800-1-sashal@kernel.org>
+References: <20210911131233.284800-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,61 +45,84 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: Om Prakash Singh <omp@nvidia.com>
 
-[ Upstream commit eff21f5da308265678e7e59821795e606f3e560f ]
+[ Upstream commit ceb1412c1c8ca5b28c4252bdb15f2f1f17b4a1b0 ]
 
-Commit 9e38e690ace3 ("PCI: tegra: Fix OF node reference leak") has fixed
-some node reference leaks in this function but missed some of them.
+In tegra_pcie_ep_hard_irq(), APPL_INTR_STATUS_L0 is stored in val and again
+APPL_INTR_STATUS_L1_0_0 is also stored in val. So when execution reaches
+"if (val & APPL_INTR_STATUS_L0_PCI_CMD_EN_INT)", val is not correct.
 
-In fact, having 'port' referenced in the 'rp' structure is not enough to
-prevent the leak, until 'rp' is actually added in the 'pcie->ports' list.
-
-Add the missing 'goto err_node_put' accordingly.
-
-Link: https://lore.kernel.org/r/55b11e9a7fa2987fbc0869d68ae59888954d65e2.1620148539.git.christophe.jaillet@wanadoo.fr
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Link: https://lore.kernel.org/r/20210623100525.19944-2-omp@nvidia.com
+Signed-off-by: Om Prakash Singh <omp@nvidia.com>
 Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
+Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+Acked-by: Vidya Sagar <vidyas@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pci/controller/pci-tegra.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/pci/controller/dwc/pcie-tegra194.c | 30 +++++++++++-----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index c979229a6d0d..b358212d71ab 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -2193,13 +2193,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
- 		rp->np = port;
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index 3ec7b29d5dc7..fd14e2f45bba 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -497,19 +497,19 @@ static irqreturn_t tegra_pcie_ep_hard_irq(int irq, void *arg)
+ 	struct tegra_pcie_dw *pcie = arg;
+ 	struct dw_pcie_ep *ep = &pcie->pci.ep;
+ 	int spurious = 1;
+-	u32 val, tmp;
++	u32 status_l0, status_l1, link_status;
  
- 		rp->base = devm_pci_remap_cfg_resource(dev, &rp->regs);
--		if (IS_ERR(rp->base))
--			return PTR_ERR(rp->base);
-+		if (IS_ERR(rp->base)) {
-+			err = PTR_ERR(rp->base);
-+			goto err_node_put;
-+		}
+-	val = appl_readl(pcie, APPL_INTR_STATUS_L0);
+-	if (val & APPL_INTR_STATUS_L0_LINK_STATE_INT) {
+-		val = appl_readl(pcie, APPL_INTR_STATUS_L1_0_0);
+-		appl_writel(pcie, val, APPL_INTR_STATUS_L1_0_0);
++	status_l0 = appl_readl(pcie, APPL_INTR_STATUS_L0);
++	if (status_l0 & APPL_INTR_STATUS_L0_LINK_STATE_INT) {
++		status_l1 = appl_readl(pcie, APPL_INTR_STATUS_L1_0_0);
++		appl_writel(pcie, status_l1, APPL_INTR_STATUS_L1_0_0);
  
- 		label = devm_kasprintf(dev, GFP_KERNEL, "pex-reset-%u", index);
- 		if (!label) {
--			dev_err(dev, "failed to create reset GPIO label\n");
--			return -ENOMEM;
-+			err = -ENOMEM;
-+			goto err_node_put;
- 		}
+-		if (val & APPL_INTR_STATUS_L1_0_0_HOT_RESET_DONE)
++		if (status_l1 & APPL_INTR_STATUS_L1_0_0_HOT_RESET_DONE)
+ 			pex_ep_event_hot_rst_done(pcie);
  
- 		/*
-@@ -2217,7 +2219,8 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
- 			} else {
- 				dev_err(dev, "failed to get reset GPIO: %ld\n",
- 					PTR_ERR(rp->reset_gpio));
--				return PTR_ERR(rp->reset_gpio);
-+				err = PTR_ERR(rp->reset_gpio);
-+				goto err_node_put;
+-		if (val & APPL_INTR_STATUS_L1_0_0_RDLH_LINK_UP_CHGED) {
+-			tmp = appl_readl(pcie, APPL_LINK_STATUS);
+-			if (tmp & APPL_LINK_STATUS_RDLH_LINK_UP) {
++		if (status_l1 & APPL_INTR_STATUS_L1_0_0_RDLH_LINK_UP_CHGED) {
++			link_status = appl_readl(pcie, APPL_LINK_STATUS);
++			if (link_status & APPL_LINK_STATUS_RDLH_LINK_UP) {
+ 				dev_dbg(pcie->dev, "Link is up with Host\n");
+ 				dw_pcie_ep_linkup(ep);
  			}
- 		}
+@@ -518,11 +518,11 @@ static irqreturn_t tegra_pcie_ep_hard_irq(int irq, void *arg)
+ 		spurious = 0;
+ 	}
  
+-	if (val & APPL_INTR_STATUS_L0_PCI_CMD_EN_INT) {
+-		val = appl_readl(pcie, APPL_INTR_STATUS_L1_15);
+-		appl_writel(pcie, val, APPL_INTR_STATUS_L1_15);
++	if (status_l0 & APPL_INTR_STATUS_L0_PCI_CMD_EN_INT) {
++		status_l1 = appl_readl(pcie, APPL_INTR_STATUS_L1_15);
++		appl_writel(pcie, status_l1, APPL_INTR_STATUS_L1_15);
+ 
+-		if (val & APPL_INTR_STATUS_L1_15_CFG_BME_CHGED)
++		if (status_l1 & APPL_INTR_STATUS_L1_15_CFG_BME_CHGED)
+ 			return IRQ_WAKE_THREAD;
+ 
+ 		spurious = 0;
+@@ -530,8 +530,8 @@ static irqreturn_t tegra_pcie_ep_hard_irq(int irq, void *arg)
+ 
+ 	if (spurious) {
+ 		dev_warn(pcie->dev, "Random interrupt (STATUS = 0x%08X)\n",
+-			 val);
+-		appl_writel(pcie, val, APPL_INTR_STATUS_L0);
++			 status_l0);
++		appl_writel(pcie, status_l0, APPL_INTR_STATUS_L0);
+ 	}
+ 
+ 	return IRQ_HANDLED;
 -- 
 2.30.2
 
