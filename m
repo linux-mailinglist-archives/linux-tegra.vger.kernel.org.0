@@ -2,103 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED88640777E
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Sep 2021 15:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C1B1407D39
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Sep 2021 14:18:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236475AbhIKNRq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 11 Sep 2021 09:17:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38304 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237056AbhIKNPr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 11 Sep 2021 09:15:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 31BD561268;
-        Sat, 11 Sep 2021 13:13:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631366002;
-        bh=KzrJ81mWKnjw/4GM+UnXKoRBrHQtG01lpAJSOH1umeo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bp9TXSxUIYj+mJfq0XABRZWwS93kksHj/gnekS3MO8UqO2adW6A+SDCRjxzBja8w+
-         bwFFwzfoljNSAZye6DNGEVSB/0cPYADTplkUuKQrq1NAtRlHOCSBZc2OVHw5pOJBXh
-         gfln826h/sI1pWJrsTmYso1l5YhRIxDix0LZptrSDWE2r22odWpLfXaLGcBtbtAwUP
-         2nap/Q2zElS3jBBmXHpdcvK+cd4bsfC98L7E+eoOlVtoOzHP+M1HFm3YuiH3qYGJ36
-         YyUvWDYT9lBzhVddHEiBgHL8x5KRjNBboOSVnNItjvUKOKBeccYR7tCUM4gJCFQ4gi
-         OIpNNH9ZhBH4Q==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Vidya Sagar <vidyas@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 07/25] PCI: tegra: Fix OF node reference leak
-Date:   Sat, 11 Sep 2021 09:12:54 -0400
-Message-Id: <20210911131312.285225-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210911131312.285225-1-sashal@kernel.org>
-References: <20210911131312.285225-1-sashal@kernel.org>
+        id S235004AbhILMUJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Sep 2021 08:20:09 -0400
+Received: from mail-mw2nam12on2059.outbound.protection.outlook.com ([40.107.244.59]:4224
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235202AbhILMTS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 12 Sep 2021 08:19:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cXXjhWH07PDVSCLa6tqrAADRJEdwW2K4PUvm9lgWBAXLxWxuvQ5/2+4LTk7yMU7cg1+wbPYIiiEJ2QVR9T3o5hAOMJN/R8su5f+FDr3JjJbCV9C2nfdoePsMViOuQBaoGo73BqIT2pcV7+HieT7pxWXRLn/7CQmyOmUXD7JHSh4KyHJXE0JOGyAF/tpLUybTS8FP7uGb5sce+5tC7v8Y7W/B0MZSrib0e/FwlWOipA/+qRdKzrwAQpjwKVMd3lFNusjGHa3ubxdA2hqU3idRJVPPLSpMb1Yl45IAn9UsN4vWtU6xIJlvZOXMe0YxYJkhGKEsqHQJi+rZGwU+mPrBOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=DHd78LQ+kg45bV+8pmssRW5TjPyh0CFhWdhP9Gb8YAg=;
+ b=h/E+55+5fJRmj2WgFYvuQeyuuY2bMCHRNIAvQN72V4v5dITTHYc8lLFQuVn5+P2gB/HLj9ff5xpNCWxEZ1zJxjEGahb66AP9iXE6TmXnqqy7/4Eqnfs1zykiju5Y+LOc/p5KrP3V5LYft/PI7dqs9pXqEonWI9Ln2cf/5el6i+7PEx9yrmalKxeqKIqahj2Qm5WLXQfGjvIbfX3Y9mjecTi6Etb7X80A0JpKE9wt+T1Z9J2N8ZhOR2U+Pq/aL2uKoAE5njJZ9b7KP+X0ytbxeZdb1z+mq3tSMr2n5ahxnXl5pale0QAsNXz73btc0rWGTSlteIKBDyYSEjlktYY0gQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.32) smtp.rcpttodomain=denx.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DHd78LQ+kg45bV+8pmssRW5TjPyh0CFhWdhP9Gb8YAg=;
+ b=pEGRARJR3masrpz0mYSb5jN+rc5PfcnQMDXt9wbAPQ3/gCWTaCAqZbotiH+ZcA06DWnUZnsbLggtfqmpTdIXxGYGWR5UPAPXKnA/vUWVOagITx7JisPNc3pmRaYmzT/Bzp0mfBPGiONSenln2PctZj0oE9LnW7V6HUnMUCqNQAWe654b/0/dlHVex+HitPKPkxzGIfTj/NDHXaoPGXHX5i1wAmQsT2v1HdOI0RKqDsEB37JSCE5axzV0pFK40api/Th86XgcTm9boxxKu6WJziplcORkzGDTbiTc4BmYburnqIgIsjEFtOrA9GI09L21c2eqyikCw2nyckjq4WYQYQ==
+Received: from MWHPR02CA0018.namprd02.prod.outlook.com (2603:10b6:300:4b::28)
+ by DM6PR12MB3994.namprd12.prod.outlook.com (2603:10b6:5:1cd::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Sun, 12 Sep
+ 2021 12:18:02 +0000
+Received: from CO1NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:4b:cafe::a3) by MWHPR02CA0018.outlook.office365.com
+ (2603:10b6:300:4b::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend
+ Transport; Sun, 12 Sep 2021 12:18:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
+ smtp.mailfrom=nvidia.com; denx.de; dkim=none (message not signed)
+ header.d=none;denx.de; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ CO1NAM11FT063.mail.protection.outlook.com (10.13.175.37) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4500.14 via Frontend Transport; Sun, 12 Sep 2021 12:18:02 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Sun, 12 Sep
+ 2021 05:18:01 -0700
+Received: from jonathanh-vm-01.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18 via Frontend
+ Transport; Sun, 12 Sep 2021 12:18:01 +0000
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
+        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.4 00/37] 5.4.145-rc1 review
+In-Reply-To: <20210910122917.149278545@linuxfoundation.org>
+References: <20210910122917.149278545@linuxfoundation.org>
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Message-ID: <ef8ef151c185490fbb2456d09335041e@HQMAIL105.nvidia.com>
+Date:   Sun, 12 Sep 2021 12:18:01 +0000
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d7266980-8b26-4f8f-15ce-08d975e75df4
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3994:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3994D1DC6986DA95319E18A9D9D89@DM6PR12MB3994.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ++QlcIIUaHqO6JC54wN9OP408AkXyZZ4cZxssEPaYqIbJLUUPhObJLV6MqEISxPaW/vYixz0sDDv0SXjIXeoIXpKljB++Q1qwmHYtsgKkjh1CeW/PXTdbqrHD5OY7Wukiupj5ODNIae3SVRIAwU4FWiQPx64jxTsQRhQPrIvwc4CtvHvrOzfoMkXeKwKjy5WF3H0ql/ibYYoGTC04uVo6DGEgNOsLPqxXFeSXVRUQ3OYw+XuJX5hO0FNOzxxSzedx3gyGBrsY1TglzTS2jADwVUWn37NdrBs9UL3aAeg35c08sQRZX8SPiEvftvkIhToX3cAHnlxuAnWUqPXZbi6VVvneRm78XXVd7Jc3KTDr80wCMyIvnxrSoygMDyxzwPd6FqF6CDZz7CPBHPgsg7IsbxmhOfBkBHQwyG7p6abFLDGMX5YODC80C8uAYYonOQ0sO0TFGQjrjKPa56RmhEjl+6p0Q+igE61Y4TTyZIqgjL89vEG4bJGqlsW76tMVZ2kqusG3U1Zy/DKIP8Y0YJjzyqijcT6j4JnIsPTp03Um9dmd5OVR2OlHCkJv5HSM1IJYM+g3xdzViVU1jDzw4tDJIJgewyxWs9C5+q6CSaFPBcAcBJJsNY1h7xT3VemRl4ZyqBUH6uY0v54a9XC9cjkpbcvQHzgIKNTYnPWNDBvxzNKiu/rNyhVbb7UNXISZ/iskJAdcPn+J5zMhwor51T0/QS1Wj2hcg3/bjIlNCm5G4rNUP/x67HNLqUF6NxFm+fSbWLIqzR6OboytroSg0FP7umcu8xvHkMWp1AjAw8v27Q=
+X-Forefront-Antispam-Report: CIP:216.228.112.32;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid01.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(136003)(39860400002)(36840700001)(46966006)(47076005)(7416002)(356005)(2906002)(316002)(4326008)(54906003)(70586007)(70206006)(7636003)(82740400003)(6916009)(8676002)(966005)(86362001)(186003)(426003)(336012)(82310400003)(26005)(8936002)(5660300002)(24736004)(108616005)(36860700001)(478600001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2021 12:18:02.2659
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7266980-8b26-4f8f-15ce-08d975e75df4
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.32];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT063.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3994
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+On Fri, 10 Sep 2021 14:30:03 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.4.145 release.
+> There are 37 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sun, 12 Sep 2021 12:29:07 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.145-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-[ Upstream commit eff21f5da308265678e7e59821795e606f3e560f ]
+All tests passing for Tegra ...
 
-Commit 9e38e690ace3 ("PCI: tegra: Fix OF node reference leak") has fixed
-some node reference leaks in this function but missed some of them.
+Test results for stable-v5.4:
+    10 builds:	10 pass, 0 fail
+    26 boots:	26 pass, 0 fail
+    59 tests:	59 pass, 0 fail
 
-In fact, having 'port' referenced in the 'rp' structure is not enough to
-prevent the leak, until 'rp' is actually added in the 'pcie->ports' list.
+Linux version:	5.4.145-rc1-gc7a4f9e9970a
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra210-p3450-0000,
+                tegra30-cardhu-a04
 
-Add the missing 'goto err_node_put' accordingly.
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-Link: https://lore.kernel.org/r/55b11e9a7fa2987fbc0869d68ae59888954d65e2.1620148539.git.christophe.jaillet@wanadoo.fr
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/pci/controller/pci-tegra.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 1a2af963599c..b4eb75f25906 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -2160,13 +2160,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
- 		rp->np = port;
- 
- 		rp->base = devm_pci_remap_cfg_resource(dev, &rp->regs);
--		if (IS_ERR(rp->base))
--			return PTR_ERR(rp->base);
-+		if (IS_ERR(rp->base)) {
-+			err = PTR_ERR(rp->base);
-+			goto err_node_put;
-+		}
- 
- 		label = devm_kasprintf(dev, GFP_KERNEL, "pex-reset-%u", index);
- 		if (!label) {
--			dev_err(dev, "failed to create reset GPIO label\n");
--			return -ENOMEM;
-+			err = -ENOMEM;
-+			goto err_node_put;
- 		}
- 
- 		/*
-@@ -2184,7 +2186,8 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
- 			} else {
- 				dev_err(dev, "failed to get reset GPIO: %ld\n",
- 					PTR_ERR(rp->reset_gpio));
--				return PTR_ERR(rp->reset_gpio);
-+				err = PTR_ERR(rp->reset_gpio);
-+				goto err_node_put;
- 			}
- 		}
- 
--- 
-2.30.2
-
+Jon
