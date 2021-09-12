@@ -2,132 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B0FE407F4F
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Sep 2021 20:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39471407F64
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Sep 2021 20:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235893AbhILSUo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Sep 2021 14:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57880 "EHLO
+        id S235400AbhILSZ7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Sep 2021 14:25:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235521AbhILSUk (ORCPT
+        with ESMTP id S235178AbhILSZ5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Sep 2021 14:20:40 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9834FC061764;
-        Sun, 12 Sep 2021 11:19:25 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id k4so16065967lfj.7;
-        Sun, 12 Sep 2021 11:19:25 -0700 (PDT)
+        Sun, 12 Sep 2021 14:25:57 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F920C06175F;
+        Sun, 12 Sep 2021 11:24:42 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id l10so16097186lfg.4;
+        Sun, 12 Sep 2021 11:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HbaOAxGVAztZri1qSzD8HoQO2IqKS1yX08nrpK8PDQo=;
-        b=mlUhiAYWkdFy4OAZOFysry4dlA6s+NKwSq3a34DOiJVKAN1tDJnh+dclkPYkK9rMA1
-         S+IAhKeNmxgyxjrXYtPJ6vP+EJoOCwaVR8ahxP/qqxuXuTrCyaan0/s5fU1vphf5jq8Y
-         gBWASwWGJlkkEarpSvN+Y2ii0qWeT5kU8Gm+MlH+nkZr6XAW0bqAgXWjgeMs00xWFr81
-         NHQyjD0M87vU7t704E6MYEYukSJFuCU7ofktBPmVVMPUk6ru2ARzllBDqz9vXu9Sz/eL
-         7BgbWZG3zawn03iJpeHHUWV143K8iCKbirG36sJQ+7fwdLo7Wy/QSr1TUvOEQCYbj0bn
-         zckQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sSJiwiefMGSC5Z903M7p9yGlcz6Z8+abc5bbf5DYRws=;
+        b=Jst/6K3F4jrXChj/HyFb7xZKwGlEW+54IN4BNHevhgyiD81wCP3F7K2svCE6mxhwvi
+         UMdOSAkFv720Ci46u3jKXsCoJRVFZEhpYEvm45zedRj4JwzPrleuKhQrR/q6rs+hMdxX
+         WkT2VMkEsLvYJrdVUJh66vbCYzNuXaAbODZ98zI/Amppzr7wGHCgNASHFdT87vsnx/HZ
+         HgDvJ/V0BtNVpe+Hps0Hedcj05y0GQoB9ov/78h7J/xXckgcZwD/636jr1d9P0mhsIC3
+         YIQj0FiH5CrZQ/+LdXN2bAeckZMfjA9Ttdnwz5CTEA9OYviR45E9E3W4+gd5VGEVulsb
+         97Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HbaOAxGVAztZri1qSzD8HoQO2IqKS1yX08nrpK8PDQo=;
-        b=gstU9Fh8iNweTT7RUHJvIZNvK2/UAOH78qDsfifqw9YSVvHR9+6NhuxUnpim8PMEYN
-         DOwT/iVj8yHQyl/X/YGoy0xxZEo7oVlr2qYH6VJTLaB8jLcG95DODmYoos24ANaIhqbB
-         Nabimdyu3h0akNuvWnKh2n664E/ftR2Ys+4UJNo41dFEyEK4u5XoAlgn9yTqUwi/gkGi
-         ZA20hVEYuHjoGN/yiZlDskpQYbGB2TkAlM2Ojp49tscZIsmgkw8ZhxXJpieVNen3tgzL
-         LwHEVKprfWinOupHmKl1FloPnsiyqiawFnqwWr0WrCZMLWfOsOV7pwFkd5lt9YGQsUbF
-         5w2g==
-X-Gm-Message-State: AOAM533IXqkfjsLedKIZMcEq9TnpdNn2bre36vBl9llp90nCXfSG4Q7E
-        kb5d+u1EhgoKCaBtUYDQ49U=
-X-Google-Smtp-Source: ABdhPJyavKdv3Upf9tYo3aYR93ollOEQW3Wp+R2Ulmb+RKGYvt7RIZLxXryC2BJJf7EvpSJvWucMYA==
-X-Received: by 2002:a05:6512:1087:: with SMTP id j7mr5980123lfg.515.1631470763976;
-        Sun, 12 Sep 2021 11:19:23 -0700 (PDT)
-Received: from localhost.localdomain (46-138-83-36.dynamic.spd-mgts.ru. [46.138.83.36])
-        by smtp.gmail.com with ESMTPSA id a18sm664556ljd.4.2021.09.12.11.19.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 11:19:23 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <treding@nvidia.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sSJiwiefMGSC5Z903M7p9yGlcz6Z8+abc5bbf5DYRws=;
+        b=4Fae8zfEJ0ydFV09ZXtAYWSxM/yLoMaS+3z2EYFY4TQ00/p4hPKpQ/aP4eZu6pIydi
+         b+JItH2DiGpUXurQVUWXF4RiP0mrzqNMat2VpU5PHxEJwewh2o2BpMMZfZDhaunrtDPd
+         FD8uolSEHT+3cbv1kUUR0840PvIIOQ11KPV702f7yzyCYsOcVVb0d8eJU0SgDgzn2T0C
+         gNTeiOYXMJE3VV5uXEaQC+LGmJE0b5n6vH53JYWXuloOIC86g/p56HadEjvSBHnosDvG
+         BwlVQAfl8pHIQ1bmZK908318Vvv+osqyqlFYbCpTRsa8UiFxB1l2H31YExb6NN/fChtu
+         Xxww==
+X-Gm-Message-State: AOAM5316/mBtAp1K5FJz8xEEWKww/oLbDFn7ydXrb06X5cTQodYoFNI/
+        5c4aHTw5qqeamJtPXhdVbaqZl9BBk0I=
+X-Google-Smtp-Source: ABdhPJxBWTDnKHJ7g/xRzkClUfVHHZlSKFVX3H7pGUJbfD/sEEavn1wrT1f80WCNv1wdZmJQFyNWEQ==
+X-Received: by 2002:ac2:4146:: with SMTP id c6mr6176505lfi.305.1631471080688;
+        Sun, 12 Sep 2021 11:24:40 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-83-36.dynamic.spd-mgts.ru. [46.138.83.36])
+        by smtp.googlemail.com with ESMTPSA id r13sm645063ljh.61.2021.09.12.11.24.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Sep 2021 11:24:40 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: arm: Fix Toradex compatible typo
+To:     David Heidelberg <david@ixit.cz>, Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v7 7/7] arm64: tegra132: Add new properties to USB PHY device-tree node
-Date:   Sun, 12 Sep 2021 21:17:18 +0300
-Message-Id: <20210912181718.1328-8-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210912181718.1328-1-digetx@gmail.com>
-References: <20210912181718.1328-1-digetx@gmail.com>
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210912165120.188490-1-david@ixit.cz>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0519e76d-aebc-e937-0607-2ef93974ce3a@gmail.com>
+Date:   Sun, 12 Sep 2021 21:24:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210912165120.188490-1-david@ixit.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add new properties to USB PHYs needed for enabling USB OTG mode.
+12.09.2021 19:51, David Heidelberg пишет:
+> Fixes: f4d1577e9bc6 ("dt-bindings: arm: Convert Tegra board/soc bindings to json-schema")
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm64/boot/dts/nvidia/tegra132.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+'Fixes' is a tag, not a commit description. Each patch should have a
+proper description. In this case it may be:
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra132.dtsi b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-index b0bcda8cc51f..5e1b9f28cc0e 100644
---- a/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-@@ -1123,6 +1123,7 @@ phy1: usb-phy@7d000000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d000000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USBD>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1142,6 +1143,7 @@ phy1: usb-phy@7d000000 {
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
- 		nvidia,has-utmi-pad-registers;
-+		nvidia,pmc = <&tegra_pmc 0>;
- 		status = "disabled";
- 	};
- 
-@@ -1162,6 +1164,7 @@ phy2: usb-phy@7d004000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d004000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USB2>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1180,6 +1183,7 @@ phy2: usb-phy@7d004000 {
- 		nvidia,hssquelch-level = <2>;
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
-+		nvidia,pmc = <&tegra_pmc 1>;
- 		status = "disabled";
- 	};
- 
-@@ -1200,6 +1204,7 @@ phy3: usb-phy@7d008000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d008000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USB3>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1218,6 +1223,7 @@ phy3: usb-phy@7d008000 {
- 		nvidia,hssquelch-level = <2>;
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
-+		nvidia,pmc = <&tegra_pmc 2>;
- 		status = "disabled";
- 	};
- 
--- 
-2.32.0
+"Fix board compatible typo reported by dtbs_check."
+
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  Documentation/devicetree/bindings/arm/tegra.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/tegra.yaml b/Documentation/devicetree/bindings/arm/tegra.yaml
+> index b9f75e20fef5..b2a645740ffe 100644
+> --- a/Documentation/devicetree/bindings/arm/tegra.yaml
+> +++ b/Documentation/devicetree/bindings/arm/tegra.yaml
+> @@ -54,7 +54,7 @@ properties:
+>            - const: toradex,apalis_t30
+>            - const: nvidia,tegra30
+>        - items:
+> -          - const: toradex,apalis_t30-eval-v1.1
+> +          - const: toradex,apalis_t30-v1.1-eval
+>            - const: toradex,apalis_t30-eval
+>            - const: toradex,apalis_t30-v1.1
+>            - const: toradex,apalis_t30
+> 
 
