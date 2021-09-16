@@ -2,58 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44EB640D680
+	by mail.lfdr.de (Postfix) with ESMTP id B178540D681
 	for <lists+linux-tegra@lfdr.de>; Thu, 16 Sep 2021 11:44:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235287AbhIPJpj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S235886AbhIPJpj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Thu, 16 Sep 2021 05:45:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38118 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235886AbhIPJph (ORCPT
+        with ESMTP id S236064AbhIPJpi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:45:37 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD3EC061574
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Sep 2021 02:44:16 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id w29so8443965wra.8
-        for <linux-tegra@vger.kernel.org>; Thu, 16 Sep 2021 02:44:16 -0700 (PDT)
+        Thu, 16 Sep 2021 05:45:38 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E5FC061766
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Sep 2021 02:44:18 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id u18so6705929wrg.5
+        for <linux-tegra@vger.kernel.org>; Thu, 16 Sep 2021 02:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YNTwPa/ukwHAcbgK2EYvlx/6J9Qtj3bcwUG5UpA/d2I=;
-        b=anJu+GdJ8r7IReQ665UT8EERus72GUMwf1yvdHTS2IlI2pHriRXoB/34UAxRiphlwl
-         JzLBYNs0fyNzx5OBh5bBAuvAIVnnfx2IS4ovbidZWZ86fRZyft08l46rnyqfQQauQbbo
-         +9azNaB4+GWT5mVwiMO6bm7nMb4aChNp+pQWCmRLvWl65loZJu22/mfo4kt86tYXAOp/
-         h6+cpIrciahI2L0ilVmhbsmsWYhshOuDznhRIlXrRW7R5FF8Vv4atHyvs/DFVHgT7rMh
-         LdPfDdHo/tf2sXbqAXgbUL8GrX0dYOxt0nVoN+AKSX7Tc7NDbKd6J9IR3v8dWaCeMqMX
-         jtpg==
+        bh=ObqEUP3qi14NyfW7JJbtv2i7uqDxPO9r8TYVpyd2ZDo=;
+        b=W8fNDqpy6OlEHXP7oec3/cxIhHaTYQPgcbnUfR6f3SrAlYEkfMreGMFnFl3QS15OnZ
+         cPZaF2axcSu+XduTF2MC7o0fkkfbkDlYmtRhgiwM0dC9bOwjQvcB6Dd2w8SLW30CMYkT
+         6GeK6KtZKg9caUAMGmcmeIlO/zngu9fyqjXHYC/bjwEj1UCdOimtb9X+KA+oyI8YH70u
+         hXSfPWOQ0jrxgE5LtI6xQ6CWSDATnOBMLZLmledvHvYWLId909EoA6ISD08j6Yf2Kl44
+         yVPA9ZTXOTkBtr8WYevYwbdp7FRCc8Ax7+v6slqEsptl9qkIa+jPtZz3OyABAQU5S8dy
+         HGeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YNTwPa/ukwHAcbgK2EYvlx/6J9Qtj3bcwUG5UpA/d2I=;
-        b=DfJuM+Ij/j4oA3j7+xCcGU0rigIqXkJG8nCHAIFkCnRnIF2gZlmVGp9JNzZOPzYDTf
-         ge643W6byxvqAkJGwTB3cCGWyZJUB9NEkN9725bCHSlsQmbJBdT21gR2w+Q3oZVn01F8
-         lISXrsCjcSOLBJhK/i/xOvSVythb/CkM6EhCikW3kZxEWhDzYor1Dd/R7/g4cVb2qGVu
-         N35svNpzKqXcdqCcJPrXi0/8GYM3o5XIOWD+eT2ay5zY0witYpq/rD0PqYlOc8ILmK6M
-         b5tTdRalauW0w41NO4XMtnzpg5Iqs7zrQfL8/SgXrY7pR3xJF1uuLV6Ewv7+NFSMah86
-         Z8jg==
-X-Gm-Message-State: AOAM5312o/+OHeFZGusZfBX7UMH8RgEtZHthQ0EC4dytWEfwnsbJ5jJC
-        vpPWqn2X5Ji0b1lY+Yhrd5U=
-X-Google-Smtp-Source: ABdhPJwPuz8gEAC0746r3Y3IKxW8MlamGVTG350FENP6Ra/koXN8UO2RtdrH4mkGco4tvISej/VR/Q==
-X-Received: by 2002:adf:e643:: with SMTP id b3mr5050574wrn.67.1631785455292;
-        Thu, 16 Sep 2021 02:44:15 -0700 (PDT)
+        bh=ObqEUP3qi14NyfW7JJbtv2i7uqDxPO9r8TYVpyd2ZDo=;
+        b=5U9lo8XqWecpztqMUTHAiEddacJffAZv9SlU+851PfMfRS0IMC/DMc6B20upP1T0+g
+         fFtvNiAJ9W2erq/pj6FJuM9rvSpizHl2+GOGJV7RWFYzuJXOBOqokT3WZpVyugDgGjej
+         Q0jsf/jggIBtvsgwoJvwyzh6gne4/QPH8r8mhnW8L04Fa9iSDrlNPFHhryLKRC+IMPeB
+         7cWfH6/JBkEKrA+bssQqHTj6IbkD4UnklR8xxqzpWRwvvQ5iWZYku05FudzASHvlWab4
+         Pn/ffwMGmUFzh9hygPWByxmrQbEvAs8NzGoudwrJ+7SItZPcUcuz9uLVntjGunDAb3Op
+         VdkA==
+X-Gm-Message-State: AOAM530TP+VvYWnWzZUDZZClJW4m4QShRVeU2RlZzWdfv6N9UFyNFmP1
+        OxtX6aB3s0Ag4XMosM0GT0UpAmI5yz0=
+X-Google-Smtp-Source: ABdhPJzFIBV/AFPzv49Wbp2BXqvcU39J/We2bG7prD/rUYc/OzBlzrEEDg1d3S3r4/zB4uWxtUv9Ug==
+X-Received: by 2002:adf:f185:: with SMTP id h5mr5042555wro.302.1631785457242;
+        Thu, 16 Sep 2021 02:44:17 -0700 (PDT)
 Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id l2sm7435374wmi.1.2021.09.16.02.44.14
+        by smtp.gmail.com with ESMTPSA id v8sm2872677wrt.12.2021.09.16.02.44.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 02:44:14 -0700 (PDT)
+        Thu, 16 Sep 2021 02:44:16 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 4/6] drm/tegra: Do not reference tegra_plane_funcs directly
-Date:   Thu, 16 Sep 2021 11:44:02 +0200
-Message-Id: <20210916094404.888267-4-thierry.reding@gmail.com>
+Subject: [PATCH 5/6] drm/tegra: Propagate errors from drm_gem_plane_helper_prepare_fb()
+Date:   Thu, 16 Sep 2021 11:44:03 +0200
+Message-Id: <20210916094404.888267-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210916094404.888267-1-thierry.reding@gmail.com>
 References: <20210916094404.888267-1-thierry.reding@gmail.com>
@@ -65,31 +65,35 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Instead of referencing the tegra_plane_funcs struct directly, use each
-plane's vtable instead. This makes it more future-proof in case any of
-the planes ever use a different set of functions.
+Currently this function doesn't return an error, but that may change in
+the future, so make sure to propagate any error codes that it might
+return.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tegra/plane.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 16c7aabb94d3..2025b18d2f63 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1267,9 +1267,9 @@ static struct drm_plane *tegra_dc_add_planes(struct drm_device *drm,
- 			err = PTR_ERR(planes[i]);
+diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
+index f8e8afcbcbf2..321cb1f13da6 100644
+--- a/drivers/gpu/drm/tegra/plane.c
++++ b/drivers/gpu/drm/tegra/plane.c
+@@ -200,11 +200,14 @@ int tegra_plane_prepare_fb(struct drm_plane *plane,
+ 			   struct drm_plane_state *state)
+ {
+ 	struct tegra_dc *dc = to_tegra_dc(state->crtc);
++	int err;
  
- 			while (i--)
--				tegra_plane_funcs.destroy(planes[i]);
-+				planes[i]->funcs->destroy(planes[i]);
+ 	if (!state->fb)
+ 		return 0;
  
--			tegra_plane_funcs.destroy(primary);
-+			primary->funcs->destroy(primary);
- 			return ERR_PTR(err);
- 		}
- 	}
+-	drm_gem_plane_helper_prepare_fb(plane, state);
++	err = drm_gem_plane_helper_prepare_fb(plane, state);
++	if (err < 0)
++		return err;
+ 
+ 	return tegra_dc_pin(dc, to_tegra_plane_state(state));
+ }
 -- 
 2.33.0
 
