@@ -2,122 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24316411A04
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Sep 2021 18:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A2CD4127A5
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Sep 2021 23:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238573AbhITQot (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Sep 2021 12:44:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55092 "EHLO
+        id S235288AbhITVEd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Sep 2021 17:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237709AbhITQos (ORCPT
+        with ESMTP id S237221AbhITVCa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Sep 2021 12:44:48 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA9FC061574
-        for <linux-tegra@vger.kernel.org>; Mon, 20 Sep 2021 09:43:21 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id t10so63902010lfd.8
-        for <linux-tegra@vger.kernel.org>; Mon, 20 Sep 2021 09:43:21 -0700 (PDT)
+        Mon, 20 Sep 2021 17:02:30 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C961C05935E;
+        Mon, 20 Sep 2021 10:23:15 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id p29so69934560lfa.11;
+        Mon, 20 Sep 2021 10:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ktbwkhy3rbgHFFQkdiJBYVtvpT8HovLT4b4l+npAGPY=;
-        b=Nh50tnKdv84V3ZH13m/5EugbkPkw6ob9DNK0VYQ9JoZZRC4H3Z1k7esuLHEUCxo1f4
-         MGm3VlUyGuDU2UFrH1iOSGN4VSFnKfsJYns6KzACGeXOs9KFYqzcx5Zwxppxzlyrnh5e
-         gVEEj+5b8uwMlyzCZdWnS8iLn/AtygQgpffak1fnqiUEBXB3pR5ir7BeDlMCnvltaBqF
-         PuMznbFCRdkoAjf+VgFWVRZXZxnMVc04IOwtiFmYUmcXRbjSKrepK6M6z5Iw9TQLgL7X
-         Tprvje23cnnutuONA9fezjv8IRkFlEJ04sGZwbQ8wzENWeOySK97IkAeIgEw+AjtYlIp
-         UNZQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6HY+i9xFe3394dw3mtZ4CqFXOI8zy8KUlBKvEvhmMp8=;
+        b=n3k7TyFqg0XBwNTE2AGgCInmHSWCTj33UHgEliRKebOrsN2m0FTCDpw/xK0HGi0O5P
+         /r888sQrIXBSAo+spsctvLKGo8+PgZi/KDV45LRZvEFy2ALAj2ulsFxoGccr+DgE1SzV
+         sOgVU+sN8IuPdRRSdB7odoc3UArpDpTtqGrcry/YNaeGzpW2eeQ2I58t6iGnFkteHzDL
+         5SeKS/cRWmxhvZyLrHHn3xUkklp0qIHyw+mNuYur52hs8dmSBp2Ji2mVYzV42/rndYR9
+         QzeDf8up+aALvHAgAEeK/qntRBHtIFJxXdElDdJnihwDYZ1Bb/amf8fmGxcj++yfKPP+
+         3t1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ktbwkhy3rbgHFFQkdiJBYVtvpT8HovLT4b4l+npAGPY=;
-        b=Opb0RNzWlTAZOVtI4WV7p6ZgUL8H/kvx/WbzP6xujCsTZ3Nu+03/HIjrEvkSMg8eqG
-         8xRzqDfNF0Gt/lug+y1593gy/DRF4OnIYGqJ2TyQJjuMJFSBoXQAtV2Unu06GPC5ut/f
-         Leej56WoRuZDS+gBdj0FamRAERQtjXJOl2veNJhrBLn/78382Q/gWAvpBzJVtgttuOOs
-         OwnTGuDi74z7CPW4Yj0ae/SRdxkiqk40CB1pC4HCvLvH7PCVcYQ7CyATdq92g73aDYVl
-         Qmbst2/0loxJs4VNjWhg2B1l/2xf4eY9xY9Tk0p4ZRZf2yasb+05QKhtdlIkJ9XfmxSL
-         FA9Q==
-X-Gm-Message-State: AOAM533zxc9Ty2sfJPD/D3P8hKgTTp03NnZNa4osrxjCZLkHtgRueTDL
-        FxYiGRyCOzsPwZnvdWPB8tY+rs5R0FI=
-X-Google-Smtp-Source: ABdhPJxxi3zhkrKnK0e6UqV9MLL71sHdRrsqPl2nOa2d6w6pzbMEX4j1pwOONAP1ppUtqCAgKN0wmQ==
-X-Received: by 2002:a2e:2a06:: with SMTP id q6mr22809575ljq.424.1632156199788;
-        Mon, 20 Sep 2021 09:43:19 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
-        by smtp.googlemail.com with ESMTPSA id e17sm1817583ljk.133.2021.09.20.09.43.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Sep 2021 09:43:19 -0700 (PDT)
-Subject: Re: [PATCH libdrm 00/25] Update Tegra support
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20210827132305.3572077-1-thierry.reding@gmail.com>
+        bh=6HY+i9xFe3394dw3mtZ4CqFXOI8zy8KUlBKvEvhmMp8=;
+        b=HSHnDRZylAQfEp6GgEXyBA6bHkN/eVYufDIwVpzGGogd+VP0fiaTnA7qaDUcUAuhlJ
+         gu22rTEKmmnSKvXdfJIl8Ht6NiO1RIjExYJu+FG+lX1lGp4YZos8YtnIlFmPqfhH07Hl
+         ggd3rL3jTJPrrkER8lsVxT/dwUeplml+kky2cp79xMRXUa52Pg/IBTw8KkviV8bpkkvr
+         WSUdf3L9PGbfS7Ncf1IQGp5FTYBLK7kUjSKNnHTnm+7s0kyYyPUhnHHQN8d97ogmbCwl
+         WpkuYYH57E5S1rGcgzBTJM6dytveYRFVRyfjzqTxvRQpWVLtInJiL6RH7gGyqigo8Bee
+         IVZg==
+X-Gm-Message-State: AOAM533v1NMjU8BFtoAlqaMbYoJHehE242zS0v2J5tPgFBMQpmHDBwqJ
+        TH9pn8GbI2Z4RR3Xl5NjwAXtNjhcWic=
+X-Google-Smtp-Source: ABdhPJwTloJA4iBH7B9NOu/+JLk7WaRxunP7Al/3ucERMI1UHOynNHOHAzAjvExvOGSQjVnax2FCww==
+X-Received: by 2002:ac2:5d71:: with SMTP id h17mr19342342lft.670.1632158593940;
+        Mon, 20 Sep 2021 10:23:13 -0700 (PDT)
+Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
+        by smtp.gmail.com with ESMTPSA id t13sm1311038lff.279.2021.09.20.10.23.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Sep 2021 10:23:13 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c0d43222-2d45-fee7-f96b-2ab511b94d88@gmail.com>
-Date:   Mon, 20 Sep 2021 19:43:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v2 0/4] Make probe() of Tegra devfreq driver completely resource-managed
+Date:   Mon, 20 Sep 2021 20:22:45 +0300
+Message-Id: <20210920172249.28206-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210827132305.3572077-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.08.2021 16:22, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Hi all,
-> 
-> this is the userspace part of the kernel patches that were recently
-> merged into drm-next:
-> 
->   https://patchwork.freedesktop.org/series/92378/
-> 
-> The goal is to provide a userspace implementation of the UAPI exposed by
-> the kernel and show its usage in some test programs that can also be
-> used for basic sanity testing. More complete userspace implementations
-> are available here:
-> 
->   * https://github.com/cyndis/vaapi-tegra-driver
->   * https://github.com/grate-driver/xf86-video-opentegra
->   * https://github.com/grate-driver/grate
-> 
-> Thierry
-> 
-> Thierry Reding (25):
->   tegra: Indent according to .editorconfig
->   tegra: Remove unused IOCTL implementations
->   tegra: Extract common buffer object allocation code
->   tegra: Fix mmap() of GEM buffer objects
->   tegra: Add flink helpers
->   tegra: Add PRIME support helpers
->   tegra: Make API more consistent
->   tegra: Install tegra-openclose test
->   tegra: Update for new UABI
->   tegra: Include private.h in list of source files
->   tegra: Add channel APIs
->   tegra: Add job and push buffer APIs
->   tegra: Add syncpoint APIs
->   tests: tegra: Add helper library for tests
->   tests: tegra: Add gr2d-fill test
->   tests: tegra: Add syncpt-wait test
->   tests: tegra: Add syncpoint timeout test
->   tests: tegra: Add VIC support
->   tests: tegra: Add VIC 3.0 support
->   tests: tegra: Add VIC 4.0 support
->   tests: tegra: Add VIC 4.1 support
->   tests: tegra: Add VIC 4.2 support
->   tests: tegra: Add VIC clear test
->   tests: tegra: Add VIC blit test
->   tests: tegra: Add VIC flip test
+This series adds new resource-managed helpers and makes Tegra devfreq
+driver to use them, improving the driver's error-handling code.
 
-Have you thought about moving tests into IGT? Wouldn't it be a more
-appropriate place for the tests?
+Changelog:
 
-Perhaps we can add/move Mikko's UAPI tests there too, for complicity.
-Although, I'd prefer it all to be written in a plain C or C++.
+v2: - Added WARN_ON() to devm_devfreq_remove_governor() and moved
+      devm_devfreq_add_governor() as was requested by Chanwoo Choi.
+
+    - Added ack from Chanwoo Choi to the "Check whether clk_round_rate()
+      returns zero rate" patch.
+
+Dmitry Osipenko (4):
+  opp: Add more resource-managed variants of dev_pm_opp_of_add_table()
+  PM / devfreq: Add devm_devfreq_add_governor()
+  PM / devfreq: tegra30: Use resource-managed helpers
+  PM / devfreq: tegra30: Check whether clk_round_rate() returns zero
+    rate
+
+ drivers/devfreq/devfreq.c         |  26 +++++++
+ drivers/devfreq/governor.h        |   3 +
+ drivers/devfreq/tegra30-devfreq.c | 109 +++++++++++++-----------------
+ drivers/opp/of.c                  |  46 +++++++++++--
+ include/linux/pm_opp.h            |  12 ++++
+ 5 files changed, 127 insertions(+), 69 deletions(-)
+
+-- 
+2.32.0
+
