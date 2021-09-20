@@ -2,100 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 565554127AD
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Sep 2021 23:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D71741274C
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Sep 2021 22:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237540AbhITVEj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Sep 2021 17:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbhITVCh (ORCPT
+        id S230142AbhITUdM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Sep 2021 16:33:12 -0400
+Received: from mail-oi1-f178.google.com ([209.85.167.178]:34791 "EHLO
+        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230176AbhITUbL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Sep 2021 17:02:37 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD54C059363;
-        Mon, 20 Sep 2021 10:23:20 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id e15so31880755lfr.10;
-        Mon, 20 Sep 2021 10:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FH0NgxJWofET3fg5T9f/eJzZHrX+F/eL7pq4def6uQw=;
-        b=q1Gf88uXqLRq3AwuB/CdnFpMAERakzmDWQ7s1yj0n7DqBzkX680ZfEh6OMiNliwMIc
-         kCBvBA0Cf+kFV5QJi+y3aaO2H6vhrk/Nv8EGYfw2vfPJRQTwHXAKOPZcyMfzKYS852mf
-         yBFCVhJLKEB641bZw9/px0GdxtQkNkoq8fdFWCzpNQvjISDIYp7uOiz1+/eON78PJ2p1
-         aLl/JkMGeHk8Q5e9QcNgzrKr7Zfmn7lDgeD9sI43SseXwX6VknYe4CfxQ8DofBTOl3Vu
-         PwxwCJAY5Nui7OIYb7WKvE6UczVr28JJodCqpW8JsKHdqDQxpmvlxcunTaBHC4DtIzcb
-         0XJQ==
+        Mon, 20 Sep 2021 16:31:11 -0400
+Received: by mail-oi1-f178.google.com with SMTP id p2so26552242oif.1;
+        Mon, 20 Sep 2021 13:29:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FH0NgxJWofET3fg5T9f/eJzZHrX+F/eL7pq4def6uQw=;
-        b=KXM+wLUcJgLppK2W6Vz3Y/aH7Qw/GI8eoD9q+r98gAzHRwRxSDZp/9XaTRHqgI2WT+
-         wu7J/RyHIEvyrqLwBt0rVfCeBDSfpPcpPY9vF7kBjkJD3cyBNzvXmo8QTS3z9eeEAOoK
-         J7+c4SM2xc4KR4de5pCPYONo7pDczCIZPR/v+nZgiBYYZFOBht+OZ9UMMCNTkH10ZAEG
-         Hs7+mhlqk5raYhc8nc2ibEFk7Zs7HL4Nz66TsFvvoHWnDyRIBmnZGDaTYoXKoQl6VtQM
-         s1hrGxsWTBwJefCWCQ1NsGL2h+udbhEBbr8qCyPKVmk/V7U1xOlQWSl8Ij9dkNCkY8Wb
-         RtdQ==
-X-Gm-Message-State: AOAM5332RVyteIg6FvhXLHNfjNqErd82S7K6uMgCwpkuDkiRAWObZnhm
-        wF2fRuegOdQQbq/t9VLvMOg=
-X-Google-Smtp-Source: ABdhPJyPvN4cSVL2kD7wPRc/kuAhlKI5+a+HKu4WN6DA7Q/2GqPk67C3wcNlO2sGQYlfoZjC3Yumwg==
-X-Received: by 2002:ac2:484e:: with SMTP id 14mr20858664lfy.140.1632158597129;
-        Mon, 20 Sep 2021 10:23:17 -0700 (PDT)
-Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
-        by smtp.gmail.com with ESMTPSA id t13sm1311038lff.279.2021.09.20.10.23.16
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AH19fZDa3RGD1bXp8KensKJGxcb/KKL33WSHbuvr/mU=;
+        b=RsTzGM/RHDUcfDk0n6rh6cdHqOzfTD0me4EqPjZKLDFx9r0imLpeEiAkJWft9N4z/8
+         Y+stkzXEaJJg272KDsu37pOIqiyWF1/BViLxq48hLhfR2DMnSTGsHXnKj3c4RGyde7qy
+         qqHGab1gGqyX7R1oQDcUi2fI+s/1tjf3wYDDGN6L1VngTgRELgZ0uef/3tImXeHZrqMY
+         K7NPdTSgr//3c216C0Bd0EB38tPFl/OkCxabnUn6HZT7qi2+MmJvtypLv0V80reIj3tE
+         iKLBBK7ytddY6ZOj9itRwBTbvho7yPej9eVYEItrF7KGex47cjrMi4bsJvtq1pXjLTwi
+         SK7Q==
+X-Gm-Message-State: AOAM532+quMTtKwchOjdHs7Wx/3hBOwFNGtImHapg3vJp+V5/V2fL5An
+        7GIEBYguD6SaLyJo5oh4jg==
+X-Google-Smtp-Source: ABdhPJxbK/iL/HBM5wgfss+lB7OVXLSTbwGo6rZFtSZ7S8wUZy7rjh4eYLbR2TGSaErAnOS1tB3eIw==
+X-Received: by 2002:a05:6808:1a29:: with SMTP id bk41mr733432oib.167.1632169784453;
+        Mon, 20 Sep 2021 13:29:44 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id p21sm3431243oip.28.2021.09.20.13.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 10:23:16 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v2 4/4] PM / devfreq: tegra30: Check whether clk_round_rate() returns zero rate
-Date:   Mon, 20 Sep 2021 20:22:49 +0300
-Message-Id: <20210920172249.28206-5-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210920172249.28206-1-digetx@gmail.com>
-References: <20210920172249.28206-1-digetx@gmail.com>
+        Mon, 20 Sep 2021 13:29:43 -0700 (PDT)
+Received: (nullmailer pid 697302 invoked by uid 1000);
+        Mon, 20 Sep 2021 20:29:42 -0000
+Date:   Mon, 20 Sep 2021 15:29:42 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Mikko Perttunen <mperttunen@nvidia.com>
+Cc:     thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+        airlied@linux.ie, robh+dt@kernel.org,
+        dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+        devicetree@vger.kernel.org, jonathanh@nvidia.com
+Subject: Re: [PATCH v6 1/3] dt-bindings: Add YAML bindings for NVDEC
+Message-ID: <YUjvNmsPEBZHVDw/@robh.at.kernel.org>
+References: <20210916145517.2047351-1-mperttunen@nvidia.com>
+ <20210916145517.2047351-2-mperttunen@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210916145517.2047351-2-mperttunen@nvidia.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-EMC clock is always-on and can't be zero. Check whether clk_round_rate()
-returns zero rate and error out if it does. It can return zero if clock
-tree isn't initialized properly.
+On Thu, 16 Sep 2021 17:55:15 +0300, Mikko Perttunen wrote:
+> Add YAML device tree bindings for NVDEC, now in a more appropriate
+> place compared to the old textual Host1x bindings.
+> 
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> ---
+> v6:
+> * Elaborated description for nvidia,host1x-class.
+> * Added default value for nvidia,host1x-class.
+> v5:
+> * Changed from nvidia,instance to nvidia,host1x-class optional
+>   property.
+> * Added dma-coherent
+> v4:
+> * Fix incorrect compatibility string in 'if' condition
+> v3:
+> * Drop host1x bindings
+> * Change read2 to read-1 in interconnect names
+> v2:
+> * Fix issues pointed out in v1
+> * Add T194 nvidia,instance property
+> ---
+>  .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 108 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 109 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> 
 
-Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/devfreq/tegra30-devfreq.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+With the yamllint warning fixed,
 
-diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-index d83fdc2713ed..65ecf17a36f4 100644
---- a/drivers/devfreq/tegra30-devfreq.c
-+++ b/drivers/devfreq/tegra30-devfreq.c
-@@ -891,9 +891,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
- 		return err;
- 
- 	rate = clk_round_rate(tegra->emc_clock, ULONG_MAX);
--	if (rate < 0) {
-+	if (rate <= 0) {
- 		dev_err(&pdev->dev, "Failed to round clock rate: %ld\n", rate);
--		return rate;
-+		return rate ?: -EINVAL;
- 	}
- 
- 	tegra->max_freq = rate / KHZ;
--- 
-2.32.0
-
+Reviewed-by: Rob Herring <robh@kernel.org>
