@@ -2,86 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F783414475
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Sep 2021 11:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8631E414515
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Sep 2021 11:27:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234088AbhIVJFo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Sep 2021 05:05:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
+        id S234327AbhIVJ2h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Sep 2021 05:28:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234183AbhIVJFl (ORCPT
+        with ESMTP id S234323AbhIVJ2g (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Sep 2021 05:05:41 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F056FC0613CF
-        for <linux-tegra@vger.kernel.org>; Wed, 22 Sep 2021 02:04:11 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id c1so2119051pfp.10
-        for <linux-tegra@vger.kernel.org>; Wed, 22 Sep 2021 02:04:11 -0700 (PDT)
+        Wed, 22 Sep 2021 05:28:36 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2997C061756
+        for <linux-tegra@vger.kernel.org>; Wed, 22 Sep 2021 02:27:06 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id 72so7392811qkk.7
+        for <linux-tegra@vger.kernel.org>; Wed, 22 Sep 2021 02:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=iTGoqFM8qijEpuvk9WwIalanNU02ORS6d7bs4+cIQLs=;
-        b=TJnA2xZSNDmQVyDaUM5cetFg6piHlBIrzLYbLVA/L+yuikwexToDQQOXDpUqjS5BJS
-         ev7wC9FyVgBp+VojUE2hwZt6QDK94hIW9AkUhEfQrr2hUB2TZJd9m7WYBEDERBU0xf7V
-         HLEZKQ8imbD00ECabdcntHNdsmrEVi+ksDWbU5dQUHdjsrnCC5QGeTJtvQW8Dcb6/Gig
-         QJRmam67JS2cURfi0OZZ7UCHS5xrofx7U94cae+w1tvDEISkHYK4ePwn8jA8i6+Hn04x
-         V91ffa8741JrEfnPeR8hzfEW9746pm38IxXqRqxyeSUIbPBHKepHNewauGgvtvdlq0bs
-         n2Vw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q5r+ZHmLBKiHQX70H5Ts56LudGzMirgnfs/7sEqKhoI=;
+        b=bVtsQFphxv+PMBaFYpCnAOxW+4TF/zNObKBiv3jRnZJdKhXF+sN8iULpqlK7nv2udy
+         EFb/O1TB3/yIDF4rt46bIctXU6lPtU6iMvapZQmNuvknsnEDRnHgSWodFUUGViCMXghP
+         1OzvUxhpmggDrW2jiODD41+Dzdk54eUo2x+FRmoYy2myVV5x4bPNVjs5RJ2RqJieRDfk
+         3a9GgMgnnNVwWw+TWLF3ueERRzIHuEXN/MqGTYOJaQhhwNlOs95vBIKE5CYhR9rxL91c
+         O2KJJbKrbsU8N8ypJhrTM0lI6dxSxjzYVumuURPCeYmmV7vUHm94aFDIYwsGQ5gKVBSQ
+         HagA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=iTGoqFM8qijEpuvk9WwIalanNU02ORS6d7bs4+cIQLs=;
-        b=gk5PMcKmiD9Wl3QsgDNJ7LRNBD73xVe6RYfKcFLztbivzH7iR7sS8D8GKlTtayfJuO
-         tNAHaQ2LUTidsKfe9l06QJn7UbGG7gv+Sg/y5rxTk5pggCyGqtpUIU23veLAYePKZikQ
-         bvWJWnOWVWze5klasi/xP0oCCVlJf34pvpd/uh3Xx5YVAi9BAdQ3LkOQRl33+Nb1+UbR
-         jfYMT4jUvwzsYAeXwHvZO40tDHS97q3/z7l/yV9KzSHeM1vewVJRC4hdO4MEGjFG9B90
-         ELRN8d2SBUlzFGNkQZ/57AEv+dLgD0QvP+2ti+L27zxG7wmR3KMqhTHMA4GlCM6sfCtB
-         VKYw==
-X-Gm-Message-State: AOAM531zTfMqcuRthSCprO8dLDgiinH55KJzApLLeM/trZyItuYLPLyj
-        nIV0Rq3io9rXESes9Jq0YdndZLFSVT0zngewqF8=
-X-Google-Smtp-Source: ABdhPJzSBG9U99LUNHcK5yvniZ2TvGsF3RlQLQvBorUg0W0/5QJ3J1WzEmA6R19USIFGxQwjeUn1wqeOl+7hIVPqJUM=
-X-Received: by 2002:a05:6a00:234f:b0:3eb:3ffd:6da2 with SMTP id
- j15-20020a056a00234f00b003eb3ffd6da2mr34198606pfj.15.1632301451198; Wed, 22
- Sep 2021 02:04:11 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q5r+ZHmLBKiHQX70H5Ts56LudGzMirgnfs/7sEqKhoI=;
+        b=oXF1k1YMoSnGa3qbXi/W5MUyg8Cg0/HIwI74gk5aORSb/IRnfKBoDjVhkAZFq8HJBe
+         RnoxcIZ0C78cWiNGWPs09LXhNW9AQfUEs/5qTixE28QjSci3z8y2JOJ2EdWFBABoSBu2
+         cwjRSUejmbyIr0CPosJTPz8ZVxqa7nazJOoPdHE76ixF2MLPMrYogRpBDvexhRWcZ36j
+         9c1d/wG0UuSTbOtm3n3+Zy94FPN+IBjlIR9q5gLpil+85zy6ZtZ3GywNWZadi4mAeFMZ
+         KN2i11ypgzo8Rmx6D/Du4IRQpZdIhYlXp55aJJ42am8Y3tKZUH4RSHELCPPuBVgLNjHQ
+         cWoA==
+X-Gm-Message-State: AOAM53003zSNUcdnOMMbyqLg9uSz9DV3Ng+h38B7MYXqhCtNtY+Ty1BH
+        zoYBymJbWtJeh50FaeLQ41ZhWV89xC4yCbelHygqIwrzBaU=
+X-Google-Smtp-Source: ABdhPJwH8elDXf5KgspL13jX2tuE0QijykSs4P2ooWi/01P1LoJpz19UTo89aNkMG8go0fKysFrVB+WfuWILVnzwYu4=
+X-Received: by 2002:a25:cbc3:: with SMTP id b186mr42620852ybg.199.1632302826203;
+ Wed, 22 Sep 2021 02:27:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:f393:0:0:0:0 with HTTP; Wed, 22 Sep 2021 02:04:10
- -0700 (PDT)
-From:   susan wong <susanwong096@gmail.com>
-Date:   Wed, 22 Sep 2021 02:04:10 -0700
-Message-ID: <CAB_2jog_+wbY0uTEKJXzerAEjzsC2-Y6bHmQ=DR2HGCmzwQDOQ@mail.gmail.com>
-Subject: Dear Beloved,
-To:     undisclosed-recipients:;
+References: <20210917105412.595539-1-thierry.reding@gmail.com>
+In-Reply-To: <20210917105412.595539-1-thierry.reding@gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Wed, 22 Sep 2021 11:26:55 +0200
+Message-ID: <CAMpxmJVhmeiE7vR4T+U7zDeqounqRNdTh9sZ6SEdqtyVM3E+og@mail.gmail.com>
+Subject: Re: [PATCH 1/2] gpio: tegra186: Force one interrupt per bank
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dear Beloved,
+On Fri, Sep 17, 2021 at 12:54 PM Thierry Reding
+<thierry.reding@gmail.com> wrote:
+>
+> From: Thierry Reding <treding@nvidia.com>
+>
+> Newer chips support up to 8 interrupts per bank, which can be useful to
+> balance the load and decrease latency. However, it also required a very
+> complicated interrupt routing to be set up. To keep things simple for
+> now, ensure that a single interrupt per bank is enforced, even if all
+> possible interrupts are described in device tree.
+>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
 
-I am writing this mail to you with heavy tears in my eyes and great
-sorrow in my heart. I am Mrs. Susan Wong. A widow to late Mr. Hamson
-Wong; I am 63 years old, suffering from long time Cancer of the
-breast.
+Applied, thanks!
 
-From all indications my condition is really deteriorating and it's
-quite obvious that I won't live more than 2 months according to my
-doctors. I have some funds I inherited from my late loving husband Mr.
-Hamson, the sum of (4,500,000.00 Million Dollars) which he deposited
-in a bank here and I need honest, truthful and God fearing person that
-can use these funds for Charity work, helping the less privileges, and
-30% of this money will be for your time and effort, while 70% goes to
-charities.
-
-1) For the sick, less-privileged
-2) For the Widows and the motherless babies
-3) Orphanages or Charity Home.
-
-I look forward to your prompt reply from you for more details.
-
-I will like you to write me on my Email address;
-sosanwong123@gmail.com , to enable us discuss in details. I hope
-hearing from you soonest. Thanks for your understanding.
-
-Yours sincerely
-
-Mrs. Susan Wong
+Bart
