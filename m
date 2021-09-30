@@ -2,151 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C17341DF40
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Sep 2021 18:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D0D941E1EC
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Sep 2021 21:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352198AbhI3QmM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Sep 2021 12:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352189AbhI3QmI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Sep 2021 12:42:08 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17075C06176E
-        for <linux-tegra@vger.kernel.org>; Thu, 30 Sep 2021 09:40:26 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id f2so7219570vsj.4
-        for <linux-tegra@vger.kernel.org>; Thu, 30 Sep 2021 09:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=klL1UpLzD7wQhT+u4Gn3f98ZGPXdICD/gL8aAAN3e+d2ures71JEqMSnQmwTk2Wgi/
-         WbiQz8V3Pd9DQnsXUXVmKMZTYSeJoI4aTZi3A3rC2I87tBGp6VzNWBHFGYupGX9dcC8J
-         ct2Z0RY+GAagSAGNV9wYqTgtAvu+9PiewwPIWRaqjwm/gFpSgZmVUgbq3SkcynleIpCD
-         u98CTx+bDvOYjxGAiym43LtwMxcfKO+QE9Rm5HJY6vNmINq79x2j9GM/HszD8nrib3Hk
-         P3Q8ESrESAbxxKnC7KMyUcaPs0A1zKoaDMaObd6P0VQIJ8jJrV10hlpQA3OhybL7pEug
-         kRhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=Xm4AYFZpfWB5ZCyuPbWddVyHf8EVI+azbYJp+Rwge8ArhQRnVyq52EB3UB29L5f76z
-         IEOacUwJTexKrqiYHzWtGYmzN0A5MBIKR3KwcwWefOiOfwWNywJVLHs3kEGh/MVmFJXs
-         A5v4uiOSQWaOaDXyKqSCNqe0Oia8xAoGO2EBXjpB0YTajLCdRFcbZ7YcrtCSguyDc92t
-         uSI3exWQAO3Qveg0wOSeew5443dsshWm9CKJ6H7cgBgq35kWh1RWM4LBn4gCFHfpqZ+y
-         jeXUrXo/0j9JfHmVWv3CiY/FlDeKXGpb1xPiMyoIHWEhPneDCmzcZliviLqVlcEIl+jp
-         zcYA==
-X-Gm-Message-State: AOAM530NilkgaAofwu4wSJX4L5WDJqMtvfehOW5oa++Odg6q7qe6F3BT
-        Z6AwO3jpmoEK1ioxrX2grqmUuyzDiYSSginA/J8=
-X-Google-Smtp-Source: ABdhPJyxr33xWZ+IWjzPH6BWLVx+LS1XFdQsH+Wd5qTKdzTcC5YzVlOcqQyIsNFnPLybj9m0QYGO//SHZ5Mm0RLXYfg=
-X-Received: by 2002:a05:6102:192:: with SMTP id r18mr303425vsq.0.1633020025172;
- Thu, 30 Sep 2021 09:40:25 -0700 (PDT)
+        id S1344973AbhI3TEN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Sep 2021 15:04:13 -0400
+Received: from mga14.intel.com ([192.55.52.115]:4234 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1345619AbhI3TDK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 30 Sep 2021 15:03:10 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="224919968"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
+   d="scan'208";a="224919968"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 12:01:03 -0700
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
+   d="scan'208";a="521314581"
+Received: from lcalx-mobl1.amr.corp.intel.com (HELO [10.212.88.180]) ([10.212.88.180])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 12:01:01 -0700
+Subject: Re: [PATCH 01/13] ASoC: soc-pcm: Don't reconnect an already active BE
+To:     Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org,
+        lgirdwood@gmail.com, robh+dt@kernel.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, catalin.marinas@arm.com, will@kernel.org,
+        perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com
+Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <1630056839-6562-1-git-send-email-spujar@nvidia.com>
+ <1630056839-6562-2-git-send-email-spujar@nvidia.com>
+ <be6290d1-0682-3d93-98a6-ad0be3ca42c1@linux.intel.com>
+ <70422e52-89d2-d926-b3f9-be59780d464e@nvidia.com>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <40f098c8-b9e3-8da6-849a-eb9a39fefdb0@linux.intel.com>
+Date:   Thu, 30 Sep 2021 14:00:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
- 09:40:24 -0700 (PDT)
-Reply-To: irenezakari24@gmail.com
-From:   Irene zakari <irenezakari88@gmail.com>
-Date:   Thu, 30 Sep 2021 09:40:24 -0700
-Message-ID: <CAFT8PFFGaFTfLE3SCRKPmvOGX18=YvW0WYHX7S8c7zgtYtFeaQ@mail.gmail.com>
-Subject: PLEASE I NEED YOUR HELP
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <70422e52-89d2-d926-b3f9-be59780d464e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello   ..
 
-How do you do over there? I hope you are doing well?
+> 1. The original issue at my end was not just a configuration redundancy.
+> I realize now that with more stream addition following error print is seen.
+>    "ASoC: too many users playback at open 4"
+> 
+>    This is because the max DPCM users is capped at 8. Increasing this
+> may help (need to see what number is better), but does not address the
+> redundancy problem.
+Going back to this DPCM_MAX_BE_USERS definition, it seems rather
+arbitrary and not so useful indeed.
 
-My name is Irene. (24 years), i am single, from Gambia, the only child
-of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
-(Building Construction Company in The Gambia) also the CEO of Bernard
-Import and Export (GAMBIA).
+	/* first time the dpcm is open ? */
+	if (be->dpcm[stream].users == DPCM_MAX_BE_USERS) {
+		dev_err(be->dev, "ASoC: too many users %s at open %d\n",
+			stream ? "capture" : "playback",
+			be->dpcm[stream].state);
+		continue;
+	}
 
-As a matter of fact my mother died when i was barely 4 years old
-according to my late father and because of the type of love he had for
-my mother made him to remain UN-married till he left the ghost..
+The comment is no longer aligned with the code, wondering if this is a
+feature or a bug. There's no reason to arbitrarily restrict the number
+of users of a BE, or the check would need to use platform-specific
+information such as the number of inputs/outputs supported by a mixer/demux.
 
-So after the death of my father as a result of assassinate, his brother (My
-Uncle) who is the purchasing and marketing sale manager of my late
-fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
-convert all the properties and resources of my late father into his
-which i quarreled with him and it made him to lay his anger on me to
-the extent of hiring an assassins to kill me but to God be the glory i
-succeeded by making a way to Burkina faso for my dear life.
-Honestly i do live a fearful life even here in Burkina faso because of
-those Assassins coming after me .
+Maybe Morimoto-san can comment since this was added in:
 
-I would want to live and study in your country for my better future.
-because my father same blood brother wanted to force me into undecided
-marriage, just for me to leave my father home and went and live with
-another man I never know as he want to occupied all my father home
-and maybe to sold it as my father no longer alive, I'm the only child
-daughter my father born, '' but he don't know that i am not
-interesting in any of my father properties or early marriage for now,
-because i still have future to think about and to focus on my studies
-first as i was doing my first year in the University before the death
-of my father.
+1db19c151819 ('ASoC: soc-pcm: fixup dpcm_be_dai_startup() user count')
 
-Actually what I want to discuss with you is about my personal issue
-concern funds my late father deposited in a bank outside my country,
-worth $4.5 million united state dollars. i need your assistance to
-receive and invest this funds in your country.
-
-Please help me, I am sincere to you and I want to be member of your
-family as well if you wouldn't mind to accept me and lead me to better
-future in your country.
-
-All the documents the bank issue to my father during time of deposit
-is with me now.
-I already notify the bank on phone about the death of my father and
-they are surprise for the news and accept that my father is their good
-customer.
-I will be happy if this money can be invested in any business of your
-choice and it will be under your control till i finished my education,
-also I'm assuring you good relationship and I am ready to discuss the
-amount of money to give you from this money for your help.
-
-Therefore, I shall give you the bank contact and other necessary
-information in my next email if you will only promise me that you will
-not/never betray and disclosed this matter to anybody, because, this
-money is the only hope i have for survival on earth since I have lost
-my parents.
-
-Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
-CERTIFICATE here with me, but before I give you further information, i
-will like to know your full data
-
-1. Full Name: ........................
-2. Address: ..................
-3. Nationality: ........... Sex................
-4. Age:........... Date of Birth:................
-5. Occupation:...................
-.....
-6. Phone: ........... Fax:.........................
-7. State of Origin: .......Country:..............
-8. Occupation:...................
-................
-9. Marital status........... E-mail address's: ............
-10. Scan copy of your ID card or Driving License/Photo:............
-DECLARATION:
-
-so that i will be fully sure that i am not trusting the wrong person.
-and it will also give me the mind to send you the bank contact for you
-to communicate with them for more verification about this money. and
-to know you more better.
-
-Meanwhile, you can reach me through my pastor,his name is Pastor Paul
-any time you call, tell him that you want to speak with me because
-right now i am living in the church here in Burkina faso and i don't
-want to stay here any longer,
-send for me to speak with you his phone number is this(+226 75213646)
-
-I will stop here and i will be waiting for your reply and feel free
-ask any thing you want to know about me.
-Please help me, I would be highly appreciated
-Have nice day.
-From Irene
+We're not done with soc-pcm.c cleanups :-)
