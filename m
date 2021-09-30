@@ -2,119 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DBFB41DE93
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Sep 2021 18:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C17341DF40
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Sep 2021 18:40:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349330AbhI3QPk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Sep 2021 12:15:40 -0400
-Received: from mga03.intel.com ([134.134.136.65]:53611 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349136AbhI3QPd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Sep 2021 12:15:33 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="225301309"
-X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
-   d="scan'208";a="225301309"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 09:13:50 -0700
-X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
-   d="scan'208";a="521260621"
-Received: from lcalx-mobl1.amr.corp.intel.com (HELO [10.212.88.180]) ([10.212.88.180])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 09:13:48 -0700
-Subject: Re: [PATCH 01/13] ASoC: soc-pcm: Don't reconnect an already active BE
-To:     Sameer Pujar <spujar@nvidia.com>,
-        =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-        broonie@kernel.org, lgirdwood@gmail.com, robh+dt@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        catalin.marinas@arm.com, will@kernel.org, perex@perex.cz,
-        tiwai@suse.com, kuninori.morimoto.gx@renesas.com
-Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        sharadg@nvidia.com, linux-arm-kernel@lists.infradead.org
-References: <1630056839-6562-1-git-send-email-spujar@nvidia.com>
- <1630056839-6562-2-git-send-email-spujar@nvidia.com>
- <be6290d1-0682-3d93-98a6-ad0be3ca42c1@linux.intel.com>
- <70422e52-89d2-d926-b3f9-be59780d464e@nvidia.com>
- <2f96f1aa-74f2-8ea8-3f43-e4da97400fde@linux.intel.com>
- <647b1d54-dbd7-ce91-291d-d677ce908398@linux.intel.com>
- <94861852-29ba-be9e-8c63-a70a01550b3a@nvidia.com>
- <b68d3c04-07b5-966c-5cd3-8cc715cc470e@linux.intel.com>
- <78e175f3-29cb-f059-427f-51210278c42a@nvidia.com>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Message-ID: <09bbf14a-a5a0-23c6-d557-66a3af1ac227@linux.intel.com>
-Date:   Thu, 30 Sep 2021 11:13:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
+        id S1352198AbhI3QmM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Sep 2021 12:42:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352189AbhI3QmI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 30 Sep 2021 12:42:08 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17075C06176E
+        for <linux-tegra@vger.kernel.org>; Thu, 30 Sep 2021 09:40:26 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id f2so7219570vsj.4
+        for <linux-tegra@vger.kernel.org>; Thu, 30 Sep 2021 09:40:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=klL1UpLzD7wQhT+u4Gn3f98ZGPXdICD/gL8aAAN3e+d2ures71JEqMSnQmwTk2Wgi/
+         WbiQz8V3Pd9DQnsXUXVmKMZTYSeJoI4aTZi3A3rC2I87tBGp6VzNWBHFGYupGX9dcC8J
+         ct2Z0RY+GAagSAGNV9wYqTgtAvu+9PiewwPIWRaqjwm/gFpSgZmVUgbq3SkcynleIpCD
+         u98CTx+bDvOYjxGAiym43LtwMxcfKO+QE9Rm5HJY6vNmINq79x2j9GM/HszD8nrib3Hk
+         P3Q8ESrESAbxxKnC7KMyUcaPs0A1zKoaDMaObd6P0VQIJ8jJrV10hlpQA3OhybL7pEug
+         kRhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=Xm4AYFZpfWB5ZCyuPbWddVyHf8EVI+azbYJp+Rwge8ArhQRnVyq52EB3UB29L5f76z
+         IEOacUwJTexKrqiYHzWtGYmzN0A5MBIKR3KwcwWefOiOfwWNywJVLHs3kEGh/MVmFJXs
+         A5v4uiOSQWaOaDXyKqSCNqe0Oia8xAoGO2EBXjpB0YTajLCdRFcbZ7YcrtCSguyDc92t
+         uSI3exWQAO3Qveg0wOSeew5443dsshWm9CKJ6H7cgBgq35kWh1RWM4LBn4gCFHfpqZ+y
+         jeXUrXo/0j9JfHmVWv3CiY/FlDeKXGpb1xPiMyoIHWEhPneDCmzcZliviLqVlcEIl+jp
+         zcYA==
+X-Gm-Message-State: AOAM530NilkgaAofwu4wSJX4L5WDJqMtvfehOW5oa++Odg6q7qe6F3BT
+        Z6AwO3jpmoEK1ioxrX2grqmUuyzDiYSSginA/J8=
+X-Google-Smtp-Source: ABdhPJyxr33xWZ+IWjzPH6BWLVx+LS1XFdQsH+Wd5qTKdzTcC5YzVlOcqQyIsNFnPLybj9m0QYGO//SHZ5Mm0RLXYfg=
+X-Received: by 2002:a05:6102:192:: with SMTP id r18mr303425vsq.0.1633020025172;
+ Thu, 30 Sep 2021 09:40:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <78e175f3-29cb-f059-427f-51210278c42a@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
+ 09:40:24 -0700 (PDT)
+Reply-To: irenezakari24@gmail.com
+From:   Irene zakari <irenezakari88@gmail.com>
+Date:   Thu, 30 Sep 2021 09:40:24 -0700
+Message-ID: <CAFT8PFFGaFTfLE3SCRKPmvOGX18=YvW0WYHX7S8c7zgtYtFeaQ@mail.gmail.com>
+Subject: PLEASE I NEED YOUR HELP
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello   ..
 
->>>> Can you describe the sequence that you used to start them? That may be
->>>> useful to understand the criteria you used?
->>> I have something like this:
->>>
->>> FE1  --> Crossbar -> Mixer Input1    |
->>> FE2  --> Crossbar -> Mixer Input2    |
->>> ...                                  | --> Mixer Output -->
->>> ... |
->>> FE10 --> Crossbar -> Mixer Input10   |
->>>
->>> All these FEs are started one after the other. This is an example of
->>> 10x1. Similarly we can have 2x1, 3x1 etc.,
->>> In our system, the crossbar [0] and mixer [1] are separate ASoC
->>> components. Basically audio paths consist of a group of ASoC components
->>> which are connected back to back.
->> Not following. Can you explain how starting FE1 does not change the
->> state of the mixer output then?
->>
->> Or is each 'Crossbar' instance a full-blown BE? In that case you have a
->> 1:1 mapping between FE and BE, a *really* simple topology...
-> 
-> Yes 'Crossbar' exposes multiple ports and it is 1:1 mapping with FE.
-> Starting FE1 does configure mixer output.
+How do you do over there? I hope you are doing well?
 
-Ah ok, now I get the difference with the N:1 topology we used.
-Thanks for explaining this.
+My name is Irene. (24 years), i am single, from Gambia, the only child
+of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
+(Building Construction Company in The Gambia) also the CEO of Bernard
+Import and Export (GAMBIA).
 
->>> In the interim, may be we can have following patch to keep both systems
->>> working and keep the discussion going to address the oustanding
->>> requirements/issues?
->>>
->>> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
->>> index ab25f99..0fbab50 100644
->>> --- a/sound/soc/soc-pcm.c
->>> +++ b/sound/soc/soc-pcm.c
->>> @@ -1395,7 +1395,13 @@ static int dpcm_add_paths(struct
->>> snd_soc_pcm_runtime *fe, int stream,
->>>                  if (!fe->dpcm[stream].runtime && !fe->fe_compr)
->>>                          continue;
->>>
->>> -               if ((be->dpcm[stream].state !=
->>> SND_SOC_DPCM_STATE_NEW) &&
->>> +               /*
->>> +                * Filter for systems with 'component_chaining' enabled.
->>> +                * This helps to avoid unnecessary re-configuration
->>> of an
->>> +                * already active BE on such systems.
->>> +                */
->>> +               if (fe->card->component_chaining &&
->>> +                   (be->dpcm[stream].state !=
->>> SND_SOC_DPCM_STATE_NEW) &&
->>>                      (be->dpcm[stream].state !=
->>> SND_SOC_DPCM_STATE_CLOSE))
->>>                          continue;
->> that wouldn't work. We need to support the STOP and START cases as well.
->>
-> 
-> I meant with flag 'fe->card->component_chaining', which is currently
-> used by Tegra audio only.
+As a matter of fact my mother died when i was barely 4 years old
+according to my late father and because of the type of love he had for
+my mother made him to remain UN-married till he left the ghost..
 
-Ah yes, this may be a temporary solution that gets us both back to a
-'working solution'. Let me give it a try.
-Good discussion, thanks!
--Pierre
+So after the death of my father as a result of assassinate, his brother (My
+Uncle) who is the purchasing and marketing sale manager of my late
+fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
+convert all the properties and resources of my late father into his
+which i quarreled with him and it made him to lay his anger on me to
+the extent of hiring an assassins to kill me but to God be the glory i
+succeeded by making a way to Burkina faso for my dear life.
+Honestly i do live a fearful life even here in Burkina faso because of
+those Assassins coming after me .
+
+I would want to live and study in your country for my better future.
+because my father same blood brother wanted to force me into undecided
+marriage, just for me to leave my father home and went and live with
+another man I never know as he want to occupied all my father home
+and maybe to sold it as my father no longer alive, I'm the only child
+daughter my father born, '' but he don't know that i am not
+interesting in any of my father properties or early marriage for now,
+because i still have future to think about and to focus on my studies
+first as i was doing my first year in the University before the death
+of my father.
+
+Actually what I want to discuss with you is about my personal issue
+concern funds my late father deposited in a bank outside my country,
+worth $4.5 million united state dollars. i need your assistance to
+receive and invest this funds in your country.
+
+Please help me, I am sincere to you and I want to be member of your
+family as well if you wouldn't mind to accept me and lead me to better
+future in your country.
+
+All the documents the bank issue to my father during time of deposit
+is with me now.
+I already notify the bank on phone about the death of my father and
+they are surprise for the news and accept that my father is their good
+customer.
+I will be happy if this money can be invested in any business of your
+choice and it will be under your control till i finished my education,
+also I'm assuring you good relationship and I am ready to discuss the
+amount of money to give you from this money for your help.
+
+Therefore, I shall give you the bank contact and other necessary
+information in my next email if you will only promise me that you will
+not/never betray and disclosed this matter to anybody, because, this
+money is the only hope i have for survival on earth since I have lost
+my parents.
+
+Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
+CERTIFICATE here with me, but before I give you further information, i
+will like to know your full data
+
+1. Full Name: ........................
+2. Address: ..................
+3. Nationality: ........... Sex................
+4. Age:........... Date of Birth:................
+5. Occupation:...................
+.....
+6. Phone: ........... Fax:.........................
+7. State of Origin: .......Country:..............
+8. Occupation:...................
+................
+9. Marital status........... E-mail address's: ............
+10. Scan copy of your ID card or Driving License/Photo:............
+DECLARATION:
+
+so that i will be fully sure that i am not trusting the wrong person.
+and it will also give me the mind to send you the bank contact for you
+to communicate with them for more verification about this money. and
+to know you more better.
+
+Meanwhile, you can reach me through my pastor,his name is Pastor Paul
+any time you call, tell him that you want to speak with me because
+right now i am living in the church here in Burkina faso and i don't
+want to stay here any longer,
+send for me to speak with you his phone number is this(+226 75213646)
+
+I will stop here and i will be waiting for your reply and feel free
+ask any thing you want to know about me.
+Please help me, I would be highly appreciated
+Have nice day.
+From Irene
