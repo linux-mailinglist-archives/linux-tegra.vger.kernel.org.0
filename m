@@ -2,81 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43857428B87
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 Oct 2021 12:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCC144299CB
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Oct 2021 01:25:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236162AbhJKK6c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 Oct 2021 06:58:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
+        id S235668AbhJKX1Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 Oct 2021 19:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236115AbhJKK6W (ORCPT
+        with ESMTP id S235583AbhJKX1P (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 Oct 2021 06:58:22 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3A2C0613F0
-        for <linux-tegra@vger.kernel.org>; Mon, 11 Oct 2021 03:56:13 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id r19so69858648lfe.10
-        for <linux-tegra@vger.kernel.org>; Mon, 11 Oct 2021 03:56:13 -0700 (PDT)
+        Mon, 11 Oct 2021 19:27:15 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1169EC061570;
+        Mon, 11 Oct 2021 16:25:15 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id x27so79674007lfa.9;
+        Mon, 11 Oct 2021 16:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=km/+rwE10MGCG3K0BNjxD+A2l394aMlSCDFqBEiDyrs45mObKwVEkOccUp5BPFftJU
-         5cB06txNzUPVxcrxQnkqMq9zaxAqQeR9eoa3+7DqnAg3rX7wMze/dloERdrhczopiGET
-         PvxtLks7kWCMKTs5Q8Mmq12LwUKUT5cPH1x1mszpEwl0kuXWAYNTl0kX4+cL3oWAj8+a
-         6an2wLimFEmscCT9jtQf7FGYav0q/UTa6GRCeFihab7mYp8KZTVzyAi9ONxHllw1wfay
-         OSS3CoE7RnQ2PFKTnc/5Yya8gHnSshWvMzermo1msudbBS7MTk09iY8fA6ci8A/KmFSk
-         +E4A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=N3HcVRkt2qXB/rqH6SM+oiBx156PKAvxGuJmThzW5lg=;
+        b=PylXWvUDbhk8vPjHREbuDTn0CSpLBOTJp37e+wxb3choCU3PWx+FhWZnd7uGiVdeMq
+         EETtyJE3KDDOm4wOMQ9C8pb3WBxHioJyB/63lssZYEfgryU59vsnNloi2IP3bA9LI0DM
+         NuKeKtNScgzSyAWJZSTphLEMocSCmDDgzqR/PAAUHZiWi1cMXDOpNBYudQCO1Xn62IBU
+         nynPLSCooYja7RCL6kMlTtfl3uKpXh8XU1V9swZ1IlRO+Hm68rX4y9Ibo/fCCViRPPs6
+         O8O6kB2vRf6W9XYQmHbqCAhE3HHrXOi9sb8I4ue7NnZjhZgEE//X4o0DW9CFbCTaWkDq
+         16Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=DmoxNgywaE+hVCVI4uXgayCM11paA+dkIUL53eTqaMlDgAHvFImttbgfS+iFqjQTpI
-         PAKRmlWZM44Vd8ju0wvaoIkgqFujWX/+tOVObRqUAnDWJ9waIqzTRd7BHuJ3Sdxy3gAR
-         /lCZ+U8j7dFQjHgdYS3O88eWLlodCslK7AqJEKZiPiepPBuqDEPafQC4mvnAln1MTVSq
-         wZPoVoXDd/YbhopF4Fze/qMn/ibymOFGk2fdk76/jtt8XRzEjskQmz8OfwDt7fDQXHxs
-         ycr6yzJdsaC6cKlRBplh+YR8ggn9/KGwpdQk7pY1PXRFtMNlpxeYKAmA+RqPkfIcV2Lk
-         TaKw==
-X-Gm-Message-State: AOAM533yp14K1jMc6U5BqehnlSvLylOpP63A7KwXnRTWNePl6QCeICsV
-        RQ8mI9eyfql5NOF/I3Gg3DcUpGDs+nIHw8lW3jQ8a2CVkCVcAQ==
-X-Google-Smtp-Source: ABdhPJxWYMUVxuj7Tly9azrkWxEMXzTPZAklmoVIH4V2ykknMMiBN9imOFz2zTqxux/zk/7pzvFSRlX+C6mfjc7ADy4=
-X-Received: by 2002:adf:8b9a:: with SMTP id o26mr24377548wra.109.1633949760323;
- Mon, 11 Oct 2021 03:56:00 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=N3HcVRkt2qXB/rqH6SM+oiBx156PKAvxGuJmThzW5lg=;
+        b=yootKJei4YY6yTd9/ziro9HnQSlO49SUQHje6Pw7z2xFYi2cVpgULV6YmjXGS/rVQo
+         Qa6yHY03zy/Oz7Ccl8L+SdgRwY0C2RLHpO2IVxkv0voJHarXDGFtdSknUeXZ7Uos+irc
+         m63ywSHqnAjsmSvhEfkRazRvXfwZhK2M+bNAsBOc6GAv1DIaW61cJ6pNSmGC3g/sjunb
+         qKUSn5JtRW7vFcF4IxBo20/dNci1wuII2rryZRQOqrcKQpCwWKZG9jODJV5pHN8fMXqM
+         2FfJEvMvBx2P2tpOnNxX4WrTjf0AMS6Wd2Xkuvf/TiJWyn0Wn280gFiDhDO57Xk/mGuS
+         tnWw==
+X-Gm-Message-State: AOAM533h0oNs3uqSSTgEboEouEC7vpmIO/Rx6BMCYdKq3p9PtwZcRLEA
+        amzMXlycqgkB8oxwfu63xpjMDtWMzIo=
+X-Google-Smtp-Source: ABdhPJzkLmFoRH8hukY+9X+MqeNzriUds4GWxpYakbwi1lHd75mruGbLWv/FsdXhMmNaOKZMqsjg9Q==
+X-Received: by 2002:a05:6512:b81:: with SMTP id b1mr30356228lfv.301.1633994713208;
+        Mon, 11 Oct 2021 16:25:13 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-181.dynamic.spd-mgts.ru. [94.29.10.181])
+        by smtp.googlemail.com with ESMTPSA id d4sm985076ljl.98.2021.10.11.16.25.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Oct 2021 16:25:12 -0700 (PDT)
+Subject: Re: [PATCH v2 5/5] iommu/tegra-smmu: Support managed domains
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>, devicetree@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org
+References: <20210423163234.3651547-1-thierry.reding@gmail.com>
+ <20210423163234.3651547-6-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9b0f1fd2-887b-d685-f1b9-5848f392b8b8@gmail.com>
+Date:   Tue, 12 Oct 2021 02:25:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:55:59
- -0700 (PDT)
-Reply-To: ramcharan9910@outlook.com
-From:   "Cr.David Ramcharan" <convy0101@gmail.com>
-Date:   Mon, 11 Oct 2021 03:55:59 -0700
-Message-ID: <CADDRs95718H=K3tUjphEHH_C96xYhoJw7jeCMpt_FfZZjhEXrA@mail.gmail.com>
-Subject: Thank You
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210423163234.3651547-6-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Please I am writing to notify you again on my intention to list your
-name as a beneficiary to the total sum of GBP6.350 million (Six
-million, Three hundred and fifty thousand British Pounds Sterlings) in
-the intent of the deceased (name now withheld since this is my second
-letter to you).
+23.04.2021 19:32, Thierry Reding пишет:
+> From: Navneet Kumar <navneetk@nvidia.com>
+> 
+> Allow creating identity and DMA API compatible IOMMU domains. When
+> creating a DMA API compatible domain, make sure to also create the
+> required cookie.
 
-I contacted you because you bear the surname identity and therefore
-can present you as the beneficiary to inherit the account proceeds of
-the deceased since there is no written "WILL" or trace to the deceased
-family relatives. My aim is to present you to my Bank Authorities as
-the Next of Kin to our deceased client. I will guide you all through
-the Claim procedure by providing all relevant Information and guiding
-you in your decisions and response to the Bank Management. All the
-papers will be processed after your acceptance.
-
-In your acceptance of this deal, I request that you kindly forward to
-me your letter of acceptance; your current telephone and fax numbers
-,age, occupational status and a forwarding address to enable me submit
-to the Bank Management the details as the Next of Kin to their
-deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
-
-Yours faithfully,
-Cr.David Ramcharan
+IOMMU_DOMAIN_DMA should be a disaster. It shouldn't work without
+preparing DRM and VDE drivers at first. We discussed this briefly in the
+past.
