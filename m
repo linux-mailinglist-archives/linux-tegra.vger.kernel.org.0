@@ -2,38 +2,42 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 640A742C3B3
-	for <lists+linux-tegra@lfdr.de>; Wed, 13 Oct 2021 16:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1A6042C3D0
+	for <lists+linux-tegra@lfdr.de>; Wed, 13 Oct 2021 16:45:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237317AbhJMOn5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 13 Oct 2021 10:43:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50952 "EHLO mail.kernel.org"
+        id S230324AbhJMOrr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 13 Oct 2021 10:47:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52582 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235592AbhJMOn4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 13 Oct 2021 10:43:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E372561164;
-        Wed, 13 Oct 2021 14:41:50 +0000 (UTC)
+        id S230015AbhJMOrq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 13 Oct 2021 10:47:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 390D261166;
+        Wed, 13 Oct 2021 14:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634136112;
-        bh=FnygDVALxuB6jzfdbNL9ETJk+t+tvoto1moRUkWnoa4=;
+        s=k20201202; t=1634136343;
+        bh=pJnfWgGsGqI+zfTzCodTG7zYPd1pU/Q0UOVa898IOI8=;
         h=From:To:Cc:Subject:Date:From;
-        b=blmtjwVQ44gx2yksClstXIIuCIKlj42Zg4rAXRmJbWq1jWfUHvwsNV1usBK/b+KoS
-         Xm36wyw7WogQiiIK6XZ3PSBLcsC6rl2DfzWsRzVWIRIiRieZCKVYoaKWoUnbYuZqx8
-         OSiXJX+jGfaR7L1jX+NVL8tSkNGzDw1DblD4lQS1hBjUJbddYpxZnbdkcxBOW2IgaD
-         OL3yWPnPjCDviqhkN9915JLQQz5mvcmrlY0VKF42opvMg9WPw6YDtydX+gZDAMQi5X
-         thyDojZd++nO5AzUbPbN45fdvirIKUdNGrOwWyGemtIA2OmLTfV/u6h1S9VjBiCon2
-         59jTZa2hxWBuw==
+        b=b8cGpsbY89OZhao46D3bT6WBHQVOgjq8KvdCA6d8xb8W+IBczoP5xCk5S3XwDSmk1
+         MkLU+72FS8U/phw1N5p8I0JpN5h0bSr2KccFi3nBmdSfOBd/tYxqvxpHJoFsjdd+7r
+         t0Nkt1COEjsVop13m7V/E2NzmPRnd/2UWMgXeH5/sCEZLCTvryYsUSGJVVdIiWKL1C
+         0NDyoHNyWnnLM+8IvFLnZowh4jiO9QYZpQ40lxN4UKVGtnnSX1WRQGPBmR9BLTJ6bF
+         xSE56vBnP02yWgjfGSL3AR4A53C6Y5Sz+8FbZ6eB7x+znZK16Sv6oAnWB4HXaR0FeY
+         QmFRireLpQd9w==
 From:   Arnd Bergmann <arnd@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tegra: mark nvdec PM functions as __maybe_unused
-Date:   Wed, 13 Oct 2021 16:41:36 +0200
-Message-Id: <20211013144148.2208472-1-arnd@kernel.org>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Dmitry Osipenko <digetx@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Zhang Qilong <zhangqilong3@huawei.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] spi: tegra20: fix build with CONFIG_PM_SLEEP=n
+Date:   Wed, 13 Oct 2021 16:45:23 +0200
+Message-Id: <20211013144538.2346533-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,43 +47,34 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The resume helper is called conditionally and causes a harmless
-warning when stubbed out:
+There is another one of these warnings:
 
-drivers/gpu/drm/tegra/nvdec.c:240:12: error: 'nvdec_runtime_resume' defined but not used [-Werror=unused-function]
-  240 | static int nvdec_runtime_resume(struct device *dev)
+drivers/spi/spi-tegra20-slink.c:1197:12: error: 'tegra_slink_runtime_resume' defined but not used [-Werror=unused-function]
+ 1197 | static int tegra_slink_runtime_resume(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Mark both suspend and resume as __maybe_unused for consistency
-to avoid this warning.
+Give it the same treatment as the other functions in this file.
 
-Fixes: e76599df354d ("drm/tegra: Add NVDEC driver")
+Fixes: efafec27c565 ("spi: Fix tegra20 build with CONFIG_PM=n")
+Fixes: 2bab94090b01 ("spi: tegra20-slink: Declare runtime suspend and resume functions conditionally")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/tegra/nvdec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/spi/spi-tegra20-slink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
-index 30105a93de9f..791bf1acf5f0 100644
---- a/drivers/gpu/drm/tegra/nvdec.c
-+++ b/drivers/gpu/drm/tegra/nvdec.c
-@@ -238,7 +238,7 @@ static int nvdec_load_firmware(struct nvdec *nvdec)
+diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
+index 713292b0c71e..33302f6b42d7 100644
+--- a/drivers/spi/spi-tegra20-slink.c
++++ b/drivers/spi/spi-tegra20-slink.c
+@@ -1194,7 +1194,7 @@ static int __maybe_unused tegra_slink_runtime_suspend(struct device *dev)
+ 	return 0;
  }
  
- 
--static int nvdec_runtime_resume(struct device *dev)
-+static __maybe_unused int nvdec_runtime_resume(struct device *dev)
+-static int tegra_slink_runtime_resume(struct device *dev)
++static __maybe_unused int tegra_slink_runtime_resume(struct device *dev)
  {
- 	struct nvdec *nvdec = dev_get_drvdata(dev);
- 	int err;
-@@ -264,7 +264,7 @@ static int nvdec_runtime_resume(struct device *dev)
- 	return err;
- }
- 
--static int nvdec_runtime_suspend(struct device *dev)
-+static __maybe_unused int nvdec_runtime_suspend(struct device *dev)
- {
- 	struct nvdec *nvdec = dev_get_drvdata(dev);
- 
+ 	struct spi_master *master = dev_get_drvdata(dev);
+ 	struct tegra_slink_data *tspi = spi_master_get_devdata(master);
 -- 
 2.29.2
 
