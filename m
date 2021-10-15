@@ -2,112 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6232242E9EE
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 Oct 2021 09:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFDD042F087
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 Oct 2021 14:21:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234514AbhJOHW1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 Oct 2021 03:22:27 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:40590
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230371AbhJOHW0 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 Oct 2021 03:22:26 -0400
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com [209.85.167.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id D4A553FFFD
-        for <linux-tegra@vger.kernel.org>; Fri, 15 Oct 2021 07:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1634282419;
-        bh=jPoFv7RX4zxC2hKTIcuot+gzhC8n3whHEgMFsK0pfdk=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=aP1ADcGzlY2tDCksY57P7p94kegH8hf0urXUZprTdQwOv2o9ZyVH/38LsG7t6IZPu
-         4jCHdIs0kY1V2ICwtHCHFifYb3gb6lqMAQcem3OEtoNN3Y4e72D7LFphtHyKhMYfXT
-         IQ/1Yz+TL90qUdk4V1cezZHUS8rQ+QzQHZA+CcKuu/xcm7ddAymJHS/4yTkGpc3/n+
-         4SxLgKbsF8f6eVS2GcMSvQgFZJFXaj2bLYep561BY2B3sO7P6OHLlzNjbUYnoj95HU
-         G3Zuz61fM+frxsZZg7W3Y5hQr3AvgYN7rkPCKFsMUqYfoGbsY3uretwMBrKURgzM7S
-         rbHv6pCSDnhqA==
-Received: by mail-lf1-f69.google.com with SMTP id x7-20020a056512130700b003fd1a7424a8so6008827lfu.5
-        for <linux-tegra@vger.kernel.org>; Fri, 15 Oct 2021 00:20:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jPoFv7RX4zxC2hKTIcuot+gzhC8n3whHEgMFsK0pfdk=;
-        b=7rzo+Ft+z3Tw5N/b2L9W6yaXSe0ZY2OBUGxuf7S2dniapfOpC+xs+h3N/drHtpUpN8
-         x+TdRghpu8BE+vOcyODXFKotNqQwhvkYrcM16Yvw8i+Rd0yp3MIaWrVF3T/Ff89ZSijV
-         JQz29Oh4hkV/aOXcTp4ugBibPzOJ+Ue9Sh0gLZc7eTsP67i0Pk6CyxjOEN2dL+fR5gNv
-         W7P3jbjPDKlRIczyAeYHNRY7p7VZ9CRE2oIlb7h/1oqlU0VLahrdjVL2/XR1kcdRb1wN
-         fyQt9dHdGp7c3st9VoLZ6SBWKrlVjTqEbcvbRgIvp8XpWciTq3v2vKMo/L37YNAnabOY
-         Sg5w==
-X-Gm-Message-State: AOAM532YGBY/Cjb+zDZbHREYcqS9EIhL2HaFQb8nnsRJsgoQlvaXi4ls
-        r8xRHHrVhmNT6Puc4CwY0Z/DNydtC5dPG5/VBsAQjNmIbM0JH9DH+Zh/jZCM99UB9DRa2hNyTQB
-        EqjpyzEqLAdmAbvIKxa4YIv+ATySAcxTkLe/fHODc
-X-Received: by 2002:ac2:5c06:: with SMTP id r6mr9962984lfp.103.1634282418692;
-        Fri, 15 Oct 2021 00:20:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwVsjS33QPbqSHZteu5iA8nRklnWLz0E6WPJnIYimgt0bCA7/8aqX4UtJxAL/759Ranc5EOw==
-X-Received: by 2002:ac2:5c06:: with SMTP id r6mr9962963lfp.103.1634282418487;
-        Fri, 15 Oct 2021 00:20:18 -0700 (PDT)
-Received: from kozik-lap.lan (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
-        by smtp.gmail.com with ESMTPSA id 5sm428200lfy.156.2021.10.15.00.20.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 00:20:18 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 0/9] tegra20-emc: Identify memory chip by LPDDR configuration
-Date:   Fri, 15 Oct 2021 09:20:13 +0200
-Message-Id: <163428239295.5772.13742394976706710476.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211006224659.21434-1-digetx@gmail.com>
-References: <20211006224659.21434-1-digetx@gmail.com>
+        id S238731AbhJOMXp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 Oct 2021 08:23:45 -0400
+Received: from msg-2.mailo.com ([213.182.54.12]:55210 "EHLO msg-2.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232439AbhJOMXo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 15 Oct 2021 08:23:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
+        t=1634297849; bh=xi9ic6rNqNfCIC+YJGI2Qm9dmzmQTWcVKBbK7NFXYTk=;
+        h=X-EA-Auth:From:To:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+         Content-Transfer-Encoding;
+        b=OmJv4PLckPjknJhn0d4syEDqIRksrDZ/mWSxGN5cEWGIQdy/ieVxmM6l7ju27JiYp
+         0xMWKv8ifisKXgIknFw6vWmfV4B0udu15xnn60hwr4XtWY4aWdMyOzIaPlpa00GLSx
+         rn1bdevk+AZmxmoKp3R47M/isNzRWt3JveBcrLF8=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Fri, 15 Oct 2021 13:37:28 +0200 (CEST)
+X-EA-Auth: 08sQSZ7/eUlrG/v1waT2s0v4RKFNiGr8japsCPLL1asNAYrDQHDNT4gppui4+kCQ9szInBhEU478UxEKqmZHFa/iYlv5DVF8
+From:   Claudio Suarez <cssk@net-c.es>
+To:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Chen-Yu Tsai <wens@csie.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org
+Subject: [PATCH 00/15] replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
+Date:   Fri, 15 Oct 2021 13:36:58 +0200
+Message-Id: <20211015113713.630119-1-cssk@net-c.es>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 7 Oct 2021 01:46:50 +0300, Dmitry Osipenko wrote:
-> Support memory chip identification by LPDDR2 configuration, which is
-> needed by ASUS Transformer TF101 tablet device that doesn't store RAMCODE
-> in Tegra's NVMEM.
-> 
-> Changelog:
-> 
-> v5: - Added new patch which adds vendor prefix for Elpida Inc.
-> 
-> [...]
+Copy&paste from the TODO document Documentation/gpu/todo.rst 
 
-Applied, thanks!
+===
+Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
+---------------------------------------------------------------
 
-[1/9] dt-bindings: Relocate DDR bindings
-      (no commit info)
-[2/9] dt-bindings: memory: lpddr2: Convert to schema
-      commit: 8a3294b74ac621ab03ef88cb964c13089ffdf015
-[3/9] dt-bindings: memory: lpddr2: Add revision-id properties
-      commit: 3c1a1b4b191978559cae5c626da012ef897c1139
-[4/9] dt-bindings: memory: lpddr2: Document Elpida B8132B2PB-6D-F
-      commit: 624f42157b99d253e6a52a7f93123eb0dbe1b26c
-[5/9] dt-bindings: Add vendor prefix for Elpida Memory
-      commit: 8712faaf12106bc70fcaef2cb89f7958faddbe59
-[7/9] dt-bindings: memory: tegra20: emc: Document new LPDDR2 sub-node
-      commit: ab4dd82cf5f8dd1943acf9243058262bc33c5af6
-[8/9] memory: Add LPDDR2-info helpers
-      commit: 5c767f684651e74f81c4d6a363e3779af3a77cc0
-[9/9] memory: tegra20-emc: Support matching timings by LPDDR2 configuration
-      commit: 4964b3e5c9ad4ad85b44f826a12c008af826545c
+Once EDID is parsed, the monitor HDMI support information is available through
+drm_display_info.is_hdmi. Many drivers still call drm_detect_hdmi_monitor() to
+retrieve the same information, which is less efficient.
+
+Audit each individual driver calling drm_detect_hdmi_monitor() and switch to
+drm_display_info.is_hdmi if applicable.
+=====
+
+I did it in two steps:
+- check that drm_display_info has a correct value.
+- in that case, replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
+
+Almost all occurrences of drm_detect_hdmi_monitor() could be changed. Some
+small inconsistencies have been solved.
+
+Stats:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c            | 23 ++++++++++++++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.h            |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c               |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_encoders.c              |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/atombios_encoders.c            |  6 +++---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         |  3 +--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 39 ++++++++++++---------------------------
+ drivers/gpu/drm/amd/display/dc/core/dc.c                  |  2 +-
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h               |  2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c              |  2 +-
+ drivers/gpu/drm/bridge/sii902x.c                          |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c                 |  2 +-
+ drivers/gpu/drm/drm_edid.c                                |  2 ++
+ drivers/gpu/drm/exynos/exynos_hdmi.c                      |  6 ++++--
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c                   |  3 ++-
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c                   |  6 ++++--
+ drivers/gpu/drm/i915/display/intel_connector.c            |  5 +++++
+ drivers/gpu/drm/i915/display/intel_connector.h            |  1 +
+ drivers/gpu/drm/i915/display/intel_hdmi.c                 |  2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c                 |  3 ++-
+ drivers/gpu/drm/msm/hdmi/hdmi_connector.c                 |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c                   |  4 ++--
+ drivers/gpu/drm/nouveau/dispnv50/head.c                   |  8 +-------
+ drivers/gpu/drm/nouveau/nouveau_connector.c               |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h               |  6 ++++++
+ drivers/gpu/drm/radeon/atombios_encoders.c                |  6 +++---
+ drivers/gpu/drm/radeon/radeon_connectors.c                | 20 ++++++++++++++------
+ drivers/gpu/drm/radeon/radeon_display.c                   |  2 +-
+ drivers/gpu/drm/radeon/radeon_encoders.c                  |  4 ++--
+ drivers/gpu/drm/radeon/radeon_mode.h                      |  1 +
+ drivers/gpu/drm/rockchip/inno_hdmi.c                      |  4 ++--
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c                    |  2 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                            | 10 ++++++----
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c                    |  4 ++--
+ drivers/gpu/drm/tegra/hdmi.c                              |  6 +-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c                            |  6 +++---
+ drivers/gpu/drm/zte/zx_hdmi.c                             |  4 ++--
+ 37 files changed, 112 insertions(+), 96 deletions(-)
+
+Best regards.
+Claudio Suarez
 
 
-(dts patch not applied)
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+
