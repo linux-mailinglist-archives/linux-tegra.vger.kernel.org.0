@@ -2,15 +2,15 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66133438F5B
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 Oct 2021 08:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E825438F62
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 Oct 2021 08:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbhJYGZ2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Oct 2021 02:25:28 -0400
-Received: from ip-15.mailobj.net ([213.182.54.15]:50096 "EHLO msg-4.mailo.com"
+        id S230295AbhJYG0R (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Oct 2021 02:26:17 -0400
+Received: from ip-15.mailobj.net ([213.182.54.15]:50228 "EHLO msg-4.mailo.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230295AbhJYGZ1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Oct 2021 02:25:27 -0400
+        id S230310AbhJYG0R (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 25 Oct 2021 02:26:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
         t=1635113882; bh=uw6jUOdznN5Fu1cmQxsbGLSaS5P2w7SplYgPex568YQ=;
         h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
