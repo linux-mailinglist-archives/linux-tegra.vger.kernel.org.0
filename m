@@ -2,98 +2,161 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E3A243FE7F
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Oct 2021 16:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A76F43FF14
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Oct 2021 17:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbhJ2Ofw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Oct 2021 10:35:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbhJ2Ofw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Oct 2021 10:35:52 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42011C061570
-        for <linux-tegra@vger.kernel.org>; Fri, 29 Oct 2021 07:33:22 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id s186so585836yba.12
-        for <linux-tegra@vger.kernel.org>; Fri, 29 Oct 2021 07:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=NWKMZ//AyFWFbpFk6FF66OtPadVuan7a1ybZS8hGNR8=;
-        b=OcDu8LuHI3rncq+TMiuMOLz4NYBfRmEKNXpGc0xGEnDn5cjqA5YozQs36os1xn2ALJ
-         NsGTj3gtyj5dDWxMhkSRTWq/y9iLP3dR5hCG6cnHKY5A0ygvE3hLXqlC3qFylerh452p
-         kLNo6NU/FdGSx+5tPwgt6HDeFm4dwXYl1XzfrLkmMLqsHUkBc0uZqttJbC3tJryeeZNw
-         byclT7zKylvbBtrEMBwlKNzbU6KI5PDxuGHsWslqmauiYf0kk8lpNTbLhY0j0izH46H8
-         s4VHe1NZm5g48gf8kiW4uq805mCsgf5KARod4TR9hshw17ylwvlgkeXgk/c3u0wQ+y0p
-         HogQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=NWKMZ//AyFWFbpFk6FF66OtPadVuan7a1ybZS8hGNR8=;
-        b=o2CYOtcf+MNBFS867YzOczyCfxr5fuYVE87eHpjuzFB4p4dOQouNxCewetNWVjlH0a
-         uNoz7gaZ1VLHJ8TgNZoRQsYKCpMVsK0SVVKNxyMGSLyQpeMo6DWe8aJT3lbAxi4uLGd3
-         YvGoi3s5DbaI/ndpgne33yF8dxJocgVZSaPIgboAQv6R1eHEN4unkDztwzK+KYxgofrB
-         YGqCrZB8deh6B03oVfHGyghaOZtBo9esIZnjWz8IzatHYdmIO035EhR61F7Ldo3B0rcK
-         ixaU/8cXsk6nmql4ilZuGkRyQKGkO9akDfvXY64Kk6GncpzqXQUme7h+5bVh12GHSXlc
-         7V6Q==
-X-Gm-Message-State: AOAM5335MaLVdKyAzTHxQIHh2PK4MGFe9PXPj6JAbOTvlkFimG365SGD
-        N7BQINea8DF9/7H+hkT7WekbidiniVnsAWGnksE=
-X-Google-Smtp-Source: ABdhPJzt3ukXlVRw/nPdoLymUYwnZMFFbafwpjQ1acNLqCoK7btmIPpHsCXzFrwOmVu8euahuliLQnzkJTXQoQzjpzk=
-X-Received: by 2002:a25:287:: with SMTP id 129mr9691583ybc.524.1635517995903;
- Fri, 29 Oct 2021 07:33:15 -0700 (PDT)
+        id S229542AbhJ2PLj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Oct 2021 11:11:39 -0400
+Received: from mail-bn8nam08on2078.outbound.protection.outlook.com ([40.107.100.78]:21248
+        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229527AbhJ2PLi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 29 Oct 2021 11:11:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bltUDkRzaQKVUYNJ8umUVoYbGdZZD+VHcfrlNINpNu9GwaLNhx+HcfO3sY4afJuR8NFfD66DKQOrWn3hJRTjk4FcUNd8gzMuGgX9f5Zzb0rAe8ia9hBiCxg9cyywOdQX4AxPHbaHw3Zw6e+t/sXVSs1IGODLzmMJufNu9VJV6MENQTGID5E6K4O5ON5OE1EYadaGYknyViTZ+ZS9LFant7emJM8nbgfDxWD0Lf4IU+5ziFYz5aK712Xq7FExJ8kbDPFnybT0EiUmPqn8Dv4GG7g8hEF/n+aXf0tXq/o8saVn7z56kPdGSe0AqMkFOj73Hfr/w001uyYq5uoebXWJxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HJWs6OCmlOj86c4fh3Pt2gRIgjzUsSRQQlf2Q0sqKtk=;
+ b=YFMc9bqgkEphu8mQPn5GCEvuf/B9dFi1sX9WCcgWRXJto+/T1o+7jAhNwzHiqlSkCVujXUc9L++btnIykFimFOpVzosOoC3m493vWC+HhLhP9aQ32OCwIOzDntm0WB1I9M7Zb7nH8vlyZsKM0hjS+3qua+aOx3nhfTC38gwyUpCO4chURuz2ZbxLZOh4i0QxwvR5rSvI/LUYzaxOt+cAyNMRKdX6fo0+0G/iTIL8hPDUSHgGr29p2ys+fTCYDCSC2wFY8bD7jPYkDg0m9v+ounBzrcO2vNzC2eGGAvrg1cXUwHIZd9COvfhxdiTQB8mNEhGY+/LuxH30GybhYgnzzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HJWs6OCmlOj86c4fh3Pt2gRIgjzUsSRQQlf2Q0sqKtk=;
+ b=uhUmrMlP0hvnZbw0Y2250ztgRp3NsauSOXi3QFo2ipfcEdqi5kcn4xzQTUPTMDwafHL82Q+HV+3CTHGwzYP7zeQnSoiaY44GgwMkUp0ZQBEP58pXyTCcqPtMjfVfOL/ujmxxHNiaZfclSZwOc2K35A2/2Odjx9qkqS0JTXBBJYVWl7LINPZdE52dfXe4wfOF8wRER2MMvvGBeVwQba1l8w7RetZSxTsYS1UZ5ISTdttE66LpttpOngceZs+aKEDt8Yv6w6loIq38U3nwoSHinF74ZtEYn7C7a0vPckZ6ruuhWElMx5cMKAs8vCltakzWk35bgAJ4EszuOXM1Z+2wPQ==
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=nvidia.com;
+Received: from BL1PR12MB5317.namprd12.prod.outlook.com (2603:10b6:208:31f::17)
+ by BL1PR12MB5380.namprd12.prod.outlook.com (2603:10b6:208:314::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Fri, 29 Oct
+ 2021 15:09:08 +0000
+Received: from BL1PR12MB5317.namprd12.prod.outlook.com
+ ([fe80::64ed:2ae1:6659:2878]) by BL1PR12MB5317.namprd12.prod.outlook.com
+ ([fe80::64ed:2ae1:6659:2878%3]) with mapi id 15.20.4649.015; Fri, 29 Oct 2021
+ 15:09:08 +0000
+Subject: Re: [PATCH] ASoC: tegra: Add master volume/mute control support
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     Jaroslav Kysela <perex@perex.cz>, broonie@kernel.org,
+        lgirdwood@gmail.com, tiwai@suse.com
+Cc:     jonathanh@nvidia.com, thierry.reding@gmail.com,
+        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1635159976-17355-1-git-send-email-spujar@nvidia.com>
+ <79541c76-2c2b-fd4b-60c8-67ee6b8ea3fa@perex.cz>
+ <8cb777f9-b73b-136c-f560-de4c31af931e@nvidia.com>
+Message-ID: <18b61046-ac0b-0fb3-669c-6524a03eecf0@nvidia.com>
+Date:   Fri, 29 Oct 2021 20:38:54 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+In-Reply-To: <8cb777f9-b73b-136c-f560-de4c31af931e@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-ClientProxiedBy: MA1PR01CA0155.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::25) To BL1PR12MB5317.namprd12.prod.outlook.com
+ (2603:10b6:208:31f::17)
 MIME-Version: 1.0
-Received: by 2002:a05:7110:700c:b0:fa:6b8d:fe70 with HTTP; Fri, 29 Oct 2021
- 07:33:15 -0700 (PDT)
-Reply-To: uchennailobitenone@gmail.com
-From:   uhenna <tochiuju11@gmail.com>
-Date:   Fri, 29 Oct 2021 07:33:15 -0700
-Message-ID: <CA+6axKtGCUWudtNdem4CzfAm+miitvi8NcqQEVfgKEWR_7ON4g@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Received: from [10.25.98.39] (202.164.25.5) by MA1PR01CA0155.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14 via Frontend Transport; Fri, 29 Oct 2021 15:09:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5bb12dd0-bcae-4bc7-2d45-08d99aee0e4d
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5380:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB53806CB311A94E4304E5FB45A7879@BL1PR12MB5380.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1sRxGbkN+8n9Uc03C3/itROhGmT6DALzzZ+A+z6wxOfhu9Llz6QFxinZbsn1oiwei25oZFgNoZeiL4iWUXU7hwh4ofUv23YC0Lj7UyGwqm3fWw0lv5srr5BXan7JTvNilK2qNTB/7MfoHZK06/20LLyFqnURuGsOEuWvL6dZRkzT71i0P+vlANk+KB4JC6gcDD+9Ua+qW4w5vHrNzmX4iaHgRUM3NK282+C1YO+8BJRjtspXGZgj2rmwVDsdXkMLEzryIB4ilcNB7+nu1lnimJBb8QES27osD/nq+fWmn3lA6Ww/yIgCiQqHeQRGt64yFjZt8SWLcMV6Sn5jqWCimT4O77hvfClRPk+qiahikCTRY3uXFxEQ2f7AOIHb9gJ6CsyYLJggRvXUJZ0aI1fP2GDQQZVP3FwMsue/e5Jmg3amciWKfDLyav6u4YOlNKNPneYegbc315/5G02SMHr2cunHR09QZVoX5JoC0leAlFmpN+Eg/draE3CK/Y9lR8F3DyEJr/SM+QFJOyn1KCYlEppnoPY7mSfJAyA8OpIMr28NLgpManmNpox2uTMJn7zkj7l7FCk30rOrIQl/WUhXPMnc7dE9Sz7allvtDV6juduU9iC3X2tuRZX99lobPlQ4Z9dOJcUypVvYO3SbnFMUv5lZfBslxRe2LDMW42WmYVZSQ8c5hHnoLzhwUg83yidY9MIknwDOHAf8ByiXjGkOoUYPML9iLezT0gsBWM2sUsI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5317.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(16576012)(316002)(4326008)(86362001)(36756003)(83380400001)(2906002)(6666004)(2616005)(956004)(508600001)(66556008)(66946007)(66476007)(53546011)(8676002)(38100700002)(26005)(5660300002)(31696002)(6486002)(186003)(31686004)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0NmS2NTdEdMSGFjRUZ5cDNHUlFBa1luZ3UxTzJMUnFnL2hBRzFjeW92aTBR?=
+ =?utf-8?B?eWN4Y3Z5TUpESkFVM0RMZGpJS3lxNFhpdHF6ZE1sZWRDc1B0QTFYT3QvREV5?=
+ =?utf-8?B?NHhPR1NZV0JHNjZaZTJSeTdIT1pUNmdsZEFUaU51cTQ4VU9VQVRyUmdONDhy?=
+ =?utf-8?B?RmRyZCsxY3JIeWE1V1RVbERGaTJoRHdmUzdDaVBYcHJtUWVmWGZ0enZuVER4?=
+ =?utf-8?B?amg1R1Z6SXZHRnBKME1FMW1lbFpTZXJTdHAvZ3k2M1F6MnRnV2NJWjZ2Qzda?=
+ =?utf-8?B?MFNxVEVPajYvOW9pQktsVjFPVVlFWHJnNzFmM3EyS21BMU1aaVBISFFCOTF2?=
+ =?utf-8?B?c2FuM0t0MWovcjlYdk9ob3hmbTFNWGtjaXg5Wmp4aWFGSFp6UU9pOVZLT3Js?=
+ =?utf-8?B?a245UkxlaHJiSnlpQUJsY3g4bGFiSk5wY29XSU5JK1phaDZwTXl5cS92VmJ6?=
+ =?utf-8?B?OWczMDN1SlgwOEpKMDdYWUo3NER4Y3RFZ3JoU2dIcmYxb1VaTEQ0ZlFyZndw?=
+ =?utf-8?B?M0RFZ3dRb1RqbkdHWXdtNVJzYkM2cFY4Zmh2bEJZdWlhY1JFWlYvNW01ampR?=
+ =?utf-8?B?bUFCOHBNVDZiditQa0dJYWRpUkN3YXhBRk42Y2Z2RHN5ZElhdXgwSDhnenhT?=
+ =?utf-8?B?KzJRRGRVcTVib1NSL3YrKzNGYmFtOE54U0xqa3RLQUlXbmhoVC9wQUpEZUQz?=
+ =?utf-8?B?dnBFU3RwakNPTGp3bGdRLytEa2MzRnpPUWtQV2xDZW8xcmdEcDJVV0EyMWpH?=
+ =?utf-8?B?eStMRVkyT1RjRHZ4eXZwTkdrSmdNTDBaMUsweUR3eWNRSXNqbXhaaWVtSzFP?=
+ =?utf-8?B?dWtOcC9kbFJIZkpWTHRZYnJ2WkJrb0JYb1hDRVhwT1Y3SmdUbHlrT21iRXFF?=
+ =?utf-8?B?SnBSZHZCajdrSDlTVzY1eWJDaUM0aUtUR2lOdjVoWFVBWlQzRk9OZm1uVjAz?=
+ =?utf-8?B?dEdlSVpjUXhZNXQ2dGJiL1VldDI3MWZYTmxhNlBUV1ZFWU5SRVhyeHZiNXFp?=
+ =?utf-8?B?ejhnVnMvY3YrWHd2a1VnSW5YT2FzZDdhbm45NStaU2dldERGcDI0R1JBQ0hK?=
+ =?utf-8?B?ZWgraTRVYXZtMTFYQll2T09tL0t0T2xWMVMzdkxKanpPNWJlQkVLQjJldElj?=
+ =?utf-8?B?NjlJVFZuc1A1bUZuOGJjaVlpZUFDTFVLallUTHRZeWxUemtBOUhvRFRXZ0Vz?=
+ =?utf-8?B?NU1kN1hDdi9yQkV0a2hNNUlrQ1pWbkNNTG5HVDliOG9jYlpJSWhwSTFJMlZ2?=
+ =?utf-8?B?dTNRdll6Sy9PR2NxTjdqZUsrY0xPMTBBbE40L0JPZWc4eDhEQlRSblcyMDFU?=
+ =?utf-8?B?WTROTEY3MU5RT0taVXFQYUpkZjgva1d2WEFDY3lCSXE4L0tGcDZ6TjJOL1Zk?=
+ =?utf-8?B?SUVkcG9LZk1ONVJ3d0lnQi8zcGVZczhSa2wxWTkwRnNWWlJkbHh5VnFUTVIw?=
+ =?utf-8?B?TjBkbnVQSUV0TU5GdkpjbTNFRnVGMFlYcnNGUmttbEdKU2V1TjBqT0ZCc1BH?=
+ =?utf-8?B?Y3c0WmxybGdVVlVxWU9rUG1adUVEVERUYWR4NVBaYm1VcTRaZWovTlREY0da?=
+ =?utf-8?B?SHBEWFlUTFk4NFZURXkwaG5rWVovMUszVEhlMXp3M09kV0xJM28yNndHT2J6?=
+ =?utf-8?B?ZURaUHpkRmQra2ptTEV1T3lFR3AxeFl2cDM1Rkt3bGg3MVpMQlJxTzczbElI?=
+ =?utf-8?B?RXVNVHNOdllzMGpPaHJINER6NHpsRGsvSWVBMTdnc29sKzF6blY1SGExQ08r?=
+ =?utf-8?B?dDRnT0lGVE5OelJIMUhtMjU3RXBZLzFTRVBwV3VNTnEwdGtDQjY4RjYrY3VT?=
+ =?utf-8?B?WEw1a2dTTGd1NiszMHhVNHFPM3BldFlJS250REVyOUlGaHFPQk54ZlBTUnRE?=
+ =?utf-8?B?dmppR2RVMVd6MkZlM2FMVjNPeE00T0QwQ1VGR3d4TDc5cDZpczJpaTVIdlli?=
+ =?utf-8?B?NkRydUJYWENHYnU2YzlDdDhSZGR0dkRQZnhzNTlzZFovbHV5c0QrdUNGSlZh?=
+ =?utf-8?B?eExLWGltWUJwYnRvTXQxV25JTzdobkxYL3dXam5hVGZYa1ViUEdFRmg1YUJw?=
+ =?utf-8?B?TzVYdkl4SE53NzVsWXo2U2FWOWw5RjlvSmpsbFU5c3V1aXhteStmLzBUNi83?=
+ =?utf-8?B?ME1JT0N3aTdTYlROTTBXSVBFU0RqZzlNYXhRWUluUE83RGJkUXJ6b2VMNEhK?=
+ =?utf-8?Q?AP+RSYLTMPO0bGZemgXMdwU=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bb12dd0-bcae-4bc7-2d45-08d99aee0e4d
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5317.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2021 15:09:08.4957
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Zy9kkwHH3CUN+DMra9o6ydgT9U59A8Oyd2ZCksY/lMCcnmgp3nGewdj6rIa4NeicsIm+I28slZunOTcotWL0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5380
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Attention Please,
 
-I am Bar. uchenna ilobi ,  How are you, I hope you are fine and
-healthy? This is to inform you that i have concluded the transaction
-successfully with the help of a new partner from Venezuela and now the
-fund has been transferred to Venezuela into the bank account of the
-new partner.
 
-Meanwhile, I have decided to compensate you with the sum of
-US$350,000.00 (thiree Hundred and Fifty Thousand United States
-Dollars) due to your past effort, though you disappointed me along the
-line. But nevertheless I am very happy for the successful ending of
-the transaction without any problem and that is the reason why i have
-decided to compensate you with the sum of US$350,000.00 so that you
-will share the joy with me.
+On 10/26/2021 11:53 AM, Sameer Pujar wrote:
+>
+>
+> On 10/25/2021 6:28 PM, Jaroslav Kysela wrote:
+>> On 25. 10. 21 13:06, Sameer Pujar wrote:
+>>
+>>> @@ -150,11 +186,22 @@ static int tegra210_mvc_put_mute(struct 
+>>> snd_kcontrol *kcontrol,
+>>
+>> ...
+>>>
+>>>       return 1;
+>>
+>> It's a bit unrelated comment to this change, but it may be worth to 
+>> verify all
+>> kcontrol put callbacks in the tegra code. Ensure that value 1 is 
+>> returned only
+>> when something was really changed in hardware.
 
-I advise you to contact my secretary for Atm Card of US$350.000.00,
-which I kept for you. Contact him now without any delay.
+There are cases when the mixer control update is not immediately written 
+to HW, instead the update is ACKed (stored in variable) and writen to HW 
+at a later point of time. Do these cases qualify for "return 1" as well?
 
-Name: solomon brandy
+>>
+>> The tegra210_i2s_put_control() has opposite problem for example - 
+>> returns
+>> always 0 which means that the change notifications are not send to 
+>> subscribed
+>> applications.
+>>
+>
+> Thanks Jaroslav for review. I will keep a note to review put() calls 
+> in Tegra drivers and send fixes accordingly.
 
-Email:solomonbrandyfiveone@gmail.com
-
-Kindly reconfirm to him the following below information:
-
-Your full name_________________________
-Your address__________________________
-Your country___________________________
-Your age______________________________
-Your occupation________________________
-Your cell Phone number______________________
-
-Note that if you did not send him the above information complete, he
-will not release the Atm card to you because he has to be sure that it
-is you. Ask him to send you the total sum of ($350.000.00 ) Atm card,
-which I kept for you.
-
-Best regards,
-
-Mr. uchenna ilobi
