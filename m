@@ -2,104 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 010D6442FAC
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Nov 2021 15:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E168C442EDE
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Nov 2021 14:11:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbhKBODs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Nov 2021 10:03:48 -0400
-Received: from msg-2.mailo.com ([213.182.54.12]:45724 "EHLO msg-2.mailo.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230257AbhKBODs (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Nov 2021 10:03:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
-        t=1635856506; bh=86oBTMpnXN2rssnmOQ7LA61tTu8gU4eFEfOZP78RisE=;
-        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
-        b=arAXsp3pJle1r6nOqeqtDf2GduQBJSJKdxquDfPAglkotW2p8bd9ev6Y1hBR3zQtg
-         IuyMT4zYDmmlvKXOVjKcAlGccOqgCOyTr7jvZCiwWUwgT/UAfqSpkdsL+5jWMX7OiY
-         9iniW7IyoDqfGYNxRqVLIjAV6dqoTLdd5QORxuSQ=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-        via ip-206.mailobj.net [213.182.55.206]
-        Tue,  2 Nov 2021 13:34:38 +0100 (CET)
-X-EA-Auth: FKr0z78nEI7fK18kQiJqc8cm6AQzx1MLFVMzYMgk3A7ptvyPhNNicmEOsJfefFwiU43Mj4ZkxeU8iS9dGsGDy7tpZekUHCqR
-Date:   Tue, 2 Nov 2021 13:34:35 +0100
-From:   Claudio Suarez <cssk@net-c.es>
-To:     Inki Dae <inki.dae@samsung.com>
-Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        Chen-Yu Tsai <wens@csie.org>, Sandy Huang <hjc@rock-chips.com>,
-        heiko@sntech.de, Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
-        ville.syrjala@linux.intel.com
-Subject: Re: [PATCH v2 06/13] drm/exynos: replace drm_detect_hdmi_monitor()
- with drm_display_info.is_hdmi
-Message-ID: <YYEwWwZY/D7ylVuN@gineta.localdomain>
-References: <20211016184226.3862-1-cssk@net-c.es>
- <CGME20211016193513epcas1p4e354183520df0aa4c381b19eb2863262@epcas1p4.samsung.com>
- <20211016184226.3862-7-cssk@net-c.es>
- <ee6b3bac-4762-fd8f-c12a-c0a7ea7b56e9@samsung.com>
+        id S230336AbhKBNNi convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Tue, 2 Nov 2021 09:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230282AbhKBNNh (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Nov 2021 09:13:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24888C061714
+        for <linux-tegra@vger.kernel.org>; Tue,  2 Nov 2021 06:11:02 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mhtYt-0004rh-Fm; Tue, 02 Nov 2021 14:10:47 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mhtYp-004CFx-W3; Tue, 02 Nov 2021 14:10:44 +0100
+Message-ID: <276db30d95bf84cb31f9d9a6c029593fb0ccec21.camel@pengutronix.de>
+Subject: Re: [PATCH 2/5] reset: tegra-bpmp: Handle errors in BPMP response
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>, rafael@kernel.org,
+        viresh.kumar@linaro.org, thierry.reding@gmail.com,
+        krzysztof.kozlowski@canonical.com, lorenzo.pieralisi@arm.com,
+        robh@kernel.org, kw@linux.com, rui.zhang@intel.com,
+        daniel.lezcano@linaro.org, amitk@kernel.org
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Date:   Tue, 02 Nov 2021 14:10:43 +0100
+In-Reply-To: <397003f8-bf3c-68a4-828c-1254710f714b@nvidia.com>
+References: <20210915085517.1669675-1-mperttunen@nvidia.com>
+         <20210915085517.1669675-2-mperttunen@nvidia.com>
+         <397003f8-bf3c-68a4-828c-1254710f714b@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ee6b3bac-4762-fd8f-c12a-c0a7ea7b56e9@samsung.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 27, 2021 at 07:28:45AM +0900, Inki Dae wrote:
-> Hi,
+Hi Jon,
+
+On Thu, 2021-10-28 at 12:54 +0100, Jon Hunter wrote:
+> Hi Philipp,
 > 
-> 21. 10. 17. 오전 3:42에 Claudio Suarez 이(가) 쓴 글:
-> > Once EDID is parsed, the monitor HDMI support information is available
-> > through drm_display_info.is_hdmi. Retriving the same information with
-> > drm_detect_hdmi_monitor() is less efficient. Change to
-> > drm_display_info.is_hdmi
+> On 15/09/2021 09:55, Mikko Perttunen wrote:
+> > The return value from tegra_bpmp_transfer indicates the success or
+> > failure of the IPC transaction with BPMP. If the transaction
+> > succeeded, we also need to check the actual command's result code.
+> > Add code to do this.
 > > 
-> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
+> > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > > ---
-> >  drivers/gpu/drm/exynos/exynos_hdmi.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(
+> >   drivers/reset/tegra/reset-bpmp.c | 9 ++++++++-
+> >   1 file changed, 8 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> > index 7655142a4651..a563d6386abe 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> > @@ -893,12 +893,14 @@ static int hdmi_get_modes(struct drm_connector *connector)
-> >  	if (!edid)
-> >  		return -ENODEV;
-> >  
-> > -	hdata->dvi_mode = !drm_detect_hdmi_monitor(edid);
-> > +	/* This updates connector->display_info */
-> > +	drm_connector_update_edid_property(connector, edid);
+> > diff --git a/drivers/reset/tegra/reset-bpmp.c b/drivers/reset/tegra/reset-bpmp.c
+> > index 24d3395964cc..4c5bba52b105 100644
+> > --- a/drivers/reset/tegra/reset-bpmp.c
+> > +++ b/drivers/reset/tegra/reset-bpmp.c
+> > @@ -20,6 +20,7 @@ static int tegra_bpmp_reset_common(struct reset_controller_dev *rstc,
+> >   	struct tegra_bpmp *bpmp = to_tegra_bpmp(rstc);
+> >   	struct mrq_reset_request request;
+> >   	struct tegra_bpmp_message msg;
+> > +	int err;
+> >   
+> > 
+> >   	memset(&request, 0, sizeof(request));
+> >   	request.cmd = command;
+> > @@ -30,7 +31,13 @@ static int tegra_bpmp_reset_common(struct reset_controller_dev *rstc,
+> >   	msg.tx.data = &request;
+> >   	msg.tx.size = sizeof(request);
+> >   
+> > 
+> > -	return tegra_bpmp_transfer(bpmp, &msg);
+> > +	err = tegra_bpmp_transfer(bpmp, &msg);
+> > +	if (err)
+> > +		return err;
+> > +	if (msg.rx.ret)
+> > +		return -EINVAL;
 > > +
-> > +	hdata->dvi_mode = !connector->display_info.is_hdmi;
+> > +	return 0;
+> >   }
+> >   
+> > 
+> >   static int tegra_bpmp_reset_module(struct reset_controller_dev *rstc,
 > 
-> Thanks for correcting this. Yeah, we should use drm_display_info.is_hdmi parsed from EDID.
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/gpu/drm/drm_edid.c?h=v5.14.14#n4725
-> 
-> Signed-off-by: Inki Dae <inki.dae@samsung.com>
+> I see that you have pulled this into the mainline for v5.15. 
+> Unfortunately, this is causing a regression for the Tegra HDA 
+> controller. We need to fix the Tegra HDA driver but this is too late now 
+> for v5.15 and so we need to revert this change for v5.15. Sorry about 
+> this, but I did not expect this to be pulled in so late.
 
+I'm sorry, I picked this up as a fix and went on vacation. Now that
+v5.15 has already been released, could you send a revert for stable?
 
-Thank you, Inki.
-
-Best regards
-Claudio Suarez
-
-
+regards
+Philipp
