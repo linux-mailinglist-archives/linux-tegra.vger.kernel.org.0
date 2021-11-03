@@ -2,227 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEDA6443AC6
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Nov 2021 02:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA124443C69
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Nov 2021 06:06:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230478AbhKCBRj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Nov 2021 21:17:39 -0400
-Received: from mail-dm3nam07on2058.outbound.protection.outlook.com ([40.107.95.58]:57696
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
+        id S229946AbhKCFIm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Nov 2021 01:08:42 -0400
+Received: from mail-bn7nam10on2068.outbound.protection.outlook.com ([40.107.92.68]:11360
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229844AbhKCBRi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 2 Nov 2021 21:17:38 -0400
+        id S229650AbhKCFIl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 3 Nov 2021 01:08:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fTyCM1PPK29661OEVx2aXfNqlKO42yuCXkRUTVd9KXWvGlnvYlQrjo8kpA+W2+9oePIOE5VzJd7z+qlhi6qeKTXVQFCWp84Trsk2NB7m/ACu7k1lmYY0m28OzWYiqnpFu8venabiMEh+SnXG/s5lm5HwOYnEj34HIhBlYcNQMC9MNjGYt8jdD6cnK7NU4Nata10jHU++VyLK2DMNIQCfumjQcuOzN2D15WZ7J5I0/XicMYtu2IVD6uSvze/nO4zqd299LwBzYqUtDm/OUvbuFFvGsl5EjPdZAS959rTcbk9MsEGdmSNgk/PkOEnHbZvqzVZHPJcEmjWqkylVa1kfrQ==
+ b=JvD+cSFYHtWwpyted1GS5QKJ1ICRyhSeV2rzfX8mJ5UvLfOgUk1rKeOX6s4PMpaL7j4vgkR0miqDJu8CpMo+NqpVrDOebkVv50gqo3cYgvQZ0aKCcu6AOB7QsTbA8bAhVcoMpij9qNWCs5ufuCMv5PJL1oSUxCEyTmCA5AsGrbV/1q/WVTJQyQlERYvLQQQQ4TKh8aao5ICYzCFlvxvRRjYhDeRlknitsVDhIcZiyifq2bLyRKVP2nJ4IjUiExeF7k2/mu0MYGXzTJaP+Dyna4aI1L6K2yVP4NDqrD3wEifX6jV8wE+dqmPIt/zSPxeeH5LQ9LrmhpK+G5YDS5n3kQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eysF3hdINqovqB1I/mex49DDCdkm0yWVTu0rJKpItk8=;
- b=ICNG6af1W+tq6wOpoSSZRfoloiEYfqOFjAZKrY9Q9VBKTFk62tKuNuyl5BFF51/u1gFZex7QuwAAzlOWf8RSiJQFryFNsQFsCa0q35LybEy9+fwS8z3PJ1KHVoc7NSQcBD7XFbaqJrF0cRAzzNDkeasaIPG+Od6TjuL5XQur8Me0mFFpgoK9XTQEbDC6iLC/+o1XqDCbBvOBnOYjUITrPNjvtE1NN/1qR3NGOaURcAQ2jfwYGNPfQFxYTanRlIevhLMWIQg+Lmgn9ob7RYTzAv+TFPqa5sHNxs/expW5Py8FWvA9tBJR8vfP9cE2QMG67iX0iUMyDgjXV9ZlU3Wrqg==
+ bh=BSH+f2jXwLRJL+G8REX4k/Ik1WpYE4arn7wBT4a1mcw=;
+ b=kprkLpVL1RC1ehNQ7lpN9tXRZ8m3eG0mBLpvF9UYDzFjqIk7mmdFFXV+SB6jImWv+DWPCr4GSLDAEc8R5wJz8gEB4W92q3aUO8bqTWfqZYiDwrKwLgz+J3QqWuHLB8hTaT3ZNGokq3gcyIUrJFxhfjX0Vaj9sR3S8grRJ6kABEIG2BA4iEzFu1dqJb3+A/XhDzvrbab4nIREQIPLqGS+KsLTSXqtGldIWch9aurag7G4X/ctn+3okA9iOmHUhsAIFHnEh1RGx75OJpbVmAInXSy7DRAkCLDiUn285EPmmxQ3RgKdVKmSUUIxZLSujhPXUGgKkOnm88rMjF4977lkfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ 216.228.112.35) smtp.rcpttodomain=alsa-project.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=nvidia.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eysF3hdINqovqB1I/mex49DDCdkm0yWVTu0rJKpItk8=;
- b=CzGPGMKUoqQca5eXXnvhDBx588iW2o8JzNUdKruERjQ9IlLw+AjVrNHhJq2l5wr+cxrzRBwEFs//9blVHUEZrP8fsckCvx+IHWUOWAFt53pfBsscbUK6fbUgr1TbaE6mckXKhSuichpfttIhVTxpvWZJesmmZlNLagXIqMjevJRehu+VIuomxK1QhfnEilrguVpBnrhPbPUc5TL6JTHWSZ2lJn3fOfqYj8bJWFZaO+c18oso/mGD2dqp/FQJcOxOESbM2kqWdBrDBWJYSC66j5SfQiIfDkX/G3SEjqsCduaXxTc4pm3WPCSzfKM/TPSbfrHqS8MUAVdhJqntsOwCYw==
-Received: from DS7PR03CA0101.namprd03.prod.outlook.com (2603:10b6:5:3b7::16)
- by DM6PR12MB2761.namprd12.prod.outlook.com (2603:10b6:5:41::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Wed, 3 Nov
- 2021 01:15:00 +0000
-Received: from DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b7:cafe::66) by DS7PR03CA0101.outlook.office365.com
- (2603:10b6:5:3b7::16) with Microsoft SMTP Server (version=TLS1_2,
+ bh=BSH+f2jXwLRJL+G8REX4k/Ik1WpYE4arn7wBT4a1mcw=;
+ b=LjjmWDSxrLsn9ARZASnyQarlAedY+FkklGTkUt9S2qcSoB0M2/U2NytA/HY9bsany0JrPK324WzV3HMnzeLWUi+5cDmqFcAbiGn/IScNfBWPu3ddZuQPjnSuzvAS1y59k2YYamkQMP180v4ga/h+a64xglfYAaUGbu3sm04rj/YkrO/IVHk2h3vwuS6zUYXxFWv/4pg9tis/m1i6tZgVk0HXviNDcZEJFcq4cQ5jugYOFzPNrNuELwAPdK2sX7Fphy9gp0aL5zpVqdyVLTUv8Rb9ukrriQyT48tynyYRRdjGbwkMaqp88ZIMOdJXuJ7Z+2HvmjDxpumJqO+6NF85tA==
+Received: from DS7PR06CA0033.namprd06.prod.outlook.com (2603:10b6:8:54::15) by
+ DM5PR12MB2390.namprd12.prod.outlook.com (2603:10b6:4:b5::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4649.13; Wed, 3 Nov 2021 05:06:03 +0000
+Received: from DM6NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:54:cafe::f) by DS7PR06CA0033.outlook.office365.com
+ (2603:10b6:8:54::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend
- Transport; Wed, 3 Nov 2021 01:15:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+ Transport; Wed, 3 Nov 2021 05:06:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; alsa-project.org; dkim=none (message not signed)
+ header.d=none;alsa-project.org; dmarc=pass action=none
+ header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT038.mail.protection.outlook.com (10.13.173.137) with Microsoft SMTP
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ DM6NAM11FT055.mail.protection.outlook.com (10.13.173.103) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4669.10 via Frontend Transport; Wed, 3 Nov 2021 01:15:00 +0000
-Received: from [172.17.173.69] (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 3 Nov
- 2021 01:14:58 +0000
-Subject: Re: [RFC v2 03/11] hte: Add tegra194 HTE kernel provider
-To:     Randy Dunlap <rdunlap@infradead.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
-        <warthog618@gmail.com>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <robh+dt@kernel.org>
-References: <20210930232617.6396-1-dipenp@nvidia.com>
- <20210930232617.6396-4-dipenp@nvidia.com>
- <c86597f6-495f-5fa1-d7ff-9bd05c8d2788@infradead.org>
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-Message-ID: <be583bc9-0e0f-ed94-6a29-336baaac9d39@nvidia.com>
-Date:   Tue, 2 Nov 2021 18:15:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ 15.20.4669.10 via Frontend Transport; Wed, 3 Nov 2021 05:06:01 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 3 Nov
+ 2021 05:05:51 +0000
+Received: from audio.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Wed, 3 Nov 2021 05:05:49 +0000
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <broonie@kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+        <tiwai@suse.com>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH 0/4] Fix kcontrol put callback in Tegra drivers
+Date:   Wed, 3 Nov 2021 10:34:53 +0530
+Message-ID: <1635915897-32313-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <c86597f6-495f-5fa1-d7ff-9bd05c8d2788@infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69341790-74d0-4ac6-a7d6-08d99e675b9f
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2761:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB27611BBBA09D437F0D624FF4AE8C9@DM6PR12MB2761.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: a0c1ab4c-b338-408c-4e21-08d99e87a1df
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2390:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB2390C9B4D1D097122845E0FFA78C9@DM5PR12MB2390.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l+uMfv46yzJTchh5mhyPpnEeJGui8+wyrY5UT967W+7e0rFjxG/krBubJgUU7gJhd3yQ3lY/AoNg0wrfwY5w2eDKiLurjP+2tlwjSIJ34OaKvrbEVz+Imeiu1w9kPHZZPaUQhlAGOCC6V1YBNX2jb3IA0uISSKC5FYW8xH/IpEPFASQMogm15MSstL3qz2K8/XCWT/5XXLN/ziDrjKFwG95R+5h28NL4wTyPoZFG4A+GpHFI7B5tHVqxDp1dI87M+V6nU7KQ2XSv4k/SnCTiGJFTZYGSRwp8xsMeaIE+HyF3KuO8OazDFtsqK+fj2m9NLR8AtzDfIDyofTxnfZ7vQiDeUOTjNhuQIlhCrvtTtQGi18RfJlUgNegqY6/j2TSR6JC429fSNEHjOVEGlytJHZBXcUry6JVh4xRowEHt1q63uhsyV6BdOeoYQne26Xz7FVY1ce5NQxCQNBR81h+y3bj2/5aoosklQWiIGyO0L7VwCmjTdqgMzr4KPQhT1vBz6IrpM21KSxwEcKn+wAE5uT+LDZOqY80jQY8Pymr70hN75VBwQpx+8buNRPmre94U0vs2H8cG8nfbsgqRrt+FGEDelxAD7TghoTT17iVnmhygIbR5pvDBuwzCYAi5ImG7fFTm7w3AFYXEdJa6PEPZu7GhOKZ5U3UCV5VY8ThLFRUycqMLRA+CSz8DXvYWaRMAg0u/DBLujuHaSf+NU0xIl/unxHquDpcSHYbxBYjBSWXSaxLqqgO7SiinRlB0x9GTewp53zefw2H5xXIhO85M+UcRIZgEGvd9qPIMtVBw7AA=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(336012)(47076005)(508600001)(8676002)(316002)(82310400003)(36756003)(110136005)(426003)(83380400001)(7416002)(86362001)(2616005)(36906005)(356005)(53546011)(16576012)(31696002)(5660300002)(921005)(70586007)(70206006)(2906002)(31686004)(7636003)(26005)(186003)(36860700001)(16526019)(8936002)(83996005)(43740500002)(2101003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: UihpArvC51HJJDHN5w3VrTMsNx2aasdEgGUeUhPrGP6123y1xZg7of2NAgkClRvO1MPkczloJAsfZjcPwVgOdaw17s4eKVPy5ns36mKr+WyODwr5CmYnO6MGeqc5AvUXETqAzYeYZnWZZoq6XyKzHflEQ3BWZylQQj9CsYGeKHXW7laqvHZLWiLdPBrp6gfA4EI8ipPZIV8dNcfG++kMCWK6hdOnvNZPuK0d+dnIN1D8N9a7llCHtEO+cIg7VY2TbhmU0n0yewEWjmMVLDn0O9qG6MQqsD70oBsH7cQiotu8jM4GR/f25q4Ko2f8V8xsdgleBht+Zpfe85tiTBF0aEnmMMmKCvuYCb55AIQrTMCNjh+Wx5hFxAEAKXzA4Swepc1M6wtEULxMSKepjuiXPSebdEcJ2uy6+yE5uMKsqTRAftC464ZedXXYroH3w6QxAH6YI9HIkmmJ4a9ayj31gyTLOpLu8pbfJ6qdfEhVt8ldRGT2aB/z3HEmhFikkbGnpLnfugT9KBP60w1z9RJgrrzqtLfv/cne/nP1zsX/jjjjR3knnrTJ0kihVTU2WEBhsvZOP7R0cJlPFz7MqWWXgjTJ8uFYwxUgR/zojULGkkgOTD0q4B0Z00a0jOBjL1Ao+nmZ/uPJP4DmtYhl/tgndnaQuVrsiafkg/TuwIxBDEOYe26nsMp8BFXzr4viaVp9r6DhK5Go3/zU1Ebu5hrsOFOG3ZkUvP9cZ3cjhSMTe8nLcQK9p/oD2RrNxl30ui0LGsc1JhUflp5n3f/O14VJaL6Xc/r/Z2TaWn8ANrjdbXo=
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(26005)(2616005)(5660300002)(83380400001)(966005)(6666004)(2906002)(356005)(7696005)(7636003)(82310400003)(36756003)(110136005)(107886003)(4326008)(426003)(36860700001)(336012)(508600001)(8936002)(186003)(86362001)(47076005)(70206006)(36906005)(316002)(54906003)(70586007)(8676002);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 01:15:00.3886
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 05:06:01.8978
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69341790-74d0-4ac6-a7d6-08d99e675b9f
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0c1ab4c-b338-408c-4e21-08d99e87a1df
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT055.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2761
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2390
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Randy,
+This series fixes kcontrol put callback in some of the Tegra drivers
+which are used on platforms based on Tegra210 and later. The callback
+is expected to return 1 whenever the HW update is done.
 
-Thanks for the comments. I will implement changes in RFC V3.
+ADMAIF, I2S, DMIC and DSPK drivers are updated as part of it.
 
-Best Regards,
 
-Dipen Patel
+This idea is suggested by Jaroslav. Similar suggestion came from
+Mark during review of series [0] and drivers under those series
+were taken care. This series takes care of remaining drivers.
+I have added 'Suggested-by" tags accordingly.
 
-On 10/1/21 5:07 PM, Randy Dunlap wrote:
-> On 9/30/21 4:26 PM, Dipen Patel wrote:
->> diff --git a/Documentation/hte/tegra194-hte.rst b/Documentation/hte/tegra194-hte.rst
->> new file mode 100644
->> index 000000000000..fb229bda2408
->> --- /dev/null
->> +++ b/Documentation/hte/tegra194-hte.rst
->> @@ -0,0 +1,56 @@
->> +HTE Kernel provider driver
->> +==========================
->> +
->> +Description
->> +-----------
->> +The Nvidia tegra194 HTE provider driver implements two GTE
->> +(Generic Timestamping Engine) instances 1) GPIO GTE and 2) LIC IRQ GTE. The
->
->                                  instances:                                ^^Drop "The"
->
->> +both GTEs instances get the timestamp from the system counter TSC which has
->
->    Both
->
->> +31.25MHz clock rate, and the driver converts clock tick rate to nano seconds
->
->                                                                    nanoseconds
->
->> +before storing it as timestamp value.
->> +
->> +GPIO GTE
->> +--------
->> +
->> +This GTE instance timestamps GPIO in real time, for that to happen GPIO
->
->                                              time. For
->
->> +needs to be configured as input and IRQ needs to ba enabled. The only always on
->
->                                                     be
->
->> +(AON) gpio controller instance supports timestamping GPIOs in realtime and it
->
->          GPIO                                                    real time {or change
->                            the instance 3 lines above to be "realtime"}
->
->> +has 39 GPIO lines. The GPIO GTE and AON GPIO controller are tightly coupled as
->> +it requires very specific bits to be set in GPIO config register before GPIO> +GTE can be used. The GPIO GTE functionality is accessed from the GPIOLIB
->> +framework for the in kernel and userspace consumers. In the later case,
->
->                      in-kernel                                 latter
->
->> +requests go through GPIOLIB CDEV framework. The below APIs are added in GPIOLIB
->> +framework to access HTE subsystem and GPIO GTE.
->> +
->> +.. kernel-doc:: drivers/gpio/gpiolib.c
->> +   :functions: gpiod_req_hw_timestamp_ns gpiod_rel_hw_timestamp_ns
->> +
->> +There is hte-tegra194-gpio-test.c, located in ``drivers/hte/`` directory, test
->> +driver which demonstrates above APIs for the Jetson AGX platform.
->> +
->> +For userspace consumers, GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE flag must be
->> +specifed during IOCTL calls, refer ``tools/gpio/gpio-event-mon.c``, which
->
->    specified             calls. Refer to
->
->> +returns the timestamp in nano second.
->
->                             nanoseconds.
->
->> +
->> +LIC IRQ GTE
->> +-----------
->> +
->> +This GTE instance timestamp LIC IRQ lines in real time. There are 352 IRQ
->
->                      timestamps                 ^^^^^^^^^ {be consistent}
->   (also (repeating a prior email) define "LIC")
->
->> +lines which this instance can help timestamp realtime. The hte devicetree
->
->                              can add timestamps to in realtime.
->
->> +binding described at ``Documentation/devicetree/bindings/hte/`` gives out
->
->                                                                    provides an
->
->> +example how consumer can request IRQ line, since it is one to one mapping,
->
->    example of how a consumer can request an IRQ line. Since it is a one-to-one mapping,
->
->> +consumers can simply specify IRQ number that they are interested in. There is
->
->                         specify the IRQ number
->
->> +no userspace consumer support for this GTE instance. The sample test code
->> +hte-tegra194-irq-test.c, located in ``drivers/hte/`` directory,
->
->                                     in the
->
->> +demonstrates how to use IRQ GTE instance. The below is sample device tree
->
->                 how to use an IRQ GTE instance.
->
->> +snippet code for the test driver::
->> +
->> + tegra_hte_irq_test {
->> +        compatible = "nvidia,tegra194-hte-irq-test";
->> +        htes = <&tegra_hte_lic 0x19>;
->> +        hte-names = "hte-lic";
->> + };
->> +
->> +The provider source code of both IRQ and GPIO GTE instances is locate at
->
->                                                                   located
->
->> +``drivers/hte/hte-tegra194.c``.
->> +
->
->
+
+[0] https://lore.kernel.org/linux-arm-kernel/20210913142307.GF4283@sirena.org.uk/
+
+Sameer Pujar (4):
+  ASoC: tegra: Fix kcontrol put callback in ADMAIF
+  ASoC: tegra: Fix kcontrol put callback in I2S
+  ASoC: tegra: Fix kcontrol put callback in DMIC
+  ASoC: tegra: Fix kcontrol put callback in DSPK
+
+ sound/soc/tegra/tegra186_dspk.c   | 4 +++-
+ sound/soc/tegra/tegra210_admaif.c | 4 +++-
+ sound/soc/tegra/tegra210_dmic.c   | 4 +++-
+ sound/soc/tegra/tegra210_i2s.c    | 4 +++-
+ 4 files changed, 12 insertions(+), 4 deletions(-)
+
+-- 
+2.7.4
+
