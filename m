@@ -2,81 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3379A44E7B8
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Nov 2021 14:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E281244E7D9
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Nov 2021 14:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235010AbhKLNqs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Nov 2021 08:46:48 -0500
-Received: from foss.arm.com ([217.140.110.172]:37606 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231848AbhKLNqr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Nov 2021 08:46:47 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5207CED1;
-        Fri, 12 Nov 2021 05:43:56 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 359863F70D;
-        Fri, 12 Nov 2021 05:43:55 -0800 (PST)
-Subject: Re: [PATCH 0/4] iommu/arm-smmu: Support Tegra234 SMMU
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
+        id S235096AbhKLNvi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Nov 2021 08:51:38 -0500
+Received: from mail-ot1-f41.google.com ([209.85.210.41]:37689 "EHLO
+        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235090AbhKLNve (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 12 Nov 2021 08:51:34 -0500
+Received: by mail-ot1-f41.google.com with SMTP id h19-20020a9d3e53000000b0056547b797b2so13051991otg.4;
+        Fri, 12 Nov 2021 05:48:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=3cZuvoICaeE/9iFk5pqpv0JHNWT+JNnUw/yYONM5mkU=;
+        b=4alRKhZsrXkAvW4ZUmzGH5GS3mdcuhfnSrxcbTRw+alATuQ5QCDas4c1wUwAUQGACS
+         MAlLGHLW1jAvZCRguqT/iMCm0MUxdRPl/o9LvyGoe1ttV1LPivSjdKwbieIZMOdQXOhF
+         Sv2QtNmyffWzX7VEzm6Hdx8Umo9/+jgSFFdNOHhGfZSuioQpGur0KXMDKeTmSjyvouIl
+         Am2iMss4TYjqcVLc/Y4UZDfO1m5voEac83QJa9pqPtwrKg0hgMkE6HNeDj+gcYMPw8Ch
+         D+wg6ABXc+v5pIFtYcDAoNaGc49prP65ExZ6QJv4Dfq9z3B5izkDIE0bu2fEf5exB+a4
+         mDwg==
+X-Gm-Message-State: AOAM532iEMcbTt2TqBu8IYg7nR6YsZmRo8ZG/ItRimfssejs33Us3+0j
+        1ifCy9+RDc8+R8RRUn+fUw==
+X-Google-Smtp-Source: ABdhPJzqRYPvyQX523O2yZES64vi8GvkQZW8Q/m3SS6pNMGB0StXY0TKAEKerANLaAud+vxtp8a32A==
+X-Received: by 2002:a9d:f45:: with SMTP id 63mr8919604ott.350.1636724923663;
+        Fri, 12 Nov 2021 05:48:43 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id q9sm1197151oti.32.2021.11.12.05.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 05:48:43 -0800 (PST)
+Received: (nullmailer pid 2463379 invoked by uid 1000);
+        Fri, 12 Nov 2021 13:48:37 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20211112131231.3683098-1-thierry.reding@gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e19479d9-f0b4-5347-1a43-2fcf5224a090@arm.com>
-Date:   Fri, 12 Nov 2021 13:43:54 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20211112131231.3683098-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+In-Reply-To: <20211112120518.3679793-3-thierry.reding@gmail.com>
+References: <20211112120518.3679793-1-thierry.reding@gmail.com> <20211112120518.3679793-3-thierry.reding@gmail.com>
+Subject: Re: [PATCH 02/15] dt-bindings: mmc: tegra: Convert to json-schema
+Date:   Fri, 12 Nov 2021 07:48:37 -0600
+Message-Id: <1636724917.184348.2463378.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 12/11/2021 1:12 pm, Thierry Reding wrote:
+On Fri, 12 Nov 2021 13:05:05 +0100, Thierry Reding wrote:
 > From: Thierry Reding <treding@nvidia.com>
 > 
-> Hi,
+> Convert the NVIDIA Tegra SDHCI bindings from the free-form text format
+> to json-schema.
 > 
-> this series of patches adds and enables support for the ARM SMMU
-> instances found on the new Tegra234 SoC. This is mostly similar to what
-> can be found on Tegra194 except that there are a few more instances to
-> meet increased bandwidth needs.
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v2:
+> - drop redundant $ref properties, add missing maxItems
 > 
-> In addition to adding support for the new Tegra234 compatible string,
-> this also adds a missing description for the nvidia,memory-controller
-> property to the ARM SMMU device tree binding.
+>  .../bindings/mmc/nvidia,tegra20-sdhci.txt     | 143 ---------
+>  .../bindings/mmc/nvidia,tegra20-sdhci.yaml    | 294 ++++++++++++++++++
+>  2 files changed, 294 insertions(+), 143 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt
+>  create mode 100644 Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml
+> 
 
-Besides a nitpick about the inconsistent enum ordering in patch #2,
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-for patches #1-3.
+Full log is available here: https://patchwork.ozlabs.org/patch/1554296
 
-Cheers,
-Robin.
 
-> I plan on picking up patch 4 into the Tegra tree because it has a
-> dependency (for the stream ID definitions) on a separate patch series
-> for the memory controller that I sent out earlier.
-> 
-> Thanks,
-> Thierry
-> 
-> Thierry Reding (4):
->    dt-bindings: arm-smmu: Document nvidia,memory-controller property
->    dt-bindings: arm-smmu: Add compatible for Tegra234 SOC
->    iommu/arm-smmu: Support Tegra234 SMMU
->    arm64: tegra: Add Tegra234 IOMMUs
-> 
->   .../devicetree/bindings/iommu/arm,smmu.yaml   |  13 +-
->   arch/arm64/boot/dts/nvidia/tegra234.dtsi      | 426 ++++++++++++++++++
->   drivers/iommu/arm/arm-smmu/arm-smmu-impl.c    |   3 +-
->   3 files changed, 440 insertions(+), 2 deletions(-)
-> 
+mmc@3460000: clock-names: ['sdhci'] is too short
+	arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dt.yaml
+
+mmc@3460000: clocks: [[2, 123]] is too short
+	arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dt.yaml
+
+mmc@3460000: compatible: 'oneOf' conditional failed, one must be fixed:
+	arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dt.yaml
+
