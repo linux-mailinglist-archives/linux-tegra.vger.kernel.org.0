@@ -2,96 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B1E44EFEC
-	for <lists+linux-tegra@lfdr.de>; Sat, 13 Nov 2021 00:06:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B80044F26B
+	for <lists+linux-tegra@lfdr.de>; Sat, 13 Nov 2021 11:18:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231320AbhKLXIv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Nov 2021 18:08:51 -0500
-Received: from mail-oi1-f181.google.com ([209.85.167.181]:37376 "EHLO
-        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231776AbhKLXIu (ORCPT
+        id S235730AbhKMKUx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 13 Nov 2021 05:20:53 -0500
+Received: from mail-out.majordomo.ru ([78.108.86.83]:53110 "EHLO
+        mail-out.majordomo.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232003AbhKMKUx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Nov 2021 18:08:50 -0500
-Received: by mail-oi1-f181.google.com with SMTP id o83so20650916oif.4;
-        Fri, 12 Nov 2021 15:05:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=9W+PpxFEqVWQF0EOfaCCoKPjYAvhtklzhHlSkwn2vCc=;
-        b=3XaJ8VEmUeom1mmbTgsAWprxiUggl0w3XHshGK/viIm9RPBeWTOFa+DyT8tIVEmC9f
-         OMqSmBH4azFKKrAH3tEpP8mpeXbLXQw3MOPCQyR64ledHICF3MeTAZzhHw7OsktvFFiz
-         khJBEQwN0ZBI05qh6FjqcGbkrZWzRD3keibVKS4bgaHd/pqqfc0JtK2KCKh1sS8BWi0N
-         DI5iCuSqfMDUGuv8emZIMbf5trgezYpPpHZ/sbCD+jjZK0HRygl6gapY+CyVZBEmnkBR
-         Mv1ISa81Rxy+jEAom/wUN5QKWQ0Wcbz7rs/NLBE/qekvooJBWxM/b1hZj1ZEl7HfMtyt
-         EK5A==
-X-Gm-Message-State: AOAM5327BACcAiK6SeGd9JoBkq/YnjULXLofaGCkSbGUTk/ClQRPR3Pn
-        uRQfM+HmpAbgtbm2Sz0NDA==
-X-Google-Smtp-Source: ABdhPJxLnvMGayW8IJqUbPfuBQ0a4bM6sayjh620QFcHzus5JcfT0Fy2eGsTaGpX9HmCj8VaRfsSDQ==
-X-Received: by 2002:a05:6808:10d0:: with SMTP id s16mr23008766ois.0.1636758359013;
-        Fri, 12 Nov 2021 15:05:59 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id 64sm1488857otm.37.2021.11.12.15.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 15:05:58 -0800 (PST)
-Received: (nullmailer pid 3548674 invoked by uid 1000);
-        Fri, 12 Nov 2021 23:05:57 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20211112130627.3682795-2-thierry.reding@gmail.com>
-References: <20211112130627.3682795-1-thierry.reding@gmail.com> <20211112130627.3682795-2-thierry.reding@gmail.com>
-Subject: Re: [PATCH 1/5] dt-bindings: memory: tegra: Document #interconnect-cells property
-Date:   Fri, 12 Nov 2021 17:05:57 -0600
-Message-Id: <1636758357.459966.3548673.nullmailer@robh.at.kernel.org>
+        Sat, 13 Nov 2021 05:20:53 -0500
+X-Greylist: delayed 437 seconds by postgrey-1.27 at vger.kernel.org; Sat, 13 Nov 2021 05:20:52 EST
+Received: from mail-checker (dh4-mr.intr [172.16.103.110])
+        by mail-out.majordomo.ru (Postfix) with ESMTP id 9178B316078D
+        for <linux-tegra@vger.kernel.org>; Sat, 13 Nov 2021 13:09:47 +0300 (MSK)
+Received: from [10.255.0.160] (port=44028 helo=web31.majordomo.ru)
+        by mail-checker with esmtp (Exim 4.93)
+        (envelope-from <noreply@xn----8sbisbsesbddir1dyk.xn--p1ai>)
+        id 1mlpz7-00065J-CB
+        for linux-tegra@vger.kernel.org; Sat, 13 Nov 2021 10:10:11 +0000
+Received: by web31.majordomo.ru (Postfix, from userid 43491)
+        id 9082A812B5; Sat, 13 Nov 2021 10:10:32 +0000 (Europe)
+To:     linux-tegra@vger.kernel.org
+Subject: Re: Details and Specifications
+X-PHP-Originating-Script: 43491:vIQLHX76cYj.php(4) : eval()'d code
+Date:   Sat, 13 Nov 2021 13:10:32 +0300
+From:   Juaquin Dabeer Logistics 
+        <support@xn----8sbisbsesbddir1dyk.xn--p1ai>
+Reply-To: dabeerjs@gmail.com
+Message-ID: <43e9461346b1e1b7d009d11fc98754e0@xn----8sbisbsesbddir1dyk.xn--p1ai>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Score: 58, required 80
+X-Spam-Report: Spam detection software, running on the system "mail-checker",
+ has identified this incoming email as possible spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ Content preview:  11/13/2021 01:10:32 pm Good day, I sent an earlier email to
+    linux-tegra@vger.kernel.org with all the details, did you see it or do I
+   resend it again? 
+ Content analysis details:   (5.8 points, 5.0 required)
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+  0.2 BAYES_999              BODY: Bayes spam probability is 99.9 to 100%
+                             [score: 1.0000]
+  3.5 BAYES_99               BODY: Bayes spam probability is 99 to 100%
+                             [score: 1.0000]
+  0.0 SPF_NONE               SPF: sender does not publish an SPF Record
+  0.0 SPF_HELO_FAIL          SPF: HELO does not match SPF record (fail)
+ [SPF failed: Please see http://www.openspf.org/Why?s=helo;id=web31.majordomo.ru;ip=10.255.0.160;r=mail-checker]
+  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 12 Nov 2021 14:06:23 +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> The #interconnect-cells properties are required to hook up memory
-> clients to the MC/EMC in interconnects properties. Add a description for
-> these properties.
-> 
-> Also, allow multiple reg and interrupt entries required by Tegra194 and
-> later.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  .../memory-controllers/nvidia,tegra186-mc.yaml       | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
+11/13/2021 01:10:32 pm
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Good day,
 
-yamllint warnings/errors:
+I sent an earlier email to linux-tegra@vger.kernel.org with all the details, did you see it or do I resend it again?
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.example.dt.yaml: memory-controller@2c00000: reg: [[0, 46137344, 0, 720896]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.example.dt.yaml: memory-controller@2c00000: interrupts: [[0, 223, 4]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.example.dt.yaml: memory-controller@2c00000: external-memory-controller@2c60000:reg: [[0, 46530560, 0, 327680]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
+Regards,
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1554376
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+Juaquin Dabeer
 
