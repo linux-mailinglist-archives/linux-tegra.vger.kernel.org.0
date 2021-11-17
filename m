@@ -2,238 +2,199 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABADB45444F
-	for <lists+linux-tegra@lfdr.de>; Wed, 17 Nov 2021 10:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5BFF454484
+	for <lists+linux-tegra@lfdr.de>; Wed, 17 Nov 2021 11:01:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235720AbhKQJ7Y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 17 Nov 2021 04:59:24 -0500
-Received: from mail-dm6nam11on2087.outbound.protection.outlook.com ([40.107.223.87]:35456
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235719AbhKQJ7X (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 17 Nov 2021 04:59:23 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kei0xEHvHbfrAHIUnBxTHi+S3kenv2GZS2u5uQU7/JBXqxoYZ/jJX1cdvbm2tx7oKURES4Sh3n2AN+NLrjKidKR6AeYzviRnc0w44IH8zLpEzle7ZMmKmAQn37+caPiFytkfUb0Ykb7jLU68bNHyg/n2FvIOgiyGwR75+m7SBayQElYwUD2yosRUPKuY+QZc9ENpEGdqQGGGaJ9h9/7fu+B5iv8IurvAVNii2y0ywQ+Lpwp5xRPBY5WY5FWnAcMPT5afQSYGQWIf5VRIqO44vDbwEZOkNTMPdo6YbYl9BdHuP1yA/Z7+BoYYj6syACm5h1sGYymCi02RoVTWcd3Meg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zn5Q8bh8jYStsvRCO/wZ+ql/12lFOmpC5TY/9K6oM/0=;
- b=RypWQkAnOXYX3THKpQ6Wq+G5N7x8zOswPKWKXL2g4EwvOaHmy6aFBVCdSSikheUA+Qu/IqFSxdAi36yK18wYpQIeF+jwQANHaxortr8Gfky9bWRMNtVQ+2tnegGAD3ryvfJuRV+FrJnAx9nAUVaD/guovdc+gUGe/FAn7feLAabi0WL9sJ9KrJKjGlDg+5wp+ImmKfwLe/1S5uTwTHIVo+/J+JEMY9MgH3JUzoWHRAn61vsLk3QKckhpjc0YGb1nmmwpK/Gf1gG4ScZUlXjB7bjbiS7CMpwGI+xVjFyl8Js0R9VcI+ivKCjHzRQGsP0v5biSm//LaoNil9dCZNRZNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zn5Q8bh8jYStsvRCO/wZ+ql/12lFOmpC5TY/9K6oM/0=;
- b=iWNSep2jTWvZFxn870/rBnE7Bq3Dggrb9x1Mje9JUqnjXaL5BJOSTu4hizKObM9QJ+OnnMDiMkA5+3GmoiXyE+HeyuhBnrp+6lCw61KezAizN7HC4hL7L7J3di5Ee1w8XR78fbvwHHjV2qTDiqJVHi+wir56ELxO16x3Kw9JLMFplA7EvmohmX4jTLmJqFgBAlgbd+j4gj4LkGo46VjQjj6WA8lJl6v+IxPfYTI+505seGxdGhKlluX49U5X8ln4Js5mn2QdvqSUwMPyLSmksjFGCw33HkttJk9ibhMg2TzZWm51bdMgU2b9JwPnFgugYoNvgCUCNFv6rzD1x3vUUg==
-Received: from BN0PR03CA0039.namprd03.prod.outlook.com (2603:10b6:408:e7::14)
- by BY5PR12MB4115.namprd12.prod.outlook.com (2603:10b6:a03:20f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Wed, 17 Nov
- 2021 09:56:23 +0000
-Received: from BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e7:cafe::7f) by BN0PR03CA0039.outlook.office365.com
- (2603:10b6:408:e7::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26 via Frontend
- Transport; Wed, 17 Nov 2021 09:56:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT032.mail.protection.outlook.com (10.13.177.88) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4690.15 via Frontend Transport; Wed, 17 Nov 2021 09:56:23 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 17 Nov
- 2021 09:56:22 +0000
-Received: from moonraker.nvidia.com (172.20.187.6) by mail.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Wed, 17 Nov 2021 09:56:20 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Rob Herring <robh+dt@kernel.org>,
+        id S235905AbhKQKEG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 17 Nov 2021 05:04:06 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:45249 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235778AbhKQKEG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 17 Nov 2021 05:04:06 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 431BF580558;
+        Wed, 17 Nov 2021 05:01:07 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 17 Nov 2021 05:01:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=Z4rc62NXo9sALoDI2kXA+PvCVrE
+        DdbeQgnJhg+J93hQ=; b=fdZGAPPHuLrcjbKFoJmhsru+A5BHIjEYVdrUGRo6dCS
+        MBc5TiBDcU9j/lUj5BDAkdK3kFUm6L8uBvN5G+3tar5k18LbogiaSVlu9pTzkgim
+        jD0f7/VP32nvuuDyJUn/QRx6tpz4iJgCX5Vod0gxzy/pOjxJwN7UfSDK+wxF9tDe
+        XcGTgCVcv8166pyegIaxY8Z92zOge+b61OamriKHwQIKd6YZoMHqUlpVSJtP1/y5
+        UCxBw9fCKwjdBOyzXEvzUlkEJ4o2VjgUHfPRyHLRe0vL23RQBJpTaSbeN/0uqNBe
+        2rW+QIgijT8D4fIduKjA6gbmeVAN6jYdkMkBJViPW6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Z4rc62
+        NXo9sALoDI2kXA+PvCVrEDdbeQgnJhg+J93hQ=; b=WvJc5SAqzGihaVtfI1vTqX
+        5DHyUzf1gGOXMgG81qrXOiLtBw1EYYlkgceqCMMRPBeudxu7KwLu03xBlFZDW+sJ
+        Wj/hPS3417conBlB61vGOLUueo1niC5Ezqfo2+gGvIUq3ncT29/xQhCww3UhMj2r
+        bMB9mw/3K7uQ1KKeAfsvqqE0zB0zBNh+/ray/AdM2zQfpDXyNJJ+VDbHuPOFxE/b
+        2/FB7y3RdVyRLosM6uQ5N7SimRKyr7ApH8++jR1lkiFFagyHau1bNczgg0Cbc1/z
+        xS+o6ZHIHy22Xvafd8Ztf7pUdsJuPntH3tEkqCADLYJwtEYwPNeqPjPrR1Q9FGyg
+        ==
+X-ME-Sender: <xms:4dKUYbvlYs-fjnnCpLQDrdKd1o0QRJo_DYWA-uYMr4qUb70I287Ppw>
+    <xme:4dKUYcfu22EGVC3bsLl3StqHbxLvrzIkgsDXfixTbRFcgXXY98yj1IQGGOWXt1Rt3
+    frUwezgdokHOJtQwYs>
+X-ME-Received: <xmr:4dKUYezM_-vdJPwmA112RAM6H_DCDB7NeAf6guvjX3pyHnP9O-eiCfEWMXtP_ATe6sZqT5gvv0zSTX3UyQ-hSyUm9hnglMAFiwKqM0GItnc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggddthecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+    veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:4dKUYaO0eSSbsEntUHXLjO-3-Dj5a-nlW6YIsg333Do8qlN71oRphw>
+    <xmx:4dKUYb8fpPwb5rZrOAKdZsapBqu7GXHCLFox8DhgGPFElVgDoef1Yg>
+    <xmx:4dKUYaW6YW2IneBy0MsqJ4W0uKAHTxh8BNvrpnTGixuGssOocmd3wg>
+    <xmx:49KUYeXH_xPF0yuCtyFyj7ukBD3VIbrTOk7mObwMMpL87dn3ekHADQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Nov 2021 05:01:05 -0500 (EST)
+Date:   Wed, 17 Nov 2021 11:01:03 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+        Dom Cobley <dom@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH V3 2/2] arm64: tegra: Add NVENC and NVJPG nodes for Tegra186 and Tegra194
-Date:   Wed, 17 Nov 2021 09:56:08 +0000
-Message-ID: <20211117095608.60415-2-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211117095608.60415-1-jonathanh@nvidia.com>
-References: <20211117095608.60415-1-jonathanh@nvidia.com>
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-tegra@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Phil Elwell <phil@raspberrypi.com>
+Subject: Re: [PATCH 02/13] drm/connector: Add helper to check if a mode
+ requires scrambling
+Message-ID: <20211117100103.xouysycl5lmrescx@gilmour>
+References: <20211102145944.259181-1-maxime@cerno.tech>
+ <20211102145944.259181-3-maxime@cerno.tech>
+ <YYP+MX9gxZVafhKk@intel.com>
+ <YYVxtp9PZiR3ZOjp@phenom.ffwll.local>
+ <YYV0bArjRbvYJ2K2@intel.com>
+ <20211108155834.6zz236ll75bxwcrk@gilmour>
+ <YYlkdHzW4ir07Gtk@intel.com>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a734b90b-6208-4bcf-5834-08d9a9b08360
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4115:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4115BEA4905350AD1B685922D99A9@BY5PR12MB4115.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AwAJHm3+SMly8l6s2y4HiuwvjaS5ByFmMoeFuPWz9yJ0s+FQarfg+vNyJRSESBm1RVPk3HhiM7fJ1gys/85FRKlg+LIM7MCRjgEES5lJSynv+uewHsYaWOelHzFVu8qtoh9VUZHIv9OsCN4KXuhFUIFyKTIlyclplOnnX5NeWAeVcTvbfo5nfNi1QhFyjGx3xRA9M1qTF99NJ4To4NsO+JK8Mmzd73XxJGxmEsPKBSD8TgyqQC8w74QcwyMjbsnuF3MSn2MLqnhB5XTN9DMmqq0jlxvK/33g4Y4KTsEohUGOWdM7w4VTkYbd9QEQlFiFc336FT7y4QgFl36rdfHZy2yVZdnPlrLCdk/L8vS7T5J0nS80wtCkwD5ULdfdeKCkpvFLpHXSUttCr2z18ibUK767gdmus0DM4147ZD4Oo8MuNtw1b6Nu+57Fs4fpCA4NIaOC1XYgjqu6E1vXvgNb+fH9bK4MMUCUXesDfb9E9U4bpEjPhaawGoj/24GMa2xKz0Ah3ASJL8UIgs5nh0G+YSUn6pnB977fWa3M+0LBaBOmUZGSBKWLyvpCo+LnZkZ8EMlRXRr6NaWBdFbC3YgjJj3/NMg8BEExtCLFUOdq/jyPr2g5dbBAXxPokgxwEnqj1bVQGlednhxVNJxpfC/Jc9bQ6e0K4X57vAOpv/rm6Toh6Ey0vb+/j8O8RYEwy1fiuXiKlHZ9m9HtVwUSC0Pd1A==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(6666004)(70586007)(107886003)(36756003)(36906005)(4326008)(316002)(336012)(186003)(426003)(47076005)(8936002)(7696005)(508600001)(36860700001)(2906002)(70206006)(54906003)(110136005)(86362001)(5660300002)(8676002)(2616005)(82310400003)(26005)(1076003)(83380400001)(7636003)(6636002)(356005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 09:56:23.1244
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a734b90b-6208-4bcf-5834-08d9a9b08360
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4115
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="thlviocxszlf7zcl"
+Content-Disposition: inline
+In-Reply-To: <YYlkdHzW4ir07Gtk@intel.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Populate the device-tree nodes for NVENC and NVJPG Host1x engines on
-Tegra186 and Tegra194.
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
-Changes since V1:
-- None
+--thlviocxszlf7zcl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 30 +++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 54 ++++++++++++++++++++++++
- 2 files changed, 84 insertions(+)
+On Mon, Nov 08, 2021 at 07:55:00PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Nov 08, 2021 at 04:58:34PM +0100, Maxime Ripard wrote:
+> > On Fri, Nov 05, 2021 at 08:14:04PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Fri, Nov 05, 2021 at 07:02:30PM +0100, Daniel Vetter wrote:
+> > > > On Thu, Nov 04, 2021 at 05:37:21PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > > On Tue, Nov 02, 2021 at 03:59:33PM +0100, Maxime Ripard wrote:
+> > > > > > --- a/include/drm/drm_modes.h
+> > > > > > +++ b/include/drm/drm_modes.h
+> > > > > > @@ -424,6 +424,21 @@ static inline bool drm_mode_is_stereo(cons=
+t struct drm_display_mode *mode)
+> > > > > >  	return mode->flags & DRM_MODE_FLAG_3D_MASK;
+> > > > > >  }
+> > > > > > =20
+> > > > > > +/**
+> > > > > > + * drm_mode_hdmi_requires_scrambling - Checks if a mode requir=
+es HDMI Scrambling
+> > > > > > + * @mode: DRM display mode
+> > > > > > + *
+> > > > > > + * Checks if a given display mode requires the scrambling to b=
+e enabled.
+> > > > > > + *
+> > > > > > + * Returns:
+> > > > > > + * A boolean stating whether it's required or not.
+> > > > > > + */
+> > > > > > +static inline bool
+> > > > > > +drm_mode_hdmi_requires_scrambling(const struct drm_display_mod=
+e *mode)
+> > > > > > +{
+> > > > > > +	return mode->clock > DRM_HDMI_14_MAX_TMDS_CLK_KHZ;
+> > > > > > +}
+> > > > >=20
+> > > > > That's only correct for 8bpc. The actual limit is on the TMDS clo=
+ck (or
+> > > > > rather TMDS character rate as HDMI 2.0 calls it due to the 1/1 vs=
+=2E 1/4
+> > > > > magic for the actually transmitted TMDS clock).
+> > > >=20
+> > > > Yeah we might need to add the bus format for the cable here too, to=
+ make
+> > > > this complete.
+> > >=20
+> > > I don't think we have a usable thing for that on the drm level, so
+> > > would need to invent something. Oh, and the mode->clock vs.=20
+> > > mode->crtc_clock funny business also limits the usability of this
+> > > approach. So probably just easiest to pass in the the driver calculat=
+ed
+> > > TMDS clock instead.
+> >=20
+> > If we look at all (I think?) the existing users of scrambling in KMS as
+> > of 5.15, only i915 seems to use crtc_clock (which, in retrospect, seems
+> > to be the right thing to do), and only i915 and dw-hdmi use an output
+> > format, i915 rolling its own, and dw-hdmi using the mbus formats.
+> >=20
+> > I think using the mbus format here makes the most sense: i915 already is
+> > rolling a whole bunch of other code, and we use the mbus defines for the
+> > bridge format enumeration as well which is probably going to have some
+> > interaction.
+> >=20
+> > I'm not quite sure what to do next though. The whole point of that
+> > series is to streamline as much as possible the scrambling and TMDS
+> > ratio setup to avoid the duplication we already have in the drivers that
+> > support it, every one using the mostly-the-same-but-slightly-different
+> > logic to configure it.
+> >=20
+> > The mode is fortunately stored in generic structures so it's easy to
+> > make that decision. Having to take into account the output format
+> > however makes it mandatory to move the bus format in the
+> > drm_connector_state(?) structure too.
+>=20
+> I think involving state objects and the like is just going to make
+> it harder to share code between all drivers, if that is the goal.
+> Just a few tiny helpers I think is what would allow the broadest=20
+> reuse. I guess you could build additional midlayer on top of those
+> for some drivers if you wish.
+>=20
+> As for the bus_format stuff, that looks at the same time overkill,
+> and insufficiently documented. I guess its main purpose is to exactly
+> defines how some digtal bus works, which makes sense when you're
+> chaining a bunch of random chips together. But looks overly complicated
+> to me for defining what to output from a HDMI encoder. Looking at the
+> defines I wouldn't even know what to use for HDMI actually. All we
+> really want is RGB 4:4:4 vs. YCbCr 4:4:4 vs. YCbCr 4:2:2 vs. YCbCr 4:2:0.
+> Beyond that level of detail we don't care how each bit gets transferred
+> etc. Hence enum intel_output_format in i915.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 9ac4f0140700..f21cfcaab2a6 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -1538,6 +1538,21 @@ vic@15340000 {
- 			iommus = <&smmu TEGRA186_SID_VIC>;
- 		};
- 
-+		nvjpg@15380000 {
-+			compatible = "nvidia,tegra186-nvjpg";
-+			reg = <0x15380000 0x40000>;
-+			clocks = <&bpmp TEGRA186_CLK_NVJPG>;
-+			clock-names = "nvjpg";
-+			resets = <&bpmp TEGRA186_RESET_NVJPG>;
-+			reset-names = "nvjpg";
-+
-+			power-domains = <&bpmp TEGRA186_POWER_DOMAIN_NVJPG>;
-+			interconnects = <&mc TEGRA186_MEMORY_CLIENT_NVJPGSRD &emc>,
-+					<&mc TEGRA186_MEMORY_CLIENT_NVJPGSWR &emc>;
-+			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA186_SID_NVJPG>;
-+		};
-+
- 		dsib: dsi@15400000 {
- 			compatible = "nvidia,tegra186-dsi";
- 			reg = <0x15400000 0x10000>;
-@@ -1569,6 +1584,21 @@ nvdec@15480000 {
- 			iommus = <&smmu TEGRA186_SID_NVDEC>;
- 		};
- 
-+		nvenc@154c0000 {
-+			compatible = "nvidia,tegra186-nvenc";
-+			reg = <0x154c0000 0x40000>;
-+			clocks = <&bpmp TEGRA186_CLK_NVENC>;
-+			clock-names = "nvenc";
-+			resets = <&bpmp TEGRA186_RESET_NVENC>;
-+			reset-names = "nvenc";
-+
-+			power-domains = <&bpmp TEGRA186_POWER_DOMAIN_MPE>;
-+			interconnects = <&mc TEGRA186_MEMORY_CLIENT_NVENCSRD &emc>,
-+					<&mc TEGRA186_MEMORY_CLIENT_NVENCSWR &emc>;
-+			interconnect-names = "dma-mem", "write";
-+			iommus = <&smmu TEGRA186_SID_NVENC>;
-+		};
-+
- 		sor0: sor@15540000 {
- 			compatible = "nvidia,tegra186-sor";
- 			reg = <0x15540000 0x10000>;
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 1adf076526c8..9586af9a100b 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1782,6 +1782,22 @@ vic@15340000 {
- 				dma-coherent;
- 			};
- 
-+			nvjpg@15380000 {
-+				compatible = "nvidia,tegra194-nvjpg";
-+				reg = <0x15380000 0x40000>;
-+				clocks = <&bpmp TEGRA194_CLK_NVJPG>;
-+				clock-names = "nvjpg";
-+				resets = <&bpmp TEGRA194_RESET_NVJPG>;
-+				reset-names = "nvjpg";
-+
-+				power-domains = <&bpmp TEGRA194_POWER_DOMAIN_NVJPG>;
-+				interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVJPGSRD &emc>,
-+						<&mc TEGRA194_MEMORY_CLIENT_NVJPGSWR &emc>;
-+				interconnect-names = "dma-mem", "write";
-+				iommus = <&smmu TEGRA194_SID_NVJPG>;
-+				dma-coherent;
-+			};
-+
- 			nvdec@15480000 {
- 				compatible = "nvidia,tegra194-nvdec";
- 				reg = <0x15480000 0x00040000>;
-@@ -1801,6 +1817,25 @@ nvdec@15480000 {
- 				nvidia,host1x-class = <0xf0>;
- 			};
- 
-+			nvenc@154c0000 {
-+				compatible = "nvidia,tegra194-nvenc";
-+				reg = <0x154c0000 0x40000>;
-+				clocks = <&bpmp TEGRA194_CLK_NVENC>;
-+				clock-names = "nvenc";
-+				resets = <&bpmp TEGRA194_RESET_NVENC>;
-+				reset-names = "nvenc";
-+
-+				power-domains = <&bpmp TEGRA194_POWER_DOMAIN_NVENCA>;
-+				interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVENCSRD &emc>,
-+						<&mc TEGRA194_MEMORY_CLIENT_NVENCSRD1 &emc>,
-+						<&mc TEGRA194_MEMORY_CLIENT_NVENCSWR &emc>;
-+				interconnect-names = "dma-mem", "read-1", "write";
-+				iommus = <&smmu TEGRA194_SID_NVENC>;
-+				dma-coherent;
-+
-+				nvidia,host1x-class = <0x21>;
-+			};
-+
- 			dpaux0: dpaux@155c0000 {
- 				compatible = "nvidia,tegra194-dpaux";
- 				reg = <0x155c0000 0x10000>;
-@@ -1937,6 +1972,25 @@ i2c-bus {
- 				};
- 			};
- 
-+			nvenc@15a80000 {
-+				compatible = "nvidia,tegra194-nvenc";
-+				reg = <0x15a80000 0x00040000>;
-+				clocks = <&bpmp TEGRA194_CLK_NVENC1>;
-+				clock-names = "nvenc";
-+				resets = <&bpmp TEGRA194_RESET_NVENC1>;
-+				reset-names = "nvenc";
-+
-+				power-domains = <&bpmp TEGRA194_POWER_DOMAIN_NVENCB>;
-+				interconnects = <&mc TEGRA194_MEMORY_CLIENT_NVENC1SRD &emc>,
-+						<&mc TEGRA194_MEMORY_CLIENT_NVENC1SRD1 &emc>,
-+						<&mc TEGRA194_MEMORY_CLIENT_NVENC1SWR &emc>;
-+				interconnect-names = "dma-mem", "read-1", "write";
-+				iommus = <&smmu TEGRA194_SID_NVENC1>;
-+				dma-coherent;
-+
-+				nvidia,host1x-class = <0x22>;
-+			};
-+
- 			sor0: sor@15b00000 {
- 				compatible = "nvidia,tegra194-sor";
- 				reg = <0x15b00000 0x40000>;
--- 
-2.25.1
+I was thinking about this some more, can we leverage struct
+hdmi_colorspace for this? Chances are it's already used by any driver
+that supports YCbCr output to setup the infoframes.
 
+Maxime
+
+--thlviocxszlf7zcl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZTS3wAKCRDj7w1vZxhR
+xTmyAQD6f7bBcSo7FKPBzGh+09zx0lQRcHlA3U6Ps1zDXHCc0AEAyejjdg07Q99k
+DauwTfAn9yIIyOSYSnlh6rWuq4HXsgw=
+=gjjc
+-----END PGP SIGNATURE-----
+
+--thlviocxszlf7zcl--
