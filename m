@@ -2,60 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BB0245865E
-	for <lists+linux-tegra@lfdr.de>; Sun, 21 Nov 2021 21:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54BEE4586EB
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Nov 2021 00:11:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbhKUUry (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 21 Nov 2021 15:47:54 -0500
-Received: from mx07-00227901.pphosted.com ([185.132.182.185]:50190 "EHLO
-        mx08-00227901.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230421AbhKUUry (ORCPT
+        id S229920AbhKUXO2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 21 Nov 2021 18:14:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229441AbhKUXO2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 21 Nov 2021 15:47:54 -0500
-X-Greylist: delayed 31417 seconds by postgrey-1.27 at vger.kernel.org; Sun, 21 Nov 2021 15:47:52 EST
-Received: from pps.filterd (m0097675.ppops.net [127.0.0.1])
-        by mx07-.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AJ7xOI5005994;
-        Fri, 19 Nov 2021 10:27:14 +0100
-Received: from zbw2k16ex01.bardusch.net ([185.80.186.174])
-        by mx07-.pphosted.com (PPS) with ESMTPS id 3cdjtyh6e0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Fri, 19 Nov 2021 10:27:14 +0100
-Received: from ZBW2K16EX01.bardusch.net (172.25.1.1) by
- ZBW2K16EX01.bardusch.net (172.25.1.1) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.2308.20;
- Fri, 19 Nov 2021 10:27:13 +0100
-Received: from User (172.25.1.131) by ZBW2K16EX01.bardusch.net (172.25.1.1)
- with Microsoft SMTP Server id 15.1.2308.20 via Frontend Transport; Fri, 19
- Nov 2021 10:27:03 +0100
-Reply-To: <josechoondak@gmail.com>
-From:   Joseph Choondak <info@ndd.co.mz>
-Subject: I hope this email finds you well.
-Date:   Fri, 19 Nov 2021 01:27:17 -0800
+        Sun, 21 Nov 2021 18:14:28 -0500
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E509C061574
+        for <linux-tegra@vger.kernel.org>; Sun, 21 Nov 2021 15:11:22 -0800 (PST)
+Received: by mail-ot1-x32e.google.com with SMTP id w6-20020a9d77c6000000b0055e804fa524so26111362otl.3
+        for <linux-tegra@vger.kernel.org>; Sun, 21 Nov 2021 15:11:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bTAbuwwiRCZN3KqUf/kG304lXY2W1vD8B7/l1GzwKy8=;
+        b=Z8DWsyha2Dp8bop4b5/0sikkJ061GrpRiI6v7NAguDswKzjJi4nt70dyVA8wXDEcZx
+         uBOZcbm8w0zhjmrrFVOhZW4E6JpB/5YUg9T4Aiy7dgt9Es0TmlRx3vRjfUYtaxc1jyHW
+         1N/bWcNR02//76oyApRPkP2hE3BuyT3TcnIF1AkpSXKirNW8nHCixaiLv2lA8DEBz+Tn
+         83vBDgpnQAASx9N8NirSQPA50pqwoOw0tiHrnroiyf55mECppIjg5uR6NUdqRt9/At77
+         HCEr37NfSL6gPJ6RHZP289BaQa3eIGWrs56PMAnO1rLNx8CNG7xZAHQUSq4VrX9oowkw
+         YmPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bTAbuwwiRCZN3KqUf/kG304lXY2W1vD8B7/l1GzwKy8=;
+        b=qrbHaUiqdzBj+HXYJo1IH+9HTFs3dBvsPJpKBAI9XBeBhkpR3uT3uPohMQmlfDwfYp
+         KW3lh49YnVRcGiBChjOorrXCqCEiaVG8NeI4uWjfZ0XD2WDFK4fxOX/4o54aDcBNKEAP
+         BRRmTO3qDORqzh3vqU2FixJ9ZW44B9F3RLZKWy/XrQ26UKp66MnBgtrQkyiFFFdG5b1Z
+         ok+kw04n1/dPOGNOKvo+Y4PooubRu5WsEMcRfSwckKQEjWR6Y+1mHeH25vAyBGAdm1X8
+         b4fdEZXqIAThKVmx4u75LxCkOHtfzjwZKBM4qWhkELp4RmhfOIEa6PopnSrDMyvW3HRC
+         vxJA==
+X-Gm-Message-State: AOAM533Gm8dPm+1gBOyJOzjbV2E1HdGpy2VJJxDoOw0T+5y1cDt9qPee
+        ZatlN9hIto+R8yWy+YLHFz7QmgwMBfj0A7SdddebOQ==
+X-Google-Smtp-Source: ABdhPJxnzPWPghCWX8gYtpkOsS59rzm44Ms1Mf25+pnmI3+IHeGK770vYP2R9da+dR4OmbKV6ZsJrF6I6pOlZdkK99g=
+X-Received: by 2002:a9d:ed6:: with SMTP id 80mr20510732otj.35.1637536281974;
+ Sun, 21 Nov 2021 15:11:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <df3f24ed-6571-4db0-afaf-2f1171b46248@ZBW2K16EX01.bardusch.net>
-To:     Undisclosed recipients:;
-X-Proofpoint-ORIG-GUID: 64rehLaKfzm2AOk5eUTzKrlN8apD89hM
-X-Proofpoint-GUID: 64rehLaKfzm2AOk5eUTzKrlN8apD89hM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-19_08,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Reason: orgsafe
+References: <20211112130152.3682556-1-thierry.reding@gmail.com>
+In-Reply-To: <20211112130152.3682556-1-thierry.reding@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 22 Nov 2021 00:11:10 +0100
+Message-ID: <CACRpkdYR4-xVcYd-0AsCvzknAbP_hbnJnnwmESh1=pgAfYOVyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] gpio: tegra186: Add support for Tegra234
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-May I please ask with considerable urgency for your kind assistance with the following matter.
-I'm a financial person, I think  I have something huge you might be interested in.
+On Fri, Nov 12, 2021 at 2:02 PM Thierry Reding <thierry.reding@gmail.com> wrote:
 
-Looking forward to hearing from you.
+> this set of patches converts the Tegra186 (and later) GPIO device tree
+> bindings to json-schema and adds support for the GPIO controllers found
+> on the new Tegra234 SoC. This also adds a gpio-keys device tree node to
+> the Jetson AGX Orin Developer Kit device tree to allow events from the
+> various inputs to be received by the system.
+>
+> Based on work by Prathamesh Shete.
 
+This looks good to me:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+for the series.
 
-Respectfully!!
-Joseph Choondak
-Account Executive.
+I suppose Bartosz can just apply patches 1-3 to the GPIO tree
+and the rest go to the Tegra tree?
+
+Yours,
+Linus Walleij
