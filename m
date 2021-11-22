@@ -2,91 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E83F458EE5
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Nov 2021 14:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E0CD45949B
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Nov 2021 19:19:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231697AbhKVNE4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Nov 2021 08:04:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36060 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230058AbhKVNEz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Nov 2021 08:04:55 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CE7B060F5B;
-        Mon, 22 Nov 2021 13:01:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1637586107;
-        bh=cfIg/uCuc4p0nRwYuqPMNhFVEk2R7HhI93wi9j5XUh4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xY0t7XdeYDuvEgXTDk1mFWAOxEZwLc/VDUjeK/qujTUZvsMiXfjJWoJpgdxspvKyk
-         HzfWVPWB7NJ+Ulb3SuH9phY7p0Uz+YCb63mmrzHoLvDoE0NzwLHyzVhLiEY313cO+B
-         6trVaBHdpKbFDrx3kCOjISyorhYodLMe6te0jVr8=
-Date:   Mon, 22 Nov 2021 14:01:44 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Patrik John <patrik.john@u-blox.com>
-Cc:     linux-kernel@vger.kernel.org, ldewangan@nvidia.com,
-        thierry.reding@gmail.com, jonathan@nvidia.com,
-        linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] serial: tegra: Fixes lower tolerance baud rate limit for
- older tegra chips introduced by d781ec21bae6
-Message-ID: <YZuUuNTCLS0yLH8A@kroah.com>
-References: <sig.096060f39c.20211122124425.74031-1-patrik.john@u-blox.com>
+        id S240308AbhKVSWq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Nov 2021 13:22:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240270AbhKVSWo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 22 Nov 2021 13:22:44 -0500
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5592C061758
+        for <linux-tegra@vger.kernel.org>; Mon, 22 Nov 2021 10:19:32 -0800 (PST)
+Received: by mail-vk1-xa33.google.com with SMTP id f7so10817501vkf.10
+        for <linux-tegra@vger.kernel.org>; Mon, 22 Nov 2021 10:19:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=QCG68ObPoGQ126FjMJ8YjZpzkjBTmbsGv489REpxv3o=;
+        b=pv2bOboCqFI0fD3Ev7d0pZw72wKWF0W1k/5eIB2E0mQytV+QboKGJ5zC1K2saGKCar
+         2eJILiFK7GvjaTuR7cxd+ltICPHeHUsz6jBmVjnDNelm4iWzl+hwZ14NdcsnrHEY6RwK
+         /1EQ+bB6ir6nOtECdISkhPiMroiQhqmLEW5bLf3HLRRHpZRwBhOiTZF6+Bfco8NDxjsv
+         B3DendbKTtay0OP6xVUvLdKho9n2wxTwQlBivKWbnxeXhRdhLWXm8IOj9JgFrBhv9xyZ
+         e421qDxpVSIKZd9UvLKCPFReuHx9zpKfhX5OQNYBLDo6AKcThB2i6ZV5demy/OB6he8W
+         q9mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=QCG68ObPoGQ126FjMJ8YjZpzkjBTmbsGv489REpxv3o=;
+        b=U5myby0qv9vWdR4/IIJPTxDIKjfOdWrbWqjcz+DYp2XARZGpwWWelvxnYIk0C8zUTW
+         kNPlV26gwnCrvHlHtmzplBZFjmExWh0CKYXrdMubcvKv2PidkfFaUlTgtPNqFbcg6V41
+         GhK87dzo0gIxLPV0g1kNZ/usexoxfsi/7ts6oUo7qXIYqctdtUBOx3V7OiPSZPfZru10
+         ig0kaEp69bkReKe6lBrjrkKQBmcBcqd7CODcBmGPLYcK52AoLhJAEyylkjkAcKJScRNb
+         ml0N+NcAXe4LZ92QB00P34ZFeQ5OfVf/rIO3V6tBv1VCxAgjA6xJqBKJokVRsueRYaZK
+         AzFQ==
+X-Gm-Message-State: AOAM5339Ks12F+cEPxgs+QGEyBqbwIpekCQnjkkebtggPMtuGEWBx3ux
+        9peWNkD6yXeNnniSD5w54dcQeyCmrHLY2S+GBS0=
+X-Google-Smtp-Source: ABdhPJxcwEhlPIOUrnifpUaQjsENBLflzRyOTN4yGLSWPaOwSJGoHqrVj3onTbmM1LFxO/kHbhdedSSY92zRkd4MIvM=
+X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr165062917vko.7.1637605171127;
+ Mon, 22 Nov 2021 10:19:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <sig.096060f39c.20211122124425.74031-1-patrik.john@u-blox.com>
+Received: by 2002:a59:9081:0:b0:238:a7b0:77e7 with HTTP; Mon, 22 Nov 2021
+ 10:19:30 -0800 (PST)
+Reply-To: deborahkouassi011@gmail.com
+From:   Deborah Kouassi <dk22002211@gmail.com>
+Date:   Mon, 22 Nov 2021 18:19:30 +0000
+Message-ID: <CANMpKgNURLgNtPn_-5OxUwQh2hnYgn2-Jmmv3=QA953YiBcZsQ@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Nov 22, 2021 at 01:44:26PM +0100, Patrik John wrote:
-> The current implementation uses 0 as lower limit for the baud rate tolerance which contradicts the initial commit description (https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git/commit/drivers/tty/serial/serial-tegra.c?h=for-next&id=d781ec21bae6ff8f9e07682e8947a654484611f5) of +4/-4% tolerance for older tegra chips other than Tegra186 and Tegra194.
-> This causes issues on UART initilization as soon as the actual baud rate clock is slightly lower than required which we have seen on the Tegra124-based Toradex Apalis TK1 which also uses tegra30-hsuart as compatible in the DT serial node (for reference line 1540ff https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git/tree/arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi?h=for-next)
+.
+I will like to disclose something very important to you,
+get back to me for more details please.
 
-All of these links will break in a few days.
-
-And a line number is not "1540ff" :(
-
-> 
-> The standard baud rate tolerance limits are also stated in the tegra20-hsuart driver description (https://www.kernel.org/doc/Documentation/devicetree/bindings/serial/nvidia%2Ctegra20-hsuart.txt).
-
-You can just reference a file in the kernel source tree directly, no
-need to go back to kernel.org
-
-> 
-> The previously introduced check_rate_in_range() always fails due to the lower limit set to 0 even if the actual baud rate is within the required -4% tolerance.
-
-Can you please wrap your changelog text at 72 columns like git asked you
-to when you committed the change to your local tree?
-
-> 
-> static int tegra_check_rate_in_range(struct tegra_uart_port *tup)
-> {
->     long diff;
->     diff = ((long)(tup->configured_rate - tup->required_rate) * 10000)
->         / tup->required_rate;
->     if (diff < (tup->cdata->error_tolerance_low_range * 100) ||
->         diff > (tup->cdata->error_tolerance_high_range * 100)) {
->         dev_err(tup->uport.dev,
->             "configured baud rate is out of range by %ld", diff);
->         return -EIO;
->     }
->     return 0;
-> }
-
-I do not understand, why is this code in the changelog?
-
-> 
-> Changing the lower tolerance limit to the actual -4% resolved the issues for the Tegra124 and should resolve potential issues for other Tegra20/Tegra30 based platforms as well.
-> 
-> Signed-off-by: Patrik John <patrik.john@u-blox.com>
-
-What commit does this fix?  Should it have a "Fixes:" tag in it?
-
-And should it go to stable kernel(s)?
-
-Also, this is a v2 patch, please include below the --- line what changed
-from the previous version when you resend v3.
-
-thanks,
-
-greg k-h
+Regards.
+Mrs Deborah Kouassi.
