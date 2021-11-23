@@ -2,89 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F10545A7EF
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Nov 2021 17:34:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CD3E45A80C
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Nov 2021 17:35:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236846AbhKWQhn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Nov 2021 11:37:43 -0500
-Received: from mail-io1-f53.google.com ([209.85.166.53]:46626 "EHLO
-        mail-io1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236344AbhKWQhm (ORCPT
+        id S238346AbhKWQiS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Nov 2021 11:38:18 -0500
+Received: from mail-il1-f180.google.com ([209.85.166.180]:40809 "EHLO
+        mail-il1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238887AbhKWQiK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Nov 2021 11:37:42 -0500
-Received: by mail-io1-f53.google.com with SMTP id x6so6945823iol.13;
-        Tue, 23 Nov 2021 08:34:33 -0800 (PST)
+        Tue, 23 Nov 2021 11:38:10 -0500
+Received: by mail-il1-f180.google.com with SMTP id k1so22297008ilo.7;
+        Tue, 23 Nov 2021 08:35:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
          :message-id;
-        bh=xHCYnhDhZCTxewpY+KOZ7LWuKPncTJz1crmpYlrkqfo=;
-        b=PAqxeekM2RcvZS+nZUr787NKDxK6yV4I54L5EdE8BljedVUnj55TkUnfvJ8stWvns9
-         qoMBYAnaMmCdZ1wAJNYXiEggRiA0i+nOnCThNPaYGKTuu1l9tSyyA93/1CXILsHS+det
-         RhyODwipXCMa38CgbZ/dTbmq5tZHpJRKhUQJH9Api/I76v558N1sZdTssTvEYix02akJ
-         t9CJna22pX6Dkm8KSJ9BHaXOoIc6P7Wqxt/24Dl3a895/qB1slrA8ZCiAomrkE2Dmjog
-         HgZ1tuX2iVJgn0PqQzC8jM2V8gUg9d7FulimqoYh8XXaYREQmbuCcb4axORycA/13qH1
-         VefQ==
-X-Gm-Message-State: AOAM533aufxMr+kW4txcBVw82kpV9TBG3S86swKPLqX0zqjD9YWQGURt
-        a7bm0sqG136Pu3ysh78nn/C0J1DzOw==
-X-Google-Smtp-Source: ABdhPJxwurIBVfozv0WaI04vNkMxK4z+wmlyG1U73zTi5k9/UxcwuBZEH75s2hOm1c8qOB6d3OBS6w==
-X-Received: by 2002:a05:6638:2585:: with SMTP id s5mr8115068jat.68.1637685272706;
-        Tue, 23 Nov 2021 08:34:32 -0800 (PST)
+        bh=JZcxB8mmmGsFGuKk1w8MDXxLIit5ODkfErCLhSso5Hk=;
+        b=06QgEPewhQFLSeos49Y2AtrEKOzx2CyWavD1Tqu/h91WQBi8UnZiYVCNAJAPKaGKjm
+         6EFyXhjdWLtWZ6dMzLJTbKgMazNwgBYin9tF7Fg1pJBBKKRigtj4s3UBgi9g8Nm/+V9w
+         8y5F5niYCxSvxyZiZ8UKd1xLPnesZdmKJkfs63iNzx+a98W7TOltkm/ijKDtIzwT862w
+         MAJskKXmvH5QGJhU6TdmO0hxFtYwqNjHHKfSBntVxN8U42Ta6nEiqAXldDQpD6McGA9k
+         lhZWxfEB6BUNUckvdcUG6T9gMixORJxv/9S76p7mdkC7IT0LKd9kw5pnMOc/I1brCnWz
+         rq+A==
+X-Gm-Message-State: AOAM530ptOhXZsSFrSyiqt4P4n1UEbmOdRyZ5CD7WrQIBVvV4v6KESho
+        /IjI15iCroCvsHN3GV+9jQ==
+X-Google-Smtp-Source: ABdhPJzwOEWQtOZ7KvrEsBPUbRENq21BW90ds/WX+ZFBPhBHKk7lsLpqUGJ9hht4F1nQO5hlMtx5Ag==
+X-Received: by 2002:a05:6e02:1a2d:: with SMTP id g13mr7371630ile.134.1637685302290;
+        Tue, 23 Nov 2021 08:35:02 -0800 (PST)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id o22sm8929199iow.52.2021.11.23.08.34.30
+        by smtp.gmail.com with ESMTPSA id v11sm8556708ilu.18.2021.11.23.08.35.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 08:34:32 -0800 (PST)
-Received: (nullmailer pid 3442903 invoked by uid 1000);
+        Tue, 23 Nov 2021 08:35:01 -0800 (PST)
+Received: (nullmailer pid 3442920 invoked by uid 1000);
         Tue, 23 Nov 2021 16:34:29 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Akhil R <akhilrajeev@nvidia.com>
-Cc:     thierry.reding@gmail.com, robh+dt@kernel.org, vkoul@kernel.org,
-        rgumasta@nvidia.com, dan.j.williams@intel.com,
-        jonathanh@nvidia.com, p.zabel@pengutronix.de,
-        linux-kernel@vger.kernel.org, ldewangan@nvidia.com,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        dmaengine@vger.kernel.org, kyarlagadda@nvidia.com
-In-Reply-To: <1637573292-13214-2-git-send-email-akhilrajeev@nvidia.com>
-References: <1637573292-13214-1-git-send-email-akhilrajeev@nvidia.com> <1637573292-13214-2-git-send-email-akhilrajeev@nvidia.com>
-Subject: Re: [PATCH v13 1/4] dt-bindings: dmaengine: Add doc for tegra gpcdma
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <20211119143839.1950739-16-thierry.reding@gmail.com>
+References: <20211119143839.1950739-1-thierry.reding@gmail.com> <20211119143839.1950739-16-thierry.reding@gmail.com>
+Subject: Re: [PATCH v2 15/16] dt-bindings: serial: tegra-tcu: Convert to json-schema
 Date:   Tue, 23 Nov 2021 09:34:29 -0700
-Message-Id: <1637685269.617639.3442902.nullmailer@robh.at.kernel.org>
+Message-Id: <1637685269.695836.3442919.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 22 Nov 2021 14:58:09 +0530, Akhil R wrote:
-> Add DT binding document for Nvidia Tegra GPCDMA controller.
+On Fri, 19 Nov 2021 15:38:38 +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Signed-off-by: Rajesh Gumasta <rgumasta@nvidia.com>
-> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
-> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+> Convert the Tegra TCU device tree bindings to json-schema.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->  .../bindings/dma/nvidia,tegra186-gpc-dma.yaml      | 111 +++++++++++++++++++++
->  1 file changed, 111 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml
+>  .../bindings/serial/nvidia,tegra194-tcu.txt   | 35 ------------
+>  .../bindings/serial/nvidia,tegra194-tcu.yaml  | 56 +++++++++++++++++++
+>  2 files changed, 56 insertions(+), 35 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.txt
+>  create mode 100644 Documentation/devicetree/bindings/serial/nvidia,tegra194-tcu.yaml
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml:26:10: [warning] wrong indentation: expected 10 but found 9 (indentation)
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-dtschema/dtc warnings/errors:
+Full log is available here: https://patchwork.ozlabs.org/patch/1557181
 
-doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/patch/1557933
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+tcu: $nodename:0: 'tcu' does not match '^serial(@.*)?$'
+	arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dt.yaml
+	arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dt.yaml
+	arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dt.yaml
 
