@@ -2,178 +2,175 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61191459F3E
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Nov 2021 10:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8C2A45A113
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Nov 2021 12:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235033AbhKWJdG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Nov 2021 04:33:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49928 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235007AbhKWJdG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Nov 2021 04:33:06 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA62C061714
-        for <linux-tegra@vger.kernel.org>; Tue, 23 Nov 2021 01:29:58 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mpS7e-0004zM-28; Tue, 23 Nov 2021 10:29:54 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mpS7c-000acI-Ba; Tue, 23 Nov 2021 10:29:51 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mpS7b-0004YV-89; Tue, 23 Nov 2021 10:29:51 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Sean Anderson <sean.anderson@seco.com>, kernel@pengutronix.de,
-        linux-pwm@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 2/5] pwm: tegra: Rename variable pointing to driver private data
-Date:   Tue, 23 Nov 2021 10:29:36 +0100
-Message-Id: <20211123092939.82705-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211123092939.82705-1-u.kleine-koenig@pengutronix.de>
-References: <20211123092939.82705-1-u.kleine-koenig@pengutronix.de>
+        id S234292AbhKWLOx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Nov 2021 06:14:53 -0500
+Received: from mail-mw2nam12on2080.outbound.protection.outlook.com ([40.107.244.80]:26336
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234829AbhKWLOw (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Nov 2021 06:14:52 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m5khC74j+i07IaYCyCWacgiJ4b8ucBdWp/4+i/UdKx22wcwtczld3wqR+CSs2Iny+UGchpSW8Ti4hdrK0O+V+AXH+34y4dHRR595j6S9zjPDewm0GpUGxc8Mb4drrgpXyVrTFGcV4hXxx4DLCXoo19quNnypwbxDmZadhIvJVGnx9654o7PsKLOzZhgwXya+9JUzu9a7QVLDXchAtyQyRi8R3TEx/SD1ROe3OoXugOmuxZOgECs+uk4SbKSJiro8M8//zD+ORbiZDJ2iihXCsCWUmIQ3AYM37l3t/oxgQEjZ0X/v3geAp/zMEg+3cBDeyWt9b96LTjeqTRIg4WTsCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FYMaRNGP1wuPLE7DTNegQcvuPOZEq3AgHtUE1gDHklg=;
+ b=JG/H+NibbY/SL017MfiNFgWbVUgT+5WcGRgUPhgkXHwOlujVfrrXTFXsgIh++JC71yCRYw/IDgip0s2EPTzWKo91OQyePOG716YcxPd8MUEQtm0a+K0OmJsutD8VGDxdSBvdonj0Ki0p1u1QKCCrnyF+3lIGyiqMp4rLaSX/Y2+jfffKrADJS/3I79Gx5NyWAXBWljytBe8nrRhi4DGgf9fl3TpVUs8cgrF2DOmKidiYPdyzyL7LNMNNL8z/ngXqSrFxLZf4n0cTW46tgenSIhASG1KSty/RX1nr8OrZmpgA9TmqmnG0p1CyoxTliB1Z9WxU/nko7E/fBpNmJEFWBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FYMaRNGP1wuPLE7DTNegQcvuPOZEq3AgHtUE1gDHklg=;
+ b=N20Pc42MUTwd0oSqF0bKEUqZRgEyHa0j72yxkX0s2/zLOlmqay7Q+NkClYIsl5SiObFGlZYnf3nnjJO+Rr4EX27NVKlHv/Zn7LrNuTw8e6iwghioNHmmQiS9cve3hqTawylDZjIdlJf6TISC/EMXXQPThPS2MpKugd2Br2TFBFNb4XcEGwIDELqWa28joeQZuXGcwFiMam6drgIVF8tEjRiMgrbh1gtNpoDvrlcRQW/vc084iTz6IYAAkHtOC0vnXwVM+hTQiyfR5K1eicz9OAIn2Yq02lormR8legA32tT6n2YsgZYVYbmaWiqjh8T4/swBU66jHEzpRAMpS3db0Q==
+Received: from DM5PR19CA0018.namprd19.prod.outlook.com (2603:10b6:3:151::28)
+ by BL0PR12MB4995.namprd12.prod.outlook.com (2603:10b6:208:1c7::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Tue, 23 Nov
+ 2021 11:11:43 +0000
+Received: from DM6NAM11FT061.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:151:cafe::75) by DM5PR19CA0018.outlook.office365.com
+ (2603:10b6:3:151::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.20 via Frontend
+ Transport; Tue, 23 Nov 2021 11:11:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ DM6NAM11FT061.mail.protection.outlook.com (10.13.173.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4713.20 via Frontend Transport; Tue, 23 Nov 2021 11:11:43 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 23 Nov
+ 2021 11:11:42 +0000
+Received: from moonraker.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Tue, 23 Nov 2021 03:11:41 -0800
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH V2] soc/tegra: pmc: Add reboot notifier
+Date:   Tue, 23 Nov 2021 11:11:34 +0000
+Message-ID: <20211123111134.26409-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=Kc9bK9WyJGl8CZVDVUdD2NvGaRW2SH5YoDRJ62CNx+E=; m=oDBxZ6V4YK8cJWQqCcYU91ygddyoMeyIeexX69RkOh8=; p=0Uer0kF+EnjVLPDMD8FNlUJmRPPcTIXQ6KLeSNrZ3LI=; g=a7001b314ef319505fb4801cf47c50271396e65a
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGctHYACgkQwfwUeK3K7Am18Af9E0b 4TLiZiWiPjEGinG9RYUbsObSrFkonzVz1vyY/Ck6s3qTkCJc+ee/HDwAxh9DQPlQVd1XsklMVWLlr 6c7XbovtGp9Q0yTw7YA3k6iLeFji20Xn/rsOD6d46Xs0bd+1OLxstcQRIuJUvBrZzl96KRELik1Tc RvPB6eho44Op2ezBzEFGxICwDDx4CrN98BwPv8mVjVcHaoA37hadm4Amnf+8AXOEY+YaMTM73oph2 YV3Hi45Xpt5NB2RSYFeichS9X9oRLKkJzmcRUgBtyJz5vvYJVfakiyqzMVltswvp4UIiq+Y8Sc9aA vnj7XBOoTZTfMeuQ2lm+MRDdd3W6dyA==
+X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9484d341-dd67-4f8f-887a-08d9ae72081b
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4995:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4995E16A7FE8EE998F978988D9609@BL0PR12MB4995.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ws9Opq7QEv0lz2wK+LXJlBKkV4FimA6DhtKl/jeh4uTcvbZUmioJYBb2+QjPlGAyguiY4uugY2ewvw4o8jGLs0SqiZ0bagNMufLN7ubspvOWLilx8QCVYVeSM6hhq9cstx8mC01hkw90idGuOjxqVIcnMFZxClTmnWLH9f3/zMLwj+DRYMhWza8kz4/XoE31lRNi34fY/Yz3ORzbsZ6uzk9cntP6xFrDHcvcuH6foJY+xooIFClopUeV2ovAAeRipeSyBZ9rIw1O8NxQH6VefURLeDx6rN6y8Iq99AXyMKskoR7lnbDDxpu8Pvla+O83N1DmHrh8hlP4MUgUluo6UJAobgNHA8/IvF19oqwy1BqzRn2w7qUv8tD26eGCaOP5cgl/zJAhtM44dsvSpGbx1ZuIGdjXkVrma1fCHZmSjsjbwtUoLQq7tLZwWkuCDlQOEeVWI8UIVcVNhAmFDXZ1X4lk+iT/Oyg3qhVNo2aoG2NQb1U1XnkI+AtGV2AO/eIeoFlTU/9MVDdO0eop66gPf5WDDsWdXheT43CI5GWEaF8MbH4iJKObZbfL+axYr1wwquBQQXjEE5e+f5g/OS9KESOEQ9ksNurH+yEJwvFs1hTgvh+Ad6viDSlj4mwZi8WeL76glZ4SJefcZQZSsDogPP7MeRqaCR9lX3s/M+ETM5PxzGhzepdjp/jU+T7jzdgcyOy3yHHbdjSZubMlwsmjdg==
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(5660300002)(86362001)(83380400001)(7696005)(2906002)(6666004)(26005)(7636003)(426003)(186003)(2616005)(70586007)(4326008)(36860700001)(70206006)(8936002)(336012)(47076005)(107886003)(356005)(508600001)(6916009)(36756003)(316002)(1076003)(54906003)(82310400004)(8676002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 11:11:43.3933
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9484d341-dd67-4f8f-887a-08d9ae72081b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT061.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4995
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Status quo is that variables of type struct tegra_pwm_chip * are named
-"pwm", "chip" or "pc". The two formers are all not optimal because
-usually only struct pwm_device * variables are named "pwm" and "chip" is
-usually used for variabled of type struct pwm_chip *.
+The Tegra PMC driver implements a restart handler that supports Tegra
+specific reboot commands such as placing the device into 'recovery' mode
+in order to reprogram the platform. This is accomplished by setting the
+appropriate bit in the PMC scratch0 register prior to rebooting the
+platform.
 
-So consistently use the same and non-conflicting name "pc".
+For Tegra platforms that support PSCI or EFI, the default Tegra restart
+handler is not called and the PSCI or EFI restart handler is called
+instead. Hence, for Tegra platforms that support PSCI or EFI, the Tegra
+specific reboot commands do not currently work. Fix this by moving the
+code that programs the PMC scratch0 register into a separate reboot
+notifier that will always be called on reboot.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- drivers/pwm/pwm-tegra.c | 58 ++++++++++++++++++++---------------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+Changes since V1:
+- Don't change the behaviour for writing scratch0 register when the
+  notifier is called.
 
-diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
-index 11a10b575ace..0cc8475e0071 100644
---- a/drivers/pwm/pwm-tegra.c
-+++ b/drivers/pwm/pwm-tegra.c
-@@ -81,15 +81,15 @@ static inline struct tegra_pwm_chip *to_tegra_pwm_chip(struct pwm_chip *chip)
- 	return container_of(chip, struct tegra_pwm_chip, chip);
+ drivers/soc/tegra/pmc.c | 33 ++++++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 575d6d5b4294..bb2f39597823 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -1064,10 +1064,8 @@ int tegra_pmc_cpu_remove_clamping(unsigned int cpuid)
+ 	return tegra_powergate_remove_clamping(id);
  }
  
--static inline u32 pwm_readl(struct tegra_pwm_chip *chip, unsigned int num)
-+static inline u32 pwm_readl(struct tegra_pwm_chip *pc, unsigned int num)
+-static int tegra_pmc_restart_notify(struct notifier_block *this,
+-				    unsigned long action, void *data)
++static void tegra_pmc_program_reboot_reason(const char *cmd)
  {
--	return readl(chip->regs + (num << 4));
-+	return readl(pc->regs + (num << 4));
- }
+-	const char *cmd = data;
+ 	u32 value;
  
--static inline void pwm_writel(struct tegra_pwm_chip *chip, unsigned int num,
-+static inline void pwm_writel(struct tegra_pwm_chip *pc, unsigned int num,
- 			     unsigned long val)
- {
--	writel(val, chip->regs + (num << 4));
-+	writel(val, pc->regs + (num << 4));
- }
- 
- static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
-@@ -236,28 +236,28 @@ static const struct pwm_ops tegra_pwm_ops = {
- 
- static int tegra_pwm_probe(struct platform_device *pdev)
- {
--	struct tegra_pwm_chip *pwm;
-+	struct tegra_pwm_chip *pc;
- 	int ret;
- 
--	pwm = devm_kzalloc(&pdev->dev, sizeof(*pwm), GFP_KERNEL);
--	if (!pwm)
-+	pc = devm_kzalloc(&pdev->dev, sizeof(*pc), GFP_KERNEL);
-+	if (!pc)
- 		return -ENOMEM;
- 
--	pwm->soc = of_device_get_match_data(&pdev->dev);
--	pwm->dev = &pdev->dev;
-+	pc->soc = of_device_get_match_data(&pdev->dev);
-+	pc->dev = &pdev->dev;
- 
--	pwm->regs = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(pwm->regs))
--		return PTR_ERR(pwm->regs);
-+	pc->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(pc->regs))
-+		return PTR_ERR(pc->regs);
- 
--	platform_set_drvdata(pdev, pwm);
-+	platform_set_drvdata(pdev, pc);
- 
--	pwm->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(pwm->clk))
--		return PTR_ERR(pwm->clk);
-+	pc->clk = devm_clk_get(&pdev->dev, NULL);
-+	if (IS_ERR(pc->clk))
-+		return PTR_ERR(pc->clk);
- 
- 	/* Set maximum frequency of the IP */
--	ret = clk_set_rate(pwm->clk, pwm->soc->max_frequency);
-+	ret = clk_set_rate(pc->clk, pc->soc->max_frequency);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to set max frequency: %d\n", ret);
- 		return ret;
-@@ -268,29 +268,29 @@ static int tegra_pwm_probe(struct platform_device *pdev)
- 	 * clock register resolutions. Get the configured frequency
- 	 * so that PWM period can be calculated more accurately.
- 	 */
--	pwm->clk_rate = clk_get_rate(pwm->clk);
-+	pc->clk_rate = clk_get_rate(pc->clk);
- 
- 	/* Set minimum limit of PWM period for the IP */
--	pwm->min_period_ns =
--	    (NSEC_PER_SEC / (pwm->soc->max_frequency >> PWM_DUTY_WIDTH)) + 1;
-+	pc->min_period_ns =
-+	    (NSEC_PER_SEC / (pc->soc->max_frequency >> PWM_DUTY_WIDTH)) + 1;
- 
--	pwm->rst = devm_reset_control_get_exclusive(&pdev->dev, "pwm");
--	if (IS_ERR(pwm->rst)) {
--		ret = PTR_ERR(pwm->rst);
-+	pc->rst = devm_reset_control_get_exclusive(&pdev->dev, "pwm");
-+	if (IS_ERR(pc->rst)) {
-+		ret = PTR_ERR(pc->rst);
- 		dev_err(&pdev->dev, "Reset control is not found: %d\n", ret);
- 		return ret;
+ 	value = tegra_pmc_scratch_readl(pmc, pmc->soc->regs->scratch0);
+@@ -1085,6 +1083,27 @@ static int tegra_pmc_restart_notify(struct notifier_block *this,
  	}
  
--	reset_control_deassert(pwm->rst);
-+	reset_control_deassert(pc->rst);
+ 	tegra_pmc_scratch_writel(pmc, value, pmc->soc->regs->scratch0);
++}
++
++static int tegra_pmc_reboot_notify(struct notifier_block *this,
++				   unsigned long action, void *data)
++{
++	if (action == SYS_RESTART)
++		tegra_pmc_program_reboot_reason(data);
++
++	return NOTIFY_DONE;
++}
++
++static struct notifier_block tegra_pmc_reboot_notifier = {
++	.notifier_call = tegra_pmc_reboot_notify,
++};
++
++static int tegra_pmc_restart_notify(struct notifier_block *this,
++				    unsigned long action, void *data)
++{
++	u32 value;
++
++	tegra_pmc_program_reboot_reason(data);
  
--	pwm->chip.dev = &pdev->dev;
--	pwm->chip.ops = &tegra_pwm_ops;
--	pwm->chip.npwm = pwm->soc->num_channels;
-+	pc->chip.dev = &pdev->dev;
-+	pc->chip.ops = &tegra_pwm_ops;
-+	pc->chip.npwm = pc->soc->num_channels;
- 
--	ret = pwmchip_add(&pwm->chip);
-+	ret = pwmchip_add(&pc->chip);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
--		reset_control_assert(pwm->rst);
-+		reset_control_assert(pc->rst);
- 		return ret;
+ 	/* reset everything but PMC_SCRATCH0 and PMC_RST_STATUS */
+ 	value = tegra_pmc_readl(pmc, PMC_CNTRL);
+@@ -2890,6 +2909,14 @@ static int tegra_pmc_probe(struct platform_device *pdev)
+ 			goto cleanup_sysfs;
  	}
  
++	err = devm_register_reboot_notifier(&pdev->dev,
++					    &tegra_pmc_reboot_notifier);
++	if (err) {
++		dev_err(&pdev->dev, "unable to register reboot notifier, %d\n",
++			err);
++		goto cleanup_debugfs;
++	}
++
+ 	err = register_restart_handler(&tegra_pmc_restart_handler);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "unable to register restart handler, %d\n",
 -- 
-2.30.2
+2.25.1
 
