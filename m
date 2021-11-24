@@ -2,56 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D0FD45B86B
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Nov 2021 11:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A59C45C723
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Nov 2021 15:20:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241519AbhKXKg5 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 24 Nov 2021 05:36:57 -0500
-Received: from vector.std.tu-plovdiv.bg ([194.141.38.20]:34362 "HELO
-        vector.tu-plovdiv.bg" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S233492AbhKXKg5 (ORCPT
+        id S1356177AbhKXOXi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Nov 2021 09:23:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1356153AbhKXOXP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Nov 2021 05:36:57 -0500
-X-Greylist: delayed 32752 seconds by postgrey-1.27 at vger.kernel.org; Wed, 24 Nov 2021 05:36:46 EST
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by vector.tu-plovdiv.bg (Postfix) with ESMTP id 1C803210B3CEA;
-        Wed, 24 Nov 2021 03:08:57 +0200 (EET)
-Received: from vector.tu-plovdiv.bg ([127.0.0.1])
-        by localhost (vector.tu-plovdiv.bg [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id JQGe6iMx6fN0; Wed, 24 Nov 2021 03:08:56 +0200 (EET)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by vector.tu-plovdiv.bg (Postfix) with ESMTP id 94998211A6071;
-        Wed, 24 Nov 2021 02:07:56 +0200 (EET)
-X-Virus-Scanned: amavisd-new at tu-plovdiv.bg
-Received: from vector.tu-plovdiv.bg ([127.0.0.1])
-        by localhost (vector.tu-plovdiv.bg [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id xEvgque_FO33; Wed, 24 Nov 2021 02:07:56 +0200 (EET)
-Received: from [10.7.240.6] (unknown [216.38.7.240])
-        by vector.tu-plovdiv.bg (Postfix) with ESMTPSA id 2E81D211C0BD3;
-        Wed, 24 Nov 2021 01:10:57 +0200 (EET)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 24 Nov 2021 09:23:15 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7604EC125620
+        for <linux-tegra@vger.kernel.org>; Wed, 24 Nov 2021 04:49:07 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id r25so9887298edq.7
+        for <linux-tegra@vger.kernel.org>; Wed, 24 Nov 2021 04:49:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Y20/1fNI0KyXaXs0cDKjMiW+8AcpeeOZCZyIy4HTxew=;
+        b=QWr1PwEG/EADEtJyNuAGgukP9TFolNnrcuwsHJZNQMYqnBXZx7f2XagUqNdKr0mIoQ
+         A+ouXtJ9i7ZT+9fYsDUcII/DKdRARKmtvcOG1kmQvXw4/P6Yo4aCxxn5Ih7tRr96C2sf
+         CsW3RQoGcK9SHFi26pns6ytEKoORprMUm3N4KzwbGx9MceFZMR5kZMZdw1RKHT8M+a31
+         9KnM15yguo0Kuz0FuCL+yKn+/rIutqNJjjnzcseEtp2SoqgjAVva9DpDBDrTrtwpu0/S
+         UTSlChU1HJY8OeKRjx9glKGWxJepO636z76PQQE7kCvr+Uxrmf8Y0mtWeA1mklLF8MMo
+         0wcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Y20/1fNI0KyXaXs0cDKjMiW+8AcpeeOZCZyIy4HTxew=;
+        b=LHMttGDrTzFtmmtLbvcjJSZv2U2Ux9YmQp4UfABeRAKV0ZDmu8Af+YSd5IzuqzWfSA
+         lxaVrbxzi1aG4n5HjWx736WhEqjIX3qXUaBxl14L/5fAjhhgkWTxXYGcts/AuQBQXMpH
+         4A4q4UZ/8cafxal+Iv19AKLmFWPPoA45/e+RQGPqb2ggZBlZIXDw1cZ1gqXkloljvc19
+         poaIHSGJMjBHvduxmfiUKI9b4klEjcKTBZ54fHIznsiVNS9G2aHXhAv71DmXCzsVPw/q
+         CAFJNA1OY41hu4/L1Vw6rEHRuF4Z8VP8dDmUHd0bzldgZZmjpa/d6ZJV9/j67PSI33ti
+         sP4g==
+X-Gm-Message-State: AOAM532uaSJRXpGNmnTGf28tQKCMZhGioKSbkl987Hl2ftua0eggDhlR
+        irH3DFVcDl6qqaoOcdhcqO9axas7pOePaHEBappK0w==
+X-Google-Smtp-Source: ABdhPJzTYyVftaV4BFYMlLiX1+O0OX4hovqL5nPKZA/1gazZYJqzC88C0uialiBMArI7+/Fj+g4nyCh9wLoMCoB2LrI=
+X-Received: by 2002:a17:907:9847:: with SMTP id jj7mr19421387ejc.508.1637758146037;
+ Wed, 24 Nov 2021 04:49:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?SPENDE_F=C3=9CR_WOHLT=C3=84TIGKEIT?=
-To:     Recipients <andybechtolsheima@gmail.com>
-From:   andybechtolsheima@gmail.com
-Date:   Tue, 23 Nov 2021 15:10:50 -0800
-Reply-To: pendmat551@gmail.com
-Message-Id: <20211123231058.2E81D211C0BD3@vector.tu-plovdiv.bg>
+References: <20211112130152.3682556-1-thierry.reding@gmail.com> <20211112130152.3682556-2-thierry.reding@gmail.com>
+In-Reply-To: <20211112130152.3682556-2-thierry.reding@gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 24 Nov 2021 13:48:55 +0100
+Message-ID: <CAMRc=McFDS=_Dwkc1V6tq5xsOLyT+u_4uCVGFFeMFbdYNn46bA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: gpio: tegra186: Convert to json-schema
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        linux-tegra@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, Nov 12, 2021 at 2:02 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> From: Thierry Reding <treding@nvidia.com>
+>
+> Convert the Tegra186 GPIO controller device tree bindings from free-form
+> text format to json-schema.
+>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
 
-Hallo
-Mein Name ist Andy Bechtolsheim, ich bin ursprünglich Deutscher, lebe aber derzeit hier in den USA.
-Ich bin Elektroingenieur und Unternehmer, Google-Investor, Mitbegründer von Sun Microsystems, Selfmade-Milliardär und Philanthrop.
+As it's an entire conversion into yaml - would you mind Cc'in Rob
+Herring for his review?
 
-Normalerweise verschenke ich 25 % meines persönlichen Vermögens für wohltätige Zwecke.
-Als Philanthrop möchte ich einen Betrag von 1000.000 € an eine Person aus Deutschland spenden, um meine Wohltätigkeitsmission in Deutschland zu erfüllen.
-Wenn Sie daran interessiert sind, meine Spende anzunehmen und gemäß meiner Anweisung zu verwenden, kontaktieren Sie mich bitte für weitere Details.
-
-Geben Sie meinen Namen (Andy Bechtolsheim) bei Google ein, um mehr über mich und meine philanthropischen Arbeiten zu erfahren.
-Gott segne dich und beschütze dich
-Andy Bechtolsheim
+Bart
