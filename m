@@ -2,155 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F5545FF5F
-	for <lists+linux-tegra@lfdr.de>; Sat, 27 Nov 2021 15:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A598646025D
+	for <lists+linux-tegra@lfdr.de>; Sun, 28 Nov 2021 00:21:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245043AbhK0Od7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 27 Nov 2021 09:33:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355176AbhK0Obv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 27 Nov 2021 09:31:51 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8C3C06175F;
-        Sat, 27 Nov 2021 06:26:47 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id 207so24517752ljf.10;
-        Sat, 27 Nov 2021 06:26:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=z+2i2S1W26dZ7VgKg6S5rlGKr4ZHMsx/PFUfrnnRofM=;
-        b=NmMJqWJl9bwY5Uyyfgo+ejh2/NlusYLl9+b2fUhl4NHG2+cXlb8Rm/mo1TYwTDCRC2
-         W7lreQJMlM8f3IeUCld2yG7r6kubzcMoktJQWst0zn8GoOUypM6fR1ymzhe7n1dENuEs
-         Hsic0eju4TjrI/63wdz/TwgRm5oThbV8R1LAsNBm2/rlPP4K6mhJ1dI7drCgLvELXsBt
-         JpIZmdYS4584gAR/heCq4zdzKnPLxmx/8hK9jq4FF/soRTueyJon3Vlo7R/wKAWlQxAA
-         HdVhHLqcN0HshQLfpoYp1kuApwfDf/Yem7J3q+wwSWdbLaZeTIORbOjekMoVCs4mbgcB
-         HcSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=z+2i2S1W26dZ7VgKg6S5rlGKr4ZHMsx/PFUfrnnRofM=;
-        b=0t0lDDoGzNlQ3jbk7WN5sArrzQKVftGCS9ozTZCmVmcy0XZ0bVrRZTI98o6pgbo1RS
-         QAlWMhYxra+pYYU03lPufIddLYpiGBjUQHhGpRTmbiWrS8+G6gMTgPN2k+EHdtxg7J6O
-         IFjQK/JCofkrKDXqvOfgXr1iOnYXVicXYv5r1QtMf80x8JMenod72pb11nirZj2/IRoZ
-         G4EcNFHwgJ278YTibjM7sXbcVvuru97SpJRjwhDSD602raSYCGS+XU2Nmm9mia7W6Cw2
-         58KuKCpb78JoB+Vu95gBqZ2pLDC/TQ9dtzXcX0UG/87kZDAybU6fx1y2+I1hR3P/NvGw
-         FKhA==
-X-Gm-Message-State: AOAM530iYizWq46hanyjH+UoCBF7NUsb4T6NLiDGOgaeVx/c+fXuc5ih
-        nivG3MRUDllUQj1OWA3nTT8=
-X-Google-Smtp-Source: ABdhPJwqoe++O3FZ5gQFaxAbTrVgl7TLL2h7J7hbPL4/IryyVW9GrOYV9zDaAC0aRFhynCQuorO5wg==
-X-Received: by 2002:a2e:b8cf:: with SMTP id s15mr38166627ljp.364.1638023205884;
-        Sat, 27 Nov 2021 06:26:45 -0800 (PST)
-Received: from localhost.localdomain (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
-        by smtp.gmail.com with ESMTPSA id t22sm812382ljg.83.2021.11.27.06.26.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Nov 2021 06:26:45 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        David Heidelberg <david@ixit.cz>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        Anton Bambura <jenneron@protonmail.com>,
-        Antoni Aloy Torrens <aaloytorrens@gmail.com>,
-        Nikola Milosavljevic <mnidza@outlook.com>,
-        Ion Agorria <ion@agorria.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Ihor Didenko <tailormoon@rambler.ru>,
-        Andreas Westman Dorcsak <hedmoo@yahoo.com>,
-        Maxim Schwalm <maxim.schwalm@gmail.com>,
-        Raffaele Tranquillini <raffaele.tranquillini@gmail.com>,
-        Jasper Korten <jja2000@gmail.com>,
-        Thomas Graichen <thomas.graichen@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 14/14] ARM: tegra: Enable video decoder on Tegra114
-Date:   Sat, 27 Nov 2021 17:23:27 +0300
-Message-Id: <20211127142327.17692-15-digetx@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211127142327.17692-1-digetx@gmail.com>
-References: <20211127142327.17692-1-digetx@gmail.com>
+        id S240557AbhK0XZE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Nov 2021 18:25:04 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:36626 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1356509AbhK0XXD (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 27 Nov 2021 18:23:03 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4J1ndG31SVz9Y;
+        Sun, 28 Nov 2021 00:19:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1638055187; bh=3IuV4KHyseUP25B0hUamJUw90nzzT3r2kSgbvRYgE4s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JK3pRYOLYNeG1VcAGugry8zKUgI8IWUX2uFGnlwLGpXc8D3CmoN3u8y9Tr0anjhA5
+         0A8Qy/LOhaD8VxlEdNWsqrCEdfoL4kLYajCPHahkwjsSyh1fyNTpAP7OaIv8Cd41Fp
+         bC/yFHHpqOVfJETijNRp4vh1CboVefrHEBTckwxDI2L7pXNeWUcUoW/R8bYvSvqtcd
+         qLfLXpsIzFQ+14JZRfK6vjf3MeRyOWzB//m+Uj9hi+ZCRg9j8osGTQF3afK6drcmvx
+         vuBpRT8IcEeEOSwUYU3B9S385dK47IOQYa8zaMoD9LKBYMCCBgQnmNvnJAHjHmkz26
+         Mypbfh7tLnFGg==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.3 at mail
+Date:   Sun, 28 Nov 2021 00:19:43 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Patrik John <patrik.john@u-blox.com>
+Cc:     linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+        ldewangan@nvidia.com, thierry.reding@gmail.com,
+        jonathan@nvidia.com, linux-serial@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] serial: tegra: Fixes lower tolerance baud rate limit for
+ older tegra chips introduced by d781ec21bae6
+Message-ID: <YaK9DwsgGr8eaMuX@qmqm.qmqm.pl>
+References: <sig.096060f39c.20211122124425.74031-1-patrik.john@u-blox.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <sig.096060f39c.20211122124425.74031-1-patrik.john@u-blox.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Anton Bambura <jenneron@protonmail.com>
+On Mon, Nov 22, 2021 at 01:44:26PM +0100, Patrik John wrote:
+> The current implementation uses 0 as lower limit for the baud rate tolerance which contradicts the initial commit description (https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git/commit/drivers/tty/serial/serial-tegra.c?h=for-next&id=d781ec21bae6ff8f9e07682e8947a654484611f5) of +4/-4% tolerance for older tegra chips other than Tegra186 and Tegra194.
+> This causes issues on UART initilization as soon as the actual baud rate clock is slightly lower than required which we have seen on the Tegra124-based Toradex Apalis TK1 which also uses tegra30-hsuart as compatible in the DT serial node (for reference line 1540ff https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git/tree/arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi?h=for-next)
+> 
+> The standard baud rate tolerance limits are also stated in the tegra20-hsuart driver description (https://www.kernel.org/doc/Documentation/devicetree/bindings/serial/nvidia%2Ctegra20-hsuart.txt).
+> 
+> The previously introduced check_rate_in_range() always fails due to the lower limit set to 0 even if the actual baud rate is within the required -4% tolerance.
+> 
+[...]
 
-Add Video Decoder Engine node to Tegra114 device-tree.
+I have a same patch waiting in my tree [1]. Feel free to use the commit
+message and to add:
 
-Signed-off-by: Anton Bambura <jenneron@protonmail.com>
----
- arch/arm/boot/dts/tegra114.dtsi | 38 +++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Reviewed-and-tested-by: Micha³ Miros³aw <mirq-linux@rere.qmqm.pl>
 
-diff --git a/arch/arm/boot/dts/tegra114.dtsi b/arch/arm/boot/dts/tegra114.dtsi
-index 563ee262f41d..3d08764401ce 100644
---- a/arch/arm/boot/dts/tegra114.dtsi
-+++ b/arch/arm/boot/dts/tegra114.dtsi
-@@ -17,6 +17,19 @@ memory@80000000 {
- 		reg = <0x80000000 0x0>;
- 	};
- 
-+	sram@40000000 {
-+		compatible = "mmio-sram";
-+		reg = <0x40000000 0x40000>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges = <0 0x40000000 0x40000>;
-+
-+		vde_pool: sram@400 {
-+			reg = <0x400 0x3fc00>;
-+			pool;
-+		};
-+	};
-+
- 	host1x@50000000 {
- 		compatible = "nvidia,tegra114-host1x";
- 		reg = <0x50000000 0x00028000>;
-@@ -253,6 +266,30 @@ gpio: gpio@6000d000 {
- 		*/
- 	};
- 
-+	vde@6001a000 {
-+		compatible = "nvidia,tegra114-vde";
-+		reg = <0x6001a000 0x1000>, /* Syntax Engine */
-+		      <0x6001b000 0x1000>, /* Video Bitstream Engine */
-+		      <0x6001c000  0x100>, /* Macroblock Engine */
-+		      <0x6001c200  0x100>, /* Post-processing Engine */
-+		      <0x6001c400  0x100>, /* Motion Compensation Engine */
-+		      <0x6001c600  0x100>, /* Transform Engine */
-+		      <0x6001c800  0x100>, /* Pixel prediction block */
-+		      <0x6001ca00  0x100>, /* Video DMA */
-+		      <0x6001d800  0x400>; /* Video frame controls */
-+		reg-names = "sxe", "bsev", "mbe", "ppe", "mce",
-+			    "tfe", "ppb", "vdma", "frameid";
-+		iram = <&vde_pool>; /* IRAM region */
-+		interrupts = <GIC_SPI  9 IRQ_TYPE_LEVEL_HIGH>, /* Sync token interrupt */
-+			     <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>, /* BSE-V interrupt */
-+			     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>; /* SXE interrupt */
-+		interrupt-names = "sync-token", "bsev", "sxe";
-+		clocks = <&tegra_car TEGRA114_CLK_VDE>;
-+		reset-names = "vde", "mc";
-+		resets = <&tegra_car 61>, <&mc TEGRA114_MC_RESET_VDE>;
-+		iommus = <&mc TEGRA_SWGROUP_VDE>;
-+	};
-+
- 	apbmisc@70000800 {
- 		compatible = "nvidia,tegra114-apbmisc", "nvidia,tegra20-apbmisc";
- 		reg = <0x70000800 0x64>, /* Chip revision */
-@@ -543,6 +580,7 @@ mc: memory-controller@70019000 {
- 		interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>;
- 
- 		#iommu-cells = <1>;
-+		#reset-cells = <1>;
- 	};
- 
- 	ahub@70080000 {
--- 
-2.33.1
+[1] https://rere.qmqm.pl/git/?p=linux;a=commitdiff;h=b658dcd83d0db777410fe960721193d35a38115a
 
+Best Regards
+Micha³ Miros³aw
