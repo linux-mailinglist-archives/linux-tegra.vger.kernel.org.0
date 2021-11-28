@@ -2,64 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA96246098B
-	for <lists+linux-tegra@lfdr.de>; Sun, 28 Nov 2021 20:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EC3B4609B6
+	for <lists+linux-tegra@lfdr.de>; Sun, 28 Nov 2021 21:44:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235835AbhK1T74 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 28 Nov 2021 14:59:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50962 "EHLO
+        id S240225AbhK1UrW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 28 Nov 2021 15:47:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234830AbhK1T54 (ORCPT
+        with ESMTP id S237186AbhK1UpW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 28 Nov 2021 14:57:56 -0500
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D562EC061746
-        for <linux-tegra@vger.kernel.org>; Sun, 28 Nov 2021 11:54:39 -0800 (PST)
-Received: by mail-ua1-x942.google.com with SMTP id o1so29586379uap.4
-        for <linux-tegra@vger.kernel.org>; Sun, 28 Nov 2021 11:54:39 -0800 (PST)
+        Sun, 28 Nov 2021 15:45:22 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA27C061746;
+        Sun, 28 Nov 2021 12:42:05 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id bi37so39133414lfb.5;
+        Sun, 28 Nov 2021 12:42:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=VSEH8Q3Lr+Mcr/0lsL1VFPftJp7ALZ21MKYEz4sry74=;
-        b=NFXZrG3702TSNsCL+UQqx0bQPoa18uwWyxkxpmwhJvZeFtKNPVmgSm9koesRrJaEP5
-         pTQGSBReqynGyC8hT9YeQSIxFabEINBzgzTXq1phbQobizA3tveLz+LHU94ob0ybLMJ+
-         MCwhYLtLqLg9ePe3jFTcsOzkVkewbRgwN1obD0vxvoSa16yjoGQs4sZLw+0zzxC71OJ8
-         swq+nA0wF7gvxUHfwkIWBxpug4CG/X7MlH5s/jeNM8ZsqC2iUE5xqgPFaZ7DMxDB1c7r
-         67QWp3gPDxO48+Z9RWQfp+wDJJTjN/AN9d+CPDE4A/wzsYbS5oeZrCdpQelwid0uaJaY
-         +KFg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fI+O6/++Z4nOnCnJNHlZT8xBEfNIQq67hRSGfUTNSOw=;
+        b=dcjUc/A6G0ntDrZjSz7wX3e3/r7F7SrY+3uMF8E+A93I5xKqW037IMdtOhnlf9vWoZ
+         saLvk5YgLOVEO9xWpN+d+F0Fb4FQ4rmT3lgSvDOU0UR8qPhwiB2FwkgtRjoEWbOb2POd
+         oePoutMq8Pt4nRoYyx9XLnADX1y04Al60pNPuSGg8ihHOj7T67Mh/hEhqF8XeDlPHjM8
+         rs89N70TCQPiCqoZpi/kbrhuMr01fje5vISmI+uxWC04tYRYGxyI3aoMSQ1h0OJKrucN
+         ReXDBiMO3ptQQSL8YnxnyJkxUL1NCXmr/u99R7b0PhOuOiX7M8PS+76eVgz24wIpIwTu
+         eSXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=VSEH8Q3Lr+Mcr/0lsL1VFPftJp7ALZ21MKYEz4sry74=;
-        b=23L/krIFZMDCnDyLXjhurPk9rb0AufkFJXts80bwPbiAzDtYVv4MNcofX/QoXCmzY4
-         X0EIbCr2db0L0lENPyZ4rNY9bjac8sjR6CHj5++fTocosr6bskp42rCojfRDKHzZoSaS
-         byTRvWFlatXxZNSYFL2Bxo7wFpmmWdYqwLv1K6JCvPTNGv+s1T09gDMYaSCY4z7tS93B
-         KeWvYIh9XnoE0cxZdQPKTZfCdqnWWr/tA7K0vTOaoVJSDc6WW2q3laD4tW1MPFnnWmhF
-         ZMVRcMHlE40kT35YUAeTOGvLyylN6xucLhHn3xPn59Pq2tOQIePBB9qSHxocHQtN37Pj
-         sQAQ==
-X-Gm-Message-State: AOAM533KJV+hGqBCAOt43TEfHo5kQIamN7No01/Az0J/+FOoP/+iY03i
-        OKgnCZGJxFjTV4lM/N02XKXrLMPlcKYWhqCIGk0=
-X-Google-Smtp-Source: ABdhPJwJajin3OPkUVQidyvu3x6/EKMBKClaMQradKyN7fAhg/pQuC4mVFOfQ15t6Q00IxWxRfvKpOSCDW8dyg6jCtY=
-X-Received: by 2002:a05:6102:7b1:: with SMTP id x17mr28915596vsg.13.1638129278724;
- Sun, 28 Nov 2021 11:54:38 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fI+O6/++Z4nOnCnJNHlZT8xBEfNIQq67hRSGfUTNSOw=;
+        b=e4mCdl9V1H7x/5thB8jAE1Dr7Ypb+XBkt5EaKwhU+MxPECbubHqCXo+XrCYmQ23UAp
+         yEHc8Vo4xLhVaTy8qepmu7/4EAQfsikX4XyeuDFjPNEoZSQEx8HiGpPLLs5B5CxPRvkZ
+         2Tx2+69r9JsGHWXHrWPgUZyewGqCJwQoNHZv9Fqn9wgwoobIxWLsb9J5RFDDm6b1Y9Vc
+         dhJVgzWxAfcaFDD5+TuckixptSxQLkmpUYG8IeFjwNFm2UUQuJjGZuVoh/y6N0eYroZH
+         dxxPRbhhY0VwKvSX16kJWgHieuPATAnMpHOnWvfB7Z6em3pUyPzgkWVnZM7briqc4cjv
+         +BcA==
+X-Gm-Message-State: AOAM5303lz0up+ENa6TEHz11JMBxsNPmxuXS7D1Uwlh/XFWBkw4cuSbl
+        HaRzc+6AgowERtLlggjFn10=
+X-Google-Smtp-Source: ABdhPJyAIKXpJ3E6Ag9FzskqRGg6NgpC0ebPL1cvyWfMcBpDV8H2Awtpv2g6p7Ee05DUaxxKA/D/DA==
+X-Received: by 2002:a05:6512:3e14:: with SMTP id i20mr43647553lfv.592.1638132123400;
+        Sun, 28 Nov 2021 12:42:03 -0800 (PST)
+Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se. [155.4.221.129])
+        by smtp.gmail.com with ESMTPSA id o15sm1103048lfd.164.2021.11.28.12.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 12:42:02 -0800 (PST)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Kai Song <songkai01@inspur.com>,
+        Jing Yangyang <jing.yangyang@zte.com.cn>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] memory: tegra: Constify struct thermal_cooling_device_ops
+Date:   Sun, 28 Nov 2021 21:41:58 +0100
+Message-Id: <20211128204158.19544-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a59:d847:0:b0:262:8962:9689 with HTTP; Sun, 28 Nov 2021
- 11:54:38 -0800 (PST)
-Reply-To: christopherdaniel830@gmail.com
-From:   Christopher Daniel <cd601665@gmail.com>
-Date:   Sun, 28 Nov 2021 19:54:38 +0000
-Message-ID: <CAMocZ7F-4KwLa6c16DhjBk3sozbdkPA4KDkxkKxq+-uttftu=w@mail.gmail.com>
-Subject: Investment Funding
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-.
-I wish to invite you to participate in our Investment Funding Program,
-get back to me for more details if interested please.
+The only usage of tegra210_emc_cd_ops is to pass its address to
+devm_thermal_of_cooling_device_register() which is a pointer to const
+struct thermal_cooling_device_ops. Make it const to allow the compiler
+to put it in read-only memory.
 
-Regards.
-Christopher Daniel.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/memory/tegra/tegra210-emc-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/memory/tegra/tegra210-emc-core.c b/drivers/memory/tegra/tegra210-emc-core.c
+index 13584f9317a4..cbe1a7723514 100644
+--- a/drivers/memory/tegra/tegra210-emc-core.c
++++ b/drivers/memory/tegra/tegra210-emc-core.c
+@@ -711,7 +711,7 @@ static int tegra210_emc_cd_set_state(struct thermal_cooling_device *cd,
+ 	return 0;
+ }
+ 
+-static struct thermal_cooling_device_ops tegra210_emc_cd_ops = {
++static const struct thermal_cooling_device_ops tegra210_emc_cd_ops = {
+ 	.get_max_state = tegra210_emc_cd_max_state,
+ 	.get_cur_state = tegra210_emc_cd_get_state,
+ 	.set_cur_state = tegra210_emc_cd_set_state,
+-- 
+2.34.1
+
