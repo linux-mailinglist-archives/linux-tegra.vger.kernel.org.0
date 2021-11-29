@@ -2,63 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A53462146
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Nov 2021 20:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E67346229F
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Nov 2021 21:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378944AbhK2UDG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Nov 2021 15:03:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379825AbhK2UBF (ORCPT
+        id S229589AbhK2VAF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Nov 2021 16:00:05 -0500
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:45762 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234007AbhK2U5x (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Nov 2021 15:01:05 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5230CC08EAD6
-        for <linux-tegra@vger.kernel.org>; Mon, 29 Nov 2021 08:35:10 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id y68so44047127ybe.1
-        for <linux-tegra@vger.kernel.org>; Mon, 29 Nov 2021 08:35:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=lhzzGDzrEXNEGpzt8u0M5QVLoe3YdvVUC4Lun3VPtM77QE+r31BmQkRIjE81Nr8J9w
-         YvepFS+22jANTtAwYCNMxL4P8Y3nm1bbTw7wZrzsw77RKrHP94xYlzfYiY8uDfobUc6s
-         F/9XpdK1ia575PhHNYH7pwV/O9YpAXF5BQqM0lUCNHq65DssZUtEUEbG9/4Il1o/Mlee
-         gYUofwm4jtkw7TkYMCBagThd3l4esL1oA8E1QrREsvci1DwzqfKXsT/DHgfzQVo0SFtU
-         tdqRmDZL7jSBziE80cEVzm1+ImfQlaHuXOUyfGFQAR4rG/POp3GiUNxzUOMjeQC1spLP
-         nM/Q==
+        Mon, 29 Nov 2021 15:57:53 -0500
+Received: by mail-ot1-f49.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso27247066otf.12;
+        Mon, 29 Nov 2021 12:54:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=5SYHyoZmnOsTk8ByoEkyipFS51/ER5InlpZ5HwQp+hzPnNsTJe3yZmSxRIqwZGvhVC
-         NW2va3pFaxgvEkWNdzYJIujr+sdEXXEY89kHevys4xLzCU1H/hv5IFGACcqLpAt3sR6Q
-         P4KXNuXfFwG6Y4KnD7I+Lu+UWuZ/tXESotIBOEdXIu8X3oN6uq70TOb3FAoFnBvcUjXe
-         pmn1gn0aP5BCd6yKf7SIS/07na5M02vuApo2GnwVHcoTzm9E1z09rilozu7D67zU04yl
-         oFJ3kf3ybn/UVt0uMG8Hg4h/4QL1Pp6JFBdBCbGDCF696osGjvk05s7qUlermQe4eu20
-         x0cQ==
-X-Gm-Message-State: AOAM531UCwOm6Vwuf+JlT192mg7b5iNoRb2rzuXNPP0N9hBq0JiS8NjI
-        Jq1koSuLP2IZrFp5dt7zYEHLO2D4kFovxD18Xy0=
-X-Google-Smtp-Source: ABdhPJwnhLWXUY34YcORFPZTf+AgeGj6FKGc80nWvbN7UiVhAjEL1PgkrvH8iy8FmBPILRGONL7tpVrBwo+n0vlzgxo=
-X-Received: by 2002:a25:bf8d:: with SMTP id l13mr7781369ybk.713.1638203709585;
- Mon, 29 Nov 2021 08:35:09 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B3hvgTrlRHqGF/IdTVrO9KCViKxMaaGzEVbvcpETaIM=;
+        b=ueqAWUbi0CI20BPaYHBJzblMjXeF8659nXxLxKK655DJET9eLgFJZWOd667OgTh7B3
+         IN8+EnETB72rCm7yJMRh0efOVwofUkP4on9jwLGE73IHcaP/qpZXsTCM+uLxplIylCJk
+         u9OfMrsCxQxCqhaltOhtCO/BKgPl3oWxCtX07gHeBMV2ly9Ub/f0ZNzSctP/56XUV5Mw
+         aMWSRehID6FqhJRrgbmwXwQS68edfmrWYP8xEeAyXcco5ItmTzhd7BlktYT+MqTEiNHF
+         TlNJLxXyvGKMxnTrKVZBg8/CWOeyJ4T9+ykZTLnzO5qLN+sFoB0762hZ1BhWZLlBQUTi
+         E2Ag==
+X-Gm-Message-State: AOAM530GjdmiVvUFOjIFmPR5fqA9Wx0p7V/jjEdKlOwd/xpuJitelomG
+        sfjQsf9TnS4BJ8BmZZ6cFQ==
+X-Google-Smtp-Source: ABdhPJzH+ruZaEt4NU1QvkQa6C6oL5IHatORLHK6E+u8KZSlK6SKMeiCcGpSmlVI69LGgw5aQ3mOWQ==
+X-Received: by 2002:a05:6830:25d4:: with SMTP id d20mr47784301otu.143.1638219274797;
+        Mon, 29 Nov 2021 12:54:34 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id a5sm1872649otd.74.2021.11.29.12.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 12:54:34 -0800 (PST)
+Received: (nullmailer pid 591965 invoked by uid 1000);
+        Mon, 29 Nov 2021 20:54:33 -0000
+Date:   Mon, 29 Nov 2021 14:54:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 01/11] dt-bindings: tegra: Describe recent developer kits
+ consistently
+Message-ID: <YaU+CY5s6u6hyFNI@robh.at.kernel.org>
+References: <20211112123542.3680629-1-thierry.reding@gmail.com>
+ <20211112123542.3680629-2-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7000:bc0b:0:0:0:0 with HTTP; Mon, 29 Nov 2021 08:35:09
- -0800 (PST)
-Reply-To: fms333166@yandex.com
-From:   Frank Martins <martinsandpartners.tg@gmail.com>
-Date:   Mon, 29 Nov 2021 08:35:09 -0800
-Message-ID: <CAKBT9ESiiwOxPtyWxCWKeUaWh36+aXPnmu=NqJojZX=B-PT9Fg@mail.gmail.com>
-Subject: =?UTF-8?Q?Ich_ben=C3=B6tige_Ihre_Antwort_auf_meine_zahlreichen_unb?=
-        =?UTF-8?Q?eantworteten_E=2DMails_bez=C3=BCglich_Ihres_Familienerbschaftsfond?=
-        =?UTF-8?Q?s_=288=2C5_Millionen_US=2DDollar=29=2E_Bitte_best=C3=A4tigen_Sie_mir_diese?=
-        =?UTF-8?Q?n_Brief_f=C3=BCr_weitere_Details=2E_Gr=C3=BC=C3=9Fe=2E_Mit_freundlichen_Gr=C3=BC?=
-        =?UTF-8?Q?=C3=9Fen_Herr_Frank_Martins=2E?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112123542.3680629-2-thierry.reding@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, 12 Nov 2021 13:35:32 +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Add descriptions to entries that were missing one and don't try to
+> combine multiple entries into one to avoid confusion.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../devicetree/bindings/arm/tegra.yaml        | 20 ++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+> 
 
+Reviewed-by: Rob Herring <robh@kernel.org>
