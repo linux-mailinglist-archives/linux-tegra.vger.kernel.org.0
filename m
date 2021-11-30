@@ -2,61 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4499A463DC5
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Nov 2021 19:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D77CC463ED4
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Nov 2021 20:49:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245421AbhK3S31 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Nov 2021 13:29:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54956 "EHLO
+        id S238548AbhK3Twl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Nov 2021 14:52:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234593AbhK3S31 (ORCPT
+        with ESMTP id S229789AbhK3Twk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Nov 2021 13:29:27 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2703C061574
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Nov 2021 10:26:07 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id o20so90013197eds.10
-        for <linux-tegra@vger.kernel.org>; Tue, 30 Nov 2021 10:26:07 -0800 (PST)
+        Tue, 30 Nov 2021 14:52:40 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E33BC061574;
+        Tue, 30 Nov 2021 11:49:21 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id c32so56690191lfv.4;
+        Tue, 30 Nov 2021 11:49:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=QLZq2js3KLeLlsWneP68i+wjmyjwDC5K01tZVguT3JuIYykx3NuNE5uy6mP/tN96le
-         QvfKgWCJxww88fuJBaaQKx21D6SDU4Mt8ScBhO7NAHVogX6Dt0oMs+YvoE9DSxx6lKFP
-         cWXiIzImQ5hAOHxTmyT9u7US79N1lrmEeE0f+CZR1p17QDoI1d70SuKZqaG9O3XNZuxP
-         +KMkkIj0R97zpRZ04Pxu8l4bZI4mYhCEL5PGMm4MezFM3drHgf/kpCfpjjtOTxNK3Y84
-         AfB/1EXcXFELaxQkrRgy5aqxD4SzahgIbGUm2ITuVZ7+1UNeVFCRd2t4Itl2b7lLV0q7
-         x3Uw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8K75pVFsuu8ZCXFfc/CjEJw0NCecB4BfF8ToqD8iFqU=;
+        b=mNBFAamRrWUChcG1gwN2S41gFDJuZl+hJqwDvHWXC1pAjUfZ73Qy7FxUF/+msZIqt4
+         xSsRIv2kantBGIJ0Po01y2iiGpz2kjnLf20fHkcUZvoI1JCdBdzvzUuimKkTJfqnmfvV
+         V53d3TdLXTfTH0MQeuuIO3E94J0MahA5HOrJN+3qTLc/IMYdKIWWOWnIdBNEiLskcAt+
+         Yt53OOWFGel2vvm4YfCm3MhTFityzuP0epHuFa7MtFZK2wyJc8XTWasVmWT205/OnjR4
+         xs5cyLh1aOdJ0J2POgs5DoAOYUYd1H/B9DZAfmZ5RjW37BGEH6HUA5DGp9l0WRZgDl7F
+         jMGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=JlbK5nkQFTXaUPwNeWjR78YtUFo1QaqpmuhPFXJq7Kyj7Zh26bXWVp07nPPkaPvOa+
-         kEwPIlAOnrKYDBGUd68syBukm5Oe/AoyeKY4dz0yb0GOtISwtHK/rCNPWbQs7DAD0NuC
-         dwfth+HSZWkxb7H8k23FNbO2fmhl2/1EhAu2qOOWf1Uh2eCEUZaadJQTomjUZKHy60+n
-         pT3to0QMocUKGmu3fAvBm97sWvmDw5XwY7NHNJX5m0K/bIsTQZuvaZfziqi1aYt2FgYH
-         lR71HFL3Ksa5iLVPagWD4F9FtSLbQzsM+HhmFGkGwlDCtQq4/bWFxV0iFX3smmQ/3lMW
-         C6kQ==
-X-Gm-Message-State: AOAM531yJUgpxyag5ei5sICrqz8ftTah1mXSPqrCcyI5JnOsSLOPnRlg
-        8wDD9m2lfXSXfH62ZzOXRqKPmvhKWJqP7WHSVAI=
-X-Google-Smtp-Source: ABdhPJyyiWG/ptiUMv4WAlF1Xc1m8PElfJTq2RL417tavT/WqNccrIrw6CDYE9ZGNwoMpfkEaGwW9GzgHxLY94RJwhk=
-X-Received: by 2002:a17:906:55d7:: with SMTP id z23mr819449ejp.393.1638296765961;
- Tue, 30 Nov 2021 10:26:05 -0800 (PST)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8K75pVFsuu8ZCXFfc/CjEJw0NCecB4BfF8ToqD8iFqU=;
+        b=e3wYchZxNC0xDYL07hn2wPaOKUdYWpETz88rOy96Tpa3ZmLFWesLOPcH3mVpfa8NtK
+         UqrVJtrmoeacX+CPKZENdif7onc4o0zIk3fTS6elpYXcpP+ZJ+VuorQTz9cuGgLSexVr
+         BV6Oqxgxph41k0j1Ktqw9lFgd/rN+CdM1j/dNg6cTMce8u5SJLyWmokiTcMvJ2SmEgEd
+         ck1R/oHqdHUXUdpkasZeoLq4vlkJ6IqMemZBaaJaWYCW0VUwXaj8uD0LKK1h17f7OpbP
+         SSFRcniRPs2CLValD/ebbfuDQ5+ER9oiH3JA6E/Mbh58/zhwZU5IhYnY3pYN2tqEDWUH
+         fLOQ==
+X-Gm-Message-State: AOAM533BlAa4YGxnJdGP+8w0SB+S8RYZ6XbipScvrh3YPojiKVtkPYxV
+        Ti1ImaDzgqMVjYQlxlLccWNbSAo7xzY=
+X-Google-Smtp-Source: ABdhPJyfLfsplPH1dyeuTC5k0IL6oVboNjjg/uJwyDib4wGkyfThoCn7gWsr6OdT6/+lwmdIYoxq2Q==
+X-Received: by 2002:a19:48d7:: with SMTP id v206mr1311365lfa.102.1638301759348;
+        Tue, 30 Nov 2021 11:49:19 -0800 (PST)
+Received: from [192.168.2.145] (94-29-46-111.dynamic.spd-mgts.ru. [94.29.46.111])
+        by smtp.googlemail.com with ESMTPSA id d39sm1814715lfv.78.2021.11.30.11.49.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Nov 2021 11:49:18 -0800 (PST)
+Subject: Re: [PATCH v1 1/2] dt-bindings: sharp,lq101r1sx01: Add compatible for
+ LQ101R1SX03
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Anton Bambura <jenneron@protonmail.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211114200717.28986-1-digetx@gmail.com>
+ <20211114200717.28986-2-digetx@gmail.com>
+ <YaVG93LCF6MQYiSi@robh.at.kernel.org>
+ <a8f05850-1c18-1a7d-e529-08d9a6bd9923@gmail.com>
+Message-ID: <1420eb9f-c5d9-c9c3-b71f-37f4f3475c67@gmail.com>
+Date:   Tue, 30 Nov 2021 22:49:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: by 2002:a05:6400:248b:0:0:0:0 with HTTP; Tue, 30 Nov 2021 10:26:05
- -0800 (PST)
-Reply-To: giorgiobugatto@gmail.com
-From:   Giorgio Bugatto <93970312ka@gmail.com>
-Date:   Tue, 30 Nov 2021 19:26:05 +0100
-Message-ID: <CAPp7Z75dmJVR6FED+3QGXuqDbjg245cxnX=ocmg4DgKRdK391g@mail.gmail.com>
-Subject: Good evening to you , my name is Giorgio Bugatto , i sent you a mail
- and there was no response , please confirm that you did get this mail .
- Regards. Giorgio Bugatto
-To:     93970312ka <93970312ka@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a8f05850-1c18-1a7d-e529-08d9a6bd9923@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+30.11.2021 18:54, Dmitry Osipenko пишет:
+> 30.11.2021 00:32, Rob Herring пишет:
+>> On Sun, Nov 14, 2021 at 11:07:16PM +0300, Dmitry Osipenko wrote:
+>>> From: Anton Bambura <jenneron@protonmail.com>
+>>>
+>>> LQ101R1SX03 is compatible with LQ101R1SX01, document it.
+>>
+>> Then sounds like '"sharp,lq101r1sx03", "sharp,lq101r1sx01"' would be the 
+>> appropriate compatible value. Do that, and you don't need a driver 
+>> change.
+> 
+> Apparently you're right. The "sharp,lq101r1sx03" should be a slightly
+> improved revision of "sharp,lq101r1sx01". I see now that LQ101R1SX03 is
+> sold as a spare part panel for ASUS TF701T, hence these panels should be
+> entirely compatible with each other.
+> 
 
+I mixed up the panel model which TF701T uses.
+
+I compared datasheets of both panel variants. These panel have
+differences in the pins configuration. Hence panels seems aren't
+compatible in terms of hardware integration, although the difference is
+small. They should be compatible from software perspective.
