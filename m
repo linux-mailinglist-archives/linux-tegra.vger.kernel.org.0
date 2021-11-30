@@ -2,106 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E90BD463B62
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Nov 2021 17:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4499A463DC5
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Nov 2021 19:26:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234920AbhK3QQd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Nov 2021 11:16:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52494 "EHLO
+        id S245421AbhK3S31 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Nov 2021 13:29:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238472AbhK3QQa (ORCPT
+        with ESMTP id S234593AbhK3S31 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:16:30 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1521C061756;
-        Tue, 30 Nov 2021 08:13:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 269F5CE1A5D;
-        Tue, 30 Nov 2021 16:13:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1D3C53FC1;
-        Tue, 30 Nov 2021 16:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638288787;
-        bh=RQsFpcDyHf4srgmnNCL4bgMJUInhxMAX/3HgHnGTd+I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XSex20PpNNt01eaPfXM8dzXkpkScJHf0Y0tSv7ePGBfbn580nPcFz4XTS/YW6G1qa
-         OCxj/ANAV5U0xu7RMI+HXU85KeEa5TbP9IrOPH6fA8U8K47WXMcRTFzFzE7Ft2Ry4H
-         qTWW2D/2RE7019Gp/lGjBx1KZDHcghIsQp0op/9asfRJMibVC9AYIivKC1JqnntecS
-         GNQkkQefrttsH5Lby20GJOYidVWdpWDDnuuWuR04KvVQVLycNQ0ZG3HEy+sBM69kS0
-         GaazzyuDsusKjceUZ+sMem4TfaTIfKrtHC0rtq4QHjFA8HgBls2STyZsEYtMUUTPrA
-         fE/EMrflp7QoQ==
-Date:   Tue, 30 Nov 2021 16:13:02 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] spi: tegra210-quad: add acpi support
-Message-ID: <YaZNjgnJZWdKwT+L@sirena.org.uk>
-References: <1637834152-32093-1-git-send-email-kyarlagadda@nvidia.com>
- <1637834152-32093-2-git-send-email-kyarlagadda@nvidia.com>
- <YZ+ImY1LrvB5a5iF@sirena.org.uk>
- <BN6PR12MB124973BF5CBB4AB35CC59B8AC3669@BN6PR12MB1249.namprd12.prod.outlook.com>
- <YaTHKuohUNt/hVLq@sirena.org.uk>
- <BN6PR12MB124927C4F4FAF53B59C2A23CC3679@BN6PR12MB1249.namprd12.prod.outlook.com>
- <YaYhtFnHlZob9s0J@sirena.org.uk>
- <f6c68e0a-eaa9-12a8-cc44-84b13592c1d9@gmail.com>
+        Tue, 30 Nov 2021 13:29:27 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2703C061574
+        for <linux-tegra@vger.kernel.org>; Tue, 30 Nov 2021 10:26:07 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id o20so90013197eds.10
+        for <linux-tegra@vger.kernel.org>; Tue, 30 Nov 2021 10:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=QLZq2js3KLeLlsWneP68i+wjmyjwDC5K01tZVguT3JuIYykx3NuNE5uy6mP/tN96le
+         QvfKgWCJxww88fuJBaaQKx21D6SDU4Mt8ScBhO7NAHVogX6Dt0oMs+YvoE9DSxx6lKFP
+         cWXiIzImQ5hAOHxTmyT9u7US79N1lrmEeE0f+CZR1p17QDoI1d70SuKZqaG9O3XNZuxP
+         +KMkkIj0R97zpRZ04Pxu8l4bZI4mYhCEL5PGMm4MezFM3drHgf/kpCfpjjtOTxNK3Y84
+         AfB/1EXcXFELaxQkrRgy5aqxD4SzahgIbGUm2ITuVZ7+1UNeVFCRd2t4Itl2b7lLV0q7
+         x3Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=JlbK5nkQFTXaUPwNeWjR78YtUFo1QaqpmuhPFXJq7Kyj7Zh26bXWVp07nPPkaPvOa+
+         kEwPIlAOnrKYDBGUd68syBukm5Oe/AoyeKY4dz0yb0GOtISwtHK/rCNPWbQs7DAD0NuC
+         dwfth+HSZWkxb7H8k23FNbO2fmhl2/1EhAu2qOOWf1Uh2eCEUZaadJQTomjUZKHy60+n
+         pT3to0QMocUKGmu3fAvBm97sWvmDw5XwY7NHNJX5m0K/bIsTQZuvaZfziqi1aYt2FgYH
+         lR71HFL3Ksa5iLVPagWD4F9FtSLbQzsM+HhmFGkGwlDCtQq4/bWFxV0iFX3smmQ/3lMW
+         C6kQ==
+X-Gm-Message-State: AOAM531yJUgpxyag5ei5sICrqz8ftTah1mXSPqrCcyI5JnOsSLOPnRlg
+        8wDD9m2lfXSXfH62ZzOXRqKPmvhKWJqP7WHSVAI=
+X-Google-Smtp-Source: ABdhPJyyiWG/ptiUMv4WAlF1Xc1m8PElfJTq2RL417tavT/WqNccrIrw6CDYE9ZGNwoMpfkEaGwW9GzgHxLY94RJwhk=
+X-Received: by 2002:a17:906:55d7:: with SMTP id z23mr819449ejp.393.1638296765961;
+ Tue, 30 Nov 2021 10:26:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tfdgiQzglU0HJMw6"
-Content-Disposition: inline
-In-Reply-To: <f6c68e0a-eaa9-12a8-cc44-84b13592c1d9@gmail.com>
-X-Cookie: Check your local listings.
+Received: by 2002:a05:6400:248b:0:0:0:0 with HTTP; Tue, 30 Nov 2021 10:26:05
+ -0800 (PST)
+Reply-To: giorgiobugatto@gmail.com
+From:   Giorgio Bugatto <93970312ka@gmail.com>
+Date:   Tue, 30 Nov 2021 19:26:05 +0100
+Message-ID: <CAPp7Z75dmJVR6FED+3QGXuqDbjg245cxnX=ocmg4DgKRdK391g@mail.gmail.com>
+Subject: Good evening to you , my name is Giorgio Bugatto , i sent you a mail
+ and there was no response , please confirm that you did get this mail .
+ Regards. Giorgio Bugatto
+To:     93970312ka <93970312ka@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---tfdgiQzglU0HJMw6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Nov 30, 2021 at 05:14:07PM +0300, Dmitry Osipenko wrote:
-
-> The ifdefery, that this patch has, shouldn't be needed. We have a
-> similar ACPI patch for Tegra I2C [1] and it doesn't have that.
-
-> [1]
-> https://patchwork.ozlabs.org/project/linux-tegra/patch/1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com/
-
-> I assume this patch could be reworked similarly to the I2C patch.
-
-Yes, that looks much cleaner.
-
-> Agree that should be better to have a common reset driver for ACPI
-> instead of polluting each driver with a boilerplate code.
-
-Right, I think that'd be even better.  It's probably best to split
-adding reset support to the driver out from adding the ACPI ID - they
-shouldn't really have been merged in the first place TBH - and then try
-this approach first.
-
---tfdgiQzglU0HJMw6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGmTY0ACgkQJNaLcl1U
-h9BRCAf/YAUVoIhTKIfyTduGz7fcp6nmtLdKrJNwvoGaeiuGW22yH5OO9tjiuHeg
-t0kA0vf6DlVOeAh6lFmgSfpPvugvwrAZaOM5w/1FAdwtsI16LbBueHr2BoUlBxZN
-f0VSEe976TFdLqJ8Vnj7D4mp+6FKNIMf/JRqjrLlHAQNr/H3kLn3UOdgIscLEmTj
-8aju/l8h7oVdjKu5v2dBLlIreLxb96PKkhYnuOsOhLyy35oUVtLKva/l/KFzxuap
-iqQ4g2fHdQKPAJuCzuEfkV69uTfygCvfFA4UiOECqITWo24iazYJDhioquVbUHWL
-CSTSkM1rfYsfrs4rln5lMO63+cSKEw==
-=UWwB
------END PGP SIGNATURE-----
-
---tfdgiQzglU0HJMw6--
