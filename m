@@ -2,302 +2,461 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EE6E46697B
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Dec 2021 18:55:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80018466B88
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Dec 2021 22:17:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376501AbhLBR6e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Dec 2021 12:58:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376499AbhLBR6c (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Dec 2021 12:58:32 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15051C061757;
-        Thu,  2 Dec 2021 09:55:10 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id s13so476154wrb.3;
-        Thu, 02 Dec 2021 09:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wgKAyiKJ2nfuDveCIUQQb63JtY9dCL63TF7/yqdYMrU=;
-        b=iUUj1rGHRcD9dFr86mAbzhOw4HZTbdjcCSpVJQrcHhUscQFG15HUFbSj640hFPJnez
-         4m+OGejQOaivs3Jy4D4PMoq+aZ0t9G4Ed3u2oeGHA84n26KNXTv/ZwsunyK3veL5hpIt
-         X1XLUAS4e1ep6lRSz9tmTki47WtHhmFC7HGe2Gq4gJNTZ0lqedSepBJnUSkUNj7SR1Qu
-         85O5YaA+bDX8YatW58uczQGOKKG5Vzvbd5QRyReFbU0Ov7h+PwIhtYOhfq8uvntJfzcH
-         kYIf8ODBzg4SzIgUgv9Tw0hbMc5UCKC6gHXxOu0UTRzZ0lX2sRMPAjIYWNJEha5RCqbk
-         56KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wgKAyiKJ2nfuDveCIUQQb63JtY9dCL63TF7/yqdYMrU=;
-        b=yXKPzDpOsVhv21Do440Z/xWEojeoCklSNpFcY75Qv2jgBgFJ1cHSL1ZngM1nB3Zof8
-         GVROIEO68JjxJSNbKtXGGjQlLtvao+IyAplb1fFcrr4pR2uk3OOAq0+KPK8BzBWJEoj6
-         eJr7QUl+iGT7eUChz+Z76uP5YaDB/xFH5kgYQzw4OZlfw45MXiDsGhXODsQ4gPlGVpY0
-         sMLNjdwe4TMk98B8nn60kI9upBq16lAQHoG2/tixTSBm1ta51FyXvQr+38JZbcT7B8jc
-         Oo+voq72RRlVCUXjzp9+SJUU4JBhBnCT5ktfw4Sanl/YpPk/AHvjS1/l8k9twFiZ2S1N
-         BlPw==
-X-Gm-Message-State: AOAM532zEHiq+wXQ5rBWbI/vw1/g/l6HRkBBeLVTIViut3QFVYJ193bG
-        J+ZmA+0u2L3olbC9tf6S+1k=
-X-Google-Smtp-Source: ABdhPJzxJPKyAIpzw6rE3RcgmFwnD+Jm8wNIXLR+OtFmn3Dq6UkcTgGp/E+x9sew26+DmN9DGzA8Zg==
-X-Received: by 2002:a05:6000:52:: with SMTP id k18mr16404889wrx.192.1638467708485;
-        Thu, 02 Dec 2021 09:55:08 -0800 (PST)
-Received: from orome.fritz.box ([193.209.96.43])
-        by smtp.gmail.com with ESMTPSA id t17sm2912441wmq.15.2021.12.02.09.55.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 09:55:07 -0800 (PST)
-Date:   Thu, 2 Dec 2021 18:55:04 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+        id S1377050AbhLBVVG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Dec 2021 16:21:06 -0500
+Received: from mga12.intel.com ([192.55.52.136]:25479 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1377026AbhLBVVD (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 2 Dec 2021 16:21:03 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="216862369"
+X-IronPort-AV: E=Sophos;i="5.87,282,1631602800"; 
+   d="scan'208";a="216862369"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2021 13:17:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,282,1631602800"; 
+   d="scan'208";a="603129097"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 02 Dec 2021 13:17:26 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 8B4C4109; Thu,  2 Dec 2021 23:17:31 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+        Chunyan Zhang <chunyan.zhang@unisoc.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Baruch Siach <baruch@tkos.co.il>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Tony Lindgren <tony@atomide.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jianqun Xu <jay.xu@rock-chips.com>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        Thierry Reding <treding@nvidia.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-power@fi.rohmeurope.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-pwm@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
         linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 13/16] dt-bindings: i2c: tegra-bpmp: Convert to
- json-schema
-Message-ID: <YakIePafm3t6rJLE@orome.fritz.box>
-References: <20211119143839.1950739-1-thierry.reding@gmail.com>
- <20211119143839.1950739-14-thierry.reding@gmail.com>
- <YaWCAGQU0sjCwz66@robh.at.kernel.org>
- <Yae0DwCpFu8F/Gbw@orome.fritz.box>
- <CAL_Jsq+JvZQjN3q4A3yoM+pUPHLYKtwUT=QsDq+oQ7jk8mD3CA@mail.gmail.com>
+Cc:     Ray Jui <rjui@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Gregory Fong <gregory.0xf0@gmail.com>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Keerthy <j-keerthy@ti.com>, Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [PATCH v1 1/3] gpio: Get rid of duplicate of_node assignment in the drivers
+Date:   Thu,  2 Dec 2021 23:08:37 +0200
+Message-Id: <20211202210839.79140-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uOJW5L5kVuAsz1Of"
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+JvZQjN3q4A3yoM+pUPHLYKtwUT=QsDq+oQ7jk8mD3CA@mail.gmail.com>
-User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+GPIO library does copy the of_node from the parent device of
+the GPIO chip, there is no need to repeat this in the individual
+drivers. Remove these assignment all at once.
 
---uOJW5L5kVuAsz1Of
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For the details one may look into the of_gpio_dev_init() implementation.
 
-On Wed, Dec 01, 2021 at 12:42:07PM -0600, Rob Herring wrote:
-> On Wed, Dec 1, 2021 at 11:42 AM Thierry Reding <thierry.reding@gmail.com>=
- wrote:
-> >
-> > On Mon, Nov 29, 2021 at 07:44:32PM -0600, Rob Herring wrote:
-> > > On Fri, Nov 19, 2021 at 03:38:36PM +0100, Thierry Reding wrote:
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >
-> > > > Convert the NVIDIA Tegra186 (and later) BPMP I2C bindings from the
-> > > > free-form text format to json-schema.
-> > > >
-> > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > > > ---
-> > > > Changes in v2:
-> > > > - add missing additionalProperties: false
-> > > >
-> > > >  .../bindings/i2c/nvidia,tegra186-bpmp-i2c.txt | 42 ---------------=
-----
-> > > >  .../i2c/nvidia,tegra186-bpmp-i2c.yaml         | 42 +++++++++++++++=
-++++
-> > > >  2 files changed, 42 insertions(+), 42 deletions(-)
-> > > >  delete mode 100644 Documentation/devicetree/bindings/i2c/nvidia,te=
-gra186-bpmp-i2c.txt
-> > > >  create mode 100644 Documentation/devicetree/bindings/i2c/nvidia,te=
-gra186-bpmp-i2c.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/i2c/nvidia,tegra186-=
-bpmp-i2c.txt b/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i=
-2c.txt
-> > > > deleted file mode 100644
-> > > > index ab240e10debc..000000000000
-> > > > --- a/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2=
-c.txt
-> > > > +++ /dev/null
-> > > > @@ -1,42 +0,0 @@
-> > > > -NVIDIA Tegra186 BPMP I2C controller
-> > > > -
-> > > > -In Tegra186, the BPMP (Boot and Power Management Processor) owns c=
-ertain HW
-> > > > -devices, such as the I2C controller for the power management I2C b=
-us. Software
-> > > > -running on other CPUs must perform IPC to the BPMP in order to exe=
-cute
-> > > > -transactions on that I2C bus. This binding describes an I2C bus th=
-at is
-> > > > -accessed in such a fashion.
-> > > > -
-> > > > -The BPMP I2C node must be located directly inside the main BPMP no=
-de. See
-> > > > -../firmware/nvidia,tegra186-bpmp.txt for details of the BPMP bindi=
-ng.
-> > > > -
-> > > > -This node represents an I2C controller. See ../i2c/i2c.txt for det=
-ails of the
-> > > > -core I2C binding.
-> > > > -
-> > > > -Required properties:
-> > > > -- compatible:
-> > > > -    Array of strings.
-> > > > -    One of:
-> > > > -    - "nvidia,tegra186-bpmp-i2c".
-> > > > -- #address-cells: Address cells for I2C device address.
-> > > > -    Single-cell integer.
-> > > > -    Must be <1>.
-> > > > -- #size-cells:
-> > > > -    Single-cell integer.
-> > > > -    Must be <0>.
-> > > > -- nvidia,bpmp-bus-id:
-> > > > -    Single-cell integer.
-> > > > -    Indicates the I2C bus number this DT node represent, as define=
-d by the
-> > > > -    BPMP firmware.
-> > > > -
-> > > > -Example:
-> > > > -
-> > > > -bpmp {
-> > > > -   ...
-> > > > -
-> > > > -   i2c {
-> > > > -           compatible =3D "nvidia,tegra186-bpmp-i2c";
-> > > > -           #address-cells =3D <1>;
-> > > > -           #size-cells =3D <0>;
-> > > > -           nvidia,bpmp-bus-id =3D <5>;
-> > > > -   };
-> > > > -};
-> > > > diff --git a/Documentation/devicetree/bindings/i2c/nvidia,tegra186-=
-bpmp-i2c.yaml b/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-=
-i2c.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..351e12124959
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2=
-c.yaml
-> > > > @@ -0,0 +1,42 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/i2c/nvidia,tegra186-bpmp-i2c.ya=
-ml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: NVIDIA Tegra186 (and later) BPMP I2C controller
-> > > > +
-> > > > +maintainers:
-> > > > +  - Thierry Reding <thierry.reding@gmail.com>
-> > > > +  - Jon Hunter <jonathanh@nvidia.com>
-> > > > +
-> > > > +description: |
-> > > > +  In Tegra186 and later, the BPMP (Boot and Power Management Proce=
-ssor)
-> > > > +  owns certain HW devices, such as the I2C controller for the power
-> > > > +  management I2C bus. Software running on other CPUs must perform =
-IPC to
-> > > > +  the BPMP in order to execute transactions on that I2C bus. This
-> > > > +  binding describes an I2C bus that is accessed in such a fashion.
-> > > > +
-> > > > +  The BPMP I2C node must be located directly inside the main BPMP =
-node.
-> > > > +  See ../firmware/nvidia,tegra186-bpmp.yaml for details of the BPMP
-> > > > +  binding.
-> > > > +
-> > > > +  This node represents an I2C controller. See ../i2c/i2c.txt for d=
-etails
-> > > > +  of the core I2C binding.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: nvidia,tegra186-bpmp-i2c
-> > > > +
-> > >
-> > > > +  "#address-cells":
-> > > > +    const: 1
-> > > > +
-> > > > +  "#size-cells":
-> > > > +    const: 0
-> > >
-> > > Covered by i2c-controller.yaml. Add a reference and then use
-> > > unevaluatedProperties.
-> >
-> > About that: I've recently noticed that this doesn't seem to work
-> > properly. I'm using branch draft2020-12 from your github and my
->=20
-> Use dtschema main/master branch. That branch is likely stale.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/gpio/gpio-adnp.c            | 1 -
+ drivers/gpio/gpio-amdpt.c           | 4 +---
+ drivers/gpio/gpio-bd70528.c         | 4 +---
+ drivers/gpio/gpio-bd71828.c         | 1 -
+ drivers/gpio/gpio-brcmstb.c         | 1 -
+ drivers/gpio/gpio-davinci.c         | 1 -
+ drivers/gpio/gpio-eic-sprd.c        | 1 -
+ drivers/gpio/gpio-em.c              | 1 -
+ drivers/gpio/gpio-ge.c              | 1 -
+ drivers/gpio/gpio-grgpio.c          | 1 -
+ drivers/gpio/gpio-gw-pld.c          | 1 -
+ drivers/gpio/gpio-mt7621.c          | 1 -
+ drivers/gpio/gpio-mvebu.c           | 1 -
+ drivers/gpio/gpio-omap.c            | 3 ---
+ drivers/gpio/gpio-palmas.c          | 4 +---
+ drivers/gpio/gpio-pmic-eic-sprd.c   | 1 -
+ drivers/gpio/gpio-raspberrypi-exp.c | 1 -
+ drivers/gpio/gpio-rda.c             | 2 --
+ drivers/gpio/gpio-rockchip.c        | 3 ---
+ drivers/gpio/gpio-sama5d2-piobu.c   | 1 -
+ drivers/gpio/gpio-sprd.c            | 1 -
+ drivers/gpio/gpio-stmpe.c           | 1 -
+ drivers/gpio/gpio-tc3589x.c         | 1 -
+ drivers/gpio/gpio-tegra186.c        | 1 -
+ drivers/gpio/gpio-tps65218.c        | 3 ---
+ drivers/gpio/gpio-vf610.c           | 1 -
+ drivers/gpio/gpio-xlp.c             | 1 -
+ 27 files changed, 3 insertions(+), 40 deletions(-)
 
-That seems to have helped somewhat. I do occasionally see warnings now
-about unevaluated properties being unexpected. I can still reproduce the
-issue, though, see below.
+diff --git a/drivers/gpio/gpio-adnp.c b/drivers/gpio/gpio-adnp.c
+index 8eedfc6451df..cc349d4e4973 100644
+--- a/drivers/gpio/gpio-adnp.c
++++ b/drivers/gpio/gpio-adnp.c
+@@ -458,7 +458,6 @@ static int adnp_gpio_setup(struct adnp *adnp, unsigned int num_gpios,
+ 	chip->ngpio = num_gpios;
+ 	chip->label = adnp->client->name;
+ 	chip->parent = &adnp->client->dev;
+-	chip->of_node = chip->parent->of_node;
+ 	chip->owner = THIS_MODULE;
+ 
+ 	if (is_irq_controller) {
+diff --git a/drivers/gpio/gpio-amdpt.c b/drivers/gpio/gpio-amdpt.c
+index bbf53e289141..afe59fb79821 100644
+--- a/drivers/gpio/gpio-amdpt.c
++++ b/drivers/gpio/gpio-amdpt.c
+@@ -104,9 +104,7 @@ static int pt_gpio_probe(struct platform_device *pdev)
+ 	pt_gpio->gc.request          = pt_gpio_request;
+ 	pt_gpio->gc.free             = pt_gpio_free;
+ 	pt_gpio->gc.ngpio            = PT_TOTAL_GPIO;
+-#if defined(CONFIG_OF_GPIO)
+-	pt_gpio->gc.of_node          = dev->of_node;
+-#endif
++
+ 	ret = gpiochip_add_data(&pt_gpio->gc, pt_gpio);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to register GPIO lib\n");
+diff --git a/drivers/gpio/gpio-bd70528.c b/drivers/gpio/gpio-bd70528.c
+index 397a50d6bc65..6874efc18f41 100644
+--- a/drivers/gpio/gpio-bd70528.c
++++ b/drivers/gpio/gpio-bd70528.c
+@@ -201,9 +201,7 @@ static int bd70528_probe(struct platform_device *pdev)
+ 	bdgpio->gpio.set = bd70528_gpio_set;
+ 	bdgpio->gpio.ngpio = 4;
+ 	bdgpio->gpio.base = -1;
+-#ifdef CONFIG_OF_GPIO
+-	bdgpio->gpio.of_node = dev->parent->of_node;
+-#endif
++
+ 	bdgpio->regmap = dev_get_regmap(dev->parent, NULL);
+ 	if (!bdgpio->regmap)
+ 		return -ENODEV;
+diff --git a/drivers/gpio/gpio-bd71828.c b/drivers/gpio/gpio-bd71828.c
+index c8e382b53f2f..b2ccc320c7b5 100644
+--- a/drivers/gpio/gpio-bd71828.c
++++ b/drivers/gpio/gpio-bd71828.c
+@@ -121,7 +121,6 @@ static int bd71828_probe(struct platform_device *pdev)
+ 	 * "gpio-reserved-ranges" and exclude them from control
+ 	 */
+ 	bdgpio->gpio.ngpio = 4;
+-	bdgpio->gpio.of_node = dev->parent->of_node;
+ 	bdgpio->regmap = dev_get_regmap(dev->parent, NULL);
+ 	if (!bdgpio->regmap)
+ 		return -ENODEV;
+diff --git a/drivers/gpio/gpio-brcmstb.c b/drivers/gpio/gpio-brcmstb.c
+index 895a79936248..176c264bb959 100644
+--- a/drivers/gpio/gpio-brcmstb.c
++++ b/drivers/gpio/gpio-brcmstb.c
+@@ -703,7 +703,6 @@ static int brcmstb_gpio_probe(struct platform_device *pdev)
+ 			goto fail;
+ 		}
+ 
+-		gc->of_node = np;
+ 		gc->owner = THIS_MODULE;
+ 		gc->label = devm_kasprintf(dev, GFP_KERNEL, "%pOF", dev->of_node);
+ 		if (!gc->label) {
+diff --git a/drivers/gpio/gpio-davinci.c b/drivers/gpio/gpio-davinci.c
+index cb5afaa7ed48..f960587f86a3 100644
+--- a/drivers/gpio/gpio-davinci.c
++++ b/drivers/gpio/gpio-davinci.c
+@@ -254,7 +254,6 @@ static int davinci_gpio_probe(struct platform_device *pdev)
+ #ifdef CONFIG_OF_GPIO
+ 	chips->chip.of_gpio_n_cells = 2;
+ 	chips->chip.parent = dev;
+-	chips->chip.of_node = dev->of_node;
+ 	chips->chip.request = gpiochip_generic_request;
+ 	chips->chip.free = gpiochip_generic_free;
+ #endif
+diff --git a/drivers/gpio/gpio-eic-sprd.c b/drivers/gpio/gpio-eic-sprd.c
+index 865ab2b34fdd..8d722e026e9c 100644
+--- a/drivers/gpio/gpio-eic-sprd.c
++++ b/drivers/gpio/gpio-eic-sprd.c
+@@ -609,7 +609,6 @@ static int sprd_eic_probe(struct platform_device *pdev)
+ 	sprd_eic->chip.ngpio = pdata->num_eics;
+ 	sprd_eic->chip.base = -1;
+ 	sprd_eic->chip.parent = &pdev->dev;
+-	sprd_eic->chip.of_node = pdev->dev.of_node;
+ 	sprd_eic->chip.direction_input = sprd_eic_direction_input;
+ 	switch (sprd_eic->type) {
+ 	case SPRD_EIC_DEBOUNCE:
+diff --git a/drivers/gpio/gpio-em.c b/drivers/gpio/gpio-em.c
+index 90b336e6ee27..858e6ebbb584 100644
+--- a/drivers/gpio/gpio-em.c
++++ b/drivers/gpio/gpio-em.c
+@@ -306,7 +306,6 @@ static int em_gio_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	gpio_chip = &p->gpio_chip;
+-	gpio_chip->of_node = dev->of_node;
+ 	gpio_chip->direction_input = em_gio_direction_input;
+ 	gpio_chip->get = em_gio_get;
+ 	gpio_chip->direction_output = em_gio_direction_output;
+diff --git a/drivers/gpio/gpio-ge.c b/drivers/gpio/gpio-ge.c
+index 636952769bc8..f6a3de99f7db 100644
+--- a/drivers/gpio/gpio-ge.c
++++ b/drivers/gpio/gpio-ge.c
+@@ -82,7 +82,6 @@ static int __init gef_gpio_probe(struct platform_device *pdev)
+ 	gc->base = -1;
+ 	gc->ngpio = (u16)(uintptr_t)of_device_get_match_data(&pdev->dev);
+ 	gc->of_gpio_n_cells = 2;
+-	gc->of_node = pdev->dev.of_node;
+ 
+ 	/* This function adds a memory mapped GPIO chip */
+ 	ret = devm_gpiochip_add_data(&pdev->dev, gc, NULL);
+diff --git a/drivers/gpio/gpio-grgpio.c b/drivers/gpio/gpio-grgpio.c
+index f954359c9544..23d447e17a67 100644
+--- a/drivers/gpio/gpio-grgpio.c
++++ b/drivers/gpio/gpio-grgpio.c
+@@ -358,7 +358,6 @@ static int grgpio_probe(struct platform_device *ofdev)
+ 	priv->imask = gc->read_reg(regs + GRGPIO_IMASK);
+ 	priv->dev = &ofdev->dev;
+ 
+-	gc->of_node = np;
+ 	gc->owner = THIS_MODULE;
+ 	gc->to_irq = grgpio_to_irq;
+ 	gc->label = devm_kasprintf(&ofdev->dev, GFP_KERNEL, "%pOF", np);
+diff --git a/drivers/gpio/gpio-gw-pld.c b/drivers/gpio/gpio-gw-pld.c
+index 242112ff60ee..77a3fbd46111 100644
+--- a/drivers/gpio/gpio-gw-pld.c
++++ b/drivers/gpio/gpio-gw-pld.c
+@@ -82,7 +82,6 @@ static int gw_pld_probe(struct i2c_client *client,
+ 	gw->chip.base = -1;
+ 	gw->chip.can_sleep = true;
+ 	gw->chip.parent = dev;
+-	gw->chip.of_node = np;
+ 	gw->chip.owner = THIS_MODULE;
+ 	gw->chip.label = dev_name(dev);
+ 	gw->chip.ngpio = 8;
+diff --git a/drivers/gpio/gpio-mt7621.c b/drivers/gpio/gpio-mt7621.c
+index c3658a597a80..52b49e7a0a80 100644
+--- a/drivers/gpio/gpio-mt7621.c
++++ b/drivers/gpio/gpio-mt7621.c
+@@ -217,7 +217,6 @@ mediatek_gpio_bank_probe(struct device *dev,
+ 	memset(rg, 0, sizeof(*rg));
+ 
+ 	spin_lock_init(&rg->lock);
+-	rg->chip.of_node = node;
+ 	rg->bank = bank;
+ 
+ 	dat = mtk->base + GPIO_REG_DATA + (rg->bank * GPIO_BANK_STRIDE);
+diff --git a/drivers/gpio/gpio-mvebu.c b/drivers/gpio/gpio-mvebu.c
+index 8f429d9f3661..4c1f9e1091b7 100644
+--- a/drivers/gpio/gpio-mvebu.c
++++ b/drivers/gpio/gpio-mvebu.c
+@@ -1183,7 +1183,6 @@ static int mvebu_gpio_probe(struct platform_device *pdev)
+ 	mvchip->chip.base = id * MVEBU_MAX_GPIO_PER_BANK;
+ 	mvchip->chip.ngpio = ngpios;
+ 	mvchip->chip.can_sleep = false;
+-	mvchip->chip.of_node = np;
+ 	mvchip->chip.dbg_show = mvebu_gpio_dbg_show;
+ 
+ 	if (soc_variant == MVEBU_GPIO_SOC_VARIANT_A8K)
+diff --git a/drivers/gpio/gpio-omap.c b/drivers/gpio/gpio-omap.c
+index 415e8df89d6f..e099c39e0355 100644
+--- a/drivers/gpio/gpio-omap.c
++++ b/drivers/gpio/gpio-omap.c
+@@ -1419,9 +1419,6 @@ static int omap_gpio_probe(struct platform_device *pdev)
+ 	bank->is_mpuio = pdata->is_mpuio;
+ 	bank->non_wakeup_gpios = pdata->non_wakeup_gpios;
+ 	bank->regs = pdata->regs;
+-#ifdef CONFIG_OF_GPIO
+-	bank->chip.of_node = of_node_get(node);
+-#endif
+ 
+ 	if (node) {
+ 		if (!of_property_read_bool(node, "ti,gpio-always-on"))
+diff --git a/drivers/gpio/gpio-palmas.c b/drivers/gpio/gpio-palmas.c
+index e8e9029ba5bd..bac10c2faf56 100644
+--- a/drivers/gpio/gpio-palmas.c
++++ b/drivers/gpio/gpio-palmas.c
+@@ -170,9 +170,7 @@ static int palmas_gpio_probe(struct platform_device *pdev)
+ 	palmas_gpio->gpio_chip.set	= palmas_gpio_set;
+ 	palmas_gpio->gpio_chip.get	= palmas_gpio_get;
+ 	palmas_gpio->gpio_chip.parent = &pdev->dev;
+-#ifdef CONFIG_OF_GPIO
+-	palmas_gpio->gpio_chip.of_node = pdev->dev.of_node;
+-#endif
++
+ 	palmas_pdata = dev_get_platdata(palmas->dev);
+ 	if (palmas_pdata && palmas_pdata->gpio_base)
+ 		palmas_gpio->gpio_chip.base = palmas_pdata->gpio_base;
+diff --git a/drivers/gpio/gpio-pmic-eic-sprd.c b/drivers/gpio/gpio-pmic-eic-sprd.c
+index 938285190566..e518490c4b68 100644
+--- a/drivers/gpio/gpio-pmic-eic-sprd.c
++++ b/drivers/gpio/gpio-pmic-eic-sprd.c
+@@ -331,7 +331,6 @@ static int sprd_pmic_eic_probe(struct platform_device *pdev)
+ 	pmic_eic->chip.ngpio = SPRD_PMIC_EIC_NR;
+ 	pmic_eic->chip.base = -1;
+ 	pmic_eic->chip.parent = &pdev->dev;
+-	pmic_eic->chip.of_node = pdev->dev.of_node;
+ 	pmic_eic->chip.direction_input = sprd_pmic_eic_direction_input;
+ 	pmic_eic->chip.request = sprd_pmic_eic_request;
+ 	pmic_eic->chip.free = sprd_pmic_eic_free;
+diff --git a/drivers/gpio/gpio-raspberrypi-exp.c b/drivers/gpio/gpio-raspberrypi-exp.c
+index 64a552ecc2ad..3c414e0005fc 100644
+--- a/drivers/gpio/gpio-raspberrypi-exp.c
++++ b/drivers/gpio/gpio-raspberrypi-exp.c
+@@ -221,7 +221,6 @@ static int rpi_exp_gpio_probe(struct platform_device *pdev)
+ 	rpi_gpio->gc.parent = dev;
+ 	rpi_gpio->gc.label = MODULE_NAME;
+ 	rpi_gpio->gc.owner = THIS_MODULE;
+-	rpi_gpio->gc.of_node = np;
+ 	rpi_gpio->gc.base = -1;
+ 	rpi_gpio->gc.ngpio = NUM_GPIO;
+ 
+diff --git a/drivers/gpio/gpio-rda.c b/drivers/gpio/gpio-rda.c
+index 463846431183..0d03f525dcd3 100644
+--- a/drivers/gpio/gpio-rda.c
++++ b/drivers/gpio/gpio-rda.c
+@@ -240,8 +240,6 @@ static int rda_gpio_probe(struct platform_device *pdev)
+ 	rda_gpio->chip.label = dev_name(dev);
+ 	rda_gpio->chip.ngpio = ngpios;
+ 	rda_gpio->chip.base = -1;
+-	rda_gpio->chip.parent = dev;
+-	rda_gpio->chip.of_node = np;
+ 
+ 	if (rda_gpio->irq >= 0) {
+ 		rda_gpio->irq_chip.name = "rda-gpio",
+diff --git a/drivers/gpio/gpio-rockchip.c b/drivers/gpio/gpio-rockchip.c
+index ce63cbd14d69..577abef578e1 100644
+--- a/drivers/gpio/gpio-rockchip.c
++++ b/drivers/gpio/gpio-rockchip.c
+@@ -566,9 +566,6 @@ static int rockchip_gpiolib_register(struct rockchip_pin_bank *bank)
+ 	gc->ngpio = bank->nr_pins;
+ 	gc->label = bank->name;
+ 	gc->parent = bank->dev;
+-#ifdef CONFIG_OF_GPIO
+-	gc->of_node = of_node_get(bank->of_node);
+-#endif
+ 
+ 	ret = gpiochip_add_data(gc, bank);
+ 	if (ret) {
+diff --git a/drivers/gpio/gpio-sama5d2-piobu.c b/drivers/gpio/gpio-sama5d2-piobu.c
+index b7c950658170..3e95da717fc9 100644
+--- a/drivers/gpio/gpio-sama5d2-piobu.c
++++ b/drivers/gpio/gpio-sama5d2-piobu.c
+@@ -192,7 +192,6 @@ static int sama5d2_piobu_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, piobu);
+ 	piobu->chip.label = pdev->name;
+ 	piobu->chip.parent = &pdev->dev;
+-	piobu->chip.of_node = pdev->dev.of_node;
+ 	piobu->chip.owner = THIS_MODULE,
+ 	piobu->chip.get_direction = sama5d2_piobu_get_direction,
+ 	piobu->chip.direction_input = sama5d2_piobu_direction_input,
+diff --git a/drivers/gpio/gpio-sprd.c b/drivers/gpio/gpio-sprd.c
+index 9dd9dabb579e..9bff63990eee 100644
+--- a/drivers/gpio/gpio-sprd.c
++++ b/drivers/gpio/gpio-sprd.c
+@@ -237,7 +237,6 @@ static int sprd_gpio_probe(struct platform_device *pdev)
+ 	sprd_gpio->chip.ngpio = SPRD_GPIO_NR;
+ 	sprd_gpio->chip.base = -1;
+ 	sprd_gpio->chip.parent = &pdev->dev;
+-	sprd_gpio->chip.of_node = pdev->dev.of_node;
+ 	sprd_gpio->chip.request = sprd_gpio_request;
+ 	sprd_gpio->chip.free = sprd_gpio_free;
+ 	sprd_gpio->chip.get = sprd_gpio_get;
+diff --git a/drivers/gpio/gpio-stmpe.c b/drivers/gpio/gpio-stmpe.c
+index dd4d58b4ae49..0fa4f0a93378 100644
+--- a/drivers/gpio/gpio-stmpe.c
++++ b/drivers/gpio/gpio-stmpe.c
+@@ -477,7 +477,6 @@ static int stmpe_gpio_probe(struct platform_device *pdev)
+ 	stmpe_gpio->chip = template_chip;
+ 	stmpe_gpio->chip.ngpio = stmpe->num_gpios;
+ 	stmpe_gpio->chip.parent = &pdev->dev;
+-	stmpe_gpio->chip.of_node = np;
+ 	stmpe_gpio->chip.base = -1;
+ 
+ 	if (IS_ENABLED(CONFIG_DEBUG_FS))
+diff --git a/drivers/gpio/gpio-tc3589x.c b/drivers/gpio/gpio-tc3589x.c
+index 8d158492488f..443fe975bf13 100644
+--- a/drivers/gpio/gpio-tc3589x.c
++++ b/drivers/gpio/gpio-tc3589x.c
+@@ -319,7 +319,6 @@ static int tc3589x_gpio_probe(struct platform_device *pdev)
+ 	tc3589x_gpio->chip.ngpio = tc3589x->num_gpio;
+ 	tc3589x_gpio->chip.parent = &pdev->dev;
+ 	tc3589x_gpio->chip.base = -1;
+-	tc3589x_gpio->chip.of_node = np;
+ 
+ 	girq = &tc3589x_gpio->chip.irq;
+ 	girq->chip = &tc3589x_gpio_irq_chip;
+diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
+index c026e7141e4e..7d90df8c097e 100644
+--- a/drivers/gpio/gpio-tegra186.c
++++ b/drivers/gpio/gpio-tegra186.c
+@@ -748,7 +748,6 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
+ 	gpio->gpio.names = (const char * const *)names;
+ 
+ #if defined(CONFIG_OF_GPIO)
+-	gpio->gpio.of_node = pdev->dev.of_node;
+ 	gpio->gpio.of_gpio_n_cells = 2;
+ 	gpio->gpio.of_xlate = tegra186_gpio_of_xlate;
+ #endif /* CONFIG_OF_GPIO */
+diff --git a/drivers/gpio/gpio-tps65218.c b/drivers/gpio/gpio-tps65218.c
+index 912382be48e1..e1d425a18854 100644
+--- a/drivers/gpio/gpio-tps65218.c
++++ b/drivers/gpio/gpio-tps65218.c
+@@ -196,9 +196,6 @@ static int tps65218_gpio_probe(struct platform_device *pdev)
+ 	tps65218_gpio->tps65218 = tps65218;
+ 	tps65218_gpio->gpio_chip = template_chip;
+ 	tps65218_gpio->gpio_chip.parent = &pdev->dev;
+-#ifdef CONFIG_OF_GPIO
+-	tps65218_gpio->gpio_chip.of_node = pdev->dev.of_node;
+-#endif
+ 
+ 	return devm_gpiochip_add_data(&pdev->dev, &tps65218_gpio->gpio_chip,
+ 				      tps65218_gpio);
+diff --git a/drivers/gpio/gpio-vf610.c b/drivers/gpio/gpio-vf610.c
+index e0f2b67558e7..20780c35da1b 100644
+--- a/drivers/gpio/gpio-vf610.c
++++ b/drivers/gpio/gpio-vf610.c
+@@ -298,7 +298,6 @@ static int vf610_gpio_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	gc = &port->gc;
+-	gc->of_node = np;
+ 	gc->parent = dev;
+ 	gc->label = "vf610-gpio";
+ 	gc->ngpio = VF610_GPIO_PER_PORT;
+diff --git a/drivers/gpio/gpio-xlp.c b/drivers/gpio/gpio-xlp.c
+index 0d94d3aef752..9bb0d1c17f67 100644
+--- a/drivers/gpio/gpio-xlp.c
++++ b/drivers/gpio/gpio-xlp.c
+@@ -374,7 +374,6 @@ static int xlp_gpio_probe(struct platform_device *pdev)
+ 	gc->base = 0;
+ 	gc->parent = &pdev->dev;
+ 	gc->ngpio = ngpio;
+-	gc->of_node = pdev->dev.of_node;
+ 	gc->direction_output = xlp_gpio_dir_output;
+ 	gc->direction_input = xlp_gpio_dir_input;
+ 	gc->set = xlp_gpio_set;
+-- 
+2.33.0
 
-> > understanding was that this should give us support for
-> > unevaluatedProperties. And indeed, it no longer complains about
-> > #address-cells and #size-cells if I remove them from this binding,
-> > presumably because it gets them from i2c-controller.yaml.
-> >
-> > However, a side-effect seems to be that now it also ignores any
-> > properties that aren't defined anywhere. So for example if I touch
-> > up the example in firmware/nvidia,tegra186-bpmp.yaml and add a bogus
-> > "foo-bar =3D <0>;" property in the BPMP I2C node, then it'll blindly
-> > accept that as valid.
->=20
-> Do you have unevaluatedProperties within the i2c node? It only applies
-> to 1 level, and you can't have a parent+child schema evaluated with
-> another child (or parent+child) schema. This is why the graph schema
-> is done the way it is and why we're splitting spi-controller.yaml
-> child node schema out to spi-peripheral.yaml.
-
-Let me give an example based on a schema that's already upstream. So
-looking at this:
-
-	Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-
-it does include spi-controller.yaml via an allOf: [ $ref: ... ], so it
-uses unevaluatedProperties to validate against any generic SPI
-controller properties. For example, #address-cells and #size-cells are
-validated based on the schema from spi-controller.yaml.
-
-However, if I now apply the following patch to add an undocumented
-property to the example, then validation doesn't fail as I would expect
-it to.
-
---- >8 ---
-diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yam=
-l b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-index 35a8045b2c70..e9342faf5194 100644
---- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-+++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-@@ -104,6 +104,7 @@ examples:
-             resets =3D <&tegra_car 211>;
-             dmas =3D <&apbdma 5>, <&apbdma 5>;
-             dma-names =3D "rx", "tx";
-+            foo-something =3D <42>;
-=20
-             flash@0 {
-                     compatible =3D "spi-nor";
---- >8 ---
-
-I would expect the validation to fail for foo-something because it isn't
-defined in any of the schemas.
-
-Or is this one of the cases that you mentioned above. I must admit I did
-not follow what exactly is expected to work and what isn't. The QSPI
-controller example from above seems simple enough.
-
-Thierry
-
---uOJW5L5kVuAsz1Of
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmGpCHUACgkQ3SOs138+
-s6EN5g//ci+kNNOP378mVU1N8dDsUv0LxAKxTd80fF05q1H74a6A4iCa4Suijb1U
-fc97E/OglW6hD362z68t1sQVCtVjS9NoPvkFvf33RYyoADh/7ztGEB7tHDNXZkFf
-uTggakd5HcDYpuk4eqmXuAs2nR/LOjFraKly9Gg6kM/4BewYphAZJSPjbXhhfcdO
-bk8pG5DQmOeELI+pPqSsOfj5Np8GL5g26chIMgvfxZGLmYlWHRrV9O+FRTLlvQt4
-t+RY0lsP7mYVhG0+j8R2YIb0k2dPhIXCzFOPw4bJYE9j+avrSAgKDEoUuR3OMzxN
-2X2XOvO/jSW4I34YIN4GqSAF49OuAyhw8EkTwgE38FLUMNy/Dnl1LFqQN36137VI
-xaGszztNtlbqIhqzzNNMaJ/w0wGT57l/+qySfSVxagP+qzh9VwKJWSOgJOpmOrTP
-fEutOLDl/j2jdJSuzMz+s0ZgFKe0NPrLB/C+azKYpwkn4wLvBPyLCwHYXIaRxZ8h
-2p7TovUlX0Ij55bGHdhTdpcFRRkoO1M15EkdV1QlqXmvVKkijN0aWTVI+svAZ7JF
-sS4M9bRVRilteK5JB2ouR58oOd05h3vSG6x7tVsQt7T12M7Jo+iqDpx8h1tFWW5w
-7WzV4AbBpr/6jONXhP3XzTj0KSU/mCS+VPkVaTKvajoHoNRKkvg=
-=cldr
------END PGP SIGNATURE-----
-
---uOJW5L5kVuAsz1Of--
