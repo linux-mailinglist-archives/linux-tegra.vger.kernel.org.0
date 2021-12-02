@@ -2,216 +2,223 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BF61466B86
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Dec 2021 22:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C9C6466B6A
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Dec 2021 22:09:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377041AbhLBVVF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Dec 2021 16:21:05 -0500
-Received: from mga14.intel.com ([192.55.52.115]:48712 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1377022AbhLBVVC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 2 Dec 2021 16:21:02 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="237067786"
-X-IronPort-AV: E=Sophos;i="5.87,282,1631602800"; 
-   d="scan'208";a="237067786"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2021 13:17:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,282,1631602800"; 
-   d="scan'208";a="541381178"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 02 Dec 2021 13:17:26 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id B5DAE165; Thu,  2 Dec 2021 23:17:31 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-        Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Baruch Siach <baruch@tkos.co.il>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Tony Lindgren <tony@atomide.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jianqun Xu <jay.xu@rock-chips.com>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        Thierry Reding <treding@nvidia.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-power@fi.rohmeurope.com,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-pwm@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-unisoc@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Cc:     Ray Jui <rjui@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Gregory Fong <gregory.0xf0@gmail.com>,
-        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-        Keerthy <j-keerthy@ti.com>, Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH v1 3/3] gpio: Propagate firmware node from a parent device
-Date:   Thu,  2 Dec 2021 23:08:39 +0200
-Message-Id: <20211202210839.79140-3-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211202210839.79140-1-andriy.shevchenko@linux.intel.com>
-References: <20211202210839.79140-1-andriy.shevchenko@linux.intel.com>
+        id S243165AbhLBVMj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Dec 2021 16:12:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229683AbhLBVMi (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Dec 2021 16:12:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28F0C06174A;
+        Thu,  2 Dec 2021 13:09:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44FB262657;
+        Thu,  2 Dec 2021 21:09:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72FFC00446;
+        Thu,  2 Dec 2021 21:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638479353;
+        bh=L2e8HqW+dRovUp4kKOJlCJHgbSnTfs0UOcthSJhMeoo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=flivxh+ywdU8KQZYdad8Q7m1Q8oKS4skhZyPVS3vMEJf06av5XR+EEZsdvt54fV+Q
+         Me+d1UWDSZ4kd3LUH9z+Fa7rUYDQ8emKhr9PKynFuhuCfAHFamIrXHNTY76IcS3Z+r
+         pbx87pBM4Z1E/aKgU+VKBLnVzfkRiCYtNZMz9OdGjfDpMK3Tm66XxLHNFJ77ATizR3
+         G3I8LrFMC+hf/A0oCgG/AF/KrRRFZNew2b85IRhoJPpGB4T37JHpTwHLwdRc64zCij
+         oOT20E4SFCbKsuQtCQdcc7R3T0kxAJk7mnE/HyNHudF+B+2IWGxdqxfeFrk+/8n6lV
+         YZ+7csPglJScA==
+Received: by mail-ed1-f51.google.com with SMTP id l25so3034801eda.11;
+        Thu, 02 Dec 2021 13:09:13 -0800 (PST)
+X-Gm-Message-State: AOAM533JhWcO7tmbJnpjql6+VkxjAu4XI9yyX6HT6ATgFCHrJ9iEjzOT
+        OumUXnOUP543ToTLFiDvjNb05jPRgvnGYdjuKg==
+X-Google-Smtp-Source: ABdhPJyLQ7wzKuLDYNj6lPT3KgbxQXk0zkoWYpThJ5TJtBDf2b4+6Yz19vtzMXi2J5s0verOrVZmNK6NlX1W6zO/N04=
+X-Received: by 2002:a17:906:bccc:: with SMTP id lw12mr17768529ejb.128.1638479351965;
+ Thu, 02 Dec 2021 13:09:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211119143839.1950739-1-thierry.reding@gmail.com>
+ <20211119143839.1950739-14-thierry.reding@gmail.com> <YaWCAGQU0sjCwz66@robh.at.kernel.org>
+ <Yae0DwCpFu8F/Gbw@orome.fritz.box> <CAL_Jsq+JvZQjN3q4A3yoM+pUPHLYKtwUT=QsDq+oQ7jk8mD3CA@mail.gmail.com>
+ <YakIePafm3t6rJLE@orome.fritz.box>
+In-Reply-To: <YakIePafm3t6rJLE@orome.fritz.box>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 2 Dec 2021 15:08:59 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKb-azHGWkNzEJfCffiJ7FzscV4--8sKgq+uEONFmRD0w@mail.gmail.com>
+Message-ID: <CAL_JsqKb-azHGWkNzEJfCffiJ7FzscV4--8sKgq+uEONFmRD0w@mail.gmail.com>
+Subject: Re: [PATCH v2 13/16] dt-bindings: i2c: tegra-bpmp: Convert to json-schema
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-When creating MFD platform devices the firmware node is left unset.
-This, in particular, prevents GPIO library to use it for different
-purposes. Propagate firmware node from the parent device and let
-GPIO library do the right thing.
+On Thu, Dec 2, 2021 at 11:55 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Wed, Dec 01, 2021 at 12:42:07PM -0600, Rob Herring wrote:
+> > On Wed, Dec 1, 2021 at 11:42 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+> > >
+> > > On Mon, Nov 29, 2021 at 07:44:32PM -0600, Rob Herring wrote:
+> > > > On Fri, Nov 19, 2021 at 03:38:36PM +0100, Thierry Reding wrote:
+> > > > > From: Thierry Reding <treding@nvidia.com>
+> > > > >
+> > > > > Convert the NVIDIA Tegra186 (and later) BPMP I2C bindings from the
+> > > > > free-form text format to json-schema.
+> > > > >
+> > > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > > > > ---
+> > > > > Changes in v2:
+> > > > > - add missing additionalProperties: false
+> > > > >
+> > > > >  .../bindings/i2c/nvidia,tegra186-bpmp-i2c.txt | 42 -------------------
+> > > > >  .../i2c/nvidia,tegra186-bpmp-i2c.yaml         | 42 +++++++++++++++++++
+> > > > >  2 files changed, 42 insertions(+), 42 deletions(-)
+> > > > >  delete mode 100644 Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.txt
+> > > > >  create mode 100644 Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.txt b/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.txt
+> > > > > deleted file mode 100644
+> > > > > index ab240e10debc..000000000000
+> > > > > --- a/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.txt
+> > > > > +++ /dev/null
+> > > > > @@ -1,42 +0,0 @@
+> > > > > -NVIDIA Tegra186 BPMP I2C controller
+> > > > > -
+> > > > > -In Tegra186, the BPMP (Boot and Power Management Processor) owns certain HW
+> > > > > -devices, such as the I2C controller for the power management I2C bus. Software
+> > > > > -running on other CPUs must perform IPC to the BPMP in order to execute
+> > > > > -transactions on that I2C bus. This binding describes an I2C bus that is
+> > > > > -accessed in such a fashion.
+> > > > > -
+> > > > > -The BPMP I2C node must be located directly inside the main BPMP node. See
+> > > > > -../firmware/nvidia,tegra186-bpmp.txt for details of the BPMP binding.
+> > > > > -
+> > > > > -This node represents an I2C controller. See ../i2c/i2c.txt for details of the
+> > > > > -core I2C binding.
+> > > > > -
+> > > > > -Required properties:
+> > > > > -- compatible:
+> > > > > -    Array of strings.
+> > > > > -    One of:
+> > > > > -    - "nvidia,tegra186-bpmp-i2c".
+> > > > > -- #address-cells: Address cells for I2C device address.
+> > > > > -    Single-cell integer.
+> > > > > -    Must be <1>.
+> > > > > -- #size-cells:
+> > > > > -    Single-cell integer.
+> > > > > -    Must be <0>.
+> > > > > -- nvidia,bpmp-bus-id:
+> > > > > -    Single-cell integer.
+> > > > > -    Indicates the I2C bus number this DT node represent, as defined by the
+> > > > > -    BPMP firmware.
+> > > > > -
+> > > > > -Example:
+> > > > > -
+> > > > > -bpmp {
+> > > > > -   ...
+> > > > > -
+> > > > > -   i2c {
+> > > > > -           compatible = "nvidia,tegra186-bpmp-i2c";
+> > > > > -           #address-cells = <1>;
+> > > > > -           #size-cells = <0>;
+> > > > > -           nvidia,bpmp-bus-id = <5>;
+> > > > > -   };
+> > > > > -};
+> > > > > diff --git a/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.yaml b/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..351e12124959
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.yaml
+> > > > > @@ -0,0 +1,42 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/i2c/nvidia,tegra186-bpmp-i2c.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: NVIDIA Tegra186 (and later) BPMP I2C controller
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Thierry Reding <thierry.reding@gmail.com>
+> > > > > +  - Jon Hunter <jonathanh@nvidia.com>
+> > > > > +
+> > > > > +description: |
+> > > > > +  In Tegra186 and later, the BPMP (Boot and Power Management Processor)
+> > > > > +  owns certain HW devices, such as the I2C controller for the power
+> > > > > +  management I2C bus. Software running on other CPUs must perform IPC to
+> > > > > +  the BPMP in order to execute transactions on that I2C bus. This
+> > > > > +  binding describes an I2C bus that is accessed in such a fashion.
+> > > > > +
+> > > > > +  The BPMP I2C node must be located directly inside the main BPMP node.
+> > > > > +  See ../firmware/nvidia,tegra186-bpmp.yaml for details of the BPMP
+> > > > > +  binding.
+> > > > > +
+> > > > > +  This node represents an I2C controller. See ../i2c/i2c.txt for details
+> > > > > +  of the core I2C binding.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    const: nvidia,tegra186-bpmp-i2c
+> > > > > +
+> > > >
+> > > > > +  "#address-cells":
+> > > > > +    const: 1
+> > > > > +
+> > > > > +  "#size-cells":
+> > > > > +    const: 0
+> > > >
+> > > > Covered by i2c-controller.yaml. Add a reference and then use
+> > > > unevaluatedProperties.
+> > >
+> > > About that: I've recently noticed that this doesn't seem to work
+> > > properly. I'm using branch draft2020-12 from your github and my
+> >
+> > Use dtschema main/master branch. That branch is likely stale.
+>
+> That seems to have helped somewhat. I do occasionally see warnings now
+> about unevaluated properties being unexpected. I can still reproduce the
+> issue, though, see below.
+>
+> > > understanding was that this should give us support for
+> > > unevaluatedProperties. And indeed, it no longer complains about
+> > > #address-cells and #size-cells if I remove them from this binding,
+> > > presumably because it gets them from i2c-controller.yaml.
+> > >
+> > > However, a side-effect seems to be that now it also ignores any
+> > > properties that aren't defined anywhere. So for example if I touch
+> > > up the example in firmware/nvidia,tegra186-bpmp.yaml and add a bogus
+> > > "foo-bar = <0>;" property in the BPMP I2C node, then it'll blindly
+> > > accept that as valid.
+> >
+> > Do you have unevaluatedProperties within the i2c node? It only applies
+> > to 1 level, and you can't have a parent+child schema evaluated with
+> > another child (or parent+child) schema. This is why the graph schema
+> > is done the way it is and why we're splitting spi-controller.yaml
+> > child node schema out to spi-peripheral.yaml.
+>
+> Let me give an example based on a schema that's already upstream. So
+> looking at this:
+>
+>         Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
+>
+> it does include spi-controller.yaml via an allOf: [ $ref: ... ], so it
+> uses unevaluatedProperties to validate against any generic SPI
+> controller properties. For example, #address-cells and #size-cells are
+> validated based on the schema from spi-controller.yaml.
+>
+> However, if I now apply the following patch to add an undocumented
+> property to the example, then validation doesn't fail as I would expect
+> it to.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpio/gpio-arizona.c  | 5 ++---
- drivers/gpio/gpio-tps6586x.c | 5 ++---
- drivers/gpio/gpio-tps65910.c | 6 +++---
- drivers/gpio/gpio-twl6040.c  | 5 ++---
- drivers/gpio/gpio-wm831x.c   | 5 ++---
- 5 files changed, 11 insertions(+), 15 deletions(-)
+Indeed you are right. The problem is 'additionalProperties: true' in
+spi-controller.yaml makes everything evaluated. I thought
+'additionalProperties: true' was equivalent to the default, but that's
+not how it's working. Now to figure out if this is correct operation
+or not. No wonder there were relatively few fixes when
+'unevaluatedProperties' got implemented...
 
-diff --git a/drivers/gpio/gpio-arizona.c b/drivers/gpio/gpio-arizona.c
-index 2bc173c352ce..02f9ae19cd44 100644
---- a/drivers/gpio/gpio-arizona.c
-+++ b/drivers/gpio/gpio-arizona.c
-@@ -151,6 +151,8 @@ static int arizona_gpio_probe(struct platform_device *pdev)
- 	struct arizona_gpio *arizona_gpio;
- 	int ret;
- 
-+	device_set_node(&pdev->dev, dev_fwnode(pdev->dev.parent));
-+
- 	arizona_gpio = devm_kzalloc(&pdev->dev, sizeof(*arizona_gpio),
- 				    GFP_KERNEL);
- 	if (!arizona_gpio)
-@@ -159,9 +161,6 @@ static int arizona_gpio_probe(struct platform_device *pdev)
- 	arizona_gpio->arizona = arizona;
- 	arizona_gpio->gpio_chip = template_chip;
- 	arizona_gpio->gpio_chip.parent = &pdev->dev;
--#ifdef CONFIG_OF_GPIO
--	arizona_gpio->gpio_chip.of_node = arizona->dev->of_node;
--#endif
- 
- 	switch (arizona->type) {
- 	case WM5102:
-diff --git a/drivers/gpio/gpio-tps6586x.c b/drivers/gpio/gpio-tps6586x.c
-index da0304b764a5..c5713524b581 100644
---- a/drivers/gpio/gpio-tps6586x.c
-+++ b/drivers/gpio/gpio-tps6586x.c
-@@ -77,6 +77,8 @@ static int tps6586x_gpio_probe(struct platform_device *pdev)
- 	struct tps6586x_platform_data *pdata;
- 	struct tps6586x_gpio *tps6586x_gpio;
- 
-+	device_set_node(&pdev->dev, dev_fwnode(pdev->dev.parent));
-+
- 	pdata = dev_get_platdata(pdev->dev.parent);
- 	tps6586x_gpio = devm_kzalloc(&pdev->dev,
- 				sizeof(*tps6586x_gpio), GFP_KERNEL);
-@@ -97,9 +99,6 @@ static int tps6586x_gpio_probe(struct platform_device *pdev)
- 	tps6586x_gpio->gpio_chip.get	= tps6586x_gpio_get;
- 	tps6586x_gpio->gpio_chip.to_irq	= tps6586x_gpio_to_irq;
- 
--#ifdef CONFIG_OF_GPIO
--	tps6586x_gpio->gpio_chip.of_node = pdev->dev.parent->of_node;
--#endif
- 	if (pdata && pdata->gpio_base)
- 		tps6586x_gpio->gpio_chip.base = pdata->gpio_base;
- 	else
-diff --git a/drivers/gpio/gpio-tps65910.c b/drivers/gpio/gpio-tps65910.c
-index 7fa8c841081f..321e6945f0be 100644
---- a/drivers/gpio/gpio-tps65910.c
-+++ b/drivers/gpio/gpio-tps65910.c
-@@ -111,6 +111,8 @@ static int tps65910_gpio_probe(struct platform_device *pdev)
- 	int ret;
- 	int i;
- 
-+	device_set_node(&pdev->dev, dev_fwnode(pdev->dev.parent));
-+
- 	tps65910_gpio = devm_kzalloc(&pdev->dev,
- 				sizeof(*tps65910_gpio), GFP_KERNEL);
- 	if (!tps65910_gpio)
-@@ -137,9 +139,7 @@ static int tps65910_gpio_probe(struct platform_device *pdev)
- 	tps65910_gpio->gpio_chip.set	= tps65910_gpio_set;
- 	tps65910_gpio->gpio_chip.get	= tps65910_gpio_get;
- 	tps65910_gpio->gpio_chip.parent = &pdev->dev;
--#ifdef CONFIG_OF_GPIO
--	tps65910_gpio->gpio_chip.of_node = tps65910->dev->of_node;
--#endif
-+
- 	if (pdata && pdata->gpio_base)
- 		tps65910_gpio->gpio_chip.base = pdata->gpio_base;
- 	else
-diff --git a/drivers/gpio/gpio-twl6040.c b/drivers/gpio/gpio-twl6040.c
-index 648fb418d775..6c3fbf382dba 100644
---- a/drivers/gpio/gpio-twl6040.c
-+++ b/drivers/gpio/gpio-twl6040.c
-@@ -80,6 +80,8 @@ static int gpo_twl6040_probe(struct platform_device *pdev)
- 	struct twl6040 *twl6040 = dev_get_drvdata(twl6040_core_dev);
- 	int ret;
- 
-+	device_set_node(&pdev->dev, dev_fwnode(pdev->dev.parent));
-+
- 	twl6040gpo_chip.base = -1;
- 
- 	if (twl6040_get_revid(twl6040) < TWL6041_REV_ES2_0)
-@@ -88,9 +90,6 @@ static int gpo_twl6040_probe(struct platform_device *pdev)
- 		twl6040gpo_chip.ngpio = 1; /* twl6041 have 1 GPO */
- 
- 	twl6040gpo_chip.parent = &pdev->dev;
--#ifdef CONFIG_OF_GPIO
--	twl6040gpo_chip.of_node = twl6040_core_dev->of_node;
--#endif
- 
- 	ret = devm_gpiochip_add_data(&pdev->dev, &twl6040gpo_chip, NULL);
- 	if (ret < 0) {
-diff --git a/drivers/gpio/gpio-wm831x.c b/drivers/gpio/gpio-wm831x.c
-index 9cf1e5ebb352..7eaf8a28638c 100644
---- a/drivers/gpio/gpio-wm831x.c
-+++ b/drivers/gpio/gpio-wm831x.c
-@@ -262,6 +262,8 @@ static int wm831x_gpio_probe(struct platform_device *pdev)
- 	struct wm831x_pdata *pdata = &wm831x->pdata;
- 	struct wm831x_gpio *wm831x_gpio;
- 
-+	device_set_node(&pdev->dev, dev_fwnode(pdev->dev.parent));
-+
- 	wm831x_gpio = devm_kzalloc(&pdev->dev, sizeof(*wm831x_gpio),
- 				   GFP_KERNEL);
- 	if (wm831x_gpio == NULL)
-@@ -275,9 +277,6 @@ static int wm831x_gpio_probe(struct platform_device *pdev)
- 		wm831x_gpio->gpio_chip.base = pdata->gpio_base;
- 	else
- 		wm831x_gpio->gpio_chip.base = -1;
--#ifdef CONFIG_OF_GPIO
--	wm831x_gpio->gpio_chip.of_node = wm831x->dev->of_node;
--#endif
- 
- 	return devm_gpiochip_add_data(&pdev->dev, &wm831x_gpio->gpio_chip, wm831x_gpio);
- }
--- 
-2.33.0
-
+Rob
