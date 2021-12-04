@@ -2,105 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F3446858A
-	for <lists+linux-tegra@lfdr.de>; Sat,  4 Dec 2021 15:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF494685D0
+	for <lists+linux-tegra@lfdr.de>; Sat,  4 Dec 2021 16:00:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377851AbhLDOla (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 4 Dec 2021 09:41:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
+        id S242929AbhLDPET (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 4 Dec 2021 10:04:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345376AbhLDOlQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 4 Dec 2021 09:41:16 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF11C061A83;
-        Sat,  4 Dec 2021 06:37:50 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id bi37so13837000lfb.5;
-        Sat, 04 Dec 2021 06:37:50 -0800 (PST)
+        with ESMTP id S231150AbhLDPET (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 4 Dec 2021 10:04:19 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18519C061751
+        for <linux-tegra@vger.kernel.org>; Sat,  4 Dec 2021 07:00:53 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id r26so13874721lfn.8
+        for <linux-tegra@vger.kernel.org>; Sat, 04 Dec 2021 07:00:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hEN8lxqzB5PkjPszcdUxNpJc6epYJF7n5YUfahDhZts=;
-        b=RzfaFRXrQ7CuSKPzd5O+0D9Mbq84hRoijgOs6hXD+7GKiG52l/xbQwHLkkUHWt8wo/
-         EruzOPP9GeQjoxbrO3uLPWtZkWT1O3F15sjMxxf35CdGZ0vsxrdKYrmGDRYeoaOTO2EZ
-         G7HhLN+0R++d1G7lRodBHCzl9BhdQSEl0bVdOpM9tiRtt8LoSIyvlci8SBbOeKXNCGr8
-         rGso9XNmd7XdPBAgwbdctGo9CKcY5gi9hMHF4PHnghRk+mNMYnFG98LIwqfg3/Nb+Quz
-         ud0jPN/6fTWgNYWOumT/WxHTQ4hxmxT3s2lkhBaPMqajlFTqRbOi7H03sqNM2A+qFWq2
-         4Nzg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ETAflowsA15kKoaqCuu5WiBP3VN5nTWIEJDu/Mrms4I=;
+        b=Um09SsRlWojymvZWb/yxjCx9ZfaQWkaSS4IIcONST7M2t0keriYTvJ1g6+f4vu8heK
+         BEX5CrsZWn4bo+KoigUCdkY1tiGq3LeiDQ6SUczsrWZ3Tifn1TW5815nMdSa9ju+//E5
+         74CEd+7j7BzYrLaWT1IdPuQNa8xbPmPvAZUDKnhWwE1BUyHEcTBLursndKX7ofbtLA51
+         lAIPAmP6whu+VeHMRIw5SFF68hzp8xCalEfa0UhntR//jqzF0/VV8Gh1KxfcPrcicjpm
+         L2DIdUr1Vrg0YLsHC2gUFEPbF2uaojlj27V+jZiZWBqDsIMiyHvxGWxERPA9POyTY9Rh
+         rjDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hEN8lxqzB5PkjPszcdUxNpJc6epYJF7n5YUfahDhZts=;
-        b=M1leF4dtMgJKWZWTgXpJbGEySYwWIkrKJlxrS2cfY+VTDkBAxIboNN4SgUb6TdbGJP
-         tVolTyq0B8slD/uTjgmiWKMrP7nd9kf3062wqfN9OK+orOnoiDiMbSZTSn3YYNF8M9Ic
-         QWFFX50fuSmID3989ACme3kTrTrsHJqIGRzqRbMUPnBXmaNGC3XPoAsNP0MU7Zdg+dDb
-         kmhy0TWess3DZuegTQrcDWDFYEqj4AsvtjMvemNE+DbOoC7iaUpB2uY2+4ShVGanRE6V
-         4hKLPIqUglr4L3e7QaYM6c/FoxIhYU0+3NuYQtFamAQiX6U/4YP3zyh2bTWJEQDoNFFB
-         Pe7Q==
-X-Gm-Message-State: AOAM530hXFRW7I/K0LDZfh67R+2UkWnlA1Nh9xgX9FH//Lrm0lJNuXt2
-        b2+ASkpaLQHPbDH1btMpQeo=
-X-Google-Smtp-Source: ABdhPJwf+GX/2emTs7+L59bwUSAf7ewn6GK+Tt7M5lTMPClzxfZokayjRS6DmCd3RSP5aXksQpYJwA==
-X-Received: by 2002:ac2:4c47:: with SMTP id o7mr24822014lfk.558.1638628669123;
-        Sat, 04 Dec 2021 06:37:49 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ETAflowsA15kKoaqCuu5WiBP3VN5nTWIEJDu/Mrms4I=;
+        b=yOj6Ev2+wlvX73vLhXJILh8/mU5xzsJUkC61OLW1Rjn+R36QUCDs0Uq6zFx1kdddpJ
+         6Lb73+m3TbAqHxaSkvZzAasH3zp+fNFTlbMAJluPb1W/OaLOgNNULE4xJWEVWwO/71La
+         hc4FcMdj10niu6z14+IORV0UUDCTH63y4mkkQGLgiDeWu9deIDFNkZiVP7THbJYkhmJf
+         Rfldp4/F4BefkOoB/dfcbisdLDZ10cqZVVMlCk0C6iDzlng0DFmziCXkzFDmKgAvSfEN
+         pCk5IXX5h6XdzItZph+7GzQDKm74W8SR6KjgStr7cfxUlYaimQVCdseqgVegavqGEeTV
+         HuHA==
+X-Gm-Message-State: AOAM5304yJT4/3Q3Zyjqw5CNbgd24JJNdWJeqg9zG0ZIT9mjhptOy326
+        8DZQ/xBbWAvIq3G7N+jJy8o=
+X-Google-Smtp-Source: ABdhPJz/8jwitQJfh/jI12U78QqY0xtz+vktaV7hEnQfMpou3Va97sCyj5vHEVm22k71JG7nLuD6kw==
+X-Received: by 2002:a05:6512:b10:: with SMTP id w16mr25057836lfu.223.1638630051388;
+        Sat, 04 Dec 2021 07:00:51 -0800 (PST)
 Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru. [94.29.46.111])
-        by smtp.gmail.com with ESMTPSA id g36sm782934lfv.16.2021.12.04.06.37.48
+        by smtp.gmail.com with ESMTPSA id t4sm859185lfe.220.2021.12.04.07.00.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 06:37:48 -0800 (PST)
+        Sat, 04 Dec 2021 07:00:51 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Agneli <poczt@protonmail.ch>
-Cc:     linux-tegra@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Rob Herring <robh+dt@kernel.org>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 22/22] ARM: tegra: paz00: Enable S/PDIF and HDMI audio
-Date:   Sat,  4 Dec 2021 17:37:25 +0300
-Message-Id: <20211204143725.31646-23-digetx@gmail.com>
+        Mikko Perttunen <cyndis@kapsi.fi>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/2] Fix broken DRM and Host1x drivers when CONFIG_ARM_DMA_USE_IOMMU=y
+Date:   Sat,  4 Dec 2021 17:58:47 +0300
+Message-Id: <20211204145849.4034-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211204143725.31646-1-digetx@gmail.com>
-References: <20211204143725.31646-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable S/PDIF controller to enable HDMI audio support on Toshiba AC100.
-Use nvidia,fixed-parent-rate property that prevents audio rate conflict
-between S/PDIF and I2S.
+Tegra DRM and Host1x don't work properly when CONFIG_ARM_DMA_USE_IOMMU=y,
+i.e. in case of multiplatform ARM32 kernel. The simple workaround is to
+detach devices from the offending IOMMU domain. This is a resend of
+9 months old patches which we lost and forgotten. The problem still
+persists. I rebased patches on top of recent linux-next and improved
+commit messages.
 
-Tested-by: Agneli <poczt@protonmail.ch>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-paz00.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Dmitry Osipenko (2):
+  gpu: host1x: Add back arm_iommu_detach_device()
+  drm/tegra: Add back arm_iommu_detach_device()
 
-diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
-index 5b2260f61f05..921a811632a1 100644
---- a/arch/arm/boot/dts/tegra20-paz00.dts
-+++ b/arch/arm/boot/dts/tegra20-paz00.dts
-@@ -264,8 +264,16 @@ conf_ld17_0 {
- 		};
- 	};
- 
-+	spdif@70002400 {
-+		status = "okay";
-+
-+		nvidia,fixed-parent-rate;
-+	};
-+
- 	i2s@70002800 {
- 		status = "okay";
-+
-+		nvidia,fixed-parent-rate;
- 	};
- 
- 	serial@70006000 {
+ drivers/gpu/drm/tegra/drm.c | 15 +++++++++++++++
+ drivers/gpu/host1x/dev.c    | 15 +++++++++++++++
+ 2 files changed, 30 insertions(+)
+
 -- 
 2.33.1
 
