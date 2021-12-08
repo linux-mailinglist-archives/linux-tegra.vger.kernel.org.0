@@ -2,125 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F51A46DA17
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Dec 2021 18:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4224746DB92
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Dec 2021 19:51:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238519AbhLHRmO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Dec 2021 12:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233240AbhLHRl6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Dec 2021 12:41:58 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA27FC061D5E;
-        Wed,  8 Dec 2021 09:38:25 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id z7so6985343lfi.11;
-        Wed, 08 Dec 2021 09:38:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Cge4cKwoH4rfWpliovNOORGBmRueDCEgmB9owthxwO0=;
-        b=ErzBxi85BIP+AYHPr4fn6B94VWyhu5N1zR3eB1dEycpUAM5T1+hvBdnUO/zyRTEhPP
-         jQ16wXqmbF/7/ocINmwcWkle4TdY0RzhXD5K/6DSmw9RZ5tAvlmPZhX+joG3ZrzDQ+/7
-         E1sCqcOeLFikxqOPsNcDpK0mdNjyc7484mtOFxkRm1tgdCz0SJRKAwbA3lWTkkDkserp
-         ekWrtNINNWh8DLFOpNt5e54inFgA1ZI7vYEChYis8Yg/km/Qr62fCtLDtETI89xY8utu
-         e05f9T107YlWQgmVM8FpGE2QJyONV/z/6b93x1cvDwNGh+J6av/1gallQuD+Mal4WQCQ
-         MI0w==
+        id S239398AbhLHSzE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Dec 2021 13:55:04 -0500
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:38900 "EHLO
+        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233006AbhLHSzE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Dec 2021 13:55:04 -0500
+Received: by mail-oi1-f180.google.com with SMTP id r26so5345669oiw.5;
+        Wed, 08 Dec 2021 10:51:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Cge4cKwoH4rfWpliovNOORGBmRueDCEgmB9owthxwO0=;
-        b=fdqWE/cLYxQ4Z0U/puMw2D/TsgYoUbvWIDpd6JMMmpaujTrl88nGaseOGQW4VHASqE
-         bdB5xzki635RiAXNZauiY/E9zJDj26dGlFocG+zfgthC5h9o9NQG9HF5D5C37ajJWlje
-         RM61zWIPyoAteNz1aqp43J5R1JmpNytaFmkD4vP420uAkDdiEXhH1kaIXuQvgIMfjupF
-         NhEKHnhBMNwaVVZSSh1I1Z2E/4QK4NdduRPbXb0Dc86s9cPwQA4ZXzpnD9V0t3IKQwBq
-         JF6f24ytwsrdluzfcfb5VxLn2lmOv/1vhhJ4vzZJhu/rV466TRyCl99DCyGclAHU6Qax
-         lBNA==
-X-Gm-Message-State: AOAM533nkq48Uvxnx6un5bXTpzwCKoxZCI7HcK/iVdJIBGtXUq67EJyq
-        m05VmViJA5XZdRn9eiNhweY=
-X-Google-Smtp-Source: ABdhPJylFtOrVdTv9tqMVILENWexUCyHOfn3aGit1OE5SgsKIolT3BXE7n57CDqobuz1lt18pnvgVg==
-X-Received: by 2002:a19:6454:: with SMTP id b20mr791542lfj.469.1638985104227;
-        Wed, 08 Dec 2021 09:38:24 -0800 (PST)
-Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru. [94.29.46.111])
-        by smtp.gmail.com with ESMTPSA id a25sm349159lfm.250.2021.12.08.09.38.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DA206Skj/zOS4Jfg8GLV2jzG+Ni8Fuw90HwODp0h61E=;
+        b=NdXIKeyqcMt4qMJrOBJc1z8DXaWKATPD63EK0yqrJKIGajv6DlU5iJTpFoOocD24eI
+         MlxFrCEQjEKd6/JIIS6KlivUQWCGG9ie7tWuuhiUdePhotmdhAyp2ftIH1eWsQQfETvO
+         jjWGjbc/77w+1h9NIAJA5vUM1RMulPruKAXxh54boNxuZkvaXEt+sXhc0X/Ki8cpss4t
+         fe8ycmDv6/NJZCbV84IsTXlNUbESgW1cJFUJhbzUp4H2dZlD1Zm40c8CycYOYMAEeGsj
+         5TkYusvDNb6qIy8pAd9fKSHAQhMq6PYqm44sSooNzT7rRM6QHCT7EjPgngJTld4VTrBV
+         Ajjg==
+X-Gm-Message-State: AOAM5308zAJqk5ad7l67nUzICq8tHigmRutJv2NnNsu+dHeaXpkOVLvr
+        oGxrY4FTql8F5F9BoRL2RaVSQV3C+g==
+X-Google-Smtp-Source: ABdhPJyloECLmJdVsA+9Pm32hGNPi6Qteyx6HkJDDB2ngniyWXNjz9UXihx+YUz5y4IBeg3ycKRUWQ==
+X-Received: by 2002:a54:4494:: with SMTP id v20mr1320403oiv.95.1638989492068;
+        Wed, 08 Dec 2021 10:51:32 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id q44sm632245otv.80.2021.12.08.10.51.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 09:38:23 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Heidelberg <david@ixit.cz>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        Anton Bambura <jenneron@protonmail.com>,
-        Antoni Aloy Torrens <aaloytorrens@gmail.com>,
-        Nikola Milosavljevic <mnidza@outlook.com>,
-        Ion Agorria <ion@agorria.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Ihor Didenko <tailormoon@rambler.ru>,
-        Andreas Westman Dorcsak <hedmoo@yahoo.com>,
-        Maxim Schwalm <maxim.schwalm@gmail.com>,
-        Raffaele Tranquillini <raffaele.tranquillini@gmail.com>,
-        Jasper Korten <jja2000@gmail.com>,
-        Thomas Graichen <thomas.graichen@gmail.com>,
-        Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 24/24] ARM: config: multi v7: Enable display drivers used by Tegra devices
-Date:   Wed,  8 Dec 2021 20:36:09 +0300
-Message-Id: <20211208173609.4064-25-digetx@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211208173609.4064-1-digetx@gmail.com>
-References: <20211208173609.4064-1-digetx@gmail.com>
+        Wed, 08 Dec 2021 10:51:31 -0800 (PST)
+Received: (nullmailer pid 137568 invoked by uid 1000);
+        Wed, 08 Dec 2021 18:51:30 -0000
+Date:   Wed, 8 Dec 2021 12:51:30 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: arm: pmu: Document Denver and Carmel
+ PMUs
+Message-ID: <YbD+suEe7J+Nft0H@robh.at.kernel.org>
+References: <20211207150746.444478-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211207150746.444478-1-thierry.reding@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable display-related drivers used by various Tegra-based tablets.
+On Tue, 07 Dec 2021 16:07:44 +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Add compatible strings for the NVIDIA Denver and Carmel PMUs.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/arm/pmu.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/multi_v7_defconfig | 5 +++++
- 1 file changed, 5 insertions(+)
+Given the other compatible string additions I picked up, I applied this 
+one too.
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index c951aeed2138..3d509bc13444 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -382,6 +382,7 @@ CONFIG_TCG_TPM=m
- CONFIG_TCG_TIS_I2C_INFINEON=m
- CONFIG_I2C_CHARDEV=y
- CONFIG_I2C_ARB_GPIO_CHALLENGE=m
-+CONFIG_I2C_MUX_GPIO=y
- CONFIG_I2C_MUX_PCA954x=y
- CONFIG_I2C_MUX_PINCTRL=y
- CONFIG_I2C_DEMUX_PINCTRL=y
-@@ -680,19 +681,23 @@ CONFIG_DRM_FSL_DCU=m
- CONFIG_DRM_TEGRA=y
- CONFIG_DRM_STM=m
- CONFIG_DRM_STM_DSI=m
-+CONFIG_DRM_PANEL_LVDS=m
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SAMSUNG_LD9040=m
-+CONFIG_DRM_PANEL_SHARP_LQ101R1SX01=m
- CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
- CONFIG_DRM_PANEL_RAYDIUM_RM68200=m
- CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=m
- CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=m
-+CONFIG_DRM_LVDS_CODEC=m
- CONFIG_DRM_NXP_PTN3460=m
- CONFIG_DRM_PARADE_PS8622=m
- CONFIG_DRM_SII902X=m
- CONFIG_DRM_SII9234=m
- CONFIG_DRM_SIMPLE_BRIDGE=m
- CONFIG_DRM_TOSHIBA_TC358764=m
-+CONFIG_DRM_TOSHIBA_TC358768=m
- CONFIG_DRM_I2C_ADV7511=m
- CONFIG_DRM_I2C_ADV7511_AUDIO=y
- CONFIG_DRM_STI=m
--- 
-2.33.1
-
+Rob
