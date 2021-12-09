@@ -2,114 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC76246F54D
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 21:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9191746F5D0
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 22:19:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232385AbhLIU7k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Dec 2021 15:59:40 -0500
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:45812 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232384AbhLIU7j (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 15:59:39 -0500
-Received: by mail-oi1-f176.google.com with SMTP id 7so10370951oip.12;
-        Thu, 09 Dec 2021 12:56:05 -0800 (PST)
+        id S231649AbhLIVXJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Dec 2021 16:23:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48066 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229446AbhLIVXI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 16:23:08 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8896EC061746;
+        Thu,  9 Dec 2021 13:19:34 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id d10so14499675lfg.6;
+        Thu, 09 Dec 2021 13:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=w9NVyA3r1gS0dHQGhaIwt4BqUyoksHzNXKqQm+vkFKw=;
+        b=jwRbEoyklu2JLCqR1SMPDJAr7IpOzlLs9QkrICOFL3ztGXNx/oCpBPKK4I2a4guZWq
+         mZLCzNgqApguCAFNnEjqvxcDBn8iYd40PeV6agk4OQ4WdvKTFGdnIpXLh723BjueY1Bv
+         X6RY/enamdBFCXhVpsiGyp3JTOmsgsqeOVzCbQ1vW2tg0NWfMsJbu1O9p1Jk2F3fYumg
+         ULZ/S2m26clxYk+DKKo/eunXZ+e5Dy0XPGydyNrUyIhFm/TAcO0ZTpPq9/ipbiybiSy0
+         WaSXkqWpVuhN5wSGwXFREo9/6X2LXt4hOGAMGGfd9Ca2YByneOobW8SgHdr75lS/67te
+         7QyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=prvfBI9Quc6o5I6vG+M4mn0hhqXgxhBS6i0p8peqrqM=;
-        b=VwRhlF+y0nERUwiinuVrjKlyieeVrLMAtWdTRhXwHBhXQQJDDRAPP3wBS43RW6ZiOQ
-         ehtnjAKq3Fa/C7h+DbE8KF+hZT5zLUw0I7X1qHaR9SFLmmAhwcGIAQ3n0OxYrtamFi7c
-         sMY7Bu6wnwjE3lHfoNfstRoEKJY6Oo1ikQGOEMQ+Vm/ljrrm6+tjelgXClKnTI8yxNiy
-         bypWs+02lg8GyxARDnhfZD5Lnjg78xafSbX6Gc4GAz3h6xrzcWeS9kJWWwNg7nOQhvqC
-         6BSxmzl7BPfwVgQZj2fXuCUsCeWoj2Ysk7+7iY+DK/lF2ox5Vn8VIO6hXn+JFC0A+wlz
-         FVVw==
-X-Gm-Message-State: AOAM531RD6FV5Ez449v7C7JbzgLd7HSbgEoV1lg2MIjIGkShZZ1Jq3rg
-        1b3FXbA9y4hH+jzvFa1W6eqXjwGczw==
-X-Google-Smtp-Source: ABdhPJybhyZk4J9Vxx8G9PJuL02kaDsp5aiZt01nzYkMTqIqjtT7ZQgkq9M4xPkk69/adSOdvZdlIA==
-X-Received: by 2002:a05:6808:485:: with SMTP id z5mr8383709oid.96.1639083364886;
-        Thu, 09 Dec 2021 12:56:04 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id s9sm181423otg.42.2021.12.09.12.56.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 12:56:03 -0800 (PST)
-Received: (nullmailer pid 3925944 invoked by uid 1000);
-        Thu, 09 Dec 2021 20:55:59 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        thierry.reding@gmail.com, robh+dt@kernel.org,
-        linux-kernel@vger.kernel.org, jonathanh@nvidia.com,
-        jsequeira@nvidia.com, bbasu@nvidia.com, vsethi@nvidia.com
-In-Reply-To: <20211209172206.17778-6-sumitg@nvidia.com>
-References: <20211209172206.17778-1-sumitg@nvidia.com> <20211209172206.17778-6-sumitg@nvidia.com>
-Subject: Re: [Patch Resend v1 5/8] dt-bindings: arm: tegra: Add NVIDIA Tegra234 CBB2.0 binding
-Date:   Thu, 09 Dec 2021 14:55:59 -0600
-Message-Id: <1639083359.670183.3925943.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=w9NVyA3r1gS0dHQGhaIwt4BqUyoksHzNXKqQm+vkFKw=;
+        b=PyzrE5y+Zbioe6FhLYrkcTiJ8oy/GJkb0QQcKF+34Z+QcmbJueakaUY4qQl8b7ZWqp
+         PITod4eOcnFYYuH+fq8C/KCjOkWa5N6DxfuOnt6LItk5cxF3KwCAUh8RCuPV1aRUn2CI
+         sNrK+oYQJJJWhZReK9mVw2p95BEYGkz9IENW9yHBJDlvV0Ypihp7yv9yz/YpYF5AAAQ5
+         5pMeeLZtrnxTLJi/NnHeWEw7JPndwYmMse1pZOi4vZYbgnMxzsbv7d/E2ssE5s5DNOiF
+         uzvUEjmVdgWtzjTQygJo8tBKZahz0IL2e9F/I1Y2BWzxM25L/hLQ8z6rJm6zm1OF/tRj
+         eXEg==
+X-Gm-Message-State: AOAM531ts33McOycXYNebnk5ttCh7TOykz33VHlQIs81qR652Wyopfeo
+        ZUDpu2jrd7C9MvpV26hUve0=
+X-Google-Smtp-Source: ABdhPJxQCqULlQtELM136fDWzedMTP7IrJZ/S5NS9VmXHVC56VfQeh6sXcNLIF7qxZ4Io+03QXbN5w==
+X-Received: by 2002:ac2:5ec6:: with SMTP id d6mr3004349lfq.297.1639084772893;
+        Thu, 09 Dec 2021 13:19:32 -0800 (PST)
+Received: from [192.168.2.145] (94-29-46-111.dynamic.spd-mgts.ru. [94.29.46.111])
+        by smtp.googlemail.com with ESMTPSA id be25sm100371ljb.114.2021.12.09.13.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Dec 2021 13:19:32 -0800 (PST)
+Subject: Re: [PATCH v14 2/4] dmaengine: tegra: Add tegra gpcdma driver
+To:     Akhil R <akhilrajeev@nvidia.com>, dan.j.williams@intel.com,
+        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+        jonathanh@nvidia.com, kyarlagadda@nvidia.com, ldewangan@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        p.zabel@pengutronix.de, rgumasta@nvidia.com, robh+dt@kernel.org,
+        thierry.reding@gmail.com, vkoul@kernel.org
+Cc:     Pavan Kunapuli <pkunapuli@nvidia.com>
+References: <1638795639-3681-1-git-send-email-akhilrajeev@nvidia.com>
+ <1638795639-3681-3-git-send-email-akhilrajeev@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <913af84a-957f-6392-1526-6732d43fec5b@gmail.com>
+Date:   Fri, 10 Dec 2021 00:19:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <1638795639-3681-3-git-send-email-akhilrajeev@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 09 Dec 2021 22:52:03 +0530, Sumit Gupta wrote:
-> Add device-tree binding documentation to represent CBB2.0 (Control
-> Backbone) error handling driver. The driver prints debug information
-> about failed transaction on receiving interrupt from CBB2.0.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  .../arm/tegra/nvidia,tegra234-cbb.yaml        | 80 +++++++++++++++++++
->  1 file changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.yaml
-> 
+06.12.2021 16:00, Akhil R пишет:
+> +struct tegra_dma_channel;
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+This prototype is unuseful.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.yaml:73:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
-
-dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.example.dts'
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 119, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 773, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 848, in _ruamel_yaml.CParser._compose_sequence_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.scanner.ScannerError: while scanning a block scalar
-  in "<unicode string>", line 71, column 5
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 73, column 1
-make[1]: *** [Documentation/devicetree/bindings/Makefile:25: Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.yaml:  while scanning a block scalar
-  in "<unicode string>", line 71, column 5
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 73, column 1
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/arm/tegra/nvidia,tegra234-cbb.yaml
-make: *** [Makefile:1413: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1565951
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+> +/*
+> + * tegra_dma_channel: Channel specific information
+> + */
+> +struct tegra_dma_channel {
 
