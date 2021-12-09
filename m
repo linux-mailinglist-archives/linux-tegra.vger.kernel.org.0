@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CBA546F21F
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 18:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C884246F220
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 18:35:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237418AbhLIRif (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Dec 2021 12:38:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51928 "EHLO
+        id S243096AbhLIRim (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Dec 2021 12:38:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbhLIRie (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 12:38:34 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB7CC0617A1
-        for <linux-tegra@vger.kernel.org>; Thu,  9 Dec 2021 09:35:01 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id q3so10981309wru.5
-        for <linux-tegra@vger.kernel.org>; Thu, 09 Dec 2021 09:35:01 -0800 (PST)
+        with ESMTP id S229962AbhLIRii (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 12:38:38 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91AFC061746
+        for <linux-tegra@vger.kernel.org>; Thu,  9 Dec 2021 09:35:04 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id p27-20020a05600c1d9b00b0033bf8532855so4694160wms.3
+        for <linux-tegra@vger.kernel.org>; Thu, 09 Dec 2021 09:35:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HdS+aHtpowx/tX9ufq07E04i2WBThsjsPDg43b+XIx8=;
-        b=GSYRO+2jX685WQFl2LJCNUhNrKghaAE8yjESki/6BPCGDSy2dWXbeld+maeeE8J4pf
-         zbgLCdB2iys+je4I4pDbum1pcKRWxjsIzLtQqLGNkMNcx64ul9X7r8r2u5daGZkxkLkb
-         fs1iAFGVcNhLKPgLAnogfrryLBLYUKIDNoreLp6CqjXraO5g7DoMkQQHw4JFd/QikUjn
-         6Ktj9cwDE4lFL3JJXfZ96wn8FisQJmmGhIILMYRWPdAdP3QH5NWdg07E6gFj9mzPiWxc
-         UTgatGkX/tqxqu3lwLI9AZAnXmgihspoPSQopRzZZNqBzo16eJpDXIjF35M3dtz0TTNB
-         Yq8A==
+        bh=FC7M7/ABqFcRz49NZ1gJ3XIXfsn+OaV7YPJ2bmCcHO0=;
+        b=hvOUFQhMdp7Y/zIwlmG396PXYZ7ampmO4xNYRfb6SGHXSTGiMB+e4RdiE8uSAefUNL
+         Fc2Lkbn/J9h5za4Kc+5g3lTavZsB47ZeviBirBaO8NiHlPxstyNV07i8VWk3YlQRBQWy
+         VvU3w2rar8p4bsnBZGu7mkSUMTRjyTYljscNa0DnEyrOZT2rC+ZVgyi928/huz5kTyzY
+         5SdgMgpRb3hnVyZr5rTbIl9Zr/CVhvr/cvWO2LawRWHv2ECoBypgjJ86FunN8MzO5Z8y
+         mFTNBxjUtZj1xJmeM5cn1nmrpi7unpG5j95AkGxMwONxv/SUn3uFmqzpSRaiRf+wAUnk
+         7vSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HdS+aHtpowx/tX9ufq07E04i2WBThsjsPDg43b+XIx8=;
-        b=wu3jdpQBIUzoUJLTBwEcSDqIinYGLRlVFRjwSdajvPZAC9MikSmdo/zlofDiorOfKM
-         yRoMBdNl0WfqO6tMHjVT2vO8M+g7KCTVIKqqlBJkmx7xaflIgBvfkSf4v65+1Nng/0Q6
-         RMi5wCHw3INVDdCPfTDFxzCjb0v8vHc/t/OxxsYdLndILBZSiwdMWbzJ72wZsjaeX16v
-         YqaNJ4YaQbFvIyWfO36Paisu6CyyJwqpn6y2YkBhRpAP0LONlemk0k13gOGR7DiLpZvl
-         1AY8R2IrwKuMMAUnpVgZxRE4yxivJG+7lxgMeehGzqy6F9rEhCofGRIcCBi1uRJN7w7F
-         P3mw==
-X-Gm-Message-State: AOAM531eGpT7HKaDsYbCiJtQFK7zlpLpyiRpi1aEgl5jb4//1NuIRhfw
-        jC0AZ9CRG5WrNPN4AQj6Z/Y=
-X-Google-Smtp-Source: ABdhPJzPUggygPssTvjzi9fsn/y/rxm/gHYa2BTiyc8LV0xN4+5RPeEeRYS5WEUWc4key84i09RsXw==
-X-Received: by 2002:a5d:584c:: with SMTP id i12mr7929671wrf.95.1639071299709;
-        Thu, 09 Dec 2021 09:34:59 -0800 (PST)
+        bh=FC7M7/ABqFcRz49NZ1gJ3XIXfsn+OaV7YPJ2bmCcHO0=;
+        b=hJ4FOO9oz4wYP/sBnAQ+EAaFJ88MeWmr17GmUQQTWkRDwMOinsln1EiHayoDfsy9lg
+         fzN2QzTj+ZvWX3HAZXQEKKjPsY3Tde0TdJddwFbp2ntzKaC8JXvPTasma5FaVnt0cl92
+         GhFHwbPhwZwc11DUPnyno8Pe6LUV7PSK3AzmYtoqrxatNiEwwq1jWfnIyN/dALf5jqPa
+         wxhm3Y0c+0wjXCQeNfDU9iByABaqQdqVStoA1ZFwjYSjxrOaIUYUOIukSsSayhISaGKn
+         uFUqswkLDD4eLBkk3tlSCOsznoEg25MiTou3+0ykZBWKjrmXjO92VS/uGOqP7UHRU8/j
+         TA0Q==
+X-Gm-Message-State: AOAM531QabysJjpw5lSy/mRxhO+XMkvcuccOz0RkYvt6Nw77lTqGjvSs
+        Bhd7WTaj1WDcQ968hWjUFJI=
+X-Google-Smtp-Source: ABdhPJxC1ktFfPuGUzOeMqRSxaRHpIqAa/tOne3faWQ7WYs23MoqwuPUCRm8SHSp+pvkBjuTDmEesw==
+X-Received: by 2002:a1c:6a13:: with SMTP id f19mr9007668wmc.89.1639071303295;
+        Thu, 09 Dec 2021 09:35:03 -0800 (PST)
 Received: from localhost ([193.209.96.43])
-        by smtp.gmail.com with ESMTPSA id d8sm293586wrm.76.2021.12.09.09.34.57
+        by smtp.gmail.com with ESMTPSA id bg34sm9991725wmb.47.2021.12.09.09.35.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 09:34:58 -0800 (PST)
+        Thu, 09 Dec 2021 09:35:01 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 22/25] ARM: tegra: Move I2C clock frequency to bus nodes
-Date:   Thu,  9 Dec 2021 18:33:53 +0100
-Message-Id: <20211209173356.618460-23-thierry.reding@gmail.com>
+Subject: [PATCH 23/25] ARM: tegra: Remove stray #reset-cells property
+Date:   Thu,  9 Dec 2021 18:33:54 +0100
+Message-Id: <20211209173356.618460-24-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211209173356.618460-1-thierry.reding@gmail.com>
 References: <20211209173356.618460-1-thierry.reding@gmail.com>
@@ -64,54 +64,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The "clock-frequency" property for an I2C controller needs to be
-specified at the bus level.
+The Ouya board specifies the #reset-cells property for the GPIO
+controller. Since the GPIO controller doesn't provide reset controls
+this is not needed, so they can be dropped.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dtsi | 3 ++-
- arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ arch/arm/boot/dts/tegra30-ouya.dts | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dtsi
-index a044dbd200a9..d5f28e424244 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper.dtsi
-@@ -134,10 +134,11 @@ gmi_cs6_n_pi3 {
+diff --git a/arch/arm/boot/dts/tegra30-ouya.dts b/arch/arm/boot/dts/tegra30-ouya.dts
+index 4259871b76c9..fd64aadc472a 100644
+--- a/arch/arm/boot/dts/tegra30-ouya.dts
++++ b/arch/arm/boot/dts/tegra30-ouya.dts
+@@ -70,7 +70,6 @@ hdmi@54280000 {
+ 
+ 	gpio: gpio@6000d000 {
+ 		gpio-ranges = <&pinmux 0 0 248>;
+-		#reset-cells = <1>;
  	};
  
- 	i2c@7000c500 {
-+		clock-frequency = <100000>;
-+
- 		nfc@28 {
- 			compatible = "nxp,pn544-i2c";
- 			reg = <0x28>;
--			clock-frequency = <100000>;
- 
- 			interrupt-parent = <&gpio>;
- 			interrupts = <TEGRA_GPIO(X, 0) IRQ_TYPE_EDGE_RISING>;
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-index a681ad51fddd..713bb2c36fcc 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
-@@ -197,6 +197,8 @@ gmi_cs6_n_pi3 {
- 	};
- 
- 	i2c@7000c500 {
-+		clock-frequency = <100000>;
-+
- 		proximity-sensor@28 {
- 			compatible = "microchip,cap1106";
- 			reg = <0x28>;
-@@ -223,8 +225,6 @@ nfc@2a {
- 			compatible = "nxp,pn544-i2c";
- 			reg = <0x2a>;
- 
--			clock-frequency = <100000>;
--
- 			interrupt-parent = <&gpio>;
- 			interrupts = <TEGRA_GPIO(S, 7) IRQ_TYPE_EDGE_RISING>;
- 
+ 	pinmux@70000868 {
 -- 
 2.34.1
 
