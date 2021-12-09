@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4034046F221
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 18:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F63746F222
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 18:35:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbhLIRim (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Dec 2021 12:38:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51952 "EHLO
+        id S243097AbhLIRio (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Dec 2021 12:38:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237463AbhLIRik (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 12:38:40 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14568C061746
-        for <linux-tegra@vger.kernel.org>; Thu,  9 Dec 2021 09:35:07 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id d24so11100190wra.0
-        for <linux-tegra@vger.kernel.org>; Thu, 09 Dec 2021 09:35:07 -0800 (PST)
+        with ESMTP id S237463AbhLIRin (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 12:38:43 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC99C061746
+        for <linux-tegra@vger.kernel.org>; Thu,  9 Dec 2021 09:35:09 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id m25-20020a7bcb99000000b0033aa12cdd33so5683025wmi.1
+        for <linux-tegra@vger.kernel.org>; Thu, 09 Dec 2021 09:35:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jfpPTrfbHgOiakQS91ZeJ2lovKvYhxswRGxO2FBTPrY=;
-        b=G1TEsPXX/7+iDRU76eGitI/ojVOF3V0gM03apleu4pWbz0xYmoj98p/qzwW3zHf9oQ
-         f8S18dywUgPfZbHn8R0+WF9D0/DDm6QabIGRHIi2bYVD8ju24ITuAxTM+43H9qN/sMCJ
-         BnDwNIUVL1REg1Rxs7eLZHO7rQfXlN5lxLAnqYO7ra5z0bIJybPyCWTKNEZYeBhE05q1
-         8UBPWQZfy9D6S2821RhBZzSBH+Y1gzGLMjJfM14COhkYqckNysCAPkUoWevKdWLd/+G9
-         QiGuG/5B7l7KIZmFHUMoRqG5nihNx9E0nbAk4IH9SsduOstRQTDGrBJ/i/eljuw8+YRQ
-         tZwg==
+        bh=NbRhaCQCk4UNKvSuIQO6aG2uxx99teC5GJ2vdqanZdM=;
+        b=QjrFJzh6DISrzghuiIa9KwB2majod9OOlxXKtaz2Ej3iemj0ciIyULk7CsgYf8Gt04
+         Cc0SACgYKpeh0ImmGFTnmwJyY4DtQYWWUT/JMdT/HDJ/OyN1fLCCUbkqeQFE+JjvTbIP
+         fZZ212BO1XgNNmslhjbyWfjRglKm3d0I6cEGjpKTRDVWOM5bbh6mGRu8TL1Rh1GwXhF1
+         /cnCyKxRk515G66D3tSOWQz6UNbUJ8q9AVoHCn0367jOKWazJD+zAXqx22KzZTZu/p/S
+         gXrlOJ9WuKJoTxTP2qo/FUd103UG0lal91iYnVN6Yc0PXrq4Gtu0klzZB5kJWEWJI5M+
+         /KJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jfpPTrfbHgOiakQS91ZeJ2lovKvYhxswRGxO2FBTPrY=;
-        b=K+PXT5KXAH72SgFbnoKkH4MlakQF3xXplB5X/ep0/jO/8LqcsnsCC28tR8P2k6rlMf
-         BhbmeCocKF8WOt2pd3s3DDSkK2naG6jEg6jsA+JlRFp//ZQj5+O7DABA5HKz6AMBAMDv
-         +Vn325tO88CW2lNGY6SruM4uLPf56JyLvAaLKf0vv/Em/zeIRdv5GaLlF0zEBhJ6FEmW
-         r60TZJK7CpYqNYVzcwleth43GBDqD0A9j8uBC49nMW9arUSYSyOy1etnQlePuVSBWDKT
-         psuifOts0yVcvTUIvTk9uhqktrAIJfxyEC3iXbeA1U+PRxnbqt39uD5doepiEMHq2O8c
-         LYJA==
-X-Gm-Message-State: AOAM532gg13hT2WA22UVSuOW40Q3+IkurGg1x1DbjiozKDS32t12Xt+1
-        Y6XiM9VrBWtlg1Pus/3cLTY=
-X-Google-Smtp-Source: ABdhPJwjZT2Clmk7xczMYAAOWtlrauH65Q2T8ttI+zfQZg58EprwNUBJttkH1ihhN4Gph7EqVKGfRw==
-X-Received: by 2002:adf:edc6:: with SMTP id v6mr7966428wro.461.1639071305641;
-        Thu, 09 Dec 2021 09:35:05 -0800 (PST)
+        bh=NbRhaCQCk4UNKvSuIQO6aG2uxx99teC5GJ2vdqanZdM=;
+        b=k3m5sRw+Dx7P7XY13PcuBtRtErv8xksZdCQWfYrRADQplQR4q/n8JJo/8Yqyq2jnp/
+         PmMGerxllArdd4wPn2ZPPzZtKIyvWY52KaKOz/+c+5HNGJj3dSa+xhnGtGnWw9upoSCs
+         wvi+H3GXklWbntBfVRlrH5zSjeL0LDWjdJY+nMFoUC0pbgAsNRNdqF4cDVTbKrSqzS7a
+         Oxc9U3Op4srb6NcVbLsZmbZgwS+ZB4mTHMH/W5DW6P43C0vxyOYbl4xjrYXrygq1bmJ/
+         3Tq94O+QiL9glX8JAZCIqtafs8XcrUg7ySyk+fk4oGic8OasxGSEExMx9GDA+WPP3+JV
+         sLpw==
+X-Gm-Message-State: AOAM5317gDIgxqgoOl9XYfc1q79o4DfmGy8p3jdfhB27NTBrmC6zYfgM
+        R0SDcn6HBodt94ZekC48Mk8=
+X-Google-Smtp-Source: ABdhPJxYw2WAta7cX9IjLH4knHwvUmIb3BwP/Cxxtl71R/0v6b+2040rJrTChNDTqRekX553DsXYjA==
+X-Received: by 2002:a05:600c:210a:: with SMTP id u10mr8802331wml.33.1639071308180;
+        Thu, 09 Dec 2021 09:35:08 -0800 (PST)
 Received: from localhost ([193.209.96.43])
-        by smtp.gmail.com with ESMTPSA id b11sm9112218wmj.35.2021.12.09.09.35.04
+        by smtp.gmail.com with ESMTPSA id c10sm327969wrb.81.2021.12.09.09.35.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 09:35:04 -0800 (PST)
+        Thu, 09 Dec 2021 09:35:07 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 24/25] ARM: tegra: Fix SLINK compatible string on Tegra30
-Date:   Thu,  9 Dec 2021 18:33:55 +0100
-Message-Id: <20211209173356.618460-25-thierry.reding@gmail.com>
+Subject: [PATCH 25/25] ARM: tegra: Fix I2C mux reset GPIO reference on Cardhu
+Date:   Thu,  9 Dec 2021 18:33:56 +0100
+Message-Id: <20211209173356.618460-26-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211209173356.618460-1-thierry.reding@gmail.com>
 References: <20211209173356.618460-1-thierry.reding@gmail.com>
@@ -64,72 +64,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The SLINK controller found on Tegra30 is not compatible with its
-predecessor found on Tegra20. Drop the fallback compatible string.
+Use the correct "reset-gpios" property for the I2C mux reset GPIO
+reference instead of the deprecated "reset-gpio" property.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm/boot/dts/tegra30.dtsi | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/tegra30-cardhu.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 4c04b9c28484..2fabf34f9c8c 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -666,7 +666,7 @@ i2c@7000d000 {
+diff --git a/arch/arm/boot/dts/tegra30-cardhu.dtsi b/arch/arm/boot/dts/tegra30-cardhu.dtsi
+index efaa39171c99..97165f233ec2 100644
+--- a/arch/arm/boot/dts/tegra30-cardhu.dtsi
++++ b/arch/arm/boot/dts/tegra30-cardhu.dtsi
+@@ -209,7 +209,7 @@ i2cmux@70 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <0x70>;
+-			reset-gpio = <&gpio TEGRA_GPIO(BB, 0) GPIO_ACTIVE_LOW>;
++			reset-gpios = <&gpio TEGRA_GPIO(BB, 0) GPIO_ACTIVE_LOW>;
+ 		};
  	};
  
- 	spi@7000d400 {
--		compatible = "nvidia,tegra30-slink", "nvidia,tegra20-slink";
-+		compatible = "nvidia,tegra30-slink";
- 		reg = <0x7000d400 0x200>;
- 		interrupts = <GIC_SPI 59 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
-@@ -680,7 +680,7 @@ spi@7000d400 {
- 	};
- 
- 	spi@7000d600 {
--		compatible = "nvidia,tegra30-slink", "nvidia,tegra20-slink";
-+		compatible = "nvidia,tegra30-slink";
- 		reg = <0x7000d600 0x200>;
- 		interrupts = <GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
-@@ -694,7 +694,7 @@ spi@7000d600 {
- 	};
- 
- 	spi@7000d800 {
--		compatible = "nvidia,tegra30-slink", "nvidia,tegra20-slink";
-+		compatible = "nvidia,tegra30-slink";
- 		reg = <0x7000d800 0x200>;
- 		interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
-@@ -708,7 +708,7 @@ spi@7000d800 {
- 	};
- 
- 	spi@7000da00 {
--		compatible = "nvidia,tegra30-slink", "nvidia,tegra20-slink";
-+		compatible = "nvidia,tegra30-slink";
- 		reg = <0x7000da00 0x200>;
- 		interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
-@@ -722,7 +722,7 @@ spi@7000da00 {
- 	};
- 
- 	spi@7000dc00 {
--		compatible = "nvidia,tegra30-slink", "nvidia,tegra20-slink";
-+		compatible = "nvidia,tegra30-slink";
- 		reg = <0x7000dc00 0x200>;
- 		interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
-@@ -736,7 +736,7 @@ spi@7000dc00 {
- 	};
- 
- 	spi@7000de00 {
--		compatible = "nvidia,tegra30-slink", "nvidia,tegra20-slink";
-+		compatible = "nvidia,tegra30-slink";
- 		reg = <0x7000de00 0x200>;
- 		interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
- 		#address-cells = <1>;
 -- 
 2.34.1
 
