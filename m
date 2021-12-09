@@ -2,382 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 655FD46E354
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 08:38:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B156B46E854
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 13:21:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233952AbhLIHmM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Dec 2021 02:42:12 -0500
-Received: from mail-bn8nam12on2083.outbound.protection.outlook.com ([40.107.237.83]:28128
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        id S236130AbhLIMY4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Dec 2021 07:24:56 -0500
+Received: from mail-psaapc01on2104.outbound.protection.outlook.com ([40.107.255.104]:42241
+        "EHLO APC01-PSA-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233923AbhLIHmG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 9 Dec 2021 02:42:06 -0500
+        id S232290AbhLIMYz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 9 Dec 2021 07:24:55 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ixJhFWiorBiRttdLhK0HPR/6JjegRgEF/sUBc+Yj82bTDn4AlrVdh9D2k2SpnIcuXr1rf6nrZKSEEmin8HA843bCqD8EkGna+8Lcuzn5gzm9YT94tNw9QLotTioCmHLDZJEqQFgyIDAmdSSU4XLtJ85hZbCr3g1W+V/4ZgZrNIwDgz86IfLHdu2dwcZHSkfi91e9bABO2ciSvXYuEKXZry0lZX8jhpidhMKxYB3bg/1LnpPEqNag/jryj1upj/LwLnn3JVcHrCB5SA/5uH5BIx701dwA3ktzgY7EdklAUAEm9s/Uuyq0rOcenlX7m0xOdDXKVFSsMGFtQPLnLNbmLw==
+ b=IEC7HFJh4z2+FeLwikddWK8j2YTR/1uSo2o+Ou1ZJYIGYlBs1RbMCUCSfg+la9o8imuwR8STDo7zIUCG36KDbmTHHp5Cc/OKgVFelc4UdDm3Kwh6Uda+XL9Ce1JBqOWU8T71GQOsDGzynB+oZxBfit15VhYzru/BUBv/hJh0JLHUfWyGVEtZjMW+Vu9SZuPS8MkUSiZPUXqwOWACdq8h0daKKvnDFplN4VSWikeSDVkamqok1LeFp25hV92C1qbtkcmLsoF3Ht8L7cKlDbnqzzdZVrl/DrmEIPzyvucq0quKYoz2eNg6uspqYPJH8czpBRiPxItsRS0Ot4Y5cWzSJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6fsCQVDe6IewBrU1aRb8iIWNyENyLRKuoX/y/1XS11o=;
- b=UaFD3EYOrcBcAkl5NQbF+LS1plbMy1gsWjtQ+GucKd5+2QKkeLmrz7pTmWpWwtZd3M5wPAfHCOcD024De8VmOaxm0xmkX2jamsB+YyBg/QlgPfEWKtV2SKmD7O2JCkCTjRpLc3AJjZ9YBGoJEhNWwdwlsvqcDidP/9N7i9Cbdp5SkPvYpBoHj3COHDYOnBuXDN3i0fHszHTa/xjU0UA2evq17YyoPqwqKToAfxMjNwFj854bWBUP740KxrdVRT/V5Dof3ZK2nJ67h/I36K+8WwaDFFmU/bonfelgZbbPB/9dIGqodWEaGQBcL75X4W/d9JcgMF4g82xSLXsReSF3QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.13) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=FoAzQy0t3X9KjO4hsv4ADg/+uo4ddQs0LZ4dBrkv3zA=;
+ b=Iz+8ZLJt8yiV2N8CC8SjqvY92GkrPljNxXRRj2oMp2CxjMyAAij1RvPORNUzMlOMZiFT41OrZ71JUzjqIuLi5SJfejV+HB8d8vDFA5zP6nNkWvcSM697Zfnz7uLxFoFRnkmPIBYp2mUmTQIfnG3KhClVoyxm0P3UXEfMIU36KJ2nkoixO0zpLSL1XmtKySmgSP75S2FeWZ5SnIbaUUrVOgw6JWuCB3dpuFXOQPiP8lxbdMEQmvgHdplJPXplN0mCntwNMfm8Omx37/NL4l3Po1S7VuSxTDA4Dh8usn4gDWm469vfpGmSY/vFbA4y0uSFygTx/zWSAfRVI5xMQ56M/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6fsCQVDe6IewBrU1aRb8iIWNyENyLRKuoX/y/1XS11o=;
- b=iH5NRE1ElUp56E3wR43+XMQHNaApDih97/XNxtOTAEpR+hiPAvFyjIesOY8eC+j9ebDY5C9QzwS9bJME73xl4MzI+MzdZkzCrJBeCAhVQk16cvGQgpQHsIMOU651Crqg7dmtTXmSRsiDX3oRH3AVn8f1fQaiHBPLTbryt8Dq05nnmjdbFY/kE4IoDAufLn5IrcT8+V7LevBVOSOSjx4M90efDUtUdoQ6eZzaIm4JpdXP1u0Rqq0xC75GoGGVjXtpzxahsqFpbw18D0UhpnQhu2wufgu+2TSZ4WQ6xr2Qz+Zo6IWX8ffUK+xQG7ZNpnE2EC9MhD36VJRgpq5CKV1e5w==
-Received: from DM6PR07CA0115.namprd07.prod.outlook.com (2603:10b6:5:330::6) by
- DM6PR12MB4944.namprd12.prod.outlook.com (2603:10b6:5:1ba::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.22; Thu, 9 Dec 2021 07:38:31 +0000
-Received: from DM6NAM11FT006.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:330:cafe::de) by DM6PR07CA0115.outlook.office365.com
- (2603:10b6:5:330::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
- Transport; Thu, 9 Dec 2021 07:38:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.13)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.13 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.13; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (203.18.50.13) by
- DM6NAM11FT006.mail.protection.outlook.com (10.13.173.104) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 07:38:31 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HKMAIL102.nvidia.com
- (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 07:38:30 +0000
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 07:38:28 +0000
-Received: from Asurada-Nvidia.nvidia.com (172.20.187.5) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Wed, 8 Dec 2021 23:38:27 -0800
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     <thierry.reding@gmail.com>, <joro@8bytes.org>, <will@kernel.org>
-CC:     <digetx@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 6/6] iommu/tegra-smmu: Add pagetable mappings to debugfs
-Date:   Wed, 8 Dec 2021 23:38:22 -0800
-Message-ID: <20211209073822.26728-7-nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211209073822.26728-1-nicolinc@nvidia.com>
-References: <20211209073822.26728-1-nicolinc@nvidia.com>
-MIME-Version: 1.0
+ bh=FoAzQy0t3X9KjO4hsv4ADg/+uo4ddQs0LZ4dBrkv3zA=;
+ b=XDcwOr9iNFD6Lq9KhzG/MqN2tI9GlRvATVmweeGFHNgIeS+tKXtnPniHZEy7e8EXJJvrNttlUL7VccB6iiP5HC9jIB5xLuxViCvo1oXdToWrbOBnnDjzfQHmM6kOlbwzq4uh+m5NpNkhNiPLj5paqUM47lggvU7zT5lKRTOaYnc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+ by SL2PR06MB3033.apcprd06.prod.outlook.com (2603:1096:100:36::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13; Thu, 9 Dec
+ 2021 12:21:18 +0000
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::a0cf:a0e2:ee48:a396]) by SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::a0cf:a0e2:ee48:a396%4]) with mapi id 15.20.4755.023; Thu, 9 Dec 2021
+ 12:21:18 +0000
+From:   Qing Wang <wangqing@vivo.com>
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Wang Qing <wangqing@vivo.com>
+Subject: [PATCH] clk: tegra: add missing put_device() call in emc_ensure_emc_driver()
+Date:   Thu,  9 Dec 2021 04:21:10 -0800
+Message-Id: <1639052470-23368-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: HK2PR04CA0047.apcprd04.prod.outlook.com
+ (2603:1096:202:14::15) To SL2PR06MB3082.apcprd06.prod.outlook.com
+ (2603:1096:100:37::17)
+MIME-Version: 1.0
+Received: from ubuntu.localdomain (218.213.202.189) by HK2PR04CA0047.apcprd04.prod.outlook.com (2603:1096:202:14::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4755.24 via Frontend Transport; Thu, 9 Dec 2021 12:21:17 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1825133c-c72f-4569-219a-08d9bae6e632
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4944:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB49443E53DAB924885C774E57AB709@DM6PR12MB4944.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:392;
+X-MS-Office365-Filtering-Correlation-Id: 880f8b53-156b-4769-c4cb-08d9bb0e672d
+X-MS-TrafficTypeDiagnostic: SL2PR06MB3033:EE_
+X-Microsoft-Antispam-PRVS: <SL2PR06MB3033D811E09C26CD88227BDABD709@SL2PR06MB3033.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jIKPXEoQKK67PLy3Qh9DHlvprXgvIfHFat/3Q03c9RjHAd4nIsz81bxCZinSnVn4pkIbWeQUT09Tz97VAmyRFJTnO487fSieAh0zG2EAeS2rGCOP3iDIBrqnLbY68MrT3rbGWoVrnJNKAeBItREcEYfyqsNqcw7RqSOp2vkrylAlA+s+Xe6TYeCYtODeOcHK1Kl1cvnc+EnHRJYmqKOaYU1xmrQkZEu21nkfqbHyVv+xO2X9hp9Of6BOHBPAfzOpe5V/MzZGtIJixHYADVMUdKTC5mncgp+H5wuco3QPPZPFySRB3MsmasRt7RxOWSvK84Aiguw2zmRMdwizKV9oTkLe9f/xdJMnAtf2yFUK89amyRD7blsNTPuFRToGL3BC+YsoddK+CAyme49QhmibrkwvPo1URl4liyhbWkTFFeh8gmHyzoQgZjjTAA/hHTjYx6BM96ppiIARr2Yml0kYySkIMM3Uan7LVozMA6mpLlrxqijtF+QLrnomiClQ3cRcJeVpiARspWoJbl8eK8mcuZ33O/Egtnh10qc0x20iGkNtPhzF9y6aT8s2WjfyE84FJnDLcqSu1B5tNRq0Qugis1s/vceU9p93Qht53u5FtXqaYh4c0uu4KznmFeZViNirDDmhGFWMtHeDuIvtpC+I/ve5VDiw9fv31PZ9I6JOkE4/u2A9YGbAipG0p3rexOSvs3FjBk+rNBJcIQA3byc5rOHyivihO7m1O7vxt/JVkQ2S3Qns1yqRCv0uS9hwj79sL89bwi+CpPPELwRb08KX+54h6Lj14cwXO9rHJC+aBGo=
-X-Forefront-Antispam-Report: CIP:203.18.50.13;CTRY:HK;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:hkhybrid02.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(70206006)(7696005)(186003)(36860700001)(70586007)(8676002)(40460700001)(316002)(82310400004)(26005)(4326008)(508600001)(86362001)(1076003)(36756003)(5660300002)(2906002)(7636003)(54906003)(6666004)(110136005)(83380400001)(356005)(8936002)(34070700002)(2616005)(336012)(47076005)(426003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 07:38:31.1457
+X-Microsoft-Antispam-Message-Info: Tx9fZtUfYcgDN+MmrhI+jkku8+23xsdUmZ9sWdMNY0pcwKd8L91AJJo+uX5pzzB5PehoTqQKWbWs5REpf1j9yo1R/0CmiySXpwu0cBPPBhldONUqCm3Dj5ue1+8RphfIB6yeyx1VdK988Nl1AV/6Evfg/j+K06/x3v9cIdtTsjcYbE/nzgCG9JY45tvKDyYgc5+LtAOCDbhY+dxCwGt3s8rXmKaHwdwtt04M6hvy7KwwnP3ouy/NcE6ro1zaU0H2rMa61OTAN2HyJstA7cLRglFFtaWPSUr+ZxDXcZhkV868RgHeiNNk7AjFnFo95TP6iPZ9rzW/6myuqt7TlPGYCWH2vG/1pJK9b1rH11FEWiSWvXJ7F4Ya26S3krH9+CybjotvKZsO72kTLTSbzPz6iAjyvjMZB5FhoToKiTMH/yaURtXKhOarHmUG7xSC25ZPB2y74z20PTNOqpsn3FXdsH7ljHyzpK2Anv3i4U/96OLyr6bY+XX690/cweqNzl2kZjNhISuOkaNGDK2Dt4C3DT1y9d7Sv3KBpWm+GYF3mDqYC0k7VbUN7eamB4L8bB1JYVBtzXuWSCtMDSnewCQYOqPZAOxj423GLjSPGcy5/jlwIQRNxcnY/lDLIDCdBfhk0rNpesb0f6kGXm2JEmqO1os39r4RBzUsrvAa4hazplmuihSsXDNmNr7v/vLhVZD60SHKjMQlRzywAn3G8RZ+Yg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4744005)(107886003)(2616005)(956004)(26005)(38100700002)(38350700002)(86362001)(508600001)(8676002)(316002)(2906002)(5660300002)(110136005)(8936002)(66946007)(66476007)(66556008)(186003)(52116002)(6666004)(6512007)(6506007)(6486002)(4326008)(36756003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5LYnfGh46+KxbA+tANMLbvtHQIreDD19Bd1/ObH2iDsPnav70Jg6pFlBuFyq?=
+ =?us-ascii?Q?2HGPgkTw3zlQEh6wjBdGp4yZSdVIjMvPmyJB7iGWRGklLwbRliE9vjJJctxu?=
+ =?us-ascii?Q?NfT3P5gi1N/0uuf8cSSCfOiWIvoDqxuoSSuCGoJ/htPZ9UyF7WVZjoj9KxHA?=
+ =?us-ascii?Q?ClFu9GHJj4yBpxJzprl9W/KS81/vvVxJzqzU02I3a1MpfGuwCA24AG6jb+Tu?=
+ =?us-ascii?Q?zYW1kzm/9hLv7s141zTBUQDT0q1OEhx4nNr1U4Ui7ORWzCfCTZNH5bI9E/j4?=
+ =?us-ascii?Q?1gQ5bH+JBIu7OhjLH24JBmwh9VpOYxXYlSQm2ms4w4D1j25zpXh7F0/IB/mW?=
+ =?us-ascii?Q?3nhgtP3WjhToXMiMJBz31cUwQHrCHfFg9s56KHSvAuBokpVzqqwQTRB10rfV?=
+ =?us-ascii?Q?INarMDziEkVQFvg+sOOXE5cgAbt20q0D7iP6LCplEu0EQVY8vFWj6XY4tFeN?=
+ =?us-ascii?Q?nKLGDOQDPu4AvL4x08haDb/68li1OAvMnWY8S/AHIm3vIaC+OV2QoXJdC6Wz?=
+ =?us-ascii?Q?oZDAfe79yvDlYhMTVyoBCT9vjD+qZTUdgu4w+Xzeaek55M8N2MBJCjIaZOou?=
+ =?us-ascii?Q?MJQcWlgKeWtSGjcuYl0YKCN2L1j4VVmiPLt1tBiyACA5dSzNQiMwFlLXHYP9?=
+ =?us-ascii?Q?v6Ab0CgJaBUwF+Dt0Wqm4iJvFmXzvhLvMiX6Q1WS7eHRYjHyzmFjqm97uYum?=
+ =?us-ascii?Q?Pu3vzowwRdHAdllS25ukuARGOsrXhw88WhlTqNB7JENBMN9dL6ksagXe6NRw?=
+ =?us-ascii?Q?A0+b4AAPO8gTiqBL1ivRwviXIDcANqlILzC9b8XGgji/m3gI15fVVhT1BMqM?=
+ =?us-ascii?Q?Pszl6RRcYTIOHypAveOZjDrs0t/HT/ibuyW+NqXGyHrDRU9012fqblVYmFJv?=
+ =?us-ascii?Q?PA5WKnt8nbw29/Nq+RzEdMeVcY7/ax3Si4PA/Kp97Oin8JPD5GsjkE5lYg48?=
+ =?us-ascii?Q?XRrdjFk/k41vf0XkJBFuim/l0dixIUa/5iZQf285qtp/QIYU+O5g7cqXmKF/?=
+ =?us-ascii?Q?9s9dzfNmUh0kABw6yYMa42s4VdXRq0cS+Etd4qJibZX4zQZPs5E7ZcGCX9+b?=
+ =?us-ascii?Q?Rf8BZDSeGWQ3dc3rXw4h0eq+gD57mQkeCEyWjKLsNPQleUmKS/7K5V7+9J6s?=
+ =?us-ascii?Q?OHYJegtIJMpgiKxM/erClEXU2i2yH9oksHkqVFZPITK4949Qf2XbEwEDrSPc?=
+ =?us-ascii?Q?mnGd83d9ED+DvFc3dIYqRcEe++AFGo1zswaK5eLzbyHrWnFkF4BkMPvWesxh?=
+ =?us-ascii?Q?Ozmui9JBr1f4fKh5xAqA3ncBobE0Qc4y+Gd/wbs5xQQ2fgMJVWK7j1rWnemh?=
+ =?us-ascii?Q?5irXRu0Mw7MWF1ZJmKsXY9xFW3Oavl7Msc5wZcvSz8690SAC1GbY7Zb9urPR?=
+ =?us-ascii?Q?u0RZnPQX6SSOplHuN4X4eCzDg1O5zQL/MdOdmU8TmIlQcL91/8XPWF97a9pV?=
+ =?us-ascii?Q?R5iR4vvczVqJXbmGNTHfnWuLvWUtjFXdjEBr8mGpXvbIHiXOHO26efp8qhhM?=
+ =?us-ascii?Q?6PehaSys1u5VWzbn8L/p/mDmZ7OJAMyQ6DxcM4vagA5AkPEu3dh55cHGkVOg?=
+ =?us-ascii?Q?dsyJLJSgA38Kh1UWitnk9bBnFdJ7YzN/3e+UTx482Isj4dXQwpFwXIRQ1r3T?=
+ =?us-ascii?Q?LejsOrBuWqxDH+lWuZei/jw=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 880f8b53-156b-4769-c4cb-08d9bb0e672d
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 12:21:18.6386
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1825133c-c72f-4569-219a-08d9bae6e632
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[203.18.50.13];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT006.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4944
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k+TBBdjB0lYzKmWG+JkXHYx/qz5+oLWTwXjNxk/3nwqR1yM2+u6AlYhM2d3ecukBUvCFJPxod1ytH2becbk5cw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2PR06MB3033
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch dumps all active mapping entries from pagetable to a
-debugfs directory named "mappings".
+From: Wang Qing <wangqing@vivo.com>
 
-Part of this patch for listing all swgroup names in a group_soc
-is provided by Dmitry Osipenko <digetx@gmail.com>
+of_find_device_by_node() takes a reference to the embedded struct device 
+which needs to be dropped when error return.
 
-Attaching an example:
-
-[SWGROUP: xusb_host] [as: (id: 5), (attr: R|W|-), (pd_dma: 0x0000000080005000)]
-{
-        [index: 1023] 0xf0080007 (count: 52)
-        {
-                PTE RANGE      | ATTR | PHYS               | IOVA       | SIZE
-                [#913 , #913 ] | 0x7  | 0x0000000101fbe000 | 0xfff91000 | 0x1000
-                [#914 , #914 ] | 0x7  | 0x0000000101fbd000 | 0xfff92000 | 0x1000
-                [#915 , #915 ] | 0x7  | 0x0000000101fbc000 | 0xfff93000 | 0x1000
-                [#916 , #916 ] | 0x7  | 0x0000000101fbb000 | 0xfff94000 | 0x1000
-                [#921 , #921 ] | 0x7  | 0x00000000fcc02000 | 0xfff99000 | 0x1000
-                [#922 , #922 ] | 0x7  | 0x0000000101fb7000 | 0xfff9a000 | 0x1000
-                [#923 , #923 ] | 0x7  | 0x0000000101fb5000 | 0xfff9b000 | 0x1000
-                [#948 , #948 ] | 0x7  | 0x0000000101fb2000 | 0xfffb4000 | 0x1000
-                [#949 , #949 ] | 0x7  | 0x0000000101fb1000 | 0xfffb5000 | 0x1000
-                [#950 , #950 ] | 0x7  | 0x0000000101faf000 | 0xfffb6000 | 0x1000
-                [#951 , #951 ] | 0x7  | 0x0000000101fae000 | 0xfffb7000 | 0x1000
-                [#952 , #952 ] | 0x7  | 0x000000010263d000 | 0xfffb8000 | 0x1000
-                [#953 , #953 ] | 0x7  | 0x000000010263c000 | 0xfffb9000 | 0x1000
-                [#954 , #954 ] | 0x7  | 0x000000010263b000 | 0xfffba000 | 0x1000
-                [#955 , #955 ] | 0x7  | 0x000000010263a000 | 0xfffbb000 | 0x1000
-                [#956 , #956 ] | 0x7  | 0x0000000102639000 | 0xfffbc000 | 0x1000
-                [#957 , #957 ] | 0x7  | 0x0000000102638000 | 0xfffbd000 | 0x1000
-                [#958 , #958 ] | 0x7  | 0x0000000102637000 | 0xfffbe000 | 0x1000
-                [#959 , #959 ] | 0x7  | 0x0000000102636000 | 0xfffbf000 | 0x1000
-                [#960 , #992 ] | 0x7  | 0x0000000102613000 | 0xfffc0000 | 0x21000
-        }
-}
-Total PDEs: 1, total PTEs: 52
-
-Note that the example above was output after I locally enabled
-IOMMU_DOMAIN_DMA, which is not merged to mainline yet due to a
-known framebuffer issue.
-
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+Signed-off-by: Wang Qing <wangqing@vivo.com>
 ---
- drivers/iommu/tegra-smmu.c | 185 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 185 insertions(+)
+ drivers/clk/tegra/clk-tegra124-emc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 454504aa6602..cbd1a52f2a9f 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -47,6 +47,7 @@ struct tegra_smmu {
- 	struct list_head list;
+diff --git a/drivers/clk/tegra/clk-tegra124-emc.c b/drivers/clk/tegra/clk-tegra124-emc.c
+index 74c1d89..219c806
+--- a/drivers/clk/tegra/clk-tegra124-emc.c
++++ b/drivers/clk/tegra/clk-tegra124-emc.c
+@@ -198,6 +198,7 @@ static struct tegra_emc *emc_ensure_emc_driver(struct tegra_clk_emc *tegra)
  
- 	struct dentry *debugfs;
-+	struct dentry *debugfs_mappings;
- 
- 	struct iommu_device iommu;	/* IOMMU Core code handle */
- };
-@@ -154,6 +155,9 @@ static inline u32 smmu_readl(struct tegra_smmu *smmu, unsigned long offset)
- 
- #define SMMU_PDE_ATTR		(SMMU_PDE_READABLE | SMMU_PDE_WRITABLE | \
- 				 SMMU_PDE_NONSECURE)
-+#define SMMU_PTE_ATTR		(SMMU_PTE_READABLE | SMMU_PTE_WRITABLE | \
-+				 SMMU_PTE_NONSECURE)
-+#define SMMU_PTE_ATTR_SHIFT	29
- 
- static unsigned int iova_pd_index(unsigned long iova)
- {
-@@ -165,6 +169,12 @@ static unsigned int iova_pt_index(unsigned long iova)
- 	return (iova >> SMMU_PTE_SHIFT) & (SMMU_NUM_PTE - 1);
- }
- 
-+static unsigned long pd_pt_index_iova(unsigned int pd_index, unsigned int pt_index)
-+{
-+	return (pd_index & (SMMU_NUM_PDE - 1)) << SMMU_PDE_SHIFT |
-+	       (pt_index & (SMMU_NUM_PTE - 1)) << SMMU_PTE_SHIFT;
-+}
-+
- static bool smmu_dma_addr_valid(struct tegra_smmu *smmu, dma_addr_t addr)
- {
- 	addr >>= 12;
-@@ -498,6 +508,156 @@ static void tegra_smmu_as_unprepare(struct tegra_smmu *smmu,
- 	mutex_unlock(&smmu->lock);
- }
- 
-+static int tegra_smmu_debugfs_mappings_show(struct seq_file *s, void *data)
-+{
-+	struct tegra_smmu_group *group = s->private;
-+	const struct tegra_smmu_group_soc *soc;
-+	const struct tegra_smmu_swgroup *swgrp;
-+	struct tegra_smmu_as *as;
-+	struct tegra_smmu *smmu;
-+	unsigned int pd_index;
-+	unsigned int pt_index;
-+	unsigned long flags;
-+	u64 pte_count = 0;
-+	u32 pde_count = 0;
-+	u32 *pd, val;
-+
-+	if (!group || !group->as || !group->swgrp)
-+		return 0;
-+
-+	swgrp = group->swgrp;
-+	smmu = group->smmu;
-+	soc = group->soc;
-+	as = group->as;
-+
-+	mutex_lock(&smmu->lock);
-+
-+	val = smmu_readl(smmu, swgrp->reg);
-+	if (!(val & SMMU_ASID_ENABLE))
-+		goto unlock;
-+
-+	pd = page_address(as->pd);
-+	if (!pd)
-+		goto unlock;
-+
-+	seq_puts(s, "[SWGROUP: ");
-+	/* List all the swgroup names in the same group_soc */
-+	if (soc) {
-+		bool first_swgroup = true;
-+		unsigned int i;
-+
-+		for (i = 0; i < soc->num_swgroups; i++) {
-+			swgrp = tegra_smmu_find_swgrp(smmu, soc->swgroups[i]);
-+			if (WARN_ON(!swgrp))
-+				goto unlock;
-+
-+			val = smmu_readl(smmu, swgrp->reg);
-+			if (!(val & SMMU_ASID_ENABLE))
-+				continue;
-+
-+			if (WARN_ON((val & SMMU_ASID_MASK) != as->id))
-+				continue;
-+
-+			if (first_swgroup)
-+				first_swgroup = false;
-+			else
-+				seq_puts(s, ", ");
-+
-+			seq_printf(s, "%s", swgrp->name);
-+		}
-+	} else {
-+		WARN_ON((val & SMMU_ASID_MASK) != as->id);
-+		seq_printf(s, "%s", swgrp->name);
-+	}
-+	seq_puts(s, "] ");
-+
-+	seq_printf(s, "[as: (id: %d), ", as->id);
-+	seq_printf(s, "(attr: %c|%c|%c), ",
-+		   as->attr & SMMU_PD_READABLE ? 'R' : '-',
-+		   as->attr & SMMU_PD_WRITABLE ? 'W' : '-',
-+		   as->attr & SMMU_PD_NONSECURE ? '-' : 'S');
-+	seq_printf(s, "(pd_dma: %pad)]\n", &as->pd_dma);
-+	seq_puts(s, "{\n");
-+
-+	spin_lock_irqsave(&as->lock, flags);
-+
-+	for (pd_index = 0; pd_index < SMMU_NUM_PDE; pd_index++) {
-+		struct page *pt_page;
-+		unsigned int i;
-+		u32 *addr;
-+
-+		/* An empty PDE should not have a pte use count */
-+		WARN_ON_ONCE(!pd[pd_index] ^ !as->count[pd_index]);
-+
-+		/* Skip this empty PDE */
-+		if (!pd[pd_index])
-+			continue;
-+
-+		pde_count++;
-+		pte_count += as->count[pd_index];
-+		seq_printf(s, "\t[index: %u] 0x%x (count: %d)\n",
-+			   pd_index, pd[pd_index], as->count[pd_index]);
-+		pt_page = as->pts[pd_index];
-+		addr = page_address(pt_page);
-+
-+		seq_puts(s, "\t{\n");
-+		seq_printf(s, "\t\t%-14s | %-4s | %-10s%s | %-10s | %-11s\n",
-+			   "PTE RANGE", "ATTR",
-+			   "PHYS", sizeof(phys_addr_t) > 4 ? "        " : "",
-+			   "IOVA", "SIZE");
-+		for (pt_index = 0; pt_index < SMMU_NUM_PTE; pt_index += i) {
-+			size_t size = SMMU_SIZE_PT;
-+			dma_addr_t iova;
-+			phys_addr_t pa;
-+
-+			i = 1;
-+
-+			if (!addr[pt_index])
-+				continue;
-+
-+			iova = pd_pt_index_iova(pd_index, pt_index);
-+			pa = SMMU_PFN_PHYS(addr[pt_index] & ~SMMU_PTE_ATTR);
-+
-+			/* Check contiguous mappings and increase size */
-+			while (pt_index + i < SMMU_NUM_PTE) {
-+				dma_addr_t next_iova;
-+				phys_addr_t next_pa;
-+
-+				if (!addr[pt_index + i])
-+					break;
-+
-+				next_iova = pd_pt_index_iova(pd_index, pt_index + i);
-+				next_pa = SMMU_PFN_PHYS(addr[pt_index + i] & ~SMMU_PTE_ATTR);
-+
-+				/* Break at the end of a linear mapping */
-+				if ((next_iova - iova != SMMU_SIZE_PT * i) ||
-+				    (next_pa - pa != SMMU_SIZE_PT * i))
-+					break;
-+
-+				i++;
-+			}
-+
-+			seq_printf(s, "\t\t[#%-4u, #%-4u] | 0x%-2x | %pa | 0x%-8x | 0x%-9zx\n",
-+				   pt_index, pt_index + i - 1,
-+				   addr[pt_index] >> SMMU_PTE_ATTR_SHIFT,
-+				   &pa, (u32)iova, size * i);
-+		}
-+		seq_puts(s, "\t}\n");
-+	}
-+
-+	spin_unlock_irqrestore(&as->lock, flags);
-+
-+	seq_puts(s, "}\n");
-+	seq_printf(s, "Total PDEs: %u, total PTEs: %llu\n ", pde_count, pte_count);
-+
-+unlock:
-+	mutex_unlock(&smmu->lock);
-+
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(tegra_smmu_debugfs_mappings);
-+
- static void tegra_smmu_attach_as(struct tegra_smmu *smmu,
- 				 struct tegra_smmu_as *as,
- 				 unsigned int swgroup)
-@@ -522,6 +682,20 @@ static void tegra_smmu_attach_as(struct tegra_smmu *smmu,
- 			dev_warn(smmu->dev,
- 				 "overwriting group->as for swgroup: %s\n", swgrp->name);
- 		group->as = as;
-+
-+		if (smmu->debugfs_mappings) {
-+			const char *name;
-+
-+			if (group->soc)
-+				name = group->soc->name;
-+			else
-+				name = group->swgrp->name;
-+
-+			debugfs_create_file(name, 0444,
-+					    smmu->debugfs_mappings, group,
-+					    &tegra_smmu_debugfs_mappings_fops);
-+		}
-+
- 		break;
+ 	tegra->emc = platform_get_drvdata(pdev);
+ 	if (!tegra->emc) {
++		put_device(&pdev->dev);
+ 		pr_err("%s: cannot find EMC driver\n", __func__);
+ 		return NULL;
  	}
- 
-@@ -545,6 +719,15 @@ static void tegra_smmu_detach_as(struct tegra_smmu *smmu,
- 		if (group->swgrp != swgrp)
- 			continue;
- 		group->as = NULL;
-+
-+		if (smmu->debugfs_mappings) {
-+			struct dentry *d;
-+
-+			d = debugfs_lookup(group->swgrp->name,
-+					   smmu->debugfs_mappings);
-+			debugfs_remove(d);
-+		}
-+
- 		break;
- 	}
- 
-@@ -1137,6 +1320,8 @@ static void tegra_smmu_debugfs_init(struct tegra_smmu *smmu)
- 			    &tegra_smmu_swgroups_fops);
- 	debugfs_create_file("clients", S_IRUGO, smmu->debugfs, smmu,
- 			    &tegra_smmu_clients_fops);
-+
-+	smmu->debugfs_mappings = debugfs_create_dir("mappings", smmu->debugfs);
- }
- 
- static void tegra_smmu_debugfs_exit(struct tegra_smmu *smmu)
 -- 
-2.17.1
+2.7.4
 
