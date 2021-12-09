@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AED4D46F1D3
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 18:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43C3E46F1D7
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Dec 2021 18:26:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242908AbhLIR36 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Dec 2021 12:29:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49624 "EHLO
+        id S242911AbhLIRaB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Dec 2021 12:30:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242923AbhLIR35 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 12:29:57 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB83C061A72
-        for <linux-tegra@vger.kernel.org>; Thu,  9 Dec 2021 09:26:23 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id u17so10974016wrt.3
-        for <linux-tegra@vger.kernel.org>; Thu, 09 Dec 2021 09:26:23 -0800 (PST)
+        with ESMTP id S242909AbhLIRaA (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Dec 2021 12:30:00 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EADCDC061746
+        for <linux-tegra@vger.kernel.org>; Thu,  9 Dec 2021 09:26:25 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id d9so10959494wrw.4
+        for <linux-tegra@vger.kernel.org>; Thu, 09 Dec 2021 09:26:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h0h66338u5hSxqQTPm/OSloK0s/WKr6FBpTI53AOt90=;
-        b=Kfq/iLJFifc6+N7cac+YoXGag5MCo8ryyg/Lz+4gTHMK2jGGi6M6/X3s3bpmnCnMM1
-         NUcxtmEmn1vfTjtJISEec5ZaTMjowte07U0xUiGMTIQnoNmaWUB6QbW/+JNQmz2DaK1k
-         lXJIQArX2CIYTGou9PfBihUHSyFEYkLpdp+B/4e4dWhynFC8ZOdupf6J3/aziZGGMBrT
-         6UJ8fYJJVXHcKo5C7Cxr3kAhcyD149O8xcZcr2qdw8m55X3fuMfggDxZqQxtlRD5LLvd
-         q7yjm3fQqu0w7GDlovbRKHDwdvlkVy8RVu4OURAW19aCdpmV0efw0r1e9xaJXvQxNlAz
-         c8PA==
+        bh=mMV1K9LSS8eWVfs7EIdhknisLwoEQBuheuCVW31krBk=;
+        b=idxzzZkmXnBQc3b8sz2EY5ryPhYN76taYCJiT7dsC9kbHaKe0DiThUSBqdtwpUzeP4
+         onwCXeUefKU6HSP7Kea9qS+TEo9xQLI7ftpQ7XM692ruNAXvCdCGb9XEObz4CdLbZKVA
+         i7v08EPXQMNTICM2pxx8KiJHFyx2JOe+rzLN+LhoJ4nnkWGo4UxFDFUyu1iU5SunklCj
+         s2ZUOYRwCDAnzmWOWaFPJHAu37c0hbPTFevzb626Q8IFfp5JaWMlqCK6PcFDFV9AFhK2
+         tgJvR0CSP+g78ji4pTHXF9N9QDYwOUJFvQku+v/BU9ySaDLyWR6zfjMOELIN6MrvbJ+Q
+         q2WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h0h66338u5hSxqQTPm/OSloK0s/WKr6FBpTI53AOt90=;
-        b=biH3+gsgTNlM1SKG4BobM0BDagSzntMCvhznewZguObHlIqxqTcF23PIVwf9UBOyVO
-         L7WXIMl3StK4wseaxo/L6Mz3Lr9eVred4O5i8XX92olyVVbJNUW5XCnFmjU8N+Fc0+hl
-         VW1IoRUN5K/btsXDJ5ObgJ+d1mtQgz+0OHnvg+/KVoHzvElVHAfQJowUHZ6P9Mr/lKJ8
-         OYF1etQKX7MZwsKq5dWmrMUXdcEjPlSDmHK5Wr4P3ThFJza1KpQfhCZIF1h/ZBlPY0pi
-         vXw3aK2vJ/ciuYxiMVl5xxPwerjRuTl5Zm6ES8ZS9muwZQb5cp7Dsdz9M8x7Q1qEVBwL
-         iOMA==
-X-Gm-Message-State: AOAM533Tt0TOstRNf8hR4JZ2oSlHCYDC4ZJVqepEJvj3BP5ukpXUpb3W
-        AVOfqDophCylUtV9WfwNejw=
-X-Google-Smtp-Source: ABdhPJxpuQ0KpgReTM+uGi/YIBxAA4V4vJ6zvbTuOWc2mby/zla56MJgODQkCjuz7dxlgwcdW+fyeA==
-X-Received: by 2002:a05:6000:15c6:: with SMTP id y6mr8070376wry.422.1639070782294;
-        Thu, 09 Dec 2021 09:26:22 -0800 (PST)
+        bh=mMV1K9LSS8eWVfs7EIdhknisLwoEQBuheuCVW31krBk=;
+        b=mHojxwKWPWdUpo6yasa/UPT36otYPh7nD+jycjdmdrmzhjasZZsXnKokKYkaYvIGri
+         Gn3hnDOuli7t+Rsqh0bpOTPaXwjiBFMSFOTdpmAVz+SnnQabhNesHbS5/Wu6o7yHX0ou
+         9AMlwEj2VedZq0/cDu8gpXErXAMrjQCKEGtInMhZWLfXu0cP7VXUfVG+5I3p6sxCpub2
+         tgViVn4JWHQXPe7zZXWAyXZ1FdKfJ9VVNP39uqZXKDDjkDpFEHgSLc5kK/yek4B+KZht
+         ShxER/I7kl/UzlHd5uYkigiNE8WNEPe4CFsui+uCfg4KyZuvdeqnfP1u/OUjHbRrXtZZ
+         sLng==
+X-Gm-Message-State: AOAM5321vjJojOHNV/Jk+dHKFQqJfhMnqKlopOI+Ie02w8xHzPjZpL7f
+        ZDkPkYMurFVk+5xoBTLPPWA=
+X-Google-Smtp-Source: ABdhPJzpRm3rY5r/pqw0G6NsCLB0Gmk2ICEx3jCsUrNaidavxGxAwusEfvOnuscgZbm80hgeqjGklQ==
+X-Received: by 2002:a05:6000:1201:: with SMTP id e1mr8345621wrx.298.1639070784504;
+        Thu, 09 Dec 2021 09:26:24 -0800 (PST)
 Received: from localhost ([193.209.96.43])
-        by smtp.gmail.com with ESMTPSA id z5sm11837844wmp.26.2021.12.09.09.26.21
+        by smtp.gmail.com with ESMTPSA id m125sm9164732wmm.39.2021.12.09.09.26.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 09:26:21 -0800 (PST)
+        Thu, 09 Dec 2021 09:26:23 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 29/30] arm64: tegra: Remove unused only-1-8-v properties
-Date:   Thu,  9 Dec 2021 18:25:02 +0100
-Message-Id: <20211209172503.617716-30-thierry.reding@gmail.com>
+Subject: [PATCH 30/30] arm64: tegra: Rename Ethernet PHY nodes
+Date:   Thu,  9 Dec 2021 18:25:03 +0100
+Message-Id: <20211209172503.617716-31-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211209172503.617716-1-thierry.reding@gmail.com>
 References: <20211209172503.617716-1-thierry.reding@gmail.com>
@@ -64,38 +64,68 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The only-1-8-v property is not support by an DT schema, so drop it.
+Name the Ethernet PHY device tree nodes as expected by the DT schema.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra234-p3701-0000.dtsi | 1 -
- arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts     | 1 -
- 2 files changed, 2 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi                | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi                | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi                | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3701-0000.dtsi b/arch/arm64/boot/dts/nvidia/tegra234-p3701-0000.dtsi
-index d3c936822186..d95a542c0bca 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-p3701-0000.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-p3701-0000.dtsi
-@@ -11,7 +11,6 @@ mmc@3460000 {
- 			status = "okay";
- 			bus-width = <8>;
- 			non-removable;
--			only-1-8-v;
- 		};
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi b/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
+index 3d8878c0ec03..aff857df25cf 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
+@@ -44,7 +44,7 @@ mdio {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  
- 		rtc@c2a0000 {
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts b/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
-index b5d9a5526272..5804acfc428a 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dts
-@@ -26,7 +26,6 @@ mmc@3460000 {
- 			status = "okay";
- 			bus-width = <8>;
- 			non-removable;
--			only-1-8-v;
- 		};
+-			phy: phy@0 {
++			phy: ethernet-phy@0 {
+ 				compatible = "ethernet-phy-ieee802.3-c22";
+ 				reg = <0x0>;
+ 				interrupt-parent = <&gpio>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts b/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
+index 6cc51083adb7..4631504c3c7a 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
+@@ -46,7 +46,7 @@ mdio {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  
- 		rtc@c2a0000 {
+-			phy: phy@0 {
++			phy: ethernet-phy@0 {
+ 				compatible = "ethernet-phy-ieee802.3-c22";
+ 				reg = <0x0>;
+ 				interrupt-parent = <&gpio_aon>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+index ad217cac2b28..a7d7cfd66379 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+@@ -39,7 +39,7 @@ mdio {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+-				phy: phy@0 {
++				phy: ethernet-phy@0 {
+ 					compatible = "ethernet-phy-ieee802.3-c22";
+ 					reg = <0x0>;
+ 					interrupt-parent = <&gpio>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi
+index f16b0aa8a374..0bd66f9c620b 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi
+@@ -36,7 +36,7 @@ mdio {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+-				phy: phy@0 {
++				phy: ethernet-phy@0 {
+ 					compatible = "ethernet-phy-ieee802.3-c22";
+ 					reg = <0x0>;
+ 					interrupt-parent = <&gpio>;
 -- 
 2.34.1
 
