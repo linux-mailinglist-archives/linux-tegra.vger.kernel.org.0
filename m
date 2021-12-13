@@ -2,164 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40161471DD5
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 Dec 2021 22:22:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FD4A471F3F
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Dec 2021 03:05:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbhLLVWV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 Dec 2021 16:22:21 -0500
-Received: from mail-wr1-f53.google.com ([209.85.221.53]:40697 "EHLO
-        mail-wr1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbhLLVWO (ORCPT
+        id S231211AbhLMCFT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Dec 2021 21:05:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230523AbhLMCFT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 Dec 2021 16:22:14 -0500
-Received: by mail-wr1-f53.google.com with SMTP id t9so24021055wrx.7;
-        Sun, 12 Dec 2021 13:22:12 -0800 (PST)
+        Sun, 12 Dec 2021 21:05:19 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A1AEC06173F;
+        Sun, 12 Dec 2021 18:05:19 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id y7so10177140plp.0;
+        Sun, 12 Dec 2021 18:05:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LnM2oqI/P3qkpx3c1EWtD4sLNI6B6gG/+oTBL+kWCNQ=;
-        b=Ti+UtGG8XV6c0zOWqrHGbE59RojWkw4ydpgjMyPnKydCS+/MWggp7Pc9vXP3/dSIcd
-         3jnWTMBd8zv/qBtjyyIl9yIZVhT8x6fyMjQXI7luWmrCTc61AVDnaWwsG+mIfuPQO9dB
-         vcqOllWLO88CRGpuT6+xXO8ZmzEOzeGTj/s4L1fT4s6+Ybm6rqbTcVdA4UXyNrivjGv5
-         UJ6UviXyCjmc4b8nSyi1dpErcal2pEnmBKVfp4o/3mh7A8Qp+zHAUZCcABQgpQssHyoG
-         UiW2FFO7QpKrXAOmKzFmfqtuBRyQuxNiF7hVzSScTIX4m9O5uZ05fsLoNM2XxAyyofSA
-         atBQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=ZfMoG6X9oBnz9vgJgatuWr3jCxlugYsFtu5GcGk49Mc=;
+        b=g5vVjsFJHe9o2GHUu4E4+Su0ye9H6m0xqBM+DGcgJdmD+IQiPo5zQOKiiu3Ft8IEbs
+         zHBPcspyJeEVAOVSDs2hxq1G/V1lyQek5p3oHS1dZyT8RP7vge/6jUa6z80deAs1Escm
+         KqNH4YQYYqjvsvPSnV6SWPkr001GcVsgSdjEFRjvtNIj2v1zh6T6pGwoXAu/mvU/j8mu
+         clkhoeQjghjlwBf+ck+uSZ7G8C9C2J5ffNXHE3/4ge0i35niKH7wy0bTzREkA1FL7pRJ
+         fN/vq9LkR1bWZKCXUf7BDqsOkx/FL6fldEAA6rmuOO1A6EuV7igYRYWsRMTT4VOkmRZC
+         X2aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LnM2oqI/P3qkpx3c1EWtD4sLNI6B6gG/+oTBL+kWCNQ=;
-        b=asJJiaHc5bM7+CB5NpE8eLCw3a4UOw6xsxWUFj1yG5oGQ4u8nQuqZDjxZ0e6Sunh0u
-         DjZ6tQVn/fHe8ftX7m8uji5AFIEnd3JtmIoqFKqbOAkbwkpJrNjkrPFi3FNjwsWgMjK4
-         EvqWzPfhvT1Uqqg3UblIEUrSZh/xZph2NdL3rRoujC6f2VNw3+hSdCAxovxpv9Q4Ui3A
-         AaZivXVRBz5UUsytjITRSyRVYUGoqgSi5wVZ+iQ0z7xejzhilPXRp1bwcncixIF+jzOH
-         PRvno/sDrE1T5vL4ykU9CXZTpbyPzH/M9EDPtkCVRalb78IYeUPqdl1EoWjhlhZTe7Dk
-         OQPQ==
-X-Gm-Message-State: AOAM530gtrAMv8gNA7d64+4EU/4N9tt3Z6vl8xGUSgRbkSuOkwoPfQrk
-        N9i/0S63mtnvxjPWEOXMX/AXUjlik78=
-X-Google-Smtp-Source: ABdhPJzqEv9dTDNrIB5aKtlnsJyeHcmVeske90TevqdWeeks/wIjllK9zuSKBLKrf6g7j5l1fLZDZQ==
-X-Received: by 2002:a05:6512:3c9e:: with SMTP id h30mr24792667lfv.212.1639343056911;
-        Sun, 12 Dec 2021 13:04:16 -0800 (PST)
-Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru. [94.29.46.111])
-        by smtp.gmail.com with ESMTPSA id y4sm1197172ljp.16.2021.12.12.13.04.14
+         :references;
+        bh=ZfMoG6X9oBnz9vgJgatuWr3jCxlugYsFtu5GcGk49Mc=;
+        b=kzIYD3WF5iZqwXbPR3SevokrltLbpq7MlYd743m0UqmoeeaXqwugO80kiSNLdxCfrE
+         fUf3Mvi1vpYCcWOiind8RNm+7NYLhmxiiB0wahUqZI/U057C4uGM7s/8mhLGWsHNce3S
+         HvZ8iyIHLYlj94stF+Rg/fCq5QEIAI38fNvqWD6zBwww/3N5CKmdFo/gvpzWYVwS4X6z
+         Nr9k1jBurKBXd95u1bXw0FDughrGD22JnqeTnr9y0u4FoCkwt6vLtqAmHD0X3vYSME/z
+         S1GP5lRe0lU0J+36LkwzakhPp+wnu73L+ntvMA/rtIA4T+a6uhAmvk5EzvkbXTpHrbgn
+         S2IQ==
+X-Gm-Message-State: AOAM532ij/qi8yyUsYYW2omZmm1ivGfjlozz80XClgUTsIyd5DAHs6rj
+        kazZdPbAU/Ew+Z1YsE72bh8=
+X-Google-Smtp-Source: ABdhPJxXe2sVfiehDtu1Fli3a+yt3W24vxsc25t6eLYydxx6kbdIMIr5thbA+poPOAHvKPLb0sj9Cw==
+X-Received: by 2002:a17:90a:ce02:: with SMTP id f2mr40408011pju.77.1639361118786;
+        Sun, 12 Dec 2021 18:05:18 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id s28sm11278915pfg.147.2021.12.12.18.05.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Dec 2021 13:04:16 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Joshua Thompson <funaho@jurai.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Sebastian Reichel <sre@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee.jones@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>, alankao@andestech.com,
-        "K . C . Kuen-Chern Lin" <kclin@andestech.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-sh@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v5 21/21] reboot: Remove pm_power_off_prepare()
-Date:   Mon, 13 Dec 2021 00:03:09 +0300
-Message-Id: <20211212210309.9851-22-digetx@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211212210309.9851-1-digetx@gmail.com>
-References: <20211212210309.9851-1-digetx@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 12 Dec 2021 18:05:18 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     digetx@gmail.com
+Cc:     jckuo@nvidia.com, jonathanh@nvidia.com, kishon@ti.com,
+        linmq006@gmail.com, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-tegra@vger.kernel.org,
+        thierry.reding@gmail.com, vkoul@kernel.org
+Subject: [PATCH v2] phy: tegra: xusb: Fix return value of tegra_xusb_find_port_node function
+Date:   Mon, 13 Dec 2021 02:05:07 +0000
+Message-Id: <20211213020507.1458-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <942f943c-9ec8-9887-aa6d-4d133821beca@gmail.com>
+References: <942f943c-9ec8-9887-aa6d-4d133821beca@gmail.com>
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-All pm_power_off_prepare() users were converted to sys-off handler API.
-Remove the obsolete callback.
+callers of tegra_xusb_find_port_node() function only do NULL checking for
+the return value. return NULL instead of ERR_PTR(-ENOMEM) to keep
+consistent.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- include/linux/pm.h |  1 -
- kernel/reboot.c    | 11 -----------
- 2 files changed, 12 deletions(-)
+ drivers/phy/tegra/xusb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index 1d8209c09686..d9bf1426f81e 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -20,7 +20,6 @@
-  * Callbacks for platform drivers to implement.
-  */
- extern void (*pm_power_off)(void);
--extern void (*pm_power_off_prepare)(void);
- 
- struct device; /* we have a circular dep with device.h */
- #ifdef CONFIG_VT_CONSOLE_SLEEP
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index 3085873a876f..2f79d4f7cfaa 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -48,13 +48,6 @@ int reboot_cpu;
- enum reboot_type reboot_type = BOOT_ACPI;
- int reboot_force;
- 
--/*
-- * If set, this is used for preparing the system to power off.
-- */
--
--void (*pm_power_off_prepare)(void);
--EXPORT_SYMBOL_GPL(pm_power_off_prepare);
--
- /**
-  *	emergency_restart - reboot the system
-  *
-@@ -829,10 +822,6 @@ void do_kernel_power_off(void)
- 
- static void do_kernel_power_off_prepare(void)
- {
--	/* legacy pm_power_off_prepare() is unchained and has highest priority */
--	if (pm_power_off_prepare)
--		return pm_power_off_prepare();
--
- 	blocking_notifier_call_chain(&power_off_handler_list, POWEROFF_PREPARE,
- 				     NULL);
- }
+diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+index 963de5913e50..aa5237eacd29 100644
+--- a/drivers/phy/tegra/xusb.c
++++ b/drivers/phy/tegra/xusb.c
+@@ -455,7 +455,7 @@ tegra_xusb_find_port_node(struct tegra_xusb_padctl *padctl, const char *type,
+ 	name = kasprintf(GFP_KERNEL, "%s-%u", type, index);
+ 	if (!name) {
+ 		of_node_put(ports);
+-		return ERR_PTR(-ENOMEM);
++		return NULL;
+ 	}
+ 	np = of_get_child_by_name(ports, name);
+ 	kfree(name);
 -- 
-2.33.1
+2.17.1
 
