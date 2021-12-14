@@ -2,92 +2,182 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4EBB47448A
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Dec 2021 15:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 358344744FC
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Dec 2021 15:29:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234719AbhLNOLc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Dec 2021 09:11:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56598 "EHLO
+        id S232993AbhLNO2y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Dec 2021 09:28:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230295AbhLNOLb (ORCPT
+        with ESMTP id S231863AbhLNO2q (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Dec 2021 09:11:31 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45F9BC06173F
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Dec 2021 06:11:31 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id r25so62915003edq.7
-        for <linux-tegra@vger.kernel.org>; Tue, 14 Dec 2021 06:11:31 -0800 (PST)
+        Tue, 14 Dec 2021 09:28:46 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130F6C06175B;
+        Tue, 14 Dec 2021 06:28:46 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id u17so32713884wrt.3;
+        Tue, 14 Dec 2021 06:28:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KzLgDz7d2Gll4mrNvllKXj4KFgN8S+Ovisil7/bb6fs=;
-        b=YwXowzOmFKaHmQFre/ULmnTY2vtrdl9FpdAhRZu64awx/4ti3KZGz8bKc4AB7+nXGv
-         FGhAXqbVXwO2yMsbimg0NGJOTFBHvjbjyaVUw3YwVOigR1hr83Ts1oqJ/X/ITWwkvsJg
-         e+cfONSZnH7txRtTwEVL1wXIACcIj6RlmQ7iVAWu4fMB1fQuysE2Br3gzBqpmHBLgZOx
-         UDGwovb15VaqINAuygoqHqFbHy/pWXR11fgGbFaIEzsIh2gOa5QsXXQonC9b6DmQKcl2
-         LuZf0tO7C+fS/53qcmWAQzZxbfthQHwya4MEA5RI58andQ1RdJZgF0Uws4cQX7wGimXT
-         o2Wg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=awq8J+EnjglYjadw3b6na7GHHK3TExFi3HKDbSvOXwY=;
+        b=TjTc8ZsPlWsUBDzSiiTKTKNlyoYvpfkV6uvyCs19XzqLLePlLaDSv0U5R6HM44P+i1
+         NPHfUKjP9OTsk+NxjWLHW7cEFG8wIxfJfSDnseJDwdhLKf4Dr03gaProGC/RGFrrjv5M
+         YA9KCff+x5loW0HUka6UF3YshUnPdYWvCT7IUAydC5Zsc27Xco/5IlKDuYSQ7mQw/tWC
+         uz4t1/wIUcPBDRB3iYleWEYR5Ep++5cA03CocL1Wk0l67n2nJnVMaA6/rNBrkRVQ89O9
+         gDubAvggwFCY/WyFRRVujIyickM4Bsr+seVqpGKoZikkldyU1HP3EubRcB0CtIbUp0J2
+         Nm4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KzLgDz7d2Gll4mrNvllKXj4KFgN8S+Ovisil7/bb6fs=;
-        b=Jaf/D9oLzFBQnA8qh9IEQf2i0j/CuJ4AoqoVhbn2HPccmBZjBuio9GBuJhLiN1Gwr5
-         AxQQ/WBtq/IXtnEawKNqp8NR9z82qfhm8+uEFzzd6LKF7RwU75npmSbuA3N8HHQVho1g
-         8Lco2QBA0l1EC5BklDCyGedwX0rOgrCfhFmUF9C3jkuyWXr291mRGtdpz0G+pZjiczZ1
-         XMTfKUayaCpplbUJ4QhaAaC+fo1dzT3UKzVRXd5DUK9vgZbX4HNi+/ohw8wxtPvJZ/kd
-         RDfs8yYivioADJr8teOc/+74QNnJ+FpKXRCSrJDltuh6YsPjaIve2onnFH3TuJowJ2G/
-         XCHg==
-X-Gm-Message-State: AOAM533YP7ALDlYe5vlpW1aPqRZuFkp/UXd3dLD2uS2QyFIijMJa1TqW
-        RCcqSDh8bD6aPaw/q+Yjw70H6KWL7Egvhjed9mk=
-X-Google-Smtp-Source: ABdhPJxmB6qX7GCggmt5IjB1Bag3CvUqTfLDJT/XLhGNLZ+hzt7ikWasoNpRgzq//ljg77IyMoIxH8H1RPdrdSzeFaI=
-X-Received: by 2002:a05:6402:2079:: with SMTP id bd25mr8259515edb.116.1639491089595;
- Tue, 14 Dec 2021 06:11:29 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=awq8J+EnjglYjadw3b6na7GHHK3TExFi3HKDbSvOXwY=;
+        b=Eh73uNJIlvq+3JqcqWI2PCR0uTfvz5UtxkPhaSByfkklkY5JRjc+weXd1UDU7siPsu
+         1oh8X+RvahiPApulUCqTCyrx2WQ3VIVVc4Kb8RsSA9C93h6y49pgaA56KrqlGCg2SDzU
+         CY7vBZG9jCW2xmzPm6dbu/BMIuMC30Z4IKS3rjBah6tleb4Bqg+ksp/NvhA2Py0QKIRP
+         90K43k+mVl4MMi9NaUsMjl8DU/qh6Ql+tb1fed9g5gBMhUPG96HN+zEma4xCfzex/vDp
+         79LUfzFCVa6UsYxuRBGA/Y3RuA5Fwln4SNjuvUy6kHyZ+oKCqfTkxgDdjhkaOcSVtS92
+         spWg==
+X-Gm-Message-State: AOAM533aVOfDM48+yTR0ZRcylI8ghjFs1gRoGrgKYfJA/UtQ9CbnksPK
+        +FnVSF2Lfhtk7C7Nx8PxR3o=
+X-Google-Smtp-Source: ABdhPJzgRT+eLWDcKHNH+S0nfELZk/MkqDHNrAMDDsqG6kJNHWLe7JNenxdWiX2PqF7sNs1RBWAMmQ==
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr5916800wro.688.1639492124610;
+        Tue, 14 Dec 2021 06:28:44 -0800 (PST)
+Received: from orome ([193.209.96.43])
+        by smtp.gmail.com with ESMTPSA id o12sm30420wrc.85.2021.12.14.06.28.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 06:28:43 -0800 (PST)
+Date:   Tue, 14 Dec 2021 15:28:40 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/3] arm64: perf: Support Denver and Carmel PMUs
+Message-ID: <YbiqGCJ8U9TTS3nr@orome>
+References: <20211207150746.444478-1-thierry.reding@gmail.com>
+ <20211207150746.444478-2-thierry.reding@gmail.com>
+ <Ya+FzVuvQ3W8LOyl@FVFF77S0Q05N>
+ <YbDC0sHeq49cdt0Z@orome>
+ <20211214123353.GD14247@willie-the-truck>
 MIME-Version: 1.0
-Received: by 2002:a54:3842:0:0:0:0:0 with HTTP; Tue, 14 Dec 2021 06:11:29
- -0800 (PST)
-Reply-To: uchennailobitenone@gmail.com
-From:   uchenna <okeyyoyopa@gmail.com>
-Date:   Tue, 14 Dec 2021 06:11:29 -0800
-Message-ID: <CAHTws=++jJdRZbhWGQ4rhanMRDgdn2XEUOY-=ySf_DG1jQz8_Q@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ov6tsdrMxCrxuHnJ"
+Content-Disposition: inline
+In-Reply-To: <20211214123353.GD14247@willie-the-truck>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-May the Almighty Lord be with you....
-Am A WIDOW TO LATE MR David HOLLAND,  I AM 59 .YEARS OLD. My name is
-Josephine HOLLAND.  I am married to Late Mr. David HOLLAND, who worked
-in the France Embassy a here in Lome -Togo West Africa for nine years
-before he died in the
-year 2019.
 
-You are chosen to Receive A Donation Cash Grant of my late husband
-that funds $5.7,000,  000,00 (Five Million Seven Hundred Thousand
-United States Dollars) to help the poor and orphanages through your
-sincere help before my death. I am suffering from long time cancer of
-the Breast, from all indication my conditions is really deteriorating
-and it is quite obvious that I wouldn't live any more longer according
-to my doctor because the cancer has gotten to a very bad stage that no
-hope for me to be a living person again, All i need from you is your
-sincerity to use this funds to do this project as i desired and I need
-your information as where My Bank will be sending the funds,
+--ov6tsdrMxCrxuHnJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-such as:
-Receiver's name:_ Address:_ Phone
-number:_ Country:_
+On Tue, Dec 14, 2021 at 12:33:53PM +0000, Will Deacon wrote:
+> On Wed, Dec 08, 2021 at 03:36:02PM +0100, Thierry Reding wrote:
+> > On Tue, Dec 07, 2021 at 04:03:25PM +0000, Mark Rutland wrote:
+> > > On Tue, Dec 07, 2021 at 04:07:45PM +0100, Thierry Reding wrote:
+> > > > From: Thierry Reding <treding@nvidia.com>
+> > > >=20
+> > > > Add support for the NVIDIA Denver and Carmel PMUs using the generic
+> > > > PMUv3 event map for now.
+> > > >=20
+> > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > > > ---
+> > > >  arch/arm64/kernel/perf_event.c | 14 ++++++++++++++
+> > > >  1 file changed, 14 insertions(+)
+> > > >=20
+> > > > diff --git a/arch/arm64/kernel/perf_event.c b/arch/arm64/kernel/per=
+f_event.c
+> > > > index b4044469527e..8c8cf369c450 100644
+> > > > --- a/arch/arm64/kernel/perf_event.c
+> > > > +++ b/arch/arm64/kernel/perf_event.c
+> > > > @@ -1247,6 +1247,18 @@ static int armv8_vulcan_pmu_init(struct arm_=
+pmu *cpu_pmu)
+> > > >  				       armv8_vulcan_map_event);
+> > > >  }
+> > > > =20
+> > > > +static int armv8_denver_pmu_init(struct arm_pmu *cpu_pmu)
+> > > > +{
+> > > > +	return armv8_pmu_init_nogroups(cpu_pmu, "armv8_nvidia_denver",
+> > > > +				       armv8_pmuv3_map_event);
+> > > > +}
+> > > > +
+> > > > +static int armv8_carmel_pmu_init(struct arm_pmu *cpu_pmu)
+> > > > +{
+> > > > +	return armv8_pmu_init_nogroups(cpu_pmu, "armv8_nvidia_carmel",
+> > > > +				       armv8_pmuv3_map_event);
+> > > > +}
+> > > > +
+> > > >  static const struct of_device_id armv8_pmu_of_device_ids[] =3D {
+> > > >  	{.compatible =3D "arm,armv8-pmuv3",	.data =3D armv8_pmuv3_init},
+> > > >  	{.compatible =3D "arm,cortex-a34-pmu",	.data =3D armv8_a34_pmu_in=
+it},
+> > > > @@ -1265,6 +1277,8 @@ static const struct of_device_id armv8_pmu_of=
+_device_ids[] =3D {
+> > > >  	{.compatible =3D "arm,neoverse-n1-pmu",	.data =3D armv8_n1_pmu_in=
+it},
+> > > >  	{.compatible =3D "cavium,thunder-pmu",	.data =3D armv8_thunder_pm=
+u_init},
+> > > >  	{.compatible =3D "brcm,vulcan-pmu",	.data =3D armv8_vulcan_pmu_in=
+it},
+> > > > +	{.compatible =3D "nvidia,denver-pmu",	.data =3D armv8_denver_pmu_=
+init},
+> > > > +	{.compatible =3D "nvidia,carmel-pmu",	.data =3D armv8_carmel_pmu_=
+init},
+> > >=20
+> > > Super trivial nit, but could we please organise this alphabetically (=
+i.e. with carmel first?)
+> > >=20
+> > > With that:
+> > >=20
+> > > Acked-by: Mark Rutland <mark.rutland@arm.com>
+> > >=20
+> > > I see now that we messed up the order of "cavium,thunder-pmu" and
+> > > "brcm,vulcan-pmu", but otherwise this is ordered, and it's be nice to=
+ keep it
+> > > that way. I can fix the order of those two in a separate patch.
+> >=20
+> > I ordered this chronologically (Denver for Tegra186 and Carmel for
+> > Tegra194), which seemed a bit more natural, but I can reorder this
+> > alphabetically if you prefer.
+> >=20
+> > Would Will be the right person to pick this up or should I take it
+> > through the Tegra tree and then ARM SoC?
+>=20
+> Sorry, I missed this somehow. I've got some perf patches pending already,=
+ so
+> it would be easiest for me to take this one directly (and then I can apply
+> Robin's stuff on top). Is that ok?
 
-Please do not be offended by the way or manner I came to you as a
-stranger to do this, it is about the only way I could get to you after
-going through your contacts Id. I shall give you the contacts of the
-bank. For legitimacy with  a letter of authority that will establish
-you as my appointed beneficiary of this money.
+Sure, works for me. Do you still want me to address Mark's comment
+regarding the sorting order (chronological vs. alphabetical)? It wasn't
+clear to me if Mark still wanted that after my explanation.
 
-I am waiting for your reply.
-From Sister Josephine HOLLAND.
+Thierry
 
-You should contact me through my private email address:
+--ov6tsdrMxCrxuHnJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-mrsjosephineoneholland@gmail.com
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG4qhgACgkQ3SOs138+
+s6HekA//aX4nw4pMXXeyoIGhZimwjlUIVn9yuha9V2ZZx0kiA+Nueu4/8vAC5cjT
+m5ezKLlVfxLg1D9zhHhlD5JVGoNwCh4Hdh/mSpU7e6QgulFTmXC/RSLrN6Pm9v16
+e4zhuJMyMtNmmhziJIm28iNOvjaMpN60cfFbHgABpjRAiRGJ9fjESsEY1xMiRCsl
+/A8ZxbbC8mUROUuhrMzOzgWgGZ59Xac7jygZSnM13qjt6rUePQRgECRKfb/k8yMz
++xCTMK89dkYjH/RMBjQDt+E6gCbFzkn3hvzDQ23NNjFEU6ZCValCtT7pK0FlAkJb
+xyssWltZavh13a+N0gD8aPhGUhE+AdlF9KyY7ReIte6f0YTZQExJXfpOb4tKX8hF
+b76HSxtGKnafg8STX1Il8e0E44ZSg3+kgFK2KuU4CFXuZ7PUKVWk6A3fGn11cqNg
+jOraD7qHmM7QUKQkEYYYEF3OPR1fyuiaXGNMGV8mUzNCn+oCaXQttKxbEMD7Q8U7
+lwMChG1ulRUkEkIx2dZQeQ0k5H6cU60SSXN6suiMTZzDxjjqhDFlwP8tB/G4yZnz
+691ePhLAfAGsjiuWiwQlQO1NsbHm8sGLlJyNNRcO7k3QVItz0OiKkBODXWIbLxqr
+Y1IWEwfpweho4swfjBhuDgo+BUyMNY+7R7qjovBU97PpwUUBU60=
+=xLMy
+-----END PGP SIGNATURE-----
+
+--ov6tsdrMxCrxuHnJ--
