@@ -2,52 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ADF2479359
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Dec 2021 18:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62AD8479380
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Dec 2021 19:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240065AbhLQR6n (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Dec 2021 12:58:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36548 "EHLO
+        id S235822AbhLQSFS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Dec 2021 13:05:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240072AbhLQR6R (ORCPT
+        with ESMTP id S232748AbhLQSFR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Dec 2021 12:58:17 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3B4C06175C;
-        Fri, 17 Dec 2021 09:58:13 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id b22so6215122lfb.9;
-        Fri, 17 Dec 2021 09:58:13 -0800 (PST)
+        Fri, 17 Dec 2021 13:05:17 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513F2C061574;
+        Fri, 17 Dec 2021 10:05:17 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id 13so4560313ljj.11;
+        Fri, 17 Dec 2021 10:05:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YIQlcF3gP50Ac2XyP/mWCT3TH1MR8AJE0l0k33C2rI4=;
-        b=U31Jz7S+v6lmx5fTO+U88D6SrE37ODp+9q0365LAbGwqPixsRAWvweUHL1knkSgjxc
-         dR9mrquyapfnZDQ8ZNd1f2W7h7y/ODKbkHmhIys72E0VX/dM1CUxUlU9QF26Rrk/UOqd
-         0WLY4RHukrOaZ02RrMyfR0BrjoLiqbJFsectgqGMP0lpf5VTdIa6zWGG/U7jMQXDE6PK
-         3YIKyAah8jH1PVDFwXVjtI+mWyciZ6Id16W7dqP3pkkkC5Wv3xSZ0WCWQcJPuzOXNzAy
-         T8N1Q+IwsZK+1oNI0nnPfAEiboZsZT3ol230avvwaJzmPwmKJTWKxVvbHD2LtBxp7o6o
-         BkiA==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TfMBvuPX2wgd5B4i9WzScZ4xJDbFLe7nDXiaKwSnRqo=;
+        b=lLuPe83qA2TPyZ90TpYoRINS+4fMhqGeIv3mHp8yHHW2I7lThzCxthnx0N6YPEHNqr
+         IcmZIW6fFcdD5IneEq0bADRMX+XoM1rhkuM8+/YrEurXU62UheYOQxJD9ZSzQTOWNrxP
+         1esazbMTAq761cFb22R7GFXqiksjN0Iq3LVC9Qx9FtcNLmIQan5LSSx+BYEI9KQokc/r
+         rXtQDs0GXgzd5YfM4zeW1o2ABGq4Us/iAFhSipTWMSyBZEhnBwcbexICvhS222jhfZrt
+         3rfsRzxpXwFHdRERwKEZJDDFhxrpULvk4Jqj0ofPhN4Aqdk1Kq46LZ6qzPFrkDAWg/5z
+         NoWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YIQlcF3gP50Ac2XyP/mWCT3TH1MR8AJE0l0k33C2rI4=;
-        b=GFzI/wM3q6l6ZI22o1qjAiSmt/TNnKweYaLkGvL3q1tOgdMdUarqdroNejxjerbTf6
-         FMH/t/uRS3saLrcQsIDlrUqIbWF7fthnJGKDvGt7/PY6HRjQMu9S7jsmeg63lyKxFCvy
-         2vr1BtpTDwz1HQ7qb9W/z3QeJIfkFiC2P4cCUgbYY5k8ItvnWAXpMkbnZxd6niVhzuMo
-         CuwGo29jRzV0CRVO6mgxoN7EJqi0gDL32ky7g0+/4V5uG/DPBquOFpfT8M4zJcWaSbW2
-         hID/NMvuq38r0YTOiI1x4C+ff9xjbU1bvcb9E5pVPdRWkL99nCg/pfzEmsCMBNlyH00M
-         K03w==
-X-Gm-Message-State: AOAM532c0Gub1KseVP9A7h9GAOqQLWjk2Vl5ljNoehhjM4VxCQL963id
-        K+PHxYkt69iZcvybNsyUswk=
-X-Google-Smtp-Source: ABdhPJyEg+R6x5sc59XnGJjYnjPKD7SF9ULXc8Ov81sZnNr6zNhkgoNGoFiA05i3KxASVuxbn4LMvw==
-X-Received: by 2002:a05:6512:5c8:: with SMTP id o8mr2954480lfo.659.1639763891645;
-        Fri, 17 Dec 2021 09:58:11 -0800 (PST)
-Received: from localhost.localdomain (94-29-63-156.dynamic.spd-mgts.ru. [94.29.63.156])
-        by smtp.gmail.com with ESMTPSA id w23sm1479244lfa.191.2021.12.17.09.58.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Dec 2021 09:58:11 -0800 (PST)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TfMBvuPX2wgd5B4i9WzScZ4xJDbFLe7nDXiaKwSnRqo=;
+        b=z9oHTQ2LTH6ayP8PAMrV1Dto4UMNq/Ak5aW1eqakt/k+up6GrJ8xeq2iRQ23lOjBA4
+         8IjTTDgHLag1gybJog8noCnj7h5RDMkMO1PFBvwAmLFxwoOHNV1UG2mJRP2KbeEYFzgH
+         emHMOYw4sDYrACBRK6QMtG3IiS4BkTexBvRiS4fR4LcjtZkwPxRKAyGoVaxvvQV6gm0m
+         cNCigpQuoINUkKOWGGOen4mW/vWBRLWj3/wvOFhf+E8kSo0SDnN+8M3kNrYO3XOljvYt
+         qayoDu6Nvrz4cNRbzrt6ZvlesqaTiysitEx2fSkhHBDbVX3Qi96Ews46HkbFYF9kt3tS
+         tyrA==
+X-Gm-Message-State: AOAM531VwOEU4H80ztpqJUyu8yk3LjnREM0t0b4Li6ICZ0zIsjkYsT1F
+        qITLKyqLOk6nCqskQoekC5ztvIq4Xls=
+X-Google-Smtp-Source: ABdhPJz1FVHSMGSmE2Wy7Rd1zrsuOxe4lGKW7e0DD9WOJgs+K7rhRmtZ7AWxOjbcwTSyRKOHPx0oHw==
+X-Received: by 2002:a05:651c:b0e:: with SMTP id b14mr3769307ljr.38.1639764315476;
+        Fri, 17 Dec 2021 10:05:15 -0800 (PST)
+Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru. [94.29.63.156])
+        by smtp.googlemail.com with ESMTPSA id k13sm1475964lfo.300.2021.12.17.10.05.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Dec 2021 10:05:15 -0800 (PST)
+Subject: Re: [PATCH v5 00/11] Support HDMI audio on NVIDIA Tegra20
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -57,96 +59,98 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Agneli <poczt@protonmail.ch>
 Cc:     linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v5 11/11] ASoC: tegra20: i2s: Filter out unsupported rates
-Date:   Fri, 17 Dec 2021 20:56:06 +0300
-Message-Id: <20211217175606.22645-12-digetx@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211217175606.22645-1-digetx@gmail.com>
 References: <20211217175606.22645-1-digetx@gmail.com>
+Message-ID: <019854ed-e181-eb81-8d91-2b598911b174@gmail.com>
+Date:   Fri, 17 Dec 2021 21:05:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211217175606.22645-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Support new nvidia,fixed-parent-rate device-tree property which instructs
-I2S that board wants parent clock rate to stay at a fixed rate. This allows
-to play audio over S/PDIF and I2S simultaneously. The root of the problem
-is that audio components on Tegra share the same audio PLL, and thus, only
-a subset of rates can be supported if we want to play audio simultaneously.
-Filter out audio rates that don't match parent clock rate if device-tree
-has the nvidia,fixed-parent-rate property.
+17.12.2021 20:55, Dmitry Osipenko пишет:
+> This series revives Tegra20 S/PDIF driver which was upstreamed long time
+> ago, but never was used. It also turns Tegra DRM HDMI driver into HDMI
+> audio CODEC provider. Finally, HDMI audio is enabled in device-trees.
+> For now the audio is enable only for Acer A500 tablet and Toshiba AC100
+> netbook because they're already supported by upstream, later on ASUS TF101
+> tablet will join them.
+> 
+> (!) These patches are made on top of stable dmaengine branch from Vinod Koul.
+> 
+> The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
+> 
+>   Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git tags/dmaengine_topic_slave_id_removal_5.17
+> 
+> for you to fetch changes up to 3c219644075795a99271d345efdfa8b256e55161:
+> 
+>   dmaengine: remove slave_id config field (2021-12-17 11:23:56 +0530)
+> 
+> Changelog:
+> 
+> v5: - Dropped all patches that were already applied by Thierry Reding.
+> 
+>     - Made minor changes that were suggested by Thierry Reding.
+> 
+>     - Added acks from Thierry Reding.
+> 
+>     - Rebased patches on top of stable dmaengine branch from Vinod Koul.
+> 
+> v4: - Added patches that update multi_v7_defconfig with the enabled S/PDIF
+>       and APB DMA drivers.
+> 
+> v3: - Renamed S/PDIF device-tree clocks as was suggested by Rob Herring.
+> 
+>     - Added r-bs and acks that were given by Rob Herring to v2.
+> 
+> v2: - Corrected I2S yaml problem that was reported by the DT bot for v1
+>       by removing the non-existent required clock-names property.
+> 
+>     - Removed assigned-clocks property from S/PDIF yaml since this property
+>       is now inherited from the clocks property.
+> 
+>     - Reordered the "tegra20: spdif: Set FIFO trigger level" patch, making
+>       it the first sound/soc patch in the series, like it was suggested by
+>       Mark Brown in the comment to v1. Also reworded commit message of this
+>       patch to *not* make it looks like it should be backported to stable
+>       kernels.
+> 
+> Dmitry Osipenko (11):
+>   ASoC: dt-bindings: Add binding for Tegra20 S/PDIF
+>   ASoC: dt-bindings: tegra20-i2s: Convert to schema
+>   ASoC: dt-bindings: tegra20-i2s: Document new nvidia,fixed-parent-rate
+>     property
+>   ASoC: tegra20: spdif: Set FIFO trigger level
+>   ASoC: tegra20: spdif: Support device-tree
+>   ASoC: tegra20: spdif: Improve driver's code
+>   ASoC: tegra20: spdif: Use more resource-managed helpers
+>   ASoC: tegra20: spdif: Reset hardware
+>   ASoC: tegra20: spdif: Support system suspend
+>   ASoC: tegra20: spdif: Filter out unsupported rates
+>   ASoC: tegra20: i2s: Filter out unsupported rates
+> 
+>  .../bindings/sound/nvidia,tegra20-i2s.txt     |  30 ---
+>  .../bindings/sound/nvidia,tegra20-i2s.yaml    |  77 +++++++
+>  .../bindings/sound/nvidia,tegra20-spdif.yaml  |  85 ++++++++
+>  sound/soc/tegra/tegra20_i2s.c                 |  49 +++++
+>  sound/soc/tegra/tegra20_spdif.c               | 198 +++++++++++++-----
+>  sound/soc/tegra/tegra20_spdif.h               |   1 +
+>  sound/soc/tegra/tegra_pcm.c                   |   6 +
+>  sound/soc/tegra/tegra_pcm.h                   |   1 +
+>  8 files changed, 359 insertions(+), 88 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-i2s.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-i2s.yaml
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-spdif.yaml
+> 
 
-Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- sound/soc/tegra/tegra20_i2s.c | 49 +++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
-
-diff --git a/sound/soc/tegra/tegra20_i2s.c b/sound/soc/tegra/tegra20_i2s.c
-index 266d2cab9f49..27365a877e47 100644
---- a/sound/soc/tegra/tegra20_i2s.c
-+++ b/sound/soc/tegra/tegra20_i2s.c
-@@ -262,10 +262,59 @@ static int tegra20_i2s_probe(struct snd_soc_dai *dai)
- 	return 0;
- }
- 
-+static const unsigned int tegra20_i2s_rates[] = {
-+	8000, 11025, 16000, 22050, 32000, 44100, 48000, 64000, 88200, 96000
-+};
-+
-+static int tegra20_i2s_filter_rates(struct snd_pcm_hw_params *params,
-+				    struct snd_pcm_hw_rule *rule)
-+{
-+	struct snd_interval *r = hw_param_interval(params, rule->var);
-+	struct snd_soc_dai *dai = rule->private;
-+	struct tegra20_i2s *i2s = dev_get_drvdata(dai->dev);
-+	struct clk *parent = clk_get_parent(i2s->clk_i2s);
-+	long i, parent_rate, valid_rates = 0;
-+
-+	parent_rate = clk_get_rate(parent);
-+	if (parent_rate <= 0) {
-+		dev_err(dai->dev, "Can't get parent clock rate: %ld\n",
-+			parent_rate);
-+		return parent_rate ?: -EINVAL;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(tegra20_i2s_rates); i++) {
-+		if (parent_rate % (tegra20_i2s_rates[i] * 128) == 0)
-+			valid_rates |= BIT(i);
-+	}
-+
-+	/*
-+	 * At least one rate must be valid, otherwise the parent clock isn't
-+	 * audio PLL. Nothing should be filtered in this case.
-+	 */
-+	if (!valid_rates)
-+		valid_rates = BIT(ARRAY_SIZE(tegra20_i2s_rates)) - 1;
-+
-+	return snd_interval_list(r, ARRAY_SIZE(tegra20_i2s_rates),
-+				 tegra20_i2s_rates, valid_rates);
-+}
-+
-+static int tegra20_i2s_startup(struct snd_pcm_substream *substream,
-+			       struct snd_soc_dai *dai)
-+{
-+	if (!device_property_read_bool(dai->dev, "nvidia,fixed-parent-rate"))
-+		return 0;
-+
-+	return snd_pcm_hw_rule_add(substream->runtime, 0,
-+				   SNDRV_PCM_HW_PARAM_RATE,
-+				   tegra20_i2s_filter_rates, dai,
-+				   SNDRV_PCM_HW_PARAM_RATE, -1);
-+}
-+
- static const struct snd_soc_dai_ops tegra20_i2s_dai_ops = {
- 	.set_fmt	= tegra20_i2s_set_fmt,
- 	.hw_params	= tegra20_i2s_hw_params,
- 	.trigger	= tegra20_i2s_trigger,
-+	.startup	= tegra20_i2s_startup,
- };
- 
- static const struct snd_soc_dai_driver tegra20_i2s_dai_template = {
--- 
-2.33.1
-
+Mark, I see that you already applied previous v4 to broonie/misc. Please
+skip this v5 then, thanks!
