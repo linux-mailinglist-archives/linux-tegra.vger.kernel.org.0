@@ -2,82 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A8947A0BE
-	for <lists+linux-tegra@lfdr.de>; Sun, 19 Dec 2021 14:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEF4F47A13C
+	for <lists+linux-tegra@lfdr.de>; Sun, 19 Dec 2021 17:02:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbhLSN7A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 19 Dec 2021 08:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44588 "EHLO
+        id S236086AbhLSQCJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 19 Dec 2021 11:02:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbhLSN67 (ORCPT
+        with ESMTP id S233204AbhLSQCJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 19 Dec 2021 08:58:59 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1604C06173E
-        for <linux-tegra@vger.kernel.org>; Sun, 19 Dec 2021 05:58:58 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id z3so1223770plg.8
-        for <linux-tegra@vger.kernel.org>; Sun, 19 Dec 2021 05:58:58 -0800 (PST)
+        Sun, 19 Dec 2021 11:02:09 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9975C061574;
+        Sun, 19 Dec 2021 08:02:08 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id m12so11938202ljj.6;
+        Sun, 19 Dec 2021 08:02:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=lfcbJbX5oTLP8SxjC643FL/N5klp3yLw7FLZvzxTOfM=;
-        b=N2D02rb5a7sBzjvwN7AMsg4oSFAOclVZwUw8PS27InSP0tyXiUqTPGgGJaiUxYpmw2
-         HC2Bro8hb3gaQB1Noj5gIQXMqbKPAQGtPVkXw1nbI2dI1QkgX44noBTCT4mYudw/bsuL
-         83SzF4dy28AMTNUU2JodqrtKolXqSxHXz4KiHg22VeJkDyH8lYuIKvDhcz7LFjhvvKZE
-         ql7Tsd7Ko5ttPUPjQMZ0J08I7//n4dsJFRaPuqzPYnVL5MU0Y54X4Lt7u+bQmQUgCmkh
-         xvfOLtUQPXv+NUktJoNMbgOOPhvZDjaYxMzIGnSBrhfp3BrqlYlKVSBH27b0KOZjfVXb
-         KyVw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lOJVwY5jpStaCZAdlI9r7F578YcqW449P/YXre+J0tQ=;
+        b=pjA90ue/y2GqwI2z14nTc67a4m47280O/yxsM3rbaOR0jXnST/2OFTz7rnBTTlDTiD
+         yrSS6Y7Bxy5Uf9WLx+PToztObgQKrfnS007NXaKbF1DUQCVehT4AnS1J7HTmnU7awlAL
+         DXhtAkhd+90jcpkSK2sqOdfRMlJLZpli8dT1Wfmv7t9H3OW0hfWcIR8ZJ9CJdh9XdZuw
+         7icknWh9L06pnfWketuwEXCRVG8syJqoUQNyQPMz4ty1kgX9w/NGWOI7mKzhhWsPBcOX
+         4N/kDK7AWqIhtjAnv2ccV2MxIBxJs7xIUxRl6HdKTaaidslm/H9merf2IgHYxbdeB7zI
+         1UQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=lfcbJbX5oTLP8SxjC643FL/N5klp3yLw7FLZvzxTOfM=;
-        b=KQQ8RU4cm3TQX6fSqPeoOjyDi95xDxlxwI5BqXqtLyyEfMTUqT8TCUECICI+usHneH
-         2/bSMiHxaMf06GjisjHgGpvnncm2n6JUJ6PB3eYlWCYYFgb0KkRIHVnQh3u9hUho1aOK
-         5M+dKlzRwU8n5YDvOTo1jVQLultimL5UMWn/ZbC5gHK9dfhkRAxxWDmUSTJEJN2PI94h
-         cAKjuc40jT6AdNGhleY1q09oVtISLigSrGHhbrwQSIpJeFvpwSSokaGrWf3MvNXVbTAb
-         ebAui/uZoQKkVcijMsXuMg3+dJsoSxd6zJFQbPZ9z07MdoyUaQx+1xPSAIHsHv7ucpm/
-         R9Hg==
-X-Gm-Message-State: AOAM530Zg8/zg9uq9L3udtXNjQRhLg1ltO7pUckj2V2wz5NTo6Sr38py
-        fLbyHORmlHXyGpWLMSf3ZCpU5w0F0q+Q6AaBntI=
-X-Google-Smtp-Source: ABdhPJxtt0u9dVa8CtmljJcOiySq9uy79grk48ruDbCozQ8PPOumUJsaj7eBlxynuDlm2YBNPY7qEAO37IeeAMz/1aE=
-X-Received: by 2002:a17:903:230b:b0:148:e4c7:5546 with SMTP id
- d11-20020a170903230b00b00148e4c75546mr10556475plh.67.1639922337617; Sun, 19
- Dec 2021 05:58:57 -0800 (PST)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lOJVwY5jpStaCZAdlI9r7F578YcqW449P/YXre+J0tQ=;
+        b=nukQnlIUETnHs3kLbiRm57Hj79FrCbLIwu11HG40CV4Pvo9zHUHN57o6+sAaCI5MiP
+         KKT7avgLsyBd4CIMOFH+3JxKPikcXgXevVMCrVv/TrvvvaUUkGGbcmINSq0TQljhQ7q7
+         kb0kHg3L5CRvl0tIaPZ4zGSxf1dOTbxhv8O3ijmxbS8Q/RznsxSQw4vob65sUxXGAiee
+         Xz7NWRtRnBpjQt/BFaLv8mcbg5/x0NvmMiQfXlveU7VgsjKsulrRjpFMjF/E98DmRjT+
+         0GXxOutKZM0wuuJBSBhs2Z+yDlwkBT/CxcoEcOMtRrYlzS3PNlIT2PUj3c90pAbNId8K
+         sjNA==
+X-Gm-Message-State: AOAM532S38ckN03fdm8G3TX+eYu1cWtUs9qFB63bKWNeb96bZepmlQn2
+        r+vdxVkblPkniLbsknlbpcI7QerGt3Q=
+X-Google-Smtp-Source: ABdhPJx1ZWsrVE8ULcM6usPQM1yX8t+9VcsmDxvcl3oZQN3xvGSoTr7yvW/BSd8mrcEdFyMmhUUbjw==
+X-Received: by 2002:a2e:b177:: with SMTP id a23mr11100264ljm.2.1639929726863;
+        Sun, 19 Dec 2021 08:02:06 -0800 (PST)
+Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru. [46.138.43.24])
+        by smtp.googlemail.com with ESMTPSA id 76sm2196162ljj.69.2021.12.19.08.02.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Dec 2021 08:02:06 -0800 (PST)
+Subject: Re: [PATCH v1 0/5] Improvements for TC358768 DSI bridge driver
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maxim Schwalm <maxim.schwalm@gmail.com>,
+        Andreas Westman Dorcsak <hedmoo@yahoo.com>,
+        =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-tegra@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20211002233447.1105-1-digetx@gmail.com>
+ <CAG3jFysa8G_fuGDfSLze-ovft3=gc5PXLaPtwTkC2_e0itQYNw@mail.gmail.com>
+ <c09bd552-767e-e783-3f9f-114b8cedb475@gmail.com>
+Message-ID: <a999b141-4b14-cdd0-f6fa-3d861c0f381f@gmail.com>
+Date:   Sun, 19 Dec 2021 19:02:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:67cd:0:0:0:0 with HTTP; Sun, 19 Dec 2021 05:58:57
- -0800 (PST)
-Reply-To: jaberalya16@gmail.com
-From:   Alya <aubertannemarie693@gmail.com>
-Date:   Sun, 19 Dec 2021 14:58:57 +0100
-Message-ID: <CA+FtesVWhgP9y3DptntGy5X52ag5CN2h4b46svFCLujn43oB0g@mail.gmail.com>
-Subject: MESSAGGIO DELL'OSPEDALE / HOSPITAL MESSAGE
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <c09bd552-767e-e783-3f9f-114b8cedb475@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=20
-I miei umili saluti
+19.10.2021 23:37, Dmitry Osipenko пишет:
+> 19.10.2021 12:47, Robert Foss пишет:
+>> Applied to drm-misc-next
+>>
+>> On Sun, 3 Oct 2021 at 01:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>
+>>> This series adds couple improvements to the TC358768 DSI bridge driver,
+>>> enabling Panasonic VVX10F004B00 DSI panel support. This panel is used by
+>>> ASUS Transformer TF700T tablet, which is ready for upstream kernel and
+>>> display panel support is the biggest missing part.
+>>>
+>>> Dmitry Osipenko (5):
+>>>   drm/bridge: tc358768: Enable reference clock
+>>>   drm/bridge: tc358768: Support pulse mode
+>>>   drm/bridge: tc358768: Calculate video start delay
+>>>   drm/bridge: tc358768: Disable non-continuous clock mode
+>>>   drm/bridge: tc358768: Correct BTACNTRL1 programming
+>>>
+>>>  drivers/gpu/drm/bridge/tc358768.c | 94 +++++++++++++++++++++++--------
+>>>  1 file changed, 71 insertions(+), 23 deletions(-)
+>>>
+>>> --
+>>> 2.32.0
+>>>
+> 
+> Robert, thank you for taking care of these patches! Now nothing is
+> holding us from upstreaming the device-tree of the Transformer tablet.
+> 
 
-Mio buon amico, come stai, ho un fondo di beneficenza che doner=C3=B2 con
-il tuo aiuto. Prova a contattarmi per maggiori informazioni. Ti dir=C3=B2
-di pi=C3=B9 su di me e sui miei piani con questi soldi quando avr=C3=B2 tue
-notizie.
+Hello Robert,
 
-Aspetto una tua risposta per darti maggiori dettagli.
-
-
-----------------------------
-
-my humble regards,
-
-Dear friend how are you, I have a charitable donation fund that I want
-to donate by helping you. Please try to get back to me for more
-information. I will tell you more about myself and my plans with this
-money when I hear from you.
-
-Awaiting your reply to give me more details.
+These patches spent 2 months in drm-misc-next, will they graduate into
+v5.17 or something special needs to be done for that?
