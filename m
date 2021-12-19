@@ -2,79 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A39E3479BF5
-	for <lists+linux-tegra@lfdr.de>; Sat, 18 Dec 2021 19:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35A8947A0BE
+	for <lists+linux-tegra@lfdr.de>; Sun, 19 Dec 2021 14:59:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233785AbhLRSIe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 18 Dec 2021 13:08:34 -0500
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:33758 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233764AbhLRSIb (ORCPT
+        id S229521AbhLSN7A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 19 Dec 2021 08:59:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229910AbhLSN67 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 18 Dec 2021 13:08:31 -0500
-Received: by mail-oi1-f174.google.com with SMTP id q25so8951781oiw.0;
-        Sat, 18 Dec 2021 10:08:31 -0800 (PST)
+        Sun, 19 Dec 2021 08:58:59 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1604C06173E
+        for <linux-tegra@vger.kernel.org>; Sun, 19 Dec 2021 05:58:58 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id z3so1223770plg.8
+        for <linux-tegra@vger.kernel.org>; Sun, 19 Dec 2021 05:58:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=lfcbJbX5oTLP8SxjC643FL/N5klp3yLw7FLZvzxTOfM=;
+        b=N2D02rb5a7sBzjvwN7AMsg4oSFAOclVZwUw8PS27InSP0tyXiUqTPGgGJaiUxYpmw2
+         HC2Bro8hb3gaQB1Noj5gIQXMqbKPAQGtPVkXw1nbI2dI1QkgX44noBTCT4mYudw/bsuL
+         83SzF4dy28AMTNUU2JodqrtKolXqSxHXz4KiHg22VeJkDyH8lYuIKvDhcz7LFjhvvKZE
+         ql7Tsd7Ko5ttPUPjQMZ0J08I7//n4dsJFRaPuqzPYnVL5MU0Y54X4Lt7u+bQmQUgCmkh
+         xvfOLtUQPXv+NUktJoNMbgOOPhvZDjaYxMzIGnSBrhfp3BrqlYlKVSBH27b0KOZjfVXb
+         KyVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=3fGBHfhnSGOfV7vCG+wQzp3UlSs7DZ5URt+w0FqKPMA=;
-        b=pvtQZ/JvNYLMnkO8u+gSk7qQXVGTatAuk+4H59Mz8GwHw5YYSYtXVYWSCNSj8fMaKY
-         JTg/ZVdsmbBzzBfuphYu7eMDXJTIXJFq16gWVdqlZInn5L8s+Cf3ITkDzxO8gdn3V2kZ
-         6Sq/IIQqHFoL/iWXmD0VPuIxIYBbV+1l+TgJ5TtnTteu+MPWt3m/s4FNI23pRce7r8Kw
-         3jfa+sB4IzKHi0njqCj3SLDv1L9O9mgBNI/SzLdgCtbOBq/vH9KBrfp3c+gvhXtQaKjK
-         w1d7B7FxHmETkR41ZN0IxxvlqCWTm21ZyLqbNukyjwr7IMRYOvLgoJv1AuL1na4Gfulp
-         l4gw==
-X-Gm-Message-State: AOAM531eMX59UUT9s2NxI9YzwKCShJZYQxfXwKSMhEcjpt4pHY8TkYRN
-        /woXB1nQGQYrdMKXiFf0qnqqnpdBWA==
-X-Google-Smtp-Source: ABdhPJw1r3eqLckdvydF31crFqVOj0b7o9J+rR5xj5IUzEG6W1sr1YDf4wS3ykG4M/U7seiwiYQaSg==
-X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr6363999oil.65.1639850911252;
-        Sat, 18 Dec 2021 10:08:31 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id g17sm2359815oiy.14.2021.12.18.10.08.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Dec 2021 10:08:30 -0800 (PST)
-Received: (nullmailer pid 72440 invoked by uid 1000);
-        Sat, 18 Dec 2021 18:08:26 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org
-In-Reply-To: <20211217165919.2700920-3-thierry.reding@gmail.com>
-References: <20211217165919.2700920-1-thierry.reding@gmail.com> <20211217165919.2700920-3-thierry.reding@gmail.com>
-Subject: Re: [PATCH 3/5] dt-bindings: memory: Add Tegra114 memory controller bindings
-Date:   Sat, 18 Dec 2021 12:08:26 -0600
-Message-Id: <1639850906.470783.72439.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=lfcbJbX5oTLP8SxjC643FL/N5klp3yLw7FLZvzxTOfM=;
+        b=KQQ8RU4cm3TQX6fSqPeoOjyDi95xDxlxwI5BqXqtLyyEfMTUqT8TCUECICI+usHneH
+         2/bSMiHxaMf06GjisjHgGpvnncm2n6JUJ6PB3eYlWCYYFgb0KkRIHVnQh3u9hUho1aOK
+         5M+dKlzRwU8n5YDvOTo1jVQLultimL5UMWn/ZbC5gHK9dfhkRAxxWDmUSTJEJN2PI94h
+         cAKjuc40jT6AdNGhleY1q09oVtISLigSrGHhbrwQSIpJeFvpwSSokaGrWf3MvNXVbTAb
+         ebAui/uZoQKkVcijMsXuMg3+dJsoSxd6zJFQbPZ9z07MdoyUaQx+1xPSAIHsHv7ucpm/
+         R9Hg==
+X-Gm-Message-State: AOAM530Zg8/zg9uq9L3udtXNjQRhLg1ltO7pUckj2V2wz5NTo6Sr38py
+        fLbyHORmlHXyGpWLMSf3ZCpU5w0F0q+Q6AaBntI=
+X-Google-Smtp-Source: ABdhPJxtt0u9dVa8CtmljJcOiySq9uy79grk48ruDbCozQ8PPOumUJsaj7eBlxynuDlm2YBNPY7qEAO37IeeAMz/1aE=
+X-Received: by 2002:a17:903:230b:b0:148:e4c7:5546 with SMTP id
+ d11-20020a170903230b00b00148e4c75546mr10556475plh.67.1639922337617; Sun, 19
+ Dec 2021 05:58:57 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a05:6a10:67cd:0:0:0:0 with HTTP; Sun, 19 Dec 2021 05:58:57
+ -0800 (PST)
+Reply-To: jaberalya16@gmail.com
+From:   Alya <aubertannemarie693@gmail.com>
+Date:   Sun, 19 Dec 2021 14:58:57 +0100
+Message-ID: <CA+FtesVWhgP9y3DptntGy5X52ag5CN2h4b46svFCLujn43oB0g@mail.gmail.com>
+Subject: MESSAGGIO DELL'OSPEDALE / HOSPITAL MESSAGE
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 17 Dec 2021 17:59:17 +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Document the bindings for the memory controller found on Tegra114 SoCs.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  .../nvidia,tegra114-mc.yaml                   | 85 +++++++++++++++++++
->  1 file changed, 85 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra114-mc.yaml
-> 
+--=20
+I miei umili saluti
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+Mio buon amico, come stai, ho un fondo di beneficenza che doner=C3=B2 con
+il tuo aiuto. Prova a contattarmi per maggiori informazioni. Ti dir=C3=B2
+di pi=C3=B9 su di me e sui miei piani con questi soldi quando avr=C3=B2 tue
+notizie.
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
-
-Full log is available here: https://patchwork.ozlabs.org/patch/1570202
+Aspetto una tua risposta per darti maggiori dettagli.
 
 
-memory-controller@70019000: '#reset-cells' is a required property
-	arch/arm/boot/dts/tegra114-dalmore.dt.yaml
-	arch/arm/boot/dts/tegra114-roth.dt.yaml
-	arch/arm/boot/dts/tegra114-tn7.dt.yaml
+----------------------------
 
+my humble regards,
+
+Dear friend how are you, I have a charitable donation fund that I want
+to donate by helping you. Please try to get back to me for more
+information. I will tell you more about myself and my plans with this
+money when I hear from you.
+
+Awaiting your reply to give me more details.
