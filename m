@@ -2,245 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 909D547B1AD
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Dec 2021 17:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4AE847B225
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Dec 2021 18:31:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239122AbhLTQzz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Dec 2021 11:55:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234088AbhLTQzz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Dec 2021 11:55:55 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0734C061574
-        for <linux-tegra@vger.kernel.org>; Mon, 20 Dec 2021 08:55:54 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id i63so16985770lji.3
-        for <linux-tegra@vger.kernel.org>; Mon, 20 Dec 2021 08:55:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gYOeRnlNUf07TGfNsuJo6tQ6jQaSc+naJyLeiGaU/PM=;
-        b=i2Lh4c73LQtawr4+FXPbBN8NJ+/YjHYjuOMNiNRhJVvIqkS4Odq/zezzkNqxmif3ry
-         vZTf0u+6aQEAQ66QNaUZsD3mqHFGG9ShyS3fDktq4PHSKw4ScgWBdHdQTkEwHwPUlz+u
-         X65xpUeuS31mT+GbWwPKe+cyXHm0mdr8gMb3rHkJ05xW9bEXAVVwqf5eUJ7u5bIhQR8u
-         ZBz98LYSfXWh7VvaVnx51vp4XDcnPfCSG1mOOiGklTv8a4NtpnMpu8QGMWHsw7CF5mD0
-         6mRNtnOeig0ch63TZtBR6meqMAawwXJ0xZ4gIXYmwf0DsxuCWj4CGid8GKEqOsNL1+tc
-         3FVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gYOeRnlNUf07TGfNsuJo6tQ6jQaSc+naJyLeiGaU/PM=;
-        b=QVeaV4ZdV6pMQhkNfDiCeGlRNSZ66sZQTbtQKwB61udW2ehvEfE9IOrdxWCRIyxlIY
-         pwcGntLqGd1WKZ//Kv5W6AksWUFTV0J02zum1zHt3DUqqMdT9teco6uGvfHhM5iq8tfG
-         XOL5szezQ0J3/hQwW36Jw8hZWGCs8VCHhAzeChkL8WnmdL4+Q2upnXLQTXiy13igbnCz
-         0xUdZCpNj5XHym5cyUpgmSlwH1wN45PJdvPoHu0bz83mZxbUmpyrBNjL++E44U0if6rI
-         gq+1J8C6eUpNIR3UJEhKBGmOdDUaYr1Xa63B/X0VTkxs13Jar87O5SqXtbZvtq/0rDS5
-         v9CA==
-X-Gm-Message-State: AOAM530yZ67KpjdDd4pe4edScGQThbONVzRg6kSssaoN1cr8jYyvnPhD
-        uHLswRma41dgD605YLswkM0aivCZS+0=
-X-Google-Smtp-Source: ABdhPJwVJCUKxaMn3/LEvM3DAubj0wMR0qEfuZelSlQCYtNFut5rMLxzecTgz/VNmONcfZxloF0keQ==
-X-Received: by 2002:a2e:b5b7:: with SMTP id f23mr15095546ljn.244.1640019352776;
-        Mon, 20 Dec 2021 08:55:52 -0800 (PST)
-Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru. [46.138.43.24])
-        by smtp.googlemail.com with ESMTPSA id bi8sm433697lfb.24.2021.12.20.08.55.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Dec 2021 08:55:52 -0800 (PST)
-Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Thomas Graichen <thomas.graichen@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20211220104855.428290-1-thierry.reding@gmail.com>
- <dd7a2f23-00d6-9160-1e09-1d4ea5b1f5e1@gmail.com> <YcCg/xktJ2uShFRf@orome>
- <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com>
-Message-ID: <34cea860-9f5b-153e-6103-dadc7da11da4@gmail.com>
-Date:   Mon, 20 Dec 2021 19:55:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S233441AbhLTRbU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Dec 2021 12:31:20 -0500
+Received: from mail-dm3nam07on2072.outbound.protection.outlook.com ([40.107.95.72]:40448
+        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233438AbhLTRbQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 Dec 2021 12:31:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U+C2C1DKSyQTFSONq5eeyb5fJaU/+nbbAnFEGYWEMYuB4AWodL+qVRx8RRB7RjcjgSIQ2lESXStIDwuoempWyxvk1N4ATGfp+lVwpKJm1a8ck0DLSaqE+VmlQwhfvN5mI+dPhqF1b9MgAFYXQfOYn0QUARDWkmaUYYlsF5E78tBwMuJ/0oCcx1A9hCoGhLhjismhUFoi9EgBwIYnYkOTAoZtLaiojYCDR72XQeK0kMAwe2zdJ02WVna2zJ6TX0ZjBRlmDSjXoasrE9psISHojjpjixV1ZSoDboYrH4wd8n0ER+SsKi5dhK56KCnE3sgwXe+pW6LBWIddatKuaZwZ8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tA1yM5hF2qHHoZcGrGqKT9d7LdX6enQT2g68t9Ey+cU=;
+ b=OGXF+nVsiSNWLPQr4DJAVOChq6Kf6IlPCpnaZSEO7vyT9qufzq+XRRKg3XfTe7nUgsvdVMc3GUWBharoie7nksKmp0ivyCUa1pjAJ14uiLACz6sPOivVMWFQTm1yHADjTn7Q1k1+oL+HPWy5KUBDSKn06ldN1MeB+i6OPK5GV2YmfTKBETjeLiLXY3Pbu8ymlYeqtmtwb0GrCsOnY4pNmVaLWEjmGagTcte1uOSGbdte08mWxadgbpCI9+lLXZxhex9hmci4bFe8yjHUBvg8RiLmDgKC7y4mZIyHp6NoXwL93zzfvLgk4SAZpET6o1HIC1h/n+dpeEhsk4a+R0Jhxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.235) smtp.rcpttodomain=suse.com smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tA1yM5hF2qHHoZcGrGqKT9d7LdX6enQT2g68t9Ey+cU=;
+ b=uifaMf/nTqzzo0K7reWhnR56/cR3zS9hTvsue6c0jJC69AgJUp8oqJVpaW9RamxJoZcv9XX02MShtmCPv6a6FjG+unhCLNOeJqUM7RB1rNR6ZshXB9HIRwM4vNuWDsP/WN/Ihw38SCF3WGSQ/hJT6BG7SczOfsTX8WHL8L5RPURiCV5aGXTVyxOeDKBzBVkjNdjUIrm0YD5no5BtRKYuWKrEEXmDABL9KgYAtcMbsU15++GDWIBDFCGft3aG3Med4yiyOJ4Hl6KefPy/cC9TC2L4lLd4WxuQgeqZR6YM4VWV09YzuAtoz2UMC1LiJoovqP8QPrnyHHlu8IFuxtflrQ==
+Received: from BN9PR03CA0620.namprd03.prod.outlook.com (2603:10b6:408:106::25)
+ by BN7PR12MB2772.namprd12.prod.outlook.com (2603:10b6:408:26::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Mon, 20 Dec
+ 2021 17:31:14 +0000
+Received: from BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:106:cafe::1f) by BN9PR03CA0620.outlook.office365.com
+ (2603:10b6:408:106::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14 via Frontend
+ Transport; Mon, 20 Dec 2021 17:31:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.235) by
+ BN8NAM11FT050.mail.protection.outlook.com (10.13.177.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4801.14 via Frontend Transport; Mon, 20 Dec 2021 17:31:14 +0000
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 20 Dec
+ 2021 17:30:32 +0000
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 20 Dec
+ 2021 17:30:32 +0000
+Received: from audio.nvidia.com (172.20.187.6) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Mon, 20 Dec 2021 17:30:28 +0000
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <tiwai@suse.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <robh+dt@kernel.org>, <thierry.reding@gmail.com>, <perex@perex.cz>
+CC:     <jonathanh@nvidia.com>, <digetx@gmail.com>, <mkumard@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH v2 0/3] Fix Tegra194 HDA regression
+Date:   Mon, 20 Dec 2021 23:00:05 +0530
+Message-ID: <1640021408-12824-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7c3aee22-94c1-4c69-065e-08d9c3de85b4
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2772:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR12MB2772486E6AA5AFBC67CF9A36A77B9@BN7PR12MB2772.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pjZQaZgQJ+j/0bQdsO87htJcgZCoZyaJgPh4Vo2Llms5CRNy0zdxIUj+KLYYftq7mQFtUZUgBwhEKkKLpXRIC//uw1u9e47iHD5XfkY3p568VdfcHKOG7KVhz2RFRCk8w93h67gCAe9dfrGcm1peVnzfxYPVrK8VVQqtXx40hwtgwCYun+zYxiSJY34MdFKkO6tnWE3oOgm1cHmsrtofe33xSFcD/Lmg+Kp4zvGGaMvSQzwRjijVZRNhcbFyOt5uMNs1bmBHLC6QTgw4WuLCOZDz2rg6V2M5Vjx9J1FRdcqEn/YFBXPtPI5oPQXbcWbgRXFiKU5K3UPpvWcarG7NSEt2ZOsjNPFrn9hb8EJGlBrJdhChRrai3YcWQpWyyqRruKCyQN3Sx6A7qz9oobyyR2DVdRE1uI0ufOrXxmAQI666+h1hlD3wVTogJI9g1/BAs7IAjdRWngLdeG51PzWIHMx+krVR/7f9B18699SD1B4VcHfVJnqU7Q50z5vm+04+Tw9YTErrxnbFOunFLocSX2EzEDCfnDs0aVMol3qo7urn7fnS5Of6fbgtxUTipBcsHix5YXAW1zCh4UZPhGobSb8A+Id9Rj18EnQdrIXWYpJlBGsJ+nOmVsu9mdjQjI1fRrffZ49cLj6oYerFnTEf9MGGhNY8kgWKDMVTsXDo/+cgZdrLbKRNUbBrIlPNmqivxkHfvpuF3DZcuybJkP6RkpaElz9/pvV/dx12qhXGFlYK1ErJCZcVQETYwdAgyhcXK8vpwFx7nLIoxlVEiXR/G04rxobLLJpOsyEkLLLQOWr6NzWK8/5EfYq396nGeaxMOMUUc1w6OXvLlHOm+046Tg==
+X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(4326008)(70586007)(34020700004)(36756003)(356005)(40460700001)(26005)(186003)(508600001)(47076005)(70206006)(81166007)(82310400004)(7696005)(336012)(316002)(6666004)(2616005)(36860700001)(2906002)(8676002)(83380400001)(426003)(5660300002)(8936002)(7416002)(107886003)(110136005)(54906003)(86362001)(4744005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2021 17:31:14.1241
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c3aee22-94c1-4c69-065e-08d9c3de85b4
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2772
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.12.2021 19:12, Dmitry Osipenko пишет:
-> 20.12.2021 18:27, Thierry Reding пишет:
->> On Mon, Dec 20, 2021 at 05:45:41PM +0300, Dmitry Osipenko wrote:
->>> 20.12.2021 13:48, Thierry Reding пишет:
->>>> From: Thierry Reding <treding@nvidia.com>
->>>>
->>>> Hi,
->>>>
->>>> this is an alternative proposal to fix panel support on Venice 2 and
->>>> Nyan. Dmitry had proposed a different solution that involved reverting
->>>> the I2C/DDC registration order and would complicate things by breaking
->>>> the encapsulation of the driver by introducing a global (though locally
->>>> scoped) variable[0].
->>>>
->>>> This set of patches avoids that by using the recently introduced DP AUX
->>>> bus infrastructure. The result is that the changes are actually less
->>>> intrusive and not a step back. Instead they nicely remove the circular
->>>> dependency that previously existed and caused these issues in the first
->>>> place.
->>>>
->>>> To be fair, this is not perfect either because it requires a device tree
->>>> change and hence isn't technically backwards-compatible. However, given
->>>> that the original device tree was badly broken in the first place, I
->>>> think we can make an exception, especially since it is not generally a
->>>> problem to update device trees on the affected devices.
->>>>
->>>> Secondly, this relies on infrastructure that was introduced in v5.15 and
->>>> therefore will be difficult to backport beyond that. However, since this
->>>> functionality has been broken since v5.13 and all of the kernel versions
->>>> between that and v5.15 are EOL anyway, there isn't much that we can do
->>>> to fix the interim versions anyway.
->>>>
->>>> Adding Doug and Laurent since they originally designed the AUX bus
->>>> patches in case they see anything in here that would be objectionable.
->>>>
->>>> Thierry
->>>>
->>>> [0]: https://lore.kernel.org/dri-devel/20211130230957.30213-1-digetx@gmail.com/
->>>>
->>>> Thierry Reding (2):
->>>>   drm/tegra: dpaux: Populate AUX bus
->>>>   ARM: tegra: Move panels to AUX bus
->>>>
->>>>  arch/arm/boot/dts/tegra124-nyan-big.dts   | 15 +++++++++------
->>>>  arch/arm/boot/dts/tegra124-nyan-blaze.dts | 15 +++++++++------
->>>>  arch/arm/boot/dts/tegra124-venice2.dts    | 14 +++++++-------
->>>>  drivers/gpu/drm/tegra/Kconfig             |  1 +
->>>>  drivers/gpu/drm/tegra/dpaux.c             |  7 +++++++
->>>>  5 files changed, 33 insertions(+), 19 deletions(-)
->>>>
->>>
->>> It should "work" since you removed the ddc-i2c-bus phandle from the
->>> panel nodes, and thus, panel->ddc won't be used during panel-edp driver
->>> probe. But this looks like a hack rather than a fix.
->>
->> The AUX ->ddc will be used for panel->ddc if the ddc-i2c-bus property is
->> not specified. And that makes perfect sense because we'd basically just
->> be pointing back to the AUX node anyway.
->>
->>> I'm not sure why and how devm_of_dp_aux_populate_ep_devices() usage
->>> should be relevant here. The drm_dp_aux_register() still should to
->>> invoked before devm_of_dp_aux_populate_ep_devices(), otherwise
->>> panel->ddc adapter won't be registered.
->>
->> drm_dp_aux_register() is only needed to expose the device to userspace
->> and make the I2C adapter available to the rest of the system. But since
->> we already know the AUX and I2C adapter, we can use it directly without
->> doing a separate lookup. drm_dp_aux_init() should be enough to set the
->> adapter up to work for what we need.
->>
->> See also the kerneldoc for drm_dp_aux_register() where this is described
->> in a bit more detail.
-> 
-> Alright, so you fixed it by removing the ddc-i2c-bus phandles and I2C
-> DDC will work properly anyways with that on v5.16.
-> 
-> But the aux-bus usage still is irrelevant for the fix. Let's not use it
-> then.
-> 
->>> The panel->ddc isn't used by the new panel-edp driver unless panel is
->>> compatible with "edp-panel". Hence the generic_edp_panel_probe() should
->>> either fail or crash for a such "edp-panel" since panel->ddc isn't fully
->>> instantiated, AFAICS.
->>
->> I've tested this and it works fine on Venice 2. Since that was the
->> reference design for Nyan, I suspect that Nyan's will also work.
->>
->> It'd be great if Thomas or anyone else with access to a Nyan could
->> test this to verify that.
-> 
-> There is no panel-edp driver in the v5.15. The EOL of v5.15 is Oct,
-> 2023, hence we need to either use:
-> 
-> Approach #1:
-> 
-> 1. apply my variant of the fix
-> 2. backport it to v5.15
-> 3. apply your variant without aux-bus, replacing my fix on 5.16+
+HDA probe failure is observed on Tegra194 based platforms and this
+happens due to reset failure. This series fixes the problem by
+skipping the failing reset and DT bindings are updated accordingly.
 
-Although, I see that it doesn't make much sense to say "your variant
-without aux-bus". "Remove ddc-i2c-bus phandles from DTs" will be better.
 
-> Or
-> 
-> Approach #2:
-> 
-> 1. remove ddc-i2c-bus phandles in DTs
-> 2. backport (?) it to v5.15
-> 3. apply your variant without aux-bus
-> 
-> Or
-> 
-> Approach #3:
-> 
-> 1. ignore v5.15 and keep it screwed
-> 2. apply your variant as is
-> 
-> Which approach will you prefer?
-> 
-> I'm not happy that older DTBs will be broken. Can we do better about it?
-> 
-> Is it possible to patch DT in the code by removing the ddc-i2c-bus phandle?
-> 
-> Or can we patch panel-simple on 5.15 and panel-edp on 5.16, making these
-> drivers to skip ddc-i2c-bus on Tegra+eDP? The eDP driver fixup will be
-> trivial, fixing older panel-simple will be more invasive.
-> 
-> I think the best solution will be to use Approach #1 and in the end
-> complete it with this panel-edp workaround below. This approach will
-> have minimal code impact on 5.16+ kernels and will keep older DTBs
-> working. Are you okay with this?
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c
-> b/drivers/gpu/drm/panel/panel-edp.c
-> index 176ef0c3cc1d..4e5b84324659 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -793,7 +793,11 @@ static int panel_edp_probe(struct device *dev,
-> const struct panel_desc *desc,
->  		return err;
->  	}
-> 
-> -	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
-> +	if (of_machine_is_compatible("nvidia,tegra124"))
-> +		ddc = NULL;
-> +	else
-> +		ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
-> +
->  	if (ddc) {
->  		panel->ddc = of_find_i2c_adapter_by_node(ddc);
->  		of_node_put(ddc);
-> 
+Changelog
+=========
+ v1 -> v2:
+ ---------
+   * Updated HDA driver patch to skip the failing reset instead of
+     skipping resets in general for BPMP devices as per comment from
+     Dmitry.
+   * Used a better strucure name for SoC data as per comment from
+     Thierry.
+   * Dropped 'Fixes' tag in binding doc patch as per comment from
+     Dmitry.
 
-Another alternative that may work is to check whether ddc-i2c-bus and
-DPAUX use the same node.
+Sameer Pujar (3):
+  ALSA: hda/tegra: Fix Tegra194 HDA reset failure
+  dt-bindings: sound: tegra: Update HDA resets
+  arm64: tegra: Remove non existent Tegra194 reset
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c
-b/drivers/gpu/drm/panel/panel-edp.c
-index 176ef0c3cc1d..c8cf5bc3d148 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -794,7 +794,7 @@ static int panel_edp_probe(struct device *dev, const
-struct panel_desc *desc,
- 	}
+ .../bindings/sound/nvidia,tegra30-hda.yaml         | 13 ++-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           |  5 +-
+ sound/pci/hda/hda_tegra.c                          | 96 +++++++++++++++++++---
+ 3 files changed, 97 insertions(+), 17 deletions(-)
 
- 	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
--	if (ddc) {
-+	if (ddc && ddc != aux->dev->of_node) {
- 		panel->ddc = of_find_i2c_adapter_by_node(ddc);
- 		of_node_put(ddc);
+-- 
+2.7.4
 
