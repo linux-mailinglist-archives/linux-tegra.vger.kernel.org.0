@@ -2,51 +2,50 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B020247F632
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Dec 2021 10:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7C947F8F5
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 Dec 2021 22:04:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbhLZJmN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Dec 2021 04:42:13 -0500
-Received: from slot0.jllresort.com ([62.197.136.5]:34810 "EHLO
-        slot0.jllresort.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233181AbhLZJmN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Dec 2021 04:42:13 -0500
-X-Greylist: delayed 723 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Dec 2021 04:42:12 EST
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=jllresort.com;
- h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ele.mon@jllresort.com;
- bh=l72fu4pKvFycnO4A54jZhQGs/6M=;
- b=pAaf5CR34vlrs7f2zxONvzUrDo10FelJ+rYxHg5TumEPNatFe43TadJQ9pKpCchOTlKTstT5a3aJ
-   aRaOilOACzuLS6OVfLJXUIEnyURGkH3fzsW96dr3z4r/lCkfCeFt9MAiH14XPosEV6zc0wlWGfN8
-   Zj5T9R3O2ksmZYi6j0mL/tTSmzd2/lrvzq4eij2bSyngIoCIvr6m5NbPkzVbmlAMbnXOE8gBGQGR
-   4qCZh1z0calyXbG3eS3KEPOSXtvRknbYso9MGzpMJqvCAo8Sy/rPcYZwfSFmS80rOIwPos3OprZ2
-   nJtkv6pMHgjRRV/swcb25q5UBOhwkIWdkrjEZA==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=jllresort.com;
- b=mIXoDURNcjkfoi7nu/RBPUAuUkT53ix3HGXILYffQ4i1PO/VXhNTKawY/PrVin0S9dAvT1igMIKl
-   PqWMG5cVMlBKjOXkEfyEiAq+2YjXeVTbojszPmQtC2Bpv0IineDziL2pl52+r4moqr3Pm04y5wXg
-   RjHjbjvemlyXqyuyuXDzApqoe02DqctUo3bfw7OZ9WQaW2Tt+U4QCuvvBiTfTQT4G8dEiggbNfUO
-   3vQxkKb48d//VjV/H6b+fcxTKYEAn+ngi3qkdJ6lQx6pR+pfMkkkOuU/mT/Iy+5fUBQhLzPjscfy
-   7s0dwZHddWX6aWA/HPPQkThHlLtLSETkX/+szw==;
-Reply-To: mustafa.ayvaz@ayvazburosu.com
-From:   ele.mon@jllresort.com
+        id S234363AbhLZVEW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Dec 2021 16:04:22 -0500
+Received: from 24sv.i-do.ne.jp ([160.16.135.157]:52248 "EHLO 24sv.i-do.ne.jp"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234426AbhLZVEV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 26 Dec 2021 16:04:21 -0500
+X-Greylist: delayed 492 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Dec 2021 16:04:20 EST
+Received: by 24sv.i-do.ne.jp (Postfix, from userid 10077)
+        id E5AD7380157D; Mon, 27 Dec 2021 05:56:06 +0900 (JST)
 To:     linux-tegra@vger.kernel.org
-Subject: Happy Weekend:
-Date:   26 Dec 2021 10:29:29 +0100
-Message-ID: <20211226102855.51F3477359D57CB7@jllresort.com>
+Subject: =?UTF-8?B?44Oe44Kz44OI44K/44Kk44Ok44K544K/44OD44OV5Yuf6ZuG44Gu5b+c5Yuf?=
+ =?UTF-8?B?44GC44KK44GM44Go44GG44GU44GW44GE44G+44GZ?=
+X-PHP-Originating-Script: 10077:class-phpmailer.php
+Date:   Sun, 26 Dec 2021 20:56:06 +0000
+From:   =?UTF-8?B?44Oe44Kz44OI44K/44Kk44M=?= <wordpress@www.makototire.com>
+Message-ID: <24909196e5bb1861e6f3975acf7e6aec@www.makototire.com>
+X-Mailer: PHPMailer 5.2.22 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <20211226205606.16420.49068@24sv.i-do.ne.jp>
+X-PPP-Vhost: makototire.com
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Greetings to you linux-tegra,
+マコトタイヤスタッフ募集の応募ありがとうございます
+内容を確認後ご連絡させていただきます。
+何卒、よろしくお願いいたします。
 
-I was wondering if you got my previous email? I have been trying=20
-to reach you by email linux-tegra@vger.kernel.org, kindly get=20
-back to me swiftly, it is very important and urgent.
+お問い合わせ内容
+=============================
+お名前：❤️ You have unread messages from Mary (2)! Click Here: https://bit.ly/32sW8BP?uklf ❤️
+フリガナ：i26svi
+年齢：dc6iups
+現在の職業：jvtm3168
+郵便番号：17846
+都道府県：沖縄県
+住所：9ynwty
+電話番号：119458857791
+E-mail：linux-tegra@vger.kernel.org
+自己PR：cmd3ea4
+=============================
 
-Thanks
-Mustafa Ayvaz
-Email: mustafa.ayvaz@ayvazburosu.com
