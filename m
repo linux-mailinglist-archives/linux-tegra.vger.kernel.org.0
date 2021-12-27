@@ -2,50 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F7C947F8F5
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Dec 2021 22:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9204347FA90
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Dec 2021 07:46:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234363AbhLZVEW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Dec 2021 16:04:22 -0500
-Received: from 24sv.i-do.ne.jp ([160.16.135.157]:52248 "EHLO 24sv.i-do.ne.jp"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234426AbhLZVEV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Dec 2021 16:04:21 -0500
-X-Greylist: delayed 492 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Dec 2021 16:04:20 EST
-Received: by 24sv.i-do.ne.jp (Postfix, from userid 10077)
-        id E5AD7380157D; Mon, 27 Dec 2021 05:56:06 +0900 (JST)
-To:     linux-tegra@vger.kernel.org
-Subject: =?UTF-8?B?44Oe44Kz44OI44K/44Kk44Ok44K544K/44OD44OV5Yuf6ZuG44Gu5b+c5Yuf?=
- =?UTF-8?B?44GC44KK44GM44Go44GG44GU44GW44GE44G+44GZ?=
-X-PHP-Originating-Script: 10077:class-phpmailer.php
-Date:   Sun, 26 Dec 2021 20:56:06 +0000
-From:   =?UTF-8?B?44Oe44Kz44OI44K/44Kk44M=?= <wordpress@www.makototire.com>
-Message-ID: <24909196e5bb1861e6f3975acf7e6aec@www.makototire.com>
-X-Mailer: PHPMailer 5.2.22 (https://github.com/PHPMailer/PHPMailer)
+        id S235369AbhL0GqM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Dec 2021 01:46:12 -0500
+Received: from guitar.tcltek.co.il ([84.110.109.230]:53426 "EHLO mx.tkos.co.il"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235318AbhL0GqM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 27 Dec 2021 01:46:12 -0500
+Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx.tkos.co.il (Postfix) with ESMTPS id 4EE16440534;
+        Mon, 27 Dec 2021 08:45:58 +0200 (IST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+        s=default; t=1640587558;
+        bh=BP1dvxIAwyBUC3bfdY7iX3hCPTCn/UhmSEubBQYYE/c=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uRcxdRpapqtmNQIGXXwwNonuMJUvmTkS0cneWjHMxr71gi4Gc4RSHFWXuEkJ/G8Ex
+         3nQqunH7tAL9APIRuji6Z+olX9VB215+cghXsKWrSXG1oYpvZl1Y30nH9xYmbrwh2H
+         qNSWD6GPHHo3lnjBhBcst8YJFOTTtgKSQorEiWEh84IZ4nw/nZYvHT6zTQgdDbWXoy
+         NbWIjHtbV9BqibP5Sk9x+lhfklgGk9NIFuqiZ64mDjikUKPwta2gVrWDwsBahx/a1Q
+         f1vafpFFgXVLTnGykxsitCyhCPlwGCsoep0ZDKo9h3CqlRQYINVYl60guqd8DnZ3kv
+         sBxDsfUztBwAw==
+From:   Baruch Siach <baruch@tkos.co.il>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Baruch Siach <baruch@tkos.co.il>,
+        Selvam Sathappan Periakaruppan <speriaka@codeaurora.org>,
+        Kathiravan T <kathirav@codeaurora.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v4 0/3] PCI: IPQ6018 PCIe controller support
+Date:   Mon, 27 Dec 2021 08:46:02 +0200
+Message-Id: <cover.1640587131.git.baruch@tkos.co.il>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <20211226205606.16420.49068@24sv.i-do.ne.jp>
-X-PPP-Vhost: makototire.com
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-マコトタイヤスタッフ募集の応募ありがとうございます
-内容を確認後ご連絡させていただきます。
-何卒、よろしくお願いいたします。
+This series adds support for the single PCIe lane on IPQ6018 SoCs. The code is 
+ported from downstream Codeaurora v5.4 kernel. The main difference from 
+downstream code is the split of PCIe registers configuration from .init to 
+.post_init, since it requires phy_power_on().
 
-お問い合わせ内容
-=============================
-お名前：❤️ You have unread messages from Mary (2)! Click Here: https://bit.ly/32sW8BP?uklf ❤️
-フリガナ：i26svi
-年齢：dc6iups
-現在の職業：jvtm3168
-郵便番号：17846
-都道府県：沖縄県
-住所：9ynwty
-電話番号：119458857791
-E-mail：linux-tegra@vger.kernel.org
-自己PR：cmd3ea4
-=============================
+Tested on IPQ6010 based hardware.
+
+Changes in v4:
+
+  * Drop applied DT bits
+
+  * Add max-link-speed that was missing from the applied v2 patch
+
+  * Rebase the driver on v5.16-rc3
+
+Changes in v3:
+
+  * Drop applied patches
+
+  * Rely on generic code for speed setup
+
+  * Drop unused macros
+
+  * Formatting fixes
+
+Changes in v2:
+
+  * Add patch moving GEN3_RELATED macros to a common header
+
+  * Drop ATU configuration from pcie-qcom
+
+  * Remove local definition of common registers
+
+  * Use bulk clk and reset APIs
+
+  * Remove msi-parent from device-tree
+
+Baruch Siach (2):
+  arm64: dts: qcom: ipq6018: add pcie max-link-speed
+  PCI: dwc: tegra: move GEN3_RELATED DBI register to common header
+
+Selvam Sathappan Periakaruppan (1):
+  PCI: qcom: add support for IPQ60xx PCIe controller
+
+ arch/arm64/boot/dts/qcom/ipq6018.dtsi        |   1 +
+ drivers/pci/controller/dwc/pcie-designware.h |   7 +
+ drivers/pci/controller/dwc/pcie-qcom.c       | 145 +++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-tegra194.c   |   6 -
+ 4 files changed, 153 insertions(+), 6 deletions(-)
+
+-- 
+2.34.1
 
