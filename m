@@ -2,93 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40102481A95
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Dec 2021 09:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13A7E4825C5
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Dec 2021 21:33:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231688AbhL3IAn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Dec 2021 03:00:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbhL3IAn (ORCPT
+        id S231685AbhLaUd4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Dec 2021 15:33:56 -0500
+Received: from mail.osorio.rs.gov.br ([177.73.0.123]:54794 "EHLO
+        mail.osorio.rs.gov.br" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231671AbhLaUdz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Dec 2021 03:00:43 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD26CC061574;
-        Thu, 30 Dec 2021 00:00:42 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id r5so20840472pgi.6;
-        Thu, 30 Dec 2021 00:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=4uA7esXhcDSHJbZ7Mjo7PojXGD+W2Pww5KfPM/kIPPM=;
-        b=ahUsvOxb+3Za/20OSG9KaukpQMgGmhNZR8IHwPHqa+ugUa7cUKcyWNLPF/XmVTPv00
-         9LOfQcIuBZqOMrG7kLrrFQ86jwh3RoYtpfQsniAZSZ8C/ZWDxho8jl4KhI7vnJih12rE
-         U4jYEpWyuSIyCEQrlAON8IhTxF24J6AsW8Y3aX3mI9lFr+f64Dm98jyffPUCkfPIIa7b
-         jFe54gltc/jdGoUn8xvjn5vxTbWQItlGJBGOck+rSDvYSm4IE1rd03JSrctKzSgUHsYK
-         A5/BN4QXrIkdEq7Vhm8FgvulwwkO//R+zgyVYmHyjrOc+I9Rzhh6+844rnc/ogxVeK67
-         0nhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4uA7esXhcDSHJbZ7Mjo7PojXGD+W2Pww5KfPM/kIPPM=;
-        b=ybiAW/uNqfVFAehVVwVDZdjDPWerVxDyWanzE8DmEWQ6W5kIOhmdo192Gb3bbs4rsk
-         PuvIfWvRaxI8qG0FW5Ksb4VlO23ytIORRevWcOHG9aZI+V4fGDKedu7QCfvIx8SqqaUN
-         av7AL7gVUcSyMpjmI9jevRaW+Gi82/YOZDCjK2uB6FI4YoFLNtBfkwMtAch3N5rfWohQ
-         uAyqvZu5KJx2wmHhIZd3ntkiTDgE0V39cx4d4JNixllHr3GGfcufQScQBr4JzuhV9beG
-         X4FDF+HFmHcibG26QibTPJqMY6a9zpvnLI3MsctBExxfilcnOijV5yqNLX4pKg1EAxYP
-         pasg==
-X-Gm-Message-State: AOAM532HpmYYiyNLJ0bbaWGfv3cJeHCw37OcUwndsYQ0OUeL6cpEimPs
-        c46wRzh9Tfc6URe+fZBUT1huYHTXhXfbNoynS5g=
-X-Google-Smtp-Source: ABdhPJx760XrjH+HZrZC2Z2gnCQ76KWUvwcQX+asvmcEtoedQg1YwqeLV6jhb+13GWRJXgZUZos6vw==
-X-Received: by 2002:a63:62c6:: with SMTP id w189mr25916919pgb.343.1640851242351;
-        Thu, 30 Dec 2021 00:00:42 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
-        by smtp.googlemail.com with ESMTPSA id k23sm4051598pji.3.2021.12.30.00.00.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 00:00:42 -0800 (PST)
-From:   Miaoqian Lin <linmq006@gmail.com>
-Cc:     linmq006@gmail.com, JC Kuo <jckuo@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-phy@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] phy: tegra: xusb: Fix missing put_device() in tegra210_xusb_padctl_probe
-Date:   Thu, 30 Dec 2021 08:00:31 +0000
-Message-Id: <20211230080031.26952-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-To:     unlisted-recipients:; (no To-header on input)
+        Fri, 31 Dec 2021 15:33:55 -0500
+Received: by mail.osorio.rs.gov.br (Postfix, from userid 999)
+        id D637648AC97C; Fri, 31 Dec 2021 16:19:07 -0200 (BRST)
+Received: from localhost (nac.osorio.rs.gov.br [127.0.0.1])
+        by nac (Postfix) with SMTP id 3BA064879670;
+        Fri, 31 Dec 2021 15:26:19 -0200 (BRST)
+Received: from User (unknown [84.38.132.16])
+        by mail.osorio.rs.gov.br (Postfix) with ESMTP id 54C49488CF15;
+        Fri, 31 Dec 2021 13:16:01 -0200 (BRST)
+Reply-To: <andbaill228@mail2world.com>
+From:   "Ads" <projetos@gov.br>
+Subject: Very Importante Notice
+Date:   Fri, 31 Dec 2021 16:31:24 +0200
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20211231151601.54C49488CF15@mail.osorio.rs.gov.br>
+To:     undisclosed-recipients:;
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If of_find_device_by_node() succeeds, tegra210_xusb_padctl_probe()
-doesn't have a corresponding put_device(). Thus add put_device() to
-fix the exception handling.
+Sir/Madam,
 
-Fixes: 2d10214 ("phy: tegra: xusb: Add wake/sleepwalk for Tegra210")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/phy/tegra/xusb-tegra210.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Good day to you.
 
-diff --git a/drivers/phy/tegra/xusb-tegra210.c b/drivers/phy/tegra/xusb-tegra210.c
-index eedfc7c2cc05..05a0800af0e8 100644
---- a/drivers/phy/tegra/xusb-tegra210.c
-+++ b/drivers/phy/tegra/xusb-tegra210.c
-@@ -3170,8 +3170,10 @@ tegra210_xusb_padctl_probe(struct device *dev,
- 		goto out;
- 	}
- 
--	if (!platform_get_drvdata(pdev))
-+	if (!platform_get_drvdata(pdev)) {
-+		put_device(&pdev->dev);
- 		return ERR_PTR(-EPROBE_DEFER);
-+	}
- 
- 	padctl->regmap = dev_get_regmap(&pdev->dev, "usb_sleepwalk");
- 	if (!padctl->regmap)
--- 
-2.17.1
+I am Dr.Gertjan Vlieghe personal Secretary to Andrew Bailey who double as the Governor, Bank of England (https://en.wikipedia.org/wiki/Andrew_Bailey_%28banker%29). We have an inheritance of a deceased client, who bear the same name  with your surname. kindly contact Andrew Bailey through his personal email (andbaill228@mail2world.com) with your details for more information.
 
+Thank you.
+
+Dr.Gertjan Vlieghe
