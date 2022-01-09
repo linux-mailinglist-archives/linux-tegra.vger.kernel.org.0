@@ -2,92 +2,43 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F0E3496D98
-	for <lists+linux-tegra@lfdr.de>; Sat, 22 Jan 2022 20:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DD69496F52
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Jan 2022 01:54:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiAVTTm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 22 Jan 2022 14:19:42 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:42322 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbiAVTTl (ORCPT
+        id S232561AbiAWAy3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 22 Jan 2022 19:54:29 -0500
+Received: from [36.155.112.122] ([36.155.112.122]:41202 "EHLO
+        ecs-42a4.novalocal" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230326AbiAWAyZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 22 Jan 2022 14:19:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2CF2760EAE;
-        Sat, 22 Jan 2022 19:19:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65EDBC004E1;
-        Sat, 22 Jan 2022 19:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642879180;
-        bh=d6wiWoWrFFvd/k9Xxg/m5banf7LANNWYSravrHpAk4A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ezh915L8ebkT+JcGDTWwADrEndB1O+U/VqfPAwUdrM5k9glY7ZBm063vgOQopxnHw
-         3Il9usv97f7rY2fXCf4sIDaJ2EAaJe4QnVY0SE06KBoxZ3g4mTqpXfBW6Mxtz0UBbT
-         nGImBEHY+9UBiaoVPya0iiDkky2I6pfF5PwgVepNSBR8gh+w6Mp5/QWefzHAEcd1Jn
-         QOTGgzqhHQFeH5POAiuMEPCTpJMfSB89wMgLbJK7AU6IjXyDKijVaFdAUiDHkYiFxY
-         mJ6mBSYmGaXq0DL1CxNePwKN4vfttxKg98k70GwUSeGDlXjEh7YpPep/7jVfaQkUb0
-         AMaxLn/o6/0tA==
-Date:   Sat, 22 Jan 2022 14:19:39 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Maxim Schwalm <maxim.schwalm@gmail.com>,
-        Thierry Reding <treding@nvidia.com>, thierry.reding@gmail.com,
-        airlied@linux.ie, daniel@ffwll.ch, jonathanh@nvidia.com,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.15 123/188] drm/tegra: dc: rgb: Allow changing
- PLLD rate on Tegra30+
-Message-ID: <YexYywTFEkQWEw/e@sashalap>
-References: <20220118023152.1948105-1-sashal@kernel.org>
- <20220118023152.1948105-123-sashal@kernel.org>
- <1fa23a4d-f647-c3ae-df8c-4cbd91f5a4c6@gmail.com>
- <3bfdaf7b-c34d-1396-c6c7-2e22996b7643@gmail.com>
+        Sat, 22 Jan 2022 19:54:25 -0500
+Received: from User (localhost [127.0.0.1])
+        by ecs-42a4.novalocal (Postfix) with SMTP id 127F03045F5;
+        Sun,  9 Jan 2022 13:57:24 +0800 (CST)
+Reply-To: <andbaill228@mail2world.com>
+From:   "Vlieghe" <andbaill228@mail2world.com>
+Subject: Very Importante Notice
+Date:   Sun, 9 Jan 2022 07:55:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3bfdaf7b-c34d-1396-c6c7-2e22996b7643@gmail.com>
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20220109055726.127F03045F5@ecs-42a4.novalocal>
+To:     undisclosed-recipients:;
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 12:39:43PM +0300, Dmitry Osipenko wrote:
->18.01.2022 12:37, Dmitry Osipenko пишет:
->> 18.01.2022 05:30, Sasha Levin пишет:
->>> From: Dmitry Osipenko <digetx@gmail.com>
->>>
->>> [ Upstream commit 0c921b6d4ba06bc899fd84d3ce1c1afd3d00bc1c ]
->>>
->>> Asus Transformer TF700T is a Tegra30 tablet device which uses RGB->DSI
->>> bridge that requires a precise clock rate in order to operate properly.
->>> Tegra30 has a dedicated PLL for each display controller, hence the PLL
->>> rate can be changed freely. Allow PLL rate changes on Tegra30+ for RGB
->>> output. Configure the clock rate before display controller is enabled
->>> since DC itself may be running off this PLL and it's not okay to change
->>> the rate of the active PLL that doesn't support dynamic frequency
->>> switching since hardware will hang.
->>>
->>> Tested-by: Maxim Schwalm <maxim.schwalm@gmail.com> #TF700T
->>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>> ---
->>>  drivers/gpu/drm/tegra/dc.c  | 27 ++++++++++++--------
->>>  drivers/gpu/drm/tegra/dc.h  |  1 +
->>>  drivers/gpu/drm/tegra/rgb.c | 49 +++++++++++++++++++++++++++++++++++--
->>>  3 files changed, 65 insertions(+), 12 deletions(-)
->>
->> Hi,
->>
->> This patch shouldn't be ported to any stable kernel because h/w that
->> needs this patch was just merged to the 5.17.
->
->* support of h/w that needs..
+Sir/Madam,
 
-I'll drop it, thanks!
+Good day to you.
 
--- 
-Thanks,
-Sasha
+I am Dr.Gertjan Vlieghe personal Secretary to Andrew Bailey who double as the Governor, Bank of England (https://en.wikipedia.org/wiki/Andrew_Bailey_%28banker%29). We have an inheritance of a deceased client, who bear the same name  with your surname. kindly contact Andrew Bailey through his personal email ( andbaill228@mail2world.com ) with your details for more information.
+
+Thank you.
+
+Dr.Gertjan Vlieghe
