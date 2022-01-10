@@ -2,91 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD27D48898D
-	for <lists+linux-tegra@lfdr.de>; Sun,  9 Jan 2022 14:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44B21489066
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jan 2022 07:53:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233983AbiAINRe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 9 Jan 2022 08:17:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36086 "EHLO
+        id S235035AbiAJGxX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jan 2022 01:53:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235611AbiAINRe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 9 Jan 2022 08:17:34 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EEDC061759
-        for <linux-tegra@vger.kernel.org>; Sun,  9 Jan 2022 05:17:33 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id j6so42501326edw.12
-        for <linux-tegra@vger.kernel.org>; Sun, 09 Jan 2022 05:17:33 -0800 (PST)
+        with ESMTP id S235016AbiAJGxW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 10 Jan 2022 01:53:22 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D42C06173F;
+        Sun,  9 Jan 2022 22:53:22 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id l8so8841229plt.6;
+        Sun, 09 Jan 2022 22:53:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=NdonzBmQ8GAPbs/WLTboFJCrlKbR6tI6Y2UMvojR29M=;
-        b=KctYciuEp/oAmoqAD2NrJIuesl+o6W8pUrei975SVDRl3fu3TIb/BotQnulg3skRTA
-         ov4C5CdQIk5fe8Wpi0UO/mV5EZNo2cPvaIo3qAIuIcaG1SIeDvoIvdfctPRvSmt2tWRe
-         1dGbnle6dzBJf4ptHUUWeft4k5VWdsSJPmmL9JprTrKzhuWGdr7KDD6qQ7tSPUF03PQn
-         uYHfoaFB1vPb8+DlSOyn+EiUqLaWOB8gs5VKsi1FUeowjv3nHSMDxy+y/L6oGz0fZ25H
-         r1NXQh1G+3fkVD0eiJ6R2E/+g7SN4U1a+mr/k0/r3X+FjjM+cIGQEGwaL7qS4XIiJDkA
-         YvkA==
+        h=from:to:cc:subject:date:message-id;
+        bh=y8qyK9Z1xdNQlga6YeRs4Ebp3n/3+IX2v6kqUk3/oSc=;
+        b=Cr7WEcflIJBG/7P3XHctuvDTTVxF9JqvZi0hyBxz6tEKEgJaAefi4qKIxkAFn0Drf6
+         UimMAPjrYQm3XhyWATzqAMX7bIlspftZHJZBhOY+mGhHI1ajEAiKcjU4I/hmu8x58QtW
+         o+egbDqiuRAdYIcaHY0/vcBI9Z+PapWwowh/PkKhqI19Wx/VDRNH8uuOrZYm9jTUGymF
+         vLvNNMaeOkuhBxwSt0Y6pk96ozOPK4DCDK1QDXK1PnjELkEFfWHcf+H8dXCJj20v1coy
+         +u2dsjMqC7Qizsr06eNEOo5IU1/fgqijb/UIiJ2Pw9HXghrJkyGG85U17q6ivzKGtZaO
+         +e0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=NdonzBmQ8GAPbs/WLTboFJCrlKbR6tI6Y2UMvojR29M=;
-        b=HezTECvO9cYc3a1i/xvEna+3989ZvZufGD8l2tA2VEhsdJBtSXg2WX+F7eJW7Oj6cN
-         jHtLtngpsMaRRalHdH5dmkRZhh3sivw+wr1uHc7O+i1St7rRy3XbdnKTTHhsNhZ2Qsvk
-         EZ3neSP+kEqT51LowcViH6qmasIsS/8aSF5km5pwLVE/iqujekzoqAErmRlTmFX8fH4h
-         1wF0aCQ9w1Jk2qSpMpIWyQmmcOgUWlZ5NA85/z9TnPzluCPf//i97ubDnWLljgTuJLBI
-         TmI9DUixFCF3qU/NtmkUlDAizr98gJjpxLV8uoT5Q45fsFZAGsiZVel1zmS+0E0l5NwH
-         bFdA==
-X-Gm-Message-State: AOAM531sbKtv6JXG2KYe6D2KRE4LD+fvWiMFAV5s64YJeMId21aK2Log
-        Mpz3c6yLu+4LuoncUbU1+22W37jpWCSk4uKetQ4=
-X-Google-Smtp-Source: ABdhPJy1Kk2P1qr60unDYkLmxpe29AxO1ybT01oom74v5kgYB4CXpazeNrGbVGU0Eb6c72WVg+9vphFa51PVrjJn79Q=
-X-Received: by 2002:aa7:d8d4:: with SMTP id k20mr10191779eds.17.1641734251531;
- Sun, 09 Jan 2022 05:17:31 -0800 (PST)
-MIME-Version: 1.0
-Reply-To: jennybezoss14@gmail.com
-Sender: mrsnicolemarois94@gmail.com
-Received: by 2002:a17:906:9c83:0:0:0:0 with HTTP; Sun, 9 Jan 2022 05:17:30
- -0800 (PST)
-From:   Mrs Jenny Bezos <jennybezos1@gmail.com>
-Date:   Sun, 9 Jan 2022 13:17:30 +0000
-X-Google-Sender-Auth: 9WOQPfJPVVx74kvKQTeLsijzTF8
-Message-ID: <CALas=iYKSw+Yx6FTDyWCgedQSzW10sx7L_AC_6ESH=0E-Z9BKg@mail.gmail.com>
-Subject: Dearest Friend,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=y8qyK9Z1xdNQlga6YeRs4Ebp3n/3+IX2v6kqUk3/oSc=;
+        b=CNyNm8EFx0mptmmmUWwz1ZTpcwBNiE9K1LZnpa1B0BgrB5bpqHanvTC331JYShi5kC
+         VlLdSCBOU7dGKi0C0H5bH3C7YvUgEX1e3XinnPPF1aG3KT6BSJrjiczclofokAqJUfFv
+         4j71PZGtyYKD2w96ypC2Ni7pgX7RdX8++8K/gIeQDZzYtXBv0x7LZHNZSYkZttdtYUfx
+         zaqLCMI+YrwcSb+cHXWPPQmr+Pgz4SBr6OxHQv48DPcf84vKdUG+FJUqUCgMHN0JnrtT
+         W/8YNzxHjzHRCKeUcMi2q9RPfo3GEnpscU2fltcW+vUYDTz/YCja9OTykZsWLUX9rQnT
+         aAPg==
+X-Gm-Message-State: AOAM530M+ibWYaEzc17KHaO98POcMyM1LeszoyFDIIXi4kgpiixoRYqR
+        S6BYrBOriGQ1gW1jDIALVqE=
+X-Google-Smtp-Source: ABdhPJyD/SU7nRKBl+/czf25l/KE05P6+YzALyMSx5Y1DQzALekriTvfDZTscUp1R64rAwbo6oWrig==
+X-Received: by 2002:a17:90b:1d8b:: with SMTP id pf11mr22900394pjb.119.1641797601781;
+        Sun, 09 Jan 2022 22:53:21 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id y16sm1083219pfi.7.2022.01.09.22.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jan 2022 22:53:21 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+Cc:     linmq006@gmail.com, Thierry Reding <thierry.reding@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/tegra: Fix reference leak in tegra_dsi_ganged_probe
+Date:   Mon, 10 Jan 2022 06:53:16 +0000
+Message-Id: <20220110065316.6023-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The reference taken by 'of_find_device_by_node()' must be released when
+not needed anymore. Add put_device() call to fix this.
+
+Fixes: e94236cde4d5 ("drm/tegra: dsi: Add ganged mode support")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/tegra/dsi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index f46d377f0c30..de1333dc0d86 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -1538,8 +1538,10 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
+ 		dsi->slave = platform_get_drvdata(gangster);
+ 		of_node_put(np);
+ 
+-		if (!dsi->slave)
++		if (!dsi->slave) {
++			put_device(&gangster->dev);
+ 			return -EPROBE_DEFER;
++		}
+ 
+ 		dsi->slave->master = dsi;
+ 	}
 -- 
+2.17.1
 
-Dearest Friend,
-
-I am Mrs. Jenny Bezos from America  USA, I decided to donate what I
-have to you  for investment towards the good work of charity
-organizations, and also  to help the motherless and the less
-privileged ones and to carry out charitable works in your Country and
-around the World on my Behalf.
-
-I am diagnosing of throat Cancer, hospitalize for good 2 years and
-some months now and quite obvious that I have few days to live, and I
-am a Widow no child; I decided to will/donate the sum of $7.8 million
-to you for the good work of God, and also to help the motherless and
-less privilege and also forth assistance of the widows. At the moment
-I cannot take any telephone calls right now due to the fact that my
-relatives (who have squandered the funds for this purpose before) are
-around me and my health also. I have adjusted my will and my Bank  is
-aware.
-
- I have willed those properties to you by quoting my Personal File
-Routing and Account Information. And I have also notified the bank
-that I am willing to give that property to you for good, effective and
-prudent work. It is right to say that I have been directed to do this
-by God. I will be going in for a surgery soon and I want to make sure
-that I make this donation before undergoing this surgery.  I will need
-your support to make this dream come through, could you let me know
-your interest to enable me to give you further information. And I
-hereby advise you to contact me by this email address.
-
-Thanks
-Mrs. Jenny Bezos.
