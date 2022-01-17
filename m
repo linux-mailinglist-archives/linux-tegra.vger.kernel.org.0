@@ -2,103 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20B83490B97
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jan 2022 16:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D7B2490B9C
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jan 2022 16:42:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240572AbiAQPlI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jan 2022 10:41:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54728 "EHLO
+        id S240579AbiAQPlz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jan 2022 10:41:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237263AbiAQPlH (ORCPT
+        with ESMTP id S240488AbiAQPly (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jan 2022 10:41:07 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A04C06161C;
-        Mon, 17 Jan 2022 07:41:07 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id b14so40653208lff.3;
-        Mon, 17 Jan 2022 07:41:07 -0800 (PST)
+        Mon, 17 Jan 2022 10:41:54 -0500
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3B30C06173E
+        for <linux-tegra@vger.kernel.org>; Mon, 17 Jan 2022 07:41:53 -0800 (PST)
+Received: by mail-qk1-x741.google.com with SMTP id 82so19932656qki.10
+        for <linux-tegra@vger.kernel.org>; Mon, 17 Jan 2022 07:41:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=5y8O1ztdEpf6Q5K1EWJl/cnGkg0Yyb3hjgY54wdHbA0=;
-        b=I3TXrgYdSkMgV6jQBIuL4t/kAnifbPfadKQXpiUEwrrRAxPONrQcLu2JvDUN6i2klu
-         59mwDxYiJpHqY+At28M2RqrGoGPoBM7YBl3ybzxPupE+Ixm/tAl9qajHJA2zVyTfeed8
-         HGbm/NV849yHRyOZND8pn8/bAYoQ/gtbYdeIPylKPcelOG6EYS6f2tT1WoU5LYM30rxk
-         F1CPqdocoTn6gd4wtJTO461HV4mTKa7ty7Xku9sqAtX/0TsLpcU+O/12FfKQHqLnGoLm
-         UGlE7WZOWgMDp+4bs+i4Auc5hbCvZuqScLC95bdV+igiloV/cxMjrYVA1mD2JckpjRDt
-         xR/Q==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=vIF0HCtULT8/Hj4oEOKhM3wVM2dbK4vAQWbMA06NHEs=;
+        b=Ee31WhcSAoh/lxM0irPYoAatwbf63kBeieGEdHORtlk+FH+RzPqx0HW1M5D75HhS0Y
+         WkDaVhuGLUikIxZPsh2bEyRaVnVk8lZODnEPPdl8bvabQuWQYeUJ/pmaoctt9TU7iCUU
+         Hkfm12hyVs4noaQw2MRgIsBkSl8u40wVVMMM4SzFW1H5weh51Ch+WmCA1ewqPfMpaJNd
+         bsxELhISZ8GVAzaoiYqI40J7qmQuU+p3M5l14TJHX6VdpT4DJzr0RJwe+C8jJ4Kph+HY
+         la313MOjxvEwsw++1LDbhe+iQ2Cls/ivVCX4TI6ffI8nuLvh6IpTgP5t54bZPoNChalK
+         iLSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=5y8O1ztdEpf6Q5K1EWJl/cnGkg0Yyb3hjgY54wdHbA0=;
-        b=CghkiQEGVdEyfpFppOhHrn7UFVVBdstL1wFG38VoTbfChDGgeUJGV2x4miHMe19kGr
-         /sigAJTQ71XPHqJkip/lLQc5MLPlkWqFC2GM4WnFmHEZwgMcuyJwLPIKwwAh1HVE9Ujr
-         Qd4tNwlnb3iBUXtwKsiaysgEU/iFWDJ8xb4Nq7lRLH9KL3GBpG+zkUDq/+Sv7jnl6wtl
-         GPI3PF550RAVY7DMcLfjoKJ47verlbKlY0cbXth6oFYGv5tZ3zbGbZpgbYu5Gcye/GvJ
-         wB1MS942+ptZzXSjKzKLPHzLi74+iBvJyR6wxpc4c1wfUtlEs6adCB4sCdCpZAT1OTAi
-         lEMQ==
-X-Gm-Message-State: AOAM533nPqBiKUyxF7ZMhvjamxA/RqB1ayEwhuKjq3lxUJqM2F71lSum
-        8ZdAOr6HKQWeujZ9LiyJAKQ=
-X-Google-Smtp-Source: ABdhPJyWpdQazpzpnwHC6v7uwHKEePYVC80n+PdtMGszQLyxMhWoZygnqF4NdaS4DRX42FzPLBud7Q==
-X-Received: by 2002:a2e:95cf:: with SMTP id y15mr15070933ljh.132.1642434065726;
-        Mon, 17 Jan 2022 07:41:05 -0800 (PST)
-Received: from [192.168.2.145] (46-138-227-157.dynamic.spd-mgts.ru. [46.138.227.157])
-        by smtp.googlemail.com with ESMTPSA id w16sm1427526ljh.122.2022.01.17.07.41.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jan 2022 07:41:05 -0800 (PST)
-Message-ID: <1db14c3d-6a96-96dd-be76-b81b3a48a2b1@gmail.com>
-Date:   Mon, 17 Jan 2022 18:41:04 +0300
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=vIF0HCtULT8/Hj4oEOKhM3wVM2dbK4vAQWbMA06NHEs=;
+        b=W7m7U6UM05XSgky/aSVhprOfEmiNcGXyajvjDvQ//CaTDzcvdNzYR+2aonDjdmpwgL
+         Zk2W4IRIwvcAEa226N0YGt99o3U8yOBLYfZ/C2IKUOEM8VVZ0EtAYcPz4Mje4oLBaluy
+         qHL3ovpxJlZlaqpjJRCtUd8IkYnkT3sGZ/baXGx5O4zQPyJlWLCUSOwV364gzIGN3pR8
+         vo0stUdwFjQ5qBBqEoqXfSnj2DD7DofItJ5eMWDmfFoFYJPk6ir93MnKyhJFg8XB90O3
+         52SYB8JvCJJZLAYyTfQtWrRE/dC7drwGt2VDYjeYQg5EcBZUuTbRGDHNUSDla5EXb1oO
+         eayQ==
+X-Gm-Message-State: AOAM530gsA233WiV+X/QsP6pFycA8Uf3TqH4ga18bUjm/MUA0F32f6TS
+        3XvxeymPLaEvIcGJc2LzmSpxu13g32QeBRxwWaI=
+X-Google-Smtp-Source: ABdhPJxKAldfShhC8wZdY2Htq9hJGgXreaXEjiB1miYL4bVcqXdK1BUQ46o5M7iSwz6vWn6VdAI2GEFwVYsTwqDnwxw=
+X-Received: by 2002:a05:620a:4450:: with SMTP id w16mr14879837qkp.189.1642434112813;
+ Mon, 17 Jan 2022 07:41:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v16 2/4] dmaengine: tegra: Add tegra gpcdma driver
-Content-Language: en-US
-To:     Akhil R <akhilrajeev@nvidia.com>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        Rajesh Gumasta <rgumasta@nvidia.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>
-Cc:     Pavan Kunapuli <pkunapuli@nvidia.com>
-References: <1641830718-23650-1-git-send-email-akhilrajeev@nvidia.com>
- <1641830718-23650-3-git-send-email-akhilrajeev@nvidia.com>
- <16c73e83-b990-7d8e-ddfd-7cbbe7e407ea@gmail.com>
- <DM5PR12MB1850A5F5ABA9CD5D04C37086C0579@DM5PR12MB1850.namprd12.prod.outlook.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <DM5PR12MB1850A5F5ABA9CD5D04C37086C0579@DM5PR12MB1850.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Reply-To: salkavar2@gmail.com
+Sender: carolineregt@gmail.com
+Received: by 2002:ae9:ed0c:0:0:0:0:0 with HTTP; Mon, 17 Jan 2022 07:41:52
+ -0800 (PST)
+From:   "Mr.Sal kavar" <salkavar2@gmail.com>
+Date:   Mon, 17 Jan 2022 16:41:52 +0100
+X-Google-Sender-Auth: Rmg3t_RMlCbbQyliM2-B1b_cilM
+Message-ID: <CA+sSZD+g206m+jZKhkMPB+Df1YqxeSYunccMHKX4ky3Aub4hGw@mail.gmail.com>
+Subject: Yours Faithful,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.01.2022 10:02, Akhil R пишет:
->> 10.01.2022 19:05, Akhil R пишет:
->>> +static int tegra_dma_terminate_all(struct dma_chan *dc)
->>> +{
->>> +     struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->>> +     unsigned long flags;
->>> +     LIST_HEAD(head);
->>> +     int err;
->>> +
->>> +     if (tdc->dma_desc) {
->>
->> Needs locking protection against racing with the interrupt handler.
-> tegra_dma_stop_client() waits for the in-flight transfer 
-> to complete and prevents any additional transfer to start. 
-> Wouldn't it manage the race? Do you see any potential issue there?
+I assume you and your family are in good health. I am the foreign
+operations Manager
 
-You should consider interrupt handler like a process running in a
-parallel thread. The interrupt handler sets tdc->dma_desc to NULL, hence
-you'll get NULL dereference in tegra_dma_stop_client().
+This being a wide world in which it can be difficult to make new
+acquaintances and because it is virtually impossible to know who is
+trustworthy and who can be believed, i have decided to repose
+confidence in you after much fasting and prayer. It is only because of
+this that I have decided to confide in you and to share with you this
+confidential business.
+
+overdue and unclaimed sum of $15.5m, (Fifteen Million Five Hundred
+Thousand Dollars Only) when the account holder suddenly passed on, he
+left no beneficiary who would be entitled to the receipt of this fund.
+For this reason, I have found it expedient to transfer this fund to a
+trustworthy individual with capacity to act as foreign business
+partner.
+
+Thus i humbly request your assistance to claim this fund. Upon the
+transfer of this fund in your account, you will take 45% as your share
+from the total fund, 10% will be shared to Charity Organizations in
+both country and 45% will be for me.
+
+Yours Faithful,
+Mr.Sal Kavar.
