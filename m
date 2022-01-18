@@ -2,120 +2,195 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F327A49276D
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jan 2022 14:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4902D492EB9
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jan 2022 20:51:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242626AbiARNsb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jan 2022 08:48:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242543AbiARNs2 (ORCPT
+        id S240120AbiARTvN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jan 2022 14:51:13 -0500
+Received: from gateway33.websitewelcome.com ([192.185.145.216]:45424 "EHLO
+        gateway33.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239127AbiARTvM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jan 2022 08:48:28 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B4BC06161C;
-        Tue, 18 Jan 2022 05:48:27 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id br17so70910855lfb.6;
-        Tue, 18 Jan 2022 05:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=17MkQ+D7lcIHENLUZkNE+Wb1M6GLIW0KLmLfLfpyKuY=;
-        b=mvTY0w/pN5vJRbVPnoOMSXYgEs0lE5GlWlKV8Luv12ObuBtRxvt7RXJeD2Z0aNH3ce
-         PPMNmQnjVcQOy6g/N73ELDWzPO5QURYj60f7BWVvl2JFCrM8hDCL+Ou6UqO4dWJASTUE
-         p85+YBd1DD4XiFG9c5igQlX+SSZ84TaUlM8j3MmOtnbCR9w97IzXpN0PdmXOAVK/gJoL
-         zMTZ4Ev4EBM5S9UF3Hcub3rkfkbGCeruG6b3ZVGf1C0ZgonWKEWOweucqUJ3XJ7ILIMM
-         iuW8AwkGSe5KaKLAHljj1SOLuHXp8YxWfy0G2Edb0RGSiya/37yP/b5x0O9rPqBNAzXr
-         kcsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=17MkQ+D7lcIHENLUZkNE+Wb1M6GLIW0KLmLfLfpyKuY=;
-        b=C69E5gk22bWcOcu7SHgSG1kbiNeKsaLUDpvqULxcpjrKX2SO7yPZS3inaMw1PHHxNo
-         i29llskcmsY69uM4SPrX5Eokn6nG2bd2El9ftc6pb06UUssgx3Y9MbKWG9Dz3deyTzpd
-         0tuvUeoO7eF4PkyT3uqRbF+pyU6kG8izgOFWSOmrErCLzYqjuVrc0nUaNPQSyIB6bgeb
-         VQP8qhOswOfnRyLtSUnYh7kmDMwqdoHIWDjjLsPOVJvVotCKkzyZnLdcK+bBGPdeRbH+
-         5HWq16GlyC91ptFGuZLW97bk6umuwwMCDTNIhaEMRYV2MavGBZJaLVAkFRQ194EXfMt4
-         ihYw==
-X-Gm-Message-State: AOAM532SCUlKmsfxYNHpIxl7lhuGrI3xA9jxTQamRNqZ1glnx6OO5KeG
-        OIgxo3R3+OOSQmmRY8tOPzE=
-X-Google-Smtp-Source: ABdhPJy5tJQ9AnqnDnEzUgBVyJTQX64dfrMfnDFOnHwhm/zxWsZZI0QlLSJNsTEqxIim+EyvlBxJ6g==
-X-Received: by 2002:a05:651c:171c:: with SMTP id be28mr20262368ljb.183.1642513705172;
-        Tue, 18 Jan 2022 05:48:25 -0800 (PST)
-Received: from [192.168.2.145] (46-138-227-157.dynamic.spd-mgts.ru. [46.138.227.157])
-        by smtp.googlemail.com with ESMTPSA id t13sm1625887lji.57.2022.01.18.05.48.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jan 2022 05:48:24 -0800 (PST)
-Message-ID: <683a71b1-049a-bddf-280d-5d5141b59686@gmail.com>
-Date:   Tue, 18 Jan 2022 16:48:23 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v16 2/4] dmaengine: tegra: Add tegra gpcdma driver
-Content-Language: en-US
-To:     Akhil R <akhilrajeev@nvidia.com>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        Tue, 18 Jan 2022 14:51:12 -0500
+X-Greylist: delayed 1499 seconds by postgrey-1.27 at vger.kernel.org; Tue, 18 Jan 2022 14:51:12 EST
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+        by gateway33.websitewelcome.com (Postfix) with ESMTP id 38D9EEF80D
+        for <linux-tegra@vger.kernel.org>; Tue, 18 Jan 2022 13:05:38 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 9tnVnGn5a22u39tnVnJHBq; Tue, 18 Jan 2022 13:05:38 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=62lwA313ylYvMl776J0nmotREsLRnHNHGefb4h0dvoo=; b=PyiVKsPlAhwkbLzznyg+KBOywd
+        sR3mIPwqE3E0G8CInbrV9M3G8iCwH7MqbVJGhkNV18tD8re3JjQ35Yw5iT63N8odXWGXNt4w2E7Qp
+        R12bj3nDKnKpeUy6nnpQEv72BYa4D2F0GXLwSs/jytZy6I1cdm55pDlIN6bh7y0t2P9ZTFSYAXAjY
+        QgLeAfhlb5TVG6fv+A+JHfKuJslOWE0B0sqm/ZVJi5LQzt6krt9sHb1aHrwMJ22IyotWi6ryzadzD
+        WoRUs4BQGpRp038/cCAQKZC6sLgtAMbEFHpR3CgG71r4m3yhYcip64XkEkz60EMir+GyJFXu2QEQ4
+        f/FC+yGw==;
+Received: from [187.184.156.46] (port=26621 helo=[192.168.0.21])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1n9tnV-001SJO-46; Tue, 18 Jan 2022 13:05:37 -0600
+Subject: Re: [PATCH] drm/dp: Remove common Post Cursor2 register handling
+To:     Kees Cook <keescook@chromium.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        Rajesh Gumasta <rgumasta@nvidia.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>
-Cc:     Pavan Kunapuli <pkunapuli@nvidia.com>
-References: <1641830718-23650-1-git-send-email-akhilrajeev@nvidia.com>
- <1641830718-23650-3-git-send-email-akhilrajeev@nvidia.com>
- <16c73e83-b990-7d8e-ddfd-7cbbe7e407ea@gmail.com>
- <DM5PR12MB1850A5F5ABA9CD5D04C37086C0579@DM5PR12MB1850.namprd12.prod.outlook.com>
- <1db14c3d-6a96-96dd-be76-b81b3a48a2b1@gmail.com>
- <DM5PR12MB1850FF1DC4DC1714E31AADB5C0589@DM5PR12MB1850.namprd12.prod.outlook.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <DM5PR12MB1850FF1DC4DC1714E31AADB5C0589@DM5PR12MB1850.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Lyude Paul <lyude@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20220105173507.2420910-1-keescook@chromium.org>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <cae904f1-21f4-426f-8831-e122d965b131@embeddedor.com>
+Date:   Tue, 18 Jan 2022 13:11:48 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20220105173507.2420910-1-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.184.156.46
+X-Source-L: No
+X-Exim-ID: 1n9tnV-001SJO-46
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.21]) [187.184.156.46]:26621
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 14
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.01.2022 08:36, Akhil R пишет:
->> 17.01.2022 10:02, Akhil R пишет:
->>>> 10.01.2022 19:05, Akhil R пишет:
->>>>> +static int tegra_dma_terminate_all(struct dma_chan *dc)
->>>>> +{
->>>>> +     struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->>>>> +     unsigned long flags;
->>>>> +     LIST_HEAD(head);
->>>>> +     int err;
->>>>> +
->>>>> +     if (tdc->dma_desc) {
->>>>
->>>> Needs locking protection against racing with the interrupt handler.
->>> tegra_dma_stop_client() waits for the in-flight transfer
->>> to complete and prevents any additional transfer to start.
->>> Wouldn't it manage the race? Do you see any potential issue there?
->>
->> You should consider interrupt handler like a process running in a
->> parallel thread. The interrupt handler sets tdc->dma_desc to NULL, hence
->> you'll get NULL dereference in tegra_dma_stop_client().
-> 
-> Is it better if I remove the below part from tegra_dma_stop_client() so
-> that dma_desc is not accessed at all?
-> 
-> +	wcount = tdc_read(tdc, TEGRA_GPCDMA_CHAN_XFER_COUNT);
-> +	tdc->dma_desc->bytes_transferred +=
-> +			tdc->dma_desc->bytes_requested - (wcount * 4);
-> 
-> Because I don't see a point in updating the value there. dma_desc is set
-> to NULL in the next step in terminate_all() anyway.
 
-That isn't going help you much because you also can't release DMA
-descriptor while interrupt handler still may be running and using that
-descriptor.
+
+On 1/5/22 11:35, Kees Cook wrote:
+> The link_status array was not large enough to read the Adjust Request
+> Post Cursor2 register, so remove the common helper function to avoid
+> an OOB read, found with a -Warray-bounds build:
+> 
+> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
+> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
+>    59 |         return link_status[r - DP_LANE0_1_STATUS];
+>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
+>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Replace the only user of the helper with an open-coded fetch and decode,
+> similar to drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
+> 
+> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
+
+This should be tagged for -stable:
+
+Cc: stable@vger.kernel.org
+
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
+--
+Gustavo
+
+> ---
+> This is the alternative to:
+> https://lore.kernel.org/lkml/20211203084354.3105253-1-keescook@chromium.org/
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 10 ----------
+>  drivers/gpu/drm/tegra/dp.c      | 11 ++++++++++-
+>  include/drm/drm_dp_helper.h     |  2 --
+>  3 files changed, 10 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 23f9073bc473..c9528aa62c9c 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -144,16 +144,6 @@ u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  }
+>  EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
+>  
+> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+> -					 unsigned int lane)
+> -{
+> -	unsigned int offset = DP_ADJUST_REQUEST_POST_CURSOR2;
+> -	u8 value = dp_link_status(link_status, offset);
+> -
+> -	return (value >> (lane << 1)) & 0x3;
+> -}
+> -EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
+> -
+>  static int __8b10b_clock_recovery_delay_us(const struct drm_dp_aux *aux, u8 rd_interval)
+>  {
+>  	if (rd_interval > 4)
+> diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
+> index 70dfb7d1dec5..f5535eb04c6b 100644
+> --- a/drivers/gpu/drm/tegra/dp.c
+> +++ b/drivers/gpu/drm/tegra/dp.c
+> @@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
+>  {
+>  	struct drm_dp_link_train_set *adjust = &link->train.adjust;
+>  	unsigned int i;
+> +	u8 post_cursor;
+> +	int err;
+> +
+> +	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
+> +			       &post_cursor, sizeof(post_cursor));
+> +	if (err < 0) {
+> +		DRM_ERROR("failed to read post_cursor2: %d\n", err);
+> +		post_cursor = 0;
+> +	}
+>  
+>  	for (i = 0; i < link->lanes; i++) {
+>  		adjust->voltage_swing[i] =
+> @@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
+>  				DP_TRAIN_PRE_EMPHASIS_SHIFT;
+>  
+>  		adjust->post_cursor[i] =
+> -			drm_dp_get_adjust_request_post_cursor(status, i);
+> +			(post_cursor >> (i << 1)) & 0x3;
+>  	}
+>  }
+>  
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index 472dac376284..fdf3cf6ccc02 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1528,8 +1528,6 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
+>  					  int lane);
+>  u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  				   int lane);
+> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+> -					 unsigned int lane);
+>  
+>  #define DP_BRANCH_OUI_HEADER_SIZE	0xc
+>  #define DP_RECEIVER_CAP_SIZE		0xf
+> 
