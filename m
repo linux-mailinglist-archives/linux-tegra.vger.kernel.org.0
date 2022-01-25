@@ -2,216 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DBBA49AE4A
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jan 2022 09:46:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E61DA49AE95
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jan 2022 09:53:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390184AbiAYIlr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jan 2022 03:41:47 -0500
-Received: from mail-bn8nam11on2080.outbound.protection.outlook.com ([40.107.236.80]:29959
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        id S1452331AbiAYIwQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jan 2022 03:52:16 -0500
+Received: from mail-bn8nam12on2047.outbound.protection.outlook.com ([40.107.237.47]:51799
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1376410AbiAYIjm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jan 2022 03:39:42 -0500
+        id S1345461AbiAYItH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 25 Jan 2022 03:49:07 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l+6MC8tTjUemezI1Ei1z4i4w3RxdtAKME1dl60KzKeX0SCS/YEfmAfx/xbqwfF4rN/QwWBybjr3o73Z90Ch4f7V0va1J/ApnvDkm6gfxaHYuzzt86hdjAvWn6C0O/OjRwV9XOf8Quk/ML62MpOWgf/a9U66IhqGsdA85I5HJLT7f5e9WCjzd8LS93ff2cRM6h8gar488NMNzFGyQcIs6d69Tb+FCDI8BUOfH0PHCt0HdhtqQFRiyV501gw6i+zdR3U8daqQ3ovo9KA0N2mxxh1YAVkyvcCxJHwa2d5W6VmVXmmJDR/7OmH8kCgOTVIrJeGv120ZRYtVrDW5eLjhXdQ==
+ b=Hj1M+KuVetgbcE2FpMzHsZClLC/qaIOlGOKb30v5Di2SvTAGGT0FOc9itdIDZ97a3QH50Eprcoz32C32VZizrdoH0YoX0z81yor2k2yWsRW5MWLi2ddOWWYD2FgwYEGN0uI56tjZyWkT6Or8pvfkJemnqlPX3RUJkVbPOPk4+wUa71bBS7kS+oN3tocxyZF4pldZvLiiHgxEOTPXQZ1o/TIFK6G18QFAi4coOu16hSCtxfqFOnM/vkhD87Iot3yfG/D0n/1WFrcwgnsjanrDzJJVDpSEtViOcbbiSRQEsvKOu2Otu9SsFgWBsiuM4rziNAKZ8MWmv8EsOzpFFF7FgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z31SA35lhoH8FWykmGeKncvAwT5CngiqNP9OZj68Ars=;
- b=YYdRtzdOeGHr5pU2/4sVL0/8jGbjLHUSyMOeUhZPcA7koRTqxy5UCpT2rwCD7hziu3J/Ft1WD8bhzpKh9pZcyaq2sFbBbZ3v8LsWeI53uRR6kj+/B9ad9cuqzs0lIrTB7us1kEhasKp4nPBmvjelyikagOt/ERBJMJnVrI+OR/r5cLv1YlZNZD0m2C51R0ZB/ctQ3veZ1JEb+xwxicJvnbStHY3b23ocrAkXmU8zifRk9hBn36QupbLRQv5hEcBcljIdn/c6Cm6n/zMETGyqqkj9JByoJ2Pgrh4DizUxavgjdfhC3Tp6km0jkWMWWGFyku9RNWzkg8FHOq/uNuSxeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+ bh=edcE27k9p4OvfH65KZxeDvdF152RedEvx26MfrE/VJ0=;
+ b=FnRihnLtZtYTsPnhzh07HSWuMRxn5SzZGsZQ60e6fKnfGv0FWzf4cezXh3MjMcuYpS2jduuqp1xtVaYtlWUBcwqQUcfnKRWpKVpyQsvgiXztsjXKVj7ebgf3YcbKORFQ4b7PMl3wYkfxztTAvVtrunBPnuKEZfjGsJY1uHZypqLmW4wWKm7nF7qRh97p95aBLodn+857xDWHcbsvPytEeZCbGZTWUXrbCpZ5i0l728ggl/Koqz9bU45G87JNIlKeywNOE6n0DNCEH3tL8J5AjGoNwQEbpAiK3wbLbCREWFZgbF/E92QNpwz5kVEr0blcfmRhLtWuZraepTEpWIPefw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.235) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z31SA35lhoH8FWykmGeKncvAwT5CngiqNP9OZj68Ars=;
- b=D/4990hpSB72dg7F2ELf2EsrNR16kkBYC8QWt5g9i94Uq8P1nnaA3VCUsEQk9/F/ocBDLAl3lISRHYFau7ZR0K1qBDcTibaZVrrbZ2kTOQJezcjr7AVqdKXBcguQvvJ+M4xkDY0xu63NzvIOzuLguTRObMu36q9CT/7S3ziNQRd6mHoWJe93zijyRyCUe3NL+0xd1A9fCEIdn8ZlvgKfGA4pfb3DmDNy7UAwt1Poop98Bd+/7F4J757M8YcMo5Rcy0IHggV+DVYP1BXv6/7gzZmrearEJvyc9yhvJdbq1r7B7sSUHpey+avj4Ee/hMUJ5mRgGjXLC660ZoNMVVydmg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- BYAPR12MB2711.namprd12.prod.outlook.com (2603:10b6:a03:63::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4909.12; Tue, 25 Jan 2022 08:39:32 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::b120:5877:dc4b:1a7e]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::b120:5877:dc4b:1a7e%7]) with mapi id 15.20.4909.019; Tue, 25 Jan 2022
- 08:39:32 +0000
-Message-ID: <a1ac6254-f79e-d131-fa2a-c7ad714c6d4a@nvidia.com>
-Date:   Tue, 25 Jan 2022 08:39:24 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] tty: serial: Use fifo in 8250 console driver
-Content-Language: en-US
-To:     wander@redhat.com
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Johan Hovold <johan@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20211029201402.428284-1-wander@redhat.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20211029201402.428284-1-wander@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P194CA0060.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:209:84::37) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+ bh=edcE27k9p4OvfH65KZxeDvdF152RedEvx26MfrE/VJ0=;
+ b=dLvtwG/9X7fhgdJQH5SThCok7VNhzFity3JsHLYUFvBdSYe99qERNt2ensNbw/L2iL9P2f0igQgwSZZtjRC8d5OLRnucwdD8/e1FPHsOAhWVmcS/wgotJQ514JnvT93bpwvI6BGhdgm1HdVXxqlzEED7vHB/Gh0PEclW+SKlLyiyTWfOnC3g4BbnyIpf8y5dsYK8feykVMurg2tBdd0LIYLA4O0H2H6hr6X6O9pnovNe0XSOmLfMsXZiZxt1+amdj81XQI/5atrvcJAqsV79PqxTJBCfsRFcPsvEXJuReBocJIf/+85T7aQbtp8aBN7ZfUK0MgVnNQW1M+VskeOUdA==
+Received: from MW4PR04CA0360.namprd04.prod.outlook.com (2603:10b6:303:8a::35)
+ by DM6PR12MB3547.namprd12.prod.outlook.com (2603:10b6:5:18a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.12; Tue, 25 Jan
+ 2022 08:48:58 +0000
+Received: from CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8a:cafe::2b) by MW4PR04CA0360.outlook.office365.com
+ (2603:10b6:303:8a::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8 via Frontend
+ Transport; Tue, 25 Jan 2022 08:48:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.235) by
+ CO1NAM11FT068.mail.protection.outlook.com (10.13.175.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4909.7 via Frontend Transport; Tue, 25 Jan 2022 08:48:58 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.18; Tue, 25 Jan 2022 08:48:47 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9;
+ Tue, 25 Jan 2022 00:48:46 -0800
+Received: from audio.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.9 via Frontend
+ Transport; Tue, 25 Jan 2022 00:48:43 -0800
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <broonie@kernel.org>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
+        <perex@perex.cz>, <robh+dt@kernel.org>, <thierry.reding@gmail.com>
+CC:     <jonathanh@nvidia.com>, <mkumard@nvidia.com>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH 0/5] Tegra234 APE support
+Date:   Tue, 25 Jan 2022 14:18:06 +0530
+Message-ID: <1643100491-5398-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c302a60c-8df7-4245-8c0e-08d9dfde3570
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2711:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2711F690C8D0C1F533DBC7EBD95F9@BYAPR12MB2711.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: 3b50c76a-2bf0-4701-1146-08d9dfdf86c3
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3547:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB35473D353113DE335174B059A75F9@DM6PR12MB3547.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: msvo8Vbotj+ns9f0VBLULgkcsGjl51zAxmRs+IeMwF2VBjfgFCscrEGdTIKsSoAgJV/ekC6h42I+BiVmB9kiuHgHkYK7BBrv0zznN+NLmTAMV9jAOqaLUWgWNlwukvXtHoy5CtgS2HJSS0A/L71g0Lg+1iGUDaYD3JizapvlIygGlTUuPd94L1mpgwZsP9Tjcwmrq5Wz/sj2njYq/ilyDBTV84wgJvEb4vADvcibGffqwC45jf8hi0ewrsIAHG6TWnYLphD5vvf3rz8gTC5a9dyOrCadHA/h4T1dDCS1ctIzrqyEroY9tgxflcUHh1IBtK2GiIPSiv/yDvUpIl/JxyRdaHOYBNXLNw5NDmKEeQJ5xo/40iziHJqaRnKMg3yE/85WStZF7EGp8MD2MsKWLCeW2Jh9RNDNu/RhAOweIL/x68i+0aoxpHy1v7thsPlxwbxUuopxJPqGGVxWhy0CsYHvg+YrQooMNv9RA9doGoP/3ihwKZvtZJf0YDydWv4CPi/498rCCn3ec8T/E9VlFmKqvGmrd8jZbONRPrfgvSHfxhE4q/MIBgYX67Ykre27qiZqJkKGH4/b+XWU05mEKu1Ranlw2Ek7eBh0EmMTxutrF3lW5peCbk3QQ0HiX1kHT5am/hlGKjedA/lfzLpdSC5vpj/Q0tMdNOCRrZSZBVGDYOdIwRpK2SFwFWiU9XQV3wp7wE4B++U/msQX9FgOe8iM2Ndit0QbZh6V2QF0+G0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6512007)(26005)(2906002)(31696002)(316002)(6666004)(54906003)(186003)(8676002)(53546011)(55236004)(5660300002)(6486002)(31686004)(86362001)(508600001)(7416002)(38100700002)(8936002)(4326008)(83380400001)(6916009)(66946007)(66556008)(2616005)(66476007)(6506007)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SzZZb2tZdk80YTlheFk5cjBscFV5ZHZqeHI1eEx1RE9BSGhqQ2FUU1orQ2to?=
- =?utf-8?B?VFhESmNWWXFPeWZ6bzZ0bEJuNzdKTjdBT014eXcweU4zQ0RKd1I0R3VDZkZ5?=
- =?utf-8?B?bjNNV1lRcVUzNzk2ZXg3Q3puQWwvNVJuekVaaXdpQWZ0Zm5NV0VtSHg3clJw?=
- =?utf-8?B?dkZyb1llUWI4Uys2U3hEam8xS3FRU2NlRjIrYUVxODRHZ2Y2a1B1cjY4Sk9Y?=
- =?utf-8?B?SzhmUWYwUTFEc0ppQW1LckJKL05vUEYwKzdCeVQ4UUw2bWRQbWxSQlg0Rjhr?=
- =?utf-8?B?NHIwV1NiYTR0bEtGVEJodThiSHNZQTlnWGkxUkI4TUNIdStXVTdVWWxwTGtI?=
- =?utf-8?B?cDJTWWFURmc4UU12c1UrRWxyWDdtelg0OEFFZHN6V0NaMGdJbFJkSCs3U0wz?=
- =?utf-8?B?Qll5NllOOEwzRTN2SDRmZmN1QmxJd05Pc1VnSUY1bmtILzE4YzRyS3lBc3FT?=
- =?utf-8?B?MGZuTGJTZ2tMamd0WWdCNUJuYW5BM21heWJGMFhLYXduVGo4YWIzQ0EvYWNW?=
- =?utf-8?B?Q0g0d1NFQnUrWi90MVY0QTlBZmlPMG9zVlFrRlB6QmduYUJaVjBEWkJDanVT?=
- =?utf-8?B?UUUxUTFvZUYrSDk4MmZmSjY4QUY5dG1rU3hpN01SRk82UzZDRW55QnBMTzJp?=
- =?utf-8?B?WmozTEprcjdqUzNYTmkvbXk3Ym5RUndJUnZVN2JEeVJjNG9uSko0ZDJHczJp?=
- =?utf-8?B?NGY4eEdEZ3Y3WkYyYTk4dERRdnFMNmlCWlRrNGZpOUd6WUc2NVBRSjVrbjVL?=
- =?utf-8?B?NlEvZ3dScWJzVUpNVU9adFJad0k2OE9HOHdIZ2Z2aFU5UXJxYmJ5Q2trcHFX?=
- =?utf-8?B?QzR3MVNWSHE2TmlNZWxqczBTOG9pWFBjZmFITFRyRjR3dWxEa3IzczlDd2V6?=
- =?utf-8?B?bGl0SG4vcVFWNUt5Y2x2b0hrQkMzbWNNTjhrMFU3MFY0Z3NsOWs3NnlaMkdq?=
- =?utf-8?B?RkZTazJPZFE0M1Z4SXJGeDIyYXIyK1BZZ2Z6cmJHTzJjUWJ5RXptajBYWkFO?=
- =?utf-8?B?SGNYcVJoZ2h0RnZGcHBZTjIwZHl0VTZTV3VPdUlyOXZRYy9aekc1VDNjOWNw?=
- =?utf-8?B?eG9OYk1GNTZTU2t3Um9ZM2M4Vlc5dHVJNTBPYW1iUFpyNWFwUVAycnV3TUk4?=
- =?utf-8?B?akw5SlBVVEp1MDlmQnNjZkJZZ1dRUzl1U3h1TStwNmRNL0h6U1haVHVXOHdC?=
- =?utf-8?B?V1JKSm5rTUFJT1lvVmZqdkUranl1cXVyVlVaemh3dWloS3VkSDgzWkJ5YTFu?=
- =?utf-8?B?NTdXdDF2WklsRVRHbEd4b0huM2hBVHhCMU42eGNMbVBLazhCWjFVd05DNmUz?=
- =?utf-8?B?WWRGSGhQM0crWS9zdUluNjYrVXdCOWNZVFFqQkFIckhuQXQwVTVhR1FsUTNR?=
- =?utf-8?B?M0ljT05yRnNoSTRiQWo2L3A5S0xhbHFrZFJzakFpRDl4OXN6QXZqc1J6RDZW?=
- =?utf-8?B?a0lSY25TaHhqbHBBeElnQjMrTXdCemUvcENLcnN2b3dDTGR0VDg1MmNWSnRr?=
- =?utf-8?B?SDI2blBKbytSNFFVSFVJY0dXOVBwbHpkcGhlUktIcFJ4eS92RUFud1NSYi9l?=
- =?utf-8?B?T2QvVmJoTTNJdEg5QXpzWEwyNmVJNG16WHN4NDJVWC9OcHp3R1g2bDMvcThN?=
- =?utf-8?B?ekNnelQ0WTdFZXVmOWVCRE50ZzNQQ2RveUdlak9pbW91c0RlN0xXcldPNzNp?=
- =?utf-8?B?bHdPRHhIUHZJOWNFR2VYVjBzSDNDbFY5cDR1Y2t5bjJreDZzdXJJSTdQM3Nz?=
- =?utf-8?B?WVpKckJzTTFIaDdMNlFkL2hVbUpYaDcxVlBHWmF1anY1OXNhbXEzRHc0c1Ru?=
- =?utf-8?B?Y2k4VUhBMWJ1ZmNmRkxvZWFHMnBBMDc1Qkk2NmUxQ0l4ZmFKTGp2L2VxRlRW?=
- =?utf-8?B?MHdMOXhzcmhEZEpOL3prVWs2T3B6YWJtbkRCTWR2eFU5VXVHVENiT3FiUXpM?=
- =?utf-8?B?SitxZUVzNnVod3FBbWErZnlkZGNERFNWMFR6NGtITjFBL2I1NkN4U3NjSWla?=
- =?utf-8?B?TDg5UkVwbzNyY2kxVkVVQ2ZrTlh5QmVCank1YWJwczNvb1FvTTUraE55WDdL?=
- =?utf-8?B?dnJOUXlqL01hY29lMUxRbVFVcDVTK0VCQUJ3ZDZYWkF4SG0wbzdiN2VjTDZU?=
- =?utf-8?B?WmVWVXdQdjZSZFBjSitoVmJqRzVYTUJkTm0ySS8rY05LTHRpdVNVMUFKVEJY?=
- =?utf-8?Q?JbjRoHcbAG2M+4fz1itKYa4=3D?=
+X-Microsoft-Antispam-Message-Info: lwOLuwbQBuLAl8soVCmHmIaFvNtHpNRZo1yPJET67n+4rXn2QDutAthPGKZwpZBsWDZXB3V4a17xwBcDJXWFKqQ6vQMlbEcirQrbpxL2BtL+cZq6muLsRXG1evs95wNKpoNhmatmib+Ym2gyJP0JeNCX27x4k3wB72kppzQAV3qBDCL2o5+ZLyxYIM6WeQ8s7E4FZ8xjiWgWkhPlGyHDDYz3e0KTZaa0M7WvEQAOZCfahSUPcl8jhTDIl3+PFj1IlTUExUqBZ8nID8Eg4AjfACDpRWYmxnnRv/GoIPxGDFpNewohg++r8jXRzQTBD2OVw2asuE0gEZh3jjU92mmHeh+XyqLFu/Crn3KE4D1xSLfnbzWomJhbhvlICsP6mOlOHf04QjunaQsFSdM7NNfTDzQMyUCCu7ryzZhPUBw3ofSOTfG6IaI1D69pRDinVH//obOdQ3jjs6UGbMQ/S0lYMiVt9nJQthnqF+hnopVcr06tfPlmBFQV1UDtkLigOlBGFAM9CICBRYhwqz6kCldGLhEqFN0HEBs3CZ2u4tyCG0aQfYSEzNUzFaLyZrFGE74HoSutWYTtOdI5XeKgbGpeUtCkC2KET07WqzjKruM19M/fPZ63pmHuri1qtldc6Wk84BihkXkh2nHif2hA5aBkiyYBduNjKGt/hSqT9eK0ruOqDD5u8eY9leMe1XqWfg76/2SnQun4Zkw8zGYs7WGRnfgBJ4Eonnkm3IjrN1Xx6GU6plvMoIpHUSLBFWFG4npnnoV/0yXQyEQ8oi+S3uFJ2Wn9zK6K3fksiBNRjgsCRIs=
+X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700004)(86362001)(54906003)(7416002)(316002)(2616005)(186003)(7696005)(5660300002)(8936002)(70586007)(107886003)(36756003)(110136005)(8676002)(508600001)(36860700001)(83380400001)(2906002)(40460700003)(47076005)(336012)(81166007)(426003)(356005)(82310400004)(6666004)(4326008)(70206006)(26005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c302a60c-8df7-4245-8c0e-08d9dfde3570
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 08:39:32.6624
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 08:48:58.0174
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b50c76a-2bf0-4701-1146-08d9dfdf86c3
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JTWyreG87W0XB4lpliykBtWPGhNPJq2fTKc/rrUbtTM32WMuCd34W1CwO+9iUGviC/uszcPwDhneR7vLTt0oZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2711
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3547
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This adds APE support on Tegra234 and enables sound card on
+Jetson AGX Orin platform.
 
-On 29/10/2021 21:14, wander@redhat.com wrote:
-> From: Wander Lairson Costa <wander@redhat.com>
-> 
-> Note: I am using a small test app + driver located at [0] for the
-> problem description. serco is a driver whose write function dispatches
-> to the serial controller. sertest is a user-mode app that writes n bytes
-> to the serial console using the serco driver.
-> 
-> While investigating a bug in the RHEL kernel, I noticed that the serial
-> console throughput is way below the configured speed of 115200 bps in
-> a HP Proliant DL380 Gen9. I was expecting something above 10KB/s, but
-> I got 2.5KB/s.
-> 
-> $ time ./sertest -n 2500 /tmp/serco
-> 
-> real    0m0.997s
-> user    0m0.000s
-> sys     0m0.997s
-> 
-> With the help of the function tracer, I then noticed the serial
-> controller was taking around 410us seconds to dispatch one single byte:
-> 
-> $ trace-cmd record -p function_graph -g serial8250_console_write \
->     ./sertest -n 1 /tmp/serco
-> 
-> $ trace-cmd report
-> 
->              |  serial8250_console_write() {
->   0.384 us   |    _raw_spin_lock_irqsave();
->   1.836 us   |    io_serial_in();
->   1.667 us   |    io_serial_out();
->              |    uart_console_write() {
->              |      serial8250_console_putchar() {
->              |        wait_for_xmitr() {
->   1.870 us   |          io_serial_in();
->   2.238 us   |        }
->   1.737 us   |        io_serial_out();
->   4.318 us   |      }
->   4.675 us   |    }
->              |    wait_for_xmitr() {
->   1.635 us   |      io_serial_in();
->              |      __const_udelay() {
->   1.125 us   |        delay_tsc();
->   1.429 us   |      }
-> ...
-> ...
-> ...
->   1.683 us   |      io_serial_in();
->              |      __const_udelay() {
->   1.248 us   |        delay_tsc();
->   1.486 us   |      }
->   1.671 us   |      io_serial_in();
->   411.342 us |    }
-> 
-> In another machine, I measured a throughput of 11.5KB/s, with the serial
-> controller taking between 80-90us to send each byte. That matches the
-> expected throughput for a configuration of 115200 bps.
-> 
-> This patch changes the serial8250_console_write to use the 16550 fifo
-> if available. In my benchmarks I got around 25% improvement in the slow
-> machine, and no performance penalty in the fast machine.
-> 
-> Signed-off-by: Wander Lairson Costa <wander@redhat.com>
+Mohan Kumar (1):
+  ASoC: tegra: Update AHUB driver for Tegra234
 
+Sameer Pujar (4):
+  dt-bindings: Add Tegra234 APE support
+  dt-bindings: Document Tegra234 APE support
+  arm64: tegra: Add audio devices on Tegra234
+  arm64: tegra: APE sound card for Jetson AGX Orin
 
-On the current mainline and -next branches, I have noticed that the
-serial output on many of our Tegra boards is corrupted and so
-parsing the serial output is failing.
-
-Before this change the serial console would appear as follows ...
-
-[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x411fd071]
-[    0.000000] Linux version 5.16.0-rc6-00091-gadbfddc757ae (jonathanh@jonathanh-vm-01) (aarch64-linux-gnu-gcc (Linaro GCC 6.4-2017.08) 6.4.1 20170707, GNU ld (Linaro_Binutils-2017.08) 2.27.0.20161019) #15 SMP PREEMPT Tue Jan 25 00:15:25 PST 2022
-[    0.000000] Machine model: NVIDIA Jetson TX1 Developer Kit
-
-And now I see ...
-
-[    0.000000] Booting Linux on physicalfd071]
-[    0.000000] Linux version 5.16.0-rc6-athanh@j-linux-g017.08) Linaro_B20161019n 25 00:[    0.000000] Machine model: NVIDIA Jet[    0.000000] efi: UEFI not found.
-[    0.000000] NUMA: No NUMA configurati[    0.000000] NUMA: Faking a node at [m00000001[    0.000000] NUMA: NODE_DATA [mem 0x17[    0.000000] Zone ranges:
-
-Bisecting is pointing to this commit. Let me know if there are any
-tests I can run. Otherwise we may need to disable this at least
-for Tegra.
-
-Cheers
-Jon
+ .../bindings/bus/nvidia,tegra210-aconnect.yaml     |    1 +
+ .../bindings/dma/nvidia,tegra210-adma.yaml         |    4 +-
+ .../bindings/interrupt-controller/arm,gic.yaml     |    1 +
+ .../bindings/sound/nvidia,tegra186-dspk.yaml       |    4 +-
+ .../bindings/sound/nvidia,tegra210-admaif.yaml     |    4 +-
+ .../bindings/sound/nvidia,tegra210-adx.yaml        |    1 +
+ .../bindings/sound/nvidia,tegra210-ahub.yaml       |    1 +
+ .../bindings/sound/nvidia,tegra210-amx.yaml        |    3 +
+ .../bindings/sound/nvidia,tegra210-dmic.yaml       |    1 +
+ .../bindings/sound/nvidia,tegra210-i2s.yaml        |    1 +
+ .../bindings/sound/nvidia,tegra210-mixer.yaml      |    1 +
+ .../bindings/sound/nvidia,tegra210-mvc.yaml        |    1 +
+ .../bindings/sound/nvidia,tegra210-sfc.yaml        |    1 +
+ .../dts/nvidia/tegra234-p3737-0000+p3701-0000.dts  | 1781 ++++++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi           |  432 +++++
+ include/dt-bindings/clock/tegra234-clock.h         |   72 +
+ include/dt-bindings/memory/tegra234-mc.h           |    5 +
+ include/dt-bindings/power/tegra234-powergate.h     |    1 +
+ sound/soc/tegra/tegra210_ahub.c                    |  147 +-
+ sound/soc/tegra/tegra210_ahub.h                    |    4 +-
+ 20 files changed, 2461 insertions(+), 5 deletions(-)
 
 -- 
-nvpublic
+2.7.4
+
