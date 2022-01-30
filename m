@@ -2,67 +2,171 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F35A4A33D0
-	for <lists+linux-tegra@lfdr.de>; Sun, 30 Jan 2022 05:28:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A21B4A3590
+	for <lists+linux-tegra@lfdr.de>; Sun, 30 Jan 2022 11:05:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354247AbiA3E2f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 29 Jan 2022 23:28:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38084 "EHLO
+        id S237059AbiA3KFl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 30 Jan 2022 05:05:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354161AbiA3E2a (ORCPT
+        with ESMTP id S235274AbiA3KFk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 29 Jan 2022 23:28:30 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A73C061772
-        for <linux-tegra@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id c19so1675522ybf.2
-        for <linux-tegra@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+        Sun, 30 Jan 2022 05:05:40 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0285BC061714;
+        Sun, 30 Jan 2022 02:05:39 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id x7so20776737lfu.8;
+        Sun, 30 Jan 2022 02:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
-        b=QI2firgHOSt+2ZiRAEUqBnRqfCndbuygIyUz1kdYlPzS6AXkdk+mfMubksdM+6U8hJ
-         A4UbXdfo0bhasYFmsw5ceBBj4ub2bgaEqkI+Cp5foQd/M11l9HiEax3hX9+hB29fNDF1
-         4XtAbOKK0Jrn48roHo8mUNvKaz7FG0Csy4DWdnw8Q+/oXs7GbWFZBjN+ifwhy6Rfe8k0
-         Pzhs5uXUX+5v6iQyGpPCJWV84GisQUz+5cfOraMc3PalgV6vYI9t2Z4JMkhIMshepKV2
-         BM+Zj3o1QTUTRt1Kxwo+5vz+cvvR7n44irHUjPq0LbDCW52O0lwQK7qPtMHxw7vn0Id9
-         5U2A==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=HeV0Wv/H/OhgPt4lE7qSA5LOMFeXkV06jM9iQMmPzsQ=;
+        b=KXn6y3ZIu6u53xHjCds+h+Xo7KnzeCx1m+Iw3r799KUJnhwChxLYR2bBxufN03LcbL
+         KAoZkknY7Kx6+Yauov6dWgRzTNPPiIon48TGET2ptsFZa/XptFFuhEb8WeK5dO5l27BZ
+         K21H+0aDt1IhIwErB2pk4bVzskG1zsT7Wez9u+o5Ng2MOWJKbRD4DbiJ8E5wnb3ss2tH
+         N/+9h9DCACNlcM65TTSvkJ540ypkBPqsDkZf8BaUBfyl/NgFzK/eGaX9pxnW2Kzad+pA
+         s0zLc8lSPq1wGWlGVDtPWL3XUoQb33/Oo0ajNbNKJ0aq6zB1HGf0bzpYB1r7E5PAfh1c
+         Sdag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
-        b=zhWRuS1bBAexyARohaELxEsbXwPZ5AKfymuxwsxGvF4qLV+dSmI1E8Gkj/dVP4LBdy
-         rTkGS4cEa/H21k2/Py4hs+08j74U8DlLXSftr3VzfTVmefQqKGz/HausU2gue/ceRAB5
-         GgVqxeK0AWyvZEQvoNnVHhsk2LLWtZE+mMFyml2pA4/D3R2k7HdmEKWtqWJn6dSio4j9
-         ebrrw5wBj140oRz5RIdGwfyieuOQQTkQSVAsLk2K2ESSAh3UmvksGl0dlcXp5qcKr8o0
-         3CV0cQHyBqEbYzecseIOjNAA919yeHJWr/Ig0sfmD0hADDl2/soGR3KTsZzCG1G/uGwr
-         W1Tg==
-X-Gm-Message-State: AOAM530s3bd0l7CF/wdCCspABPOjrSnNhDP68XR36wrsn6FUxl/wR/1f
-        OnGoeoappcgSWN+nEV3GuaNdV4qTSNEc3NTG2S8Na/2LTeU=
-X-Google-Smtp-Source: ABdhPJz3bgso8viJFkNwiW8XigzdjL6JZBPDE3NfxKOCgEqvWjdU/qagorQKM5joSRLXylFmq9/zlHP85rUYuZ5fTGQ=
-X-Received: by 2002:a25:6d45:: with SMTP id i66mr23246397ybc.352.1643516893721;
- Sat, 29 Jan 2022 20:28:13 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=HeV0Wv/H/OhgPt4lE7qSA5LOMFeXkV06jM9iQMmPzsQ=;
+        b=tBQO1cMlPv/VlBU4kNHiXmkODkPjq1apodwMACfrADxvIqmOiMtWSmXDP/2dJ6Qzg5
+         vS9c+ie4Dvtev2wl69JL1hMGJB0uC4e2kqB66D47TNxKCwIzPx8RBHRGa/cOmQjf1CXA
+         MCUIIyueHY7vobJml9wWIsxGBiq8UAxEhp8aPwqBqO8GwFnzeZiGYwZQqgTfrtwWYgJP
+         XQMqLVXnhuAWEw1yv1eJAy1cnrA8oxaFsDTg6tG09ZEspesTjolZO8IX9ZUsOBZtBbZq
+         ELm1HOIoM2mdD+4TsemJzPikgEQnoul9pUZJzLk5WaHcaKwU2vGXBkQDQp7f2T/ZtX0J
+         QtGw==
+X-Gm-Message-State: AOAM533TTNe3phyI1wA22A3YHBsZ007ZDfpFq2rYWGJX8AG0ecCPZoy2
+        gD/B6EENgRnlrzjSLtCEy3i/4dCO7OA=
+X-Google-Smtp-Source: ABdhPJwsdB2zj04aLxYfc6dbnuikX14O8Y5qLS+iVnH0LLu+zJxiI9zZl8ykGDDA6+VYG2o3Jq4nsA==
+X-Received: by 2002:ac2:4d57:: with SMTP id 23mr11862456lfp.28.1643537138092;
+        Sun, 30 Jan 2022 02:05:38 -0800 (PST)
+Received: from [192.168.2.145] (109-252-138-126.dynamic.spd-mgts.ru. [109.252.138.126])
+        by smtp.googlemail.com with ESMTPSA id o20sm1119021lfu.244.2022.01.30.02.05.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 30 Jan 2022 02:05:37 -0800 (PST)
+Message-ID: <ba109465-d7ee-09cb-775b-9b702a3910b0@gmail.com>
+Date:   Sun, 30 Jan 2022 13:05:36 +0300
 MIME-Version: 1.0
-Received: by 2002:a05:7010:2312:b0:201:cd76:102e with HTTP; Sat, 29 Jan 2022
- 20:28:13 -0800 (PST)
-Reply-To: mrs.bill.chantalone01@gmail.com
-From:   "Mrs.Bill.Chantal" <grassroot309@gmail.com>
-Date:   Sun, 30 Jan 2022 05:28:13 +0100
-Message-ID: <CAO3iUMDzg_ZovNWXtuQhU6sDXk7LsNwvNc2pOb7zvX7pPCdMAw@mail.gmail.com>
-Subject: Hello....
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v17 2/4] dmaengine: tegra: Add tegra gpcdma driver
+Content-Language: en-US
+To:     Akhil R <akhilrajeev@nvidia.com>, devicetree@vger.kernel.org,
+        dmaengine@vger.kernel.org, jonathanh@nvidia.com,
+        kyarlagadda@nvidia.com, ldewangan@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        p.zabel@pengutronix.de, rgumasta@nvidia.com, robh+dt@kernel.org,
+        thierry.reding@gmail.com, vkoul@kernel.org
+Cc:     Pavan Kunapuli <pkunapuli@nvidia.com>
+References: <1643474453-32619-1-git-send-email-akhilrajeev@nvidia.com>
+ <1643474453-32619-3-git-send-email-akhilrajeev@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <1643474453-32619-3-git-send-email-akhilrajeev@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-You have been compensated with the sum of 9.5 million dollars in this
-united nation the payment will be issue into atm visa  card and send
-to you from the santander bank we need your address and your
-Whatsapp number  + 1 6465853907  this my email.ID
-( mrs.bill.chantal.roland@gmail.com )  contact  me
+29.01.2022 19:40, Akhil R пишет:
+> +static int tegra_dma_device_pause(struct dma_chan *dc)
+> +{
+> +	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+> +	unsigned long wcount, flags;
+> +	int ret = 0;
+> +
+> +	if (!tdc->tdma->chip_data->hw_support_pause)
+> +		return 0;
 
-Thanks my
+It's wrong to return zero if pause unsupported, please see what
+dmaengine_pause() returns.
 
-mrs bill chantal
+> +
+> +	spin_lock_irqsave(&tdc->vc.lock, flags);
+> +	if (!tdc->dma_desc)
+> +		goto out;
+> +
+> +	ret = tegra_dma_pause(tdc);
+> +	if (ret) {
+> +		dev_err(tdc2dev(tdc), "DMA pause timed out\n");
+> +		goto out;
+> +	}
+> +
+> +	wcount = tdc_read(tdc, TEGRA_GPCDMA_CHAN_XFER_COUNT);
+> +	tdc->dma_desc->bytes_xfer +=
+> +			tdc->dma_desc->bytes_req - (wcount * 4);
+
+Why transfer is accumulated?
+
+Why do you need to update xfer size at all on pause?
+
+> +
+> +out:
+> +	spin_unlock_irqrestore(&tdc->vc.lock, flags);
+> +
+> +	return ret;
+> +}
+
+Still nothing prevents interrupt handler to fire during the pause.
+
+What you actually need to do is to disable/enable interrupt. This will
+prevent the interrupt racing and then pause/resume may look like this:
+
+static int tegra_dma_device_resume(struct dma_chan *dc)
+{
+	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+	u32 val;
+
+	if (!tdc->tdma->chip_data->hw_support_pause)
+		return -ENOSYS;
+
+	if (!tdc->dma_desc)
+		return 0;
+
+	val = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSRE);
+	val &= ~TEGRA_GPCDMA_CHAN_CSRE_PAUSE;
+	tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSRE, val);
+	
+	enable_irq(tdc->irq);
+
+	return 0;
+}
+
+static int tegra_dma_device_pause(struct dma_chan *dc)
+{
+	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+	u32 val;
+	int ret;
+
+	if (!tdc->tdma->chip_data->hw_support_pause)
+		return -ENOSYS;
+
+	disable_irq(tdc->irq);
+
+	if (!tdc->dma_desc)
+		return 0;
+
+	val = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSRE);
+	val |= TEGRA_GPCDMA_CHAN_CSRE_PAUSE;
+	tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSRE, val);
+
+	/* Wait until busy bit is de-asserted */
+	ret = readl_relaxed_poll_timeout_atomic(
+			tdc->chan_base + TEGRA_GPCDMA_CHAN_STATUS,
+			val, !(val & TEGRA_GPCDMA_STATUS_BUSY),
+			TEGRA_GPCDMA_BURST_COMPLETE_TIME,
+			TEGRA_GPCDMA_BURST_COMPLETION_TIMEOUT);
+	if (ret) {
+		dev_err(tdc2dev(tdc), "DMA pause timed out: %d\n", ret);
+		tegra_dma_device_resume(dc);
+	}
+
+	return ret;
+}
+
+
