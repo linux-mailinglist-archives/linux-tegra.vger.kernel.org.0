@@ -2,161 +2,320 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 458B24A3AFB
-	for <lists+linux-tegra@lfdr.de>; Mon, 31 Jan 2022 00:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23DD74A3B19
+	for <lists+linux-tegra@lfdr.de>; Mon, 31 Jan 2022 00:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356880AbiA3XXd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 30 Jan 2022 18:23:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59408 "EHLO
+        id S1356958AbiA3Xhb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 30 Jan 2022 18:37:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229903AbiA3XXd (ORCPT
+        with ESMTP id S234533AbiA3Xh2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 30 Jan 2022 18:23:33 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B682C061714;
-        Sun, 30 Jan 2022 15:23:32 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id z4so23274132lft.3;
-        Sun, 30 Jan 2022 15:23:32 -0800 (PST)
+        Sun, 30 Jan 2022 18:37:28 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E6FEC06173B;
+        Sun, 30 Jan 2022 15:37:27 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id z7so17117143ljj.4;
+        Sun, 30 Jan 2022 15:37:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hjWnQjTh+Jhn+MkeRugfJqa0o+1S0rAaZn892MQUIPc=;
-        b=ncu+RIgVZT2ZhXx6LsrAITVCvtQyLlPtl/DoIsaPqKtr+f5m6hxambvja5Wwx9i8qm
-         wyzfivyprc+E19acVfLISr1lAtAB3qxCx+FknpMcF0UsxRXh693fUnOOMN7DPLMMhptd
-         jQra0sBN2OWtu3tabkqTMOgPrAMByvIRYPMKbXJQbDNft8RHYOLOQW2ZwYTdLGaTTB8p
-         CLiC+Qt+dLt7I4LX0e0+humxArxiaSMg9IQbNlgJXpX8ol0W2bILE3wbL9R/jWZSm6Du
-         5f2SUpz2f65xe5pC5s2MXdgUMQ8HRCwSVA/WW914mEyhoDX7lmdCrzgWYjoYd4NlcjpV
-         NLBQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4eoWjq77niO2/5mvubSY6iz+bNrFykDrz7qPLv0XxnA=;
+        b=aD7wXiah9ZF54jblMWRBCwErq130RK7Pi9PDT8VM6wqUjdlxwba0k9nXIKj2nIwI2q
+         2BkI6ySdk4A+qyq/KTKzS/CudPUIzorZfAiFgswJ1EsPVwYvE1VmTJF4cPL+gn0/bWWB
+         PqRXUkeMMcF3wk6nL4z0PK8tqqiIXijE2MiamX/XzGjOxBWmMmFKK47RCIW00bOP386k
+         e5/sd5VENhhtbSdkGs1xZQDir/QdgCsl7UDXI5I5ZA4xehJlH2bVownc2c4ANaUBXNa9
+         EDMeb5qScYUE7LFEZLUezhWgkY10X1bDaUJnJ4K2qH0WsMKFCRlJ0k/KGeMWzaIQJ+Qy
+         ARfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hjWnQjTh+Jhn+MkeRugfJqa0o+1S0rAaZn892MQUIPc=;
-        b=i6+E3Wd/uZsnuu381uSUhbH1zuyNFYFktgUrK0C9HTBOTWqJHBVyk6ktq23dJHTjZo
-         FRUgS8kdlCMhJAz8bsfiI0+RCciZtNV+kHG+tgPS8eWq5mLUJf5muzEj3f1XZPHf7/Ta
-         TE4ajStklqP/8uQw7Lcxan8oStvmUk1N5uXW06oW4K8gRMFLGvl/cC6RA3Zyy9HkJ0SE
-         RligYzLDP0F6tymR33qkPIUFwjbDqYgdu78VkAkR9pPqMmyh+JsR1Q7Wzx75GFjH8yBG
-         PXO7Kv/+qBaJ7vRki+6KEVKAeM9KyfIcLHJiecBCIRidP1J5BwPQLCaz5ea2nE6dQf2b
-         ZQ5A==
-X-Gm-Message-State: AOAM531XSYkZoLzujn5hucewyv7QVAFVi41wcCPTOgXnopkxGwWqyGgE
-        Hn0ShfHiY/CEw2ESoXbTTHt9NFiJUjE=
-X-Google-Smtp-Source: ABdhPJxLCye+nMEmvg/p3mBLmZKVLrjX9D/8KNbNof1jTll5aN0TEIbRPBHe4zv8TZxs9Nez564RrQ==
-X-Received: by 2002:a19:f014:: with SMTP id p20mr13780076lfc.68.1643585010268;
-        Sun, 30 Jan 2022 15:23:30 -0800 (PST)
-Received: from [192.168.2.145] (109-252-138-126.dynamic.spd-mgts.ru. [109.252.138.126])
-        by smtp.googlemail.com with ESMTPSA id u14sm577043lfo.58.2022.01.30.15.23.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Jan 2022 15:23:29 -0800 (PST)
-Message-ID: <f3ffb863-7a78-414c-bee2-09293b28a9da@gmail.com>
-Date:   Mon, 31 Jan 2022 02:23:28 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v17 2/4] dmaengine: tegra: Add tegra gpcdma driver
-Content-Language: en-US
-To:     Akhil R <akhilrajeev@nvidia.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        Rajesh Gumasta <rgumasta@nvidia.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>
-Cc:     Pavan Kunapuli <pkunapuli@nvidia.com>
-References: <1643474453-32619-1-git-send-email-akhilrajeev@nvidia.com>
- <1643474453-32619-3-git-send-email-akhilrajeev@nvidia.com>
- <ba109465-d7ee-09cb-775b-9b702a3910b0@gmail.com>
- <dcd4e4db-2999-15c9-0c82-42dd8ca1e61d@gmail.com>
- <f32e119a-1d08-d1f9-a264-fe004960e8bf@gmail.com>
- <DM5PR12MB1850C29D41F50FA6850C89DDC0249@DM5PR12MB1850.namprd12.prod.outlook.com>
+        bh=4eoWjq77niO2/5mvubSY6iz+bNrFykDrz7qPLv0XxnA=;
+        b=fw6zTIjUD5Ij1h31L5QNPuuv2U6y6zWTuORY4VR4VttJrdONIZxY8X7YRSGp18P+uc
+         LNNO0NK6nS0+XEDcvzl+xNmx9ibYh0p0tI/0afcRpGGmDKomLrChX4esjY/60uhKgAl5
+         AQrJlzvPB0jSnAup7zrJftClvOhc009mqyeApwB9fdtHAUXRFTtACbWJCmMYdtetagF5
+         VjBieDuNb/taVJenVsnHXxvCvC5ndt5EcMQQAp7XiMx9YXLqJh9qkTDwF5TFio6hxajk
+         HgwgiWnZJnWqYBZl2eGp0ssO2l1Zti1cZ7B1z8JnNOsV949rSeVr0BxwMxE/Yom3Bdud
+         Smpg==
+X-Gm-Message-State: AOAM532r47ktySp9Tshki1hXy0g39S2/Mb8tTB4jyTyyYJorj/7rrFkb
+        k8tvO7YhcnA8PuoKrFHXKCc=
+X-Google-Smtp-Source: ABdhPJwvbVxnWY1P5cesSOFGUVAdUo3JJV7z5zLcIzapPRoG+0N1cswoemLCcHfWL8nLT/vbuvjCWg==
+X-Received: by 2002:a05:651c:b0b:: with SMTP id b11mr12655945ljr.481.1643585845329;
+        Sun, 30 Jan 2022 15:37:25 -0800 (PST)
+Received: from localhost.localdomain (109-252-138-126.dynamic.spd-mgts.ru. [109.252.138.126])
+        by smtp.gmail.com with ESMTPSA id a24sm1262950ljp.112.2022.01.30.15.37.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jan 2022 15:37:24 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <DM5PR12MB1850C29D41F50FA6850C89DDC0249@DM5PR12MB1850.namprd12.prod.outlook.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Joshua Thompson <funaho@jurai.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee.jones@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>, alankao@andestech.com,
+        "K . C . Kuen-Chern Lin" <kclin@andestech.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Cc:     linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v6 00/21] Introduce power-off+restart call chain API
+Date:   Mon, 31 Jan 2022 02:36:57 +0300
+Message-Id: <20220130233718.21544-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.01.2022 19:43, Akhil R пишет:
->> 30.01.2022 13:26, Dmitry Osipenko пишет:
->>> 30.01.2022 13:05, Dmitry Osipenko пишет:
->>>> Still nothing prevents interrupt handler to fire during the pause.
->>>>
->>>> What you actually need to do is to disable/enable interrupt. This
->>>> will prevent the interrupt racing and then pause/resume may look like this:
->>>
->>> Although, seems this won't work, unfortunately. I see now that
->>> device_pause() doesn't have might_sleep().
->>>
->>
->> Ah, I see now that the pause/unpause is actually a separate control and doesn't
->> conflict with "start next transfer".
->>
->> So you just need to set/unset the pause under lock. And don't touch
->> tdc->dma_desc. That's it.
->>
->> static int tegra_dma_device_pause(struct dma_chan *dc) {
->>         struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->>         unsigned long flags;
->>         u32 val;
->>
->>         if (!tdc->tdma->chip_data->hw_support_pause)
->>                 return -ENOSYS;
->>
->>         spin_lock_irqsave(&tdc->vc.lock, flags);
->>
->>         val = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSRE);
->>         val |= TEGRA_GPCDMA_CHAN_CSRE_PAUSE;
->>         tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSRE, val);
->>
->>         spin_unlock_irqrestore(&tdc->vc.lock, flags);
->>
->>         return 0;
->> }
->>
->> static int tegra_dma_device_resume(struct dma_chan *dc) {
->>         struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->>         unsigned long flags;
->>         u32 val;
->>
->>         if (!tdc->tdma->chip_data->hw_support_pause)
->>                 return -ENOSYS;
->>
->>         spin_lock_irqsave(&tdc->vc.lock, flags);
->>
->>         val = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSRE);
->>         val &= ~TEGRA_GPCDMA_CHAN_CSRE_PAUSE;
->>         tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSRE, val);
->>
->>         spin_unlock_irqrestore(&tdc->vc.lock, flags);
->>
->>         return 0;
->> }
-> 
-> The reason I separated out register writes was to conveniently call those
-> in dma_start() and terminate_all(). Do you see any issue there?
-> The recommended way of terminating a transfer in between is to pause
-> it before disabling the channel.
+Problem
+-------
 
-This is a sample code, feel free to adjust it as needed.
+SoC devices require power-off call chaining functionality from kernel.
+We have a widely used restart chaining provided by restart notifier API,
+but nothing for power-off.
 
-> dma_desc could be NULL while these functions are called. pause() or
-> resume() is unneeded if there isn't any transfer going on. Moreover,
-> if we are to calculate the xfer_size, the check would be mandatory.
+Solution
+--------
 
-For now looks like it should be better to move the xfer_size updating to
-other places, like terminate_all() and tx_status().
+Introduce new API that provides both restart and power-off call chains.
 
-I also see now that you have
-residue_granularity=DMA_RESIDUE_GRANULARITY_BURST, while tx_status()  in
-fact uses segment granularity. This needs to be corrected.
+Why combine restart with power-off? Because drivers often do both.
+More practical to have API that provides both under the same roof.
 
-You also must add locking to tx_status(), to protect tdc->dma_desc
-pointer updates.
+The new API is designed with simplicity and extensibility in mind.
+It's built upon the existing restart and reboot APIs. The simplicity
+is in new helper functions that are convenient for drivers. The
+extensibility is in the design that doesn't hardcode callback
+arguments, making easy to add new parameters and remove old.
+
+This is a third attempt to introduce the new API. First was made by
+Guenter Roeck back in 2014, second was made by Thierry Reding in 2017.
+In fact the work didn't stop and recently arm_pm_restart() was removed
+from v5.14 kernel, which was a part of preparatory work started by
+Guenter Roeck. I took into account experience and ideas from the
+previous attempts, extended and polished them.
+
+Adoption plan
+-------------
+
+This patchset introduces the new API. It also converts multiple drivers
+and arch code to the new API to demonstrate how it all looks in practice.
+
+The plan is:
+
+1. Merge new API (patches 1-8). This API will co-exist with the old APIs.
+
+2. Convert arch code to do_kernel_power_off() (patches 9-21).
+
+3. Convert drivers and platform code to the new API.
+
+4. Remove obsolete pm_power_off and pm_power_off_prepare variables.
+
+5. Make restart-notifier API private to kernel/reboot.c once no users left.
+
+6. Make uniqueness of the handlers' priority a mandatory requirement.
+
+It's fully implemented here:
+
+[1] https://github.com/grate-driver/linux/commits/sys-off-handler
+
+For now I'm sending only the first 25 base patches out of ~180. It's
+preferable to squash 1-2, partially 3 and 4 points of the plan into a
+single patchset to ease and speed up applying of the rest of the patches.
+Majority of drivers and platform patches depend on the base, hence they
+will come later (and per subsystem), once base will land.
+
+All [1] patches are compile-tested. Tegra and x86 ACPI patches are tested
+on hardware. The remaining should be covered by unit tests (unpublished).
+
+Results
+-------
+
+1. Devices can be powered off properly.
+
+2. Global variables are removed from drivers.
+
+3. Global pm_power_off and pm_power_off_prepare callback variables are
+removed once all users are converted to the new API. The latter callback
+is removed by patch #25 of this series.
+
+4. Ambiguous call chain ordering is prohibited. See patch #5 which adds
+verification of restart handlers priorities, ensuring that they are unique.
+
+Changelog:
+
+v6: - Rebased on a recent linux-next.
+
+    - Made minor couple cosmetic changes.
+
+v5: - Dropped patches which cleaned up notifier/reboot headers, as was
+      requested by Rafael Wysocki.
+
+    - Dropped WARN_ON() from the code, as was requested by Rafael Wysocki.
+      Replaced it with pr_err() appropriately.
+
+    - Dropped *_notifier_has_unique_priority() functions and added
+      *_notifier_chain_register_unique_prio() instead, as was suggested
+      by Michał Mirosław and Rafael Wysocki.
+
+    - Dropped export of blocking_notifier_call_chain_is_empty() symbol,
+      as was suggested by Rafael Wysocki.
+
+    - Michał Mirosław suggested that will be better to split up patch
+      that adds the new API to ease reviewing, but Rafael Wysocki asked
+      not add more patches, so I kept it as a single patch.
+
+    - Added temporary "weak" stub for pm_power_off() which fixes linkage
+      failure once symbol is removed from arch/* code. Previously I missed
+      this problem because was only compile-testing object files.
+
+v4: - Made a very minor improvement to doc comments, clarifying couple
+      default values.
+
+    - Corrected list of emails recipient by adding Linus, Sebastian,
+      Philipp and more NDS people. Removed bouncing emails.
+
+    - Added acks that were given to v3.
+
+v3: - Renamed power_handler to sys_off_handler as was suggested by
+      Rafael Wysocki.
+
+    - Improved doc-comments as was suggested by Rafael Wysocki. Added more
+      doc-comments.
+
+    - Implemented full set of 180 patches which convert whole kernel in
+      accordance to the plan, see link [1] above. Slightly adjusted API to
+      better suit for the remaining converted drivers.
+
+      * Added unregister_sys_off_handler() that is handy for a couple old
+        platform drivers.
+
+      * Dropped devm_register_trivial_restart_handler(), 'simple' variant
+        is enough to have.
+
+    - Improved "Add atomic/blocking_notifier_has_unique_priority()" patch,
+      as was suggested by Andy Shevchenko. Also replaced down_write() with
+      down_read() and factored out common notifier_has_unique_priority().
+
+    - Added stop_chain field to struct restart_data and reboot_prep_data
+      after discovering couple drivers wanting that feature.
+
+    - Added acks that were given to v2.
+
+v2: - Replaced standalone power-off call chain demo-API with the combined
+      power-off+restart API because this is what drivers want. It's a more
+      comprehensive solution.
+
+    - Converted multiple drivers and arch code to the new API. Suggested by
+      Andy Shevchenko. I skimmed through the rest of drivers, verifying that
+      new API suits them. The rest of the drivers will be converted once we
+      will settle on the new API, otherwise will be too many patches here.
+
+    - v2 API doesn't expose notifier to users and require handlers to
+      have unique priority. Suggested by Guenter Roeck.
+
+    - v2 API has power-off chaining disabled by default and require
+      drivers to explicitly opt-in to the chaining. This preserves old
+      behaviour for existing drivers once they are converted to the new
+      API.
+
+Dmitry Osipenko (21):
+  notifier: Add blocking_notifier_call_chain_is_empty()
+  notifier: Add atomic/blocking_notifier_chain_register_unique_prio()
+  reboot: Print error message if restart handler has duplicated priority
+  kernel: Add combined power-off+restart handler call chain API
+  ARM: Use do_kernel_power_off()
+  csky: Use do_kernel_power_off()
+  riscv: Use do_kernel_power_off()
+  arm64: Use do_kernel_power_off()
+  parisc: Use do_kernel_power_off()
+  xen/x86: Use do_kernel_power_off()
+  powerpc: Use do_kernel_power_off()
+  m68k: Switch to new sys-off handler API
+  sh: Use do_kernel_power_off()
+  x86: Use do_kernel_power_off()
+  ia64: Use do_kernel_power_off()
+  mips: Use do_kernel_power_off()
+  nds32: Use do_kernel_power_off()
+  memory: emif: Use kernel_can_power_off()
+  ACPI: power: Switch to sys-off handler API
+  regulator: pfuze100: Use devm_register_sys_off_handler()
+  reboot: Remove pm_power_off_prepare()
+
+ arch/arm/kernel/reboot.c               |   4 +-
+ arch/arm64/kernel/process.c            |   3 +-
+ arch/csky/kernel/power.c               |   6 +-
+ arch/ia64/kernel/process.c             |   4 +-
+ arch/m68k/emu/natfeat.c                |   3 +-
+ arch/m68k/include/asm/machdep.h        |   1 -
+ arch/m68k/kernel/process.c             |   5 +-
+ arch/m68k/kernel/setup_mm.c            |   1 -
+ arch/m68k/kernel/setup_no.c            |   1 -
+ arch/m68k/mac/config.c                 |   4 +-
+ arch/mips/kernel/reset.c               |   3 +-
+ arch/nds32/kernel/process.c            |   3 +-
+ arch/parisc/kernel/process.c           |   4 +-
+ arch/powerpc/kernel/setup-common.c     |   4 +-
+ arch/powerpc/xmon/xmon.c               |   3 +-
+ arch/riscv/kernel/reset.c              |  12 +-
+ arch/sh/kernel/reboot.c                |   3 +-
+ arch/x86/kernel/reboot.c               |   4 +-
+ arch/x86/xen/enlighten_pv.c            |   4 +-
+ drivers/acpi/sleep.c                   |  25 +-
+ drivers/memory/emif.c                  |   2 +-
+ drivers/regulator/pfuze100-regulator.c |  38 +-
+ include/linux/notifier.h               |   7 +
+ include/linux/pm.h                     |   1 -
+ include/linux/reboot.h                 | 265 +++++++++++-
+ kernel/notifier.c                      | 101 ++++-
+ kernel/power/hibernate.c               |   2 +-
+ kernel/reboot.c                        | 573 ++++++++++++++++++++++++-
+ 28 files changed, 968 insertions(+), 118 deletions(-)
+
+-- 
+2.34.1
+
