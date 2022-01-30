@@ -2,91 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 231204A325E
-	for <lists+linux-tegra@lfdr.de>; Sat, 29 Jan 2022 23:40:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F35A4A33D0
+	for <lists+linux-tegra@lfdr.de>; Sun, 30 Jan 2022 05:28:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346477AbiA2Wkk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 29 Jan 2022 17:40:40 -0500
-Received: from angie.orcam.me.uk ([78.133.224.34]:44012 "EHLO
-        angie.orcam.me.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243417AbiA2Wkk (ORCPT
+        id S1354247AbiA3E2f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 29 Jan 2022 23:28:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354161AbiA3E2a (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 29 Jan 2022 17:40:40 -0500
-X-Greylist: delayed 392 seconds by postgrey-1.27 at vger.kernel.org; Sat, 29 Jan 2022 17:40:39 EST
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id 4E85792009C; Sat, 29 Jan 2022 23:34:03 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id 4823E92009B;
-        Sat, 29 Jan 2022 22:34:03 +0000 (GMT)
-Date:   Sat, 29 Jan 2022 22:34:03 +0000 (GMT)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-cc:     Rob Herring <robh@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 19/19] PCI: Set bridge map_irq and swizzle_irq to default
- functions
-In-Reply-To: <20220111214608.GA169999@bhelgaas>
-Message-ID: <alpine.DEB.2.21.2201220459090.58572@angie.orcam.me.uk>
-References: <20220111214608.GA169999@bhelgaas>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        Sat, 29 Jan 2022 23:28:30 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A73C061772
+        for <linux-tegra@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id c19so1675522ybf.2
+        for <linux-tegra@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=QI2firgHOSt+2ZiRAEUqBnRqfCndbuygIyUz1kdYlPzS6AXkdk+mfMubksdM+6U8hJ
+         A4UbXdfo0bhasYFmsw5ceBBj4ub2bgaEqkI+Cp5foQd/M11l9HiEax3hX9+hB29fNDF1
+         4XtAbOKK0Jrn48roHo8mUNvKaz7FG0Csy4DWdnw8Q+/oXs7GbWFZBjN+ifwhy6Rfe8k0
+         Pzhs5uXUX+5v6iQyGpPCJWV84GisQUz+5cfOraMc3PalgV6vYI9t2Z4JMkhIMshepKV2
+         BM+Zj3o1QTUTRt1Kxwo+5vz+cvvR7n44irHUjPq0LbDCW52O0lwQK7qPtMHxw7vn0Id9
+         5U2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=zhWRuS1bBAexyARohaELxEsbXwPZ5AKfymuxwsxGvF4qLV+dSmI1E8Gkj/dVP4LBdy
+         rTkGS4cEa/H21k2/Py4hs+08j74U8DlLXSftr3VzfTVmefQqKGz/HausU2gue/ceRAB5
+         GgVqxeK0AWyvZEQvoNnVHhsk2LLWtZE+mMFyml2pA4/D3R2k7HdmEKWtqWJn6dSio4j9
+         ebrrw5wBj140oRz5RIdGwfyieuOQQTkQSVAsLk2K2ESSAh3UmvksGl0dlcXp5qcKr8o0
+         3CV0cQHyBqEbYzecseIOjNAA919yeHJWr/Ig0sfmD0hADDl2/soGR3KTsZzCG1G/uGwr
+         W1Tg==
+X-Gm-Message-State: AOAM530s3bd0l7CF/wdCCspABPOjrSnNhDP68XR36wrsn6FUxl/wR/1f
+        OnGoeoappcgSWN+nEV3GuaNdV4qTSNEc3NTG2S8Na/2LTeU=
+X-Google-Smtp-Source: ABdhPJz3bgso8viJFkNwiW8XigzdjL6JZBPDE3NfxKOCgEqvWjdU/qagorQKM5joSRLXylFmq9/zlHP85rUYuZ5fTGQ=
+X-Received: by 2002:a25:6d45:: with SMTP id i66mr23246397ybc.352.1643516893721;
+ Sat, 29 Jan 2022 20:28:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: by 2002:a05:7010:2312:b0:201:cd76:102e with HTTP; Sat, 29 Jan 2022
+ 20:28:13 -0800 (PST)
+Reply-To: mrs.bill.chantalone01@gmail.com
+From:   "Mrs.Bill.Chantal" <grassroot309@gmail.com>
+Date:   Sun, 30 Jan 2022 05:28:13 +0100
+Message-ID: <CAO3iUMDzg_ZovNWXtuQhU6sDXk7LsNwvNc2pOb7zvX7pPCdMAw@mail.gmail.com>
+Subject: Hello....
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 11 Jan 2022, Bjorn Helgaas wrote:
+You have been compensated with the sum of 9.5 million dollars in this
+united nation the payment will be issue into atm visa  card and send
+to you from the santander bank we need your address and your
+Whatsapp number  + 1 6465853907  this my email.ID
+( mrs.bill.chantal.roland@gmail.com )  contact  me
 
-> This patch removed all the ->swizzle_irq users in drivers/pci/, which
-> is great -- IIUC swizzling is specified by the PCI-to-PCI Bridge Spec,
-> r1.2, sec 9.1, and should not be device-specific.  I assume the few
-> remaining arch/ users (arm and alpha) are either bugs or workarounds
-> for broken devices.
+Thanks my
 
- I skimmed over the Alpha stuff and it seems to mostly care about setting 
-the slot value returned differently and defers to `pci_common_swizzle' for 
-actual pin determination.  This could be moderately easy to sort out.
-
- One exception is `takara_swizzle' which looks incomplete to me; as this 
-is a PICMG device[1] someone would have to fill in the missing details as 
-AFAICT the PICMG connector is supposed to provide all the INT# A-D lines 
-and then routing is done on the backplane using binding defined by PICMG.
-
- According to DEC documentation there's an alternative interrupt routing 
-mode available too, using a external interrupt controller FPGA placed on 
-the backplane[2], where no swizzling is done and instead each of the four 
-INT# lines across all the PCI slots, up to 16, provided by a backplane is 
-individually routed to 64 inputs of the interrupt controller.
-
- There is a paper by DEC available online[3] that could help filling in 
-the missing details for either mode, especially someone who has access to 
-such a system and could verify it in reality.
-
-References:
-
-[1] "DIGITAL 21164 PICMG SBC, User Information for the EBM21 and EBM23",
-    V1.0, Digital Equipment Corporation, June 1997, Part Number: 
-    EK-A0937-UG. A01
-
-[2] "DIGITAL Modular Computing Components, OEM Information for DMCC 
-    Backplanes", Version 4.1, Compaq Computer Corporation, January 1999, 
-    Order Number: EK-A0929-TM. C01
-
-[3] Ross L. Armstrong, "PCI Interrupt Controller for Industry Standard 
-    PCI-ISA Bus Architecture using PCI-to-PCI Bridge Technology", Digital 
-    Equipment Corporation (Scotland) Ltd., 1996
-
- FWIW,
-
-  Maciej
+mrs bill chantal
