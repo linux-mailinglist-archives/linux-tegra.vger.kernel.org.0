@@ -2,140 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EA424A3F3D
-	for <lists+linux-tegra@lfdr.de>; Mon, 31 Jan 2022 10:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1C1B4A401D
+	for <lists+linux-tegra@lfdr.de>; Mon, 31 Jan 2022 11:27:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236825AbiAaJ3M (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 31 Jan 2022 04:29:12 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:39576
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233715AbiAaJ3L (ORCPT
+        id S239724AbiAaK1w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 31 Jan 2022 05:27:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232081AbiAaK1w (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 31 Jan 2022 04:29:11 -0500
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com [209.85.208.197])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 11E814004C
-        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 09:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1643621351;
-        bh=dkzBuNd+uNU6CfCWtlWJDYP24x7ho0sbzpUOr5OCq8A=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=obTTwwnEvBQKHZn2Yv7kSg1I4T2kInvV3nDMYmbGhEF+CXa1P8XwgFe7bZeSm1UB2
-         1APGGhvyTrvkgeUJg2gDzy3bbenM9LcIEIGwgw5Jp47C2NLPsf6SxowWmQtzPIR3uK
-         IWl6Kqw2Od3M+NtfyPEj7l3gXGFw0zJERaUZb5aLyIuIvDWRIIjOlvwfkjTNKvB2Uj
-         2mps/spptcczP+OpqYdmsX5EvWNALHCwo0VgEcYUzjLTbBOdZgwqQXyBGN6gdjdPfW
-         vWduuh5Uqs/9zDjho32tPDKZz6PW9yZ+qNaK76X/U2AmvZNf2GsK2jm33yynrDUVlK
-         0IjWTuiRtWW2w==
-Received: by mail-lj1-f197.google.com with SMTP id n9-20020a2e82c9000000b002435af2e8b9so601197ljh.20
-        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 01:29:11 -0800 (PST)
+        Mon, 31 Jan 2022 05:27:52 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F568C061714
+        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 02:27:52 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id d188so16191294iof.7
+        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 02:27:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sZWGihYuBSIBpF/UUxqTCvTiC/Dkr6jyPhYvam1O90k=;
+        b=gf4dicArAzLSU3L35NN3QBzs9QK1rc6GKyDR0xby439/42Knvx9XB+tqhxrKpcjzJe
+         mtNKM7uXlruflxC1r23u5YyPuQb/RZq0DulCB4xc0KduoQI9pfUgbRKMowbH8+S1pHMk
+         t7i4uPT7W1E1z0SlyfmAI9alm4IEfSfOrMOPxfvFU4h9SgaQQIU9neQHFushyuv0I8yI
+         8ISku07RQeE02UBvQlABpcRARO+Wz1v7HyM4hB5v64cZwawf1/XXi0Gnhz+MW5WgxPXO
+         LwQn84o2K8cT4+EIWEynjdBes6s5ozDxQJgTc6nlpc1Nb0+9UA4xi+OJfRRCyE/USMM8
+         Dtvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=dkzBuNd+uNU6CfCWtlWJDYP24x7ho0sbzpUOr5OCq8A=;
-        b=1lKye+d8zEsLjGrsE55nCEMoAOd26FmZieRo7Gtx4vrwtJv5xgZkIkRtmaB9NoEsel
-         9N45EEzdYW/dI0TXtqxCFN0MtOgCbZCkwPOfxZ0Qd4YKHSrURMqa43ahlJtMT4rPJJwZ
-         0TkWx+veJXGOnqii+uw+T6X2yEQVNB4eSoAHqeCdVw0JK7G29mV+riILV6EL6fNjjEBs
-         vOfCXLTNRNOv6Qf4KS+U8bG8xTNoab13GW0ImS7QNiaZ6jTRyWlF35AeDc8K4pqkzqyu
-         gsRQrhmGzlpxYMJNG8KRGMQmgu5CcuUlTqDPPV0DjJ8kw1HhEkITMhQNHjOr0UjuFCHh
-         4cbQ==
-X-Gm-Message-State: AOAM532cXy1U1/ueha/23AMdmtr522xJu66Wb0zE8JS3OT2CrcP6/6HS
-        kEp2lrzhn+9BC4ayihWsSFVoB6xJ367Ecy5173dxRLgAaUHDY0bvyznzEzqXd239KPxRSfrtUBA
-        zpc66mciA0U2vj8Z4mcY64VeuB7wF0zchhnKYop4A
-X-Received: by 2002:a17:907:d88:: with SMTP id go8mr16082701ejc.343.1643621337754;
-        Mon, 31 Jan 2022 01:28:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwUgdzk1HBzC4qCevIT6t5qYbRcRcbKgCipd7W6AaFHRRw14fKuy7dvOGc19/jX8mpPV7Ajw==
-X-Received: by 2002:a17:907:d88:: with SMTP id go8mr16082640ejc.343.1643621337451;
-        Mon, 31 Jan 2022 01:28:57 -0800 (PST)
-Received: from [192.168.0.71] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id z2sm2645158ejn.117.2022.01.31.01.28.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 01:28:56 -0800 (PST)
-Message-ID: <1e22e171-9d13-5763-a9e2-a24e7d98e130@canonical.com>
-Date:   Mon, 31 Jan 2022 10:28:54 +0100
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=sZWGihYuBSIBpF/UUxqTCvTiC/Dkr6jyPhYvam1O90k=;
+        b=8RjvE08LJd+fdZ4kY0OSK09zt2Yd4ZZuEr+FILDD+YsDmptFiYvXqwdhpwHfQSh/s7
+         zOJru5rrpbUVzmme50EYghHTHto/sB1cb3A0c0BaWtaIQK5VUnfUz5urVPFWynoPKRV3
+         BaY/aAuklnMUR6VpypXJE1B8jOloPi2uuBglgdOE5+7libQjpHS7HP0YAJW2NqHSVxHE
+         BGm5wZbvos1gG3gazqFpKWDMUDUZRgRt1yct4Gsob+PbrFicijGbFwlaAKQVLv+HCSZa
+         rbHoazO4ymoKUlciSspxtJqEtRgt6/oG2BIJX4CNyAqBONXh3Uddr9M8MM5vzygVpYlU
+         CRKA==
+X-Gm-Message-State: AOAM5307sujgceXYccGtvVqi54g+4kApxONrtvYmPKWjAFRqKagM4XYE
+        eXg2y4lRD9A3HOmLW3B429p4mkzFkYRUYdp267J0cY1xG8o=
+X-Google-Smtp-Source: ABdhPJwhXplGX6pZwmmm43c71WsCJJ1mlLbwc2j4FW/LITDDbqN5/FQ6VyedtB5hxVXRuz6zejng7GNsnPu0JN9z2NM=
+X-Received: by 2002:a63:2bc5:: with SMTP id r188mr3916341pgr.363.1643624860765;
+ Mon, 31 Jan 2022 02:27:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 18/21] memory: emif: Use kernel_can_power_off()
-Content-Language: en-US
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Joshua Thompson <funaho@jurai.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Sebastian Reichel <sre@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee.jones@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>, alankao@andestech.com,
-        "K . C . Kuen-Chern Lin" <kclin@andestech.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20220130233718.21544-1-digetx@gmail.com>
- <20220130233718.21544-19-digetx@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220130233718.21544-19-digetx@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Reply-To: mrselodieantonie778@yahoo.com
+Sender: pastorjohn1991@gmail.com
+Received: by 2002:a17:90b:194b:0:0:0:0 with HTTP; Mon, 31 Jan 2022 02:27:40
+ -0800 (PST)
+From:   Mrs Elodie Antoine <mrselodieantoinea@gmail.com>
+Date:   Mon, 31 Jan 2022 02:27:40 -0800
+X-Google-Sender-Auth: U8MbFV2kVoJoeiZdg0vv7qFXc7A
+Message-ID: <CABk23+n0Y6oby_p8Tdc+7FGxomCH1-Gf0UgFNdULp1XK4g1Bcw@mail.gmail.com>
+Subject: PLEASE REPLY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 31/01/2022 00:37, Dmitry Osipenko wrote:
-> Replace legacy pm_power_off with kernel_can_power_off() helper that
-> is aware about chained power-off handlers.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/emif.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+Hello To Whom It May Concern,
+
+Dear Friend,
+
+Please forgive me for stressing you with my predicaments as I know
+that this letter may come to you as big surprise. Actually, as my
+pastor advised me to reject earthly reward and thanks by handing the
+project to someone I have never seen or met for a greater reward in
+heaven waits for whoever can give such a costly donation. I came
+across your E-mail from my personal search, and I decided to email you
+directly believing that you will be honest to fulfill my final wish
+before or after my death.
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+ Meanwhile, I am Madam Elodie Antoine, 69 years, am from Israel, still
+childless. I am suffering from Adenocarcinoma Cancer of the lungs for
+the past 8 years and from all indication my condition is really
+deteriorating as my doctors have confirmed and courageously advised me
+that I may not live beyond 5 weeks from now for the reason that my
+tumor has reached a critical stage which has defiled all forms of
+medical treatment.
 
 
-Best regards,
-Krzysztof
+Since my days are numbered, I=E2=80=99ve decided willingly to fulfill my
+long-time vow to donate to the underprivileged the sum of (US$4.5
+Million Dollars) I deposited in my bank over 8 years now because I
+have tried to handle this project
+by myself but I have seen that my health could not allow me to do so
+anymore. My promise for the poor includes building of well-equipped
+charity foundation hospital and a technical school for their survival.
+
+
+If you will be honest, kind and willing to assist me handle this
+charity project as I=E2=80=99ve mentioned here, I will like you to Contact =
+me
+through this email address.
+
+Best Regards!
+Mrs. Elodie Antoine
