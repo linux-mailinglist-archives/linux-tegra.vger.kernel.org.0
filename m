@@ -2,91 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8515B4A51AA
-	for <lists+linux-tegra@lfdr.de>; Mon, 31 Jan 2022 22:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9785B4A562B
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Feb 2022 06:20:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347897AbiAaVjp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 31 Jan 2022 16:39:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51544 "EHLO
+        id S233643AbiBAFUN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Feb 2022 00:20:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381177AbiAaVi1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 31 Jan 2022 16:38:27 -0500
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B34DC06173B
-        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 13:38:20 -0800 (PST)
-Received: by mail-oi1-x242.google.com with SMTP id 4so4947835oil.11
-        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 13:38:20 -0800 (PST)
+        with ESMTP id S233632AbiBAFUL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Feb 2022 00:20:11 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 725F7C061401
+        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 21:20:11 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id q186so31199776oih.8
+        for <linux-tegra@vger.kernel.org>; Mon, 31 Jan 2022 21:20:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=dEuqzCa7Zlz6s4mRGbRbRWXXanD59qsT+xmKk7tBbCVL8shmNgt9pnuL3r3GZQALql
-         Y63DqHUGCnZO0yzAtzp7ZNS2CuC8pMKUMaMtNqE3s9gB45FDt9/C7CdeYDqwmv7HZJbj
-         h6fZit5aG7dGp8FvXKTscfcGshyIKAGZl/Y4NFvWe+GDkg5MDDBzPsbgzyvzZ7B1mfX4
-         ltlQ0tRJrdsWlCdvxMPpvS+PhwNDM1Zp7MYHnfnHzWMTP4bbhrhxbQSB0Xw9LPR0gSp/
-         L2Vas/DZH4ZiZyplfhihUfOHaOD2GjtH1tg3ZI6lVgxDcwRnl8d4U3qCI5tj+07J/ZXk
-         SzvA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=W3pkuXcD6//2M4IafSNtYUk0ekeqEUBNIypKPlcgXSg=;
+        b=NGaVgCVpuCF7KW9wQEbk/yftac+yJ4TTG6i1IzF/n47+5Mc2D8OINvU06KfuaLBRXF
+         gpnD2XtD1IEpYAh415FTi29uaGHURLWzJOse7iFZMiGI+zaJ4PvGHOb+rrCT/gmgwBZh
+         gSaMmIJsMLP2gKUkzP6udbMqV/3JIFjIqCV1xmtZ5BPyQELQjo0nSYXxDBnHHCryQp32
+         2CpCVCLsad1sODHh8dOoRi9k3n03qQcNBqv9JsvoVUEdJkIgioWXmP93yLh7hhQ/U0cc
+         ueJMvHGxErnAiZarKMhjoOrQ4VFaQjkUbVIqViaj2chDIT63he30WFM9Mw0jCfARBQKd
+         86kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=H/YFNMZNj7fBzoFX9ouwpLUqeQ0Qo0fgXHl6B+JZXmTcl/5s+QOfqLtC6ayyii/k4s
-         88f8urBr/5mX6hwPI7T/BDPQZUpM4HrmxB8sAg8tW2MjpeCNcJOEtGTMRV4h6YZvLGus
-         vBt/26P+FIjuzglh1BY+9AI5As/5khCCwngmxUxE2b3AuM4N6/kVgoxrjPBcx9wWZEa3
-         ZpNYtuSUBC+jwVgjf4wDABLa/9blo8s/jizrFHQyKsGyFr8bo9jugZIFgy2HcQXaA+kH
-         zXDmIQs2lgfxSjQgOci2NiQc3XVNKi17Q/FQbJuAwsWIHoytcnj4rUMDWHacwswGt5uM
-         thBw==
-X-Gm-Message-State: AOAM532tH78ohQ6M5KGw4SxwOfIJtSbbVhSGZpyre++Vjt7ZK08WYOzB
-        OW+90fANJ1L+z6TkgCAlDWtgJSS1W5nYN+61Zy5zD0IR59WmqA==
-X-Google-Smtp-Source: ABdhPJzjG4nHBnpm1YeRsvfpKVsM6nmNJIeFJaztEJrNHMe+iyJctx1iGavTAT23A2IhS4j6LtYbunRiUquAn1xj08o=
-X-Received: by 2002:a54:4490:: with SMTP id v16mr14818764oiv.157.1643665089421;
- Mon, 31 Jan 2022 13:38:09 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=W3pkuXcD6//2M4IafSNtYUk0ekeqEUBNIypKPlcgXSg=;
+        b=sJ6XHhqfS7gcYsC/yQ0czIKIEeWapenQSHX7wBXqVBoPfW4KlHEcTBYJrVyhQVu4CA
+         32t5LynFSzv/nY9aV1RuPLgOXFFGiJK+tBErJGdrQzuPs/JGfZdd94dFPD3FR6gz1wFN
+         2LfUsUKKqHlATvVbv2SJeprVqo9n3tzsERurHVVIPbkkqzKm4OYgXgrFHrjBBmqTCGUA
+         1Pvar91/1nrLiOQdOc53ob/cdRQdiaTZVj1JPxQUhZ9tgGb3wX9fipGIHjV8vDAH4r43
+         iE5u3AiMKeQuJqbauPW3UEUSItbWkQWQTBpXMluRtHrfEafcnSmsS/lFSVAlUVi/m4QT
+         0hTQ==
+X-Gm-Message-State: AOAM5312LOuWEjB6mEd+9ZS07h8n5y3ntwosrsT7uSi43CsxONecQbtn
+        x9RfmvQ2I4Hvx1BKtvBZAvWgpA==
+X-Google-Smtp-Source: ABdhPJyf+Wbq4ePHvO/Z19AWRX3YaNZ61EuN8lo4bOYD6TfN0gDQgCabFLnPy4NGWrQUZWX7OykxAg==
+X-Received: by 2002:a05:6808:e85:: with SMTP id k5mr223269oil.238.1643692810811;
+        Mon, 31 Jan 2022 21:20:10 -0800 (PST)
+Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
+        by smtp.gmail.com with ESMTPSA id u3sm8193107ooh.19.2022.01.31.21.20.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jan 2022 21:20:10 -0800 (PST)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Andy Gross <agross@kernel.org>, Baruch Siach <baruch@tkos.co.il>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Selvam Sathappan Periakaruppan <speriaka@codeaurora.org>,
+        Kathiravan T <kathirav@codeaurora.org>,
+        linux-tegra@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Baruch Siach <baruch.siach@siklu.com>
+Subject: Re: (subset) [PATCH v4 1/3] arm64: dts: qcom: ipq6018: add pcie max-link-speed
+Date:   Mon, 31 Jan 2022 23:19:20 -0600
+Message-Id: <164369277344.3095904.10731707140943455148.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <fcf41277cf8529437374a5c10b2b1fcad30cd7c2.1640587131.git.baruch@tkos.co.il>
+References: <cover.1640587131.git.baruch@tkos.co.il> <fcf41277cf8529437374a5c10b2b1fcad30cd7c2.1640587131.git.baruch@tkos.co.il>
 MIME-Version: 1.0
-Received: by 2002:a4a:c30d:0:0:0:0:0 with HTTP; Mon, 31 Jan 2022 13:38:09
- -0800 (PST)
-Reply-To: westerunion909@gmail.com
-From:   "Antonia Lloyd." <anthonylloydatmxxx04@gmail.com>
-Date:   Mon, 31 Jan 2022 13:38:09 -0800
-Message-ID: <CAExPwBBpihjV-rv_-+hYqb1WD3wpSWx81B_Q3ES15U3TXSPsyw@mail.gmail.com>
-Subject: Dear Email ID Owner.(USD$4000 IMF COMPENSATION FUND TO PICK UP TODAY).
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dear Email ID Owner.
+On Mon, 27 Dec 2021 08:46:03 +0200, Baruch Siach wrote:
+> From: Baruch Siach <baruch.siach@siklu.com>
+> 
+> Add the generic 'max-link-speed' property to describe the IPQ6018 PCIe
+> link generation limit. This allows the generic dwc code to configure the
+> link speed correctly.
+> 
+> 
+> [...]
 
-The IMF is compensating all the email address that was funds as one of
-the ward win Victims and your email address and your name is among the
-listed one of approved to pay the sum of $3.6 million U.S Dollars. We
-have concluded to effect your own payment through Western Union Money
-Transfer for easy pick-up of those funds in good condition,$4000 twice
-daily,till the $3.6 million is completely transferred to you.We now
-need your information where we will be sending the funds,such
-as;Receiver name(Your full Name)address and phone number.Contact
-Western Union agent with this Email: ( westerunion995@gmail.com  ) for
-your payment fund.
+Applied, thanks!
 
-Ms.Maria Zatto
-E-mail:westerunion995@gmail.com
-Telephone: +229 682 97 169
+[1/3] arm64: dts: qcom: ipq6018: add pcie max-link-speed
+      commit: e3e8a472429923d1c430bf388e9e3df1d9cc63a7
 
-Contact Ms.Maria,immediately you get this mail through western union
-email address above to enable her speed-up.your payment and release
-the $4000 dollars MTCN today for you to pick up the payment OK.
-
-You are expected to provide us with the details as prescribed below to
-enable safe and easy release of your funds today.
-
-(1)Your Full name:
-(2)Your Phone number:
-(3)Your Country:
-(4)Your Age:
-
-Thank you,
-Dr.Antonia Lloyd.
-Contact Dir.Western Union Money Transfer,
-Cotonou-Benin Republic.
+Best regards,
+-- 
+Bjorn Andersson <bjorn.andersson@linaro.org>
