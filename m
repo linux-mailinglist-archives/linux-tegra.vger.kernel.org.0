@@ -2,89 +2,175 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E21424A732D
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Feb 2022 15:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A1B44A74E2
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Feb 2022 16:45:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239487AbiBBOdl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Feb 2022 09:33:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42762 "EHLO
+        id S245063AbiBBPpQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Feb 2022 10:45:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbiBBOdk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Feb 2022 09:33:40 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22397C06173B
-        for <linux-tegra@vger.kernel.org>; Wed,  2 Feb 2022 06:33:40 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id m6so61546502ybc.9
-        for <linux-tegra@vger.kernel.org>; Wed, 02 Feb 2022 06:33:40 -0800 (PST)
+        with ESMTP id S233239AbiBBPpN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Feb 2022 10:45:13 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB585C061714;
+        Wed,  2 Feb 2022 07:45:12 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id t7so29439279ljc.10;
+        Wed, 02 Feb 2022 07:45:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=1lSRxTR1Nfbew1ckoplO+ALwR6VD4H9IXEVk77oxx94=;
-        b=I0acyTqQB58zci3MCiqkT/KmC/DMSClacrU+HOv6avliXRgUe6zOlJ+pIyMtMS2flw
-         6rib+ypFOI3ts4kCm66OtOO/gjvqlPL8nUlvAjSETc5DLp5oU0XM8K4gjeRUfG6bClJ+
-         lzu0hp62mJt7VULV8lF2+HWJd+rFwx6/HdqvlDg791siw6YzvjEpMw/0/I3aGpHFNgr0
-         eys27APiPgr15Kpe2jie5wRRC3QKIO8RreuBpd/FawGoufDO8Ojv91dx1OpmK5P6iY4r
-         zn6xEA3wmPd6/HBZx6ZogylgpgmXDEjCT0ORfrJJLY305xxGM/fDlRKvGx4xoCM1lbM6
-         bsow==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=z4arY+g8wX8M89ywxFO2V/rPiSArckND5pFwvaV0inI=;
+        b=dDX1WqEELcv5LJXvtiKxE9g1GertKAlmxr1c221g9sXoPxMsFCWHqy7RkqG8vZDQyd
+         gcNKwpxoN86JGI/tSNcFedjuTn7x1r+VXDI6lQVbZxKbVr716t0ehbl0DXLsymYX6rfJ
+         buIzveNaSU4ZQJbugECw7NgHNAg4xdqTtY+kAutZFw049r8SPvqdNsSsWGJqiu7HsG9i
+         YYahyPRyzm6LnuX4Rn7a6JrgYxUZ5CNc8cM8V+GxzkBTZ6xBrtnI7hAVxWpaUGgGhj4o
+         CJ+55DLGQXxG7aW4XmJrgOdiG6YyufhzXnANxNrLKEy/YXEAUeI9HDhtYmEVwhIjFaGw
+         wZDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=1lSRxTR1Nfbew1ckoplO+ALwR6VD4H9IXEVk77oxx94=;
-        b=r2Qo7eL0s9cV/B7qeFMFURsCBXNjXeElpeIP7H9cNMGwYg4+/LoHAJ54Il2oGfhAro
-         6RvdJsX8ESQsV78ahz0x1EJCYQFutkK29V7uyWg06GiiUTFNwij7KBpD7bu5ix48q0K1
-         kHeKqD+fiMQxz1tV/7byvlTRAHiUHlx0YtxLVjw68m5H1Ivq1PCMLvNBReELcPmB+ZGR
-         g52fPnGQt/Guus45eg2hpJj9w5GslltR6O2FzEewaTanStjc5YLEM7+6MdSKWRK+NUCr
-         1w7KFHRPnGbD8eQ5JrHimbAdie5nDF7AbmXTWRFVGdW9yQ2tpIvSxlUrirhO6WrbnQIA
-         PWeA==
-X-Gm-Message-State: AOAM532FnX2QBgY+aI1LrS7M4++GQBhKQ8ArxW1/0kNBA0QX/u8fp7Hl
-        8em/JyS/Llj+fgUG0LZ/fVkdUM9A0S7seqi5qJY=
-X-Google-Smtp-Source: ABdhPJz7Z2bzddOJD5D2PbS0LXdXxrcaprOGaPry9UJRAhoy0DkQvkzm0oVWAZQ91e6nnNucdUuvLJ8UuTL8E0KiiaI=
-X-Received: by 2002:a25:6a06:: with SMTP id f6mr43484608ybc.193.1643812418911;
- Wed, 02 Feb 2022 06:33:38 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=z4arY+g8wX8M89ywxFO2V/rPiSArckND5pFwvaV0inI=;
+        b=nE2d00tC2nEMh+iJ3uHxBFhbn+sWh7y/nDU+ZK1KLK9rjBG37BJ3VSbRQKxCd8H0YN
+         KLCgw953H8rwcW9IBOc4Srk7/ysK0MRGFt41gDrwoAZdMwpgzwNDBM+yH3OAgWMg+99C
+         yPpY8Xzye6xIVtmBs0Fy3ih9NtBGp1qrsUlM/8B0xizKQABUY0cjKRkL23MTfKnl8KO9
+         TmzAKorqoX2RsjewchSJCEsBMPlNvygB+pO3/O9A0eMI5hyPgr1SpnsjoYRA9F+cjkXu
+         9VdFn2gkWAayiKD7p+13xP29Q5hHD7RItNdb9yuGftR1yXNsREW6u60NanhzhWeDZkFq
+         D+og==
+X-Gm-Message-State: AOAM533J1SPztIEwbxVCVbENZSXD0sxCTcQMl7Wv/e7g+LY5dkJlgkMP
+        AuxsGNtgY2T8f1jFiMGZ2K0=
+X-Google-Smtp-Source: ABdhPJzaT7yeTWNK1STtK5CEEtrRe3k3RfThPGNKhym658ySPbYjl4psomBsLIDLXhg9UuACHRR3AA==
+X-Received: by 2002:a05:651c:179c:: with SMTP id bn28mr20182343ljb.4.1643816710975;
+        Wed, 02 Feb 2022 07:45:10 -0800 (PST)
+Received: from [192.168.2.145] (109-252-138-136.dynamic.spd-mgts.ru. [109.252.138.136])
+        by smtp.googlemail.com with ESMTPSA id a18sm4047834lfg.83.2022.02.02.07.45.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Feb 2022 07:45:10 -0800 (PST)
+Message-ID: <3feaa359-31bb-bb07-75d7-2a39c837a7a2@gmail.com>
+Date:   Wed, 2 Feb 2022 18:45:09 +0300
 MIME-Version: 1.0
-Received: by 2002:a05:7010:7a8e:b0:202:e4b3:cfa with HTTP; Wed, 2 Feb 2022
- 06:33:38 -0800 (PST)
-Reply-To: milica.sr@yahoo.com
-From:   =?UTF-8?B?TXJzLsKgTWlsaWNhwqBTcmJ0ZXN0?= <larri0021@gmail.com>
-Date:   Wed, 2 Feb 2022 14:33:38 +0000
-Message-ID: <CAPyCvShMBxxP8uJ_w5v=916ic9KKps7vJALiOrGeNdj646toSg@mail.gmail.com>
-Subject: From Mrs Milica, I will appreciate your urgent reply
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v18 2/4] dmaengine: tegra: Add tegra gpcdma driver
+Content-Language: en-US
+To:     Akhil R <akhilrajeev@nvidia.com>, devicetree@vger.kernel.org,
+        dmaengine@vger.kernel.org, jonathanh@nvidia.com,
+        kyarlagadda@nvidia.com, ldewangan@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        p.zabel@pengutronix.de, rgumasta@nvidia.com, robh+dt@kernel.org,
+        thierry.reding@gmail.com, vkoul@kernel.org
+Cc:     Pavan Kunapuli <pkunapuli@nvidia.com>
+References: <1643729199-19161-1-git-send-email-akhilrajeev@nvidia.com>
+ <1643729199-19161-3-git-send-email-akhilrajeev@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <1643729199-19161-3-git-send-email-akhilrajeev@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
--- 
-Dear Friend
-Greeting to you and your beloved family,please my name is Mrs.Milica Test
-a widow from  Serbia Republic,am married to Mr Steele Bowe who worked
-with Canada Embassy for ten years in washington D.C United States,
+....
+> +static int tegra_dma_pause(struct tegra_dma_channel *tdc)
+> +{
+> +	int ret;
+> +	u32 val;
+> +
+> +	val = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSRE);
+> +	val |= TEGRA_GPCDMA_CHAN_CSRE_PAUSE;
+> +	tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSRE, val);
+> +
+> +	/* Wait until busy bit is de-asserted */
+> +	ret = readl_relaxed_poll_timeout_atomic(tdc->tdma->base_addr +
+> +			tdc->chan_base_offset + TEGRA_GPCDMA_CHAN_STATUS,
+> +			val,
+> +			!(val & TEGRA_GPCDMA_STATUS_BUSY),
+> +			TEGRA_GPCDMA_BURST_COMPLETE_TIME,
+> +			TEGRA_GPCDMA_BURST_COMPLETION_TIMEOUT);
+> +
+> +	return ret;
+> +}
+> +
+> +static int tegra_dma_device_pause(struct dma_chan *dc)
+> +{
+> +	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+> +	unsigned long flags;
+> +	int ret = 0;
+> +
+> +	if (!tdc->tdma->chip_data->hw_support_pause)
+> +		return -ENOSYS;
+> +
+> +	spin_lock_irqsave(&tdc->vc.lock, flags);
+> +	ret = tegra_dma_pause(tdc);
+> +	if (ret)
+> +		dev_err(tdc2dev(tdc), "DMA pause timed out\n");
 
-We were both married for good eighteen years before he deid a after a breif
-illness that lasted for four days,but all our years in marriage was not blessed
-with a child and since after his death i decided not to re-marry as i inherited
-all his belongings.
+Why error message shouldn't be printed by tegra_dma_terminate_all()?
 
-Now am 64 years old suffering for cancer of pelvis, small bowel & around my
-liver, as a result i cannot eat & been hospitalist here in indian at
-Delhi general
-hospital, from all medical indications my condition has really deteriorated, the
-doctor recently told me that i will not last more than three months, base on
-this notice i took my decision to dispatch my wealth and inheritance to the
-less privileges ,churches,poor/needy and to the widows propagating to the
- word God to ensure that the  house of God is maintained as well ,
+The error message should be placed inside of tegra_dma_pause().
 
-so am writing you to confide on you this charity work as am willing to release
-the valued sum of $4.3 Million for this purpose and i want to know if you can
- do the work as well and utils the fund as am going to state herein, like this,,
-40% of the total fund  shall be for you and your beloved family while 50%
-goes to the charity work,and 10% SHALL be send to my doctor here in india .
+...
+> +static int tegra_dma_stop_client(struct tegra_dma_channel *tdc)
+> +{
+> +	int ret;
+> +	unsigned long status;
+> +	u32 csr = tdc_read(tdc, TEGRA_GPCDMA_CHAN_CSR);
+> +
+> +	/*
+> +	 * Change the client associated with the DMA channel
+> +	 * to stop DMA engine from starting any more bursts for
+> +	 * the given client and wait for in flight bursts to complete
+> +	 */
+> +	csr &= ~(TEGRA_GPCDMA_CSR_REQ_SEL_MASK);
+> +	csr |= TEGRA_GPCDMA_CSR_REQ_SEL_UNUSED;
+> +	tdc_write(tdc, TEGRA_GPCDMA_CHAN_CSR, csr);
+> +
+> +	/* Wait for in flight data transfer to finish */
+> +	udelay(TEGRA_GPCDMA_BURST_COMPLETE_TIME);
+> +
+> +	/* If TX/RX path is still active wait till it becomes
+> +	 * inactive
+> +	 */
+> +
+> +	ret = readl_relaxed_poll_timeout_atomic(tdc->tdma->base_addr +
+> +				tdc->chan_base_offset +
+> +				TEGRA_GPCDMA_CHAN_STATUS,
+> +				status,
+> +				!(status & (TEGRA_GPCDMA_STATUS_CHANNEL_TX |
+> +				TEGRA_GPCDMA_STATUS_CHANNEL_RX)),
+> +				5,
+> +				TEGRA_GPCDMA_BURST_COMPLETION_TIMEOUT);
+> +	if (ret) {
+> +		dev_err(tdc2dev(tdc), "Timeout waiting for DMA burst completion!\n");
+> +		tegra_dma_dump_chan_regs(tdc);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int tegra_dma_terminate_all(struct dma_chan *dc)
+> +{
+> +	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+> +	unsigned long flags;
+> +	LIST_HEAD(head);
+> +	int err;
+> +
+> +	spin_lock_irqsave(&tdc->vc.lock, flags);
+> +
+> +	if (tdc->dma_desc) {
+> +		err = tdc->tdma->chip_data->hw_support_pause ?
+> +		      tegra_dma_pause(tdc) :
+> +		      tegra_dma_stop_client(tdc);
 
-So i wait to read from you and upon your reply then i will give you the contact
-of the bank in United States and an authorization letter that will empower you
-as the new beneficairy of my fund ,feel free to write me on the following
- address, (  milica.sr@yahoo.com  )
-Thanks and remain blessed
-Mrs. Milica Srbtest
+The canonical coding style is:
+
+if (tdc->tdma->chip_data->hw_support_pause)
+	err = tegra_dma_pause(tdc);
+else
+	err = tegra_dma_stop_client(tdc);
+
+
+But why do you need to pause at all here and can't use
+tegra_dma_stop_client() even if pause is supported?
