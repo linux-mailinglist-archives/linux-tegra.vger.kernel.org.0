@@ -2,103 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEE4E4A9586
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Feb 2022 09:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 645A24A97C0
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Feb 2022 11:30:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356440AbiBDIts (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Feb 2022 03:49:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245057AbiBDItp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Feb 2022 03:49:45 -0500
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A50C06175E
-        for <linux-tegra@vger.kernel.org>; Fri,  4 Feb 2022 00:49:45 -0800 (PST)
-Received: by mail-pj1-x1043.google.com with SMTP id s2-20020a17090ad48200b001b501977b23so12492239pju.2
-        for <linux-tegra@vger.kernel.org>; Fri, 04 Feb 2022 00:49:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=c5+oKL89+Al8opwNLgJ+ACvlbdVu/5l2SU8tvvvRvuM=;
-        b=CDFSOFN0ES/B21wE3c/wSpquNkr793M5PFrOQdCJsxTevf9i4PDztomaGoFpyfgVno
-         bWMxeKABDqYZHlD1Rb2n/ylkqnXcckhO0jMWmg+nR8AEMovcxRNNZMK/E36Qm213NNhW
-         AzcrLxoc2uFKz4xLEd7UlwJNet939wgy0A8noSqeMah08kcZIViRrwE7OWm9OliMPH+1
-         cHLqFBGCgkfT6tBx4ZtIw30xfapxf++bMutcYO6jZ8GvdXuYdu+tTVlsGw+yiut20gu3
-         6s3l3XxmAORLWaKSTmlxPsCdYrxDWH0jCnbJz7wvXMtMuo4bGmmobtvUnCXmRHy++MJK
-         zaOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=c5+oKL89+Al8opwNLgJ+ACvlbdVu/5l2SU8tvvvRvuM=;
-        b=4bCfU38WGafnMI6MjWqBlbE1RQbolHsS7zG5WlT4aHUwa1ETvnnQdoLBaaCdnEqQGz
-         WeByOh5mYg1PT+JFqwnuQVlfFYOqsPDEmfFl7MnX116j0x/JHgkBQKB6J7ncRAbKPtaM
-         TgAw+zi03arPlCQofWFE9BPqpJ3bEJfsNpCidC+wqd+3z9v2eC6d8f6MS5HCV751AvgZ
-         c/MkMTKL2JnktE5U+bV6bfBAsqNZ5LbyMFvspusWBHw7SA86A3dkGyryINEmuuXzXAVJ
-         qxdeOmiGGHAVCrwWaq82pwSoNp6RgEGhApSZK1Pbx86435Xwrv/NTicOKTtwnLf4Krc4
-         tiWg==
-X-Gm-Message-State: AOAM532N9YXPecQRf2g87pSPyuZ5ZwOsQXrfLuCP6+I+yzgDfV7XDO2q
-        EHnZwqktYm3b6XYhnMo7BvXpBJ4XPt5dY8+zWWgrAGEwZJ4=
-X-Google-Smtp-Source: ABdhPJzBgJIWkxUgthIez0XVIVkawXypuSIwGbHqkMZJABOuvTAWPPs+EiyrqGbcJvlvGhCi4Co1YsBkhVs8U601hYQ=
-X-Received: by 2002:a17:902:c206:: with SMTP id 6mr1947976pll.153.1643964573397;
- Fri, 04 Feb 2022 00:49:33 -0800 (PST)
+        id S1349617AbiBDKaD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Feb 2022 05:30:03 -0500
+Received: from mail-bn8nam12on2089.outbound.protection.outlook.com ([40.107.237.89]:42944
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229851AbiBDKaC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 4 Feb 2022 05:30:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F1ZCHgwhA3szNajDPEHDqNdpNDPCBO5x8HNdqSxVEeGcy5ZA24WiA8HzByHV3yG0zc2l2/SnQxH0oqsOT33Z3ejsN5ZJZf3N0T6lS2qAO9nIp++aBkkG4+zEuVVxWri4c5l0jhO5M5mCyNEef8oCNyUJdXHpmrXmta9B44CMtrkk+bM5uMrbe20o/27oRAssaQ4S1YzK+85grVt5lTXtZZ1xJPuSVTTk4mdxMI1m3UrqsqD8kQ+KasTaIiOi2ttVe0DzibbqNPDlFuR/7LfXI9C6atzL2oQI5p8g68n9r/3NYjcBR2bGXRa77KbYHcC0kyrz7XchFt7tuFY3YOYUKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2sWgBZ5DuDnl4xixt2e5bzVuQ4XzbIBC9bpMRUqDb6c=;
+ b=IW8k43t1evvG7DIz8sO5yg7mErQVo+Okn4OEss/ZGsgBcQRv9o1RLQQNsqXIv0BhNyra04HNwy1QNwV9zIop+GUfFaJ5jRj17JfSIiA09exYXNVQ06i3MWhpZyvzicUEmYTDD4WI/vM/LAFcaBb0C6SyIFZTWxKs3GyWgx4BkcjNeFksTOdR8tP3xH8pOZZ19CQcen9ypD50MilgNkBz40xljPF4Hv+Icc3nlFGFjYKp/yrfdpLQUvqPPaVUd99qPKMTcwdHDx3KnmIfE46R6WUr63Y3lkZZti+bFjOOd4FfBoCwK5pUSVqj7NAJCof5B+xWlGOKkvQ2cbKX2eAG9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2sWgBZ5DuDnl4xixt2e5bzVuQ4XzbIBC9bpMRUqDb6c=;
+ b=lEVTB19/wl+OwHh9SEJVcwjXitrZL6dklpQBMl3cngQ8z0rkl3H23mtYkuuabFu5cx23JJtUAZ0snYzQtjTSPny+I4ZBKBodQ8+pj7P5W0Mj5/y5w6gor13qLiEdXgLhqDyph/Iq/L+rU6revuO1UHiGW5L087wvTBlnP866fj253yhGV9foJtxg3Im8GOhss3p2tYov3vNVjIgxlU4mCCIQJIOqmg5kL+ZSAv79iQC+PvFejeGF59YaTNsd0Z6Jc/c5esVyLH8mWOPdXhD7IvlCrnDaUugKeo6d9B9Yjefrr9hAHoqgAX311q5b9iH62icOxk3V8SV2ARX3n53KGQ==
+Received: from BN1PR14CA0025.namprd14.prod.outlook.com (2603:10b6:408:e3::30)
+ by MN2PR12MB3087.namprd12.prod.outlook.com (2603:10b6:208:d2::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Fri, 4 Feb
+ 2022 10:30:00 +0000
+Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e3:cafe::c3) by BN1PR14CA0025.outlook.office365.com
+ (2603:10b6:408:e3::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
+ Transport; Fri, 4 Feb 2022 10:30:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.236) by
+ BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4951.12 via Frontend Transport; Fri, 4 Feb 2022 10:30:00 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 4 Feb
+ 2022 10:29:55 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Fri, 4 Feb 2022
+ 02:29:54 -0800
+Received: from kyarlagadda-linux.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.986.9 via Frontend
+ Transport; Fri, 4 Feb 2022 02:29:51 -0800
+From:   Krishna Yarlagadda <kyarlagadda@nvidia.com>
+To:     <broonie@kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <linux-spi@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+CC:     <skomatineni@nvidia.com>, <ldewangan@nvidia.com>,
+        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <p.zabel@pengutronix.de>,
+        Krishna Yarlagadda <kyarlagadda@nvidia.com>
+Subject: [PATCH 0/6] Tegra QUAD SPI combined sequence mode
+Date:   Fri, 4 Feb 2022 15:59:30 +0530
+Message-ID: <1643970576-31503-1-git-send-email-kyarlagadda@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Sender: bankcoris7@gmail.com
-Received: by 2002:a05:6a10:8ecc:0:0:0:0 with HTTP; Fri, 4 Feb 2022 00:49:32
- -0800 (PST)
-From:   komi zongo <komizongo2020@gmail.com>
-Date:   Fri, 4 Feb 2022 08:49:32 +0000
-X-Google-Sender-Auth: DJ4IyUdVph8-23fUkF90YeQoGWo
-Message-ID: <CAF8uSvrUQL-7NJvmhBd5s-_YOWh6oBUNPdfHFBiSEKCB_vZFyw@mail.gmail.com>
-Subject: Very Very Urgent.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b3072d96-665c-4758-d294-08d9e7c94c27
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3087:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB30877F7F356A482E7BC94C1BC3299@MN2PR12MB3087.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Li9ECOM5Ow7MAK8m1e+5i3QTzXMZIo0RkzGZ0gyZpy8iH2fu84yeff1Hv7u8ltgW7BV7kCMEJ9TtAF7IMWXD0113uvyM0iaagSWHhMrP/KKueFPgNUE90AosFvIkokNmJHEuna3L9wDzfKv8kiGtH5r7gYOKF3AlYLyy1R4XZIXSC+fzH1NbSgeyivA4Cmi0nRYLIA3qRfjrt553o1pzkr2vJDRComfRNHoahRm8aEALFfkAjLjquLXu2fSQGvgjaU2WrfIlltruwt/HqV3wtBvuqxZSoY73qeN2h5LpyAfEcbekejHq5a/iPQ4pPRihNS587dBt0FwREolknszSwPmuUh6AG4qfYFTK4fJQ0dgfQ1PvsN4b0kQyiRfN6f8HyiDFzgYTMlH/ZBZGfSV4CRGL+LXvtfEIdY5+haAFMxoHmVWC3KBftoQQXybSpu/0dMPVWATZgsbi9HtOE35VW9OHbW7vraZLaiJacIECbmlLPHXrQJ3cN1e6U6cKRjjtS/XsEWjhDfk7ES6x+EF0LAdvav8BkK9WzIvjUB+84mf5rdfF5/LJFcjo+3rNaJ28XKCgLVW7aVGi9BsANcJBdQBZGv+8VvBq9Z56X+VePBEhVggR5xrZHUPoWD0GKhLqnCNk9a9KK+MyGK2wVslv1UPWBgyi2PqLD1mIgSiJ+lZYStlg2//Bf42ShEvRHHTzHU37lSkl5Hw08HgBtH+YKQ==
+X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(82310400004)(8936002)(86362001)(336012)(426003)(6666004)(70206006)(70586007)(4326008)(8676002)(316002)(81166007)(356005)(4744005)(7696005)(186003)(40460700003)(2906002)(2616005)(107886003)(5660300002)(36860700001)(47076005)(508600001)(110136005)(54906003)(36756003)(83380400001)(26005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 10:30:00.0038
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3072d96-665c-4758-d294-08d9e7c94c27
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3087
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I NEED TRUST.
+Add ACPI support for Tegra210 QUAD SPI driver and support
+new Tegra194 feature, combined sequence mode.
 
-Hope you are in good health with your family.
+Krishna Yarlagadda (6):
+  spi: tegra210-quad: use device_reset method
+  dt-bindings: spi: Tegra234 QUAD SPI compatible
+  spi: tegra210-quad: add new chips to compatible
+  spi: tegra210-quad: add acpi support
+  dt-bindings: spi: Tegra QUAD SPI combined sequence
+  spi: tegra210-quad: combined sequence mode
 
-I am Mr.Komi Zongo.  I work as the Foreign Operations Manager with
-one of the international banks here in Burkina Faso. Although the
-world is a very small place and hard place to meet people because you
-don't know who to trust or believe, as I have developed trust in you
-after my fasting and praying,  I made up my mind to confide this
-confidential business suggestion to you.
+ .../bindings/spi/nvidia,tegra210-quad.yaml         |   9 +
+ drivers/spi/spi-tegra210-quad.c                    | 313 +++++++++++++++++++--
+ 2 files changed, 291 insertions(+), 31 deletions(-)
 
-There is an overdue unclaimed sum of Ten Million Five Hundred Thousand
-United States Dollars ($10,500,000.00) in my bank, belonging to one of
-our dead foreign customers. There were no beneficiaries stated
-concerning these funds. Therefore, your request as a foreigner is
-necessary to apply for the claim and release of the fund smoothly into
-your reliable bank account  as the Foreign Business Partner to the
-deceased.
+-- 
+2.7.4
 
-On the transfer of this fund in your account, you will take 40% as
-your share from the total fund, 5% will be shared to Charitable
-Organizations while Motherless Babies homes, disabled helpless as the
-balance of 55% will be for me. If you are really sure of your
-integrity, trustworthy, and confidentiality, reply urgently and to
-prove that, include your particulars as follows.
-
-Please get back to me through this Email Address komizongo2020@gmail.com
-
-please fill in your personal information as indicated below and as
-soon as i receive this information below i will forward you a text of an
-application which you will fill and send to the bank for the claim of the
-fund as i will direct you on what to do.
-
-Your name in full.......................... ........
-Your country....................... ..................
-Your age........................... ....................
-Your cell phone......................... ...........
-Your occupation.................... ...............
-Your sex........................... ....................
-Your marital status........................ .......
-Your id card or passport...........................
-
-Best Regards,
-
-Mr.Komi Zongo.
