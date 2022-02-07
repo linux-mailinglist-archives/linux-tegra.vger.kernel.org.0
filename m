@@ -2,131 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C154AC688
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 17:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED2AA4AC7E7
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 18:49:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235247AbiBGQyz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Feb 2022 11:54:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45078 "EHLO
+        id S235585AbiBGRtF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Feb 2022 12:49:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345307AbiBGQkw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 11:40:52 -0500
-X-Greylist: delayed 322 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 08:40:49 PST
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E983C0401CE
-        for <linux-tegra@vger.kernel.org>; Mon,  7 Feb 2022 08:40:49 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 6D93D5801E1;
-        Mon,  7 Feb 2022 11:35:42 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:35:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; bh=EwNtqwTz4wJMKViqLw0g5DhuPbcVe3
-        1YFuSiAGaRGSQ=; b=Csgb2OuGWPA1xTWxg6M7/jOB7wsmuAePCO/NlXwZUY2w/7
-        lr/JxT95F8xpKzviHQlUt+dNxWKX2KIIlzcmJu4JIYH2fatmGoWNy849VR9jauva
-        VNG4ECXwUYmJojraifpXCzErOKHiEtgD+2xFZO1VOUWfa33HtdC4TKtLrLNGdc35
-        8sq6JiNd6oB3BR5un2vZSEK02SA8NS/x5ZlDMTTcNDrCYyzsfWJO1yxJcWor/1Uj
-        pH4DJcVV9HNOyun9+iR5DnbBy9xzbh64dyu1MzY0X6pFSr/3mu16FWL4nvLDZYfE
-        nEJn+iuQwnq8mTbgOiKWevb/JLbGj8DdEasQjkMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EwNtqw
-        Tz4wJMKViqLw0g5DhuPbcVe31YFuSiAGaRGSQ=; b=S8SomocG97/Ygy0Scz6MSH
-        wLPbOkw6LM0xcwddWLPyAwMLX/AB3SYju5xh9Tn++8e4ZgASipOxB0ASfXDvJliW
-        KETZvVhyFayfB4aNyg0TkW4RbY/UtXuzXNSZa74gkEMxhQ8yrOxQDcmGSiXm85RS
-        q/kUiPk8N0NDOJmGVXP2R2NWFjaLdwvG8rAONIlY/5+Flr4xrikImFnADVgnEHgA
-        QjU2bxNr7O0e3LcGoDneON9uGSYSS9Osk3YZKNxopQ40Ww50XKBxL8psc4AiYoDo
-        lZjiEAhL2Zp+QtrQIIrkEu26IN0jIyb0BwXbeOXtew8TmpeJ/qiMj0prSAWt9DkA
-        ==
-X-ME-Sender: <xms:XkoBYip6rzXjyllpJMhW5vbuA8AiIfsw55c-X1a-zhN8YHH4RFk2Bw>
-    <xme:XkoBYgrcJtZ8-nrGsdfDZwgoSnyvzEp6yW-3MmFLPuQb6trbJ9d3FTe5GxpSz5v2K
-    vFtYoE4fHTDzJxCbA0>
-X-ME-Received: <xmr:XkoBYnME1ZT9dEGxl8MmU_liBoIE69s-sFkrvOohZeN3cuBoI_d0lpti4Htn5zuIho9aMdiiDlt7_Ax1bwB_2t07fiY6mbjuj491jV8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
-    vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:XkoBYh6jmdmTMO5pRtj7ICPsPTCiXHLgxUgz5lo9zlzhgqdGZ2Z5PQ>
-    <xmx:XkoBYh4s407WNWqV4Yd0-ZYWhUeweZXUC5RsjleYc0h3G6qW43XlUQ>
-    <xmx:XkoBYhhZ6-BUFOTVmwyio5Gy_JRPyLMRbm-l9ZmRvOEERfF0bGTC8Q>
-    <xmx:XkoBYtjh6Y-QMlaJeTNT-zfplHojq21Qh-9KF-thLTvYju-orUW_jg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:35:41 -0500 (EST)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>
-Cc:     dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Tim Gover <tim.gover@raspberrypi.com>,
-        Dom Cobley <dom@raspberrypi.com>, linux-tegra@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 08/23] drm/tegra: plane: Remove redundant zpos initialisation
-Date:   Mon,  7 Feb 2022 17:35:00 +0100
-Message-Id: <20220207163515.1038648-9-maxime@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
-References: <20220207163515.1038648-1-maxime@cerno.tech>
+        with ESMTP id S1384311AbiBGRgy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 12:36:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33FB7C0401D5;
+        Mon,  7 Feb 2022 09:36:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E5717B815C6;
+        Mon,  7 Feb 2022 17:36:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C3CC004E1;
+        Mon,  7 Feb 2022 17:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644255410;
+        bh=/7YN1m76qf4snYDMVXR15LGTPvRjVN/AzA2qo6qhVtI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=sIIeoPL8OANAhj44U1X2u3zQNXXTY1oNGPK1fQdVT33tNkvktg0GpxHLyNj3K0x0Y
+         wtLfKFRIAPZAXgk6+w5ADLpkcGocrbN7xLd3pMhnGVkDs7MLXNgdzQHEBb+dHjMOCA
+         lPu5UbwA4JkRzAAZglw0pPUuwOTIVReV56CBlvm1GdMxqXbvCjeYYGxm1aKC3/xnlE
+         LVAsPetTzl99KaBACPC+Q4vhd2QS7IScea5Vt041eaunVaLh9tAUgXN4J26/cEi2V1
+         gqn18+3Cut7ljOd6vFbBscsv+wvwpDnmq2ODyZpbafGo39RxgCSfqrEsbZ3+4IsH09
+         yhC3Bq8NCI8wg==
+Date:   Mon, 7 Feb 2022 11:36:48 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     bhelgaas@google.com, lorenzo.pieralisi@arm.com, robh+dt@kernel.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, kishon@ti.com,
+        vkoul@kernel.org, kw@linux.com, krzysztof.kozlowski@canonical.com,
+        p.zabel@pengutronix.de, mperttunen@nvidia.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V1 09/10] PCI: Disable MSI for Tegra234 root ports
+Message-ID: <20220207173648.GA402391@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220205162144.30240-10-vidyas@nvidia.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The tegra KMS driver will call drm_plane_create_zpos_property() with an
-init value of the plane index.
+On Sat, Feb 05, 2022 at 09:51:43PM +0530, Vidya Sagar wrote:
+> Tegra234 PCIe rootports don't generate MSI interrupts for PME and AER
+> events. Since PCIe spec (Ref: r4.0 sec 7.7.1.2 and 7.7.2.2) doesn't support
+> using a mix of INTx and MSI/MSI-X, MSI needs to be disabled to avoid root
+> ports service drivers registering their respective ISRs with MSI interrupt
+> and to let only INTx be used for all events.
 
-Since the initial value wasn't carried over in the state, the driver had
-to set it again in tegra_plane_reset(). However, the helpers have been
-adjusted to set it properly at reset, so this is not needed anymore.
+s/rootports/root ports/ to match other usage here.
 
-Cc: linux-tegra@vger.kernel.org
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/tegra/plane.c | 3 ---
- 1 file changed, 3 deletions(-)
+This argument matches that in 8c7e96d3fe75 ("PCI: Disable MSI for
+Tegra root ports") [1], but that's not quite what sec 7.7.1.2 and
+7.7.2.2 say.  Those sections talk about what happens when both MSI and
+MSI-X are disabled:
 
-diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-index ec0822c86926..a00913d064d3 100644
---- a/drivers/gpu/drm/tegra/plane.c
-+++ b/drivers/gpu/drm/tegra/plane.c
-@@ -25,7 +25,6 @@ static void tegra_plane_destroy(struct drm_plane *plane)
- 
- static void tegra_plane_reset(struct drm_plane *plane)
- {
--	struct tegra_plane *p = to_tegra_plane(plane);
- 	struct tegra_plane_state *state;
- 	unsigned int i;
- 
-@@ -38,8 +37,6 @@ static void tegra_plane_reset(struct drm_plane *plane)
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
- 	if (state) {
- 		__drm_atomic_helper_plane_reset(plane, &state->base);
--		plane->state->zpos = p->index;
--		plane->state->normalized_zpos = p->index;
- 
- 		for (i = 0; i < 3; i++)
- 			state->iova[i] = DMA_MAPPING_ERROR;
--- 
-2.34.1
+  If MSI and MSI-X are both disabled, the Function requests servicing
+  using INTx interrupts (if supported).
 
+but they don't say anything about what happens when MSI or MSI-X is
+*enabled*.
+
+I think a better citation is PCIe r6.0, sec 6.1.4.3, which says:
+
+  While enabled for MSI or MSI-X operation, a Function is prohibited
+  from using INTx interrupts (if implemented) to request service (MSI,
+  MSI-X, and INTx are mutually exclusive).
+
+Can you please update the comment in the code and this commit log to
+cite PCIe r6.0, sec 6.1.4.3 instead, and to clarify that these Tegra
+devices always use INTx for PME and AER, even when MSI/MSI-X is
+enabled?
+
+Why do these Tegra quirks use DECLARE_PCI_FIXUP_CLASS_EARLY() instead
+of just DECLARE_PCI_FIXUP_EARLY()?  quirk_al_msi_disable() uses the
+_CLASS version because the same Device ID is used for non-Root Port
+devices.  Is the same true here, or could these use
+DECLARE_PCI_FIXUP_EARLY()?
+
+There are many quirks that disable MSI, and they're a mixture of EARLY
+and FINAL.  They should probably all be the same.
+
+[1] https://git.kernel.org/linus/8c7e96d3fe75
+
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+>  drivers/pci/quirks.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index d2dd6a6cda60..3ac5c45e61a1 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -2747,6 +2747,15 @@ DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x10e5,
+>  DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x10e6,
+>  			      PCI_CLASS_BRIDGE_PCI, 8,
+>  			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x229a,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x229c,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x229e,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+>  
+>  /*
+>   * Some versions of the MCP55 bridge from Nvidia have a legacy IRQ routing
+> -- 
+> 2.17.1
+> 
