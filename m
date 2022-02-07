@@ -2,99 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40C1B4ABFCA
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 14:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC6D54ABFD7
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 14:49:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385154AbiBGNq3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Feb 2022 08:46:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
+        id S238710AbiBGNq1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Feb 2022 08:46:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1448056AbiBGNKF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 08:10:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA048C043189
-        for <linux-tegra@vger.kernel.org>; Mon,  7 Feb 2022 05:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644239402;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=V7oC2IbMHxE4ZqZeJwr6Nf58KNDsnfkfT9BMAGpj22k=;
-        b=h6lS8Fz4cNwT4AsCAA3RCB1f876IjS2LU4EzXGLDnWeemb3pKyMXudGAGbpRKi+6qkObbO
-        OzAhBemRBIBLqeVSWC4LB7oQiU3ZkA1OJL0BtRgkjbm8DcQ+WfNAafs2l6LRWcd/DwgT4o
-        QIYNKmaHGaf6h2S8XtdVnT5Zn9apF1M=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-Zd_QT8-1P-6HdpmiyoCpUQ-1; Mon, 07 Feb 2022 08:10:01 -0500
-X-MC-Unique: Zd_QT8-1P-6HdpmiyoCpUQ-1
-Received: by mail-qv1-f69.google.com with SMTP id 8-20020a0562140d0800b00422bb534680so8622167qvh.7
-        for <linux-tegra@vger.kernel.org>; Mon, 07 Feb 2022 05:10:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V7oC2IbMHxE4ZqZeJwr6Nf58KNDsnfkfT9BMAGpj22k=;
-        b=Atxv+QSYiIjXipR82EwQedi3pAYqALWftRoWvo4nK3/5LEOutm3J0ZfqWkRxmKPj8L
-         GCN7R8VlXcwYu7pyD8WhcSWTgt7pPfw++osfViyrRaNkZaU4AI0VvT34wcDe7Js3Ykkc
-         SrZ+3bzXhbCAm+npJlxc6v+X15uQJ/tfvyDlgeW0Twt4121oa4fg0CDTKQWshYgS006z
-         D/DDnyGyLTp1906nTPL98G8HEGJ4vmJgRM16jl+Y2dTkkpkYGxdazkWryMOD3dKc0Jjl
-         nwF8VSE8ecOAmeQ9vbW2cNVjj2FN2EAutGQm6L89qu+9206hMlVLvot2eZ97KDrR+0Ih
-         MH2Q==
-X-Gm-Message-State: AOAM5308rhjV8/3+Y6AAdZ7H9/UieFNJx+qe/wMrnv5zHzwbRKugfWEG
-        79i7+kntSmH9RVx6oxvdbVX+z+WhtnzRizdo1bKAQf6rJ49EmvTBArv6CwQP85OCdHFS8GPuwAn
-        a+5YYm23IJL77UBefaTvURIc=
-X-Received: by 2002:a05:622a:15d2:: with SMTP id d18mr7677807qty.627.1644239401288;
-        Mon, 07 Feb 2022 05:10:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+Acrc8l3BriTnb/PGx/7S9Rqo1TwqYskoIJ3XUtcvnqkF1igAg71HbsgBsm352B5BsBWvPg==
-X-Received: by 2002:a05:622a:15d2:: with SMTP id d18mr7677790qty.627.1644239401106;
-        Mon, 07 Feb 2022 05:10:01 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id x3sm2937241qkp.54.2022.02.07.05.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 05:10:00 -0800 (PST)
-From:   trix@redhat.com
-To:     thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] soc/tegra: bpmp: cleanup double word in comment
-Date:   Mon,  7 Feb 2022 05:09:51 -0800
-Message-Id: <20220207130951.2059795-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+        with ESMTP id S1381718AbiBGNmG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 08:42:06 -0500
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB83C0401C4
+        for <linux-tegra@vger.kernel.org>; Mon,  7 Feb 2022 05:42:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=THrB40q/yOSt5cd0Iu4CGyYT6zUZMR21yUK3lUKzKZ8=; b=wB2ahBMfpiwLs/yizKobnktO1e
+        r1u64pQ6f24ow6srdnt3Tbbva76WV8L8463+JUWKL3EdW+oeDAx51OZ4NzY5WAXVmWu/Aq6OBWkxj
+        vTo9jDJYwzGZ24k4AH2YGFaoM9mozOGAjZi2eBO/pEHTrh2n+xpsYWzbCqmv+gPd8ktYKkDAEQV9Q
+        2A95CHTFjEVx0gbbujjtbHavxlbhEolM08i63GQHByszZgJElzML0b0ATOVEn2RBfjhkFN1BNzG3F
+        9JLisrq26hRVnpdL5xr1V2nTyQI8NjfX+xpegLm0Cho5LmnxXtR18JLfoNpzFflNJBIKQ5iqp8bOP
+        BtEShDFA==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <mperttunen@nvidia.com>)
+        id 1nH3vx-0007xv-M8; Mon, 07 Feb 2022 15:19:57 +0200
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+To:     thierry.reding@gmail.com
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH 1/2] gpu: host1x: Always return syncpoint value when waiting
+Date:   Mon,  7 Feb 2022 15:19:31 +0200
+Message-Id: <20220207131932.2164560-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+The new TegraDRM UAPI uses syncpoint waiting with timeout set to
+zero to indicate reading the syncpoint value. To support that we
+need to return the syncpoint value always when waiting.
 
-Remove the second 'or'.
-
-Signed-off-by: Tom Rix <trix@redhat.com>
+Fixes: 44e961381354 ("drm/tegra: Implement syncpoint wait UAPI")
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- include/soc/tegra/bpmp-abi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/host1x/syncpt.c | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/include/soc/tegra/bpmp-abi.h b/include/soc/tegra/bpmp-abi.h
-index bff99f23860c3..53171e324d1ce 100644
---- a/include/soc/tegra/bpmp-abi.h
-+++ b/include/soc/tegra/bpmp-abi.h
-@@ -931,7 +931,7 @@ enum mrq_reset_commands {
-  * @brief Request with MRQ_RESET
-  *
-  * Used by the sender of an #MRQ_RESET message to request BPMP to
-- * assert or or deassert a given reset line.
-+ * assert or deassert a given reset line.
-  */
- struct mrq_reset_request {
- 	/** @brief Reset action to perform (@ref mrq_reset_commands) */
+diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
+index e08e331e46ae..fb4036a32095 100644
+--- a/drivers/gpu/host1x/syncpt.c
++++ b/drivers/gpu/host1x/syncpt.c
+@@ -227,27 +227,12 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
+ 	void *ref;
+ 	struct host1x_waitlist *waiter;
+ 	int err = 0, check_count = 0;
+-	u32 val;
+ 
+ 	if (value)
+-		*value = 0;
+-
+-	/* first check cache */
+-	if (host1x_syncpt_is_expired(sp, thresh)) {
+-		if (value)
+-			*value = host1x_syncpt_load(sp);
++		*value = host1x_syncpt_load(sp);
+ 
++	if (host1x_syncpt_is_expired(sp, thresh))
+ 		return 0;
+-	}
+-
+-	/* try to read from register */
+-	val = host1x_hw_syncpt_load(sp->host, sp);
+-	if (host1x_syncpt_is_expired(sp, thresh)) {
+-		if (value)
+-			*value = val;
+-
+-		goto done;
+-	}
+ 
+ 	if (!timeout) {
+ 		err = -EAGAIN;
 -- 
-2.26.3
+2.35.0
 
