@@ -2,188 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B63D4AB986
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 12:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40C1B4ABFCA
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 14:49:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237648AbiBGLN4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Feb 2022 06:13:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45848 "EHLO
+        id S1385154AbiBGNq3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Feb 2022 08:46:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245754AbiBGLGI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 06:06:08 -0500
-X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 03:06:08 PST
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BA7C043188;
-        Mon,  7 Feb 2022 03:06:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644231968; x=1675767968;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=vKJ4QcP9fRqWs4tGoyWgQwEyJftVIBFH0F7ZDLnXbgE=;
-  b=YTqVopbV7Yprp1smcwWntyi7L9pCGNTVe8xdzmtBnIPqi1HaE+44ofjg
-   QACugBIve4qwicGfQ5yX9wua8i7lr+nMiZ4InBrhCy611YExaEgGXROtW
-   /T3MV1jBrqs3ZKeP/P85/VHom8MoSIW7Lzns9waXiojFaPDKlh4y4GqKC
-   vre4XlXkYPGFIFLM2McTrLEwc4oLNAqXo0MtTF9YfeL1koVUcO88oayBg
-   QqiMQCePj3jFCUBDL7WCbGcZlKE0F0GoI7GhmC1tomcJJMjefAGjEqPNf
-   zfe/0OeTGiZOKwcWqrk6hlGcndhRrsQZi9fUpXuViAvPjEccfQrQTRvrQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="232257838"
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; 
-   d="scan'208";a="232257838"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 03:05:05 -0800
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; 
-   d="scan'208";a="628486542"
-Received: from nbaca1-mobl.ger.corp.intel.com (HELO localhost) ([10.252.18.25])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 03:05:00 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Lyude Paul <lyude@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] drm/dp: Remove common Post Cursor2 register handling
-In-Reply-To: <202202041740.F368F91F5@keescook>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220105173507.2420910-1-keescook@chromium.org>
- <202202041740.F368F91F5@keescook>
-Date:   Mon, 07 Feb 2022 13:04:55 +0200
-Message-ID: <87y22nq6nc.fsf@intel.com>
+        with ESMTP id S1448056AbiBGNKF (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 08:10:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA048C043189
+        for <linux-tegra@vger.kernel.org>; Mon,  7 Feb 2022 05:10:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644239402;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=V7oC2IbMHxE4ZqZeJwr6Nf58KNDsnfkfT9BMAGpj22k=;
+        b=h6lS8Fz4cNwT4AsCAA3RCB1f876IjS2LU4EzXGLDnWeemb3pKyMXudGAGbpRKi+6qkObbO
+        OzAhBemRBIBLqeVSWC4LB7oQiU3ZkA1OJL0BtRgkjbm8DcQ+WfNAafs2l6LRWcd/DwgT4o
+        QIYNKmaHGaf6h2S8XtdVnT5Zn9apF1M=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-369-Zd_QT8-1P-6HdpmiyoCpUQ-1; Mon, 07 Feb 2022 08:10:01 -0500
+X-MC-Unique: Zd_QT8-1P-6HdpmiyoCpUQ-1
+Received: by mail-qv1-f69.google.com with SMTP id 8-20020a0562140d0800b00422bb534680so8622167qvh.7
+        for <linux-tegra@vger.kernel.org>; Mon, 07 Feb 2022 05:10:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V7oC2IbMHxE4ZqZeJwr6Nf58KNDsnfkfT9BMAGpj22k=;
+        b=Atxv+QSYiIjXipR82EwQedi3pAYqALWftRoWvo4nK3/5LEOutm3J0ZfqWkRxmKPj8L
+         GCN7R8VlXcwYu7pyD8WhcSWTgt7pPfw++osfViyrRaNkZaU4AI0VvT34wcDe7Js3Ykkc
+         SrZ+3bzXhbCAm+npJlxc6v+X15uQJ/tfvyDlgeW0Twt4121oa4fg0CDTKQWshYgS006z
+         D/DDnyGyLTp1906nTPL98G8HEGJ4vmJgRM16jl+Y2dTkkpkYGxdazkWryMOD3dKc0Jjl
+         nwF8VSE8ecOAmeQ9vbW2cNVjj2FN2EAutGQm6L89qu+9206hMlVLvot2eZ97KDrR+0Ih
+         MH2Q==
+X-Gm-Message-State: AOAM5308rhjV8/3+Y6AAdZ7H9/UieFNJx+qe/wMrnv5zHzwbRKugfWEG
+        79i7+kntSmH9RVx6oxvdbVX+z+WhtnzRizdo1bKAQf6rJ49EmvTBArv6CwQP85OCdHFS8GPuwAn
+        a+5YYm23IJL77UBefaTvURIc=
+X-Received: by 2002:a05:622a:15d2:: with SMTP id d18mr7677807qty.627.1644239401288;
+        Mon, 07 Feb 2022 05:10:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+Acrc8l3BriTnb/PGx/7S9Rqo1TwqYskoIJ3XUtcvnqkF1igAg71HbsgBsm352B5BsBWvPg==
+X-Received: by 2002:a05:622a:15d2:: with SMTP id d18mr7677790qty.627.1644239401106;
+        Mon, 07 Feb 2022 05:10:01 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id x3sm2937241qkp.54.2022.02.07.05.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 05:10:00 -0800 (PST)
+From:   trix@redhat.com
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] soc/tegra: bpmp: cleanup double word in comment
+Date:   Mon,  7 Feb 2022 05:09:51 -0800
+Message-Id: <20220207130951.2059795-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 04 Feb 2022, Kees Cook <keescook@chromium.org> wrote:
-> Ping,
->
-> This is a OOB read fix. Can someone please pick this up?
+From: Tom Rix <trix@redhat.com>
 
-Daniel? Thierry?
+Remove the second 'or'.
 
-As I said, I reviewed this but I'm not comfortable applying patches that
-change the functionality of drivers I don't maintain.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ include/soc/tegra/bpmp-abi.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-BR,
-Jani.
-
-
->
-> -Kees
->
-> On Wed, Jan 05, 2022 at 09:35:07AM -0800, Kees Cook wrote:
->> The link_status array was not large enough to read the Adjust Request
->> Post Cursor2 register, so remove the common helper function to avoid
->> an OOB read, found with a -Warray-bounds build:
->> 
->> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
->> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
->>    59 |         return link_status[r - DP_LANE0_1_STATUS];
->>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
->>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
->>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> 
->> Replace the only user of the helper with an open-coded fetch and decode,
->> similar to drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
->> 
->> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: dri-devel@lists.freedesktop.org
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> ---
->> This is the alternative to:
->> https://lore.kernel.org/lkml/20211203084354.3105253-1-keescook@chromium.org/
->> ---
->>  drivers/gpu/drm/drm_dp_helper.c | 10 ----------
->>  drivers/gpu/drm/tegra/dp.c      | 11 ++++++++++-
->>  include/drm/drm_dp_helper.h     |  2 --
->>  3 files changed, 10 insertions(+), 13 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
->> index 23f9073bc473..c9528aa62c9c 100644
->> --- a/drivers/gpu/drm/drm_dp_helper.c
->> +++ b/drivers/gpu/drm/drm_dp_helper.c
->> @@ -144,16 +144,6 @@ u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
->>  }
->>  EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
->>  
->> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
->> -					 unsigned int lane)
->> -{
->> -	unsigned int offset = DP_ADJUST_REQUEST_POST_CURSOR2;
->> -	u8 value = dp_link_status(link_status, offset);
->> -
->> -	return (value >> (lane << 1)) & 0x3;
->> -}
->> -EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
->> -
->>  static int __8b10b_clock_recovery_delay_us(const struct drm_dp_aux *aux, u8 rd_interval)
->>  {
->>  	if (rd_interval > 4)
->> diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
->> index 70dfb7d1dec5..f5535eb04c6b 100644
->> --- a/drivers/gpu/drm/tegra/dp.c
->> +++ b/drivers/gpu/drm/tegra/dp.c
->> @@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
->>  {
->>  	struct drm_dp_link_train_set *adjust = &link->train.adjust;
->>  	unsigned int i;
->> +	u8 post_cursor;
->> +	int err;
->> +
->> +	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
->> +			       &post_cursor, sizeof(post_cursor));
->> +	if (err < 0) {
->> +		DRM_ERROR("failed to read post_cursor2: %d\n", err);
->> +		post_cursor = 0;
->> +	}
->>  
->>  	for (i = 0; i < link->lanes; i++) {
->>  		adjust->voltage_swing[i] =
->> @@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
->>  				DP_TRAIN_PRE_EMPHASIS_SHIFT;
->>  
->>  		adjust->post_cursor[i] =
->> -			drm_dp_get_adjust_request_post_cursor(status, i);
->> +			(post_cursor >> (i << 1)) & 0x3;
->>  	}
->>  }
->>  
->> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
->> index 472dac376284..fdf3cf6ccc02 100644
->> --- a/include/drm/drm_dp_helper.h
->> +++ b/include/drm/drm_dp_helper.h
->> @@ -1528,8 +1528,6 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
->>  					  int lane);
->>  u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
->>  				   int lane);
->> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
->> -					 unsigned int lane);
->>  
->>  #define DP_BRANCH_OUI_HEADER_SIZE	0xc
->>  #define DP_RECEIVER_CAP_SIZE		0xf
->> -- 
->> 2.30.2
->> 
-
+diff --git a/include/soc/tegra/bpmp-abi.h b/include/soc/tegra/bpmp-abi.h
+index bff99f23860c3..53171e324d1ce 100644
+--- a/include/soc/tegra/bpmp-abi.h
++++ b/include/soc/tegra/bpmp-abi.h
+@@ -931,7 +931,7 @@ enum mrq_reset_commands {
+  * @brief Request with MRQ_RESET
+  *
+  * Used by the sender of an #MRQ_RESET message to request BPMP to
+- * assert or or deassert a given reset line.
++ * assert or deassert a given reset line.
+  */
+ struct mrq_reset_request {
+ 	/** @brief Reset action to perform (@ref mrq_reset_commands) */
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.26.3
+
