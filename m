@@ -2,96 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 393474ABFCD
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 14:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EF8A4ABFD0
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Feb 2022 14:49:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352011AbiBGNq2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Feb 2022 08:46:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39140 "EHLO
+        id S1344012AbiBGNqG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Feb 2022 08:46:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355420AbiBGNmC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 08:42:02 -0500
-X-Greylist: delayed 1319 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 05:42:00 PST
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40251C043188
-        for <linux-tegra@vger.kernel.org>; Mon,  7 Feb 2022 05:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=dHg/vhDPEuP5iogqPGsue7712DGBhW3650gIFC1Qb+E=; b=UqQGnHOU9YM+5BMtZNfiecBhWW
-        eRdcJv6NQBSYivUNOVEQrM2aPfgo8s03Lxggz0aX+7IchPggvo5+B6KbZMsHrwSqbU921kMxirC5/
-        umhDBnN9oy+b725nLdA2zGQnN+IfBjsaA2456mv5FKEuaiUYiAdR+cLxyJoocuUL0muoNF/i1E4Ak
-        AzgmplJO4/xBME1q9OkMmCZE6Z6/MpwzmFFfXTobD56bXbhY4snYSJYa/Fu+mF7pxaHdKtwJSLBed
-        iY8AzERFcqqpSF7V37sEJEkekLu3YRX4enkOAFVAA9OtiN/4SdvQO6+h1zeJuGMA4RNVBNbp5gKuV
-        jGp5jIIQ==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <mperttunen@nvidia.com>)
-        id 1nH3vx-0007xv-Nd; Mon, 07 Feb 2022 15:19:57 +0200
-From:   Mikko Perttunen <mperttunen@nvidia.com>
-To:     thierry.reding@gmail.com
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH 2/2] gpu: host1x: Fix refcount leak in buffer cache
-Date:   Mon,  7 Feb 2022 15:19:32 +0200
-Message-Id: <20220207131932.2164560-2-mperttunen@nvidia.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220207131932.2164560-1-mperttunen@nvidia.com>
-References: <20220207131932.2164560-1-mperttunen@nvidia.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: mperttunen@nvidia.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
+        with ESMTP id S241501AbiBGNkj (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Feb 2022 08:40:39 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3249FC043181;
+        Mon,  7 Feb 2022 05:40:37 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id d187so12991973pfa.10;
+        Mon, 07 Feb 2022 05:40:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=TGF9rxKbfLgE4yzeN1f8tbFRCeGks8IIW/eVpPUyeiU=;
+        b=ZyaZgt0719MVOEzqMhPX9YuwhOcvk4Tfgtci93hXXrWqzr0VZbI2hjq43PQTBQMuz8
+         nIGCqRdMsDziUzsgblBes1baEbn8xA5hGHAkNjFYWF3vQLkNzx3HsIWUhhHM4RPA+8le
+         tC51WGTcxkNfvVsF3DZfZ08jLbQ80xAuq+jnkAmSShFDCaPwuN+jkwkH9LYcJU7X4Zy6
+         3QgQpGfke4WWvrb564nfUnAhbGpAgKoptflj7l1MBWG3lqMg++4W5Ide+nPfY/qnc2Dk
+         L4t9PeoHicJ/YoBZK/SGm6Zl6qErkrGM88O1SL8CwidyADrMEJKKBtAxhpBzCJphZffh
+         JPvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=TGF9rxKbfLgE4yzeN1f8tbFRCeGks8IIW/eVpPUyeiU=;
+        b=ACrt0QpLhxJDcUrD5xliMowASCZMHDnJq+2V8Lz0PfMoyKXpN2A/U8ZoB3AfBrTbKq
+         n2HE+vNgYMO8r7ioI852k8/YuulOzk4+fPmgZd+hj5LzOYHaCLPcvmXsDN18BpyM8vHq
+         uIL+qnIDpjy4A9HZsYBecnI2jdAYr6KenJa91+hyaUlhnp2NMtNJ3dYPXgFfq2I/spDD
+         6sJT2AfA/KSYubi7kDiyz7jUlyji/k1sXlEO6dqwxvpMzTgrKtj/diTOqkDAyW+Qh3ho
+         SuUxSf+1PIzrdIbVb3Oc9PvL2Ip127ORKeb/xNa+CTWtJCVEG4aJY2GnMWowb3IMejth
+         afgg==
+X-Gm-Message-State: AOAM532/o7WPmf/Y3H2Stc6Ei0tMLuWWWQU+w2Zw0twv2O6ZzxO/50k1
+        HgbDDAJhLNOupGF28YQztAU=
+X-Google-Smtp-Source: ABdhPJzf4r4cyGazko/1XgNj0OygcynEqxH7DclCZ/kkCf8azez4RKIt62fonUr015Jjv6NO2Ylb/A==
+X-Received: by 2002:a05:6a00:2350:: with SMTP id j16mr15992959pfj.78.1644241236437;
+        Mon, 07 Feb 2022 05:40:36 -0800 (PST)
+Received: from localhost.localdomain ([103.37.201.178])
+        by smtp.gmail.com with ESMTPSA id u17sm8424156pgi.14.2022.02.07.05.40.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 05:40:36 -0800 (PST)
+From:   Ayan Choudhary <ayanchoudhary1025@gmail.com>
+To:     marvin24@gmx.de, gregkh@linuxfoundation.org
+Cc:     Ayan Choudhary <ayanchoudhary1025@gmail.com>,
+        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: nvec: Fix ending in '(' error
+Date:   Mon,  7 Feb 2022 05:39:21 -0800
+Message-Id: <20220207133921.4287-1-ayanchoudhary1025@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The recently introduced buffer cache is causing cached BOs to leak, as
-cache entries are dropped when a BO's refcount goes to zero but the
-cache itself keeps a reference to each cache BO, causing a circular
-reference.
+This patch fixes the checkpatch.pl warning:
 
-Fix this by not taking a reference to the cached BOs within the cache
-itself.
+CHECK: Lines should not end with a '('
+386: FILE: drivers/staging/nvec/nvec.c:386:
++		err = wait_for_completion_interruptible_timeout(
 
-Fixes: 1f39b1dfa53c ("drm/tegra: Implement buffer object cache")
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+Signed-off-by: Ayan Choudhary <ayanchoudhary1025@gmail.com>
 ---
-NOTE
+ drivers/staging/nvec/nvec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-As is, applying this patch reveals a BO refcounting issue in the
-DC driver. A fix for that bug should be applied before applying
-this patch. I believe Thierry will be posting a fix for that
-shortly.
----
- drivers/gpu/host1x/bus.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index bdee16a0bb8e..66ba04501c94 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -938,9 +938,6 @@ struct host1x_bo_mapping *host1x_bo_pin(struct device *dev, struct host1x_bo *bo
- 		mapping->cache = cache;
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 990d15c31a13..b3f114cb00dc 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -383,8 +383,8 @@ static void nvec_request_master(struct work_struct *work)
+ 		msg = list_first_entry(&nvec->tx_data, struct nvec_msg, node);
+ 		spin_unlock_irqrestore(&nvec->tx_lock, flags);
+ 		nvec_gpio_set_value(nvec, 0);
+-		err = wait_for_completion_interruptible_timeout(
+-				&nvec->ec_transfer, msecs_to_jiffies(5000));
++		err = wait_for_completion_interruptible_timeout(&nvec->ec_transfer,
++								msecs_to_jiffies(5000));
  
- 		list_add_tail(&mapping->entry, &cache->mappings);
--
--		/* bump reference count to track the copy in the cache */
--		kref_get(&mapping->ref);
- 	}
- 
- unlock:
+ 		if (err == 0) {
+ 			dev_warn(nvec->dev, "timeout waiting for ec transfer\n");
 -- 
-2.35.0
+2.17.1
 
