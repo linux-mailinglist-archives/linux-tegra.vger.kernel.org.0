@@ -2,81 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 633584B194F
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Feb 2022 00:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2144B1FB4
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Feb 2022 08:55:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345570AbiBJXRs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 10 Feb 2022 18:17:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36200 "EHLO
+        id S1347831AbiBKHz2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Feb 2022 02:55:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345151AbiBJXRs (ORCPT
+        with ESMTP id S229961AbiBKHz0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 10 Feb 2022 18:17:48 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8878FB37;
-        Thu, 10 Feb 2022 15:17:48 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id c15so10144902ljf.11;
-        Thu, 10 Feb 2022 15:17:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YBwbR1kfaUcjXLL/JErsVbZh7K8KaPOAlgJd4IsVbZo=;
-        b=itgm2BhEwvfTMxc68Ux/piIvgdWhkdxG8vl3df2oj1msFZ1ZWlT380bgQlANY7Mh2h
-         X+WycdEPITqd/4zalr0KJUbSHM9QHNSRi5PDh22MaqADuCJPXuuFLkQYgC9pxGmevmXx
-         6XTvJ/x6k/mccGMSOLo00J13yAhAsQJE+/BadNPoSXU6etZP6QSpsUMKqdAzIicJ3KGm
-         jyNEG1Jef6PsWZvWEZxd2KD8f+KmEgOJxVyMQtZLTg2iqtpdx8sI1U0yjBoZ+bidhCHK
-         ocpokCe+ehBN6c2rH8Jr0g2qFFzKmJcKQxe3Finci59H1cRoUwn8ptuDCFmarrgNCUfR
-         neWA==
+        Fri, 11 Feb 2022 02:55:26 -0500
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE4EBC4
+        for <linux-tegra@vger.kernel.org>; Thu, 10 Feb 2022 23:55:25 -0800 (PST)
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 62CB63F1C1
+        for <linux-tegra@vger.kernel.org>; Fri, 11 Feb 2022 07:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1644566123;
+        bh=MQDLOkOWyhrokLh/q2SGFaaeI8uLaofwFWx6RTobIHo=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=HrXeIwAY6eAuWPnCHU6Bvme4zi3lq4IpQgUbbTCLol7Uq6drq0CtJ51s10bCuHDOJ
+         uBYVed7mYFc9bv5sv/WnUZ/U8H7Lyz4MiIDymgAKPa6yvW3Edz59dftpIh4Y3TmxIa
+         45KYgpqPImxD++RxaIQOrP1o+tTzudyL2hsBw9V4BWXFg/T4Lu/JYKhbLs3IvpGqI+
+         rLTlcWam80xiaJuGDKfkN2pFuybuJ3VzJYBgXvuMgtot+9bd1xUmi9V2ZxNwyU864g
+         GSZvwUL5whQaTz8yG4pyJkLDDdFVuVBArghLhfYKTEp6HMWTDopH5NJUo66MWWmnjH
+         Wndd6a1MCdrog==
+Received: by mail-ed1-f70.google.com with SMTP id dn20-20020a05640222f400b0040f8cdfb542so4849187edb.3
+        for <linux-tegra@vger.kernel.org>; Thu, 10 Feb 2022 23:55:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YBwbR1kfaUcjXLL/JErsVbZh7K8KaPOAlgJd4IsVbZo=;
-        b=sILqZ72fdd+ybUG+g9/zF70gmxN8lr/TX23WXd44haeKjf2tf9zgwuglB2LnESF7ZW
-         eFGWP5/nANH38CO6+tEy9U4O2Ao+mBy3QGusNXhpTsMUyWdbg2WBaYwkJbyXS6JwbzFz
-         rkj+O8UydqpJZiMRQIZ17OtXqGztnjYzpbZjLYs8ioOc4ZpgdFpTsuLMnUf0HswQaAUX
-         Qwg4lZej0WntUeT+SwXQPpoQHOArVfUWGbbSqwoDesGJ9Qw7vRBhyCizzQp3ka1b5sFf
-         Flp53Pu2xOVCUcmu0emT7tMKvKLQZTKqLEP3pmCFnOcbyx9Yge9DmZ16NFpVnO8SPUgQ
-         f0PQ==
-X-Gm-Message-State: AOAM5304YQlH+Di02KvOUGlPSq2AVBSGaX3UwuQO6ZW59BwNAl+Xz7iI
-        zo5sV9LI83A6RvlIVh1j4FA=
-X-Google-Smtp-Source: ABdhPJxyjKx22xANHqMYIJ2sFOBupzDvlwNvb6SN7kz1mlL+wLImv7HdWxxuq50N7/N+BbwlDuR98w==
-X-Received: by 2002:a2e:878f:: with SMTP id n15mr6321873lji.159.1644535066762;
-        Thu, 10 Feb 2022 15:17:46 -0800 (PST)
-Received: from dimatab (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
-        by smtp.gmail.com with ESMTPSA id f30sm1433412lfj.112.2022.02.10.15.17.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 15:17:46 -0800 (PST)
-Date:   Fri, 11 Feb 2022 02:17:39 +0300
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Julius Werner <jwerner@chromium.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh@kernel.org>, linux-tegra@vger.kernel.org,
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=MQDLOkOWyhrokLh/q2SGFaaeI8uLaofwFWx6RTobIHo=;
+        b=in4X3RQj6unwX1uft3QRx/WgBkxN1SHZi2cGfYYMHb5zxlY78mpO+WSA0TECca/YUG
+         hmgz8LENNVuj+zHsZAwcU8k1Qihq3R60WQHYFPbSSUtstyWUe2lLp7NMu91lJ6G2XYhe
+         P+68y7uab9YjtQjIed5ewe/dpa2HIe1BSuB+Ge4XMgL3MNk3Pwl8e0YDcNCF0XwGfw90
+         6sWGslCnYP1yREm4qA6q3I1erq3CIczs9p5ybnluxx1CsET1L04nqbpJt/aGF29sQl6v
+         G/3q4Nn6AsTPh+1+v6BNh2u8NXqxrzYL5ACM5jN37t9vgLIqSFkqOgD6vqM7l+BfIuQv
+         zypQ==
+X-Gm-Message-State: AOAM530WGfdu7P1p0WA674EcfVjvuTlZbyGZVGdz+47pfpJqKQCAavPz
+        M7odcWlcRMgZFcOtnb8iNuvVaiMR4BuggObV3SSsRZImRu7mPTYfoYYBm7HzI214pixkF1hO+OX
+        j0WsqSTStEGb9oExMU/s++l32s5LRR0gcOoIkWdgo
+X-Received: by 2002:aa7:c9cf:: with SMTP id i15mr564743edt.115.1644566122416;
+        Thu, 10 Feb 2022 23:55:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxS2mWZknsLENYbOC1IbYB+o7Y3nGS6XqPGFBYc0O9YHzbfrvYAJgRo8QBScWMffqbdP1Uo2A==
+X-Received: by 2002:aa7:c9cf:: with SMTP id i15mr564724edt.115.1644566122272;
+        Thu, 10 Feb 2022 23:55:22 -0800 (PST)
+Received: from [192.168.0.99] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.gmail.com with ESMTPSA id 27sm157401eji.66.2022.02.10.23.55.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Feb 2022 23:55:21 -0800 (PST)
+Message-ID: <416c07c1-c563-c72c-edfd-ae14ecf0cf13@canonical.com>
+Date:   Fri, 11 Feb 2022 08:55:21 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 3/9] dt-bindings: memory: lpddr2: Add revision-id
+ properties
+Content-Language: en-US
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Julius Werner <jwerner@chromium.org>
+Cc:     Rob Herring <robh@kernel.org>, linux-tegra@vger.kernel.org,
         Rob Herring <robh+dt@kernel.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v5 3/9] dt-bindings: memory: lpddr2: Add revision-id
- properties
-Message-ID: <20220211021739.14f3614c@dimatab>
-In-Reply-To: <CAODwPW-VfbvWs3OVON1m=WWFXN2V86o9jqurVDShpfTrSn=Mkw@mail.gmail.com>
 References: <20211006224659.21434-1-digetx@gmail.com>
-        <20211006224659.21434-4-digetx@gmail.com>
-        <YWimShkkxkR+bQLK@robh.at.kernel.org>
-        <CAODwPW-2othAhTC9a_joBdHScA86iqs-FkZJZDrK5LxrJm8F8Q@mail.gmail.com>
-        <d69f99ed-75a4-9b8c-addb-3eaa2b2be6a6@canonical.com>
-        <CAODwPW-AMqQ+ZbnvUTuxP5Bbxdcy08GSXnhcLC+V6BW=OPYaqg@mail.gmail.com>
-        <6568fd31-113f-1581-4eff-45a4a1eb4e5d@canonical.com>
-        <c33c9de2-ff0f-0ba7-b424-728d316dcca2@gmail.com>
-        <CAODwPW-VfbvWs3OVON1m=WWFXN2V86o9jqurVDShpfTrSn=Mkw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; arm-unknown-linux-gnueabihf)
-MIME-Version: 1.0
+ <20211006224659.21434-4-digetx@gmail.com>
+ <YWimShkkxkR+bQLK@robh.at.kernel.org>
+ <CAODwPW-2othAhTC9a_joBdHScA86iqs-FkZJZDrK5LxrJm8F8Q@mail.gmail.com>
+ <d69f99ed-75a4-9b8c-addb-3eaa2b2be6a6@canonical.com>
+ <CAODwPW-AMqQ+ZbnvUTuxP5Bbxdcy08GSXnhcLC+V6BW=OPYaqg@mail.gmail.com>
+ <6568fd31-113f-1581-4eff-45a4a1eb4e5d@canonical.com>
+ <c33c9de2-ff0f-0ba7-b424-728d316dcca2@gmail.com>
+ <CAODwPW-VfbvWs3OVON1m=WWFXN2V86o9jqurVDShpfTrSn=Mkw@mail.gmail.com>
+ <20220211021739.14f3614c@dimatab>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220211021739.14f3614c@dimatab>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,47 +97,44 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-=D0=92 Wed, 9 Feb 2022 16:32:25 -0800
-Julius Werner <jwerner@chromium.org> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+On 11/02/2022 00:17, Dmitry Osipenko wrote:
+> В Wed, 9 Feb 2022 16:32:25 -0800
+> Julius Werner <jwerner@chromium.org> пишет:
+> > 
+>>> I made each LPDDR2 revision-id property to correspond to a
+>>> dedicated MR of LPDDR, which feels okay to me to since it matches
+>>> h/w.  
+>>
+>> I'm not super married to my solution, so if that makes things easier
+>> we can standardize on the two-property version as well. I mostly
+>> designed it my way because I thought we may one day also want to do
+>> something like this for the 8-byte LPDDR5 serial-id, and then it would
+>> get kinda cumbersome to have serial-id1 through serial-id8 all as
+>> separate properties. But that's also a bridge we can cross when we get
+>> there.
+>>
+>> My use case is in a position where we could still change this now
+>> without requiring backwards-compatibility. Krzysztof, would you be
+>> okay if I instead changed the "jedec,lpddr3" to the same thing
+>> "jedec,lpddr2" does -- seeing as the original patch was from me, my
+>> use case could handle the switch, there has never been any actual
+>> kernel code using the property, and it seems very unlikely that anyone
+>> else has silently started using the same thing in the time it's been
+>> in the tree? Or do we also need to go the official deprecation route
+>> for that?
+> 
+> If you're going to use multiple cells for other properties, then indeed
+> will be better to keep it consistent.
 
-> > I don't mind, but I also don't see where the revision-id property of
-> > LPDDR3 is used at all. I can't find any device-tree with LPDDR3
-> > revision-id and don't see it being used in the code either. Maybe
-> > it's the LPDDR3 binding that needs to be changed? =20
->=20
-> We are using the revision ID in userspace (read through
-> /proc/device-tree) for runtime memory identification. We don't have a
-> kernel driver bound to it. Our boot firmware is inserting this value
-> at runtime into the FDT (that's basically the reason we have this, our
-> firmware auto-detects memory during boot and we use the FDT to report
-> what it found to userspace), that's why you can't find it anywhere in
-> the static device trees in boot/dts/.
+Yeah, LPDDR5 is a nice argument. Let's go with the array approach (so
+LPDDR3).
 
-Thank you for the clarification. Which device is that and why userspace
-needs to know so much about memory?
+Julius,
+Official deprecation is needed, because the property might be used also
+in other projects or customers. But this is not a big deal - we will
+just keep old property for some time.
 
-> > I made each LPDDR2 revision-id property to correspond to a
-> > dedicated MR of LPDDR, which feels okay to me to since it matches
-> > h/w. =20
->=20
-> I'm not super married to my solution, so if that makes things easier
-> we can standardize on the two-property version as well. I mostly
-> designed it my way because I thought we may one day also want to do
-> something like this for the 8-byte LPDDR5 serial-id, and then it would
-> get kinda cumbersome to have serial-id1 through serial-id8 all as
-> separate properties. But that's also a bridge we can cross when we get
-> there.
->=20
-> My use case is in a position where we could still change this now
-> without requiring backwards-compatibility. Krzysztof, would you be
-> okay if I instead changed the "jedec,lpddr3" to the same thing
-> "jedec,lpddr2" does -- seeing as the original patch was from me, my
-> use case could handle the switch, there has never been any actual
-> kernel code using the property, and it seems very unlikely that anyone
-> else has silently started using the same thing in the time it's been
-> in the tree? Or do we also need to go the official deprecation route
-> for that?
+Will you send a patch for it?
 
-If you're going to use multiple cells for other properties, then indeed
-will be better to keep it consistent.
-
+Best regards,
+Krzysztof
