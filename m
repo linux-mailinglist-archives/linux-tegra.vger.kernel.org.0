@@ -2,100 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 393A34B5CF7
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Feb 2022 22:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5A0F4B5D38
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Feb 2022 22:49:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231436AbiBNVfH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Feb 2022 16:35:07 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53158 "EHLO
+        id S229758AbiBNVsm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Feb 2022 16:48:42 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbiBNVfA (ORCPT
+        with ESMTP id S229457AbiBNVsl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Feb 2022 16:35:00 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B60B2158798;
-        Mon, 14 Feb 2022 13:32:26 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id c192so10338847wma.4;
-        Mon, 14 Feb 2022 13:32:26 -0800 (PST)
+        Mon, 14 Feb 2022 16:48:41 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5225A190CA0
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Feb 2022 13:48:33 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id i6so29621186pfc.9
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Feb 2022 13:48:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AYGIU0lBgl4d0sNWP4gNGrwgFdAF2VqmrC+fnt5WHX8=;
-        b=lEibEIIHHaNkCIBCOonaCkB5WT0qXvdINVme8DbMAQ4gXD8Y8gZ7MmRFtd+jeI340G
-         P3yf2zfHNl4eNYBwgYS2eODg+RA4I5mMh1mCS+Lsd+UlvDz55haq+BGGz2DX4ZB3rtAo
-         B7HUaJ0ax5xaUp++lwEdMWrz65Ju6n935WWXFf38LS6uYUOqNAD5fRcTd3xzF2R3J3CZ
-         L5pZq0TOkqyPaqpej5PXp/t89XLsmWFHUYxavOGXBPiE0pNqlCvoX0ifpawuBMaanR7a
-         hAU0T9yUZknzlJnd9XDhiGBMjpXYDKAzF+6oK2uqe197+OOhOiRiJba/J48mBYHoIjwn
-         XcVg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ppYEJv2pErWCakjHM5oTBoH3SRjYxMT3uR3X58FIuc0=;
+        b=XQVcosOYTz8gQJEJ+pXmJ2+e6jv0nWUU5OUWchz3kz6yQArdw0dAkj0fh8bEVjQMrk
+         O8F3+RO1ifoW1i2foU1qiytnyhVOmwbguvR72vYtWQ1/CmHpymSwCU3liGLAi5YZd5KB
+         yMbqfkpu1rrUe7gObjZQlo4D8oEpKCAeWTMmedQ0qNG5ISqPY7b4qEggqQkR8tVqx8yD
+         9ZHcMl1B0rRMgOMaCCFgqrwjBM/Ov7TEQNoMAOKEYGnxzfQOsd5QPwia1+Z9PuJqM9Vi
+         SaNiPBRtYDlyRG9kezn6PInnAFIg0GHxH74AHk/TKANDZwLnoIsh7rPcRlaV3NSNd99V
+         00NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AYGIU0lBgl4d0sNWP4gNGrwgFdAF2VqmrC+fnt5WHX8=;
-        b=rb3yvXW62IM0hvQQX7fAgqOjBtKs82xeoP/E4OgUPtalPg0/0amQmJ0d98b/4Lveqm
-         fv5FcNLz2dIyXq2IS7R0l5P2Qp8IXyi8l74+WHup3nW2AjKtA8mDWQM1RgxEDD8H3SXk
-         7lPxm1o62i/AqcO8s1IHez8Lg2rxVA5txFvuTIdyYkjR4b6IZ58jGQP3bYoSF6nD/mlH
-         W9HRV74kbG9EViHRxbGhjL5bFeLFPS/h5617+74HIvEkWdoL/xiwoVVF1FOYYktPBTrV
-         eSdx5cuLFKASIXbE/3S/tM6Okr63DFzzu4IpN9bY7lxqjpySH8s17ub+NgoMHLSBSKYW
-         /LIw==
-X-Gm-Message-State: AOAM533zGAbPUrun+KQ1KOwGxpwLN+JGvWv1YtszM2sK5u0WsHUayA6N
-        KJnbVUnDMMfCnV9EVaXl9GE=
-X-Google-Smtp-Source: ABdhPJzA+5buwGThU/StogQFez2aB+m4K2P39OqNL7jF9GJPAEIJXA4IsgbPmSGM6C562aVhBfktGg==
-X-Received: by 2002:a1c:7318:0:b0:37b:fa1b:1472 with SMTP id d24-20020a1c7318000000b0037bfa1b1472mr496215wmb.57.1644874345208;
-        Mon, 14 Feb 2022 13:32:25 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id 3sm26537410wrz.86.2022.02.14.13.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 13:32:24 -0800 (PST)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tegra20: spdif: make const array rates static
-Date:   Mon, 14 Feb 2022 21:32:23 +0000
-Message-Id: <20220214213223.65780-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ppYEJv2pErWCakjHM5oTBoH3SRjYxMT3uR3X58FIuc0=;
+        b=A6EFPdjlO8tJEZjHy2wIpPOe4z3RfOzqM21zFeYhdD3GcGppHrBx1JaoDLtxDVXsup
+         DcEFKglF5vxzilqOgAO520cVkjL5mZxVAkArZDj62v98RydJCjdr2x2OX3QKKgEd3HOw
+         FozoXe/e36VYQ3oZLXvtJtdanYI7N579oWa+4rAIQUuIUNlxskhAi3oXAOzRy1Q0mr2s
+         sAtZ3cBz+CEUeOKGYV7OxK0+kU8FmTZxVTxhHYlpeFQ7UufyoawVgVotwDHQv640xWDi
+         +Y7x/6onlBSEn3T7ba8ftqA8NWI447c5iMaBXBsPIjdVO2U0KZd27+guD+srwk7linG6
+         cxbw==
+X-Gm-Message-State: AOAM531RmIO7UtbIA+/f3rFLwsvMr3vTkWjaB5RHJ+YgnTG4jkolrxeu
+        BkGf8h4b1+FAq+ZggKeol6357/yR75CNPKnI8Us=
+X-Google-Smtp-Source: ABdhPJx/x12XIYkO2GJ4CNdmM4GiFD7TXbxQGqlL//JhQOxSEojbW2NkkuBiq6+LHtTNWVECyUdQVEb9yxKkfKkUrO4=
+X-Received: by 2002:a05:6a00:198e:: with SMTP id d14mr940939pfl.78.1644875312288;
+ Mon, 14 Feb 2022 13:48:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:8ece:0:0:0:0 with HTTP; Mon, 14 Feb 2022 13:48:31
+ -0800 (PST)
+Reply-To: auk384@aol.com
+From:   "franco20190@aol.com" <brijeshsingh7800523734@gmail.com>
+Date:   Tue, 15 Feb 2022 00:48:31 +0300
+Message-ID: <CAL7dD1YLegAHmcTfoVLSz2M6X90p6-eY2BUSJrw1Y4SMkucaYQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Loan_Offer=2FOfferta_di_prestito=2Flening_aanbieding=2FNab?=
+        =?UTF-8?Q?=C3=ADdka_p=C5=AFj=C4=8Dky?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,NAME_EMAIL_DIFF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:434 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [auk384[at]aol.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [brijeshsingh7800523734[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [brijeshsingh7800523734[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 NAME_EMAIL_DIFF Sender NAME is an unrelated email address
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.0 FILL_THIS_FORM Fill in a form with personal information
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Don't populate the read-only const array rates on the stack but
-instead it static. Also makes the object code a little smaller.
-
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/tegra/tegra20_spdif.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
-index d09cd7ee6879..64c2f304f254 100644
---- a/sound/soc/tegra/tegra20_spdif.c
-+++ b/sound/soc/tegra/tegra20_spdif.c
-@@ -186,7 +186,7 @@ static int tegra20_spdif_filter_rates(struct snd_pcm_hw_params *params,
- 	struct snd_soc_dai *dai = rule->private;
- 	struct tegra20_spdif *spdif = dev_get_drvdata(dai->dev);
- 	struct clk *parent = clk_get_parent(spdif->clk_spdif_out);
--	const unsigned int rates[] = { 32000, 44100, 48000 };
-+	static const unsigned int rates[] = { 32000, 44100, 48000 };
- 	long i, parent_rate, valid_rates = 0;
- 
- 	parent_rate = clk_get_rate(parent);
 -- 
-2.34.1
+Hello,
+Does your project/company still need funding?  I represent a group of
+angel investors interested in having a serious business investment and
+seeking means of expanding their investment portfolio internationally.
 
+My investors can offer business loans and personal loans, finance new
+projects as well as capital expansion. Kindly get back to me with your
+project(s) brief to enable me to share more details with you. You can
+contact us;our interest rate is 2% per annum.
+
+Fill the information below if you are interested.
+
+Full name:
+Gender:
+Amount needed:
+Duration:
+Phone Number:
+Country:
+
+You can contact us:auk384@aol.com
+
+Regards,
