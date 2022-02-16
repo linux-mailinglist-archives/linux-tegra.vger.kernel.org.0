@@ -2,92 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD5444B8211
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Feb 2022 08:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9E244B8400
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Feb 2022 10:25:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231247AbiBPHu6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Feb 2022 02:50:58 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:42346 "EHLO
+        id S231767AbiBPJSI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Feb 2022 04:18:08 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:53284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbiBPHua (ORCPT
+        with ESMTP id S230117AbiBPJSI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Feb 2022 02:50:30 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7F31D459C
-        for <linux-tegra@vger.kernel.org>; Tue, 15 Feb 2022 23:50:06 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1nKF46-000365-V1; Wed, 16 Feb 2022 08:49:30 +0100
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1nKF45-00FBcA-C9; Wed, 16 Feb 2022 08:49:29 +0100
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Ray Jui <rjui@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Scott Branden <sbranden@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Tony Lindgren <tony@atomide.com>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-        bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v5 9/9] arm64: dts: imx8mm-kontron: fix ethernet node name
-Date:   Wed, 16 Feb 2022 08:49:27 +0100
-Message-Id: <20220216074927.3619425-10-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220216074927.3619425-1-o.rempel@pengutronix.de>
-References: <20220216074927.3619425-1-o.rempel@pengutronix.de>
+        Wed, 16 Feb 2022 04:18:08 -0500
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF9C2297F8
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Feb 2022 01:17:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NNK6wMBdhXobbLxTRN7lAtYvdQAWT0UwJ44/BsoWFro8u1qWc2dGd3b8PVffIH4yq+RbmyhjQv1r6de+4hr6Rg74gRERxf+ZX1Lz97FzDsp2idnh2Bgp79Rr1BO5CTuOUr6UDBXw7vybaQWTyJfkPvfz3zXJds4tGa8RPwFPEmhpdGDzNMdolvIDjecroiJK0wmTWDGkv9om99tVPLm0EH91iIlWnJ9OPzlj5M8zi/Ueyq2OhCotDOOtL0kTqDsQ3yYF7lZvjqe5E7k0a5QUgvJWYdMeLhqp/y7eTyxKm/+KdPCtDnZI63ZHhBUhVbu1BmQLx8v2XrUT+46YTbOvsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9fo96akUCFb2WPD/25cIK88sTApkGzfnjKmCQue1I1M=;
+ b=EMXDAmGrTihWc9YY5i1i9OZ7nCeF5wVTeCjfW9xPIhxt6kxgOqcCN9zo+PyPTo+1mv/1OUB1WCrT2MOUU/jEZKm0xEsxPFI3qQg9CdUiKqwmo9wtt+NUtaCNoD7zdL0f4Balsw7Mz/4noS1Bk+kfAIGGFkl/MNqjThty9zMCq5pktrTgi5kn4GE991QJcWeHvG2v3Y12IEGKMiZmUz5c6tH0xPlSpR/8DGooxPoyG1mPE2s1zEdLKnD5qfJ9RuvJ2Z0CQ1jgzobbsXpmubaYTiV23Zyh6Tn0gS2Ev7Lev8Og/oZ3N4gCQiIw0fqOg15KwgV/Un6B8Q7VqYegQP1lWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.235) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9fo96akUCFb2WPD/25cIK88sTApkGzfnjKmCQue1I1M=;
+ b=RtvDZ0/5ojpB7p5KubbfZ3un0ikI2BwWv4ZAd2sxqgXK9+ML7GyhN/V0dGIPxKePbK5jt8qcGimIRYC3wJYX6fc9VLGQXd0TMABtTOogdJMGdz9XnbZqkdD9wgq+evWgxO/RFP1kPdGZ9CzYfccRqK8BrfoZVBPiY1IOEF3h03Iemhc2WWy79SfqtwGp0WESVaWQHq52uCxus/B5oZ42Mnq6XX6eo2riTGoY3Wq/KEvW70ZlnAFkkY+jeB/qwmbFmaor45MllkE6aLy1aMbRiq6gEBh8GRxWegV9oS4ngvwQJIVmWgmBd7ADooqtGSDb7WA6WchwcjEX047ZmsEe1Q==
+Received: from DM5PR07CA0147.namprd07.prod.outlook.com (2603:10b6:3:ee::13) by
+ MW5PR12MB5598.namprd12.prod.outlook.com (2603:10b6:303:193::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Wed, 16 Feb
+ 2022 09:17:50 +0000
+Received: from DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:ee:cafe::43) by DM5PR07CA0147.outlook.office365.com
+ (2603:10b6:3:ee::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14 via Frontend
+ Transport; Wed, 16 Feb 2022 09:17:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.235) by
+ DM6NAM11FT039.mail.protection.outlook.com (10.13.172.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4975.11 via Frontend Transport; Wed, 16 Feb 2022 09:17:49 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 16 Feb
+ 2022 09:17:49 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Wed, 16 Feb 2022
+ 01:17:48 -0800
+Received: from moonraker.nvidia.com (10.127.8.11) by mail.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server id 15.2.986.9 via Frontend
+ Transport; Wed, 16 Feb 2022 01:17:47 -0800
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+CC:     <dri-devel@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>,
+        "Jon Hunter" <jonathanh@nvidia.com>
+Subject: [PATCH] drm/tegra: Fix cast to restricted __le32
+Date:   Wed, 16 Feb 2022 09:17:43 +0000
+Message-ID: <20220216091743.21380-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec5f6f33-afee-4dce-e422-08d9f12d3402
+X-MS-TrafficTypeDiagnostic: MW5PR12MB5598:EE_
+X-Microsoft-Antispam-PRVS: <MW5PR12MB5598708EB92C3E79D39C87A5D9359@MW5PR12MB5598.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wOpK25Y1HCKzGwjzb4oVtkwWzgNv/sml6iwQfl7jk9YI1ucMPjcGQ4y1ncb64fnK+B1LrpmmMmRcW5ZLOdnvFDAhjkeCSVFLgexLP8M+w9yAkcAwAiTtN9pG0jk0fOD4m8y3qFz/+DPg6Mlzph3j0XrIS8e8ToxX/+Ofho6OefdOkAggz4QL+dtFdf3aEW1Liy4dQOXkqYAAn8tnwx1eKO5Et9JW9JMvP5aNdAbAqKEEMo8JnYd1KAlfKsfZGR57JuK61J9wVt/54G6xUwK4cTCqxm1bDBX1q6rJ/FIK9d3VaHepEfsYlm4UK86xb+glq506iVh0XSO5efsILazCdJUVpP+vNJ1MA9lZY0R2uytA7BNO2SQpjUjLt6YhkIB4gGezdKllm01s4PtoRwSdc8qgcbQMtda3+UYGg9G1ldANbb7VtDbkG663CtpNoZivlZ8xdkx/6xgOYEaLOF6HN9aiovZeWZWxWrUNeHalQ4350SsbsuQmnUgdUloJ3HDEWKlASIbMnBDTcoT1PDu7YI9GrG4ij+N16EIMH+MjTpAiWLjCU2Z2z4NXFM1rRR8PWUxkgq2S9QmwoCn31BBcqRcYFEUO6a56tA7zqwmBWcvpFLRIDDvkL4IthHsbMSuBqeE/NmH0PTBaCjg+PmT3pu+IRlMDi8xX93iFdAT6GF/Q/7xLpT8a+LW+MknN4B6rPsUVI7ooe5SjDc1Pt16gdg==
+X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(70206006)(70586007)(316002)(83380400001)(47076005)(356005)(110136005)(54906003)(6666004)(508600001)(81166007)(8676002)(4326008)(7696005)(86362001)(82310400004)(36756003)(40460700003)(2906002)(4744005)(5660300002)(8936002)(26005)(186003)(336012)(426003)(36860700001)(107886003)(2616005)(1076003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 09:17:49.6500
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec5f6f33-afee-4dce-e422-08d9f12d3402
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5598
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The node name of Ethernet controller should be "ethernet" instead of
-"usbether" as required by Ethernet controller devicetree schema:
- Documentation/devicetree/bindings/net/ethernet-controller.yaml
+Sparse warns about the following cast in the function
+falcon_copy_firmware_image() ...
 
-This patch can potentially affect boot loaders patching against full
-node path instead of using device aliases.
+ drivers/gpu/drm/tegra/falcon.c:66:27: warning: cast to restricted __le32
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Fix this by casting the firmware data array to __le32 instead of u32.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts | 2 +-
+ drivers/gpu/drm/tegra/falcon.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts b/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts
-index d40caf14ac4a..23be1ec538ba 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts
-@@ -182,7 +182,7 @@ usb1@1 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
+diff --git a/drivers/gpu/drm/tegra/falcon.c b/drivers/gpu/drm/tegra/falcon.c
+index 223ab2ceb7e6..3762d87759d9 100644
+--- a/drivers/gpu/drm/tegra/falcon.c
++++ b/drivers/gpu/drm/tegra/falcon.c
+@@ -63,7 +63,7 @@ static void falcon_copy_firmware_image(struct falcon *falcon,
  
--		usbnet: usbether@1 {
-+		usbnet: ethernet@1 {
- 			compatible = "usb424,ec00";
- 			reg = <1>;
- 			local-mac-address = [ 00 00 00 00 00 00 ];
+ 	/* copy the whole thing taking into account endianness */
+ 	for (i = 0; i < firmware->size / sizeof(u32); i++)
+-		virt[i] = le32_to_cpu(((u32 *)firmware->data)[i]);
++		virt[i] = le32_to_cpu(((__le32 *)firmware->data)[i]);
+ }
+ 
+ static int falcon_parse_firmware_image(struct falcon *falcon)
 -- 
-2.30.2
+2.25.1
 
