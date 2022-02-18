@@ -2,218 +2,157 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B4874BB87F
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Feb 2022 12:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A8B4BB900
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Feb 2022 13:18:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234860AbiBRLoO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 18 Feb 2022 06:44:14 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49676 "EHLO
+        id S233501AbiBRMSY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 18 Feb 2022 07:18:24 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234805AbiBRLoK (ORCPT
+        with ESMTP id S232963AbiBRMSX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 18 Feb 2022 06:44:10 -0500
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E556412AB1;
-        Fri, 18 Feb 2022 03:43:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=IZ3hJ//ZY9jCeQD6DvUNkLgqmO36XNeE4mU4/ws/jeQ=; b=vChxJtIvCk0whXkzpXJ2dGqwUg
-        2NEMormh+YAhCOEFcBWpepRo8PCyHxzdBiFGqFj2le15X8nch/fGL+ntFyWrIujHG9jGco92HVVhK
-        fRn1x7qqN3cd2k5qnUDl3RvI7qi+E/XwL3Pga6GYQiTA5GhzPsVt3EBE1wuwcLaSHghkAJ1xhkY1p
-        /gnhjhE9nQuh02zCYNmpnhcFpUi9a4b+UunBZbCCxgck9XkJdoHE8rDh693uJjAOAu/K9XRSD4CY5
-        kJV7Pu0r/VrICra8TdFn3ARrmg9R0tcoLtL7FJEDP9nk2URNFdGETwDs9vbm6TAcEANKnK5sKlg9s
-        WFR972gQ==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <mperttunen@nvidia.com>)
-        id 1nL1fq-0006eP-HX; Fri, 18 Feb 2022 13:43:42 +0200
-From:   Mikko Perttunen <mperttunen@nvidia.com>
-To:     thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
-        will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v3 9/9] drm/tegra: Support context isolation
-Date:   Fri, 18 Feb 2022 13:39:52 +0200
-Message-Id: <20220218113952.3077606-10-mperttunen@nvidia.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220218113952.3077606-1-mperttunen@nvidia.com>
-References: <20220218113952.3077606-1-mperttunen@nvidia.com>
+        Fri, 18 Feb 2022 07:18:23 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226ED294FCC;
+        Fri, 18 Feb 2022 04:18:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k/DIs9ZdmQjc5veV7echyMVS0G3ZDwACgFRdB+W+T4N0HuHvUi/YD1jT2iVgzYzwiMOh3glcW90wGT+1DHmWOUA/hTOkIkqxRbOv338yUK9Av5+qP1ogOJP6AAqeiLjGDIpneMwshpxvqt7NEs3veBttNaBYjzSZQ8eLyUchLa7DVDo1yWIdufAuWE9zi4A2I5x3PXU8LtBha/mPCCBtBWpwvUGtkJhEN/5gxC6OHn920IVeOL/7e8Vc8ROWnokMXqT2rpKct4bSc86CT0mlP1d01X+tofaNQ3EGMW/yhjhsfeW1e7x4btGZU3NrOopK/PB5vaOueElo4KlDq1kfxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GjNndLZ7oDcnGiZ6yBpPbJ50crBgvrrghGer3OqGcHk=;
+ b=k2HO+CoXZ7Gl2aW2hH/3ScRUmzTLrOnWWZVKLfksatrdZMCi9eYFZmpNcdDvUd40F4imaDb2h2dIY8DDhJ6PrEskQrdbg2AKuj819qBzLB+SB3BY2Z4UeE6Aegg0C9Ex7F4BklIUH9etb86cFh1RtVma+YsCOm/zeJU26mCCGnk5Yz3FC2kV8QRbU9CGLuFXzBl8FDQ/QosYaWgW6/RBfcYZnj8rAK9dBOUWn3I5dro56Uz/KUZU7Kfkx2DEbKqaaFtxq9o//WyZbr6roSsiFbetzhpcxNrFFmp8iRCZgwa8b/xc3WmZDLnjEZITEW9L3zzeaw7gSSllu0BmWcK16w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 12.22.5.234) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=temperror action=none header.from=nvidia.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GjNndLZ7oDcnGiZ6yBpPbJ50crBgvrrghGer3OqGcHk=;
+ b=jll7ZC1xWASlO4MWArN1IQqfPRKQBBnpc+Vw2NX8eRaiHXH/kihL8EsXQnVjeoAnr9c27QTzOEkQHzL+pujIVMswqVLIyJSCNI2iRi6XEbgTa8Db0ApLNH6DnXXOI8znyajf4DQdRTaCA73AtL1+INIgPv4Iaz4tjF3xPWDAmV0GG5uE2zI/51Ij9yhvyEyWzcU/oTsElwodpd/eiv5Gsx4kobXbb/WCf5nncxtK46P0P0MAwKnn1DOo5rhJcdRSR+CF3kR/tfTBu1qIeVICuI48U/VJ191cwW4QGbZmtTz1sA9giH1Q6wRlbQH0YQ+gtf6NI+u5+BIsoIr+afzycQ==
+Received: from BN0PR04CA0086.namprd04.prod.outlook.com (2603:10b6:408:ea::31)
+ by PH0PR12MB5629.namprd12.prod.outlook.com (2603:10b6:510:141::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14; Fri, 18 Feb
+ 2022 12:18:03 +0000
+Received: from BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ea:cafe::96) by BN0PR04CA0086.outlook.office365.com
+ (2603:10b6:408:ea::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14 via Frontend
+ Transport; Fri, 18 Feb 2022 12:18:03 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is 12.22.5.234)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=nvidia.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of nvidia.com: DNS Timeout)
+Received: from mail.nvidia.com (12.22.5.234) by
+ BN8NAM11FT046.mail.protection.outlook.com (10.13.177.127) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4995.15 via Frontend Transport; Fri, 18 Feb 2022 12:18:01 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL101.nvidia.com
+ (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 18 Feb
+ 2022 12:17:58 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Fri, 18 Feb 2022
+ 04:17:57 -0800
+Received: from audio.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server id 15.2.986.9 via Frontend Transport; Fri, 18 Feb
+ 2022 04:17:55 -0800
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <krzysztof.kozlowski@canonical.com>, <thierry.reding@gmail.com>
+CC:     <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH] memory: tegra: Add APE memory clients for Tegra234
+Date:   Fri, 18 Feb 2022 17:46:29 +0530
+Message-ID: <1645186589-25118-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: mperttunen@nvidia.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7d21ef22-4c14-4224-8a0d-08d9f2d8b54e
+X-MS-TrafficTypeDiagnostic: PH0PR12MB5629:EE_
+X-Microsoft-Antispam-PRVS: <PH0PR12MB56290EA36F4781A1C089AF9DA7379@PH0PR12MB5629.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OsjL/ZfmqdA+VAKp69HwEHI5xQqnwb7cvFHI2lMcTTf8g9ZkfNW8neMhlHB67UFpdScskcDdV3XX8uqrNFFIo3s0SrO2NBr6Q/Ouk5jvksTcSi8p4XN4vUY/+uY7A2+falIw40SWvFX91Ij6U/gv7yD0siFAt4exabFC3GDRSu9Jk5Rr5BUMLEL5xP/U7FcFCuuKzCI4B0VXibIiafB7iR5ePL9O9pspTTCUvsGoCSYfrYq992vmoEvEJGrvSkfuP9O6+8pvUbKMX4/cm4yfLnyOrsimu73fP0e7JQQX40f1XAkMhxnZl16ruGFR5vHZsl5xyO5rQB6uly25N7PbuGQQDhNhlMyWm2COZLdjKc1sSsuhFxy3B2WdfT3PU3wuvKTNHuHx52iwBfSEHj3xNA+vqi6BavCWkXzHl4aQksCLx7PbLLp1txrv4EXH2dJ614OLpeghQ3mfvN1oWK1n+GvH8pdrVXSbHgoCK/wfDXg1OjMukFK1ouKzXJCZ5aPgrKmATeSiQ3Zypzqk0wrl/zNRIWoGzH/BihLRru+X9Jt2FA6G8eQG9Jam47eFKvgfN+pYLaFvn8r90TyBmu0sWGymselpVz0sBBbLIOkC/NZNpPLPshIUh+IepZYyEcitQDzqxD0Bk9K76VWBajJ6wu+KJV6ihUN7rdZct+ryks6oj+8r+N8iwucL5z0Iezu7A19gTW/9GWoUKEKyrZRSuy+TQVM1BX3HvCbd/Lbgtbedc4AdNZM9vJ+ao42yT/JQgi5yWOh1GLGYaKCiXxi9iIVgnPNhVPXxA1jY1xfkl7g=
+X-Forefront-Antispam-Report: CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(40460700003)(63350400001)(47076005)(83380400001)(107886003)(5660300002)(86362001)(966005)(508600001)(6666004)(63370400001)(36756003)(36860700001)(2906002)(4326008)(336012)(426003)(356005)(186003)(70206006)(8676002)(81166007)(316002)(70586007)(54906003)(110136005)(26005)(2616005)(7696005)(82310400004)(8936002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 12:18:01.6441
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d21ef22-4c14-4224-8a0d-08d9f2d8b54e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5629
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-For engines that support context isolation, allocate a context when
-opening a channel, and set up stream ID offset and context fields
-when submitting a job.
+Add the memory clients on Tegra234 which are needed for APE
+DMA to properly use the SMMU.
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+Signed-off-by: Sameer Pujar <spujar@nvidia.com>
 ---
- drivers/gpu/drm/tegra/drm.h    |  2 ++
- drivers/gpu/drm/tegra/submit.c | 13 ++++++++++++
- drivers/gpu/drm/tegra/uapi.c   | 36 ++++++++++++++++++++++++++++++++--
- 3 files changed, 49 insertions(+), 2 deletions(-)
+ Please note that this patch depends on the DT binding patches of series
+ https://patchwork.kernel.org/project/alsa-devel/list/?series=609494&state=*.
+ So please consider this patch once Thierry picks up DT binding patches and
+ provides ACK on this.
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index fc0a19554eac..717e9f81ee1f 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -80,6 +80,7 @@ struct tegra_drm_context {
+ drivers/memory/tegra/tegra234.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/memory/tegra/tegra234.c b/drivers/memory/tegra/tegra234.c
+index f7b24ba..1d19cb9 100644
+--- a/drivers/memory/tegra/tegra234.c
++++ b/drivers/memory/tegra/tegra234.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (C) 2021 NVIDIA CORPORATION.  All rights reserved.
++ * Copyright (C) 2021-2022, NVIDIA CORPORATION.  All rights reserved.
+  */
  
- 	/* Only used by new UAPI. */
- 	struct xarray mappings;
-+	struct host1x_context *memory_context;
+ #include <soc/tegra/mc.h>
+@@ -170,6 +170,26 @@ static const struct tegra_mc_client tegra234_mc_clients[] = {
+ 				.security = 0x4b4,
+ 			},
+ 		},
++	}, {
++		.id = TEGRA234_MEMORY_CLIENT_APEDMAR,
++		.name = "apedmar",
++		.sid = TEGRA234_SID_APE,
++		.regs = {
++			.sid = {
++				.override = 0x4f8,
++				.security = 0x4fc,
++			},
++		},
++	}, {
++		.id = TEGRA234_MEMORY_CLIENT_APEDMAW,
++		.name = "apedmaw",
++		.sid = TEGRA234_SID_APE,
++		.regs = {
++			.sid = {
++				.override = 0x500,
++				.security = 0x504,
++			},
++		},
+ 	},
  };
  
- struct tegra_drm_client_ops {
-@@ -91,6 +92,7 @@ struct tegra_drm_client_ops {
- 	int (*submit)(struct tegra_drm_context *context,
- 		      struct drm_tegra_submit *args, struct drm_device *drm,
- 		      struct drm_file *file);
-+	int (*get_streamid_offset)(struct tegra_drm_client *client);
- };
- 
- int tegra_drm_submit(struct tegra_drm_context *context,
-diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-index 6d6dd8c35475..8d74b82b83a5 100644
---- a/drivers/gpu/drm/tegra/submit.c
-+++ b/drivers/gpu/drm/tegra/submit.c
-@@ -498,6 +498,9 @@ static void release_job(struct host1x_job *job)
- 	struct tegra_drm_submit_data *job_data = job->user_data;
- 	u32 i;
- 
-+	if (job->context)
-+		host1x_context_put(job->context);
-+
- 	for (i = 0; i < job_data->num_used_mappings; i++)
- 		tegra_drm_mapping_put(job_data->used_mappings[i].mapping);
- 
-@@ -599,6 +602,16 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
- 	job->release = release_job;
- 	job->timeout = 10000;
- 
-+	if (context->memory_context && context->client->ops->get_streamid_offset) {
-+		int offset = context->client->ops->get_streamid_offset(context->client);
-+
-+		if (offset >= 0) {
-+			job->context = context->memory_context;
-+			job->engine_streamid_offset = offset;
-+			host1x_context_get(job->context);
-+		}
-+	}
-+
- 	/*
- 	 * job_data is now part of job reference counting, so don't release
- 	 * it from here.
-diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index 9ab9179d2026..be33da54d12c 100644
---- a/drivers/gpu/drm/tegra/uapi.c
-+++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
- 	struct tegra_drm_mapping *mapping;
- 	unsigned long id;
- 
-+	if (context->memory_context)
-+		host1x_context_put(context->memory_context);
-+
- 	xa_for_each(&context->mappings, id, mapping)
- 		tegra_drm_mapping_put(mapping);
- 
-@@ -72,6 +75,7 @@ static struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra, u
- 
- int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_file *file)
- {
-+	struct host1x *host = tegra_drm_to_host1x(drm->dev_private);
- 	struct tegra_drm_file *fpriv = file->driver_priv;
- 	struct tegra_drm *tegra = drm->dev_private;
- 	struct drm_tegra_channel_open *args = data;
-@@ -102,10 +106,29 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
- 		}
- 	}
- 
-+	/* Only allocate context if the engine supports context isolation. */
-+	if (client->ops->get_streamid_offset &&
-+	    client->ops->get_streamid_offset(client) >= 0) {
-+		context->memory_context =
-+			host1x_context_alloc(host, get_task_pid(current, PIDTYPE_TGID));
-+		if (IS_ERR(context->memory_context)) {
-+			if (PTR_ERR(context->memory_context) != -EOPNOTSUPP) {
-+				err = PTR_ERR(context->memory_context);
-+				goto put_channel;
-+			} else {
-+				/*
-+				 * OK, HW does not support contexts or contexts
-+				 * are disabled.
-+				 */
-+				context->memory_context = NULL;
-+			}
-+		}
-+	}
-+
- 	err = xa_alloc(&fpriv->contexts, &args->context, context, XA_LIMIT(1, U32_MAX),
- 		       GFP_KERNEL);
- 	if (err < 0)
--		goto put_channel;
-+		goto put_memctx;
- 
- 	context->client = client;
- 	xa_init_flags(&context->mappings, XA_FLAGS_ALLOC1);
-@@ -118,6 +141,9 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
- 
- 	return 0;
- 
-+put_memctx:
-+	if (context->memory_context)
-+		host1x_context_put(context->memory_context);
- put_channel:
- 	host1x_channel_put(context->channel);
- free:
-@@ -156,6 +182,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 	struct tegra_drm_mapping *mapping;
- 	struct tegra_drm_context *context;
- 	enum dma_data_direction direction;
-+	struct device *mapping_dev;
- 	int err = 0;
- 
- 	if (args->flags & ~DRM_TEGRA_CHANNEL_MAP_READ_WRITE)
-@@ -177,6 +204,11 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 
- 	kref_init(&mapping->ref);
- 
-+	if (context->memory_context)
-+		mapping_dev = &context->memory_context->dev;
-+	else
-+		mapping_dev = context->client->base.dev;
-+
- 	mapping->bo = tegra_gem_lookup(file, args->handle);
- 	if (!mapping->bo) {
- 		err = -EINVAL;
-@@ -201,7 +233,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 		goto put_gem;
- 	}
- 
--	mapping->map = host1x_bo_pin(context->client->base.dev, mapping->bo, direction, NULL);
-+	mapping->map = host1x_bo_pin(mapping_dev, mapping->bo, direction, NULL);
- 	if (IS_ERR(mapping->map)) {
- 		err = PTR_ERR(mapping->map);
- 		goto put_gem;
 -- 
-2.35.0
+2.7.4
 
