@@ -2,99 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EAEE4BD062
-	for <lists+linux-tegra@lfdr.de>; Sun, 20 Feb 2022 18:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 453B84BD157
+	for <lists+linux-tegra@lfdr.de>; Sun, 20 Feb 2022 21:20:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244377AbiBTRcq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 20 Feb 2022 12:32:46 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45804 "EHLO
+        id S244885AbiBTUUV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 20 Feb 2022 15:20:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244364AbiBTRcd (ORCPT
+        with ESMTP id S244864AbiBTUUU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 20 Feb 2022 12:32:33 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD638D7B;
-        Sun, 20 Feb 2022 09:32:11 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id o9so11491535ljq.4;
-        Sun, 20 Feb 2022 09:32:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SYoPT4Z7CKQZG/RxZi19Qq6arsiSyAJia5fwuEqEeTg=;
-        b=qvROLuhzXHAvpOjVR7palKoACWhkVigTt/i9NcZDHHqbZ9NoBHzEPynFCe8G8GdZfF
-         XE8x3aV7YYd+AEp2QhGKPO70bVkBgYh8REhh5pDAFm+OPfYjfxMINYxTGqCA1fuKhyPA
-         VJ4S/hJk+dQ1MLKfe29BeotDHFB0X2OOdAbo3lsLkA7gAOaXlVAnAmFSPMwD1t0yOZpL
-         emFTr5H75ESBZWm5KIY59Zl9hXlX/iP7zx5tjMNJbsJzAQFbZ3Ef4o/pQLeA620kt83i
-         dL9l1zIEhP5BltwxBym6eiUpEaQgHVyz/aI+A1SnHshW+ZikrTLjDY0Ti9wW/SD2pykW
-         WHCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SYoPT4Z7CKQZG/RxZi19Qq6arsiSyAJia5fwuEqEeTg=;
-        b=ZWwYG+uWViFqjsQhahI0QwCu4OOmqp2f9dnH0T8TFpiwh/ipyA9QTO6RjGeBbUlrM+
-         bx5ExDgm6EDiflB4dggVMLwag1AIFqy58GBIh+cYV30yMDA23yjtNV/BIDNIWtZgaWjs
-         5XDDxe3Kfz5nZmR70mxItvp6K7GOY+jie4Ki4qQLgxWiu7z/L61VZ2VdWBQp0lVirz6A
-         uIYeeB2yNBO7tfphziFdIIXR5H6a/DFxQCMdLHF8RaCrDqv9Vr1XOf5IORpjKTvb2j9m
-         hlOfl7lC54ih/zlEI5Q6yhYKzA1ZBsV+0CisTxgnf2rZH6+FVuPbgGZ3Dig+1CNAl77j
-         aimg==
-X-Gm-Message-State: AOAM533iKZJ0QTRaxLSo/ZYszAQBRVKJG+0K5sj6h5jALm6VX+MdfKgt
-        S0S8/t/1cNfOY8LXaAgDxSY=
-X-Google-Smtp-Source: ABdhPJy0jHDNiQSjo2siQGsBvcghkwpSTrP8zhgIfLmZQZ0wYfrwBFmVfjDzbpMLDFTURYI2J/VUMA==
-X-Received: by 2002:a05:651c:1505:b0:23c:95a8:33d2 with SMTP id e5-20020a05651c150500b0023c95a833d2mr11922301ljf.407.1645378330150;
-        Sun, 20 Feb 2022 09:32:10 -0800 (PST)
-Received: from localhost.localdomain (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
-        by smtp.gmail.com with ESMTPSA id f8sm880490ljk.97.2022.02.20.09.32.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 09:32:09 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sun, 20 Feb 2022 15:20:20 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC454C787;
+        Sun, 20 Feb 2022 12:19:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645388394; x=1676924394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hlNCeNeRCUKG5xiQPa/coq+l8HnadNht1MDbLYfKSWk=;
+  b=YjffgtgklNnK+v6RNeaa+uqVnHALHCG4LHYOnOuFtr5m/BmSzY3Nsl+x
+   xGfmOFkU9QOiUafi50UJ3XvFLNJj5aSlmRAzWMliBaAcvuIV0gesFZl9+
+   FvcuKEFkkS5wWbAg3qVPqZSVPimfsA8FScdwAbBTJtxlLKGPT7ZRhbJjZ
+   OfMxlsiANAt2FxmwQ8n5K2UWSzXsxL2856aX/UF2PyXZUzZ8lsr5wp69A
+   vN7iNysJ/vcQqf7MsaxIPhmJpM3GpzjUfExC++SdYKnbBVaI7jP6aPJQy
+   WvkmZvXGARqTbwjBaUoxQCFmNkwxG7ICTXQIqQhfkuZaWQY2ZnHsDJZM3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="250219138"
+X-IronPort-AV: E=Sophos;i="5.88,384,1635231600"; 
+   d="scan'208";a="250219138"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2022 12:19:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,384,1635231600"; 
+   d="scan'208";a="636447450"
+Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2022 12:19:50 -0800
+Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nLsgP-0000iC-RB; Sun, 20 Feb 2022 20:19:49 +0000
+Date:   Mon, 21 Feb 2022 04:19:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 8/8] ARM: config: multi v7: Enable NVIDIA Tegra video decoder driver
-Date:   Sun, 20 Feb 2022 20:29:50 +0300
-Message-Id: <20220220172950.3401-9-digetx@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220220172950.3401-1-digetx@gmail.com>
-References: <20220220172950.3401-1-digetx@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 6/8] media: staging: tegra-vde: De-stage driver
+Message-ID: <202202210437.dSxqXeIm-lkp@intel.com>
+References: <20220220172950.3401-7-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJECT_DRUG_GAP_L,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220220172950.3401-7-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable NVIDIA Tegra V4L2 video decoder driver.
+Hi Dmitry,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on tegra/for-next linus/master v5.17-rc4 next-20220217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Dmitry-Osipenko/Add-V4L-stateless-video-decoder-API-support-to-NVIDIA-Tegra-driver/20220221-013333
+base:   git://linuxtv.org/media_tree.git master
+config: x86_64-randconfig-m001
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/dd010c4949a824dda7225b7074050b5736d3894a
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Add-V4L-stateless-video-decoder-API-support-to-NVIDIA-Tegra-driver/20220221-013333
+        git checkout dd010c4949a824dda7225b7074050b5736d3894a
+        make W=1 ARCH=x86_64  randconfig
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 distclean
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> scripts/Makefile.clean:15: drivers/staging/media/tegra-vde/Makefile: No such file or directory
+>> make[5]: *** No rule to make target 'drivers/staging/media/tegra-vde/Makefile'.
+   make[5]: Failed to remake makefile 'drivers/staging/media/tegra-vde/Makefile'.
+   make[4]: *** [scripts/Makefile.clean:68: drivers/staging/media/tegra-vde] Error 2
+   make[4]: Target '__clean' not remade because of errors.
+   make[3]: *** [scripts/Makefile.clean:68: drivers/staging/media] Error 2
+   make[3]: Target '__clean' not remade because of errors.
+   make[2]: *** [scripts/Makefile.clean:68: drivers/staging] Error 2
+   make[2]: Target '__clean' not remade because of errors.
+   make[1]: *** [Makefile:1838: _clean_drivers] Error 2
+   make[1]: Target 'distclean' not remade because of errors.
+   make: *** [Makefile:219: __sub-make] Error 2
+   make: Target 'distclean' not remade because of errors.
+
+
+vim +15 scripts/Makefile.clean
+
+2315c6e4227815 Sam Ravnborg   2005-07-25  12  
+2a691470345a00 Sam Ravnborg   2005-07-25  13  # The filename Kbuild has precedence over Makefile
+db8c1a7b2ca25f Sam Ravnborg   2005-07-27  14  kbuild-dir := $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
+db8c1a7b2ca25f Sam Ravnborg   2005-07-27 @15  include $(if $(wildcard $(kbuild-dir)/Kbuild), $(kbuild-dir)/Kbuild, $(kbuild-dir)/Makefile)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  16  
+
 ---
- arch/arm/configs/multi_v7_defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index dc0581deea9f..8a360d7f517e 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -669,6 +669,7 @@ CONFIG_VIDEO_STI_DELTA=m
- CONFIG_VIDEO_RENESAS_FDP1=m
- CONFIG_VIDEO_RENESAS_JPU=m
- CONFIG_VIDEO_RENESAS_VSP1=m
-+CONFIG_VIDEO_TEGRA_VDE=m
- CONFIG_V4L_TEST_DRIVERS=y
- CONFIG_VIDEO_VIVID=m
- CONFIG_VIDEO_ADV7180=m
--- 
-2.34.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
