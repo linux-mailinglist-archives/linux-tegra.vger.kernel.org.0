@@ -2,145 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1C6F4C03DC
-	for <lists+linux-tegra@lfdr.de>; Tue, 22 Feb 2022 22:30:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCEB64C05B8
+	for <lists+linux-tegra@lfdr.de>; Wed, 23 Feb 2022 01:03:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231492AbiBVVbD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Feb 2022 16:31:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
+        id S233476AbiBWAEE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 22 Feb 2022 19:04:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbiBVVbC (ORCPT
+        with ESMTP id S234124AbiBWAED (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Feb 2022 16:31:02 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6914A12A748;
-        Tue, 22 Feb 2022 13:30:36 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27135139F;
-        Tue, 22 Feb 2022 13:30:36 -0800 (PST)
-Received: from [10.57.40.147] (unknown [10.57.40.147])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37F8E3F70D;
-        Tue, 22 Feb 2022 13:30:34 -0800 (PST)
-Message-ID: <c0dee650-df1c-4fad-aa97-fb9eab03f3a2@arm.com>
-Date:   Tue, 22 Feb 2022 21:30:30 +0000
+        Tue, 22 Feb 2022 19:04:03 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E639344D6
+        for <linux-tegra@vger.kernel.org>; Tue, 22 Feb 2022 16:03:37 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id n25-20020a05600c3b9900b00380f41e51e6so105479wms.2
+        for <linux-tegra@vger.kernel.org>; Tue, 22 Feb 2022 16:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=eaaB5Fi4OIw8X99OdVt3/5VwsoSH3pqqZ03p7mumtcE=;
+        b=X0wlXTgbDqKxZnfCLgREyrZx7ckdA+3HZZ1x3z/nOSpFZcSlefi0zQ6F+dGTRB5txd
+         q0K9SVdF3OYT/f5dqCPhaeKDG7Z9p8v6peps6G18hMGH+IWJ+4isBJnw/s3qckknyc/4
+         GMdswr1IThpmbH5CLuMK/6obUplfIVXSnJ1UK96Ab2m0yvKvJzg+zLEjeTyLKQVm2na3
+         uMJVmGW9JoVK7s41DLSbv4Ea7f0O2N8acw2olJtd8pvY+3zfZoMHThCbFO4YwBEX+6Jz
+         wkw11BsX4j+oKLZgZe94035LV3i8YIbbocWKu8aHHJkBtB0faRFUXlcwZpHUIdCTmXdn
+         aUOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=eaaB5Fi4OIw8X99OdVt3/5VwsoSH3pqqZ03p7mumtcE=;
+        b=WaboBZOzjMu2+cmCK49HgQo+kyvRlzE6SoSp1cKOUFjsuEjKU6dTGPNvZnbdaYPY80
+         YOcUvexg6su7rbD1d62XfUpOhTXwHSulgD+RRGTuLzKu+xik3nJ/fF0ihbdWHLfrZw+R
+         FN4tPttLi3JzJIp0/8Zm5H9ASKnxcD0aY+WMU4PNIu5r6odrPX4YhRrX9nXbo2z4BxQe
+         E9U1wPvvRn9z3frBwQzCLshJTS2W89QP5bnaEHjFWBkyPMOQJn9Iyfhc+JLAx8B22eSx
+         PvQjKdvT74psG/Zz5w0ICCTzZnGJSXh9Jsn1whhmyzg1iW4esRPyUX+zs9KHT2VIhWsw
+         yjfg==
+X-Gm-Message-State: AOAM530wOmxr/Pu4yT3bNEjb1nM/FIgIzy6Gb2t7wHxTJer+RqiAdkYr
+        Hh62Uvv6kg/dhnun4nErwMI=
+X-Google-Smtp-Source: ABdhPJzVSokHh4nL1KALpewcSNxYeEGs9+ZGBHRcYM9tWPWARqIYLcQqgwnpgaEGobr5pSOunLKiaw==
+X-Received: by 2002:a05:600c:1e0e:b0:37c:6c82:72a6 with SMTP id ay14-20020a05600c1e0e00b0037c6c8272a6mr5223046wmb.35.1645574616181;
+        Tue, 22 Feb 2022 16:03:36 -0800 (PST)
+Received: from [192.168.0.133] ([5.193.8.34])
+        by smtp.gmail.com with ESMTPSA id f13sm36534051wri.82.2022.02.22.16.03.32
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 22 Feb 2022 16:03:35 -0800 (PST)
+Message-ID: <621579d7.1c69fb81.2449a.01a7@mx.google.com>
+From:   Mrs Maria Elisabeth Schaeffler <margaretdonation@gmail.com>
+X-Google-Original-From: Mrs Maria Elisabeth Schaeffler
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v3 2/9] gpu: host1x: Add context bus
-Content-Language: en-GB
-To:     Christoph Hellwig <hch@infradead.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
-        will@kernel.org, robh+dt@kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20220218113952.3077606-1-mperttunen@nvidia.com>
- <20220218113952.3077606-3-mperttunen@nvidia.com>
- <YhUNiHiYdQfxJybk@infradead.org>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <YhUNiHiYdQfxJybk@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <Mrs@vger.kernel.org>
+Date:   Wed, 23 Feb 2022 04:03:28 +0400
+Reply-To: elisabethschaeffler01@gmail.com
+X-Spam-Status: No, score=2.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,TO_MALFORMED,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2022-02-22 16:21, Christoph Hellwig wrote:
-> On Fri, Feb 18, 2022 at 01:39:45PM +0200, Mikko Perttunen wrote:
->> The context bus is a "dummy" bus that contains struct devices that
->> correspond to IOMMU contexts assigned through Host1x to processes.
->>
->> Even when host1x itself is built as a module, the bus is registered
->> in built-in code so that the built-in ARM SMMU driver is able to
->> reference it.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->>   drivers/gpu/Makefile               |  3 +--
->>   drivers/gpu/host1x/Kconfig         |  5 +++++
->>   drivers/gpu/host1x/Makefile        |  1 +
->>   drivers/gpu/host1x/context_bus.c   | 31 ++++++++++++++++++++++++++++++
->>   include/linux/host1x_context_bus.h | 15 +++++++++++++++
->>   5 files changed, 53 insertions(+), 2 deletions(-)
->>   create mode 100644 drivers/gpu/host1x/context_bus.c
->>   create mode 100644 include/linux/host1x_context_bus.h
->>
->> diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
->> index 835c88318cec..8997f0096545 100644
->> --- a/drivers/gpu/Makefile
->> +++ b/drivers/gpu/Makefile
->> @@ -2,7 +2,6 @@
->>   # drm/tegra depends on host1x, so if both drivers are built-in care must be
->>   # taken to initialize them in the correct order. Link order is the only way
->>   # to ensure this currently.
->> -obj-$(CONFIG_TEGRA_HOST1X)	+= host1x/
->> -obj-y			+= drm/ vga/
->> +obj-y			+= host1x/ drm/ vga/
->>   obj-$(CONFIG_IMX_IPUV3_CORE)	+= ipu-v3/
->>   obj-$(CONFIG_TRACE_GPU_MEM)		+= trace/
->> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
->> index 6815b4db17c1..1861a8180d3f 100644
->> --- a/drivers/gpu/host1x/Kconfig
->> +++ b/drivers/gpu/host1x/Kconfig
->> @@ -1,8 +1,13 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->> +
->> +config TEGRA_HOST1X_CONTEXT_BUS
->> +	bool
->> +
->>   config TEGRA_HOST1X
->>   	tristate "NVIDIA Tegra host1x driver"
->>   	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
->>   	select DMA_SHARED_BUFFER
->> +	select TEGRA_HOST1X_CONTEXT_BUS
->>   	select IOMMU_IOVA
->>   	help
->>   	  Driver for the NVIDIA Tegra host1x hardware.
->> diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
->> index d2b6f7de0498..c891a3e33844 100644
->> --- a/drivers/gpu/host1x/Makefile
->> +++ b/drivers/gpu/host1x/Makefile
->> @@ -18,3 +18,4 @@ host1x-y = \
->>   	hw/host1x07.o
->>   
->>   obj-$(CONFIG_TEGRA_HOST1X) += host1x.o
->> +obj-$(CONFIG_TEGRA_HOST1X_CONTEXT_BUS) += context_bus.o
->> diff --git a/drivers/gpu/host1x/context_bus.c b/drivers/gpu/host1x/context_bus.c
->> new file mode 100644
->> index 000000000000..2625914f3c7d
->> --- /dev/null
->> +++ b/drivers/gpu/host1x/context_bus.c
->> @@ -0,0 +1,31 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2021, NVIDIA Corporation.
->> + */
->> +
->> +#include <linux/device.h>
->> +#include <linux/of.h>
->> +
->> +struct bus_type host1x_context_device_bus_type = {
->> +	.name = "host1x-context",
->> +};
->> +EXPORT_SYMBOL(host1x_context_device_bus_type);
-> 
-> EXPORT_SYMBOL_GPL, please.
-> 
-> But the pattern that this copies in arm_smmu_bus_init is really
-> ugly.  I think we need to figure out a way todo that without having
-> to export all the low-level bus types.
+Hallo,
 
-Yup, as it happens that was the first step on my mission :)
+Ich bin Frau Maria Elisabeth Schaeffler, eine deutsche Wirtschaftsmagnatin,=
+ Investorin und Philanthropin. Ich bin der Vorsitzende von Wipro Limited. I=
+ch habe 25 Prozent meines pers=F6nlichen Verm=F6gens f=FCr wohlt=E4tige Zwe=
+cke ausgegeben. Und ich habe auch versprochen zu geben
+der Rest von 25% geht dieses Jahr 2021 an Einzelpersonen. Ich habe mich ent=
+schlossen, Ihnen 1.500.000,00 Euro zu spenden. Wenn Sie an meiner Spende in=
+teressiert sind, kontaktieren Sie mich f=FCr weitere Informationen.
 
-https://gitlab.arm.com/linux-arm/linux-rm/-/commits/iommu/bus
+Sie k=F6nnen auch =FCber den untenstehenden Link mehr =FCber mich lesen
 
-Still a way to go with the main meat of that work, though, so I was 
-figuring this could probably land as-is and I'll sweep it up in due course.
 
-Robin.
+https://en.wikipedia.org/wiki/Maria-Elisabeth_Schaeffler
+
+Sch=F6ne Gr=FC=DFe
+Gesch=E4ftsf=FChrer Wipro Limited
+Maria-Elisabeth_Schaeffler
+Email: elisabethschaeffler01@gmail.com
