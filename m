@@ -2,75 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F4B4C552B
-	for <lists+linux-tegra@lfdr.de>; Sat, 26 Feb 2022 11:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C96574C5E51
+	for <lists+linux-tegra@lfdr.de>; Sun, 27 Feb 2022 19:55:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231147AbiBZKc4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 26 Feb 2022 05:32:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34886 "EHLO
+        id S230412AbiB0Szs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 27 Feb 2022 13:55:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbiBZKcy (ORCPT
+        with ESMTP id S230214AbiB0Szr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 26 Feb 2022 05:32:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 695D725794C;
-        Sat, 26 Feb 2022 02:32:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D2407B80E9E;
-        Sat, 26 Feb 2022 10:32:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2B0C340E8;
-        Sat, 26 Feb 2022 10:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645871537;
-        bh=J/i1dumb0mZxElEmXwi6DbevV9tFlTtn/ahQ4gUjGfM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VQ3sc0i4kFjee2QupZiMhQ0MpUFtnztiKVXCqH6ohlwYJO3Y9R0aSnIM7GaMEwKaB
-         f+agBQMCQOA1Q8k89ExF3VN8x+K3f4q/o6pmpuA3iBde2QpfIBnIprRpqNupmUOsHG
-         pijwu7HidrvZ0jjNXU8KI+V7NBsyVsnwcPFmGA3Xanjtaaal3ofgJJUBln54k4xGIt
-         TBNjwan1XrIk1/gCxSmxeckO1J7Wa5kd2vERWoMWpOxoVg/IugU4ThUryaKGgCh2H3
-         XlKGa1cNeogu0rK+2V2V0Bu2dsMQeJcZkccYQeMlF06supyUhMSafincETd5TtVsq6
-         hrrp3uGFZE/Cg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=billy-the-mountain.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1nNuN5-00AimC-3q; Sat, 26 Feb 2022 10:32:15 +0000
-Date:   Sat, 26 Feb 2022 10:32:10 +0000
-Message-ID: <877d9h7wb9.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
+        Sun, 27 Feb 2022 13:55:47 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980845BD08
+        for <linux-tegra@vger.kernel.org>; Sun, 27 Feb 2022 10:55:10 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id d187so9112447pfa.10
+        for <linux-tegra@vger.kernel.org>; Sun, 27 Feb 2022 10:55:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BUutuHj2Y4sBYwPZrJt3gLoK5iq9Xx8GjQfOHIMA2K4=;
+        b=LssERTi7+6Oc9GsiOtykaNrIGp0U5bK2BuY/HFdPIvYfzS4lKrCtJPutZwYXtfGgi7
+         NhOfUN4u5XVvksPllEuJM3X0YaL3u+W0zL2LSDOTflQEbi4ODxmT7SyggMv8NE08FghK
+         6W81GWSdkfZbjNqYrry1cPcRifymCajTrSOyg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BUutuHj2Y4sBYwPZrJt3gLoK5iq9Xx8GjQfOHIMA2K4=;
+        b=Za/smz9Sk7F9W4h48pNErnV3xA0FdQZtXCDTQ2f6GYISqNim4lgFhAd/YowLeZXmc1
+         Vp2S7ODuNdVNXQ0MsacKg5FMgFdBjZ9heBKh8ME32K98Dawy/FCnNwgf3AXCKHH2sTVP
+         ELBAJxvnULENYHB14Aur2nW8P734+2GfPDAS1MGdjwDVHHDdvNNLMradwEHZ6iz9UeCo
+         YEtk+0DIs52Z9sdZZa1H7fCzTpDu33LEr6NprzSJC2dmO0SOAt96x1wCucfUaQw1ngFT
+         ukCb5gQTM70JKQZmW8GKZw7U21YJNBeoPWefW4GwH7EdMW+61AUKWKof08RVyfRxze5b
+         tXIg==
+X-Gm-Message-State: AOAM532uGAyhQwU1Kcvo9i898/KVi1LPU3WdqtJ46jgWN8YHD4cHezOK
+        WgmTJldEA8bwwSOGdKZRVVJIjjD/OFh2mA==
+X-Google-Smtp-Source: ABdhPJy00TjfcczrXbPQJOZnPgE7hz1pTHrH+oGIaH1lig5NQe0zrVzrE1l1NTv6ss5VmpjLSU6PFA==
+X-Received: by 2002:a63:1350:0:b0:378:7fb4:63eb with SMTP id 16-20020a631350000000b003787fb463ebmr4139383pgt.457.1645988109770;
+        Sun, 27 Feb 2022 10:55:09 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z12-20020aa7888c000000b004f3fc6d95casm2909273pfe.20.2022.02.27.10.55.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Feb 2022 10:55:09 -0800 (PST)
+Date:   Sun, 27 Feb 2022 10:55:08 -0800
+From:   Kees Cook <keescook@chromium.org>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Joey Gouly <joey.gouly@arm.com>,
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH 1/5] gpio: Don't fiddle with irqchips marked as immutable
-In-Reply-To: <Yhe3neSJbAxRbt+Z@orome>
-References: <20220223154405.54912-1-maz@kernel.org>
-        <20220223154405.54912-2-maz@kernel.org>
-        <Yhe3neSJbAxRbt+Z@orome>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: thierry.reding@gmail.com, linux-kernel@vger.kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl, joey.gouly@arm.com, jonathanh@nvidia.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, bjorn.andersson@linaro.org, agross@kernel.org, tglx@linutronix.de, linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        Lyude Paul <lyude@redhat.com>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>, Dave Airlie <airlied@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+        Uma Shankar <uma.shankar@intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] drm/dp: Fix out-of-bounds reads
+Message-ID: <202202271053.91D3CE109@keescook>
+References: <20220225035610.2552144-1-keescook@chromium.org>
+ <YhihqzqPW7qbYnB9@orome>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YhihqzqPW7qbYnB9@orome>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,62 +83,26 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 24 Feb 2022 16:51:41 +0000,
-Thierry Reding <thierry.reding@gmail.com> wrote:
-> 
-> On Wed, Feb 23, 2022 at 03:44:01PM +0000, Marc Zyngier wrote:
-> > In order to move away from gpiolib messing with the internals of
-> > unsuspecting irqchips, add a flag by which irqchips advertise
-> > that they are not to be messed with, and do solemnly swear that
-> > they correctly call into the gpiolib helpers wueh required.
+On Fri, Feb 25, 2022 at 10:30:19AM +0100, Thierry Reding wrote:
+> On Thu, Feb 24, 2022 at 07:56:08PM -0800, Kees Cook wrote:
+> > Hi,
 > > 
-> > Signed-off-by: Marc Zyngier <maz@kernel.org>
-> > ---
-> >  drivers/gpio/gpiolib.c | 7 ++++++-
-> >  include/linux/irq.h    | 2 ++
-> >  kernel/irq/debugfs.c   | 1 +
-> >  3 files changed, 9 insertions(+), 1 deletion(-)
+> > I'm sending these again, as they still need fixing. They have been
+> > rebased due to the drm_dp_helper code being moved into a subdirectory.
 > 
-> I kind of like this. The bit where the const cast is essentially guarded
-> by an "immutable" flag is a bit funky, but it doesn't look like there is
-> a good way to do it by making all references const without doing a huge
-> all-at-once conversion.
+> Yeah, I noticed the other day that this had been partially reverted by
+> the DP code move. I've applied this now, though it didn't apply cleanly,
+> so I'll do a couple of test builds to make sure my resolution is correct
+> and will push this out later on.
 
-Exactly. Somehow, we need to advertise it to the gpiolib code, and
-this does the job. I hope to be able to simply drop it once everthing
-is converted. One day.
+Awesome; thank you!
 
-> I've always found it a bit irritating that irq_chip was somewhere
-> between a container for chip-specific data and an "ops" structure. I
-> think it'd be even nicer if this was split into an extra struct
-> irq_chip_ops, which could then always be const and a struct irq_chip
-> that contained primarily chip-specific data as well as a pointer to
-> struct irq_chip_ops.
+Yeah, I had based on drm/drm-next rather than drm-misc/drm-misc-next. I
+wasn't sure which tree I needed to base on after the files moved.
 
-But that's the thing: it almost is a pure 'ops' structure. Only two
-things are getting in the way of it:
+FWIW, the resulting patches look good to me. Thanks for fixing them up!
 
-- the 'parent_dev' field: this is now sorted, as I moved it to the
-  irq_domain structure, and updated all the relevant drivers (see what
-  is currently in -next).
-
-- the .name field: it really should never be something that changes
-  from one instance of the chip to another. Which is why we have the
-  .irq_print_chip() method to handle that (and ideally we'd stick to
-  pure const names). I'm addressing this as I go, but everything in
-  drivers/irqchip/ should be fixed in -next.
-
-The "context" part really lives in irq_domain.
-
-> But again, this seems fairly tricky to pull off given all the
-> interdependencies and we can iterate on this in the future, so this
-> seems like a good enough compromise:
-> 
-> Acked-by: Thierry Reding <treding@nvidia.com>
-
-Thanks,
-
-	M.
+-Kees
 
 -- 
-Without deviation from the norm, progress is not possible.
+Kees Cook
