@@ -2,208 +2,186 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C1E4C9006
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Mar 2022 17:15:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EE934C91B2
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Mar 2022 18:36:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233150AbiCAQQ2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Mar 2022 11:16:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42092 "EHLO
+        id S236545AbiCARhW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Mar 2022 12:37:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236083AbiCAQQT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Mar 2022 11:16:19 -0500
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0935096827;
-        Tue,  1 Mar 2022 08:15:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=ha+4JdGR01aPCEcI+dlbBNP+Ioox1ADjVil79AF8qOA=; b=zeM6jd67B0+PzUFDZuFDCJDo+G
-        Cg49AY8Id9mWUKWuqyAngYieIIp2FboCKYyppzOjnPihz278hPHJ++lE0DKlex2EPwUF1Zajlu/ms
-        XBnEf43ICpeygIBhdTORDydoKEvyc91k1FdEEFWGOMeAssgJ8kFLtFofH7c518Gn/ZM0jFxYmh6ve
-        unMAh7ZazXwuLev2KfH6v7kJwULXm1INE+4D4MxGiBgAPbf2zkugUdZlPo/wsskF9jfVWTb0pG7Qe
-        Wdf4mpQAfg9wiLSG0zFZLk/jLJGGvltwjGZGQsk5isv6+58C0dpNbKy+quBkaEmrwC45CWUgEf++6
-        IHH9vmfg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1nP59r-0003Z8-Bb; Tue, 01 Mar 2022 18:15:27 +0200
-From:   cyndis@kapsi.fi
-To:     thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
-        will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
-        krzysztof.kozlowski@canonical.com
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v4 9/9] drm/tegra: vic: Implement get_streamid_offset
-Date:   Tue,  1 Mar 2022 18:14:55 +0200
-Message-Id: <20220301161455.4037062-10-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220301161455.4037062-1-cyndis@kapsi.fi>
-References: <20220301161455.4037062-1-cyndis@kapsi.fi>
+        with ESMTP id S230313AbiCARhT (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Mar 2022 12:37:19 -0500
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A879F2F03E;
+        Tue,  1 Mar 2022 09:36:37 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 668835801CF;
+        Tue,  1 Mar 2022 12:36:34 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 01 Mar 2022 12:36:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; bh=5OE8xr6GO9X7MbNpDAcWFGeEO3b3B/8LX5WMVM
+        23luQ=; b=PuP2NuoqB9WepsjY0Uqokte1F02OSePW/KnqWPOHGfC62jDMQy8d6J
+        jihmHY7jaxPeYmV/brYSLMo2rdd0E65RFIbVZNaw+d6hF5TlV5h/HTFiyyQeuhEh
+        tTvMohVc8vJzz2F3uGXDhJ11n60AMBcwryX0OIQ4h4vBoJz9sXnQjtTWmMBfJvV8
+        ASNImP/JJmHc6aQngUkaR/9ejN6V67gkY3Ss3hOhMxZ05fa2rytR+8neryd7GnHR
+        NnoILjHkJCXbghnuIwO3WAIr0wjFgm+H99CgrlgjXtrJoB87p0eZTz8QaQ9jXLS7
+        eUmDU4ThQ2iD/GAcK9q8FPfYZ3dj5Siw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=5OE8xr6GO9X7MbNpD
+        AcWFGeEO3b3B/8LX5WMVM23luQ=; b=EDVGv6yEMy7PTbky8OfXVA9jYKh0oiM5+
+        sk6xt1CX3smAZYI0P9oaKzOCIkwMemVmh9foKoLwOV/IyVUBTTJc+ljLrovpUDdP
+        pIA4BCkMgcGpU96mM/8o9zjz4bY87GlxWmxlUETAhWUvR7QqjYOuAQqLjAz9vvM2
+        9w41DE+muRcTBgXgq7R5mX2xPAK9bu7QEmldC6d/UhIWw84PgZEMMUkVZDfimvGr
+        9rb1WTZ4HmbXffSgmjvpYAD0fz3a3kb/jxO9vzcKzkIUx9MDQUxolnVJ5gWPPm0P
+        3SACLLdt3Ji3p4//lVUF9os4MIANF8EQiUgikZ8An4R/ZWSxaE7Og==
+X-ME-Sender: <xms:oFkeYrv0LJt2Pjt0ZOYMYd1jCK6G-Z0GZXtRlOiCbijoVlbqDToesg>
+    <xme:oFkeYsdRXoRXAxTjhPFWtM5JX8rU2-dsIwxZfpFocA89gDBFD4vx9xsWmcbxEuUyQ
+    lpRakwPpYLi7A>
+X-ME-Received: <xmr:oFkeYuzzdQb5kL72Vvj74Xn0xRRyhzff8uvNHTyUqFsrLF_56anw9-ykyIbZGqAzSj0KTqXLBgC1Qf0KKdPZ7IM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddguddttdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
+    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+    hhrdgtohhm
+X-ME-Proxy: <xmx:oFkeYqNP0oPgoNRpau1EsmnsGvsi8MuHt5Oau7Uh5DcasQw65k9YTg>
+    <xmx:oFkeYr8eoBRonSMDQgE0d2CdwAX12XsrowbLGxOxF_rvtS3YwiTEgg>
+    <xmx:oFkeYqVNxx7WBcYUGhcHc73BR9KI7xEAuh9FjZrqFDwJGYsF_7MqUw>
+    <xmx:olkeYkWtK93reuC1fg-f2X2RrUvR780eGtvCg6vOtajRgdiJ73bSmQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 1 Mar 2022 12:36:31 -0500 (EST)
+Date:   Tue, 1 Mar 2022 18:36:27 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Jakob Koschel <jakobkoschel@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        samba-technical@lists.samba.org,
+        linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+        linux-arch <linux-arch@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        intel-wired-lan@lists.osuosl.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        bcm-kernel-feedback-list@broadcom.com,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergman <arnd@arndb.de>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        v9fs-developer@lists.sourceforge.net,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sgx@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux F2FS Dev Mailing List 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        tipc-discussion@lists.sourceforge.net,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        dma <dmaengine@vger.kernel.org>,
+        linux-mediatek@lists.infradead.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Message-ID: <Yh5ZmwiH5AxtQ69K@kroah.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+ <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
+ <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
+ <CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+On Tue, Mar 01, 2022 at 12:28:15PM +0100, Jakob Koschel wrote:
+> 
+> 
+> > On 1. Mar 2022, at 01:41, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> > 
+> > On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> wrote:
+> >> 
+> >> The goal of this is to get compiler warnings right? This would indeed be great.
+> > 
+> > Yes, so I don't mind having a one-time patch that has been gathered
+> > using some automated checker tool, but I don't think that works from a
+> > long-term maintenance perspective.
+> > 
+> > So if we have the basic rule being "don't use the loop iterator after
+> > the loop has finished, because it can cause all kinds of subtle
+> > issues", then in _addition_ to fixing the existing code paths that
+> > have this issue, I really would want to (a) get a compiler warning for
+> > future cases and (b) make it not actually _work_ for future cases.
+> > 
+> > Because otherwise it will just happen again.
+> > 
+> >> Changing the list_for_each_entry() macro first will break all of those cases
+> >> (e.g. the ones using 'list_entry_is_head()).
+> > 
+> > So I have no problems with breaking cases that we basically already
+> > have a patch for due to  your automated tool. There were certainly
+> > more than a handful, but it didn't look _too_ bad to just make the
+> > rule be "don't use the iterator after the loop".
+> > 
+> > Of course, that's just based on that patch of yours. Maybe there are a
+> > ton of other cases that your patch didn't change, because they didn't
+> > match your trigger case, so I may just be overly optimistic here.
+> 
+> Based on the coccinelle script there are ~480 cases that need fixing
+> in total. I'll now finish all of them and then split them by
+> submodules as Greg suggested and repost a patch set per submodule.
+> Sounds good?
 
-Implement the get_streamid_offset required for supporting context
-isolation. Since old firmware cannot support context isolation
-without hacks that we don't want to implement, check the firmware
-binary to see if context isolation should be enabled.
+Sounds good to me!
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
-v4:
-* Add locking in vic_load_firmware
-* Return -EOPNOTSUPP if context isolation is not available
-* Update for changed get_streamid_offset declaration
-* Add comment noting that vic_load_firmware is safe to call
-  without the hardware being powered on
----
- drivers/gpu/drm/tegra/vic.c | 68 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 60 insertions(+), 8 deletions(-)
+If you need help carving these up and maintaining them over time as
+different subsystem maintainers accept/ignore them, just let me know.
+Doing large patchsets like this can be tough without a lot of
+experience.
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 1e342fa3d27b..61eb0407de2a 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -38,6 +38,8 @@ struct vic {
- 	struct clk *clk;
- 	struct reset_control *rst;
- 
-+	bool can_use_context;
-+
- 	/* Platform configuration */
- 	const struct vic_config *config;
- };
-@@ -229,28 +231,38 @@ static int vic_load_firmware(struct vic *vic)
- {
- 	struct host1x_client *client = &vic->client.base;
- 	struct tegra_drm *tegra = vic->client.drm;
-+	static DEFINE_MUTEX(lock);
-+	u32 fce_bin_data_offset;
- 	dma_addr_t iova;
- 	size_t size;
- 	void *virt;
- 	int err;
- 
--	if (vic->falcon.firmware.virt)
--		return 0;
-+	mutex_lock(&lock);
-+
-+	if (vic->falcon.firmware.virt) {
-+		err = 0;
-+		goto unlock;
-+	}
- 
- 	err = falcon_read_firmware(&vic->falcon, vic->config->firmware);
- 	if (err < 0)
--		return err;
-+		goto unlock;
- 
- 	size = vic->falcon.firmware.size;
- 
- 	if (!client->group) {
- 		virt = dma_alloc_coherent(vic->dev, size, &iova, GFP_KERNEL);
--		if (!virt)
--			return -ENOMEM;
-+		if (!virt) {
-+			err = -ENOMEM;
-+			goto unlock;
-+		}
- 	} else {
- 		virt = tegra_drm_alloc(tegra, size, &iova);
--		if (IS_ERR(virt))
--			return PTR_ERR(virt);
-+		if (IS_ERR(virt)) {
-+			err = PTR_ERR(virt);
-+			goto unlock;
-+		}
- 	}
- 
- 	vic->falcon.firmware.virt = virt;
-@@ -277,7 +289,28 @@ static int vic_load_firmware(struct vic *vic)
- 		vic->falcon.firmware.phys = phys;
- 	}
- 
--	return 0;
-+	/*
-+	 * Check if firmware is new enough to not require mapping firmware
-+	 * to data buffer domains.
-+	 */
-+	fce_bin_data_offset = *(u32 *)(virt + VIC_UCODE_FCE_DATA_OFFSET);
-+
-+	if (!vic->config->supports_sid) {
-+		vic->can_use_context = false;
-+	} else if (fce_bin_data_offset != 0x0 && fce_bin_data_offset != 0xa5a5a5a5) {
-+		/*
-+		 * Firmware will access FCE through STREAMID0, so context
-+		 * isolation cannot be used.
-+		 */
-+		vic->can_use_context = false;
-+		dev_warn_once(vic->dev, "context isolation disabled due to old firmware\n");
-+	} else {
-+		vic->can_use_context = true;
-+	}
-+
-+unlock:
-+	mutex_unlock(&lock);
-+	return err;
- 
- cleanup:
- 	if (!client->group)
-@@ -285,6 +318,7 @@ static int vic_load_firmware(struct vic *vic)
- 	else
- 		tegra_drm_free(tegra, size, virt, iova);
- 
-+	mutex_unlock(&lock);
- 	return err;
- }
- 
-@@ -358,10 +392,28 @@ static void vic_close_channel(struct tegra_drm_context *context)
- 	host1x_channel_put(context->channel);
- }
- 
-+static int vic_get_streamid_offset(struct tegra_drm_client *client, u32 *offset)
-+{
-+	struct vic *vic = to_vic(client);
-+	int err;
-+
-+	/* This doesn't access HW so it's safe to call without powering up. */
-+	err = vic_load_firmware(vic);
-+	if (err < 0)
-+		return err;
-+
-+	if (!vic->can_use_context)
-+		return -EOPNOTSUPP;
-+
-+	*offset = 0x30;
-+	return 0;
-+}
-+
- static const struct tegra_drm_client_ops vic_ops = {
- 	.open_channel = vic_open_channel,
- 	.close_channel = vic_close_channel,
- 	.submit = tegra_drm_submit,
-+	.get_streamid_offset = vic_get_streamid_offset,
- };
- 
- #define NVIDIA_TEGRA_124_VIC_FIRMWARE "nvidia/tegra124/vic03_ucode.bin"
--- 
-2.35.0
+thanks,
 
+greg k-h
