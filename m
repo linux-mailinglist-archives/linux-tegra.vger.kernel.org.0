@@ -2,74 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D9B44CA867
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Mar 2022 15:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADDC54CA8C2
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Mar 2022 16:04:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243200AbiCBOqk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Mar 2022 09:46:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34884 "EHLO
+        id S243283AbiCBPFW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Mar 2022 10:05:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243136AbiCBOqj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Mar 2022 09:46:39 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203F4C627D
-        for <linux-tegra@vger.kernel.org>; Wed,  2 Mar 2022 06:45:56 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id f8so2567316edf.10
-        for <linux-tegra@vger.kernel.org>; Wed, 02 Mar 2022 06:45:56 -0800 (PST)
+        with ESMTP id S239644AbiCBPFT (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Mar 2022 10:05:19 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9DCC427C1;
+        Wed,  2 Mar 2022 07:04:35 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id m14so3314373lfu.4;
+        Wed, 02 Mar 2022 07:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=/+L2bZn7FnbIIrc4xC4DNyFnX/h+6EZYJnbtj5bZqaA=;
-        b=fGjaVmN75ZZ7sA1ZXhOG66i5chKR/xTTcWZT/g9KPyJMt+e2OJbVO2MBdJMivdmv+l
-         lAfnoo5m8yMN8QoAC78mlKrHhBcIXExq/pC0bjBA1szNZVCIcH09lDrLlgjfYYBq9gQY
-         ZAPciVsWFLcyRXGDZ16RAFNqedSIQQsvjdNqMKDKq9uiuFO3b6qK99vyg8ZigkZQuHaz
-         1qSdXE+STZifh7lsO7E0Cn5bJVgaldjgDWDnZZZciKFJzh3e6qSafybuC4YuHVNNDQ99
-         tNEQqbTwh1brCQ3Xq9RQiLSOWfXk+XFYEb0Y1cqW/sEc79waHjinhM6SFgsMhJUAt3dW
-         6JIA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PqvW/Mb3KnE9g+cGLNfX7KJR06/Flo7vnw52A4Z7zOk=;
+        b=I2TDsTdTd0t/n7WwJccRK0QUKlws/dMoPReFYNY+TJwfmf3lv1BWIf6UE8U+p2l9VY
+         NMzhepWRFqHIenxEiMLnv1Vd7THPOmiJG4sjM1LLHQ1u5KJJH23N7LqrhyLGKS0XcSBA
+         UPesRIVsqF9GI0v+PKHvCVUC3VLHmnzHo6ss2+F00nfyOUO7WLT+OZgM7Sqhp2kvxtAP
+         r5enN1xbK4KYGCdJG74/l5RKLupHYKcZ9zSvYqj1LSt65LuXrymmi7mmX2ik+qiM6edx
+         23KBrihRpcv3oxzoBrFNSCsDmZap5pABUKO0Gh+hx/j63trlK0SEMPG9mfWMiBQXSZWG
+         dfEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=/+L2bZn7FnbIIrc4xC4DNyFnX/h+6EZYJnbtj5bZqaA=;
-        b=aqVEiZ7Rj1UQd8NTr1UfgzqsYHgA234EiNfXBLOO0cO3leVu+C378X1FupQGZ0BQ0s
-         0w8A30RueOkEKeIK1yncmGyvK7PQ5ztq3E2gDLHaAXIMRl5cSVmFkVWuFNc51HTMee3M
-         SnCXg8Ch4TwqV4NFwVYR7XTZhArEgfsVvkEEz95mgsFusoZCvmxL0GIcE5rcuKrRSKps
-         M0Eaybt91thHTdU2hqG1RyCbGJNA1J7GB+SrtkueyDDIFoflDStZXKK0+rfyCYCz8iFb
-         If2+d7kp/zg3R3Tlae+j4ib9puGK1wmpcHHWfyb6BNY1q/pyxSyjo3KEDq2XAs7xh/Dt
-         cckA==
-X-Gm-Message-State: AOAM532lph1BvtsjEbpLNkwNx7MDz9knIQ+akcUcLrK8hIeKFuC8Qa0O
-        PLmuVJMdgRfSngQS4zaaSY4mvoqxk/BStuwiJTM=
-X-Google-Smtp-Source: ABdhPJxHdbLBLmNLeNmMv1+HKBMZTWhofHfYote/VqLA47MgiLFEisaNAt068V04KLcgz1aok4lMVwge1kMS3O/4F90=
-X-Received: by 2002:a05:6402:50d4:b0:413:2a27:6b56 with SMTP id
- h20-20020a05640250d400b004132a276b56mr30000802edb.228.1646232354574; Wed, 02
- Mar 2022 06:45:54 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PqvW/Mb3KnE9g+cGLNfX7KJR06/Flo7vnw52A4Z7zOk=;
+        b=ckQo4pfs8rHZk2Z1I75NaedIFamt8WD+gkpqj2xwfyb7PjFd3LO5xOWzJa/LoXmbev
+         hc0LkN41ornuaAt7BIElgnxyEf7ZI5obICDr+aMWSLLB+6n8yG8C85pUH+mUCwmyM7AE
+         WNi82rWUZJ+AddBUaZUb7senFSjhcRRlMLpj1clSU4D7v4JnG3JyWmsnZPJyCR4bSeq/
+         ATbA77kQWSVlP9jM/LWLMqdb5MPB0fWoSrwD/rJCXKRyxj8XBQi+/5XXjsQWEEY0XA69
+         sk8W1n2qvGkvMW1SFkM5yPZorDmzobu0Z9Gcw/epsxTlkX/4F7CcfWzocse3UtCZRJi9
+         ehZw==
+X-Gm-Message-State: AOAM530BLUWXiYo2N+KOjtuYijqQwSOfLJPrPgYhErq2g/kxYwem5BQN
+        V9BFWFIBLc6UYXzFxw62PeQ=
+X-Google-Smtp-Source: ABdhPJzE65q4hhTof31MlD3dDz2xv06CS0vMv25ttXIl8Oc1OSvF5ye9dTJffA3+8Kb1YG/XFtIN0Q==
+X-Received: by 2002:a05:6512:220a:b0:443:1140:7ffc with SMTP id h10-20020a056512220a00b0044311407ffcmr17905269lfu.566.1646233471382;
+        Wed, 02 Mar 2022 07:04:31 -0800 (PST)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id q11-20020ac24a6b000000b0044313bd60f8sm2086675lfp.292.2022.03.02.07.04.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 07:04:30 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Jassi Brar <jassisinghbrar@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] mailbox: tegra-hsp: Flush whole channel
+Date:   Wed,  2 Mar 2022 16:04:24 +0100
+Message-Id: <20220302150424.1305301-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Sender: elizabeth.hoisington1@gmail.com
-Received: by 2002:a50:3ac4:0:0:0:0:0 with HTTP; Wed, 2 Mar 2022 06:45:53 -0800 (PST)
-From:   Mrs Elizabeth Balkiwala <elizabeth.balkiwala1@gmail.com>
-Date:   Wed, 2 Mar 2022 06:45:53 -0800
-X-Google-Sender-Auth: Xlq5Uljr3TF0nMaW9i3nQ7jILs4
-Message-ID: <CANhm-9v+jf=kbAQ9UZx=Y=g0FSgHLcsyWprUSXmva_S9pDBXSA@mail.gmail.com>
-Subject: I AM SGT ELIZABETH
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello, Dearest Friend,
+From: Pekka Pessi <ppessi@nvidia.com>
 
-I Am Sgt Elizabeth Balkiwala, I have something important discussion
-for you, please reply
-urgently for more details give you further information. And I hereby
-advice to contact me by this email address   elizabeth.balkiwala1@gmail.com
+The txdone can re-fill the mailbox. Keep polling the mailbox during the
+flush until all the messages have been delivered.
 
-REDARDS
-Sgt. Elizabeth Balkiwala
+This fixes an issue with the Tegra Combined UART (TCU) where output can
+get truncated under high traffic load.
+
+Signed-off-by: Pekka Pessi <ppessi@nvidia.com>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Fixes: 91b1b1c3da8a ("mailbox: tegra-hsp: Add support for shared mailboxes")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+Changes in v2:
+- add Fixes: line
+- Cc stable
+
+ drivers/mailbox/tegra-hsp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index acd0675da681..78f7265039c6 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -412,6 +412,11 @@ static int tegra_hsp_mailbox_flush(struct mbox_chan *chan,
+ 		value = tegra_hsp_channel_readl(ch, HSP_SM_SHRD_MBOX);
+ 		if ((value & HSP_SM_SHRD_MBOX_FULL) == 0) {
+ 			mbox_chan_txdone(chan, 0);
++
++			/* Wait until channel is empty */
++			if (chan->active_req != NULL)
++				continue;
++
+ 			return 0;
+ 		}
+ 
+-- 
+2.35.1
+
