@@ -2,158 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A5E24CA70F
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Mar 2022 15:04:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D9B44CA867
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Mar 2022 15:45:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242658AbiCBOFD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 2 Mar 2022 09:05:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34890 "EHLO
+        id S243200AbiCBOqk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Mar 2022 09:46:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242572AbiCBOFC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Mar 2022 09:05:02 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 594DB80912
-        for <linux-tegra@vger.kernel.org>; Wed,  2 Mar 2022 06:04:13 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-196-4Li6Fux3PdyQ14Lo-DMf3A-1; Wed, 02 Mar 2022 14:04:10 +0000
-X-MC-Unique: 4Li6Fux3PdyQ14Lo-DMf3A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 2 Mar 2022 14:04:06 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 2 Mar 2022 14:04:06 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Xiaomeng Tong' <xiam0nd.tong@gmail.com>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
-CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "bcm-kernel-feedback-list@broadcom.com" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
-        "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
-        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
-        "h.j.bos@vu.nl" <h.j.bos@vu.nl>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "jakobkoschel@gmail.com" <jakobkoschel@gmail.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "kgdb-bugreport@lists.sourceforge.net" 
-        <kgdb-bugreport@lists.sourceforge.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-f2fs-devel@lists.sourceforge.net" 
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linux1394-devel@lists.sourceforge.net" 
-        <linux1394-devel@lists.sourceforge.net>,
-        "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "nathan@kernel.org" <nathan@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "tipc-discussion@lists.sourceforge.net" 
-        <tipc-discussion@lists.sourceforge.net>,
-        "v9fs-developer@lists.sourceforge.net" 
-        <v9fs-developer@lists.sourceforge.net>
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+Q
-Date:   Wed, 2 Mar 2022 14:04:06 +0000
-Message-ID: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
-References: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
- <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S243136AbiCBOqj (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Mar 2022 09:46:39 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203F4C627D
+        for <linux-tegra@vger.kernel.org>; Wed,  2 Mar 2022 06:45:56 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id f8so2567316edf.10
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Mar 2022 06:45:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=/+L2bZn7FnbIIrc4xC4DNyFnX/h+6EZYJnbtj5bZqaA=;
+        b=fGjaVmN75ZZ7sA1ZXhOG66i5chKR/xTTcWZT/g9KPyJMt+e2OJbVO2MBdJMivdmv+l
+         lAfnoo5m8yMN8QoAC78mlKrHhBcIXExq/pC0bjBA1szNZVCIcH09lDrLlgjfYYBq9gQY
+         ZAPciVsWFLcyRXGDZ16RAFNqedSIQQsvjdNqMKDKq9uiuFO3b6qK99vyg8ZigkZQuHaz
+         1qSdXE+STZifh7lsO7E0Cn5bJVgaldjgDWDnZZZciKFJzh3e6qSafybuC4YuHVNNDQ99
+         tNEQqbTwh1brCQ3Xq9RQiLSOWfXk+XFYEb0Y1cqW/sEc79waHjinhM6SFgsMhJUAt3dW
+         6JIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=/+L2bZn7FnbIIrc4xC4DNyFnX/h+6EZYJnbtj5bZqaA=;
+        b=aqVEiZ7Rj1UQd8NTr1UfgzqsYHgA234EiNfXBLOO0cO3leVu+C378X1FupQGZ0BQ0s
+         0w8A30RueOkEKeIK1yncmGyvK7PQ5ztq3E2gDLHaAXIMRl5cSVmFkVWuFNc51HTMee3M
+         SnCXg8Ch4TwqV4NFwVYR7XTZhArEgfsVvkEEz95mgsFusoZCvmxL0GIcE5rcuKrRSKps
+         M0Eaybt91thHTdU2hqG1RyCbGJNA1J7GB+SrtkueyDDIFoflDStZXKK0+rfyCYCz8iFb
+         If2+d7kp/zg3R3Tlae+j4ib9puGK1wmpcHHWfyb6BNY1q/pyxSyjo3KEDq2XAs7xh/Dt
+         cckA==
+X-Gm-Message-State: AOAM532lph1BvtsjEbpLNkwNx7MDz9knIQ+akcUcLrK8hIeKFuC8Qa0O
+        PLmuVJMdgRfSngQS4zaaSY4mvoqxk/BStuwiJTM=
+X-Google-Smtp-Source: ABdhPJxHdbLBLmNLeNmMv1+HKBMZTWhofHfYote/VqLA47MgiLFEisaNAt068V04KLcgz1aok4lMVwge1kMS3O/4F90=
+X-Received: by 2002:a05:6402:50d4:b0:413:2a27:6b56 with SMTP id
+ h20-20020a05640250d400b004132a276b56mr30000802edb.228.1646232354574; Wed, 02
+ Mar 2022 06:45:54 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Sender: elizabeth.hoisington1@gmail.com
+Received: by 2002:a50:3ac4:0:0:0:0:0 with HTTP; Wed, 2 Mar 2022 06:45:53 -0800 (PST)
+From:   Mrs Elizabeth Balkiwala <elizabeth.balkiwala1@gmail.com>
+Date:   Wed, 2 Mar 2022 06:45:53 -0800
+X-Google-Sender-Auth: Xlq5Uljr3TF0nMaW9i3nQ7jILs4
+Message-ID: <CANhm-9v+jf=kbAQ9UZx=Y=g0FSgHLcsyWprUSXmva_S9pDBXSA@mail.gmail.com>
+Subject: I AM SGT ELIZABETH
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Xiaomeng Tong
-> Sent: 02 March 2022 09:31
-> 
-> On Mon, 28 Feb 2022 16:41:04 -0800, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > But basically to _me_, the important part is that the end result is
-> > maintainable longer-term.
-> 
-> I couldn't agree more. And because of that, I stick with the following
-> approach because it's maintainable longer-term than "type(pos) pos" one:
->  Implements a new macro for each list_for_each_entry* with _inside suffix.
->   #define list_for_each_entry_inside(pos, type, head, member)
+Hello, Dearest Friend,
 
-I think that it would be better to make any alternate loop macro
-just set the variable to NULL on the loop exit.
-That is easier to code for and the compiler might be persuaded to
-not redo the test.
+I Am Sgt Elizabeth Balkiwala, I have something important discussion
+for you, please reply
+urgently for more details give you further information. And I hereby
+advice to contact me by this email address   elizabeth.balkiwala1@gmail.com
 
-It also doesn't need an extra variable defined in the for() statement
-so can be back-ported to older kernels without required declaration
-in the middle of blocks.
-
-OTOH there may be alternative definitions that can be used to get
-the compiler (or other compiler-like tools) to detect broken code.
-Even if the definition can't possibly generate a working kerrnel.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+REDARDS
+Sgt. Elizabeth Balkiwala
