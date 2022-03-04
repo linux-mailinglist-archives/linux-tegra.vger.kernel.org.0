@@ -2,71 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A92FC4CD7DA
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Mar 2022 16:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA3F4CD9FB
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Mar 2022 18:19:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240274AbiCDPda (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Mar 2022 10:33:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60536 "EHLO
+        id S240973AbiCDRUN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Mar 2022 12:20:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240328AbiCDPd3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Mar 2022 10:33:29 -0500
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0139403EB
-        for <linux-tegra@vger.kernel.org>; Fri,  4 Mar 2022 07:32:39 -0800 (PST)
-Received: by mail-ed1-x542.google.com with SMTP id x5so11193395edd.11
-        for <linux-tegra@vger.kernel.org>; Fri, 04 Mar 2022 07:32:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=VSEH8Q3Lr+Mcr/0lsL1VFPftJp7ALZ21MKYEz4sry74=;
-        b=VhWUuXiYq4fMyydPuD4+tOqa4uZV0GnfFiNbsEyBzsGSQAymWSUuJiuPv3/bfGMzb+
-         Ir3503xuMzl6IRHUQirCL8smYy6dSiwgZ2g76ntYIE9vbtq0mgh1t7POZJMpAZpacAUu
-         W2RLSd7rqAQPIu1ndH2Gt7Tnzs9ZNzVJ2GD4AzhOF0zh/vaonlyQ77G+LfejcOCc7riH
-         dkfndQWpzxBXs6VnMnYN4HgfllcxaSzymN/Dk9L2VbxolPcunibHloqaDKyb9CkWLtS1
-         l9So7YDCTJb8cWu8mmpFjztyqgxTj0jXSnXIDrOwECauQPKqdXng/a3mNzkLmEK7okoB
-         HxMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=VSEH8Q3Lr+Mcr/0lsL1VFPftJp7ALZ21MKYEz4sry74=;
-        b=VGdk5csX7znMDlt5w4Kr96uFPonhAXmMOCTyYRUpuAkYkV7al8Efl3EvLvx4XhfkmX
-         oeDcqcfomX0UEHSpbXqEgpoDyTkP37AGB606h8yYLWM/IGA9KG1rBW7DIaPqzFP3dr4+
-         SC0Yk9auDDhr2BmPhzgEPuLp+BMYA23/y6IED1UXePVjBNVbt3MXTj8h88QOBhj1BXTY
-         r5+82ujNFq3veKeeaItPAa46Cqnv4HgBaHV5QSXvrLMLscEoDtLXuSWWY61oSdaR1GAy
-         UygxgS/R5SsEjSprr3rbzbGmpZ/bp9H2Dw24a8PfutU3L5HZMV0ukASwTD1YDN7vyD/T
-         MkVg==
-X-Gm-Message-State: AOAM533isZ29XtMYNQKUNEksmxeuSsA7YKG+Gmio8sD2boidQHsJi6x6
-        DC8RZnFZbJ1URw79W56HeCpYG9IU8Xuxl8JeZcQ=
-X-Google-Smtp-Source: ABdhPJwqu5AOBSoGCP5RoOGmEL9pJgzp+Px5HqqmmB4uSQ9T2MsWH+pgl8bj71RS+oa0M33TTIy0mGAyvz66WBslCeI=
-X-Received: by 2002:a50:d7c1:0:b0:415:e599:416c with SMTP id
- m1-20020a50d7c1000000b00415e599416cmr7504064edj.37.1646407957538; Fri, 04 Mar
- 2022 07:32:37 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a54:3cc8:0:0:0:0:0 with HTTP; Fri, 4 Mar 2022 07:32:36 -0800 (PST)
-Reply-To: christopherdaniel830@gmail.com
-From:   Christopher Daniel <cd01100222@gmail.com>
-Date:   Fri, 4 Mar 2022 15:32:36 +0000
-Message-ID: <CAO=CV9J7j46hj4cyG3NsM0WGGw_nLS6nWoh-qBM=XKm36+eqbw@mail.gmail.com>
-Subject: Investment Funding
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+        with ESMTP id S240974AbiCDRUM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Mar 2022 12:20:12 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDA91451C2;
+        Fri,  4 Mar 2022 09:19:23 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0A0D7B82AC7;
+        Fri,  4 Mar 2022 17:19:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA34AC340F1;
+        Fri,  4 Mar 2022 17:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646414360;
+        bh=MaF5anHurB1xUF2NaRcNb2bM5G1HoBIKDIJkPgP80kA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ooK74z0tQ6mby+x2Ja2LiccQRUg7Y74ztqDw28vi8MoFDiuwe/WFW0JroTKEHQ5LB
+         PB2gKNQ+zAtUpIpZtI5oXJKf49Gw1uOHDjoKukMWfEnr9Ei4fHHCQzL38M9vy88Cgl
+         J8scrSTHTInFgSEW88Z+wzuRV56Tk5dXgHJ/M/YgURxGibY6IdUviyEcAbPJcENgto
+         vvx6C9V7T+TEi5jEOGa8u/0qNqZrAHrNVzdIN6U8+OSqDsOzcxy0lyhJ544auCWDNm
+         M5QLrhia9T0ZEAcXfLBsI09tS77UPFJGAJNPsQjZTVhv4TTDa9bPtZ5C2SR6JGXNqW
+         6vOyJ9DYRQQuw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nQBaI-00CHlw-7o; Fri, 04 Mar 2022 17:19:18 +0000
+Date:   Fri, 04 Mar 2022 17:19:17 +0000
+Message-ID: <87ilst1vqi.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 0/5] gpiolib: Handle immutable irq_chip structures
+In-Reply-To: <371a530ea9ae8c58bf13ac16d1f2cd3c@kernel.org>
+References: <20220223154405.54912-1-maz@kernel.org>
+        <Yhe1Cxdn8t3oVxMZ@orome>
+        <371a530ea9ae8c58bf13ac16d1f2cd3c@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: thierry.reding@gmail.com, linux-kernel@vger.kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl, joey.gouly@arm.com, jonathanh@nvidia.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, bjorn.andersson@linaro.org, agross@kernel.org, tglx@linutronix.de, linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-.
-I wish to invite you to participate in our Investment Funding Program,
-get back to me for more details if interested please.
+On Thu, 24 Feb 2022 17:42:02 +0000,
+Marc Zyngier <maz@kernel.org> wrote:
+> 
+> On 2022-02-24 16:40, Thierry Reding wrote:
+> > On Wed, Feb 23, 2022 at 03:44:00PM +0000, Marc Zyngier wrote:
+> >> I recently realised that the gpiolib play ugly tricks on the
+> >> unsuspecting irq_chip structures by patching the callbacks.
+> >> 
+> >> Not only this breaks when an irq_chip structure is made const (which
+> >> really should be the default case), but it also forces this structure
+> >> to be copied at nauseam for each instance of the GPIO block, which is
+> >> a waste of memory.
+> >> 
+> >> My current approach is to add a new irq_chip flag (IRQCHIP_IMMUTABLE)
+> >> which does what it says on the tin: don't you dare writing there.
+> >> Gpiolib is further updated not to install its own callbacks, and it
+> >> becomes the responsibility of the driver to call into the gpiolib when
+> >> required. This is similar to what we do for other subsystems such as
+> >> PCI-MSI.
+> >> 
+> >> 3 drivers are updated to this new model: M1, QC and Tegra, as I
+> >> actively use them (though Tegra is hosed at the moment), keeping a
+> > 
+> > Hosed in what way? Anything I can help with?
+> 
+> Tegra186 doesn't boot as host1x is been broken since -rc1.
+> 
+> I have been carrying this[1] patch which has been in -next for
+> some time, but still not merged AFAICS.
 
-Regards.
-Christopher Daniel.
+Looks like it finally made it -rc6.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
