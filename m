@@ -2,55 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 526C44D8965
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Mar 2022 17:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3216A4D8A0B
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Mar 2022 17:44:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243220AbiCNQgc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Mar 2022 12:36:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44986 "EHLO
+        id S243371AbiCNQg7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Mar 2022 12:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243174AbiCNQgb (ORCPT
+        with ESMTP id S243208AbiCNQgc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Mar 2022 12:36:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2694F13F83;
-        Mon, 14 Mar 2022 09:35:14 -0700 (PDT)
+        Mon, 14 Mar 2022 12:36:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A371120F4C;
+        Mon, 14 Mar 2022 09:35:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A046F61423;
-        Mon, 14 Mar 2022 16:35:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2FDCC341C5;
-        Mon, 14 Mar 2022 16:35:07 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 565F26146E;
+        Mon, 14 Mar 2022 16:35:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04E73C36B01;
+        Mon, 14 Mar 2022 16:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647275707;
-        bh=nCb6VTUEtdsePK0bUTAcUuP2A2YISDJ4E2NIfYNtHCE=;
+        s=k20201202; t=1647275709;
+        bh=T57cdHFeL3LWNWdKjdqbrP5DRLKf48B5lP10MQxta4Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D8OVrzUdGIIzupm/LVYaTEBcCaaAMOTrkByom9KYTx0FDp5+9qo+Rbn1RDIspTfhM
-         zTInEbm53K7XxFjy+k5+iGM2U445Rp64h1CSifv3nTJcpNBCNMU4g6JE7Bymfde6G5
-         LjfxSnJNOkcFakfQ/KKolsIb8/RQZB7p4+3FIwnCMsqbqOSaMuL4Kxd0rwd3/JwLq+
-         BRgl4opU2sTaTDpy4qEl5hpoIhArBHONnrjmeRf22tcyQr1rDQA74VjXpa4q+VJjgr
-         yaUbe4kajQx42ne6YIe/NDJm9B5bAwiKEn44iP1nV0mSG3AX2edDGiyulpDRMaYNJO
-         WH5phQt/C49Sg==
+        b=P38JNHCw6/RaFpUjGAL9tSukthJRgzQU8X9RqyE2gb1ZQQRJtOFty7ALkniON6qjq
+         GdXL6cdObfI5sETUqSmLineXp149mJK8kDCkgFgBS5EWaJ8xUT18ki5993TU3NS1/p
+         dwXQHBZ/xt/ahdZ0/muKO0PW+XqEZ2AYZF7ufz86UgLtwckav8hbIKwHynT0CHxIgH
+         KQPoE38ZbYEQ6pykfaXp7/mX/SJun09ALdAHCJZZ5VLLuWO6SpucbOX36FeJcLWw9w
+         X3ZOFaD0ztXxMe4r8V4zAQquqslAYNOQHJBOkBf28jxcmZ5xK+N/LAObqzY5RB2U8y
+         5DMJeMI2W4eQQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1nTnez-001wy3-PH; Mon, 14 Mar 2022 17:35:05 +0100
+        id 1nTnf0-001wzE-Py; Mon, 14 Mar 2022 17:35:06 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         Dmitry Osipenko <digetx@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Ming Qian <ming.qian@nxp.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Yang Yingliang <yangyingliang@huawei.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v2 30/67] media: platform: vde: move config to its own file
-Date:   Mon, 14 Mar 2022 17:34:25 +0100
-Message-Id: <d77d3b21c933ebbbff1874b2638559750b53d60a.1647274406.git.mchehab@kernel.org>
+Subject: [PATCH v2 48/67] media: platform: rename tegra/vde/ to nvidia/tegra-vde/
+Date:   Mon, 14 Mar 2022 17:34:43 +0100
+Message-Id: <da4cde4f2787b70d3425e5e43464eac38fc3c1bf.1647274407.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1647274406.git.mchehab@kernel.org>
 References: <cover.1647274406.git.mchehab@kernel.org>
@@ -67,81 +74,149 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-In order to better organize the platform/Kconfig, place
-vde-specific config stuff on a separate Kconfig file.
+As the end goal is to have platform drivers split by vendor,
+rename tegra/vde/ to nvidia/tegra-vde/.
 
-Acked-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/67] at: https://lore.kernel.org/all/cover.1647274406.git.mchehab@kernel.org/
 
- drivers/media/platform/Kconfig           | 19 +------------------
- drivers/media/platform/tegra/vde/Kconfig | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+), 18 deletions(-)
- create mode 100644 drivers/media/platform/tegra/vde/Kconfig
+ MAINTAINERS                                                    | 2 +-
+ drivers/media/platform/Kconfig                                 | 2 +-
+ drivers/media/platform/Makefile                                | 2 +-
+ drivers/media/platform/nvidia/Makefile                         | 3 +++
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/Kconfig | 0
+ .../media/platform/{tegra/vde => nvidia/tegra-vde}/Makefile    | 0
+ .../platform/{tegra/vde => nvidia/tegra-vde}/dmabuf-cache.c    | 0
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/h264.c  | 0
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/iommu.c | 0
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/trace.h | 2 +-
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/v4l2.c  | 0
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.c   | 0
+ drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.h   | 0
+ 13 files changed, 7 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/media/platform/nvidia/Makefile
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/Kconfig (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/Makefile (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/dmabuf-cache.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/h264.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/iommu.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/trace.h (97%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/v4l2.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.h (100%)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f29195850c16..c9333d46047e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11964,7 +11964,7 @@ L:	linux-tegra@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
+-F:	drivers/media/platform/tegra/vde/
++F:	drivers/media/platform/nvidia/tegra-vde/
+ 
+ MEDIA DRIVERS FOR RENESAS - CEU
+ M:	Jacopo Mondi <jacopo@jmondi.org>
 diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 224ebe4f5348..b0acbf3ccb69 100644
+index 61240f8226bb..13d8f3e59116 100644
 --- a/drivers/media/platform/Kconfig
 +++ b/drivers/media/platform/Kconfig
-@@ -65,6 +65,7 @@ source "drivers/media/platform/sti/hva/Kconfig"
+@@ -83,6 +83,7 @@ source "drivers/media/platform/mediatek/mtk-jpeg/Kconfig"
+ source "drivers/media/platform/mediatek/mtk-mdp/Kconfig"
+ source "drivers/media/platform/mediatek/mtk-vcodec/Kconfig"
+ source "drivers/media/platform/mediatek/mtk-vpu/Kconfig"
++source "drivers/media/platform/nvidia/tegra-vde/Kconfig"
+ source "drivers/media/platform/nxp/Kconfig"
+ source "drivers/media/platform/omap/Kconfig"
+ source "drivers/media/platform/omap3isp/Kconfig"
+@@ -95,7 +96,6 @@ source "drivers/media/platform/s5p-jpeg/Kconfig"
+ source "drivers/media/platform/s5p-mfc/Kconfig"
+ source "drivers/media/platform/sti/Kconfig"
  source "drivers/media/platform/stm32/Kconfig"
- source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
- source "drivers/media/platform/sunxi/sun8i-rotate/Kconfig"
-+source "drivers/media/platform/tegra/vde/Kconfig"
- 
- config VIDEO_MUX
- 	tristate "Video Multiplexer"
-@@ -232,24 +233,6 @@ config VIDEO_TI_VPE_DEBUG
- 	help
- 	  Enable debug messages on VPE driver.
- 
--config VIDEO_TEGRA_VDE
--	tristate "NVIDIA Tegra Video Decoder Engine driver"
--	depends on V4L_MEM2MEM_DRIVERS
--	depends on ARCH_TEGRA || COMPILE_TEST
--	depends on VIDEO_DEV && VIDEO_V4L2
--	select DMA_SHARED_BUFFER
--	select IOMMU_IOVA
--	select MEDIA_CONTROLLER
--	select MEDIA_CONTROLLER_REQUEST_API
--	select SRAM
--	select VIDEOBUF2_DMA_CONTIG
--	select VIDEOBUF2_DMA_SG
--	select V4L2_H264
--	select V4L2_MEM2MEM_DEV
--	help
--	   Support for the NVIDIA Tegra video decoder unit.
--	   To compile this driver as a module choose m here.
--
- # TI VIDEO PORT Helper Modules
- # These will be selected by VPE and VIP
- config VIDEO_TI_VPDMA
-diff --git a/drivers/media/platform/tegra/vde/Kconfig b/drivers/media/platform/tegra/vde/Kconfig
+-source "drivers/media/platform/tegra/vde/Kconfig"
+ source "drivers/media/platform/ti-vpe/Kconfig"
+ source "drivers/media/platform/via/Kconfig"
+ source "drivers/media/platform/xilinx/Kconfig"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 88519e902919..ce9909534218 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -23,6 +23,7 @@ obj-y += mediatek/mtk-jpeg/
+ obj-y += mediatek/mtk-mdp/
+ obj-y += mediatek/mtk-vcodec/
+ obj-y += mediatek/mtk-vpu/
++obj-y += nvidia/tegra-vde/
+ obj-y += nxp/
+ obj-y += omap/
+ obj-y += omap3isp/
+@@ -40,7 +41,6 @@ obj-y += sti/c8sectpfe/
+ obj-y += sti/delta/
+ obj-y += sti/hva/
+ obj-y += stm32/
+-obj-y += tegra/vde/
+ obj-y += ti-vpe/
+ obj-y += via/
+ obj-y += xilinx/
+diff --git a/drivers/media/platform/nvidia/Makefile b/drivers/media/platform/nvidia/Makefile
 new file mode 100644
-index 000000000000..584b78d8d66c
+index 000000000000..428415ff83de
 --- /dev/null
-+++ b/drivers/media/platform/tegra/vde/Kconfig
-@@ -0,0 +1,17 @@
-+config VIDEO_TEGRA_VDE
-+	tristate "NVIDIA Tegra Video Decoder Engine driver"
-+	depends on V4L_MEM2MEM_DRIVERS
-+	depends on ARCH_TEGRA || COMPILE_TEST
-+	depends on VIDEO_DEV && VIDEO_V4L2
-+	select DMA_SHARED_BUFFER
-+	select IOMMU_IOVA
-+	select MEDIA_CONTROLLER
-+	select MEDIA_CONTROLLER_REQUEST_API
-+	select SRAM
-+	select VIDEOBUF2_DMA_CONTIG
-+	select VIDEOBUF2_DMA_SG
-+	select V4L2_H264
-+	select V4L2_MEM2MEM_DEV
-+	help
-+	   Support for the NVIDIA Tegra video decoder unit.
-+	   To compile this driver as a module choose m here.
++++ b/drivers/media/platform/nvidia/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++obj-y += tegra-vde/
+diff --git a/drivers/media/platform/tegra/vde/Kconfig b/drivers/media/platform/nvidia/tegra-vde/Kconfig
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/Kconfig
+rename to drivers/media/platform/nvidia/tegra-vde/Kconfig
+diff --git a/drivers/media/platform/tegra/vde/Makefile b/drivers/media/platform/nvidia/tegra-vde/Makefile
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/Makefile
+rename to drivers/media/platform/nvidia/tegra-vde/Makefile
+diff --git a/drivers/media/platform/tegra/vde/dmabuf-cache.c b/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/dmabuf-cache.c
+rename to drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
+diff --git a/drivers/media/platform/tegra/vde/h264.c b/drivers/media/platform/nvidia/tegra-vde/h264.c
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/h264.c
+rename to drivers/media/platform/nvidia/tegra-vde/h264.c
+diff --git a/drivers/media/platform/tegra/vde/iommu.c b/drivers/media/platform/nvidia/tegra-vde/iommu.c
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/iommu.c
+rename to drivers/media/platform/nvidia/tegra-vde/iommu.c
+diff --git a/drivers/media/platform/tegra/vde/trace.h b/drivers/media/platform/nvidia/tegra-vde/trace.h
+similarity index 97%
+rename from drivers/media/platform/tegra/vde/trace.h
+rename to drivers/media/platform/nvidia/tegra-vde/trace.h
+index 77358ddfdb8f..7853ab095ca4 100644
+--- a/drivers/media/platform/tegra/vde/trace.h
++++ b/drivers/media/platform/nvidia/tegra-vde/trace.h
+@@ -90,6 +90,6 @@ TRACE_EVENT(vde_ref_l1,
+ 
+ /* This part must be outside protection */
+ #undef TRACE_INCLUDE_PATH
+-#define TRACE_INCLUDE_PATH ../../drivers/media/platform/tegra/vde
++#define TRACE_INCLUDE_PATH ../../drivers/media/platform/nvidia/tegra-vde
+ #define TRACE_INCLUDE_FILE trace
+ #include <trace/define_trace.h>
+diff --git a/drivers/media/platform/tegra/vde/v4l2.c b/drivers/media/platform/nvidia/tegra-vde/v4l2.c
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/v4l2.c
+rename to drivers/media/platform/nvidia/tegra-vde/v4l2.c
+diff --git a/drivers/media/platform/tegra/vde/vde.c b/drivers/media/platform/nvidia/tegra-vde/vde.c
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/vde.c
+rename to drivers/media/platform/nvidia/tegra-vde/vde.c
+diff --git a/drivers/media/platform/tegra/vde/vde.h b/drivers/media/platform/nvidia/tegra-vde/vde.h
+similarity index 100%
+rename from drivers/media/platform/tegra/vde/vde.h
+rename to drivers/media/platform/nvidia/tegra-vde/vde.h
 -- 
 2.35.1
 
