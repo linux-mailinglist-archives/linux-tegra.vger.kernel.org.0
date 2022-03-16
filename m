@@ -2,401 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B98994DB06C
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Mar 2022 14:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6EE54DB205
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Mar 2022 14:58:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356029AbiCPNLG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Mar 2022 09:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34362 "EHLO
+        id S1356257AbiCPOAJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Mar 2022 10:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356028AbiCPNLC (ORCPT
+        with ESMTP id S1356209AbiCPOAA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Mar 2022 09:11:02 -0400
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC7F2517D0
-        for <linux-tegra@vger.kernel.org>; Wed, 16 Mar 2022 06:09:47 -0700 (PDT)
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id C3CE93FFD0
-        for <linux-tegra@vger.kernel.org>; Wed, 16 Mar 2022 13:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1647436182;
-        bh=6buNgqXKuTIK0OEEUZmjCOdqOJvc51crYNUQ2Eoq2ss=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version;
-        b=bMLTJOSmNbQO/rG/SNMR5QUKJKKPeYAs7l+jkoDses6lIPD3kTZnGOqNOiXfrpp0O
-         IgETsr2ptg3u4XCmbcCbtOfuvsxhg8iQa/TZ1Wl64bUL5yr6dOokmhKWtPpDjsTFob
-         ikbig8IRC144cdbRnlB4BLypJcm+6YbYB2Gjy4zeTOeCbJvYhhOAPTFD1HB4ybauCj
-         2Y0cChCp0bnCWTQDeZpqWMG8XxLAKUue3Q6rpmlLmVxyHKByDE+awk1TqGDF9P00Uu
-         10jZ7NkbIWqbHs7sDw85mHC/U3qAGvIGAOuM5S5vAZGjGoAg4kuAkS8PdLzhxZo8QO
-         jiW2BKjivQ6NA==
-Received: by mail-ed1-f69.google.com with SMTP id l24-20020a056402231800b00410f19a3103so1295561eda.5
-        for <linux-tegra@vger.kernel.org>; Wed, 16 Mar 2022 06:09:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6buNgqXKuTIK0OEEUZmjCOdqOJvc51crYNUQ2Eoq2ss=;
-        b=k213ZKQBPluwR9uqwDAon+7ySdNBTmL2MPJIqZ9hT1AImZ1xlPPAPjrGnGbSk69yz1
-         fLx691yjxEAtCyaQ/8YWkmr4/FQFSVTTEnjzn6PKZ1DnPQxHlAeHKr5u+pCqcbJ8dfw+
-         tufqZVPCZpv/hnQICdACr0D8TUnlJfOZUJQbcVNhP04/mpsuJ72fnQqFZayvHv6Lqvjo
-         tq/HD18CA8wIK76rLRsDVS2/9NIMs96iYn7mvmZmdbF5LblX6zZl0onztlixPopqBUWM
-         iftz6VJfxoRzXiZYgC9vfJL9C1pq0OM2i0D2kpjQPzdtlYFBK9aUvFMX2/+U0QxnJsNT
-         sNYw==
-X-Gm-Message-State: AOAM532jPjLkJg5pTPG+sP+V6IerkHbCAXYmB0OWIPrAZt9zjZ2rk0qL
-        8MiJHiJG364KWj0+QN3jTdYa/cyNlHH6JHcVTiNUk3HaNsOkO7kaRg0iLtmtqBOgk9zWXKICQ3J
-        hls24Oy/f1H8+R6oyuXOG77VwUMUK0E91SAJAaVOA
-X-Received: by 2002:aa7:cc0a:0:b0:413:a674:7d33 with SMTP id q10-20020aa7cc0a000000b00413a6747d33mr29723841edt.369.1647436180047;
-        Wed, 16 Mar 2022 06:09:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyim8NETeRi+Zvp+kpoVLjCmRXFOsByWKIpY1XFTnmnuldn3SdJfreUnBA33hXos4Aihh+D3w==
-X-Received: by 2002:aa7:cc0a:0:b0:413:a674:7d33 with SMTP id q10-20020aa7cc0a000000b00413a6747d33mr29723811edt.369.1647436179759;
-        Wed, 16 Mar 2022 06:09:39 -0700 (PDT)
-Received: from localhost.localdomain (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id mp33-20020a1709071b2100b006db6dea7f9dsm861597ejc.168.2022.03.16.06.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 06:09:38 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Alexander Shiyan <shc_work@mail.ru>,
-        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
-        "A.s. Dong" <aisheng.dong@nxp.com>,
-        Giulio Benetti <giulio.benetti@benettiengineering.com>,
-        Jesse Taube <Mr.Bossman075@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org
-Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH 2/2] dt-bindings: clock: drop useless consumer example
-Date:   Wed, 16 Mar 2022 14:08:58 +0100
-Message-Id: <20220316130858.93455-2-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220316130858.93455-1-krzysztof.kozlowski@canonical.com>
-References: <20220316130858.93455-1-krzysztof.kozlowski@canonical.com>
+        Wed, 16 Mar 2022 10:00:00 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B877F6543A;
+        Wed, 16 Mar 2022 06:58:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LqcvaeFwcvuCRpNc1cRiRk61DK1/eSKS0fzuG0lLLSg+KXVmO/de3IgUR67M71LI9zkEhyFYHp82+RH4z9EvG+iLffewIEvzPkZQlnQOE8FPyRlTrh0Rw678VHSOTL4TllVej95F1c7ThKdcsfvP9jvqHOLYjalVEQuw58EQ5VrSlzX6+IvGeRP0/kKOkOLY37VpOgfowRxPBfrHgri+jEgRLxTNgtfAYgCOzNVxogyAH8AG1vRYC30uE8Mw3dOCCVHLXUS6pCBGccxYUWtmmRDCc+H8doZoj8+SohKkbw167wnlK5aQ2Nbcow0PaQQQxf4WvwgFz7VrUy78qmj7xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dKtY4QpIi5R1l4CR9iSY25rzi84WqYjzvyStnU/1GMI=;
+ b=TCnZfQq4vznto2qzbWg2gbhevnNlcqtxxHT7tknVDOByK38CMIBX9IGdSXC1D8V1oqQY1pC1e7fc7fKjJoH9Ax4myNL0TBB2CKtHFpwZmiLqCWAlCeFCD6Ha1fqyiOZEqykMfhyLB5T2vsbHvVJMZIrrXksoDdsP1dSEXHafCAcefcd4RkFqXGU4i838kxPDAZLdrhSbGgEG38+uGREV88sxet/4SOPEi4Emt6dWcfM9VhDlD5Iw8b9ux+qrJY1WXkNud6FpaHqKHGb6quHa1JcnwXeWQJbgFc+lkchd+VBLo9lZiIov3ar1Zy4E+m8HQ+2YCbpz/JgDPWXyuY2Fzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dKtY4QpIi5R1l4CR9iSY25rzi84WqYjzvyStnU/1GMI=;
+ b=Vg2AZ4cz+bSrOoX36EKOSHEdbkLtlIXHCT15TpG06A938OkWIsHU5fJaV/14on6nGFCUJwhIiXsDqP1Me7EeXe7lvYZScwnjp3S4zfjJY/TixVrAJn+ljNui6ehRMCwrWj3I3ZPbUInkpWOK9Byxwx9ks4H7pti00do7eiWGlEOE/aYQAUcTVe0y47lBQS9nYsEQsbhxhGkJDJtOy0V2bjJzX8nMSwdQ9q/Rl5YMEsqGlF7LbIpx9gMy7LTZkQUaxtVvLil6jfVaNgGOnOTZgwzEvshqDtN31j1Kh6gbTbaUz99llpFB45t4XxKpPFzLvE2SUmMI2K8iaY6FVD70uw==
+Received: from MW4P221CA0015.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::20)
+ by MWHPR12MB1135.namprd12.prod.outlook.com (2603:10b6:300:e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
+ 2022 13:58:43 +0000
+Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::5a) by MW4P221CA0015.outlook.office365.com
+ (2603:10b6:303:8b::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.20 via Frontend
+ Transport; Wed, 16 Mar 2022 13:58:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5081.14 via Frontend Transport; Wed, 16 Mar 2022 13:58:43 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 16 Mar
+ 2022 13:58:43 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 16 Mar
+ 2022 06:58:41 -0700
+Received: from sumitg-l4t.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.986.22 via Frontend
+ Transport; Wed, 16 Mar 2022 06:58:37 -0700
+From:   Sumit Gupta <sumitg@nvidia.com>
+To:     <rafael@kernel.org>, <viresh.kumar@linaro.org>,
+        <robh+dt@kernel.org>, <krzk+dt@kernel.org>, <treding@nvidia.com>,
+        <jonathanh@nvidia.com>, <linux-pm@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>, <bbasu@nvidia.com>,
+        <sumitg@nvidia.com>
+Subject: [Patch v1 0/3] Tegra234 cpufreq driver support
+Date:   Wed, 16 Mar 2022 19:28:28 +0530
+Message-ID: <20220316135831.900-1-sumitg@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec75e8d5-3911-4abf-289d-08da07551550
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1135:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB113596E607B12FC584FCA646B9119@MWHPR12MB1135.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rHMue9I8QUYZh0eeHYNdhA+UKGr4Bxkuw+r0daIlg4TBQ0KAEvGQfMROMdbGCITNQ0WGamgjG6osucscPxDjDs8ipdrnVwnHb9zaWv7a2yRSOuWnzuYPbDnnaEjxb6O5tKU3j83aFIklEC6lWHo2gX4brLf7nCNG3qR0T3WmX/cT9V3uLlrXuFaYKIIo6qOUuAtV0+n9ztKOkixJsZSqYw11/ATYjil1vFO7ijdKMUOLrNrVQo3x+qLCfGrgK+haDB7zR/WyCOn1a20wvs345x5jUcsdsCuCyH0DBC+5wf58LyeFKWZ98OlisFKPpS9hIMfqoHQNoXTIMVLak0dwEUwgkVFqmqIHWoVmaJhpWZGMU6XfgbOg9ul/DNFCLto/wHLOHTgbzGM97Z8V1FHhR3RzU+GDqil4RUuISpLKonnUwXVnqtLqmg5ZSjNBHSLfL78P7QtRqICXuDWNmIpKAYrUCXgsChP7mey/4fPzIzgtkLpvDj0eOe2ZsO8FsxOeEcmZF7Tj6OWVlfrfJGKmlJEA7Dc3g5o12xhURGpnFVxyjVfb+gGeKCnjcuhO5LQ+Q4Ky3XB7OjJojfW83u8T6JauhwvaYkYpCYBzVWYZTAi9yPhB/MZTNVPYu39g4h+i3tMhCAgPPhM4scOGA9xrbcY3eeLghUxEfh7cZrGKeot0kMrtUXiuKbY2SJN7/PRSrLcUYHvhS+/hCX66IvIhZ7z4QTV9hnHqazEQUDTtT1g=
+X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(54906003)(110136005)(36756003)(36860700001)(2906002)(47076005)(40460700003)(8676002)(7696005)(316002)(356005)(70206006)(70586007)(107886003)(8936002)(336012)(81166007)(2616005)(6666004)(921005)(426003)(1076003)(186003)(26005)(4326008)(82310400004)(4744005)(5660300002)(83380400001)(508600001)(86362001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 13:58:43.6598
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec75e8d5-3911-4abf-289d-08da07551550
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1135
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Consumer examples in the bindings of resource providers are trivial,
-useless and duplication of code.  Remove the example code for consumer
+This patchset adds driver support for Tegra234 cpufreq.
+Also, added soc data and ops to support multiple SoC's and variants
+which have similar logic to {get|set} cpu frequency as Tegra194 in
+the same driver.
+From cpufreq point, main difference between Tegra194 and Tegra234 are:
+ 1) Tegra234 uses MMIO for frequency requests and not sysreg like T194.
+ 2) MPIDR affinity info in Tegra234 is different from Tegra194.
+ 3) Register bits of pllp_clk_count and core_clk_count are swapped.
+So, added ops hooks for Tegra234.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- .../bindings/clock/bitmain,bm1880-clk.yaml           | 12 ------------
- .../devicetree/bindings/clock/idt,versaclock5.yaml   |  7 -------
- .../devicetree/bindings/clock/imx1-clock.yaml        |  9 ---------
- .../devicetree/bindings/clock/imx21-clock.yaml       |  9 ---------
- .../devicetree/bindings/clock/imx23-clock.yaml       |  9 ---------
- .../devicetree/bindings/clock/imx25-clock.yaml       |  8 --------
- .../devicetree/bindings/clock/imx27-clock.yaml       |  9 ---------
- .../devicetree/bindings/clock/imx28-clock.yaml       |  9 ---------
- .../devicetree/bindings/clock/imx31-clock.yaml       |  8 --------
- .../devicetree/bindings/clock/imx35-clock.yaml       |  8 --------
- .../devicetree/bindings/clock/imx7ulp-pcc-clock.yaml | 11 -----------
- .../devicetree/bindings/clock/imx7ulp-scg-clock.yaml | 11 -----------
- .../devicetree/bindings/clock/imx8qxp-lpcg.yaml      | 11 -----------
- .../devicetree/bindings/clock/imxrt1050-clock.yaml   |  8 --------
- .../bindings/clock/nvidia,tegra124-car.yaml          |  7 -------
- .../bindings/clock/nvidia,tegra20-car.yaml           |  7 -------
- 16 files changed, 143 deletions(-)
+Sumit Gupta (3):
+  cpufreq: tegra194: add soc data to support multiple soc
+  arm64: tegra: add node for tegra234 cpufreq
+  cpufreq: tegra194: Add support for Tegra234
 
-diff --git a/Documentation/devicetree/bindings/clock/bitmain,bm1880-clk.yaml b/Documentation/devicetree/bindings/clock/bitmain,bm1880-clk.yaml
-index 228c9313df53..f0f9392470a6 100644
---- a/Documentation/devicetree/bindings/clock/bitmain,bm1880-clk.yaml
-+++ b/Documentation/devicetree/bindings/clock/bitmain,bm1880-clk.yaml
-@@ -61,16 +61,4 @@ examples:
-         #clock-cells = <1>;
-     };
- 
--  # Example UART controller node that consumes clock generated by the clock controller:
--  - |
--    uart0: serial@58018000 {
--         compatible = "snps,dw-apb-uart";
--         reg = <0x58018000 0x2000>;
--         clocks = <&clk 45>, <&clk 46>;
--         clock-names = "baudclk", "apb_pclk";
--         interrupts = <0 9 4>;
--         reg-shift = <2>;
--         reg-io-width = <4>;
--    };
--
- ...
-diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-index ffd6ae0eed64..be66f1e8b547 100644
---- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-+++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-@@ -191,11 +191,4 @@ examples:
-         };
-     };
- 
--    /* Consumer referencing the 5P49V5923 pin OUT1 */
--    consumer {
--        /* ... */
--        clocks = <&vc5 1>;
--        /* ... */
--    };
--
- ...
-diff --git a/Documentation/devicetree/bindings/clock/imx1-clock.yaml b/Documentation/devicetree/bindings/clock/imx1-clock.yaml
-index f4833a29b79e..56f524780b1a 100644
---- a/Documentation/devicetree/bindings/clock/imx1-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx1-clock.yaml
-@@ -40,12 +40,3 @@ examples:
-         compatible = "fsl,imx1-ccm";
-         reg = <0x0021b000 0x1000>;
-     };
--
--    pwm@208000 {
--        #pwm-cells = <2>;
--        compatible = "fsl,imx1-pwm";
--        reg = <0x00208000 0x1000>;
--        interrupts = <34>;
--        clocks = <&clks IMX1_CLK_DUMMY>, <&clks IMX1_CLK_PER1>;
--        clock-names = "ipg", "per";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx21-clock.yaml b/Documentation/devicetree/bindings/clock/imx21-clock.yaml
-index 518ad9a4733c..e2d50544700a 100644
---- a/Documentation/devicetree/bindings/clock/imx21-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx21-clock.yaml
-@@ -40,12 +40,3 @@ examples:
-         reg = <0x10027000 0x800>;
-         #clock-cells = <1>;
-     };
--
--    serial@1000a000 {
--        compatible = "fsl,imx21-uart";
--        reg = <0x1000a000 0x1000>;
--        interrupts = <20>;
--        clocks = <&clks IMX21_CLK_UART1_IPG_GATE>,
--                 <&clks IMX21_CLK_PER1>;
--        clock-names = "ipg", "per";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx23-clock.yaml b/Documentation/devicetree/bindings/clock/imx23-clock.yaml
-index 5e296a00e14f..7e890ab9c77d 100644
---- a/Documentation/devicetree/bindings/clock/imx23-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx23-clock.yaml
-@@ -83,12 +83,3 @@ examples:
-         reg = <0x80040000 0x2000>;
-         #clock-cells = <1>;
-     };
--
--    serial@8006c000 {
--        compatible = "fsl,imx23-auart";
--        reg = <0x8006c000 0x2000>;
--        interrupts = <24>;
--        clocks = <&clks 32>;
--        dmas = <&dma_apbx 6>, <&dma_apbx 7>;
--        dma-names = "rx", "tx";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx25-clock.yaml b/Documentation/devicetree/bindings/clock/imx25-clock.yaml
-index 2a2b10778e72..1792e138984b 100644
---- a/Documentation/devicetree/bindings/clock/imx25-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx25-clock.yaml
-@@ -176,11 +176,3 @@ examples:
-         interrupts = <31>;
-         #clock-cells = <1>;
-     };
--
--    serial@43f90000 {
--        compatible = "fsl,imx25-uart", "fsl,imx21-uart";
--        reg = <0x43f90000 0x4000>;
--        interrupts = <45>;
--        clocks = <&clks 79>, <&clks 50>;
--        clock-names = "ipg", "per";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx27-clock.yaml b/Documentation/devicetree/bindings/clock/imx27-clock.yaml
-index 160268f24487..99925aa22a4c 100644
---- a/Documentation/devicetree/bindings/clock/imx27-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx27-clock.yaml
-@@ -44,12 +44,3 @@ examples:
-         interrupts = <31>;
-         #clock-cells = <1>;
-     };
--
--    serial@1000a000 {
--        compatible = "fsl,imx27-uart", "fsl,imx21-uart";
--        reg = <0x1000a000 0x1000>;
--        interrupts = <20>;
--        clocks = <&clks IMX27_CLK_UART1_IPG_GATE>,
--                 <&clks IMX27_CLK_PER1_GATE>;
--        clock-names = "ipg", "per";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx28-clock.yaml b/Documentation/devicetree/bindings/clock/imx28-clock.yaml
-index f831b780f951..a542d680b1ca 100644
---- a/Documentation/devicetree/bindings/clock/imx28-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx28-clock.yaml
-@@ -106,12 +106,3 @@ examples:
-         reg = <0x80040000 0x2000>;
-         #clock-cells = <1>;
-     };
--
--    serial@8006a000 {
--        compatible = "fsl,imx28-auart";
--        reg = <0x8006a000 0x2000>;
--        interrupts = <112>;
--        dmas = <&dma_apbx 8>, <&dma_apbx 9>;
--        dma-names = "rx", "tx";
--        clocks = <&clks 45>;
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx31-clock.yaml b/Documentation/devicetree/bindings/clock/imx31-clock.yaml
-index d2336261c922..168c8ada5e81 100644
---- a/Documentation/devicetree/bindings/clock/imx31-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx31-clock.yaml
-@@ -110,11 +110,3 @@ examples:
-         interrupts = <31>, <53>;
-         #clock-cells = <1>;
-     };
--
--    serial@43f90000 {
--        compatible = "fsl,imx31-uart", "fsl,imx21-uart";
--        reg = <0x43f90000 0x4000>;
--        interrupts = <45>;
--        clocks = <&clks 10>, <&clks 30>;
--        clock-names = "ipg", "per";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx35-clock.yaml b/Documentation/devicetree/bindings/clock/imx35-clock.yaml
-index 3e20ccaf8131..6415bb6a8d04 100644
---- a/Documentation/devicetree/bindings/clock/imx35-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx35-clock.yaml
-@@ -129,11 +129,3 @@ examples:
-         interrupts = <31>;
-         #clock-cells = <1>;
-     };
--
--    mmc@53fb4000 {
--        compatible = "fsl,imx35-esdhc";
--        reg = <0x53fb4000 0x4000>;
--        interrupts = <7>;
--        clocks = <&clks 9>, <&clks 8>, <&clks 43>;
--        clock-names = "ipg", "ahb", "per";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx7ulp-pcc-clock.yaml b/Documentation/devicetree/bindings/clock/imx7ulp-pcc-clock.yaml
-index 7caf5cee9199..739c3378f8c8 100644
---- a/Documentation/devicetree/bindings/clock/imx7ulp-pcc-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx7ulp-pcc-clock.yaml
-@@ -108,14 +108,3 @@ examples:
-                        "upll", "sosc_bus_clk", "firc_bus_clk",
-                        "rosc", "spll_bus_clk";
-     };
--
--    mmc@40380000 {
--        compatible = "fsl,imx7ulp-usdhc";
--        reg = <0x40380000 0x10000>;
--        interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
--        clocks = <&scg1 IMX7ULP_CLK_NIC1_BUS_DIV>,
--                 <&scg1 IMX7ULP_CLK_NIC1_DIV>,
--                 <&pcc2 IMX7ULP_CLK_USDHC1>;
--        clock-names ="ipg", "ahb", "per";
--        bus-width = <4>;
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx7ulp-scg-clock.yaml b/Documentation/devicetree/bindings/clock/imx7ulp-scg-clock.yaml
-index ee8efb4ed599..d06344d7e34f 100644
---- a/Documentation/devicetree/bindings/clock/imx7ulp-scg-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx7ulp-scg-clock.yaml
-@@ -86,14 +86,3 @@ examples:
-                       "firc", "upll";
-         #clock-cells = <1>;
-     };
--
--    mmc@40380000 {
--        compatible = "fsl,imx7ulp-usdhc";
--        reg = <0x40380000 0x10000>;
--        interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
--        clocks = <&scg1 IMX7ULP_CLK_NIC1_BUS_DIV>,
--                 <&scg1 IMX7ULP_CLK_NIC1_DIV>,
--                 <&pcc2 IMX7ULP_CLK_USDHC1>;
--        clock-names ="ipg", "ahb", "per";
--        bus-width = <4>;
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml b/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml
-index 0f6fe365ebf3..cb80105b3c70 100644
---- a/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml
-@@ -101,14 +101,3 @@ examples:
-                              "sdhc0_lpcg_ahb_clk";
-         power-domains = <&pd IMX_SC_R_SDHC_0>;
-     };
--
--    mmc@5b010000 {
--        compatible = "fsl,imx8qxp-usdhc", "fsl,imx7d-usdhc";
--        interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>;
--        reg = <0x5b010000 0x10000>;
--        clocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,
--                 <&sdhc0_lpcg IMX_LPCG_CLK_5>,
--                 <&sdhc0_lpcg IMX_LPCG_CLK_0>;
--        clock-names = "ipg", "ahb", "per";
--        power-domains = <&pd IMX_SC_R_SDHC_0>;
--    };
-diff --git a/Documentation/devicetree/bindings/clock/imxrt1050-clock.yaml b/Documentation/devicetree/bindings/clock/imxrt1050-clock.yaml
-index 35fd08c143f4..03fc5c1a2939 100644
---- a/Documentation/devicetree/bindings/clock/imxrt1050-clock.yaml
-+++ b/Documentation/devicetree/bindings/clock/imxrt1050-clock.yaml
-@@ -57,11 +57,3 @@ examples:
-         clock-names = "osc";
-         #clock-cells = <1>;
-     };
--
--    lpuart1: serial@40184000 {
--        compatible = "fsl,imxrt1050-lpuart";
--        reg = <0x40184000 0x4000>;
--        interrupts = <20>;
--        clocks = <&clks IMXRT1050_CLK_LPUART1>;
--        clock-names = "ipg";
--    };
-diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra124-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra124-car.yaml
-index ec7ab1483652..1b2181f6d440 100644
---- a/Documentation/devicetree/bindings/clock/nvidia,tegra124-car.yaml
-+++ b/Documentation/devicetree/bindings/clock/nvidia,tegra124-car.yaml
-@@ -106,10 +106,3 @@ examples:
-         #clock-cells = <1>;
-         #reset-cells = <1>;
-     };
--
--    usb-controller@c5004000 {
--        compatible = "nvidia,tegra20-ehci";
--        reg = <0xc5004000 0x4000>;
--        clocks = <&car TEGRA124_CLK_USB2>;
--        resets = <&car TEGRA124_CLK_USB2>;
--    };
-diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
-index f832abb7f11a..bee2dd4b29bf 100644
---- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
-+++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
-@@ -97,10 +97,3 @@ examples:
-             power-domains = <&domain>;
-         };
-     };
--
--    usb-controller@c5004000 {
--        compatible = "nvidia,tegra20-ehci";
--        reg = <0xc5004000 0x4000>;
--        clocks = <&car TEGRA20_CLK_USB2>;
--        resets = <&car TEGRA20_CLK_USB2>;
--    };
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi |   7 +
+ drivers/cpufreq/tegra194-cpufreq.c       | 246 +++++++++++++++++++----
+ 2 files changed, 216 insertions(+), 37 deletions(-)
+
 -- 
-2.32.0
+2.17.1
 
