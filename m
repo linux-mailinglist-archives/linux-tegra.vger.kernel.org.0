@@ -2,61 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D59214DD67D
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Mar 2022 09:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 173454DD827
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Mar 2022 11:39:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233981AbiCRIwO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 18 Mar 2022 04:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40488 "EHLO
+        id S235112AbiCRKjH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 18 Mar 2022 06:39:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233979AbiCRIwN (ORCPT
+        with ESMTP id S235071AbiCRKi7 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 18 Mar 2022 04:52:13 -0400
-Received: from mail.postform.pl (mail.postform.pl [195.231.64.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09058FE431
-        for <linux-tegra@vger.kernel.org>; Fri, 18 Mar 2022 01:50:55 -0700 (PDT)
-Received: by mail.postform.pl (Postfix, from userid 1001)
-        id 101CBA678C; Fri, 18 Mar 2022 08:41:30 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=postform.pl; s=mail;
-        t=1647592912; bh=Cp7iEcBs6UYsUZoqwaSKv66JiG6VJnuY7Lx3D9vYwU4=;
-        h=Date:From:To:Subject:From;
-        b=Z0T8Zx237hNtcQpczl0yVh9h3qdqgv7Q37XBqtupHsFAaOoyDK/euIzjtDnW/CE1h
-         dTcF/vPgaDo8LvbzPPQm+pJgo5A6RVErqMtxUbOgmo0V5fTFZ8NYCYCviHKit7xUIa
-         0hBd8UrAwlMVi1HAPy3vS5TgdaYcCsrk8hY6Gq0fLGWNIFTsb9sFNGEeMlvWcOuY4m
-         mOtDve0ZuUpi6HEsNDx8yh4gJpPbXHqXmBVzhcsR//PZ0TSCMGfhbblmWLG/3KSaW9
-         givl/z99ntHNrUIuzX0QCY1pG1I+dTpaQyzRkgRsNzjlU5qTSM8DcNs7c0BhXNW0z+
-         XJZwxLcqHx5FQ==
-Received: by mail.postform.pl for <linux-tegra@vger.kernel.org>; Fri, 18 Mar 2022 08:41:19 GMT
-Message-ID: <20220318074502-0.1.1i.jozb.0.4v535a1i7y@postform.pl>
-Date:   Fri, 18 Mar 2022 08:41:19 GMT
-From:   "Norbert Karecki" <norbert.karecki@postform.pl>
-To:     <linux-tegra@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.postform.pl
+        Fri, 18 Mar 2022 06:38:59 -0400
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 669D92D88A0;
+        Fri, 18 Mar 2022 03:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AFcuMPAoZaB+CVanO7VceCwI9IK81XJZLPVFmZZXE/0=;
+  b=N2XY89svB28mcxJnbsqMaDr65Hi8QP+uW5L+0y6Pr3BNMzMvHHhnpj66
+   JMuzPHn9KG+u/Z/VDJJaQbrWPY5oWnnynDxFHUE6uCEkW/HY0cIwKLa05
+   RpZtYkBR6NwJfb9jHxDSCuPJnaenY+Kg4L9rGtjZMgfZoaszlfsifgfRJ
+   k=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,192,1643670000"; 
+   d="scan'208";a="8935639"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 11:37:36 +0100
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Russell King <linux@armlinux.org.uk>
+Cc:     kernel-janitors@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ARM: tegra: fix typos in comments
+Date:   Fri, 18 Mar 2022 11:37:03 +0100
+Message-Id: <20220318103729.157574-8-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Various spelling mistakes in comments.
+Detected with the help of Coccinelle.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+---
+ arch/arm/mach-tegra/platsmp.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+diff --git a/arch/arm/mach-tegra/platsmp.c b/arch/arm/mach-tegra/platsmp.c
+index e6911a14c096..1f57e7c0feae 100644
+--- a/arch/arm/mach-tegra/platsmp.c
++++ b/arch/arm/mach-tegra/platsmp.c
+@@ -83,7 +83,7 @@ static int tegra30_boot_secondary(unsigned int cpu, struct task_struct *idle)
+ 	 * For warm boot CPU that was resumed from CPU hotplug, the
+ 	 * power will be resumed automatically after un-halting the
+ 	 * flow controller of the warm boot CPU. We need to wait for
+-	 * the confirmaiton that the CPU is powered then removing
++	 * the confirmation that the CPU is powered then removing
+ 	 * the IO clamps.
+ 	 * For cold boot CPU, do not wait. After the cold boot CPU be
+ 	 * booted, it will run to tegra_secondary_init() and set
 
-
-Pozdrawiam
-Norbert Karecki
