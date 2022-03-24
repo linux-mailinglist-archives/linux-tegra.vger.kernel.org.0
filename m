@@ -2,102 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 664874E614B
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Mar 2022 10:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AAF64E61C0
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Mar 2022 11:30:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349306AbiCXJwX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Mar 2022 05:52:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48906 "EHLO
+        id S1343575AbiCXKcE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Mar 2022 06:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239549AbiCXJwX (ORCPT
+        with ESMTP id S1345579AbiCXKcD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Mar 2022 05:52:23 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD175549E
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Mar 2022 02:50:51 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id i63so4291857vsi.5
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Mar 2022 02:50:51 -0700 (PDT)
+        Thu, 24 Mar 2022 06:32:03 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BAD55227
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Mar 2022 03:30:31 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id g20so5070386edw.6
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Mar 2022 03:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=13+rXwGRPr4a9k2vxA2bU+fJEZZ58Un4R7s1pCG1lS8=;
-        b=OIal0zhKtYLNOi5tWoB6+OLkKwTrN1x6/baG3wbC5VXjYHMLxN6cDVHhtcTv63ZJxJ
-         t3OHWuSc7Y9WYZRWMtaf7rDG838S7zFotcEfsW15YE+5EwUUkT45DamaeL26gf8SZX+L
-         R1xyKt5WejbRJtRDixuyDZ5BF62BVu3FKcVMbKRfX2ReHjD+TVSQ863IxNlmficiyrQB
-         QF+GPkVZmRFC4vkCmOHblG/lZDKOFzAdWJmx5sgXZheFfgf34vfElKFgnK5dw9yLaLza
-         phJJEsV6uWnpykt1vAaQ94s+3dkFHbOJ3B0nvnug3362QN96VZmaU2MOWXEhglORksyk
-         VIBA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qATJBRGZt70MHBeCBmN9PJu8Fg5hxZQ0jK4IY9wgqro=;
+        b=W92XBWa6W8T3QlQ3Nll+QwSEssHfiEfPT2PeDmxwVc8RHFx5A1trXaZpzurUnHE9az
+         V6IBvKMrGnYJRPyAXACt8aqI609tPHN/TilLpXNzLEj5wmxLPBpL3YzQwxqItDoGO1x3
+         jwZmDaDISLCELJD5Vgb6DSBvRd0CDHHVaRG0LwJzhqPKxMK3qNL7/hLRfGwvrRrxVubN
+         xAmJ40Td0uM+RtH39vlKrpD2QdCFGc+O8SFUC2NVkdpQjdhlgzQD3OcFmbf7+1yvKMWK
+         eaomyqPIs+fYJVNOFVEBDL8BnOgvUczqeMwiOhl6+MaEzedXn8m4EQnSMjsiKrTTLiBy
+         yLQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=13+rXwGRPr4a9k2vxA2bU+fJEZZ58Un4R7s1pCG1lS8=;
-        b=Lks+Ts0auT8+l4K81RnkAmtRooE0QfrMM8ihJr2aWEsYJqLO5oPOKUS1PJqyLQoenG
-         HOAieBcWYSr8hCggeJs3NId7o+EFs+XatUhflmRAyXxylRRWBXUPzS3i3O7AYRmldYbW
-         5UAzTHnFMQWwZZxW+E91/1yuBbY6IVB62Wj2pnoXzskqpWcPJopTwi/FsbB+7RBmwv5T
-         /YDjdoxdyfgB8siePSG7qamS/MV/DnX0FsZ9mF1mGqhOXAKKVCM5qY/Ex7kB1u4z/r6J
-         G4RzIqS4zlFynX3PZtGtJki2j90MzG3JszzaVLbJrs6P4Ew0IgbmH9qx+oT3Yq3Ekm9s
-         yhwQ==
-X-Gm-Message-State: AOAM533jb8u8B4A+u+19/zg+ar9Efb+UUdJBXzGfXrtboGe9PndPWFOm
-        4/LTr97WIuhMYcMyAiAgOUiTYJaubudmW4oXt68=
-X-Google-Smtp-Source: ABdhPJxMtOFNNdgUkjeMOgLnLy6ssTAgWzcpMBGAtm05y7cuV8Gm03UxS4wUDTlgsF+ZCWaSpm3t5vH5HFiqwjiGjfA=
-X-Received: by 2002:a05:6102:5094:b0:325:5ffb:fb0e with SMTP id
- bl20-20020a056102509400b003255ffbfb0emr688844vsb.68.1648115450544; Thu, 24
- Mar 2022 02:50:50 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qATJBRGZt70MHBeCBmN9PJu8Fg5hxZQ0jK4IY9wgqro=;
+        b=8FD1Fyeus3mELCsWFo4512VwBNYPScyFzXQy9/v37S+qowNGpp9ZHtFdu/WcrsSQcO
+         wNAKGIiqcsTQ4J6i9EBDBHdlBM3UIxjYrLMfOrQ2E2TlfvzPCO8ckri3ScbnUJeNOYci
+         G6SI4p+k3rhtqYekuk511P6+FOIjGHZQr/Fm8DGG9sKZsALJLB6vZgBD5mOTIUm4Ukdj
+         HY9Tz6MAXP8rmjKStUDsWqqrxl3wZ6Mrp/9BZlOErzCo4jAZ017W/IPBlEkcFz6srUI2
+         cpOeodB1g4knY6L71HRW6XDhBLd+atQ+/TQ2SjJgiaiIdqYo/dW6Gme96nFLfZim3Tg3
+         jF2g==
+X-Gm-Message-State: AOAM533PnQ7boYaXJm1uW4zjzRou+ymkRRmmpcou2ZVehLVP2nbZzZnd
+        7iSEUtuyxrfY1mm0abSZlKM=
+X-Google-Smtp-Source: ABdhPJwMsYPaI5k1LQxBIxNMpx3TM4N0ZNqtvC6wqgGswojRco6agz9kV9FutvN8m2zX6kJEFT4OMQ==
+X-Received: by 2002:a05:6402:5202:b0:419:2b9f:7dd3 with SMTP id s2-20020a056402520200b004192b9f7dd3mr5832177edd.224.1648117829965;
+        Thu, 24 Mar 2022 03:30:29 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id a4-20020a170906274400b006da9456e802sm962013ejd.102.2022.03.24.03.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Mar 2022 03:30:29 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Mikko Perttunen <mperttunen@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] gpu: host1x: Do not use mapping cache for job submissions
+Date:   Thu, 24 Mar 2022 11:30:25 +0100
+Message-Id: <20220324103025.2660775-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Received: by 2002:a59:5c12:0:b0:2a3:1110:6996 with HTTP; Thu, 24 Mar 2022
- 02:50:50 -0700 (PDT)
-Reply-To: ozkansahin.gbbva@gmail.com
-From:   OZKAN SAHIN <ahmeddiarra25@gmail.com>
-Date:   Thu, 24 Mar 2022 12:50:50 +0300
-Message-ID: <CAMpRB35aAfN=cNVd=49GnBrny3yvYTLX53iaopHyfYwJbfFfRg@mail.gmail.com>
-Subject: Hello Friend
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:e30 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4989]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [ahmeddiarra25[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [ahmeddiarra25[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Greetings,
-I'm  Ozkan Sahin, and I work as a Financial Management Consultant. I'm
-thrilled to approach you and present you with a lucrative offer I've
-prepared. If you're interested in learning more, Please reply as soon
-as possible.
+From: Thierry Reding <treding@nvidia.com>
 
-Please contact me at (ozkansahin.gbbva@gmail.com).
-Respectfully,
-Ozkan Sahin
-Financial Management Consultant
+Buffer mappings used in job submissions are usually small and not
+rapidly reused as opposed to framebuffers (which are usually large and
+rapidly reused, for example when page-flipping between double-buffered
+framebuffers). Avoid going through the mapping cache for these buffers
+since the cache would also lead to leaks if nobody is ever releasing
+the cache's last reference. For DRM/KMS these last references are
+dropped when the framebuffers are removed and therefore no longer
+needed.
+
+While at it, also add a note about the need to explicitly remove the
+final reference to the mapping in the cache.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/host1x/job.c | 4 ++--
+ include/linux/host1x.h   | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
+index 9424b3c08ab2..f81f3b9f7510 100644
+--- a/drivers/gpu/host1x/job.c
++++ b/drivers/gpu/host1x/job.c
+@@ -176,7 +176,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 			goto unpin;
+ 		}
+ 
+-		map = host1x_bo_pin(dev, bo, direction, &client->cache);
++		map = host1x_bo_pin(dev, bo, direction, NULL);
+ 		if (IS_ERR(map)) {
+ 			host1x_bo_put(bo);
+ 			err = PTR_ERR(map);
+@@ -226,7 +226,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 			goto unpin;
+ 		}
+ 
+-		map = host1x_bo_pin(host->dev, g->bo, DMA_TO_DEVICE, &host->cache);
++		map = host1x_bo_pin(host->dev, g->bo, DMA_TO_DEVICE, NULL);
+ 		if (IS_ERR(map)) {
+ 			host1x_bo_put(g->bo);
+ 			err = PTR_ERR(map);
+diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+index e8dc5bc41f79..46081afd0ca0 100644
+--- a/include/linux/host1x.h
++++ b/include/linux/host1x.h
+@@ -31,6 +31,11 @@ u64 host1x_get_dma_mask(struct host1x *host1x);
+  * struct host1x_bo_cache - host1x buffer object cache
+  * @mappings: list of mappings
+  * @lock: synchronizes accesses to the list of mappings
++ *
++ * Note that entries are not periodically evicted from this cache and instead need to be
++ * explicitly released. This is used primarily for DRM/KMS where the cache's reference is
++ * released when the last reference to a buffer object represented by a mapping in this
++ * cache is dropped.
+  */
+ struct host1x_bo_cache {
+ 	struct list_head mappings;
+-- 
+2.35.1
+
