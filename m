@@ -2,93 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 881E74EB04E
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Mar 2022 17:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE74D4EB5CD
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Mar 2022 00:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238117AbiC2P2u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Mar 2022 11:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
+        id S236569AbiC2WV1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Mar 2022 18:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233601AbiC2P2u (ORCPT
+        with ESMTP id S236743AbiC2WVR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Mar 2022 11:28:50 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F317E1271;
-        Tue, 29 Mar 2022 08:27:07 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EDBAC732;
-        Tue, 29 Mar 2022 15:27:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EDBAC732
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648567627; bh=J4BwUFEnERHD+GXWZTxjovQvtNqH+5sYie0SgwCqXpk=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=W1k6RhGshgO420otQc6BSAwtuJAMUaHZ616+tM0WyzUJd5CAQvaLB2JaBTXbDIs8K
-         Dhz1TobDSQhos4+TFz2cD4rhdW2VE27WkDEqq/FBCIhPjqWGPoZQ9w3lGy+V/9nyeN
-         sTlSxFxfSLzYskogQfuYd5vTyn3bSFAN7EXKxBb4jRFq2G5IuZ2UlqLBGcZ7+kns0c
-         DMVzd+8p6fYQLKe24gjotWXGSvAXgWhWvQXXtsWWgUB0B+oReA0jURqFnr8jFUwTzm
-         cK+BeIcUBVPe2OWlnWNXOyaxRK3kUXjbSr/3Y6DhWUuygMO0iec1mwCwKaNvldCc6F
-         JPdfv1ZApDjsQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, smangipudi@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, warthog618@gmail.com,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org
-Subject: Re: [PATCH v5 01/11] Documentation: Add HTE subsystem guide
-In-Reply-To: <db81d120-039d-f49f-9a48-c91e96777a61@gmail.com>
-References: <20220329054521.14420-1-dipenp@nvidia.com>
- <20220329054521.14420-2-dipenp@nvidia.com>
- <db81d120-039d-f49f-9a48-c91e96777a61@gmail.com>
-Date:   Tue, 29 Mar 2022 09:27:06 -0600
-Message-ID: <875ynw7p9x.fsf@meer.lwn.net>
+        Tue, 29 Mar 2022 18:21:17 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6FA43395
+        for <linux-tegra@vger.kernel.org>; Tue, 29 Mar 2022 15:19:34 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id w4so26722594wrg.12
+        for <linux-tegra@vger.kernel.org>; Tue, 29 Mar 2022 15:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:mime-version:content-transfer-encoding
+         :content-description:subject:to:from:date:reply-to;
+        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
+        b=TmleY20XwYnrKRNlot2CHP+vHjlJZkFZz+StuaKFepNgo/MZX1UmVZM/B5DTHl0Yi+
+         X4VpRPI5fU5h8t2hGc0D8M3gRF0BW43k//R6f82OnEuPtQUFaD2exyqEyk55qQSzAbQC
+         B7PrYAIHrUPdNn/4QouJM9GU39OVL2Rs6DuJwwjvPix2SFHlafFh1VuMEyTZCtos8jCt
+         SztlQFKyv4gNP+5fvc1v2woGBQf9uvRsF+yXiXCVvz0vWtYDN/1N+b9uT8ub58wAqKqT
+         NHew1rmRZMhILw+Lj4xhE+GvGsKWJ6VxrOqd/dYhOPYnnDkjEplGcQ8ID3PDM7CBFXnS
+         /zMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:content-description:subject:to:from:date
+         :reply-to;
+        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
+        b=gaZeQKgWLqrhYM3iabPlZSjkObgxkLBdeOXlm+g/SOxSfL13ndJMyJsjerHj9RHEel
+         3QihzdX6M/OrhpLfOPTToGv+zlcxH5HEsjgH1bw9YSngAtYNKZNaqP4vFpUThUM0dw8R
+         Cb3TZ3rikmI9huqbesqDgrwGvKsaH52nD2ecLzPWVOo11w1polwFSXCW3tR1Jyr98vBq
+         tecp53H+75m7C3WzQCK0Uv4qsbkBOOhmToglav7Q0DVexD50PV0GWSXQiahd6Ewzw/E2
+         hxH0YJNX+GR6ymF85ZiQQh693TXkH7keh1MN/1aDQVWRdo5p6CHMm8vVwQfrWYD3X/kH
+         9cFQ==
+X-Gm-Message-State: AOAM532+VigjmMYtcezhm/7kzjVUMPf+7V0DmdPLE8CgByyUZP0WA2Qm
+        GycT3XeUiFRjq3xnpYB/9Ng=
+X-Google-Smtp-Source: ABdhPJwhbjZTnFXwPg0qCG/hbrV7g5Hcev7qD9GX1/jsr1UJwrmczCG6mAaCh7yY2aUltAFp+k87HQ==
+X-Received: by 2002:a5d:584a:0:b0:205:86cb:dd0e with SMTP id i10-20020a5d584a000000b0020586cbdd0emr32985384wrf.578.1648592372733;
+        Tue, 29 Mar 2022 15:19:32 -0700 (PDT)
+Received: from [172.20.10.4] ([102.91.4.172])
+        by smtp.gmail.com with ESMTPSA id g17-20020a05600c4ed100b0038ca32d0f26sm3545064wmq.17.2022.03.29.15.19.26
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 29 Mar 2022 15:19:31 -0700 (PDT)
+Message-ID: <624385f3.1c69fb81.545b4.ec4b@mx.google.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Gefeliciteerd, er is geld aan je gedoneerd
+To:     Recipients <adeboyejofolashade55@gmail.com>
+From:   adeboyejofolashade55@gmail.com
+Date:   Tue, 29 Mar 2022 23:19:17 +0100
+Reply-To: mike.weirsky.foundation003@gmail.com
+X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_US_DOLLARS_3 autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Beste begunstigde,
 
-> On 29/03/22 12.45, Dipen Patel wrote:
->> +============================================
->> +The Linux Hardware Timestamping Engine (HTE)
->> +============================================
->> +
->> +:Author: Dipen Patel
->> +
->
-> Please learn how to convey semantics with rst format, see further comments
-> below.
+ Je hebt een liefdadigheidsdonatie van ($ 10.000.000,00) van Mr. Mike Weirs=
+ky, een winnaar van een powerball-jackpotloterij van $ 273 miljoen.  Ik don=
+eer aan 5 willekeurige personen als je deze e-mail ontvangt, dan is je e-ma=
+il geselecteerd na een spin-ball. Ik heb vrijwillig besloten om het bedrag =
+van $ 10 miljoen USD aan jou te doneren als een van de geselecteerde 5, om =
+mijn winst te verifi=EBren
+ =
 
-That is the Sphinx "field list" syntax; it's pretty heavily used
-throughout the kernel documentation and doesn't seem to merit that sort
-of response...?
-
-[...]
-
->> +The struct hte_ts_data is used to pass timestamp details between the consumers
->> +and the providers. It expresses timestamp data in nanoseconds in u64 data
->> +type. For now all the HTE APIs using struct hte_ts_data require tsc to be in
->> +nanoseconds. An example of the typical hte_ts_data data life cycle, for the
->> +GPIO line is as follows::
->> +
->
-> When we talk about name terms found in actual code (like keywords or variable
-> names), it is customary to enclose them inside inline code (for example,
-> ``struct what`` or ``u64 what``).
-
-It's also customary to minimize markup.  In the case of "struct
-whatever" the markup is actively harmful since it interferes with the
-automatic recognition and cross-referencing of the type.
-
-jon
+  Vriendelijk antwoord op: mike.weirsky.foundation003@gmail.com
+ Voor uw claim.
