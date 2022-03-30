@@ -2,36 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 985044EC1C6
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Mar 2022 13:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DEFC4EC1D8
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Mar 2022 13:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345055AbiC3L5B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Mar 2022 07:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56766 "EHLO
+        id S244956AbiC3L47 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Mar 2022 07:56:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345404AbiC3Ly2 (ORCPT
+        with ESMTP id S1345890AbiC3LzI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Mar 2022 07:54:28 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C06282573;
-        Wed, 30 Mar 2022 04:51:06 -0700 (PDT)
+        Wed, 30 Mar 2022 07:55:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D3425EC9D;
+        Wed, 30 Mar 2022 04:52:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D0550B81C35;
-        Wed, 30 Mar 2022 11:51:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BFFCC3410F;
-        Wed, 30 Mar 2022 11:51:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CA15D616DA;
+        Wed, 30 Mar 2022 11:52:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56B6C34111;
+        Wed, 30 Mar 2022 11:52:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648641064;
+        s=k20201202; t=1648641131;
         bh=8ZFmnqlSEMxKjuWziuwkhdq48STdoQ3qVnRC30Htjlg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BFIxcIjrcDDBKnDw0iY6uwU2y8SvZ0VXZQxnxBDxvN+3OaJ0PJ01QNUndUJ5L7udv
-         tR9rPgka6brxh1Fxn/pm+zI6mtmhmAxwkN31wmJ6biOq7VOelCGwTgVfTmMjBMHhS/
-         ljoB/N5vcgDFCid9aA4fmU1EPpfrcd7ysdGnCUwgJbZ01HgFBSI8XPqI+pH0qhMWEx
-         Nm133P83Ff3v4x9JBgui5SMhnM5ku/IIWWTzVrNE1/UMnfVPQfsSsuqZBI9z95en+g
-         KKfi3eHf1BVE/NingGr4mT2L+7exPejCiNDlivzHMEkTDsUvBsm+Vfxl5rpAQMky8/
-         sC2vaQAIG8BwQ==
+        b=ubGd8FF7QhLDXrxASeA+gcqSIFiHwhiZEYqLmdM+lwJ79+i3dNVxqohNXqkSeDvxK
+         enIYDOqrYm5ntXhL8qgXX03VeKuMBnqA1OHLZ0j57YaZcK+VXY2druT0Y8dVC0rBsQ
+         ustOz5Crwpwr/HMwNxGCXWJEYEBjlcrtem8rukwe80Bf0ToVWgpHkT6yXesYaS+xcC
+         3M14O9xKvnEql57lHhZk92h4KgkRHwa7+4fCCjtpvbj7EPBmJzSLES6X3dfzxWtrvS
+         PRRM8iLvtITDZcM/7T7WNDtZNs1Bx4BWSTwnVliGbgKYrIYIGVKxT5BAr5csqm9sRA
+         zUNlyovntM55Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Richard Leitner <richard.leitner@skidata.com>,
@@ -41,12 +41,12 @@ Cc:     Richard Leitner <richard.leitner@skidata.com>,
         thierry.reding@gmail.com, gnurou@gmail.com,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 38/50] ARM: tegra: tamonten: Fix I2C3 pad setting
-Date:   Wed, 30 Mar 2022 07:49:52 -0400
-Message-Id: <20220330115005.1671090-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 28/37] ARM: tegra: tamonten: Fix I2C3 pad setting
+Date:   Wed, 30 Mar 2022 07:51:13 -0400
+Message-Id: <20220330115122.1671763-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330115005.1671090-1-sashal@kernel.org>
-References: <20220330115005.1671090-1-sashal@kernel.org>
+In-Reply-To: <20220330115122.1671763-1-sashal@kernel.org>
+References: <20220330115122.1671763-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
