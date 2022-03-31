@@ -2,1144 +2,755 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9719F4EDB42
-	for <lists+linux-tegra@lfdr.de>; Thu, 31 Mar 2022 16:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F15034EDEC5
+	for <lists+linux-tegra@lfdr.de>; Thu, 31 Mar 2022 18:25:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236886AbiCaOGV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 31 Mar 2022 10:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37500 "EHLO
+        id S239941AbiCaQ1H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 31 Mar 2022 12:27:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237270AbiCaOGP (ORCPT
+        with ESMTP id S239949AbiCaQ1G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 31 Mar 2022 10:06:15 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2088.outbound.protection.outlook.com [40.107.244.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC065F8D7;
-        Thu, 31 Mar 2022 07:04:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eGrgjS73OKDqJiswLwp47SXAZEqjVvCyX0OUrct8NdGwLkYWL/n0DF7gt8wm6DYPm7+JVJxM09cvkMkYGRtZAkpm7yEokP7Zp21dDgFETKjJ9rgDRVEAa5qEAXL26BsvHf7f1pujUAc6iy0lOCIwtHGSglp/hf+MRTvOtp7eyDOARevCHr6zARWUXTvXEW8htskLumYcaQw4aTjQauoVvjJW3ubOxDc3R6uVyCO0jxqPme4evod2yg7LWnPEBjs39deQd+SI+1FMQyQ/dMx/fjdmX7p4FJ7SkKNVB58qIWZA8gWyBS0CzDb2OnJ3Cv/aBiz3p9D5Gr0AoNBeBm4D6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iDSXocJiUNY1Pz+1qKhIaiV1ijyOWkdOcNqFV7QpXEo=;
- b=Q/ALnMgCscey+5T8yuccRucUNf/yLxMGhiOwc9QEwM0aXwN3o0FnghjhiZfnn20Z3TlJZBmRmP3exucLRQkhXFb+c0Yw84ElgHDlcJLW0OdQ1Fk/pYBoiIYzDwBt2oCGekHGaXfoYfuQ7icsEuTq4S+KVuLU0zaaVHmalgaJOUwycR5yGYoZ5WPk+MJ5O2Tb8/Qj+difEpxtSkfuIgDjlRD9G56Ipl5VWc3nJGg6yfKyinTeBqmeQqvsjjJAkzz3A4S6rcQ2flxvvyWfhhygjRCzREkbwF/JiFa2R2gsBZd6nAv3p0uclgTE/g4nVDJsQkRUNK5TbOIcNt7rBCq6Jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=alsa-project.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iDSXocJiUNY1Pz+1qKhIaiV1ijyOWkdOcNqFV7QpXEo=;
- b=JETQtE3A7EZ0Nh1mBS5X3NQJnh9D+mVzMTVraGNIsz5yJY6rBx8EuTbDiGraDHJJuAjQm69/7rV+SG+lygslCLuSTxgFnKwOguWunTiPv12Bs3uA5giYTBVDUahqtNIokFodBP7ktpusuvaNVnK5pQPOgvd2YCOeWFVw72VK/ktTcxFX7YbJVEFvYTcugbI2YfuP5IjApGWsZ4GZv/qMhso6z24+/YbXfJxY3dTMapjTCx1aHv2WkCncb9R5BtHynJ5Kty7aeCcAfrllRbVTp2GrkCUu8Bg9IC+3DwyvkG5srbH00NH71ACrEgUjUgxFhAS8nPrE3jxjAhOzRvuVsw==
-Received: from BN9PR03CA0864.namprd03.prod.outlook.com (2603:10b6:408:13d::29)
- by CO6PR12MB5476.namprd12.prod.outlook.com (2603:10b6:303:138::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.21; Thu, 31 Mar
- 2022 14:04:14 +0000
-Received: from BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13d:cafe::2e) by BN9PR03CA0864.outlook.office365.com
- (2603:10b6:408:13d::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.23 via Frontend
- Transport; Thu, 31 Mar 2022 14:04:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT055.mail.protection.outlook.com (10.13.177.62) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5123.19 via Frontend Transport; Thu, 31 Mar 2022 14:04:13 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Thu, 31 Mar
- 2022 14:04:12 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 31 Mar
- 2022 07:04:12 -0700
-Received: from audio.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server id 15.2.986.22 via Frontend Transport; Thu, 31 Mar
- 2022 07:04:08 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <broonie@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <lgirdwood@gmail.com>,
-        <perex@perex.cz>, <tiwai@suse.com>
-CC:     <jonathanh@nvidia.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <alsa-devel@alsa-project.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH v2 6/6] arm64: tegra: Enable ASRC on various platforms
-Date:   Thu, 31 Mar 2022 19:33:32 +0530
-Message-ID: <1648735412-32220-7-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1648735412-32220-1-git-send-email-spujar@nvidia.com>
-References: <1648735412-32220-1-git-send-email-spujar@nvidia.com>
+        Thu, 31 Mar 2022 12:27:06 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A75E60A9A;
+        Thu, 31 Mar 2022 09:25:11 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id r13so436554ejd.5;
+        Thu, 31 Mar 2022 09:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cu1l/8PgdxMWyzuZznsggXHzKS6a3wbdW116MMUScCM=;
+        b=M2lPiF2nuJevzAoT9OTJNxVkSi7JLdTynVTeHULvgf+vZ8oIA+w2zikb6VVMHAEUn1
+         JiM76RCK0Gurg7s64egfv31fjf9XO+5oJt5Ic1ay0j7vw5MB+lC0olEz29eKeYOcSaVE
+         0KXyV33BgGU4gBZpUq5VmM+LnWa3aqj8EF1j1aDTpIm5ukktWyUdlp+hYP9j55u+PkEY
+         Py5Hnr9xvoDItD69znI7140RincPcCq5bpNEm2vc0FPYmAHLbXkquyRwxgQ/VKP9XI2E
+         9SkbmwGJDc5JRyBMYwGeh1Te1QbFBS45diHkvqtjnzS6MP+1Su8MXwErwfWzj9wV4LOp
+         WLRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cu1l/8PgdxMWyzuZznsggXHzKS6a3wbdW116MMUScCM=;
+        b=HRnBLTZ9fCy/iz5matFK5SLwrCSUxid0EvCn5GAR0PPDXi3HqkECasaP1cZ9u2V3Oh
+         o5LQThvvgUq80a5xrEjWBNS6Cl+gr3cYJD5rMTWST56eOsp+LjokIyztBo1kPGMxR4ee
+         lzpVAwAEblsvErVwqiD6ldI6nYuZzuAuhiU4/d6mobxgm4qThc+Ay5Rv+R16To8WmRft
+         N1NR0KohdhXD0xLZMjs6nkC13D8pmj5LAVGEZsmdjY5IegwFaINe7BnLj99tJl6K8tdN
+         i44QbwqF43sUH/B2gwwK9P4I3xpyBWFAU38AWy4OqcIa2H7ZRdgEAaVIkOS5JKL5jJR4
+         DluQ==
+X-Gm-Message-State: AOAM533v2mpx+NsB3x+glAqenA24ZOkMoC4XzYIJjOt+Qxtij3LyFlFg
+        QTt9UBb/1M6v1gQDUMOSpvg=
+X-Google-Smtp-Source: ABdhPJxmejwpcRbUX2eKd1Wr/KCtQM3cY7rv6DEY8AnfjnD8rrdVvMpG4jWNQS5CimgwFAmEw2otuQ==
+X-Received: by 2002:a17:907:2ce3:b0:6df:b0ad:1f1a with SMTP id hz3-20020a1709072ce300b006dfb0ad1f1amr5641527ejc.392.1648743909304;
+        Thu, 31 Mar 2022 09:25:09 -0700 (PDT)
+Received: from orome ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id oz2-20020a170906cd0200b006e096dd0611sm8050818ejb.45.2022.03.31.09.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 09:25:08 -0700 (PDT)
+Date:   Thu, 31 Mar 2022 18:25:05 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Janne Grunau <j@jannau.net>, Rob Herring <robh@kernel.org>
+Cc:     Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Sven Peter <sven@svenpeter.dev>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Krishna Reddy <vdumpa@nvidia.com>, devicetree@vger.kernel.org,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2 1/5] dt-bindings: reserved-memory: Document memory
+ region specifier
+Message-ID: <YkXV4TWetsl4Rh5A@orome>
+References: <CAL_Jsq+TQeb56UbrO1xKFSb1yo0d8U29DPynw3_jQ6gH6Peatw@mail.gmail.com>
+ <YTIogpQDJjqJUTkG@orome.fritz.box>
+ <CAL_JsqKG4+n_eNj+at3m7WuAbeJ1Kyi0mYD=8-MaVjfhzdPwkA@mail.gmail.com>
+ <YTJA2xARFuNUMgMc@orome.fritz.box>
+ <CAL_JsqJWt6ZELEpMi+tS6S6S4MYyMHysAC2ce_CfDQFqjfgnGQ@mail.gmail.com>
+ <YTelDHx2REIIvV/N@orome.fritz.box>
+ <YUIPCxnyRutMS47/@orome.fritz.box>
+ <20220206222700.GA1848@jannau.net>
+ <YgPsVAsEcUYKHNIj@orome>
+ <20220210231544.GC1848@jannau.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c41b89c8-4ed1-4eaf-8f26-08da131f5640
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5476:EE_
-X-Microsoft-Antispam-PRVS: <CO6PR12MB5476DA42169559E142AC5682A7E19@CO6PR12MB5476.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /CqU2HyGJE2zoy9zYBoFNIMd4/xbe4QHcxi2+eLECnELAFyOca8DkhYpUHBmOXzLnYReJpdOv7jQ66jn1eAt4Ou5FKmxrwZIou+iBtSlyRWscWXkGIyzeXMpbBJDJsGTbgZR/qRMrQzxuvK09FgAWCNv5FUNLdrctQvdib9r7mDl7pjK3t67b4kCZGSTHaLCww8iOKaKaG0G+aE/jdJLX1i/Vwd+uJt4kQf2A10O0RLF/PnfSxrpg5eGnlDwmt1Pvs8H/TD/gro2GF0bz56yuP7E4mRO5pJuMO/Sc7s3A8xP9G/OUPf9xDbAolfyUbYc2jvz43nfw+PMnsU2eN8/VTr+CoWHAYY5EwEEIzipD7hHoWqpxm9ixxK5pkz8y8Z7qJBVXQtVFXEuwYUmOKeeiZQw38i4DGXQJE0SSQnPPpxcHZlrjhKSoPpzqAgOdwaQfFr8qDmEyQk4dsx9FuyvDf84ykxMuZsEZcnkrj7WuZHzo1Top0STTXZInrH5ttFyJPu/x72OiecduIavfn4VjRQEmiRrJMAjf1cqEEKstwKlbDaPVGsAXdZMqanXZ0k0z2NtCM5cjyd0vYFPSpAE5ungDJ0D/l3FUbCtLoj3ddvnIboRevDEoouobkNSDvwBvQlTIeOS1+4rSscBxPYrK+e3U/o4ZR9tjYegAH+8Ue2AulMFZtA3h0CC7w8AbkD3uZOt1c+u8CwP+0IpWvbe9g==
-X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(82310400004)(30864003)(356005)(8936002)(7416002)(5660300002)(81166007)(6666004)(2616005)(107886003)(54906003)(426003)(40460700003)(186003)(26005)(336012)(508600001)(7696005)(110136005)(36860700001)(4326008)(316002)(47076005)(70206006)(70586007)(8676002)(86362001)(2906002)(36756003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 14:04:13.5832
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c41b89c8-4ed1-4eaf-8f26-08da131f5640
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5476
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="7Tuyp66Xcb8lGb33"
+Content-Disposition: inline
+In-Reply-To: <20220210231544.GC1848@jannau.net>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable ASRC module usage on various Jetson Platforms. This can be plugged
-into an audio path using ALSA mixer controls.
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 223 +++++++++++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 223 +++++++++++++++++++++
- .../arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi | 223 +++++++++++++++++++++
- .../dts/nvidia/tegra234-p3737-0000+p3701-0000.dts  | 223 +++++++++++++++++++++
- 4 files changed, 892 insertions(+)
+--7Tuyp66Xcb8lGb33
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index c4dee05..70737a0 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -811,6 +811,110 @@
- 						remote-endpoint = <&mixer_out5_ep>;
- 					};
- 				};
-+
-+				xbar_asrc_in1_port: port@63 {
-+					reg = <0x63>;
-+
-+					xbar_asrc_in1_ep: endpoint {
-+						remote-endpoint = <&asrc_in1_ep>;
-+					};
-+				};
-+
-+				port@64 {
-+					reg = <0x64>;
-+
-+					xbar_asrc_out1_ep: endpoint {
-+						remote-endpoint = <&asrc_out1_ep>;
-+					};
-+				};
-+
-+				xbar_asrc_in2_port: port@65 {
-+					reg = <0x65>;
-+
-+					xbar_asrc_in2_ep: endpoint {
-+						remote-endpoint = <&asrc_in2_ep>;
-+					};
-+				};
-+
-+				port@66 {
-+					reg = <0x66>;
-+
-+					xbar_asrc_out2_ep: endpoint {
-+						remote-endpoint = <&asrc_out2_ep>;
-+					};
-+				};
-+
-+				xbar_asrc_in3_port: port@67 {
-+					reg = <0x67>;
-+
-+					xbar_asrc_in3_ep: endpoint {
-+						remote-endpoint = <&asrc_in3_ep>;
-+					};
-+				};
-+
-+				port@68 {
-+					reg = <0x68>;
-+
-+					xbar_asrc_out3_ep: endpoint {
-+						remote-endpoint = <&asrc_out3_ep>;
-+					};
-+				};
-+
-+				xbar_asrc_in4_port: port@69 {
-+					reg = <0x69>;
-+
-+					xbar_asrc_in4_ep: endpoint {
-+						remote-endpoint = <&asrc_in4_ep>;
-+					};
-+				};
-+
-+				port@6a {
-+					reg = <0x6a>;
-+
-+					xbar_asrc_out4_ep: endpoint {
-+						remote-endpoint = <&asrc_out4_ep>;
-+					};
-+				};
-+
-+				xbar_asrc_in5_port: port@6b {
-+					reg = <0x6b>;
-+
-+					xbar_asrc_in5_ep: endpoint {
-+						remote-endpoint = <&asrc_in5_ep>;
-+					};
-+				};
-+
-+				port@6c {
-+					reg = <0x6c>;
-+
-+					xbar_asrc_out5_ep: endpoint {
-+						remote-endpoint = <&asrc_out5_ep>;
-+					};
-+				};
-+
-+				xbar_asrc_in6_port: port@6d {
-+					reg = <0x6d>;
-+
-+					xbar_asrc_in6_ep: endpoint {
-+						remote-endpoint = <&asrc_in6_ep>;
-+					};
-+				};
-+
-+				port@6e {
-+					reg = <0x6e>;
-+
-+					xbar_asrc_out6_ep: endpoint {
-+						remote-endpoint = <&asrc_out6_ep>;
-+					};
-+				};
-+
-+				xbar_asrc_in7_port: port@6f {
-+					reg = <0x6f>;
-+
-+					xbar_asrc_in7_ep: endpoint {
-+						remote-endpoint = <&asrc_in7_ep>;
-+					};
-+				};
- 			};
- 
- 			admaif@290f000 {
-@@ -1935,6 +2039,119 @@
- 					};
- 				};
- 			};
-+
-+			asrc@2910000 {
-+				status = "okay";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0x0>;
-+
-+						asrc_in1_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in1_ep>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <0x1>;
-+
-+						asrc_in2_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in2_ep>;
-+						};
-+					};
-+
-+					port@2 {
-+						reg = <0x2>;
-+
-+						asrc_in3_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in3_ep>;
-+						};
-+					};
-+
-+					port@3 {
-+						reg = <0x3>;
-+
-+						asrc_in4_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in4_ep>;
-+						};
-+					};
-+
-+					port@4 {
-+						reg = <0x4>;
-+
-+						asrc_in5_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in5_ep>;
-+						};
-+					};
-+
-+					port@5 {
-+						reg = <0x5>;
-+
-+						asrc_in6_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in6_ep>;
-+						};
-+					};
-+
-+					port@6 {
-+						reg = <0x6>;
-+
-+						asrc_in7_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_in7_ep>;
-+						};
-+					};
-+
-+					asrc_out1_port: port@7 {
-+						reg = <0x7>;
-+
-+						asrc_out1_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_out1_ep>;
-+						};
-+					};
-+
-+					asrc_out2_port: port@8 {
-+						reg = <0x8>;
-+
-+						asrc_out2_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_out2_ep>;
-+						};
-+					};
-+
-+					asrc_out3_port: port@9 {
-+						reg = <0x9>;
-+
-+						asrc_out3_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_out3_ep>;
-+						};
-+					};
-+
-+					asrc_out4_port: port@a {
-+						reg = <0xa>;
-+
-+						asrc_out4_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_out4_ep>;
-+						};
-+					};
-+
-+					asrc_out5_port: port@b {
-+						reg = <0xb>;
-+
-+						asrc_out5_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_out5_ep>;
-+						};
-+					};
-+
-+					asrc_out6_port:	port@c {
-+						reg = <0xc>;
-+
-+						asrc_out6_ep: endpoint {
-+							remote-endpoint = <&xbar_asrc_out6_ep>;
-+						};
-+					};
-+				};
-+			};
- 		};
- 	};
- 
-@@ -2331,6 +2548,10 @@
- 		       <&xbar_mixer_in5_port>, <&xbar_mixer_in6_port>,
- 		       <&xbar_mixer_in7_port>, <&xbar_mixer_in8_port>,
- 		       <&xbar_mixer_in9_port>, <&xbar_mixer_in10_port>,
-+		       <&xbar_asrc_in1_port>, <&xbar_asrc_in2_port>,
-+		       <&xbar_asrc_in3_port>, <&xbar_asrc_in4_port>,
-+		       <&xbar_asrc_in5_port>, <&xbar_asrc_in6_port>,
-+		       <&xbar_asrc_in7_port>,
- 		       /* HW accelerators */
- 		       <&sfc1_out_port>, <&sfc2_out_port>,
- 		       <&sfc3_out_port>, <&sfc4_out_port>,
-@@ -2348,6 +2569,8 @@
- 		       <&mixer_out1_port>, <&mixer_out2_port>,
- 		       <&mixer_out3_port>, <&mixer_out4_port>,
- 		       <&mixer_out5_port>,
-+		       <&asrc_out1_port>, <&asrc_out2_port>, <&asrc_out3_port>,
-+		       <&asrc_out4_port>, <&asrc_out5_port>, <&asrc_out6_port>,
- 		       /* I/O */
- 		       <&i2s1_port>, <&i2s2_port>, <&i2s3_port>, <&i2s4_port>,
- 		       <&i2s5_port>, <&i2s6_port>, <&dmic1_port>, <&dmic2_port>,
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index 2478ece9e..6719638 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -764,6 +764,110 @@
- 							remote-endpoint = <&mixer_out5_ep>;
- 						};
- 					};
-+
-+					xbar_asrc_in1_port: port@63 {
-+						reg = <0x63>;
-+
-+						xbar_asrc_in1_ep: endpoint {
-+							remote-endpoint = <&asrc_in1_ep>;
-+						};
-+					};
-+
-+					port@64 {
-+						reg = <0x64>;
-+
-+						xbar_asrc_out1_ep: endpoint {
-+							remote-endpoint = <&asrc_out1_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in2_port: port@65 {
-+						reg = <0x65>;
-+
-+						xbar_asrc_in2_ep: endpoint {
-+							remote-endpoint = <&asrc_in2_ep>;
-+						};
-+					};
-+
-+					port@66 {
-+						reg = <0x66>;
-+
-+						xbar_asrc_out2_ep: endpoint {
-+							remote-endpoint = <&asrc_out2_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in3_port: port@67 {
-+						reg = <0x67>;
-+
-+						xbar_asrc_in3_ep: endpoint {
-+							remote-endpoint = <&asrc_in3_ep>;
-+						};
-+					};
-+
-+					port@68 {
-+						reg = <0x68>;
-+
-+						xbar_asrc_out3_ep: endpoint {
-+							remote-endpoint = <&asrc_out3_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in4_port: port@69 {
-+						reg = <0x69>;
-+
-+						xbar_asrc_in4_ep: endpoint {
-+							remote-endpoint = <&asrc_in4_ep>;
-+						};
-+					};
-+
-+					port@6a {
-+						reg = <0x6a>;
-+
-+						xbar_asrc_out4_ep: endpoint {
-+							remote-endpoint = <&asrc_out4_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in5_port: port@6b {
-+						reg = <0x6b>;
-+
-+						xbar_asrc_in5_ep: endpoint {
-+							remote-endpoint = <&asrc_in5_ep>;
-+						};
-+					};
-+
-+					port@6c {
-+						reg = <0x6c>;
-+
-+						xbar_asrc_out5_ep: endpoint {
-+							remote-endpoint = <&asrc_out5_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in6_port: port@6d {
-+						reg = <0x6d>;
-+
-+						xbar_asrc_in6_ep: endpoint {
-+							remote-endpoint = <&asrc_in6_ep>;
-+						};
-+					};
-+
-+					port@6e {
-+						reg = <0x6e>;
-+
-+						xbar_asrc_out6_ep: endpoint {
-+							remote-endpoint = <&asrc_out6_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in7_port: port@6f {
-+						reg = <0x6f>;
-+
-+						xbar_asrc_in7_ep: endpoint {
-+							remote-endpoint = <&asrc_in7_ep>;
-+						};
-+					};
- 				};
- 
- 				admaif@290f000 {
-@@ -1734,6 +1838,119 @@
- 						};
- 					};
- 				};
-+
-+				asrc@2910000 {
-+					status = "okay";
-+
-+					ports {
-+						#address-cells = <1>;
-+						#size-cells = <0>;
-+
-+						port@0 {
-+							reg = <0x0>;
-+
-+							asrc_in1_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in1_ep>;
-+							};
-+						};
-+
-+						port@1 {
-+							reg = <0x1>;
-+
-+							asrc_in2_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in2_ep>;
-+							};
-+						};
-+
-+						port@2 {
-+							reg = <0x2>;
-+
-+							asrc_in3_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in3_ep>;
-+							};
-+						};
-+
-+						port@3 {
-+							reg = <0x3>;
-+
-+							asrc_in4_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in4_ep>;
-+							};
-+						};
-+
-+						port@4 {
-+							reg = <0x4>;
-+
-+							asrc_in5_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in5_ep>;
-+							};
-+						};
-+
-+						port@5 {
-+							reg = <0x5>;
-+
-+							asrc_in6_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in6_ep>;
-+							};
-+						};
-+
-+						port@6 {
-+							reg = <0x6>;
-+
-+							asrc_in7_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in7_ep>;
-+							};
-+						};
-+
-+						asrc_out1_port: port@7 {
-+							reg = <0x7>;
-+
-+							asrc_out1_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out1_ep>;
-+							};
-+						};
-+
-+						asrc_out2_port: port@8 {
-+							reg = <0x8>;
-+
-+							asrc_out2_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out2_ep>;
-+							};
-+						};
-+
-+						asrc_out3_port: port@9 {
-+							reg = <0x9>;
-+
-+							asrc_out3_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out3_ep>;
-+							};
-+						};
-+
-+						asrc_out4_port: port@a {
-+							reg = <0xa>;
-+
-+							asrc_out4_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out4_ep>;
-+							};
-+						};
-+
-+						asrc_out5_port: port@b {
-+							reg = <0xb>;
-+
-+							asrc_out5_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out5_ep>;
-+							};
-+						};
-+
-+						asrc_out6_port:	port@c {
-+							reg = <0xc>;
-+
-+							asrc_out6_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out6_ep>;
-+							};
-+						};
-+					};
-+				};
- 			};
- 		};
- 
-@@ -2052,6 +2269,10 @@
- 		       <&xbar_mixer_in5_port>, <&xbar_mixer_in6_port>,
- 		       <&xbar_mixer_in7_port>, <&xbar_mixer_in8_port>,
- 		       <&xbar_mixer_in9_port>, <&xbar_mixer_in10_port>,
-+		       <&xbar_asrc_in1_port>, <&xbar_asrc_in2_port>,
-+		       <&xbar_asrc_in3_port>, <&xbar_asrc_in4_port>,
-+		       <&xbar_asrc_in5_port>, <&xbar_asrc_in6_port>,
-+		       <&xbar_asrc_in7_port>,
- 		       /* HW accelerators */
- 		       <&sfc1_out_port>, <&sfc2_out_port>,
- 		       <&sfc3_out_port>, <&sfc4_out_port>,
-@@ -2068,6 +2289,8 @@
- 		       <&adx4_out3_port>, <&adx4_out4_port>,
- 		       <&mixer_out1_port>, <&mixer_out2_port>, <&mixer_out3_port>,
- 		       <&mixer_out4_port>, <&mixer_out5_port>,
-+		       <&asrc_out1_port>, <&asrc_out2_port>, <&asrc_out3_port>,
-+		       <&asrc_out4_port>, <&asrc_out5_port>, <&asrc_out6_port>,
- 		       /* BE I/O Ports */
- 		       <&i2s1_port>, <&i2s2_port>, <&i2s4_port>, <&i2s6_port>,
- 		       <&dmic3_port>;
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-index 32ce790..9c4871b 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-@@ -774,6 +774,110 @@
- 							remote-endpoint = <&mixer_out5_ep>;
- 						};
- 					};
-+
-+					xbar_asrc_in1_port: port@63 {
-+						reg = <0x63>;
-+
-+						xbar_asrc_in1_ep: endpoint {
-+							remote-endpoint = <&asrc_in1_ep>;
-+						};
-+					};
-+
-+					port@64 {
-+						reg = <0x64>;
-+
-+						xbar_asrc_out1_ep: endpoint {
-+							remote-endpoint = <&asrc_out1_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in2_port: port@65 {
-+						reg = <0x65>;
-+
-+						xbar_asrc_in2_ep: endpoint {
-+							remote-endpoint = <&asrc_in2_ep>;
-+						};
-+					};
-+
-+					port@66 {
-+						reg = <0x66>;
-+
-+						xbar_asrc_out2_ep: endpoint {
-+							remote-endpoint = <&asrc_out2_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in3_port: port@67 {
-+						reg = <0x67>;
-+
-+						xbar_asrc_in3_ep: endpoint {
-+							remote-endpoint = <&asrc_in3_ep>;
-+						};
-+					};
-+
-+					port@68 {
-+						reg = <0x68>;
-+
-+						xbar_asrc_out3_ep: endpoint {
-+							remote-endpoint = <&asrc_out3_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in4_port: port@69 {
-+						reg = <0x69>;
-+
-+						xbar_asrc_in4_ep: endpoint {
-+							remote-endpoint = <&asrc_in4_ep>;
-+						};
-+					};
-+
-+					port@6a {
-+						reg = <0x6a>;
-+
-+						xbar_asrc_out4_ep: endpoint {
-+							remote-endpoint = <&asrc_out4_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in5_port: port@6b {
-+						reg = <0x6b>;
-+
-+						xbar_asrc_in5_ep: endpoint {
-+							remote-endpoint = <&asrc_in5_ep>;
-+						};
-+					};
-+
-+					port@6c {
-+						reg = <0x6c>;
-+
-+						xbar_asrc_out5_ep: endpoint {
-+							remote-endpoint = <&asrc_out5_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in6_port: port@6d {
-+						reg = <0x6d>;
-+
-+						xbar_asrc_in6_ep: endpoint {
-+							remote-endpoint = <&asrc_in6_ep>;
-+						};
-+					};
-+
-+					port@6e {
-+						reg = <0x6e>;
-+
-+						xbar_asrc_out6_ep: endpoint {
-+							remote-endpoint = <&asrc_out6_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in7_port: port@6f {
-+						reg = <0x6f>;
-+
-+						xbar_asrc_in7_ep: endpoint {
-+							remote-endpoint = <&asrc_in7_ep>;
-+						};
-+					};
- 				};
- 
- 				admaif@290f000 {
-@@ -1794,6 +1898,119 @@
- 						};
- 					};
- 				};
-+
-+				asrc@2910000 {
-+					status = "okay";
-+
-+					ports {
-+						#address-cells = <1>;
-+						#size-cells = <0>;
-+
-+						port@0 {
-+							reg = <0x0>;
-+
-+							asrc_in1_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in1_ep>;
-+							};
-+						};
-+
-+						port@1 {
-+							reg = <0x1>;
-+
-+							asrc_in2_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in2_ep>;
-+							};
-+						};
-+
-+						port@2 {
-+							reg = <0x2>;
-+
-+							asrc_in3_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in3_ep>;
-+							};
-+						};
-+
-+						port@3 {
-+							reg = <0x3>;
-+
-+							asrc_in4_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in4_ep>;
-+							};
-+						};
-+
-+						port@4 {
-+							reg = <0x4>;
-+
-+							asrc_in5_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in5_ep>;
-+							};
-+						};
-+
-+						port@5 {
-+							reg = <0x5>;
-+
-+							asrc_in6_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in6_ep>;
-+							};
-+						};
-+
-+						port@6 {
-+							reg = <0x6>;
-+
-+							asrc_in7_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in7_ep>;
-+							};
-+						};
-+
-+						asrc_out1_port: port@7 {
-+							reg = <0x7>;
-+
-+							asrc_out1_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out1_ep>;
-+							};
-+						};
-+
-+						asrc_out2_port: port@8 {
-+							reg = <0x8>;
-+
-+							asrc_out2_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out2_ep>;
-+							};
-+						};
-+
-+						asrc_out3_port: port@9 {
-+							reg = <0x9>;
-+
-+							asrc_out3_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out3_ep>;
-+							};
-+						};
-+
-+						asrc_out4_port: port@a {
-+							reg = <0xa>;
-+
-+							asrc_out4_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out4_ep>;
-+							};
-+						};
-+
-+						asrc_out5_port: port@b {
-+							reg = <0xb>;
-+
-+							asrc_out5_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out5_ep>;
-+							};
-+						};
-+
-+						asrc_out6_port:	port@c {
-+							reg = <0xc>;
-+
-+							asrc_out6_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out6_ep>;
-+							};
-+						};
-+					};
-+				};
- 			};
- 		};
- 
-@@ -2102,6 +2319,10 @@
- 		       <&xbar_mixer_in5_port>, <&xbar_mixer_in6_port>,
- 		       <&xbar_mixer_in7_port>, <&xbar_mixer_in8_port>,
- 		       <&xbar_mixer_in9_port>, <&xbar_mixer_in10_port>,
-+		       <&xbar_asrc_in1_port>, <&xbar_asrc_in2_port>,
-+		       <&xbar_asrc_in3_port>, <&xbar_asrc_in4_port>,
-+		       <&xbar_asrc_in5_port>, <&xbar_asrc_in6_port>,
-+		       <&xbar_asrc_in7_port>,
- 		       /* HW accelerators */
- 		       <&sfc1_out_port>, <&sfc2_out_port>,
- 		       <&sfc3_out_port>, <&sfc4_out_port>,
-@@ -2119,6 +2340,8 @@
- 		       <&mixer_out1_port>, <&mixer_out2_port>,
- 		       <&mixer_out3_port>, <&mixer_out4_port>,
- 		       <&mixer_out5_port>,
-+		       <&asrc_out1_port>, <&asrc_out2_port>, <&asrc_out3_port>,
-+		       <&asrc_out4_port>, <&asrc_out5_port>, <&asrc_out6_port>,
- 		       /* BE I/O Ports */
- 		       <&i2s3_port>, <&i2s5_port>,
- 		       <&dmic1_port>, <&dmic2_port>, <&dmic4_port>,
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts b/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts
-index 34d6a01..eaf1994 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dts
-@@ -763,6 +763,110 @@
- 							remote-endpoint = <&mix_out5>;
- 						};
- 					};
-+
-+					xbar_asrc_in1_port: port@63 {
-+						reg = <0x63>;
-+
-+						xbar_asrc_in1_ep: endpoint {
-+							remote-endpoint = <&asrc_in1_ep>;
-+						};
-+					};
-+
-+					port@64 {
-+						reg = <0x64>;
-+
-+						xbar_asrc_out1_ep: endpoint {
-+							remote-endpoint = <&asrc_out1_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in2_port: port@65 {
-+						reg = <0x65>;
-+
-+						xbar_asrc_in2_ep: endpoint {
-+							remote-endpoint = <&asrc_in2_ep>;
-+						};
-+					};
-+
-+					port@66 {
-+						reg = <0x66>;
-+
-+						xbar_asrc_out2_ep: endpoint {
-+							remote-endpoint = <&asrc_out2_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in3_port: port@67 {
-+						reg = <0x67>;
-+
-+						xbar_asrc_in3_ep: endpoint {
-+							remote-endpoint = <&asrc_in3_ep>;
-+						};
-+					};
-+
-+					port@68 {
-+						reg = <0x68>;
-+
-+						xbar_asrc_out3_ep: endpoint {
-+							remote-endpoint = <&asrc_out3_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in4_port: port@69 {
-+						reg = <0x69>;
-+
-+						xbar_asrc_in4_ep: endpoint {
-+							remote-endpoint = <&asrc_in4_ep>;
-+						};
-+					};
-+
-+					port@6a {
-+						reg = <0x6a>;
-+
-+						xbar_asrc_out4_ep: endpoint {
-+							remote-endpoint = <&asrc_out4_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in5_port: port@6b {
-+						reg = <0x6b>;
-+
-+						xbar_asrc_in5_ep: endpoint {
-+							remote-endpoint = <&asrc_in5_ep>;
-+						};
-+					};
-+
-+					port@6c {
-+						reg = <0x6c>;
-+
-+						xbar_asrc_out5_ep: endpoint {
-+							remote-endpoint = <&asrc_out5_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in6_port: port@6d {
-+						reg = <0x6d>;
-+
-+						xbar_asrc_in6_ep: endpoint {
-+							remote-endpoint = <&asrc_in6_ep>;
-+						};
-+					};
-+
-+					port@6e {
-+						reg = <0x6e>;
-+
-+						xbar_asrc_out6_ep: endpoint {
-+							remote-endpoint = <&asrc_out6_ep>;
-+						};
-+					};
-+
-+					xbar_asrc_in7_port: port@6f {
-+						reg = <0x6f>;
-+
-+						xbar_asrc_in7_ep: endpoint {
-+							remote-endpoint = <&asrc_in7_ep>;
-+						};
-+					};
- 				};
- 
- 				i2s@2901000 {
-@@ -1733,6 +1837,119 @@
- 						};
- 					};
- 				};
-+
-+				asrc@2910000 {
-+					status = "okay";
-+
-+					ports {
-+						#address-cells = <1>;
-+						#size-cells = <0>;
-+
-+						port@0 {
-+							reg = <0x0>;
-+
-+							asrc_in1_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in1_ep>;
-+							};
-+						};
-+
-+						port@1 {
-+							reg = <0x1>;
-+
-+							asrc_in2_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in2_ep>;
-+							};
-+						};
-+
-+						port@2 {
-+							reg = <0x2>;
-+
-+							asrc_in3_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in3_ep>;
-+							};
-+						};
-+
-+						port@3 {
-+							reg = <0x3>;
-+
-+							asrc_in4_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in4_ep>;
-+							};
-+						};
-+
-+						port@4 {
-+							reg = <0x4>;
-+
-+							asrc_in5_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in5_ep>;
-+							};
-+						};
-+
-+						port@5 {
-+							reg = <0x5>;
-+
-+							asrc_in6_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in6_ep>;
-+							};
-+						};
-+
-+						port@6 {
-+							reg = <0x6>;
-+
-+							asrc_in7_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_in7_ep>;
-+							};
-+						};
-+
-+						asrc_out1_port: port@7 {
-+							reg = <0x7>;
-+
-+							asrc_out1_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out1_ep>;
-+							};
-+						};
-+
-+						asrc_out2_port: port@8 {
-+							reg = <0x8>;
-+
-+							asrc_out2_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out2_ep>;
-+							};
-+						};
-+
-+						asrc_out3_port: port@9 {
-+							reg = <0x9>;
-+
-+							asrc_out3_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out3_ep>;
-+							};
-+						};
-+
-+						asrc_out4_port: port@a {
-+							reg = <0xa>;
-+
-+							asrc_out4_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out4_ep>;
-+							};
-+						};
-+
-+						asrc_out5_port: port@b {
-+							reg = <0xb>;
-+
-+							asrc_out5_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out5_ep>;
-+							};
-+						};
-+
-+						asrc_out6_port:	port@c {
-+							reg = <0xc>;
-+
-+							asrc_out6_ep: endpoint {
-+								remote-endpoint = <&xbar_asrc_out6_ep>;
-+							};
-+						};
-+					};
-+				};
- 			};
- 
- 			dma-controller@2930000 {
-@@ -1823,6 +2040,10 @@
- 		       <&xbar_mix_in5_port>, <&xbar_mix_in6_port>,
- 		       <&xbar_mix_in7_port>, <&xbar_mix_in8_port>,
- 		       <&xbar_mix_in9_port>, <&xbar_mix_in10_port>,
-+		       <&xbar_asrc_in1_port>, <&xbar_asrc_in2_port>,
-+		       <&xbar_asrc_in3_port>, <&xbar_asrc_in4_port>,
-+		       <&xbar_asrc_in5_port>, <&xbar_asrc_in6_port>,
-+		       <&xbar_asrc_in7_port>,
- 		       /* HW accelerators */
- 		       <&sfc1_out_port>, <&sfc2_out_port>,
- 		       <&sfc3_out_port>, <&sfc4_out_port>,
-@@ -1839,6 +2060,8 @@
- 		       <&adx4_out3_port>, <&adx4_out4_port>,
- 		       <&mix_out1_port>, <&mix_out2_port>, <&mix_out3_port>,
- 		       <&mix_out4_port>, <&mix_out5_port>,
-+		       <&asrc_out1_port>, <&asrc_out2_port>, <&asrc_out3_port>,
-+		       <&asrc_out4_port>, <&asrc_out5_port>, <&asrc_out6_port>,
- 		       /* BE I/O Ports */
- 		       <&i2s1_port>, <&i2s2_port>, <&i2s4_port>, <&i2s6_port>,
- 		       <&dmic3_port>;
--- 
-2.7.4
+On Fri, Feb 11, 2022 at 12:15:44AM +0100, Janne Grunau wrote:
+> On 2022-02-09 17:31:16 +0100, Thierry Reding wrote:
+> > On Sun, Feb 06, 2022 at 11:27:00PM +0100, Janne Grunau wrote:
+> > > On 2021-09-15 17:19:39 +0200, Thierry Reding wrote:
+> > > > On Tue, Sep 07, 2021 at 07:44:44PM +0200, Thierry Reding wrote:
+> > > > > On Tue, Sep 07, 2021 at 10:33:24AM -0500, Rob Herring wrote:
+> > > > > > On Fri, Sep 3, 2021 at 10:36 AM Thierry Reding <thierry.reding@=
+gmail.com> wrote:
+> > > > > > >
+> > > > > > > On Fri, Sep 03, 2021 at 09:36:33AM -0500, Rob Herring wrote:
+> > > > > > > > On Fri, Sep 3, 2021 at 8:52 AM Thierry Reding <thierry.redi=
+ng@gmail.com> wrote:
+> > > > > > > > >
+> > > > > > > > > On Fri, Sep 03, 2021 at 08:20:55AM -0500, Rob Herring wro=
+te:
+> > > > > > > > > >
+> > > > > > > > > > Couldn't we keep this all in /reserved-memory? Just add=
+ an iova
+> > > > > > > > > > version of reg. Perhaps abuse 'assigned-address' for th=
+is purpose. The
+> > > > > > > > > > issue I see would be handling reserved iova areas witho=
+ut a physical
+> > > > > > > > > > area. That can be handled with just a iova and no reg. =
+We already have
+> > > > > > > > > > a no reg case.
+> > > > > > > > >
+> > > > > > > > > I had thought about that initially. One thing I'm worried=
+ about is that
+> > > > > > > > > every child node in /reserved-memory will effectively cau=
+se the memory
+> > > > > > > > > that it described to be reserved. But we don't want that =
+for regions
+> > > > > > > > > that are "virtual only" (i.e. IOMMU reservations).
+> > > > > > > >
+> > > > > > > > By virtual only, you mean no physical mapping, just a regio=
+n of
+> > > > > > > > virtual space, right? For that we'd have no 'reg' and there=
+fore no
+> > > > > > > > (physical) reservation by the OS. It's similar to non-stati=
+c regions.
+> > > > > > > > You need a specific handler for them. We'd probably want a =
+compatible
+> > > > > > > > as well for these virtual reservations.
+> > > > > > >
+> > > > > > > Yeah, these would be purely used for reserving regions in the=
+ IOVA so
+> > > > > > > that they won't be used by the IOVA allocator. Typically thes=
+e would be
+> > > > > > > used for cases where those addresses have some special meanin=
+g.
+> > > > > > >
+> > > > > > > Do we want something like:
+> > > > > > >
+> > > > > > >         compatible =3D "iommu-reserved";
+> > > > > > >
+> > > > > > > for these? Or would that need to be:
+> > > > > > >
+> > > > > > >         compatible =3D "linux,iommu-reserved";
+> > > > > > >
+> > > > > > > ? There seems to be a mix of vendor-prefix vs. non-vendor-pre=
+fix
+> > > > > > > compatible strings in the reserved-memory DT bindings directo=
+ry.
+> > > > > >=20
+> > > > > > I would not use 'linux,' here.
+> > > > > >=20
+> > > > > > >
+> > > > > > > On the other hand, do we actually need the compatible string?=
+ Because we
+> > > > > > > don't really want to associate much extra information with th=
+is like we
+> > > > > > > do for example with "shared-dma-pool". The logic to handle th=
+is would
+> > > > > > > all be within the IOMMU framework. All we really need is for =
+the
+> > > > > > > standard reservation code to skip nodes that don't have a reg=
+ property
+> > > > > > > so we don't reserve memory for "virtual-only" allocations.
+> > > > > >=20
+> > > > > > It doesn't hurt to have one and I can imagine we might want to =
+iterate
+> > > > > > over all the nodes. It's slightly easier and more common to ite=
+rate
+> > > > > > over compatible nodes rather than nodes with some property.
+> > > > > >=20
+> > > > > > > > Are these being global in DT going to be a problem? Presuma=
+bly we have
+> > > > > > > > a virtual space per IOMMU. We'd know which IOMMU based on a=
+ device's
+> > > > > > > > 'iommus' and 'memory-region' properties, but within /reserv=
+ed-memory
+> > > > > > > > we wouldn't be able to distinguish overlapping addresses fr=
+om separate
+> > > > > > > > address spaces. Or we could have 2 different IOVAs for 1 ph=
+ysical
+> > > > > > > > space. That could be solved with something like this:
+> > > > > > > >
+> > > > > > > > iommu-addresses =3D <&iommu1 <address cells> <size cells>>;
+> > > > > > >
+> > > > > > > The only case that would be problematic would be if we have o=
+verlapping
+> > > > > > > physical regions, because that will probably trip up the stan=
+dard code.
+> > > > > > >
+> > > > > > > But this could also be worked around by looking at iommu-addr=
+esses. For
+> > > > > > > example, if we had something like this:
+> > > > > > >
+> > > > > > >         reserved-memory {
+> > > > > > >                 fb_dc0: fb@80000000 {
+> > > > > > >                         reg =3D <0x80000000 0x01000000>;
+> > > > > > >                         iommu-addresses =3D <0xa0000000 0x010=
+00000>;
+> > > > > > >                 };
+> > > > > > >
+> > > > > > >                 fb_dc1: fb@80000000 {
+> > > > > >=20
+> > > > > > You can't have 2 nodes with the same name (actually, you can, t=
+hey
+> > > > > > just get merged together). Different names with the same unit-a=
+ddress
+> > > > > > is a dtc warning. I'd really like to make that a full blown
+> > > > > > overlapping region check.
+> > > > >=20
+> > > > > Right... so this would be a lot easier to deal with using that ea=
+rlier
+> > > > > proposal where the IOMMU regions were a separate thing and refere=
+ncing
+> > > > > the reserved-memory nodes. In those cases we could just have the
+> > > > > physical reservation for the framebuffer once (so we don't get any
+> > > > > duplicates or overlaps) and then have each IOVA reservation refer=
+ence
+> > > > > that to create the mapping.
+> > > > >=20
+> > > > > >=20
+> > > > > > >                         reg =3D <0x80000000 0x01000000>;
+> > > > > > >                         iommu-addresses =3D <0xb0000000 0x010=
+00000>;
+> > > > > > >                 };
+> > > > > > >         };
+> > > > > > >
+> > > > > > > We could make the code identify that this is for the same phy=
+sical
+> > > > > > > reservation (maybe make it so that reg needs to match exactly=
+ for this
+> > > > > > > to be recognized) but with different virtual allocations.
+> > > > > > >
+> > > > > > > On a side-note: do we really need to repeat the size? I'd thi=
+nk if we
+> > > > > > > want mappings then we'd likely want them for the whole reserv=
+ation.
+> > > > > >=20
+> > > > > > Humm, I suppose not, but dropping it paints us into a corner if=
+ we
+> > > > > > come up with wanting a different size later. You could have a c=
+arveout
+> > > > > > for double/triple buffering your framebuffer, but the bootloader
+> > > > > > framebuffer is only single buffered. So would you want actual s=
+ize?
+> > > > >=20
+> > > > > Perhaps this needs to be a bit more verbose then. If we want the =
+ability
+> > > > > to create a mapping for only a partial reservation, I could imagi=
+ne we
+> > > > > may as well want one that doesn't start at the beginning. So perh=
+aps an
+> > > > > ever better solution would be to have a complete mapping, somethi=
+ng that
+> > > > > works similar to "ranges" perhaps, like so:
+> > > > >=20
+> > > > > 	fb@80000000 {
+> > > > > 		reg =3D <0x80000000 0x01000000>;
+> > > > > 		iommu-ranges =3D <0x80000000 0x01000000 0x80000000>;
+> > > > > 	};
+> > > > >=20
+> > > > > That would be for a full identity mapping, but we could also have
+> > > > > something along the lines of this:
+> > > > >=20
+> > > > > 	fb@80000000 {
+> > > > > 		reg =3D <0x80000000 0x01000000>;
+> > > > > 		iommu-ranges =3D <0x80100000 0x00100000 0xa0000000>;
+> > > > > 	};
+> > > > >=20
+> > > > > So that would only map a 1 MiB chunk at offset 1 MiB (of the phys=
+ical
+> > > > > reservation) to I/O virtual address 0xa0000000.
+> > > > >=20
+> > > > > > > I'd like to keep references to IOMMUs out of this because the=
+y would be
+> > > > > > > duplicated. We will only use these nodes if they are referenc=
+ed by a
+> > > > > > > device node that also has an iommus property. Also, the IOMMU=
+ reference
+> > > > > > > itself isn't enough. We'd also need to support the complete s=
+pecifier
+> > > > > > > because you can have things like SIDs in there to specify the=
+ exact
+> > > > > > > address space that a device uses.
+> > > > > > >
+> > > > > > > Also, for some of these they may be reused independently of t=
+he IOMMU
+> > > > > > > address space. For example the Tegra framebuffer identity map=
+ping can
+> > > > > > > be used by either of the 2-4 display controllers, each with (=
+at least
+> > > > > > > potentially) their own address space. But we don't want to ha=
+ve to
+> > > > > > > describe the identity mapping separately for each display con=
+troller.
+> > > > > >=20
+> > > > > > Okay, but I'd rather have to duplicate things in your case than=
+ not be
+> > > > > > able to express some other case.
+> > > > >=20
+> > > > > The earlier "separate iov-reserved-memory" proposal would be a go=
+od
+> > > > > compromise here. It'd allow us to duplicate only the necessary bi=
+ts
+> > > > > (i.e. the IOVA mappings) but keep the common bits simple. And even
+> > > > > the IOVA mappings could be shared for cases like identity mapping=
+s.
+> > > > > See below for more on that.
+> > > > >=20
+> > > > > > > Another thing to consider is that these nodes will often be a=
+dded by
+> > > > > > > firmware (e.g. firmware will allocate the framebuffer and set=
+ up the
+> > > > > > > corresponding reserved memory region in DT). Wiring up refere=
+nces like
+> > > > > > > this would get very complicated very quickly.
+> > > > > >=20
+> > > > > > Yes.
+> > > > > >=20
+> > > > > > The using 'iommus' property option below can be optional and do=
+esn't
+> > > > > > have to be defined/supported now. Just trying to think ahead an=
+d not
+> > > > > > be stuck with something that can't be extended.
+> > > > >=20
+> > > > > One other benefit of the separate iov-reserved-memory node would =
+be that
+> > > > > the iommus property could be simplified. If we have a physical
+> > > > > reservation that needs to be accessed by multiple different displ=
+ay
+> > > > > controllers, we'd end up with something fairly complex, such as t=
+his:
+> > > > >=20
+> > > > > 	fb: fb@80000000 {
+> > > > > 		reg =3D <0x80000000 0x01000000>;
+> > > > > 		iommus =3D <&dc0_iommu 0xa0000000 0x01000000>,
+> > > > > 			 <&dc1_iommu 0xb0000000 0x01000000>,
+> > > > > 			 <&dc2_iommu 0xc0000000 0x01000000>;
+> > > > > 	};
+> > > > >=20
+> > > > > This would get even worse if we want to support partial mappings.=
+ Also,
+> > > > > it'd become quite complicated to correlate this with the memory-r=
+egion
+> > > > > references:
+> > > > >=20
+> > > > > 	dc0: dc@40000000 {
+> > > > > 		...
+> > > > > 		memory-region =3D <&fb>;
+> > > > > 		iommus =3D <&dc0_iommu>;
+> > > > > 		...
+> > > > > 	};
+> > > > >=20
+> > > > > So now you have to go match up the phandle (and potentially speci=
+fier)
+> > > > > in the iommus property of the disp0 node with an entry in the fb =
+node's
+> > > > > iommus property. That's all fairly complicated stuff.
+> > > > >=20
+> > > > > With separate iov-reserved-memory, this would be a bit more verbo=
+se, but
+> > > > > each individual node would be simpler:
+> > > > >=20
+> > > > > 	reserved-memory {
+> > > > > 		fb: fb@80000000 {
+> > > > > 			reg =3D <0x80000000 0x01000000>;
+> > > > > 		};
+> > > > > 	};
+> > > > >=20
+> > > > > 	iov-reserved-memory {
+> > > > > 		fb0: fb@80000000 {
+> > > > > 			/* identity mapping, "reg" optional? */
+> > > > > 			reg =3D <0x80000000 0x01000000>;
+> > > > > 			memory-region =3D <&fb>;
+> > > > > 		};
+> > > > >=20
+> > > > > 		fb1: fb@90000000 {
+> > > > > 			/* but doesn't have to be */
+> > > > > 			reg =3D <0x90000000 0x01000000>;
+> > > > > 			memory-region =3D <&fb>;
+> > > > > 		};
+> > > > >=20
+> > > > > 		fb2: fb@a0000000 {
+> > > > > 			/* can be partial, too */
+> > > > > 			ranges =3D <0x80000000 0x00800000 0xa0000000>;
+> > > > > 			memory-region =3D <&fb>;
+> > > > > 		};
+> > > > > 	}
+> > > > >=20
+> > > > > 	dc0: dc@40000000 {
+> > > > > 		iov-memory-regions =3D <&fb0>;
+> > > > > 		/* optional? */
+> > > > > 		memory-region =3D <&fb>;
+> > > > > 		iommus =3D <&dc0_iommu>;
+> > > > > 	};
+> > > > >=20
+> > > > > Alternatively, if we want to support partial mappings, we could r=
+eplace
+> > > > > those reg properties by ranges properties that I showed earlier. =
+We may
+> > > > > even want to support both. Use "reg" for virtual-only reservation=
+s and
+> > > > > identity mappings, or "simple partial mappings" (that map a sub-r=
+egion
+> > > > > starting from the beginning). Identity mappings could still be
+> > > > > simplified by just omitting the "reg" property. For more complica=
+ted
+> > > > > mappings, such as the ones on M1, the "ranges" property could be =
+used.
+> > > > >=20
+> > > > > Note how this looks a bit boilerplate-y, but it's actually really=
+ quite
+> > > > > simple to understand, even for humans, I think.
+> > > > >=20
+> > > > > Also, the phandles in this are comparatively easy to wire up beca=
+use
+> > > > > they can all be generated in a hierarchical way: generate physical
+> > > > > reservation and store phandle, then generate I/O virtual reservat=
+ion
+> > > > > to reference that phandle and store the new phandle as well. Fina=
+lly,
+> > > > > wire this up to the display controller (using either the IOV phan=
+dle or
+> > > > > both).
+> > > > >=20
+> > > > > Granted, this requires the addition of a new top-level node, but =
+given
+> > > > > how expressive this becomes, I think it might be worth a second
+> > > > > consideration.
+> > > >=20
+> > > > I guess as a middle-ground between your suggestion and mine, we cou=
+ld
+> > > > also move the IOV nodes back into reserved-memory. If we make sure =
+the
+> > > > names (together with unit-addresses) are unique, to support cases w=
+here
+> > > > we want to identity map, or have multiple mappings at the same addr=
+ess.
+> > > > So it'd look something like this:
+> > > >=20
+> > > > 	reserved-memory {
+> > > > 		fb: fb@80000000 {
+> > > > 			reg =3D <0x80000000 0x01000000>;
+> > > > 		};
+> > > >=20
+> > > > 		audio-firmware@ff000000 {
+> > > > 			/* perhaps add "iommu-reserved" for this case */
+> > > > 			compatible =3D "iommu-mapping";
+> > > > 			/*
+> > > > 			 * no memory-region referencing a physical
+> > > > 			 * reservation, indicates that this is an
+> > > > 			 * IOMMU reservation, rather than a mapping
+> > > > 			 /
+> > > > 			reg =3D <0xff000000 0x01000000>;
+> > > > 		};
+> > > >=20
+> > > > 		fb0: fb-mapping@80000000 {
+> > > > 			compatible =3D "iommu-mapping";
+> > > > 			/* identity mapping, "reg" optional? */
+> > > > 			reg =3D <0x80000000 0x01000000>;
+> > > > 			memory-region =3D <&fb>;
+> > > > 		};
+> > > >=20
+> > > > 		fb1: fb-mapping@90000000 {
+> > > > 			compatible =3D "iommu-mapping";
+> > > > 			/* but doesn't have to be */
+> > > > 			reg =3D <0x90000000 0x01000000>;
+> > > > 			memory-region =3D <&fb>;
+> > > > 		};
+> > > >=20
+> > > > 		fb2: fb-mapping@a0000000 {
+> > > > 			compatible =3D "iommu-mapping";
+> > > > 			/* can be partial, too */
+> > > > 			ranges =3D <0xa0000000 0x00800000 0x80000000>;
+> > > > 			memory-region =3D <&fb>;
+> > > > 		};
+> > > > 	}
+> > > >=20
+> > > > 	dc0: dc@40000000 {
+> > > > 		memory-region =3D <&fb0>;
+> > > > 		iommus =3D <&dc0_iommu>;
+> > > > 	};
+> > > >=20
+> > > > What do you think?
+> > >=20
+> > > I converted the Apple M1 display controller driver to using reserved=
+=20
+> > > regions using these bindings. It is sufficient for the needs of the M=
+1=20
+> > > display controller which is so far the only device requiring this.
+> >=20
+> > Thanks for trying this out. I've been meaning to resume this discussion
+> > to finally get closure because we really want to enable this for various
+> > Tegra SoCs.
+> >=20
+> > > I encountered two problems with this bindings proposal:
+> > >=20
+> > > 1) It is impossible to express which iommu needs to be used if a devi=
+ce=20
+> > > has multiple "iommus" specified. This is on the M1 only a theoretical=
+=20
+> > > problem as the display co-processor devices use a single iommu.
+> >=20
+> > From what I recall this is something that we don't fully support either
+> > way. If you've got a struct device and you want to allocate DMA'able
+> > memory, you can only pass that struct device to the DMA API upon
+> > allocation but you have no way of specifying separate instances
+> > depending on use-case.
+>=20
+> Ok, let's us ignore then my complicated proposal. It is not a problem we=
+=20
+> need to solve for the M1.
+>=20
+> > > 2) The reserved regions can not easily looked up at iommu probe=20
+> > > time.  The Apple M1 iommu driver resets the iommu at probe. This=20
+> > > breaks the framebuffer. The display controller appears to crash then=
+=20
+> > > an active scan-out framebuffer is unmapped. Resetting the iommu=20
+> > > looks like a sensible approach though.
+> > >=20
+> > > To work around this I added custom property to the affected iommu nod=
+e=20
+> > > to avoid the reset. This doesn't feel correct since the reason to avo=
+id=20
+> > > the reset is that we have to maintain the reserved regions mapping un=
+til=20
+> > > the display controller driver takes over.
+> > > As far as I can see the only method to retrieve devices with reserved=
+=20
+> > > memory from the iommu is to iterate over all devices. This looks=20
+> > > impractical. The M1 has over 20 distinct iommus.
+> >=20
+> > Do I understand correctly that on the M1, the firmware sets up a mapping
+> > in the IOMMU already and then you want to recreate that mapping after
+> > the IOMMU driver has reset the IOMMU?
+>=20
+> The mappings are already set up by firmware as it uses the frame buffer=
+=20
+> already itself. We need to make the kernel aware of the existing mapping=
+=20
+> so it can use the IOMMU. Using reserved memory regions and mappings=20
+> seems to be clean way to do this. We want to reset IOMMUs without=20
+> pre-existing mappings (the M1 has over 20 IOMMUs). We need a way to=20
+> identify the two IOMMUs which must not be reseted at driver probe time. =
+=20
+> A simple property in the IOMMU node would be enough. It would duplicate=
+=20
+> information though since the only reason why we can't reset the IOMMU is=
+=20
+> the pre-existing mapping
+>=20
+> > In that case, how do you make sure that you atomically transition from
+> > the firmware mapping to the kernel mapping? As soon as you reset the
+> > IOMMU, the display controller will cause IOMMU faults because its now
+> > scanning out from an unmapped buffer, right?
+>=20
+> We are replacing the entire firmware managed page table with a kernel=20
+> managed one with a TTBR MMIO register write. The second IOMMU with=20
+> pre-existing mapping has unfortunately the TTBR locked. Dealing with=20
+> this is more complicated but the device using this IOMMU appears to
+> sleep.
+>=20
+> > So that approach of avoiding the reset doesn't seem wrong to me.
+> > Obviously that's not altogether trivial to do either. Typically the
+> > IOMMU mappings would be contained in system memory, so you'd have to
+> > reserve those via reserved-memory nodes as well, etc.
+>=20
+> The system memory is currently not expressed as reserved-memory but=20
+> simply outside of the specified memory.
+> =20
+> > > One way to avoid both problems would be to move the mappings to the=
+=20
+> > > iommu node as sub nodes. The device would then reference those. =20
+> > > This way the mapping is readily available at iommu probe time and=20
+> > > adding iommu type specific parameters to map the region correctly is=
+=20
+> > > possible.
+> > >=20
+> > > The sample above would transfor to:
+> > >=20
+> > > 	reserved-memory {
+> > > 		fb: fb@80000000 {
+> > > 			reg =3D <0x80000000 0x01000000>;
+> > > 		};
+> > > 	};
+> > >=20
+> > > 	dc0_iommu: iommu@20000000 {
+> > > 		#iommu-cells =3D <1>;
+> > >=20
+> > > 		fb0: fb-mapping@80000000 {
+> > > 			compatible =3D "iommu-mapping";
+> > > 			/* identity mapping, "reg" optional? */
+> > > 			reg =3D <0x80000000 0x01000000>;
+> > > 			memory-region =3D <&fb>;
+> > > 			device-id =3D <0>; /* for #iommu-cells*/
+> > > 		};
+> > >=20
+> > > 		fb1: fb-mapping@90000000 {
+> > > 			compatible =3D "iommu-mapping";
+> > > 			/* but doesn't have to be */
+> > > 			reg =3D <0x90000000 0x01000000>;
+> > > 			memory-region =3D <&fb>;
+> > > 			device-id =3D <1>; /* for #iommu-cells*/
+> > > 		};
+> > > 	};
+> > >=20
+> > > 	dc0: dc@40000000 {
+> > > 		iommu-region =3D <&fb0>;
+> > > 		iommus =3D <&dc0_iommu 0>;
+> > > 	};
+> > >=20
+> > > Does anyone see problems with this approach or can think of something=
+=20
+> > > better?
+> >=20
+> > The device tree description of this looks a bit weird because it
+> > sprinkles things all around. For instance now we've got the "stream ID"
+> > (i.e. what you seem to be referring to as "device-id") in two places,
+> > once in the iommus property of the DC node and once in the mapping.
+>=20
+> Yes, stream_id would be the device-id. It is the term used in the=20
+> apple-dart IOMMU driver. It is duplicated to deal with the multiple=20
+> IOMMU problem. Let's ignore that and scrape my proposal.
+> =20
+> > Would it work if you added back-references to the devices that are
+> > active on boot to the IOMMU node? Something along these lines:
+> >=20
+> > 	reserved-memory {
+> > 		fb: fb@80000000 {
+> > 			reg =3D <0x80000000 0x01000000>;
+> > 		};
+> > 	};
+> >=20
+> > 	dc0_iommu: iommu@20000000 {
+> > 		#iommu-cells =3D <1>;
+> >=20
+> > 		mapped-devices =3D <&dc0>;
+> > 	};
+> >=20
+> > 	dc0: dc@40000000 {
+> > 		memory-region =3D <&fb0>;
+> > 		iommus =3D <&dc0_iommu 0>;
+> > 	};
+> >=20
+> > Depending on how you look at it that's a circular dependency, but it
+> > won't be in practice. It makes things a bit more compact and puts the
+> > data where it belongs.
+>=20
+> Yes, this works for the Apple M1 display co-processor. I've changed the=
+=20
+> dts and my apple-dart private parsing code to use "mapped-devices"=20
+> back-references and it works as before. We probably need an automated=20
+> check to ensure the references between device and IOMMU remains=20
+> consistent.
 
+Circling back to this... again. I've been thinking about this some more
+and have come up with a mix between what Rob, Janne and I had proposed.
+This is how it would look (based on Tegra210):
+
+	reserved-memory {
+		fb: framebuffer@80000000 {
+			/*
+			 * Physical memory region that is reserved. If
+			 * this property is omitted, this region should
+			 * be treated as an IOVA reservation.
+			 */
+			reg =3D <0x80000000 0x01000000>;
+
+			/*
+			 * Create 1:1 mapping for display controller.
+			 *
+			 * Note how instead of the IOMMU reference we
+			 * actually pass the device reference here. This
+			 * combines the "mapped-devices" property that
+			 * was proposed earlier and makes it easier to
+			 * find the device that needs this mapping. The
+			 * IOMMU phandle and specifier can be obtained
+			 * via this backlink to the consumer device.
+			 *
+			 * More than one entry could be specified here
+			 * to allow mappings for multiple devices. This
+			 * avoids the problem of having multiple nodes
+			 * with the same name.
+			 *
+			 * Could also be "iommu-addresses" as Rob had
+			 * suggested earlier, but "iommu-mapping" seems
+			 * a bit more appropriate given that there's
+			 * also the phandle now.
+			 */
+			iommu-mapping =3D <&dc 0x80000000 0x01000000>;
+		};
+	};
+
+	mc: memory-controller@70019000 {
+		...
+		#iommu-cells =3D <1>;
+		...
+	};
+
+	dc: dc@54200000 {
+		...
+		iommus =3D <&mc TEGRA_SWGROUP_DC>;
+
+		/*
+		 * As in earlier proposals, this could be optional if
+		 * all we need is the IOMMU mapping. It can be specified
+		 * if there's a need for the driver to use the physical
+		 * memory region (i.e. to copy out existing framebuffer
+		 * content and recycle memory).
+		 */
+		memory-region =3D <&fb>;
+		...
+	};
+
+One last remaining question that I have for this is whether we also need
+some sort of #address-cells and #size-cells for the IOMMU which we need
+to determine how many cells the addresses in iommu-mapping need to have.
+I suppose we could derive that from the dma-ranges property somehow,
+since that defines the addressable region of the device that needs the
+mapping.
+
+Thierry
+
+--7Tuyp66Xcb8lGb33
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJF1d8ACgkQ3SOs138+
+s6HRRQ//UQ/ew8hhoRXdaIpMyqAExm8b5afE8d6eLidN+1KlX1ygwpxjibiGW71H
+ljS/iHQogujvHLC+gRSZmpqpkY1nR03RzE9+ZWEDe8mag/8TEvMXa8EtETAIKp58
++JkT1hVHe10iDEdIU2Rz9x0zcUuSppq2OWNRgxl/DEynBTP3xRmNIa8Xt6wRdNHw
+mjWKQ+cl4BtoAarJw5Ao6TAtAmWVokrJrry1XAlkHU9btLR25Zx2DNijO34GNrSW
+Y9RwLWkTZiC5BPeiR2IgutieENg3KW6JlLXiqVylWAqM0OCC8O2rozq2kr+m4IMD
+0S2JOEy9K/WK1E/JU5vvD1NzduXYYQO/FDvY/9Stko8dZOzzpdEOIElryTTnr9k7
+DUOYqRyRHn0EgYbIPrrLCv1ldBi7CDdMsK3il7rEtZvlqg5HgbL6WGfgGyTynmK0
+T67gVkpYKeP83Sa08T2gjHR1ToDDQTEs7LvkCnLUQi3QZ+AINbmLhkH52OUfB+RO
+85yudOK3k63dgqAjP6AaQqa+qJdqMQscSYLQoFTq9XBrLCf1e8rgVCi69qW7PeuH
+D3wq4KfXwfYSWmKmK4ZxN1/fSRiuYq1L2AxMh1Wy333R8Ycv2Jp1WWnAAa+8ebVf
++U5RLfWhmOMupd+RRaIUSrlXijDL107yT4+xmdwYIdzswPhSW6M=
+=TiDP
+-----END PGP SIGNATURE-----
+
+--7Tuyp66Xcb8lGb33--
