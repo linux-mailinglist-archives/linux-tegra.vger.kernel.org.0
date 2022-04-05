@@ -2,140 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0381B4F418F
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Apr 2022 23:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1569E4F4ED0
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 03:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238846AbiDEPDS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Apr 2022 11:03:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36834 "EHLO
+        id S1349767AbiDFATz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Apr 2022 20:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382375AbiDEORR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Apr 2022 10:17:17 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF51511BCF9;
-        Tue,  5 Apr 2022 06:01:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mv+UgOlWnHKuY8eIzzJH+Dkbio0qMDcVxRFPILH7tHzXNXexipOk+FEDg0H5F3XfjwcVrWp/v4scquDwdpw6n0dw9h5fuLaq5b7tLtvYY6+hKVeUJceEr2YCh1hB0si70ZEaHRx3ciQKSvEYoU2F/WJ0uFsds8jr0FoqxFcwFvBD+07UKPSWxdA83gRgTcFYvR7L1TCc4ukIuZTgnlkJDTU3Vp53sZLwEopj5RmYBKhvwV0U22PJb2Y3z2BZx9fF3hFxeWpLo414ka/cviJIuA9lKbtaHwSUCu8S/ps6kq3OWDDxTgUXglb4+Vs4F6AkbiYRy6YYoXRT7uk55ih0eQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0jiZqiuA4bL/Xl4sXyXV/fFxhFrzn1JlNSbgW6WB1YI=;
- b=bxVexal4p09bNddM+nieVgV3IPeYlyvokKeUjCnBKtBvDQBXwTetPuVx6XkXu0Oj63wBYWYRB8fzydAZSe8JIhw1XEVW77KFDVHn7EHJs1V0YCYSHJXjrPZgb6+hBTSqyru+x9hWAqWvUSUF9nLHXtLukn3YwtiCXeBVAZjRnABVgfuUoLCeuwVSuPSDPjC5e2sRElFbzAnFJb6jVgIPNtdkUCIZLL4jgYaQsvEh26c4YP/YZjmwRIWOFp+BZSaPrSIRj4JPZRgyuRKlj8Xmie3gltsCbipuHVvHprjhEft/5fZ262+1QalcqzON3KBdlT3LVkUttqFhOm/Yl9JT2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0jiZqiuA4bL/Xl4sXyXV/fFxhFrzn1JlNSbgW6WB1YI=;
- b=VnoZZwyYL1GXk65Cch0NN3n49Zo8Pkqr9nG0LzKWwW+6ZLCsS570JgDkoU8cgrG462sm6bwF3d7t3i7n0AklWJPKrGL/PsABxlsAW9LZUFtowujQgnrAft6wKn4MucjfxbkP83Zc7n1O//5uuxGxb8vqej0mCFHorWZ1WRFzz4k7BjkWxJd94CYnlSK+P50ivLTeqfeGz6dPerHdE/LIHR2Z78j0IVO8JhaiEMFhvWVsZYv38+vK8E33rPsgUyxnBfYQXh7rOt8P1BMHdJgmeM35Hq3Vy5Aux4XG9xvFTb+JKwjOnLxMV9Z7XQSoEGMpwXZtNKSkzqRwAirSQMcBAw==
-Received: from DS7P222CA0005.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::17) by
- MWHPR12MB1806.namprd12.prod.outlook.com (2603:10b6:300:10d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Tue, 5 Apr
- 2022 13:01:48 +0000
-Received: from DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:2e:cafe::76) by DS7P222CA0005.outlook.office365.com
- (2603:10b6:8:2e::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.13 via Frontend
- Transport; Tue, 5 Apr 2022 13:01:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.235) by
- DM6NAM11FT032.mail.protection.outlook.com (10.13.173.93) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5123.19 via Frontend Transport; Tue, 5 Apr 2022 13:01:47 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Tue, 5 Apr
- 2022 13:01:47 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 5 Apr 2022
- 06:01:46 -0700
-Received: from sumitg-l4t.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.986.22 via Frontend
- Transport; Tue, 5 Apr 2022 06:01:43 -0700
-From:   Sumit Gupta <sumitg@nvidia.com>
-To:     <rafael@kernel.org>, <viresh.kumar@linaro.org>,
-        <robh+dt@kernel.org>, <krzk+dt@kernel.org>, <treding@nvidia.com>,
-        <jonathanh@nvidia.com>, <linux-pm@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>, <bbasu@nvidia.com>,
-        <sumitg@nvidia.com>
-Subject: [Patch v4 4/4] arm64: tegra: add node for tegra234 cpufreq
-Date:   Tue, 5 Apr 2022 18:31:19 +0530
-Message-ID: <20220405130119.4697-5-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220405130119.4697-1-sumitg@nvidia.com>
-References: <20220405130119.4697-1-sumitg@nvidia.com>
-X-NVConfidentiality: public
+        with ESMTP id S1443188AbiDEPjI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Apr 2022 11:39:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1AA14753D;
+        Tue,  5 Apr 2022 06:55:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E6E05B81BA8;
+        Tue,  5 Apr 2022 13:55:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD12C385A4;
+        Tue,  5 Apr 2022 13:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649166901;
+        bh=iB8V/cO3JDHg3B4uaq4JA6GvE9hxQZX/fsJc7mMx4Fw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JhEBLwku9Xc18r0NykUeJRpimrF/ZQ7Vy2v5FtpfNKp9TFQV8SCLWd3YfLSCkoZWj
+         nQ5A2lhhzkC2vDDOLS2fLFyRvZxjVweUFNChghZAlbqcrbC8/h9EjHgSTIqsg7fPsj
+         PeJo5uheX/Wkb0siHrvHYvvGdA2KuMrQejv1bwSTdgHD5zpl2zGCmBLKzt55eA8J0v
+         pkg0PsKScqzB51rkSgMMs2UrQqyX27Y4khUssjIy6AAutuC1LSJ9v1DeM7Mr7EI5w6
+         KSPtZ0NMJGh0sv1+hb63xtf6/ucXGTc65OLTwLgfmFundA1Z7xEP9yqvyzIkQbzuRi
+         QUk3HlObdvTfw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nbje7-001q4g-37; Tue, 05 Apr 2022 14:54:59 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, kernel-team@android.com
+Subject: [PATCH v2 00/10] gpiolib: Handle immutable irq_chip structures
+Date:   Tue,  5 Apr 2022 14:54:34 +0100
+Message-Id: <20220405135444.199295-1-maz@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5a0d1af0-1579-4906-61da-08da170471a0
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1806:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB18069EBEED38796CF50FAA56B9E49@MWHPR12MB1806.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zw321ry2odIqITdbSssDdazv89WR6VAk7H4lecQsmHTIzGQ+PMKEtXilrCcNE4dhK0+bWrwJHgGchpJKDI5UIGmB3nZ2A0Cvobfif/adjeTvh8Es/3DPD1wykxYxSiIeF+SSYsYjx3LTpByO80OIzpQHHURvi1xhxYTAISKqO62x0yz+QIyFSEWPlrQ1cj4UzaCdAefddhNijxzwXRPTTvfO3Nf/zgWqhP3CprM6fldqPfOB8psJw9vklyPABZviSuyXQCQwrz2Y521KQbthQFvmnTBMfnpGdduNZ0pt7VLZPRN0uU+Ti3x/MjxllapJJG/kMrWE2yWlEk9/MZDf2efNM2VAAVkhIU8mrLXKACm5cXGtyepyM/GsZbjmujKvHlVhHLLkCqGqQexu1w1ZE4QCLtGoJ4YIQYZptymKOhhcwH9bqtHIz0GN8Cv91rxmOXISKsVWSg3iti1wI3bvnb1dGqb6AnZCBY5v6hHf4k1vE7VzyiNCQQ6I9IozXX2U3UW/jEPJBm4nezTxPJ0L1jrZjLW+fkdp931v+vTCqO9+Gk3v2KLiFscyyPoae7wJ95vz7CoKAzdpp/0aq5g2H1a+ZXduVKx/+Q1Krb8eE8Wk6jO0fZYMq7nT+YdUec3udUQoSBcLRM2YhMI4lNBBbOZaF4FKuYFN6Iv+HotqUB9vl99ITzHgseoy6f2fyDzS4eHfYdieRzkZ80PD12Wfy7ZX8wGNZ9WanzAvjy/62SY=
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(2616005)(5660300002)(1076003)(107886003)(2906002)(36860700001)(82310400005)(8936002)(921005)(7696005)(4744005)(356005)(47076005)(36756003)(86362001)(316002)(4326008)(70586007)(70206006)(83380400001)(40460700003)(6666004)(81166007)(8676002)(186003)(26005)(426003)(54906003)(336012)(508600001)(110136005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 13:01:47.8740
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a0d1af0-1579-4906-61da-08da170471a0
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1806
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl, thierry.reding@gmail.com, joey.gouly@arm.com, jonathanh@nvidia.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, bjorn.andersson@linaro.org, agross@kernel.org, jeffrey.l.hugo@gmail.com, tglx@linutronix.de, Basavaraj.Natikar@amd.com, Shyam-sundar.S-k@amd.com, linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Adding cclpex node to represent Tegra234 cpufreq.
-Tegra234 uses some of the CRAB (Control Register Access Bus)
-registers for cpu frequency requests. These registers are
-memory mapped to CCPLEX_MMCRAB_ARM region. In this node, mapping
-the range of MMCRAB registers required only for cpu frequency info.
+This is a followup from [1].
 
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra234.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+I recently realised that the gpiolib play ugly tricks on the
+unsuspecting irq_chip structures by patching the callbacks.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-index aaace605bdaa..610207f3f967 100644
---- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
-@@ -1258,6 +1258,13 @@
- 		};
- 	};
- 
-+	ccplex@e000000 {
-+		compatible = "nvidia,tegra234-ccplex-cluster";
-+		reg = <0x0 0x0e000000 0x0 0x5ffff>;
-+		nvidia,bpmp = <&bpmp>;
-+		status = "okay";
-+	};
-+
- 	sram@40000000 {
- 		compatible = "nvidia,tegra234-sysram", "mmio-sram";
- 		reg = <0x0 0x40000000 0x0 0x80000>;
+Not only this breaks when an irq_chip structure is made const (which
+really should be the default case), but it also forces this structure
+to be copied at nauseam for each instance of the GPIO block, which is
+a waste of memory.
+
+My current approach is to add a new irq_chip flag (IRQCHIP_IMMUTABLE)
+which does what it says on the tin: don't you dare writing to them.
+Gpiolib is further updated not to install its own callbacks, and it
+becomes the responsibility of the driver to call into the gpiolib when
+required. This is similar to what we do for other subsystems such as
+PCI-MSI.
+
+5 drivers are updated to this new model: M1, QC, Tegra, pl061 and AMD
+(as I actively use them) keeping a single irq_chip structure, marking
+it const, and exposing the new flag.
+
+Nothing breaks, the volume of change is small, the memory usage goes
+down and we have fewer callbacks that can be used as attack vectors.
+What's not to love?
+
+* From v1 [1]:
+  - pl061 and AMD drivers converted
+  - New helpers to keep the changes small
+  - New warning for non-converted drivers
+  - Documentation and TODO updates
+
+[1] https://lore.kernel.org/r/20220223154405.54912-1-maz@kernel.org
+
+Marc Zyngier (10):
+  gpio: Don't fiddle with irqchips marked as immutable
+  gpio: Expose the gpiochip_irq_re[ql]res helpers
+  gpio: Add helpers to ease the transition towards immutable irq_chip
+  gpio: tegra186: Make the irqchip immutable
+  gpio: pl061: Make the irqchip immutable
+  pinctrl: apple-gpio: Make the irqchip immutable
+  pinctrl: msmgpio: Make the irqchip immutable
+  pinctrl: amd: Make the irqchip immutable
+  gpio: Update TODO to mention immutable irq_chip structures
+  Documentation: Update the recommended pattern for GPIO irqchips
+
+ Documentation/driver-api/gpio/driver.rst | 175 ++++++++++++++++++-----
+ drivers/gpio/TODO                        |  19 +++
+ drivers/gpio/gpio-pl061.c                |  32 +++--
+ drivers/gpio/gpio-tegra186.c             |  32 +++--
+ drivers/gpio/gpiolib.c                   |  13 +-
+ drivers/pinctrl/pinctrl-amd.c            |  11 +-
+ drivers/pinctrl/pinctrl-apple-gpio.c     |  29 ++--
+ drivers/pinctrl/qcom/pinctrl-msm.c       |  53 ++++---
+ include/linux/gpio/driver.h              |  16 +++
+ include/linux/irq.h                      |   2 +
+ kernel/irq/debugfs.c                     |   1 +
+ 11 files changed, 293 insertions(+), 90 deletions(-)
+
 -- 
-2.17.1
+2.34.1
 
