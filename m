@@ -2,138 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E2484F6573
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 18:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B7DC4F66B6
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 19:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238021AbiDFQks (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Apr 2022 12:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49472 "EHLO
+        id S238558AbiDFRMR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Apr 2022 13:12:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237972AbiDFQkc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Apr 2022 12:40:32 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE16241A07
-        for <linux-tegra@vger.kernel.org>; Wed,  6 Apr 2022 06:59:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f+Aqb2+E4eLrke7RKoIVeWikl6k1ZkCIeADvVO+odIBNGjr+W/QeSWwoObgNcx56wGzhYNI5DMhMuLhT/e4vLNwNqoHuLoyO/mHnMXd5ybkCu9bqHBTyT8yvbstFa5i//ShiCV+rnIbMJyWwDG3RFbPUBJ7NqcZYlwAxdOgXbs0/I6B/gvztlM59z0Ez4cAMuOM6vzfXGnkh6ijckqpC9Mb5t+t+OcTIdySOm477zusXyM90UK6Fq+EQujwQS4Zt3jqt5YGffvTD3fv92iWqFdPukXnHYpzr0HGfSjZI+tpepTZVpWc0DX9wiXeOgAUZmhf69MPKqmgttoSKjTy43g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mMQ4qIid+AVVczxwkh976xZlbEGw++nUKp0T0NTKFx4=;
- b=mRc6+gJ+E+v0+GSzjHXdhcxRBKTKM/plXw5TpDcYGwIwr9dyN6y8k2o7E76/J/M4TvsBFc63yDYIj2+5j+GjzlONJzMXBDBiS/cQ2EZb4vFoCsKGQb4E5fBCN76QlE7c4wI2PwiBYh2jvMrt4n/emxuJFIvm4dD5m5zahfWeU41qgVfbp23q08ZcYBYv7VGBiTRaZvZ/dqoh4x3b2hD6EPZLob6Vwnj233+gY1V8kOPGRg6jzTFVyFdd4YgP6dJc2kDUnWuGGISswH+sO0kZWtPd/QZw5T3ZdMYmWcRqFIK8T/JKaFRkAIWsEjsIQWUZreUV2xYK1cUdSBjPQ/digA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mMQ4qIid+AVVczxwkh976xZlbEGw++nUKp0T0NTKFx4=;
- b=H+QaLBJDYJhafArB2OfnE9QFf6mg311dphIWWeB/3Wudd4DEd8Gj6b+YKWFJs753WZp9YmgvAs35ldSthArGC5D80MkEXiGiuHUrDCBqiJEkVeW+uUxFM5rVbMItHXngNmKChwmTPPc/vb3pvidpAdSYgBkDlrdTLeLOdkjNgQFJIPuUUUgYS/DuemR50LyNefiqtTQniU64nHiP6abbJVPxEwHhG2Ausr+H+NioTwK8l61TKP0h+u16snCEEeHODVwhS61k2GsoYezwtIz/ISXrwy4zvwLDytmEBPoqSBGhbKEEAvOiS83Q6i8QdsgffuO+/bMTVNSoWVPC3wR95w==
-Received: from BN6PR17CA0025.namprd17.prod.outlook.com (2603:10b6:405:75::14)
- by PH7PR12MB5926.namprd12.prod.outlook.com (2603:10b6:510:1d9::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
- 2022 13:59:29 +0000
-Received: from BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:75:cafe::33) by BN6PR17CA0025.outlook.office365.com
- (2603:10b6:405:75::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31 via Frontend
- Transport; Wed, 6 Apr 2022 13:59:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.236) by
- BN8NAM11FT024.mail.protection.outlook.com (10.13.177.38) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 13:59:28 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
- (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 6 Apr
- 2022 13:59:26 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 6 Apr 2022
- 06:59:25 -0700
-Received: from moonraker.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server id 15.2.986.22 via Frontend
- Transport; Wed, 6 Apr 2022 06:59:24 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] ARM: tegra_defconfig: Fix enabling of the Tegra VDE driver
-Date:   Wed, 6 Apr 2022 14:59:20 +0100
-Message-ID: <20220406135920.129589-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S238727AbiDFRMJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Apr 2022 13:12:09 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0094F3F7603
+        for <linux-tegra@vger.kernel.org>; Wed,  6 Apr 2022 07:33:17 -0700 (PDT)
+Received: from [IPV6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1] (unknown [IPv6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0AB201F439F1;
+        Wed,  6 Apr 2022 15:33:15 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649255596;
+        bh=0rsiDogHDOb/1j1FR6ke27j7svX8HkOqiOPHX/w8KRQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=SHbmGg8N6CFcgH71/BRGUsJmPHwyVj9z5igl9pJzUW5NCQo9i14d4DUX4hk3EKR5u
+         25cKiDMD5A4MU/lnZvHJYISA4Y53a2btqii0TLjJ5lveCIO2tsJUzbPHkIaXoX2pue
+         1doJkrKhd3/wN0/fqsz51UOfdard5r2U+18cguHLZEhpb3qGKBgs51lbRcnGXUmhjF
+         K/fAp9E9QOno/gMRlDrd7+M21olFnPcfDOdoGN4qVgU1NHtfKQbBx65cfGcYb2Hjt6
+         Va1YoGM4OmUDAvB//yzFwh+/Ye70UYcUQYqElKmTnrCb2kuCkMticYS7DKRO5wIjaX
+         8Y0pZ8NWuc98Q==
+Message-ID: <49165024-5f33-b6e6-7ec9-1ede6f562748@collabora.com>
+Date:   Wed, 6 Apr 2022 17:32:43 +0300
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3d58a858-e1a2-4332-6f35-08da17d5aafc
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5926:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR12MB59260126B663956AF28B2B1FD9E79@PH7PR12MB5926.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ryzzm2HCv6wWKRbWnqGfj9cuLRCT/j+AD1ZLRuFKLI/5ghhzNsMrhleD2Wo3dnnpDMs3V6PPE/3lLsZnWAlHbCmS8WqQtpI+qy3Zfb1PSKne1Z8NYoYJwTSumZDI0Ms+yw12I6SoY1iZES5LVPyNqY+zNJJo+mfBNUf3BVM0vFM+tvl1rOj20zAILwIdCr56tUDBCMz0K1TQVA7Pl3t3hriuPnisFfUhHQDlzWpeKJIlOkLCgwGigQDAKdt6SxYOVip7Rm1jqCloupd2WU1n303CHH+mmjSbuuLviy23Lq2t7zintUgcRpFhkRTpx3q1Jc4E91q4znXe6o+aAdeMifM0KmHG8V28wXk3eo9ZwkcQLvvHehLyj+1+gDa/AE8fyLfgflqwITmmAIzLi3g6f/1r8yjhWFm4npapst5hGK3+SDwnYm/vLOK4yCYcfra/7J68d9q0lTVLYTqUy9K9oc5RB2f5i8+XY2DbS03VwwgwNobh6INTTniOL/g01dNEIxvSbEz5NG+xi5A/OC95qza0Uy5Y18TKmRYbyqscLgve5PBMnsHrwGqs2RhGExOIcx5h1S6QbdqkUuc+5IVP2J/WLqMouQg/jKZQBiHZxsDcpQwruIzDyawEPsSJ8+2PsbEamQ+E2+1EMTrpTBctKswBczfdL7J4cFBmSSwOak61HUd/tyremI0wv/j/u4+VYKIKo6vAyvF51U2Pjkl5bQ==
-X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(5660300002)(6666004)(6916009)(36756003)(4326008)(47076005)(83380400001)(86362001)(40460700003)(2906002)(7696005)(8936002)(54906003)(81166007)(26005)(186003)(336012)(82310400005)(316002)(426003)(36860700001)(508600001)(356005)(70586007)(70206006)(8676002)(1076003)(107886003)(2616005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 13:59:28.8771
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d58a858-e1a2-4332-6f35-08da17d5aafc
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5926
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/tegra: Stop using iommu_present()
+Content-Language: en-US
+To:     Robin Murphy <robin.murphy@arm.com>, thierry.reding@gmail.com
+Cc:     jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org
+References: <25247f43672df0aa58c1952bf3df2bf948e9f8ae.1649168393.git.robin.murphy@arm.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <25247f43672df0aa58c1952bf3df2bf948e9f8ae.1649168393.git.robin.murphy@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit 8bd4aaf438e3 ("media: staging: tegra-vde: De-stage driver") moved
-the Tegra VDE driver out of staging and updated the Kconfig symbol for
-enabling the driver from CONFIG_TEGRA_VDE to CONFIG_VIDEO_TEGRA_VDE.
-However, the tegra_defconfig was not updated and so the driver is no
-longer enabled by default. Furthermore, now that the Tegra VDE driver
-has been moved under the Kconfig symbol CONFIG_V4L_MEM2MEM_DRIVERS, it
-is now also necessary to enable CONFIG_V4L_MEM2MEM_DRIVERS in order to
-enable CONFIG_VIDEO_TEGRA_VDE. Fix this by ensuring that
-CONFIG_V4L_MEM2MEM_DRIVERS and CONFIG_VIDEO_TEGRA_VDE are both enabled
-in the tegra_defconfig.
+On 4/5/22 17:19, Robin Murphy wrote:
+> Remove the pointless check. host1x_drm_wants_iommu() cannot return true
+> unless an IOMMU exists for the host1x platform device, which at the moment
+> means the iommu_present() test could never fail.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/gpu/drm/tegra/drm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index 9464f522e257..bc4321561400 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1149,7 +1149,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
+>  		goto put;
+>  	}
+>  
+> -	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
+> +	if (host1x_drm_wants_iommu(dev)) {
+>  		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+>  		if (!tegra->domain) {
+>  			err = -ENOMEM;
 
-Fixes: 8bd4aaf438e3 ("media: staging: tegra-vde: De-stage driver")
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- arch/arm/configs/tegra_defconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 289d022acc4b..c209722399d7 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -286,7 +286,8 @@ CONFIG_SERIO_NVEC_PS2=y
- CONFIG_NVEC_POWER=y
- CONFIG_NVEC_PAZ00=y
- CONFIG_STAGING_MEDIA=y
--CONFIG_TEGRA_VDE=y
-+CONFIG_V4L_MEM2MEM_DRIVERS=y
-+CONFIG_VIDEO_TEGRA_VDE=y
- CONFIG_CHROME_PLATFORMS=y
- CONFIG_CROS_EC=y
- CONFIG_CROS_EC_I2C=m
--- 
-2.25.1
-
+host1x_drm_wants_iommu() returns true if there is no IOMMU for the
+host1x platform device of Tegra20/30 SoCs.
