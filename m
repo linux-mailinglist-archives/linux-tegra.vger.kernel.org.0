@@ -2,172 +2,238 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 959334F659A
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 18:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0CBA4F66D1
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 19:19:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237787AbiDFQll (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Apr 2022 12:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
+        id S238459AbiDFRUM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Apr 2022 13:20:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237832AbiDFQlG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Apr 2022 12:41:06 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E90420E94B
-        for <linux-tegra@vger.kernel.org>; Wed,  6 Apr 2022 08:04:42 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id b24so2958918edu.10
-        for <linux-tegra@vger.kernel.org>; Wed, 06 Apr 2022 08:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=aVHvc0zZRK67BRBNMcSWSUGH2BhjLhMfBAEGq/czyxY=;
-        b=pJE5RCQwh1dyQbzSLBcNxYCqMktNILRb5+4CW3Sdt+m171TY8c2Up+a5bQAlWLnQms
-         1RWwhDrqIoxmbO3U7ujPG5ZhY9JEjXSomwOvFy9ArFbV4iNQBcHGDv6x8UKS5WGrAF1q
-         T3FK6YDsDurS16PFYHYAJMhVTMGk3kNBehB7kBQILaxDucyx3tnqqn1U+rduPXQlbCEX
-         KeFKM/8R6iUVdMtJ8CC3fibPt4245THCJC3Yto9CgDuGOvaSS0g2rXXV4z9Yq+BHE7yz
-         uezdHJtA/KC5MkyHVu17IoRI9E4yt5BPGiz3tVdDTyUIOyX7Liomej48bsrGPegD/7Rp
-         h6Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aVHvc0zZRK67BRBNMcSWSUGH2BhjLhMfBAEGq/czyxY=;
-        b=Xc9sppBg69979G1uA3IBl9hdh+eXwM9wH2+pb6m3z/CNVrxC2phUEaBmL7e2vn9KyM
-         76kyu7kbc4b2nVXI0i7cuEzJIobS6qotUN7KmRwMKmCX/hIwzddk+mZnZN8HUsyJmtKa
-         LQfyBSm08Umj1g/3YQ8DrNfDnM7GJHRoB/Q9t3NJBNJQIhyTh5F5MgVzTOTgJsz2ObI/
-         QwJd68RgjvYCtBXt/56BGfsbGt5g2TsgtAiOxJR6UUT6w2lRXaJvux0yOyp+slsm8iva
-         5M934Jro+V8gZQIqe7/+imK0LpNRi2sAZJ8/DmWpGwmSZhIBBkvOXj2GMKi34Sm+Vv8S
-         xFjQ==
-X-Gm-Message-State: AOAM531173gXTP4fImqNwGwlzBa5e84Lz5+heeObuv9kORoRWeIb9aeu
-        yAPeaW2FXMs+YqQy1wbTNr4=
-X-Google-Smtp-Source: ABdhPJx6uJ5+O1XuvY4eXyK4rKcVgx5lIodWG2VPqTAVtxX24uvFGnve0kEZKava9Zyna4RMMrqdrQ==
-X-Received: by 2002:a05:6402:5215:b0:419:4c82:8f06 with SMTP id s21-20020a056402521500b004194c828f06mr9245634edd.275.1649257480852;
-        Wed, 06 Apr 2022 08:04:40 -0700 (PDT)
-Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
-        by smtp.gmail.com with ESMTPSA id jt8-20020a170906ca0800b006df9b29eaf1sm6613335ejb.8.2022.04.06.08.04.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 08:04:39 -0700 (PDT)
-Date:   Wed, 6 Apr 2022 17:04:37 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH] ARM: tegra_defconfig: Fix enabling of the Tegra VDE
- driver
-Message-ID: <Yk2sBf075+WIyWQ+@orome>
-References: <20220406135920.129589-1-jonathanh@nvidia.com>
- <89c70eab-da76-36f7-0576-0122a7861c9c@collabora.com>
- <586d894c-425f-d924-a178-d1ff2c724a40@nvidia.com>
+        with ESMTP id S238768AbiDFRUD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Apr 2022 13:20:03 -0400
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2079.outbound.protection.outlook.com [40.107.96.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA2A4882DC;
+        Wed,  6 Apr 2022 08:17:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FPRfY7tyUuFs7sSeqUWSyUlEsq+1bAGc5mGdWiTnBrfoRxkAP/Zo7T8zBVfki19kj3uuhCFyUn8Nv0OMY5A0SSF7hTxKCGEucGl8Sg56Gx/yse2QlCIV1hexNAOukmg5bcXUUyqDMH2TZys7A8ZLNx0ypLo5vDXCKKy1v2aQTkzQYJhRe79XA46l4CHUkymJnosw1nn2N1U0UXYHDUvQ55H8RrdrD4TFH3N62VkQ7z4sr1ao1s/b54iESovoW340Hk1vvjgQvDvVL1NBnj6KcXoBzUOilcGtWXkKhUq0B8QXZcrmtyaSxODcsKUVMhSSq2sUdDNRJj+r2ju1z+dFtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4rDetAeciMhROcRyHawzT9aK2XpubFP+V9F0our3jak=;
+ b=JxjiN7l724ny8YXjMLAzSe1Yd6I2+TPe5tCFkxoB6Ao1WtFKd3QGTHImpv0bOMtJsvdeHjMlQ5kfN7vXKloZGb5pkxhabaJ/WvUB+Rr8lrl0i3ZJzivXibyNfqRB3UvZNzzcdDHwHbprYfjZvOxiYFfDKP82nPgOurqKrOAAwLLc7IKxRVlk/j6J7+UiKnEqqmeIO+L+MGulPQyLku3RHtM2fHK+6V4les36NeIXW+mYK4nRqEeOlR+N3x2xvUjyMuALhLgfbkUVchGL+kyqTZRJdyhNGEp5br39nSNr051cnoOa8eZG/sU49t2O76jH+DwLA9452JaFIpjmtQ04Eg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.235) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4rDetAeciMhROcRyHawzT9aK2XpubFP+V9F0our3jak=;
+ b=icTMgYU5CveDmoL37yM2Cy0FnToNQF/LJT4nk85bbIfi26HN+V/sx0tortxsR0rE8EeabKLHKLOoHJH7UXlG9zYZQMs5Dxn5ZiKVK2SigHws+mTMjpcISnFHiNw+9KtJc0VZNRC1NpigfvdEXg8WLUwyzWc3s0clJs/nKRhXsP8e51JcdTcgzouNbdmwS5piqkFUTItmDOmCm1XpzD4wgW9ioGn8ocHV4RnHzgIM2q/x/viLk2e1FtwvqVD+MBUSp33+QqXOHJOuz8hZNmdsZfepJZN41GW2chSu9jM2dlaqZeU+GtdrJK220q9QLRBsvYs+LdCNijK8ps+Bf0+ssA==
+Received: from DM6PR08CA0040.namprd08.prod.outlook.com (2603:10b6:5:1e0::14)
+ by CH2PR12MB4149.namprd12.prod.outlook.com (2603:10b6:610:7c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
+ 2022 15:17:17 +0000
+Received: from DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1e0:cafe::fd) by DM6PR08CA0040.outlook.office365.com
+ (2603:10b6:5:1e0::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31 via Frontend
+ Transport; Wed, 6 Apr 2022 15:17:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.235) by
+ DM6NAM11FT019.mail.protection.outlook.com (10.13.172.172) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 15:17:17 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 6 Apr
+ 2022 15:17:16 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 6 Apr 2022
+ 08:17:15 -0700
+Received: from moonraker.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server id 15.2.986.22 via Frontend
+ Transport; Wed, 6 Apr 2022 08:17:14 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Timo Alho <talho@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 1/2] clk: tegra: register clocks from root to leaf
+Date:   Wed, 6 Apr 2022 16:17:00 +0100
+Message-ID: <20220406151701.262056-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kkvX+DhPOIauf5EJ"
-Content-Disposition: inline
-In-Reply-To: <586d894c-425f-d924-a178-d1ff2c724a40@nvidia.com>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 234cff5e-0043-42a0-8cc6-08da17e089ca
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4149:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4149907868F0339EBE86EAA6D9E79@CH2PR12MB4149.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JqykxryV/GkK+NA82cMra0wszPQAt0zXbRYDWG2u55thoJDLojCfFNhYliLMihHfdOSMAV5faFEEBgaNoRY53BvHvdQVr5xPGOieY6ORo7s4rCkqMwN9y7F8TmCjNvVJaFBiiDMIuDW3pdjL6KmXaXxGqRJro2gRrTl+AdrywLYfamULeOsFFN3+qU742CdHdc11rScVV+9/mCUeieeYdu4mg1gCfFMF2Q/D7gpTNT7aMrpAD7ArUXaTbZhzn2rdMWwDuB970JrbOkmMtZkGgD5mH6C3F358QQrYhQ4neHog3S1qPeke7Zrjz48vvDZ+4o/JOv99gmJbwqlyd3C4w7f/3MdIPyoCI+swE/9BZZSsVWuYr3V9KgsiF3EfDnTEw7qKB/VERdubMZ2r8awAyyCYOYF6dbuoK4gHD5VuuOJYe72GSBY2HkyqQDxTpo7nzw8Kvg/SIn8OUPZXYDdTj3C8yHj2r2Yk+gOuHsiJGF/C0cLO+ldHeAw5wuiIolnI3qq2F42430HrMSjQwALGvlZA/+pjwuYd4Kokz4JsurQCFqH1eiNbOAkAjSbXM4fcyDmZZTdL+HzTS8e+agomGjelhbxd1T07iwXCzo5i3wSsb2ID3lPEhzJsiVgcf4qFMg8Dz1EjB7lDShqwbskN5NJOMTQWoh8/UqhKKQ/a5z6s1FDBDNZjwHPahxY7Pfm3NaCVRcJhvR33PyWRAsuQVg==
+X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(82310400005)(110136005)(40460700003)(316002)(508600001)(8936002)(36756003)(6666004)(54906003)(7696005)(5660300002)(81166007)(2906002)(356005)(70206006)(107886003)(47076005)(36860700001)(70586007)(83380400001)(86362001)(186003)(26005)(2616005)(426003)(336012)(8676002)(4326008)(1076003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 15:17:17.6962
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 234cff5e-0043-42a0-8cc6-08da17e089ca
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4149
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Timo Alho <talho@nvidia.com>
 
---kkvX+DhPOIauf5EJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Current clock initialization causes intermediate registering of orphan
+clocks (i.e. a clock without a parent registered). CCF keeps track of
+orphan clocks and any time a new clock is registered, it will loop
+through the list of orphan and queries if the parent is now
+available. This operation triggers a clk operation(s), which is an IPC
+with BPMP-FW. Hence, due to the order of which the clock appear
+currently, this causes >5000 IPC messages to be sent to BPMP-FW during
+clock initialization.
 
-On Wed, Apr 06, 2022 at 03:58:25PM +0100, Jon Hunter wrote:
->=20
-> On 06/04/2022 15:37, Dmitry Osipenko wrote:
-> > On 4/6/22 16:59, Jon Hunter wrote:
-> > > Commit 8bd4aaf438e3 ("media: staging: tegra-vde: De-stage driver") mo=
-ved
-> > > the Tegra VDE driver out of staging and updated the Kconfig symbol for
-> > > enabling the driver from CONFIG_TEGRA_VDE to CONFIG_VIDEO_TEGRA_VDE.
-> > > However, the tegra_defconfig was not updated and so the driver is no
-> > > longer enabled by default. Furthermore, now that the Tegra VDE driver
-> > > has been moved under the Kconfig symbol CONFIG_V4L_MEM2MEM_DRIVERS, it
-> > > is now also necessary to enable CONFIG_V4L_MEM2MEM_DRIVERS in order to
-> > > enable CONFIG_VIDEO_TEGRA_VDE. Fix this by ensuring that
-> > > CONFIG_V4L_MEM2MEM_DRIVERS and CONFIG_VIDEO_TEGRA_VDE are both enabled
-> > > in the tegra_defconfig.
-> > >=20
-> > > Fixes: 8bd4aaf438e3 ("media: staging: tegra-vde: De-stage driver")
-> > > Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> > > ---
-> > >   arch/arm/configs/tegra_defconfig | 3 ++-
-> > >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegr=
-a_defconfig
-> > > index 289d022acc4b..c209722399d7 100644
-> > > --- a/arch/arm/configs/tegra_defconfig
-> > > +++ b/arch/arm/configs/tegra_defconfig
-> > > @@ -286,7 +286,8 @@ CONFIG_SERIO_NVEC_PS2=3Dy
-> > >   CONFIG_NVEC_POWER=3Dy
-> > >   CONFIG_NVEC_PAZ00=3Dy
-> > >   CONFIG_STAGING_MEDIA=3Dy
-> > > -CONFIG_TEGRA_VDE=3Dy
-> > > +CONFIG_V4L_MEM2MEM_DRIVERS=3Dy
-> > > +CONFIG_VIDEO_TEGRA_VDE=3Dy
-> > >   CONFIG_CHROME_PLATFORMS=3Dy
-> > >   CONFIG_CROS_EC=3Dy
-> > >   CONFIG_CROS_EC_I2C=3Dm
-> >=20
-> > There are per-existing patches updating the defconfigs, unfortunately
-> > they were not applied together with the driver patches.
-> >=20
-> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
-chwork.ozlabs.org%2Fproject%2Flinux-tegra%2Fpatch%2F20220220204623.30107-8-=
-digetx%40gmail.com%2F&amp;data=3D04%7C01%7Cjonathanh%40nvidia.com%7C98f0277=
-ce8b74700664508da17daf665%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C6378=
-48526453449366%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
-LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DBsHhvVKHeDSg%2BAyGIswF0CM=
-ay0vcgucnaDD8D%2FUwLRU%3D&amp;reserved=3D0
-> >=20
-> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
-chwork.ozlabs.org%2Fproject%2Flinux-tegra%2Fpatch%2F20220220204623.30107-9-=
-digetx%40gmail.com%2F&amp;data=3D04%7C01%7Cjonathanh%40nvidia.com%7C98f0277=
-ce8b74700664508da17daf665%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C6378=
-48526453449366%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
-LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DmjA88k40mPaX6V2TCDKd4S8AQ=
-TUBC6rwq9VKwyIntPw%3D&amp;reserved=3D0
->=20
-> Thanks.
->=20
-> Thierry, can we get these applied for v5.18-rc? This is triggering some t=
-est
-> failures.
+Optimize the clock probing by registering clocks hierarchically from
+root clock towards leafs.
 
-Yes, I've applied Dmitry's patches to the Tegra tree now and will let it
-cook in linux-next for a couple of days and send a PR for v5.18-rc2 or 3
-later this week or early next week.
+Signed-off-by: Timo Alho <talho@nvidia.com>
+[ Checkpatch warnings fixed by Jon Hunter <jonathanh@nvidia.com> ]
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/clk/tegra/clk-bpmp.c | 72 ++++++++++++++++++++++++++++--------
+ 1 file changed, 56 insertions(+), 16 deletions(-)
 
-Thierry
+diff --git a/drivers/clk/tegra/clk-bpmp.c b/drivers/clk/tegra/clk-bpmp.c
+index 6ecf18f71c32..bacaa468e114 100644
+--- a/drivers/clk/tegra/clk-bpmp.c
++++ b/drivers/clk/tegra/clk-bpmp.c
+@@ -448,15 +448,29 @@ static int tegra_bpmp_probe_clocks(struct tegra_bpmp *bpmp,
+ 	return count;
+ }
+ 
++static unsigned int
++tegra_bpmp_clk_id_to_index(const struct tegra_bpmp_clk_info *clocks,
++			   unsigned int num_clocks, unsigned int id)
++{
++	unsigned int i;
++
++	for (i = 0; i < num_clocks; i++)
++		if (clocks[i].id == id)
++			return i;
++
++	return UINT_MAX;
++}
++
+ static const struct tegra_bpmp_clk_info *
+ tegra_bpmp_clk_find(const struct tegra_bpmp_clk_info *clocks,
+ 		    unsigned int num_clocks, unsigned int id)
+ {
+ 	unsigned int i;
+ 
+-	for (i = 0; i < num_clocks; i++)
+-		if (clocks[i].id == id)
+-			return &clocks[i];
++	i = tegra_bpmp_clk_id_to_index(clocks, num_clocks, id);
++
++	if (i < num_clocks)
++		return &clocks[i];
+ 
+ 	return NULL;
+ }
+@@ -539,31 +553,57 @@ tegra_bpmp_clk_register(struct tegra_bpmp *bpmp,
+ 	return clk;
+ }
+ 
++static void tegra_bpmp_register_clocks_one(struct tegra_bpmp *bpmp,
++					   struct tegra_bpmp_clk_info *infos,
++					   unsigned int i,
++					   unsigned int count)
++{
++	unsigned int j;
++	struct tegra_bpmp_clk_info *info;
++	struct tegra_bpmp_clk *clk;
++
++	if (bpmp->clocks[i]) {
++		/* already registered */
++		return;
++	}
++
++	info = &infos[i];
++	for (j = 0; j < info->num_parents; ++j) {
++		unsigned int p_id = info->parents[j];
++		unsigned int p_i = tegra_bpmp_clk_id_to_index(infos, count,
++							      p_id);
++		if (p_i < count)
++			tegra_bpmp_register_clocks_one(bpmp, infos, p_i, count);
++	}
++
++	clk = tegra_bpmp_clk_register(bpmp, info, infos, count);
++	if (IS_ERR(clk)) {
++		dev_err(bpmp->dev,
++			"failed to register clock %u (%s): %ld\n",
++			info->id, info->name, PTR_ERR(clk));
++		/* intentionally store the error pointer to
++		 * bpmp->clocks[i] to avoid re-attempting the
++		 * registration later
++		 */
++	}
++
++	bpmp->clocks[i] = clk;
++}
++
+ static int tegra_bpmp_register_clocks(struct tegra_bpmp *bpmp,
+ 				      struct tegra_bpmp_clk_info *infos,
+ 				      unsigned int count)
+ {
+-	struct tegra_bpmp_clk *clk;
+ 	unsigned int i;
+ 
+ 	bpmp->num_clocks = count;
+ 
+-	bpmp->clocks = devm_kcalloc(bpmp->dev, count, sizeof(clk), GFP_KERNEL);
++	bpmp->clocks = devm_kcalloc(bpmp->dev, count, sizeof(struct tegra_bpmp_clk), GFP_KERNEL);
+ 	if (!bpmp->clocks)
+ 		return -ENOMEM;
+ 
+ 	for (i = 0; i < count; i++) {
+-		struct tegra_bpmp_clk_info *info = &infos[i];
+-
+-		clk = tegra_bpmp_clk_register(bpmp, info, infos, count);
+-		if (IS_ERR(clk)) {
+-			dev_err(bpmp->dev,
+-				"failed to register clock %u (%s): %ld\n",
+-				info->id, info->name, PTR_ERR(clk));
+-			continue;
+-		}
+-
+-		bpmp->clocks[i] = clk;
++		tegra_bpmp_register_clocks_one(bpmp, infos, i, count);
+ 	}
+ 
+ 	return 0;
+-- 
+2.25.1
 
---kkvX+DhPOIauf5EJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJNrAMACgkQ3SOs138+
-s6ElQQ//b7sbefUIpAzFIpv+eBCTJXiBz0fE1hMxagFke/hHJgBVtTuslKmmDcvX
-kbP+lG9qQHziMQMlWZDqAm3HG+FvB7zMrAh1toIJff7ynLvf3WS8nJyD0B+t/dnw
-u6tpRcygWiJFo8qke7z4H9I8K+Yl9AVzA5OGR4Ekk2voBEmau2H2orb6Qk1Sw73T
-jLVB6FGRLjysn4p7NAONFUQy+XUIFrAOuRnyAh8B3YynhvP3FbTQhNFUcEdeBmo+
-265HN9QOo84aqC/CGdiRNvdEpLIYmgVo9GSLqFO3yIjD0XdnHkSIqlbrKEFaqQnO
-GBxtumwhK8HMs1as+CahaT/Itl7qD6Jxro5njtacj+xDdqeJWl8NbiFS09CcdXvN
-Is8f3FWXpHxCJ5XYJyle3zjzrzWvrh4aVuGfpx2XVQkBn5uJoN2QYHIUnTO2WV9p
-bUFLdkp/Ci/NdDBqbRce1MpV/wBcJXuygzbxFI+sZVBrUET003Yp6VmQDCLjGKbT
-p4Y3QwLAap4LQfym0y0W/E3FGXzVzPSXk7EeK6DRboYWy6dfXfwraRDBgateZwZY
-WCBPUP7+diA2eGD8pdjfrDKdnZNcW/LRvszh4nn+S8r+K9RxAK4MNz0arX5skva7
-kAVoUuFthVH8aul9wEJ0Rt10Zs9a9xCHs5R59bi02V+8jknIbg0=
-=Jph8
------END PGP SIGNATURE-----
-
---kkvX+DhPOIauf5EJ--
