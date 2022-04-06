@@ -2,66 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CDDA4F63C8
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 17:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 760B24F63D5
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Apr 2022 17:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236517AbiDFPs2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Apr 2022 11:48:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44450 "EHLO
+        id S235838AbiDFPnL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Apr 2022 11:43:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236981AbiDFPr4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Apr 2022 11:47:56 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D9A1777D3;
-        Wed,  6 Apr 2022 06:05:43 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id c42so2554402edf.3;
-        Wed, 06 Apr 2022 06:05:43 -0700 (PDT)
+        with ESMTP id S236348AbiDFPm2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Apr 2022 11:42:28 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37F554DECF
+        for <linux-tegra@vger.kernel.org>; Wed,  6 Apr 2022 06:13:23 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id l62-20020a1c2541000000b0038e4570af2fso1588792wml.5
+        for <linux-tegra@vger.kernel.org>; Wed, 06 Apr 2022 06:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=rRgvDvUl61lh/9aR+IEBANuvNM3XJ42a6XvezLdfwRU=;
-        b=lixNMfphu5wieSYGl6MVv8y2FmGyKF+QcsLRnOA39qbrvyRaZZiPTBPD63KdIh0XF9
-         Q5OFTMVs2UwQV4H8lGygQfhlRCHyqOoXqjG0uTrCzH6am5wZuYHwq30vataSspRkw8wk
-         GfEzJa+pYbyR07MrrFHtTogDceGeDDMpxCdRK1k3IjBBGm4sEMF/1/d/ed1QSgCvL+Fy
-         x1jQhISCNhFS4k6JmeW/Ab7F3tpNF1zFR7VfQVYm4oqQmOG7jMbgpCtrKpkn3fUHa1Ah
-         Xwbt+NGGGTPO4hQBlf9hgCD7ajwps0XGrKXgrhwfIMep1jVaVqvbFn5VoKomgAYqrpk1
-         tFBA==
+        bh=45i/CvfTddvxblmcHvQsxR/rIMn4CHfVmtuYXswnVdA=;
+        b=ZcNkS8zLmzW0LMlBUGAKpiIBoOGt7ErwgWPdn3INTlgoe/0elFOEZYsKtZV4gRFKyB
+         6AIczeW0IlCpEi94avR1IPizDVjFUA8CwEzmQBio9r0djW5S7zS2AmmcxUmRWCkPPPto
+         CSEcun40J4Q7v9OPKfxUDDLT+/1bYTMUmPZaH7NK4GuiQwDSX4+jzcedM/ds6ZGNp9BM
+         EAcSETKjAQcqAseWTNdwV5l7I6tZiqH4fhP4QetU435FO5uCfhnTIB1AzdNefABplo8l
+         eGc3lfvWcp5PvWsTWzWJuETr1L3Tnt3KYpkuU5PLH3a418ASTOSFTx6LaHjQd9YD6+uu
+         Xm9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+        h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rRgvDvUl61lh/9aR+IEBANuvNM3XJ42a6XvezLdfwRU=;
-        b=Yuf7aZDmy8Z93pdX3xK/VV9Z/Eu3l1BkjTzRJA3o0rzHMCqSw3cr5NAwDzhS+MT9Yg
-         O8wgjW6kz4dIqld7Rl+DQrNgJcLuQT3V/tf8BbYQpVD+sTantRutVbviE+2KcWAwUSAB
-         eEOS4dSl6Jxu3MuQS2ffjR7eC4DKfhpd85fj7CCJdbh6TH0UHOkMBWJMnuMnoU4JM2EO
-         lnK/bgUYc9l4pNm/S2qBcwARAdvAzGfUDjKoF5MvblCha99RuVqFQLbCT6lFNJ6GqxPV
-         Ol6rzY7auxPw9enUBeFyY72PrmUguaMzyhbsJKMoyEIP2Ah0llIUkxrrpFNsjvP1BHVS
-         Ieog==
-X-Gm-Message-State: AOAM532Wko6rA0uNQt0iwxZDeFGhWjc5cteDpa8YjbyzKBzAdLZouc+o
-        nHQmTK6QqqbrTjPpL+10YP4=
-X-Google-Smtp-Source: ABdhPJxfGL+4HXovbKpvohbOmZMjgz8AFTIA1Few84ESiJrv1iDbviCKpGxfjgCU+0BVrRfnvH725A==
-X-Received: by 2002:a05:6402:27d1:b0:419:1b02:4a04 with SMTP id c17-20020a05640227d100b004191b024a04mr8629924ede.218.1649250342056;
-        Wed, 06 Apr 2022 06:05:42 -0700 (PDT)
+        bh=45i/CvfTddvxblmcHvQsxR/rIMn4CHfVmtuYXswnVdA=;
+        b=EFwMKfPDNk0BQJZVBxj0xWDveaOX2rsUF37nmW+2c46wu7dSSgfILUfUNJlRFvfGjw
+         E/QlbG5bqVIigiAJo1PMiPdva2feeOb+t8X0dBoY4LAJ8BIsZEuVbw+KKEknUT606tHn
+         gyBTQeFi85E9oQwSWNPxVrpnb4WJGjFPr2SZLxvS2vSSFWtj3WQV5Pss/Z+Xi6mrMl0O
+         BxBJwg5kriVX/V/IrZruisNRhYN1uttl73JG6nuAwq4opY3vIaREfPRx1J6DO4sKnAFe
+         Vt3Cg5JyOIqh6eRVMJJSs+zPdDXnf0QQyg4wDIcuIgcY0duUrVFgcB0MoQihY+0gcSZm
+         fvUQ==
+X-Gm-Message-State: AOAM530aaz6Mds1i8Dg0so0XqesU53bAmQyzMYO5Yb+vohGu+pVcmVLG
+        V+G7w+IkCMEU9BaSL71B4jI=
+X-Google-Smtp-Source: ABdhPJyoPGoFFi1IQASTHhSfsn93F7IYsEEwkYxbqGGCWaBV5Gvcee+lcG3JeAihYRzWLP/t5HC1oA==
+X-Received: by 2002:a1c:7c0a:0:b0:38e:7c61:eb9c with SMTP id x10-20020a1c7c0a000000b0038e7c61eb9cmr7292405wmc.69.1649250801727;
+        Wed, 06 Apr 2022 06:13:21 -0700 (PDT)
 Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
-        by smtp.gmail.com with ESMTPSA id p13-20020a50d88d000000b0041cd1a083f7sm4409601edj.1.2022.04.06.06.05.40
+        by smtp.gmail.com with ESMTPSA id h8-20020a05600c350800b0038cc9096507sm5412067wmq.3.2022.04.06.06.13.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 06:05:40 -0700 (PDT)
-Date:   Wed, 6 Apr 2022 15:05:38 +0200
+        Wed, 06 Apr 2022 06:13:20 -0700 (PDT)
+Date:   Wed, 6 Apr 2022 15:13:17 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sandipan Patra <spatra@nvidia.com>
-Cc:     treding@nvidia.com, jonathanh@nvidia.com, digetx@gmail.com,
-        ulf.hansson@linaro.org, andriy.shevchenko@linux.intel.com,
-        cai.huoqing@linux.dev, bbasu@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V3] soc/tegra: pmc: update Tegra234 reset sources
-Message-ID: <Yk2QIgXZ4PJqRUP4@orome>
-References: <20220401143343.31989-1-spatra@nvidia.com>
+To:     Mikko Perttunen <mperttunen@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] gpu: host1x: Do not use mapping cache for job submissions
+Message-ID: <Yk2R7SBLy7ZnQJNR@orome>
+References: <20220324103025.2660775-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="MfVVcTOm47LLmQ57"
+        protocol="application/pgp-signature"; boundary="HxpSELrC68ALoLx1"
 Content-Disposition: inline
-In-Reply-To: <20220401143343.31989-1-spatra@nvidia.com>
+In-Reply-To: <20220324103025.2660775-1-thierry.reding@gmail.com>
 User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -74,49 +72,54 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---MfVVcTOm47LLmQ57
+--HxpSELrC68ALoLx1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 01, 2022 at 08:03:43PM +0530, Sandipan Patra wrote:
-> Reset_sources list is updated to add all reset sources
-> and removing ones that do not actually exist.
+On Thu, Mar 24, 2022 at 11:30:25AM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 >=20
-> Signed-off-by: Sandipan Patra <spatra@nvidia.com>
+> Buffer mappings used in job submissions are usually small and not
+> rapidly reused as opposed to framebuffers (which are usually large and
+> rapidly reused, for example when page-flipping between double-buffered
+> framebuffers). Avoid going through the mapping cache for these buffers
+> since the cache would also lead to leaks if nobody is ever releasing
+> the cache's last reference. For DRM/KMS these last references are
+> dropped when the framebuffers are removed and therefore no longer
+> needed.
+>=20
+> While at it, also add a note about the need to explicitly remove the
+> final reference to the mapping in the cache.
+>=20
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
-> Update on V3 patch:
->     Added more frequent comments to specify every 8 offsets
-> Update on V2 patch:
->     space inside comment and
->     Changed decimal to hexadecimal notation in the comments.
->=20
->  drivers/soc/tegra/pmc.c | 33 +++++++++++++++++++++++++--------
->  1 file changed, 25 insertions(+), 8 deletions(-)
+>  drivers/gpu/host1x/job.c | 4 ++--
+>  include/linux/host1x.h   | 5 +++++
+>  2 files changed, 7 insertions(+), 2 deletions(-)
 
-Applied with a slightly reworded commit message.
+Applied.
 
-Thanks,
 Thierry
 
---MfVVcTOm47LLmQ57
+--HxpSELrC68ALoLx1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJNkCIACgkQ3SOs138+
-s6HEjg/+Mywelqh3TVqCKMxiiUC4Nm4Ez4n8yJAml+HFmLDyiz0BewvBI328BwgK
-AF3hUfZvAZN3Czotjy7MijRqdkX7V8OYiAPjf3WlbJ9BAl8RXLFImh0FoXjvlXOZ
-fgTexk+1b3i+eGUQYkEvvD+CCS1EDdXVquiolp/A0bQm5GEEaOK0M1n1sC5rc/5r
-ubrxUF/dNz++Q/DNRzl+xzt63uqhBCu4c19VMMcGpdj+vCBmjX47zWmkt1Ol0aHV
-EEG43nzEXDw2VawgHJGGsksaozeiGFwXZz0pYEfzgcRgSbjsw3AGrr2obG6pX6pE
-/6wUs0U+UA4hVi/QMFNUhuuLyI10Tcy6r2zH/03oh8L13+dhzj+3KdOdgVPNhDAf
-JqF4xBJm5ZIuU5TvxspbVlEujeVL/7+hDDLhfN2y7F8ASNhtNAyJEFLWPzDmDYGj
-+EsV6MkE85MN2UYHyKTceNMvNZZa8Lpv7X2C8Iv0Bsv336Quc3fissM4bU9DRrTC
-Wz4UWzk3h5H1O6l9tZAnySZUppDwMX6K6+bmAiOCGpH+pPMLgilS8g0TXaQ2o1Va
-MzJ+bGxjV2DzfMMLUMB85ZvV0Snrx1ScfgdGpGVSyfeiiaail76xtVF0w0V0WKHC
-/PjKw/BK9txMlOg+404ltVTwC5+1iugKdXTJkXirziib2lY+io4=
-=luRr
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJNke0ACgkQ3SOs138+
+s6Gj6BAAm6+AEy/Yny+Uvy+JcDhdeZbr22dLQqGgQ+pkczQP97N3tG1pncFny09M
++c8WGxZeqCpIxA+ddWgZ/JS4NskknWSDi6GHCeT3/8X5eEZ/bOhfnSnUP5zYAIB/
+yCRm2vJMzmhDUjsl7gie8R6wLaEL2yXpdKEFPBXrYYNym6wTfpOCdiLgkqW3MN1i
+8g8qOIZTpXKdKBMrlkHi2JSYAhKy9cT42lt0woiDEWiHS89C43Jok44piLPYNPhY
+iVZbm0jjdBOg1SUO4v0TDCXStx/zIPxMg1S7Y7Ip+flPzRhBFnIZZrbFPTPwF/u1
+G900plqSHoREcSX7nCTJCpf5xUZoUA6JM75rVtynBxEYXeuPiUjhA5mgCxQOCPbJ
+lDkncLImc3nOwWX/a2Ch5r65NCwHyF/pqturpXbFrM6RIAJBfVcvMRjjGUMSUeGd
+mZFwnwAQnwUT+3IGYqEo8kQhT1Qwhns+5wgrXzwuqVLqzxkb7GZBzf4VHR23vUzK
+HzPeZpKVVFPdJyiR7YgHCo5Wey+jyyNahgF4vEZEpdSV44xhgXYhNO2dxt2O1fmR
+3SEVUktaENFAjTi0l0buQxCCfbv7LjSXmHALdjG/XX3Bf0t2mUjnyYZR8SazMLa3
+ex8whYuqnHv0TIB9C7ptDhXS7NlpXFyp4Ikzx3Si7CEOuU2ZRI8=
+=vUAo
 -----END PGP SIGNATURE-----
 
---MfVVcTOm47LLmQ57--
+--HxpSELrC68ALoLx1--
