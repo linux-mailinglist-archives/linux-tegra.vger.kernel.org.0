@@ -2,139 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A26AA4F7FDE
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Apr 2022 15:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ABF94F80A3
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Apr 2022 15:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245708AbiDGNDg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 7 Apr 2022 09:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
+        id S241467AbiDGNgL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Apr 2022 09:36:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245664AbiDGNDc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Apr 2022 09:03:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA08822FDBF
-        for <linux-tegra@vger.kernel.org>; Thu,  7 Apr 2022 06:01:32 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1ncRlI-0002Av-JA; Thu, 07 Apr 2022 15:01:20 +0200
-Received: from pengutronix.de (2a03-f580-87bc-d400-b17e-6ba8-60fd-ca2d.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:b17e:6ba8:60fd:ca2d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id AAA2B5D40C;
-        Thu,  7 Apr 2022 13:01:18 +0000 (UTC)
-Date:   Thu, 7 Apr 2022 15:01:18 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Brian Silverman <bsilver16384@gmail.com>,
-        Brian Silverman <brian.silverman@bluerivertech.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Dan Murphy <dmurphy@ti.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:CAN NETWORK DRIVERS" <linux-can@vger.kernel.org>,
-        "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-Subject: Re: [RFC PATCH] can: m_can: Add driver for M_CAN hardware in NVIDIA
- devices
-Message-ID: <20220407130118.hp5szzhg4v6szmbq@pengutronix.de>
-References: <20220106002514.24589-1-brian.silverman@bluerivertech.com>
- <Yk2vOj8wKi4FdPg2@orome>
+        with ESMTP id S1343659AbiDGNgK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Apr 2022 09:36:10 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B2C24E273
+        for <linux-tegra@vger.kernel.org>; Thu,  7 Apr 2022 06:34:09 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id b2-20020a17090a010200b001cb0c78db57so3046802pjb.2
+        for <linux-tegra@vger.kernel.org>; Thu, 07 Apr 2022 06:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=LecENqONxNDBAseFsv+yDhFyPls8aMa2Pn5px1MzNgs=;
+        b=SNVQsECUOhAnMXWe+UjUMFAgdsqd7XUifjb4bfJYOLZnIKHBi4i8MdLoYD/VJN5npQ
+         ctsVWpetAORfAvD7qB8u2UbugFjzvNsmGsw/T6yAhncEMsHFcsagKYtrBWv8ohdq33ab
+         vLCxRcy9Kioj6o/JFfvgp61Sym2XdXCXyG/O90k5emR50NqxSfuIL6KkDkoEY1mF/YnN
+         UVeNrY0mILt0tNCs0eggKzXS3PNaW4S1PCaIgtFS4awdgOWs9+fAVdgXb5kDxd4uTFLu
+         UcjFWXIaXpsyY8HNt2FUPxsPBe0eUQqfKGpELLKCgvV/DqOo8Opv2L+WTLHsrQrfAHUV
+         yZTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=LecENqONxNDBAseFsv+yDhFyPls8aMa2Pn5px1MzNgs=;
+        b=VPEE9nHShvA7vilN8CJE8WLyMxnPZQPj4s5YixnggM5ino7TAyCTYJamjhPTX8WmQ1
+         8gQoXejpNqGtXUyeowT1kB2BJrMwiHT1ifAeljqmV17M9SJATWbIqDzhG1xTM3yMpBIC
+         H6pmJqdF+ppbwoFncH6MSymqOBe9i2R0TaGL1edtd7fH5Slhn3dKLkSvokjUyVuBsmxd
+         Jynhzf3EJnsX1HHkCMSCZNw2THlAyphWROVfDOtUSPydHm9/3YN5SHIr3dUklvzHtqaj
+         w9upNieWWFvhX5qAp4BSMFylIBQOzjwSFo+xB/zm1Pf8l+9sWF6+oRd54ltLyFV91qPE
+         j15Q==
+X-Gm-Message-State: AOAM53371JIH5xy8uvBLDsJxsKBhcJtfrhLmingfanvo1bP9kQzjsR6r
+        s73A7uzPMVLV0BacxM4EQRa5+6g5iseI0NSE2hQ=
+X-Google-Smtp-Source: ABdhPJztaQyJVTQQO0bplq/CjXZv6Kqhm68pusBvfnH3mv4EikoFL9nd6mhtZhdmhSLh4XApKqV5uVDdcxfM+79zWBs=
+X-Received: by 2002:a17:902:ab01:b0:156:f1cc:6d2d with SMTP id
+ ik1-20020a170902ab0100b00156f1cc6d2dmr6619175plb.127.1649338448953; Thu, 07
+ Apr 2022 06:34:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="n7sqxwpygc2d6wn2"
-Content-Disposition: inline
-In-Reply-To: <Yk2vOj8wKi4FdPg2@orome>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a20:a01a:b0:7a:9fe0:c3c8 with HTTP; Thu, 7 Apr 2022
+ 06:34:08 -0700 (PDT)
+Reply-To: anwarialima@gmail.com
+From:   Alima Anwari <nadiazato3@gmail.com>
+Date:   Thu, 7 Apr 2022 13:34:08 +0000
+Message-ID: <CAM0zFyo5P_HRgkynMUqek7=2XDBHvMqoGPKw5xbErv5deE1tWA@mail.gmail.com>
+Subject: God morgon
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:102d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4075]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [nadiazato3[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [nadiazato3[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
---n7sqxwpygc2d6wn2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 06.04.2022 17:18:18, Thierry Reding wrote:
-> On Wed, Jan 05, 2022 at 04:25:09PM -0800, Brian Silverman wrote:
-> > It's a M_TTCAN with some NVIDIA-specific glue logic and clocks. The
-> > existing m_can driver works with it after handling the glue logic.
-> >=20
-> > The code is a combination of pieces from m_can_platform and NVIDIA's
-> > driver [1].
-> >=20
-> > [1] https://github.com/hartkopp/nvidia-t18x-can/blob/master/r32.2.1/nvi=
-dia/drivers/net/can/mttcan/hal/m_ttcan.c
-> >=20
-> > Signed-off-by: Brian Silverman <brian.silverman@bluerivertech.com>
-> > ---
-> > I ran into bugs with the error handling in NVIDIA's m_ttcan driver, so I
-> > switched to m_can which has been much better. I'm looking for feedback
-> > on whether I should ensure rebasing hasn't broken anything, write up DT
-> > documentation, and submit this patch for real. The driver works great,
-> > but I've got some questions about submitting it.
-> >=20
-> > question: This has liberal copying of GPL code from NVIDIA's
-> > non-upstreamed m_ttcan driver. Is that OK?
-> >=20
-> > corollary: I don't know what any of this glue logic does. I do know the
-> > device doesn't work without it. I can't find any documentation of what
-> > these addresses do.
-> >=20
-> > question: There is some duplication between this and m_can_platform. It
-> > doesn't seem too bad to me, but is this the preferred way to do it or is
-> > there another alternative?
-> >=20
-> > question: Do new DT bindings need to be in the YAML format, or is the
-> > .txt one OK?
-> >=20
-> >  drivers/net/can/m_can/Kconfig       |  10 +
-> >  drivers/net/can/m_can/Makefile      |   1 +
-> >  drivers/net/can/m_can/m_can_tegra.c | 362 ++++++++++++++++++++++++++++
-> >  3 files changed, 373 insertions(+)
-> >  create mode 100644 drivers/net/can/m_can/m_can_tegra.c
->=20
-> Sorry for the late reply, I completely missed this.
-
-Brian Silverman left the company bluerivertech, I think there'll be no
-progress on the tegra glue code. :/
-
-Marc
-
 --=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---n7sqxwpygc2d6wn2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmJO4JsACgkQrX5LkNig
-0118nQf/R+gaw3X7zD28Ee0fb5e4rcIIsxL2d1wmxWL6jkgQ/kbNmDx+nKY12dBx
-pBsA69d5mP9I1RfXVOTaH6XFZd+iD2lcCrglXNaNyoo8O+p5y+nTKrVJr3yMEcHr
-8asGp052fHln6FPSNTV8mvQYadWVYxBjEQVBrHJNp8nl5dZAn6uvW/V9AzWKMLWf
-JOHv/Wu6229FlBnIcjHinPPHQFId5QaPS8sCZzGNefGZg3x1s9872bgvmBhqsQI+
-/HxHDGtSCbrYcpKT7ykpcW5hkuYO+0+kqJZ7gMAzznxnDuKZ40hVXY9x+EVudwMn
-dlYpGqn4jnFxYzDWJOr/tc1lKQF4JQ==
-=wQkw
------END PGP SIGNATURE-----
-
---n7sqxwpygc2d6wn2--
+Hej k=C3=A4ra v=C3=A4n, jag =C3=A4r Alima Anwari fr=C3=A5n Afghanistan, v=
+=C3=A4nligen svara
+tillbaka till mig och har ett br=C3=A5dskande problem att dela med dig. jag
+kommer att v=C3=A4nta
+f=C3=B6r din respons.
+Tack.
+Alima.
