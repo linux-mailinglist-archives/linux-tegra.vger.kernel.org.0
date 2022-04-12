@@ -2,98 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40EEC4FDD7F
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 Apr 2022 13:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A73A74FE597
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Apr 2022 18:13:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344511AbiDLLKb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 12 Apr 2022 07:10:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36508 "EHLO
+        id S1355407AbiDLQPR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 12 Apr 2022 12:15:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354088AbiDLLFC (ORCPT
+        with ESMTP id S238419AbiDLQPR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 12 Apr 2022 07:05:02 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37A73C48E;
-        Tue, 12 Apr 2022 02:56:53 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id B9CA61F444DB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649757412;
-        bh=ta29d4wnkNjIs8vxiW+spXtMVlKSVX42O2OgeMWUE4M=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=kvhz7L+WR7F9HsP7+DAE1iJ09kPWZRmi5f2q6+wTFMWAjrPkNWY3Jzpgqp30kF162
-         9ej87DkBRElok2belFURZJE+6KAffcONlx+uSragUy+EKLYmrLe+OmnInaVU38Utnj
-         oGDfaSbiVVHQL6Yf2olT656ydNf9P6W4M76WukTbNC94PbuWprXpn8hcs1neMp19bi
-         iNzDzyCfCh2mIdCCNxP2XuZopGSbEx58bF1q1D3kWpmOuMeUlqToTVLTBXzlWDyGYS
-         beMdM6XO+lz1xQI7S8U0f+hcwzSbrlRYbQ5mvoaXJTg3bPRXH5hIYNcxpGgH7YbXoc
-         9fEZqqnyfRE+w==
-Message-ID: <2b603d3d-c6c1-13d7-8f77-042317a41d00@collabora.com>
-Date:   Tue, 12 Apr 2022 12:56:46 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v7 17/20] memory: emif: Use kernel_can_power_off()
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Tue, 12 Apr 2022 12:15:17 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1D2074EA24;
+        Tue, 12 Apr 2022 09:12:59 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF6421424;
+        Tue, 12 Apr 2022 09:12:58 -0700 (PDT)
+Received: from lpieralisi (unknown [10.57.8.134])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23AE93F5A1;
+        Tue, 12 Apr 2022 09:12:54 -0700 (PDT)
+Date:   Tue, 12 Apr 2022 17:12:59 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Baruch Siach <baruch@tkos.co.il>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>
+Cc:     Selvam Sathappan Periakaruppan <speriaka@codeaurora.org>,
+        Kathiravan T <kathirav@codeaurora.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Joshua Thompson <funaho@jurai.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Sebastian Reichel <sre@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee.jones@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20220411233832.391817-1-dmitry.osipenko@collabora.com>
- <20220411233832.391817-18-dmitry.osipenko@collabora.com>
-In-Reply-To: <20220411233832.391817-18-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+        linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v6 0/3] PCI: IPQ6018 platform support
+Message-ID: <20220412161259.GA7109@lpieralisi>
+References: <cover.1644234441.git.baruch@tkos.co.il>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1644234441.git.baruch@tkos.co.il>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,31 +55,76 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 4/12/22 02:38, Dmitry Osipenko wrote:
-> Replace legacy pm_power_off with kernel_can_power_off() helper that
-> is aware about chained power-off handlers.
+On Mon, Feb 07, 2022 at 04:51:23PM +0200, Baruch Siach wrote:
+> This series adds support for the single PCIe lane on IPQ6018 SoCs. The code is 
+> ported from downstream Codeaurora v5.4 kernel. The main difference from 
+> downstream code is the split of PCIe registers configuration from .init to 
+> .post_init, since it requires phy_power_on().
 > 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/memory/emif.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Tested on IPQ6010 based hardware.
 > 
-> diff --git a/drivers/memory/emif.c b/drivers/memory/emif.c
-> index edf3ba7447ed..fa6845313a43 100644
-> --- a/drivers/memory/emif.c
-> +++ b/drivers/memory/emif.c
-> @@ -630,7 +630,7 @@ static irqreturn_t emif_threaded_isr(int irq, void *dev_id)
->  		dev_emerg(emif->dev, "SDRAM temperature exceeds operating limit.. Needs shut down!!!\n");
->  
->  		/* If we have Power OFF ability, use it, else try restarting */
-> -		if (pm_power_off) {
-> +		if (kernel_can_power_off()) {
->  			kernel_power_off();
->  		} else {
->  			WARN(1, "FIXME: NO pm_power_off!!! trying restart\n");
+> Changes in v6:
+> 
+>   * Drop DT patch applied to the qcom tree
+> 
+>   * Normalize driver changes subject line
+> 
+>   * Add a preparatory patch to rename PCIE_CAP_LINK1_VAL to PCIE_CAP_SLOT_VAL,
+>     and define it using PCI_EXP_SLTCAP_* macros
+> 
+>   * Drop a vague comment about ASPM configuration
+> 
+>   * Add a comment about the source of delay periods
+> 
+> Changes in v5:
+> 
+>   * Remove comments from qcom_pcie_init_2_9_0() (Bjorn Andersson)
+> 
+> Changes in v4:
+> 
+>   * Drop applied DT bits
+> 
+>   * Add max-link-speed that was missing from the applied v2 patch
+> 
+>   * Rebase the driver on v5.16-rc3
+> 
+> Changes in v3:
+> 
+>   * Drop applied patches
+> 
+>   * Rely on generic code for speed setup
+> 
+>   * Drop unused macros
+> 
+>   * Formatting fixes
+> 
+> Changes in v2:
+> 
+>   * Add patch moving GEN3_RELATED macros to a common header
+> 
+>   * Drop ATU configuration from pcie-qcom
+> 
+>   * Remove local definition of common registers
+> 
+>   * Use bulk clk and reset APIs
+> 
+>   * Remove msi-parent from device-tree
+> 
+> Baruch Siach (2):
+>   PCI: dwc: tegra: move GEN3_RELATED DBI register to common header
+>   PCI: qcom: Define slot capabilities using PCI_EXP_SLTCAP_*
+> 
+> Selvam Sathappan Periakaruppan (1):
+>   PCI: qcom: Add IPQ60xx support
+> 
+>  drivers/pci/controller/dwc/pcie-designware.h |   7 +
+>  drivers/pci/controller/dwc/pcie-qcom.c       | 155 ++++++++++++++++++-
+>  drivers/pci/controller/dwc/pcie-tegra194.c   |   6 -
+>  3 files changed, 160 insertions(+), 8 deletions(-)
 
-Adding ack from Krzysztof that he gave to v6. It's missing in v7 by
-accident.
+Hi Bjorn, Andy,
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+any feedback on this series please ?
+
+Thanks,
+Lorenzo
