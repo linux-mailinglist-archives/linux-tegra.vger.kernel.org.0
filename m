@@ -2,65 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DF704FD8A5
-	for <lists+linux-tegra@lfdr.de>; Tue, 12 Apr 2022 12:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC9434FDC3E
+	for <lists+linux-tegra@lfdr.de>; Tue, 12 Apr 2022 13:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiDLJvS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 12 Apr 2022 05:51:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50170 "EHLO
+        id S1344030AbiDLKP5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 12 Apr 2022 06:15:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356678AbiDLHjN (ORCPT
+        with ESMTP id S1378009AbiDLJ7c (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 12 Apr 2022 03:39:13 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91937527D7;
-        Tue, 12 Apr 2022 00:09:59 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id x20so6206857qvl.10;
-        Tue, 12 Apr 2022 00:09:59 -0700 (PDT)
+        Tue, 12 Apr 2022 05:59:32 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B268205D4;
+        Tue, 12 Apr 2022 02:05:21 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id b15so21563186edn.4;
+        Tue, 12 Apr 2022 02:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YYsKfoGqtSHG7ncqqXsmjssryH5B9bgQ3YJHMg/wmuE=;
-        b=QwBDdndai0tHYI8OV/Ip9QYF6T4RV900qy1HIIeJzWQNOf8+SSUQGhtUdJC1ZhkXn/
-         PKIqCEKeJ9PSo/gMIYsj1AMK+l3XvGfdG5JVPtMEC9ehRqStvb3iyPJQtq7mscCUg7Ly
-         seZ68CyLmRp0Bf9hQGi8QMDLMpWTa4EoznfeGzSX/fChsLWaoY1+tjlzhoRxSYOtcgOn
-         bL6vDdOE5b9u8VvD04vAPkJQ3Dq+HMFSikrmGAwemVEDsIxek9lFVGHe/IvKIymk+b93
-         ZEiRMXLsAm/M00k7TbMYXGHMbhIdYrmsSsfrpjAkFVY15T+2VK4SImqlVnwoCTK7Dbxp
-         eLoA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JvUzj4eJQSW6VlbLUjMSITUiq97FPtxDr7ncwYmoRZw=;
+        b=PQN4pGhpOlIZoayWPrUBzGowazBqMXrd4jRr1snIyitef4NjsLhheTAe0qQ4xxS53b
+         3Bt6MF+gTSAJvT6Dr3An/eqtqMwA/5zAkSdx9c7loYNVNFh9WM+LFbECAWMLVRdG5mYk
+         EHaD8+YmvSfCswWysoOwVBSMt1FW0TYI80ssVuaKlsX40TIA1HRDORT8I2xQLJg1MiMs
+         Yx/pt7YehaJjEiMKaTBxBkXZNXuWm38BnB890ruRydAj6g6KeFCaBmrdhEULfmwVXtvW
+         JuXDdKRrxlc7wpyYmrYqigcamJk84SaFG6J8AQDlYbDZrY894fzLN+jF/gyZI2J22cJA
+         G+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YYsKfoGqtSHG7ncqqXsmjssryH5B9bgQ3YJHMg/wmuE=;
-        b=KxOpgrIqWrlde4w6rh/KNB6CE79BOq6BFbzswe8A7Qbht3MzzMERyc7UFyme6v4e9N
-         JOco/Mt/qqroPyLnPfPY4hpbwH/rH/gzOsmQ9d5jHoKngmKjT2z1J6gqLrBUtvppuwqr
-         5DRLYxg1IG82D7QhTCoWgxLKoV6/jFDe2bUd574Pt2KmEB5qJj+NeXt7PaPP/kGnLGoA
-         rQgq05MupMjIBigwd5cxaqrKQkIDDKEXeEFx5kpEQpFszA+QVGukdrPTW+Spf260hcAr
-         5kq9Cm14IWyCXhopYBYxGW338kY4IB29oJOeoH9njDR5NiEY2X5Dtw9skB8synBIXXci
-         v4fg==
-X-Gm-Message-State: AOAM5318iC+LxTonk2b6oN3YuqfyA4RtpyTLO4D/6TxMth8ykGFmTYuR
-        N6ydE1Ogm2B8uQtyl+RAukY=
-X-Google-Smtp-Source: ABdhPJxD82QyXzIXC49kCu0uQhNuZRAkgzW0/Y+DmjAjzd5Op7VFc9g/56donMlX6v9f4IhUqwGMdQ==
-X-Received: by 2002:a05:6214:2301:b0:435:38af:2f87 with SMTP id gc1-20020a056214230100b0043538af2f87mr30014186qvb.83.1649747398424;
-        Tue, 12 Apr 2022 00:09:58 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id t3-20020a05622a148300b002ef8ff7afa1sm2317660qtx.21.2022.04.12.00.09.55
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JvUzj4eJQSW6VlbLUjMSITUiq97FPtxDr7ncwYmoRZw=;
+        b=apipqC5iq8qGmSdZFgX7WK8tmdHuIHRk8IzpIu6qFqkTKLsHzlVxoo5Fq7f6oq7upL
+         qqlFFiABi33laX9LmL4Bg5AwNT/OKMyyJ8G2HUjNFhEX2+AiObGv7z5UutbIB/ap0GOD
+         4daMLZMq8VIjWXUs+gYvFEIGwX7ABy/ezDHDJzXKbHidlhe7w3aZwezfVZrAsl7eUN3S
+         F86jKysoOT5+E41CWIMzQpBFCSp4mXOZjEpPIPn33mkuoYwciyuhtUVMYgHL1e+iYSMB
+         f3TZ8efmMxMR8lOdgHhiAIVgsXfneL3Dlbm1zXidw9zbJ6FMEM1n2uURWBbY7KI1yVe3
+         corg==
+X-Gm-Message-State: AOAM531lq5w84URxPGf8nDBU4uHxBAwcEVwri+wNPlh3JMus3uQjVExT
+        27BURn0Kk0AB8oAu0rs5pFs=
+X-Google-Smtp-Source: ABdhPJy7UIlkAw90AvWa8CNYC9UtMZpU5M8mz2CPjgf62C2T/CEb2v4+GAYAJGpj0vByS1chiMtK+A==
+X-Received: by 2002:a05:6402:27d1:b0:419:1b02:4a04 with SMTP id c17-20020a05640227d100b004191b024a04mr37474442ede.218.1649754319553;
+        Tue, 12 Apr 2022 02:05:19 -0700 (PDT)
+Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
+        by smtp.gmail.com with ESMTPSA id d26-20020a1709064c5a00b006e89debe3f4sm1595260ejw.9.2022.04.12.02.05.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 00:09:58 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To:     ldewangan@nvidia.com
-Cc:     broonie@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] spi: spi-tegra114: using pm_runtime_resume_and_get instead of pm_runtime_get_sync
-Date:   Tue, 12 Apr 2022 07:09:51 +0000
-Message-Id: <20220412070951.2532157-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        Tue, 12 Apr 2022 02:05:18 -0700 (PDT)
+Date:   Tue, 12 Apr 2022 11:05:15 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Cc:     Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com, soc@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH] arm64: dts: tegra: Fix boolean properties with
+ values
+Message-ID: <YlVAy95eF/9b1nmu@orome>
+References: <Yk3nShkFzNJaI3/Z@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="NBsBIpgqCfiMExLJ"
+Content-Disposition: inline
+In-Reply-To: <Yk3nShkFzNJaI3/Z@robh.at.kernel.org>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -71,55 +85,77 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Using pm_runtime_resume_and_get is more appropriate
-for simplifing code
+--NBsBIpgqCfiMExLJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
- drivers/spi/spi-tegra114.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+On Wed, Apr 06, 2022 at 02:17:30PM -0500, Rob Herring wrote:
+> Boolean properties in DT are present or not present and don't take a valu=
+e.
+> A property such as 'foo =3D <0>;' evaluated to true. IOW, the value doesn=
+'t
+> matter.
+>=20
+> It may have been intended that 0 values are false, but there is no change
+> in behavior with this patch.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> Can someone apply this for 5.18.
+>=20
+>  arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi            | 8 ++++----
+>  .../boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts    | 8 ++++----
+>  arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi            | 6 +++---
+>  arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi            | 6 +++---
+>  arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi            | 6 +++---
+>  arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi            | 8 ++++----
+>  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts        | 8 ++++----
+>  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts             | 4 ++--
+>  8 files changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
-index 8f345247a8c3..d9be80e3e1bc 100644
---- a/drivers/spi/spi-tegra114.c
-+++ b/drivers/spi/spi-tegra114.c
-@@ -964,9 +964,8 @@ static int tegra_spi_setup(struct spi_device *spi)
- 		spi->controller_data = cdata;
- 	}
- 
--	ret = pm_runtime_get_sync(tspi->dev);
-+	ret = pm_runtime_resume_and_get(tspi->dev);
- 	if (ret < 0) {
--		pm_runtime_put_noidle(tspi->dev);
- 		dev_err(tspi->dev, "pm runtime failed, e = %d\n", ret);
- 		if (cdata)
- 			tegra_spi_cleanup(spi);
-@@ -1394,10 +1393,9 @@ static int tegra_spi_probe(struct platform_device *pdev)
- 			goto exit_pm_disable;
- 	}
- 
--	ret = pm_runtime_get_sync(&pdev->dev);
-+	ret = pm_runtime_resume_and_get(&pdev->dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
--		pm_runtime_put_noidle(&pdev->dev);
- 		goto exit_pm_disable;
- 	}
- 
-@@ -1476,9 +1474,8 @@ static int tegra_spi_resume(struct device *dev)
- 	struct tegra_spi_data *tspi = spi_master_get_devdata(master);
- 	int ret;
- 
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0) {
--		pm_runtime_put_noidle(dev);
- 		dev_err(dev, "pm runtime failed, e = %d\n", ret);
- 		return ret;
- 	}
--- 
-2.25.1
+This causes multiple regressions on Tegra boards. The reason for this is
+that these properties are not in fact boolean, despite what the DT
+bindings say. If you look at the code that handles these, you'll notice
+that they are single-cell properties, typically with <0> and <1> values.
+What may have led to the conclusion that these are boolean is that there
+is also a special case where these can be left out, but the meaning of
+that is not the "false" (<0>) value. Instead, leaving these out means
+that the values should be left at whatever is currently in the register.
 
+See pinconf_generic_parse_dt_config() and parse_dt_cfg() specifically in
+drivers/pinctrl/pinconf-generic.c.
+
+Arnd, can you please revert this so that these boards can be unbroken?
+
+It's a bit unfortunate because there seem to be other platforms that
+also employ these in the boolean form that Rob mentioned, but I think it
+is those that probably need fixing instead. Not sure what the intentions
+were for those.
+
+Adding Bjorn for MSM, the Nuvoton and STM32 folks.
+
+Thierry
+
+--NBsBIpgqCfiMExLJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJVQMgACgkQ3SOs138+
+s6FAcQ//f9+PoHjpquYwfy+qc69MSz549E+MT1SBelK6GGDpNc7CWrtmujpeiTP/
+bgA1e0TzCagra2528fAUyOtyAaVKPHS8BVt6OxptgyEgvwP2fygn83+2BIQsVar1
+Ls092mvWt1GeHYri19DRt3L43JH1RlcYxaPsUbgWU2tucetEtEDndOVUki87oclX
+se/tsVqGRA5B1FMFHPiVgJyTaFzJtiwkCZnH31BN3DRXSsOnkJr33fV5bQM4Ylg5
+vxWmwURr1T7+vTgUSCxi2RNzYGAuveI/IGFs1QD/jddo8MEHqF/EHmGmPWHF5fta
+iP3T6u7bSb0y433imp3GDtLFch/cJ4BZ9sIWfLqPXP06sVVMfbLq2joo0p26XEZ1
+q7hxFhNrpWBpmEna+RtNQWLCbcW7BBI+v0f4VYml+xNVpYehqUfHwrOqLdURucPO
+WbriU9+nODw81tLTJbSr2EGGvYi4uiGBZw302ZuApk2pOhF+Az9WnlxUHiM3Q64D
+WFubEG7Ezq1lEFO4hD4zZs9bMhSycTi6LMIJRTz7HHH/qPubJ8DWRi/Npn7WjN5S
+uzQyjmD9ei7E/jLb28Sa0TCk4zAKiZiSVWZF/ONXhJ4aGzkgLhebFgMlGOihj4Gj
+4J3cLi4fOm2o4qU7axaSMb8yd6hAD93kKRIylehK0Lfdmt9pM4I=
+=kKPk
+-----END PGP SIGNATURE-----
+
+--NBsBIpgqCfiMExLJ--
