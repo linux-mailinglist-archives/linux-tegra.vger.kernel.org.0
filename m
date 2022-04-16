@@ -2,107 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5366C5034DA
-	for <lists+linux-tegra@lfdr.de>; Sat, 16 Apr 2022 09:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C4B35045B5
+	for <lists+linux-tegra@lfdr.de>; Sun, 17 Apr 2022 00:39:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbiDPHwQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 16 Apr 2022 03:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43466 "EHLO
+        id S231210AbiDPWmE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 16 Apr 2022 18:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230189AbiDPHwJ (ORCPT
+        with ESMTP id S229441AbiDPWmD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 16 Apr 2022 03:52:09 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47A6FFF81
-        for <linux-tegra@vger.kernel.org>; Sat, 16 Apr 2022 00:49:37 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id k29so10066571pgm.12
-        for <linux-tegra@vger.kernel.org>; Sat, 16 Apr 2022 00:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
-         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
-         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
-         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
-         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
-         XtNg==
+        Sat, 16 Apr 2022 18:42:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C7A4237A14
+        for <linux-tegra@vger.kernel.org>; Sat, 16 Apr 2022 15:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650148769;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BpOVvGdiVmOkFc6Vxt31zxMLOJ/JVW56iU3zr83wB70=;
+        b=bZTdoS/1CJ3gH0qA6kcUItAJ8WpoHWkUpnQiNoT04RQbmr5k60KWp978ih/t1I0OwnOjYl
+        RCC7U2CWufrG5AJKgS59kkvboTlba+cpC28jnsWCGlJm4kePcYIW8LcQSS0+U1ejpqfQfz
+        qDWNTack5zOvBYrmIfZfPxkX0GpPxBQ=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-513-fAgRUPY1PHuKukMfF2xR-A-1; Sat, 16 Apr 2022 18:39:28 -0400
+X-MC-Unique: fAgRUPY1PHuKukMfF2xR-A-1
+Received: by mail-qk1-f199.google.com with SMTP id i2-20020a05620a248200b0067b51fa1269so7726222qkn.19
+        for <linux-tegra@vger.kernel.org>; Sat, 16 Apr 2022 15:39:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=npu3uQ/GxVvO2E6xHnp1MxKes5f4XVuXQz4D+3pFEeHAJgI7KQuL4QdJuhP+41rlQh
-         lX7sKx75FfJeF+mFC76FEoce+ffdWM7Z2hYKcal1kYs7rLwrzi5NMGY7k+L7utAZv/KO
-         lMV/5BOOYC2PNN/Psd5S4UQlYJSSp856vNMcFyr6LyrYLMmyCMUnBENNZpaya3zEHNzB
-         SEvelQNP9bNZnTWnjr+TqXvWoVxOll0q5FV4wAlddYpJnatNgNxmZjXSj9EOIuk4ZKSo
-         R/52DY7+MB+v1lCYfZ53igI/BVo8Ni1kMCw2kt9cmXl3+MYWF7lKOaxnQiqY91AMT4rH
-         W2Tw==
-X-Gm-Message-State: AOAM532zqOisHmtsN6z+YgV2yCzUc/AnXDnrJ5P78iDNTVtlpp/NAoUI
-        BQ7N34QiZlUjCw8Nam7PZ0xMwbd7fLq6RtDIIkctxrkC16M=
-X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
-X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
- q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
- Apr 2022 00:49:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BpOVvGdiVmOkFc6Vxt31zxMLOJ/JVW56iU3zr83wB70=;
+        b=wdSOdDtlZzlzLtDziHhYzbfxNiYmndz2NWKaB9udVzTroSinpIGA+S2R3SRd2zkd/d
+         q5Il1OCIU0DVzRjC5bFAgaSV+4IZNQyk0VcTNoTEuaFIJBGeip5pUFt29hcKK49StOzI
+         5rHk49KGy25iVYX98dFAr24ZdHgivKeDuIIyyiehRViSSGlD080ZdAiLF1MuIVAhLS0m
+         VFmHuLvsZMQtfXIjtIYPWMnXpTFDNQyTTDp9VG/zujVaGdFGhuH4VvriNWYrv9O7mZet
+         llezi9zT2cUM4QJ1H5NHRysaj4GN2ifHgocYVNSEGgctSEjtTl+tItruiCsWDMCmHqnc
+         j1lA==
+X-Gm-Message-State: AOAM533lC2le4KppnfcQiRIrk3hX7OyhuP40671hIGvYSuPHspSIErV9
+        /SVVomJZmFHGvg3R9/uxbk3KwO/OTVPk8Xe4bXrFZseHK9Qnbgq1jUoPzQcYXxLw5x2BwyfbhA8
+        po4DbrvmW1EmBsgWHUQ4CerQ=
+X-Received: by 2002:ae9:eb87:0:b0:69e:75b3:6527 with SMTP id b129-20020ae9eb87000000b0069e75b36527mr2243516qkg.386.1650148768198;
+        Sat, 16 Apr 2022 15:39:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDR9RLRp+qTWzVkbCtfQ9U7EuTs1Feo7WIWOwOFw1MB385IjzG7j183dip8VZh/DlKz9M7Wg==
+X-Received: by 2002:ae9:eb87:0:b0:69e:75b3:6527 with SMTP id b129-20020ae9eb87000000b0069e75b36527mr2243503qkg.386.1650148767997;
+        Sat, 16 Apr 2022 15:39:27 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id 8-20020ac85948000000b002e1cd3fa142sm5346012qtz.92.2022.04.16.15.39.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Apr 2022 15:39:27 -0700 (PDT)
+From:   Tom Rix <trix@redhat.com>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, waynec@nvidia.com,
+        rikard.falkeborn@gmail.com, zhangqilong3@huawei.com,
+        jakobkoschel@gmail.com
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
+Subject: [PATCH] usb: gadget: tegra-xudc: clean up comments
+Date:   Sat, 16 Apr 2022 18:39:21 -0400
+Message-Id: <20220416223921.2881719-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
- -0700 (PDT)
-Reply-To: daniel.seyba@yahoo.com
-From:   Seyba Daniel <royhalton13@gmail.com>
-Date:   Sat, 16 Apr 2022 09:49:26 +0200
-Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:542 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [royhalton13[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [royhalton13[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
+Spelling replacements
+cancelled to canceled
+endpiont to endpoint
+Compliance to Compliance
 
-I am so sorry contacting you in this means especially when we have never
-met before. I urgently seek your service to represent me in investing in
-your region / country and you will be rewarded for your service without
-affecting your present job with very little time invested in it.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/usb/gadget/udc/tegra-xudc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-My interest is in buying real estate, private schools or companies with
-potentials for rapid growth in long terms.
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index d9c406bdb680..0aaf01e1551f 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -1330,7 +1330,7 @@ static void squeeze_transfer_ring(struct tegra_xudc_ep *ep,
+ 	bool pcs;
+ 
+ 	/*
+-	 * Clear out all the TRBs part of or after the cancelled request,
++	 * Clear out all the TRBs part of or after the canceled request,
+ 	 * and must correct trb cycle bit to the last un-enqueued state.
+ 	 */
+ 	while (trb != &ep->transfer_ring[ep->enq_ptr]) {
+@@ -1343,11 +1343,11 @@ static void squeeze_transfer_ring(struct tegra_xudc_ep *ep,
+ 			trb = ep->transfer_ring;
+ 	}
+ 
+-	/* Requests will be re-queued at the start of the cancelled request. */
++	/* Requests will be re-queued at the start of the canceled request. */
+ 	ep->enq_ptr = req->first_trb - ep->transfer_ring;
+ 	/*
+ 	 * Retrieve the correct cycle bit state from the first trb of
+-	 * the cancelled request.
++	 * the canceled request.
+ 	 */
+ 	ep->pcs = pcs_enq;
+ 	ep->ring_full = false;
+@@ -1434,7 +1434,7 @@ __tegra_xudc_ep_dequeue(struct tegra_xudc_ep *ep,
+ 		return 0;
+ 	}
+ 
+-	/* Halt DMA for this endpiont. */
++	/* Halt DMA for this endpoint. */
+ 	if (ep_ctx_read_state(ep->context) == EP_STATE_RUNNING) {
+ 		ep_pause(xudc, ep->index);
+ 		ep_wait_for_inactive(xudc, ep->index);
+@@ -3423,7 +3423,7 @@ static void tegra_xudc_device_params_init(struct tegra_xudc *xudc)
+ 	}
+ 
+ 	/*
+-	 * Compliacne suite appears to be violating polling LFPS tBurst max
++	 * Compliance suite appears to be violating polling LFPS tBurst max
+ 	 * of 1.4us.  Send 1.45us instead.
+ 	 */
+ 	val = xudc_readl(xudc, SSPX_CORE_CNT32);
+-- 
+2.27.0
 
-So please confirm interest by responding back.
-
-My dearest regards
-
-Seyba Daniel
