@@ -2,113 +2,202 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 334E0504737
-	for <lists+linux-tegra@lfdr.de>; Sun, 17 Apr 2022 10:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B7F750474B
+	for <lists+linux-tegra@lfdr.de>; Sun, 17 Apr 2022 11:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233723AbiDQIiH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 17 Apr 2022 04:38:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58556 "EHLO
+        id S231579AbiDQJHY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 17 Apr 2022 05:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233708AbiDQIhz (ORCPT
+        with ESMTP id S233750AbiDQJHX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 17 Apr 2022 04:37:55 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9166E2B261
-        for <linux-tegra@vger.kernel.org>; Sun, 17 Apr 2022 01:35:19 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id md20-20020a17090b23d400b001cb70ef790dso14980003pjb.5
-        for <linux-tegra@vger.kernel.org>; Sun, 17 Apr 2022 01:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z+v8ugHyK4Bi1bsAOtuex5rzJWIULuLfF++ZnJg6JJs=;
-        b=oNJc2INf8Rhr5FB/7dmVLUtXIN32Zpr+JOws5mZo8yLIZkx20k3ktobg4cFsyHfo10
-         opyovUTmrMqZBrjIIPL8dwM3Cl42hbyZvaLR8TbrZDbPh7rgV94AneypUIz7gx5LvazE
-         zDLFkcDX1nbPbvLE1YDjvnnDO6sd+MeRRKk7hJojVtPLOuB8iX7Tisqm37Yqye5BOvOD
-         qrtEmC9HZPFnF8UhgjxviHDBiEkp+KFrjrNS6AiUfUOujeKcrIPlTDjJJypvibkN2ZRc
-         Fcc5bL7t8fX01QLLow126XRV2cU5sFntAnAB/7YbhrXrCEA2hg1PeuWagasZGrwW/+fq
-         MCiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z+v8ugHyK4Bi1bsAOtuex5rzJWIULuLfF++ZnJg6JJs=;
-        b=3Wjd+mvF8ajFiADPmf8WlD+0nNY4JpmsbYDPdIOx8T1YL1lhN4kEm/0QD2qpS9y5YS
-         szYL4Y82Kdxdpr8ak7dT3JQRe5mJRW3JzJC98h37o9P3iJ6MaFId132wlnLIyMoRPKGN
-         9bhJNBDtF+qea6/sOpoSUVkwqdtZvd52F/ibbXrrqas5b3lq+oGYxH5Y9RTP0UIANskz
-         j/yOTmIZQaWIIuloM0xPPfnw9FIbXLq9HvdE5yv/nU0ElH6dD7h0K6DLluElwhWtpf3e
-         g+xPK2HKr/KBAVlFULHc8P/1iBtST3S6LrYQ4+nhedbJzKNb89EkdMFymuRp7OQoX2wl
-         9Bcw==
-X-Gm-Message-State: AOAM533ZoCl3B6BBNYz0MYxDGLBiTf+aOjGEjXeBTypIYCzaopQ8fAF6
-        cdmCjBt9G3yVlqFPq/nSH/OB0+9K0m8KrcaU3J0O9hz1Gc9e+ershRE=
-X-Google-Smtp-Source: ABdhPJw9Xt2OFrIK7hURg4kp9HjRikv5sLzHEzVl1NzDr5ZjkMyPbwTBECFNWcwqZlk35V3UQisOkE0Lf5eHqEkQTho=
-X-Received: by 2002:a1f:5105:0:b0:345:252e:b0f5 with SMTP id
- f5-20020a1f5105000000b00345252eb0f5mr1463329vkb.22.1650184508047; Sun, 17 Apr
- 2022 01:35:08 -0700 (PDT)
+        Sun, 17 Apr 2022 05:07:23 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2052.outbound.protection.outlook.com [40.107.220.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940F36456;
+        Sun, 17 Apr 2022 02:04:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dlgYq5q7114vEK+dSmQAwtzczD3Jis9PlwAqytXA9G31rauc3HpsGLgmnesuAx9a21P/qFbbdOHDGvzC7kxAAIMd7F0UX3m/AGX0Hd30bNbgHB0+0oBpgDTignM1lTLsHRKslFbNNovbX/JVcV8zgfLWVl2VE/yRW3ac5J50FUV6BFS7db87MQqo0QZGy2wig2cxAlbZMzcFYl4Iy2gCcHpLQddeGNSHCQQDskWbaZlMQ+mmbNiJP2pK6kIdtei4dn47adf9r4OGwjd1O3z+alIuKbrEcBTdnLnoprNUgV83b2c7QxBcPObxVuitvnZh7CkEg2fGXPyiCKZx2DHbpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SG8YOrOqHAJwqMSZB7DKkcZxWNAjqunFBhBOe8/6NAk=;
+ b=kL63PD81ozh+I9x91rRmNH7qHhlUxfq8FO9XLgadS9wZ3I+mSBuz9UnIGHVMVW1EAupbn1W4wMoi76pmZ/x2J8ElaOa7H9nWxwGUsNO3cC1mgLjjBs1frFh3qx1pR+ZRNwb3PdvfukVKdjTxLuY6mG0nTQ0AZV70wtdolG6aVFnhaYPr42NqCpVFQyqBmLliy7jWuLJwThkuYjL712lpt/cuoEjpOmZIdGMjsy44S4UnrIpU4/YkWBxWCn2Sq4XPnvSoRyzfN9MIQeOtmMfll/Z0TPsouC9dEo+iJudh08HhlUvVTPNS6/rzqeXNKXfBZ0GH1IOk1c/3oFDr4T0WKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SG8YOrOqHAJwqMSZB7DKkcZxWNAjqunFBhBOe8/6NAk=;
+ b=jJrn2VHuJGgd+h1csYVU50j3ZP/dSeFBgUjKQ55g6fS1j1vMsxHTigHR+Emvqt7ecyminwH2ve6ax5JSP7725xtxOBTskilBWBg4zioNqAAg+djX4Z8Tgeul9vknZqFZWj1qCRugBlHorQVYfvsvlrXCBomt1kbzP4j1ASMrFSjxmoL/GLyzPMtvx5WIxKDt9J3oD31XfIH+F4uarWrtWCmcx6FTTQOnkSJVAlBrtVXB0mE9XAKSYEb5zOjnsNmFMeWELl08BzT8w5oKBEsjcvemwDW9J0zG6mhWHxvXIAaVvHcex3zOVtMbAAmFMhIVIHcgpE6ANfMe6iaFaEtKlw==
+Received: from BN8PR03CA0006.namprd03.prod.outlook.com (2603:10b6:408:94::19)
+ by BYAPR12MB3013.namprd12.prod.outlook.com (2603:10b6:a03:a9::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.25; Sun, 17 Apr
+ 2022 09:04:45 +0000
+Received: from BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:94:cafe::6d) by BN8PR03CA0006.outlook.office365.com
+ (2603:10b6:408:94::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.18 via Frontend
+ Transport; Sun, 17 Apr 2022 09:04:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.236) by
+ BN8NAM11FT008.mail.protection.outlook.com (10.13.177.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5164.19 via Frontend Transport; Sun, 17 Apr 2022 09:04:44 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ DRHQMAIL109.nvidia.com (10.27.9.19) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.32; Sun, 17 Apr 2022 09:04:43 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Sun, 17 Apr 2022 02:04:43 -0700
+Received: from amhetre.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.22 via Frontend
+ Transport; Sun, 17 Apr 2022 02:04:39 -0700
+From:   Ashish Mhetre <amhetre@nvidia.com>
+To:     <thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <will@kernel.org>,
+        <robin.murphy@arm.com>, <joro@8bytes.org>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
+CC:     <nicolinc@nvidia.com>, <Snikam@nvidia.com>,
+        Ashish Mhetre <amhetre@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>
+Subject: [Patch v1] iommu: arm-smmu: disable large page mappings for Nvidia arm-smmu
+Date:   Sun, 17 Apr 2022 14:34:32 +0530
+Message-ID: <20220417090432.21110-1-amhetre@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Received: by 2002:a05:612c:2303:b0:2a3:2b46:b7d with HTTP; Sun, 17 Apr 2022
- 01:35:07 -0700 (PDT)
-Reply-To: markwillima00@gmail.com
-From:   Mark <muhammadsuleima888@gmail.com>
-Date:   Sun, 17 Apr 2022 01:35:07 -0700
-Message-ID: <CANCcrFBrB3Qw8Ab_hBy19n0Ch6+XNpkXj3PjXKrc26cej7s+Kg@mail.gmail.com>
-Subject: Re: Greetings!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:1044 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [markwillima00[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [muhammadsuleima888[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [muhammadsuleima888[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6d50f2d1-80a0-4563-9e9c-08da205150ac
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3013:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB30131E940283962994FA4469CAF09@BYAPR12MB3013.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5Io9RGGAZ58PUas1nqdxPxVxRcExHcCXilmNPKFtiam8cIZo2X52oO2Wm8uFEpgbIzX6PS23dhKla0PgI44tlR33M0kp/Z2wopAQ84VGbsF3C8vHpUgRHok0cLgWozdtY/NOECbgw0PhU2/a85dV58L7sTqkSBpZwcnv9uLPJbEEWHPK8IXh8/4JE4w6Ad/Lkd35gKfdDeiN6b0U6eueeKPkjUOMsnWqy7M/pKJ+TOWzqeIuzD0XTtbkOeU4P0gVuRS+4cEbnYmG1vEZPheYfJCqije0BMlXowoB9FHUHb1q6IK1Jtix8CRFz0msQNTzvlV8+YJFP7eNwLE2LyJgac2l9ZFi/S+bJx8w8n9ExQp5IEsMgWBVIq5ziMU+4cXfLFPNxAML1gl7onrBv5pRsdhs3LzPm4xMknYm1QFEGzjygk3/0DdtB3z1GLSEARbadF0uv+LN25/mDN6DC9KgnTkPUgA3amKFeeEyH/S01dUhQVSMtcZXuONWhR4rQcnwSu4T4U2xHeKsc6WrJeIsgTscXWEi+vVEubMeRkS0c6lpRvQr4O6XT9phsQtHzXuZfECnpyQE9vzOHkNdfWyUnOyagBuBkufKz4f++pCeQ0PjSXRqkBKZ3woR4zvhLoJ1gAqQHxCHcY8gytXtA2gA4g6je8BcEsRg+ud+B4HbGtjIrJseBe9SFEiNsYfdB4vRb4ACUucGjFpiBg84dZsSv06p07LGuDrwFi8wTilU7xrr6JFaRsKKVATkPskm/+uWwYifiMGpxFZgkzLKe+KO2g==
+X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(8676002)(70206006)(70586007)(86362001)(4326008)(7696005)(82310400005)(83380400001)(2906002)(26005)(356005)(40460700003)(921005)(508600001)(81166007)(36860700001)(2616005)(110136005)(107886003)(1076003)(6666004)(36756003)(54906003)(316002)(426003)(336012)(186003)(47076005)(5660300002)(8936002)(2101003)(83996005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2022 09:04:44.2557
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d50f2d1-80a0-4563-9e9c-08da205150ac
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3013
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
+Tegra194 and Tegra234 SoCs have the erratum that causes walk cache
+entries to not be invalidated correctly. The problem is that the walk
+cache index generated for IOVA is not same across translation and
+invalidation requests. This is leading to page faults when PMD entry is
+released during unmap and populated with new PTE table during subsequent
+map request. Disabling large page mappings avoids the release of PMD
+entry and avoid translations seeing stale PMD entry in walk cache.
+Fix this by limiting the page mappings to PAGE_SIZE for Tegra194 and
+Tegra234 devices. This is recommended fix from Tegra hardware design
+team.
 
-The HSBC Bank is a financial institution in United Kingdom. We
-promotes long-term,sustainable and broad-based economic growth in
-developing and emerging countries by providing financial support like
-loans and investment to large, small and
-medium-sized companies (SMEs) as well as fast-growing enterprises
-which in turn helps to create secure and permanent jobs and reduce
-poverty.
+Co-developed-by: Pritesh Raithatha <praithatha@nvidia.com>
+Signed-off-by: Pritesh Raithatha <praithatha@nvidia.com>
+Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c | 23 ++++++++++++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c        |  3 +++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h        |  1 +
+ 3 files changed, 27 insertions(+)
 
-If you need fund to promotes your business, project(Project Funding),
-Loan, planning, budgeting and expansion of your business(s) , do not
-hesitate to indicate your interest as we are here to serve you better
-by granting your request.
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+index 01e9b50b10a1..b7a3d06da2f4 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+@@ -258,6 +258,27 @@ static void nvidia_smmu_probe_finalize(struct arm_smmu_device *smmu, struct devi
+ 			dev_name(dev), err);
+ }
+ 
++static void nvidia_smmu_cfg_pgsize_bitmap(struct arm_smmu_device *smmu)
++{
++	const struct device_node *np = smmu->dev->of_node;
++
++	/*
++	 * Tegra194 and Tegra234 SoCs have the erratum that causes walk cache
++	 * entries to not be invalidated correctly. The problem is that the walk
++	 * cache index generated for IOVA is not same across translation and
++	 * invalidation requests. This is leading to page faults when PMD entry
++	 * is released during unmap and populated with new PTE table during
++	 * subsequent map request. Disabling large page mappings avoids the
++	 * release of PMD entry and avoid translations seeing stale PMD entry in
++	 * walk cache.
++	 * Fix this by limiting the page mappings to PAGE_SIZE on Tegra194 and
++	 * Tegra234.
++	 */
++	if (of_device_is_compatible(np, "nvidia,tegra234-smmu") ||
++	    of_device_is_compatible(np, "nvidia,tegra194-smmu"))
++		smmu->pgsize_bitmap = PAGE_SIZE;
++}
++
+ static const struct arm_smmu_impl nvidia_smmu_impl = {
+ 	.read_reg = nvidia_smmu_read_reg,
+ 	.write_reg = nvidia_smmu_write_reg,
+@@ -268,10 +289,12 @@ static const struct arm_smmu_impl nvidia_smmu_impl = {
+ 	.global_fault = nvidia_smmu_global_fault,
+ 	.context_fault = nvidia_smmu_context_fault,
+ 	.probe_finalize = nvidia_smmu_probe_finalize,
++	.cfg_pgsize_bitmap = nvidia_smmu_cfg_pgsize_bitmap,
+ };
+ 
+ static const struct arm_smmu_impl nvidia_smmu_single_impl = {
+ 	.probe_finalize = nvidia_smmu_probe_finalize,
++	.cfg_pgsize_bitmap = nvidia_smmu_cfg_pgsize_bitmap,
+ };
+ 
+ struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index 568cce590ccc..3692a19a588a 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -1872,6 +1872,9 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+ 	if (smmu->features & ARM_SMMU_FEAT_FMT_AARCH64_64K)
+ 		smmu->pgsize_bitmap |= SZ_64K | SZ_512M;
+ 
++	if (smmu->impl && smmu->impl->cfg_pgsize_bitmap)
++		smmu->impl->cfg_pgsize_bitmap(smmu);
++
+ 	if (arm_smmu_ops.pgsize_bitmap == -1UL)
+ 		arm_smmu_ops.pgsize_bitmap = smmu->pgsize_bitmap;
+ 	else
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index 2b9b42fb6f30..5d9b03024969 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -442,6 +442,7 @@ struct arm_smmu_impl {
+ 	void (*write_s2cr)(struct arm_smmu_device *smmu, int idx);
+ 	void (*write_sctlr)(struct arm_smmu_device *smmu, int idx, u32 reg);
+ 	void (*probe_finalize)(struct arm_smmu_device *smmu, struct device *dev);
++	void (*cfg_pgsize_bitmap)(struct arm_smmu_device *smmu);
+ };
+ 
+ #define INVALID_SMENDX			-1
+-- 
+2.17.1
 
-
-Thank you
-Mr:Mark
