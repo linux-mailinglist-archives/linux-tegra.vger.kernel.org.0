@@ -2,124 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E3095045D1
-	for <lists+linux-tegra@lfdr.de>; Sun, 17 Apr 2022 02:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 334E0504737
+	for <lists+linux-tegra@lfdr.de>; Sun, 17 Apr 2022 10:35:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231506AbiDQAi7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 16 Apr 2022 20:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58868 "EHLO
+        id S233723AbiDQIiH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 17 Apr 2022 04:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231964AbiDQAi6 (ORCPT
+        with ESMTP id S233708AbiDQIhz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 16 Apr 2022 20:38:58 -0400
-Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A310A329BA;
-        Sat, 16 Apr 2022 17:36:22 -0700 (PDT)
-Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay09.hostedemail.com (Postfix) with ESMTP id BC1D923E29;
-        Sun, 17 Apr 2022 00:36:20 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 951B12002D;
-        Sun, 17 Apr 2022 00:36:18 +0000 (UTC)
-Message-ID: <817a2890f5483e9a4b51ff6cc3eaab966e4f0537.camel@perches.com>
-Subject: Re: [PATCH] usb: gadget: tegra-xudc: clean up comments
-From:   Joe Perches <joe@perches.com>
-To:     Tom Rix <trix@redhat.com>, balbi@kernel.org,
-        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, waynec@nvidia.com,
-        rikard.falkeborn@gmail.com, zhangqilong3@huawei.com,
-        jakobkoschel@gmail.com
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Sat, 16 Apr 2022 17:36:17 -0700
-In-Reply-To: <20220416223921.2881719-1-trix@redhat.com>
-References: <20220416223921.2881719-1-trix@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Sun, 17 Apr 2022 04:37:55 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9166E2B261
+        for <linux-tegra@vger.kernel.org>; Sun, 17 Apr 2022 01:35:19 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id md20-20020a17090b23d400b001cb70ef790dso14980003pjb.5
+        for <linux-tegra@vger.kernel.org>; Sun, 17 Apr 2022 01:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=z+v8ugHyK4Bi1bsAOtuex5rzJWIULuLfF++ZnJg6JJs=;
+        b=oNJc2INf8Rhr5FB/7dmVLUtXIN32Zpr+JOws5mZo8yLIZkx20k3ktobg4cFsyHfo10
+         opyovUTmrMqZBrjIIPL8dwM3Cl42hbyZvaLR8TbrZDbPh7rgV94AneypUIz7gx5LvazE
+         zDLFkcDX1nbPbvLE1YDjvnnDO6sd+MeRRKk7hJojVtPLOuB8iX7Tisqm37Yqye5BOvOD
+         qrtEmC9HZPFnF8UhgjxviHDBiEkp+KFrjrNS6AiUfUOujeKcrIPlTDjJJypvibkN2ZRc
+         Fcc5bL7t8fX01QLLow126XRV2cU5sFntAnAB/7YbhrXrCEA2hg1PeuWagasZGrwW/+fq
+         MCiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=z+v8ugHyK4Bi1bsAOtuex5rzJWIULuLfF++ZnJg6JJs=;
+        b=3Wjd+mvF8ajFiADPmf8WlD+0nNY4JpmsbYDPdIOx8T1YL1lhN4kEm/0QD2qpS9y5YS
+         szYL4Y82Kdxdpr8ak7dT3JQRe5mJRW3JzJC98h37o9P3iJ6MaFId132wlnLIyMoRPKGN
+         9bhJNBDtF+qea6/sOpoSUVkwqdtZvd52F/ibbXrrqas5b3lq+oGYxH5Y9RTP0UIANskz
+         j/yOTmIZQaWIIuloM0xPPfnw9FIbXLq9HvdE5yv/nU0ElH6dD7h0K6DLluElwhWtpf3e
+         g+xPK2HKr/KBAVlFULHc8P/1iBtST3S6LrYQ4+nhedbJzKNb89EkdMFymuRp7OQoX2wl
+         9Bcw==
+X-Gm-Message-State: AOAM533ZoCl3B6BBNYz0MYxDGLBiTf+aOjGEjXeBTypIYCzaopQ8fAF6
+        cdmCjBt9G3yVlqFPq/nSH/OB0+9K0m8KrcaU3J0O9hz1Gc9e+ershRE=
+X-Google-Smtp-Source: ABdhPJw9Xt2OFrIK7hURg4kp9HjRikv5sLzHEzVl1NzDr5ZjkMyPbwTBECFNWcwqZlk35V3UQisOkE0Lf5eHqEkQTho=
+X-Received: by 2002:a1f:5105:0:b0:345:252e:b0f5 with SMTP id
+ f5-20020a1f5105000000b00345252eb0f5mr1463329vkb.22.1650184508047; Sun, 17 Apr
+ 2022 01:35:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Stat-Signature: wuornyiqc99zd7iwgpzr4a7oge57cej1
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 951B12002D
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18BKswQqLwj8nM6sM5bfVkhWxaiS5zBNx0=
-X-HE-Tag: 1650155778-741580
+Received: by 2002:a05:612c:2303:b0:2a3:2b46:b7d with HTTP; Sun, 17 Apr 2022
+ 01:35:07 -0700 (PDT)
+Reply-To: markwillima00@gmail.com
+From:   Mark <muhammadsuleima888@gmail.com>
+Date:   Sun, 17 Apr 2022 01:35:07 -0700
+Message-ID: <CANCcrFBrB3Qw8Ab_hBy19n0Ch6+XNpkXj3PjXKrc26cej7s+Kg@mail.gmail.com>
+Subject: Re: Greetings!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:1044 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [markwillima00[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [muhammadsuleima888[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [muhammadsuleima888[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, 2022-04-16 at 18:39 -0400, Tom Rix wrote:
-> Spelling replacements
-> cancelled to canceled
+Hello,
 
-cancelled is a generally accepted variant.
+The HSBC Bank is a financial institution in United Kingdom. We
+promotes long-term,sustainable and broad-based economic growth in
+developing and emerging countries by providing financial support like
+loans and investment to large, small and
+medium-sized companies (SMEs) as well as fast-growing enterprises
+which in turn helps to create secure and permanent jobs and reduce
+poverty.
 
-https://www.dictionary.com/browse/cancelled
-
-> endpiont to endpoint
-
-ok.
-
-> Compliance to Compliance
-
-huh?  a == a
-
-
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/usb/gadget/udc/tegra-xudc.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-> index d9c406bdb680..0aaf01e1551f 100644
-> --- a/drivers/usb/gadget/udc/tegra-xudc.c
-> +++ b/drivers/usb/gadget/udc/tegra-xudc.c
-> @@ -1330,7 +1330,7 @@ static void squeeze_transfer_ring(struct tegra_xudc_ep *ep,
->  	bool pcs;
->  
->  	/*
-> -	 * Clear out all the TRBs part of or after the cancelled request,
-> +	 * Clear out all the TRBs part of or after the canceled request,
->  	 * and must correct trb cycle bit to the last un-enqueued state.
->  	 */
->  	while (trb != &ep->transfer_ring[ep->enq_ptr]) {
-> @@ -1343,11 +1343,11 @@ static void squeeze_transfer_ring(struct tegra_xudc_ep *ep,
->  			trb = ep->transfer_ring;
->  	}
->  
-> -	/* Requests will be re-queued at the start of the cancelled request. */
-> +	/* Requests will be re-queued at the start of the canceled request. */
->  	ep->enq_ptr = req->first_trb - ep->transfer_ring;
->  	/*
->  	 * Retrieve the correct cycle bit state from the first trb of
-> -	 * the cancelled request.
-> +	 * the canceled request.
->  	 */
->  	ep->pcs = pcs_enq;
->  	ep->ring_full = false;
-> @@ -1434,7 +1434,7 @@ __tegra_xudc_ep_dequeue(struct tegra_xudc_ep *ep,
->  		return 0;
->  	}
->  
-> -	/* Halt DMA for this endpiont. */
-> +	/* Halt DMA for this endpoint. */
->  	if (ep_ctx_read_state(ep->context) == EP_STATE_RUNNING) {
->  		ep_pause(xudc, ep->index);
->  		ep_wait_for_inactive(xudc, ep->index);
-> @@ -3423,7 +3423,7 @@ static void tegra_xudc_device_params_init(struct tegra_xudc *xudc)
->  	}
->  
->  	/*
-> -	 * Compliacne suite appears to be violating polling LFPS tBurst max
-> +	 * Compliance suite appears to be violating polling LFPS tBurst max
->  	 * of 1.4us.  Send 1.45us instead.
->  	 */
->  	val = xudc_readl(xudc, SSPX_CORE_CNT32);
+If you need fund to promotes your business, project(Project Funding),
+Loan, planning, budgeting and expansion of your business(s) , do not
+hesitate to indicate your interest as we are here to serve you better
+by granting your request.
 
 
+Thank you
+Mr:Mark
