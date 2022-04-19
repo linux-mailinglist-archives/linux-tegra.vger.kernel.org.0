@@ -2,114 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D38250783D
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Apr 2022 20:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49801507AF5
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Apr 2022 22:28:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356950AbiDSSZ0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Apr 2022 14:25:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38090 "EHLO
+        id S243543AbiDSUar (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Apr 2022 16:30:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357226AbiDSSWy (ORCPT
+        with ESMTP id S241331AbiDSUaq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Apr 2022 14:22:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202B642EDC;
-        Tue, 19 Apr 2022 11:15:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 85E0A61459;
-        Tue, 19 Apr 2022 18:15:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA6B6C385AD;
-        Tue, 19 Apr 2022 18:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650392132;
-        bh=uezcfXl9P+IPn6+18yV+x/ymhvpLGiH3VEU2mLngXFA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hQqklYMhAdPkSts4zqztJAIZw48qGvaJSrkT1MFTW+01B31XiTk4uKU09r6H5Veb7
-         SgBv4DKM36mJeVOo7PCgVpqUIU0dRISQc0QvBwy6CsDgRZalr+UuR5uXC1ZXdi2iGt
-         4ZXujE3NG+c7bXRlBjoVQ3fp5BerW9TNBe+MUsGAhtYCC1C7qeeuXgApr6nKfOKOg/
-         +xtuDqJZqZgIEJjm01xlyuTEWN5Eiv3tlb+OfzkbXsfwdZ8uuIcxLHdDl1hSjGkGlN
-         hndKyVftGDrcmw2jfxrmnVBNWc4u1m/He0RW3xLb9+9H41vq0nfDM/d7ABnqnEHGoN
-         hWSDd4/FIiroA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sameer Pujar <spujar@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
-        mperttunen@nvidia.com, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 02/12] reset: tegra-bpmp: Restore Handle errors in BPMP response
-Date:   Tue, 19 Apr 2022 14:15:15 -0400
-Message-Id: <20220419181525.486166-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220419181525.486166-1-sashal@kernel.org>
-References: <20220419181525.486166-1-sashal@kernel.org>
+        Tue, 19 Apr 2022 16:30:46 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F239B3AA4D;
+        Tue, 19 Apr 2022 13:28:02 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5F0E106F;
+        Tue, 19 Apr 2022 13:28:02 -0700 (PDT)
+Received: from [10.57.41.251] (unknown [10.57.41.251])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 495383F73B;
+        Tue, 19 Apr 2022 13:28:00 -0700 (PDT)
+Message-ID: <52df6c79-3ee7-35e2-b72a-44ee9cb48c34@arm.com>
+Date:   Tue, 19 Apr 2022 21:27:54 +0100
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [Patch v1] iommu: arm-smmu: disable large page mappings for
+ Nvidia arm-smmu
+Content-Language: en-GB
+To:     Ashish Mhetre <amhetre@nvidia.com>, thierry.reding@gmail.com,
+        vdumpa@nvidia.com, will@kernel.org, joro@8bytes.org,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc:     nicolinc@nvidia.com, Snikam@nvidia.com,
+        Pritesh Raithatha <praithatha@nvidia.com>
+References: <20220417090432.21110-1-amhetre@nvidia.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220417090432.21110-1-amhetre@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-10.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Sameer Pujar <spujar@nvidia.com>
+On 2022-04-17 10:04, Ashish Mhetre wrote:
+> Tegra194 and Tegra234 SoCs have the erratum that causes walk cache
+> entries to not be invalidated correctly. The problem is that the walk
+> cache index generated for IOVA is not same across translation and
+> invalidation requests. This is leading to page faults when PMD entry is
+> released during unmap and populated with new PTE table during subsequent
+> map request. Disabling large page mappings avoids the release of PMD
+> entry and avoid translations seeing stale PMD entry in walk cache.
+> Fix this by limiting the page mappings to PAGE_SIZE for Tegra194 and
+> Tegra234 devices. This is recommended fix from Tegra hardware design
+> team.
 
-[ Upstream commit d1da1052ffad63aa5181b69f20a6952e31f339c2 ]
+Is this related to any of the several known MMU-500 invalidation errata, 
+or is it definitely specific to something NVIDIA have done with their 
+integration?
 
-This reverts following commit 69125b4b9440 ("reset: tegra-bpmp: Revert
-Handle errors in BPMP response").
+> Co-developed-by: Pritesh Raithatha <praithatha@nvidia.com>
+> Signed-off-by: Pritesh Raithatha <praithatha@nvidia.com>
+> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
+> ---
+>   drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c | 23 ++++++++++++++++++++
+>   drivers/iommu/arm/arm-smmu/arm-smmu.c        |  3 +++
+>   drivers/iommu/arm/arm-smmu/arm-smmu.h        |  1 +
+>   3 files changed, 27 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+> index 01e9b50b10a1..b7a3d06da2f4 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c
+> @@ -258,6 +258,27 @@ static void nvidia_smmu_probe_finalize(struct arm_smmu_device *smmu, struct devi
+>   			dev_name(dev), err);
+>   }
+>   
+> +static void nvidia_smmu_cfg_pgsize_bitmap(struct arm_smmu_device *smmu)
+> +{
+> +	const struct device_node *np = smmu->dev->of_node;
+> +
+> +	/*
+> +	 * Tegra194 and Tegra234 SoCs have the erratum that causes walk cache
+> +	 * entries to not be invalidated correctly. The problem is that the walk
+> +	 * cache index generated for IOVA is not same across translation and
+> +	 * invalidation requests. This is leading to page faults when PMD entry
+> +	 * is released during unmap and populated with new PTE table during
+> +	 * subsequent map request. Disabling large page mappings avoids the
+> +	 * release of PMD entry and avoid translations seeing stale PMD entry in
+> +	 * walk cache.
+> +	 * Fix this by limiting the page mappings to PAGE_SIZE on Tegra194 and
+> +	 * Tegra234.
+> +	 */
+> +	if (of_device_is_compatible(np, "nvidia,tegra234-smmu") ||
+> +	    of_device_is_compatible(np, "nvidia,tegra194-smmu"))
+> +		smmu->pgsize_bitmap = PAGE_SIZE;
+> +}
+> +
+>   static const struct arm_smmu_impl nvidia_smmu_impl = {
+>   	.read_reg = nvidia_smmu_read_reg,
+>   	.write_reg = nvidia_smmu_write_reg,
+> @@ -268,10 +289,12 @@ static const struct arm_smmu_impl nvidia_smmu_impl = {
+>   	.global_fault = nvidia_smmu_global_fault,
+>   	.context_fault = nvidia_smmu_context_fault,
+>   	.probe_finalize = nvidia_smmu_probe_finalize,
+> +	.cfg_pgsize_bitmap = nvidia_smmu_cfg_pgsize_bitmap,
+>   };
+>   
+>   static const struct arm_smmu_impl nvidia_smmu_single_impl = {
+>   	.probe_finalize = nvidia_smmu_probe_finalize,
+> +	.cfg_pgsize_bitmap = nvidia_smmu_cfg_pgsize_bitmap,
+>   };
+>   
+>   struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> index 568cce590ccc..3692a19a588a 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> @@ -1872,6 +1872,9 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+>   	if (smmu->features & ARM_SMMU_FEAT_FMT_AARCH64_64K)
+>   		smmu->pgsize_bitmap |= SZ_64K | SZ_512M;
+>   
+> +	if (smmu->impl && smmu->impl->cfg_pgsize_bitmap)
+> +		smmu->impl->cfg_pgsize_bitmap(smmu);
 
-The Tegra194 HDA reset failure is fixed by commit d278dc9151a0 ("ALSA:
-hda/tegra: Fix Tegra194 HDA reset failure"). The temporary revert of
-original commit c045ceb5a145 ("reset: tegra-bpmp: Handle errors in BPMP
-response") can be removed now.
+I'm not the biggest fan of adding a super-specific hook for this, when 
+it seems like it could just as easily be handled in the init_context 
+hook, which is where it is precisely for the purpose of mangling the 
+pgtable_cfg to influence io-pgtable's behaviour.
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Link: https://lore.kernel.org/r/1641995806-15245-1-git-send-email-spujar@nvidia.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/reset/tegra/reset-bpmp.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Thanks,
+Robin.
 
-diff --git a/drivers/reset/tegra/reset-bpmp.c b/drivers/reset/tegra/reset-bpmp.c
-index 5daf2ee1a396..f9790b60f996 100644
---- a/drivers/reset/tegra/reset-bpmp.c
-+++ b/drivers/reset/tegra/reset-bpmp.c
-@@ -23,6 +23,7 @@ static int tegra_bpmp_reset_common(struct reset_controller_dev *rstc,
- 	struct tegra_bpmp *bpmp = to_tegra_bpmp(rstc);
- 	struct mrq_reset_request request;
- 	struct tegra_bpmp_message msg;
-+	int err;
- 
- 	memset(&request, 0, sizeof(request));
- 	request.cmd = command;
-@@ -33,7 +34,13 @@ static int tegra_bpmp_reset_common(struct reset_controller_dev *rstc,
- 	msg.tx.data = &request;
- 	msg.tx.size = sizeof(request);
- 
--	return tegra_bpmp_transfer(bpmp, &msg);
-+	err = tegra_bpmp_transfer(bpmp, &msg);
-+	if (err)
-+		return err;
-+	if (msg.rx.ret)
-+		return -EINVAL;
-+
-+	return 0;
- }
- 
- static int tegra_bpmp_reset_module(struct reset_controller_dev *rstc,
--- 
-2.35.1
-
+> +
+>   	if (arm_smmu_ops.pgsize_bitmap == -1UL)
+>   		arm_smmu_ops.pgsize_bitmap = smmu->pgsize_bitmap;
+>   	else
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+> index 2b9b42fb6f30..5d9b03024969 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+> @@ -442,6 +442,7 @@ struct arm_smmu_impl {
+>   	void (*write_s2cr)(struct arm_smmu_device *smmu, int idx);
+>   	void (*write_sctlr)(struct arm_smmu_device *smmu, int idx, u32 reg);
+>   	void (*probe_finalize)(struct arm_smmu_device *smmu, struct device *dev);
+> +	void (*cfg_pgsize_bitmap)(struct arm_smmu_device *smmu);
+>   };
+>   
+>   #define INVALID_SMENDX			-1
