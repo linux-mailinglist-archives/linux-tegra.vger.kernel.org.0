@@ -2,90 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D079350E727
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 Apr 2022 19:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66A3950E971
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 Apr 2022 21:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243940AbiDYR2D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Apr 2022 13:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46780 "EHLO
+        id S244922AbiDYT2z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Apr 2022 15:28:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244037AbiDYR1r (ORCPT
+        with ESMTP id S229566AbiDYT2x (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Apr 2022 13:27:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DF340E71;
-        Mon, 25 Apr 2022 10:24:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C718B61585;
-        Mon, 25 Apr 2022 17:24:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E29C385A9;
-        Mon, 25 Apr 2022 17:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650907482;
-        bh=6gmtLm26FKCqWWG3JfvENu2V0fQ81REkQJwYzVoLt0w=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=Cf9bZmvm0JAXgYFKXN9AAJ0idCc220H9FGJhA5kZ5FjpVCzgXftyJSRhZY5TOFwW7
-         KMaTgCQuAEF/5YDg2kGyC9C6nw/NRqcKk539HXDDgB9G1aPSFqFRuIMNU3CJ0jGJJ5
-         A/ntB4WhpUAxI9Uk0xlem31LJ5CFi7YUqtJXLHc+OL5kSEdv9ZWLSyb4KNzSOaUdKv
-         huLTybryQ8FPVKZh++L26rZSp3l9GePdJF4VOcPzqOihvmdBlc0qcbEH4yB1Zv+6y1
-         s7TARXTzMNAUjR4wQhe41POLrP//S+mB7uR/E8tfkaYQbO+9DlENeXFqvh3gvjmY6Z
-         OaGEU2t+fkjZQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     cgel.zte@gmail.com, ldewangan@nvidia.com
-Cc:     linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chi.minghao@zte.com.cn,
-        zealci@zte.com.cn
-In-Reply-To: <20220418110141.2559019-1-chi.minghao@zte.com.cn>
-References: <20220418110141.2559019-1-chi.minghao@zte.com.cn>
-Subject: Re: [PATCH] spi: spi-tegra20-slink: using pm_runtime_resume_and_get instead of pm_runtime_get_sync
-Message-Id: <165090748053.584172.14297698011907857671.b4-ty@kernel.org>
-Date:   Mon, 25 Apr 2022 18:24:40 +0100
+        Mon, 25 Apr 2022 15:28:53 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32CA3A734;
+        Mon, 25 Apr 2022 12:25:47 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dmitry.osipenko)
+        with ESMTPSA id 7FA761F433C4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1650914745;
+        bh=4H8Tfxb/3HJv6jwhxuDK6+J5KJ7dxxiuti0TYw1hEQU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ooUjr6rItVPGVXDDyvwTK/dgopIHGw+ney8faEy327qHUHQOjUtf/k+cRyuRjv+1D
+         skhxbu4RRsQbOFTBKHELhnBnMCJDIs1tGifySGd1UsT9eusiUJTNlSkw2RSt+JaRXP
+         UUA6hxeYFqy4d/N5tKF9O3erEPcdJlgD0VUazz1PDdlgxX7tNcowj6IdXqKsjSbVdv
+         JwBFP2rNCNnGmZ2vztvcyH73H3siH3HQj34R34QaSOXXuVWCZuLRoYT55rDit0nB8X
+         JtU53YwJbqauSVR2/9LC+8isohL2n5hw/vlsrGw0PlPKCgsJWBIBNW9VvoqN5OpBNF
+         YsY830QxEVvCg==
+Message-ID: <5ddaf113-c8f6-7c9c-5bf6-27f2f7855d24@collabora.com>
+Date:   Mon, 25 Apr 2022 22:25:40 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Patch v8 1/4] memory: tegra: Add memory controller channels
+ support
+Content-Language: en-US
+To:     Ashish Mhetre <amhetre@nvidia.com>, krzysztof.kozlowski@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     vdumpa@nvidia.com, Snikam@nvidia.com
+References: <20220425075036.30098-1-amhetre@nvidia.com>
+ <20220425075036.30098-2-amhetre@nvidia.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220425075036.30098-2-amhetre@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 18 Apr 2022 11:01:41 +0000, cgel.zte@gmail.com wrote:
-> From: Minghao Chi <chi.minghao@zte.com.cn>
-> 
-> Using pm_runtime_resume_and_get is more appropriate
-> for simplifing code
-> 
-> 
+On 4/25/22 10:50, Ashish Mhetre wrote:
+> +static int tegra186_mc_map_regs(struct tegra_mc *mc)
+> +{
+> +	struct platform_device *pdev = to_platform_device(mc->dev);
+> +	int i;
+> +
+> +	mc->bcast_ch_regs = devm_platform_ioremap_resource_byname(pdev, "broadcast");
+> +	if (IS_ERR(mc->bcast_ch_regs)) {
+> +		if (PTR_ERR(mc->bcast_ch_regs) == -EINVAL) {
+> +			dev_warn(&pdev->dev, "Broadcast channel is missing, please update your device-tree\n");
+> +			mc->bcast_ch_regs = NULL;
+> +			return 0;
+> +		}
+> +		return PTR_ERR(mc->bcast_ch_regs);
+> +	}
+> +
+> +	mc->ch_regs = devm_kcalloc(mc->dev, mc->soc->num_channels,
+> +				   sizeof(void __iomem *), GFP_KERNEL);
 
-Applied to
+You should use sizeof(*mc->ch_regs) in general to prevent mistakes.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> +	if (!mc->ch_regs)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < mc->soc->num_channels; i++) {
+> +		char name[5];
+> +
+> +		snprintf(name, sizeof(name), "ch%u", i);
 
-Thanks!
+The type of "i" variable is int, change it to unsigned int.
 
-[1/1] spi: spi-tegra20-slink: using pm_runtime_resume_and_get instead of pm_runtime_get_sync
-      commit: 1e6f8bd15cf8447a42375b005476e02fc13deb2a
+With that:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
