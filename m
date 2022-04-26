@@ -2,103 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A17050F2FD
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Apr 2022 09:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C81E50FAE9
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Apr 2022 12:34:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344293AbiDZHwi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 Apr 2022 03:52:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47828 "EHLO
+        id S1349147AbiDZKg5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Apr 2022 06:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344309AbiDZHwY (ORCPT
+        with ESMTP id S1349235AbiDZKgo (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 26 Apr 2022 03:52:24 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EAB1AD8F
-        for <linux-tegra@vger.kernel.org>; Tue, 26 Apr 2022 00:49:16 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id gh6so10264720ejb.0
-        for <linux-tegra@vger.kernel.org>; Tue, 26 Apr 2022 00:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=tkdbdbYIojPDmAwAZfQ+/1PtTpdhxbxhefzw8NVXbmI=;
-        b=lsoAHvuLO5ZBJ4I/wuHwichXMdTcoJfnk3G3OoqzyCNh8rOUA8VOLNYg+dQMzb2K7j
-         4ueimla2x0izZUtnUG6xK37caGlNxFlhCZcW1yj2ex7hbTnAIaW+i11NCReKt383VldV
-         Prq2GGKPcADkiCEghOz0MkHKBz8Rrptkt0eP8DwSOv37J2BOh+9X1y3M/uDfs+QMEVES
-         z74SrKfVEHZsvbNPjnH93krRO7evsEDJ/Eyuu4+8PImgT2Ws94RKgp0rTCl/YzO4vRlW
-         Q97zO4DaFE7g85EOiF3v/IbdYcRIGFON33PATzH0nui+MMLzE8MTUIIr2RiZhTq8GsUV
-         zCew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tkdbdbYIojPDmAwAZfQ+/1PtTpdhxbxhefzw8NVXbmI=;
-        b=GKiofv9IyU9P+UTbV91odi4z5v9/FC39mxmzID6RL485R9rRIt3LHA9nvdF+oqpreW
-         cdkRtq6+f8cHq3p50L9ltfBrOQDd5DHljY1Xp6Y7GXqm2k0bjzWFYjo4P3UeYsRLOOND
-         3G3OL7nmR9qvo82mNBxGPCB7TuZpVt5k6Zq5TByOzqwjfCslwLwruOm53udQ7a6Nmcrc
-         v55bXFeyk2R3rCFT3HGXOWo57ehMTGRFGlV/T73bGPcAGdWiRkWowWMA00v61Ojph8b1
-         dXnCwqOfiWKcl6xASBKnhFolXYmiP4HfSFD0LkC2Wk0/3H3s/YpXDSgWzXu6loWxebk+
-         fRqQ==
-X-Gm-Message-State: AOAM532ymKIgc1ntYXpJPIjWznjWTaQjM2s5n42qfeAxO4ZkQ68DKMqx
-        XAw55AdpHthfIQzC7nLnBFcgtQ==
-X-Google-Smtp-Source: ABdhPJxTyGPlzI2jDh7Y3jEnEkPP0vlIb+Ra5+WjH8jUqaMY60F9ggg2IAVzuebLAJBqHUQCnWhTWg==
-X-Received: by 2002:a17:906:9f27:b0:6ef:af55:6fb with SMTP id fy39-20020a1709069f2700b006efaf5506fbmr19774809ejc.185.1650959355101;
-        Tue, 26 Apr 2022 00:49:15 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id a94-20020a509ee7000000b00425e7035c4bsm2609198edf.61.2022.04.26.00.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 00:49:14 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/7] memory: da8xx-ddrctl: simplify platform_get_resource()
-Date:   Tue, 26 Apr 2022 09:49:12 +0200
-Message-Id: <165095934975.35085.8323122039661278218.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220419142859.380566-1-krzysztof.kozlowski@linaro.org>
-References: <20220419142859.380566-1-krzysztof.kozlowski@linaro.org>
+        Tue, 26 Apr 2022 06:36:44 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam08on2070.outbound.protection.outlook.com [40.107.101.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693C2558C;
+        Tue, 26 Apr 2022 03:19:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GQ7Hkq4Sv7KBgCOeZ6cle1LKFHjFn8hxktxtW/0yS4aLCusJUQIcdSsN+bTwM9t+Xqi+BjDYtvMYMxVceHgOFzcLxtGHTqHUlTFVlcEDDdkwUJ0Yajfoeo/q1mIlRL48dT5ow+RwRXZNr0boAt1DzbmrbeNz8FTq6kOee7iIa4UDl56zpslXxe2opV4/qL6N+HhPpPauhy2uSYSYIoM98n6mUWFCGz3PNAziG9y6+QKR2hCDdPRFJSPqTaBG8PiA54oWEtahZibjT9GdDooJdajWjBmNCEKeQm2MZSlRfbddZBgZudcqOAPjJMjq+TeXSdUNxdhMgDMl6crJuZTaSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bwp8I/ZEuoKKK9dF7ApLwGY7kYSXyoqUCM2ainJqSMI=;
+ b=BQdkYsbGpdJ9sI+/j3enUeNSj6dvYoKw29arZvdliWxEuXcO0OFVRUHQZm53nYS62DYh+1vvC/wd6BKrZt0wIAu2e8NEgs1SQFBO/yTGVmTmX4R1kEw45hACMLk88Wr4i0t5iuMsb4mvppuWofCC8oE3xPvCN9/p0U0Rk4hY6Pau1DPsD+86K8wwA0t764u2DvVgjhu+sWyRSZvn/WS2cqZb13OH86kyu5nMX7LZcC5vCWOUwCAO3b+PP1Dp3KfKRHh5ejTsyhBU5vkGRjPaqAwHCRYx1ETa1vLiNAbltX27ZTx91pOILgLpYrkTHEXm+kbDuWTNftG0OQKWoHYSeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bwp8I/ZEuoKKK9dF7ApLwGY7kYSXyoqUCM2ainJqSMI=;
+ b=D3xDKZGp+4nmMAtnggEbNUidqT2Bk3Xiqx1oSSncsjlVAg4F7svUgWqRc8csnw+TAelyX4U7tLMdciTRCLvlfnehlL8AyHb+7P6VJ+tLp4E3IjAT75Kbp1HQILOqiCvn/fbKNDFqhre1XUngRbAchY5WE0QPCjlZ1EQ9Exy1/fh3wZNlysVTPfGDEp1+uqW44glk3eo0vbBs8rkKKJ9az9p1MutTwNl6QXi4mlFR8yHCFFi+rckTXwoRuteJcSShG+2a4ViTT1aIFYGb9B51QxmQhVV6qW5kAevHsQobGdoEr0Uoy1eTEE3IaQCdiGeONQN2HehVOfPvxEPZBhl8HA==
+Received: from BN0PR07CA0017.namprd07.prod.outlook.com (2603:10b6:408:141::31)
+ by MWHPR12MB1920.namprd12.prod.outlook.com (2603:10b6:300:10e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.18; Tue, 26 Apr
+ 2022 10:19:24 +0000
+Received: from BN8NAM11FT012.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:141:cafe::97) by BN0PR07CA0017.outlook.office365.com
+ (2603:10b6:408:141::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13 via Frontend
+ Transport; Tue, 26 Apr 2022 10:19:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ BN8NAM11FT012.mail.protection.outlook.com (10.13.177.55) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5164.19 via Frontend Transport; Tue, 26 Apr 2022 10:19:23 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Tue, 26 Apr
+ 2022 10:19:22 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 26 Apr
+ 2022 03:19:22 -0700
+Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.986.22 via Frontend
+ Transport; Tue, 26 Apr 2022 03:19:18 -0700
+From:   Akhil R <akhilrajeev@nvidia.com>
+To:     <devicetree@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <jonathanh@nvidia.com>, <kyarlagadda@nvidia.com>,
+        <ldewangan@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <p.zabel@pengutronix.de>,
+        <rgumasta@nvidia.com>, <robh+dt@kernel.org>,
+        <thierry.reding@gmail.com>, <nathan@kernel.org>,
+        <vkoul@kernel.org>, <dan.carpenter@oracle.com>
+CC:     <akhilrajeev@nvidia.com>
+Subject: [PATCH v2 0/2] Fix uninitialized variable usage in Tegra GPCDMA
+Date:   Tue, 26 Apr 2022 15:49:11 +0530
+Message-ID: <20220426101913.43335-1-akhilrajeev@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bd212114-0703-4376-b37e-08da276e3c54
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1920:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1920F4163738329ABEFF0712C0FB9@MWHPR12MB1920.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PhGThzj/OMgRFMipXGll6sZRhpXRypfRT7dfS9m/9JMXd/Jc+ZwFctNyOCx2OQPrJjyLR6eocEf/gAZU3Q1XTcGNA0s9bsVTTvD+TTw9K5WfPQXmI70q2dKTsisy/U7PtTv7Wh2s2nHRjQMN0ltclINpFZyTYQxpPEnomD5Y+Udy0GMhidc+cu+nShFp6wFVpH9wzGsuMao020n5xDGHQtMt3NXK8CeIB5U2bPXkvS5PWYTGb4Y+llBdtlyrC2642eoNV6gmzInbrFUr1KKT3UWr1jKquZkat5qkZgIxE/GRIGjszx/CixzE+E7+uaqXbncptf6i3gDkLH2V6KcJhyNiOOFY94lnfkleesTX7/MkyBmniIdca7akGnmdneUtZiPEv759IBXAKiGjEdfcMh5GrKb4r7RlGnp/f2vSIMh2nUdPvTPmD4VHjF+js7TihuSm1KBGw3jY6WfJNugdtZ2aIGVMXGS1DyE2NZFxcjJ7FkicO0qwROfxSNWX9flT5KyRcZJ0IKpd3HhtcusIbW8QYhtZPo7EaU8jLnywejKYG85/nOac12a6CkzgU0SHWJLH3PESHY2fZeqaCatb4715sVPsoUYJn1pr7iM9EFfuBx3N9ZFFUb9gjGYtjVnc4Sa9884DNP74dUktuTHx1kfhRKuA/VJwKhj+oyUbetXxCCFyQxzhR5eQlLnZIuWttnxCE0hEpyJgcH/Pdif9/VqY9+VH7rnsMBptrH910EdpVeU3V67pz/iKPOpuuJ+DmZoYgP8b7gMmiHTJiJZKyg==
+X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(82310400005)(70206006)(70586007)(8676002)(186003)(4326008)(336012)(426003)(5660300002)(36756003)(6666004)(26005)(7696005)(316002)(47076005)(86362001)(921005)(81166007)(356005)(2616005)(1076003)(110136005)(107886003)(7416002)(2906002)(83380400001)(36860700001)(40460700003)(4744005)(8936002)(508600001)(36900700001)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 10:19:23.6697
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd212114-0703-4376-b37e-08da276e3c54
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT012.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1920
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 19 Apr 2022 16:28:53 +0200, Krzysztof Kozlowski wrote:
-> Use devm_platform_get_and_ioremap_resource() instead of
-> platform_get_resource() and devm_ioremap_resource().
-> 
-> 
+Initialize uninitialized variable and remove unused switch case
+in tegra186-gpcdma driver.
 
-Applied, thanks!
+v1->v2: Split the patches to separate 'fixes'.
 
-[1/7] memory: da8xx-ddrctl: simplify platform_get_resource()
-      commit: 933713f5f49b816aa13a6441e41d98febef84dbe
-[2/7] memory: emif: simplify platform_get_resource()
-      commit: 734058b14de27682a176331ddd49fbdacdac1f46
-[3/7] memory: ti-emif: simplify platform_get_resource()
-      commit: 083008defd83cb1ab6f9efaef6396bf4534ac6eb
-[4/7] memory: ti-emif-pm: simplify platform_get_resource()
-      commit: 8e6a257a173378d0fb42d64865545286f1f84ef6
-[5/7] memory: tegra: mc: simplify platform_get_resource()
-      commit: dab022f22e3769260ef803eb7b70ec59df796a5a
-[6/7] memory: brcmstb_dpfe: simplify platform_get_resource_byname()
-      commit: ef231fefa47f9c694a8a5bbe16cb43b5db62d6d6
-[7/7] memory: renesas-rpc-if: simplify platform_get_resource_byname()
-      commit: 2ca47b33a7794ce92ae881d6d62affea953814cd
+Akhil R (2):
+  dmaengine: tegra: Fix uninitialized variable usage
+  dmaengine: tegra: Remove unused switch case
 
-Best regards,
+ drivers/dma/tegra186-gpc-dma.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.17.1
+
