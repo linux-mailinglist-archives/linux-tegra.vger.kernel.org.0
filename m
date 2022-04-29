@@ -2,98 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4894A514E8A
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Apr 2022 16:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25526514F2B
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Apr 2022 17:20:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378048AbiD2PAQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Apr 2022 11:00:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50018 "EHLO
+        id S1378328AbiD2PXN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Apr 2022 11:23:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359135AbiD2PAP (ORCPT
+        with ESMTP id S1378305AbiD2PXJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Apr 2022 11:00:15 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0486AD11A;
-        Fri, 29 Apr 2022 07:56:56 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id C2C671F466DF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1651244214;
-        bh=z9AR4wgc26TG7iya9Kky9QmyE15COjI5k6NO1aUr9nM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=B/o+15Qp5XwlYcfwYE4cvYJnt0OqXlhOnnLsVBpctIVKIBBQF1Y0ge8+TDDW8u9w+
-         CdvsBd7//mvviofvJIPFRwZksdC8WRcGvTlKZgIA1Fn+oNtTrEEuiaaODTX1TbOWlw
-         FlxkIIsE3NJI1NqThewT/+h9/AVB+laxO0pajoj1cSppFTa9uDnq0OVG9SNCtLQfPC
-         NtThfNp+cESYTKrQ3f/tpP8TrwIPOUp2tuiHL6v8WljdI1W10uXJg/QT2jRGESUP8P
-         taidYj5OEO3fTFm+48cNGGAV41RvEdnHly/JOnSn6XGedl5HwzaGiPecUPwQRwGPj7
-         Y+LzyxI6kfxyQ==
-Message-ID: <2e0df511-f9fa-2905-f381-fc1158774ab4@collabora.com>
-Date:   Fri, 29 Apr 2022 17:56:50 +0300
+        Fri, 29 Apr 2022 11:23:09 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 984A4D4CBB;
+        Fri, 29 Apr 2022 08:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=PkGMRtr7ZOpuAUYdkK5YcnBWQgNByIkM+TF/PhPSt00=; b=McsgIEmWszU/NtZ864aphbd05/
+        AA+Hs7uyIJtJtMr4867fKRnrcDZ/B0ve7meILjRDqPYrpj2SCcZq87R4becMzN/EmmpSkGxa2bXfq
+        pUhMsFJRA7hiMl/hulL8uwaQ3NgTviAzyrP9F3cuPytnlSXUcQgJY1SVDx/EfT4PyEI3blubrtgBl
+        Y/qFy6eJFuUH765RC4uiwWYgWdDuIIe2xttNarhTtSLeO0f5vFGPmxPe8sb1rSPH9MLQ8MhCgLKVk
+        8Yh9XWbluokYf/vW7/yQXLp3HdC2BoK3CBL6+DlGPNeddie6sMCK3FiVbeA/PpCZCA2PeX8k9qatt
+        P0Tqe4Tg==;
+Received: from [179.113.53.197] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nkSOj-000BaQ-FP; Fri, 29 Apr 2022 17:19:09 +0200
+Message-ID: <31248811-d3ed-63dd-e255-c3be07fb1434@igalia.com>
+Date:   Fri, 29 Apr 2022 12:18:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Patch v10 1/4] memory: tegra: Add memory controller channels
- support
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 21/30] panic: Introduce the panic pre-reboot notifier list
 Content-Language: en-US
-To:     Ashish Mhetre <amhetre@nvidia.com>, krzysztof.kozlowski@linaro.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     vdumpa@nvidia.com, Snikam@nvidia.com
-References: <20220429113438.13988-1-amhetre@nvidia.com>
- <20220429113438.13988-2-amhetre@nvidia.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220429113438.13988-2-amhetre@nvidia.com>
+To:     minyard@acm.org, elder@ieee.org, Alex Elder <elder@kernel.org>,
+        cminyard@mvista.com
+Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
+        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org, Alexander Gordeev <agordeev@linux.ibm.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Chris Zankel <chris@zankel.net>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        James Morse <james.morse@arm.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
+        Richard Henderson <rth@twiddle.net>,
+        Richard Weinberger <richard@nod.at>,
+        Robert Richter <rric@kernel.org>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, Wei Liu <wei.liu@kernel.org>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-22-gpiccoli@igalia.com>
+ <20220428162616.GE442787@minyard.net>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <20220428162616.GE442787@minyard.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 28/04/2022 13:26, Corey Minyard wrote:
+> [...]
+> 
+> For the IPMI portion:
+> 
+> Acked-by: Corey Minyard <cminyard@mvista.com>
 
-On 4/29/22 14:34, Ashish Mhetre wrote:
->  static int tegra186_mc_probe(struct tegra_mc *mc)
->  {
-> +	struct platform_device *pdev = to_platform_device(mc->dev);
-> +	unsigned int i;
->  	int err;
->  
-> +	mc->bcast_ch_regs = devm_platform_ioremap_resource_byname(pdev, "broadcast");
-> +	if (IS_ERR(mc->bcast_ch_regs)) {
-> +		if (PTR_ERR(mc->bcast_ch_regs) == -EINVAL) {
-> +			dev_warn(&pdev->dev, "Broadcast channel is missing, please update your device-tree\n");
-> +			mc->bcast_ch_regs = NULL;
-> +			goto skip_map_regs;
-> +		}
-> +		return PTR_ERR(mc->bcast_ch_regs);
-> +	}
-> +
-> +	mc->ch_regs = devm_kcalloc(mc->dev, mc->soc->num_channels,
-> +				   sizeof(*mc->ch_regs), GFP_KERNEL);
-> +	if (!mc->ch_regs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < mc->soc->num_channels; i++) {
-> +		char name[5];
-> +
-> +		snprintf(name, sizeof(name), "ch%u", i);
-> +		mc->ch_regs[i] = devm_platform_ioremap_resource_byname(pdev, name);
-> +		if (IS_ERR(mc->ch_regs[i]))
-> +			return PTR_ERR(mc->ch_regs[i]);
-> +	}
-> +
-> +skip_map_regs:
->  	err = of_platform_populate(mc->dev->of_node, NULL, NULL, mc->dev);
+Thanks Alex and Corey for the ACKs!
 
-More common to name labels by the action pointed by label, like
-"populate:" in this case. No need to make v11 because of that.
+> 
+> Note that the IPMI panic_event() should always return, but it may take
+> some time, especially if the IPMI controller is no longer functional.
+> So the risk of a long delay is there and it makes sense to move it very
+> late.
+> 
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Thanks, I agree - the patch moves it to the (latest - 1) position, since
+some arch code might run as the latest and effectively stops the machine.
+Cheers,
+
+
+Guilherme
