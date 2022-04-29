@@ -2,142 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37235514F14
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Apr 2022 17:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E7C51503E
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Apr 2022 18:04:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377866AbiD2PWA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Apr 2022 11:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49946 "EHLO
+        id S1378790AbiD2QIJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Apr 2022 12:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378272AbiD2PWA (ORCPT
+        with ESMTP id S1378476AbiD2QII (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Apr 2022 11:22:00 -0400
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D33D4C98;
-        Fri, 29 Apr 2022 08:18:39 -0700 (PDT)
-Received: by mail-oi1-f180.google.com with SMTP id e189so8814455oia.8;
-        Fri, 29 Apr 2022 08:18:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=h5I147M5SAG5aKSeTFIpJ9Fdg0GC9tCoery/v4BvAoc=;
-        b=3solqmbv4YB5OQq5XpMZs3Gtf6LO8tSB3cjdWlvkY6bU9bQeyTOfEQrW4SBHoKMdKx
-         A2P0n/jMOj4aepVP+DS3cqdzggpQqrnIHump7m2usrKCPrRztO/MQjfj+zxcQ3I2/Z3G
-         MLfFT0YZNmOBrmLaUXrQjPqmDm0UwYQ6qZ9dassZi8jt93oONnLNqZwo1Vs0IBN3KHzT
-         RpNYQVjTNeoZUp9QGFYtow2EHT5IhN3OQBEwo/nJCSjaaoie8nUup+iGp+YeBDcy3K9v
-         kcgVAv9RKm467h8gg4BlA86tT+XLoohBuyNn3HkolctVU8N672lAqC+Mv82lpv85WYK5
-         +1zQ==
-X-Gm-Message-State: AOAM530onG9E8ElKWia90dc3qG2FmbhAEJztm6Jz7U+k5woF6JnkFaMf
-        ZmhARP3uYhgNKV0B6ygg1pBK+W/LKw==
-X-Google-Smtp-Source: ABdhPJw1fKhbwx6lx70lrdW0UswFjeYAMQ8BdI+q1NecOx0z8DU6TRguS9yHIi1JzMEh2mVexnvGug==
-X-Received: by 2002:a05:6808:1886:b0:322:f55c:133d with SMTP id bi6-20020a056808188600b00322f55c133dmr1691725oib.217.1651245518636;
-        Fri, 29 Apr 2022 08:18:38 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id m18-20020a4add12000000b0035eb4e5a6d3sm852822oou.41.2022.04.29.08.18.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 08:18:38 -0700 (PDT)
-Received: (nullmailer pid 2284027 invoked by uid 1000);
-        Fri, 29 Apr 2022 15:18:36 -0000
-Date:   Fri, 29 Apr 2022 10:18:36 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com, soc@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] arm64: dts: tegra: Fix boolean properties with
- values
-Message-ID: <YmwBzLrTilOPdX5m@robh.at.kernel.org>
-References: <Yk3nShkFzNJaI3/Z@robh.at.kernel.org>
- <YlVAy95eF/9b1nmu@orome>
+        Fri, 29 Apr 2022 12:08:08 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8519D84ED1;
+        Fri, 29 Apr 2022 09:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=QQI5zmi1djYWNz2i53I6KuQGatDa49BWqjEk2Pav1i4=; b=dYOwdCYz8mfW6uRaErWUoCqmdx
+        5T0+vzZBt6UK85jUK/bYBffPO6pHVBukVXgw40Mng8+hfEFyxsYupbDv17vw0eY73RVtJNUJhZeIk
+        wjL2oPNMg0UJQkop2tznLUBtpwTgs2tJTFrh96RXyi3iI9oJ7Xg0HjOO5wFLxxatzCt/a1kjKIm+q
+        GG90XSMTUteF9uAfx+0HJjQF0T7y90PJaZRFs3aM6M51tA02d53awi4I7n5GpC6cVQif5RrGFpU1r
+        QhiVEfyVqroi50IPYPzYRbjvCqabrqPiHclqX4UZkfFE4tLq7njetpvB7ea+qAjYTdFscbWw6lpa8
+        5AxSRVRQ==;
+Received: from [179.113.53.197] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nkT6a-0001BR-MS; Fri, 29 Apr 2022 18:04:28 +0200
+Message-ID: <7518924e-5bb4-e6e9-0e3e-3f5cb03bf946@igalia.com>
+Date:   Fri, 29 Apr 2022 13:04:01 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YlVAy95eF/9b1nmu@orome>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 24/30] panic: Refactor the panic path
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, akpm@linux-foundation.org,
+        bhe@redhat.com, pmladek@suse.com, kexec@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-25-gpiccoli@igalia.com>
+ <4fe85e9c-4e96-e9d5-9fd8-f062bafcda4f@infradead.org>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <4fe85e9c-4e96-e9d5-9fd8-f062bafcda4f@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 11:05:15AM +0200, Thierry Reding wrote:
-> On Wed, Apr 06, 2022 at 02:17:30PM -0500, Rob Herring wrote:
-> > Boolean properties in DT are present or not present and don't take a value.
-> > A property such as 'foo = <0>;' evaluated to true. IOW, the value doesn't
-> > matter.
-> > 
-> > It may have been intended that 0 values are false, but there is no change
-> > in behavior with this patch.
-> > 
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> > Can someone apply this for 5.18.
-> > 
-> >  arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi            | 8 ++++----
-> >  .../boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts    | 8 ++++----
-> >  arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi            | 6 +++---
-> >  arch/arm64/boot/dts/nvidia/tegra194-p3668.dtsi            | 6 +++---
-> >  arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi            | 6 +++---
-> >  arch/arm64/boot/dts/nvidia/tegra210-p2894.dtsi            | 8 ++++----
-> >  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts        | 8 ++++----
-> >  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts             | 4 ++--
-> >  8 files changed, 27 insertions(+), 27 deletions(-)
+On 27/04/2022 21:28, Randy Dunlap wrote:
 > 
-> This causes multiple regressions on Tegra boards. The reason for this is
-> that these properties are not in fact boolean, despite what the DT
-> bindings say. If you look at the code that handles these, you'll notice
-> that they are single-cell properties, typically with <0> and <1> values.
-> What may have led to the conclusion that these are boolean is that there
-> is also a special case where these can be left out, but the meaning of
-> that is not the "false" (<0>) value. Instead, leaving these out means
-> that the values should be left at whatever is currently in the register.
+> 
+> On 4/27/22 15:49, Guilherme G. Piccoli wrote:
+>> +	crash_kexec_post_notifiers
+>> +			This was DEPRECATED - users should always prefer the
+> 
+> 			This is DEPRECATED - users should always prefer the
+> 
+>> +			parameter "panic_notifiers_level" - check its entry
+>> +			in this documentation for details on how it works.
+>> +			Setting this parameter is exactly the same as setting
+>> +			"panic_notifiers_level=4".
+> 
 
-The majority of users do use boolean in their DT.
+Thanks Randy, for your suggestion - but I confess I couldn't understand
+it properly. It's related to spaces/tabs, right? What you suggest me to
+change in this formatting? Just by looking the email I can't parse.
 
-Treating these as tri-state doesn't make much sense because what does 
-setting the pin to !push-pull mean? Isn't that just open-drain or 
-open-source for which also have boolean values? Allowing these to have 
-values is unnecessary and enables more invalid combinations.
+Cheers,
 
-> See pinconf_generic_parse_dt_config() and parse_dt_cfg() specifically in
-> drivers/pinctrl/pinconf-generic.c.
 
-of_property_read_u32() will return -EOVERFLOW on a boolean value and 
-then the default value (0) is used. However, at least for QCom the value 
-is ignored.
-
-Looking at max77620, the value is used. However, it is clear that 
-push-pull and open-drain operate on the same register bit.
-
-> Arnd, can you please revert this so that these boards can be unbroken?
-
-That's fine for now...
-
-> It's a bit unfortunate because there seem to be other platforms that
-> also employ these in the boolean form that Rob mentioned, but I think it
-> is those that probably need fixing instead. Not sure what the intentions
-> were for those.
-
-I still think it's Tegra that needs fixing. The question is to what 
-extent forwards and backwards compatibity is needed on these platforms? 
-I'm not sure if we can fix new dtb with old kernel. A new dtb with a 
-stable kernel update would be plausible. It may work just replacing 
-'drive-push-pull = <0>' cases with 'drive-open-drain'.
-
-Rob
+Guilherme
