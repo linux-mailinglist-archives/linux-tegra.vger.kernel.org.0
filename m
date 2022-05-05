@@ -2,146 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C077C51BCAA
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 May 2022 12:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE4E51BE50
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 May 2022 13:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232816AbiEEKEJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 May 2022 06:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43956 "EHLO
+        id S1355743AbiEELpp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 May 2022 07:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354775AbiEEKDs (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 May 2022 06:03:48 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4160E522DA;
-        Thu,  5 May 2022 03:00:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NDHq36ySjSGA5qU7BwSQsEn0mazTtm91RthdgMsRHzCXxpbHzF02Lk5DdA7fQ3sFEx/jBnLdwQZYPU7VGFiyF7atbySogOB1hyn+kyu/AhrDMd4Zv3I86i4vBVm/ykQv4YNeGxrwu+rjHc9skDRFztGD6G1jUO/I0dsP9teWZvkz2zISJUi/Pgqaqv/zmNxFLISYkdOGRrLPRgX78Z0GZi1hlT/SmTZQKHxdv5NgmcWuyijlqQAzjz+Z+KVpllN6uWD3sjFgPEIQVnsAvAQYl+jargKHAtEGObku/3+CnABckD5OL0YPBnYO4521LiOsmjhcdACSbLmcSKn3JitpAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oCVuCsYsdf9Hb+s391I5TVM0xMYqO0tDMk5JsDEp+0c=;
- b=bd5kPUonoeUe5LdNP3kUrnc+vKtiw2tTS+UJdAJMTIt07QtHonLJwyqL0z9TWfjsQ1J5OEmIrnfJ2cHcmPI8LCLHJ+GfyF0vIWrkh4wzPmtMtSevi6602PHqQWTjt6zchxOqfODw82H0n4bpDds6KiHwlSg7rJrpAZOsayeWPfWEFSxbqJDtI4Fk/xdXC8jTvVjq66BXoq20KY7/tFQVXrAaNxXBZqpA1W9GlMj8+RkuWiU1/Ibu4ZsE6YTdcVkYIhY9jy453Czo55X/7WsFQXR0360CSJ33UIs+bbax/t7ZwQU6P0yRnWKBeuocxFhVSxjtHJUYvLPoLtu1ocvGZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oCVuCsYsdf9Hb+s391I5TVM0xMYqO0tDMk5JsDEp+0c=;
- b=YW3NRlonsDhTGsWxAG4x+mnzdnHVXU1rZW3l0sbagDDjSd/oysV2GhLZmK5c35HRCNy2GeePrJsIHggQyR/TZeYtLgtjfw8TmIqmRdcxfix7NHjoHdBUDteca5eU1VMeZT02xLbc6QhEGtVqp748jfH4c8prJJkLtW74uTetaz0RguI4I1wJyfop8xn4P1i4lQ+5/hiAEAwA2gJafZ+9fLfospxhOS5zm9Qr5Z6jbtFwIQPY9m8aHuxZHeSoV9O86EJQ0+A+GWUTMAL7Ceun8FvItpaocEIxQTQGJ1yiw1FnP7stwmojdPzWM+paIIk5Y52gJQONynTmrbMOOkwhSw==
-Received: from MW4PR04CA0335.namprd04.prod.outlook.com (2603:10b6:303:8a::10)
- by DM6PR12MB3786.namprd12.prod.outlook.com (2603:10b6:5:14a::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Thu, 5 May
- 2022 10:00:02 +0000
-Received: from CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8a:cafe::d2) by MW4PR04CA0335.outlook.office365.com
- (2603:10b6:303:8a::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24 via Frontend
- Transport; Thu, 5 May 2022 10:00:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.234) by
- CO1NAM11FT012.mail.protection.outlook.com (10.13.175.192) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5227.15 via Frontend Transport; Thu, 5 May 2022 10:00:01 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Thu, 5 May
- 2022 10:00:01 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 5 May 2022
- 03:00:00 -0700
-Received: from jonathanh-vm-01.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
- Transport; Thu, 5 May 2022 03:00:00 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <stable@vger.kernel.org>, <torvalds@linux-foundation.org>,
-        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
-        <shuah@kernel.org>, <patches@kernelci.org>,
-        <lkft-triage@lists.linaro.org>, <pavel@denx.de>,
-        <jonathanh@nvidia.com>, <f.fainelli@gmail.com>,
-        <sudipm.mukherjee@gmail.com>, <slade@sladewatkins.com>,
-        <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.17 000/225] 5.17.6-rc1 review
-In-Reply-To: <20220504153110.096069935@linuxfoundation.org>
-References: <20220504153110.096069935@linuxfoundation.org>
-X-NVConfidentiality: public
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S240084AbiEELpo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 May 2022 07:45:44 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8A57053E0D;
+        Thu,  5 May 2022 04:42:05 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 385B7106F;
+        Thu,  5 May 2022 04:42:05 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31B5B3FA27;
+        Thu,  5 May 2022 04:42:03 -0700 (PDT)
+Date:   Thu, 5 May 2022 12:42:00 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Besar Wicaksono <bwicaksono@nvidia.com>
+Cc:     "rafael@kernel.org" <rafael@kernel.org>,
+        "lenb@kernel.org" <lenb@kernel.org>,
+        "robert.moore@intel.com" <robert.moore@intel.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "guohanjun@huawei.com" <guohanjun@huawei.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 2/2] ACPI: ARM Performance Monitoring Unit Table (APMT)
+ initial support
+Message-ID: <20220505114200.ys6ilkkcsakkbnkc@bogus>
+References: <20220419205432.46021-1-bwicaksono@nvidia.com>
+ <20220419205432.46021-3-bwicaksono@nvidia.com>
+ <20220504182633.a3mwuiohfqtjvpep@bogus>
+ <SN6PR12MB4719E05A6BC7CAA2C00F35EFA0C39@SN6PR12MB4719.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Message-ID: <f6316e3c-6c1a-4361-bee3-cf40dd1b9903@rnnvmail203.nvidia.com>
-Date:   Thu, 5 May 2022 03:00:00 -0700
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb948280-39cc-41ce-e6a5-08da2e7e0575
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3786:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB37862B080AE6239B974F4660D9C29@DM6PR12MB3786.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DnvbHId6Sp4Y46WTAjg35fcivVV5wxWasafXPHAH8VF+1ik8x6CSBVXb4+/U8CBuQtzojFVyqKa7v7XZjYJBBkErwpPnYfhg7uoqN16pQn2ZeLwhqxdvWKLAQzKVpf8JHAG5MCRMO7NT4Q+qVcD4GhmcR2TunhBfBbNIMKJQrl8xhr2dspLPBTgv64JnKLUyqjR+ve6HBPRGkhFcdRRwTbbwWZWizC29Daon1NEHS3+A0tD86Ov0UextkeOiRC9G0Q5AgeFAUZF2bSvLJ7ItB6oeERqpZoqNlbOXADn89Je+8+xvitTyxKqC81wBKiBkqnlSvTPWxgFFFJK/z1i12s6PeSGZ1gQ+V/1RR7DZPR1Brbo+WfYo0gBEC7xPG6010QJuY0EGjRaYzWA62ohp8NrertuwJfOWHCqQ9bEDNhIT6YSmPl0rP1/GmtfvDswJ2EVXLSsQGMH1zd6t8lF+vvxJnve3RFrVyDnDlvn5G/sKSX+46OofSr1noQaOCb9EoUpYzF5kQWvBJ2r/qLIKM+xs5XhpllmHoFhqC/GIAdmw4csoHUFmvx6dcaCnxeoOWEILKjabdLJm3mYVHnCcxASOH1El6IvxZhKPDBa3VNuMCpKoxamXymLsEBZIFghEJvvWCCDkV8wTEz29fdvb4nJ6CKAz9KqJbAqgVwj1fk2FHLHRTGH7uca+/Z8ySBgtemKUlQzjxHnrGZ1VOUx+rtm+JVXRB0nQ/1nmJoRKmjg82QPvEE6PkYARqqE15IClND8iuLO7ywOwuyGKu7plkNLIa+ZDZHmje/6kasNp6rY=
-X-Forefront-Antispam-Report: CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(31686004)(356005)(8936002)(40460700003)(70586007)(70206006)(966005)(81166007)(26005)(6916009)(2906002)(426003)(47076005)(54906003)(7416002)(336012)(508600001)(86362001)(186003)(31696002)(316002)(5660300002)(4326008)(8676002)(82310400005)(36860700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 10:00:01.7622
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb948280-39cc-41ce-e6a5-08da2e7e0575
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3786
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SN6PR12MB4719E05A6BC7CAA2C00F35EFA0C39@SN6PR12MB4719.namprd12.prod.outlook.com>
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 04 May 2022 18:43:58 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.17.6 release.
-> There are 225 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On Wed, May 04, 2022 at 10:08:39PM +0000, Besar Wicaksono wrote:
+> Hi Sudeep,
 > 
-> Responses should be made by Fri, 06 May 2022 15:25:19 +0000.
-> Anything received after that time might be too late.
+> > Any particular reason why you would like to rush and push this without
+> > the actual driver to probe the device being added here ?
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.17.6-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.17.y
-> and the diffstat can be found below.
+> I plan to have two patch series, one for ACPI patch (this patch) and one for
+> driver patch. My understanding is the driver patch will depend on this
+> patch, but not the other way. So, I thought it would be better to get this
+> patch approved first. However, if it helps the review of this patch, I am
+> hoping to post the driver patch by end of the week and will CC you on that
+> one.
+
+Sure please do that. IMO, the driver is usually upstreamed first along with
+the DT bindings(in ACPI case either the spec change or the std namespace node)
+The actual addition of the device happens via DT. ACPI APMT needs creation
+of device here but I prefer to see the driver first.
+
 > 
-> thanks,
+> > I really don't prefer this name:
+> > 1. arm-coresight-pmu is much better than "csite". I see the short form
+> >    used elsewhere in the kernel is just "cs" as in cs_etm,...etc
+> > 2. Since APMT is more generic than just coresight(I understand coresight
+> >    was the initial motivation for the generic specification) and also
+> >    the type list seem to cover memory controller, SMMU,..etc, does
+> >    it make sense to call it "arm-generic-pmu" or something similar.
 > 
-> greg k-h
+> Between these two, I would prefer arm-coresight-pmu just to anticipate
+> another standard in the future from ARM. The APMT, to my understanding, is
+> applicable only to CoreSight based PMUs. Using "coresight" as part of the
+> device name is reasonable.
 
-All tests passing for Tegra ...
+I read the APMT spec again and it has very little reference to coresight
+though it is weirdly labelled as Coresight PMU for no sane reasons(Sorry I
+know it's Arm to blame here and I bet something to do with marketing).
 
-Test results for stable-v5.17:
-    10 builds:	10 pass, 0 fail
-    28 boots:	28 pass, 0 fail
-    130 tests:	130 pass, 0 fail
+Anyways the APMT spec on its own covers all types of PMUs as I stated earlier.
+So I prefer "arm-generic-pmu" or something better if you can come up with. I
+am fine if you would like to retain arm-coresight-pmu when you post driver as
+that's what the spec is labelled as.
 
-Linux version:	5.17.6-rc1-gd7a932089173
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra194-p3509-0000+p3668-0000,
-                tegra20-ventana, tegra210-p2371-2180,
-                tegra210-p3450-0000, tegra30-cardhu-a04
+Once you post the driver we can debate on that and come up with better name
+with all the concerned parties involved.
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+> 
+> > Not sure if the same device name will be re-used or PMUs can be registered
+> > with different name under perf subsystem, but the name matters for the user
+> > space tools and decoders. They may use the name or type information to analyse
+> > the data samples.
+> >
+> > So it is better to wait for all those discussion as part of the driver
+> > upstreaming before you use this device name unless we are absolutely sure
+> > the PMUs can be registered with different names in the driver(which could
+> > be possible, I just don't know)
+> >
+> > Apart from this name, I am OK with the changes here and happy to ack if it
+> > is OK to merge this without any driver to probe this device yet.
+> 
+> I believe using a different name to register the PMU is possible.
+> In the current driver patch, we use a different name format to register the
+> PMU: arm_csite_pmu<numeric id>. Certainly the "csite" needs to change as
+> well 😊. Another example like ARM CCI PMU uses device name "ARM-CCI PMU",
+> but it is registered to perf subsystem as "CCI_400" or "CCI_500".
+>
 
-Jon
+Agreed, those are details we can discuss once you post with all the
+maintainers involved.
+
+> If there is no objection, I can post update to this patch and go ahead with
+> "arm-coresight-pmu" for the device name.
+
+Sure as I mentioned above that should be fine. I will then raise it with
+the maintainers how we managed to labelled the spec to confuse it with other
+components. I prefer whatever we add must be easy to identify and doesn't
+conflict with existing PMUs(like ARM CPU PMUs, or the coresight ETM PMUs,
+..etc)
+
+In short, just post the driver the way you prefer and let us start the
+discussion there.
+
+-- 
+Regards,
+Sudeep
