@@ -2,105 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D1A522B28
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 May 2022 06:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF38522EA6
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 May 2022 10:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235588AbiEKEj2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 May 2022 00:39:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43040 "EHLO
+        id S233710AbiEKIp2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 May 2022 04:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238445AbiEKEj0 (ORCPT
+        with ESMTP id S243909AbiEKIpC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 May 2022 00:39:26 -0400
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8F614D7A4
-        for <linux-tegra@vger.kernel.org>; Tue, 10 May 2022 21:39:23 -0700 (PDT)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-edf3b6b0f2so1460802fac.9
-        for <linux-tegra@vger.kernel.org>; Tue, 10 May 2022 21:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
-         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
-         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
-         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
-         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
-         wrQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=ufHv6hzYeCR+NvysaxfjOoXeUNOgiOhIP/Xhg1aQpsXdFdJibL5qHSwH5486f+Xv+N
-         0YKAdtF7YQgaukaAtcRn7YNDu1va7DobzEX0MBslHIC0jGdLYgIieCJHfAFm3CWAmyGQ
-         Of6JiiOjLf3FrbA6vBcmUZVSbaQxQuF/rFBxbSv348PZkFkUkRsYIZm/45EjpI4dnFJM
-         hQkS5ymLLrydz0pTVEdWNrBVx7shzNTn06vOWmGye8EuLDJW6FKFDG9uT3DY96ZHirOI
-         KGm1PcmWz6b2cDreaEvwVuOMzKlxJjgeM2cVQMUYRx+dpy07aTYjS9Oy8+edhG6j6qPR
-         UDTw==
-X-Gm-Message-State: AOAM532BoocSPN5gFOW2KtQp4qCQlqDTh3L3XZpQZgrUK2EtVRJliIBi
-        d97VkIAu5mTt60XKWsJYDtCo1URk2ip7RbpVh7hP2XklhK7ZPA==
-X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
-X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
- gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
- May 2022 21:39:11 -0700 (PDT)
+        Wed, 11 May 2022 04:45:02 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7DFE6201330;
+        Wed, 11 May 2022 01:45:01 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 499EF106F;
+        Wed, 11 May 2022 01:45:01 -0700 (PDT)
+Received: from [10.57.1.137] (unknown [10.57.1.137])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 185D63F73D;
+        Wed, 11 May 2022 01:44:58 -0700 (PDT)
+Message-ID: <6fcc2358-b029-fa01-cf06-aa040f53cf83@arm.com>
+Date:   Wed, 11 May 2022 09:44:57 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
- -0700 (PDT)
-From:   Private Mail <privatemail1961@gmail.com>
-Date:   Tue, 10 May 2022 21:39:10 -0700
-Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
-Subject: Have you had this? It is for your Benefit
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
-        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH 0/2] perf: ARM CoreSight PMU support
+To:     Will Deacon <will@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>
+Cc:     Besar Wicaksono <bwicaksono@nvidia.com>, catalin.marinas@arm.com,
+        mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        thanu.rangarajan@arm.com, Michael.Williams@arm.com,
+        treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+References: <20220509002810.12412-1-bwicaksono@nvidia.com>
+ <20220509092843.GB26264@willie-the-truck>
+ <2e5e09f9-b71b-d936-e291-db8f94554b18@arm.com>
+ <20220510110742.ievkihggndpms3fn@bogus>
+ <20220510111318.GD27557@willie-the-truck>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20220510111318.GD27557@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Our Ref: BG/WA0151/2022
+On 10/05/2022 12:13, Will Deacon wrote:
+> On Tue, May 10, 2022 at 12:07:42PM +0100, Sudeep Holla wrote:
+>> On Mon, May 09, 2022 at 11:02:23AM +0100, Suzuki K Poulose wrote:
+>>> Cc: Mike Williams, Mathieu Poirier
+>>> On 09/05/2022 10:28, Will Deacon wrote:
+>>>> On Sun, May 08, 2022 at 07:28:08PM -0500, Besar Wicaksono wrote:
+>>>>>    arch/arm64/configs/defconfig                  |    1 +
+>>>>>    drivers/perf/Kconfig                          |    2 +
+>>>>>    drivers/perf/Makefile                         |    1 +
+>>>>>    drivers/perf/coresight_pmu/Kconfig            |   10 +
+>>>>>    drivers/perf/coresight_pmu/Makefile           |    7 +
+>>>>>    .../perf/coresight_pmu/arm_coresight_pmu.c    | 1317 +++++++++++++++++
+>>>>>    .../perf/coresight_pmu/arm_coresight_pmu.h    |  147 ++
+>>>>>    .../coresight_pmu/arm_coresight_pmu_nvidia.c  |  300 ++++
+>>>>>    .../coresight_pmu/arm_coresight_pmu_nvidia.h  |   17 +
+>>>>>    9 files changed, 1802 insertions(+)
+>>>>
+>>>> How does this interact with all the stuff we have under
+>>>> drivers/hwtracing/coresight/?
+>>>
+>>> Absolutely zero, except for the name. The standard
+>>> is named "CoreSight PMU" which is a bit unfortunate,
+>>> given the only link, AFAIU, with the "CoreSight" architecture
+>>> is the Lock Access Register(LAR). For reference, the
+>>> drivers/hwtracing/coresight/ is purely "CoreSight" self-hosted
+>>> tracing and the PMU is called "cs_etm" (expands to coresight etm).
+>>> Otherwise the standard doesn't have anything to do with what
+>>> exists already in the kernel.
+> 
+> That's... a poor naming choice! But good, if it's entirely separate then I
+> don't have to worry about that. Just wanted to make sure we're not going to
+> get tangled up in things like ROM tables and Coresight power domains for
+> these things.
+> 
+>>> One potential recommendation for the name is, "Arm PMU"  (The ACPI table is
+>>> named Arm PMU Table). But then that could be clashing with the armv8_pmu
+>>> :-(.
+>>>
+>>> Some of the other options are :
+>>>
+>>> "Arm Generic PMU"
+>>> "Arm Uncore PMU"
+>>
+>> I wasn't sure on this if there is any restriction on usage of this on Arm
+>> and hence didn't make the suggestion. But if allowed, this would be my
+>> choice too.
+> 
+> We'd taken to calling them "System" PMUS in the past, so maybe just stick
+> with that? I think "Uncore" is Intel terminology so it's probably best to
 
-Dear Beneficiary
+I thought about that, but there are some IPs named "System Profilers" 
+(e.g., on Juno board) which could be easily confused. But I hope their
+population in the name space is much less. So, I am happy with that
+choice. The only other concern is, it doesn't indicate it supports PMUs
+that are compliant to a given Arm Standard. i.e., people could think of 
+this as a "single type" of PMU.
+So, I am wondering if something like "Arm Standard PMU" makes any sense ?
 
-Subject: An Estate of US$15.8 Million
+Also, I hope the drivers would choose a name indicating the "type"  -
+<vendor>_<type>_pmu (e.g., nvidia_pcie_pmu, arm_smmuv3_pmu etc) while 
+registering their PMU. That way it is clearer for the PMU while the
+base device could be arm_system_pmu_0 etc.
 
-Blount and Griffin Genealogical Investigators specializes in probate
-research to locate missing heirs and beneficiaries to estates in the
-United Kingdom and Europe.
+Suzuki
 
-We can also help you find wills, obtain copies of certificates, help
-you to administer an estate, as well as calculating how an estate,
-intestacy or trust should be distributed.
 
-You may be entitled to a large pay out for an inheritance in Europe
-worth US$15.8 million. We have discovered an estate belonging to the
-late Depositor has remained unclaimed since he died in 2011 and we
-have strong reasons to believe you are the closest living relative to
-the deceased we can find.
+> avoid it for non-Intel parts.
+> 
+> Will
 
-You may unknowingly be the heir of this person who died without
-leaving a will (intestate). We will conduct a probate research to
-prove your entitlement, and can submit a claim on your behalf all at
-no risk to yourselves.
-
-Our service fee of 10% will be paid to us after you have received the estate.
-
-The estate transfer process should take just a matter of days as we
-have the mechanism and expertise to get this done very quickly. This
-message may come to you as a shock, however we hope to work with you
-to transfer the estate to you as quickly as possible.
-
-Feel free to email our senior case worker Mr. Malcolm Casey on email:
-malcolmcasey68@yahoo.com for further discussions.
-
-With warm regards,
-
-Mr. Blount W. Gort, CEO.
-Blount and Griffin Associates Inc
