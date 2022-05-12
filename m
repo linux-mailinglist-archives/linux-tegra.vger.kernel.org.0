@@ -2,119 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F3B523ED9
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 May 2022 22:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F591524873
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 May 2022 10:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347757AbiEKUYZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 May 2022 16:24:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60436 "EHLO
+        id S237135AbiELI72 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 May 2022 04:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238984AbiEKUYR (ORCPT
+        with ESMTP id S236368AbiELI71 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 May 2022 16:24:17 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0345A72E01;
-        Wed, 11 May 2022 13:24:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=LCKlEcL/+gLbho7zoJo89g9MDYx2GFkg8N7n1nlW+0g=; b=MQpyMZ3nMM+SlSF0Ic+7AggIHS
-        wWCWxLFJNdpcNC/qKw1wNJR3uSo8xMkfiJlq7d2aikSbZG9yuq1pfGOyawWDcFgWnRsla4fbF455Y
-        3RXCIUoMIO9o6uix81B+J++RZraHoxYIg5AFTEzg2KmNpXSrs7BEjvRicrp5TYhs6s3mYN27kkyAz
-        njPDxaRSeQ75fkZPzqisnL9xIuav4szhmycF8VItK7avDyCoEE8U/Zs7xTZO8x+jizmxi0qGskMhG
-        GsWdK7oyZ7kJDFhpPsgWAmAhF7aiE+T5aNpN2RQ5WYTzC7ql7jtRy3esjCfYNiJNCeB+2D6JHceeB
-        Ayva3vzg==;
-Received: from [177.183.162.244] (helo=[192.168.0.5])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1noss0-000Aod-US; Wed, 11 May 2022 22:23:41 +0200
-Message-ID: <4b003501-f5c3-cd66-d222-88d98c93e141@igalia.com>
-Date:   Wed, 11 May 2022 17:22:22 -0300
+        Thu, 12 May 2022 04:59:27 -0400
+X-Greylist: delayed 13590 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 May 2022 01:59:26 PDT
+Received: from mail.pekanbaru.go.id (mail.pekanbaru.go.id [103.131.245.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B925838D
+        for <linux-tegra@vger.kernel.org>; Thu, 12 May 2022 01:59:25 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.pekanbaru.go.id (Postfix) with ESMTP id CE50398AE15;
+        Thu, 12 May 2022 10:45:53 +0700 (WIB)
+Received: from mail.pekanbaru.go.id ([127.0.0.1])
+        by localhost (mail.pekanbaru.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id iUp8ID469juC; Thu, 12 May 2022 10:45:53 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.pekanbaru.go.id (Postfix) with ESMTP id 7F08F968B6B;
+        Thu, 12 May 2022 10:45:50 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.pekanbaru.go.id 7F08F968B6B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pekanbaru.go.id;
+        s=EA5C5C9E-4206-11EC-835B-1ADACEA726A0; t=1652327150;
+        bh=WgQd2bW8hb2KeIDNbeIeW1Bb4lp6m29iibMhAQT/egc=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=QS7Onuy9yPyo4VS4Bzuek/eulOYEpn1CqxMCXM7o3RSnpXZiK/HjI4KGMs5Xezp5L
+         Un+j0UhdgNtOKmJlpwI9mw6dG1FGfdTkbLYEsViVxuiwVsQSdd8Ohx5iWmYOLsPe4a
+         3Ra3TsfCKR9VXCdsAvw8+ed3EHX1a2YnOutPeYvCtzwR7/j4AQ8uaJR1w+lDVY6Dc+
+         /3uLMHGNWvzp0Rjj9YErbGEtdDpwcvPrfnsO0WaiRUpVGQw3v5YO7Stam9/h3VERQO
+         9d2RDZASwn8nEW6KwH5C4j/VGOrKtoVZ2kZAHtlYIJj2bL8HWYO5huqehqYsITjPdk
+         k0ltfpQPCJ8TQ==
+X-Virus-Scanned: amavisd-new at mail.pekanbaru.go.id
+Received: from mail.pekanbaru.go.id ([127.0.0.1])
+        by localhost (mail.pekanbaru.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id rzs_j3DRUqFm; Thu, 12 May 2022 10:45:50 +0700 (WIB)
+Received: from [192.168.15.101] (unknown [41.79.219.176])
+        by mail.pekanbaru.go.id (Postfix) with ESMTPSA id BD7B498ADED;
+        Thu, 12 May 2022 10:45:41 +0700 (WIB)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 11/30] um: Improve panic notifiers consistency and
- ordering
-Content-Language: en-US
-To:     Petr Mladek <pmladek@suse.com>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Richard Weinberger <richard@nod.at>
-Cc:     akpm@linux-foundation.org, bhe@redhat.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        halves@canonical.com, fabiomirmar@gmail.com,
-        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
-        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
-        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-12-gpiccoli@igalia.com> <Ynp2hRodh04K3pzK@alley>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <Ynp2hRodh04K3pzK@alley>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Awaiting your response 
+To:     Recipients <waterproject@pekanbaru.go.id>
+From:   waterproject@pekanbaru.go.id
+Date:   Thu, 12 May 2022 04:45:34 +0100
+Reply-To: test@hostnextdoor.com
+Message-Id: <20220512034542.BD7B498ADED@mail.pekanbaru.go.id>
+X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
+        RCVD_IN_SBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/05/2022 11:28, Petr Mladek wrote:
-> [...]
-> It is not clear to me why user mode linux should not care about
-> the other notifiers. It might be because I do not know much
-> about the user mode linux.
-> 
-> Is the because they always create core dump or are never running
-> in a hypervisor or ...?
-> 
-> AFAIK, the notifiers do many different things. For example, there
-> is a notifier that disables RCU watchdog, print some extra
-> information. Why none of them make sense here?
->
-
-Hi Petr, my understanding is that UML is a form of running Linux as a
-regular userspace process for testing purposes. With that said, as soon
-as we exit in the error path, less "pollution" would happen, so users
-can use GDB to debug the core dump for example.
-
-In later patches of this series (when we split the panic notifiers in 3
-lists) these UML notifiers run in the pre-reboot list, so they run after
-the informational notifiers for example (in the default level).
-But without the list split we cannot order properly, so my gut feeling
-is that makes sense to run them rather earlier than later in the panic
-process...
-
-Maybe Anton / Johannes / Richard could give their opinions - appreciate
-that, I'm not attached to the priority here, it's more about users'
-common usage of UML I can think of...
-
-Cheers,
+Hi =
 
 
-Guilherme
+Did you get my previous email? I have attempted over 3 times to open up com=
+munication with you. Please acknowledge if you receive this email. =
+
+
+Regards
+Morten Friis
