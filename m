@@ -2,143 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1E1F5261F6
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 May 2022 14:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FA4526519
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 May 2022 16:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380332AbiEMMdk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 May 2022 08:33:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51890 "EHLO
+        id S1381532AbiEMOqP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 May 2022 10:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380294AbiEMMdj (ORCPT
+        with ESMTP id S1381450AbiEMOp6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 May 2022 08:33:39 -0400
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 863F966FB0;
-        Fri, 13 May 2022 05:33:31 -0700 (PDT)
-Received: by mail-oi1-f173.google.com with SMTP id v66so9958831oib.3;
-        Fri, 13 May 2022 05:33:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=8irf5Ey/s1vfqMTNJiccE2tp/UL53Viu3Nkg7CaCBmU=;
-        b=MVvcrtg+Mno+oPOMOEaFqqGess1fxqwNDjG7lq8h6pktXRZAE8RGiZt+uAutorKi+E
-         64P7Rxt9ADpplaYxoawSdanhAkpZJVIcr5HbYw41JStqSIkLEHH9HkmnZqEbZV7fjBw5
-         k3NexJbr8UZkFLQrK77aqNr3ioydiN5GKOQyYAevsxAz8LY6AABwCJTvvn6Y95riuV1m
-         bdUMwRhniImSdqY3SPCjKSPzxjrxsqw6oDvMd6csrrX782glLyUOQC1rgZraBOvCfkwd
-         CcP+ksiIxPFgqn0f9/toxPUnY84i+P+0a+THgYi02Q9VeqNJJtMeH2gz8LM2hMW7sUFW
-         UIUw==
-X-Gm-Message-State: AOAM531uIG5hlmkPhm0Fsfezv12Ce3VJOw/uDDp6kQv1072sr1NLh0Gr
-        rNbs0C0l5ZFrEnD+KUCwsw==
-X-Google-Smtp-Source: ABdhPJz86NoAE2890pKDohjR65NoBVLwhYgaL8afKM6fy1SRZ0xcYZPaPRo+tFZJya5DCVQmOWVX0Q==
-X-Received: by 2002:a05:6808:1905:b0:328:acd1:fc2f with SMTP id bf5-20020a056808190500b00328acd1fc2fmr7590319oib.178.1652445209444;
-        Fri, 13 May 2022 05:33:29 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id f7-20020a9d7b47000000b0060681f4b6cesm888882oto.53.2022.05.13.05.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 May 2022 05:33:29 -0700 (PDT)
-Received: (nullmailer pid 85845 invoked by uid 1000);
-        Fri, 13 May 2022 12:33:21 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Will Deacon <will@kernel.org>,
-        Krishna Reddy <vdumpa@nvidia.com>, devicetree@vger.kernel.org,
-        Robin Murphy <robin.murphy@arm.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        linux-tegra@vger.kernel.org, Janne Grunau <j@jannau.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Sameer Pujar <spujar@nvidia.com>
-In-Reply-To: <20220512190052.1152377-2-thierry.reding@gmail.com>
-References: <20220512190052.1152377-1-thierry.reding@gmail.com> <20220512190052.1152377-2-thierry.reding@gmail.com>
-Subject: Re: [PATCH v5 1/5] dt-bindings: reserved-memory: Document iommu-addresses
-Date:   Fri, 13 May 2022 07:33:21 -0500
-Message-Id: <1652445201.091179.85841.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        Fri, 13 May 2022 10:45:58 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBB093C4B7;
+        Fri, 13 May 2022 07:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=A7LCydQD5IYNzaoDGyfG1KKM7tCxGhr7TuWULSo03X0=;
+        t=1652453114; x=1653662714; b=LYs2Kri0cw+/UGCEdaklFX6++OP3d6XjJhLcC02jkMM6M13
+        enCTtLPVnFDCrQRFLX819G3cOwVdjYiBSa9JccmqbQblnXISEdyq/7i5O4aMDV5xAFeJh8X61XWYA
+        3hNxcWPO6okKyPbXVAhEt6WHQ/sVkV0gcWR0C3dCeQWocdHTJKZWVZ25I4x63uWgmbhevhAje3sRQ
+        ynAaFSpM6xFAePbWKVwYY4aWUVh0Ju93mi2MceapTMkNIryb6lt7v4/iXwdFQzg89Tz18COaji5Fq
+        iSqUu6mUSMMlAVO2Bcj32MYDMrCOrP4TWkawclAlZw9o6WbW7KIcYMOBD7zR8fsA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.95)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1npWX2-00AdYm-Tp;
+        Fri, 13 May 2022 16:44:41 +0200
+Message-ID: <1760d499824f9ef053af7a8dac04b48ab7d7fd3d.camel@sipsolutions.net>
+Subject: Re: [PATCH 11/30] um: Improve panic notifiers consistency and
+ ordering
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Richard Weinberger <richard@nod.at>
+Cc:     akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
+        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+Date:   Fri, 13 May 2022 16:44:36 +0200
+In-Reply-To: <4b003501-f5c3-cd66-d222-88d98c93e141@igalia.com>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+         <20220427224924.592546-12-gpiccoli@igalia.com> <Ynp2hRodh04K3pzK@alley>
+         <4b003501-f5c3-cd66-d222-88d98c93e141@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 12 May 2022 21:00:48 +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+On Wed, 2022-05-11 at 17:22 -0300, Guilherme G. Piccoli wrote:
+> On 10/05/2022 11:28, Petr Mladek wrote:
+> > [...]
+> > It is not clear to me why user mode linux should not care about
+> > the other notifiers. It might be because I do not know much
+> > about the user mode linux.
+> > 
+> > Is the because they always create core dump or are never running
+> > in a hypervisor or ...?
+> > 
+> > AFAIK, the notifiers do many different things. For example, there
+> > is a notifier that disables RCU watchdog, print some extra
+> > information. Why none of them make sense here?
+> > 
 > 
-> This adds the "iommu-addresses" property to reserved-memory nodes, which
-> allow describing the interaction of memory regions with IOMMUs. Two use-
-> cases are supported:
+> Hi Petr, my understanding is that UML is a form of running Linux as a
+> regular userspace process for testing purposes.
+
+Correct.
+
+> With that said, as soon
+> as we exit in the error path, less "pollution" would happen, so users
+> can use GDB to debug the core dump for example.
 > 
->   1. Static mappings can be described by pairing the "iommu-addresses"
->      property with a "reg" property. This is mostly useful for adopting
->      firmware-allocated buffers via identity mappings. One common use-
->      case where this is required is if early firmware or bootloaders
->      have set up a bootsplash framebuffer that a display controller is
->      actively scanning out from during the operating system boot
->      process.
+> In later patches of this series (when we split the panic notifiers in 3
+> lists) these UML notifiers run in the pre-reboot list, so they run after
+> the informational notifiers for example (in the default level).
+> But without the list split we cannot order properly, so my gut feeling
+> is that makes sense to run them rather earlier than later in the panic
+> process...
 > 
->   2. If an "iommu-addresses" property exists without a "reg" property,
->      the reserved-memory node describes an IOVA reservation. Such memory
->      regions are excluded from the IOVA space available to operating
->      system drivers and can be used for regions that must not be used to
->      map arbitrary buffers.
-> 
-> Each mapping or reservation is tied to a specific device via a phandle
-> to the device's device tree node. This allows a reserved-memory region
-> to be reused across multiple devices.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  .../reserved-memory/reserved-memory.txt       |  1 -
->  .../reserved-memory/reserved-memory.yaml      | 62 +++++++++++++++++++
->  include/dt-bindings/reserved-memory.h         |  8 +++
->  3 files changed, 70 insertions(+), 1 deletion(-)
->  delete mode 100644 Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->  create mode 100644 include/dt-bindings/reserved-memory.h
-> 
+> Maybe Anton / Johannes / Richard could give their opinions - appreciate
+> that, I'm not attached to the priority here, it's more about users'
+> common usage of UML I can think of...
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+It's hard to say ... In a sense I'm not sure it matters?
 
-yamllint warnings/errors:
+OTOH something like the ftrace dump notifier (kernel/trace/trace.c)
+might still be useful to run before the mconsole and coredump ones, even
+if you could probably use gdb to figure out the information.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:21.11-18: Warning (ranges_format): /example-0/reserved-memory:ranges: empty "ranges" property but its #address-cells (2) differs from /example-0 (1)
-Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:21.11-18: Warning (ranges_format): /example-0/reserved-memory:ranges: empty "ranges" property but its #size-cells (2) differs from /example-0 (1)
-Documentation/devicetree/bindings/reserved-memory/reserved-memory.example.dts:39.15-52.11: Warning (unit_address_vs_reg): /example-0/bus@0: node has a unit name, but no reg or ranges property
+Personally, I don't have a scenario where I'd care about the trace
+buffers though, and most of the others I found would seem irrelevant
+(drivers that aren't even compiled, hung tasks won't really happen since
+we exit immediately, and similar.)
 
-doc reference errors (make refcheckdocs):
-Documentation/devicetree/bindings/display/arm,hdlcd.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/display/arm,komeda.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/display/arm,malidp.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/display/arm,pl11x.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/firmware/intel,stratix10-svc.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/gpu/aspeed-gfx.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/media/amphion,vpu.yaml: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/media/aspeed-video.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/media/mediatek-vpu.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/remoteproc/ti,davinci-rproc.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.yaml: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-kernel/dma/Kconfig: Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+johannes
