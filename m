@@ -2,201 +2,171 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B742C527FDF
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 May 2022 10:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34A3252803E
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 May 2022 10:54:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232023AbiEPImY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 May 2022 04:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43544 "EHLO
+        id S242118AbiEPIx7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 May 2022 04:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232524AbiEPImS (ORCPT
+        with ESMTP id S242063AbiEPIxk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 May 2022 04:42:18 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2088.outbound.protection.outlook.com [40.107.92.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50328B870;
-        Mon, 16 May 2022 01:42:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D9fsn18YtIAKopMjtmz7i0M6omISPpAGk/oA8Siz8Ncmdjp+OlvGrg/sRO9eXgqE2zNVeIGw5hdXM72A5qg5ELLvyuBrC99AcNubKpNVD/GgzIhdgMMVbVZCj3oQM1Xd9hITf4C/E0VTlkeeLCYXucAV8U2ydUXLg8vxw43GYbOwt4iF3RKa5bpO30q3tjv7NhqwKNIZ0K/DXte9xjanAntwDBQt+WpvkI0ZnuxrtkSqSJkyx4oNo9YvaeZHnybFkp/ym1mHUTuJB3xDoVoEmCwadziJUicVNLnHsJi6YxUDlnZXLzsWBmn5ayKK6tP1xjRcFMwvuxQZJOqzKw0NXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TXETIpPl1NQbqEYcz+Y2wILUPrndXaW9Aw+cg4Ip+y4=;
- b=hvqIW9Go5DhxVnmYz1Os8xEsuzDaOz8idousex5M54lTkhCQejvxMBuq2mRX2vYkpfu255d74qWfuD5Bpu3PTnR+/Gronmg+WFJ0qlhRHglfkZi3JMZUqFXc0njSDeWZ6zpgG9BgEBA7qQahK4+6vv875qHTjT71gy9Yc3JXSbuPcSprWO13yZMsCmeENFtldSENYm5xmCOhU+Iq9mFyxktgGheptisTpk5oAH5tSS+wgy/Gx2oCw5X3Lif7r89okejU2ubtcDqwQEJUHDlAYMYiRAKTdT32zfhQYiN/vG/1QnjSbMSN6kUcAduuFyFMmfEG/z+BWkWwnRoAY0JC6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TXETIpPl1NQbqEYcz+Y2wILUPrndXaW9Aw+cg4Ip+y4=;
- b=tB8krMIZ51QPusLudCC2fRpZPYUB9pAvDY1Zn9AMa0UGmrRnpsv4I5XwWcZyTtpWm/EzBGnaBT6Vuq2ZDXzWAm/EjrUmI6lpAnNCoqwBx7DXSZMhYChVm6Th4eDS90EaF/KnHCNZ6ffBpvRr/aZCi+TxYsO+2AHLgvnfz1fGkEOHko0KR49VYxzQq4U9rWqG6Y2YHDNMWMa3VNvvI4wFxHnsTzRd2QjchBrxk2s15UWhA1NztwU9w0zxrmKGEdMVOlVqp3wOiOKlkqdNfdvoyo0kJ5z6BBvRmH0cnwF19X/pjZxZTsQU9nP+hBrFCT93+JKQxYrLAqFgx/KJC7fDRw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5250.14; Mon, 16 May 2022 08:42:14 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::a4b2:cd18:51b1:57e0]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::a4b2:cd18:51b1:57e0%4]) with mapi id 15.20.5250.018; Mon, 16 May 2022
- 08:42:14 +0000
-Message-ID: <9539ac65-0e3e-9a2b-c21e-5602d6fbbe3e@nvidia.com>
-Date:   Mon, 16 May 2022 09:42:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] dmaengine: tegra: Use platform_get_irq() to get IRQ
- resource
-Content-Language: en-US
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Akhil R <akhilrajeev@nvidia.com>, dmaengine@vger.kernel.org,
-        ldewangan@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, p.zabel@pengutronix.de,
-        thierry.reding@gmail.com, vkoul@kernel.org
-References: <20220505091440.12981-1-akhilrajeev@nvidia.com>
- <7673dbb7-6a85-6ab6-f1a4-a6f4724c0b90@nvidia.com>
-In-Reply-To: <7673dbb7-6a85-6ab6-f1a4-a6f4724c0b90@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20)
- To CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8)
+        Mon, 16 May 2022 04:53:40 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835A613F59;
+        Mon, 16 May 2022 01:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=qKpPhT1htxysCkfhUBMj0egXSA7Qs36rOou4SsdTvzc=; b=ucBrZJUJvlRXO4xI6OWeHwflSr
+        mydycarxlKbIlFjzY7g54S9/Fjx69PYzx7dAFmDfumzHjRMDHV7sy23ARjYz48sGywEs3AWq/R0fr
+        Xz4iAfx3VQ4ySf8X11UqaN0IBXSoym6lsUs70OzZmMZoUtHnHYG7pCIRBkD1JtR6Pu97TLnpxGKk2
+        cSVo1F3AXoJHJofM4zOZRSZJFceZ8nbfj/FdhXo97N4A+836KtyhWx7wfKBUB/8A372Py2fpy8vy2
+        fmlKWYTo8gOYECI63IW28yCIO7st++BqZO3Jg5iIMv9LZZnUVfadwDHQOETViZu7yqFg6A59uwHVA
+        qkHD5Glw==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1nqWTe-0005fd-Ba; Mon, 16 May 2022 11:53:18 +0300
+From:   cyndis@kapsi.fi
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+        will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
+        krzysztof.kozlowski@canonical.com
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH v5 0/9] Host1x context isolation support
+Date:   Mon, 16 May 2022 11:52:49 +0300
+Message-Id: <20220516085258.1227691-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8123ad11-a6d3-466d-f2a0-08da3717f9b1
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2767:EE_
-X-Microsoft-Antispam-PRVS: <SN6PR12MB276768ABA21837C9DDB7B43AD9CF9@SN6PR12MB2767.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZxKtdngZF5+bkCAkGv6vZohguHuU7MpFolzfSawXbqfHi010lAvEU3rY4Kq8DKngUqBPiCq8p0tLYHLCLc1sdf4GaMEbcZwK2RWlRH58abSt0Nf7SfWW/KJU6prIoj49zXwjh95EZxPsbjiJ6pbW55G0uEqG5/ZwmPbeQlylcRQxoCu6xZ3qtOw+VndseyI7jzmO2yob8Qszty6HPrw0s7B+ZAvBzOZW0Soz7tqCQabbZZ66UAjoYiPwaNoiTW/G0qVYq6oVaeHhk5EFgg50x5v7FBlNOMTQGA+8alNLJE5sRPRsM6WCR/YhRJr9kfdWaBt75TAUYhzIASn8QodqQwdYCX7/KgK1khfMLZ1Kf3QrP59q6sk1uLPhJiWe5w9rxgk5otisH9FgZTnu4dNL2HLolv7FWM6mABKl7rDjF5g5kIr52hS8Hzd+PL1Q6cjTL3tMKhX6GR0NRGENjM3b7wvwzHt0nmPDDCIFIqyniY9n7DUgj5363evXdOoe65aSF839lsYGqTwudNErSFicj4S2YwMYck2AJ/axxCVMCxlcZQAn/HEfUjVWT5bIhTGF96B5z54KNDLRQWffhHr14l6GHMaNoE5nHeMxLzvqkdaz5BVq45+qRNTptsAgehgryKwgO/RCWqz8y35WBpboqYrFQakmEVkuMuT4okBY2lQZKaT1jy4j8Qa2dL5q/THd64DXZBW3tTjxWg+w0WaHXtPjUOxxomYnzWv8lM8kkkgP1W4dwIAfhqQDp/kPthY3
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(53546011)(55236004)(31686004)(83380400001)(31696002)(36756003)(186003)(66556008)(66476007)(66946007)(6506007)(6666004)(6486002)(8676002)(2906002)(2616005)(26005)(6512007)(86362001)(508600001)(8936002)(38100700002)(316002)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTlYR2c2bWFHVVNvVG16emR6M1U0d1dhVFVtaHNLMVdzZVJZSElUUFllTi9x?=
- =?utf-8?B?WlBtMU9qUEJ4SVZwKzVadi9wYVRKNklremF1VmFxSEkvN29XOVJkQ2NXUGRt?=
- =?utf-8?B?RmhnMXJDY3NPc2FTWGVWdWlxV3NENjFKRDdERS9OKzQxVzkwZzV0SG45bXNY?=
- =?utf-8?B?MW83VlZTaVVDYThYK3ZYZk9HSWplTmpvNFlkM2hUbFF3SlVXeEVoTFhaeXdv?=
- =?utf-8?B?VGlBRnZuQUsrekVSUnl6ZnJyR0NGRVR1Vlg4emYvdGQxMDdPcG9QcElYUUxG?=
- =?utf-8?B?V1JQS1JMdDJ2WFlONkZ3Yml3RDNSZ2tpdUtIYldHck4xYW1GL0dKZ0VET0Ir?=
- =?utf-8?B?YmJTc1pRTXU5QWhJWkxnVU5ZVTdNdTExbE9BdDRUTlBhNDB3bFJLYnRFdEFU?=
- =?utf-8?B?ZWpWalhFVUVqamtGM1drTDZWalVReVdGWjhRZ21NSjJZVzZnYkU2elBybXgz?=
- =?utf-8?B?bVQzdjB5VE51b29qVzVWbWdFbU05MFI1VVUrNVhac1orWVZpMVV0VjQ1Nmdw?=
- =?utf-8?B?RmNJRHE0Q2J4czJEYm5yZWdENlFsZCtBRXd5c2U1bWVJcVg1Q1I1aDFKTTNm?=
- =?utf-8?B?aDlOVi9KREI4cmdPSzlPWFFkV0o1dm5ETmNRRW1DbVpneTRid3VSc0V0QU5U?=
- =?utf-8?B?NnFJTU4zeE5VcEZxL1hXeS9vNUxXQXJVd3VXSzVtbzBaYkthTjVWRi9oTElh?=
- =?utf-8?B?OXFVN1gza2NVcWFVb1g1cExiWm0zRExrdnZsTlpDRXlrQ3RoNU0zVUVKMlVp?=
- =?utf-8?B?a1Fqb0V3T2psaW82SmdocW9ydTFGY2RkLzJKYldhVDJYS1o3WlFVZFNpb1c5?=
- =?utf-8?B?ZEtYMzlYTGRDWHRQWDZmT0oyNlVTa0xyOWx5VUtFVEU1MzJTYTFlSU9xZUNq?=
- =?utf-8?B?cTFsenIwT08xa29zczBJYldsVkoranMrYTFOcVJ2czk3RXhGQTVLYk5ZVDF6?=
- =?utf-8?B?REZBVjZ6d1NHR210b0l3Vzh0Z1RZQnhCbWxNOE1hcldWdDBOeUdKTlErZHI4?=
- =?utf-8?B?d1FhaERJZHk1NEx0d3V5dDVqWHpCZFVLbU5xLzVsUVlaQnhUUC9hczdkeEs4?=
- =?utf-8?B?eEVmeHlId0Y3djdQSUdPNmw4c3BvV2Ftck4xQWVzeWhQU1U0ZGtGUGdUWkUz?=
- =?utf-8?B?ck9mOUxGNHV2YitMU2MvT0pEaUZOWFZGOWFQeXMwVUNuLzA1L2ZrTGJ6d3FM?=
- =?utf-8?B?aWc5ZDV2UzlsSW43T21rOUF2VzJQZWlaelFja1ZrRUtwWUFvd0lPL2VBVUFM?=
- =?utf-8?B?dDNBVnVqYitLMFROVmQxMnM2dFFjYk80WXFwQlIzK25MY3ZNcmlyai9VUUh4?=
- =?utf-8?B?Y1grUWVUUUFZL2R5Yk0xTlNNTHFtei9SS3BCaHBpc0paV3hHWTlqdmw4bmJY?=
- =?utf-8?B?Vlg4R1VrTnc0MFVWaFpNTnNhQkRxelJ0cE5VN203Mk1jc2FRUUZKREo5OEZE?=
- =?utf-8?B?bStHNUEwUGRxSzErbEdlOFM5UnZoY2ZLOWtsMkdJSThJVi9Hcjh2cWxRdzVp?=
- =?utf-8?B?VTcyV2lNUm5Wd3RqUU1FQ2JoNjFsQVFaSFU4czZUOGp4T1VFb3BrdVQrQUVD?=
- =?utf-8?B?SldvYlBTa041cUh4eFExZ0lwNHZ0MjBjRWFoYUZJUlN2K1gwZlkvN2RIMzBN?=
- =?utf-8?B?VXRrRFBVVHJrck53dkI0U0dqcjJySU04TG5ONTJBY2tZMmZsSy9OeStWM2Nv?=
- =?utf-8?B?cVhjZ2djT1Z2bTcwRDFMMWsyc251MmtYY1kyRkFtUUFXZS9EWHRTRjRDeHFx?=
- =?utf-8?B?b1FUWWE1UmlDSHpkSmllbzYvckFYZmY3Q1VmVlpnVU1vMEd0NVpQd3RTV0pY?=
- =?utf-8?B?RlJ6Wk9TaWZWa1pKczRZVEJmZEhKOFErczZMVGJFVXdHRkNkVXYvMjVURzU4?=
- =?utf-8?B?TGtCb011YzI3ZndWVXFwUmEzdzBVTkx5dTRrckNZTGNIMHVqem9JbFNHK2lz?=
- =?utf-8?B?Z2dqSGMxeTNaOFdtYUQ3RUxxd01FZ2pwcnRrS0EvbHBBN21RcU03ZWFvT0c3?=
- =?utf-8?B?MmpZQkUxZU4rU3J1NGZEa1RRcHp3NmhKeTRtcm41N0xERzM2akxwTVYwMHZM?=
- =?utf-8?B?NjROVlVkRjUwVGpnZFhubHZ5SzN6Z2pyelkweGpkYkh6RDB6QWhWYnNFVTN2?=
- =?utf-8?B?Z0hRRXhWQWxnTS9tMVNDSXpIRUtraE9XSnRTYTR1b25ZZ2wwaGlhUmptbWtM?=
- =?utf-8?B?NXBZMXVtaFBIYkVWRFNYeFpneUtodms0aUloUmZ2bkxKTW1RUDJqWGZvWXlm?=
- =?utf-8?B?RFBWOE1nd3Z3NU5GSTFMb0g2d3RXTjRGR2dHZ09DNEptZTg0amJ2V1I5RExJ?=
- =?utf-8?B?UWk3d2dxYlJMYWpsMWZBcTlnYXRoM2NqSnlNZFF1cUtYd0FoQzVOS3VDcWk3?=
- =?utf-8?Q?kTxBUwI0jfh+3DQQ=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8123ad11-a6d3-466d-f2a0-08da3717f9b1
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2022 08:42:14.2919
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u7fdHqEY0G9fmeu1Uaiqe37pR82f2my1Xux4RZVr17vV0Te6I48jdEcQS5YaRWVOyKw5/OQOKqJWE9FUnlp5qQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2767
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SORTED_RECIPS,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Vinod,
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-On 05/05/2022 10:18, Jon Hunter wrote:
-> 
-> On 05/05/2022 10:14, Akhil R wrote:
->> Use platform_irq_get() instead platform_get_resource() for IRQ resource
->> to fix the probe failure. platform_get_resource() fails to fetch the IRQ
->> resource as it might not be ready at that time.
->>
->> platform_irq_get() is also the recommended way to get interrupt as it
->> directly gives the IRQ number and no conversion from resource is
->> required.
->>
->> Fixes: ee17028009d4 ("dmaengine: tegra: Add tegra gpcdma driver")
->> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
->> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
->> ---
->>   drivers/dma/tegra186-gpc-dma.c | 12 ++++--------
->>   1 file changed, 4 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/dma/tegra186-gpc-dma.c 
->> b/drivers/dma/tegra186-gpc-dma.c
->> index 97fe0e9e9b83..3951db527dec 100644
->> --- a/drivers/dma/tegra186-gpc-dma.c
->> +++ b/drivers/dma/tegra186-gpc-dma.c
->> @@ -1328,7 +1328,6 @@ static int tegra_dma_probe(struct 
->> platform_device *pdev)
->>       struct iommu_fwspec *iommu_spec;
->>       unsigned int stream_id, i;
->>       struct tegra_dma *tdma;
->> -    struct resource    *res;
->>       int ret;
->>       cdata = of_device_get_match_data(&pdev->dev);
->> @@ -1367,16 +1366,13 @@ static int tegra_dma_probe(struct 
->> platform_device *pdev)
->>       for (i = 0; i < cdata->nr_channels; i++) {
->>           struct tegra_dma_channel *tdc = &tdma->channels[i];
->> +        tdc->irq = platform_get_irq(pdev, i);
->> +        if (tdc->irq < 0)
->> +            return tdc->irq;
->> +
->>           tdc->chan_base_offset = TEGRA_GPCDMA_CHANNEL_BASE_ADD_OFFSET +
->>                       i * cdata->channel_reg_size;
->> -        res = platform_get_resource(pdev, IORESOURCE_IRQ, i);
->> -        if (!res) {
->> -            dev_err(&pdev->dev, "No irq resource for chan %d\n", i);
->> -            return -EINVAL;
->> -        }
->> -        tdc->irq = res->start;
->>           snprintf(tdc->name, sizeof(tdc->name), "gpcdma.%d", i);
->> -
->>           tdc->tdma = tdma;
->>           tdc->id = i;
->>           tdc->slave_id = -1;
-> 
-> 
-> Thanks!
-> 
-> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+***
+New in v5:
 
+Rebased
+Renamed host1x_context to host1x_memory_context
+Small change in DRM side client driver ops to reduce churn with some
+  upcoming changes
+Add NVDEC support
 
-OK to pick this up for -next/5.19? This is preventing the GPC DMA driver 
-from working.
+***
 
-Jon
+***
+New in v4:
+
+Addressed review comments. See individual patches.
+***
+
+***
+New in v3:
+
+Added device tree bindings for new property.
+***
+
+***
+New in v2:
+
+Added support for Tegra194
+Use standard iommu-map property instead of custom mechanism
+***
+
+This series adds support for Host1x 'context isolation'. Since
+when programming engines through Host1x, userspace can program in
+any addresses it wants, we need some way to isolate the engines'
+memory spaces. Traditionally this has either been done imperfectly
+with a single shared IOMMU domain, or by copying and verifying the
+programming command stream at submit time (Host1x firewall).
+
+Since Tegra186 there is a privileged (only usable by kernel)
+Host1x opcode that allows setting the stream ID sent by the engine
+to the SMMU. So, by allocating a number of context banks and stream
+IDs for this purpose, and using this opcode at the beginning of
+each job, we can implement isolation. Due to the limited number of
+context banks only each process gets its own context, and not
+each channel.
+
+This feature also allows sharing engines among multiple VMs when
+used with Host1x's hardware virtualization support - up to 8 VMs
+can be configured with a subset of allowed stream IDs, enforced
+at hardware level.
+
+To implement this, this series adds a new host1x context bus, which
+will contain the 'struct device's corresponding to each context
+bank / stream ID, changes to device tree and SMMU code to allow
+registering the devices and using the bus, as well as the Host1x
+stream ID programming code and support in TegraDRM.
+
+-------------
+Merging notes
+-------------
+
+The changes to DT bindings should be applied on top of Thierry's patch
+'dt-bindings: display: tegra: Convert to json-schema'.
+
+Thanks,
+Mikko
+
+Mikko Perttunen (9):
+  dt-bindings: host1x: Add iommu-map property
+  gpu: host1x: Add context bus
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  iommu/arm-smmu: Attach to host1x context device bus
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: falcon: Set DMACTX field on DMA transactions
+  drm/tegra: Support context isolation
+  drm/tegra: Implement stream ID related callbacks on engines
+
+ .../display/tegra/nvidia,tegra20-host1x.yaml  |   5 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  11 ++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  11 ++
+ drivers/gpu/Makefile                          |   3 +-
+ drivers/gpu/drm/tegra/drm.h                   |  11 ++
+ drivers/gpu/drm/tegra/falcon.c                |   8 +
+ drivers/gpu/drm/tegra/falcon.h                |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 |   9 +
+ drivers/gpu/drm/tegra/submit.c                |  48 +++++-
+ drivers/gpu/drm/tegra/uapi.c                  |  43 ++++-
+ drivers/gpu/drm/tegra/vic.c                   |  67 +++++++-
+ drivers/gpu/host1x/Kconfig                    |   5 +
+ drivers/gpu/host1x/Makefile                   |   2 +
+ drivers/gpu/host1x/context.c                  | 160 ++++++++++++++++++
+ drivers/gpu/host1x/context.h                  |  27 +++
+ drivers/gpu/host1x/context_bus.c              |  31 ++++
+ drivers/gpu/host1x/dev.c                      |  12 +-
+ drivers/gpu/host1x/dev.h                      |   2 +
+ drivers/gpu/host1x/hw/channel_hw.c            |  52 +++++-
+ drivers/gpu/host1x/hw/host1x06_hardware.h     |  10 ++
+ drivers/gpu/host1x/hw/host1x07_hardware.h     |  10 ++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 ++
+ include/linux/host1x.h                        |  26 +++
+ include/linux/host1x_context_bus.h            |  15 ++
+ 24 files changed, 564 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+ create mode 100644 drivers/gpu/host1x/context_bus.c
+ create mode 100644 include/linux/host1x_context_bus.h
 
 -- 
-nvpublic
+2.36.1
+
