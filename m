@@ -2,103 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E2EA529210
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 May 2022 23:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A953529998
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 May 2022 08:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348895AbiEPU51 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 May 2022 16:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35304 "EHLO
+        id S236158AbiEQGb6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 May 2022 02:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349413AbiEPU4o (ORCPT
+        with ESMTP id S233363AbiEQGb4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 May 2022 16:56:44 -0400
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BC2527FA;
-        Mon, 16 May 2022 13:31:25 -0700 (PDT)
-Received: by mail-oi1-f180.google.com with SMTP id v66so20070151oib.3;
-        Mon, 16 May 2022 13:31:25 -0700 (PDT)
+        Tue, 17 May 2022 02:31:56 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB156C72
+        for <linux-tegra@vger.kernel.org>; Mon, 16 May 2022 23:31:55 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id g6so32727186ejw.1
+        for <linux-tegra@vger.kernel.org>; Mon, 16 May 2022 23:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=s/Vs2ZOYlY/JdkHXcuvqGHiQEb2zIrOSrE98Tywd5ew=;
+        b=NUCmylfnr5nBSoboSmsYB4EiEGsezJLmtkrXLjs4eUHwJowXUoDy8y0UAEC1wA7Ic4
+         RYTWdMC7mE9YKhs/IAivjv2LmkOQ6uwceCRHXL2qoLKbnxKWQ6FrCZs5b84wyRT21Sv3
+         WUMGibC39eZ4J/1Udw/ZCqav/xDXbQUIRoaV6O5BHnUF5xUTmQRcTaJCKADFOLX977Vi
+         +O7aE54PtyASpyxN7vrOnOJaFSxYF+4XX4k0ZiZTrEK4vspo/ZyiPCQlcVQQ0WMZrS2E
+         7+c9R0MhFK9tKUKvpszUjgLo8IXo0gWcvl/IuZFtUkIbc5HhFgvb/dm44I2auzN2x22E
+         qO5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3Y11OEywEfGv3nDOeBHxkbPI6goZUMZWv50I7rxDxBY=;
-        b=s3JOwnx9Cg79pcqhJLtneaUvyh4bnX5sj2sZzTyAXj9S3fagAiDQZyevmCQEAaBXGp
-         H7xGwmpCNMTRrGpapXuTU9n2vnAxPd0ZLDKkIkrJMvcu6tJGAivghVLfEOGsqCFTd5mq
-         BC8jt7bBhOinQUnpqAeEJGw5GiR3Ti3N9jcoTITUiLiZnr/xjPZFaY0dWg9c9zUJvIhq
-         jG0NFFIAFV8VoSOJyt3wL8n3ta0LQjAyGwEqYqyp/iYW5Ly33zaPiOGIQEeRyoPLfyXn
-         J83nPGWDi4Zy4lVmvyw0oDvrsqGgoKgiAl3j/+NIDWCWTsoXCcnTVadxEH69VzkynOxa
-         q22Q==
-X-Gm-Message-State: AOAM533RvrUdCFY2n+0+SXPwKao49dmxoveyhsFkN39+4P3HrsMfYleg
-        XX0Nc/+mjnvy4vuuiSxkTg==
-X-Google-Smtp-Source: ABdhPJyH21xDb83ZxdLPUb4QrXKTNQVc1SF567yW1Z1lFblWz/ZLai5Qekdd6JEQfTWDOfUjGSuV4Q==
-X-Received: by 2002:a05:6808:1599:b0:326:dae2:e49d with SMTP id t25-20020a056808159900b00326dae2e49dmr14488496oiw.110.1652733084634;
-        Mon, 16 May 2022 13:31:24 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id z7-20020a4ad1a7000000b0035eb4e5a6d2sm4481085oor.40.2022.05.16.13.31.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 13:31:23 -0700 (PDT)
-Received: (nullmailer pid 3227632 invoked by uid 1000);
-        Mon, 16 May 2022 20:31:22 -0000
-Date:   Mon, 16 May 2022 15:31:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc:     Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Rahul Tanwar <rtanwar@maxlinear.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Frank Li <Frank.Li@nxp.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 05/17] PCI: dwc: Convert to using native IP-core
- versions representation
-Message-ID: <20220516203122.GC3209795-robh@kernel.org>
-References: <20220503214638.1895-1-Sergey.Semin@baikalelectronics.ru>
- <20220503214638.1895-6-Sergey.Semin@baikalelectronics.ru>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=s/Vs2ZOYlY/JdkHXcuvqGHiQEb2zIrOSrE98Tywd5ew=;
+        b=INTFmS7pmWvhbo8dt1OOGtgwKVbyJOQHc5qoYLaCWf7LMVPAMNJ80QA3GIItX9ow+I
+         qaxDohjnwUZgTa4CXEXnBZqHiYZQN8mxdXNnFfHbwGf1Ly5pZNaEACriexToln1i+i5s
+         c0urIPkNbv+hN3T29UCVJmddMlAS+PjPCuEGwQAZvR6Sd2teeC5knM4cPBGmAlYSWVKk
+         z3TqwAPo2GGtPT1+652p1cugDTlwDcdVYIj3YjUi5/KkGWeKsLxPkMDajoMygij3/nAJ
+         a+PltjgAJpYm7saA+wJiyysAeMt6E2tcGVPy7B3VCT/FVoG3KMqMXIZrX+WM22CLzaWd
+         M17w==
+X-Gm-Message-State: AOAM530pfvHreWt0mypSon6BjnHSS6svvwsh3EHIR+Fpqx3mgCuClHPC
+        fZQspFI90nOBqp+m/2EhjTeaTqOT7a1vvajS/oE=
+X-Google-Smtp-Source: ABdhPJx6k9qOA8aUFMoh7vmfwsjxbq4rL585yDLjj4SqD1UVfDPhd7ZCTgkevIS/0FHQqjsILCTRv9B39wDxvd4kl8o=
+X-Received: by 2002:a17:907:97d5:b0:6f5:405:ef01 with SMTP id
+ js21-20020a17090797d500b006f50405ef01mr18077481ejc.551.1652769114420; Mon, 16
+ May 2022 23:31:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503214638.1895-6-Sergey.Semin@baikalelectronics.ru>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Sender: barpeterkobby@gmail.com
+Received: by 2002:a17:907:e92:0:0:0:0 with HTTP; Mon, 16 May 2022 23:31:53
+ -0700 (PDT)
+From:   "Mr. Jimmy Moore" <jimmymoore265@gmail.com>
+Date:   Tue, 17 May 2022 07:31:53 +0100
+X-Google-Sender-Auth: 4NPq6NT4HUgINpgTT4F-kQNitL8
+Message-ID: <CADyxcKnhYp5jwAPO7qhci4E_9rT1jfO4Nw0O=-RDhdtYGceMaw@mail.gmail.com>
+Subject: Dear Award Recipient Covid-19 Compensation Funds.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
+        HK_NAME_FM_MR_MRS,LOTS_OF_MONEY,LOTTO_DEPT,MILLION_USD,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:631 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [barpeterkobby[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 MILLION_USD BODY: Talks about millions of dollars
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  1.5 HK_NAME_FM_MR_MRS No description available.
+        *  1.0 FREEMAIL_REPLY From and body contain different freemails
+        *  2.0 LOTTO_DEPT Claims Department
+        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, May 04, 2022 at 12:46:26AM +0300, Serge Semin wrote:
-> Since DWC PCIe v4.70a the controller version can be read from the
-> PORT_LOGIC.PCIE_VERSION_OFF register. Version is represented in the FourCC
-> format [1]. It's standard versioning approach for the Synopsys DWC
-> IP-cores. Moreover some of the DWC kernel drivers already make use of it
-> to fixup version-dependent functionality (See DWC USB3, Stmicro STMMAC or
-> recent DW SPI driver). In order to preserve the standard version
-> representation and prevent the data conversion back and forth, we suggest
-> to preserve the native version representation in the DWC PCIe driver too
-> in the same way as it has already been done in the rest of the DWC
-> drivers. IP-core version reading from the CSR will be introduced in the
-> next commit together with a simple macro-based API to use it.
-> 
-> [1] https://en.wikipedia.org/wiki/FourCC
-> 
-> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> ---
->  drivers/pci/controller/dwc/pci-keystone.c    | 12 ++++++------
->  drivers/pci/controller/dwc/pcie-designware.c |  8 ++++----
->  drivers/pci/controller/dwc/pcie-designware.h | 10 +++++++++-
->  drivers/pci/controller/dwc/pcie-intel-gw.c   |  4 ++--
->  drivers/pci/controller/dwc/pcie-tegra194.c   |  2 +-
->  5 files changed, 22 insertions(+), 14 deletions(-)
+UNITED NATIONS COVID-19 OVERDUE COMPENSATION UNIT.
+REFERENCE PAYMENT CODE: 8525595
+BAILOUT AMOUNT:$10.5 MILLION USD
+ADDRESS: NEW YORK, NY 10017, UNITED STATES
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Dear award recipient, Covid-19 Compensation Funds.
+
+You are receiving this correspondence because we have finally reached
+a consensus with the UN, IRS, and IMF that your total fund worth $10.5
+Million Dollars of Covid-19 Compensation payment shall be delivered to
+your nominated mode of receipt, and you are expected to pay the sum of
+$12,000 for levies owed to authorities after receiving your funds.
+
+You have a grace period of 2 weeks to pay the $12,000 levy after you
+have received your Covid-19 Compensation total sum of $10.5 Million.
+We shall proceed with the payment of your bailout grant only if you
+agree to the terms and conditions stated.
+
+Contact Dr. Mustafa Ali, for more information by email at:(
+mustafaliali180@gmail.com ) Your consent in this regard would be
+highly appreciated.
+
+Best Regards,
+Mr. Jimmy Moore.
+Undersecretary-General United Nations
+Office of Internal Oversight-UNIOS
