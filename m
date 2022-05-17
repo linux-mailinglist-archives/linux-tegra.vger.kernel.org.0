@@ -2,55 +2,54 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED540529CDA
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 May 2022 10:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41400529CB1
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 May 2022 10:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiEQIoh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 May 2022 04:44:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39492 "EHLO
+        id S237419AbiEQIjQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 May 2022 04:39:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237259AbiEQIoe (ORCPT
+        with ESMTP id S243558AbiEQIjK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 May 2022 04:44:34 -0400
+        Tue, 17 May 2022 04:39:10 -0400
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC5C43EDA;
-        Tue, 17 May 2022 01:44:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1E143AED;
+        Tue, 17 May 2022 01:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
          s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
         References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
         Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=mf5hiU0Wj2EhjghVQXyv38WFdl7R2Qi21AxqkS6wRlw=; b=o5TBBdg5JNxooYZYi62HKOkKGw
-        Rncp31Wt2/LDM9HH+T52+r5m07TkYs/gawTqYptdhIBeFYZ4ZWv8CFg/8WJ8Vz79wD1Ke7Ie2Ewph
-        sKsE2WiSE+iU3EG208CKxg8k8+Nq29BBhaf4MutAEe/LNLyQPrOYRiluf108gB0+tIAxIpGrAVlss
-        DaTQonzqYHTgpk4oD2WWfP0CbsG2aWdHv8pKJ3lJ0LCfEaWNST2KvvZesXZhOhFT3i5mPUjU15kJv
-        j/1kvvn2fc/6WuzT01DBvSQMY0ZNsLp8LVp9HTvBHNhVN68U6Pt4mVJ+JrbKuOy2phsU6W2XgRmnX
-        GDQWLStQ==;
+        bh=4VukSR4SHYzNRbj8Se/6nK2j2N2wZe6dlFD0wZxtWkE=; b=QpSNtWwev4f6WmROZ/65USyGPP
+        7Vt3YD/nXn0k3AkUBRq9FsFnSnBqhooH+AK2Wa8ORFNFBcROwIfI4Uox/4C9aoh4DILVKVGju2WZr
+        p6uKrQQd7eOtGvoszGNxryeBR6bJNcSc0B4EW4F3wLz5jyfymVPEUeETzM0KyqgeUVFBcsr0bN2u/
+        6JTDFchqmUtdUTQ8Bv4ViCpEiZRmnwbQhBoPLUXJiSjXinnTAsPGm1umZ1T1xvaDW/CWBzoqaEbc4
+        EcYfvflpLku30iKzmrO+jgHF1UatseYFsCWki0Bf3+L1efkJA1CORXg24Zx1EiGbT7qa5x4PoFX4M
+        hjtvGVeA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=[192.168.1.10])
         by mail.kapsi.fi with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.92)
         (envelope-from <cyndis@kapsi.fi>)
-        id 1nqsPj-0002zc-B9; Tue, 17 May 2022 11:18:43 +0300
-Message-ID: <c4fc1963-f4d5-8852-2119-90a631a41a0d@kapsi.fi>
-Date:   Tue, 17 May 2022 11:18:42 +0300
+        id 1nqsjF-0007u3-KW; Tue, 17 May 2022 11:38:53 +0300
+Message-ID: <1fccdfe8-d44c-2d56-e572-628998efc985@kapsi.fi>
+Date:   Tue, 17 May 2022 11:38:52 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.1
-Subject: Re: [PATCH v1 01/13] dt-bindings: Add bindings for Tegra234 Host1x
- and VIC
+Subject: Re: [PATCH v1 03/13] arm64: tegra: Add Host1x and VIC on Tegra234
 Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mikko Perttunen <mperttunen@nvidia.com>
 References: <20220516100213.1536571-1-cyndis@kapsi.fi>
- <20220516100213.1536571-2-cyndis@kapsi.fi>
- <20220516163325.GA2793304-robh@kernel.org>
+ <20220516100213.1536571-4-cyndis@kapsi.fi>
+ <424b02f3-eb53-68d0-bfee-5488dbcefa71@linaro.org>
 From:   Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <20220516163325.GA2793304-robh@kernel.org>
+In-Reply-To: <424b02f3-eb53-68d0-bfee-5488dbcefa71@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 91.158.25.70
@@ -66,233 +65,78 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/16/22 19:33, Rob Herring wrote:
-> On Mon, May 16, 2022 at 01:02:01PM +0300, cyndis@kapsi.fi wrote:
+On 5/17/22 11:01, Krzysztof Kozlowski wrote:
+> On 16/05/2022 12:02, cyndis@kapsi.fi wrote:
 >> From: Mikko Perttunen <mperttunen@nvidia.com>
 >>
->> Update VIC and Host1x bindings for changes in Tegra234.
->>
->> Namely,
->> - New compatible strings
->> - Sharded syncpoint interrupts
->> - Optional reset.
+>> Add device tree nodes for Host1x and VIC on Tegra234.
 >>
 >> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 >> ---
->>   .../display/tegra/nvidia,tegra124-vic.yaml    |   1 +
->>   .../display/tegra/nvidia,tegra20-host1x.yaml  | 108 +++++++++++++++---
->>   2 files changed, 95 insertions(+), 14 deletions(-)
+>>   arch/arm64/boot/dts/nvidia/tegra234.dtsi | 46 ++++++++++++++++++++++++
+>>   1 file changed, 46 insertions(+)
 >>
->> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
->> index 37bb5ddc1963..7200095ef19e 100644
->> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
->> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
->> @@ -21,6 +21,7 @@ properties:
->>             - nvidia,tegra210-vic
->>             - nvidia,tegra186-vic
->>             - nvidia,tegra194-vic
->> +          - nvidia,tegra234-vic
+>> diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+>> index cb3af539e477..cae68e59580c 100644
+>> --- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+>> +++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+>> @@ -454,6 +454,52 @@ misc@100000 {
+>>   			status = "okay";
+>>   		};
 >>   
->>         - items:
->>             - const: nvidia,tegra132-vic
->> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
->> index 0adeb03b9e3a..83c58b7dae98 100644
->> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
->> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
->> @@ -24,6 +24,7 @@ properties:
->>             - nvidia,tegra210-host1x
->>             - nvidia,tegra186-host1x
->>             - nvidia,tegra194-host1x
->> +          - nvidia,tegra234-host1x
->>   
->>         - items:
->>             - const: nvidia,tegra132-host1x
->> @@ -31,23 +32,19 @@ properties:
->>   
->>     reg:
->>       minItems: 1
->> -    maxItems: 2
->> +    maxItems: 3
->>   
->>     reg-names:
->>       minItems: 1
->> -    maxItems: 2
->> +    maxItems: 3
->>   
->>     interrupts:
->> -    items:
->> -      - description: host1x syncpoint interrupt
->> -      - description: host1x general interrupt
->>       minItems: 1
->> +    maxItems: 9
->>   
->>     interrupt-names:
->> -    items:
->> -      - const: syncpt
->> -      - const: host1x
->>       minItems: 1
->> +    maxItems: 9
->>   
->>     '#address-cells':
->>       description: The number of cells used to represent physical base addresses
->> @@ -110,13 +107,32 @@ required:
->>     - reg
->>     - clocks
->>     - clock-names
->> -  - resets
->> -  - reset-names
+>> +		host1x@13e00000 {
 > 
-> Shouldn't these still be required on some platforms?
+> Generic node names, if that possible. Since the bindings do not exist in
+> the next, I actually cannot figure out what's host1x...
 
-Yes, I'll add them back in the tegra20..tegra210 conditional.
+Host1x is a hardware block that provides programmable DMA channels, HW 
+synchronization primitives, and virtualization support for IP blocks 
+connected to its "host1x bus". So far I haven't found a one or two word 
+way to describe it despite efforts. In any case, considering all the 
+existing documentation and device trees that use this name, I'd prefer 
+not changing it (especially as I don't know what else it could be called).
 
 > 
->>   
->>   additionalProperties:
->>     type: object
->>   
->>   allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - nvidia,tegra20-host1x
->> +              - nvidia,tegra30-host1x
->> +              - nvidia,tegra114-host1x
->> +              - nvidia,tegra124-host1x
->> +              - nvidia,tegra210-host1x
->> +    then:
->> +      properties:
->> +        interrupts:
->> +          items:
->> +            - description: host1x syncpoint interrupt
->> +            - description: host1x general interrupt
+>> +			compatible = "nvidia,tegra234-host1x";
+>> +			reg = <0x13e00000 0x10000>,
+>> +			      <0x13e10000 0x10000>,
+>> +			      <0x13e40000 0x10000>;
+>> +			reg-names = "common", "hypervisor", "vm";
+>> +			interrupts = <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
+>> +			             <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 450 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 451 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 455 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>;
+>> +			interrupt-names = "syncpt0", "syncpt1", "syncpt2", "syncpt3", "syncpt4",
+>> +			                  "syncpt5", "syncpt6", "syncpt7", "host1x";
+>> +			clocks = <&bpmp TEGRA234_CLK_HOST1X>;
+>> +			clock-names = "host1x";
 >> +
->> +        interrupt-names:
->> +          items:
->> +            - const: syncpt
->> +            - const: host1x
->>     - if:
->>         properties:
->>           compatible:
->> @@ -133,10 +149,10 @@ allOf:
->>   
->>           reg:
->>             items:
->> -            - description: physical base address and length of the register
->> -                region assigned to the VM
->>               - description: physical base address and length of the register
->>                   region used by the hypervisor
->> +            - description: physical base address and length of the register
->> +                region assigned to the VM
+>> +			#address-cells = <1>;
+>> +			#size-cells = <1>;
+>> +
+>> +			ranges = <0x15000000 0x15000000 0x01000000>;
+>> +			interconnects = <&mc TEGRA234_MEMORY_CLIENT_HOST1XDMAR &emc>;
+>> +			interconnect-names = "dma-mem";
+>> +			iommus = <&smmu_niso1 TEGRA234_SID_HOST1X>;
+>> +
+>> +			vic@15340000 {
 > 
-> You can't just change the order at least without a good explanation why
-> in the commit message. It's an ABI.
+> The same... vic is usually a vectored interrupt controller, so this
+> should be interrupt-controller. Unless it is something entirely else, so
+> then you need to come with a generic name.
 
-Yeah, this doesn't change ABI, it's just a documentation bugfix, but 
-indeed I should have mentioned it in the commit message. In 'reg-names' 
-the order is given as 'hypervisor, vm' and the descriptions here were 
-the wrong way around.
+VIC here is video image compositor (with various other 2d operations). I 
+suppose I can invent some generic name. Any thoughts, Thierry?
 
-> 
->>   
->>           resets:
->>             maxItems: 1
->> @@ -144,6 +160,70 @@ allOf:
->>           reset-names:
->>             maxItems: 1
->>   
->> +        interrupts:
->> +          items:
->> +            - description: host1x syncpoint interrupt
->> +            - description: host1x general interrupt
->> +
->> +        interrupt-names:
->> +          items:
->> +            - const: syncpt
->> +            - const: host1x
->> +
->> +        iommu-map:
->> +          description: Specification of stream IDs available for memory context device
->> +            use. Should be a mapping of IDs 0..n to IOMMU entries corresponding to
->> +            usable stream IDs.
->> +
->> +      required:
->> +        - reg-names
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - nvidia,tegra234-host1x
->> +    then:
->> +      properties:
->> +        reg-names:
->> +          items:
->> +            - const: common
->> +            - const: hypervisor
->> +            - const: vm
->> +
->> +        reg:
->> +          items:
->> +            - description: physical base address and length of the register
->> +                region used by host1x server
->> +            - description: physical base address and length of the register
->> +                region used by the hypervisor
->> +            - description: physical base address and length of the register
->> +                region assigned to the VM
-> 
-> I guess this is just copied, but 'physical base address and length of
-> the ' is redundant. That's every 'reg'.
-
-I'll fix these up in the next revision.
-
-Thanks,
 Mikko
 
 > 
->> +
->> +        interrupts:
->> +          items:
->> +            - description: host1x syncpoint interrupt 0
->> +            - description: host1x syncpoint interrupt 1
->> +            - description: host1x syncpoint interrupt 2
->> +            - description: host1x syncpoint interrupt 3
->> +            - description: host1x syncpoint interrupt 4
->> +            - description: host1x syncpoint interrupt 5
->> +            - description: host1x syncpoint interrupt 6
->> +            - description: host1x syncpoint interrupt 7
->> +            - description: host1x general interrupt
->> +
->> +        interrupt-names:
->> +          items:
->> +            - const: syncpt0
->> +            - const: syncpt1
->> +            - const: syncpt2
->> +            - const: syncpt3
->> +            - const: syncpt4
->> +            - const: syncpt5
->> +            - const: syncpt6
->> +            - const: syncpt7
->> +            - const: host1x
->> +
->>           iommu-map:
->>             description: Specification of stream IDs available for memory context device
->>               use. Should be a mapping of IDs 0..n to IOMMU entries corresponding to
->> @@ -160,8 +240,8 @@ examples:
->>       host1x@50000000 {
->>           compatible = "nvidia,tegra20-host1x";
->>           reg = <0x50000000 0x00024000>;
->> -        interrupts = <0 65 0x04   /* mpcore syncpt */
->> -                      0 67 0x04>; /* mpcore general */
->> +        interrupts = <0 65 0x04>, /* mpcore syncpt */
->> +                     <0 67 0x04>; /* mpcore general */
->>           interrupt-names = "syncpt", "host1x";
->>           clocks = <&tegra_car TEGRA20_CLK_HOST1X>;
->>           clock-names = "host1x";
->> -- 
->> 2.36.1
->>
->>
+> 
+> Best regards,
+> Krzysztof
 
