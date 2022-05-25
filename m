@@ -2,87 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EEB1533E4A
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 May 2022 15:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E41F53451E
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 May 2022 22:41:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235600AbiEYNwl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 May 2022 09:52:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48122 "EHLO
+        id S241169AbiEYUlJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 May 2022 16:41:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiEYNwi (ORCPT
+        with ESMTP id S234331AbiEYUlI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 May 2022 09:52:38 -0400
-Received: from cmccmta1.chinamobile.com (cmccmta1.chinamobile.com [221.176.66.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 17A8F880D9;
-        Wed, 25 May 2022 06:52:35 -0700 (PDT)
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.93])
-        by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee4628e34a2a03-0c238;
-        Wed, 25 May 2022 21:52:34 +0800 (CST)
-X-RM-TRANSID: 2ee4628e34a2a03-0c238
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[112.0.144.216])
-        by rmsmtp-syy-appsvrnew07-12032 (RichMail) with SMTP id 2f00628e349e57c-d3251;
-        Wed, 25 May 2022 21:52:33 +0800 (CST)
-X-RM-TRANSID: 2f00628e349e57c-d3251
-From:   Tang Bin <tangbin@cmss.chinamobile.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: [PATCH] usb: gadget: tegra-xudc: Fix error check in tegra_xudc_powerdomain_init()
-Date:   Wed, 25 May 2022 21:53:32 +0800
-Message-Id: <20220525135332.23144-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.20.1.windows.1
+        Wed, 25 May 2022 16:41:08 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FDF6EF
+        for <linux-tegra@vger.kernel.org>; Wed, 25 May 2022 13:41:07 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id x137so9831742ybg.5
+        for <linux-tegra@vger.kernel.org>; Wed, 25 May 2022 13:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=LDBqQh/PztHeiDiV9Pr0v62BTTaDnPQyU98FGi1REkw=;
+        b=lxtmNW7/v4U+FQ72VEEMW6Z7n8hIv7g7mW4qROOKIzuFq7eM8/00bE7x2audEme/DS
+         unNXaZSC+NYPcpfVaUKyX3DSv3Kzj/PNjWje4kmx7LBfZCAdinODoDMdmE/3l+/wPgqg
+         AxZtViQuJlI2ebkUdnzDjTbrWq386w/MJ3Ab6iOT3bpyAVOMIc3LtKSoBlIIAsGDjYnU
+         FZoKCo9qD3WCsYfED4FC2caVhj+sAbFnFHitUV1fdRmd2/j5HKiMfaKt2PneU+oipWFe
+         Z2HKd6AeQp/5lK9wKSaJ0kM9zXoMjQsovtRz8/IJQ3SCs0B+FKrOovSTWTMzp+g+VDBv
+         o9pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=LDBqQh/PztHeiDiV9Pr0v62BTTaDnPQyU98FGi1REkw=;
+        b=MI+i+kmN5C9QMSgY3OGSOCgHC+Hd9ICOVP0r2tZdsR86GkQ2xi/S2lDyNHw4V7bHAm
+         RXNYDqP9JbyeyvVrKbQPBLE9e72GkWC5+KGEknWKmaGB4cZMhoA321VybJfvJWoqG0gD
+         Hyw19GXmhueDkd9wuYUP+4JkLrsw7MIEzNcbVZ2B8hlSARyzxU0fUIc2itNSGudWwpP4
+         3rs3yqbx/JzCPc6EgsA9TbeeRNADybSXmFFiugjMT4MSmHbORNdIexie3GY1lKGGDVdj
+         Qjrxc5iBf2AwUENH6cr1hbUm8JFtqg9qKPn7lDJvky8ywaeroi+wLahhobSHg1d8ygZ0
+         Zofg==
+X-Gm-Message-State: AOAM530TZR/IrN6uLvS9Yw4sVkYlWZxY3UghEa8Vn1DmBF0l6yn+LCWI
+        A7s7MB0hr6Zihrwt9JN8PKz15Y+3e6tPNNW8oa4=
+X-Google-Smtp-Source: ABdhPJzb235RlbaYIRQm5BYn+LUF/xhycujTonaVBhSBZ+Py0XGlM5JkLwGkxkpucsAvynWfN3wXbTUfR3AlyK+Q8hA=
+X-Received: by 2002:a25:9742:0:b0:64e:2c40:b33e with SMTP id
+ h2-20020a259742000000b0064e2c40b33emr33107751ybo.455.1653511266761; Wed, 25
+ May 2022 13:41:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a5b:506:0:0:0:0:0 with HTTP; Wed, 25 May 2022 13:41:06 -0700 (PDT)
+From:   Deterin Falcao <falcaodeterin@gmail.com>
+Date:   Wed, 25 May 2022 22:41:06 +0200
+Message-ID: <CABCO4Z3Sv2-PK9t3ysVRzGJEfbFB9waH00+g_npCaa+H=rvCow@mail.gmail.com>
+Subject: Bitte kontaktaufnahme Erforderlich !!! Please Contact Required !!!
+To:     contact@firstdiamondbk.com
+Cc:     info@firstdiamondbk.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-dev_pm_domain_attach_by_name() may return NULL in some cases,
-so IS_ERR() doesn't meet the requirements. Thus fix it.
+Guten Tag,
 
-Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB device mode controller")
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Ich habe mich nur gefragt, ob Sie meine vorherige E-Mail bekommen
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index d9c406bdb..c25765628 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -3691,15 +3691,15 @@ static int tegra_xudc_powerdomain_init(struct tegra_xudc *xudc)
- 	int err;
- 
- 	xudc->genpd_dev_device = dev_pm_domain_attach_by_name(dev, "dev");
--	if (IS_ERR(xudc->genpd_dev_device)) {
--		err = PTR_ERR(xudc->genpd_dev_device);
-+	if (IS_ERR_OR_NULL(xudc->genpd_dev_device)) {
-+		err = PTR_ERR(xudc->genpd_dev_device) ? : -ENODATA;
- 		dev_err(dev, "failed to get device power domain: %d\n", err);
- 		return err;
- 	}
- 
- 	xudc->genpd_dev_ss = dev_pm_domain_attach_by_name(dev, "ss");
--	if (IS_ERR(xudc->genpd_dev_ss)) {
--		err = PTR_ERR(xudc->genpd_dev_ss);
-+	if (IS_ERR_OR_NULL(xudc->genpd_dev_ss)) {
-+		err = PTR_ERR(xudc->genpd_dev_ss) ? : -ENODATA;
- 		dev_err(dev, "failed to get SuperSpeed power domain: %d\n", err);
- 		return err;
- 	}
--- 
-2.20.1.windows.1
+haben ?
+
+Ich habe versucht, Sie per E-Mail zu erreichen.
+
+Kommen Sie bitte schnell zu mir zur=C3=BCck, es ist sehr wichtig.
+
+Danke
+
+Falcao Deterin
+
+falcaodeterin@gmail.com
 
 
 
+
+
+
+
+
+----------------------------------
+
+
+
+
+Good Afternoon,
+
+I was just wondering if you got my Previous E-mail
+have ?
+
+I tried to reach you by E-mail.
+
+Please come back to me quickly, it is very Important.
+
+Thanks
+
+Falcao Deterin
+
+falcaodeterin@gmail.com
