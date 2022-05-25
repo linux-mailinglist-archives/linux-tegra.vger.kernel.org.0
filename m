@@ -2,108 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E41F53451E
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 May 2022 22:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 353E753461A
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 May 2022 23:55:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241169AbiEYUlJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 May 2022 16:41:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60340 "EHLO
+        id S235804AbiEYVzI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 May 2022 17:55:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234331AbiEYUlI (ORCPT
+        with ESMTP id S234857AbiEYVzH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 May 2022 16:41:08 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FDF6EF
-        for <linux-tegra@vger.kernel.org>; Wed, 25 May 2022 13:41:07 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id x137so9831742ybg.5
-        for <linux-tegra@vger.kernel.org>; Wed, 25 May 2022 13:41:07 -0700 (PDT)
+        Wed, 25 May 2022 17:55:07 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 687A1B8BD5
+        for <linux-tegra@vger.kernel.org>; Wed, 25 May 2022 14:55:01 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-edeb6c3642so160464fac.3
+        for <linux-tegra@vger.kernel.org>; Wed, 25 May 2022 14:55:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=LDBqQh/PztHeiDiV9Pr0v62BTTaDnPQyU98FGi1REkw=;
-        b=lxtmNW7/v4U+FQ72VEEMW6Z7n8hIv7g7mW4qROOKIzuFq7eM8/00bE7x2audEme/DS
-         unNXaZSC+NYPcpfVaUKyX3DSv3Kzj/PNjWje4kmx7LBfZCAdinODoDMdmE/3l+/wPgqg
-         AxZtViQuJlI2ebkUdnzDjTbrWq386w/MJ3Ab6iOT3bpyAVOMIc3LtKSoBlIIAsGDjYnU
-         FZoKCo9qD3WCsYfED4FC2caVhj+sAbFnFHitUV1fdRmd2/j5HKiMfaKt2PneU+oipWFe
-         Z2HKd6AeQp/5lK9wKSaJ0kM9zXoMjQsovtRz8/IJQ3SCs0B+FKrOovSTWTMzp+g+VDBv
-         o9pQ==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=W6FljHZ9ENFASNQNFv6FX7bVaR7auEJ4L2dhttwUEXI=;
+        b=g8YykLdG4ph1pezv+JKBHsgme3ludALz48Qohgnxngt3JZtxvf/EyhJT26UtcQC7jQ
+         8NagYHz6y7YZMHWdtU2dup/xmSn+STZ9jPQk8VUvcyZ+BzXx2xBofNx9BidZecFUAdCk
+         IWtT5g1paRcQeH+pDZrNDjO5Vx/648rgrY9uRGuZTqPVQb/D5sTvHLb76PJTwBMrJJEc
+         TdqCq2iCfaNjfITnK4TFkvPUrIXXa5FWip6wO6R8KD8NyeDOdAV1aKn7a6K/mfSSiPk9
+         w6G2WRcX1EXZwpQfmwU56it/OuXAWwRRuv1dfnkK34IAfylzSUwKd6apicxI55K6MjYy
+         sVBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=LDBqQh/PztHeiDiV9Pr0v62BTTaDnPQyU98FGi1REkw=;
-        b=MI+i+kmN5C9QMSgY3OGSOCgHC+Hd9ICOVP0r2tZdsR86GkQ2xi/S2lDyNHw4V7bHAm
-         RXNYDqP9JbyeyvVrKbQPBLE9e72GkWC5+KGEknWKmaGB4cZMhoA321VybJfvJWoqG0gD
-         Hyw19GXmhueDkd9wuYUP+4JkLrsw7MIEzNcbVZ2B8hlSARyzxU0fUIc2itNSGudWwpP4
-         3rs3yqbx/JzCPc6EgsA9TbeeRNADybSXmFFiugjMT4MSmHbORNdIexie3GY1lKGGDVdj
-         Qjrxc5iBf2AwUENH6cr1hbUm8JFtqg9qKPn7lDJvky8ywaeroi+wLahhobSHg1d8ygZ0
-         Zofg==
-X-Gm-Message-State: AOAM530TZR/IrN6uLvS9Yw4sVkYlWZxY3UghEa8Vn1DmBF0l6yn+LCWI
-        A7s7MB0hr6Zihrwt9JN8PKz15Y+3e6tPNNW8oa4=
-X-Google-Smtp-Source: ABdhPJzb235RlbaYIRQm5BYn+LUF/xhycujTonaVBhSBZ+Py0XGlM5JkLwGkxkpucsAvynWfN3wXbTUfR3AlyK+Q8hA=
-X-Received: by 2002:a25:9742:0:b0:64e:2c40:b33e with SMTP id
- h2-20020a259742000000b0064e2c40b33emr33107751ybo.455.1653511266761; Wed, 25
- May 2022 13:41:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=W6FljHZ9ENFASNQNFv6FX7bVaR7auEJ4L2dhttwUEXI=;
+        b=l+nho3xz0RH6IQYtLHjvmT6u4J8sM+ggTsRbcoUGGc2khDzZD13achC2jlb6+beVVa
+         8ztuJMoItwOGMCPWI4mgtktFnE54mO1tPVvNXRGCun2p+truA7xw6USyT+6oBv/315cr
+         lG1HGObSxjFNBp69AUnlSA7TMFoPdynBCl30kM3FGXp1vgSCUZY9Dv+Bto24vAyDO6tS
+         qSv0LwV5dlaDgRfBSxQUQ76JFrtVVnYr31u8YaHA+bqKommNREeUrbVBR3eP+qmk88Pb
+         X4JFQObOrMqd9l/gg0VQK6MYxRSBeOQmxqeExIFIyQ4auEcKPGALVBMnbRgdtZQoDQbT
+         HVfw==
+X-Gm-Message-State: AOAM530lDPDpjhA+whzcWZLvjES7+DNLGF1IjZ38Ve2tftl0D1NyCYAE
+        47DvBZeTq3pVS5HZEVrRcqSGxt5c3HtEJnLYhmE=
+X-Google-Smtp-Source: ABdhPJz/bnuRwA/RpCVwChN9bMyutP7AvZBYznO6JhGBRtkojh078TNYQgy/b/A9YPBD4rzcs6EihAti28EEKZ6I68A=
+X-Received: by 2002:a05:6871:6a4:b0:f1:890d:a7c8 with SMTP id
+ l36-20020a05687106a400b000f1890da7c8mr6810110oao.42.1653515699808; Wed, 25
+ May 2022 14:54:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5b:506:0:0:0:0:0 with HTTP; Wed, 25 May 2022 13:41:06 -0700 (PDT)
-From:   Deterin Falcao <falcaodeterin@gmail.com>
-Date:   Wed, 25 May 2022 22:41:06 +0200
-Message-ID: <CABCO4Z3Sv2-PK9t3ysVRzGJEfbFB9waH00+g_npCaa+H=rvCow@mail.gmail.com>
-Subject: Bitte kontaktaufnahme Erforderlich !!! Please Contact Required !!!
-To:     contact@firstdiamondbk.com
-Cc:     info@firstdiamondbk.com
+Received: by 2002:ac9:110a:0:0:0:0:0 with HTTP; Wed, 25 May 2022 14:54:59
+ -0700 (PDT)
+From:   rymond chan <liugaoshan708@gmail.com>
+Date:   Wed, 25 May 2022 14:54:59 -0700
+Message-ID: <CAE8g+Aqk+n5nGCEmU+kBiBJuZ39qJ0NGpEmhqzZmUNu7f_EunQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Guten Tag,
-
-Ich habe mich nur gefragt, ob Sie meine vorherige E-Mail bekommen
-
-haben ?
-
-Ich habe versucht, Sie per E-Mail zu erreichen.
-
-Kommen Sie bitte schnell zu mir zur=C3=BCck, es ist sehr wichtig.
-
-Danke
-
-Falcao Deterin
-
-falcaodeterin@gmail.com
-
-
-
-
-
-
-
-
-----------------------------------
-
-
-
-
-Good Afternoon,
-
-I was just wondering if you got my Previous E-mail
-have ?
-
-I tried to reach you by E-mail.
-
-Please come back to me quickly, it is very Important.
-
-Thanks
-
-Falcao Deterin
-
-falcaodeterin@gmail.com
+-- 
+contact me Business  deal worth $47.1M USD for you contact me
