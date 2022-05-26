@@ -2,59 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 235AE535301
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 May 2022 19:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 491D953547C
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 May 2022 22:35:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236752AbiEZR6G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 May 2022 13:58:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54976 "EHLO
+        id S243988AbiEZUfc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 May 2022 16:35:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233423AbiEZR6F (ORCPT
+        with ESMTP id S239946AbiEZUf1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 May 2022 13:58:05 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BFEDFD7;
-        Thu, 26 May 2022 10:58:03 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id DA6701F458C5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653587881;
-        bh=vKrfmc3boXboPynKhfGf6a+AgAeTRHxWWw/3jLM5Jic=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=DGkTuUPwewZwysjZztrVad/lb9S/kXm3+CYcMvUjKexgsyXtFd1nxFQrKIctmAXDE
-         Dg4zWR6Lg/z3Q5upNyDit2RITf3OMKBlmER62SyW0U42xsGGg6QU60mHzng41heGyk
-         NU4P7ccBQDG8c0W5TBR01+lyJcSnh8zyQ8X4MXL0wbrfDi55ocZBn4f47Yq+Qm9r/l
-         dkOwFM8+qVn8evQindIk4K2aIF4MZIQ+S647V8zghD5pI/2CMgkfBp23fAj8XzYIZ6
-         3Mt5DrdIKw58s6+5PISOPPMbS6bEZtDYTHtKIafhS/zxXwZl9zGfofl5uvRKsINlUj
-         HSzFw1AXzb0JQ==
-Message-ID: <45c29859-f7a6-48e5-be48-bd8191ac299a@collabora.com>
-Date:   Thu, 26 May 2022 20:57:56 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 21/31] soc/tegra: Remove the call to
- devm_pm_opp_set_clkname()
-Content-Language: en-US
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Thu, 26 May 2022 16:35:27 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 635EBE15CE
+        for <linux-tegra@vger.kernel.org>; Thu, 26 May 2022 13:35:23 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id v15so709384edl.9
+        for <linux-tegra@vger.kernel.org>; Thu, 26 May 2022 13:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7aFyhUYktZMytnPH54CE9qvOB2J8zazlj78TSnY6dHI=;
+        b=xE31XGRXQTXWWsH/PD6XVwFgzymMNSrvAE992lEQ6rNFl5Y0uZgb8GBVWYMOzzGIvX
+         8l+Sgo9Pe3iMp8tp5UWHyTV4HZu0se2Bi1bRrgDB1ydmWTXRiVp7t5lTK+B3x2ZrBk02
+         SiAvBTLOgBScViiBv035J19O1x6Cdyq8vF9DX8hHgTojrlLvu9hqMuaiNlGbV549Aurv
+         qytDtHHVD+ikoRbdEESr0B96/Ge7lQJLNwOCxfn29Cyc4EiIg4JQoTsydQXgFJ8RNzqZ
+         z3ogirY1LxOuPXqHMbN0ojulyEgjTWlvH2r8jyLqLdR853qbH0hoOTKNgjsE59q+QQ+J
+         de6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7aFyhUYktZMytnPH54CE9qvOB2J8zazlj78TSnY6dHI=;
+        b=JZizbvVFLqGDm3GRjMpWnN4pkMrrPOPO0HO1uLjm6C/7+T54TYmTvAE7IFAR/3KKEe
+         1ieaR2Acid5z0s+TzTWMhXBqBdEaP5rb+/DXKq4ZVe932MP6OV201Cf/zw9L/eYivAZr
+         fZhFNAIUc1hwTG5Xp9ILlDIpVnl56rInNzkrGnmWY/TDHAHodCLCu+vaSkLxOgSwdQ9z
+         hgBvfl3otPR/O6VJGzXVm8kfYPaKgZ6vTZU7DIhaCu+NS62qwBcvsplib/6OmrGb1S/E
+         SbJIPnJntqieD6JLXPvDepaReVlCHljqMCTJQHi9y6t51TAxS2diXl+ocWNsUh6B/Wtg
+         QiVg==
+X-Gm-Message-State: AOAM533CyZRrD+krLW1/nIeyHTggwxT8uois/GLwGU5kc9B2ZaVj8IhR
+        MuEe3TpU3P/Ikw98coUnCeJKwA==
+X-Google-Smtp-Source: ABdhPJzpqtfNQJwwnE7YXz29UgQ575vWJPJF1Q7jVbAt/Zd/NS8glMzhHKQhULg4GlweLYxNNlYKXg==
+X-Received: by 2002:aa7:d9cf:0:b0:42b:db5e:ec24 with SMTP id v15-20020aa7d9cf000000b0042bdb5eec24mr4938090eds.388.1653597321976;
+        Thu, 26 May 2022 13:35:21 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id o14-20020a170906774e00b006fec6e1d856sm816826ejn.82.2022.05.26.13.35.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 May 2022 13:35:21 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rafael Wysocki <rjw@rjwysocki.net>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1653564321.git.viresh.kumar@linaro.org>
- <1e88b248352afe03cd3bf0e887b1f2be86b5afb5.1653564321.git.viresh.kumar@linaro.org>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <1e88b248352afe03cd3bf0e887b1f2be86b5afb5.1653564321.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] ARM: dts: tegra: adjust whitespace around '='
+Date:   Thu, 26 May 2022 22:35:16 +0200
+Message-Id: <20220526203518.830765-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,39 +72,124 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/26/22 14:42, Viresh Kumar wrote:
-> The OPP core already performs devm_pm_opp_set_clkname() with name as
-> NULL, the callers shouldn't be doing the same unless they have a
-> different clock name to add here.
-> 
-> Drop the call.
-> 
-> Cc: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  drivers/soc/tegra/common.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
-> index 32c346b72635..49a5360f4507 100644
-> --- a/drivers/soc/tegra/common.c
-> +++ b/drivers/soc/tegra/common.c
-> @@ -108,12 +108,6 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
->  	u32 hw_version;
->  	int err;
->  
-> -	err = devm_pm_opp_set_clkname(dev, NULL);
-> -	if (err) {
-> -		dev_err(dev, "failed to set OPP clk: %d\n", err);
-> -		return err;
-> -	}
-> -
->  	/* Tegra114+ doesn't support OPP yet */
->  	if (!of_machine_is_compatible("nvidia,tegra20") &&
->  	    !of_machine_is_compatible("nvidia,tegra30"))
+Fix whitespace coding style: use single space instead of tabs or
+multiple spaces around '=' sign in property assignment.  No functional
+changes (same DTB).
 
-I can't see where OPP core performs devm_pm_opp_set_clkname().
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+---
+
+Output compared with dtx_diff and fdtdump.
+---
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts           | 2 +-
+ arch/arm/boot/dts/tegra20-asus-tf101.dts                  | 2 +-
+ arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi | 6 +++---
+ arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi        | 2 +-
+ arch/arm/boot/dts/tegra30-colibri.dtsi                    | 6 +++---
+ 5 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+index a170a4ba36c1..bf1126d26aff 100644
+--- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
++++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+@@ -417,7 +417,7 @@ bluetooth {
+ 			vddio-supply = <&vdd_1v8_sys>;
+ 
+ 			device-wakeup-gpios = <&gpio TEGRA_GPIO(U, 1) GPIO_ACTIVE_HIGH>;
+-			shutdown-gpios =      <&gpio TEGRA_GPIO(U, 0) GPIO_ACTIVE_HIGH>;
++			shutdown-gpios = <&gpio TEGRA_GPIO(U, 0) GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/tegra20-asus-tf101.dts b/arch/arm/boot/dts/tegra20-asus-tf101.dts
+index a054d39db466..f3b0166f7a9c 100644
+--- a/arch/arm/boot/dts/tegra20-asus-tf101.dts
++++ b/arch/arm/boot/dts/tegra20-asus-tf101.dts
+@@ -477,7 +477,7 @@ bluetooth {
+ 			vddio-supply = <&vdd_1v8_sys>;
+ 
+ 			device-wakeup-gpios = <&gpio TEGRA_GPIO(U, 1) GPIO_ACTIVE_HIGH>;
+-			shutdown-gpios =      <&gpio TEGRA_GPIO(U, 0) GPIO_ACTIVE_HIGH>;
++			shutdown-gpios = <&gpio TEGRA_GPIO(U, 0) GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+index 2c2ad2a38f04..55e6171a411d 100644
+--- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
++++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+@@ -63,7 +63,7 @@ trustzone@bfe00000 {
+ 	gpio@6000d000 {
+ 		init-mode-hog {
+ 			gpio-hog;
+-			gpios =	<TEGRA_GPIO(DD, 7) GPIO_ACTIVE_HIGH>,
++			gpios = <TEGRA_GPIO(DD, 7) GPIO_ACTIVE_HIGH>,
+ 				<TEGRA_GPIO(CC, 6) GPIO_ACTIVE_HIGH>,
+ 				<TEGRA_GPIO(R, 0) GPIO_ACTIVE_HIGH>;
+ 			output-low;
+@@ -820,7 +820,7 @@ bluetooth {
+ 			vddio-supply = <&vdd_1v8>;
+ 
+ 			device-wakeup-gpios = <&gpio TEGRA_GPIO(U, 1) GPIO_ACTIVE_HIGH>;
+-			shutdown-gpios =      <&gpio TEGRA_GPIO(U, 0) GPIO_ACTIVE_HIGH>;
++			shutdown-gpios = <&gpio TEGRA_GPIO(U, 0) GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
+ 
+@@ -833,7 +833,7 @@ i2c@7000c400 {
+ 		status = "okay";
+ 
+ 		touchscreen@10 {
+-			compatible ="elan,ektf3624";
++			compatible = "elan,ektf3624";
+ 			reg = <0x10>;
+ 
+ 			interrupt-parent = <&gpio>;
+diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
+index cd63e0ef7445..1b241f0542b8 100644
+--- a/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
++++ b/arch/arm/boot/dts/tegra30-asus-nexus7-tilapia.dtsi
+@@ -25,7 +25,7 @@ panel-timing {
+ 	gpio@6000d000 {
+ 		init-mode-3g-hog {
+ 			gpio-hog;
+-			gpios =	<TEGRA_GPIO(D, 2) GPIO_ACTIVE_HIGH>,
++			gpios = <TEGRA_GPIO(D, 2) GPIO_ACTIVE_HIGH>,
+ 				<TEGRA_GPIO(C, 6) GPIO_ACTIVE_HIGH>,
+ 				<TEGRA_GPIO(W, 3) GPIO_ACTIVE_HIGH>,
+ 				<TEGRA_GPIO(P, 1) GPIO_ACTIVE_HIGH>,
+diff --git a/arch/arm/boot/dts/tegra30-colibri.dtsi b/arch/arm/boot/dts/tegra30-colibri.dtsi
+index 22231d450b1b..310dff05910d 100644
+--- a/arch/arm/boot/dts/tegra30-colibri.dtsi
++++ b/arch/arm/boot/dts/tegra30-colibri.dtsi
+@@ -239,7 +239,7 @@ gen2-i2c-scl-pt5 {
+ 				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+ 			};
+ 			spdif-in-pk6 {
+-				nvidia,pins =	"spdif_in_pk6";
++				nvidia,pins = "spdif_in_pk6";
+ 				nvidia,function = "hda";
+ 				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
+ 				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+@@ -364,7 +364,7 @@ gmi-wp-n-pc7 {
+ 			};
+ 			/* Multiplexed and therefore disabled */
+ 			cam-mclk-pcc0 {
+-				nvidia,pins =	"cam_mclk_pcc0";
++				nvidia,pins = "cam_mclk_pcc0";
+ 				nvidia,function = "vi_alt3";
+ 				nvidia,pull = <TEGRA_PIN_PULL_DOWN>;
+ 				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+@@ -511,7 +511,7 @@ uart2-rxd {
+ 
+ 			/* Colibri USBC_DET */
+ 			spdif-out-pk5 {
+-				nvidia,pins =	"spdif_out_pk5";
++				nvidia,pins = "spdif_out_pk5";
+ 				nvidia,function = "rsvd2";
+ 				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
+ 				nvidia,tristate = <TEGRA_PIN_DISABLE>;
 -- 
-Best regards,
-Dmitry
+2.34.1
+
