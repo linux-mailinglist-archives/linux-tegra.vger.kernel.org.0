@@ -2,86 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24958537C62
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 May 2022 15:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CCA65380B2
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 May 2022 16:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237056AbiE3NbU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 May 2022 09:31:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59472 "EHLO
+        id S238557AbiE3Nwa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 May 2022 09:52:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237260AbiE3NaQ (ORCPT
+        with ESMTP id S238903AbiE3Nu4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 May 2022 09:30:16 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D520C12A9C;
-        Mon, 30 May 2022 06:26:58 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id B1F391F42E89
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653917216;
-        bh=y8CpXrtP+c6Qf6iu5Rkh+8kR5t7I7EuM/mXJ3s9H5Zs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=CZBBpXpJJByM/6l1wreC73qyaYOtUyAY912FO23xX9hwne0P8DnGHVfuPN4nMsGCT
-         8SkJMvb9QBciZR6HQOm2m0Pv+tBSMrQzbTJhWEU/RA9xCdqbSQHUQ/nV0EfPj5Fh0g
-         /Bz633BDtP5oWyr2aY9l9/qknO9qze9TgXSMV4ZjAyn/uZyDn95jjXsxnqKUHAFUYj
-         Xl1HS7BN4ZwJ0JAX6Azh2TmYj2i3WjRR80SU/1ps37ciW04RwtS6XWFaZAru9NCxqG
-         jz7LyKVTcMBV9YNtk3fQE7sBherW3XwtioZyr1RjqcTCj2d+TQiehKVmn3qh2wdHis
-         oxYI+SRObIGUA==
-Message-ID: <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
-Date:   Mon, 30 May 2022 16:26:49 +0300
+        Mon, 30 May 2022 09:50:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7188EB0D00;
+        Mon, 30 May 2022 06:35:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DF85660E9B;
+        Mon, 30 May 2022 13:35:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5301C341C8;
+        Mon, 30 May 2022 13:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653917710;
+        bh=ZN6hC2vdwKmBY0Swi3pq5qptEuPjZ0EGRv0BuujKnUE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=E9aVZQB4dvAOxcJ2JcWxyk4nVcvQaMaKBRxGHRK01R39X50dV3MkdBjwfcgFviqgu
+         VHY9Tn5HJivF8DOnuMQMikSRzMjEXP1h7TG5vQyNUPyXiQ0NeMfV9CpwKgPmHuRihL
+         JYXnDhgt5IJ2CDwA57RNeWmjr18w69ArO08O2kT6rIws1ON3j+QVa5gjJo+tnd/W7H
+         0GfzTOogpc8PR8V4r58O0tfVPcvAB5ML5y83qX2e1E4Ab8xicnotfoVwpZiCel62qr
+         /7yeCYpPhI0XZ3RafRDK48xhZzVJYLIdrHepqGeZ6wYW5rsDtGtiR7ptpw1VQRSnMh
+         sX/HxxJBXypJA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Thierry Reding <treding@nvidia.com>,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
+        airlied@linux.ie, daniel@ffwll.ch, jonathanh@nvidia.com,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 072/135] drm/tegra: gem: Do not try to dereference ERR_PTR()
+Date:   Mon, 30 May 2022 09:30:30 -0400
+Message-Id: <20220530133133.1931716-72-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
+References: <20220530133133.1931716-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, kernel@collabora.com
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-15-dmitry.osipenko@collabora.com>
- <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,108 +60,37 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello Christian,
+From: Thierry Reding <treding@nvidia.com>
 
-On 5/30/22 09:50, Christian König wrote:
-> Hi Dmitry,
-> 
-> First of all please separate out this patch from the rest of the series,
-> since this is a complex separate structural change.
+[ Upstream commit cb7e1abc2c73633e1eefa168ab2dad6e838899c9 ]
 
-I assume all the patches will go via the DRM tree in the end since the
-rest of the DRM patches in this series depend on this dma-buf change.
-But I see that separation may ease reviewing of the dma-buf changes, so
-let's try it.
+When mapping the DMA-BUF attachment fails, map->sgt will be an ERR_PTR-
+encoded error code and the cleanup code would try to free that memory,
+which obviously would fail.
 
-> Am 27.05.22 um 01:50 schrieb Dmitry Osipenko:
->> All dma-bufs have dma-reservation lock that allows drivers to perform
->> exclusive operations over shared dma-bufs. Today's dma-buf API has
->> incomplete locking specification, which creates dead lock situation
->> for dma-buf importers and exporters that don't coordinate theirs locks.
-> 
-> Well please drop that sentence. The locking specifications are actually
-> very well defined, it's just that some drivers are a bit broken
-> regarding them.
-> 
-> What you do here is rather moving all the non-dynamic drivers over to
-> the dynamic locking specification (which is really nice to have).
+Zero out that pointer after extracting the error code when this happens
+so that kfree() can do the right thing.
 
-Indeed, this will be a better description, thank you! I'll update it.
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/tegra/gem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> I have tried this before and failed because catching all the locks in
-> the right code paths are very tricky. So expect some fallout from this
-> and make sure the kernel test robot and CI systems are clean.
-
-Sure, I'll fix up all the reported things in the next iteration.
-
-BTW, have you ever posted yours version of the patch? Will be great if
-we could compare the changed code paths.
-
->> This patch introduces new locking convention for dma-buf users. From now
->> on all dma-buf importers are responsible for holding dma-buf reservation
->> lock around operations performed over dma-bufs.
->>
->> This patch implements the new dma-buf locking convention by:
->>
->>    1. Making dma-buf API functions to take the reservation lock.
->>
->>    2. Adding new locked variants of the dma-buf API functions for drivers
->>       that need to manage imported dma-bufs under the held lock.
-> 
-> Instead of adding new locked variants please mark all variants which
-> expect to be called without a lock with an _unlocked postfix.
-> 
-> This should make it easier to remove those in a follow up patch set and
-> then fully move the locking into the importer.
-
-Do we really want to move all the locks to the importers? Seems the
-majority of drivers should be happy with the dma-buf helpers handling
-the locking for them.
-
->>    3. Converting all drivers to the new locking scheme.
-> 
-> I have strong doubts that you got all of them. At least radeon and
-> nouveau should grab the reservation lock in their ->attach callbacks
-> somehow.
-
-Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
-lock already, seems they should be okay (?)
-
-I assume all the basics should covered in this v6. At minimum Intel,
-Tegra, Panfrost, Lima and Rockchip drivers should be good. If I missed
-something, then please let me know and I'll correct it.
-
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>   drivers/dma-buf/dma-buf.c                     | 270 +++++++++++-------
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   6 +-
->>   drivers/gpu/drm/drm_client.c                  |   4 +-
->>   drivers/gpu/drm/drm_gem.c                     |  33 +++
->>   drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
->>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  10 +-
->>   drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
->>   drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->>   .../common/videobuf2/videobuf2-dma-contig.c   |  11 +-
->>   .../media/common/videobuf2/videobuf2-dma-sg.c |  11 +-
->>   .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
->>   include/drm/drm_gem.h                         |   3 +
->>   include/linux/dma-buf.h                       |  14 +-
->>   13 files changed, 241 insertions(+), 159 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 32f55640890c..64a9909ccfa2 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -552,7 +552,6 @@ struct dma_buf *dma_buf_export(const struct
->> dma_buf_export_info *exp_info)
->>       file->f_mode |= FMODE_LSEEK;
->>       dmabuf->file = file;
->>   -    mutex_init(&dmabuf->lock);
-> 
-> Please make removing dmabuf->lock a separate change.
-
-Alright
-
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index fce0e52973c2..9810b3bdd342 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -88,6 +88,7 @@ static struct host1x_bo_mapping *tegra_bo_pin(struct device *dev, struct host1x_
+ 		if (IS_ERR(map->sgt)) {
+ 			dma_buf_detach(buf, map->attach);
+ 			err = PTR_ERR(map->sgt);
++			map->sgt = NULL;
+ 			goto free;
+ 		}
+ 
 -- 
-Best regards,
-Dmitry
+2.35.1
+
