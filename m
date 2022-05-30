@@ -2,174 +2,153 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 574385383F5
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 May 2022 17:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4505F53B459
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jun 2022 09:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237895AbiE3OrK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 May 2022 10:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
+        id S231169AbiFBHb2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Jun 2022 03:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241847AbiE3Op1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 May 2022 10:45:27 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA4B5DE4E;
-        Mon, 30 May 2022 06:57:30 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id B98F41F417FE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653919049;
-        bh=2XRBuky6ctLBMkVpHH42tRbnrHaVzoRJDfOS/8wLl/E=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mPwSP+W1lUR0EdMvCliWfZoiylZ8CVpOpjwgflCUTZaI9WHJh5tJXhk8DyguPhNeN
-         HogdCkNBgtGD2G8U9Ep2K49/vmqE56g1BgD7MA21xGk1ZVBj+VJcIxxm08FCLdNgVK
-         RmZOwzc+caJBzV5axbiwKDrCGcHjZmvJd24egZXw9xLh3XfQFPhTT3EpgfN70g8mqC
-         9sjT+smifz0WHNiGEqr7+RZqCI9QQehNyQ19Mpiv9LWCOB9wzR78FM0tska4e7lqKe
-         50oVtOr/eGMjVeh2uPvpXIVZhL/NQ2LFQ3MNEmBcidBDh44gsd28fmmYzNC+2ue0aj
-         H9xWHCkQ7dKmg==
-Message-ID: <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
-Date:   Mon, 30 May 2022 16:57:22 +0300
+        with ESMTP id S231339AbiFBHb1 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jun 2022 03:31:27 -0400
+Received: from mx.elcon.hu (mx.elcon.hu [94.21.1.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E627A2AA002
+        for <linux-tegra@vger.kernel.org>; Thu,  2 Jun 2022 00:31:18 -0700 (PDT)
+Received: from mail.elcon.hu ([192.168.2.155]:37360 helo=webmail.elcon.hu)
+        by mx.elcon.hu with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <kzoltan@elcon.hu>)
+        id 1nvmsP-0008WV-Bi; Mon, 30 May 2022 23:24:37 +0200
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.elcon.hu (Postfix) with ESMTP id 1B2DF65D05990;
+        Mon, 30 May 2022 23:24:37 +0200 (CEST)
+Received: from webmail.elcon.hu ([127.0.0.1])
+        by localhost (webmail.elcon.hu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ov4uOMJxoDGr; Mon, 30 May 2022 23:24:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.elcon.hu (Postfix) with ESMTP id 1DE8E65D45D84;
+        Mon, 30 May 2022 23:23:59 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 webmail.elcon.hu 1DE8E65D45D84
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elcon.hu;
+        s=02528220-7315-11E8-A9F0-3A51BF6A9B2E; t=1653945839;
+        bh=R6rQ0NozwjtOIX2+hZKSFSFGEfR0ePpvDBiEDyEYo1g=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=bXLDUy0Nztwx+kOGgjr/t1+6u7psdSWlXa0J0cKNlQ9QJImKtI+gIWmnoXBF/FtLk
+         e0xMpzyzCjMkRzNfchz1eaR8A7ZUzw0KXDjDIbecSF9r5IELXBc8CsOrws8xc9GvuB
+         YpcWQ8SXDH/uWy53J65eEw+NGgvFhwDD5jx2krY6VB/KfMoMjT1u3ujaQZYBUeTmQr
+         NICcj2uzDqXQaBSwXZzZa97FhR660I2WIskKHEjPDFEkFyDcuA8nCzX3L49+PG3fZH
+         VD2m6aaj5sggJebl0ahoQb4/4XySh+H9aIUEgDbd50F9RUuRUWFZUExTKMGLmgm5jh
+         +29/AwCYeO7Ow==
+X-Virus-Scanned: amavisd-new at webmail.elcon.hu
+Received: from webmail.elcon.hu ([127.0.0.1])
+        by localhost (webmail.elcon.hu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id HsauGPsTYw2A; Mon, 30 May 2022 23:23:59 +0200 (CEST)
+Received: from [10.0.1.227] (unknown [185.252.223.39])
+        by webmail.elcon.hu (Postfix) with ESMTPSA id 3A2FE65D45D95;
+        Mon, 30 May 2022 23:23:17 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, kernel@collabora.com
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-15-dmitry.osipenko@collabora.com>
- <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
- <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
- <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
+To:     Recipients <kzoltan@elcon.hu>
+From:   ''Gloria Mackenzie'' <kzoltan@elcon.hu>
+Date:   Tue, 31 May 2022 05:23:10 +0800
+Reply-To: Gloriamackenziespende@gmail.com
+Message-Id: <20220530212318.3A2FE65D45D95@webmail.elcon.hu>
+X-Sophos-OBS: success
+X-SASI-Version: Antispam-Engine: 4.1.4, AntispamData: 2021.8.26.161515
+X-SASI-RCODE: 200
+X-SASI-SpamProbability: 88%
+X-SASI-Hits: BODYTEXTP_SIZE_3000_LESS 0.000000, BODY_SIZE_1000_LESS 0.000000,
+ BODY_SIZE_2000_LESS 0.000000, BODY_SIZE_5000_LESS 0.000000,
+ BODY_SIZE_7000_LESS 0.000000, BODY_SIZE_900_999 0.000000,
+ DKIM_ALIGNS 0.000000, DKIM_SIGNATURE 0.000000, ECARD_KNOWN_DOMAINS 0.000000,
+ FRAUD_WEBMAIL_R_NOT_F 0.100000, FROM_SAME_AS_TO_DOMAIN 0.000000,
+ HTML_00_01 0.050000, HTML_00_10 0.050000, OUTBOUND 0.000000,
+ OUTBOUND_SOPHOS 0.000000, REPLYTO_FROM_DIFF_ADDY 0.100000,
+ SENDER_NO_AUTH 0.000000, SINGLE_URI_IN_BODY 0.000000,
+ SUPERLONG_LINE 0.050000, SXL_PARA_SIG 8.000000, URI_WITH_PATH_ONLY 0.000000,
+ UTF8_SUBJ_OBFU 0.100000, WEBMAIL_REPLYTO_NOT_FROM 0.500000,
+ __ANY_URI 0.000000, __BODY_NO_MAILTO 0.000000, __CP_URI_IN_BODY 0.000000,
+ __CT 0.000000, __CTE 0.000000, __CT_TEXT_PLAIN 0.000000,
+ __DATE_TZ_HK 0.000000, __DKIM_ALIGNS_1 0.000000, __DKIM_ALIGNS_2 0.000000,
+ __DQ_NEG_HEUR 0.000000, __DQ_NEG_IP 0.000000, __FRAUD_BODY_WEBMAIL 0.000000,
+ __FRAUD_INTRO 0.000000, __FRAUD_MONEY 0.000000,
+ __FRAUD_MONEY_BIG_COIN 0.000000, __FRAUD_MONEY_BIG_COIN_DIG 0.000000,
+ __FRAUD_MONEY_CURRENCY 0.000000, __FRAUD_MONEY_CURRENCY_DOLLAR 0.000000,
+ __FRAUD_MONEY_CURRENCY_EURO 0.000000, __FRAUD_MONEY_DENOMINATION 0.000000,
+ __FRAUD_MONEY_VALUE 0.000000, __FRAUD_WEBMAIL 0.000000,
+ __FRAUD_WEBMAIL_REPLYTO 0.000000, __FROM_DOMAIN_IN_RCPT 0.000000,
+ __FROM_DOMAIN_NOT_IN_BODY 0.000000, __FROM_NAME_NOT_IN_ADDR 0.000000,
+ __FROM_NAME_NOT_IN_BODY 0.000000, __FUR_RDNS_SOPHOS 0.000000,
+ __HAS_FROM 0.000000, __HAS_MSGID 0.000000, __HAS_REPLYTO 0.000000,
+ __HEADER_ORDER_FROM 0.000000, __HIGHBITS 0.000000, __HTTPS_URI 0.000000,
+ __MIME_TEXT_ONLY 0.000000, __MIME_TEXT_P 0.000000, __MIME_TEXT_P1 0.000000,
+ __MIME_VERSION 0.000000, __NO_HTML_TAG_RAW 0.000000,
+ __OUTBOUND_SOPHOS_FUR 0.000000, __OUTBOUND_SOPHOS_FUR_IP 0.000000,
+ __OUTBOUND_SOPHOS_FUR_RDNS 0.000000, __PHISH_SPEAR_GREETING 0.000000,
+ __PHISH_SPEAR_STRUCTURE_2 0.000000, __RCVD_FROM_DOMAIN 0.000000,
+ __REPLYTO_GMAIL 0.000000, __SANE_MSGID 0.000000, __SINGLE_URI_TEXT 0.000000,
+ __STOCK_PHRASE_7 0.000000, __SUBJ_ALPHA_END 0.000000,
+ __SUBJ_ALPHA_END2 0.000000, __SUBJ_HIGHBIT 0.000000,
+ __TO_DOMAIN_IN_FROM 0.000000, __TO_DOMAIN_IN_MSGID 0.000000,
+ __TO_HOST_IN_FROM 0.000000, __TO_MALFORMED_2 0.000000, __TO_NAME 0.000000,
+ __TO_NAME_DIFF_FROM_ACC 0.000000, __TO_REAL_NAMES 0.000000,
+ __URI_IN_BODY 0.000000, __URI_MAILTO 0.000000, __URI_NOT_IMG 0.000000,
+ __URI_NS 0.000000, __URI_WITH_PATH 0.000000, __UTF8_SUBJ 0.000000
+X-Spam-Status: Yes, score=7.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,NIXSPAM_IXHASH,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/30/22 16:41, Christian König wrote:
-> Hi Dmitry,
-> 
-> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
->> Hello Christian,
->>
->> On 5/30/22 09:50, Christian König wrote:
->>> Hi Dmitry,
->>>
->>> First of all please separate out this patch from the rest of the series,
->>> since this is a complex separate structural change.
->> I assume all the patches will go via the DRM tree in the end since the
->> rest of the DRM patches in this series depend on this dma-buf change.
->> But I see that separation may ease reviewing of the dma-buf changes, so
->> let's try it.
-> 
-> That sounds like you are underestimating a bit how much trouble this
-> will be.
-> 
->>> I have tried this before and failed because catching all the locks in
->>> the right code paths are very tricky. So expect some fallout from this
->>> and make sure the kernel test robot and CI systems are clean.
->> Sure, I'll fix up all the reported things in the next iteration.
->>
->> BTW, have you ever posted yours version of the patch? Will be great if
->> we could compare the changed code paths.
-> 
-> No, I never even finished creating it after realizing how much work it
-> would be.
-> 
->>>> This patch introduces new locking convention for dma-buf users. From
->>>> now
->>>> on all dma-buf importers are responsible for holding dma-buf
->>>> reservation
->>>> lock around operations performed over dma-bufs.
->>>>
->>>> This patch implements the new dma-buf locking convention by:
->>>>
->>>>     1. Making dma-buf API functions to take the reservation lock.
->>>>
->>>>     2. Adding new locked variants of the dma-buf API functions for
->>>> drivers
->>>>        that need to manage imported dma-bufs under the held lock.
->>> Instead of adding new locked variants please mark all variants which
->>> expect to be called without a lock with an _unlocked postfix.
->>>
->>> This should make it easier to remove those in a follow up patch set and
->>> then fully move the locking into the importer.
->> Do we really want to move all the locks to the importers? Seems the
->> majority of drivers should be happy with the dma-buf helpers handling
->> the locking for them.
-> 
-> Yes, I clearly think so.
-> 
->>
->>>>     3. Converting all drivers to the new locking scheme.
->>> I have strong doubts that you got all of them. At least radeon and
->>> nouveau should grab the reservation lock in their ->attach callbacks
->>> somehow.
->> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
->> lock already, seems they should be okay (?)
-> 
-> You are looking at the wrong side. You need to fix the export code path,
-> not the import ones.
-> 
-> See for example attach on radeon works like this
-> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
+Lieber Freund,
 
-Yeah, I was looking at the both sides, but missed this one.
+Ich bin Gloria mackenzie, FLORIDA, Vereinigte Staaten von Amerika, der Mega=
+-Gewinner von $590million In Mega Millions Jackpot, spende ich an 5 zuf=C3=
+=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail n=
+ach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil mein=
+es Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen und =
+Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summ=
+e von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu spe=
+nden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine You T=
+ube Seite unten.
 
-> Same for nouveau and probably a few other exporters as well. That will
-> certainly cause a deadlock if you don't fix it.
-> 
-> I strongly suggest to do this step by step, first attach/detach and then
-> the rest.
+UHR MICH HIER: https://www.youtube.com/watch?v=3DW818_eG4V9s
 
-Thank you very much for the suggestions. I'll implement them in the next
-version.
+Das ist dein Spendencode: [GM395820]
 
--- 
-Best regards,
-Dmitry
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+Gloriamackenziespende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Gloria Mackenzie
