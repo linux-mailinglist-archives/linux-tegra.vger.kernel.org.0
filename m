@@ -2,101 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B7E538E5D
-	for <lists+linux-tegra@lfdr.de>; Tue, 31 May 2022 12:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D57875391D4
+	for <lists+linux-tegra@lfdr.de>; Tue, 31 May 2022 15:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245522AbiEaKBy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 31 May 2022 06:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44204 "EHLO
+        id S1344741AbiEaNdo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 31 May 2022 09:33:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245471AbiEaKAa (ORCPT
+        with ESMTP id S229939AbiEaNdn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 31 May 2022 06:00:30 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C6284A14;
-        Tue, 31 May 2022 03:00:29 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id t5so16807078edc.2;
-        Tue, 31 May 2022 03:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dox2mMkLl/5c9D2gga469zGN9zQ+j614KEWkuEZ4MV4=;
-        b=TtHtny7NdbtnaKMNgHxxZ1P6YiZMqlmrfAD504KQpkpUdOed8kz6s4qe73Oso8t6aL
-         GH45XnJdlS9fPbcsu06cjzlIDPfSLe4vdmLZk7L0colYmkysDdcFQUfaXrpgfhWM8Uu9
-         mwNsso9fA2grp70nK3W+gfRLzK4em/GxgeHMyOxZAQwF2uHJZHUlKeoWDTsO9Pf3mIoR
-         +MU2pw1Hj93sIubQtkBk95FwjgyvioAIuxLDOXetbKFAI5WclUufvdU4gR+xUVC90tO0
-         kjPZ8sljqOzsGufGGBR2iVo/n5ohkrTAeCPS+lQRYxTn5nYYxcG4Bmjfy2K5n7PsifJS
-         ohDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dox2mMkLl/5c9D2gga469zGN9zQ+j614KEWkuEZ4MV4=;
-        b=R9EQlfnogdhovkuWtbKi7WmNKNGzsgbZzVQcou2RUYVzeU3Z1K/Q9/0Hf/VA291VGC
-         PJcI1he9qf43XlhXd2zDECwCEuridMqly+xh9uy00J012va49lpQX/xDBIDxKO0Gq1Hr
-         89H2ezS3LCdFQZshRPneapEvds22w3qMl88tY9CWlbIn/1PgZ4r/swKkLF5ylb0jR5Au
-         a5uON4cJc9MAWGoR2n4eD785pwbtlKXH3XvsV7/i6g56lanyyzkxtA//uzh+PF1aYNwE
-         KYcIkbTyT0ODLPgrInmMBC649i4ufFJ/IyWu4JnS70uDwXJdU1CWb4+VRiiui9czkC8h
-         43og==
-X-Gm-Message-State: AOAM533ay4mCTKdrXplfP9GfFptIV0dqH2UB+WIH6E3x6U8zFUKUOAck
-        UZRRf92qB91xKHUnRm8wH7BPVbp6SLtYTA==
-X-Google-Smtp-Source: ABdhPJwaDMI96aKfbI0lqqtNolmvi5yHB6A4EjRXIsAbd+0AZ25rrn/qiMxaKibl1aGvqzYNEfcjIQ==
-X-Received: by 2002:aa7:db02:0:b0:42d:c3ba:9c86 with SMTP id t2-20020aa7db02000000b0042dc3ba9c86mr14927377eds.337.1653991228918;
-        Tue, 31 May 2022 03:00:28 -0700 (PDT)
-Received: from able.fritz.box (p5b0ea02f.dip0.t-ipconnect.de. [91.14.160.47])
-        by smtp.gmail.com with ESMTPSA id r13-20020a056402018d00b0042617ba6389sm582062edv.19.2022.05.31.03.00.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 03:00:28 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Cc:     christian.koenig@amd.com, alexander.deucher@amd.com,
-        daniel@ffwll.ch, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, hughd@google.com,
-        andrey.grodzovsky@amd.com
-Subject: [PATCH 13/13] drm/tegra: use drm_oom_badness
-Date:   Tue, 31 May 2022 12:00:07 +0200
-Message-Id: <20220531100007.174649-14-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220531100007.174649-1-christian.koenig@amd.com>
-References: <20220531100007.174649-1-christian.koenig@amd.com>
+        Tue, 31 May 2022 09:33:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE9608FD66;
+        Tue, 31 May 2022 06:33:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 787B961202;
+        Tue, 31 May 2022 13:33:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE73EC3411E;
+        Tue, 31 May 2022 13:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654004021;
+        bh=Z1whR2Seo++h8Uvy3NRM8CLdGeRMk3/5Fhy4XLisltk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cPVxm69Jbg+3fiO8JqUkXLXOD3pdyUhd1MlQm0oMnsnf55jefml2siTeRt11DQHj6
+         j2XvEIwBhLIetl2w51tLK3B2a0OH2Z6D0nlXRYIg/OwhCh9PiTgvXzmtIqsaGVmCk/
+         NKbc9Y8PlTLEjGx6hE7AsqZPZ63XO8dLqIFkWoRvf5c1NjMqCoIcoSwXF5SVIY5lUk
+         8yy0Ek1jNVgbeKugcbrmeNa6X6xfwxRoEHv9D7y02QUzG4xMThGu6A77YkIcbXIDCO
+         zWyzDcprTUSJlyHWEJ6vSN13Fe2Y5DFL0DOsh5h6/dcJ5SSJVn1Q0Awe0RVh1hSBfx
+         aAMov2J80OI8w==
+Received: by mail-ua1-f53.google.com with SMTP id y2so4793056uan.4;
+        Tue, 31 May 2022 06:33:41 -0700 (PDT)
+X-Gm-Message-State: AOAM5324/hXJsqjrtMtCRbOakjadASmODKos4GyTpqOlmof57aZFGCif
+        vS608GbBZKgVhquTEXhTU7PfvLVes8cgunM4mg==
+X-Google-Smtp-Source: ABdhPJzfl2q8a4/jnTVhQHUMa2kRAa20r2HuCUl7f2SfBzhtY8jiaU660L5f3oIf9EZfTKfxQZBl0thsed79l8nNzVE=
+X-Received: by 2002:ab0:4ac1:0:b0:351:ed7d:e65c with SMTP id
+ t1-20020ab04ac1000000b00351ed7de65cmr22397280uae.36.1654004020745; Tue, 31
+ May 2022 06:33:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220523172515.5941-1-dipenp@nvidia.com>
+In-Reply-To: <20220523172515.5941-1-dipenp@nvidia.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 31 May 2022 08:33:29 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJSF=7FOW4oNydRtDYY8L9Y43E4FsBkUzM+U5ZRjYdt7A@mail.gmail.com>
+Message-ID: <CAL_JsqJSF=7FOW4oNydRtDYY8L9Y43E4FsBkUzM+U5ZRjYdt7A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timestamp: Correct id path
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        devicetree@vger.kernel.org, Dipen Patel <dipenp@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This allows the OOM killer to make a better decision which process to reap.
+On Mon, May 23, 2022 at 12:25 PM Dipen Patel <dipenp@nvidia.com> wrote:
+>
+> During the repository renaming from hte to timestamp, $id path was not
+> updated accordingly. This patch corrects $id path.
+>
+> Fixes: af583852d2ef ("dt-bindings: Renamed hte directory to timestamp")
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> ---
+>  .../bindings/timestamp/hardware-timestamps-common.yaml          | 2 +-
+>  Documentation/devicetree/bindings/timestamp/hte-consumer.yaml   | 2 +-
+>  .../devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml      | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/tegra/drm.c | 1 +
- 1 file changed, 1 insertion(+)
+Ping. Still failing in linux-next.
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 9464f522e257..89ea4f658815 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -803,6 +803,7 @@ static const struct file_operations tegra_drm_fops = {
- 	.read = drm_read,
- 	.compat_ioctl = drm_compat_ioctl,
- 	.llseek = noop_llseek,
-+	.oom_badness = drm_oom_badness,
- };
- 
- static int tegra_drm_context_cleanup(int id, void *p, void *data)
--- 
-2.25.1
-
+>
+> diff --git a/Documentation/devicetree/bindings/timestamp/hardware-timestamps-common.yaml b/Documentation/devicetree/bindings/timestamp/hardware-timestamps-common.yaml
+> index 4c25ba248a72..fd6a7b51f571 100644
+> --- a/Documentation/devicetree/bindings/timestamp/hardware-timestamps-common.yaml
+> +++ b/Documentation/devicetree/bindings/timestamp/hardware-timestamps-common.yaml
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/hte/hardware-timestamps-common.yaml#
+> +$id: http://devicetree.org/schemas/timestamp/hardware-timestamps-common.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>
+>  title: Hardware timestamp providers
+> diff --git a/Documentation/devicetree/bindings/timestamp/hte-consumer.yaml b/Documentation/devicetree/bindings/timestamp/hte-consumer.yaml
+> index 68d764ac040a..6456515c3d26 100644
+> --- a/Documentation/devicetree/bindings/timestamp/hte-consumer.yaml
+> +++ b/Documentation/devicetree/bindings/timestamp/hte-consumer.yaml
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/hte/hte-consumer.yaml#
+> +$id: http://devicetree.org/schemas/timestamp/hte-consumer.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>
+>  title: HTE Consumer Device Tree Bindings
+> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+> index 69e8402d95e5..c31e207d1652 100644
+> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/hte/nvidia,tegra194-hte.yaml#
+> +$id: http://devicetree.org/schemas/timestamp/nvidia,tegra194-hte.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>
+>  title: Tegra194 on chip generic hardware timestamping engine (HTE)
+>
+> base-commit: cc63e8e92cb872081f249ea16e6c460642f3e4fb
+> --
+> 2.17.1
+>
