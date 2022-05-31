@@ -2,153 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4505F53B459
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jun 2022 09:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41EA7538E1D
+	for <lists+linux-tegra@lfdr.de>; Tue, 31 May 2022 12:00:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbiFBHb2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Jun 2022 03:31:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55100 "EHLO
+        id S245392AbiEaKAP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 31 May 2022 06:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbiFBHb1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jun 2022 03:31:27 -0400
-Received: from mx.elcon.hu (mx.elcon.hu [94.21.1.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E627A2AA002
-        for <linux-tegra@vger.kernel.org>; Thu,  2 Jun 2022 00:31:18 -0700 (PDT)
-Received: from mail.elcon.hu ([192.168.2.155]:37360 helo=webmail.elcon.hu)
-        by mx.elcon.hu with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <kzoltan@elcon.hu>)
-        id 1nvmsP-0008WV-Bi; Mon, 30 May 2022 23:24:37 +0200
-Received: from localhost (localhost [127.0.0.1])
-        by webmail.elcon.hu (Postfix) with ESMTP id 1B2DF65D05990;
-        Mon, 30 May 2022 23:24:37 +0200 (CEST)
-Received: from webmail.elcon.hu ([127.0.0.1])
-        by localhost (webmail.elcon.hu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ov4uOMJxoDGr; Mon, 30 May 2022 23:24:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by webmail.elcon.hu (Postfix) with ESMTP id 1DE8E65D45D84;
-        Mon, 30 May 2022 23:23:59 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 webmail.elcon.hu 1DE8E65D45D84
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elcon.hu;
-        s=02528220-7315-11E8-A9F0-3A51BF6A9B2E; t=1653945839;
-        bh=R6rQ0NozwjtOIX2+hZKSFSFGEfR0ePpvDBiEDyEYo1g=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=bXLDUy0Nztwx+kOGgjr/t1+6u7psdSWlXa0J0cKNlQ9QJImKtI+gIWmnoXBF/FtLk
-         e0xMpzyzCjMkRzNfchz1eaR8A7ZUzw0KXDjDIbecSF9r5IELXBc8CsOrws8xc9GvuB
-         YpcWQ8SXDH/uWy53J65eEw+NGgvFhwDD5jx2krY6VB/KfMoMjT1u3ujaQZYBUeTmQr
-         NICcj2uzDqXQaBSwXZzZa97FhR660I2WIskKHEjPDFEkFyDcuA8nCzX3L49+PG3fZH
-         VD2m6aaj5sggJebl0ahoQb4/4XySh+H9aIUEgDbd50F9RUuRUWFZUExTKMGLmgm5jh
-         +29/AwCYeO7Ow==
-X-Virus-Scanned: amavisd-new at webmail.elcon.hu
-Received: from webmail.elcon.hu ([127.0.0.1])
-        by localhost (webmail.elcon.hu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id HsauGPsTYw2A; Mon, 30 May 2022 23:23:59 +0200 (CEST)
-Received: from [10.0.1.227] (unknown [185.252.223.39])
-        by webmail.elcon.hu (Postfix) with ESMTPSA id 3A2FE65D45D95;
-        Mon, 30 May 2022 23:23:17 +0200 (CEST)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S240788AbiEaKAN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 31 May 2022 06:00:13 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3266782170;
+        Tue, 31 May 2022 03:00:12 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id l19so7698191ejr.8;
+        Tue, 31 May 2022 03:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9n4cw6tJMuGq8sS9FRBgBhCHODwjr6qBUbzPf/1V2sg=;
+        b=IzX+BgNjUX84qtPBtVsu+ZQQ2nO4Huw6BvTBNd8rhiurCDNaaV5UMg4BXEj7C+GRmG
+         pLAlNrJvCnrtY74d5Bo/qYvdZdIp6QkYn6H+D4DPT+ND58p4F/z8e2zkIZQsRYdjuNP2
+         1DxX3EdJHY8KDTNcYKELGBk86yao2J8VuJlSo/c21/2arZjhHOW0lpAc7cG/anLi+GyZ
+         EIYmtu/053mPuutoapsZROblF0FdT729/3v6UpunSQlMe0lkJeQVmj9gHa/cACRiumXh
+         G4ykLDd0yxJynuBwQinr7e62C8Qnq4ExNeWx17W3s71BABDAerQSHOy+HAkfJOD712fC
+         cGtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9n4cw6tJMuGq8sS9FRBgBhCHODwjr6qBUbzPf/1V2sg=;
+        b=veFHBMChSxPX/Sxx5ZdURFIquiS2Vac0Pqqg/b2YpH+vmb+CtPvKa9Xk7jf5pORaHh
+         qoWXw576SBcVdoe6k1Tdyj7WYNG5XmqWkyi06pXjDewasGW38Fl3i/QB7aQAY7/dD+On
+         /zZ6bgq82JRx4CHAiX+OjYKN9C5qZdDz1tdHXPgSTvXI9ZeuY7dnPTXfkuU5gwgC+3b9
+         i7vKEawZAFcQqXKlkXDu9SilPQCPQpD1owxved299cf5PPc0NwDVrALaAS6n9gZpqcEi
+         Z+x0SHM1psHOXqpWkvRUAJoHGggqgteItvChGxYPZ+T71mfPTvY/ecN5N8QHou160cE8
+         GODw==
+X-Gm-Message-State: AOAM533s5oQMEPgddujTAQ5KAbk1OJSykK2TNfqB8alImmtF+wohldBv
+        CEOn8TCXT4KnG8fWb74ksmkdWysylPY=
+X-Google-Smtp-Source: ABdhPJwCJfAmChYPGSG1MS5K/vbZUKtFI7ycuya8OGZo2oGfMsdkIctwKWtBLMWRNLTmB2Z1/mcwZQ==
+X-Received: by 2002:a17:907:7d88:b0:6fe:d709:6735 with SMTP id oz8-20020a1709077d8800b006fed7096735mr38261002ejc.76.1653991210599;
+        Tue, 31 May 2022 03:00:10 -0700 (PDT)
+Received: from able.fritz.box (p5b0ea02f.dip0.t-ipconnect.de. [91.14.160.47])
+        by smtp.gmail.com with ESMTPSA id r13-20020a056402018d00b0042617ba6389sm582062edv.19.2022.05.31.03.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 03:00:10 -0700 (PDT)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Cc:     christian.koenig@amd.com, alexander.deucher@amd.com,
+        daniel@ffwll.ch, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, hughd@google.com,
+        andrey.grodzovsky@amd.com
+Subject: Per file OOM badness
+Date:   Tue, 31 May 2022 11:59:54 +0200
+Message-Id: <20220531100007.174649-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <kzoltan@elcon.hu>
-From:   ''Gloria Mackenzie'' <kzoltan@elcon.hu>
-Date:   Tue, 31 May 2022 05:23:10 +0800
-Reply-To: Gloriamackenziespende@gmail.com
-Message-Id: <20220530212318.3A2FE65D45D95@webmail.elcon.hu>
-X-Sophos-OBS: success
-X-SASI-Version: Antispam-Engine: 4.1.4, AntispamData: 2021.8.26.161515
-X-SASI-RCODE: 200
-X-SASI-SpamProbability: 88%
-X-SASI-Hits: BODYTEXTP_SIZE_3000_LESS 0.000000, BODY_SIZE_1000_LESS 0.000000,
- BODY_SIZE_2000_LESS 0.000000, BODY_SIZE_5000_LESS 0.000000,
- BODY_SIZE_7000_LESS 0.000000, BODY_SIZE_900_999 0.000000,
- DKIM_ALIGNS 0.000000, DKIM_SIGNATURE 0.000000, ECARD_KNOWN_DOMAINS 0.000000,
- FRAUD_WEBMAIL_R_NOT_F 0.100000, FROM_SAME_AS_TO_DOMAIN 0.000000,
- HTML_00_01 0.050000, HTML_00_10 0.050000, OUTBOUND 0.000000,
- OUTBOUND_SOPHOS 0.000000, REPLYTO_FROM_DIFF_ADDY 0.100000,
- SENDER_NO_AUTH 0.000000, SINGLE_URI_IN_BODY 0.000000,
- SUPERLONG_LINE 0.050000, SXL_PARA_SIG 8.000000, URI_WITH_PATH_ONLY 0.000000,
- UTF8_SUBJ_OBFU 0.100000, WEBMAIL_REPLYTO_NOT_FROM 0.500000,
- __ANY_URI 0.000000, __BODY_NO_MAILTO 0.000000, __CP_URI_IN_BODY 0.000000,
- __CT 0.000000, __CTE 0.000000, __CT_TEXT_PLAIN 0.000000,
- __DATE_TZ_HK 0.000000, __DKIM_ALIGNS_1 0.000000, __DKIM_ALIGNS_2 0.000000,
- __DQ_NEG_HEUR 0.000000, __DQ_NEG_IP 0.000000, __FRAUD_BODY_WEBMAIL 0.000000,
- __FRAUD_INTRO 0.000000, __FRAUD_MONEY 0.000000,
- __FRAUD_MONEY_BIG_COIN 0.000000, __FRAUD_MONEY_BIG_COIN_DIG 0.000000,
- __FRAUD_MONEY_CURRENCY 0.000000, __FRAUD_MONEY_CURRENCY_DOLLAR 0.000000,
- __FRAUD_MONEY_CURRENCY_EURO 0.000000, __FRAUD_MONEY_DENOMINATION 0.000000,
- __FRAUD_MONEY_VALUE 0.000000, __FRAUD_WEBMAIL 0.000000,
- __FRAUD_WEBMAIL_REPLYTO 0.000000, __FROM_DOMAIN_IN_RCPT 0.000000,
- __FROM_DOMAIN_NOT_IN_BODY 0.000000, __FROM_NAME_NOT_IN_ADDR 0.000000,
- __FROM_NAME_NOT_IN_BODY 0.000000, __FUR_RDNS_SOPHOS 0.000000,
- __HAS_FROM 0.000000, __HAS_MSGID 0.000000, __HAS_REPLYTO 0.000000,
- __HEADER_ORDER_FROM 0.000000, __HIGHBITS 0.000000, __HTTPS_URI 0.000000,
- __MIME_TEXT_ONLY 0.000000, __MIME_TEXT_P 0.000000, __MIME_TEXT_P1 0.000000,
- __MIME_VERSION 0.000000, __NO_HTML_TAG_RAW 0.000000,
- __OUTBOUND_SOPHOS_FUR 0.000000, __OUTBOUND_SOPHOS_FUR_IP 0.000000,
- __OUTBOUND_SOPHOS_FUR_RDNS 0.000000, __PHISH_SPEAR_GREETING 0.000000,
- __PHISH_SPEAR_STRUCTURE_2 0.000000, __RCVD_FROM_DOMAIN 0.000000,
- __REPLYTO_GMAIL 0.000000, __SANE_MSGID 0.000000, __SINGLE_URI_TEXT 0.000000,
- __STOCK_PHRASE_7 0.000000, __SUBJ_ALPHA_END 0.000000,
- __SUBJ_ALPHA_END2 0.000000, __SUBJ_HIGHBIT 0.000000,
- __TO_DOMAIN_IN_FROM 0.000000, __TO_DOMAIN_IN_MSGID 0.000000,
- __TO_HOST_IN_FROM 0.000000, __TO_MALFORMED_2 0.000000, __TO_NAME 0.000000,
- __TO_NAME_DIFF_FROM_ACC 0.000000, __TO_REAL_NAMES 0.000000,
- __URI_IN_BODY 0.000000, __URI_MAILTO 0.000000, __URI_NOT_IMG 0.000000,
- __URI_NS 0.000000, __URI_WITH_PATH 0.000000, __UTF8_SUBJ 0.000000
-X-Spam-Status: Yes, score=7.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,NIXSPAM_IXHASH,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *******
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Lieber Freund,
+Hello everyone, 
 
-Ich bin Gloria mackenzie, FLORIDA, Vereinigte Staaten von Amerika, der Mega=
--Gewinner von $590million In Mega Millions Jackpot, spende ich an 5 zuf=C3=
-=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail n=
-ach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil mein=
-es Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen und =
-Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summ=
-e von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu spe=
-nden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine You T=
-ube Seite unten.
+To summarize the issue I'm trying to address here: Processes can allocate
+resources through a file descriptor without being held responsible for it.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DW818_eG4V9s
+Especially for the DRM graphics driver subsystem this is rather
+problematic. Modern games tend to allocate huge amounts of system memory
+through the DRM drivers to make it accessible to GPU rendering.
 
-Das ist dein Spendencode: [GM395820]
+But even outside of the DRM subsystem this problem exists and it is
+trivial to exploit. See the following simple example of
+using memfd_create():
+
+         fd = memfd_create("test", 0);
+         while (1)
+                 write(fd, page, 4096);
+
+Compile this and you can bring down any standard desktop system within
+seconds.
+
+The background is that the OOM killer will kill every processes in the
+system, but just not the one which holds the only reference to the memory
+allocated by the memfd.
+
+Those problems where brought up on the mailing list multiple times now
+[1][2][3], but without any final conclusion how to address them. Since
+file descriptors are considered shared the process can not directly held
+accountable for allocations made through them. Additional to that file
+descriptors can also easily move between processes as well.
+
+So what this patch set does is to instead of trying to account the
+allocated memory to a specific process it adds a callback to struct
+file_operations which the OOM killer can use to query the specific OOM
+badness of this file reference. This badness is then divided by the
+file_count, so that every process using a shmem file, DMA-buf or DRM
+driver will get it's equal amount of OOM badness.
+
+Callbacks are then implemented for the two core users (memfd and DMA-buf)
+as well as 72 DRM based graphics drivers.
+
+The result is that the OOM killer can now much better judge if a process
+is worth killing to free up memory. Resulting a quite a bit better system
+stability in OOM situations, especially while running games.
+
+The only other possibility I can see would be to change the accounting of
+resources whenever references to the file structure change, but this would
+mean quite some additional overhead for a rather common operation.
+
+Additionally I think trying to limit device driver allocations using
+cgroups is orthogonal to this effort. While cgroups is very useful, it
+works on per process limits and tries to enforce a collaborative model on
+memory management while the OOM killer enforces a competitive model.
+
+Please comment and/or review, we have that problem flying around for years
+now and are not at a point where we finally need to find a solution for
+this.
+
+Regards,
+Christian.
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2015-September/089778.html
+[2] https://lkml.org/lkml/2018/1/18/543
+[3] https://lkml.org/lkml/2021/2/4/799
 
 
-Antworten Sie mit dem SPENDE-CODE an diese
-
-Gloriamackenziespende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
-
-Gr=C3=BC=C3=9Fe
-Gloria Mackenzie
