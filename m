@@ -2,530 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5892253E283
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jun 2022 10:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF25B53E223
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jun 2022 10:54:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbiFFGU1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jun 2022 02:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58246 "EHLO
+        id S231682AbiFFISE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jun 2022 04:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229920AbiFFGUK (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jun 2022 02:20:10 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2040.outbound.protection.outlook.com [40.107.102.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5362A21E0B;
-        Sun,  5 Jun 2022 23:20:08 -0700 (PDT)
+        with ESMTP id S231665AbiFFISD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jun 2022 04:18:03 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2040.outbound.protection.outlook.com [40.107.95.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79914D243;
+        Mon,  6 Jun 2022 01:18:02 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CMbTNfsQzZZ4Hu4qxRN2xdahDyj1n2imrw9YtdF0ZVkWdgw46P4qx66u8y6dP6lncvNcLcpH+1zsL7amCYCMyN+qJLNXda4GvCftu+AQO4M48/c74khbsDKU3B/JEJJQ2gYHU/A2BVDZTfasFzJoxhJ/gMfZm9gWrisO3mTgIN9W5Cj8Zzjzq/739CMjQJzt8t3w5ZhTRbQwWnrDQRochhDXYo3OyJWf6d5zu7HG/2CQ9FQe++efqE5zVQ2JIeHqVpHMdDMc5MKgmUHKRXboWxPRdFyKWq3oYiKJX9mk5wrQj+KghBtbHtSvZ0PlF9yQxHWTNOprdmZHfbyMZVK2QA==
+ b=Bl0L+dVOxvu+i9zElgIC6htzdlD8QShO0Ln/xz884lUrwFpOrYuI0b1jXTPxhiOnWCg7CRF5jYsA7/oUgXvplyWoHhgFoBqyckbRBasumGC4KHcxT5/VRQ+qOJC12ZSS5ScxHK9sJ3Tj39Dh+hvs8oc48ay6cUIbeWgLDzfmHNa8gdkJwQVlnWSFC5IhtbFd8my4ycHRV6dkQ8IGcx4Jl2nIFxDAi/zeIr1dXFAPOCbFLYAHLt+g7kx+zD1wNds2HluvrBJ+iAaEOvHF/AcrTFNxl0AwjB+h9Ckwv+tgDoCAvjGvlymXhpEK5zci0J5zsF71+VTkfN4V4gkLiMWShA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8B+c+H2V+bCnzCJetNz/ttkZvQqE/XCS0a2agveDiyc=;
- b=MTSAv9EdIrbVQU0RbsIpUvsH5rvxCIC+WYiry5QSzrvgl02B/9zxxqxlb9KqC9GAvGFBWXCAbZRoo9Oq51bKITFL/Hrx7ppk5y77/o8n1vL8AHfXeHYUAvf5LSK8zi+3dGOxLR8A33asY8mBo4eqRe0dVnisP/rkbJrjUvz0hwUA7ognpr7vIF6TpwPSGuZkOHVNwdvbJUp1WvrhgAjuPBVIbeWtUXOTT2V+5NO9dLyrkjHuY+2aPKqDpkDPgO2e4Q2zALeFnEJw5MtpMKFi4RdZVdtvY/Wz7TpIcczXr6UdynXdAeC7uMOlbKUa2LwptOUfI2wfv7/oQbdQzS9aaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=samsung.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
+ bh=cGXKcMlsvkGPR7qh7EoU9l3P0Ro25S80vVxETCM9I6k=;
+ b=i+PKHjdG5OQz+2vcHfRKAnkjwyocAPDFNIubDhI1+vtViJBmp3PHz2CpEXOIgDlQ6fR8N7qYYy0HicbV0aTXY4H9jDd135RehG68tMrtKqMoazjDd0shdyOoR9X37LswaSucSF68vCE7s/a/rEm603fYN2U696UNgZ/cZuEXGY8yGQfuhbKESrE9iZs9rGRFk+Pe915KoOZL3yXFiad5opZP07r9njzoMXS2mCQaF4Ix3DQjTbRVLhJV4IoLbFCsem/K1C47mu4KQQeqktwtxuh4pzC2wrCiPT/3OPJp+teAvjpB1pN3MVeMY9OtRt5v/RMOo2T9ysPi/r9ywGASrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8B+c+H2V+bCnzCJetNz/ttkZvQqE/XCS0a2agveDiyc=;
- b=H2+4eFhBXOQACIvRHWsHO018QqmROfBzKwfUz+n7RdbMNflN1GdFKX2hd2kl9v/VN7EO5eP3TjiKyLbN+CwLgQJ9OrJ2XFD5EpzqKNyis2vUchqoUSg1MnHy6lnez+DrNB/ycmbTr8Pe3pnHCuhleI9dXZP3MtZuUcGlf5Zh3b1AWN/zn7t5jvifAIylp94XCgZhaZBWABttPpNg+96mxLstBHOs7qn6cM/fwQcagkvvTuEfZtpDpfvLmrO3VKCy+4IqDvh+Wj0PecwyKfeVCovyvtNlros0iINDa2vp4bxsLOWdP9nJhFiDQoZBGnifQuji6w/o57jDl2kXRIwMxA==
-Received: from BN9PR03CA0604.namprd03.prod.outlook.com (2603:10b6:408:106::9)
- by DM6PR12MB3801.namprd12.prod.outlook.com (2603:10b6:5:1cc::17) with
+ bh=cGXKcMlsvkGPR7qh7EoU9l3P0Ro25S80vVxETCM9I6k=;
+ b=lsy25EGnocmjPS0OToSWvcLTGHhyVCJSIlyzdfzzdqZOGhYRe+5/6CU1u5Ub0XIxO1jr4P9WDY59CwwpuGdzF7hAMMr4OG1JZJtENP7iS9XxCRUpAcgA/WskKNfyTCSwcwzN4jW8sxrT85UVhb6xEtSTCcLTf8ej0eKZltbVNSycEPdakvV4HyxnkuX5ic0JbhW8Qq5A05MRypgE1vJ/KrLmBp55zGbWnFlhNp+lNbhGdduvYSEjrmJ62VMyMJGDIRarayRb0aWg7wAz3XuBVwBmpbu+wo2UzA4oK/kK2yrf6j7cr38GAxrVnErM8XtFaMb753P24pKfQfkUuZm/eg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CY4PR12MB1576.namprd12.prod.outlook.com (2603:10b6:910:10::9)
+ by MN0PR12MB6127.namprd12.prod.outlook.com (2603:10b6:208:3c5::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.15; Mon, 6 Jun
- 2022 06:20:06 +0000
-Received: from BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:106:cafe::7) by BN9PR03CA0604.outlook.office365.com
- (2603:10b6:408:106::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12 via Frontend
- Transport; Mon, 6 Jun 2022 06:20:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT064.mail.protection.outlook.com (10.13.176.160) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5314.12 via Frontend Transport; Mon, 6 Jun 2022 06:20:05 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Mon, 6 Jun
- 2022 06:20:04 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 5 Jun 2022
- 23:20:03 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.986.22 via Frontend
- Transport; Sun, 5 Jun 2022 23:20:01 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     <jgg@nvidia.com>, <joro@8bytes.org>, <will@kernel.org>,
-        <marcan@marcan.st>, <sven@svenpeter.dev>, <robin.murphy@arm.com>,
-        <robdclark@gmail.com>, <m.szyprowski@samsung.com>,
-        <krzysztof.kozlowski@linaro.org>, <baolu.lu@linux.intel.com>,
-        <agross@kernel.org>, <bjorn.andersson@linaro.org>,
-        <matthias.bgg@gmail.com>, <heiko@sntech.de>, <orsonzhai@gmail.com>,
-        <baolin.wang7@gmail.com>, <zhang.lyra@gmail.com>, <wens@csie.org>,
-        <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-        <jean-philippe@linaro.org>, <alex.williamson@redhat.com>
-CC:     <suravee.suthikulpanit@amd.com>, <alyssa@rosenzweig.io>,
-        <alim.akhtar@samsung.com>, <dwmw2@infradead.org>,
-        <yong.wu@mediatek.com>, <mjrosato@linux.ibm.com>,
-        <gerald.schaefer@linux.ibm.com>, <thierry.reding@gmail.com>,
-        <vdumpa@nvidia.com>, <jonathanh@nvidia.com>, <cohuck@redhat.com>,
-        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>, <kvm@vger.kernel.org>
-Subject: [PATCH 5/5] vfio/iommu_type1: Simplify group attachment
-Date:   Sun, 5 Jun 2022 23:19:27 -0700
-Message-ID: <20220606061927.26049-6-nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220606061927.26049-1-nicolinc@nvidia.com>
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Mon, 6 Jun
+ 2022 08:18:00 +0000
+Received: from CY4PR12MB1576.namprd12.prod.outlook.com
+ ([fe80::16b:eff7:847b:19e7]) by CY4PR12MB1576.namprd12.prod.outlook.com
+ ([fe80::16b:eff7:847b:19e7%10]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
+ 08:18:00 +0000
+Message-ID: <b70e024b-4f80-16b9-4bbe-ed8a24a384df@nvidia.com>
+Date:   Mon, 6 Jun 2022 13:47:48 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 1/6] ASoC: tegra: Add binding doc for OPE module
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+Cc:     broonie@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        thierry.reding@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+        perex@perex.cz, tiwai@suse.com, jonathanh@nvidia.com,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <1654238172-16293-1-git-send-email-spujar@nvidia.com>
+ <1654238172-16293-2-git-send-email-spujar@nvidia.com>
+ <20220603203003.GA852734-robh@kernel.org>
+From:   Sameer Pujar <spujar@nvidia.com>
+In-Reply-To: <20220603203003.GA852734-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0067.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ad::13) To CY4PR12MB1576.namprd12.prod.outlook.com
+ (2603:10b6:910:10::9)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0965645e-e480-4d14-69be-08da4784994f
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3801:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3801A1221DF32B1824A1EA93ABA29@DM6PR12MB3801.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 86460810-abd1-4fbd-63a1-08da47951198
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6127:EE_
+X-Microsoft-Antispam-PRVS: <MN0PR12MB6127694EF436C789F8E0B56EA7A29@MN0PR12MB6127.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YvfS3ssPqqS5158rpVqrnyBXpmtW8PgI33WsDidNZ53bZQHUsl8rq3mpdGppPdocv/bcj7I0tB4TDIiXkNQ/BHchidxrvIm9AQntNRVyds4Z9Sxv+7q3rMqTboYh2Z9g96ngDSyKrmt66x81CVDPTOP9zT5mfi2MJWr4Ff5GpC8gV8OinO0yawsmanxxKDOX22+ptl4Wk6v7CrJsgm/apOI66ehzXr3cRURFWr4kSuytX2urfvGDthYpV9vSeBmUYGlnAu0qE4a2dDU4heI8nOOcS1xN7MJomELyCKFyV1r5xtYN9XNPaxsFEXxJorrmsQxY2vAL73vj7IaTh7Dh2c5Pti+Q5LB6nQ+0PMb+rbNSa9HPSIIKiY8WC14YV2l//rVR0eT+W7fUFHQdv+81JGaFOs9GKaVV72T2/lQpVpJBSUMrES8pvK78nieglpm3uCs3lL3wKxmYN6G+bfBqKNFwS6vXLW28cGaNd4ESEhBDohCjMv0Mbpd4ZGyxMnE7nClZPHI2OZg7njWg6YGRSeVoDtZZW0deXOObO2/Z47hR+tlA0LywS4FQXsLAczlvrezR8hsLwEMlKM/0eeRH4y4tp6+dwPfBOn0/DH2CO6NaXhg4E6cAw1yqIwZiwb9da7KSUiqHnQTX4PyrRxB0rXHP4aFOixDj9zsUbWB3CfJiHWzFOgocnN5ZdzXWQYltWKVmziqbV2BM7Fmp4rlb0iVEpA3/ioQECZ4/kbyIsoYRS+oWIa/6qEGHAa0KHv7LwUkQnFav5co4tjMW0OgKLw==
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(47076005)(30864003)(7416002)(7406005)(70586007)(426003)(36756003)(356005)(70206006)(921005)(8676002)(1076003)(82310400005)(36860700001)(4326008)(5660300002)(8936002)(186003)(336012)(83380400001)(81166007)(2616005)(40460700003)(26005)(7696005)(2906002)(6666004)(316002)(86362001)(508600001)(54906003)(110136005)(83996005)(2101003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Lw5a1Xxe23rRr8NRFrhOCxxmluRvwOSxBcNybbRYcTQgXcFcc/bLo6AXJGg3Jv06QSkLSuA1V0dX+Ws7JDehz3Vx+Tt+XarYEoQDurdyZRRxKwvs375pUN601mY4j/l27QYtD55/UVxnmatn3HTxWc4whtEMMg/b9rsSS0LT6WrA6Y/ltMfGa8HkQgbN4/TGbqQWosPkDCoG0tykBpn0TR5fFWSFMrcw/ZpKKV/FSJ0qEBJBd6g0EI09KXqGtM8ujIRhaPXaeJ9Jr5r8y9jwO+QSU257pJ0UQgt3XfzOgGTpXy0JJ4rl5twRfuUrCCu/inYkO6XuZT2X3K9su7hj0Nrjr3VlESiA+ApzRZEKsYfuOxxSkZ17WvjJ6OyseY5IdJJz+utoHxpGJXOjlP3ZClAIzv9BcPVNrfv5dYR2O5ttbvfA6EpA/tm6jTZofR6ADIdGXyQ3jbkiG4VcmTM11xR0J/S9Yq32ETn7Po/BiIsVuRDmgfdKIVTRWKDLz1ky58xvKdwDDxM3VXVPVwSeXXZEYfGSUIhnEwLR0JjK5a7wfbAsmWScgUn/Mf6lGeGEA4dbQr+WE354QaYAzU5UQZYd38RRZ9aqXA/0Cexw1L2Vj0jgKaUQ+EDIAstQGA012EVQSo5p9J0Q4ZD8WcPU0NjhUtZr3pFB98UFuVHjimffXqfK2rwp1A0+2GDveNmSzhTU0hNeEdQCgKJr3hl76BaPCMKd6U+fAiFGoVq5lbc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR12MB1576.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(4744005)(31696002)(66476007)(86362001)(6486002)(186003)(66556008)(66946007)(6506007)(6666004)(8676002)(4326008)(53546011)(38100700002)(6916009)(8936002)(36756003)(31686004)(508600001)(83380400001)(6512007)(7416002)(2616005)(2906002)(26005)(5660300002)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWV4eENPNTZiZ3p0dEIxVHVQSVVXaDZhbkppd1FiQSthN3ozV01WRThBUTg3?=
+ =?utf-8?B?RnR3cjV3VHJ5ZFBzOStEb0FubWkyTlRZQ2ZFUVVqRnRDRjM0MFZBcnlOUUNX?=
+ =?utf-8?B?K3hzOTJwekl0dDF2VGJOc1hUNmlmVVA3SFJ6OGJlSUhDdFNDVThNSUFORVdj?=
+ =?utf-8?B?SW9xS01VR0QyVEdTUTcrL1NzaDRGYktFOU02dGJ1Z2l3K0Vjb1VlQmZ3WlVh?=
+ =?utf-8?B?RTZyNUI3OEszRVZ1TFBJYjBxZmFocFBrSVl5SUdoWmhIZ2E1UTRzdVBOQVBS?=
+ =?utf-8?B?ZjB5UmZ0dE9wQjZUbDZ5UktGS08zamZHY291S0w0TGNPWlFkQkw4Z3RWUnNT?=
+ =?utf-8?B?eU5LT0xzR01FQUtQRktndlpFVkhBcjdXYVlLSnpiWXdMYVVOaXNlRkFGMmFk?=
+ =?utf-8?B?RCtzTG0wMnFvekZnbEVCY3ZMWkhKTXc1NDJ6ZHBwM2lPK2pyT2ppVXJ2ci9J?=
+ =?utf-8?B?U01CdWZmTW02OEJpL2prb3IvdFprdXRYRXhZalBybUx2UUZlek12aXp1ZHFB?=
+ =?utf-8?B?QVM2VVkvaGNPSllVb3BpUGxmeXdJZ1FER28xQi9SYTJNV2hYYU1TVTRoUXhH?=
+ =?utf-8?B?RzNnZVdndFNDQU9zWDJsSk9PVk9ndGticngxQmNXYmdaV3R0Sm4yK0VXK3Mz?=
+ =?utf-8?B?WmNuNFRRYjdaOEV1VEpIMHdMRG9rQ2lQSHVBM1ZtUDllN3duUTRuTzNEc3hO?=
+ =?utf-8?B?TDFDenozZ3NsZ201cEJwVFZ4eDJSSkU1YVdSS2pMOXhKQUZTZ1NPMDBiNnN2?=
+ =?utf-8?B?YjBrS1JBSTVTVlJmUmtGRUhwK3doTFkxcUFsenhvd2JCZWEvRC9aeVhlOE8y?=
+ =?utf-8?B?TlJTdGswRTdsaTVHTnB6TmpQT0RoVmZ6bzNUTWlkaFdxL2pIMjR6MGh5Y2t2?=
+ =?utf-8?B?ZWpoV1ZpV3FKT0dMd0M0ZzhsQ2tQbDd1YkJUTEVkbmdOSVR3Qjh2UFJHVlJ0?=
+ =?utf-8?B?byswSC9JMzVkQmJDVGlhNVZSNkhhY3ZUaWtUUHVLSXdGYVRYcHB5WEpxTkFa?=
+ =?utf-8?B?N05XWjllN1dnYjB2ZlNFMnk5ZjVYRkhZZ0c3SUs3TE1mM2FSRHpaZUR4R2JC?=
+ =?utf-8?B?eDRvVUo2aWVlbmhWZkxuZGV1WWRGbEpaTUtwdlhKeU1ha2N0Ukh0WStGRkhl?=
+ =?utf-8?B?MjFZdlBQV0tpNVJtUWpxRHhTWU9BbnN4dGk5dWxkNnlaSTJHUkkxT2xDQ3l3?=
+ =?utf-8?B?WmlENExnbXdweTZiNHk2ZmFJaEZmTjhCVitjMU5XaHd1Rk1tUHpYdUJramVu?=
+ =?utf-8?B?UFlEaGRkWkN5Ryt2VnpYY3dTNVZweERtNUFNVytRa2hKbDVkaEJMRURpcU9w?=
+ =?utf-8?B?dFRMdFhQUmZXUmlmNGRxbmQxOGJpQStydmErZXFDNDRmRUFXN1ZpU0NIRHBo?=
+ =?utf-8?B?bmdxb1JJMUkvNzlxQkMxai9DQUZpWk5TczZ6ZXdvOUU5d3ZjSHQxdlBhMkY3?=
+ =?utf-8?B?ZGZLL1lIMHJoc01lVGxLQzdWbWVNekc1K2VZY2lUc0lVaVFzN0tPWFRXaUF4?=
+ =?utf-8?B?N3I5TEM5c00rdWF1dnZZNHJ4Z29NemNybG83Y0trSkFqY05iZ2VKSGIyZ3V5?=
+ =?utf-8?B?aXVZNHRTckxCVzE5aTB3ejF4cW5nN3BtaXdCdk41cW1sSkRKWFVlTC83azR3?=
+ =?utf-8?B?T2Y3Rzk5RXVNMlZrMitMS0hkbkwxNThEaDBhNHRMeTNhekNWTDNnR0gzb3BI?=
+ =?utf-8?B?Q2Npc1BZbmtaSE1RTUxvM0dKWXhDV1pTQldDN1NDUzZZeHNEdGViK3pvSm9M?=
+ =?utf-8?B?dlhVMjRSYS9nd1ZLTGtsaUU3OEx0UEF3ZXpWZEFrQ2ovWXlUUFFnSlErRWd2?=
+ =?utf-8?B?eCtSZ005UEN0Mm5YQTFnb3IxV2hEMThkNDBBZDMvOFFMSUErSGcwZWdOak9O?=
+ =?utf-8?B?K0crbHB2NHRHVFU0NXJNRFVnaUsyMUFxVzkzWitqWXAzSUFEekl3c2x0cnZm?=
+ =?utf-8?B?ejhWb3VORkdaRVJmZk9XZkxkNTFEUUtYRDg2dnl4V3ByNk1QeDNPY2lUY240?=
+ =?utf-8?B?U1NrV3Y2aWh6ZS9pNW05NVUyaHRGYjNjSERzS1V2NTQwSEFWTkJxbldQWUM4?=
+ =?utf-8?B?RzVMaThXTGpDOEJ3UzErU2VqTE90RFdZSjlMMXJxMzFtdkE4dnFpUnd2V0tR?=
+ =?utf-8?B?U0VJaGZ0OVNleVAvUk5tVWZHc1RxZlhFQkhURnY1WDRsa3pqNFVoYlkrL1pC?=
+ =?utf-8?B?NzJwY29tZDJwSnVhcUhxTjV3RGtCVG5GV1pPNTErQk1KNWJ2dmlFOUJGTUFq?=
+ =?utf-8?B?aVFnMkJwS2FMa3FlcFBvNWpkZjE2dHZqK2RNTTZybitRaUJmMTBJTE4vZkM2?=
+ =?utf-8?B?K3dHN1pQOVFRd2VhVmx4cm83dW9kdDlqMHJXTHJDcnNSbUgvUjFBdz09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 06:20:05.7845
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86460810-abd1-4fbd-63a1-08da47951198
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1576.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 08:18:00.1776
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0965645e-e480-4d14-69be-08da4784994f
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3801
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vhUUErsIshzJt5fVT3uFgeKTx4dJbRy29wh4t/RaqnOLKVONscm6lZeXAWUhWXJtdU3IztO0KlY/mH7I/AukMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6127
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Un-inline the domain specific logic from the attach/detach_group ops into
-two paired functions vfio_iommu_alloc_attach_domain() and
-vfio_iommu_detach_destroy_domain() that strictly deal with creating and
-destroying struct vfio_domains.
 
-Add the logic to check for EMEDIUMTYPE return code of iommu_attach_group()
-and avoid the extra domain allocations and attach/detach sequences of the
-old code. This allows properly detecting an actual attach error, like
--ENOMEM, vs treating all attach errors as an incompatible domain.
+On 04-06-2022 02:00, Rob Herring wrote:
+> Doesn't apply for me. I guess there is some undocumented dependency
+> here? Resend after the merge window if that solves it.
 
-Remove the duplicated domain->ops comparison that is taken care of in the
-IOMMU core.
+These were getting applied fine on linux-next.
 
-Co-developed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/vfio/vfio_iommu_type1.c | 306 +++++++++++++++++---------------
- 1 file changed, 161 insertions(+), 145 deletions(-)
-
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index b45b1cc118ef..c6f937e1d71f 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -86,6 +86,7 @@ struct vfio_domain {
- 	struct list_head	group_list;
- 	bool			fgsp : 1;	/* Fine-grained super pages */
- 	bool			enforce_cache_coherency : 1;
-+	bool			msi_cookie : 1;
- };
- 
- struct vfio_dma {
-@@ -2153,12 +2154,161 @@ static void vfio_iommu_iova_insert_copy(struct vfio_iommu *iommu,
- 	list_splice_tail(iova_copy, iova);
- }
- 
-+static struct vfio_domain *
-+vfio_iommu_alloc_attach_domain(struct bus_type *bus, struct vfio_iommu *iommu,
-+			       struct vfio_iommu_group *group)
-+{
-+	struct iommu_domain *new_domain;
-+	struct vfio_domain *domain;
-+	int ret = 0;
-+
-+	/* Try to match an existing compatible domain */
-+	list_for_each_entry (domain, &iommu->domain_list, next) {
-+		ret = iommu_attach_group(domain->domain, group->iommu_group);
-+		if (ret == -EMEDIUMTYPE)
-+			continue;
-+		if (ret)
-+			return ERR_PTR(ret);
-+		list_add(&group->next, &domain->group_list);
-+		return domain;
-+	}
-+
-+	new_domain = iommu_domain_alloc(bus);
-+	if (!new_domain)
-+		return ERR_PTR(-EIO);
-+
-+	if (iommu->nesting) {
-+		ret = iommu_enable_nesting(new_domain);
-+		if (ret)
-+			goto out_free_iommu_domain;
-+	}
-+
-+	ret = iommu_attach_group(new_domain, group->iommu_group);
-+	if (ret)
-+		goto out_free_iommu_domain;
-+
-+	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
-+	if (!domain) {
-+		ret = -ENOMEM;
-+		goto out_detach;
-+	}
-+
-+	domain->domain = new_domain;
-+	vfio_test_domain_fgsp(domain);
-+
-+	/*
-+	 * If the IOMMU can block non-coherent operations (ie PCIe TLPs with
-+	 * no-snoop set) then VFIO always turns this feature on because on Intel
-+	 * platforms it optimizes KVM to disable wbinvd emulation.
-+	 */
-+	if (new_domain->ops->enforce_cache_coherency)
-+		domain->enforce_cache_coherency =
-+			new_domain->ops->enforce_cache_coherency(new_domain);
-+
-+	/* replay mappings on new domains */
-+	ret = vfio_iommu_replay(iommu, domain);
-+	if (ret)
-+		goto out_free_domain;
-+
-+	/*
-+	 * An iommu backed group can dirty memory directly and therefore
-+	 * demotes the iommu scope until it declares itself dirty tracking
-+	 * capable via the page pinning interface.
-+	 */
-+	iommu->num_non_pinned_groups++;
-+
-+	INIT_LIST_HEAD(&domain->group_list);
-+	list_add(&group->next, &domain->group_list);
-+	list_add(&domain->next, &iommu->domain_list);
-+	vfio_update_pgsize_bitmap(iommu);
-+	return domain;
-+
-+out_free_domain:
-+	kfree(domain);
-+out_detach:
-+	iommu_detach_group(domain->domain, group->iommu_group);
-+out_free_iommu_domain:
-+	iommu_domain_free(new_domain);
-+	return ERR_PTR(ret);
-+}
-+
-+static void vfio_iommu_unmap_unpin_all(struct vfio_iommu *iommu)
-+{
-+	struct rb_node *node;
-+
-+	while ((node = rb_first(&iommu->dma_list)))
-+		vfio_remove_dma(iommu, rb_entry(node, struct vfio_dma, node));
-+}
-+
-+static void vfio_iommu_unmap_unpin_reaccount(struct vfio_iommu *iommu)
-+{
-+	struct rb_node *n, *p;
-+
-+	n = rb_first(&iommu->dma_list);
-+	for (; n; n = rb_next(n)) {
-+		struct vfio_dma *dma;
-+		long locked = 0, unlocked = 0;
-+
-+		dma = rb_entry(n, struct vfio_dma, node);
-+		unlocked += vfio_unmap_unpin(iommu, dma, false);
-+		p = rb_first(&dma->pfn_list);
-+		for (; p; p = rb_next(p)) {
-+			struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn,
-+							 node);
-+
-+			if (!is_invalid_reserved_pfn(vpfn->pfn))
-+				locked++;
-+		}
-+		vfio_lock_acct(dma, locked - unlocked, true);
-+	}
-+}
-+
-+static void vfio_iommu_detach_destroy_domain(struct vfio_domain *domain,
-+					     struct vfio_iommu *iommu,
-+					     struct vfio_iommu_group *group)
-+{
-+	iommu_detach_group(domain->domain, group->iommu_group);
-+	list_del(&group->next);
-+	if (!list_empty(&domain->group_list))
-+		return;
-+
-+	/*
-+	 * Group ownership provides privilege, if the group list is empty, the
-+	 * domain goes away. If it's the last domain with iommu and external
-+	 * domain doesn't exist, then all the mappings go away too. If it's the
-+	 * last domain with iommu and external domain exist, update accounting
-+	 */
-+	if (list_is_singular(&iommu->domain_list)) {
-+		if (list_empty(&iommu->emulated_iommu_groups)) {
-+			WARN_ON(iommu->notifier.head);
-+			vfio_iommu_unmap_unpin_all(iommu);
-+		} else {
-+			vfio_iommu_unmap_unpin_reaccount(iommu);
-+		}
-+	}
-+	iommu_domain_free(domain->domain);
-+	list_del(&domain->next);
-+	kfree(domain);
-+
-+	/*
-+	 * Removal of a group without dirty tracking may allow the iommu scope
-+	 * to be promoted.
-+	 */
-+	if (!group->pinned_page_dirty_scope) {
-+		iommu->num_non_pinned_groups--;
-+		if (iommu->dirty_page_tracking)
-+			vfio_iommu_populate_bitmap_full(iommu);
-+	}
-+
-+	vfio_update_pgsize_bitmap(iommu);
-+}
-+
- static int vfio_iommu_type1_attach_group(void *iommu_data,
- 		struct iommu_group *iommu_group, enum vfio_group_type type)
- {
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_iommu_group *group;
--	struct vfio_domain *domain, *d;
-+	struct vfio_domain *domain;
- 	struct bus_type *bus = NULL;
- 	bool resv_msi, msi_remap;
- 	phys_addr_t resv_msi_base = 0;
-@@ -2197,26 +2347,12 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 	if (ret)
- 		goto out_free_group;
- 
--	ret = -ENOMEM;
--	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
--	if (!domain)
-+	domain = vfio_iommu_alloc_attach_domain(bus, iommu, group);
-+	if (IS_ERR(domain)) {
-+		ret = PTR_ERR(domain);
- 		goto out_free_group;
--
--	ret = -EIO;
--	domain->domain = iommu_domain_alloc(bus);
--	if (!domain->domain)
--		goto out_free_domain;
--
--	if (iommu->nesting) {
--		ret = iommu_enable_nesting(domain->domain);
--		if (ret)
--			goto out_domain;
- 	}
- 
--	ret = iommu_attach_group(domain->domain, group->iommu_group);
--	if (ret)
--		goto out_domain;
--
- 	/* Get aperture info */
- 	geo = &domain->domain->geometry;
- 	if (vfio_iommu_aper_conflict(iommu, geo->aperture_start,
-@@ -2254,9 +2390,6 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 
- 	resv_msi = vfio_iommu_has_sw_msi(&group_resv_regions, &resv_msi_base);
- 
--	INIT_LIST_HEAD(&domain->group_list);
--	list_add(&group->next, &domain->group_list);
--
- 	msi_remap = irq_domain_check_msi_remap() ||
- 		    iommu_capable(bus, IOMMU_CAP_INTR_REMAP);
- 
-@@ -2267,117 +2400,32 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 		goto out_detach;
- 	}
- 
--	/*
--	 * If the IOMMU can block non-coherent operations (ie PCIe TLPs with
--	 * no-snoop set) then VFIO always turns this feature on because on Intel
--	 * platforms it optimizes KVM to disable wbinvd emulation.
--	 */
--	if (domain->domain->ops->enforce_cache_coherency)
--		domain->enforce_cache_coherency =
--			domain->domain->ops->enforce_cache_coherency(
--				domain->domain);
--
--	/*
--	 * Try to match an existing compatible domain.  We don't want to
--	 * preclude an IOMMU driver supporting multiple bus_types and being
--	 * able to include different bus_types in the same IOMMU domain, so
--	 * we test whether the domains use the same iommu_ops rather than
--	 * testing if they're on the same bus_type.
--	 */
--	list_for_each_entry(d, &iommu->domain_list, next) {
--		if (d->domain->ops == domain->domain->ops) {
--			iommu_detach_group(domain->domain, group->iommu_group);
--			if (!iommu_attach_group(d->domain,
--						group->iommu_group)) {
--				list_add(&group->next, &d->group_list);
--				iommu_domain_free(domain->domain);
--				kfree(domain);
--				goto done;
--			}
--
--			ret = iommu_attach_group(domain->domain,
--						 group->iommu_group);
--			if (ret)
--				goto out_domain;
--		}
--	}
--
--	vfio_test_domain_fgsp(domain);
--
--	/* replay mappings on new domains */
--	ret = vfio_iommu_replay(iommu, domain);
--	if (ret)
--		goto out_detach;
--
--	if (resv_msi) {
-+	if (resv_msi && !domain->msi_cookie) {
- 		ret = iommu_get_msi_cookie(domain->domain, resv_msi_base);
- 		if (ret && ret != -ENODEV)
- 			goto out_detach;
-+		domain->msi_cookie = true;
- 	}
- 
--	list_add(&domain->next, &iommu->domain_list);
--	vfio_update_pgsize_bitmap(iommu);
--done:
- 	/* Delete the old one and insert new iova list */
- 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
- 
--	/*
--	 * An iommu backed group can dirty memory directly and therefore
--	 * demotes the iommu scope until it declares itself dirty tracking
--	 * capable via the page pinning interface.
--	 */
--	iommu->num_non_pinned_groups++;
- 	mutex_unlock(&iommu->lock);
- 	vfio_iommu_resv_free(&group_resv_regions);
- 
- 	return 0;
- 
- out_detach:
--	iommu_detach_group(domain->domain, group->iommu_group);
--out_domain:
--	iommu_domain_free(domain->domain);
--	vfio_iommu_iova_free(&iova_copy);
--	vfio_iommu_resv_free(&group_resv_regions);
--out_free_domain:
--	kfree(domain);
-+	vfio_iommu_detach_destroy_domain(domain, iommu, group);
- out_free_group:
- 	kfree(group);
- out_unlock:
- 	mutex_unlock(&iommu->lock);
-+	vfio_iommu_iova_free(&iova_copy);
-+	vfio_iommu_resv_free(&group_resv_regions);
- 	return ret;
- }
- 
--static void vfio_iommu_unmap_unpin_all(struct vfio_iommu *iommu)
--{
--	struct rb_node *node;
--
--	while ((node = rb_first(&iommu->dma_list)))
--		vfio_remove_dma(iommu, rb_entry(node, struct vfio_dma, node));
--}
--
--static void vfio_iommu_unmap_unpin_reaccount(struct vfio_iommu *iommu)
--{
--	struct rb_node *n, *p;
--
--	n = rb_first(&iommu->dma_list);
--	for (; n; n = rb_next(n)) {
--		struct vfio_dma *dma;
--		long locked = 0, unlocked = 0;
--
--		dma = rb_entry(n, struct vfio_dma, node);
--		unlocked += vfio_unmap_unpin(iommu, dma, false);
--		p = rb_first(&dma->pfn_list);
--		for (; p; p = rb_next(p)) {
--			struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn,
--							 node);
--
--			if (!is_invalid_reserved_pfn(vpfn->pfn))
--				locked++;
--		}
--		vfio_lock_acct(dma, locked - unlocked, true);
--	}
--}
--
- /*
-  * Called when a domain is removed in detach. It is possible that
-  * the removed domain decided the iova aperture window. Modify the
-@@ -2491,44 +2539,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 		group = find_iommu_group(domain, iommu_group);
- 		if (!group)
- 			continue;
--
--		iommu_detach_group(domain->domain, group->iommu_group);
--		list_del(&group->next);
--		/*
--		 * Group ownership provides privilege, if the group list is
--		 * empty, the domain goes away. If it's the last domain with
--		 * iommu and external domain doesn't exist, then all the
--		 * mappings go away too. If it's the last domain with iommu and
--		 * external domain exist, update accounting
--		 */
--		if (list_empty(&domain->group_list)) {
--			if (list_is_singular(&iommu->domain_list)) {
--				if (list_empty(&iommu->emulated_iommu_groups)) {
--					WARN_ON(iommu->notifier.head);
--					vfio_iommu_unmap_unpin_all(iommu);
--				} else {
--					vfio_iommu_unmap_unpin_reaccount(iommu);
--				}
--			}
--			iommu_domain_free(domain->domain);
--			list_del(&domain->next);
--			kfree(domain);
--			vfio_iommu_aper_expand(iommu, &iova_copy);
--			vfio_update_pgsize_bitmap(iommu);
--			/*
--			 * Removal of a group without dirty tracking may allow
--			 * the iommu scope to be promoted.
--			 */
--			if (!group->pinned_page_dirty_scope) {
--				iommu->num_non_pinned_groups--;
--				if (iommu->dirty_page_tracking)
--					vfio_iommu_populate_bitmap_full(iommu);
--			}
--		}
-+		vfio_iommu_detach_destroy_domain(domain, iommu, group);
- 		kfree(group);
- 		break;
- 	}
- 
-+	vfio_iommu_aper_expand(iommu, &iova_copy);
- 	if (!vfio_iommu_resv_refresh(iommu, &iova_copy))
- 		vfio_iommu_iova_insert_copy(iommu, &iova_copy);
- 	else
--- 
-2.17.1
+Merge window seems to have closed now and v5.19-rc1 release is out. I 
+can apply these cleanly on v5.19-rc1. Please let me know if re-send is 
+needed now or I need to wait for some more time? Thanks.
 
