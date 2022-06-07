@@ -2,169 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E6C53F9E0
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jun 2022 11:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41EA953FB41
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jun 2022 12:32:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232941AbiFGJeM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jun 2022 05:34:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60262 "EHLO
+        id S231667AbiFGKcX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jun 2022 06:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239663AbiFGJeJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jun 2022 05:34:09 -0400
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 850971A836
-        for <linux-tegra@vger.kernel.org>; Tue,  7 Jun 2022 02:34:05 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2579Wc0I091949;
-        Tue, 7 Jun 2022 04:32:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1654594358;
-        bh=4gEuMclZBhRQsDp0tvKaU3YrWccQZAGJURM8nh1W4Dc=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=k3vx5fmY3w2g9Kjy9vS3FS56toxZSl4jg/ajU1hdRRImusYUUI39kNg2qhLfeXCDd
-         F7OzJAHN5T4gAJh/8Fu9mAhSWZ+FGGvj2oIwfhncphIoKXvPIxSBH/WdWhJW7XynOc
-         YBUg7FOlGe/94JgUoQ+dgpWXspuXRavwoYOd/Kzs=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2579WcaD112036
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 7 Jun 2022 04:32:38 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 7
- Jun 2022 04:32:37 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 7 Jun 2022 04:32:37 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2579WbvB057541;
-        Tue, 7 Jun 2022 04:32:37 -0500
-Date:   Tue, 7 Jun 2022 15:02:36 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-CC:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>, <kernel@pengutronix.de>,
-        <linux-mtd@lists.infradead.org>, Michael Walle <michael@walle.cc>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-tegra@vger.kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        <linux-amlogic@lists.infradead.org>
-Subject: Re: [PATCH 00/14] mtd: Fix platform remove callbacks to always
- return 0
-Message-ID: <20220607093236.67txulke76mi6t75@ti.com>
-References: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
- <20220606151841.682a5939@xps-13>
+        with ESMTP id S236009AbiFGKcW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jun 2022 06:32:22 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C0861165
+        for <linux-tegra@vger.kernel.org>; Tue,  7 Jun 2022 03:32:18 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id s68so15454928pgs.10
+        for <linux-tegra@vger.kernel.org>; Tue, 07 Jun 2022 03:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=K8sjQL70btqKJKL2P73yBG2F7sRnYyccHvFs9SOUGR8=;
+        b=RTXx9MHQtRLTI52cPHnbS9O6MTcjIyvmHK13tonyP9MhwVDc9Abiy53K4LjYIIm8Vu
+         CESmvWNi6TyIUpjQRXmb1DwBfsPiZwhAYs0AjT4PjImbRUwoiVrOScRFYMySbWWROSj/
+         TRHygUijdzvUGHj72ut+1/Cv/bAX6skOQNPEzRKvJuhYXd0J/d8cjn0f/6afvkOr2/6E
+         Fb7v5ScqdkGu1JusEIyAOJyvH6nHt6nEnapscgf+kPyXdEKbSVDrmQsXZ43y9wMGseHc
+         kd1f5OU5Ev6xq3SxWnFZidgKwL3nfnGZr6VYPxYFsrrcKDNmPMMI+cTIVFuWNmBJ3jiC
+         WWSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=K8sjQL70btqKJKL2P73yBG2F7sRnYyccHvFs9SOUGR8=;
+        b=oCcECkvT08CrrX7OUQRD7MUm1F0j+5Ov0mxhE2M/a7O8lEDE669V7zHcalcl+Dw4O5
+         /rO1UuCLBtrINlrlLDA0OEuczBBaWB5d0ZyZNcOu54rzheU8W4PIxF5X9vM41aDi1H77
+         8uw3CtoWcYpoeYp4jYykV/pwmBY2uRNjB5PGMbwv3VZMbZekwAfXSHY5BznALM0Fg+IK
+         cNRqhqy4Yh+pID/ktQp65pC7fN/INX4K5LYs+9BrpgWM29kiGFZrAvyK/LYl7EB9MLEU
+         ZEs1VJaa4SPJNXQLfb6gfa/zPmYSYZghm6BUqXKic0NZhbm9P1Tm503sm9Cq2KN+w+HM
+         XflA==
+X-Gm-Message-State: AOAM530t5JXnbQ1Hb6lJLyzABt+yUhMiZ2HZ0MCnSSphGHVWm+iL6FmA
+        dtimUiN4rzC0vTXuMZzBFgwCuKP7Dk69+kf1Pbg=
+X-Google-Smtp-Source: ABdhPJxFaYl7MLS6W8vzvIVRJjWp56+XBCBsBhN2IL4rqGe2A0PoTU0gyBAc8j6AjJubHGM+EeBeNI4aBr8qg/SA2EI=
+X-Received: by 2002:a62:7cd2:0:b0:51b:9ba6:a028 with SMTP id
+ x201-20020a627cd2000000b0051b9ba6a028mr36044480pfc.24.1654597937990; Tue, 07
+ Jun 2022 03:32:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220606151841.682a5939@xps-13>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:867a:0:0:0:0 with HTTP; Tue, 7 Jun 2022 03:32:17
+ -0700 (PDT)
+Reply-To: orlandomoris56@gmail.com
+From:   Orlando Moris <ouroakononassoumanou@gmail.com>
+Date:   Tue, 7 Jun 2022 10:32:17 +0000
+Message-ID: <CA+X4su2X++RxLR-nKhgqiDrQ9uSynQoGM6n3_-S7n+2Q2Fp-Vw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: Yes, score=6.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM,UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:52f listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4999]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ouroakononassoumanou[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [orlandomoris56[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Miquel,
-
-On 06/06/22 03:18PM, Miquel Raynal wrote:
-> Hi Folks,
-> 
-> u.kleine-koenig@pengutronix.de wrote on Fri,  3 Jun 2022 23:07:44 +0200:
-> 
-> > Hello,
-> > 
-> > this series prepares to make platform remove callbacks return void.
-> > Therefor first update them to always return 0. The rationale is that the
-> > Linux device model doesn't handle failures on remove and if a remove
-> > callback returns an error, it just emits a quite generic error message
-> > and still removes the device.
-> 
-> Tudor, Pratyush, Richard, Vignesh,
-> 
-> The series looks good to me (besides the atmel patch), I think it's
-> best to take it directly through mtd/next instead of going through all
-> the different internal branches, please let me know if you disagree
-> with the idea.
-
-Patch 2 does not look good to me. It modifies the aspeed-smc driver in 
-drivers/mtd/spi-nor/controllers/ but the driver has been moved to 
-drivers/spi/ in Mark's next branch [0]. The patch would likely conflict 
-with that.
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit?id=9c63b846e6df43e5b3d31263f7db545f32deeda3
-
-> 
-> Cheers,
-> Miquèl
-> 
-> > 
-> > Best regards
-> > Uwe
-> > 
-> > Uwe Kleine-König (14):
-> >   mtd: hyperbus: Make hyperbus_unregister_device() return void
-> >   mtd: spi-nor: aspeed-smc: Make aspeed_smc_unregister() return void
-> >   mtd: powernv_flash: Warn about failure to unregister mtd device
-> >   mtd: st-spi_fsm: Warn about failure to unregister mtd device
-> >   mtd: lpddr2_nvm: Warn about failure to unregister mtd device
-> >   mtd: spear_smi: Don't skip cleanup after mtd_device_unregister()
-> >     failed
-> >   mtd: spear_smi: Drop if with an always false condition
-> >   mtd: rawnand: atmel: Warn about failure to unregister mtd device
-> >   mtd: rawnand: omap2: Suppress error message after WARN in .remove()
-> >   mtd: rawnand: tegra: Don't skip cleanup after mtd_device_unregister()
-> >     failed
-> >   mtd: rawnand: meson: Don't skip cleanup after mtd_device_unregister()
-> >     failed
-> >   mtd: rawnand: meson: Drop cleaning platform data in .remove()
-> >   mtd: physmap: Don't skip cleanup after mtd_device_unregister() failed
-> >   mtd: physmap: Drop if with an always false condition
-> > 
-> >  drivers/mtd/devices/powernv_flash.c          |  4 +++-
-> >  drivers/mtd/devices/spear_smi.c              | 10 ++--------
-> >  drivers/mtd/devices/st_spi_fsm.c             |  4 +++-
-> >  drivers/mtd/hyperbus/hbmc-am654.c            |  6 +++---
-> >  drivers/mtd/hyperbus/hyperbus-core.c         |  8 ++------
-> >  drivers/mtd/hyperbus/rpc-if.c                |  5 +++--
-> >  drivers/mtd/lpddr/lpddr2_nvm.c               |  4 +++-
-> >  drivers/mtd/maps/physmap-core.c              | 13 +++----------
-> >  drivers/mtd/nand/raw/atmel/nand-controller.c |  5 ++++-
-> >  drivers/mtd/nand/raw/meson_nand.c            | 16 +++-------------
-> >  drivers/mtd/nand/raw/omap2.c                 |  6 ++----
-> >  drivers/mtd/nand/raw/tegra_nand.c            |  5 +----
-> >  drivers/mtd/spi-nor/controllers/aspeed-smc.c |  8 ++++----
-> >  include/linux/mtd/hyperbus.h                 |  4 +---
-> >  14 files changed, 37 insertions(+), 61 deletions(-)
-> > 
-> > base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
-> 
-
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+SGFsbMOzLCB2aW5zYW1sZWdhIHZlcmnDsCB1cHBsw71zdCB1bSBhw7Agw75lc3NpIHTDtmx2dXDD
+s3N0dXIgc2VtIGtvbSDDrQ0KcMOzc3Row7NsZmnDsCDDvml0dCBlciBla2tpIHZpbGxhIGhlbGR1
+ciB2YXIgc8OpcnN0YWtsZWdhIGJlaW50IHRpbCDDvsOtbiB0aWwNCmfDs8OwcmFyIHVtaHVnc3Vu
+YXIuIMOJZyBlciBtZcOwIHRpbGzDtmd1IHVwcCDDoSAoJDcuNTAwLjAwMC4wMCkgc2VtIGzDoXRp
+bm4NCnZpw7Bza2lwdGF2aW51ciBtaW5uLCB2ZXJrZnLDpsOwaW5ndXIgQ2FybG9zLCBza2lsZGkg
+ZWZ0aXIsIHNlbSDDocOwdXIgZW4NCmhhbm4gbMOpc3Qgw60gw7NoZXBwaWxlZ3UgYsOtbHNseXNp
+IG1lw7AgZmrDtmxza3lsZHUgc2lubmksIGJqw7Mgb2cgc3RhcmZhw7BpDQpow6lyIMOtIChMb23D
+qSBUw7Nnw7MpLiDDiWcgaGVmIHNhbWJhbmQgdmnDsCDDvmlnIHNlbSBuw6FudXN0dSBhw7BzdGFu
+ZGVuZHVyDQpoYW5uIHN2byDDvsO6IGdldGlyIGZlbmdpw7AgZsOpw7Agw6Ega3LDtmZ1bS4gw6Eg
+c2tqw7N0dW0gdmnDsGJyw7Znw7B1bSDDvsOtbnVtIG11bg0Kw6lnIHVwcGzDvXNhIMO+aWcgdW0g
+aHZlcm5pZw0KZnJhbWt2w6ZtZCDDvmVzc2Egc8OhdHRtw6FsYS4sIGhhZsOwdSBzYW1iYW5kIHZp
+w7AgbWlnIMOtIMO+ZXNzdW0gdMO2bHZ1cMOzc3R1bQ0KKG9ybGFuZG9tb3JpczU2QGdtYWlsLmNv
+bSkNCg==
