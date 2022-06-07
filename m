@@ -2,131 +2,169 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F80153F9AE
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jun 2022 11:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E6C53F9E0
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jun 2022 11:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238395AbiFGJ22 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jun 2022 05:28:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41090 "EHLO
+        id S232941AbiFGJeM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jun 2022 05:34:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239485AbiFGJ2M (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jun 2022 05:28:12 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583B73B571
-        for <linux-tegra@vger.kernel.org>; Tue,  7 Jun 2022 02:28:11 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id l204so30128079ybf.10
-        for <linux-tegra@vger.kernel.org>; Tue, 07 Jun 2022 02:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=gujHBVxqWIlmngbJHwwatlrY6K2BhXGLJOXKENebOL4hOCXVjvoa+7rQ+wCwOuo7nz
-         8e28HbaszMFtjrNu2xJwHUtJo1p0vWs5cPK29M2FpYQX1yrDGputAW1tF1NfmP59wawm
-         4ciGU9SnxDgRMb84mTOs96+/9zN97uENfqj9/+eZfuG77h5pSaMszmbmnWOwi9m+gNzd
-         5NtwsZACk2ULSP0cRt0MdNUxBuwzIbCfzmloCBb/Ue1QhCyZ8f6GEgrTXVIY7durHnKk
-         UWQF6j7yHnTlxlvI9xCgSzii4NusQH9ADfpyzQwiF9b+OrCBSH3adFs9TwqclNBk9aQF
-         O14A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=wKUuNH6/GlwcibY7i/6Eq6m2PGQJkhdrX2wKRUA3Hltq/xcESgQHHWiZiRy8MLPs6f
-         /RApdaOx+PMX1pRYc4BqffoijaUY7c/JACI6ToX2GVsHQ0uj4WFBDsIsY9b75ccRud+9
-         1DONJ2uezxu2f8EQYK23fnvMnpP039Fn0dAMZTEPu2g4rmauS6IwAN9nAUjcDs6tQtXE
-         lpNXbMnkDxbw747cCm3hVJZnHue5K9lLUF3UMSXDWak+RRnk0SmjlSiHcys3YJH2qU4F
-         lSYDw/WTHgCClbZHZTo8g95Ru4BCFJooxbZCQXsYtDHPOPGFoGq2yKB2DJFqj7SsC/Uq
-         5H0w==
-X-Gm-Message-State: AOAM5327PjchWGFgD/p7F7bz0t8m2T55742rTtdkZflYeFefmj/6NKMs
-        XUynKfoSNeVUraQXmG0lbiij9lrM5QmfMieM7qghWIDT/ikIQxOl
-X-Google-Smtp-Source: ABdhPJxTYNOyqQTj+pRtv7B26L++zgaw4oyR9fAzq9Xjy/qi86fDOL5mMOdKcDA6Petw4QZgBH7CHdeaexgYk1On3ls=
-X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id
- v25-20020a056830091900b0060afe63e321mr11494607ott.227.1654594080399; Tue, 07
- Jun 2022 02:28:00 -0700 (PDT)
+        with ESMTP id S239663AbiFGJeJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jun 2022 05:34:09 -0400
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 850971A836
+        for <linux-tegra@vger.kernel.org>; Tue,  7 Jun 2022 02:34:05 -0700 (PDT)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2579Wc0I091949;
+        Tue, 7 Jun 2022 04:32:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1654594358;
+        bh=4gEuMclZBhRQsDp0tvKaU3YrWccQZAGJURM8nh1W4Dc=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=k3vx5fmY3w2g9Kjy9vS3FS56toxZSl4jg/ajU1hdRRImusYUUI39kNg2qhLfeXCDd
+         F7OzJAHN5T4gAJh/8Fu9mAhSWZ+FGGvj2oIwfhncphIoKXvPIxSBH/WdWhJW7XynOc
+         YBUg7FOlGe/94JgUoQ+dgpWXspuXRavwoYOd/Kzs=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2579WcaD112036
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 7 Jun 2022 04:32:38 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 7
+ Jun 2022 04:32:37 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Tue, 7 Jun 2022 04:32:37 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2579WbvB057541;
+        Tue, 7 Jun 2022 04:32:37 -0500
+Date:   Tue, 7 Jun 2022 15:02:36 +0530
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+CC:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Liang Yang <liang.yang@amlogic.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>, <kernel@pengutronix.de>,
+        <linux-mtd@lists.infradead.org>, Michael Walle <michael@walle.cc>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-tegra@vger.kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        <linux-amlogic@lists.infradead.org>
+Subject: Re: [PATCH 00/14] mtd: Fix platform remove callbacks to always
+ return 0
+Message-ID: <20220607093236.67txulke76mi6t75@ti.com>
+References: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
+ <20220606151841.682a5939@xps-13>
 MIME-Version: 1.0
-Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
- 02:28:00 -0700 (PDT)
-Reply-To: robertbaileys_spende@aol.com
-From:   Robert Baileys <mercymiji.j@gmail.com>
-Date:   Tue, 7 Jun 2022 11:28:00 +0200
-Message-ID: <CAAD1zOZ9bCDqBnjmbC3dQfgC=P2zTqAS=TP3q5qK5TFB5=Q9dQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220606151841.682a5939@xps-13>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b31 listed in]
-        [list.dnswl.org]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mercymiji.j[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=20
-Hallo, lieber Beg=C3=BCnstigter,
+Hi Miquel,
 
-Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
-bin ein pensionierter Regierungsangestellter aus Harlem und ein
-Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
-bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
-ttery
-in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
-und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
-Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
-Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
-um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
-Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
-machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
-e
-Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
-gegen=C3=BCberstehen.
-https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
-t-in-new-york-history/Sie
-Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
-https://www.youtube.com/watch?v=3DH5vT18Ysavc
-Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
-Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
-e
-Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
-Euro beginnen kann.
-Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
-Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
-erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
+On 06/06/22 03:18PM, Miquel Raynal wrote:
+> Hi Folks,
+> 
+> u.kleine-koenig@pengutronix.de wrote on Fri,  3 Jun 2022 23:07:44 +0200:
+> 
+> > Hello,
+> > 
+> > this series prepares to make platform remove callbacks return void.
+> > Therefor first update them to always return 0. The rationale is that the
+> > Linux device model doesn't handle failures on remove and if a remove
+> > callback returns an error, it just emits a quite generic error message
+> > and still removes the device.
+> 
+> Tudor, Pratyush, Richard, Vignesh,
+> 
+> The series looks good to me (besides the atmel patch), I think it's
+> best to take it directly through mtd/next instead of going through all
+> the different internal branches, please let me know if you disagree
+> with the idea.
 
-Gr=C3=BC=C3=9Fe,
-Robert Bailey
-* * * * * * * * * * * * * * * *
+Patch 2 does not look good to me. It modifies the aspeed-smc driver in 
+drivers/mtd/spi-nor/controllers/ but the driver has been moved to 
+drivers/spi/ in Mark's next branch [0]. The patch would likely conflict 
+with that.
 
-Powerball-Jackpot-Gewinner
-E-Mail: robertbaileys_spende@aol.com
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit?id=9c63b846e6df43e5b3d31263f7db545f32deeda3
+
+> 
+> Cheers,
+> Miquèl
+> 
+> > 
+> > Best regards
+> > Uwe
+> > 
+> > Uwe Kleine-König (14):
+> >   mtd: hyperbus: Make hyperbus_unregister_device() return void
+> >   mtd: spi-nor: aspeed-smc: Make aspeed_smc_unregister() return void
+> >   mtd: powernv_flash: Warn about failure to unregister mtd device
+> >   mtd: st-spi_fsm: Warn about failure to unregister mtd device
+> >   mtd: lpddr2_nvm: Warn about failure to unregister mtd device
+> >   mtd: spear_smi: Don't skip cleanup after mtd_device_unregister()
+> >     failed
+> >   mtd: spear_smi: Drop if with an always false condition
+> >   mtd: rawnand: atmel: Warn about failure to unregister mtd device
+> >   mtd: rawnand: omap2: Suppress error message after WARN in .remove()
+> >   mtd: rawnand: tegra: Don't skip cleanup after mtd_device_unregister()
+> >     failed
+> >   mtd: rawnand: meson: Don't skip cleanup after mtd_device_unregister()
+> >     failed
+> >   mtd: rawnand: meson: Drop cleaning platform data in .remove()
+> >   mtd: physmap: Don't skip cleanup after mtd_device_unregister() failed
+> >   mtd: physmap: Drop if with an always false condition
+> > 
+> >  drivers/mtd/devices/powernv_flash.c          |  4 +++-
+> >  drivers/mtd/devices/spear_smi.c              | 10 ++--------
+> >  drivers/mtd/devices/st_spi_fsm.c             |  4 +++-
+> >  drivers/mtd/hyperbus/hbmc-am654.c            |  6 +++---
+> >  drivers/mtd/hyperbus/hyperbus-core.c         |  8 ++------
+> >  drivers/mtd/hyperbus/rpc-if.c                |  5 +++--
+> >  drivers/mtd/lpddr/lpddr2_nvm.c               |  4 +++-
+> >  drivers/mtd/maps/physmap-core.c              | 13 +++----------
+> >  drivers/mtd/nand/raw/atmel/nand-controller.c |  5 ++++-
+> >  drivers/mtd/nand/raw/meson_nand.c            | 16 +++-------------
+> >  drivers/mtd/nand/raw/omap2.c                 |  6 ++----
+> >  drivers/mtd/nand/raw/tegra_nand.c            |  5 +----
+> >  drivers/mtd/spi-nor/controllers/aspeed-smc.c |  8 ++++----
+> >  include/linux/mtd/hyperbus.h                 |  4 +---
+> >  14 files changed, 37 insertions(+), 61 deletions(-)
+> > 
+> > base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
+> 
+
+-- 
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
