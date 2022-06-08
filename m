@@ -2,185 +2,206 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BF49543AC4
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jun 2022 19:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A88543B78
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jun 2022 20:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232931AbiFHRqk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jun 2022 13:46:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44846 "EHLO
+        id S234157AbiFHSWo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jun 2022 14:22:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232256AbiFHRqj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jun 2022 13:46:39 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4F301ACE6B;
-        Wed,  8 Jun 2022 10:46:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kHqn5PAP+jbe8Zs5DgorTAGXOCPOVhFXbYoYTJCHxFuoObzdit2lC4O9O1vivWhNiY+zDYZBIVasc/Aho9bjIjD7fDt1GqD+gg+dP/ddBsrnCVCKzIecUdca+WLJy9sebrabWuE5b5WP0NUGqMKynwjr6jsr/KABnoMoQbtgzX2HDJbLLwmnEwD7oc4JrRxQ6vncGo7kkEdM9nk2PNTj3RjuSo1KVDyFC3ckW3XGLlLz6pTm4/N1GuIYVPtlDsymbUm5Q4SmFW671AkPnxOgpKj3LiRQlRFSbsIq49rdxiSNZ1RDW+j4pW4chFq2HCD4qipoEqgXpbp/dP4z/yRSnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fFeNMwak6IcWIfXn3ck/l0OoBncuvs3yDZ+On/hvF3w=;
- b=FZN7npI2c4Y6/FzlggObdZDGWKmeW1ze3nbyVSLHjKCRM/TJuUEKFLpjg+dHYHPwdclNK1SczwySFeQ0t5t6caG2h/c+3JFEieaq4HVQpxS+cBkJ4HXYubTTasnc875wk8w3T92nZWXIVgNPwbDwBBJ2j/tYkub3XCj3RdubsFgb/ItmmGkndwvVXLX0rfo+LMa0xToXGYN/NjWpGAMQ+up0Ia5wa2wSOG12uohIwTkZa4NxA6Ia4F1+QCpu/i4hrQ5C8YeEApE6BO1W4t4KWUHwDp/ar0dbs/bUykPAQF1cMB22xvKF/+P7BXR3alD4nUzSghf2wmH6ikDVALsqVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFeNMwak6IcWIfXn3ck/l0OoBncuvs3yDZ+On/hvF3w=;
- b=pj314MFZvyxbk0ZQs3c3QVIyiIVQvNRFWeljCaisw0svE3icciaLryu3SwB0ZrJruRPwCHycdF4wqAtPteGog6x6WVjlLESH6hvPeDrZrnR+RPyF39amcDN+uB9Vh7M8HNgVfpKFtMIPwxZD6OLG39vMVYxzMWC8fr6QDrGq6pHplKhKAzvo+3RQJasA72tXTPMmIYOac4j55a3VSKOkN5kGsFhdpTybvsc45awQKNkhJb+xIkvCjZlgTlBCzAKRScyZvB2f2v72w18BTuucGDIWT74YwdOeMTT88dbwNkPiNdDw6pXiRsR87KEhizzHi+VNUl9o+dBa+9XHhl5/uw==
-Received: from BN8PR04CA0048.namprd04.prod.outlook.com (2603:10b6:408:d4::22)
- by BL1PR12MB5109.namprd12.prod.outlook.com (2603:10b6:208:309::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Wed, 8 Jun
- 2022 17:46:36 +0000
-Received: from BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:d4:cafe::74) by BN8PR04CA0048.outlook.office365.com
- (2603:10b6:408:d4::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12 via Frontend
- Transport; Wed, 8 Jun 2022 17:46:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT049.mail.protection.outlook.com (10.13.177.157) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5332.12 via Frontend Transport; Wed, 8 Jun 2022 17:46:35 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 8 Jun
- 2022 17:46:35 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 8 Jun 2022
- 10:46:34 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
- Transport; Wed, 8 Jun 2022 10:46:31 -0700
-Date:   Wed, 8 Jun 2022 10:46:30 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-CC:     "jgg@nvidia.com" <jgg@nvidia.com>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "marcan@marcan.st" <marcan@marcan.st>,
-        "sven@svenpeter.dev" <sven@svenpeter.dev>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "robdclark@gmail.com" <robdclark@gmail.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-        "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        "orsonzhai@gmail.com" <orsonzhai@gmail.com>,
-        "baolin.wang7@gmail.com" <baolin.wang7@gmail.com>,
-        "zhang.lyra@gmail.com" <zhang.lyra@gmail.com>,
-        "wens@csie.org" <wens@csie.org>,
-        "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-        "samuel@sholland.org" <samuel@sholland.org>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-        "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
-        "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>
-Subject: Re: [PATCH 4/5] vfio/iommu_type1: Clean up update_dirty_scope in
- detach_group()
-Message-ID: <YqDgdqVIEwWF1Lku@Asurada-Nvidia>
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
- <20220606061927.26049-5-nicolinc@nvidia.com>
- <BN9PR11MB5276FD77A2780C97BB82CBA88CA49@BN9PR11MB5276.namprd11.prod.outlook.com>
+        with ESMTP id S234344AbiFHSWc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jun 2022 14:22:32 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 489F2527D6;
+        Wed,  8 Jun 2022 11:22:28 -0700 (PDT)
+Received: from mail-ot1-f45.google.com ([209.85.210.45]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MBDWo-1nu1Aj0jpW-00Cl9L; Wed, 08 Jun 2022 20:22:27 +0200
+Received: by mail-ot1-f45.google.com with SMTP id h15-20020a9d600f000000b0060c02d737ecso5325214otj.1;
+        Wed, 08 Jun 2022 11:22:24 -0700 (PDT)
+X-Gm-Message-State: AOAM530s+8fiOlM+i9vE1dNfx4Y17sS04XwwMs2CnmG4HRYgD36isAZk
+        0D3RFZgRb20DbfrU9Et6+2gq3VSbgjIfVUWmwNc=
+X-Google-Smtp-Source: ABdhPJzNVjvOg+I4TKoqtI9Mj5r7eGnKl4yZEYVHLzTr22uimte8bgKc1nTgREfDsecVqzQDeuxH8v8jGezndj85u8s=
+X-Received: by 2002:a25:e64b:0:b0:663:ffad:eac5 with SMTP id
+ d72-20020a25e64b000000b00663ffadeac5mr3789690ybh.550.1654705730388; Wed, 08
+ Jun 2022 09:28:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276FD77A2780C97BB82CBA88CA49@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1587681b-17e6-42e3-05b6-08da4976d555
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5109:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5109163184F6942DE7D0E27DABA49@BL1PR12MB5109.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VlWwurAOdfoGgoI16h8tVUGa0DMWObSVow2a+oqBe2GTFnExd/q6V80KUoAhwGlN9yTiFYxYW6jVjBzap0lqYoeVA4tHrBHMrOGcX5zZBeMejX3y7boGTlEAy8viOhvea4Lc5edPDt9f1gM3Yz4yshhtJU834DNuWSaDl8ncPyiQpyTRLuBvHJQBfduDGAfTgNfVbzHCJWrjAXpEGCRPTCGf7mTDAGh5679B46vrSg97YEDPFcMD43BwIItZvesFk4Zy64H93Dwary+5LvOOu343wysK9GxUMsJt9ESj5btIlqPdywHT8vmD67YvGPAoF/x3yZG3LHh7dZG8q/gtWy/b19cPhlo8nNnXnqEF0h7nE/ltWdup6DdvlH4HcoFYaMfD8+KZMV6Nv5XXpmSmcgQ94fjbq6RpxSQwnzq7UXarKD8LjmvWxl+5vaxdtSLl+vQBoPAlz1+dg+ILTz84VtisIYiw0ad3EIuQhQbcbYSsDfl9yL3rUkx2qO+yEb2NtCkQ2Fm3IO17nJB9KrPPm+T/qEgXoGVHlivYgejJEd9lU5sCIz0CwKdDurelw2XGvaY0nI7xYOBc6QrkGfSXmL4RbKqj3ZJ2PIJhnpEDGJMm+/XmrxCm1GA9pgdb3fgW8qWWDVkr+09ib2mFcHFvH7pgUIS1zo/GUOR2uhAkDta/7zYxFcm6pSERA8WykStTkWHbbfBM3IVe36tTA8CCypUdjIbGAWMJQSylTJFpr+k=
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(316002)(47076005)(426003)(8676002)(81166007)(36860700001)(55016003)(82310400005)(6916009)(70206006)(4326008)(70586007)(356005)(2906002)(54906003)(508600001)(336012)(8936002)(9686003)(33716001)(4744005)(186003)(5660300002)(83380400001)(40460700003)(86362001)(7416002)(7406005)(26005)(14143004)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 17:46:35.8559
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1587681b-17e6-42e3-05b6-08da4976d555
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5109
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220608142723.103523089@infradead.org> <20220608144518.010587032@infradead.org>
+In-Reply-To: <20220608144518.010587032@infradead.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 8 Jun 2022 18:28:33 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
+Message-ID: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
+Subject: Re: [PATCH 33/36] cpuidle,omap3: Use WFI for omap3_pm_idle()
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>,
+        Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>,
+        Xuerui Wang <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sam Creasey <sammy@sammy.net>, Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        David Miller <davem@davemloft.net>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu,
+        amakhalov@vmware.com, Pv-drivers <pv-drivers@vmware.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Rafael Wysocki <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        lpieralisi@kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Anup Patel <anup@brainfault.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Yury Norov <yury.norov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        quic_neeraju@quicinc.com, Josh Triplett <josh@joshtriplett.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        vschneid@redhat.com, jpoimboe@kernel.org,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SYNOPSYS ARC ARCHITECTURE" 
+        <linux-snps-arc@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        linux-csky@vger.kernel.org,
+        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
+        "open list:IA64 (Itanium) PLATFORM" <linux-ia64@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Openrisc <openrisc@lists.librecores.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        linux-perf-users@vger.kernel.org,
+        "open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE" 
+        <virtualization@lists.linux-foundation.org>,
+        xen-devel <xen-devel@lists.xenproject.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:i13j6eoMFgPYw3MZijIlP+qsFdvpj6/skYv1EqsVW2MmaUt+4Gs
+ TKbWFeC1OzuDFS2sWqGbpOsgmluCHecsmMhvkDcgDwZS7kTjkmCj52WVEg2IIi3r6+pRG+z
+ rzU45Su9pBqdNiYGOn02kRSdYKHiXsPEK9v/SLC483IzBlr4JkNRrD5CpMvQol8uZlyYl3Z
+ OrAoelai5SvzI6Si/N0ig==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qIZsoC3MLcE=:Fi7WALlfM393s9u3Q7GGEB
+ U6nTQb9ZAacqVnVQIr5fu17PUS75NyrNwLU5KpsjdOVVfBfc8uArE2cxpw6c12hFBhX3dhwkf
+ KDI5vh18Ywps+uzJdfZKSopuaSVtmt2s2HQdvEeWBprr7+EduCNhV80K0DwtYoA49ORgWusIu
+ ujW9tDYBNpG67UDpVkgfsc3ttzz5uc3Xy0sibuPOAykcL0B5AWSqXzIwKWSXIqirRpqArM7E7
+ bETP35dIOFK763UjdjbSoFLhR5SrzIR4UeUXf187+Wme9F6W+Rws6rNL6LzGBawb+ySvCswKZ
+ MxFrfJOrtU1Y5BUpQdQwOfjb/PHv7vpbVgz8Zs+GoV4WIFtnKElc+cEITWimsy5PM7hafJWRo
+ ROjdn03L8PdlPiYR9lYz+00O41lyVziINRWp9+rSC+t4izpUJoNiNs0csm+SKXzPwneljD4LH
+ uN2dnzR6p74/xizBeD1YT9+hM1UpmUSukws+7Hc45MYcWX96x+MXAVQK4wsQ8GmEpkQ08x70j
+ iyJax4TAxM9P+mlFEmgRAjGLAWq444DkLCUNHxPk1wT02l4SRMMmmrrxGvs4qkmfIwcIDZQAp
+ e6a0iHSNYKFinZ4hANQsKZuj2y9VHGeV5PmMb5EJByFVPq4TYP7YGcz8UWZWLc+iLwAnwSXbm
+ cIFx/XBMVAvoiqowG3xdiyI2k8M8LX0MoMQEU3oc9WC1G+QLWHhb7arsG7/2d6TPKSWodGwqw
+ yUuV/IiHJ5ckO0YgIEJv8/5UNepD5mZVAQB/gNkY4V3xVnKHQxig1e/FYsA9nPjODiwDrYbYU
+ XnTtm1tjRQolVfjeUVdYRd2R1w/Sd0wxx8M1JP3fM/zYO5/ypsmHXlRItKsXyOD5klxJBLwRm
+ prbqkXHR/m6SdehHj67w==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jun 08, 2022 at 08:35:47AM +0000, Tian, Kevin wrote:
+On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> arch_cpu_idle() is a very simple idle interface and exposes only a
+> single idle state and is expected to not require RCU and not do any
+> tracing/instrumentation.
+>
+> As such, omap_sram_idle() is not a valid implementation. Replace it
+> with the simple (shallow) omap3_do_wfi() call. Leaving the more
+> complicated idle states for the cpuidle driver.
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-> > @@ -2519,7 +2515,17 @@ static void vfio_iommu_type1_detach_group(void
-> > *iommu_data,
-> >                       kfree(domain);
-> >                       vfio_iommu_aper_expand(iommu, &iova_copy);
-> >                       vfio_update_pgsize_bitmap(iommu);
-> > +                     /*
-> > +                      * Removal of a group without dirty tracking may
-> > allow
-> > +                      * the iommu scope to be promoted.
-> > +                      */
-> > +                     if (!group->pinned_page_dirty_scope) {
-> > +                             iommu->num_non_pinned_groups--;
-> > +                             if (iommu->dirty_page_tracking)
-> > +
-> >       vfio_iommu_populate_bitmap_full(iommu);
-> 
-> This doesn't look correct. The old code decrements
-> num_non_pinned_groups for every detach group without dirty
-> tracking. But now it's only done when the domain is about to
-> be released...
+I see similar code in omap2:
 
-Hmm..you are right. It should be placed outside:
-		if (list_empty(&domain->group_list)) {
-			...
-		}
-+		if (!group->pinned_page_dirty_scope) {
-+			...
-+		}
+omap2_pm_idle()
+ -> omap2_enter_full_retention()
+     -> omap2_sram_suspend()
 
-Will fix this and the same problem in PATCH-5 too.
+Is that code path safe to use without RCU or does it need a similar change?
 
-Thanks!
+        Arnd
