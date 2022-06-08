@@ -2,204 +2,168 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D873543E89
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jun 2022 23:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9222543D86
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jun 2022 22:24:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235123AbiFHVZc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jun 2022 17:25:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34348 "EHLO
+        id S231392AbiFHUY2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jun 2022 16:24:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234294AbiFHVZY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jun 2022 17:25:24 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A3F19799D;
-        Wed,  8 Jun 2022 14:25:20 -0700 (PDT)
-Received: from mail-yb1-f173.google.com ([209.85.219.173]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MNc1T-1oNa4K0QrT-00P2e5; Wed, 08 Jun 2022 23:25:19 +0200
-Received: by mail-yb1-f173.google.com with SMTP id s39so11077928ybi.0;
-        Wed, 08 Jun 2022 14:25:16 -0700 (PDT)
-X-Gm-Message-State: AOAM533ccHmRHAtjzIENuM22dhcJwyw6Hc9WOvf6/we8Lwl3909SSkO9
-        yJ1qPPUY++2J0XerrodTaoB3zDcjNnsRmNA1OYw=
-X-Google-Smtp-Source: ABdhPJzN5kbTwiXruPcKSpnmqojFIl1cGQUBuhNCCdRneCrpSwm0deMOGKvKLmavgOJ05DHkpAoCHNV4Fm5CQu/QOU4=
-X-Received: by 2002:a0d:efc2:0:b0:2fe:d2b7:da8 with SMTP id
- y185-20020a0defc2000000b002fed2b70da8mr36982567ywe.42.1654705351589; Wed, 08
- Jun 2022 09:22:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220608142723.103523089@infradead.org> <20220608144517.188449351@infradead.org>
-In-Reply-To: <20220608144517.188449351@infradead.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 8 Jun 2022 18:22:12 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2y5+nrQFzhjrTTZe+d57Ug261J3kwLNe8Mu8i2qxtG2w@mail.gmail.com>
-Message-ID: <CAK8P3a2y5+nrQFzhjrTTZe+d57Ug261J3kwLNe8Mu8i2qxtG2w@mail.gmail.com>
-Subject: Re: [PATCH 20/36] arch/idle: Change arch_cpu_idle() IRQ behaviour
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>,
-        Xuerui Wang <kernel@xen0n.name>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sam Creasey <sammy@sammy.net>, Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        David Miller <davem@davemloft.net>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu,
-        amakhalov@vmware.com, Pv-drivers <pv-drivers@vmware.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Rafael Wysocki <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        lpieralisi@kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
-        Andy Gross <agross@kernel.org>,
+        with ESMTP id S230470AbiFHUY1 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jun 2022 16:24:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5715915A3D8;
+        Wed,  8 Jun 2022 13:24:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9FF8AB82ACF;
+        Wed,  8 Jun 2022 20:24:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FDDAC34116;
+        Wed,  8 Jun 2022 20:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654719863;
+        bh=kjulfUSLLMXAENNBuRnDb2ttG1bjGhev/8nPL0ukd74=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Tj82SFOEBNhE2C99Z3s8glLZg5Va/8Cv4lQtee1XdyPOMUb9RuyCumchv0GXMjW7p
+         JpGMGfKwoE1c6gEhf24mZksjoCU9iMMtC9u99/Xfg2rPeVrfQiQOjy7Os+WDAKoLg7
+         Y/jNwAETXYr1edF430gwK6G04XgUXz1ho9ylWCT+sTT91WrJWmBzCt46wTIOXsRnKE
+         2R0khovDUQtfXUmjvnBjlTLJTlB3wOLwcyQRncSRzoLHbtv3gHdOrUbTqfoSNyqC5D
+         OhRL4RTQrqspVbJrSdkVHs0zS6i/2xvFRFKU6ju6UrRXbZ6ZXCBXbvHEb2xlzj4JDv
+         UmKIF5Hio4pug==
+Date:   Wed, 8 Jun 2022 15:24:20 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Robert Marko <robert.marko@sartura.hr>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Baruch Siach <baruch@tkos.co.il>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Anup Patel <anup@brainfault.org>,
+        Andy Gross <agross@kernel.org>,
+        Selvam Sathappan Periakaruppan <speriaka@codeaurora.org>,
+        Kathiravan T <kathirav@codeaurora.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        Yury Norov <yury.norov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        quic_neeraju@quicinc.com, Josh Triplett <josh@joshtriplett.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        vschneid@redhat.com, jpoimboe@kernel.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-omap <linux-omap@vger.kernel.org>,
-        linux-csky@vger.kernel.org,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        "open list:IA64 (Itanium) PLATFORM" <linux-ia64@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-perf-users@vger.kernel.org,
-        "open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE" 
-        <virtualization@lists.linux-foundation.org>,
-        xen-devel <xen-devel@lists.xenproject.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+        linux-pci@vger.kernel.org,
         linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:ULl6cVPERAdL9PyvM7zONDpiWVA4ZyVCOCwcYzHyZ73ntMV0dXB
- Qnmv/scTxLAGN5u/O+hL+EvSWO+2o8nUrHr2/SapIIJB48TQzNuq7Qo4YjkkFjKlpP+8WrN
- 4s3kxn7SJ8r4HuxEedkCiCX/mZHBl+eq1ayzzhuhSO7yKbwkoJTbbR4YNjb9FqeLSzEM19Q
- Mc4EFUXFXKH6dwoj9trfQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:grSfKAphyzs=:I2pHeW7GZh5+m3dVZkq2mK
- h1vxzn78vi6v74anukEMbJA1NmbhPJsQ61amenlQ+l0eulwQnAphYlpg9L/wLMXysg2mrtIGl
- Gp6gy8nUKSm98lf1bCp1OxghGzjwMcNPmNXf5rYaGmYlJ302EfJJIkdXy8WIyogSODZwIx/bz
- 3f+Nsz1yJK25RbaEF/EZbTgAlScnruIzkAQVSYdXSD4p8hwt9yyxpxEdwpWFME0gZVyl0Madr
- CnUhu1DEnNYkWJFwfn7u8hClLiS4MEG6k3Ky2lXVWaR6SiADuD0pKXkSs2enFIUKnR+gYR0Wg
- dAGrhJOqTbTrQrgegZe1uqIvesGeKPhJompxYd4WbtuGF6eRQ34yEbu25ehPmNTRuz/E4/1qj
- bJUCwmofNaGObBLn+2Y9Hhm8AzONXvsj0IRq/m7qjUM1HW6+qOAZ6w07tpskpivABnTlBAoJR
- WGVCRozSSODlc+KobCiXeme9quMYCEj/FNJXz+OvOOk3tq2oFvCGV5W1Q8ARC9voBU+Xfy07W
- PIM4H4LdTHtBpF8FRkPrLY/V0M0nCbnMVyrgdDfMDJIt2aIL7LVsvK0v1GiSmU7WpSftyf7Bj
- 9ITI5IZa5QnwqoB5fpLA2b3ZFrZyWarhYbocWot6ttZMKakPG8BWsAGlDPmiDLIMcJsMcbXaT
- /dy88hAw+iE4MJDule9bvMH3EWaEWM1eitRY4U1FocIBhFqhIs92e2Eb27yRQvF7HJ7vm9Cwk
- JAIdAD3nS81Vjs1JQiiVSKI3+N63yI7FxXR9SIi14rGMtCP8uYH1U/2a3Vjo0x54NTLCjRYe8
- +QzdDdWQFo6qvnBiB98ReMOXm3z+vjpl1jmW9gc9BS/K/v5869ib5kHyzx2wjbkj2SN04il97
- QjAJudU8GsAAsFtr5+6CJL724hA/0VuLfc4wXv+9Q=
-X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-tegra@vger.kernel.org,
+        Stanimir Varbanov <svarbanov@mm-sol.com>
+Subject: Re: [PATCH v6 0/3] PCI: IPQ6018 platform support
+Message-ID: <20220608202420.GA418223@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+HBbNFo9QCExiA9T4Mn4t5vvir79xF3R9F6OLZa0m5Bzpte3w@mail.gmail.com>
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> Current arch_cpu_idle() is called with IRQs disabled, but will return
-> with IRQs enabled.
->
-> However, the very first thing the generic code does after calling
-> arch_cpu_idle() is raw_local_irq_disable(). This means that
-> architectures that can idle with IRQs disabled end up doing a
-> pointless 'enable-disable' dance.
->
-> Therefore, push this IRQ disabling into the idle function, meaning
-> that those architectures can avoid the pointless IRQ state flipping.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+[+cc Stanimir, beginning of thread at
+https://lore.kernel.org/r/cover.1644234441.git.baruch@tkos.co.il]
 
-I think you now need to add the a raw_local_irq_disable(); in loongarch
-as well.
+On Tue, Jun 07, 2022 at 03:12:19PM +0200, Robert Marko wrote:
+> On Wed, May 11, 2022 at 4:03 PM Lorenzo Pieralisi
+> <lorenzo.pieralisi@arm.com> wrote:
+> >
+> > On Tue, Apr 12, 2022 at 05:12:59PM +0100, Lorenzo Pieralisi wrote:
+> > > On Mon, Feb 07, 2022 at 04:51:23PM +0200, Baruch Siach wrote:
+> > > > This series adds support for the single PCIe lane on IPQ6018 SoCs. The code is
+> > > > ported from downstream Codeaurora v5.4 kernel. The main difference from
+> > > > downstream code is the split of PCIe registers configuration from .init to
+> > > > .post_init, since it requires phy_power_on().
+> > > >
+> > > > Tested on IPQ6010 based hardware.
+> > > >
+> > > > Changes in v6:
+> > > >
+> > > >   * Drop DT patch applied to the qcom tree
+> > > >
+> > > >   * Normalize driver changes subject line
+> > > >
+> > > >   * Add a preparatory patch to rename PCIE_CAP_LINK1_VAL to PCIE_CAP_SLOT_VAL,
+> > > >     and define it using PCI_EXP_SLTCAP_* macros
+> > > >
+> > > >   * Drop a vague comment about ASPM configuration
+> > > >
+> > > >   * Add a comment about the source of delay periods
+> > > >
+> > > > Changes in v5:
+> > > >
+> > > >   * Remove comments from qcom_pcie_init_2_9_0() (Bjorn Andersson)
+> > > >
+> > > > Changes in v4:
+> > > >
+> > > >   * Drop applied DT bits
+> > > >
+> > > >   * Add max-link-speed that was missing from the applied v2 patch
+> > > >
+> > > >   * Rebase the driver on v5.16-rc3
+> > > >
+> > > > Changes in v3:
+> > > >
+> > > >   * Drop applied patches
+> > > >
+> > > >   * Rely on generic code for speed setup
+> > > >
+> > > >   * Drop unused macros
+> > > >
+> > > >   * Formatting fixes
+> > > >
+> > > > Changes in v2:
+> > > >
+> > > >   * Add patch moving GEN3_RELATED macros to a common header
+> > > >
+> > > >   * Drop ATU configuration from pcie-qcom
+> > > >
+> > > >   * Remove local definition of common registers
+> > > >
+> > > >   * Use bulk clk and reset APIs
+> > > >
+> > > >   * Remove msi-parent from device-tree
+> > > >
+> > > > Baruch Siach (2):
+> > > >   PCI: dwc: tegra: move GEN3_RELATED DBI register to common header
+> > > >   PCI: qcom: Define slot capabilities using PCI_EXP_SLTCAP_*
+> > > >
+> > > > Selvam Sathappan Periakaruppan (1):
+> > > >   PCI: qcom: Add IPQ60xx support
+> > > >
+> > > >  drivers/pci/controller/dwc/pcie-designware.h |   7 +
+> > > >  drivers/pci/controller/dwc/pcie-qcom.c       | 155 ++++++++++++++++++-
+> > > >  drivers/pci/controller/dwc/pcie-tegra194.c   |   6 -
+> > > >  3 files changed, 160 insertions(+), 8 deletions(-)
+> > >
+> > > Hi Bjorn, Andy,
+> > >
+> > > any feedback on this series please ?
+> >
+> > Any feedback on these patches please ?
+> 
+> Finally dug the CP01, and for me, it works, so:
+> Tested-by: Robert Marko <robert.marko@sartura.hr>
 
-       Arnd
+This mainly affects pcie-qcom.c, so it looks like Stanimir should have
+been copied on this, but wasn't.  Please include him on the next
+iteration.
+
+This will also need to be updated to apply on v5.19-rc1:
+
+  03:21:47 ~/linux (next)$ git checkout -b wip/baruch-ipq6018-v6 v5.19-rc1
+  Switched to a new branch 'wip/baruch-ipq6018-v6'
+  03:21:55 ~/linux (wip/baruch-ipq6018-v6)$ git am m/v6_20220207_baruch_pci_ipq6018_platform_support.mbx
+  Applying: PCI: dwc: tegra: move GEN3_RELATED DBI register to common header
+  Applying: PCI: qcom: Define slot capabilities using PCI_EXP_SLTCAP_*
+  Applying: PCI: qcom: Add IPQ60xx support
+  error: patch failed: drivers/pci/controller/dwc/pcie-qcom.c:1531
+  error: drivers/pci/controller/dwc/pcie-qcom.c: patch does not apply
+  Patch failed at 0003 PCI: qcom: Add IPQ60xx support
