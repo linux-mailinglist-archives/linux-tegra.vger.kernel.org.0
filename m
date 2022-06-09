@@ -2,713 +2,177 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30AE5544A97
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jun 2022 13:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA740544B8C
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 Jun 2022 14:17:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244320AbiFILlI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 Jun 2022 07:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39296 "EHLO
+        id S236400AbiFIMRK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 Jun 2022 08:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244018AbiFILkq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jun 2022 07:40:46 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3DF31E4416
-        for <linux-tegra@vger.kernel.org>; Thu,  9 Jun 2022 04:40:19 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id n10so46927516ejk.5
-        for <linux-tegra@vger.kernel.org>; Thu, 09 Jun 2022 04:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rJ1HrRyo5FWcLkbF8euDS8gLFRpt8ZVSJLGa36Wuq9I=;
-        b=bbBLlKBq/yKgpzmP3eSNjXag8ajyukD5VT8Fac4eXqd28eLJwlykcTvq7S0hdaS1zn
-         2H09OMfSuc5f7mBN6CbB0g6sOmrxeILcncLF8L+QMMJeTxB8gs7yZ5mcCzL2z+Rhy/Y5
-         ODW7+TlMOTtLNY72cDzrsog0BtTruGWy6QkA8GLTMK9P77Eud5cspWEujJB1loELXDyp
-         wy7dnEpGs8qURxPR4gVC2GeCDcFYzJiu0KYjtdKUc204LOkjV41NsuTmlCzjleqJHh8V
-         N/0qcjp9Bc3ZLelJ3lIOcfM2vpMaYoExlYcXB0ggtaJJt3DocgEuFl9YZ4H1QPBbQzQ9
-         RabQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rJ1HrRyo5FWcLkbF8euDS8gLFRpt8ZVSJLGa36Wuq9I=;
-        b=qH2b+tOSjivWANDG5J3vBU+cyN5R7ym6d6GaMqI8E/GZXy+WDsGmCd5ZRu+rpOdFin
-         27w7OqjxoJgircIIl8deYOvZlVkf0Z0LabWpLBJC6jO8c5yrUs+iyqTIY20YvFS5uKsy
-         RMoABFieQduSepmIm/IOH2l1v5jiq3TlUDAh4FlflszHVx8s+bfXmDzQlkXgN88Qu2Q8
-         HJKs697eg7XkJSMCPWTtqzF9oTUEwxDKv6jKzXO3XNmBSptjun+gILv9wQdMcnnands0
-         noaqvhsSEhhMCz4FM0Xpxt3K+UmEUJGkojc1rlUuzKfYNFCEXrZSvqPZpm8nEhqEIWlB
-         sGZg==
-X-Gm-Message-State: AOAM533oVlg/RIrf4OUnIh82b4hNCFkk7vsjznXQhnQwskJuFwNeD56K
-        yZLkPFRXP/FfPSyL5cdEKYg9uV40Q+MuIA==
-X-Google-Smtp-Source: ABdhPJyEfoGeMzht2CbOweDKCpeGzmuTDiKi7GsrcaHZX5/qZvByt/7w2xDnmFfg7y852HXr1/kktA==
-X-Received: by 2002:a17:907:86a6:b0:6ff:21f0:9e5a with SMTP id qa38-20020a17090786a600b006ff21f09e5amr35061259ejc.164.1654774817803;
-        Thu, 09 Jun 2022 04:40:17 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id q1-20020a170906360100b006ff59151e34sm10638441ejb.39.2022.06.09.04.40.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 04:40:17 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 26/48] ARM: dts: tegra: align gpio-key node names with dtschema
-Date:   Thu,  9 Jun 2022 13:39:59 +0200
-Message-Id: <20220609114002.380563-7-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
+        with ESMTP id S235120AbiFIMRJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 Jun 2022 08:17:09 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam07on2058.outbound.protection.outlook.com [40.107.212.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66682FC0DA;
+        Thu,  9 Jun 2022 05:17:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dHuGtk8c1DlyGUjhFAsTgRWyqnNX4Uho/JFgiYnC/yJAdWZwZxv6liHXFAEIoK+K8HB0FcoOeG/u3UhnWUotjwpwzOYB9VWSiYRUkWHg1HZk2LvR8MBKSfpRDAfnRTXccwBiPmCMlGNn17obROpCB6wXYIapAhhz44dIovdXdjmuhyrt6Tdf5yG12JvB/y1sq4vsX3+WSvdjK6ckhKeENBAjDI2uPpfqz863XDbItgkYkAVG8eVNPQqmQi+AaR3oNQaTrZEneeguXazGuPOBMbYhv/7ME1VJT7hRZKgxcPs8Q5W7Grf+uIWtzIJQgcN7U52w4XgDLVxPkS9MVL/BJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jPWneNrHSgJG8GSliH3K5Cwag01OfltiGm34nJYt/rc=;
+ b=SQ2UaLQzUf0fw0KQueU+gWKrv9cFv2K0BzP6BtuAC38SFMK5m/s1S88PSeoq1Y9IJsJPuo4SPROHxqTTOqiGvhtfdxsYRrB+siO3OHDfnm/oGFo+OiBdB/vw3aU2SVbuGe9ClBeZz2FUC4FdptEcTAvNyyL0NNhwWX1eGyTLYhrOWD3PXMIs5FHhKpQlTKClGIapXY2Xzbwc2EpKHudmft6/ZQsL2nAecQmIgH9s0mdhJVunzMmqwtRz5KKLJWmd5V/k5AnRrb5t1BLAQdQj6oe7+bqDjIR10FUlU2BXQHP+vuW42kVIfMEfKJRhoB5300FQeYqrqRzsvi/gMw7j+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jPWneNrHSgJG8GSliH3K5Cwag01OfltiGm34nJYt/rc=;
+ b=oDcROBXyGknnM+XFLz5Z9nkahos205iKDCrBt1OzivASv+kFvKuMZHvTdx/hd3OyZlZDHmr/5i4wzuYfuJt7SJwSk3Vy9NeJDIzGAK5b3o4dV8jiYY7AUr/D3lj8wI+kZJOgkmNyaVEfOZ9yDamFpOnkaJgcDRzza50BdunPfu0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM6PR12MB4617.namprd12.prod.outlook.com (2603:10b6:5:35::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.17; Thu, 9 Jun
+ 2022 12:17:03 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5332.013; Thu, 9 Jun 2022
+ 12:17:03 +0000
+Message-ID: <77b99722-fc13-e5c5-c9be-7d4f3830859c@amd.com>
+Date:   Thu, 9 Jun 2022 14:16:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
+Content-Language: en-US
+To:     Michal Hocko <mhocko@suse.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        alexander.deucher@amd.com, daniel@ffwll.ch,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        hughd@google.com, andrey.grodzovsky@amd.com
+References: <20220531100007.174649-1-christian.koenig@amd.com>
+ <20220531100007.174649-4-christian.koenig@amd.com>
+ <YqG67sox6L64E6wV@dhcp22.suse.cz>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <YqG67sox6L64E6wV@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-ClientProxiedBy: AM5PR04CA0010.eurprd04.prod.outlook.com
+ (2603:10a6:206:1::23) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83a2d231-6bbd-4a12-7263-08da4a11f651
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4617:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4617B40574098F3D7183046F83A79@DM6PR12MB4617.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cV7KmA74EyrA0UaZnKaESOqUJEMtRKy6QLHpJEpG8PANAwLjNBHw1hLogrLrfDxn/K5K6ofOE/nci7SSYtEPwzCrpsfkpm1kPJPzbZom2hHZ8pxv+WX/4t5hwB8PxpzY0uSLjfI825hGp344ry2Foc6s4XfUxb4MEhFa5a2XqVACJ1xr3QlMGhqWiLA8dXhU8CtYt6gWF8mRFd3EGzZ6NtCHvI78Bb+rkF5OSAyCDlXgmNyq/GYB3oXdgilWuAu1HIIa1ZcKajY301s+D5xL6gN3lRWDTP4oSdUo/GnN9nuEa/q6tYQ6nkl51MiUpzIQGeY2/GUSlxDkb1AMSeJEZosh2BAzfzfn6aLJPigzT6MNolCpkGhMoLKV6wTL7Z2wLLA2uf9i/PjFZAIWZEUsOxsxDHbU3DEB3QkMnjKop/5sbG0PAN0FMmV4LIplhCQrSRHg0m4dexeSRQADImVEDzXzL0s1QhPxk73hfgBgJWkvjGMDrk84SzwkhxU2DfW/xrJSgYOahy75raPRtaIWymCV3qVUieS6eHmdoOySltT3ffAVcEXe//b0XRDfSwcT7CdCmRSWVj1Fnd9qr1UjefBiC5mj7RWMu5mit8FIRpZe5NKPieu7C1oYfXq3MCnUdpUB2Oj5u9x/b/yXk451hMwOJqPdn/VR4tpf83XFey9VTcCw1myCl84k4JWMNDUHiy5neWWdkIWRipzERH+CCzqiPcpkMdeOBY28I3qTcZnQYtDOsCu9KqHlumW3zW9u
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(508600001)(8936002)(2616005)(66556008)(186003)(316002)(7416002)(31686004)(83380400001)(6512007)(110136005)(66574015)(6506007)(38100700002)(36756003)(2906002)(8676002)(31696002)(5660300002)(66476007)(6486002)(86362001)(4326008)(6666004)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDNqbVlQb2FoaStTVXVSN0orMTJ6alFKeWdNZXR4MjFTbHVFbVBsUUpuWEpk?=
+ =?utf-8?B?a2tlMHZuYzBsN1FoaS9WcjlnMWhxMFVnOXg4SWJqcXZ2b3Yyc1l4TmhweW5k?=
+ =?utf-8?B?cHJxcFp0THdZc2RyK0FPeDd5WkFkWWpLTFZaNHlIU2FOQkJCWkIyM0kxdjBV?=
+ =?utf-8?B?cEVGeHdZUUFlaHhubEg4OG0vUW16UDAyb212MUIvN0tNMkVmdXVROHhkRjBj?=
+ =?utf-8?B?T3ZTMTJsRXpmbWFKZld5RkcvRVJBVzhjdmJ3VTZjTDhQYWx5bjJ5eGR5WHVs?=
+ =?utf-8?B?QUZVUFJBay9jOTYxdkhrR0E5eUo0ZkN3TTFpZ2tNMWc1VXVFWHJ5aUFjYVMy?=
+ =?utf-8?B?WEw1dWR6bHc0OE56K1k2YmlpdTdwSUZXZWwyWWN4VmlKRnV5bE9EU2c1Sk00?=
+ =?utf-8?B?bVAvc3EyZXYrYlE3Z2tobWwrUEo0RVpYbXdSRzBJWjh5SWxtR3hZUkxMblcz?=
+ =?utf-8?B?ekg4OTRkdDdReGpDYkcrOXQ2ZGs1MU9tV1hCZGs2Nk9hbkRFWk1wVk5UaTd5?=
+ =?utf-8?B?ajZEU2xENGg0SXFLMm1WK0RCVkxLbEhzRE1xWlRlcU1vMUZ5SGh1blcxbG1X?=
+ =?utf-8?B?eHIrRkVCK3Zlei8xVFlzVVh4Z3RwSGFBZDRvRDc3dnpka09vcldyeGphaDN0?=
+ =?utf-8?B?TzdRdWt2eWJoTEcrTkJVK3ZDZ09PWldBTlROalhkZ1JMbVBwaHlwWEZTMVJt?=
+ =?utf-8?B?d2RzbVExVkRGeEJpVE9oc3pPQ0ZyWG1tUnpMZml0SENlajdKbXZRMjFNWG52?=
+ =?utf-8?B?VUduamRCMm9GbVJlSWxKWXNaUWI4S1M0bkJGYVRaUFk3K3VBK08waWdvR2Zs?=
+ =?utf-8?B?TWszSHVlZS9XMWZFMDRBcE9qZjVMTFNGNGMxNUt5Vm1sWTFCOEVnU3hlL0Q3?=
+ =?utf-8?B?b0xTemJrSXRmREY4c1RDdzdtTkNiVHhxT0tQQ0dlQ0RKZ0lhTkM5QjZpQ3RB?=
+ =?utf-8?B?NWdCazdWTFlIeTA5UjJicFpuelNWZ1BFU0dTNWtodEh4dmd2TkdoL0dkdnZo?=
+ =?utf-8?B?S2IxZDJta2ljN1owaTdTSlFsQjBSMG0vVGd5RCt5ZGVhUVk2MUhqelZHMk4w?=
+ =?utf-8?B?ZjNMQUNmaXJkOTA0OHo0OWpuTWNuRzZFQytsTmM2eE1PWnJVTnU4MVNkczhk?=
+ =?utf-8?B?MXJIVDI2RkdHcyt3Q3NJRnpFY0pzMzkrekRaV2hnQktXeFExZEhIT2xyS1Zh?=
+ =?utf-8?B?Um5hNmtXWTl0YzNTMnVzU05qVUFrUEsrMlVza2xQUThDOTE5OXhmc2IvQ1A0?=
+ =?utf-8?B?bXpqSm5nbUhPRWJUbXMvbU5pSWJpTUdiRnBLalN1UUttOFZ4ZWQxV3ZwZUFD?=
+ =?utf-8?B?YXhlaDVVSWZwMTd3OUMvd0RVcEFYcVUwNEdsNm9JUHRhQ2tNZWE4NGRHTi9s?=
+ =?utf-8?B?YmR5ekpKZ1RZaHcxazNxYUsvSVJjVi80RUdaUnJ0aXEwSmZXcmV5MTFQSnAz?=
+ =?utf-8?B?WnpFVGhpc1E1M2trek5PanhtbzhlM1dyK1IrV1loRGVjc2JRWHFmV1lSbTlJ?=
+ =?utf-8?B?Wm50OC8rVmM4SVF4YkFuRGI2M1V4VXBObVJ3SDlTcGt0TlA1cDQxRE1WWElh?=
+ =?utf-8?B?WUZMVksyeVB5MElrcUd6YWtCT3dYc2JvMDNhR3VGTHV4bC9tSVdraHp1QktM?=
+ =?utf-8?B?eVFVNnJhZ0huNGtmenNKdDhFcDNORGdzUjZ6TEQ1VG1lRkFlbWxXVlhIZmJV?=
+ =?utf-8?B?ZG1sckN1NlA0RjkxSkpKODVLK0JGWUV5SDloRXZOb1puZytjT0xxcm5EOHp4?=
+ =?utf-8?B?RU5vR1NjdGNNVWlYalVJK1JyQjV3SkdIaWUxODhuMUQvM3FTRWs5RVJWRHNR?=
+ =?utf-8?B?dGJ4RnJXM3hQanIxdzhMK0UxZTArRExFeEl0YmlnWS9YMUdZeWJIMU0xMmFh?=
+ =?utf-8?B?ZFFWaW56Q1FaS21MYXRSVDVyb25LY09DMFRyRnNVTWJHQkZ6dnROdGZFcitW?=
+ =?utf-8?B?V1p6ZkN4SU1WVllsTWMvajYvSHpLVjloUXZKVkpmNi90eUlheHBSb3E0bnpU?=
+ =?utf-8?B?eGFaMzVVM0pzZVhnb3pjVWJOQUhKaTVDdHBBeS9nOVY0Qk9iWGtpOUZ4UzUw?=
+ =?utf-8?B?M1BGQStMeG9XMHdFa01PQm1ZVDJuVTM1VGtnR29kS203VmNrZHdERDliaXky?=
+ =?utf-8?B?ZmxKSThRVU5XdCtVSlZFSEtZQ1kvK1lCSVpxdWdWMkIzWU1rdk5HSlI0ZEgy?=
+ =?utf-8?B?RStFd1BTQ2VFL3R3NnMyVXVvRlFsU2Y0MEx6YnZ4L1gxNDZwZERCc3JaM3E4?=
+ =?utf-8?B?M1IzbHBraXdySUhlZ1FVRnBaSWpsVUVIVWdCU2drcFV6aHByUFhic25FWXhp?=
+ =?utf-8?B?ajBEeFM0UU9Tdm1pVUpZbGU4OVZUcnRxVkpSdWpYWVArRGlYWnZoQzQ4TjRt?=
+ =?utf-8?Q?4a35nrjAFGg5czGovXu2jkhq74+LnZju4sOkA3ETXU2Hu?=
+X-MS-Exchange-AntiSpam-MessageData-1: nUUj7FIWfvqV1A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83a2d231-6bbd-4a12-7263-08da4a11f651
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2022 12:17:03.6434
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 45k76p0B/TLKx/YAjEiRq55YehYfWN1Wm4WNxfSQtUV7pfGR/SotvC632uXEpVkw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4617
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The node names should be generic and DT schema expects certain pattern
-(e.g. with key/button/switch).
+Am 09.06.22 um 11:18 schrieb Michal Hocko:
+> On Tue 31-05-22 11:59:57, Christian König wrote:
+>> This gives the OOM killer an additional hint which processes are
+>> referencing shmem files with potentially no other accounting for them.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   mm/shmem.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/mm/shmem.c b/mm/shmem.c
+>> index 4b2fea33158e..a4ad92a16968 100644
+>> --- a/mm/shmem.c
+>> +++ b/mm/shmem.c
+>> @@ -2179,6 +2179,11 @@ unsigned long shmem_get_unmapped_area(struct file *file,
+>>   	return inflated_addr;
+>>   }
+>>   
+>> +static long shmem_oom_badness(struct file *file)
+>> +{
+>> +	return i_size_read(file_inode(file)) >> PAGE_SHIFT;
+>> +}
+> This doesn't really represent the in memory size of the file, does it?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/tegra114-asus-tf701t.dts             |  8 ++++----
- arch/arm/boot/dts/tegra114-dalmore.dts                 |  8 ++++----
- arch/arm/boot/dts/tegra114-roth.dts                    |  6 +++---
- arch/arm/boot/dts/tegra114-tn7.dts                     |  6 +++---
- arch/arm/boot/dts/tegra124-apalis-eval.dts             |  2 +-
- arch/arm/boot/dts/tegra124-apalis-v1.2-eval.dts        |  2 +-
- arch/arm/boot/dts/tegra124-jetson-tk1.dts              |  2 +-
- arch/arm/boot/dts/tegra124-nyan.dtsi                   |  4 ++--
- arch/arm/boot/dts/tegra124-venice2.dts                 |  2 +-
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts        |  8 ++++----
- arch/arm/boot/dts/tegra20-asus-tf101.dts               |  8 ++++----
- arch/arm/boot/dts/tegra20-colibri-eval-v3.dts          |  2 +-
- arch/arm/boot/dts/tegra20-colibri-iris.dts             |  2 +-
- arch/arm/boot/dts/tegra20-harmony.dts                  |  2 +-
- arch/arm/boot/dts/tegra20-paz00.dts                    |  2 +-
- arch/arm/boot/dts/tegra20-seaboard.dts                 |  4 ++--
- arch/arm/boot/dts/tegra20-trimslice.dts                |  2 +-
- arch/arm/boot/dts/tegra20-ventana.dts                  |  2 +-
- arch/arm/boot/dts/tegra30-apalis-eval.dts              |  2 +-
- arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts         |  2 +-
- .../boot/dts/tegra30-asus-nexus7-grouper-common.dtsi   |  8 ++++----
- arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi | 10 +++++-----
- arch/arm/boot/dts/tegra30-cardhu.dtsi                  |  6 +++---
- arch/arm/boot/dts/tegra30-colibri-eval-v3.dts          |  2 +-
- arch/arm/boot/dts/tegra30-ouya.dts                     |  2 +-
- arch/arm/boot/dts/tegra30-pegatron-chagall.dts         | 10 +++++-----
- 26 files changed, 57 insertions(+), 57 deletions(-)
+Well the file could be partially or fully swapped out as anonymous 
+memory or the address space only sparse populated, but even then just 
+using the file size as OOM badness sounded like the most straightforward 
+approach to me.
 
-diff --git a/arch/arm/boot/dts/tegra114-asus-tf701t.dts b/arch/arm/boot/dts/tegra114-asus-tf701t.dts
-index b791ce97424b..b44b2371cd56 100644
---- a/arch/arm/boot/dts/tegra114-asus-tf701t.dts
-+++ b/arch/arm/boot/dts/tegra114-asus-tf701t.dts
-@@ -684,7 +684,7 @@ gpio-keys {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&gpio_keys_default>;
- 
--		power {
-+		button-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-@@ -692,14 +692,14 @@ power {
- 			wakeup-source;
- 		};
- 
--		volume-up {
-+		button-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(R, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
- 			debounce-interval = <10>;
- 		};
- 
--		volume-down {
-+		button-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(R, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
-@@ -715,7 +715,7 @@ gpio-hall-sensor {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&gpio_hall_sensor_default>;
- 
--		hall-sensor {
-+		event-hall-sensor {
- 			label = "Hall Effect Sensor";
- 			gpios = <&gpio TEGRA_GPIO(O, 5) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-diff --git a/arch/arm/boot/dts/tegra114-dalmore.dts b/arch/arm/boot/dts/tegra114-dalmore.dts
-index 658edfb8d7fa..fffd62bcea6a 100644
---- a/arch/arm/boot/dts/tegra114-dalmore.dts
-+++ b/arch/arm/boot/dts/tegra114-dalmore.dts
-@@ -1161,26 +1161,26 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		home {
-+		key-home {
- 			label = "Home";
- 			gpios = <&gpio TEGRA_GPIO(I, 5) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_HOME>;
- 		};
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
- 			wakeup-source;
- 		};
- 
--		volume_down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(R, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
- 		};
- 
--		volume_up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(R, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-diff --git a/arch/arm/boot/dts/tegra114-roth.dts b/arch/arm/boot/dts/tegra114-roth.dts
-index 2498cf18fd39..b9d00009d1f4 100644
---- a/arch/arm/boot/dts/tegra114-roth.dts
-+++ b/arch/arm/boot/dts/tegra114-roth.dts
-@@ -1025,19 +1025,19 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		back {
-+		key-back {
- 			label = "Back";
- 			gpios = <&gpio TEGRA_GPIO(R, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_BACK>;
- 		};
- 
--		home {
-+		key-home {
- 			label = "Home";
- 			gpios = <&gpio TEGRA_GPIO(R, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_HOME>;
- 		};
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra114-tn7.dts b/arch/arm/boot/dts/tegra114-tn7.dts
-index ef8f722dd9cb..f02d8c79eee7 100644
---- a/arch/arm/boot/dts/tegra114-tn7.dts
-+++ b/arch/arm/boot/dts/tegra114-tn7.dts
-@@ -282,20 +282,20 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
- 			wakeup-source;
- 		};
- 
--		volume_down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(Q, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
- 		};
- 
--		volume_up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(R, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-diff --git a/arch/arm/boot/dts/tegra124-apalis-eval.dts b/arch/arm/boot/dts/tegra124-apalis-eval.dts
-index 3209554ec7e6..bce12b3411fc 100644
---- a/arch/arm/boot/dts/tegra124-apalis-eval.dts
-+++ b/arch/arm/boot/dts/tegra124-apalis-eval.dts
-@@ -191,7 +191,7 @@ backlight: backlight {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "WAKE1_MICO";
- 			gpios = <&gpio TEGRA_GPIO(DD, 3) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra124-apalis-v1.2-eval.dts b/arch/arm/boot/dts/tegra124-apalis-v1.2-eval.dts
-index 814257c79bf1..800283ad6bdc 100644
---- a/arch/arm/boot/dts/tegra124-apalis-v1.2-eval.dts
-+++ b/arch/arm/boot/dts/tegra124-apalis-v1.2-eval.dts
-@@ -193,7 +193,7 @@ backlight: backlight {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "WAKE1_MICO";
- 			gpios = <&gpio TEGRA_GPIO(DD, 3) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra124-jetson-tk1.dts b/arch/arm/boot/dts/tegra124-jetson-tk1.dts
-index 28b889e4e33b..f41dd4039c07 100644
---- a/arch/arm/boot/dts/tegra124-jetson-tk1.dts
-+++ b/arch/arm/boot/dts/tegra124-jetson-tk1.dts
-@@ -1886,7 +1886,7 @@ cpu@0 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra124-nyan.dtsi b/arch/arm/boot/dts/tegra124-nyan.dtsi
-index a93cfb492ba1..13061ab5247b 100644
---- a/arch/arm/boot/dts/tegra124-nyan.dtsi
-+++ b/arch/arm/boot/dts/tegra124-nyan.dtsi
-@@ -603,7 +603,7 @@ cpu@0 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		lid {
-+		switch-lid {
- 			label = "Lid";
- 			gpios = <&gpio TEGRA_GPIO(R, 4) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <5>;
-@@ -612,7 +612,7 @@ lid {
- 			wakeup-source;
- 		};
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra124-venice2.dts b/arch/arm/boot/dts/tegra124-venice2.dts
-index 6a9592ceb5f2..8f40fcfc11b0 100644
---- a/arch/arm/boot/dts/tegra124-venice2.dts
-+++ b/arch/arm/boot/dts/tegra124-venice2.dts
-@@ -1078,7 +1078,7 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index bf1126d26aff..dac6d02a1b15 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -905,7 +905,7 @@ panel_input: endpoint {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(I, 3) GPIO_ACTIVE_HIGH>;
- 			linux,code = <KEY_POWER>;
-@@ -914,7 +914,7 @@ power {
- 			wakeup-source;
- 		};
- 
--		rotation-lock {
-+		key-rotation-lock {
- 			label = "Rotate-lock";
- 			gpios = <&gpio TEGRA_GPIO(Q, 2) GPIO_ACTIVE_HIGH>;
- 			linux,code = <SW_ROTATE_LOCK>;
-@@ -922,7 +922,7 @@ rotation-lock {
- 			debounce-interval = <10>;
- 		};
- 
--		volume-up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(Q, 4) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-@@ -931,7 +931,7 @@ volume-up {
- 			wakeup-source;
- 		};
- 
--		volume-down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(Q, 5) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
-diff --git a/arch/arm/boot/dts/tegra20-asus-tf101.dts b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-index f3b0166f7a9c..62db602c7205 100644
---- a/arch/arm/boot/dts/tegra20-asus-tf101.dts
-+++ b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-@@ -980,7 +980,7 @@ cpu1: cpu@1 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		dock-hall-sensor {
-+		event-dock-hall-sensor {
- 			label = "Lid";
- 			gpios = <&gpio TEGRA_GPIO(S, 4) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-@@ -990,7 +990,7 @@ dock-hall-sensor {
- 			wakeup-source;
- 		};
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-@@ -999,7 +999,7 @@ power {
- 			wakeup-source;
- 		};
- 
--		volume-up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(Q, 5) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-@@ -1008,7 +1008,7 @@ volume-up {
- 			wakeup-source;
- 		};
- 
--		volume-down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(Q, 4) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
-diff --git a/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts b/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts
-index d2a3bf9d28bd..cb1190b77db3 100644
---- a/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts
-+++ b/arch/arm/boot/dts/tegra20-colibri-eval-v3.dts
-@@ -209,7 +209,7 @@ clk16m: osc3 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "SODIMM pin 45 wakeup";
- 			gpios = <&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra20-colibri-iris.dts b/arch/arm/boot/dts/tegra20-colibri-iris.dts
-index 00ecbbd5e9e1..53487cc21513 100644
---- a/arch/arm/boot/dts/tegra20-colibri-iris.dts
-+++ b/arch/arm/boot/dts/tegra20-colibri-iris.dts
-@@ -191,7 +191,7 @@ backlight: backlight {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "SODIMM pin 45 wakeup";
- 			gpios = <&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra20-harmony.dts b/arch/arm/boot/dts/tegra20-harmony.dts
-index 79b6b79fab65..11f21aeba8e9 100644
---- a/arch/arm/boot/dts/tegra20-harmony.dts
-+++ b/arch/arm/boot/dts/tegra20-harmony.dts
-@@ -648,7 +648,7 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
-index 0fb4b1f5bc1c..48fe628c6d87 100644
---- a/arch/arm/boot/dts/tegra20-paz00.dts
-+++ b/arch/arm/boot/dts/tegra20-paz00.dts
-@@ -596,7 +596,7 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "Wakeup";
- 			gpios = <&gpio TEGRA_GPIO(J, 7) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra20-seaboard.dts b/arch/arm/boot/dts/tegra20-seaboard.dts
-index c4a6a6a94559..5b4c5ef30996 100644
---- a/arch/arm/boot/dts/tegra20-seaboard.dts
-+++ b/arch/arm/boot/dts/tegra20-seaboard.dts
-@@ -800,14 +800,14 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
- 			wakeup-source;
- 		};
- 
--		lid {
-+		switch-lid {
- 			label = "Lid";
- 			gpios = <&gpio TEGRA_GPIO(C, 7) GPIO_ACTIVE_HIGH>;
- 			linux,input-type = <5>; /* EV_SW */
-diff --git a/arch/arm/boot/dts/tegra20-trimslice.dts b/arch/arm/boot/dts/tegra20-trimslice.dts
-index 9d0c86711de2..dc51835423a9 100644
---- a/arch/arm/boot/dts/tegra20-trimslice.dts
-+++ b/arch/arm/boot/dts/tegra20-trimslice.dts
-@@ -388,7 +388,7 @@ clk32k_in: clock-32k {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(X, 6) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
-index b0a00970b61c..caa17e876e41 100644
---- a/arch/arm/boot/dts/tegra20-ventana.dts
-+++ b/arch/arm/boot/dts/tegra20-ventana.dts
-@@ -628,7 +628,7 @@ cpu1: cpu@1 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra30-apalis-eval.dts b/arch/arm/boot/dts/tegra30-apalis-eval.dts
-index 93b83b3c5655..ad968ff968d7 100644
---- a/arch/arm/boot/dts/tegra30-apalis-eval.dts
-+++ b/arch/arm/boot/dts/tegra30-apalis-eval.dts
-@@ -181,7 +181,7 @@ backlight: backlight {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "WAKE1_MICO";
- 			gpios = <&gpio TEGRA_GPIO(V, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts b/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts
-index fbfa75e53f32..c172fdb5e1ae 100644
---- a/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts
-+++ b/arch/arm/boot/dts/tegra30-apalis-v1.1-eval.dts
-@@ -182,7 +182,7 @@ backlight: backlight {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "WAKE1_MICO";
- 			gpios = <&gpio TEGRA_GPIO(V, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-index 55e6171a411d..5ed6b4dca100 100644
---- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
-@@ -1124,7 +1124,7 @@ trusted-foundations {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		hall-sensor {
-+		event-hall-sensor {
- 			label = "Lid";
- 			gpios = <&gpio TEGRA_GPIO(S, 6) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-@@ -1134,7 +1134,7 @@ hall-sensor {
- 			wakeup-source;
- 		};
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-@@ -1143,7 +1143,7 @@ power {
- 			wakeup-source;
- 		};
- 
--		volume-up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(Q, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-@@ -1152,7 +1152,7 @@ volume-up {
- 			wakeup-source;
- 		};
- 
--		volume-down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(Q, 3) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
-diff --git a/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi b/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-index c662ab261ed5..58159b789688 100644
---- a/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-@@ -1511,7 +1511,7 @@ extcon-keys {
- 		compatible = "gpio-keys";
- 		interrupt-parent = <&gpio>;
- 
--		dock-hall-sensor {
-+		event-dock-hall-sensor {
- 			label = "Lid sensor";
- 			gpios = <&gpio TEGRA_GPIO(S, 6) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-@@ -1521,7 +1521,7 @@ dock-hall-sensor {
- 			wakeup-source;
- 		};
- 
--		lineout-detect {
-+		event-lineout-detect {
- 			label = "Audio dock line-out detect";
- 			gpios = <&gpio TEGRA_GPIO(X, 3) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-@@ -1544,7 +1544,7 @@ gpio-keys {
- 		compatible = "gpio-keys";
- 		interrupt-parent = <&gpio>;
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-@@ -1553,7 +1553,7 @@ power {
- 			wakeup-source;
- 		};
- 
--		volume-up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(Q, 2) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-@@ -1562,7 +1562,7 @@ volume-up {
- 			wakeup-source;
- 		};
- 
--		volume-down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(Q, 3) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
-diff --git a/arch/arm/boot/dts/tegra30-cardhu.dtsi b/arch/arm/boot/dts/tegra30-cardhu.dtsi
-index ba257ed36d9c..540530c983ff 100644
---- a/arch/arm/boot/dts/tegra30-cardhu.dtsi
-+++ b/arch/arm/boot/dts/tegra30-cardhu.dtsi
-@@ -685,7 +685,7 @@ map0 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			interrupt-parent = <&pmic>;
- 			interrupts = <2 0>;
-@@ -694,14 +694,14 @@ power {
- 			wakeup-source;
- 		};
- 
--		volume-down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(R, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
- 			debounce-interval = <10>;
- 		};
- 
--		volume-up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(R, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-diff --git a/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts b/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
-index 7d4a6ca4936a..8dbc15f9a9e4 100644
---- a/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
-+++ b/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
-@@ -145,7 +145,7 @@ clk16m: osc3 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		wakeup {
-+		key-wakeup {
- 			label = "SODIMM pin 45 wakeup";
- 			gpios = <&gpio TEGRA_GPIO(V, 1) GPIO_ACTIVE_HIGH>;
- 			linux,code = <KEY_WAKEUP>;
-diff --git a/arch/arm/boot/dts/tegra30-ouya.dts b/arch/arm/boot/dts/tegra30-ouya.dts
-index e58dda4f9d2c..b7acea39b942 100644
---- a/arch/arm/boot/dts/tegra30-ouya.dts
-+++ b/arch/arm/boot/dts/tegra30-ouya.dts
-@@ -4764,7 +4764,7 @@ usb3_vbus_reg: usb3_vbus_reg {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			gpios = <&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_LOW>;
- 			debounce-interval = <10>;
- 			linux,code = <KEY_POWER>;
-diff --git a/arch/arm/boot/dts/tegra30-pegatron-chagall.dts b/arch/arm/boot/dts/tegra30-pegatron-chagall.dts
-index 8ce61035290b..8b22d12dd0e2 100644
---- a/arch/arm/boot/dts/tegra30-pegatron-chagall.dts
-+++ b/arch/arm/boot/dts/tegra30-pegatron-chagall.dts
-@@ -2655,7 +2655,7 @@ extcon-keys {
- 		compatible = "gpio-keys";
- 		interrupt-parent = <&gpio>;
- 
--		dock-insert {
-+		event-dock-insert {
- 			label = "Chagall Dock";
- 			gpios = <&gpio TEGRA_GPIO(S, 4) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-@@ -2665,7 +2665,7 @@ dock-insert {
- 			wakeup-source;
- 		};
- 
--		lineout-detect {
-+		event-lineout-detect {
- 			label = "Audio dock line-out detect";
- 			gpios = <&gpio TEGRA_GPIO(S, 3) GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_SW>;
-@@ -2688,7 +2688,7 @@ gpio-keys {
- 		compatible = "gpio-keys";
- 		interrupt-parent = <&gpio>;
- 
--		power {
-+		key-power {
- 			label = "Power";
- 			gpios = <&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_POWER>;
-@@ -2697,7 +2697,7 @@ power {
- 			wakeup-source;
- 		};
- 
--		volume-up {
-+		key-volume-up {
- 			label = "Volume Up";
- 			gpios = <&gpio TEGRA_GPIO(Q, 0) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEUP>;
-@@ -2706,7 +2706,7 @@ volume-up {
- 			wakeup-source;
- 		};
- 
--		volume-down {
-+		key-volume-down {
- 			label = "Volume Down";
- 			gpios = <&gpio TEGRA_GPIO(Q, 1) GPIO_ACTIVE_LOW>;
- 			linux,code = <KEY_VOLUMEDOWN>;
--- 
-2.34.1
+What could happen is that the file is also mmaped and we double account.
 
+> Also the memcg oom handling could be considerably skewed if the file was
+> shared between more memcgs.
+
+Yes, and that's one of the reasons why I didn't touched the memcg by 
+this and only affected the classic OOM killer.
+
+Thanks for the comments,
+Christian.
