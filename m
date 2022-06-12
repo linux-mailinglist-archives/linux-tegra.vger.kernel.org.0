@@ -2,193 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50EEF5472C0
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Jun 2022 10:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F1555479B8
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jun 2022 12:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbiFKIGY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 11 Jun 2022 04:06:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
+        id S236016AbiFLKSw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Jun 2022 06:18:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbiFKIGX (ORCPT
+        with ESMTP id S232186AbiFLKSv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 11 Jun 2022 04:06:23 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 073DF4C7AE;
-        Sat, 11 Jun 2022 01:06:22 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id a15so1231980wrh.2;
-        Sat, 11 Jun 2022 01:06:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PcMyrMkeBq8FtDR9Ah+GKvDRw37wZQSxisNv3VbSxF8=;
-        b=VDanKS2aPNxEPD5gHHW3YO7eybeGWHt49VN3wMDZarFEdbZywtZanpzYHolibuSgHo
-         txN2heXPtUPZyZBdgRvwXaYcOVqigfgho+MuucKKg8YRX5hRDSDbV2sUsSVGMozHxCez
-         cAMPw9hLl6JfXxid1Fm2oOJ1bU7R0pq99NyyOAju9w7veIBu10IusWNm1Ib1mywc3MBN
-         JC7wuCDUDwt6aGszDEkUObBsev4hlStTmbJX7Pr9yBfezUDTR7a/S2C3fzxRQW3b/DKV
-         vQH6tk3Uxk7jxkep6/tBDg/gRPFIF/MOOWhXzLSF7CZwI2b9+eoXzorlWss0DAbJLMeV
-         Z/tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PcMyrMkeBq8FtDR9Ah+GKvDRw37wZQSxisNv3VbSxF8=;
-        b=d8CjCHsumrQM6LvlUjSG6bKGoVvQQUEXwnRykLijif2NHIjAYEZ1JXXBHbZoEDqZtO
-         n/ybvRchep6GCO0hF1xUv8OYYA/tfmlQden4MN8QvNU4D2YmrMADR4XjStY1BIKzQOL2
-         6OLW0i5lWUaXhtQtkYi640AODPOlPLwMtuPyJM0WbxwEasrbhTY1d9it5XFh9gmtNvf6
-         qDYIo4MFS/o5y/94NM+9OVIccG0XoYrXWqZlMjQhWNNv55CSvxycfpRHkM5rW4Kmkk0X
-         Z0pVwO8dN8QuJ2llcPPaLuEJN2/NK4PRCzZJNUNnu7hBGrHXv/j+qWxeSOAvIrkhCBPE
-         s4zA==
-X-Gm-Message-State: AOAM5325Xt3plpfr7mrNTGhxSTihQrGHIc+ydm74cZnoFtDGtMedPw/H
-        rw7JLvt8/6ZR7FT+89HEOiM=
-X-Google-Smtp-Source: ABdhPJxOGwCLeulpLrfjSocHTBSjkFkIa8LIlAZvPBEKMl+ZSwhdQvggONhSb/e759HwNYTLN0sK/Q==
-X-Received: by 2002:adf:f706:0:b0:20e:6788:c2b6 with SMTP id r6-20020adff706000000b0020e6788c2b6mr47847880wrp.633.1654934780444;
-        Sat, 11 Jun 2022 01:06:20 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:285a:43cd:3b2c:3f3c? ([2a02:908:1256:79a0:285a:43cd:3b2c:3f3c])
-        by smtp.gmail.com with ESMTPSA id m6-20020adfe0c6000000b0021024f82e01sm1783833wri.16.2022.06.11.01.06.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Jun 2022 01:06:19 -0700 (PDT)
-Message-ID: <288528c3-411e-fb25-2f08-92d4bb9f1f13@gmail.com>
-Date:   Sat, 11 Jun 2022 10:06:18 +0200
+        Sun, 12 Jun 2022 06:18:51 -0400
+Received: from mail.tkos.co.il (golan.tkos.co.il [84.110.109.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC2391D325;
+        Sun, 12 Jun 2022 03:18:50 -0700 (PDT)
+Received: from tarshish.tkos.co.il (unknown [10.0.8.3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.tkos.co.il (Postfix) with ESMTPS id 29882440871;
+        Sun, 12 Jun 2022 13:18:32 +0300 (IDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+        s=default; t=1655029112;
+        bh=F94aNh3JlGBDRxuX6bcvrpui+k0ajuhAbaAtoXHdaz4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PstxhpQ2j2zL3XgaOwUiUHxsE9eAiuy2IiU7fBvREIvKdgvqEgd5dXEF41ZxmDlHV
+         +h55M7mxikZ017Rgx9sTFXJVK+smeZdCsxB2KH2fZ4qv58XwhqeZHFU+hz7+q4+tr/
+         iHaod/SMzKZm4GnP+px3pl3XQHEauQPgwzkhSdf+nuF2PGz3ZaYeqgWxVx/Gl0nr0P
+         G2lMZI8ILiENAe/aHZ+Ii1/P56l1VU3+8txwbvLUn4iX1esyCcs1dz0ok4VJuwbZ6F
+         EGwuaxAF2158bHUG3p1ihGFjn7e75S2J3mgEGa4L5BzN6BmJqRUOpyk/6bNVuPmoJ7
+         MVsh0zVsvEezA==
+From:   Baruch Siach <baruch@tkos.co.il>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>
+Cc:     Baruch Siach <baruch@tkos.co.il>,
+        Kathiravan T <quic_kathirav@quicinc.com>,
+        Selvam Sathappan Periakaruppan <quic_speriaka@quicinc.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v7 0/3] PCI: IPQ6018 platform support
+Date:   Sun, 12 Jun 2022 13:18:32 +0300
+Message-Id: <cover.1655028401.git.baruch@tkos.co.il>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 03/13] mm: shmem: provide oom badness for shmem files
-Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        alexander.deucher@amd.com, daniel@ffwll.ch,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        hughd@google.com, andrey.grodzovsky@amd.com
-References: <YqG67sox6L64E6wV@dhcp22.suse.cz>
- <77b99722-fc13-e5c5-c9be-7d4f3830859c@amd.com>
- <YqHuH5brYFQUfW8l@dhcp22.suse.cz>
- <26d3e1c7-d73c-cc95-54ef-58b2c9055f0c@gmail.com>
- <YqIB0bavUeU8Abwl@dhcp22.suse.cz>
- <d4a19481-7a9f-19bf-c270-d89baa0970fc@amd.com>
- <YqIMmK18mb/+s5de@dhcp22.suse.cz>
- <3f7d3d96-0858-fb6d-07a3-4c18964f888e@gmail.com>
- <YqMuq/ZrV8loC3jE@dhcp22.suse.cz>
- <2e7e050e-04eb-0c0a-0675-d7f1c3ae7aed@amd.com>
- <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <YqNSSFQELx/LeEHR@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Am 10.06.22 um 16:16 schrieb Michal Hocko:
-> [...]
->>> The primary question is whether it actually helps much or what kind of
->>> scenarios it can help with and whether we can actually do better for
->>> those.
->> Well, it does help massively with a standard Linux desktop and GPU workloads
->> (e.g. games).
->>
->> See what currently happens is that when games allocate for example textures
->> the memory for that is not accounted against that game. Instead it's usually
->> the display server (X or Wayland) which most of the shared resources
->> accounts to because it needs to compose a desktop from it and usually also
->> mmaps it for fallback CPU operations.
-> Let me try to understand some more. So the game (or the entity to be
-> responsible for the resource) doesn't really allocate the memory but it
-> relies on somebody else (from memcg perspective living in a different
-> resource domain - i.e. a different memcg) to do that on its behalf.
-> Correct? If that is the case then that is certainly not fitting into the
-> memcg model then.
+This series adds support for the single PCIe lane on IPQ6018 SoCs. The code is 
+ported from downstream Codeaurora v5.4 kernel. The main difference from 
+downstream code is the split of PCIe registers configuration from .init to 
+.post_init, since it requires phy_power_on().
 
-More or less: yes, that is one possible use case.  But we could leave 
-that one out since it is not the primary use case.
+Tested on IPQ6010 based hardware.
 
-What happens more is that 99% of the resources are only allocated per 
-process, but around 1% are shared with somebody else.
+Changes in v7:
 
-But see two comments below of a better description of the problem I'm 
-facing.
+  * Use FIELD_PREP for power limit and scale fields
 
-> I am not really sure there is any reasonable model where you cannot
-> really tell who is responsible for the resource.
+  * Add Stanimir Varbanov to Cc
 
-Well it would be fine with me to leave out those 1% of resources shared 
-with different memcgs.
+  * Rebase on v5.19-rc1
 
-What breaks my neck are those 99% which are allocated by a game and 
-could potentially be shared but are most of the time not.
+Changes in v6:
 
->> So what happens when a games over allocates texture resources is that your
->> whole desktop restarts because the compositor is killed. This obviously also
->> kills the game, but it would be much nice if we would be more selective
->> here.
->>
->> For hardware rendering DMA-buf and GPU drivers are used, but for the
->> software fallback shmem files is what is used under the hood as far as I
->> know. And the underlying problem is the same for both.
-> For shmem files the end user of the buffer can preallocate and so own
-> the buffer and be accounted for it.
+  * Drop DT patch applied to the qcom tree
 
-The problem is just that it can easily happen that one process is 
-allocating the resource and a different one freeing it.
+  * Normalize driver changes subject line
 
-So just imaging the following example: Process opens X window, get 
-reference to the handle of the buffer backing this window for drawing, 
-tells X to close the window again and then a bit later closes the buffer 
-handle.
+  * Add a preparatory patch to rename PCIE_CAP_LINK1_VAL to PCIE_CAP_SLOT_VAL,
+    and define it using PCI_EXP_SLTCAP_* macros
 
-In this example the X server would be charged allocating the buffer and 
-the client (which is most likely in a different memcg group) is charged 
-freeing it.
+  * Drop a vague comment about ASPM configuration
 
-I could of course add something to struct page to track which memcg (or 
-process) it was charged against, but extending struct page is most 
-likely a no-go.
+  * Add a comment about the source of delay periods
 
-Alternative I could try to track the "owner" of a buffer (e.g. a shmem 
-file), but then it can happen that one processes creates the object and 
-another one is writing to it and actually allocating the memory.
+Changes in v5:
 
->>> Also do not forget that shared file memory is not the only thing
->>> to care about. What about the kernel memory used on behalf of processes?
->> Yeah, I'm aware of that as well. But at least inside the GPU drivers we try
->> to keep that in a reasonable ratio.
->>
->>> Just consider the above mentioned memcg driven model. It doesn't really
->>> require to chase specific files and do some arbitrary math to share the
->>> responsibility. It has a clear accounting and responsibility model.
->> Ok, how does that work then?
-> The memory is accounted to whoever faults that memory in or to the
-> allocating context if that is a kernel memory (in most situations).
+  * Remove comments from qcom_pcie_init_2_9_0() (Bjorn Andersson)
 
-That's what I had in mind as well. Problem with this approach is that 
-file descriptors are currently not informed that they are shared between 
-processes.
+Changes in v4:
 
-So to make this work we would need something like attach/detach to 
-process in struct file_operations.
+  * Drop applied DT bits
 
-And as I noted, this happens rather often. For example a game which 
-renders 120 frames per second needs to transfer 120 buffers per second 
-between client and X.
+  * Add max-link-speed that was missing from the applied v2 patch
 
-So this is not something which could take a lot of time and the file 
-descriptor tracking structures in the Linux kernel are not made for this 
-either.
+  * Rebase the driver on v5.16-rc3
 
-I think for now I will try something like this specific for DRM drivers. 
-That doesn't solve the shmem file problem, but it at least gives me 
-something at hand for the accelerated Linux desktop case.
+Changes in v3:
 
-Regards,
-Christian.
+  * Drop applied patches
+
+  * Rely on generic code for speed setup
+
+  * Drop unused macros
+
+  * Formatting fixes
+
+Changes in v2:
+
+  * Add patch moving GEN3_RELATED macros to a common header
+
+  * Drop ATU configuration from pcie-qcom
+
+  * Remove local definition of common registers
+
+  * Use bulk clk and reset APIs
+
+  * Remove msi-parent from device-tree
+
+Baruch Siach (2):
+  PCI: dwc: tegra: move GEN3_RELATED DBI register to common header
+  PCI: qcom: Define slot capabilities using PCI_EXP_SLTCAP_*
+
+Selvam Sathappan Periakaruppan (1):
+  PCI: qcom: Add IPQ60xx support
+
+ drivers/pci/controller/dwc/pcie-designware.h |   7 +
+ drivers/pci/controller/dwc/pcie-qcom.c       | 157 ++++++++++++++++++-
+ drivers/pci/controller/dwc/pcie-tegra194.c   |   6 -
+ 3 files changed, 162 insertions(+), 8 deletions(-)
+
+-- 
+2.35.1
+
