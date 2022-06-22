@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B319455481E
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jun 2022 14:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59075554B40
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jun 2022 15:25:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357559AbiFVLh7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Jun 2022 07:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48300 "EHLO
+        id S1357537AbiFVNZ4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Jun 2022 09:25:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354590AbiFVLhx (ORCPT
+        with ESMTP id S1357274AbiFVNYz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Jun 2022 07:37:53 -0400
+        Wed, 22 Jun 2022 09:24:55 -0400
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28EAB3C733;
-        Wed, 22 Jun 2022 04:37:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8A4839145;
+        Wed, 22 Jun 2022 06:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-        s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=n5fftUEvkFxqEj5rq74Mb5X3DmU+ng2FZSz30Wp76JY=; b=RzyK1+BusDAc55RQOghHuS07Nu
-        5PpLu8Juu1OK292BjpLuADIO359VRqiUa6bwNHJmDlpyBVS0d9wiKqPpnDdhE4E91QyTjgrQuXpzS
-        uFPbJxFdIbEX1sWP0L3VA2lnO6wKweQpEJCSmnlRm32t4CXAldiOqUCeq/mNikL5pcERE7PE7J1M2
-        YrQM7aKV+tzuLcXD6ygK0w+GUGdDRsLzrKndHe5CbpQs374qeSzYoaT1k4wu4dMjqkBfHWXBZmmSE
-        eNJK7fSkVu/CHaF2oJbHCI8mQBVxN9dtiVrdQX/V3lYNDassERwnwZgcMXWKJ8XUEz9sqLoI0foZ1
-        n+Ov1OXA==;
+        bh=9UM/4/gB5wcm+IeNSkrcMKxLYpue+oHqXAFXchZ+pMk=; b=0r5AesKWDN1uqFV2G3Dr4jNfz5
+        4+GKcUKfrkcbec28IioF2+XL4kP3oIdjdg92DNSWMSxMzMco+T721BB7xH0pGuKzcZPFUNibaZy1t
+        jBZ7E6DWqaGZTrE81ZwSRsQrESAwqdmpSifMPxYMGESJsbY93jJL/lZxPD92Qjj8DjSBay8Yk4UME
+        Giad3WHS34X5c1CX9pn+qYCV6ocsY1BjIFRjBXwq+UuHSvvmO8At4cJ8HFAR1VJBEn986AuF5Z6lw
+        mTkcSHMWPsS5V+PWxKAhUfgRAM6h7w9zfYCJE+7R7ZKJSzBmbXJjwxdYZeacNQwdv3f4gPcs03DQI
+        ufOqaXtQ==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
         by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <cyndis@kapsi.fi>)
-        id 1o3yg4-0001Xl-CJ; Wed, 22 Jun 2022 14:37:43 +0300
+        id 1o40Kl-000abh-6p; Wed, 22 Jun 2022 16:23:50 +0300
 From:   Mikko Perttunen <cyndis@kapsi.fi>
-To:     thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v2 13/13] drm/tegra: vic: Add Tegra234 support
-Date:   Wed, 22 Jun 2022 14:37:33 +0300
-Message-Id: <20220622113733.1710471-14-cyndis@kapsi.fi>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Timo Alho <talho@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mian Yousaf Kaukab <ykaukab@suse.de>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] firmware: tegra: bpmp: do only aligned access to IPC memory area
+Date:   Wed, 22 Jun 2022 16:22:59 +0300
+Message-Id: <20220622132300.1746201-1-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220622113733.1710471-1-cyndis@kapsi.fi>
-References: <20220622113733.1710471-1-cyndis@kapsi.fi>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 91.158.25.70
@@ -58,61 +58,51 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+From: Timo Alho <talho@nvidia.com>
 
-Add Tegra234 support for VIC. It is backwards compatible with
-Tegra194.
+Use memcpy_toio and memcpy_fromio variants of memcpy to guarantee
+no unaligned access to IPC memory area. This is to allow the IPC
+memory to be mapped as Device memory to further suppress speculative
+reads from happening within the 64kB memory area above the IPC memory
+when 64kB memory pages are used.
 
+Signed-off-by: Timo Alho <talho@nvidia.com>
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/tegra/drm.c |  1 +
- drivers/gpu/drm/tegra/vic.c | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
+ drivers/firmware/tegra/bpmp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 9464f522e257..426ffeb51f72 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1380,6 +1380,7 @@ static const struct of_device_id host1x_drm_subdevs[] = {
- 	{ .compatible = "nvidia,tegra194-sor", },
- 	{ .compatible = "nvidia,tegra194-vic", },
- 	{ .compatible = "nvidia,tegra194-nvdec", },
-+	{ .compatible = "nvidia,tegra234-vic", },
- 	{ /* sentinel */ }
- };
+diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+index 5654c5e9862b..037db21de510 100644
+--- a/drivers/firmware/tegra/bpmp.c
++++ b/drivers/firmware/tegra/bpmp.c
+@@ -201,7 +201,7 @@ static ssize_t __tegra_bpmp_channel_read(struct tegra_bpmp_channel *channel,
+ 	int err;
  
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index c5526bda88d6..c1734f823d04 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -447,11 +447,20 @@ static const struct vic_config vic_t194_config = {
- 	.supports_sid = true,
- };
+ 	if (data && size > 0)
+-		memcpy(data, channel->ib->data, size);
++		memcpy_fromio(data, channel->ib->data, size);
  
-+#define NVIDIA_TEGRA_234_VIC_FIRMWARE "nvidia/tegra234/vic.bin"
-+
-+static const struct vic_config vic_t234_config = {
-+	.firmware = NVIDIA_TEGRA_234_VIC_FIRMWARE,
-+	.version = 0x23,
-+	.supports_sid = true,
-+};
-+
- static const struct of_device_id tegra_vic_of_match[] = {
- 	{ .compatible = "nvidia,tegra124-vic", .data = &vic_t124_config },
- 	{ .compatible = "nvidia,tegra210-vic", .data = &vic_t210_config },
- 	{ .compatible = "nvidia,tegra186-vic", .data = &vic_t186_config },
- 	{ .compatible = "nvidia,tegra194-vic", .data = &vic_t194_config },
-+	{ .compatible = "nvidia,tegra234-vic", .data = &vic_t234_config },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, tegra_vic_of_match);
-@@ -590,3 +599,6 @@ MODULE_FIRMWARE(NVIDIA_TEGRA_186_VIC_FIRMWARE);
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC)
- MODULE_FIRMWARE(NVIDIA_TEGRA_194_VIC_FIRMWARE);
- #endif
-+#if IS_ENABLED(CONFIG_ARCH_TEGRA_234_SOC)
-+MODULE_FIRMWARE(NVIDIA_TEGRA_234_VIC_FIRMWARE);
-+#endif
+ 	err = tegra_bpmp_ack_response(channel);
+ 	if (err < 0)
+@@ -245,7 +245,7 @@ static ssize_t __tegra_bpmp_channel_write(struct tegra_bpmp_channel *channel,
+ 	channel->ob->flags = flags;
+ 
+ 	if (data && size > 0)
+-		memcpy(channel->ob->data, data, size);
++		memcpy_toio(channel->ob->data, data, size);
+ 
+ 	return tegra_bpmp_post_request(channel);
+ }
+@@ -420,7 +420,7 @@ void tegra_bpmp_mrq_return(struct tegra_bpmp_channel *channel, int code,
+ 	channel->ob->code = code;
+ 
+ 	if (data && size > 0)
+-		memcpy(channel->ob->data, data, size);
++		memcpy_toio(channel->ob->data, data, size);
+ 
+ 	err = tegra_bpmp_post_response(channel);
+ 	if (WARN_ON(err < 0))
 -- 
 2.36.1
 
