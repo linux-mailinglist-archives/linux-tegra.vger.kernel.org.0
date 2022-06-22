@@ -2,181 +2,168 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B053755463E
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jun 2022 14:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47A5F554998
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jun 2022 14:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355402AbiFVLOw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Jun 2022 07:14:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54582 "EHLO
+        id S1357689AbiFVLiE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Jun 2022 07:38:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356954AbiFVLOt (ORCPT
+        with ESMTP id S1357483AbiFVLhz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Jun 2022 07:14:49 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C233A727
-        for <linux-tegra@vger.kernel.org>; Wed, 22 Jun 2022 04:14:46 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id o16so22913606wra.4
-        for <linux-tegra@vger.kernel.org>; Wed, 22 Jun 2022 04:14:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=PUdU9WfpnqAsGBFkVc2KUHImdcpkKUBXRwogLKDyHSY=;
-        b=z/ocsiUElwq2Ol2fF5l1HRqMMaNGMSC1/+8oQHLpQWLu429YrVBR/tnvq7KNWtwIO1
-         vKJqA7rgUAiiGOKNdlwMjFurZAQLeqniaiGR74ASbDLlSriMOOzxItVhWE0QSvWSDF1z
-         wnPR/hU6q/nU74KNLjXg2X84SJR1U2jxSqWO8a/x7jRbPZXjDqGeLFevtBezqUe56R1a
-         7f0rlv+IRmpyGwRbiZXR3FrVvja2Yq3MOLg0mNs6za1kfz0V4uxdyGWKXZaA8ELytILx
-         BDkiRFg7pp2SBYMObq/aoJYfogEZJWR+YhfycgXRStqMXxha87O37ft3cnQe33+/4mvE
-         LISg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=PUdU9WfpnqAsGBFkVc2KUHImdcpkKUBXRwogLKDyHSY=;
-        b=MR1suRd1el1eQLCmfNxZQf+zg0CfT0XHqp2CM2C7OirLSJS2cX67Mwv72nhXbyx70J
-         DEwTvho/6TkJRd40YcX1R3MXsvDdN6KRlaQTQzOkH4nCh7ZXH7LuoLErVttzXnKaquFe
-         tB8zNMnVfydlE87X5ztQQVue6q9Tqkw76N66N3HWv/y4H+7kV89K3XgGZN2EOEhszTNt
-         bZsPrKXNsgY60Q6v1SF/wdfDDjW4I2asAPJTRSKg64nS0SGzUCaXoTd12n4gP7/TyXgj
-         zt725dgPgbCO2TL3m1B1ZdcZfvggUrim/Ke0rd1MdaoF6HiGAKCqWrqe5CPXGbaJxPzt
-         EhbA==
-X-Gm-Message-State: AJIora8nzMDQYdVgEipGSVjggnGBp9zHn8w7bvuqXgmBC7Q6PSpuEqAx
-        M54UGz0wp8HZ/kaoi72d3A0QgQ==
-X-Google-Smtp-Source: AGRyM1v8ZhY0hH8c8n7TvnmAfbU48Dyk1bFg4uJSDokafOQgQ79E0o3w+OeeG5ifCToe2pBEDS6Ykw==
-X-Received: by 2002:adf:fe81:0:b0:21a:3574:ec8e with SMTP id l1-20020adffe81000000b0021a3574ec8emr2726909wrr.410.1655896484628;
-        Wed, 22 Jun 2022 04:14:44 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:1a3a:95bd:5b55:a798? ([2001:861:44c0:66c0:1a3a:95bd:5b55:a798])
-        by smtp.gmail.com with ESMTPSA id e16-20020adfdbd0000000b0021b91ec8f6esm7841714wrj.67.2022.06.22.04.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 04:14:43 -0700 (PDT)
-Message-ID: <d57a6c52-a9e1-5660-cd47-6f9ba2389d86@baylibre.com>
-Date:   Wed, 22 Jun 2022 13:14:40 +0200
+        Wed, 22 Jun 2022 07:37:55 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42BBB3CA4E;
+        Wed, 22 Jun 2022 04:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+        s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=T02pZ/spQxA2e8NWYLL7bn+PampfH2BP7FC9jpkGLKg=; b=121d3BvSP/wf5vchE/sx9HTFcR
+        qRNWybK0GTlHEcqNBmf5Xno7j11EHkY01ufmX8mujhVgtCLEWa423HEeGgJ80HlF+BlxQgf69Jzln
+        vkBo1eIss91GrLpf856lVYJkmR4fVphdLZMs9nA+0tWL4Wf7iCh1NKhnGhBaiBDYvc9cUzKJT2d4h
+        Ho308fMBPp9KerrT0JPDIfDpTm8k7XpbpUowomCzZ1kD20nVWMTITHOD7Yg89k/ORy1FbqUwh9Ho5
+        oGjdivpnQeh5Jzz7I4FTeFRCF9VIDiyriNk+dxYVeyBGUlk3tMmSQnDLooXtFo2IeInLu2tc7Lj53
+        0DkRsi3w==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70] helo=toshino.localdomain)
+        by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1o3yg3-0001Xl-8a; Wed, 22 Jun 2022 14:37:42 +0300
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+To:     thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH v2 00/13] Host1x support on Tegra234
+Date:   Wed, 22 Jun 2022 14:37:20 +0300
+Message-Id: <20220622113733.1710471-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v8 01/16] clk: generalize devm_clk_get() a bit
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Russell King <linux@armlinux.org.uk>,
-        =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        linux-hwmon@vger.kernel.org,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Mark Brown <broonie@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Tomislav Denis <tomislav.denis@avl.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
-        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
-        <linux-rtc@vger.kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Andy Gross <agross@kernel.org>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        Keguang Zhang <keguang.zhang@gmail.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        linux-pwm@vger.kernel.org, Sascha Hauer <kernel@pengutronix.de>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        =?UTF-8?Q?Andr=c3=a9_Gustavo_Nakagomi_Lopez?= <andregnl@usp.br>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        linux-amlogic <linux-amlogic@lists.infradead.org>,
-        Amireddy Mallikarjuna reddy 
-        <mallikarjunax.reddy@linux.intel.com>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        linux-crypto <linux-crypto@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        dmaengine <dmaengine@vger.kernel.org>
-References: <20220314141643.22184-1-u.kleine-koenig@pengutronix.de>
- <20220314141643.22184-2-u.kleine-koenig@pengutronix.de>
- <d6b890c8-bfb5-cfa5-c6d8-ee245701c077@nvidia.com>
- <20220621204914.byokkrxiznvod7vq@pengutronix.de>
- <CAHp75VcBEpLo+pYy+RG3O2BbePJbGEQ89jxi-oG1W6=+2hgXrQ@mail.gmail.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <CAHp75VcBEpLo+pYy+RG3O2BbePJbGEQ89jxi-oG1W6=+2hgXrQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 22/06/2022 12:36, Andy Shevchenko wrote:
-> On Tue, Jun 21, 2022 at 11:01 PM Uwe Kleine-König
-> <u.kleine-koenig@pengutronix.de> wrote:
->> On Tue, Jun 21, 2022 at 08:57:00PM +0100, Jon Hunter wrote:
-> 
-> ...
-> 
->> (Pro tipp: The commit in next has a Link: footer. If you follow the
->> link, you find the thread that was actually applied (i.e. v9) and where
->> the fix is also contained.)
-> 
-> Even easier, you may take a message-id from the Link and supply to `b4`:
-> 
->    b4 mbox ${message-id}
->    mutt -f ${message-id}.mbx # or whatever MUA that handles mboxes
-> 
-> 
-> Dunno if `b4` has capability to parse Link instead of message-id.
-> 
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-It does:
+-------------
+Merging notes
+-------------
 
+This series should be applied on top of the Host1x context isolation
+series.
 
-$ b4 mbox https://lore.kernel.org/r/20220616144915.3988071-1-windhl@126.com
-Looking up https://lore.kernel.org/r/20220616144915.3988071-1-windhl%40126.com
-Grabbing thread from lore.kernel.org/all/20220616144915.3988071-1-windhl%40126.com/t.mbox.gz
-5 messages in the thread
-Saved ./20220616144915.3988071-1-windhl@126.com.mbx
+-------------
+Changes in v2
+-------------
 
-Neil
+Rebased on top of v5.19-rc3.
+
+Updated Host1x device tree schema based on Rob's comments.
+
+No changes to node names done, as that is a change that should be
+done uniformly in a separate series for all Tegra generations,
+if deemed appropriate.
+
+-------------
+Original message
+-------------
+
+Hi all,
+
+This series adds support for Host1x and VIC on the recently released
+Tegra234 (Orin) SoC. It's split into the following parts:
+
+* Device tree binding updates
+* Cleanup in host1x driver
+* Add programming of new registers and old registers that now need to
+  be programmed to a non-reset value
+* Tegra234 device data and headers
+* Rewrite of the job opcode sequence, and related patches to
+  support MLOCKs on Tegra186+.
+
+The rewrite of the job opcode sequence brings Tegra186, Tegra194 and
+Tegra234 support to a 'full-featured' status that is necessary to
+support all host1x features in the future. This should not have any
+impact on older SoCs.
+
+This series should be applied on top of the Host1x context isolation
+series.
+
+Tested on Jetson AGX Xavier and Jetson AGX Orin.
+
+Thanks,
+Mikko
+
+Mikko Perttunen (13):
+  dt-bindings: Add bindings for Tegra234 Host1x and VIC
+  dt-bindings: Add headers for Host1x and VIC on Tegra234
+  arm64: tegra: Add Host1x and VIC on Tegra234
+  gpu: host1x: Deduplicate hardware headers
+  gpu: host1x: Simplify register mapping and add common aperture
+  gpu: host1x: Program virtualization tables
+  gpu: host1x: Allow reset to be missing
+  gpu: host1x: Program interrupt destinations on Tegra234
+  gpu: host1x: Tegra234 device data and headers
+  gpu: host1x: Rewrite job opcode sequence
+  gpu: host1x: Add MLOCK release code on Tegra234
+  gpu: host1x: Use RESTART_W to skip timed out jobs on Tegra186+
+  drm/tegra: vic: Add Tegra234 support
+
+ .../display/tegra/nvidia,tegra124-vic.yaml    |   1 +
+ .../display/tegra/nvidia,tegra20-host1x.yaml  | 110 +++++++++--
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  46 +++++
+ drivers/gpu/drm/tegra/drm.c                   |   1 +
+ drivers/gpu/drm/tegra/vic.c                   |  12 ++
+ drivers/gpu/host1x/Makefile                   |   3 +-
+ drivers/gpu/host1x/cdma.c                     |  19 +-
+ drivers/gpu/host1x/dev.c                      | 112 +++++++----
+ drivers/gpu/host1x/dev.h                      |  11 ++
+ drivers/gpu/host1x/hw/cdma_hw.c               |  34 ++++
+ drivers/gpu/host1x/hw/channel_hw.c            | 144 ++++++++------
+ drivers/gpu/host1x/hw/host1x01_hardware.h     | 114 +----------
+ drivers/gpu/host1x/hw/host1x02_hardware.h     | 113 +----------
+ drivers/gpu/host1x/hw/host1x04_hardware.h     | 113 +----------
+ drivers/gpu/host1x/hw/host1x05_hardware.h     | 113 +----------
+ drivers/gpu/host1x/hw/host1x06_hardware.h     | 128 +------------
+ drivers/gpu/host1x/hw/host1x07_hardware.h     | 128 +------------
+ drivers/gpu/host1x/hw/host1x08.c              |  33 ++++
+ drivers/gpu/host1x/hw/host1x08.h              |  15 ++
+ drivers/gpu/host1x/hw/host1x08_hardware.h     |  21 ++
+ drivers/gpu/host1x/hw/hw_host1x08_channel.h   |  11 ++
+ drivers/gpu/host1x/hw/hw_host1x08_common.h    |  11 ++
+ .../gpu/host1x/hw/hw_host1x08_hypervisor.h    |   9 +
+ drivers/gpu/host1x/hw/hw_host1x08_uclass.h    | 181 ++++++++++++++++++
+ drivers/gpu/host1x/hw/hw_host1x08_vm.h        |  36 ++++
+ drivers/gpu/host1x/hw/intr_hw.c               |  11 ++
+ drivers/gpu/host1x/hw/opcodes.h               | 150 +++++++++++++++
+ include/dt-bindings/clock/tegra234-clock.h    |   4 +
+ include/dt-bindings/memory/tegra234-mc.h      |   5 +
+ .../dt-bindings/power/tegra234-powergate.h    |   1 +
+ include/dt-bindings/reset/tegra234-reset.h    |   1 +
+ 31 files changed, 877 insertions(+), 814 deletions(-)
+ create mode 100644 drivers/gpu/host1x/hw/host1x08.c
+ create mode 100644 drivers/gpu/host1x/hw/host1x08.h
+ create mode 100644 drivers/gpu/host1x/hw/host1x08_hardware.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_channel.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_common.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_hypervisor.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_uclass.h
+ create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_vm.h
+ create mode 100644 drivers/gpu/host1x/hw/opcodes.h
+
+-- 
+2.36.1
+
