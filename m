@@ -2,76 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1FAC55AC8C
-	for <lists+linux-tegra@lfdr.de>; Sat, 25 Jun 2022 22:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5019F55B0B7
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 Jun 2022 11:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233485AbiFYUSi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 25 Jun 2022 16:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49584 "EHLO
+        id S233786AbiFZJL0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Jun 2022 05:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233524AbiFYUSh (ORCPT
+        with ESMTP id S234076AbiFZJLO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 25 Jun 2022 16:18:37 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF8113F7E
-        for <linux-tegra@vger.kernel.org>; Sat, 25 Jun 2022 13:18:36 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id ej4so7847441edb.7
-        for <linux-tegra@vger.kernel.org>; Sat, 25 Jun 2022 13:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vzewte8MtMWVwJWHnEGSEVk2W35vpxyGLjDSNXmoDZ8=;
-        b=hhq6jEDvAOzm1zWMH7z/JMsPL8YRvwUjxT6pXMKfdtDi+xFDCwLaylzHRKcZz9k5i9
-         fN9XteIpHlwkIOkMtZ9PuKIgW6FbR7C/wARqoRt0nw6kLRVryGznLOav1I3A31MpX0Kv
-         fZv9VdY9EMlIo5iIvru6rC5bujBnEstciEImtvDpuNAVrfFKGUXQ6sWoyg1JztZ/b4dN
-         XEiDDE8HmZpMcnlw8yCrv6RJdF93s68yokt5qGPch6VGIQaLcrz4veawt4HrycS0d1Sv
-         mop5INBTe7HlaRmftTLPc625baTj6gvQQO6Iog75Z7Yqr09zmm7+/i0ls5oNkt/kOmim
-         rI1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vzewte8MtMWVwJWHnEGSEVk2W35vpxyGLjDSNXmoDZ8=;
-        b=rCBPuqnzj2Zu5ZGhqAQKPn37EEtJpIvb4BLhggHFkliFqobRbEZG/d9V1n3uyRHzck
-         epr3hBclbLbaZDRAreV+FfVH492xWy8Qr2/U8i+ggOkKW1i9XzTNunHqEjGPjEuPAAzb
-         4piDeWNaL50I2yWAQR1CnXN6C7nq1R1yzoUF9HZKIsjme7uUGFn1vDtrgn/ik1ZHaV1m
-         TQsVABojZHU4u3H4K0Eyhpo1EJGEnXSIgBo344s4kkTFVQD1SqQLg8JqNrx1HLFyFwRM
-         58VvU/LYY8yFB95/jDT0BaMdjN3L4fJhtzYCtVJrUUxbrrnqbgzAJs385nguwQ6dPXnI
-         ADcQ==
-X-Gm-Message-State: AJIora+GN0DOSA69wbAtUHeRGpZ6N8IVNJfbJngv7bRoMo7r7NB4BtED
-        vYJrx6M4ltVvxBx+EKzmseChyA==
-X-Google-Smtp-Source: AGRyM1s3rVR9cr96dysg7bldvesEoN5+h0nXdLSHlyd9fQnHdIwlEKHbfFROnfIHwVIWoPcOeqiQ4w==
-X-Received: by 2002:a05:6402:2422:b0:435:6707:7f1f with SMTP id t34-20020a056402242200b0043567077f1fmr7184415eda.38.1656188315414;
-        Sat, 25 Jun 2022 13:18:35 -0700 (PDT)
-Received: from [192.168.0.239] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709062cd300b006ff802baf5dsm2986752ejr.54.2022.06.25.13.18.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jun 2022 13:18:35 -0700 (PDT)
-Message-ID: <a37a344f-88f6-19b2-96ae-df46bc901b9b@linaro.org>
-Date:   Sat, 25 Jun 2022 22:18:34 +0200
+        Sun, 26 Jun 2022 05:11:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180DA12AA3;
+        Sun, 26 Jun 2022 02:11:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2461B6118A;
+        Sun, 26 Jun 2022 09:11:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65F3C341D0;
+        Sun, 26 Jun 2022 09:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656234671;
+        bh=PhI7xlCBz8s4EqXsemcBzFaZLbSNGrNWFqcVvz20FLU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HhAf8IklB9OEeSwUHmvWxlXncEZMnsUL3ruxIFgodyPNv9p+IrCpMlJ2Ee1QRPg4Y
+         hcLQjIGJsa57ccuYyM9Yyy/ROtPClfozh4WxentR1FyhgZLpBjfJOGg0x+KF4uJ/xK
+         kJvya0UqPXI61UML+5xdxeC865OaTGDrndLJQhHMXq2RYO88lEbM26jWxoanedVi+e
+         mtQoMumgkipZ4Bxf/XC3su3ouzdbhmQdJsOcFrbZpKeXoPTd+pXhJvNl4aEKmUZnEX
+         5AkPirLrYw/XgJk3fQoIdoqyPnzuUz7+aN/pwnstjak/isdyfdJp2rwGOaiGtxsqlk
+         h/pj4xfQ6G59g==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1o5OIN-001coA-Qi;
+        Sun, 26 Jun 2022 10:11:07 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "H. Peter Anvin" <hpa@zytor.com>, Alex Shi <alexs@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Yanteng Si <siyanteng@loongson.cn>, devicetree@vger.kernel.org,
+        keyrings@vger.kernel.org, kvm@vger.kernel.org,
+        linux-cachefs@redhat.com, linux-input@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-riscv@lists.infradead.org,
+        linux-tegra@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH v2 00/20] Update Documentation/ cross-references
+Date:   Sun, 26 Jun 2022 10:10:46 +0100
+Message-Id: <cover.1656234456.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH net-next v1 4/9] memory: tegra: Add MGBE memory clients
- for Tegra234
-Content-Language: en-US
-To:     Bhadram Varka <vbhadram@nvidia.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, kuba@kernel.org,
-        catalin.marinas@arm.com, will@kernel.org,
-        Thierry Reding <treding@nvidia.com>
-References: <20220623074615.56418-1-vbhadram@nvidia.com>
- <20220623074615.56418-4-vbhadram@nvidia.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220623074615.56418-4-vbhadram@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,22 +75,77 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 23/06/2022 09:46, Bhadram Varka wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Tegra234 has multiple network interfaces with each their own memory
-> clients and stream IDs to allow for proper isolation.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Bhadram Varka <vbhadram@nvidia.com>
-> ---
->  drivers/memory/tegra/tegra234.c | 80 +++++++++++++++++++++++++++++++++
->  1 file changed, 80 insertions(+)
+Fix most broken documentation file cross references on next-20220624.
+
+After this series, only 3 references will be broken:
+
+Warning: Documentation/dev-tools/kunit/run_wrapper.rst references a file that doesn't exist: Documentation/dev-tools/kunit/non_uml.rst
+Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+Warning: drivers/acpi/device_pm.c references a file that doesn't exist: Documentation/firmware-guide/acpi/low-power-probe.rst
+
+All of them seem to be due to the lack of a patch actually adding the
+documentation. Maybe the document file is still under review?
+
+Regards,
+Mauro
+
+Mauro Carvalho Chehab (20):
+  docs: netdev: update maintainer-netdev.rst reference
+  docs: filesystems: update netfs-api.rst reference
+  docs: zh_CN: page_frags.rst: fix a broken reference
+  docs: zh_CN/riscv/pmu.rst: remove old docuementation
+  docs: zh_CN/devicetree: fix typos
+  docs: zh_CN: fix a broken reference
+  docs: zh_CN/vm: fix a typo for page reporting ReST file
+  docs: zh_CN/vm/zsmalloc.rst: fix a typo
+  docs: zh_CN/vm/index.rst: fix a broken reference
+  Documentation: update watch_queue.rst references
+  Documentation: KVM: update s390-pv.rst reference
+  Documentation: KVM: update amd-memory-encryption.rst references
+  Documentation: KVM: update msr.rst reference
+  Documentation: KVM: update s390-diag.rst reference
+  objtool: update objtool.txt references
+  arch: m68k: q40: README: drop references to IDE driver
+  tegra194-hte.rst: fix reference to its binding
+  dt-bindings: mfd: update dlg,da9063.yaml reference
+  MAINTAINERS: update nvidia,tegra20-host1x.yaml reference
+  MAINTAINERS: fix cross references to mfd/dlg,da9063.yaml
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ .../bindings/input/da9062-onkey.txt           |   2 +-
+ Documentation/driver-api/hte/tegra194-hte.rst |   2 +-
+ Documentation/security/keys/core.rst          |   2 +-
+ Documentation/security/secrets/coco.rst       |   2 +-
+ .../it_IT/networking/netdev-FAQ.rst           |   2 +-
+ .../translations/zh_CN/devicetree/index.rst   |   2 +-
+ .../zh_CN/devicetree/of_unittest.rst          |   2 +-
+ .../zh_CN/devicetree/usage-model.rst          |   2 +-
+ .../zh_CN/doc-guide/kernel-doc.rst            |   2 +-
+ .../translations/zh_CN/riscv/index.rst        |   1 -
+ .../translations/zh_CN/riscv/pmu.rst          | 235 ------------------
+ .../zh_CN/vm/free_page_reporting.rst          |   2 +-
+ .../translations/zh_CN/vm/frontswap.rst       |   2 +-
+ Documentation/translations/zh_CN/vm/index.rst |   2 +-
+ .../translations/zh_CN/vm/page_frags.rst      |   2 +-
+ .../translations/zh_CN/vm/zsmalloc.rst        |   2 +-
+ Documentation/virt/kvm/api.rst                |   4 +-
+ Documentation/virt/kvm/s390/s390-pv-boot.rst  |   2 +-
+ Documentation/virt/kvm/x86/hypercalls.rst     |   2 +-
+ Documentation/x86/orc-unwinder.rst            |   2 +-
+ MAINTAINERS                                   |   6 +-
+ arch/m68k/q40/README                          |   5 +-
+ include/linux/fscache.h                       |   2 +-
+ include/linux/objtool.h                       |   2 +-
+ include/linux/watch_queue.h                   |   2 +-
+ init/Kconfig                                  |   2 +-
+ kernel/watch_queue.c                          |   2 +-
+ lib/Kconfig.debug                             |   2 +-
+ tools/include/linux/objtool.h                 |   2 +-
+ tools/objtool/check.c                         |   2 +-
+ 31 files changed, 33 insertions(+), 270 deletions(-)
+ delete mode 100644 Documentation/translations/zh_CN/riscv/pmu.rst
+
+-- 
+2.36.1
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Dropped from my tree.
-
-Best regards,
-Krzysztof
